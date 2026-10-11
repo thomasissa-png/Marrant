@@ -1,60 +1,142 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getPostSignupRedirect, readSignupPlan } from "@/lib/premium-return";
+import {
+  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
+  PREMIUM_ANNUAL_PRICE_LABEL,
+  PREMIUM_PRICE_LABEL,
+  type PremiumPlan,
+} from "@/config/premium";
+import {
+  AUTH_RETURN_SIGNUP_GOOGLE,
+  buildLoginUrl,
+  sanitizeSignupSrc,
+  withAuthReturnMarker,
+} from "@/lib/auth-links";
+import { trackUmami } from "@/lib/umami";
+import { useInAppBrowser } from "@/hooks/use-in-app-browser";
+import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
+import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
+import { CGU_ACCEPTATION, OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Tu as déjà un compte ! Utilise 'Continuer avec Google' sur la page connexion.",
-  OAuthCallback: "Erreur lors de l'inscription avec Google. Réessaie.",
-  OAuthSignin: "Impossible de lancer la connexion Google. Réessaie.",
-  Default: "Une erreur est survenue. Réessaie.",
+  OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
+  OAuthCallback:
+    "L'inscription avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
+  OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
+  Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
+/**
+ * Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15), avec le
+ * nom unique de l'offre (« Premium », décision D4 de l'audit s16).
+ */
+function planReminder(plan: PremiumPlan): string {
+  return plan === "annual"
+    ? `${OFFRE_NOM}, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
+    : `${OFFRE_NOM}, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
+}
+
+/**
+ * Motif d'échec mesuré (`inscription-echec`, audit s16 reco 17) : statut HTTP
+ * ramené à un mot court, jamais de donnée personnelle.
+ */
+function registerFailureReason(status: number): string {
+  if (status === 409) return "email-deja-pris";
+  if (status === 400 || status === 422) return "donnees-invalides";
+  if (status === 429) return "trop-d-essais";
+  if (status >= 500) return "serveur";
+  return `http-${status}`;
+}
+
+/** Message humain affiché : jamais l'erreur brute de l'API (audit s16, reco 16). */
+function registerErrorMessage(status: number): string {
+  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
+  if (status >= 500) return "Quelque chose a coincé de notre côté. Réessaie.";
+  return "L'inscription n'a pas abouti. Réessaie.";
+}
+
+// Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
+// paramètres : le HTML serveur contient déjà le formulaire et ses liens (s15).
+// Plus de compte gratuit (s15) : /register est l'étape 1 sur 2 de l'abonnement,
+// le paiement Stripe s'ouvre tout seul après la création du compte (`auto=1`).
 export default function RegisterPage() {
   return (
-    <Suspense>
-      <RegisterForm />
+    <Suspense fallback={<RegisterForm callbackUrl={null} oauthError={null} src={null} plan="monthly" />}>
+      <RegisterFromUrl />
     </Suspense>
   );
 }
 
-function RegisterForm() {
+function RegisterFromUrl() {
+  const searchParams = useSearchParams();
+  return (
+    <RegisterForm
+      callbackUrl={searchParams.get("callbackUrl")}
+      oauthError={searchParams.get("error")}
+      src={sanitizeSignupSrc(searchParams.get("src"))}
+      plan={readSignupPlan(searchParams.get("plan"), searchParams.get("callbackUrl"))}
+    />
+  );
+}
+
+interface RegisterFormProps {
+  callbackUrl: string | null;
+  oauthError: string | null;
+  /** Source du clic (mesure Umami), déjà validée. */
+  src: string | null;
+  /** Formule choisie (`?plan=annual` ou dans le callback), mensuel par défaut. */
+  plan: PremiumPlan;
+}
+
+function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ name?: string; email?: string; password?: string }>({});
+  const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
   const [error, setError] = useState("");
+  // E-mail déjà inscrit (409) : message + lien de connexion (spec s15 §2.3).
+  const [emailTaken, setEmailTaken] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const oauthError = searchParams.get("error");
+  // Navigateur intégré détecté au montage : Google désactivé seulement là où il est refusé (v5 §2.4).
+  const inApp = useInAppBrowser();
+  const googleBloque = inApp?.googleBloque === true;
   const oauthMessage = oauthError ? (OAUTH_ERRORS[oauthError] ?? OAUTH_ERRORS.Default) : null;
-  const callbackUrl = searchParams.get("callbackUrl") || "/vannes";
+  // Règle unique d'après-inscription (lib/premium-return) : /abonnement avec
+  // `auto=1` (paiement ouvert tout seul), intention d'origine gardée en
+  // `returnTo`, formule conservée. Google suit la même règle.
+  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan);
+  // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
+  const oauthCallbackUrl = withAuthReturnMarker(postAuthTarget, AUTH_RETURN_SIGNUP_GOOGLE, src);
+  // Source toujours renseignée (« direct » si la page est ouverte sans lien suivi).
+  // `etape: "abonnement"` : le compte est créé pour s'abonner (rupture de série s15).
+  const srcData = { src: src ?? "direct", etape: "abonnement" };
+  const loginHref = buildLoginUrl({ callbackUrl, src });
+
+  // Retour de Google en erreur (`?error=OAuthCallback`…) : mesuré une seule fois.
+  const oauthFailureTracked = useRef(false);
+  useEffect(() => {
+    if (!oauthError || oauthFailureTracked.current) return;
+    oauthFailureTracked.current = true;
+    trackUmami("inscription-echec", {
+      methode: "google",
+      motif: oauthError.slice(0, 40),
+      src: src ?? "direct",
+      etape: "abonnement",
+    });
+  }, [oauthError, src]);
 
   const validateForm = (): boolean => {
-    const errors: { name?: string; email?: string; password?: string } = {};
-
-    if (!name.trim()) {
-      errors.name = "Le prénom est requis.";
-    } else if (name.trim().length < 2) {
-      errors.name = "Le prénom doit faire au moins 2 caractères.";
-    }
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      errors.email = "L'adresse email n'est pas valide.";
-    }
-
-    if (password.length < 8) {
-      errors.password = "Le mot de passe doit contenir au moins 8 caractères.";
-    }
-
+    const errors = validateRegisterFields({ name, email, password });
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -62,6 +144,7 @@ function RegisterForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setEmailTaken(false);
     setFieldErrors({});
     setIsLoading(true);
 
@@ -69,6 +152,7 @@ function RegisterForm() {
       setIsLoading(false);
       return;
     }
+    trackUmami("inscription-envoi", { methode: "email", ...srcData });
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -79,21 +163,18 @@ function RegisterForm() {
 
       if (!res.ok) {
         const data = await res.json();
-        // Show specific field errors from Zod validation if available
-        if (data.details && Array.isArray(data.details)) {
-          const errors: { name?: string; email?: string; password?: string } = {};
-          for (const detail of data.details) {
-            const field = String(detail.path?.[0]);
-            if (field === "name" || field === "email" || field === "password") {
-              errors[field] = detail.message;
-            }
-          }
-          if (Object.keys(errors).length > 0) {
-            setFieldErrors(errors);
-            return;
-          }
+        // Erreurs zod de l'API ramenées aux champs quand c'est possible
+        const apiFieldErrors = fieldErrorsFromApiDetails(data.details);
+        trackUmami("inscription-echec", { methode: "email", motif: registerFailureReason(res.status), ...srcData });
+        if (Object.keys(apiFieldErrors).length > 0) {
+          setFieldErrors(apiFieldErrors);
+          return;
         }
-        setError(data.error ?? "Erreur lors de l'inscription.");
+        if (res.status === 409) {
+          setEmailTaken(true);
+          return;
+        }
+        setError(registerErrorMessage(res.status));
         return;
       }
 
@@ -104,42 +185,59 @@ function RegisterForm() {
       });
 
       if (result?.error) {
-        router.push("/login");
+        // Compte créé mais connexion automatique refusée : mesuré, puis /login.
+        trackUmami("inscription-echec", { methode: "email", motif: "connexion-auto", ...srcData });
+        router.push(loginHref);
       } else {
-        router.push("/abonnement");
+        trackUmami("inscription-reussie", { methode: "email", ...srcData });
+        router.push(postAuthTarget);
         router.refresh();
       }
     } catch {
-      setError("Une erreur est survenue. Réessaie.");
+      trackUmami("inscription-echec", { methode: "email", motif: "reseau", ...srcData });
+      setError("Quelque chose a coincé de notre côté. Réessaie.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleGoogle = () => {
-    signIn("google", { callbackUrl });
+    if (googleBloque) return;
+    trackUmami("inscription-envoi", { methode: "google", ...srcData });
+    signIn("google", { callbackUrl: oauthCallbackUrl });
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
-            <span className="font-display text-2xl font-bold text-gradient">
-              deviens-marrant
+            <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
+              deviens-marrant.fr
             </span>
           </Link>
-          <h1 className="font-display text-lg font-bold text-text-primary">Créer un compte</h1>
+          <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">Étape 1 sur 2</p>
+          <h1 className="font-display text-xl font-bold text-text-primary">Ton compte</h1>
+          <p className="text-sm text-text-secondary">{planReminder(plan)}</p>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             {oauthMessage && (
-              <p className="rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning" role="alert">
+              <p className="order-first rounded-lg bg-warning/10 px-3 py-2 text-sm text-warning sm:order-none" role="alert">
                 {oauthMessage}
               </p>
             )}
+            {emailTaken && (
+              <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
+                Cet e-mail a déjà un compte.{" "}
+                <Link href={loginHref} className="font-medium underline underline-offset-2">
+                  Connecte-toi
+                </Link>{" "}
+                pour reprendre ton abonnement.
+              </p>
+            )}
             {error && (
-              <p id="register-error" className="rounded-lg bg-error/10 px-3 py-2 text-sm text-error" role="alert">
+              <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
                 {error}
               </p>
             )}
@@ -189,20 +287,19 @@ function RegisterForm() {
                 <Input
                   id="password"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Min. 8 caractères"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   minLength={8}
                   autoComplete="new-password"
-                  className="pr-10"
+                  className="pr-12"
                   aria-describedby={fieldErrors.password ? "password-error" : "password-hint"}
                   aria-invalid={!!fieldErrors.password}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                  className="absolute right-0 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded text-text-muted transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
                 >
                   {showPassword ? (
@@ -223,21 +320,52 @@ function RegisterForm() {
               )}
             </div>
             <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-              {isLoading ? "Création..." : "Créer mon compte"}
+              {isLoading ? "On prépare ton compte…" : "Créer mon compte"}
             </Button>
-            <Button type="button" variant="outline" className="w-full" onClick={handleGoogle}>
+            {/* E-mail avant Google pour tous (v5 §2.4) : aucun saut d'ordre au montage. */}
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleGoogle}
+              disabled={googleBloque}
+              aria-describedby={googleBloque ? IN_APP_NOTICE_ID : undefined}
+            >
               <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
               S&apos;inscrire avec Google
             </Button>
+            <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
+            {/* Réassurance et CGU (audit s16, reco 9) : étalon 1.1 validé, config/textes/offre.ts. */}
+            <p className="text-center text-xs text-text-muted" data-testid="register-reassurance">
+              {reassurancePaiement(plan)}
+            </p>
+            <p className="text-center text-xs text-text-muted">
+              {CGU_ACCEPTATION.avant}
+              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
+                {CGU_ACCEPTATION.lien}
+              </Link>
+              {CGU_ACCEPTATION.apres}
+            </p>
+            {googleBloque && inApp && (
+              <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
+            )}
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
             Déjà un compte ?{" "}
-            <Link href="/login" className="text-accent-primary hover:underline">
+            {/* Souligné en permanence : lien repérable sans la couleur (axe link-in-text-block, s16). */}
+            <Link href={loginHref} className="text-accent-link underline underline-offset-2">
               Connecte-toi
             </Link>
           </div>
         </CardContent>
       </Card>
+      {/* T38 : repère de retour visible (pages plein écran sans header) */}
+      <Link
+        href="/"
+        className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
+      >
+        Retour à l&apos;accueil
+      </Link>
     </main>
   );
 }

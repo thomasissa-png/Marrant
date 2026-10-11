@@ -5,6 +5,7 @@
 
 export interface ClusterInfo {
   id: string;
+  /** Libellé AFFICHÉ au visiteur (surtitre de la navigation cluster) : jamais de jargon interne. */
   name: string;
   pillarSlug: string;
   satelliteSlugs: string[];
@@ -25,21 +26,21 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
   },
   {
     id: "techniques-delivery",
-    name: "Techniques de livraison",
+    name: "Timing et art de raconter",
     pillarSlug: "timing-humour",
-    satelliteSlugs: ["timing-humour-ralentir", "raconter-blague-sans-massacrer", "storytelling-drole-5-structures"],
+    satelliteSlugs: ["comment-raconter-une-blague-sans-la-rater", "storytelling-drole-5-structures"],
   },
   {
     id: "types-humour",
     name: "Types d'humour",
     pillarSlug: "5-types-humour-lequel-pour-toi",
-    satelliteSlugs: ["humour-noir-utiliser-sans-blesser", "jeux-de-mots-technique-3-etapes", "humour-self-deprecating"],
+    satelliteSlugs: ["humour-noir-utiliser-sans-blesser", "jeu-de-mots-drole-techniques-creer", "humour-self-deprecating"],
   },
   {
     id: "humour-contexte",
     name: "Humour en contexte",
     pillarSlug: "blagues-travail-faire-rire-pro",
-    satelliteSlugs: ["repartie-soiree-anti-malaise", "blagues-courtes-vs-longues"],
+    satelliteSlugs: ["repartie-soiree-anti-malaise", "blague-courte-arme-secrete-humour"],
   },
   {
     id: "apprendre-des-pros",
@@ -49,19 +50,19 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
   },
   {
     id: "douleurs-personas",
-    name: "Douleurs et situations concrètes",
+    name: "Quand l'humour coince",
     pillarSlug: "je-suis-pas-drole-comment-changer",
-    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "humour-apres-rupture", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
+    satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },
   {
     id: "fort-volume",
-    name: "Mots-clés fort volume (acquisition)",
+    name: "Blagues et vannes à ressortir",
     pillarSlug: "meilleures-blagues-droles-2026",
     satelliteSlugs: ["phrases-droles-conversations", "comment-faire-rire-une-fille", "comment-faire-rire-un-homme", "comment-faire-rire-ses-amis", "creer-ses-propres-blagues"],
   },
   {
     id: "saisonnier",
-    name: "Contenu saisonnier (pics de trafic)",
+    name: "Humour de saison",
     pillarSlug: "blagues-fetes-noel-nouvel-an",
     satelliteSlugs: ["humour-saint-valentin", "humour-rentree-glace-brisee"],
   },

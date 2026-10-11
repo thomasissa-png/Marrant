@@ -1,59 +1,71 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { rateLimit } from "@/lib/rate-limit";
-import { randomBytes } from "crypto";
+import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { generateResetToken, hashResetToken, RESET_TOKEN_TTL_MS } from "@/lib/reset-token";
 import { sendPasswordResetEmail } from "@/lib/email";
+import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
+import { TEXTES_API } from "@/config/textes/compte";
+
+const FORGOT_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
+/** Lot H : 3 e-mails par adresse cible et par heure, quelle que soit l'IP (clé hachée). */
+const FORGOT_EMAIL_LIMIT = { maxRequests: 3, windowMs: 3600_000 };
 
 export async function POST(request: NextRequest) {
   try {
-    const ip = request.headers.get("x-forwarded-for") ?? "unknown";
-    const rl = rateLimit(`forgot:${ip}`, { maxRequests: 3, windowMs: 3600_000 });
+    // s16 reco 14 : limite partagée entre isolats, clé cf-connecting-ip.
+    const rl = await sharedRateLimit("forgot-ip", getClientIp(request.headers), FORGOT_LIMIT);
     if (!rl.allowed) {
       return NextResponse.json(
-        { error: "Trop de tentatives. Réessaie plus tard." },
-        { status: 429 }
+        { error: TEXTES_API.tropDeTentatives },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
       );
     }
 
-    const { email } = await request.json();
+    const body = (await request.json().catch(() => null)) as { email?: unknown } | null;
+    const email = body?.email;
 
     if (!email || typeof email !== "string") {
+      return NextResponse.json({ error: TEXTES_API.emailRequis }, { status: 400 });
+    }
+
+    // Avant la recherche du compte : même réponse que le compte existe ou non.
+    const parEmail = await sharedRateLimit("forgot-email", email.toLowerCase().trim(), FORGOT_EMAIL_LIMIT);
+    if (!parEmail.allowed) {
       return NextResponse.json(
-        { error: "Email requis" },
-        { status: 400 }
+        { error: TEXTES_API.tropDeTentatives },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(parEmail)) } }
       );
     }
 
     // Toujours répondre OK pour ne pas révéler si l'email existe
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase().trim() },
-      select: { id: true, email: true, passwordHash: true },
+      select: { id: true, email: true, name: true, passwordHash: true },
     });
 
     if (user && user.passwordHash) {
-      // Générer un token de réinitialisation
-      const token = randomBytes(32).toString("hex");
-      const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 heure
+      // s16 reco 15 : seul le hash SHA-256 du jeton est stocké en base.
+      const token = generateResetToken();
+      const expires = new Date(Date.now() + RESET_TOKEN_TTL_MS);
 
       // Supprimer les anciens tokens pour cet email
       await prisma.verificationToken.deleteMany({
         where: { identifier: user.email },
       });
 
-      // Créer le nouveau token
       await prisma.verificationToken.create({
         data: {
           identifier: user.email,
-          token,
+          token: hashResetToken(token),
           expires,
         },
       });
 
       const resetUrl = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}&email=${encodeURIComponent(user.email)}`;
       try {
-        await sendPasswordResetEmail(user.email, resetUrl);
+        await sendPasswordResetEmail(user.email, resetUrl, firstNameFrom(user.name));
       } catch (err) {
-        console.error("[API /auth/forgot-password] Erreur envoi email:", err);
+        console.error(`[API /auth/forgot-password] Erreur envoi email (user ${user.id}):`, err);
       }
     }
 
@@ -62,9 +74,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("[API /auth/forgot-password]", error);
-    return NextResponse.json(
-      { error: "Erreur serveur" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
   }
 }

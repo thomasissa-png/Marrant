@@ -14,7 +14,7 @@ describe("Button", () => {
   it("applique la variante primary par défaut", () => {
     render(<Button>Test</Button>);
     const button = screen.getByRole("button");
-    expect(button.className).toContain("bg-accent-primary");
+    expect(button.className).toContain("bg-accent-secondary-hover");
   });
 
   it("applique la variante ghost", () => {
@@ -64,13 +64,20 @@ describe("ProgressBar", () => {
 
 describe("StreakCounter", () => {
   it("affiche le compteur de streak", () => {
+    // Étalon 3.8 A (s17 tour 1) : jours de pratique d'affilée + aide, nom vocal en français.
     render(<StreakCounter count={7} />);
-    expect(screen.getByText("7 jours")).toBeInTheDocument();
-    expect(screen.getByText("de suite")).toBeInTheDocument();
+    expect(screen.getByText("7 jours de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.")).toBeInTheDocument();
+    expect(screen.getByRole("img", { name: "série" })).toBeInTheDocument();
   });
 
   it("gère le singulier", () => {
     render(<StreakCounter count={1} />);
-    expect(screen.getByText("1 jour")).toBeInTheDocument();
+    expect(screen.getByText("1 jour de pratique d'affilée")).toBeInTheDocument();
+  });
+
+  it("à zéro : invitation, jamais de culpabilité", () => {
+    render(<StreakCounter count={0} />);
+    expect(screen.getByText("Ta série démarre à ta prochaine étape.")).toBeInTheDocument();
   });
 });

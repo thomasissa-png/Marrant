@@ -65,6 +65,7 @@ jest.mock("@/lib/ai/personas", () => ({
 import {
   validatePostConstraints,
   getOptimalScheduleTime,
+  type GeneratedSocialPost,
 } from "@/lib/ai/agents/social-media-agent";
 
 // ─── Helper ─────────────────────────────────────────────────────
@@ -82,7 +83,7 @@ function getParisOffsetForTest(date: Date): number {
 }
 
 /** Crée un post valide par défaut — toutes les contraintes respectées */
-function makePost(overrides = {}) {
+function makePost(overrides = {}): GeneratedSocialPost {
   return {
     platform: "TWITTER",
     format: "TWEET",
@@ -93,7 +94,7 @@ function makePost(overrides = {}) {
     targetPersona: "YANIS",
     sourceType: "ORIGINAL",
     ...overrides,
-  };
+  } as GeneratedSocialPost;
 }
 
 // ─── Tests validatePostConstraints() ────────────────────────────

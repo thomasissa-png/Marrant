@@ -1,0 +1,29 @@
+# Migration Marrant : Replit → Cloudflare Workers + Neon (plan validé le 29/09/2026)
+
+> Remplace `docs/migrations/marrant-migration.md` du repo Agent-Team (mai 2026, écrit à l'aveugle, adaptateur `next-on-pages` obsolète).
+
+## Décisions fondateur (29/09/2026)
+- **Pas de redéploiement sur Replit** : la prod actuelle reste telle quelle jusqu'à la bascule ; tout le travail s11 (branche `claude/marrant-s10-session-recovery-CtZyw`) part en ligne avec Cloudflare.
+- **Le nom de domaine ne change pas** (deviens-marrant.fr, toutes les URL identiques). Seul change l'endroit où il pointe.
+- **Base : Neon (région UE, Francfort) + Cloudflare Hyperdrive.** D1 écarté (SQLite = réécriture du schéma et du code Postgres).
+- État de départ : base = PostgreSQL intégré de Replit ; domaine enregistré chez **IONOS** ; rien sur Cloudflare.
+
+## Ce que le code impose (vérifié en s11)
+- Planificateur interne (`src/instrumentation.ts`, ~12 jobs, self-fetch `127.0.0.1`) et tâches de démarrage (`src/lib/startup-tasks.ts`, dont `applyCatalogueContentTask` qui applique la refonte du catalogue) : Workers n'a ni processus permanent ni boot → Cron Triggers qui appellent les routes existantes `/api/cron/*` (+ une route idempotente pour les tâches de démarrage, marqueurs `DataPatch`).
+- Prisma 6 → adaptateur Neon/Hyperdrive compatible Workers. Next 14.2.35 → OpenNext Cloudflare (`@opennextjs/cloudflare`), `nodejs_compat`, cache ISR sur R2.
+- Le seed reste bloqué en prod (garde-fou) : le contenu passe par les tâches de démarrage.
+- Offre Workers payante nécessaire (taille du bundle, CPU des crons).
+
+## Variables de l'environnement Claude « Marrant » (annoncées par Thomas le 29/09/2026)
+- `CLOUDFLARE_DM_TOKEN` : token API Cloudflare → à utiliser comme `CLOUDFLARE_API_TOKEN` pour wrangler (`export CLOUDFLARE_API_TOKEN="$CLOUDFLARE_DM_TOKEN"`). (Orthographe corrigée par Thomas le 29/09 ; accepter aussi `CLOUDFARE_DM_TOKEN` si présent.)
+- `CLOUDFLARE_DM_ID` : Account ID → `CLOUDFLARE_ACCOUNT_ID`.
+- `CLOUDFLARE_SECRET_KEY` : nature à confirmer au démarrage (clé API globale ? clé R2 ?) — ne l'utiliser que si le token ne suffit pas.
+- `NEON_DATABASE_URL` : créée par Thomas le 29/09 (vérifier qu'elle est directe, sans `-pooler`, et que la base contient bien les données importées de Replit).
+Premier geste de la session : vérifier les droits réels du token (Workers, R2, Hyperdrive, KV, DNS, zones couvertes) et lister ce qui manque.
+
+## Pas à pas
+**A. Thomas (≈ 45 min)** : compte Cloudflare + offre Workers payante + token API ; compte Neon et **copie de la base Replit via l'« Import Data Assistant » de Neon** (l'environnement Claude ne peut pas ouvrir de connexion Postgres TCP : seul le HTTPS passe ; Neon lit la source sans la modifier) ; dans les réglages de l'environnement Claude (variables d'environnement, jamais dans le chat) : `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `NEON_DATABASE_URL` (chaîne directe, sans `-pooler`) ; capture des enregistrements DNS dans IONOS + état DNSSEC. Checklist détaillée donnée en fin de session s11.
+**B. Claude, nouvelle session (le site en ligne n'est pas touché)** : adaptation du code ; contrôle de la copie Neon (comptes par table via le driver HTTPS Neon) ; déploiement sur une adresse `*.workers.dev` branchée sur une branche Neon (copie de prod) ; tests : crawl des 462 pages, inscription/connexion, parcours, paiement Stripe en mode test, exécution de chaque cron, logs des tâches de démarrage (~250 vannes mises à jour).
+**C. DNS sans changement visible** : ajout de la zone deviens-marrant.fr sur Cloudflare (import auto des enregistrements) → Claude compare avec l'export IONOS, en particulier MX, SPF/DKIM/DMARC (Resend, boîte mail), vérifications Google/Replit → désactiver DNSSEC chez IONOS s'il est actif → remplacer les 2 serveurs DNS chez IONOS par ceux de Cloudflare. Le site pointe toujours vers Replit : aucun visiteur ne voit de différence. Propagation : quelques heures à 48 h.
+**D. Bascule (GO de Thomas, soirée calme)** : dernière copie Replit → Neon (nouvel import Neon, puis Hyperdrive repointé), puis le domaine pointe vers le Worker ; contrôle immédiat (crawl, connexion, email, paiement). Retour arrière = repointer vers Replit (minutes).
+**E. Après 30 jours sans incident** : arrêt de Replit.

@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "date": "2026-10-10",
+    "lot": "lot-aveugle.txt (19 vannes neuves, Parcours Boulot s19)",
+    "source": "v1.md",
+    "usage": "Ne pas communiquer aux relecteurs. N-id du lot aveugle vers id V-étape-n de v1.md."
+  },
+  "correspondance": {
+    "N1": { "id": "V-4-2", "etape": 4 },
+    "N2": { "id": "V-6-3", "etape": 6 },
+    "N3": { "id": "V-1-2", "etape": 1 },
+    "N4": { "id": "V-3-2", "etape": 3 },
+    "N5": { "id": "V-5-3", "etape": 5 },
+    "N6": { "id": "V-2-1", "etape": 2 },
+    "N7": { "id": "V-6-1", "etape": 6 },
+    "N8": { "id": "V-4-1", "etape": 4 },
+    "N9": { "id": "V-1-3", "etape": 1 },
+    "N10": { "id": "V-3-1", "etape": 3 },
+    "N11": { "id": "V-6-5", "etape": 6 },
+    "N12": { "id": "V-5-1", "etape": 5 },
+    "N13": { "id": "V-2-2", "etape": 2 },
+    "N14": { "id": "V-4-3", "etape": 4 },
+    "N15": { "id": "V-6-2", "etape": 6 },
+    "N16": { "id": "V-1-1", "etape": 1 },
+    "N17": { "id": "V-5-2", "etape": 5 },
+    "N18": { "id": "V-3-3", "etape": 3 },
+    "N19": { "id": "V-6-4", "etape": 6 }
+  }
+}

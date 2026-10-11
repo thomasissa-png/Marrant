@@ -1,0 +1,21 @@
+{
+  "_meta": {
+    "date": "2026-10-11",
+    "lot": "lot-aveugle-v6.txt (11 places, Parcours Boulot s19, v6, dernier tour)",
+    "source": "v6.md",
+    "usage": "Ne pas communiquer aux relecteurs. N-id du lot aveugle v6 vers id de place. S-2 et S-6 sont des phrases de scène (étape 2 : PS d'Anouk ; étape 6 : vanne du toast d'Anouk), pas des vannes du catalogue. V-1-1, V-1-2, V-1-3, V-2-1, V-3-1, V-3-2, V-3-3, V-4-3, V-6-2 et V-6-3 (validées) ne sont pas dans ce lot. Dernier tour : une place qui échoue reçoit une vanne du catalogue déjà au niveau."
+  },
+  "correspondance": {
+    "N1": { "id": "V-6-5", "etape": 6 },
+    "N2": { "id": "V-5-3", "etape": 5 },
+    "N3": { "id": "S-6", "etape": 6, "type": "scene" },
+    "N4": { "id": "V-4-1", "etape": 4 },
+    "N5": { "id": "V-6-1", "etape": 6 },
+    "N6": { "id": "V-5-2", "etape": 5 },
+    "N7": { "id": "S-2", "etape": 2, "type": "scene" },
+    "N8": { "id": "V-4-2", "etape": 4 },
+    "N9": { "id": "V-2-2", "etape": 2 },
+    "N10": { "id": "V-6-4", "etape": 6 },
+    "N11": { "id": "V-5-1", "etape": 5 }
+  }
+}

@@ -43,7 +43,7 @@ Tu donnes les directives stratégiques à ces agents, valides leurs propositions
 ═══ MISSION ═══
 Concevoir et piloter la stratégie marketing de deviens-marrant.fr pour :
 1. Acquérir et fidéliser nos 3 personas cibles via les réseaux sociaux (canal n°1)
-2. Maximiser le taux de conversion free → premium (0,99 €/mois)
+2. Maximiser le taux de conversion free → premium (2,99 €/mois)
 3. Construire une marque forte et mémorable dans l'humour en France
 4. Générer du contenu viral multi-plateforme (vidéo courte, posts texte, carrousels, threads)
 5. Coordonner les agents SEO, Design, UX et Social Media pour une exécution cohérente
@@ -142,13 +142,13 @@ ANTI-PATTERNS (ce que tu ne recommandes JAMAIS)
 - Veille : suivi des tendances, nouveaux formats, changements d'algo, benchmarks concurrentiels
 
 PRODUIT
-- 300+ vannes classées par catégorie (catalogue en croissance continue)
-- 100+ conseils de pros (timing, répartie, storytelling) avec exercices
-- 100+ vidéos de stand-up analysées
+- Des centaines de vannes classées par catégorie et décortiquées (catalogue en croissance continue)
+- Des centaines de conseils de pros (timing, répartie, storytelling) avec exercices
+- Des dizaines de vidéos de stand-up analysées
 - Contenu quotidien personnalisé (vanne + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
-- Prix de lancement : 0,99 €/mois (tarif susceptible d'évoluer)
+- Prix : 2,99 €/mois, sans engagement
 - Coaching individuel à 99 €/session
 
 POSITIONNEMENT & MARCHÉ
@@ -157,13 +157,13 @@ POSITIONNEMENT & MARCHÉ
 - Différenciation : on ne vend pas des vannes, on rend les gens plus drôles et plus à l'aise
 - Concurrents indirects : applis de blagues (contenu sans pédagogie), coaching impro (cher),
   chaînes YouTube humour (pas de structure de progression)
-- Avantage compétitif : contenu expert + gamification + prix imbattable (0,99 €/mois)
+- Avantage compétitif : contenu expert + gamification + prix accessible (2,99 €/mois)
 
 FUNNEL DE CROISSANCE (AARRR)
 - Acquisition : vidéos courtes virales, SEO, bouche-à-oreille → visiteur
 - Activation : quiz d'onboarding, aperçu du contenu → inscription + abonnement
 - Rétention : streaks, XP, contenu quotidien personnalisé → utilisateur régulier
-- Revenu : conversion free → premium (0,99 €/mois), coaching (99 €/session)
+- Revenu : conversion free → premium (2,99 €/mois), coaching (99 €/session)
 - Referral : partage de vannes, "défis humour" entre amis → viralité organique
 Chaque action marketing doit cibler une étape précise du funnel.
 
@@ -772,13 +772,22 @@ export const TONALITY_BRIEF = {
     "Encourageant — chaque contenu donne envie de progresser, jamais de se sentir nul",
     "Mature et décontracté — ton adulte (20-35 ans), jamais infantilisant",
     "Shareable — chaque vanne/conseil doit donner envie d'être envoyé à un pote",
+    "Retournement d'idée + économie de mots — la chute change la DIRECTION de l'idée (pas un son, pas une simple exagération) ; chaque mot qui n'aide pas la chute est coupé",
   ],
   doNot: [
     "Jamais vulgaire, offensant ou discriminatoire",
-    "Jamais de calembours éculés type 'oncle en soirée' (canif/fien, chat-peint...)",
+    "Jamais de blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, blague Carambar) — même bonne, elle est FAIBLE : la promesse du site = des vannes qu'on n'a jamais entendues",
+    "Jamais de vanne dont la cible est un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) — on rit de soi et des situations, pas des gens",
+    "Jamais de calembours phonétiques (chien → chat, coup de foudre → allergie qui coule) — test : si tu peux expliquer par 'ça sonne comme…', c'est raté",
     "Jamais condescendant ou moralisateur",
     "Jamais de jargon marketing ou corporate dans le contenu utilisateur",
     "Jamais forcer l'humour — si c'est pas drôle naturellement, reformuler",
+    "Jamais mentionner l'IA (ChatGPT, GPT, Claude, LLM, Alexa, Siri, assistant vocal) — règle fondateur permanente",
+    "Jamais nommer un concurrent",
+    "Jamais inventer un nouveau chiffre, une nouvelle stat, un témoignage — on ne modifie AUCUN chiffre existant du site",
+    "Jamais utiliser le vocabulaire scolaire (mémoriser, semaine 1, jours 1-3, leçon) — on est un atelier, pas un amphi",
+    "Jamais présenter la marque comme un 'coach' — on est un pote qui a pratiqué",
+    "Jamais de staccato IA en fragment isolé ('Boom.', 'Plot twist :', 'STOP.', 'Voilà.', 'Fin.')",
   ],
   jokeGuidelines: {
     preferredTypes: ["ONE_LINER", "SUBTIL", "STORY"],
@@ -787,10 +796,10 @@ export const TONALITY_BRIEF = {
     freshness: "Références actuelles (réseaux sociaux, apps, streaming, colocation, dating apps)",
   },
   tipGuidelines: {
-    tone: "Coach bienveillant et complice, pas prof",
+    tone: "Pote bienveillant et complice qui a pratiqué — jamais prof, jamais 'ton coach', jamais scolaire",
     references: "Humoristes francophones actuels : Fary, Paul Mirabel, Pierre Croce, Roman Frayssinet, Blanche Gardin, Panayotis Pascot",
-    exercises: "Concrets et faisables dans la journée — pas de 'devoir maison'",
-    examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc)",
+    exercises: "Concrets et faisables dans la journée — pas de 'devoir maison', pas de 'semaine 1', pas de 'jours 1-3'",
+    examples: "Tirés de situations quotidiennes des personas (soirées, boulot, dates, coloc) — toute réplique citée en exemple est ORIGINALE (jamais une blague connue ailleurs, jamais un calembour phonétique)",
   },
   videoGuidelines: {
     tone: "Analyste passionné — on décortique avec enthousiasme, pas avec pédanterie",

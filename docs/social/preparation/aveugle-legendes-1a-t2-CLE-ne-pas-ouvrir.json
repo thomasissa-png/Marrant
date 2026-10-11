@@ -1,0 +1,25 @@
+{
+ "_regle_de_decision": "Identique au tour 1 : au niveau = 8,5 ou plus chez les 2 relecteurs. Par emplacement, parmi les candidates au niveau, meilleure somme des 2 notes. A egalite : tournure (fonction tournure() de social-lot-v5-legendes.ts) differente des posts Instagram voisins (jamais 2 fois de suite), sinon la plus courte. Sous 8,5 chez l'un des 2 : non publiable.",
+ "_tour": 2,
+ "_ordre": "H01 a H12 mele a la main, sans deux candidates du meme emplacement consecutives.",
+ "_acquis_tour_1": {"E4-repli-12-10": "G08 « À envoyer à qui a ton chargeur depuis la fac. » (9 / 9) retenue", "reference_en_base": "L-08-10 « À envoyer à ton père, s'il peut se libérer. » (9 / 8,5)"},
+ "_contraintes_verifiees": "commence par « À envoyer à » (ou « au » pour H04) ; 43 a 60 caracteres ; aucun lien, aucun pied, zero tiret cadratin ; pas « celui qui » le 13/10 ; aucune candidate du tour 1 reprise.",
+ "_ajout_dans": "apps/web/scripts/content/social-lot-v5-legendes.ts, table LEGENDES_IG, cle = id de la vanne. Echeance : avant l'insertion du 09/10 (10:15 UTC).",
+ "emplacements": {
+  "E1-13-10": {"emplacement": "IG mar. 13/10 17:30 UTC", "vanne_id": "cs14jka3336e7e90a453a9d6", "vanne": "V083, fuite sous l'evier", "voisins_tournure": ["IG 14/10 : celui qui"]},
+  "E2-15-10": {"emplacement": "IG jeu. 15/10 17:30 UTC", "vanne_id": "cs14jk9a9e7a1b8e0e16264e", "vanne": "deux verites et un mensonge", "voisins_tournure": ["IG 14/10 : celui qui", "IG 16/10 : a deduire du choix E3"]},
+  "E3-16-10": {"emplacement": "IG ven. 16/10 17:30 UTC", "vanne_id": "cmmnsqn120000th63o435xsb0", "vanne": "detecteur de fumee", "voisins_tournure": ["IG 15/10 : a deduire du choix E2"]}
+ },
+ "H01": {"emplacement": "E2-15-10", "id": "L-15-10-d", "texte": "À envoyer à ton oncle, qui demande si c'est un vrai travail.", "longueur": 60, "tournure": "ton/ta"},
+ "H02": {"emplacement": "E3-16-10", "id": "L-16-10-f", "texte": "À envoyer à ton voisin du dessus, il connaît déjà le bruit.", "longueur": 59, "tournure": "ton/ta"},
+ "H03": {"emplacement": "E1-13-10", "id": "L-13-10-e", "texte": "À envoyer à qui devait monter ton étagère avant l'été.", "longueur": 54, "tournure": "qui"},
+ "H04": {"emplacement": "E2-15-10", "id": "L-15-10-g", "texte": "À envoyer au groupe des soirées jeux, avant la prochaine.", "longueur": 57, "tournure": "autre"},
+ "H05": {"emplacement": "E3-16-10", "id": "L-16-10-d", "texte": "À envoyer à qui t'a invité à dîner samedi dernier.", "longueur": 50, "tournure": "qui"},
+ "H06": {"emplacement": "E1-13-10", "id": "L-13-10-f", "texte": "À envoyer à ton ex, au sujet du robinet de la cuisine.", "longueur": 54, "tournure": "ton/ta"},
+ "H07": {"emplacement": "E2-15-10", "id": "L-15-10-e", "texte": "À envoyer à ton ami, il a un premier date vendredi.", "longueur": 51, "tournure": "ton/ta"},
+ "H08": {"emplacement": "E3-16-10", "id": "L-16-10-g", "texte": "À envoyer à l'ancienne coloc, elle a tout vu.", "longueur": 45, "tournure": "autre"},
+ "H09": {"emplacement": "E1-13-10", "id": "L-13-10-d", "texte": "À envoyer à ton beau-frère, qui a une perceuse.", "longueur": 47, "tournure": "ton/ta"},
+ "H10": {"emplacement": "E2-15-10", "id": "L-15-10-f", "texte": "À envoyer à qui t'a arrangé ton dernier rencard.", "longueur": 48, "tournure": "qui"},
+ "H11": {"emplacement": "E3-16-10", "id": "L-16-10-e", "texte": "À envoyer à ta mère, qui t'avait dit de surveiller le four.", "longueur": 59, "tournure": "ton/ta"},
+ "H12": {"emplacement": "E1-13-10", "id": "L-13-10-g", "texte": "À envoyer à la coloc, sans nommer personne.", "longueur": 43, "tournure": "autre"}
+}

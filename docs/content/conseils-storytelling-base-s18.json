@@ -1,0 +1,480 @@
+[
+  {
+    "_meta": {
+      "date": "2026-10-08",
+      "source": "Neon prod, table Tip, requête HTTP en lecture seule (Neon-Batch-Read-Only)",
+      "perimetre": "catégorie STORYTELLING + « Rigoler de ses échecs » + « Le callback » (conseils de la spec Storytelling s17)",
+      "conseils": 52,
+      "actifs": 17,
+      "donneesPersonnelles": "aucune"
+    }
+  },
+  {
+    "title": "Donner un titre à ton anecdote",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Annonce le titre de ton histoire avant de la raconter, comme celui d'un film. Le titre accroche, promet une catastrophe et cadre le ton : le public sait quoi attendre. Fais-le long, précis et un peu tragique. Cite-le encore à la fin pour boucler la boucle.",
+    "exemple": "« Cette histoire s'intitule : « Le jour où j'ai perdu un combat contre une porte coulissante ». Je poussais. Elle coulissait. On ne s'est jamais compris. »",
+    "exercice": "DÉFI TITRE : aujourd'hui, avant de raconter une anecdote, annonce son titre de film en une phrase."
+  },
+  {
+    "title": "La question qui fait raconter",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Pour ne pas monopoliser la conversation, pose une question précise qui appelle une petite histoire : « le dernier truc que tu as acheté en pensant que ça changerait ta vie ». Elle marche mieux qu'un « tu fais quoi dans la vie ? » car elle appelle un souvenir, pas un CV. Écoute la réponse, rebondis sur un détail, puis donne la tienne pour rendre la pareille. Tu deviens quelqu'un d'agréable sans avoir à être le plus brillant.",
+    "exemple": "Rendez-vous au café, un silence s'installe. Toi : « Le dernier objet que tu as acheté en pensant que ça allait changer ta vie ? » Alex : « Un tapis de yoga. Il sert d'étendoir à linge. » Toi : « Moi, une boule de bowling. Je voulais me mettre au sport. Elle sert de butée de porte. »",
+    "exercice": "DÉFI QUESTION : aujourd'hui, à la place de « ça va ? », pose à quelqu'un la question « le dernier truc que tu as acheté en pensant que ça changerait ta vie ? » et écoute."
+  },
+  {
+    "title": "La règle des détails spécifiques : ce qui rend une histoire vivante",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "La différence entre une anecdote oubliable et une anecdote géniale, c'est les détails spécifiques. « J'étais au resto » est plat. « J'étais au kebab de la gare à 2h du mat » fait voir la scène. Le cerveau accroche sur le précis. Ne dis pas « un pote », dis « mon pote Kévin, celui qui vient en claquettes-chaussettes en soirée ». Chaque détail ajoute une image et rend ton histoire plus drôle sans effort.",
+    "exemple": "Ennuyeux : « L'autre jour je me suis fait doubler dans la file. » Vivant : « Mardi, 8h15, le supermarché de la gare, un type en costume trois-pièces m'a doublé à la caisse automatique. Avec un paquet de Pépito. Il avait l'air pressé. Les Pépito aussi, apparemment. »",
+    "exercice": "DÉFI PRÉCISION : raconte un événement banal de ta semaine à un ami, mais ajoute 3 détails ultra-précis (heure, lieu, prénom, vêtement). Observe la différence de réaction. Pas d'ami sous la main ? Écris l'anecdote avec ses trois détails dans un message ou en vocal, puis relis-la : est-ce qu'on voit la scène ?"
+  },
+  {
+    "title": "La règle qu'on brise dans l'histoire",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Pose au début une règle personnelle (par exemple ne jamais parler de tes projets en soirée), puis raconte le moment où tu l'as brisée. Le public voit venir la catastrophe et savoure le chemin. La règle doit être précise, un peu ridicule, et énoncée avec conviction. La fin montre les conséquences, rarement graves, toujours humaines.",
+    "exemple": "« J'ai une règle : ne jamais parler de mes projets en soirée. Ce soir-là, j'ai passé quarante minutes à exposer mon plan de carrière à une plante. Elle a été la meilleure interlocutrice de la soirée. »",
+    "exercice": "DÉFI RÈGLE : aujourd'hui, raconte à quelqu'un une règle personnelle que tu as brisée, avec la conséquence."
+  },
+  {
+    "title": "La technique du personnage",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Quand tu racontes une anecdote, donne une voix à chaque personnage : le conseiller au téléphone, ton boss, un serveur. Pas besoin d'imiter : un léger changement de rythme, de hauteur de voix ou de posture suffit. Choisis un seul tic par personnage (une douceur imperturbable, un ton pressé, une phrase répétée) et tiens-le jusqu'au bout. La chute sort souvent du tic poussé jusqu'à sa conséquence, et ton public la voit parce qu'il a entendu la scène.",
+    "exemple": "Récit d'un appel au service client. Le conseiller, voix douce et très lente, répète toujours la même phrase : « Je comprends votre frustration. » Toi, voix qui monte : « Ça fait quarante minutes. » Lui, toujours aussi doux : « Je vous laisse un moment avec elle. »",
+    "exercice": "DÉFI PERSONNAGE : aujourd'hui, raconte une anecdote récente à un ami en donnant une voix à deux personnages : toi et quelqu'un d'autre (ton boss, un proche, un conseiller). Donne un seul tic à l'autre personnage et change seulement le rythme et la hauteur de la voix, puis demande lequel des deux l'a le plus fait rire. Personne sous la main ? Enregistre un vocal et écoute-le."
+  },
+  {
+    "title": "Raconter à l'envers",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Commence ton histoire par sa fin, puis remonte le temps. Le public sait déjà qu'il y aura un incident et cherche le chemin pour y arriver, ce qui retient son attention jusqu'au bout. La fin absurde, énoncée avec calme, fonctionne comme une promesse. Termine par une morale petite et fausse : c'est la dernière chute.",
+    "exemple": "« Pour commencer par la fin : je suis dans le hall de l'immeuble, en pyjama, avec un sac-poubelle pour seule compagnie. Remontons le temps : j'ai voulu sortir la poubelle. La porte s'est fermée. Mes clés dormaient à l'intérieur. Moralité : ne sors jamais la poubelle avec de l'ambition. »",
+    "exercice": "DÉFI À REBOURS : aujourd'hui, raconte une anecdote de ta semaine en commençant par sa conséquence la plus absurde, puis remonte le fil."
+  },
+  {
+    "title": "« Je ne sais pas encore que... »",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Raconte tes petits incidents au présent, en annonçant ce que tu ignores encore. La formule « je ne sais pas encore que... » crée une ironie dramatique : le public sait, toi non. Tu joues ton propre personnage naïf, ce qui est drôle sans t'humilier. Garde la vraie catastrophe pour la fin, elle doit être plus grande que celle que le public imagine.",
+    "exemple": "« Je sors de chez moi, plein d'assurance. Je ne sais pas encore que mon pantalon est à l'envers. Je ne sais pas non plus que mon rendez-vous est dans une salle entièrement vitrée. »",
+    "exercice": "DÉFI IGNORANCE : aujourd'hui, raconte un incident au présent en glissant deux fois « je ne sais pas encore que... »."
+  },
+  {
+    "title": "La conséquence disproportionnée d'un petit oui",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Raconte comment un oui minuscule t'a mené à une situation démesurée, par une chaîne de conséquences banales. Chaque étape est logique, mais la fin est absurde, et le public suit la pente avec plaisir. Fais durer deux ou trois étapes seulement, avec des transitions simples (« et donc », « du coup »). Termine sur le détail le plus concret, il donne l'échelle du désastre.",
+    "exemple": "« Au départ, j'ai juste dit oui à un verre. Trois heures plus tard, on m'avait confié un rôle dans une pièce de théâtre amateur. Je joue l'arbre. Il paraît que j'ai une vraie présence. »",
+    "exercice": "DÉFI ENGRENAGE : aujourd'hui, raconte comment un petit oui a fini par entraîner une conséquence énorme, en trois étapes."
+  },
+  {
+    "title": "Raconter le personnage secondaire",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu racontes une scène, ne te mets pas au centre : raconte la personne à côté de toi, dans le tram, la salle d'attente, la file. Ton public voit un personnage entier avec une petite manie, et le réel invente mieux que toi. Décris ce que la personne fait avec précision, puis termine par la phrase qu'elle a prononcée, exactement comme elle l'a dite. Tu te contentes d'être le témoin, et ce rôle te va bien.",
+    "exemple": "« Dans le tram, un monsieur tenait une plante en pot sur les genoux depuis trois arrêts. À son arrêt, il se lève, et une dame lui dit : « C'est votre arrêt. » Il répond : « Je sais, mais c'est elle qui décide. » »",
+    "exercice": "DÉFI TÉMOIN DU TRAM : aujourd'hui, repère une personne inconnue avec un détail précis (objet, geste, phrase) et raconte-la ce soir à quelqu'un, sans parler de toi."
+  },
+  {
+    "title": "Raconter ta galère du point de vue de l'objet",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Raconte une petite catastrophe du point de vue de l'objet qui l'a subie ou provoquée. Tu fais exister un personnage neuf, et tu peux dramatiser sans te plaindre. Utilise un vocabulaire d'employé : il a démissionné, il a tenu, il a rendu son tablier. Choisis un objet fragile ou surchargé, on devine tout de suite son destin.",
+    "exemple": "Tu arrives à bout de souffle avec les courses : « Racontée par le sac : la journée avait bien commencé, il a tenu quatre étages avec dignité. Au cinquième, la bouteille d'huile a démissionné. »",
+    "exercice": "DÉFI POINT DE VUE : aujourd'hui, raconte une petite galère du point de vue de l'objet en cause, en trois phrases maximum."
+  },
+  {
+    "title": "Raconter à deux voix avec un complice",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Raconte une histoire à deux avec quelqu'un qui l'a vécue : chacun corrige l'autre, le coupe, le contredit. Le public voit un duo, et chaque correction devient une nouvelle vanne. Choisis une seule règle à l'avance : la personne qui corrige a toujours le dernier mot. Ce format soulage les personnes discrètes, puisque tu n'es pas seul à porter le récit.",
+    "exemple": "Au dîner, Alex et toi racontez la soirée d'hier. Alex : « Il y avait quinze personnes. » Toi : « Douze. » Alex : « Douze, mais elles parlaient comme quinze. »",
+    "exercice": "DÉFI DUO : aujourd'hui, propose à quelqu'un qui a vécu la même scène que toi de la raconter à deux, chacun corrigeant l'autre."
+  },
+  {
+    "title": "Rigoler de ses échecs",
+    "actif": true,
+    "categorie": "AUTODERISION",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Un échec devient drôle quand tu es le premier à en faire le bilan, et que ce bilan est positif pour de mauvaises raisons. La technique : au lieu de raconter ce qui a raté, raconte ce que l'échec a réussi malgré toi, une conséquence inattendue, vraie et précise. Tu gardes le ton d'un bilan d'activité, fier et factuel. Le contraste entre « c'est raté » et « regardez tout ce que ça a donné » met tout le monde à l'aise, toi le premier. Choisis un échec récent et sans gravité, dont tu peux déjà sourire aujourd'hui.",
+    "exemple": "« Mon gâteau d'anniversaire a brûlé, mais l'opération n'est pas un échec : je connais enfin tous mes voisins. Deux sont venus avec un extincteur. »",
+    "exercice": "DÉFI BILAN : pense à un petit échec récent (un plat, un bricolage, un rendez-vous, un trajet). Écris une phrase du type « C'est raté, mais l'opération n'est pas un échec : ... » en listant ce que ça a produit d'inattendu et de vrai. Raconte-la à quelqu'un ce soir avec l'air satisfait d'un bilan annuel."
+  },
+  {
+    "title": "Construire une histoire drôle",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "EXPERT",
+    "contenu": "Le storytelling comique repose sur la tension : tu poses une situation normale, tu accumules des détails crédibles, puis tu fais dérailler le tout avec un détail absurde. Plus l'histoire est crédible, plus la dérive fait rire.",
+    "exemple": "« Lundi, j'attends mon bus depuis 20 minutes. Une dame me dit : Il ne passe plus ici depuis 2019. Je la remercie. Et je reste. Par principe. Une heure plus tard, elle m'a apporté un thermos. »",
+    "exercice": "DÉFI ANECDOTE : écris en 4 phrases une anecdote vraie de ta journée, puis remplace la dernière phrase par un détail absurde. Raconte les deux versions à quelqu'un et compare les réactions."
+  },
+  {
+    "title": "La chute anti-climax",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "EXPERT",
+    "contenu": "L'anti-climax est l'arme secrète du one-liner : tu construis une attente énorme, puis tu la dégonfles volontairement. Le public attend quelque chose de grandiose, tu livres le minimum. La clé : plus le décor est dramatique, plus la chute doit être banale.",
+    "exemple": "« Après 6 mois de musculation intensive, 200 heures de salle et une diète stricte, j'arrive enfin à ouvrir un bocal de cornichons. »",
+    "exercice": "DÉFI DÉGONFLE : prends un accomplissement minuscule de ta semaine. Raconte-le comme l'exploit du siècle (3 phrases de montée héroïque), puis termine sur la réalité banale."
+  },
+  {
+    "title": "La digression qui revient à la fin",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "EXPERT",
+    "contenu": "Une digression apparemment inutile, bien placée, devient une arme : tu la plantes au début de ton histoire, tu enchaînes comme si de rien n'était, puis tu la fais revenir en chute. Le public a oublié le détail, et son retour lui donne l'impression d'un plan brillant. La digression doit être visuelle et un peu absurde : une couleur, un objet, une manie. Ne la souligne jamais au départ, c'est ta discrétion qui rend le retour efficace.",
+    "exemple": "« J'ai croisé Jules à la boulangerie. Il portait un manteau orange, vraiment orange, genre panneau de chantier. Bref. Il m'annonce qu'il quitte la ville. Sur le moment, je me suis dit : au moins, on le verra partir de loin. »",
+    "exercice": "DÉFI DIGRESSION : aujourd'hui, raconte une anecdote en plaçant un détail visuel absurde au début, et fais-le revenir dans ta dernière phrase."
+  },
+  {
+    "title": "Le callback : faire revenir une blague au bon moment",
+    "actif": true,
+    "categorie": "TIMING",
+    "difficulte": "EXPERT",
+    "contenu": "Le callback consiste à reprendre plus tard un détail qui a déjà fait rire (ou qui a juste été dit) et à le ressortir là où on ne l'attend pas. Il récompense celles et ceux qui écoutaient depuis le début et double le rire, parce que la surprise s'ajoute au souvenir. Choisis un détail précis, un mot, un chiffre, une passion étrange, plutôt qu'une phrase entière. Version débutant : tu y reviens deux minutes plus tard. Version avancée : tu plantes une graine en début de soirée et tu la fais germer une heure après, quand la situation lui donne un nouveau sens.",
+    "exemple": "En début de repas, un ami dit : « Mon moment préféré de la journée, c'est quand j'enlève le film plastique d'un truc neuf. » Tout le monde rit, la conversation repart. Une heure plus tard, le dessert arrive, emballé sous trois couches de film. Tu le glisses vers cet ami, très calme : « Joyeux anniversaire. »",
+    "exercice": "DÉFI SOIRÉE : lors de ta prochaine conversation de groupe, retiens le premier détail précis qui fait sourire. Attends au moins 20 minutes, puis trouve un moyen naturel d'y revenir dans un autre contexte. Ça marche quand les gens mettent une seconde à comprendre, puis éclatent de rire. Pas de groupe aujourd'hui ? Fais-le par message : envoie un détail drôle le matin et reprends-le le soir."
+  },
+  {
+    "title": "Le narrateur peu fiable",
+    "actif": true,
+    "categorie": "STORYTELLING",
+    "difficulte": "EXPERT",
+    "contenu": "Raconte ton exploit en te contredisant toi-même, ou en citant un témoin qui donne une autre version. Ta version flatteuse, puis la version des faits, créent un écart que le public adore. Tu n'as pas besoin de te dévaloriser : tu te contentes d'être un narrateur qui négocie les mots. Cible un mot précis que tu contestes, c'est ta chute.",
+    "exemple": "« J'ai géré la panne de wifi avec un calme exemplaire. Les témoins parlent de cris, et d'un pied posé sur le routeur. Je conteste le mot cris : pour moi, c'était de l'enthousiasme prolongé. »",
+    "exercice": "DÉFI TÉMOINS : aujourd'hui, raconte un petit incident en citant ce que diraient les témoins, puis conteste un seul de leurs mots."
+  },
+  {
+    "title": "Faire rire en rendez-vous",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "L'humour en date est le super-pouvoir de la séduction. Mais attention : le but n'est pas de faire un spectacle — c'est de créer de la complicité. L'autodérision légère sur les conventions du date (le silence gênant, choisir le restaurant, qui paie) fonctionne universellement. L'observation partagée aussi : commenter ensemble ce qui se passe autour de vous crée un 'nous' immédiat. Panayotis Pascot parle brillamment de l'absurdité des dates modernes.",
+    "exemple": "Silence gênant au date → \"C'est le moment du date où d'habitude je fais semblant de regarder la carte alors que j'ai choisi depuis 10 minutes.\" Boom — tu as nommé l'éléphant dans la pièce, vous riez ensemble.",
+    "exercice": "AVANT TON PROCHAIN DATE : Prépare 3 observations drôles sur les conventions du date (la photo de profil vs la réalité, le 'et sinon tu fais quoi dans la vie', le choix impossible du restaurant). Ce ne sont pas des blagues à réciter — ce sont des munitions à sortir au bon moment."
+  },
+  {
+    "title": "L'afterwork : passer de collègue à personne drôle",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "L'afterwork c'est la zone de transition entre le pro et le perso. C'est là que tu peux te permettre plus d'humour qu'au bureau. La technique : utilise les situations du travail comme matière comique partagée. Ce client difficile, cette réunion interminable, ce mail du boss à 17h59. Au bureau tu subis, à l'afterwork tu en fais du stand-up. C'est la catharsis collective.",
+    "exemple": "À l'afterwork : « La réunion de 14h, c'était quelque chose. On a passé 45 minutes à débattre de la police du PowerPoint. Quelqu'un a dit Calibri et ça a failli partir en pugilat. » → Exagération d'un vrai moment = rire garanti entre collègues.",
+    "exercice": "DÉFI AFTERWORK : Au prochain afterwork, prépare une mini-anecdote de 30 secondes sur un moment absurde de ta semaine de travail. Raconte-la avec la technique des 3 actes : situation → escalade → chute."
+  },
+  {
+    "title": "L'humour en date : ta meilleure arme de séduction",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "En rendez-vous, l'humour fait plus que n'importe quel compliment. Mais l'erreur classique c'est de vouloir être un stand-upper. Non. L'humour en date c'est 80% d'écoute et 20% de répartie. Rebondis sur ce que l'autre dit au lieu de réciter des vannes. L'autodérision légère marche à tous les coups — elle montre que tu ne te prends pas au sérieux. Et les silences ne sont pas gênants si tu souris.",
+    "exemple": "Elle/il dit « je fais du crossfit » → Au lieu de hocher la tête : « Ah le crossfit, le seul sport où on paye pour souffrir volontairement. C'est beau, y'a un côté secte. » → Tu rebondis, tu n'agresses pas, tu crées une connivence.",
+    "exercice": "DÉFI REBOND : Lors de ta prochaine conversation (date ou pas), note mentalement 3 trucs que l'autre dit. Pour chacun, improvise un commentaire drôle plutôt qu'une réponse sérieuse. L'écoute active + humour = charme."
+  },
+  {
+    "title": "Raconter une anecdote en 3 actes",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Toute bonne histoire drôle suit une structure en 3 actes : 1) Le contexte (qui, où, quand — en 2 phrases max), 2) La montée (ce qui s'est passé, avec des détails spécifiques), 3) La chute (le retournement inattendu). Plus tu maîtrises cette structure, plus tes anecdotes sont impactantes. Paul Mirabel suit cette structure religieusement dans chaque sketch.",
+    "exemple": "Contexte : \"Mardi, rendez-vous Tinder.\" Montée : \"Elle arrive, on parle, ça se passe bien, elle me dit qu'elle adore les gens spontanés.\" Chute : \"Alors spontanément, j'ai renversé mon café sur elle.\"",
+    "exercice": "DÉFI 3 ACTES : eNREGISTRE-TOI : Reprends 3 anecdotes de ta vie. Filme-toi en respectant strictement les 3 actes (contexte en 2 phrases, montée en 3-4 phrases, chute en 1 phrase). Regarde les vidéos — tu verras immédiatement ce qui traîne et ce qui marche."
+  },
+  {
+    "title": "Tes retards deviennent des films d'action",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "DEBUTANT",
+    "contenu": "Au lieu de bredouiller « désolé j'ai eu un problème », transforme ton retard en mini-film hollywoodien. L'astuce : prendre un élément vrai (ton réveil, les transports, ton coloc) et l'amplifier jusqu'à l'absurde. Tu crées un décalage hilarant entre la banalité du retard et l'épique de ton explication. Paul Mirabel excelle dans ce genre de storytelling où le quotidien devient surréaliste. La règle d'or : commence toujours par un élément réel pour que ce soit crédible, puis escalade progressivement vers l'impossible. Plus c'est détaillé, plus c'est drôle. N'hésite pas à ajouter des effets sonores ou à mimer discrètement. Le secret : raconter ça avec le sérieux d'un journaliste qui relate un fait divers majeur.",
+    "exemple": "Tu arrives en retard en cours. Au lieu de : « Désolé, j'ai raté mon bus. » Tu racontes : « Alors, je suis sorti de chez moi tranquille, mais apparemment mon coloc avait organisé un tournoi de Mario Kart clandestin cette nuit. La police anti-gaming a débarqué à 7h, j'ai dû témoigner comme expert en drift virtuel. Ensuite, mon bus a été réquisitionné pour évacuer les manettes de contrebande. Voilà pourquoi j'arrive avec 20 minutes de retard et l'honneur intact. »",
+    "exercice": "DÉFI SCENARIO : Dès ton prochain retard (cours, soirée, rendez-vous), invente UNE explication épique en partant d'un élément vrai. Critère de succès : au moins une personne sourit ou demande des détails sur ton histoire."
+  },
+  {
+    "title": "Bug = blockbuster : tes galères tech version Hollywood",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Tu galères avec ton ordi ? Parfait ! Transforme chaque bug en blockbuster pour tes collègues. La recette Hollywood : PROLOGUE (situation normale), INCIDENT DÉCLENCHEUR (le bug arrive), ESCALADE (ça empire), CLIMAX (moment de désespoir total), DÉNOUEMENT (comment tu t'en sors). Vocabulaire magique : 'intrigue', 'suspense', 'retournement de situation', 'happy end'. Pierre Croce maîtrise ce truc à fond. L'astuce qui tue : donne des rôles à tes appareils. Ton PC devient 'le traître', l'IT devient 'le sauveur', toi tu es 'le héros incompris'. Plus tu pousses le délire, plus ça marche. Bonus : termine toujours par une 'leçon de vie' bidon style 'j'en sors grandi'.",
+    "exemple": "« Intrigue : je prépare tranquillement ma présentation. Incident déclencheur : écran bleu, 15 minutes avant la réunion ! Escalade dramatique : même Ctrl+Alt+Suppr m'abandonne. Climax : j'appelle l'IT en mode SOS. Suspense haletant... et là, retournement ! Thomas de l'IT débarque, trois clics, c'est réparé. Happy end : ma présentation était sauvée ! Leçon de vie : toujours avoir le numéro de l'IT dans ses favoris. »",
+    "exercice": "DÉFI BLOCKBUSTER : Raconte UNE galère tech de cette semaine à un collègue avant ce soir. Utilise les 5 étapes Hollywood et au moins 3 mots du vocabulaire magique. Objectif : le faire rire en moins de 2 minutes."
+  },
+  {
+    "title": "L'anecdote de l'étranger",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Raconter une observation sur une autre culture ou un voyage est une mine d'or comique, à condition de se moquer de SOI face à la situation, pas de l'autre culture. 'J'étais perdu' est drôle, 'ils sont bizarres' ne l'est pas. L'humour de voyage fonctionne quand tu es le personnage naïf de ta propre histoire. Fanny Ruwet (belge en France) joue brillamment sur les malentendus culturels avec une candeur désarmante.",
+    "exemple": "\"À Londres, j'ai commandé 'un café'. Le barista m'a posé 47 questions. En France, le serveur te pose une seule question : 'Quoi ?'\"",
+    "exercice": "DÉFI INCONNU : pense à ta dernière expérience 'culturellement confuse' (voyage, restaurant étranger, conversation avec quelqu'un d'un autre pays). Raconte-la en étant le personnage naïf de l'histoire."
+  },
+  {
+    "title": "L'anti-héros de voyage : échouer avec panache",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "La règle d'or du récit de voyage drôle : raconte tes échecs, pas tes victoires. Personne n'a envie d'entendre parler de ton coucher de soleil parfait à Santorin. Mais ta nuit dans un hôtel miteux où les cafards jouaient au poker ? Ça, c'est de l'or comique. La technique : transforme chaque galère en moment héroïque raté. Tu n'as pas 'eu des problèmes de transport' — tu as 'mené une quête épique contre les forces du chaos ferroviaire italien'. Paul Mirabel excelle dans cette approche : il ne raconte jamais ses succès, toujours ses plantages assumés. L'autodérision voyage mieux que l'ego.",
+    "exemple": "Au lieu de : 'J'ai fait un super voyage en Thaïlande, j'ai découvert des temples magnifiques.' → Raconte : 'En Thaïlande, j'ai voulu faire le mec aventurier. Résultat : j'ai passé 3 heures à chercher un temple 'authentique' avec Google Translate. Au final, j'ai trouvé... un McDonald's déguisé en pagode. Les moines étaient des ados en uniforme rouge. Mais bon, le Big Mac était délicieux.'",
+    "exercice": "DÉFI ANTI-HÉROS : Repense à ton dernier voyage (week-end compte). Trouve UN moment où ça s'est mal passé. Raconte-le comme une épopée ratée à quelqu'un aujourd'hui. Objectif : le faire rire, pas le faire compatir."
+  },
+  {
+    "title": "L'anti-héros trentenaire : ta transformation ratée qui fait rire",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "La technique de l'épopée personnelle sabotée : raconte ton évolution comme un film d'aventure, puis révèle que le héros (toi) a foiré de façon ridicule. Structure tes histoires en 3 temps : 1) Le défi héroïque annoncé (« J'allais enfin devenir un adulte responsable »), 2) La quête épique décrite avec grandeur (« Armé de mon agenda Moleskine et de ma motivation de fer »), 3) La chute anti-climatique qui révèle ta vraie nature (« Résultat : j'ai utilisé l'agenda comme sous-verre »). Cette technique fonctionne parce qu'elle crée un contraste comique entre l'ambition annoncée et la réalité pathétique. Comme Panayotis Pascot qui raconte ses tentatives de devenir cool : plus l'écart est grand, plus c'est drôle.",
+    "exemple": "Au boulot, ton collègue demande comment s'est passé ton divorce : « C'était mon moment Phoenix, tu vois ? Renaître de mes cendres, devenir la meilleure version de moi-même. J'ai acheté des bouquins de développement personnel, je me suis inscrit à la salle... » [tu marques une pause dramatique] « ...résultat, les bouquins servent de cale à ma table bancale et mon abonnement sport, je l'utilise pour leurs douches quand mon chauffe-eau déconne. Mais techniquement, je me lave plus qu'avant, donc c'est un progrès ! »",
+    "exercice": "DÉFI ANTI-HÉROS : Raconte aujourd'hui UNE de tes résolutions ratées en mode épopée. Choisis un projet ambitieux que tu as abandonné (sport, reconversion, rangement...). Structure : annonce héroïque + quête grandiose + chute ridicule. Objectif : faire rire avec ton échec assumé."
+  },
+  {
+    "title": "L'anti-héros trentenaire : ta transformation ratée qui fait rire",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Paul Mirabel a bâti son succès en racontant ses échecs avec le ton d'un film d'action. La technique : prendre ton évolution personnelle et la raconter comme un blockbuster... complètement foiré. Tu gardes la structure héroïque (point de départ → défi → transformation) mais tu assumes que le résultat est bancal. L'humour naît du contraste entre l'épique du récit et la médiocrité du résultat. Ton public s'attend à une success story, tu lui livres une failure story avec fierté. L'autodérision devient héroïque.",
+    "exemple": "« Alors, l'année dernière, j'ai décidé de me transformer. Nouveau départ, nouvelle vie ! J'ai téléchargé une app de sport... (pause dramatique) ...que j'ai utilisée exactement 4 fois. Mais quelle transformation ! Avant, je culpabilisais de pas faire de sport. Maintenant, je culpabilise ET j'ai payé un abonnement premium à 9,99€ par mois. C'est ça, l'évolution ! »",
+    "exercice": "DÉFI ANTI-HÉROS : Raconte aujourd'hui UNE résolution/changement que tu as tenté cette année. Structure ton récit comme un film d'action avec musique épique, puis révèle le résultat pathétique. Critère de succès : faire rire en assumant ton échec avec fierté."
+  },
+  {
+    "title": "L'échec épique : ta présentation ratée devient légendaire",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu racontes un échec professionnel, transforme-le en épopée héroïque qui a mal tourné. La technique : construis ton récit comme un film d'action avec toi en héros déchu. Commence par te présenter en super-héros confiant, détaille la préparation 'parfaite', puis décris la chute avec un timing dramatique. L'astuce de Fary : exagère tes émotions d'avant (\"j'étais Napoléon avant Waterloo\") et minimise l'impact réel (\"au final, personne n'est mort\"). Cette structure épique-tragique transforme ton humiliation en spectacle divertissant. Les gens adorent les histoires de grandeur déchue parce qu'elles nous rappellent qu'on est tous humains.",
+    "exemple": "À table avec des amis : \"Hier, j'étais Steve Jobs qui allait révolutionner les ventes avec SA présentation. J'avais répété 50 fois, préparé des slides magnifiques... Et là, devant 20 clients, je clique... écran noir. Panique totale. Moi qui me voyais déjà en couverture de Forbes, je finis à mimer ma présentation comme un mime dépressif. Le client a dit 'très... créatif'. Code pour 'on rappellera'.\"",
+    "exercice": "DÉFI ÉPIQUE : Raconte un de tes échecs récents (perso ou pro) en mode film catastrophe. Commence par 'J'étais [héros de film]' et termine par 'Au final, [conséquence dérisoire]'. Note les réactions."
+  },
+  {
+    "title": "L'épopée culinaire tragique : tes ratés deviennent légendaires",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Transformer un échec culinaire en récit épique, c'est la technique de l'amplification dramatique. Au lieu de dire \"j'ai raté mes pâtes\", tu racontes une saga. Trois étapes : 1) Pose le décor comme un défi héroïque (\"J'ai décidé de conquérir les carbonara, ce plat qui nargue l'humanité depuis des siècles\"). 2) Dramatise chaque étape avec un vocabulaire de guerre (\"La bataille du parmesan\", \"L'offensive de la crème fraîche\"). 3) Conclus sur ta défaite noble face à un adversaire redoutable. Fary utilise cette technique quand il raconte ses tentatives de sport : chaque séance devient une épopée où il affronte \"le tapis roulant, cette machine de torture moderne\". L'échec devient héroïque, pas pathétique.",
+    "exemple": "Au lieu de : \"J'ai cramé mon riz hier.\" Tu dis : \"Hier, j'ai lancé l'opération Riz Parfait. Mission : dompter ces grains rebelles. Stratégie : feu doux, surveillance constante. Résultat : j'ai créé du charbon premium. Le riz a remporté cette bataille, mais la guerre continue.\" Tes collègues rigolent au lieu de compatir.",
+    "exercice": "DÉFI ÉPOPÉE : Raconte ton prochain raté de cuisine comme une saga. Utilise un vocabulaire de conquête militaire ou d'exploration. Critère de succès : quelqu'un doit rire ET dire \"mais comment tu fais pour rater ça ?\""
+  },
+  {
+    "title": "L'épopée du RER : transformer tes galères de transport",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Un trajet de métro raté = une mine d'or narrative. La technique : remplacer ton vocabulaire de victime par un vocabulaire d'aventurier. 'J'étais coincé' devient 'j'étais prisonnier'. 'Il y avait du retard' devient 'notre quête a été retardée par des forces obscures'. 'Les gens étaient énervés' devient 'la tension montait parmi les voyageurs'. Ajoute des comparaisons épiques : 'serré comme dans un donjon', 'l'annonce RATP résonnait comme un oracle'. Paul Mirabel excelle dans cette transformation du quotidien en aventure. Plus ton vocabulaire est décalé par rapport à la réalité triviale, plus l'effet comique fonctionne. L'astuce : garde la structure chronologique de ton trajet mais change tout le registre de langue.",
+    "exemple": "Au lieu de : 'J'étais dans le RER, y'avait du monde, on a attendu 20 minutes.' Tu dis : 'J'ai été happé dans les entrailles de la terre parisienne. Là, parmi une horde de guerriers du quotidien, notre convoi s'est immobilisé. Vingt longues minutes durant, nous avons attendu qu'un mystérieux signal nous libère de cette prison d'acier.' Tes potes visualisent ton épopée au lieu d'entendre une énième plainte transport.",
+    "exercice": "DÉFI ÉPOPÉE : Dès ton prochain trajet problématique, note 3 éléments factuels. Puis transforme chacun avec un mot d'aventurier : 'retard' → 'épreuve', 'foule' → 'armée', 'wagon' → 'navire'. Raconte ta version épique à quelqu'un dans les 2h qui suivent."
+  },
+  {
+    "title": "La galère de transport devient une aventure épique",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Tes retards de métro peuvent devenir tes meilleures anecdotes si tu maîtrises la règle des 3 actes : l'espoir naïf, la catastrophe progressive, et la résolution héroïque. Ne raconte jamais juste « j'étais en retard » — transforme-toi en héroïne de ton propre film d'action. Commence par planter le décor idyllique (« Ce matin, j'avais 15 minutes d'avance, j'étais zen »), puis enchaîne les rebondissements en escalade (panne, foule, détour), et termine par ta victoire ou ta défaite assumée. L'astuce de Fary : ajoute des détails sensoriels précis (l'odeur, le bruit, la chaleur) et des pensées intérieures absurdes. Plus c'est précis, plus c'est drôle. Ta galère devient un mini-spectacle où tu es à la fois le héros et le narrateur.",
+    "exemple": "Au lieu de : « Le RER était en panne, j'étais en retard. » Raconte : « Ce matin, j'étais tellement en avance que j'ai même pris un café. Premier red flag. Puis l'annonce : 'incident voyageur ligne A.' Je me dis 'pas grave, j'ai 15 minutes.' 20 minutes plus tard, coincée entre un mec qui mange un kebab et une dame qui commente chaque arrêt : 'Oh regarde, Vincennes !' Moi dans ma tête : 'Madame, on le voit tous Vincennes.' Finalement arrivée avec 30 minutes de retard, mais j'ai découvert qu'on pouvait transpirer EN hiver. »",
+    "exercice": "DÉFI ÉPIQUE : La prochaine fois que tu as un pépin de transport, note mentalement 3 détails précis (une odeur, un bruit, une pensée absurde). Ce soir, raconte cette galère à quelqu'un en mode « film d'aventure ». Succès = si la personne rit ET te demande la suite."
+  },
+  {
+    "title": "La rupture comme thriller : suspense et retournement",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Les déboires amoureux deviennent hilarants quand tu les racontes comme un thriller Netflix. La technique : structure ton récit avec des indices trompeurs, du suspense, et un twist final inattendu. Commence par des détails anodins qui prennent un sens rétroactivement, crée de faux espoirs, puis révèle la chute. Paul Mirabel excelle dans cette approche : il transforme ses galères sentimentales en enquêtes policières où tous les indices étaient là depuis le début. L'astuce : présente-toi comme le détective naïf de ta propre histoire. Tu découvres les 'preuves' de l'infidélité ou de l'incompatibilité en même temps que ton public. Ça évite l'apitoiement car tu deviens le héros maladroit d'une comédie d'investigation, pas la victime d'un drame. Le rire vient du décalage entre ton enquête sérieuse et la réalité triviale des relations.",
+    "exemple": "'Alors, tout commence un mardi. Elle me dit qu'elle a rejoint un club de lecture. Moi, content : 'Super, l'intellectuelle !' Indice numéro 1 que j'ai raté. Semaine suivante, elle connaît par cœur Cinquante Nuances de Grey. Moi : 'Ah, elle lit vite !' Indice numéro 2. Puis elle me demande si j'ai des menottes. Là, j'aurais dû comprendre. Mais non, je lui réponds : 'Non, pourquoi, tu veux qu'on joue aux gendarmes et aux voleurs ?' Plot twist : le club de lecture, c'était chez Kevin, son ex. Et les menottes... c'était pas pour moi.'",
+    "exercice": "DÉFI THRILLER : Raconte un de tes déboires amoureux récents comme un thriller à un proche aujourd'hui. Commence par 'Tout a commencé par un détail anodin...' et révèle 3 indices que tu avais ratés sur le moment. Succès = si la personne rit ET te demande des détails sur les autres 'indices'."
+  },
+  {
+    "title": "La règle des 3 actes : tes galères de RER deviennent épiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Tes galères de transport, tout le monde en a. La différence entre \"putain le RER était encore en panne\" et une histoire qu'on retient ? La structure en 3 actes comme au cinéma. ACTE 1 : Le setup normal (\"Ce matin je prends le RER comme d'hab\"). ACTE 2 : L'escalade du chaos (chaque péripétie empire la situation). ACTE 3 : La chute inattendue (souvent ta propre réaction ridicule). L'astuce de Fary : ne jamais finir sur \"j'étais énervée\". Finis sur ton comportement absurde face à la situation. Genre tu finis par faire du yoga sur le quai ou négocier avec une porte automatique. Les gens s'identifient aux galères, mais retiennent ta façon déjantée de les vivre.",
+    "exemple": "\"Ce matin, RER B normal. Premier arrêt : 'incident voyageur'. Deuxième arrêt : 'problème technique'. Troisième : 'régulation du trafic'. À ce stade j'ai négocié avec le contrôleur pour qu'il m'adopte, vu que j'habite manifestement dans ce train maintenant. J'ai fini par demander au mec d'à côté si on pouvait se marier pour que ce soit officiel. Il a dit oui. On attend toujours à Châtelet.\"",
+    "exercice": "DÉFI 3-ACTES : Raconte ta dernière galère de transport (ou n'importe quelle galère récente) en 3 temps : situation normale → escalade des emmerdes → ta réaction la plus ridicule. Teste sur un proche ce midi. Objectif : qu'il/elle rigole au moment de ta chute."
+  },
+  {
+    "title": "La technique du plot twist personnel",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand ton weekend part en vrille, au lieu de le présenter comme un échec, révèle la chute inattendue à la fin. La technique : commence par vendre du rêve, détaille la descente aux enfers avec des détails absurdes, puis balance la révélation finale qui change tout. Paul Mirabel maîtrise ça parfaitement - il raconte ses galères comme des aventures épiques qui finissent toujours par un twist. Le secret : trouve LE détail ridicule qui sauve tout. Même le weekend le plus foireux cache une révélation inattendue. C'est pas du mensonge, c'est du cadrage. Tu prends les mêmes faits, tu changes juste l'angle d'attaque. Au lieu de 'mon weekend était nul', tu racontes 'vous allez pas croire ce que j'ai découvert ce weekend'.",
+    "exemple": "Ton samedi bricolage catastrophe : 'J'avais prévu un weekend productif, monter cette étagère Ikea, être un mec organisé. 6 heures plus tard, j'ai 47 vis en trop, un doigt en sang, et un meuble qui ressemble à une sculpture moderne. Mais en fait... j'ai découvert que j'étais un artiste. Cette étagère bancale ? C'est de l'art conceptuel. Je l'ai appelée 'La Fragilité de l'Homme Face à la Notice Suédoise'. Ma mère veut que je la vende.'",
+    "exercice": "DÉFI PLOT TWIST : Pense à ton dernier weekend foireux. Trouve LA révélation finale positive (même ridicule) et raconte-le ce soir avec cette structure : promesse → galère → twist final. Objectif : faire rire au moins une personne avec cette nouvelle version."
+  },
+  {
+    "title": "Le bricoleur héroïque : transformer l'échec en épopée",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu racontes tes galères de bricolage, ne te contente pas de dire « j'ai foiré ». Raconte-toi comme le héros d'une quête impossible. Utilise le vocabulaire des films d'aventure : tu « affronte » l'étagère rebelle, tu « combats » la perceuse capricieuse, tu « négocies » avec les vis qui refusent de rentrer. Cette technique transforme automatiquement ton incompétence en courage. Au lieu d'être le nul qui s'est planté, tu deviens l'aventurier qui a osé défier les forces obscures du mobilier en kit. Paul Mirabel excelle dans cette approche : il transforme ses petites misères quotidiennes en grands récits épiques où il joue toujours le rôle du héros malchanceux mais déterminé.",
+    "exemple": "Situation : Tu racontes ton week-end à des collègues. Au lieu de : « J'ai essayé de monter une étagère, j'ai tout foiré », tu dis : « Samedi, j'ai entrepris une mission périlleuse : dompter une étagère IKEA. Armé de ma perceuse et de ma détermination, j'ai affronté les forces du mal... mais les vis ont comploté contre moi. Après 3 heures de bataille acharnée, l'étagère a eu le dernier mot. Elle penche encore, mais avec panache ! » Résultat : tes collègues rient et te trouvent plus attachant.",
+    "exercice": "DÉFI HÉROS : La prochaine fois que tu racontes une galère pratique (bricolage, jardinage, réparation), utilise 3 mots du registre héroïque : 'affronter', 'bataille', 'mission', 'forces obscures', 'complot', 'dernière chance'. Note la réaction des gens - ils sourient plus quand tu es un héros raté qu'un simple nul."
+  },
+  {
+    "title": "Le crash culinaire héroïque : tes ratés deviennent épiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu rates un plat, tu as le choix : mumurer 'désolée' ou transformer ton échec en aventure épique. La technique du récit héroïque consiste à raconter ton raté comme une bataille perdue contre des forces supérieures. Chaque étape devient un épisode : la quête des ingrédients, l'alliance fragile avec ton four, la trahison de tes épices. Paul Mirabel excelle dans cette technique - il transforme ses galères quotidiennes en odyssées tragico-comiques. L'astuce ? Utilise le vocabulaire des films d'action. Ton lait qui tourne devient 'une rébellion imprévisible', ton four qui surchauffe devient 'un allié qui t'a abandonnée au pire moment'. Plus c'est dramatique pour un truc bénin, plus c'est drôle.",
+    "exemple": "Au lieu de : 'J'ai cramé les pâtes, désolée.' → 'Alors, tout se passait bien. J'avais établi une alliance solide avec ma casserole, l'eau bouillait dans un parfait équilibre. Et puis... la trahison. Mon téléphone a sonné. Trois minutes. TROIS MINUTES d'inattention et mes pâtes se sont transformées en charbon de bois. C'était David contre Goliath, sauf que David a oublié sa fronde et Goliath, c'était la plaque de cuisson.'",
+    "exercice": "DÉFI ÉPOPÉE : La prochaine fois que tu rates quelque chose en cuisine (même juste brûler ton toast), raconte-le comme un film catastrophe à ton entourage. Minimum 3 rebondissements dramatiques obligatoires."
+  },
+  {
+    "title": "Le désastre savoureux : quand tout foire, tout marche",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "La meilleure anecdote de voyage, c'est celle où tu te plantes magnifiquement. Oublie les couchers de soleil parfaits — raconte plutôt comment tu as mangé de la nourriture pour chien en Thaïlande en croyant que c'était un plat local. La technique : commence par le moment le plus catastrophique, puis déroule chronologiquement jusqu'à la chute. Pas 'j'ai visité Rome', mais 'j'ai passé 3 heures à chercher le Colisée... il était juste derrière moi'. Roman Frayssinet maîtrise ça : ses pires moments deviennent ses meilleurs sketches. L'astuce : utilise des détails précis et gênants. Au lieu de 'j'étais perdu', dis 'j'ai demandé mon chemin en anglais à une statue pendant 5 minutes'.",
+    "exemple": "Au lieu de : 'Mon voyage en Italie était génial, j'ai vu plein de trucs.' Essaie : 'Alors, premier jour à Rome, je sors de l'hôtel, confiant. Je cherche le Colisée. Je marche 2 heures, je sue, je demande à tout le monde. Un italien me regarde bizarrement et me montre derrière moi. Le Colisée. À 50 mètres de mon hôtel. J'avais tourné le dos au monument le plus visible de Rome pendant 2 heures.'",
+    "exercice": "DÉFI FIASCO : Pense à ton dernier voyage (même un week-end). Trouve TON moment le plus ridicule. Raconte-le à quelqu'un aujourd'hui en commençant par 'Tu sais le truc le plus débile que j'ai fait en voyage ?' Mesure le succès : ils rient ET te demandent des détails."
+  },
+  {
+    "title": "Le faux héros des dimanches familiaux",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Tes week-ends chez tes parents ou avec tes enfants regorgent de mini-catastrophes parfaites pour le storytelling. La technique : transforme-toi en protagoniste incompétent d'un film d'action. Prends n'importe quel moment banal (monter un meuble IKEA, préparer le repas, gérer une crise de ton gamin) et raconte-le comme si tu étais Tom Cruise dans Mission Impossible, mais version ratée. L'astuce de Paul Mirabel : amplifie ta préparation mentale et contraste-la avec la réalité. Plus tu te présentes comme confiant au début, plus ta chute est drôle. Le secret c'est de jouer sur l'écart entre tes ambitions de super-papa/fils et tes compétences réelles. Tes collègues s'identifient à tes galères mais rient de ta façon de les présenter comme des épopées grandioses.",
+    "exemple": "« Dimanche, mission : assembler la nouvelle étagère de ma fille. Je me lève, je bois mon café, je regarde les 47 pièces étalées. Dans ma tête, c'est du Mozart, mes mains sont précises comme un chirurgien. Première étape : identifier la pièce A... 2h plus tard, ma fille me trouve assis par terre en train de pleurer devant ce qui ressemble à une sculpture moderne. Elle me dit : 'Papa, tu as mis les roues en haut.' Je lui réponds : 'C'est un prototype.' »",
+    "exercice": "DÉFI ÉPOPÉE : Raconte aujourd'hui ton dernier week-end familial en mode 'mission impossible ratée'. Commence par 'Ma mission était simple...' et termine par ta défaite héroïque. Test : si tes collègues rigolent ET se reconnaissent, c'est gagné."
+  },
+  {
+    "title": "Le parent imparfait : transformer tes galères en épopées comiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Technique du 'Parent Super Héros Raté' : quand tu racontes une galère parentale, présente-toi comme un super-héros dont les pouvoirs ont dysfonctionné. Structure : 1) Ta mission héroïque initiale 2) Le moment où tout dérape 3) Ton adaptation ridicule 4) Le résultat catastrophique mais touchant. L'astuce : exagère ta préparation initiale pour amplifier le contraste avec le chaos qui suit. Ça transforme ton incompétence en attendrissement. Comme Fary qui raconte ses tentatives de drague : plus il se prépare, plus c'est drôle quand ça foire.",
+    "exemple": "« J'me suis dit : 'Aujourd'hui, je suis Papa Parfait. Petit-déj équilibré, habillage sans stress, arrivée sereine à l'école.' J'avais même préparé le sac la veille ! Résultat : elle refuse ses céréales, veut porter sa robe de princesse PAR-DESSUS son manteau, et on arrive à l'école... un samedi. La maîtresse était en pyjama dans son salon, on était devant un portail fermé. Mais bon, au moins le sac était prêt ! »",
+    "exercice": "DÉFI SUPER-PARENT RATÉ : Raconte UNE galère parentale récente en te présentant comme un super-héros défaillant. Structure obligatoire : mission + préparation + dysfonctionnement + adaptation ridicule. Bonus : trouve un nom de super-héros pour toi (Papa Ponctuel, Captain Petit-Déj...)."
+  },
+  {
+    "title": "Le personnage exagéré",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu racontes une anecdote, transformer les vrais personnages en versions caricaturales rend l'histoire 10 fois plus drôle. Ton boss devient un dictateur mégalomane, ta grand-mère devient une espionne russe, le serveur du restaurant devient un philosophe existentialiste. L'exagération des personnages permet de rester bienveillant tout en étant hilarant.",
+    "exemple": "Au lieu de 'le prof était sévère' → 'Le prof nous regardait comme un général qui inspecte ses troupes avant la bataille de Normandie.'",
+    "exercice": "DÉFI PERSONNAGE EXAGÉRÉ : prends une anecdote récente avec au moins 3 personnes. Réécris-la en donnant à chaque personne un archétype exagéré. Raconte-la ce soir."
+  },
+  {
+    "title": "Le twist final",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Le twist, c'est la technique de base du stand-up : tu amènes l'audience dans une direction et tu pivotes au dernier moment. Tout le monde s'attend à A, et tu donnes B. La clé : le twist doit être logique rétrospectivement. Quand la personne comprend, elle doit se dire 'ah oui bien sûr' tout en riant. Panayotis Pascot excelle dans ces retournements narratifs.",
+    "exemple": "\"J'ai passé 3 heures à préparer un dîner romantique. Bougies, musique, tout. Elle a adoré. Le livreur Uber Eats aussi.\" → Le twist fonctionne parce que tu croyais qu'il cuisinait.",
+    "exercice": "DÉFI TWIST : Raconte un événement de ta semaine en 3 phrases. Les 2 premières doivent orienter vers une conclusion logique. La 3ème doit aller dans la direction opposée."
+  },
+  {
+    "title": "Le week-end héroïque : vendre tes projets comme une épopée",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Transforme tes projets weekend banals en récits épiques. La technique : présente chaque étape comme un défi héroïque avec des enjeux dramatiques. Au lieu de \"je vais repeindre la chambre\", raconte \"Mission Infiltration : neutraliser les murs beiges qui terrorisent ma déco depuis 6 mois\". Ajoute des rebondissements imaginaires : \"Péripétie inattendue : rupture de stock de rouleau, négociation tendue avec le vendeur Castorama\". Cette technique fonctionne parce qu'elle révèle l'absurdité de nos weekends ultra-planifiés tout en rendant tes histoires mémorables. Comme Paul Mirabel qui transforme ses anecdotes de colocation en véritable thriller psychologique, tu donnes une dimension cinématographique à ton quotidien. L'autodérision vient naturellement : plus tu survends tes projets domestiques, plus c'est drôle.",
+    "exemple": "Au café avec tes collègues : \"Ce weekend, j'attaque l'Opération Ikea. Objectif : monter une bibliothèque sans perdre ma santé mentale. Premières complications : 47 vis identiques mais une seule bonne position. Plot twist au milieu : je réalise qu'il me manque l'outil spécial. Dénouement : 4h plus tard, la bibliothèque tient debout... mais j'ai 3 vis en rab et aucune idée d'où elles viennent.\"",
+    "exercice": "DÉFI ÉPOPÉE : Raconte ton prochain projet weekend à 3 personnes différentes en mode \"mission héroïque\". Note leurs réactions : qui rit le plus ? Adapte ton style selon ton public."
+  },
+  {
+    "title": "Le week-end héroïque : vendre tes projets comme une épopée",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Transforme tes projets week-end en récits épiques avec la technique du 'héros du quotidien'. L'idée : prendre un projet banal (bricolage, courses, ménage) et le raconter comme si tu partais à l'aventure. Utilise le vocabulaire de l'héroïsme : 'mission', 'défi', 'quête', 'boss final'. Cette technique marche parce qu'elle crée un décalage hilarant entre la banalité de l'action et la grandeur du récit. Paul Mirabel excelle dans cette approche : il transforme ses galères de trentenaire en épopées mythologiques. Le secret : rester sérieux dans ton ton pendant que tu décris ta 'noble quête'. Plus tu joues le jeu à fond, plus c'est drôle. L'autodérision vient du contraste, pas de l'ironie. Tu deviens le héros tragique de ta propre vie domestique.",
+    "exemple": "Au bureau, vendredi soir : 'Ce week-end, j'entame la Grande Quête de l'Étagère Ikea. J'ai étudié les anciens textes (la notice), rassemblé mes outils sacrés, et je compte bien vaincre le boss final : l'étape 47 où il y a toujours une vis en trop. Ma compagne sera mon écuyer fidèle, chargée de me tenir les planches pendant que j'affronte les forces obscures de l'assemblage nordique.' Tes collègues : 'Ah bon, tu montes juste une étagère ?' Toi, avec le plus grand sérieux : 'On ne MONTE pas une étagée Ikea. On la conquiert.'",
+    "exercice": "DÉFI ÉPOPÉE : Choisis UN projet de ce week-end (même aller faire les courses). Raconte-le à quelqu'un comme si c'était une mission héroïque, avec vocabulaire épique et ton sérieux. Objectif : faire sourire en restant dans ton rôle de héros du quotidien."
+  },
+  {
+    "title": "Tes corvées week-end en mission impossible",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Transforme tes week-ends les plus banals en récits d'aventure épiques. La technique : prendre une activité ordinaire et la présenter comme une mission à haut risque avec des enjeux dramatiques. Fary excelle dans cette approche quand il raconte ses galères de transport comme des odyssées. Tu gardes les vraies émotions (stress, fatigue, satisfaction) mais tu les amplifies avec un vocabulaire de film d'action. L'idée n'est pas de mentir sur ce qui s'est passé, mais de révéler l'intensité cachée de tes activités quotidiennes. Cette technique marche parce qu'elle reconnecte tes interlocuteurs avec leurs propres petites épopées du week-end. En bonus, ça transforme tes moments de solitude en aventures que tu as envie de partager, plutôt qu'en corvées dont tu n'oses pas parler. Parfait pour alimenter les conversations du lundi matin au bureau ou relancer une conversation qui s'essouffle.",
+    "exemple": "Au lieu de : « Ce week-end j'ai fait les courses et du ménage », tu dis : « Mission accomplie. Samedi 9h : infiltration réussie chez Carrefour. J'ai navigué en terrain hostile dans le rayon petit-déjeuner – chaos total, familles avec poussettes partout. J'ai récupéré les céréales de ma fille sous le feu ennemi. Dimanche : opération aspirateur. Trois heures de combat acharné contre les miettes sous le canapé. Bilan : appartement libéré, moral des troupes au beau fixe. »",
+    "exercice": "DÉFI MISSION WEEK-END : Raconte UNE activité de ton prochain week-end (courses, ménage, bricolage) comme une mission secrète. Utilise au moins 3 termes « d'opération » (infiltration, terrain hostile, mission accomplie). Teste sur un collègue lundi matin."
+  },
+  {
+    "title": "Tes galères shopping = tes meilleures anecdotes",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "La technique du \"voyage du héros en magasin\" : transforme chaque mission shopping ratée en épopée dramatique. Tu étais partie acheter UN jean, tu ressors 3h plus tard avec un coussin et une crise existentielle ? C'est de l'or comique. Structure ton récit comme une quête : l'objectif noble (\"un jean qui me va\"), les obstacles inattendus (la vendeuse qui disparaît, la cabine d'essayage qui rétrécit), la révélation finale (\"j'ai réalisé que j'étais venue sans carte bleue\"). Comme dirait Fary avec ses galères de métro : l'échec quotidien bien raconté fait toujours plus rire que la réussite.",
+    "exemple": "\"Hier j'ai vécu une épopée chez Zara. Mission : acheter une chemise blanche basique. Résultat : 2h30 plus tard, j'ai testé 47 articles, traumatisé 3 vendeuses et découvert que j'avais les bras trop courts pour la mode 2024. Je suis repartie avec... un scrunchie à 3€. Ma mère m'a demandé comment s'était passé le shopping. 'Eh bien maman, disons que j'ai exploré les limites de ma morphologie et de ma patience. Le scrunchie, c'était pour consoler mon ego.'\"",
+    "exercice": "DÉFI ÉPOPÉE SHOPPING : La prochaine fois que tu racontes une sortie shopping (même réussie), raconte-la comme une aventure épique avec un objectif, des obstacles et un dénouement. Utilise des mots dramatiques : 'quête', 'épreuve', 'révélation'. Chronomètre-toi : si ton récit dure moins de 2 minutes, tu n'es pas assez dans l'épique !"
+  },
+  {
+    "title": "Tes galères shopping = tes meilleures anecdotes",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Le shopping, c'est un terrain de jeu narratif énorme. Au lieu de juste dire « j'ai fait les magasins », transforme chaque péripétie en mini-spectacle. La technique : décompose ton parcours shopping en 3 actes comme une pièce de théâtre. Acte 1 : l'espoir naïf (« je cherche juste un jean »), Acte 2 : la descente aux enfers (les cabines d'essayage, les vendeurs, les tailles), Acte 3 : la résolution inattendue (ce que tu as vraiment acheté vs ce que tu voulais). Roman Frayssinet excelle dans cette technique : il transforme ses achats de meubles IKEA en épopée dramatique. Chaque détail pratique devient un obstacle narratif, chaque vendeur un personnage secondaire mémorable.",
+    "exemple": "Au lieu de : « J'ai fait du shopping hier. » Tu racontes : « Hier, mission simple : trouver une robe pour samedi. 14h30, j'entre confiante chez Zara. 17h45, je ressors avec des chaussettes Harry Potter et un trauma des cabines d'essayage. Entre les deux ? La vendeuse qui me dit 'ça vous va très bien' pour une robe qui me transforme en rideau de douche, et moi qui finis par négocier avec mon reflet dans le miroir. »",
+    "exercice": "DÉFI CHRONIQUEUR : La prochaine fois que tu fais du shopping, note mentalement 3 moments absurdes pendant ton parcours. Le soir même, raconte ton expédition shopping à quelqu'un en structurant : objectif initial → péripéties → résultat final inattendu."
+  },
+  {
+    "title": "Tes galères shopping = tes meilleures anecdotes",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Le secret des humoristes comme Fary ou Paul Mirabel ? Ils transforment leurs moments de honte en pépites. Pour le shopping, applique la règle des 3 détails gênants : ton état mental (\"j'étais en mode survie\"), le décor absurde (\"rayon lingerie, éclairage d'hôpital\"), et ta réaction ridicule (\"j'ai dit merci à un mannequin\"). L'astuce : raconte d'abord ce que tu PENSAIS qu'il allait se passer, puis la réalité. Ce contraste génère automatiquement le rire. Plus c'est pathétique, plus c'est drôle.",
+    "exemple": "\"Samedi, mission simple : acheter un jean. Dans ma tête, j'entre, j'essaye, je paye. Dans la réalité ? J'ai passé 45 minutes dans une cabine d'essayage à me battre contre un jean taille 36. Le pire ? Quand la vendeuse a demandé 'ça va ?' à travers le rideau, j'ai répondu 'parfait !' alors que j'avais une jambe coincée et que je respirais par la bouche.\"",
+    "exercice": "DÉFI PATHÉTIQUE : Raconte à quelqu'un ta dernière expérience shopping en mode 'avant/après' - ce que tu pensais vs ce qui s'est passé. Bonus : ajoute un détail physique gênant (transpiration, cheveux, vêtements)."
+  },
+  {
+    "title": "Transforme tes galères en aventures épiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand tu arrives en retard au bureau, ne t'excuse pas — raconte une épopée ! La technique de l'escalade cinématographique : tu prends ton pépin de transport et tu le transformes en film d'aventure. Commence par choisir un genre (thriller, survie, mission impossible) et tiens-le jusqu'au bout. Chaque détail devient dramatique : ton métro bondé = Titanic version souterraine, ta correspondance ratée = course contre la montre. L'astuce : parle avec conviction totale, comme si tu avais vraiment vécu un truc de ouf. Plus tu y crois, plus c'est drôle. Résultat : au lieu d'avoir l'air d'une personne désorganisée, tu passes pour quelqu'un qui sait transformer le quotidien en divertissement.",
+    "exemple": "Tu débarques au bureau avec 20 minutes de retard : 'Les gars, j'ai survécu à l'apocalypse ce matin. Ligne 1 fermée, détour par les catacombes de Châtelet. Dans le RER, coincée entre un mec qui sentait le fromage et une mamie avec 47 sacs. J'ai cru que j'allais mourir écrasée. Puis 15 minutes de marche sous la pluie... J'ai l'impression d'avoir traversé la Sibérie !' Tes collègues rigolent au lieu de lever les yeux au ciel.",
+    "exercice": "DÉFI ÉPOPÉE : La prochaine fois que tu as un imprévu (transport, file d'attente, bug informatique), raconte-le comme un film d'action. Choisis ton genre avant de commencer et va au bout de la métaphore."
+  },
+  {
+    "title": "Transforme tes galères shopping en pépites comiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Le shopping offre un terrain de jeu infini pour l'humour : files d'attente interminables, cabines d'essayage traumatisantes, vendeurs surjoueurs. La technique : identifier le POINT D'ABSURDITÉ de ta galère (le moment où ça devient ridicule) puis l'amplifier avec des détails sensoriels précis. Ne raconte pas juste 'j'ai eu du mal à trouver ma taille' — raconte comment tu as transformé Zara en escape game grandeur nature. L'astuce de Fary : ajouter tes pensées intérieures du moment, elles sont souvent plus drôles que les faits. Plus ton récit sonne vrai et spécifique, plus il fait rire.",
+    "exemple": "Tu racontes ta séance chez Ikea : 'J'ai mis 45 minutes à trouver les bougies. 45 MINUTES. J'ai fait le parcours complet trois fois. À un moment, j'ai seriously envisagé de demander l'asile politique au rayon literie. Une vendeuse m'a trouvée en train de dessiner un plan sur mon téléphone comme si j'étais dans un labyrinthe de Koh Lanta.' Second exemple plus court : 'Hier, essayage de jean : la fermeture éclair a rendu l'âme. Je suis restée coincée 10 minutes, j'ai appelé ma mère en urgence comme si j'étais bloquée dans un ascenseur.'",
+    "exercice": "DÉFI RÉCIT SHOPPING : Prends ta dernière expérience shopping frustrante et raconte-la en amplifiant le moment le plus absurde. Teste ton récit sur 2 personnes aujourd'hui et note leur réaction. Succès = au moins un 'j'étais dans la même situation' ou un fou rire."
+  },
+  {
+    "title": "Transformer tes galères en récits épiques",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Quand ton weekend part en vrille, ne le cache pas — transforme-le en récit d'aventure. La technique du « retournement héroïque » consiste à raconter tes échecs comme si tu étais le héros d'un film d'action qui surmonte l'impossible. Structure ton récit en 3 actes : l'objectif initial (« J'avais UN plan »), les obstacles inattendus (« Première épreuve : la perceuse qui lâche. Deuxième épreuve : Leroy Merlin fermé. Boss final : la belle-mère qui débarque sans prévenir »), et ta victoire finale même minime. La clé ? Parler de tes galères avec le même ton épique que Paul Mirabel racontant ses déboires familiaux. Tu ne subis plus tes ratages, tu les collectionnes comme des trophées d'aventurier du quotidien. Cette technique fonctionne particulièrement bien au bureau ou en soirée — tes interlocuteurs adorent les récits où quelqu'un affronte le chaos avec humour.",
+    "exemple": "Au bureau lundi matin : « Weekend tranquille ? » — « Tranquille ? J'ai vécu un film d'action ! Mission : monter une étagère IKEA. Obstacle n°1 : il manquait 3 vis. Obstacle n°2 : mon voisin qui tond sa pelouse à 8h. Plot twist final : ma mère qui appelle pendant que je tiens l'étagère à bout de bras. Résultat : l'étagère tient, ma patience a craqué, mais j'ai survécu. Je mérite un Oscar du bricolage sous pression ! »",
+    "exercice": "DÉFI WEEKEND ÉPIQUE : La prochaine fois qu'on te demande comment s'est passé ton weekend, raconte-le comme une mission impossible en 3 étapes : l'objectif initial, les obstacles rencontrés, et ta « victoire » finale même minime. Chronomètre-toi : tu dois captiver ton audience en moins de 2 minutes."
+  },
+  {
+    "title": "Vends tes projets week-end comme des missions impossibles",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "INTERMEDIAIRE",
+    "contenu": "Tu connais cette question piège du lundi matin : « Alors, bon week-end ? ». Au lieu de répondre « Oui tranquille », transforme tes activités les plus banales en missions héroïques. La technique : présente chaque corvée domestique comme si tu étais Tom Cruise dans Mission Impossible. Utilise le vocabulaire de l'action (« infiltrer », « neutraliser », « extraction »), ajoute des enjeux dramatiques (« contre la montre ») et des obstacles inattendus (« complications sur le terrain »). Fary fait ça brillamment quand il raconte ses galères de courses comme des expéditions militaires. Cette technique fonctionne parce qu'elle crée un décalage comique entre le quotidien et l'épique. En prime, ça rend tes week-ends plus intéressants à tes propres yeux.",
+    "exemple": "Collègue : « Alors, bon week-end ? » Toi : « Mission accomplie, mais ça a été chaud. Samedi, infiltration réussie chez Leroy Merlin pour récupérer la perceuse. Dimanche matin, opération délicate : extraction des enfants de leurs lits sans déclencher les pleurs. L'après-midi, neutralisation du jardin - les mauvaises herbes ont opposé une résistance farouche, mais on a tenu nos positions. » Résultat : tes collègues sourient et retiennent ton week-end, au lieu d'oublier ton « c'était bien ».",
+    "exercice": "DÉFI MISSION : Aujourd'hui, raconte UNE activité de ton prochain week-end (courses, ménage, sorties enfants) en mode « agent secret ». Utilise au minimum 3 termes d'espionnage. Objectif : faire sourire et mémoriser ton récit."
+  },
+  {
+    "title": "La blague à tiroirs",
+    "actif": false,
+    "categorie": "STORYTELLING",
+    "difficulte": "EXPERT",
+    "contenu": "La blague à tiroirs est une blague qui en contient d'autres. Tu ouvres un sujet, tu digresses sur un détail, tu fais une blague dans la digression, puis tu reviens au sujet principal pour la chute finale. C'est de l'architecture narrative avancée. Paul Mirabel est le roi de cette technique — ses spectacles sont des poupées russes comiques.",
+    "exemple": "\"L'autre jour je suis allé chez Ikea — au fait vous savez qu'Ikea ça veut dire 'tu trouveras jamais la sortie' en suédois ? — bref, j'y suis allé pour acheter une étagère et j'en suis ressorti marié, avec un chariot et un hot-dog.\"",
+    "exercice": "DÉFI TIROIRS : prends une de tes anecdotes favorites. Ajoute une digression drôle au milieu (une parenthèse, un commentaire sur un détail), puis reviens à l'histoire principale. Entraîne-toi à gérer les deux niveaux."
+  }
+]

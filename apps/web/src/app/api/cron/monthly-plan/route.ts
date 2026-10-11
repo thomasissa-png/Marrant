@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { generateMonthlyPlans } from "@/lib/ai/content-planner";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron job mensuel — déclenché le 28 de chaque mois.
@@ -14,6 +16,14 @@ export async function GET(request: Request) {
   // Refuser l'accès si CRON_SECRET n'est pas configuré ou si le token est invalide
   if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
+  // Contenu préparé à l'avance (s14) : aucune génération IA.
+  {
+    const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true" });
+    }
   }
 
   try {

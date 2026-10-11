@@ -1,0 +1,19 @@
+[N1] « Lundi, j'ai avancé 4,20 € de café pour un rendez-vous. Mardi, deux heures sur la note de frais : justificatif, justificatif du justificatif, signature. » / « Refusée : montant trop faible pour être traité. »
+[N2] « Tu hochais la tête quand on te parlait, et chacun repartait persuadé d'avoir eu raison. » / « Ce soir, quoi que je dise : hochez la tête. »
+[N3] « Dans la salle B, la prise du fond porte une étiquette : « Ne pas débrancher ». » / « Rien n'y est branché. Aucune infraction relevée depuis six ans. »
+[N4] « Le plat du jour est celui d'hier. » / « Avec le recul. »
+[N5] « Dans l'avion, on m'a demandé ce que je faisais dans la vie. J'ai répondu : je règle la température d'un immeuble de bureaux. » / « J'ai un seul bouton et trois cents spécialistes. »
+[N6] « Mon mail était irréprochable : objet clair, trois lignes, remerciements. Sous la signature, un PS. » / « Pour être précis, ce mail n'a pas été écrit à mon bureau, mais debout dans l'escalier, l'ordinateur sur l'avant-bras, comme un plateau. »
+[N7] « Ton premier jour, ta première question a été : « Où est la sortie de secours ? » Je me suis dit : voilà quelqu'un qui anticipe. » / « Ce soir, avant de prendre la parole, j'ai repéré la sortie de secours. »
+[N8] « Mardi, la machine à café a réclamé de l'eau. Je l'ai remplie, puis j'ai vidé le marc, rincé le bac et détartré le circuit, jusqu'à ce qu'elle affiche « Prêt ». » / « Je n'ai pas osé lui demander un café. »
+[N9] « L'écran de la salle 3 affiche « Libre dans 5 min ». » / « La salle est vide. Il l'affiche depuis le 3 mars. »
+[N10] « L'ascenseur s'arrête partout. » / « Il fait un tour de table. »
+[N11] « Tu terminais chacun de tes mails par « Bien à toi », même pour annoncer une panne. » / « Je ne sais pas comment finir ce discours. Alors : bien à toi. »
+[N12] « Au networking, on m'a demandé ce que je faisais dans la vie. J'ai répondu : je pilote des projets, en pratique je relance. » / « Je connais quarante manières de dire « petit rappel ». »
+[N13] « J'ai terminé mon mail par « Bonne journée », puis j'ai ajouté un PS. » / « Pour être précis, ma bonne journée reste valable jusqu'au premier mail « urgent ». »
+[N14] « Mardi, j'ai voulu réserver une salle. Le formulaire exigeait le compte rendu de la réunion, alors je l'ai rédigé d'avance : participants, décisions, prochaines étapes. » / « Réunion annulée. Compte rendu validé. »
+[N15] « Tu m'as appris la règle de la page unique : tout doit tenir sur une seule page. » / « Ce soir, j'ai respecté ta règle : une seule feuille. Recto verso. »
+[N16] « La notice plastifiée de la visio, salle du deuxième, compte quatre étapes. » / « La quatrième est « Recommencer à l'étape 1 ». Le plastique est usé à cet endroit. »
+[N17] « Au mariage d'un cousin, on m'a demandé ce que je faisais dans la vie. J'ai répondu : je relis les dossiers avant leur envoi. » / « Je suis la dernière étape, donc la première urgence. »
+[N18] « Deux réseaux wifi, aucun ne marche. » / « C'est de la redondance. »
+[N19] « Tu m'as appris à trier mes dossiers en trois piles : urgent, important, et « on verra ». » / « J'avais rangé ce discours dans la troisième. Vous voyez. »

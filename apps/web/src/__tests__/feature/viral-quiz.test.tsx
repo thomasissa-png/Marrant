@@ -7,10 +7,14 @@ import {
   computeQuizResult,
   type HumorProfileType,
 } from "@/components/quiz/quiz-data";
+import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
 }));
+
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(() => ({ data: null, status: "unauthenticated" })),
@@ -98,6 +102,21 @@ describe("ViralQuiz", () => {
     expect(foundTitle).toBe(true);
   });
 
+  it("quiz terminé : événement quiz-termine avec le profil (s15), CTA vers /register", async () => {
+    mockTrack.mockClear();
+    render(<ViralQuiz />);
+    for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
+      await userEvent.click(screen.getByText(QUIZ_QUESTIONS[i].options[0].label));
+    }
+    expect(mockTrack).toHaveBeenCalledTimes(1);
+    const [name, data] = mockTrack.mock.calls[0];
+    expect(name).toBe("quiz-termine");
+    expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
+    // s15 : plus de compte gratuit, CTA vers Premium avec retour au parcours conseillé.
+    const cta = screen.getByText("Accéder aux parcours complets").closest("a");
+    expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance)&src=quiz$/);
+  });
+
   it("shows share button on result screen", async () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
@@ -115,8 +134,10 @@ describe("ViralQuiz", () => {
         screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
       );
     }
-    expect(screen.getByText("Progresse avec ton profil")).toBeInTheDocument();
-    expect(screen.getByText("Crée ton compte gratuit")).toBeInTheDocument();
+    expect(screen.getByText("Lire la première étape gratuite")).toBeInTheDocument();
+    expect(
+      screen.getByText("Accéder aux parcours complets"),
+    ).toBeInTheDocument();
   });
 
   it("saves result to localStorage", async () => {
@@ -182,7 +203,7 @@ describe("ViralQuiz", () => {
       );
     }
     expect(screen.getByText("Ta force")).toBeInTheDocument();
-    expect(screen.getByText("Le conseil du coach")).toBeInTheDocument();
+    expect(screen.getByText("Le conseil pour progresser")).toBeInTheDocument();
   });
 });
 
@@ -294,7 +315,7 @@ describe("QUIZ_PROFILES data integrity", () => {
       expect(profile.strength).toBeTruthy();
       expect(profile.tip).toBeTruthy();
       expect(profile.color).toBeTruthy();
-      expect(profile.recommendedPath).toMatch(/^\//);
+      expect(["machine-a-cafe", "repartie", "confiance", ...(STORYTELLING_PUBLIE ? ["storytelling"] : [])]).toContain(profile.recommendedParcours);
     });
   });
 });

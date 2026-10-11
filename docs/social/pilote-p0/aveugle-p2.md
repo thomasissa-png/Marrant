@@ -1,0 +1,131 @@
+# Pilote 2 : notation à l'aveugle (s15, 06/10/2026)
+
+> 125 vannes, texte nu (amorce // chute), sans source ni note, ordre aléatoire.
+
+> Étalon (barre plancher fondateur, choix du 30/09) : « J'ai dit à Alexa de me raconter une blague. » // « Elle m'a lu mon historique de recherches. »
+
+- **B001** : Mon manager nous a fait voter pour savoir si on voulait un séminaire en juillet. // Douze contre, un pour. Il a remercié l'équipe pour son unanimité.
+- **B002** : J'ai fait trois heures de covoiturage sans prononcer un mot. // À l'arrivée, il m'a donné cinq étoiles pour la conversation.
+- **B003** : Le serveur vocal de mon opérateur m'a dit : « Dites en quelques mots ce que vous voulez ». // J'ai dit « du temps ». Il m'a transférée au service commercial.
+- **B004** : Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. // Il a zoomé. Sur le parking.
+- **B005** : Cette année, mes amies ont eu un bébé, une promotion et une maison. // Moi, j'ai trouvé un thé que j'aime vraiment.
+- **B006** : J'ai mis quarante minutes à écrire une blague dans le groupe de la promo. // Elle est arrivée trois sujets trop tard. Quelqu'un a répondu « ? ».
+- **B007** : Au cours de yoga, la prof a dit : « Imaginez l'endroit où vous vous sentez le mieux. » // J'ai imaginé le canapé. Il est chez mon ex.
+- **B008** : Dans le métro, je mets mes écouteurs pour qu'on ne me parle pas. Hier, quelqu'un m'a demandé l'heure. // Je les ai retirés. Ils n'étaient branchés sur rien.
+- **B009** : La bibliothèque m'a écrit : mon livre a trois ans de retard. // Il s'appelle « Comment être ponctuel ».
+- **B010** : Dans l'open space, un coin détente a ouvert, avec deux fauteuils. // Le premier à s'y asseoir a reçu trois dossiers.
+- **B011** : On m'a confié le compte rendu des réunions parce que j'ai « une belle écriture ». // C'est ma seule compétence officiellement reconnue.
+- **B012** : J'ai dit bonjour à un voisin dans l'ascenseur, pour sortir de ma zone de confort. // Il a répondu. Depuis, il prend l'escalier.
+- **B013** : Mon père est retraité depuis un an et me dit toujours qu'il est très pris. // Hier, il a dû raccrocher : un nuage arrivait.
+- **B014** : J'ai mis mon téléphone en silencieux pour profiter de ma soirée entre amis. // À minuit, j'ai vérifié : rien à rater. J'ai été très présente.
+- **B015** : J'ai demandé à travailler deux jours par semaine à la maison. Mon manager a dit « ça se discute ». // On en a discuté en présentiel, lors de trois réunions.
+- **B016** : À mon oral, j'ai dit « euh » vingt-quatre fois. // La prof a écrit : « beau sens du rythme ».
+- **B017** : Pour mon anniversaire, j'ai dit à mes amis « surtout, ne m'offrez rien ». // Pour la première fois, ils m'ont crue.
+- **B018** : Mon appli de livraison m'a écrit : « Vous faites partie de nos 1 % de clients les plus fidèles ». // Je l'ai transféré à ma mère. Elle a répondu « mange des légumes ».
+- **B019** : J'ai écrit à un pote « je t'appelle ce soir ». // Il a répondu « t'es sûr ? ». Il me connaît bien.
+- **B020** : Mon amie m'a envoyé un vocal de neuf minutes. Je l'ai écouté d'une oreille en rangeant la cuisine. // Elle annonçait ses fiançailles. J'ai répondu « courage ».
+- **B021** : À 3 h du matin, Netflix m'a demandé : « Vous regardez toujours ? » // C'est le seul qui s'est inquiété cette semaine.
+- **B022** : Pour ne pas boire en soirée, j'ai dit que je conduisais. Je n'ai pas le permis. // J'ai ramené quatre personnes, en métro.
+- **B023** : J'ai répété dix minutes ce que j'allais dire à la secrétaire de la fac. Elle n'a pas décroché. // J'ai fait mon discours au répondeur. Il a été très compréhensif.
+- **B024** : Mon coloc a organisé une soirée à l'appart. Je suis resté dans ma chambre, casque sur les oreilles. // À minuit, il m'a écrit « tu viens ? ». Depuis le couloir.
+- **B025** : J'ai écrit dix lignes d'excuses à une collègue pour une erreur de la semaine dernière. // Elle n'avait rien remarqué. Maintenant, elle a le dossier complet.
+- **B026** : Mon prof m'a demandé pourquoi je ne participais jamais. J'ai répondu « je réfléchis ». // Il a demandé quand il pourrait lire les conclusions.
+- **B027** : Un collègue me dit « on se prend un café » depuis deux ans. Ce matin, j'ai répondu « maintenant ? ». // Il a sorti son agenda et proposé le 14 mars.
+- **B028** : J'ai dit à ma mère que je travaillais en caisse le week-end. // Elle dit à la famille que je suis « dans la finance ».
+- **B029** : Je vais à la salle de la fac à 7 h pour éviter les gens. // On est quarante à avoir eu la même idée. Personne ne se parle.
+- **B030** : Mon oncle m'a dit « il faut réseauter ». Je me suis créé un profil LinkedIn. // Ma seule recommandation vient de mon oncle : « neveu sérieux ».
+- **B031** : Seul chez moi, je dis « à table ! » en posant le plat. // Puis je réponds « j'arrive ».
+- **B032** : Ma connexion a coupé pendant les dix dernières minutes de ma présentation. // Mon manager a dit que c'était la partie qu'il avait préférée.
+- **B033** : Ma coloc a collé un mot sur le frigo : « Pense à moi ». // C'était pour son yaourt.
+- **B034** : Je me suis promis de dire « avec plaisir » plus souvent. // Chez le dentiste, il a dit « ouvrez ». J'ai répondu « avec plaisir ».
+- **B035** : Depuis un an, j'appelle ma coloc Charlène. Elle s'appelle Charlotte. // Elle a fini par y répondre, pour ne pas me gêner.
+- **B036** : En réunion, j'ai hoché la tête quarante minutes pour avoir l'air d'avoir compris. // On m'a nommée référente, pour mon enthousiasme.
+- **B037** : Mon ami m'a dit : « Tu es plus drôle depuis la séparation ». // J'ai demandé « et avant ? ». Il a hésité.
+- **B038** : L'outil de visio a généré le résumé de la réunion : « Chloé a apporté des points essentiels ». // C'est moi. Je n'avais pas ouvert mon micro.
+- **B039** : J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches.
+- **B040** : J'ai quitté la soirée à 23 h en disant « j'ai un truc demain matin ». // C'était vrai : demain, je me remets de ce soir.
+- **B041** : Mon nouveau stagiaire a 21 ans. Je lui ai parlé de MSN pour créer du lien. // Il m'a demandé si c'était un fournisseur d'énergie.
+- **B042** : Mon meilleur ami m'a demandé d'être le parrain de sa fille. J'ai dit « pourquoi moi ? ». // Il a répondu : « Tu es toujours libre le dimanche ».
+- **B043** : Pour mon arrivée, l'entreprise m'a offert un carnet, un stylo et un mug. // Six mois plus tard, seul le mug a été rempli.
+- **B044** : Mon père m'appelle « champion » quand il a un problème informatique. // Hier, j'étais « champion du monde ». Il avait perdu son mot de passe.
+- **B045** : À chaque photo de groupe, je me place tout au fond pour ne pas déranger. // Sur celle du mariage, on voit une manche. C'est la mienne.
+- **B046** : Mon pote m'a demandé : « T'es libre samedi ? ». J'ai dit oui sans demander pourquoi. // Il déménageait. Quatrième étage, sans ascenseur, avec un piano.
+- **B047** : J'ai dit oui à tout ce week-end : un déménagement, un baptême, une brocante. // Je n'ai pas pensé à mon ex une seule fois. Ni à manger.
+- **B048** : J'ai invité mes amis pour une raclette. J'avais tout prévu pour six. // On était huit. La raclette est devenue un concept.
+- **B049** : Au restaurant, le serveur s'est excusé pour l'attente. J'ai dit « pas de souci ». // Il m'a prise au mot : une heure de plus.
+- **B050** : Mes amis m'ont dit : « Il faut te remettre sur le marché ». // J'ai demandé le tarif. Ils ont dit : « à débattre ».
+- **B051** : Au restau U, quelqu'un s'est assis à ma table habituelle. // J'ai mangé dehors, pour ne pas le déranger.
+- **B052** : Je m'étais promis de ne plus pleurer pour des bêtises. // Hier, j'ai pleuré devant une publicité de camembert.
+- **B053** : Mon amie m'a demandé de relire sa lettre de motivation. J'ai corrigé six fautes. // Elle a relu la mienne en échange. Quarante-deux fautes.
+- **B054** : Un ami m'a conseillé de « voir quelqu'un ». // J'ai pris rendez-vous chez un psy. Il m'a conseillé de voir quelqu'un.
+- **B055** : J'ai prêté tous mes livres à mes camarades de promo. // Ma bibliothèque est magnifique, chez les autres.
+- **B056** : Dans ma bio d'appli de rencontre, j'ai écrit « drôle quand je suis à l'aise ». // Mon seul match m'a demandé : « Et c'est quand ? »
+- **B057** : Quand je ne sais pas quoi répondre, je dis « ouais, c'est clair ». Un pote m'a demandé si j'avais déjà fait du parachute. // Je suis inscrit au saut de samedi.
+- **B058** : Mon coloc passe ses soirées en vocal avec des gens qu'il n'a jamais vus. // Pour lui parler, j'ai dû m'inscrire dans son jeu.
+- **B059** : Je trouve toujours la bonne répartie avec trois jours de retard. Ce matin, j'ai ri tout seul à la blague de lundi. // On était mercredi, dans le métro. Deux personnes ont changé de wagon.
+- **B060** : Depuis que je vis seul, je commente à voix haute ce que je fais. // Hier, la voisine a répondu à travers le mur.
+- **B061** : J'ai adopté un chat après la séparation. Il dort du côté de mon ex. // Il ne m'a jamais demandé où j'étais.
+- **B062** : À 1 h du matin, j'ai demandé à une IA de rédiger un message pour mon ex. // Elle m'a conseillé d'attendre demain. Elle me dit ça depuis mars.
+- **B063** : Ma mère est venue voir mon nouvel appartement, avec un grand sac. // Elle a ouvert mon frigo, puis son sac.
+- **B064** : Au cours d'improvisation, la règle est d'accepter tout ce que dit son partenaire. Le mien a dit « tu devrais partir ». // J'ai très bien joué le jeu. Je suis parti.
+- **B065** : J'ai fini mon premier 10 km après le dernier coureur. // Les bénévoles m'ont applaudi en chargeant le camion.
+- **B066** : Mon prof de tennis a dit : « À votre âge, il faut y aller doucement ». // Il a vingt-six ans. Je commence à croire qu'il sait.
+- **B067** : Ma mère m'a offert un cours de cuisine pour mon anniversaire. // Sur le bon, elle a précisé « pour une personne ».
+- **B068** : Ma tante envoie chaque matin « bonne journée » avec trois fleurs dans le groupe famille. J'ai répondu avec un seul pouce. // Elle m'a appelée pour savoir ce que j'avais contre elle.
+- **B069** : Je décale mon déjeuner à 13 h 30 pour manger seule. // Mon équipe pense que j'ai un suivi médical tous les midis.
+- **B070** : Dîner chez des amis : six couples, et moi. // On m'a placé à côté de la chaise haute. Elle a plus parlé que moi.
+- **B071** : J'ai eu mon permis au troisième essai. L'examinateur m'a félicité pour ma prudence. // Il avait repris des couleurs depuis le rond-point.
+- **B072** : Je joue au jeu de rôle avec le même groupe depuis un an. // Je connais l'inventaire de chacun, mais pas un prénom.
+- **B073** : J'ai demandé une chaise ergonomique pour mon dos. Une ergonome m'a observée travailler pendant une heure. // Elle a conclu que la chaise n'était pas le problème.
+- **B074** : Il y a six mois, j'ai dit « je te rappelle » à une amie. // C'est elle qui m'a rappelée, pour savoir si j'étais en vie.
+- **B075** : Pendant une visio, j'ai oublié de couper mon micro et j'ai dit à mon chat ce que je pensais du budget. // Le chat n'a rien dit. Le directeur financier a demandé des précisions.
+- **B076** : Au pot de l'entreprise, je suis restée derrière le buffet pour avoir l'air occupée. // À la fin, le traiteur m'a remerciée pour le service.
+- **B077** : Quand je tape « je suis », mon clavier me propose trois mots. // « Désolée », « en retard » et « bientôt là ».
+- **B078** : Il y a eu un silence pendant le dîner. Pour le casser, j'ai dit « bon... ». // Tout le monde a cherché son manteau.
+- **B079** : Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit. // Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas.
+- **B080** : On m'a offert un bon pour un massage, valable jusqu'à vendredi. // J'essaie de me détendre avant la date limite.
+- **B081** : Je suis arrivée à l'heure à une réunion, un seul jour de mars. // Mon manager l'a noté dans mon évaluation comme une tendance.
+- **B082** : Pour relancer un collègue, je suis passée de « petit rappel » à « rappel amical », puis à « je me permets de revenir vers toi ». // La prochaine étape est un huissier.
+- **B083** : Je suis toujours celui qui prend les photos de la soirée. // Sur les deux cents, j'apparais une fois : dans le reflet du miroir.
+- **B084** : À l'atelier d'écriture, j'ai lu un texte sur ma peur de parler en public. // Ils ont adoré, et m'ont demandé de le relire plus fort.
+- **B085** : Au jeu « deux vérités et un mensonge », j'ai dit trois vérités. // Elle a désigné celle où j'ai un CDI.
+- **B086** : Au Secret Santa, j'ai reconnu mon cadeau de l'an dernier, toujours dans son papier. // Il tourne dans le service depuis. Il a plus d'ancienneté que moi.
+- **B087** : J'ai rendu ma copie le premier, pour avoir l'air sûr de moi. // Dehors, on m'enviait. Moi aussi, pendant dix minutes.
+- **B088** : Mon premier rendez-vous m'a demandé « et tes passions ? ». J'ai répondu « mon chat ». // Elle a demandé s'il avait Instagram. Ils s'écrivent depuis.
+- **B089** : Mon ex m'a écrit : « Tu as encore mon écharpe ? » // J'ai répondu « non », avec son écharpe autour du cou.
+- **B090** : Au team building, on devait se laisser tomber en arrière dans les bras de l'équipe. // Ils m'ont rattrapée, après un petit temps de réflexion.
+- **B091** : J'ai la place près de la fenêtre. Chaque jour, quelqu'un me demande de l'ouvrir et quelqu'un d'autre de la fermer. // Personne ne m'a jamais demandé si j'avais froid.
+- **B092** : Une fille lit le même livre que moi à la BU. J'attends le bon moment pour lui en parler. // Elle l'a fini. Je suis toujours à la page 40.
+- **B093** : Pour travailler ma confiance, je me suis inscrit au club de débat de la fac. // J'ai été élu trésorier. Les comptes ne se débattent pas.
+- **B094** : J'ai demandé à une IA une phrase d'accroche pour une soirée. Elle a proposé « Tu viens souvent ici ? ». // Elle a précisé : « Taux de réussite, 3 % ».
+- **B095** : À la soirée d'intégration, on devait se présenter en trois mots. J'ai dit « Yanis, droit, ici ». // Tout le monde a respecté mon choix. Personne n'a posé de question.
+- **B096** : Au jeu « cite trois choses sur ton voisin de droite », je suis tombé sur mon colocataire. // J'en ai trouvé deux : son prénom et sa chambre.
+- **B097** : Avant d'écrire « ça va ? » à une fille de ma promo, j'ai préparé mes réponses. // Elle a dit « oui, et toi ? ». Je n'avais prévu que le « non ».
+- **B098** : Une collègue m'a demandé si j'avais aimé la série qu'elle m'avait conseillée. J'ai dit « oui, surtout la fin ». // Elle a répondu « moi aussi ». La série n'est pas terminée.
+- **B099** : J'ai testé la dictée vocale pour écrire mes mails. // Elle a transcrit mes soupirs. Mon manager a reçu trois soupirs et un « bon ».
+- **B100** : Pour la coloc, on m'a demandé : « Tu es plutôt bruyant ou discret ? ». J'ai dit « discret ». // J'ai eu la chambre. Ils ont mis deux semaines à remarquer que j'habitais là.
+- **B101** : Premier week-end seul en huit ans : j'ai écrit un programme de trois pages. // À 10 h 15, tout était coché. Il me restait deux jours.
+- **B102** : Pendant le débat sur le télétravail, j'ai dit « il y a du pour et du contre ». // On m'a félicitée pour ma nuance. Je pensais à mon déjeuner.
+- **B103** : J'ai signé la carte de départ de Brigitte : « Tu vas tellement me manquer ». Je ne sais pas qui est Brigitte. // Elle m'a serrée dans ses bras. Elle ne savait pas non plus qui j'étais.
+- **B104** : J'ai demandé à mes amis de choisir ma photo pour l'appli de rencontre. // Celle où je souris. Mon ex est recadrée, mais on voit sa main.
+- **B105** : Dans le groupe de projet, j'ai proposé de faire le diaporama pour ne pas avoir à parler. // Ils ont dit que le mieux placé pour le présenter, c'était moi.
+- **B106** : Je cuisine pour une personne maintenant. La recette dit « pour quatre », j'ai tout divisé par quatre. // Il me fallait un quart d'œuf. J'ai fait des pâtes.
+- **B107** : Mes premières courses pour une personne : une boîte de raviolis, un yaourt, du pain. // La caissière m'a dit « courage ».
+- **B108** : Au mariage de mon amie, les tables portaient des noms : « Famille », « Fac », « Collègues ». // J'étais à la table « Divers ».
+- **B109** : À table, mes amis parlaient d'apport et de taux. J'ai dit que j'avais pris un abonnement annuel au streaming. // Ils ont salué mon premier engagement sur le long terme.
+- **B110** : J'ai demandé à mon prof de me dispenser d'oral : « je suis timide ». // Il m'a proposé un oral en tête à tête. Quarante minutes.
+- **B111** : Je viens de refaire mon salon, sans l'avis de personne. // J'ai eu raison sur tout. Le ficus n'a pas contesté.
+- **B112** : Mon ex a annoncé qu'elle était en couple. Mon pouce a liké avant moi. // Il est plus mature que moi, ce pouce.
+- **B113** : Le prof de droit a dit « venez me voir pour toute question ». J'y suis allé après le cours. // Il m'a demandé si j'étais nouveau. Je suis dans son amphi depuis un an.
+- **B114** : En sortant d'un entretien d'embauche, j'ai croisé mon manager dans le couloir. // Il sortait d'un autre entretien. On a parlé météo.
+- **B115** : Je regarde en silence les stories d'une fille de ma promo, sans jamais réagir. // Elle m'a écrit : « Merci d'être mon plus fidèle spectateur ».
+- **B116** : Une collègue m'a convaincue de courir avec elle le midi. // À la troisième séance, elle a invité sa mère, 68 ans, « à ton niveau ».
+- **B117** : Ma banque m'a appelé pour faire le point sur mon épargne. // Le point a duré quarante secondes, dont dix de politesse.
+- **B118** : Je dis aux gens en soirée que j'étudie la physique quantique, pour éviter les questions. // Ça marche très bien. Personne ne m'a reparlé de la soirée.
+- **B119** : J'ai suivi mon colis en temps réel pendant trois jours. // Le livreur a laissé une note : « cliente très impliquée ».
+- **B120** : Je suis allé voir un spectacle d'humour tout seul pour me remettre à rire. // Mon plus gros rire a été sur la blague sur les divorcés.
+- **B121** : J'avais gardé ma meilleure anecdote de vacances pour l'afterwork. Je l'avais aussi mise en story. // Un collègue l'a racontée à ma place, en mieux.
+- **B122** : Mon patron m'a embauché comme serveur parce que j'étais « discret ». // Une table lève la main depuis vingt minutes. Je suis très discret.
+- **B123** : Mon père m'a dit « détends-toi » pendant ma leçon de conduite. // Il me l'a dit cramponné à la poignée de la porte.
+- **B124** : Mon manager a dit « on va faire simple ». // Il a présenté neuf étapes et deux annexes.
+- **B125** : Je me suis posté près de la porte de la soirée, pour pouvoir partir discrètement. // Cinq personnes m'ont tendu leur manteau.

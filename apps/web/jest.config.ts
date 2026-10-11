@@ -12,6 +12,8 @@ const config: Config = {
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
   },
+  // Helpers de test factorisés (pas des fichiers de tests).
+  testPathIgnorePatterns: ["/node_modules/", "/.next/", "<rootDir>/src/__tests__/helpers/"],
   coverageThreshold: {
     global: {
       branches: 80,

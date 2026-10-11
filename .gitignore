@@ -50,3 +50,5 @@ prisma/migrations/
 
 # Gradient Agents — local rollback backups
 .claude/agents/.backup/
+.claude/gradient-backup/
+.claude/settings.gradient.json

@@ -1,0 +1,10 @@
+# Départage C, tour 2 (à l'aveugle), audit des conseils s18
+
+Barre : étalons E2, E3, E4, E6, E7 (s14). Charte s11. Protocole : « = » seulement si les 5 critères sont vrais, sinon « < ». Le doute vaut « < ».
+
+| id | note | motif | correction si « < » |
+|---|---|---|---|
+| R029 | < | Critère 2 : la chute « Je peux tout expliquer » dans la bouche d'un chien fautif est le gag rebattu du chien qui a fait une bêtise (dog shaming). Seule la fin (les plumes sur la truffe) apporte un petit retournement, qui ne suffit pas à compenser. Le contenu explique aussi le ressort du rire (« tu parles à la place de quelqu'un qui n'a pas la parole »), ce qui est exactement ce que les étalons s'interdisent. Critère 3 : le défi est correct (critère concret : une phrase à la première personne, dite ou envoyée) mais trop chargé, avec deux scénarios imbriqués. La technique (prêter une voix au sujet) est juste. Charte respectée. | Remplacer la réplique : « Je tiens à préciser que le coussin a commencé. » (garder l'image des plumes sur la truffe dans le décor). Supprimer la phrase explicative « Le rire vient du fait que… ». Défi : garder uniquement « choisis une photo avec un animal, un enfant ou un plat, écris sa légende en une phrase à la première personne et envoie-la à quelqu'un », et retirer la variante « en direct ». |
+| R064 | = | 1 : technique claire et non banale (donner un âge humain à un objet et en tirer les conséquences), avec un usage concret (justifier avec tendresse qu'on ne change pas d'objet). 2 : « Sa coque, c'est son déambulateur » est le vrai pas de côté, non donné par le contenu (le contenu parle de ce dont l'objet a besoin, sans citer l'accessoire), non expliqué et au niveau de la chute du camembert (E3). Réserve mineure : le défi mentionne « un accessoire qui prend un autre rôle », qui effleure le mécanisme de l'exemple sans le donner. 3 : défi faisable aujourd'hui, critère explicite (un âge et une conséquence concrète). 4 : tutoiement, aucun tiret cadratin, aucune marque, le calcul est assumé « fantaisiste » (aucune donnée prétendue réelle). 5 : pas de doublon dans le lot. | |
+
+Bilan C tour 2 : 1 « = » (R064), 1 « < » (R029).

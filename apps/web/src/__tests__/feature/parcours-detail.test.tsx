@@ -1,11 +1,12 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
+import { useUserStore } from "@/stores/user-store";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
-    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} />
+    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} data-label={props.label} />
   ),
 }));
 
@@ -19,6 +20,9 @@ jest.mock("next-auth/react", () => ({
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: jest.fn() }),
 }));
+
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 // Build a mock API response based on the enriched seed structure
 const mockPathData = {
@@ -140,10 +144,10 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows total XP from seed", async () => {
+  it("visiteur : l'offre des étapes 2+ remplace la barre (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("125 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étape 2 avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -155,10 +159,10 @@ describe("ParcoursDetail — enriched content", () => {
     });
   });
 
-  it("shows Essai gratuit badge on free steps", async () => {
+  it("shows Lecture libre badge on free steps", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("Essai gratuit")).toBeInTheDocument();
+      expect(screen.getByText("Lecture libre")).toBeInTheDocument();
     });
   });
 
@@ -175,7 +179,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 should auto-expand (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
@@ -186,15 +190,15 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
   });
 
-  it("shows joke teaser with link to /vannes", async () => {
+  it("visiteur : nombre de vannes de l'étape, sans lien générique vers /vannes (s17 D4)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     // Step 1 auto-expands
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/3 vannes sélectionnées/)).toBeInTheDocument();
-    expect(screen.getByText("Découvre-les dans le catalogue")).toBeInTheDocument();
+    expect(screen.getByText(/3 vannes choisies pour cette étape/)).toBeInTheDocument();
+    expect(screen.queryByText("Découvre-les dans le catalogue")).not.toBeInTheDocument();
   });
 
   it("shows video cards with thumbnails", async () => {
@@ -202,7 +206,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+      expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     });
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Les relations amoureuses")).toBeInTheDocument();
@@ -214,7 +218,7 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
     expect(screen.getByText("Quelle est la clé d'une bonne vanne ?")).toBeInTheDocument();
@@ -226,29 +230,30 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.getByText("Voir le résultat")).toBeInTheDocument();
     await userEvent.click(screen.getByText("Voir le résultat"));
 
-    expect(screen.getByText("Parfait !")).toBeInTheDocument();
-    expect(screen.getByText("Continuer")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute." /* étalon 3.2 B, visiteur */)).toBeInTheDocument();
+    // s17 tour 1 (UXV-1-04) : plus de « Continuer » pour le visiteur, un bouton discret pour recommencer.
+    expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
+    sessionStorage.clear();
   });
 
   it("shows cross-recommendation to next parcours", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
-  it("shows sequential lock on step 2 when step 1 is not completed", async () => {
+  it("D1 s17 : visiteur, l'étape 2 est marquée « Fait partie de Premium » et s'ouvre sur l'aperçu", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
     });
-
-    // Step 2 should show lock indicator
-    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
-
-    // Step 2 header should NOT be expandable (no role=button)
-    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
-    expect(step2Header).toBeInTheDocument();
+    expect(screen.getByText("Fait partie de Premium")).toBeInTheDocument();
+    expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
+    const header = screen.getByRole("button", { name: /Étape 2 : L'art du timing social/ });
+    await userEvent.click(header);
+    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
   });
 
   it("shows error state on fetch failure", async () => {
@@ -259,16 +264,15 @@ describe("ParcoursDetail — enriched content", () => {
 
     render(<ParcoursDetail slug="nonexistent" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
     expect(screen.getByText("Voir tous les parcours")).toBeInTheDocument();
   });
 
-  it("shows progress bar", async () => {
+  it("visiteur : pas de barre de progression (elle ne peut pas bouger, s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    await waitFor(() => {
-      expect(screen.getByTestId("progress-bar")).toBeInTheDocument();
-    });
+    await screen.findByText("Pourquoi cette étape ?");
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 });
 
@@ -287,14 +291,14 @@ describe("ParcoursDetail — completed parcours CTA", () => {
     });
 
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Répartie")).toBeInTheDocument();
       expect(screen.getByText(/Passe à la répartie/)).toBeInTheDocument();
     });
   });
@@ -320,7 +324,7 @@ describe("ParcoursDetail — seed fallback", () => {
     });
 
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -331,18 +335,19 @@ describe("ParcoursDetail — seed fallback", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Should NOT show "Marquer comme terminé" button
+    // Should NOT show "Valider cette étape" button
     await waitFor(() => {
-      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+      expect(screen.getByText(/suivi de ta progression arrive bientôt/)).toBeInTheDocument();
     });
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
 });
 
 describe("ParcoursDetail — quiz gate", () => {
   it("requires quiz completion before step can be validated", async () => {
+    sessionStorage.clear();
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -362,12 +367,12 @@ describe("ParcoursDetail — quiz gate", () => {
 
     // Step 1 auto-expands, quiz is shown, button should be disabled
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz avant de valider")).toBeInTheDocument();
     });
 
     // The button should say "Termine le quiz"
     expect(screen.getByText("Termine le quiz pour valider cette étape")).toBeInTheDocument();
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
 
     // Complete the quiz
     await userEvent.click(screen.getByText("La surprise de la chute"));
@@ -376,15 +381,72 @@ describe("ParcoursDetail — quiz gate", () => {
 
     // Now the complete button should appear
     await waitFor(() => {
-      expect(screen.getByText("Marquer comme terminé")).toBeInTheDocument();
+      expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
     });
   });
 });
 
-describe("ParcoursDetail — sequential unlock for authenticated users", () => {
-  it("unlocks step 2 when step 1 is completed", async () => {
+describe("ParcoursDetail — tunnel s15", () => {
+  it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: "Voir l'offre Premium" });
+    expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+    expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
+  });
+
+  it("compte non abonné (ex-compte gratuit) : pas de bouton Valider, même lien vers Premium", async () => {
     jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
-      data: { user: { name: "Test" } },
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
+    });
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
+    expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
+  });
+
+  it("étape validée : événement parcours-etape {parcours, etape}", async () => {
+    mockTrack.mockClear();
+    sessionStorage.clear(); // quiz déjà réussi par un test précédent (mémorisé par parcours)
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "PREMIUM" } },
+      status: "authenticated",
+    });
+    const pathPayload = {
+      path: { ...mockPathData.path, id: "db-path-123" },
+      userProgress: { completedSteps: [], currentStep: 0, completedAt: null },
+    };
+    (global.fetch as jest.Mock).mockImplementation(async (_url: string, init?: RequestInit) =>
+      init?.method === "POST"
+        ? { ok: true, json: async () => ({ progress: { completedSteps: [1], currentStep: 1, completedAt: null }, xpGained: 0 }) }
+        : { ok: true, json: async () => pathPayload },
+    );
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await screen.findByText("Petit quiz avant de valider");
+    await userEvent.click(screen.getByText("La surprise de la chute"));
+    await userEvent.click(screen.getByText("Voir le résultat"));
+    await userEvent.click(screen.getByText("Continuer"));
+    await userEvent.click(await screen.findByText("Valider cette étape"));
+
+    await waitFor(() =>
+      expect(mockTrack).toHaveBeenCalledWith(
+        "parcours-etape",
+        expect.objectContaining({ parcours: "machine-a-cafe", etape: 1, etapes: 2, termine: "non" }),
+      ),
+    );
+  });
+});
+
+describe("ParcoursDetail — sequential unlock for authenticated users", () => {
+  it("unlocks step 2 when step 1 is completed (abonné Premium)", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "PREMIUM" } },
       status: "authenticated",
     });
 
@@ -415,5 +477,112 @@ describe("ParcoursDetail — sequential unlock for authenticated users", () => {
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
+  });
+});
+
+describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2 s14)", () => {
+  const progressAfterStep1 = {
+    ...mockPathData,
+    path: { ...mockPathData.path, id: "db-path-123" },
+    userProgress: { completedSteps: [1], currentStep: 1, completedAt: null },
+  };
+
+  afterEach(() => {
+    useUserStore.setState({ user: null });
+  });
+
+  it("compte gratuit : l'étape 2 affiche le bloc d'abonnement, pas le contenu", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    });
+    // Audit s16 (reco 17) : le mur de l'étape 2 est mesuré.
+    expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
+    // s17 QA-13 : pas de barre immobile pour un non-abonné.
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
+    // Retour au parcours après paiement (returnTo interne, encodé), provenance « aperçu » (D1 s17).
+    expect(screen.getByRole("link", { name: /Voir l'offre Premium/ })).toHaveAttribute(
+      "href",
+      "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-apercu",
+    );
+    // Aperçu seulement : ce qu'on apprend (D1 s17) et le format, jamais le conseil.
+    expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
+    expect(screen.queryByText("Le timing social.")).not.toBeInTheDocument();
+    expect(screen.queryByText(/vannes sélectionnées pour ce module/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
+  });
+
+  it("abonné : le contenu complet servi par l'API remplace l'aperçu du HTML ISR", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "PREMIUM" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+    const isrPath = {
+      ...progressAfterStep1.path,
+      steps: progressAfterStep1.path.steps.map((st: { order: number; tip: Record<string, unknown> }) =>
+        st.order === 1
+          ? st
+          : { ...st, moduleDetail: undefined, jokeIds: [], videos: [], quiz: [], locked: true, tip: { ...st.tip, content: "", example: "", exercise: "" } },
+      ),
+    };
+
+    render(
+      <ParcoursDetail
+        slug="machine-a-cafe"
+        initialPath={isrPath as unknown as React.ComponentProps<typeof ParcoursDetail>["initialPath"]}
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
+  });
+
+  it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...progressAfterStep1,
+        userProgress: { completedSteps: [], currentStep: 0, completedAt: null },
+      }),
+    });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
+  });
+
+  it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "FREE" } },
+      status: "authenticated",
+    });
+    useUserStore.setState({
+      user: { plan: "PREMIUM" } as unknown as ReturnType<typeof useUserStore.getState>["user"],
+    });
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => progressAfterStep1 });
+
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+
+    await waitFor(() => {
+      expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
+    });
+    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
   });
 });

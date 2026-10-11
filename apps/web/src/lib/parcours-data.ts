@@ -1,0 +1,290 @@
+/**
+ * Données d'un parcours : fusion base + seed en un seul endroit (FS-13 c),
+ * utilisée par la page `/parcours/[slug]` (ISR) et l'API `/api/parcours/by-slug`.
+ * Le seed apporte le contenu pédagogique (module, quiz, vidéos, vannes), la base
+ * l'identifiant réel (suivi de progression) et le conseil relu.
+ */
+import { prisma } from "@/lib/prisma";
+import { buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
+import { PREMIUM_PARCOURS } from "@/config/premium";
+import type { ParcoursStepPayload } from "@/lib/parcours-preview";
+import {
+  BOULOT_IMPORT,
+  PARCOURS_SEED_JSON as parcoursSeed,
+  STORYTELLING_IMPORT,
+} from "@/lib/parcours-seed";
+
+export interface SeedVideo {
+  youtubeId: string;
+  artist: string;
+  title: string;
+  why: string;
+}
+
+export interface SeedQuizQuestion {
+  question: string;
+  options: string[];
+  correctIndex: number;
+  /** Explication de la bonne réponse (à écrire par @copywriter, D5). */
+  explanation?: string;
+}
+
+export interface SeedStep {
+  week: number;
+  tipTitle: string;
+  dayNumber: number;
+  why: string;
+  moduleTitle: string;
+  moduleDetail: string;
+  moduleFormat: string;
+  moduleXp: number;
+  free: boolean;
+  jokeIds?: number[];
+  /** D4 (contrat s17) : 5 textes `content` EXACTS de vannes actives ; prioritaire sur `jokeIds`. */
+  jokeContents?: string[];
+  videos?: SeedVideo[];
+  quiz?: SeedQuizQuestion[];
+  /** s18 (Storytelling 3) : phrase de protection affichée sous le défi. */
+  exerciceProtection?: string;
+  /** s18 (D1 @ux) : durée affichée, prioritaire sur le calcul depuis `timePerWeek`. */
+  dureeTexte?: string;
+  /** s18 (D5 @ux) : titre du second défi (après la ligne vide du défi en base). */
+  exerciceSecondTitre?: string;
+  /** s18 (D5 @ux) : précision sous « Alors, ce défi ? ». */
+  retourExerciceNote?: string;
+}
+
+export interface SeedParcours {
+  slug: string;
+  title: string;
+  description: string;
+  duration: string;
+  timePerWeek?: string;
+  difficulty: string;
+  difficultyLabel?: string;
+  icon: string;
+  order: number;
+  nextParcours?: string;
+  nextParcoursReason?: string;
+  /** Spec s17 §5.5 : ordre des suites non commencées après ce parcours. */
+  nextParcoursRanking?: string[];
+  /** s18 : meta description de la page (Storytelling). */
+  metaDescription?: string;
+  personaTagline?: string;
+  testimonial?: string;
+  steps: SeedStep[];
+}
+
+export const PARCOURS_SEED = parcoursSeed as unknown as SeedParcours[];
+
+export function getSeedForSlug(slug: string): SeedParcours | undefined {
+  return PARCOURS_SEED.find((p) => p.slug === slug);
+}
+
+/** Rythme affiché (« 15 min/semaine ») : config de l'offre, sinon seed. */
+export function timePerWeekFor(slug: string): string | null {
+  return (
+    PREMIUM_PARCOURS.find((p) => p.slug === slug)?.timePerWeek ??
+    getSeedForSlug(slug)?.timePerWeek ??
+    null
+  );
+}
+
+function seedStepContent(s: SeedStep) {
+  return {
+    moduleTitle: s.moduleTitle,
+    moduleDetail: s.moduleDetail,
+    moduleFormat: s.moduleFormat,
+    moduleXp: s.moduleXp,
+    why: s.why,
+    free: s.free,
+    jokeIds: s.jokeIds ?? [],
+    jokeContents: s.jokeContents ?? [],
+    videos: s.videos ?? [],
+    quiz: s.quiz ?? [],
+    ...(s.exerciceProtection && { exerciceProtection: s.exerciceProtection }),
+    ...(s.dureeTexte && { dureeTexte: s.dureeTexte }),
+    ...(s.exerciceSecondTitre && { exerciceSecondTitre: s.exerciceSecondTitre }),
+    ...(s.retourExerciceNote && { retourExerciceNote: s.retourExerciceNote }),
+  };
+}
+
+/**
+ * Textes des vannes de l'étape : jamais envoyés au navigateur. L'abonné reçoit
+ * les vannes résolues (`jokes`), tout le monde seulement leur nombre (`jokeCount`).
+ */
+export function withoutJokeTexts<P extends { steps: ParcoursStepPayload[] }>(path: P): P {
+  return {
+    ...path,
+    steps: path.steps.map((step) => {
+      const { jokeContents, ...rest } = step as ParcoursStepPayload & { jokeContents?: string[] };
+      const jokeCount = step.locked ? 0 : jokeContents?.length || step.jokeIds?.length || 0;
+      return { ...rest, jokeCount };
+    }),
+  };
+}
+
+function seedPathExtras(seed: SeedParcours) {
+  return {
+    difficultyLabel: seed.difficultyLabel ?? null,
+    nextParcours: seed.nextParcours ?? null,
+    nextParcoursReason: seed.nextParcoursReason ?? null,
+    nextParcoursRanking: seed.nextParcoursRanking ?? [],
+    personaTagline: seed.personaTagline ?? null,
+    testimonial: seed.testimonial ?? null,
+    timePerWeek: timePerWeekFor(seed.slug),
+  };
+}
+
+export interface SeedTipText {
+  content: string;
+  example: string;
+  exercise: string;
+}
+
+/**
+ * s19 (B1 rendu itération 1) : conseils VALIDÉS portés par le fichier de contenu, par numéro
+ * d'étape, appariés au `tipTitle` de l'étape (règle unique). Ce sont les textes exacts que la
+ * tâche de démarrage écrit en base : Boulot (`_meta.conseils`, les 6 étapes) et Storytelling
+ * (`_meta.conseilsReactives`, étapes 1, 4 et 5). `parcours-seed.json` ne porte aucun conseil
+ * (ils vivent en base, retouchés depuis s17) : rien pour Machine à Café, Répartie et Confiance,
+ * jamais de texte périmé recopié d'un autre fichier.
+ */
+export function seedTipTexts(seed: Pick<SeedParcours, "slug" | "steps">): Map<number, SeedTipText> {
+  const source: Array<SeedTipText & { title: string }> =
+    seed.slug === "boulot"
+      ? BOULOT_IMPORT.conseils
+      : seed.slug === "storytelling"
+        ? STORYTELLING_IMPORT.conseilsReactives
+        : [];
+  const byTitle = new Map(source.map((c) => [c.title, c]));
+  const out = new Map<number, SeedTipText>();
+  seed.steps.forEach((s, i) => {
+    const c = byTitle.get(s.tipTitle);
+    if (c) out.set(i + 1, { content: c.content, example: c.example, exercise: c.exercise });
+  });
+  return out;
+}
+
+/**
+ * Parcours reconstruit depuis le seed seul : base absente ou en panne, ou parcours pas encore
+ * actif au moment du rendu (build qui précède l'activation au démarrage, s19). Le conseil,
+ * l'exemple et le défi viennent du fichier de contenu quand il les porte ; le HTML partagé
+ * reste réduit à l'aperçu des étapes 2+ par `redactParcoursForPlan` (D1).
+ */
+export function buildPathFromSeed(slug: string) {
+  const seed = getSeedForSlug(slug);
+  if (!seed) return null;
+  const tips = seedTipTexts(seed);
+  return {
+    id: `seed-${seed.slug}`,
+    title: seed.title,
+    description: seed.description,
+    slug: seed.slug,
+    duration: seed.duration,
+    difficulty: seed.difficulty,
+    icon: seed.icon,
+    steps: seed.steps.map((s, i) => ({
+      id: `seed-step-${i + 1}`,
+      order: i + 1,
+      dayNumber: s.dayNumber,
+      tip: {
+        id: `seed-tip-${i + 1}`,
+        title: s.moduleTitle,
+        content: tips.get(i + 1)?.content ?? s.moduleDetail,
+        category: "GENERAL",
+        difficulty: seed.difficulty,
+        example: tips.get(i + 1)?.example ?? "",
+        exercise: tips.get(i + 1)?.exercise ?? "",
+      },
+      ...seedStepContent(s),
+    })),
+    ...seedPathExtras(seed),
+  };
+}
+
+/** Enrichit un parcours lu en base avec le seed (correspondance par numéro d'étape). */
+export function enrichPathWithSeed<P extends { steps: Array<{ order: number }> }>(
+  path: P,
+  slug: string,
+): P {
+  const seed = getSeedForSlug(slug);
+  if (!seed) return path;
+  const seedStepByWeek = new Map(seed.steps.map((s) => [s.week, s]));
+  return {
+    ...path,
+    steps: path.steps.map((step) => {
+      const seedStep = seedStepByWeek.get(step.order);
+      return seedStep ? { ...step, ...seedStepContent(seedStep) } : step;
+    }),
+    ...seedPathExtras(seed),
+  };
+}
+
+/** Parcours actif lu en base, étapes triées, conseil compris. */
+export function findActivePath(slug: string) {
+  return prisma.learningPath.findUnique({
+    where: { slug, isActive: true },
+    include: {
+      steps: {
+        orderBy: { order: "asc" },
+        include: {
+          tip: {
+            select: {
+              id: true,
+              title: true,
+              content: true,
+              category: true,
+              difficulty: true,
+              example: true,
+              exercise: true,
+            },
+          },
+        },
+      },
+    },
+  });
+}
+
+type LinkableStep = ParcoursStepPayload & { tipHref?: string };
+
+/**
+ * Liens vers les fiches conseil et vidéo citées (SEO-05), sur les étapes
+ * servies en entier seulement : un aperçu verrouillé n'a ni vidéo ni lien.
+ * Vidéos actives uniquement ; erreur base = pas de lien, jamais de panne.
+ */
+export async function attachCatalogueLinks<P extends { steps: ParcoursStepPayload[] }>(
+  path: P,
+): Promise<P> {
+  const open = path.steps.filter((s) => !s.locked);
+  const youtubeIds = open.flatMap((s) =>
+    ((s.videos ?? []) as SeedVideo[]).map((v) => v.youtubeId),
+  );
+  let videoHref = new Map<string, string>();
+  if (youtubeIds.length > 0) {
+    try {
+      const rows = await prisma.video.findMany({
+        where: { youtubeId: { in: youtubeIds }, isActive: true },
+        select: { id: true, title: true, youtubeId: true },
+      });
+      videoHref = new Map(rows.map((r) => [r.youtubeId, `/videos/${buildVideoSlug(r)}`]));
+    } catch {
+      // Base indisponible : les vidéos restent lisibles, sans lien vers la fiche.
+    }
+  }
+  return {
+    ...path,
+    steps: path.steps.map((step): LinkableStep => {
+      if (step.locked) return step;
+      const isDbTip = !!step.tip?.id && !step.tip.id.startsWith("seed-");
+      return {
+        ...step,
+        ...(isDbTip && { tipHref: `/conseils/${buildTipSlug(step.tip)}` }),
+        videos: ((step.videos ?? []) as SeedVideo[]).map((v) => {
+          const href = videoHref.get(v.youtubeId);
+          return href ? { ...v, href } : v;
+        }),
+      };
+    }),
+  };
+}

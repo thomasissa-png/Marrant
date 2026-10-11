@@ -1,0 +1,166 @@
+# Audit de l'offre Premium (s14, 03/10/2026)
+
+> Auteur : @product-manager. Base : décisions Thomas du 01/10 (Premium 4,99 €/mois, annuel 39,99 €, audit de l'offre, plafond IA). Les `[CHOIX UTILISATEUR]` de `docs/founder-preferences.md` ne sont pas rouverts. Preuves au format `fichier:ligne` (chemins relatifs à `apps/web/src/`). Personas : `docs/strategy/personas.md` (Yanis principal, Sophie, Marc).
+> Limites de l'audit : 2 abonnés seulement, donc aucune donnée de conversion ni d'usage. Tout score de priorité est un jugement `[HYPOTHÈSE : à valider]`, pas une mesure. Le tool de recherche texte n'était pas disponible : les occurrences de chiffres en dur ailleurs que dans les fichiers cités restent à lister par @fullstack (voir 2.3).
+
+## 1. Verdict en 5 lignes
+
+1. Le mur payant actuel est faible : la quasi-totalité du catalogue est lisible sans compte (liste paginée rendue côté serveur + fiches publiques), et le verrou des étapes 2+ des parcours ne protège que la validation (XP), pas le contenu, qui est envoyé à tout visiteur.
+2. Les pages de vente promettent ce qui est gratuit (« contenu quotidien », « toutes les vannes », filtres) et taisent ce qui est vraiment payant (les parcours ne figurent pas dans les puces de `/abonnement`).
+3. Il n'existe aucun contenu récurrent réservé aux abonnés : les 3 parcours totalisent 13 étapes (3+4+6, soit environ 3 mois à une étape par semaine), puis plus rien de neuf. Un abonnement annuel à 39,99 € vendu avant d'avoir réglé ce point fabrique de la déception au renouvellement.
+4. La fonction IA membres (`/api/ai`) doit être coupée pour la vanne et le conseil (incompatibles avec la barre Alexa et « aucune IA ne produit seule ») ; seule l'analyse de répartie a une valeur persona forte, et elle ne se branche qu'avec plafond (15 par mois proposé) et exception validée par Thomas.
+5. Reco : catalogue ouvert (acquisition, SEO), Premium = parcours complets réellement protégés + carnet de répartie mensuel préparé + favoris, annuel lancé une fois ce contenu récurrent défini ; l'affirmation « ~2 mois offerts » est arithmétiquement fausse (39,99 € = environ 4 mois offerts) et doit être corrigée avant publication.
+
+## 2. Gratuit / Premium aujourd'hui
+
+### 2.1 Tableau des droits réels (code)
+
+| Élément | Visiteur sans compte | Compte gratuit | Premium | Preuve |
+|---|---|---|---|---|
+| Vanne, conseil, vidéo du jour | Oui | Oui | Oui | `app/api/daily/route.ts:16-37` (aucun contrôle de plan) |
+| Liste vannes interactive | 10 vannes | 10 vannes | Toutes | `app/api/jokes/route.ts:42,76,108` ; bandeau `components/vannes/vannes-list.tsx:198-218` |
+| Liste conseils interactive | 3 | 3 | Tous | `app/api/tips/route.ts:41,67,99` |
+| Liste vidéos interactive | 3 | 3 | Toutes | `app/api/videos/route.ts:40,58,120` |
+| Catalogue complet en HTML (liste paginée + fiches) | Oui, tout le catalogue actif | Oui | Oui | `lib/catalogue-pages.ts:20-23` (« Données PUBLIQUES »), `components/vannes/vannes-list.tsx:432-441` (pagination sur le total serveur), `app/(dashboard)/vannes/page.tsx:72,116` |
+| « À toi de jouer » (vanne), exercice (conseil), apprentissages (vidéo) | Non (CTA compte) | Oui | Oui | `components/vannes/how-to-apply-gate.tsx:18-38`, `lib/catalogue-pages.ts:152,188` |
+| Filtre par catégorie (vannes) | Verrouillé (UI) | Verrouillé (UI) | Oui | `components/vannes/vannes-list.tsx:221-246` ; mais l'API accepte `category` et `q` pour tous : `app/api/jokes/route.ts:45-61` ; pages thème publiques : `vannes/page.tsx:116` |
+| Favoris (ajout) | Non | Non (403) | Oui | `app/api/favorites/route.ts:48-58` |
+| Parcours, étape 1 | Lecture | Lecture + validation + XP | Idem | `lib/parcours-access.ts:13`, `components/parcours/parcours-detail.tsx:492` |
+| Parcours, étapes 2+, contenu | **Envoyé à tous** (masqué à l'écran) | **Envoyé à tous** | Affiché | `app/api/parcours/by-slug/[slug]/route.ts:128-181` (aucun filtrage), `app/(dashboard)/parcours/[slug]/page.tsx:227-264` (`initialPath` complet dans la page), masquage seulement dans `parcours-detail.tsx:600-610` |
+| Parcours, étapes 2+, validation (XP, progression) | Non | Non (403) | Oui | `app/api/parcours/[id]/progress/route.ts:107-120` |
+| Fonction IA membres | Non | Non (403) | API seule, aucune interface | `app/api/ai/route.ts:67-72`, quota `:79` |
+| Formule annuelle | N/A | N/A | N/A | Absente : un seul `PREMIUM_PRICE_ID` (`lib/stripe.ts:24`), un seul article au checkout (`lib/stripe.ts:96-101`), page mensuelle seule (`app/(dashboard)/abonnement/page.tsx:101-103`) |
+
+Ce que voit l'utilisateur : le compte gratuit affiche 10 vannes puis des cartes floutées « Débloquer » (`vannes-list.tsx:382-413`), mais un clic sur « Page dédiée » ou un passage par Google donne accès à toute vanne. Pour les parcours, l'étape 2 s'ouvre sur « Cette étape fait partie de l'accès complet : la première est offerte » (`parcours-detail.tsx:603`) avec un bouton vers `/abonnement`, page qui ne cite pas les parcours.
+
+### 2.2 Promesses des pages vs réalité (écarts = risques)
+
+| # | Promesse (preuve) | Réalité | Risque |
+|---|---|---|---|
+| E1 | « Contenu quotidien : vanne + conseil + vidéo chaque jour » listé comme avantage payant (`abonnement/page.tsx:134-140`, `components/premium/premium-modal.tsx:85-91`) | Public pour tous (`api/daily/route.ts:16-37`) ; contenu désormais préparé par calendrier trimestriel (CHOIX 30/09) | Promesse payante gratuite : l'abonné ne voit aucune différence. Atteinte à la confiance. |
+| E2 | « Toutes les vannes / tous les conseils / toutes les vidéos » (`abonnement/page.tsx:110-133`, `premium-modal.tsx:55-78`) | Tout est lisible en fiches publiques ; le verrou ne porte que sur la liste interactive | L'argument central de l'achat est contournable en un clic. Faible valeur perçue. |
+| E3 | Les parcours sont absents des puces de `/abonnement` (`abonnement/page.tsx:109-154`) et de la modale (`premium-modal.tsx:54-92`), alors que `components/marketing/premium-paywall.tsx:111,155` les cite | C'est le seul contenu réellement différenciant pour Yanis (répartie guidée) | Le visiteur qui clique « S'abonner » depuis une étape 2 arrive sur une page qui ne parle pas de ce qu'il cherche. Perte de conversion directe. |
+| E4 | « Filtres avancés : catégorie, niveau, recherche » (`abonnement/page.tsx:144-146`, `premium-modal.tsx:79-84`) | Pas de filtre « niveau » dans les vannes (`vannes-list.tsx:44-58`) ; `recherche` et `category` ouverts côté API ; pages thème publiques | Promesse en partie inexistante, en partie gratuite. |
+| E5 | Compteurs « 550+ autres vannes » codé en dur (`app/(dashboard)/vannes/[slug]/page.tsx:93-94`) ; chiffres du CHOIX 29/09 « 550+ vannes, 350+ conseils » | Catalogue actif = 125 vannes validées (CHOIX 30/09), conseils ~109 | Chiffre faux sur toutes les fiches vannes (SEO + confiance). Les compteurs dynamiques (`lib/content-stats-server.ts:38-42`) se corrigent seuls, pas les textes en dur. |
+| E6 | « Sans engagement, annule en 1 clic depuis ton profil » (`lib/faqs.ts:28-31`) | Portail Stripe présent (`app/api/stripe/portal/route.ts`, `lib/stripe.ts:115-124`) ; le bouton du profil n'a pas été vérifié dans cet audit | À confirmer par @qa avant de garder la promesse. |
+| E7 | Promesse historique « nouveaux contenus chaque semaine » (cible Marc : variété) | Rien de neuf réservé aux abonnés ; blog hebdomadaire gratuit | Churn probable après les 13 étapes ; annuel exposé. |
+| E8 | Textes d'erreur de l'API IA : « générations IA », « L'IA fait une petite pause » (`api/ai/route.ts:83,117`) | CHOIX 06/05 : aucune mention d'IA dans les contenus | À réécrire si la fonction est branchée. |
+
+### 2.3 Chiffres en dur et alignement
+
+Actions à confier à @fullstack (sans modifier sans GO de Thomas, CHOIX 29/09 « aucun chiffre retiré sans GO ») : lister toutes les occurrences de « 550+ », « 350+ », « 290+ », « 60+ », « 80+ » dans `src/`, `docs/content/`, `llms-content.ts`, FAQ et articles ; `project-context.md:34` cite encore « 290+ vannes, 60+ conseils, 80+ vidéos ».
+Hors périmètre Premium mais signalé : `vannes/page.tsx:155` et `conseils/page.tsx:139` nomment des humoristes, ce qui contredit le CHOIX 30/09 « zéro humoriste nommé » (exception : fiches vidéo).
+
+## 3. Valeur Premium recommandée
+
+Principe (CHOIX 06/05 : « produit qui s'apprend, pas qui se vend ») : on ne vend pas l'accès à des pages que Google montre déjà ; on vend la progression guidée et ce qui est préparé exprès pour les abonnés. Pas de hook de surveillance du type « tu as touché la limite ».
+
+### 3.1 Reste gratuit (acquisition, SEO)
+
+- Fiches vannes, conseils, vidéos et listes paginées (déjà indexées, une partie du trafic « devenir drôle »).
+- Contenu du jour (vanne, conseil, vidéo), blog hebdomadaire, quiz humour, glossaire, anatomie d'une vanne.
+- Étape 1 de chaque parcours, contenu complet, avec validation et XP (preuve de valeur avant paiement).
+- Compte gratuit : « À toi de jouer », exercices des conseils, apprentissages des vidéos (déjà le cas).
+- Filtre par catégorie et recherche : à ouvrir à tous (déjà accessibles par les pages thème et par l'API, un verrou visible agace sans rien protéger).
+- Plafonds 10/3/3 des listes interactives : à lever (voir décision D1). Ils ne protègent aucun contenu et abîment la première impression de Yanis.
+
+### 3.2 Devient réellement payant
+
+| Priorité | Élément | Persona servi | Impact (1-3) x Confiance | Pourquoi |
+|---|---|---|---|---|
+| P0 | Parcours, étapes 2+ : contenu retiré côté serveur pour les non-abonnés (titres, XP et « pourquoi » gardés comme aperçu, étape 1 intacte) | Yanis (répartie), Sophie (machine à café), Marc (confiance) | 3 x 80 % `[HYPOTHÈSE]` | Seule offre structurée que rien d'autre ne remplace ; aujourd'hui contournable (2.1). |
+| P0 | Puces de vente réécrites autour des parcours (voir 3.4) | Tous | 3 x 90 % `[HYPOTHÈSE]` | Corrige E1 à E4. |
+| P1 | Carnet de répartie mensuel préparé : 30 situations réalistes par lot (coloc, soirée, machine à café, groupe WhatsApp), chacune avec 3 réponses de niveaux croissants et le mécanisme expliqué, validées à l'aveugle (2 relecteurs, barre étalons) | Yanis, Sophie | 3 x 70 % `[HYPOTHÈSE]` | Contenu récurrent qui manque (E7), 100 % préparé (CHOIX 01/10), utile le soir même. Sert aussi de substitut à l'IA (section 4, option C). |
+| P1 | Favoris organisés en carnet « à ressortir » (déjà payants) | Sophie | 2 x 80 % `[HYPOTHÈSE]` | Besoin cité : blagues prêtes à ressortir. À garder, à nommer comme tel. |
+| P2 | Suivi de progression et streak visibles sur tous les parcours avec un rappel doux | Yanis | 2 x 60 % `[HYPOTHÈSE]` | Progression mesurable = promesse du produit. Discovery avant de spécifier. |
+| P2 | Parcours recommandé selon le profil (Marc : « recommandations personnalisées ») | Marc | 2 x 50 % `[HYPOTHÈSE]` | Vérifier d'abord ce que fait déjà `lib/parcours-orientation.ts` (non lu dans cet audit). |
+| P3 | Analyse de répartie à la demande (section 4) | Yanis | 3 x 40 % `[HYPOTHÈSE]` | Fort mais soumis à l'exception IA et à une éval. |
+| P3 | Nouveau parcours à terme | Tous | 3 x 50 % `[HYPOTHÈSE]` | Rallonge la durée de vie après les 13 étapes. Produit en lot avec Thomas. |
+
+Priorité par valeur persona, pas par effort. Le seul champ qui manque vraiment pour tenir un abonnement annuel est le P1 récurrent.
+
+### 3.3 Ce qui manque (hors tableau)
+
+- Un moyen de voir ce qu'on achète avant de payer : aperçu des étapes 2+ (titre, durée, XP, « pourquoi cette étape »).
+- Une explication de la perte d'accès à la résiliation (règle PM : livrables liés à l'abonnement actif). `/abonnement` dit que l'accès reste actif jusqu'à la fin de la période (`abonnement/page.tsx:197-199`) ; le sort de la progression et des favoris après résiliation n'est écrit nulle part dans le code lu. Juridique laissé en l'état (CHOIX 29/09) : on documente côté produit seulement, Thomas décide s'il l'affiche.
+- La formule annuelle : second prix Stripe, choix mensuel/annuel au checkout (`lib/stripe.ts:92-107`), bascule sur `/abonnement`, prise en charge par le webhook (`app/api/stripe/webhook/route.ts`, non relu) ; parité boutiques mobiles à vérifier côté RevenueCat (`app/api/iap/revenuecat-webhook/route.ts`) `[HYPOTHÈSE : l'annuel doit exister dans les deux boutiques pour que le prix reste cohérent]`.
+- Les 2 abonnés à 0,99 € à vie (CHOIX 01/10) : ne jamais migrer ; vérifier qu'ils accèdent aussi aux nouveautés Premium.
+
+### 3.4 Textes proposés (sans tiret cadratin, tutoiement, zéro humoriste, zéro mention d'IA)
+
+Puces de `/abonnement` et de la modale, à valider par Thomas :
+- « Tous les parcours, de la première à la dernière étape : exercices, vidéos et quiz pour avoir de la répartie, à ton rythme »
+- « Chaque mois, un carnet de 30 situations de répartie avec des réponses prêtes à tester »
+- « Tes favoris rangés dans un carnet, pour ressortir la bonne vanne au bon moment »
+- « Ton XP et ta progression gardés d'un parcours à l'autre »
+Mention annuelle : « 39,99 € par an, soit environ 3,33 € par mois ». Retirer « ~2 mois offerts » : 12 x 4,99 € = 59,88 €, donc 39,99 € revient à environ 4 mois offerts (-33 %), pas 2.
+Message du verrou d'étape 2 : « La première étape est offerte. Les suivantes font partie du parcours complet : tu vois déjà ce qu'elles t'apprennent, tu les débloques quand tu veux. »
+
+### 3.5 Hypothèses critiques (extrait pour `assumption-map.md`)
+
+| Hypothèse | Preuve | Test | Statut |
+|---|---|---|---|
+| Les parcours 2+ suffisent à déclencher l'achat | Aucune (2 abonnés de lancement à 0,99 €) | Mesurer clic sur étape 2 verrouillée, arrivée sur `/abonnement`, démarrage du paiement | À instrumenter |
+| Lever les plafonds 10/3/3 ne fait pas chuter la conversion | Aucune (conversion jamais mesurée, plafond contournable) | Comparer avant/après sur le même parcours d'entrée | À tester après D1 |
+| Un carnet mensuel retient au-delà de 3 mois | Aucune | Interview des abonnés actifs + usage du carnet | À valider |
+| Le prix de 4,99 € est perçu juste avec les nouvelles puces | Aucune | Taux de passage `/abonnement` vers paiement | À suivre |
+| Un abonné annuel renouvelle | Aucune | Taux de renouvellement à 12 mois, donc long : surveiller usage mensuel | Risque connu |
+
+Events Umami à créer (pour @data-analyst) : `step_locked_view`, `abonnement_view` (propriété `origine`), `checkout_start` (propriété `formule` : mensuel ou annuel), `checkout_success`, `carnet_open`, `favorite_blocked_view`.
+
+## 4. Sort de la fonction IA membres (`/api/ai`)
+
+### 4.1 État des faits
+
+- Trois types : `joke`, `tip`, `repartee` (`app/api/ai/route.ts:20-41`). Réservé Premium (`:67-72`), quota persistant de 30 par jour (`:11-15,79`), coupe-circuit budget (`:114-120`). Aucune interface ne l'appelle : elle n'apporte aucune valeur aujourd'hui et ne coûte que si un abonné l'appelle à la main.
+- Conflits avec les CHOIX : `joke` et `tip` produisent un contenu non relu, au fil de l'eau, donc contraire à « aucune IA ne produit seule » (01/10), à la barre Alexa (30/09) et à la relecture à l'aveugle. `repartee` est interactif et personnalisé : il ne peut pas être préparé à l'avance, donc c'est la seule des trois qui pourrait relever d'une exception.
+- Les textes d'erreur citent l'IA (E8).
+
+### 4.2 Économie (calcul, coût par appel donné : 0,017 $)
+
+Hypothèse de calcul `[HYPOTHÈSE : 1 $ = 1 €, à ajuster au taux réel ; TVA non prise en compte, à confirmer par Thomas]`. Frais Stripe : 0,25 € + 1,5 %.
+
+| Plan | Prix | Frais Stripe | Net par mois | Coût IA à 30/jour (900 appels = 15,30 $) | Coût IA à 15/mois (0,255 $) |
+|---|---|---|---|---|---|
+| Mensuel | 4,99 € | 0,32 € | 4,67 € | 328 % du net, perte d'environ 10,6 € par membre actif | 5,5 % du net |
+| Annuel | 39,99 € | 0,85 € | 3,26 € (39,14 € / 12) | 469 % du net | 7,8 % du net |
+| Lancement (2 abonnés, à vie) | 0,99 € | 0,26 € | 0,73 € | environ 21 fois le net | 35 % du net |
+
+Le quota actuel (30 par jour) couvre donc mal le prix : un seul membre très actif transforme un abonnement en perte.
+
+### 4.3 Options
+
+| Option | Contenu | Pour | Contre |
+|---|---|---|---|
+| A. Désactiver | Réponse 410 pour `joke` et `tip`, kill-switch pour `repartee` | Coût nul, cohérent avec tous les CHOIX, zéro risque de qualité | Perd une idée forte (analyse sur situation perso) |
+| B. Brancher avec plafond | Interface « décris ta situation, reçois une analyse », plafond mensuel | Seule fonction vraiment personnalisée (Yanis : répondre du tac au tac ; Marc : recommandations personnalisées) | Sortie non relue, besoin d'une éval, exception à valider, texte à ne jamais attribuer à une IA, risque de dérive de ton |
+| C. Remplacer par du contenu préparé | Carnet de répartie mensuel (3.2, P1) : situations, réponses graduées, mécanisme | Qualité garantie, coût API nul, récurrent, conforme aux CHOIX | Pas personnalisé |
+
+### 4.4 Recommandation
+
+1. **Maintenant** : A pour `joke` et `tip` (suppression de ces deux types de l'API, aucune génération de vanne ou de conseil non relue). Kill-switch `AI_MEMBER_ENABLED`, désactivé par défaut, pour `repartee`, sur le modèle de `CONTENT_GENERATION_ENABLED`.
+2. **Valeur répartie d'abord par C** : le carnet préparé est livré avant toute ouverture de B.
+3. **B limité à `repartee`, seulement après GO d'exception de Thomas** et après éval. Plafond proposé : **15 analyses par mois et par membre** (fenêtre mensuelle, plus quotidienne), soit 0,255 $ par membre et par mois au maximum. Règle de calcul : coût IA du plafond inférieur ou égal à 10 % du net du plan plein tarif le moins rentable (annuel : 0,33 € soit 19 appels ; 15 laisse de la marge). Exposition globale : nombre d'abonnés x 15 x 0,017 $ ; à environ 200 abonnés (1 000 € de MRR visé) et plafond atteint par tous, environ 51 $ par mois. Les 2 abonnés de lancement : exposition maximale 0,51 $ par mois au total, acceptée.
+4. Spécification pour @fullstack et @ia : `AI_USER_MONTHLY_LIMIT` (défaut 15) remplace `AI_USER_DAILY_LIMIT` ; garder le coupe-circuit budget (`lib/ai/budget-guard.ts`) ; garder la limite de 10 requêtes par minute (`api/ai/route.ts:54`) ; réécrire les messages sans mention d'IA.
+5. Critère de qualité mesurable (@ia) : jeu de 20 situations rédigées avec Thomas ; 2 relecteurs aveugles notent chaque sortie sur la grille des étalons conseils (E2, E3, E4, E6, E7) ; 0 humoriste nommé, 0 tiret cadratin, 0 mention d'IA, tutoiement, aucune moquerie du membre ; seuil de réussite à fixer par @ia et Thomas `[HYPOTHÈSE : seuil non défini]`. Si le seuil n'est pas atteint, B n'ouvre pas.
+6. Comportements d'échec à spécifier : (a) erreur ou délai dépassé : « L'analyse n'a pas abouti. Réessaie dans un instant, ou pioche une situation dans le carnet. » (b) refus (propos haineux, hors sujet) : « Cette situation, on ne peut pas la travailler ici. Décris-en une autre, plus légère. » (c) plafond atteint : « Tu as utilisé tes 15 analyses du mois. Elles reviennent le 1er, et le carnet est là en attendant. » (d) budget global dépassé : message générique et repli sur le carnet.
+7. Point de périmètre à faire confirmer par Thomas (une ligne, pas une remise en cause) : le CHOIX 06/05 couvre « contenu » et « signature » ; ici le membre dialogue avec l'outil. Thomas confirme si la règle s'applique aussi à cet écran, et le texte de l'interface en découle.
+
+## 5. Décisions à faire trancher par Thomas (5)
+
+| # | Décision | Reco |
+|---|---|---|
+| D1 | Modèle payant : (A) garder les plafonds 10/3/3 et les filtres verrouillés, ou (B) catalogue ouvert (plafonds et filtre catégorie levés) et Premium = parcours complets protégés côté serveur + carnet mensuel + favoris | **B.** Les plafonds ne protègent rien (fiches publiques) et agacent ; la valeur payante devient lisible. Hypothèse de conversion non mesurée, à instrumenter (3.5). |
+| D2 | Fonction IA membres : couper `joke` et `tip` maintenant ; `repartee` : exception interactive oui ou non | **Couper `joke` et `tip` maintenant ; exception oui pour `repartee` seulement**, plafond 15 par mois, après éval et après livraison du carnet. Sinon C seule. |
+| D3 | Annuel 39,99 € : date d'ouverture et texte | **Ouvrir quand le premier carnet mensuel est publié**, sinon on vend 12 mois pour environ 3 mois de contenu. Texte « soit environ 3,33 € par mois » ; retirer « ~2 mois offerts » (c'est environ 4 mois offerts). Prix inchangé. |
+| D4 | Contenu récurrent Premium : format et cadence | **Carnet de répartie mensuel de 30 situations**, validé à l'aveugle (2 relecteurs), préparé en lot comme vannes et blog. La cadence dépend de ta capacité de relecture : une passe a déjà validé 95 vannes neuves. |
+| D5 | GO pour aligner les promesses fausses (CHOIX 29/09 : aucun chiffre retiré sans GO) | **GO** : « 550+ » en dur dans les fiches vannes (`vannes/[slug]/page.tsx:93-94`) à passer sur le compteur dynamique ; retirer « Contenu quotidien » et « Filtres avancés » des puces payantes ; ajouter les parcours aux puces ; réécrire le message de l'étape 2 (3.4). |
+
+## Handoff
+
+- @fullstack : protéger les étapes 2+ côté serveur (`api/parcours/by-slug`, `parcours/[slug]/page.tsx`), couper `joke` et `tip` dans `api/ai`, kill-switch, fenêtre mensuelle, prix annuel Stripe + choix au checkout, liste des chiffres en dur.
+- @copywriter (après calibrage de 3 à 5 étalons avec Thomas, règle P0 s8) : puces, mention annuelle, message de verrou.
+- @ux : écran `/abonnement` (puces, bascule mensuel/annuel, aperçu des étapes 2+), états des cartes verrouillées.
+- @data-analyst : events de 3.5. @ia : éval de 4.4. @qa : bouton de résiliation du profil (E6), parcours anonyme vers `/abonnement`.
+- Non rouvert : prix 4,99 € et 39,99 €, abonnés à 0,99 € à vie, aucune mention d'IA, aucun fondateur nommé.
+- Reste à vérifier (non lu dans cet audit) : `api/stripe/webhook`, bouton de résiliation du profil, `lib/parcours-orientation.ts`, filtres niveau des conseils et vidéos.

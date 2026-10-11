@@ -6,11 +6,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/ui/progress-bar";
+import { progressionParcoursLabel } from "@/config/textes/accessibilite";
 import { StreakCounter } from "@/components/ui/streak-counter";
 import { useUserStore } from "@/stores/user-store";
 import { USER_LEVELS } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
 import Link from "next/link";
+import { buildLoginUrl } from "@/lib/auth-links";
+import { PARCOURS_MIN_WEEKS } from "@/config/premium";
+import { AbonnementCard } from "@/components/profil/abonnement-card";
+import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
+import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
+import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
+import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -53,25 +61,9 @@ export function ProfilDashboard() {
   const { status } = useSession();
   const { user, isLoading, fetchUser } = useUserStore();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [isPortalLoading, setIsPortalLoading] = useState(false);
   const [parcoursProgress, setParcoursProgress] = useState<ParcoursProgress[]>([]);
-
-  const handlePortal = async () => {
-    setIsPortalLoading(true);
-    try {
-      const res = await fetch("/api/stripe/portal", { method: "POST" });
-      if (res.ok) {
-        const data = await res.json();
-        window.location.href = data.url;
-      } else {
-        toast("Erreur lors de l'accès au portail", "error");
-      }
-    } catch {
-      toast("Connexion perdue, réessaie", "error");
-    } finally {
-      setIsPortalLoading(false);
-    }
-  };
+  // Résumé d'abonnement lu une fois, partagé par les cartes Abonnement et Suppression (lot G).
+  const abonnement = useSubscriptionSummary(status === "authenticated");
 
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
@@ -81,7 +73,9 @@ export function ProfilDashboard() {
         const data = await res.json();
         window.location.href = data.url;
       } else {
-        toast("Erreur lors de la création du paiement", "error");
+        // s16 : message du serveur s'il existe (ex. abonnement déjà en cours, 409).
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        toast(data.error ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       toast("Connexion perdue, réessaie", "error");
@@ -114,7 +108,7 @@ export function ProfilDashboard() {
           <p className="mt-4 text-lg font-medium text-text-primary">
             Connecte-toi pour voir ton profil
           </p>
-          <Link href="/login" className="mt-4">
+          <Link href={buildLoginUrl({ callbackUrl: "/profil" })} className="mt-4">
             <Button variant="primary" size="sm">
               Se connecter
             </Button>
@@ -141,9 +135,15 @@ export function ProfilDashboard() {
 
   const levelInfo = USER_LEVELS[user.level as keyof typeof USER_LEVELS] ?? USER_LEVELS.NOVICE;
   const progress = getXpProgress(user.xp, user.level);
+  // Progression, série, statistiques et parcours suivis = Premium (s15
+  // §1.1). Hors abonnement, rien n'est effacé en base : seul l'affichage change.
+  const isPremium = user.plan === "PREMIUM";
+  const parcoursEnCours = isPremium && parcoursProgress.some((p) => !p.completedAt && p.completedSteps < p.totalSteps);
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
+      {isPremium && (
+        <>
       {/* Niveau & XP */}
       <Card>
         <CardHeader>
@@ -164,55 +164,58 @@ export function ProfilDashboard() {
             showPercentage
             variant="gradient"
           />
+          {/* s17 tour 1 (UXV-1-09) : « Premiers XP » seulement au premier niveau. */}
           <p className="mt-2 text-xs text-text-muted">
             {progress.value >= progress.max
-              ? "Tu as atteint le sommet, légende !"
+              ? PROGRESSION_NIVEAU.max
               : progress.value / progress.max >= 0.75
-                ? "Tu y es presque, dernier effort !"
+                ? PROGRESSION_NIVEAU.presque
                 : progress.value / progress.max >= 0.25
-                  ? "Bien joué, continue comme ça !"
-                  : "Tu démarres fort, continue !"}
+                  ? PROGRESSION_NIVEAU.milieu
+                  : user.level === LEVEL_ORDER[0]
+                    ? PROGRESSION_NIVEAU.debut
+                    : PROGRESSION_NIVEAU.nouveauNiveau(levelInfo.label)}
           </p>
         </CardContent>
       </Card>
 
-      {/* Streak */}
+      {/* Série (s17 tour 1, DES-1-03 / DES-1-09 : titre français, carte resserrée) */}
       <Card>
         <CardHeader>
-          <CardTitle>Streak</CardTitle>
+          <CardTitle>{SERIE.titre}</CardTitle>
         </CardHeader>
-        <CardContent className="flex items-center justify-center py-4">
+        <CardContent className="flex items-center justify-center py-2">
           <StreakCounter count={user.streak} />
         </CardContent>
       </Card>
 
-      {/* Statistiques */}
-      <Card>
+      {/* Statistiques (s17 tour 1, DES-1-09 : pleine largeur, plus de trou dans la grille) */}
+      <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle>Statistiques</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-4">
             <div>
-              <p className="text-2xl font-bold text-accent-primary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.jokesRead}
               </p>
               <p className="text-xs text-text-muted">Vannes lues</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-secondary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.tipsCompleted}
               </p>
               <p className="text-xs text-text-muted">Conseils terminés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-primary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.totalFavorites}
               </p>
               <p className="text-xs text-text-muted">Favoris sauvegardés</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-accent-secondary">
+              <p className="text-2xl font-bold text-accent-link">
                 {user.stats.pathsCompleted}
               </p>
               <p className="text-xs text-text-muted">Parcours terminés</p>
@@ -237,7 +240,7 @@ export function ProfilDashboard() {
           {parcoursProgress.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <p className="text-sm text-text-secondary">
-                Tu n&apos;as pas encore commencé de parcours.
+                Tu n&apos;as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t&apos;y habituer.
               </p>
               <Link href="/parcours">
                 <Button variant="primary" size="sm" className="mt-3">
@@ -272,6 +275,7 @@ export function ProfilDashboard() {
                         value={p.completedSteps}
                         max={p.totalSteps}
                         variant={isDone ? "gradient" : "primary"}
+                        ariaLabel={progressionParcoursLabel(p.title, p.completedSteps, p.totalSteps)}
                       />
                       <p className="mt-1 text-xs text-text-muted text-right">{pct}%</p>
                     </div>
@@ -283,7 +287,14 @@ export function ProfilDashboard() {
         </CardContent>
       </Card>
 
-      {/* Prochaine étape — recommandation personnalisée */}
+      {/* s17 tour 1 (UXV-1-02, DES-1-08) : rappel juste sous « Mes parcours » (rien si le compte n'y a pas droit). */}
+      <RappelParcoursToggle className="md:col-span-2" />
+        </>
+      )}
+
+      {/* Prochaine étape : recommandation personnalisée. s17 tour 1 (UXV-1-09) : masquée quand
+          un parcours est en cours, « Reprendre ton parcours » (en tête de page) suffit. */}
+      {!parcoursEnCours && (
       <Card className="md:col-span-2">
         <CardHeader>
           <CardTitle>Prochaine étape</CardTitle>
@@ -293,9 +304,9 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted < 3 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Apprends les bases</p>
+                  <p className="font-semibold text-accent-link">Apprends les bases</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Commence par les conseils de répartie et de timing, les fondamentaux pour être à l&apos;aise.
+                    Commence par la répartie et le timing : les deux réflexes qui changent le plus vite une conversation.
                   </p>
                 </div>
               </Link>
@@ -303,9 +314,9 @@ export function ProfilDashboard() {
             {user.stats.jokesRead < 10 && (
               <Link href="/vannes" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Enrichis ton répertoire</p>
+                  <p className="font-semibold text-accent-link">Enrichis ton répertoire</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Lis des vannes par catégorie et sauvegarde celles que tu veux ressortir.
+                    Pioche des vannes par situation et garde de côté celles que tu te vois déjà ressortir.
                   </p>
                 </div>
               </Link>
@@ -313,9 +324,9 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
               <Link href="/parcours" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Lance-toi dans un parcours</p>
+                  <p className="font-semibold text-accent-link">Lance-toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases ! Choisis un parcours structuré pour progresser étape par étape.
+                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l&apos;autre.
                   </p>
                 </div>
               </Link>
@@ -323,71 +334,41 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length > 0 && (
               <Link href="/conseils" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-primary">Approfondis tes techniques</p>
+                  <p className="font-semibold text-accent-link">Approfondis tes techniques</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases, explore les conseils avancés pour affiner ton humour.
+                    Tu as les bases : passe aux conseils avancés, ceux qui font la différence entre drôle et vraiment drôle.
                   </p>
                 </div>
               </Link>
             )}
             <Link href="/videos" className="group">
-              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-secondary">
-                <p className="font-semibold text-accent-secondary">Regarde les pros</p>
+              <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
+                <p className="font-semibold text-accent-link">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
-                  Analyse les techniques des meilleurs humoristes pour t&apos;en inspirer.
+                  Décortique les techniques des meilleurs humoristes, puis pique-leur ce qui te va.
                 </p>
               </div>
             </Link>
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Abonnement */}
-      <Card className="md:col-span-2">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle>Abonnement</CardTitle>
-            <Badge variant={user.plan === "PREMIUM" ? "primary" : "default"}>
-              {user.plan === "PREMIUM" ? "Premium" : "Gratuit"}
-            </Badge>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {user.plan === "PREMIUM" ? (
-            <div>
-              <p className="text-sm text-text-primary">
-                Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres avancés et les parcours complets.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                className="mt-4"
-                onClick={handlePortal}
-                disabled={isPortalLoading}
-              >
-                {isPortalLoading ? "Redirection..." : "Gérer mon abonnement"}
-              </Button>
-            </div>
-          ) : (
-            <>
-              <p className="mb-2 text-sm text-text-primary">
-                Passe Premium pour débloquer tout le catalogue, les filtres avancés et les parcours complets.
-              </p>
-              <p className="mb-4 text-xs text-text-muted">
-                Sans engagement &middot; Annulable à tout moment
-              </p>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleCheckout}
-                disabled={isCheckoutLoading}
-              >
-                {isCheckoutLoading ? "Redirection..." : "S'abonner à 0,99 €/mois"}
-              </Button>
-            </>
-          )}
-        </CardContent>
-      </Card>
+      {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
+      <AbonnementCard
+        plan={user.plan}
+        xp={user.xp}
+        onCheckout={handleCheckout}
+        isCheckoutLoading={isCheckoutLoading}
+        abonnement={abonnement}
+      />
+
+      {/* s16 reco 5 : suppression du compte en libre-service */}
+      <SupprimerCompteCard
+        abonne={isPremium}
+        finPeriode={abonnement.summary?.currentPeriodEnd ?? null}
+        resilie={abonnement.summary?.cancelAtPeriodEnd ?? false}
+      />
     </div>
   );
 }

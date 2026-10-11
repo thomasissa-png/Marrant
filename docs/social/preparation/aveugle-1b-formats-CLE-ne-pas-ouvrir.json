@@ -1,0 +1,54 @@
+{
+  "_lot": "1b (19/10 au 15/11/2026), conseils et légendes IG",
+  "_regle_de_choix": "Par créneau (conseils) et par emplacement (légendes) : retenir le candidat avec la meilleure somme des 2 notes parmi ceux au niveau (au moins 8,5 chez les 2). Égalité : note minimale la plus haute, puis relecteur 3 à l'aveugle. Aucun au niveau : créneau en repli (2e tour de réécriture, sinon conseil de réserve S1 du plan §3), jamais de post omis.",
+  "_controles_apres_notation": [
+    "Quota scénario : les 2 candidats d'un créneau ont le même scénario, donc 6 créneaux Yanis (ven. 23/10, 06/11, 13/11, X et IG) et 4 Sophie (mar. 03/11 et 10/11, X et IG) tiennent quel que soit le gagnant.",
+    "Garde-fou fondateur 08/10 : une faute objective relevée par l'avis contraire (charte, donnée inventée, exemple qui contredit la règle) = correction et nouvelle relecture, quel que soit le vote.",
+    "X : longueur à mesurer par script (liens = 23 caractères, aucun lien ici). Comptage à la main : les 10 posts font entre 174 et 260 caractères (le plus long, K04, ≈ 260) ; mesure exacte `[À MESURER]` avant insertion."
+  ],
+  "_alertes": [
+    "IG mar. 03/11 : le dry-run 1b donne aussi une vanne (cartes `cs14jk76ca7ad32cce9041ce`) sur ce créneau. Le plan (mix-formats §2) y met un conseil. À trancher par @fullstack au régénéré : si le conseil prend le créneau, la légende D* sert à la vanne déplacée.",
+    "Vannes des relais 19/10, 29/10, 05/11 : lues dans `lot-relance-s15.md`, marqué obsolète (ses 03/11 et 04/11 ne correspondent plus aux ids du dry-run 1b). [À VÉRIFIER @fullstack] contre `/tmp/fs-s15/1b-new.*` avant de recopier les légendes ; si l'id de la vanne change, la légende retenue n'est plus valable.",
+    "Conseils transposés (réplique du stock conservée, décor changé) : K13 (afterwork vers soirée entre potes), K20 (pause café vers coloc), K08 (décor coloc ajouté, liste ramenée à 3 éléments), K03 (« au bureau » vers « en cours »). Les autres gardent leur décor d'origine. E4, E7 et E2 volontairement absents (déjà validés, pas de rejeu)."
+  ],
+  "conseils": [
+    {"candidat": "K01", "creneau": "mar. 03/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Sophie", "scenario": "networking", "source_id": "cmmw0tra60015mw62l0360wm9", "verdict_audit": "GARDER", "technique": "Le pitch honnête", "paire": "K01/K12"},
+    {"candidat": "K12", "creneau": "mar. 03/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Sophie", "scenario": "bureau", "source_id": "cmmw0tr870014mw62jnung2qp", "verdict_audit": "GARDER", "technique": "La vanne de couloir", "paire": "K01/K12"},
+    {"candidat": "K17", "creneau": "mar. 03/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Sophie", "scenario": "afterwork", "source_id": "cmmw0trc60016mw629l4o8rav", "verdict_audit": "GARDER", "technique": "L'afterwork en stand-up", "paire": "K10/K17"},
+    {"candidat": "K10", "creneau": "mar. 03/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Sophie", "scenario": "bureau", "source_id": "cmmw0trm3001bmw62j1fqvmga", "verdict_audit": "GARDER", "technique": "Couper court avec élégance", "paire": "K10/K17"},
+    {"candidat": "K19", "creneau": "mar. 10/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Sophie", "scenario": "bureau", "source_id": "cmqdc6vay00fws60xfij2s5af", "verdict_audit": "REECRIRE", "technique": "L'auto-blague préventive", "paire": "K04/K19"},
+    {"candidat": "K04", "creneau": "mar. 10/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Sophie", "scenario": "bureau", "source_id": "cmnl5yc92000cs60zfctq4dm2", "verdict_audit": "REECRIRE", "technique": "Le tic collectif", "paire": "K04/K19", "note": "« tous les dosettes » du stock corrigé en « toutes les dosettes »"},
+    {"candidat": "K14", "creneau": "mar. 10/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Sophie", "scenario": "bureau (visio)", "source_id": "cmparyf6a00jrs60x3not8c3d", "verdict_audit": "REECRIRE", "technique": "Détendre avant la réunion", "paire": "K07/K14"},
+    {"candidat": "K07", "creneau": "mar. 10/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Sophie", "scenario": "bureau", "source_id": "cmorynj4s000rs60w3dxwnx8h", "verdict_audit": "REECRIRE", "technique": "Le carnet d'absurdités", "paire": "K07/K14"},
+    {"candidat": "K06", "creneau": "ven. 23/10/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "coloc", "source_id": "cmmw0tre50017mw62ht9h43r3", "verdict_audit": "GARDER", "technique": "La vanne rapide", "paire": "K06/K11"},
+    {"candidat": "K11", "creneau": "ven. 23/10/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "potes", "source_id": "cmmw0tqya000zmw62klfs2ji5", "verdict_audit": "GARDER", "technique": "Le timing du texto", "paire": "K06/K11"},
+    {"candidat": "K02", "creneau": "ven. 23/10/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "date", "source_id": "cmmw0tr280011mw62kxywuwdl", "verdict_audit": "GARDER", "technique": "L'écoute qui rebondit", "paire": "K02/K15"},
+    {"candidat": "K15", "creneau": "ven. 23/10/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "soirée, potes", "source_id": "cmnyax22y0021s60w3ghcmlem", "verdict_audit": "REECRIRE", "technique": "Le rebond catastrophe", "paire": "K02/K15", "note": "dé-saisonnalisé dans conseils-final.json"},
+    {"candidat": "K09", "creneau": "ven. 06/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "potes", "source_id": "cmnfak3lg0000s60x6zvwqbnh", "verdict_audit": "REECRIRE", "technique": "L'escalade complice", "paire": "K09/K18"},
+    {"candidat": "K18", "creneau": "ven. 06/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "potes", "source_id": "cmodkv41a0001s60x45ytodp5", "verdict_audit": "REECRIRE", "technique": "Le célibat en luxe", "paire": "K09/K18"},
+    {"candidat": "K05", "creneau": "ven. 06/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "date", "source_id": "cmmp8ozsx000mqk63ux155ma1", "verdict_audit": "REECRIRE", "technique": "L'anecdote en trois actes", "paire": "K05/K13"},
+    {"candidat": "K13", "creneau": "ven. 06/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "soirée (transposé de l'afterwork)", "source_id": "cmp1y91b500dws60ynsgozahy", "verdict_audit": "REECRIRE", "technique": "La fatigue en spectacle", "paire": "K05/K13", "transpose": true},
+    {"candidat": "K03", "creneau": "ven. 13/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "potes (texto)", "source_id": "cmmp8ozsx001jqk63gqjuk0t7", "verdict_audit": "REECRIRE", "technique": "Le texto décalé", "paire": "K03/K20", "transpose": true},
+    {"candidat": "K20", "creneau": "ven. 13/11/2026", "reseau": "X", "heure": "12:30", "format": "post X unique", "persona": "Yanis", "scenario": "coloc (transposé de la pause café)", "source_id": "cmoc6cyvg002fs60xk6faw99u", "verdict_audit": "REECRIRE", "technique": "On est la génération", "paire": "K03/K20", "transpose": true},
+    {"candidat": "K08", "creneau": "ven. 13/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "coloc", "source_id": "cmmp8ozsx000dqk63y7qi81vo", "verdict_audit": "REECRIRE", "technique": "La règle de trois", "paire": "K08/K16", "transpose": true},
+    {"candidat": "K16", "creneau": "ven. 13/11/2026", "reseau": "Instagram", "heure": "19:30", "format": "2 cartes + légende", "persona": "Yanis", "scenario": "soirée", "source_id": "cmmp8ozsx0011qk63frclljng", "verdict_audit": "GARDER", "technique": "La réponse à côté", "paire": "K08/K16"}
+  ],
+  "legendes": [
+    {"candidat": "L11", "emplacement": "relais IG lun. 19/10/2026", "vanne_id": "cs14jkb03209d55cbfc17448", "vanne_a_verifier_fullstack": true, "variante": "A1"},
+    {"candidat": "L04", "emplacement": "relais IG lun. 19/10/2026", "vanne_id": "cs14jkb03209d55cbfc17448", "vanne_a_verifier_fullstack": true, "variante": "A2"},
+    {"candidat": "L07", "emplacement": "relais IG lun. 19/10/2026", "vanne_id": "cs14jkb03209d55cbfc17448", "vanne_a_verifier_fullstack": true, "variante": "A3"},
+    {"candidat": "L02", "emplacement": "relais IG jeu. 29/10/2026", "vanne_id": "cs14jkd11f7913f8177df395", "vanne_a_verifier_fullstack": true, "variante": "B1"},
+    {"candidat": "L14", "emplacement": "relais IG jeu. 29/10/2026", "vanne_id": "cs14jkd11f7913f8177df395", "vanne_a_verifier_fullstack": true, "variante": "B2"},
+    {"candidat": "L09", "emplacement": "relais IG jeu. 29/10/2026", "vanne_id": "cs14jkd11f7913f8177df395", "vanne_a_verifier_fullstack": true, "variante": "B3"},
+    {"candidat": "L10", "emplacement": "relais IG jeu. 05/11/2026", "vanne_id": "cs14jkfec1cb933d1931e868", "vanne_a_verifier_fullstack": true, "variante": "C1"},
+    {"candidat": "L15", "emplacement": "relais IG jeu. 05/11/2026", "vanne_id": "cs14jkfec1cb933d1931e868", "vanne_a_verifier_fullstack": true, "variante": "C2"},
+    {"candidat": "L05", "emplacement": "relais IG jeu. 05/11/2026", "vanne_id": "cs14jkfec1cb933d1931e868", "vanne_a_verifier_fullstack": true, "variante": "C3"},
+    {"candidat": "L06", "emplacement": "cartes IG mar. 03/11/2026", "vanne_id": "cs14jk76ca7ad32cce9041ce", "vanne_a_verifier_fullstack": false, "variante": "D1"},
+    {"candidat": "L01", "emplacement": "cartes IG mar. 03/11/2026", "vanne_id": "cs14jk76ca7ad32cce9041ce", "vanne_a_verifier_fullstack": false, "variante": "D2"},
+    {"candidat": "L12", "emplacement": "cartes IG mar. 03/11/2026", "vanne_id": "cs14jk76ca7ad32cce9041ce", "vanne_a_verifier_fullstack": false, "variante": "D3"},
+    {"candidat": "L08", "emplacement": "cartes IG mer. 04/11/2026", "vanne_id": "cs14jk55b4243d4d1c132b97", "vanne_a_verifier_fullstack": false, "variante": "E1"},
+    {"candidat": "L13", "emplacement": "cartes IG mer. 04/11/2026", "vanne_id": "cs14jk55b4243d4d1c132b97", "vanne_a_verifier_fullstack": false, "variante": "E2"},
+    {"candidat": "L03", "emplacement": "cartes IG mer. 04/11/2026", "vanne_id": "cs14jk55b4243d4d1c132b97", "vanne_a_verifier_fullstack": false, "variante": "E3"}
+  ],
+  "_ou_recopier": "Légendes retenues : apps/web/scripts/content/social-lot-v5-legendes.ts. Conseils retenus : textes à intégrer par @fullstack au lot 1b régénéré (sourceId = id du conseil). Textes sources : docs/copy/audit-vannes-s14/conseils-final.json."
+}

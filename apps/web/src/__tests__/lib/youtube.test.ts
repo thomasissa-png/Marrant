@@ -2,12 +2,12 @@ import { getVideoDetails, getEmbedUrl, getThumbnailUrl } from "@/lib/youtube";
 
 describe("getEmbedUrl", () => {
   it("returns correct embed URL", () => {
-    expect(getEmbedUrl("abc123")).toBe("https://www.youtube.com/embed/abc123");
+    expect(getEmbedUrl("abc123")).toBe("https://www.youtube-nocookie.com/embed/abc123");
   });
 
   it("encodes special characters in videoId", () => {
     expect(getEmbedUrl("a&b=c")).toBe(
-      `https://www.youtube.com/embed/${encodeURIComponent("a&b=c")}`
+      `https://www.youtube-nocookie.com/embed/${encodeURIComponent("a&b=c")}`
     );
   });
 });

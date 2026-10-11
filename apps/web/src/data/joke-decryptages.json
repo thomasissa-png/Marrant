@@ -1,0 +1,1586 @@
+[
+  {
+    "content": "Mes amis adorent venir dîner chez moi.",
+    "comedyTechnique": "L'euphémisme poli",
+    "techniqueExplanation": "Tu ne dis jamais que tu cuisines mal : ce sont tes amis qui le disent, avec une gentillesse parfaite. Leur excuse polie cache un verdict sans appel. Le rire vient de l'écart entre la délicatesse de la formule et la brutalité de ce qu'elle signifie.",
+    "howToApply": "Montre ton défaut à travers la précaution que les autres prennent, justifiée par une phrase gentille. Ex : « Quand je propose de conduire, mes potes répondent tous : \"Non non, repose-toi.\" »"
+  },
+  {
+    "content": "J'ai arrêté de me comparer aux autres. Je me compare à moi il y a cinq ans.",
+    "comedyTechnique": "Le conseil qui se retourne",
+    "techniqueExplanation": "Tu appliques un conseil de développement personnel à la lettre, et il te bat quand même. Le « lui aussi » fait tout le travail : en trois mots, il t'apprend que les autres gagnaient déjà, et que ton ancien toi rejoint le camp des gagnants. La solution devient une défaite de plus.",
+    "howToApply": "Prends un conseil bien-être connu, applique-le sérieusement, et termine sur un résultat pire que le problème de départ. Ex : « J'ai commencé un journal de gratitude. Au troisième jour, j'étais reconnaissant qu'il reste des pages vides. »"
+  },
+  {
+    "content": "Je me suis inscrit à un atelier pour vaincre la timidité.",
+    "comedyTechnique": "Le problème qui bloque sa propre solution",
+    "techniqueExplanation": "L'atelier est censé soigner la timidité, mais il faut ne plus être timide pour y entrer. La chute montre la scène au lieu d'expliquer le paradoxe : douze personnes figées devant une porte. On rit parce qu'on se voit dans le lot.",
+    "howToApply": "Trouve une solution qui exige d'avoir déjà résolu le problème, et montre la scène où ça bloque. Exemple : « J'ai acheté un agenda pour arrêter d'oublier les choses. Je l'ai oublié chez ma mère. »"
+  },
+  {
+    "content": "Le site m'a demandé un mot de passe avec un caractère spécial.",
+    "comedyTechnique": "Le double sens",
+    "techniqueExplanation": "« Caractère spécial » a un sens technique (un symbole) et un sens humain (une personnalité difficile). La chute choisit le second sans prévenir, et le public fait le lien tout seul. Ce n'est pas un jeu sur le son mais sur le sens : chacun imagine l'oncle.",
+    "howToApply": "Repère une expression technique ou administrative qui a aussi un sens courant, et réponds en utilisant le mauvais. Ex : « Le formulaire demandait une personne à contacter en cas d'urgence. J'ai mis mon pote qui arrive toujours en retard. Il le vivra comme une mission. »"
+  },
+  {
+    "content": "Nouvelle région, nouvelle règle : ici, on fait trois bises.",
+    "comedyTechnique": "Le code culturel raté",
+    "techniqueExplanation": "Tout le monde connaît le flou du nombre de bises selon les régions. Tu ne l'expliques pas : tu racontes le moment précis où ça dérape, avec un détail physique gênant. Le rire vient de la scène qu'on voit, pas du cliché qu'on connaît.",
+    "howToApply": "Prends une règle sociale floue et raconte l'instant exact où tu la rates, avec un détail concret. Exemple : « Mon nouveau collègue m'a tendu la main pendant que je me penchais pour la bise. J'ai serré sa main avec ma joue. »"
+  },
+  {
+    "content": "On a un agenda partagé dans le couple.",
+    "comedyTechnique": "Le mauvais outil pour la bonne chose",
+    "techniqueExplanation": "Tu fais entrer la romance dans un outil de bureau, et le bouton « Peut-être » dit tout ce qu'une conversation aurait mis dix minutes à dire. Le rire vient du contraste entre la froideur de l'interface et la chaleur supposée de l'invitation.",
+    "howToApply": "Transpose un moment affectif dans un outil pro ou administratif, et laisse l'interface trahir ce que tu ressens. Ex : « Mon pote m'a envoyé \"on se voit ce week-end ?\" par mail. J'ai répondu \"Bien reçu\". »"
+  },
+  {
+    "content": "Mon manager me dit que j'ai beaucoup de potentiel.",
+    "comedyTechnique": "Le compliment qui révèle la stagnation",
+    "techniqueExplanation": "« Potentiel » est un compliment tourné vers l'avenir. Répété cinq ans, il devient la preuve que rien ne bouge. La chute fait semblant de voir le bon côté (« il s'use pas ») et c'est ce faux optimisme qui fait sourire.",
+    "howToApply": "Prends un compliment qui promet une suite, répète-le sur une longue durée, puis trouve-lui un avantage absurde. Ex : « Mon prof de guitare dit que je progresse. Depuis trois ans. C'est une progression très stable. »"
+  },
+  {
+    "content": "Mon pote a annulé notre soirée de samedi à la dernière minute.",
+    "comedyTechnique": "Le détail qui trahit",
+    "techniqueExplanation": "Tu dis une chose (« dommage ») et un détail concret dit l'inverse : le pyjama depuis 18h. Le rire vient de l'écart entre la politesse de façade et la vérité que tout le monde reconnaît : tu espérais l'annulation. Plus le détail est précis, plus l'aveu est drôle.",
+    "howToApply": "Raconte une réaction polie, puis ajoute UN détail matériel qui prouve que tu pensais l'inverse. Exemple : « J'ai dit à ma sœur que son gratin était délicieux. Le chien en a eu la moitié, sous la table. »"
+  },
+  {
+    "content": "Je retiens tous les prénoms.",
+    "comedyTechnique": "La précision qui s'effondre",
+    "techniqueExplanation": "Le setup affirme une compétence sans réserve. La chute ajoute une durée ridicule qui l'annule, puis montre la stratégie de survie que tout le monde reconnaît. C'est la « chaleur » du « toi » qui fait sourire : tu compenses l'oubli par de l'affection.",
+    "howToApply": "Annonce une qualité, puis ajoute une limite si petite qu'elle la détruit, et décris comment tu caches le problème. Ex : « Je suis très endurant. Jusqu'au deuxième étage. Après, je fais semblant de lire mes messages sur le palier. »"
+  },
+  {
+    "content": "Pour voir si j'écoute, ma copine glisse des phrases absurdes.",
+    "comedyTechnique": "La conséquence qui déraille",
+    "techniqueExplanation": "Le setup installe un petit jeu de couple. La chute te fait échouer au test, puis ajoute une conséquence concrète et absurde. « Il arrive samedi » transforme un piège en fait accompli : c'est le détail pratique qui fait rire.",
+    "howToApply": "Raconte une erreur d'inattention, puis donne sa conséquence la plus concrète possible, avec une date ou un lieu. Ex : « J'ai validé les conditions générales sans lire. Apparemment, je fais un marathon en avril. »"
+  },
+  {
+    "content": "En entretien annuel, j'ai eu droit au feedback sandwich : un compliment, une critique, un compliment.",
+    "comedyTechnique": "Le prolongement de la métaphore",
+    "techniqueExplanation": "Le « feedback sandwich » est un jargon de manager. Tu le prends au mot et tu décris ce qui se passe vraiment dans ta tête : tu ne retiens que la critique. La métaphore alimentaire dit en cinq mots ce qu'une explication psychologique mettrait trois phrases à dire.",
+    "howToApply": "Repère une expression imagée du monde pro et continue l'image pour dire la vérité. Ex : « On m'a dit que ma demande d'augmentation était \"sur la pile\". C'est une pile qui a des fondations. »"
+  },
+  {
+    "content": "Le vendeur m'a demandé s'il pouvait m'aider. J'ai dit : « Je regarde juste. »",
+    "comedyTechnique": "Le mensonge qu'il faut tenir",
+    "techniqueExplanation": "« Je regarde juste » est la phrase réflexe pour fuir le vendeur. Toi, tu te sens obligé de la rendre vraie, et tu te retrouves prisonnier de ton propre prétexte. Les trois fragments de la chute, secs, montrent l'absurdité sans la commenter : tu ne voulais pas de casseroles.",
+    "howToApply": "Prends une petite excuse sociale et raconte ce que ça te coûte de la rendre crédible. Exemple : « J'ai dit à mon voisin que je partais courir. J'ai dû faire le tour du pâté de maisons en jogging. Deux fois. »"
+  },
+  {
+    "content": "Mon chat m'a apporté une souris morte. J'ai dit merci, par politesse.",
+    "comedyTechnique": "Le retour de politesse",
+    "techniqueExplanation": "Ta politesse réflexe est interprétée comme un encouragement, et l'absurde se met à grandir. La chute ne dit que le chiffre : deux. Le lecteur prolonge la courbe tout seul et imagine la suite.",
+    "howToApply": "Raconte un geste poli qui encourage involontairement ce que tu voulais éviter, et donne juste la conséquence chiffrée. Exemple : « J'ai goûté le gâteau raté de mon voisin en disant “intéressant”. Il en a refait un le lendemain. Plus grand. »"
+  },
+  {
+    "content": "Je préfère la baguette pas trop cuite. J'ai jamais osé le dire à ma boulangère.",
+    "comedyTechnique": "Le malentendu entretenu",
+    "techniqueExplanation": "Par timidité, tu as laissé s'installer un malentendu, et il est devenu une attention affectueuse. La chute retourne la situation : elle croit te faire plaisir, et c'est exactement ce que tu ne veux pas. Plus la relation est tendre, plus ton silence devient impossible à rompre.",
+    "howToApply": "Raconte un petit malentendu que tu n'as jamais corrigé, puis montre qu'il est devenu un geste gentil de l'autre. Exemple : « J'ai dit une fois à ma tante que j'adorais les endives. Maintenant, à chaque Noël, elle en fait un plat rien que pour moi. »"
+  },
+  {
+    "content": "Sur mon CV, j'ai écrit « résistant au stress ».",
+    "comedyTechnique": "La démonstration inverse",
+    "techniqueExplanation": "La situation met ta qualité à l'épreuve sur-le-champ, et ton corps répond à ta place. Pas besoin de commenter : la réaction physique contredit la ligne du CV. C'est le mensonge démasqué en deux mots.",
+    "howToApply": "Affirme une qualité, crée la situation qui la teste immédiatement, et donne la réaction physique qui prouve l'inverse. Ex : « J'ai dit à mes potes que j'étais à l'aise à l'oral. Ils m'ont demandé de porter un toast. J'ai lu mon téléphone en tremblant. »"
+  },
+  {
+    "content": "« Appeler la banque » est sur ma to-do depuis deux ans.",
+    "comedyTechnique": "Le transfert de registre",
+    "techniqueExplanation": "Tu traites une tâche oubliée comme un salarié protégé par le droit du travail. Le vocabulaire des RH plaqué sur une to-do list transforme ta procrastination en situation administrative. Le rire vient de la logique parfaite d'un raisonnement complètement absurde.",
+    "howToApply": "Prends un objet qui traîne chez toi et parle-en avec le vocabulaire d'un autre univers (travail, justice, immobilier). Ex : « Le carton de déménagement dans mon couloir paie presque un loyer. Il a ses habitudes. »"
+  },
+  {
+    "content": "Je suis quelqu'un de profondément authentique.",
+    "comedyTechnique": "L'autocontradiction",
+    "techniqueExplanation": "Tu revendiques une qualité, et la preuve que tu donnes démontre l'inverse. Personne d'authentique n'écrit qu'il l'est, et encore moins entre deux poses travaillées. Tu te trahis toi-même, c'est pour ça que ça reste bienveillant.",
+    "howToApply": "Affirme une qualité, puis donne une preuve qui la contredit. Ex : « Je suis très détendu. J'ai une appli qui me le rappelle toutes les heures. »"
+  },
+  {
+    "content": "En août, mon médecin, mon coiffeur et mon boulanger étaient fermés.",
+    "comedyTechnique": "La vexation mal placée",
+    "techniqueExplanation": "Les fermetures d'août sont un cliché français ; toi, tu les vis comme une fête à laquelle on t'a oublié. Le mot « invité » transforme les congés des autres en exclusion personnelle. C'est ta susceptibilité, pas le mois d'août, qui fait rire.",
+    "howToApply": "Prends un phénomène collectif neutre et vis-le comme un affront personnel. Exemple : « Le dimanche soir, toutes les fenêtres de mon immeuble s'éteignent vers 22h. On m'a rien dit. »"
+  },
+  {
+    "content": "Mon copain m'a envoyé un vocal depuis la pièce d'à côté.",
+    "comedyTechnique": "L'escalade miniature",
+    "techniqueExplanation": "Le setup montre une absurdité moderne : communiquer à distance à trois mètres. La chute la prolonge en conflit diplomatique, comme si le format de réponse était une déclaration. La dispute est ridicule, et c'est le sérieux avec lequel tu la racontes qui fait sourire.",
+    "howToApply": "Prends une micro-décision (format, emoji, ponctuation) et donne-lui des conséquences de crise diplomatique. Ex : « J'ai répondu à ma sœur avec un pouce bleu. On se reparle à Noël. »"
+  },
+  {
+    "content": "En open space, j'ai suivi en direct l'achat de l'appart de mon voisin de bureau.",
+    "comedyTechnique": "L'intimité forcée",
+    "techniqueExplanation": "L'open space te fait vivre la vie des autres sans ton accord. La chute montre jusqu'où ça va : tu es ému pour un inconnu. Le rire vient du contraste entre ton attachement réel et une relation qui n'existe pas.",
+    "howToApply": "Décris une chose que tu entends malgré toi, puis montre que tu t'y es attaché plus que de raison. Ex : « Ma voisine du dessus apprend le piano. Au bout de six mois, j'ai eu envie de lui dire que j'étais fier d'elle. »"
+  },
+  {
+    "content": "J'ai acheté un tapis roulant pour faire du sport à la maison.",
+    "comedyTechnique": "L'effort au mauvais endroit",
+    "techniqueExplanation": "Tu achètes un objet pour faire un effort, et le seul effort réellement fourni, c'est de le transporter. L'objet a rempli sa mission, mais par le mauvais chemin. Le mot « séance » fait tout le travail : il requalifie la corvée en entraînement.",
+    "howToApply": "Prends un achat de bonne résolution et trouve le seul moment où il t'a vraiment servi, par accident. Exemple : « J'ai acheté un livre sur la patience. La livraison a pris trois semaines. Premier chapitre validé. »"
+  },
+  {
+    "content": "Je rattrape un verre qui tombe en plein vol.",
+    "comedyTechnique": "Le glissement du concret à l'abstrait",
+    "techniqueExplanation": "Le setup parle d'un geste physique, précis, relatable. La chute garde le même verbe mais change de terrain : on passe d'un verre à ta vie. Le contraste entre ton efficacité sur l'objet et ta passivité sur l'essentiel crée le sourire, avec une pointe d'aveu.",
+    "howToApply": "Choisis une compétence concrète, puis applique le même verbe à quelque chose d'important où tu échoues. Ex : « Je retrouve mes clés en dix secondes. Mon objectif de vie, je le cherche encore. »"
+  },
+  {
+    "content": "Mon bazar avait un système.",
+    "comedyTechnique": "Le désordre défendu",
+    "techniqueExplanation": "Tu défends ton désordre comme une organisation secrète. La chute montre que le rangement n'a rien résolu : il a juste supprimé le seul système qui marchait. La mauvaise foi est douce, et la fin met tout le monde dans le même bateau.",
+    "howToApply": "Présente un de tes défauts comme une méthode, puis montre que la « correction » a empiré la situation. Ex : « Ma boîte mail à 4 000 messages non lus, c'était mon classement. Quelqu'un a tout marqué comme lu. J'ai perdu trois ans. »"
+  },
+  {
+    "content": "Mon responsable met « URGENT » dans tous ses mails.",
+    "comedyTechnique": "L'inflation du mot",
+    "techniqueExplanation": "À force d'être utilisé partout, un mot perd son sens. La chute pousse cette logique jusqu'à la contradiction dans la même ligne d'objet. Ta confusion finale ramène tout à toi, ce qui garde la vanne dans l'auto-dérision.",
+    "howToApply": "Repère quelqu'un qui abuse d'un mot fort, puis imagine le moment où il doit le contredire pour se faire comprendre. Ex : « Mon pote dit \"c'est incroyable\" pour tout. Hier, il m'a dit : \"C'est incroyable, mais normal.\" »"
+  },
+  {
+    "content": "Je parle anglais couramment.",
+    "comedyTechnique": "La restriction qui annule",
+    "techniqueExplanation": "La chute n'ajoute pas une info, elle ajoute une condition qui vide complètement l'affirmation. Tout le monde connaît ce moment où la phrase préparée sort bien, et où la réponse de l'autre te laisse sur place. Cinq mots suffisent : plus c'est court, plus l'effondrement est net.",
+    "howToApply": "Annonce une compétence, puis ajoute « tant que… » avec la seule situation où elle sert vraiment. Ex : « Je suis très bon au foot. Tant qu'il n'y a pas de ballon. »"
+  },
+  {
+    "content": "Ma mère sait plier un drap-housse parfaitement.",
+    "comedyTechnique": "Le motif caché",
+    "techniqueExplanation": "La situation a l'air d'être une question de compétence, puis la chute révèle une stratégie affective : ta mère garde le secret pour que tu reviennes. Tu passes d'un problème ménager à une manipulation tendre, et c'est ce déplacement qui fait sourire.",
+    "howToApply": "Prends une petite habitude d'un proche et donne-lui un motif caché plus stratégique qu'elle en a l'air. Exemple : « Mon père refuse d'apprendre à utiliser le GPS. Comme ça, en vacances, c'est moi qui conduis. »"
+  },
+  {
+    "content": "Pour pouvoir travailler, je me bloque des créneaux dans l'agenda.",
+    "comedyTechnique": "Le camouflage paradoxal",
+    "techniqueExplanation": "Pour protéger ton travail, tu le déguises en ce qui t'empêche de travailler. Ce paradoxe dit tout sur la culture des réunions sans jamais la critiquer frontalement. Tu passes pour malin, pas pour aigri.",
+    "howToApply": "Trouve une chose qui te gêne et montre que tu l'utilises comme bouclier pour faire l'inverse. Ex : « Pour qu'on me laisse lire tranquille dans le train, je fais semblant d'être au téléphone. »"
+  },
+  {
+    "content": "Quand ça va mal, on me dit : « Ça pourrait être pire. »",
+    "comedyTechnique": "La consolation lue à l'envers",
+    "techniqueExplanation": "« Ça pourrait être pire » est censé te consoler. Tu l'écoutes au pied de la lettre et tu en tires l'inverse : si ça peut être pire, c'est que le pire n'est pas encore arrivé. Même phrase, lecture opposée : c'est un retournement d'idée pur, sans jeu de mots.",
+    "howToApply": "Prends une phrase de réconfort toute faite et cherche ce qu'elle implique logiquement de pas du tout rassurant. Exemple : « Mon médecin m'a dit : “Vous êtes encore jeune.” J'ai surtout entendu “encore”. »"
+  },
+  {
+    "content": "Au yoga, la prof a dit : « Écoutez votre corps. »",
+    "comedyTechnique": "La consigne prise au mot",
+    "techniqueExplanation": "La prof donne une consigne vague et bienveillante ; tu l'appliques à la lettre, jusqu'au bout. L'obéissance parfaite mène au résultat opposé à celui voulu : tu quittes le cours. Tu es à la fois le seul bon élève et le seul à partir.",
+    "howToApply": "Repère une phrase toute faite de coach, de manager ou de prof, et obéis-y littéralement. Exemple : « Au boulot, on nous a dit : “Soyez force de proposition.” J'ai proposé qu'on rentre plus tôt. »"
+  },
+  {
+    "content": "Mon téléphone m'a fait un montage « Mon été ».",
+    "comedyTechnique": "Le décalage de ton",
+    "techniqueExplanation": "Le setup installe un format solennel, le film souvenir qui doit émouvoir. La chute révèle le contenu réel, d'une banalité totale. Tu fais rire en montrant que ta vie, vue par ton téléphone, se résume à de l'administratif, et tout le monde a ces photos-là.",
+    "howToApply": "Prends un format grandiose (bilan, rétrospective, hommage) et remplis-le avec les détails les plus plats de ta vie. Ex : « Mon année en chiffres : 312 jours à dire \"je commence lundi\". »"
+  },
+  {
+    "content": "Après trois jours enfermé à réviser, je suis sorti.",
+    "comedyTechnique": "Le jugement d'un témoin improbable",
+    "techniqueExplanation": "Tu montres ton isolement par un geste (saluer un pigeon), puis tu te fais juger par le témoin le moins crédible possible. L'absurde, c'est que même le pigeon a plus de tenue sociale que toi. Pas besoin de dire que tu es resté enfermé trop longtemps.",
+    "howToApply": "Montre ton état par un geste bizarre, puis fais-le juger par un animal ou un objet. Exemple : « J'ai parlé tout seul dans la cuisine. Le frigo s'est arrêté de ronronner, comme pour écouter. »"
+  },
+  {
+    "content": "Au lit, on a notre équilibre.",
+    "comedyTechnique": "La symétrie cassée",
+    "techniqueExplanation": "« Équilibre » promet un partage juste. La chute construit une phrase symétrique (elle a / j'ai) mais remplit ta moitié avec du vide. Le « souvenir » donne une touche nostalgique à une injustice minuscule, c'est ce qui la rend attendrissante.",
+    "howToApply": "Annonce un partage équitable, puis donne à l'autre la chose réelle et à toi sa version immatérielle. Ex : « Avec mon coloc, on partage le frigo. Il a la nourriture, j'ai l'étagère. »"
+  },
+  {
+    "content": "L'offre disait « salaire selon profil ».",
+    "comedyTechnique": "La formule neutre qui devient verdict",
+    "techniqueExplanation": "« Selon profil » sonne administratif et neutre. La chute le retourne : le chiffre devient un jugement sur toi, et c'est ton « profil », personnifié, qui encaisse le coup. Tu ne donnes jamais le montant, et c'est mieux : chacun imagine le pire.",
+    "howToApply": "Prends une formule neutre qui dépend de toi (« selon ton niveau », « adapté à ton âge ») et montre ce que le résultat dit de toi. Ex : « Au cours de salsa, on m'a mis dans le groupe \"adapté\". J'ai compris à quoi. »"
+  },
+  {
+    "content": "Je vais très régulièrement à la salle de sport.",
+    "comedyTechnique": "La correction qui aggrave",
+    "techniqueExplanation": "Tu affirmes quelque chose de flatteur, puis tu corriges au nom de l'honnêteté. La correction garde les mots (« régulièrement », « tous les matins ») mais change tout le sens, et la boulangerie enfonce le clou. Le rire vient de ce faux scrupule qui rend l'aveu encore pire.",
+    "howToApply": "Dis une phrase qui te valorise, puis précise « enfin… » avec la vérité littérale. Ex : « Je lis énormément. Enfin, les résumés au dos des livres, à la librairie. »"
+  },
+  {
+    "content": "Je me suis baissé pour ramasser une pièce de 10 centimes.",
+    "comedyTechnique": "Le calcul qui se retourne",
+    "techniqueExplanation": "Tu poses un calcul coût-bénéfice sur un geste anodin et le résultat te trahit : la pièce vaut moins que l'effort. « À mi-chemin » montre que ton corps renégocie en direct. Tu parles de vieillir sans jamais le dire, et c'est pour ça que ça marche.",
+    "howToApply": "Fais passer un geste quotidien par un calcul de rentabilité sérieux qui tourne mal. Exemple : « L'escalator était en panne. J'ai fait le calcul. J'ai repris le métro dans l'autre sens. »"
+  },
+  {
+    "content": "Au repas du dimanche, après le fromage, j'ai dit : « Je peux plus rien avaler. »",
+    "comedyTechnique": "L'écoute sélective",
+    "techniqueExplanation": "Ta phrase est claire, mais ta grand-mère n'entend que ce qui l'arrange. La chute, très courte, montre l'écart entre ce que tu dis et ce qui est reçu. On reconnaît tous cette grand-mère, et c'est ça qui rend la vanne affectueuse.",
+    "howToApply": "Cite une phrase nette que tu as dite, puis indique en deux mots ce que l'autre a compris à la place. Exemple : « J'ai dit à mon coloc : “Je suis crevé, je vais me coucher.” Il a entendu “partant pour un film”. »"
+  },
+  {
+    "content": "Mon banquier m'a dit de diversifier mes investissements.",
+    "comedyTechnique": "Le faux-ami",
+    "techniqueExplanation": "Le mot 'diversifier' est commun aux finances et à la vie quotidienne, mais les registres n'ont rien à voir. Le setup pose le contexte financier sérieux (banquier, investissements), la chute bascule sur une interprétation culinaire naïve. Le rire vient du décalage entre la solennité du conseil et la réponse puérilement littérale.",
+    "howToApply": "Prends un conseil sérieux ou une expression d'expert, et applique-le dans un domaine complètement trivial en restant de bonne foi. Ex : 'Mon coach m'a dit de travailler mes fondamentaux. Du coup j'ai repassé mes chaussettes.'"
+  },
+  {
+    "content": "Règle sacrée du couple : pas de série sans l'autre.",
+    "comedyTechnique": "L'indice qui trahit",
+    "techniqueExplanation": "Tu ne dis jamais qu'il a triché : tu montres l'absence de réaction au moment où tout le monde réagit. Le public fait l'enquête en une seconde. Laisser un indice plutôt qu'un aveu, c'est ce qui rend la chute élégante.",
+    "howToApply": "Pose une règle, puis décris un comportement qui prouve qu'elle a été violée, sans l'expliquer. Ex : « Mon coloc jure qu'il touche pas à mes céréales. Ce matin, il a dit \"elles sont plus croustillantes que les tiennes d'avant\". »"
+  },
+  {
+    "content": "J'ai appelé le support informatique. « Vous avez essayé d'éteindre et de rallumer ? » J'ai dit oui.",
+    "comedyTechnique": "L'absurde en fin de protocole",
+    "techniqueExplanation": "Le setup reprend un échange que tout le monde connaît par cœur. Quand le protocole est épuisé, le technicien ajoute une question qui n'a rien de technique. Ce basculement vers l'irrationnel dit ce que tout le monde pense : personne ne sait vraiment pourquoi ça marche.",
+    "howToApply": "Reprends un dialogue très routinier, et ajoute à la fin une question absurde posée avec le même sérieux. Ex : « Le pharmacien m'a demandé si j'avais bien pris le traitement. J'ai dit oui. Il a dit : \"Et vous y avez cru ?\" »"
+  },
+  {
+    "content": "Pour dormir, j'écoute un bruit de pluie sur mon téléphone.",
+    "comedyTechnique": "La copie qui remplace l'original",
+    "techniqueExplanation": "Tu as tellement l'habitude de la fausse pluie que la vraie te paraît suspecte. La chute inverse l'original et la copie : c'est la nature qui semble sortir d'une enceinte. On sourit parce qu'on sent que c'est à peine exagéré.",
+    "howToApply": "Prends un substitut que tu utilises souvent et imagine le jour où tu confonds le vrai avec lui. Exemple : « J'ai tellement vu la tour Eiffel en fond d'écran qu'en vrai, j'ai cherché où cliquer. »"
+  },
+  {
+    "content": "Mon programme du week-end : samedi, rien de prévu.",
+    "comedyTechnique": "Le faux enchaînement logique",
+    "techniqueExplanation": "La chute suit la logique d'un week-end chargé (on récupère le lendemain), mais l'applique à une journée vide. Ce raisonnement parfaitement sérieux sur une fatigue sans cause rend ta flemme presque respectable. C'est l'aveu déguisé en planning.",
+    "howToApply": "Prends une routine normale (se reposer, fêter, se préparer) et applique-la à une situation où elle n'a aucune raison d'exister. Ex : « Lundi, j'ai rien fait. Mardi, j'ai pris un jour pour m'en remettre. »"
+  },
+  {
+    "content": "Mon neveu m'a battu à cache-cache.",
+    "comedyTechnique": "La règle contournée par l'absurde",
+    "techniqueExplanation": "Ton neveu gagne par une faille que personne n'avait envisagée : quitter la partie. Tu acceptes la défaite avec un argument de juriste, « le règlement disait rien ». Le sérieux de ta défense rend la scène encore plus absurde.",
+    "howToApply": "Raconte une défaite due à une astuce hors du cadre, puis défends-la sérieusement avec un argument de règlement. Exemple : « Mon pote a gagné le concours de la plus longue apnée. Il est allé respirer dans la pièce d'à côté. Rien l'interdisait. »"
+  },
+  {
+    "content": "Dans mon couple, on se dit tout.",
+    "comedyTechnique": "L'exception qui révèle",
+    "techniqueExplanation": "Le setup est une déclaration d'amour classique. La chute ajoute une exception minuscule, précise et universelle. Ce qui fait sourire, c'est que tout le monde a une exception de ce genre, et que « on » inclut les deux menteurs.",
+    "howToApply": "Affirme une valeur absolue, puis ajoute « sauf » avec l'exception la plus concrète et la plus avouable possible. Ex : « Mes potes et moi, on partage tout. Sauf la dernière part de pizza. »"
+  },
+  {
+    "content": "J'ai mis à jour mon profil LinkedIn un dimanche soir.",
+    "comedyTechnique": "Le sous-entendu",
+    "techniqueExplanation": "Tu ne dis jamais ce que le manager a compris : la réaction suffit. « Juste nous deux » transforme un café en entretien de rétention. Le public comble le vide, et c'est ce petit effort qui crée le sourire.",
+    "howToApply": "Décris une action anodine, puis une réaction disproportionnée de quelqu'un d'autre, sans jamais expliquer le lien. Ex : « J'ai liké une photo de mon ex de 2019. Le lendemain, trois potes m'ont demandé si ça allait. »"
+  },
+  {
+    "content": "J'ai demandé au serveur ce qu'il me conseillait.",
+    "comedyTechnique": "L'aveu chuchoté",
+    "techniqueExplanation": "Tu attends une recommandation de professionnel, tu reçois une confidence : le seul truc bon ici, c'est ce que la cuisine ne prépare pas. Le coup d'œil vers le chef et le chuchotement transforment un conseil en trahison discrète. Il ne critique rien, et pourtant tu sais tout du menu.",
+    "howToApply": "Mets un expert en position de conseil et fais-lui recommander l'élément le plus annexe, à voix basse. Exemple : « J'ai demandé au vendeur quel ordinateur il me conseillait. Il a regardé autour de lui : “La housse.” »"
+  },
+  {
+    "content": "J'ai un plan très précis pour dans dix ans.",
+    "comedyTechnique": "L'inversion d'échelle",
+    "techniqueExplanation": "Normalement, plus c'est loin, plus c'est flou. Toi, tu inverses : tu maîtrises le lointain et tu perds pied sur l'immédiat. Cette inversion rend visible un travers que tout le monde a, rêver grand pour éviter de s'occuper de la semaine.",
+    "howToApply": "Prends quelque chose qui devrait être plus facile à court terme et rends-le impossible, alors que le long terme est réglé. Ex : « Je sais déjà comment je décorerai ma maison. Je sais pas ce que je mange ce soir. »"
+  },
+  {
+    "content": "J'avais préparé trois symptômes pour le médecin.",
+    "comedyTechnique": "Le rôle inversé",
+    "techniqueExplanation": "Tu arrives préparé comme un patient, et devant le médecin tu deviens celui qui rassure. La chute pointe l'absurdité en termes concrets : tu as payé une consultation pour dire que tout va bien. C'est le réflexe de minimiser, poussé jusqu'à son coût.",
+    "howToApply": "Montre-toi en train d'inverser ton rôle dans une situation où tu devrais être aidé. Exemple : « J'ai appelé le service client pour me plaindre. À la fin, c'est moi qui lui ai souhaité bon courage. »"
+  },
+  {
+    "content": "Avant d'appeler le médecin, j'ai préparé tout mon texte.",
+    "comedyTechnique": "L'angle mort de la préparation",
+    "techniqueExplanation": "Tu te montres surpréparé, et c'est la chose la plus évidente de l'échange qui te fait tomber. Le « Allô ? » est tellement prévisible que ne pas l'avoir anticipé devient absurde. On sourit parce que ceux que le téléphone stresse connaissent ce bug par cœur.",
+    "howToApply": "Décris une préparation minutieuse, puis fais échouer tout ça sur le détail le plus basique. Ex : « J'avais révisé toutes les questions de l'entretien. Il m'a dit \"asseyez-vous\". J'ai hésité. »"
+  },
+  {
+    "content": "J'étais chez moi quand le livreur a glissé un avis de passage sous ma porte.",
+    "comedyTechnique": "La soumission inattendue",
+    "techniqueExplanation": "Tu as tous les droits : tu es là, tu ouvres, tu le prends sur le fait. Et au lieu de protester, tu t'excuses. Le rire vient du renversement de qui est en tort, et de l'auto-dérision : face à quelqu'un de sûr de lui, tu plies.",
+    "howToApply": "Raconte une situation où tu as clairement raison, puis fais-toi céder face à l'aplomb de l'autre. Exemple : « Le serveur m'a apporté le mauvais plat. Je lui ai dit. Il a répondu : “Non, c'est bien ça.” J'ai mangé. »"
+  },
+  {
+    "content": "On a pris une plante pour tester avant le chien.",
+    "comedyTechnique": "La régression par étapes",
+    "techniqueExplanation": "Le test devait vous faire monter en responsabilité. La chute vous fait redescendre, marche par marche, jusqu'à l'objet qui ne peut pas mourir. La « photo de cactus » est le dernier palier, tellement bas qu'il en devient drôle.",
+    "howToApply": "Pars d'un objectif, fais échouer une première étape, puis propose des plans B de plus en plus minuscules. Ex : « Je voulais courir un semi-marathon. J'ai visé un 10 km. Là, je vise d'aller voir le départ. »"
+  },
+  {
+    "content": "En brainstorming : « Il n'y a pas de mauvaise idée. »",
+    "comedyTechnique": "Le démenti par l'exemple",
+    "techniqueExplanation": "Le setup pose une règle universelle, la chute la réfute avec un seul contre-exemple : toi. Tu te sacrifies pour prouver que la règle est fausse, et la phrase finale est tellement sèche qu'elle claque. C'est de l'auto-dérision pure, sans victime.",
+    "howToApply": "Cite une phrase rassurante qu'on dit à tout le monde, puis sois l'exception qui la contredit. Ex : « On dit qu'il n'y a pas d'âge pour apprendre. J'ai pris un cours de roller. Il y en a un. »"
+  },
+  {
+    "content": "J'ai dit bonjour à une vague connaissance à l'entrée du supermarché.",
+    "comedyTechnique": "L'escalade du malaise",
+    "techniqueExplanation": "Le setup pose une politesse banale, la chute la fait dégénérer rayon après rayon. Tu ne décris pas la gêne, tu montres la solution désespérée : lire les petits pois. L'image précise vaut mieux que n'importe quel adjectif.",
+    "howToApply": "Pars d'une interaction polie qui aurait dû finir vite, et termine sur le geste absurde que tu fais pour y échapper. Ex : « J'ai dit au revoir à un collègue, puis on a pris la même rue. J'ai fait semblant d'avoir oublié quelque chose. Deux fois. »"
+  },
+  {
+    "content": "Ce matin, j'ai eu une idée de génie : décaler mon réveil de 10 minutes.",
+    "comedyTechnique": "Le défaut rebaptisé vertu",
+    "techniqueExplanation": "Tu qualifies de « génie » une idée minable, puis la répétition la ridiculise : sept fois la même. La chute retourne la faute en qualité, « cohérent ». Tu défends ton défaut avec le vocabulaire d'une vertu, c'est l'auto-dérision la plus efficace.",
+    "howToApply": "Prends un travers que tu répètes et présente-le comme une qualité professionnelle. Exemple : « J'ai reporté mon rendez-vous chez le dentiste pour la quatrième fois. On dira ce qu'on veut, je suis fiable. »"
+  },
+  {
+    "content": "Au resto, le plat était raté. Le serveur a demandé : « Ça a été ? »",
+    "comedyTechnique": "La rupture à l'amiable",
+    "techniqueExplanation": "Tu mens par politesse, comme tout le monde, mais la justification change tout : tu traites le restaurant comme une relation qu'on quitte proprement. Le mensonge devient un adieu élégant. Le rire vient du vocabulaire de la séparation appliqué à un plat raté.",
+    "howToApply": "Prends un petit mensonge poli et justifie-le avec la logique d'une autre situation, plus grave. Exemple : « J'ai dit au coiffeur que j'adorais ma coupe. On se quitte, autant pas se déchirer. »"
+  },
+  {
+    "content": "Je cherchais quelque chose de drôle à regarder ce soir.",
+    "comedyTechnique": "L'autodérision par la découverte",
+    "techniqueExplanation": "Le narrateur cherche du divertissement externe, puis le trouve dans sa propre archive. La révélation que son passé est sa meilleure source de comédie dit deux choses : il était très différent en 2018, et il n'a plus rien de drôle à perdre. 'Ça valait tous les spectacles' est une hyperbole sincère — le rire est honnête, pas forcé.",
+    "howToApply": "Cherche quelque chose à l'extérieur, puis révèle que la meilleure version de ce que tu cherchais était en toi depuis longtemps (et que c'est embarrassant). Ex : 'Je cherchais un meme parfait pour envoyer à mon pote. J'ai retrouvé les memes que je lui envoyais en 2020. Il était en or. Nous l'étions.'"
+  },
+  {
+    "content": "La machine à café du bureau est en panne depuis lundi.",
+    "comedyTechnique": "La personnification révélatrice",
+    "techniqueExplanation": "Tu prêtes à la machine un rôle social : c'était elle l'animatrice. Sa panne révèle une vérité gênante sur les relations au bureau. La vanne est douce parce qu'elle ne vise personne : tout le monde est dans le même silence.",
+    "howToApply": "Prends un objet autour duquel les gens se retrouvent, retire-le, et montre ce que son absence révèle. Ex : « La télé du salon est tombée en panne. On a découvert qu'on avait rien à se dire depuis 2017. »"
+  },
+  {
+    "content": "Tard le soir, l'écran de ma télé m'a demandé : « Qui regarde ? »",
+    "comedyTechnique": "La question neutre prise pour un interrogatoire",
+    "techniqueExplanation": "« Qui regarde ? » est une question technique : choisir un profil. Tu la reçois comme un interrogatoire, avec l'heure et le programme en circonstances aggravantes. Tu ne dis jamais ce que tu regardes : le lecteur imagine le pire tout seul.",
+    "howToApply": "Prends une question neutre posée par une machine ou un formulaire et réponds comme si on t'accusait. Exemple : « Le distributeur m'a demandé si je voulais un reçu. Non. Je veux pas de preuves. »"
+  },
+  {
+    "content": "À la méditation, on nous a dit de laisser passer nos pensées comme des nuages.",
+    "comedyTechnique": "Le prolongement de la métaphore",
+    "techniqueExplanation": "Tu prends l'image proposée par quelqu'un d'autre et tu la poursuis plus loin qu'il ne l'avait prévu. Des nuages ne se garent pas, mais tes pensées, si : elles s'installent. Quatre mots suffisent parce que la métaphore a déjà été posée par le setup.",
+    "howToApply": "Reprends une image utilisée par un prof, un coach ou un collègue, et fais-la déraper dans le concret. Ex : « Mon manager dit que l'équipe est un bateau. Moi, je suis dans la cale, et personne sait que je suis monté. »"
+  },
+  {
+    "content": "J'ai visité un studio « optimisé » à Paris.",
+    "comedyTechnique": "Le défaut vendu comme une qualité",
+    "techniqueExplanation": "Tu montres l'exiguïté par un détail concret (ouvrir le frigo depuis le lit) au lieu de donner une surface. Puis l'agent retourne le défaut en argument de vente. Le rire vient de ce langage commercial qu'on a tous entendu, appliqué à une absurdité.",
+    "howToApply": "Décris un défaut par un détail physique, puis fais-le présenter comme un avantage par quelqu'un qui vend. Exemple : « Le vendeur m'a dit que la voiture avait du caractère. Elle démarre quand elle veut. »"
+  },
+  {
+    "content": "Quand on tombe malades en même temps, c'est un concours.",
+    "comedyTechnique": "La compétition absurde",
+    "techniqueExplanation": "Tu transformes une situation qui devrait vous rapprocher en compétition avec un règlement. La chute montre le perdant qui continue de concourir en faisant la soupe. C'est la mauvaise foi partagée, reconnaissable par tous les couples, qui fait sourire.",
+    "howToApply": "Prends une épreuve commune et fais-en un concours avec un prix ridicule. Ex : « Dans ma famille, à Noël, c'est à celui qui a eu la pire année. Le gagnant choisit le film. »"
+  },
+  {
+    "content": "Mon collègue est passé de « Bises » à « Cordialement ».",
+    "comedyTechnique": "La lecture entre les lignes",
+    "techniqueExplanation": "Le setup décrit un changement minuscule que seul un anxieux remarquerait. La chute révèle l'ampleur de ta réaction. Le rire vient de la disproportion entre un mot de politesse et une nuit blanche, et de la reconnaissance : on a tous surinterprété une formule.",
+    "howToApply": "Repère un micro-changement dans le comportement de quelqu'un (ponctuation, emoji, formule) et donne une réaction émotionnelle démesurée. Ex : « Ma mère m'a répondu \"Ok.\" avec un point. J'ai rappelé dans la minute. »"
+  },
+  {
+    "content": "Le dimanche, les joggeurs me saluent d'un signe de tête.",
+    "comedyTechnique": "L'imposteur silencieux",
+    "techniqueExplanation": "Les joggeurs te saluent comme un des leurs ; tu profites du malentendu sans rien dire. La chute révèle la vérité en un détail (la boulangerie) et ton petit choix lâche : laisser croire. On sourit parce qu'on aime tous être pris pour meilleur qu'on est.",
+    "howToApply": "Raconte une situation où l'on te prend pour quelqu'un de plus sérieux que toi, et avoue que tu ne corriges pas. Exemple : « À la salle de sport, on m'a demandé si j'avais fini avec la machine. J'avais pas commencé. J'ai dit oui. »"
+  },
+  {
+    "content": "Mon talent caché : rire au bon moment quand j'ai rien entendu.",
+    "comedyTechnique": "La compétence qui cache une faille",
+    "techniqueExplanation": "Tu présentes comme un talent une technique de survie que tout le monde utilise dans un bar bruyant. La chute montre la limite exacte du système : le moment où il faut vraiment répondre. Le rire vient de la reconnaissance, on a tous été ce « oui, ha ha » perdu.",
+    "howToApply": "Présente un petit mensonge social comme une compétence, puis montre la situation précise où il s'effondre. Ex : « Je suis expert pour hocher la tête en réunion. Jusqu'au \"et toi, t'en penses quoi ?\". »"
+  },
+  {
+    "content": "J'avais préparé trois sujets pour mon rendez-vous.",
+    "comedyTechnique": "Le plan qui déraille",
+    "techniqueExplanation": "Tu as tout préparé, et la seule chose que tu n'avais pas prévue arrive : l'autre parle aussi. Au lieu de t'adapter, tu t'accroches à ton plan, ce qui est pire que de ne rien dire. On sourit parce qu'on reconnaît cette rigidité du stress.",
+    "howToApply": "Décris un plan minutieux, un imprévu minuscule, puis ta fidélité absurde au plan. Exemple : « J'avais préparé ma réponse à “Parlez-moi de vous”. Le recruteur m'a demandé si j'avais trouvé facilement. J'ai dit : “Je suis quelqu'un de rigoureux.” »"
+  },
+  {
+    "content": "L'apéro chez mes voisins a duré de 19h à minuit.",
+    "comedyTechnique": "Le paradoxe vécu",
+    "techniqueExplanation": "Tu décris une sensation impossible, et pourtant tout le monde la connaît : cinq heures de chips et de saucisson, zéro vrai repas. La chute tient en deux états contradictoires. Pas besoin d'expliquer l'apéro dînatoire, le paradoxe le fait pour toi.",
+    "howToApply": "Trouve une situation qui te laisse dans deux états opposés à la fois, et nomme-les sans commentaire. Exemple : « J'ai dormi douze heures ce week-end. Je me suis réveillé épuisé et en retard sur rien. »"
+  },
+  {
+    "content": "Pour être plus romantique, j'ai organisé un dîner aux chandelles.",
+    "comedyTechnique": "Le détournement d'usage",
+    "techniqueExplanation": "Le geste romantique réussit, mais pour une raison qui n'a rien de romantique. La chute révèle le vrai bénéfice : cacher le désordre. Tu gardes l'effort, tu changes l'intention, et c'est ce glissement qui rend la vanne douce et crédible.",
+    "howToApply": "Décris un effort fait pour une belle raison, puis révèle que tu l'as gardé pour une raison pratique ou paresseuse. Ex : « J'ai commencé le yoga pour la sérénité. J'y retourne parce qu'on a le droit de s'allonger. »"
+  },
+  {
+    "content": "Le directeur : « Ici, on est une famille. »",
+    "comedyTechnique": "La confirmation détournée",
+    "techniqueExplanation": "Tu ne contredis pas la phrase du directeur, tu la confirmes par le mauvais côté : comme dans une vraie famille, il y a l'oncle qu'on évite à table. Donner raison à quelqu'un pour une raison qu'il n'imaginait pas, c'est plus fin que de le contredire.",
+    "howToApply": "Prends une phrase de discours officiel et montre qu'elle est vraie, mais pas comme prévu. Ex : « Mon coloc dit que l'appart, c'est notre cocon. C'est vrai : on en sort plus. »"
+  },
+  {
+    "content": "Le lundi matin, je suis livré en plusieurs colis.",
+    "comedyTechnique": "La métaphore filée du quotidien",
+    "techniqueExplanation": "Au lieu de dire « je suis fatigué », tu empruntes un système que tout le monde connaît et déteste : la livraison en créneau. Le détail « sans créneau garanti » prolonge la métaphore jusqu'à la frustration réelle. Plus la métaphore colle aux petites misères du quotidien, plus elle est ressortable.",
+    "howToApply": "Remplace un état (fatigué, stressé, perdu) par un service du quotidien qui fonctionne mal, et pousse le vocabulaire jusqu'au bout. Ex : « Mon cerveau le vendredi, c'est un site en maintenance. Revenez plus tard, merci de votre compréhension. »"
+  },
+  {
+    "content": "J'ai demandé à mon dentiste s'il allait faire mal.",
+    "comedyTechnique": "Le non-dit menaçant",
+    "techniqueExplanation": "Tu poses une question simple et la réponse n'arrive pas en mots : c'est un sourire. Le rire naît de tout ce que ce sourire laisse imaginer, et du « J'ai pas aimé » qui dit ta peur sans la nommer. Moins tu expliques, plus le lecteur remplit le vide.",
+    "howToApply": "Remplace la réponse attendue par une réaction non verbale ambiguë, puis commente-la sobrement. Exemple : « J'ai demandé au garagiste si c'était grave. Il a appelé un collègue pour qu'il vienne voir aussi. »"
+  },
+  {
+    "content": "Un touriste m'a demandé son chemin en anglais.",
+    "comedyTechnique": "La panique qui mélange tout",
+    "techniqueExplanation": "Sous la pression, tu fais la pire synthèse possible : la bonne langue pour toi, le mauvais accent pour lui. La dernière phrase, séparée, arrive comme un aveu. On sourit parce que c'est exactement le genre de court-circuit qu'on redoute tous.",
+    "howToApply": "Raconte une situation de stress où tu mélanges deux réflexes en une réponse absurde. Exemple : « Le serveur m'a dit “bon appétit”. J'ai répondu “vous aussi”. Il allait pas manger. »"
+  },
+  {
+    "content": "Mon ex a dit : « Tu ne changeras jamais. »",
+    "comedyTechnique": "Le recadrage",
+    "techniqueExplanation": "'Tu ne changeras jamais' est une critique qui attend de la honte ou de la défense. Le narrateur en fait un compliment (la constance). Le twist est minimal — un seul mot 'remercié' — mais il retourne complètement la dynamique émotionnelle. Le rire vient de la subversion de l'attente.",
+    "howToApply": "Prends une critique et reformule-la comme une qualité sans rien nier. Ex : 'Mon chef m'a dit que j'étais trop prévisible. Je l'ai remercié. La fiabilité, ça n'a pas de prix.'"
+  },
+  {
+    "content": "« N'hésite pas si tu as des questions », a dit mon chef le premier jour.",
+    "comedyTechnique": "L'euphémisme démasqué",
+    "techniqueExplanation": "La formule 'n'hésite pas si tu as des questions' est universelle dans le monde pro — elle sonne comme une ouverture. La punchline révèle que c'était une formule creuse, apprise trop tard. Le rire vient de la reconnaissance collective de ce double langage du travail.",
+    "howToApply": "Prends une expression professionnelle standard et révèle son vrai sens après un délai. Ex : 'Mon chef dit toujours : 'on va voir'. J'ai compris après un an que ça voulait dire non, mais sans le conflit.'"
+  },
+  {
+    "content": "Quand l'avion atterrit, tout le monde se lève pour rester debout dix minutes.",
+    "comedyTechnique": "Le juge qui rejoint l'accusé",
+    "techniqueExplanation": "Tu poses un regard supérieur sur un comportement absurde, puis tu le reproduis presque aussitôt. L'auto-dérision frappe là où tu te croyais au-dessus : tu fais partie du troupeau. Le délai précis, trente secondes, rend ta chute plus ridicule.",
+    "howToApply": "Critique un comportement collectif, puis montre-toi en train de craquer très vite. Exemple : « Je trouve ridicules les gens qui font la queue avant l'ouverture des soldes. J'étais le troisième. »"
+  },
+  {
+    "content": "Je rêve d'avoir la confiance d'un pigeon en terrasse.",
+    "comedyTechnique": "Le modèle improbable",
+    "techniqueExplanation": "Tu choisis comme modèle de vie un animal que tout le monde chasse d'un geste. La chute décrit exactement ce qu'il fait, mais vu comme une leçon d'aplomb. Le rire vient de ce renversement : son sans-gêne devient la qualité qui te manque.",
+    "howToApply": "Choisis un animal ou un personnage agaçant et admire sincèrement son comportement comme une qualité humaine. Ex : « J'aimerais avoir l'estime de soi d'un chat. Il fait tomber ton verre en te regardant, et c'est toi qui t'excuses. »"
+  },
+  {
+    "content": "Un ado m'a laissé sa place dans le bus.",
+    "comedyTechnique": "Le corps qui répond avant toi",
+    "techniqueExplanation": "Ta bouche défend ta fierté, ton corps a déjà accepté la place. Le décalage entre ce que tu dis et ce que tu fais raconte le vieillissement mieux qu'une plainte. Faire parler tes genoux rend l'aveu drôle au lieu d'être triste.",
+    "howToApply": "Mets en scène un refus poli contredit par une partie de ton corps qui décide seule. Exemple : « J'ai dit que je prendrais pas de dessert. Ma main tenait déjà la cuillère. »"
+  },
+  {
+    "content": "J'ai oublié de dire bonjour en entrant à la pharmacie.",
+    "comedyTechnique": "Le rituel refait à zéro",
+    "techniqueExplanation": "Le « bonjour » en entrant est une règle sacrée, et tu la répares de la manière la plus scolaire : tu rejoues toute l'entrée. Le silence de la pharmacienne suffit, elle n'a pas besoin de dire un mot. On rit de ton obéissance, pas d'elle.",
+    "howToApply": "Prends une petite règle de politesse que tu as ratée et répare-la de façon excessivement littérale. Exemple : « J'ai oublié de souhaiter l'anniversaire de mon pote. Le lendemain, je lui ai écrit : “Hier, joyeux anniversaire.” »"
+  },
+  {
+    "content": "Cette année, on s'était promis : pas de cadeaux.",
+    "comedyTechnique": "La trahison en miroir",
+    "techniqueExplanation": "Le setup pose une promesse, la chute révèle que vous l'avez rompue tous les deux, de la même façon. La trahison devient une preuve d'accord parfait. C'est une chute tendre : le rire vient de la complicité, pas d'une victime.",
+    "howToApply": "Pose un pacte entre deux personnes, puis révèle qu'elles l'ont brisé exactement de la même manière. Ex : « Avec mon frère, on s'était juré de pas appeler maman en premier. On a sonné occupé tous les deux. »"
+  },
+  {
+    "content": "J'ai demandé au stagiaire de m'expliquer le nouveau logiciel.",
+    "comedyTechnique": "Le renversement de hiérarchie",
+    "techniqueExplanation": "Normalement, c'est toi qui formes le stagiaire. Ici, c'est lui qui te traite avec la patience qu'on réserve aux personnes âgées. Tu te moques de toi, pas de lui, et la comparaison finale rend l'image immédiate.",
+    "howToApply": "Mets-toi en position de faiblesse face à quelqu'un censé être en dessous de toi, et décris sa gentillesse humiliante. Ex : « Mon petit cousin de 9 ans m'a laissé gagner à la console. Il me l'a dit après, pour que je le sache. »"
+  },
+  {
+    "content": "Au partiel de philo, j'ai répondu « ça dépend » partout.",
+    "comedyTechnique": "La paresse qui tombe juste",
+    "techniqueExplanation": "Tu fais le minimum, une réponse passe-partout, et elle se révèle presque juste parce qu'elle colle au cliché de la discipline. Le rire vient de ce que tout le monde soupçonne : en philo, « ça dépend » est une vraie réponse. Tu te moques de ta flemme et de la matière en même temps.",
+    "howToApply": "Choisis une réponse fainéante et montre qu'elle marche mieux que prévu dans un domaine précis. Exemple : « En entretien, j'ai répondu “je suis perfectionniste” à toutes les questions. On m'a proposé le poste de manager. »"
+  },
+  {
+    "content": "Les pantoufles, c'est le vêtement le plus honnête qui existe.",
+    "comedyTechnique": "La personnification révélatrice",
+    "techniqueExplanation": "Les pantoufles ne peuvent évidemment pas 'dire' quelque chose. Mais les traiter comme un oracle honnête révèle une vérité inconfortable sur les soirées canapé. L'humour vient du fait que l'objet inanimé est plus lucide que son propriétaire sur la situation réelle.",
+    "howToApply": "Fais parler un objet du quotidien comme s'il détenait la vérité que tu refuses d'admettre. Ex : 'Mon frigo me connaît mieux que mon médecin. Quand il est vide à 23h, il sait que je commande et il ne dit rien.'"
+  },
+  {
+    "content": "Ma mère me demande si je mange des légumes. Je lui envoie une photo de courgette.",
+    "comedyTechnique": "Le mensonge qui s'use",
+    "techniqueExplanation": "Le setup raconte une petite triche efficace. La chute révèle qu'elle dure depuis longtemps, et que la preuve est devenue un personnage que ta mère « reconnaît ». Tu ne dis jamais que tu manges mal : la courgette qui revient chaque semaine le dit pour toi.",
+    "howToApply": "Décris une astuce pour rassurer quelqu'un, puis montre qu'elle a été répétée jusqu'à devenir louche. Ex : « Pour prouver que je vais courir, j'envoie la même capture d'écran à mon pote. Il m'a demandé pourquoi il pleut toujours sur mon parcours. »"
+  },
+  {
+    "content": "J'ai acheté un parapluie en urgence.",
+    "comedyTechnique": "L'objet complice",
+    "techniqueExplanation": "Le parapluie devait te sauver, il te lâche au premier coup de vent. Au lieu de le maudire, tu en fais un partenaire : « on » a fini le trajet ensemble. Personnifier l'objet transforme une galère en scène de solidarité, et c'est ça qui fait sourire.",
+    "howToApply": "Prends un objet qui te trahit et, au lieu de t'en plaindre, fais-en un compagnon d'infortune. Exemple : « Ma valise a perdu une roue au milieu de la gare. On a boité tous les deux jusqu'au quai. »"
+  },
+  {
+    "content": "La mairie voulait un justificatif de domicile de moins de trois mois.",
+    "comedyTechnique": "La logique administrative jusqu'au bout",
+    "techniqueExplanation": "Tu pousses la règle administrative jusqu'à sa conclusion absurde : un papier trop vieux et tu n'existes plus à ton adresse. Le « apparemment » donne l'air d'accepter le verdict, ce qui le rend plus drôle. Tu n'attaques pas l'administration, tu subis sa logique.",
+    "howToApply": "Prends une règle bureaucratique réelle et tires-en la conséquence la plus absurde pour toi, en l'acceptant calmement. Exemple : « Ma carte de fidélité a expiré. Apparemment, je suis plus fidèle. »"
+  },
+  {
+    "content": "Quand mon copain fait la tête, il répond « rien, ça va ».",
+    "comedyTechnique": "L'arroseur arrosé",
+    "techniqueExplanation": "Le setup a l'air de viser le partenaire. La chute retourne la cible vers toi : c'est ton propre défaut qui t'est renvoyé. Tu passes de juge à coupable en une phrase, et c'est cet aveu qui rend la vanne sympathique.",
+    "howToApply": "Critique une habitude de quelqu'un, puis révèle que tu en es la source. Ex : « Mon petit frère ment très mal sur ses notes. Il faut dire que je lui ai montré comment faire, à l'époque. »"
+  },
+  {
+    "content": "J'ai parlé cinq minutes en visio, micro coupé.",
+    "comedyTechnique": "Le chef-d'œuvre perdu",
+    "techniqueExplanation": "Tu transformes un bug banal en tragédie artistique. En déclarant que c'était ta meilleure intervention, tu rends la perte plus grande, et invérifiable. Le rire vient de cette mauvaise foi que personne ne peut contredire.",
+    "howToApply": "Prends un moment raté ou non vu, et affirme que c'était ta meilleure performance. Ex : « J'ai fait un créneau parfait hier soir. Il n'y avait personne. Je le raconterai toute ma vie. »"
+  },
+  {
+    "content": "La caisse automatique a dit : « Article inattendu dans la zone d'ensachage. »",
+    "comedyTechnique": "La procédure absurde",
+    "techniqueExplanation": "La machine prend ton coude pour un article, et au lieu de corriger l'erreur, le système la traite avec sérieux : un vendeur vient « valider » ton coude. Le vocabulaire de caisse appliqué à une partie de ton corps crée l'absurde. Tu n'as rien à ajouter, la procédure est déjà ridicule.",
+    "howToApply": "Prends une erreur de machine et fais-la traiter par un humain avec tout le sérieux de la procédure. Exemple : « Le portique de l'aéroport a sonné à cause de ma ceinture. Deux agents ont inspecté ma ceinture. Elle est passée. Pas moi. »"
+  },
+  {
+    "content": "J'ai posté ma première vidéo.",
+    "comedyTechnique": "La réaction qui dit tout",
+    "techniqueExplanation": "Tu ne juges jamais ta vidéo : c'est la réaction de ta mère qui la juge. Le like est poli, l'appel inquiet est sincère, et cet écart suffit. Faire passer le verdict par quelqu'un qui t'aime, c'est plus drôle et plus doux que de te descendre toi-même.",
+    "howToApply": "Montre ton échec uniquement à travers la réaction inquiète d'un proche bienveillant. Ex : « J'ai chanté au mariage de mon cousin. Ma grand-mère m'a pris la main et m'a dit \"c'est pas grave\". »"
+  },
+  {
+    "content": "Au bac d'anglais, l'examinateur m'a demandé : « Where are you from? »",
+    "comedyTechnique": "Le silence complice",
+    "techniqueExplanation": "La réponse fausse est drôle, mais c'est la suite qui fait la vanne : personne ne relève, et vous faites semblant ensemble. Ce pacte de gêne entre toi et l'examinateur est plus drôle que l'erreur elle-même. Le « comme si de rien n'était » dit toute la gêne sans la décrire.",
+    "howToApply": "Raconte une erreur énorme, puis montre que tout le monde a décidé de ne pas la relever. Exemple : « En réunion, j'ai appelé ma cheffe “maman”. Elle a répondu à ma question. On a continué. »"
+  },
+  {
+    "content": "Je dis pardon même quand j'ai raison.",
+    "comedyTechnique": "Le calcul de rentabilité",
+    "techniqueExplanation": "Tu réduis une question morale à un calcul de temps. La chute compare deux durées, et la conclusion s'impose sans que tu la formules. C'est de la sagesse de couple déguisée en optimisation, drôle parce qu'elle est vraie.",
+    "howToApply": "Prends un choix qui devrait être moral et justifie-le uniquement par le temps ou l'effort économisé. Ex : « Je dis que j'ai vu le film. Expliquer pourquoi je l'ai pas vu, c'est un quart d'heure. »"
+  },
+  {
+    "content": "Je travaille très bien sous pression.",
+    "comedyTechnique": "La qualité qui justifie le défaut",
+    "techniqueExplanation": "Le setup est une phrase de CV que tout le monde a écrite. La chute en tire une conclusion logique et scandaleuse : si tu es bon sous pression, autant la laisser venir. Ta procrastination devient une stratégie, et c'est cette fausse rigueur qui fait sourire.",
+    "howToApply": "Prends une qualité que tu revendiques et utilise-la comme argument pour ton pire défaut. Ex : « Je suis très bon en improvisation. C'est pour ça que je prépare jamais rien. »"
+  },
+  {
+    "content": "Pour mon régime, je m'autorise un carré de chocolat par jour.",
+    "comedyTechnique": "La faille dans la règle",
+    "techniqueExplanation": "Tu te fixes une règle stricte, puis tu révèles la faille que tu as laissée exprès. Tout le rire est dans ce que la chute ne dit pas : le lecteur imagine le carré de la taille d'une tablette. Une phrase, zéro explication, c'est l'économie parfaite.",
+    "howToApply": "Énonce une bonne résolution chiffrée, puis montre le mot flou qui la rend inutile. Exemple : « Je me suis limité à un épisode par soir. J'ai pas précisé la saison. »"
+  },
+  {
+    "content": "Pour accrocher un cadre, j'ai percé trois trous.",
+    "comedyTechnique": "La réparation en boucle",
+    "techniqueExplanation": "La solution que tu trouves reproduit le problème qu'elle devait régler : chaque cadre acheté demandera de nouveaux trous. Tu ne le dis pas, le public voit la boucle tout seul. C'est ce raisonnement sérieux, qui ne mène nulle part, qui fait sourire.",
+    "howToApply": "Raconte une petite erreur, puis une solution qui, si on y réfléchit une seconde, va la reproduire à l'infini. Ex : « J'ai taché mon tee-shirt de sauce. Pour cacher la tache, je mange avec une serviette. Je la tache aussi. »"
+  },
+  {
+    "content": "J'ai cherché mes clés partout ce matin.",
+    "comedyTechnique": "La chute par paliers",
+    "techniqueExplanation": "Tu pars d'un problème banal et chaque fragment de la chute aggrave la situation : sur la porte, côté palier, depuis hier soir. Tu ne dis jamais que ta porte est restée ouverte toute la nuit : le lecteur le comprend et frissonne à ta place.",
+    "howToApply": "Découpe ta révélation en trois morceaux courts, du moins grave au plus grave, sans commentaire. Exemple : « J'ai retrouvé mon portefeuille. Dans le frigo. Ouvert. »"
+  },
+  {
+    "content": "Pour avancer, j'ai déjeuné devant mon ordi.",
+    "comedyTechnique": "L'inquiétude disproportionnée",
+    "techniqueExplanation": "Tu ne dis jamais que la pause déjeuner est sacrée : tu le montres par la réaction de tes collègues, qui traitent ton sandwich comme un signal de détresse. La clémentine, geste de soutien minuscule, rend la scène tendre et précise. C'est le détail qui fait sourire, pas la règle.",
+    "howToApply": "Enfreins une norme sociale douce et raconte la réaction inquiète, disproportionnée et gentille des autres. Exemple : « Je suis parti d'une soirée à 23h. Le lendemain, trois potes m'ont écrit pour savoir si c'était à cause d'eux. »"
+  },
+  {
+    "content": "Mon copain cuisine une fois par an.",
+    "comedyTechnique": "La disproportion mesurée",
+    "techniqueExplanation": "Le setup donne une fréquence, la chute donne la durée de l'écho. L'écart entre un mois d'action et onze mois de récit suffit, sans adjectif. C'est une taquinerie affectueuse que tout le monde reconnaît chez quelqu'un de proche.",
+    "howToApply": "Donne la fréquence d'un exploit, puis le temps qu'on passe à en entendre parler. Ex : « Mon père a réparé une fuite en 2015. On en parle encore à chaque repas. »"
+  },
+  {
+    "content": "J'ai envoyé un mail « ci-joint le document », sans le document.",
+    "comedyTechnique": "La réparation qui empire",
+    "techniqueExplanation": "Tout le monde a déjà oublié une pièce jointe, c'est le setup. La chute ajoute une deuxième erreur, pire, au moment où tu essaies de réparer la première. L'objet du mail, confiant et soulagé, rend la chute encore plus dure.",
+    "howToApply": "Raconte une petite erreur, puis la tentative de correction qui en crée une plus grosse. Ex : « J'ai écrit \"joyeux anniversaire\" au mauvais Julien. J'ai envoyé \"désolé, mauvais Julien\" au bon. »"
+  },
+  {
+    "content": "J'ai une playlist « Motivation » de trois heures.",
+    "comedyTechnique": "Le détail qui trahit",
+    "techniqueExplanation": "« Je l'écoute en entier » ressemble à une preuve d'assiduité. Le dernier mot, séparé par un point, renverse tout : la motivation est consommée comme un podcast au lit. Garder le mot révélateur pour la toute fin, c'est ce qui crée le déclic.",
+    "howToApply": "Construis une phrase qui a l'air positive, et termine par un seul mot qui change le décor. Ex : « J'ai lu tout le livre sur la productivité. Au lit. En trois semaines. »"
+  },
+  {
+    "content": "Chaque fois que je croise un vieux pote, on se dit : « Faut qu'on se fasse un truc. »",
+    "comedyTechnique": "La promesse qui devient la chose",
+    "techniqueExplanation": "La phrase « faut qu'on se fasse un truc » est une promesse creuse. À force d'être répétée, elle devient elle-même le rituel promis. Le mot « truc » change de sens entre le setup et la chute : c'est un retournement d'idée, pas un jeu de sons.",
+    "howToApply": "Prends une promesse jamais tenue et montre qu'elle est devenue une tradition à elle seule. Exemple : « Avec ma sœur, on dit chaque année qu'on ira voir les aurores boréales. C'est notre sortie annuelle. »"
+  },
+  {
+    "content": "On me tend le poing, je serre la main. On me tend la main, je fais un check.",
+    "comedyTechnique": "L'image au ralenti",
+    "techniqueExplanation": "Le setup installe un bug social que tout le monde a vécu. La chute arrête l'image sur le moment le plus gênant et le décrit avec précision. Tu ne dis pas « c'est gênant », tu fais voir la scène, et le public la revit à ta place.",
+    "howToApply": "Choisis un micro-moment gênant du quotidien et décris sa dernière seconde comme un arrêt sur image. Ex : « On s'est écartés du même côté dans le couloir. Trois fois. À la fin, on a failli danser. »"
+  },
+  {
+    "content": "Ce matin, pour une fois, mon train est arrivé à l'heure.",
+    "comedyTechnique": "L'excuse qui disparaît",
+    "techniqueExplanation": "On attend la blague classique sur les trains en retard ; tu la retournes : le train à l'heure est un problème pour toi, parce qu'il te privait de ton excuse. La chute avoue au passage que tu étais en retard par ta faute depuis le début. Tu te moques de toi, pas du train.",
+    "howToApply": "Prends un désagrément commun, cherche qui en profite en secret, et fais que ce soit toi. Exemple : « Le wifi du bureau marche enfin. Je sais plus quoi dire quand je réponds pas à un mail. »"
+  },
+  {
+    "content": "À la poste, j'ai soupiré fort dans la file d'attente.",
+    "comedyTechnique": "La contagion qui crée du lien",
+    "techniqueExplanation": "Un soupir d'agacement se propage à toute la file, et la mauvaise humeur fabrique de la fraternité. La chute conclut sur l'émotion inverse de celle attendue : la proximité. On sourit parce qu'on a tous vécu ce petit moment de complicité grognonne.",
+    "howToApply": "Pars d'un geste négatif individuel, fais-le se propager, et termine sur un effet positif inattendu. Exemple : « Dans le métro bloqué, un mec a dit “sérieux…”. Tout le wagon a répondu “sérieux”. On a failli échanger nos numéros. »"
+  },
+  {
+    "content": "Notre conversation la plus active : la liste de courses.",
+    "comedyTechnique": "Le lyrisme appliqué au banal",
+    "techniqueExplanation": "La chute emploie un vocabulaire de roman d'amour (« nos plus beaux échanges ») pour parler de produits ménagers. Ce décalage de registre montre la routine avec tendresse, sans aigreur. On sourit parce qu'on se reconnaît.",
+    "howToApply": "Décris un échange banal avec des mots réservés aux grands moments. Ex : « Mon plus beau souvenir avec mon coloc, c'est le jour où il a sorti les poubelles sans que je demande. »"
+  },
+  {
+    "content": "En télétravail, mon collègue le plus proche, c'est le livreur.",
+    "comedyTechnique": "Le remplacement du collègue",
+    "techniqueExplanation": "Tu remplaces l'équipe par la seule personne que tu vois en vrai. La chute lui prête la qualité d'un collègue idéal, et le « lui » glisse une pique douce aux vrais collègues. Ta solitude devient une anecdote, pas une plainte.",
+    "howToApply": "Désigne quelqu'un d'inattendu dans un rôle précis (collègue, confident, coach) et liste ce qu'il fait mieux que les titulaires. Ex : « Mon meilleur conseiller financier, c'est la caissière. Elle me demande si j'ai vraiment besoin de tout ça. »"
+  },
+  {
+    "content": "Je me suis pris la porte vitrée de la banque.",
+    "comedyTechnique": "L'excuse qui sauve la face",
+    "techniqueExplanation": "Après une humiliation publique, tu inventes une justification comme si le choc était volontaire. Plus l'excuse est absurde, plus elle avoue ta gêne. On sourit parce que tout le monde a déjà essayé de transformer une gaffe en intention.",
+    "howToApply": "Raconte une maladresse devant témoin, puis donne-lui une fausse raison professionnelle. Exemple : « J'ai trébuché sur le trottoir. J'ai continué en courant, comme si c'était un départ de footing. »"
+  },
+  {
+    "content": "J'ai pris un bain avec des bougies pour me détendre.",
+    "comedyTechnique": "La détente transformée en tâche",
+    "techniqueExplanation": "Le bain aux bougies, c'est le symbole de la déconnexion. Toi, au bout de cinq minutes, tu le traites comme une corvée à valider : est-ce que ça compte déjà ? Le rire vient de reconnaître qu'on ne sait plus se reposer sans objectif.",
+    "howToApply": "Prends une activité censée être gratuite et agréable, et colle-lui un réflexe de productivité. Exemple : « Je suis parti me balader sans but. Au bout d'une heure, j'ai vérifié mes pas pour savoir si c'était réussi. »"
+  },
+  {
+    "content": "Elle : « Tu penses à quoi ? » Moi : « À toi. »",
+    "comedyTechnique": "La double lecture",
+    "techniqueExplanation": "La chute ne dit rien de plus, elle ajoute juste le contexte. Du coup, deux lectures s'ouvrent : soit tu mens, soit tu la compares à un requin. Laisser le public choisir entre deux interprétations gênantes, c'est ce qui crée le rire.",
+    "howToApply": "Donne une réponse flatteuse, puis révèle un contexte qui la rend suspecte ou ambiguë. Ex : « Ma mère m'a demandé à quoi je pensais. J'ai dit \"à ta cuisine\". On était devant un reportage sur les cantines. »"
+  },
+  {
+    "content": "Au team building, on a fait du kayak à deux. Il fallait ramer ensemble.",
+    "comedyTechnique": "La métaphore involontaire",
+    "techniqueExplanation": "L'activité devait souder l'équipe. Elle reproduit fidèlement ses défauts, et la chute fait le lien avec le projet. « Mais mouillés » ajoute un détail concret qui rend la comparaison encore plus triste, et donc drôle.",
+    "howToApply": "Prends une activité censée résoudre un problème et montre qu'elle le reproduit à l'identique, avec un inconvénient en plus. Ex : « En thérapie de couple, on a fait un exercice de communication. On s'est disputés sur la consigne. »"
+  },
+  {
+    "content": "Le soir, je décide de courir à 6h.",
+    "comedyTechnique": "Le dédoublement de soi",
+    "techniqueExplanation": "Tu parles de toi-même au passé comme d'un autre, un « gars » qui prend des décisions et disparaît. Ce dédoublement rend ta mauvaise foi drôle : ce n'est jamais toi qui échoues, c'est lui qui ne répond plus. Tout le monde reconnaît ce « moi du soir » plein d'ambition.",
+    "howToApply": "Parle de ta version d'hier comme d'un collègue peu fiable. Ex : « Le gars qui a acheté trois kilos de légumes samedi a disparu. C'est moi qui dois gérer. »"
+  },
+  {
+    "content": "Mon manager m'a écrit « On peut s'appeler ? », sans smiley.",
+    "comedyTechnique": "La montée d'angoisse désamorcée",
+    "techniqueExplanation": "Un message sec suffit à déclencher le film catastrophe dans ta tête. La chute oppose ce drame intérieur à la banalité de la vraie question. L'écart entre « toute ma carrière » et « l'agrafeuse » fait le rire : plus la cause est petite, mieux ça marche.",
+    "howToApply": "Pars d'un signal ambigu, décris ton angoisse en une phrase énorme, puis révèle une cause minuscule. Exemple : « Ma mère m'a appelé trois fois d'affilée. J'ai rappelé en tremblant. Elle voulait la recette du taboulé. »"
+  },
+  {
+    "content": "Je sens tout de suite quand une idée est mauvaise.",
+    "comedyTechnique": "Le décalage temporel",
+    "techniqueExplanation": "Le setup vante une qualité (l'intuition), la chute la place au pire moment possible : trop tard. Une intuition qui arrive après coup, ce n'est plus une intuition, c'est un regret. Tout le monde connaît cette demi-seconde où tu entends ta propre phrase.",
+    "howToApply": "Annonce un talent de prévision, puis révèle qu'il se déclenche après l'événement. Ex : « J'ai un excellent sens de l'orientation. Il se réveille quand je suis arrivé au mauvais endroit. »"
+  },
+  {
+    "content": "Il s'est mis à pleuvoir sur mon linge étendu.",
+    "comedyTechnique": "Le renommage flatteur",
+    "techniqueExplanation": "Il pleut sur ton linge : c'est un échec. Au lieu de courir le rentrer, tu rebaptises la situation avec un terme technique, « deuxième rinçage ». La paresse devient une option du programme. Donner un nom officiel à un raté, c'est un des moteurs les plus simples de l'auto-dérision.",
+    "howToApply": "Prends un raté et donne-lui un nom qui le fait passer pour un choix. Exemple : « J'ai raté mon bus. J'appelle ça de la marche active. »"
+  },
+  {
+    "content": "J'ai tenu la porte à quelqu'un qui était encore à dix mètres.",
+    "comedyTechnique": "La politesse qui se retourne",
+    "techniqueExplanation": "Ta gentillesse oblige l'autre à un effort qu'il n'a pas demandé, et vous finissez tous les deux punis par la politesse. Les trois états de la fin (remerciés, essoufflés, fâchés) résument le piège. C'est drôle parce que personne n'a tort, et tout le monde y perd.",
+    "howToApply": "Prends un geste poli et montre le petit coût qu'il impose à l'autre, puis finis sur un mélange d'émotions contradictoires. Exemple : « J'ai proposé à ma voisine de porter ses courses. Elle a refusé par politesse. J'ai insisté par politesse. On a porté chacun un sac, vexés. »"
+  },
+  {
+    "content": "Quand on s'est séparés, on a partagé les affaires équitablement.",
+    "comedyTechnique": "L'inventaire qui dérape",
+    "techniqueExplanation": "Le partage commence comme une liste de biens, et le deuxième élément n'est pas un objet. En plaçant les amis au même niveau que le canapé, tu montres qui a vraiment gagné, sans aigreur. La symétrie des deux phrases rend la chute nette.",
+    "howToApply": "Fais une liste d'objets et termine par un élément humain ou abstrait traité comme un meuble. Ex : « En quittant la coloc, j'ai pris la cafetière. Mon coloc a gardé la bonne humeur. »"
+  },
+  {
+    "content": "L'imprimante du bureau affiche « impression en cours » depuis ce matin.",
+    "comedyTechnique": "La personnification miroir",
+    "techniqueExplanation": "Tu prêtes à l'imprimante une stratégie humaine : avoir l'air occupée sans rien produire. Le « ici » élargit la cible à tout le bureau, toi compris. C'est une auto-dérision collective, pas une critique d'un collègue.",
+    "howToApply": "Prends un appareil en panne et fais-le ressembler à un comportement humain que tu connais bien. Ex : « Mon ordi affiche \"presque terminé\" depuis une heure. Il m'a piqué ma phrase préférée. »"
+  },
+  {
+    "content": "Petit, mes parents m'envoyaient au lit à 21h.",
+    "comedyTechnique": "Le renversement des rôles",
+    "techniqueExplanation": "La même heure, 21h, sert deux fois, mais les rôles ont changé : c'est toi qui veux te coucher, eux qui veulent veiller. Garder le même détail d'un bout à l'autre rend l'inversion évidente et tendre. On sourit parce qu'on voit le temps passer sans qu'il soit nommé.",
+    "howToApply": "Prends une règle de ton enfance et montre-la appliquée aujourd'hui dans l'autre sens, avec le même détail. Exemple : « Petit, ma mère me disait de mettre un pull. Maintenant, c'est moi qui lui tends son gilet en partant. »"
+  },
+  {
+    "content": "Au supermarché, le panneau disait « Souriez, vous êtes filmé ». J'ai souri.",
+    "comedyTechnique": "L'obéissance suspecte",
+    "techniqueExplanation": "Tu fais exactement ce que dit le panneau, et c'est justement ça qui te rend suspect. La consigne et la réalité se contredisent, et c'est toi qui en payes le prix. Le « Faudrait savoir » final résume ta frustration en deux mots.",
+    "howToApply": "Choisis une consigne affichée que personne ne suit et raconte ce qui arrive quand tu l'appliques vraiment. Exemple : « Sur la porte du bureau, il y avait écrit “Entrez sans frapper”. Je suis entré sans frapper. On m'a demandé si j'avais un problème. »"
+  },
+  {
+    "content": "Je suis redoutable dans les débats.",
+    "comedyTechnique": "Le cadre qui démolit la vantardise",
+    "techniqueExplanation": "La chute ne contredit pas l'affirmation, elle lui ajoute trois précisions : seul, sous la douche, trop tard. Chacune retire un peu plus de crédibilité. C'est drôle parce que tout le monde a déjà gagné une dispute trois jours après, sans témoin.",
+    "howToApply": "Vante une compétence, puis précise le lieu, le moment et le public réels où elle s'exerce. Ex : « Je danse vraiment bien. Dans ma cuisine, porte fermée, en attendant que les pâtes cuisent. »"
+  },
+  {
+    "content": "J'ai monté ma commode seul. Mon père est venu l'inspecter.",
+    "comedyTechnique": "Le geste qui contredit le compliment",
+    "techniqueExplanation": "Ton père ne critique pas : il ouvre un tiroir, le referme « très doucement », et dit « c'est bien ». Tout le jugement tient dans ce « doucement » : il a peur que le meuble s'effondre. Le compliment arrive après le geste, et le geste a déjà tout dit.",
+    "howToApply": "Fais réagir quelqu'un à ton travail avec un geste prudent, puis un compliment minimal. Le geste doit contredire le mot. Exemple : « J'ai fait goûter ma sauce à ma sœur. Elle a bu un grand verre d'eau, puis elle a dit : “Elle a du caractère.” »"
+  },
+  {
+    "content": "Mon pote commence toutes ses phrases par « en vrai ».",
+    "comedyTechnique": "Le tic pris au sérieux",
+    "techniqueExplanation": "Tu prends un tic de langage au pied de la lettre : si maintenant c'est « en vrai », qu'est-ce qui était faux avant ? La chute retourne une habitude inoffensive en soupçon. C'est un vrai retournement d'idée, pas de son : le sens change, le mot reste.",
+    "howToApply": "Repère un tic de langage autour de toi et tire la conséquence logique de son sens littéral. Exemple : « Ma collègue dit “pour être honnête” avant chaque phrase. J'ai arrêté de croire tout ce qu'elle disait sans. »"
+  },
+  {
+    "content": "Je lui ai demandé s'il m'aimait plus que tout.",
+    "comedyTechnique": "Le démenti par l'acte",
+    "techniqueExplanation": "La parole dit oui, l'acte qui suit dit non. Tu ne commentes pas l'écart : l'enchaînement suffit, avec un « puis » neutre. Les frites donnent une mesure concrète et affectueuse de ce qu'est vraiment « tout ».",
+    "howToApply": "Rapporte une promesse, puis enchaîne sans transition sur un geste qui la contredit. Ex : « Mon pote m'a dit qu'il serait toujours là pour moi. Le lendemain, je lui ai demandé de m'aider à déménager. Il avait piscine. »"
+  },
+  {
+    "content": "Cette année, j'ai eu une vraie évolution de carrière.",
+    "comedyTechnique": "Le changement d'échelle",
+    "techniqueExplanation": "Le setup annonce un grand mot (« évolution de carrière »), la chute le ramène à trois mètres de déplacement. Tu racontes ce déménagement avec le sérieux d'une promotion. Le contraste entre l'ambition du mot et la taille du résultat fait sourire.",
+    "howToApply": "Annonce un grand changement de vie, puis révèle qu'il se mesure en centimètres. Ex : « J'ai complètement changé mon alimentation. Je prends plus le menu 2, je prends le menu 3. »"
+  },
+  {
+    "content": "Un type m'a salué par mon prénom. Je sais pas qui c'est.",
+    "comedyTechnique": "Le déséquilibre d'information",
+    "techniqueExplanation": "Lui sait tout de toi, toi tu n'as qu'un indice ridicule : un manteau vert. L'écart entre ses connaissances et les tiennes raconte ta panique sans l'expliquer. On reconnaît tous ce moment où l'on fait semblant jusqu'au bout.",
+    "howToApply": "Mets face à face ce que l'autre sait et ce que toi tu sais, en finissant sur un détail dérisoire. Exemple : « Ma voisine connaît mes horaires, mon boulot et le prénom de ma mère. Moi, je sais qu'elle a un chat. Enfin, un chat ou une plante. »"
+  },
+  {
+    "content": "Mon voisin m'a demandé « ça va ? » dans l'escalier.",
+    "comedyTechnique": "Le rituel pris au sérieux",
+    "techniqueExplanation": "« Ça va ? » est une formule, pas une question. Toi, tu y réponds vraiment, et la conséquence concrète (le bus raté) montre la longueur de ta réponse sans la raconter. Tu laisses le public imaginer tout ce que tu as déballé.",
+    "howToApply": "Prends une formule de politesse automatique et réponds-y au premier degré, puis montre seulement la conséquence. Ex : « La caissière m'a demandé si je voulais un sac. J'ai pesé le pour et le contre. Derrière moi, quelqu'un a changé de caisse. »"
+  },
+  {
+    "content": "À vélo, je m'arrête à tous les feux rouges.",
+    "comedyTechnique": "La norme à l'envers",
+    "techniqueExplanation": "Tu respectes la règle, et c'est toi qui passes pour le bizarre. La chute renverse la norme : là où tout le monde grille le feu, s'arrêter devient un comportement de touriste égaré. Tu ne vises personne : l'exception ridicule, c'est toi.",
+    "howToApply": "Choisis un endroit où la règle officielle est ignorée par tous, et raconte-toi en train de la suivre sous le regard des autres. Exemple : « Dans mon immeuble, je suis le seul à trier. Quand je descends avec mes trois sacs, les voisins croient que je déménage. »"
+  },
+  {
+    "content": "Chez nous, celui qui a tort fait la vaisselle.",
+    "comedyTechnique": "La règle qui produit l'inverse",
+    "techniqueExplanation": "La règle devait mettre fin aux disputes. Elle crée une incitation parfaite à ne jamais avoir tort. La chute montre la conséquence visible, l'évier plein, qui résume l'échec mieux qu'une explication.",
+    "howToApply": "Invente une règle pour régler un problème, puis montre comment tout le monde la contourne, avec une conséquence concrète. Ex : « Dans la coloc, celui qui finit le lait en rachète. Depuis, il reste toujours un fond. »"
+  },
+  {
+    "content": "Au pot de départ d'une collègue, j'ai fait un petit discours très émouvant.",
+    "comedyTechnique": "La révélation par la réponse",
+    "techniqueExplanation": "Le setup te montre sincère et investi. La réponse de ta collègue révèle qu'elle ne savait pas qui tu étais. Tu ne te moques pas d'elle : c'est toi qui as surjoué une relation qui n'existait pas.",
+    "howToApply": "Décris un geste très personnel que tu fais pour quelqu'un, puis une réponse qui montre qu'il ne te connaît pas. Ex : « J'ai offert un cadeau très réfléchi à mon voisin pour Noël. Il m'a remercié en m'appelant Kevin. »"
+  },
+  {
+    "content": "J'ai répondu si tard à un pote que j'ai commencé par « joyeux anniversaire ».",
+    "comedyTechnique": "Le retard mesuré en événements",
+    "techniqueExplanation": "Au lieu de dire « j'ai mis longtemps », tu mesures ton retard avec un événement qui prouve qu'un an s'est écoulé. La chute ajoute une deuxième couche : le message que tu as ignoré concernait justement cet anniversaire. Le retard se mord la queue.",
+    "howToApply": "Exprime une durée avec un événement qui a eu le temps d'arriver entre-temps. Ex : « J'ai tellement attendu pour rendre ce livre que je l'ai rendu à la fille de la personne. »"
+  },
+  {
+    "content": "J'ai réussi à m'installer dans le hamac du premier coup.",
+    "comedyTechnique": "La victoire qui piège",
+    "techniqueExplanation": "Réussir du premier coup devrait clore le problème. Là, c'est le début : tu as tellement peur de perdre cette réussite que tu n'oses plus bouger. Le mot « techniquement » avoue que le repos est devenu une immobilisation.",
+    "howToApply": "Raconte une petite réussite, puis montre qu'elle t'impose une contrainte absurde pour la préserver. Exemple : « J'ai enfin trouvé une position confortable dans l'avion. Je suis pas allé aux toilettes du vol. »"
+  },
+  {
+    "content": "En province, un inconnu m'a dit bonjour dans la rue.",
+    "comedyTechnique": "Le réflexe qui se trahit",
+    "techniqueExplanation": "Un geste gentil déclenche chez toi un réflexe de méfiance, et c'est toi qui deviens ridicule. La seconde phrase donne la cause sans accuser personne : c'est toi qui as été déformé. L'auto-dérision évite la vanne « Parisiens contre provinciaux ».",
+    "howToApply": "Raconte ta réaction inadaptée à un geste gentil, puis explique-la par une habitude que tu as prise ailleurs. Exemple : « Mon nouveau chef m'a dit “bon week-end”. J'ai demandé ce que j'avais fait. »"
+  },
+  {
+    "content": "Mon ex a gardé mon sweat préféré. Je l'ai vu passer dans une story.",
+    "comedyTechnique": "La personnification de l'objet",
+    "techniqueExplanation": "Au lieu de parler de ton ex, tu parles du sweat comme d'un personnage qui a refait sa vie. C'est ta propre tristesse projetée sur un vêtement, ce qui la rend légère. L'ex n'est jamais visé : c'est toi le perdant, et le sweat le gagnant.",
+    "howToApply": "Transfère une émotion qui te concerne sur un objet, et parle de lui comme d'une personne. Ex : « J'ai revendu mon vélo d'appartement. Le nouveau proprio l'utilise. Il a enfin trouvé quelqu'un qui croit en lui. »"
+  },
+  {
+    "content": "Mon collègue commence par « en toute bienveillance ».",
+    "comedyTechnique": "La comparaison sonore",
+    "techniqueExplanation": "Tu compares une formule polie à un signal d'alerte que tout le monde reconnaît à l'oreille. Tu n'as pas besoin de dire que la remarque sera désagréable : l'image s'en charge. Plus la comparaison est concrète et quotidienne, plus elle est ressortable.",
+    "howToApply": "Prends une formule qui annonce toujours la même chose et compare-la à un bruit ou un signal du quotidien. Ex : « Quand ma mère dit \"je dis ça, je dis rien\", c'est la sonnerie du micro-ondes : ça va être chaud. »"
+  },
+  {
+    "content": "J'ai acheté un agenda trop beau pour écrire dedans.",
+    "comedyTechnique": "L'objectif saboté par le moyen",
+    "techniqueExplanation": "L'objet censé t'organiser devient trop précieux pour servir. La chute montre la solution réelle, la plus fragile possible. Le rire vient du paradoxe : plus l'outil est beau, moins il est utile.",
+    "howToApply": "Décris un achat fait pour t'améliorer, puis révèle que tu le protèges au lieu de t'en servir. Ex : « J'ai acheté des baskets de running magnifiques. Je les mets pas dehors, il pourrait pleuvoir. »"
+  },
+  {
+    "content": "Quand une de mes blagues tombe à plat en soirée, je la répète plus fort.",
+    "comedyTechnique": "Le mauvais diagnostic",
+    "techniqueExplanation": "Ta blague n'a pas marché, et tu choisis la cause la plus flatteuse : on ne t'a pas entendu. La chute est une fausse logique, calme et sérieuse, qui révèle ton refus d'admettre l'échec. Ton aveuglement devient le sujet de la vanne.",
+    "howToApply": "Raconte un échec et attribue-le à une cause technique qui t'épargne. Exemple : « Personne a répondu à mon message dans le groupe. J'ai vérifié mon réseau. Trois fois. »"
+  },
+  {
+    "content": "Pour ranger mon appart, je déplace le bazar d'une pièce à l'autre.",
+    "comedyTechnique": "Le vocabulaire expert détourné",
+    "techniqueExplanation": "La rotation des cultures est une vraie technique agricole. Tu l'appliques à ton désordre, ce qui donne un air réfléchi à une pure flemme. Le décalage entre la noblesse du terme et la réalité fait sourire, sans aucune explication.",
+    "howToApply": "Trouve un terme technique d'un métier et colle-le à une mauvaise habitude pour la rendre respectable. Ex : « Mon linge sale, je le laisse reposer sur la chaise. Je le fais maturer. »"
+  },
+  {
+    "content": "Un numéro inconnu m'a appelé et a laissé un message vocal.",
+    "comedyTechnique": "La guerre froide avec un objet",
+    "techniqueExplanation": "Un simple message vocal devient un adversaire : « on se surveille ». Tu personnifies un fichier pour raconter ton angoisse d'écouter. Le rire vient de l'escalade : tu as évité un appel, puis un message, et maintenant tu es en guerre froide avec ton propre téléphone.",
+    "howToApply": "Prends une tâche que tu évites et décris-la comme une relation tendue avec l'objet. Exemple : « Il y a une lettre recommandée sur ma table depuis lundi. Je passe à côté sans la regarder. Elle non plus. »"
+  },
+  {
+    "content": "Au marché, le fromager m'a fait goûter cinq fromages. J'aimais aucun.",
+    "comedyTechnique": "La fuite en avant polie",
+    "techniqueExplanation": "Tu n'oses pas repartir les mains vides, alors tu achètes le seul fromage dont tu ne sais rien. La politesse te fait prendre plus de risques que la franchise. La précision finale, séparée, est l'aveu : tu as parié à l'aveugle pour éviter trente secondes de gêne.",
+    "howToApply": "Raconte un moment où, pour éviter une petite gêne, tu fais un choix plus risqué que la vérité. Exemple : « Le coiffeur m'a demandé si ça me plaisait. J'ai dit oui. Il a proposé de couper encore un peu. J'ai dit oui aussi. »"
+  },
+  {
+    "content": "On a acheté un ticket de loto à deux.",
+    "comedyTechnique": "La dispute anticipée",
+    "techniqueExplanation": "Le conflit porte sur un gain qui n'existe pas encore, et n'existera sans doute jamais. La dernière phrase révèle le calendrier et rend la dispute encore plus absurde. Tu montres comment un couple peut se fâcher sur un futur imaginaire.",
+    "howToApply": "Raconte une vraie dispute sur une chose hypothétique, puis donne un détail qui rappelle qu'elle n'existe pas. Ex : « Avec ma sœur, on s'est fâchées sur le prénom de mon futur chien. J'ai pas de jardin. »"
+  },
+  {
+    "content": "Dans ma startup, il y a un baby-foot.",
+    "comedyTechnique": "Le paradoxe de l'avantage",
+    "techniqueExplanation": "L'avantage censé détendre l'équipe devient un piège social. La chute explique pourquoi il reste neuf, avec une logique que tout salarié reconnaît. Tu décris une culture de boîte sans l'attaquer de front.",
+    "howToApply": "Prends un avantage offert à un groupe et montre pourquoi personne n'ose s'en servir. Ex : « Chez moi, on a une chambre d'amis. Personne l'utilise : ce serait avouer qu'on a des amis qui restent dormir. »"
+  },
+  {
+    "content": "Samedi soir, j'ai comparé des aspirateurs pendant deux heures.",
+    "comedyTechnique": "L'aveu en décalé",
+    "techniqueExplanation": "Le setup pose une soirée banale, la chute ne se plaint pas : elle avoue que tu t'es amusé. La vraie blague, c'est ce plaisir inavouable, pas l'aspirateur. Le mot « inquiétant » te fait juger ta propre vie de l'extérieur.",
+    "howToApply": "Décris une activité d'adulte ennuyeuse, puis avoue calmement qu'elle t'a plu. Exemple : « J'ai rangé mes câbles par couleur dimanche. J'en parle encore. »"
+  },
+  {
+    "content": "Quand j'écris « je suis en bas », c'est vrai.",
+    "comedyTechnique": "La vérité technique",
+    "techniqueExplanation": "Tu défends ton honnêteté, et la chute montre que tu mens sans mentir : l'info est exacte, mais pas sur le bon immeuble. Ce petit trou dans la phrase suffit à faire comprendre que tu as encore vingt minutes de trajet.",
+    "howToApply": "Prends une phrase ambiguë que tout le monde utilise, et révèle l'interprétation qui t'arrange. Ex : « J'ai dit \"je suis dans les temps\". Je parlais d'un autre rendez-vous. »"
+  },
+  {
+    "content": "J'ai lu le message de mon pote en aperçu, pour pas qu'il voie « vu ».",
+    "comedyTechnique": "Le coût caché de la ruse",
+    "techniqueExplanation": "Lire en aperçu pour ne pas afficher « vu », c'est une petite ruse. La chute montre son coût : pour rester crédible, tu dois programmer ta surprise plus tard. Tu révèles tout le travail invisible derrière une fausse spontanéité.",
+    "howToApply": "Prends une petite triche sociale et décris la contrainte ridicule qu'elle t'impose ensuite. Exemple : « J'ai dit à mon pote que j'avais lu le livre qu'il m'a offert. Maintenant je l'évite jusqu'à ce que je l'aie fini. »"
+  },
+  {
+    "content": "Chaque fois que je prends un gilet « au cas où », il fait grand soleil.",
+    "comedyTechnique": "La malchance retournée en service public",
+    "techniqueExplanation": "Tu constates une malédiction qu'on connaît tous, puis tu la transformes en pouvoir que tu utilises pour les autres. La logique est absurde mais cohérente : si le gilet chasse la pluie, le porter devient un acte civique. C'est cette fierté mal placée qui fait sourire.",
+    "howToApply": "Prends une petite loi de la malchance et fais-en un super-pouvoir dont tu fais profiter les autres. Exemple : « La file où je me mets est toujours la plus lente. Maintenant, je dis aux gens où je vais, pour qu'ils choisissent l'autre. »"
+  },
+  {
+    "content": "En maths, j'avais le bon résultat. Le prof m'a demandé de détailler mon raisonnement.",
+    "comedyTechnique": "La preuve qui accuse",
+    "techniqueExplanation": "Le résultat était juste, c'est le chemin qui te trahit : en détaillant, tu prouves que tu es tombé dessus par hasard. La chute ne dit jamais « par chance », elle laisse le lecteur le déduire. Plus tu fais court, plus la déduction est savoureuse.",
+    "howToApply": "Raconte une réussite, puis la demande de justification qui la détruit. Exemple : « J'ai trouvé le restaurant sans GPS. Ma copine m'a demandé comment. J'ai dû avouer qu'on était déjà venus trois fois. »"
+  },
+  {
+    "content": "En troisième, le prof a dit : « Ça vous servira toute votre vie. »",
+    "comedyTechnique": "La promesse prise au sérieux",
+    "techniqueExplanation": "Le prof fait une promesse générale, tu la traites comme un rendez-vous personnel avec un cône. Le « je l'attends toujours » transforme une notion abstraite en objet qui doit arriver un jour. C'est l'attente sincère, pas la plainte, qui fait sourire.",
+    "howToApply": "Prends une promesse vague qu'on t'a faite et attends-la littéralement, comme un colis. Exemple : « On m'a dit que l'effort finirait par payer. J'ai vérifié mon compte tous les matins pendant un mois. »"
+  },
+  {
+    "content": "Je révisais en écoutant du lo-fi hip hop.",
+    "comedyTechnique": "Le décalage attente/réalité",
+    "techniqueExplanation": "Le lo-fi hip hop promet une atmosphère de concentration parfaite — c'est son image de marque sur les réseaux. La note de 3/20 dément totalement l'efficacité de la méthode. « Dans une ambiance incroyable » est le détail qui sauve l'orgueil et provoque le rire : les priorités sont clairement inversées.",
+    "howToApply": "Décris un résultat catastrophique avec une consolation dérisoire présentée comme équivalente. Ex : 'J'ai raté mon permis. Mais j'avais un super playlist et le moniteur était sympa. Bilan positif.'"
+  },
+  {
+    "content": "Le prof a dit : « Il n'y a pas de mauvaise réponse. »",
+    "comedyTechnique": "L'exploit à l'envers",
+    "techniqueExplanation": "La consigne rend l'échec impossible, et tu réussis l'impossible dans le mauvais sens. La chute présente ta bourde comme une performance, jusqu'à l'admiration du prof. Tu te vantes de ton pire moment, c'est ça l'auto-dérision.",
+    "howToApply": "Pars d'une situation où rater est censé être impossible, puis raconte-toi en train de rater quand même, avec fierté. Exemple : « Le moniteur a dit que ce vélo était impossible à faire tomber. J'ai relevé le défi. »"
+  },
+  {
+    "content": "Au partiel, j'ai écrit une réponse avec beaucoup d'assurance.",
+    "comedyTechnique": "Le miroir qui gagne",
+    "techniqueExplanation": "Tu poses ton assurance, le prof te renvoie la même, en plus fort et en un mot. La répétition du mot « assurance » crée la symétrie ; le « encore plus » te fait perdre le duel. Tu ris de toi parce que ta confiance n'était qu'un ton.",
+    "howToApply": "Montre-toi sûr de toi, puis fais répondre l'autre avec la même attitude, un cran au-dessus. Exemple : « J'ai garé la voiture avec beaucoup de confiance. Le voisin est sorti m'aider avec encore plus de confiance. »"
+  },
+  {
+    "content": "Mon prof d'histoire parle de Napoléon comme d'un ex.",
+    "comedyTechnique": "Le mauvais registre",
+    "techniqueExplanation": "Tu décris un cours d'histoire avec le vocabulaire d'une rupture amoureuse. La phrase finale est celle qu'on dit tous d'un ex qu'on n'a pas digéré. Plus la citation est familière, plus le décalage entre Napoléon et le chagrin d'amour fait sourire.",
+    "howToApply": "Prends quelqu'un qui parle d'un sujet sérieux et décris-le avec les codes d'une autre relation. Exemple : « Mon oncle parle de sa vieille voiture comme d'un ami d'enfance. Il dit “on a fait les quatre cents coups”. »"
+  },
+  {
+    "content": "Au resto U, le plat du jour s'appelait « surprise du chef ».",
+    "comedyTechnique": "L'expression prise au mot",
+    "techniqueExplanation": "« Surprise du chef » est une formule de menu ; tu la prends au pied de la lettre et c'est le chef qui est surpris. Pas de jeu de sons : c'est l'idée qui bascule. Tu n'as pas besoin de décrire le plat, la tête du chef suffit.",
+    "howToApply": "Repère une formule toute faite sur un menu, une étiquette ou une affiche, et imagine qu'elle est littéralement vraie. Exemple : « Sur le bocal, il y avait écrit “fait maison”. La maison avait l'air en difficulté. »"
+  },
+  {
+    "content": "Avant le partiel, mon pote m'a dit qu'il avait « à peine révisé ».",
+    "comedyTechnique": "La même phrase, deux réalités",
+    "techniqueExplanation": "« À peine révisé » veut dire deux choses opposées selon qui le dit : lui minimise, toi tu dis la vérité. La chute juxtapose les deux notes sans commentaire. C'est un retournement de sens, pas de son : le mot est le même, c'est la réalité qui change.",
+    "howToApply": "Prends une formule de fausse modestie et applique-la honnêtement à toi, en montrant le résultat. Exemple : « Mon pote dit qu'il “bricole un peu”. Il a construit sa terrasse. Moi aussi je bricole un peu. J'ai monté une lampe, elle clignote. »"
+  },
+  {
+    "content": "À la fac, le wifi marche à un seul endroit : devant les toilettes du deuxième.",
+    "comedyTechnique": "L'usage détourné qui s'officialise",
+    "techniqueExplanation": "Un détail technique absurde réorganise toute la vie étudiante. La chute donne un statut officiel au pire endroit possible : les toilettes deviennent un lieu d'étude. On sourit parce que toutes les facs ont ce genre de coin improbable.",
+    "howToApply": "Pars d'un défaut concret d'un lieu et décris l'institution absurde qui s'est créée autour. Exemple : « Au bureau, le seul endroit où ça capte, c'est le local à poubelles. On y fait nos visios. »"
+  },
+  {
+    "content": "À l'oral, j'ai dit « excellente question » pour gagner du temps.",
+    "comedyTechnique": "La ruse démasquée",
+    "techniqueExplanation": "Tu utilises une astuce de survie connue, et ton adversaire la connaît aussi. Son « merci » calme te renvoie la balle sans effort. Le rire vient du silence qui suit : ta technique a juste déplacé le problème de trois secondes.",
+    "howToApply": "Raconte une ruse sociale classique, puis montre qu'en face, quelqu'un la connaît et la neutralise. Exemple : « J'ai fait semblant d'être au téléphone pour éviter mon voisin. Il a attendu que je raccroche. »"
+  },
+  {
+    "content": "En rattrapages, j'ai rencontré plein de gens de ma promo.",
+    "comedyTechnique": "L'aveu par ricochet",
+    "techniqueExplanation": "Tu ne dis jamais que tu séchais les cours : tu le laisses découvrir. Si vous vous rencontrez seulement aux rattrapages alors que vous étiez dans le même TD, c'est que personne n'y allait, toi compris. Le lecteur fait le calcul et rit de l'aveu collectif.",
+    "howToApply": "Raconte une rencontre qui, logiquement, prouve un défaut que tu ne nommes pas. Exemple : « À la salle de sport, j'ai sympathisé avec un mec. On s'était inscrits le même jour, il y a un an. On y allait tous les deux pour la première fois. »"
+  },
+  {
+    "content": "Pour l'exposé de groupe, je me suis occupé de la page de garde.",
+    "comedyTechnique": "La fierté disproportionnée",
+    "techniqueExplanation": "Ta contribution est dérisoire, mais tu en parles avec le sérieux d'un chef de projet. Le rire vient de l'écart entre l'effort réel (une heure) et l'enjeu (une police). Le « très réussie » final assume, sans une once d'ironie.",
+    "howToApply": "Choisis ta plus petite contribution à un projet collectif et parles-en avec fierté, en détaillant l'effort. Exemple : « Pour le déménagement de mon pote, je me suis occupé de la playlist. Trois heures de travail. Personne a rien cassé. »"
+  },
+  {
+    "content": "En amphi, le prof a demandé : « Ceux du fond, vous m'entendez ? »",
+    "comedyTechnique": "La réponse qui se contredit",
+    "techniqueExplanation": "Répondre « non » à « vous m'entendez ? » prouve le contraire de ce qu'on dit. Les deux fragments de fin, « Tous ensemble. Très distinctement. », insistent sur l'absurdité : c'est clair, c'est net, et c'est faux. Le rire vient de cette mauvaise foi collective et joyeuse.",
+    "howToApply": "Imagine une réponse dont la forme même contredit le contenu, et appuie sur la netteté de la forme. Exemple : « Le chef a demandé qui dormait en réunion. Personne a levé la main. Moi non plus, j'étais pas assez réveillé. »"
+  },
+  {
+    "content": "J'ai recopié tout le cours sur une antisèche minuscule.",
+    "comedyTechnique": "Le piège qu'on se tend",
+    "techniqueExplanation": "Tu voulais contourner l'effort, et la triche t'a forcé à faire exactement l'effort que tu fuyais. La chute présente ta réussite comme une trahison. Tu te poses en victime de ta propre ruse, c'est ça qui rend la chute tendre et drôle.",
+    "howToApply": "Raconte un raccourci qui t'a obligé, malgré toi, à faire la chose sérieuse. Exemple : « Pour éviter la salle de sport, j'ai pris l'escalier au lieu de l'ascenseur pendant un mois. J'ai des cuisses maintenant. C'est pas ce qui était prévu. »"
+  },
+  {
+    "content": "Le BDE a organisé une soirée « révisions ».",
+    "comedyTechnique": "Le bon effort sur le mauvais sujet",
+    "techniqueExplanation": "Vous avez vraiment révisé, avec sérieux et mémoire, mais pas la bonne matière. La précision de la dernière phrase (« en éco ») arrive comme un constat d'huissier. Le rire vient du travail bien fait, totalement inutile.",
+    "howToApply": "Montre un effort réel et appliqué, puis révèle en une phrase sèche qu'il visait la mauvaise cible. Exemple : « J'ai préparé mon entretien pendant deux jours. Je connaissais l'histoire de l'entreprise par cœur. C'était pas la bonne entreprise. »"
+  },
+  {
+    "content": "J'ai montré mon relevé de notes à ma mère.",
+    "comedyTechnique": "Le geste d'espoir",
+    "techniqueExplanation": "Tu ne dis rien des notes : le geste de ta mère le dit à ta place. Enlever puis remettre ses lunettes, c'est espérer une erreur de lecture. La dernière phrase explique juste assez pour que le lecteur comprenne à quel point c'est grave.",
+    "howToApply": "Fais réagir quelqu'un à une mauvaise nouvelle par un petit geste qui trahit l'espoir d'une erreur. Exemple : « J'ai montré ma coupe de cheveux à mon père. Il a rallumé la lumière. »"
+  },
+  {
+    "content": "J'ai dit à mes parents que j'étais « dans la moyenne de la classe ».",
+    "comedyTechnique": "Le vrai qui ment",
+    "techniqueExplanation": "Ta phrase est rigoureusement exacte, et pourtant elle trompe. La chute révèle le chiffre qui change tout, sans ajouter un mot de plus. On sourit parce qu'on admire l'astuce autant qu'on la trouve malhonnête.",
+    "howToApply": "Construis une phrase vraie qui cache l'essentiel, puis révèle le détail qui la retourne. Exemple : « J'ai dit à mon coloc que j'avais fait la vaisselle de la semaine. C'était une assiette. »"
+  },
+  {
+    "content": "Le jeu m'a affiché : « Pensez à faire une pause. »",
+    "comedyTechnique": "L'obéissance qui contourne",
+    "techniqueExplanation": "Tu respectes la consigne à la lettre et tu la vides entièrement de son sens. La chute ne commente rien : elle décrit ta « pause », et le lecteur voit que rien n'a changé. C'est la mauvaise foi tranquille qui fait sourire.",
+    "howToApply": "Prends une consigne de bon sens, obéis-y officiellement, puis décris ce que tu as fait à la place. Exemple : « Mon médecin m'a dit de décrocher des écrans le soir. Maintenant, je lis sur ma tablette. »"
+  },
+  {
+    "content": "En ligne, mon pseudo fait peur à tout le monde.",
+    "comedyTechnique": "Le dégonflage",
+    "techniqueExplanation": "Tu construis une image menaçante, et une seule personne la réduit à néant avec un mot. Le « c'est mignon » de ta mère est l'inverse exact de l'effet voulu. On rit parce qu'on sait qu'aucune identité en ligne ne résiste à une mère.",
+    "howToApply": "Présente une image de toi que tu soignes, puis fais-la commenter par quelqu'un qui la dégonfle en un mot. Exemple : « Je me suis laissé pousser la barbe pour avoir l'air dur. Ma grand-mère a dit : “Tu as l'air fatigué, mon chéri.” »"
+  },
+  {
+    "content": "Après une défaite, j'ai tout éteint : « J'arrête ce jeu. »",
+    "comedyTechnique": "La fausse vérification",
+    "techniqueExplanation": "Tu rechutes, mais tu présentes ta rechute comme un contrôle de ta résolution. La logique est absurde et parfaitement assumée. C'est la même ruse qu'on se fait tous avec les bonnes résolutions, et c'est pour ça qu'on la reconnaît.",
+    "howToApply": "Annonce une résolution ferme, puis rechute en donnant à ta rechute une justification de contrôle qualité. Exemple : « J'ai supprimé l'appli de livraison. Je l'ai réinstallée le soir même, pour m'assurer que je pouvais m'en passer. »"
+  },
+  {
+    "content": "Un coéquipier m'a écrit : « Tu joues comme ma grand-mère. »",
+    "comedyTechnique": "L'insulte qui change de sens",
+    "techniqueExplanation": "La deuxième phrase de ton coéquipier retourne la première : l'insulte devient peut-être un compliment. Ta perplexité finale laisse le doute ouvert, et c'est le doute qui fait sourire. Tu restes la victime, mais une victime qui ne sait plus de quoi.",
+    "howToApply": "Prends une pique banale et ajoute une précision qui en change complètement le sens, puis montre ta confusion. Exemple : « Ma cheffe m'a dit : “Ton rapport ressemble à celui d'un stagiaire.” Puis : “Notre stagiaire est excellent.” J'ai toujours pas compris. »"
+  },
+  {
+    "content": "J'ai mis « gamer compétitif » sur mon CV.",
+    "comedyTechnique": "L'autodérision",
+    "techniqueExplanation": "La vanne structure un arc narratif mini : ambition (mettre gamer compétitif sur son CV) → confrontation (le recruteur demande le rang) → retraite (la ligne disparaît). La chute implicite est que le rang était si bas qu'il valait mieux n'en avoir jamais parlé. L'absence de rang nommé laisse l'imagination faire le travail.",
+    "howToApply": "Construis une tentative de valorisation suivie d'une question qui force la capitulation. Ex : 'J'ai mis « passionné de course à pied » sur mon profil de rencontre. Elle m'a demandé mon chrono sur 10 km. J'ai supprimé le profil.'"
+  },
+  {
+    "content": "Après une défaite écrasante, j'ai écrit « GG » à l'équipe adverse.",
+    "comedyTechnique": "La politesse qui humilie",
+    "techniqueExplanation": "L'adversaire ne t'insulte pas : il te remercie comme on remercie un enfant à une kermesse. La politesse devient plus cruelle que l'insulte. La chute avoue ta blessure en retournant la hiérarchie habituelle : tu regrettes l'insulte.",
+    "howToApply": "Remplace une moquerie attendue par une formule polie qui te rabaisse davantage. Exemple : « J'ai perdu au bowling contre mon neveu de 8 ans. Il m'a dit : “Tu as bien progressé.” »"
+  },
+  {
+    "content": "J'ai passé une heure à donner mon visage à mon personnage.",
+    "comedyTechnique": "L'autocritique par comparaison",
+    "techniqueExplanation": "Tu investis du temps pour te mettre en scène, puis tu admets toi-même que ça ne marche pas. Le « ça faisait plus héros » est une auto-dérision douce : c'est toi qui te juges, pas quelqu'un d'autre. On rit avec toi parce que le verdict est à la fois honnête et sans drame.",
+    "howToApply": "Montre un effort pour te mettre en valeur, puis ton propre abandon, justifié en une phrase courte. Exemple : « J'ai mis une photo de moi en fond d'écran pour me motiver. Au bout d'une semaine, j'ai remis la montagne. »"
+  },
+  {
+    "content": "Ma mère a crié « À table ! » en pleine partie. J'ai dit : « Deux minutes. »",
+    "comedyTechnique": "Le parent qui a compris le code",
+    "techniqueExplanation": "On attend la mère dépassée, et elle déjoue ta ruse en nommant le mensonge que tous les joueurs connaissent. Le retournement vient de là : c'est elle qui maîtrise le code. Ton « elle apprend vite » admet la défaite avec respect.",
+    "howToApply": "Prends une excuse que tu utilises souvent et fais-la démasquer par quelqu'un qu'on croyait naïf. Exemple : « J'ai dit à ma grand-mère que j'étais “bientôt arrivé”. Elle a répondu : “Bientôt de chez toi ou bientôt d'ici ?” »"
+  },
+  {
+    "content": "J'ai perdu dix parties classées d'affilée.",
+    "comedyTechnique": "La pitié de la machine",
+    "techniqueExplanation": "Ce n'est pas un joueur qui te juge, c'est le jeu lui-même, et avec délicatesse. Le « très délicatement » transforme un simple écran en geste de compassion humiliante. Tu n'as pas besoin de dire que tu es mauvais : même le jeu s'inquiète.",
+    "howToApply": "Fais réagir un objet ou un logiciel à ton échec avec une gentillesse humiliante. Exemple : « Après trois mauvais mots de passe, ma banque m'a demandé si je voulais de l'aide. Sur un ton que j'ai pas aimé. »"
+  },
+  {
+    "content": "Mon pote dit qu'il perd à cause de ses coéquipiers.",
+    "comedyTechnique": "L'excuse impossible",
+    "techniqueExplanation": "La chute détruit l'excuse en quatre mots, sans argumenter : il n'y a pas de coéquipiers. Plus la réfutation est courte, plus elle est drôle. Tout le travail est dans le setup, qui a l'air d'une plainte banale.",
+    "howToApply": "Cite une excuse classique, puis donne le seul fait qui la rend impossible, le plus sèchement possible. Exemple : « Mon coloc dit qu'il arrive jamais à dormir à cause des voisins. On habite une maison. »"
+  },
+  {
+    "content": "Mon casque gaming isole de tous les bruits.",
+    "comedyTechnique": "La solution qui empire",
+    "techniqueExplanation": "Ton casque résout le problème du bruit et en crée un pire : plus personne ne peut te joindre. Au lieu d'enlever le casque, vous inventez un système de phare. L'absurde vient de cette adaptation sérieuse à un problème qu'il suffirait d'enlever.",
+    "howToApply": "Raconte un problème créé par un équipement, puis la solution compliquée trouvée à la place de la solution évidente. Exemple : « Ma porte de chambre grince. Plutôt que de la graisser, je passe par le balcon. »"
+  },
+  {
+    "content": "Mon inventaire dans le jeu est mieux rangé que ma chambre.",
+    "comedyTechnique": "Le contraste de statut",
+    "techniqueExplanation": "L'inventaire de jeu vidéo, par définition virtuel, est plus organisé que l'espace réel. C'est déjà drôle. La chute renforce en nommant la raison de chaque situation : bouton « trier » vs la mère. Déléguer l'organisation de sa chambre réelle à sa mère comme s'il s'agissait d'un substitut au bouton magique est d'une honnêteté désarmante.",
+    "howToApply": "Compare une compétence que tu as dans un domaine fictif ou virtuel à ton incapacité totale dans la réalité. Ex : 'Dans le jeu, je gère un empire avec des finances, des troupes et une diplomatie. Dans la vie, j'ai pas fait ma déclaration d'impôts.'"
+  },
+  {
+    "content": "J'ai débloqué un trophée pour être mort cinquante fois au même endroit.",
+    "comedyTechnique": "L'échec récompensé",
+    "techniqueExplanation": "Le jeu te décerne une médaille pour ce qui est d'habitude une honte. Tu l'acceptes avec gratitude, comme une consécration. Le rire vient de ce soulagement sincère : quelqu'un, enfin, voit tes efforts, même ratés.",
+    "howToApply": "Trouve une situation où ton échec est officiellement reconnu, et accueille la reconnaissance avec fierté. Exemple : « Ma salle de sport m'a envoyé une carte “Tu nous manques”. C'est le premier courrier personnel de l'année. »"
+  },
+  {
+    "content": "Ma bibliothèque de jeux est pleine de promos achetées « pour plus tard ».",
+    "comedyTechnique": "La fausse économie",
+    "techniqueExplanation": "Tu adoptes la logique de la promo, « j'ai économisé », et tu l'appliques à des achats inutiles. La phrase est vraie comptablement et absurde dans les faits. Tu te moques de toi avec le vocabulaire exact qui t'a fait acheter.",
+    "howToApply": "Prends un argument commercial et applique-le honnêtement à un achat que tu n'as jamais utilisé. Exemple : « Avec la carte de fidélité du cinéma, j'ai eu trois places gratuites. J'y suis allé une fois cette année. »"
+  },
+  {
+    "content": "J'ai fait un discours de motivation à mon équipe dans le micro.",
+    "comedyTechnique": "La victoire vexante",
+    "techniqueExplanation": "Le cliché du « tu étais en mute » tourne ici autrement : l'équipe gagne sans ton discours. La victoire devient la preuve que tu ne sers à rien. La chute en trois temps courts, sans explication, laisse le lecteur tirer la conclusion à ta place.",
+    "howToApply": "Raconte ta contribution qui n'est jamais arrivée, puis un succès obtenu sans elle, et ton malaise. Exemple : « J'ai oublié d'envoyer mes notes avant la réunion. Elle s'est très bien passée. J'ai été un peu vexé. »"
+  },
+  {
+    "content": "Au resto, j'ai pris le plat en photo sous tous les angles.",
+    "comedyTechnique": "La révélation qui annule tout",
+    "techniqueExplanation": "Tout ton effort de mise en scène repose sur une erreur que tu découvres à la fin : ce n'était pas ton plat. La dernière phrase requalifie toute la scène, et le lecteur imagine les voisins qui t'ont regardé faire. Tu es ridicule sans avoir besoin de le dire.",
+    "howToApply": "Décris un effort appliqué, puis révèle en une phrase courte qu'il portait sur la mauvaise chose. Exemple : « J'ai fait un grand signe à mon pote sur le quai pendant que le train partait. C'était pas mon pote. C'était pas mon train non plus. »"
+  },
+  {
+    "content": "En fouillant le profil d'une collègue, j'ai liké une photo d'il y a cinq ans.",
+    "comedyTechnique": "L'aggravation par camouflage",
+    "techniqueExplanation": "Pour cacher une gaffe, tu en fais une plus grosse, et elle marche. Le camouflage crée une réputation encore plus gênante que l'erreur de départ. On rit de ta logique de panique, parfaitement cohérente et totalement contre-productive.",
+    "howToApply": "Raconte une petite gaffe, puis ta tentative de la noyer dans une gaffe plus grande. Exemple : « J'ai tenu la porte à une porte automatique. Pour que ça ait l'air voulu, je les ai toutes tenues jusqu'à la sortie du centre commercial. »"
+  },
+  {
+    "content": "J'ai supprimé l'appli pour passer moins de temps sur les réseaux.",
+    "comedyTechnique": "La solution qui aggrave",
+    "techniqueExplanation": "Ta bonne résolution produit l'effet inverse de celui voulu, par une logique implacable. La chute tient dans le « donc » : la lenteur, censée te freiner, allonge ton temps. On sourit parce qu'on a tous déjà fabriqué ce genre de faux remède.",
+    "howToApply": "Présente une mesure de discipline, puis montre par un « donc » logique qu'elle empire la situation. Exemple : « Pour me coucher plus tôt, j'ai laissé mon téléphone dans la cuisine. Donc je reste debout dans la cuisine jusqu'à 1h. »"
+  },
+  {
+    "content": "Pour ma photo de profil, j'ai pris deux cents photos.",
+    "comedyTechnique": "Le choix qui avoue",
+    "techniqueExplanation": "Deux cents essais pour trouver la meilleure image de toi, et le critère final trahit tout : moins on te voit, mieux c'est. L'auto-dérision est douce parce qu'elle est implicite. Le chiffre énorme du setup rend la chute encore plus sèche.",
+    "howToApply": "Décris un gros effort de sélection, puis le critère absurde qui a décidé du choix final. Exemple : « J'ai essayé douze tenues pour la soirée. J'ai gardé celle qui se voyait le moins sous le manteau. »"
+  },
+  {
+    "content": "Je me suis couché à 23h pour regarder « juste deux vidéos ».",
+    "comedyTechnique": "Le détail absurde précis",
+    "techniqueExplanation": "Tout le monde connaît la soirée qui déraille sur les vidéos. Ce qui fait rire ici, c'est la précision du sujet : une pelle rouillée, restaurée par un inconnu. Le « très investi » montre que tu as perdu tout recul, et on se reconnaît dans cette passion à 2h du matin.",
+    "howToApply": "Raconte une dérive connue, mais termine sur un détail ultra-précis et improbable, que tu assumes avec sérieux. Exemple : « Je suis allé acheter du pain. Je suis rentré avec un livre sur les phares bretons. J'en suis au chapitre 3. »"
+  },
+  {
+    "content": "Chaque dimanche, mon téléphone m'envoie mon temps d'écran de la semaine.",
+    "comedyTechnique": "Le déni par analogie",
+    "techniqueExplanation": "Tu compares deux documents qu'on redoute et tu appliques la même stratégie : ne pas regarder. L'analogie révèle en passant l'état de tes comptes. Deux aveux pour le prix d'un, en une phrase.",
+    "howToApply": "Prends un chiffre que tu préfères ignorer et associe-le à un autre que tu ignores déjà, avec la même méthode. Exemple : « Ma balance, je la range à côté de mes impôts : dans un tiroir que j'ouvre en mai. »"
+  },
+  {
+    "content": "J'ai perdu un abonné cette nuit.",
+    "comedyTechnique": "L'enquête pour rien",
+    "techniqueExplanation": "Tu traites une perte minuscule comme un mystère à résoudre, et la solution est la plus banale possible. Le décalage entre « enquêter » et « nouveau téléphone » fait le rire. Et le fait que ton abonné perdu soit ta grand-mère dit tout de ton audience.",
+    "howToApply": "Grossis un petit incident en affaire sérieuse, puis révèle une explication domestique et décevante. Exemple : « Ma voiture faisait un bruit bizarre. Trois garages, deux diagnostics. C'était une canette sous le siège. »"
+  },
+  {
+    "content": "Ma story a été vue quinze fois.",
+    "comedyTechnique": "Les chiffres qui trahissent",
+    "techniqueExplanation": "Tu présentes une statistique flatteuse, puis tu la décomposes honnêtement : une partie de l'audience, c'est toi. L'aveu est drôle parce que tout le monde le fait sans le dire. La justification finale ajoute une couche de mauvaise foi.",
+    "howToApply": "Annonce un chiffre dont tu es fier, puis révèle quelle part tu as gonflée toi-même. Exemple : « Mon gâteau a eu cinq parts de mangées. Trois par moi, pour vérifier la cuisson. »"
+  },
+  {
+    "content": "Avec un pote, on s'envoie une photo par jour pour garder notre série.",
+    "comedyTechnique": "Le rituel qui remplace la chose",
+    "techniqueExplanation": "Votre rituel quotidien est censé entretenir l'amitié ; au moment de la vivre en vrai, vous revenez au rituel. La chute ne commente pas, elle montre. C'est drôle et un peu vrai, et c'est pour ça que ça marche.",
+    "howToApply": "Prends une habitude censée entretenir une relation, et montre-la remplacer la relation au moment où celle-ci est possible. Exemple : « Avec ma sœur, on se souhaite nos anniversaires par message. Cette année, on était à la même fête. On s'est écrit. »"
+  },
+  {
+    "content": "Ma première vidéo en ligne a eu un seul commentaire.",
+    "comedyTechnique": "Le public inattendu",
+    "techniqueExplanation": "Tu te lances devant le monde entier, et ton premier spectateur réagit comme à la maison. Le conseil maternel, hors sujet et affectueux, dégonfle ton moment de gloire. La dernière phrase explique juste assez pour que le lecteur voie la scène.",
+    "howToApply": "Raconte un moment public important pour toi, puis la réaction d'un proche qui le ramène à la vie domestique. Exemple : « J'ai fait mon premier discours au mariage de mon pote. À la fin, mon père a levé la main pour dire que j'étais mal coiffé. »"
+  },
+  {
+    "content": "Mon post le plus liké de tous les temps : une photo floue de mon chat.",
+    "comedyTechnique": "La prise de pouvoir",
+    "techniqueExplanation": "Un simple chiffre de likes renverse la hiérarchie : ton chat devient le directeur éditorial de ton compte. Le « on publie » vous transforme en équipe dont tu n'es plus le chef. L'auto-dérision est douce : tu t'inclines devant plus populaire que toi.",
+    "howToApply": "Prends un succès qui ne vient pas de toi et fais-en une prise de pouvoir officielle de celui qui l'a obtenu. Exemple : « Au repas, c'est la salade de mon coloc qui a eu tous les compliments. Maintenant, c'est lui qui fait les courses. »"
+  },
+  {
+    "content": "J'ai bloqué quelqu'un sur les réseaux.",
+    "comedyTechnique": "L'aveuglement de l'autre",
+    "techniqueExplanation": "Le message le plus clair qui existe, un blocage, est interprété comme un accident. La chute cite l'autre sans commentaire : sa bonne foi totale suffit. Tu ne te moques pas de lui, tu laisses sa phrase parler.",
+    "howToApply": "Pose un signal social sans ambiguïté, puis cite la réaction de quelqu'un qui le comprend à l'envers, avec sincérité. Exemple : « J'ai pas répondu à ses trois invitations. Il m'a écrit : “Je sais que t'es débordé, je te garde une place.” »"
+  },
+  {
+    "content": "J'ai fait une faute dans un post, alors j'ai publié des excuses officielles.",
+    "comedyTechnique": "Le vocabulaire de crise",
+    "techniqueExplanation": "Tu gères un micro-incident avec le langage d'une entreprise en pleine tempête médiatique. La réponse unique de ton oncle révèle ton audience réelle. « Crise maîtrisée » boucle le décalage : tu restes dans ton rôle jusqu'au bout.",
+    "howToApply": "Décris un incident minuscule avec les mots d'une grosse crise, puis révèle la taille réelle du public. Exemple : « J'ai brûlé les pâtes. J'ai présenté mes excuses à la coloc réunie. Mon coloc a répondu : “C'est des pâtes.” Dossier clos. »"
+  },
+  {
+    "content": "Au date, elle voulait un secret sur moi.",
+    "comedyTechnique": "Le refus qui en dit trop",
+    "techniqueExplanation": "Tu ne révèles rien, et c'est justement ce qui en dit long. La chute laisse le public imaginer le secret, forcément gênant. Un silence bien placé est plus drôle qu'une anecdote : chacun remplit le vide avec la pire version.",
+    "howToApply": "Quand on te demande une confidence, réponds par la raison de ne pas la donner. Ex : « On m'a demandé ma pire honte en soirée. J'ai dit \"la suivante\" et j'ai changé de sujet. »"
+  },
+  {
+    "content": "Après une heure à swiper, l'appli m'a affiché : « Il n'y a plus personne autour de vous. »",
+    "comedyTechnique": "Le message technique pris à cœur",
+    "techniqueExplanation": "Le setup cite un message automatique, neutre et géographique. La chute le lit comme une vérité sur ta vie. Ce glissement du technique à l'intime fait sourire parce qu'on a tous déjà senti qu'une machine nous jugeait.",
+    "howToApply": "Prends une notification ou un message automatique et réagis comme si c'était une remarque personnelle. Ex : « Mon appli de sport m'a écrit : \"Ça fait longtemps !\" J'ai senti le reproche. »"
+  },
+  {
+    "content": "Au premier date, j'ai misé sur l'humour. Elle a ri.",
+    "comedyTechnique": "Le succès au mauvais endroit",
+    "techniqueExplanation": "Le setup annonce une réussite. La chute la déplace : le rire est venu, mais sur le moment que tu voulais sérieux. Tu obtiens exactement ce que tu voulais, au pire moment, et c'est cette ironie qui fait sourire.",
+    "howToApply": "Annonce que ton objectif a été atteint, puis révèle qu'il l'a été sur la mauvaise partie. Ex : « Mon discours de mariage a fait pleurer tout le monde. Surtout le passage drôle. »"
+  },
+  {
+    "content": "En plein date, elle a regardé son téléphone : « Oh non, ma coloc a un souci. »",
+    "comedyTechnique": "Le détail qui démasque",
+    "techniqueExplanation": "Le setup reprend l'excuse classique pour fuir un rendez-vous. La chute ne commente pas : elle donne un seul détail visuel qui prouve le mensonge. Tu es la victime, et le fait de l'avoir remarqué rend la scène encore plus drôle.",
+    "howToApply": "Rapporte une excuse que tout le monde connaît, puis ajoute un détail concret qui la rend impossible. Ex : « Mon pote m'a dit qu'il était coincé dans les bouchons. J'entendais la PlayStation. »"
+  },
+  {
+    "content": "Elle : « Je cherche quelqu'un de drôle. » Moi : « Moi aussi. »",
+    "comedyTechnique": "L'impasse symétrique",
+    "techniqueExplanation": "Le setup crée une fausse complicité : vous voulez la même chose. La chute montre le problème, aucun des deux n'est ce que l'autre cherche. Le silence décrit en quelques mots rend la scène visuelle et gênante, dans le bon sens.",
+    "howToApply": "Mets deux personnes d'accord sur un besoin, puis montre qu'aucune ne peut le combler. Ex : « Mon coloc et moi, on cherche quelqu'un qui fait le ménage. On a mis une annonce. Pour nous deux. »"
+  },
+  {
+    "content": "Elle a mis vingt-quatre heures à m'écrire « Salut ».",
+    "comedyTechnique": "L'hypocrisie assumée",
+    "techniqueExplanation": "Le setup a l'air d'un reproche. La chute montre que tu fais exactement pareil, en le justifiant par une formule de consultant. « Le processus » donne un faux sérieux à un jeu de séduction ridicule, et ton aveu rend la vanne sympathique.",
+    "howToApply": "Reproche un comportement à quelqu'un, puis avoue que tu fais pareil, avec une justification solennelle. Ex : « Mon pote arrive toujours en retard. Du coup, j'arrive en retard aussi. C'est une question d'équité. »"
+  },
+  {
+    "content": "Mon pote a mis une photo avec un chien sur son profil.",
+    "comedyTechnique": "L'appât qui vole la vedette",
+    "techniqueExplanation": "La ruse marche trop bien : le chien attire, mais c'est lui qu'on veut, pas ton pote. La dernière phrase ajoute l'aveu qui achève le plan, le chien n'est même pas à lui. Le rire vient de la stratégie qui se retourne contre son auteur.",
+    "howToApply": "Décris une astuce pour attirer l'attention, puis montre que l'attention va à l'astuce plutôt qu'à la personne. Ex : « J'ai mis une chemise à fleurs pour qu'on me remarque. On m'a demandé où je l'avais achetée. Seulement ça. »"
+  },
+  {
+    "content": "Sur mon profil, j'ai mis ma vraie taille : 1m74.",
+    "comedyTechnique": "L'honnêteté qui isole",
+    "techniqueExplanation": "Au lieu d'avouer un mensonge, tu te présentes comme le seul honnête. La chute révèle le mensonge collectif par un chiffre trop rond pour être vrai. Tu te moques d'un phénomène, pas d'une personne, et tu restes dans l'auto-dérision.",
+    "howToApply": "Fais un aveu honnête, puis montre que tu es le seul à l'avoir fait, grâce à un chiffre ou un détail trop parfait chez les autres. Ex : « Sur mon CV, j'ai mis \"anglais intermédiaire\". Tous les autres candidats étaient bilingues. »"
+  },
+  {
+    "content": "Au date, elle m'a dit : « T'es plus drôle par message. »",
+    "comedyTechnique": "La solution absurde",
+    "techniqueExplanation": "La remarque est vexante, et ta réponse est d'une logique parfaite et totalement déplacée. Proposer d'envoyer des messages à quelqu'un assis en face de toi montre ton malaise mieux qu'une phrase de défense. La dernière phrase pose l'image.",
+    "howToApply": "Réponds à une critique par la solution la plus littérale possible, même si elle est ridicule dans la situation. Ex : « Mon pote m'a dit que je cours mieux en descente. J'ai demandé s'il existait des courses qui font que descendre. »"
+  },
+  {
+    "content": "J'ai abordé une fille dans un bar, en vrai, sans appli.",
+    "comedyTechnique": "Le retour à la case départ",
+    "techniqueExplanation": "Tu fais l'effort de sortir des applis, et la réponse te renvoie immédiatement dedans. « Je te réponds là-bas » est absurde, vous êtes à un mètre, mais parfaitement crédible. Pas besoin de commenter : l'époque se moque d'elle-même.",
+    "howToApply": "Raconte un effort pour échapper à une habitude moderne, puis une réponse qui t'y ramène aussitôt. Ex : « J'ai appelé mon pote au lieu de lui écrire. Il a décroché pour dire : \"Écris-moi, je peux pas parler.\" »"
+  },
+  {
+    "content": "J'ai envoyé un premier message que je trouvais très drôle.",
+    "comedyTechnique": "La réaction sous-traitée",
+    "techniqueExplanation": "Un GIF qui rit, c'est un rire que quelqu'un d'autre fait à ta place. La chute transforme ce détail en question existentielle avec un mot de bureau : « délégué ». Le vocabulaire du travail appliqué à une réaction intime crée le décalage.",
+    "howToApply": "Prends une réaction automatique (GIF, emoji, like) et interroge-toi sur sa sincérité avec un mot du monde pro. Ex : « Elle a liké mon message au lieu de répondre. Je crois que j'ai été classé sans suite. »"
+  },
+  {
+    "content": "Ma grand-mère me demandait toujours si j'avais « quelqu'un ».",
+    "comedyTechnique": "Le silence qui aggrave",
+    "techniqueExplanation": "Le setup installe une question pénible et répétée. La chute retire la question, et c'est son absence qui fait mal : elle a abandonné l'espoir. Tu montres que le pire, ce n'est pas qu'on t'embête, c'est qu'on arrête.",
+    "howToApply": "Décris quelque chose d'agaçant qu'on te fait souvent, puis le jour où ça s'arrête et ce que ça signifie. Ex : « Mon prof de sport me disait toujours \"allez, plus vite !\". En terminale, il m'a dit \"prends ton temps\". »"
+  },
+  {
+    "content": "L'amour arrive quand on s'y attend pas, paraît-il.",
+    "comedyTechnique": "Le conseil appliqué de travers",
+    "techniqueExplanation": "Le conseil dit « arrête d'y penser ». Toi, tu en tires la conclusion inverse : il faut être prêt partout, tout le temps. La chemise à la laverie est une image concrète qui montre que tu y penses encore plus qu'avant.",
+    "howToApply": "Prends un proverbe et montre comment tu l'appliques en faisant exactement l'inverse de son intention. Ex : « On dit que la chance sourit aux audacieux. Du coup, je souris à tous les distributeurs de billets. »"
+  },
+  {
+    "content": "J'ai payé l'option premium pour voir qui m'avait liké.",
+    "comedyTechnique": "La reformulation cruelle",
+    "techniqueExplanation": "La chute donne le résultat en un mot, puis reformule ton achat avec une lucidité brutale. Ce que tu as acheté, ce n'est pas l'accès aux likes, c'est la mauvaise nouvelle en express. Dire tout haut ce qu'on a vraiment payé, c'est le ressort.",
+    "howToApply": "Décris un achat fait pour une bonne nouvelle, puis reformule ce qu'il t'a vraiment apporté. Ex : « J'ai payé le suivi de colis en temps réel. J'ai payé pour voir en direct qu'il était perdu. »"
+  },
+  {
+    "content": "« Ton langage de l'amour ? » J'ai dit : « Les services rendus. »",
+    "comedyTechnique": "Le concept pris au pied de la lettre",
+    "techniqueExplanation": "« Langage de l'amour » est un concept de développement personnel. Tu le prends tellement au sérieux que ta relation devient un déménagement. La chute finale suggère que la suite du couple dépend des meubles restants, ce qui rend la romance très concrète.",
+    "howToApply": "Prends un concept psy à la mode et applique-le de la façon la plus pratique et terre à terre possible. Ex : « Mon pote dit qu'il a besoin d'espace. Il a pris le grand côté du canapé. »"
+  },
+  {
+    "content": "Elle m'a demandé : « Tu cherches quelque chose de sérieux ? » J'ai dit oui.",
+    "comedyTechnique": "L'accord qui exclut",
+    "techniqueExplanation": "Vous êtes d'accord sur l'objectif, et c'est justement pour ça qu'elle te recale. La chute retourne ton « oui » contre toi : tu remplis le critère, mais tu n'es pas le bon candidat. La politesse de la formule rend le rejet encore plus net.",
+    "howToApply": "Fais dire à quelqu'un qu'il partage ton objectif, puis que c'est pour ça qu'il ne te choisit pas. Ex : « Au foot, j'ai dit que je voulais gagner. Le capitaine a dit : \"Nous aussi. Tu vas sur le banc.\" »"
+  },
+  {
+    "content": "Dans sa bio, mon pote a écrit : « Pas là pour perdre mon temps. »",
+    "comedyTechnique": "La preuve par l'ancienneté",
+    "techniqueExplanation": "La bio promet l'efficacité, la chute la contredit sans jamais donner de durée : les changements de logo mesurent le temps à ta place. C'est plus drôle qu'un chiffre parce que le public doit faire le calcul lui-même.",
+    "howToApply": "Pour montrer qu'une chose dure depuis trop longtemps, mesure-la avec un repère inattendu. Ex : « Mon coloc dit qu'il cherche un appart. Il a vu passer trois propriétaires. »"
+  },
+  {
+    "content": "Elle : « On reste amis ? » Moi : « Avec plaisir. »",
+    "comedyTechnique": "La précision qui rétrograde",
+    "techniqueExplanation": "Tu acceptes l'amitié avec élégance. La précision qui suit la vide de sens : vous ne serez même pas amis, juste abonnés. En une phrase, elle te fait descendre de deux niveaux, et ton « avec plaisir » reste suspendu dans le vide.",
+    "howToApply": "Fais accepter quelque chose avec enthousiasme, puis ajoute une précision qui le réduit à presque rien. Ex : « Mon manager m'a dit : \"Tu vas avoir une prime.\" J'ai dit merci. Il a ajouté : \"Symbolique.\" »"
+  },
+  {
+    "content": "Pour une fois, j'étais le seul sobre de la soirée.",
+    "comedyTechnique": "La lucidité qui démolit",
+    "techniqueExplanation": "La sobriété te fait voir ta propre performance sans le filtre de l'ambiance. La chute requalifie tes blagues avec un mot froid et administratif, « informations ». Tu te vannes toi-même avec précision, sans jamais viser ceux qui boivent.",
+    "howToApply": "Change une condition habituelle (sobre, fatigué, en silence) et décris ce que tu découvres sur toi, avec un mot plat qui dégonfle. Ex : « J'ai réécouté mon vocal de motivation. C'est surtout de la respiration. »"
+  },
+  {
+    "content": "En soirée, je reste toujours près du buffet.",
+    "comedyTechnique": "La stratégie avouée",
+    "techniqueExplanation": "Le setup décrit un comportement banal. La chute révèle le calcul derrière : la nourriture comme bouclier social. Tous les timides reconnaissent la manœuvre, et l'avouer aussi clairement la rend attachante.",
+    "howToApply": "Décris une habitude anodine, puis révèle la vraie raison stratégique, un peu honteuse. Ex : « Je propose toujours de faire la vaisselle chez les gens. Personne pose de question à quelqu'un qui frotte. »"
+  },
+  {
+    "content": "En soirée, j'ai enfin eu le contrôle de la musique.",
+    "comedyTechnique": "Le verdict indirect",
+    "techniqueExplanation": "Personne ne dit que ton son est nul : on suppose une panne technique. Cette hypothèse polie est plus vexante qu'une critique franche. Tu fais rire en rapportant un jugement que l'autre n'a même pas conscience de porter.",
+    "howToApply": "Montre qu'on rejette ton goût en attribuant le problème à un objet ou une panne. Ex : « J'ai servi mon plat signature. Un invité a demandé si le four marchait bien. »"
+  },
+  {
+    "content": "J'ai dit « je reste une heure max » en arrivant à la soirée.",
+    "comedyTechnique": "L'exagération temporelle",
+    "techniqueExplanation": "L'intention de départ ('une heure max') est précise et crédible. La chute est d'autant plus drôle que le detail retenu n'est pas 'il est 4h du mat' mais 'j'explique ma théorie sur les dinosaures'. L'absurdité du sujet de conversation à cette heure-là est le vrai punchline — pas juste le fait d'être resté tard.",
+    "howToApply": "Donne une limite temporelle ferme, puis révèle l'état précis et absurde dans lequel tu te retrouves bien plus tard, avec un détail concret qui dit tout. Ex : 'J'avais dit 20 minutes de scroll. Il est 2h du mat et je regarde des critiques de chaises de bureau sur YouTube.'"
+  },
+  {
+    "content": "Lendemain de soirée : une note dans mon téléphone, écrite à 3h.",
+    "comedyTechnique": "Le mystère autoproduit",
+    "techniqueExplanation": "Tu te retrouves face à un message de toi-même que tu ne comprends plus. Le contraste entre « idée de génie » et « les girafes » crée l'absurde, et « rien d'autre » laisse l'idée à jamais incomplète. Le public imagine l'idée, et c'est lui qui fait le travail.",
+    "howToApply": "Cite un message laissé par ton toi d'un autre moment (fatigué, en colère, en soirée) avec un contenu absurde et incomplet. Ex : « Sur ma liste de courses, j'ai écrit \"pas oublier Jean-Marc\". Je connais pas de Jean-Marc. »"
+  },
+  {
+    "content": "En soirée, y'a toujours quelqu'un qui dit « c'est ma chanson ! »",
+    "comedyTechnique": "L'exagération",
+    "techniqueExplanation": "La vanne repose sur la répétition d'une formule qui devrait être rare ('c'est ma chanson') mais devient systématique ('toutes les 3 chansons'). La chute — 'il a beaucoup de chansons' — est une litote en guise de conclusion : le minimum de mots pour le maximum d'effet. Ce personnage est universel et la formule le capture parfaitement.",
+    "howToApply": "Identifie un comportement qui se répète de façon absurde et quantifie-le, puis conclus avec une phrase qui normalise l'absurde sans le justifier. Ex : 'Y'a toujours quelqu'un qui a une anecdote en rapport avec exactement ce dont on parle. On a changé de sujet 12 fois. Il avait une anecdote à chaque fois. Il voyage beaucoup.'"
+  },
+  {
+    "content": "Soirée déguisée : j'ai passé une semaine sur mon costume.",
+    "comedyTechnique": "Le décalage d'investissement",
+    "techniqueExplanation": "Le setup montre ton effort démesuré, la chute révèle que les autres ont fait le minimum. Les guillemets autour d'« un accessoire » suffisent à décrire le serre-tête et les lunettes en plastique. Tu es ridicule d'avoir trop joué le jeu, et c'est ça qui est attachant.",
+    "howToApply": "Raconte un effort énorme pour un événement collectif, puis révèle que tout le monde a fait le strict minimum. Ex : « Pour le Secret Santa, j'ai fait un cadeau fait main. J'ai reçu une bougie encore avec le prix. »"
+  },
+  {
+    "content": "À 3h du matin, avec mes potes, on a refait le monde.",
+    "comedyTechnique": "Le contraste d'échelle",
+    "techniqueExplanation": "Le setup vous place au niveau de la planète, la chute vous ramène à la plus petite décision possible. Vingt minutes séparent les deux, et vous échouez sur la seconde. Tu te moques de toute la bande, toi compris, sans cibler personne.",
+    "howToApply": "Enchaîne une ambition immense et, juste après, un échec sur une tâche minuscule. Ex : « On a réglé tous les problèmes de l'école en réunion de parents. Personne a su éteindre le vidéoprojecteur. »"
+  },
+  {
+    "content": "J'ai apporté une salade de riz en soirée.",
+    "comedyTechnique": "La personnification de l'échec",
+    "techniqueExplanation": "Tu traites la salade comme une amie qui a vécu la même mauvaise soirée que toi. Le « silence dans le métro » transforme un plat non mangé en scène de tristesse partagée. L'échec est minuscule, et c'est la solennité qui le rend drôle.",
+    "howToApply": "Parle d'un objet qui a raté son moment comme d'une personne qui rentre déçue avec toi. Ex : « J'avais préparé un toast pour l'anniversaire. Personne m'a laissé parler. Il est resté dans ma poche toute la soirée. »"
+  },
+  {
+    "content": "Je connaissais que l'hôte.",
+    "comedyTechnique": "L'ombre qui colle",
+    "techniqueExplanation": "Tu ne dis pas que tu es mal à l'aise : tu montres que tu suis ton seul contact partout, même à la porte. L'image de toi qui accueilles des gens que tu ne connais pas est absurde et très visuelle. On rit de la stratégie de survie, pas de ta solitude.",
+    "howToApply": "Décris l'endroit où tu t'accroches quand tu ne connais personne, et montre-le jusqu'à l'absurde. Ex : « Au mariage, je suis resté à côté du seul invité que je connaissais. Sur les photos, on dirait son garde du corps. »"
+  },
+  {
+    "content": "Au karaoké, j'ai pris une chanson dont je connais le refrain.",
+    "comedyTechnique": "L'image de registre",
+    "techniqueExplanation": "Tout le monde a vécu ce moment où on découvre les couplets en direct. La chute le décrit avec une image précise : lire un communiqué, ton monocorde et regard sur l'écran. Comparer une situation à un autre registre de parole la rend immédiatement visible.",
+    "howToApply": "Décris un moment raté en le comparant à un type de discours très codifié (annonce SNCF, bulletin météo, discours officiel). Ex : « Pour mon premier toast, j'ai parlé comme une annonce en gare. Les gens ont vérifié leur montre. »"
+  },
+  {
+    "content": "Mon pote organise une « petite soirée tranquille ».",
+    "comedyTechnique": "L'indice qui contredit",
+    "techniqueExplanation": "La chute ne raconte pas la soirée : elle donne un seul indice qui dit tout. Les gobelets par 200 contredisent la « petite soirée » mieux qu'un récit de voisins et de police. C'est au public de tirer la conclusion.",
+    "howToApply": "Cite une promesse, puis montre un seul objet ou achat qui prouve l'inverse. Ex : « Ma sœur dit qu'elle part \"léger\" en week-end. Elle a demandé si on pouvait prendre ma voiture en plus. »"
+  },
+  {
+    "content": "Mes meilleures conversations de soirée ont lieu dans l'entrée.",
+    "comedyTechnique": "L'observation précise",
+    "techniqueExplanation": "Tout le monde connaît ces au revoir qui n'en finissent pas. La chute ne l'explique pas, elle pose deux détails : le manteau déjà enfilé et la durée. C'est la précision de la scène qui fait sourire, comme une photo prise au bon moment.",
+    "howToApply": "Choisis un rituel de soirée que tout le monde vit et décris-le en trois détails concrets, sans commentaire. Ex : « Le dernier verre, chez moi, c'est une catégorie. Il y en a en général quatre. »"
+  },
+  {
+    "content": "C'est toujours moi qui prends la photo de groupe.",
+    "comedyTechnique": "L'absence revendiquée",
+    "techniqueExplanation": "Tu décris ton invisibilité, puis tu la transformes en marque de fabrique. Le pouce dans le coin est un détail que tout le monde a déjà vu sur une photo. Appeler ça une « signature » donne une fierté absurde à un raté, et c'est ce retournement qui fait sourire.",
+    "howToApply": "Prends un rôle ingrat que tu tiens toujours, et présente sa trace ratée comme ta signature d'artiste. Ex : « À chaque déménagement, c'est moi qui porte le frigo. On reconnaît mon travail aux rayures dans l'escalier. »"
+  },
+  {
+    "content": "Je danse avec un seul mouvement, quelle que soit la musique.",
+    "comedyTechnique": "Le test extrême",
+    "techniqueExplanation": "Le setup annonce une limite, la chute la teste dans la situation où elle devient la plus visible. Tu ne décris pas le mouvement : la réaction des gens suffit à l'imaginer. Plus le contexte est calme, plus ton geste unique devient étrange.",
+    "howToApply": "Annonce une habitude que tu gardes en toutes circonstances, puis place-la dans la situation où elle détonne le plus. Ex : « Je salue tout le monde avec un check. Mon banquier a hésité longtemps, puis il a tendu le poing. »"
+  },
+  {
+    "content": "Un pote a tenu à brancher sa propre enceinte Bluetooth.",
+    "comedyTechnique": "Le bénéficiaire inattendu",
+    "techniqueExplanation": "L'effort de ton pote arrive à destination, mais chez quelqu'un d'autre. La chute ne décrit pas votre soirée ratée : elle montre le voisin heureux. Déplacer la conséquence vers un inconnu rend l'échec plus drôle que de le raconter.",
+    "howToApply": "Raconte un effort qui échoue, et montre qui en profite par erreur. Ex : « J'ai préparé un gâteau pour le bureau. Je l'ai oublié dans le métro. Quelqu'un a dû passer une excellente journée. »"
+  },
+  {
+    "content": "Un inconnu m'a écrit : « Merci pour hier, t'as été incroyable. »",
+    "comedyTechnique": "Le compliment angoissant",
+    "techniqueExplanation": "Normalement, on redoute les messages négatifs le lendemain. Ici, c'est un compliment qui fait peur, parce que tu ne sais pas à quoi il correspond. La chute explique pourquoi tu préfères ne pas savoir : la vérité ne peut être que décevante.",
+    "howToApply": "Reçois une bonne nouvelle dont tu ignores la cause, et explique pourquoi tu refuses de la découvrir. Ex : « Mon voisin m'a dit : \"Merci pour ce que vous avez fait avec les poubelles.\" J'ai dit \"de rien\". Je sais toujours pas. »"
+  },
+  {
+    "content": "Un pote raconte la même anecdote à chaque soirée.",
+    "comedyTechnique": "Le renversement de rôle",
+    "techniqueExplanation": "À force de l'entendre, tu es devenu le narrateur officiel de son histoire. La chute pousse jusqu'au bout : il devient ton public et rit à sa propre anecdote. Tu te moques de la répétition avec tendresse, sans l'humilier.",
+    "howToApply": "Prends quelqu'un qui répète toujours la même chose, et montre le jour où les rôles s'inversent. Ex : « Ma mère me rappelle de prendre un pull depuis vingt ans. Hier, c'est moi qui lui ai dit. Elle l'a pris. »"
+  },
+  {
+    "content": "Les vocaux de ma mère durent quatre minutes.",
+    "comedyTechnique": "La promesse démentie",
+    "techniqueExplanation": "Le setup donne la durée, la chute cite la première phrase : les deux se contredisent sans que tu aies à commenter. C'est l'annonce sincère et toujours fausse qui fait sourire, parce qu'on connaît tous quelqu'un qui dit ça. Aucune moquerie : juste une citation bien placée.",
+    "howToApply": "Donne un fait mesurable sur quelqu'un, puis cite la phrase qu'il répète et qui dit exactement l'inverse. Exemple : « Mon pote arrive toujours avec quarante minutes de retard. Son message, c'est toujours : “J'arrive.” »"
+  },
+  {
+    "content": "Mon père répond à tous mes messages par un pouce levé.",
+    "comedyTechnique": "Le code secret de l'émotion",
+    "techniqueExplanation": "Tu poses une règle (un pouce, toujours), puis l'exception minuscule qui dit tout : deux pouces, c'est l'émotion paternelle. Le rire est tendre : on se moque gentiment d'une pudeur qu'on reconnaît. Plus l'écart est petit, plus il paraît énorme.",
+    "howToApply": "Décris l'habitude très sobre de quelqu'un, puis la variation infime qui trahit un sentiment fort. Exemple : « Mon grand-père dit “pas mal” de tout. Pour mon mariage, il a dit “pas mal du tout”. Toute la famille a pleuré. »"
+  },
+  {
+    "content": "Quand je décroche pas, ma mère appelle mon coloc.",
+    "comedyTechnique": "L'escalade du réseau",
+    "techniqueExplanation": "Ta mère ne te lâche pas : elle passe par ton coloc, puis par la mère de ton coloc. La chute saute une étape et laisse le lecteur imaginer la chaîne d'appels. L'escalade est absurde, mais on y croit, parce qu'on connaît tous une mère capable de ça.",
+    "howToApply": "Pars d'un petit comportement insistant et fais-le franchir un cran de plus que prévu, en sautant l'explication. Exemple : « Quand je réponds pas à mon patron, il écrit à mon collègue. Hier, c'est mon dentiste qui m'a demandé si j'avais vu son mail. »"
+  },
+  {
+    "content": "Mon père m'a appelé : « Internet est cassé. »",
+    "comedyTechnique": "La cause dérisoire, la fin heureuse",
+    "techniqueExplanation": "Le setup annonce une panne énorme, la chute révèle la cause domestique et très française : la friteuse. Puis, au lieu de râler, tu conclus sur le bon côté. C'est ce refus de te plaindre qui rend la vanne affectueuse plutôt que moqueuse.",
+    "howToApply": "Annonce un drame technique, révèle une cause ridicule, puis termine sur un petit bénéfice inattendu. Exemple : « Ma grand-mère m'a dit que sa télé ne marchait plus. Elle s'était assise sur la télécommande. On a regardé l'album photo à la place. »"
+  },
+  {
+    "content": "Ma mère m'a envoyé une chaîne « pour les dix personnes qu'on aime le plus ».",
+    "comedyTechnique": "Le classement involontaire",
+    "techniqueExplanation": "Une chaîne de messages banale devient, par un détail, un classement de l'amour maternel. Tu n'accuses personne : tu constates ton rang, en quatre mots. Le lecteur complète seul, et c'est là que ça fait sourire.",
+    "howToApply": "Trouve un geste anodin qui révèle, malgré lui, un ordre de préférence, et place-toi mal classé. Exemple : « Au mariage de mon pote, il a remercié ses témoins, sa famille, le traiteur, puis moi. Juste avant le parking. »"
+  },
+  {
+    "content": "J'ai appris à mon père à faire une capture d'écran.",
+    "comedyTechnique": "L'outil retourné contre toi",
+    "techniqueExplanation": "Tu transmets une compétence, et elle revient vers toi sous une forme absurde : ton père l'utilise pour t'interroger sur tes propres mots. La boucle est parfaite, et tu en es la victime. Ce n'est pas lui qui est ridicule, c'est ta situation.",
+    "howToApply": "Raconte quelque chose que tu as appris à quelqu'un, puis montre comment il s'en sert contre toi. Exemple : « J'ai montré à ma mère comment voir si un message est lu. Maintenant, elle m'appelle pour me dire que j'ai lu le sien. »"
+  },
+  {
+    "content": "Mon père écrit ses messages en majuscules.",
+    "comedyTechnique": "La correction qui aggrave",
+    "techniqueExplanation": "Ton père corrige le problème en le reproduisant : il écrit en majuscules qu'il ne crie pas. La chute se lit avec la voix qu'elle décrit, et c'est la forme qui fait la blague. On sent sa bonne volonté, ce qui rend la vanne tendre.",
+    "howToApply": "Montre quelqu'un qui tente de corriger un défaut en utilisant exactement ce défaut. Exemple : « J'ai dit à mon coloc qu'il parlait trop fort au téléphone. Il a appelé sa mère pour lui raconter. Très fort. »"
+  },
+  {
+    "content": "Dans le groupe famille, ma tante répond « Bravo !! » à tout.",
+    "comedyTechnique": "Le soutien par accident",
+    "techniqueExplanation": "Le réflexe automatique de ta tante tombe à côté, et pourtant il fait du bien. Tu refuses la moquerie facile et tu gardes le compliment. Le « en fait » final est un aveu doux : tu avais besoin d'un bravo, peu importe pourquoi.",
+    "howToApply": "Prends la réaction automatique de quelqu'un, place-la dans le pire contexte, puis avoue qu'elle t'a aidé. Exemple : « Mon voisin dit “bonne journée” à tout le monde. Même le jour où je déménageais après une rupture. Ça m'a porté jusqu'au camion. »"
+  },
+  {
+    "content": "Mon père a réparé le lave-linge grâce à une vidéo.",
+    "comedyTechnique": "La relation imaginaire",
+    "techniqueExplanation": "Ton père transforme un inconnu d'Internet en coéquipier. Le mot « collègue » change tout : il ne dit pas qu'il a regardé un tuto, il dit qu'ils ont bossé ensemble. On sourit parce que c'est exactement la fierté qu'on ressent après une réparation réussie.",
+    "howToApply": "Prends quelqu'un qui t'a aidé sans le savoir (vidéo, livre, voix enregistrée) et parle de lui comme d'un proche. Exemple : « J'ai appris à faire des crêpes avec une vidéo. Quand on me complimente, je dis : “C'est la recette de Jean-Marc.” Je sais pas qui c'est. »"
+  },
+  {
+    "content": "Ma mère m'envoie chaque rumeur avec : « C'est vrai ? »",
+    "comedyTechnique": "La vérification pour la forme",
+    "techniqueExplanation": "Ta mère te demande ton avis, et elle l'ignore aussitôt. Le « au cas où » final révèle que ta réponse ne comptait pas : tu es un passage obligé, pas un filtre. Tu te moques de ton rôle inutile plus que d'elle.",
+    "howToApply": "Montre quelqu'un qui te consulte, puis fait l'inverse de ce que tu dis avec une justification prudente. Exemple : « Mon pote m'a demandé si c'était une bonne idée d'écrire à son ex. J'ai dit non. Il m'a montré le message envoyé, “pour avoir mon avis”. »"
+  },
+  {
+    "content": "Premier selfie de mon père.",
+    "comedyTechnique": "La mauvaise règle appliquée",
+    "techniqueExplanation": "Ton père applique à un selfie la seule règle photo qu'il connaît : celle du passeport. Le décalage entre la décontraction attendue et la rigueur administrative fait sourire. Et c'est tendre, parce que son erreur est pleine de sérieux.",
+    "howToApply": "Mets quelqu'un dans une situation nouvelle et fais-lui appliquer les règles d'une situation qu'il connaît. Exemple : « Mon grand-père a laissé son premier message vocal. Il a fini par “Veuillez agréer mes salutations distinguées”. »"
+  },
+  {
+    "content": "Ma chambre d'ado est devenue le bureau de mon père.",
+    "comedyTechnique": "L'héritage inattendu",
+    "techniqueExplanation": "Ce qui devait disparaître avec ta chambre, ton poster, est adopté par ton père, et pour des raisons de productivité. Le rire vient du croisement de deux mondes qui n'auraient jamais dû se rencontrer. Tu n'as pas besoin de décrire la scène : on l'imagine en réunion visio sous le poster.",
+    "howToApply": "Prends un objet de ton passé et imagine-le récupéré par la personne la plus improbable, avec une raison sérieuse. Exemple : « Ma mère a gardé ma console de collège. Elle dit que ça l'aide à se détendre après le travail. Elle est meilleure que moi. »"
+  },
+  {
+    "content": "Mon père se dispute avec la voix du GPS.",
+    "comedyTechnique": "La politesse qui trahit l'attachement",
+    "techniqueExplanation": "Ton père perd tous ses duels contre une voix enregistrée, mais il reste bien élevé. Le merci final montre que la dispute était une relation, pas une guerre. C'est ce petit geste qui transforme la moquerie en tendresse.",
+    "howToApply": "Raconte un conflit répété entre quelqu'un et un objet, puis termine sur un geste qui prouve qu'il y tient. Exemple : « Ma grand-mère insulte sa vieille machine à café tous les matins. Le jour où elle l'a changée, elle l'a gardée à la cave. »"
+  },
+  {
+    "content": "Ma mère m'a répondu « D'accord. », avec un point.",
+    "comedyTechnique": "Le détail minuscule, la panique entière",
+    "techniqueExplanation": "Un simple point final devient un indice de colère, et tu te lances dans une enquête. La disproportion entre le signe et ta réaction fait sourire. Et le lecteur sait qu'elle a probablement juste mis un point.",
+    "howToApply": "Pars d'un micro-signal ambigu et décris la grosse réaction qu'il déclenche chez toi. Exemple : « Mon chef a dit “bonjour” sans le prénom. J'ai préparé ma lettre de démission. »"
+  },
+  {
+    "content": "Chaque lundi, mon père envoie une image « Bon lundi » au groupe famille.",
+    "comedyTechnique": "L'erreur acceptée par tous",
+    "techniqueExplanation": "Une erreur de rituel devient une réalité collective, parce que personne n'ose corriger ton père. La chute finit par une conséquence absurde, deux lundis, présentée comme un fait. On sourit de cette complicité familiale un peu lâche.",
+    "howToApply": "Prends une erreur d'une personne respectée et raconte que tout le monde l'a suivie plutôt que la corriger. Exemple : « Au mariage, mon oncle a appelé la mariée par le mauvais prénom. Toute la soirée, on l'a appelée comme ça. Elle a fini par répondre. »"
+  },
+  {
+    "content": "Pour la photo de famille, mon père crie « Je la prends ! », puis attend dix secondes.",
+    "comedyTechnique": "Le défaut rebaptisé méthode",
+    "techniqueExplanation": "La lenteur de ton père ruine chaque photo, mais il la présente comme un choix artistique. Le mot « naturelles » transforme l'échec en style. C'est ce qu'on fait tous avec nos petits défauts, et ça rend ton père attachant plutôt que ridicule.",
+    "howToApply": "Prends un défaut qui gâche un résultat et fais-le revendiquer par son auteur comme une méthode. Exemple : « Mon coloc laisse ses plats refroidir une heure avant de manger. Il dit que c'est pour “laisser les saveurs se poser”. »"
+  },
+  {
+    "content": "Ma mère a mis du scotch sur sa webcam, par sécurité.",
+    "comedyTechnique": "La précaution qui se retourne",
+    "techniqueExplanation": "Ta mère se protège, et sa protection fonctionne parfaitement, contre toi aussi. La chute pose la question naïve qui prouve qu'elle a oublié son propre scotch. Pas besoin d'expliquer : le lecteur relie les deux phrases tout seul.",
+    "howToApply": "Pose une précaution prise par quelqu'un, puis une plainte qui montre qu'elle bloque ce qu'il veut vraiment. Exemple : « Mon voisin a mis trois verrous à sa porte. Il m'appelle chaque soir pour que je l'aide à rentrer. »"
+  },
+  {
+    "content": "Mon père termine tous ses SMS par « Bien cordialement ».",
+    "comedyTechnique": "L'émotion au mauvais format",
+    "techniqueExplanation": "Une phrase intime arrive dans l'emballage d'un mail de bureau. Le décalage entre « fier de toi » et « Bien cordialement » crée le sourire ; ta réaction, « ému, mais professionnellement », reprend le même mélange. Tu réponds au registre par le registre.",
+    "howToApply": "Glisse un message affectif dans un format administratif, puis décris ta réaction dans le même jargon. Exemple : « Ma sœur m'a dit “je t'aime” à la fin d'un appel vidéo. J'ai répondu “bien reçu, je reviens vers toi”. »"
+  },
+  {
+    "content": "J'ai lu la notice de mon médicament contre les maux de tête.",
+    "comedyTechnique": "La boucle",
+    "techniqueExplanation": "Le remède et le problème se rejoignent : le médicament peut provoquer ce qu'il soigne. Tu ne commentes pas, tu cites la notice, et le lecteur comprend la boucle seul. C'est l'absurde du réel, rendu drôle par la sobriété.",
+    "howToApply": "Cherche une situation où la solution produit le problème, et énonce-la en citant simplement la règle ou le texte. Exemple : « Mon formulaire de réclamation pour délai trop long indique : “Réponse sous trois mois.” »"
+  },
+  {
+    "content": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve.",
+    "comedyTechnique": "L'autorité absurde",
+    "techniqueExplanation": "Le GPS dit de tourner à droite. Il y a un fleuve. La logique commande d'ignorer l'instruction. Mais le narrateur 'a hésité' et 'il avait l'air sûr de lui'. On attribue au GPS une certitude, une intention, presque une personnalité — et cette confiance aveugle dans l'outil contre l'évidence physique est le coeur du gag.",
+    "howToApply": "Montre une situation où l'autorité d'un outil ou d'une institution est accordée contre toute évidence sensorielle. La clé : le narrateur doit hésiter sincèrement, pas ironiquement. Ex : 'L'appli météo disait 'ensoleillé'. Il pleuvait. J'ai hésité à croire la pluie.'"
+  },
+  {
+    "content": "Pour arrêter de grignoter, j'ai caché les biscuits tout en haut du placard.",
+    "comedyTechnique": "Le duel contre soi-même",
+    "techniqueExplanation": "Tu te caches quelque chose à toi-même, et tu te retrouves à la fois cacheur et chercheur. Évidemment, le chercheur gagne : il a toutes les informations. La chute énonce cette évidence avec calme, et c'est ce calme qui rend l'absurde drôle.",
+    "howToApply": "Mets-toi dans deux rôles opposés d'une même ruse et montre que l'un des deux te connaît trop bien. Exemple : « J'ai changé mon mot de passe pour ne plus pouvoir aller sur ce site. J'ai trouvé le nouveau en deux essais. »"
+  },
+  {
+    "content": "Ma machine à laver affiche « 1 min » pendant dix minutes.",
+    "comedyTechnique": "La solidarité avec l'objet",
+    "techniqueExplanation": "Au lieu de te plaindre de la machine, tu te reconnais en elle. La comparaison tourne l'agacement en aveu : tu mens de la même manière. Le rire vient de ce retournement, de la critique vers l'auto-dérision.",
+    "howToApply": "Prends un objet qui t'agace et avoue que tu fais exactement la même chose. Exemple : « Mon ordi met une heure à s'éteindre après “Arrêt en cours”. Pareil que moi quand je dis “je vais me coucher”. »"
+  },
+  {
+    "content": "J'ai croisé mon prof de sport 10 ans après le lycée.",
+    "comedyTechnique": "Le contraste de statut",
+    "techniqueExplanation": "La rencontre est anodine. La punchline est une image fixe : lui court encore, moi non. Quatre mots suffisent : 'Il courait toujours. Moi non.' Le contraste entre la continuité du prof et l'immobilité acquise du narrateur dit tout sur 10 ans d'évolution — ou plutôt d'abandon. La brièveté de la chute amplifie l'effet.",
+    "howToApply": "Construis une comparaison en deux temps — l'autre personne + toi — avec une brièveté maximale. Le silence après la punchline fait partie du gag. Ex : 'J'ai croisé mon ancien camarade de natation. Il participait à un triathlon. Moi j'attendais le bus.'"
+  },
+  {
+    "content": "Avec mon coloc, on a fait un tableau de répartition des tâches.",
+    "comedyTechnique": "L'outil qui devient la tâche",
+    "techniqueExplanation": "L'outil d'organisation devient la seule activité réellement faite, à la place de ce qu'il devait organiser. La chute ne dit pas que l'appartement est sale : le lecteur le déduit. C'est une vanne très partagée en coloc, parce qu'elle est vraie.",
+    "howToApply": "Prends un outil de productivité et montre qu'il est devenu la seule chose que tu fais. Exemple : « J'ai passé mon dimanche à choisir la meilleure appli de to-do list. C'était le seul truc sur ma liste. »"
+  },
+  {
+    "content": "Ce soir, on a mis une heure à choisir un film.",
+    "comedyTechnique": "L'hésitation punie",
+    "techniqueExplanation": "Votre indécision a duré si longtemps que le monde a changé autour de vous. La chute n'exagère presque pas, et c'est ce réalisme qui la rend drôle. On imagine le soupir collectif devant l'écran.",
+    "howToApply": "Prends une hésitation banale et donne-lui une conséquence qui montre que le temps a vraiment passé. Exemple : « J'ai hésité si longtemps devant les baskets en promo que la promo est terminée pendant que je les essayais. »"
+  },
+  {
+    "content": "Ma pote avocate m'a donné un conseil « d'amie ».",
+    "comedyTechnique": "Le mot qui devient un tarif",
+    "techniqueExplanation": "« D'amie » semble décrire la chaleur du conseil. La chute révèle son vrai sens : une catégorie de prix. Le double sens repose sur l'idée, pas sur le son, et il dit avec douceur ce que tout le monde pense des amis qui ont un métier utile.",
+    "howToApply": "Prends une précision affectueuse (« entre nous », « pour toi », « d'ami ») et révèle qu'elle désignait en fait une condition commerciale. Ex : « Mon pote garagiste m'a fait un prix \"de pote\". J'ai compris que les potes paient la TVA. »"
+  },
+  {
+    "content": "Au permis, l'inspecteur : « Garez-vous en bataille. »",
+    "comedyTechnique": "L'expression prise au pied de la lettre",
+    "techniqueExplanation": "« En bataille » désigne une façon de se garer. La chute la prend au sens guerrier et raconte la manœuvre comme un combat, avec un vaincu. C'est un jeu sur le sens, pas sur le son : l'image de la bataille résume ta conduite mieux qu'un récit.",
+    "howToApply": "Repère une expression technique qui contient un mot imagé, et raconte la scène comme si ce mot était littéral. Ex : « Au bureau, on m'a demandé de faire un tour de table. J'ai fait trois tours. Personne a voulu parler. »"
+  },
+  {
+    "content": "Mon coiffeur m'a dit que j'avais une belle structure de crâne.",
+    "comedyTechnique": "L'euphémisme qui accuse",
+    "techniqueExplanation": "'Belle structure de crâne' est une forme de consolation professionnelle : le coiffeur n'a plus grand-chose à valoriser, alors il complimente l'os. La punchline n'explique pas — elle confirme. Le rire vient du soulagement gêné du client qui accepte ce compliment comme si c'en était un, et de l'honnêteté indirecte du coiffeur.",
+    "howToApply": "Quand il ne reste plus grand-chose à dire de positif sur quelque chose, trouve le dernier compliment disponible — souvent le plus basique ou le moins attendu. Ex : 'Le mécanicien m'a dit que ma voiture avait une structure solide. La carrosserie, les freins et le moteur étaient à changer. Mais la structure.'"
+  },
+  {
+    "content": "Ma photo « prise sur le vif » a demandé quarante essais.",
+    "comedyTechnique": "Le naturel obtenu par l'absurde",
+    "techniqueExplanation": "Tu cherches à faire naturel, et tu n'y arrives qu'une fois épuisé par l'effort de faire naturel. Le paradoxe est drôle parce qu'il est vrai : le rire spontané arrive par accident. Le dernier mot, séparé, révèle la vraie cause du sourire.",
+    "howToApply": "Prends un effort pour paraître spontané et montre que la spontanéité arrive seulement quand tu abandonnes. Exemple : « J'ai répété ma blague toute la soirée. Les gens ont ri quand je me suis trompé dedans. »"
+  },
+  {
+    "content": "Ma photo de profil, c'est une photo de groupe recadrée.",
+    "comedyTechnique": "Le détail orphelin",
+    "techniqueExplanation": "Le recadrage laisse une trace absurde : une main sans propriétaire. Le lecteur imagine les questions des autres, puis la chute ajoute que tu ne sais pas non plus. Ce « moi non plus » final fait passer la scène de gênante à absurde.",
+    "howToApply": "Raconte une retouche ou un camouflage qui laisse un indice, puis avoue que même toi tu ne sais pas d'où il vient. Exemple : « Sur ma photo de CV, il reste un bout de guirlande dans le coin. Je sais pas de quelle fête. »"
+  },
+  {
+    "content": "Un inconnu : « On se connaît ? » J'ai dit non.",
+    "comedyTechnique": "L'excuse qui aggrave",
+    "techniqueExplanation": "L'inconnu veut s'excuser poliment, et son excuse est plus blessante que son erreur. « Très répandue » transforme ton visage en modèle de série. Tu n'as rien à ajouter : c'est l'autre qui te vanne sans le vouloir.",
+    "howToApply": "Fais dire à quelqu'un une excuse polie qui contient une vexation involontaire. Ex : « Le vendeur m'a dit : \"Ce pull vous va très bien. Il pardonne beaucoup.\" »"
+  },
+  {
+    "content": "J'ai expliqué mon métier pendant cinq minutes.",
+    "comedyTechnique": "Le résumé qui écrase",
+    "techniqueExplanation": "Tu fais un effort sincère pour expliquer, et l'autre réduit tout à une formule vague. Ta résignation finale (« oui, voilà ») est la vraie chute : tu acceptes le résumé parce qu'il est, au fond, juste. C'est de l'auto-dérision sur la complexité inutile de nos métiers.",
+    "howToApply": "Raconte une explication longue que quelqu'un résume en trois mots, et acquiesce. Ex : « J'ai expliqué mon mémoire à mon grand-père pendant un quart d'heure. Il a dit : \"En gros, t'écris.\" Oui, papi. En gros, j'écris. »"
+  },
+  {
+    "content": "Un mec m'a dit : « Moi, je me lève à 5h tous les matins. »",
+    "comedyTechnique": "La vantardise reçue comme un aveu",
+    "techniqueExplanation": "Il attend de l'admiration ; tu réponds avec l'inquiétude qu'on réserve à une confidence difficile. Ta réplique ne se moque pas frontalement : elle déplace sa fierté vers le symptôme. C'est une répartie douce et imparable, parce qu'elle a l'air bienveillante.",
+    "howToApply": "Quand quelqu'un se vante, réponds avec le ton qu'on prend face à un problème personnel. Exemple : « Il m'a dit qu'il faisait du sport deux fois par jour. Je lui ai demandé s'il voulait en parler. »"
+  },
+  {
+    "content": "Ma collègue a trouvé mon exposé « courageux ».",
+    "comedyTechnique": "Le silence qui parle",
+    "techniqueExplanation": "« Courageux » est déjà un compliment suspect, et c'est le temps de réflexion qui trahit l'avis réel. La chute ne commente pas, elle mesure. Quatre secondes, c'est long, et chacun se souvient d'un compliment arraché de la même façon.",
+    "howToApply": "Rapporte un compliment, puis un détail sur la manière dont il a été dit (hésitation, regard, ton) qui le contredit. Ex : « Mon pote a dit que mon plat était \"original\". Il a bu un grand verre d'eau juste avant. »"
+  },
+  {
+    "content": "« Votre plus grand défaut ? » J'ai dit : « Le perfectionnisme. »",
+    "comedyTechnique": "La fuite absurde",
+    "techniqueExplanation": "Le setup reprend la réponse bateau que tous les recruteurs connaissent. Le recruteur la démasque, et toi, au lieu de répondre, tu fuis dans un autre univers : un jeu télé. Changer de cadre au moment où on te coince, c'est une porte de sortie qui fait rire.",
+    "howToApply": "Quand on te pose une question piège, réponds en empruntant les règles d'un jeu ou d'une autre situation codifiée. Ex : « Ma mère m'a demandé quand je trouverais quelqu'un. J'ai demandé le 50/50. »"
+  },
+  {
+    "content": "Il m'a demandé : « Honnête ou gentil ? » J'ai dit honnête.",
+    "comedyTechnique": "Le regret en direct",
+    "techniqueExplanation": "Le setup te fait choisir la réponse courageuse. La chute ne rapporte pas ce qu'il a dit : elle saute directement à ton regret. Ne pas citer la critique la rend pire, parce que chacun imagine la sienne.",
+    "howToApply": "Fais un choix héroïque, puis coupe la scène et passe directement au moment où tu le regrettes. Ex : « Au restaurant, j'ai dit \"surprenez-moi\". Ils m'ont surpris. Je voudrais parler au chef. »"
+  },
+  {
+    "content": "Au mariage, j'étais à la table « Divers ».",
+    "comedyTechnique": "Le malaise partagé",
+    "techniqueExplanation": "Le nom de la table dit déjà que tu es là par hasard. La chute retourne la situation : même les hôtes ne savent pas qui tu es. Tu n'es plus le seul perdu, et cette égalité dans la gêne rend la scène tendre.",
+    "howToApply": "Place-toi dans une situation où tu te sens de trop, puis montre que ceux qui t'accueillent sont aussi perdus que toi. Ex : « À ma première réunion, j'ai fait semblant de connaître le projet. Le chef de projet aussi. »"
+  },
+  {
+    "content": "Mon père m'a demandé ce que c'était un « meme ».",
+    "comedyTechnique": "Le retournement en deux temps",
+    "techniqueExplanation": "Premier temps : le père juge (c'est nul). Second temps : il diffuse quand même. Ce renversement immédiat vide le jugement de toute sincérité. La contradiction entre ce qu'on dit et ce qu'on fait est une mécanique universelle — mais ici elle est capturée avec précision : il a jugé, il a diffusé, et 'toute la famille' est la mesure de l'enthousiasme réel.",
+    "howToApply": "Montre le jugement négatif d'abord, puis le comportement qui le contredit sans transition ni commentaire. La vitesse du renversement est proportionnelle au rire. Ex : 'Mon collègue a dit que TikTok c'était nul. Il m'a montré 8 vidéos dans la foulée.'"
+  },
+  {
+    "content": "En cours, j'ai levé la main pour aller aux toilettes.",
+    "comedyTechnique": "La chute par sous-entendu",
+    "techniqueExplanation": "Le prof dit non. Le narrateur reste. 'On a tous les deux regretté.' Cette dernière phrase ne dit rien de ce qui s'est passé — elle le partage entre les deux protagonistes. La symétrie des regrets ('tous les deux') fait comprendre sans décrire. Le lecteur comble l'espace, et ce qu'il imagine est nécessairement plus drôle que la formulation explicite.",
+    "howToApply": "Pour les situations avec une conséquence évidente et légèrement gênante, nomme le regret sans en expliquer la cause — et étends ce regret aux deux parties si possible. La symétrie amplifie l'effet. Ex : 'J'ai dit la vérité à mon chef lors de son entretien annuel. On l'a tous les deux regretté.'"
+  },
+  {
+    "content": "Partie de 45 minutes perdue : déconnexion.",
+    "comedyTechnique": "Le nouveau rapport de force",
+    "techniqueExplanation": "Un incident technique minuscule réorganise la coloc : ton coloc doit maintenant te demander la permission. La chute déplace le sujet de la défaite vers une règle domestique absurde. Tu fais rire par la conséquence, pas par la plainte.",
+    "howToApply": "Pars d'un incident et décris la nouvelle règle, disproportionnée, qu'il a instaurée chez toi. Exemple : « Mon coloc a fini mon beurre une fois. Maintenant, le beurre a son étagère et un planning. »"
+  },
+  {
+    "content": "Trois mois sans nouvelles. Hier, elle a liké ma story.",
+    "comedyTechnique": "La métaphore administrative",
+    "techniqueExplanation": "Tu remplaces l'espoir par un vocabulaire de garagiste. Le « contrôle technique » dit exactement ce qu'est ce like : vérifier que tu fonctionnes encore, sans intention de repartir avec toi. L'image est précise, et elle t'évite de passer pour la victime.",
+    "howToApply": "Nomme un comportement flou avec le vocabulaire d'une procédure administrative ou mécanique. Ex : « Mon ex m'a souhaité bon anniversaire. C'était la visite annuelle. »"
+  }
+]

@@ -7,6 +7,18 @@ import {
 } from "../client";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { extractSetupAmorce } from "./joke-agent";
+import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
+import { withFrenchExerciseAlias } from "@/lib/ai/json-aliases";
+
+/**
+ * Regex de mentions IA / assistants vocaux (règle fondateur permanente).
+ * Utilisée par G-J11 (jokes) et G-T6 (tips). Attention aux faux positifs :
+ * "AI" seul est ambigu (Aïnhoa, "j'ai", "ça y est"), on cible donc les mots
+ * dénominatifs sans risque de collision ("l'IA" avec article, "ChatGPT", etc).
+ */
+const AI_MENTION_PATTERN =
+  /\b(l['’]IA|IA générative|intelligence artificielle|ChatGPT|GPT[- ]?\d|LLM|Claude\s*(?:AI|IA)|Claude d['’]Anthropic|Bard|Google Gemini|Gemini\s*(?:AI|IA)|Copilot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel|generative ai)\b/i;
 
 // ───────────────────────────────────────────────────────────────────
 // Agent Stand-Up Director — Directeur Artistique de deviens-marrant.fr
@@ -37,7 +49,18 @@ interface GateResult {
  * Gates pour les vannes — chaque gate est un check binaire.
  * 1 FAIL = rejet automatique, pas besoin de passer par le LLM.
  */
-export function runJokeGates(joke: JokeToValidate): GateResult[] {
+export function runJokeGates(
+  joke: JokeToValidate,
+  options: {
+    recentSetups?: string[];
+    /**
+     * Lot V7 (décision Thomas V6) : en génération quotidienne, les assistants
+     * / IA sont un sujet autorisé → G-J11 passe. Défaut false : le
+     * copy-review (qui appelle validateJoke sans option) garde G-J11 tel quel.
+     */
+    allowAssistantSubject?: boolean;
+  } = {},
+): GateResult[] {
   const results: GateResult[] = [];
   const content = joke.content.trim();
   const punchline = joke.punchline.trim();
@@ -127,6 +150,62 @@ export function runJokeGates(joke: JokeToValidate): GateResult[] {
     reason: vulgarPattern.test(fullText) ? "Insulte directe détectée" : "OK",
   });
 
+  // G-J10 — Anti-répétition d'amorce (s11 charte §3 : "❌ Même amorce qu'une
+  // autre vanne du catalogue"). Compare l'amorce (12 premiers mots normalisés)
+  // de la vanne proposée à celles des N dernières vannes passées en contexte.
+  // On considère qu'il y a "répétition" quand ≥ 5 mots de préfixe sont
+  // strictement identiques après normalisation (extractSetupAmorce). C'est
+  // conservateur : deux amorces qui partagent leur ouverture ("j'ai demandé
+  // à mon…") tombent, deux vannes sur le même thème avec des ouvertures
+  // différentes passent. Ne bloque JAMAIS une vanne existante (aucun recentSetup
+  // fourni → gate PASS silencieusement, cf. règle fondateur "ne pas supprimer
+  // ce qui marche par doute").
+  const recentSetups = (options.recentSetups ?? [])
+    .map((s) => extractSetupAmorce(s))
+    .filter((s) => s.length > 0);
+  const currentAmorce = extractSetupAmorce(content);
+  const currentTokens = currentAmorce.split(" ").filter((w) => w.length > 0);
+  let amorceCollision: string | null = null;
+  if (currentTokens.length >= 5) {
+    for (const setup of recentSetups) {
+      const setupTokens = setup.split(" ").filter((w) => w.length > 0);
+      // Comparaison préfixe : combien de mots consécutifs identiques depuis le début ?
+      let matching = 0;
+      const maxMatch = Math.min(currentTokens.length, setupTokens.length);
+      for (let i = 0; i < maxMatch; i++) {
+        if (currentTokens[i] === setupTokens[i]) matching++;
+        else break;
+      }
+      if (matching >= 5) {
+        amorceCollision = setup;
+        break;
+      }
+    }
+  }
+  results.push({
+    gate: "G-J10 Anti-répétition d'amorce",
+    pass: !amorceCollision,
+    reason: amorceCollision
+      ? `Amorce trop proche d'une vanne récente : "${amorceCollision}" — même ouverture, changer d'angle`
+      : "OK",
+  });
+
+  // G-J11 — Anti-mention IA / assistant vocal (règle fondateur permanente).
+  // Une vanne du site NE parle JAMAIS de ChatGPT, "l'IA", Siri, Alexa… (audit
+  // charte s11 §1.2 : "Zéro mention d'IA — y compris les vannes/exemples qui
+  // parlent de ChatGPT, d'assistants vocaux ou de « l'IA »").
+  const aiInJoke = AI_MENTION_PATTERN.test(`${content} ${punchline}`);
+  const aiAllowed = options.allowAssistantSubject === true;
+  results.push({
+    gate: "G-J11 Anti-mention IA",
+    pass: aiAllowed || !aiInJoke,
+    reason: aiInJoke
+      ? aiAllowed
+        ? "OK (assistant / IA comme sujet autorisé en génération, décision V6)"
+        : "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
+      : "OK",
+  });
+
   return results;
 }
 
@@ -175,6 +254,17 @@ export function runTipGates(tip: TipToValidate): GateResult[] {
     gate: "G-T5 Tutoiement obligatoire",
     pass: !vousPattern.test(fullText),
     reason: vousPattern.test(fullText) ? "Vouvoiement détecté — le site utilise toujours le tu" : "OK",
+  });
+
+  // G-T6 — Anti-mention IA / assistant vocal (règle fondateur permanente).
+  const aiText = `${tip.title} ${tip.content} ${tip.example} ${tip.exercise}`;
+  const aiInTip = AI_MENTION_PATTERN.test(aiText);
+  results.push({
+    gate: "G-T6 Anti-mention IA",
+    pass: !aiInTip,
+    reason: aiInTip
+      ? "Mention IA / assistant vocal détectée — règle fondateur : jamais d'IA dans le contenu"
+      : "OK",
   });
 
   return results;
@@ -384,6 +474,84 @@ export function runBlogGates(article: {
         : "OK",
     });
   }
+
+  // ─── Gates s11 lot 3 (anti-staccato, anti-témoignage fictif, anti-scolaire, anti-IA) ─
+
+  // G-B19 — Anti-staccato IA (BLOQUANT)
+  // Motifs "Boom.", "Boom,", "Plot twist :", "STOP.", "Voilà.", "Fin."
+  // en fragment isolé (début de ligne ou après double retour).
+  const staccatoPattern =
+    /(^|\n\n)\s*(Boom[.!,]|Plot twist\s*[:.,]|STOP\.|Voilà\.|Fin\.|Point\.|Basta\.|Terminé\.)(\s|\n|$)/;
+  const staccatoMatch = article.content.match(staccatoPattern);
+  results.push({
+    gate: "G-B19 Anti-staccato IA (BLOQUANT)",
+    pass: !staccatoMatch,
+    reason: staccatoMatch
+      ? `Fragment staccato détecté : "${staccatoMatch[2]}" — remplacer par une phrase construite`
+      : "OK",
+  });
+
+  // G-B20 — Anti-témoignage fictif "Prénom, NN ans" (BLOQUANT)
+  // Détecte "Lucas, 21 ans", "Marine, 28 ans", "Thomas, 35 ans", "Émilie, 30 ans"
+  // et tout motif similaire. Prénom = 2-15 lettres capitalisées (Unicode),
+  // âge = 15-80. On utilise \p{Lu}/\p{Ll} avec flag `u` pour couvrir toutes
+  // les diacritiques latines (É, À, Ï…). NOTE : `\b` ne matche pas avant les
+  // caractères non-ASCII (É, À…), on utilise donc un anchor position explicite
+  // (début, espace, ponctuation) via lookbehind.
+  const testimonialPattern =
+    /(?<=^|[\s.,;:!?"'—«»(])(\p{Lu}\p{Ll}{1,14}),\s*(1[5-9]|[2-7]\d|80)\s*ans\b/u;
+  const testimonialMatch = article.content.match(testimonialPattern);
+  results.push({
+    gate: "G-B20 Anti-témoignage fictif Prénom NN ans (BLOQUANT)",
+    pass: !testimonialMatch,
+    reason: testimonialMatch
+      ? `Témoignage fictif détecté : "${testimonialMatch[0]}" — anonymiser (métier + tranche d'âge) ou remplacer par un chiffre agrégé`
+      : "OK",
+  });
+
+  // G-B21 — Anti-structure scolaire "Semaine X" / "Jours X-Y" (BLOQUANT)
+  // Signal fort de ton "plan de cours" que le site refuse (brand voice
+  // "atelier, pas amphi"). Détecte les titres de section formatés comme
+  // programme scolaire.
+  const scolairePattern =
+    /(^|\n)#{1,4}\s+.*\b(Semaine\s*\d+|Jours?\s*\d+\s*[-–à]\s*\d+|Semaines?\s*\d+\s*[-–à]\s*\d+|Semaine\s+\d+\s*:|Journée\s*\d+\s*:)/i;
+  const scolaireMatch = article.content.match(scolairePattern);
+  results.push({
+    gate: "G-B21 Anti-structure scolaire (BLOQUANT)",
+    pass: !scolaireMatch,
+    reason: scolaireMatch
+      ? `Structure scolaire détectée dans un H2/H3 : "${(scolaireMatch[0] || "").trim().slice(0, 60)}…" — reformuler en progression narrative`
+      : "OK",
+  });
+
+  // G-B22 — Anti-mention IA (BLOQUANT)
+  // Le site NE parle JAMAIS d'IA dans le contenu (règle fondateur permanente).
+  const aiMentionPattern =
+    /\b(généré[es]?\s+par\s+(l'|une\s+|notre\s+|des\s+)?(intelligence\s+artificielle|IA|AI)|notre\s+IA|par\s+notre\s+IA|chatgpt|(?<!-)claude(?:\s*ai)?|gpt-\d|large\s+language\s+model|prompt\s+GPT|intelligence\s+artificielle)\b/i;
+  const aiMatch = article.content.match(aiMentionPattern);
+  results.push({
+    gate: "G-B22 Anti-mention IA (BLOQUANT)",
+    pass: !aiMatch,
+    reason: aiMatch
+      ? `Mention IA détectée : "${aiMatch[0]}" — règle fondateur permanente : JAMAIS d'IA dans le contenu`
+      : "OK",
+  });
+
+  // G-B23 — Anti-citation attribuée à un humoriste réel (WARNING soft)
+  // Détecte "Fary : \"...\"" ou "Comme le dit Fary" — signal de risque
+  // réputationnel (citation potentiellement mal attribuée). NE bloque pas
+  // toutes les mentions (les refs d'humoriste sont encouragées), seulement
+  // les CITATIONS DIRECTES attribuées.
+  const attributionPattern =
+    /\b(Comme (?:le )?dit|Selon|D'après|Pour reprendre)\s+(Fary|Paul Mirabel|Roman Frayssinet|Blanche Gardin|Waly Dia|Panayotis Pascot|Inès Reg|Pierre Croce|Jamel Debbouze|Gad Elmaleh|Florence Foresti|Kev Adams)\s*[:,]\s*["«]/;
+  const attributionMatch = article.content.match(attributionPattern);
+  results.push({
+    gate: "G-B23 Anti-citation attribuée sans source (BLOQUANT)",
+    pass: !attributionMatch,
+    reason: attributionMatch
+      ? `Citation attribuée détectée : "${attributionMatch[0].slice(0, 60)}…" — les citations directes à un humoriste réel sont interdites sauf source vérifiable. Reformuler en "comme dirait un stand-upper" ou retirer l'attribution.`
+      : "OK",
+  });
 
   return results;
 }
@@ -622,32 +790,14 @@ Quel que soit le type de contenu, ces 5 critères s'appliquent TOUJOURS :
 // du seuil Anthropic de 1024 tokens pour Sonnet/Opus), 100% stable entre
 // appels, éligible au prompt caching `cache_control: ephemeral`.
 // Gain estimé : -90% sur les tokens input du directeur, ~$0.10/jour.
-//
-// Note caching Haiku : Haiku exige un minimum de 2048 tokens pour déclencher
-// le cache. Le bloc identité (~1278 tokens) est EN DESSOUS de ce seuil, donc
-// quand on utilise Haiku en validation (feature flag ENABLE_HAIKU_VALIDATION)
-// le cache ne s'applique PAS sur ce bloc. Le gain Haiku reste positif malgré
-// tout grâce au prix 3x inférieur à Sonnet ($1/M in vs $3/M in).
 const DIRECTOR_IDENTITY_CACHED_BLOCK = buildCachedSystemBlock(buildDirectorIdentity());
 
-// ─── Feature flag Haiku 4.5 sur les validations ──────────────────
+// ─── Validation : une seule passe Sonnet ────────────────────────
 //
-// Objectif : réduire le coût des validations Director de ~70% en exécutant
-// une première passe sur Haiku 4.5 (3x moins cher que Sonnet 4 en input,
-// 3x moins cher en output). Mécanisme de sécurité :
-//
-//   Pass 1 — Haiku 4.5
-//     score >= 8  → APPROVED net → on garde, pas de pass 2
-//     score <  5  → REJECTED net → on garde, pas de pass 2
-//     5 <= score <= 7 (borderline) → pass 2 Sonnet pour décision finale
-//
-//   Pass 2 — Sonnet 4 (seulement sur borderline)
-//     Verdict final quel que soit le score
-//
-// Feature flag OFF par défaut : tant que `ENABLE_HAIKU_VALIDATION !== "true"`
-// dans l'environnement, les validations utilisent Sonnet uniquement (legacy).
-// Activation A/B test manuelle par le fondateur après 24-48h de baseline.
-const ENABLE_HAIKU_VALIDATION = process.env.ENABLE_HAIKU_VALIDATION === "true";
+// s11 : l'ancienne double passe Haiku 4.5 → Sonnet (feature flag
+// ENABLE_HAIKU_VALIDATION, OFF par défaut) est supprimée. Haiku n'est plus
+// utilisé (dernier Haiku = 4.5, retrait annoncé ≥ 15/10/2026) ; Sonnet 5.5 en
+// effort `low` coûte $2/$10 par MTok, déjà moins que Sonnet 4 ($3/$15).
 
 // Feature flag OFF par défaut — désactive les fonctions de batch review
 // (`reviewContentBatch` + `auditSiteContent`) qui ne sont appelées nulle
@@ -661,56 +811,17 @@ const ENABLE_HAIKU_VALIDATION = process.env.ENABLE_HAIKU_VALIDATION === "true";
 // cette var avant `import` pour rester verts.
 const ENABLE_REVIEW_BATCH = process.env.ENABLE_REVIEW_BATCH === "true";
 
-// IDs modèles Anthropic utilisés pour la validation directeur.
-// Le SONNET_VALIDATION_MODEL est gardé local pour l'instant — une future
-// refactor pourra l'exporter depuis `client.ts` pour alignement global.
-const HAIKU_VALIDATION_MODEL = "claude-haiku-4-5-20251001";
-// Alias local pour clarté — pointe vers la constante globale SONNET_MODEL.
-// Si le fondateur migre Sonnet 4 → 4.6, il change `SONNET_MODEL` dans
-// `client.ts` et toutes les validations suivent automatiquement.
-const SONNET_VALIDATION_MODEL = SONNET_MODEL;
-
-// Seuils borderline : si Haiku retourne un score dans [MIN, MAX] inclus,
-// on re-valide avec Sonnet pour décision finale. En dehors de cette plage,
-// Haiku est considéré fiable (verdict net, APPROVED ou REJECTED).
-const HAIKU_BORDERLINE_MIN = 5;
-const HAIKU_BORDERLINE_MAX = 7;
-
 /**
- * Exécute une validation en 2 passes quand Haiku est activé, ou en 1 passe
- * Sonnet sinon (mode legacy).
- *
- * - `validateFn(model)` doit retourner le résultat typé de validation en
- *   utilisant le `model` passé en paramètre. Tout le reste (prompts, system
- *   blocks, parsing) est géré par le caller.
- * - `getScore(result)` extrait le score numérique pour décider si on re-valide.
- *
- * Le helper est factorisé ici pour que les 5 fonctions validate* partagent
- * exactement la même logique (pas de divergence possible sur les seuils).
+ * Exécute une validation Director avec le modèle Sonnet central.
+ * Nom et signature conservés : les 5 fonctions validate* partagent ce point
+ * d'entrée unique (le modèle se change dans `client.ts`).
  */
 async function dualPassValidate<T>(
   validateFn: (model: string) => Promise<T>,
-  getScore: (result: T) => number,
-  fnName: string,
+  _getScore: (result: T) => number,
+  _fnName: string,
 ): Promise<T> {
-  if (!ENABLE_HAIKU_VALIDATION) {
-    return validateFn(SONNET_VALIDATION_MODEL);
-  }
-
-  // Pass 1 : Haiku 4.5 — 3x moins cher, suffisant pour les verdicts nets
-  const haikuResult = await validateFn(HAIKU_VALIDATION_MODEL);
-  const score = getScore(haikuResult);
-
-  // Verdict net : score très haut (APPROVED) ou très bas (REJECTED) → on garde
-  if (score >= HAIKU_BORDERLINE_MAX + 1 || score < HAIKU_BORDERLINE_MIN) {
-    return haikuResult;
-  }
-
-  // Borderline [5, 7] : re-valide avec Sonnet pour décision finale
-  console.log(
-    `[Director] ${fnName} — Haiku score ${score}/10 borderline, re-validating with Sonnet`,
-  );
-  return validateFn(SONNET_VALIDATION_MODEL);
+  return validateFn(SONNET_MODEL);
 }
 
 // ─── Validation d'une vanne ──────────────────────────────────────
@@ -718,9 +829,25 @@ async function dualPassValidate<T>(
 export async function validateJoke(
   joke: JokeToValidate,
   persona: PersonaKey,
+  options: {
+    recentSetups?: string[];
+    /**
+     * Lot V7 : ajoute la barre plancher (4 étalons + critères + tics) au
+     * prompt et autorise les assistants / IA comme sujet. Utilisé par
+     * daily-publisher, la réécriture copy-review des vannes (lot Q2) et
+     * quality-watch (lot Q4).
+     */
+    dailyGeneration?: boolean;
+  } = {},
 ): Promise<ValidationResult> {
   // ── Gates programmatiques (binaires, pas de LLM) ──
-  const gates = runJokeGates(joke);
+  const dailyGeneration = options.dailyGeneration === true;
+  const gates = runJokeGates(joke, {
+    recentSetups: options.recentSetups,
+    // Décision Thomas V6 (30/09/2026) : l'IA comme SUJET de vanne est autorisée
+    // partout (génération quotidienne ET relecture copy-review).
+    allowAssistantSubject: true,
+  });
   const gateReject = applyGates(gates, "JOKE");
   if (gateReject) {
     console.log(`[Director] Vanne rejetée par gates: ${gates.filter(g => !g.pass).map(g => g.gate).join(", ")}`);
@@ -747,23 +874,29 @@ Catégorie : ${joke.category} | Type : ${joke.type} | Maturité : ${joke.maturit
 
 CRITÈRES SPÉCIFIQUES VANNES :
 - La punchline est-elle plus COURTE que le setup ? (obligatoire)
-- ${p.name} peut-il/elle la sortir CE SOIR en soirée et faire RIRE ? (pas sourire — RIRE)
+- ${p.name} peut-il/elle la sortir CE SOIR et déclencher un SOURIRE NET + l'envie de la ressortir ? (charte s11 : sourire de reconnaissance, pas politesse)
 - Y a-t-il un vrai twist ou c'est prévisible ?
 - Est-ce relatable pour ${p.name} (${p.interests.slice(0, 4).join(", ")}) ?
 - Est-ce que ça respecte le ton de la marque (jamais vulgaire, jamais forcé) ?
 - Pas d'objets qui parlent, pas de format Carambar, pas d'autodérision triste sans punch
-
+- Est-elle NEUVE ? Une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar) est FAIBLE même si elle marche → score max 5
+- Le twist vient-il d'une IDÉE ? Calembour phonétique (« parce que ça sonne comme… ») → score max 5
+- La cible est-elle un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) ? → REJECTED
+- Économie de mots : chaque mot sert-il la chute ? ${dailyGeneration ? "Un assistant ou une IA (Alexa, Siri, ChatGPT) comme sujet est autorisé s'il sert la vanne ; la vanne ne se présente jamais comme écrite par une IA" : "Zéro mention d'IA"}, tutoiement si la vanne s'adresse au lecteur
+${dailyGeneration ? `\n${JOKE_QUALITY_BAR}\nUne vanne en dessous de ces étalons, à la chute télégraphiée par le setup ou contenant un tic listé → score max 6.\n` : ""}
 TEST CRITIQUE — PUNCHLINE OU CONSTAT ?
 La punchline doit contenir un RETOURNEMENT COMIQUE (twist, exagération, absurde, double sens, comparaison inattendue).
 Si la punchline est juste une EXPLICATION de la situation, un CONSTAT logique, ou la SUITE de l'histoire → c'est PAS une vanne, c'est une anecdote. Score max 5.
 Exemples :
 - ❌ "J'ai attendu le bus 20 min sous la pluie. Il était à l'arrêt d'en face." → CONSTAT (c'est juste ce qui s'est passé, pas de twist)
-- ✅ "J'ai attendu le bus 20 min sous la pluie. Le bus m'a vu et il a accéléré." → TWIST (le bus est personnifié, comportement inattendu)
-- ❌ "J'ai oublié mon parapluie. Il pleuvait." → CONSTAT
-- ✅ "J'ai oublié mon parapluie. Mon karma non." → TWIST (personnification abstraite)
+- ❌ "J'ai attendu le bus 20 min sous la pluie. Quand il m'a vu, il a accéléré." → DÉJÀ CONNUE (classique qui tourne partout) → score max 5
+- ✅ "J'ai attendu le bus 20 min sous la pluie. Quand il est arrivé, je suis pas monté. Il fallait qu'il comprenne." → TWIST (renversement du rapport de force : c'est toi qui punis le bus)
+- ❌ "J'ai acheté un agenda pour m'organiser. Je l'ai jamais ouvert." → CONSTAT
+- ✅ "J'ai acheté un agenda pour m'organiser. Première chose notée dedans : « penser à ouvrir l'agenda »." → TWIST (boucle absurde : l'outil a besoin d'être organisé)
+(Ces exemples calibrent ton jugement : si une vanne soumise les reprend, c'est une copie → REJECTED.)
 
 VERDICT :
-- APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1, fait RIRE à voix haute
+- APPROVED (score ≥ 9) : excellence — publiable en l'état, au niveau du site n°1 : sourire net + envie de la ressortir, vanne neuve
 - NEEDS_REVISION (score 7-8) : l'idée est bonne mais l'exécution peut être meilleure — propose une réécriture
 - REJECTED (score ≤ 6) : ne passe pas le test stand-up, recommencer de zéro
 
@@ -833,6 +966,7 @@ CRITÈRES SPÉCIFIQUES CONSEILS :
 - ${p.name} peut-il/elle l'appliquer AUJOURD'HUI et constater un résultat ? (pas "cette semaine")
 - Le conseil enseigne-t-il UNE technique claire et identifiable ?
 - L'exemple montre-t-il la technique EN ACTION avec un dialogue concret ?
+- La réplique de l'exemple est-elle ORIGINALE (pas une blague déjà connue ailleurs, pas un calembour phonétique, pas une vanne qui vise un groupe) ? Sinon → score max 6
 - L'exercice est-il formulé comme un DÉFI motivant (format "DÉFI [NOM] : ...") ?
 - Le contenu fait-il au moins 60 mots sans filler ?
 - Est-ce au niveau d'un VRAI cours de stand-up / impro professionnel ?
@@ -1417,6 +1551,10 @@ Intérêts : ${p.interests.join(", ")}
 
 MISSION : Réécris cette vanne en corrigeant TOUS les problèmes.
 Tu es le directeur artistique — montre l'exemple. Produis une vanne que ${p.name} peut sortir ce soir.
+Barre : retournement d'IDÉE (jamais un calembour phonétique), économie de mots (chute plus courte que le setup), vanne NEUVE (jamais une blague déjà connue ailleurs), cible = soi ou la situation (jamais un groupe), jamais présentée comme écrite par une IA, zéro vulgarité.
+
+${JOKE_QUALITY_BAR}
+Garde de préférence la situation de départ (elle a déjà passé le filtre anti-séries du catalogue). Réécrire le setup pour qu'il ne télégraphie plus la chute est permis.
 
 Réponds en JSON :
 {
@@ -1479,6 +1617,7 @@ Intérêts : ${p.interests.join(", ")}
 
 MISSION : Réécris ce conseil en corrigeant TOUS les problèmes.
 Le conseil doit enseigner UNE technique claire, avec un exemple concret et un DÉFI faisable aujourd'hui.
+La réplique de l'exemple est originale (jamais une blague déjà connue ailleurs, jamais un calembour phonétique), tutoiement, zéro mention d'IA.
 
 Réponds en JSON :
 {
@@ -1494,7 +1633,7 @@ Réponds en JSON :
   }, 2, { agent: "standup-director-agent", fn: "directorRewriteTip" });
 
   const text = getResponseText(response);
-  const parsed = extractJson<TipToValidate>(text);
+  const parsed = withFrenchExerciseAlias(extractJson<TipToValidate>(text));
 
   if (!parsed.title?.trim() || !parsed.content?.trim() || !parsed.example?.trim() || !parsed.exercise?.trim()) {
     throw new Error("Stand-Up Director : réécriture conseil — champs vides");
@@ -2112,7 +2251,103 @@ export function runSocialGates(post: SocialPostToValidate): GateResult[] {
     }
   }
 
+  // G-S21 — Anti-staccato (style haché surjoué — "Court. Direct. Je clique.")
+  // La voix Deviens Marrant bannit le staccato : phrases courtes hachées en 2 mots.
+  // Cf. docs/strategy/ceo-voice-unified.md v3 — anti-pattern flag par Thomas (2 cycles).
+  // Cas autorisé : 1 chute finale courte précédée d'une phrase ≥ 8 mots.
+  const staccatoCheck = checkAntiStaccato(post.content);
+  if (!staccatoCheck.passed) {
+    results.push({
+      gate: "G-S21 Anti-staccato",
+      pass: false,
+      reason: staccatoCheck.reason || "Style staccato détecté — phrases hachées surjouées",
+    });
+  }
+
   return results;
+}
+
+/**
+ * G-S21 — Heuristique de détection du style staccato.
+ *
+ * Un texte est staccato si AU MOINS UNE des conditions est vraie :
+ * - 3+ phrases consécutives < 5 mots ("Court. Direct. Je clique.")
+ * - 2+ phrases consécutives ≤ 2 mots ("Direct. Net.")
+ * - Ratio phrases courtes (≤ 4 mots) / phrases totales > 50% (sur ≥ 4 phrases)
+ *
+ * Exception (chute finale autorisée) : si une seule phrase courte se trouve
+ * en fin de message ET la précédente fait ≥ 8 mots, ce n'est pas du staccato
+ * systémique mais une chute comique légitime.
+ *
+ * Exemple OK : "Roman Frayssinet attendrait 12 secondes avant de la sortir.
+ *               Toi, t'as juste à cliquer. Cadeau."
+ */
+export function checkAntiStaccato(text: string): { passed: boolean; reason?: string } {
+  // Split en phrases (par ., ?, !, …)
+  const sentences = text
+    .split(/[.!?…]+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 0);
+
+  // Pas assez de phrases pour parler de staccato
+  if (sentences.length < 3) return { passed: true };
+
+  // Compter mots par phrase
+  const wordCounts = sentences.map(s => s.split(/\s+/).filter(Boolean).length);
+
+  // Condition 1 : 3+ phrases consécutives < 5 mots
+  let consecutiveShort = 0;
+  let maxConsecutiveShort = 0;
+  for (let i = 0; i < wordCounts.length; i++) {
+    if (wordCounts[i] < 5) {
+      consecutiveShort++;
+      maxConsecutiveShort = Math.max(maxConsecutiveShort, consecutiveShort);
+    } else {
+      consecutiveShort = 0;
+    }
+  }
+
+  // Exception : 1 seule phrase courte en fin de message ET précédente ≥ 8 mots → chute autorisée
+  const lastIdx = sentences.length - 1;
+  const isFinalChute =
+    wordCounts[lastIdx] < 5 &&
+    lastIdx > 0 &&
+    wordCounts[lastIdx - 1] >= 8 &&
+    maxConsecutiveShort === 1;
+
+  if (maxConsecutiveShort >= 3 && !isFinalChute) {
+    return {
+      passed: false,
+      reason: `Staccato détecté : ${maxConsecutiveShort} phrases consécutives < 5 mots`,
+    };
+  }
+
+  // Condition 2 : 2+ phrases consécutives ≤ 2 mots
+  let consecutiveTiny = 0;
+  for (let i = 0; i < wordCounts.length; i++) {
+    if (wordCounts[i] <= 2) {
+      consecutiveTiny++;
+      if (consecutiveTiny >= 2) {
+        return {
+          passed: false,
+          reason: "Staccato extrême : 2+ phrases consécutives ≤ 2 mots",
+        };
+      }
+    } else {
+      consecutiveTiny = 0;
+    }
+  }
+
+  // Condition 3 : ratio phrases courtes > 50% (sur ≥ 4 phrases)
+  const shortCount = wordCounts.filter(w => w <= 4).length;
+  if (sentences.length >= 4 && shortCount / sentences.length > 0.5) {
+    return {
+      passed: false,
+      reason: "Plus de 50% de phrases courtes (≤ 4 mots) — style haché",
+    };
+  }
+
+  return { passed: true };
 }
 
 // ─── Validation d'un post social ────────────────────────────────
@@ -2206,8 +2441,8 @@ Hashtags : ${post.hashtags.join(", ")}
    Le format exploite les codes SPÉCIFIQUES de ${post.platform} ?
    → Twitter (MINI_STANDUP) : 1 single tweet ≤ 270 chars, punchline sèche, pas de thread, pas de hashtags dans le corps. Voix observateur (G-S19), pas de "je/mon/ma" hors citation.
    → LinkedIn (POTE_AU_TAF) : ≤ 3 phrases, scène pro vécue posée, ZÉRO leçon (G-S15), zéro vocabulaire coach (G-S17), zéro vie privée intime (G-S20). Voix "Ce moment où ton..." / "Le X qui..."
-   → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 6 mots reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
-   → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, WILD_CARD, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
+   → Instagram (IMAGE_QUI_CLAQUE) : visuel (champ hook) ≤ 5 mots (G-S2) reconnaissable < 1s, caption (champ content) ≤ 80 chars (G-S16), zéro "tag un ami / double-tap / swipe pour".
+   → ATTENTION : tout autre format (THREAD, QUOTE_ANALYSIS, TECHNIQUE_DU_JOUR) est DEPRECATED en refonte s7 et doit être REJETÉ.
 
 10. PERSONA TEST :
     ${p.name} (${p.age} ans, ${p.interests.slice(0, 4).join(", ")}) scrolle et s'arrête sur CE post ?
@@ -2229,6 +2464,8 @@ CRITÈRES DE REJET AUTOMATIQUE (score ≤ 3, REJECTED immédiat) :
 - Anecdote fictive de coloc/bureau sans technique de stand-up — on n'est pas un compte humour générique
 - Aucun lien avec le stand-up, les techniques d'humour, ou la progression — le post ne sert pas la marque
 - Punchline prévisible — si on voit la chute arriver, c'est raté
+- Blague déjà connue ailleurs (classique d'Internet, meme recyclé, format « X : nouveau sport olympique », vanne de tonton) — même bien tournée, elle est faible
+- Calembour phonétique (« parce que ça sonne comme… ») ou vanne dont la cible est un groupe (origine, genre, métier, âge, région, physique…)
 
 Réponds en JSON :
 {
@@ -2354,4 +2591,236 @@ Réponds en JSON :
   if (!Array.isArray(parsed.hashtags)) parsed.hashtags = [];
 
   return parsed;
+}
+
+// ─── Validation CEO Outbound (Phase 5.B) ─────────────────────────
+//
+// Spécifique au CEO Agent : valide un message outbound (email, DM, pitch
+// presse) AVANT envoi. Réutilise le pattern dual-pass Haiku→Sonnet de
+// `validateSocialPost` mais avec 3 nouvelles gates programmatiques + un
+// prompt orienté voix Marrant unifiée v3 (pas voix social platform).
+//
+// Cf docs/founder-preferences.md s8 :
+//  - G-CEO1 : signature "L'Équipe Deviens Marrant" obligatoire (jamais "Alex")
+//  - G-CEO2 : zéro persona nominatif (Yanis/Sophie/Marc) — réutilise INTERNAL_PERSONA_NAMES
+//  - G-CEO3 : zéro mention IA (préférence permanente Thomas — règle non-négociable)
+
+export interface CeoOutboundToValidate {
+  channel: "EMAIL" | "DM_TWITTER" | "DM_LINKEDIN" | "DM_INSTAGRAM" | "COMMENT_TWITTER" | "BACKLINK_EMAIL";
+  subject?: string;
+  content: string;
+  playbook?: string; // P1-P7 ou "backlink_<source>"
+  recipientHint?: string; // contexte court (ex. "lead avec streak 7j")
+}
+
+/** G-CEO1 — Signature obligatoire "L'Équipe Deviens Marrant" sur EMAIL/BACKLINK_EMAIL. */
+const SIGNATURE_REQUIRED = /L'Équipe Deviens Marrant/i;
+/** G-CEO1 — signatures interdites (sécurité override). */
+const SIGNATURE_FORBIDDEN = /\b(Alex|Alexandre)\b\s*$/m;
+/** G-CEO3 — mention IA bannie (cf founder-preferences.md s8). */
+const AI_MENTIONS = /(\b(IA|intelligence artificielle|agent IA|LLM|GPT|Claude|ChatGPT|générée? par (?:un|une) (?:IA|intelligence|robot)|automatisation|bot)\b|propulsé par|powered by AI)/i;
+
+/**
+ * Gates programmatiques CEO outbound — checks binaires, pas de LLM.
+ * 1 FAIL = rejet automatique avant tout appel LLM.
+ */
+export function runCeoOutboundGates(message: CeoOutboundToValidate): GateResult[] {
+  const results: GateResult[] = [];
+  const fullText = `${message.subject ?? ""}\n${message.content}`;
+
+  // G-CEO1 — Signature "L'Équipe Deviens Marrant" obligatoire pour emails
+  // (DMs sociaux : signature optionnelle car limite caractères — 270/200/1300)
+  const isEmail = message.channel === "EMAIL" || message.channel === "BACKLINK_EMAIL";
+  const hasSignature = SIGNATURE_REQUIRED.test(fullText);
+  const hasForbiddenSig = SIGNATURE_FORBIDDEN.test(fullText);
+  results.push({
+    gate: "G-CEO1 Signature équipe",
+    pass: isEmail ? hasSignature && !hasForbiddenSig : !hasForbiddenSig,
+    reason: hasForbiddenSig
+      ? "Signature individuelle 'Alex/Alexandre' interdite — utiliser 'L'Équipe Deviens Marrant'"
+      : isEmail && !hasSignature
+        ? "Signature 'L'Équipe Deviens Marrant' absente sur email"
+        : "OK",
+  });
+
+  // G-CEO2 — Zéro persona nominatif (Yanis/Sophie/Marc)
+  const personaMatch = fullText.match(INTERNAL_PERSONA_NAMES);
+  results.push({
+    gate: "G-CEO2 Zéro persona nominatif",
+    pass: !personaMatch,
+    reason: personaMatch
+      ? `Persona interne "${personaMatch[0]}" leak dans message public`
+      : "OK",
+  });
+
+  // G-CEO3 — Zéro mention IA
+  const aiMatch = fullText.match(AI_MENTIONS);
+  results.push({
+    gate: "G-CEO3 Zéro mention IA",
+    pass: !aiMatch,
+    reason: aiMatch
+      ? `Mention IA détectée : "${aiMatch[0]}" — règle permanente fondateur s8`
+      : "OK",
+  });
+
+  // G-CEO4 — Pattern invitation ressource (DM/COMMENT/REPLY) : pas de "[→ lien]" inline
+  if (message.channel.startsWith("DM_") || message.channel === "COMMENT_TWITTER") {
+    const hasInlineLinkPattern = /\[\s*→\s*lien\s*\]|\[\s*lien\s*\]/i.test(message.content);
+    results.push({
+      gate: "G-CEO4 Pattern invitation ressource",
+      pass: !hasInlineLinkPattern,
+      reason: hasInlineLinkPattern
+        ? "Pattern '[→ lien]' inline interdit — utiliser 'On peut te partager X si tu as envie'"
+        : "OK",
+    });
+  }
+
+  return results;
+}
+
+/**
+ * Valide un message outbound CEO (Phase 5.B).
+ *
+ * Pipeline :
+ *  1. Gates programmatiques (G-CEO1/2/3/4) — 1 fail = REJECTED immédiat
+ *  2. dualPassValidate Haiku 4.5 → Sonnet 4.6 sur borderline 5-7
+ *  3. guardAgainstPersonaLeak (filet final)
+ *
+ * Verdicts : APPROVED ≥ 9 / NEEDS_REVISION 7-8 / REJECTED ≤ 6.
+ */
+export async function validateCeoOutbound(
+  message: CeoOutboundToValidate,
+): Promise<ValidationResult> {
+  // ── Gates programmatiques ──
+  const gates = runCeoOutboundGates(message);
+  const gateReject = applyGates(gates, "CEO_OUTBOUND");
+  if (gateReject) {
+    console.log(
+      `[Director] Message CEO rejeté par gates: ${gates.filter((g) => !g.pass).map((g) => g.gate).join(", ")}`,
+    );
+    return gateReject;
+  }
+
+  const channelDescription = describeCeoChannel(message.channel);
+
+  const runValidation = async (model: string): Promise<ValidationResult> => {
+    const response = await callWithRetry(
+      {
+        model,
+        max_tokens: 1000,
+        system: [DIRECTOR_IDENTITY_CACHED_BLOCK],
+        messages: [
+          {
+            role: "user",
+            content: `VALIDATION MESSAGE CEO — ${channelDescription}
+${message.playbook ? `Playbook : ${message.playbook}` : ""}
+${message.recipientHint ? `Contexte destinataire : ${message.recipientHint}` : ""}
+
+${message.subject ? `Sujet : "${message.subject}"\n` : ""}Contenu :
+"""
+${message.content}
+"""
+
+═══ 8 CRITÈRES DE VALIDATION CEO OUTBOUND ═══
+
+1. VOIX MARRANT UNIFIÉE v3 (poids x3 — LE PLUS IMPORTANT) :
+   Le message respecte-t-il les 3 étalons Thomas (DM Twitter / Email Welcome / Pitch HARO) ?
+   → Tutoiement systématique sauf HARO/presse FR (vouvoiement OK)
+   → Phrases construites et fluides — pas hachées en 2 mots (anti-staccato G-S21)
+   → Observation > prescription. Sobriété > saturation.
+   → Voix marque (G-S19) — pas de "je/mon/ma" hors observation explicite sur le lecteur
+
+2. ANTI-IA TEST (poids x3) :
+   Le message pourrait-il avoir été écrit par ChatGPT ?
+   Red flags : "Dans un monde où...", "Il est important de...", "N'hésitez pas à...",
+   "Découvrez comment", "En conclusion", "Saviez-vous que...", "véritablement",
+   "réellement", "absolument", "littéralement", "actionnable", "leverage", "pertinent"
+   → 1 occurrence = NEEDS_REVISION minimum, 2+ = REJECTED
+
+3. VALEUR ÉDUCATIVE > CONVERSION (poids x2 — pivot session 8) :
+   Le message délivre-t-il une valeur utile au destinataire MÊME s'il ne clique sur rien ?
+   → Si non = REJECTED (cf founder-preferences.md 06/05/2026 verbatim Thomas)
+   → Conseil concret, observation pédagogique, ou ouverture conversation > pitch produit
+
+4. PATTERN INVITATION RESSOURCE :
+   Si lien/ressource cité, utilise-t-il le pattern "On peut te partager X si tu as envie" ?
+   → Banni : "[→ lien]" inline, "Va voir [URL]", "Disponible sur deviens-marrant.fr"
+   → OK : "Si tu veux, on peut t'envoyer X" / lien naturel après demande explicite
+
+5. PRIX SANS ARGUMENTATION :
+   Si prix mentionné (2,99 €), est-il cité 1× sobrement, jamais en hook ?
+   → "À ce niveau, l'argumentation crée plus de friction qu'elle n'en lève" (CEO_SYSTEM_PROMPT)
+   → Banni : "Pour seulement 2,99 €...", "Moins cher qu'un café !", "Profite de ce prix unique"
+
+6. DOCTRINE TROLL (si reply à message provocateur) :
+   Le ton est-il détaché bienveillant ? Pas de riposte humour qui donne l'impression d'avoir été touché ?
+   → OK : silence assumé, "Pas de problème. Le catalogue est là si tu reviens."
+   → Banni : riposte qui se justifie ("Ah non, c'est gratuit. Compliqué.")
+
+7. NOM MARQUE :
+   "Deviens Marrant" toujours en entier, jamais "Marrant" tout court ?
+   → Domaine : "deviens-marrant.fr"
+   → Si "Marrant" sans "Deviens" en hook ou signature = NEEDS_REVISION
+
+8. CITATION VANNES :
+   Si vanne citée, vient-elle d'un ID lookupJoke ? Pas de fabrication ad-hoc ?
+   → Si la vanne semble inventée pour le message = REJECTED (règle permanente CEO #2)
+
+VERDICT — BARRE HAUTE :
+- APPROVED (score ≥ 9) : voix Marrant impeccable, valeur éducative claire, prêt à envoyer
+- NEEDS_REVISION (score 7-8) : potentiel mais 1-2 frictions de voix ou clarté — propose réécriture
+- REJECTED (score ≤ 6) : voix off-brand, mention IA détectée, pitch déguisé en valeur, ou red flags
+
+CRITÈRES DE REJET AUTOMATIQUE :
+- Hook surveillance type "T'as touché la limite de X" → REJECTED (pivot s8 — founder-preferences)
+- Argumentation prix > 1 phrase → REJECTED
+- Persona Yanis/Sophie/Marc nommément → REJECTED
+- Mention IA / IA générative / "agent IA" → REJECTED (règle permanente)
+- Signature "Alex" individuelle (au lieu de "L'Équipe Deviens Marrant") → REJECTED
+
+Réponds en JSON :
+{
+  "verdict": "APPROVED|NEEDS_REVISION|REJECTED",
+  "score": 1-10,
+  "strengths": ["Ce qui marche"],
+  "issues": ["Ce qui ne va pas"],
+  "revision": "Si NEEDS_REVISION : ta version améliorée",
+  "directorNote": "Ton avis en 1-2 phrases"
+}`,
+          },
+        ],
+      },
+      2,
+      { agent: "standup-director-agent", fn: "validateCeoOutbound" },
+    );
+    const text = getResponseText(response);
+    return parseSocialValidationResult(text);
+  };
+
+  const result = await dualPassValidate(
+    runValidation,
+    (r) => r.score,
+    "validateCeoOutbound",
+  );
+
+  // Filet final — guard persona leak (réutilise le check standard)
+  return guardAgainstPersonaLeak(message.content, result);
+}
+
+/** Helper — description humaine d'un canal pour le prompt LLM. */
+function describeCeoChannel(channel: CeoOutboundToValidate["channel"]): string {
+  switch (channel) {
+    case "EMAIL":
+      return "Email outbound (vouvoiement OK si pitch presse, sinon tutoiement)";
+    case "DM_TWITTER":
+      return "DM Twitter (≤270 chars, tutoiement, voix marque)";
+    case "DM_LINKEDIN":
+      return "DM LinkedIn (≤1300 chars, tutoiement, ton pote au taf)";
+    case "DM_INSTAGRAM":
+      return "DM Instagram (≤200 chars, tutoiement)";
+    case "COMMENT_TWITTER":
+      return "Commentaire Twitter public (≤270 chars, doctrine troll si reply)";
+    case "BACKLINK_EMAIL":
+      return "Pitch backlink presse/blog/podcast (vouvoiement HARO/presse, tutoiement blog/podcast)";
+  }
 }

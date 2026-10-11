@@ -20,7 +20,7 @@ _Dernière mise à jour : 2026-03-08 par AGENT MARRANT_
 - 2026-03-07 INFRA : PostgreSQL avec Prisma ORM, schéma complet défini
 - 2026-03-07 INFRA : NextAuth.js avec Credentials + Google OAuth
 - 2026-03-07 INFRA : Tailwind CSS + design system flat/dark (palette Netflix)
-- 2026-03-07 INFRA : Claude API (claude-sonnet-4-20250514) pour génération IA
+- 2026-03-07 INFRA : Claude API (claude-sonnet-5-5 (depuis s11 ; Sonnet 4 retiré le 15/06/2026)) pour génération IA
 - 2026-03-07 INFRA : Stripe pour gestion abonnements premium (9,99€/mois)
 - 2026-03-07 INFRA : Zustand pour state management côté client
 - 2026-03-07 INFRA : Zod pour validation des inputs API

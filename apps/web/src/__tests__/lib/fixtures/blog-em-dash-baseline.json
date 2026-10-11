@@ -1,0 +1,326 @@
+{
+  "_meta": {
+    "source": "apps/web/src/lib/blog-articles.ts @ 6f1be77 (avant retrait des tirets cadratins)",
+    "articles": 30,
+    "emDashesBefore": 467,
+    "rebaselines": [
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "s14",
+        "raison": "audit growth s14 R1 à R5 (sommaire, sorties, conformité, updatedAt) : titres inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
+      },
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "notation iter1",
+        "raison": "correctifs C1 à C3, C8 à C10 (sommaire remonté, lien machine à café, sorties, puces thèmes, « Toi aussi ») : titres et meta inchangés, 50 vannes vérifiées par blog-meilleures-blagues-s14.test.ts"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s15",
+        "raison": "liens pilier L6 (5 liens sortants) et L7 (updatedAt 2026-10-06) : titres, FAQ et humoristes inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "5-types-humour-lequel-pour-toi",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "phrases-droles-conversations",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "autoderision-interactions",
+        "session": "s15",
+        "raison": "liens pilier L4/L5 : 1 phrase avec lien vers /blog/comment-devenir-drole, titres et meta inchangés, vérifiés par liens-pilier-s15.test.ts"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s15 haut de page",
+        "raison": "étalons 1A (En bref), 2A (title = H1 « Comment devenir drôle : 5 piliers et un plan sur 30 jours »), 3B (1 paragraphe + lien /blog/exercices-developper-humour), GO Thomas 06/10 : slug, excerpt, H2/H3, FAQ et updatedAt inchangés, aucun tiret cadratin ajouté, diff mesuré dans docs/seo/pilier-haut-de-page-applique-s15.md"
+      }
+    ]
+  },
+  "articles": {
+    "comment-devenir-drole": {
+      "words": "f3e44302f1893e65c70203bbc3bc5b0ab6df008af8a2852981356f83ccd0c7dd",
+      "wordCount": 1850,
+      "headings": "0d0f261cf80a2c1797565694eb2d6b0fe351b84c50f1e5f4db280c3964c32f4b",
+      "links": "0b14d9aa76bb89d72c532df0f317a9457f3ab56a63ce59795fbb3f78546ff12c",
+      "numbers": "05bc115fc9c3f54a49b2e0d3e027dd1e9f43a57b7f96204e4ccf36ad4bffb461",
+      "meta": "6b14c598cef5ec3af1a34a54c8c98f1656e5f1d3ffa6dcbe5b50c96e559b2bd1",
+      "emDashesBefore": 18
+    },
+    "comment-avoir-de-la-repartie": {
+      "words": "e0fc64bbb361f584431f2273757c69438ed425d637bb8f9439a328077f24027f",
+      "wordCount": 1589,
+      "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
+      "links": "6497ebc73860ed4f9a9ca234dc1b0d4def347b5ec6b7e17d05f691df2b29bd3b",
+      "numbers": "c8f72de03fcbce9f1ac5a9bdde58527d0a77ade9ae38f8e89131b66f72bf89ec",
+      "meta": "f00a61c61cca6c8f4bc8e689b73a8c7bf1d57106f9b688a3ed9b738392f5594a",
+      "emDashesBefore": 23
+    },
+    "timing-humour": {
+      "words": "e6e23464d3bc74393160dddf5acf08d59316505b2331c535c219b4ea110d45c0",
+      "wordCount": 1291,
+      "headings": "0ec476513593b64f2947e67b46962ff61c12cfbfaba72175bb454579422d06f2",
+      "links": "253cb6b3fb24beb4da957834947e7b8da1268c4787fa4d066d6cb63b9ede0f4e",
+      "numbers": "1d4062d64593a8b2c031932b26b350b26150fb91da03343bbc744b7930702bf5",
+      "meta": "6f642e21ed19268a542d076aa05810c644afc61f374a1c90097ff301aeab9750",
+      "emDashesBefore": 8
+    },
+    "erreurs-blagues": {
+      "words": "a19cf69cee72c9d14705c1bb6b25d7dd1a4f647239450b10608d544b0b12e26e",
+      "wordCount": 1018,
+      "headings": "cff073fffbfd811103fadae8772c86b7170e75808f80dccca4ae0238cf4f6d5f",
+      "links": "7218f1dab0678d4e92fa4435ef04a990d35d2631d59fc634acb337cbe5e03891",
+      "numbers": "89990cbb43b34a625f96b89b1e5445c7d4731d5b57617fd4c13779de562d8bc9",
+      "meta": "17980df18f34391ea2280f9f39a9582c93eef67a142d6eeb2f256e061cceb1ec",
+      "emDashesBefore": 11
+    },
+    "autoderision-interactions": {
+      "words": "848409d7a3657edf3f7669738c894f3b53d83a19466d0ad35f9f64d362c88198",
+      "wordCount": 1189,
+      "headings": "e25a3ba7acfdd7f3af2bd97c9b933198ea4e202c547570942eba4d1d67d7cca0",
+      "links": "84824849b8b4cea86974c4798df0b1d98c8359cb58a997c53f561fa12d1bba76",
+      "numbers": "e84d215af5d3c46a28b302c4ec06940fd983124e1b1809c9d34363322811269e",
+      "meta": "855475710660ae672f50ce109f5c6e365a3a42f6fda977cde5c47385dd7dc01e",
+      "emDashesBefore": 8
+    },
+    "repartie-debutant-5-etapes": {
+      "words": "92990c8e4c0ddd0a6422122cfad1fa8c56b80f1b19e18f5b144119184655feb7",
+      "wordCount": 1109,
+      "headings": "921a4acfd71fc64247c865087f7635084d8abc702bceb7343b9f67e5a8dc5202",
+      "links": "a3c5c2c5519d6593becb999580f158b2d09d10bbc2a775009e74ae7ea2215a33",
+      "numbers": "5ddb27c41f36b2ef4c54cd9ff05bc6d343aae414ebddaab19f6a419ad9cb237f",
+      "meta": "01336849ea28794538db7056de7c7ef0f6ce000b2ce42b0f866d6947ec31c346",
+      "emDashesBefore": 10
+    },
+    "humour-quotidien-8-habitudes": {
+      "words": "b4e5927108f8f2312a92dc6f4714ea24475d486ed12acd55f57e96cd16e07328",
+      "wordCount": 1186,
+      "headings": "93e94facac19f5aac4bae3a4a09ccb360b79681b109cee3b16f7a5d858f7193a",
+      "links": "af0711a8070021c1d52ab2940afab1d75f9ce06551e0c993c90bcb2878ac984b",
+      "numbers": "5327436a8d27c9fb7341e877c225ef09fe2965d00f4866ab087815b5d3e19b91",
+      "meta": "6be2c05284c4a5cef247576531159187d324cf522db3d80c0e19926c0b0000ae",
+      "emDashesBefore": 11
+    },
+    "5-types-humour-lequel-pour-toi": {
+      "words": "b9a8c4550acc177d98b05f2b17cd62519646d1df5e428a6a2c5c9f7fed1a4631",
+      "wordCount": 1528,
+      "headings": "b4107bbf9375f5d9d08d2317e6eb05d1eb5a3902c59e68d1746bcead9e0ab897",
+      "links": "9e8a1330cd302240811a7a9b94b82ec7c5ba00b3b430addbf4a9a35c032099e7",
+      "numbers": "92713f55ee0ae3cec34f2d0d23fe12c5be8073cab5f5bdc37b8e06271f60f312",
+      "meta": "12b9f6ae8710dab2a0855eaefb400057e599df873a32b39fc1ac69c815bde046",
+      "emDashesBefore": 15
+    },
+    "humour-noir-utiliser-sans-blesser": {
+      "words": "654acff2c98b04021c59a1ecace07a51dd953032dcfe711de537a9f06a0c88ff",
+      "wordCount": 1154,
+      "headings": "2f053264ff8497415d21a99ba02cc90cfa834fc6464b431dd65860de9aa5ed35",
+      "links": "4fe0710315f288370cbb6cd75cdc1dea3015dd8a15f52c16bb171d3005c0cf6d",
+      "numbers": "0f0ce6bad93b6d1434fe4f1f1b126b101052634b73e24aaa1f3f31dcf9de3fa2",
+      "meta": "96e93a82a458706e9470ec3f31a7631a40ac27180d3b05dbc2e6098d3672a196",
+      "emDashesBefore": 13
+    },
+    "jeux-de-mots-technique-3-etapes": {
+      "words": "2a9184a6e3efd4714c87786bd1cd5555a9938d7d06618492baddaa768c4c696a",
+      "wordCount": 1004,
+      "headings": "404907be83d3bb673cb6de2b422aa37f94bbb396473e0d9331d016303eaea9ca",
+      "links": "ea4cfb26b5d472276eda192a669bc53498ad4015bc93367b88fddeedbf4fa87e",
+      "numbers": "8679e55ed4c7489ec103eb3abd074941f0371df7017d50b7030e7d2d8ccc95fc",
+      "meta": "8e5f4c68bcab7580f534db9284c87b8c5c345bf73dc6c6177da0595c254c00bd",
+      "emDashesBefore": 3
+    },
+    "exercices-developper-humour": {
+      "words": "a67a9a6f1303bf4abfd168cca8f248c0a3a5454902c09d6b34537c472af64f65",
+      "wordCount": 1237,
+      "headings": "f0c80dc5265625ffd4f82328b92f997eb5775d02caeeb79632f6d03286ed5579",
+      "links": "43fcbe7f48a05a6941c12cd5103edf90e6127d925c043d53d0c8f1fd4279c42f",
+      "numbers": "4b3f32a06d7996a521d4f1dca22bf7f843beae2c13ef76d2b0b6735adc005773",
+      "meta": "f6e60410f23fcd585c3e7f48d1853a516cfc9afd55036e6274d5be2db1b1357e",
+      "emDashesBefore": 13
+    },
+    "timing-humour-ralentir": {
+      "words": "fcc679595a65f44db7b72ed36e534f216f31e118eea4d446ddd7e106ff689251",
+      "wordCount": 923,
+      "headings": "ab6b0547b55c3e8dced74831d73dbc65eef71ba97f4d7820144714bfafede0d8",
+      "links": "24c48f4b0cffe468839ccdc07bf45ac49670e07db536a25855d3d40ff924a6ae",
+      "numbers": "c3e25f4dce6d0a7a48d4c48291d296ec16ec5dd8a50f99a47e807893308c661a",
+      "meta": "761d7cf423b83ff2accc8df01332a53c75b9a7bd3a1276726699f1b9e5495a3c",
+      "emDashesBefore": 5
+    },
+    "raconter-blague-sans-massacrer": {
+      "words": "ec5465b6c86706481e1a983519db212852efb48a7e52826f4ac5c68279ed8703",
+      "wordCount": 1051,
+      "headings": "a6f5204c9834a12401e5995c41f5337bbf6633982ff460dd9f14358958566400",
+      "links": "141944969d83d7f74d036c0cc562c921a94968eca135cac206f199ecdce382bd",
+      "numbers": "0e4b5e99bcf64d1e4eb30c14525c92924e21d722edb0c1f5473d8fb9b443ae96",
+      "meta": "6c25b6dc7ab2004d69d90fdee6818805532d3ec6caa449e06dbcfa3cd693228d",
+      "emDashesBefore": 6
+    },
+    "phrases-droles-conversations": {
+      "words": "b330288fa0d2e14f3adcbc82d7e81ff0f8cab6030bc56fd668e433fddb38631d",
+      "wordCount": 2128,
+      "headings": "2775640f4ef04fd921185663e212a090772cb00c58a5c7b0c8bea13a6e584a34",
+      "links": "d4632649240d2168428250b485b98794bb1a441f9c60fa8d9a4f442c77c802cb",
+      "numbers": "dfbdb1892e8edefbd3d5c91d222fe592f6815d965b848c3c5333c46c23f5482e",
+      "meta": "7ce06a2353a4f90936b740c8f5e71ec2abf15c0258c3e44935cc18eb69eae28c",
+      "emDashesBefore": 20
+    },
+    "meilleures-blagues-droles-2026": {
+      "words": "9e6983239fc075e2646aa6b274237d718539901578c173d87bf8aaa728cd46b3",
+      "wordCount": 2555,
+      "headings": "1f316593f32e57d29184adda284a3c57a99db8926707916dc1767ae66d238d30",
+      "links": "3c2d70e181853f607dc938d1b2d7cc32a88b08784c6de3610fffa2a2e673b3cf",
+      "numbers": "20c868673800ebf6148325c9b15898365899b7aa9c32213aa6948914975a7002",
+      "meta": "1b03b6938e1eafc528d4dd48699d746336d7f04dff3d64285d293cd21178b0ee",
+      "emDashesBefore": 6
+    },
+    "comment-faire-rire-une-fille": {
+      "words": "4e99cc2b1bfa17cb5640464dfe1f37557096fa697ad31d4ed053d81cd65dbc7c",
+      "wordCount": 1341,
+      "headings": "7c4ba2aadc3b20162d1055eeef38e4806df9e83f55996590e342b9cbb725b8b7",
+      "links": "a9cf50d5826227f1524fe399ceeeb0c570c909a3f551fb5646325cfc6f479a5c",
+      "numbers": "818e9da7ab3deea4f6684add70fca4a87cc1b35f46921ac45e1888f89d935499",
+      "meta": "cdcbfd744d4919cf2e1da20f0304cbf6457425890001641788222c70cd882027",
+      "emDashesBefore": 8
+    },
+    "comment-faire-rire-un-homme": {
+      "words": "23ce4ecec4d63a7540f26551a7308c8b1865505e944b37f5738cf23b25debd50",
+      "wordCount": 1435,
+      "headings": "4ee022a4eaaf059d04e2aa7b6c0e6858d15a5f747db174b156d3580086b31611",
+      "links": "67b655ebef2004719b1a36e0ec5c34482e90f3d88636af485e50c694cdf57d37",
+      "numbers": "d29cc4d51892840d177e9cdc74fcc39db227e52ae38dc9d8fcc5f5736459ebf3",
+      "meta": "022492a729024117d6f9e571dcc98a63e5c84f491b2448f4c319419d6fb5a5db",
+      "emDashesBefore": 10
+    },
+    "je-suis-pas-drole-comment-changer": {
+      "words": "02e80b4f77506fb0ae8d942ea40bdd5744b352cf2573f6b152317fb991e14250",
+      "wordCount": 1799,
+      "headings": "755813c7c13608e8983f0a7a226639d7e9907e030fbdd612b32fea24ba2a33db",
+      "links": "d6f4951c6cb204cc5aec15e165d55268a1a2574b14562b7c2fed091d90061b0f",
+      "numbers": "eb1eacaf4c12e4d239abf011d55e7212b6ccd835329a895cab780ad3509432e5",
+      "meta": "c1fadd6515cf1179f6a9ed92bf8d1e3e9416f39de11a9da3f80759d2c68ddb95",
+      "emDashesBefore": 10
+    },
+    "repondre-moqueries-avec-humour": {
+      "words": "81170509b27a59cba0eb5e34ee0f85b6fe928c5e647dab52b1a98c53256c5932",
+      "wordCount": 1602,
+      "headings": "b1b1201eb8c2c0bb10a1c59141197599e7f6b57730520136443679135a291521",
+      "links": "f12e8a407834eb1160387679804e2bb5cc0fa92068f934e5c11a4bdba272ecc0",
+      "numbers": "2739ae293b2bee687fa24df6ce860365a9ccf0b3f286c8eb7a3ace66cb2504cb",
+      "meta": "d6bc070d24802ffd92374a07ac1d6769534c884f51818fb83e65b42299879b1b",
+      "emDashesBefore": 12
+    },
+    "blagues-travail-faire-rire-pro": {
+      "words": "bf08e292af30d9e856f7ee9b18b642af97d24d162b6f52533ef704bb9ee18942",
+      "wordCount": 1822,
+      "headings": "095d0613c969b223dab563a1da0ab7a1a6dc86e56ffcbb6b41fb642d643c4854",
+      "links": "8a67a643b4fcc1f2988bae9421dba68457a7e540599bd45be3e75304c416714c",
+      "numbers": "f8af988c5d2b6c644941f1f646199004600a1c2932fcc1725574663f340ef664",
+      "meta": "466ccfecb08d90bead7715b7d0eeb7ec946f90d2c0f535d96cc9736d14dcf9e5",
+      "emDashesBefore": 15
+    },
+    "jamais-quoi-repondre-techniques": {
+      "words": "2550d7727573f7e0b15b3f38d36994fe6a922ad0ea0ff4e96dfe01eb84962540",
+      "wordCount": 1731,
+      "headings": "f6451e632e243cd71cefc64c2dbf784ed11c5f3bf843b098c4a2e7bf19d38b05",
+      "links": "fc15f175dbfe893fb7f76cb0620566256db42270ed39b8e15fec9f5f16848f9e",
+      "numbers": "78cc2170c71f475aa24fe99a216ae3dbbccdb3974db990165aba26bb73931853",
+      "meta": "5aa7ea81a2030aa58a36035791e06bff76d4497af1f1c97fe67b460b629f4b1f",
+      "emDashesBefore": 19
+    },
+    "timidite-et-humour": {
+      "words": "4e4f9fce52aee5a5ad18f5c38e2002b621e0f4fcd96acb0913d63732b41dfa61",
+      "wordCount": 2199,
+      "headings": "8fec2e023d4633819c83948d2703b61270872e1be81ba5687ad9726aa219ee58",
+      "links": "c5aea2e8f2e0b4777c0a739b1ee1e86aa4a4506dbc9f3af2c7c9ae859804a4e7",
+      "numbers": "2bf5b64a73d9ccae02fde4efa27304d80e4bb3674d660f1490e557998a5da5c3",
+      "meta": "bdeb1a274e30550392301079f36a39033eb3a5825d3a5a8da7b2737d69c694ef",
+      "emDashesBefore": 32
+    },
+    "storytelling-drole-5-structures": {
+      "words": "80b1a2a3848b13d549b20446f7894485b95030632397230fb9965e6ca2c1da67",
+      "wordCount": 2498,
+      "headings": "07bd12458ad6c200c90a2bfba86b177698d332fccd9ec39a29a3f81095bd4adc",
+      "links": "1cead9eba77a5ea71108be48b2da12c834734cbf7dc63fd09d6dd9718668ef73",
+      "numbers": "e52ce9c66d406f12c9921e4689b981f98732e8a857cd4594d591434a4a6690a6",
+      "meta": "5da27c2d88633794ae403df7b5c9d556e3ff71a7b7d504c29b821a4aebcc9ee0",
+      "emDashesBefore": 37
+    },
+    "conversation-machine-a-cafe": {
+      "words": "80bc6db9b0ee32a62be7c6237ce73d729dc3a4db11b20d58bb10ffb78304b0c6",
+      "wordCount": 1813,
+      "headings": "91883ea2a980217d56b02f0254d99b5083da41cac64a3b4584baa5eca521a077",
+      "links": "e8d638df9004168f9bb10c80e302f94830c188efa4d2d1d10745e869beae5eb4",
+      "numbers": "b2e270ca4acada7d214bfc19f25c90477445738360c8d3982274915db5329905",
+      "meta": "a60f65e6b3eebdf3fcd3c7800f10a8db29378977b92a0a690b3bfe598c7862c3",
+      "emDashesBefore": 18
+    },
+    "repartie-soiree-anti-malaise": {
+      "words": "c337b15ac961908d5a650b8633eaf8662df5ec1a5f6a4f850aa8f26be87d9e08",
+      "wordCount": 1857,
+      "headings": "157f727c3eea8d581e4acd2dd211e0e7e6565c0de55ce0e2e64ef275d16166b5",
+      "links": "f1a290933bafab6f5a47229afa6c5578991f21ed6fd812e99175fc6225a316e0",
+      "numbers": "57d761237c82baf32112b3d8df46bf01b095d81bdf132f7e67c24295eb159e60",
+      "meta": "ed0ff5b99eed9fa61b64682a4cc6cb89c8d35952845e545746076710a9939f92",
+      "emDashesBefore": 18
+    },
+    "humour-apres-rupture": {
+      "words": "5981ecf233ceefafad9639ef956f8a14a39b1ec034ac3b638e2307cc380b5d61",
+      "wordCount": 1741,
+      "headings": "f91e50b494db352dfafbf8ef47e5820f1808a772d85f06343536bf0d9fbf501c",
+      "links": "995034eef425f0a8fbb1019fc2538d02f1691d4855bd4ef6da2034930cf3948e",
+      "numbers": "af73f14356a6dfe3a7d15ad296c1d2670ead4519a35930de4e5fa9002eff29ba",
+      "meta": "29bfaa203d42fc310fc302d381f35fc78c1b0571d2ce48f62fe66c76497eee22",
+      "emDashesBefore": 26
+    },
+    "confiance-humour-apres-rupture": {
+      "words": "6216c16fd6a21c92ca304ba0fb1d144fcbacc6ef293aab36e9d18c48ea0a5d17",
+      "wordCount": 2025,
+      "headings": "e26b14261fe3628f2fd05a2243b0fa7d9e45ad1970dca81b0a1391e19bdeda96",
+      "links": "a4fc01191286dba97b1ff012226a6cfe1633fe591fafc58827024ec58f371e72",
+      "numbers": "991255becedf401311faa050aef17094e4f2398953c1ce3e97fdb2e4b6c16698",
+      "meta": "c216ce679546d4da210e99599bda59c00fcf521acbc83a23c1dcfb5e9d2e097a",
+      "emDashesBefore": 36
+    },
+    "pourquoi-blagues-marchent-pas": {
+      "words": "f71fca1ffa7949db377aa4459d8313788e6a5675b4faf508b0ba2ad9f8e05306",
+      "wordCount": 2041,
+      "headings": "4aa57b42fb9c9f2bd1284a4d38421737fe7d87231c0e99197047680395e9e08d",
+      "links": "c5601e71aba3e326a764517170fa69945b3e6171147a995be7db7046d7a58a0d",
+      "numbers": "994f633d65cf05256ae890dcb6d0a786e1935ed7a83472d766e09550e750c900",
+      "meta": "7447fdb18230f0284140f0c0f363f18e5e3d65f0dd7f3727297dc3b1f0097411",
+      "emDashesBefore": 21
+    },
+    "blagues-courtes-vs-longues": {
+      "words": "150cadb79f6bfd95856ee028d309e61703436c82929d87887ff677a471e75437",
+      "wordCount": 1857,
+      "headings": "6e2830e79238b6ce1b011e119fbf6b25c4ca0ec422e5319d0a1dd489a5fca24d",
+      "links": "8fc987fc7194478e5ce191d60b7c87121148352d1b220d2cd97aca5c639869ec",
+      "numbers": "5f8921b80234ce8f825fac7b80bd2a2a077e07c101f7cc0155b3a2d925738159",
+      "meta": "c36c6279a5b03dbf6af75065d995a4006c29ae651518330aae6c0c622058adf2",
+      "emDashesBefore": 11
+    },
+    "rester-muet-en-groupe": {
+      "words": "2f851ab06179d00ad2e432b141d2beb2ee126ce0b0397a87d11cf6fcf6e20b75",
+      "wordCount": 2748,
+      "headings": "9254b1dfe216c6ddb698a0c2e0c842dae30ecaf05a5f7d921a433f1963d1acc8",
+      "links": "31f4ba876cde104942f029bedf728c9724ad25877ac88ab3eff88cc3f30b79ce",
+      "numbers": "256486f2a4d2762fb1b7e526a4760fa21dcf4933c95136604d8925b9628d1eee",
+      "meta": "8b0cef783a80651ed71a2541aeb2d3d2e56fff94ce133599326d74347dbe45b2",
+      "emDashesBefore": 24
+    }
+  }
+}

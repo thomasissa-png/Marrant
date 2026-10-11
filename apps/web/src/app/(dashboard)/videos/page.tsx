@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { VideosGrid } from "@/components/videos/videos-grid";
@@ -8,43 +9,68 @@ import {
   buildFaqJsonLd,
   buildCollectionPageJsonLd,
 } from "@/components/seo/json-ld";
+import { getContentStatsRounded } from "@/lib/content-stats-server";
+import { PageHeader } from "@/components/layout/page-header";
+import { getVideosPage } from "@/lib/catalogue-pages";
+import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 
-export const metadata: Metadata = {
-  title: "Stand-up analysé : Fary, Mirabel & co.",
-  description:
-    "80+ vidéos de Fary, Mirabel, Blanche Gardin décortiquées. Chaque technique annotée + un défi concret. Tu regardes, tu comprends, tu reproduis.",
-  keywords: [
-    "stand-up français",
-    "vidéos humour analysées",
-    "Paul Mirabel techniques",
-    "Blanche Gardin humour",
-    "Fary stand-up",
-    "apprendre humour vidéo",
-    "Roman Frayssinet",
-    "Waly Dia stand-up",
-  ],
-  alternates: { canonical: "https://deviens-marrant.fr/videos" },
-};
+// Stratégie de rendu : SSR (lecture de `?page=N`, lot S1 s14 P0-1). Les données de
+// liste sont en cache serveur 1 h (unstable_cache, lib/catalogue-pages) : le HTML
+// initial contient les liens vers les fiches et une pagination crawlable. Sans base
+// (build, panne), la liste retombe sur le chargement client d'avant.
+interface ListPageProps {
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+import { frTypo } from "@/lib/fr-typo";
+
+export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
+  const page = parsePageParam(searchParams.page);
+  const stats = await getContentStatsRounded();
+  const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
+  return {
+    title: "Stand-up analysé : les techniques des pros",
+    description: `${videos} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+    keywords: [
+      "stand-up français",
+      "vidéos humour analysées",
+      "techniques stand-up",
+      "analyse stand-up",
+      "apprendre humour vidéo",
+    ],
+    alternates: { canonical: listCanonical("/videos", page) },
+  };
+}
 
 const videosFaqs = [
   {
     question: "Comment apprendre l'humour en regardant des vidéos de stand-up ?",
     answer:
-      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu comprends le mécanisme comique, puis tu fais l'exercice proposé pour le reproduire dans ta vie. C'est la différence entre regarder du tennis et prendre des cours de tennis.",
+      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu repères le mécanisme comique, puis tu fais l'exercice proposé pour le tester dans ta vie. À la fin, tu ne sais plus seulement que c'était drôle : tu sais pourquoi.",
   },
   {
-    question: "Quels humoristes sont analysés sur deviens-marrant.fr ?",
+    question: "Quels styles de stand-up sont analysés sur deviens-marrant.fr ?",
     answer:
-      "On décortique les meilleurs passages de Paul Mirabel, Fary, Blanche Gardin, Roman Frayssinet, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg, et bien d'autres. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
+      "On décortique les meilleurs passages de pros de la scène française, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
   },
   {
     question: "C'est quoi la différence avec juste regarder YouTube ?",
     answer:
-      "YouTube te montre des humoristes. Nous, on t'apprend leurs techniques. Chaque vidéo est analysée avec les points clés à retenir (learnings) et un exercice concret à tester aujourd'hui (DÉFI). Avec le système de streaks et d'XP, tu gardes la motivation sur la durée.",
+      "YouTube te montre des humoristes ; ici, on te montre comment ils s'y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd'hui. Et avec les streaks et les XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
   },
 ];
 
-export default function VideosPage() {
+export default async function VideosPage({ searchParams }: ListPageProps) {
+  const page = parsePageParam(searchParams.page);
+  // Recherche `?q=` : filtrée côté client (API), pas de liste serveur à remplacer.
+  const hasQuery = typeof searchParams.q === "string" && searchParams.q.length > 0;
+  const [stats, listPage] = await Promise.all([
+    getContentStatsRounded(),
+    hasQuery ? Promise.resolve(null) : getVideosPage(page),
+  ]);
+  // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
+  if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
+  const videoCount = stats.videos > 0 ? stats.videos : 60;
+  const videoLabel = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return (
     <>
       <JsonLd
@@ -53,47 +79,48 @@ export default function VideosPage() {
           { name: "Vidéos", url: "https://deviens-marrant.fr/videos" },
         ])}
       />
-      <JsonLd data={buildFaqJsonLd(videosFaqs)} />
+      {/* FAQ balisée une seule fois (page 1), pas sur chaque page de pagination. */}
+      {page === 1 && <JsonLd data={buildFaqJsonLd(videosFaqs)} />}
       <JsonLd
         data={buildCollectionPageJsonLd({
-          name: "Stand-up analysé : Fary, Mirabel & co.",
-          description: "80+ vidéos de stand-up décortiquées. Chaque technique annotée + un défi concret.",
+          name: "Stand-up analysé : les techniques des pros",
+          description: `${videoLabel} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
           url: "https://deviens-marrant.fr/videos",
-          numberOfItems: 80,
+          numberOfItems: videoCount,
           relatedArticles: [
-            { title: "Techniques de stand-up pour la vie sociale", url: "https://deviens-marrant.fr/blog/timing-humour" },
-            { title: "Comment devenir drôle", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
+            { title: "Timing humour : le secret de la blague", url: "https://deviens-marrant.fr/blog/timing-humour" },
+            { title: "Comment devenir drôle : 5 piliers et un plan sur 30 jours", url: "https://deviens-marrant.fr/blog/comment-devenir-drole" },
           ],
         })}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Vidéos</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Apprends à être drôle avec les meilleurs humoristes
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, Waly Dia — on
-          décortique leurs meilleurs passages. Chaque vidéo est annotée avec la
-          technique utilisée : timing, autodérision, observation, storytelling.
-          Tu regardes, tu comprends le mécanisme, tu le reproduis.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Apprends à être drôle en piquant leur mécanique aux meilleurs humoristes</>}
+        lead={
+          <>
+            Chaque pro de la scène a sa mécanique : on décortique leurs
+            meilleurs passages. Chaque vidéo est annotée avec la
+            technique utilisée : timing, autodérision, observation, storytelling.
+            Tu regardes, tu comprends le mécanisme, tu le reproduis.
+          </>
+        }
+      />
 
       <Suspense fallback={null}>
-        <VideosGrid />
+        <VideosGrid initialData={listPage} initialPage={page} />
       </Suspense>
 
       {/* FAQ SEO */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="space-y-4">
+        <dl className="max-w-3xl space-y-4">
           {videosFaqs.map((faq, i) => (
             <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
+              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
               <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
             </div>
           ))}
@@ -103,34 +130,34 @@ export default function VideosPage() {
       {/* Contenu SEO — methode pedagogique */}
       <section className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
-        <div className="space-y-3 text-sm text-text-secondary">
+        <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            La différence entre regarder du stand-up sur YouTube et apprendre le stand-up, c&apos;est <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
+            Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
-            Après chaque vidéo, un <strong className="text-text-primary">DÉFI concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">tu deviens drôle</Link> — pas en regardant, en faisant.
+            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">tu deviens drôle</Link> : pas en regardant, en faisant.
           </p>
           <p>
-            Tu veux comprendre comment <strong className="text-text-primary">Roman Frayssinet</strong> maîtrise ses silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-primary hover:underline">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
+            Tu veux comprendre comment <strong className="text-text-primary">les pros de la scène</strong> maîtrisent leurs silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link underline underline-offset-2">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
           </p>
         </div>
       </section>
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <h2 className="font-display mb-4 text-xl font-bold">Et maintenant, à toi de jouer</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">290+ vannes drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Mets en pratique ce que tu apprends — des vannes prêtes à ressortir.</p>
+            <h3 className="text-sm font-semibold text-text-primary">{stats.jokes > 0 ? `${stats.jokes}+` : "Des"} vannes drôles</h3>
+            <p className="mt-1 text-xs text-text-secondary">Passe à la pratique avec des vannes prêtes à ressortir dès ce soir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">60+ techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, adaptées à ta vie quotidienne.</p>
+            <h3 className="text-sm font-semibold text-text-primary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques de répartie</h3>
+            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, ramenées à la taille d&apos;une pause café.</p>
           </Link>
           <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">5 erreurs qui tuent tes blagues</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les erreurs classiques et comment les éviter pour faire mouche.</p>
+            <p className="mt-1 text-xs text-text-secondary">Les erreurs qui plombent une vanne avant même la chute, et comment les éviter.</p>
           </Link>
         </div>
       </nav>

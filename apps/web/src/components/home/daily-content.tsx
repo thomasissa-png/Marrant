@@ -1,18 +1,25 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
+import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
+import { tipProse } from "@/lib/tip-prose";
 
 interface Joke {
   id: string;
   content: string;
   punchline: string;
   category: string;
+  // Décryptage pédagogique (Phase 1b) — nullable tant que la vanne n'est pas back-fillée
+  comedyTechnique?: string | null;
+  techniqueExplanation?: string | null;
+  howToApply?: string | null;
 }
 
 interface Tip {
@@ -77,11 +84,30 @@ const DIFFICULTY_LABELS: Record<string, string> = {
   EXPERT: "Expert",
 };
 
-const DIFFICULTY_VARIANT: Record<string, "secondary" | "primary" | "error"> = {
-  DEBUTANT: "secondary",
-  INTERMEDIAIRE: "primary",
-  EXPERT: "error",
-};
+/** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
+const DETAILS_SUMMARY =
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-link [&::-webkit-details-marker]:hidden";
+
+function Chevron() {
+  return (
+    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
+/** Puce « TITRE : explication » : titre en gras (casse phrase), donnée non modifiée (design T12). */
+function formatLearning(raw: string) {
+  const learning = fixInvertedCase(raw);
+  const parts = splitLearning(learning);
+  if (!parts) return learning;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{parts.title}</strong>
+      {parts.rest}
+    </>
+  );
+}
 
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
@@ -102,13 +128,16 @@ export function DailyContent() {
 
   if (isLoading) {
     return (
-      <section className="py-10">
+      <section className="py-12 md:py-16">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
           {[0, 1, 2].map((i) => (
-            <div key={i} className="animate-pulse rounded-xl border border-border bg-background-card p-6">
+            <div
+              key={i}
+              className="w-[86%] shrink-0 snap-center animate-pulse rounded-xl border border-border bg-background-card p-6 lg:w-auto"
+            >
               <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
               <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
@@ -121,16 +150,24 @@ export function DailyContent() {
   }
 
   return (
-    <section className="py-10">
-      <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
+    <section className="py-12 md:py-16">
+      <h2 id="contenu-du-jour-titre" className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      <div className="grid gap-6 md:grid-cols-3">
+      {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille sans étirement (design T9).
+          Zone défilante focusable et nommée (axe scrollable-region-focusable) : sans contenu
+          du jour (/api/daily en échec), aucune carte n'a d'élément focusable. */}
+      <div
+        role="region"
+        aria-labelledby="contenu-du-jour-titre"
+        tabIndex={0}
+        className="-mx-4 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+      >
         {/* Vanne du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className="p-6">
-            <div className="mb-4 flex items-center gap-2">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">😂</span>
               <Badge variant="primary">Vanne du jour</Badge>
               {data.joke && (
@@ -144,12 +181,12 @@ export function DailyContent() {
                 <div className="min-h-[120px]">
                   <p className="text-base leading-relaxed text-text-primary">{data.joke.content}</p>
                   {showPunchline ? (
-                    <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-primary animate-fade-in">
+                    <p className="mt-4 rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-link animate-fade-in">
                       {data.joke.punchline}
                     </p>
                   ) : (
                     <Button
-                      variant="primary"
+                      variant="outline"
                       size="sm"
                       className="mt-4"
                       onClick={() => setShowPunchline(true)}
@@ -158,10 +195,37 @@ export function DailyContent() {
                     </Button>
                   )}
                 </div>
+                {showPunchline && data.joke.comedyTechnique && (
+                  <div className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
+                      Pourquoi ça marche&nbsp;: {data.joke.comedyTechnique}
+                    </p>
+                    {data.joke.techniqueExplanation && (
+                      <p className="mt-2 text-sm text-text-secondary">
+                        {data.joke.techniqueExplanation}
+                      </p>
+                    )}
+                    {data.joke.howToApply && (
+                      <div className="mt-3 rounded-md border border-border bg-background-card p-3">
+                        <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                        <p className="mt-1 text-sm text-text-secondary">{data.joke.howToApply}</p>
+                      </div>
+                    )}
+                    <p className="mt-3 text-xs text-text-muted">
+                      Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
+                      <Link
+                        href="/anatomie-vanne"
+                        className="font-medium text-accent-link underline underline-offset-2"
+                      >
+                        L&apos;anatomie d&apos;une vanne
+                      </Link>
+                    </p>
+                  </div>
+                )}
                 <div className="mt-4 flex items-center gap-2">
                   <ReactionButtons jokeId={data.joke.id} />
                   <ShareButton
-                    title="Vanne du jour — deviens-marrant.fr"
+                    title="Vanne du jour · deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
                   />
                   <FavoriteButton contentType="JOKE" contentId={data.joke.id} />
@@ -174,15 +238,15 @@ export function DailyContent() {
         </div>
 
         {/* Conseil du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-secondary/40">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">💡</span>
-              <Badge variant="secondary">Conseil du jour</Badge>
+              <Badge variant="primary">Conseil du jour</Badge>
               {data.tip && (
                 <>
-                  <Badge variant={DIFFICULTY_VARIANT[data.tip.difficulty] ?? "default"}>
+                  <Badge variant="secondary">
                     {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
                   </Badge>
                   <Badge variant="default">
@@ -197,49 +261,55 @@ export function DailyContent() {
                   <h3 className="font-display text-lg font-bold text-text-primary">
                     {data.tip.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-primary">{data.tip.content}</p>
+                  <p className="text-sm leading-relaxed text-text-primary">{tipProse(data.tip.content)}</p>
                   {data.tip.example && (
-                    <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple concret</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.example}</p>
-                    </div>
+                    <details className="group/d rounded-lg bg-background-elevated">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exemple concret
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{tipProse(data.tip.example)}</p>
+                    </details>
                   )}
                   {data.tip.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice du jour</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.tip.exercise}</p>
-                    </div>
+                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exercice du jour
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{tipProse(data.tip.exercise)}</p>
+                    </details>
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-2">
                   <ShareButton
-                    title="Conseil du jour — deviens-marrant.fr"
+                    title="Conseil du jour · deviens-marrant.fr"
                     text={`${data.tip.title}\n${data.tip.content}`}
                   />
                   <FavoriteButton contentType="TIP" contentId={data.tip.id} />
                 </div>
               </>
             ) : (
-              <p className="text-text-secondary">Le prof d&apos;humour est en pause café. Ça revient demain.</p>
+              <p className="text-text-secondary">Le conseil du jour s&apos;est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
             )}
           </div>
         </div>
 
         {/* Vidéo du jour */}
-        <div className="group relative overflow-hidden rounded-xl border border-border bg-background-card transition-colors hover:border-accent-primary/40">
+        <div className="relative w-[86%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
           <div className="p-6">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">🎬</span>
-              <Badge variant="default">Vidéo du jour</Badge>
+              <Badge variant="primary">Vidéo du jour</Badge>
               {data.video && (
                 <>
-                  <Badge variant="secondary">
+                  <Badge variant="default">
                     {TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category}
                   </Badge>
                   {data.video.technique &&
                     data.video.technique.toLowerCase() !== (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
-                    <Badge variant="primary">{data.video.technique}</Badge>
+                    <Badge variant="default">{data.video.technique}</Badge>
                   )}
                 </>
               )}
@@ -255,29 +325,35 @@ export function DailyContent() {
                     <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
-                    <div className="rounded-lg bg-background-elevated p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
-                      <ul className="mt-1.5 space-y-1.5">
-                        {data.video.learnings.map((learning, i) => (
+                    <details className="group/d rounded-lg bg-background-elevated">
+                      <summary className={DETAILS_SUMMARY}>
+                        Ce que tu vas apprendre
+                        <Chevron />
+                      </summary>
+                      <ul className="space-y-1.5 px-4 pb-4">
+                        {data.video.learnings.slice(0, 2).map((learning, i) => (
                           <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                            <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
-                            {learning}
+                            <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
+                            <span>{formatLearning(learning)}</span>
                           </li>
                         ))}
                       </ul>
-                    </div>
+                    </details>
                   )}
                   {data.video.exercise && (
-                    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                      <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
-                      <p className="text-sm leading-relaxed text-text-secondary">{data.video.exercise}</p>
-                    </div>
+                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                      <summary className={DETAILS_SUMMARY}>
+                        Exercice pratique
+                        <Chevron />
+                      </summary>
+                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(data.video.exercise)}</p>
+                    </details>
                   )}
                 </div>
                 <div className="mt-4 flex items-center gap-2">
                   <ShareButton
-                    title="Vidéo du jour — deviens-marrant.fr"
-                    text={`${data.video.title} — ${data.video.channelName}`}
+                    title="Vidéo du jour · deviens-marrant.fr"
+                    text={`${data.video.title} · ${data.video.channelName}`}
                   />
                   <FavoriteButton contentType="VIDEO" contentId={data.video.id} />
                 </div>

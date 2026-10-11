@@ -12,6 +12,15 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
+import { ListPagination } from "@/components/ui/list-pagination";
+import { buildVideoSlug } from "@/lib/catalogue-slug";
+import { useListPage } from "@/hooks/use-list-page";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { useMurVu } from "@/components/premium/use-mur-vu";
+import type { CataloguePage } from "@/lib/list-pagination";
+import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
+import { frTypo } from "@/lib/fr-typo";
 
 interface Video {
   id: string;
@@ -60,6 +69,31 @@ function formatDuration(iso: string): string {
   return `${h}${m}:${s}`;
 }
 
+/** « TITRE : explication » : titre en gras, explication à la suite. */
+function renderLearning(raw: string) {
+  const learning = fixInvertedCase(raw);
+  const parts = splitLearning(learning);
+  if (!parts) return learning;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{parts.title}</strong>
+      {frTypo(parts.rest)}
+    </>
+  );
+}
+
+// Blocs repliables des cartes (T21), même rendu que la vidéo du jour (daily-content.tsx).
+const DETAILS_SUMMARY =
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider [&::-webkit-details-marker]:hidden";
+
+function Chevron() {
+  return (
+    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  );
+}
+
 const CATEGORIES = [
   { value: "", label: "Toutes" },
   { value: "TIMING", label: "Timing" },
@@ -71,21 +105,40 @@ const CATEGORIES = [
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
 ];
 
-export function VideosGrid() {
+interface VideosGridProps {
+  /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
+  initialData?: CataloguePage<Video> | null;
+  initialPage?: number;
+}
+
+export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [pagination, setPagination] = useState<Pagination | null>(null);
+  const { page, goToPage, resetPage } = useListPage(initialPage);
+  const [videos, setVideos] = useState<Video[]>(initialData?.items ?? []);
+  const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
   const [difficulty, setDifficulty] = useState("");
   const [category, setCategory] = useState("");
-  const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(!initialData);
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [limited, setLimited] = useState(false);
   const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
+  // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
+  useMurVu(limited && (videos.length > 0 || page > 1), "videos");
+  // T21 : « Ce que tu vas apprendre » et « Exercice pratique » repliés sur mobile, ouverts dès md.
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -104,6 +157,17 @@ export function VideosGrid() {
     if (category) params.set("category", category);
     if (searchQuery) params.set("q", searchQuery);
 
+    // Échec du rechargement de la vue rendue par le serveur (ex. robot sans accès
+    // à /api/) : on garde la liste du serveur plutôt qu'un message d'erreur.
+    const fallBackToServer = () => {
+      if (initialData && page === initialData.page && !difficulty && !category && !searchQuery) {
+        setVideos(initialData.items);
+        setPagination(toPagination(initialData));
+      } else {
+        setError(true);
+      }
+    };
+
     try {
       const res = await fetch(`/api/videos?${params}`);
       if (res.ok) {
@@ -114,14 +178,14 @@ export function VideosGrid() {
         setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
-        setError(true);
+        fallBackToServer();
       }
     } catch {
-      setError(true);
+      fallBackToServer();
     } finally {
       setIsLoading(false);
     }
-  }, [difficulty, category, page, searchQuery]);
+  }, [difficulty, category, page, searchQuery, initialData]);
 
   useEffect(() => {
     fetchVideos();
@@ -131,24 +195,14 @@ export function VideosGrid() {
     <>
       {/* Filtres niveau + catégorie — PREMIUM uniquement */}
       {limited ? (
-        <div className="mb-6 rounded-lg border border-border bg-background-elevated/50 p-3">
-          <div className="flex flex-wrap items-center gap-2 opacity-50" aria-hidden="true">
-            {DIFFICULTIES.slice(1).map((d) => (
-              <span key={d.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {d.label}
-              </span>
-            ))}
-            <span className="mx-1 text-text-muted">·</span>
-            {CATEGORIES.slice(1, 4).map((cat) => (
-              <span key={cat.value} className="rounded-md bg-background-card px-3 py-1.5 text-sm text-text-muted">
-                {cat.label}
-              </span>
-            ))}
-            <span className="text-sm text-text-muted">...</span>
-          </div>
-          <p className="mt-2 text-xs text-text-muted">
+        // Même traitement que /vannes (T14) : une ligne cadenas + texte existant, sans chips fantômes.
+        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
+          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <p className="text-sm text-text-secondary">
             Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="font-medium text-accent-primary hover:underline">Premium</Link>
+            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
           </p>
         </div>
       ) : (
@@ -161,7 +215,7 @@ export function VideosGrid() {
                 size="sm"
                 role="tab"
                 aria-selected={difficulty === d.value}
-                onClick={() => { setDifficulty(d.value); setPage(1); }}
+                onClick={() => { setDifficulty(d.value); resetPage(); }}
               >
                 {d.label}
               </Button>
@@ -176,7 +230,7 @@ export function VideosGrid() {
                 size="sm"
                 role="tab"
                 aria-selected={category === cat.value}
-                onClick={() => { setCategory(cat.value); setPage(1); }}
+                onClick={() => { setCategory(cat.value); resetPage(); }}
               >
                 {cat.label}
               </Button>
@@ -191,7 +245,7 @@ export function VideosGrid() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 aspect-video rounded-lg bg-background-elevated" />
                 <div className="h-4 w-3/4 rounded bg-background-elevated" />
                 <div className="mt-2 h-3 w-1/2 rounded bg-background-elevated" />
@@ -200,7 +254,8 @@ export function VideosGrid() {
           ))}
         </div>
       ) : videos.length === 0 ? (
-        <EmptyState
+        // Page au-delà de l'aperçu gratuit : cartes verrouillées + offre (plus bas).
+        limited && page > 1 ? null : <EmptyState
           emoji="🎬"
           emojiLabel="pas de vidéos"
           title="Pas de vidéo ici... même les humoristes font des pauses"
@@ -213,18 +268,18 @@ export function VideosGrid() {
           {videos.map((video, index) => (
             <Card
               key={video.id}
-              className="overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
+              className="flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="pt-4">
+              <CardContent className="flex flex-1 flex-col pt-0">
                 <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                  <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
+                  <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">
+                  <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
                     {video.title}
                   </h3>
-                  <div className="flex shrink-0 items-center gap-1">
+                  <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="VIDEO" contentId={video.id} />
                     <ShareButton title={`${video.title} - deviens-marrant.fr`} text={`${video.title} par ${video.channelName}`} />
                   </div>
@@ -236,26 +291,43 @@ export function VideosGrid() {
                     <Badge variant="default">{video.technique}</Badge>
                   )}
                 </div>
-                <p className="mt-2 text-sm text-text-muted line-clamp-2">{video.description}</p>
+                <p className="mt-2 text-sm text-text-muted line-clamp-2">{fixInvertedCase(video.description)}</p>
                 {video.learnings && video.learnings.length > 0 && (
-                  <div className="mt-3 rounded-lg bg-background-elevated p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
-                    <ul className="mt-1.5 space-y-1.5">
+                  <details key={`l-${isDesktop}`} open={isDesktop} className="group/d mt-3 rounded-lg bg-background-elevated">
+                    <summary className={`${DETAILS_SUMMARY} text-text-primary`}>
+                      Ce que tu vas apprendre
+                      <Chevron />
+                    </summary>
+                    <ul className="space-y-1.5 px-4 pb-4">
                       {video.learnings.map((learning, i) => (
                         <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                          <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
-                          {learning}
+                          <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
+                          <span>{renderLearning(learning)}</span>
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </details>
                 )}
                 {video.exercise && (
-                  <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                    <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
-                    <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
-                  </div>
+                  <details key={`e-${isDesktop}`} open={isDesktop} className="group/d mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                    <summary className={`${DETAILS_SUMMARY} text-accent-link`}>
+                      Exercice pratique
+                      <Chevron />
+                    </summary>
+                    <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(video.exercise)}</p>
+                  </details>
                 )}
+                <div className="mt-auto pt-3">
+                  <div className="border-t border-border pt-2">
+                    <Link
+                      href={`/videos/${buildVideoSlug(video)}`}
+                      className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
+                      aria-label="Ouvrir la page dédiée de cette vidéo"
+                    >
+                      Page dédiée &rarr;
+                    </Link>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           ))}
@@ -263,18 +335,19 @@ export function VideosGrid() {
       )}
 
       {/* Cartes verrouillées pour FREE users */}
-      {limited && videos.length > 0 && (
+      {limited && (videos.length > 0 || page > 1) && (
         <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: Math.min(3, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
               onClick={() => setPremiumOpen(true)}
+              role="button"
               tabIndex={0}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label="Contenu premium — cliquer pour débloquer"
+              aria-label={CARTE_VERROUILLEE_LABEL}
             >
-              <CardContent className="pt-4">
+              <CardContent className="pt-0">
                 <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
                 <div className="h-4 w-3/4 rounded bg-text-muted/10" />
                 <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />
@@ -283,7 +356,7 @@ export function VideosGrid() {
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-primary">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
                   </div>
                 </div>
               </CardContent>
@@ -297,33 +370,33 @@ export function VideosGrid() {
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès 0,99 &euro;/mois
+            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
           </p>
-          <Link href="/abonnement">
-            <Button variant="primary" size="sm" className="mt-3">
-              Voir l&apos;offre
-            </Button>
-          </Link>
+          {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
+          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
+            Voir l&apos;offre
+          </Button>
         </div>
       )}
 
       {/* Premium Modal */}
       <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
 
-      {/* Pagination */}
-      {pagination && pagination.totalPages > 1 && (
-        <div className="mt-8 flex items-center justify-center gap-4">
-          <Button variant="ghost" size="sm" disabled={page <= 1} onClick={() => setPage((p) => p - 1)}>
-            Précédent
-          </Button>
-          <span className="text-sm text-text-secondary">
-            Page {pagination.page} / {pagination.totalPages}
-          </span>
-          <Button variant="ghost" size="sm" disabled={page >= pagination.totalPages} onClick={() => setPage((p) => p + 1)}>
-            Suivant
-          </Button>
-        </div>
-      )}
+      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
+      <ListPagination
+        basePath="/videos"
+        page={page}
+        totalPages={Math.max(
+          pagination?.totalPages ?? 0,
+          // Catalogue public complet (pages rendues par le serveur), hors filtres et recherche.
+          !difficulty && !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
+        )}
+        onNavigate={goToPage}
+      />
     </>
   );
+}
+
+function toPagination(data: CataloguePage<unknown>): Pagination {
+  return { page: data.page, limit: data.limit, total: data.total, totalPages: data.totalPages };
 }

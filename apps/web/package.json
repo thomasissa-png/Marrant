@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 5000",
     "build": "next build",
+    "build:cf": "MARRANT_BUILD_TARGET=cloudflare opennextjs-cloudflare build",
+    "preview:cf": "opennextjs-cloudflare preview",
+    "deploy:cf": "opennextjs-cloudflare deploy",
     "build:mobile": "BUILD_TARGET=mobile next build",
     "cap:sync": "BUILD_TARGET=mobile next build && cd ../.. && npx cap sync",
     "cap:open:ios": "cd ../.. && npx cap open ios",
@@ -16,15 +19,19 @@
     "test:ci": "jest --bail --passWithNoTests",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:e2e": "playwright test",
+    "test:e2e": "NODE_PATH=$PWD/node_modules playwright test -c ../../playwright/playwright.config.ts",
+    "test:e2e:smoke": "NODE_PATH=$PWD/node_modules playwright test -c ../../playwright/playwright.config.ts --project=desktop --project=iphone-13 --grep @smoke",
+    "test:e2e:smoke:deploye": "NODE_PATH=$PWD/node_modules playwright test -c ../../playwright/playwright.config.ts --project=desktop --project=iphone-13 --grep @smoke --grep-invert @s16",
+    "test:e2e:achat": "NODE_PATH=$PWD/node_modules playwright test -c ../../playwright/playwright.config.ts --project=achat",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "npx prisma db seed",
     "db:studio": "prisma studio"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.39.0",
+    "@anthropic-ai/sdk": "^0.129.0",
     "@auth/prisma-adapter": "^2.7.0",
+    "@prisma/adapter-pg": "6.19.2",
     "@prisma/client": "^6.19.2",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-dropdown-menu": "^2.1.4",
@@ -41,7 +48,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^11.15.0",
     "lucide-react": "^0.469.0",
-    "next": "14.2.21",
+    "next": "14.2.35",
     "next-auth": "^4.24.11",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -57,16 +64,19 @@
     "seed": "bash scripts/seed.sh"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "1.15.1",
     "@playwright/test": "^1.49.1",
+    "@prisma/adapter-neon": "6.19.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.21",
+    "eslint-config-next": "14.2.35",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -76,6 +86,7 @@
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "wrangler": "4.143.1"
   }
 }

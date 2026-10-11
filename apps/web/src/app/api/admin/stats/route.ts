@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { PREMIUM_PRICE_CENTS } from "@/lib/stripe";
+import { monthlyRevenueCents } from "@/lib/stripe-subscription";
+import { conversionHorsAnciensComptes, LEGACY_FREE_CUTOFF } from "@/lib/analytics/weekly-funnel";
 
 export async function GET(request: NextRequest) {
   const adminPassword = process.env.ADMIN_PASSWORD;
@@ -37,6 +40,7 @@ export async function GET(request: NextRequest) {
       socialPendingPosts,
       todayDailyContent,
       recentBlogArticle,
+      legacyFreeUsers,
     ] = await Promise.all([
       prisma.user.count(),
       prisma.user.count({ where: { plan: "PREMIUM" } }),
@@ -100,14 +104,27 @@ export async function GET(request: NextRequest) {
           publishedAt: true,
         },
       }),
+      // Anciens comptes gratuits (11 au 06/10/2026) : FREE et créés avant la fin du compte gratuit.
+      prisma.user.count({ where: { plan: "FREE", createdAt: { lt: LEGACY_FREE_CUTOFF } } }),
     ]);
 
-    const conversionRate = totalUsers > 0
-      ? ((premiumUsers / totalUsers) * 100).toFixed(1)
-      : "0.0";
+    // Conversion hors anciens comptes gratuits (audit s16, data-analyst C5) :
+    // depuis le 06/10/2026, un compte n'est créé que pour s'abonner.
+    const conversionRate = conversionHorsAnciensComptes(premiumUsers, totalUsers, legacyFreeUsers);
 
-    // MRR = abonnements actifs * 0.99€
-    const mrr = (activeSubscriptions * 0.99).toFixed(2);
+    // MRR = somme des montants mensualisés des abonnements actifs (s14, 04/10/2026) :
+    // montant réel du prix Stripe recopié par le webhook (abonnés de lancement à
+    // 0,99 € inclus, tels quels), annuel compté pour montant / 12. Abonnement pas
+    // encore resynchronisé (montant NULL) : STRIPE_PREMIUM_PRICE_CENTS, comme avant.
+    const activeBilling = await prisma.subscription.findMany({
+      where: { status: "ACTIVE" },
+      select: { billingInterval: true, priceAmountCents: true },
+    });
+    const mrrCents = activeBilling.reduce(
+      (sum, sub) => sum + monthlyRevenueCents(sub, PREMIUM_PRICE_CENTS),
+      0,
+    );
+    const mrr = (mrrCents / 100).toFixed(2);
 
     return NextResponse.json({
       // KPIs business
@@ -115,6 +132,7 @@ export async function GET(request: NextRequest) {
       premiumUsers,
       freeUsers,
       conversionRate,
+      legacyFreeUsers,
       mrr,
       usersLast7d,
       usersLast30d,

@@ -14,6 +14,8 @@ export const dynamic = "force-dynamic";
  * - TECHNIQUE_DU_JOUR → template "Technique du Jour"
  * - QUOTE_ANALYSIS → template "La Vanne"
  * - POST / TWEET → template "Le Défi"
+ * - LINKEDIN `[variante:image]` éligible (s15) → carte unique 4:5 1080×1350,
+ *   la chute seule (slide 0 ; toute autre slide renvoie la même carte)
  */
 export async function GET(req: Request) {
   try {

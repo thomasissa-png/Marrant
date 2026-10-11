@@ -7,7 +7,11 @@ import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
   buildCourseJsonLd,
+  BLOG_OG_IMAGE_SEGMENT,
+  OFFICIAL_SOCIAL_PROFILES,
+  getSocialProfiles,
 } from "@/components/seo/json-ld";
+const { djb2Hash } = require("next/dist/shared/lib/hash") as { djb2Hash: (s: string) => number };
 
 describe("JsonLd component", () => {
   it("renders a script tag with application/ld+json type", () => {
@@ -17,6 +21,22 @@ describe("JsonLd component", () => {
     expect(script).toBeInTheDocument();
     expect(script?.innerHTML).toBe(JSON.stringify(data));
   });
+
+  it("échappe « < » pour qu'un texte « </script> » ne ferme pas la balise", () => {
+    const data = { name: "a </script><script>alert(1)</script>" };
+    const { container } = render(<JsonLd data={data} />);
+    const script = container.querySelector('script[type="application/ld+json"]');
+    expect(script?.innerHTML).not.toContain("</script>");
+    expect(JSON.parse(script?.innerHTML ?? "{}")).toEqual(data);
+  });
+});
+
+describe("BLOG_OG_IMAGE_SEGMENT", () => {
+  it("correspond au suffixe que Next.js donne à /(dashboard)/blog/[slug]/opengraph-image", () => {
+    // Même calcul que next/dist/lib/metadata/get-metadata-route (getMetadataRouteSuffix).
+    const suffix = djb2Hash("/(dashboard)/blog/[slug]").toString(36).slice(0, 6);
+    expect(BLOG_OG_IMAGE_SEGMENT).toBe(`opengraph-image-${suffix}`);
+  });
 });
 
 describe("organizationJsonLd", () => {
@@ -25,7 +45,34 @@ describe("organizationJsonLd", () => {
     expect(organizationJsonLd["@type"]).toBe("Organization");
     expect(organizationJsonLd.name).toBe("deviens-marrant.fr");
     expect(organizationJsonLd.url).toBe("https://deviens-marrant.fr");
-    expect(organizationJsonLd.logo).toContain("icon-512.png");
+    // logo est un ImageObject complet (url + width + height) — requis par Google Rich Results
+    expect(organizationJsonLd.logo).toMatchObject({
+      "@type": "ImageObject",
+      width: 512,
+      height: 512,
+    });
+    expect((organizationJsonLd.logo as { url: string }).url).toContain("icon-512.png");
+  });
+
+  it("émet les comptes sociaux officiels dans sameAs (lot S3c, confirmés par Thomas)", () => {
+    // Le module a été chargé sans NEXT_PUBLIC_SOCIAL_PROFILES par défaut dans jest.setup.
+    if (!process.env.NEXT_PUBLIC_SOCIAL_PROFILES) {
+      expect(organizationJsonLd.sameAs).toEqual([
+        "https://www.instagram.com/deviensmarrant/",
+        "https://x.com/deviensmarrant",
+        "https://www.linkedin.com/company/deviens-marrant",
+      ]);
+    }
+  });
+
+  it("NEXT_PUBLIC_SOCIAL_PROFILES reste une surcharge de la liste officielle", () => {
+    expect(getSocialProfiles(undefined)).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles("")).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles("pas-une-url")).toEqual([...OFFICIAL_SOCIAL_PROFILES]);
+    expect(getSocialProfiles(" https://a.test/x , https://b.test/y ")).toEqual([
+      "https://a.test/x",
+      "https://b.test/y",
+    ]);
   });
 });
 
@@ -69,10 +116,31 @@ describe("buildArticleJsonLd", () => {
     expect(result.headline).toBe("Test Article");
     expect(result.description).toBe("Test excerpt");
     expect(result.datePublished).toBe("2026-03-13");
+    // Sans updatedAt, dateModified fallback sur datePublished
+    expect(result.dateModified).toBe("2026-03-13");
     expect(result.mainEntityOfPage["@id"]).toContain("/blog/test-article");
     expect(result.inLanguage).toBe("fr-FR");
     expect(result.wordCount).toBe(5);
     expect(result.articleSection).toBe("GUIDE");
+    // image doit pointer vers l'OG dynamique par article (pas /og-image.png qui 404)
+    // (même URL que og:image, suffixe du groupe de routes compris — sinon 404)
+    expect(result.image).toBe(`https://deviens-marrant.fr/blog/test-article/${BLOG_OG_IMAGE_SEGMENT}`);
+  });
+
+  it("uses updatedAt for dateModified when provided (vrai updatedAt DB)", () => {
+    const article = {
+      title: "T",
+      excerpt: "E",
+      date: "2026-01-01",
+      updatedAt: "2026-03-15",
+      slug: "t",
+      readingTime: "1 min",
+      category: "GUIDE",
+      content: "a",
+    };
+    const result = buildArticleJsonLd(article);
+    expect(result.datePublished).toBe("2026-01-01");
+    expect(result.dateModified).toBe("2026-03-15");
   });
 });
 
@@ -106,13 +174,14 @@ describe("buildCourseJsonLd", () => {
     expect(result["@type"]).toBe("Course");
     expect(result.name).toBe("Parcours Répartie");
     expect(result.provider.name).toBe("deviens-marrant.fr");
-    expect(result.provider.logo).toContain("icon-512.png");
+    // provider.logo reste une string simple (schema Course accepte les deux formats)
+    expect(String(result.provider.logo)).toContain("icon-512.png");
     expect(result.hasCourseInstance.courseMode).toBe("online");
     expect(result.hasCourseInstance.courseWorkload).toBe("P4W");
     expect(result.url).toContain("/parcours/repartie");
     expect(result.educationalLevel).toBe("Intermediate");
     // numberOfLessons retiré : non reconnu par Schema.org Course
-    expect(result.offers.price).toBe("0.99");
+    expect(result.offers.price).toBe("2.99");
     expect(result.offers.priceCurrency).toBe("EUR");
     expect(result.offers.category).toBe("Paid");
     expect(result.offers.url).toContain("/abonnement");
@@ -128,6 +197,6 @@ describe("buildCourseJsonLd", () => {
     expect(result.hasCourseInstance.courseWorkload).toBe("P3W");
     expect(result.educationalLevel).toBe("Beginner");
     expect(result.url).toBeUndefined();
-    expect(result.numberOfLessons).toBeUndefined();
+    expect((result as { numberOfLessons?: number }).numberOfLessons).toBeUndefined();
   });
 });

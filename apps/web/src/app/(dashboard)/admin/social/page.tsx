@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
+import { SocialPlatformPanel } from "@/components/admin/social-platform-panel";
 
 interface SocialPost {
   id: string;
@@ -49,7 +50,6 @@ const FORMAT_LABELS: Record<string, string> = {
   POST: "Post (legacy)",
   QUOTE_ANALYSIS: "Quote Analyse (legacy)",
   TECHNIQUE_DU_JOUR: "Technique du Jour (legacy)",
-  WILD_CARD: "Wild Card (legacy)",
 };
 
 const PERSONA_COLORS: Record<string, string> = {
@@ -189,6 +189,8 @@ export default function AdminSocialPage() {
         </p>
       </div>
 
+      <SocialPlatformPanel adminPassword={adminPassword} />
+
       {/* Status tabs */}
       <div className="mb-6 flex gap-2">
         {tabs.map((tab) => (
@@ -197,7 +199,7 @@ export default function AdminSocialPage() {
             onClick={() => setActiveTab(tab.status)}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === tab.status
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-secondary-hover text-white"
                 : "bg-background-elevated text-text-secondary hover:text-text-primary"
             }`}
           >

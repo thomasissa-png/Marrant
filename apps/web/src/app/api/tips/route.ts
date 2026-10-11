@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
+import { FREE_TIP_LIMIT } from "@/config/premium";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -36,9 +38,6 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Limites gratuites : 3 conseils max pour les FREE
-    const FREE_TIP_LIMIT = 3;
-
     const where = {
       isActive: true,
       ...(query.category && { category: query.category as never }),
@@ -51,7 +50,16 @@ export async function GET(request: NextRequest) {
       }),
     };
 
-    const total = await prisma.tip.count({ where });
+    // Conseils au titre identique en base : dédoublonnés ici, pas en base (N12 s12,
+    // même schéma que les vannes). Pagination sur la liste dédoublonnée.
+    const orderBy = [{ createdAt: "desc" as const }, { id: "asc" as const }];
+    const candidates = await prisma.tip.findMany({
+      where,
+      select: { id: true, title: true },
+      orderBy,
+    });
+    const uniqueIds = dedupeTipsByTitle(candidates).map((c) => c.id);
+    const total = uniqueIds.length;
 
     // FREE : limiter le total accessible
     const accessibleTotal = isPremium ? total : Math.min(total, FREE_TIP_LIMIT);
@@ -72,12 +80,11 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const tips = await prisma.tip.findMany({
-      where,
-      skip: (query.page - 1) * query.limit,
-      take: isPremium ? query.limit : Math.max(0, effectiveLimit),
-      orderBy: [{ createdAt: "desc" }, { id: "asc" }],
-    });
+    const start = (query.page - 1) * query.limit;
+    const pageIds = uniqueIds.slice(start, start + (isPremium ? query.limit : Math.max(0, effectiveLimit)));
+    const tips = pageIds.length
+      ? await prisma.tip.findMany({ where: { id: { in: pageIds } }, orderBy })
+      : [];
 
     return NextResponse.json({
       tips,

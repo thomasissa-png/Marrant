@@ -14,12 +14,12 @@ describe("Badge", () => {
 
   it("applies yellow variant", () => {
     render(<Badge variant="primary">Yellow</Badge>);
-    expect(screen.getByText("Yellow")).toHaveClass("text-accent-primary");
+    expect(screen.getByText("Yellow")).toHaveClass("text-accent-link");
   });
 
   it("applies violet variant", () => {
     render(<Badge variant="secondary">Violet</Badge>);
-    expect(screen.getByText("Violet")).toHaveClass("text-accent-secondary");
+    expect(screen.getByText("Violet")).toHaveClass("text-violet-200");
   });
 
   it("applies success variant", () => {

@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
-import { publishDailyContent } from "@/lib/ai/daily-publisher";
-import { generateMonthlyPlans } from "@/lib/ai/content-planner";
+import { pickValidatedJoke } from "@/lib/ai/daily-joke-pool";
 
 export const dynamic = "force-dynamic";
 
 /**
- * Verrou en mémoire pour éviter de lancer plusieurs générations simultanées.
- * Persiste tant que le process Node.js tourne (parfait pour Replit).
+ * Pas de génération à la volée ici (s14) : sous Cloudflare Workers, une tâche
+ * lancée après la réponse est abandonnée (et le verrou en mémoire est propre à
+ * chaque isolate). Le contenu du jour est produit par le cron daily-content
+ * (src/lib/scheduler/jobs.ts) ; en attendant, repli déterministe ci-dessous.
  */
-let isGenerating = false;
 
 export async function GET() {
   try {
@@ -35,33 +36,17 @@ export async function GET() {
       });
     }
 
-    // Pas de contenu pour aujourd'hui — lancer la génération en arrière-plan (non bloquant)
-    if (!isGenerating) {
-      isGenerating = true;
-      const month = today.getUTCMonth() + 1;
-      const year = today.getUTCFullYear();
-
-      // Fire-and-forget : le visiteur reçoit le fallback immédiatement,
-      // le prochain visiteur (ou refresh) aura le vrai contenu.
-      (async () => {
-        try {
-          console.log("[daily-auto] Génération automatique du contenu du jour…");
-          await generateMonthlyPlans(month, year);
-          await publishDailyContent(today);
-          console.log("[daily-auto] Contenu du jour généré avec succès.");
-        } catch (err) {
-          console.error("[daily-auto] Échec de la génération :", err);
-        } finally {
-          isGenerating = false;
-        }
-      })();
-    }
-
     // Fallback : contenu déterministe basé sur le jour de l'année
     const dayOfYear = getDayOfYear(today);
 
+    // Vanne du jour de repli (lot Q1, s14, barre Alexa) : uniquement une vanne
+    // validée au niveau des étalons (isActive, copyVerdict GARDER, décryptage
+    // présent). Pool vide (transition) → repli historique.
+    const validatedJoke = await pickValidatedJoke(dayOfYear);
+    const legacyJokeWhere = validatedJoke ? null : await legacyFallbackJokeWhere();
+
     const [jokeCount, tipCount, videoCount] = await Promise.all([
-      prisma.joke.count({ where: { isActive: true } }),
+      legacyJokeWhere ? prisma.joke.count({ where: legacyJokeWhere }) : Promise.resolve(1),
       prisma.tip.count({ where: { isActive: true } }),
       prisma.video.count({ where: { isActive: true } }),
     ]);
@@ -74,11 +59,13 @@ export async function GET() {
     }
 
     const [joke, tip, video] = await Promise.all([
-      prisma.joke.findFirst({
-        where: { isActive: true },
-        orderBy: { id: "asc" },
-        skip: dayOfYear % jokeCount,
-      }),
+      legacyJokeWhere
+        ? prisma.joke.findFirst({
+            where: legacyJokeWhere,
+            orderBy: { id: "asc" },
+            skip: dayOfYear % jokeCount,
+          })
+        : Promise.resolve(validatedJoke),
       prisma.tip.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
@@ -105,4 +92,23 @@ export async function GET() {
       { status: 500 }
     );
   }
+}
+
+/**
+ * Repli historique (avant la barre s14), utilisé seulement tant qu'aucune
+ * vanne n'est marquée GARDER :
+ *  1. vannes décortiquées et relues (copyVerdict GARDER ou REECRIRE) ;
+ *  2. sinon, vannes avec au moins un décryptage ;
+ *  3. en dernier recours, toutes les vannes actives.
+ */
+async function legacyFallbackJokeWhere(): Promise<Prisma.JokeWhereInput> {
+  const reviewedWhere: Prisma.JokeWhereInput = {
+    isActive: true,
+    comedyTechnique: { not: null },
+    copyVerdict: { in: ["GARDER", "REECRIRE"] },
+  };
+  if ((await prisma.joke.count({ where: reviewedWhere })) > 0) return reviewedWhere;
+  const decryptedWhere: Prisma.JokeWhereInput = { isActive: true, comedyTechnique: { not: null } };
+  if ((await prisma.joke.count({ where: decryptedWhere })) > 0) return decryptedWhere;
+  return { isActive: true };
 }

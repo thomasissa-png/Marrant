@@ -1,0 +1,24 @@
+{
+ "_regle_de_decision": "Au niveau = 8,5 ou plus chez les 2 relecteurs. Pour chaque emplacement : parmi les candidates au niveau, la meilleure somme des 2 notes est retenue. A egalite : celle dont la tournure (fonction tournure() de social-lot-v5-legendes.ts) differe de celle des posts Instagram voisins (jamais 2 fois de suite), sinon la plus courte. Une candidate sous 8,5 chez l'un des 2 n'est pas publiable. Aucune candidate au niveau : voir ligne 'si_echec' de l'emplacement.",
+ "_ordre": "Ordre G01 a G12 mele a la main, sans deux candidates du meme emplacement consecutives.",
+ "_reference": "Legende au niveau deja en base : L-08-10 (9 / 8,5) « À envoyer à ton père, s'il peut se libérer. » (aveugle-textes-neufs-cycle8-resultat.md).",
+ "_ajout_dans": "apps/web/scripts/content/social-lot-v5-legendes.ts, table LEGENDES_IG, cle = id de la vanne. Echeance : avant l'insertion du 09/10 (10:15 UTC).",
+ "emplacements": {
+  "E1-13-10": {"emplacement": "IG mar. 13/10 17:30 UTC", "vanne_id": "cs14jka3336e7e90a453a9d6", "vanne": "V083, fuite sous l'evier", "legende_actuelle": "À envoyer à celui qui répare tout, bientôt. (jamais relue a l'aveugle ; 'celui qui' comme le 14/10)", "voisins_tournure": ["IG 14/10 : celui qui"], "si_echec": "3 nouvelles candidates relues a l'aveugle ; la legende actuelle n'est pas relue donc pas un repli valable"},
+  "E2-15-10": {"emplacement": "IG jeu. 15/10 17:30 UTC", "vanne_id": "cs14jk9a9e7a1b8e0e16264e", "vanne": "deux verites et un mensonge", "legende_actuelle": "aucune (erreur bloquante du dry-run)", "voisins_tournure": ["IG 14/10 : celui qui", "IG 16/10 : a deduire du choix E3"], "si_echec": "3 nouvelles candidates relues a l'aveugle, sans quoi le dry-run refuse d'ecrire"},
+  "E3-16-10": {"emplacement": "IG ven. 16/10 17:30 UTC", "vanne_id": "cmmnsqn120000th63o435xsb0", "vanne": "detecteur de fumee", "legende_actuelle": "aucune (erreur bloquante du dry-run)", "voisins_tournure": ["IG 15/10 : a deduire du choix E2"], "si_echec": "3 nouvelles candidates relues a l'aveugle, sans quoi le dry-run refuse d'ecrire"},
+  "E4-repli-12-10": {"emplacement": "repli IG lun. 12/10 17:30 UTC (envoye seulement si l'article se-presenter-avec-humour n'est pas en ligne)", "vanne_id": "cs14jke10b58d158ae638560", "vanne": "chargeur rendu", "legende_actuelle": "aucune (erreur bloquante du dry-run)", "voisins_tournure": ["IG 13/10 : a deduire du choix E1"], "si_echec": "3 nouvelles candidates relues a l'aveugle, sans quoi le dry-run refuse d'ecrire"}
+ },
+ "G01": {"emplacement": "E3-16-10", "id": "L-16-10-b", "texte": "À envoyer à ton frère, qui t'a offert un minuteur à Noël.", "longueur": 57, "tournure": "ton/ta"},
+ "G02": {"emplacement": "E1-13-10", "id": "L-13-10-a", "texte": "À envoyer à qui a un seau sous l'évier depuis un moment.", "longueur": 56, "tournure": "qui"},
+ "G03": {"emplacement": "E4-repli-12-10", "id": "L-12-10r-c", "texte": "À envoyer à tes amis, avant de leur prêter un câble.", "longueur": 52, "tournure": "ton/ta"},
+ "G04": {"emplacement": "E2-15-10", "id": "L-15-10-b", "texte": "À envoyer à ton ami qui ment mal, avant le prochain jeu.", "longueur": 56, "tournure": "ton/ta"},
+ "G05": {"emplacement": "E3-16-10", "id": "L-16-10-a", "texte": "À envoyer à qui oublie toujours le gratin dans le four.", "longueur": 55, "tournure": "qui"},
+ "G06": {"emplacement": "E1-13-10", "id": "L-13-10-c", "texte": "À envoyer à l'appartement du dessous, par précaution.", "longueur": 53, "tournure": "autre"},
+ "G07": {"emplacement": "E2-15-10", "id": "L-15-10-c", "texte": "À envoyer à ta sœur, qui sait toujours quand tu mens.", "longueur": 53, "tournure": "ton/ta"},
+ "G08": {"emplacement": "E4-repli-12-10", "id": "L-12-10r-a", "texte": "À envoyer à qui a ton chargeur depuis la fac.", "longueur": 45, "tournure": "qui"},
+ "G09": {"emplacement": "E1-13-10", "id": "L-13-10-b", "texte": "À envoyer à ton propriétaire, en précisant que c'est un cas isolé.", "longueur": 66, "tournure": "ton/ta"},
+ "G10": {"emplacement": "E3-16-10", "id": "L-16-10-c", "texte": "À envoyer à ton ami pompier, il a peut-être déjà l'adresse.", "longueur": 58, "tournure": "ton/ta"},
+ "G11": {"emplacement": "E2-15-10", "id": "L-15-10-a", "texte": "À envoyer à qui propose un jeu après le dessert.", "longueur": 48, "tournure": "qui"},
+ "G12": {"emplacement": "E4-repli-12-10", "id": "L-12-10r-b", "texte": "À envoyer à ton ex, il te doit peut-être encore un câble.", "longueur": 57, "tournure": "ton/ta"}
+}

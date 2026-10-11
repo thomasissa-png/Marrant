@@ -1,0 +1,18 @@
+[N1] « Un bon toast fait cent vingt mots. » / « J'en ai déjà gaspillé sept. »
+[N2] « Ma messagerie est presque pleine. » / « Depuis 2021. »
+[N3] « Je réponds au standard d'une entreprise. » / « Quand on me demande si je suis un robot, je dis oui : ça va plus vite. »
+[N4] « Mon troisième jour, il pleuvait, et tu m'as prêté ton parapluie : « Garde-le le temps qu'il faut. » Ce soir, j'ai apporté ton parapluie pour te le rendre. » / « Mais il pleut dehors : je le garde le temps qu'il faut. »
+[N5] « Il n'y a pas de salle A au deuxième étage. » / « Elle est complète tous les jeudis depuis 2019. »
+[N6] « Hier, j'ai appelé le support informatique. Dix minutes d'attente, puis vingt, puis une chanson que j'ai fini par aimer. Au bout de trente-cinq minutes, quelqu'un a décroché. » / « Je lui ai demandé de patienter. »
+[N7] « J'ai envoyé le planning de la semaine. Sous mon nom, une ligne de plus. » / « Correction : le « Bravo ! » du tableau de l'étage est bien de l'équipe, c'est-à-dire de moi, vendredi dernier. »
+[N8] « J'avais préparé deux discours pour ce soir : un drôle, un émouvant. » / « Celui-ci est le troisième. »
+[N9] « « Voulez-vous vraiment quitter la réunion ? » » / « Plus que jamais. »
+[N10] « J'écris les mails automatiques « ne pas répondre ». » / « Chaque matin, je lis les réponses. »
+[N11] « Mardi, j'ai voulu jeter mon gobelet de café. Le carton allait dans une trappe, le couvercle dans une deuxième, le fond de café dans une troisième, et la touillette dans une quatrième, fermée à clé. » / « Je l'ai adoptée. »
+[N12] « Dans une salle, le premier applaudissement reste seul pendant trois secondes. » / « Ce soir, ce sera le mien. »
+[N13] « Un mail pour caler la réunion de lundi : date, salle, ordre du jour. Sous la signature, un PS. » / « Rectificatif : la perceuse du deuxième, ce matin, c'était mon rire. »
+[N14] « La badgeuse m'a dit « Bonne journée ». » / « Il était 19 h. »
+[N15] « Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible. » / « Merci de lever vos verres en attendant. »
+[N16] « Mon mail était sans faute : objet, date, un « cordialement ». Il restait une ligne. » / « Précision : mon rhume ne date pas de lundi, mais des soldes d'hiver. »
+[N17] « Je tiens l'accueil d'un siège social. » / « Je reconnais un entretien d'embauche à la façon dont on tient son manteau. »
+[N18] « Je m'étais promis de ne pas pleurer. » / « Pardon : de ne pas pleurer la première. »

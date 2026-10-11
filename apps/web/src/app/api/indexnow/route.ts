@@ -1,58 +1,54 @@
 import { NextResponse } from "next/server";
-
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
-if (!INDEXNOW_KEY) {
-  console.warn("[IndexNow] INDEXNOW_KEY not set in environment — IndexNow submissions will fail");
-}
-const HOST = "deviens-marrant.fr";
+import { submitToIndexNow } from "@/lib/indexnow";
+import { bearerToken, isAdminPassword, safeEqual } from "@/lib/blog-preview-auth";
 
 /**
- * IndexNow API — notifie Bing (et Yandex, Naver, Seznam) de la mise à jour de pages.
- * POST /api/indexnow avec un body JSON { urls: string[] }
- * Appelé automatiquement par le cron de contenu quotidien.
+ * Accès réservé (s15) : `Authorization: Bearer <CRON_SECRET>` ou
+ * `Bearer <ADMIN_PASSWORD>`, comparaison en temps constant. Avant : route
+ * ouverte, n'importe qui pouvait faire soumettre des URL avec notre clé.
+ */
+async function isAuthorized(request: Request): Promise<boolean> {
+  const token = bearerToken(request.headers.get("authorization"));
+  if (!token) return false;
+  const cronSecret = process.env.CRON_SECRET?.trim();
+  if (cronSecret && (await safeEqual(token, cronSecret))) return true;
+  return isAdminPassword(token);
+}
+
+/**
+ * IndexNow API : notifie Bing (et Yandex, Naver, Seznam) de la mise à jour de pages.
+ * POST /api/indexnow avec un body JSON { urls: string[] }.
+ * Logique partagée : src/lib/indexnow.ts (aussi utilisée par les crons et la
+ * publication programmée des articles, sans self-fetch vers cette route).
  */
 export async function POST(request: Request) {
+  if (!(await isAuthorized(request))) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
+  }
+
+  let urls: unknown;
   try {
-    const body = await request.json();
-    const urls: string[] = body.urls;
-
-    if (!INDEXNOW_KEY) {
-      return NextResponse.json(
-        { error: "INDEXNOW_KEY not configured" },
-        { status: 503 }
-      );
-    }
-
-    if (!urls || !Array.isArray(urls) || urls.length === 0) {
-      return NextResponse.json(
-        { error: "Le champ 'urls' est requis (tableau de strings)" },
-        { status: 400 }
-      );
-    }
-
-    // Soumettre à IndexNow (Bing + moteurs partenaires)
-    const response = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        host: HOST,
-        key: INDEXNOW_KEY,
-        keyLocation: `https://${HOST}/indexnow-key.txt`,
-        urlList: urls.map((url) =>
-          url.startsWith("http") ? url : `https://${HOST}${url}`
-        ),
-      }),
-    });
-
-    return NextResponse.json({
-      success: true,
-      status: response.status,
-      submitted: urls.length,
-    });
+    urls = ((await request.json()) as { urls?: unknown })?.urls;
   } catch {
+    return NextResponse.json({ error: "Corps JSON invalide" }, { status: 400 });
+  }
+
+  if (!Array.isArray(urls) || urls.length === 0 || !urls.every((u) => typeof u === "string")) {
     return NextResponse.json(
-      { error: "Erreur lors de la soumission IndexNow" },
-      { status: 500 }
+      { error: "Le champ 'urls' est requis (tableau de strings)" },
+      { status: 400 }
     );
   }
+
+  const result = await submitToIndexNow(urls as string[]);
+  if (result.ok) {
+    return NextResponse.json({ success: true, status: result.status, submitted: result.submitted });
+  }
+  if (result.reason === "missing-key") {
+    return NextResponse.json({ error: "INDEXNOW_KEY not configured" }, { status: 503 });
+  }
+  return NextResponse.json(
+    { error: "Erreur lors de la soumission IndexNow", status: result.status ?? null },
+    { status: 502 }
+  );
 }

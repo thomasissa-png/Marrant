@@ -109,7 +109,7 @@ describe("VideosGrid", () => {
     });
     await userEvent.click(screen.getByLabelText("Lire la vidéo : Stand-up hilarant"));
     const iframe = screen.getByTitle("Stand-up hilarant");
-    expect(iframe).toHaveAttribute("src", "https://www.youtube.com/embed/abc123?autoplay=1");
+    expect(iframe).toHaveAttribute("src", "https://www.youtube-nocookie.com/embed/abc123?autoplay=1");
     expect(iframe).toHaveAttribute("allowFullScreen");
   });
 

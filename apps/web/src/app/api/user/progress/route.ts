@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { getSeedForSlug } from "@/lib/parcours-data";
 
 export async function GET() {
   try {
@@ -18,13 +19,15 @@ export async function GET() {
         learningPathId: true,
         completedSteps: true,
         completedAt: true,
+        startedAt: true,
         learningPath: {
           select: {
             slug: true,
             title: true,
             icon: true,
             steps: {
-              select: { id: true },
+              select: { id: true, order: true },
+              orderBy: { order: "asc" },
             },
           },
         },
@@ -36,6 +39,7 @@ export async function GET() {
     // Rich format for profil-dashboard
     const parcours = allProgress.map((p) => {
       progress[p.learningPathId] = p.completedSteps.length;
+      const nextStepOrder = p.learningPath.steps.find((s) => !p.completedSteps.includes(s.order))?.order ?? null;
       return {
         slug: p.learningPath.slug,
         title: p.learningPath.title,
@@ -43,6 +47,14 @@ export async function GET() {
         completedSteps: p.completedSteps.length,
         totalSteps: p.learningPath.steps.length,
         completedAt: p.completedAt?.toISOString() ?? null,
+        // s17 lot C : « Reprendre ton parcours » (accueil, profil, CTA d'article).
+        nextStepOrder,
+        startedAt: p.startedAt.toISOString(),
+        // s17 lot E : titre de l'étape (seed, même source que la liste /parcours), étalon 3.4 A.
+        nextStepTitle:
+          nextStepOrder === null
+            ? null
+            : (getSeedForSlug(p.learningPath.slug)?.steps.find((s) => s.week === nextStepOrder)?.moduleTitle ?? null),
       };
     });
 

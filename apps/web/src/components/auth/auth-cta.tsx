@@ -1,58 +1,52 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
-import { AuthModal } from "@/components/auth/auth-modal";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { buildRegisterUrl } from "@/lib/auth-links";
+import { cn } from "@/lib/utils";
 
 interface AuthCtaProps {
   label?: string;
   callbackUrl?: string;
-  size?: "default" | "sm" | "lg";
+  /** Source du clic pour la mesure du tunnel (kebab-case, ex. `blog-<slug>`, `quiz`). */
+  src?: string;
+  size?: "md" | "sm" | "lg";
   variant?: "primary" | "secondary";
   className?: string;
-  /** If authenticated, clicking runs this instead of opening modal */
+  /** If authenticated, clicking runs this instead of following the link */
   onAuthenticatedClick?: () => void;
 }
 
 /**
- * CTA button that opens the AuthModal for unauthenticated users.
- * Replaces all `<Link href="/register">` patterns.
+ * CTA d'abonnement (plus de compte gratuit, s15). Visiteur anonyme (et pendant le chargement de la
+ * session, donc dans le HTML serveur) : vrai lien vers
+ * `/register?callbackUrl=…&src=…` (étape 1 sur 2, puis paiement ouvert tout seul).
+ * Connecté : action fournie, sinon lien direct vers la destination.
  */
 export function AuthCta({
-  label = "Créer un compte pour commencer",
+  label = "Accéder aux parcours complets",
   callbackUrl = "/abonnement",
+  src,
   size = "lg",
   variant = "primary",
   className,
   onAuthenticatedClick,
 }: AuthCtaProps) {
   const { status } = useSession();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  return (
-    <>
-      <Button
-        variant={variant}
-        size={size}
-        className={className}
-        onClick={() => {
-          if (status === "authenticated" && onAuthenticatedClick) {
-            onAuthenticatedClick();
-          } else {
-            setIsAuthModalOpen(true);
-          }
-        }}
-      >
+  if (status === "authenticated" && onAuthenticatedClick) {
+    return (
+      <Button variant={variant} size={size} className={className} onClick={onAuthenticatedClick}>
         {label}
       </Button>
+    );
+  }
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={callbackUrl}
-      />
-    </>
+  const href = status === "authenticated" ? callbackUrl : buildRegisterUrl({ callbackUrl, src });
+  return (
+    <Link href={href} className={cn(buttonVariants({ variant, size }), className)}>
+      {label}
+    </Link>
   );
 }

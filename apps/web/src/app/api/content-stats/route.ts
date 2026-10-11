@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { countDistinctContent } from "@/lib/content-stats-server";
 
 /**
  * Endpoint public qui renvoie le nombre total de contenus actifs.
@@ -10,14 +11,14 @@ import { prisma } from "@/lib/prisma";
  */
 export async function GET() {
   try {
-    const [jokes, tips, videos] = await Promise.all([
-      prisma.joke.count({ where: { isActive: true } }),
-      prisma.tip.count({ where: { isActive: true } }),
-      prisma.video.count({ where: { isActive: true } }),
+    // Vannes et conseils : contenus distincts (sans doublons), comme les listes affichées.
+    const [{ jokes, tips, videos }, members] = await Promise.all([
+      countDistinctContent(),
+      prisma.user.count(),
     ]);
 
     return NextResponse.json(
-      { jokes, tips, videos },
+      { jokes, tips, videos, members },
       {
         headers: {
           "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",

@@ -1,0 +1,45 @@
+# Pilote P0 : résultat (06/10/2026)
+
+> 240 candidates (@copywriter, `candidates-1..4.md`), notation à l'aveugle par 2 relecteurs indépendants (`aveugle-p0-relecteur-1.md`, `-2.md`), 8 ancres glissées (4 vannes du pool strict, 4 vannes connues sous 8), clé `aveugle-p0-CLE-ne-pas-ouvrir.json`. Contrôle catalogue (845 vannes) : 0 ressemblance (`controle-catalogue-p0.md`).
+
+## Chiffres
+
+| Mesure | Valeur |
+|---|---|
+| Au niveau chez les 2 (≥ 8,5, non « connue ») | **1 sur 240 = 0,4 %** (P0-072, « ouvrages cités par l'IA ») |
+| Au niveau chez un seul, 8 chez l'autre | 13 |
+| ≥ 8 chez les 2 | 29 |
+| Moyenne des candidates | relecteur 1 : 7,07 ; relecteur 2 : 7,57 |
+| Classiques repérés (« connue » oui) | 8 (relecteur 1), 2 (relecteur 2) |
+
+## Étalonnage : les relecteurs du jour sont plus sévères que ceux du stock
+
+| Ancre (pool strict, notée au niveau le 05/10) | Relecteur 1 | Relecteur 2 |
+|---|---|---|
+| B080 (Nicolas / Julien) | 8,5 | 8,5 |
+| B149 (le zoom sur le parking) | 8,5 | 8,5 |
+| B062 | 8 | 8 |
+| B009 | 7,5 | 7 |
+
+Les 4 ancres « connues sous 8 » sont toutes notées 6,5 à 7,5 (cohérent). Deux vannes du pool sur quatre passent sous 8,5 aujourd'hui : la barre a glissé d'environ un demi à un point entre les deux sessions de notation. **La barre fondateur ne change pas** (« rien en dessous », 30/09) ; mais le rendement brut de 0,4 % sous-estime le rendement réel.
+
+## Lecture selon le plan (§2) et suite
+
+Rendement < 3 % : « problème de méthode, pas de volume ». Ce qui est fait, sans changer la cadence (D8 : jamais de 3/3/1 sans accord de Thomas) :
+1. **Départage contre Alexa** : les 29 candidates ≥ 8 chez les 2 passent en duels à l'aveugle avec la vanne Alexa ET les 4 ancres du pool dans le même lot (méthode des duels du cycle 5), par 2 nouveaux relecteurs : est au niveau ce qui égale ou bat Alexa chez les 2.
+2. **Nouvelle consigne d'écriture** tirée des motifs des relecteurs (chutes attendues ou « de bureau », manque du renversement net d'Alexa : l'objet de la vanne se retourne contre le narrateur), puis **pilote 2** de 120 candidates, avancé au 07/10.
+3. **Stock** : le lot régénéré est couvert sans erreur jusqu'au 02/11 ; aucun créneau n'est menacé avant cette date. Décision D8 à Thomas seulement si, après le pilote 2, le stock ne couvre pas les créneaux suivants.
+
+## Départage contre Alexa (06/10, 2 nouveaux relecteurs à l'aveugle, `duel-p0-relecteur-A.md` et `-B.md`)
+
+- 34 vannes : les 29 finalistes, 4 ancres du pool, l'étalon Alexa lui-même (noté 9 par les deux : cohérent).
+- **Égalent l'étalon chez les 2 : 1 finaliste, P0-041.** Ancres du pool : 2 sur 4 égalent l'étalon chez les 2 (Nicolas/Julien, le zoom sur le parking), 2 restent à 8 / 8,5.
+- P0-072 (au niveau dans la notation à l'aveugle) ne passe pas le départage chez les 2.
+- **Bilan P0 : 2 vannes versées au pool (P0-072 au niveau ≥ 8,5 chez les 2, P0-041 égale Alexa chez les 2) sur 240, soit 0,8 %.** La moitié des ancres du pool ne tient pas la barre aujourd'hui : la barre est instable d'une session de notation à l'autre ; la méthode d'écriture reste le premier levier (pilote 2, consigne `consigne-pilote-2.md`).
+
+## Pilote 2 (06/10, nouvelle consigne `consigne-pilote-2.md`, 120 candidates, Alexa ET 4 ancres du pool glissées dans le lot)
+
+- Alexa : 9 chez les 2 relecteurs (cohérent).
+- **Candidates au niveau chez les 2 : 0 sur 120.** ≥ 8 chez les 2 : 2 (P2-008 : 8,5 / 8 ; P2-048 : 8 / 8). Moyennes : 7,14 et 6,66.
+- **Ancres du pool strict (jugées au niveau le 05/10, publiées en ce moment) : 0 sur 4 au niveau chez les 2** (8 / 7 ; 7 / 8,5 ; 8,5 / 7,5 ; 8 / 7,5).
+- Lecture : quand l'étalon est présent dans le lot, les relecteurs placent Alexa à 9 et tout le reste, y compris notre meilleur stock, entre 7 et 8,5. La barre telle qu'elle est mesurée aujourd'hui n'est atteinte ni par la production neuve (P0 : 2 sur 240 ; pilote 2 : 0 sur 120) ni de façon stable par le stock existant. **Décision à soumettre à Thomas** (barre = choix fondateur, non modifiable par la session).

@@ -1,0 +1,61 @@
+{
+  "_lot": "1b, révision 7 (10/10/2026) : 21 candidats (3 par texte) pour les 7 textes de lot-1b-textes-a-relire.md (écarts E2 à E5 de controle-reviewer-lot-1b.md). Fichier à relire : aveugle-1b-r7.md.",
+  "_regle_de_choix": "Barre 8,5 chez les 2 relecteurs (renvois jugés sur vérité + envie de cliquer, légendes sur leur rôle). Par case : retenir le candidat avec la meilleure somme des 2 notes parmi ceux au niveau. Égalité : note minimale la plus haute, puis relecteur 3 à l'aveugle. Aucun au niveau : nouveau tour de 3 candidats, jamais de texte sous la barre (règle d'or s18). Replis déjà prévus si rien ne passe : X sans renvoi ni lien (aveugle-remplacements-cycle8-resultat.md l.7), Instagram légende retenue seule.",
+  "_longueurs": "Comptées avec Grep sur un fichier scratch, regex ^ID\\|.{N}$ (caractères Unicode, espaces et ponctuation compris), pas à la main. Les 21 lignes concordent. Total X = longueurX sans renvoi du dry-run (126 colocation, 156 visio, lien compté 23) + 1 espace + renvoi, plafond 270. Total IG = légende retenue + 1 espace + renvoi, plafond 80.",
+  "_controles": [
+    "Zéro tiret cadratin, zéro URL dans les légendes Instagram, zéro 'deviens-marrant' dans les légendes, zéro 'je' hors guillemets, zéro émoji, zéro prix, zéro 'gratuit'.",
+    "Renvois X : 15 mots au plus (compté), terminés par ':' avant le lien. Renvois IG : 'lien en bio' une seule fois, jamais 'autres' ni 'exemples' (les vannes montrées ne viennent pas de l'article).",
+    "Légendes 1 et 2 : commencent par 'À envoyer à', cible précise, pas de 'ton/ta/tes', pas de 'qui' en tête, pas 'l'ami' (29/10), pas 'ami' ni 'homonyme' dans la légende du 28/10, aucun mot de la carte 2 repris (discours, métro, wagon, version courte, anniversaire ; arc, régionales, entretien, Internet, nom).",
+    "Sources de vérité : docs/copy/articles-q4/S3-humour-en-colocation.md, S5-humour-en-visio.md, docs/copy/articles-forte-frappe/A3-premier-message-appli-rencontre.md (18 messages numérotés, relevés au Grep). [À VÉRIFIER en base avant insertion] : ces trois fichiers sont les brouillons validés, comparer au texte publié (5 situations, 5 ressorts, 18 messages, section s'entraîner)."
+  ],
+  "ordre_aveugle": {
+    "M01": "6c", "M02": "2B", "M03": "4a", "M04": "7b", "M05": "1C", "M06": "3b", "M07": "5c",
+    "M08": "2A", "M09": "6a", "M10": "4c", "M11": "1A", "M12": "7a", "M13": "5a", "M14": "3c",
+    "M15": "2C", "M16": "6b", "M17": "1B", "M18": "4b", "M19": "7c", "M20": "3a", "M21": "5b"
+  },
+  "textes": [
+    {"texte_n": 1, "case": "IG jeu. 22/10 12:30, relais-ig-22-10 (message-anniversaire-drole-par-situation, ligne n°4)", "nature": "légende", "renvoi_fixe": "Les 20 autres textes : lien en bio. (35)", "max_partie": 44,
+      "candidats": [
+        {"id": "1A", "blind": "M11", "texte": "À envoyer à l'oncle qui tapote son verre.", "longueur": 41, "total_avec_renvoi": 77, "tournure": "article défini", "cible": "l'oncle qui s'apprête à trinquer puis parler", "prolonge": "le geste qui précède le discours, sans le nommer"},
+        {"id": "1B", "blind": "M17", "texte": "À envoyer à celui qui se lève au dessert.", "longueur": 41, "total_avec_renvoi": 77, "tournure": "celui qui", "cible": "celui qui prend la parole au dessert", "prolonge": "la prise de parole en fin de repas, sans le mot discours"},
+        {"id": "1C", "blind": "M05", "texte": "À envoyer à celle qui « dit juste un mot ».", "longueur": 43, "total_avec_renvoi": 79, "tournure": "celle qui", "cible": "celle qui annonce 'juste un mot' avant de s'étaler", "prolonge": "l'écart entre le court annoncé et le long réel, par les guillemets", "risque": "proche de l'idée 'version courte' de la carte 2"}
+      ]},
+    {"texte_n": 2, "case": "IG mer. 28/10 12:30, vanne V050 cs14jk7911857c4ff09eb025 (homonyme), sans renvoi", "nature": "légende", "max_partie": 80, "vigilance": "V2 du contrôle : 6,5 / 6,5 en relais au cycle 8 (chute devinée) ; la légende ne doit pas redire le setup.",
+      "candidats": [
+        {"id": "2A", "blind": "M08", "texte": "À envoyer à celui qui s'appelle Martin comme tout le monde.", "longueur": 59, "total_avec_renvoi": 59, "tournure": "celui qui", "cible": "le Martin parmi les Martin", "prolonge": "l'homonymie par le nom le plus courant, sans tir à l'arc"},
+        {"id": "2B", "blind": "M02", "texte": "À envoyer à la Sophie qui reçoit les mails d'une autre Sophie.", "longueur": 62, "total_avec_renvoi": 62, "tournure": "la + prénom + qui", "cible": "la Sophie qui reçoit les mails d'une autre", "prolonge": "la confusion d'identité du quotidien, sans Internet ni entretien"},
+        {"id": "2C", "blind": "M15", "texte": "À envoyer à celle qui était la troisième Léa de sa classe.", "longueur": 58, "total_avec_renvoi": 58, "tournure": "celle qui", "cible": "la Léa en nombre dans sa classe", "prolonge": "les homonymes dès l'école"}
+      ]},
+    {"texte_n": 3, "case": "X lun. 19/10 12:30, humour-en-colocation-desamorcer-tensions (ligne n°1, la poêle)", "nature": "renvoi X", "base_sans_renvoi": 126, "max_renvoi": 143,
+      "candidats": [
+        {"id": "3a", "blind": "M20", "texte": "Les 5 situations de coloc, avec la phrase qui détend et celle qui envenime :", "longueur": 76, "mots": 14, "total": 203, "verite": "5 situations, chacune avec 'ça détend' et 'ça envenime' (S3, H2 des situations)"},
+        {"id": "3b", "blind": "M06", "texte": "Les 4 autres situations de coloc, chacune avec sa phrase qui détend :", "longueur": 69, "mots": 12, "total": 196, "verite": "la poêle vient de la situation 1 (vaisselle) : 4 autres situations (bruit, frigo, ménage, silence), toutes avec un 'ça détend'"},
+        {"id": "3c", "blind": "M14", "texte": "Cinq situations de coloc, et comment trouver la phrase qui te ressemble :", "longueur": 73, "mots": 12, "total": 200, "verite": "5 situations ; 'Prends celles qui sonnent comme toi et adapte les mots à ta voix' (intro des situations) + section s'entraîner"}
+      ]},
+    {"texte_n": 4, "case": "X lun. 02/11 12:30, humour-en-visio-reunion-en-ligne (ressort 1, dix minutes seul avec mon visage)", "nature": "renvoi X", "base_sans_renvoi": 156, "max_renvoi": 113,
+      "candidats": [
+        {"id": "4a", "blind": "M03", "texte": "Les 4 autres ressorts de l'humour en visio, de l'attente à la fin :", "longueur": 67, "mots": 13, "total": 224, "verite": "ressort 1 = ouverture ; 4 autres = attente, panne, chat, fin (S5). Pas de 'exemples' : le ressort 3 n'a pas de citation"},
+        {"id": "4b", "blind": "M18", "texte": "4 autres moments de visio, et que faire si la chute tombe à plat :", "longueur": 66, "mots": 14, "total": 223, "verite": "5 moments, chacun avec 'Si ça tombe à plat' ; FAQ 'Que faire si la chute tombe dans le silence ?'"},
+        {"id": "4c", "blind": "M10", "texte": "5 ressorts de l'humour en visio, et comment s'entraîner à l'écran :", "longueur": 67, "mots": 11, "total": 224, "verite": "5 ressorts ; H2 'Comment s'entraîner à faire rire à l'écran ?' (utilisé à la place de 'comment trouver le tien', non vérifié)"}
+      ]},
+    {"texte_n": 5, "case": "IG lun. 19/10 19:30, relais (vanne du concert cs14jkd9058d03e24961004a, hors article colocation), légende retenue L38 (41)", "nature": "renvoi IG", "max_renvoi": 38,
+      "candidats": [
+        {"id": "5a", "blind": "M13", "texte": "5 situations de coloc : lien en bio.", "longueur": 36, "total": 78, "verite": "5 situations (S3)"},
+        {"id": "5b", "blind": "M21", "texte": "Tensions de coloc : lien en bio.", "longueur": 32, "total": 74, "verite": "titre de l'article : désamorcer les tensions"},
+        {"id": "5c", "blind": "M07", "texte": "Vaisselle, frigo, bruit : lien en bio.", "longueur": 38, "total": 80, "verite": "situations 1, 3 et 2 de l'article (vaisselle, bruit, frigo)"}
+      ]},
+    {"texte_n": 6, "case": "IG jeu. 29/10 19:30, relais (vanne du TGV cs14jk76ca7ad32cce9041ce, hors article appli de rencontre), légende retenue L24 (45)", "nature": "renvoi IG", "max_renvoi": 34,
+      "candidats": [
+        {"id": "6a", "blind": "M09", "texte": "18 messages d'appli : lien en bio.", "longueur": 34, "total": 80, "verite": "18 messages numérotés (A3, Grep : **1.** à **18.**)"},
+        {"id": "6b", "blind": "M16", "texte": "Écrire à un match : lien en bio.", "longueur": 32, "total": 78, "verite": "premier message, réponse et relance après silence (A3)"},
+        {"id": "6c", "blind": "M01", "texte": "Premier message : lien en bio.", "longueur": 30, "total": 76, "verite": "titre de l'article : premier message drôle, appli de rencontre"}
+      ]},
+    {"texte_n": 7, "case": "IG lun. 02/11 19:30, relais (vanne du théâtre cs14jkbc3334e2de46753dcf, hors article visio), légende retenue L19 (44)", "nature": "renvoi IG", "max_renvoi": 35,
+      "candidats": [
+        {"id": "7a", "blind": "M12", "texte": "Le silence en visio : lien en bio.", "longueur": 34, "total": 79, "verite": "H2 sur le timing quand personne ne rit + FAQ 'Que faire si la chute tombe dans le silence ?' (S5) ; fait écho au silence du théâtre"},
+        {"id": "7b", "blind": "M04", "texte": "5 ressorts en visio : lien en bio.", "longueur": 34, "total": 79, "verite": "5 ressorts (S5)"},
+        {"id": "7c", "blind": "M19", "texte": "Faire rire en visio : lien en bio.", "longueur": 34, "total": 79, "verite": "sujet de l'article"}
+      ]}
+  ],
+  "versement_si_retenu": "X : remplacer le renvoi manquant par le texte retenu dans le dry-run (renvoi avant le lien, terminé par ':'). IG : renvoi après la légende retenue, 'lien en bio' une seule fois, ne part que si les liens de bio sont posés la veille. Légendes 1 et 2 : social-lot-v5-legendes.ts, une seule légende par vanne ; relancer le dry-run (section 'Textes NEUFS' = 0) avant insertion. Aucun commit."
+}

@@ -3,8 +3,11 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { prisma } from "@/lib/prisma";
 import { blogArticles } from "@/lib/blog-articles";
+import { isCloudflareWorkers } from "@/lib/runtime-env";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * Cron hebdomadaire audit SEO — vérifie le maillage interne et réconcilie plan/DB.
@@ -93,8 +96,14 @@ async function auditInternalLinks() {
 async function reconcilePlanWithDB() {
   let editorialPlan: { plannedArticles?: { slug: string; status: string; publishedDate?: string }[] } = {};
   try {
-    const planPath = join(process.cwd(), "../../seo-editorial-plan.json");
-    editorialPlan = JSON.parse(readFileSync(planPath, "utf-8"));
+    if (isCloudflareWorkers()) {
+      // Workers : pas de système de fichiers du dépôt à l'exécution → plan
+      // embarqué au build (même fichier racine, lu tel quel).
+      editorialPlan = (await import("../../../../../../../seo-editorial-plan.json")).default;
+    } else {
+      const planPath = join(process.cwd(), "../../seo-editorial-plan.json");
+      editorialPlan = JSON.parse(readFileSync(planPath, "utf-8"));
+    }
   } catch {
     return { error: "Could not load seo-editorial-plan.json" };
   }

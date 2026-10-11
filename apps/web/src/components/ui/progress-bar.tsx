@@ -6,6 +6,8 @@ interface ProgressBarProps {
   value: number;
   max?: number;
   label?: string;
+  /** Nom accessible de la barre quand le libellé visible est ailleurs (ou absent). Prioritaire sur `label`. */
+  ariaLabel?: string;
   showPercentage?: boolean;
   className?: string;
   variant?: "primary" | "secondary" | "gradient";
@@ -15,6 +17,7 @@ export function ProgressBar({
   value,
   max = 100,
   label,
+  ariaLabel,
   showPercentage = false,
   className,
   variant = "primary",
@@ -43,7 +46,7 @@ export function ProgressBar({
         aria-valuenow={value}
         aria-valuemin={0}
         aria-valuemax={max}
-        aria-label={label}
+        aria-label={ariaLabel ?? label}
       >
         <div
           className={cn(

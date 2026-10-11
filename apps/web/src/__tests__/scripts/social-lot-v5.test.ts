@@ -1,0 +1,234 @@
+/**
+ * @jest-environment node
+ *
+ * Lot de relance v5 (s15) : contrôles étendus (R6, LinkedIn 3 phrases, longueur X),
+ * lignes d'article, grille X 5 / Instagram 5 / LinkedIn 2, heures de Paris des deux
+ * côtés du passage à l'heure d'hiver, anti-répétition, Noël, « pain », sorties JSON.
+ * Données simulées, aucune base.
+ */
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
+import { nombreDeSlides, slidesDuPost, texteAlternatifDuPost } from "@/lib/social/generate-post-image";
+import { longueurX } from "@/lib/social/longueur-x";
+import { checkPost, nombreDePhrases, premierePersonne } from "../../../scripts/content/social-controls";
+import { extraireLignes } from "../../../scripts/content/social-article-lines";
+import { citerLigne, parisToUtc, vanneR6, type CatalogueJoke } from "../../../scripts/content/social-month-plan";
+import { buildLotV5, controlerLot, deuxCartes, nombreDeCartes, type ArticleLot, type LotPost } from "../../../scripts/content/social-lot-v5";
+import { FIXES } from "../../../scripts/content/social-lot-v5-fixes";
+import { RESERVEES_NOEL } from "../../../scripts/content/social-lot-v5-config";
+import { fichierLot, renderLotMarkdown, textesNeufs } from "../../../scripts/content/social-lot-v5-export";
+import { lireFichierLot } from "../../../scripts/content/social-lot-v5-insert";
+import { ARTICLES, catalogue, horsRenvoiManquant } from "../helpers/lot-v5-fixtures";
+
+const L1 = "« Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. »\n« Il est là pour prouver qu'on pourrait. »";
+const L2 = "Ton manager t'écrit « t'as deux minutes ? » et rien d'autre. Tu passes les quatre minutes suivantes à t'inventer trois fautes graves, dont une dans un dossier que tu n'as jamais ouvert. Il voulait le code du photocopieur.";
+const VA = "Tu lances une phrase légère en visio et il ne se passe rien : aucun rire, des micros coupés. Pas drôle, ou drôle mais en muet : tu ne le sauras pas. Voici les 5 ressorts de l'humour en visio, et comment les placer :\nhttps://deviens-marrant.fr/blog/humour-en-visio-reunion-en-ligne?utm_source=linkedin&utm_medium=social&utm_campaign=2026-11&utm_content=relais";
+const L3 = "Au tour de table, tu es le suivant, et celui d'avant vient d'évoquer sa boîte montée à 19 ans. Ta présentation commence par « Bonjour, moi c'est » et se termine au même endroit. Voici 5 accroches pour la prolonger, et comment trouver la tienne :\nhttps://deviens-marrant.fr/blog/se-presenter-avec-humour?utm_source=linkedin&utm_medium=social&utm_campaign=2026-10&utm_content=relais";
+
+describe("contrôles étendus (social-controls)", () => {
+  it("R6 : « je » admis entre « », refusé hors guillemets (j'ai compris)", () => {
+    expect(checkPost({ platform: "TWITTER", text: "« J'ai dit oui. »\n« Il a ri. »", quoted: "", r6: true })).toEqual([]);
+    expect(checkPost({ platform: "TWITTER", text: "J'ai dit oui.\nIl a ri.", quoted: "", r6: true })).toContain("« je » hors des « » (R6)");
+    expect(premierePersonne("Au milieu de la soirée, j'ai proposé")).toBe(true);
+    expect(premierePersonne("Avec un collègue, on a comparé nos salaires.")).toBe(true);
+    expect(premierePersonne("Un pote a quitté le groupe.")).toBe(false);
+  });
+
+  it("LinkedIn : 3 phrases au plus (L1, L2, L3 passent ; une 4e phrase bloque)", () => {
+    expect(nombreDePhrases(L1)).toBe(3);
+    expect(nombreDePhrases(L2)).toBe(3);
+    expect(nombreDePhrases(L3)).toBe(3);
+    for (const t of [L1, L2, L3]) expect(checkPost({ platform: "LINKEDIN", text: t, quoted: "", r6: true })).toEqual([]);
+    expect(checkPost({ platform: "LINKEDIN", text: `${L2} Il est reparti.`, quoted: "", r6: true })).toContain("LinkedIn : 4 phrases (max 3)");
+  });
+
+  it("X : longueur comptée par X (lien = 23, espace fine = 2) et plafond 270", () => {
+    const lien = "https://deviens-marrant.fr/quiz-humour?utm_source=x&utm_medium=social&utm_campaign=2026-10&utm_content=quiz";
+    expect(longueurX(`abc ${lien}`)).toBe(27);
+    expect(longueurX("« a »")).toBe(5);
+    expect(longueurX("« a »")).toBe(7);
+    expect(checkPost({ platform: "TWITTER", text: `${"a".repeat(240)} ${lien}`, quoted: "" })).toEqual([]);
+    expect(checkPost({ platform: "INSTAGRAM", text: "x".repeat(81), quoted: "", maxLength: 80 })[0]).toMatch(/trop long/);
+  });
+
+  it("citerLigne : une paire par ligne, « » intérieurs en “ ”", () => {
+    expect(citerLigne("Elle a dit « non ».")).toBe("« Elle a dit “non”. »");
+    expect(vanneR6(["A.", "B."], true)).toBe("« A. »\n« B. »");
+    expect(vanneR6(["A.", "B."], false)).toBe("A.\nB.");
+  });
+});
+
+describe("lignes d'article", () => {
+  const contenu = [
+    "> **En bref :** résumé.",
+    "### 1. Titre",
+    "> « J'ai fait ceci. »",
+    ">",
+    "> « Elle a fait cela. »",
+    "**Pourquoi ça marche :** la chute arrive tard. Seconde phrase.",
+    "**À toi de jouer :** repense à un moment gênant. Puis écris-le.",
+    "> Mon chef a offert un mug. / Depuis, on se surveille.### 2. Suite",
+    "**3.** Joyeux anniversaire. J'ai cherché une photo de nous deux. J'ai trouvé mon pouce.",
+    "**4.** Joyeux anniversaire [prénom] ! Gabarit.",
+    "> Discours 1.", "> Discours 2.", "> Discours 3.",
+  ].join("\n");
+  const cat: CatalogueJoke[] = [{ id: "jmug", setup: "Mon chef a offert un mug.", punchline: "Depuis, on se surveille.", isActive: true, verdict: "GARDER" }];
+  const ls = extraireLignes("art", contenu, cat);
+
+  it("reconnaît citations, amorce / chute, lignes numérotées ; ignore gabarits et discours", () => {
+    expect(ls.map((l) => l.lignes)).toEqual([
+      ["J'ai fait ceci.", "Elle a fait cela."],
+      ["Mon chef a offert un mug.", "Depuis, on se surveille."],
+      ["Joyeux anniversaire. J'ai cherché une photo de nous deux. J'ai trouvé mon pouce."],
+    ]);
+    expect(ls[2].rang).toBe(3);
+  });
+
+  it("décryptage (1re phrase), ligne collée signalée, correspondance au catalogue", () => {
+    expect(ls[0].pourquoi).toBe("la chute arrive tard.");
+    expect(ls[0].jouer).toBe("repense à un moment gênant.");
+    expect(ls[1].coupee).toBe(true);
+    expect(ls[1].catalogueId).toBe("jmug");
+  });
+
+  it("deux cartes : la chute part de la dernière phrase de plus de 3 mots", () => {
+    expect(deuxCartes(["On m'a dit que le discours dispense de vaisselle. Le mien sera long. Joyeux anniversaire."]))
+      .toEqual(["On m'a dit que le discours dispense de vaisselle.", "Le mien sera long. Joyeux anniversaire."]);
+    expect(deuxCartes(["Une seule phrase."])).toBeNull();
+  });
+});
+
+describe("heures de Paris et passage à l'heure d'hiver (dim. 25/10/2026)", () => {
+  it.each([
+    ["2026-10-23", 12, 30, "2026-10-23T10:30:00.000Z"],
+    ["2026-10-23", 19, 30, "2026-10-23T17:30:00.000Z"],
+    ["2026-10-23", 8, 15, "2026-10-23T06:15:00.000Z"],
+    ["2026-10-26", 12, 30, "2026-10-26T11:30:00.000Z"],
+    ["2026-10-26", 19, 30, "2026-10-26T18:30:00.000Z"],
+    ["2026-10-27", 8, 15, "2026-10-27T07:15:00.000Z"],
+  ])("%s %i:%i Paris → %s", (date, h, m, iso) => {
+    expect(parisToUtc(date as string, h as number, m as number).toISOString()).toBe(iso);
+  });
+});
+
+// ── Lot complet sur données simulées (fixtures partagées : helpers/lot-v5-fixtures.ts) ──
+const lot = buildLotV5({ pool: catalogue(), articles: ARTICLES, recents: [{ date: "2026-10-02", sourceId: "t000" }], seed: "test" });
+const parPf = (pf: string) => lot.posts.filter((p) => p.platform === pf);
+const paris = (p: LotPost) => new Date(p.scheduledAt).toLocaleTimeString("fr-FR", { timeZone: "Europe/Paris", hour: "2-digit", minute: "2-digit" });
+
+describe("lot de relance v5 (buildLotV5)", () => {
+  it("aucune erreur hors renvois sans formule v5, X 58, Instagram 58, LinkedIn 24 (silences du 11/11 et du 27/11)", () => {
+    expect(horsRenvoiManquant(lot.errors)).toEqual([]);
+    expect(lot.errors.filter((e) => /renvoi manquant/.test(e)).map((e) => e.split(" : ")[0])).toEqual([
+      "2026-11-02 TWITTER RELAIS", "2026-11-02 INSTAGRAM RELAIS", "2026-11-30 TWITTER toast-x", "2026-11-30 INSTAGRAM toast-ig",
+    ]);
+    expect(controlerLot(lot.posts).errors).toEqual([]);
+    expect([parPf("TWITTER").length, parPf("INSTAGRAM").length, parPf("LINKEDIN").length]).toEqual([58, 58, 24]);
+    expect(lot.posts.some((p) => p.date === "2026-11-11" || p.date === "2026-11-27")).toBe(false);
+  });
+
+  it("heures de Paris fixes des deux côtés du 25/10 : X 12:30, Instagram 19:30, LinkedIn 08:15 (B du test d'heure : X 09:00, Instagram 12:30)", () => {
+    expect(new Set(parPf("TWITTER").filter((p) => p.bras !== "B").map(paris))).toEqual(new Set(["12:30"]));
+    expect(new Set(parPf("INSTAGRAM").filter((p) => p.bras !== "B").map(paris))).toEqual(new Set(["19:30"]));
+    expect(new Set(parPf("TWITTER").filter((p) => p.bras === "B").map(paris))).toEqual(new Set(["09:00"]));
+    expect(new Set(parPf("INSTAGRAM").filter((p) => p.bras === "B").map(paris))).toEqual(new Set(["12:30"]));
+    expect(new Set(parPf("LINKEDIN").map(paris))).toEqual(new Set(["08:15"]));
+  });
+
+  it("les 10 posts validés sont à leur date, textes de marque inchangés (étalon V-A du 03/11 compris)", () => {
+    const v = lot.posts.filter((p) => p.origine === "VALIDE");
+    expect(v.map((p) => `${p.cle} ${p.date}`).sort()).toEqual([
+      "IG1 2026-10-27", "IG2 2026-10-12", "IG3 2026-10-14", "L1 2026-10-15", "L2 2026-10-29", "L3 2026-10-13", "LI-visio-03-11 2026-11-03",
+      "X1 2026-10-13", "X2 2026-10-22", "X3 2026-10-21",
+    ]);
+    expect(v.find((p) => p.cle === "LI-visio-03-11")!.content).toBe(VA);
+    expect(v.find((p) => p.cle === "L2")!.content).toBe(L2);
+    expect(v.find((p) => p.cle === "L3")!.content).toBe(L3);
+    expect(v.find((p) => p.cle === "IG3")!.imageUrls).toHaveLength(4);
+  });
+
+  it("LinkedIn du 24/12 déplacé au 23/12 ; Noël réservé à partir du 24/12", () => {
+    expect(parPf("LINKEDIN").map((p) => p.date)).toContain("2026-12-23");
+    expect(parPf("LINKEDIN").map((p) => p.date)).not.toContain("2026-12-24");
+    for (const p of lot.posts) if (p.vannes.some((k) => RESERVEES_NOEL.includes(k))) expect(p.date >= "2026-12-24").toBe(true);
+  });
+
+  it("anti-répétition : aucune vanne deux fois, ni une vanne postée avant le lot", () => {
+    const cles = lot.posts.flatMap((p) => p.vannes);
+    expect(new Set(cles).size).toBe(cles.length);
+    expect(cles).not.toContain("t000");
+  });
+
+  it("UTM v5 sur chaque lien, relais du lundi et du jeudi, quiz du mercredi", () => {
+    for (const p of lot.posts) if (p.lien) expect(p.lien).toMatch(/utm_source=(x|linkedin)&utm_medium=social&utm_campaign=\d{4}-\d{2}&utm_content=(lundi|jeudi|quiz|saison|relais)$/);
+    expect(lot.posts.find((p) => p.cle === "X2")!.lien).toContain("utm_campaign=2026-10&utm_content=jeudi");
+    expect(lot.posts.find((p) => p.date === "2026-11-04" && p.platform === "TWITTER")!.lien).toContain("/quiz-humour?utm_source=x");
+    expect(lot.posts.find((p) => p.date === "2026-12-31" && p.platform === "LINKEDIN")!.lien).toContain("utm_content=saison");
+  });
+
+  it("R6 : toute vanne à la 1re personne est entre « » sur X et LinkedIn", () => {
+    // Une ligne d'article au « tu » (relais X du 12/10) reste sans guillemets : R6 ne vise que la 1re personne.
+    for (const p of lot.posts.filter((x) => x.platform !== "INSTAGRAM" && x.vannes.length)) {
+      expect(p.content.startsWith("«")).toBe(premierePersonne(p.content.split("\n\n")[0]));
+    }
+  });
+
+  it("relais LinkedIn d'un article à angle bureau (visio) le mardi, au plus 1 par semaine", () => {
+    const li = lot.posts.find((p) => p.date === "2026-11-03" && p.platform === "LINKEDIN")!;
+    expect(li.type).toBe("RELAIS");
+    expect(li.content.split("\n").pop()).toMatch(/^https:\/\/deviens-marrant\.fr\/blog\/humour-en-visio/);
+  });
+
+  it("déterministe : même graine, même lot", () => {
+    const bis = buildLotV5({ pool: catalogue(), articles: ARTICLES, recents: [{ date: "2026-10-02", sourceId: "t000" }], seed: "test" });
+    expect(bis.posts.map((p) => [p.id, p.content])).toEqual(lot.posts.map((p) => [p.id, p.content]));
+  });
+
+  it("aucun renvoi neuf (relais sans formule v5 : sans renvoi, erreur bloquante), formules v5 non signalées", () => {
+    const neufs = textesNeufs(lot.posts).map((t) => t.texte);
+    expect(neufs).not.toContain("Les autres exemples, et comment trouver le tien :");
+    expect(neufs).not.toContain("Les autres exemples : lien en bio.");
+    const visioX = lot.posts.find((p) => p.date === "2026-11-02" && p.platform === "TWITTER")!;
+    expect(visioX.content).not.toMatch(/autres exemples/);
+    expect(lot.errors.some((e) => e.startsWith("2026-11-02 TWITTER RELAIS : renvoi manquant pour humour-en-visio-reunion-en-ligne"))).toBe(true);
+    expect(neufs).not.toContain("Les 21 messages de l'article sont prêts à copier :");
+    expect(renderLotMarkdown(lot.posts, [], [], lot.stockEligible, "test")).toContain("Textes NEUFS à faire passer à la relecture à l'aveugle");
+  });
+});
+
+describe("contrôles du lot (controlerLot)", () => {
+  const base = lot.posts[0];
+  it("bloque une vanne répétée et deux « pain » à moins de 30 jours", () => {
+    const doublon = [base, { ...base, date: "2026-11-02" }];
+    expect(controlerLot(doublon).errors.join(" ")).toMatch(/anti-répétition/);
+    const pain = [{ ...base, vannes: ["a"], content: "« Il est allé chercher du pain. »" }, { ...base, date: "2026-10-20", vannes: ["b"], content: "« Encore du pain. »" }];
+    expect(controlerLot(pain).errors.join(" ")).toMatch(/pain/);
+  });
+});
+
+describe("sorties : JSON d'insertion et carrousel de décryptage", () => {
+  it("lignes APPROVED « thomas-s15 », formats par réseau, relues par lireFichierLot", () => {
+    const f = fichierLot(lot.posts, "test");
+    expect(f.total).toBe(140);
+    expect(new Set(f.posts.map((p) => `${p.status}|${p.approvedBy}`))).toEqual(new Set(["APPROVED|thomas-s15"]));
+    expect(f.posts.find((p) => p.platform === "INSTAGRAM")!.format).toBe("IMAGE_QUI_CLAQUE");
+    expect(f.posts.find((p) => p.platform === "LINKEDIN")!.cta).toBeNull();
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), "lot-"));
+    const ok = path.join(dir, "ok.json");
+    fs.writeFileSync(ok, JSON.stringify(f));
+    expect(lireFichierLot(ok).total).toBe(140);
+    const ko = path.join(dir, "ko.json");
+    fs.writeFileSync(ko, JSON.stringify({ ...f, posts: f.posts.map((p, i) => (i === 0 ? { ...p, status: "PENDING" } : p)) }));
+    expect(() => lireFichierLot(ko)).toThrow(/hors APPROVED/);
+  });
+
+  it("décryptage : 5 parties en base, 4 cartes rendues", () => {
+    const post = { format: "IMAGE_QUI_CLAQUE", hook: "A", content: "deviens-marrant.fr", targetPersona: "YANIS",
+      threadParts: ["J'ai fait\nceci.", "Chute.", "Pourquoi ça fait rire : x.", "À toi de jouer : y.", "Le quiz est dans le lien de la bio."] };
+    expect(nombreDeCartes(post.threadParts)).toBe(4);
+    expect(slidesDuPost(post)).toHaveLength(4);
+    expect(nombreDeSlides(post)).toBe(4);
+    expect(texteAlternatifDuPost(post)).toBe("J'ai fait ceci. Chute.");
+  });
+});

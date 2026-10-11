@@ -1,10 +1,18 @@
 name: Tests CI
 
+# Le repo n'a pas de branche `main` — la branche par défaut est
+# `master` et le développement se fait sur des branches `claude/**`
+# (une par session). On déclenche donc sur push/PR de toutes ces
+# branches pour que la CI tourne quel que soit le workflow.
 on:
   push:
-    branches: [main]
+    branches:
+      - master
+      - "claude/**"
   pull_request:
-    branches: [main]
+    branches:
+      - master
+      - "claude/**"
 
 jobs:
   test:
@@ -15,7 +23,7 @@ jobs:
         image: postgres:15
         env:
           POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: deviens-marrant_test
+          POSTGRES_DB: deviens_marrant_test
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -24,6 +32,10 @@ jobs:
         ports:
           - 5432:5432
 
+    defaults:
+      run:
+        working-directory: apps/web
+
     steps:
       - uses: actions/checkout@v4
 
@@ -35,24 +47,37 @@ jobs:
           cache-dependency-path: apps/web/package-lock.json
 
       - name: Install dependencies
-        run: cd apps/web && npm ci
+        run: npm ci
 
       - name: Generate Prisma Client
-        run: cd apps/web && npx prisma generate
+        run: npx prisma generate
 
       - name: Run unit tests
-        run: cd apps/web && npm test -- --coverage
+        run: npx jest --ci --passWithNoTests
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/deviens-marrant_test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/deviens_marrant_test
+          ANTHROPIC_API_KEY: dummy
+          NEXTAUTH_SECRET: test-secret
+          RESEND_API_KEY: re_dummy
+
+      - name: Typecheck
+        run: npx tsc --noEmit
 
       - name: Build
-        run: cd apps/web && npm run build
+        run: npm run build
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/deviens-marrant_test
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/deviens_marrant_test
+          ANTHROPIC_API_KEY: dummy
+          NEXTAUTH_SECRET: test-secret
+          RESEND_API_KEY: re_dummy
 
   lint:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: apps/web
+
     steps:
       - uses: actions/checkout@v4
 
@@ -64,7 +89,10 @@ jobs:
           cache-dependency-path: apps/web/package-lock.json
 
       - name: Install dependencies
-        run: cd apps/web && npm ci
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
 
       - name: Run linter
-        run: cd apps/web && npm run lint
+        run: npm run lint

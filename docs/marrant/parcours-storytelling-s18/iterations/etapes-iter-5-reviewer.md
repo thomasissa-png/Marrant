@@ -1,0 +1,1 @@
+Étapes 2 à 6, itération 5, relecteur n°1 : R12 et R13 sont appliqués mot pour mot (étape 5, l. 307, 309 et 310 : accord juste, « l'histoire du dentiste », « « Bref. » referme le tiroir »). **Note globale : 10/10**, aucun défaut restant.

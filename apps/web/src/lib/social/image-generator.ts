@@ -1,4 +1,3 @@
-import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import type { ReactNode } from "react";
 import {
@@ -12,8 +11,9 @@ import {
   type LeDefiProps,
 } from "./templates/instagram-templates";
 import { createElement } from "react";
-import { readFile } from "fs/promises";
-import { join } from "path";
+import { isCloudflareWorkers } from "@/lib/runtime-env";
+import type { Slide } from "./carrousel-piste-a";
+import { getFonts } from "./polices";
 
 // ───────────────────────────────────────────────────────────────────
 // Image Generator — satori JSX → SVG → PNG
@@ -21,97 +21,52 @@ import { join } from "path";
 // Génère des images 1080×1080 pour Instagram à partir des templates
 // JSX. Utilise satori (SVG) + resvg-js (PNG).
 //
-// Fonts : Inter (Regular + Bold + ExtraBold) chargées depuis le
-// filesystem local (public/fonts/) au premier appel, avec fallback
-// CDN si les fichiers locaux sont absents. Cache mémoire après
-// premier chargement.
+// Fonts : Inter (Regular + Bold + ExtraBold) et Plus Jakarta Sans
+// (Bold + ExtraBold, police de titre du site et des cartes piste A)
+// chargées par polices.ts (TTF local, puis ASSETS sous Workers, puis
+// CDN), cache mémoire après premier chargement.
 // ───────────────────────────────────────────────────────────────────
 
 const SIZE = 1080;
 
-/** Font buffers (cached in memory after first load) */
-let fontsLoaded: Awaited<ReturnType<typeof loadFonts>> | null = null;
-
-/** CDN fallback URLs — one per weight (correct per-weight URLs) */
-const CDN_URLS: Record<number, string> = {
-  400: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKv0.woff",
-  700: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50ujIw2boKoduKv0.woff",
-  800: "https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50tjIw2boKoduKv0.woff",
-};
-
-async function loadFonts() {
-  const weights = [
-    { weight: 400, name: "Inter Regular", file: "Inter-Regular.ttf" },
-    { weight: 700, name: "Inter Bold", file: "Inter-Bold.ttf" },
-    { weight: 800, name: "Inter ExtraBold", file: "Inter-ExtraBold.ttf" },
-  ] as const;
-
-  const fonts = await Promise.all(
-    weights.map(async ({ weight, name, file }) => {
-      // 1. Try loading TTF from local filesystem (WOFF2 not supported by satori)
-      try {
-        const fontPath = join(process.cwd(), "public", "fonts", file);
-        const buffer = await readFile(fontPath);
-        console.log(`[image-gen] ${name} chargée depuis ${fontPath}`);
-        return {
-          name: "Inter",
-          data: buffer.buffer.slice(
-            buffer.byteOffset,
-            buffer.byteOffset + buffer.byteLength,
-          ),
-          weight: weight as 400 | 700 | 800,
-          style: "normal" as const,
-        };
-      } catch {
-        // Local TTF not found, fall through to CDN
-      }
-
-      // 2. Fallback: fetch WOFF from CDN (supported by satori)
-      const url = CDN_URLS[weight];
-      try {
-        console.warn(
-          `[image-gen] ${name} TTF introuvable localement, fallback CDN WOFF...`,
-        );
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Font fetch failed: ${res.status}`);
-        const buffer = await res.arrayBuffer();
-        return {
-          name: "Inter",
-          data: buffer,
-          weight: weight as 400 | 700 | 800,
-          style: "normal" as const,
-        };
-      } catch (err) {
-        console.warn(`[image-gen] Impossible de charger ${name}:`, err);
-        return null;
-      }
-    }),
-  );
-
-  return fonts.filter(Boolean) as NonNullable<(typeof fonts)[number]>[];
-}
-
-async function getFonts() {
-  if (!fontsLoaded) {
-    fontsLoaded = await loadFonts();
-  }
-  return fontsLoaded;
-}
-
 /**
- * Rend un élément JSX en buffer PNG 1080×1080.
+ * Rend un élément JSX en buffer PNG (1080×1080 par défaut).
  */
-async function renderToPng(element: ReactNode): Promise<Buffer> {
+async function renderToPng(
+  element: ReactNode,
+  width: number = SIZE,
+  height: number = SIZE,
+): Promise<Buffer> {
   const fonts = await getFonts();
 
+  // Cloudflare Workers : resvg-js (binaire natif) est indisponible sous
+  // workerd → rendu via `next/og` (satori + resvg en WebAssembly, pris en
+  // charge par OpenNext). Même JSX, mêmes polices, mêmes dimensions.
+  // Sur Replit, le chemin satori + resvg-js ci-dessous est inchangé.
+  if (isCloudflareWorkers()) {
+    const { ImageResponse } = await import("next/og");
+    const response = new ImageResponse(element as React.ReactElement, {
+      width,
+      height,
+      fonts,
+    });
+    return Buffer.from(await response.arrayBuffer());
+  }
+
+  // Import dynamique, JAMAIS en tête de fichier : à son chargement, le paquet
+  // `satori` compile aussitôt son yoga.wasm embarqué (base64) via
+  // WebAssembly.instantiate(octets), ce que workerd refuse (« Wasm code generation
+  // disallowed by embedder » au cron social de 20:00, s17). Sous Workers on ne
+  // passe jamais ici : next/og utilise les .wasm précompilés fournis par OpenNext.
+  const { default: satori } = await import("satori");
   const svg = await satori(element as React.ReactElement, {
-    width: SIZE,
-    height: SIZE,
+    width,
+    height,
     fonts,
   });
 
   const resvg = new Resvg(svg, {
-    fitTo: { mode: "width", value: SIZE },
+    fitTo: { mode: "width", value: width },
   });
 
   const pngData = resvg.render();
@@ -188,6 +143,18 @@ export async function generateCustomImage(
   element: ReactNode,
 ): Promise<Buffer> {
   return renderToPng(element);
+}
+
+/**
+ * Rend les slides d'un carrousel « piste A » (4:5, 16:9, LinkedIn),
+ * une image PNG par slide, dans l'ordre.
+ */
+export async function renderSlides(slides: Slide[]): Promise<Buffer[]> {
+  const buffers: Buffer[] = [];
+  for (const s of slides) {
+    buffers.push(await renderToPng(s.element, s.width, s.height));
+  }
+  return buffers;
 }
 
 export { SIZE };

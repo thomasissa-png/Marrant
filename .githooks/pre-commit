@@ -1,13 +1,15 @@
 #!/bin/sh
-# Guard: la section Gradient de CLAUDE.md doit rester sous 125 lignes (Règle n°7)
-# Le contenu custom du projet (hors marqueurs) n'est pas limité.
+# Pre-commit hook Marrant — appelé par git si core.hooksPath = .githooks
+# (configuration : `git config core.hooksPath .githooks` — à faire 1x par poste)
+
+# ============================================================
+# Guard 1 : section Gradient de CLAUDE.md sous 125 lignes (Règle n°7)
+# ============================================================
 MAX=125
 if [ -f "CLAUDE.md" ]; then
   if grep -q "GRADIENT-AGENTS-START" CLAUDE.md; then
-    # Compter uniquement les lignes entre les marqueurs
     LINES=$(sed -n '/GRADIENT-AGENTS-START/,/GRADIENT-AGENTS-END/p' CLAUDE.md | wc -l)
   else
-    # Pas de marqueurs = tout le fichier est Gradient
     LINES=$(wc -l < CLAUDE.md)
   fi
   if [ "$LINES" -gt "$MAX" ]; then
@@ -16,3 +18,27 @@ if [ -f "CLAUDE.md" ]; then
     exit 1
   fi
 fi
+
+# ============================================================
+# Guard 2 : cohérence enums Prisma vs usages code (anti-récidive bugs P0
+# session 8 — MINI_STANDUP/POTE_AU_TAF/IMAGE_QUI_CLAQUE/WILD_CARD)
+# Ne s'exécute que si schema.prisma OU apps/web/src/ ont été modifiés.
+# ============================================================
+STAGED=$(git diff --cached --name-only)
+if echo "$STAGED" | grep -qE "apps/web/prisma/schema\.prisma|apps/web/src/.*\.(ts|tsx)$"; then
+  if [ -x "scripts/check-prisma-enums.sh" ]; then
+    echo "Pre-commit: vérification cohérence enums Prisma..."
+    if ! bash scripts/check-prisma-enums.sh > /tmp/enum-check.log 2>&1; then
+      echo "BLOCKED: incohérence enum Prisma détectée."
+      tail -50 /tmp/enum-check.log
+      echo ""
+      echo "Si la chaîne est attendue hors enum (ex: nouvelle constante interne) :"
+      echo "  → ajouter à WHITELIST dans scripts/check-prisma-enums.sh puis recommiter"
+      echo "Si la chaîne devrait être un enum :"
+      echo "  → ajouter la valeur à l'enum dans apps/web/prisma/schema.prisma"
+      exit 1
+    fi
+    echo "Pre-commit: enums Prisma OK."
+  fi
+fi
+

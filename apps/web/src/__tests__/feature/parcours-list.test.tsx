@@ -1,6 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import ParcoursPage from "@/app/(dashboard)/parcours/page";
+import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
+import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+
+/** s18 : 4 parcours une fois Storytelling publié. */
+const NB = 3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0);
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -25,14 +30,16 @@ jest.mock("next/navigation", () => ({
 }));
 
 describe("ParcoursPage — Parcours structurés", () => {
-  beforeEach(() => {
-    render(<ParcoursPage />);
+  beforeEach(async () => {
+    // ParcoursPage est un async Server Component depuis s11 lot 2
+    const Page = await ParcoursPage();
+    render(Page);
   });
 
   it("renders the page header with title and description", () => {
     expect(screen.getByText(/Parcours humour : deviens drôle pas à pas/)).toBeInTheDocument();
     expect(
-      screen.getByText(/3 parcours structurés pour progresser en humour/)
+      screen.getByText(new RegExp(`${NB} parcours pour progresser en humour`))
     ).toBeInTheDocument();
   });
 
@@ -45,46 +52,54 @@ describe("ParcoursPage — Parcours structurés", () => {
   it("shows the duration and time per week for each parcours", () => {
     expect(screen.getByText("4 semaines")).toBeInTheDocument();
     expect(screen.getByText("3 semaines")).toBeInTheDocument();
-    expect(screen.getByText("6 semaines")).toBeInTheDocument();
+    expect(screen.getAllByText("6 semaines")).toHaveLength(NB - 2);
     expect(screen.getAllByText(/min\/semaine/).length).toBeGreaterThanOrEqual(3);
   });
 
-  it("shows difficulty badges", () => {
-    const intermediaire = screen.getAllByText("DEBUTANT \u2192 INTERMEDIAIRE");
-    expect(intermediaire).toHaveLength(2);
-    expect(screen.getByText("DEBUTANT \u2192 EXPERT")).toBeInTheDocument();
+  it("shows difficulty badges with human labels (s12 T27)", () => {
+    // Seed s17 (lot D) : niveaux harmonisés, « Expert » disparaît.
+    const intermediaire = screen.getAllByText("Débutant → Intermédiaire");
+    expect(intermediaire).toHaveLength(NB - 1);
+    expect(screen.getByText("Débutant")).toBeInTheDocument();
+    expect(screen.queryByText(/Expert/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/DEBUTANT/)).not.toBeInTheDocument();
   });
 
+  // s11 : textes des parcours réécrits — les attentes sont dérivées du seed
+  // (source de vérité) pour ne pas figer la copy dans les tests.
+  const bodyText = () => (document.body.textContent ?? "").replace(/\s+/g, " ");
+  const norm = (t: string) => t.replace(/\s+/g, " ").trim();
+
   it("shows persona targeting text for each parcours", () => {
-    expect(screen.getByText(/Idéal si tu travailles en équipe/)).toBeInTheDocument();
-    expect(screen.getByText(/Pour toi si tu es étudiant/)).toBeInTheDocument();
-    expect(screen.getByText(/Parfait si tu veux renouer/)).toBeInTheDocument();
+    for (const p of parcoursSeed) {
+      expect(bodyText()).toContain(norm(p.personaTagline));
+    }
   });
 
   it("shows testimonials for each parcours", () => {
-    expect(screen.getByText(/muette à la machine à café/)).toBeInTheDocument();
-    expect(screen.getByText(/meilleures répliques/)).toBeInTheDocument();
-    expect(screen.getByText(/Ce parcours m'a aidé à retrouver/)).toBeInTheDocument();
+    for (const p of parcoursSeed) {
+      expect(bodyText()).toContain(norm(p.testimonial).slice(0, 40));
+    }
   });
 
   it("renders CTA buttons for each parcours", () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
-    expect(buttons).toHaveLength(3);
+    expect(buttons).toHaveLength(NB);
     buttons.forEach((btn) => {
       expect(btn.tagName).toBe("BUTTON");
     });
   });
 
-  it("opens auth modal when CTA button is clicked", async () => {
+  it("anonyme : le CTA mène directement au parcours, sans /register (s15 §2.7, étape 1 en lecture libre)", async () => {
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(screen.getByRole("dialog")).toBeInTheDocument();
-    expect(screen.getByText("Inscription")).toBeInTheDocument();
+    expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+\?src=hub$/));
+    expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
   });
 
-  it("shows Essai gratuit badges on free modules", () => {
-    const badges = screen.getAllByText("Essai gratuit");
-    expect(badges).toHaveLength(3); // One per parcours (Semaine 1)
+  it("shows Lecture libre badges on free modules", () => {
+    const badges = screen.getAllByText("Lecture libre");
+    expect(badges).toHaveLength(NB); // One per parcours (Semaine 1)
   });
 
   it("shows exercise format descriptions", () => {
@@ -92,55 +107,47 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("shows XP rewards on modules", () => {
-    expect(screen.getAllByText("+50 XP").length).toBe(3);
-    expect(screen.getAllByText("+75 XP").length).toBe(3);
+    expect(screen.getAllByText("+50 XP").length).toBe(NB);
+    expect(screen.getAllByText("+75 XP").length).toBe(NB);
   });
 
-  it("shows weekly modules for Parcours Répartie", () => {
-    expect(screen.getByText("Les bases de la répartie")).toBeInTheDocument();
-    expect(screen.getByText(/Le rythme et les silences/)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Retourner les piques avec le sourire/)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Répartie avancée et improvisation/)).toBeInTheDocument();
-  });
+  it.each(["repartie", "machine-a-cafe", "confiance"])(
+    "shows weekly modules for parcours %s",
+    (slug) => {
+      const p = parcoursSeed.find((x) => x.slug === slug)!;
+      for (const step of p.steps) {
+        expect(bodyText()).toContain(norm(step.moduleTitle));
+      }
+    }
+  );
 
-  it("shows weekly modules for Parcours Machine à Café", () => {
-    expect(
-      screen.getByText("Vannes courtes et mémorisables")
-    ).toBeInTheDocument();
-    expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
-    expect(screen.getByText(/Raconter une anecdote captivante/)).toBeInTheDocument();
-  });
-
-  it("shows weekly modules for Parcours Confiance", () => {
-    expect(
-      screen.getByText("Redécouvrir ce qui te fait rire")
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Rire de soi avec bienveillance/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/L'art de l'observation comique/)
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Être à l'aise en groupe/)
-    ).toBeInTheDocument();
-    expect(screen.getByText(/Les registres avancés/)).toBeInTheDocument();
-    expect(
-      screen.getByText(/Affirmer ton style personnel/)
-    ).toBeInTheDocument();
-  });
-
-  it("shows progress bars", () => {
-    const bars = screen.getAllByTestId("progress-bar");
-    expect(bars).toHaveLength(3);
+  it("hides empty progress bars before any step is done (s12 T26)", () => {
+    expect(screen.queryAllByTestId("progress-bar")).toHaveLength(0);
   });
 
   it("shows total XP to earn", () => {
-    expect(screen.getByText("225 XP à gagner")).toBeInTheDocument();
-    expect(screen.getByText("375 XP à gagner")).toBeInTheDocument();
-    expect(screen.getByText("700 XP à gagner")).toBeInTheDocument();
+    // s17 QA-07 : bonus de fin compris (50 + 75 + 100 + 100).
+    expect(screen.getByText(/325 XP à gagner/)).toBeInTheDocument();
+    expect(screen.getByText(/475 XP à gagner/)).toBeInTheDocument();
+    // s18 : Storytelling publié = 700 + 100, comme Confiance.
+    expect(screen.getAllByText(/800 XP à gagner/)).toHaveLength(1 + (STORYTELLING_PUBLIE ? 1 : 0));
+    // s19 : Boulot publié = 600 (6 étapes) + 100 de bonus.
+    if (BOULOT_PUBLIE) expect(screen.getByText(/700 XP à gagner/)).toBeInTheDocument();
+  });
+
+  it("s19 : intro et liens SSR suivent les parcours publiés (Storytelling oui, Boulot non)", () => {
+    const liens = Array.from(document.querySelectorAll("ul.sr-only a")).map((a) => a.getAttribute("href"));
+    expect(liens).toHaveLength(NB);
+    // Interrupteurs actuels (Storytelling publié, Boulot pas encore) : texte et liens exacts.
+    if (STORYTELLING_PUBLIE && !BOULOT_PUBLIE) {
+      expect(bodyText()).toContain(
+        "chacun taillé pour une situation : Machine à Café, Répartie, Confiance et Storytelling.",
+      );
+      expect(liens).toHaveLength(4);
+    }
+    expect(liens.includes("/parcours/storytelling")).toBe(STORYTELLING_PUBLIE);
+    expect(liens.includes("/parcours/boulot")).toBe(BOULOT_PUBLIE);
+    expect(bodyText().includes("Confiance et Storytelling.")).toBe(STORYTELLING_PUBLIE && !BOULOT_PUBLIE);
   });
 
   it("renders the FAQ section", () => {
@@ -164,11 +171,22 @@ describe("ParcoursPage — Parcours structurés", () => {
   });
 
   it("orientation quiz recommends a parcours after answering", async () => {
+    // s19 : la raison Boulot est aussi la fin de la description de la fiche (carte du hub, liens SSR) :
+    // on compte ses occurrences avant le quiz pour vérifier que le résultat en ajoute une.
+    const raisonBoulot = /une version sans risque au boulot, et ta vanne vise toujours la situation/;
+    const avant = screen.queryAllByText(raisonBoulot).length;
     // Answer both questions
     await userEvent.click(screen.getByText(/Au boulot, en réunion/));
-    await userEvent.click(screen.getByText(/Je manque de blagues/));
-    expect(screen.getByText("On te recommande :")).toBeInTheDocument();
+    await userEvent.click(screen.getByText(/rien de drôle à raconter/));
+    expect(screen.getByText("Ton point de départ :")).toBeInTheDocument();
     expect(screen.getByText("Voir ce parcours")).toBeInTheDocument();
+    // s19 point 1 : « Au boulot » ne mène à Boulot qu'une fois publié (état réel de l'interrupteur ;
+    // l'état forcé à true est couvert par parcours-orientation-boulot.test.tsx).
+    if (BOULOT_PUBLIE) {
+      expect(screen.queryAllByText(raisonBoulot)).toHaveLength(avant + 1);
+    } else {
+      expect(screen.getByText("Tu veux avoir de quoi raconter à la pause, autre chose que la météo.")).toBeInTheDocument();
+    }
   });
 });
 
@@ -191,9 +209,25 @@ describe("ParcoursPage — authenticated user", () => {
   });
 
   it("navigates to /parcours/[slug] when authenticated user clicks CTA", async () => {
-    render(<ParcoursPage />);
+    const Page = await ParcoursPage();
+    render(Page);
     const buttons = screen.getAllByText("Commencer ce parcours");
     await userEvent.click(buttons[0]);
-    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe");
+    expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe?src=hub");
+  });
+
+  it("keeps programmes collapsed and opens the one the orientation quiz recommends (s12 T23/T24)", async () => {
+    const Page = await ParcoursPage();
+    render(Page);
+    const programme = (slug: string) =>
+      document.querySelector(`#parcours-${slug} details`) as HTMLDetailsElement;
+    expect(programme("repartie").open).toBe(false);
+
+    await userEvent.click(screen.getByText("En soirée, avec mes potes, en coloc"));
+    await userEvent.click(screen.getByText("Je ne sais pas quoi répondre sur le moment"));
+    await userEvent.click(screen.getByText("Voir ce parcours"));
+
+    expect(programme("repartie").open).toBe(true);
+    expect(programme("confiance").open).toBe(false);
   });
 });

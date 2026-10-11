@@ -66,6 +66,13 @@ model User {
   xp            Int       @default(0)
   streak        Int       @default(0)
   lastActiveAt  DateTime?
+  // s17 (D3) : série de jours comptée sur la PRATIQUE (validation d'étape,
+  // quiz d'étape terminé), plus sur la connexion. Jour civil de Paris.
+  lastPracticeAt DateTime?
+  // CEO Agent — fenêtre attribution conversion 7j (cf docs/product/ceo-agent-specs.md §11)
+  lastCeoTouchpoint DateTime?
+  // Si true, le CEO ne contacte JAMAIS cet utilisateur (vérif synchrone avant tout draft)
+  emailOptOut       Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -78,7 +85,12 @@ model User {
   subscription Subscription?
   jokeLikes    JokeLike[]
   pathProgress  UserPathProgress[]
+  pathStepCompletions UserPathStepCompletion[]
+  pathStepFeedbacks   UserPathStepFeedback[]
+  parcoursReminder    ParcoursReminderPreference?
   featureVotes  FeatureVote[]
+  ceoLead       CeoLead?
+  pushTokens   PushToken[]
 
   @@index([email])
 }
@@ -113,6 +125,24 @@ model Joke {
 
   generatedByAI Boolean       @default(false)
 
+  // Décryptage pédagogique (nullable — back-fill Phase 1b sur les vannes existantes)
+  comedyTechnique      String? @db.Text // Nom court de la technique, ex "L'exagération temporelle"
+  techniqueExplanation String? @db.Text // 2-3 phrases : POURQUOI ça marche
+  howToApply           String? @db.Text // "À toi de jouer" : 1 consigne + 1 exemple
+
+  // Relecture automatique s11 (charte refonte copy) — nullable, réversible.
+  // copyReviewedAt : timestamp de la dernière relecture (par version de charte).
+  // copyReviewVersion : version de la charte relue (défaut 1). Si la charte évolue,
+  //   les vannes non relues pour la nouvelle version sont retraitées.
+  // copyVerdict : verdict du Director (GARDER / RÉÉCRIRE / RETIRER).
+  // originalContent/originalPunchline : version d'origine avant réécriture
+  //   (permet rollback + audit).
+  copyReviewedAt      DateTime? // date de la dernière relecture Director s11
+  copyReviewVersion   Int?      // version de la charte de relecture appliquée
+  copyVerdict         String?   // "GARDER" | "REECRIRE" | "RETIRER"
+  originalContent     String?   @db.Text // contenu avant réécriture s11 (si REECRIRE)
+  originalPunchline   String?   @db.Text // punchline avant réécriture s11 (si REECRIRE)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -120,6 +150,7 @@ model Joke {
 
   @@index([category])
   @@index([isActive])
+  @@index([copyReviewedAt])
 }
 
 enum JokeCategory {
@@ -180,6 +211,13 @@ model Tip {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 
+  // Relecture automatique s11 (charte refonte copy) — nullable, réversible.
+  copyReviewedAt    DateTime? // date de la dernière relecture Director s11
+  copyReviewVersion Int?      // version de la charte de relecture appliquée
+  copyVerdict       String?   // "GARDER" | "REECRIRE" | "RETIRER"
+  originalTitle     String?   // titre avant réécriture s11 (si REECRIRE)
+  originalContent   String?   @db.Text // contenu avant réécriture s11 (si REECRIRE)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -188,6 +226,7 @@ model Tip {
   @@index([category])
   @@index([difficulty])
   @@index([isActive])
+  @@index([copyReviewedAt])
 }
 
 enum TipCategory {
@@ -225,6 +264,8 @@ model LearningPath {
 
   steps       LearningPathStep[]
   userProgress UserPathProgress[]
+  stepCompletions UserPathStepCompletion[]
+  stepFeedbacks   UserPathStepFeedback[]
 
   @@index([isActive])
 }
@@ -257,6 +298,67 @@ model UserPathProgress {
 
   @@unique([userId, learningPathId])
   @@index([userId])
+}
+
+/// s17 : date de validation de chaque étape (mesure du rythme, Q5/Q6 du
+/// rapport du lundi). L'unicité rend la double validation impossible (FS-08).
+/// Aucune réponse de quiz, aucun champ libre (avis @legal C13).
+model UserPathStepCompletion {
+  id             String   @id @default(cuid())
+  userId         String
+  learningPathId String
+  stepOrder      Int
+  completedAt    DateTime @default(now())
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, learningPathId, stepOrder])
+  @@index([completedAt])
+}
+
+/// s17 (PM-06) : retour facultatif sur l'exercice d'une étape, 3 valeurs
+/// fermées (`pas-essaye` | `essaye-bof` | `essaye-ca-a-marche`), jamais exigé
+/// pour valider (avis @legal C13).
+model UserPathStepFeedback {
+  id             String   @id @default(cuid())
+  userId         String
+  learningPathId String
+  stepOrder      Int
+  retour         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  learningPath LearningPath @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, learningPathId, stepOrder])
+}
+
+/// s17 (D7) : rappel e-mail hebdomadaire des parcours, SUR DEMANDE
+/// (consentement, désactivé par défaut). Preuve conservée (avis @legal C1-C2) :
+/// activation, jour, version du texte affiché, date et origine de l'arrêt.
+model ParcoursReminderPreference {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  enabled          Boolean   @default(false)
+  /// Jour ISO de Paris : 1 = lundi … 7 = dimanche.
+  weekday          Int       @default(1)
+  activatedAt      DateTime?
+  /// Version du texte affiché à côté de la case au moment de l'activation.
+  consentVersion   String?
+  stoppedAt        DateTime?
+  /// `profil` | `lien-email` | `fin-premium` | `suppression`
+  stopOrigin       String?
+  /// Semaine de Paris (lundi AAAA-MM-JJ) du dernier envoi : un seul par semaine (C5).
+  lastSentWeek     String?
+  lastSentAt       DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([enabled, weekday])
 }
 
 // ==========================================
@@ -403,17 +505,82 @@ model Subscription {
   stripeSubscriptionId String?            @unique
   status               SubscriptionStatus @default(INACTIVE)
   currentPeriodEnd     DateTime?
+  // Formule annuelle (s14, 04/10/2026) : renseignés par le webhook Stripe depuis
+  // le prix réel de l'abonnement. NULL = abonnement antérieur pas encore resynchronisé.
+  billingInterval      String? // "month" | "year" (price.recurring.interval)
+  priceAmountCents     Int? // montant réel du prix Stripe (ex. 99, 299, 2499)
+  cancelAtPeriodEnd    Boolean            @default(false)
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  renewalReminders RenewalReminder[]
+}
+
+/// Rappel légal de reconduction de l'annuel (L.215-1) : une ligne par
+/// (abonnement, fin de période), insérée AVANT l'envoi = anti-doublon.
+model RenewalReminder {
+  id             String    @id @default(cuid())
+  subscriptionId String
+  periodEnd      DateTime
+  status         String    @default("PENDING") // PENDING | SENT | FAILED
+  sentAt         DateTime?
+  error          String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@unique([subscriptionId, periodEnd])
+  @@index([status])
 }
 
 model WebhookEvent {
-  id          String   @id
+  id          String   @id @default(cuid())
+  eventId     String   @unique
+  provider    String?  // "stripe" | "revenuecat" | ...
+  eventType   String?  // type de l'event (ex: "INITIAL_PURCHASE")
+  receivedAt  DateTime @default(now())
   processedAt DateTime @default(now())
 
   @@index([processedAt])
+  @@index([provider, eventType])
+}
+
+/// Demande de rétractation (14 jours, L.221-18) envoyée depuis /retractation
+/// (s16, 07/10/2026). Conservée même si le compte est supprimé : pas de clé
+/// étrangère, `userId` est seulement le compte trouvé pour l'e-mail saisi.
+model RetractationRequest {
+  id             String    @id @default(cuid())
+  email          String
+  userId         String?
+  purchaseDate   DateTime?
+  motif          String?
+  status         String    @default("RECUE") // RECUE | TRAITEE
+  ipHash         String?
+  adminEmailedAt DateTime?
+  ackEmailedAt   DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([email, createdAt])
+  @@index([status])
+}
+
+/// Push notification tokens (FCM Android + APNs iOS) — Phase 5 mobile.
+/// Un user peut avoir plusieurs devices, mais un token est unique.
+model PushToken {
+  id         String   @id @default(cuid())
+  userId     String
+  token      String   @unique
+  platform   String   // "android" | "ios"
+  lastSeenAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([lastSeenAt])
+  @@index([platform])
 }
 
 enum SubscriptionStatus {
@@ -490,6 +657,10 @@ model SocialPost {
   publishedAt     DateTime?
   externalId      String?             // ID du post sur la plateforme (tweet ID, etc.)
   imageUrl        String?             // URL Replit Object Storage pour images Instagram (pré-générées)
+  imageUrls       String[]            @default([]) // s15 : carrousel, URL des slides dans l'ordre (vide = URL dérivées /api/social/image?slide=N)
+  bufferStatus    String?             // s15 : dernier statut relu chez Buffer (sent, error, scheduled, sending, draft, introuvable, non_confirme)
+  bufferCheckedAt DateTime?           // s15 : date de la dernière relecture Buffer
+  alertedAt       DateTime?           // s15 : alerte d'anomalie envoyée (null = alerte encore à envoyer)
   // Analytics (remplies par le cron social-analytics)
   impressions     Int                 @default(0)
   likes           Int                 @default(0)
@@ -503,6 +674,19 @@ model SocialPost {
   @@index([platform])
   @@index([scheduledAt])
   @@index([publishedAt])
+  @@index([bufferStatus])
+}
+
+/// s15 : interrupteur Pause / Reprise par réseau, modifiable depuis l'admin
+/// sans redéploiement. Ligne absente ou base illisible = réseau EN PAUSE.
+model SocialPlatformSetting {
+  platform     SocialPlatform @id
+  paused       Boolean        @default(true)
+  reason       String?        @db.Text
+  changedBy    String?        // "admin" | "auto" (canal Buffer déconnecté) | "migration"
+  pausedAt     DateTime?
+  alertSentAt  DateTime?      // alerte de mise en pause automatique envoyée
+  updatedAt    DateTime       @updatedAt
 }
 
 enum SocialPlatform {
@@ -519,6 +703,9 @@ enum SocialFormat {
   POST
   QUOTE_ANALYSIS
   TECHNIQUE_DU_JOUR
+  MINI_STANDUP        // s7 : Twitter
+  POTE_AU_TAF         // s7 : LinkedIn
+  IMAGE_QUI_CLAQUE    // s7 : Instagram
 }
 
 enum SocialPostStatus {
@@ -588,4 +775,355 @@ model LlmUsageLog {
   @@index([createdAt])
   @@index([agent, fn])
   @@index([createdAt, agent])
+}
+
+/// Lock idempotent au jour près pour `runDailySocialJob`.
+/// Corrige P1 s08/04 race condition intra-heure : si le run de 4h UTC dépasse
+/// 15 min, le scheduler peut relancer un 2e run avant que le 1er termine ses
+/// INSERT SocialPost → duplication. Le lock garantit qu'un seul run/jour
+/// franchit la barrière, même en cas de fenêtre catch-up multiple.
+///
+/// Différent de `JobLock` (TTL court, lock par run) : ici PK unique par jour,
+/// pas de TTL — le lock vit la journée et est nettoyé par cron de purge.
+model SocialPostDailyLock {
+  id        String   @id @default(cuid())
+  dateUTC   String   @unique // format "YYYY-MM-DD" (UTC)
+  createdAt DateTime @default(now())
+}
+
+// ==========================================
+// CEO AGENT — Phase 5 (cf docs/product/ceo-agent-specs.md)
+// ==========================================
+
+/// Configuration runtime du CEO Agent — kill-switch, budget, toggles auto-send.
+/// Une seule ligne en DB (singleton). Toggle depuis `/admin/ceo`.
+model CeoConfig {
+  id                    String   @id @default(cuid())
+  enabled               Boolean  @default(false) // false = ceoTick return immédiat
+  dailyBudgetEur        Float    @default(2.0)
+  maxActionsPerTick     Int      @default(3)
+  autoSendEmail         Boolean  @default(false) // true à partir de S3
+  autoSendDm            Boolean  @default(false) // true à partir de S4
+  killSwitchReason      String?  // raison si enabled=false (audit CNIL)
+  socialOutboundEnabled Boolean  @default(false) // toggle mois 3+
+  dryRun                Boolean  @default(true)  // si true, tout en DRAFT (jamais envoyé)
+  updatedAt             DateTime @updatedAt
+}
+
+/// Task store persistant — cœur de l'agent. Un row = une action planifiée.
+model CeoTask {
+  id           String        @id @default(cuid())
+  type         CeoTaskType
+  status       CeoTaskStatus @default(PENDING)
+  payload      Json          // données contextuelles (leadId, playbookId, opportunityId, signal, etc.)
+  scheduledFor DateTime
+  attempts     Int           @default(0) // max 3, au-delà = FAILED
+  contestedAt  DateTime?     // art. 22 RGPD — contestation utilisateur
+  result       Json?         // résultat de l'exécution (messageId, errorCode, etc.)
+  errorMessage String?       @db.Text
+  createdAt    DateTime      @default(now())
+  startedAt    DateTime?
+  completedAt  DateTime?
+
+  @@index([status])
+  @@index([scheduledFor])
+  @@index([type])
+}
+
+/// Mémoire long-terme + court-terme de l'agent (clé/valeur, namespace par préfixe).
+/// Exemples de clés : "weekly_report:last_generated_at", "lead:<id>:last_signal", "global:top_playbook_30d"
+model CeoMemory {
+  id        String    @id @default(cuid())
+  namespace String    // ex: "global", "lead:<id>", "weekly_report"
+  key       String
+  value     Json
+  expiresAt DateTime? // TTL optionnel (mémoire court-terme)
+  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now())
+
+  @@unique([namespace, key])
+  @@index([namespace])
+  @@index([expiresAt])
+}
+
+/// CRM léger — leads identifiés et scorés.
+model CeoLead {
+  id             String        @id @default(cuid())
+  userId         String?       @unique
+  email          String?       // clair ici (champ protégé), hashé dans CeoAuditLog
+  socialHandle   String?
+  source         String        // "email_signup" | "twitter_dm" | "linkedin_mention" | "instagram_dm" | "haro_press"
+  score          Int           @default(0) // signaux S1-S12 → 0-50
+  signals        Json          @default("{}") // snapshot signaux actifs
+  status         CeoLeadStatus @default(COLD)
+  lastContactAt  DateTime?
+  lastPlaybook   String?       // dernier playbook utilisé (P1-P7)
+  touchpoints    Int           @default(0) // max 3 sur durée de vie free
+  optOut         Boolean       @default(false) // opposition art. 21 RGPD
+  history        Json          @default("[]") // tableau interactions CEO
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user     User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  messages CeoOutboundMessage[]
+
+  @@index([status])
+  @@index([score])
+  @@index([userId])
+}
+
+/// Messages outbound + inbound, tous canaux confondus.
+/// PII protégé : `recipient` clair ici, hashé dans CeoAuditLog.
+model CeoOutboundMessage {
+  id                  String              @id @default(cuid())
+  channel             CeoOutboundChannel
+  direction           CeoOutboundDirection @default(OUTBOUND)
+  recipient           String              // email ou handle social
+  subject             String?             // emails uniquement
+  content             String              @db.Text
+  status              CeoOutboundStatus   @default(PENDING)
+  directorScore       Int?                // score Stand-Up Director (0-10)
+  directorValidated   Boolean             @default(false)
+  directorNote        String?             @db.Text
+  playbook            String?             // P1-P7 ou "backlink_<source>"
+  // Patch HAUTE Phase 3 : passage S2→S3 critère "drafts validés sans correction"
+  requiresHumanReview Boolean             @default(false)
+  sentAt              DateTime?
+  opens               Int                 @default(0)
+  clicks              Int                 @default(0)
+  replies             Int                 @default(0)
+  repliedAt           DateTime?
+  externalId          String?             // ID Resend / Buffer / Twitter pour tracking
+  leadId              String?
+  // Patch HAUTE Phase 3 : tracking UTM pour attribution conversion (fenêtre 7j)
+  utmSource           String?             // "ceo"
+  utmCampaign         String?             // playbook ID (P1-P7) ou "backlink_haro" etc.
+  utmMedium           String?             // channel (email, twitter, linkedin, ig)
+  createdAt           DateTime            @default(now())
+  updatedAt           DateTime            @updatedAt
+
+  lead CeoLead? @relation(fields: [leadId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([channel])
+  @@index([leadId])
+  @@index([sentAt]) // requêtes attribution rolling 7j
+  @@index([direction])
+}
+
+/// Snapshot quotidien des KPIs CEO (alimente dashboard `/admin/ceo`).
+/// Cron `/api/cron/ceo-kpis-snapshot` insère 1 ligne/jour à 5h UTC.
+model CeoKpiSnapshot {
+  id                        String   @id @default(cuid())
+  date                      DateTime @unique @db.Date
+  // North Star : (opens + replies + clicks) / total_sent sur 30j glissants
+  northStarEngagement30d    Float
+  // Satellites
+  emailReplyRate            Float
+  siteReturn48h             Float
+  emailOpenRate             Float
+  // Opérationnels
+  killSwitchTriggers24h     Int
+  directorFailRate          Float
+  draftsAutoSendRatio       Json     // { email: 0.8, twitter: 0.3, ... }
+  costPerAcquiredSubscriber Float?   // null si 0 conversion attribuée
+  ceoAttributedConversions  Int
+  backlinksDaSum            Int      // somme DA des backlinks acquis
+  createdAt                 DateTime @default(now())
+
+  @@index([date])
+}
+
+/// Backlinks — pitchs envoyés et acquisitions.
+model CeoBacklink {
+  id             String              @id @default(cuid())
+  source         CeoBacklinkSource
+  domain         String
+  url            String?
+  pageTitle      String?
+  anchorText     String?
+  da             Int?
+  daReportedBy   String?             // "moz_free" | "hypothese" | "gsc"
+  linkType       String?             // "dofollow" | "nofollow" | "unknown"
+  status         CeoBacklinkStatus   @default(PITCHED)
+  relevanceScore Int?                // 1-10, score filtrage CEO
+  pitchedAt      DateTime            @default(now())
+  repliedAt      DateTime?
+  acquiredAt     DateTime?
+  verifiedAt     DateTime?
+  notes          String?             @db.Text
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  @@index([status])
+  @@index([domain])
+  @@index([source])
+}
+
+/// Audit trail RGPD — rétention 3 ans obligatoire (CNIL art. 30).
+/// PII masqué : `targetIdHashed` = SHA256(email ou handle), JAMAIS de PII clair.
+model CeoAuditLog {
+  id              String   @id @default(cuid())
+  timestamp       DateTime @default(now())
+  action          String   // "email_sent" | "dm_replied" | "backlink_pitched" | "task_contested" | ...
+  targetType      String   // "user" | "journalist" | "blogger" | "lead"
+  targetIdHashed  String   // SHA256(email ou handle)
+  channel         String
+  aiDecisionScore Int?     // score Director ou Haiku triage
+  aiModel         String?  // "haiku-4.5" | "sonnet-4.6" | "opus-4.7"
+  reasoning       String?  @db.Text // raisonnement bref (1 phrase) — pas de PII
+  outcome         String   // "sent" | "rejected" | "draft" | "error" | "skipped"
+  errorMessage    String?  @db.Text
+  contestedAt     DateTime?
+
+  @@index([timestamp])
+  @@index([targetIdHashed])
+  @@index([action])
+}
+
+/// Déduplication anti-spam intra-canal — fenêtre 24h glissante.
+/// Hash = SHA256(channel + recipient + content_first_100chars).
+model CeoDedup {
+  id          String   @id @default(cuid())
+  contentHash String   @unique
+  channel     String
+  sentAt      DateTime @default(now())
+
+  @@index([contentHash])
+  @@index([sentAt])
+}
+
+/// Blacklist commentaires proactifs — humoristes pros, influenceurs >10k, journalistes.
+model CeoCommentBlacklist {
+  id        String   @id @default(cuid())
+  handle    String
+  platform  String   // "twitter" | "linkedin" | "instagram"
+  reason    String   // "humoriste_pro" | "influenceur_10k" | "journaliste"
+  createdAt DateTime @default(now())
+
+  @@unique([handle, platform])
+  @@index([platform])
+}
+
+// ─── Enums CEO ──────────────────────────────────────
+
+enum CeoTaskType {
+  SCORE_LEADS
+  DRAFT_EMAIL
+  DRAFT_DM_REPLY
+  DRAFT_PROACTIVE_COMMENT
+  DRAFT_BACKLINK_PITCH
+  EXECUTE_SEND
+  WEEKLY_REPORT
+  KPI_SNAPSHOT
+}
+
+enum CeoTaskStatus {
+  PENDING
+  RUNNING
+  DRAFT      // outbound généré, attend validation admin
+  APPROVED   // validé Director + (si S1/S2) admin
+  EXECUTING
+  DONE
+  FAILED
+}
+
+enum CeoLeadStatus {
+  COLD
+  PENDING_ACTION
+  IN_SEQUENCE
+  CONVERTED
+  OPT_OUT
+}
+
+enum CeoOutboundStatus {
+  PENDING
+  APPROVED
+  SENT
+  REJECTED
+  FAILED
+}
+
+enum CeoOutboundChannel {
+  EMAIL
+  DM_TWITTER
+  DM_LINKEDIN
+  DM_INSTAGRAM
+  COMMENT_TWITTER
+  BACKLINK_EMAIL
+}
+
+enum CeoOutboundDirection {
+  OUTBOUND
+  INBOUND
+}
+
+enum CeoBacklinkSource {
+  HARO
+  BLOGGER
+  PODCAST
+  DIRECTORY
+  EXCHANGE
+  ORGANIC
+}
+
+enum CeoBacklinkStatus {
+  PITCHED
+  REPLIED
+  ACQUIRED
+  REJECTED
+  EXPIRED
+}
+
+// ==========================================
+// NEWSLETTER (capture email — RGPD, double opt-in)
+// ==========================================
+
+model NewsletterSubscriber {
+  id                  String                     @id @default(cuid())
+  email               String                     @unique
+  source              String? // ex : "blog:comment-devenir-drole", "quiz-humour"
+  status              NewsletterSubscriberStatus @default(PENDING)
+  consentText         String                     @db.Text // Texte de la case cochée (preuve RGPD)
+  consentAt           DateTime                   @default(now())
+  confirmationToken   String                     @unique
+  confirmedAt         DateTime?
+  unsubscribeToken    String                     @unique
+  unsubscribedAt      DateTime?
+  ipAddress           String?
+  userAgent           String?                    @db.Text
+  createdAt           DateTime                   @default(now())
+  updatedAt           DateTime                   @updatedAt
+
+  @@index([status])
+  @@index([source])
+  @@index([createdAt])
+}
+
+enum NewsletterSubscriberStatus {
+  PENDING       // inscription enregistrée, en attente de confirmation double opt-in
+  CONFIRMED     // a cliqué sur le lien de confirmation
+  UNSUBSCRIBED  // s'est désabonné
+}
+
+// ==========================================
+// PATCHS DE DONNÉES (idempotence — s11 lot copy)
+// ==========================================
+
+/// Marqueur persistant "cette réécriture / correction a déjà été appliquée".
+///
+/// Utilisé par `applyBlogArticleRewritesTask` (s11) pour garantir qu'un
+/// rewrite de blog n'est appliqué qu'une seule fois par (slug, version) —
+/// même si le boot redémarre 20 fois, même si un autre patch identique
+/// ré-apparaît dans le JSON, on ne réécrit qu'une seule fois. Réutilisable
+/// pour toute future tâche de convergence idempotente.
+///
+/// Format `patchId` : "<domain>:<version>:<key>", ex "blog-rewrite:v1:mon-slug".
+model DataPatch {
+  id        String   @id @default(cuid())
+  patchId   String   @unique
+  appliedAt DateTime @default(now())
+  note      String?  @db.Text
+
+  @@index([appliedAt])
 }

@@ -332,6 +332,9 @@ describe("Joke Agent", () => {
             category: "BOULOT",
             type: "ONE_LINER",
             maturityLevel: 1,
+            comedyTechnique: "Le contraste de statut",
+            techniqueExplanation: "Tu opposes deux attitudes, le décalage crée le rire.",
+            howToApply: "Oppose ton comportement à celui d'un autre. Ex : 'lui médite, moi je panique.'",
           }),
         },
       ],
@@ -350,6 +353,39 @@ describe("Joke Agent", () => {
     expect(joke.category).toBe("BOULOT");
     expect(joke.type).toBe("ONE_LINER");
     expect(joke.maturityLevel).toBe(1);
+    expect(joke.comedyTechnique).toBe("Le contraste de statut");
+    expect(joke.techniqueExplanation).toContain("décalage");
+    expect(joke.howToApply).toContain("Oppose ton comportement");
+  });
+
+  it("returns empty décryptage fields when LLM omits them (back-fill safe)", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            content: "Setup",
+            punchline: "Chute",
+            category: "BOULOT",
+            type: "ONE_LINER",
+            maturityLevel: 1,
+          }),
+        },
+      ],
+    });
+
+    const joke = await generateDailyJoke({
+      persona: "SOPHIE",
+      plannedCategory: "BOULOT",
+      plannedTheme: "Test",
+      recentJokes: [],
+      monthlyPlanSummary: "",
+    });
+
+    // Champs absents → normalisés en chaîne vide (pas undefined) sans crash
+    expect(joke.comedyTechnique).toBe("");
+    expect(joke.techniqueExplanation).toBe("");
+    expect(joke.howToApply).toBe("");
   });
 
   it("falls back to planned category on invalid category", async () => {
@@ -502,6 +538,88 @@ describe("Joke Agent", () => {
     });
 
     expect(joke.type).toBe("CLASSIQUE");
+  });
+});
+
+describe("Joke Décryptage", () => {
+  let generateJokeDecryptage: typeof import("@/lib/ai/agents/joke-agent").generateJokeDecryptage;
+  let mockAnthropicCreate: jest.Mock;
+
+  beforeEach(async () => {
+    jest.resetModules();
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    mockAnthropicCreate = jest.fn();
+    Anthropic.mockImplementation(() => ({
+      messages: { create: mockAnthropicCreate },
+    }));
+    const mod = await import("@/lib/ai/agents/joke-agent");
+    generateJokeDecryptage = mod.generateJokeDecryptage;
+  });
+
+  const sampleJoke = {
+    content: "Quelqu'un a commenté « premier » sous ma vidéo.",
+    punchline: "Il était aussi le dernier. Et le seul.",
+    category: "RESEAUX_SOCIAUX",
+    type: "ONE_LINER",
+  };
+
+  it("returns the expected décryptage structure", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "La triple chute (règle de 3)",
+            techniqueExplanation: "« Premier » sonne comme une vantardise, puis ça recadre vers le pathétique.",
+            howToApply: "Prends une fierté et démonte-la en 2 ajouts. Ex : 'J'ai eu 12 likes. Dont ma mère.'",
+          }),
+        },
+      ],
+    });
+
+    const d = await generateJokeDecryptage(sampleJoke);
+
+    expect(d.comedyTechnique).toBe("La triple chute (règle de 3)");
+    expect(d.techniqueExplanation).toContain("vantardise");
+    expect(d.howToApply).toContain("fierté");
+  });
+
+  it("throws when comedyTechnique or howToApply is empty", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "",
+            techniqueExplanation: "Une explication.",
+            howToApply: "",
+          }),
+        },
+      ],
+    });
+
+    await expect(generateJokeDecryptage(sampleJoke)).rejects.toThrow("décryptage incomplet");
+  });
+
+  it("truncates excessively long décryptage fields", async () => {
+    mockAnthropicCreate.mockResolvedValue({
+      content: [
+        {
+          type: "text",
+          text: JSON.stringify({
+            comedyTechnique: "T".repeat(500),
+            techniqueExplanation: "E".repeat(2000),
+            howToApply: "H".repeat(2000),
+          }),
+        },
+      ],
+    });
+
+    const d = await generateJokeDecryptage(sampleJoke);
+
+    expect(d.comedyTechnique.length).toBeLessThanOrEqual(200);
+    expect(d.techniqueExplanation.length).toBeLessThanOrEqual(800);
+    expect(d.howToApply.length).toBeLessThanOrEqual(800);
   });
 });
 
@@ -2101,8 +2219,8 @@ describe("Director integration — validation retry loop", () => {
       lastValidation = await validateJoke(jokeData, "YANIS");
       if (lastValidation.verdict === "APPROVED") break;
       if (attempt === 3) {
-        // Director takes over
-        jokeData = await directorRewriteJoke(jokeData, lastValidation, "YANIS");
+        // Director takes over — spread preserves les champs décryptage (comme daily-publisher)
+        jokeData = { ...jokeData, ...(await directorRewriteJoke(jokeData, lastValidation, "YANIS")) };
         break;
       }
       jokeData = await generateDailyJoke(jokeCtx);
@@ -2742,6 +2860,91 @@ describe("runSocialGates — refonte s7 (G-S14 à G-S20)", () => {
       const allGates = runSocialGates(post);
       const g = allGates.find((x: any) => x.gate.includes("G-S20"));
       // G-S20 ne push de result QUE quand FAIL → si pas de FAIL, gate absent = OK
+      expect(g).toBeUndefined();
+    });
+  });
+});
+
+// ─── G-S21 — Anti-staccato (style haché surjoué) ────────────────
+describe("runSocialGates — G-S21 Anti-staccato", () => {
+  let runSocialGates: any;
+  let checkAntiStaccato: any;
+
+  beforeAll(async () => {
+    const mod = await import("@/lib/ai/agents/standup-director-agent");
+    runSocialGates = mod.runSocialGates;
+    checkAntiStaccato = mod.checkAntiStaccato;
+  });
+
+  describe("checkAntiStaccato — heuristique pure", () => {
+    it("PASS sur un texte fluide (phrases longues observation stand-up)", () => {
+      const text = "Les pros du stand-up cherchent l'observation juste, pas le mot juste. Quand tu remarques un détail précis, une réponse vient naturellement. Pascot appelle ça le silence de 2 secondes.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+
+    it("FAIL sur staccato systémique 'Court. Direct. Je clique. Bien.'", () => {
+      const text = "Court. Direct. Je clique. Bien.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/staccato|haché|courtes/i);
+    });
+
+    it("PASS sur chute finale courte isolée (précédée d'une phrase ≥ 8 mots)", () => {
+      const text = "Roman Frayssinet attendrait 12 secondes avant de la sortir. Toi, t'as juste à cliquer. Cadeau.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+
+    it("FAIL sur 2+ phrases consécutives ≤ 2 mots", () => {
+      const text = "On y va. Direct. Net. C'est plié.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/extrême|2 mots|consécutives/i);
+    });
+
+    it("FAIL sur enchaînement de phrases courtes hachées", () => {
+      const text = "Bien. Court. Net. Direct. Voilà. C'est posé maintenant.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(false);
+      expect(result.reason).toMatch(/staccato|consécutives|courtes|haché|50%/i);
+    });
+
+    it("PASS sur texte de 2 phrases (pas assez pour parler de staccato)", () => {
+      const text = "Court. Net.";
+      const result = checkAntiStaccato(text);
+      expect(result.passed).toBe(true);
+    });
+  });
+
+  describe("Intégration runSocialGates — G-S21", () => {
+    it("FAIL G-S21 quand le contenu est staccato systémique", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "La technique du jour",
+        content: "Court. Direct. Je clique. Bien.",
+        cta: "",
+        hashtags: [],
+      };
+      const g = runSocialGates(post).find((x: any) => x.gate.includes("G-S21"));
+      expect(g).toBeDefined();
+      expect(g.pass).toBe(false);
+      expect(g.reason).toMatch(/staccato|haché|courtes/i);
+    });
+
+    it("PASS G-S21 quand le contenu est fluide (chute finale autorisée)", () => {
+      const post = {
+        platform: "TWITTER" as const,
+        format: "MINI_STANDUP" as const,
+        hook: "Roman Frayssinet le ferait",
+        content: "Roman Frayssinet attendrait 12 secondes avant de la sortir. Toi, t'as juste à cliquer. Cadeau.",
+        cta: "",
+        hashtags: [],
+      };
+      const allGates = runSocialGates(post);
+      const g = allGates.find((x: any) => x.gate.includes("G-S21"));
+      // G-S21 ne push QUE quand FAIL → absent si OK
       expect(g).toBeUndefined();
     });
   });

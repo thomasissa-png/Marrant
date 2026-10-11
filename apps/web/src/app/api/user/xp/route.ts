@@ -4,25 +4,10 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { rateLimit } from "@/lib/rate-limit";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import { calculateLevel } from "@/lib/progression";
 
-const XP_THRESHOLDS = {
-  NOVICE: 0,
-  APPRENTI: 100,
-  FARCEUR: 500,
-  COMIQUE: 1500,
-  LEGENDE: 5000,
-} as const;
-
-type UserLevel = keyof typeof XP_THRESHOLDS;
-
-function calculateLevel(xp: number): UserLevel {
-  if (xp >= XP_THRESHOLDS.LEGENDE) return "LEGENDE";
-  if (xp >= XP_THRESHOLDS.COMIQUE) return "COMIQUE";
-  if (xp >= XP_THRESHOLDS.FARCEUR) return "FARCEUR";
-  if (xp >= XP_THRESHOLDS.APPRENTI) return "APPRENTI";
-  return "NOVICE";
-}
-
+// Barème unique des niveaux (s17, FS-07) : partagé avec la validation d'étape.
 const xpSchema = z.object({
   amount: z.number().min(1).max(500),
   action: z.string(),
@@ -48,6 +33,16 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const { amount } = xpSchema.parse(body);
+
+    // XP et niveau = suivi de progression, Premium uniquement (plus de
+    // compte gratuit, s15 §1.1). Plan lu en base, pas dans le jwt.
+    const owner = await prisma.user.findUnique({ where: { id: userId }, select: { plan: true } });
+    if (!isPremiumPlan(owner?.plan)) {
+      return NextResponse.json(
+        { error: "Le suivi de progression fait partie de Premium" },
+        { status: 403 }
+      );
+    }
 
     // Increment atomique pour éviter les race conditions
     const updatedUser = await prisma.user.update({

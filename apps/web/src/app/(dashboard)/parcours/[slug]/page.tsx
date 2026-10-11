@@ -1,117 +1,222 @@
+// Stratégie de rendu : ISR + SSR fallback.
+// - Les parcours canoniques (machine-a-cafe, repartie, confiance ; storytelling une
+//   fois publié, s18) ont un
+//   generateStaticParams → rendu statique au build, revalidé chaque heure.
+// - Les parcours DB ajoutés dynamiquement passent en SSR (dynamicParams: true).
+// - Objectif SEO : Googlebot / Bingbot doivent recevoir le contenu du parcours
+//   (titre, description, étapes) dans le HTML initial, pas seulement header/footer.
+//   L'interactivité (progression, quiz, complétion) reste côté client.
+// - Premium (décision 03/10/2026) : le HTML ISR est partagé par tous, il ne
+//   contient donc que l'étape 1 complète et l'APERÇU des étapes 2+ (titre, ce
+//   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
+//   via /api/parcours/by-slug après hydratation (plan vérifié en base).
 import type { Metadata } from "next";
+import { fitDescription, fitTitle, DEFAULT_OG_IMAGE, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
+import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
 import {
-  JsonLd,
-  buildBreadcrumbJsonLd,
-  buildCourseJsonLd,
-} from "@/components/seo/json-ld";
+  attachCatalogueLinks,
+  buildPathFromSeed,
+  enrichPathWithSeed,
+  findActivePath,
+  getSeedForSlug,
+  withoutJokeTexts,
+} from "@/lib/parcours-data";
+import { buildParcoursCourseJsonLd } from "@/lib/parcours-jsonld";
+import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
+import { parcoursWeeks } from "@/config/premium";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_SEED, STORYTELLING_SEED } from "@/lib/parcours-seed";
+
+// Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+const BASE_URL = "https://deviens-marrant.fr";
+
+/** Phrase honnête sur l'accès (D8) : « première étape gratuite », jamais « cours gratuit ». */
+const PREMIERE_ETAPE = "Première étape gratuite.";
 
 const PARCOURS_META: Record<
   string,
-  { title: string; description: string; duration: string; difficulty: string; stepsCount: number }
+  { name: string; title: string; description: string; duration: string; stepsCount: number }
 > = {
   "machine-a-cafe": {
-    title: "Parcours Machine à Café — drôle au bureau",
+    // name = nom visible (H1, fil d'Ariane, Course) ; title = balise <title> SEO (D8, seo.md §6).
+    name: "Parcours Machine à Café",
+    title: `Parcours Machine à Café : être drôle au bureau en ${parcoursWeeks("machine-a-cafe")} semaines`,
     description:
-      "Apprends à avoir des vannes et anecdotes à ressortir au bureau et en afterwork. 3 semaines, 15 min/semaine. Progresse à ton rythme.",
-    duration: "3 semaines",
-    difficulty: "DEBUTANT",
-    stepsCount: 3,
+      `Des vannes et des anecdotes à ressortir à la machine à café, en réunion ou en afterwork : ${parcoursWeeks("machine-a-cafe")} semaines à 15 min/semaine. ${PREMIERE_ETAPE}`,
+    duration: `${parcoursWeeks("machine-a-cafe")} semaines`,
+    stepsCount: parcoursWeeks("machine-a-cafe"),
   },
   repartie: {
-    title: "Parcours Répartie — réponse prête",
+    name: "Parcours Répartie",
+    title: `Parcours Répartie : ${parcoursWeeks("repartie")} semaines pour répondre du tac au tac`,
     description:
-      "Développe ta répartie en 4 semaines avec des exercices concrets pour ne plus rester muet en soirée ou entre potes.",
-    duration: "4 semaines",
-    difficulty: "INTERMEDIAIRE",
-    stepsCount: 4,
+      `Développe ta répartie en ${parcoursWeeks("repartie")} semaines avec des exercices concrets et progressifs, pour arrêter de rester muet quand on te chambre. ${PREMIERE_ETAPE}`,
+    duration: `${parcoursWeeks("repartie")} semaines`,
+    stepsCount: parcoursWeeks("repartie"),
   },
   confiance: {
-    title: "Parcours Confiance — retrouve ta légèreté",
+    name: "Parcours Confiance",
+    title: `Parcours Confiance : retrouver ta légèreté en ${parcoursWeeks("confiance")} semaines`,
     description:
-      "Parcours de 6 semaines pour retrouver confiance en soi grâce à l'humour. Bienveillant, progressif, adapté à ton rythme.",
-    duration: "6 semaines",
-    difficulty: "INTERMEDIAIRE",
-    stepsCount: 6,
+      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression, une étape à la fois. ${PREMIERE_ETAPE}`,
+    duration: `${parcoursWeeks("confiance")} semaines`,
+    stepsCount: parcoursWeeks("confiance"),
   },
+  // s18 : titre validé (étalons Storytelling, choix 3 A), meta description validée
+  // (docs/copy/parcours-storytelling-complements-s18.md §3).
+  ...(STORYTELLING_PUBLIE
+    ? {
+        storytelling: {
+          name: "Parcours Storytelling",
+          title: `Parcours Storytelling : raconter tes histoires en ${STORYTELLING_SEED.steps.length} semaines`,
+          description: STORYTELLING_SEED.metaDescription,
+          duration: STORYTELLING_SEED.duration,
+          stepsCount: STORYTELLING_SEED.steps.length,
+        },
+      }
+    : {}),
+  // s19 : conditionnée par BOULOT_PUBLIE (sinon generateStaticParams et le repli de la
+  // page rendraient /parcours/boulot accessible avant le feu vert). Textes validés
+  // (import-boulot.md §1), portés par le fichier de contenu : titre signé (choix 3 A)
+  // et metaDescription de 154 caractères.
+  ...(BOULOT_PUBLIE
+    ? {
+        boulot: {
+          name: BOULOT_SEED.title,
+          title: BOULOT_SEED.pageTitle,
+          description: BOULOT_SEED.metaDescription,
+          duration: BOULOT_SEED.duration,
+          stepsCount: BOULOT_SEED.steps.length,
+        },
+      }
+    : {}),
 };
+
+export function generateStaticParams() {
+  return Object.keys(PARCOURS_META).map((slug) => ({ slug }));
+}
+
+function shareMetadata(slug: string, title: string, description: string): Metadata {
+  const url = `${BASE_URL}/parcours/${slug}`;
+  return {
+    title: fitTitle(title),
+    description: fitDescription(description),
+    alternates: { canonical: url },
+    // SEO-02 : aperçu de partage propre à la page (og ET twitter, sinon ceux de l'accueil).
+    openGraph: { title, description: fitDescription(description), url, images: [DEFAULT_OG_IMAGE] },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: fitDescription(description),
+      images: [DEFAULT_OG_IMAGE.url],
+    },
+  };
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  // Utiliser les meta statiques si disponibles (évite un appel DB)
   const staticMeta = PARCOURS_META[params.slug];
+  if (staticMeta) return shareMetadata(params.slug, staticMeta.title, staticMeta.description);
 
-  if (staticMeta) {
-    return {
-      title: staticMeta.title,
-      description: staticMeta.description,
-      alternates: {
-        canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
-      },
-      openGraph: {
-        title: staticMeta.title,
-        description: staticMeta.description,
-        url: `https://deviens-marrant.fr/parcours/${params.slug}`,
-      },
-    };
-  }
-
-  // Fallback : fetch depuis la DB pour les parcours ajoutés dynamiquement
   const path = await prisma.learningPath
     .findUnique({
-      where: { slug: params.slug },
+      where: { slug: params.slug, isActive: true },
       select: { title: true, description: true },
     })
     .catch(() => null);
 
-  const title = path
-    ? `${path.title} — deviens-marrant.fr`
-    : "Parcours — deviens-marrant.fr";
-  const description = path?.description?.slice(0, 155) ??
-    "Progresse étape par étape dans ton parcours humour personnalisé.";
+  // SEO-11 / QA-11 : parcours inconnu = 404, seul notFound() pose la consigne (`noindex`
+  // de Next). `robots: null` n'émet aucune balise : il retire le « index, follow » du
+  // layout racine, sinon repris dans la head reconstruite au navigateur (payload RSC).
+  if (!path) return { title: "Parcours introuvable", ...NOT_FOUND_ROBOTS };
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `https://deviens-marrant.fr/parcours/${params.slug}`,
-    },
-    openGraph: { title, description, url: `https://deviens-marrant.fr/parcours/${params.slug}` },
-  };
+  // Le template du layout ajoute déjà « | deviens-marrant.fr » : ne pas doubler la marque.
+  return shareMetadata(params.slug, path.title, path.description);
 }
 
-export default function ParcoursDetailPage({
+type RedactablePath = { steps: ParcoursStepPayload[] };
+
+/** HTML partagé (ISR) : jamais de contenu Premium dedans, quel que soit le visiteur. */
+async function toPublicPath<P>(path: P): Promise<P> {
+  const redacted = redactParcoursForPlan(path as unknown as RedactablePath, null);
+  return withoutJokeTexts(await attachCatalogueLinks(redacted)) as unknown as P;
+}
+
+async function fetchInitialData(slug: string) {
+  // 1. Base (identifiant réel pour le suivi de progression). Page en ISR : pas
+  // de session serveur, la progression est chargée côté navigateur.
+  try {
+    const dbPath = await findActivePath(slug);
+    if (dbPath) {
+      return { path: await toPublicPath(enrichPathWithSeed(dbPath, slug)), progress: null };
+    }
+  } catch {
+    // Base indisponible → repli seed uniquement
+  }
+  // 2. Repli seed (pas encore migré, ou parcours purement statique)
+  const seedPath = buildPathFromSeed(slug);
+  if (!seedPath) return null;
+  return { path: await toPublicPath(seedPath), progress: null };
+}
+
+export default async function ParcoursDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const meta = PARCOURS_META[params.slug];
+  const initialData = await fetchInitialData(params.slug);
+
+  if (!initialData && !meta) {
+    notFound();
+  }
+
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="mx-auto max-w-3xl">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
-          { name: meta?.title ?? "Parcours", url: `https://deviens-marrant.fr/parcours/${params.slug}` },
+          {
+            name: meta?.name ?? initialData?.path.title ?? "Parcours",
+            url: `https://deviens-marrant.fr/parcours/${params.slug}`,
+          },
         ])}
       />
       {meta && (
         <JsonLd
-          data={buildCourseJsonLd({
-            name: meta.title,
-            description: meta.description,
-            duration: meta.duration,
+          data={buildParcoursCourseJsonLd({
             slug: params.slug,
-            difficulty: meta.difficulty,
-            stepsCount: meta.stepsCount,
+            name: meta.name,
+            description: meta.description,
+            weeks: meta.stepsCount,
+            // FS-11 : niveau lu dans le seed (même source que le badge de la page).
+            difficulty: getSeedForSlug(params.slug)?.difficulty ?? "DEBUTANT",
           })}
         />
       )}
-      <ParcoursDetail slug={params.slug} />
+      <ParcoursDetail
+        slug={params.slug}
+        initialPath={
+          initialData?.path
+            ? (initialData.path as unknown as React.ComponentProps<typeof ParcoursDetail>["initialPath"])
+            : null
+        }
+        initialProgress={
+          initialData?.progress
+            ? (initialData.progress as unknown as React.ComponentProps<typeof ParcoursDetail>["initialProgress"])
+            : null
+        }
+      />
     </div>
   );
 }

@@ -2,87 +2,59 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
-import { AuthModal } from "@/components/auth/auth-modal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
+import { emojiReponseBoulot, recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
+import { withEmojiPresentation } from "@/lib/parcours-labels";
+import { stripEmDashes } from "@/lib/em-dash";
+import { frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
+import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
+import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
+import { LISTE_PARCOURS } from "@/config/textes/parcours";
+import { trackUmami } from "@/lib/umami";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import Link from "next/link";
+import { totalParcoursXp } from "@/lib/parcours-xp";
 
-// Build display data from seed — single source of truth
-const parcours = parcoursSeed.map((p) => ({
-  emoji: p.icon,
-  slug: p.slug,
-  title: p.title,
-  duration: p.duration,
-  timePerWeek: p.timePerWeek,
-  difficulty: p.difficultyLabel,
-  persona: p.personaTagline,
-  description: p.description,
-  testimonial: p.testimonial,
-  modules: p.steps.map((s) => ({
-    week: `Semaine ${s.week}`,
-    title: s.moduleTitle,
-    detail: s.moduleDetail,
-    format: s.moduleFormat,
-    xp: s.moduleXp,
-    free: s.free,
-  })),
-}));
+// Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
+// le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
 
 // ==============================
 // Mini quiz d'orientation parcours
 // ==============================
 
-interface QuizResult {
-  slug: string;
-  title: string;
-  reason: string;
-}
+type QuizResult = ParcoursRecommendation;
 
 const ORIENTATION_QUESTIONS = [
   {
     question: "Dans quelle situation tu voudrais être plus drôle ?",
     options: [
+      // Icône lue au rendu par `emojiReponseBoulot()` (☕ tant que Boulot est masqué).
       { label: "Au boulot, en réunion, à la pause", value: "work", emoji: "☕" },
       { label: "En soirée, avec mes potes, en coloc", value: "social", emoji: "🎉" },
-      { label: "Partout — je veux retrouver ma légèreté", value: "global", emoji: "🌱" },
+      { label: "Partout, je veux retrouver ma légèreté", value: "global", emoji: "🌱" },
     ],
   },
   {
-    question: "Quel est ton plus gros frein ?",
+    question: "Qu'est-ce qui coince le plus ?",
     options: [
-      { label: "Je manque de blagues à ressortir", value: "content", emoji: "📝" },
+      { label: "Je n'ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
       { label: "Je ne sais pas quoi répondre sur le moment", value: "repartie", emoji: "⚡" },
       { label: "J'ai perdu confiance en moi", value: "confiance", emoji: "💪" },
     ],
   },
 ];
 
-function getQuizResult(answers: string[]): QuizResult {
-  if (answers.includes("confiance") || answers.includes("global")) {
-    return {
-      slug: "confiance",
-      title: "Parcours Confiance",
-      reason: "Tu cherches un parcours complet et bienveillant pour retrouver ta légèreté.",
-    };
-  }
-  if (answers.includes("repartie") || answers.includes("social")) {
-    return {
-      slug: "repartie",
-      title: "Parcours Répartie",
-      reason: "Tu veux avoir la bonne réplique au bon moment — on va t'y aider.",
-    };
-  }
-  return {
-    slug: "machine-a-cafe",
-    title: "Parcours Machine à Café",
-    reason: "Tu veux un arsenal de vannes et d'anecdotes à ressortir au quotidien.",
-  };
-}
-
-function OrientationQuiz() {
+function OrientationQuiz({
+  onShowParcours,
+  statut,
+}: {
+  onShowParcours: (slug: string) => void;
+  statut: "visiteur" | "membre" | "premium";
+}) {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [result, setResult] = useState<QuizResult | null>(null);
@@ -94,7 +66,10 @@ function OrientationQuiz() {
     if (step < ORIENTATION_QUESTIONS.length - 1) {
       setStep(step + 1);
     } else {
-      setResult(getQuizResult(newAnswers));
+      const reco = recommendParcours(newAnswers);
+      setResult(reco);
+      // data-analyst §5.1 : verdict du quiz d'orientation.
+      trackUmami("orientation-resultat", { parcours: reco.slug, statut });
     }
   };
 
@@ -106,13 +81,13 @@ function OrientationQuiz() {
 
   if (result) {
     return (
-      <Card className="text-center">
-        <CardContent className="py-6">
-          <p className="text-sm font-medium text-accent-primary">On te recommande :</p>
+      <Card className="p-4 text-center sm:p-6">
+        <CardContent>
+          <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
           <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
-            <Button variant="primary" size="sm" onClick={() => { const el = document.getElementById(`parcours-${result.slug}`); el?.scrollIntoView({ behavior: "smooth" }); }}>
+            <Button variant="primary" size="sm" onClick={() => onShowParcours(result.slug)}>
               Voir ce parcours
             </Button>
             <Button variant="ghost" size="sm" onClick={handleReset}>
@@ -126,8 +101,8 @@ function OrientationQuiz() {
 
   const q = ORIENTATION_QUESTIONS[step];
   return (
-    <Card>
-      <CardContent className="py-6">
+    <Card className="p-4 sm:p-6">
+      <CardContent>
         <div className="mb-4 flex items-center justify-between">
           <Badge variant="primary">Question {step + 1}/{ORIENTATION_QUESTIONS.length}</Badge>
           <div className="flex gap-1">
@@ -149,7 +124,10 @@ function OrientationQuiz() {
               onClick={() => handleAnswer(o.value)}
               className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background-card p-3 text-left text-sm font-medium transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"
             >
-              <span className="text-xl">{o.emoji}</span>
+              <span className="text-xl" aria-hidden="true">
+                {/* s19 iter 5 (N-3 @design) : 💼 sur « Au boulot » une fois Boulot publié, ☕ sinon. */}
+                {withEmojiPresentation(o.value === "work" ? emojiReponseBoulot() : o.emoji)}
+              </span>
               {o.label}
             </button>
           ))}
@@ -163,154 +141,219 @@ function OrientationQuiz() {
 // Main component
 // ==============================
 
-export function ParcoursContent() {
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authCallbackSlug, setAuthCallbackSlug] = useState<string | null>(null);
-  const { status } = useSession();
-  const router = useRouter();
-  const [userProgress, setUserProgress] = useState<Record<string, Record<string, number>>>({});
+interface HubProgress {
+  completed: number;
+  total: number;
+  done: boolean;
+  nextStep: number | null;
+}
 
-  // Fetch user progress from API when authenticated
+interface ApiPath {
+  slug: string;
+  steps?: Array<{ order: number }>;
+  progress?: { completedSteps: number[]; completedAt: string | null } | null;
+}
+
+export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[] }) {
+  const { status, data: session } = useSession();
+  const router = useRouter();
+  const [userProgress, setUserProgress] = useState<Record<string, HubProgress>>({});
+  // Programmes repliés par défaut (T24) ; le quiz d'orientation ouvre celui qu'il conseille (T23).
+  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
+  const statut =
+    status !== "authenticated"
+      ? "visiteur"
+      : isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan)
+        ? "premium"
+        : "membre";
+
+  const setProgrammeOpen = (slug: string, open: boolean) => {
+    setOpenSlugs((prev) => {
+      if (prev.has(slug) === open) return prev;
+      const next = new Set(prev);
+      if (open) next.add(slug);
+      else next.delete(slug);
+      return next;
+    });
+  };
+
+  const showParcours = (slug: string) => {
+    setProgrammeOpen(slug, true);
+    requestAnimationFrame(() => {
+      const title = document.getElementById(`parcours-title-${slug}`);
+      title?.scrollIntoView({ behavior: "smooth", block: "start" });
+      title?.focus({ preventScroll: true });
+    });
+  };
+
+  // Progression de la personne connectée : correspondance par slug (FS-13 b), un seul appel.
   useEffect(() => {
     if (status !== "authenticated") return;
     fetch("/api/parcours")
       .then((res) => (res.ok ? res.json() : { paths: [] }))
-      .then((data) => {
-        if (!data.paths) return;
-        // Build a slug -> step count map
-        const pathMap: Record<string, { stepCount: number; id: string }> = {};
-        for (const p of data.paths) {
-          // Match by title to our hardcoded slugs
-          const match = parcours.find((hp) => hp.title === p.title);
-          if (match) {
-            pathMap[match.slug] = { stepCount: p.steps?.length ?? 0, id: p.id };
-          }
+      .then((data: { paths?: ApiPath[] }) => {
+        const result: Record<string, HubProgress> = {};
+        for (const p of data.paths ?? []) {
+          if (!p.progress) continue;
+          const orders = (p.steps ?? []).map((s) => s.order);
+          const completed = new Set(p.progress.completedSteps);
+          result[p.slug] = {
+            completed: completed.size,
+            total: orders.length,
+            done: !!p.progress.completedAt,
+            nextStep: orders.find((o) => !completed.has(o)) ?? null,
+          };
         }
-
-        // Now fetch progress
-        fetch("/api/user/progress")
-          .then((res) => (res.ok ? res.json() : { progress: {} }))
-          .then((progressData) => {
-            const result: Record<string, Record<string, number>> = {};
-            for (const [slug, info] of Object.entries(pathMap)) {
-              const completed = (progressData.progress as Record<string, number>)[(info as { id: string }).id] ?? 0;
-              result[slug] = { completed, total: (info as { stepCount: number }).stepCount };
-            }
-            setUserProgress(result);
-          })
-          .catch((err) => {
-            console.error("[ParcoursContent] Erreur chargement progression:", err);
-          });
+        setUserProgress(result);
       })
-      .catch((err) => {
-        console.error("[ParcoursContent] Erreur chargement parcours:", err);
+      .catch(() => {
+        // Sans progression, la liste reste utilisable telle quelle.
       });
   }, [status]);
 
+  const reprise = parcours.find((p) => {
+    const prog = userProgress[p.slug];
+    return prog && !prog.done && prog.completed > 0 && prog.nextStep !== null;
+  });
+
+  // s17 tour 2 (UXV-2-05) : abonné qui a entamé un parcours = ses cartes d'abord, le quiz d'orientation après.
+  const parcoursEntame = statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0);
+  const quizOrientation = (
+    <div className={parcoursEntame ? "mt-10" : "mb-10"}>
+      <h2 className="mb-4 font-display text-xl font-bold">
+        Quel parcours est fait pour toi ?
+      </h2>
+      <OrientationQuiz onShowParcours={showParcours} statut={statut} />
+    </div>
+  );
+
+  // L'étape 1 se lit sans compte : « Commencer ce parcours » mène au parcours
+  // pour tout le monde (s15 §2.7, avant : /register pour un visiteur).
   const handleCta = (slug: string) => {
-    if (status === "authenticated") {
-      router.push(`/parcours/${slug}`);
-      return;
-    }
-    setAuthCallbackSlug(slug);
-    setAuthModalOpen(true);
+    router.push(`/parcours/${slug}?src=hub`);
   };
 
   return (
     <>
-      {/* Orientation quiz */}
-      <div className="mb-10">
-        <h2 className="mb-4 text-center font-display text-xl font-bold">
-          Quel parcours est fait pour toi ?
-        </h2>
-        <OrientationQuiz />
-      </div>
+      {/* Reprise pour la personne qui a un parcours en cours (UX-11) */}
+      {reprise && userProgress[reprise.slug]?.nextStep && (
+        <div className="mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center">
+          <Link
+            href={`/parcours/${reprise.slug}?src=hub#etape-${userProgress[reprise.slug].nextStep}`}
+            className={buttonVariants({ variant: "primary" })}
+          >
+            {LISTE_PARCOURS.reprendre}
+          </Link>
+          <p className="mt-2 text-sm text-text-secondary">
+            {LISTE_PARCOURS.repriseLigne(
+              reprise.title,
+              userProgress[reprise.slug].nextStep as number,
+              userProgress[reprise.slug].total || reprise.modules.length,
+              reprise.modules[(userProgress[reprise.slug].nextStep as number) - 1]?.title ?? null,
+            )}
+          </p>
+        </div>
+      )}
+
+      {!parcoursEntame && quizOrientation}
 
       {/* Parcours cards */}
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-6">
         {parcours.map((p) => {
-          const totalXp = p.modules.reduce((sum, m) => sum + m.xp, 0);
+          // QA-07 : total réel, bonus de fin compris.
+          const totalXp = totalParcoursXp(p.modules.map((m) => ({ moduleXp: m.xp })));
           const prog = userProgress[p.slug];
           const progressValue = prog ? prog.completed : 0;
+          const isDone = !!prog?.done;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
-            <Card key={p.title} className="p-6" id={`parcours-${p.slug}`}>
+            <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
               <CardHeader className="pb-2">
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <Badge variant="primary">{p.difficulty}</Badge>
                   <span className="text-sm text-text-secondary">
                     {p.duration}
                   </span>
-                  <span className="text-sm text-text-muted">
-                    · {p.timePerWeek}
-                  </span>
+                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
+                  <span className="text-sm text-text-muted">{p.timePerWeek}</span>
+                  <span aria-hidden="true" className="hidden text-sm text-text-muted sm:inline">·</span>
+                  <span className="text-sm text-text-muted">{totalXp} XP à gagner</span>
+                  {isDone && <Badge variant="success">{LISTE_PARCOURS.termine}</Badge>}
                 </div>
                 <CardTitle className="mt-3 text-2xl">
-                  <span className="mr-2">{p.emoji}</span>
-                  {p.title}
+                  <span id={`parcours-title-${p.slug}`} tabIndex={-1} className="scroll-mt-24 focus:outline-none">
+                    <span className="mr-2" aria-hidden="true">{p.emoji}</span>
+                    {p.title}
+                  </span>
                 </CardTitle>
-                <p className="mt-1 text-sm font-medium text-accent-primary">
-                  {p.persona}
+                {/* s19 (N1 @design rendu) : typographie française au rendu, tous parcours. */}
+                <p className="mt-1 text-pretty text-sm font-medium text-accent-link">
+                  {frTypoTexte(p.persona)}
                 </p>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-text-secondary">{p.description}</p>
+                <p className="mb-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial */}
-                <p className="mb-6 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-                  {p.testimonial}
+                <p className="mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+                  {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
 
-                {/* Progress indicator */}
-                <div className="mb-6">
-                  <div className="mb-2 flex items-center justify-between text-xs text-text-muted">
-                    <span>
-                      {progressValue > 0
-                        ? `${progressValue}/${progressMax} étapes`
-                        : "Progression"}
-                    </span>
-                    <span>{totalXp} XP à gagner</span>
+                {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
+                {progressValue > 0 && (
+                  <div className="mb-6">
+                    {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16). */}
+                    <ProgressBar label={`${progressValue}/${progressMax} étapes`} value={progressValue} max={progressMax} />
+                    <p className="mt-2 text-right text-xs text-text-muted">{totalXp} XP à gagner</p>
                   </div>
-                  <ProgressBar value={progressValue} max={progressMax} />
-                </div>
+                )}
 
-                {/* Weekly modules */}
-                <div className="mb-6 space-y-3">
-                  <h4 className="text-sm font-semibold uppercase tracking-wide text-text-secondary">
+                {/* Programme replié par défaut (T24) */}
+                <details
+                  className="group mb-6"
+                  open={openSlugs.has(p.slug)}
+                  onToggle={(e) => setProgrammeOpen(p.slug, e.currentTarget.open)}
+                >
+                  <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 rounded-md border border-border px-3 text-sm font-semibold uppercase tracking-wider text-text-secondary hover:text-text-primary [&::-webkit-details-marker]:hidden">
                     Programme
-                  </h4>
-                  <ol className="space-y-2">
+                    <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </summary>
+                  <ol className="mt-3 space-y-2">
                     {p.modules.map((m) => (
                       <li
                         key={m.week}
-                        className="flex items-start gap-3 rounded-md bg-background-elevated p-3"
+                        className="flex flex-col gap-2 rounded-md bg-background-elevated p-3 sm:flex-row sm:items-start sm:gap-3"
                       >
-                        <Badge variant="secondary" className="mt-0.5 shrink-0">
+                        <Badge variant="secondary" className="w-fit shrink-0 whitespace-nowrap sm:mt-0.5 sm:w-[5.25rem] sm:justify-center">
                           {m.week}
                         </Badge>
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium text-text-primary">
                               {m.title}
                             </span>
                             {m.free && (
-                              <Badge variant="primary">Essai gratuit</Badge>
+                              <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-text-secondary">
-                            {m.detail}
+                          {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5),
+                              tous parcours depuis l'iter 5 (H @design, S17 @ux). */}
+                          <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">
+                            {frTypoParcours(m.detail)}
                           </p>
                           <p className="mt-1 text-xs text-text-muted">
                             Format : {m.format}
                           </p>
-                          <span className="mt-1 inline-block text-xs text-accent-primary">
+                          <span className="mt-1 inline-block text-xs text-accent-link">
                             +{m.xp} XP
                           </span>
                         </div>
                       </li>
                     ))}
                   </ol>
-                </div>
+                </details>
 
                 <div className="flex flex-col gap-2">
                   <Button
@@ -319,7 +362,7 @@ export function ParcoursContent() {
                     className="w-full sm:w-auto"
                     onClick={() => handleCta(p.slug)}
                   >
-                    {progressValue > 0 ? "Continuer ce parcours" : "Commencer ce parcours"}
+                    {isDone ? LISTE_PARCOURS.revoir : progressValue > 0 ? "Continuer ce parcours" : "Commencer ce parcours"}
                   </Button>
                 </div>
               </CardContent>
@@ -328,12 +371,7 @@ export function ParcoursContent() {
         })}
       </div>
 
-      <AuthModal
-        isOpen={authModalOpen}
-        onClose={() => setAuthModalOpen(false)}
-        defaultTab="register"
-        callbackUrl={authCallbackSlug ? `/parcours/${authCallbackSlug}` : "/parcours"}
-      />
+      {parcoursEntame && quizOrientation}
     </>
   );
 }

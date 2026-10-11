@@ -1,0 +1,127 @@
+name: E2E parcours
+
+# Tests Playwright des parcours (reco 20, audit parcours s16).
+# - smoke : lecture seule, contre la prod par défaut (aucun compte, aucun
+#   paiement, aucun e-mail ; garde dans playwright/tests/support/fixtures.ts).
+#   Lancement manuel + tous les jours à 05:30 UTC (après le job de 4h).
+#   Tant que le code s16 n'est pas déployé, poser la variable de dépôt
+#   E2E_EXCLURE_S16=true pour ignorer les tests tagués @s16.
+# - achat : parcours Stripe complet, MANUEL uniquement, sur un environnement
+#   de test (variable E2E_ACHAT_BASE_URL + secret STRIPE_TEST_SECRET_KEY).
+#   Refusé par les tests eux-mêmes si l'URL vise deviens-marrant.fr.
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Site visé par le smoke"
+        required: false
+        default: "https://deviens-marrant.fr"
+      inclure_s16:
+        description: "Inclure les tests @s16 (code s16 déployé)"
+        type: boolean
+        default: true
+      achat:
+        description: "Lancer aussi le parcours d'achat Stripe (environnement de test)"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "30 5 * * *"
+
+concurrency:
+  group: e2e-parcours
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    env:
+      E2E_BASE_URL: ${{ inputs.base_url || 'https://deviens-marrant.fr' }}
+      CI: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck E2E
+        run: npx tsc -p ../../playwright/tsconfig.json
+
+      - name: Run smoke (lecture seule)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.inclure_s16 }}" = "false" ]; then
+            npm run test:e2e:smoke:deploye
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ "${{ vars.E2E_EXCLURE_S16 }}" = "true" ]; then
+            npm run test:e2e:smoke:deploye
+          else
+            npm run test:e2e:smoke
+          fi
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-smoke-report
+          path: |
+            playwright/playwright-report
+            playwright/test-results
+          retention-days: 14
+
+  achat:
+    if: github.event_name == 'workflow_dispatch' && inputs.achat
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    env:
+      E2E_BASE_URL: ${{ vars.E2E_ACHAT_BASE_URL }}
+      STRIPE_TEST_SECRET_KEY: ${{ secrets.STRIPE_TEST_SECRET_KEY }}
+      CI: "true"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run achat (Stripe mode test)
+        run: npm run test:e2e:achat
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-achat-report
+          path: |
+            playwright/playwright-report
+            playwright/test-results
+          retention-days: 14

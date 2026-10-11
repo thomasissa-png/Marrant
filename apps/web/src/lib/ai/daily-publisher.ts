@@ -1,6 +1,6 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, JokeCategory, TipCategory } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
-import { generateDailyJoke } from "./agents/joke-agent";
+import { generateDailyJoke, generateJokeDecryptage, type JokeDecryptage } from "./agents/joke-agent";
 import { generateDailyTip } from "./agents/tip-agent";
 import { selectDailyVideo } from "./agents/video-agent";
 import {
@@ -18,6 +18,22 @@ import { getPlanSummary } from "./content-planner";
 import type { PersonaKey } from "./personas";
 import { getPersonaForDay } from "./personas";
 import { todayUTC, getDayOfYear } from "./date-utils";
+import { buildJokeSeriesGuard, type JokeSeriesGuard } from "./joke-series-guard";
+import { categoryExclusion } from "./category-exclusion";
+
+const JOKE_CATEGORY_VALUES: readonly string[] = Object.values(JokeCategory);
+const TIP_CATEGORY_VALUES: readonly string[] = Object.values(TipCategory);
+import { COPY_REVIEW_VERSION } from "./copy-review-version";
+import { pickValidatedJoke } from "./daily-joke-pool";
+import { runWithContentGates } from "./content-gates";
+import { stripEmDashes } from "@/lib/em-dash";
+
+/**
+ * Lot V7 : régénérations autorisées quand la vanne générée est rejetée par le
+ * filtre anti-séries (quasi-doublon, amorce saturée, tic). Au-delà : pas de
+ * vanne IA ce jour, le fallback catalogue prend le relais.
+ */
+const MAX_SERIES_REGENERATIONS = 1;
 
 /**
  * Nombre max de tentatives generate → validate → retry par contenu.
@@ -138,14 +154,41 @@ export async function publishDailyContent(
         otherAgentsCategories: { tip: tipCategory, video: videoCategory },
       };
 
-      let jokeData = await generateDailyJoke(jokeCtx);
+      // Lot V7 — anti-séries : tout le catalogue (actifs + inactifs), setups seuls.
+      // Échec de lecture → garde vide (la génération n'est jamais bloquée par ce filtre).
+      let seriesGuard: JokeSeriesGuard = buildJokeSeriesGuard([]);
+      try {
+        const allSetups = await prisma.joke.findMany({ select: { content: true, isActive: true } });
+        seriesGuard = buildJokeSeriesGuard(allSetups);
+      } catch (err) {
+        console.warn("[AntiSéries] Lecture du catalogue impossible, filtre désactivé pour ce run :", err);
+      }
+      const jokeCtxWithAvoid = { ...jokeCtx, avoidListPrompt: seriesGuard.avoidListPrompt };
+
+      let jokeData = await generateDailyJoke(jokeCtxWithAvoid);
+      let seriesCheck = seriesGuard.check(jokeData);
+      for (let regen = 1; !seriesCheck.ok && regen <= MAX_SERIES_REGENERATIONS; regen++) {
+        console.log(`[AntiSéries] Vanne rejetée (${seriesCheck.reason}) : ${seriesCheck.detail} — régénération ${regen}/${MAX_SERIES_REGENERATIONS}`);
+        jokeData = await generateDailyJoke({
+          ...jokeCtxWithAvoid,
+          plannedTheme: `${jokeCtx.plannedTheme} — REJET ANTI-SÉRIES : ${seriesCheck.detail}. Change de situation.`,
+        });
+        seriesCheck = seriesGuard.check(jokeData);
+      }
+      if (!seriesCheck.ok) {
+        throw new Error(`Vanne rejetée par le filtre anti-séries (${seriesCheck.reason}) : ${seriesCheck.detail}`);
+      }
+
       let validation: ValidationResult | null = null;
       let directorTookOver = false;
 
       let validationCrashCount = 0;
       for (let attempt = 1; attempt <= MAX_VALIDATION_ATTEMPTS_SHORT; attempt++) {
         try {
-          validation = await validateJoke(jokeData as JokeToValidate, persona);
+          validation = await validateJoke(jokeData as JokeToValidate, persona, {
+            recentSetups: recentJokes.map((j) => j.content),
+            dailyGeneration: true,
+          });
         } catch (err) {
           validationCrashCount++;
           console.warn(`[Director] Validation vanne crash API (attempt ${attempt}/${MAX_VALIDATION_ATTEMPTS_SHORT}):`, err);
@@ -165,8 +208,27 @@ export async function publishDailyContent(
           console.log(`[Director] Vanne rejetée ${MAX_VALIDATION_ATTEMPTS_SHORT}x — le directeur réécrit`);
           try {
             const rewritten = await directorRewriteJoke(jokeData as JokeToValidate, validation, persona);
+            // Lot V7 : la réécriture repasse le filtre anti-séries. Rejet →
+            // pas de publication IA ce jour (fallback catalogue plus bas).
+            const rewriteCheck = seriesGuard.check(rewritten);
+            if (!rewriteCheck.ok) {
+              throw new Error(`réécriture rejetée par le filtre anti-séries (${rewriteCheck.reason}) : ${rewriteCheck.detail}`);
+            }
             jokeData = { ...jokeData, ...rewritten };
             directorTookOver = true;
+            // La réécriture ne produit pas de décryptage — le contenu a changé,
+            // donc l'ancien décryptage ne colle plus. On le régénère.
+            try {
+              const decryptage = await generateJokeDecryptage({
+                content: jokeData.content,
+                punchline: jokeData.punchline,
+                category: jokeData.category,
+                type: jokeData.type,
+              });
+              jokeData = { ...jokeData, ...decryptage };
+            } catch (decErr) {
+              console.warn("[Director] Régénération décryptage post-réécriture échouée:", decErr);
+            }
             console.log("[Director] Vanne réécrite par le directeur — publication");
           } catch (err) {
             console.warn("[Director] Réécriture vanne échouée — publication de la dernière version:", err);
@@ -177,7 +239,7 @@ export async function publishDailyContent(
         // Re-générer en passant le feedback du directeur dans le thème
         console.log(`[Director] Vanne rejetée (score ${validation.score}/10) — re-génération (attempt ${attempt + 1}/${MAX_VALIDATION_ATTEMPTS_SHORT})`);
         const feedbackTheme = `${jokeCtx.plannedTheme} — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}${validation.revision ? `. SUGGESTION: ${validation.revision}` : ""}`;
-        jokeData = await generateDailyJoke({ ...jokeCtx, plannedTheme: feedbackTheme });
+        jokeData = await generateDailyJoke({ ...jokeCtxWithAvoid, plannedTheme: feedbackTheme });
       }
 
       // Gate: ne publier que si score >= 9 ou si le directeur a réécrit
@@ -188,14 +250,37 @@ export async function publishDailyContent(
         throw new Error(`Vanne rejetée par le directeur (score ${jokeScore}/10)${crashInfo}`);
       }
 
+      // Lot Q3 (a) : tirets cadratins retirés (ponctuation seulement). Les
+      // autres gates vanne (vulgarité, vouvoiement, mention IA) sont déjà dans
+      // validateJoke (G-J8, G-J9, anti-mention IA).
+      const rawJoke = jokeData as Partial<JokeDecryptage> & { content: string; punchline: string };
+      const dash = (t: string | undefined) => (t ? stripEmDashes(t) : t);
+      const jokeDecryptage = {
+        content: stripEmDashes(rawJoke.content),
+        punchline: stripEmDashes(rawJoke.punchline),
+        comedyTechnique: dash(rawJoke.comedyTechnique),
+        techniqueExplanation: dash(rawJoke.techniqueExplanation),
+        howToApply: dash(rawJoke.howToApply),
+      };
+      // Lot Q1 : une vanne générée qui a passé la barre V7 (Director avec les
+      // étalons, verdict APPROVED) est marquée GARDER et rejoint le pool de la
+      // vanne du jour. Une réécriture du Director n'a pas été revalidée : elle
+      // reste non marquée (quality-watch la relit le matin, copy-review ensuite).
+      const passedBar = !directorTookOver && validation?.verdict === "APPROVED";
       const joke = await prisma.joke.create({
         data: {
-          content: jokeData.content,
-          punchline: jokeData.punchline,
+          content: jokeDecryptage.content,
+          punchline: jokeDecryptage.punchline,
           category: jokeData.category as Prisma.EnumJokeCategoryFieldUpdateOperationsInput["set"] & string,
           type: jokeData.type as Prisma.EnumJokeTypeFieldUpdateOperationsInput["set"] & string,
           maturityLevel: jokeData.maturityLevel,
           generatedByAI: true,
+          comedyTechnique: jokeDecryptage.comedyTechnique || null,
+          techniqueExplanation: jokeDecryptage.techniqueExplanation || null,
+          howToApply: jokeDecryptage.howToApply || null,
+          ...(passedBar
+            ? { copyVerdict: "GARDER", copyReviewVersion: COPY_REVIEW_VERSION, copyReviewedAt: new Date() }
+            : {}),
         },
       });
       return { id: joke.id, category: joke.category };
@@ -261,6 +346,30 @@ export async function publishDailyContent(
         console.warn(`[Director] Conseil non publié — score ${tipScore}/10 < 9 (verdict: ${validation?.verdict ?? "VALIDATION_IMPOSSIBLE"})${crashInfo}`);
         throw new Error(`Conseil rejeté par le directeur (score ${tipScore}/10)${crashInfo}`);
       }
+
+      // Lot Q3 : gates programmatiques avant enregistrement (tirets cadratins,
+      // vulgarité, vouvoiement, auto-mention IA, marques signalées). Rejet →
+      // UNE régénération, revalidée par le Director ; sinon conseil du stock.
+      const gated = await runWithContentGates(
+        tipData,
+        async (feedback) => {
+          const regenerated = await generateDailyTip({
+            ...tipCtx,
+            plannedTheme: `${tipCtx.plannedTheme} — ${feedback}`,
+          });
+          const revalidation = await validateTip(regenerated as TipToValidate, persona);
+          if (revalidation.verdict !== "APPROVED") {
+            throw new Error(`conseil régénéré non validé par le directeur (score ${revalidation.score}/10)`);
+          }
+          return regenerated;
+        },
+        ["title", "content", "example", "exercise"],
+        "conseil du jour",
+      );
+      if (!gated.ok) {
+        throw new Error("Conseil rejeté par les gates de publication (repli sur le stock)");
+      }
+      tipData = gated.value;
 
       const tip = await prisma.tip.create({
         data: {
@@ -389,11 +498,25 @@ export async function publishDailyContent(
   if (result.tip) usedCategories.add(result.tip.category);
 
   if (!jokeId) {
+    // Lot Q1 : repli sur une vanne validée au niveau des étalons (pool GARDER).
+    const validated = await pickValidatedJoke(dayOfYear, {
+      // Seulement des valeurs de JokeCategory : usedCategories contient aussi la
+      // catégorie du conseil (TipCategory), qu'un `notIn` Prisma sur Joke refuse.
+      excludeCategories: Array.from(usedCategories).filter((c) => JOKE_CATEGORY_VALUES.includes(c)),
+    });
+    if (validated) {
+      jokeId = validated.id;
+      usedCategories.add(validated.category);
+      console.log(`[DailyPublisher] Vanne du jour de repli prise dans le pool validé (${validated.id})`);
+    }
+  }
+  if (!jokeId) {
+    // Transition : pool validé vide → repli historique.
     // Essayer d'abord un fallback qui évite les catégories déjà utilisées
     const fallbackJoke = await prisma.joke.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        ...categoryExclusion(usedCategories, JOKE_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, await prisma.joke.count({ where: { isActive: true } })),
@@ -416,7 +539,7 @@ export async function publishDailyContent(
     const fallbackTip = await prisma.tip.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        ...categoryExclusion(usedCategories, TIP_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, tipCount),
@@ -438,7 +561,8 @@ export async function publishDailyContent(
     const fallbackVideo = await prisma.video.findFirst({
       where: {
         isActive: true,
-        ...(usedCategories.size > 0 ? { category: { notIn: Array.from(usedCategories) as never } } : {}),
+        // Video.category utilise l'enum TipCategory.
+        ...categoryExclusion(usedCategories, TIP_CATEGORY_VALUES),
       },
       orderBy: { id: "asc" },
       skip: dayOfYear % Math.max(1, videoCount),

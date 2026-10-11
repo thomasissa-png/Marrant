@@ -1,0 +1,329 @@
+{
+  "lot": "relance-s15",
+  "approvedBy": "thomas-s15",
+  "debut": "2026-10-12",
+  "fin": "2026-10-18",
+  "graine": "relance-s15",
+  "total": 12,
+  "parReseau": {
+    "TWITTER": 5,
+    "INSTAGRAM": 5,
+    "LINKEDIN": 2
+  },
+  "posts": [
+    {
+      "id": "c5c405b96520291d808931a25",
+      "platform": "TWITTER",
+      "format": "TWEET",
+      "content": "« Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui. »\n« Elle entend le papier alu. Elle insiste pas. »",
+      "hook": "« Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmmnsqn130038th63fxn1wvhn",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "Lot relance-s15 (VANNE, TIRAGE) : Relais X du 12/10 abandonné : aucune version avec renvoi au niveau à l'aveugle (aveugle-remplacements-cycle8-resultat.md, si_echec) ; vanne du pool strict sans renvoi (repli du mix, v5 l.31). L'article est relayé par IG2 et L3.",
+      "scheduledAt": "2026-10-12T10:30:00.000Z"
+    },
+    {
+      "id": "c6e52995eba1e146c490136bc",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à qui a un tour de table demain. Les 4 autres exemples : lien en bio.",
+      "hook": "Au jeu de mimes, ma carte disait « la timidité ».",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jk8f28ff20e1cf82f3a8",
+      "threadParts": [
+        "Au jeu de mimes, ma carte disait « la timidité ».",
+        "J'avais à peine bougé qu'ils avaient trouvé."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=c6e52995eba1e146c490136bc&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=c6e52995eba1e146c490136bc&slide=1"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[article:se-presenter-avec-humour] [repli:c92df7ca8db3e3ef8cdd36470] Lot relance-s15 (RELAIS, VALIDE IG2) : Post validé par Thomas (s15).",
+      "scheduledAt": "2026-10-12T17:30:00.000Z"
+    },
+    {
+      "id": "ce542bc69cd4740b8a750906e",
+      "platform": "TWITTER",
+      "format": "TWEET",
+      "content": "« J'ai dit à Alexa de me raconter une blague. »\n« Elle m'a lu mon historique de recherches. »",
+      "hook": "« J'ai dit à Alexa de me raconter une blague. »",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmmnsqn130027th63at2ene9i",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:A] Lot relance-s15 (VANNE, VALIDE X1) : Post validé par Thomas (s15).",
+      "scheduledAt": "2026-10-13T10:30:00.000Z"
+    },
+    {
+      "id": "c325e16a993b32c6793d06458",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à qui devait monter ton étagère avant l'été.",
+      "hook": "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jka3336e7e90a453a9d6",
+      "threadParts": [
+        "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+        "Elle a un prénom, maintenant."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=c325e16a993b32c6793d06458&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=c325e16a993b32c6793d06458&slide=1"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:A] Lot relance-s15 (VANNE, TIRAGE)",
+      "scheduledAt": "2026-10-13T17:30:00.000Z"
+    },
+    {
+      "id": "cb5b2e6d676daa501a23e71ec",
+      "platform": "LINKEDIN",
+      "format": "POTE_AU_TAF",
+      "content": "Au tour de table, tu es le suivant, et celui d'avant vient d'évoquer sa boîte montée à 19 ans. Ta présentation commence par « Bonjour, moi c'est » et se termine au même endroit. Voici 5 accroches pour la prolonger, et comment trouver la tienne :\nhttps://deviens-marrant.fr/blog/se-presenter-avec-humour?utm_source=linkedin&utm_medium=social&utm_campaign=2026-10&utm_content=relais",
+      "hook": "Au tour de table, tu es le suivant, et celui d'avant vient d'évoquer sa boîte mo",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "SOPHIE",
+      "sourceType": "BLOG",
+      "sourceId": "se-presenter-avec-humour",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[article:se-presenter-avec-humour] [repli:cb2cb272487d56bb82eff560f] Lot relance-s15 (RELAIS, VALIDE L3) : Post validé par Thomas (s15).",
+      "scheduledAt": "2026-10-13T06:15:00.000Z"
+    },
+    {
+      "id": "c8024fbfc7bc47e9d8c19c33a",
+      "platform": "TWITTER",
+      "format": "TWEET",
+      "content": "« Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare. »\n« Moi, elle a dit qu'elle verrait en juin. »\n\nEt toi, lequel des 5 profils d'humour est le tien ? Environ 2 minutes, sans inscription : https://deviens-marrant.fr/quiz-humour?utm_source=x&utm_medium=social&utm_campaign=2026-10&utm_content=quiz",
+      "hook": "« Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma gu",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmni62ad30005s60yc7qnog31",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:B] Lot relance-s15 (VANNE_QUIZ, TIRAGE)",
+      "scheduledAt": "2026-10-14T07:00:00.000Z"
+    },
+    {
+      "id": "cd3d225af8356d98ceabb28b3",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à celui qui n'est jamais sûr d'être invité.",
+      "hook": "J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours.",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jk04b4bc8bbf8a2d8a05",
+      "threadParts": [
+        "J'ai découvert que\nmes potes avaient\nun groupe sans moi.\nJ'ai boudé trois jours.",
+        "Il s'appelait “Anniv de Léa”. Léa, c'est moi.",
+        "Pourquoi ça fait rire : celui qui boude trois jours est l'invité d'honneur, et la preuve se trouvait dans le titre du groupe.",
+        "À toi de jouer : repense à un moment où tu t'es cru mis de côté, puis cherche le détail qui prouvait le contraire.",
+        "Le quiz est dans le lien de la bio."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=cd3d225af8356d98ceabb28b3&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=cd3d225af8356d98ceabb28b3&slide=1",
+        "https://deviens-marrant.fr/api/social/image?postId=cd3d225af8356d98ceabb28b3&slide=2",
+        "https://deviens-marrant.fr/api/social/image?postId=cd3d225af8356d98ceabb28b3&slide=3"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:B] Lot relance-s15 (DECRYPTAGE, VALIDE IG3) : Post validé par Thomas (s15).",
+      "scheduledAt": "2026-10-14T10:30:00.000Z"
+    },
+    {
+      "id": "c3a73c8392964a6f9ed2f710c",
+      "platform": "TWITTER",
+      "format": "TWEET",
+      "content": "« Mon copain : 'Choisis le resto, ça m'est égal.' »\n« J'ai réservé chez son ex. Ça lui était égal aussi. »",
+      "hook": "« Mon copain : 'Choisis le resto, ça m'est égal.' »",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmnz0jqsx000rs60xrbrqm8kk",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:A] Lot relance-s15 (VANNE, TIRAGE) : Aucun article le 2026-10-15 : vanne.",
+      "scheduledAt": "2026-10-15T10:30:00.000Z"
+    },
+    {
+      "id": "c9b89977d1e5e1886bf1448d6",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à ton oncle, qui demande si c'est un vrai travail.",
+      "hook": "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités.",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jk9a9e7a1b8e0e16264e",
+      "threadParts": [
+        "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités.",
+        "Elle a désigné celle où j'ai un CDI."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=c9b89977d1e5e1886bf1448d6&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=c9b89977d1e5e1886bf1448d6&slide=1"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[heure:A] Lot relance-s15 (VANNE, TIRAGE) : Aucun article le 2026-10-15 : vanne.",
+      "scheduledAt": "2026-10-15T17:30:00.000Z"
+    },
+    {
+      "id": "c55c58e5410ff05de08c28332",
+      "platform": "LINKEDIN",
+      "format": "POTE_AU_TAF",
+      "content": "« Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. »\n« Il est là pour prouver qu'on pourrait. »",
+      "hook": "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "SOPHIE",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jka89abf28d3769b05fe",
+      "threadParts": [
+        "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis.",
+        "Il est là pour prouver qu'on pourrait."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=c55c58e5410ff05de08c28332&slide=0"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[variante:image] Lot relance-s15 (VANNE, VALIDE L1) : Post validé par Thomas (s15).",
+      "scheduledAt": "2026-10-15T06:15:00.000Z"
+    },
+    {
+      "id": "c7a7de8cc27dcb5944730a7df",
+      "platform": "TWITTER",
+      "format": "TWEET",
+      "content": "« J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul. »\n« Je l'ai pas désinstallé. On a fait le téléchargement ensemble. »",
+      "hook": "« J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul. »",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmmnsqn15006kth63res9rqp9",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "Lot relance-s15 (VANNE, TIRAGE)",
+      "scheduledAt": "2026-10-16T10:30:00.000Z"
+    },
+    {
+      "id": "ccae22fef4df074be8e423987",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à ta mère, qui t'avait dit de surveiller le four.",
+      "hook": "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont ",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cmmnsqn120000th63o435xsb0",
+      "threadParts": [
+        "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus.",
+        "Ils m'ont laissé un avis Google : une étoile."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=ccae22fef4df074be8e423987&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=ccae22fef4df074be8e423987&slide=1"
+      ],
+      "status": "APPROVED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "Lot relance-s15 (VANNE, TIRAGE)",
+      "scheduledAt": "2026-10-16T17:30:00.000Z"
+    }
+  ],
+  "replis": [
+    {
+      "id": "c92df7ca8db3e3ef8cdd36470",
+      "platform": "INSTAGRAM",
+      "format": "IMAGE_QUI_CLAQUE",
+      "content": "À envoyer à qui a ton chargeur depuis la fac.",
+      "hook": "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an.",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "YANIS",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jke10b58d158ae638560",
+      "threadParts": [
+        "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an.",
+        "Je lui ai demandé s'il partait."
+      ],
+      "imageUrls": [
+        "https://deviens-marrant.fr/api/social/image?postId=c92df7ca8db3e3ef8cdd36470&slide=0",
+        "https://deviens-marrant.fr/api/social/image?postId=c92df7ca8db3e3ef8cdd36470&slide=1"
+      ],
+      "status": "REJECTED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[repli-de:c6e52995eba1e146c490136bc] Lot relance-s15 (VANNE, TIRAGE) : Repli du relais de se-presenter-avec-humour : envoyé seulement si l'article n'est pas publié à l'heure.",
+      "scheduledAt": "2026-10-12T17:30:00.000Z"
+    },
+    {
+      "id": "cb2cb272487d56bb82eff560f",
+      "platform": "LINKEDIN",
+      "format": "POTE_AU_TAF",
+      "content": "« Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram. »\n« Elle m'a demandé pourquoi j'avais eu un bouc. »",
+      "hook": "« Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram. »",
+      "cta": null,
+      "hashtags": [],
+      "targetPersona": "SOPHIE",
+      "sourceType": "JOKE",
+      "sourceId": "cs14jk29357d022f6880a69e",
+      "threadParts": [],
+      "imageUrls": [],
+      "status": "REJECTED",
+      "approvedBy": "thomas-s15",
+      "directorScore": null,
+      "directorNote": "[repli-de:cb5b2e6d676daa501a23e71ec] Lot relance-s15 (VANNE, TIRAGE) : Repli du relais de se-presenter-avec-humour : envoyé seulement si l'article n'est pas publié à l'heure.",
+      "scheduledAt": "2026-10-13T06:15:00.000Z"
+    }
+  ]
+}

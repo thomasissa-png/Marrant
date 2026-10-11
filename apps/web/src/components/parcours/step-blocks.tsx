@@ -1,0 +1,214 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { YouTubePlayer } from "@/components/ui/youtube-player";
+import { trackUmami } from "@/lib/umami";
+import { stripEmDashes } from "@/lib/em-dash";
+import { frTypoParcours } from "@/lib/fr-typo";
+import { frenchQuizQuotes } from "@/lib/parcours-labels";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { VALIDATION_ETAPE } from "@/config/textes/offre";
+import {
+  APERCU_BAS,
+  APERCU_REASSURANCE,
+  LIENS_FICHES,
+  RETOUR_EXERCICE,
+  VANNES_ETAPE,
+} from "@/config/textes/parcours";
+import type { Step, VideoRef } from "@/components/parcours/parcours-types";
+
+/**
+ * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
+ * (en-tête), ce qu'on y apprend, format, rien d'autre ; texte du bas et bouton
+ * « Voir l'offre Premium » `src=parcours-apercu`. Aucun contenu payant reçu.
+ */
+export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
+  // Mur vu (audit s16 reco 17) : une fois par aperçu ouvert.
+  useEffect(() => {
+    trackUmami("mur-vu", { type: "parcours-etape", src: slug, etape: step.order });
+  }, [slug, step.order]);
+  return (
+    <div className="space-y-3 rounded-lg bg-background-elevated p-4">
+      {(step.moduleDetail || step.why) && (
+        <div>
+          {/* s17 tour 2 (DES-2-06) : label comme dans l'étape ouverte, corps limité à ≈ 70 caractères par ligne. */}
+          <p className="font-display text-base font-bold text-text-primary">Ce que tu vas apprendre</p>
+          {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5), tous parcours
+              depuis l'iter 5 (H @design, S17 @ux). s19 (N4 @design rendu) : même corps que la scène de l'étape ouverte. */}
+          <p className="mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]">
+            {frTypoParcours(step.moduleDetail || step.why || "")}
+          </p>
+        </div>
+      )}
+      {step.moduleFormat && <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>}
+      <div className="border-t border-border pt-3 text-center">
+        <p className="mx-auto max-w-[48ch] text-sm text-text-secondary">{APERCU_BAS}</p>
+        <Link
+          href={buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-apercu")}
+          className={`${buttonVariants({ variant: "primary", size: "sm" })} mt-3 min-h-[44px]`}
+        >
+          {VALIDATION_ETAPE.bouton}
+        </Link>
+        {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton, texte du blocage s16 inchangé. */}
+        <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
+      </div>
+    </div>
+  );
+}
+
+/** Mur de validation de l'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2). */
+export function ValidationWall({
+  slug,
+  href,
+  quizPending = false,
+}: {
+  slug: string;
+  href: string;
+  /** s17 tour 1 (DES-1-05) : quiz pas encore fini, le bouton reste en contour (un seul plein à l'écran). */
+  quizPending?: boolean;
+}) {
+  useEffect(() => {
+    trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
+  }, [slug]);
+  return (
+    <div className="mt-2 border-t border-border pt-4 text-center">
+      <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
+      <Link
+        href={href}
+        className={cn(
+          buttonVariants({ variant: quizPending ? "outline" : "primary" }),
+          // s17 tour 2 (DES-2-02) : contour violet lisible (≈ 3,9:1) et survol visible, variante globale intacte.
+          quizPending && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
+          "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug",
+        )}
+      >
+        {VALIDATION_ETAPE.bouton}
+      </Link>
+      {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton. */}
+      <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
+    </div>
+  );
+}
+
+export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: boolean }) {
+  return (
+    // s18 (M-2 @design) : vidéo seule de l'étape, en largeur pleine et disposition horizontale dès sm.
+    <div className={`overflow-hidden rounded-lg border border-border${seule ? " sm:col-span-2 sm:grid sm:grid-cols-2 sm:gap-4" : ""}`}>
+      {/* Lecteur intégré : on ne quitte plus le parcours au milieu d'une étape (T31) */}
+      <div className="relative aspect-video self-start bg-background-elevated">
+        <YouTubePlayer youtubeId={video.youtubeId} title={`${video.title} de ${video.artist}`} />
+      </div>
+      <div className="p-3">
+        <p className="text-sm font-medium text-text-primary">{video.artist}</p>
+        <p className="text-xs text-text-secondary">{video.title}</p>
+        {/* s17 tour 1 (DES-1-13) : description lisible, lien en cible de 44 px. */}
+        <p className="mt-1 text-sm text-text-secondary">{frTypoParcours(stripEmDashes(video.why))}</p>
+        {video.href && (
+          <Link href={video.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
+            {LIENS_FICHES.video}
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Vannes de l'étape (D4). Abonné : les vannes actives servies par l'API, avec
+ * lien vers leur fiche. Non-abonné (étape 1) : leur nombre, sans contenu.
+ */
+export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean }) {
+  const jokes = step.jokes ?? [];
+  if (isPremium && jokes.length > 0) {
+    return (
+      <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+        <h4 className="mb-1 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
+        {/* s17 tour 1 (DES-1-15) : amorce en retrait, chute en avant, vannes séparées d'un filet. */}
+        <ul className="divide-y divide-border">
+          {jokes.map((j) => (
+            <li key={j.id} className="py-3 text-sm last:pb-0">
+              {/* s18 (D4 @ux) : répliques entre apostrophes droites rendues en « … » (ponctuation seulement). */}
+              <p className="text-text-secondary">{frTypoParcours(frenchQuizQuotes(stripEmDashes(j.content)))}</p>
+              <p className="mt-1 font-semibold text-text-primary">{frTypoParcours(frenchQuizQuotes(stripEmDashes(j.punchline)))}</p>
+              <Link href={j.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
+                {VANNES_ETAPE.voirFiche}
+                <span className="sr-only"> : {j.technique ?? j.content}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+  const count = step.jokeCount ?? step.jokeIds?.length ?? 0;
+  if (isPremium || count === 0) return null;
+  return (
+    <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+      <h4 className="mb-2 font-display text-base font-bold text-text-primary">{VANNES_ETAPE.titre}</h4>
+      <p className="text-sm text-text-secondary">{VANNES_ETAPE.apercuVisiteur(count)}</p>
+    </div>
+  );
+}
+
+export type Resultat = (typeof RETOUR_EXERCICE.options)[number]["resultat"];
+
+/**
+ * Retour sur l'exercice (PM-06) : 3 valeurs fermées, facultatif, jamais exigé
+ * pour valider, aucun champ libre ni stockage (avis @legal s17). Événement
+ * `etape-retour {parcours, etape, resultat}` (data-analyst §5.1) pour le
+ * visiteur SEULEMENT : pour un abonné, la donnée part en base via la route du
+ * lot A (onSelect) et n'est pas recopiée dans Umami (avis @legal §2, réserve N2 s17).
+ */
+export function ExerciseFeedback({
+  slug,
+  etape,
+  initial = null,
+  isPremium = false,
+  onSelect,
+}: {
+  slug: string;
+  etape: number;
+  /** Abonné Premium : aucun événement Umami (la base compte déjà). */
+  isPremium?: boolean;
+  /** Choix déjà enregistré (abonné). */
+  initial?: string | null;
+  /** Abonné : enregistrement serveur (`POST /api/parcours/[id]/retour`, lot A). */
+  onSelect?: (resultat: Resultat) => void;
+}) {
+  const [choix, setChoix] = useState<Resultat | null>(null);
+  const actif = choix ?? (RETOUR_EXERCICE.options.find((o) => o.resultat === initial)?.resultat ?? null);
+  return (
+    <div className="rounded-lg border border-border p-3">
+      <p className="text-sm font-medium text-text-primary" id={`retour-${etape}`}>
+        {RETOUR_EXERCICE.question}
+      </p>
+      <div className="mt-2 flex flex-col gap-2 sm:flex-row" role="group" aria-labelledby={`retour-${etape}`}>
+        {RETOUR_EXERCICE.options.map((o) => (
+          <Button
+            key={o.resultat}
+            type="button"
+            size="sm"
+            // s17 tour 1 (DES-1-13) : cible de 44 px à toutes les largeurs.
+            className="min-h-[44px]"
+            variant={actif === o.resultat ? "primary" : "outline"}
+            aria-pressed={actif === o.resultat}
+            onClick={() => {
+              if (actif === o.resultat) return;
+              setChoix(o.resultat);
+              if (!isPremium) trackUmami("etape-retour", { parcours: slug, etape, resultat: o.resultat });
+              onSelect?.(o.resultat);
+            }}
+          >
+            {o.label}
+          </Button>
+        ))}
+      </div>
+      <p role="status" className="mt-2 text-xs text-text-muted">
+        {choix ? RETOUR_EXERCICE.options.find((o) => o.resultat === choix)?.reponse : ""}
+      </p>
+    </div>
+  );
+}

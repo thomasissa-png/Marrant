@@ -128,7 +128,7 @@ describe("ConseilsList", () => {
     });
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getByText("Aucun conseil ici... on a cherché partout")).toBeInTheDocument();
+      expect(screen.getByText("Aucun conseil ne colle à ces filtres, et pourtant on a cherché sous le canapé")).toBeInTheDocument();
     });
   });
 

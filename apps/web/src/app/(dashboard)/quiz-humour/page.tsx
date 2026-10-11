@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
+import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -9,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Quiz : quel type d'humour es-tu ?",
   description:
-    "Découvre ton profil humour en 2 minutes : Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Quiz gratuit inspiré des techniques du stand-up.",
+    "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Ce quiz gratuit inspiré du stand-up te dit en 2 minutes quel type d'humour est le tien.",
   keywords: [
     "quiz humour",
     "type humour",
@@ -22,9 +23,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://deviens-marrant.fr/quiz-humour" },
   openGraph: {
-    title: "Quel type d'humour es-tu ? Quiz en 12 questions",
+    title: `Quel type d'humour es-tu ? Quiz en ${QUIZ_QUESTIONS.length} questions`,
     description:
-      "Observateur comme Frayssinet ? Storyteller comme Mirabel ? Découvre ton profil humour en 2 minutes.",
+      "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Découvre ton profil humour en 2 minutes.",
     url: "https://deviens-marrant.fr/quiz-humour",
     type: "website",
   },
@@ -34,27 +35,27 @@ const quizFaqs = [
   {
     question: "Combien de temps dure le quiz ?",
     answer:
-      "Le quiz prend environ 2 minutes. Il comporte 12 questions à choix multiples, chacune liée à des situations du quotidien (soirées, boulot, dates, messages...).",
+      `Environ 2 minutes, le temps que ton café refroidisse. Tu réponds à ${QUIZ_QUESTIONS.length} questions à choix multiples, toutes tirées de situations que tu connais : soirées, boulot, rencards, messages.`,
   },
   {
     question: "Quels sont les profils humour possibles ?",
     answer:
-      "Il existe 5 profils : L'Observateur (style Roman Frayssinet), Le Storyteller (style Paul Mirabel), L'Absurde (style Fary), Le Punchlineur (style Blanche Gardin) et Le Taquin (style Waly Dia). Chaque profil est associé à des forces et des conseils personnalisés.",
+      "Il existe 5 profils : L'Observateur (l'observation précise), Le Storyteller (le récit qui monte), L'Absurde (la surprise permanente), Le Punchlineur (le mot juste et les silences) et Le Taquin (la répartie complice). Chaque profil vient avec sa force principale et un conseil concret pour progresser dans ton style.",
   },
   {
     question: "Le quiz est-il gratuit ?",
     answer:
-      "Oui, le quiz est 100% gratuit et accessible sans inscription. Tu peux le refaire autant de fois que tu veux et partager ton résultat.",
+      "Oui, le quiz est 100% gratuit et se fait sans inscription. Tu peux le refaire autant de fois que tu veux, jusqu'à tomber sur le profil qui te plaît (on ne dira rien).",
   },
   {
     question: "Comment le profil est-il calculé ?",
     answer:
-      "Chaque réponse attribue des points aux 5 profils. À la fin des 12 questions, le profil avec le plus de points devient ton profil dominant. Les questions couvrent tes réactions en soirée, au travail, en conversation et face au stress.",
+      `Chaque réponse donne des points aux 5 profils. Au bout des ${QUIZ_QUESTIONS.length} questions, celui qui en a le plus devient ton profil dominant. Les questions passent en revue tes réflexes en soirée, au travail, en conversation et quand la pression monte.`,
   },
   {
     question: "Je peux partager mon résultat ?",
     answer:
-      "Oui ! À la fin du quiz, un bouton de partage te permet d'envoyer ton profil par message, sur les réseaux sociaux ou de copier le lien. Challenge tes potes pour comparer vos profils.",
+      "Oui. À la fin du quiz, le bouton de partage t'aide à envoyer ton profil par message, sur les réseaux ou à copier le lien. Fais-le passer à tes potes : comparer vos profils, c'est souvent plus drôle que le quiz lui-même.",
   },
 ];
 
@@ -72,13 +73,13 @@ export default function QuizHumourPage() {
       />
       <JsonLd data={buildFaqJsonLd(quizFaqs)} />
 
-      <main className="mx-auto max-w-4xl px-4 py-12">
+      <div className="mx-auto max-w-4xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Quel type d&apos;humour es-tu ?
           </h1>
-          <p className="mt-3 text-text-secondary">
-            12 questions pour découvrir ton profil humour — 2 minutes chrono
+          <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
+            {QUIZ_QUESTIONS.length} questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
           </p>
         </div>
 
@@ -92,18 +93,18 @@ export default function QuizHumourPage() {
             </h2>
             <p className="mt-3 text-text-secondary">
               Chaque profil correspond à un style d&apos;humour qu&apos;on retrouve chez les
-              meilleurs humoristes français. <strong>L&apos;Observateur</strong> comme Roman
-              Frayssinet repère les détails absurdes du quotidien. <strong>Le
-              Storyteller</strong> comme Paul Mirabel transforme la moindre anecdote en
-              sketch. <strong>L&apos;Absurde</strong> comme Fary surprend en permanence avec
-              des associations imprévisibles. <strong>Le Punchlineur</strong> comme Blanche
-              Gardin fait mouche en peu de mots. <strong>Le Taquin</strong> comme Waly Dia a
-              toujours la bonne réplique au bon moment.
+              pros de la scène. <strong>L&apos;Observateur</strong> repère les détails
+              absurdes du quotidien. <strong>Le Storyteller</strong> transforme la moindre
+              anecdote en sketch. <strong>L&apos;Absurde</strong> surprend en permanence avec
+              des associations imprévisibles. <strong>Le Punchlineur</strong> tape juste
+              avec trois fois rien. <strong>Le Taquin</strong> a toujours la bonne réplique
+              au bon moment.
             </p>
             <p className="mt-3 text-text-secondary">
-              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-primary hover:underline">techniques
-              travailler en priorité</a> pour progresser plus vite. Un Storyteller n&apos;a pas
-              les mêmes exercices qu&apos;un Punchlineur — et c&apos;est normal.
+              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link underline underline-offset-2">techniques
+              travailler en priorité</a> pour progresser plus vite. Un Storyteller et un
+              Punchlineur ne s&apos;entraînent pas de la même façon, un peu comme un marathonien
+              et un sprinteur qui partageraient le même vestiaire.
             </p>
           </div>
 
@@ -112,19 +113,19 @@ export default function QuizHumourPage() {
               À quoi sert ce quiz ?
             </h2>
             <p className="mt-3 text-text-secondary">
-              Pas à te coller une étiquette. À te donner un <strong>point de
+              Pas à te coller une étiquette sur le front, plutôt à te donner un <strong>point de
               départ</strong> pour progresser. Que tu veuilles{" "}
-              <a href="/blog/comment-devenir-drole" className="text-accent-primary hover:underline">devenir plus drôle</a>,{" "}
-              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-primary hover:underline">avoir de la répartie</a> ou
-              juste <a href="/vannes" className="text-accent-primary hover:underline">stocker des vannes</a> pour la machine à café — ton
-              profil te guide vers les bons contenus.
+              <a href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">devenir plus drôle</a>,{" "}
+              <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">avoir de la répartie</a> ou
+              juste <a href="/vannes" className="text-accent-link underline underline-offset-2">avoir des vannes d&apos;avance</a> pour la machine à café, ton
+              profil t&apos;indique par quoi commencer.
             </p>
             <p className="mt-3 text-text-secondary">
-              Et si tu veux aller plus loin, nos{" "}
-              <a href="/parcours" className="text-accent-primary hover:underline">parcours structurés</a>{" "}
+              Et le jour où tu veux aller plus loin, nos{" "}
+              <a href="/parcours" className="text-accent-link underline underline-offset-2">parcours structurés</a>{" "}
               et nos{" "}
-              <a href="/videos" className="text-accent-primary hover:underline">analyses de vidéos stand-up</a>{" "}
-              t&apos;accompagnent semaine par semaine.
+              <a href="/videos" className="text-accent-link underline underline-offset-2">analyses de vidéos stand-up</a>{" "}
+              prennent le relais, une semaine à la fois.
             </p>
           </div>
 
@@ -136,7 +137,7 @@ export default function QuizHumourPage() {
             <div className="mt-4 space-y-4">
               {quizFaqs.map((faq) => (
                 <details key={faq.question} className="group">
-                  <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-primary">
+                  <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
                     {faq.question}
                   </summary>
                   <p className="mt-2 text-sm text-text-secondary pl-4">
@@ -147,7 +148,7 @@ export default function QuizHumourPage() {
             </div>
           </div>
         </section>
-      </main>
+      </div>
     </>
   );
 }

@@ -4,13 +4,13 @@ import { Footer } from "@/components/layout/footer";
 describe("Footer", () => {
   it("renders brand name", () => {
     render(<Footer />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("renders brand description", () => {
     render(<Footer />);
     expect(
-      screen.getByText(/coach humour perso/)
+      screen.getByText(/Deviens drôle, un exercice à la fois/)
     ).toBeInTheDocument();
   });
 
@@ -84,5 +84,15 @@ describe("Footer", () => {
     const instagramLink = screen.getByLabelText("Instagram");
     expect(instagramLink).toHaveAttribute("href", "https://www.instagram.com/deviensmarrant/");
     expect(instagramLink).toHaveAttribute("target", "_blank");
+  });
+
+  it("s17 : 4 pistes égales dès 1024 px, Produit sur 2 pistes alignées (plus de 4e colonne vide)", () => {
+    render(<Footer />);
+    const produit = screen.getByText("Produit").parentElement as HTMLElement;
+    const grille = produit.parentElement as HTMLElement;
+    expect(grille).toHaveClass("grid-cols-1", "sm:grid-cols-3", "lg:grid-cols-4", "gap-8");
+    expect(produit).toHaveClass("lg:col-span-2");
+    // Sous-colonnes au même écart que la grille (gap-8) : alignées sur les pistes.
+    expect(produit.querySelector("ul")).toHaveClass("grid-cols-2", "sm:grid-cols-1", "lg:grid-cols-2", "lg:gap-x-8");
   });
 });

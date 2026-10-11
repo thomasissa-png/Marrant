@@ -5,11 +5,18 @@ import {
   buildBreadcrumbJsonLd,
   buildDefinedTermListJsonLd,
 } from "@/components/seo/json-ld";
+import { PageHeader } from "@/components/layout/page-header";
+import { frTypo } from "@/lib/fr-typo";
+import { buttonVariants } from "@/components/ui/button";
+import { glossary } from "@/lib/glossary";
+
+/** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
+const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
 
 export const metadata: Metadata = {
-  title: "Glossaire humour : 12 termes clés",
+  title: `Glossaire humour : ${glossary.length} termes clés`,
   description:
-    "Punchline, timing, callback, one-liner... Le dico de l'humour pour comprendre les techniques des pros. 12 termes expliqués avec exemples concrets.",
+    `Punchline, timing, callback, one-liner : le dico de l'humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`,
   keywords: [
     "définition répartie",
     "qu'est-ce que la répartie",
@@ -20,93 +27,6 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://deviens-marrant.fr/glossaire" },
 };
-
-const glossary = [
-  {
-    term: "Répartie",
-    definition:
-      "Capacité à répondre rapidement et avec à-propos à une remarque, souvent avec humour. La répartie repose sur des techniques précises comme l'accusé de réception, le rebond sur mot-clé ou le retournement. Elle se travaille avec de la pratique régulière.",
-    related: "/conseils",
-    relatedLabel: "Techniques de répartie",
-  },
-  {
-    term: "Timing",
-    definition:
-      "Art de choisir le moment exact où placer une blague, une pause ou une punchline pour maximiser l'effet comique. Un bon timing inclut les silences, le rythme et la capacité à lire l'audience. C'est souvent la différence entre un éclat de rire et un flop.",
-    related: "/videos",
-    relatedLabel: "Voir le timing en action",
-  },
-  {
-    term: "Autodérision",
-    definition:
-      "Technique d'humour qui consiste à rire de soi-même avec confiance. L'autodérision désarme l'interlocuteur et montre une sécurité émotionnelle. Ce n'est pas se dévaloriser, mais transformer ses faiblesses en source de rire partagé.",
-    related: "/conseils",
-    relatedLabel: "Apprendre l'autodérision",
-  },
-  {
-    term: "Punchline",
-    definition:
-      "La chute d'une blague — la phrase finale qui déclenche le rire. Une bonne punchline est inattendue, concise et crée un décalage avec le setup (la mise en place). Les meilleurs humoristes travaillent leurs punchlines mot par mot.",
-    related: "/vannes",
-    relatedLabel: "Exemples de punchlines",
-  },
-  {
-    term: "Storytelling",
-    definition:
-      "Art de raconter une histoire de manière captivante et drôle. En humour, le storytelling repose sur 3 ingrédients : une structure claire (situation → complication → chute), des détails sensoriels et un rythme qui maintient l'attention.",
-    related: "/parcours",
-    relatedLabel: "Parcours storytelling",
-  },
-  {
-    term: "One-liner",
-    definition:
-      "Blague courte en une seule phrase, facile à mémoriser et à ressortir. Le one-liner est l'arme secrète en société : il ne demande pas de contexte et fonctionne dans toutes les situations. Idéal pour débuter.",
-    related: "/vannes",
-    relatedLabel: "Voir les one-liners",
-  },
-  {
-    term: "Observationnel",
-    definition:
-      "Style d'humour basé sur l'observation du quotidien. L'humoriste décrit des situations que tout le monde vit mais que personne ne formule. Roman Frayssinet, Fary et Blanche Gardin sont des maîtres de l'humour observationnel en France.",
-    related: "/videos",
-    relatedLabel: "Vidéos observationnelles",
-  },
-  {
-    term: "Setup",
-    definition:
-      "La mise en place d'une blague — la partie qui crée l'attente avant la punchline. Un bon setup oriente l'audience dans une direction pour que la chute crée un effet de surprise. Plus le setup est crédible, plus la punchline est drôle.",
-    related: "/blog",
-    relatedLabel: "Guide des techniques",
-  },
-  {
-    term: "Callback",
-    definition:
-      "Technique qui consiste à faire référence à une blague précédente plus tard dans la conversation. Le callback récompense l'audience attentive et crée un sentiment de complicité. Très utilisé en stand-up et en conversation de groupe.",
-    related: "/conseils",
-    relatedLabel: "Techniques avancées",
-  },
-  {
-    term: "Escalade comique",
-    definition:
-      "Technique de répartie où l'on surenchérit sur une remarque en l'exagérant de manière absurde. Au lieu de nier ou de se justifier, on pousse le propos encore plus loin pour créer un effet comique. Fary et Paul Mirabel l'utilisent régulièrement en spectacle.",
-    related: "/blog",
-    relatedLabel: "7 techniques de répartie",
-  },
-  {
-    term: "Accusé de réception",
-    definition:
-      "Première technique de répartie : face à une remarque, on commence par accuser réception (« Intéressant », « Pas faux », « Bien vu ») pour gagner 2-3 secondes et formuler sa vraie réponse. Simple et redoutablement efficace.",
-    related: "/conseils",
-    relatedLabel: "Pratiquer la technique",
-  },
-  {
-    term: "Rebond sur mot-clé",
-    definition:
-      "Technique de répartie qui consiste à prendre un mot dans la phrase de l'interlocuteur et à construire sa réponse dessus. Exemple : « T'es toujours en retard » → rebond sur « toujours » : « Toujours ? La dernière fois j'étais à l'heure, c'est juste que personne ne m'a vu. »",
-    related: "/conseils",
-    relatedLabel: "Exercices de rebond",
-  },
-];
 
 export default function GlossairePage() {
   return (
@@ -122,44 +42,64 @@ export default function GlossairePage() {
           glossary.map((item) => ({
             term: item.term,
             definition: item.definition,
-            url: `https://deviens-marrant.fr/glossaire#${item.term.toLowerCase().replace(/\s+/g, "-")}`,
+            url: `https://deviens-marrant.fr/glossaire#${termAnchor(item.term)}`,
           })),
         )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Glossaire</span>
       </nav>
 
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Glossaire humour : les termes à connaître pour devenir drôle
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Répartie, timing, autodérision, punchline... Les termes clés de
-          l&apos;humour expliqués simplement, avec des exemples concrets.
-          Le vocabulaire pour comprendre les techniques — et surtout les
-          utiliser.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Glossaire humour&nbsp;: les termes à connaître pour devenir drôle</>}
+        lead={
+          <>
+            Répartie, timing, autodérision, punchline… Les mots que les
+            humoristes utilisent entre eux, expliqués simplement et avec des
+            exemples concrets. Parce que savoir comment s&apos;appelle une
+            technique, c&apos;est déjà un peu savoir s&apos;en servir.
+          </>
+        }
+      />
 
-      <div className="space-y-6">
+      {/* T49 : index collant des termes (libellés = termes existants), sous le header sticky */}
+      <nav
+        aria-label="Glossaire"
+        className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
+      >
+        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »). */}
+        <ul className="flex snap-x gap-0 overflow-x-auto py-1 lg:flex-wrap lg:overflow-visible">
+          {glossary.map((item) => (
+            <li key={item.term} className="shrink-0 snap-start">
+              <a
+                href={`#${termAnchor(item.term)}`}
+                className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-2 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
+              >
+                {item.term}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div className="max-w-4xl space-y-6">
         {glossary.map((item) => (
           <section
             key={item.term}
-            id={item.term.toLowerCase().replace(/\s+/g, "-")}
-            className="rounded-xl border border-border bg-background-card p-6"
+            id={termAnchor(item.term)}
+            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
               {item.term}
             </h2>
-            <p className="mt-3 text-text-secondary leading-relaxed">
-              {item.definition}
+            <p className="mt-3 max-w-3xl leading-relaxed text-text-secondary">
+              {frTypo(item.definition)}
             </p>
             <Link
               href={item.related}
-              className="mt-3 inline-block text-sm font-medium text-accent-primary hover:underline"
+              className="mt-3 inline-block text-sm font-medium text-accent-link hover:underline"
             >
               {item.relatedLabel} →
             </Link>
@@ -169,11 +109,11 @@ export default function GlossairePage() {
 
       {/* Cross-linking SEO */}
       <nav className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Continue ta progression</h2>
+        <h2 className="font-display mb-4 text-xl font-bold">Passe de la théorie à la pratique</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/vannes" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Vannes et blagues drôles</h3>
-            <p className="mt-1 text-xs text-text-secondary">Mets ces termes en pratique avec des vannes prêtes à ressortir.</p>
+            <p className="mt-1 text-xs text-text-secondary">Repère le setup, la punchline et le timing dans des vannes prêtes à ressortir.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Conseils de répartie</h3>
@@ -181,7 +121,7 @@ export default function GlossairePage() {
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
-            <p className="mt-1 text-xs text-text-secondary">Découvre l&apos;équipe et la mission derrière deviens-marrant.fr.</p>
+            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l&apos;humour s&apos;apprend.</p>
           </Link>
         </div>
       </nav>
@@ -189,17 +129,15 @@ export default function GlossairePage() {
       {/* CTA */}
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
         <p className="font-display text-xl font-bold text-text-primary">
-          Prêt à mettre ces termes en pratique ?
+          Le vocabulaire, c&apos;est fait. Place aux rires.
         </p>
         <p className="mt-2 text-text-secondary">
-          Des exercices concrets, des parcours pas à pas, et un système de
-          progression. Parce que connaître le vocabulaire c&apos;est bien,
-          faire rire c&apos;est mieux.
+          Des exercices concrets, des parcours étape par étape et tes XP pour
+          voir le chemin parcouru. Connaître le mot « callback », c&apos;est
+          bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
-        <Link href="/abonnement" className="mt-4 inline-block">
-          <button className="rounded-lg bg-accent-primary px-6 py-3 font-medium text-white hover:bg-accent-primary/90">
-            Commencer à 0,99 €/mois
-          </button>
+        <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
+          Commencer à 2,99 €/mois
         </Link>
       </div>
     </>

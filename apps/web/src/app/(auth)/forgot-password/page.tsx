@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
         setSuccess(true);
       } else {
         const data = await res.json();
-        setError(data.error || "Une erreur est survenue");
+        setError(data.error || "Quelque chose a coincé de notre côté. Réessaie.");
       }
     } catch {
       setError("Connexion perdue, réessaie");
@@ -38,19 +38,19 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-screen flex-col items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <Link href="/" className="mb-4 inline-block">
-            <span className="font-display text-2xl font-bold text-gradient">
-              deviens-marrant
+            <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
+              deviens-marrant.fr
             </span>
           </Link>
-          <CardTitle>Mot de passe oublié</CardTitle>
+          <h1 className="font-display text-lg font-bold text-text-primary">Mot de passe oublié</h1>
           <CardDescription>
             {success
-              ? "Vérifie ta boîte mail pour le lien de réinitialisation."
-              : "Entre ton email et on t'envoie un lien de réinitialisation."}
+              ? "Jette un œil à ta boîte mail, le lien est en route."
+              : "Donne-nous ton email, on t'envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -59,7 +59,7 @@ export default function ForgotPasswordPage() {
               <p className="mb-4 text-sm text-success">
                 Si un compte existe avec cet email, tu recevras un lien sous quelques minutes.
               </p>
-              <Link href="/login" className="text-accent-primary hover:underline text-sm">
+              <Link href="/login" className="text-accent-link underline underline-offset-2 text-sm">
                 Retour à la connexion
               </Link>
             </div>
@@ -83,11 +83,11 @@ export default function ForgotPasswordPage() {
                   <p className="text-sm text-error">{error}</p>
                 )}
                 <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Envoi en cours..." : "Envoyer le lien"}
+                  {isLoading ? "On t'envoie ça…" : "Envoyer le lien"}
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">
-                <Link href="/login" className="text-accent-primary hover:underline">
+                <Link href="/login" className="text-accent-link underline underline-offset-2">
                   Retour à la connexion
                 </Link>
               </div>
@@ -95,6 +95,13 @@ export default function ForgotPasswordPage() {
           )}
         </CardContent>
       </Card>
+      {/* T38 : repère de retour visible (pages plein écran sans header) */}
+      <Link
+        href="/"
+        className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
+      >
+        Retour à l&apos;accueil
+      </Link>
     </main>
   );
 }

@@ -5,11 +5,14 @@ import type { ReactNode } from "react";
 //
 // 4 templates reconnaissables en < 1 seconde dans un feed :
 //   1. Technique du Jour — technique stand-up actionnable
-//   2. La Vanne — punchline en italique 1.5x
+//   2. La Vanne — punchline 1.5x
 //   3. Décryptage — structure étapes (carousel)
 //   4. Le Défi — call-to-action central
 //
-// Format : 1080×1080 (carré Instagram standard)
+// Format : 1080×1080 (carré Instagram standard). Gabarits hérités,
+// encore utilisés par generate-post-image.ts ; les cartes « piste A »
+// (carrousel 4:5, X, LinkedIn) sont dans carte-marque.tsx et
+// cartes-piste-a.tsx (audit visuels s15).
 // Fond : noir #0D0D0D | Accent : violet #8B5CF6 | Texte : blanc #FFFFFF
 // ───────────────────────────────────────────────────────────────────
 
@@ -68,7 +71,7 @@ export function SlideWrapper({
               display: "flex",
               backgroundColor: COLORS.accent,
               color: COLORS.textPrimary,
-              fontSize: 24,
+              fontSize: 28,
               fontWeight: 700,
               padding: "10px 24px",
               borderRadius: 8,
@@ -86,7 +89,7 @@ export function SlideWrapper({
             style={{
               display: "flex",
               color: COLORS.textMuted,
-              fontSize: 22,
+              fontSize: 28,
             }}
           >
             {BRAND}
@@ -180,7 +183,7 @@ export function TechniqueDuJour({
             <div
               style={{
                 display: "flex",
-                fontSize: 20,
+                fontSize: 28,
                 color: COLORS.accent,
                 fontWeight: 600,
                 textTransform: "uppercase",
@@ -194,11 +197,10 @@ export function TechniqueDuJour({
                 display: "flex",
                 fontSize: 30,
                 color: COLORS.textPrimary,
-                fontStyle: "italic",
                 lineHeight: 1.4,
               }}
             >
-              &ldquo;{example}&rdquo;
+              « {example} »
             </div>
           </div>
         )}
@@ -208,7 +210,7 @@ export function TechniqueDuJour({
           <div
             style={{
               display: "flex",
-              fontSize: 24,
+              fontSize: 28,
               color: COLORS.textMuted,
             }}
           >
@@ -245,7 +247,7 @@ export function LaVanne({ setup, punchline, category }: LaVanneProps) {
           <div
             style={{
               display: "flex",
-              fontSize: 22,
+              fontSize: 28,
               color: COLORS.accentHover,
               fontWeight: 600,
               textTransform: "uppercase",
@@ -280,13 +282,12 @@ export function LaVanne({ setup, punchline, category }: LaVanneProps) {
           }}
         />
 
-        {/* Punchline — 1.5x size, italic */}
+        {/* Punchline — 1.5x size */}
         <div
           style={{
             display: "flex",
             fontSize: 56,
             fontWeight: 700,
-            fontStyle: "italic",
             color: COLORS.textPrimary,
             lineHeight: 1.2,
             maxWidth: 860,
@@ -356,12 +357,12 @@ export function DecryptageSlide({
           <div
             style={{
               display: "flex",
-              fontSize: 22,
+              fontSize: 28,
               color: COLORS.textMuted,
               marginTop: 16,
             }}
           >
-            Swipe pour les {totalSlides - 1} étapes →
+            Glisse pour les {totalSlides - 1} étapes →
           </div>
         </div>
       </SlideWrapper>
@@ -407,14 +408,14 @@ export function DecryptageSlide({
               display: "flex",
               backgroundColor: COLORS.accent,
               color: COLORS.textPrimary,
-              fontSize: 26,
+              fontSize: 28,
               fontWeight: 700,
               padding: "16px 40px",
               borderRadius: 12,
               marginTop: 16,
             }}
           >
-            50+ techniques → {BRAND}
+            {BRAND}
           </div>
         </div>
       </SlideWrapper>
@@ -452,7 +453,7 @@ export function DecryptageSlide({
           <div
             style={{
               display: "flex",
-              fontSize: 22,
+              fontSize: 28,
               color: COLORS.textMuted,
             }}
           >
@@ -519,7 +520,7 @@ export function LeDefi({ challenge, context, persona }: LeDefiProps) {
         <div
           style={{
             display: "flex",
-            fontSize: 24,
+            fontSize: 28,
             color: COLORS.accentHover,
             fontWeight: 600,
           }}
@@ -560,7 +561,7 @@ export function LeDefi({ challenge, context, persona }: LeDefiProps) {
             display: "flex",
             backgroundColor: COLORS.accent,
             color: COLORS.textPrimary,
-            fontSize: 26,
+            fontSize: 28,
             fontWeight: 700,
             padding: "16px 40px",
             borderRadius: 12,

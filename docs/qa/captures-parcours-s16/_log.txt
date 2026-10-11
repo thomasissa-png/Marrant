@@ -1,0 +1,50 @@
+desktop / -> 200 final=/ consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /abonnement -> 200 final=/abonnement consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /register -> 200 final=/register consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /login -> 200 final=/login consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /forgot-password -> 200 final=/forgot-password consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /reset-password -> 200 final=/reset-password consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /onboarding -> 200 final=/abonnement consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /profil -> 200 final=/login?callbackUrl=%2Fprofil consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /favoris -> 200 final=/login?callbackUrl=%2Ffavoris consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /carnet -> 200 final=/carnet consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /abonnement/success -> 200 final=/abonnement/success consoleErrors=2 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc | Failed to load resource: the server responded with a status of 401 (Unauthorized)]
+desktop /parcours -> 200 final=/parcours consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /vannes -> 200 final=/vannes consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /cgu -> 200 final=/cgu consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /retractation -> 200 final=/retractation consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /confidentialite -> 200 final=/confidentialite consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+desktop /abonnement CTA count=2
+desktop click first CTA -> /register?callbackUrl=%2Fabonnement&src=header
+desktop register submit ERROR page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "https://deviens-marrant.fr/register", waiting until "networkidle"[22m
+
+desktop login bad creds -> /login
+desktop google button -> https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S-769654433%3A1791361612046452&client_id=934712068626-8gs9gb1cufb42s5pp2gotiq1eh5pio26.apps.
+mobile / -> 200 final=/ consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /abonnement -> 200 final=/abonnement consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /register -> 200 final=/register consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /login -> 200 final=/login consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /forgot-password -> 200 final=/forgot-password consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /reset-password -> 200 final=/reset-password consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /onboarding -> 200 final=/abonnement consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /profil -> 200 final=/login?callbackUrl=%2Fprofil consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /favoris -> 200 final=/login?callbackUrl=%2Ffavoris consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /carnet -> 200 final=/carnet consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /abonnement/success -> 200 final=/abonnement/success consoleErrors=2 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc | Failed to load resource: the server responded with a status of 401 (Unauthorized)]
+mobile /parcours -> 200 final=/parcours consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /vannes -> 200 final=/vannes consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /cgu -> 200 final=/cgu consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /retractation -> 200 final=/retractation consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /confidentialite -> 200 final=/confidentialite consoleErrors=1 [Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495' because it violates the following Content Security Policy directive: "sc]
+mobile /abonnement CTA count=2
+mobile abonnement click ERROR locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('a,button').filter({ hasText: /abonne|premium|commencer|choisir|passer/
+mobile register submit ERROR page.goto: Timeout 30000ms exceeded.
+Call log:
+[2m  - navigating to "https://deviens-marrant.fr/register", waiting until "networkidle"[22m
+
+mobile login bad creds -> /login
+mobile google button -> https://accounts.google.com/v3/signin/identifier?opparams=%253F&dsh=S-1912161150%3A1791361926854713&client_id=934712068626-8gs9gb1cufb42s5pp2gotiq1eh5pio26.apps

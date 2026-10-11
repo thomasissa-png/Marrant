@@ -8,6 +8,8 @@ import {
 import { validateNewVideo } from "@/lib/ai/agents/standup-director-agent";
 
 export const dynamic = "force-dynamic";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
 /**
  * CRON — Découverte mensuelle de 10 nouvelles vidéos.
@@ -31,6 +33,14 @@ export async function GET(req: Request) {
 
   if (!cronSecret || (authHeader !== `Bearer ${cronSecret}` && querySecret !== cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Contenu préparé à l'avance (s14) : aucune génération IA.
+  {
+    const { isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true" });
+    }
   }
 
   // Vérifier que l'API YouTube est configurée
@@ -199,10 +209,10 @@ async function reEnrichWithFeedback(
 ): Promise<DiscoveredVideo | null> {
   try {
     // Import dynamique pour éviter les dépendances circulaires
-    const { callWithRetry, extractJson, getResponseText } = await import("@/lib/ai/client");
+    const { callWithRetry, extractJson, getResponseText, SONNET_MODEL } = await import("@/lib/ai/client");
 
     const response = await callWithRetry({
-      model: "claude-sonnet-4-20250514",
+      model: SONNET_MODEL,
       max_tokens: 1500,
       system: `Tu es l'Agent Vidéos de deviens-marrant.fr. Le Stand-Up Director a validé cette vidéo avec des corrections à apporter. Applique ses corrections.`,
       messages: [
@@ -231,7 +241,7 @@ Applique les corrections demandées. Garde le format exact :
 }`,
         },
       ],
-    });
+    }, 2, { agent: "video-agent", fn: "applyDirectorCorrections" });
 
     const text = getResponseText(response);
     const corrections = extractJson<{

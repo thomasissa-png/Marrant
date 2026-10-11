@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 
 const footerLinks = {
   produit: [
@@ -6,6 +7,8 @@ const footerLinks = {
     { href: "/conseils", label: "Conseils" },
     { href: "/videos", label: "Vidéos stand-up" },
     { href: "/parcours", label: "Parcours" },
+    // Pilier SEO non indexé (docs/seo/pilier-non-indexe-s15.md, L1) : lien sitewide.
+    { href: "/blog/comment-devenir-drole", label: "Comment devenir drôle" },
     { href: "/blog", label: "Blog" },
     { href: "/glossaire", label: "Glossaire" },
     { href: "/quiz-humour", label: "Quiz humour" },
@@ -18,6 +21,9 @@ const footerLinks = {
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
     { href: "/retractation", label: "Rétractation" },
+    // Lot G (@legal point 6) : accès permanent à la résiliation en ligne. Sans session,
+    // le middleware renvoie vers /login?callbackUrl=/profil (ancre de la carte Abonnement).
+    { href: "/profil#abonnement", label: TEXTES_ABONNEMENT.resilier },
   ],
 };
 
@@ -55,22 +61,25 @@ export function Footer() {
   return (
     <footer className="border-t border-border bg-background-light">
       <div className="mx-auto max-w-7xl px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+        {/* 375 : une colonne ; 640-1023 : 3 colonnes (Produit sur une seule liste) ;
+            ≥ 1024 : 4 pistes égales, Produit sur 2 pistes (sous-colonnes au même
+            écart que la grille, donc alignées sur elle) : plus de 4e colonne vide (s17). */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
           {/* Marque + Réseaux sociaux */}
           <div>
-            <span className="font-display text-lg font-bold text-gradient">
-              deviens-marrant
+            <span className="font-display text-xl font-bold text-gradient">
+              deviens-marrant.fr
             </span>
             <p className="mt-2 text-sm text-text-secondary">
-              Ton coach humour perso. Vannes, répartie et techniques
-              de pro pour briller en société.
+              Deviens drôle, un exercice à la fois. Vannes, répartie et techniques
+              de stand-up pour briller en société.
             </p>
-            <p className="mt-3 text-sm text-text-muted">
-              <a href="mailto:contact@deviens-marrant.fr" className="transition-colors hover:text-accent-primary">contact@deviens-marrant.fr</a>
+            <p className="mt-2 text-sm text-text-muted">
+              <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center text-text-secondary transition-colors hover:text-text-primary">contact@deviens-marrant.fr</a>
             </p>
 
-            {/* Social links */}
-            <div className="mt-4 flex items-center gap-3">
+            {/* Social links : zone de toucher 44 px (p-3 autour de l'icône 20 px), alignée sur le texte (T48) */}
+            <div className="-ml-3 mt-1 flex items-center">
               {socialLinks.map((social) => (
                 <a
                   key={social.href}
@@ -78,7 +87,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-text-muted transition-colors hover:text-accent-primary"
+                  className="p-3 text-text-muted transition-colors hover:text-accent-link"
                 >
                   {social.icon}
                 </a>
@@ -87,16 +96,16 @@ export function Footer() {
           </div>
 
           {/* Liens produit */}
-          <div>
+          <div className="lg:col-span-2">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
               {footerLinks.produit.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
                     {link.label}
                   </Link>
@@ -110,12 +119,12 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Légal
             </h3>
-            <ul className="flex flex-col gap-2">
+            <ul className="flex flex-col">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-text-primary"
+                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
                     {link.label}
                   </Link>
@@ -125,7 +134,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 border-t border-border pt-8 text-center text-sm text-text-muted">
+        <div className="mt-8 text-balance border-t border-border pt-8 text-center text-sm text-text-muted">
           &copy; {new Date().getFullYear()} deviens-marrant.fr · Fait avec
           humour (et un peu de café)
         </div>

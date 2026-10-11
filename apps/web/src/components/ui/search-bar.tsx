@@ -15,7 +15,7 @@ interface SearchResult {
 type ResultType = "JOKE" | "TIP" | "VIDEO";
 
 const TYPE_META: Record<ResultType, { label: string; color: string; pluralLabel: string; href: string }> = {
-  JOKE: { label: "Vanne", color: "text-accent-primary", pluralLabel: "vannes", href: "/vannes" },
+  JOKE: { label: "Vanne", color: "text-accent-link", pluralLabel: "vannes", href: "/vannes" },
   TIP: { label: "Conseil", color: "text-accent-secondary", pluralLabel: "conseils", href: "/conseils" },
   VIDEO: { label: "Vidéo", color: "text-text-secondary", pluralLabel: "vidéos", href: "/videos" },
 };
@@ -188,7 +188,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
                 className={cn(
                   "rounded-md px-2.5 py-1 text-sm transition-colors",
                   activeIndex === i
-                    ? "bg-accent-primary/10 text-accent-primary"
+                    ? "bg-accent-primary/10 text-accent-link"
                     : "bg-background-elevated text-text-secondary hover:bg-background-light hover:text-text-primary"
                 )}
                 onClick={() => setQuery(s)}
@@ -218,7 +218,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
                     {meta.label}s ({items.length})
                   </span>
                   <button
-                    className="text-xs text-text-muted hover:text-accent-primary transition-colors"
+                    className="text-xs text-text-muted hover:text-accent-link transition-colors"
                     onClick={() => navigate(`${meta.href}?q=${encodeURIComponent(query)}`)}
                   >
                     Voir {meta.pluralLabel}
@@ -252,7 +252,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           {searchLimited && (
             <div className="border-t border-border px-4 py-2.5">
               <p className="text-center text-xs text-text-muted">
-                Résultats limités — <a href="/abonnement" className="font-medium text-accent-primary hover:underline">passe en Premium</a> pour tout voir
+                Résultats limités&nbsp;: <a href="/abonnement" className="font-medium text-accent-link underline underline-offset-2">passe en Premium</a> pour tout voir
               </p>
             </div>
           )}
@@ -268,7 +268,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"
         >
           <p className="text-center text-sm text-text-muted">
-            Rien trouvé pour &laquo; {query} &raquo;
+            Rien trouvé pour &laquo; {query} &raquo;. Essaie une de ces pistes :
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-1.5">
             {SUGGESTIONS.slice(0, 4).map((s) => (

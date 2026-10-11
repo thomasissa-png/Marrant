@@ -10,6 +10,12 @@ jest.mock("@/components/ui/toast", () => ({
   toast: jest.fn(),
 }));
 
+// Modale Premium simplifiée : on vérifie qu'elle s'ouvre avec la raison « vote ».
+jest.mock("@/components/premium/premium-modal", () => ({
+  PremiumModal: ({ isOpen, reason }: { isOpen: boolean; reason?: string }) =>
+    isOpen ? <div role="dialog">modale-premium-{reason}</div> : null,
+}));
+
 const { useSession } = require("next-auth/react");
 const { toast } = require("@/components/ui/toast");
 
@@ -39,7 +45,8 @@ function mockFetch(
 describe("UpcomingFeatures", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    useSession.mockReturnValue({ status: "authenticated" });
+    // Abonné : réaction/vote enregistrés en base (s15 §1.1 : Premium uniquement).
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
     global.fetch = jest.fn();
   });
 
@@ -55,7 +62,7 @@ describe("UpcomingFeatures", () => {
       expect(screen.getByText("Vannes, vidéos et conseils du jour par WhatsApp")).toBeInTheDocument();
       expect(screen.getByText("De nouveaux parcours")).toBeInTheDocument();
       expect(screen.getByText("Une communauté")).toBeInTheDocument();
-      expect(screen.getByText("Générateur de répartie")).toBeInTheDocument();
+      expect(screen.getByText("Répliques à la demande")).toBeInTheDocument();
     });
   });
 
@@ -125,8 +132,11 @@ describe("UpcomingFeatures", () => {
     });
   });
 
-  it("shows toast when unauthenticated user tries to vote", async () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
+  it.each([
+    ["visiteur", { status: "unauthenticated" }],
+    ["compte non abonné", { status: "authenticated", data: { user: { plan: "FREE" } } }],
+  ])("%s qui vote : modale Premium (raison vote), aucun envoi (s15 §1.1)", async (_label, session) => {
+    useSession.mockReturnValue(session);
     mockFetch({
       counts: { whatsapp: 47, "nouveaux-parcours": 34, communaute: 62, surprises: 21 },
       userVotes: [],
@@ -140,7 +150,10 @@ describe("UpcomingFeatures", () => {
 
     await userEvent.click(screen.getByLabelText("62 votes pour Une communauté"));
 
-    expect(toast).toHaveBeenCalledWith("Connecte-toi pour voter", "error");
+    expect(toast).not.toHaveBeenCalled();
+    expect(screen.getByRole("dialog")).toHaveTextContent("modale-premium-vote");
+    const posts = (global.fetch as jest.Mock).mock.calls.filter(([, o]) => (o as RequestInit | undefined)?.method === "POST");
+    expect(posts).toHaveLength(0);
   });
 
   it("rolls back on API error", async () => {
@@ -160,7 +173,7 @@ describe("UpcomingFeatures", () => {
     // Should rollback to 62 after error
     await waitFor(() => {
       expect(screen.getByLabelText("62 votes pour Une communauté")).toHaveTextContent("Je veux ça !");
-      expect(toast).toHaveBeenCalledWith("Erreur lors du vote, réessaie", "error");
+      expect(toast).toHaveBeenCalledWith("Ton vote s'est perdu en route, réessaie.", "error");
     });
   });
 
@@ -194,6 +207,6 @@ describe("UpcomingFeatures", () => {
     render(<UpcomingFeatures />);
 
     expect(screen.getByText("Prochainement")).toBeInTheDocument();
-    expect(screen.getByText("Vote pour la fonctionnalité que tu veux voir arriver en premier !")).toBeInTheDocument();
+    expect(screen.getByText("Vote pour ce que tu veux voir arriver en premier : ça nous aide à choisir par quoi commencer.")).toBeInTheDocument();
   });
 });

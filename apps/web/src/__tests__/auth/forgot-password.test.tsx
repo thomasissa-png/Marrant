@@ -15,12 +15,12 @@ describe("ForgotPasswordPage", () => {
 
   it("renders description", () => {
     render(<ForgotPasswordPage />);
-    expect(screen.getByText(/Entre ton email/)).toBeInTheDocument();
+    expect(screen.getByText(/Donne-nous ton email/)).toBeInTheDocument();
   });
 
   it("renders logo linking to home", () => {
     render(<ForgotPasswordPage />);
-    expect(screen.getByText("deviens-marrant")).toBeInTheDocument();
+    expect(screen.getByText("deviens-marrant.fr")).toBeInTheDocument();
   });
 
   it("renders email input", () => {

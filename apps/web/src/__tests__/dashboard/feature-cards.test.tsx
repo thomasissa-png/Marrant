@@ -9,7 +9,7 @@ jest.mock("@/hooks/use-content-stats", () => ({
 describe("FeatureCards", () => {
   it("renders section title", () => {
     render(<FeatureCards />);
-    expect(screen.getByText(/tout ce qu.il te faut pour/i)).toBeInTheDocument();
+    expect(screen.getByText(/Trois outils pour arrêter de rire/i)).toBeInTheDocument();
   });
 
   it("displays dynamic counts for each content type", () => {
@@ -49,5 +49,25 @@ describe("FeatureCards", () => {
     expect(screen.getByText(/école, boulot, couple, soirées/i)).toBeInTheDocument();
     expect(screen.getByText(/timing, auto-dérision, storytelling/i)).toBeInTheDocument();
     expect(screen.getByText(/les meilleurs extraits d.humoristes/i)).toBeInTheDocument();
+  });
+
+  it("affiche les liens vers des fiches réelles quand ils sont fournis (lot S1 s14)", () => {
+    render(
+      <FeatureCards
+        examples={[
+          [{ href: "/vannes/setup-abc12345", label: "Setup de vanne" }],
+          [{ href: "/conseils/le-timing-def67890", label: "Le timing" }],
+          [],
+        ]}
+      />,
+    );
+    expect(screen.getByRole("link", { name: "Setup de vanne" })).toHaveAttribute("href", "/vannes/setup-abc12345");
+    expect(screen.getByRole("link", { name: "Le timing" })).toHaveAttribute("href", "/conseils/le-timing-def67890");
+    expect(screen.getAllByRole("list")).toHaveLength(2);
+  });
+
+  it("sans exemples (base indisponible) : aucune liste ajoutée", () => {
+    render(<FeatureCards />);
+    expect(screen.queryAllByRole("list")).toHaveLength(0);
   });
 });

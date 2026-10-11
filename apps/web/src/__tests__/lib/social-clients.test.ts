@@ -345,7 +345,9 @@ describe("buffer-client", () => {
 
       const body = JSON.parse(mockFetch.mock.calls[1][1].body);
       expect(body.query).toContain("ch-instagram-012");
-      expect(body.query).toContain("images");
+      // s14 : schéma Buffer AssetInput = liste de { image: { url } } (« images » refusé en 400).
+      expect(body.query).toContain("assets: [{ image: { url:");
+      expect(body.query).not.toMatch(/\bimages\s*:/);
       expect(body.query).toContain("deviens-marrant.fr");
     });
 
@@ -414,40 +416,10 @@ describe("buffer-client", () => {
     });
   });
 
-  describe("createBufferThread", () => {
-    it("publie chaque partie du thread séparément", async () => {
-      // 1 quota check + 3 tweets = 4 appels API
-      mockFetch
-        .mockResolvedValueOnce(mockQuotaCheckResponse()) // quota check for 3 slots
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            data: { createPost: { post: { id: "thread-1", text: "Part 1" } } },
-          }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            data: { createPost: { post: { id: "thread-2", text: "Part 2" } } },
-          }),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({
-            data: { createPost: { post: { id: "thread-3", text: "Part 3" } } },
-          }),
-        });
-
-      const { createBufferThread } = require("@/lib/social/buffer-client");
-      const firstId = await createBufferThread(["Part 1", "Part 2", "Part 3"]);
-
-      expect(firstId).toBe("thread-1");
-      expect(mockFetch).toHaveBeenCalledTimes(4); // 1 quota + 3 posts
-    });
-
-    it("rejette un thread vide", async () => {
-      const { createBufferThread } = require("@/lib/social/buffer-client");
-      await expect(createBufferThread([])).rejects.toThrow("Thread vide");
+  describe("fils X interdits (s15)", () => {
+    it("le client n'expose plus de publication en fil", () => {
+      const client = require("@/lib/social/buffer-client");
+      expect(client.createBufferThread).toBeUndefined();
     });
   });
 

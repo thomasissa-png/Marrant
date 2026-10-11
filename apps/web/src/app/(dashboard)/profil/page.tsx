@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
+import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 
 export const metadata: Metadata = {
   title: "Mon profil | Progression & Statistiques",
@@ -26,6 +27,10 @@ export default function ProfilPage({
 
       {searchParams.upgrade && <UpgradeToast status={searchParams.upgrade} />}
 
+      {/* Parcours en cours en tête (reco 5, s17) ; rien pour un compte sans Premium. */}
+      <ReprendreParcours src="profil" className="mb-8" />
+
+      {/* Rappel e-mail sur demande (D7, legal C1) : rendu dans ProfilDashboard, sous « Mes parcours » (s17 tour 1, UXV-1-02). */}
       <ProfilDashboard />
     </>
   );

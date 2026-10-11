@@ -13,6 +13,8 @@ import {
   type ValidationResult,
 } from "./standup-director-agent";
 import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
+import { fitDescription, truncateAtWord } from "@/lib/seo-meta";
+import { runWithContentGates } from "../content-gates";
 
 /**
  * Nombre max de tentatives generate → validate → retry pour un article.
@@ -24,6 +26,8 @@ import { getRelatedSlugs, getClusterForSlug } from "@/lib/blog-clusters";
  * passe pas au 2e essai ne passera pas au 3e non plus.
  */
 const MAX_ARTICLE_VALIDATION_ATTEMPTS = 2;
+/** Budget de sortie d'un article (hors marge de réflexion ajoutée par callWithRetry). */
+export const ARTICLE_MAX_TOKENS = 8000;
 
 /**
  * Agent SEO Blog — Génère des articles de blog optimisés SEO
@@ -210,7 +214,7 @@ RÈGLE #1 — LE BLOG EST LA DÉMO DU PRODUIT
 
 Un article sur l'humour qui n'est pas drôle, c'est un restaurant qui n'a pas de nourriture.
 Chaque article DOIT contenir au minimum :
-- 3 traits d'humour ou vannes originales (pas des blagues Carambar)
+- 3 traits d'humour ou vannes originales (pas des blagues Carambar, pas une blague déjà connue ailleurs — classique d'Internet, meme recyclé, vanne de tonton —, pas de calembour phonétique, jamais une vanne dont la cible est un groupe : le twist vient d'un retournement d'IDÉE, en un minimum de mots)
 - Des exemples DRÔLES et concrets (pas "Si on te dit X, réponds Y" — un vrai dialogue funny)
 - Un ton qui fait sourire dès l'intro — le lecteur doit savoir en 3 phrases qu'il est sur un site d'humour
 
@@ -218,18 +222,9 @@ Chaque article DOIT contenir au minimum :
 RÉFÉRENCES HUMORISTES
 ═══════════════════════════════════════
 
-PRIORITÉ (citer au moins 2 par article) :
-- Paul Mirabel (escalade comique, naturel, Bercy)
-- Fary (surprise, pivot, énergie, réf pop culture)
-- Roman Frayssinet (observation chirurgicale, timing)
-- Blanche Gardin (autodérision puissante, silences)
-- Waly Dia (efficacité, punchlines chirurgicales)
-- Panayotis Pascot (vulnérabilité, storytelling)
-- Inès Reg (énergie, authenticité, social media)
-
-LIMITÉ (max 1 mention par article) :
-- Jamel Debbouze, Gad Elmaleh, Florence Foresti, Kev Adams
-→ Connus mais datés pour nos personas (20-34 ans)
+Humoristes nommés et cités BIENVENUS (choix fondateur P0 du 05/10/2026 : « on est
+un site d'humoriste ») : références de style, sketchs, citations. Une citation
+entre guillemets doit être réelle : ne jamais en inventer une, ni une anecdote.
 
 ═══════════════════════════════════════
 PERSONAS — Adapte le ton et les exemples
@@ -271,8 +266,28 @@ INTERDICTIONS :
 - Pas de copier-coller d'un autre article du site
 - JAMAIS expliquer l'humour sans le démontrer — chaque technique doit avoir un EXEMPLE DRÔLE
 - JAMAIS mentionner les personas internes par leur prénom (Yanis, Sophie, Marc). Ce sont des outils de conception INTERNES invisibles pour le visiteur. Utilise le "tu" direct ou des descriptions de situation ("au bureau", "en soirée", "quand tu reprends confiance").
-- JAMAIS de vouvoiement : "tu", "ton", "ta", "tes" — JAMAIS "vous", "votre", "vos". Le site tutoie TOUJOURS le lecteur.
+- JAMAIS de vouvoiement : "tu", "ton", "ta", "tes" — JAMAIS "vous", "votre", "vos". Le site tutoie TOUJOURS le lecteur — Y COMPRIS dans les FAQ, les blockquotes et les listes numérotées.
 - MINIMUM 1500 mots obligatoire (gate programmatique — l'article sera rejeté automatiquement en dessous).
+
+INTERDICTIONS RENFORCÉES (gates programmatiques BLOQUANTS — l'article est rejeté si un seul motif matche) :
+
+1. **Anti-staccato IA** — Pas de fragment isolé "Boom.", "Boom,", "Plot twist :", "STOP.", "Voilà.", "Fin.", "Point.", "Basta.", "Terminé." en début de paragraphe. Ce sont des tics d'IA reconnaissables qui cassent le ton "pote fluide". Utilise des phrases construites avec transitions logiques. Exemple bon : "La connexion est créée, et tu n'as même pas eu besoin de préparer une vanne." Exemple mauvais : "Boom, connexion créée."
+
+2. **Anti-témoignage fictif nommé** — INTERDIT d'inventer un témoignage avec prénom + âge du type "Lucas, 21 ans, étudiant en école de commerce" ou "Marine, 28 ans, chargée de com". Ces profils sonnent artificiels et sont trop proches des personas internes. Alternatives autorisées : (a) anonymiser en métier + tranche d'âge ("un étudiant en commerce, 20-25 ans"), (b) chiffres agrégés ("70% des personnes qui essaient cette technique la première fois racontent que…"), (c) situation générique ("au bureau, la première fois que tu…").
+
+3. **Anti-structure scolaire "Semaine X" / "Jours 1-3"** — INTERDIT de titrer une section "Semaine 1 : Maîtriser les bases", "Jours 4-7 : Les Questions", "Journée 3 : …". Le site est un ATELIER, pas un amphi. Reformuler en progression narrative : "Les premiers pas — comment poser les deux réflexes de base", "Étape 2 — Les Questions Magiques, quand le Rebond commence à couler".
+
+4. **Anti-mention IA** — INTERDIT dans le contenu généré : "généré par IA", "notre IA", "notre intelligence artificielle", "ChatGPT", "Claude", "GPT-4", "large language model". Règle fondateur PERMANENTE : le site NE se présente JAMAIS comme un produit IA dans son contenu éditorial. La marque parle en son nom.
+
+5. **Citations d'humoristes réels : oui, mais vraies** — Nommer et citer des humoristes (Fary, Paul Mirabel, Blanche Gardin, Roman Frayssinet, etc.) est ENCOURAGÉ. Une citation entre guillemets doit venir d'une source réelle (sketch, interview, livre). Si tu n'es pas sûr des mots exacts, évoque la technique sans guillemets ("Fary pousse souvent une observation banale jusqu'à l'absurde"). Ne jamais inventer une citation ni une anecdote.
+
+TESTS FINAUX avant de répondre (checklist mentale) :
+- [ ] Zéro "Boom.", zéro "Plot twist :", zéro "STOP." en fragment isolé
+- [ ] Zéro "Prénom, XX ans" dans les témoignages
+- [ ] Zéro "Semaine X" / "Jours X-Y" dans les H2/H3
+- [ ] Zéro mention "IA", "ChatGPT", "Claude", "généré par"
+- [ ] Toute citation d'humoriste entre guillemets est réelle (jamais inventée)
+- [ ] Tutoiement partout (FAQ comprise)
 
 ═══════════════════════════════════════
 GEO — OPTIMISATION POUR LES LLM (ChatGPT, Perplexity, Gemini, Claude)
@@ -372,14 +387,14 @@ export async function generateArticle(
     crossLinkContext += `\n\nAUTRES ARTICLES DISPONIBLES pour le maillage (utilise 1-2 liens pertinents si le contexte s'y prête) :\n${otherArticles}`;
   }
 
-  // max_tokens 5000 (avril 2026, ex-8000) : en pratique les articles
-  // generes font 2500-4000 tokens (1500-2500 mots FR). Le budget 8000
-  // etait un gaspillage — Anthropic facture le max_tokens reserve meme
-  // si le modele n'ecrit que 3000 tokens (sur certains providers). 5000
-  // laisse une marge confortable sans sur-provisionner.
+  // max_tokens 8000 (s14, ex-5000) : la réflexion adaptative de Sonnet 5.5
+  // compte dans max_tokens. Le 30/09/2026, la re-génération avec feedback
+  // directeur a atteint la limite (9000 = 5000 + 4000 de marge, dont 3379 de
+  // réflexion) : JSON tronqué → article perdu, relancé à chaque tick.
+  // Seuls les tokens réellement générés sont facturés : la marge ne coûte rien.
   const response = await callWithRetry({
     model: SONNET_MODEL,
-    max_tokens: 5000,
+    max_tokens: ARTICLE_MAX_TOKENS,
     system: [GENERATE_ARTICLE_CACHED_BLOCK],
     messages: [
       {
@@ -410,6 +425,11 @@ Réponds UNIQUEMENT en JSON :
   }, 2, { agent: "seo-blog-agent", fn: "generateArticle" });
 
   const text = getResponseText(response);
+  if (response.stop_reason === "max_tokens") {
+    console.error(
+      `[SEO Agent] Article tronqué (stop_reason max_tokens, ${response.usage?.output_tokens ?? "?"} tokens) : augmenter ARTICLE_MAX_TOKENS.`,
+    );
+  }
   try {
     return extractJson<GeneratedArticle>(text);
   } catch {
@@ -551,13 +571,49 @@ export async function publishWeeklyArticle(): Promise<{
       };
     }
 
+    // 4b-bis. Lot Q3 : gates de publication sans LLM (tirets cadratins,
+    // vulgarité, vouvoiement, auto-mention IA, marques signalées). Rejet →
+    // UNE régénération revalidée par le Director, sinon article reporté.
+    const gatedArticle = await runWithContentGates(
+      article,
+      async (feedback) => {
+        const regenerated = await generateArticle({
+          ...plan,
+          outline: `${plan.outline}\n\n--- ${feedback} ---`,
+        });
+        if (!regenerated) throw new Error("régénération article vide");
+        const revalidation = await validateBlogArticle({
+          title: regenerated.title,
+          slug: regenerated.slug,
+          excerpt: regenerated.excerpt,
+          content: regenerated.content,
+          category: regenerated.category,
+          targetKeyword: regenerated.targetKeyword,
+        });
+        if (revalidation.verdict !== "APPROVED") {
+          throw new Error(`article régénéré non validé par le directeur (score ${revalidation.score}/10)`);
+        }
+        return regenerated;
+      },
+      ["title", "excerpt", "content", "metaTitle", "metaDescription"],
+      `article « ${article.slug} »`,
+    );
+    if (!gatedArticle.ok) {
+      return {
+        success: false,
+        error: "Article reporté : rejeté par les gates de publication (vulgarité, vouvoiement ou mention IA)",
+      };
+    }
+    article = gatedArticle.value;
+
     // 4c. Validation programmatique des meta (truncate si trop long)
     if (article.metaDescription && article.metaDescription.length > 155) {
-      article = { ...article, metaDescription: article.metaDescription.slice(0, 152) + "..." };
+      // Coupe en fin de phrase ou de mot (jamais au milieu d'un mot) — passe SEO s11.
+      article = { ...article, metaDescription: fitDescription(article.metaDescription, 155) };
       console.warn(`[SEO Check] Meta description tronquée à 155 chars`);
     }
     if (article.metaTitle && article.metaTitle.length > 60) {
-      article = { ...article, metaTitle: article.metaTitle.slice(0, 57) + "..." };
+      article = { ...article, metaTitle: truncateAtWord(article.metaTitle, 60) };
       console.warn(`[SEO Check] Meta title tronqué à 60 chars`);
     }
     if (article.excerpt && article.excerpt.length > 155) {

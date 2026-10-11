@@ -9,8 +9,10 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { useFavoritesStore } from "@/stores/favorites-store";
+import { tipProse } from "@/lib/tip-prose";
 import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
+import { buildLoginUrl } from "@/lib/auth-links";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -20,7 +22,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     label: "Tout",
     emptyEmoji: "⭐",
     emptyTitle: "Aucun favori pour l'instant",
-    emptyDesc: "Mets des vannes, conseils ou vidéos de côté — tu nous remercieras en soirée.",
+    emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
     ctaLabel: "Explorer les vannes",
     ctaHref: "/vannes",
   },
@@ -97,6 +99,10 @@ interface JokeData {
   punchline: string;
   category: string;
   type: string;
+  // Décryptage pédagogique (Phase 1b) — nullable tant que la vanne n'est pas back-fillée
+  comedyTechnique?: string | null;
+  techniqueExplanation?: string | null;
+  howToApply?: string | null;
 }
 
 interface TipData {
@@ -162,7 +168,7 @@ export function FavorisList() {
           <p className="mt-4 text-lg font-medium text-text-primary">
             Connecte-toi pour retrouver tes p&#233;pites
           </p>
-          <Link href="/login" className="mt-4">
+          <Link href={buildLoginUrl({ callbackUrl: "/favoris" })} className="mt-4">
             <Button variant="primary" size="sm">
               Se connecter
             </Button>
@@ -225,7 +231,7 @@ export function FavorisList() {
           >
             {tab.label}
             {counts[tab.value] > 0 && (
-              <span className={`ml-1.5 rounded-full px-1.5 text-xs ${activeTab === tab.value ? "bg-white/20" : "bg-accent-primary/20 text-accent-primary"}`}>
+              <span className={`ml-1.5 rounded-full px-1.5 text-xs ${activeTab === tab.value ? "bg-white/20" : "bg-accent-primary/20 text-accent-link"}`}>
                 {counts[tab.value]}
               </span>
             )}
@@ -304,10 +310,40 @@ export function FavorisList() {
                     <p className="text-text-primary">{joke.content}</p>
                     {isRevealed ? (
                       <>
-                        <p className="mt-3 font-semibold text-accent-primary animate-fade-in">
+                        <p className="mt-3 font-semibold text-accent-link animate-fade-in">
                           {joke.punchline}
                         </p>
                         <ReactionButtons jokeId={fav.jokeId ?? ""} className="mt-3" />
+                        {joke.comedyTechnique && (
+                          <div
+                            className="mt-4 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
+                              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+                            </p>
+                            {joke.techniqueExplanation && (
+                              <p className="mt-2 text-sm text-text-secondary">
+                                {joke.techniqueExplanation}
+                              </p>
+                            )}
+                            {joke.howToApply && (
+                              <div className="mt-3 rounded-md border border-border bg-background-card p-3">
+                                <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
+                                <p className="mt-1 text-sm text-text-secondary">{joke.howToApply}</p>
+                              </div>
+                            )}
+                            <p className="mt-3 text-xs text-text-muted">
+                              Envie de comprendre la mécanique en profondeur ?{" "}
+                              <Link
+                                href="/anatomie-vanne"
+                                className="font-medium text-accent-link underline underline-offset-2"
+                              >
+                                L&apos;anatomie d&apos;une vanne
+                              </Link>
+                            </p>
+                          </div>
+                        )}
                       </>
                     ) : (
                       <p className="mt-3 text-sm text-text-muted">
@@ -360,17 +396,17 @@ export function FavorisList() {
                     <CardTitle>{tip.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm leading-relaxed text-text-primary">{tip.content}</p>
+                    <p className="text-sm leading-relaxed text-text-primary">{tipProse(tip.content)}</p>
 
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
                         <div className="rounded-lg bg-background-elevated p-4">
-                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exemple</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tip.example}</p>
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.example)}</p>
                         </div>
                         <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tip.exercise}</p>
+                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.exercise)}</p>
                         </div>
                       </div>
                     ) : (
@@ -428,7 +464,7 @@ export function FavorisList() {
                         <ul className="mt-1.5 space-y-1.5">
                           {video.learnings.map((learning, i) => (
                             <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                              <span className="mt-0.5 shrink-0 text-accent-primary" aria-hidden="true">•</span>
+                              <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
                               {learning}
                             </li>
                           ))}
@@ -437,7 +473,7 @@ export function FavorisList() {
                     )}
                     {video.exercise && (
                       <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-primary">Exercice pratique</p>
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
                         <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
                       </div>
                     )}

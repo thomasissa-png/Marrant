@@ -20,7 +20,13 @@ jest.mock("next/navigation", () => ({
 const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
+const mockTrack = jest.fn();
+jest.mock("@/lib/umami", () => ({
+  trackUmamiWhenReady: (...args: unknown[]) => mockTrack(...args),
+}));
+
 import SubscriptionSuccessPage from "@/app/(dashboard)/abonnement/success/page";
+import { TEXTES_SUCCESS } from "@/config/textes/paiement";
 
 describe("SubscriptionSuccessPage", () => {
   beforeEach(() => {
@@ -32,14 +38,14 @@ describe("SubscriptionSuccessPage", () => {
     jest.useRealTimers();
   });
 
-  it("renders loading state initially", () => {
+  it("état initial : vérification en cours, JAMAIS « Paiement reçu » avant preuve (s16)", () => {
     mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "FREE" }) });
     render(<SubscriptionSuccessPage />);
-    expect(screen.getByText("Paiement reçu !")).toBeInTheDocument();
-    expect(screen.getByText("Activation de ton abonnement en cours...")).toBeInTheDocument();
+    expect(screen.getByText(TEXTES_SUCCESS.verificationTitre, { selector: "h1" })).toBeInTheDocument();
+    expect(screen.queryByText("Paiement reçu !")).not.toBeInTheDocument();
   });
 
-  it("redirects to /vannes when status returns PREMIUM (webhook already processed)", async () => {
+  it("redirects to /parcours with welcome when status returns PREMIUM (webhook already processed)", async () => {
     mockFetch.mockResolvedValueOnce({
       ok: true,
       json: () => Promise.resolve({ plan: "PREMIUM" }),
@@ -53,7 +59,7 @@ describe("SubscriptionSuccessPage", () => {
 
     await waitFor(() => {
       expect(mockUpdate).toHaveBeenCalled();
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
@@ -82,7 +88,7 @@ describe("SubscriptionSuccessPage", () => {
         body: JSON.stringify({ sessionId: "cs_test_123" }),
       });
       expect(mockUpdate).toHaveBeenCalled();
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
@@ -103,9 +109,10 @@ describe("SubscriptionSuccessPage", () => {
     }
 
     await waitFor(() => {
-      expect(screen.getByText(/prend plus de temps que prévu/)).toBeInTheDocument();
+      expect(screen.getByText(TEXTES_SUCCESS.nonVerifieTitre)).toBeInTheDocument();
+      expect(screen.queryByText(/paiement est bien reçu/)).not.toBeInTheDocument();
       expect(screen.getByText("Réessayer")).toBeInTheDocument();
-      expect(screen.getByText("Continuer vers le site")).toBeInTheDocument();
+      expect(screen.getByText("Voir les parcours")).toBeInTheDocument();
     });
   });
 
@@ -142,11 +149,11 @@ describe("SubscriptionSuccessPage", () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 
-  it("'Continuer vers le site' navigates to /vannes", async () => {
+  it("'Voir les parcours' navigates to /parcours", async () => {
     mockFetch.mockResolvedValue({
       ok: true,
       json: () => Promise.resolve({ plan: "FREE" }),
@@ -161,8 +168,8 @@ describe("SubscriptionSuccessPage", () => {
     }
 
     const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-    await user.click(screen.getByText("Continuer vers le site"));
-    expect(mockPush).toHaveBeenCalledWith("/vannes");
+    await user.click(screen.getByText("Voir les parcours"));
+    expect(mockPush).toHaveBeenCalledWith("/parcours");
   });
 
   it("handles network errors gracefully and retries", async () => {
@@ -188,7 +195,140 @@ describe("SubscriptionSuccessPage", () => {
     });
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith("/vannes?upgrade=success");
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
+    });
+  });
+
+  describe("returnTo (retour à l'intention d'origine, 03/10)", () => {
+    afterEach(() => mockSearchParams.delete("returnTo"));
+
+    it("returnTo interne : retour à l'étape de parcours avec message de bienvenue", async () => {
+      mockSearchParams.set("returnTo", "/parcours/repartie");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith("/parcours/repartie?premium=bienvenue");
+      });
+    });
+
+    it("returnTo externe : ignoré, retour à /parcours", async () => {
+      mockSearchParams.set("returnTo", "https://evil.example/phish");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => {
+        expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
+      });
+    });
+  });
+
+  describe("mesure Umami (s15)", () => {
+    afterEach(() => mockSearchParams.delete("formule"));
+
+    it("abonnement confirmé : abonnement-reussi mensuel, une seule fois", async () => {
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(mockPush).toHaveBeenCalled());
+      expect(mockTrack).toHaveBeenCalledTimes(1);
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-reussi", { formule: "mensuel" });
+    });
+
+    it("formule=annuel dans l'URL de retour : abonnement-reussi annuel", async () => {
+      mockSearchParams.set("formule", "annuel");
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("abonnement-reussi", { formule: "annuel" }));
+    });
+
+    it("paiement pas encore confirmé : aucun événement", async () => {
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "FREE" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(mockTrack).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("s16 : visiteur, session d'un autre compte, preuve de paiement", () => {
+    afterEach(() => mockSearchParams.delete("formule"));
+
+    it("visiteur non connecté (401) : boucle arrêtée tout de suite, bouton Se connecter qui revient ici avec session_id", async () => {
+      mockSearchParams.set("formule", "annuel");
+      mockFetch.mockResolvedValue({ ok: false, status: 401, json: () => Promise.resolve({ error: "Non authentifié" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(screen.getByText(TEXTES_SUCCESS.connexionTitre)).toBeInTheDocument());
+      const link = screen.getByRole("link", { name: TEXTES_SUCCESS.connexionBouton });
+      expect(link).toHaveAttribute(
+        "href",
+        `/login?callbackUrl=${encodeURIComponent("/abonnement/success?session_id=cs_test_123&formule=annuel")}`,
+      );
+      // Étalon 5a.2 validé (lot E), mot pour mot.
+      expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Connecte-toi pour retrouver ton abonnement");
+      expect(
+        screen.getByText(
+          "Tu n'es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d'ici. Si tu viens de t'abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
+        ),
+      ).toBeInTheDocument();
+      expect(link).toHaveTextContent("Me connecter");
+      expect(screen.getByText(/Pas encore abonné \?/)).toHaveTextContent("Pas encore abonné ? Voir Premium");
+      expect(screen.getByRole("link", { name: "Voir Premium" })).toHaveAttribute("href", "/abonnement");
+      // Plus aucun appel après le 401
+      for (let i = 0; i < 5; i++) {
+        await act(async () => {
+          jest.advanceTimersByTime(2000);
+        });
+      }
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+      expect(screen.queryByText("Paiement reçu !")).not.toBeInTheDocument();
+    });
+
+    it("verify-session en 401 (session perdue entre deux appels) : même invitation à se connecter", async () => {
+      mockFetch
+        .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve({ plan: "FREE" }) })
+        .mockResolvedValueOnce({ ok: false, status: 401, json: () => Promise.resolve({}) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(screen.getByText(TEXTES_SUCCESS.connexionTitre)).toBeInTheDocument());
+    });
+
+    it("session de paiement d'un autre compte (403) : message honnête + contact, pas de « Paiement reçu »", async () => {
+      mockFetch
+        .mockResolvedValueOnce({ ok: true, status: 200, json: () => Promise.resolve({ plan: "FREE" }) })
+        .mockResolvedValueOnce({ ok: false, status: 403, json: () => Promise.resolve({}) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(screen.getByText(TEXTES_SUCCESS.nonVerifieTitre)).toBeInTheDocument());
+      expect(screen.getByRole("link", { name: "contact@deviens-marrant.fr" })).toHaveAttribute("href", "mailto:contact@deviens-marrant.fr");
+      expect(screen.queryByText("Paiement reçu !")).not.toBeInTheDocument();
+    });
+
+    it("plan Premium vérifié : « Paiement reçu ! » affiché puis redirection", async () => {
+      mockFetch.mockResolvedValue({ ok: true, status: 200, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(screen.getByText("Paiement reçu !")).toBeInTheDocument());
+      expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
     });
   });
 });

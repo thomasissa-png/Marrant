@@ -6,6 +6,7 @@ import {
   SONNET_MODEL,
 } from "../client";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { runWithContentGates } from "../content-gates";
 import type { YouTubeVideoDetails } from "../../youtube";
 import {
   searchVideos,
@@ -277,6 +278,7 @@ Ne garde que les vidéos vraiment pertinentes. Mieux vaut en garder 5 excellente
  */
 export async function enrichVideo(
   video: YouTubeVideoDetails,
+  feedback?: string,
 ): Promise<DiscoveredVideo | null> {
   try {
     const response = await callWithRetry({
@@ -306,7 +308,7 @@ Titre : "${video.title}"
 Chaîne : ${video.channelName}
 Durée : ${video.duration}
 Description YouTube : "${video.description.slice(0, 500)}"
-
+${feedback ? `\n${feedback}\n` : ""}
 Réponds en JSON STRICT :
 {
   "category": "TIMING|AUTODERISION|OBSERVATION|REPARTIE|STORYTELLING|ABSURDE|JEUX_DE_MOTS",
@@ -433,7 +435,24 @@ export async function runMonthlyDiscovery(
 
     const enriched = await enrichVideo(details);
     if (enriched) {
-      enrichedVideos.push(enriched);
+      // Lot Q3 : gates de publication sans LLM sur la fiche (tirets
+      // cadratins corrigés ; vulgarité, vouvoiement, auto-mention IA → UNE
+      // régénération, sinon vidéo écartée ; marques signalées).
+      const gated = await runWithContentGates(
+        enriched,
+        async (feedback) => {
+          const again = await enrichVideo(details, feedback);
+          if (!again) throw new Error("ré-enrichissement vide");
+          return again;
+        },
+        ["description", "technique", "learnings", "exercise"],
+        `fiche vidéo ${details.id}`,
+      );
+      if (gated.ok) {
+        enrichedVideos.push(gated.value);
+      } else {
+        result.skippedReasons.push(`Fiche rejetée par les gates de publication pour "${video.title}"`);
+      }
     } else {
       result.skippedReasons.push(`Enrichissement échoué pour "${video.title}"`);
     }

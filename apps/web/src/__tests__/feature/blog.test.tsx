@@ -111,6 +111,7 @@ jest.mock("@/lib/blog-clusters", () => ({
 }));
 
 import BlogPage from "@/app/(dashboard)/blog/page";
+import { BlogListView } from "@/app/(dashboard)/blog/blog-list-client";
 import BlogArticlePage, {
   generateStaticParams,
   generateMetadata,
@@ -137,17 +138,17 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders article cards with titles", () => {
-    expect(
-      screen.getByText("Comment devenir drôle : le guide")
-    ).toBeInTheDocument();
+    // s15 : la carte de la liste (titre du mock) et la carte « Commence ici » (titre du pilier depuis le 06/10).
+    expect(screen.getAllByText("Comment devenir drôle : le guide")).toHaveLength(1);
+    expect(screen.getByText("Comment devenir drôle : 5 piliers et un plan sur 30 jours")).toBeInTheDocument();
     expect(
       screen.getByText("Comment avoir de la répartie : techniques")
     ).toBeInTheDocument();
   });
 
   it("renders category badges", () => {
-    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("REPARTIE").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Guide").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText("Répartie").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders excerpts", () => {
@@ -157,7 +158,7 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders dates and reading times", () => {
-    expect(screen.getByText("2026-03-10")).toBeInTheDocument();
+    expect(screen.getByText("10 mars 2026")).toBeInTheDocument();
     expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 
@@ -180,6 +181,24 @@ describe("BlogPage — listing", () => {
   });
 });
 
+describe("BlogListView — HTML statique (lot S1 s14, P0-1)", () => {
+  it("rend tous les liens d'articles sans hook ni message de chargement", () => {
+    const { container } = render(
+      <BlogListView
+        articles={[
+          { slug: "a-1", title: "Article 1", excerpt: "E1", category: "guide", date: "2026-03-10", readingTime: "5 min" },
+          { slug: "a-2", title: "Article 2", excerpt: "E2", category: "repartie", date: "2026-03-11", readingTime: "6 min" },
+        ]}
+        categories={["guide", "repartie"]}
+      />,
+    );
+    const html = container.innerHTML;
+    expect(html).toContain('href="/blog/a-1"');
+    expect(html).toContain('href="/blog/a-2"');
+    expect(html).not.toContain("Chargement");
+  });
+});
+
 describe("BlogArticlePage — article detail", () => {
   it("renders article content and metadata", async () => {
     const Page = await BlogArticlePage({
@@ -189,11 +208,11 @@ describe("BlogArticlePage — article detail", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Comment devenir drôle : le guide",
+        name: /^Comment devenir drôle\s:\sle guide$/,
       })
     ).toBeInTheDocument();
-    expect(screen.getAllByText("GUIDE").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getByText("2026-03-10")).toBeInTheDocument();
+    expect(screen.getAllByText("Guide").length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText("10 mars 2026")).toBeInTheDocument();
     expect(screen.getByText("12 min de lecture")).toBeInTheDocument();
   });
 
@@ -212,9 +231,12 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     expect(
-      screen.getByText("Envie de passer à l'action ?")
+      screen.getByText("Maintenant, reste à le dire à voix haute")
     ).toBeInTheDocument();
-    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
+    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre (étalon 3.1).
+    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
+    expect(screen.getByText("Lire la première étape d'un parcours")).toBeInTheDocument();
+    expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 
   it("renders breadcrumb navigation", async () => {
@@ -232,7 +254,7 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     expect(
-      screen.getByText("Continue ta progression")
+      screen.getByText("À lire ensuite")
     ).toBeInTheDocument();
   });
 

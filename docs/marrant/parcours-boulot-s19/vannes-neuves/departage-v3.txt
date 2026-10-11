@@ -1,0 +1,10 @@
+# Départage à l'aveugle, vannes neuves s19 (lot 3)
+
+Une ligne peut commencer par un contexte entre crochets : il sert à comprendre la vanne, juge seulement la vanne.
+
+[D5] « Il n'y a pas de salle A au deuxième étage. » / « Elle est complète tous les jeudis depuis 2019. »
+[D8] « J'avais préparé deux discours pour ce soir : un drôle, un émouvant. » / « Celui-ci est le troisième. »
+[D11] « Mardi, j'ai voulu jeter mon gobelet de café. Le carton allait dans une trappe, le couvercle dans une deuxième, le fond de café dans une troisième, et la touillette dans une quatrième, fermée à clé. » / « Je l'ai adoptée. »
+[D15] « Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible. » / « Merci de lever vos verres en attendant. »
+[D17] « Je tiens l'accueil d'un siège social. » / « Je reconnais un entretien d'embauche à la façon dont on tient son manteau. »
+[D18] « Je m'étais promis de ne pas pleurer. » / « Pardon : de ne pas pleurer la première. »

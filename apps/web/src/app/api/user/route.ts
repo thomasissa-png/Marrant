@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { z } from "zod";
+import { deleteAccount, StripeCancelError } from "@/lib/account";
+import { refuserSiAutreSite } from "@/lib/same-site";
+import { effectiveStreak } from "@/lib/progression";
+import { MOT_CONFIRMATION_SUPPRESSION, TEXTES_API, TEXTES_SUPPRESSION } from "@/config/textes/compte";
 
 export async function GET() {
   try {
@@ -23,6 +28,7 @@ export async function GET() {
           level: true,
           xp: true,
           streak: true,
+          lastPracticeAt: true,
           lastActiveAt: true,
           _count: {
             select: {
@@ -56,7 +62,8 @@ export async function GET() {
         plan: user.plan,
         level: user.level,
         xp: user.xp,
-        streak: user.streak,
+        // s17 (D3) : série de pratique, 0 si rompue (avant-hier ou plus, heure de Paris)
+        streak: effectiveStreak(user.streak, user.lastPracticeAt),
         lastActiveAt: user.lastActiveAt,
         stats: {
           jokesRead: user._count.jokeLikes,
@@ -69,6 +76,52 @@ export async function GET() {
     });
   } catch (error) {
     console.error("[API /user]", error);
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
+  }
+}
+
+const deleteSchema = z.object({
+  confirmation: z
+    .string()
+    .transform((v) => v.trim().toUpperCase())
+    .refine((v) => v === MOT_CONFIRMATION_SUPPRESSION),
+});
+
+/** Cookies de session NextAuth (http et https) effacés avec la réponse. */
+const SESSION_COOKIES = ["next-auth.session-token", "__Secure-next-auth.session-token"];
+
+/**
+ * DELETE /api/user : suppression du compte (s16, reco 5).
+ * Session requise + mot de confirmation retapé (revérifié ici). L'abonnement
+ * Stripe est résilié d'abord ; si Stripe échoue, RIEN n'est supprimé.
+ */
+export async function DELETE(request: Request) {
+  const refus = refuserSiAutreSite(request, "DELETE /api/user");
+  if (refus) return refus;
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as { id?: string } | undefined)?.id;
+  if (!userId) {
+    return NextResponse.json({ error: TEXTES_API.nonConnecte }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => null);
+  if (!deleteSchema.safeParse(body).success) {
+    return NextResponse.json({ error: TEXTES_SUPPRESSION.motIncorrect }, { status: 400 });
+  }
+
+  try {
+    const result = await deleteAccount(userId);
+    console.log(`[API /user DELETE] Compte ${userId} supprimé=${result.deleted}, abonnements Stripe résiliés=${result.stripeCanceled}`);
+    const res = NextResponse.json({ success: true });
+    for (const name of SESSION_COOKIES) {
+      res.cookies.set(name, "", { path: "/", maxAge: 0, httpOnly: true, sameSite: "lax", secure: name.startsWith("__Secure-") });
+    }
+    return res;
+  } catch (error) {
+    console.error(`[API /user DELETE] Échec pour ${userId}:`, error);
+    if (error instanceof StripeCancelError) {
+      return NextResponse.json({ error: TEXTES_SUPPRESSION.echecStripe }, { status: 502 });
+    }
+    return NextResponse.json({ error: TEXTES_SUPPRESSION.echec }, { status: 500 });
   }
 }

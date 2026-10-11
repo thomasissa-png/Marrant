@@ -3,17 +3,20 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
+import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildItemListJsonLd,
 } from "@/components/seo/json-ld";
-import { BlogListClient } from "./blog-list-client";
+import { BlogListClient, BlogListView } from "./blog-list-client";
+import { PageHeader } from "@/components/layout/page-header";
+import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 export const metadata: Metadata = {
   title: "Blog humour — guides et techniques",
   description:
-    "Le blog qui t'apprend l'humour en te faisant rire. Techniques de stand-up, analyses d'humoristes et exercices testés. Si tu souris pas, on a raté notre job.",
+    "Le blog qui t'apprend l'humour en te faisant rire : techniques de stand-up, répartie, analyses d'humoristes et exercices à tester. Si tu souris pas, on a raté.",
   keywords: [
     "blog humour",
     "guide répartie",
@@ -40,7 +43,7 @@ async function getAllArticles() {
 
   try {
     dbArticles = await prisma.blogArticle.findMany({
-      where: { isPublished: true },
+      where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: {
         slug: true,
         title: true,
@@ -67,14 +70,17 @@ async function getAllArticles() {
         : new Date().toISOString().split("T")[0],
       readingTime: a.readingTime,
     })),
-    ...blogArticles.map((a) => ({
-      slug: a.slug,
-      title: a.title,
-      excerpt: a.excerpt,
-      category: a.category,
-      date: a.date,
-      readingTime: a.readingTime,
-    })),
+    ...blogArticles
+      // Exclure les slugs dépubliés (cannibalisation s11 — fusion en pillar).
+      .filter((a) => !UNPUBLISHED_STATIC_SLUGS.has(a.slug))
+      .map((a) => ({
+        slug: a.slug,
+        title: a.title,
+        excerpt: a.excerpt,
+        category: a.category,
+        date: a.date,
+        readingTime: a.readingTime,
+      })),
   ];
 
   // Dédupliquer par slug (DB a priorité)
@@ -113,24 +119,41 @@ export default async function BlogPage() {
         )}
       />
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
-        <Link href="/" className="hover:text-text-primary">Accueil</Link>
+        <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Blog</span>
       </nav>
-      <div className="mb-8">
-        <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Comment devenir drôle : guides et techniques d&apos;humour
-        </h1>
-        <p className="mt-2 text-text-secondary">
-          Guides pratiques pour devenir drôle, avoir de la répartie et
-          développer ton humour. Des techniques volées aux meilleurs
-          humoristes, des exercices testables immédiatement, et zéro blabla.
-          Si tu lis un article et que tu ne souris pas au moins une fois,
-          on a raté notre job.
-        </p>
-      </div>
+      <PageHeader
+        title={<>Comment devenir drôle&nbsp;: guides et techniques d&apos;humour</>}
+        lead={
+          <>
+            Guides pratiques pour devenir drôle, avoir de la répartie et
+            développer ton humour. Des techniques volées aux meilleurs
+            humoristes, des exercices testables immédiatement, et zéro blabla.
+            Si tu lis un article et que tu ne souris pas au moins une fois,
+            on a raté notre job.
+          </>
+        }
+      />
 
-      <Suspense fallback={<div className="py-12 text-center text-text-secondary">Chargement des articles…</div>}>
+      {/* Bloc « Commence ici » vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L3).
+          Pas de titre Hn : la hiérarchie de titres de /blog reste inchangée. */}
+      <aside aria-label="Commence ici" className="mb-8">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-muted">Commence ici</p>
+        <Link
+          href="/blog/comment-devenir-drole"
+          className="block rounded-lg border border-accent-primary/40 bg-background-card p-4 transition-colors hover:border-accent-primary"
+        >
+          <span className="block font-display text-lg font-bold text-text-primary">Comment devenir drôle : 5 piliers et un plan sur 30 jours</span>
+          <span className="mt-1 block text-sm text-text-secondary">
+            Les 5 piliers, ce qu&apos;en dit la science et un plan sur 30 jours.
+          </span>
+        </Link>
+      </aside>
+
+      {/* Fallback = liste complète rendue dans le HTML statique (liens crawlables, lot S1 s14) ;
+          le client applique ensuite le filtre `?category=`. */}
+      <Suspense fallback={<BlogListView articles={allArticles} categories={categories} />}>
         <BlogListClient articles={allArticles} categories={categories} />
       </Suspense>
 
@@ -144,7 +167,7 @@ export default async function BlogPage() {
           </Link>
           <Link href="/parcours" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">Parcours structurés</h3>
-            <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets.</p>
+            <p className="mt-1 text-xs text-text-secondary">Tu as lu la théorie ? Les parcours te font passer à la pratique, une semaine à la fois.</p>
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>

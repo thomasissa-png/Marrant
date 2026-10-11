@@ -1,3 +1,12 @@
+// ═══════════════════════════════════════════════════════════════════
+// ARCHIVÉ (s14, 01/10/2026) : NE PLUS APPELER.
+// La génération IA quotidienne des posts sociaux est arrêtée définitivement
+// (décision Thomas, audit docs/social/audit-s14/audit-strategie-ton.md).
+// Ce prompt contredit les règles de marque (humoristes nommés, tirets
+// cadratins, voix « je ») : il est conservé pour l'historique, non patché.
+// Les posts sont préparés chaque mois depuis le catalogue validé :
+// apps/web/scripts/content/prepare-social-month.ts
+// ═══════════════════════════════════════════════════════════════════
 import {
   buildCachedSystemBlock,
   callWithRetry,
@@ -8,6 +17,7 @@ import {
 import { PERSONAS, getPersonaForDay } from "../personas";
 import type { PersonaKey } from "../personas";
 import { TONALITY_BRIEF } from "./marketing-agent";
+import { runWithContentGates } from "../content-gates";
 import {
   validateSocialPost,
   directorRewriteSocialPost,
@@ -93,7 +103,7 @@ export type SocialPlatform = "TWITTER" | "LINKEDIN" | "INSTAGRAM";
  * - LINKEDIN → POTE_AU_TAF (vanne courte sur la vie de bureau, ≤ 3 phrases)
  * - INSTAGRAM → IMAGE_QUI_CLAQUE (punchline ≤ 6 mots sur fond noir, caption ≤ 80 chars)
  *
- * Anciens formats (TWEET/THREAD/POST/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR/WILD_CARD)
+ * Anciens formats (TWEET/THREAD/POST/QUOTE_ANALYSIS/TECHNIQUE_DU_JOUR)
  * conservés en alias pour rétro-compat tests + données legacy en DB.
  * La queue de publication (publish-social) skip les anciens formats deprecated.
  */
@@ -107,8 +117,7 @@ export type SocialFormat =
   | "THREAD"
   | "POST"
   | "QUOTE_ANALYSIS"
-  | "TECHNIQUE_DU_JOUR"
-  | "WILD_CARD";
+  | "TECHNIQUE_DU_JOUR";
 
 /**
  * Formats deprecated qui ne doivent plus être générés ni publiés.
@@ -117,7 +126,6 @@ export type SocialFormat =
 export const DEPRECATED_FORMATS: SocialFormat[] = [
   "THREAD",
   "QUOTE_ANALYSIS",
-  "WILD_CARD",
   "TECHNIQUE_DU_JOUR",
 ];
 
@@ -191,14 +199,15 @@ TEST DE LA VOIX (à appliquer avant de répondre) :
 
 | Plateforme | Format unique  | Promesse | Exemple canonique |
 |---|---|---|---|
-| Twitter   | MINI_STANDUP    | Une punchline de 30s, prête à recracher | "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau." |
+| Twitter   | MINI_STANDUP    | Une punchline de 30s, prête à recracher | "Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : « Parfait, je le note pour jeudi. » Cadeau." |
 | LinkedIn  | POTE_AU_TAF     | Une vanne courte sur ta journée de boulot, sans leçon | "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi." |
-| Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 6 mots en gros sur fond noir | Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social." |
+| Instagram | IMAGE_QUI_CLAQUE | Punchline ≤ 5 mots en gros sur fond noir | Visuel : "Ta playlist sport, écoutée assis." | Caption : "Une heure pour la composer. C'était ça, la séance." |
 
-PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de WILD_CARD. PAS de TECHNIQUE_DU_JOUR.
-Le compte sert la marque par accumulation de bonnes vannes — pas par "showcase pédagogique".
+PAS de THREAD. PAS de QUOTE_ANALYSIS. PAS de TECHNIQUE_DU_JOUR.
+1 trait drôle dans une observation pédagogique est bienvenu. La marque enseigne quelque chose tout en faisant sourire — la valeur éducative est au premier plan, pas l'humour pour l'humour.
 
 ═══ EXEMPLES CANONIQUES À IMITER ═══
+(Ils calibrent le NIVEAU et la VOIX. Ne les recopie jamais — ni l'idée, ni la chute : chaque post est neuf.)
 
 >>> TWITTER (Mini-Stand-Up) :
 
@@ -206,10 +215,10 @@ Le compte sert la marque par accumulation de bonnes vannes — pas par "showcase
 "Quand ta coloc met une étiquette sur tout dans le frigo. / Sur le yaourt nature : 'yaourt nature'. / Au cas où tu doutes encore."
 
 [Sophie — vanne du catalogue citée]
-"Une vanne à recracher en réunion demain : / 'Ce graphique, même Excel l'a abandonné.' / Cadeau."
+"Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : / « Parfait, je le note pour jeudi. » / Cadeau."
 
 [Marc — mise en scène impersonnelle]
-"Premier date depuis longtemps. / Tu demandes 'tu aimes quoi dans la vie'. / L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."
+"Premier date depuis des années. / On te demande ce que tu aimes dans la vie, et tu réalises que la dernière fois qu'on t'a posé la question, t'as répondu « les dinosaures »."
 
 >>> LINKEDIN (Le Pote au Taf) :
 
@@ -219,19 +228,22 @@ Le compte sert la marque par accumulation de bonnes vannes — pas par "showcase
 [Marc — mise en scène impersonnelle]
 "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. / Tu commences à penser que 'on' n'existe pas. / Que c'est un mythe RH inventé pour clore les meetings."
 
-[Manager — observation universelle, audience étendue]
-"Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. / Ça sauve 40 minutes de réunion gênée. / Plus que n'importe quel team-building."
+[Marc — variante mise en scène impersonnelle — LI#2 actualisé s11]
+"Le manager qui dit « ma porte est toujours ouverte ». / C'est vrai, elle l'est. / Lui, il est en réunion jusqu'en mars."
+
+[Manager — mise en scène impersonnelle, audience étendue]
+"Le séminaire sur « la communication fluide », organisé en quarante mails et trois sondages pour choisir la salle."
 
 >>> INSTAGRAM (L'Image Qui Claque) :
 
 [Yanis — mise en scène impersonnelle]
-Visuel : "En soirée, t'es le plat froid." | Caption : "Ça réchauffe. Mais faut un micro-ondes social."
+Visuel : "Ta playlist sport, écoutée assis." | Caption : "Une heure pour la composer. C'était ça, la séance."
 
 [Sophie — observation universelle]
-Visuel : "Réunion à 17h59. Nouveau sport olympique." | Caption : "Médaille d'or : faire semblant d'avoir noté."
+Visuel : "Le chef passe. Tu accélères." | Caption : "Et lui ralentit pour avoir l'air de surveiller. Deux acteurs, zéro public."
 
 [Marc — statement provocateur]
-Visuel : "Les apéros à 34 ans : sport extrême." | Caption : "Dimanche : tu survis. Lundi : tu négocies avec ton foie."
+Visuel : "Tu répètes ton salut, seul." | Caption : "Dans l'ascenseur, la voisine le dit en premier. Toute cette préparation perdue."
 
 ═══ TWITTER — MINI_STANDUP — fiche détaillée ═══
 - 1 single tweet, ≤ 270 chars (marge sécurité)
@@ -265,7 +277,7 @@ ANTI-PATTERNS (rejet automatique G-S15) :
 
 ═══ INSTAGRAM — IMAGE_QUI_CLAQUE — fiche détaillée ═══
 - 1 image carrée 1080x1080 (template satori — charte violette respectée)
-- Punchline visuelle : MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Punchline visuelle : MAX 5 mots (gate G-S2 : hook ≤ 5 mots, guillemets comptés). Reconnaissable en < 1 seconde dans un feed.
 - Caption sous l'image : ≤ 80 chars (G-S16), ton "le pote qui te chambre"
 - L'image doit faire rire SEULE — la caption = clin d'œil ou 2e mini-vanne
 - Pas de carousel (limitation Buffer)
@@ -273,7 +285,7 @@ ANTI-PATTERNS (rejet automatique G-S15) :
 
 ANTI-PATTERNS :
 - Caption longue qui explique la blague → la blague doit être DANS l'image
-- Texte trop dense sur le visuel : 6 mots max, sinon c'est une diapo PowerPoint
+- Texte trop dense sur le visuel : 5 mots max, sinon c'est une diapo PowerPoint
 - Charte cassée : fond clair, accent autre que violet, typo non-italique sur la punchline
 
 ═══ POSTURE NARRATEUR — pas un DM personnel, un coup de coude au lecteur ═══
@@ -283,21 +295,29 @@ Le compte parle AU lecteur, pas DE soi.
 
 Modèles de pensée : Paul Mirabel quand il dit "Vous, vous avez déjà...", Roman Frayssinet quand il décrit "le mec qui...", Blanche Gardin quand elle balance "Personne te le dit, mais...".
 
+TROLL : deux options valides.
+Option 1 — silence. Une posture, pas un manque.
+Option 2 — chaleur détachée sans riposte : "C'est noté. Le site est là si tu reviens."
+INTERDIT : retourner l'humour contre le troll. Bienveillant > brillant.
+
+Pour les replies aux DMs et commentaires inbound, JAMAIS de drop de lien. Pattern attendu : "On peut te partager X si tu as envie d'en savoir plus" — le lecteur dit oui → on envoie. Sinon → la conversation continue ou s'arrête.
+
 ═══ TON — STAND-UP SOCIAL ═══
-- Tu écris comme tu PARLES. Phrases courtes. Rythme parlé. Ruptures de ton.
+- Tu écris comme tu PARLES — mais de façon construite. Les idées s'enchaînent par une logique explicite. Deux phrases peuvent se lier si elles forment une même unité de sens. Pas de staccato sec qui simule l'énergie sans fond.
 - Spontané, brut, direct — pas de phrases de transition ("d'ailleurs", "en effet", "c'est pourquoi")
 - Provocateur sans être offensant — tu piques la curiosité
 - Tutoiement systématique (oui même sur LinkedIn — c'est notre signature)
 - Tu assumes tes opinions — pas de "certains pensent que" ou "il est intéressant de noter"
+- Tu parles AU lecteur de SA vie. Observateur, pas confident.
 
 ═══ QUI TU ES ═══
-Tu es un AUTEUR DE STAND-UP qui écrit pour les réseaux. Tu penses en punchlines, en timing, en ruptures. Chaque post est un micro-set de 30 secondes : setup → twist → sortie.
+Tu es un AUTEUR DE STAND-UP qui écrit pour les réseaux. Tu penses en observations justes, en timing, en chute bien placée. La chute arrive en fin de post, pas à chaque ligne.
 Tu n'es PAS une IA qui rédige du contenu. Tu es un humain drôle qui tape un post entre deux cafés.
 Tes modèles : les meilleurs comptes Twitter FR (Topito, Les Inrocks, comptes perso d'humoristes) — pas les comptes corporate.
 
-═══ TON — STAND-UP SOCIAL ═══
-- Tu écris comme tu PARLES. Phrases courtes. Rythme parlé. Ruptures de ton.
-- Comme un DM à un pote — pas un post planifié par un CM
+═══ TON — STAND-UP SOCIAL (rappel) ═══
+- Tu écris comme tu PARLES — mais de façon construite. Les idées s'enchaînent par une logique explicite. Pas de staccato sec qui simule l'énergie sans fond.
+- Comme un observateur qui a quelque chose à dire, pas quelque chose à prouver
 - Spontané, brut, direct — pas de phrases de transition ("d'ailleurs", "en effet", "c'est pourquoi")
 - Provocateur sans être offensant — tu piques la curiosité
 - Tutoiement systématique, jamais de vouvoiement
@@ -317,9 +337,9 @@ INTERDIT (red flags qui crient "écrit par ChatGPT") :
 - Les questions rhétoriques creuses : "Mais alors, qu'est-ce que l'humour ?"
 
 CE QUI FAIT HUMAIN :
-- Des phrases incomplètes. Genre ça.
+- Des idées liées par une logique explicite — deux phrases reliées si elles forment une même unité de sens
 - Des parenthèses (parce qu'on pense tout haut)
-- Des tirets — pour casser le rythme — comme à l'oral
+- Des tirets — pour lier deux idées dans un même mouvement, pas pour fragmenter
 - Des mots familiers : "le truc", "genre", "en vrai", "le délire"
 - De l'autodérision : "bon, on a testé, c'était gênant, mais ça a marché"
 - Des détails spécifiques : pas "une situation embarrassante" mais "le silence de 4 secondes après ta vanne ratée au repas de Noël"
@@ -354,10 +374,9 @@ Les posts sans lien performent mieux (algo + crédibilité). On est là pour app
 Quand il n'y a pas de CTA lien, le post se termine par la punchline ou une phrase de fermeture drôle. Point.
 
 BON CTA (quand c'est le 1 post sur 5 avec lien) :
-- "50+ techniques comme celle-ci → deviens-marrant.fr"
-- "Le reste est sur deviens-marrant.fr (ouais on fait notre pub)"
-- "On a compilé 50 techniques du genre. Devine où."
-- Simplement le lien, sans phrase. Sec.
+- "On a décrypté ça en détail sur Deviens Marrant, si tu veux creuser."
+- "La technique complète est sur Deviens Marrant."
+- Simplement le lien seul. Sec. Sans phrase d'intro.
 
 BON POST SANS CTA (les 4 autres sur 5) :
 - Le post se termine par la punchline. Pas de lien. Pas de "retrouvez". Rien.
@@ -391,23 +410,25 @@ On est une équipe de passionnés de stand-up, pas un mec seul derrière un écr
    - PAS de "tag un ami"
    - PAS de "like si tu es d'accord"
 7. Émojis : max 2 par post, jamais en ouverture, jamais 📣🔥💯
-8. Chaque post DOIT contenir au moins UN trait d'humour (vanne, observation drôle, auto-dérision)
+8. 1 trait drôle bien placé — pas de setup-twist-sortie mécanique à chaque post. La 2e punchline dans un même post annule la 1ère.
 9. TUTOIEMENT OBLIGATOIRE : "tu" / "ton" / "ta" — JAMAIS "vous" / "votre" / "vos". Le site tutoie TOUJOURS.
 10. ZÉRO VULGARITÉ : pas de putain, merde, bordel, etc. On est drôle SANS être vulgaire.
 11. PAS DE DIALOGUE RECONSTITUÉ : "Moi : ... / Mon pote : ..." = format générique interdit. Un compte lambda fait ça.
+12. VANNE NEUVE : jamais une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar), jamais un calembour phonétique, jamais une vanne dont la cible est un groupe. Le twist vient d'un retournement d'IDÉE, en un minimum de mots.
 
 ═══ RAPPEL — UN SEUL FORMAT PAR PLATEFORME ═══
 Twitter = MINI_STANDUP (single tweet, ≤ 270 chars). Pas de thread.
 LinkedIn = POTE_AU_TAF (≤ 3 phrases, vanne pro posée). Pas de leçon.
-Instagram = IMAGE_QUI_CLAQUE (visuel ≤ 6 mots + caption ≤ 80 chars). Pas de carousel.
+Instagram = IMAGE_QUI_CLAQUE (visuel ≤ 5 mots + caption ≤ 80 chars). Pas de carousel.
 
 ═══ TEST FINAL AVANT CHAQUE POST ═══
-Relis ton post et passe ces 5 checks :
+Relis ton post et passe ces 6 checks :
 1. "Est-ce qu'un humain posterait exactement ça ?" → Si ça sent l'IA, recommence
 2. "Est-ce qu'il y a au moins UN moment drôle ?" → Pas de post 100% sérieux
 3. "Est-ce que le hook crée une tension ?" → Pas une description plate
 4. "Est-ce que le CTA est invisible ?" → On ne doit pas sentir qu'on vend un truc
 5. "Est-ce que ${Object.values(PERSONAS).map(p => p.name).join(" ou ")} envoie ça à un pote ?" → Si non, recommence
+6. "Est-ce qu'il y a plus d'une punchline dans ce post ?" → Si oui, supprimer la moins forte.
 
 ═══ APPROCHE UNIVERSELLE — PERSONAS EN COULISSES ═══
 RÈGLE CLÉ : chaque post doit parler à TOUT LE MONDE. Le persona du jour n'est qu'une COLORATION subtile (vocabulaire, contexte d'exemple), jamais un filtre exclusif.
@@ -486,7 +507,7 @@ export function validatePostConstraints(
   if (post.platform === "TWITTER") {
     // Tous les formats Twitter single-tweet doivent respecter 270 chars
     // (marge 10 chars pour encodage emojis/accents que Twitter compte différemment)
-    const singleTweetFormats = ["MINI_STANDUP", "TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS", "WILD_CARD"];
+    const singleTweetFormats = ["MINI_STANDUP", "TWEET", "TECHNIQUE_DU_JOUR", "QUOTE_ANALYSIS"];
     if (singleTweetFormats.includes(post.format) && post.content.length > 270) {
       issues.push(
         `Tweet trop long : ${post.content.length} chars (max 270). Format: ${post.format}`,
@@ -741,7 +762,27 @@ export async function generateDailySocialPosts(
       const post = await generateSinglePost(entry, persona, winningPatterns);
       // Director validation pipeline
       const validated = await validateAndRefinePost(post, persona);
-      posts.push(validated);
+      // Lot Q3 : gates de publication sans LLM (tirets cadratins corrigés ;
+      // vulgarité, vouvoiement, auto-mention IA → UNE régénération, sinon pas
+      // de publication pour ce créneau ; marques signalées dans les logs).
+      const gated = await runWithContentGates(
+        validated,
+        async (feedback) => {
+          const regenerated = await generateSinglePost(
+            { ...entry, theme: `${entry.theme} — ${feedback}` },
+            persona,
+            winningPatterns,
+          );
+          return validateAndRefinePost(regenerated, persona);
+        },
+        ["hook", "content", "threadParts", "cta"],
+        `post ${entry.platform}/${entry.format}`,
+      );
+      if (!gated.ok) {
+        console.warn(`[SocialAgent] Post ${entry.platform}/${entry.format} non publié : rejeté par les gates de publication`);
+        continue;
+      }
+      posts.push(gated.value);
     } catch (err) {
       console.error(
         `[SocialAgent] Erreur génération ${entry.format}:`,
@@ -841,11 +882,11 @@ function getDailyPlan(
   // Thème Instagram — punchline visuelle ≤ 6 mots
   let instagramTheme: string;
   if (persona === "SOPHIE") {
-    instagramTheme = `Visuel ≤ 6 mots, scène pro Sophie (réunion, mail, lundi, café, calendrier). Caption ≤ 80 chars qui ajoute une 2e mini-vanne (pas explication). Charte respectée : fond noir, accent violet. ${flavor}`;
+    instagramTheme = `Visuel ≤ 5 mots, scène pro Sophie (réunion, mail, lundi, café, calendrier). Caption ≤ 80 chars qui ajoute une 2e mini-vanne (pas explication). Charte respectée : fond noir, accent violet. ${flavor}`;
   } else if (persona === "MARC") {
-    instagramTheme = `Visuel ≤ 6 mots, scène vie 30+ (apéros, sport, dating, anniversaires). Caption ≤ 80 chars qui ajoute un 2e instantané. Statement provocateur ou observation acide. ${flavor}`;
+    instagramTheme = `Visuel ≤ 5 mots, scène vie 30+ (apéros, sport, dating, anniversaires). Caption ≤ 80 chars qui ajoute un 2e instantané. Statement provocateur ou observation acide. ${flavor}`;
   } else {
-    instagramTheme = withYanisRef(`Visuel ≤ 6 mots, scène soirée/coloc/social Yanis. Caption ≤ 80 chars qui chambre le lecteur ("Ça réchauffe. Mais faut un micro-ondes social."). Mise en scène impersonnelle. ${flavor}`);
+    instagramTheme = withYanisRef(`Visuel ≤ 5 mots, scène soirée/coloc/social Yanis. Caption ≤ 80 chars qui chambre le lecteur avec un retournement d'idée (niveau : "Une heure pour la composer. C'était ça, la séance." — à ne pas recopier). Mise en scène impersonnelle. ${flavor}`);
   }
 
   const instagramPost: DailyPostPlan = {
@@ -1028,8 +1069,9 @@ function getFormatInstructions(
 - Voix narrateur : le compte parle AU lecteur, jamais DE soi (G-S19). Aucun "je / mon / ma / mes" hors citation entre guillemets.
 - Inspiration canonique :
   • "Quand ta coloc met une étiquette sur tout dans le frigo. Sur le yaourt nature : 'yaourt nature'. Au cas où tu doutes encore."
-  • "Une vanne à recracher en réunion demain : 'Ce graphique, même Excel l'a abandonné.' Cadeau."
-  • "Premier date depuis longtemps. Tu demandes 'tu aimes quoi dans la vie'. L'autre dit 'voyager'. Tu hoches la tête comme si t'avais compris la réponse."`;
+  • "Une vanne à recracher quand un collègue promet « je t'envoie ça dans cinq minutes » : « Parfait, je le note pour jeudi. » Cadeau."
+  • "Premier date depuis des années. On te demande ce que tu aimes dans la vie, et tu réalises que la dernière fois qu'on t'a posé la question, t'as répondu « les dinosaures »."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta vanne est NEUVE — jamais une blague déjà connue ailleurs, jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "POTE_AU_TAF":
       return `FORMAT : POTE_AU_TAF — LinkedIn (refonte s7)
@@ -1044,20 +1086,22 @@ function getFormatInstructions(
 - Inspiration canonique :
   • "Ce moment où ton chef envoie 'petit point rapide ?' à 17h57. Tu sais déjà que t'as raté ton train. Et que le point va durer 35 minutes pour te dire qu'on en reparlera lundi."
   • "Le collègue qui dit 'on en reparle' à chaque réunion depuis 3 mois. Tu commences à penser que 'on' n'existe pas. Que c'est un mythe RH inventé pour clore les meetings."
-  • "Une équipe saine, c'est quand quelqu'un peut dire 'je comprends rien à ton slide' sans drame. Ça sauve 40 minutes de réunion gênée. Plus que n'importe quel team-building."`;
+  • "Le manager qui dit « ma porte est toujours ouverte ». C'est vrai, elle l'est. Lui, il est en réunion jusqu'en mars."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta vanne est NEUVE — jamais une blague déjà connue ailleurs, jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "IMAGE_QUI_CLAQUE":
       return `FORMAT : IMAGE_QUI_CLAQUE — Instagram (refonte s7)
-- Champ "hook" = punchline visuelle qui sera mise en GROS sur l'image. MAX 6 mots. Reconnaissable en < 1 seconde dans un feed.
+- Champ "hook" = punchline visuelle qui sera mise en GROS sur l'image. MAX 5 mots (gate G-S2, guillemets comptés). Reconnaissable en < 1 seconde dans un feed.
 - Champ "content" = caption sous l'image. ≤ 80 caractères (G-S16). Ton "le pote qui te chambre".
 - L'image doit faire rire SEULE. La caption = clin d'œil ou 2e mini-vanne (pas explication).
 - Charte respectée : fond noir, accent violet, punchline italique. Reconnaissable en feed.
 - Voix narrateur : le compte chambre le lecteur, ne se raconte jamais. "T'es...", "Quand tu...", "Le X qui..."
 - INTERDIT (G-S16) : "tag un ami", "double-tap", "swipe pour", "clique sur le lien en bio". Caption > 80 chars.
 - Inspiration canonique :
-  • Visuel "En soirée, t'es le plat froid." | Caption "Ça réchauffe. Mais faut un micro-ondes social."
-  • Visuel "Réunion à 17h59. Nouveau sport olympique." | Caption "Médaille d'or : faire semblant d'avoir noté."
-  • Visuel "Les apéros à 34 ans : sport extrême." | Caption "Dimanche : tu survis. Lundi : tu négocies avec ton foie."`;
+  • Visuel "Ta playlist sport, écoutée assis." | Caption "Une heure pour la composer. C'était ça, la séance."
+  • Visuel "Le chef passe. Tu accélères." | Caption "Et lui ralentit pour avoir l'air de surveiller. Deux acteurs, zéro public."
+  • Visuel "Tu répètes ton salut, seul." | Caption "Dans l'ascenseur, la voisine le dit en premier. Toute cette préparation perdue."
+- Ces exemples calibrent le NIVEAU : ne les recopie jamais (ni l'idée, ni la chute). Ta punchline est NEUVE — jamais un format recyclé (« X : nouveau sport olympique »), jamais un calembour phonétique, jamais une cible de groupe.`;
 
     case "TECHNIQUE_DU_JOUR":
       return `FORMAT : TECHNIQUE DU JOUR

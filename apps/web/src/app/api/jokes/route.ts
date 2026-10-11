@@ -3,6 +3,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
+import { FREE_JOKE_LIMIT } from "@/config/premium";
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -37,9 +39,6 @@ export async function GET(request: NextRequest) {
       isPremium = user?.plan === "PREMIUM";
     }
 
-    // Limites gratuites : 10 blagues max pour les FREE
-    const FREE_JOKE_LIMIT = 10;
-
     // Support comma-separated categories for grouped filters (e.g. "COUPLE,DATING")
     const categoryFilter = query.category
       ? query.category.includes(",")
@@ -59,7 +58,17 @@ export async function GET(request: NextRequest) {
       }),
     };
 
-    const total = await prisma.joke.count({ where });
+    // Doublons en base (même contenu) : dédoublonnés ici, pas en base (T12 s12).
+    // On liste les identifiants dans l'ordre d'affichage, on garde la 1re occurrence
+    // de chaque contenu, puis on pagine sur la liste dédoublonnée.
+    const orderBy = [{ createdAt: "desc" as const }, { id: "asc" as const }];
+    const candidates = await prisma.joke.findMany({
+      where,
+      select: { id: true, content: true },
+      orderBy,
+    });
+    const uniqueIds = dedupeJokesByContent(candidates).map((c) => c.id);
+    const total = uniqueIds.length;
 
     // FREE : limiter le total accessible
     const accessibleTotal = isPremium ? total : Math.min(total, FREE_JOKE_LIMIT);
@@ -80,12 +89,11 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const jokes = await prisma.joke.findMany({
-      where,
-      skip: (query.page - 1) * query.limit,
-      take: isPremium ? query.limit : Math.max(0, effectiveLimit),
-      orderBy: [{ createdAt: "desc" }, { id: "asc" }],
-    });
+    const start = (query.page - 1) * query.limit;
+    const pageIds = uniqueIds.slice(start, start + (isPremium ? query.limit : Math.max(0, effectiveLimit)));
+    const jokes = pageIds.length
+      ? await prisma.joke.findMany({ where: { id: { in: pageIds } }, orderBy })
+      : [];
 
     return NextResponse.json({
       jokes,

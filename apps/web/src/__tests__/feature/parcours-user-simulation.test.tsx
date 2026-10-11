@@ -16,7 +16,10 @@ import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
-    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} />
+    // Libellé rendu comme le vrai composant (nom accessible de la barre, audit s16).
+    <div data-testid="progress-bar" data-value={props.value} data-max={props.max} aria-label={props.label as string}>
+      {props.label as string}
+    </div>
   ),
 }));
 
@@ -501,11 +504,12 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     });
   });
 
-  it("sees total XP = 225 (50+75+100)", async () => {
+  it("compte non abonné : pas de barre immobile, l'offre des étapes 2+ à la place (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("225 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étapes 2 et 3 avec Premium")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 
   it("auto-expands step 1 and sees full rich content", async () => {
@@ -513,7 +517,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
 
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
@@ -535,8 +539,8 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
+    expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Roman Frayssinet")).toBeInTheDocument();
   });
@@ -546,7 +550,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/2")).toBeInTheDocument();
 
@@ -560,29 +564,31 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await userEvent.click(screen.getByText("Voir le résultat"));
 
     // Perfect score
-    expect(screen.getByText("Parfait !")).toBeInTheDocument();
-    expect(screen.getByText("Continuer")).toBeInTheDocument();
+    expect(screen.getByText("Sans faute." /* étalon 3.2 B, compte non abonné */)).toBeInTheDocument();
+    // s17 tour 1 (UXV-1-04) : plus de « Continuer » pour un non-abonné.
+    expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
+    sessionStorage.clear();
   });
 
-  it("sees Essai gratuit badge on step 1 only", async () => {
+  it("sees Lecture libre badge on step 1 only", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
     });
 
     // Only step 1 is free
-    const freeBadges = screen.getAllByText("Essai gratuit");
+    const freeBadges = screen.getAllByText("Lecture libre");
     expect(freeBadges.length).toBeGreaterThanOrEqual(1);
   });
 
   it("sees cross-recommendation to Répartie", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
-  it("seed fallback: no 'Marquer comme terminé' button, shows fallback message", async () => {
+  it("seed fallback, compte non abonné : pas de bouton Valider, la validation fait partie de Premium (s15)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     // Step 1 auto-expands
@@ -590,11 +596,11 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Machine à Café");
     });
 
-    // Seed fallback path → no complete button
+    // Suivi de progression = Premium (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText(/progression sera disponible/)).toBeInTheDocument();
+      expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
     });
-    expect(screen.queryByText("Marquer comme terminé")).not.toBeInTheDocument();
+    expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
 });
 
@@ -626,10 +632,11 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
     });
   });
 
-  it("sees total XP = 375 (50+75+100+150)", async () => {
+  it("sees total XP = 475 (50+75+100+150 + 100 de bonus de fin, s17 QA-07)", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText("375 XP au total")).toBeInTheDocument();
+      // s19 iter 4 (point 3) : gagnés sur le total ; aucune étape validée ici, singulier pour 0.
+      expect(screen.getByText("0 XP gagné sur 475, bonus de fin compris")).toBeInTheDocument();
     });
   });
 
@@ -648,7 +655,7 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+      expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     });
     expect(screen.getByText("Fary")).toBeInTheDocument();
     expect(screen.getByText("Paul Mirabel")).toBeInTheDocument();
@@ -659,16 +666,17 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/Yanis reste muet/)).toBeInTheDocument();
   });
 
-  it("sees cross-recommendation to Confiance", async () => {
+  it("abonné en cours de route : pas de « parcours suivant » (s17 UX-06)", async () => {
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
+    expect(screen.queryByText(/Jette un œil au parcours suivant/)).not.toBeInTheDocument();
   });
 
   it("shows completed parcours CTA when all 4 steps done", async () => {
@@ -683,8 +691,8 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Confiance")).toBeInTheDocument();
       expect(screen.getByText(/Passe au parcours Confiance/)).toBeInTheDocument();
     });
   });
@@ -720,10 +728,10 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     });
   });
 
-  it("sees total XP = 700 (50+75+100+125+150+200)", async () => {
+  it("visiteur : étape 1 offerte, étapes 2 à 6 avec Premium (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText("700 XP au total")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -744,66 +752,60 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
 
     // Step 1 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("Pourquoi ce module ?")).toBeInTheDocument();
+      expect(screen.getByText("Pourquoi cette étape ?")).toBeInTheDocument();
     });
     expect(screen.getByText(/Marc a perdu contact/)).toBeInTheDocument();
 
     // Videos
-    expect(screen.getByText("Vidéos à regarder")).toBeInTheDocument();
+    expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     expect(screen.getByText("Panayotis Pascot")).toBeInTheDocument();
     expect(screen.getByText("Waly Dia")).toBeInTheDocument();
 
     // Jokes
     expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
-    expect(screen.getByText(/5 vannes sélectionnées/)).toBeInTheDocument();
+    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
 
     // Quiz
-    expect(screen.getByText("Teste tes connaissances")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
 
-    // CTA to log in
-    expect(screen.getByText("Connecte-toi pour valider cette étape")).toBeInTheDocument();
+    // Valider = Premium (s15, étalon 4.1)
+    expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
   });
 
-  it("sees sequential lock on steps 2-6 (unauthenticated, no progress)", async () => {
+  it("D1 s17 : visiteur, étapes 2 à 6 marquées « Fait partie de Premium », sans « Termine l'étape »", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("Rire de soi avec bienveillance")).toBeInTheDocument();
     });
-
-    // Steps 2-6 are sequentially locked (step 1 not completed)
-    expect(screen.getByText(/Termine l'étape 1 pour débloquer/)).toBeInTheDocument();
-
-    // Step 2 header should NOT be expandable (no role=button)
-    const step2Header = screen.getByLabelText(/Étape 2.*verrouillée/);
-    expect(step2Header).toBeInTheDocument();
+    expect(screen.getAllByText("Fait partie de Premium")).toHaveLength(5);
+    expect(screen.queryByText(/Termine l'étape/)).not.toBeInTheDocument();
   });
 
-  it("steps 3-6 are sequentially locked and cannot be expanded", async () => {
+  it("D1 s17 : visiteur, une étape 3+ s'ouvre sur l'aperçu, sans ordre imposé", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
       expect(screen.getByText("L'art de l'observation comique")).toBeInTheDocument();
     });
-
-    // Step 3 should show lock message
-    expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
-
-    // Step 3 header should NOT be a button
-    const step3Header = screen.getByLabelText(/Étape 3.*verrouillée/);
-    expect(step3Header).toBeInTheDocument();
+    const header = screen.getByText("L'art de l'observation comique").closest("[role='button']");
+    expect(header).not.toBeNull();
+    await userEvent.click(header as HTMLElement);
+    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    const cta = screen.getByText("Voir l'offre Premium").closest("a");
+    expect(cta?.getAttribute("href")).toContain("src=parcours-apercu");
   });
 
   it("sees cross-recommendation to Machine à Café", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Découvre le parcours suivant/)).toBeInTheDocument();
+      expect(screen.getByText(/Jette un œil au parcours suivant/)).toBeInTheDocument();
     });
   });
 
   it("shows circular recommendation chain: Confiance → Machine à Café", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      const link = screen.getByText(/Découvre le parcours suivant/);
-      expect(link.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe");
+      const link = screen.getByText(/Jette un œil au parcours suivant/);
+      expect(link.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=suite");
     });
   });
 });
@@ -821,7 +823,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
     expect(screen.getByText("Voir tous les parcours")).toBeInTheDocument();
   });
@@ -831,7 +833,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
   });
 
@@ -840,7 +842,7 @@ describe("Error handling — all parcours", () => {
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Impossible de charger ce parcours/)).toBeInTheDocument();
+      expect(screen.getByText(/ne veut pas se charger/)).toBeInTheDocument();
     });
   });
 });
@@ -850,7 +852,7 @@ describe("Error handling — all parcours", () => {
 // ==============================
 describe("Progress bar — all parcours", () => {
   it("shows progress bar with max=3 for Machine à Café", async () => {
-    setSession({ name: "Sophie" });
+    setSession({ name: "Sophie", plan: "PREMIUM" });
     mockFetchWith(machineACafeData);
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
@@ -862,7 +864,7 @@ describe("Progress bar — all parcours", () => {
   });
 
   it("shows progress bar with max=4 for Répartie", async () => {
-    setSession({ name: "Yanis" });
+    setSession({ name: "Yanis", plan: "PREMIUM" });
     mockFetchWith(repartieData);
 
     render(<ParcoursDetail slug="repartie" />);
@@ -872,15 +874,15 @@ describe("Progress bar — all parcours", () => {
     });
   });
 
-  it("shows progress bar with max=6 for Confiance", async () => {
+  it("visiteur : pas de barre pour Confiance (s17 QA-13)", async () => {
     setSession(null);
     mockFetchWith(confianceData);
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      const bar = screen.getByTestId("progress-bar");
-      expect(bar).toHaveAttribute("data-max", "6");
+      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
     });
+    expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
 });
 
@@ -918,14 +920,14 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
-      expect(screen.getByText("Passer au parcours suivant")).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
+      expect(screen.getByText("Passer au parcours Répartie")).toBeInTheDocument();
       expect(screen.getByText(/Passe à la répartie/)).toBeInTheDocument();
     });
 
     // The link should point to /parcours/repartie
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/repartie");
+    const nextLink = screen.getByText("Passer au parcours Répartie").closest("a");
+    expect(nextLink).toHaveAttribute("href", "/parcours/repartie?src=suite");
   });
 
   it("Yanis completes Répartie → sees CTA to Confiance", async () => {
@@ -942,14 +944,14 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="repartie" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
     });
 
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/confiance");
+    const nextLink = await screen.findByText("Passer au parcours Confiance");
+    expect(nextLink.closest("a")).toHaveAttribute("href", "/parcours/confiance?src=suite");
   });
 
-  it("Marc completes Confiance → sees CTA to Machine à Café (circular)", async () => {
+  it("Marc completes Confiance → repli sur le parcours suivant du seed si la liste ne se charge pas", async () => {
     setSession({ name: "Marc" });
     mockFetchWith({
       ...confianceData,
@@ -963,11 +965,11 @@ describe("Completed parcours — end-to-end", () => {
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText(/Bravo, tu as terminé/)).toBeInTheDocument();
+      expect(screen.getByText(/^Parcours .+ terminé$/)).toBeInTheDocument();
     });
 
-    const nextLink = screen.getByText("Passer au parcours suivant").closest("a");
-    expect(nextLink).toHaveAttribute("href", "/parcours/machine-a-cafe");
+    const nextLink = await screen.findByText("Passer au parcours Machine à Café");
+    expect(nextLink.closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=suite");
   });
 });
 
@@ -976,7 +978,7 @@ describe("Completed parcours — end-to-end", () => {
 // ==============================
 describe("Partial progress — mid-parcours", () => {
   it("Sophie with 1/3 steps completed sees progress correctly", async () => {
-    setSession({ name: "Sophie" });
+    setSession({ name: "Sophie", plan: "PREMIUM" });
     mockFetchWith({
       ...machineACafeData,
       path: { ...machineACafeData.path, id: "db-real-id" },
@@ -998,7 +1000,7 @@ describe("Partial progress — mid-parcours", () => {
   });
 
   it("Yanis with 2/4 steps completed shows correct state", async () => {
-    setSession({ name: "Yanis" });
+    setSession({ name: "Yanis", plan: "PREMIUM" });
     mockFetchWith({
       ...repartieData,
       path: { ...repartieData.path, id: "db-real-id" },

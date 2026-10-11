@@ -6,6 +6,8 @@ import {
   getResponseText,
   SONNET_MODEL,
 } from "../client";
+import type Anthropic from "@anthropic-ai/sdk";
+import { JOKE_QUALITY_BAR } from "../joke-quality-bar";
 import { PERSONAS, type PersonaKey } from "../personas";
 import { getPersonaForDay, buildPersonaRotationPrompt } from "../personas";
 import { validateMonthlyPlan } from "../plan-validator";
@@ -21,7 +23,34 @@ const JOKE_TYPES = [
   "SUBTIL", "CLASSIQUE", "ABSURDE", "ONE_LINER", "STORY", "DIALOGUE", "QA",
 ] as const;
 
-interface GeneratedJoke {
+/**
+ * Extrait "l'amorce" d'une vanne : la première proposition significative du
+ * setup (jusqu'au premier point/point-virgule, max 12 mots). Réutilisé par le
+ * générateur (injection dans le prompt) ET le gate anti-répétition d'amorce
+ * du Stand-Up Director (G-J10). Normalisation légère : minuscules, espaces
+ * simplifiés, ponctuation de fin retirée — un match "similaire" repose sur
+ * l'ouverture nue, pas sur la casse ou une virgule décorative.
+ */
+export function extractSetupAmorce(content: string): string {
+  if (!content) return "";
+  const firstClause = content.split(/[.;!?\n]/)[0] ?? content;
+  const words = firstClause.trim().split(/\s+/).slice(0, 12).join(" ");
+  return words
+    .toLowerCase()
+    // Retire les guillemets et double-quotes typographiques mais PRÉSERVE les
+    // apostrophes typographiques (essentielles au français : m'a, l'IA, j'ai).
+    .replace(/[«»""]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export interface JokeDecryptage {
+  comedyTechnique: string;
+  techniqueExplanation: string;
+  howToApply: string;
+}
+
+interface GeneratedJoke extends JokeDecryptage {
   content: string;
   punchline: string;
   category: string;
@@ -36,6 +65,13 @@ interface JokeAgentContext {
   recentJokes: Array<{ content: string; category: string; type: string }>;
   monthlyPlanSummary: string;
   otherAgentsCategories?: { tip: string; video: string };
+  /**
+   * Lot V7 : amorces déjà exploitées dans TOUT le catalogue (actives et
+   * inactives), construites par `buildJokeSeriesGuard().avoidListPrompt`.
+   * Placées dans un bloc system caché juste après le préambule : identiques
+   * entre la génération et la régénération d'un même run → lecture cache.
+   */
+  avoidListPrompt?: string;
 }
 
 // Bloc stable du system prompt joke-agent — construit une seule fois au
@@ -57,6 +93,15 @@ La différence : une blague, on la lit et on souffle du nez. Une vanne, on la re
 CATÉGORIES : ${JOKE_CATEGORIES.join(", ")}
 TYPES : ${JOKE_TYPES.join(", ")}
 
+═══════════════════════════════════════
+DOCTRINE DE VOIX — LIS CECI EN PREMIER
+═══════════════════════════════════════
+Tu es un OBSERVATEUR qui voit juste. Tu te moques d'ABORD de toi (auto-dérision), et tu cherches TOUJOURS le TWIST/RETOURNEMENT.
+JAMAIS le constat plat. JAMAIS la méchanceté gratuite. JAMAIS la gentillesse molle qui ne fait rien.
+La finesse d'observation de Fary/Mirabel, mais en auto-dérision relatable — pas en clash de scène.
+
+NB IMPORTANT sur le brief de marque ci-dessous : pour les VANNES, "auto-dérision douce" veut dire auto-dérision AVEC TWIST, pas gentillesse molle. "Jamais forcer" veut dire ne pas plaquer un calembour — PAS abandonner le retournement. Une vanne sans twist est un échec, même si elle est "gentille".
+
 VOIX DE MARQUE : "${TONALITY_BRIEF.voice}"
 - ${TONALITY_BRIEF.principles.join("\n- ")}
 - INTERDIT : ${TONALITY_BRIEF.doNot.join(" / ")}
@@ -68,9 +113,10 @@ LE TEST STAND-UP — RÈGLE N°1, NON NÉGOCIABLE
 ═══════════════════════════════════════
 
 Avant de valider ta vanne, pose-toi CETTE question :
-« Est-ce que le persona ciblé peut la sortir ce soir en soirée ou demain à la machine à café et faire RIRE ? »
+« Est-ce que le persona ciblé peut la sortir ce soir en soirée ou demain à la machine à café et faire SOURIRE + donner envie de la ressortir ? »
 
-Pas sourire poliment. RIRE. Si la réponse est "bof", "peut-être", "ça dépend" → ta vanne est nulle, recommence.
+Pas sourire poliment. Faire SOURIRE NET, celui de reconnaissance ("ah ouais c'est vrai"), et donner ENVIE DE LA RÉPÉTER. Si la réponse est "bof", "peut-être", "ça dépend" → ta vanne est nulle, recommence.
+Note : l'objectif n'est pas le rire tonitruant de scène — c'est le sourire de reconnaissance + l'envie de répéter. Une vanne qui déclenche "ah ouais c'est vrai" + sourire + "je vais dire ça à [un pote]" est une réussite. La valeur ultime du site est dans le DÉCRYPTAGE — la vanne, c'est la porte d'entrée.
 
 PENSE COMME UN STAND-UPPER :
 - Tu es sur scène. Tu as 10 secondes. Le public décroche si le setup est trop long.
@@ -82,14 +128,16 @@ CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ═══════════════════════════════════════
 
 ❌ OBJETS QUI PARLENT : « Un X dit à un Y... » entre objets inanimés. Personne ne raconte ça en société. Jamais.
-❌ JEUX DE MOTS FORCÉS : si le calembour ne marche qu'à l'écrit ou nécessite 3 secondes de réflexion, c'est non.
+❌ JEUX DE MOTS FORCÉS : si le calembour repose sur deux sons proches (chien → chat, réviser → révélation, coup de foudre → allergie), c'est non même si ça marche à l'oral. La vanne doit surprendre par une IDÉE, pas par un son. Test : si tu peux expliquer le jeu de mots en disant "parce que ça sonne comme...", c'est raté.
 ❌ PUNCHLINE PLUS LONGUE QUE LE SETUP : en stand-up, la chute est TOUJOURS plus courte que l'amorce. Toujours.
 ❌ FORMAT CARAMBAR : « Pourquoi le X fait Y ? Parce que Z. » sans vrai twist = blague de papier de bonbon.
 ❌ AUTODÉRISION TRISTE : « je suis seul / nul / ghosté » sans retournement comique = déprimant, pas drôle.
-❌ VANNE VUE ET REVUE : si ça ressemble à un meme de 2020 ou à une vanne qui tourne sur Twitter depuis 3 ans, c'est non.
+❌ VANNE DÉJÀ CONNUE AILLEURS : classique d'Internet, meme recyclé, vanne de tonton, blague Carambar, chute que tout le monde a déjà lue (« le bus m'a vu et il a accéléré », « premier… et le seul », « salaire compétitif avec le SMIC »). Même bonne, elle est FAIBLE : la promesse du site = des vannes qu'on n'a JAMAIS entendues. Test : si tu as l'impression de la « reconnaître » au lieu de l'écrire, jette-la.
+❌ CIBLE = UN GROUPE : jamais une vanne qui se moque d'un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap). La cible, c'est toi ou la situation — jamais « les X ».
 ❌ SETUP ARTIFICIEL : si la vanne commence par "Un jour...", "Il était une fois...", "Deux mecs entrent dans un bar..." = pas naturel, pas utilisable.
 ❌ VOUVOIEMENT : JAMAIS de "vous", "votre", "vos". Le site utilise TOUJOURS le "tu". Si tu écris "vous êtes", réécris en "t'es" ou "tu es".
 ❌ VULGARITÉ : JAMAIS de gros mots (putain, merde, bordel, etc.). On est drôle SANS être vulgaire.
+❌ VANNE PRÉSENTÉE COMME ÉCRITE PAR UNE IA : jamais de « générée par IA », « propulsé par », ni de clin d'œil sur le fait que la vanne ou le site viennent d'une IA. En revanche, un assistant ou une IA (Alexa, Siri, ChatGPT…) peut être le sujet de la vanne s'il la sert (décision fondateur V6, voir l'étalon Alexa plus bas).
 
 ═══════════════════════════════════════
 CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
@@ -99,6 +147,7 @@ CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
 ✅ SORTABLE À L'ORAL : le persona doit pouvoir la glisser naturellement dans une conversation. Teste : "Ah tiens ça me rappelle, [ta vanne]" — si ça marche, c'est bon.
 ✅ TWIST NET : la punchline doit surprendre. Le public ne doit PAS la voir venir. Si on peut deviner la chute après le setup, c'est raté.
 ⚠️ ATTENTION — CONSTAT ≠ PUNCHLINE : si la punchline EXPLIQUE juste ce qui s'est passé (ex: "il était de l'autre côté", "j'avais oublié"), c'est un CONSTAT, pas un TWIST. Une punchline doit contenir un RETOURNEMENT : exagération, personnification, absurde, double sens, comparaison inattendue. "Il m'est arrivé un truc con" n'est PAS une vanne.
+⚠️ DRAMATISATION ≠ TWIST non plus : "Mon pull c'est ma survie" est une dramatisation, pas un twist. Transformer un enjeu faible en enjeu épique par des mots forts (survie, mission, destin) sans retournement logique = constat dramatisé = raté. Le retournement doit changer la DIRECTION de la vanne, pas juste amplifier le ton.
 ✅ COURTE ET PERCUTANTE : setup + punchline < 40 mots. Les meilleures tiennent en 15-20 mots. Chaque mot qui n'ajoute rien au rire DOIT être supprimé.
 ✅ PARTAGEABLE : après l'avoir lue, le persona doit avoir envie de l'envoyer à un pote ou de la screenshot. C'est le test ultime.
 
@@ -106,13 +155,41 @@ CRITÈRES DE QUALITÉ — Les 5 doivent être remplis
 EXEMPLES DE CE QU'ON VEUT vs CE QU'ON NE VEUT PAS
 ═══════════════════════════════════════
 
-🟢 BON : "J'ai dit à mon pote que j'arrivais dans 5 minutes. J'étais encore en pyjama." → Relatable, court, twist crédible, tout le monde a vécu ça.
-🟢 BON : "Mon seul talent caché c'est qu'après 30 ans, je l'ai toujours pas trouvé." → Autodérision avec punch, on rit de la formulation, pas de la tristesse.
-🟢 BON : "Ma collègue m'a dit 'tu devrais sourire plus'. J'ai souri. Elle a regretté." → Comeback net, utilisable au bureau.
+🟢 ÉTALON A (validé fondateur — sourire de reconnaissance + retournement doux) : "J'ai demandé à mon dentiste s'il allait faire mal. Il a souri avant de répondre. J'ai pas aimé ce sourire." → Setup court, observation fine, le twist est un détail visuel (le sourire) qui bascule le sens.
+🟢 ÉTALON B (validé fondateur — dialogue minimal + non-dit) : "Ma collègue m'a dit qu'il faisait un temps de chien. J'ai dit : « C'est normal, c'est lundi. » Elle a acquiescé. On a rien ajouté." → Le rire est dans l'accord silencieux, pas dans un jeu de mots. Twist par absurde social.
+🟢 ÉTALON (premier degré) : "J'ai dit à un vieux pote « faut qu'on se fasse un resto un de ces jours ». Il m'a rappelé six ans après. Il avait réservé." → La formule de politesse est prise au mot : le retournement vient de l'idée (lui y croyait), pas d'un mot. La chute finale tient en 3 mots.
+🟢 ÉTALON (triple chute, règle de 3) : "Pour mon anniversaire, j'ai reçu trois messages. Ma mère. Ma banque. Et ma mère, depuis le portable de mon père." → Le 3e élément promet une nouvelle personne et recycle la première : l'escalade se retourne en aveu de solitude, sans jamais le dire.
+🟢 ÉTALON (euphémisme démasqué) : "Mon chef dit que je suis « l'homme de la situation ». Surtout quand personne veut la situation." → Le compliment est traduit en ce qu'il veut vraiment dire. Setup court, chute de 6 mots.
+🟢 ÉTALON C (décryptage validé fondateur) : voir le MODÈLE VALIDÉ de la section DÉCRYPTAGE ci-dessous (registre : précis, pédagogique, tutoiement, jamais académique).
+
+⚠️ Ces étalons calibrent le NIVEAU. Ne les réutilise JAMAIS (ni l'idée, ni l'amorce, ni la chute) : ils appartiennent déjà au site. Ta vanne doit être neuve.
 
 🔴 MAUVAIS : "Un stylo dit à un crayon : 'Tu manques de pointe.'" → Objet qui parle, jeu de mots forcé, personne ne raconte ça.
 🔴 MAUVAIS : "Pourquoi le chat traverse la route ? Pour aller de l'autre côté." → Format Carambar, zéro twist.
 🔴 MAUVAIS : "Je suis tellement seul que même mon ombre m'a quitté." → Autodérision triste sans retournement comique.
+🔴 MAUVAIS : "Il fait un temps de chien ? Moi je dirais plutôt un temps de chat." → Calembour phonétique : ça s'explique par « ça sonne comme ». Comparer avec l'étalon B, même amorce, twist par l'idée.
+🔴 MAUVAIS : "J'ai attendu le bus vingt minutes. Quand il m'a vu, il a accéléré." → Blague déjà connue ailleurs : tout le monde l'a lue. Faible même si elle marche.
+🔴 MAUVAIS : "Mon mec m'a envoyé des fleurs le jour où j'ai découvert mon allergie au pollen. J'ai enfin compris pourquoi on dit que l'amour fait pleurer." → Chute télégraphiée (fleurs + pollen = larmes, tout est dans le setup), faux proverbe, tic « j'ai enfin compris pourquoi on dit que ».
+
+═══════════════════════════════════════
+${JOKE_QUALITY_BAR}
+
+═══════════════════════════════════════
+DÉCRYPTAGE PÉDAGOGIQUE — OBLIGATOIRE
+═══════════════════════════════════════
+deviens-marrant.fr est un produit PÉDAGOGIQUE : on apprend à devenir drôle. Chaque vanne est accompagnée d'un décryptage qui explique la mécanique comique. Tu produis 3 champs en plus de la vanne :
+
+- "comedyTechnique" : nom COURT et NOMMABLE de la technique. Vocabulaire pédagogique réutilisable. Privilégie ce vocabulaire pour la cohérence du catalogue : "L'exagération temporelle", "Le contraste de statut", "L'euphémisme démasqué", "La triple chute (règle de 3)", "La comparaison filée", "Le retournement de responsabilité", "Le faux-ami", "Le recadrage".
+- "techniqueExplanation" : 2-3 phrases qui expliquent POURQUOI ça marche (où est le twist, d'où vient le rire). Ton pédagogique mais complice, jamais académique. Tutoiement.
+- "howToApply" : commence par une consigne actionnable (esprit "à toi de jouer") + UN exemple concret que le lecteur pourrait réutiliser. Tutoiement.
+
+MODÈLE VALIDÉ (reproduis ce niveau) (étalon C, validé fondateur) — pour "Mon inventaire dans le jeu est mieux rangé que ma chambre. Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère." :
+- comedyTechnique : "Le contraste de statut virtuel/réel"
+- techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser."
+- howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
+(Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
+
+Le décryptage doit coller à CETTE vanne précise — pas un blabla générique sur la technique. Il ne présente jamais la vanne comme écrite par une IA (nommer l'assistant dont parle la vanne reste possible). Tutoiement strict (jamais "vous").
 
 ═══════════════════════════════════════
 FORMAT DE RÉPONSE — JSON STRICT
@@ -122,14 +199,23 @@ FORMAT DE RÉPONSE — JSON STRICT
   "punchline": "La chute (1 phrase, max 15 mots, doit CLAQUER)",
   "category": "<catégorie planifiée>",
   "type": "ONE_LINER | SUBTIL | STORY | DIALOGUE | CLASSIQUE | ABSURDE | QA",
-  "maturityLevel": 1
+  "maturityLevel": 1,
+  "comedyTechnique": "Nom court de la technique comique",
+  "techniqueExplanation": "2-3 phrases : pourquoi ça marche, où est le twist",
+  "howToApply": "Consigne actionnable + 1 exemple concret réutilisable"
 }
 
 Rappel : la punchline est TOUJOURS plus courte que le content. Si c'est pas le cas, réécris.`;
 
 const JOKE_STABLE_CACHED_BLOCK = buildCachedSystemBlock(JOKE_STABLE_PREAMBLE);
 
-export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
+/**
+ * Construit les blocs system du générateur de vannes (fonction pure, testée) :
+ *   1. préambule stable + barre qualité V7 (caché) ;
+ *   2. amorces à éviter du catalogue (caché, si fourni) ;
+ *   3. contexte variable du jour (persona, récentes, plan), non caché.
+ */
+export function buildJokeSystemBlocks(ctx: JokeAgentContext): Anthropic.TextBlockParam[] {
   const persona = PERSONAS[ctx.persona];
 
   // Bloc variable non caché — persona, coordination, recent jokes, plan
@@ -147,16 +233,29 @@ Conseil du jour : "${ctx.otherAgentsCategories?.tip ?? "?"}" | Vidéo du jour : 
 NE PAS RÉPÉTER — ${ctx.recentJokes.length} dernières vannes publiées :
 ${ctx.recentJokes.map((j, i) => `${i + 1}. [${j.category}/${j.type}] ${j.content}`).join("\n")}
 
+SETUPS BRUTS À ÉVITER (extraits des ${ctx.recentJokes.length} dernières amorces) :
+${ctx.recentJokes.map((j) => `- "${extractSetupAmorce(j.content)}"`).join("\n")}
+→ Si ta vanne commence par une situation proche de l'une de ces amorces (même verbe d'ouverture, même sujet), recommence. Même thème, angle différent.
+
 PLAN DU MOIS :
 ${ctx.monthlyPlanSummary}
 
 CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 (Utilise cette catégorie dans le champ "category" du JSON de réponse.)`;
 
+  const blocks: Anthropic.TextBlockParam[] = [JOKE_STABLE_CACHED_BLOCK];
+  if (ctx.avoidListPrompt?.trim()) blocks.push(buildCachedSystemBlock(ctx.avoidListPrompt));
+  blocks.push({ type: "text" as const, text: variableContext });
+  return blocks;
+}
+
+export async function generateDailyJoke(ctx: JokeAgentContext): Promise<GeneratedJoke> {
+  const persona = PERSONAS[ctx.persona];
+
   const response = await callWithRetry({
     model: SONNET_MODEL,
-    max_tokens: 600,
-    system: [JOKE_STABLE_CACHED_BLOCK, { type: "text" as const, text: variableContext }],
+    max_tokens: 1200,
+    system: buildJokeSystemBlocks(ctx),
     messages: [
       {
         role: "user",
@@ -166,7 +265,7 @@ CATÉGORIE PLANIFIÉE AUJOURD'HUI : ${ctx.plannedCategory}
 Pense à une situation concrète de sa vie (${persona.interests.slice(0, 3).join(", ")}) et trouve l'angle drôle.
 Setup court → twist qui surprend → punchline qui claque.
 
-AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait rire ?". Si tu hésites, recommence.`,
+AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça fait sourire NET et est-ce que quelqu'un aurait envie de la ressortir ?" puis "est-ce qu'elle est NEUVE — ni blague déjà connue ailleurs, ni calembour de son, ni copie d'un étalon, ni situation de la liste des amorces déjà exploitées ?" puis "le setup laisse-t-il deviner la chute ?" (si oui, elle est télégraphiée). Compare-la aux quatre étalons de la barre plancher : si elle est en dessous, recommence.`,
       },
     ],
   }, 2, { agent: "joke-agent", fn: "generateDailyJoke" });
@@ -204,7 +303,116 @@ AVANT DE RÉPONDRE : relis ta vanne et demande-toi honnêtement "est-ce que ça 
     );
   }
 
+  // Normaliser le décryptage (champs textes) + gate léger (warning, ne bloque pas)
+  parsed.comedyTechnique = (parsed.comedyTechnique ?? "").trim().slice(0, 200);
+  parsed.techniqueExplanation = (parsed.techniqueExplanation ?? "").trim().slice(0, 800);
+  parsed.howToApply = (parsed.howToApply ?? "").trim().slice(0, 800);
+  validateDecryptage(parsed, "generateDailyJoke");
+
   return parsed;
+}
+
+// ─── Décryptage pédagogique ───────────────────────────────────
+
+// Regex de mentions IA (gate G-J10 léger) — local au joke-agent pour éviter
+// d'importer depuis standup-director-agent (couplage inutile).
+const AI_MENTIONS =
+  /(\b(IA|intelligence artificielle|agent IA|LLM|GPT|Claude|ChatGPT|automatisation|bot|Alexa|Siri|Cortana|Google Assistant|assistant vocal|chatbot|robot conversationnel)\b|propulsé par|powered by)/i;
+
+/**
+ * Gate G-J10 léger : valide le décryptage pédagogique d'une vanne.
+ * Ne bloque PAS la vanne — log un warning en cas de problème. Vérifie :
+ * comedyTechnique non vide, howToApply non vide, zéro mention IA, tutoiement.
+ */
+function validateDecryptage(d: JokeDecryptage, source: string): void {
+  const issues: string[] = [];
+  if (!d.comedyTechnique?.trim()) issues.push("comedyTechnique vide");
+  if (!d.howToApply?.trim()) issues.push("howToApply vide");
+
+  const fullText = `${d.comedyTechnique} ${d.techniqueExplanation} ${d.howToApply}`;
+  if (AI_MENTIONS.test(fullText)) issues.push("mention IA détectée");
+  if (/\b(vous|votre|vos)\b/i.test(fullText)) issues.push("vouvoiement détecté (tutoiement attendu)");
+
+  if (issues.length > 0) {
+    console.warn(`[Agent Vannes] Décryptage faible (${source}) : ${issues.join(", ")}`);
+  }
+}
+
+// Bloc stable du prompt de décryptage — éligible au prompt caching (réutilisé
+// par le back-fill Phase 1b sur les 289 vannes existantes).
+const DECRYPTAGE_STABLE_PREAMBLE = `Tu es le pédagogue de deviens-marrant.fr — un produit qui apprend à devenir drôle.
+
+On te donne une vanne existante. Ta mission : décortiquer SA mécanique comique pour que le lecteur comprenne POURQUOI ça marche et puisse refaire pareil.
+
+Tu produis 3 champs :
+- "comedyTechnique" : nom COURT et NOMMABLE de la technique. Vocabulaire réutilisable. Privilégie : "L'exagération temporelle", "Le contraste de statut", "L'euphémisme démasqué", "La triple chute (règle de 3)", "La comparaison filée", "Le retournement de responsabilité", "Le faux-ami", "Le recadrage".
+- "techniqueExplanation" : 2-3 phrases — où est le twist, d'où vient le rire. Pédagogique mais complice, jamais académique. Tutoiement.
+- "howToApply" : une consigne actionnable (esprit "à toi de jouer") + UN exemple concret réutilisable. Tutoiement.
+
+MODÈLE VALIDÉ (étalon C, validé fondateur) — pour "Mon inventaire dans le jeu est mieux rangé que ma chambre. Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère." :
+- comedyTechnique : "Le contraste de statut virtuel/réel"
+- techniqueExplanation : "Tu compares deux systèmes d'organisation : le jeu offre un bouton magique, la vie réelle délègue à ta mère. L'absurde tient dans l'équivalence posée : les deux remplissent la même fonction. Le rire vient de reconnaître qu'on a externalisé à sa mère ce que la vie devrait automatiser."
+- howToApply : "Prends une compétence que tu as dans un contexte fictif (jeu, film, simulation) et montre ton échec dans la version réelle. Ex : 'Dans le jeu je gère un empire. Dans la vie j'ai pas répondu à 3 emails depuis jeudi.'"
+(Modèle de NIVEAU uniquement : ne réutilise ni cette vanne, ni cet exemple howToApply. L'exemple que tu proposes est neuf, original — jamais une blague connue ailleurs, jamais un calembour phonétique.)
+
+RÈGLES : colle à CETTE vanne précise (pas de blabla générique). Ne présente jamais la vanne comme écrite par une IA (nommer l'assistant dont parle la vanne reste possible). Tutoiement strict (jamais "vous").
+
+FORMAT DE RÉPONSE — JSON STRICT :
+{
+  "comedyTechnique": "Nom court de la technique",
+  "techniqueExplanation": "2-3 phrases : pourquoi ça marche",
+  "howToApply": "Consigne actionnable + 1 exemple concret"
+}`;
+
+const DECRYPTAGE_STABLE_CACHED_BLOCK = buildCachedSystemBlock(DECRYPTAGE_STABLE_PREAMBLE);
+
+/**
+ * Génère le décryptage pédagogique d'une vanne EXISTANTE (content + punchline).
+ * Réutilisable par le script de back-fill Phase 1b sur les 289 vannes du catalogue.
+ * Modèle Sonnet, prompt stable caché.
+ */
+export async function generateJokeDecryptage(joke: {
+  content: string;
+  punchline: string;
+  category: string;
+  type: string;
+}): Promise<JokeDecryptage> {
+  const response = await callWithRetry(
+    {
+      model: SONNET_MODEL,
+      max_tokens: 600,
+      system: [DECRYPTAGE_STABLE_CACHED_BLOCK],
+      messages: [
+        {
+          role: "user",
+          content: `Décrypte cette vanne (catégorie ${joke.category}, type ${joke.type}) :
+
+Setup : ${joke.content}
+Chute : ${joke.punchline}
+
+Réponds UNIQUEMENT en JSON avec comedyTechnique, techniqueExplanation, howToApply.`,
+        },
+      ],
+    },
+    2,
+    { agent: "joke-agent", fn: "generateJokeDecryptage" }
+  );
+
+  const text = getResponseText(response);
+  const parsed = extractJson<JokeDecryptage>(text);
+
+  const result: JokeDecryptage = {
+    comedyTechnique: (parsed.comedyTechnique ?? "").trim().slice(0, 200),
+    techniqueExplanation: (parsed.techniqueExplanation ?? "").trim().slice(0, 800),
+    howToApply: (parsed.howToApply ?? "").trim().slice(0, 800),
+  };
+
+  if (!result.comedyTechnique || !result.howToApply) {
+    throw new Error("Agent Vannes : décryptage incomplet (comedyTechnique ou howToApply vide)");
+  }
+
+  validateDecryptage(result, "generateJokeDecryptage");
+  return result;
 }
 
 /**

@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { hash } from "@/lib/password";
-import { rateLimit } from "@/lib/rate-limit";
+import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
+import { TEXTES_API } from "@/config/textes/compte";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Le prénom doit faire au moins 2 caractères"),
@@ -14,13 +15,16 @@ const registerSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limit: 5 inscriptions par IP par heure
-    const ip = request.headers.get("x-forwarded-for") ?? "unknown";
-    const rl = rateLimit(`register:${ip}`, { maxRequests: 5, windowMs: 3600_000 });
+    // Rate limit : 5 inscriptions par IP par heure, partagé entre isolats
+    // et clé cf-connecting-ip (s16 reco 14).
+    const rl = await sharedRateLimit("register-ip", getClientIp(request.headers), {
+      maxRequests: 5,
+      windowMs: 3600_000,
+    });
     if (!rl.allowed) {
       return NextResponse.json(
-        { error: "Trop de tentatives. Réessaie plus tard." },
-        { status: 429 }
+        { error: TEXTES_API.tropDeTentatives },
+        { status: 429, headers: { "Retry-After": String(retryAfterSeconds(rl)) } }
       );
     }
 
@@ -62,12 +66,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ user }, { status: 201 });
   } catch (error) {
     if (error instanceof z.ZodError) {
+      // `details` alimente les erreurs par champ de /register ; `error` = texte humain.
       return NextResponse.json(
-        { error: "Données invalides", details: error.errors },
+        { error: TEXTES_API.donneesInvalides, details: error.errors },
         { status: 400 }
       );
     }
     console.error("[API /auth/register]", error);
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
   }
 }

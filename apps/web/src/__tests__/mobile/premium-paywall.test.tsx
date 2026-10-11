@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { PremiumPaywall } from "@/components/marketing/premium-paywall";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
@@ -45,8 +46,28 @@ describe("PremiumPaywall (mode web)", () => {
     fireEvent.click(screen.getByText(/S'abonner/));
 
     await waitFor(() => {
-      expect(mockApi).toHaveBeenCalledWith("/api/stripe/checkout", { method: "POST" });
+      expect(mockApi).toHaveBeenCalledWith(
+        "/api/stripe/checkout",
+        expect.objectContaining({ method: "POST" }),
+      );
     });
+  });
+
+  it("transmet la page courante en returnTo (retour après paiement)", async () => {
+    (window as any).location = { href: "", pathname: "/parcours/repartie", search: "" };
+    render(<PremiumPaywall />);
+    fireEvent.click(screen.getByText(/S'abonner/));
+    await waitFor(() => {
+      expect(JSON.parse(mockApi.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/repartie" });
+    });
+  });
+
+  it("vend les parcours complets, sans contenu quotidien ni filtres avancés", () => {
+    render(<PremiumPaywall />);
+    const text = document.body.textContent ?? "";
+    expect(text).toContain(`Les ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours en entier`);
+    expect(text).toContain("première étape de chaque parcours restant offerte");
+    expect(text).not.toMatch(/quotidien|Filtres avancés|illimit|sans limite/i);
   });
 
   it("redirige vers checkout.stripe.com après réponse", async () => {

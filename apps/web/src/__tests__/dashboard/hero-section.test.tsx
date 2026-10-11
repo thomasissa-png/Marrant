@@ -14,11 +14,11 @@ jest.mock("next/navigation", () => ({
 const { useSession } = require("next-auth/react");
 
 describe("HeroSection", () => {
-  it("shows main heading with la plus drôle", () => {
+  it("shows main heading (étalon D)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("la plus drôle")).toBeInTheDocument();
-    expect(screen.getByText(/du groupe/)).toBeInTheDocument();
+    expect(screen.getByText("personne rit")).toBeInTheDocument();
+    expect(screen.getByText(/On va arranger ça/)).toBeInTheDocument();
   });
 
   it("shows description with motivation hook", () => {
@@ -27,26 +27,69 @@ describe("HeroSection", () => {
     expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
   });
 
-  it("shows social proof counter", () => {
+  it("shows social proof « 1 500+ membres » (texte fixe validé fondateur)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText(/1 500\+ membres/)).toBeInTheDocument();
+    const proof = screen.getByText(/1\s500\+ membres bossent leur humour\. Rejoins-les\./);
+    expect(proof).toBeInTheDocument();
+    expect(proof.textContent).toMatch(/1\s500\+ membres/);
   });
 
-  it("shows use-case tags for all 3 personas", () => {
+  it("links each persona tag to its parcours (s12 T02)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
-    expect(screen.getByText("Briller à la machine à café")).toBeInTheDocument();
-    expect(screen.getByText("Retrouver confiance en soi")).toBeInTheDocument();
-    expect(screen.getByText("Progresser chaque jour")).toBeInTheDocument();
-    expect(screen.getByText("Vannes prêtes à ressortir")).toBeInTheDocument();
+    expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
+    expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=accueil#etape-1");
+    expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance?src=accueil#etape-1");
+    // Les 2 libellés descriptifs restent, non cliquables et masqués en mobile (arbitrage Thomas).
+    // Forme audit s14 P0-1 : sortis de la rangée de pastilles, sur une ligne à part sans fond ni bordure.
+    for (const label of ["Un petit exercice par jour", "Vannes prêtes à ressortir"]) {
+      const tag = screen.getByText(label);
+      expect(tag.closest("a")).toBeNull();
+      expect(tag.closest("button")).toBeNull();
+      const row = tag.closest("ul");
+      expect(row).toHaveClass("hidden", "sm:flex");
+      expect(row?.querySelector("a")).toBeNull();
+      expect(tag.closest("li")).not.toHaveClass("border");
+    }
   });
 
-  it("shows CTA when unauthenticated", () => {
+  it("orders the 3 parcours like the rest of the site (audit forme s14 P2-4, tranché par Thomas)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    expect(screen.getByText("Commencer à 0,99 €/mois")).toBeInTheDocument();
+    const pastilles = screen.getByText("Avoir de la répartie").closest("ul") as HTMLElement;
+    const hrefs = Array.from(pastilles.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(hrefs).toEqual([
+      "/parcours/machine-a-cafe?src=accueil#etape-1",
+      "/parcours/repartie?src=accueil#etape-1",
+      "/parcours/confiance?src=accueil#etape-1",
+    ]);
+  });
+
+  it("shows the H1 as two sentences, one per block (s12 T01)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    const h1 = screen.getByRole("heading", { level: 1 });
+    expect(h1.children).toHaveLength(2);
+    expect(h1.textContent).toBe("Tu parles et personne rit.On va arranger ça.");
+  });
+
+  it("shows CTA when unauthenticated, with the free path right below (s12 T03)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<HeroSection />);
+    // Étalon 1.2 validé par Thomas (s15) : bouton parcours, prix en note, lien vers /register.
+    expect(screen.getByText("Accéder aux parcours complets").closest("a")).toHaveAttribute("href", "/register?src=accueil-hero");
+    expect(
+      screen.getByText("2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre."),
+    ).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/compte gratuit/i);
+    expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
+    // s17 UX-08 : seul le lien secondaire change, vers l'étape 1 en lecture libre.
+    expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
+    expect(screen.getByText("Lire la première étape gratuite").closest("a")).toHaveAttribute(
+      "href",
+      "/parcours/machine-a-cafe?src=accueil#etape-1",
+    );
   });
 
   it("shows authenticated buttons", () => {

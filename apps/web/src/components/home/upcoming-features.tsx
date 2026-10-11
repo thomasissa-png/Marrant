@@ -7,6 +7,8 @@ import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
+import { PremiumModal } from "@/components/premium/premium-modal";
+import { isPremiumPlan } from "@/lib/parcours-access";
 
 interface Feature {
   slug: string;
@@ -23,7 +25,7 @@ const FEATURES: Feature[] = [
     slug: "whatsapp",
     title: "Vannes, vidéos et conseils du jour par WhatsApp",
     description:
-      "Reçois chaque jour ta dose d\u2019humour directement sur WhatsApp",
+      "La vanne, le conseil et la vidéo du jour dans tes messages, coincés entre le groupe de la famille et celui du foot.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
@@ -31,13 +33,13 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-primary/5",
     iconBg: "bg-accent-primary/10",
-    iconColor: "text-accent-primary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "nouveaux-parcours",
     title: "De nouveaux parcours",
     description:
-      "Des parcours encore plus poussés pour maîtriser l\u2019art de la répartie et du storytelling",
+      "Des parcours plus poussés sur la répartie et le storytelling, pour le jour où les bases ne te suffiront plus.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
@@ -45,13 +47,13 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-secondary/5",
     iconBg: "bg-accent-secondary/10",
-    iconColor: "text-accent-secondary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "communaute",
     title: "Une communauté",
     description:
-      "Échange avec d\u2019autres passionnés d\u2019humour, partage tes meilleures vannes et progresse ensemble",
+      "Un coin pour tester tes vannes sur des gens qui ne sont pas obligés de rire, contrairement à ta famille.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -62,13 +64,13 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-primary/5",
     iconBg: "bg-accent-primary/10",
-    iconColor: "text-accent-primary",
+    iconColor: "text-accent-link",
   },
   {
     slug: "surprises",
-    title: "Générateur de répartie",
+    title: "Répliques à la demande",
     description:
-      "Décris la situation, on te génère 3 répliques possibles. Ton coach de poche pour ne plus jamais rester muet",
+      "Décris la situation, on te propose 3 répliques possibles. La prochaine fois, le dernier mot, c’est toi.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -76,12 +78,15 @@ const FEATURES: Feature[] = [
     ),
     gradient: "from-background-card to-accent-secondary/5",
     iconBg: "bg-accent-secondary/10",
-    iconColor: "text-accent-secondary",
+    iconColor: "text-accent-link",
   },
 ];
 
 export function UpcomingFeatures() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const isPremium =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
+  const [premiumOpen, setPremiumOpen] = useState(false);
   const [counts, setCounts] = useState<Record<string, number>>({});
   const [userVotes, setUserVotes] = useState<Set<string>>(new Set());
   const [votingSlug, setVotingSlug] = useState<string | null>(null);
@@ -100,8 +105,10 @@ export function UpcomingFeatures() {
 
   const handleVote = useCallback(
     async (slug: string) => {
-      if (status !== "authenticated") {
-        toast("Connecte-toi pour voter", "error");
+      if (!isPremium) {
+        // Visiteur ou compte non abonné : le vote fait partie de Premium
+        // (badge « Abonnés », s15 §1.1) : modale Premium au lieu d'une erreur.
+        setPremiumOpen(true);
         return;
       }
       if (votingSlug) return;
@@ -142,16 +149,16 @@ export function UpcomingFeatures() {
           ...prev,
           [slug]: (prev[slug] ?? 0) + (hadVote ? 1 : -1),
         }));
-        toast("Erreur lors du vote, réessaie", "error");
+        toast("Ton vote s'est perdu en route, réessaie.", "error");
       } finally {
         setVotingSlug(null);
       }
     },
-    [status, userVotes, votingSlug]
+    [isPremium, userVotes, votingSlug]
   );
 
   return (
-    <section className="py-16">
+    <section className="py-12 md:py-16">
       <div className="mb-4 flex items-center justify-center gap-3">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-primary/30" />
         <Badge variant="premium">Abonnés</Badge>
@@ -164,7 +171,7 @@ export function UpcomingFeatures() {
         On prépare la suite pour te rendre encore plus redoutable en société.
       </p>
       <p className="mx-auto mb-10 max-w-2xl text-center text-sm text-text-muted">
-        Vote pour la fonctionnalité que tu veux voir arriver en premier !
+        Vote pour ce que tu veux voir arriver en premier : ça nous aide à choisir par quoi commencer.
       </p>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -176,7 +183,7 @@ export function UpcomingFeatures() {
             <Card
               key={feature.slug}
               className={cn(
-                "relative overflow-hidden border-accent-primary/20 bg-gradient-to-br",
+                "relative overflow-hidden border-accent-primary/20 bg-gradient-to-br p-6 hover:border-accent-primary/20",
                 feature.gradient
               )}
             >
@@ -201,33 +208,37 @@ export function UpcomingFeatures() {
                   onClick={() => handleVote(feature.slug)}
                   disabled={votingSlug !== null}
                   className={cn(
-                    "mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+                    "mt-4 inline-flex min-h-[44px] items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                     voted
-                      ? "bg-accent-primary text-white"
-                      : "bg-background-elevated text-text-muted hover:bg-accent-primary/10 hover:text-accent-primary"
+                      ? "border-accent-secondary-hover bg-accent-secondary-hover text-white"
+                      : "border-border bg-background-elevated text-text-secondary hover:border-accent-primary hover:text-text-primary"
                   )}
-                  aria-label={`${count} votes pour ${feature.title}`}
+                  aria-label={count >= 10 ? `${count} votes pour ${feature.title}` : `Voter pour ${feature.title}`}
                 >
                   <span>{voted ? "👍" : "👆"}</span>
                   <span>
                     {voted ? "Voté !" : "Je veux ça !"}
                   </span>
-                  <span
-                    className={cn(
-                      "ml-1 rounded-full px-2 py-0.5 text-xs",
-                      voted
-                        ? "bg-white/20 text-white"
-                        : "bg-accent-primary/10 text-accent-primary"
-                    )}
-                  >
-                    {count}
-                  </span>
+                  {count >= 10 && (
+                    <span
+                      className={cn(
+                        "ml-1 rounded-full px-2 py-0.5 text-xs",
+                        voted
+                          ? "bg-white/20 text-white"
+                          : "bg-accent-primary/10 text-accent-link"
+                      )}
+                    >
+                      {count}
+                    </span>
+                  )}
                 </button>
               </CardContent>
             </Card>
           );
         })}
       </div>
+
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="vote" />
     </section>
   );
 }

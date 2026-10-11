@@ -5,7 +5,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>deviens-marrant</Text>
-      <Text style={styles.subtitle}>Bientôt disponible sur mobile</Text>
+      <Text style={styles.subtitle}>L&apos;appli arrive bientôt, promis.</Text>
       <StatusBar style="light" />
     </View>
   );

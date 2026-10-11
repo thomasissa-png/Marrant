@@ -10,6 +10,21 @@ function loadSeedData<T>(filename: string): T[] {
   return JSON.parse(raw) as T[];
 }
 
+// Charge un JSON depuis un chemin relatif à la racine du repo (différent de
+// docs/content). Utilisé pour le fichier de décryptages bundlé au runtime.
+function loadRepoJson<T>(relativePath: string): T[] {
+  const filePath = resolve(process.cwd(), "../..", relativePath);
+  const raw = readFileSync(filePath, "utf-8");
+  return JSON.parse(raw) as T[];
+}
+
+interface JokeDecryptageSeed {
+  content: string;
+  comedyTechnique: string;
+  techniqueExplanation: string;
+  howToApply: string;
+}
+
 interface JokeSeed {
   id: number;
   content: string;
@@ -17,6 +32,13 @@ interface JokeSeed {
   category: string;
   maturityLevel: number;
   type: string;
+  /**
+   * s11 alias : si présent ET qu'une vanne existe avec ce `content`, on MET
+   * À JOUR cette ligne (même id → favoris/likes préservés) au lieu d'en
+   * créer une nouvelle avec le nouveau `content`. Support d'une ou plusieurs
+   * anciennes formulations.
+   */
+  previousContent?: string | string[];
 }
 
 interface TipSeed {
@@ -27,6 +49,12 @@ interface TipSeed {
   difficulty: string;
   example: string;
   exercise: string;
+  /**
+   * s11 alias : si présent ET qu'un conseil existe avec ce `title`, on MET
+   * À JOUR cette ligne (même id → favoris/parcours préservés) au lieu d'en
+   * créer un nouveau avec le nouveau `title`.
+   */
+  previousTitle?: string | string[];
 }
 
 interface VideoSeed {
@@ -62,6 +90,13 @@ async function main() {
   // BLAGUES — upsert par contenu pour préserver les relations (JokeLike, favoris)
   const jokes = loadSeedData<JokeSeed>("blagues-seed.json");
   {
+    // Décryptages pédagogiques pré-rédigés (265 entrées, indexées par content).
+    // Source bundlée au runtime : src/data/joke-decryptages.json — appliqués dès
+    // le seed pour que les nouvelles installs aient le décryptage immédiatement
+    // (le boot via applyJokeDecryptagesTask les applique aussi, par sécurité).
+    const decryptages = loadRepoJson<JokeDecryptageSeed>("apps/web/src/data/joke-decryptages.json");
+    const decryptageByContent = new Map(decryptages.map((d) => [d.content, d]));
+
     const existingJokes = await prisma.joke.findMany({
       where: { generatedByAI: false },
       select: { id: true, content: true },
@@ -70,10 +105,39 @@ async function main() {
 
     let created = 0;
     let updated = 0;
+    let renamed = 0;
+    // Cache mémoire pour retracer les contents déjà migrés dans cette passe
+    // (permet à un `previousContent` de matcher même si l'alias a déjà été
+    // renommé plus tôt dans la boucle).
     for (const joke of jokes) {
-      const existingId = existingByContent.get(joke.content);
+      const dec = decryptageByContent.get(joke.content);
+      let existingId = existingByContent.get(joke.content);
+
+      // s11 : si aucune vanne ne matche le nouveau `content` mais qu'un
+      // `previousContent` matche, on renomme cette ligne (préserve id →
+      // favoris/likes). Support d'une ou plusieurs formulations passées.
+      if (!existingId && joke.previousContent) {
+        const aliases = Array.isArray(joke.previousContent)
+          ? joke.previousContent
+          : [joke.previousContent];
+        for (const alias of aliases) {
+          const aliasId = existingByContent.get(alias);
+          if (aliasId) {
+            existingId = aliasId;
+            // Mise à jour du content (renommage). Le reste sera écrit ci-dessous.
+            await prisma.joke.update({
+              where: { id: aliasId },
+              data: { content: joke.content },
+            });
+            existingByContent.delete(alias);
+            existingByContent.set(joke.content, aliasId);
+            renamed++;
+            break;
+          }
+        }
+      }
+
       if (existingId) {
-        // Mettre à jour la punchline, catégorie, type, niveau si modifiés
         await prisma.joke.update({
           where: { id: existingId },
           data: {
@@ -82,6 +146,13 @@ async function main() {
             maturityLevel: joke.maturityLevel,
             type: joke.type as never,
             isActive: true,
+            ...(dec
+              ? {
+                  comedyTechnique: dec.comedyTechnique,
+                  techniqueExplanation: dec.techniqueExplanation,
+                  howToApply: dec.howToApply,
+                }
+              : {}),
           },
         });
         updated++;
@@ -93,12 +164,20 @@ async function main() {
             category: joke.category as never,
             maturityLevel: joke.maturityLevel,
             type: joke.type as never,
+            ...(dec
+              ? {
+                  comedyTechnique: dec.comedyTechnique,
+                  techniqueExplanation: dec.techniqueExplanation,
+                  howToApply: dec.howToApply,
+                }
+              : {}),
           },
         });
         created++;
       }
     }
-    console.log(`Blagues : ${created} ajoutées, ${updated} mises à jour`);
+    const renameNote = renamed > 0 ? `, ${renamed} renommées (previousContent)` : "";
+    console.log(`Blagues : ${created} ajoutées, ${updated} mises à jour${renameNote}`);
 
     // Désactiver les vannes seed qui ne sont plus dans le fichier (retirées lors d'un audit qualité)
     // Ne touche PAS aux vannes générées par l'IA (generatedByAI = true)
@@ -131,10 +210,32 @@ async function main() {
 
     let created = 0;
     let updated = 0;
+    let renamed = 0;
     for (const tip of tips) {
-      const existingId = existingByTitle.get(tip.title);
+      let existingId = existingByTitle.get(tip.title);
+
+      // s11 : support alias `previousTitle` (préserve id → favoris/parcours).
+      if (!existingId && tip.previousTitle) {
+        const aliases = Array.isArray(tip.previousTitle)
+          ? tip.previousTitle
+          : [tip.previousTitle];
+        for (const alias of aliases) {
+          const aliasId = existingByTitle.get(alias);
+          if (aliasId) {
+            existingId = aliasId;
+            await prisma.tip.update({
+              where: { id: aliasId },
+              data: { title: tip.title },
+            });
+            existingByTitle.delete(alias);
+            existingByTitle.set(tip.title, aliasId);
+            renamed++;
+            break;
+          }
+        }
+      }
+
       if (existingId) {
-        // Mettre à jour le contenu, exemple, exercice, catégorie, difficulté si modifiés
         await prisma.tip.update({
           where: { id: existingId },
           data: {
@@ -161,7 +262,8 @@ async function main() {
         created++;
       }
     }
-    console.log(`Conseils : ${created} ajoutés, ${updated} mis à jour`);
+    const renameNote = renamed > 0 ? `, ${renamed} renommés (previousTitle)` : "";
+    console.log(`Conseils : ${created} ajoutés, ${updated} mis à jour${renameNote}`);
 
     // Désactiver les conseils seed qui ne sont plus dans le fichier (retirés lors d'un audit qualité)
     // Ne touche PAS aux conseils générés par l'IA (generatedByAI = true)
@@ -236,8 +338,10 @@ async function main() {
       updated++;
     }
     // Désactiver les vidéos qui ne sont plus dans le seed (IDs YouTube invalides)
+    // Ne touche PAS aux vidéos découvertes par l'IA (generatedByAI = true,
+    // cron monthly-videos) : sinon chaque build les désactivait toutes.
     const deactivated = await prisma.video.updateMany({
-      where: { youtubeId: { notIn: seedYoutubeIds } },
+      where: { youtubeId: { notIn: seedYoutubeIds }, generatedByAI: false },
       data: { isActive: false },
     });
     console.log(`${updated} vidéos mises à jour/ajoutées, ${deactivated.count} désactivées`);

@@ -1,39 +1,30 @@
 import { NextResponse } from "next/server";
+import { submitToIndexNow } from "@/lib/indexnow";
 import {
   publishWeeklyArticle,
   updateSeoCalendar,
 } from "@/lib/ai/agents/seo-blog-agent";
 
-const INDEXNOW_KEY = process.env.INDEXNOW_KEY;
-const HOST = "deviens-marrant.fr";
+// Incident s14 : aucun fetch sortant (LLM, Buffer…) mis en cache par Next.
+export const fetchCache = "force-no-store";
 
-/** Notifie Bing via IndexNow qu'un nouvel article a été publié. */
-async function notifyIndexNow(slug: string): Promise<void> {
-  if (!INDEXNOW_KEY) {
-    console.warn("[IndexNow] INDEXNOW_KEY absent — soumission ignorée");
-    return;
-  }
+/**
+ * IndexNow catalogue (s15) : URL du sitemap modifiées depuis moins de 8 jours,
+ * un seul POST. Non bloquant : une erreur n'empêche jamais la réponse du cron.
+ */
+async function notifyRecentCatalogue() {
   try {
-    const urls = [
-      `https://${HOST}/blog/${slug}`,
-      `https://${HOST}/blog`,
-      `https://${HOST}/sitemap.xml`,
-    ];
-    const response = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        host: HOST,
-        key: INDEXNOW_KEY,
-        keyLocation: `https://${HOST}/indexnow-key.txt`,
-        urlList: urls,
-      }),
-    });
-    const body = await response.text();
-    console.log(`[IndexNow] Article ${slug} soumis — status ${response.status} — response: ${body}`);
-  } catch (err) {
-    console.warn("[IndexNow] Erreur (non bloquante):", err);
+    const { notifyRecentSitemapUrls } = await import("@/lib/indexnow-sitemap");
+    return await notifyRecentSitemapUrls();
+  } catch (error) {
+    console.warn("[Cron SEO] IndexNow catalogue (non bloquant) :", error);
+    return { submitted: 0, reason: "error" as const };
   }
+}
+
+/** Notifie Bing via IndexNow qu'un nouvel article a été publié (non bloquant). */
+async function notifyIndexNow(slug: string): Promise<void> {
+  await submitToIndexNow([`/blog/${slug}`, "/blog", "/sitemap.xml"]);
 }
 
 /**
@@ -56,6 +47,16 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Non autorisé" }, { status: 401 });
   }
 
+  // Contenu préparé à l'avance (s14) : publication de l'article planifié échu, aucun LLM.
+  {
+    const { isContentGenerationEnabled, publishDueScheduledArticles } = await import("@/lib/scheduler/prepared-content");
+    if (!isContentGenerationEnabled()) {
+      const published = await publishDueScheduledArticles();
+      const indexnow = await notifyRecentCatalogue();
+      return NextResponse.json({ skipped: "CONTENT_GENERATION_ENABLED != true", published, indexnow });
+    }
+  }
+
   try {
     console.log("[Cron SEO] Démarrage du job hebdomadaire...");
 
@@ -71,11 +72,13 @@ export async function GET(request: Request) {
     if (articleResult?.article?.slug) {
       await notifyIndexNow(articleResult.article.slug);
     }
+    const indexnow = await notifyRecentCatalogue();
 
     return NextResponse.json({
       success: true,
       calendar: calendarResult,
       article: articleResult,
+      indexnow,
     });
   } catch (error) {
     console.error("[Cron SEO] Erreur:", error);

@@ -1,0 +1,872 @@
+[
+  {
+    "id": "cmq4r326m009rs60xj2koepny",
+    "verdict": "OK",
+    "content": "17h pile, toutes les terrasses de Paris se remplissent d'un coup.",
+    "punchline": "C'est la seule réunion de la journée où personne n'est en retard.",
+    "comedyTechnique": "Le détournement de cadre",
+    "techniqueExplanation": "Tu prends un moment de plaisir (l'apéro de 17h) et tu le décris avec le vocabulaire d'un autre univers, ici la réunion. Personne n'a envoyé d'invitation et pourtant la ponctualité est parfaite : le lecteur voit le bureau perdre, pour une fois, contre le plaisir.",
+    "howToApply": "Décris un plaisir avec le vocabulaire du travail. Exemple : « La queue devant la boulangerie le dimanche matin, c'est l'assemblée générale la plus suivie du quartier. »",
+    "note": "Supprime « flash mob » attendu et les points de suspension. « instantanément » remplacé par « d'un coup »."
+  },
+  {
+    "id": "cmny3en3c000zs60wdpwz35gr",
+    "verdict": "OK",
+    "content": "Avec mon copain, on ne se dispute plus pour choisir un resto. On laisse une appli trancher.",
+    "punchline": "Reste à choisir l'appli.",
+    "comedyTechnique": "Le problème déplacé",
+    "techniqueExplanation": "La solution règle le problème sur le papier, et la chute montre qu'il a juste changé d'adresse. Le lecteur a déjà vécu ça, d'où le sourire de reconnaissance. Plus la chute est courte, plus l'évidence frappe.",
+    "howToApply": "Annonce une solution, puis montre en quelques mots le nouveau problème qu'elle crée. Exemple : « J'ai enfin rangé mes câbles avec des étiquettes. Maintenant je cherche où j'ai rangé les étiquettes. »",
+    "note": "Retire « solution parfaite » qui télégraphait le twist. Chute de 4 mots."
+  },
+  {
+    "id": "cmq0nv0hf00q4s60x5ewmyni8",
+    "verdict": "OK",
+    "content": "Ce matin 16°C, j'ai mis un jean. À midi 28°C, j'étais en sueur.",
+    "punchline": "Mon jean m'a offert un essai gratuit de hammam. J'ai pas lu les conditions.",
+    "comedyTechnique": "La métaphore commerciale",
+    "techniqueExplanation": "Tu traduis une galère du quotidien dans le langage d'un abonnement : essai gratuit, conditions, résiliation. On reconnaît tout de suite le piège, et « j'ai pas lu les conditions » ajoute l'auto-dérision : c'est ma faute, comme d'habitude.",
+    "howToApply": "Raconte une petite mésaventure comme un contrat signé sans lecture. Exemple : « J'ai accepté un café avec mon voisin. Je n'avais pas vu la clause « il parle de sa copropriété ». »",
+    "note": "Chiffres 16°C et 28°C conservés. Image « essai gratuit hammam » gardée, chute raccourcie et ouverte par « conditions »."
+  },
+  {
+    "id": "cmmnsqn140053th635oa49916",
+    "verdict": "OK",
+    "content": "En province, j'ai croisé un autre Parisien. Je lui ai demandé s'il était en exil aussi.",
+    "punchline": "Il a répondu « non, en vacances ». On s'est compris.",
+    "comedyTechnique": "L'auto-dérision de tribu",
+    "techniqueExplanation": "Tu te moques de ta propre tribu avec une croyance que tous ses membres reconnaissent : quitter Paris, c'est l'exil. La réponse « en vacances » ne corrige rien, elle confirme. « On s'est compris » ferme la blague en trois mots.",
+    "howToApply": "Moque ta propre tribu avec une phrase que seuls ses membres se disent. Exemple : « J'ai croisé un autre Marseillais à Paris. On n'a pas parlé de la ville. Juste de la mer, à voix basse. »",
+    "note": "Passé au « je » (le format « Deux Parisiens se croisent » est interdit), tiret cadratin supprimé. Twist exil/vacances conservé."
+  },
+  {
+    "id": "cmmnsqn15007oth63jbugyxvs",
+    "verdict": "OK",
+    "content": "Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat ».",
+    "punchline": "Elle m'a demandé si j'en parlais un autre.",
+    "comedyTechnique": "Le sens littéral",
+    "techniqueExplanation": "Tu prends le mot « language » au pied de la lettre : si les memes sont ta langue d'amour, existe-t-il une autre langue ? La question de l'autre fait le travail à ta place, et la blague porte sur toi sans que tu aies à te commenter.",
+    "howToApply": "Prends un mot de jargon (coaching, RH, appli) au sens strict. Exemple : « Ma boss m'a dit de sortir de ma zone de confort. J'ai sorti mon canapé sur le balcon. »",
+    "note": "Retire l'explication « C'était la mauvaise réponse ». 3h du mat conservé."
+  },
+  {
+    "id": "cmmnsqn150078th63efrbu1if",
+    "verdict": "OK",
+    "content": "Une pote m'a dit « sois toi-même » pour Tinder. J'ai toujours été moi-même.",
+    "punchline": "C'est bien pour ça que je suis sur Tinder.",
+    "comedyTechnique": "Le conseil qui se retourne",
+    "techniqueExplanation": "« Sois toi-même » est censé rassurer. Ici il devient l'explication du problème : si ça n'a jamais marché, c'est peut-être parce que tu l'appliques depuis toujours. La chute arrive sans commentaire, ce qui rend la logique implacable.",
+    "howToApply": "Prends un conseil très répandu et montre qu'il explique justement ton problème. Exemple : « On m'a dit de croire en moi. J'y ai cru. C'est comme ça que je me suis inscrit au marathon. »",
+    "note": "L'ancienne chute (« Elle m'a unmatché ») était prévisible dès le setup. Nouvelle chute : renversement logique."
+  },
+  {
+    "id": "cmmnsqn150085th63s8x6ar77",
+    "verdict": "OK",
+    "content": "En after, tout le monde dit « demain je me lève tôt ».",
+    "punchline": "Il est 6h. Seul le soleil a tenu parole.",
+    "comedyTechnique": "Le témoin neutre",
+    "techniqueExplanation": "« Demain je me lève tôt » est une promesse, et le soleil devient le seul à la tenir. Tu n'as pas besoin de dire que personne n'est parti : la déduction se fait toute seule dans la tête du lecteur, et c'est elle qui fait sourire.",
+    "howToApply": "Trouve un élément neutre (soleil, horloge, voisin) qui prouve que quelqu'un a menti. Exemple : « Il a dit qu'il ferait un régime. Le livreur de pizzas, lui, est resté à l'heure. »",
+    "note": "6h conservé. Chute en trois phrases réduite à deux."
+  },
+  {
+    "id": "cmmnsqn14003rth6379n30nzd",
+    "verdict": "OK",
+    "content": "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien.",
+    "punchline": "Il te fait asseoir et baisse la voix.",
+    "comedyTechnique": "La disproportion de réaction",
+    "techniqueExplanation": "Tu prends un fait banal (sauter un déjeuner) et tu montres la réaction du groupe comme s'il s'agissait d'une annonce grave. « Il te fait asseoir et baisse la voix » suffit : le lecteur voit la scène. L'exagération vient de la mise en scène, pas de l'adjectif.",
+    "howToApply": "Décris une réaction trop grande pour un petit fait, avec un geste précis. Exemple : « J'ai dit que je n'aimais pas la pizza. Ma pote a pris ma main et m'a demandé si je voulais en parler. »",
+    "note": "Hyperbole « urgence médicale reconnue » remplacée par une scène. Tutoiement (adresse au lecteur)."
+  },
+  {
+    "id": "cmmnsqn14004nth638k89q5ig",
+    "verdict": "OK",
+    "content": "Quand quelqu'un commence par « à la base », il faut être patient.",
+    "punchline": "Trois digressions plus tard, la base a déménagé.",
+    "comedyTechnique": "L'abstrait pris au pied de la lettre",
+    "techniqueExplanation": "« À la base » désigne un point de départ, et tu le traites comme un endroit physique qui peut déménager. Le lecteur reconnaît le collègue-tornade et sourit de l'image plus que de la remarque. Tout repose sur un seul verbe bien choisi.",
+    "howToApply": "Prends un mot abstrait et fais-lui faire un geste physique. Exemple : « Sa réunion a commencé par « rapidement ». Depuis, le mot a déménagé. »",
+    "note": "Points de suspension supprimés, amorce « En France » évitée. « Trois » conservé."
+  },
+  {
+    "id": "cmmnsqn13002oth630evu8rts",
+    "verdict": "OK",
+    "content": "Mon médecin m'a dit de ne pas boire avant 18h.",
+    "punchline": "J'ai pris ça pour un rendez-vous.",
+    "comedyTechnique": "Le contresens volontaire",
+    "techniqueExplanation": "Une interdiction est lue comme une autorisation : « pas avant 18h » devient « rendez-vous à 18h ». Le narrateur ne se défend pas, il prend sa lecture au sérieux, et c'est ce sérieux qui fait rire.",
+    "howToApply": "Prends une consigne restrictive et lis-la comme une invitation. Exemple : « Mon dentiste m'a dit de ne pas manger de sucre avant le rendez-vous. J'ai pris ça pour un dernier repas. »",
+    "note": "Même situation (l'apéro de 18h), angle nouveau (le conseil médical) : l'ancienne chute « préparation psychologique » était l'hyperbole attendue. 18h conservé. À valider par Thomas si l'angle médecin gêne."
+  },
+  {
+    "id": "cmmnsqn130033th63b54ux45o",
+    "verdict": "OK",
+    "content": "Mon père a vu mon appart. Il a dit « c'est pas mal ».",
+    "punchline": "Je lui ai demandé de me le mettre par écrit.",
+    "comedyTechnique": "La litote prise au sérieux",
+    "techniqueExplanation": "« C'est pas mal » est une litote : elle dit peu pour laisser entendre beaucoup. Tu la traites comme un vrai compliment, assez rare pour être encadré. L'humour vient de la valeur que tu donnes à une phrase minuscule.",
+    "howToApply": "Prends une réaction tiède et traite-la comme un trophée. Exemple : « Ma sœur a dit « pas mal » de ma cuisine. J'ai décidé d'ouvrir un restaurant. »",
+    "note": "Scène concrète (le père) à la place du constat générique « En France, quand quelqu'un dit… »."
+  },
+  {
+    "id": "cmmnsqn13001hth636gpfp7mn",
+    "verdict": "OK",
+    "content": "Mon oncle a lancé un débat politique au repas de famille. Tout le monde avait un avis.",
+    "punchline": "On s'est mis d'accord sur le fromage.",
+    "comedyTechnique": "Le seul point d'accord",
+    "techniqueExplanation": "Le début installe le chaos (tout le monde a un avis), la chute nomme la seule chose qui fasse consensus. Le décalage entre un sujet sérieux et une trêve gourmande produit le sourire, et la chute tient en sept mots.",
+    "howToApply": "Décris un désaccord général, puis le seul sujet qui rassemble tout le monde. Exemple : « Dans le groupe WhatsApp du boulot, personne ne répond aux mails. Mais tout le monde a répondu à « qui veut des croissants ». »",
+    "note": "Supprime la comparaison télégraphiée « c'est comme un débat politique »."
+  },
+  {
+    "id": "cmmnsqn12000rth63qizdvf8n",
+    "verdict": "OK",
+    "content": "En open space, je sais faire semblant de travailler.",
+    "punchline": "Mais pas de ne pas entendre les carottes crues du voisin.",
+    "comedyTechnique": "Le talent inversé",
+    "techniqueExplanation": "Tu poses une compétence que tu maîtrises (faire semblant de travailler), puis tu avoues celle qui te manque. Le contraste des deux crée l'auto-dérision : le plus dur, ce n'est pas le travail, c'est le voisin. Plus le détail est concret (carottes crues), plus l'image sonne vrai.",
+    "howToApply": "Annonce une compétence que tu as, puis une que tu n'as pas, dans la même phrase. Exemple : « Je sais parler à un client mécontent. Je sais pas parler à mon voisin qui prend le même ascenseur. »",
+    "note": "Passé de l'aphorisme collectif (« tout le monde fait semblant ») à l'aveu personnel, chute plus courte."
+  },
+  {
+    "id": "cmmnsqn120014th63m4rboak4",
+    "verdict": "OK",
+    "content": "En réunion, quelqu'un a dit « on en reparlera ».",
+    "punchline": "On a bloqué une heure pour décider quand.",
+    "comedyTechnique": "La procédure qui se mord la queue",
+    "techniqueExplanation": "Tu décris une réunion qui sert à planifier une réunion. C'est le bureau qui fait la blague pour toi : ton seul travail est de la raconter sans commentaire. La précision « une heure » donne un coût réel à l'absurde.",
+    "howToApply": "Montre un dispositif qui produit lui-même le problème qu'il devait régler. Exemple : « On a créé un canal Slack pour réduire les mails. Il faut maintenant un mail pour expliquer le canal. »",
+    "note": "La traduction de jargon « veut dire… » est remplacée par une scène. « Une heure » conservé."
+  },
+  {
+    "id": "cmptboy7s0028s60xynjj9g34",
+    "verdict": "OK",
+    "content": "À la soirée de fin d'année, j'ai parlé de mes projets d'avenir à une fille. Le premier : dormir jusqu'à 14h.",
+    "punchline": "Elle a demandé le deuxième. J'ai dit que j'étais encore sur le premier.",
+    "comedyTechnique": "Le projet qui a déjà commencé",
+    "techniqueExplanation": "Dormir jusqu'à 14h n'est pas un projet, et tu le traites comme une étape en cours d'exécution. L'auto-dérision vient du sérieux avec lequel tu défends ta paresse, avec le vocabulaire de l'avancement.",
+    "howToApply": "Présente une paresse comme un projet en cours, avec le vocabulaire de l'avancement. Exemple : « Mon objectif de l'année, c'est de répondre à mes messages. J'en suis au stade de la lecture. »",
+    "note": "« Spoiler : » supprimé (tic IA). 14h conservé. Setup resserré."
+  },
+  {
+    "id": "cmmnsqn150087th634dmdu14r",
+    "verdict": "OK",
+    "content": "En soirée, je danse comme si personne ne me regardait.",
+    "punchline": "Personne ne me regarde. Ils filment.",
+    "comedyTechnique": "L'expression rendue techniquement exacte",
+    "techniqueExplanation": "Le proverbe dit de faire comme si personne ne regardait. Tu le prends à la lettre et tu ajoutes un détail qui le rend exact : personne ne regarde, tout le monde filme. Le mot « filment » remplace « regardent » sans changer la scène, et cet écart minuscule fait rire.",
+    "howToApply": "Prends une expression toute faite et trouve la nuance qui la rend techniquement vraie. Exemple : « Il paraît qu'il faut vivre chaque jour comme si c'était le dernier. J'ai mangé trois pizzas. Personne ne m'a contredit. »",
+    "note": "Retournement du proverbe conservé mais la chute passe de « tout le monde me regarde » (attendu) à « personne ne regarde, ils filment » (exact)."
+  },
+  {
+    "id": "cmmnsqn150080th63wacs8wgk",
+    "verdict": "OK",
+    "content": "À 3h du mat, en soirée, un mec me demande si on est seuls dans l'univers.",
+    "punchline": "J'ai dit que je répondrais quand j'aurais retrouvé mes clés.",
+    "comedyTechnique": "Le grand écart d'échelle",
+    "techniqueExplanation": "Tu passes d'une question cosmique (seuls dans l'univers) à un tracas minuscule (les clés). Ce grand écart est un classique du stand-up. Comme c'est toi qui réponds, tu restes dans l'auto-dérision au lieu de te moquer de l'autre.",
+    "howToApply": "Prends une grande question et réponds par un problème du quotidien. Exemple : « On m'a demandé le sens de la vie. J'ai dit que je répondrais après avoir retrouvé où j'ai garé la voiture. »",
+    "note": "« Frère » supprimé (tic IA). La cible de la moquerie passe de l'autre à soi. 3h du mat conservé."
+  },
+  {
+    "id": "cmmnsqn15007uth63eaavgyx3",
+    "verdict": "OK",
+    "content": "En soirée, celui qui gère la musique met du Jul.",
+    "punchline": "La moitié de la salle part. L'autre connaît les paroles.",
+    "comedyTechnique": "La fracture en deux camps",
+    "techniqueExplanation": "Tu annonces une répartition en deux moitiés, puis tu poses la seconde là où on ne l'attendait pas : pas « chante », mais « connaît les paroles ». Le détail dit tout sur ceux qui restent, sans un mot de trop.",
+    "howToApply": "Coupe un groupe en deux camps et fais de la seconde moitié un aveu. Exemple : « À la fin du film, la moitié de la salle applaudit. L'autre est encore en train de chercher qui était le méchant. »",
+    "note": "Chute resserrée, « Y'a pas d'entre-deux » (explication) supprimé."
+  },
+  {
+    "id": "cmmnsqn15007xth63p3dzv6pc",
+    "verdict": "OK",
+    "content": "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons.",
+    "punchline": "Il a beaucoup de chansons.",
+    "comedyTechnique": "Le deadpan factuel",
+    "techniqueExplanation": "Le mot « ma » suppose une exclusivité, et le compteur (toutes les 3 chansons) la détruit. Ta chute énonce l'évidence avec un calme total, sans un adjectif : c'est ce ton plat qui fait le rire.",
+    "howToApply": "Repère une expression exclusive qui revient trop souvent, compte-la, puis conclus par une phrase plate. Exemple : « Mon pote dit « c'est mon film préféré » à chaque film. Il a beaucoup de films préférés. »",
+    "note": "La vraie chute d'origine (« Il a beaucoup de chansons ») est gardée, le setup absorbe le compteur. 3 chansons conservé."
+  },
+  {
+    "id": "cmnpaomu40013s60z511997io",
+    "verdict": "OK",
+    "content": "Un collègue vient en short dès qu'il fait 15°. Ce matin, il claquait des dents. Je lui ai demandé si ça allait.",
+    "punchline": "Il m'a dit qu'il avait plutôt chaud.",
+    "comedyTechnique": "Le déni en direct",
+    "techniqueExplanation": "Tu poses un fait visible (il claque des dents) puis une réponse qui le contredit avec aplomb. Le lecteur complète seul : la fierté empêche d'avouer. La blague vit dans l'écart entre le corps et le discours.",
+    "howToApply": "Décris le corps qui trahit, puis la phrase qui nie. Exemple : « Mon pote a mangé un plat de piment en pleurant. Il a dit que c'était un peu doux. »",
+    "note": "L'ancienne chute (« il applaudit son propre choix ») était alambiquée. 15° conservé."
+  },
+  {
+    "id": "cmns5xu670009s60zwyuszpot",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Chute télégraphiée dès le setup (baskets pour se remettre au sport = elles ne courent pas). « Plus de likes que de kilomètres » reste sous l'étalon. Aucune version au niveau trouvée."
+  },
+  {
+    "id": "cmmnsqn140051th63qdmtj5qn",
+    "verdict": "OK",
+    "content": "J'ai acheté un hamac pour me reposer cet été.",
+    "punchline": "Personne ne m'avait dit que c'était un sport de contact.",
+    "comedyTechnique": "Le changement de catégorie",
+    "techniqueExplanation": "Le hamac est censé être le contraire du sport, et tu le ranges dans les sports de contact. La catégorie change, l'image de la chute suit toute seule. Le lecteur voit la scène avant que tu la décrives.",
+    "howToApply": "Range un objet de repos dans une catégorie d'effort. Exemple : « Mon oreiller neuf, c'est un sport de combat : je me bats avec lui chaque nuit. »",
+    "note": "Double chute (« Bilan : une épaule foulée ») remplacée par une seule image."
+  },
+  {
+    "id": "cmmnsqn150074th63m5g2yqip",
+    "verdict": "OK",
+    "content": "J'ai bloqué quelqu'un sur les réseaux. Il m'a appelé pour demander pourquoi.",
+    "punchline": "J'ai décroché. J'ai dû mal comprendre le principe.",
+    "comedyTechnique": "Le principe mal compris",
+    "techniqueExplanation": "Tu décris une décision ferme, puis ton geste qui la contredit. La chute ne se défend pas, elle avoue, avec un faux sérieux (« le principe »). On rit de toi, pas de l'autre, et le retournement arrive dans les deux derniers mots.",
+    "howToApply": "Décris une décision ferme, puis le geste qui la contredit, avec une conclusion faussement sérieuse. Exemple : « J'ai supprimé l'appli de livraison. J'ai commandé pour fêter ça. Je crois que j'ai raté quelque chose. »",
+    "note": "« Frère » supprimé (tic IA). La cible passe de l'autre à soi."
+  },
+  {
+    "id": "cmmnsqn13001sth63ev1d0jcd",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Gag du végan et du serveur perplexe : comparaison « comme si » attendue, cliché de comptoir. Aucune version au niveau des étalons (l'équation différentielle seule ne fait pas de twist)."
+  },
+  {
+    "id": "cmnfakfz50001s60xjtgw0dw7",
+    "verdict": "OK",
+    "content": "Partiels : j'ai commencé par un planning couleur avec des créneaux optimisés.",
+    "punchline": "Aujourd'hui, j'ai révisé comment faire un planning.",
+    "comedyTechnique": "La procrastination organisée",
+    "techniqueExplanation": "Tu remplaces le travail annoncé (réviser) par sa préparation (le planning), qui devient le vrai travail de la journée. Le mot « aujourd'hui » donne l'air d'un bilan sérieux, et c'est ce sérieux qui fait sourire. Tout le monde s'y reconnaît.",
+    "howToApply": "Fais de la préparation le seul accomplissement du jour. Exemple : « Aujourd'hui, j'ai préparé mon bureau pour mieux travailler. J'ai retrouvé ma vieille console. »",
+    "note": "Setup en une phrase (avant : deux phrases bavardes). Amorce « J'ai commencé mes révisions » évitée."
+  },
+  {
+    "id": "cmo9aey6x001is60x9ti9ats1",
+    "verdict": "OK",
+    "content": "Pour réviser mes oraux, je parle à mon mur depuis une semaine.",
+    "punchline": "Il a eu plus de mes nouvelles que mes potes depuis 6 mois.",
+    "comedyTechnique": "La comparaison qui humilie",
+    "techniqueExplanation": "Tu compares le temps passé avec un mur à celui passé avec tes amis, et le mur gagne. Le chiffre rend l'auto-dérision concrète : on peut presque mesurer ta vie sociale. Plus le contraste est net, plus la blague passe sans commentaire.",
+    "howToApply": "Compare le temps passé avec un objet à celui passé avec des humains. Exemple : « Ma plante a eu plus de conversations avec moi cette semaine que ma famille en un mois. »",
+    "note": "6 mois conservé. Setup et chute rééquilibrés."
+  },
+  {
+    "id": "cmmnsqn15006nth63gg8uw9tq",
+    "verdict": "OK",
+    "content": "J'ai crié « ALLONS-Y LES GARS » dans mon micro.",
+    "punchline": "J'étais en mute depuis 20 minutes. Personne n'a vu la différence.",
+    "comedyTechnique": "L'effort qui ne sert à rien",
+    "techniqueExplanation": "Tu décris un grand élan (crier dans le micro), puis tu révèles qu'il n'avait aucun effet. La chute ajoute une seconde couche : ta présence dans l'équipe n'a rien changé non plus. Le lecteur rit de la double inutilité en trois secondes.",
+    "howToApply": "Décris un grand geste, puis révèle qu'il est resté invisible. Exemple : « J'ai envoyé un mail très inspirant à toute l'équipe. J'avais oublié le bouton « envoyer ». »",
+    "note": "20 minutes conservé. La chute passe de trois phrases explicatives (« L'équipe m'a jamais entendu. On a perdu. ») à deux."
+  },
+  {
+    "id": "cmmnsqn15005wth63kzoxldav",
+    "verdict": "OK",
+    "content": "J'ai demandé à ChatGPT de faire mon devoir. Le prof m'a mis 18.",
+    "punchline": "C'est la meilleure note que j'ai jamais pas méritée.",
+    "comedyTechnique": "L'aveu paradoxal",
+    "techniqueExplanation": "Tu annonces un succès, puis tu l'invalides d'une formule logiquement bancale : la meilleure note que tu n'as jamais pas méritée. L'aveu est sincère et complice, et la double négation retient le lecteur une demi-seconde de plus.",
+    "howToApply": "Annonce un succès, puis avoue qu'il ne t'appartient pas, avec une formule un peu tordue. Exemple : « J'ai gagné la partie de Monopoly. C'est le plus beau titre que j'ai jamais volé. »",
+    "note": "Quasi inchangée : la chute est au niveau (à garder mot pour mot). Mention IA autorisée (charte s14). 18 conservé."
+  },
+  {
+    "id": "cmmnsqn13003cth63nee1wk23",
+    "verdict": "OK",
+    "content": "J'ai dit « je t'aime » par erreur à mon livreur Uber Eats. Il a répondu « bon appétit ».",
+    "punchline": "C'est ma relation la plus saine depuis longtemps.",
+    "comedyTechnique": "L'aveu par comparaison",
+    "techniqueExplanation": "Tu poses un lapsus gênant, puis tu le transformes en bilan sentimental : la réponse polie du livreur devient le meilleur échange du moment. L'auto-dérision porte sur toi, jamais sur le livreur, et la chute tient en huit mots.",
+    "howToApply": "Prends un incident gênant et fais-en la meilleure nouvelle de ta vie affective. Exemple : « J'ai appelé mon banquier « chéri ». Il m'a rappelé le lendemain. C'est mon meilleur suivi depuis longtemps. »",
+    "note": "La chute explicative (« sans poser de questions… plus que mon ex ») est remplacée par une réponse concrète du livreur."
+  },
+  {
+    "id": "cmmnsqn130027th63at2ene9i",
+    "verdict": "OK",
+    "content": "J'ai dit à Alexa de me raconter une blague.",
+    "punchline": "Elle m'a lu mon historique de recherches.",
+    "comedyTechnique": "Le retournement de rôle",
+    "techniqueExplanation": "Tu demandes une blague, l'appareil te renvoie ta propre vie. La chute ne commente rien, elle constate, et c'est ce constat froid qui pique. Le rire vient de la reconnaissance : chacun sait ce que contient son historique.",
+    "howToApply": "Fais répondre un objet ou un appareil avec un fait sur toi, sans commentaire. Exemple : « J'ai demandé à mon frigo ce que je pouvais cuisiner. Il m'a rappelé l'existence d'un yaourt périmé. »",
+    "note": "ÉTALON E1 de Thomas, inchangé. Mention IA autorisée (charte s14)."
+  },
+  {
+    "id": "cmpkr42j700oms60xlcfeqaum",
+    "verdict": "OK",
+    "content": "J'ai dit à ma mère que j'allais réviser intensivement pendant le pont de mai. Elle m'a trouvé devant mon jeu en ligne.",
+    "punchline": "Techniquement, apprendre à insulter en coréen, c'est du bilinguisme.",
+    "comedyTechnique": "La justification absurde",
+    "techniqueExplanation": "Tu défends ce que tu fais en le rangeant sous une étiquette respectable : « bilinguisme ». La logique tient techniquement, et c'est cet aplomb qui fait sourire. Le détail « insulter en coréen » rend le décalage précis.",
+    "howToApply": "Justifie une habitude peu glorieuse avec un mot sérieux. Exemple : « Je regarde des tutos de cuisine sans jamais cuisiner. C'est de la veille technologique. »",
+    "note": "Lien jeu/coréen rendu explicite dans le setup. Guillemets simples supprimés. Vanne saisonnière (pont de mai)."
+  },
+  {
+    "id": "cmp9skwho00dss60xba2ruz6b",
+    "verdict": "OK",
+    "content": "J'ai dit à ma mère que j'allais aux Vieilles Charrues cet été.",
+    "punchline": "Elle m'a demandé à quelle heure elle devait venir me chercher.",
+    "comedyTechnique": "L'inversion des rôles parent-enfant",
+    "techniqueExplanation": "Tu es adulte, et pourtant ta mère te traite comme à l'époque des soirées chez les copains. La question sur l'heure de récupération dit tout sans commentaire : le lecteur voit la voiture, les phares et la mère qui attend.",
+    "howToApply": "Montre un parent qui gère ta vie d'adulte avec une question banale. Exemple : « J'ai annoncé à ma mère que je partais en voyage seul. Elle m'a demandé si j'avais un pull. »",
+    "note": "Vanne saisonnière et locale (Vieilles Charrues), gardée. Chute divisée par deux."
+  },
+  {
+    "id": "cmp9ri55a00d6s60xspj4bsa5",
+    "verdict": "OK",
+    "content": "J'ai dit à mon mec qu'on devrait aller à Rock en Seine cette année.",
+    "punchline": "Il a demandé si les places étaient assises.",
+    "comedyTechnique": "Le contre-emploi",
+    "techniqueExplanation": "Tu annonces un événement fait pour la foule et le bruit, et l'autre réagit avec la seule question qui ne va pas avec le décor. La chute est courte parce que l'écart d'univers fait tout : le lecteur voit déjà le canapé derrière la scène.",
+    "howToApply": "Fais poser la question la plus casanière possible à un projet aventureux. Exemple : « J'ai proposé de partir randonner trois jours. Il a demandé s'il y avait du réseau. »",
+    "note": "« Table pour deux » (flou) remplacé par la question des places assises. Fusionne la variante « chaises pliantes » retirée dans l'audit."
+  },
+  {
+    "id": "cmmw0tooq0005mw62bxsd1aht",
+    "verdict": "OK",
+    "content": "J'ai dit à Siri de m'appeler un taxi.",
+    "punchline": "Elle m'appelle « un taxi » maintenant.",
+    "comedyTechnique": "La chute littérale",
+    "techniqueExplanation": "Tu donnes l'ordre « appelle-moi un taxi » et l'assistant l'exécute au sens strict : il te renomme. Le rire vient d'un mécanisme précis : le sens que tu voulais et le sens qui a été suivi sont proches, mais pas identiques.",
+    "howToApply": "Choisis une consigne à double lecture et fais exécuter la mauvaise. Exemple : « J'ai dit à mon GPS de m'emmener là où je serai heureux. Il a répondu qu'il fallait une adresse. »",
+    "note": "Inchangée (niveau atteint). Mention IA autorisée (charte s14)."
+  },
+  {
+    "id": "cmpp1zati0051s60ypnjqsk2x",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Le « challenge inverse » (ranger en 60 secondes, défaire en 10 secondes) est télégraphié dès le setup : le lecteur écrit la chute avant de la lire. Aucune version au niveau des étalons."
+  },
+  {
+    "id": "cmn6qr2r00001s60yqgny71s6",
+    "verdict": "OK",
+    "content": "J'ai découvert mon allergie au pollen grâce à ma story Instagram.",
+    "punchline": "J'ai la même tête sur toutes mes photos depuis 3 semaines.",
+    "comedyTechnique": "La preuve par la photo",
+    "techniqueExplanation": "Tu découvres une vérité sur toi par un objet extérieur (ta story) plutôt que par toi-même. La chute donne le diagnostic sans l'expliquer : même tête, trois semaines de suite. L'auto-dérision vient de la découverte tardive.",
+    "howToApply": "Découvre une vérité sur toi grâce à une preuve visuelle ou sonore. Exemple : « J'ai réécouté un de mes vocaux. Je comprends pourquoi mes potes répondent par texto. »",
+    "note": "Setup tordu simplifié. 3 semaines conservé."
+  },
+  {
+    "id": "cmpf5hc6900uds60x3icrsffs",
+    "verdict": "OK",
+    "content": "J'ai emmené ma mère à l'expo d'art contemporain au Château de l'Hermine. Au bout de 20 minutes, elle a montré une œuvre : « Et celle-là, elle représente quoi ? »",
+    "punchline": "C'était la sortie de secours.",
+    "comedyTechnique": "La fausse œuvre",
+    "techniqueExplanation": "La question naïve d'un proche devant l'art contemporain trouve sa réponse dans l'objet le plus banal du lieu. Le lecteur comprend en une seconde ce que tu pensais de l'expo sans que tu l'aies dit. L'humour se cache dans la précision de la scène.",
+    "howToApply": "Fais poser une question ingénue à un proche, puis réponds avec l'objet le plus banal. Exemple : « Mon père a demandé ce que représentait la sculpture. C'était le distributeur de tickets. »",
+    "note": "Tiret cadratin supprimé, guillemets simples remplacés, dialogue raccourci. 20 minutes et lieu conservés. Local (Nantes)."
+  },
+  {
+    "id": "cmmnsqn14004tth63i5zdputv",
+    "verdict": "OK",
+    "content": "Faire du vélo à Paris, c'est Mario Kart, avec des portières de taxi à la place des carapaces.",
+    "punchline": "Et une seule vie.",
+    "comedyTechnique": "Le détournement de référence",
+    "techniqueExplanation": "Tu compares une situation réelle à un jeu vidéo, puis tu casses la comparaison là où le jeu n'existe pas : dans la vraie vie, tu n'as qu'une vie. La chute de quatre mots donne le vrai enjeu sans lourdeur.",
+    "howToApply": "Compare ton quotidien à un jeu, puis souligne la règle que le jeu n'a pas. Exemple : « Faire ses courses le samedi, c'est un jeu de survie. Sauf que là, les caddies n'ont pas de frein. »",
+    "note": "La comparaison « c'est comme X mais Y » est gardée mais la chute devient un vrai twist (« une seule vie »)."
+  },
+  {
+    "id": "cmmnsqn130017th63fh61pkk4",
+    "verdict": "OK",
+    "content": "J'ai essayé le yoga pour me détendre. J'ai fini en position lotus, le chat assis sur ma tête.",
+    "punchline": "Je n'ai plus osé bouger. C'est ma meilleure séance.",
+    "comedyTechnique": "L'accident présenté comme une réussite",
+    "techniqueExplanation": "Tu présentes ce qui est censé être un accident (le chat sur la tête) comme le meilleur résultat de la séance. La logique est fausse, mais cohérente avec ton objectif de départ : te détendre. Rester immobile devient un exploit.",
+    "howToApply": "Transforme un accident en résultat. Exemple : « Je me suis perdu en forêt. J'ai fait dix kilomètres sans le vouloir. Meilleure sortie de l'année. »",
+    "note": "Image conservée, chute ajoutée (le texte d'origine n'en avait pas)."
+  },
+  {
+    "id": "cmmnsqn15006kth63res9rqp9",
+    "verdict": "OK",
+    "content": "J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul.",
+    "punchline": "Je l'ai pas désinstallé. On a fait le téléchargement ensemble.",
+    "comedyTechnique": "L'attachement absurde",
+    "techniqueExplanation": "Tu justifies de garder un jeu nul par le trajet parcouru ensemble : le téléchargement. L'attachement à un objet est un vrai biais, et « on a fait le téléchargement ensemble » lui donne un visage tendre. On sourit de reconnaissance.",
+    "howToApply": "Justifie de garder un objet inutile par une histoire commune. Exemple : « Je garde cette vieille chemise. On a traversé trois entretiens d'embauche ensemble. »",
+    "note": "120 Go et 20 minutes conservés. « On sait jamais » remplacé par une justification plus surprenante."
+  },
+  {
+    "id": "cmpz1ge4a00jhs60x3gkudds9",
+    "verdict": "OK",
+    "content": "J'ai joué à Valorant 6h d'affilée par 30°C dans ma chambre.",
+    "punchline": "Ma mère a ouvert la porte et m'a demandé si c'était toujours moi.",
+    "comedyTechnique": "Le regard de l'autre",
+    "techniqueExplanation": "Tu décris ton état à travers la réaction d'un tiers plutôt qu'avec un adjectif. Ta mère ne te reconnaît plus : le lecteur imagine seul l'odeur de la pièce et ta tête. L'indirect est plus drôle que le direct.",
+    "howToApply": "Décris ton état à travers la réaction d'un tiers. Exemple : « J'ai fini mon projet à 4h du matin. Mon chat m'a regardé comme si j'avais changé de race. »",
+    "note": "Le lien chaleur/weed flou est supprimé. 6h et 30°C conservés."
+  },
+  {
+    "id": "cmo0qp2jx0023s60xbtr2mdbm",
+    "verdict": "OK",
+    "content": "J'ai parlé 3 semaines avec une fille sur Tinder. On s'est donné rendez-vous.",
+    "punchline": "Elle m'a posé un lapin. Sur Zoom.",
+    "comedyTechnique": "L'expression qui change de milieu",
+    "techniqueExplanation": "« Poser un lapin » suppose un lieu physique où l'autre attend. Tu la transposes sur un écran, et le lecteur visualise l'absurde : toi devant une fenêtre vide. « Zoom » arrive en dernier pour que l'effet soit maximal.",
+    "howToApply": "Prends une expression physique et place-la dans un contexte numérique. Exemple : « Ma date m'a claqué la porte au nez. Elle a fermé l'onglet. »",
+    "note": "3 semaines conservé. Setup ambigu volontairement (rendez-vous sans lieu) pour ne pas télégraphier « Zoom »."
+  },
+  {
+    "id": "cmmnsqn140050th63ymov596f",
+    "verdict": "OK",
+    "content": "J'ai répondu « désolé, j'avais pas vu » à un message vieux de trois jours.",
+    "punchline": "Il m'a vu en ligne les trois jours.",
+    "comedyTechnique": "Le témoin de ta faute",
+    "techniqueExplanation": "Ton excuse est démentie par une preuve que l'autre a vue : tu étais en ligne. La blague tient sur le petit vide entre ce que tu dis (« j'avais pas vu ») et ce qu'il sait. On rit de toi, et chacun s'est déjà fait attraper comme ça.",
+    "howToApply": "Donne une excuse, puis la preuve qui la contredit. Exemple : « Je lui ai dit que j'avais oublié son anniversaire. Il a vu que j'avais liké sa photo la veille. »",
+    "note": "L'ancienne chute « on sait tous les deux que c'est faux » expliquait la blague. Trois jours conservé."
+  },
+  {
+    "id": "cmmnsqn15007gth63zallmjsr",
+    "verdict": "OK",
+    "content": "J'ai mis « 1m80 » sur mon profil. En vrai, je fais 1m74.",
+    "punchline": "Le reste dépend de la lumière du bar.",
+    "comedyTechnique": "L'excuse trop précise",
+    "techniqueExplanation": "Tu avoues le mensonge (1m74) puis tu en donnes l'explication la plus précise et la plus mauvaise : la lumière du bar. La précision rend l'excuse crédible, et c'est elle qui fait sourire. On rit de la malhonnêteté ordinaire, pas d'un défaut physique.",
+    "howToApply": "Avoue un petit mensonge courant et donne l'excuse la plus précise possible. Exemple : « J'ai mis « cuisinier » sur mon profil. Je sais faire des pâtes. Avec de la bonne volonté et du parmesan. »",
+    "note": "1m80 et 1m74 conservés. Chute passe de deux lignes (« chaussures et confiance ») à une seule image."
+  },
+  {
+    "id": "cmmnsqn15006xth63pxo15gky",
+    "verdict": "OK",
+    "content": "J'ai mis « influenceur » dans ma bio.",
+    "punchline": "Je n'influence que ma mère. Elle me suggère un vrai travail.",
+    "comedyTechnique": "Le public de un",
+    "techniqueExplanation": "Tu reprends un titre prestigieux et tu montres que ton public réel, c'est une personne. Le lecteur rit de la modestie du résultat et du fait que la mère joue son rôle à la perfection. Chute courte, ton neutre.",
+    "howToApply": "Annonce un titre ambitieux, puis donne la mesure réelle de ton influence. Exemple : « J'ai lancé un podcast. J'ai un auditeur fidèle : mon père, qui n'a pas compris comment on s'abonne. »",
+    "note": "Chute raccourcie."
+  },
+  {
+    "id": "cmpggn30c00x1s60xl5jb29tt",
+    "verdict": "OK",
+    "content": "J'ai ouvert mes cours pour réviser. Ça faisait si longtemps que je les prenais pour de la fiction.",
+    "punchline": "J'ai cherché l'auteur sur Wikipédia.",
+    "comedyTechnique": "L'exagération menée à son geste logique",
+    "techniqueExplanation": "Tu pousses l'exagération (je ne reconnais plus mes propres cours) jusqu'au geste logique qui la suit : chercher l'auteur. L'action cohérente dans un monde absurde fait le rire, et la chute tient en sept mots.",
+    "howToApply": "Pousse une exagération jusqu'au geste concret qu'elle entraînerait. Exemple : « Je n'avais pas ouvert mon carnet de recettes depuis tellement longtemps que j'ai demandé qui l'avait écrit. »",
+    "note": "Setup bavard (deux phrases, deux « que ») resserré. La chute d'origine, excellente, est gardée mot pour mot."
+  },
+  {
+    "id": "cmmnsqn15006sth633x8ez0nq",
+    "verdict": "OK",
+    "content": "J'ai passé 4 heures sur TikTok. J'ai appris à faire une étagère, à parler japonais et à cuisiner thaï.",
+    "punchline": "Compétences acquises : toutes. Compétences utilisées : aucune.",
+    "comedyTechnique": "Le CV du rien",
+    "techniqueExplanation": "Tu empruntes le langage d'une fiche de poste pour résumer une journée inutile. Le vocabulaire sérieux rend le vide plus visible, et le parallélisme « acquises / utilisées » fait tomber la chute. Tout le monde a déjà scrollé des heures en se croyant productif.",
+    "howToApply": "Utilise le langage d'un CV ou d'un bilan pour résumer une journée sans résultat. Exemple : « Compétences du week-end : canapé avancé, télécommande niveau expert. Résultats : aucun. »",
+    "note": "4 heures conservé. « J'ai rien fait de tout ça » remplacé par un parallélisme plus net."
+  },
+  {
+    "id": "cmmnsqn15007nth630tv1n9sp",
+    "verdict": "OK",
+    "content": "J'ai payé Tinder Gold pour voir qui m'avait liké. C'était un compte à 8000 km et un profil sans photo.",
+    "punchline": "J'ai quand même écrit en premier.",
+    "comedyTechnique": "La faiblesse avouée",
+    "techniqueExplanation": "Tu poses le résultat décevant, puis ta réaction : tu écris quand même en premier. La chute avoue une envie plus forte que la dignité. On rit de ta faiblesse, pas du profil, et le mot « quand même » porte tout.",
+    "howToApply": "Décris une déception puis l'action qui prouve que tu n'as rien appris. Exemple : « Mon ex m'a bloqué partout. J'ai vérifié quand même s'il y avait un autre réseau. »",
+    "note": "8000 km conservé. « L'investissement du siècle » (attendu) remplacé par une action."
+  },
+  {
+    "id": "cmorxkt6n000ms60wj85t37rp",
+    "verdict": "OK",
+    "content": "J'ai pris ma pause déj dehors pour bronzer un peu.",
+    "punchline": "Je suis revenu de la couleur du parking du Monoprix.",
+    "comedyTechnique": "Le résultat par comparaison précise",
+    "techniqueExplanation": "Tu annonces un objectif (bronzer) et tu donnes le résultat par une comparaison précise et locale : la couleur d'un parking. Le lecteur voit ta peau. L'image est inattendue et exacte.",
+    "howToApply": "Donne le résultat d'un effort par la couleur ou la forme d'un lieu banal. Exemple : « J'ai voulu me mettre au sport. Mes abdos ont la forme du canapé. »",
+    "note": "Le sandwich au parking, dilué dans une deuxième phrase, est déplacé dans la chute sous forme d'image."
+  },
+  {
+    "id": "cmp1ycd0n00e1s60ym0urlgxf",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Le ressort de la blague (la prudence d'une femme face à un inconnu) fait basculer l'auto-dérision vers un sujet sensible, et aucune chute ne le sauve sans le banaliser. Idée écartée."
+  },
+  {
+    "id": "cmnjklyez0000s60yxy4ryrio",
+    "verdict": "OK",
+    "content": "J'ai rage quit sur le boss final hier soir après 47 tentatives.",
+    "punchline": "Mon projet de fin d'année n'en a eu aucune. J'ai demandé un délai.",
+    "comedyTechnique": "Le contraste de persévérance",
+    "techniqueExplanation": "Tu opposes une ténacité énorme pour un jeu (47 tentatives) à une absence totale d'effort pour ce qui compte. Le chiffre installe l'énergie dépensée, la chute montre où elle ne va pas. Le lecteur se reconnaît et rit de lui-même.",
+    "howToApply": "Oppose ton énergie pour un loisir à ton énergie pour une corvée. Exemple : « J'ai lu tout le wiki d'un jeu en une nuit. Ma déclaration d'impôts en est à la page de garde. »",
+    "note": "47 conservé. Lien avec le projet rendu explicite (nombre de tentatives comparé)."
+  },
+  {
+    "id": "cmmnsqn150068th637asmvcci",
+    "verdict": "OK",
+    "content": "J'ai ragequit tellement fort que j'ai cassé ma manette.",
+    "punchline": "« T'as autant de self-control que ton WiFi », a dit ma mère.",
+    "comedyTechnique": "La réplique du proche",
+    "techniqueExplanation": "Tu laisses quelqu'un d'autre poser le diagnostic : ta mère. La comparaison avec le WiFi marche parce qu'elle est vraie dans la vie d'un joueur : ça coupe au pire moment. Une bonne réplique dispense d'explication.",
+    "howToApply": "Fais dire la vérité à un proche avec une comparaison qui appartient à ton univers. Exemple : « Mon père m'a dit que j'ai autant de mémoire que mon téléphone : quand j'en ai besoin, elle est pleine. »",
+    "note": "Repositionnement de la réplique en fin de phrase. Chute plus courte que le setup."
+  },
+  {
+    "id": "cmp9kjhic009ps60x9ixudb75",
+    "verdict": "OK",
+    "content": "Je voulais découvrir la programmation de Coachella sur Instagram.",
+    "punchline": "J'ai découvert la vie des ex de mes potes.",
+    "comedyTechnique": "Le but noble et l'activité réelle",
+    "techniqueExplanation": "Tu annonces ton intention (découvrir de la musique), puis tu avoues ce que tu as fait à la place : espionner les autres. L'auto-dérision vient du décalage entre la noblesse du but et la petitesse du résultat. Le verbe « découvrir » est repris pour le retourner.",
+    "howToApply": "Annonce un but noble, puis avoue l'activité réelle avec le même verbe. Exemple : « Je voulais me cultiver sur YouTube. J'ai découvert des gens qui rangent leur frigo. »",
+    "note": "Amorce « J'ai regardé la programmation de » (x25) évitée. Chute divisée par deux."
+  },
+  {
+    "id": "cmp9lm77p00aas60xul70plep",
+    "verdict": "OK",
+    "content": "Je regarde la programmation de We Love Green depuis 20 minutes.",
+    "punchline": "Je ne connais aucun nom. Mes parents vivent ça à chacune de mes playlists.",
+    "comedyTechnique": "Le miroir générationnel",
+    "techniqueExplanation": "Tu te retrouves à la place que tu faisais subir à tes parents. Le lecteur reconnaît la scène des deux côtés : le jeune qui fait écouter et l'adulte qui ne suit plus. Une seule comparaison suffit pour renverser les rôles.",
+    "howToApply": "Retrouve-toi à la place de tes parents dans une situation où tu les jugeais. Exemple : « Ma nièce m'a montré une appli. J'ai demandé si on pouvait l'imprimer. »",
+    "note": "20 minutes conservé. Chute resserrée, l'inversion est nommée sans explication longue."
+  },
+  {
+    "id": "cmp9hc2c9007xs60xaadxk0ui",
+    "verdict": "OK",
+    "content": "La programmation du Festival Interceltique de Lorient est sortie.",
+    "punchline": "Il y a plus de harpes que dans tout mon Spotify.",
+    "comedyTechnique": "L'écart mesuré par un manque",
+    "techniqueExplanation": "Tu mesures la distance entre ton univers et celui du festival par ce qui manque dans ta playlist : la harpe. Le fait est vérifiable dans ton propre Spotify, ce qui le rend crédible. L'humour vient de la précision du manque.",
+    "howToApply": "Mesure l'écart entre deux mondes par un objet qui n'existe pas dans le tien. Exemple : « Le salon de la pêche a plus de bottes que tout mon dressing. »",
+    "note": "« Maintenant je sais pourquoi » (tic) supprimé. Amorce « J'ai regardé la programmation » évitée. Local (Lorient)."
+  },
+  {
+    "id": "cmp9wv7w400gcs60x01wkswbb",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Le générique de Plus Belle la Vie est une référence datée (série arrêtée en 2022) et le lien avec la playlist n'est pas logique (pourquoi ce titre serait-il dans ta playlist ?). Aucune version au niveau."
+  },
+  {
+    "id": "cmozb1ocr006ws60yraru87yn",
+    "verdict": "OK",
+    "content": "J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée.",
+    "punchline": "Elle m'a demandé si tout allait bien.",
+    "comedyTechnique": "L'outil qui s'inquiète",
+    "techniqueExplanation": "L'appli fait ce qu'elle doit faire : elle lit ta journée, et sa réaction est celle d'un ami inquiet. La personnification de l'outil te permet de dire la vérité (j'ai beaucoup mangé) sans jamais l'écrire.",
+    "howToApply": "Fais réagir un outil comme un proche inquiet devant tes données. Exemple : « Ma montre connectée a vu mon pouls quand j'ai vu ma facture. Elle a proposé d'appeler quelqu'un. »",
+    "note": "L'ancienne chute (« elle bug, elle compte en litres de bière ») était molle."
+  },
+  {
+    "id": "cmmnsqn140055th63kh4hs7cx",
+    "verdict": "OK",
+    "content": "Un collègue commence toutes ses phrases par « sans vouloir t'offenser ».",
+    "punchline": "Il n'a jamais raté son coup.",
+    "comedyTechnique": "Le démenti par le résultat",
+    "techniqueExplanation": "« Sans vouloir » annonce une absence d'intention, et le résultat la dément à chaque fois. La chute est un constat de performance, dit sur un ton neutre de statisticien. Le calme de la formule fait tout.",
+    "howToApply": "Prends une formule d'excuse et mesure son taux de réussite. Exemple : « Mon pote dit « je suis pas très fort » avant chaque partie. Il n'a jamais perdu. »",
+    "note": "« Spoiler : » supprimé (tic IA)."
+  },
+  {
+    "id": "cmmnsqn140045th63maso5jcc",
+    "verdict": "OK",
+    "content": "J'ai voulu prendre un bain relaxant avec des bougies.",
+    "punchline": "Détecteur de fumée, glissade, vin renversé. Jamais été aussi réveillé.",
+    "comedyTechnique": "Le bilan en trois temps",
+    "techniqueExplanation": "Tu accumules trois catastrophes en rythme sec, puis tu conclus par le contraire de ton objectif : « réveillé » contredit « relaxant » sans le dire. Le lecteur sourit du contraste, et le rythme de trois donne l'élan.",
+    "howToApply": "Liste trois catastrophes en rythme sec, puis termine par le contraire de ton objectif. Exemple : « Dîner romantique : cuisine en fumée, voisin à la porte, pizza en urgence. Jamais été aussi complices. »",
+    "note": "« Très relaxant » (ironie attendue) remplacé par « réveillé »."
+  },
+  {
+    "id": "cmmnsqn150070th63mid7jtpm",
+    "verdict": "OK",
+    "content": "Avec un pote, on a une série de 200 jours sur Snap.",
+    "punchline": "On s'est jamais parlé. Il reçoit juste mon plafond tous les jours.",
+    "comedyTechnique": "Le lien réduit à sa métrique",
+    "techniqueExplanation": "Tu décris une relation par sa seule métrique (200 jours de série) et tu montres ce qu'elle contient : un plafond. Le détail est vrai, précis et drôle. L'amitié moderne se résume à un compteur, sans que tu aies besoin de le dire.",
+    "howToApply": "Décris une relation par sa métrique, puis dévoile ce qu'elle contient. Exemple : « Mon groupe WhatsApp a des milliers de messages. Le dernier date d'un pouce en l'air. »",
+    "note": "200 jours conservé. Le commentaire « C'est ça l'amitié moderne » (tag appuyé) supprimé."
+  },
+  {
+    "id": "cmmnsqn12000ith63e37twyzz",
+    "verdict": "OK",
+    "content": "Je fais un régime en France. C'est compliqué.",
+    "punchline": "Ma boulangerie est classée au patrimoine mondial.",
+    "comedyTechnique": "L'obstacle monumental",
+    "techniqueExplanation": "Tu compares ton obstacle à un monument protégé : la boulangerie d'à côté a un statut d'œuvre d'art. Plus le rapprochement est solennel, plus le contraste avec ta faiblesse fait sourire. La chute tient en sept mots.",
+    "howToApply": "Compare l'obstacle à ta discipline avec une institution solennelle. Exemple : « Je veux arrêter de checker mon téléphone. Il est dans ma poche comme un monument historique. »",
+    "note": "Formulation passée à « ma boulangerie » (personnel). L'information patrimoine mondial est conservée telle quelle, à faire vérifier par Thomas si le doute persiste."
+  },
+  {
+    "id": "cmq1w7fh2001rs60xi0ue5w6i",
+    "verdict": "OK",
+    "content": "J'organise l'été de mon fils : stage de foot, cours de natation, centre aéré.",
+    "punchline": "Je suis son assistant. Non rémunéré.",
+    "comedyTechnique": "L'inversion de statut",
+    "techniqueExplanation": "Tu te fais assistant de ton enfant : le parent devient l'employé sans salaire. L'image est courte et vraie pour qui a déjà organisé un été. La chute fait le travail sans un seul adjectif.",
+    "howToApply": "Inverse les rôles dans une relation familiale avec un titre de poste. Exemple : « Je suis le chauffeur de ma fille. Elle ne me laisse même pas choisir la radio. »",
+    "note": "Points de suspension supprimés. Chute prévisible (« plus de vie sociale que moi ») remplacée. Vanne saisonnière (été)."
+  },
+  {
+    "id": "cmmnsqn15006ith634py24rk5",
+    "verdict": "OK",
+    "content": "Je me suis endormi avec mon casque gaming.",
+    "punchline": "J'ai fait un cauchemar en 7.1 surround.",
+    "comedyTechnique": "Le superlatif retourné",
+    "techniqueExplanation": "Tu prends l'argument de vente le plus flatteur du produit (le surround) et tu le retournes contre toi : c'est un cauchemar qui en profite. Le mot « cauchemar » arrive à la fin de la phrase, et c'est lui qui déclenche le sourire.",
+    "howToApply": "Prends un argument de vente et retourne-le contre toi. Exemple : « J'ai pris un matelas à mémoire de forme. Il se souvient de tout ce que j'ai mangé. »",
+    "note": "7.1 conservé. La phrase « Le cauchemar était immersif » (qui expliquait) supprimée."
+  },
+  {
+    "id": "cmpf2t3ah00u2s60xuniyp7ck",
+    "verdict": "OK",
+    "content": "À l'expo d'art contemporain du Château de l'Hermine, l'artiste expose trois chaises cassées pour « questionner notre rapport à l'assise ».",
+    "punchline": "Moi, je questionne son rapport au remboursement.",
+    "comedyTechnique": "Le retournement de vocabulaire",
+    "techniqueExplanation": "Tu réponds au jargon de l'art (« questionner notre rapport à ») avec le même jargon appliqué à un sujet très concret : le remboursement. Comme le lecteur retrouve les mots exacts de l'artiste, la réponse pique davantage.",
+    "howToApply": "Réponds à un jargon avec le même jargon appliqué à un sujet très concret. Exemple : « Mon RH m'a parlé de « penser en termes de synergie ». Moi je pense en termes de pause déj. »",
+    "note": "Trois conservé. Guillemets simples remplacés. Chute passée à la première personne, dialogue supprimé. Local (Nantes)."
+  },
+  {
+    "id": "cmmnsqn14004sth63rnutrbwi",
+    "verdict": "OK",
+    "content": "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ».",
+    "punchline": "J'ai répondu « oui, mais ça ne durera pas ».",
+    "comedyTechnique": "La réponse trop honnête",
+    "techniqueExplanation": "On te tend une formule de politesse, tu réponds par une vraie opinion. L'écart entre la formule sociale et ta sincérité crée le malaise, donc le rire. La chute est plate, sans commentaire.",
+    "howToApply": "Réponds à une phrase de politesse par une réponse trop honnête. Exemple : « On m'a demandé « ça va ? ». J'ai répondu « à peu près ». La conversation a pris fin. »",
+    "note": "« On ne s'est plus reparlé » supprimé (explication de la blague)."
+  },
+  {
+    "id": "cmmnsqn120000th63o435xsb0",
+    "verdict": "OK",
+    "content": "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus.",
+    "punchline": "Ils m'ont laissé un avis Google : une étoile.",
+    "comedyTechnique": "L'avis de l'institution",
+    "techniqueExplanation": "Tu poses un défaut concret (le détecteur sert de minuteur), puis tu fais noter ta cuisine par une institution avec le vocabulaire d'un site d'avis. Le format « avis Google » colle parfaitement à l'idée d'un service évalué.",
+    "howToApply": "Fais évaluer ton défaut par une institution avec le vocabulaire d'un site d'avis. Exemple : « Mon jardin est tellement laissé à l'abandon que le voisin m'a mis trois étoiles sur l'appli des espaces verts. »",
+    "note": "Format « Je suis tellement… que… » (x3) évité. Deux gags fusionnés en un, chute de 9 mots."
+  },
+  {
+    "id": "cmmnsqn14004hth63tg0i4808",
+    "verdict": "OK",
+    "content": "L'imprimante du bureau plante dès que j'imprime. Sauf quand c'est le patron.",
+    "punchline": "Elle a compris la hiérarchie.",
+    "comedyTechnique": "La personnification de l'objet",
+    "techniqueExplanation": "Tu prêtes à l'imprimante une intelligence sociale : elle sait qui décide. Le mot « hiérarchie » transforme une panne banale en preuve de servilité. Le rire vient de l'objet qui obéit mieux que toi.",
+    "howToApply": "Donne à un objet une intention sociale. Exemple : « Ma machine à café tombe en panne quand j'arrive. Elle a compris que je suis stagiaire. »",
+    "note": "Setup passé à la première personne (plus fort qu'un constat général). La chute d'origine est gardée."
+  },
+  {
+    "id": "cmmnsqn13002vth63ymvupfps",
+    "verdict": "OK",
+    "content": "À Paris, je marche les yeux au sol pour esquiver les trottinettes.",
+    "punchline": "Je n'ai jamais vu le haut de la tour Eiffel.",
+    "comedyTechnique": "Le manque par excès de vigilance",
+    "techniqueExplanation": "Tu montres ce que ta vie quotidienne t'a coûté : à force de te protéger, tu rates le plus évident. L'auto-dérision cache une vérité sur la vie urbaine. Le monument choisi est le plus célèbre, donc le manque est plus frappant.",
+    "howToApply": "Montre ce que tu rates à force de te protéger. Exemple : « À force de regarder mon écran dans le métro, je n'ai jamais vu la couleur des yeux de mon voisin de palier. »",
+    "note": "Le format « La différence entre un touriste et un Parisien » (attendu) est remplacé par un aveu personnel. Vanne locale (Paris)."
+  },
+  {
+    "id": "cmmnsqn13002ath63b7rnpw41",
+    "verdict": "OK",
+    "content": "La machine à café du bureau est tombée en panne.",
+    "punchline": "La productivité a chuté de 90%. Les 10% restants avaient prévu un thermos.",
+    "comedyTechnique": "La statistique absurde",
+    "techniqueExplanation": "Tu appliques des pourcentages précis à un phénomène qui n'en a pas, et tu expliques les 10% restants par un détail concret : le thermos. La précision chiffrée crée le faux sérieux, et le thermos donne la surprise.",
+    "howToApply": "Donne un pourcentage précis à une dérive de bureau, puis explique l'exception par un détail concret. Exemple : « Depuis la panne de l'ascenseur, 80% des réunions se tiennent à l'étage du bas. Les autres ont pris l'escalier. »",
+    "note": "90% et 10% conservés à l'identique (chiffre signalé en s11, non touché). Chute allégée d'un verbe."
+  },
+  {
+    "id": "cmmnsqn130023th63rz2hslah",
+    "verdict": "OK",
+    "content": "Mon réveil a sonné à une heure absurde. J'ai cherché qui l'avait réglé.",
+    "punchline": "Un optimiste, hier soir. C'était moi.",
+    "comedyTechnique": "Le coupable, c'est moi",
+    "techniqueExplanation": "Tu mènes une enquête sur ton propre malheur, et le coupable, c'est toi. Le mot « optimiste » donne au coupable la qualité que ton toi du matin voudrait maudire. Le retournement arrive en deux mots : « c'était moi ».",
+    "howToApply": "Cherche le responsable d'un souci du quotidien et trouve-le dans ton passé récent. Exemple : « Quelqu'un a laissé la vaisselle pour demain. Il y avait un optimiste dans l'appart. C'était moi, hier. »",
+    "note": "La chute moralisante (« ton propre ennemi ») est supprimée."
+  },
+  {
+    "id": "cmmnsqn15007yth6346rfn56d",
+    "verdict": "OK",
+    "content": "La playlist de soirée commence par du chill.",
+    "punchline": "Deux heures plus tard, c'est du Rammstein. Personne n'a rien touché.",
+    "comedyTechnique": "La dérive sans responsable",
+    "techniqueExplanation": "Tu décris un changement progressif où personne n'est à l'origine : tout a glissé tout seul. L'absence de responsable est le vrai gag. Le passage de chill à Rammstein donne l'échelle de la dérive.",
+    "howToApply": "Décris un glissement où personne n'est responsable. Exemple : « Le dîner tranquille de six personnes est devenu un karaoké. Personne n'a rien proposé. »",
+    "note": "Deux heures conservé. « Personne sait comment on en est arrivés là » (explication) remplacé."
+  },
+  {
+    "id": "cmmnsqn12000oth63tpfmf591",
+    "verdict": "OK",
+    "content": "La SNCF annonce un retard de 45 minutes.",
+    "punchline": "Les habitués se félicitent : c'est un retard raisonnable.",
+    "comedyTechnique": "Le changement d'étalon",
+    "techniqueExplanation": "Tu rends une mauvaise nouvelle bonne en changeant l'échelle de comparaison : 45 minutes deviennent raisonnables parce que les habitués ont connu pire. Le mot « raisonnable » est le vrai retournement.",
+    "howToApply": "Change l'étalon pour qu'une mauvaise nouvelle devienne un soulagement. Exemple : « Le médecin a dit qu'il y aurait quarante minutes d'attente. La salle a applaudi. »",
+    "note": "45 minutes conservé. Chute resserrée (« soulagés » remplacé par une action)."
+  },
+  {
+    "id": "cmmnsqn14003zth63295d2r5m",
+    "verdict": "OK",
+    "content": "À la caisse, la deuxième caisse est fermée, juste à côté.",
+    "punchline": "C'est le seul moment où les inconnus de la file se parlent.",
+    "comedyTechnique": "L'observation sociale retournée",
+    "techniqueExplanation": "Tu observes un phénomène vrai : une frustration commune fait parler des inconnus. La chute retourne le sujet en une phrase, en faisant de la râlerie la seule vraie rencontre de la journée. C'est le socle du stand-up d'observation.",
+    "howToApply": "Repère un moment banal qui rapproche des inconnus. Exemple : « Dans l'ascenseur en panne, on a tous parlé pour la première fois. On est encore ensemble, je crois. »",
+    "note": "Le stéréotype d'ouverture (« Le Français a inventé un sport national ») est supprimé. Le détail « deuxième caisse fermée » est gardé."
+  },
+  {
+    "id": "cmmnsqn15007wth63fb08l211",
+    "verdict": "OK",
+    "content": "Le lendemain de soirée, je vérifie mon téléphone : 12 photos floues, 3 stories regrettables.",
+    "punchline": "Et un message à mon ex. Vu.",
+    "comedyTechnique": "La liste qui bascule",
+    "techniqueExplanation": "Tu alignes des éléments du même ton (photos floues, stories regrettables), puis le dernier bascule vers le pire, avec un mot sec : « Vu. » Le rythme de trois installe l'attente, le dernier mot la brise.",
+    "howToApply": "Fais une liste où le dernier élément change de gravité. Exemple : « Bilan du week-end : 3 séries, 2 pizzas, et un message à ma boss envoyé au mauvais groupe. »",
+    "note": "12 et 3 conservés. « Classique » (tag) remplacé par « Vu. »"
+  },
+  {
+    "id": "cmmnsqn13001wth632lbawlxz",
+    "verdict": "OK",
+    "content": "Le livreur a sonné à 7h du matin, un samedi. J'ai pris une voix de quelqu'un debout depuis longtemps.",
+    "punchline": "Il m'a demandé si ça allait.",
+    "comedyTechnique": "L'illusion percée",
+    "techniqueExplanation": "Tu essaies de sauver la face avec une voix de gars réveillé, et l'autre n'est pas dupe : il te demande si ça va. Sa gentillesse est le vrai ressort, parce que c'est elle qui rend ta comédie visible.",
+    "howToApply": "Joue un rôle, puis fais réagir l'autre comme s'il n'était pas dupe. Exemple : « J'ai répondu au téléphone d'une voix de directeur. Ma mère a demandé si j'étais enrhumé. »",
+    "note": "7h conservé. Le regard « qui disait » (usé) est supprimé."
+  },
+  {
+    "id": "cmmnsqn15006cth632cuct13k",
+    "verdict": "OK",
+    "content": "Le mec qui dit « GG easy » après un match de 45 minutes.",
+    "punchline": "Il a failli perdre trois fois. Le chat a tout vu.",
+    "comedyTechnique": "Le témoin muet",
+    "techniqueExplanation": "Tu confrontes une vantardise à la réalité du match, et tu laisses un témoin muet conclure : le chat. Le lecteur imagine la scène. La chute est courte, elle rétablit la vérité sans être méchante.",
+    "howToApply": "Fais démentir une vantardise par un témoin muet (animal, mur, caméra). Exemple : « Il dit qu'il a un excellent sens de l'orientation. Son GPS a vu autre chose. »",
+    "note": "« Frère » supprimé (tic IA). 45 minutes et « trois fois » conservés."
+  },
+  {
+    "id": "cmmnsqn14004rth63c2dvg694",
+    "verdict": "OK",
+    "content": "J'ai fait signe à quelqu'un dans la rue. Ce n'était pas la bonne personne, alors j'ai fait semblant de me gratter la tête.",
+    "punchline": "Il s'est gratté la tête aussi. Par solidarité.",
+    "comedyTechnique": "L'écho de la gêne",
+    "techniqueExplanation": "Tu joues la scène de gêne jusqu'au bout : le faux geste de sauvetage, puis l'autre qui s'aligne. L'inattendu, c'est la politesse de l'inconnu. La chute est courte et visuelle, on voit les deux hommes se gratter la tête.",
+    "howToApply": "Fais réagir un inconnu de façon polie à ton faux pas. Exemple : « J'ai salué quelqu'un que je ne connaissais pas. Il m'a demandé si on avait déjà travaillé ensemble. J'ai dit oui. »",
+    "note": "Passage au « je » (le format « Le moment de malaise suprême » est retiré). Points de suspension supprimés."
+  },
+  {
+    "id": "cmmnsqn14004jth63vr2fjrhu",
+    "verdict": "OK",
+    "content": "Le panneau dit « Souriez, vous êtes filmés ». Je souris.",
+    "punchline": "On ne sait jamais, pour le procès.",
+    "comedyTechnique": "Le raisonnement paranoïaque",
+    "techniqueExplanation": "Tu obéis à la consigne avec un calcul absurde : sourire pour être bien vu au procès. La logique est déviée mais cohérente : la caméra devient un tribunal. La chute est presque murmurée.",
+    "howToApply": "Obéis à une consigne avec un raisonnement paranoïaque. Exemple : « Le panneau dit « Attention à la marche ». Je la salue en passant, au cas où. »",
+    "note": "L'idée « c'est une menace » est conservée sous une forme active (je souris pour le procès)."
+  },
+  {
+    "id": "cmmnsqn14003nth631zmgyxjr",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "L'insight (« allez, juste un ») est vrai mais très connu, et je ne trouve pas de chute non télégraphiée. Les versions testées (« c'est jamais juste un ») restent sous l'étalon."
+  },
+  {
+    "id": "cmmnsqn14004xth63znvjca1j",
+    "verdict": "OK",
+    "content": "Pot de départ d'un collègue : jamais vu le bureau aussi joyeux.",
+    "punchline": "Lui, il croit que c'est pour lui. C'est pour son départ.",
+    "comedyTechnique": "La double lecture",
+    "techniqueExplanation": "La phrase « c'est pour lui » a deux sens : pour lui comme cadeau, ou pour son départ. Le collègue croit au premier, le bureau vit le second. Tu laisses le lecteur comprendre le sens caché, sans le commenter.",
+    "howToApply": "Trouve une phrase à double sens où l'autre comprend le mauvais. Exemple : « Mon chef m'a dit « on va se voir plus souvent ». J'ai cru à une bonne nouvelle. C'était une réorganisation. »",
+    "note": "Formulation clarifiée (l'ancienne « C'est beau, l'innocence » est supprimée)."
+  },
+  {
+    "id": "cmmnsqn140049th63ay3ns3uw",
+    "verdict": "OK",
+    "content": "Team building : mettre des gens qui ne s'aiment pas dans une forêt, en espérant qu'ils en ressortent amis.",
+    "punchline": "Ils en ressortent mouillés.",
+    "comedyTechnique": "L'objectif contredit par le résultat",
+    "techniqueExplanation": "Tu poses un objectif noble (devenir amis) et tu donnes le résultat réel, physique et minuscule : ils sont mouillés. L'écart entre l'ambition et le résultat est le moteur. La chute tient en quatre mots.",
+    "howToApply": "Énonce l'objectif d'un dispositif, puis donne son résultat concret. Exemple : « Le séminaire devait renforcer la cohésion. Il a renforcé le désir de rentrer. »",
+    "note": "« Spoiler : » supprimé (tic IA). Chute réduite à 4 mots."
+  },
+  {
+    "id": "cmmnsqn13002gth63kjzqysgo",
+    "verdict": "OK",
+    "content": "« L'argent ne fait pas le bonheur. » J'ai proposé à mon propriétaire de payer mon loyer parisien en bonne humeur.",
+    "punchline": "Il a dit qu'il préférait le malheur, en virement.",
+    "comedyTechnique": "Le proverbe testé en vrai",
+    "techniqueExplanation": "Tu prends un proverbe au sérieux et tu le mets à l'épreuve dans la vraie vie. La réponse du propriétaire, qui préfère « le malheur, en virement », retourne le proverbe sur lui-même. La rigueur du test fait le rire.",
+    "howToApply": "Teste un proverbe dans une situation concrète et donne le résultat. Exemple : « Il paraît que le temps, c'est de l'argent. J'ai proposé à mon boulanger de le payer en temps. Il m'a dit qu'il en manquait aussi. »",
+    "note": "Format « Les gens qui disent… » abandonné, la scène est vécue."
+  },
+  {
+    "id": "cmmnsqn13002zth6301ekjn48",
+    "verdict": "OK",
+    "content": "Un pote a mis « en déplacement » sur sa story. Il allait chez Ikea.",
+    "punchline": "Il est rentré dimanche soir. Il ne mentait pas.",
+    "comedyTechnique": "La formule pompeuse justifiée",
+    "techniqueExplanation": "Tu désignes un trajet banal par une formule solennelle, puis tu lui donnes raison à moitié : Ikea prend bien tout le week-end. L'écart entre le mot (« déplacement ») et la réalité (Ikea) fait le rire, sans que tu te moques de personne.",
+    "howToApply": "Prends une formule pompeuse qui recouvre une sortie banale et justifie-la à moitié. Exemple : « Il m'a dit qu'il partait en retraite spirituelle. Il allait chez ses parents pour le week-end. »",
+    "note": "Deux idées mélangées (mode avion / Ikea) séparées : seule l'idée Ikea est gardée."
+  },
+  {
+    "id": "cmnzaqfdt001rs60x3w7ze6vy",
+    "verdict": "OK",
+    "content": "Dimanche matin, j'ai mis ma tenue de marathon pour aller à la boulangerie.",
+    "punchline": "À l'arrivée, on m'a remis une baguette.",
+    "comedyTechnique": "L'auto-dérision à la médaille",
+    "techniqueExplanation": "Tu te mets en scène avec un équipement démesuré pour un objectif minuscule, puis tu donnes la récompense à l'échelle : une baguette. Le verbe « remis » donne l'air d'une cérémonie officielle.",
+    "howToApply": "Prépare-toi comme pour un exploit pour une tâche banale, puis donne la récompense à l'échelle. Exemple : « J'ai mis mon casque pour aller relever le courrier. À l'arrivée, un pli de la banque. »",
+    "note": "Setup artificiel (« la même technique ») remplacé par une scène personnelle."
+  },
+  {
+    "id": "cmps06xce006ns60wlyifqfqo",
+    "verdict": "OK",
+    "content": "Ma boss m'a dit que mes congés d'août dépendaient de l'équipe. J'ai regardé le planning.",
+    "punchline": "Mes vacances reposent sur un stagiaire de 19 ans qui découvre Excel.",
+    "comedyTechnique": "Le poids inversé",
+    "techniqueExplanation": "Tu remplaces un rouage abstrait (l'équipe) par une personne précise et dépassée : un stagiaire qui découvre Excel. Le passage du collectif au particulier crée l'inquiétude comique. Le verbe « reposent » fait même un clin d'œil à tes vacances.",
+    "howToApply": "Remplace un « on » abstrait par une personne précise et dépassée. Exemple : « Le projet repose sur l'équipe. L'équipe, c'est une stagiaire et un tableur. »",
+    "note": "19 ans conservé. « Apparemment, je dépends » remplacé par « reposent sur »."
+  },
+  {
+    "id": "cmpk2gzue00hqs60x2njhgmg8",
+    "verdict": "OK",
+    "content": "Ma copine a créé un Drive partagé : 47 destinations de vacances, budget détaillé, planning heure par heure.",
+    "punchline": "J'ai ajouté un onglet « Moi » : « Présent physiquement ».",
+    "comedyTechnique": "L'anti-contribution",
+    "techniqueExplanation": "Face à une organisation envahissante, tu contribues par le plus minimal : ta présence. « Présent physiquement » est une formule d'administration appliquée à toi, ce qui fait sourire. Tu te moques de ta propre contribution, pas de l'autre.",
+    "howToApply": "Réponds à une organisation excessive par une contribution minimale, dite dans le langage du dossier. Exemple : « Elle a fait un budget de vacances de douze pages. J'ai ajouté une case « bonne humeur, sous réserve ». »",
+    "note": "47 conservé. Setup plus court, chute plus courte, guillemets simples remplacés."
+  },
+  {
+    "id": "cmpkc40sf00mrs60xcasyh4g8",
+    "verdict": "RETIRER",
+    "content": "",
+    "punchline": "",
+    "comedyTechnique": "",
+    "techniqueExplanation": "",
+    "howToApply": "",
+    "note": "Chute IKEA attendue dans la série « quelque part » (toutes les variantes IKEA sont déjà retirées) et redondante avec les deux meilleures de la série (« l'appartement de mon ex », « la thérapie de couple »). Aucune version au niveau."
+  }
+]

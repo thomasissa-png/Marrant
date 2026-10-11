@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+
+/**
+ * Head de toute 404 sans not-found.tsx plus proche (/nimporte-quoi, /vannes/…,
+ * /conseils/…, /videos/…, /blog/…) : une seule balise robots (`noindex` de Next),
+ * plus de « index, follow » ni de `bingbot: index` hérités du layout racine.
+ */
+export const metadata: Metadata = { title: "Page introuvable", ...NOT_FOUND_ROBOTS };
 
 export default function NotFound() {
   return (

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "@/components/layout/header";
 
@@ -49,6 +49,46 @@ describe("Header", () => {
     expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
   });
 
+  it("s15 : « Commencer » et « Connexion » sont de vrais liens (HTML serveur), retour sur la page", () => {
+    usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
+    render(<Header />);
+    expect(screen.getByRole("link", { name: "Commencer" })).toHaveAttribute(
+      "href",
+      "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header",
+    );
+    // Desktop + en-tête mobile (s16) : même destination.
+    for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
+      expect(link).toHaveAttribute("href", "/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026");
+    }
+  });
+
+  it("s15 : session en cours de chargement (rendu serveur) = liens anonymes présents", () => {
+    useSession.mockReturnValue({ data: null, status: "loading" });
+    render(<Header />);
+    expect(screen.getByRole("link", { name: "Commencer" })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
+  });
+
+  it("s15 : menu mobile anonyme avec les deux liens", async () => {
+    render(<Header />);
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
+    // Desktop + en-tête mobile (s16) + menu.
+    expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(3);
+  });
+
+  it("s16 reco 19 : « Connexion » dans l'en-tête mobile sans ouvrir le menu, absent si connecté", () => {
+    const { unmount } = render(<Header />);
+    const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
+    const lien = within(mobile).getByRole("link", { name: "Connexion" });
+    expect(lien).toHaveAttribute("href", "/login?callbackUrl=%2F");
+    expect(screen.getByRole("button", { name: "Menu" })).toHaveAttribute("aria-expanded", "false");
+    unmount();
+    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    render(<Header />);
+    expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
+  });
+
   it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {
     useSession.mockReturnValue({
       data: { user: { name: "Jean" } },
@@ -89,7 +129,14 @@ describe("Header", () => {
     render(<Header />);
     const vannesLinks = screen.getAllByText("Vannes");
     const desktopLink = vannesLinks[0];
-    expect(desktopLink).toHaveClass("text-accent-primary");
+    expect(desktopLink).toHaveClass("text-accent-link");
+  });
+
+  it("keeps the section tab active on sub-pages (s12 design)", () => {
+    usePathname.mockReturnValue("/blog/comment-devenir-drole");
+    render(<Header />);
+    expect(screen.getAllByText("Blog")[0]).toHaveClass("text-accent-link");
+    expect(screen.getAllByText("Accueil")[0]).not.toHaveClass("text-accent-link");
   });
 
   it("calls signOut with callbackUrl on Déconnexion click", async () => {

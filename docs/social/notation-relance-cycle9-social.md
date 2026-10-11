@@ -1,0 +1,118 @@
+# Notation relance, cycle 9, social : K4, K5, K2 et 3 transverses (état réel du 11/10/2026, matin)
+
+> Note indépendante @social. Lu : ma notation du cycle 8, `plan-relance-s15.md`, `mix-formats-s15.md`, `releves/2026-10-08.md`, `-09.md`, `-11.md`, `corrections-cycle8-fullstack.md`, `-copy.md`, `-growth.md`, `preparation/lot-relance-s15.md` (1a), `lot-1a-dry-run-07-10.md` (l.1-60), `lot-1b.md` (46 posts), `lot-1b-dry-run-08-10.md` (révisions 8 à 2), `controle-qa-lot-1b.md`, `controle-reviewer-lot-1b.md`, `aveugle-textes-neufs-cycle8-resultat.md`, `aveugle-remplacements-cycle8-resultat.md`, `aveugle-1b-linkedin-resultat.md`, `aveugle-1b-r7-resultat.md`, `mesure.md`, `banque-reponses.md`, `fiche-ig-21-10.md`, `horaires-sources-s15.md` (§5-6), `founder-preferences.md` (l.44-83), `REPLIT_ACTIONS.md` (l.1-95). **Non lues, par indépendance** : toutes les notations du cycle 8 des autres agents et `notation-relance-cycle9-reviewer.md` (présente au dossier, non ouverte).
+> **Limites** : pas de shell, ni base, prod ou applications. « Publié » vient des relevés H+45 (statut Buffer `sent`), « en base » du relevé du 11/10 et des JSON de lot, « codé » des comptes rendus @fullstack (code non relu). Je n'ai vu ni les posts en ligne ni une seule image rendue : les notes K2 portent sur le texte de `lot-1b.md` et `lot-relance-s15.md` et sur les notes à l'aveugle consignées. Le fichier `docs/qa/tests-c2-navigateurs-integres-11-10.md` annoncé par `releves/2026-10-11.md:24` n'existe pas à l'heure de ma lecture.
+> **Règle de note** (inchangée) : 10 = plus aucune correction possible avant les données. Sous 10, la correction est nommée (§4). Un écart déjà publié est figé : il est noté, il ne bloque pas le 10. Choix de Thomas respectés, jamais rejoués : humoristes autorisés, IA comme sujet de vanne autorisée, barre Alexa intacte (`founder-preferences.md:65`), aucun réseau en pause (`:59`), jamais de 3/3/1 sans son accord (`:57`), renvoi à la bio sous garde (`:67`), zéro tiret cadratin, pas de LinkedIn « coach ».
+
+## 1. Ma liste « Pour 10/10 » du cycle 8, point par point (18 points)
+
+| Point | Statut | Preuve |
+|---|---|---|
+| S5 dry-run 1a relancé | **Fait** | `lot-1a-dry-run-07-10.md:14` : 12 posts 5/5/2, 2 replis, 0 erreur ; X du 12/10 = V011 sans renvoi (`:35-39`) ; verdict « PAS PRÊT » remplacé (`corrections-cycle8-fullstack.md:20`). Inséré le 09/10, JSON identique à l'octet (`REPLIT_ACTIONS.md:39-40`) |
+| S6 tirage : V028, V060, V083 | **Fait, V083 tranchée à l'inverse de ma reco** | V028 et V060 exclues et testées (`corrections-cycle8-fullstack.md:11`). V083 tirée en IG le 13/10 (`lot-relance-s15.md:48`), le carrousel du 23/12 prendra une autre vanne (`corrections-cycle8-fullstack.md:13`, `corrections-cycle8-copy.md:78`). Acceptable, mais la vanne de remplacement reste à livrer (C12) |
+| S7 pieds et contrôle des légendes | **Fait** | 0 « deviens-marrant » dans les légendes, `FORMULES.pied` supprimé, contrôle auto (« À envoyer à » en tête, 80 au plus, ni lien ni pied) : `corrections-cycle8-fullstack.md:14-15`. QA : 19 légendes, maximum 80 (`controle-qa-lot-1b.md:18`) |
+| S8 garde du lien de bio | **Fait en avertissement, exécution manuelle** | Codé en avertissement, sans lecture de `mesure.md` (`corrections-cycle8-fullstack.md:16`). Avertissements au dry-run : `lot-relance-s15.md:36-37` (IG2 12/10, IG3 14/10), `lot-1b.md:63-67` (22/10, 26/10, 29/10, 02/11, 05/11). Tant que T1 n'est pas fait, la garde s'applique à 7 posts |
+| S10 cartes des 08/10 et 09/10 : R6, césure | **Non fait, clos (figé)** | Posts publiés (`releves/2026-10-08.md:15-17`, `2026-10-09.md:6`). Aucune ligne R6 ou césure dans `REPLIT_ACTIONS.md:1-95`. Le geste n'a pas été refait sur les cartes à venir : reprise en S12 |
+| F2 brouillon image LinkedIn | **Fait** | `releves/2026-10-11.md:17-20` : post `c55c58e5410ff05de08c28332`, `GET …slide=0` 200 `image/png` 1080×1350 en 3,2 s, relue (chute seule, fond violet, sans « Glisse »). Reste le contrôle H+45 du 15/10 09:00 |
+| F3 mix de formats codé jusqu'au 03/01 | **Partiel** | Mix codé (`REPLIT_ACTIONS.md:25-30`), 1b : 46 posts, 0 erreur (`lot-1b-dry-run-08-10.md:28`). Rien au-delà du 15/11 : aucun lot 2 dans `preparation/`. Plafond de 8 conseils atteint la semaine du 09/11 (`:40`) |
+| F4 `[jour:dimanche]` Instagram | **Non fait (échéance 09/11)** | Contrôle « aucun dimanche » toujours actif (`controle-qa-lot-1b.md:15`). Ven. 13/11 A est dans le 1b (`lot-1b.md:118`), dim. 22/11 B n'est dans aucun lot |
+| S9 heure d'hiver | **Fait au dry-run** | UTC+2 jusqu'au 23/10, UTC+1 dès le 26/10, 0 écart sur 46 (`controle-qa-lot-1b.md:16`, `lot-1b-dry-run-08-10.md:42`). Preuve en production : premier envoi du 26/10 ; `horaires-sources-s15.md:50` et `mesure.md:160` gardent leur `[À VÉRIFIER]` |
+| C4 relecture à l'aveugle 08/10, 09/10, 21/10 | **Fait** | 08/10 T24 9/8,5 conservée (`aveugle-textes-neufs-cycle8-resultat.md:10`) ; 09/10 R02 8,5/8,5 appliquée et publiée (`aveugle-remplacements-cycle8-resultat.md:8`, `releves/2026-10-09.md:6`) ; 21/10 R07 8,5/8,5 (`:11`, `lot-1b.md:79`). Réserve : IG3 14/10 (8,5/7,5) et IG1 27/10 (8,5/8) gardées car posts signés par Thomas (`aveugle-remplacements-cycle8-resultat.md:9-10`) |
+| C5 LinkedIn sans bureau | **Partiel** | 1 situation sur 6 retenue (T20, 8,5/8,5 : `aveugle-textes-neufs-cycle8-resultat.md:9,16`), **absente du lot** (8 posts LinkedIn, `lot-1b.md:77-116`). Le deuxième tour exigé s'il reste moins de 2 survivants (`corrections-cycle8-copy.md:35`) n'a pas eu lieu. L'angle travail est tenu par 4 relais (`lot-1b.md:101,106,113,116`), mais 2 des 3 vannes LinkedIn du lot sont domestiques (`:77` la mère et l'ex, `:89` la tondeuse du père) |
+| C6 fiche du 21/10 | **Fait autrement** | Fiche abandonnée : carte vanne simple sur V028 + légende R07 8,5/8,5 (`aveugle-remplacements-cycle8-resultat.md:11`). Mécanisme vérifié en base (`corrections-cycle8-fullstack.md:12`). `fiche-ig-21-10.md:4` dit encore « non publiable avant relecture » : périmée |
+| C7 variété « copain / copine » | **Partiel** | Plafond codé en avertissement seulement (`corrections-cycle8-fullstack.md:17`). La semaine du 12/10 garde ses 3 occurrences (`lot-relance-s15.md:35,48,50,52`), sans vanne libre pour remplacer. Nouveau tic non couvert : « date » dans 5 posts du 1b (`lot-1b.md:76,92,96,102,103`) |
+| D4 colonne commentaires | **Fait** | `mesure.md:53,132,134` |
+| D5 `mesure.md` et stock | **Fait** | `mesure.md:160,166` ; écart 22 contre 23 expliqué (11 vannes en base sous 90 jours : `corrections-cycle8-fullstack.md:23`). Report dans `plan-execution-s15.md` non relu ici |
+| T1 liens de bio | **Non fait** | `mesure.md:116-118` toujours `[à renseigner]`. Les 3 routes répondent 200 (`releves/2026-10-11.md:10`), la pose reste à faire par Thomas |
+| T2 bios et bannières | **Pas de preuve** | Aucune ligne de pose dans `mesure.md:116-118` ni `REPLIT_ACTIONS.md:1-95` |
+| T3 épingler le X du 07/10 | **Pas de preuve** | Aucune mention dans `releves/` ni `REPLIT_ACTIONS.md` |
+
+**Bilan** : 10 faits (S5, S6, S7, S8, F2, S9, C4, C6, D4, D5), 3 partiels (F3, C5, C7), 5 non faits ou sans preuve (S10, F4, T1, T2, T3). Aucun fait n'est contredit par la lecture ; trois « faits » ont une exécution qui reste devant (S8, F2 au 15/10, S9 au 26/10).
+
+## 2. Notes par critère, cycle 8 → cycle 9
+
+| Critère | Cycle 8 | Cycle 9 | Raison | Pour 10 |
+|---|---|---|---|---|
+| **K4 Formats** | 9,5 | **9,6** | Moyenne de K4a, K4b, K4c | ci-dessous |
+| K4a Instagram | 9,5 | 9,5 | Gagné : légendes sans pied et contrôlées (19 sur 19 conformes, `controle-qa-lot-1b.md:18`), gabarit de carte conseil déployé le 08/10 (`REPLIT_ACTIONS.md:53-60`), 12 vannes et 7 conseils au bon nombre d'images (`controle-qa-lot-1b.md:19`), garde de bio codée en avertissement. Retenu : aucun carrousel décryptage du 15/10 au 17/11 (cartes vanne les 21/10, 28/10, 04/11 : `lot-1b.md:79,91,103`, V4 de `controle-reviewer-lot-1b.md:54`), aucune image des 31 posts à venir vue sur le vrai endpoint, 7 renvois « lien en bio » sans lien posé | T1, S11, S12, C12 |
+| K4b X | 10,0 | 10,0 | 19 X du 1b de 105 à 260 caractères, UTM 14 sur 14 conformes (`controle-qa-lot-1b.md:14,17`), renvois chiffrés vérifiés (18 messages en base, `controle-reviewer-lot-1b.md:114`), conseils sans lien, texte seul tenu | aucune avant J+28 |
+| K4c LinkedIn | 9,0 | 9,3 | F2 fait sur un vrai post (`releves/2026-10-11.md:17-20`) ; 0 conseil, 4 relais à angle travail retenus à 8,5 et plus chez 2 (`aveugle-1b-linkedin-resultat.md:7-9`, V-A signé). Retenu : 2 vannes sur 3 hors thème bureau (`lot-1b.md:77,89`) alors que la couverture signée dit « Des vannes pour le bureau », T20 non placé, bras du test image à 3 contre 1 au 15/11 (`lot-relance-s15.md:11`, `lot-1b.md:11`) | C10, D9 |
+| **K5 Cadence** | 8,8 | **9,0** | Moyenne de K5a, K5b, K5c | ci-dessous |
+| K5a Vendredi, week-end | 9,0 | 9,0 | Inchangé : calendrier tranché, ven. 13/11 A dans le 1b (`lot-1b.md:117-118`), `[jour:dimanche]` non codé, échéance 09/11 non échue | F4 |
+| K5b Plan de test | 9,5 | 9,6 | S9 prouvé au dry-run, D5 fait (`mesure.md:160,166`). Retenu : appariement des bras (`horaires-sources-s15.md:54` « mêmes types de posts dans les deux bras ») rompu 5 fois, soit X mar. 03/11 conseil en B (`lot-1b.md:99`) et jeu. 15/10 vanne en A (`lot-relance-s15.md:52`) ; IG mer. 14/10 décryptage en B (`:51`), jeu. 15/10 vanne en A (`:53`), mar. 03/11 conseil en B (`lot-1b.md:100`). Preuve de l'heure d'hiver en production attendue le 26/10 | D9, S9 |
+| K5c Cadence et stock | 8,0 | 8,5 | 1b : 46 posts 5/5/2 sur 3 semaines puis 4/4/2, 0 erreur, 0 reprise sous 90 jours (`lot-1b-dry-run-08-10.md:28,43`). Retenu : stock éligible 14 au J0 du 1b (`lot-1b.md:7`) et 15 vannes tirées en révision 6 (`controle-reviewer-lot-1b.md:39`), donc pool strict à sec avant le 16/11 ; un seul conseil converti non utilisé (K63, `lot-1b-dry-run-08-10.md:184`) ; semaine du 09/11 = 8 conseils sur 8 posts X et IG (`:40`) ; aucun dry-run au-delà du 15/11 ; plancher toujours `[À RECOMPTER]` (`mix-formats-s15.md:15`) ; 14 relais sans repli libre (`controle-reviewer-lot-1b.md:56`) | F3, F5, F6, C12 |
+| **K2 Adaptation** | 9,5 (13 posts) | **9,1** (68 posts) | Périmètre élargi : semaine 0, lot 1a, lot 1b. À périmètre constant (les 13 posts du cycle 8) : 9,5 (9,54), voir §3 | C9, C10, C11, S12 |
+| Légende IG | 9,0 | 9,5 | 46 légendes sans pied ; les 19 du 1b sont soit retenues à l'aveugle (L19, L20, L24, L29, L31, L38, R01, R07, 1C, 2C, conseils K26 à K76), soit signées par Thomas (IG1, IG2, IG3) ou écrites dans la v5 (26/10). Contrôle auto en place. Retenu : « qui » ×2 (12/10, 13/10) et « ton/ta » ×2 (15/10, 16/10) du 1a signalés non corrigés (`lot-relance-s15.md:38-39`), 14/10 à 8,5/7,5 | C11 |
+| Appel à l'action | 8,5 | 8,7 | UTM 14 sur 14 (`controle-qa-lot-1b.md:14`), renvois devenus vrais (E2, E3 corrigés : `controle-reviewer-lot-1b.md:74-75`), formule quiz signée sur X3. Inchangé : aucune des 3 bios posée, D8 non consignée à 6 h de l'échéance (`mesure.md:104-108`) | T1, T2, T3, D8, S11 |
+| Réponses aux commentaires | 9,0 | 9,3 | D4 fait (colonne en place). Retenu : `banque-reponses.md:5,22-38` n'a pas reçu le résultat de l'aveugle (6 variantes 3 à 5 - 7,5 retirées : `aveugle-textes-neufs-cycle8-resultat.md:17`) et la version « sans bio » de la situation 5, la seule utilisable tant que T1 n'est pas fait, n'est pas tranchée (`:28`) | C8 |
+| **Moyenne des 6** | 9,05 | **9,20** | (9,6 + 9,0 + 9,1 + 9,5 + 8,7 + 9,3) / 6 | 20 points |
+
+K4 = (9,5 + 10,0 + 9,3) / 3 = 9,60. K5 = (9,0 + 9,6 + 8,5) / 3 = 9,03.
+
+## 3. K2 par groupe de posts
+
+K2 est noté sur les 68 posts de la relance : 10 publiés (semaine 0), 12 du 1a (inséré le 09/10), 46 du 1b (validé, insertion le 13/10). Les notes à l'aveugle consignées servent de plancher ; ma lecture du texte ajuste, jamais au-dessus de ce que les relecteurs permettent.
+
+| Groupe | Posts | Note | Base |
+|---|---|---|---|
+| Semaine 0 | 10 | 9,6 | Inchangé et figé (cycle 8 §3) |
+| Posts signés par Thomas | 10 | 9,4 | IG2, X1, L3, IG3, L1 (1a) ; X3, X2, IG1, L2, V-A (1b). X3 monte à 9,5 : la formule signée est intacte (`lot-1b.md:78`, 246 caractères). 9,0 pour IG3 (légende 8,5/7,5) et IG1 (8,5/8), sous 8,5 chez 2 mais signés |
+| Vannes du pool strict | 26 | 9,2 | 7 au 1a, 19 au 1b ; 15 sur 15 dans `POOL_STRICT` (`controle-reviewer-lot-1b.md:39`) ; légendes retenues 8,5 à 9 ; 12/10 X = V011 sans renvoi, 9,5. Retenu : 2 vannes LinkedIn hors bureau, tics « copain » ×3 et « date » ×5, « Léa » 14/10 et 28/10 (`lot-relance-s15.md:51`, `lot-1b.md:91`), cartes jamais vues |
+| Lignes d'article et pivot | 5 | 9,0 | 19/10 X coloc n°1 (renvoi 8,8/8,5), 22/10 IG n°4 (légende 9/9), 30/10 X Halloween n°3 (fixe v5), 02/11 X visio n°3 (renvoi 8,8/8,5), 05/11 X couple n°5 |
+| Conseils X et IG | 14 | 8,5 | Notes à l'aveugle moyennes **8,21** (K36 8/8, K26 8/8,5, K28 8/8,5, K30 9/8, K09 8/8,5, K22 8,5/8,5, K25 8,5/8, K27 8/8, K04 8/8, K07 8/8,5, K59 8,5/8, K42 8,5/8, K53 8,5/8, K76 8/8 : `lot-1b.md:83,84,99,100,107-112,114,115,117,118`). Au niveau de leur barre (8, `[HYPOTHÈSE]` de session : `mix-formats-s15.md:34`), pas au-dessus. Quatre à 8/8 des deux côtés : K36, K27, K04, K76 |
+| Relais LinkedIn | 3 | 9,0 | R08 8,5/8,5, R07 9/9, R02 9/8,5 (`aveugle-1b-linkedin-resultat.md:7-9`) |
+
+Moyenne : (96,0 + 94,0 + 239,2 + 45,0 + 119,0 + 27,0) / 68 = 620,2 / 68 = **9,12**.
+À périmètre constant : semaine 0 (96) + relais X 12/10 devenu V011 (9,5) + X3 21/10 (9,5, était 9,0) + IG 21/10 en carte vanne V028 avec légende R07 (9,0, était 8,5) = 124 / 13 = **9,54**. Le cycle 8 était à 9,46 : le recul de 9,5 à 9,1 vient du périmètre (conseils à 8,2, vannes jamais relues par moi), pas d'une baisse des posts déjà notés.
+
+## 4. Nouvelle liste « Pour 10/10 » (20 points, précise et vérifiable)
+
+Chaque ligne donne la preuve qui la ferme. Les ids D8, T1 à T3, F4 et C7 reprennent le cycle 8 ; le reste est nouveau.
+
+**Aujourd'hui, 11/10, avant le premier post de la semaine 1**
+
+| # | Action et preuve de clôture | Agent | Échéance |
+|---|---|---|---|
+| D8 | Preuve D8 : 1 événement Umami de test par `origine` (x, instagram, linkedin), daté, exclu des relevés. Clos quand `docs/qa/tests-c2-navigateurs-integres-11-10.md` existe et que `mesure.md:104-106` portent date et heure ; sinon J0 du réseau manquant passe au 19/10 (`mesure.md:108`) | @qa, @data-analyst | 11/10 12:00 Paris |
+| T1 | Poser `/liens` (Instagram), `/liens/x`, `/liens/li` ; la session consigne la date dans `mesure.md:116-118` et 1 visite vue dans Umami. Sans cela IG2 (12/10 19:30) et IG3 (14/10) partent tronqués | Thomas | 11/10 |
+| T2 | Coller les 3 bios signées, poser les bannières X et LinkedIn et les 4 couvertures de stories (`bannieres/index.md:11-39`), consigner la date | Thomas | 11/10 |
+| T3 | Épingler le X du 07/10 : `https://x.com/2034618562699300864/status/2107781291353481416` | Thomas | 11/10 |
+| S11 | Si T1 n'est pas fait le 12/10 à 12:00 : en base, légende d'IG2 ramenée à « À envoyer à qui a un tour de table demain. » ; IG3 du 14/10 sans la 5e partie (« Le quiz est dans le lien de la bio. ») avant 12:15 Paris ; même règle la veille des 22/10, 26/10, 29/10, 02/11, 05/11 (`lot-1b.md:63-67`). Clos quand chaque relevé H+45 de ces 7 posts dit si le renvoi est parti, et que le texte envoyé suit l'état de la bio de la veille | @fullstack, session | 12/10 12:00 puis chaque veille |
+| S12 | Voir les cartes réelles : `GET /api/social/image?postId=…&slide=n` en 200 `image/png`, puis regarder le PNG (R6 une paire « » par ligne, césure, aucun débordement). 1a : IG2 avant 17:00 UTC le 12/10, puis chaque IG du 13 au 16/10 la veille. 1b : dans les 24 h après l'insertion, les 12 cartes vanne et relais et les 7 conseils (2 cartes 1080×1350, surtitre lilas, aucun « Technique : » : `REPLIT_ACTIONS.md:60`). Clos par une ligne par post dans `REPLIT_ACTIONS.md` (reprend S10 pour l'avenir) | @fullstack, @qa | 12/10, puis 14/10 |
+
+**Avant et autour de l'insertion du 13/10**
+
+| # | Action et preuve de clôture | Agent | Échéance |
+|---|---|---|---|
+| S13 | L'insertion est prévue 06:30 UTC, soit 08:30 Paris (`releves/2026-10-11.md:9`), 15 minutes après l'échéance du LinkedIn L3 ; le cron remet 1 post par réseau et par passage de 15 min (`mesure.md:54`). Avant `--insert` : IG2 et L3 constatés `PUBLISHED`, les 2 replis `REJECTED` (SELECT de `controle-qa-lot-1b.md:23`), `se-presenter-avec-humour` en 200, 18 messages numérotés revérifiés (`controle-reviewer-lot-1b.md:114`). Sinon décaler après le H+45 de 09:00. Clos par les sorties dans `releves/2026-10-13.md` | @qa, session | 13/10 |
+| D10 | Documents périmés : `REPLIT_ACTIONS.md:3` dit encore « NE PAS INSÉRER LE 1b : en attente du contrôle @reviewer » alors que le GO révision 8 est écrit (`controle-reviewer-lot-1b.md:108-110`) et le GO QA aussi (`controle-qa-lot-1b.md:5-7`) ; corriger le titre avec les conditions restantes. Clos quand la recherche de « NE PAS INSÉRER » ne remonte plus que de l'historique | session | 12/10 |
+| F6 | Après insertion, relancer `--pool strict` et imprimer le détail des exclusions comme `corrections-cycle8-fullstack.md:23` ; @growth remplace les `[À RECOMPTER]` de `mix-formats-s15.md:12,15` et du plan par un chiffre calculé (stock libre et plancher au 16/11, vannes LinkedIn manquantes). Clos quand le plancher porte un nombre et son calcul | @fullstack, @growth | 14/10 |
+| F7 | Contrôle H+45 du LinkedIn du 15/10 09:00 Paris : post `c55c58e5410ff05de08c28332` en `sent`, carte visible sur LinkedIn. Clos par `releves/2026-10-15.md` ; ferme F2 | session | 15/10 |
+
+**Avant le lot suivant (26/10) et le 09/11**
+
+| # | Action et preuve de clôture | Agent | Échéance |
+|---|---|---|---|
+| C8 | `banque-reponses.md` : retirer les 6 variantes 3 (5 à 7,5 à l'aveugle) de la colonne et de l'en-tête (`:5,:22-38`) ; faire relire à l'aveugle la version « bio non posée » de la situation 5 (`:28`), seule utilisable tant que T1 manque, ou la remplacer. Clos quand la banque ne contient que des lignes à 8,5 et plus chez 2 | @copywriter | 19/10 |
+| C9 | Quatre conseils à 8/8 chez les 2 : K36 (X 23/10), K04 (X 10/11), K76 (IG 12/11), K27 (IG 13/11). Réécrire, relire à l'aveugle à 8,5 et plus chez 2, appliquer en base 15 min avant l'envoi au plus tard. Si la session garde la barre 8 pour les conseils, l'écrire : ces 4 points tombent et K2 plafonne (voir §5) | @copywriter, @fullstack | K36 avant le 22/10 ; K04, K76, K27 avant le 09/11 |
+| C10 | LinkedIn bureau : placer T20 (8,5/8,5) le 27/10 à la place de la tondeuse (`lot-1b.md:89`) ; deuxième tour de 6 situations neuves (règle `corrections-cycle8-copy.md:35`) pour remplacer la vanne de la mère et de l'ex du 20/10 (`:77`). Amorce de 140 caractères au plus pour servir le bras texte du test. Les deux vannes retirées retournent au pool. Clos quand le dry-run n'a plus de vanne LinkedIn hors thème bureau du 20/10 au 12/11 et que @reviewer revérifie les cases changées | @copywriter, 2 relecteurs, @fullstack | 20/10 slot : 19/10 18:00 ; 27/10 slot : 26/10 |
+| C11 | Variété : `COPAIN_RE` étendu à « date » (5 posts) et au prénom « Léa » (14/10, 28/10), même plafond 2 par semaine `[HYPOTHÈSE]` ; la session écrit la dérogation de la semaine du 12/10 (3 « copain », aucune vanne libre : `lot-relance-s15.md:35`) ; légende IG du 16/10 (« ton/ta » ×2 avec le 15/10 : `:39`) refaite à l'aveugle ou dérogation écrite. Clos par le commit du plafond et la dérogation datée | @fullstack, @copywriter, session | 15/10 (légende), 19/10 (code) |
+| F5 | Dry-run du lot suivant 16/11 au 03/01 avec la commande du 1b : 0 erreur et, pour chaque case sans texte validé, la ligne exacte (conseil, ligne d'article, fiche, vanne LinkedIn). Clos par un `lot-2a-dry-run-*.md` sans « repli du mix sans texte validé » ; ferme F3 | @fullstack | rapport 26/10 ; lot inséré 09/11 au plus tard |
+| C12 | Textes du lot suivant : conseils convertis (X 270 sans lien, IG 3 parties) et relus à l'aveugle pour 16/11 au 03/01, 36 prévus (`mix-formats-s15.md:61`) ; lignes d'article notées pour les relais ; relais LinkedIn à angle travail. Clos quand F5 passe à 0 erreur sur la tranche 16/11 au 29/11. Seul K63 est converti et libre (`lot-1b-dry-run-08-10.md:184`, `[À VÉRIFIER : textes-formats-valides.json non relu en entier]`) | @copywriter, 2 relecteurs | tranche 1 prête avant le 26/10 |
+| C13 | Fiches de carrousel décryptage : celle du 18/11 (C3 déjà versé) et les 7 suivantes (`mix-formats-s15.md:37,61`), dont la remplaçante de V083 pour le 23/12 (`corrections-cycle8-copy.md:78`), chacune relue à l'aveugle contre IG3 et les deux carrousels signés ; marquer `fiche-ig-21-10.md:4` comme remplacée par la carte vanne. Clos quand les 8 fiches ont leurs notes ou que la case passe en carte vanne par décision écrite | @copywriter | 18/11 : avant le 09/11 ; les autres avant leur lot |
+| F4 | Case `[jour:dimanche]` Instagram à cadence constante : ven. 13/11 A, dim. 22/11 B, ven. 04/12 A, dim. 13/12 B (`horaires-sources-s15.md:62`), la règle « aucun dimanche » levée pour ces seules dates. Clos par un dry-run avec les 2 dimanches, 0 erreur, 5 IG par semaine | @fullstack | 09/11 |
+| D9 | `mesure.md` §6 à §8 : remplacer « au mieux 4 posts par bras à J+28 » (`:187`) par le compte réel au 15/11, 3 image contre 1 texte (`lot-relance-s15.md:11`, `lot-1b.md:11`), et poser la règle « non concluant sous 6 par bras » (`:156`) ; ajouter au relevé (`:134`) une colonne « type de post » et lister les 5 écarts d'appariement du test d'heure (§2, K5b) avec la règle « lecture à type égal ». Clos quand ces trois lignes sont dans le fichier | @growth, @data-analyst | 26/10 (J+14) |
+| S14 | Prouver l'heure d'hiver en production : relevés H+45 du 26/10 (X 12:30 Paris = 11:30Z, IG 19:30 = 18:30Z) et du 27/10 (LinkedIn 08:15 = 07:15Z) ; retirer les `[À VÉRIFIER]` de `horaires-sources-s15.md:50` et `mesure.md:160`. Clos par les 3 heures UTC citées dans `releves/` | @qa, session | 27/10 |
+
+## 5. Chemin vers 10
+
+K4a : T1, S11, S12, C13 (K4b est à 10). K4c : C10, D9, F7. K5a : F4. K5b : D9, S14. K5c : F5, F6, C12, C13 (à 10 quand le lot suivant sort à 0 erreur avec un plancher chiffré). K2 : S12, C9, C10, C11. Légende : C11. CTA : D8, T1 à T3, S11 (l'entonnoir se lit à J+14, 26/10). Réponses : C8. 
+`[HYPOTHÈSE]` K2 : avec C9 à C11 et S12, les conseils passent vers 8,7 et les vannes vers 9,4, soit K2 vers 9,3. Au-delà, K2 plafonne tant que les 10 autres conseils restent à 8 chez un relecteur : un 10 demande soit la barre 8,5 sur les conseils, soit une décision écrite de la session que 8 est la barre définitive (paramètre de session, pas un `[CHOIX UTILISATEUR]` : `mix-formats-s15.md:34`).
+**Risques hors liste** : Instagram sans Reel avec 0 abonné (part de non-abonnés à relever à J+28) ; 14 relais sans repli libre, créneau vide si l'article n'est pas en ligne à l'heure (`controle-reviewer-lot-1b.md:56`), alors que la garde de `founder-preferences.md:67` prévoit une vanne de bureau sans lien, impossible faute de vanne au niveau ; premier retour de vannes seulement le 04/01 (`mix-formats-s15.md:16`) ; barre des conseils (8) `[HYPOTHÈSE]` ; mesure de la semaine 0 à reporter dans `mesure.md:140-142` le 12/10.
+
+---
+**Handoff → @orchestrator**
+- Fichier : `/home/user/Marrant/docs/social/notation-relance-cycle9-social.md` ; décisions : K4 9,6, K5 9,0, K2 9,1 (9,5 à périmètre constant), légende 9,5, CTA 8,7, réponses 9,3, moyenne 9,20
+- Urgent : D8 avant 12:00 le 11/10, T1 à T3 le 11/10, S11 et S12 le 12/10, S13 et D10 avant l'insertion du 13/10, F6 le 14/10, C10 avant le 19/10, F5 et D9 avant le 26/10
+- Limites : aucun shell, base ni prod ; aucune image vue ; notations des autres agents non lues ; historique des interventions non mis à jour (lecture seule demandée)
+---

@@ -21,6 +21,8 @@ const config: Config = {
           "primary-hover": "#A78BFA",
           secondary: "#6D28D9",
           "secondary-hover": "#7C3AED",
+          // Texte violet courant (< 24 px) : AA sur fond page, carte et élevé
+          link: "#A78BFA",
         },
         text: {
           primary: "#FFFFFF",
@@ -33,6 +35,9 @@ const config: Config = {
         },
         success: "#22C55E",
         error: "#EF4444",
+        // s17 tour 1 (DES-1-02) : texte d'erreur AA (≈ 5,4:1 sur carte, ≈ 5,1:1 sur bg-error/10) ;
+        // `error` reste pour bordures et fonds.
+        "error-text": "#F87171",
         warning: "#F59E0B",
       },
       fontFamily: {

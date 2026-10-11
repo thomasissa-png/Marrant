@@ -1,0 +1,675 @@
+# Export vannes actives (Neon prod, 30/09/2026) : 638 vannes, 564 setups distincts
+# Format : [id] CAT m=maturité IA|H décryptage=oui|non :: setup // punchline. Les vannes au même setup sont regroupées sous '## SETUP xN'.
+
+## SETUP x2
+[cmq4r326m009rs60xj2koepny] OBSERVATIONNEL m=1 IA décryptage=oui :: 17h pile, toutes les terrasses de Paris se remplissent instantanément. // C'est le plus grand flash mob du monde... involontaire.
+[cmq4rm95m00a1s60xb3rrolqz] OBSERVATIONNEL m=1 IA décryptage=oui :: 17h pile, toutes les terrasses de Paris se remplissent instantanément. // C'est comme un flash mob, mais pour l'alcoolisme fonctionnel.
+[cmo6fj13k0010s60xnctdbduc] SOIREES m=1 IA décryptage=non :: Apéro 18h chez ma pote hier. À minuit, on était encore là. // Sa mère nous a préparé des tartines pour le goûter.
+[cmnxy1tl0000bs60w5r6pmq70] COUPLE m=1 IA décryptage=non :: Avec mon copain, on a ENFIN résolu le dilemme du resto... On en choisit chacun un différent. // Maintenant on se dispute juste pour savoir qui paie les deux livreurs qui sonnent en même temps.
+[cmny4gts90015s60wg2rvt0jw] COUPLE m=1 IA décryptage=non :: Avec mon copain, on a passé 45 minutes à choisir un resto hier soir. // On a fini par commander des pâtes à la maison.
+[cmny3en3c000zs60wdpwz35gr] COUPLE m=1 IA décryptage=non :: Avec mon copain, on a trouvé la solution parfaite pour éviter les disputes de resto. // On se dispute sur quelle app utiliser à la place.
+[cmnyf72ss002gs60w8xbw1mvn] COUPLE m=1 IA décryptage=non :: Avec mon copain, on a trouvé LA technique imparable pour choisir un resto rapidement. // On prend celui qui est le plus proche de chez son ex.
+[cmmw0tp6n000emw62w4kz8rqo] RESEAUX_SOCIAUX m=1 H décryptage=oui :: BeReal me notifie toujours quand je fais rien. // Tous mes posts c'est mon plafond.
+[cmpqcmen9000xs60wffbnzx0z] OBSERVATIONNEL m=1 IA décryptage=oui :: C'est fou le nombre de parisiens qui débarquent en Bretagne en mai. // Hier j'en ai vu un demander si la galette complète était sans gluten.
+[cmq0l6l3z00ols60xde4cfzqe] SITUATION m=1 IA décryptage=oui :: Ce matin 16°C, j'ai mis un jean. À midi 28°C, j'étais en sueur totale. // Et j'avais même pas encore ouvert Outlook.
+## SETUP x2
+[cmq0nv0hf00q4s60x5ewmyni8] SITUATION m=1 IA décryptage=oui :: Ce matin 16°C, j'ai mis un jean. À midi 28°C, j'étais en sueur. // Apparemment mon jean était en période d'essai gratuit pour un abonnement hammam.
+[cmq0oeo4g00qhs60xxr46wguw] SITUATION m=1 IA décryptage=oui :: Ce matin 16°C, j'ai mis un jean. À midi 28°C, j'étais en sueur. // J'ai cosplayé quatre saisons en une journée.
+## SETUP x2
+[cmq0gwabu00ncs60xpp3hlijp] SITUATION m=1 IA décryptage=oui :: Ce matin 16°C, j'ai mis un jean. À midi 28°C. // Je transpire en HD.
+[cmq0hyto700nws60x1s0oxxq2] SITUATION m=1 IA décryptage=oui :: Ce matin 16°C, j'ai mis un jean. À midi 28°C. // Je suis en sauna premium.
+[cmq0nbrw500pus60x41c2935h] SITUATION m=1 IA décryptage=oui :: Ce matin 8h, 16°C, j'ai mis un jean. À 14h il faisait 28°C. // Je suis devenue un hot-dog sous cellophane.
+[cmq0lpvmt00oys60xvpx2y45i] SITUATION m=1 IA décryptage=oui :: Ce matin 8h, 16°C, j'ai mis un jean. À 14h, 28°C. // Je suis en mode sauna designer.
+[cmq0pgunr00r3s60x0u58fc6e] SITUATION m=1 IA décryptage=oui :: Ce matin 8°C, j'ai mis un jean. À 14h il faisait 25°C. // Je fais de la cuisson basse température.
+[cmq0oxdyr00qqs60xnn3xkmie] SITUATION m=1 IA décryptage=oui :: Ce matin il faisait 16°C, j'ai mis un jean. À 14h il faisait 28°C. // Je transpire comme si j'avais menti au FBI.
+[cmq0m95m300p8s60xpybrj1fd] SITUATION m=1 IA décryptage=oui :: Ce matin j'ai mis un jean par 16°C. Cet après-midi il faisait 28°C. // Je suis en mode mijoteuse.
+[cmmnsqn140053th635oa49916] CULTUREL m=2 H décryptage=oui :: Deux Parisiens se croisent en province. L'un dit : « T'es en exil aussi ? » // L'autre : « Non, en vacances. » — « Ah, c'est pareil. »
+[cmowg60y9000hs60ye0y2chv4] OBSERVATIONNEL m=1 IA décryptage=non :: Dès qu'il fait 15 degrés, tout le monde sort en terrasse pour fêter ça. // On dirait des survivants d'apocalypse qui redécouvrent le soleil.
+[cmmnsqn15007dth63pcggw13x] DATING m=2 H décryptage=oui :: Elle m'a demandé ce que je faisais dans la vie. // J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.
+[cmmnsqn15007oth63jbugyxvs] DATING m=2 H décryptage=oui :: Elle m'a demandé « c'est quoi ton love language ? » // J'ai répondu « envoyer des memes à 3h du mat ». C'était la mauvaise réponse.
+[cmpjqof0e00b9s60xtzir3yw2] COUPLE m=1 IA décryptage=non :: Elle m'a dit : 'Pour les vacances, j'aimerais qu'on aille quelque part qu'on n'a jamais vu.' // J'ai proposé l'appartement de mon ex.
+[cmmnsqn15007rth631jpsv5i0] DATING m=2 H décryptage=oui :: Elle m'a dit « on reste amis ». // Super. J'avais justement besoin d'un 847e ami qui me parle jamais.
+[cmmnsqn150078th63efrbu1if] DATING m=2 H décryptage=oui :: Elle m'a dit « sois toi-même » sur Tinder. // J'ai été moi-même. Elle m'a unmatché.
+[cmmnsqn150085th63s8x6ar77] SOIREES m=2 H décryptage=oui :: En after, tout le monde dit « demain je me lève tôt ». // Il est 6h. Le soleil se lève. Personne n'est parti.
+[cmmnsqn15005xth63il8yb0zm] ECOLE m=1 H décryptage=oui :: En amphi, y'a trois types d'étudiants : // Ceux qui écoutent, ceux qui dorment, et ceux qui regardent des vidéos TikTok sans le son.
+[cmmnsqn14005pth633lgpqush] ECOLE m=1 H décryptage=oui :: En cours d'histoire, le prof nous a demandé ce qui s'est passé en 1789. // J'ai répondu « j'étais pas né ». Techniquement, j'ai pas tort.
+[cmmw0tpqh000omw62jeisz384] ECOLE m=2 H décryptage=oui :: En cours, j'ai levé la main pour aller aux toilettes. // Le prof a dit non. Je suis resté. On a tous les deux regretté.
+[cmmnsqn14003rth6379n30nzd] CULTUREL m=2 H décryptage=oui :: En France, la pause déjeuner est sacrée. // On est le seul pays où « j'ai pas eu le temps de manger » est une urgence médicale reconnue.
+[cmmnsqn14004nth638k89q5ig] CULTUREL m=2 H décryptage=oui :: En France, les gens qui disent « à la base » commencent à raconter une histoire... // Qui n'a plus rien à voir avec la base depuis au moins trois digressions.
+[cmmnsqn120004th63tst0du9w] CULTUREL m=2 H décryptage=oui :: En France, on a pas de pétrole, mais on a des idées. // Et surtout, on a des grèves pour empêcher les idées d'arriver au bureau.
+[cmmnsqn13002oth630evu8rts] CULTUREL m=2 H décryptage=oui :: En France, on prend l'apéro vers 18h. // Le reste de la journée, c'est juste de la préparation psychologique.
+[cmmnsqn130033th63b54ux45o] CULTUREL m=2 H décryptage=oui :: En France, quand quelqu'un dit « c'est pas mal »... // C'est le plus grand compliment que tu recevras jamais.
+[cmmnsqn13001hth636gpfp7mn] CULTUREL m=2 H décryptage=oui :: En France, un repas de famille, c'est comme un débat politique. // Tout le monde a un avis, personne n'écoute, et ça finit toujours par le fromage.
+[cmq66j1ei00f8s60xx6elomg7] BOULOT m=1 IA décryptage=oui :: En juin au boulot, tout le monde parle que de ses vacances. // Moi j'écoute attentivement... pour éviter ces endroits.
+[cmmnsqn12000rth63qizdvf8n] BOULOT m=2 H décryptage=oui :: En open space, tout le monde fait semblant de travailler. // Le vrai talent, c'est de faire semblant de ne pas entendre le collègue qui mange des carottes crues.
+[cmmnsqn15006gth631g7fz4fu] GAMING m=1 H décryptage=oui :: En ranked, j'ai un plan de jeu très précis : // Foncer, mourir, blâmer l'équipe. Répéter.
+[cmmnsqn120014th63m4rboak4] BOULOT m=2 H décryptage=oui :: En réunion, « on en reparlera » veut dire... // « On n'en reparlera jamais, mais au moins on a tous perdu une heure. »
+[cmptboy7s0028s60xynjj9g34] SOIREES m=1 IA décryptage=oui :: En soirée de fin d'année, j'ai voulu impressionner une fille en parlant de mes projets d'avenir. // Spoiler : dormir jusqu'à 14h, c'est pas un projet.
+[cmmnsqn16008ath63dodvh753] SOIREES m=2 H décryptage=oui :: En soirée, j'ai perdu mes clés, mon téléphone et ma dignité. // J'ai retrouvé les clés le lendemain. Le reste, toujours pas.
+[cmmnsqn150087th634dmdu14r] SOIREES m=1 H décryptage=oui :: En soirée, je danse comme si personne me regardait. // Malheureusement, tout le monde me regarde. Et filme.
+[cmmnsqn150080th63wacs8wgk] SOIREES m=2 H décryptage=oui :: En soirée, tout le monde devient philosophe à 3h du mat. // « Tu crois qu'on est seuls dans l'univers ? » Frère, t'es même pas capable de trouver tes clés.
+[cmmnsqn15007uth63eaavgyx3] SOIREES m=1 H décryptage=oui :: En soirée, y'a celui qui contrôle la musique. // Il met du Jul. La moitié de la salle part, l'autre moitié chante. Y'a pas d'entre-deux.
+[cmmnsqn15007xth63p3dzv6pc] SOIREES m=1 H décryptage=oui :: En soirée, y'a toujours quelqu'un qui dit « c'est ma chanson ! » // C'est sa chanson toutes les 3 chansons. Il a beaucoup de chansons.
+[cmmnsqn150082th630yzqmw7s] SOIREES m=1 H décryptage=oui :: En soirée, y'a toujours un mec qui connaît personne. // C'est moi. À chaque fois c'est moi.
+[cmmnsqn15007sth63izdwdgvq] SOIREES m=2 H décryptage=oui :: En soirée, y'a toujours un mec qui dit « je bois pas ce soir ». // C'est toujours le premier à danser sur la table.
+[cmmnsqn140041th63w6clkmo9] BOULOT m=3 H décryptage=oui :: En télétravail, je suis habillé en haut pour les réunions Zoom. // En bas, c'est le festival de Woodstock.
+[cmo5035b8000ms60x61lbjzgw] SOIREES m=1 IA décryptage=non :: Hier j'ai dit à mes potes : 'je rentre, je suis crevé' // À 3h je matais des hamsters obèses sur YouTube
+[cmn2fop250000s60y723zwyvi] SITUATION m=1 IA décryptage=oui :: Hier j'ai rangé mes pulls d'hiver, il faisait 18°C. // Aujourd'hui il neige et je vais bosser en débardeur comme si j'étais en mission humanitaire en Antarctique.
+[cmmnsqn13002bth638y2j0ow1] SITUATION m=2 H décryptage=oui :: Hier soir, Netflix m'a demandé : « Vous êtes toujours là ? » // Personne ne m'avait posé cette question avec autant de sincérité depuis longtemps.
+[cmnpaomu40013s60z511997io] OBSERVATIONNEL m=1 IA décryptage=non :: Il y a ce mec au bureau qui sort en short par 15°. Je l'ai croisé ce matin, il claquait des dents. // J'ai pensé : 'Ah enfin, il applaudit son propre choix.'
+[cmoqfzr8o0001s60wwmk7hck9] GAMING m=1 IA décryptage=non :: J'ai acheté 3 jeux en promo cette semaine. // Du coup ma bibliothèque Steam ressemble à mon frigo : pleine de trucs que j'ouvre jamais.
+## SETUP x2
+[cmodktxus0000s60x4r5m5bi9] GAMING m=1 IA décryptage=non :: J'ai acheté 47 jeux sur Steam pendant les soldes d'hiver. // J'en ai lancé 3.
+[cmodld63v0002s60xlwwv7cox] GAMING m=1 IA décryptage=non :: J'ai acheté 47 jeux sur Steam pendant les soldes d'hiver. // J'en ai lancé 3. Dont 2 par erreur.
+[cmns5xu670009s60zwyuszpot] AUTODERISION m=1 IA décryptage=non :: J'ai acheté des baskets de running pour me remettre au sport. // Elles ont plus de kilomètres sur Instagram que sur le bitume.
+[cmncns72d0006s60yy0z693gx] AUTODERISION m=1 IA décryptage=oui :: J'ai acheté des graines 'faciles pour débutants' et j'ai suivi le mode d'emploi à la lettre. // Même les mauvaises herbes ont refusé de pousser.
+[cmp9ci8mg006es60xksf48ad8] CULTUREL m=1 IA décryptage=non :: J'ai acheté mon pass 3 jours pour le festival de Lorient. // Mon banquier pense que c'est un investissement dans l'industrie pharmaceutique.
+[cmmsw19p1000jrp62wanrhr5l] AUTODERISION m=1 H décryptage=oui :: J'ai acheté un agenda pour être organisé. // J'ai perdu l'agenda.
+[cmmnsqn140051th63qdmtj5qn] SITUATION m=1 H décryptage=oui :: J'ai acheté un hamac pour cet été. // J'ai passé plus de temps à essayer de m'y installer qu'à m'y reposer. Bilan : une épaule foulée.
+[cmmnsqn12000sth63b5q0jwla] SITUATION m=1 H décryptage=oui :: J'ai acheté un tapis roulant pour faire du sport à la maison. // Pour l'instant, il me sert surtout de portant pour sécher le linge.
+[cmojalv9o0045s60xwivdlrgs] SITUATION m=1 IA décryptage=non :: J'ai appelé mon propriétaire en panique à 2h du matin : 'Monsieur, j'ai oublié mes clés, je suis enfermée dehors !' // Il me fait : 'Mademoiselle... vous avez essayé de tourner la poignée ?'
+[cmmnsqn150081th63s5a4mn5x] SOIREES m=1 H décryptage=oui :: J'ai apporté des chips en soirée. // Elles ont duré 4 minutes. Mon effort social aussi.
+## SETUP x13
+[cmnl01zwv004ss60y2ecodj9a] SITUATION m=1 IA décryptage=oui :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'heure, moi j'étais à l'arrêt d'en face.
+[cmnl0l0xb004ws60y6ocqnub4] SITUATION m=1 IA décryptage=oui :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'heure, moi j'étais au mauvais arrêt.
+[cmnl14jzl0052s60y8f0om5sr] SITUATION m=1 IA décryptage=oui :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'arrêt d'en face.
+[cmnl275c90057s60yajm39jqj] SITUATION m=1 IA décryptage=oui :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il est arrivé pile quand j'ai fini de commander mon Uber.
+[cmnl39qki005fs60yqqfzt3t7] SITUATION m=1 IA décryptage=oui :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'arrêt d'en face.
+[cmnl4bzyz0000s60zoa6vthwe] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Quand il est enfin arrivé, j'étais tellement trempée que j'ai dit au chauffeur : 'Bonjour, je viens pour le poste de serpillière.'
+[cmnl4crqn005ms60yilgv48v1] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'arrêt d'en face.
+[cmnl4v6d30003s60z5twy5p8o] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Apparemment, il était en télétravail aussi.
+[cmnl5e4x80007s60z7bp9zpp0] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il est arrivé au moment où j'ai commandé mon Uber.
+[cmnl6gig4000ds60zqpgcpzxg] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il est arrivé pile quand j'ai commandé mon Uber.
+[cmnl7jkxf000ls60zdy73j43g] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Au final, j'étais à l'arrêt d'en face depuis le début. Même moi je me fuis.
+[cmnl82sbm000ps60zzmqvt9gp] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Finalement il est arrivé... juste après que j'aie commandé un Uber, acheté un parapluie et refait ma vie sur Leboncoin.
+[cmnl8m4yv000us60zbr80tbdo] SITUATION m=1 IA décryptage=non :: J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes. // Il était à l'arrêt d'en face depuis le début.
+[cmmnsqn150074th63m5g2yqip] RESEAUX_SOCIAUX m=2 H décryptage=oui :: J'ai bloqué quelqu'un sur les réseaux. // Il m'a appelé pour demander pourquoi. Frère, c'est justement pour pas te parler.
+[cmp9wbxog00g2s60x5pseas4j] CULTUREL m=1 IA décryptage=non :: J'ai calculé le budget pour aller à Solidays : billets, transport, bouffe, boissons... // Finalement j'ai acheté une Tesla, c'est plus rentable.
+[cmp9pd4kn00c8s60x0vw5jwnc] CULTUREL m=1 IA décryptage=non :: J'ai calculé le budget pour Hellfest : billets, camping, bouffe, bières... // Finalement je vais économiser 800€ en restant chez moi écouter du métal avec des voisins énervés.
+[cmp9nrct000bds60x7xm88miu] CULTUREL m=1 IA décryptage=non :: J'ai calculé le budget pour les Eurocks : billets, camping, bouffe, boissons... // Mon Spotify va devoir faire des heures sup.
+[cmmnsqn13001sth63ev1d0jcd] SITUATION m=2 H décryptage=oui :: J'ai commandé un plat végan au restaurant. // Le serveur m'a regardé comme si je lui avais demandé de résoudre une équation différentielle.
+[cmnfakfz50001s60xjtgw0dw7] ECOLE m=1 IA décryptage=oui :: J'ai commencé mes révisions pour les partiels. J'ai fait un planning couleur avec des créneaux optimisés. // Je révise maintenant comment faire un planning.
+[cmnwfphyz0000s60xhsg5y42i] ABSURDE m=1 IA décryptage=non :: J'ai commencé à parler à mes plantes pour qu'elles poussent mieux. // Elles me ghostent aussi.
+[cmpur54x60064s60x4gajnfo6] ECOLE m=1 IA décryptage=oui :: J'ai commencé à réviser mes partiels de juin. J'ai relu mes notes de septembre. // Genius !
+[cmo9aey6x001is60x9ti9ats1] ECOLE m=1 IA décryptage=non :: J'ai commencé à réviser pour mes oraux. // J'ai plus parlé à mon mur cette semaine qu'à mes potes en 6 mois.
+[cmom5i76y0000s60wgggf25h4] ECOLE m=1 IA décryptage=non :: J'ai commencé à réviser pour mes partiels. J'ai ouvert mon cours de janvier. // Il était encore dans l'emballage.
+[cmnl1ns640055s60yy53xfnbw] SITUATION m=1 IA décryptage=oui :: J'ai couru pour attraper le bus ce matin sous la pluie. // Le chauffeur m'a fait un petit signe de la main en passant.
+## SETUP x3
+[cmnl3tbh5005is60ypgq1vb82] SITUATION m=1 IA décryptage=non :: J'ai couru sous la pluie pour attraper mon bus ce matin. // Le chauffeur : 'Il y en a un toutes les 3 minutes.' Moi : 'Super, dans 3 minutes j'aurai séché !'
+[cmnl5xogz000bs60zgmy90sof] SITUATION m=1 IA décryptage=non :: J'ai couru sous la pluie pour attraper mon bus ce matin. // Le chauffeur m'a dit : 'Désolé madame, mais là c'est mon arrêt pipi.'
+[cmnl7009a000hs60zfl7q63bh] SITUATION m=1 IA décryptage=non :: J'ai couru sous la pluie pour attraper mon bus ce matin. // Il allait dans l'autre sens.
+[cmmnsqn15006nth63gg8uw9tq] GAMING m=1 H décryptage=oui :: J'ai crié « ALLONS-Y LES GARS » dans mon micro. // J'étais en mute depuis 20 minutes. L'équipe m'a jamais entendu. On a perdu.
+[cmmw0tomr0004mw62zoi89im8] ABSURDE m=1 H décryptage=oui :: J'ai croisé mon prof de sport 10 ans après le lycée. // Il courait toujours. Moi non.
+[cmpaqvh3800j4s60xdrjl9175] OBSERVATIONNEL m=1 IA décryptage=non :: J'ai croisé un touriste qui demandait le chemin pour aller 'au château'. // J'ai dit 'Disneyland, c'est par là.'
+[cmprxiu8m0069s60w14iq3ps0] BOULOT m=1 IA décryptage=oui :: J'ai demandé mes congés d'août à ma boss. Elle m'a dit de voir avec l'équipe. // J'ai dit 'OK, qui garde les enfants ?'
+[cmmnsqn15005wth63kzoxldav] ECOLE m=1 H décryptage=oui :: J'ai demandé à ChatGPT de faire mon devoir. // Le prof m'a mis 18. C'est la meilleure note que j'ai jamais pas méritée.
+[cmmnsqn15007vth638tm9ym5v] SOIREES m=2 H décryptage=oui :: J'ai dit « je reste une heure max » en arrivant à la soirée. // Il est 4h du mat et je suis en train d'expliquer ma théorie sur les dinosaures.
+[cmmnsqn13003cth63nee1wk23] COUPLE m=3 H décryptage=oui :: J'ai dit « je t'aime » par erreur à mon livreur Uber Eats. // En même temps, il m'apporte de la nourriture à domicile sans poser de questions. C'est plus que mon ex.
+[cmmnsqn130027th63at2ene9i] AUTODERISION m=3 H décryptage=oui :: J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches.
+[cmpkr42j700oms60xlcfeqaum] GAMING m=1 IA décryptage=non :: J'ai dit à ma mère que j'allais 'réviser intensivement' pendant le pont de mai. // Techniquement, apprendre à insulter en coréen c'est du bilinguisme.
+[cmp9skwho00dss60xba2ruz6b] CULTUREL m=1 IA décryptage=non :: J'ai dit à ma mère que j'allais aux Vieilles Charrues cet été. // Elle m'a proposé de m'emmener en voiture pour pas que je sois fatigué.
+[cmmnsqn150063th630dpv26pw] ECOLE m=1 H décryptage=oui :: J'ai dit à mes parents que j'avais la moyenne. // J'ai pas précisé que c'était la moyenne de mes deux pires notes.
+[cmn9kmlw90000s60xvg2ocs4n] GAMING m=1 IA décryptage=oui :: J'ai dit à mes parents que je faisais un marathon ce week-end. // Ils ont acheté des barres énergétiques pour Elden Ring.
+[cmmnsqn12000hth63y5wqmb9d] ABSURDE m=1 H décryptage=oui :: J'ai dit à mon chat qu'on allait chez le vétérinaire. // Depuis, il cherche « droits des animaux » sur mon ordinateur.
+[cmmnsqn13002tth63v6hz760m] SITUATION m=2 H décryptage=oui :: J'ai dit à mon dentiste que je n'avais pas peur. // Il a souri. Je n'ai pas aimé ce sourire.
+## SETUP x2
+[cmp9ou3a600c1s60x1jte17n6] CULTUREL m=1 IA décryptage=non :: J'ai dit à mon mec qu'on devrait aller à Rock en Seine cette année. // Il a dit : 'Cool ! On peut prendre des chaises pliantes ?'
+[cmp9ri55a00d6s60xspj4bsa5] CULTUREL m=1 IA décryptage=non :: J'ai dit à mon mec qu'on devrait aller à Rock en Seine cette année. // Il a réservé une table pour deux.
+[cmmw0tooq0005mw62bxsd1aht] ABSURDE m=1 H décryptage=oui :: J'ai dit à Siri de m'appeler un taxi. // Elle m'appelle « un taxi » maintenant.
+[cmpp1zati0051s60ypnjqsk2x] RESEAUX_SOCIAUX m=1 IA décryptage=oui :: J'ai découvert qu'il y avait un challenge TikTok pour ranger sa chambre en 60 secondes. // Moi j'ai créé le challenge inverse : défoncer une chambre propre en 10 secondes. Record du monde non officiel.
+[cmn6plle40001s60xu8vwcimr] OBSERVATIONNEL m=1 IA décryptage=oui :: J'ai découvert que j'étais allergique au pollen en même temps que mon crush. // Coup de foudre instantané : on avait enfin quelque chose qui coulait.
+[cmn6qr2r00001s60yqgny71s6] OBSERVATIONNEL m=1 IA décryptage=oui :: J'ai découvert que j'étais allergique au pollen en voyant ma story Instagram. // Apparemment je fais la même tête sur toutes mes photos depuis 3 semaines.
+[cmpm86cxz00sqs60xh6649q1f] SITUATION m=1 IA décryptage=non :: J'ai emmené 3 tenues différentes pour faire du shopping aujourd'hui. // Au final j'ai acheté des vêtements pour une 4ème météo que j'avais pas prévue.
+[cmpf60o6400uns60x93jkgtvu] CULTUREL m=1 IA décryptage=non :: J'ai emmené ma date à l'exposition d'art contemporain au Château de l'Hermine. // Au final, c'est moi qui suis ressorti avec une nouvelle perspective sur la solitude.
+[cmpf5hc6900uds60x3icrsffs] CULTUREL m=1 IA décryptage=non :: J'ai emmené ma mère à l'expo d'art contemporain au Château de l'Hermine. // Au bout de 20 minutes, elle me demande : 'Et celle-là, elle représente quoi ?' — c'était la sortie de secours.
+[cmpmaufrz00t4s60xgngo4pcb] SITUATION m=1 IA décryptage=non :: J'ai essayé 4 tenues différentes avant d'aller faire du shopping. // Au final, c'est mon découvert qui était le mieux assorti.
+[cmpnlprv80015s60wk3mmiari] PARENTS m=1 IA décryptage=non :: J'ai essayé d'expliquer à mon fils pourquoi on mange des crêpes à la Chandeleur. // Il m'a dit : 'Papa, c'est quoi la différence avec un mardi normal où on mange des crêpes ?'
+[cmmnsqn13003gth633omym39t] AUTODERISION m=2 H décryptage=oui :: J'ai essayé de devenir influenceur. // J'ai trois abonnés. Ma mère, mon père, et un bot russe.
+## SETUP x5
+[cmo3kmsa40000s60xsjzpd50p] DATING m=1 IA décryptage=non :: J'ai essayé de draguer une maman à la sortie d'école de ma fille. // Elle m'a demandé dans quelle classe j'étais.
+[cmo3l61kf0002s60x0yiz6gvl] DATING m=1 IA décryptage=non :: J'ai essayé de draguer une maman à la sortie d'école de ma fille. // Elle m'a donné son numéro. C'était celui de l'assistante sociale.
+[cmo3lpcxs0004s60xnfskk7mr] DATING m=1 IA décryptage=non :: J'ai essayé de draguer une maman à la sortie d'école de ma fille. // Elle m'a dit qu'elle était ma femme.
+[cmo3m8mdp0006s60xzz8shnh1] DATING m=1 IA décryptage=non :: J'ai essayé de draguer une maman à la sortie d'école de ma fille. // Elle m'a dit qu'elle était la maîtresse.
+[cmo3nb81f0008s60xmcm94ju5] DATING m=1 IA décryptage=non :: J'ai essayé de draguer une maman à la sortie d'école de ma fille. // Elle m'a dit qu'elle était ma prof de CM2.
+[cmmnsqn14004tth63i5zdputv] SITUATION m=2 H décryptage=oui :: J'ai essayé de faire du vélo à Paris. // C'est comme Mario Kart, mais les carapaces, c'est des portières de taxi.
+[cmmnsqn14004lth63dj74duq7] SITUATION m=1 H décryptage=oui :: J'ai essayé de monter un meuble sans la notice. // Résultat : j'ai une étagère, deux vis en trop, et un traumatisme.
+[cmmnsqn15007jth63q9obv7f3] DATING m=2 H décryptage=oui :: J'ai essayé la drague à l'ancienne, en vrai. // Je suis allé parler à une fille dans un bar. Elle m'a demandé mon @. On en est là.
+[cmmnsqn13002eth63y6lsg9mz] AUTODERISION m=2 H décryptage=oui :: J'ai essayé la méditation de pleine conscience. // Ma pleine conscience m'a rappelé que j'avais oublié de payer le loyer.
+[cmmnsqn130017th63fh61pkk4] SITUATION m=1 H décryptage=oui :: J'ai essayé le yoga pour me détendre. // J'ai fini bloqué en position lotus avec le chat assis sur ma tête.
+[cmo3nuz41000as60xu5k70lgh] DATING m=1 IA décryptage=non :: J'ai essayé les sites de rencontre pour parents célibataires. // Finalement j'ai créé un profil avec le gamin de ma sœur... On s'est fait matcher.
+[cmmnsqn140059th633rqpa2ar] SITUATION m=2 H décryptage=oui :: J'ai eu un appel inconnu à 8h du matin. // Mon cœur a battu plus vite que pendant mon dernier jogging. Qui date de 2019.
+[cmmnsqn15007cth63raj00y8b] DATING m=2 H décryptage=oui :: J'ai eu un date Tinder dans un café. // Elle est partie aux toilettes et elle est jamais revenue. Le café était bon au moins.
+[cmndv8ruk0005s60xnlf1d0rt] DATING m=1 IA décryptage=oui :: J'ai fait le bilan de mes rencontres de mars. // Mon historique Netflix a plus d'engagement.
+[cmmnsqn14005uth63o1vwaytj] ECOLE m=1 H décryptage=oui :: J'ai fait un exposé de 10 minutes sur un sujet que je maîtrisais pas. // Les 9 premières minutes c'était « euh » et « du coup ».
+[cmmw0tocn0000mw62ja422a28] ABSURDE m=1 H décryptage=oui :: J'ai googlé mes symptômes. // D'après Internet, je suis mort depuis 2019.
+[cmmnsqn15006kth63res9rqp9] GAMING m=1 H décryptage=oui :: J'ai installé un jeu de 120 Go. // J'y ai joué 20 minutes. C'était nul. J'ai pas désinstallé, on sait jamais.
+[cmorzpo1r000us60wo1jy5ku1] SITUATION m=1 IA décryptage=non :: J'ai installé une app météo qui m'envoie des notifications toutes les heures. // Maintenant je sais précisément quand être déçue.
+[cmpz1ge4a00jhs60x3gkudds9] GAMING m=1 IA décryptage=oui :: J'ai joué à Valorant 6h d'affilée par 30°C dans ma chambre. // Ma mère a ouvert la porte, elle a cru que je fumais de la weed.
+[cmmnsqn14004dth636tq37ha9] SITUATION m=1 H décryptage=oui :: J'ai lavé mon pull préféré à 60 degrés au lieu de 30. // Maintenant il va très bien à mon hamster.
+[cmo0qp2jx0023s60xbtr2mdbm] DATING m=1 IA décryptage=non :: J'ai matché avec une fille sur Tinder, on a parlé pendant 3 semaines, on s'est donné rdv. // Elle m'a posé un lapin. Sur Zoom.
+[cmmw0tosq0007mw626hrh60b8] ABSURDE m=1 H décryptage=oui :: J'ai mis 45 minutes à choisir un film sur Netflix. // On a regardé les bandes-annonces et on s'est endormis.
+[cmp3cfoff00qls60yn2wxeb8p] DATING m=1 IA décryptage=non :: J'ai mis ma localisation sur Tinder en mode 'vacances partout en Europe'. // Maintenant mes parents pensent que je voyage, et moi je pense que je drague.
+[cmorz6lec000ts60wf30jxbfp] SITUATION m=1 IA décryptage=non :: J'ai mis ma robe d'été ce matin en voyant qu'il faisait 20 degrés. // Maintenant j'ai l'air d'une manifestante pour le réchauffement climatique.
+[cmmw0tois0002mw62b7bkcvj7] ABSURDE m=1 H décryptage=oui :: J'ai mis mon réveil en face du lit pour être obligé de me lever. // Maintenant je dors par terre, à côté du réveil.
+[cmmnsqn140050th63ymov596f] AUTODERISION m=2 H décryptage=oui :: J'ai mis trois jours à répondre à un message. // Ma réponse : « désolé, j'avais pas vu. » On sait tous les deux que c'est faux.
+[cmpmcgs3300u1s60xya4sfkxs] SITUATION m=1 IA décryptage=non :: J'ai mis une doudoune, des lunettes de soleil et j'ai pris un parapluie pour aller au centre commercial. // Même la météo était confuse.
+[cmmw0tp8m000fmw62k4f66f47] RESEAUX_SOCIAUX m=2 H décryptage=oui :: J'ai mis une photo de groupe en photo de profil. // Pour que les gens se demandent lequel c'est moi. C'est du mystère, pas de l'insécurité.
+[cmmnsqn15007gth63zallmjsr] DATING m=2 H décryptage=oui :: J'ai mis « 1m80 » sur mon profil. // En vrai je fais 1m74. Mais avec les chaussures et la confiance en soi, ça se tient.
+[cmmnsqn15006bth63asv4816k] GAMING m=1 H décryptage=oui :: J'ai mis « gamer compétitif » sur mon CV. // Le recruteur m'a demandé mon rank. J'ai retiré la ligne.
+[cmmnsqn15006xth63pxo15gky] RESEAUX_SOCIAUX m=1 H décryptage=oui :: J'ai mis « influenceur » dans ma bio. // J'influence surtout ma mère à me demander de trouver un vrai travail.
+[cmmnsqn130039th63kky4fw1p] SITUATION m=1 H décryptage=oui :: J'ai oublié mon parapluie un jour de pluie. // J'ai couru si vite que Usain Bolt m'a envoyé un message de félicitations.
+[cmn107ll40000s60zwmo60nvz] ECOLE m=1 IA décryptage=oui :: J'ai ouvert mes cours pour réviser. J'ai passé 3 heures à organiser mes dossiers par couleur. // Mes notes sont magnifiques. Dommage que je les aie jamais lues.
+[cmpggn30c00x1s60xl5jb29tt] ECOLE m=1 IA décryptage=non :: J'ai ouvert mes cours pour réviser. Ça faisait tellement longtemps que même moi j'ai cru que c'était de la fiction. // J'ai cherché l'auteur sur Wikipédia.
+[cmmnsqn14003pth63qvxc8b3n] SITUATION m=1 H décryptage=oui :: J'ai passé 15 minutes à chercher mes lunettes. // Elles étaient sur ma tête. Elles avaient meilleure vue que moi sur la situation.
+[cmo7uyjgg0019s60xcou6sgwh] CULTUREL m=1 IA décryptage=non :: J'ai passé 20 minutes à expliquer le mème du chien dans les flammes à ma copine. // Elle m'a dit : 'Ah ok, comme notre couple quoi.'
+[cmmnsqn150065th63sa89k1aq] GAMING m=1 H décryptage=oui :: J'ai passé 200 heures sur un jeu vidéo. // Mon CV dit « persévérant et déterminé ».
+[cmnv026560000s60yva9ujsca] AUTODERISION m=1 IA décryptage=non :: J'ai passé 3h dimanche à monter une étagère IKEA. // Elle tient debout, moi non.
+[cmmnsqn15006sth633x8ez0nq] RESEAUX_SOCIAUX m=1 H décryptage=oui :: J'ai passé 4 heures à scroller TikTok. // J'ai appris à faire une étagère, parler japonais et cuisiner thaï. J'ai rien fait de tout ça.
+[cmqaav4q90067s60xis129izg] AUTODERISION m=1 IA décryptage=oui :: J'ai passé deux heures au soleil hier pour bronzer avant les vacances. // J'ai l'air d'avoir trempé dans du thé.
+## SETUP x2
+[cmpm6k1k100s6s60xn4wn4drc] SITUATION m=1 IA décryptage=non :: J'ai passé une heure à choisir ma tenue pour aller faire du shopping. // J'ai acheté que des fringues.
+[cmpm73c7500sfs60x9y6v3hmi] SITUATION m=1 IA décryptage=non :: J'ai passé une heure à choisir ma tenue pour aller faire du shopping. // Résultat : j'ai acheté des fringues pour mon miroir.
+[cmmnsqn15007nth630tv1n9sp] DATING m=2 H décryptage=oui :: J'ai payé Tinder Gold pour voir qui m'avait liké. // C'était un compte à 8000 km et un profil sans photo. L'investissement du siècle.
+[cmmw0tpsh000pmw6260sllhy2] GAMING m=1 H décryptage=oui :: J'ai perdu une game de 45 minutes à cause d'un déco. // Ma connexion internet a plus de pouvoir sur ma vie que mes parents.
+[cmmnsqn15006oth638yw7r7ne] RESEAUX_SOCIAUX m=1 H décryptage=oui :: J'ai posté une photo de mon plat au restaurant. // Le plat a refroidi, mais j'ai eu 47 likes. Ça valait le coup.
+[cmorxkt6n000ms60wj85t37rp] SITUATION m=1 IA décryptage=non :: J'ai pris ma pause déj dehors pour bronzer un peu. // Mon collègue m'a demandé pourquoi j'avais mangé mon sandwich dans le parking du Monoprix.
+[cmpmbdtht00tgs60xs1o16yjo] SITUATION m=1 IA décryptage=non :: J'ai pris un parapluie, des lunettes de soleil et une veste ce matin pour aller faire du shopping. // Au final j'ai juste eu l'air d'une touriste française à l'étranger.
+[cmpdlr4nc00qps60xobz9knrq] SOIREES m=1 IA décryptage=non :: J'ai proposé de faire un barbecue ce week-end. // Mes potes ont commandé des pizzas.
+[cmp1ycd0n00e1s60ym0urlgxf] DATING m=1 IA décryptage=non :: J'ai proposé un premier rencard au restaurant. // Elle a dit oui, mais elle veut qu'on se retrouve directement là-bas. Apparemment, c'est plus sûr que de monter dans la voiture d'un inconnu... Je conduis si mal que ça ?
+[cmp1y8tuw00dss60ylsabr8pm] DATING m=1 IA décryptage=non :: J'ai proposé un premier rencard sur la plage de Vannes. // Maintenant je sais pourquoi elle m'a dit qu'elle était 'fluide'.
+[cmnjklyez0000s60yxy4ryrio] GAMING m=1 IA décryptage=oui :: J'ai rage quit sur le boss final hier soir après 47 tentatives. // Ce matin j'ai demandé un délai pour mon projet de fin d'année.
+[cmmnsqn150068th637asmvcci] GAMING m=1 H décryptage=oui :: J'ai ragequit tellement fort que j'ai cassé ma manette. // Ma mère m'a dit « t'as autant de self-control que ton WiFi ».
+[cmmw0tp2o000cmw62v5rgrbte] JEUX_DE_MOTS m=2 H décryptage=oui :: J'ai raté mon examen de conduite. // Le moniteur a dit que j'avais brûlé un feu. Et un piéton.
+[cmorwi4sf000ks60w3an78072] SITUATION m=1 IA décryptage=non :: J'ai regardé la météo pour planifier ma journée bronzage. // Finalement j'ai bronzé idiot.
+[cmp9u4f3o00ems60x8zr6vrl7] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Coachella pendant 20 minutes. // Maintenant je me sens vieux ET pauvre.
+## SETUP x2
+[cmp9kjhic009ps60x9ixudb75] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Coachella sur Instagram. // J'ai passé plus de temps à stalker les ex de mes potes qu'à découvrir de la musique.
+[cmp9mojtd00ass60x89jsvbz0] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Coachella sur Instagram. // J'ai économisé 2000€ et 3 heures de queue.
+## SETUP x2
+[cmp9qz0jh00cws60xiegjgkie] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Hellfest pendant 20 minutes. // Maintenant j'ai mal aux yeux ET aux oreilles.
+[cmp9s1h6p00dhs60xgo515ntr] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Hellfest pendant 20 minutes. // J'ai acheté des boules Quies.
+[cmp9huxw50086s60xdhka4r61] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays // Je connais personne.
+## SETUP x5
+[cmp9n7u6m00b2s60xkjc7goug] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays pendant 20 minutes. // J'ai fini par acheter un billet pour le camping.
+[cmp9oafrk00bms60xlc7xds3s] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays pendant 20 minutes. // J'ai pris un billet pour les food trucks.
+[cmp9v9c6800fhs60xra31ukwv] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays pendant 20 minutes. // Maintenant je connais 3 artistes de plus que mes parents.
+[cmp9vsrpk00fts60xawdiodda] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays pendant 20 minutes. // Maintenant je connais deux noms... et j'ai découvert que j'étais officiellement vieille.
+[cmp9yh2zs00has60xhax6s39z] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de Solidays pendant 20 minutes. // J'ai trouvé où aller aux toilettes.
+## SETUP x4
+[cmp9l2u2j00a0s60xx2u9tsvy] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de We Love Green pendant 20 minutes. // J'ai jamais autant scrollé pour si peu swiper à droite.
+[cmp9lm77p00aas60xul70plep] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de We Love Green pendant 20 minutes. // Maintenant je sais ce que ça fait d'être mes parents quand je leur montre mes playlists Spotify.
+[cmp9m5dgl00ajs60xsmr2edwa] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de We Love Green pendant 20 minutes. // Finalement j'aime mieux quand je connais personne.
+[cmp9upypx00f6s60xxesujfp9] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation de We Love Green pendant 20 minutes. // J'ai googler la moitié des artistes.
+[cmp9z0l0000hks60xd09x1bcy] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation des Eurockéennes. // J'ai reconnu deux artistes... qui jouent en même temps.
+[cmp9iehwk008js60xyc7bmyrn] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation des festivals d'été. // Apparemment, mon ex aussi.
+[cmp9bfisq005us60xs86b0yd2] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation du festival de musique local. // Je connais mes ex qui rappent maintenant.
+## SETUP x2
+[cmp9byqp10063s60xcpx4k1xe] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation du Festival Interceltique de Lorient. // J'ai plus d'artistes sur Spotify.
+[cmp9hc2c9007xs60xaadxk0ui] CULTUREL m=1 IA décryptage=non :: J'ai regardé la programmation du Festival Interceltique de Lorient. // Maintenant je sais pourquoi Spotify me propose jamais de harpe dans mes découvertes.
+[cmp9xxwn000gys60x2emvp08g] CULTUREL m=1 IA décryptage=non :: J'ai regardé le prix des billets pour Solidays. // Finalement, Spotify c'est pas si cher.
+[cmp9ixnpw008ss60xwnj9hivr] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des billets pour les Francofolies. // Mon Livret A pleure en breton.
+[cmp9g97ig007as60xt07i23m0] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des billets pour les Vieilles Charrues. // Même mes grands-parents trouvent que c'est abusé.
+[cmp9d1kj8006ns60x85mbaavu] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des billets pour Rock en Seine. // J'ai compris pourquoi ils appellent ça 'Rock en Seine' : parce que ton compte en banque, il coule.
+[cmp9gspno007ms60xngd592ct] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des pass 3 jours pour les Eurockéennes. // Je vais acheter une guitare.
+## SETUP x2
+[cmp9t42m600e2s60x6nywxvqs] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des pass VIP pour Coachella. // Spotify Premium, ça me va.
+[cmp9tnfe600ecs60xufug88pa] CULTUREL m=1 IA décryptage=non :: J'ai regardé les prix des pass VIP pour Coachella. // Apparemment mon rein gauche vaut exactement un week-end.
+## SETUP x2
+[cmp9wv7w400gcs60x01wkswbb] CULTUREL m=1 IA décryptage=non :: J'ai regardé ma playlist Spotify pour me préparer aux festivals. // Apparemment je vais danser sur le générique de Plus Belle la Vie.
+[cmp9xelqc00gqs60xl7zxen0q] CULTUREL m=1 IA décryptage=non :: J'ai regardé ma playlist Spotify pour me préparer aux festivals. // Kendrick Lamar, c'est mon cousin.
+[cmmnsqn12000zth63qp6t59ku] BOULOT m=2 H décryptage=oui :: J'ai reçu un mail de mon chef qui disait : « Urgent, à traiter immédiatement. » // Il l'avait envoyé un vendredi à 17h59.
+[cmorvyygs000js60w12dix5r6] SITUATION m=1 IA décryptage=non :: J'ai sorti ma crème solaire indice 50 pour aller bronzer au parc. // Résultat : je suis blanche ET imperméable.
+[cmorvfmiw000hs60wlmd9ug3h] SITUATION m=1 IA décryptage=non :: J'ai sorti ma crème solaire... // ...pour bronzer à travers la vitre du Starbucks.
+[cmmnsqn15006qth6381ltsxw9] RESEAUX_SOCIAUX m=1 H décryptage=oui :: J'ai supprimé Instagram pendant 3 jours. // J'ai réinstallé au bout de 2 heures. Mon record personnel.
+[cmmnsqn12000lth633ijm8wv3] AUTODERISION m=2 H décryptage=oui :: J'ai tellement procrastiné que ma liste de choses à faire a pris la poussière. // Même la poussière a fini par se barrer.
+[cmozb1ocr006ws60yraru87yn] AUTODERISION m=1 IA décryptage=non :: J'ai téléchargé une app pour compter les calories. // Elle bug, elle compte en litres de bière.
+[cmory497y000os60wxftwlijw] SITUATION m=1 IA décryptage=non :: J'ai téléchargé une app qui analyse la qualité de l'air en temps réel pour savoir quand sortir. // Elle m'a envoyé : 'Meilleur moment pour respirer dehors : 1987.'
+[cmmnsqn140055th63kh4hs7cx] BOULOT m=2 H décryptage=oui :: J'ai un collègue qui commence toutes ses phrases par « sans vouloir t'offenser ». // Spoiler : il veut toujours t'offenser.
+[cmmnsqn14004cth63qg0n9lr5] AUTODERISION m=2 H décryptage=oui :: J'ai un sixième sens. // Malheureusement, les cinq autres ne fonctionnent pas très bien non plus.
+[cmmnsqn13002lth63jrfavx9y] AUTODERISION m=1 H décryptage=oui :: J'ai un talent caché. // Si caché que même moi, je ne l'ai pas encore trouvé.
+[cmmnsqn130022th636usvl23a] AUTODERISION m=1 H décryptage=oui :: J'ai une capacité unique à transformer n'importe quelle situation sociale en malaise. // Ma dernière performance : dire « toi aussi » au serveur qui m'a dit « bon appétit ».
+[cmmnsqn120008th63abw0aob7] AUTODERISION m=1 H décryptage=oui :: J'ai une mémoire photographique. // Malheureusement, le bouchon de l'objectif est toujours dessus.
+[cmp9k0chv009es60xbazitf5a] CULTUREL m=1 IA décryptage=non :: J'ai voulu faire une playlist 'festival vibes' pour impressionner mes potes. // J'ai mis 3h à choisir entre 'Shape of You' et 'Alors on danse'.
+[cmmnsqn13002mth63tidwfpgt] SITUATION m=2 H décryptage=oui :: J'ai voulu impressionner une fille en cuisinant. // On a fini par commander des pizzas. Le livreur, lui, l'a impressionnée.
+[cmmnsqn140045th63maso5jcc] SITUATION m=2 H décryptage=oui :: J'ai voulu prendre un bain relaxant avec des bougies. // J'ai déclenché le détecteur de fumée, glissé dans la baignoire, et renversé le verre de vin. Très relaxant.
+[cmq7lz8c300j5s60x6iov4uk8] AUTODERISION m=1 IA décryptage=oui :: J'ai voulu réviser par cette chaleur. // J'ai eu une révélation : je suis con.
+[cmp9qfv4000cms60xbs8sjjkm] CULTUREL m=1 IA décryptage=non :: J'ai vu les prix VIP pour Hellfest. // J'ai payé moins cher pour mon appart — et lui au moins il fait pas de bruit après minuit.
+[cmohv5xhj0015s60x79zd1kn9] RESEAUX_SOCIAUX m=1 IA décryptage=non :: J'ai vu passer le challenge 'montrez votre glow-up depuis 2019' sur Instagram. // J'ai mis une photo de mon niveau Steam.
+[cmmnsqn13001lth63ii0jy02i] OBSERVATIONNEL m=1 H décryptage=oui :: J'ai vu un documentaire sur le sommeil hier soir. // Je me suis endormi devant. C'était très immersif.
+[cmpmbwywp00tps60x73u10a1v] SITUATION m=1 IA décryptage=non :: J'ai vérifié la météo 6 fois avant de sortir. // Elle m'a menti 7 fois.
+[cmmnsqn14005oth63wygo4hcm] ECOLE m=1 H décryptage=oui :: J'ai écrit « je ne sais pas » sur ma copie d'examen. // Le prof a répondu dans la marge : « Moi non plus, zéro. »
+[cmmw0tpmj000mmw62k2mgvaou] SOIREES m=1 H décryptage=oui :: J'ai été invité à un mariage où je connaissais personne. // J'ai passé la soirée à parler au DJ. C'est mon meilleur ami maintenant.
+[cmmnsqn150070th63mid7jtpm] RESEAUX_SOCIAUX m=1 H décryptage=oui :: J'envoie des snaps à mes potes pour maintenir les flammes. // On se parle pas, mais on a une série de 200 jours. C'est ça l'amitié moderne.
+[cmmnsqn12000ith63e37twyzz] CULTUREL m=1 H décryptage=oui :: J'essaie de faire un régime, mais c'est compliqué en France. // On habite dans un pays où la boulangerie est classée au patrimoine mondial.
+[cmotllmqx000es60wdjhcs9ww] PARENTS m=1 IA décryptage=non :: J'organise la fête des mères pour ma mère depuis que je suis petit. // C'est ma seule relation stable.
+[cmq1w7fh2001rs60xi0ue5w6i] PARENTS m=1 IA décryptage=oui :: J'organise les activités d'été de mon fils. Stage de foot, cours de natation, centre aéré... // Il a plus de vie sociale que moi.
+[cmmnsqn15006ith634py24rk5] GAMING m=1 H décryptage=oui :: Je me suis endormi avec mon casque gaming. // J'ai rêvé en 7.1 surround. Le cauchemar était immersif.
+[cmmnsqn13001eth63zc1vwsog] AUTODERISION m=2 H décryptage=oui :: Je me suis inscrit à la salle de sport en janvier. // Mon abonnement et moi, on se voit une fois par an. Le jour du prélèvement.
+[cmmnsqn140058th63ckjqjt6q] AUTODERISION m=1 H décryptage=oui :: Je me suis motivé à ranger mon appart. // J'ai ouvert un placard, vu le bazar, et j'ai fermé le placard. Rangement terminé.
+[cmmnsqn120011th63jeub3jgy] AUTODERISION m=2 H décryptage=oui :: Je parle couramment trois langues. // Le français, le sarcasme et le silence gênant.
+[cmmnsqn14005mth63wtau3gig] ECOLE m=1 H décryptage=oui :: Je révisais en écoutant du lo-fi hip hop. // J'ai eu 3/20 mais dans une ambiance incroyable.
+## SETUP x2
+[cmpf29ruc00trs60x214vtzk1] CULTUREL m=1 IA décryptage=non :: Je suis allé voir l'exposition d'art contemporain au Château de l'Hermine. L'artiste a exposé trois chaises cassées pour 'questionner notre rapport à l'assise'. // J'ai dit que chez moi aussi j'avais une installation sur ce thème, ça s'appelle Ikea.
+[cmpf2t3ah00u2s60xuniyp7ck] CULTUREL m=1 IA décryptage=non :: Je suis allé voir l'exposition d'art contemporain au Château de l'Hermine. L'artiste a exposé trois chaises cassées pour 'questionner notre rapport à l'assise'. // J'ai dit 'Parfait, moi je questionne votre rapport au remboursement'.
+[cmmnsqn14005gth637o5hqnuk] AUTODERISION m=1 H décryptage=oui :: Je suis le genre de personne qui répète « j'arrive dans 5 minutes ». // Alors que je suis encore en pyjama, à chercher mes clés.
+[cmmnsqn14004sth63rnutrbwi] AUTODERISION m=2 H décryptage=oui :: Je suis nul en small talk. // Quelqu'un m'a dit « il fait beau » et j'ai répondu « oui, mais ça ne durera pas ». On ne s'est plus reparlé.
+[cmmnsqn13001ath63fqmyiojy] ABSURDE m=2 H décryptage=oui :: Je suis sorti de chez moi pour la première fois en trois jours. // Le soleil m'a regardé comme un ex qu'on croise par hasard.
+[cmmnsqn13001vth63ja8jqm6e] AUTODERISION m=2 H décryptage=oui :: Je suis tellement introverti... // Que quand on me propose de sortir, je négocie une visioconférence.
+[cmmnsqn14003wth633fngfa4h] AUTODERISION m=2 H décryptage=oui :: Je suis tellement maladroit socialement... // Que quand quelqu'un me dit « à un de ces quatre », je demande « quel jour exactement ? »
+[cmmnsqn120000th63o435xsb0] AUTODERISION m=1 H décryptage=oui :: Je suis tellement mauvais en cuisine que mon détecteur de fumée me sert de minuteur. // La dernière fois, les pompiers m'ont laissé un avis Google : une étoile.
+[cmmnsqn14003lth63n3fuuybq] BOULOT m=2 H décryptage=oui :: Je travaille bien sous pression. // Et par « bien », je veux dire « je panique efficacement ».
+[cmmnsqn130016th63r5xp7qv0] OBSERVATIONNEL m=2 H décryptage=oui :: L'avantage d'être pessimiste... // C'est qu'on a toujours soit raison, soit une bonne surprise.
+[cmmnsqn14004hth63tg0i4808] BOULOT m=2 H décryptage=oui :: L'imprimante du bureau ne marche jamais quand tu en as besoin. // Mais elle fonctionne parfaitement quand c'est le patron qui imprime. Elle a compris la hiérarchie.
+[cmmnsqn140043th6385irpygh] OBSERVATIONNEL m=1 H décryptage=oui :: L'invention la plus cruelle de l'humanité, c'est la porte vitrée trop propre. // Elle a brisé plus de dignités que de verres.
+[cmmnsqn14005rth633j1q5sdu] ECOLE m=1 H décryptage=oui :: La cantine de la fac propose un menu « équilibré ». // Équilibré entre immangeable et suspect.
+[cmmnsqn14005lth63lw0knjj0] ECOLE m=1 H décryptage=oui :: La différence entre l'école et la vie ? // À l'école, on t'apprend la leçon avant l'examen. Dans la vie, l'examen vient d'abord.
+[cmmsw19l2000hrp62g6giyvey] OBSERVATIONNEL m=1 H décryptage=oui :: La différence entre un adulte et un enfant ? // L'enfant a hâte d'aller se coucher tard. L'adulte a hâte d'aller se coucher tôt.
+[cmmnsqn13002vth63ymvupfps] CULTUREL m=2 H décryptage=oui :: La différence entre un touriste à Paris et un Parisien... // Le touriste lève la tête pour admirer les monuments. Le Parisien la baisse pour esquiver les trottinettes.
+[cmnqpynlf0001s60zk6wm2yy6] BOULOT m=1 IA décryptage=non :: La machine à café du bureau est tombée en panne ce matin. Premier lundi depuis ma séparation. // Au moins elle, elle va être réparée.
+[cmmnsqn13002ath63b7rnpw41] BOULOT m=2 H décryptage=oui :: La machine à café du bureau est tombée en panne. // La productivité a chuté de 90%. Les 10% restants, c'est ceux qui avaient prévu un thermos.
+[cmmnsqn130023th63rz2hslah] SITUATION m=2 H décryptage=oui :: La pire chose au réveil, c'est de réaliser que la veille, c'est toi qui as mis l'alarme si tôt. // Tu es ton propre ennemi, littéralement programmé pour te ruiner la journée.
+[cmmnsqn14005hth63py9zx0lp] SITUATION m=2 H décryptage=oui :: La pire invention moderne, c'est la notification « vu ». // Avant, on pouvait ignorer les gens en paix. Maintenant, c'est un crime social.
+[cmmnsqn15007yth6346rfn56d] SOIREES m=2 H décryptage=oui :: La playlist de soirée commence par du chill. // Deux heures plus tard, on est sur du Rammstein. Personne sait comment on en est arrivés là.
+[cmmnsqn150083th63kk9vytik] SOIREES m=2 H décryptage=oui :: La règle numéro 1 en soirée : ne jamais prendre le micro au karaoké. // La règle numéro 2 : après trois verres, la règle 1 n'existe plus.
+[cmmnsqn13003dth634xq44rg1] BOULOT m=2 H décryptage=oui :: La réunion qui « devait durer 15 minutes »... // Dure toujours. On y est encore. Envoyez de l'aide.
+[cmmnsqn12000uth632vffbaqc] AUTODERISION m=1 H décryptage=oui :: La seule course que je gagne régulièrement... // C'est celle entre mon réveil et le bouton snooze.
+[cmmnsqn12000oth63tpfmf591] CULTUREL m=1 H décryptage=oui :: La SNCF annonce un retard de 45 minutes. // Les habitués sont soulagés : au moins aujourd'hui, c'est un retard raisonnable.
+[cmmnsqn150086th63t3ssddk7] SOIREES m=1 H décryptage=oui :: La soirée était tellement bien que j'ai oublié de prendre des photos. // Du coup, ça n'a jamais existé. Y'a pas de preuve.
+[cmmnsqn14005fth633mf2je45] OBSERVATIONNEL m=2 H décryptage=oui :: La vie d'adulte, c'est être content quand l'aspirateur fonctionne bien. // Et déprimé quand le prix des courses augmente de 20 centimes.
+[cmmnsqn14005jth63xnbx4hbw] OBSERVATIONNEL m=2 H décryptage=oui :: La vie, c'est comme une tartine de confiture. // Elle tombe toujours du mauvais côté. Et quand elle tombe du bon côté, c'est qu'il n'y avait pas de confiture.
+[cmmnsqn13003jth63laihnqbb] CULTUREL m=2 H décryptage=oui :: Le bac français, c'est l'épreuve où on te demande ton avis... // Mais où la seule bonne réponse, c'est l'avis du prof.
+[cmmnsqn150060th63ar77ti3h] ECOLE m=2 H décryptage=oui :: Le BDE organise une soirée « révisions ». // La seule chose qu'on a révisée c'est notre tolérance à l'alcool.
+[cmmnsqn14003zth63295d2r5m] CULTUREL m=1 H décryptage=oui :: Le Français a inventé un sport national : râler dans la file d'attente. // Niveau olympique : quand il y a une deuxième caisse fermée juste à côté.
+[cmmnsqn13003bth638fy58diq] CULTUREL m=2 H décryptage=oui :: Le Français moyen a trois certitudes dans la vie. // La mort, les impôts, et le fait que c'était mieux avant.
+[cmmnsqn15007wth63fb08l211] SOIREES m=2 H décryptage=oui :: Le lendemain de soirée, je vérifie mon téléphone. // 12 photos floues, 3 stories regrettables, et un message à mon ex. Classique.
+[cmmnsqn13001wth632lbawlxz] SITUATION m=2 H décryptage=oui :: Le livreur a sonné à ma porte à 7h du matin un samedi. // J'ai ouvert la porte avec un regard qui disait : « J'espère que le colis vaut la peine de mourir pour. »
+[cmmnsqn15006cth632cuct13k] GAMING m=2 H décryptage=oui :: Le mec qui dit « GG easy » après un match de 45 minutes : // Frère, t'as failli perdre trois fois et t'as pleuré sur le chat.
+[cmmnsqn14004rth63c2dvg694] OBSERVATIONNEL m=1 H décryptage=oui :: Le moment de malaise suprême : quand tu fais signe à quelqu'un dans la rue... // Et que la personne ne te connaît pas. Alors tu fais semblant de te gratter la tête.
+[cmmnsqn14004bth631x3bprom] OBSERVATIONNEL m=2 H décryptage=oui :: Le moment le plus stressant de la journée... // C'est quand tu entends « il faut qu'on parle » et que tu revis mentalement tout ce que t'as fait depuis trois semaines.
+[cmmnsqn14004jth63vr2fjrhu] OBSERVATIONNEL m=2 H décryptage=oui :: Le panneau « Souriez, vous êtes filmés ». // C'est la seule occasion où on te demande de sourire sans raison, et c'est une menace.
+[cmmnsqn14003nth631zmgyxjr] OBSERVATIONNEL m=1 H décryptage=oui :: Le plus dur dans un régime, c'est pas de résister aux gâteaux. // C'est de résister aux gens qui te proposent des gâteaux en disant : « Allez, juste un. »
+[cmmnsqn14005bth63gthgmxjd] CULTUREL m=1 H décryptage=oui :: Le plus grand mystère de France... // C'est comment la baguette achetée à midi est déjà dure à 14h.
+[cmmnsqn14004xth63znvjca1j] BOULOT m=3 H décryptage=oui :: Le pot de départ d'un collègue : seul moment où tout le bureau est sincèrement joyeux. // Et le collègue pense que c'est pour lui. C'est beau, l'innocence.
+[cmmnsqn130026th636q3nu996] OBSERVATIONNEL m=1 H décryptage=oui :: Le serveur au restaurant me demande : « Ça vous a plu ? » // Mon assiette est vide, mes yeux sont pleins de bonheur, et j'ai honte. C'est un oui.
+[cmmnsqn140057th63oolbc0ph] OBSERVATIONNEL m=2 H décryptage=oui :: Le silence après qu'on a dit une blague et que personne ne rit. // C'est le bruit le plus assourdissant de l'univers.
+[cmmnsqn130035th63nzlankwx] BOULOT m=3 H décryptage=oui :: Le stagiaire a demandé quand il serait embauché. // Toute l'équipe a ri. C'était la blague la plus drôle de l'open space depuis des mois.
+[cmmnsqn13003fth631ya1txsx] OBSERVATIONNEL m=2 H décryptage=oui :: Le supermarché à 18h un vendredi soir. // Un spectacle de la condition humaine. Dantesque. Avec des promotions sur les pizzas.
+[cmmnsqn140049th63ay3ns3uw] BOULOT m=2 H décryptage=oui :: Le team building, c'est l'art de mettre des gens qui ne s'aiment pas dans une forêt. // Et d'espérer qu'ils en ressortent amis. Spoiler : ils en ressortent mouillés.
+[cmmnsqn14003xth63eb4bukzw] SITUATION m=1 H décryptage=oui :: Le train de 7h12 est arrivé à l'heure. // Tout le quai a applaudi. Le conducteur a pleuré. Un journaliste local est venu couvrir l'événement.
+[cmmnsqn13001kth632hbgw9bg] BOULOT m=2 H décryptage=oui :: Le WiFi au bureau est tellement lent... // Que j'ai eu le temps de finir un café, faire une pause, et reconsidérer mes choix de carrière.
+[cmmnsqn14005tth63ypcln5hw] ECOLE m=1 H décryptage=oui :: Le WiFi de la fac est comme mes notes : // Instable, décevant, et ça coupe au pire moment.
+[cmmnsqn13002kth63scvjznzt] OBSERVATIONNEL m=2 H décryptage=oui :: Les gens qui courent le matin avec le sourire... // Soit ils n'ont pas de problèmes, soit ils fuient quelque chose.
+[cmmnsqn13002gth63kjzqysgo] CULTUREL m=3 H décryptage=oui :: Les gens qui disent « l'argent ne fait pas le bonheur »... // N'ont jamais essayé de payer un loyer parisien avec de la bonne humeur.
+[cmmnsqn13002zth6301ekjn48] OBSERVATIONNEL m=2 H décryptage=oui :: Les gens qui mettent des stories en avion avec le mode avion activé... // Sont les mêmes qui marquent « en déplacement » alors qu'ils vont chez Ikea.
+[cmpc6bdmz00o5s60xejjgehrh] ABSURDE m=1 IA décryptage=non :: Les influenceurs, c'est les mouettes de la génération Z. // Ça pique ton sandwich et ça part faire du bruit ailleurs.
+[cmnzaqfdt001rs60x3w7ze6vy] OBSERVATIONNEL m=1 IA décryptage=non :: Les joggers du dimanche matin, ils ont tous la même technique pour avoir l'air motivés. // Ils partent en tenue de marathon pour aller acheter le pain.
+[cmmnsqn130037th63j8lpbwgu] OBSERVATIONNEL m=2 H décryptage=oui :: Les pantoufles, c'est le vêtement le plus honnête qui existe. // Elles disent la vérité : tu ne vas nulle part ce soir.
+[cmof09zp1000es60xh91yugkj] OBSERVATIONNEL m=1 IA décryptage=non :: Les terrasses ont rouvert, tout le monde sort manger dehors par 12°. // C'est de l'optimisme avec des glaçons.
+[cmmnsqn12000cth63z2sepukk] BOULOT m=2 H décryptage=oui :: Lors de mon entretien annuel, mon manager m'a dit que j'avais un problème d'attitude. // J'ai répondu : « Merci, j'y travaille depuis des années. »
+[cmmnsqn15006rth63mxckpnrt] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Ma bio Instagram dit « living my best life ». // En vrai, je suis en pyjama depuis vendredi.
+[cmps0qan6006zs60wgr7uqd5i] BOULOT m=1 IA décryptage=oui :: Ma boss m'a dit que mes congés d'août dépendaient de l'équipe. // Du coup j'ai démissionné toute l'équipe.
+[cmps06xce006ns60wlyifqfqo] BOULOT m=1 IA décryptage=oui :: Ma boss m'a dit que mes congés d'août dépendaient de l'équipe. J'ai regardé le planning. // Apparemment, je dépends d'un stagiaire de 19 ans qui découvre Excel.
+[cmprvx156005rs60w04b4dmay] BOULOT m=1 IA décryptage=oui :: Ma boss m'a dit que mes congés dépendaient des besoins de l'équipe. // Bah alors j'ai démissionné pour créer un besoin urgent.
+[cmntldjsp008cs60zpf7grm2c] JEUX_DE_MOTS m=1 IA décryptage=non :: Ma collègue a passé la journée à sortir des blagues de Pâques. 'Qu'est-ce qui est jaune et qui attend ? Un œuf patient !' // J'ai démissionné par mail.
+## SETUP x2
+[cmoapu9k80020s60x7jv317hv] BOULOT m=1 IA décryptage=non :: Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. // Elle revient lundi.
+[cmoaqdlpb0022s60xmml7csot] BOULOT m=1 IA décryptage=non :: Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers. // Elle revient lundi.
+[cmq8ql1ua0029s60xx322h5xw] JEUX_DE_MOTS m=1 IA décryptage=oui :: Ma collègue m'a dit qu'il faisait un temps de chien aujourd'hui. // J'ai dit : 'Ah bon ? Moi je trouve qu'il fait plutôt chat.'
+[cmmw0tpgl000jmw62xeqb9dhl] BOULOT m=2 H décryptage=oui :: Ma collègue m'a dit « tu devrais sourire plus ». // J'ai souri. Elle a regretté.
+[cmonl161n000bs60w585f40mk] BOULOT m=1 IA décryptage=non :: Ma collègue m'a raconté ses deux semaines en Thaïlande pendant 45 minutes. // J'ai eu le décalage horaire sans bouger de mon bureau.
+[cmmnsqn14004kth63gbsmp3od] AUTODERISION m=2 H décryptage=oui :: Ma confiance en moi est comme la batterie de mon téléphone. // Elle commence fort le matin et s'effondre vers 15 heures.
+[cmmnsqn13001jth63u4o7gl1l] COUPLE m=3 H décryptage=oui :: Ma copine a changé son statut en « c'est compliqué ». // J'ai répondu : « Bah non, c'est même très clair. »
+[cmpk2gzue00hqs60x2njhgmg8] COUPLE m=1 IA décryptage=non :: Ma copine a créé un dossier Drive partagé avec 47 destinations de vacances, budget détaillé et planning heure par heure. // J'ai juste ajouté un onglet 'Moi' avec écrit 'Présent physiquement'.
+[cmpk1xm1p00hes60xtw7oalc5] COUPLE m=1 IA décryptage=non :: Ma copine a créé un Pinterest board secret avec 347 photos de notre future maison. // Elle l'a appelé 'Quand il aura mûri'.
+[cmpjy6kbt00f9s60xp09gv5sf] COUPLE m=1 IA décryptage=non :: Ma copine a créé un tableau Excel avec 15 critères pour choisir nos vacances. // Moi j'ai fait un graphique avec juste mes priorités : bière froide, WiFi, et distance minimum avec sa mère.
+[cmpk4m27w00ivs60xzahuxlus] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'loin de tout' cet été pour se ressourcer. // J'ai réservé un Airbnb sans wifi. Elle a demandé le divorce.
+[cmpkdpxji00nws60xzqylibye] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part d'authentique' cet été. // J'ai réservé une semaine chez Airbnb sans wifi. Elle m'a quitté par SMS.
+[cmpk42oyy00iks60xltf31okt] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part de dépaysant' cet été. // J'ai dit 'Ok, on va chez IKEA un samedi'.
+[cmpkai78b00lvs60x89jldvfj] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part où on n'aura pas besoin de réfléchir' cet été. // J'ai proposé chez ses parents.
+[cmpk6r4do00k1s60xjwidpqul] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part où on peut vraiment se retrouver' cet été. // J'ai proposé la thérapie de couple.
+[cmpkchdhz00n0s60xj23gl969] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part où on puisse vraiment déconnecter' cet été. // J'ai proposé chez ma mère.
+[cmpk9fn1a00lbs60xu6kkug4n] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part où on se sentirait comme à la maison' cet été. // J'ai dit 'bah on peut pas rester ici, y'a tes parents qui viennent tout le temps.'
+[cmpk7tupm00kps60xykd2f7uo] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part qu'on a jamais vu' cet été. // J'ai dit 'Ikea un dimanche ?'
+[cmpk9yv3800lls60xshroghu1] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part qu'on n'a jamais vu ensemble' cet été. // J'ai proposé IKEA un samedi.
+[cmpkb1f7f00m6s60xi22h8qvx] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part qu'on se souviendra toute notre vie' cet été. // J'ai proposé IKEA un samedi après-midi.
+[cmpkc40sf00mrs60xcasyh4g8] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir 'quelque part qui nous ressemble' cet été. // J'ai réservé IKEA.
+[cmpk3jej000i9s60x6vevx2y1] COUPLE m=1 IA décryptage=non :: Ma copine a dit qu'elle voulait partir quelque part 'd'exotique et authentique' cet été. // J'ai proposé chez ma mère en Corrèze.
+[cmpjzsg9q00g6s60x9x0l0q1u] COUPLE m=1 IA décryptage=non :: Ma copine a fait un Google Sheets pour comparer 23 destinations de vacances avec un système de notation sur 47 critères. // Moi j'ai choisi en fermant les yeux et en pointant l'écran. Résultat : on part en Corée du Nord.
+[cmpjypu2j00fjs60xirle37a5] COUPLE m=1 IA décryptage=non :: Ma copine a fait un PowerPoint de 47 slides pour nos vacances d'été. // J'ai dit 'Chérie, c'est des vacances, pas une IPO.'
+[cmpk30jd200i1s60xpoo21sy8] COUPLE m=1 IA décryptage=non :: Ma copine a fait un spreadsheet avec 34 destinations, système de notation sur 12 critères et budget prévisionnel détaillé. // Moi j'ai fermé les yeux et j'ai pointé une carte du monde... J'ai réservé dans l'océan Atlantique.
+[cmpk0brby00gis60xnupriisq] COUPLE m=1 IA décryptage=non :: Ma copine a fait un tableau Excel de nos destinations vacances avec budget, météo, activités et 'potentiel Instagram'. // Moi j'ai juste ajouté une colonne : 'Distance de mes beaux-parents'. Résultat : on va en Patagonie.
+[cmpjw1huy00e1s60xcaui4j84] COUPLE m=1 IA décryptage=non :: Ma copine a fait une liste Excel avec 23 critères pour choisir nos vacances d'été. // J'ai dit 'OK parfait, moi aussi j'ai mes critères' et j'ai sorti ma carte bleue.
+[cmpk1edri00h3s60x8rg25ner] COUPLE m=1 IA décryptage=non :: Ma copine a fait une présentation PowerPoint de 23 slides pour nos vacances d'été. // Slide 24 : 'Acceptes-tu de m'épouser ?'
+## SETUP x2
+[cmni5j2ci0000s60yenoh3kh3] COUPLE m=1 IA décryptage=oui :: Ma copine a lancé le grand ménage de printemps. Elle a commencé par faire le tri dans mes affaires. // Apparemment je rentre dans la catégorie 'à donner'.
+[cmni62ad30005s60yc7qnog31] COUPLE m=1 IA décryptage=oui :: Ma copine a lancé le grand ménage de printemps. Elle a commencé par faire le tri dans mes affaires. // Apparemment, je suis dans la pile 'à donner'.
+[cmpk7ajc900kds60xmlnhtst5] COUPLE m=1 IA décryptage=non :: Ma copine a passé 3 semaines à organiser nos vacances. Comparé 50 hôtels, lu tous les avis TripAdvisor. // On est partis 4 jours à Ibiza... sur Booking.
+[cmmnsqn13001zth63h7s7x4td] COUPLE m=2 H décryptage=oui :: Ma copine dit que je suis immature. // Elle a pas le droit de rentrer dans mon fort en coussins, alors son avis ne compte pas.
+[cmmnsqn14003kth63tvy4jb1m] COUPLE m=2 H décryptage=oui :: Ma copine dit que je suis trop possessif. // Enfin, MA copine.
+[cmop0hpxm000ps60wnm5e0rb5] COUPLE m=1 IA décryptage=non :: Ma copine et moi on planifie nos vacances d'été. Elle veut la Grèce, moi l'Islande. // On a trouvé le compromis : on va à Rennes.
+## SETUP x2
+[cmpxm0f4l00f9s60xsbgt8jed] COUPLE m=1 IA décryptage=oui :: Ma copine et moi, on cherche nos vacances d'été. Elle veut de la culture, moi du farniente. // Du coup on part à Ibiza... voir l'expo Picasso.
+[cmpxmjpwv00fls60xytfs3lnd] COUPLE m=1 IA décryptage=oui :: Ma copine et moi, on cherche nos vacances d'été. Elle veut de la culture, moi du farniente. // On a trouvé un compromis : elle lit pendant que je dors.
+[cmmnsqn140040th63h6t50qwl] COUPLE m=3 H décryptage=oui :: Ma copine et moi, on fait tout ensemble. // Surtout des erreurs.
+[cmmnsqn13002pth63x3e3of25] COUPLE m=2 H décryptage=oui :: Ma copine m'a demandé d'être plus romantique. // Alors j'ai éteint la lumière pendant le match pour créer de l'ambiance.
+[cmmnsqn120005th63d0wstn6o] COUPLE m=2 H décryptage=oui :: Ma copine m'a demandé de choisir entre elle et le foot. // Elle me manque, mais tu aurais dû voir le match.
+[cmmw0tpkk000lmw62hisrlpc1] COUPLE m=3 H décryptage=oui :: Ma copine m'a demandé si son jean la grossissait. // J'ai demandé si on pouvait parler d'autre chose à mon enterrement.
+[cmpjme6q80095s60xb92f1n0x] COUPLE m=1 IA décryptage=non :: Ma copine m'a dit : 'Pour les vacances, j'aimerais aller quelque part où on se parlera vraiment.' // J'ai dit 'D'accord' et j'ai éteint Netflix.
+[cmpkcnbum00n9s60xx70d4v9x] COUPLE m=1 IA décryptage=non :: Ma copine m'a dit qu'elle voulait partir 'quelque part qu'on n'oubliera jamais' cet été. // J'ai réservé chez sa mère.
+[cmpjbocge0052s60xkl485sgz] COUPLE m=1 IA décryptage=non :: Ma copine m'a dit qu'elle voulait partir quelque part où elle n'était jamais allée. // J'ai proposé qu'on arrive à l'heure quelque part.
+[cmn3uy9tc0001s60xh9kelnrr] COUPLE m=1 IA décryptage=oui :: Ma copine m'a dit qu'on devait 'sortir de notre zone de confort culinaire maintenant qu'il fait beau'. // J'ai réservé une table... au KFC avec vue sur parking.
+[cmpk680j900jts60x0f8s7nxj] COUPLE m=1 IA décryptage=non :: Ma copine m'a donné ses critères pour les vacances : 'Plage mais pas trop de monde, culture mais pas que des musées, budget serré mais expérience unique.' // J'ai dit 'OK' et j'ai réservé le cimetière du Père-Lachaise en août.
+[cmmnsqn12000qth634n3r3d9u] COUPLE m=3 H décryptage=oui :: Ma copine m'a envoyé un message : « C'est fini entre nous. » J'ai répondu : « D'accord. » // Elle m'a rappelé furieuse : « Tu pourrais au moins te battre ! »
+[cmpjlv2ch008ws60xmy2ofxfr] COUPLE m=1 IA décryptage=non :: Ma copine me demande où j'aimerais partir cet été. // J'ai dit 'en couple'.
+[cmpjwklcz00ebs60xcweulpsd] COUPLE m=1 IA décryptage=non :: Ma copine me dit : 'Pour les vacances, on pourrait aller quelque part qu'on n'a jamais vu tous les deux.' // J'ai proposé chez mon psy.
+[cmmnsqn12000yth63ldbdncyi] COUPLE m=2 H décryptage=oui :: Ma copine me dit que je ne fais jamais attention aux détails. // En tout cas, c'est ce que j'ai cru comprendre.
+[cmpjsaee000c7s60x6zxsd4f4] COUPLE m=1 IA décryptage=non :: Ma copine me montre 47 destinations de vacances sur Pinterest. // J'en ai trouvé une 48ème : célibataire.
+[cmpjhkkjh006ms60xzwivd3zv] COUPLE m=1 IA décryptage=non :: Ma copine rêve de partir en Islande cet été pour voir les aurores boréales. // Moi je rêve surtout de voir mon compte en banque.
+[cmpjc7hrr005cs60x0itw06dx] COUPLE m=1 IA décryptage=non :: Ma copine veut aller aux Maldives cet été pour les couchers de soleil. // Moi je veux juste voir si mon compte coule avant les îles.
+[cmpjj6ax0007js60x2hu9l96o] COUPLE m=1 IA décryptage=non :: Ma copine veut aller aux Seychelles cet été. Moi je voulais partir en Corrèze. // Finalement on reste à la maison... chacun chez soi.
+[cmpjghxkj006as60x5dj0py6f] COUPLE m=1 IA décryptage=non :: Ma copine veut aller aux Seychelles cet été. Moi je voulais rester en France. // On va faire un compromis : on ira aux Seychelles.
+[cmpjcqw2n005ls60xerh7xb8g] COUPLE m=1 IA décryptage=non :: Ma copine veut aller en Thaïlande cet été. Moi je voulais rester en France. // Du coup on va à Quiberon... mais elle s'attend à ce que je lui fasse un massage thaï sur la plage.
+[cmogfpj2f000ts60xphhg8p9a] COUPLE m=1 IA décryptage=non :: Ma copine veut aller en Toscane, moi je veux retourner en Bretagne. // On va finir à Disneyland.
+[cmpjmxgmt009gs60x4gqufy61] COUPLE m=1 IA décryptage=non :: Ma copine veut découvrir le Japon cet été. // Moi j'ai découvert que j'étais allergique aux aventures à plus de 50km.
+[cmpjojd3900a4s60x6mc2tykz] COUPLE m=2 IA décryptage=non :: Ma copine veut partir au bout du monde cet été pour 'nous retrouver'. // J'ai dit 'Babe, on a même pas encore trouvé le G.'
+[cmpjtcyxq00cis60x04io40tj] COUPLE m=1 IA décryptage=non :: Ma copine veut partir au Costa Rica cet été pour 'se reconnecter à la nature'. // J'ai dit : 'Bébé, commence déjà par te reconnecter au WiFi, ça fait 3 jours que tu demandes le mot de passe.'
+[cmpjplvz200aos60xuq63b4hv] COUPLE m=1 IA décryptage=non :: Ma copine veut partir au Japon cet été pour 'découvrir une nouvelle culture'. // J'ai dit 'Cool, moi je vais découvrir ta meilleure amie pendant ton absence.'
+[cmpjz98oi00fvs60x2llrkfxw] COUPLE m=1 IA décryptage=non :: Ma copine veut partir au Japon cet été pour découvrir une nouvelle culture. // J'ai dit OK, mais moi je découvre déjà une nouvelle culture chaque fois qu'elle change d'avis sur le restaurant.
+[cmpjda7v0005vs60xi6a7mr15] COUPLE m=1 IA décryptage=non :: Ma copine veut partir au Japon pour découvrir la culture. // Moi je découvre surtout que j'ai pas les moyens.
+[cmpjngm76009qs60xrnx7a418] COUPLE m=1 IA décryptage=non :: Ma copine veut partir aux Maldives cet été. Moi je voulais visiter la Normandie. // Finalement on s'est séparés. Elle est partie aux Maldives, moi en Normandie... et on a eu le même temps.
+[cmpjlbp1q008ks60x515jij1z] COUPLE m=1 IA décryptage=non :: Ma copine veut partir en Grèce cet été pour 'découvrir l'histoire antique'. // Moi j'ai découvert qu'elle suit déjà 12 influenceurs à Mykonos.
+[cmpjq5c5u00b1s60xmy07gc4y] COUPLE m=1 IA décryptage=non :: Ma copine veut partir en Indonésie cet été pour 'découvrir l'authenticité'. // Du coup j'ai réservé Bali, comme ça elle pourra découvrir l'authenticité... au milieu de 3000 Français en vacances.
+[cmpjr7tf800bls60x4zojao4k] COUPLE m=1 IA décryptage=non :: Ma copine veut partir en Islande pour voir les aurores boréales. // Moi je lui ai dit que les étoiles dans ses yeux, ça me suffit... Elle a dit qu'on partait quand même.
+[cmpjin7qt007bs60xdyj8w46w] COUPLE m=1 IA décryptage=non :: Ma copine veut partir en Thaïlande cet été pour 'se reconnecter avec elle-même'. // Moi qui pensais qu'elle avait déjà trouvé... sur Instagram.
+[cmpjuytly00des60x1ya7bta2] COUPLE m=1 IA décryptage=non :: Ma copine veut partir en Thaïlande cet été pour 'élargir nos horizons'. // J'ai dit 'OK, mais moi j'ai déjà tout vu : ton ex sur Instagram.'
+[cmpjufkp800d4s60xv3rt57ac] COUPLE m=1 IA décryptage=non :: Ma copine veut partir à Bali cet été pour 'se reconnecter avec elle-même'. // J'ai dit 'Parfait, moi aussi j'aimerais me reconnecter... avec Netflix sans qu'on me demande si je regarde encore.'
+[cmpjp2ho600ads60x831qc8wi] COUPLE m=1 IA décryptage=non :: Ma copine veut partir à Bali cet été. Moi j'ai proposé Center Parcs. // Maintenant elle veut qu'on fasse une pause.
+[cmmnsqn14004wth63yr0e48wb] COUPLE m=2 H décryptage=oui :: Ma copine veut toujours avoir raison. // Un jour, elle a eu tort. On ne l'a jamais su : elle a effacé les preuves.
+[cmpjjpr4j007us60x6j3k2sre] COUPLE m=1 IA décryptage=non :: Ma copine voulait partir au Costa Rica pour 'se reconnecter avec la nature'. // J'ai dit : 'Bébé, tu veux voir de la faune sauvage ? Va faire tes courses un samedi après-midi au Carrefour.'
+[cmpj3qkaw004hs60xl89t1wqb] COUPLE m=1 IA décryptage=non :: Ma copine voulait partir quelque part d'exotique cet été. // Du coup on a pris le RER jusqu'au bout de la ligne.
+[cmmzkqckk0001s60xbczpj5it] CULTUREL m=1 IA décryptage=oui :: Ma date m'a proposé d'aller voir l'expo d'art contemporain pour notre deuxième rendez-vous. // On a passé 2h à regarder un triangle rouge en se demandant si on était cons ou cultivés.
+[cmpk55bxy00j6s60xmqw6l9b9] COUPLE m=1 IA décryptage=non :: Ma ex disait qu'on partait jamais en vacances ensemble. // Elle avait raison : maintenant elle part avec mon meilleur pote.
+[cmpjksbd40088s60xx8e8mlnv] COUPLE m=1 IA décryptage=non :: Ma ex voulait absolument partir aux Maldives cet été. J'ai dit oui. // Elle a pris ça pour un feu vert général.
+[cmpk8cwqv00kxs60xvg0g38bs] COUPLE m=1 IA décryptage=non :: Ma ex voulait des vacances 'spontanées et improvisées' cet été. // Elle avait déjà tout réservé.
+[cmpjx40ie00eos60x3rm3qahq] COUPLE m=1 IA décryptage=non :: Ma ex voulait toujours partir 'quelque part d'authentique' pour les vacances. // Du coup maintenant elle est partie avec Kévin, 23 ans, tatouage tribal. Effectivement c'est plus authentique que Center Parcs.
+[cmpji3ygi006zs60x3tqgmq2n] COUPLE m=1 IA décryptage=non :: Ma ex voulait toujours partir à l'étranger pour les vacances. Moi je préférais rester en France. // Maintenant elle voyage, moi je reste en France... et on passe enfin de bonnes vacances.
+[cmmnsqn14005cth635d8xojou] COUPLE m=3 H décryptage=oui :: Ma femme m'a demandé ce que je ferais si je gagnais au loto. // J'ai dit : « La moitié est pour toi. » Elle a dit : « Parfait, je prends ma moitié et je pars. » On n'a pas acheté de ticket.
+[cmmnsqn12000bth63ly9menxn] COUPLE m=2 H décryptage=oui :: Ma femme m'a dit : « Chéri, est-ce que tu m'écoutes ? » // J'ai trouvé ça bizarre comme façon de commencer une conversation.
+[cmnmfl2kc0034s60w3ozrcbo9] PARENTS m=1 IA décryptage=non :: Ma fille de 8 ans m'explique TikTok depuis 20 minutes. // J'ai enfin compris pourquoi mes parents détestaient MTV.
+## SETUP x2
+[cmoc5tjrk002ds60xf8s0kte1] PARENTS m=1 IA décryptage=non :: Ma fille de 8 ans veut faire de l'équitation. J'ai regardé les tarifs. // Je vais lui acheter un cheval, ça reviendra moins cher.
+[cmoc6d7y0002gs60xo760keou] PARENTS m=1 IA décryptage=non :: Ma fille de 8 ans veut faire de l'équitation. J'ai regardé les tarifs. // Maintenant elle fait du cheval à bascule... en leasing.
+[cmmw0tokr0003mw62asclqbrg] ABSURDE m=1 H décryptage=oui :: Ma machine à laver mange une chaussette par cycle. // Elle en est à 200. Personne ne l'arrête.
+[cmmnsqn16008kth63pcnb9nzn] PARENTS m=1 H décryptage=oui :: Ma mère a créé un groupe WhatsApp famille. // On est 4 dedans et y'a déjà un conflit. Le ratio est impressionnant.
+[cmmnsqn16008gth63lr83xyep] PARENTS m=1 H décryptage=oui :: Ma mère a partagé un article Facebook sur les dangers d'Internet. // Sur Internet.
+[cmp9fpyd4006ys60xwsegez9e] CULTUREL m=1 IA décryptage=non :: Ma mère a vu que j'allais au Hellfest. // Elle m'a demandé si j'avais fait mes vaccins.
+[cmmnsqn16008qth63vr6hexls] PARENTS m=1 H décryptage=oui :: Ma mère croit que « LOL » veut dire « Lots Of Love ». // Elle m'a écrit « ton oncle est malade LOL ». L'émotion était... différente.
+[cmmnsqn16008eth63r8a9p9ar] PARENTS m=1 H décryptage=oui :: Ma mère m'a appelé pour me dire qu'elle m'a envoyé un SMS. // Dans le SMS, elle me dit de vérifier mes mails. Dans le mail, elle me dit de l'appeler.
+## SETUP x4
+[cmn85alj00004s610f14eg0re] PARENTS m=1 IA décryptage=oui :: Ma mère m'a appelé pour me rappeler que les vacances scolaires commencent bientôt. // J'ai pas d'enfants.
+[cmn85c02g0006s610sehcmmpv] PARENTS m=1 IA décryptage=oui :: Ma mère m'a appelé pour me rappeler que les vacances scolaires commencent bientôt. // Apparemment elle garde espoir.
+[cmn85gslk0008s610t6cb8pyn] PARENTS m=1 IA décryptage=oui :: Ma mère m'a appelé pour me rappeler que les vacances scolaires commencent bientôt. // J'ai 34 ans et pas d'enfants.
+[cmn8601vw000as6107gh2oopf] PARENTS m=1 IA décryptage=oui :: Ma mère m'a appelé pour me rappeler que les vacances scolaires commencent bientôt. // J'ai 34 ans et pas d'enfants.
+[cmmnsqn16008uth63bu5q8yau] PARENTS m=1 H décryptage=oui :: Ma mère m'a demandé de supprimer « le Google » de son téléphone. // Parce qu'il « sait tout sur elle » et ça lui fait peur.
+[cmmnsqn15006eth635cw32eye] GAMING m=1 H décryptage=oui :: Ma mère m'a demandé si je pouvais « mettre le jeu en pause ». // C'est un jeu en ligne, maman. Tu peux pas mettre la guerre en pause.
+[cmmnsqn16008oth63oksjuphg] PARENTS m=1 H décryptage=oui :: Ma mère m'a dit « je t'ai vu en ligne à 2h du mat ». // Elle était en ligne aussi. On s'est regardés en silence. Personne a rien dit.
+[cmmnsqn16008mth63hygzwcdf] PARENTS m=1 H décryptage=oui :: Ma mère m'a envoyé un lien suspect en me disant « c'est vrai ? » // C'était un article qui disait que le Wi-Fi rend stérile. Signé : blog-sante-naturelle-2008.fr
+[cmmnsqn130038th63fxn1wvhn] AUTODERISION m=2 H décryptage=oui :: Ma mère m'appelle chaque dimanche pour me demander si je mange bien. // Je lui réponds oui avec une main et je tiens mon kebab de l'autre.
+[cmmnsqn16008cth63l24ts9hc] PARENTS m=1 H décryptage=oui :: Ma mère m'envoie des vocaux de 4 minutes. // Les 3 premières minutes c'est le bruit de fond de la cuisine.
+[cmmnsqn15007lth63h6uapxzz] DATING m=1 H décryptage=oui :: Ma mère me demande quand je vais ramener quelqu'un à la maison. // J'ai ramené une pizza. C'est la seule relation stable que j'ai.
+[cmmsw19h3000frp629w4qd809] AUTODERISION m=1 H décryptage=oui :: Ma playlist « motivation » dure 3 heures. // Ma motivation dure 3 minutes. Le reste c'est de la musique de fond pour procrastiner.
+[cmmy4xm650000s60yy5opq5xk] SOIREES m=1 IA décryptage=oui :: Ma pote : 'On fait une soirée rituels de gratitude, on va honorer nos énergies !' // Ah, une cuite avec des bougies quoi.
+## SETUP x2
+[cmoxx7e56003xs60yyooxncw3] BOULOT m=1 IA décryptage=non :: Ma réunion 'point rapide avant l'été' a commencé à 14h. // On a fini par voter la police de caractère.
+[cmoxzvu3t004as60ym8dgb3rt] BOULOT m=1 IA décryptage=non :: Ma réunion 'point rapide avant l'été' a commencé à 14h. // J'ai passé plus de temps en réunion qu'en vacances.
+[cmoxw4tvd003es60yceec17oa] BOULOT m=1 IA décryptage=non :: Ma réunion 'point rapide avant les vacances' a duré 3h. // J'ai eu le temps de prendre ma retraite pendant.
+[cmoxwoceb003os60yqbs5t020] BOULOT m=1 IA décryptage=non :: Ma réunion 'récap rapide avant les vacances' était prévue 15 minutes. // Au final, j'ai pris ma retraite pendant.
+[cmoxvlrwv0036s60y4mjmxjlh] BOULOT m=1 IA décryptage=non :: Ma réunion de 30 minutes s'est transformée en débat de 2h sur la couleur des gobelets pour le pot de départ. // Au final, j'ai démissionné - par cohérence avec le thème.
+[cmmnsqn15007bth63aiwuv5ky] DATING m=2 H décryptage=oui :: Ma technique de drague c'est l'humour. // Le problème c'est que les gens rient de moi, pas avec moi.
+[cmmnsqn15007tth639mie19s9] SOIREES m=1 H décryptage=oui :: Ma technique de drague en soirée : // Rester près du buffet et attendre que quelqu'un me demande de lui passer les chips.
+[cmmnsqn13001mth63v8g93hzp] AUTODERISION m=3 H décryptage=oui :: Ma vie sociale ressemble à mon frigo un dimanche soir. // Vide, avec juste un truc périmé depuis longtemps au fond.
+[cmq3c6it6005us60xwntmb0ug] RESEAUX_SOCIAUX m=1 IA décryptage=oui :: Mes potes ont commencé leurs stories de vacances. Photos de plage, cocktails, couchers de soleil... // Moi j'ai posté ma tartine de Nutella avec le tag #Maldives. Techniquement, c'est aussi un paradis tropical.
+## SETUP x2
+[cmov11ehd000xs60wgba1rw1f] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent déjà leurs stories de vacances de Pâques en Italie. // Moi j'ai posté ma pause pipi entre deux cours magistraux... avec géolocalisation 'Toilettes Fac Droit'.
+[cmov1ku0p0018s60wgy0vqe8z] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent déjà leurs stories de vacances de Pâques en Italie. // Moi j'ai mis ma Carbonara Barilla en story avec 'Living my best life' en caption.
+## SETUP x2
+[cmov23ysd001fs60w31v57tsu] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent leurs stories de vacances aux Maldives pendant que moi je poste ma pause déj au RU. // Mais qui a le plus de likes ? Le RU.
+[cmov2ndo9001ss60wu813hkrc] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent leurs stories de vacances aux Maldives pendant que moi je poste ma pause déj au RU. // Pareil, on a tous les deux les pieds dans l'eau.
+[cmnnv5zoo0000s60yr5ox9z17] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent leurs stories de vacances paradisiaques. // Moi je poste ma tartine beurrée avec le filtre 'Coucher de soleil à Bali'.
+[cmov5v0k6002cs60wxf81ju1y] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent leurs stories de vacances à Bali pendant que moi je poste ma pause déj au RU. // Eux ils ont des palmiers, moi j'ai des palmiers... de coco dans mon riz cantonais.
+[cmov5brcm0022s60whgppz3os] RESEAUX_SOCIAUX m=1 IA décryptage=non :: Mes potes postent leurs vacances aux Maldives, moi je poste ma pause déj au RU. // Même nombre de likes : zéro.
+[cmqer3h5m00jrs60xm1b3j709] OBSERVATIONNEL m=1 IA décryptage=oui :: Mes voisins ont fait un barbecue de 9 heures dimanche. // Même ma dernière relation a duré moins longtemps.
+[cmokq1kj9004gs60x2j0zj29i] PARENTS m=1 IA décryptage=non :: Mon ado m'a dit : 'Papa, tu comprends rien à ma génération !' // J'ai répondu : 'Heureusement, sinon j'aurais ta coupe de cheveux.'
+[cmokqksa3004is60x0r2nz0uz] PARENTS m=1 IA décryptage=non :: Mon ado m'a fait une crise de 45 minutes parce que j'ai rangé sa chambre. // J'ai touché à son système d'organisation par tas.
+[cmmnsqn150073th63gkd78w5e] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Mon algorithme TikTok me connaît mieux que mes parents. // Il sait que j'aime les chats, la pizza, et pleurer à 2h du mat.
+[cmmnsqn130030th6381ol5rxt] AUTODERISION m=2 H décryptage=oui :: Mon ambition dans la vie, c'est d'être aussi confiant... // Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.
+[cmmw0touq0008mw62sk5d0cbu] JEUX_DE_MOTS m=1 H décryptage=oui :: Mon amie est avocate. Je lui ai demandé un conseil. // Elle m'a facturé le guacamole.
+[cmos0sgqc000xs60wdm00lh2k] SITUATION m=1 IA décryptage=non :: Mon app météo me prévient 30 minutes avant qu'il pleuve. // Mon ex m'a prévenue 30 secondes avant de me quitter.
+[cmmsw18v70004rp62oim5nci1] JEUX_DE_MOTS m=1 H décryptage=oui :: Mon banquier m'a dit de diversifier mes investissements. // J'ai acheté des pâtes de trois marques différentes.
+[cmnb0c44f0000s60zk70xwo90] BOULOT m=1 IA décryptage=oui :: Mon boss m'a demandé un bilan de ma productivité du trimestre. // J'ai dit : 'Alors... j'ai évité 47 réunions inutiles, ça compte ?'
+[cmp9jgzpg0093s60x14d1kzrr] CULTUREL m=1 IA décryptage=non :: Mon boss m'a félicité de m'être inscrite à une formation 'développement personnel' ce weekend. // J'ai pas eu le cœur de lui dire que c'était le nom du stage principal du Hellfest.
+[cmorynhs1000qs60wn0o45nbk] SITUATION m=1 IA décryptage=non :: Mon bureau est tellement mal éclairé que j'ai acheté une lampe de luminothérapie. // Maintenant mes collègues viennent bronzer à mon poste.
+[cmmnsqn130020th631h8pjs4m] BOULOT m=3 H décryptage=oui :: Mon chef a dit « pensez out of the box ». // J'ai pensé à ma démission. C'est assez out of the box, non ?
+[cmngq32ds0000s60yp2qy44j7] BOULOT m=1 IA décryptage=oui :: Mon chef a organisé une réunion pour discuter de l'efficacité de nos réunions. // Elle a duré 2h30.
+[cmunvljrb006b2t1gcgte97k2] BOULOT m=1 IA décryptage=oui :: Mon chef m'a dit : « Le rapport du trimestre, c'est pour demain. » J'ai dit : « Demain ? Mais je l'ai pas commencé ! » Il m'a regardé, calme, et il a dit : « Tu savais qu'il existait, quand même ? » // « Bien sûr. Je l'évitais depuis juillet. »
+[cmunv2pry002x2t1gkuwtp6u0] BOULOT m=1 IA décryptage=oui :: Mon chef m'a dit : « T'inquiète, c'est juste une synthèse. » Pour demain 9h. J'ai ouvert mes dossiers de l'année. // Ma synthèse tenait en une ligne : « Beaucoup de réunions. »
+[cmnl2qp5k005bs60ymde4v1jq] SITUATION m=1 IA décryptage=oui :: Mon chef m'a dit de ne pas venir travailler si j'étais malade. // J'ai pris 6 mois d'arrêt maladie.
+[cmmw0tp4o000dmw62eeksni98] JEUX_DE_MOTS m=1 H décryptage=oui :: Mon coiffeur m'a dit que je perdais mes cheveux. // J'ai répondu : « Si tu les trouves, appelle-moi. »
+[cmphn3okg001ss60xn4s51pu7] BOULOT m=1 IA décryptage=non :: Mon collègue me parle de ses vacances au Japon depuis janvier. // Il est déjà en décalage horaire.
+[cmmnsqn14003tth63tsqrt8pf] BOULOT m=2 H décryptage=oui :: Mon collègue met toujours « envoyé depuis mon iPhone » en signature. // On bosse sur des ordinateurs fixes. C'est juste pour frimer.
+[cmmnsqn13002ith63lfni9vvz] BOULOT m=3 H décryptage=oui :: Mon collègue met « cordialement » en fin de mail. // Le ton du mail dit « va te faire voir », mais bon, c'est cordial.
+[cmonlkgeu000ds60wu0gazutb] BOULOT m=1 IA décryptage=non :: Mon collègue revient de ses vacances de Pâques et me raconte ses 4 jours à Rome en détail. // Ça fait 2h, on en est encore au petit-déjeuner du premier jour.
+[cmmnsqn150077th63gcnejji5] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Mon compte Twitter a 12 followers. // Je tweete comme si j'en avais 12 millions. L'énergie est là.
+[cmnyvq1ps000as60x4tfbdsu3] COUPLE m=1 IA décryptage=non :: Mon copain : 'Choisis le resto samedi, ça m'est égal.' J'ai choisi un vegan. // Spoiler : il était pas égal.
+## SETUP x2
+[cmnywsz7p000es60xrawcupfb] COUPLE m=1 IA décryptage=non :: Mon copain : 'Choisis le resto, ça m'est égal.' // J'ai dit Flunch. Apparemment ça lui était égal jusqu'à un certain point.
+[cmnz0jqsx000rs60xrbrqm8kk] COUPLE m=1 IA décryptage=non :: Mon copain : 'Choisis le resto, ça m'est égal.' // J'ai réservé chez son ex. Ça lui était égal aussi.
+[cmnz25a3l000ws60xg5w3j6di] COUPLE m=1 IA décryptage=non :: Mon copain : 'Choisis le resto, ça m'est égal.' J'ai dit 'McDonald's'. // Il avait soudain PLEIN d'avis.
+[cmnz6fs38001cs60x3cor8mm2] COUPLE m=1 IA décryptage=non :: Mon copain a créé un algorithme pour choisir le resto parfait selon nos goûts communs. // Il a trouvé zéro résultat.
+[cmnz12qg0000ss60x4kw0m6yp] COUPLE m=1 IA décryptage=non :: Mon copain a créé un Excel pour classer tous les restos de Paris par note, prix et temps d'attente. // On mange toujours chez nous.
+[cmnyv6psm0008s60xe0dz71jz] COUPLE m=1 IA décryptage=non :: Mon copain a créé un système de notation sur 10 pour tous les restos de la ville. // On mange chez McDo depuis 3 semaines.
+[cmnz2ozg9000ys60xj0bezpjj] COUPLE m=1 IA décryptage=non :: Mon copain a créé un tableur Excel avec 47 critères pour choisir le resto parfait. // On a commandé Uber Eats.
+[cmnyoapmo003es60w2i6dyg1o] COUPLE m=1 IA décryptage=non :: Mon copain a créé un tableur Excel pour lister tous les restos de la ville avec notes et critères. // On mange toujours chez McDo.
+[cmnz4agne0014s60xae0x6wb1] COUPLE m=1 IA décryptage=non :: Mon copain a créé une playlist Spotify spécialement pour choisir un resto. // Elle s'appelle 'Musique d'ambiance pour se disputer'.
+[cmnyadirg001zs60wut9bcmha] COUPLE m=1 IA décryptage=non :: Mon copain a dit qu'il m'emmenait dans 'un endroit spécial' pour notre anniversaire. // Il a réservé la table de ping-pong de son coloc.
+[cmny3xy410010s60wcf5w3znp] COUPLE m=1 IA décryptage=non :: Mon copain a dit qu'on irait dans 'le resto de mes rêves' ce weekend. // Apparemment mes rêves c'est un buffet à volonté et lui en short.
+[cmnz9njaq001os60x0zqb3y0o] COUPLE m=1 IA décryptage=non :: Mon copain a installé une app qui géolocalise tous les restos dans un rayon de 5km avec nos préférences. // On commande toujours Uber Eats.
+[cmnz81xb9001js60xla2kpmqo] COUPLE m=1 IA décryptage=non :: Mon copain a passé 2h à calculer le resto idéal pour notre budget, nos goûts et la distance. // Il a trouvé un restaurant gastronomique... qui ferme dans 20 minutes.
+[cmnypdbis003is60wer9rjhdw] COUPLE m=1 IA décryptage=non :: Mon copain a passé 45 minutes à me demander où j'avais envie de manger. // On a fini par commander sur Uber Eats depuis le parking du McDo.
+[cmny62voc001js60wzmk4eylu] COUPLE m=1 IA décryptage=non :: Mon copain a proposé qu'on choisisse le resto 'comme des adultes responsables'. // On a fait pierre-papier-ciseaux.
+## SETUP x2
+[cmny9u2nh001xs60wahb294co] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin résolu le problème du choix de resto. // On a arrêté de sortir.
+[cmnyjhd8l002ws60wngcpcib8] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin résolu le problème du choix de resto. // On commande sur deux apps différentes et on voit qui arrive en premier.
+[cmny2vfys000ws60wmz1ue2rj] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé comment choisir un resto rapidement. // On prend celui qui a le plus de notes négatives. Au moins on est sûrs de pas faire pire à la maison.
+[cmny75eld001ms60w3bopct2y] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé comment être spontanés pour nos sorties. // On planifie notre spontanéité 3 semaines à l'avance.
+[cmnz940hl001ms60xrcnei3xw] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution miracle pour choisir un resto sans se disputer. // On va plus au resto.
+[cmnydksf4002as60wrzng9jxs] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution pour choisir un resto rapidement. // On a rompu.
+[cmnz8l58t001ls60xkvi18t76] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé LA solution pour choisir un resto sans se disputer pendant 3h. // On va chez nos ex.
+## SETUP x2
+[cmnyg9rus002ls60wl4i4ity2] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution pour choisir un resto sans se disputer. // On utilise Tinder pour les restaurants.
+[cmnz37u510010s60xj40i8lqu] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution pour choisir un resto sans se disputer. // On commande Uber Eats et on fait semblant d'être sortis.
+[cmnyt1xzt0001s60x6np9296a] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution pour choisir un resto. // On a rompu.
+[cmnyfq2s7002is60wvncm8uqm] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la solution pour éviter les disputes de couple. // On commande plus jamais à manger ensemble.
+[cmnxzndkl000js60wrvg4flzs] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé LA technique infaillible pour choisir un resto. // On prend Uber Eats et on s'engueule.
+[cmnyaw8lp0020s60w4bkass6t] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la technique pour choisir un resto en 30 secondes. // On a supprimé Uber Eats.
+[cmny22cwu000ss60wy39ntzt5] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé la technique pour choisir un resto sans se disputer. // On va directement au McDo et on se dispute sur les sauces.
+[cmnz5wa7h001as60x71ryqm2u] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé le compromis parfait pour choisir un resto. // On commande Uber Eats.
+[cmny7om5c001os60w4zkhhonz] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé le resto parfait hier soir. // Celui qui était fermé.
+[cmnyd1ubl0029s60wahj70m5v] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé le resto parfait pour ce soir. // Il ferme à 21h30.
+[cmnxwfuf80004s60wzz03hism] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a enfin trouvé un resto qui nous plaît à tous les deux. // On y commande en livraison depuis 3 mois.
+[cmnyqzdws003os60wm3i48b68] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a inventé la solution parfaite pour choisir un resto. // On commande chez nous et on fait semblant d'être sortis sur Instagram.
+[cmnyciiwo0026s60wnalm3nm1] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a passé 2h à choisir un resto pour ce weekend. // On a commandé des pizzas.
+## SETUP x2
+[cmnxvdeto0001s60wqxmi4qnd] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a passé 45 minutes hier soir à chercher LE restaurant parfait sur Google Maps. // On a fini par manger du Nutella à la cuillère en regardant Top Chef.
+[cmnxvwcb00002s60w68sldv6r] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a passé 45 minutes hier soir à chercher LE restaurant parfait sur Google Maps. // On a fini par manger des pâtes devant Netflix.
+[cmnz3r6qu0012s60xgv67paby] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a résolu le problème du choix de resto. // On mange plus ensemble.
+## SETUP x2
+[cmnyxc5q1000gs60x64s12v8d] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la solution parfaite pour éviter les disputes de resto. // On commande chinois et on se dispute en mandarin.
+[cmnyxv2fk000is60xpg1fk0s2] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la solution parfaite pour éviter les disputes de resto. // On mange chacun chez sa mère.
+[cmnxwzb080006s60wehwd20ys] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA solution pour choisir le resto // On fait pierre-papier-ciseaux. Le perdant a le droit de râler pendant tout le repas.
+[cmnxz73m4000gs60wx7i3rfsv] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA solution pour choisir le resto sans se disputer. // On commande sur deux apps différentes.
+[cmny1sm8k000qs60w0ojrqkq8] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA solution pour choisir un resto rapidement. // On va chez nos parents.
+[cmnz5dh4g0019s60xcegit6c6] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA solution pour éviter les disputes de resto. // On va directement chez sa mère.
+[cmnz6yueh001es60xig3wefuq] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la solution ultime pour choisir un resto sans se disputer. // On prend celui qui est fermé.
+[cmny9ade4001us60wha5u87ax] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la technique parfaite pour choisir un resto rapidement. // On va chez ses parents.
+[cmny06hdp000ks60wi0w6cm7f] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA technique pour choisir un resto : on fait défiler UberEats jusqu'à tomber sur un truc qu'on a jamais commandé. // Ça fait 3 ans qu'on mange que des sushis.
+[cmny5juzk001gs60wt40gx6ye] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA technique pour choisir un resto rapidement. // Pierre-papier-ciseaux... mais on sort tous les deux des cailloux.
+## SETUP x3
+[cmnxyl40w000cs60wkof5qhjf] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA technique pour choisir un resto sans se disputer. // On prend celui qui a le moins d'avis Google. Hier on a mangé dans un parking.
+[cmny19hxk000os60wnpf1mhfk] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA technique pour choisir un resto sans se disputer. // On lance une pièce. Face c'est lui qui choisit, pile c'est McDonald's.
+[cmny2bkqd000us60wkn930faj] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LA technique pour choisir un resto sans se disputer. // On commande chacun dans un resto différent.
+[cmnygsywk002ms60wyzn98ppj] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la technique ultime pour choisir un resto rapidement. // Pierre-feuille-ciseaux. Le perdant assume de dire 'en fait j'ai pas faim' quand on voit les prix.
+[cmnyiy2b4002us60wz2v7q4kv] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé la technique ULTIME pour choisir un resto. // On joue à pierre-feuille-ciseaux contre l'algorithme.
+## SETUP x2
+[cmnymowq20038s60w50h49itm] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé le compromis parfait pour choisir un resto. // On va chez sa mère.
+[cmnz4u9rk0016s60xkpe2vn66] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé le compromis parfait pour choisir un resto. // On prend celui qui a le plus de photos sur son Instagram - comme ça on a déjà mangé virtuellement.
+[cmnyeo29j002es60w3djngp5p] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé le compromis parfait pour les restos : il choisit l'endroit, je choisis quoi manger. // Résultat : on mange chinois et je prends des nems au Nutella.
+[cmnybfrfo0022s60whr2puvlm] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a trouvé LE truc pour choisir un resto instantanément, sans débat, sans stress. // On ouvre nos comptes en banque.
+[cmnyc0inc0025s60w2ebleob7] COUPLE m=1 IA décryptage=non :: Mon copain et moi on a téléchargé une app pour éviter de se disputer sur le choix du resto. // Maintenant on se dispute sur quelle app utiliser.
+## SETUP x3
+[cmqd130xp00dys60x0tbzxnp9] COUPLE m=1 IA décryptage=oui :: Mon copain et moi on s'est disputés pour savoir qui aurait le ventilateur cette nuit. // J'ai gagné par KO.
+[cmqdbni2x00fis60xng4q08xv] COUPLE m=1 IA décryptage=oui :: Mon copain et moi on s'est disputés pour savoir qui aurait le ventilateur cette nuit. // Finalement on a trouvé un compromis : il dort par terre.
+[cmqdc6p4p00fss60x3dqrl5vs] COUPLE m=1 IA décryptage=oui :: Mon copain et moi on s'est disputés pour savoir qui aurait le ventilateur cette nuit. // Résultat : on dort séparés et c'est lui qui a le plus d'air.
+[cmny51bzl001as60w0heeub51] COUPLE m=1 IA décryptage=non :: Mon copain et moi, on a découvert qu'on était un couple mature : // On se dispute maintenant sur quel resto on va pas réussir à choisir.
+[cmny6mehq001ks60wtwi7xvp3] COUPLE m=1 IA décryptage=non :: Mon copain et moi, on a passé 1h à choisir un resto hier soir. // Du coup maintenant on sait qu'on est compatibles pour acheter un appart ensemble.
+[cmny0q544000ns60w0la8pnbq] COUPLE m=1 IA décryptage=non :: Mon copain et moi, on a passé 20 minutes à choisir un resto hier soir. // Au final, on a commandé nos ex sur Tinder.
+[cmnxxihbf0008s60we8jcauts] COUPLE m=1 IA décryptage=non :: Mon copain et moi, pour éviter de choisir un resto, on fait semblant qu'on va cuisiner. // Hier on a passé 2h à débattre si on avait des oignons.
+[cmp51c9u8012ds60y9ddw5iy1] COUPLE m=1 IA décryptage=non :: Mon copain m'a accompagnée pour acheter un maillot de bain. // Maintenant je sais pourquoi il adore le shopping.
+[cmmnsqn140048th6319prlc9o] COUPLE m=2 H décryptage=oui :: Mon copain m'a demandé : « Tu penses à quoi ? » // J'ai dit « rien ». C'était vrai. Et pourtant, il ne m'a pas crue.
+[cmnye4jlw002cs60w6ha7b9aq] COUPLE m=1 IA décryptage=non :: Mon copain m'a demandé de choisir le resto pour samedi soir. // J'ai tellement réfléchi que le serveur a pris sa retraite.
+[cmnylmlv40034s60wm8j9prjx] COUPLE m=1 IA décryptage=non :: Mon copain m'a demandé pendant 20 minutes où j'avais envie de manger. // J'ai dit 'n'importe où sauf McDonald's' et il a répondu 'ah bah du coup je sais plus'.
+[cmnz1meqe000us60xg1xtq8bj] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis le resto, ça m'est égal'. J'ai réservé chez un étoilé Michelin. // Il a dit qu'il préférait quand j'étais indécise.
+## SETUP x18
+[cmnyhbsls002os60wmier5p3k] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi. Maintenant ça lui est plus égal.
+[cmnyhv8zo002qs60wphzo1npg] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi. Plus égal du tout.
+[cmnyk0fdw002ys60wvhtv1flg] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai passé 2h à choisir, il a dit 'ah non pas celui-là'.
+[cmnyl2s9n0032s60w4aeiucko] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a rejeté mes 8 premières propositions.
+[cmnym5dog0036s60whbat1cdz] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi McDo, maintenant ça lui est plus égal.
+[cmnynr7gw003cs60wiryizub1] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a dit non à mes 12 premières propositions.
+[cmnypwo2m003ks60wcgdsgmrb] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a dit non aux 7 que j'ai proposés.
+[cmnyqfoul003ms60wa1wel8k9] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a dit non à mes 12 premières propositions.
+[cmnyriaa1003qs60w3e1e50h3] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a dit non à mes 8 premières propositions.
+[cmnys1k10003ss60w4zhnp5ii] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a dit non aux 12 que j'ai proposés.
+[cmnysl010003us60w8y65g7u5] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Apparemment égal ça veut dire 'sauf japonais, sauf indien, sauf le truc à côté de chez ta mère'.
+[cmnytknz50002s60xg1k41eyc] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai dit McDonald's. Apparemment ça lui était pas si égal.
+[cmnyu3xqp0004s60xttfnom2n] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // Il a refusé les 4 premiers que j'ai proposés.
+[cmnyung6x0006s60xmt4h3x4n] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi. Il a dit non à mes 7 premières propositions.
+[cmnyw9425000cs60x9az28ycy] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi. Il a dit non à mes 12 premières propositions.
+[cmnyye90u000ks60xk1cfqz98] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi McDo. Maintenant il a un avis.
+[cmnyyxld0000ms60xi50c22mz] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai choisi. Il a créé un PowerPoint pour expliquer pourquoi pas celui-là.
+[cmnz003xq000os60xnibe67x1] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. // J'ai réservé chez sa mère.
+[cmnyn7yc4003as60w8msr0m56] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. Alors j'ai choisi. // Il a dit 'non pas celui-là'.
+[cmnyotu7l003gs60w5r6zb5ko] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto pour samedi, ça m'est égal'. J'ai choisi. // Il a dit non à mes 7 premiers choix.
+[cmny880ww001qs60wy73ls68i] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'Choisis toi le resto, j'ai confiance en ton goût.' // On a mangé des pâtes chez moi.
+[cmnz7ikid001gs60xdppocm4o] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'choisis toi le resto, ça m'est égal'. // J'ai dit 'parfait' et j'ai réservé à 14h30.
+[cmnykjzfj0030s60wl6p6ivyc] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit 'J'ai réservé dans le petit italien du coin, celui avec les nappes à carreaux rouges' // Il avait commandé une pizza surgelée et sorti la nappe de pique-nique de sa mère.
+[cmnyif1wj002ts60wfane5u6o] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit qu'il m'emmenait dans le restaurant japonais le plus authentique de la ville. // Il a installé Netflix en japonais sous-titré français.
+[cmnxz4jr0000fs60wg0fbqt71] COUPLE m=1 IA décryptage=non :: Mon copain m'a dit qu'il m'emmènerait dans le resto de mes rêves. // Apparemment je rêve de McDo à 23h30.
+[cmmnsqn130034th63ozlu7gar] COUPLE m=2 H décryptage=oui :: Mon copain m'offre toujours des cadeaux pratiques. // L'an dernier, une éponge. Cette année, un seau. Je crois qu'il essaie de me dire quelque chose.
+[cmmnsqn14004oth63x51e4lkp] COUPLE m=2 H décryptage=oui :: Mon couple est basé sur la confiance et la communication. // Et aussi sur le fait qu'aucun de nous deux ne sait cuisiner.
+[cmmnsqn13001cth639mzv79g2] COUPLE m=3 H décryptage=oui :: Mon couple est comme une connexion Wi-Fi. // Plus je m'éloigne, meilleure est la réception.
+[cmmnsqn15006ath63j4pqs88c] GAMING m=2 H décryptage=oui :: Mon coéquipier random en ranked m'a insulté en 4 langues. // Au moins, les jeux vidéo c'est multiculturel.
+[cmmnsqn12000kth639f52jmyj] BOULOT m=3 H décryptage=oui :: Mon CV dit que je suis « résistant au stress ». // En vrai, je suis juste dissocié en permanence.
+[cmmnsqn15007hth6306tesgwv] DATING m=2 H décryptage=oui :: Mon date m'a dit « t'es pas comme sur tes photos ». // J'ai répondu « toi non plus ». On a payé l'addition chacun de son côté.
+[cmmnsqn13002wth63cieza5xe] COUPLE m=3 H décryptage=oui :: Mon ex a dit : « Tu ne changeras jamais. » // Je l'ai remerciée. La constance, c'est une qualité.
+[cmmnsqn15006pth63x7vuov4r] RESEAUX_SOCIAUX m=2 H décryptage=oui :: Mon ex a liké ma story de vacances. // Mon thérapeute appelle ça du progrès, moi j'appelle ça de l'espionnage.
+[cmmnsqn140054th63xlwadcpq] COUPLE m=3 H décryptage=oui :: Mon ex m'a bloqué sur tous les réseaux. // C'est la relation la plus stable qu'on ait jamais eue : zéro changement depuis des mois.
+[cmmnsqn14004gth636ovkgmvn] COUPLE m=3 H décryptage=oui :: Mon ex m'a dit : « Tu trouveras mieux que moi. » // Elle avait raison, c'est la première fois qu'on était d'accord sur quelque chose.
+[cmp66iwpt000hs60xp59ovw02] AUTODERISION m=1 IA décryptage=non :: Mon ex me disait toujours : 'tu devrais bricoler plus'. // Maintenant je bricole... mes profils Tinder pour cacher que je sais pas bricoler.
+[cmpncsdnf000ls60wrwdtsfqe] PARENTS m=1 IA décryptage=non :: Mon fils m'a demandé pourquoi on mange des crêpes à la Chandeleur. // J'ai répondu : 'C'est pour fêter le jour où papa a arrêté de les rater.'
+[cmmw0togs0001mw62152nl589] ABSURDE m=1 H décryptage=oui :: Mon GPS m'a dit de tourner à droite. Y'avait un fleuve. // J'ai hésité. Il avait l'air sûr de lui.
+[cmmnsqn15006mth634iq7quu4] GAMING m=1 H décryptage=oui :: Mon historique Steam, c'est comme mes résolutions du Nouvel An : // Plein de trucs achetés avec enthousiasme et jamais terminés.
+[cmmnsqn15006jth63trumhoam] GAMING m=1 H décryptage=oui :: Mon inventaire dans le jeu est mieux rangé que ma chambre. // Dans le jeu, y'a un bouton « trier ». Dans la vie, y'a ma mère.
+[cmmw0tpug000qmw62f7w76zr5] DATING m=2 H décryptage=oui :: Mon match Tinder m'a demandé si j'aimais les surprises. // J'ai dit oui. Elle m'a ghosté. Surprise.
+[cmmnsqn14003sth63puzhcve5] COUPLE m=2 H décryptage=oui :: Mon mec a dit : « Ce soir, c'est moi qui cuisine. » // J'ai discrètement commandé sur l'appli, au cas où. Bien m'en a pris.
+[cmmnsqn13001qth63js2tsd3o] COUPLE m=3 H décryptage=oui :: Mon mec m'a demandé si je voulais un diamant ou un voyage. // J'ai choisi le voyage. Au moins, je peux en profiter sans me demander combien il a menti sur le prix.
+[cmny8rl04001ts60wk0tbueei] COUPLE m=1 IA décryptage=non :: Mon mec m'a dit : 'Je t'emmène dans le resto de tes rêves ce weekend.' // On a mangé au lit.
+[cmn6q51i50006s60x7vbwiyna] OBSERVATIONNEL m=1 IA décryptage=oui :: Mon mec m'a envoyé des fleurs le jour où j'ai découvert mon allergie au pollen. // J'ai enfin compris pourquoi on dit que l'amour fait pleurer.
+[cmmnsqn13002hth63tuo6m58y] COUPLE m=2 H décryptage=oui :: Mon mec range les courses n'importe comment dans le frigo. // C'est le seul endroit où le Nutella côtoie les cornichons. Un peu comme notre couple.
+[cmmsw18l60000rp62k1a0xxw4] JEUX_DE_MOTS m=1 H décryptage=oui :: Mon mot de passe c'est « incorrect ». // Comme ça quand je l'oublie, l'ordi me rappelle : « Votre mot de passe est incorrect. »
+[cmmnsqn13002sth63de7o3ohu] AUTODERISION m=2 H décryptage=oui :: Mon niveau d'énergie le lundi matin est comparable à celui de mon téléphone le dimanche soir. // 3%, mode économie, et une vague envie de s'éteindre.
+[cmmnsqn14003oth63cuch3l0w] AUTODERISION m=1 H décryptage=oui :: Mon niveau en bricolage est tel que quand j'achète un meuble Ikea... // Le mode d'emploi me demande si j'ai un ami disponible.
+[cmmnsqn13002qth632dhoo7r6] BOULOT m=2 H décryptage=oui :: Mon patron a dit : « Ici, on est une famille. » // J'ai demandé un héritage, il a dit non.
+[cmmnsqn120006th633634ej4h] BOULOT m=2 H décryptage=oui :: Mon patron m'a dit : « Tu es irremplaçable. » // Je me suis senti flatté jusqu'à ce que je comprenne que personne d'autre ne voulait le poste.
+[cmmnsqn15006dth63toy9o1m9] GAMING m=1 H décryptage=oui :: Mon perso dans le jeu a une meilleure vie sociale que moi. // Il a une maison, des amis, et il sort régulièrement.
+[cmmsw18z60006rp62o0i371pa] AUTODERISION m=1 H décryptage=oui :: Mon plan de carrière, c'est d'avoir un plan de carrière. // Pour l'instant, j'en suis à la phase « plan ».
+[cmmnsqn15006hth6314l5jpfn] GAMING m=1 H décryptage=oui :: Mon pote dit qu'il est « hardstuck » à cause de ses teammates. // Ça fait 5 saisons et il change d'équipe à chaque partie. Le point commun c'est lui.
+[cmmnsqn150089th63z1c0ella] SOIREES m=1 H décryptage=oui :: Mon pote est arrivé en soirée avec une enceinte Bluetooth. // Y'avait déjà une sono. Maintenant y'a deux musiques en même temps. Merci mec.
+[cmp7v80w40037s60x0c5052rf] SOIREES m=1 IA décryptage=non :: Mon pote m'a dit 'on se fait un apéro rapide jeudi soir ?' // J'ai dit oui... en 2019.
+[cmo25lngy002ls60xm6vjioc3] CULTUREL m=1 IA décryptage=non :: Mon pote m'a emmenée voir une expo d'art contemporain. J'ai passé 20 minutes à analyser une œuvre profonde et complexe. // C'était le plan d'évacuation.
+[cmmnsqn150084th63lmtza2y7] SOIREES m=2 H décryptage=oui :: Mon pote organise une soirée « tranquille, juste 10 personnes ». // On était 47. Le voisin a appelé la police. Deux fois.
+[cmp0qhm9f009ns60ykaw7rg5j] JEUX_DE_MOTS m=1 IA décryptage=non :: Mon pote parisien m'a dit qu'en Bretagne on était tous des ploucs. // J'ai dit : 'Au moins nous on a de l'eau.'
+[cmn5aauwo0001s60y4x490kst] RESEAUX_SOCIAUX m=1 IA décryptage=oui :: Mon pote qui poste 'Mars touche à sa fin, c'est le moment de faire le bilan et de se fixer de nouveaux objectifs !' // Mec, ton objectif depuis 2019 c'était de commencer la salle.
+[cmmnsqn14005sth63dts5es5e] ECOLE m=1 H décryptage=oui :: Mon pote révise la veille de l'examen et a 15. // Moi je révise deux semaines et j'ai 8. La vie est un scam.
+[cmmnsqn15007fth632iq057qg] DATING m=2 H décryptage=oui :: Mon pote utilise des photos d'il y a 5 ans sur Tinder. // Les filles matchent avec son passé. Le présent, il le gère sur place.
+[cmmnsqn15007kth63akt2cpao] DATING m=1 H décryptage=oui :: Mon premier message Tinder c'est toujours un jeu de mots avec son prénom. // Elle s'appelait Solange. J'ai écrit « Solange que t'es là, autant en profiter ». Pas de réponse.
+[cmmnsqn15005yth637l317llm] ECOLE m=2 H décryptage=oui :: Mon prof a dit que la triche ne mène nulle part. // Bizarre, elle m'a mené jusqu'en terminale.
+[cmmnsqn14005nth6304gbz1il] ECOLE m=1 H décryptage=oui :: Mon prof a dit « il n'y a pas de questions bêtes ». // J'ai levé la main et il a changé d'avis.
+[cmqbw7t4h00bds60xqvaymwg7] ABSURDE m=1 IA décryptage=oui :: Mon prof a mis la clim à fond dans l'amphi. J'ai dû sortir un pull de mon sac. // Du coup maintenant mon pull c'est ma survie.
+[cmmnsqn14005kth63pdujihby] ECOLE m=1 H décryptage=oui :: Mon prof de maths m'a dit que j'étais nul. J'ai répondu : « Au moins en maths, zéro c'est quelqu'un. » // Il m'a mis un zéro pointé pour insolence.
+[cmmnsqn14005vth63fepwxuvs] ECOLE m=1 H décryptage=oui :: Mon prof de philo a dit : « Je pense, donc je suis. » // Moi je pense pas, donc je suis en rattrapages.
+[cmmsw19b4000crp62vp792lgr] ECOLE m=1 H décryptage=oui :: Mon prof de philo a dit « remettez tout en question ». // Du coup je lui ai demandé s'il était vraiment qualifié pour enseigner.
+[cmmnsqn15007pth630tpqyqo2] DATING m=1 H décryptage=oui :: Mon profil Hinge dit « en recherche de quelque chose de sérieux ». // En vrai, je cherche surtout quelqu'un qui partage son mot de passe Netflix.
+[cmmnsqn120001th63ryms5sxv] AUTODERISION m=2 H décryptage=oui :: Mon psy m'a dit que je devais arrêter de me comparer aux autres. // J'ai vérifié, les autres n'ont pas ce problème.
+[cmmnsqn16008rth63rmwonvrd] PARENTS m=1 H décryptage=oui :: Mon père a découvert la fonctionnalité « transfert » sur WhatsApp. // Je reçois maintenant 15 « bonjour » animés avec des papillons par semaine.
+[cmmnsqn16008dth63es5ylimi] PARENTS m=1 H décryptage=oui :: Mon père a découvert les emojis. // Il m'envoie un pouce levé pour me dire que mamie est à l'hôpital.
+[cmmnsqn16008tth63jvmxpvsw] PARENTS m=1 H décryptage=oui :: Mon père a essayé de prendre une photo du coucher de soleil. // Il a activé le flash. Sur le soleil.
+[cmmnsqn16008nth63yy4p9dds] PARENTS m=1 H décryptage=oui :: Mon père a pris un selfie pour la première fois. // On voit son front, le plafond, et son doigt devant l'objectif. Chef-d'œuvre.
+[cmmnsqn16008pth635hs1cz7x] PARENTS m=1 H décryptage=oui :: Mon père dit « de mon temps, on avait pas de téléphone ». // Maintenant il est incapable de trouver une boulangerie sans Google Maps.
+[cmmw0tpoi000nmw621aytd6if] PARENTS m=1 H décryptage=oui :: Mon père m'a demandé ce que c'était un « meme ». // Je lui ai montré. Il a dit « c'est nul ». Puis il l'a envoyé à toute la famille.
+[cmmnsqn16008hth63dz46jchf] PARENTS m=1 H décryptage=oui :: Mon père m'a demandé d'installer WhatsApp sur sa tablette. // Il m'a fallu 3 heures. 10 minutes pour l'installer, 2h50 pour lui expliquer.
+[cmmnsqn16008jth63zwal8rzj] PARENTS m=1 H décryptage=oui :: Mon père m'envoie des messages en MAJUSCULES. // J'AI PAS L'IMPRESSION QU'IL ME PARLE, J'AI L'IMPRESSION QU'IL ME CRIE DESSUS PAR ÉCRIT.
+[cmmnsqn16008lth63mw3tta9a] PARENTS m=1 H décryptage=oui :: Mon père regarde des tutos YouTube à fond le son dans le salon. // Toute la famille sait maintenant comment réparer une chasse d'eau.
+[cmmnsqn16008vth6325liw1pb] PARENTS m=1 H décryptage=oui :: Mon père signe ses SMS comme des lettres. // « Bien cordialement, Papa. » C'est pour me demander si je veux des pâtes ce soir.
+[cmmnsqn16008fth630hmz4i44] PARENTS m=1 H décryptage=oui :: Mon père utilise Google comme barre d'adresse. // Il tape « google » dans Google. L'univers a failli imploser.
+[cmmnsqn150061th63sce1mq4n] ECOLE m=1 H décryptage=oui :: Mon relevé de notes ressemble à la météo : // Principalement en dessous de la moyenne avec des éclaircies occasionnelles.
+[cmmsw19j2000grp629lpuaber] AUTODERISION m=1 H décryptage=oui :: Mon réveil sonne à 6h. // À 6h01, j'ai déjà reporté tous mes objectifs de vie à demain.
+[cmmnsqn15006tth63jaiyuhtq] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Mon temps d'écran cette semaine : 9h par jour. // Mon téléphone m'a envoyé une notif de félicitations. Même lui est ironique.
+[cmmnsqn130019th6305olo4bl] AUTODERISION m=2 H décryptage=oui :: Mon téléphone a plus de mémoire que moi. // Et il se souvient de trucs que j'aurais préféré oublier.
+[cmpw4zn5n00b3s60xonhfk4bc] BOULOT m=1 IA décryptage=oui :: Notre clim est tombée en panne hier. Le patron nous a dit que c'était temporaire. // Comme ma motivation depuis 2019.
+[cmpkbkua200mis60xj8w7jkkv] COUPLE m=1 IA décryptage=non :: On a enfin choisi notre destination de vacances après 3 mois de négociations intensives. // On reste à la maison, mais on fait chambre à part.
+[cmpkd6o6100nls60x0ie36vaz] COUPLE m=1 IA décryptage=non :: On a enfin trouvé notre destination de vacances après 2 mois de débats. // Le canapé.
+[cmpjtw7ga00css60xddyh218w] COUPLE m=1 IA décryptage=non :: On a passé 2 heures à choisir notre destination de vacances. Elle voulait du dépaysement, moi du repos. // On part chez ses parents.
+[cmpk5oo5u00jhs60xjemgrcwt] COUPLE m=1 IA décryptage=non :: On a passé 2h à choisir notre destination de vacances. Elle voulait 'de l'aventure mais pas trop, du dépaysement mais pas loin, de l'authenticité mais avec le wifi'. // J'ai proposé le Leclerc de Quiberon.
+[cmpk0v0dy00grs60xhkyg43y8] COUPLE m=1 IA décryptage=non :: On a passé 3 heures à choisir notre destination de vacances. Elle voulait 'quelque chose d'authentique et dépaysant'. // J'ai proposé le camping municipal de Ploërmel.
+[cmpjvi41x00dqs60xaer2tn7s] COUPLE m=1 IA décryptage=non :: On a passé 3 heures à choisir notre destination de vacances. Elle voulait du dépaysement total, moi juste un endroit avec du WiFi. // Finalement on s'est séparés. Elle est partie au Pérou, moi je suis resté chez mes parents.
+[cmpjrr3zm00bvs60xtprnjtlu] COUPLE m=1 IA décryptage=non :: On a passé 3 heures à choisir notre destination de vacances. Elle voulait quelque chose d'authentique, moi quelque chose de reposant. // On est restés à la maison... chacun chez soi.
+[cmpjxn5jz00exs60x8kkzudcq] COUPLE m=1 IA décryptage=non :: On a passé 4 heures à comparer les destinations de vacances sur Booking. // Au final, on a booké une thérapie de couple.
+[cmmnsqn12000mth6397kypxfn] AUTODERISION m=2 H décryptage=oui :: On dit qu'il faut rester soi-même dans la vie. // C'est exactement ce que je fais, et visiblement c'est le problème.
+[cmmnsqn13001uth639tf4f1md] OBSERVATIONNEL m=2 H décryptage=oui :: On dit que le rire est le meilleur médicament. // Mon médecin n'a pas apprécié que je rigole en voyant l'ordonnance.
+[cmmw0tpil000kmw62esb9knd2] BOULOT m=3 H décryptage=oui :: On m'a demandé mes qualités en entretien. J'ai dit « l'honnêteté ». // Ils ont demandé un défaut. J'ai dit « j'en ai rien à faire de votre avis ».
+[cmmw0tpcl000hmw62wccbbdep] AUTODERISION m=2 H décryptage=oui :: On m'a demandé « tu fais quoi dans la vie ? » // J'ai dit « j'évite ce genre de question, principalement ».
+[cmmnsqn14004pth63dox3pppx] BOULOT m=3 H décryptage=oui :: On m'a dit que j'avais une « progression de carrière latérale ». // En gros, j'avance comme un crabe. Rapidement, mais pas dans la bonne direction.
+[cmmnsqn15007ath63muk0ao8y] DATING m=2 H décryptage=oui :: On m'a dit que les applis de rencontre c'est un jeu de chiffres. // Pour l'instant mes chiffres c'est : 200 swipes, 3 matchs, 0 réponse.
+[cmmnsqn15007mth63nediuq1b] DATING m=1 H décryptage=oui :: On m'a dit « l'amour vient quand on s'y attend pas ». // Je m'y attends pas depuis 3 ans. Toujours rien.
+[cmmnsqn13001dth63uqf7nvks] BOULOT m=2 H décryptage=oui :: On m'a proposé un poste avec « un salaire compétitif ». // Compétitif avec le SMIC, apparemment.
+[cmpf1qi1p00tjs60xf1wglufv] CULTUREL m=1 IA décryptage=non :: Première date dans un musée d'art contemporain. Elle me demande ce que je ressens devant cette œuvre abstraite. // J'ai dit : 'Exactement ce que mes parents ont ressenti quand je leur ai annoncé mon divorce.'
+[cmpf175o700t6s60xzxzb9ndt] CULTUREL m=1 IA décryptage=non :: Première date dans un musée d'art contemporain. Elle me demande ce que je ressens devant l'œuvre. // J'ai dit : 'La même chose que toi devant mon profil Tinder — de la confusion et l'envie de passer au suivant.'
+[cmmnsqn14004fth63wk1j03mn] CULTUREL m=2 H décryptage=oui :: Quand un Français dit « c'est intéressant »... // Ça veut dire : je ne suis absolument pas d'accord mais je suis trop poli pour le dire maintenant.
+[cmmnsqn150071th63sc5bk82f] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Quelqu'un a commenté « premier » sous ma vidéo. // Il était aussi le dernier. Et le seul.
+[cmmw0tpam000gmw62dzwlhyem] AUTODERISION m=2 H décryptage=oui :: Quelqu'un m'a dit « tu ressembles à personne ». // J'ai répondu « merci, j'ai travaillé dur pour ça ».
+[cmmnsqn15006uth63x8q44hwo] RESEAUX_SOCIAUX m=1 H décryptage=oui :: Quelqu'un m'a unfollow sur Instagram. // Je sais pas qui c'est mais je le prends personnellement.
+[cmmnsqn12000fth635t0fhl9m] OBSERVATIONNEL m=2 H décryptage=oui :: Si tu te sens inutile, rappelle-toi qu'il y a quelqu'un dont le métier est d'installer les clignotants sur les BMW. // Et un autre qui met « résultats pouvant varier » sous les pubs de régime.
+[cmmnsqn15007eth63cwyet2ca] DATING m=2 H décryptage=oui :: Sur Bumble, la fille doit écrire en premier. // Le match a expiré. Apparemment, même quand c'est son tour, personne veut me parler.
+[cmmnsqn150067th63i6tpp8eu] GAMING m=1 H décryptage=oui :: Sur Discord, mon pseudo c'est « xX_DarkKiller_Xx ». // Dans la vraie vie, j'ai peur des araignées.
+[cmmnsqn15007qth63wv7totez] DATING m=2 H décryptage=oui :: Sur les applis, y'a toujours la question « tu cherches quoi ? » // La vraie réponse c'est « quelqu'un qui répond en moins de 3 jours ».
+[cmmnsqn13001rth63r79ar7bu] BOULOT m=2 H décryptage=oui :: Sur LinkedIn, tout le monde est « passionné » par son travail. // En vrai, la plupart sont passionnés par le vendredi.
+[cmmnsqn14003vth63i2are7es] OBSERVATIONNEL m=2 H décryptage=oui :: T'as remarqué qu'on dit toujours « il faudrait qu'on se fasse un truc » ? // C'est l'engagement social le plus faible qui existe. Le « peut-être » de l'amitié.
+[cmmwpnc9h0000s60zse4nyp4h] SOIREES m=1 IA décryptage=oui :: Tu sais ce qu'il y a de magique avec les soirées étudiantes avant les partiels ? // C'est le seul moment où on boit pour oublier des trucs qu'on a jamais appris.
+[cmmnsqn120007th63zs2m9dcv] SITUATION m=1 H décryptage=oui :: Tu sais que t'es adulte quand tu te réjouis d'un samedi soir à la maison. // Et que tu considères le passage à l'heure d'été comme une agression personnelle.
+[cmmnsqn130031th63toyp4txh] SITUATION m=2 H décryptage=oui :: Tu sais que tu es vieux quand les policiers commencent à avoir l'air jeune. // Et que ta première réaction en voyant des ados dans la rue, c'est « ils n'ont pas école ? »
+[cmmnsqn13001fth63rfq7zvht] SITUATION m=2 H décryptage=oui :: Tu sais que tu vieillis quand tu fais du bruit en t'asseyant. // Et quand le bruit que tu fais en te levant est encore pire.
+[cmmnsqn12000wth63klmln2pr] ABSURDE m=1 H décryptage=oui :: Un escargot entre dans un commissariat et dit : « On m'a agressé ! » // Le policier demande : « Vous pouvez décrire l'agresseur ? » — « Non, tout est allé trop vite. »
+[cmmnsqn13001nth636f3y0775] ABSURDE m=1 H décryptage=oui :: Un GPS recalcule l'itinéraire pour la sixième fois. // Finalement, il affiche : « Garez-vous et réfléchissez à votre vie. »
+[cmmnsqn120002th63g1nzbeg4] ABSURDE m=1 H décryptage=oui :: Un homme entre dans une bibliothèque et demande un livre sur le paranoia. // La bibliothécaire chuchote : « Ils sont derrière vous. »
+[cmmnsqn120012th63o1ifiel6] SITUATION m=1 H décryptage=oui :: Un jour, j'arriverai à plier un drap-housse correctement. // Ce jour-là, j'aurai aussi résolu le mystère des chaussettes orphelines.
+[cmmw0tpel000imw62cf03b00x] OBSERVATIONNEL m=2 H décryptage=oui :: Un mec m'a dit « moi je me lève à 5h tous les matins ». // J'ai répondu « mes condoléances ».
+[cmparen2500jes60xbmkw1jhb] OBSERVATIONNEL m=1 IA décryptage=non :: Un touriste m'a demandé le chemin pour aller 'au château'. // J'ai dit 'lequel des 47 ?'
+[cmpashfqo00jys60xpa5nzkyo] OBSERVATIONNEL m=1 IA décryptage=non :: Un touriste m'a demandé où était 'le vieux Vannes'. // Au comptoir depuis 1995.
+[cmpary82p00jns60x1y34axz4] OBSERVATIONNEL m=1 IA décryptage=non :: Un touriste m'a demandé où était 'le vieux Vannes'. J'ai dit : 'Au bar du coin depuis 30 ans.' // Il a répondu : 'Ah parfait, c'est mon père.'
+[cmpav5z7d00kas60x48h8sea1] OBSERVATIONNEL m=1 IA décryptage=non :: Un touriste m'a demandé où était 'le vrai Vannes authentique'. // Je lui ai dit : chez mon ex.
+[cmpavp7so00kjs60x4q3u4ckj] OBSERVATIONNEL m=1 IA décryptage=non :: Un touriste m'a demandé si Vannes était 'vraiment authentique'. // J'ai dit oui, même les prix.
+[cmp9u6qw900ews60xn04lin8k] CULTUREL m=1 IA décryptage=non :: We Love Green, c'est le seul festival où tu paies 80€ // pour découvrir que tu préfères Spotify.
+[cmmnsqn16008bth639v3z2ysb] SOIREES m=1 H décryptage=oui :: Y'a toujours un mec en soirée qui raconte la même histoire. // Ça fait 4 soirées qu'il l'a racontée. À chaque fois, les détails changent. À chaque fois, c'est lui le héros.
+[cmmnsqn13002xth63p57ifyqv] BOULOT m=2 H décryptage=oui :: « N'hésite pas si tu as des questions », a dit mon chef le premier jour. // Six mois plus tard, j'ai appris que c'était une expression, pas une invitation.
+[cmmnsqn14005dth63tkk1ftot] BOULOT m=3 H décryptage=oui :: « On a un baby-foot et des fruits frais ! » dit la startup dans l'annonce. // Ce qu'ils ne disent pas : le baby-foot remplace la prime et les fruits, l'assurance santé.

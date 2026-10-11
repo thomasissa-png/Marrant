@@ -1,9 +1,22 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { logLLMUsage, extractUsage } from "./usage-log";
+import { assertLlmBudget, isLlmBudgetExceededError } from "./budget-guard";
+// Import dynamique côté callWithRetry pour éviter la dépendance circulaire
+// (failure-alert.ts importe LlmRefusalError depuis ce fichier).
 
 // Client Anthropic partagé — singleton pour tous les agents
+//
+// `fetch` en `cache: "no-store"` (incident s14) : sous Workers, Next 14 mettait
+// en cache (1 an, dans R2) les POST /v1/messages exécutés dans un route handler
+// et REJOUAIT la même réponse d'un tick cron à l'autre. Voir
+// docs/infra/diagnostic-crons-s14.md (le wrapper d'open-next.config.ts coupe
+// aussi ce cache côté OpenNext : double protection).
+export const noStoreFetch: typeof fetch = (input, init) =>
+  fetch(input, { ...init, cache: "no-store" });
+
 export const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
+  fetch: noStoreFetch,
 });
 
 /**
@@ -13,17 +26,80 @@ export const anthropic = new Anthropic({
  * constante migre d'un coup tous les agents qui l'importent (au lieu de
  * chasser les `"claude-sonnet-4-20250514"` hardcodés dans chaque fichier).
  *
- * Note migration Sonnet 4.6 (avril 2026) : le modèle a été annoncé mais
- * la convention de versioning finale n'est pas confirmée cote Anthropic
- * au moment du commit. On reste volontairement sur Sonnet 4 stable tant
- * que l'ID date n'est pas gravé — le fondateur mettra a jour cette
- * constante d'un seul coup le jour J.
+ * Incident s11 : `claude-sonnet-4-20250514` a été retiré par Anthropic le
+ * 15/06/2026 → toute la génération (vannes, conseils, blog, social, vidéos)
+ * échouait silencieusement depuis. Migré vers Claude Sonnet 5.5
+ * (`claude-sonnet-5-5`, $2/$10 par MTok). Haiku n'est plus utilisé : le
+ * triage CEO et la validation Director passent par Sonnet 5.5 en effort `low`.
+ *
+ * Différences d'API gérées centralement dans `callWithRetry` :
+ * - réflexion adaptative toujours active → la réponse peut commencer par un
+ *   bloc `thinking` : lire le texte via `getResponseText()` (par type, jamais
+ *   `content[0]`) ;
+ * - la réflexion compte dans `max_tokens` → marge ajoutée automatiquement ;
+ * - effort explicite (défaut `low`, recommandé pour la génération de contenu) ;
+ * - `stop_reason: "refusal"` → `LlmRefusalError` (non retentée).
+ *
+ * Surcharge sans redéploiement de code : secret Replit `ANTHROPIC_SONNET_MODEL`
+ * (ex. au prochain retrait, cf. https://platform.claude.com/docs/en/about-claude/model-deprecations).
  *
  * Usage :
  *   import { SONNET_MODEL } from "@/lib/ai/client";
  *   await callWithRetry({ model: SONNET_MODEL, ... });
  */
-export const SONNET_MODEL = "claude-sonnet-4-20250514";
+export const SONNET_MODEL =
+  process.env.ANTHROPIC_SONNET_MODEL?.trim() || "claude-sonnet-5-5";
+
+/** Modèle Opus centralisé (rapport hebdo CEO). Surcharge : `ANTHROPIC_OPUS_MODEL`. */
+export const OPUS_MODEL =
+  process.env.ANTHROPIC_OPUS_MODEL?.trim() || "claude-opus-5-5";
+
+type Effort = NonNullable<Anthropic.OutputConfig["effort"]>;
+const EFFORTS: readonly Effort[] = ["low", "medium", "high", "xhigh", "max"];
+
+/**
+ * Effort par défaut appliqué aux appels qui n'en précisent pas.
+ * `low` = point de départ recommandé pour la génération de contenu
+ * (réflexion courte, sautée sur les requêtes simples). Surcharge globale :
+ * secret `ANTHROPIC_EFFORT` ; surcharge par appel : `output_config.effort`.
+ */
+export const DEFAULT_EFFORT: Effort = EFFORTS.includes(
+  process.env.ANTHROPIC_EFFORT?.trim() as Effort,
+)
+  ? (process.env.ANTHROPIC_EFFORT!.trim() as Effort)
+  : "low";
+
+/**
+ * Marge de tokens ajoutée à `max_tokens` pour la réflexion (qui compte dans
+ * `max_tokens` même quand son texte n'est pas renvoyé). Sans cette marge, une
+ * réponse JSON pourrait être tronquée. Les tokens non générés ne sont pas facturés.
+ */
+export const THINKING_HEADROOM_TOKENS = 4000;
+
+/** Le modèle a décliné la requête (`stop_reason: "refusal"`). Non retentée. */
+export class LlmRefusalError extends Error {
+  constructor(public readonly category: string | null) {
+    super(`LLM refusal${category ? ` (${category})` : ""}`);
+    this.name = "LlmRefusalError";
+  }
+}
+
+/**
+ * Applique les réglages propres aux modèles actuels : effort explicite et
+ * marge de réflexion dans `max_tokens`. N'écrase jamais un effort fourni.
+ */
+export function applyModelDefaults(
+  params: Anthropic.MessageCreateParamsNonStreaming,
+): Anthropic.MessageCreateParamsNonStreaming {
+  return {
+    ...params,
+    max_tokens: params.max_tokens + THINKING_HEADROOM_TOKENS,
+    output_config: {
+      ...params.output_config,
+      effort: params.output_config?.effort ?? DEFAULT_EFFORT,
+    },
+  };
+}
 
 /**
  * Métadonnées d'instrumentation attachées à un appel LLM.
@@ -78,35 +154,75 @@ export function buildCachedSystemBlock(text: string): Anthropic.TextBlockParam {
 export async function callWithRetry(
   params: Anthropic.MessageCreateParamsNonStreaming,
   maxRetries = 2,
-  meta?: CallMeta,
+  callMeta?: CallMeta,
 ): Promise<Anthropic.Message> {
   let lastError: unknown;
   const startedAt = Date.now();
+  const request = applyModelDefaults(params);
+  // Journalisation OBLIGATOIRE (s14) : le coupe-circuit budget somme
+  // LlmUsageLog.costUsd, un appel non journalisé fausserait le compteur.
+  const meta: CallMeta = callMeta ?? { agent: "non-attribue", fn: "inconnu" };
 
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const response = await anthropic.messages.create(params);
+      // Coupe-circuit budget (24 h glissantes + mois UTC), au plus près du SDK,
+      // re-vérifié à chaque tentative. Lève LlmBudgetExceededError (non retentée).
+      await assertLlmBudget(meta);
+      const response = await anthropic.messages.create(request);
 
-      // Logging succès : on capture les tokens facturés (input/output + cache).
-      // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
-      if (meta) {
-        void logLLMUsage({
+      // Refus du modèle : HTTP 200 mais pas de contenu exploitable. Tokens
+      // facturés → loggés, puis erreur non retentable (même requête = même refus).
+      if (response.stop_reason === "refusal") {
+        const refusal = new LlmRefusalError(response.stop_details?.category ?? null);
+        await logLLMUsage({
           agent: meta.agent,
           fn: meta.fn,
           model: params.model,
           usage: extractUsage(response),
           durationMs: Date.now() - startedAt,
-          success: true,
+          success: false,
+          errorMessage: refusal.message,
         });
+        throw refusal;
       }
+
+      // Logging succès : on capture les tokens facturés (input/output + cache).
+      // Silent-fail : une erreur d'écriture ne doit pas casser le pipeline.
+      await logLLMUsage({
+        agent: meta.agent,
+        fn: meta.fn,
+        model: params.model,
+        usage: extractUsage(response),
+        durationMs: Date.now() - startedAt,
+        success: true,
+      });
 
       return response;
     } catch (error) {
+      // Budget atteint : aucun appel n'a été fait, rien à journaliser ni à retenter.
+      if (isLlmBudgetExceededError(error)) throw error;
       lastError = error;
 
       // Vérifier si l'erreur est retryable
       const isRetryable = isRetryableError(error);
-      if (!isRetryable || attempt === maxRetries) break;
+      if (!isRetryable || attempt === maxRetries) {
+        // Alerte admin sur panne structurelle non-retryable (modèle retiré,
+        // auth cassée, quota épuisé). `notifyLLMFailure` filtre lui-même :
+        // silent-fail, throttlé 24h par type, et ignore les LlmRefusalError.
+        // Import dynamique pour couper la dépendance circulaire client.ts
+        // ↔ failure-alert.ts (qui importe LlmRefusalError d'ici).
+        void import("./failure-alert").then(({ notifyLLMFailure }) =>
+          notifyLLMFailure({
+            error,
+            model: params.model,
+            agent: meta?.agent,
+            fn: meta?.fn,
+          }),
+        ).catch(() => {
+          /* silent-fail final — l'alerte ne doit jamais casser le pipeline */
+        });
+        break;
+      }
 
       // Backoff exponentiel avec jitter pour éviter le thundering herd
       const baseDelay = Math.pow(2, attempt + 1) * 1000; // 2s, 4s
@@ -117,9 +233,10 @@ export async function callWithRetry(
 
   // Logging échec : si meta fourni, on enregistre un row success=false pour
   // tracker les retries coûteux (avec message d'erreur). Ces rows n'ont pas
-  // de tokens car l'appel n'a jamais abouti.
-  if (meta) {
-    void logLLMUsage({
+  // de tokens car l'appel n'a jamais abouti. (Un refus est déjà loggé avec
+  // ses tokens réels ci-dessus.)
+  if (!(lastError instanceof LlmRefusalError)) {
+    await logLLMUsage({
       agent: meta.agent,
       fn: meta.fn,
       model: params.model,
@@ -133,8 +250,17 @@ export async function callWithRetry(
   throw lastError;
 }
 
-function isRetryableError(error: unknown): boolean {
+export function isRetryableError(error: unknown): boolean {
   if (!(error instanceof Error)) return false;
+
+  // Statut HTTP d'abord (erreurs API du SDK) : leur message contient le corps
+  // JSON avec un `request_id` aléatoire — un 404/400 dont l'id contient "500"
+  // ou "429" était sinon retenté à tort (relecture s11).
+  if ("status" in error && typeof (error as { status: unknown }).status === "number") {
+    const status = (error as { status: number }).status;
+    return status === 429 || status >= 500;
+  }
+
   const msg = error.message;
 
   // Erreurs réseau
@@ -147,12 +273,6 @@ function isRetryableError(error: unknown): boolean {
   if (msg.includes("429") || msg.includes("500") || msg.includes("502") ||
       msg.includes("503") || msg.includes("529")) {
     return true;
-  }
-
-  // Vérifier le code de statut si disponible (Anthropic SDK)
-  if ("status" in error && typeof (error as { status: unknown }).status === "number") {
-    const status = (error as { status: number }).status;
-    return status === 429 || status >= 500;
   }
 
   return false;
@@ -251,5 +371,10 @@ export function extractJsonArray<T>(text: string): T[] {
  */
 export function getResponseText(response: Anthropic.Message): string {
   if (!response.content?.length) return "";
-  return response.content[0].type === "text" ? response.content[0].text : "";
+  // Lire par type, jamais par position : avec la réflexion adaptative, la
+  // réponse peut commencer par un (ou plusieurs) bloc(s) `thinking`.
+  return response.content
+    .filter((block): block is Anthropic.TextBlock => block.type === "text")
+    .map((block) => block.text)
+    .join("");
 }
