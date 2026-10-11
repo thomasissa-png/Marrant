@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (11/10/2026, ~08:00 Paris) : pilotage, cycle 9 et corrections en base, **RIEN À DÉPLOYER**
+
+- **Base (UPDATE ciblé id + status + texte exact, 1 ligne)** : post X du 15/10 `c3a73c8392964a6f9ed2f710c`, guillemets droits remplacés par “ ” à l'intérieur de « » (point K2 du @reviewer, cycle 9 ; règle `strategie-relance-v5.md` l.195). Mot à mot inchangé. La vanne source au catalogue garde ses guillemets droits : contrôle bloquant et correction de la source à faire par @fullstack APRÈS l'insertion du 1b (sinon le 1a régénéré ne serait plus identique à `lot-relance-s15.json`).
+- **Tests C2 et preuve D8 (@qa)** : C2 PASS sur les 3 réseaux (X avec Google actif, voulu par le code), D8 reçue par Umami le 11/10 (05:55 à 05:56 UTC) ; compte de test créé puis supprimé ; client Stripe de test `cus_VQ5vmmsBTa8djr` restant (session de paiement expirée seule) : à soustraire de la baseline 2. Détail : `docs/qa/tests-c2-navigateurs-integres-11-10.md`.
+- **Liens de bio non confirmés** : décision programmée le 12/10 15:00 UTC (légende IG2 tronquée à sa 1re phrase si le lien n'est pas posé) et le 13/10 19:00 UTC (5e partie d'IG3).
+
 ## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER ; @reviewer GO révision 8 le 10/10 (`8453e20`) ; insertion programmée le 13/10 06:30 UTC (après la condition QA du 13/10 08:15 Paris), PAS AVANT**
 
 > - **Révision 8 (10/10)** : 6 textes retenus à l'aveugle versés mot pour mot (légendes 1C et 2C, renvois 3a, 4b, 6b, 7a ; `social-lot-v5-legendes.ts`, nouveau `social-lot-v5-renvois.ts`) ; 19/10 IG : repli de la clé, L38 seule, sans renvoi. Dry-run 1b : 46 posts, **0 erreur**, `lot-1b.{md,json}` régénérés (sha256 `2268b3d9…`) ; contrôle `--insert` rejoué sans insérer : 0 écart, période vide en base. 1a identique à l'octet. tsc, lint, build verts ; Jest 3 916 passés. Commande d'insertion : `lot-1b-dry-run-08-10.md` révision 8, **à ne lancer qu'après le GO @reviewer**.
