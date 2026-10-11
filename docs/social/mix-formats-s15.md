@@ -6,10 +6,10 @@
 | Ligne | Valeur | Calcul |
 |---|---|---|
 | Pool strict + P0 | 42 | 40 (41 moins Alexa) + 2 (P0-072, P0-041) |
-| Semaine 0 | -10 | publiées 06 au 09/10, retour au plus tôt le 04/01 : 32 après la seule semaine 0 (`lot-semaine0.md` : « stock éligible 32 », avant recompte du 07/10) ; **25 au 12/10 après retrait des exemptées et de Noël** (ligne « Stock libre ») |
+| Semaine 0 | -10 | publiées 06 au 09/10, retour au plus tôt le 04/01 : 32 après la seule semaine 0 (`lot-semaine0.md` : « stock éligible 32 », avant recompte du 07/10) ; **22 au 12/10 au script, après retrait des exemptées, de Noël, de la 11e vanne publiée sur X le 02/10 et de V028 et V060** (ligne « Stock libre ») |
 | Exemptées jamais rejouées | -3 | V014, V019, V025 : dans `POOL_STRICT` mais jamais retirées du tirage (`recoupements-07-10.md` §1) |
 | Réservées à Noël | -4 | exclues de tout tirage avant le 24/12 (`recoupements-07-10.md` §1) |
-| **Stock libre au 12/10 (recompté le 07/10)** | **25** | 32 - 3 - 4 = 25 avec les 2 de P0 (23 sans, `recoupements-07-10.md`:32-42) ; 23 avec P0 hors les vannes des carrousels fixes V060 et V083 `[À RECOMPTER : --pool]` |
+| **Stock libre au 12/10 (script, `lot-1a-dry-run-07-10.md`:14)** | **22** | Pool 42 - 3 - 4 - 11 - 2 = 22 (`corrections-cycle8-fullstack.md`:23) : 11 vannes publiées depuis moins de 90 jours et non 10 (les 10 de la semaine 0 plus `cs14jk72ac436450535a3c29`, X du 02/10), V028 et V060 exclues du tirage (`RESERVEES_CARROUSEL`), V083 non réservée, tirée le 13/10. Recompte du 07/10 remplacé : 25 avec les 2 de P0, 23 sans (`recoupements-07-10.md`:32-42), qui comptait 10 exclusions |
 | Consommation 12/10 au 02/11 | -29 | dry-run `relance-s15` 38 posts moins 9 posts de Thomas (X1, X2, X3, IG1, IG2, IG3, L1, L2, L3) : reste 3, 5 si les 2 conseils du 23/10 partent |
 | Hors lot (14 notées le 07/10) | 0 | 0 sur 14 au niveau chez les 2 relecteurs (`resultat-hors-lot-07-10.md`:10) ; l'hypothèse « +5 » (14 x 37 %) est infirmée |
 | **Plancher au 03/11** | **`[À RECOMPTER : --pool]`** | Ancienne valeur 10 = 32 - 29 + 2 (conseils du 23/10) + 5 (hors lot, infirmé), sans retirer les 3 exemptées ni les 4 de Noël. Arithmétique des documents seule : 10 - 7 - 5 = nul ou négatif, **non recompté** ; aucune décision de cadence n'en découle (repli du mix, §2). Les lignes d'article notées s'ajoutent `[À COMPTER 07/10 et 23/10]` ; la production ne compte qu'une fois livrée (P0 2/240, pilote 2 0/120) |
