@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Correctifs audit Ahrefs du 07/10 (@fullstack @copywriter @infrastructure), N-1 `67697811-9f53-4857-84ef-16a82eccefba`
+## s20 Correctifs audit Ahrefs du 07/10 (@fullstack @copywriter @infrastructure), **DÉPLOYÉ le 11/10/2026 à 20:24 UTC, version `d344ceb6-b152-4bb0-a903-64ea5969d443`, HEAD `fb5ff6b`**, N-1 `67697811-9f53-4857-84ef-16a82eccefba`
 
 - **robots.txt** : `/register` et `/abonnement?` bloqués pour tous les user-agents (variantes `?callbackUrl=` / `?returnTo=` : 391 noindex, 490 meta longues, ~868 lien entrant unique chez Ahrefs). `/abonnement` nu reste explorable.
 - **Meta descriptions** : `/abonnement` ≤ 155 car. avec repli sans compteurs (144 aujourd'hui), `/confidentialite` 147 car. (`docs/seo/meta-descriptions-ahrefs-s20.md`).
