@@ -1,0 +1,934 @@
+{
+ "_meta": {
+  "date": "2026-10-11",
+  "source": "Neon prod, lecture seule",
+  "vannesActives": 132,
+  "donneesPersonnelles": "aucune"
+ },
+ "vannes": [
+  {
+   "id": "cmmnsqn14004sth63rnutrbwi",
+   "category": "AUTODERISION",
+   "content": "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau ».",
+   "punchline": "J'ai répondu « oui, mais ça ne durera pas ».",
+   "comedyTechnique": "La réponse trop honnête"
+  },
+  {
+   "id": "cmmnsqn130030th6381ol5rxt",
+   "category": "AUTODERISION",
+   "content": "Mon ambition dans la vie, c'est d'être aussi confiant...",
+   "punchline": "Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.",
+   "comedyTechnique": "L'autodérision par cible inversée"
+  },
+  {
+   "id": "cmmnsqn120001th63ryms5sxv",
+   "category": "AUTODERISION",
+   "content": "Mon psy m'a dit que je devais arrêter de me comparer aux autres.",
+   "punchline": "J'ai vérifié, les autres n'ont pas ce problème.",
+   "comedyTechnique": "Le retournement de responsabilité"
+  },
+  {
+   "id": "cmmnsqn120000th63o435xsb0",
+   "category": "AUTODERISION",
+   "content": "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus.",
+   "punchline": "Ils m'ont laissé un avis Google : une étoile.",
+   "comedyTechnique": "L'avis de l'institution"
+  },
+  {
+   "id": "cmmnsqn130027th63at2ene9i",
+   "category": "AUTODERISION",
+   "content": "J'ai dit à Alexa de me raconter une blague.",
+   "punchline": "Elle m'a lu mon historique de recherches.",
+   "comedyTechnique": "Le retournement de rôle"
+  },
+  {
+   "id": "cmmnsqn130038th63fxn1wvhn",
+   "category": "AUTODERISION",
+   "content": "Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui.",
+   "punchline": "Elle entend le papier alu. Elle insiste pas.",
+   "comedyTechnique": "L'implicite tendre"
+  },
+  {
+   "id": "cmozb1ocr006ws60yraru87yn",
+   "category": "AUTODERISION",
+   "content": "J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée.",
+   "punchline": "Elle m'a demandé si tout allait bien.",
+   "comedyTechnique": "L'outil qui s'inquiète"
+  },
+  {
+   "id": "cs14jk4e0348d6f06a41d826",
+   "category": "AUTODERISION",
+   "content": "J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui.",
+   "punchline": "J'ai su répondre à deux. Le discours est très pudique.",
+   "comedyTechnique": "L'euphémisme démasqué"
+  },
+  {
+   "id": "cs14jkafa211aede70b92cc8",
+   "category": "AUTODERISION",
+   "content": "Mon prof a cru que mon devoir était écrit par une IA.",
+   "punchline": "Il a relu mes anciennes copies et il s'est excusé.",
+   "comedyTechnique": "L'excuse qui blesse"
+  },
+  {
+   "id": "cs14jke6736001250d3a940d",
+   "category": "AUTODERISION",
+   "content": "J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu « passionnant ».",
+   "punchline": "C'est le mot de ma mère. Je cherche quelqu'un qui me déteste.",
+   "comedyTechnique": "Le souhait paradoxal"
+  },
+  {
+   "id": "cs14jkc13a4d9d7194d8e5ea",
+   "category": "AUTODERISION",
+   "content": "Mon manager m'a félicité pour ma discrétion.",
+   "punchline": "Je n'ai pas su comment le remercier sans me faire remarquer.",
+   "comedyTechnique": "Le paradoxe auto-annulant"
+  },
+  {
+   "id": "cs14jk9cc844b92fde69e845",
+   "category": "AUTODERISION",
+   "content": "J'ai pris un chien pour me faire des amis.",
+   "punchline": "Il en a plein. Moi, je tiens la laisse.",
+   "comedyTechnique": "Le rôle de figurant"
+  },
+  {
+   "id": "cs14jk2150421b8b4969cb67",
+   "category": "AUTODERISION",
+   "content": "Dans le métro, quelqu'un m'a demandé « vous descendez ? ». J'ai dit oui par réflexe.",
+   "punchline": "Je suis descendu. J'habite à trois stations. Je tiens parole.",
+   "comedyTechnique": "La parole tenue jusqu'à l'absurde"
+  },
+  {
+   "id": "cmnl01zwv004ss60y2ecodj9a",
+   "category": "SITUATION",
+   "content": "J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes.",
+   "punchline": "Il était à l'heure, moi j'étais à l'arrêt d'en face.",
+   "comedyTechnique": "Le retournement de responsabilité"
+  },
+  {
+   "id": "cmnl1ns640055s60yy53xfnbw",
+   "category": "SITUATION",
+   "content": "J'ai couru pour attraper le bus ce matin sous la pluie.",
+   "punchline": "Le chauffeur m'a fait un petit signe de la main en passant.",
+   "comedyTechnique": "Le geste poli qui trahit"
+  },
+  {
+   "id": "cs14jk577fa779cb48fa9b55",
+   "category": "SITUATION",
+   "content": "Le médecin m'a demandé combien de cafés je bois par jour. J'ai dit deux.",
+   "punchline": "Il a regardé mes mains. Il a écrit six.",
+   "comedyTechnique": "La preuve qui te contredit"
+  },
+  {
+   "id": "cs14jk2ef0aabfbf4784ad82",
+   "category": "SITUATION",
+   "content": "Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère.",
+   "punchline": "Elle me l'a dicté de mémoire, avec les espaces.",
+   "comedyTechnique": "La précision absurde"
+  },
+  {
+   "id": "cs18jkstory5v1",
+   "category": "SITUATION",
+   "content": "Mardi, j'ai suivi mon premier cours de poterie. Parenthèse : un pigeon marche toujours comme quelqu'un qui est en retard à un rendez-vous qu'il n'a pas. Bref.",
+   "punchline": "J'ai fait un bol. La prof l'a posé à l'entrée, pour rassurer les nouveaux.",
+   "comedyTechnique": "Le tiroir"
+  },
+  {
+   "id": "cs18jkstory5v3",
+   "category": "SITUATION",
+   "content": "Premier cours de salsa. Le prof nous dit : « Ne réfléchissez pas, laissez la musique vous guider. » Parenthèse : une girafe dort moins de deux heures par nuit, souvent debout : elle a forcément un patron. Bref.",
+   "punchline": "J'ai laissé la musique faire. Elle m'a conduit jusqu'à la sortie.",
+   "comedyTechnique": "Le tiroir"
+  },
+  {
+   "id": "cs18jkstory5v4",
+   "category": "SITUATION",
+   "content": "Lundi, j'ai appelé mon dentiste pour annuler mon rendez-vous. Parenthèse : le manchot empereur couve son œuf deux mois sans manger, ce qui met une sacrée pression sur tous les autres pères. Bref.",
+   "punchline": "La secrétaire m'a demandé le motif. J'ai dit que j'avais peur. Elle m'a répondu qu'il y avait une case pour ça.",
+   "comedyTechnique": "Le tiroir"
+  },
+  {
+   "id": "cmmnsqn12000hth63y5wqmb9d",
+   "category": "ABSURDE",
+   "content": "J'ai dit à mon chat qu'on allait chez le vétérinaire.",
+   "punchline": "Depuis, il cherche « droits des animaux » sur mon ordinateur.",
+   "comedyTechnique": "L'absurde"
+  },
+  {
+   "id": "cmmw0togs0001mw62152nl589",
+   "category": "ABSURDE",
+   "content": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve.",
+   "punchline": "J'ai hésité. Il avait l'air sûr de lui.",
+   "comedyTechnique": "L'autorité absurde"
+  },
+  {
+   "id": "cmmw0tois0002mw62b7bkcvj7",
+   "category": "ABSURDE",
+   "content": "J'ai mis mon réveil en face du lit pour être obligé de me lever.",
+   "punchline": "Maintenant je dors par terre, à côté du réveil.",
+   "comedyTechnique": "La solution pire que le problème"
+  },
+  {
+   "id": "cs14jk42ccc92a7e1c88add1",
+   "category": "ABSURDE",
+   "content": "On m'a volé le cadenas de mon vélo. Pas le vélo.",
+   "punchline": "Je prends ça pour une critique.",
+   "comedyTechnique": "La vexation inattendue"
+  },
+  {
+   "id": "cs14jkfc1715f1d4c7509f3b",
+   "category": "ABSURDE",
+   "content": "J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée.",
+   "punchline": "J'ai voulu retrouver son propriétaire pour lui dire que je comprends.",
+   "comedyTechnique": "Le miroir involontaire"
+  },
+  {
+   "id": "cs14jka7e683e43af915bb60",
+   "category": "ABSURDE",
+   "content": "Quelqu'un a récupéré le fauteuil que je venais de jeter à la déchetterie. Il l'a essayé sur place.",
+   "punchline": "Il avait l'air plus heureux dedans que moi.",
+   "comedyTechnique": "La comparaison à ton détriment"
+  },
+  {
+   "id": "cs14jkab7cdbceeb2bf5da6c",
+   "category": "ABSURDE",
+   "content": "Tous les soirs, mon voisin se dispute avec sa télé à travers le mur.",
+   "punchline": "Hier, silence. Ils se sont réconciliés.",
+   "comedyTechnique": "Le couple improbable"
+  },
+  {
+   "id": "cs14jk396779a0b184b83c64",
+   "category": "ABSURDE",
+   "content": "Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe.",
+   "punchline": "J'ai dû la manger devant lui, en silence.",
+   "comedyTechnique": "La solennité disproportionnée"
+  },
+  {
+   "id": "cmmnsqn14003vth63i2are7es",
+   "category": "OBSERVATIONNEL",
+   "content": "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années.",
+   "punchline": "C'est devenu notre truc.",
+   "comedyTechnique": "L'autodéfinition"
+  },
+  {
+   "id": "cs14jk1a722c352c691f600e",
+   "category": "OBSERVATIONNEL",
+   "content": "Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20.",
+   "punchline": "J'ai passé la journée inquiet.",
+   "comedyTechnique": "Le lien invisible"
+  },
+  {
+   "id": "cs14jk76ca7ad32cce9041ce",
+   "category": "OBSERVATIONNEL",
+   "content": "Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu.",
+   "punchline": "J'ai voyagé à genoux devant lui. On n'en a jamais parlé.",
+   "comedyTechnique": "La gêne tacite"
+  },
+  {
+   "id": "cs14jk4fe660e7238281ce47",
+   "category": "OBSERVATIONNEL",
+   "content": "Ma grand-mère cuisine toujours pour douze. On est trois.",
+   "punchline": "Elle s'excuse pour les neuf qui ne sont pas venus.",
+   "comedyTechnique": "Le retournement de responsabilité"
+  },
+  {
+   "id": "cs14jk9de039def971586501",
+   "category": "OBSERVATIONNEL",
+   "content": "Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer.",
+   "punchline": "Elle a demandé : « Et lui, il fait quoi pour toi ? »",
+   "comedyTechnique": "La naïveté qui démonte"
+  },
+  {
+   "id": "cs14jk50c85bb0d73deaebaf",
+   "category": "OBSERVATIONNEL",
+   "content": "Dans le train, la place à côté de moi était réservée. Personne n'est venu.",
+   "punchline": "Je me suis senti attendu pendant tout le trajet.",
+   "comedyTechnique": "Le recadrage"
+  },
+  {
+   "id": "cs14jk02047ed5635bab6a52",
+   "category": "OBSERVATIONNEL",
+   "content": "J'ai dit à mon grand-père que je l'admirais.",
+   "punchline": "Il a répondu « prends du pain ».",
+   "comedyTechnique": "La tendresse esquivée"
+  },
+  {
+   "id": "cs14jk46b113c7c6bcb044ba",
+   "category": "OBSERVATIONNEL",
+   "content": "Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non.",
+   "punchline": "Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé.",
+   "comedyTechnique": "La double lecture"
+  },
+  {
+   "id": "cmmnsqn14004nth638k89q5ig",
+   "category": "CULTUREL",
+   "content": "Quand quelqu'un commence par « à la base », il faut être patient.",
+   "punchline": "Trois digressions plus tard, la base a déménagé.",
+   "comedyTechnique": "L'abstrait pris au pied de la lettre"
+  },
+  {
+   "id": "cmmnsqn130033th63b54ux45o",
+   "category": "CULTUREL",
+   "content": "Mon père a vu mon appart. Il a dit « c'est pas mal ».",
+   "punchline": "Je lui ai demandé de me le mettre par écrit.",
+   "comedyTechnique": "La litote prise au sérieux"
+  },
+  {
+   "id": "cmmnsqn14003rth6379n30nzd",
+   "category": "CULTUREL",
+   "content": "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien.",
+   "punchline": "Il te fait asseoir et baisse la voix.",
+   "comedyTechnique": "La disproportion de réaction"
+  },
+  {
+   "id": "cmp9fpyd4006ys60xwsegez9e",
+   "category": "CULTUREL",
+   "content": "Ma mère a vu que j'allais au Hellfest.",
+   "punchline": "Elle m'a demandé si j'avais fait mes vaccins.",
+   "comedyTechnique": "L'inquiétude décalée"
+  },
+  {
+   "id": "cmp9gspno007ms60xngd592ct",
+   "category": "CULTUREL",
+   "content": "J'ai regardé les prix des pass 3 jours pour les Eurockéennes.",
+   "punchline": "Je vais acheter une guitare.",
+   "comedyTechnique": "La solution démesurée"
+  },
+  {
+   "id": "cs14jkbc3334e2de46753dcf",
+   "category": "CULTUREL",
+   "content": "Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes.",
+   "punchline": "Le monsieur devant moi a dit « c'est puissant ».",
+   "comedyTechnique": "La rationalisation solennelle"
+  },
+  {
+   "id": "cs14jk0be97f32ce3e899598",
+   "category": "CULTUREL",
+   "content": "J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles.",
+   "punchline": "Je dois des excuses à un mariage.",
+   "comedyTechnique": "La révélation rétroactive"
+  },
+  {
+   "id": "cs14jk2f7e474771284319f5",
+   "category": "CULTUREL",
+   "content": "Mon copain a regardé un épisode de notre série sans moi.",
+   "punchline": "Depuis, je surveille son visage pour savoir qui meurt.",
+   "comedyTechnique": "L'enquête disproportionnée"
+  },
+  {
+   "id": "cs14jk45ee75c68d340d52f2",
+   "category": "CULTUREL",
+   "content": "L'audioguide du musée s'est éteint dans la première salle.",
+   "punchline": "J'ai hoché la tête pendant deux heures.",
+   "comedyTechnique": "Le faux-semblant"
+  },
+  {
+   "id": "cs14jk19d61c474a856962a1",
+   "category": "CULTUREL",
+   "content": "Mon voisin a sonné, inquiet, à cause des cris de ma série.",
+   "punchline": "Je l'ai fait entrer. Il revient jeudi.",
+   "comedyTechnique": "Le renversement d'attente"
+  },
+  {
+   "id": "cs14jk20142f9a641e8ea80f",
+   "category": "CULTUREL",
+   "content": "À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos.",
+   "punchline": "Le canon a beaucoup amélioré la chanson.",
+   "comedyTechnique": "Le bon côté forcé"
+  },
+  {
+   "id": "cmni62ad30005s60yc7qnog31",
+   "category": "COUPLE",
+   "content": "Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare.",
+   "punchline": "Moi, elle a dit qu'elle verrait en juin.",
+   "comedyTechnique": "Le glissement de catégorie"
+  },
+  {
+   "id": "cmnz0jqsx000rs60xrbrqm8kk",
+   "category": "COUPLE",
+   "content": "Mon copain : 'Choisis le resto, ça m'est égal.'",
+   "punchline": "J'ai réservé chez son ex. Ça lui était égal aussi.",
+   "comedyTechnique": "La consigne prise au mot"
+  },
+  {
+   "id": "cmnz37u510010s60xj40i8lqu",
+   "category": "COUPLE",
+   "content": "Mon copain et moi, on a trouvé comment choisir un resto sans se disputer.",
+   "punchline": "On se fait livrer et on chuchote, comme si on était sortis.",
+   "comedyTechnique": "Le détail qui trahit"
+  },
+  {
+   "id": "cs14jkc1eca6d5be193e2dbb",
+   "category": "COUPLE",
+   "content": "Ma copine a acheté deux couettes pour qu'on arrête de se disputer.",
+   "punchline": "Elle a pris les deux.",
+   "comedyTechnique": "Le retournement de solution"
+  },
+  {
+   "id": "cs14jk34c841ef6e1abadb11",
+   "category": "COUPLE",
+   "content": "Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier.",
+   "punchline": "Il a zoomé. Sur le parking.",
+   "comedyTechnique": "La précision qui démasque"
+  },
+  {
+   "id": "cs14jkbe6b6bc15755d06863",
+   "category": "COUPLE",
+   "content": "Ce matin, j'ai dormi du côté gauche du lit par erreur.",
+   "punchline": "Elle m'a demandé si j'avais quelque chose à lui dire.",
+   "comedyTechnique": "La surinterprétation"
+  },
+  {
+   "id": "cs14jke10b58d158ae638560",
+   "category": "COUPLE",
+   "content": "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an.",
+   "punchline": "Je lui ai demandé s'il partait.",
+   "comedyTechnique": "Le geste normal devenu suspect"
+  },
+  {
+   "id": "cs14jkb13ecb02394551151e",
+   "category": "COUPLE",
+   "content": "Ma copine a fait un tableau des tâches ménagères avec un code couleur.",
+   "punchline": "J'ai le bleu. Il y a rien en bleu.",
+   "comedyTechnique": "Le système pris en défaut"
+  },
+  {
+   "id": "cs14jkee5c537f7286c1da98",
+   "category": "COUPLE",
+   "content": "Premier Noël chez ma belle-famille. On m'a placé à côté du grand-père, qui entend rien.",
+   "punchline": "Il m'a pris pour son notaire. J'ai été très bien traité.",
+   "comedyTechnique": "Le malentendu qui profite"
+  },
+  {
+   "id": "cs14jk778d1f9eea5f8ea3a8",
+   "category": "COUPLE",
+   "content": "Le dimanche, mon copain se lève à 7 h pour profiter de la journée.",
+   "punchline": "À 8 h, il l'avait profitée. Il est retourné se coucher.",
+   "comedyTechnique": "La lecture littérale"
+  },
+  {
+   "id": "cs14jka3336e7e90a453a9d6",
+   "category": "COUPLE",
+   "content": "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars.",
+   "punchline": "Elle a un prénom, maintenant.",
+   "comedyTechnique": "L'exagération temporelle"
+  },
+  {
+   "id": "cs14jk18882246f6446df2b7",
+   "category": "COUPLE",
+   "content": "Ma copine m'a envoyé son planning de la semaine pour qu'on s'organise.",
+   "punchline": "Je suis mercredi, de 19 h à 19 h 30.",
+   "comedyTechnique": "Le contraste de statut"
+  },
+  {
+   "id": "cs14jkdf1cef669030ec828a",
+   "category": "COUPLE",
+   "content": "Mon copain m'a dit qu'il ne pouvait pas vivre sans moi. Je suis partie trois jours chez ma mère.",
+   "punchline": "Il a très bien vécu. Il a même trouvé où on range les draps.",
+   "comedyTechnique": "Le démenti par les faits"
+  },
+  {
+   "id": "cs14jk360d10ea650e662770",
+   "category": "COUPLE",
+   "content": "Je fais semblant d'aimer la série préférée de ma copine depuis deux ans.",
+   "punchline": "Ils viennent d'annoncer une saison 5. On a pleuré tous les deux.",
+   "comedyTechnique": "La double lecture"
+  },
+  {
+   "id": "cs14jkfec1cb933d1931e868",
+   "category": "COUPLE",
+   "content": "Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir.",
+   "punchline": "On a croisé un autre couple avec les mêmes. On a changé de trottoir.",
+   "comedyTechnique": "Le miroir gênant"
+  },
+  {
+   "id": "cs14jk8bb84cc5521b608aed",
+   "category": "COUPLE",
+   "content": "Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée ».",
+   "punchline": "Elle vit chez nous depuis un an.",
+   "comedyTechnique": "La contradiction de proximité"
+  },
+  {
+   "id": "cmoapu9k80020s60x7jv317hv",
+   "category": "BOULOT",
+   "content": "Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers.",
+   "punchline": "Elle revient lundi.",
+   "comedyTechnique": "La disproportion révélée"
+  },
+  {
+   "id": "cmonlkgeu000ds60wu0gazutb",
+   "category": "BOULOT",
+   "content": "Mon collègue revient de 4 jours à Rome et me raconte tout en détail.",
+   "punchline": "Ça fait 2h. On vient de récupérer les valises.",
+   "comedyTechnique": "Le temps réel"
+  },
+  {
+   "id": "cmoxx7e56003xs60yyooxncw3",
+   "category": "BOULOT",
+   "content": "Ma réunion 'point rapide avant l'été' a commencé à 14h.",
+   "punchline": "On a fini par voter la police de caractère.",
+   "comedyTechnique": "Le bilan dérisoire"
+  },
+  {
+   "id": "cs14jk0c96df8dc97a67e3f6",
+   "category": "BOULOT",
+   "content": "Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit.",
+   "punchline": "Huit mois après, Nicolas est très apprécié. Julien, on ne sait pas.",
+   "comedyTechnique": "Le dédoublement de soi"
+  },
+  {
+   "id": "cs14jk69eb578cce484b6f87",
+   "category": "BOULOT",
+   "content": "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un.",
+   "punchline": "Cinq personnes m'ont demandé ce que je faisais dans la conversation.",
+   "comedyTechnique": "Le renversement de normalité"
+  },
+  {
+   "id": "cs14jk0761c9f2d885762bb5",
+   "category": "BOULOT",
+   "content": "Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio.",
+   "punchline": "Elle m'a demandé si on me répondait, parfois.",
+   "comedyTechnique": "Le recadrage"
+  },
+  {
+   "id": "cs14jke4221e9a31a33b0395",
+   "category": "BOULOT",
+   "content": "J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? »",
+   "punchline": "J'avais rien préparé pour ça. J'ai dit « plus ou moins ». Il a noté.",
+   "comedyTechnique": "Le détail qui décide"
+  },
+  {
+   "id": "cs14jke5d015b07714055538",
+   "category": "BOULOT",
+   "content": "Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien ».",
+   "punchline": "Ils sont en page 2. Le rapport commence page 3.",
+   "comedyTechnique": "Le compliment empoisonné"
+  },
+  {
+   "id": "cs14jk4d523526fb0d6ca24e",
+   "category": "BOULOT",
+   "content": "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche.",
+   "punchline": "Il cherche quelqu'un de plus reposé.",
+   "comedyTechnique": "La machine qui juge"
+  },
+  {
+   "id": "cs14jkf30f2d648e83002b90",
+   "category": "BOULOT",
+   "content": "Avec un collègue, on a enfin comparé nos salaires.",
+   "punchline": "Il a payé le café. Sans un mot.",
+   "comedyTechnique": "L'aveu par le geste"
+  },
+  {
+   "id": "cs14jkefbc9f40abb6f8a2ca",
+   "category": "BOULOT",
+   "content": "Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze.",
+   "punchline": "Depuis, on se surveille.",
+   "comedyTechnique": "Le compliment qui se dévalue"
+  },
+  {
+   "id": "cs14jke956e7ca02641e25c5",
+   "category": "BOULOT",
+   "content": "Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion ».",
+   "punchline": "Elle a répondu « tu leur diras bonjour ».",
+   "comedyTechnique": "La réplique qui désarme"
+  },
+  {
+   "id": "cs14jk0aa83dd779a1c72b43",
+   "category": "BOULOT",
+   "content": "J'ai passé mon stage à ranger les archives par ordre alphabétique.",
+   "punchline": "Depuis, plus personne ne retrouve rien. Ils avaient un système.",
+   "comedyTechnique": "Le zèle contre-productif"
+  },
+  {
+   "id": "cs14jkdb222991fcbf194845",
+   "category": "BOULOT",
+   "content": "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure.",
+   "punchline": "Robert commence en septembre.",
+   "comedyTechnique": "L'identité empruntée"
+  },
+  {
+   "id": "cs14jka89abf28d3769b05fe",
+   "category": "BOULOT",
+   "content": "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis.",
+   "punchline": "Il est là pour prouver qu'on pourrait.",
+   "comedyTechnique": "La définition détournée"
+  },
+  {
+   "id": "cs18jkstory5v5",
+   "category": "BOULOT",
+   "content": "À mon pot de départ, mon chef a fait un discours de dix minutes : j'étais irremplaçable, le cœur de l'équipe, une chance pour la boîte. Parenthèse : on ne peut pas se chatouiller soi-même, ce qui prouve que le cerveau est un mauvais public : il connaît déjà la fin. Bref.",
+   "punchline": "J'ai demandé si je pouvais rester. Il a dit qu'il ne fallait pas tout mélanger.",
+   "comedyTechnique": "Le tiroir"
+  },
+  {
+   "id": "cs14jkd6b11e811ffbf7f301",
+   "category": "ECOLE",
+   "content": "Mon adresse mail pro d'alternant commence par « alternant2 ».",
+   "punchline": "J'aimerais savoir ce qu'est devenu alternant1.",
+   "comedyTechnique": "L'implicite inquiétant"
+  },
+  {
+   "id": "cs14jk95ff5ad63e2e414ac6",
+   "category": "ECOLE",
+   "content": "Le prof écrit au feutre presque vide. La formule finale, c'était un 3 ou un 8 ?",
+   "punchline": "On a mis 5, pour ne fâcher personne.",
+   "comedyTechnique": "Le compromis absurde"
+  },
+  {
+   "id": "cs14jkfa44f4f0eb4df4e459",
+   "category": "ECOLE",
+   "content": "Je me suis filmé pour préparer mon oral.",
+   "punchline": "Mes mains ont fait un autre exposé, plus convaincant.",
+   "comedyTechnique": "La personnification d'une partie du corps"
+  },
+  {
+   "id": "cs14jk177b62432b07f5d17a",
+   "category": "ECOLE",
+   "content": "Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes.",
+   "punchline": "Il a précisé « pas tout ».",
+   "comedyTechnique": "La lecture littérale"
+  },
+  {
+   "id": "cp05d2c3950800b7575c12ce6",
+   "category": "ECOLE",
+   "content": "Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pour mon devoir.",
+   "punchline": "La bibliothécaire m'a dit qu'aucun n'existait, mais que les titres étaient plutôt bons.",
+   "comedyTechnique": "Le compliment cruel"
+  },
+  {
+   "id": "cmmnsqn15006kth63res9rqp9",
+   "category": "GAMING",
+   "content": "J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul.",
+   "punchline": "Je l'ai pas désinstallé. On a fait le téléchargement ensemble.",
+   "comedyTechnique": "L'attachement absurde"
+  },
+  {
+   "id": "cs14jkb81aae613b293f204b",
+   "category": "GAMING",
+   "content": "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle.",
+   "punchline": "Elle m'a dit « c'est un bon début ».",
+   "comedyTechnique": "Le contraste de statut"
+  },
+  {
+   "id": "cs14jk28b5acf3a95217071c",
+   "category": "GAMING",
+   "content": "J'ai passé six heures à installer des mods pour embellir mon jeu.",
+   "punchline": "Il ne se lance plus, mais le message d'erreur est en 4K.",
+   "comedyTechnique": "L'exploit inutile"
+  },
+  {
+   "id": "cs14jk0ae967eb481a4ecc4f",
+   "category": "GAMING",
+   "content": "Je joue depuis dix ans avec un pote que je n'ai jamais vu. Il m'a enfin envoyé une photo.",
+   "punchline": "Il a la tête de quelqu'un qui dit « on se regroupe ».",
+   "comedyTechnique": "Le portrait par le vocabulaire"
+  },
+  {
+   "id": "cmmnsqn150074th63m5g2yqip",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "J'ai bloqué quelqu'un sur les réseaux. Il m'a appelé pour demander pourquoi.",
+   "punchline": "J'ai décroché. J'ai dû mal comprendre le principe.",
+   "comedyTechnique": "Le principe mal compris"
+  },
+  {
+   "id": "cs14jk44dcd2dbf3ec29324d",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "Dans le groupe de mon ancienne classe, quelqu'un a demandé « des nouvelles de Maxime ? ».",
+   "punchline": "Maxime a répondu : « je suis dans le groupe ».",
+   "comedyTechnique": "L'ironie de situation"
+  },
+  {
+   "id": "cs14jke92ed6178b5326c48c",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé.",
+   "punchline": "Il s'est fait rajouter. Il a écrit « bref ».",
+   "comedyTechnique": "L'anticlimax"
+  },
+  {
+   "id": "cs14jkf0a20e0837fa95c784",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec.",
+   "punchline": "Elle a proposé « j'espère que ce message te trouve bien ».",
+   "comedyTechnique": "Le décalage de registre"
+  },
+  {
+   "id": "cs14jk7cac6246ac112b5afc",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine.",
+   "punchline": "Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».",
+   "comedyTechnique": "La mesure qui remplace le sentiment"
+  },
+  {
+   "id": "cs14jk04b4bc8bbf8a2d8a05",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours.",
+   "punchline": "Il s'appelait « Anniv de Léa ». Léa, c'est moi.",
+   "comedyTechnique": "Le retournement de perspective"
+  },
+  {
+   "id": "cs14jk812483721e0a4d4228",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "Le groupe de mon immeuble a été créé il y a un an. Premier message : « Bonjour à tous ».",
+   "punchline": "Deuxième message, hier : « À qui est le vélo ? ». Personne n'a répondu au premier.",
+   "comedyTechnique": "La réponse sélective"
+  },
+  {
+   "id": "cs14jk8c54311509a1108b0a",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! ».",
+   "punchline": "Depuis, je passe par l'autre rue.",
+   "comedyTechnique": "L'effet boomerang"
+  },
+  {
+   "id": "cs14jk7911857c4ff09eb025",
+   "category": "RESEAUX_SOCIAUX",
+   "content": "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc.",
+   "punchline": "En entretien, on m'a demandé si j'étais dispo pour les régionales.",
+   "comedyTechnique": "Le malentendu d'identité"
+  },
+  {
+   "id": "cmmnsqn15007dth63pcggw13x",
+   "category": "DATING",
+   "content": "Elle m'a demandé ce que je faisais dans la vie.",
+   "punchline": "J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.",
+   "comedyTechnique": "Le retournement inattendu"
+  },
+  {
+   "id": "cmmnsqn15007oth63jbugyxvs",
+   "category": "DATING",
+   "content": "Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat ».",
+   "punchline": "Elle m'a demandé si j'en parlais un autre.",
+   "comedyTechnique": "Le sens littéral"
+  },
+  {
+   "id": "cs14jk29357d022f6880a69e",
+   "category": "DATING",
+   "content": "Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram.",
+   "punchline": "Elle m'a demandé pourquoi j'avais eu un bouc.",
+   "comedyTechnique": "L'anticlimax"
+  },
+  {
+   "id": "cs14jk55b4243d4d1c132b97",
+   "category": "DATING",
+   "content": "Mon date a posé son téléphone face contre la table pour me montrer qu'elle m'écoutait.",
+   "punchline": "Il a vibré onze fois. Elle a tenu dix.",
+   "comedyTechnique": "La précision absurde"
+  },
+  {
+   "id": "cs14jkdbc8310a260d111f1d",
+   "category": "DATING",
+   "content": "Premier rendez-vous en hiver. J'ai enlevé mon gros manteau.",
+   "punchline": "Elle a demandé où était passé le reste.",
+   "comedyTechnique": "L'autodérision indirecte"
+  },
+  {
+   "id": "cs14jkb9ba433a0746280280",
+   "category": "DATING",
+   "content": "Mon date a enregistré mon numéro devant moi. Elle a tapé « Antoine bar ».",
+   "punchline": "Je suis devenu un endroit.",
+   "comedyTechnique": "Le changement de catégorie"
+  },
+  {
+   "id": "cs14jk4f97079b992f85eeb1",
+   "category": "DATING",
+   "content": "Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date lui a demandé si elle avait des conseils.",
+   "punchline": "Elle avait une liste.",
+   "comedyTechnique": "La réponse trop prête"
+  },
+  {
+   "id": "cs14jk9a9e7a1b8e0e16264e",
+   "category": "DATING",
+   "content": "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités.",
+   "punchline": "Elle a désigné celle où j'ai un CDI.",
+   "comedyTechnique": "La vérité qui sonne faux"
+  },
+  {
+   "id": "cs14jk1bc86d3502a2cef27b",
+   "category": "DATING",
+   "content": "Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple.",
+   "punchline": "Elle a dit « ne va pas trop vite ».",
+   "comedyTechnique": "La lecture littérale"
+  },
+  {
+   "id": "cmmnsqn15007xth63p3dzv6pc",
+   "category": "SOIREES",
+   "content": "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons.",
+   "punchline": "Il a beaucoup de chansons.",
+   "comedyTechnique": "Le deadpan factuel"
+  },
+  {
+   "id": "cs14jk1e07f8547b752601b8",
+   "category": "SOIREES",
+   "content": "Je ne connaissais personne à la soirée, alors j'ai parlé au chat.",
+   "punchline": "À minuit, il s'est excusé pour aller voir quelqu'un.",
+   "comedyTechnique": "L'humanisation de l'animal"
+  },
+  {
+   "id": "cs14jkbe889a47471bf8cbeb",
+   "category": "SOIREES",
+   "content": "Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée.",
+   "punchline": "À 2h du matin, on les a mangés. Par respect.",
+   "comedyTechnique": "Le faux motif noble"
+  },
+  {
+   "id": "cs14jkbdb9858fdd496e962a",
+   "category": "SOIREES",
+   "content": "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance ».",
+   "punchline": "Je ne connaissais personne. J'ai dû avoir une enfance discrète.",
+   "comedyTechnique": "L'auto-dérision par déduction"
+  },
+  {
+   "id": "cs14jkd9058d03e24961004a",
+   "category": "SOIREES",
+   "content": "Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai suivi le concert sur son écran.",
+   "punchline": "À la fin, il m'a demandé si c'était bien.",
+   "comedyTechnique": "L'inversion des rôles"
+  },
+  {
+   "id": "cs14jk0d9dfe9b5c26db5f8d",
+   "category": "SOIREES",
+   "content": "Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un.",
+   "punchline": "Il est venu m'aider à essuyer.",
+   "comedyTechnique": "Le plan qui se retourne"
+  },
+  {
+   "id": "cs14jkb03209d55cbfc17448",
+   "category": "SOIREES",
+   "content": "Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert.",
+   "punchline": "Il m'a regardé comme si j'étais le bruit.",
+   "comedyTechnique": "Le malentendu de politesse"
+  },
+  {
+   "id": "cs14jk8f28ff20e1cf82f3a8",
+   "category": "SOIREES",
+   "content": "Au jeu de mimes, ma carte disait « la timidité ».",
+   "punchline": "J'avais à peine bougé qu'ils avaient trouvé.",
+   "comedyTechnique": "Le talent involontaire"
+  },
+  {
+   "id": "cs18jkstory5v2",
+   "category": "SOIREES",
+   "content": "Dans ma bande de potes, il y en a un qui triche à tous les jeux de société. Tout le monde le sait. On a fini par le surveiller de près. Parenthèse : le dimanche à dix-sept heures, le ciel a déjà une couleur de lundi. Bref.",
+   "punchline": "Depuis, il triche mieux. Il a un public.",
+   "comedyTechnique": "Le tiroir"
+  },
+  {
+   "id": "cmmnsqn16008jth63zwal8rzj",
+   "category": "PARENTS",
+   "content": "Mon père m'envoie ses messages en MAJUSCULES.",
+   "punchline": "Je réponds en minuscules. Il m'a demandé pourquoi je boudais.",
+   "comedyTechnique": "Le malentendu de registre"
+  },
+  {
+   "id": "cs14jk626438b67f197925d2",
+   "category": "PARENTS",
+   "content": "Mon petit frère m'appelle « papi ». J'ai 26 ans.",
+   "punchline": "J'ai acheté une canne. Il a arrêté. J'ai gardé la canne.",
+   "comedyTechnique": "L'escalade assumée"
+  },
+  {
+   "id": "cs14jk5828aab353759ef4d5",
+   "category": "PARENTS",
+   "content": "Mon père décroche toujours par « qu'est-ce qui se passe ? ».",
+   "punchline": "Un jour, j'inventerai quelque chose. Pour lui faire plaisir.",
+   "comedyTechnique": "Le renversement d'attente"
+  },
+  {
+   "id": "cs14jk72ac436450535a3c29",
+   "category": "PARENTS",
+   "content": "Ma mère m'a dit avoir regardé un film hier soir sur Netflix.",
+   "punchline": "Elle a vu quarante minutes de bandes-annonces. Elle dit que c'était bien.",
+   "comedyTechnique": "La réalité démasquée"
+  },
+  {
+   "id": "cs14jkd11f7913f8177df395",
+   "category": "PARENTS",
+   "content": "Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse.",
+   "punchline": "Il la surveille depuis trois heures. Il la trouve lente.",
+   "comedyTechnique": "Le gain annulé"
+  },
+  {
+   "id": "cs14jk0e4fedaac1a91fddf1",
+   "category": "PARENTS",
+   "content": "Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi.",
+   "punchline": "Ils ont cherché un moment.",
+   "comedyTechnique": "L'aveu par le silence"
+  },
+  {
+   "id": "cs14jk4942477c8d985a2dc1",
+   "category": "PARENTS",
+   "content": "Mon cousin ramène une nouvelle copine à chaque repas de famille.",
+   "punchline": "Ma grand-mère a arrêté d'apprendre les prénoms. Elle dit « mademoiselle », par précaution.",
+   "comedyTechnique": "Le contournement poli"
+  },
+  {
+   "id": "cs14jkb541b3fd46a4229415",
+   "category": "PARENTS",
+   "content": "Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend ».",
+   "punchline": "Il a dit « merci, c'est mieux que papa ».",
+   "comedyTechnique": "L'attaque par ricochet"
+  },
+  {
+   "id": "cs14jk5ce9195f000dfa330f",
+   "category": "PARENTS",
+   "content": "Mon frère jumeau est né six minutes avant moi.",
+   "punchline": "Il en parle comme d'un diplôme.",
+   "comedyTechnique": "L'importance gonflée"
+  },
+  {
+   "id": "cs14jkffeab1620070f2263e",
+   "category": "PARENTS",
+   "content": "Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison.",
+   "punchline": "Le congélateur est rempli de baguettes.",
+   "comedyTechnique": "La preuve matérielle"
+  },
+  {
+   "id": "cs14jk2fd7c7c96d7815407d",
+   "category": "PARENTS",
+   "content": "Mon père est retraité depuis un an et me dit toujours qu'il est très pris.",
+   "punchline": "Hier, il a dû raccrocher : un nuage arrivait.",
+   "comedyTechnique": "L'anticlimax"
+  },
+  {
+   "id": "cs14jk90226d6abb90287724",
+   "category": "PARENTS",
+   "content": "Ma mère me demande encore des nouvelles de mon ex.",
+   "punchline": "Je n'en ai pas. Elle, si.",
+   "comedyTechnique": "Le renversement d'information"
+  },
+  {
+   "id": "cs14jk10c844a13d108646fd",
+   "category": "PARENTS",
+   "content": "Ma sœur m'a dit qu'elle m'avait « pardonné » mon retard à son anniversaire.",
+   "punchline": "Elle a précisé l'heure : 20 h 47.",
+   "comedyTechnique": "La précision absurde"
+  },
+  {
+   "id": "cs14jk3ff87c9e6097be570d",
+   "category": "PARENTS",
+   "content": "Mon frère m'a emprunté ma console il y a dix ans.",
+   "punchline": "Son fils vient de me dire que c'était la leur.",
+   "comedyTechnique": "Le témoin involontaire"
+  },
+  {
+   "id": "cs14jkc4a2c545e132b38a92",
+   "category": "PARENTS",
+   "content": "Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans.",
+   "punchline": "Elle est de plus en plus détaillée. Je commence à m'en souvenir.",
+   "comedyTechnique": "La légende qui grossit"
+  },
+  {
+   "id": "cs14jk88f075a4297ed90830",
+   "category": "PARENTS",
+   "content": "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille.",
+   "punchline": "J'ai jusqu'à Noël pour l'obtenir.",
+   "comedyTechnique": "Le fait accompli"
+  },
+  {
+   "id": "cp0465e601e49c114994d1a00",
+   "category": "PARENTS",
+   "content": "Mon père m'a dit qu'il fallait que je « fasse mes preuves ».",
+   "punchline": "J'ai sorti mon justificatif de domicile : c'est chez lui.",
+   "comedyTechnique": "La preuve administrative"
+  }
+ ]
+}
