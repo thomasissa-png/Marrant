@@ -6,6 +6,7 @@
 // « Programme » déplié du hub (B2 @design), états N8 @ux en 375 : étape 2 verrouillée par l'ordre conseillé,
 // retour d'exercice choisi, étape 1 validée (375 et 1280), quiz visiteur répondu, page haute avec progression,
 // erreur de chargement abonné.
+// QA_REGRESSION=1 : non-régression des 4 parcours en ligne seulement (voir regression() en bas).
 const { chromium } = require('/opt/node-tools/node_modules/playwright');
 const fs = require('fs');
 const path = require('path');
@@ -330,7 +331,151 @@ async function fin(browser, w) {
   await ctx.close();
 }
 
-(async () => {
+// ---------------------------------------------------------------------------------------------------
+// Mode QA_REGRESSION=1 (s19, après 508cd96) : non-régression des 4 parcours EN LIGNE, Boulot inactif
+// (BOULOT_PUBLIE = false, état de la prod). 375 et 1280 : hub, page (haut + pleine), étape 1 visiteur,
+// étape 2 Premium (compte qui a validé l'étape 1), carte de fin (compte qui a tout validé).
+// Comptes : comptes-regression.sh. Sortie : <QA_OUT>/regression/.
+const REG_DIR = path.join(OUT, 'regression');
+const REG_SEED = require('../../docs/content/parcours-seed.json');
+const REG_STORY = require('../../docs/content/parcours-storytelling-s18.json').parcours;
+const REG_PARCOURS = ['machine-a-cafe', 'repartie', 'confiance', 'storytelling']
+  .map((slug) => (slug === 'storytelling' ? REG_STORY : REG_SEED.find((p) => p.slug === slug)));
+const REG_TITRES = Object.fromEntries([...REG_SEED, REG_STORY].map((p) => [p.slug, p.title]));
+const TROUS = /\bundefined\b|\bnull\b|\bNaN\b|\[object Object\]/;
+
+/** Aucune chaîne « undefined », « null », « NaN » ou « [object Object] » visible dans la zone. */
+async function sansTrou(name, loc) {
+  const t = (await loc.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  const m = t.match(new RegExp('.{0,50}(' + TROUS.source + ').{0,50}'));
+  ok(`${name} : aucune chaîne undefined / null visible`, !m, m ? m[0] : '');
+}
+
+async function regShot(page, name, target) {
+  const f = path.join(REG_DIR, name + '.png');
+  if (target) {
+    await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
+    await target.scrollIntoViewIfNeeded().catch(() => {});
+    await page.waitForTimeout(300);
+    const box = await target.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height };
+    });
+    await page.screenshot({ path: f, fullPage: true, clip: box });
+  } else {
+    await page.screenshot({ path: f, fullPage: true });
+  }
+  console.log('CAPTURE regression/' + path.basename(f));
+}
+
+async function regViewport(page, name) {
+  await page.screenshot({ path: path.join(REG_DIR, name + '.png') });
+  console.log('CAPTURE regression/' + name + '.png');
+}
+
+async function regHub(browser, w) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  const res = await go(page, `${BASE}/parcours`);
+  const txt = await page.locator('main').innerText().catch(() => '');
+  const absents = REG_PARCOURS.filter((p) => !norm(txt).includes(norm(p.title))).map((p) => p.slug);
+  ok(`[reg visiteur ${w}] hub /parcours en 200, 4 parcours en ligne présents`, res.status() === 200 && absents.length === 0, `HTTP ${res.status()}${absents.length ? ' ; absents : ' + absents.join(', ') : ''}`);
+  ok(`[reg visiteur ${w}] hub : Boulot absent (BOULOT_PUBLIE = false)`, !/Parcours Boulot/.test(txt));
+  await sansTrou(`[reg visiteur ${w}] hub`, page.locator('main'));
+  await regViewport(page, `hub-${w}-visiteur-haut`);
+  await regShot(page, `hub-${w}-visiteur-page`);
+  ok(`[reg visiteur ${w}] hub : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+/** Texte d'une section titrée (h4) de l'étape, titre exclu. */
+async function sectionTexte(step, titre) {
+  const h = step.locator('h4', { hasText: titre }).first();
+  if (!(await h.count()) || !(await h.isVisible())) return '';
+  return (await h.locator('xpath=..').innerText()).replace(titre, '').trim();
+}
+
+async function regVisiteur(browser, w, p) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  const res = await go(page, `${BASE}/parcours/${p.slug}?src=hub`);
+  ok(`[reg ${p.slug} visiteur ${w}] /parcours/${p.slug} en 200`, res.status() === 200, `HTTP ${res.status()}`);
+  const h1 = (await page.locator('h1').first().innerText().catch(() => '')).trim();
+  ok(`[reg ${p.slug} visiteur ${w}] titre « ${p.title} »`, norm(h1) === norm(p.title), h1);
+  await sansTrou(`[reg ${p.slug} visiteur ${w}] page`, page.locator('main'));
+  await regViewport(page, `${p.slug}-${w}-visiteur-page-haut`);
+  await regShot(page, `${p.slug}-${w}-visiteur-page`);
+  const e1 = await openStep(page, 1);
+  const conseil = await sectionTexte(e1, 'Le conseil');
+  const defi = await sectionTexte(e1, 'Exercice pratique');
+  ok(`[reg ${p.slug} visiteur ${w}] étape 1 : conseil et défi visibles`, conseil.length > 20 && defi.length > 20,
+    `conseil=${conseil.length} car. ; défi=${defi.length} car.`);
+  ok(`[reg ${p.slug} visiteur ${w}] étape 1 : titre « ${p.steps[0].moduleTitle.slice(0, 40)} »`, has(await e1.innerText(), p.steps[0].moduleTitle));
+  await sansTrou(`[reg ${p.slug} visiteur ${w}] étape 1`, e1);
+  await waitThumbs(page, e1);
+  await regShot(page, `${p.slug}-${w}-visiteur-etape1`, e1);
+  ok(`[reg ${p.slug} visiteur ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+async function regPremium(browser, w, p) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await login(page, `qa-r2-${p.slug}-${w}@local.test`);
+  const res = await go(page, `${BASE}/parcours/${p.slug}`);
+  ok(`[reg ${p.slug} premium ${w}] /parcours/${p.slug} en 200`, res.status() === 200, `HTTP ${res.status()}`);
+  const k = p.steps.findIndex((s) => !s.free) + 1;
+  const s = p.steps[k - 1];
+  const e = await openStep(page, k);
+  await e.getByText(new RegExp(s.jokeContents[0].slice(0, 12).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s'))).first()
+    .waitFor({ timeout: 15000 }).catch(() => {});
+  const t = await e.innerText();
+  const vannes = s.jokeContents.filter((c) => has(t, c, 30)).length;
+  ok(`[reg ${p.slug} premium ${w}] étape ${k} (1re Premium) : titre, ${vannes}/${s.jokeContents.length} vannes, quiz`, has(t, s.moduleTitle)
+    && vannes === s.jokeContents.length && (await e.locator('[role="group"][aria-labelledby^="quiz-q-"]').count()) > 0);
+  await sansTrou(`[reg ${p.slug} premium ${w}] étape ${k}`, e);
+  await waitThumbs(page, e);
+  await regShot(page, `${p.slug}-${w}-premium-etape${k}`, e);
+  ok(`[reg ${p.slug} premium ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+async function regFin(browser, w, p) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await login(page, `qa-rfin-${p.slug}@local.test`);
+  await go(page, `${BASE}/parcours/${p.slug}`);
+  const h = page.locator('main h2', { hasText: /terminé/ }).first();
+  await h.waitFor({ timeout: 15000 }).catch(() => {});
+  const carte = h.locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+  const txt = (await carte.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  const suite = REG_TITRES[p.nextParcours] || p.nextParcours;
+  ok(`[reg ${p.slug} premium ${w}] fin : carte « terminé », XP, suite proposée`, /terminé/.test(txt) && /\d+ XP/.test(txt) && /Parcours /.test(txt),
+    `suite attendue (seed) : ${suite} ; carte : ${txt.slice(0, 300)}`);
+  if (await carte.count()) await sansTrou(`[reg ${p.slug} premium ${w}] fin`, carte);
+  await regViewport(page, `${p.slug}-${w}-premium-fin`);
+  if (await carte.count()) await regShot(page, `${p.slug}-${w}-premium-fin-carte`, carte);
+  ok(`[reg ${p.slug} premium ${w}] fin : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+async function regression() {
+  fs.mkdirSync(REG_DIR, { recursive: true });
+  const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
+  for (const w of [375, 1280]) {
+    await regHub(browser, w);
+    for (const p of REG_PARCOURS) {
+      await regVisiteur(browser, w, p);
+      await regPremium(browser, w, p);
+      await regFin(browser, w, p);
+    }
+  }
+  await browser.close();
+}
+
+if (process.env.QA_REGRESSION === '1') {
+  regression().catch((e) => { console.log('FAIL exception ' + e.message); process.exit(1); });
+} else (async () => {
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
   for (const w of WIDTHS) {
     await htmlIsr(browser, w);

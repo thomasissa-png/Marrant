@@ -3,7 +3,7 @@
 # Modèle : scripts/qa-parcours-storytelling-s18/captures.sh.
 # Instance LOCALE jetable uniquement : Postgres sur 127.0.0.1:55433, app en env propre (cleanenv.sh s17),
 # Chromium limité à localhost. Jamais contre la prod.
-# Usage : captures.sh [--sans-inactif]
+# Usage : captures.sh [--sans-inactif] | captures.sh --regression (4 parcours en ligne, interrupteur à false)
 # Étapes : base (schéma + seed + données simulées comme en prod) -> build interrupteur à false ->
 #   app : tâche de démarrage, parcours INACTIF, 404, fiches vidéo corrigées, 2e démarrage idempotent ->
 #   build interrupteur FORCÉ à true (BOULOT_PUBLIE seul, remis à false en sortie quoi qu'il arrive) ->
@@ -22,7 +22,17 @@ CLEAN="$S17/cleanenv.sh"
 PSQL="psql -h 127.0.0.1 -p $PGPORT -U postgres -d marrant_qa -v ON_ERROR_STOP=1 -q"
 OUT=$REPO/docs/qa/captures-parcours-boulot-s19
 LOG="${QA_LOG:-$HERE/run-$(date +%H%M%S)}"; mkdir -p "$LOG" "$OUT"
-INACTIF=1; [ "${1:-}" = "--sans-inactif" ] && INACTIF=0
+INACTIF=1; REGRESSION=0
+for a in "$@"; do
+  case "$a" in
+    --sans-inactif) INACTIF=0 ;;
+    # s19 (après 508cd96) : non-régression des 4 parcours en ligne sur le build à false (état de la prod),
+    # sans jamais basculer BOULOT_PUBLIE. Étapes 1, 2, 3 puis captures QA_REGRESSION=1 ; 3 bis et 4 sautées.
+    --regression) REGRESSION=1 ;;
+    *) echo "STOP : option inconnue $a"; exit 1 ;;
+  esac
+done
+[ $REGRESSION = 1 ] && [ $INACTIF = 0 ] && { echo "STOP : --regression exige le build à false (sans --sans-inactif)"; exit 1; }
 BOULOT_OFF='export const BOULOT_PUBLIE = false;'
 BOULOT_ON='export const BOULOT_PUBLIE = true;'
 
@@ -94,6 +104,17 @@ if [ $INACTIF = 1 ]; then
   echo "   /parcours/boulot : HTTP $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:5000/parcours/boulot)"
   echo "   hub cite Boulot : $(curl -s http://127.0.0.1:5000/parcours | grep -c 'Parcours Boulot' || true)"
   echo "   sitemap / llms.txt citent boulot : $(curl -s http://127.0.0.1:5000/sitemap.xml | grep -c 'parcours/boulot' || true) / $(curl -s http://127.0.0.1:5000/llms.txt | grep -c -E 'parcours/boulot|Parcours Boulot' || true)"
+  if [ $REGRESSION = 1 ]; then
+    echo "== 5 (régression). 4 parcours en ligne, BOULOT_PUBLIE = false : comptes puis captures"
+    grep -qx "$BOULOT_OFF" "$SWITCH" || { echo "STOP : BOULOT_PUBLIE n'est pas à false"; exit 1; }
+    echo "   parcours en base : $($PSQL -At -c "select string_agg(slug||'='||\"isActive\", ' ' order by \"order\") from \"LearningPath\"")"
+    "$HERE/comptes-regression.sh"
+    cd "$HERE"
+    QA_REGRESSION=1 QA_OUT="$OUT" node captures.js 2>&1 | tee "$LOG/captures-regression.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
+    R="$LOG/captures-regression.txt"
+    echo "== Bilan régression : $(grep -c '^PASS' "$R" || true) PASS, $(grep -c '^FAIL' "$R" || true) FAIL, $(grep -c '^CAPTURE' "$R" || true) captures. Journaux : $LOG"
+    exit 0
+  fi
   stop_app
   echo "== 3 bis. 2e démarrage (idempotence)"
   start_app inactif-2 >/dev/null
