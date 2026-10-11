@@ -252,7 +252,7 @@ def main():
         "pageTitle": ligne_tableau(i1, r"Titre de page `<title>`"),
         "description": fiche_b["description"], "duration": duration, "timePerWeek": time_per_week,
         "difficulty": difficulty, "difficultyLabel": difficulty_label,
-        # [PROVISOIRE] icône à choisir par @design (I §1) ; champ obligatoire en base.
+        # Icône retenue par @design (rendu itération 1, s19) ; champ obligatoire en base.
         "icon": "💼", "order": int(champ(i1, "order")),
         "persona": re.search(r"`persona` « (.+?) »", fiche).group(1),
         "personaTagline": fiche_b["personaTagline"], "testimonial": fiche_b["testimonial"],
@@ -283,7 +283,7 @@ def main():
             "session": "s19", "auteur": "@fullstack (extraction automatique, aucun texte retapé)",
             "sources": [os.path.relpath(p, ROOT) for p in (I_PATH, E_PATH, P_PATH, V_PATH)],
             "publication": "Publié seulement si BOULOT_PUBLIE = true (apps/web/src/config/parcours-publication.ts).",
-            "icone": "[PROVISOIRE] 💼, à choisir par @design (import-boulot.md §1)",
+            "icone": "💼, retenue par @design (rendu itération 1, s19, rendu-iter-1-design.md)",
             "conseils": conseils,
             "vannesNeuves": neuves,
             "vannesEnLigne": en_ligne,

@@ -13,6 +13,17 @@ const NBSP = String.fromCharCode(0xa0);
 const SPACES_BEFORE_PUNCT = new RegExp(`(?:${NBSP}* +${NBSP}*)([:;!?»])`, "g");
 const SPACES_AFTER_OPEN = new RegExp(`«(?:${NBSP}* +${NBSP}*)`, "g");
 
+// « à » / « À » isolé (mot d'une lettre) : jamais seul en fin de ligne.
+const A_ISOLE = /(^|[\s(«])([àÀ]) (?=\S)/g;
+
+/**
+ * s19 (N1 @design, rendu Boulot) : `frTypo` + mot d'une lettre « à » lié au mot suivant.
+ * Pour les paragraphes d'accroche des parcours (description, « Pour qui ? », témoignage).
+ */
+export function frTypoTexte(text: string): string {
+  return frTypo(text).replace(A_ISOLE, `$1$2${NBSP}`);
+}
+
 export function frTypo(text: string): string {
   return (
     text

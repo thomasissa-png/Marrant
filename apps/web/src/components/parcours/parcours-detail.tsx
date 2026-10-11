@@ -10,8 +10,10 @@ import { ProgressBar } from "@/components/ui/progress-bar";
 import { trackUmami } from "@/lib/umami";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
+import { frTypoTexte } from "@/lib/fr-typo";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { estRepliSeed } from "@/lib/parcours-preview";
 import {
   derniereValidation,
   formatDateConseillee,
@@ -163,6 +165,25 @@ export function ParcoursDetail({
   useEffect(() => {
     if (initialPath) {
       // HTML ISR = aperçu des étapes 2+ : l'API (plan vérifié en base) apporte le contenu d'un abonné.
+      // s19 (B1 rendu) : HTML construit sur le repli seed (parcours pas encore actif au build, mis en
+      // cache 1 h) = relecture silencieuse de la base pour le visiteur aussi ; échec = le repli reste.
+      if (status === "unauthenticated" && estRepliSeed(initialPath)) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 5_000);
+        fetch(`/api/parcours/by-slug/${encodeURIComponent(slug)}`, { signal: controller.signal })
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data: ByslugResponse | null) => {
+            if (data?.path?.steps && !estRepliSeed(data.path)) setPath(data.path);
+          })
+          .catch(() => {
+            // Le repli seed reste affiché.
+          })
+          .finally(() => clearTimeout(timer));
+        return () => {
+          clearTimeout(timer);
+          controller.abort();
+        };
+      }
       if (status !== "authenticated") return;
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 10_000);
@@ -479,18 +500,21 @@ export function ParcoursDetail({
       : prochaineEtapeConseillee(lastValidation);
 
   // s17 tour 2 (DES-2-11) : parcours terminé, l'argumentaire (intro, « Pour qui ? ») passe après la carte de fin.
+  // s19 (N2 a @ux rendu) : abonné qui a déjà validé une étape, l'argumentaire passe après le programme.
+  const argumentaireApresProgramme = !isPathCompleted && isPremium && progressionConnue && completedSteps.length > 0;
+  // s19 (N1 @design rendu) : typographie française au rendu (« 6 semaines », « « Redis-moi », « à midi »), tous parcours.
   const argumentaire = (
     <>
-      <p className="mt-4 text-text-secondary">{stripEmDashes(path.description)}</p>
+      <p className="mt-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(path.description))}</p>
       {(path.personaTagline || path.testimonial) && (
         <section aria-labelledby="parcours-pour-qui" className="mt-4">
           <h2 id="parcours-pour-qui" className="font-display text-lg font-bold">{TITRES_SECTIONS.pourQui}</h2>
           {path.personaTagline && (
-            <p className="mt-2 text-sm font-medium text-accent-link">{path.personaTagline}</p>
+            <p className="mt-2 text-pretty text-sm font-medium text-accent-link">{frTypoTexte(path.personaTagline)}</p>
           )}
           {path.testimonial && (
-            <p className="mt-3 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-              {stripEmDashes(path.testimonial)}
+            <p className="mt-3 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+              {frTypoTexte(stripEmDashes(path.testimonial))}
             </p>
           )}
         </section>
@@ -515,14 +539,26 @@ export function ParcoursDetail({
             <h1 className="font-display text-3xl font-bold">{path.title}</h1>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
-              <span className="text-sm text-text-muted">{path.duration}</span>
+              {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
+                  durée et rythme forment un seul bloc (jamais « · » seul en bout ou en début de ligne). */}
+              <span className="whitespace-nowrap text-sm text-text-muted">
+                {path.duration}
+                {path.timePerWeek && (
+                  <>
+                    <span aria-hidden="true" className="mx-2">·</span>
+                    {path.timePerWeek}
+                  </>
+                )}
+              </span>
             </div>
           </div>
         </div>
-        {!isPathCompleted && argumentaire}
+        {!isPathCompleted && !argumentaireApresProgramme && argumentaire}
       </div>
 
-      {/* DES-1-16 : carte resserrée (une ligne pour le visiteur). */}
+      {/* DES-1-16 : carte resserrée (une ligne pour le visiteur).
+          s19 (N6 @ux rendu) : parcours terminé, la carte de fin suffit (sauf chargement ou échec à signaler). */}
+      {(!isPathCompleted || chargementPremium || echecPremium) && (
       <Card className={isPremium ? "mb-8" : "mb-8 py-3"} aria-busy={chargementPremium || undefined}>
         <CardContent className={isPremium ? "py-2" : ""}>
           {isPremium ? (
@@ -598,6 +634,7 @@ export function ParcoursDetail({
           )}
         </CardContent>
       </Card>
+      )}
 
       {/* Zone d'annonce permanente du gain d'XP (UX-05, UX-09 c) : elle ne se démonte pas avec l'étape.
           s17 tour 1 : le texte visible est dans la carte validée ; ici, l'annonce vocale seule (plus de 16 px morts). */}
@@ -665,6 +702,8 @@ export function ParcoursDetail({
           );
         })}
       </div>
+
+      {argumentaireApresProgramme && <div className="mt-8">{argumentaire}</div>}
 
       {/* UX-06 : pas de « parcours suivant » en cours de route pour un abonné. */}
       {!isPathCompleted && !isPremium && path.nextParcours && (

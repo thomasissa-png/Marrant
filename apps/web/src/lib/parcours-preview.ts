@@ -40,6 +40,14 @@ export interface ParcoursStepPayload {
   locked?: boolean;
 }
 
+/**
+ * s19 (B1 rendu) : parcours construit sur le repli seed (`buildPathFromSeed`, id `seed-<slug>`),
+ * pas sur la base. La page relit alors la base côté navigateur, visiteur compris.
+ */
+export function estRepliSeed(path: { id: string } | null | undefined): boolean {
+  return !!path?.id && path.id.startsWith("seed-");
+}
+
 /** Première phrase d'un texte (aperçu « pourquoi »), sans couper au milieu d'un mot. */
 export function firstSentence(text: string | null | undefined): string {
   const clean = (text ?? "").trim();

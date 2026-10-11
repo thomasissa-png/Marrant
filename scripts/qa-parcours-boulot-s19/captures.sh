@@ -103,17 +103,29 @@ if [ $INACTIF = 1 ]; then
 fi
 
 echo "== 4. BOULOT_PUBLIE FORCÉ à true (local seulement, remis à false juste après le build et en sortie)"
-# Simule l'état d'après activation pour le pré-rendu ISR du build (sinon repli seed, voir s18).
-$PSQL -c "update \"LearningPath\" set \"isActive\"=true where slug='boulot'"
+# s19 itération 2 (B1) : ordre de la PROD par défaut : le build précède l'activation (faite par la tâche
+# de démarrage), donc la page /parcours/boulot est pré-rendue sur le REPLI SEED, comme au premier
+# déploiement à true. QA_ORDRE=active-avant-build : ancien ordre (parcours activé en base avant le build).
+if [ "${QA_ORDRE:-prod}" = "active-avant-build" ]; then
+  $PSQL -c "update \"LearningPath\" set \"isActive\"=true where slug='boulot'"
+fi
+echo "   ordre : ${QA_ORDRE:-prod} ; base avant build : $($PSQL -At -c "select coalesce((select 'isActive='||\"isActive\" from \"LearningPath\" where slug='boulot'), 'parcours absent')")"
 sed -i "s/^$BOULOT_OFF\$/$BOULOT_ON/" "$SWITCH"
 grep -qx "$BOULOT_ON" "$SWITCH" || { echo "STOP : interrupteur non basculé"; exit 1; }
 build actif
 boulot_off
+PRERENDU="$WEB/.next/server/app/parcours/boulot.html"
+if [ -f "$PRERENDU" ]; then
+  echo "   pré-rendu du build : $(grep -q 'seed-boulot' "$PRERENDU" && echo 'repli seed (seed-boulot)' || echo 'base') ; « Exercice pratique » : $(grep -c 'Exercice pratique' "$PRERENDU" || true) ; défi TRACE : $(grep -c 'DÉFI TRACE' "$PRERENDU" || true)"
+else
+  echo "   pré-rendu du build : fichier absent ($PRERENDU)"
+fi
 start_app actif
 echo "   base : $($PSQL -At -c "select 'isActive='||\"isActive\" from \"LearningPath\" where slug='boulot'")"
 "$HERE/comptes.sh"
 
+if [ "${QA_SANS_CAPTURES:-0}" = 1 ]; then echo "== 5. Captures sautées (QA_SANS_CAPTURES=1, diagnostic du pré-rendu seulement)"; exit 0; fi
 echo "== 5. Captures"
 cd "$HERE"
-QA_OUT="$OUT" node captures.js 2>&1 | tee "$LOG/captures.txt" | grep -E "^(PASS|FAIL|CAPTURE)" || true
+QA_OUT="$OUT" node captures.js 2>&1 | tee "$LOG/captures.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
 echo "== Bilan : $(grep -c '^PASS' "$LOG/captures.txt" || true) PASS, $(grep -c '^FAIL' "$LOG/captures.txt" || true) FAIL, $(grep -c '^CAPTURE' "$LOG/captures.txt" || true) captures. Journaux : $LOG"

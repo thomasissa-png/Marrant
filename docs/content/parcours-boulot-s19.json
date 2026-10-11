@@ -9,7 +9,7 @@
       "docs/marrant/parcours-boulot-s19/vannes-neuves/vannes-finales.md"
     ],
     "publication": "Publié seulement si BOULOT_PUBLIE = true (apps/web/src/config/parcours-publication.ts).",
-    "icone": "[PROVISOIRE] 💼, à choisir par @design (import-boulot.md §1)",
+    "icone": "💼, retenue par @design (rendu itération 1, s19, rendu-iter-1-design.md)",
     "conseils": [
       {
         "etape": 1,

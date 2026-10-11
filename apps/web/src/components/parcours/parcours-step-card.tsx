@@ -67,6 +67,31 @@ function Section({ title, children }: { title: string; children: React.ReactNode
   );
 }
 
+/** s19 (N3 @design rendu) : lignes non vides de l'exemple, dans l'ordre, texte intact. */
+export function lignesExemple(texte: string): string[] {
+  return texte.split("\n").filter((l) => l.trim() !== "");
+}
+
+// Libellé d'ouverture du défi (« DÉFI TRACE : », espace normale ou insécable avant les deux-points).
+const DEFI_LIBELLE = /^(DÉFI [^:\n]{1,40}?)(\s:[\s\S]*)$/; // \s couvre aussi l'insécable posée par frTypo.
+
+/** s19 (N2 @design rendu) : « DÉFI X » en gras, la suite telle quelle (concaténation = texte d'origine). */
+export function decouperDefi(texte: string): [string, string] | null {
+  const m = DEFI_LIBELLE.exec(texte);
+  return m ? [m[1], m[2]] : null;
+}
+
+function DefiTexte({ texte }: { texte: string }) {
+  const parts = decouperDefi(texte);
+  if (!parts) return <>{texte}</>;
+  return (
+    <>
+      <strong className="font-semibold text-text-primary">{parts[0]}</strong>
+      {parts[1]}
+    </>
+  );
+}
+
 export interface ParcoursStepCardProps {
   step: Step;
   slug: string;
@@ -177,7 +202,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 {!(isCompleted && props.resultat?.xp) && (
                   <span className={`text-xs ${muted ? "text-text-muted" : "text-accent-link"}`}>+{stepXp} XP</span>
                 )}
-                {(step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
+                {/* s19 (N3 @ux rendu) : « Lecture libre » ne parle qu'au visiteur. */}
+                {!isPremium && (step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
                 {isPremiumLocked && !isCompleted && <Badge variant="premium">{ETAPE_APERCU_LIBELLE}</Badge>}
                 {isSequentiallyLocked && props.previousOrder !== null && (
                   <span className="text-xs text-text-muted">{etapeOrdreTexte(props.previousOrder)}</span>
@@ -310,7 +336,16 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
 
       {step.tip.example && (
         <Section title="Exemple concret">
-          <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{prose(step.tip.example)}</p>
+          {typoFr ? (
+            // s19 (N3 @design rendu) : une ligne de l'exemple = un paragraphe, avec un peu d'air (Storytelling, Boulot).
+            <div className="rounded-lg bg-background-elevated p-3 text-sm italic leading-6 text-text-secondary">
+              {lignesExemple(prose(step.tip.example)).map((l, i) => (
+                <p key={i} className={i > 0 ? "mt-1.5" : undefined}>{l}</p>
+              ))}
+            </div>
+          ) : (
+            <p className="whitespace-pre-line rounded-lg bg-background-elevated p-3 text-sm italic text-text-secondary">{prose(step.tip.example)}</p>
+          )}
         </Section>
       )}
 
@@ -320,7 +355,14 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
             // s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre.
             <div key={i} className={`${i > 0 ? "mt-3 " : ""}rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3`}>
               {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
-              <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
+              {typoFr ? (
+                // s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
+                <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">
+                  <DefiTexte texte={prose(defi)} />
+                </p>
+              ) : (
+                <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
+              )}
             </div>
           ))}
           {step.exerciceProtection && <p className="mt-2 text-sm text-text-secondary">{step.exerciceProtection}</p>}

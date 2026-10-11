@@ -22,7 +22,7 @@ Modèle de fiche et de tâche de démarrage : `docs/marrant/parcours-storytellin
 | `difficulty` / `difficultyLabel` | DEBUTANT / DEBUTANT → INTERMEDIAIRE |
 | `order` | 5 |
 | `persona` | Sophie (26 ans, jeune active en CDI) (forme du champ de Storytelling) |
-| `icon` | provisoire, à choisir par @design |
+| `icon` | 💼, retenue par @design (rendu itération 1, `iterations/rendu-iter-1-design.md`) |
 | `metaDescription` (154 caractères, s19, retenue : voir la note sous le tableau) | Oser une vanne sans te griller, du silence en réunion au toast : 6 semaines à 15 min/semaine, mail, couloir et afterwork compris. Première étape gratuite. |
 | XP des 6 étapes, puis fin | 50, 75, 100, 100, 125, 150, puis +100 de fin (inchangé) |
 | `nextParcours` | `storytelling` |

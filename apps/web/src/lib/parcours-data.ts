@@ -8,7 +8,11 @@ import { prisma } from "@/lib/prisma";
 import { buildTipSlug, buildVideoSlug } from "@/lib/catalogue-slug";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import type { ParcoursStepPayload } from "@/lib/parcours-preview";
-import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
+import {
+  BOULOT_IMPORT,
+  PARCOURS_SEED_JSON as parcoursSeed,
+  STORYTELLING_IMPORT,
+} from "@/lib/parcours-seed";
 
 export interface SeedVideo {
   youtubeId: string;
@@ -132,10 +136,46 @@ function seedPathExtras(seed: SeedParcours) {
   };
 }
 
-/** Parcours reconstruit depuis le seed seul (base absente ou en panne). */
+export interface SeedTipText {
+  content: string;
+  example: string;
+  exercise: string;
+}
+
+/**
+ * s19 (B1 rendu itération 1) : conseils VALIDÉS portés par le fichier de contenu, par numéro
+ * d'étape, appariés au `tipTitle` de l'étape (règle unique). Ce sont les textes exacts que la
+ * tâche de démarrage écrit en base : Boulot (`_meta.conseils`, les 6 étapes) et Storytelling
+ * (`_meta.conseilsReactives`, étapes 1, 4 et 5). `parcours-seed.json` ne porte aucun conseil
+ * (ils vivent en base, retouchés depuis s17) : rien pour Machine à Café, Répartie et Confiance,
+ * jamais de texte périmé recopié d'un autre fichier.
+ */
+export function seedTipTexts(seed: Pick<SeedParcours, "slug" | "steps">): Map<number, SeedTipText> {
+  const source: Array<SeedTipText & { title: string }> =
+    seed.slug === "boulot"
+      ? BOULOT_IMPORT.conseils
+      : seed.slug === "storytelling"
+        ? STORYTELLING_IMPORT.conseilsReactives
+        : [];
+  const byTitle = new Map(source.map((c) => [c.title, c]));
+  const out = new Map<number, SeedTipText>();
+  seed.steps.forEach((s, i) => {
+    const c = byTitle.get(s.tipTitle);
+    if (c) out.set(i + 1, { content: c.content, example: c.example, exercise: c.exercise });
+  });
+  return out;
+}
+
+/**
+ * Parcours reconstruit depuis le seed seul : base absente ou en panne, ou parcours pas encore
+ * actif au moment du rendu (build qui précède l'activation au démarrage, s19). Le conseil,
+ * l'exemple et le défi viennent du fichier de contenu quand il les porte ; le HTML partagé
+ * reste réduit à l'aperçu des étapes 2+ par `redactParcoursForPlan` (D1).
+ */
 export function buildPathFromSeed(slug: string) {
   const seed = getSeedForSlug(slug);
   if (!seed) return null;
+  const tips = seedTipTexts(seed);
   return {
     id: `seed-${seed.slug}`,
     title: seed.title,
@@ -151,11 +191,11 @@ export function buildPathFromSeed(slug: string) {
       tip: {
         id: `seed-tip-${i + 1}`,
         title: s.moduleTitle,
-        content: s.moduleDetail,
+        content: tips.get(i + 1)?.content ?? s.moduleDetail,
         category: "GENERAL",
         difficulty: seed.difficulty,
-        example: "",
-        exercise: "",
+        example: tips.get(i + 1)?.example ?? "",
+        exercise: tips.get(i + 1)?.exercise ?? "",
       },
       ...seedStepContent(s),
     })),

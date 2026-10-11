@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypo } from "@/lib/fr-typo";
+import { frTypo, frTypoTexte } from "@/lib/fr-typo";
 import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
@@ -282,16 +282,17 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                     {p.title}
                   </span>
                 </CardTitle>
-                <p className="mt-1 text-sm font-medium text-accent-link">
-                  {p.persona}
+                {/* s19 (N1 @design rendu) : typographie française au rendu, tous parcours. */}
+                <p className="mt-1 text-pretty text-sm font-medium text-accent-link">
+                  {frTypoTexte(p.persona)}
                 </p>
               </CardHeader>
               <CardContent>
-                <p className="mb-4 text-text-secondary">{stripEmDashes(p.description)}</p>
+                <p className="mb-4 text-pretty text-text-secondary">{frTypoTexte(stripEmDashes(p.description))}</p>
 
                 {/* Testimonial */}
-                <p className="mb-6 rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
-                  {stripEmDashes(p.testimonial)}
+                <p className="mb-6 text-pretty rounded-lg bg-accent-primary/5 p-3 text-sm italic text-text-secondary">
+                  {frTypoTexte(stripEmDashes(p.testimonial))}
                 </p>
 
                 {/* Progression : affichée seulement une fois le parcours commencé (T26) */}
