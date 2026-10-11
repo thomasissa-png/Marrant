@@ -23,11 +23,15 @@ Modèle de fiche et de tâche de démarrage : `docs/marrant/parcours-storytellin
 | `order` | 5 |
 | `persona` | Sophie (26 ans, jeune active en CDI) (forme du champ de Storytelling) |
 | `icon` | provisoire, à choisir par @design |
-| `metaDescription` | À écrire (E signalement 8) : doit porter « 6 semaines à 15 min/semaine » et « Première étape gratuite. », sans « drôle », « bureau », « humour » en tête. Texte non écrit : `[À ÉCRIRE par @copywriter avant l'import de PARCOURS_META]` |
+| `metaDescription` (154 caractères, s19, retenue : voir la note sous le tableau) | Oser une vanne sans te griller, du silence en réunion au toast : 6 semaines à 15 min/semaine, mail, couloir et afterwork compris. Première étape gratuite. |
 | XP des 6 étapes, puis fin | 50, 75, 100, 100, 125, 150, puis +100 de fin (inchangé) |
 | `nextParcours` | `storytelling` |
 | `nextParcoursRanking` | `["storytelling", "machine-a-cafe", "repartie", "confiance"]` |
 | `nextParcoursReason` | Tu sais écrire court et le dire sans te griller. Storytelling t'apprend à en faire une histoire entière, celle qu'on te redemande. |
+
+> **Note `metaDescription` (s19, [Framework : promesse + preuve par le programme] [Conscience : Problem-Aware])** : texte retenu = 154 caractères, comptés à la machine (regex). Il porte « 6 semaines à 15 min/semaine » et « Première étape gratuite. » comme les quatre autres pages, ne contient ni « drôle », ni « bureau », ni « humour » (ni « cours gratuit »), ni tiret cadratin, ni IA. Il suit l'arc réel du parcours : « du silence en réunion » = étape 1 (observer sans un mot), « au toast » = étape 6, « mail, couloir et afterwork » = étapes 2, 3 et 4 ; l'étape 5 (« tu fais quoi dans la vie ? ») est couverte par « compris », faute de place. À importer tel quel dans `PARCOURS_META.boulot.description` (texte exact, sans retouche).
+> - Candidate B (146 caractères, écartée : pas de « 15 min/semaine », écart avec les 4 autres pages) : Apprends à oser une vanne sans te griller en 6 semaines : réunion, mail, couloir, afterwork, « tu fais quoi ? » et toast. Première étape gratuite.
+> - Candidate C (143 caractères, écartée : ne cite que 2 des 6 situations, moins de mots pour la requête) : Une vanne en tête, un mail à envoyer, un couloir à traverser : 6 semaines à 15 min/semaine pour oser, sans te griller. Première étape gratuite.
 
 `nextParcoursReason` : importer **la seule phrase ci-dessus** (texte de site, relu par @reviewer et @ux en itération 3, non relu à l'aveugle : même statut que les scènes). Toute parenthèse de note voisine dans P (section « Fin de parcours ») est une note, pas du texte.
 
@@ -141,5 +145,5 @@ Zéro tiret cadratin (—) ; zéro « blague » ; zéro « carnet » (dire « te
 **Handoff → @fullstack** (puis @design et @ux pour le rendu, @orchestrator pour la clôture)
 - Fichier produit : `/home/user/Marrant/docs/marrant/parcours-boulot-s19/import-boulot.md`.
 - Décisions prises : liste d'import unique (remplace les deux handoffs) ; étape 1 en version finale (choix 5 B Vérino seule en facultative, choix 6 B phrase du test incluse) ; PS : choix 7 = a, ABSURDE, INTERMEDIAIRE ; vannes neuves en `ONE_LINER`, convention BOULOT de la base et de s18.
-- Points d'attention : `metaDescription` non écrite (à écrire avant `PARCOURS_META`) ; `isActive` des 20 vannes en ligne à revérifier ; visionnage des 10 vidéos avant import ; interrupteur éteint tant que Thomas n'a pas donné son feu vert.
+- Points d'attention : `metaDescription` écrite (154 caractères, section 1) ; `isActive` des 20 vannes en ligne à revérifier ; visionnage des 10 vidéos avant import ; interrupteur éteint tant que Thomas n'a pas donné son feu vert.
 ---
