@@ -118,7 +118,7 @@ export function renderLotMarkdown(posts: LotPost[], warnings: string[], errors: 
     "",
     `> Généré par \`apps/web/scripts/content/prepare-social-month.ts --lot ${lot} --debut ${debut} --fin ${fin}\` (graine « ${graine} »). **Rien n'est inséré en base, rien n'est publié.**`,
     "> Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.",
-    `> Insertion (plus tard) : \`--lot ${lot} --insert [--driver=neon-http]\` lit \`lot-${lot}.json\` et insère ces lignes en APPROVED (approvedBy « ${approvedByDuLot(lot)} »), puis compte par réseau et par semaine. Annulation : \`--lot ${lot} --rollback --confirmer\`.`,
+    `> Insertion (plus tard) : \`--lot ${lot} --insert [--driver=neon-http]\` lit \`lot-${lot}.json\` et insère ces lignes en APPROVED (approvedBy « ${approvedByDuLot(lot)} »), puis compte par réseau et par semaine. Annulation de cette tranche seulement : \`--lot ${lot} --rollback --debut ${debut} --fin ${fin} --confirmer\` (dates obligatoires).`,
     "",
     `**Total : ${posts.length} posts** (X : ${n("TWITTER")}, Instagram : ${n("INSTAGRAM")}, LinkedIn : ${n("LINKEDIN")}). Heures de Paris (A) : ${heures(HEURE_PARIS)}. Test d'heure alterné par jour, mar. à jeu. : heure B ${heures(HEURE_B_PARIS, true)} (réseau sans fenêtre : heure A seule, LinkedIn tant que le test texte / image tourne). Stock éligible du catalogue au J0 : ${stock} vannes.`,
     "",

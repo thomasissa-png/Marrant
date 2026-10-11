@@ -47,8 +47,9 @@
  *       les lignes `auNiveau` entrent au relais de LEUR article seulement, même hors `--pool`.
  *       Retour à 90 jours sur un autre réseau que la 1re diffusion, sauf pénurie (avertissement).
  *       approvedBy du lot : « lot-<id> » (« thomas-s15 » pour relance-s15, bornes par défaut 12/10 au 03/01).
- *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback [--confirmer] [--driver=neon-http]
- *       Sans --confirmer : comptes seulement. Avec : posts APPROVED jamais envoyés du lot passés en REJECTED.
+ *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback --debut AAAA-MM-JJ --fin AAAA-MM-JJ [--confirmer] [--driver=neon-http]
+ *       --debut ET --fin obligatoires (aucune période par défaut, même pour relance-s15 : sinon code 2, rien lu ni modifié).
+ *       Sans --confirmer : comptes seulement. Avec : posts APPROVED jamais envoyés de la tranche passés en REJECTED.
  *
  * Images Instagram : carrousel v3 4:5 (cartes « piste A ») rendu à la demande par le
  * Worker. Le script insère `imageUrl = null` et `threadParts = [amorce, chute]` (vanne)
@@ -224,7 +225,13 @@ export function chargerTextesFormats(chemin: string): ReturnType<typeof lireText
   return { ...lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin), avertissements: [] };
 }
 
-async function mainLot(argv: string[]): Promise<number> {
+/** Commande `--lot` (exportée pour les tests). */
+export async function mainLot(argv: string[]): Promise<number> {
+  // R1 QA cycle 9 : pas de période par défaut pour --rollback (celle de relance-s15 couvrirait 1a ET 1b).
+  if (argv.includes("--rollback") && (!arg(argv, "--debut") || !arg(argv, "--fin"))) {
+    console.error("--rollback exige --debut ET --fin (AAAA-MM-JJ) explicites : la tranche à annuler doit être nommée (aucune période par défaut). Rien n'a été lu ni modifié.");
+    return 2;
+  }
   const a = argsLot(argv);
   if (typeof a === "string") {
     console.error(a);
@@ -244,7 +251,7 @@ async function mainLot(argv: string[]): Promise<number> {
   }
   if (argv.includes("--rollback")) {
     const confirmer = argv.includes("--confirmer");
-    // Tranche seulement (--debut/--fin ; défaut de relance-s15 = tout le lot) : annuler 1b ne touche jamais 1a.
+    // Tranche seulement (--debut/--fin obligatoires, vérifiés plus haut) : annuler 1b ne touche jamais 1a.
     const r = await annulerLot(a.lot, driver, dbUrl, confirmer, new Date(), bornesLot(a.debut, a.fin));
     console.log(`Lot ${a.lot}, tranche du ${a.debut} au ${a.fin} (approvedBy « ${r.approvedBy} ») avant : ${JSON.stringify(r.avant)}. APPROVED non envoyés : ${r.aAnnuler}.`);
     if (!confirmer) {

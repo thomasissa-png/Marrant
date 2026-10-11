@@ -181,7 +181,8 @@ export const NON_ENVOYES = { status: "APPROVED" as const, externalId: null, publ
  * `--rollback --lot <id>` : sans `confirmer`, compte seulement ; avec, passe les posts
  * APPROVED non envoyés du lot en REJECTED. Les posts déjà remis à Buffer ne bougent pas.
  * `periode` (bornes `--debut`/`--fin`) : comptes et annulation limités à la tranche, pour qu'annuler
- * 1b ne touche jamais 1a (même approvedBy « thomas-s15 »). Sans période : tout le lot.
+ * 1b ne touche jamais 1a (même approvedBy « thomas-s15 »). Sans période : tout le lot (appel direct
+ * seulement : la CLI exige --debut et --fin, R1 QA cycle 9).
  */
 export async function annulerLot(lot: string, driver: Driver, url: string, confirmer: boolean, now: Date, periode?: Periode) {
   const prisma = await client(driver, url);

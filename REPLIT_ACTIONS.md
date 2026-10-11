@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 : `--rollback` exige `--debut`/`--fin` (R1 QA cycle 9) @fullstack, **RIEN À DÉPLOYER** (script hors Worker)
+
+- `prepare-social-month.ts --lot <id> --rollback` (avec ou sans `--confirmer`) sans `--debut` ET `--fin` explicites : message d'erreur, code 2, aucun client Prisma, aucune lecture ni écriture (avant : période par défaut de relance-s15, 12/10 au 03/01, soit 1a ET 1b). `--insert`, dry-run et bornage inchangés.
+- Commande d'annulation (tranche seulement) : `--lot relance-s15 --rollback --debut 2026-10-19 --fin 2026-11-15 [--confirmer] --driver=neon-http`. En-tête des `.md` de lot, usage du script et `plan-execution-s15.md` (Retour arrière) corrigés.
+- Contrôles : `tsc -p tsconfig.build.json`, `lint`, `build` verts ; Jest 273 suites, 3922 tests PASS (dont `social-lot-rollback-dates.test.ts`, 6 tests). Dry-run 1b régénéré dans `/tmp` : `lot-1b.json` et `lot-1b.md` identiques à l'octet (`cmp`). Aucune écriture en base, aucun `--insert`, aucun `--rollback --confirmer`.
+
 ## s15 (11/10/2026, ~08:00 Paris) : pilotage, cycle 9 et corrections en base, **RIEN À DÉPLOYER**
 
 - **Base (UPDATE ciblé id + status + texte exact, 1 ligne)** : post X du 15/10 `c3a73c8392964a6f9ed2f710c`, guillemets droits remplacés par “ ” à l'intérieur de « » (point K2 du @reviewer, cycle 9 ; règle `strategie-relance-v5.md` l.195). Mot à mot inchangé. La vanne source au catalogue garde ses guillemets droits : contrôle bloquant et correction de la source à faire par @fullstack APRÈS l'insertion du 1b (sinon le 1a régénéré ne serait plus identique à `lot-relance-s15.json`).

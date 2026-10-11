@@ -2,7 +2,7 @@
 
 > Généré par `apps/web/scripts/content/prepare-social-month.ts --lot relance-s15 --debut 2026-10-19 --fin 2026-11-15` (graine « relance-s15 »). **Rien n'est inséré en base, rien n'est publié.**
 > Sources : `docs/social/strategie-relance-v5.md` (grille, calendrier §3, R1 à R6, cartes §8), gagnants `duels-resultat-cycle5.md`, 9 posts `validation-thomas-s15.md`, catalogue validé (Joke actives GARDER) et articles programmés (BlogArticle + articles statiques). Aucune génération IA.
-> Insertion (plus tard) : `--lot relance-s15 --insert [--driver=neon-http]` lit `lot-relance-s15.json` et insère ces lignes en APPROVED (approvedBy « thomas-s15 »), puis compte par réseau et par semaine. Annulation : `--lot relance-s15 --rollback --confirmer`.
+> Insertion (plus tard) : `--lot relance-s15 --insert [--driver=neon-http]` lit `lot-relance-s15.json` et insère ces lignes en APPROVED (approvedBy « thomas-s15 »), puis compte par réseau et par semaine. Annulation de cette tranche seulement : `--lot relance-s15 --rollback --debut 2026-10-19 --fin 2026-11-15 --confirmer` (dates obligatoires).
 
 **Total : 46 posts** (X : 19, Instagram : 19, LinkedIn : 8). Heures de Paris (A) : X 12:30, Instagram 19:30, LinkedIn 08:15. Test d'heure alterné par jour, mar. à jeu. : heure B X 09:00 (du lun. 12/10/2026 au lun. 09/11/2026 exclu), Instagram 12:30 (du lun. 12/10/2026 au lun. 09/11/2026 exclu) (réseau sans fenêtre : heure A seule, LinkedIn tant que le test texte / image tourne). Stock éligible du catalogue au J0 : 14 vannes.
 
