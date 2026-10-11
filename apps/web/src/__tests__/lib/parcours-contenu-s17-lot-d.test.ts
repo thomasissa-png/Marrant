@@ -108,7 +108,8 @@ describe("seed réécrit (parcours-seed.json)", () => {
 
   it("bilan de Confiance : Répartie d'abord, sinon un parcours non terminé, sinon le carnet", () => {
     const fait = { completedAt: "2026-10-01" };
-    const api = (rep: object | null, mac: object | null) => [
+    type Progress = Parameters<typeof pickSuite>[0][number]["progress"];
+    const api = (rep: Progress, mac: Progress) => [
       { slug: "machine-a-cafe", title: "Parcours Machine à Café", progress: mac },
       { slug: "repartie", title: "Parcours Répartie", progress: rep },
       { slug: "confiance", title: "Parcours Confiance", progress: fait },

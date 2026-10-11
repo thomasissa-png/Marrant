@@ -312,7 +312,7 @@ describe("Joke Agent", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -547,7 +547,7 @@ describe("Joke Décryptage", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -629,7 +629,7 @@ describe("Tip Agent", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -761,7 +761,7 @@ describe("Video Agent", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -893,7 +893,7 @@ describe("Marketing Agent", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -1201,7 +1201,7 @@ describe("Stand-Up Director Agent", () => {
     // Activer le feature flag AVANT import — sinon reviewContentBatch est
     // desactive par garde-fou cout (commit 6 des optim cost avril 2026).
     process.env.ENABLE_REVIEW_BATCH = "true";
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -2008,7 +2008,7 @@ describe("Director integration — validation retry loop", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -2990,7 +2990,7 @@ describe("Stand-Up Director — validateNewVideo", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },
@@ -3188,7 +3188,7 @@ describe("Prompt Caching — cache_control sur les blocs stables", () => {
 
   beforeEach(async () => {
     jest.resetModules();
-    const Anthropic = (await import("@anthropic-ai/sdk")).default as jest.Mock;
+    const Anthropic = (await import("@anthropic-ai/sdk")).default as unknown as jest.Mock;
     mockAnthropicCreate = jest.fn();
     Anthropic.mockImplementation(() => ({
       messages: { create: mockAnthropicCreate },

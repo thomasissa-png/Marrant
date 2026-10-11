@@ -16,6 +16,9 @@
  * `crypto` (validation HMAC réelle).
  */
 
+// Fichier module (portée locale des `mock*`, évite les collisions globales sous tsc).
+export {};
+
 // ─── Mocks ────────────────────────────────────────────────────────────
 // NB : variable préfixée pour éviter collision globale avec d'autres fichiers
 // de tests qui déclarent aussi `mockFetch` (instagram.test.ts, social-clients.test.ts).

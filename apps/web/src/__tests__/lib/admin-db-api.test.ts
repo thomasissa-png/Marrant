@@ -9,6 +9,9 @@
  * - Read-only protection (User, Subscription)
  */
 
+// Fichier module (portée locale des `mock*`, évite les collisions globales sous tsc).
+export {};
+
 // ─── Mocks ───────────────────────────────────────────────────────
 
 const mockFindMany = jest.fn().mockResolvedValue([]);

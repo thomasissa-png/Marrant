@@ -28,7 +28,7 @@ function step(over: Partial<Step["tip"]> = {}, extra: Partial<Step> = {}): Step 
     id: "s2",
     order: 2,
     dayNumber: 14,
-    tip: { id: "t2", title: "Conseil", content: "Contenu", category: "GENERAL", difficulty: "DEBUTANT", ...over },
+    tip: { id: "t2", title: "Conseil", content: "Contenu", category: "GENERAL", difficulty: "DEBUTANT", ...over } as Step["tip"],
     moduleTitle: "Module",
     moduleXp: 50,
     quiz: [],

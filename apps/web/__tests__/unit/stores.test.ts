@@ -76,7 +76,7 @@ describe("useUserStore", () => {
         xp: 50,
         streak: 1,
         lastActiveAt: null,
-        stats: { jokesRead: 0, tipsCompleted: 0, videosWatched: 0, totalFavorites: 0 },
+        stats: { jokesRead: 0, tipsCompleted: 0, videosWatched: 0, totalFavorites: 0, pathsCompleted: 0 },
       },
     });
 

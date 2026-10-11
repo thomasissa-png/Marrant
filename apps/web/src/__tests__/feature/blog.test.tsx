@@ -119,7 +119,7 @@ import BlogArticlePage, {
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
-    const BlogPageResolved = await BlogPage({ searchParams: {} });
+    const BlogPageResolved = await BlogPage();
     render(BlogPageResolved);
   });
 

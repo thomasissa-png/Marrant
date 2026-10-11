@@ -2,6 +2,9 @@
  * Tests — Buffer Social Client (remplace Twitter/LinkedIn/Instagram directs)
  */
 
+// Fichier module (portée locale des `mock*`, évite les collisions globales sous tsc).
+export {};
+
 // ─── Mocks ───────────────────────────────────────────────────────
 
 const mockFetch = jest.fn();

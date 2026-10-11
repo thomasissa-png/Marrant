@@ -2,6 +2,9 @@
  * Tests — Instagram Pipeline (client + image generator + templates)
  */
 
+// Fichier module (portée locale des `mock*`, évite les collisions globales sous tsc).
+export {};
+
 // ─── Mocks ───────────────────────────────────────────────────────
 
 // Mock fetch for Meta Graph API calls
@@ -290,7 +293,7 @@ describe("image-generator", () => {
 
     const buffers = await generateDecryptageCarousel(slides);
     expect(buffers).toHaveLength(3);
-    buffers.forEach((buf) => expect(Buffer.isBuffer(buf)).toBe(true));
+    buffers.forEach((buf: unknown) => expect(Buffer.isBuffer(buf)).toBe(true));
   });
 
   it("generateLeDefi retourne un Buffer PNG", async () => {

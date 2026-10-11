@@ -10,6 +10,9 @@
  * Les routes Next.js App Router nécessitent Request global — on le polyfill en setupFile.
  */
 
+// Fichier module (portée locale des `mock*`, évite les collisions globales sous tsc).
+export {};
+
 // ─── Mocks ───────────────────────────────────────────────────────
 
 const mockUpdateMany = jest.fn().mockResolvedValue({ count: 0 });

@@ -157,9 +157,10 @@ describe("incremental cache OpenNext sans réponses HTTP", () => {
   const unstableCacheEntry = { kind: "FETCH", data: { body: "[1,2]", headers: {}, status: 200 }, revalidate: 3600 };
   const makeInner = () => ({
     name: "r2",
-    get: jest.fn(async () => ({ value: anthropicEntry, lastModified: 1 })),
-    set: jest.fn(async () => {}),
-    delete: jest.fn(async () => {}),
+    // Signatures alignées sur IncrementalCacheLike (sinon tsc infère des mocks à 0 argument).
+    get: jest.fn<Promise<unknown>, [string, string?]>(async () => ({ value: anthropicEntry, lastModified: 1 })),
+    set: jest.fn<Promise<void>, [string, unknown, string?]>(async () => {}),
+    delete: jest.fn<Promise<void>, [string]>(async () => {}),
   });
 
   it("n'écrit jamais une réponse HTTP (Anthropic, Buffer…)", async () => {
