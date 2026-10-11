@@ -8,10 +8,12 @@
 import { createHash } from "node:crypto";
 import { checkPost, nombreDePhrases, premierePersonne, type PreparedPlatform } from "./social-controls";
 import { extraireLignes, normaliser, nombreDuTitre, type LigneArticle } from "./social-article-lines";
+import type { LigneNotee } from "./social-lignes-notees";
 import { addDays, estAngleBureau, lienUtmV5, mondayOf, parisToUtc, seededRandom, shuffle, vanneR6, weekday, type CatalogueJoke } from "./social-month-plan";
 import * as C from "./social-lot-v5-config";
-import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
+import { CARROUSELS_CITATION, CASES_VANNE, FIXES, REFONTE_17_12, RELAIS_FORCES, RENDUES_AU_POOL, RESERVEES_CARROUSEL, type Fixe, type TypePost } from "./social-lot-v5-fixes";
 import { LEGENDES_IG, ecartsLegende, tournure } from "./social-lot-v5-legendes";
+import { RELAIS_IG_SANS_RENVOI, RENVOIS_RELUS, cleRenvoi } from "./social-lot-v5-renvois";
 import { VARIANTE_IMAGE, vanneLinkedInImage } from "../../src/lib/social/carte-linkedin";
 import { heureDuCreneau, type BrasHeure } from "../../src/lib/social/heure-test";
 import { LIBELLE_FORMAT, PLAFONDS_MIX, partiesConseilIg, caseConseilNominale, conseilServira, erreurSansTexte, jjmm, ordreRepli, prioriteRepli, type FormatMix, type TexteFormat } from "./social-lot-v5-mix";
@@ -45,15 +47,24 @@ export interface LotInput {
   autorisees?: string[];
   /** Légendes Instagram par vanne (« À envoyer à... ») ; défaut : `LEGENDES_IG` (social-lot-v5-legendes.ts). */
   legendes?: Record<string, string>;
+  /** Renvois tranchés à l'aveugle par `réseau|slug|vanne` ; défaut : `RENVOIS_RELUS` (social-lot-v5-renvois.ts). */
+  renvoisRelus?: Record<string, string>;
+  /** Relais Instagram partant sur la seule légende retenue (repli) ; défaut : `RELAIS_IG_SANS_RENVOI`. */
+  relaisIgSansRenvoi?: ReadonlySet<string>;
   /**
    * Textes validés du repli du mix (`docs/social/preparation/textes-formats-valides.json`, lus par
    * `lireTextesFormats`) : seule source des cases sans vanne au niveau ; vide = erreur par créneau et par format.
    */
   textesFormats?: TexteFormat[];
+  /**
+   * Lignes d'article notées au niveau (`lignes-articles-notes.json`, lues par `lireLignesNotees`) : admises au
+   * tirage du relais de LEUR article seulement, même hors `--pool` (plan §2, mix §2 : « relais, ligne notée »).
+   */
+  lignesNotees?: LigneNotee[];
 }
 /** Post déjà en base avant le lot. `texte` (contenu + cartes) : contrôle « pain » sur la base. */
 export interface PostEnBase { date: string; sourceId: string; platform?: string; texte?: string }
-export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF" | "TEXTE_MIX";
+export type Origine = "CATALOGUE" | "ARTICLE" | "VALIDE" | "FORMULE_V5" | "NEUF" | "TEXTE_MIX" | "AVEUGLE";
 export type Variante = "image" | "texte";
 /** Test LinkedIn texte / image : bras par post et paires formées. */
 export interface CompteVariantes { eligibles: number; image: number; texte: number; paires: number; pairesMemeNote: number }
@@ -156,11 +167,16 @@ export function buildLotV5(input: LotInput): LotResult {
   const replis: LotPost[] = [];
   const poolById = new Map(input.pool.map((j) => [j.id, j]));
   const legendes = input.legendes ?? LEGENDES_IG;
-  /** Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi. */
+  const renvoisRelus = input.renvoisRelus ?? RENVOIS_RELUS;
+  const relaisIgSansRenvoi = input.relaisIgSansRenvoi ?? RELAIS_IG_SANS_RENVOI;
+  /**
+   * Légende Instagram de la vanne (jamais le pied « deviens-marrant.fr », [CHOIX UTILISATEUR] 06/10). Relais : + renvoi.
+   * Sans « À envoyer à... » retenue, aucune légende (le renvoi seul n'en est pas une) : erreur « légende manquante ».
+   */
   const legendeDe = (v: Vanne | null, renvoiIg?: string): string | undefined => {
     const l = v ? legendes[v.cle] : undefined;
-    if (renvoiIg === undefined) return l;
-    return l ? `${l} ${renvoiIg}` : renvoiIg;
+    if (renvoiIg === undefined || !l) return l;
+    return `${l} ${renvoiIg}`;
   };
   const articleParDate = new Map(input.articles.map((a) => [a.date, a]));
   const articleParSlug = new Map(input.articles.map((a) => [a.slug, a]));
@@ -200,6 +216,32 @@ export function buildLotV5(input: LotInput): LotResult {
     if (j) return { ...deJoke(j), origine: "CATALOGUE", article: l };
     return { cle: `${l.slug}#${l.rang}`, lignes: l.lignes, cartes: deuxCartes(l.lignes), categorie: null, origine: "ARTICLE", article: l };
   };
+  /**
+   * Lignes notées au niveau, par article (ordre du fichier), mot pour mot depuis l'article en base : ligne reconnue au
+   * texte identique, sinon texte présent tel quel dans le contenu (clé `slug#rang`, ou `slug#<texte normalisé>` comme
+   * les fixes quand le rang est nul ou désigne une autre ligne).
+   */
+  const noteesParSlug = new Map<string, Vanne[]>();
+  const clesNotees = new Set<string>();
+  for (const n of input.lignesNotees ?? []) {
+    const a = articleParSlug.get(n.slug);
+    if (!a) continue;
+    const quoi = `Ligne notée ${n.slug}#${n.rang ?? `« ${n.texte.slice(0, 40)}… »`}`;
+    // Ligne reconnue dans l'article (même texte) : sa clé et ses lignes d'origine (`slug#rang` de l'article, ou id catalogue).
+    const ls = lignesParSlug.get(n.slug) ?? [];
+    const l = ls.find((x) => normaliser(x.lignes.join(" ")) === normaliser(n.texte));
+    let v: Vanne | null = l ? vanneDeLigne(l) : null;
+    if (!v && a.content.includes(n.texte)) {
+      // Hors lignes reconnues (FAQ, intro, section `**N. titre**`) : texte tel quel. `slug#rang` s'il ne désigne
+      // aucune autre ligne de l'article, sinon clé du texte (pas de faux doublon au registre des 90 jours).
+      const rangLibre = n.rang !== null && !ls.some((x) => x.rang === n.rang);
+      v = { cle: `${n.slug}#${rangLibre ? n.rang : normaliser(n.texte).slice(0, 24)}`, lignes: [n.texte], cartes: deuxCartes([n.texte]), categorie: null, origine: "ARTICLE" };
+    }
+    if (!v) { warnings.push(`${quoi} : introuvable mot pour mot dans l'article en base, non utilisée.`); continue; }
+    if (clesNotees.has(v.cle)) continue;
+    clesNotees.add(v.cle);
+    noteesParSlug.set(n.slug, [...(noteesParSlug.get(n.slug) ?? []), v]);
+  }
   // Fixes hors des bornes du lot : leurs vannes restent réservées, sans erreur bloquante.
   const vanneDuFixe = (f: Fixe, signaler = true): Vanne | null => {
     const v = f.vanne;
@@ -235,12 +277,15 @@ export function buildLotV5(input: LotInput): LotResult {
   /** Vanne utilisable par un tirage ou un relais à cette date (les fixes passent à part). */
   // `relais` : la ligne vient de l'article relayé ce jour-là, sa saison est celle de l'article.
   // `pf` : réseau visé ; une vanne ne revient pas sur le réseau de sa 1re diffusion.
-  const libre = (v: Vanne, date: string, relais = false, pf?: PreparedPlatform): boolean => {
-    if (rang && !rang.has(v.cle)) return false;
+  // `admises` : lignes notées admises hors pool, celles du relais servi seulement (ligneRelais).
+  const libre = (v: Vanne, date: string, relais = false, pf?: PreparedPlatform, admises?: Set<string>): boolean => {
+    if (rang && !rang.has(v.cle) && !admises?.has(v.cle)) return false;
     if (pf && premier.get(v.cle)?.pf === pf) return false;
     if (v.jokeId && (C.SOUS_HUIT.includes(v.jokeId) || C.RESERVEES_NOEL.includes(v.jokeId))) return false;
     // Réservées à un carrousel de décryptage (fiche écrite) : jamais tirées (cycle 8, V028 et V060).
     if (v.jokeId && RESERVEES_CARROUSEL.some((r) => r.jokeId === v.jokeId)) return false;
+    // Rendues au pool par un post fixe : pas de tirage dans la fenêtre, la cascade ne change aucune autre case.
+    if (v.jokeId && RENDUES_AU_POOL.some((r) => r.jokeId === v.jokeId && date >= r.du && date < r.tirableDes)) return false;
     if (estPain(v) || (!relais && saisonBloque(texteDe(v), date)) || fixesVannes.has(v.cle)) return false;
     const d = utilise.get(v.cle);
     if (d && Math.abs(jours(d, date)) < C.ANTI_REPETITION_JOURS) return false;
@@ -339,8 +384,14 @@ export function buildLotV5(input: LotInput): LotResult {
     return p;
   };
 
-  // ── Renvoi d'un relais (v5 §1) ──
-  const renvoi = (a: ArticleLot, pf: PreparedPlatform, depuisArticle: boolean): { texte: string; origine: Origine } => {
+  /** Messages numérotés (`**N.**`) de l'article, chacun avec son texte jusqu'au numéro suivant ou au titre suivant. */
+  const messagesNumerotes = (a: ArticleLot): string[] => a.content.split(/^(?=\*\*\d+\.|#)/m)
+    .filter((b) => /^\*\*\d+\./.test(b)).map(normaliser);
+
+  // ── Renvoi d'un relais (v5 §1, l.32) ──
+  // null : aucune formule exacte de la v5 (ni d'un post validé par Thomas) pour ce cas. Le relais part sans renvoi
+  // dans le dry-run et le contrôle lève une erreur : le renvoi passe d'abord à l'aveugle (contrôle @reviewer E2, E3).
+  const renvoi = (a: ArticleLot, pf: PreparedPlatform, depuisArticle: boolean, v?: Vanne | null): { texte: string; origine: Origine } | null => {
     // Nombre du titre, sinon numéro le plus haut des lignes `**N.**` (« Vœux drôles : messages prêts à envoyer »).
     const numeros = [...a.content.matchAll(/^\*\*(\d+)\.\*\* /gm)].map((m) => Number(m[1]));
     const n = nombreDuTitre(a.title) ?? (numeros.length ? Math.max(...numeros) : null);
@@ -350,8 +401,23 @@ export function buildLotV5(input: LotInput): LotResult {
       if (pf === "INSTAGRAM") return { texte: depuisArticle ? `Les ${n - 1} autres ${nom} : lien en bio.` : `Les ${n} ${nom} : lien en bio.`, origine: "FORMULE_V5" };
       return { texte: depuisArticle ? `Les ${n - 1} autres sont ${accord} à copier :` : `Les ${n} ${nom} de l'article sont ${accord} à copier :`, origine: "FORMULE_V5" };
     }
-    if (pf === "INSTAGRAM") return { texte: "Les autres exemples : lien en bio.", origine: "NEUF" };
-    return { texte: "Les autres exemples, et comment trouver le tien :", origine: "NEUF" };
+    // CATALOGUE sans nombre dans le titre : « Les N autres sont prêts à copier : », N = messages numérotés de
+    // l'article, moins la vanne montrée si elle en est un. X et LinkedIn : la v5 n'a pas de formule Instagram.
+    // Vanne hors de l'article (relais (2) de la v5) : « autres » serait faux, aucune formule exacte.
+    const messages = messagesNumerotes(a);
+    if (a.category === "CATALOGUE" && messages.length && pf !== "INSTAGRAM" && depuisArticle) {
+      const montre = v ? normaliser(texteDe(v)) : "";
+      const autres = messages.length - (montre && messages.some((m) => m.includes(montre)) ? 1 : 0);
+      const accord = /\b(vannes|blagues|phrases|répliques)\b/i.test(a.title) ? "prêtes" : "prêts";
+      return { texte: `Les ${autres} autres sont ${accord} à copier :`, origine: "FORMULE_V5" };
+    }
+    // PRATIQUE : « Les 4 autres exemples, et comment trouver le tien : » (v5) et « Les 4 autres exemples : lien en bio. »
+    // (IG2) valent pour un article de 5 exemples dont la ligne montrée fait partie. Le nombre exact n'est vérifié
+    // que dans les posts fixes (IG2, L3) : le script ne pose jamais ces formules seul.
+    // Sans formule : renvoi tranché à l'aveugle pour ce réseau, cet article et cette vanne (social-lot-v5-renvois.ts).
+    const relu = v ? renvoisRelus[cleRenvoi(pf, a.slug, v.cle)] : undefined;
+    if (relu) return { texte: relu, origine: "AVEUGLE" };
+    return null;
   };
 
   /** Ligne d'article reprise : catalogue, ou vanne citée à la 1re personne, sans question, d'un article CATALOGUE ou décryptée. */
@@ -360,12 +426,19 @@ export function buildLotV5(input: LotInput): LotResult {
     if (l.catalogueId) return true;
     return l.citee && premierePersonne(t) && !t.includes("?") && (a.category === "CATALOGUE" || !!l.pourquoi);
   }
-  /** Ligne d'article pour un relais : catalogue, article CATALOGUE, ou vanne décryptée citée. */
+  /**
+   * Ligne d'article pour un relais : catalogue, puis lignes notées au niveau (Instagram : seulement avec leur légende
+   * « À envoyer à... » validée, sans quoi le post serait refusé), puis article CATALOGUE ou vanne décryptée citée.
+   */
   const ligneRelais = (a: ArticleLot, date: string, pf: PreparedPlatform, filtre: (v: Vanne) => boolean): Vanne | null => {
     const ls = shuffle(lignesParSlug.get(a.slug) ?? [], seededRandom(`${graine}-${a.slug}-${date}`));
-    const candidats = parRang(ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId)));
-    return candidats.find((v) => libre(v, date, true, pf) && filtre(v))
-      ?? penurie(candidats.find((v) => libre(v, date, true) && filtre(v)) ?? null, pf, date);
+    const extraites = parRang(ls.filter((l) => eligibleRelais(a, l)).map(vanneDeLigne).sort((x, y) => Number(!x.jokeId) - Number(!y.jokeId)));
+    const notees = (noteesParSlug.get(a.slug) ?? []).filter((v) => pf !== "INSTAGRAM" || !!legendes[v.cle]);
+    const cles = new Set(notees.map((v) => v.cle));
+    const candidats = notees.length === 0 ? extraites : [...extraites.filter((v) => v.jokeId && !cles.has(v.cle)), ...notees,
+      ...extraites.filter((v) => !v.jokeId && !cles.has(v.cle))];
+    return candidats.find((v) => libre(v, date, true, pf, cles) && filtre(v))
+      ?? penurie(candidats.find((v) => libre(v, date, true, undefined, cles) && filtre(v)) ?? null, pf, date);
   };
   /** Lignes d'articles déjà publiés à cette date (v5 : « vannes = catalogue ou lignes des articles du site »). */
   const lignesPubliees = (date: string): Vanne[] => input.articles.filter((a) => a.date < date && !C.ARTICLES_MESSAGES.test(a.slug))
@@ -644,8 +717,9 @@ export function buildLotV5(input: LotInput): LotResult {
     let legende = f.legende;
     let legOrig: Origine = "FORMULE_V5";
     if (f.type === "RELAIS" && a && !r && !legende && !f.texteMarque) {
-      const rv = renvoi(a, f.platform, v?.origine === "ARTICLE" || !!v?.article);
-      if (f.platform === "INSTAGRAM") { legende = legendeDe(v, rv.texte); legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
+      const rv = renvoi(a, f.platform, v?.origine === "ARTICLE" || !!v?.article, v);
+      if (!rv) { legende = f.platform === "INSTAGRAM" ? legendeDe(v) : undefined; errors.push(`${f.date} ${f.platform} ${f.cle} : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle.`); }
+      else if (f.platform === "INSTAGRAM") { legende = legendeDe(v, rv.texte); legOrig = rv.origine; } else { r = rv.texte; rOrig = rv.origine; }
       if (f.platform !== "INSTAGRAM" && !lien) lien = lienUtmV5(siteUrl, `/blog/${a.slug}`, f.platform, f.date, weekday(f.date) === 1 ? "lundi" : "jeudi");
     }
     poster(f.date, f.platform, f.type, { v, marque: f.texteMarque, renvoi: r, renvoiOrigine: rOrig, lien, legende, legendeOrigine: legOrig,
@@ -669,10 +743,14 @@ export function buildLotV5(input: LotInput): LotResult {
       return false;
     }
     reserver(v, date, pf);
-    const rv = renvoi(a, pf, !!v.article);
+    const rv = renvoi(a, pf, !!v.article, v);
     const lien = pf === "INSTAGRAM" ? null : lienUtmV5(siteUrl, `/blog/${a.slug}`, pf, date, utm);
-    poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv.texte, renvoiOrigine: rv.origine, lien,
-      legende: pf === "INSTAGRAM" ? legendeDe(v, rv.texte) : undefined, legendeOrigine: rv.origine, origine: "TIRAGE", slug: a.slug, note: n });
+    // Sans formule exacte, Instagram garde la seule légende retenue (« À envoyer à... ») : aucun texte neuf.
+    poster(date, pf, type, { v, renvoi: pf === "INSTAGRAM" ? null : rv?.texte ?? null, renvoiOrigine: rv?.origine, lien,
+      legende: pf === "INSTAGRAM" ? (rv ? legendeDe(v, rv.texte) : legendeDe(v)) : undefined, legendeOrigine: rv?.origine, origine: "TIRAGE", slug: a.slug, note: n });
+    // Repli prévu à l'aveugle (Instagram, légende retenue seule) : pas d'erreur, la légende reste exigée.
+    if (!rv && pf === "INSTAGRAM" && relaisIgSansRenvoi.has(cleRenvoi(pf, a.slug, v.cle))) warnings.push(`${date} ${pf} RELAIS : aucun renvoi au niveau pour ${a.slug}, repli prévu : légende retenue seule, sans renvoi (aveugle-1b-r7-resultat.md).`);
+    else if (!rv) errors.push(`${date} ${pf} RELAIS : renvoi manquant pour ${a.slug} (catégorie ${a.category}) : aucune formule exacte de la v5, à relire à l'aveugle (lot-1b-textes-a-relire.md).`);
     return true;
   }
 

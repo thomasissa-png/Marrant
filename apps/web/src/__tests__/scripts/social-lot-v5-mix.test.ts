@@ -40,13 +40,14 @@ describe("fichier des textes validés", () => {
   it("fichier vide : aucune case omise, une erreur claire par créneau et par format", () => {
     const r = lot([]);
     const e = sansTexte(r);
-    expect(r.posts).toHaveLength(0);
-    // X 5, Instagram 5, LinkedIn 2 : 12 cases, 12 erreurs, dans l'ordre des dates.
-    expect(e).toHaveLength(12);
+    // Seul post : l'étalon V-A, post fixe du LinkedIn du 03/11 (contrôle @reviewer du lot 1b, E1).
+    expect(r.posts.map((p) => p.cle)).toEqual(["LI-visio-03-11"]);
+    // X 5, Instagram 5, LinkedIn 2 : 12 cases, 11 erreurs (LinkedIn du 03/11 servi), dans l'ordre des dates.
+    expect(e).toHaveLength(11);
     expect(e).toContain("2026-11-03 TWITTER : créneau du 03/11 (X) : repli du mix sans texte validé (format attendu : conseil ; à défaut : ligne d'article notée).");
     expect(e.find((x) => x.startsWith("2026-11-04 TWITTER"))).toMatch(/format attendu : quiz seul ; à défaut : conseil, ligne d'article notée/);
     expect(e.find((x) => x.startsWith("2026-11-04 INSTAGRAM"))).toMatch(/format attendu : carrousel R9 ; à défaut : conseil/);
-    expect(e.find((x) => x.startsWith("2026-11-03 LINKEDIN"))).toMatch(/format attendu : relais LinkedIn à angle travail\) ; articles de 7 jours au plus : humour-en-visio-reunion-en-ligne \(02\/11, thème bureau\)/);
+    expect(e.find((x) => x.startsWith("2026-11-05 LINKEDIN"))).toMatch(/format attendu : relais LinkedIn à angle travail\) ; articles de 7 jours au plus : humour-en-visio-reunion-en-ligne \(02\/11, thème bureau\)/);
     expect(e.map((x) => x.slice(0, 10))).toEqual(e.map((x) => x.slice(0, 10)).sort());
   });
 
@@ -108,11 +109,16 @@ describe("barres et champs du lot 1b (08/10)", () => {
     expect(r.posts.some((p) => p.mix?.texte === "conseil-x-3")).toBe(false);
   });
 
-  it("fichier versionné du lot 1b : 13 textes conformes (10 conseils, 3 relais LinkedIn), créneaux tranchés", () => {
+  it("fichier versionné du lot 1b : 19 textes conformes (10 conseils nominaux, 5 de repli, 1 carrousel R9, 3 relais LinkedIn)", () => {
     const chemin = path.resolve(__dirname, "../../../../../docs/social/preparation/textes-formats-valides.json");
     const { textes, erreurs } = lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin);
     expect(erreurs).toEqual([]);
-    expect(textes.filter((t) => t.format === "conseil")).toHaveLength(10);
+    expect(textes).toHaveLength(19);
+    expect(textes.filter((t) => t.format === "conseil" && t.role !== "repli")).toHaveLength(10);
+    // Repli du 10/10 (aveugle-1b-repli-resultat.md, tours 1 à 3) : K59, K42, K53, K63 et K76 sur leur créneau.
+    expect(textes.filter((t) => t.role === "repli").map((t) => `${t.creneau} ${t.reseau}`)).toEqual([
+      "2026-11-09 TWITTER", "2026-11-09 INSTAGRAM", "2026-11-12 TWITTER", "2026-11-05 INSTAGRAM", "2026-11-12 INSTAGRAM"]);
+    expect(textes.filter((t) => t.format === "carrousel").map((t) => `${t.creneau} ${t.jokeId}`)).toEqual(["2026-11-04 cs14jk34c841ef6e1abadb11"]);
     expect(textes.filter((t) => t.format === "relaisLinkedIn").map((t) => `${t.creneau} ${t.article}`)).toEqual([
       "2026-11-05 blagues-de-couple-drole", "2026-11-10 chambrer-sans-blesser-entre-potes", "2026-11-12 voeux-drole-nouvelle-annee"]);
     for (const t of textes.filter((x) => x.reseau === "TWITTER")) expect(longueurX(t.texte!)).toBeLessThanOrEqual(270);
@@ -188,7 +194,8 @@ describe("plafonds (mix §2 et §6)", () => {
   it("relais LinkedIn à angle travail : 2 par semaine au plus en repli, avec lien et garde d'article, sans erreur « 2 relais »", () => {
     const r = lot([relaisLi(1), relaisLi(2), relaisLi(3), conseilX(1)]);
     const li = r.posts.filter((p) => p.platform === "LINKEDIN");
-    expect(li.map((p) => p.mix?.texte)).toEqual(["relais-li-1", "relais-li-2"]);
+    // L'étalon V-A (post fixe du 03/11) compte dans les 2 relais de la semaine.
+    expect(li.map((p) => p.cle ?? p.mix?.texte)).toEqual(["LI-visio-03-11", "relais-li-1"]);
     for (const p of li) {
       expect(p).toMatchObject({ type: "RELAIS", article: "humour-en-visio-reunion-en-ligne" });
       expect(p.content.split("\n").pop()).toMatch(/^https:\/\/deviens-marrant\.fr\/blog\/humour-en-visio-reunion-en-ligne\?utm_source=linkedin/);
@@ -287,7 +294,7 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
     expect(ailleurs[0].platform).not.toBe("TWITTER");
   });
 
-  it("fichier versionné, stock plein : K36 et K26 le ven. 23/10, K28 et K30 le mar. 03/11, aucun conseil lundi ou jeudi", () => {
+  it("fichier versionné, stock plein : K36 et K26 le ven. 23/10, K28 et K30 le mar. 03/11, aucun conseil nominal lundi ou jeudi", () => {
     for (const autorisees of [undefined, ["aucune-vanne"]]) {
       const r = lot(reels(), { ...LOT_1B, autorisees });
       expect(de(r, "2026-10-23", "TWITTER")?.mix?.texte).toBe("cmptbp7nv002bs60xscu5ixmx");
@@ -296,8 +303,10 @@ describe("cases de conseil nominales (plan §3, décision du 08/10)", () => {
       expect(de(r, "2026-11-03", "INSTAGRAM")?.mix?.texte).toBe("cmq0gw85z00nas60xc0gno2ka");
       const conseils = r.posts.filter((p) => p.type === "CONSEIL");
       expect(conseils.length).toBeGreaterThanOrEqual(4);
+      // Conseils de repli (role « repli », décision du 10/10) : tout jour ouvré ; les nominaux jamais lundi ni jeudi.
+      const repli = new Set(reels().filter((t) => t.role === "repli").map((t) => t.id));
       for (const p of conseils) {
-        expect([1, 4]).not.toContain(jour(p.date));
+        if (!repli.has(p.mix?.texte ?? "")) expect([1, 4]).not.toContain(jour(p.date));
         expect(p.platform).not.toBe("LINKEDIN");
       }
     }

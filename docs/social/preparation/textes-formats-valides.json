@@ -197,6 +197,112 @@
       "article": "voeux-drole-nouvelle-annee",
       "angleTravail": true,
       "texte": "Ton manager va recevoir quarante mails de vœux sur le même modèle : « bonne année, bonne santé ».\nLe tien arrivera entre le trente-septième et le trente-huitième. Voici des vœux drôles classés par destinataire, avec le moment pour les envoyer :"
+    },
+    {
+      "id": "cmmp8ozsx000lqk63pgytfuuv",
+      "format": "conseil",
+      "role": "repli",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-09",
+      "notes": [
+        8.5,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 1, K59) ; texte : aveugle-1b-repli.md",
+      "persona": "YANIS",
+      "texte": "La répartie bienveillante : ton pote renverse son verre en plein dîner. Tu ne vises pas la personne, tu vises la situation : « T'inquiète, la table avait soif aussi. »"
+    },
+    {
+      "id": "cmp51ckjk012hs60ya03z0at2",
+      "format": "conseil",
+      "role": "repli",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-09",
+      "notes": [
+        8.5,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 1, K42) ; texte : aveugle-1b-repli.md",
+      "persona": "YANIS",
+      "surtitre": "La fausse critique",
+      "cartes": [
+        "Ton pote arrive à l'apéro en chemise repassée. Tu le regardes, l'air inquiet.",
+        "« J'ai un problème avec toi. Tu ne peux pas être aussi bien un mardi soir. Je n'avais rien prévu pour ça. » À toi de jouer : glisse aujourd'hui un compliment déguisé en reproche."
+      ],
+      "legende": "À envoyer à la bande qui s'aime en se chambrant."
+    },
+    {
+      "id": "cmpdlrjvn00qts60x5u5im54k",
+      "format": "conseil",
+      "role": "repli",
+      "reseau": "TWITTER",
+      "creneau": "2026-11-12",
+      "notes": [
+        8.5,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 1, K53) ; texte : aveugle-1b-repli.md",
+      "persona": "YANIS",
+      "texte": "Détourner un proverbe : ton coloc regarde l'évier et demande où en est la vaisselle. Tu changes un seul mot à la phrase que tout le monde connaît : « Petit à petit, la vaisselle fait son nid. »"
+    },
+    {
+      "id": "cmmsvsgt5002ps60x75lkommh",
+      "format": "conseil",
+      "role": "repli",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-05",
+      "notes": [
+        8,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 2, K63, réaffecté du 04/11 au 05/11 Instagram) ; texte : aveugle-1b-repli-t2.md",
+      "persona": "YANIS",
+      "surtitre": "Le métier imaginaire",
+      "cartes": [
+        "À table, ton pote te lance : « Tu scrolles depuis vingt minutes. » Tu réponds avec un titre de métier.",
+        "« Je ne scrolle pas, je fais de la veille. Là, je suis en train de suivre le petit-déjeuner d'un inconnu. » À toi de jouer : donne-toi un métier ridicule quand on te surprend à scroller."
+      ],
+      "legende": "À envoyer au pote qui scrolle pendant que tu parles."
+    },
+    {
+      "id": "cmov5buqv0024s60wto587pj7",
+      "format": "conseil",
+      "role": "repli",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-12",
+      "notes": [
+        8,
+        8
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 3, K76, départage 3e relecteur) ; texte : aveugle-1b-repli-t3.md",
+      "persona": "YANIS",
+      "surtitre": "La vanne retenue",
+      "cartes": [
+        "Le prof rend les copies : « Les résultats ne sont pas terribles... » Ton voisin te chuchote une vanne. Tu te tais. Plus tard, le prof se trompe au tableau, efface, se trompe encore.",
+        "À mi-voix : « Il est en train de nous apprendre à raturer proprement. » À toi de jouer : si l'ambiance est tendue, garde ta vanne pour la minute d'après."
+      ],
+      "legende": "À envoyer à celui qui blague pendant le discours du chef."
+    },
+    {
+      "id": "carrousel-r9-2026-11-04",
+      "format": "carrousel",
+      "reseau": "INSTAGRAM",
+      "creneau": "2026-11-04",
+      "notes": [
+        8.5,
+        8.5
+      ],
+      "source": "docs/social/preparation/aveugle-1b-repli-resultat.md (tour 2, C3) ; texte : aveugle-1b-repli-t2.md ; cartes 1 et 2 = vanne du catalogue (les « / » de la fiche sont des retours à la ligne)",
+      "persona": "YANIS",
+      "jokeId": "cs14jk34c841ef6e1abadb11",
+      "cartes": [
+        "Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier.",
+        "Il a zoomé. Sur le parking.",
+        "Pourquoi ça fait rire : vue de loin, la carte prouve l'exploit, vue de près elle le dément, et il a fallu un copain trop consciencieux pour zoomer.",
+        "À toi de jouer : choisis une photo flatteuse de ta semaine, puis zoome dessus pour trouver le détail qui la dégonfle.",
+        "Le quiz est dans le lien de la bio."
+      ],
+      "legende": "À envoyer à l'amie qui partage sa position en direct."
     }
   ]
 }

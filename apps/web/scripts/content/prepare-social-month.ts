@@ -43,10 +43,13 @@
  *       `--pool strict` = pool strict de `src/config/social-pool.ts` (lu aussi par le Worker).
  *       `--textes-formats fichier` : textes validés du repli du mix (défaut docs/social/preparation/
  *       textes-formats-valides.json) ; case sans vanne au niveau et sans texte = erreur par créneau et par format.
+ *       `--lignes-notees fichier` : lignes d'article notées (défaut docs/social/preparation/lignes-articles-notes.json) ;
+ *       les lignes `auNiveau` entrent au relais de LEUR article seulement, même hors `--pool`.
  *       Retour à 90 jours sur un autre réseau que la 1re diffusion, sauf pénurie (avertissement).
  *       approvedBy du lot : « lot-<id> » (« thomas-s15 » pour relance-s15, bornes par défaut 12/10 au 03/01).
- *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback [--confirmer] [--driver=neon-http]
- *       Sans --confirmer : comptes seulement. Avec : posts APPROVED jamais envoyés du lot passés en REJECTED.
+ *   npx tsx scripts/content/prepare-social-month.ts --lot <id> --rollback --debut AAAA-MM-JJ --fin AAAA-MM-JJ [--confirmer] [--driver=neon-http]
+ *       --debut ET --fin obligatoires (aucune période par défaut, même pour relance-s15 : sinon code 2, rien lu ni modifié).
+ *       Sans --confirmer : comptes seulement. Avec : posts APPROVED jamais envoyés de la tranche passés en REJECTED.
  *
  * Images Instagram : carrousel v3 4:5 (cartes « piste A ») rendu à la demande par le
  * Worker. Le script insère `imageUrl = null` et `threadParts = [amorce, chute]` (vanne)
@@ -64,6 +67,7 @@ import { POOL_STRICT } from "../../src/config/social-pool";
 import { ANTI_REPETITION_JOURS, LOT_DEBUT, LOT_FIN, LOT_ID, LOT_ID_RE } from "./social-lot-v5-config";
 import { buildLotV5, controlerLegendesInstagram, controlerLot, type ArticleLot } from "./social-lot-v5";
 import { lireTextesFormats } from "./social-lot-v5-mix";
+import { lireLignesNotees } from "./social-lignes-notees";
 import { brasHeureParReseau, fichierLot, renderLotMarkdown, type MetaLot } from "./social-lot-v5-export";
 import { annulerLot, bornesLot, ecartsFichierLot, insererLot, lireFichierLot, type Driver } from "./social-lot-v5-insert";
 
@@ -196,13 +200,23 @@ async function genererLot(argv: string[], a: { lot: string; debut: string; fin: 
   const notes = sourceNotes && fs.existsSync(sourceNotes) ? notesDuTexte(fs.readFileSync(sourceNotes, "utf-8")) : {};
   // Repli du mix : textes validés (`--textes-formats`, défaut textes-formats-valides.json), seule source des cases sans vanne.
   const tf = chargerTextesFormats(arg(argv, "--textes-formats") ?? path.join(DOCS_DIR, "textes-formats-valides.json"));
+  // Lignes d'article notées au niveau (`--lignes-notees`, défaut lignes-articles-notes.json) : relais de leur article.
+  const ln = chargerLignesNotees(arg(argv, "--lignes-notees") ?? path.join(DOCS_DIR, "lignes-articles-notes.json"));
   const inputs = await loadLotInputs(neonHttpQuery(dbUrl), meta.debut, meta.fin);
-  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes, textesFormats: tf.textes });
+  const res = buildLotV5({ ...inputs, seed, siteUrl: arg(argv, "--site-url"), lot: a.lot, debut: a.debut, fin: a.fin, autorisees, notes, textesFormats: tf.textes,
+    lignesNotees: ln.lignes });
   // « pain » : lot ET posts déjà en base (30 jours tous réseaux).
   const lot = controlerLot(res.posts, inputs.recents);
   // Légendes Instagram : « À envoyer à... », sans pied ni lien (posts et replis).
   const leg = controlerLegendesInstagram(res.posts, res.replis);
-  return { seed, autorisees, inputs, res, errors: [...tf.erreurs, ...res.errors, ...lot.errors, ...leg.errors], warnings: [...tf.avertissements, ...res.warnings, ...lot.warnings, ...leg.warnings] };
+  return { seed, autorisees, inputs, res, errors: [...tf.erreurs, ...ln.erreurs, ...res.errors, ...lot.errors, ...leg.errors],
+    warnings: [...tf.avertissements, ...ln.avertissements, ...res.warnings, ...lot.warnings, ...leg.warnings] };
+}
+
+/** Lignes d'article notées : fichier absent = aucune ligne (avertissement), entrée non conforme = erreur bloquante. */
+export function chargerLignesNotees(chemin: string): ReturnType<typeof lireLignesNotees> & { avertissements: string[] } {
+  if (!fs.existsSync(chemin)) return { lignes: [], erreurs: [], avertissements: [`Lignes d'article notées : ${chemin} introuvable, aucune ligne au relais.`] };
+  return { ...lireLignesNotees(fs.readFileSync(chemin, "utf-8"), chemin), avertissements: [] };
 }
 
 /** Fichier des textes du mix : absent = aucun texte (avertissement), entrée non conforme = erreur bloquante. */
@@ -211,7 +225,13 @@ export function chargerTextesFormats(chemin: string): ReturnType<typeof lireText
   return { ...lireTextesFormats(fs.readFileSync(chemin, "utf-8"), chemin), avertissements: [] };
 }
 
-async function mainLot(argv: string[]): Promise<number> {
+/** Commande `--lot` (exportée pour les tests). */
+export async function mainLot(argv: string[]): Promise<number> {
+  // R1 QA cycle 9 : pas de période par défaut pour --rollback (celle de relance-s15 couvrirait 1a ET 1b).
+  if (argv.includes("--rollback") && (!arg(argv, "--debut") || !arg(argv, "--fin"))) {
+    console.error("--rollback exige --debut ET --fin (AAAA-MM-JJ) explicites : la tranche à annuler doit être nommée (aucune période par défaut). Rien n'a été lu ni modifié.");
+    return 2;
+  }
   const a = argsLot(argv);
   if (typeof a === "string") {
     console.error(a);
@@ -231,7 +251,7 @@ async function mainLot(argv: string[]): Promise<number> {
   }
   if (argv.includes("--rollback")) {
     const confirmer = argv.includes("--confirmer");
-    // Tranche seulement (--debut/--fin ; défaut de relance-s15 = tout le lot) : annuler 1b ne touche jamais 1a.
+    // Tranche seulement (--debut/--fin obligatoires, vérifiés plus haut) : annuler 1b ne touche jamais 1a.
     const r = await annulerLot(a.lot, driver, dbUrl, confirmer, new Date(), bornesLot(a.debut, a.fin));
     console.log(`Lot ${a.lot}, tranche du ${a.debut} au ${a.fin} (approvedBy « ${r.approvedBy} ») avant : ${JSON.stringify(r.avant)}. APPROVED non envoyés : ${r.aAnnuler}.`);
     if (!confirmer) {

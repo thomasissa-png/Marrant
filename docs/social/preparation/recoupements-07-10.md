@@ -61,7 +61,7 @@ Le « reste 23 après 1a » du plan §2 devient 16. À corriger dans `plan-execu
 Les 10 `sourceId` de la semaine 0 (`lot-semaine0.json`) : V044 `cs14jk0c96df8dc97a67e3f6` (06/10 X), V045 `cs14jkdf1cef669030ec828a` (06/10 IG), V074 `cmonlkgeu000ds60wu0gazutb` (06/10 LI), V070 `cs14jk34c841ef6e1abadb11` (07/10 X), V087 `cs14jkdb222991fcbf194845` (07/10 IG, costume), V033 `cs14jk18882246f6446df2b7` (08/10 X), V059 `cs14jk2fd7c7c96d7815407d` (08/10 IG), V049 `cs14jk0761c9f2d885762bb5` (08/10 LI), V076 `cs14jkafa211aede70b92cc8` (09/10 X), V101 `cs14jk2ef0aabfbf4784ad82` (09/10 IG). Les 10 sont dans `POOL_STRICT`.
 
 **Deux points qui demandent une action.**
-1. V060 (09/12) et V083 (23/12) sont des vannes du pool prises par des fiches fixes : le script ne les arrête pas (`social-lot-v5.ts:153`, cité par le plan). Il faut les **retirer du tirage du pool** ou le tirage peut les reposer à moins de 90 jours de la fiche. Le stock libre d'octobre passe de 23 à **21** (liste ci-dessous).
+1. V028 et V060 (`RESERVEES_CARROUSEL`, `social-lot-v5-fixes.ts:151-154` ; V083 n'est pas réservée : tirée le 13/10 par le lot 1a) sont des vannes du pool prises par des fiches fixes : le script ne les arrête pas (`social-lot-v5.ts:153`, cité par le plan). Il faut les **retirer du tirage du pool** ou le tirage peut les reposer à moins de 90 jours de la fiche. Le stock libre d'octobre passe de 23 à **21** (liste ci-dessous).
 2. Le créneau X du 11/12 (`c07449f36fe373722f52fc463`) portait V083 dans le dry-run : il doit recevoir une autre vanne. **Proposition** : V111 `cs14jk9a9e7a1b8e0e16264e` (« Au jeu deux vérités et un mensonge, j'ai dit trois vérités. », 8,5 / 9,0), jamais postée, hors semaine 0, exemptées, Noël et carrousels. Réserve : le dry-run (obsolète) la place le 15/10 en X ; au lot régénéré, ne la prendre le 11/12 que si elle n'est pas déjà tirée à moins de 90 jours, sinon la suivante de la liste libre.
 
 **Liste libre au 12/10 (21 vannes)** = pool strict moins semaine 0 (10), exemptées (3), Noël (4), carrousels fixes (2) : V061, V105, V111, V007, V009, V011, V013, V015, V028, V035, V037, V040, V041, V046, V047, V050, V055, V058, V064, V094, V096.
@@ -184,8 +184,8 @@ Coupes : « Ça, c'est de l'humour d'Observateur. » devient « Humour d'Observa
 
 ## Points `[À VÉRIFIER]` (synthèse)
 
-1. §1 : le pool strict contient 3 exemptées (V014, V019, V025) et les 4 de Noël ; stock réel au 12/10 = 23 (25 avec P0), pas 30 (32), et 21 une fois V060 et V083 retirées (§2). Corriger plan §1 l.37 et §2.
-2. §2 : les 12 fiches Q1 n'ont pas de vannes désignées ; recoupement fait sur les 8 carrousels de `complements-lot-s15.md` §1. Retirer V060 et V083 du tirage. Numéro du costume : V150 (plan) ou V087 (`social-pool.ts`).
+1. §1 : le pool strict contient 3 exemptées (V014, V019, V025) et les 4 de Noël ; stock réel au 12/10 = 23 (25 avec P0), pas 30 (32), et 21 une fois V028 et V060 retirées (`RESERVEES_CARROUSEL`, `social-lot-v5-fixes.ts:151-154` ; V083 n'est pas réservée : tirée le 13/10 par le lot 1a) (§2). Corriger plan §1 l.37 et §2.
+2. §2 : les 12 fiches Q1 n'ont pas de vannes désignées ; recoupement fait sur les 8 carrousels de `complements-lot-s15.md` §1. Retirer V028 et V060 du tirage (`RESERVEES_CARROUSEL`, `social-lot-v5-fixes.ts:151-154` ; V083 n'est pas réservée : tirée le 13/10 par le lot 1a). Numéro du costume : V150 (plan) ou V087 (`social-pool.ts`).
 3. §3 : catégorie BOULOT non lisible dans `social-pool.ts` ni `stock-vannes-resultat-s15.md` : `[À VÉRIFIER en base]` ; indicatif d'après le catalogue du 01/10 : 5 dans le pool, 0 disponible au 12/10.
 4. §4 : aucune note chiffrée dans `audit-conseils-s14.md` ; scénarios classés par titre et motif ; Yanis 9 (12) contre minimum 24.
 5. §5 : verdicts « = » / « < » et non notes chiffrées ; S4 et S6 non notés ; relais IG du 22/10 sur la n°13 (pas au niveau).
