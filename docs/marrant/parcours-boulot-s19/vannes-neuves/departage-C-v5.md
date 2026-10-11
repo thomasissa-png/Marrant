@@ -1,0 +1,12 @@
+# Départage à l'aveugle C, vannes neuves s19 (lot 5, tour 5)
+
+Barre plancher : « J'ai dit à Alexa de me raconter une blague. // Elle m'a lu mon historique de recherches. » Lecture selon le protocole s14 : « = » seulement si au niveau des 30 références ET jamais entendue ; le doute vaut « < ».
+
+| id | note | connue | motif | correction minimale si « < » |
+|---|---|---|---|---|
+| D3 | < | Partiellement (le « ce n'est pas à moi » de disclaimer, et la barre coincée dans le distributeur sont deux motifs très fréquentés) | Charte OK (aucune marque, aucun tiret cadratin, personne visée : non). Logique qui tient : payée mais coincée, donc pas vraiment à lui. Mais la chute est mignonne et se voit venir dès « n'est pas à moi » : le lecteur devine le « je l'ai payée » avant de l'avoir. Pas de retournement net comme « Elle m'a lu mon historique de recherches » ou « Il a beaucoup de chansons ». Le gain tient surtout au décalage avec le mail sérieux, c'est-à-dire au contexte, pas à la vanne. Isolée, elle fait sourire, elle ne fait pas rire. Le doute vaut « < ». | Retirer l'explication du tour : « Pour lever tout doute : la barre chocolatée coincée dans le distributeur n'est pas à moi. » puis chute séparée plus sèche, par exemple « Elle est à mon nom, mais au fond de la machine. » À défaut, ne pas la remettre en ligne. |
+| D8 | < | Oui, en partie (la « Bonne continuation » de carte de départ est un cliché de bureau très exploité, et le schéma « j'ai voulu me démarquer : geste dérisoire » est une variante connue de blague d'originalité ratée) | Charte OK (aucune marque, aucun tiret cadratin, personne visée : non, les vingt-trois sont une masse anonyme). Logique qui tient, et le chiffre de vingt-trois est un bon détail. Mais « J'ai voulu me démarquer » annonce la chute : le lecteur sait déjà que la démarcation sera minuscule, il ne reste qu'à deviner laquelle, et le point d'exclamation est le premier candidat. Chute mignonne, pas imprévisible, et pas au niveau de « Trois digressions plus tard, la base a déménagé ». Le doute vaut « < ». | Ne pas annoncer l'intention. Version à tester : « Sur la carte de départ, vingt-trois personnes ont écrit « Bonne continuation ». // Le mien a un point d'exclamation. C'est ma personnalité. » Si la version corrigée n'est pas à égalité avec les références à la relecture à l'aveugle, ne pas la publier. |
+
+## Verdicts
+
+D3 : < (chute devinée, portée par le contexte). D8 : < (intention annoncée, cliché connu).
