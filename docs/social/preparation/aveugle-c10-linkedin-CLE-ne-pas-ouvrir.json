@@ -1,0 +1,13 @@
+{
+ "_regle_de_decision": "Au niveau = 8,5 ou plus chez les 2 relecteurs. Gagnant = la meilleure somme des 2 notes parmi les candidats au niveau. Depart a egalite de somme : la note minimale la plus haute, puis a defaut un 3e relecteur a l'aveugle. Un candidat sous 8,5 chez l'un des 2 n'est pas publiable. Les 2 ancres (5 et 2) ne sont pas candidates : elles servent de repere de niveau.",
+ "_emplacement_vise": "20/10 LinkedIn 08:15 Paris (lot-1b.md:77), slot a fermer le 19/10 18:00. Le gagnant remplace la vanne mere/ex ; les 2 vannes retirees retournent au pool (corrections-cycle9-plan.md, C10).",
+ "_si_echec": "Aucun candidat au niveau : la vanne mere/ex reste sur le 20/10 si elle est au niveau dans ce tour, sinon voir lot-1b.md pour le repli ; ne jamais publier un candidat sous 8,5 chez l'un des 2.",
+ "1": {"origine": "candidat neuf C10", "id": "C10-photo-equipe", "theme": "photo d'equipe du site", "emplacement": "20/10 LinkedIn"},
+ "2": {"origine": "ANCRE : vanne LinkedIn actuelle du 20/10 (catalogue V107 cs14jk90226d6abb90287724, lot-1b.md:77), recopiee mot pour mot", "id": "ANCRE-V107-mere-ex", "emplacement": "20/10 LinkedIn (en place)"},
+ "3": {"origine": "candidat neuf C10", "id": "C10-formation-stress", "theme": "formation gerer son stress en retard", "emplacement": "20/10 LinkedIn"},
+ "4": {"origine": "candidat neuf C10", "id": "C10-collegue-silencieux", "theme": "collegue qui ne dit jamais rien", "emplacement": "20/10 LinkedIn"},
+ "5": {"origine": "ANCRE : T20 (LE), neuf cycle 8 (C5), 8,5 / 8,5 a l'aveugle, retenu pour le 27/10 (aveugle-textes-neufs-cycle8-resultat.md), recopie mot pour mot", "id": "ANCRE-T20-LE", "emplacement": "27/10 LinkedIn (a la place de la tondeuse, lot-1b.md:89)"},
+ "6": {"origine": "candidat neuf C10", "id": "C10-seminaire-DRH", "theme": "fait surprenant au seminaire, neuf ans d'anciennete", "emplacement": "20/10 LinkedIn"},
+ "7": {"origine": "candidat neuf C10", "id": "C10-chef-de-projet-retard", "theme": "faites comme si je n'etais pas la", "emplacement": "20/10 LinkedIn"},
+ "8": {"origine": "candidat neuf C10", "id": "C10-ambitions-a-confirmer", "theme": "entretien, ambitions pour l'annee", "emplacement": "20/10 LinkedIn"}
+}
