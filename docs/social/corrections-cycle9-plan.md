@@ -24,3 +24,14 @@
 | H+45 | carte LinkedIn du 15/10 | session | 15/10 07:00 UTC (programmé) |
 | Thomas | T1 liens de bio, T2 bios et bannières, T3 épingler le X du 07/10, captures d'abonnés (baseline 2), client Stripe de test | Thomas | 11/10 |
 | Trace | `git diff --stat` consigné pour chaque correction (@reviewer, point 8) | session | à chaque commit de correction |
+
+## Avancement au 11/10, 08:40 Paris
+
+| Lot | État |
+|---|---|
+| OG | **Déployé** (version `151dcc45`), relecture @design GO, C1 à C4 faits ; suivi : résolution des vannes à préfixe d'id partagé (`cs18jkstor…`) |
+| Mesure | Fait (`aaf29ad`) ; G3 0 occurrence ; baseline 2 relevée (`ae93b83`), abonnés `[à relever par Thomas]` |
+| Stratégie | Fait (`e19c554`, 12 lignes) |
+| Copy | C10 tranché (`437d79b`) : 20/10 n°6, 27/10 n°1 ; échange en base programmé le 13/10 07:30 UTC ; V083 retirée des docs (`29099c9`, 7 lignes) |
+| Scripts | `--rollback` sans dates refusé (`d019b2c`) ; F5, F4, guillemets à la source après le 13/10 |
+| K2 | guillemets du X du 15/10 corrigés en base |
