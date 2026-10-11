@@ -248,3 +248,25 @@ Valeur retenue pour U1 = plage complète moins fenêtre de test, par source. **G
 3. Le client Stripe de test `cus_VQ5vmmsBTa8djr` et sa session Checkout ouverte (expire sous 24 h) : à soustraire du nombre de clients, ou à supprimer par Thomas.
 4. Les événements Umami de test du 11/10, 05:50 à 06:10 UTC (U2).
 5. Le compte QA `qa-c2-20261011-instagram@example.com` : supprimé à 05:56:37 UTC, rien à soustraire (14 comptes avant, 15, puis 14).
+
+## 3. Résultats relevés par la session (11/10/2026, 06:11 à 06:14 UTC, lecture seule)
+
+**G3** : requête A = **0 ligne** (aucune des 4 locutions dans aucun article, titre ou contenu). Requête B : les 8 slugs sont en base, `motif_present = false` partout ; tous `isPublished = false` avec `publishedAt` programmé à 05:00 UTC (12/10, 19/10, 22/10, 26/10, 29/10, 02/11, 05/11, 09/11), chacun avant son premier relais. Requête C : 2 « gratuit » hors sujet, ressorts de blague (`blague-drole-7-criteres-pepite`, publié : « le mot 'gratuit' était notre marque préférée » ; `je-ne-sais-jamais-quoi-repondre`, non publié : « attaques gratuites »). **Rien à corriger.**
+
+**Exclusions appliquées** : comptes `@example.com` (test C2 du 11/10, supprimé) et compte de Thomas repérable par l'e-mail (1) ; **compte du test D1 du 07/10** (`cmuy4dogd0000xf1k0yckxvqv`, créé 13:04 UTC, porteur de l'abonnement de test `cmuy4t3hl0003y61lj488nadx`, annulé) ; client Stripe `cus_VQ5vmmsBTa8djr` (test C2) et `cus_VOi7vEcunhm7p5` (test D1) ; paiement `ch_3UNuhdRqTNSm2ji51FPyG1Wx` (2,99 €, test D1, remboursé) ; fenêtre Umami 05:50 à 06:10 UTC du 11/10. La liste complète des 3 e-mails de Thomas n'est pas dans l'environnement de session : les autres comptes de Thomas ne sont pas repérables `[À VÉRIFIER]` (sans effet sur la semaine 0 : aucun compte créé hors tests).
+
+| # | Mesure | Valeur au 11/10 |
+|---|---|---|
+| B1 | Comptes créés, semaine du 28/09 / semaine du 05/10 | 1 / 1 bruts ; **semaine du 05/10 = 0 hors tests** (le seul compte est celui du test D1) ; total base 14 |
+| B2 | Méthode (semaine du 05/10, hors tests) | e-mail 0, Google 0 |
+| B3 | Abonnements en base (hors compte de Thomas repérable) | 1 ACTIVE à 0,99 €/mois ; 1 CANCELED (test D1) |
+| B4 | Abonnements créés depuis le 06/10 | 1, le test D1 (exclu) ; **0 hors tests** |
+| S1 | Stripe, abonnements actifs | 2 à 0,99 €/mois (créés le 18/03 et le 14/08), MRR **1,98 €** brut (identique au 05/10 ; part de Thomas `[À VÉRIFIER]`) |
+| S2 | Stripe, abonnements créés depuis le 06/10 | 1 (test D1, annulé) ; **0 hors tests** |
+| S3 | Stripe, clients | 8 au total, dont 2 tests (C2, D1) : **6 hors tests** (identique au 05/10) |
+| S4 | Stripe, paiements réussis | 10 pour 11,90 €, dont le test D1 remboursé : **9 pour 8,91 € hors test**, 0 depuis le 06/10 hors test (identique au 05/10) |
+| U1 | Umami, visites par `utm_source` depuis le 06/10, moins la fenêtre de test | **X 1** (2 moins 1), **Instagram 0** (1 moins 1), **LinkedIn 0** (1 moins 1) ; site entier : 213 visites, 190 visiteurs |
+| U2 | Umami, fenêtre de test | X 1, Instagram 1, LinkedIn 1 (les 3 visites `bio-quiz` du test C2) |
+| T2 | Abonnés X, Instagram, LinkedIn | `[à relever par Thomas]` |
+
+Contrôle du filtre `utmSource` : résultats différents par source et inférieurs au total du site, donc le filtre est pris en compte. Recoupement `metrics?type=query` : 3 lignes `bio-quiz` (test) et 1 ligne `utm_source=x&…&utm_campaign=2026-10` (la visite X réelle).
