@@ -18,6 +18,8 @@ const mockPathCreate = jest.fn();
 const mockPathUpdate = jest.fn();
 const mockStepCreate = jest.fn();
 const mockStepUpdate = jest.fn();
+const mockVideoFindMany = jest.fn();
+const mockVideoUpdate = jest.fn((a: unknown) => ({ op: "video.update", a }));
 const mockTransaction = jest.fn(async (ops: unknown[]) => ops);
 
 jest.mock("@/lib/prisma", () => ({
@@ -44,6 +46,7 @@ jest.mock("@/lib/prisma", () => ({
       create: (...a: unknown[]) => mockPathCreate(...a),
       update: (...a: unknown[]) => mockPathUpdate(...a),
     },
+    video: { findMany: (...a: unknown[]) => mockVideoFindMany(...a), update: (a: unknown) => mockVideoUpdate(a) },
     learningPathStep: { create: (...a: unknown[]) => mockStepCreate(...a), update: (...a: unknown[]) => mockStepUpdate(...a) },
     $transaction: (ops: unknown[]) => mockTransaction(ops),
   },
@@ -57,7 +60,9 @@ import { publishedSeedJson } from "@/lib/parcours-seed";
 import { isParcoursSlug, PARCOURS_SLUGS } from "@/lib/entrees-parcours";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
-import { applyBoulotImportTask, boulotGlobalPatchId, boulotJokeId, boulotTipId } from "@/lib/parcours-boulot-sync";
+import {
+  applyBoulotImportTask, BOULOT_VIDEO_FIXES, boulotGlobalPatchId, boulotJokeId, boulotTipId,
+} from "@/lib/parcours-boulot-sync";
 
 const meta = boulot._meta;
 const TITRES = boulot.parcours.steps.map((s) => s.tipTitle);
@@ -103,6 +108,13 @@ describe("interrupteur de publication (état publié simulé)", () => {
   });
 });
 
+/** Les 3 fiches vidéo telles qu'exportées de la prod (boulot-base-s19.json, lecture seule). */
+const VIDEOS_AVANT = [
+  { id: "v-marina", youtubeId: "m30qZa8p_Js", title: "Marina Rollman - Les relations sociales", duration: "PT5M20S" },
+  { id: "v-haroun", youtubeId: "qdqIc-uzdbA", title: "Haroun - L'impro et la répartie", duration: "PT5M45S" },
+  { id: "v-verino", youtubeId: "rldvVgHQSvo", title: "Vérino - Le distributeur de baguettes", duration: "PT7M30S" },
+];
+
 /** Base vide (premier démarrage) : 4 conseils existants aux ids attendus, rien d'autre. */
 function baseInitiale() {
   mockPatchFindUnique.mockResolvedValue(null);
@@ -128,6 +140,7 @@ function baseInitiale() {
     ),
   );
   mockPathFindUnique.mockResolvedValue(null);
+  mockVideoFindMany.mockResolvedValue(VIDEOS_AVANT);
   mockPathCreate.mockImplementation(({ data }: { data: object }) => Promise.resolve({ id: "path-bo", ...data, steps: [] }));
 }
 
@@ -221,7 +234,7 @@ describe("tâche de démarrage applyBoulotImportTask", () => {
   it("publication : parcours existant passé à isActive = true, rien d'autre réécrit", async () => {
     baseInitiale();
     mockPatchFindUnique.mockImplementation(({ where }: { where: { patchId: string } }) =>
-      Promise.resolve(/:(conseil|vanne):/.test(where.patchId) ? { patchId: where.patchId } : null),
+      Promise.resolve(/:(conseil|vanne|video):/.test(where.patchId) ? { patchId: where.patchId } : null),
     );
     mockPathFindUnique.mockResolvedValue({
       id: "path-bo",
@@ -235,5 +248,71 @@ describe("tâche de démarrage applyBoulotImportTask", () => {
     expect(mockJokeCreate).not.toHaveBeenCalled();
     expect(mockStepCreate).not.toHaveBeenCalled();
     expect(mockPatchUpsert).toHaveBeenCalledWith(expect.objectContaining({ where: { patchId: boulotGlobalPatchId(true) } }));
+  });
+});
+
+describe("fiches vidéo fausses (import-boulot.md §7.2, vérifiées sur YouTube le 11/10)", () => {
+  type Patch = { data: { patchId: string; note: string } };
+  const notes = () => mockPatchCreate.mock.calls.map(([a]) => (a as Patch).data).filter((d) => d.patchId.includes(":video:"));
+  const updates = () => mockVideoUpdate.mock.calls.map(([a]) => a);
+
+  it("titre et durée seulement, format de la base (« Humoriste - Titre », secondes sur 2 chiffres)", async () => {
+    baseInitiale();
+    const r = await applyBoulotImportTask(false);
+    expect(updates()).toEqual([
+      { where: { id: "v-marina" }, data: { title: "Marina Rollman - JCC 8è saison", duration: "PT5M08S" } },
+      { where: { id: "v-haroun" }, data: { title: "Haroun - Jamel Comedy Club Saison 9" } },
+      { where: { id: "v-verino" }, data: { duration: "PT5M51S" } },
+    ]);
+    expect(r?.videos).toEqual({ updated: ["m30qZa8p_Js", "qdqIc-uzdbA", "rldvVgHQSvo"], unchanged: 0, refused: [] });
+    BOULOT_VIDEO_FIXES.forEach((f) => {
+      expect(f.apres.title).toMatch(/^[^-]+ - .+$/);
+      expect(f.apres.duration).toMatch(/^PT\d+M\d{2}S$/);
+    });
+    // Retour arrière : la note garde le titre et la durée d'avant.
+    expect(notes().map((n) => [n.patchId, JSON.parse(n.note)])).toEqual(
+      VIDEOS_AVANT.map((v) => [`parcours-boulot:s19:video:${v.youtubeId}`, v]),
+    );
+    expect(mockPatchUpsert).toHaveBeenCalledWith(expect.objectContaining({ where: { patchId: boulotGlobalPatchId(false) } }));
+  });
+
+  it("indépendant de l'interrupteur : mêmes corrections à true", async () => {
+    baseInitiale();
+    const r = await applyBoulotImportTask(true);
+    expect(r?.videos.updated).toHaveLength(3);
+  });
+
+  it("idempotent : base déjà corrigée = aucune écriture (marqueur seul), marqueurs présents = aucune lecture", async () => {
+    baseInitiale();
+    mockVideoFindMany.mockResolvedValue(
+      VIDEOS_AVANT.map((v) => ({ ...v, ...BOULOT_VIDEO_FIXES.find((f) => f.youtubeId === v.youtubeId)?.apres })),
+    );
+    const r = await applyBoulotImportTask(false);
+    expect(mockVideoUpdate).not.toHaveBeenCalled();
+    expect(r?.videos).toEqual({ updated: [], unchanged: 3, refused: [] });
+    expect(notes()).toHaveLength(3);
+
+    jest.clearAllMocks();
+    baseInitiale();
+    mockPatchFindUnique.mockImplementation(({ where }: { where: { patchId: string } }) =>
+      Promise.resolve(where.patchId.includes(":video:") ? { patchId: where.patchId } : null),
+    );
+    const r2 = await applyBoulotImportTask(false);
+    expect(mockVideoUpdate).not.toHaveBeenCalled();
+    expect(notes()).toHaveLength(0);
+    expect(r2?.videos).toEqual({ updated: [], unchanged: 3, refused: [] });
+  });
+
+  it("valeur inattendue (retouche à la main) ou fiche absente : refusée, rien écrit, marqueur global non posé", async () => {
+    baseInitiale();
+    mockVideoFindMany.mockResolvedValue([
+      { ...VIDEOS_AVANT[0], duration: "PT5M10S" },
+      VIDEOS_AVANT[2],
+    ]);
+    const r = await applyBoulotImportTask(false);
+    expect(r?.videos.refused).toEqual(["m30qZa8p_Js (duration en base « PT5M10S »)", "qdqIc-uzdbA absente"]);
+    expect(r?.videos.updated).toEqual(["rldvVgHQSvo"]);
+    expect(updates()).toEqual([{ where: { id: "v-verino" }, data: { duration: "PT5M51S" } }]);
+    expect(mockPatchUpsert).not.toHaveBeenCalled();
   });
 });

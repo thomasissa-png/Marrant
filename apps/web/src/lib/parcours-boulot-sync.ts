@@ -11,7 +11,9 @@
  *  2. 10 vannes neuves BOULOT : créées si leur texte exact n'existe pas ;
  *  3. contrôle des 20 vannes en ligne désignées par id (texte identique, active) ;
  *  4. parcours `boulot` et ses 6 étapes : créés ou réalignés, `isActive` = `BOULOT_PUBLIE` ;
- *  5. contrôle : les 30 vannes des étapes existent et sont actives (journal).
+ *  5. contrôle : les 30 vannes des étapes existent et sont actives (journal) ;
+ *  6. 3 fiches vidéo fausses (titre, durée) corrigées, quel que soit l'interrupteur
+ *     (marqueur `parcours-boulot:s19:video:<youtubeId>`, note = titre et durée d'avant).
  *
  * Idempotente et fail-safe : marqueur par élément, puis marqueur global
  * `parcours-boulot:s19-v1:publie=<bool>` posé seulement si tout a réussi. Changer
@@ -54,6 +56,8 @@ export interface BoulotSyncResult {
   path: { created: boolean; updated: boolean; isActive: boolean | null };
   steps: { created: number; updated: number; tipsMissing: string[] };
   jokesMissing: string[];
+  /** Fiches vidéo corrigées (titre, durée) : indépendant de l'interrupteur. */
+  videos: { updated: string[]; unchanged: number; refused: string[] };
   errors: string[];
 }
 
@@ -65,6 +69,7 @@ function emptyResult(): BoulotSyncResult {
     path: { created: false, updated: false, isActive: null },
     steps: { created: 0, updated: 0, tipsMissing: [] },
     jokesMissing: [],
+    videos: { updated: [], unchanged: 0, refused: [] },
     errors: [],
   };
 }
@@ -325,6 +330,79 @@ export async function checkBoulotJokes(result: BoulotSyncResult): Promise<void> 
   result.jokesMissing = contents.filter((c) => !found.has(c)).map((c) => c.slice(0, 60));
 }
 
+/**
+ * 6. Fiches vidéo fausses en base (import-boulot.md §7.2), vérifiées sur YouTube (oEmbed) le
+ * 11/10 : seuls `title` et `duration` sont corrigés (description et technique non vérifiées).
+ * Indépendant de l'interrupteur. Écriture seulement si la valeur en base est l'ancienne valeur
+ * attendue (export prod `boulot-base-s19.json`) ; toute autre valeur (retouche à la main) est
+ * refusée et journalisée. Format de titre de la base : « Humoriste - Titre » ; durée ISO 8601
+ * à deux chiffres pour les secondes, comme les 89 vidéos actives.
+ */
+export const BOULOT_VIDEO_FIXES: ReadonlyArray<{
+  youtubeId: string;
+  avant: { title: string; duration: string };
+  apres: { title: string; duration: string };
+}> = [
+  {
+    youtubeId: "m30qZa8p_Js",
+    avant: { title: "Marina Rollman - Les relations sociales", duration: "PT5M20S" },
+    apres: { title: "Marina Rollman - JCC 8è saison", duration: "PT5M08S" },
+  },
+  {
+    youtubeId: "qdqIc-uzdbA",
+    avant: { title: "Haroun - L'impro et la répartie", duration: "PT5M45S" },
+    apres: { title: "Haroun - Jamel Comedy Club Saison 9", duration: "PT5M45S" },
+  },
+  {
+    youtubeId: "rldvVgHQSvo",
+    avant: { title: "Vérino - Le distributeur de baguettes", duration: "PT7M30S" },
+    apres: { title: "Vérino - Le distributeur de baguettes", duration: "PT5M51S" },
+  },
+];
+
+export async function fixBoulotVideos(result: BoulotSyncResult): Promise<void> {
+  const rows = await withDbRetry(
+    () =>
+      prisma.video.findMany({
+        where: { youtubeId: { in: BOULOT_VIDEO_FIXES.map((f) => f.youtubeId) } },
+        select: { id: true, youtubeId: true, title: true, duration: true },
+      }),
+    { label: "boulot:videos:find" },
+  );
+  const byYoutubeId = new Map(rows.map((r) => [r.youtubeId, r]));
+  for (const f of BOULOT_VIDEO_FIXES) {
+    const patchId = `${BOULOT_PATCH_PREFIX}video:${f.youtubeId}`;
+    if (await hasMarker(patchId)) {
+      result.videos.unchanged++;
+      continue;
+    }
+    const row = byYoutubeId.get(f.youtubeId);
+    if (!row) {
+      result.videos.refused.push(`${f.youtubeId} absente`);
+      continue;
+    }
+    const mark = () => prisma.dataPatch.create({ data: { patchId, note: note(row) } });
+    if (row.title === f.apres.title && row.duration === f.apres.duration) {
+      await withDbRetry(mark, { label: "boulot:video:mark" });
+      result.videos.unchanged++;
+      continue;
+    }
+    const champs = (["title", "duration"] as const).filter((k) => row[k] !== f.apres[k]);
+    const inattendu = champs.find((k) => row[k] !== f.avant[k]);
+    if (inattendu) {
+      result.videos.refused.push(`${f.youtubeId} (${inattendu} en base « ${row[inattendu]} »)`);
+      continue;
+    }
+    const data: { title?: string; duration?: string } = {};
+    for (const k of champs) data[k] = f.apres[k];
+    await withDbRetry(
+      () => prisma.$transaction([prisma.video.update({ where: { id: row.id }, data }), mark()]),
+      { label: "boulot:video:update" },
+    );
+    result.videos.updated.push(f.youtubeId);
+  }
+}
+
 function summary(r: BoulotSyncResult): string {
   return (
     `conseils ${r.conseils.updated.length} mis à jour, ${r.conseils.created.length} créé(s), ${r.conseils.unchanged} déjà faits, ` +
@@ -334,7 +412,9 @@ function summary(r: BoulotSyncResult): string {
     `[${r.vannesEnLigne.generatedByAI.join(", ")}] ; ` +
     `parcours ${r.path.created ? "créé" : r.path.updated ? "mis à jour" : "inchangé"} (isActive=${r.path.isActive}) ; ` +
     `étapes ${r.steps.created} créée(s), ${r.steps.updated} mise(s) à jour, conseils absents [${r.steps.tipsMissing.join(" ; ")}] ; ` +
-    `vannes d'étape manquantes ou inactives : ${r.jokesMissing.length}`
+    `vannes d'étape manquantes ou inactives : ${r.jokesMissing.length} ; ` +
+    `fiches vidéo ${r.videos.updated.length} corrigée(s) [${r.videos.updated.join(", ")}], ${r.videos.unchanged} déjà faites, ` +
+    `refusées [${r.videos.refused.join(" ; ")}]`
   );
 }
 
@@ -357,6 +437,7 @@ export async function applyBoulotImportTask(publie: boolean = BOULOT_PUBLIE): Pr
     ["vannes en ligne", () => checkBoulotOnlineJokes(r)],
     ["parcours", () => syncBoulotPath(r, publie)],
     ["contrôle des vannes", () => checkBoulotJokes(r)],
+    ["fiches vidéo", () => fixBoulotVideos(r)],
   ];
   for (const [label, run] of steps) {
     try {
@@ -374,7 +455,8 @@ export async function applyBoulotImportTask(publie: boolean = BOULOT_PUBLIE): Pr
     r.conseils.refused.length === 0 &&
     r.vannesEnLigne.problems.length === 0 &&
     r.steps.tipsMissing.length === 0 &&
-    r.jokesMissing.length === 0;
+    r.jokesMissing.length === 0 &&
+    r.videos.refused.length === 0;
   if (!complet) {
     console.warn(`[startup] boulot incomplet : marqueur non posé, nouvel essai au prochain démarrage.`);
     return r;
