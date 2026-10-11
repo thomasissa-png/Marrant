@@ -193,7 +193,7 @@ def main():
             "nextParcours": "machine-a-cafe",
             "nextParcoursReason": re.search(r"## 2\..*?\n> (.+?)\n", cp, re.S).group(1),
             "metaDescription": re.search(r"## 3\..*?\n> (.+?)\n", cp, re.S).group(1),
-            "nextParcoursRanking": ["machine-a-cafe", "repartie", "confiance", "pro"],
+            "nextParcoursRanking": ["machine-a-cafe", "repartie", "confiance", "boulot"],
             "steps": steps,
         },
     }

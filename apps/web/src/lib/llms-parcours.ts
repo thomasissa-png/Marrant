@@ -30,7 +30,9 @@ export function renderLlmsParcoursProgramme(
     lines.push(`- Étapes (${p.modules.length}) :`);
     p.modules.forEach((m, i) => {
       const gratuite = m.free ? " (première étape gratuite)" : "";
-      lines.push(`  ${i + 1}. ${m.week} : ${m.title}${gratuite}. ${m.detail}`);
+      // s19 : un moduleDetail en plusieurs paragraphes (Boulot) reste sur la ligne de la liste.
+      const detail = m.detail.replace(/\s*\n+\s*/g, " ");
+      lines.push(`  ${i + 1}. ${m.week} : ${m.title}${gratuite}. ${detail}`);
     });
     const premiere = p.modules.find((m) => m.free);
     if (premiere) {

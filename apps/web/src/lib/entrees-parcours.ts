@@ -11,16 +11,20 @@
  * - `src` suit `data-analyst.md` §5.3 (`parcours-ouvert`), en minuscules.
  */
 
-import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
-export type ParcoursSlug = "machine-a-cafe" | "repartie" | "confiance" | "storytelling";
+export type ParcoursSlug = "machine-a-cafe" | "repartie" | "confiance" | "storytelling" | "boulot";
 
-/** Parcours publiés (s18 : Storytelling seulement si `STORYTELLING_PUBLIE`). */
+/**
+ * Parcours publiés (s18 : Storytelling seulement si `STORYTELLING_PUBLIE` ;
+ * s19 : Boulot seulement si `BOULOT_PUBLIE`).
+ */
 export const PARCOURS_SLUGS: readonly ParcoursSlug[] = [
   "machine-a-cafe",
   "repartie",
   "confiance",
   ...(STORYTELLING_PUBLIE ? (["storytelling"] as const) : []),
+  ...(BOULOT_PUBLIE ? (["boulot"] as const) : []),
 ];
 
 /** Noms courts, identiques aux titres des parcours (« Parcours X »). */
@@ -29,6 +33,7 @@ export const PARCOURS_NOMS: Readonly<Record<ParcoursSlug, string>> = {
   repartie: "Répartie",
   confiance: "Confiance",
   storytelling: "Storytelling",
+  boulot: "Boulot",
 };
 
 /**

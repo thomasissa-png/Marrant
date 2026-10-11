@@ -16,6 +16,8 @@
  *    Conseils : score < 8 → on conserve l'original.
  *  - RETIRER : `isActive=false` (soft delete), la ligne reste (favoris/likes
  *    conservés — le UI filtre déjà sur isActive).
+ *  - s19 : les vannes liées à une étape de parcours (`VANNES_LIEES_AUX_PARCOURS`)
+ *    ne sont jamais relues, quel que soit leur `generatedByAI` (jamais modifié).
  *  - Réversibilité : `originalContent`/`originalPunchline` (Joke) et
  *    `originalTitle`/`originalContent` (Tip) sont écrits AVANT la réécriture.
  *    Rollback = copier `original*` dans `*` + reset `copyReviewedAt`.
@@ -36,6 +38,7 @@ import {
   type TipToValidate,
 } from "@/lib/ai/agents/standup-director-agent";
 import { getPersonaForDay } from "@/lib/ai/personas";
+import { VANNES_LIEES_AUX_PARCOURS } from "@/lib/parcours-vannes-protegees";
 import { stripEmDashes } from "@/lib/em-dash";
 
 const DEFAULT_BATCH = 25;
@@ -143,6 +146,9 @@ export async function runCopyReviewBatch(now: Date = new Date()): Promise<CopyRe
             generatedByAI: true,
             isActive: true,
             OR: [{ copyReviewVersion: null }, { copyReviewVersion: { not: version } }],
+            // s19 : jamais une vanne liée à une étape de parcours (lien par texte exact,
+            // `jokeContents`) : une réécriture ou un retrait casserait l'étape.
+            content: { notIn: [...VANNES_LIEES_AUX_PARCOURS] },
           },
           select: {
             id: true,

@@ -265,8 +265,11 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
     if (erreurValidation && !completing) validerRef.current?.focus();
   }, [erreurValidation, completing]);
   // s18 (D3 @ux) : typographie française (espaces insécables) sur les textes du conseil, Storytelling seulement
-  // pour l'instant (les 3 autres parcours gardent leur rendu s17).
-  const prose = (t: string) => (slug === "storytelling" ? frTypo(tipProse(t)) : tipProse(t));
+  // pour l'instant (les 3 autres parcours gardent leur rendu s17). s19 : Boulot aussi (import-boulot.md §5.2),
+  // avec `why` et `moduleDetail` (« 9 h 50 », « 16 h 40 »… et avant « : »), textes stockés sans insécables.
+  const typoFr = slug === "storytelling" || slug === "boulot";
+  const prose = (t: string) => (typoFr ? frTypo(tipProse(t)) : tipProse(t));
+  const texteEtape = (t: string) => (slug === "boulot" ? frTypo(t) : t);
   // s18 (D5 @ux) : défi en base suivi d'un second défi après une ligne vide (callback, étape 6).
   const exercice = step.tip.exercise ?? "";
   const coupure = step.exerciceSecondTitre ? exercice.indexOf("\n\n") : -1;
@@ -276,13 +279,14 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {step.why && (
         <div className="rounded-lg bg-background-elevated p-3">
           <p className="text-sm font-medium text-accent-link">Pourquoi cette étape ?</p>
-          <p className="mt-1 text-sm text-text-secondary">{step.why}</p>
+          <p className="mt-1 text-sm text-text-secondary">{texteEtape(step.why)}</p>
         </div>
       )}
 
       {step.moduleDetail && (
         <Section title="Ce que tu vas apprendre">
-          <p className={CORPS_LECTURE}>{step.moduleDetail}</p>
+          {/* s19 : sauts de paragraphe du moduleDetail (phrase du test, Boulot) rendus tels quels. */}
+          <p className={`${CORPS_LECTURE} whitespace-pre-line`}>{texteEtape(step.moduleDetail)}</p>
           {step.moduleFormat && <p className="mt-2 text-xs text-text-muted">Format : {step.moduleFormat}</p>}
           {props.timePerWeek && (
             <p className="mt-1 text-xs text-text-muted">

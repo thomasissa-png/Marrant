@@ -16,7 +16,7 @@
  * Espace insécable (U+00A0) entre le montant et « € » : le symbole ne passe
  * jamais seul à la ligne (s16, lot E). Caractère invisible, d'où l'échappement.
  */
-import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 export const ESPACE_INSECABLE = " ";
 
@@ -77,6 +77,8 @@ export const PREMIUM_PARCOURS: readonly PremiumParcoursOffer[] = [
   ...(STORYTELLING_PUBLIE
     ? [{ slug: "storytelling", name: "Storytelling", timePerWeek: "20 min/semaine", weeks: 6 }]
     : []),
+  // s19 : Boulot, même règle, après Storytelling (import-boulot.md §1).
+  ...(BOULOT_PUBLIE ? [{ slug: "boulot", name: "Boulot", timePerWeek: "15 min/semaine", weeks: 6 }] : []),
 ];
 
 /** Nombre de parcours affiché partout (« les 3 parcours en entier »). */

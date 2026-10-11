@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
+import { frTypo } from "@/lib/fr-typo";
 import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
@@ -332,8 +333,9 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                               <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-text-secondary">
-                            {m.detail}
+                          {/* s19 : sauts de paragraphe rendus ; typographie française pour Boulot (import-boulot.md §5). */}
+                          <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">
+                            {p.slug === "boulot" ? frTypo(m.detail) : m.detail}
                           </p>
                           <p className="mt-1 text-xs text-text-muted">
                             Format : {m.format}

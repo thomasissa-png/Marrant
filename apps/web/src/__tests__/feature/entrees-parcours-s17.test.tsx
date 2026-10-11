@@ -15,7 +15,7 @@ import { QUIZ_PROFILES } from "@/components/quiz/quiz-data";
 import { computeParcoursDates } from "@/lib/sitemap-parcours";
 import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
-import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 const row = (p: Partial<ParcoursProgressSummary>): ParcoursProgressSummary => ({
   slug: "repartie",
@@ -113,9 +113,14 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
         { order: 3, learningPath: { slug: "repartie", isActive: true } },
         { order: 1, learningPath: { slug: "confiance", isActive: false } },
         { order: 2, learningPath: { slug: "storytelling", isActive: true } },
+        { order: 4, learningPath: { slug: "boulot", isActive: true } },
       ]),
-      // s18 : Storytelling n'est un parcours reconnu qu'une fois publié.
-    ).toEqual([...(STORYTELLING_PUBLIE ? [{ slug: "storytelling", etape: 2 }] : []), { slug: "repartie", etape: 3 }]);
+      // s18 : Storytelling n'est un parcours reconnu qu'une fois publié ; s19 : Boulot de même.
+    ).toEqual([
+      ...(STORYTELLING_PUBLIE ? [{ slug: "storytelling", etape: 2 }] : []),
+      { slug: "repartie", etape: 3 },
+      ...(BOULOT_PUBLIE ? [{ slug: "boulot", etape: 4 }] : []),
+    ]);
   });
   it("bloc de fiche : rien sans parcours, sinon lien vers l'étape 1 avec src=fiche", () => {
     const { container, rerender } = render(<FicheParcoursLien type="video" refs={[]} />);

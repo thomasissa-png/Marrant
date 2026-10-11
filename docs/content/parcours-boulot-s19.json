@@ -1,0 +1,731 @@
+{
+  "_meta": {
+    "session": "s19",
+    "auteur": "@fullstack (extraction automatique, aucun texte retapé)",
+    "sources": [
+      "docs/marrant/parcours-boulot-s19/import-boulot.md",
+      "docs/copy/etalons-parcours-boulot-s19.md",
+      "docs/copy/parcours-boulot-etapes-2-6-s19.md",
+      "docs/marrant/parcours-boulot-s19/vannes-neuves/vannes-finales.md"
+    ],
+    "publication": "Publié seulement si BOULOT_PUBLIE = true (apps/web/src/config/parcours-publication.ts).",
+    "icone": "[PROVISOIRE] 💼, à choisir par @design (import-boulot.md §1)",
+    "conseils": [
+      {
+        "etape": 1,
+        "id": null,
+        "title": "Ce que raconte une salle de réunion",
+        "category": "OBSERVATION",
+        "difficulty": "INTERMEDIAIRE",
+        "content": "Une salle de réunion en dit plus long que ceux qui s'y réunissent. Regarde les traces : le scotch sur la télécommande, le « NE PAS EFFACER » vieux de deux ans, le feutre qui n'écrit plus mais qu'on a rangé quand même. Chaque trace est un petit fait divers que personne n'a raconté. Ton geste : choisis une trace et raconte-la en deux phrases courtes, au présent, sur le ton d'un constat. La première dit ce que tu vois, mot pour mot. La seconde ajoute le détail que cette trace laisse supposer (un chiffre, une durée), dit avec le même sérieux. Pas de commentaire, pas de morale, pas de personnage dans la phrase : le mobilier suffit, et il ne se vexera pas. Pour l'instant, tu ne dis rien : tu observes et tu écris.",
+        "example": "Salle du deuxième, 14 h. Trace relevée : la télécommande du vidéoprojecteur, scotchée à la table.\nPhrase écrite pour la prochaine fois : La télécommande est scotchée à la table. Depuis deux ans, seules les piles disparaissent.",
+        "exercise": "DÉFI TRACE : aujourd'hui ou à ta prochaine réunion, repère dans la salle trois traces (un scotch, une étiquette, une rature, un mot oublié) et note-les. Choisis-en une et écris-la en deux phrases courtes : la première décrit ce que tu vois, la seconde ajoute un chiffre ou une durée que la trace laisse supposer. Tu ne dis rien à personne : elles restent dans tes notes. C'est réussi si tu as trois traces notées, si tes deux phrases sont au présent (relis-les : elles doivent rester justes si tu les fais commencer par « En ce moment, »), si la seconde contient un chiffre ou une durée, et si elles ne contiennent aucune personne, ni nom ni fonction. Pas de réunion en vue, ou elle se passe en visio ? Fais-le sur la première pièce où tu passes (cuisine, escalier, la pièce où tu es) : n'importe quel objet qui porte une trace compte."
+      },
+      {
+        "etape": 2,
+        "id": "cmmw0tqkc000smw62bo1yfeyg",
+        "title": "Le PS qui détend un mail sérieux",
+        "category": "ABSURDE",
+        "difficulty": "INTERMEDIAIRE",
+        "content": "Le PS est la seule place d'un mail sérieux où le ton peut changer sans toucher au fond. À condition de tenir la forme : une seule phrase, après la signature, sur un détail qui n'a aucun rapport avec le mail. Le ressort ici : le faux rectificatif. Tu corriges une erreur que personne n'a faite. Tu prends une petite scène de ta journée que le lecteur ne connaît pas, tu en rectifies un seul détail (qui, où, combien) et tu laisses le reste tel quel, bizarrerie comprise. La version corrigée vient en dernier, et elle n'arrange rien. Sans ça, « bon week-end à tous » n'est qu'un PS poli. Le fond du mail reste irréprochable et le PS ne vise personne : la scène, c'est toi et un objet. Règle d'or : tout doit survivre à une capture d'écran envoyée aux RH.",
+        "example": "« Bonjour Inès, la réunion budget de jeudi est décalée à 14 h, salle B. L'ordre du jour est inchangé. Peux-tu confirmer ta présence avant mercredi ? Bien cordialement, Camille. PS : pour être précis, ce n'est pas au clavier que j'ai fait des reproches ce matin, mais à mon reflet dans l'écran. »",
+        "exercise": "DÉFI PS : aujourd'hui, écris un PS d'une phrase qui corrige une erreur que personne n'a faite : prends une petite scène vraie de ta journée, rectifie un seul détail et finis sur la version rectifiée. Il doit rester présentable si ton chef le lit. Choisis un mail à faible enjeu, entre collègues, et si tu hésites, garde le PS en brouillon : il compte quand même. Pas de mail pro à envoyer aujourd'hui ? Écris le PS que tu aurais ajouté au dernier mail sérieux que tu as envoyé. C'est gagné si ton PS tient en une phrase et que la version rectifiée en est la toute fin."
+      },
+      {
+        "etape": 3,
+        "id": "cmmw0tr870014mw62jnung2qp",
+        "title": "La vanne de couloir : l'art du timing entre deux réunions",
+        "category": "OBSERVATION",
+        "difficulty": "DEBUTANT",
+        "content": "Dans un couloir, tu as quinze secondes et l'autre a déjà la tête dans sa prochaine réunion. La vanne de couloir ne ressemble donc à aucune autre : elle n'attend pas de réponse. Prends un irritant que tout le monde subit (l'imprimante, la clim, le café), dis-le en dix mots maximum au moment où tu croises quelqu'un, et ne t'arrête pas. Comme tu ne ralentis pas, elle ne peut pas tomber à plat : personne n'a eu le temps de ne pas rire. La cible est toujours un objet, jamais une personne, et la phrase doit pouvoir être entendue par n'importe qui dans le bâtiment.",
+        "example": "Mardi, 10 h 58. L'imprimante du couloir mouline depuis dix minutes sur une seule page, et un collègue attend devant. Tu passes à sa hauteur et tu ne t'arrêtes pas : « Dix minutes pour une page. Elle relit. »",
+        "exercise": "DÉFI CROISEMENT : aujourd'hui, choisis un irritant que tout le monde subit (l'imprimante, la clim, le café, l'ascenseur) et écris sa phrase en dix mots maximum. Dis-la une seule fois, au moment où tu croises quelqu'un, sans t'arrêter ni te retourner. C'est réussi si tu l'as dite en marchant et sans attendre de réponse, qu'elle ait fait rire ou non. Pas de couloir aujourd'hui (télétravail, jour off), ou pas envie de tenter devant n'importe qui ? Joue le croisement seul : lève-toi, dis ta phrase à voix haute en traversant une pièce ou en montant l'escalier, puis fais encore cinq pas avant de t'arrêter. C'est réussi si tu l'as dite d'un seul trait, en marchant, et si tu as fait ces cinq pas sans te retourner."
+      },
+      {
+        "etape": 4,
+        "id": "cmmw0trc60016mw629l4o8rav",
+        "title": "L'afterwork : passer de collègue à personne drôle",
+        "category": "STORYTELLING",
+        "difficulty": "DEBUTANT",
+        "content": "À l'afterwork, ceux qui font rire n'ont pas de meilleures journées : ils racontent la leur en trois temps. Un décor, une escalade, une chute, en trente secondes environ. Le décor tient en une phrase et se comprend sans avoir mis les pieds dans ton bureau : pas de sigle, pas de nom de dossier. L'escalade est le cœur : chaque phrase monte d'un cran, et c'est toi qui es dedans. La chute est la dernière phrase, et il n'y a rien après. C'est toi le héros raté, et personne d'identifiable ne sert de victime : la salle rit avec toi, et aucun absent n'a à se défendre.",
+        "example": "Lundi, j'ai écrit mon prénom sur mon déjeuner, au frigo de l'étage. Mardi, le déjeuner avait disparu, le prénom aussi. Mercredi, j'ai laissé un mot : « Si tu as faim, demande. » Jeudi, ma boîte m'attendait lavée, avec un papier collé dessus : « Très bon. Un peu léger en sel. »",
+        "exercise": "DÉFI TRENTE SECONDES : choisis un petit moment de ta semaine de travail où c'est toi qui as été dépassé (un objet, une procédure, une machine, jamais un collègue précis). Écris-le en trois temps : un décor en une phrase sans sigle, une escalade, une chute. Dis-le à voix haute en chronométrant. C'est réussi s'il tient en 30 secondes ou moins, sans un seul sigle, et si tu t'arrêtes net après la chute. Pas d'afterwork à venir ? Raconte-le à un ami qui ne connaît rien à ton boulot : s'il le comprend sans poser de question, c'est gagné."
+      },
+      {
+        "etape": 5,
+        "id": "cmmw0tra60015mw62l0360wm9",
+        "title": "Survivre (et briller) au networking pro avec humour",
+        "category": "AUTODERISION",
+        "difficulty": "INTERMEDIAIRE",
+        "content": "Le pitch récité te rend interchangeable : tout le monde a le même. La version honnête tient en deux phrases. La première dit ce que tu fais vraiment, avec un verbe concret (« je fais les plannings », pas « je gère l'organisation »). La seconde donne ce que la fiche de poste ne dit pas : la place que ton métier occupe dans la vie des autres, ou ta façon à toi de l'exercer. L'autodérision tombe sur toi, jamais sur ton métier ni sur ton employeur : si ton chef entendait ta réponse, il devrait sourire, pas se vexer. Et tu t'arrêtes sur la chute, sans « enfin voilà » derrière.",
+        "example": "« Et toi, tu fais quoi dans la vie ? »\n« Je fais les plannings d'une équipe de trente personnes. Toute l'année on m'évite, sauf en juin, quand on m'apporte des chocolats. »",
+        "exercise": "DÉFI DEUX PHRASES : écris ta réponse à « tu fais quoi dans la vie ? » en deux phrases et vingt-cinq mots au maximum : un verbe concret d'abord, le détail que la fiche de poste ne dit pas ensuite. Donne-la à la première personne qui te pose la question aujourd'hui. C'est réussi si ta réponse tient en deux phrases et si on te pose une question dessus au lieu de changer de sujet. Personne ne te le demande aujourd'hui ? Dis-la trois fois à voix haute : c'est réussi quand tu la dis la troisième fois sans regarder ta feuille."
+      },
+      {
+        "etape": 6,
+        "id": null,
+        "title": "Le toast de soixante secondes qui tient debout",
+        "category": "STORYTELLING",
+        "difficulty": "INTERMEDIAIRE",
+        "content": "Pot de départ, présentation d'équipe, toast : soixante secondes suffisent, à condition de les ranger en trois blocs. D'abord un moment sincère et précis (un souvenir daté, pas « elle est géniale »). Ensuite une seule touche d'humour, et la plus sûre est un rappel : tu reprends un détail de ton souvenir (une phrase, un objet, un geste) et tu le retournes contre toi. C'est pour ça que l'humour vient en deuxième : un rappel n'existe qu'après ce qu'il rappelle, et la salle rit d'abord de reconnaître le détail. Deux phrases suffisent : la première dit ce qui t'arrive aujourd'hui, la seconde fait revenir le détail, de préférence sur le dernier mot. La cible, c'est toi ou le détail lui-même. Jamais la personne honorée, ni l'organisation, le buffet ou un responsable. Une seule vanne à prononcer, la deuxième efface la première ; une de rechange dans ta poche ne coûte rien. Enfin une phrase de fermeture pour lever le verre. Compte environ 120 mots pour une minute.",
+        "example": "Sincère (83 mots, 41,5 secondes) : Le jour de mon arrivée, il y a quatre ans, Claire m'a montré où était la machine à café avant de me montrer mon bureau. Ça m'a dit tout ce que je devais savoir de cette équipe. Un soir où tout allait de travers, elle m'a dit « on regarde ça demain à tête reposée ». Le lendemain, c'était réglé, et je n'ai jamais su comment. Depuis, quand je ne trouve pas un dossier, c'est elle que j'appelle, et elle sait toujours où il est.\nHumour (16 mots, 8 secondes) : Ce soir, j'ai bien tenté de reporter ce discours. On regarde ça demain à tête reposée ?\nFermeture (8 mots, 4 secondes) : Claire, merci pour ces quatre ans. À Claire !\nTotal : 107 mots, 53,5 secondes.",
+        "exercise": "DÉFI SOIXANTE SECONDES : écris un toast en trois blocs : un souvenir précis, une seule vanne en rappel, une phrase de fermeture. Pas besoin d'être sur place : imagine-toi au pot et note deux choses qui seraient vraies pour toi ce soir-là (ce que tu ressentirais, ce que tu aurais préparé, ce que tout le monde ferait en attendant que tu parles). Transforme chacune en rappel, c'est l'étape qui fait d'un fait une vanne : pars d'un détail de ton souvenir (une phrase, un objet, un geste), un différent pour chaque, puis écris deux phrases. La première dit ce qui t'arrive, la seconde fait revenir le détail contre toi, de préférence sur le dernier mot. Garde la meilleure pour ton toast et l'autre en vanne de rechange : le jour J, si l'ambiance n'est pas celle que tu imaginais, tu changes de vanne sans toucher au reste. Aucun pot en vue ? Choisis quelqu'un qui t'a dépanné au travail et imagine son pot de départ. Pas besoin de chrono : compte tes mots. C'est réussi s'il fait entre 100 et 125 mots (c'est ta minute), si la vanne arrive après le souvenir, si elle reprend un détail de ce souvenir et se retourne contre toi (ou contre ce détail, jamais contre la personne qui l'a dit ou donné), sans viser la personne honorée, l'organisation, le buffet ni un responsable, et si tu as noté une vanne de rechange à côté. Rien à prononcer : le toast reste sur ta feuille jusqu'au jour J."
+      }
+    ],
+    "vannesNeuves": [
+      {
+        "place": "V-1-1",
+        "content": "La notice plastifiée de la visio, salle du deuxième, compte quatre étapes.",
+        "punchline": "La quatrième est « Recommencer à l'étape 1 ». Le plastique est usé à cet endroit.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "La trace qui parle",
+        "techniqueExplanation": "Tu décris un objet banal comme un constat, puis tu lis dans son usure ce que personne n'a dit. La boucle de la notice fait sourire, mais c'est le plastique poli qui raconte tous ceux qui ont recommencé, sans qu'aucune personne n'entre dans la phrase. La vanne vise l'objet et le système qu'il décrit.",
+        "howToApply": "À toi de jouer : lis un objet du bureau comme un constat, puis ajoute la trace d'usure qui dit le reste. Exemple : « Le mode d'emploi de la cafetière tient en trois étapes. Le chiffre 2 est effacé. »"
+      },
+      {
+        "place": "V-1-2",
+        "content": "Un parapluie noir est appuyé au mur de la salle 4 depuis 2018.",
+        "punchline": "Neuf cents réunions, aucune absence.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "Le constat chiffré",
+        "techniqueExplanation": "Tu décris un objet oublié avec un sérieux total, puis tu le traites comme un dossier d'assiduité : un chiffre, un mot de suivi, rien d'autre. Aucune personne n'entre dans la phrase, l'objet porte seul l'écart. Tu ne commentes pas, et la chute tombe sur le dernier mot.",
+        "howToApply": "À toi de jouer : prends un objet oublié dans une pièce du travail, donne-lui une ancienneté, puis un bilan chiffré dans le vocabulaire du suivi. Exemple : « Une écharpe grise pend au portemanteau de l'entrée depuis l'hiver 2017. Elle a connu quatre déménagements. »"
+      },
+      {
+        "place": "V-1-3",
+        "content": "Il n'y a pas de salle A au deuxième étage.",
+        "punchline": "Elle est complète tous les jeudis depuis 2019.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "Le lieu fantôme",
+        "techniqueExplanation": "Tu poses un fait de plan d'étage, puis la preuve que le lieu fonctionne quand même : un taux de remplissage et une ancienneté, dits comme un relevé. Aucune personne n'entre dans la phrase, le lieu qui n'existe pas porte seul l'écart. Tu ne commentes pas, et l'année arrive sur le dernier mot.",
+        "howToApply": "À toi de jouer : annonce un lieu ou un objet qui n'existe pas à ton étage, puis donne son bilan de fonctionnement avec un chiffre ou une date. Exemple : « Il n'y a pas de salle de pause au sous-sol. Le frigo y est contrôlé tous les lundis depuis 2020. »"
+      },
+      {
+        "place": "V-2-1",
+        "content": "J'ai fini un mail de trois lignes par un smiley, pour signaler la vanne.",
+        "punchline": "On m'a demandé laquelle des trois.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "L'humour qui ne se voit pas",
+        "techniqueExplanation": "Le narrateur croit avoir glissé une vanne et l'a même balisée, puis la réponse montre qu'on cherche encore où elle était. La chute n'accuse personne : la question est posée de bonne foi, et c'est le narrateur qui en sort réduit. Une seule idée, le chiffre « trois » rend la recherche visible, les derniers mots arrivent sur « des trois ».",
+        "howToApply": "À toi de jouer : annonce un effet que tu as soigneusement balisé, puis rapporte la question de quelqu'un qui ne l'a pas vu. Exemple : « J'ai souligné ma phrase drôle dans le compte rendu. On m'a demandé de la corriger. »"
+      },
+      {
+        "place": "V-3-1",
+        "content": "Le micro de la salle capte les stylos.",
+        "punchline": "Pas moi.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "Le tri de l'objet",
+        "techniqueExplanation": "L'objet entend le bruit le plus dérisoire (les stylos) et manque la voix du narrateur. La chute tient en deux mots et se range d'elle-même du côté de celui qui parle. L'objet n'a pas de mauvaise intention, la cible est le micro et soi.",
+        "howToApply": "À toi de jouer : dis ce qu'un équipement de bureau perçoit parfaitement, puis ce qu'il ne perçoit jamais de toi. Exemple : « Le détecteur de la salle voit les chaises vides. Pas moi. »"
+      },
+      {
+        "place": "V-3-2",
+        "content": "Les murs sont fins.",
+        "punchline": "L'autre réunion avançait.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "L'écoute par la cloison",
+        "techniqueExplanation": "Un fait de bâtiment (la cloison), puis ce qu'il fait entendre : la réunion d'à côté progresse, et la sienne se déduit par contraste. La chute est un verbe d'état d'avancement, au passé, sans qu'aucune personne soit nommée. Sept mots, dits en passant.",
+        "howToApply": "À toi de jouer : pose une propriété du lieu en quatre mots, puis ce qu'elle t'a fait comprendre de ta propre situation. Exemple : « La cloison du bureau est mince. La compta, elle, a un ordre du jour. »"
+      },
+      {
+        "place": "V-3-3",
+        "content": "Mon casier ne contient qu'une chose.",
+        "punchline": "L'invitation à le vider.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "La procédure qui se mord la queue",
+        "techniqueExplanation": "Le narrateur annonce un contenu unique, et ce contenu est l'ordre de supprimer le contenant. Le setup compte six mots et la chute quatre, et le dernier groupe (« à le vider ») retourne l'attente : on prévoit un objet, on reçoit une consigne. Dix mots, aucun commentaire. La cible est le courrier de service et le casier, jamais une personne.",
+        "howToApply": "À toi de jouer : dis ce que contient une chose du bureau, puis fais de ce contenu l'ordre de la vider. Exemple : « Ma boîte à idées ne contient qu'un mot : « Merci de ne plus en proposer. » »"
+      },
+      {
+        "place": "V-4-3",
+        "content": "Jeudi, en visio, j'ai mis un fond de plage pour détendre l'ambiance. Le logiciel a gardé le sable, puis effacé mon oreille, mon épaule, et la moitié de mon visage.",
+        "punchline": "On a félicité la plage.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "Le héros effacé",
+        "techniqueExplanation": "Le décor que tu as choisi prend ta place, pièce par pièce. La chute est la phrase la plus courte et change de sujet : la plage reçoit les compliments que ton visage n'a plus. Aucun collègue n'est la victime, la machine et soi suffisent.",
+        "howToApply": "À toi de jouer : fais prendre ta place par l'accessoire que tu as installé, puis fais récolter le compliment par lui. Exemple : « Mon filtre « teint éclatant » a embelli la lampe, le mur, l'étagère. Mon visage, il l'a laissé. »"
+      },
+      {
+        "place": "V-6-2",
+        "content": "Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible.",
+        "punchline": "Merci de lever vos verres en attendant.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "La fausse annonce",
+        "techniqueExplanation": "Tu empruntes la voix d'un message d'accueil de standard pour annoncer ta propre panne, puis tu glisses dans la consigne l'acte que le toast demande de toute façon. L'annonce prend la forme d'un service qui a un incident, l'orateur est la seule cible. Les derniers mots, « en attendant », reprennent le ton du message.",
+        "howToApply": "À toi de jouer : annonce ton retard ou ton trou dans la voix d'un message officiel, puis demande au public l'acte qu'il fera de toute façon. Exemple : « Les invités attendant mon discours sont informés qu'il arrive en gare. Il a quatre minutes de retard, dues à l'orateur. »"
+      },
+      {
+        "place": "V-6-3",
+        "content": "Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros.",
+        "punchline": "Je suis la roulette de gauche.",
+        "category": "BOULOT",
+        "type": "ONE_LINER",
+        "comedyTechnique": "La part de cagnotte",
+        "techniqueExplanation": "Le narrateur chiffre sa contribution (dix euros), la chute la traduit en pièce du cadeau, et la précision absurde (« de gauche ») tient la phrase. Il se met en scène petit contributeur, la valise et la personne honorée restent intactes. La cible est la modestie de sa cotisation, le dernier mot est « gauche ».",
+        "howToApply": "À toi de jouer : donne le montant de ta participation à un cadeau, puis traduis-le en pièce de l'objet offert. Exemple : « Pour ton vélo, j'ai mis cinq euros. Je suis la sonnette. »"
+      }
+    ],
+    "vannesEnLigne": [
+      {
+        "etape": 1,
+        "place": "1",
+        "id": "cs14jka89abf28d3769b05fe",
+        "content": "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis."
+      },
+      {
+        "etape": 1,
+        "place": "2",
+        "id": "cmoxx7e56003xs60yyooxncw3",
+        "content": "Ma réunion 'point rapide avant l'été' a commencé à 14h."
+      },
+      {
+        "etape": 2,
+        "place": "1",
+        "id": "cs14jk69eb578cce484b6f87",
+        "content": "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un."
+      },
+      {
+        "etape": 2,
+        "place": "2",
+        "id": "cs14jk0c96df8dc97a67e3f6",
+        "content": "Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit."
+      },
+      {
+        "etape": 2,
+        "place": "3",
+        "id": "cs14jkd6b11e811ffbf7f301",
+        "content": "Mon adresse mail pro d'alternant commence par « alternant2 »."
+      },
+      {
+        "etape": 2,
+        "place": "V-2-2",
+        "id": "cs14jk8c54311509a1108b0a",
+        "content": "J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! »."
+      },
+      {
+        "etape": 3,
+        "place": "1",
+        "id": "cs14jk4d523526fb0d6ca24e",
+        "content": "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche."
+      },
+      {
+        "etape": 3,
+        "place": "2",
+        "id": "cmmnsqn14003rth6379n30nzd",
+        "content": "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien."
+      },
+      {
+        "etape": 4,
+        "place": "1",
+        "id": "cs14jk0aa83dd779a1c72b43",
+        "content": "J'ai passé mon stage à ranger les archives par ordre alphabétique."
+      },
+      {
+        "etape": 4,
+        "place": "2",
+        "id": "cs14jkdb222991fcbf194845",
+        "content": "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure."
+      },
+      {
+        "etape": 4,
+        "place": "V-4-1",
+        "id": "cmnl01zwv004ss60y2ecodj9a",
+        "content": "J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes."
+      },
+      {
+        "etape": 4,
+        "place": "V-4-2",
+        "id": "cmmw0togs0001mw62152nl589",
+        "content": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve."
+      },
+      {
+        "etape": 5,
+        "place": "1",
+        "id": "cs14jke4221e9a31a33b0395",
+        "content": "J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? »"
+      },
+      {
+        "etape": 5,
+        "place": "2",
+        "id": "cs14jk7911857c4ff09eb025",
+        "content": "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc."
+      },
+      {
+        "etape": 5,
+        "place": "V-5-1",
+        "id": "cmmnsqn15007dth63pcggw13x",
+        "content": "Elle m'a demandé ce que je faisais dans la vie."
+      },
+      {
+        "etape": 5,
+        "place": "V-5-2",
+        "id": "cs14jk1e07f8547b752601b8",
+        "content": "Je ne connaissais personne à la soirée, alors j'ai parlé au chat."
+      },
+      {
+        "etape": 5,
+        "place": "V-5-3",
+        "id": "cs14jk88f075a4297ed90830",
+        "content": "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille."
+      },
+      {
+        "etape": 6,
+        "place": "V-6-1",
+        "id": "cmmnsqn14003vth63i2are7es",
+        "content": "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années."
+      },
+      {
+        "etape": 6,
+        "place": "V-6-4",
+        "id": "cs14jkbdb9858fdd496e962a",
+        "content": "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance »."
+      },
+      {
+        "etape": 6,
+        "place": "V-6-5",
+        "id": "cs14jk8f28ff20e1cf82f3a8",
+        "content": "Au jeu de mimes, ma carte disait « la timidité »."
+      }
+    ]
+  },
+  "parcours": {
+    "slug": "boulot",
+    "title": "Parcours Boulot",
+    "pageTitle": "Parcours Boulot : oser une vanne sans te griller, 6 semaines",
+    "description": "Il y a toujours une vanne qui t'est venue au boulot et que tu as gardée pour toi. En 6 semaines, tu apprends à la sortir sans te griller, un cran à la fois : tu commences par observer une salle de réunion sans rien dire, et tu finis par un toast au pot d'un collègue. Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un.",
+    "duration": "6 semaines",
+    "timePerWeek": "15 min/semaine",
+    "difficulty": "DEBUTANT",
+    "difficultyLabel": "DEBUTANT → INTERMEDIAIRE",
+    "icon": "💼",
+    "order": 5,
+    "persona": "Sophie (26 ans, jeune active en CDI)",
+    "personaTagline": "Pour toi si tu fais rire tes amis le samedi et que, le lundi à 9 h, tu prends un ton de compte rendu",
+    "testimonial": "Imagine Anouk, six semaines après avoir commencé. Ce matin, elle a lâché une phrase, une seule, puis elle est passée à autre chose. À midi, un collègue est venu lui demander : « Redis-moi celle de ce matin, je veux la répéter à l'équipe. »",
+    "nextParcours": "storytelling",
+    "nextParcoursReason": "Tu sais écrire court et le dire sans te griller. Storytelling t'apprend à en faire une histoire entière, celle qu'on te redemande.",
+    "metaDescription": "Oser une vanne sans te griller, du silence en réunion au toast : 6 semaines à 15 min/semaine, mail, couloir et afterwork compris. Première étape gratuite.",
+    "nextParcoursRanking": [
+      "storytelling",
+      "machine-a-cafe",
+      "repartie",
+      "confiance"
+    ],
+    "steps": [
+      {
+        "week": 1,
+        "tipTitle": "Ce que raconte une salle de réunion",
+        "dayNumber": 3,
+        "why": "Avant de sortir une vanne au boulot, il faut une matière qui ne vexe personne. Les objets d'une salle de réunion en sont une : ils sont là toute la semaine, et ils ont vu plus de réunions que toi.",
+        "moduleTitle": "La salle de réunion, sans un mot",
+        "moduleDetail": "Imagine Anouk, mardi, 9 h 50, seule dans la salle de réunion, avant l'arrivée de l'équipe. Elle regarde : une chaise d'une autre couleur que les autres, un carton plié en quatre sous un pied de table, un rideau retenu par une pince à linge. Elle note les trois, choisit le carton et écrit deux phrases : « Un carton plié en quatre cale un pied de la table. Il tient depuis trois ans et en est à sa deuxième table. » Elle ne les montre à personne. Dans cette étape, tu fais pareil : trois traces notées, deux phrases écrites, rien à dire.\n\nUn seul test pour toute la suite : ta phrase passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ? Ici, ta phrase ne parle que d'un objet : elle passe ce test d'avance.",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
+        "moduleXp": 50,
+        "free": true,
+        "jokeContents": [
+          "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis.",
+          "Ma réunion 'point rapide avant l'été' a commencé à 14h.",
+          "La notice plastifiée de la visio, salle du deuxième, compte quatre étapes.",
+          "Un parapluie noir est appuyé au mur de la salle 4 depuis 2018.",
+          "Il n'y a pas de salle A au deuxième étage."
+        ],
+        "videos": [
+          {
+            "youtubeId": "57Ip2k3us_8",
+            "artist": "Thomas VDB",
+            "title": "Bitcoin, JPEG et blockchain",
+            "why": "Du jargon de bitcoin et de blockchain ramené au langage de tous les jours, avec la lucidité de quelqu'un qui n'y comprend rien. Repère chaque fois le mot simple qui prend la place du mot savant : c'est ce que fait ta première phrase, qui dit ce que tu vois, mot pour mot."
+          },
+          {
+            "youtubeId": "rldvVgHQSvo",
+            "artist": "Vérino",
+            "title": "Le distributeur de baguettes",
+            "why": "Un distributeur de baguettes, un truc que personne ne remarque, regardé comme par un étranger. Repère ce qu'il voit là où toi, tu passerais sans lever les yeux."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Tu as choisi ta trace. Laquelle de ces premières phrases suit le conseil ?",
+            "options": [
+              "« Quelqu'un a encore oublié son chargeur sous la table, comme chaque semaine. »",
+              "« Un chargeur est branché sous la table, sans téléphone au bout. »",
+              "« Le chargeur sous la table a visiblement été abandonné. »",
+              "« Un chargeur orphelin attend sous la table depuis des mois. »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B. Elle dit ce que tu vois, mot pour mot, et garde pour la seconde ce que la trace laisse supposer. La A met une personne dans la phrase (« quelqu'un »), la C commente (« visiblement »), et la D saute tout de suite à la durée en jugeant l'objet (« orphelin »)."
+          },
+          {
+            "question": "Ta première phrase est écrite : « Un cadenas ferme le placard à fournitures. » Laquelle de ces secondes phrases colle à ce que demande le conseil ?",
+            "options": [
+              "« Il est surtout là pour rappeler à l'équipe qui détient la clé. »",
+              "« Il protège surtout du vide, comme pas mal de procédures dans cette boîte. »",
+              "« Il a des copains sur le frigo et sur la photocopieuse. »",
+              "« Il est neuf, et il garde deux stylos et une agrafeuse cassée. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D. Elle ajoute un chiffre que le cadenas laisse supposer (deux stylos derrière un tel verrou) et reste sur le ton du constat. La A vise celui qui garde la clé, et la B tire une morale. La C empile une autre observation, sans chiffre ni durée."
+          },
+          {
+            "question": "Cette semaine, ton agenda ne contient que des appels en vidéo. Comment fais-tu l'exercice des traces ?",
+            "options": [
+              "Tu regardes la pièce où tu te trouves : tout objet marqué convient.",
+              "Tu reprends la salle de ta dernière vraie réunion, de mémoire.",
+              "Tu relèves ce qu'on voit derrière les autres, dans leur fenêtre.",
+              "Tu demandes à un collègue de te décrire les murs de son bureau."
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. Un objet marqué suffit, donc la pièce où tu es fait l'affaire dès aujourd'hui. La B se fie à ta mémoire alors que la première phrase dit ce que tu vois, la C te fait regarder chez les autres, et la D met un collègue dans la boucle alors que tout reste dans tes notes."
+          }
+        ]
+      },
+      {
+        "week": 2,
+        "tipTitle": "Le PS qui détend un mail sérieux",
+        "dayNumber": 10,
+        "why": "Un mail sérieux ne laisse presque aucune place à ta voix. Le PS en est une : une phrase, après la signature, qui ne change rien au fond. Ici, tu en écris un, et tu choisis si tu l'envoies ou si tu le gardes pour toi.",
+        "moduleTitle": "Un PS drôle, sans finir en capture d'écran",
+        "moduleDetail": "Imagine Anouk, jeudi, 16 h 40, devant un mail pour caler une réunion de lundi. Le fond est irréprochable : horaire, salle, ordre du jour. Elle écrit une ligne sous sa signature : « À toutes fins utiles, si la lumière du deuxième est restée allumée hier soir, ce n'était pas un oubli : j'y répétais comment dire « bonne soirée ». » Elle envoie le mail sans le PS, qu'elle garde en brouillon : il compte quand même. Dans cette étape, tu écris ta propre ligne : un PS d'une seule phrase, sur une petite scène vraie de ta journée. Qu'elle parte ou qu'elle reste en brouillon, c'est toi qui décides.\n\nAvant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
+        "moduleXp": 75,
+        "free": false,
+        "jokeContents": [
+          "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un.",
+          "Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit.",
+          "Mon adresse mail pro d'alternant commence par « alternant2 ».",
+          "J'ai fini un mail de trois lignes par un smiley, pour signaler la vanne.",
+          "J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! »."
+        ],
+        "videos": [
+          {
+            "youtubeId": "QGqA4va99rw",
+            "artist": "Pierre Croce",
+            "title": "Ce qu'on rêverait d'entendre dans l'avion",
+            "why": "Pierre Croce imagine les annonces qu'on rêverait d'entendre dans un avion, une liste où chaque phrase tient en une ligne. Repère, dans chaque annonce, le mot qui fait basculer la phrase, et où il se trouve : dans ton PS, il arrive en toute fin."
+          },
+          {
+            "youtubeId": "zGT7TX66JFQ",
+            "artist": "Jason Brokerss",
+            "title": "Snapchat",
+            "why": "Jason Brokerss décortique les réseaux sociaux avec l'énergie de quelqu'un qui a passé trop de temps sur son téléphone, et qui le sait. Repère un détail si précis que tu t'y reconnais : c'est ce genre de petite scène vraie que ton PS rectifie."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Ton mail est prêt : il confirme la salle d'un atelier, entre collègues de ton service. Laquelle de ces lignes ajoutes-tu sous la signature ?",
+            "options": [
+              "« PS : bon week-end à tous, et merci pour la réactivité de chacun. »",
+              "« PS : si la compta valide enfin à temps, ce sera une première. »",
+              "« PS : petite correction, ce n'est pas le ficus que j'arrose depuis mardi, mais son sosie en plastique. »",
+              "« PS : ce n'est pas du café que j'ai renversé ce matin, mais de l'eau, donc rien de grave. »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. Elle corrige une erreur que personne n'a faite, sur un seul détail (la plante), et la version rectifiée arrive en toute fin sans rien arranger. La A est un PS poli, sans scène, la B vise un service, et la D rassure avec « rien de grave » : la correction arrange tout."
+          },
+          {
+            "question": "Quatre mails t'attendent. Dans lequel tentes-tu ton premier PS ?",
+            "options": [
+              "Les excuses à un client dont la commande est arrivée en retard.",
+              "La date d'un point d'équipe, à deux collègues que tu croises tous les jours.",
+              "Un mail court à ton chef, pour confirmer un rendez-vous.",
+              "Le message à toute l'entreprise, envoyé au nom de ton service pour le départ de la directrice."
+            ],
+            "correctIndex": 1,
+            "explanation": "La B. Un mail à faible enjeu, entre collègues que tu connais, est le terrain du premier essai : le fond reste irréprochable et un PS manqué n'y coûte presque rien. La A mêle une excuse et une plaisanterie, la C, même courte, s'adresse à celui qui évalue ton travail, et la D t'expose devant toute l'entreprise."
+          },
+          {
+            "question": "Ta journée n'a aucun écrit professionnel au programme. Comment fais-tu l'exercice du PS ?",
+            "options": [
+              "Tu laisses tomber : sans destinataire, le rectificatif perd son sens.",
+              "Tu envoies quand même un message à un collègue, pour avoir un prétexte.",
+              "Tu recopies une phrase lue ailleurs, en changeant deux mots.",
+              "Tu rédiges celui que tu aurais glissé sous ton dernier message sérieux."
+            ],
+            "correctIndex": 3,
+            "explanation": "La D. Le repli du défi est le PS que tu aurais ajouté à ton dernier message sérieux : rien à envoyer, tout à écrire. La A abandonne alors qu'un repli existe, la B force un envoi dont personne n'a besoin, et la C ne part pas d'une scène vraie de ta journée."
+          }
+        ],
+        "retourExerciceNote": "Ton PS resté en brouillon compte : s'il finit sur la version rectifiée, choisis « Essayé, ça a marché »."
+      },
+      {
+        "week": 3,
+        "tipTitle": "La vanne de couloir : l'art du timing entre deux réunions",
+        "dayNumber": 17,
+        "why": "Un couloir te laisse quinze secondes, pas une de plus, et personne ne s'y arrête. C'est le meilleur endroit pour ta première vanne à voix haute : si elle ne prend pas, tu es déjà trois pas plus loin. Ici, tu en dis une, en marchant, à une seule personne.",
+        "moduleTitle": "Le couloir : quinze secondes",
+        "moduleDetail": "Imagine Anouk, mardi, 12 h 52, au troisième étage. Quelqu'un attend l'ascenseur, les yeux sur les numéros. Anouk passe à sa hauteur sans ralentir : « Quatre étages. Il s'arrête à tous, par politesse. » Elle est déjà dans l'escalier, sans attendre de réponse. La cible, c'est l'ascenseur, et n'importe qui dans l'immeuble pourrait l'entendre. Dans cette étape, tu fais pareil : un irritant que tout le monde subit, dix mots au plus, dit une seule fois, en marchant. Pas de couloir aujourd'hui, ou pas envie de tenter devant quelqu'un ? Tu peux dire ta phrase seul, à voix haute, en traversant une pièce.\n\nAvant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
+        "moduleXp": 100,
+        "free": false,
+        "jokeContents": [
+          "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche.",
+          "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien.",
+          "Le micro de la salle capte les stylos.",
+          "Les murs sont fins.",
+          "Mon casier ne contient qu'une chose."
+        ],
+        "videos": [
+          {
+            "youtubeId": "NebHsD_K9lM",
+            "artist": "Guillermo Guiz",
+            "title": "Les cabillauds, ces arrogants !",
+            "why": "Une chronique absurde sur les cabillauds, dite avec un humour pince-sans-rire et une logique impeccable. Repère la phrase la plus courte qui te fait sourire, et compte ses mots : dans un couloir, tu as droit à dix."
+          },
+          {
+            "youtubeId": "3v8Y4C9Q5hE",
+            "artist": "Kev Adams",
+            "title": "Du côté de chez vous",
+            "why": "Kev Adams décrit les codes de son quartier avec précision et bienveillance, sans caricature. Repère un détail que tout le monde reconnaît sans qu'il ait besoin de l'expliquer : c'est ce qui fait un bon irritant partagé."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Laquelle de ces phrases peut se dire en passant dans le couloir ?",
+            "options": [
+              "« Le chef a encore changé l'ordre du jour, comme d'habitude. »",
+              "« Le distributeur a avalé ma monnaie, puis il m'a regardé comme si c'était ma faute. »",
+              "« Cette porte ferme avec la discrétion d'une fanfare. »",
+              "« Toi aussi, tu trouves ce café tiède ? »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. Elle vise un objet que tout le monde subit, tient en dix mots au plus et n'attend aucune réponse. La A vise une personne, la B dépasse largement les dix mots, et la D pose une question : celui que tu croises doit s'arrêter pour répondre."
+          },
+          {
+            "question": "Tu viens de sortir ta phrase en croisant quelqu'un, qui n'a pas réagi. Que fais-tu ensuite ?",
+            "options": [
+              "Tu continues ta route : c'est réussi, qu'il ait souri ou non.",
+              "Tu te retournes pour voir si ça l'a fait rire.",
+              "Tu en conclus qu'elle n'était pas drôle et tu abandonnes l'exercice.",
+              "Tu reviens sur tes pas pour lui demander ce qu'il en a pensé."
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. Le défi se joue sur le geste : la dire en marchant suffit, même sans réaction. La B guette la réaction et la D demande un avis : deux façons de transformer quinze secondes en conversation. La C prend un silence pour un verdict, et c'est le piège qui te ferait arrêter."
+          },
+          {
+            "question": "Tu hésites entre quatre sujets pour ta phrase de couloir. Lequel est le plus sûr ?",
+            "options": [
+              "Le dernier mail du directeur, que personne n'a compris.",
+              "Le thermostat du service, qui change d'avis à chaque passage.",
+              "Ton salaire, que tu aimerais enfin comparer à celui des autres.",
+              "La nouvelle recrue, qui ne sait pas encore où se trouve la cafétéria."
+            ],
+            "correctIndex": 1,
+            "explanation": "La B. Un objet que tout le monde subit se dit devant n'importe qui, sans qu'aucun absent ait à se défendre. La A vise un responsable, la C ouvre un sujet qui ne passerait pas devant tout le service, et la D met une personne en position de victime."
+          }
+        ],
+        "retourExerciceNote": "Ici, « Essayé, ça a marché » veut dire que tu l'as dite en marchant. Le rire n'est pas le critère."
+      },
+      {
+        "week": 4,
+        "tipTitle": "L'afterwork : passer de collègue à personne drôle",
+        "dayNumber": 24,
+        "why": "À l'afterwork, personne ne veut le compte rendu de ta semaine : tout le monde veut une histoire courte. Les bonnes se racontent en trois temps, et le héros est celui qui raconte. Ici, tu en prépares une, de trente secondes au plus, pour un petit groupe ou, pour commencer, pour un ami.",
+        "moduleTitle": "L'afterwork : ta semaine en trente secondes",
+        "moduleDetail": "Imagine Anouk, vendredi, 18 h 30, un verre à la main, au milieu de trois collègues qui racontent leur semaine. Quand vient son tour, elle dit : « Ce matin, mon ordinateur m'a demandé un nouveau mot de passe. Le premier était trop court, le deuxième trop proche de l'ancien, le troisième trop simple. Le quatrième contenait un chiffre, une majuscule et une larme. Accepté. » Puis elle boit une gorgée. Le tout a duré moins de trente secondes, et la seule à s'en sortir mal, c'est elle. Dans cette étape, tu prépares ton histoire, avec un petit moment de ta semaine qui t'a mis en difficulté. Pas d'afterwork à venir ? Raconte-la d'abord à un ami qui ne connaît rien à ton boulot.\n\nAvant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
+        "moduleXp": 100,
+        "free": false,
+        "jokeContents": [
+          "J'ai passé mon stage à ranger les archives par ordre alphabétique.",
+          "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure.",
+          "J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes.",
+          "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve.",
+          "Jeudi, en visio, j'ai mis un fond de plage pour détendre l'ambiance. Le logiciel a gardé le sable, puis effacé mon oreille, mon épaule, et la moitié de mon visage."
+        ],
+        "videos": [
+          {
+            "youtubeId": "DK7ASNHnKm4",
+            "artist": "Guillermo Guiz",
+            "title": "Pas de sentiments au fast-food",
+            "why": "Guillermo Guiz fait d'un fast-food un sujet de réflexion presque existentielle, avec un regard surréaliste. Repère ce qu'il fait d'un endroit où il ne se passe presque rien : c'est la matière d'une anecdote de ta semaine."
+          },
+          {
+            "youtubeId": "TDmd7JRlxFc",
+            "artist": "Florence Foresti",
+            "title": "Le styliste (Boys Boys Boys)",
+            "why": "Florence Foresti incarne un styliste et en décortique les codes. Repère ce qu'elle pose dès le début pour que tu comprennes la scène, même si tu ne connais rien à la mode."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Quelle est la meilleure première phrase pour ton histoire d'afterwork ?",
+            "options": [
+              "« Vendredi dernier, juste après le point hebdo avec la DSI, le CRM a planté. »",
+              "« Alors, vous allez rire, ce qui m'est arrivé cette semaine est incroyable. »",
+              "« Il faut d'abord que je vous explique comment fonctionne notre process de validation. »",
+              "« Mercredi, j'ai passé une heure entière à chercher une salle qui n'existait pas. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D. Une phrase simple, avec un jour et un lieu que n'importe qui comprend, et c'est toi qui es dedans. La A empile des sigles, la B promet le rire avant de l'avoir gagné, et la C commence par une explication."
+          },
+          {
+            "question": "Ton histoire vient de monter d'un cran à chaque phrase. Comment la termines-tu ?",
+            "options": [
+              "Tu expliques le mécanisme pour qu'on comprenne.",
+              "Tu conclus par une leçon sur l'importance de la patience.",
+              "Tu t'arrêtes net sur la chute, sans rien ajouter derrière.",
+              "Tu demandes aux autres s'ils ont déjà vécu la même chose."
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. La chute est la dernière phrase, et rien ne vient après : c'est ce qui laisse le rire arriver. La A explique le mécanisme, la B le transforme en morale, et la D rend la parole avant d'avoir conclu."
+          },
+          {
+            "question": "Ton meilleur souvenir de la semaine met en scène un collègue précis, que tout le monde connaît. Que fais-tu ?",
+            "options": [
+              "Tu en prends un autre, où c'est un objet qui te dépasse.",
+              "Tu en prends un autre, où ce collègue n'apparaît qu'une fois, en passant.",
+              "Tu le racontes, mais avec beaucoup de tendresse dans la voix.",
+              "Tu le racontes seulement s'il n'est pas là ce soir-là."
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. Dans ton histoire, c'est toi qui es dedans : un objet qui te dépasse ne se vexe pas. La B le garde, même en passant, et tout le monde le reconnaîtra, la C adoucit la voix mais pas la cible, et la D attend l'absence de l'intéressé pour parler de lui."
+          }
+        ]
+      },
+      {
+        "week": 5,
+        "tipTitle": "Survivre (et briller) au networking pro avec humour",
+        "dayNumber": 31,
+        "why": "« Et toi, tu fais quoi ? » revient à chaque pot, et la réponse récitée ne retient personne. Deux phrases honnêtes, dont une que la fiche de poste ne dit pas, donnent à l'autre quelque chose à relancer. Ici, tu écris la tienne, pour des gens que tu connais à peine.",
+        "moduleTitle": "« Tu fais quoi dans la vie ? » en deux phrases",
+        "moduleDetail": "Imagine Anouk, jeudi, 19 h 10, à un pot de bienvenue. Un invité lui demande ce qu'elle fait dans la vie. Anouk ne récite pas son titre. Elle répond : « Je rédige des notices de montage. Je passe un samedi sur deux chez des inconnus, en tout petits caractères. » L'autre pose une question sur les notices. Dans cette étape, tu écris ta propre réponse en deux phrases : un verbe concret, puis le détail que la fiche de poste ne dit pas. La moquerie tombe sur toi, jamais sur ton métier ni sur ton employeur. Personne ne te le demande ? Pose la question à quelqu'un que tu connais peu : on te la rendra. Sinon, répète ta réponse trois fois à voix haute, seul.\n\nAvant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, une vidéo, un petit quiz.",
+        "moduleXp": 125,
+        "free": false,
+        "jokeContents": [
+          "J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? »",
+          "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc.",
+          "Elle m'a demandé ce que je faisais dans la vie.",
+          "Je ne connaissais personne à la soirée, alors j'ai parlé au chat.",
+          "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille."
+        ],
+        "videos": [
+          {
+            "youtubeId": "ztKRY4eNUTA",
+            "artist": "Lisa Delmoitiez",
+            "title": "J'ai pas confiance en moi et j'ai raison",
+            "why": "Lisa Delmoitiez transforme son manque de confiance en spectacle, et son titre le dit déjà : assumer ses faiblesses avec humour. Repère sur qui tombe chaque rire : sur elle, ou sur autre chose ? C'est la question à te poser avant de dire ta réponse."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Tu es comptable dans une petite entreprise. Quelle première phrase décrit vraiment ton travail ?",
+            "options": [
+              "« Je m'occupe des chiffres de la boîte, un peu de tout. »",
+              "« J'envoie les factures du mois et je vérifie qu'elles arrivent. »",
+              "« Je pilote l'optimisation des flux de facturation. »",
+              "« Je fais des chiffres, enfin voilà, c'est un peu compliqué à expliquer. »"
+            ],
+            "correctIndex": 1,
+            "explanation": "La B. Deux verbes concrets, et n'importe qui voit ton travail. La A reste floue (« je m'occupe », « un peu de tout »), la C se cache derrière du jargon, et la D traîne un « enfin voilà » qui efface ta réponse."
+          },
+          {
+            "question": "Ta première phrase est : « Je plante des arbres dans un parc. » Laquelle de ces secondes phrases colle au conseil ?",
+            "options": [
+              "« La mairie me paie pour regarder pousser, avec patience, ce que d'autres ont mal choisi. »",
+              "« Honnêtement, ce métier n'a aucun intérêt, je le fais pour le salaire. »",
+              "« Dans quarante ans, des familles pique-niqueront à l'ombre de mon travail, sans me remercier. »",
+              "« Mais assez parlé de moi : et vous, qu'est-ce que vous faites ? »"
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. Elle donne la place de ton métier dans la vie des autres, et l'ironie reste sur toi (« sans me remercier »). La A se moque de la mairie, qui est ton employeur, et de ceux qui ont choisi avant toi, la B méprise ton métier, et la D change de sujet avant qu'on t'ait posé une question."
+          },
+          {
+            "question": "Ta phrase fait rire tes amis, mais elle se moque un peu de ton métier. Ce soir, ton chef sera au pot. Que fais-tu ?",
+            "options": [
+              "Tu la retournes pour que ce soit toi qui encaisses la chute.",
+              "Tu la gardes : ton chef a de l'humour, il ne se vexera pas.",
+              "Tu la dis plus bas, pour que ton chef n'entende pas.",
+              "Tu la dis quand même, en ajoutant « sans rancune » à la fin."
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. C'est le critère du conseil : si ton chef entendait ta réponse, il devrait sourire, pas se vexer. Retournée contre toi, elle passe ; telle quelle, elle touche ton métier. La B parie sur l'humour de ton chef, la C cache le problème au lieu de le régler, et la D croit qu'un « sans rancune » efface ce qui a été dit."
+          }
+        ]
+      },
+      {
+        "week": 6,
+        "tipTitle": "Le toast de soixante secondes qui tient debout",
+        "dayNumber": 38,
+        "why": "Quand quelqu'un prend la parole à un pot, la salle redoute un seul moment : celui où ça traîne. Soixante secondes bien rangées l'évitent. Ici, tu écris ton toast, sans rien dire à personne.",
+        "moduleTitle": "Un toast de soixante secondes, une seule vanne",
+        "moduleDetail": "Imagine Anouk, vendredi, 17 h 30, au pot de départ d'un collègue qui l'a dépannée. Elle sort la feuille écrite mardi soir et lit le premier bloc : un souvenir daté, son troisième jour, la pluie, le parapluie qu'il lui a prêté avec un « garde-le le temps qu'il faut ». Elle enchaîne sur sa seule vanne, qui reprend ce parapluie, et la salle rit. Puis une dernière phrase, pour lever le verre. Sur la feuille, une vanne de rechange, notée à côté, n'a pas servi. Dans cette étape, tu écris ton toast de la même façon, pour un vrai pot ou pour un pot imaginé : rien ne se prononce avant le jour J.\n\nAvant de la sortir, un seul test : passerait-elle si toute l'équipe l'entendait ou la lisait, y compris la personne dont elle parle ?",
+        "moduleFormat": "Un conseil, un défi, 5 vannes, une vidéo, un petit quiz.",
+        "moduleXp": 150,
+        "free": false,
+        "jokeContents": [
+          "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années.",
+          "Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible.",
+          "Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros.",
+          "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance ».",
+          "Au jeu de mimes, ma carte disait « la timidité »."
+        ],
+        "videos": [
+          {
+            "youtubeId": "Fw14PLdtSyA",
+            "artist": "Nora Hamzawi",
+            "title": "Les chagrins d'amour (chronique France Inter)",
+            "why": "Nora Hamzawi dissèque les chagrins d'amour dans une chronique de radio, avec une autodérision qui porte sur elle. Une chronique est d'ordinaire écrite d'avance puis lue à voix haute, comme ton toast. Repère qui fait les frais de chaque rire : dans ton toast, ce sera toi ou un détail, jamais la personne honorée. Si le sujet te touche de trop près en ce moment, passe : la vidéo est facultative."
+          }
+        ],
+        "quiz": [
+          {
+            "question": "Un ami te conseille d'ouvrir ton toast par ta meilleure vanne, pour détendre la salle. Que lui réponds-tu ?",
+            "options": [
+              "« Bonne idée : un public qui rit écoute mieux la suite. »",
+              "« Oui, mais avec deux vannes d'affilée, pour être bien sûr que ça prenne tout de suite. »",
+              "« Non : au pot, l'humour est interdit, il faut rester dans l'émotion. »",
+              "« Non : je garde l'humour pour après le souvenir, sinon il n'a rien à rappeler. »"
+            ],
+            "correctIndex": 3,
+            "explanation": "La D. Un rappel n'existe qu'après ce qu'il rappelle, et la salle rit d'abord de reconnaître le détail. La A ouvre par l'humour, la B en empile deux, et la C interdit toute vanne alors qu'une seule, bien placée, suffit."
+          },
+          {
+            "question": "Ton souvenir parle d'un gâteau que ta collègue apporte à chaque pot. Quelle vanne en rappel peux-tu en tirer ?",
+            "options": [
+              "Une où tu moques sa cuisine, c'est affectueux.",
+              "Une où tu avoues avoir goûté ta part avant le début du discours.",
+              "Une où tu fais allusion à ceux qui n'en prennent jamais, au fond de la salle.",
+              "Une où tu critiques le buffet, trop pauvre à ton goût."
+            ],
+            "correctIndex": 1,
+            "explanation": "La B. Le détail revient, et c'est toi qui en fais les frais : tu es le gourmand du discours. La A moque sa cuisine, la C vise ceux qui ne se servent pas, et la D s'en prend au buffet : seuls toi ou le détail peuvent encaisser."
+          },
+          {
+            "question": "Le jour du pot, la salle est bruyante et fatiguée, loin de ce que tu avais prévu. Que fais-tu de ta vanne ?",
+            "options": [
+              "Tu la dis plus fort, pour passer au-dessus des conversations.",
+              "Tu la gardes telle quelle : le texte est écrit, point.",
+              "Tu en sors une autre, tenue en réserve, sans toucher au reste.",
+              "Tu en ajoutes deux autres à la suite, en espérant que l'une des trois prenne."
+            ],
+            "correctIndex": 2,
+            "explanation": "La C. La vanne de rechange est là pour ça : tu changes de vanne sans toucher au reste du texte. La A force une vanne qui ne prend pas, la B s'accroche à un texte qui ne convient plus, et la D en ajoute, alors qu'une seule suffit."
+          },
+          {
+            "question": "Tu cherches ton premier bloc, le moment sincère. Lequel gardes-tu ?",
+            "options": [
+              "« Mon deuxième jeudi, elle a relu mon rapport à sept heures du soir. »",
+              "« Elle a toujours été là pour moi, dès le premier jour. »",
+              "« Mon premier lundi, elle m'a fait visiter l'étage et s'y est perdue deux fois. »",
+              "« Son départ laisse un grand vide dans toute l'équipe, et je tenais à le dire. »"
+            ],
+            "correctIndex": 0,
+            "explanation": "La A. Un souvenir daté et précis (le jeudi, l'heure, le geste) sonne vrai, et il fournira son détail au rappel. La C est tout aussi précise, mais elle fait rire de la personne honorée dès le premier bloc. La B et la D sont des compliments de carte de vœux : on les entend, mais on ne les voit pas."
+          }
+        ],
+        "dureeTexte": "Environ 20 min, hors vidéos : 10 min de lecture et de quiz, 10 min pour écrire ton toast.",
+        "retourExerciceNote": "Ici, « Essayé, ça a marché » veut dire que ton toast est écrit, vanne de rechange comprise. Il se dit le jour du pot, pas avant."
+      }
+    ]
+  }
+}

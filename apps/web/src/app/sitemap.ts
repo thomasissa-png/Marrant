@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/videos`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
     // s17 (SEO-07) : dates réelles des parcours (constante du code ou base, la plus récente).
     { url: `${baseUrl}/parcours`, lastModified: parcoursDates.hub, changeFrequency: "weekly", priority: 0.8 },
-    // s18 : parcours publiés seulement (Storytelling quand STORYTELLING_PUBLIE).
+    // s18/s19 : parcours publiés seulement (Storytelling quand STORYTELLING_PUBLIE, Boulot quand BOULOT_PUBLIE).
     ...PARCOURS_SLUGS.map((slug) => ({
       url: `${baseUrl}/parcours/${slug}`,
       lastModified: parcoursDates.bySlug[slug] ?? parcoursDates.hub,

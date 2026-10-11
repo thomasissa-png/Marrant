@@ -36,7 +36,10 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
         <div>
           {/* s17 tour 2 (DES-2-06) : label comme dans l'étape ouverte, corps limité à ≈ 70 caractères par ligne. */}
           <p className="font-display text-base font-bold text-text-primary">Ce que tu vas apprendre</p>
-          <p className="mt-1 max-w-[68ch] text-sm text-text-secondary">{step.moduleDetail || step.why}</p>
+          {/* s19 : sauts de paragraphe rendus ; typographie française pour Boulot (import-boulot.md §5). */}
+          <p className="mt-1 max-w-[68ch] whitespace-pre-line text-sm text-text-secondary">
+            {slug === "boulot" ? frTypo(step.moduleDetail || step.why || "") : step.moduleDetail || step.why}
+          </p>
         </div>
       )}
       {step.moduleFormat && <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>}

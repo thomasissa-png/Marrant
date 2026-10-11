@@ -233,6 +233,16 @@ describe("runCopyReviewBatch", () => {
     expect(where.OR).toBeDefined();
   });
 
+  it("s19 : exclut les vannes liées à une étape de parcours, dont les 2 du Boulot marquées generatedByAI", async () => {
+    mockJokeFindMany.mockResolvedValue([]);
+    await runCopyReviewBatch();
+    const exclues: string[] = mockJokeFindMany.mock.calls[0][0].where.content.notIn;
+    // « point rapide avant l'été » (étape 1) et le bus (étape 4) : texte exact en base.
+    expect(exclues).toContain("Ma réunion 'point rapide avant l'été' a commencé à 14h.");
+    expect(exclues).toContain("J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes.");
+    expect(exclues.length).toBeGreaterThanOrEqual(30);
+  });
+
   it("respecte COPY_REVIEW_BATCH pour la taille du lot", async () => {
     process.env.COPY_REVIEW_BATCH = "7";
     mockJokeFindMany.mockResolvedValue([]);

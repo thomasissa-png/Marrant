@@ -25,6 +25,7 @@ import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 import { stripEmDashesWithStats } from "@/lib/em-dash";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
+import { applyBoulotImportTask } from "@/lib/parcours-boulot-sync";
 // Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
 // d'import relatif que `components/parcours/parcours-content.tsx`.
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
@@ -1380,6 +1381,8 @@ export async function runStartupTasks(): Promise<void> {
   await applyParcoursContentTask();
   // s18 : parcours Storytelling (conseils, vannes neuves, parcours inactif tant que non publié).
   await applyStorytellingImportTask();
+  // s19 : parcours Boulot (conseils, vannes neuves, parcours inactif tant que BOULOT_PUBLIE = false).
+  await applyBoulotImportTask();
   await applyJokeDecryptagesTask();
   await deactivateWeakJokesTask();
   await fixPublishedBlogArticlesTask();

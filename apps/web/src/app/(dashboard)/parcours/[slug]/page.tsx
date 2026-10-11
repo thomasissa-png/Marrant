@@ -27,8 +27,8 @@ import {
 import { buildParcoursCourseJsonLd } from "@/lib/parcours-jsonld";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { parcoursWeeks } from "@/config/premium";
-import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
-import { STORYTELLING_SEED } from "@/lib/parcours-seed";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_SEED, STORYTELLING_SEED } from "@/lib/parcours-seed";
 
 // Revalide 1x/h — les steps changent rarement, l'important c'est le SSR sur les bots.
 export const revalidate = 3600;
@@ -78,6 +78,21 @@ const PARCOURS_META: Record<
           description: STORYTELLING_SEED.metaDescription,
           duration: STORYTELLING_SEED.duration,
           stepsCount: STORYTELLING_SEED.steps.length,
+        },
+      }
+    : {}),
+  // s19 : conditionnée par BOULOT_PUBLIE (sinon generateStaticParams et le repli de la
+  // page rendraient /parcours/boulot accessible avant le feu vert). Textes validés
+  // (import-boulot.md §1), portés par le fichier de contenu : titre signé (choix 3 A)
+  // et metaDescription de 154 caractères.
+  ...(BOULOT_PUBLIE
+    ? {
+        boulot: {
+          name: BOULOT_SEED.title,
+          title: BOULOT_SEED.pageTitle,
+          description: BOULOT_SEED.metaDescription,
+          duration: BOULOT_SEED.duration,
+          stepsCount: BOULOT_SEED.steps.length,
         },
       }
     : {}),

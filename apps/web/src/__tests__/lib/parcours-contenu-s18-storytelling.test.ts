@@ -34,7 +34,7 @@ describe("contenu du parcours Storytelling", () => {
       timePerWeek: "20 min/semaine",
       difficulty: "INTERMEDIAIRE",
       difficultyLabel: "DEBUTANT → INTERMEDIAIRE",
-      nextParcoursRanking: ["machine-a-cafe", "repartie", "confiance", "pro"],
+      nextParcoursRanking: ["machine-a-cafe", "repartie", "confiance", "boulot"],
     });
     expect(plain(seed.description).startsWith("Il y a toujours quelqu'un pour dire « et donc ? »")).toBe(true);
     // D3 @ux : plus aucune espace sécable avant « : ; ? ! » ni autour des guillemets dans les textes affichés.
@@ -188,9 +188,9 @@ describe("suite de fin classée (spec s17 §5.5)", () => {
     personaTagline: `accroche ${slug}`,
     progress: progress as never,
   });
-  const ranking = ["storytelling", "repartie", "machine-a-cafe", "pro"];
+  const ranking = ["storytelling", "repartie", "machine-a-cafe", "boulot"];
 
-  it("SU-01 : rien de commencé, premier du classement ; parcours absent (pro) ignoré", () => {
+  it("SU-01 : rien de commencé, premier du classement ; parcours absent (boulot non publié) ignoré", () => {
     const paths = [p("machine-a-cafe"), p("repartie"), p("confiance", fait), p("storytelling")];
     expect(pickSuite(paths, "confiance", "repartie", ranking)).toMatchObject({ slug: "storytelling", accroche: "accroche storytelling" });
   });

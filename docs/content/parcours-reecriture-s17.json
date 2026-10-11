@@ -67,7 +67,7 @@
       "nextParcours": "repartie",
       "nextParcoursReason": "Tu sais placer une vanne et raconter une histoire. Reste le cas où c'est quelqu'un d'autre qui lance la première : le parcours Répartie t'apprend à répondre du tac au tac.",
       "nextParcoursRanking": [
-        "pro",
+        "boulot",
         "storytelling",
         "repartie",
         "confiance"
@@ -328,7 +328,7 @@
         "storytelling",
         "confiance",
         "machine-a-cafe",
-        "pro"
+        "boulot"
       ],
       "steps": [
         {
@@ -675,7 +675,7 @@
         "storytelling",
         "repartie",
         "machine-a-cafe",
-        "pro"
+        "boulot"
       ],
       "steps": [
         {

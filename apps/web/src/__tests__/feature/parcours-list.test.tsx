@@ -2,10 +2,10 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
-import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 /** s18 : 4 parcours une fois Storytelling publié. */
-const NB = STORYTELLING_PUBLIE ? 4 : 3;
+const NB = 3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0);
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
