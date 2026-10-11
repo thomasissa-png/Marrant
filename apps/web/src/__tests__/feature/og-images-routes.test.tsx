@@ -103,9 +103,24 @@ describe("route Open Graph des vannes", () => {
     expect(html(img.element)).toBe(html(<OgAccueil />));
   });
 
-  it("base en erreur : repli « Une vanne à ressortir ce soir », pas d'erreur", async () => {
+  // Relecture @design cycle 9, C1 : plus de carte « Vanne » sans vanne, la carte de marque.
+  it("base en erreur : carte de marque, pas d'erreur", async () => {
     findMany.mockRejectedValue(new Error("base indisponible"));
     const img = (await Vanne({ params: { slug: "une-vanne-cs14jk7c" } })) as unknown as Rendu;
-    expect(texte(img.element)).toContain("Une vanne à ressortir ce soir");
+    expect(img.options).toMatchObject({ width: 1200, height: 630, fonts: [{ name: "Plus Jakarta Sans", weight: 800 }] });
+    expect(html(img.element)).toBe(html(<OgAccueil />));
+    expect(texte(img.element)).not.toContain("Une vanne à ressortir ce soir");
+  });
+
+  it("vanne introuvable (aucun candidat) : carte de marque", async () => {
+    findMany.mockResolvedValue([]);
+    const img = (await Vanne({ params: { slug: "une-vanne-cs14jk7c" } })) as unknown as Rendu;
+    expect(html(img.element)).toBe(html(<OgAccueil />));
+  });
+
+  it("slug sans identifiant : carte de marque, aucune requête en base", async () => {
+    const img = (await Vanne({ params: { slug: "pas-de-vanne" } })) as unknown as Rendu;
+    expect(findMany).not.toHaveBeenCalled();
+    expect(html(img.element)).toBe(html(<OgAccueil />));
   });
 });

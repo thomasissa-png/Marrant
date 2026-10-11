@@ -8,8 +8,8 @@
  * Sortie par défaut : docs/social/visuels-s15/og/. Pour chaque cas : `<nom>.png` (1200×630),
  * `<nom>-x358.png` (largeur de la carte X mobile) et `mesures.json` (corps, lignes,
  * dernière rangée d'encre du bloc, écart au pied, zone bas gauche, bord droit du pied).
- * Textes : titres et vannes réels (catalogue validé), sauf le titre de 100 caractères
- * (cas limite construit pour le test, jamais publié). Aucune lecture ni écriture en base.
+ * Textes : titres et vannes réels (catalogue validé), sauf les titres de 100 et 140 caractères
+ * (cas limites construits pour le test, jamais publiés). Aucune lecture ni écriture en base.
  */
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join, resolve } from "path";
@@ -42,6 +42,9 @@ const POLICES = [
 
 const TITRE_100 =
   "Comment répondre avec humour à un collègue qui te coupe la parole en réunion : 12 répliques testées.";
+// Relecture @design cycle 9, C3 : seul cas où le titre est coupé au mot, « … » rendu.
+const TITRE_140 =
+  "Comment répondre avec humour à un collègue qui te coupe la parole en réunion sans passer pour le relou de service : 12 répliques à recycler.";
 
 type Cas = { nom: string; element: () => ReactElement; detail: () => Record<string, unknown> };
 
@@ -65,6 +68,7 @@ const CAS: Cas[] = [
   { nom: "article-halloween", ...article("Blagues d'Halloween : 8 vannes pour ta soirée déguisée", "CATALOGUE") },
   { nom: "article-pilier", ...article("Comment devenir drôle : 5 piliers et un plan sur 30 jours", "GUIDE") },
   { nom: "article-100-car", ...article(TITRE_100, "PRATIQUE") },
+  { nom: "article-140-car", ...article(TITRE_140, "PRATIQUE") },
   { nom: "article-repli", ...article("Le blog humour et répartie") },
   // Catalogue validé : cs14jk9cc844b92fde69e845 (1re personne), cs14jkefbc9f40abb6f8a2ca (3e personne).
   { nom: "vanne-courte-1re-personne", ...vanne("J'ai pris un chien pour me faire des amis.", "Il en a plein. Moi, je tiens la laisse.") },
@@ -77,7 +81,8 @@ const CAS: Cas[] = [
       "Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».",
     ),
   },
-  { nom: "vanne-repli", ...vanne("Une vanne à ressortir ce soir", "") },
+  // Vanne introuvable ou base en erreur : la route rend la carte de marque (relecture @design cycle 9, C1).
+  { nom: "vanne-repli", element: () => OgAccueil(), detail: () => ({ repli: "vanne introuvable ou base en erreur : carte de marque" }) },
   // Vanne de 400 caractères (cas limite construit) : ne tient pas à 36 px, carte de marque.
   { nom: "vanne-400-car-repli-marque", ...vanne("Mon collègue raconte ses vacances. ".repeat(8).trim(), "Ça fait deux heures. On en est à l'aéroport. ".repeat(3).trim()) },
 ];

@@ -40,7 +40,10 @@ const texte = (el: ReactElement) =>
     .replace(/’ /g, "’");
 
 const TITRE_100 = "Comment répondre avec humour à un collègue qui te coupe la parole en réunion : 12 répliques testées.";
-const VANNE_400 = ["Mon collègue raconte ses vacances. ".repeat(8).trim(), "Ça fait deux heures. On en est à l'aéroport. ".repeat(3).trim()] as const;
+/** Cas limite construit pour le test (jamais publié) : 140 caractères. */
+const TITRE_140 =
+  "Comment répondre avec humour à un collègue qui te coupe la parole en réunion sans passer pour le relou de service : 12 répliques à recycler.";
+const VANNE_400 =["Mon collègue raconte ses vacances. ".repeat(8).trim(), "Ça fait deux heures. On en est à l'aéroport. ".repeat(3).trim()] as const;
 const LONGUE = [
   "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine.",
   "Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».",
@@ -97,6 +100,23 @@ describe("titres d'article : jamais tronqués", () => {
     t.lignes.forEach((l) => expect(mots(l)).toBeGreaterThanOrEqual(2));
     const largeurs = t.lignes.map((l) => largeurTexte(l, FONT_TITRE, 800, t.corps));
     expect(largeurs[largeurs.length - 1]).toBeGreaterThanOrEqual(0.4 * Math.max(...largeurs));
+  });
+
+  // Relecture @design cycle 9, C2 : seul cas où composerTitreOg coupe (au-delà d'environ 115 caractères).
+  it("titre de 140 caractères : coupé au mot avec « … », corps ≥ 48, 3 lignes au plus, aucune ligne d'un mot", () => {
+    expect([...TITRE_140].length).toBe(140);
+    const t = composerTitreOg(TITRE_140, true);
+    expect(t.texte).not.toBe(TITRE_140);
+    expect(t.texte.endsWith("…")).toBe(true);
+    expect(t.texte).not.toContain("...");
+    // Coupe au mot : le texte sans « … » est un préfixe du titre suivi d'une espace.
+    const avant = t.texte.slice(0, -1);
+    expect(TITRE_140.startsWith(`${avant} `)).toBe(true);
+    expect(t.corps).toBeGreaterThanOrEqual(PLANCHER_TITRE_OG);
+    expect(t.lignes.length).toBeLessThanOrEqual(LIGNES_TITRE_OG);
+    const mots = (l: string) => l.split(/[\s   ]+/).filter((m) => m && !/^[:;?!»«“”…,.]+$/.test(m)).length;
+    t.lignes.forEach((l) => expect(mots(l)).toBeGreaterThanOrEqual(2));
+    expect(texte(<OgArticle titre={TITRE_140} etiquette="Pratique" />)).toContain(t.texte);
   });
 
   it("couperAuMot coupe à un mot entier, jamais au milieu d'un mot ni par « ... »", () => {

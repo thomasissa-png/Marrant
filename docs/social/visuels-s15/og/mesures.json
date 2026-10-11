@@ -1,0 +1,187 @@
+{
+  "accueil": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "derniereRangeeEncreBloc": 420,
+    "ecartAuPied": 90,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "quiz": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "derniereRangeeEncreBloc": 430,
+    "ecartAuPied": 80,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-se-presenter": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Se présenter avec humour : 5 accroches qui passent",
+    "etiquette": "Pratique",
+    "texte": "Se présenter avec humour : 5 accroches qui passent",
+    "corps": 64,
+    "lignes": [
+      "Se présenter avec humour :",
+      "5 accroches qui passent"
+    ],
+    "longueur": 50,
+    "derniereRangeeEncreBloc": 383,
+    "ecartAuPied": 127,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-halloween": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Blagues d'Halloween : 8 vannes pour ta soirée déguisée",
+    "etiquette": "Catalogue",
+    "texte": "Blagues d'Halloween : 8 vannes pour ta soirée déguisée",
+    "corps": 64,
+    "lignes": [
+      "Blagues d’Halloween : 8 vannes",
+      "pour ta soirée déguisée"
+    ],
+    "longueur": 54,
+    "derniereRangeeEncreBloc": 385,
+    "ecartAuPied": 125,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-pilier": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Comment devenir drôle : 5 piliers et un plan sur 30 jours",
+    "etiquette": "Guide",
+    "texte": "Comment devenir drôle : 5 piliers et un plan sur 30 jours",
+    "corps": 64,
+    "lignes": [
+      "Comment devenir drôle :",
+      "5 piliers et un plan sur 30 jours"
+    ],
+    "longueur": 57,
+    "derniereRangeeEncreBloc": 385,
+    "ecartAuPied": 125,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-100-car": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Comment répondre avec humour à un collègue qui te coupe la parole en réunion : 12 répliques testées.",
+    "etiquette": "Pratique",
+    "texte": "Comment répondre avec humour à un collègue qui te coupe la parole en réunion : 12 répliques testées.",
+    "corps": 56,
+    "lignes": [
+      "Comment répondre avec humour",
+      "à un collègue qui te coupe la parole",
+      "en réunion : 12 répliques testées."
+    ],
+    "longueur": 100,
+    "derniereRangeeEncreBloc": 407,
+    "ecartAuPied": 103,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-140-car": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Comment répondre avec humour à un collègue qui te coupe la parole en réunion sans passer pour le relou de service : 12 répliques à recycler.",
+    "etiquette": "Pratique",
+    "texte": "Comment répondre avec humour à un collègue qui te coupe la parole en réunion sans passer pour le…",
+    "corps": 56,
+    "lignes": [
+      "Comment répondre avec humour",
+      "à un collègue qui te coupe la parole",
+      "en réunion sans passer pour le…"
+    ],
+    "longueur": 140,
+    "derniereRangeeEncreBloc": 407,
+    "ecartAuPied": 103,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "article-repli": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "titre": "Le blog humour et répartie",
+    "etiquette": null,
+    "texte": "Le blog humour et répartie",
+    "corps": 64,
+    "lignes": [
+      "Le blog humour et répartie"
+    ],
+    "longueur": 26,
+    "derniereRangeeEncreBloc": 323,
+    "ecartAuPied": 187,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "vanne-courte-1re-personne": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "content": "J'ai pris un chien pour me faire des amis.",
+    "punchline": "Il en a plein. Moi, je tiens la laisse.",
+    "corps": 48,
+    "derniereRangeeEncreBloc": 377,
+    "ecartAuPied": 133,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "vanne-3e-personne": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "content": "Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze.",
+    "punchline": "Depuis, on se surveille.",
+    "corps": 48,
+    "derniereRangeeEncreBloc": 432,
+    "ecartAuPied": 78,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "vanne-longue": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "content": "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine.",
+    "punchline": "Elle a répondu : « oui, mais je n'ai pas pu mettre de like ».",
+    "corps": 40,
+    "derniereRangeeEncreBloc": 437,
+    "ecartAuPied": 73,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "vanne-repli": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "repli": "vanne introuvable ou base en erreur : carte de marque",
+    "derniereRangeeEncreBloc": 420,
+    "ecartAuPied": 90,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  },
+  "vanne-400-car-repli-marque": {
+    "largeur": 1200,
+    "hauteur": 630,
+    "content": "Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances. Mon collègue raconte ses vacances.",
+    "punchline": "Ça fait deux heures. On en est à l'aéroport. Ça fait deux heures. On en est à l'aéroport. Ça fait deux heures. On en est à l'aéroport.",
+    "corps": null,
+    "derniereRangeeEncreBloc": 420,
+    "ecartAuPied": 90,
+    "pixelsEncreBasGauche": 0,
+    "bordDroitPied": 1118,
+    "fondUni": true
+  }
+}
