@@ -10,6 +10,10 @@ export default function robots(): MetadataRoute.Robots {
     "/onboarding",
     "/profil",
     "/favoris",
+    // Audit Ahrefs 07/10/2026 : ~950 variantes /register?callbackUrl=… (noindex)
+    // et /abonnement?returnTo=… crawlées ; /abonnement nu reste explorable.
+    "/register",
+    "/abonnement?",
   ];
 
   return {

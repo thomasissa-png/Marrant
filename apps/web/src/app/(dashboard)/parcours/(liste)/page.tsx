@@ -7,7 +7,7 @@ import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
-import { DEFAULT_OG_IMAGE, fitTitle } from "@/lib/seo-meta";
+import { fitTitle, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import { buildParcoursItemListJsonLd } from "@/lib/parcours-jsonld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
@@ -39,8 +39,8 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: PAGE_URL },
   // SEO-02 : aperçu de partage de /parcours (il pointait vers l'accueil).
-  openGraph: { title: TITLE, description: DESCRIPTION, url: PAGE_URL, images: [DEFAULT_OG_IMAGE] },
-  twitter: { card: "summary_large_image", title: TITLE, description: DESCRIPTION, images: [DEFAULT_OG_IMAGE.url] },
+  openGraph: websiteOpenGraph({ title: TITLE, description: DESCRIPTION, url: PAGE_URL }),
+  twitter: websiteTwitter({ title: TITLE, description: DESCRIPTION }),
 };
 
 export default async function ParcoursPage() {

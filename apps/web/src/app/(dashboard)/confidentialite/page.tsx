@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
-  description: "Politique de confidentialité de deviens-marrant.fr : données collectées, finalités, base légale, prestataires, mesure d'audience sans cookie, durée de conservation et exercice de tes droits RGPD.",
+  description: "Politique de confidentialité : quelles données on collecte, pourquoi, et comment exercer tes droits RGPD. Mesure d'audience sans cookie ni bandeau.",
 };
 
 /**

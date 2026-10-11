@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { JsonLd, buildBreadcrumbJsonLd, buildCollectionPageJsonLd } from "@/components/seo/json-ld";
@@ -34,7 +34,8 @@ export async function generateMetadata({ params, searchParams }: ThemePageProps)
     title: theme.title,
     description: theme.description,
     alternates: { canonical },
-    openGraph: { title: theme.title, description: theme.description, url: canonical, locale: "fr_FR", type: "website" },
+    openGraph: websiteOpenGraph({ title: theme.title, description: theme.description, url: canonical }),
+    twitter: websiteTwitter({ title: theme.title, description: theme.description }),
   };
 }
 

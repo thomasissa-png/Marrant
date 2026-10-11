@@ -81,6 +81,33 @@ export const DEFAULT_OG_IMAGE = {
 } as const;
 
 /**
+ * `openGraph` complet d'une page « website » (audit Ahrefs 07/10/2026 : 15 pages
+ * sans og:type ou og:image). Un `openGraph` de page remplace celui du layout en
+ * entier : type, locale, siteName et image par défaut sont donc reposés ici.
+ */
+export function websiteOpenGraph(og: {
+  title: string;
+  description: string;
+  url: string;
+}): NonNullable<Metadata["openGraph"]> {
+  return {
+    type: "website",
+    locale: "fr_FR",
+    siteName: "deviens-marrant.fr",
+    images: [DEFAULT_OG_IMAGE],
+    ...og,
+  };
+}
+
+/**
+ * `twitter` propre à la page : sans lui, la page hérite du titre et de la
+ * description Twitter de l'accueil (layout racine).
+ */
+export function websiteTwitter(tw: { title: string; description: string }): NonNullable<Metadata["twitter"]> {
+  return { card: "summary_large_image", images: [DEFAULT_OG_IMAGE.url], ...tw };
+}
+
+/**
  * Consignes robots d'une page introuvable (404). Seul `notFound()` pose la
  * consigne (`noindex` de Next) : une seule balise robots.
  * - `robots: null` retire le « index, follow » (et googleBot) du layout racine ;

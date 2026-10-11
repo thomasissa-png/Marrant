@@ -11,7 +11,7 @@
 //   qu'on apprend, format, une phrase « pourquoi », XP). Un abonné reçoit le contenu complet
 //   via /api/parcours/by-slug après hydratation (plan vérifié en base).
 import type { Metadata } from "next";
-import { fitDescription, fitTitle, DEFAULT_OG_IMAGE, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { fitDescription, fitTitle, NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { prisma } from "@/lib/prisma";
@@ -109,13 +109,8 @@ function shareMetadata(slug: string, title: string, description: string): Metada
     description: fitDescription(description),
     alternates: { canonical: url },
     // SEO-02 : aperçu de partage propre à la page (og ET twitter, sinon ceux de l'accueil).
-    openGraph: { title, description: fitDescription(description), url, images: [DEFAULT_OG_IMAGE] },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: fitDescription(description),
-      images: [DEFAULT_OG_IMAGE.url],
-    },
+    openGraph: websiteOpenGraph({ title, description: fitDescription(description), url }),
+    twitter: websiteTwitter({ title, description: fitDescription(description) }),
   };
 }
 

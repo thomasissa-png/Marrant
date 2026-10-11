@@ -9,6 +9,7 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getDailyJoke } from "@/lib/daily-joke";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { frTypo } from "@/lib/fr-typo";
+import { websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 
 // Stratégie de rendu : ISR 10 min. La vanne du jour change à minuit UTC (même
 // source que /api/daily : DailyContent du jour, sinon repli déterministe). Sans
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   alternates: { canonical: PAGE_URL },
-  openGraph: { title: TITLE, description: DESCRIPTION, url: PAGE_URL, locale: "fr_FR", type: "website" },
+  openGraph: websiteOpenGraph({ title: TITLE, description: DESCRIPTION, url: PAGE_URL }),
+  twitter: websiteTwitter({ title: TITLE, description: DESCRIPTION }),
 };
 
 /** FAQ validée (docs/copy/landings-s14.md) ; compteur dynamique, jamais figé. */

@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo-meta";
+import { websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+
+/** Aperçu de partage (og ET twitter, sinon twitter reprend celui de l'accueil). */
+const SHARE = {
+  title: "Anatomie d'une vanne : la science du rire en 3 parties",
+  description:
+    "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
+};
 
 export const metadata: Metadata = {
   title: { absolute: "Anatomie d'une vanne : setup, pivot et punchline" },
@@ -23,13 +30,8 @@ export const metadata: Metadata = {
     "écrire une vanne",
   ],
   alternates: { canonical: "https://deviens-marrant.fr/anatomie-vanne" },
-  openGraph: {
-    title: "Anatomie d'une vanne : la science du rire en 3 parties",
-    description:
-      "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
-    url: "https://deviens-marrant.fr/anatomie-vanne",
-    images: [DEFAULT_OG_IMAGE],
-  },
+  openGraph: websiteOpenGraph({ ...SHARE, url: "https://deviens-marrant.fr/anatomie-vanne" }),
+  twitter: websiteTwitter(SHARE),
 };
 
 const anatomyFaqs = [
