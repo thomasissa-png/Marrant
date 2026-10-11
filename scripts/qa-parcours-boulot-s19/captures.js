@@ -47,8 +47,22 @@ async function margesCarte(page) {
   });
 }
 
-/** Rendu itération 4 (point 1) : quiz d'orientation de /parcours, « Au boulot… » puis la réponse q2. */
-async function quizOrientation(browser, w, q2, attendu, nom, dir) {
+/** Rendu itération 5 (S15 @ux) : raison du quiz et de l'onboarding vers Boulot, la même pour les 3 réponses. */
+const RAISON_BOULOT = "Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un.";
+
+/** Capture d'élément découpée dans la pleine page, en-tête collant neutralisé (comme `shot`). */
+async function clipTo(page, dir, nom, loc) {
+  await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
+  await loc.scrollIntoViewIfNeeded().catch(() => {});
+  await page.waitForTimeout(300);
+  const box = await loc.evaluate((el) => { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height }; });
+  await page.screenshot({ path: path.join(dir, nom + '.png'), fullPage: true, clip: box });
+  console.log('CAPTURE ' + (dir === OUT ? '' : 'regression/') + nom + '.png');
+}
+
+/** Rendu itération 4 (point 1) : quiz d'orientation de /parcours, « Au boulot… » puis la réponse q2.
+ *  Itération 5 : `raison` (S15) contrôlée mot pour mot si fournie, absente sinon. */
+async function quizOrientation(browser, w, q2, attendu, nom, dir, raison = null) {
   const ctx = await ctxFor(browser, w);
   const page = await ctx.newPage();
   await go(page, `${BASE}/parcours`);
@@ -58,14 +72,81 @@ async function quizOrientation(browser, w, q2, attendu, nom, dir) {
   const res = page.getByText('Ton point de départ :').first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
   const t = (await res.innerText().catch(() => '')).replace(/\s+/g, ' ');
   ok(`[quiz ${w}] « Au boulot » + ${q2} : ${attendu}`, t.includes(attendu), t.slice(0, 200));
-  const f = path.join(dir, nom + '.png');
-  await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
-  await res.scrollIntoViewIfNeeded().catch(() => {});
-  const box = await res.evaluate((el) => { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height }; });
-  await page.screenshot({ path: f, fullPage: true, clip: box });
-  console.log('CAPTURE ' + (dir === OUT ? '' : 'regression/') + nom + '.png');
+  if (raison) ok(`[quiz ${w}] « Au boulot » + ${q2} : raison « ${raison.slice(0, 40)}… »`, norm(t).includes(norm(raison)), t.slice(0, 220));
+  else ok(`[quiz ${w}] « Au boulot » + ${q2} : pas la raison de Boulot`, !norm(t).includes(norm(RAISON_BOULOT)));
+  await clipTo(page, dir, nom, res);
   ok(`[quiz ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
   await ctx.close();
+}
+
+/** Rendu itération 5 (N-3 @design, réserve §7 @ux) : icône de « Au boulot » à la Q1, puis l'écran de Q2. */
+async function quizQ1Q2(browser, w, icone, dir, prefixe) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await go(page, `${BASE}/parcours`);
+  const btn = page.getByRole('button', { name: /Au boulot, en réunion, à la pause/ });
+  const ic = (await btn.locator('span[aria-hidden="true"]').first().innerText().catch(() => '')).trim();
+  ok(`[quiz ${w}] Q1 : icône de « Au boulot » = ${icone}`, ic.includes(icone) && !(icone === '☕' ? /💼/ : /☕/).test(ic), `icône=${ic}`);
+  const carte = (titre) => page.getByRole('heading', { name: titre }).first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+  await clipTo(page, dir, `${prefixe}-quiz-orientation-q1-icone`, carte('Dans quelle situation tu voudrais être plus drôle ?'));
+  await btn.click();
+  await page.waitForTimeout(500);
+  const q2 = carte("Qu'est-ce qui coince le plus ?");
+  const t = (await q2.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  ok(`[quiz ${w}] Q2 après « Au boulot » : « Question 2/2 » et les 3 réponses`, /Question 2\/2/.test(t)
+    && /rien de drôle à raconter/.test(t) && /quoi répondre sur le moment/.test(t) && /perdu confiance en moi/.test(t), t.slice(0, 220));
+  await clipTo(page, dir, `${prefixe}-quiz-orientation-q2-apres-boulot`, q2);
+  ok(`[quiz ${w}] Q1, Q2 : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+/** Rendu itération 5 (réserve §7 @ux) : onboarding « Tout ça à la fois » + « Au boulot », résultat. */
+async function onboardingToutBoulot(browser, w, email, attendu, raison, dir, nom) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await login(page, email);
+  await go(page, `${BASE}/onboarding`);
+  await page.getByRole('button', { name: /Tout ça à la fois/ }).click();
+  await page.waitForTimeout(300);
+  await page.getByRole('button', { name: /Au boulot \/ machine à café/ }).click();
+  await page.waitForTimeout(300);
+  await page.getByRole('button', { name: /Parfois ça marche/ }).click();
+  const boite = page.getByText('Ton point de départ :').first().locator('xpath=..');
+  await boite.waitFor({ timeout: 15000 }).catch(() => {});
+  const t = (await boite.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  ok(`[onboarding ${w}] « Tout ça à la fois » + « Au boulot » : ${attendu}`, t.includes(attendu)
+    && (raison ? norm(t).includes(norm(raison)) : !norm(t).includes(norm(RAISON_BOULOT))), t.slice(0, 220));
+  await clipTo(page, dir, nom, boite);
+  ok(`[onboarding ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+/** Rendu itération 5 (H @design, S17 @ux) : ni « : ; ? ! » » en tête de ligne, ni pronom coupé après « -⁠ ». */
+async function typoLignes(loc) {
+  return loc.evaluate((root) => {
+    const NBSP = String.fromCharCode(0xa0);
+    const GLUON = String.fromCharCode(0x2060);
+    const res = { tete: [], coupes: [], insecables: 0, gluons: 0 };
+    const rect = (n, i) => { const r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + 1); return r.getClientRects()[0]; };
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    for (let n = w.nextNode(); n; n = w.nextNode()) {
+      const t = n.textContent;
+      for (let i = 1; i < t.length; i++) {
+        if (/[:;?!»]/.test(t[i])) {
+          if (t[i - 1] === NBSP) res.insecables++;
+          let j = i - 1; while (j >= 0 && /\s/.test(t[j])) j--;
+          const a = j >= 0 && rect(n, j); const b = rect(n, i);
+          if (a && b && b.top > a.top + 4) res.tete.push(t.slice(Math.max(0, j - 20), i + 8));
+        }
+        if (t[i] === GLUON && t[i - 1] === '-' && i + 1 < t.length) {
+          res.gluons++;
+          const a = rect(n, i - 1); const b = rect(n, i + 1);
+          if (a && b && b.top > a.top + 4) res.coupes.push(t.slice(Math.max(0, i - 15), i + 6));
+        }
+      }
+    }
+    return res;
+  });
 }
 
 let n = 0;
@@ -335,6 +416,28 @@ async function etapePremium(browser, w, k) {
       (await suite.count()) === 1 && /^C.est (réussi|gagné)/.test(suiteTxt) && !/C.est (réussi|gagné)/.test(vsrTxt), suiteTxt.slice(0, 90));
   } else {
     ok(`[premium ${w}] étape ${k} : pas de 3e morceau (repli inchangé)`, (await suite.count()) === 0);
+  }
+  // Rendu itération 5 (S16 @ux) : titre « Version sans risque » en 13 px medium, sous « DÉFI X » en 14 px semi-gras.
+  const tailles = await e.evaluate((el) => {
+    const cs = (n) => (n ? { px: parseFloat(getComputedStyle(n).fontSize), poids: getComputedStyle(n).fontWeight } : null);
+    const vsr = el.querySelector('[data-testid="version-sans-risque"]');
+    return { titre: cs(vsr?.querySelector('p')), defi: cs(vsr?.previousElementSibling?.querySelector('strong')) };
+  });
+  ok(`[premium ${w}] étape ${k} : titre « Version sans risque » en 13 px, plus petit et plus léger que « DÉFI X »`,
+    tailles.titre?.px === 13 && !!tailles.defi && tailles.defi.px > tailles.titre.px && Number(tailles.defi.poids) > Number(tailles.titre.poids),
+    JSON.stringify(tailles));
+  if (k === 2 || k === 6) {
+    // Rendu itération 5 (G @design) : le critère se détache du repli (marge plus franche que défi → repli).
+    const ecarts = await e.evaluate((el) => {
+      const vsr = el.querySelector('[data-testid="version-sans-risque"]');
+      const s = el.querySelector('[data-testid="defi-suite"]');
+      const defi = vsr?.previousElementSibling;
+      if (!vsr || !s || !defi) return null;
+      const r = (n) => n.getBoundingClientRect();
+      return { defiRepli: Math.round(r(vsr).top - r(defi).bottom), repliCritere: Math.round(r(s).top - r(vsr).bottom), poids: getComputedStyle(s).fontWeight };
+    });
+    ok(`[premium ${w}] étape ${k} : critère détaché du repli (marge > défi → repli), sans gras`,
+      !!ecarts && ecarts.repliCritere > ecarts.defiRepli && Number(ecarts.poids) < 500, JSON.stringify(ecarts));
   }
   const allerDefi = e.getByRole('link', { name: 'Aller au défi' });
   const hLien = await allerDefi.evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
@@ -676,6 +779,33 @@ async function regPremium(browser, w, p) {
       clip: { x: Math.min(a.x, z.x), y: a.y, width: Math.max(a.w, z.w), height: z.bas - a.y } });
     console.log(`CAPTURE regression/${p.slug}-${w}-premium-etape${k}-exemple-defi.png`);
   }
+  // Rendu itération 5 (H @design, S17 @ux) : typographie française sur les 4 parcours en ligne, mesurée ligne à ligne.
+  const typo = await typoLignes(e);
+  ok(`[reg ${p.slug} premium ${w}] étape ${k} : typographie, aucun « : ; ? ! » » en tête de ligne, aucun pronom coupé`,
+    typo.tete.length === 0 && typo.coupes.length === 0,
+    `insécables=${typo.insecables} gluons=${typo.gluons} tête=${JSON.stringify(typo.tete)} coupes=${JSON.stringify(typo.coupes)}`);
+  const NBSP = String.fromCharCode(0xa0); const GLUON = String.fromCharCode(0x2060);
+  const brut = await e.evaluate((el) => el.textContent);
+  if (p.slug === 'machine-a-cafe') {
+    ok(`[reg ${p.slug} premium ${w}] étape ${k} : « tu ne dis rien : tu laisses » et « très calme : » liés par une insécable`,
+      brut.includes(`tu ne dis rien${NBSP}: tu laisses`) && brut.includes(`très calme${NBSP}:`));
+  }
+  if (p.slug === 'confiance') {
+    ok(`[reg ${p.slug} premium ${w}] étape ${k} : « réécris-le » et « Écris-le » protégés (gluon)`,
+      brut.includes(`réécris-${GLUON}le`) && brut.includes(`Écris-${GLUON}le`));
+  }
+  if (w === 375 && (p.slug === 'machine-a-cafe' || p.slug === 'confiance')) {
+    // Du « Conseil » au bas de « Exercice pratique » : tous les textes touchés par la typographie à l'étape 2.
+    const conseil = e.locator('h4', { hasText: 'Le conseil' }).first().locator('xpath=..');
+    await page.addStyleTag({ content: 'header, [data-sticky], .sticky { position: static !important; }' }).catch(() => {});
+    await exo.scrollIntoViewIfNeeded().catch(() => {});
+    await page.waitForTimeout(300);
+    const b = async (l) => l.evaluate((el) => { const r = el.getBoundingClientRect(); return { x: r.left + window.scrollX, y: r.top + window.scrollY, w: r.width, bas: r.bottom + window.scrollY }; });
+    const a = await b((await conseil.count()) ? conseil : exemple); const z = await b(exo);
+    await page.screenshot({ path: path.join(REG_DIR, `${p.slug}-${w}-premium-etape${k}-typographie.png`), fullPage: true,
+      clip: { x: Math.min(a.x, z.x), y: a.y, width: Math.max(a.w, z.w), height: z.bas - a.y } });
+    console.log(`CAPTURE regression/${p.slug}-${w}-premium-etape${k}-typographie.png`);
+  }
   await waitThumbs(page, e);
   await regShot(page, `${p.slug}-${w}-premium-etape${k}`, e);
   ok(`[reg ${p.slug} premium ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
@@ -736,6 +866,9 @@ async function regression() {
     [/quoi répondre sur le moment/, 'Parcours Répartie', 'repondre'], [/perdu confiance en moi/, 'Parcours Confiance', 'confiance']]) {
     await quizOrientation(browser, 375, q2, attendu, `quiz-orientation-375-boulot-masque-${nom}`, REG_DIR);
   }
+  // Rendu itération 5 : Boulot masqué, l'icône reste ☕ et l'onboarding « Tout ça » + « Au boulot » reste Machine à Café.
+  await quizQ1Q2(browser, 375, '☕', REG_DIR, 'quiz-375-boulot-masque');
+  await onboardingToutBoulot(browser, 375, 'qa-r0-375@local.test', 'Parcours Machine à Café', null, REG_DIR, 'onboarding-375-tout-boulot-masque-resultat');
   for (const w of [375, 1280]) await regCarteProgression(browser, w, REG_PARCOURS.find((p) => p.slug === 'repartie'));
   for (const w of [375, 1280]) {
     await regHub(browser, w);
@@ -764,9 +897,13 @@ if (process.env.QA_REGRESSION === '1') {
       await finAutreParcours(browser, w, 'qa-bmac@local.test', 'machine-a-cafe', 'boulot', 'fin-machine-a-cafe-boulot-publie');
       await finAutreParcours(browser, w, 'qa-bmacstory@local.test', 'storytelling', 'repartie', 'fin-storytelling-apres-machine-a-cafe');
       // Rendu itération 4 (point 1) : Boulot publié, « Au boulot » mène à Boulot quelle que soit la 2e réponse.
+      // Itération 5 : raison S15 identique pour les 3, icône 💼 (N-3), écran de Q2, onboarding « Tout ça » + « Au boulot ».
+      ok('[quiz] la raison de Boulot est la fin de la description validée de la fiche', DATA.description.endsWith(RAISON_BOULOT));
+      await quizQ1Q2(browser, w, '💼', OUT, `visiteur-${w}`);
       for (const [q2, nom] of [[/rien de drôle à raconter/, 'raconter'], [/quoi répondre sur le moment/, 'repondre'], [/perdu confiance en moi/, 'confiance']]) {
-        await quizOrientation(browser, w, q2, 'Parcours Boulot', `visiteur-${w}-quiz-orientation-boulot-${nom}`, OUT);
+        await quizOrientation(browser, w, q2, 'Parcours Boulot', `visiteur-${w}-quiz-orientation-boulot-${nom}`, OUT, RAISON_BOULOT);
       }
+      await onboardingToutBoulot(browser, w, `qa-b${w}@local.test`, 'Parcours Boulot', RAISON_BOULOT, OUT, `premium-${w}-onboarding-tout-boulot-resultat`);
     }
     await hub(browser, w, 'visiteur', null);
     await hub(browser, w, 'premium', `qa-b${w}@local.test`);

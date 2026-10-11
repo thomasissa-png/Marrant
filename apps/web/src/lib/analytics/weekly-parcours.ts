@@ -47,6 +47,9 @@ export const PARCOURS_EVENTS = [
   "parcours-termine",
   "parcours-erreur",
   "orientation-resultat",
+  // s19 iter 5 (S18 @ux) : lien vers l'étape à faire (carte de progression) et « Aller au défi » (Boulot).
+  "lien-etape-clic",
+  "defi-lien-clic",
 ] as const;
 
 const num = (v: unknown) => (v === null || v === undefined ? 0 : Number(v));
@@ -217,6 +220,8 @@ export function buildParcoursSectionHtml(w: WeeklyParcours): string {
     ["Quiz d'étape terminés (quiz-etape-termine)", ev("quiz-etape-termine")],
     ["Murs vus (mur-vu, tous types)", ev("mur-vu")],
     ["Orientation terminée (orientation-resultat)", ev("orientation-resultat")],
+    ["Lien vers l'étape à faire cliqué (lien-etape-clic)", ev("lien-etape-clic")],
+    ["« Aller au défi » cliqué (defi-lien-clic)", ev("defi-lien-clic")],
     ["Activation : étape 1 validée dans les 48 h", d ? surDe(d.activation.actives48h, d.activation.eligibles) : NA],
     ["Passage d'étape en étape (abonnés)", d ? lignesPassage(d.passage) : NA],
     ["Parcours terminés sur commencés", completion],

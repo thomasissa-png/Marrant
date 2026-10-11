@@ -171,3 +171,42 @@ Rien déployé, rien écrit en base de prod, rien commité. `BOULOT_PUBLIE = fal
 - `npm run lint` : 0 erreur, 1 avertissement préexistant (`src/app/admin/page.tsx`, `<img>`).
 - Jest complet : 283 suites passées, 1 ignorée ; 4 069 tests passés, 4 ignorés.
 - `npm run build` (interrupteur à `false`) : réussi.
+
+## Rendu itération 5 (s19, 11/10/2026, @fullstack) : arbitrages de la session par délégation de Thomas (« Go tout est ok »), après `iterations/rendu-iter-4-design.md` (10 / 10) et `rendu-iter-4-ux.md` (9,5 / 10)
+
+Rien déployé, rien écrit en base de prod, rien commité. `BOULOT_PUBLIE = false` et `STORYTELLING_PUBLIE = true` dans le fichier commité (`parcours-publication.ts` non modifié). Un seul texte change, la raison du quiz vers Boulot (arbitrage 1, phrase déjà validée). Aucun texte de contenu (conseils, défis, vannes, scènes, quiz) changé. Pas de tiret cadratin ajouté.
+
+### Corrections
+
+1. **Raison du quiz vers Boulot (S15 @ux)**, `lib/parcours-orientation.ts` : `RAISON_BOULOT` = « Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un. », dernière phrase de la `description` validée de la fiche B. La même pour les 3 deuxièmes réponses, et pour l'onboarding (« Tout ça à la fois » + « Au boulot / machine à café »), qui passe par la même fonction.
+2. **Icône de la réponse « Au boulot, en réunion, à la pause » (N-3 @design)** : `emojiReponseBoulot(boulotPublie = BOULOT_PUBLIE)` dans `lib/parcours-orientation.ts`, lue au rendu par `parcours-content.tsx` : 💼 (icône de la carte Boulot) une fois publié, ☕ sinon. Les deux autres réponses ne changent pas. L'onboarding garde ☕ sur « Au boulot / machine à café » (hors arbitrage).
+3. **Typographie française sur les 3 anciens parcours (H @design, S17 @ux)** : condition sur le slug retirée partout où elle restait, comme pour le défi en gras :
+   - `parcours-step-card.tsx` : `prose` (conseil, exemple, défi) et `texteEtape` (« Pourquoi cette étape ? », « Ce que tu vas apprendre ») passent par `frTypoParcours` pour tous les parcours ;
+   - `step-blocks.tsx` (aperçu verrouillé) et `parcours-content.tsx` (« Programme » du hub) : idem ;
+   - vannes, quiz d'étape, vidéos et accroches l'étaient déjà (`frTypoParcours` / `frTypoTexte` sans condition depuis l'itération 3).
+   Seuls des espaces insécables (U+00A0) et des gluons invisibles (U+2060) sont posés au rendu : texte stocké inchangé. Aucun bouton « copier » sur les pages de parcours (Grep `clipboard` : 0 dans `components/parcours`). Les tests comparent le texte rendu nettoyé (`plain`) au texte stocké, au caractère près.
+4. **Titre « Version sans risque » (S16 @ux, N-1 @design)** : 12 → **13 px** (`text-[13px] leading-5 font-medium text-text-secondary`). 14 px égalerait la taille de « DÉFI X » (14 px semi-gras blanc) et du texte du repli (14 px gris) : le titre ne s'en distinguerait plus que par la graisse, donc pas « nettement plus discret ». Tokens de couleur inchangés.
+5. **Critère sous l'encadré (G @design)** : marge haute 12 → **20 px** (`mt-5`), contre 12 px entre défi et repli (`mt-3`). Texte et graisse inchangés (aucun semi-gras).
+6. **Rapport du lundi (S18 @ux)**, `lib/analytics/weekly-parcours.ts` : `lien-etape-clic` et `defi-lien-clic` ajoutés à `PARCOURS_EVENTS` et au tableau HTML (« Lien vers l'étape à faire cliqué (lien-etape-clic) », « « Aller au défi » cliqué (defi-lien-clic) »), même format que les lignes existantes (chiffre absolu, `n.d.` si Umami indisponible).
+
+### Tests
+
+- `__tests__/feature/parcours-orientation-boulot.test.tsx` : raison exacte pour les 3 réponses, ancienne raison absente ; icône ☕ (interrupteur à false) et 💼 (à true), autres icônes inchangées.
+- `__tests__/api/parcours-s17-lot-b.test.ts` : raison identique pour les 3 réponses et fin exacte de la `description` de la fiche.
+- `__tests__/feature/parcours-list.test.tsx` : verdict selon l'état réel de l'interrupteur, nouvelle raison.
+- `__tests__/feature/parcours-rendu-s19-iter4.test.tsx` : titre en 13 px, ni `text-xs` ni `text-sm`, moins gras que « DÉFI X » ; critère en `mt-5` contre `mt-3` pour le repli, sans gras ; défi des anciens parcours comparé après nettoyage.
+- `__tests__/feature/parcours-rendu-s19-iter5.test.tsx` (neuf, 9 tests) : textes cités par @design et @ux pris dans `conseils-seed.json` (exemple 63 de Machine à Café, défi 2 de Confiance), insécable avant « : », gluon dans « réécris-le » et « Écris-le », « Pourquoi cette étape ? », « Ce que tu vas apprendre » et aperçu verrouillé protégés sur les 3 parcours, texte nettoyé = texte stocké.
+- `__tests__/lib/parcours-analytics-s17.test.ts` : 2 événements comptés et affichés.
+
+### Captures (instance locale jetable, jamais la prod)
+
+- `captures.sh` (passe Boulot complète, ordre de la prod, build forcé à `true` puis remis à `false`) : **245 PASS, 0 FAIL, 110 captures** (107 refaites, 3 ajoutées : Q1 du quiz avec l'icône 💼, écran de Q2 après « Au boulot », résultat de l'onboarding « Tout ça à la fois » + « Au boulot » = Parcours Boulot, en 375). Contrôles neufs : raison S15 mot pour mot sur les 3 deuxièmes réponses et sur l'onboarding ; titre « Version sans risque » mesuré à 13 px / 500 contre 14 px / 600 pour « DÉFI X » (étapes 2 à 6, 3 largeurs) ; critère des étapes 2 et 6 à 20 px sous le repli contre 12 px entre défi et repli, graisse 400 (3 largeurs). « Aller au défi » après le clic (375) : « Exercice pratique » à 112 px, sous l'en-tête de 65 px.
+- `captures.sh --regression` (build à `false`, état de la prod) : **209 PASS, 0 FAIL, 94 captures** (89 refaites, 5 ajoutées : Q1 avec ☕ et Q2 avec Boulot masqué, onboarding « Tout ça » + « Au boulot » = Machine à Café comme avant, étape 2 de Machine à Café et de Confiance en 375 du conseil au défi). Contrôle ligne à ligne sur l'étape 2 des 4 parcours en ligne (375 et 1280) : 0 ponctuation haute en tête de ligne, 0 pronom coupé ; « tu ne dis rien : tu laisses », « très calme : », « Écris-le », « réécris-le » protégés.
+- Les deux runs : `BOULOT_PUBLIE` à `false` en sortie, `git diff` de l'interrupteur vide, `STORYTELLING_PUBLIE` inchangé, aucune variable sensible dans l'environnement de l'app (contrôle du script). Index : `docs/qa/captures-parcours-boulot-s19/index.md` et `regression/index.md`.
+
+### Résultats (11/10, depuis `apps/web`)
+
+- `npx tsc --noEmit -p tsconfig.build.json` : 0 erreur.
+- `npm run lint` : 0 erreur, 1 avertissement préexistant (`src/app/admin/page.tsx`, `<img>`).
+- Jest complet : 284 suites passées, 1 ignorée ; 4 085 tests passés, 4 ignorés.
+- `npm run build` (interrupteur à `false`) : réussi.

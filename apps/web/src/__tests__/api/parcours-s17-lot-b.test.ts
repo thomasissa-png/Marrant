@@ -289,8 +289,12 @@ describe("s19 point 1 : « Au boulot » oriente vers Boulot seulement si BOULOT_
     expect(recommendParcours(["global", "confiance"], true).slug).toBe("confiance");
   });
 
-  it("la raison reprend la phrase validée de la fiche Boulot (personaTagline)", () => {
-    expect(recommendParcours(["work", "content"], true).reason).toBe(`${boulotS19.parcours.personaTagline}.`);
+  // s19 iter 5 (S15 @ux) : la raison est la dernière phrase de la description validée de la fiche Boulot,
+  // vraie pour les 3 deuxièmes réponses, identique pour les 3.
+  it.each(SECONDE)("la raison reprend la fin de la description validée de la fiche Boulot (work + %s)", (q2) => {
+    const reason = recommendParcours(["work", q2], true).reason;
+    expect(reason).toBe("Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un.");
+    expect(boulotS19.parcours.description.endsWith(reason)).toBe(true);
   });
 });
 

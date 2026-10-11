@@ -87,7 +87,8 @@ describe("point 4 : défi en gras et exemple en paragraphes, tous les parcours",
     expect(screen.getByText("DÉFI IRONIE DOUCE").tagName).toBe("STRONG");
     expect(screen.getByText("Ligne une").tagName).toBe("P");
     expect(screen.getByText("Ligne deux").tagName).toBe("P");
-    expect(container.textContent).toContain("DÉFI IRONIE DOUCE : la prochaine fois qu'un proche fait un truc raté, commente-le.");
+    // s19 iter 5 : typographie française sur tous les parcours, le texte nettoyé des insécables et gluons est intact.
+    expect(plain(container.textContent)).toContain("DÉFI IRONIE DOUCE : la prochaine fois qu'un proche fait un truc raté, commente-le.");
     expect(screen.queryByTestId("version-sans-risque")).toBeNull();
     expect(screen.queryByRole("link", { name: "Aller au défi" })).toBeNull();
   });
@@ -100,13 +101,27 @@ describe("point 4 : défi en gras et exemple en paragraphes, tous les parcours",
 });
 
 describe("Boulot : « Version sans risque » en retrait, critère commun hors de l'encadré", () => {
-  it("encadré en pointillés neutres, titre en 12 px sous le « DÉFI X » en 14 px", () => {
+  it("encadré en pointillés neutres, titre en 13 px (iter 5, S16) sous le « DÉFI X » en 14 px semi-gras", () => {
     carte("boulot");
     const encadre = screen.getByTestId("version-sans-risque");
     expect(encadre.className).toContain("border-dashed");
     expect(encadre.className).not.toContain("bg-accent-primary");
-    expect(within(encadre).getByText("Version sans risque").className).toContain("text-xs");
+    const titre = within(encadre).getByText("Version sans risque").className;
+    expect(titre).toContain("text-[13px]");
+    expect(titre).not.toMatch(/\btext-(xs|sm)\b/);
+    expect(titre).not.toContain("font-semibold");
+    expect(screen.getByText(/^DÉFI /).className).toContain("font-semibold");
     expect(screen.queryByTestId("defi-suite")).toBeNull();
+  });
+
+  it("iter 5 (G) : critère détaché du repli par une marge plus franche (20 px contre 12 px), sans gras", () => {
+    carte("boulot", { step: step(2, boulot._meta.conseils[1].exercise) });
+    const suite = screen.getByTestId("defi-suite");
+    expect(screen.getByTestId("version-sans-risque").className).toContain("mt-3");
+    expect(suite.className).toContain("mt-5");
+    expect(suite.className).not.toContain("mt-3");
+    expect(suite.className).not.toMatch(/font-(semibold|bold|medium)/);
+    expect(suite.querySelector("strong")).toBeNull();
   });
 
   it.each([

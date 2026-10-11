@@ -179,7 +179,7 @@ describe("ParcoursPage — Parcours structurés", () => {
     expect(
       screen.getByText(
         BOULOT_PUBLIE
-          ? /le lundi à 9 h, tu prends un ton de compte rendu/
+          ? /une version sans risque au boulot, et ta vanne vise toujours la situation/
           : "Tu veux avoir de quoi raconter à la pause, autre chose que la météo.",
       ),
     ).toBeInTheDocument();

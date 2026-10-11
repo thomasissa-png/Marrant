@@ -353,12 +353,11 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   useEffect(() => {
     if (erreurValidation && !completing) validerRef.current?.focus();
   }, [erreurValidation, completing]);
-  // s18 (D3 @ux) : typographie française (espaces insécables) sur les textes du conseil, Storytelling seulement
-  // pour l'instant (les 3 autres parcours gardent leur rendu s17). s19 : Boulot aussi (import-boulot.md §5.2),
-  // avec `why` et `moduleDetail` (« 9 h 50 », « 16 h 40 »… et avant « : »), textes stockés sans insécables.
-  const typoFr = slug === "storytelling" || slug === "boulot";
-  const prose = (t: string) => (typoFr ? frTypoParcours(tipProse(t)) : tipProse(t));
-  const texteEtape = (t: string) => (slug === "boulot" ? frTypoParcours(t) : t);
+  // s18 (D3 @ux) : typographie française (espaces insécables, gluons) sur les textes du conseil et de l'étape
+  // (`why`, `moduleDetail`). s19 iter 5 (H @design, S17 @ux) : tous les parcours, comme le défi en gras.
+  // Seuls des caractères invisibles ou des espaces insécables sont posés : texte stocké inchangé.
+  const prose = (t: string) => frTypoParcours(tipProse(t));
+  const texteEtape = frTypoParcours;
   // s18 (D5 @ux) : défi en base suivi d'un second défi après une ligne vide (callback, étape 6).
   const exercice = step.tip.exercise ?? "";
   const coupure = step.exerciceSecondTitre ? exercice.indexOf("\n\n") : -1;
@@ -442,15 +441,19 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
                   </p>
                 </div>
                 {repli && (
-                  // s19 iter 4 (N-b @design) : titre en 12 px medium gris, sous le « DÉFI X » en 14 px semibold blanc.
+                  // s19 iter 4 (N-b @design) : titre medium gris, sous le « DÉFI X » en 14 px semibold blanc.
+                  // s19 iter 5 (S16 @ux, N-1 @design) : 12 → 13 px. 14 px égalerait la taille du « DÉFI X » et du
+                  // texte du repli, le titre ne s'en distinguerait plus que par la graisse : 13 px garde l'écart.
                   <div className={`mt-3 ${ENCADRE_REPLI}`} data-testid="version-sans-risque">
-                    <p className="mb-1 text-xs font-medium text-text-secondary">{DEFI_BOULOT.versionSansRisque}</p>
+                    <p className="mb-1 text-[13px] font-medium leading-5 text-text-secondary">{DEFI_BOULOT.versionSansRisque}</p>
                     <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">{repli[1]}</p>
                   </div>
                 )}
-                {/* s19 iter 4 (@copywriter) : critère commun aux deux versions, sous l'encadré, au corps du défi. */}
+                {/* s19 iter 4 (@copywriter) : critère commun aux deux versions, sous l'encadré, au corps du défi.
+                    s19 iter 5 (G @design) : marge haute de 20 px (12 px entre défi et repli), le critère ne se lit
+                    plus comme rattaché au repli ; texte et graisse inchangés. */}
                 {repli && repli[2] !== "" && (
-                  <p className="mt-3 whitespace-pre-line text-sm leading-6 text-text-secondary" data-testid="defi-suite">
+                  <p className="mt-5 whitespace-pre-line text-sm leading-6 text-text-secondary" data-testid="defi-suite">
                     {repli[2]}
                   </p>
                 )}

@@ -13,6 +13,19 @@ export interface ParcoursRecommendation {
   reason: string;
 }
 
+/** Raison affichée quand le quiz ou l'onboarding mène à Boulot. */
+export const RAISON_BOULOT =
+  "Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un.";
+
+/**
+ * s19 iter 5 (N-3 @design) : icône de la réponse « Au boulot, en réunion, à la pause » du quiz.
+ * 💼 (celle de la carte Boulot) une fois Boulot publié, sinon ☕ comme avant s19.
+ * Lue au rendu : `boulotPublie` est un paramètre pour les tests.
+ */
+export function emojiReponseBoulot(boulotPublie: boolean = BOULOT_PUBLIE): string {
+  return boulotPublie ? "💼" : "☕";
+}
+
 /**
  * Signaux reconnus : "confiance" | "global" | "repartie" | "social" | "content" | "work".
  * Priorité : Boulot (si publié), puis confiance, puis répartie, sinon Machine à Café.
@@ -30,8 +43,9 @@ export function recommendParcours(
     return {
       slug: "boulot",
       title: "Parcours Boulot",
-      // Phrase validée : `personaTagline` de docs/content/parcours-boulot-s19.json (fiche B), point final ajouté.
-      reason: "Pour toi si tu fais rire tes amis le samedi et que, le lundi à 9 h, tu prends un ton de compte rendu.",
+      // s19 iter 5 (S15 @ux, arbitrage du 11/10) : vraie pour les 3 réponses de Q2. Seconde moitié de
+      // l'accroche validée de la carte Boulot, la même quelle que soit la deuxième réponse.
+      reason: RAISON_BOULOT,
     };
   }
   const namedDifficulty = signals.includes("repartie") || signals.includes("content");

@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
+import { emojiReponseBoulot, recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
@@ -32,6 +32,7 @@ const ORIENTATION_QUESTIONS = [
   {
     question: "Dans quelle situation tu voudrais être plus drôle ?",
     options: [
+      // Icône lue au rendu par `emojiReponseBoulot()` (☕ tant que Boulot est masqué).
       { label: "Au boulot, en réunion, à la pause", value: "work", emoji: "☕" },
       { label: "En soirée, avec mes potes, en coloc", value: "social", emoji: "🎉" },
       { label: "Partout, je veux retrouver ma légèreté", value: "global", emoji: "🌱" },
@@ -123,7 +124,10 @@ function OrientationQuiz({
               onClick={() => handleAnswer(o.value)}
               className="flex flex-1 items-center gap-2 rounded-lg border border-border bg-background-card p-3 text-left text-sm font-medium transition-all hover:border-accent-primary hover:bg-background-elevated active:scale-[0.98]"
             >
-              <span className="text-xl" aria-hidden="true">{withEmojiPresentation(o.emoji)}</span>
+              <span className="text-xl" aria-hidden="true">
+                {/* s19 iter 5 (N-3 @design) : 💼 sur « Au boulot » une fois Boulot publié, ☕ sinon. */}
+                {withEmojiPresentation(o.value === "work" ? emojiReponseBoulot() : o.emoji)}
+              </span>
               {o.label}
             </button>
           ))}
@@ -334,9 +338,10 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                               <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
                             )}
                           </div>
-                          {/* s19 : sauts de paragraphe rendus ; typographie française pour Boulot (import-boulot.md §5). */}
+                          {/* s19 : sauts de paragraphe rendus ; typographie française (import-boulot.md §5),
+                              tous parcours depuis l'iter 5 (H @design, S17 @ux). */}
                           <p className="mt-1 whitespace-pre-line text-sm text-text-secondary">
-                            {p.slug === "boulot" ? frTypoParcours(m.detail) : m.detail}
+                            {frTypoParcours(m.detail)}
                           </p>
                           <p className="mt-1 text-xs text-text-muted">
                             Format : {m.format}

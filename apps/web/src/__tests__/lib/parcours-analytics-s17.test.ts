@@ -13,7 +13,7 @@ jest.mock("@/lib/analytics/umami", () => ({
 }));
 
 import { emailsExclus } from "@/lib/analytics/comptes-test";
-import { buildParcoursSectionHtml, buildWeeklyParcours, type ParcoursDbCounts } from "@/lib/analytics/weekly-parcours";
+import { buildParcoursSectionHtml, buildWeeklyParcours, PARCOURS_EVENTS, type ParcoursDbCounts } from "@/lib/analytics/weekly-parcours";
 import { abonnesSansDemarrage, runParcoursAlertes, suiviMuetActif, type AlertesParcoursDb } from "@/lib/analytics/parcours-alertes";
 
 const CONFIG = { apiKey: "k", websiteId: "w" };
@@ -72,6 +72,20 @@ describe("bloc « Parcours » du lundi", () => {
     expect(html).toContain("3 / 2 (écart 1)");
     expect(html.replace(/<[^>]+>/g, "")).not.toContain("%");
     expect(html).not.toContain("—");
+  });
+
+  it("s19 iter 5 (S18) : lien-etape-clic et defi-lien-clic comptés et affichés", async () => {
+    fetchUmamiMetrics.mockResolvedValue([
+      { x: "lien-etape-clic", y: 7 },
+      { x: "defi-lien-clic", y: 3 },
+    ]);
+    const w = await buildWeeklyParcours(CONFIG, WINDOW, jest.fn().mockResolvedValue(COUNTS), []);
+    expect(PARCOURS_EVENTS).toEqual(expect.arrayContaining(["lien-etape-clic", "defi-lien-clic"]));
+    expect(w.events?.["lien-etape-clic"]).toBe(7);
+    expect(w.events?.["defi-lien-clic"]).toBe(3);
+    const html = buildParcoursSectionHtml(w);
+    expect(html).toMatch(/\(lien-etape-clic\)<\/td><td[^>]*>7<\/td>/);
+    expect(html).toMatch(/\(defi-lien-clic\)<\/td><td[^>]*>3<\/td>/);
   });
 
   it("source en panne : n.d. et avertissement, jamais d'exception", async () => {

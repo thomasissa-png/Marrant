@@ -1,11 +1,16 @@
-# Non-régression des 4 parcours en ligne après 508cd96, 0441569 et les rendus itérations 3 et 4 (s19)
+# Non-régression des 4 parcours en ligne après 508cd96, 0441569 et les rendus itérations 3, 4 et 5 (s19)
 
 Objet : le commit 508cd96 modifie des composants communs (`parcours-detail.tsx`, `parcours-content.tsx`,
 `parcours-step-card.tsx`, `step-blocks.tsx`, `parcours-preview.ts`, `fr-typo.ts`, `parcours-data.ts`).
 Ces captures montrent le rendu des 4 parcours déjà en ligne (Machine à Café, Répartie, Confiance, Storytelling)
 et du hub, pour relecture par @design et @ux.
 
-**Run de l'itération 4 (11/10/2026)** : toutes les captures refaites sur le code de l'itération 4 (choix de Thomas
+**Run de l'itération 5 (11/10/2026)** : toutes les captures refaites sur le code de l'itération 5 (typographie
+française étendue à Machine à Café, Répartie et Confiance ; icône et raison du quiz, invisibles tant que Boulot est
+masqué). **209 PASS, 0 FAIL, 94 captures** ; interrupteur à `false` tout du long, `git diff` vide, `STORYTELLING_PUBLIE`
+inchangé. 5 captures ajoutées (section « Itération 5 » ci-dessous).
+
+Run de l'itération 4 (11/10/2026) : toutes les captures refaites sur le code de l'itération 4 (choix de Thomas
 « Go tout est ok pour moi! » : XP gagnés sur le total, « Étape N · titre » en couleur de lien, défi en gras et exemple
 en paragraphes sur Machine à Café, Répartie et Confiance, titres des vidéos de Répartie, « arrive bientôt » masqué en
 erreur, quiz « Au boulot »). **189 PASS, 0 FAIL, 89 captures** (itération 3 : 162 PASS, 72 captures) ; interrupteur à `false` tout du long, `git diff` vide. 17 captures ajoutées (section « Itération 4 » ci-dessous).
@@ -120,6 +125,21 @@ de 44 px, ni vannes ni quiz) ; haut de page Premium en cours (1/N, lien « La pr
 
 Vidéos de Répartie : sous-titre « JCC 8è saison » sous Marina Rollman à l'étape 1 (`repartie-<w>-visiteur-etape1.png`) ;
 « Jamel Comedy Club Saison 9 » sous Haroun à l'étape 4 (non capturée).
+
+## Itération 5 : nouvelles captures
+
+| Fichier | Parcours | Largeur | État | Ce qu'on doit y voir |
+|---|---|---|---|---|
+| quiz-375-boulot-masque-quiz-orientation-q1-icone.png | Hub | 375 | Visiteur, `BOULOT_PUBLIE = false` | Question 1 : « Au boulot, en réunion, à la pause » garde l'icône **☕** (contrôlé : pas de 💼). Boulot publié : `../visiteur-375-quiz-orientation-q1-icone.png`. |
+| quiz-375-boulot-masque-quiz-orientation-q2-apres-boulot.png | Hub | 375 | Visiteur | Question 2 après « Au boulot », inchangée : « Question 2/2 » et les 3 réponses (contrôlé). |
+| onboarding-375-tout-boulot-masque-resultat.png | `/onboarding` | 375 | Premium sans progression (`qa-r0-375`) | « Tout ça à la fois » + « Au boulot / machine à café » : **Parcours Machine à Café**, « Tu veux avoir de quoi raconter à la pause, autre chose que la météo. », comme avant (contrôlé : pas la raison de Boulot). |
+| machine-a-cafe-375-premium-etape2-typographie.png | Machine à Café | 375 | Premium, étape 1 validée | **H @design, S17 @ux** : du « Conseil » au bas de « Exercice pratique ». Exemple : « tu ne dis rien : tu laisses » et « très calme : « Ils ont validé ? » » sans « : » en tête de ligne (insécable avant « : », contrôlé). Texte inchangé. |
+| confiance-375-premium-etape2-typographie.png | Confiance | 375 | Premium, étape 1 validée | Même zone. Défi : « Écris-le » et « réécris-le » ne se coupent plus après le trait d'union (gluon, contrôlé). Texte inchangé. |
+
+Contrôle ligne à ligne ajouté (étape 2 Premium, 4 parcours, 375 et 1280) : aucun « : », « ; », « ? », « ! » ou « » »
+en tête de ligne, aucun pronom séparé de son impératif. Résultat : 0 sur les 8 cas (insécables posées : 17, 17, 19, 23 ;
+gluons : 2, 3, 2, 2 pour Machine à Café, Répartie, Confiance, Storytelling). Vu à l'œil, non traité (hors périmètre) :
+« l'auto- / dérision » coupé au trait d'union d'un mot composé dans le conseil de Confiance (coupe admise en français).
 
 ## Défauts et remarques vus à la relecture (non corrigés)
 

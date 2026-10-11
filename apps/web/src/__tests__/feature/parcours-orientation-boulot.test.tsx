@@ -44,7 +44,16 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
 
-const RAISON_BOULOT = /le lundi à 9 h, tu prends un ton de compte rendu/;
+// s19 iter 5 (S15 @ux) : raison vraie pour les 3 deuxièmes réponses, la même pour toutes.
+const RAISON_BOULOT =
+  "Chaque exercice a une version sans risque au boulot, et ta vanne vise toujours la situation, jamais quelqu'un.";
+const ANCIENNE_RAISON = /le lundi à 9 h, tu prends un ton de compte rendu/;
+
+/** Icône affichée devant « Au boulot, en réunion, à la pause » (span aria-hidden du bouton). */
+function iconeReponseBoulot(): string {
+  const bouton = screen.getByText(/Au boulot, en réunion/).closest("button");
+  return bouton?.querySelector("span[aria-hidden='true']")?.textContent ?? "";
+}
 
 async function repondre(q2: RegExp) {
   render(await ParcoursPage());
@@ -73,7 +82,31 @@ describe("Quiz d'orientation : « Au boulot » et l'interrupteur Boulot", () => 
       simulerBoulotPublie(true);
       await repondre(q2);
       expect(screen.getByText(RAISON_BOULOT)).toBeInTheDocument();
+      expect(screen.queryByText(ANCIENNE_RAISON)).not.toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Parcours Boulot", level: 3 })).toBeInTheDocument();
     },
   );
+});
+
+describe("Quiz d'orientation : icône de « Au boulot » (N-3 @design)", () => {
+  it("interrupteur à false : ☕, comme avant s19", async () => {
+    simulerBoulotPublie(false);
+    render(await ParcoursPage());
+    expect(iconeReponseBoulot()).toContain("☕");
+    expect(iconeReponseBoulot()).not.toContain("💼");
+  });
+
+  it("interrupteur à true : 💼, l'icône de la carte Boulot", async () => {
+    simulerBoulotPublie(true);
+    render(await ParcoursPage());
+    expect(iconeReponseBoulot()).toContain("💼");
+    expect(iconeReponseBoulot()).not.toContain("☕");
+  });
+
+  it("les deux autres réponses gardent leur icône", async () => {
+    simulerBoulotPublie(true);
+    render(await ParcoursPage());
+    expect(screen.getByText(/En soirée, avec mes potes/).closest("button")?.textContent).toContain("🎉");
+    expect(screen.getByText(/Partout, je veux retrouver/).closest("button")?.textContent).toContain("🌱");
+  });
 });
