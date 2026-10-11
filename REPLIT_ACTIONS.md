@@ -61,6 +61,14 @@
 >
 > **5. Après activation** : `parcours-etape.duree_s`, étape 6 d'abord (médiane ≤ 1 300 s), puis l'étape 4 ; ajuster `dureeTexte` (arrondi à 5 min) dans le script d'extraction et relancer.
 
+## s15 (11/10/2026, 17:35 Paris) : contrôle avant la semaine 1 = **GO**, **RIEN À DÉPLOYER**
+
+- Semaine 0 : 10 posts `lot-semaine0` PUBLISHED, Buffer `sent` (X 4, Instagram 4, LinkedIn 2) ; 0 FAILED depuis le 06/10.
+- Lot 1a (12 au 18/10) : 12 posts du JSON trouvés en base, 12 APPROVED ; écart prévu/inséré = 0 sauf le contenu du X du 15/10 (`c3a73c8392964a6f9ed2f710c`, guillemets corrigés le 11/10, voulu) ; aucune source du 1a publiée à moins de 90 jours ; 2 replis REJECTED.
+- Article `se-presenter-avec-humour` : en base, `publishedAt` 12/10 05:00 UTC (relais LinkedIn le 13/10).
+- Réseaux ouverts, canaux Buffer `ok` ; alertes : 3 nouvelles, classe B « file basse » seulement (résolues par le 1b le 13/10).
+- Notes cycle 9 : aucun critère à 10 ; corrections en cours, voir `docs/social/corrections-cycle9-plan.md`.
+
 ## s15 : 4 Open Graph alignés (spec @design cycle 8 §1) @fullstack, **DÉPLOYÉ le 11/10/2026 vers 08:35 (Paris) par la session, version `151dcc45-45c7-4416-a9d0-074de0757260`** (N-1 `8e377821-0501-4784-bd66-47fa814c2780`, retour arrière : `npx wrangler rollback 8e377821-0501-4784-bd66-47fa814c2780`)
 
 - Déployé depuis l'arbre principal propre (`/home/user/Marrant`, aucun worktree), HEAD `d378142` (contenu de production : `4e75c61` + `a684318` ; tsc, lint, build verts, Jest 3 947 PASS) ; relecture @design GO (`docs/social/visuels-s15/relecture-og-cycle9.md`). Garde : aucune section d'une autre session « À DÉPLOYER » ou « NON DÉPLOYÉ ». Réseaux relus avant et après : ouverts, canaux `ok`.
