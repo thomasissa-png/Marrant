@@ -39,6 +39,18 @@ import {
 } from "@/lib/stripe";
 import { getPremiumPriceId, isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
+// 11/10 : le prix mensuel est lu au runtime (STRIPE_PREMIUM_PRICE_ID). Le test le pose lui-même :
+// sans cela, il passait là où le secret existe (session Claude) et échouait en CI GitHub, où il n'existe pas.
+const PRIX_MENSUEL_TEST = "price_test_monthly_0";
+const prixMensuelAvant = process.env.STRIPE_PREMIUM_PRICE_ID;
+beforeEach(() => {
+  process.env.STRIPE_PREMIUM_PRICE_ID = PRIX_MENSUEL_TEST;
+});
+afterAll(() => {
+  if (prixMensuelAvant === undefined) delete process.env.STRIPE_PREMIUM_PRICE_ID;
+  else process.env.STRIPE_PREMIUM_PRICE_ID = prixMensuelAvant;
+});
+
 describe("Stripe constants", () => {
   it("PREMIUM_PRICE_CENTS is 299 (2,99 €)", () => {
     expect(PREMIUM_PRICE_CENTS).toBe(299);
@@ -74,7 +86,7 @@ describe("createCheckoutSession", () => {
     await createCheckoutSession("user-1", "test@test.fr");
     expect(stripe.checkout.sessions.create).toHaveBeenCalledWith(
       expect.objectContaining({
-        line_items: [{ price: PREMIUM_PRICE_ID, quantity: 1 }],
+        line_items: [{ price: PRIX_MENSUEL_TEST, quantity: 1 }],
       })
     );
   });
@@ -113,7 +125,8 @@ describe("createCheckoutSession : formule annuelle (04/10)", () => {
     (stripe.customers.create as jest.Mock).mockClear();
   });
   afterAll(() => {
-    process.env.STRIPE_PREMIUM_PRICE_ID = saved.m;
+    if (saved.m === undefined) delete process.env.STRIPE_PREMIUM_PRICE_ID;
+    else process.env.STRIPE_PREMIUM_PRICE_ID = saved.m;
     if (saved.a === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
     else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = saved.a;
   });
