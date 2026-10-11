@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER, NE PAS INSÉRER LE 1b : en attente du contrôle @reviewer (E1 à E5)**
+## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER ; @reviewer GO révision 8 le 10/10 (`8453e20`) ; insertion programmée le 13/10 06:30 UTC (après la condition QA du 13/10 08:15 Paris), PAS AVANT**
 
 > - **Révision 8 (10/10)** : 6 textes retenus à l'aveugle versés mot pour mot (légendes 1C et 2C, renvois 3a, 4b, 6b, 7a ; `social-lot-v5-legendes.ts`, nouveau `social-lot-v5-renvois.ts`) ; 19/10 IG : repli de la clé, L38 seule, sans renvoi. Dry-run 1b : 46 posts, **0 erreur**, `lot-1b.{md,json}` régénérés (sha256 `2268b3d9…`) ; contrôle `--insert` rejoué sans insérer : 0 écart, période vide en base. 1a identique à l'octet. tsc, lint, build verts ; Jest 3 916 passés. Commande d'insertion : `lot-1b-dry-run-08-10.md` révision 8, **à ne lancer qu'après le GO @reviewer**.
 > - Révision 7 : la commande d'insertion de la révision 6 ne vaut plus (contrôle @reviewer NO-GO, 7 textes à relire à l'aveugle).

@@ -1,18 +1,64 @@
 # Notation de la relance, cycle 9 : K7 Fiabilité de la chaîne (@qa, 11/10/2026, matin)
 
-> Objet : même critère et même échelle qu'au cycle 8 (`notation-relance-cycle8-qa.md`) : chaîne base → `publish-social` → Buffer, plus le script de lot qui alimente la base. Seul ce fichier est écrit. Aucun `--insert`, aucun `--rollback`, aucun `deploy:cf`, aucune écriture en base. Les tests C2 (navigateurs intégrés) sont hors périmètre (autre agent @qa).
-> `[LIVE]` = lecture réelle (SELECT Neon en lecture seule, HTTP). `[LIVE local]` = vrai code exécuté dans ce shell (Jest). `[STATIQUE]` = lecture du code ou des docs. `[DÉCLARÉ]` = preuve consignée par la session (relevés, `REPLIT_ACTIONS.md`), non revérifiable d'ici (pas de lecture Buffer dans cette notation).
+> Objet : même critère et même échelle qu'au cycle 8 (`notation-relance-cycle8-qa.md`). K7 couvre la chaîne base → `publish-social` → Buffer, plus le script de lot qui alimente la base. Seul ce fichier est écrit. Aucun `--insert`, aucun `--rollback`, aucun `deploy:cf`, aucune écriture en base, aucun commit. Les tests C2 (navigateurs intégrés) sont faits par un autre agent et sortent de ce périmètre.
+> `[LIVE]` = lecture réelle (SELECT Neon en lecture seule par HTTP, `curl` sur la production), le 11/10 entre 05:52 et 06:05 UTC. `[LIVE local]` = vrai code exécuté dans ce shell (Jest, script de mesure). `[STATIQUE]` = lecture du code ou des docs. `[DÉCLARÉ]` = preuve consignée par la session et non revérifiable d'ici (pas de lecture Buffer dans cette notation).
+> HEAD = `878a966` au début de la notation ; les commits suivants (`bfc174b`, `1da28a3`, `239ae50`, …) ne touchent que `docs/` (`git diff --stat 878a966 HEAD -- . ':!docs'` est vide). En ligne : version `8e377821` (commit `b248ad8`) `[DÉCLARÉ]`. Aucune ligne de code de production ne change de `b248ad8` à HEAD sous `apps/web/src` (tests exclus) : `git diff --stat` est vide, et aucun commit ne touche `lib/social`, `api/cron/publish-social`, `api/social` ni `config/social-pool.ts` `[STATIQUE]`. `e180d1a`, le code social que j'ai relu au cycle 8, est un ancêtre de `b248ad8`.
 
-## Note K7 : (en cours)
+## Note K7 : 9,5/10 (cycle 8 : 9/10)
+
+La chaîne a tenu sur toute la semaine 0 : **10 posts sur 10 publiés, 0 FAILED**. En base `[LIVE]`, les 10 posts `lot-semaine0` sont `PUBLISHED`, avec `externalId`, `bufferStatus = sent` et une relecture Buffer automatique entre H+28 et H+31 (`bufferCheckedAt`). L'envoi a lieu entre 2 min 15 s et 3 min 15 s après l'heure prévue. Les seuls FAILED des 14 derniers jours datent du 01 et du 02/10, avant la relance. Le lot 1a est en base exactement comme prévu. Les 2 défauts du script de lot (D1, D2), qui m'avaient fait refuser le 10/10 au cycle 8, sont corrigés et testés.
+
+Le 10/10 n'est pas encore atteignable : le seul chemin de la chaîne jamais exécuté en production, la carte LinkedIn rendue par le cron (`rendreCarte`, `route.ts:39` et `:341`), ne tournera pour la première fois que le **jeudi 15/10 à 06:15 UTC**. En base, `c55c58e5410ff05de08c28332` est le seul post `[variante:image]` `[LIVE]`. S'y ajoutent un piège résiduel sur `--rollback` (R1) et 2 écarts de trace (R2, R3).
 
 ## 1. Liste « Pour 10/10 » du cycle 8, point par point
 
-(en cours)
+| # | Point (cycle 8) | État | Preuve |
+|---|---|---|---|
+| 1 | **D1** : `--rollback` borné par `--debut`/`--fin` | **Fait** | `annulerLot(..., periode?)` (`social-lot-v5-insert.ts:186-207`) : la `tranche` filtre `{ approvedBy, scheduledAt: periode }` pour les comptes et pour l'`updateMany`. `requeteAnnulation` (l.109-114) ajoute les bornes UTC au `UPDATE` HTTP. `prepare-social-month.ts:248` passe `bornesLot(a.debut, a.fin)`. Test `social-lot-rollback-tranche.test.ts:92` : annuler la 2e tranche laisse la 1re en APPROVED. l.116 : le SQL HTTP porte les bornes `[STATIQUE + Jest LIVE local]`. Reste le piège R1 (bornes par défaut), voir §3 |
+| 2 | **D2** : `replisLus` filtré par période | **Fait** | `social-lot-v5-insert.ts:169` : `scheduledAt: periode`. Test `social-lot-rollback-tranche.test.ts:80` : la 2e tranche insérée après la 1re donne 0 écart `[STATIQUE + Jest LIVE local]` |
+| 3 | Point 4 du cycle 7 : rendu de la carte LinkedIn sur un vrai post du lot | **Partiel** | (a) **Fait** : `GET /api/social/image?postId=c55c58e5410ff05de08c28332&slide=0` répond **200 `image/png`, 1080×1350, en 1,36 s** (sha256 `21fab62e…`). Je l'ai relu à l'œil : chute seule entre « », fond violet, pied « deviens-marrant.fr », pas de « Glisse » `[LIVE]`. Même constat par la session ce matin, en 3,2 s (`releves/2026-10-11.md` l.20). En base : 2 `threadParts` et 1 `imageUrls` en `slide=0` `[LIVE]`. (b) **Non fait sur ce post** : le brouillon LinkedIn avec image, via `saveToDraft`. La session renvoie à une preuve du 05/10, faite sur un autre post (`releves/2026-10-11.md` l.20) `[DÉCLARÉ]`. (c) **Pas encore possible** : le contrôle H+45 du 15/10. Le cron n'a jamais appelé `rendreCarte` en production : L1 reste ouvert |
+| 4 | **D3 + D4** : fiche 1a et relevés | **Partiel** | D3 **fait** : `lot-1a-dry-run-07-10.md` est passée en 4e version, verdict « PRÊT » (l.93) ; plus de « PAS PRÊT » ni de V053 dans le verdict `[STATIQUE]`. D4 (a) **fait** : `releves/2026-10-07.md` l.8 indique « 328 caractères bruts, 244 comptés ». D4 (b) **non fait** : l'alt des 2 cartes Instagram du 06/10 n'est toujours pas consigné (`releves/2026-10-06.md` l.9 : « carrousel 2 images, légende… », sans alt). La mention à ajouter dans `REPLIT_ACTIONS.md` n'a plus d'objet, puisque D1 est corrigé. La section 1a indique bien un retour arrière borné (`--debut 2026-10-12 --fin 2026-10-18`) |
+
+Bilan : 2 points faits sur 4, 2 partiels. Ce qui manque dans le point 3 dépend du calendrier (15/10), pas d'un défaut.
 
 ## 2. Vérifications du cycle 9
 
-(en cours)
+### Base `[LIVE]` (SELECT seulement)
+- **Semaine 0** : 10 `PUBLISHED` (X 4, Instagram 4, LinkedIn 2), tous `sent`. Le texte Instagram du 09/10 en base est la légende retenue à l'aveugle, mot pour mot (`aveugle-remplacements-cycle8-resultat.md` l.8). L'écriture manuelle en base est donc tracée et conforme.
+- **Lot 1a** : 12 `APPROVED` `thomas-s15` (X 5, Instagram 5, LinkedIn 2), tous du 12 au 16/10, `externalId` nul. Les 2 replis `c92df7ca8db3e3ef8cdd36470` (Instagram, 12/10 17:30 UTC) et `cb2cb272487d56bb82eff560f` (LinkedIn, 13/10 06:15 UTC) sont `REJECTED` et marqués `[repli-de:<relais>]`. Les relais `c6e52995…` et `cb5b2e6d…` portent `[article:se-presenter-avec-humour] [repli:<id>]`. Toutes les lignes ont le même `updatedAt` (09/10 05:50:44 UTC), signe d'une seule instruction INSERT. Aucune ligne `lot-preuve-*` en base.
+- **Article des relais du 12 et du 13/10** : `se-presenter-avec-humour` a `isPublished=false`, `publishedAt` 12/10 05:00 UTC. La garde exige `isPublished` à vrai (`blog-visibility.ts:23`). C'est `publishDueScheduledArticles` (`prepared-content.ts:118-140`, appelé à chaque passage du cron `*/15` quand la génération est coupée, `jobs.ts:150-153`) qui bascule ce champ. Le mécanisme a fait ses preuves en production : Halloween a `isPublished=true` et `updatedAt` 05/10 05:00:05 UTC. Marge avant le relais Instagram : 12 h 30.
+- **Période du 1b** ([18/10 22:00 ; 15/11 23:00[ UTC) : 0 `thomas-s15`, 0 post actif. Il n'y a que 36 `REJECTED` `preparation-mensuelle`, qui ne bloquent pas l'insertion.
 
-## 3. Pour 10/10 (nouvelle liste)
+### Lot 1b, révision 8 : contrôle indépendant `[LIVE local + LIVE]`
+Le contrôle QA du 10/10 portait sur la **révision 6** (sha256 `eb1f00d6…`). Le fichier à insérer est celui de la **révision 8** (`2268b3d9…`, recalculé), avec 9 cases changées. Je l'ai remesuré, avec le script `qa-c9/r8.mts` dans le scratchpad et la fonction `longueurX` du dépôt :
+46 posts (X 19, Instagram 19, LinkedIn 8), 0 repli, `approvedBy` unique `thomas-s15`. 0 hors bornes, 0 dimanche, 0 hors créneau de Paris. `longueurX` max **260** (0 au-dessus de 270). Légendes Instagram : max **79** (0 au-dessus de 80). 0 URL d'image incohérente (`postId=<id>&slide=<i>`). 0 id déjà en base. Pour les **9 articles relayés**, `publishedAt` précède le 1er relais, avec une marge minimale de 2 h (22/10, 05:00 contre 07:00 UTC). L'écart de calendrier avec mon contrôle de la révision 6 est donc fermé pour la partie mécanique.
 
-(en cours)
+### Tests `[LIVE local]`
+`npx jest src/__tests__/scripts` : **14 suites, 205 tests PASS**, 9,4 s, code 0, aucun avertissement de worker non terminé dans cette exécution. Je n'ai lancé ni `lib/social` ni `api`, pour rester dans le périmètre de la consigne.
+
+### Constats
+| # | Constat | Effet | Gravité |
+|---|---|---|---|
+| L1 | Le cron n'a jamais appelé `rendreCarte` (`route.ts:39`, qui appelle `generatePostImage(post, 0)`) en production. La route `/api/social/image` rend la même carte, mais dans un contexte de requête, pas dans celui du cron | Si le rendu échoue dans le cron le 15/10, le post part en `[variante:texte]` avec une alerte de classe B (`social-repli-image-linkedin`). L'échec est visible, la mesure du bras image est perdue pour ce post | moyenne jusqu'au 15/10 07:00 UTC |
+| R1 | `--rollback` **sans** `--debut`/`--fin` : pour `relance-s15`, `argsLot` (`prepare-social-month.ts:184-185`) prend les bornes par défaut 12/10 → 03/01 (`social-lot-v5-config.ts:19-20`). Un `--rollback --lot relance-s15 --confirmer` nu annule donc **1a et 1b**. L'aide (l.50) ne mentionne pas `--debut`/`--fin` pour `--rollback`, et un test fige ce comportement (`social-lot-rollback-tranche.test.ts:109`) `[STATIQUE]` | Toutes les commandes documentées sont bornées (`REPLIT_ACTIONS.md`, section 1a ; `lot-1b-dry-run-08-10.md` l.57). Le risque se limite à une erreur de saisie sur le chemin de secours, à partir du 13/10 | faible à moyenne |
+| R2 | Titres périmés : `REPLIT_ACTIONS.md` l.3 « NE PAS INSÉRER LE 1b : en attente du contrôle @reviewer » et l.5 « à ne lancer qu'après le GO @reviewer » ; `lot-1b-dry-run-08-10.md` l.5 et l.63 « en attente du contrôle @reviewer », l.51 « APRÈS le contrôle @reviewer E1 à E5 ». Le GO est pourtant donné (`controle-reviewer-lot-1b.md` l.108, `8453e20`) | La personne qui insère le 13/10 lit un ordre contradictoire en tête de la fiche Replit et de la fiche du lot | faible |
+| R3 | L'alt Instagram du 06/10 n'est pas consigné (reste de D4 b) | La trace de la semaine 0 reste incomplète sur 1 post sur 10 | faible |
+
+## 3. Pour 10/10 (liste exacte)
+
+1. **L1 + point 3 du cycle 8** (session, le **15/10 à 07:00 UTC**, soit H+45) : vérifier en base que `c55c58e5410ff05de08c28332` est `PUBLISHED`, avec `externalId` et `bufferStatus = sent`, et que `directorNote` ne contient pas `[variante:texte]`. Vérifier sur `/api/admin/alertes?jours=1` l'absence d'alerte `social-repli-image-linkedin`, et sur le lien LinkedIn réel qu'il y a **1 image** et l'amorce en texte. À consigner dans `releves/2026-10-15.md`. Cette publication réelle vaut la preuve par brouillon, qui n'est plus exigée. En cas d'échec : l'alerte part, ouvrir le ticket @fullstack le jour même (journal du cron, cause du rendu).
+2. **R1** (@fullstack) : `--rollback --confirmer` doit **refuser** de s'exécuter sans `--debut` **et** `--fin` explicites (code 2, avec un message qui donne la commande bornée). Le comptage sans `--confirmer` peut rester sans bornes. Mettre à jour l'aide (`prepare-social-month.ts:50`). Tests : `--confirmer` sans bornes → refus, aucune requête d'écriture ; avec bornes → comportement actuel. Remplacer le test l.109 (« sans période : tout le lot ») par le test du refus. À faire avant toute 3e tranche (lot 2), ou plus tôt si possible.
+3. **Insertion du 1b** (session, **13/10 à 06:30 UTC**) : juste avant, un SELECT doit montrer `c92df7ca…` et `cb2cb272…` en `REJECTED`, les relais `c6e52995…` (12/10) et `cb5b2e6d…` (13/10) en `PUBLISHED` avec `externalId`, et `se-presenter-avec-humour` avec `isPublished=true`. Puis lancer la commande de la révision 8, telle quelle (`lot-1b-dry-run-08-10.md` l.54). Sortie attendue : « Inséré : 46 posts APPROVED » et « conforme ». Après l'insertion, un SELECT doit montrer 46 `APPROVED` `thomas-s15` dans [18/10 22:00 ; 15/11 23:00[ UTC et les 12 posts du 1a intacts (statuts et `updatedAt` inchangés pour ceux qui ne sont pas encore partis). Tout consigner dans `REPLIT_ACTIONS.md`. Si `--insert` refuse (l'un des contrôles a changé), relancer un dry-run puis un nouveau contrôle QA, sans forcer.
+4. **R2 + R3** (session) : corriger les titres périmés listés en R2, avec la mention « GO @reviewer révision 8 (`8453e20`), insertion le 13/10 06:30 UTC après V1 et V7 ». Dans `releves/2026-10-06.md` l.9, consigner l'alt des 2 cartes Instagram, relu par l'API Buffer comme pour le 07/10. Si l'API ne le rend plus, écrire « alt non relu » : ne rien reconstituer.
+
+Responsables : point 2 pour @fullstack, points 1, 3 et 4 pour la session. Aucun ne bloque l'envoi des posts du 12 au 16/10.
+
+---
+**Handoff → @orchestrator**
+- Fichier produit : `/home/user/Marrant/docs/social/notation-relance-cycle9-qa.md`. Scripts de lecture : scratchpad `qa-c9/` (`sel.mjs`, `art.mjs`, `var.mjs`, `leg.mjs`, `r8.mts`, sorties `sel.txt`, `r8.txt`, `c55c.png`).
+- Décisions : K7 passe à 9,5/10. Le 10/10 se joue le 15/10 à H+45 (L1) et sur la correction de R1.
+- Validations : `[LIVE]` pour les SELECT Neon, `curl` et la relecture de la carte ; `[LIVE local]` pour Jest des scripts et la mesure de la révision 8 ; `[STATIQUE]` pour R1, R2 et le code de `rendreCarte` ; `[DÉCLARÉ]` pour la version en ligne `8e377821` et les statuts Buffer, sauf ceux relus en base.
+
+Note K7 : 9,5/10 (cycle 8 : 9/10).
+Restants : L1, la carte LinkedIn rendue par le cron, à prouver le 15/10 à H+45 (session) ; R1, `--rollback --confirmer` sans bornes à refuser (@fullstack).
+Restants : insertion du 1b le 13/10 avec les SELECT avant et après (session) ; R2 et R3, titres périmés et alt du 06/10 (session).

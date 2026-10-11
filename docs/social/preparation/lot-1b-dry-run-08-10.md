@@ -2,7 +2,7 @@
 
 > @fullstack, 08/10/2026. Sources : `aveugle-1b-formats-resultat.md` (tours 1 et 2), `aveugle-1b-linkedin-resultat.md`, textes par numéro dans `aveugle-1b-formats.md`, `aveugle-1b-formats-t2.md`, `aveugle-1b-linkedin.md`, créneaux et vannes dans les 3 clés. **Rien n'a été inséré en base, rien n'a été déployé** (ni `deploy:cf`, ni `--insert`, ni `--rollback --confirmer`). Lectures Neon en SELECT seulement, sorties dans `/tmp/fs-1b/`, hors dépôt.
 
-## Révision 8 (10/10, textes tranchés à l'aveugle en révision 7 versés) : 0 erreur, en attente du contrôle @reviewer (E1 à E5)
+## Révision 8 (10/10, textes tranchés à l'aveugle en révision 7 versés) : 0 erreur ; @reviewer GO le 10/10 (`8453e20`), insertion programmée le 13/10 06:30 UTC
 
 > @fullstack, 10/10/2026. Sources : `aveugle-1b-r7-resultat.md` (décisions), `aveugle-1b-r7.md` (textes, par numéro M), clé `aveugle-1b-r7-CLE-ne-pas-ouvrir.json` (`ordre_aveugle`, `versement_si_retenu`). Aucun texte écrit : tout est recopié mot pour mot. Rien d'inséré, rien de déployé (ni `--insert`, ni `--rollback --confirmer`, ni `deploy:cf`). Lectures Neon en SELECT seulement, sorties de travail dans le scratchpad de session, hors dépôt. Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --out ../../docs/social/preparation/lot-1b.md --json ../../docs/social/preparation/lot-1b.json`. Référence d'avant modification rejouée : 7 erreurs, identiques à la révision 7.
 
@@ -60,7 +60,7 @@ Attendu : « Inséré : 46 posts APPROVED (thomas-s15) », puis « Contrôle apr
 
 `npx tsc --noEmit -p tsconfig.build.json` : OK. `npm run lint` : 0 erreur, 1 avertissement `<img>` existant dans `admin/page.tsx`. `npm run build` : OK. `npx jest` : 272 suites, 3 916 tests passés (4 ignorés, déjà ignorés avant), 0 échec. Pour info, `npx tsc --noEmit` sans `-p` (tests compris) compte 28 erreurs, toutes dans d'anciens fichiers de test, en nombre identique avant et après cette révision (aucune dans les fichiers touchés).
 
-### Verdict : **prêt techniquement (0 erreur, 46 posts, mesures dans les plafonds), insertion en attente du contrôle @reviewer (E1 à E5)**
+### Verdict : **prêt techniquement (0 erreur, 46 posts, mesures dans les plafonds), @reviewer GO le 10/10 (`controle-reviewer-lot-1b.md`, « Recontrôle (révision 8) ») ; insertion le 13/10 06:30 UTC, pas avant**
 
 ## Révision 7 (10/10, corrections E1 à E5 du contrôle @reviewer) : pas prêt, 7 textes à relire à l'aveugle
 
