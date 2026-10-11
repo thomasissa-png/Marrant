@@ -215,3 +215,8 @@ Zéro tiret cadratin (—) ; zéro « blague » ; zéro « carnet » (dire « te
 - Points d'attention : `metaDescription` écrite (154 caractères, section 1) ; `isActive` des 20 vannes en ligne à revérifier ; visionnage des 10 vidéos avant import ; interrupteur éteint tant que Thomas n'a pas donné son feu vert.
 - Itération 4 (C1 à C7, 11/10) : entrée `PARCOURS_META.boulot` sous `BOULOT_PUBLIE` et liste Grep des usages de `STORYTELLING_PUBLIE` (§1) ; `tipTitle` exacts (§2) ; 4 conseils à sauvegarder, pas 6, source `-vN` qui fait foi et aucun écart trouvé au 11/10, `REECRIRE` / 18 / `generatedByAI: false` (§3) ; `jokeContents` dans l'ordre des tableaux de V, ids pour le contrôle, `generatedByAI` des 20 vannes liées à lire (§4) ; deux justifications corrigées (§1 note `metaDescription`, §4.1) ; exception V-3-3 notée dans V. Aucun texte validé modifié.
 ---
+
+## Constat de la session (11/10, base prod en lecture seule)
+
+Les 20 vannes en ligne liées au parcours sont toutes actives. **Deux sont marquées `generatedByAI = true`** : `cmoxx7e56003xs60yyooxncw3` (étape 1, « point rapide avant l'été ») et `cmnl01zwv004ss60y2ecodj9a` (étape 4, le bus). Ne PAS passer ce champ à `false` : il dit la provenance réelle (obligation de transparence). À l'import, @fullstack vérifie si une relecture IA automatique du catalogue peut encore tourner sur des vannes `generatedByAI = true` ; si oui, il protège ces deux vannes par un autre moyen (exclusion explicite des vannes liées à une étape de parcours, par exemple) ou propose à Thomas de les remplacer par une vanne de réserve de `repli-catalogue.md`, sans rien décider seul.
+
