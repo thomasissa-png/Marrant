@@ -78,6 +78,8 @@ Vérification : critique A « < », critique B « = », départage C « = » (D7
 
 ## Décryptages des 10 neuves validées (repris mot pour mot de leur fichier source)
 
+> Exception (C7, itération 4) : pour V-3-3, seul le **décryptage** a perdu une parenthèse de brief, « (pas le format « setup très court, chute de deux mots ») », retirée de son `techniqueExplanation` par N7 (itération 3) parce qu'elle parlait au relecteur, pas à la lectrice. La vanne elle-même (`content` et `punchline`) est intacte, mot pour mot de `v5.md`. Ce fichier fait foi : l'écart avec `v5.md` l. 58 est voulu, ce n'est pas une erreur de copie.
+
 **V-1-1** (`v1.md`). *La trace qui parle.* Tu décris un objet banal comme un constat, puis tu lis dans son usure ce que personne n'a dit. La boucle de la notice fait sourire, mais c'est le plastique poli qui raconte tous ceux qui ont recommencé, sans qu'aucune personne n'entre dans la phrase. La vanne vise l'objet et le système qu'il décrit. *À toi de jouer : lis un objet du bureau comme un constat, puis ajoute la trace d'usure qui dit le reste. Exemple : « Le mode d'emploi de la cafetière tient en trois étapes. Le chiffre 2 est effacé. »*
 
 **V-1-2** (`v2.md`). *Le constat chiffré.* Tu décris un objet oublié avec un sérieux total, puis tu le traites comme un dossier d'assiduité : un chiffre, un mot de suivi, rien d'autre. Aucune personne n'entre dans la phrase, l'objet porte seul l'écart. Tu ne commentes pas, et la chute tombe sur le dernier mot. *À toi de jouer : prends un objet oublié dans une pièce du travail, donne-lui une ancienneté, puis un bilan chiffré dans le vocabulaire du suivi. Exemple : « Une écharpe grise pend au portemanteau de l'entrée depuis l'hiver 2017. Elle a connu quatre déménagements. »*
