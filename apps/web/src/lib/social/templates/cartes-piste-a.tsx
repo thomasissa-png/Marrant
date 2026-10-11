@@ -29,6 +29,7 @@ export const TAILLES: Record<FormatCarte, { amorce: number; chute: number; titre
   instagram: { amorce: 88, chute: 100, titre: 76 },
   x: { amorce: 72, chute: 88, titre: 76 },
   linkedin: { amorce: 44, chute: 60, titre: 64 },
+  og: { amorce: 44, chute: 60, titre: 64 },
 };
 /** Repli de l'amorce Instagram au-delà de 4 lignes. */
 const AMORCE_REPLI = 80;
@@ -156,7 +157,7 @@ function teintesParagraphe(p: string, accent: RegExp | undefined, couleurAccent:
   return t;
 }
 
-interface BlocProps {
+export interface BlocProps {
   textes: string[];
   taille: number;
   format?: FormatCarte;
@@ -190,7 +191,7 @@ export function composition({ textes, taille, format = "instagram", poids = 800,
 }
 
 /** Paragraphes : une ligne = un div sans retour automatique. */
-function Bloc(props: BlocProps) {
+export function Bloc(props: BlocProps) {
   const { poids = 800, couleur = COLORS.textPrimary, gap = 40, citation, accent, fond = citation ?? "sombre" } = props;
   const { corps, paragraphes, decalage, suspendu, ouvrant } = composition(props);
   const lilas = citation ? COULEUR_GUILLEMETS[citation] : undefined;

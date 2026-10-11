@@ -5,7 +5,7 @@ import { COLORS, BRAND } from "./instagram-templates";
 // Cadre de marque des cartes « piste A » (audit visuels s15, §4-5)
 //
 // Formats : Instagram 4:5 (1080×1350), X 16:9 (1600×900),
-// LinkedIn lien (1200×627). Fond sombre #0D0D0D ou aplat #6D28D9
+// LinkedIn lien (1200×627), Open Graph (1200×630, CarteOg). Fond sombre #0D0D0D ou aplat #6D28D9
 // (slide chute / dernière slide). Pied de carte : monogramme « d »
 // du favicon + deviens-marrant.fr (+ « Glisse → » en slide 1).
 // Plancher texte 28 px, pied 32 px, zone de sécurité 96 px (Instagram).
@@ -15,6 +15,8 @@ export const FORMATS = {
   instagram: { width: 1080, height: 1350, padX: 96, padY: 96 },
   x: { width: 1600, height: 900, padX: 112, padY: 80 },
   linkedin: { width: 1200, height: 627, padX: 80, padY: 56 },
+  /** Open Graph (accueil, quiz, articles, vannes) : spec @design cycle 8 §1.5. */
+  og: { width: 1200, height: 630, padX: 80, padY: 56 },
 } as const;
 
 export type FormatCarte = keyof typeof FORMATS;
@@ -26,8 +28,8 @@ export const FONT_TITRE = "Plus Jakarta Sans";
 export const FONT_TEXTE = "Inter";
 
 /** Pied et étiquettes : jamais sous 32 px (notation cycle 2, V2). */
-export const TAILLE_PIED: Record<FormatCarte, number> = { instagram: 32, x: 40, linkedin: 32 };
-export const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56 };
+export const TAILLE_PIED: Record<FormatCarte, number> = { instagram: 32, x: 40, linkedin: 32, og: 40 };
+export const TAILLE_MONOGRAMME: Record<FormatCarte, number> = { instagram: 72, x: 72, linkedin: 56, og: 64 };
 /** Écart texte/pied de la position « debut » (= ECART_TITRE_PIED des cartes piste A). */
 export const ECART_PIED_DEBUT = 64;
 
@@ -137,6 +139,55 @@ export function Carte({ format, fond = "sombre", kind, indice, position = "centr
             {indice}
           </div>
         )}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Cadre des images Open Graph (spec @design cycle 8 §1.5) : même structure
+ * que Carte (étiquette, bloc centré, pied), fond #0D0D0D uni, un seul écart
+ * assumé : le pied (monogramme + domaine) est à DROITE, pour ne jamais
+ * croiser le domaine que X incruste en bas à gauche de la carte.
+ */
+export function CarteOg({ etiquette, children }: { etiquette?: string; children: ReactNode }) {
+  const f = FORMATS.og;
+  const pied = TAILLE_PIED.og;
+  const monogramme = TAILLE_MONOGRAMME.og;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: f.width,
+        height: f.height,
+        backgroundColor: COLORS.bg,
+        padding: `${f.padY}px ${f.padX}px`,
+        fontFamily: FONT_TEXTE,
+        color: COLORS.textPrimary,
+      }}
+    >
+      {etiquette && (
+        <div
+          style={{
+            display: "flex",
+            fontSize: pied,
+            fontWeight: 700,
+            lineHeight: 1.2,
+            letterSpacing: 4,
+            textTransform: "uppercase",
+            color: COLORS.accentHover,
+          }}
+        >
+          {etiquette}
+        </div>
+      )}
+
+      <div style={{ display: "flex", flexDirection: "column", flex: 1, justifyContent: "center" }}>{children}</div>
+
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 20, height: monogramme }}>
+        <Monogramme fond="sombre" taille={monogramme} />
+        <div style={{ display: "flex", fontSize: pied, fontWeight: 400, color: COLORS.textSecondary }}>{BRAND}</div>
       </div>
     </div>
   );

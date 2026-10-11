@@ -1,108 +1,41 @@
 import { ImageResponse } from "next/og";
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, parseShortIdFromSlug, pickBySlug } from "@/lib/catalogue-slug";
+import { getFonts } from "@/lib/social/polices";
+import { OgVanne } from "@/lib/social/templates/cartes-og";
 
 export const runtime = "nodejs";
 export const alt = "Vanne | deviens-marrant.fr";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+/** Repli : vanne introuvable ou base en erreur. */
+const VANNE_REPLI = "Une vanne à ressortir ce soir";
+
+// Gabarit : spec @design cycle 8 §1. Plus jamais de troncature « ... » : le corps
+// descend de 48 à 36 px ; si la vanne ne tient pas, OgVanne rend la carte de marque.
 export default async function OgImage({ params }: { params: { slug: string } }) {
+  // Polices AVANT toute composition : elles alimentent la mise en lignes mesurée.
+  const fonts = await getFonts();
   const shortId = parseShortIdFromSlug(params.slug);
-  let content = "Une vanne à ressortir ce soir";
+  let content = VANNE_REPLI;
   let punchline = "";
-  let category = "";
   if (shortId) {
     try {
       const candidates = await prisma.joke.findMany({
         where: { id: { startsWith: shortId }, isActive: true },
-        select: { id: true, content: true, punchline: true, category: true },
+        select: { id: true, content: true, punchline: true },
         take: 200,
       });
       const joke = pickBySlug(candidates, params.slug, buildJokeSlug);
       if (joke) {
-        content = joke.content.length > 130 ? joke.content.slice(0, 127) + "..." : joke.content;
-        punchline = joke.punchline.length > 90 ? joke.punchline.slice(0, 87) + "..." : joke.punchline;
-        category = joke.category;
+        content = joke.content;
+        punchline = joke.punchline;
       }
     } catch {
-      // fallback plein-texte
+      // repli plein texte
     }
   }
 
-  return new ImageResponse(
-    (
-      <div
-        style={{
-          background: "linear-gradient(135deg, #0D0D0D 0%, #1a1a2e 50%, #16213e 100%)",
-          width: "100%",
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          fontFamily: "sans-serif",
-          padding: "60px",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {category && (
-            <div
-              style={{
-                background: "rgba(139, 92, 246, 0.25)",
-                border: "1px solid rgba(139, 92, 246, 0.5)",
-                borderRadius: 8,
-                padding: "6px 18px",
-                fontSize: 20,
-                color: "#c4b5fd",
-                alignSelf: "flex-start",
-                marginBottom: 24,
-              }}
-            >
-              {`Vanne · ${category.replace(/_/g, " ").toLowerCase()}`}
-            </div>
-          )}
-          <div
-            style={{
-              fontSize: 40,
-              fontWeight: 700,
-              color: "#f0f0f0",
-              lineHeight: 1.25,
-              maxWidth: 1000,
-            }}
-          >
-            {content}
-          </div>
-          {punchline && (
-            <div
-              style={{
-                marginTop: 24,
-                fontSize: 32,
-                fontWeight: 800,
-                color: "#c4b5fd",
-                lineHeight: 1.25,
-                maxWidth: 1000,
-              }}
-            >
-              {`→ ${punchline}`}
-            </div>
-          )}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div
-            style={{
-              fontSize: 28,
-              fontWeight: 700,
-              background: "linear-gradient(90deg, #8B5CF6, #EC4899)",
-              backgroundClip: "text",
-              color: "transparent",
-            }}
-          >
-            deviens-marrant.fr
-          </div>
-          <div style={{ fontSize: 20, color: "#a0a0b0" }}>Des vannes à ressortir</div>
-        </div>
-      </div>
-    ),
-    { ...size }
-  );
+  return new ImageResponse(<OgVanne content={content} punchline={punchline} />, { ...size, fonts });
 }
