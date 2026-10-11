@@ -11,6 +11,7 @@ import { tipProse } from "@/lib/tip-prose";
 const CONSEILS = [...boulot._meta.conseils, ...storytelling._meta.conseilsReactives];
 const prose = (t: string) => frTypo(tipProse(t));
 const NBSP = String.fromCharCode(0xa0);
+const WJ = String.fromCharCode(0x2060);
 
 describe("défi : libellé « DÉFI X » mis en évidence (N2 @design)", () => {
   it.each(CONSEILS.map((c) => [c.title, c.exercise]))("%s : libellé trouvé, texte intact", (_t, exercise) => {
@@ -37,12 +38,15 @@ describe("exemple : une ligne = un paragraphe (N3 @design)", () => {
 describe("accroche : typographie française (N1 @design)", () => {
   it("« à » isolé lié au mot suivant, le reste comme frTypo", () => {
     expect(frTypoTexte("À midi, passée à autre chose")).toBe(`À${NBSP}midi, passée à${NBSP}autre chose`);
-    expect(frTypoTexte("En 6 semaines : « Redis-moi »")).toBe(frTypo("En 6 semaines : « Redis-moi »"));
+    // Rendu itération 3 : « En » lié au nombre, gluon (U+2060) après « Redis- » ; le reste comme frTypo.
+    expect(frTypoTexte("En 6 semaines : « Redis-moi »")).toBe(
+      frTypo(`En${NBSP}6 semaines : « Redis-${WJ}moi »`),
+    );
     expect(frTypoTexte("déjà là")).toBe("déjà là");
   });
 
-  it("aucun mot ajouté ni retiré : seules des espaces deviennent insécables", () => {
+  it("aucun mot ajouté ni retiré : seules des espaces deviennent insécables (et des gluons invisibles)", () => {
     const textes = [boulot.parcours.description, boulot.parcours.personaTagline, boulot.parcours.testimonial];
-    for (const t of textes) expect(frTypoTexte(t).replaceAll(NBSP, " ")).toBe(t);
+    for (const t of textes) expect(frTypoTexte(t).replaceAll(NBSP, " ").replaceAll(WJ, "")).toBe(t);
   });
 });

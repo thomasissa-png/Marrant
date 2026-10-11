@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypo } from "@/lib/fr-typo";
+import { frTypoParcours } from "@/lib/fr-typo";
 import {
   QUIZ_CORRECTION,
   QUIZ_FIN_BOUTON,
@@ -117,7 +117,7 @@ export function StepQuiz({
     ? ""
     : isRight
       ? `${QUIZ_CORRECTION.juste}.`
-      : `${QUIZ_CORRECTION.faux}. ${QUIZ_CORRECTION.bonneReponse(frTypo(frenchQuizQuotes(stripEmDashes(q.options[q.correctIndex]))))}`;
+      : `${QUIZ_CORRECTION.faux}. ${QUIZ_CORRECTION.bonneReponse(frTypoParcours(frenchQuizQuotes(stripEmDashes(q.options[q.correctIndex]))))}`;
 
   return (
     // DES-1-12 : conteneur du quiz, lettres en pastille, explication en encadré.
@@ -126,7 +126,7 @@ export function StepQuiz({
         Quiz {currentQ + 1}/{quiz.length}
       </Badge>
       <p className="text-base font-medium text-text-primary" id={`quiz-q-${currentQ}`}>
-        {frTypo(frenchQuizQuotes(q.question))}
+        {frTypoParcours(frenchQuizQuotes(q.question))}
       </p>
       <div className="space-y-2" role="group" aria-labelledby={`quiz-q-${currentQ}`}>
         {q.options.map((opt, i) => {
@@ -166,7 +166,7 @@ export function StepQuiz({
               {isWrongPick && <span aria-hidden="true" className="leading-6">✗</span>}
               <span className="leading-6">
                 <span className="sr-only">{QUIZ_LETTRE_VOCALE(quizLettre(i))}</span>
-                {frTypo(frenchQuizQuotes(stripEmDashes(opt)))}
+                {frTypoParcours(frenchQuizQuotes(stripEmDashes(opt)))}
               </span>
               {isCorrectOption && <span className="sr-only"> ({QUIZ_CORRECTION.juste})</span>}
             </button>
@@ -185,7 +185,7 @@ export function StepQuiz({
               <span aria-hidden="true">{isRight ? "✓ " : "✗ "}</span>
               {correction}
             </p>
-            {q.explanation && <p className="mt-1 text-text-secondary">{frTypo(stripEmDashes(q.explanation))}</p>}
+            {q.explanation && <p className="mt-1 text-text-secondary">{frTypoParcours(stripEmDashes(q.explanation))}</p>}
           </div>
         )}
       </div>

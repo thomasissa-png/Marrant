@@ -88,3 +88,38 @@ Composants communs : appliqué à tous les parcours quand le changement est pure
 - Jest complet : 279 suites passées, 1 ignorée (280) ; 4 006 tests passés, 4 ignorés (4 010), dont 7 (`parcours-seed-fallback-s19`) et 21 (`parcours-rendu-s19-iter2`) neufs.
 - `captures.sh` (ordre de la prod) : **135 PASS, 0 FAIL, 85 captures** ; pré-rendu du build sur le repli seed, étape 1 complète dans le HTML JavaScript coupé aux 3 largeurs ; interrupteur restauré (`git diff` vide, `STORYTELLING_PUBLIE` inchangé). Contre-épreuve ancien ordre : pré-rendu sur la base.
 - Aucun texte validé changé : `git diff docs/content/` = la seule ligne `_meta.icone`.
+
+## Rendu itération 3 (s19, 11/10/2026, @fullstack) : arbitrages après `iterations/rendu-iter-2-design.md` (Boulot 10, non-régression 9,3) et `rendu-iter-2-ux.md` (Boulot 9, non-régression 10)
+
+Arbitrages délégués par le fondateur, tranchés par la session principale, appliqués tels quels. Rien déployé, rien écrit en base de prod, rien commité. `BOULOT_PUBLIE = false` et `STORYTELLING_PUBLIE = true` dans le fichier commité. Aucun texte validé modifié (conseils, défis, vannes, scènes, quiz) : seulement l'affichage. Deux libellés neufs, validés par l'arbitrage et rangés dans `config/textes/parcours.ts` (`DEFI_BOULOT`) : « Version sans risque » et « Aller au défi ». Aucun « aujourd'hui » ajouté.
+
+### Corrections
+
+1. **N2b @ux / S1 (tous parcours)**, `parcours-detail.tsx` : dans la carte de progression, quand la date conseillée est passée, la phrase validée « La prochaine étape t'attend. » devient un lien vers `#etape-N` (première étape non validée), avec en second plan « Étape N : <titre du module> » (`etapeLibelle` + `moduleTitle`, typographie `frTypoTexte`). Cible de 44 px minimum (bloc entier cliquable), focus visible. Clic : l'étape s'ouvre, vient sous la barre fixe (`scroll-mt-28` de la carte, 112 px) et reçoit le focus ; mouvement réduit respecté. État « date future » inchangé (`prochaineEtapeTexte`).
+2. **N4 @ux (Boulot seulement, test sur le slug)**, `parcours-step-card.tsx` : `decouperRepli` coupe le défi au début de sa **dernière phrase interrogative** ; zéro ou plus d'un « ? » = pas de coupe. Le repli s'affiche dans un encadré titré « Version sans risque » (même encadré que le défi, tokens `accent-primary`, `ENCADRE_DEFI`). Lien « Aller au défi » en tête de l'étape ouverte, sous la ligne XP, vers `#etape-N-defi` (section « Exercice pratique », `scroll-mt-28`), cible de 44 px. Les 4 parcours en ligne ne changent pas (testé).
+   - **Écart à la règle, signalé** : le défi 5 contient **deux** « ? » (« « tu fais quoi dans la vie ? » » et « Personne ne te le demande aujourd'hui ? »). La règle littérale (« plus d'un « ? » : ne pas couper ») l'aurait laissé entier, contre la coupe attendue. Résolu sans texte touché : un « ? » à l'intérieur d'une citation « … » ne compte pas (ce n'est pas une phrase du défi). Hors citation, les 6 défis ont exactement un « ? », et la coupe tombe sur « Pas de réunion… », « Pas de mail pro… », « Pas de couloir… », « Pas d'afterwork… », « Personne ne te le demande… », « Aucun pot en vue ? » (testé sur le texte brut et sur le texte rendu, concaténation identique au caractère près).
+3. **Double cadenas (design S2, UX S4, tous parcours)** : icône de droite retirée sur l'étape verrouillée par l'ordre ; le rond à gauche garde le cadenas. Visiteur : cadenas à gauche et chevron d'ouverture (inchangé, testé).
+4. **Coupure après trait d'union (design S1) et « En 6 semaines » (design S3)**, `lib/fr-typo.ts` : `frTypoParcours` = `frTypo` + gluon U+2060 (invisible, sans glyphe) après le trait d'union des impératifs suivis de -en, -y, -le, -la, -les, -lui, -moi, -toi, -nous, -vous, -leur (« Choisis-en », « relis-les », « dis-le-moi »), idempotent. `frTypoTexte` lie aussi « En » / « en » au nombre qui suit (espace insécable). **Parcours seulement** : `frTypoParcours` remplace `frTypo` dans les 4 composants de parcours qui l'appelaient (`parcours-step-card`, `step-blocks`, `step-quiz`, `parcours-content` ; Grep `frTypo(` dans `components/parcours` : 11 appels trouvés, 11 remplacés), et `frTypoTexte` (accroche) s'appuie dessus ; le blog, la FAQ et les vidéos gardent `frTypo` (pas de caractère invisible dans le HTML indexé du blog). Texte copié : seuls des gluons invisibles s'ajoutent (testé : retirer U+2060 redonne `frTypo`).
+5. **Carte de progression en erreur (design S4, UX S3, tous parcours)** : ligne « 700 XP au total… » masquée quand le chargement a échoué ; marge de 12 px au-dessus de l'alerte retirée quand rien n'est au-dessus (cause du vide : pas de barre en échec sans progression connue).
+6. **Total d'XP (UX S2, tous parcours)** : aligné à gauche sous 640 px, à droite à partir de `sm:`.
+7. **« Lire la fiche du conseil » (UX S5)** : le repli seed n'a pas d'identifiant de conseil en base (id `seed-tip-N`, et la fiche peut ne pas exister avant l'activation) : la place du lien est **réservée** (44 px) dans le HTML de repli, le lien vient s'y loger après l'appel API. Plus simple et sans lien mort.
+
+### Tests
+
+- `__tests__/lib/parcours-rendu-s19-iter3.test.ts` : coupe des 6 défis (brut et rendu), cas sans coupe, gluon, idempotence, traits d'union non touchés, « En 6 semaines », suites de fin.
+- `__tests__/feature/parcours-rendu-s19-iter3.test.tsx` : encadré et lien Boulot seulement (4 parcours en ligne inchangés), place réservée du lien de fiche, un seul cadenas, lien d'étape (href, 44 px, pas d'« aujourd'hui », ouverture au clic), ligne XP masquée en erreur.
+- `__tests__/lib/parcours-rendu-s19-iter2.test.ts` : attente « En 6 semaines » mise à jour (nouveau comportement voulu).
+- **`pickSuite` (spec s17 §5.5, SU-04)** : compte qui a fini Machine à Café puis Storytelling, fin de Storytelling = **Répartie** (pas de boucle) ; Boulot publié (interrupteur simulé par `publishedSeedJson(true, true)`), fin de Machine à Café = **Boulot** ; Boulot masqué = Storytelling. Le code était déjà conforme : **aucune correction**.
+
+### Captures (instance locale jetable, jamais la prod)
+
+- `captures.sh` (passe Boulot complète, ordre de la prod) : **185 PASS, 0 FAIL, 98 captures** ; les 85 de l'itération 2 remplacées, 13 ajoutées (étapes 3 et 6 avec « Version sans risque » en 375 et 1280, « Aller au défi » après le clic, haut de page avec le lien d'étape en 375 et 1280 et après le clic, erreur en pleine page, question de quiz répondue avec explication, fins de Machine à Café avec Boulot publié et de Storytelling après Machine à Café). Hub avec Boulot publié (build forcé à `true`) : intro « 5 parcours … Machine à Café, Répartie, Confiance, Storytelling et Boulot » contrôlée aux 3 largeurs. Comptes ajoutés dans `comptes.sh` : `qa-bmac` (Machine à Café fini), `qa-bmacstory` (Machine à Café puis Storytelling finis).
+- `captures.sh --regression` : **162 PASS, 0 FAIL, 72 captures** (52 refaites, 20 ajoutées : aperçu de l'étape 2 déplié sur Répartie et Storytelling en 375 et 1280, haut de page Premium en cours sur les 4 parcours en 375, pages visiteur des 4 parcours en 768 ; hub après 0441569).
+- Les deux runs : `BOULOT_PUBLIE` remis à `false`, `git diff` de l'interrupteur vide, `STORYTELLING_PUBLIE` inchangé. Index : `docs/qa/captures-parcours-boulot-s19/index.md` et `regression/index.md`.
+
+### Résultats (11/10, depuis `apps/web`)
+
+- `npx tsc --noEmit -p tsconfig.build.json` : 0 erreur.
+- `npm run lint` : 0 erreur, 1 avertissement préexistant (`src/app/admin/page.tsx`, `<img>`).
+- `npx jest parcours premium` : 33 suites, 437 tests passés, 2 ignorés. Jest complet : 281 suites passées, 1 ignorée ; 4 034 tests passés, 4 ignorés.
+- `npm run build` (interrupteur à `false`) : réussi, 157 pages.

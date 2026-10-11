@@ -27,6 +27,7 @@ import { useUserStore } from "@/stores/user-store";
 import { RAPPEL_PARCOURS_API } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import {
   etapeContexteTexte,
+  etapeLibelle,
   progressionVisiteurTexte,
   prochaineEtapeTexte,
   APERCU_INTRO,
@@ -338,6 +339,17 @@ export function ParcoursDetail({
     setExpandedStep(isExpanded ? null : order);
   };
 
+  /** s19 (N2b) : lien de la carte de progression, l'étape s'ouvre puis vient sous la barre fixe (scroll-mt-28). */
+  const allerAEtape = (order: number) => {
+    if (expandedStep !== order) openTrigger.current = "manuel";
+    setExpandedStep(order);
+    const reduit = typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    requestAnimationFrame(() => {
+      document.getElementById(`etape-${order}`)?.scrollIntoView?.({ behavior: reduit ? "auto" : "smooth", block: "start" });
+      document.getElementById(`etape-${order}-entete`)?.focus({ preventScroll: true });
+    });
+  };
+
   const handleCompleteStep = async (stepOrder: number) => {
     if (!path || !isPremium) {
       window.location.assign(abonnementHref);
@@ -498,6 +510,8 @@ export function ParcoursDetail({
     : nextRecommended && new Date(nextRecommended).getTime() > Date.now()
       ? new Date(nextRecommended)
       : prochaineEtapeConseillee(lastValidation);
+  // s19 (N2b) : étape à faire quand la date conseillée est passée (« La prochaine étape t'attend. »).
+  const etapeAFaire = path.steps.find((s) => !completedSteps.includes(s.order)) ?? null;
 
   // s17 tour 2 (DES-2-11) : parcours terminé, l'argumentaire (intro, « Pour qui ? ») passe après la carte de fin.
   // s19 (N2 a @ux rendu) : abonné qui a déjà validé une étape, l'argumentaire passe après le programme.
@@ -590,8 +604,9 @@ export function ParcoursDetail({
                   {CHARGEMENT_PREMIUM.echecTexte}
                 </p>
               )}
+              {/* s19 (S4 @design, S3 @ux rendu iter 2) : sans barre au-dessus, pas de marge (vide de 40 px). */}
               {echecPremium && etapeEnEchec < 0 && (
-                <div role="alert" className="mt-3 rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text">
+                <div role="alert" className={`${progressionConnue ? "mt-3 " : ""}rounded-lg border-l-2 border-error-text bg-error/10 p-3 text-sm text-error-text`}>
                   <p className="font-semibold">{CHARGEMENT_PREMIUM.echec}</p>
                   <p className="mt-1">{CHARGEMENT_PREMIUM.echecTexte}</p>
                   <Button
@@ -606,15 +621,36 @@ export function ParcoursDetail({
               )}
               {/* DES-1-16 : total à gagner en secondaire, pour ne pas le lire comme un gain.
                   s17 tour 2 (DES-2-05) : parcours terminé, la carte de fin dit déjà l'XP gagné. */}
-              {!isPathCompleted && (
-                <p className="mt-2 text-right text-sm text-text-secondary">
+              {/* s19 (S4 @design, S3 @ux rendu iter 2) : masqué si le chargement a échoué (ligne orpheline).
+                  s19 (S2 @ux rendu iter 2) : à gauche sous 640 px (« dernière étape » orphelin à droite). */}
+              {!isPathCompleted && !echecPremium && (
+                <p className="mt-2 text-left text-sm text-text-secondary sm:text-right">
                   {totalXpTexte(totalXp, PARCOURS_BONUS_FIN_XP)}
                 </p>
               )}
-              {showRythme && (
-                <p className="mt-2 text-sm text-text-secondary">
-                  {nextDate ? prochaineEtapeTexte(formatDateConseillee(nextDate)) : PROCHAINE_ETAPE_DISPONIBLE}
-                </p>
+              {showRythme && nextDate && (
+                <p className="mt-2 text-sm text-text-secondary">{prochaineEtapeTexte(formatDateConseillee(nextDate))}</p>
+              )}
+              {/* s19 (N2b, S1 @ux rendu iter 2) : phrase validée cliquable vers l'étape à faire, numéro et titre
+                  en second plan ; même ouverture que l'en-tête de l'étape (dépliée, calée sous la barre fixe). */}
+              {showRythme && !nextDate && etapeAFaire && (
+                <a
+                  href={`#etape-${etapeAFaire.order}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    allerAEtape(etapeAFaire.order);
+                  }}
+                  data-testid="lien-prochaine-etape"
+                  className="group mt-2 flex min-h-[44px] flex-col justify-center rounded text-sm focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+                >
+                  <span className="text-accent-link underline underline-offset-2">{PROCHAINE_ETAPE_DISPONIBLE}</span>
+                  <span className="text-text-secondary">
+                    {frTypoTexte(`${etapeLibelle(etapeAFaire.order)} : ${etapeAFaire.moduleTitle ?? etapeAFaire.tip.title}`)}
+                  </span>
+                </a>
+              )}
+              {showRythme && !nextDate && !etapeAFaire && (
+                <p className="mt-2 text-sm text-text-secondary">{PROCHAINE_ETAPE_DISPONIBLE}</p>
               )}
               {!isPathCompleted && rappelInvite && (
                 <p className="mt-2 text-xs text-text-muted">

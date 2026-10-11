@@ -1,15 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { tipProse } from "@/lib/tip-prose";
-import { frTypo } from "@/lib/fr-typo";
+import { frTypoParcours } from "@/lib/fr-typo";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import {
   CHARGEMENT_ETAPE,
+  DEFI_BOULOT,
   dureeEtapeTexte,
   VIDEOS_ETAPE,
   ETAPE_APERCU_LIBELLE,
@@ -57,10 +58,13 @@ function LockIcon({ className }: { className: string }) {
 /** s17 tour 1 (DES-1-06) : titres de bloc lisibles d'un coup d'œil, corps à longueur de ligne lisible. */
 const SECTION_TITRE = "mb-2 font-display text-base font-bold text-text-primary";
 const CORPS_LECTURE = "max-w-[68ch] text-base leading-7 text-text-secondary sm:text-[15px]";
+/** Encadré du défi (s18), repris pour le second défi et « Version sans risque » (s19). */
+const ENCADRE_DEFI = "rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3";
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ title, id, children }: { title: string; id?: string; children: React.ReactNode }) {
   return (
-    <div>
+    // scroll-mt-28 : 112 px sous la barre fixe (64 px), cible des liens internes (« Aller au défi »).
+    <div id={id} className={id ? "scroll-mt-28" : undefined}>
       <h4 className={SECTION_TITRE}>{title}</h4>
       {children}
     </div>
@@ -79,6 +83,39 @@ const DEFI_LIBELLE = /^(DÉFI [^:\n]{1,40}?)(\s:[\s\S]*)$/; // \s couvre aussi l
 export function decouperDefi(texte: string): [string, string] | null {
   const m = DEFI_LIBELLE.exec(texte);
   return m ? [m[1], m[2]] : null;
+}
+
+/** Index des « ? » hors guillemets « … » (une question citée n'est pas une phrase du défi). */
+function questionsHorsCitation(texte: string): { questions: number[]; dansCitation: boolean[] } {
+  const questions: number[] = [];
+  const dansCitation: boolean[] = [];
+  let profondeur = 0;
+  for (let i = 0; i < texte.length; i++) {
+    if (texte[i] === "«") profondeur++;
+    dansCitation.push(profondeur > 0);
+    if (texte[i] === "»") profondeur = Math.max(0, profondeur - 1);
+    if (texte[i] === "?" && profondeur === 0) questions.push(i);
+  }
+  return { questions, dansCitation };
+}
+
+/**
+ * s19 (N4 @ux rendu iter 2, règle corrigée) : coupe le défi au début de sa DERNIÈRE phrase
+ * interrogative, qui ouvre le repli (« Pas de réunion en vue… ? », « Aucun pot en vue ? »).
+ * Zéro ou plus d'un « ? » hors citation : pas de coupe. Concaténation = texte d'origine.
+ */
+export function decouperRepli(texte: string): [string, string] | null {
+  const { questions, dansCitation } = questionsHorsCitation(texte);
+  if (questions.length !== 1) return null;
+  const q = questions[0];
+  for (let i = q - 1; i > 0; i--) {
+    const finDePhrase = !dansCitation[i - 1] && /[.!?…]/.test(texte[i - 1]) && /\s/.test(texte[i]);
+    if (texte[i] !== "\n" && !finDePhrase) continue;
+    let debut = i + 1;
+    while (debut < q && /\s/.test(texte[debut])) debut++;
+    return [texte.slice(0, debut), texte.slice(debut)];
+  }
+  return null;
 }
 
 function DefiTexte({ texte }: { texte: string }) {
@@ -211,7 +248,8 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
               </div>
             </div>
           </div>
-          {canExpand ? (
+          {/* s19 (S2 @design, S4 @ux rendu iter 2) : étape verrouillée par l'ordre, un seul cadenas (le rond à gauche). */}
+          {canExpand && (
             <svg
               className={`h-5 w-5 shrink-0 text-text-muted transition-transform group-hover:text-text-primary ${isExpanded ? "rotate-180" : ""}`}
               fill="none"
@@ -222,8 +260,6 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
-          ) : (
-            <LockIcon className="h-5 w-5 shrink-0 text-text-muted" />
           )}
         </div>
       </CardHeader>
@@ -294,14 +330,25 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   // pour l'instant (les 3 autres parcours gardent leur rendu s17). s19 : Boulot aussi (import-boulot.md §5.2),
   // avec `why` et `moduleDetail` (« 9 h 50 », « 16 h 40 »… et avant « : »), textes stockés sans insécables.
   const typoFr = slug === "storytelling" || slug === "boulot";
-  const prose = (t: string) => (typoFr ? frTypo(tipProse(t)) : tipProse(t));
-  const texteEtape = (t: string) => (slug === "boulot" ? frTypo(t) : t);
+  const prose = (t: string) => (typoFr ? frTypoParcours(tipProse(t)) : tipProse(t));
+  const texteEtape = (t: string) => (slug === "boulot" ? frTypoParcours(t) : t);
   // s18 (D5 @ux) : défi en base suivi d'un second défi après une ligne vide (callback, étape 6).
   const exercice = step.tip.exercise ?? "";
   const coupure = step.exerciceSecondTitre ? exercice.indexOf("\n\n") : -1;
   const defis = coupure > 0 ? [exercice.slice(0, coupure), exercice.slice(coupure + 2)] : [exercice];
+  // s19 (N4 @ux rendu iter 2) : « Version sans risque » et « Aller au défi », parcours Boulot seulement.
+  const versionSansRisque = slug === "boulot" && exercice !== "";
+  const defiAncre = `etape-${step.order}-defi`;
   return (
     <div className="space-y-6">
+      {versionSansRisque && (
+        <a
+          href={`#${defiAncre}`}
+          className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary"
+        >
+          {DEFI_BOULOT.allerAuDefi}
+        </a>
+      )}
       {step.why && (
         <div className="rounded-lg bg-background-elevated p-3">
           <p className="text-sm font-medium text-accent-link">Pourquoi cette étape ?</p>
@@ -326,10 +373,13 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       {step.tip.content && step.tip.content.trim() !== step.moduleDetail?.trim() && (
         <Section title="Le conseil">
           <p className={CORPS_LECTURE}>{prose(step.tip.content)}</p>
-          {step.tipHref && (
+          {step.tipHref ? (
             <Link href={step.tipHref} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
               {LIENS_FICHES.conseil}
             </Link>
+          ) : (
+            // s19 (S5 @ux rendu iter 2) : HTML de repli = place du lien réservée (il arrive avec l'API), pas de saut de page.
+            isSeedFallback && <span aria-hidden="true" data-testid="lien-conseil-reserve" className="block min-h-[44px]" />
           )}
         </Section>
       )}
@@ -350,21 +400,33 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {step.tip.exercise && (
-        <Section title="Exercice pratique">
-          {defis.map((defi, i) => (
-            // s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre.
-            <div key={i} className={`${i > 0 ? "mt-3 " : ""}rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-3`}>
-              {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
-              {typoFr ? (
-                // s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
-                <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">
-                  <DefiTexte texte={prose(defi)} />
-                </p>
-              ) : (
-                <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
-              )}
-            </div>
-          ))}
+        <Section title="Exercice pratique" id={versionSansRisque ? defiAncre : undefined}>
+          {defis.map((defi, i) => {
+            // s19 (N4 @ux rendu iter 2) : Boulot, le repli passe dans son propre encadré titré.
+            const repli = versionSansRisque ? decouperRepli(prose(defi)) : null;
+            return (
+              <Fragment key={i}>
+                {/* s18 (D5 @ux) : le second défi (après la ligne vide) a son propre encadré et son titre. */}
+                <div className={`${i > 0 ? "mt-3 " : ""}${ENCADRE_DEFI}`}>
+                  {i > 0 && <p className="mb-1 text-sm font-semibold text-text-primary">{step.exerciceSecondTitre}</p>}
+                  {typoFr ? (
+                    // s19 (N2 @design rendu) : interligne aéré et libellé « DÉFI X : » repérable, texte inchangé.
+                    <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">
+                      <DefiTexte texte={repli ? repli[0] : prose(defi)} />
+                    </p>
+                  ) : (
+                    <p className="whitespace-pre-line text-sm text-text-secondary">{prose(defi)}</p>
+                  )}
+                </div>
+                {repli && (
+                  <div className={`mt-3 ${ENCADRE_DEFI}`} data-testid="version-sans-risque">
+                    <p className="mb-1 text-sm font-semibold text-text-primary">{DEFI_BOULOT.versionSansRisque}</p>
+                    <p className="whitespace-pre-line text-sm leading-6 text-text-secondary">{repli[1]}</p>
+                  </div>
+                )}
+              </Fragment>
+            );
+          })}
           {step.exerciceProtection && <p className="mt-2 text-sm text-text-secondary">{step.exerciceProtection}</p>}
           {step.retourExerciceNote && <p className="mt-3 text-sm text-text-secondary">{step.retourExerciceNote}</p>}
           <div className="mt-3">

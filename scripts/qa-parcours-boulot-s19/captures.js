@@ -108,6 +108,9 @@ async function playQuiz(card) {
 /** Garde-fou B1 (rendu itération 1) : l'étape 1 lue par le visiteur porte le conseil, l'exemple et le défi. */
 const BLOCS_ETAPE1 = ['Le conseil', 'Exemple concret', 'Exercice pratique', 'Alors, ce défi ?'];
 const CONSEIL1 = require('../../docs/content/parcours-boulot-s19.json')._meta.conseils.find((c) => c.etape === 1);
+/** Rendu itération 3 (N4) : début du repli attendu dans « Version sans risque », étapes 1 à 6. */
+const REPLIS = ['Pas de réunion en vue', 'Pas de mail pro à envoyer', 'Pas de couloir aujourd', "Pas d'afterwork à venir",
+  'Personne ne te le demande', 'Aucun pot en vue'];
 function etape1Complete(t) {
   const manque = BLOCS_ETAPE1.filter((b) => !t.includes(b));
   if (!has(t, CONSEIL1.exercise, 60)) manque.push('texte du défi');
@@ -150,6 +153,10 @@ async function hub(browser, w, role, email) {
   const txt = await page.locator('main').innerText().catch(() => '');
   ok(`[${role} ${w}] hub /parcours en 200, Boulot présent`, res.status() === 200 && /Boulot/.test(txt), `HTTP ${res.status()}`);
   ok(`[${role} ${w}] hub : « 5 parcours » si le compte est affiché`, !/\b4 parcours\b/.test(txt), (txt.match(/.{0,30}\d parcours.{0,30}/) || [''])[0]);
+  // Rendu itération 3 (S8 @ux) : intro tirée des parcours publiés (0441569), 5 noms avec Boulot.
+  ok(`[${role} ${w}] hub : intro « 5 parcours … Machine à Café, Répartie, Confiance, Storytelling et Boulot »`,
+    has(txt, '5 parcours pour progresser en humour') && has(txt, 'Machine à Café, Répartie, Confiance, Storytelling et Boulot', 80),
+    (txt.replace(/\s+/g, ' ').match(/\d parcours pour progresser.{0,160}/) || [''])[0]);
   await viewport(page, `${role}-${w}-hub-haut`);
   await shot(page, `${role}-${w}-hub`);
   const carte = page.locator('main h2, main h3', { hasText: /Parcours Boulot/ }).first().locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
@@ -261,6 +268,29 @@ async function etapePremium(browser, w, k) {
   ok(`[premium ${w}] étape ${k} : titre, ${vannes}/${s.jokeContents.length} vannes, quiz`, has(t, s.moduleTitle)
     && vannes === s.jokeContents.length && (await e.locator('[role="group"][aria-labelledby^="quiz-q-"]').count()) > 0);
   ok(`[premium ${w}] étape ${k} : ${s.videos.length} vidéo(s)`, (await videosVisibles(e, s)) === s.videos.length);
+  // Rendu itération 3 (N4) : repli dans l'encadré « Version sans risque », coupé sur la dernière question.
+  const vsr = e.locator('[data-testid="version-sans-risque"]');
+  const vsrTxt = (await vsr.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  ok(`[premium ${w}] étape ${k} : encadré « Version sans risque » qui commence par « ${REPLIS[k - 1]} »`,
+    (await vsr.count()) === 1 && /^Version sans risque/.test(vsrTxt) && has(vsrTxt.replace(/^Version sans risque/, ''), REPLIS[k - 1], 20), vsrTxt.slice(0, 90));
+  const allerDefi = e.getByRole('link', { name: 'Aller au défi' });
+  const hLien = await allerDefi.evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
+  ok(`[premium ${w}] étape ${k} : lien « Aller au défi » (cible >= 44 px)`, (await allerDefi.count()) === 1 && hLien >= 44, `hauteur ${hLien}px`);
+  if (w === 375 && k === 3) {
+    // Lien cliqué, en-tête collant ACTIF : « Exercice pratique » doit apparaître sous la barre fixe.
+    await allerDefi.click();
+    await page.waitForTimeout(1000);
+    const pos = await page.evaluate((id) => {
+      const t = document.getElementById(id)?.getBoundingClientRect().top ?? -1;
+      const hd = document.querySelector('header')?.getBoundingClientRect().bottom ?? 0;
+      return { t: Math.round(t), hd: Math.round(hd), hash: location.hash };
+    }, `etape-${k}-defi`);
+    ok(`[premium ${w}] étape ${k} : après « Aller au défi », « Exercice pratique » sous l'en-tête collant`, pos.t >= pos.hd && pos.t < 260 && pos.hash === `#etape-${k}-defi`, JSON.stringify(pos));
+    await viewport(page, `premium-${w}-etape${k}-aller-au-defi`);
+  }
+  if ((k === 3 || k === 6) && w !== 768) {
+    await shot(page, `premium-${w}-etape${k}-version-sans-risque`, e.locator(`#etape-${k}-defi`));
+  }
   await waitThumbs(page, e);
   await shot(page, `premium-${w}-etape${k}`, e);
   ok(`[premium ${w}] étape ${k} : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
@@ -292,7 +322,69 @@ async function hautProgression(browser, w) {
   await page.evaluate(() => window.scrollTo(0, 0));
   const t = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
   ok(`[premium ${w}] page haute avec progression : 2/6 et rythme affichés`, /2\/6 étapes complétées/.test(t), (t.match(/.{0,60}2\/6.{0,160}/) || [''])[0]);
+  // Rendu itération 3 (N2b) : la phrase validée mène à l'étape 3, numéro et titre en second plan.
+  const lien = page.locator('[data-testid="lien-prochaine-etape"]');
+  const lt = (await lien.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  const hl = await lien.evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
+  ok(`[premium ${w}] lien d'étape : « La prochaine étape t'attend. » vers #etape-3, « Étape 3 : ${DATA.steps[2].moduleTitle} », >= 44 px`,
+    (await lien.getAttribute('href').catch(() => '')) === '#etape-3' && /La prochaine étape t.attend\./.test(lt)
+      && has(lt, `Étape 3 : ${DATA.steps[2].moduleTitle}`) && !/aujourd/i.test(lt) && hl >= 44, `${lt} ; ${hl}px`);
+  // Total d'XP : à gauche sous 640 px, à droite au-dessus (S2 @ux).
+  const align = await page.getByText(/XP au total/).first().evaluate((el) => getComputedStyle(el).textAlign).catch(() => '?');
+  ok(`[premium ${w}] total d'XP aligné ${w < 640 ? 'à gauche' : 'à droite'}`, align === (w < 640 ? 'left' : 'right'), align);
   await viewport(page, `premium-${w}-page-haut-progression`);
+  if (w === 375) {
+    await lien.click();
+    await page.waitForTimeout(1200);
+    const pos = await page.evaluate(() => ({
+      t: Math.round(document.getElementById('etape-3')?.getBoundingClientRect().top ?? -1),
+      hd: Math.round(document.querySelector('header')?.getBoundingClientRect().bottom ?? 0),
+      ouverte: document.getElementById('etape-3-entete')?.getAttribute('aria-expanded'),
+      focus: document.activeElement?.id,
+    }));
+    ok(`[premium ${w}] lien d'étape cliqué : étape 3 ouverte, sous l'en-tête collant, focus sur son en-tête`,
+      pos.t >= pos.hd && pos.ouverte === 'true' && pos.focus === 'etape-3-entete', JSON.stringify(pos));
+    await viewport(page, `premium-${w}-lien-etape-apres-clic`);
+  }
+  await ctx.close();
+}
+
+/** Rendu itération 3 (S6 @ux) : quiz visiteur, une question répondue (mauvaise réponse) et son explication. */
+async function quizQuestionRepondue(browser, w) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await go(page, `${BASE}/parcours/boulot`);
+  const e = await openStep(page, 1);
+  const q = DATA.steps[0].quiz[0];
+  const faux = q.options.findIndex((_, i) => i !== q.correctIndex);
+  const group = e.locator('[role="group"][aria-labelledby^="quiz-q-"]').first();
+  await group.locator('button').nth(faux).click();
+  await page.waitForTimeout(600);
+  const quiz = e.locator('h4', { hasText: "Petit quiz pour t'entraîner" }).first().locator('xpath=..');
+  const qt = (await quiz.innerText().catch(() => '')).replace(/\s+/g, ' ');
+  ok(`[visiteur ${w}] quiz : question répondue, « Pas tout à fait », « La bonne réponse : », explication visible`,
+    /Pas tout à fait/.test(qt) && /La bonne réponse/.test(qt) && (!q.explanation || has(qt, q.explanation, 30)), qt.slice(0, 220));
+  await shot(page, `visiteur-${w}-etape1-quiz-question-repondue`, quiz);
+  ok(`[visiteur ${w}] quiz question : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
+  await ctx.close();
+}
+
+/** Rendu itération 3 (§4 @ux) : suites de fin avec Boulot publié (build forcé à true). */
+async function finAutreParcours(browser, w, email, slug, attendu, nom) {
+  const ctx = await ctxFor(browser, w);
+  const page = await ctx.newPage();
+  await login(page, email);
+  await go(page, `${BASE}/parcours/${slug}`);
+  const h = page.locator('main h2', { hasText: /terminé/ }).first();
+  await h.waitFor({ timeout: 15000 }).catch(() => {});
+  const carte = h.locator('xpath=ancestor::div[contains(@class,"rounded")][1]');
+  const lien = carte.locator('a[href*="?src=suite"]').first();
+  await lien.waitFor({ timeout: 15000 }).catch(() => {});
+  const href = await lien.getAttribute('href').catch(() => '');
+  ok(`[premium ${w}] fin ${slug} (Boulot publié) : suite = ${attendu}`, href === `/parcours/${attendu}?src=suite`, `${href} ; ${(await lien.innerText().catch(() => '')).replace(/\s+/g, ' ')}`);
+  await viewport(page, `premium-${w}-${nom}`);
+  if (await carte.count()) await shot(page, `premium-${w}-${nom}-carte`, carte);
+  ok(`[premium ${w}] fin ${slug} : aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
   await ctx.close();
 }
 
@@ -311,6 +403,12 @@ async function erreurChargement(browser, w) {
     await page.waitForTimeout(300);
   }
   await viewport(page, `premium-${w}-erreur-chargement`);
+  // Rendu itération 3 (S4 @design, S3 @ux) : pas de ligne XP orpheline ; rien de visiteur montré à l'abonné.
+  const t = (await page.locator('main').innerText()).replace(/\s+/g, ' ');
+  ok(`[premium ${w}] erreur : ni « XP au total », ni « Voir l'offre Premium », ni « Lecture libre »`,
+    !/XP au total/.test(t) && !/Voir l.offre Premium/.test(t) && !/Lecture libre/.test(t));
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await shot(page, `premium-${w}-erreur-chargement-page`);
   await ctx.close();
 }
 
@@ -343,6 +441,8 @@ const REG_PARCOURS = ['machine-a-cafe', 'repartie', 'confiance', 'storytelling']
   .map((slug) => (slug === 'storytelling' ? REG_STORY : REG_SEED.find((p) => p.slug === slug)));
 const REG_TITRES = Object.fromEntries([...REG_SEED, REG_STORY].map((p) => [p.slug, p.title]));
 const TROUS = /\bundefined\b|\bnull\b|\bNaN\b|\[object Object\]/;
+/** BR1 a @design : parcours dont l'aperçu de l'étape 2 est capturé déplié (375 et 1280). */
+const APERCU_ETAPE2 = ['repartie', 'storytelling'];
 
 /** Aucune chaîne « undefined », « null », « NaN » ou « [object Object] » visible dans la zone. */
 async function sansTrou(name, loc) {
@@ -381,6 +481,10 @@ async function regHub(browser, w) {
   const absents = REG_PARCOURS.filter((p) => !norm(txt).includes(norm(p.title))).map((p) => p.slug);
   ok(`[reg visiteur ${w}] hub /parcours en 200, 4 parcours en ligne présents`, res.status() === 200 && absents.length === 0, `HTTP ${res.status()}${absents.length ? ' ; absents : ' + absents.join(', ') : ''}`);
   ok(`[reg visiteur ${w}] hub : Boulot absent (BOULOT_PUBLIE = false)`, !/Parcours Boulot/.test(txt));
+  // Rendu itération 3 (S8 @ux) : intro du hub après 0441569, tirée des 4 parcours publiés (Storytelling compris).
+  ok(`[reg visiteur ${w}] hub : intro « 4 parcours … Machine à Café, Répartie, Confiance et Storytelling »`,
+    has(txt, '4 parcours pour progresser en humour') && has(txt, 'Machine à Café, Répartie, Confiance et Storytelling', 80) && !/Boulot/.test(txt),
+    (txt.replace(/\s+/g, ' ').match(/\d parcours pour progresser.{0,160}/) || [''])[0]);
   await sansTrou(`[reg visiteur ${w}] hub`, page.locator('main'));
   await regViewport(page, `hub-${w}-visiteur-haut`);
   await regShot(page, `hub-${w}-visiteur-page`);
@@ -414,6 +518,18 @@ async function regVisiteur(browser, w, p) {
   await sansTrou(`[reg ${p.slug} visiteur ${w}] étape 1`, e1);
   await waitThumbs(page, e1);
   await regShot(page, `${p.slug}-${w}-visiteur-etape1`, e1);
+  if (APERCU_ETAPE2.includes(p.slug) && w !== 768) {
+    // BR1 a @design : aperçu verrouillé de l'étape 2 déplié (scène au corps de l'étape ouverte, N4), bouton plein.
+    const e2 = await openStep(page, 2);
+    const t2 = await e2.innerText();
+    const offre = e2.getByRole('link', { name: /Voir l'offre Premium/ });
+    const h = await offre.first().evaluate((el) => el.getBoundingClientRect().height).catch(() => 0);
+    ok(`[reg ${p.slug} visiteur ${w}] étape 2 dépliée : aperçu (scène, « Fait partie de Premium »), « Voir l'offre Premium » >= 44 px, ni vannes ni quiz`,
+      has(t2, p.steps[1].moduleTitle) && /Fait partie de Premium/.test(t2) && (await offre.count()) > 0 && h >= 44
+        && (await e2.locator('[role="group"][aria-labelledby^="quiz-q-"]').count()) === 0, `bouton ${h}px`);
+    await sansTrou(`[reg ${p.slug} visiteur ${w}] étape 2`, e2);
+    await regShot(page, `${p.slug}-${w}-visiteur-apercu-etape2`, e2);
+  }
   ok(`[reg ${p.slug} visiteur ${w}] aucune erreur JS`, ctx.__errors.length === 0, ctx.__errors.join(' | '));
   await ctx.close();
 }
@@ -424,6 +540,23 @@ async function regPremium(browser, w, p) {
   await login(page, `qa-r2-${p.slug}-${w}@local.test`);
   const res = await go(page, `${BASE}/parcours/${p.slug}`);
   ok(`[reg ${p.slug} premium ${w}] /parcours/${p.slug} en 200`, res.status() === 200, `HTTP ${res.status()}`);
+  if (w === 375) {
+    // BR1 b @design : haut de page en cours de parcours (étape 1 validée il y a 7 jours) ; N2b : lien d'étape.
+    await page.getByText(new RegExp(`1/${p.steps.length} étapes complétées`)).first().waitFor({ timeout: 15000 }).catch(() => {});
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(300);
+    const lien = page.locator('[data-testid="lien-prochaine-etape"]');
+    const lt = (await lien.innerText().catch(() => '')).replace(/\s+/g, ' ');
+    const ordre = await page.evaluate(() => {
+      const prog = [...document.querySelectorAll('main h2')].find((h) => h.textContent.trim() === 'Le programme');
+      const pq = document.getElementById('parcours-pour-qui');
+      return { programme: Math.round(prog?.getBoundingClientRect().top ?? -1), pourQui: Math.round(pq?.getBoundingClientRect().top ?? -1) };
+    });
+    ok(`[reg ${p.slug} premium ${w}] haut de page en cours : 1/${p.steps.length}, lien « Étape 2 : ${p.steps[1].moduleTitle.slice(0, 30)} » vers #etape-2, argumentaire après le programme`,
+      (await lien.getAttribute('href').catch(() => '')) === '#etape-2' && has(lt, `Étape 2 : ${p.steps[1].moduleTitle}`)
+        && ordre.pourQui > ordre.programme, `${lt} ; ${JSON.stringify(ordre)}`);
+    await regViewport(page, `${p.slug}-${w}-premium-page-haut`);
+  }
   const k = p.steps.findIndex((s) => !s.free) + 1;
   const s = p.steps[k - 1];
   const e = await openStep(page, k);
@@ -470,6 +603,8 @@ async function regression() {
       await regFin(browser, w, p);
     }
   }
+  // Rendu itération 3 (S9 @ux) : page visiteur des 4 parcours en 768.
+  for (const p of REG_PARCOURS) await regVisiteur(browser, 768, p);
   await browser.close();
 }
 
@@ -479,9 +614,13 @@ if (process.env.QA_REGRESSION === '1') {
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium' });
   for (const w of WIDTHS) {
     await htmlIsr(browser, w);
+    if (w !== 768) await hautProgression(browser, w);
     if (w === 375) {
-      await hautProgression(browser, w);
       await erreurChargement(browser, w);
+      await quizQuestionRepondue(browser, w);
+      // §4 @ux : Machine à Café finie, Boulot publié = Boulot ; Machine à Café puis Storytelling finis = Répartie.
+      await finAutreParcours(browser, w, 'qa-bmac@local.test', 'machine-a-cafe', 'boulot', 'fin-machine-a-cafe-boulot-publie');
+      await finAutreParcours(browser, w, 'qa-bmacstory@local.test', 'storytelling', 'repartie', 'fin-storytelling-apres-machine-a-cafe');
     }
     await hub(browser, w, 'visiteur', null);
     await hub(browser, w, 'premium', `qa-b${w}@local.test`);

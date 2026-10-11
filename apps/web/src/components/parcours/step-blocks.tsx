@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { trackUmami } from "@/lib/umami";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypo } from "@/lib/fr-typo";
+import { frTypoParcours } from "@/lib/fr-typo";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
@@ -39,7 +39,7 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
           {/* s19 : sauts de paragraphe rendus ; typographie française pour Boulot (import-boulot.md §5).
               s19 (N4 @design rendu) : même corps que la scène de l'étape ouverte (CORPS_LECTURE), tous parcours. */}
           <p className="mt-1 max-w-[68ch] whitespace-pre-line text-base leading-7 text-text-secondary sm:text-[15px]">
-            {slug === "boulot" ? frTypo(step.moduleDetail || step.why || "") : step.moduleDetail || step.why}
+            {slug === "boulot" ? frTypoParcours(step.moduleDetail || step.why || "") : step.moduleDetail || step.why}
           </p>
         </div>
       )}
@@ -105,7 +105,7 @@ export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: b
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>
         <p className="text-xs text-text-secondary">{video.title}</p>
         {/* s17 tour 1 (DES-1-13) : description lisible, lien en cible de 44 px. */}
-        <p className="mt-1 text-sm text-text-secondary">{frTypo(stripEmDashes(video.why))}</p>
+        <p className="mt-1 text-sm text-text-secondary">{frTypoParcours(stripEmDashes(video.why))}</p>
         {video.href && (
           <Link href={video.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
             {LIENS_FICHES.video}
@@ -131,8 +131,8 @@ export function StepJokes({ step, isPremium }: { step: Step; isPremium: boolean 
           {jokes.map((j) => (
             <li key={j.id} className="py-3 text-sm last:pb-0">
               {/* s18 (D4 @ux) : répliques entre apostrophes droites rendues en « … » (ponctuation seulement). */}
-              <p className="text-text-secondary">{frTypo(frenchQuizQuotes(stripEmDashes(j.content)))}</p>
-              <p className="mt-1 font-semibold text-text-primary">{frTypo(frenchQuizQuotes(stripEmDashes(j.punchline)))}</p>
+              <p className="text-text-secondary">{frTypoParcours(frenchQuizQuotes(stripEmDashes(j.content)))}</p>
+              <p className="mt-1 font-semibold text-text-primary">{frTypoParcours(frenchQuizQuotes(stripEmDashes(j.punchline)))}</p>
               <Link href={j.href} className="inline-flex min-h-[44px] items-center text-sm text-accent-link underline underline-offset-2">
                 {VANNES_ETAPE.voirFiche}
                 <span className="sr-only"> : {j.technique ?? j.content}</span>

@@ -204,6 +204,13 @@ export const LIENS_FICHES = {
   video: "Voir la fiche de la vidéo",
 } as const;
 
+// VALIDÉ s19 (arbitrage rendu itération 2, délégué par le fondateur) : parcours Boulot seulement (N4 @ux).
+/** Repli du défi en encadré titré, et raccourci vers le défi en tête de l'étape ouverte. */
+export const DEFI_BOULOT = {
+  versionSansRisque: "Version sans risque",
+  allerAuDefi: "Aller au défi",
+} as const;
+
 // s17, aligné sur les étalons (H2 de la page : ne pas changer, SEO)
 /** Sous-titres H2 de la page d'un parcours (SEO-05). */
 export const TITRES_SECTIONS = {

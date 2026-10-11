@@ -1,9 +1,14 @@
-# Non-régression des 4 parcours en ligne après 508cd96 (s19)
+# Non-régression des 4 parcours en ligne après 508cd96, 0441569 et le rendu itération 3 (s19)
 
 Objet : le commit 508cd96 modifie des composants communs (`parcours-detail.tsx`, `parcours-content.tsx`,
 `parcours-step-card.tsx`, `step-blocks.tsx`, `parcours-preview.ts`, `fr-typo.ts`, `parcours-data.ts`).
 Ces captures montrent le rendu des 4 parcours déjà en ligne (Machine à Café, Répartie, Confiance, Storytelling)
 et du hub, pour relecture par @design et @ux.
+
+**Run de l'itération 3 (11/10/2026)** : toutes les captures refaites sur le code de l'itération 3 (lien d'étape de la
+carte de progression, un seul cadenas, gluon après « Choisis- », « En 6 semaines », total d'XP à gauche en mobile,
+ligne XP masquée en erreur), après 0441569 (intro du hub). 20 captures ajoutées : BR1 a et b @design (aperçu de
+l'étape 2 déplié, haut de page Premium en cours), S9 @ux (768), S8 @ux (hub après 0441569, contrôlé).
 
 ## Conditions
 
@@ -20,17 +25,21 @@ et du hub, pour relecture par @design et @ux.
 
 ## Bilan
 
-**120 PASS, 0 FAIL, 52 captures.** Contrôles par parcours et par largeur : HTTP 200, titre H1, aucune erreur JS
+**162 PASS, 0 FAIL, 72 captures** (itération 3 ; itération 2 : 120 PASS, 52 captures). Contrôles par parcours et par largeur : HTTP 200, titre H1, aucune erreur JS
 (pageerror), étape 1 visiteur avec « Le conseil » et « Exercice pratique » remplis (plus de 20 caractères
 chacun), étape 2 Premium avec ses 5 vannes et son quiz, carte de fin « terminé » avec XP et suite proposée, et
 aucune chaîne « undefined », « null », « NaN » ou « [object Object] » visible (page, étape 1, étape 2, carte de
-fin, hub). Hub : 200, les 4 parcours présents, Boulot absent.
+fin, hub). Hub : 200, les 4 parcours présents, Boulot absent, intro « 4 parcours pour progresser en humour,
+chacun taillé pour une situation : Machine à Café, Répartie, Confiance et Storytelling » (après 0441569).
+Ajouts de l'itération 3 : aperçu de l'étape 2 déplié (scène, « Fait partie de Premium », « Voir l'offre Premium »
+de 44 px, ni vannes ni quiz) ; haut de page Premium en cours (1/N, lien « La prochaine étape t'attend. » vers
+`#etape-2` avec « Étape 2 : <titre> », argumentaire après le programme) sur les 4 parcours en 375.
 
 ## Captures
 
 | Fichier | Parcours | Largeur | État | Ce qu'on doit y voir |
 |---|---|---|---|---|
-| hub-375-visiteur-haut.png | hub /parcours | 375 | visiteur | Titre, intro « 4 parcours », début du quiz d'orientation |
+| hub-375-visiteur-haut.png | hub /parcours | 375 | visiteur | Titre, intro après 0441569 « 4 parcours … : Machine à Café, Répartie, Confiance et Storytelling », début du quiz d'orientation |
 | hub-375-visiteur-page.png | hub /parcours | 375 | visiteur | 4 cartes (Machine à Café, Répartie, Confiance, Storytelling), pas de Boulot, FAQ |
 | hub-1280-visiteur-haut.png | hub /parcours | 1280 | visiteur | Idem en desktop, quiz sur 3 colonnes |
 | hub-1280-visiteur-page.png | hub /parcours | 1280 | visiteur | 4 cartes avec XP à gagner (325, 475, 800, 800), « Programme » replié |
@@ -82,13 +91,24 @@ fin, hub). Hub : 200, les 4 parcours présents, Boulot absent.
 | storytelling-1280-premium-etape2.png | Storytelling | 1280 | Premium, étape 2 dépliée | Étape 2 complète desktop |
 | storytelling-1280-premium-fin.png | Storytelling | 1280 | Premium, parcours fini | Première fenêtre avec carte de fin |
 | storytelling-1280-premium-fin-carte.png | Storytelling | 1280 | Premium, parcours fini | Carte de fin desktop |
+| machine-a-cafe-375-premium-page-haut.png | Machine à Café | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/3, total d'XP à gauche, lien « La prochaine étape t'attend. » et « Étape 2 : Sentir le bon moment », puis « Le programme » |
+| repartie-375-premium-page-haut.png | Répartie | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/4, lien d'étape « Étape 2 : Le rythme et les silences » |
+| confiance-375-premium-page-haut.png | Confiance | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 : Rire de toi sans te rabaisser » |
+| storytelling-375-premium-page-haut.png | Storytelling | 375 | Premium, étape 1 validée | **Nouveau (BR1 b, N2b)** : 1/6, lien d'étape « Étape 2 : Des personnages qu'on entend » |
+| repartie-375-visiteur-apercu-etape2.png, repartie-1280-visiteur-apercu-etape2.png | Répartie | 375, 1280 | visiteur, étape 2 dépliée | **Nouveau (BR1 a)** : aperçu verrouillé, cadenas à gauche et chevron, scène en 16 px (15 px en 1280), format, texte du verrou, « Voir l'offre Premium » |
+| storytelling-375-visiteur-apercu-etape2.png, storytelling-1280-visiteur-apercu-etape2.png | Storytelling | 375, 1280 | visiteur, étape 2 dépliée | **Nouveau (BR1 a)** : idem |
+| <slug>-768-visiteur-page-haut.png, <slug>-768-visiteur-page.png, <slug>-768-visiteur-etape1.png | les 4 | 768 | visiteur | **Nouveau (S9 @ux)** : haut de page, page entière et étape 1 dépliée en tablette, pour machine-a-cafe, repartie, confiance, storytelling (12 captures) |
 
 ## Défauts et remarques vus à la relecture (non corrigés)
 
 Aucun défaut de rendu bloquant : pas de bloc vide, pas de texte cassé, pas de débordement vu sur les captures
 relues (hub 375 et 1280, les 4 étapes 1, étapes 2 Répartie et Storytelling en 375, les 4 cartes de fin).
 
-1. **Hub, texte d'intro qui oublie Storytelling (antérieur à 508cd96).** `hub-375-visiteur-haut.png`,
+Itération 3 : les points 1 et 2 sont corrigés par 0441569 (vu sur `hub-*-visiteur-haut.png` et
+`machine-a-cafe-*-visiteur-page-haut.png`, « étapes 2 et 3 »). Le point 4 est contrôlé par le run Boulot de
+l'itération 3 (`../premium-375-fin-storytelling-apres-machine-a-cafe-carte.png` : Répartie, pas de boucle).
+
+1. **Hub, texte d'intro qui oublie Storytelling (antérieur à 508cd96, corrigé par 0441569).** `hub-375-visiteur-haut.png`,
    `hub-1280-visiteur-page.png` : « 4 parcours pour progresser en humour, chacun taillé pour une situation : la
    machine à café, la répartie et la confiance. » Trois situations pour quatre parcours. Source :
    `apps/web/src/app/(dashboard)/parcours/(liste)/page.tsx` l. 68, fichier non modifié par 508cd96.
