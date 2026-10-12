@@ -5,7 +5,7 @@
 
 ## 1. Verdict
 
-**Hypothèse « challenge Cloudflare servi au vrai Googlebot » : NON confirmée et peu probable.** Elle ne peut pas être exclue à 100 % : les jetons disponibles n'ont pas accès aux événements de sécurité (§5). Trois preuves vont contre :
+**Mise à jour 12/10 : blocage EXCLU avec preuves complètes, voir « Suite 12/10 » en fin de document.** Verdict initial du 11/10 : hypothèse « challenge Cloudflare servi au vrai Googlebot » NON confirmée et peu probable. Elle ne peut pas être exclue à 100 % : les jetons disponibles n'ont pas accès aux événements de sécurité (§5). Trois preuves vont contre :
 
 1. **Une requête a bien atteint le Worker sur le pilier dans la minute exacte du crawl.** L'entrée de cache ISR (R2 `marrant-next-cache`) du pilier pour le build en ligne à ce moment-là (`hxyh1qnH_nRI621Q07PPX`) a été **réécrite à 2026-10-11T13:06:39Z**. Le crawl Google a eu lieu à 13:06 UTC. Ce build a commencé à écrire à 12:35 (déploiement) : l'écriture de 13:06:39 vient donc d'une requête réelle (page STALE, revalidation en arrière-plan), pas du peuplement du cache. Trafic total d'environ 3 requêtes/min tous chemins confondus : il est très probable que ce soit la requête de Googlebot. Une requête bloquée par un challenge n'atteint jamais le Worker.
 2. **Le HTML écrit à 13:06:39 est sain** : 109 157 octets, `<title>` correct, `<link rel="canonical" href="https://deviens-marrant.fr/blog/comment-devenir-drole">` à l'octet 3 074, article complet. Même chose pour les 32 versions du pilier en cache depuis le 29/09 : toutes ont la canonique.
@@ -114,3 +114,67 @@ Rollback : remettre l'interrupteur ou l'expression dans l'état d'avant (relever
 - Points d'attention : jetons sans Analytics, Bot Management, WAF ni Observability en lecture ; rétention courte des événements en plan Free.
 - **Actions infra requises** : (1) Thomas : test en direct dans Search Console puis demande d'indexation ; (2) session : droits en lecture du §5, puis requêtes GraphQL ; (3) 7.2 seulement si un challenge est constaté.
 ---
+
+## Suite 12/10 : verdict avec les droits complets
+
+> @infrastructure, 12/10 ~06:40 UTC, lecture seule. Thomas a fait le test en direct et la demande d'indexation du pilier le 11/10 au soir.
+
+**Verdict : blocage de Googlebot par Cloudflare EXCLU**, pour le crawl du pilier du 11/10 13:06 (preuve directe) comme pour toute la période du 30/09 au 12/10.
+
+### Droits du jeton DM (un appel par droit)
+`/user/tokens/verify` : actif. Analytics (GraphQL zone) : OK. Bot Management (`GET bot_management`) : OK. Zone WAF (`rulesets`, phases) : OK. Firewall Services (`access_rules`, `ua_rules`) : OK. Workers Observability (`telemetry/query`) : OK. **Aucun droit manquant.** `CLOUDFLARE_API_TOKEN` n'a pas été modifié (toujours refusé partout). Limites du plan Free sur GraphQL : `firewallEventsAdaptiveGroups`, `clientAsn` et `clientRequestScheme` refusés (`authz`). L'origine Google est donc établie par l'IP (`66.249.73.x`, plage Googlebot) et non par l'ASN 15169.
+
+### Réglages (relus le 12/10)
+| Réglage | Valeur |
+|---|---|
+| Bot Fight Mode (`fight_mode`) | **false** |
+| Super Bot Fight Mode | indisponible (plan Free) |
+| Block AI bots (`ai_bots_protection`) | **disabled** |
+| AI Labyrinth (`crawler_protection`) | **disabled** |
+| robots.txt géré (`is_robots_txt_managed`) | false |
+| Détections JS (`enable_js`) | false |
+| Règles WAF personnalisées | **aucune** (pas d'entrypoint `http_request_firewall_custom`) |
+| Limitation de débit | **aucune** (pas d'entrypoint `http_ratelimit`) |
+| Règles d'accès IP | 1 seule : `whitelist` de `69.89.31.125` (2016, compte), sans effet sur Googlebot |
+| Règles UA | aucune |
+| Browser Integrity Check / Security Level | `on` / `medium` (inchangés) |
+| WAF managé | « Cloudflare Managed Free Ruleset » (actif par défaut) |
+
+### Événements de sécurité (`firewallEventsAdaptive`)
+- **Rétention réellement observée : 30 jours** (l'API refuse une plage de plus de « 4w2d »). Le premier événement disponible date du 30/09 08:38, jour de la bascule. Tous les crawls cités depuis le 30/09 sont donc couverts. Celui du 13/08 ne l'est pas, mais il date de l'époque Replit.
+- **17 événements au total du 30/09 au 12/10** : 16 `block` par `firewallManaged` (`/wp-config.php*`, `/admin`, `/login`, `/api` : scanners NL/PL/DE/JP/TW/SG, dont de faux « Qwenbot »/« GrokBot ») et 1 `block` par `bic` (`Python-urllib`, AS396982).
+- **0 challenge, 0 managed_challenge, 0 jschallenge, 0 botFight, 0 securityLevel, 0 rateLimit.** **0 événement** sur Googlebot, bingbot ou AhrefsBot. Aucun événement le 11/10 après 06:39 UTC.
+
+### Statuts servis (`httpRequestsAdaptiveGroups`, échantillonné, du 30/09 au 12/10 06:00)
+| UA contenant | Total | Détail | 403 | 5xx |
+|---|---|---|---|---|
+| Googlebot | 1 444 | 200 : 1 304, 404 : 98, 301 : 37, 308 : 5 | **0** | **0** |
+| bingbot | 585 | 200 : 500, 304 : 45, 404 : 22, 308 : 13, 301 : 5 | 0 | 0 |
+| AhrefsBot | 916 | 200 : 909, 308 : 5, 301 : 1, 404 : 1 | 0 | 0 |
+| GPTBot | 9 372 | 200 : 9 223, 404 : 127, 301 : 22 | 0 | 0 |
+| OAI-SearchBot | 244 | 200 : 177, 404 : 39, 301 : 28 | 0 | 0 |
+| PerplexityBot | 1 319 | 200 : 1 125, 404 : 132, 308 : 41, 301 : 20 | 1 | 0 |
+| ClaudeBot | 96 | 404 : 78, 403 : 12, 301 : 4, 200 : 2 | 12 | 0 |
+
+- Les 98 réponses 404 « Googlebot » sont des scanners qui usurpent l'UA (`/.env`, `/credentials.js`, `/.ssh/id_ed25519`…). Ce ne sont pas des pages du site.
+- Les 403 de ClaudeBot et PerplexityBot n'apparaissent pas dans les événements de sécurité. Ils viennent donc du Worker (application), pas de Cloudflare. Point secondaire, hors sujet Google.
+- 1 requête Googlebot sur un ancien chunk (`2972-c8d4…js`, 404) : décalage entre deux déploiements. Sans effet sur le rendu (test §4 : un chunk manquant n'efface pas le contenu SSR).
+
+### Le crawl du pilier, 11/10, seconde par seconde (IP Google 66.249.73.x)
+| Heure UTC | Hôte | Chemin | Statut | Octets |
+|---|---|---|---|---|
+| 13:06:06 | www | `/robots.txt` | 200 | 1 518 |
+| 13:06:23 | www | `/blog/comment-devenir-drole` | 301 (vers l'apex) | 496 |
+| 13:06:24 | apex | `/robots.txt` | 200 | 1 519 |
+| **13:06:37** | apex | `/blog/comment-devenir-drole` | **200 HTML** | **20 904** (page complète compressée, environ 19,6 Ko attendus) |
+| 13:06:55-56 | apex | CSS + 10 chunks JS (layout, page, partagés) | **tous 200** | - |
+
+La réécriture R2 du pilier à 13:06:39 (§1) suit cette requête de 2 s : c'est bien la revalidation déclenchée par Googlebot. HTML et ressources de rendu ont été servis normalement. **Googlebot a reçu la vraie page, avec sa canonique.**
+
+### Conséquences
+1. **Aucun correctif Cloudflare à appliquer.** Ne pas toucher Bot Fight Mode (déjà désactivé), ni Browser Integrity Check (aucun événement sur un robot légitime), ni le WAF.
+2. La canonique étrangère ne vient pas de l'infrastructure. Il reste l'**[HYPOTHÈSE B]** du §6, un regroupement erroné côté Google, ou un sujet de contenu/duplication à instruire par **@seo** (recouvrement avec `exercices-developper-humour`, cause 3 du diagnostic s15). Un nouveau fait est à transmettre à @seo : Googlebot a commencé ce crawl par l'URL **`www.`** (redirigée en 301). Google a donc encore des URL www en file d'attente, ce qui est sain mais à surveiller dans le rapport « Pages avec redirection ».
+3. Suivi : réinspecter les 11 URL à J+3 et J+7 après la demande d'indexation du 11/10 (@data-analyst). Si la canonique reste étrangère malgré une page servie intacte, c'est un dossier SEO, plus un dossier infra.
+4. Liste exacte des 11 slugs : absente du dépôt (seuls les types et dates figurent dans `point-etape-s20.md`). La consigner pour les prochains contrôles. Le constat ne change pas : aucun 403/5xx sur Googlebot sur toute la période.
+
+**Handoff → session principale** : verdict « exclu », aucune action Cloudflare. Transmettre à @seo (canonique Google, URL www) et à @data-analyst (suivi J+3/J+7). Point secondaire pour @fullstack : 403 applicatifs servis à ClaudeBot (12) et PerplexityBot (1), à qualifier.
