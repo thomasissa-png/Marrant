@@ -157,7 +157,7 @@ Rollback : remettre l'interrupteur ou l'expression dans l'état d'avant (relever
 | ClaudeBot | 96 | 404 : 78, 403 : 12, 301 : 4, 200 : 2 | 12 | 0 |
 
 - Les 98 réponses 404 « Googlebot » sont des scanners qui usurpent l'UA (`/.env`, `/credentials.js`, `/.ssh/id_ed25519`…). Ce ne sont pas des pages du site.
-- Les 403 de ClaudeBot et PerplexityBot n'apparaissent pas dans les événements de sécurité. Ils viennent donc du Worker (application), pas de Cloudflare. Point secondaire, hors sujet Google.
+- Les 403 de ClaudeBot et PerplexityBot n'apparaissent pas dans les événements de sécurité. Ils viennent donc du Worker (application), pas de Cloudflare. Point secondaire, hors sujet Google. **Corrigé le 12/10 : faux. Ce sont 2 `POST` de scanners à UA usurpé, bloqués par le WAF managé (`securitySource = firewallManaged`). Voir « 403 bots IA (12/10) ».**
 - 1 requête Googlebot sur un ancien chunk (`2972-c8d4…js`, 404) : décalage entre deux déploiements. Sans effet sur le rendu (test §4 : un chunk manquant n'efface pas le contenu SSR).
 
 ### Le crawl du pilier, 11/10, seconde par seconde (IP Google 66.249.73.x)
@@ -178,3 +178,36 @@ La réécriture R2 du pilier à 13:06:39 (§1) suit cette requête de 2 s : c'es
 4. Liste exacte des 11 slugs : absente du dépôt (seuls les types et dates figurent dans `point-etape-s20.md`). La consigner pour les prochains contrôles. Le constat ne change pas : aucun 403/5xx sur Googlebot sur toute la période.
 
 **Handoff → session principale** : verdict « exclu », aucune action Cloudflare. Transmettre à @seo (canonique Google, URL www) et à @data-analyst (suivi J+3/J+7). Point secondaire pour @fullstack : 403 applicatifs servis à ClaudeBot (12) et PerplexityBot (1), à qualifier.
+
+## 403 bots IA (12/10)
+
+> @fullstack, 12/10, lecture seule (GraphQL zone avec le jeton DM, Workers Observability, curl GET/HEAD). Aucun code modifié.
+
+**Verdict : 403 légitimes, rien à corriger.** Les « 12 ClaudeBot + 1 PerplexityBot » sont en réalité **2 requêtes `POST`** venant de scanners de vulnérabilités qui usurpent l'UA. C'est le **WAF managé Cloudflare** qui les bloque, pas le Worker. Aucune page publique n'est touchée, aucun vrai robot d'IA n'a reçu de 403.
+
+### Les requêtes exactes (`httpRequestsAdaptive`)
+| Date UTC | Méthode | Chemin | IP (pays) | `securityAction` / `securitySource` | Bot vérifié |
+|---|---|---|---|---|---|
+| 08/10 17:51:22 | **POST** | `/login` | 34.87.42.222 (SG, Google Cloud) | `block` / `firewallManaged` | non |
+| 02/10 07:57:48 | **POST** | `/dashboard` (route inexistante) | 35.200.0.219 (JP, Google Cloud) | `block` / `firewallManaged` | non |
+
+- **« 12 » = 1 seule requête** : la ligne échantillonnée porte `sampleInterval = 12`, le tableau de bord extrapole.
+- **Usurpation prouvée** : dans la même seconde, la même IP envoie des dizaines de sondes avec un UA différent à chaque fois. Pour 35.200.0.219 : faux `Qwenbot` (`POST /api`), faux `GrokBot` (`POST /admin`), `PanguBot` (`POST /login`), `KimiBot` (`/@fs/.env`)… Pour 34.87.42.222 : `/.env`, `/.ssh/id_ed25519`, `/config/gcp-credentials.json`, sous les UA KimiBot, MoonshotBot, MistralAI-User, DeepSeekBot… Un vrai ClaudeBot n'envoie pas de `POST`.
+- **Vrai ClaudeBot** (catégorie Cloudflare `AI Crawler`, IP 160.79.x, plage Anthropic) : **1 requête sur 30 jours, `GET` 200.** Les 95 autres requêtes « ClaudeBot » ne sont pas vérifiées : 76 `GET` 404 de scanners, 2 `DELETE`, le `POST` bloqué.
+- **PerplexityBot** : aucune requête n'est « vérifiée » côté Cloudflare, ce qui empêche ce filtre de trier. Le trafic réel (IP AWS 3.x, 18.x, 107.20.x) donne 1 125 × 200, 0 × 403. Le seul 403 est le `POST /dashboard` du scanner ci-dessus.
+
+### Pourquoi la conclusion « 403 du Worker » de la « Suite 12/10 » était fausse
+Elle s'appuyait sur l'absence de ces requêtes dans `firewallEventsAdaptive`. Or cette liste est incomplète : le blocage du `POST /login` du 08/10 n'y figure pas, alors que `httpRequestsAdaptive` le marque bien `securitySource = firewallManaged`. Contre-preuve dans les journaux du Worker (Workers Observability, 08/10 de 17:50 à 17:53) : les `POST` de la même rafale arrivés 1 à 5 s plus tard (`/graphql`, `/api/fs/exec`…) y sont, en 404 ; le `POST /login` n'y est pas. Il n'a jamais atteint le Worker.
+
+### Tous les 403 du site sur 30 jours (tous UA)
+Environ 390 au total (chiffres échantillonnés). **Quasiment tous viennent de `firewallManaged`** et visent des sondes : `POST /` 127, `POST /login` 64, `POST /dashboard` 45, `POST /api` 36, `POST /admin` 22, `wp-config.php*` environ 75, `wp-json`. On compte aussi 6 blocages par Browser Integrity Check (`Python-urllib`, `Java`, `/.git/HEAD`) et un seul 403 applicatif : `POST /api/stripe/checkout` en `curl` le 07/10, refusé comme prévu par le contrôle d'origine (`src/lib/same-site.ts`). Il y a enfin 6 403 de source inconnue, tous envoyés par un scanner polonais le 30/09 entre 12:16 et 13:45 (`/wp-admin`, `/wp-content`, `/`), le jour de la bascule. Aucun 403 sur une page publique servie à un vrai robot.
+
+Le formulaire de connexion n'envoie pas de `POST /login` : il passe par `signIn()` de NextAuth (`/api/auth/...`). La règle managée ne gêne donc aucun utilisateur.
+
+### Reproduction (GET/HEAD, UA ClaudeBot, 12/10)
+`/login` 200, `/blog/comment-devenir-drole` 200, `/llms.txt` 200, `/robots.txt` 200, `/admin` 200 (page qui s'affiche puis exige la connexion), `/dashboard` 404, `/api/indexnow` 405 (POST seulement, Disallow `/api/`). Jamais de `cf-mitigated`. `/blog` avec l'UA PerplexityBot : 200.
+
+### Actions
+- **Code : aucune.** Le contrôle d'origine (`same-site.ts`) et le middleware n'ont servi aucun 403 à un robot d'IA.
+- **Cloudflare : ne rien changer.** Le WAF managé fait son travail. L'assouplir pour ces UA reviendrait à laisser passer des scanners qui usurpent des noms de bots.
+- Pour les prochains contrôles GEO, filtrer sur `verifiedBotCategory = "AI Crawler"` (ClaudeBot, GPTBot…) plutôt que sur l'UA. Pour PerplexityBot, qui n'est pas vérifié, filtrer en plus sur la méthode `GET` et regarder `securitySource`.
