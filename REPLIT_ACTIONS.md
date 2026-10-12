@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Audit des articles du code (corrections validées à l'aveugle), N-1 `124265e9-1eaf-42f1-935e-feb04061f66f`
+## s20 Audit des articles du code (corrections validées à l'aveugle), **DÉPLOYÉ le 12/10/2026, version `a4058f12-8409-4c1e-a890-ee93ff67b9c2`, commit `242477ce`** ; prod : 24 articles en 200, 0 ancien passage, 0 intertitre à tiret, 0 ancre cassée ; IndexNow 200, Bing SubmitUrlBatch 200 ; N-1 `124265e9-1eaf-42f1-935e-feb04061f66f`
 
 - `blog-articles.ts` : 166 remplacements exacts (partie 1, partie 2, C1-C3 de `docs/copy/application-audit-code-s20.md`) + 49 intertitres « — » → « : » / « , » ; 24 articles, `updatedAt` 2026-10-12 ; diff réel au §5 du même fichier (3,8 % des mots).
 - Libellés de lien vers `/blog/timing-humour` alignés sur le titre réel « Timing humour : le secret de la blague » (6 liens, dont 4 hors audit : mécanique, 0 mot ajouté).
