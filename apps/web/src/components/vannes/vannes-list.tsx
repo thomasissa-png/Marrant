@@ -256,7 +256,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         </div>
       )}
 
-      <ListResults ref={listRef} isLoading={isLoading} pending={isLoading && jokes.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
+      <ListResults ref={listRef} isLoading={isLoading || pagination?.page !== page} pending={isLoading && jokes.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState
           message="Les vannes se sont perdues en chemin."

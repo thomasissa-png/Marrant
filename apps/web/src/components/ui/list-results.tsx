@@ -4,7 +4,10 @@ import { forwardRef, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface ListResultsProps {
-  /** Chargement en cours (l'annonce attend l'arrivée des données). */
+  /**
+   * Chargement en cours OU données affichées d'une autre page que la page demandée :
+   * l'annonce attend les données de la bonne page (ni trop tôt ni en double au retour arrière).
+   */
   isLoading: boolean;
   /**
    * Une AUTRE page est en cours de chargement alors qu'une liste non vide est affichée :

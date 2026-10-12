@@ -247,7 +247,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
         </>
       )}
 
-      <ListResults ref={listRef} isLoading={isLoading} pending={isLoading && videos.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
+      <ListResults ref={listRef} isLoading={isLoading || pagination?.page !== page} pending={isLoading && videos.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
       ) : showSkeleton ? (

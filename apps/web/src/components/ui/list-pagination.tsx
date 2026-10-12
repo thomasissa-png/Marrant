@@ -20,8 +20,8 @@ interface ListPaginationProps {
 const GHOST_SM = buttonVariants({ variant: "ghost", size: "sm" });
 // Cible 44 px : sous 768 px (h-11 de buttonVariants sm) et sur écran tactile (tablette).
 const COARSE = "[@media(pointer:coarse)]:h-11 [@media(pointer:coarse)]:min-w-11";
-// Cellule de grille mobile : toute la colonne, 44 px de haut.
-const MOBILE_CELL = "max-md:h-11 max-md:w-full max-md:min-w-11";
+// Cellule de grille mobile : carré de 44 px centré dans sa colonne (écart visible avec les chevrons).
+const MOBILE_CELL = "max-md:mx-auto max-md:h-11 max-md:w-11";
 // Numéros : pas régulier de 1 à 12 (chiffres de largeur égale, largeur minimale commune).
 const NUMBER_CELL = cn("px-1 tabular-nums md:min-w-8", MOBILE_CELL, COARSE);
 // Précédent / Suivant : chevron bordé sous 768 px (« bordé = cliquable »), libellé ghost au-delà.

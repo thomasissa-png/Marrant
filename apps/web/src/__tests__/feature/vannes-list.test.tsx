@@ -322,6 +322,26 @@ describe("VannesList", () => {
       expect(screen.getByRole("status")).toHaveTextContent("Page 3 sur 3");
     });
 
+    it("s20 : retour arrière du navigateur → annonce seulement quand la page demandée est affichée", async () => {
+      mockSearch = "";
+      let resolveFetch: (value: unknown) => void = () => {};
+      global.fetch = jest.fn(() => new Promise((resolve) => { resolveFetch = resolve; })) as jest.Mock;
+      const respond = (p: number) =>
+        act(async () => resolveFetch({ ok: true, json: async () => ({ jokes: mockJokes, pagination: { page: p, limit: 12, total: 30, totalPages: 3 } }) }));
+      const { rerender } = render(<VannesList initialData={serverPage(1)} initialPage={1} />);
+      await respond(1);
+      await userEvent.click(screen.getByRole("link", { name: "Page 3" }));
+      await respond(3);
+      expect(screen.getByRole("status")).toHaveTextContent("Page 3 sur 3");
+
+      // popstate : l'URL revient à ?page=2, la liste affiche encore la page 3.
+      mockSearch = "page=2";
+      await act(async () => rerender(<VannesList initialData={serverPage(1)} initialPage={1} />));
+      expect(screen.getByRole("status")).toHaveTextContent("");
+      await respond(2);
+      expect(screen.getByRole("status")).toHaveTextContent("Page 2 sur 3");
+    });
+
     it("garde la liste du serveur si l'API est inaccessible (robot, /api/ interdit)", async () => {
       global.fetch = jest.fn().mockRejectedValue(new Error("blocked")) as jest.Mock;
       render(<VannesList initialData={serverPage(1)} initialPage={1} />);

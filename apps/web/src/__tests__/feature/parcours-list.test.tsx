@@ -29,6 +29,12 @@ jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, refresh: jest.fn() }),
 }));
 
+// Absent de jsdom : `showParcours` (parcours-content.tsx) l'appelle dans un
+// requestAnimationFrame ; selon la charge, le rappel tombait pendant un test (échec instable).
+beforeAll(() => {
+  Element.prototype.scrollIntoView = jest.fn();
+});
+
 describe("ParcoursPage — Parcours structurés", () => {
   beforeEach(async () => {
     // ParcoursPage est un async Server Component depuis s11 lot 2

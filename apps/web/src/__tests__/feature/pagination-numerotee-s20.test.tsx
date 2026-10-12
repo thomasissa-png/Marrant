@@ -110,7 +110,9 @@ describe("ListPagination : HTML serveur", () => {
   it("cible tactile 44 px sur mobile et tablette tactile, pas régulier des numéros", () => {
     const html = renderToString(<ListPagination basePath="/vannes" page={6} totalPages={12} />);
     expect(html).toContain("max-md:h-11");
-    expect(html).toContain("max-md:min-w-11");
+    expect(html).toContain("max-md:w-11");
+    expect(html).toContain("max-md:mx-auto");
+    expect(html).not.toContain("max-md:w-full");
     expect(html).toContain("[@media(pointer:coarse)]:h-11");
     expect(html).toContain("touch-manipulation");
     expect(html).toContain("tabular-nums");

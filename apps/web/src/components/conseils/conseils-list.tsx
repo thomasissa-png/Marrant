@@ -235,7 +235,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         </>
       )}
 
-      <ListResults ref={listRef} isLoading={isLoading} pending={isLoading && tips.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
+      <ListResults ref={listRef} isLoading={isLoading || pagination?.page !== page} pending={isLoading && tips.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState
           message="Les conseils se font désirer... comme une bonne chute."
