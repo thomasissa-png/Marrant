@@ -158,6 +158,85 @@ Convention : la phrase ajoutée est en **gras** dans « après » (le gras n'est
 
 ---
 
+## 6. Tour 2 (12/10/2026) : réécriture après relecture à l'aveugle
+
+**Les phrases et emplacements du §3 et du §5 sont remplacés par ceux de ce §6.** Les verdicts du tour 1 (`docs/copy/relecture-s4-s20/verdicts-relecteur-1.md` et `-2.md`) : 0/11 au niveau chez le relecteur 1, 4/11 chez le relecteur 2 (D, E, H, I). Défaut commun : les 11 phrases suivaient un même moule « Pour X, [titre] détaille N choses », reconnaissable à la suite. Autres défauts : titre collé sans déterminant, ancre à l'infinitif en sujet, passif, « Pour » répété, nombres qui se télescopent, élan coupé.
+
+**Ce qui change** : chaque phrase a sa propre construction (« reste à savoir », « voilà comment », « notre guide sur », « pioche dans nos », « l'article sur », etc.), l'ancre est toujours précédée d'un déterminant, d'un verbe ou d'un « pour », plus aucun décompte systématique. **Aucun appariement retiré** : les 11 trouvent une formulation naturelle. **3 emplacements déplacés** dans le même article source (hors FAQ, hors dernier paragraphe) : appariement 2 (fin de la section « méthode des 3 piliers » au lieu de la coupure entre l'exemple et la liste), appariement 9 (après « Nos conseils humour… » au lieu de sous le titre, ce qui cassait « C'est exactement ce que Roman Frayssinet fait »), appariement 12 (après le CLEF, ce qui sépare « ces 5 patterns » des « cinq structures »). Les 8 autres restent à leur place.
+
+### Table de correspondance : lettres de `extraits-aveugle-tour2.md` → appariements
+
+| Lettre | Appariement | Source → Cible |
+|---|---|---|
+| A | 11 | `comment-raconter-une-blague-sans-la-rater` → `storytelling-drole-5-structures` |
+| B | 1 | `phrases-droles-conversations` → `conversation-machine-a-cafe` |
+| C | 5 | `autoderision-interactions` → `se-presenter-avec-humour` |
+| D | 12 | `comment-improviser-des-blagues` → `storytelling-drole-5-structures` |
+| E | 10 | `blague-courte-arme-secrete-humour` → `citation-drole` |
+| F | 14 | `comment-avoir-de-la-repartie` → `timidite-et-humour` |
+| G | 3 | `avoir-confiance-en-soi-grace-a-l-humour` → `etre-plus-a-l-aise-en-societe` |
+| H | 7 | `exercices-developper-humour` → `techniques-humoristes-pros` |
+| I | 2 | `comment-improviser-des-blagues` → `conversation-machine-a-cafe` |
+| J | 8 | `blague-drole-7-criteres-pepite` → `techniques-humoristes-pros` |
+| K | 9 | `phrases-droles-conversations` → `citation-drole` |
+
+### Blocs avant / après à jour (chaînes « avant » vérifiées à l'identique, une occurrence chacune, le 12/10)
+
+Convention du §3. « Avant » = chaîne à trouver ; « Après » = chaîne de remplacement, phrase ajoutée en gras. Statique = `apps/web/src/lib/blog-articles.ts` (n° de ligne actuel) ; base = JSON `blog-article-rewrites.json` (copie) et remplacement exact en base (§2).
+
+**1 · lettre B · `phrases-droles-conversations`, statique l.1211** (fin de la section machine à café, inchangé en emplacement)
+- Avant : `Pour plus de techniques sur [comment avoir de la répartie au travail](/blog/comment-avoir-de-la-repartie), on a un article entier là-dessus.`
+- Après : même ligne + **`Reste à savoir quoi dire entre deux vannes : notre guide sur [la conversation à la machine à café](/blog/conversation-machine-a-cafe) s'en occupe.`** · 20 mots.
+
+**2 · lettre I · `comment-improviser-des-blagues`, base (JSON l.36)** · emplacement DÉPLACÉ : fin de la section 1, après le paragraphe Waly Dia (plus d'ajout dans « Transformer »). Paragraphe précédent : `3. **Transformer** : exagérer ou retourner la situation`. Paragraphe suivant : `## 2. Technique du rebond : partir de ce qui se dit`.
+- Avant : `et en tire des **punchlines** qui tapent juste.\n\n## 2. Technique du rebond`
+- Après : `et en tire des **punchlines** qui tapent juste.` **`Si la pause café te fait plus peur que la réunion, voilà comment [tenir la conversation à la machine à café](/blog/conversation-machine-a-cafe).`** `\n\n## 2. Technique du rebond` · 21 mots.
+
+**3 · lettre G · `avoir-confiance-en-soi-grace-a-l-humour`, base (JSON l.12)**, fin du « Niveau 3 »
+- Avant : `C'est là que tu testes vraiment ta [répartie en situation réelle](/blog/comment-avoir-de-la-repartie).\n\nPanayotis Pascot raconte`
+- Après : `…[répartie en situation réelle](/blog/comment-avoir-de-la-repartie).` **`Cette échelle, de la famille aux inconnus, revient en cercles concentriques dans l'article sur [être plus à l'aise en société](/blog/etre-plus-a-l-aise-en-societe).`** `\n\nPanayotis Pascot raconte` · 20 mots.
+
+**5 · lettre C · `autoderision-interactions`, statique l.426**
+- Avant : `Et à partir de là, tout ce qu'il dit est accueilli avec sympathie.` (fin du paragraphe `**Paul Mirabel** utilise exactement cette technique…`)
+- Après : même phrase + **`Même principe au tour de table, avec une petite formule en trois temps pour [te présenter avec humour](/blog/se-presenter-avec-humour).`** · 18 mots.
+
+**7 · lettre H · `exercices-developper-humour`, statique l.953**
+- Avant : `Nos [vidéos](/videos) de pros sont analysées technique par technique : c'est l'exercice déjà fait pour toi. Mais le faire toi-même avec du nouveau matériel te rend meilleur.`
+- Après : même paragraphe + **`Au début, les ficelles passent inaperçues : on a décortiqué [les techniques des humoristes pros](/blog/techniques-humoristes-pros), sept en tout.`** · 17 mots.
+
+**8 · lettre J · `blague-drole-7-criteres-pepite`, base (JSON l.24)**, fin de l'intro
+- Avant : `On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.\n\n## MYTHE BRISÉ`
+- Après : `On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.` **`Côté scène, on montre aussi [comment les pros construisent leurs blagues](/blog/techniques-humoristes-pros), avec d'autres outils que cette grille.`** `\n\n## MYTHE BRISÉ` · 17 mots.
+
+**9 · lettre K · `phrases-droles-conversations`, statique l.1346** · emplacement DÉPLACÉ (l'ajout sous le titre l.1332 est abandonné). Paragraphe précédent : fin de la liste « Trois erreurs qui tuent une bonne phrase » (`- **La répéter** : une phrase drôle, c'est un one-shot.`). Paragraphe suivant : `---` puis `## Mémorise 5, pas 30`.
+- Avant : `Nos [conseils humour](/conseils) te donnent les techniques derrière ces phrases, pas juste le "quoi dire" mais le "comment le dire".`
+- Après : même ligne + **`Écrire tes propres formules se travaille aussi : notre article sur la [citation drôle](/blog/citation-drole) te montre trois méthodes.`** · 17 mots.
+
+**10 · lettre E · `blague-courte-arme-secrete-humour`, base (JSON l.18)**
+- Avant : `une vanne courte tombe aussi vite qu'elle est partie. Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.`
+- Après : `une vanne courte tombe aussi vite qu'elle est partie.` **`Des formules courtes rangées par situation, tu en trouveras aussi dans notre sélection de [40 citations drôles avec leur mode d'emploi](/blog/citation-drole).`** `Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.` · 21 mots.
+
+**11 · lettre A · `comment-raconter-une-blague-sans-la-rater`, base (JSON l.42)**
+- Avant : `Dans la seconde, rien ne dépasse.\n\nDernier réglage : le placement.`
+- Après : `Dans la seconde, rien ne dépasse.` **`Quand c'est toute une anecdote à construire, pioche dans nos [5 structures de storytelling drôle](/blog/storytelling-drole-5-structures) : elles te donnent le plan.`** `\n\nDernier réglage : le placement.` · 20 mots.
+
+**12 · lettre D · `comment-improviser-des-blagues`, base (JSON l.36)** · emplacement DÉPLACÉ : nouveau paragraphe après le CLEF des patterns. Paragraphe précédent : `> **CLEF :** Maîtriser ces 5 patterns, c'est avoir un kit de survie humoristique pour 80% des situations sociales.` Paragraphe suivant : `## 5. Gérer l'échec : transformer un flop en rebond`.
+- Avant : `pour 80% des situations sociales.\n\n## 5. Gérer l'échec : transformer un flop en rebond`
+- Après : `pour 80% des situations sociales.\n\n` **`Le jour où une phrase ne suffit plus, on t'explique comment [raconter une histoire drôle](/blog/storytelling-drole-5-structures), avec l'escalade et le pivot en renfort.`** `\n\n## 5. Gérer l'échec : transformer un flop en rebond` · 22 mots.
+
+**14 · lettre F · `comment-avoir-de-la-repartie`, statique l.215**
+- Avant : `parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides`
+- Après : `parce que quand elles parlent, tout le monde écoute.` **`C'est peut-être toi : il existe un guide pour [oser faire rire quand on est timide](/blog/timidite-et-humour), palier par palier.`** `L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides` · 18 mots.
+
+### Contrôles et points d'attention du tour 2
+- **Mots ajoutés** : `phrases-droles-conversations` 37 mots (appariements 1 et 9) et `comment-improviser-des-blagues` 43 mots (2 et 12), soit au-dessus des 25 et 36 du tour 1, probablement 1,5 à 1,8 % de l'article `[À MESURER par @fullstack]`. Si la mesure dépasse 1,5 %, retirer d'abord l'appariement 9 puis le 12 (pertinence la plus faible), pas raccourcir les phrases.
+- **Chiffres** : « 5 » (appariement 11) et « 40 » (appariement 10) sont les nombres des titres cibles ; « sept » (7), « trois » (5, 9), « cinq » absent. Aucun nombre ne reprend un nombre du paragraphe voisin.
+- **Zéro tiret cadratin**, aucun décompte en triple, aucune question en ouverture. Tutoiement partout (les phrases 3 et 11 à tournure impersonnelle : « Cette échelle… », « Quand c'est… pioche »).
+- **Règle d'or P0 s18** : ces 11 formulations sont neuves, elles repassent la relecture à l'aveugle (`extraits-aveugle-tour2.md`) avant toute application. Une phrase non validée ne part pas.
+- **Baseline statique** : 4 articles statiques touchés comme avant (§2), mêmes consignes de régénération.
+
+---
+
 **Handoff → @orchestrator (puis @reviewer pour la relecture à l'aveugle, puis @fullstack pour l'application)**
 - Fichier produit : `/home/user/Marrant/docs/copy/liens-s4-s20.md`.
 - Décisions : 11 appariements retenus, 3 écartés (4, 6, 13) sans remplacement ; 0 ajout sur le n°1 et sur le pilier ; ancres toutes différentes par cible ; remplacement exact en base avec marqueur `DataPatch`, sans bump de version du JSON.
