@@ -1,0 +1,164 @@
+# Verdicts relecteur 2 : relecture à l'aveugle audit code s20 (A1-A60, B1-B70)
+
+> Point de vue : Yanis, 20 ans, mobile, arrivé depuis Google. Sans accès web : les faits sont jugés sur mémoire, les doutes sont signalés.
+> Décompte : 130 passages, 113 AU NIVEAU, 17 SOUS LA BARRE (A : 3, B : 14).
+> SOUS LA BARRE : A13, A23, A45, B14, B16, B24, B28, B33, B38, B41, B42, B44, B52, B53, B60, B64, B67.
+
+## Partie 1 (A1 à A60)
+
+- **A1** AU NIVEAU : exemple imaginé assumé, la chute « maternité » est nette, la cible est claire.
+- **A2** AU NIVEAU : « Imagine » protège le fait, la phrase filet est utile.
+- **A3** AU NIVEAU : chute « quelqu'un de plus haut placé » drôle, explication courte.
+- **A4** AU NIVEAU : conseil de rythme concret, formulé comme une veine (pas un fait), image du coup de frein parlante.
+- **A5** AU NIVEAU : « Imagine » assumé, message clair.
+- **A6** AU NIVEAU : description générale de l'observationnel, sans chiffre ni citation.
+- **A7** AU NIVEAU : « ça pourrait donner » assume l'exemple imaginé.
+- **A8** AU NIVEAU : lisible et utile (réserve : la caractérisation « détails minuscules vers l'absurde » de Frayssinet revient dans A14, A21, A37, B49, je ne peux pas la vérifier sans le web).
+- **A9** AU NIVEAU : « Imagine » assumé, « envoyeur » passe en registre familier.
+- **A10** AU NIVEAU : contraste scène/soirée utile, bien enchaîné avec la blague 7.
+- **A11** AU NIVEAU : analogie « gammes » juste (réserve : débuts nantais de Waly Dia à confirmer, je les crois exacts).
+- **A12** AU NIVEAU : trois exercices concrets, règle des 3 secondes cohérente avec A19 et A60.
+- **A13** SOUS LA BARRE : « polémique en 2024 sur Gaza » et « arrêt du stand-up annoncé en novembre 2025 » sont des faits datés invérifiables, hors sujet pour Yanis, et risqués sur une personne réelle.
+  - Réécriture : « **Blanche Gardin** reste la référence de l'humour noir français réussi. Dans ses spectacles, quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance : elle la regarde en face, avec une honnêteté tellement crue que le rire devient presque la seule réponse possible. »
+- **A14** AU NIVEAU : synthèse courte et claire, renvoi vidéos acceptable.
+- **A15** AU NIVEAU : « imagine » protège, « collecteur d'absurdités » donne une action.
+- **A16** AU NIVEAU : exemple « onglets » drôle et très étudiant.
+- **A17** AU NIVEAU : la chute de l'appli qui s'inquiète est bonne, explication courte.
+- **A18** AU NIVEAU : scène imaginée assumée, cohérente avec « sourire et passer à la suite ».
+- **A19** AU NIVEAU : « une seconde environ » et « 3 temps » sont expliqués sans contradiction, images drôles (le pote, le quai).
+- **A20** AU NIVEAU : idée utile (dire sa gêne), ton naturel.
+- **A21** AU NIVEAU : l'exemple du réveil suit sa propre logique jusqu'au bout, donc illustre bien la règle.
+- **A22** AU NIVEAU : réponse rassurante, sans chiffre inventé.
+- **A23** SOUS LA BARRE : la chute est embrouillée (pourquoi le psy devrait-il « faire des progrès » parce qu'il nous supporte ?), le rire ne vient pas du premier coup.
+  - Réécriture : « "Mon psy m'a dit que je faisais des progrès. Là, j'ai compris qu'il voulait que je continue à venir." » (cible conservée : soi-même et le système thérapeutique).
+- **A24** AU NIVEAU : conseil simple et utile (le lien avec Fary reste mince, pas bloquant).
+- **A25** AU NIVEAU : réponse cohérente avec le plan 30 jours, « imagine » protège.
+- **A26** AU NIVEAU : « imagine » assumé, un seul « ce n'est pas X, c'est Y », exercice actionnable.
+- **A27** AU NIVEAU : phrase courte, renvoi vers /conseils naturel.
+- **A28** AU NIVEAU : blague « demi-tour dans l'ascenseur » drôle et très Yanis.
+- **A29** AU NIVEAU : description d'un exercice concret, « mais il va dire quoi ? » est vivant.
+- **A30** AU NIVEAU : « le calembour de tonton » fait sourire.
+- **A31** AU NIVEAU : « imagine » protège, lien avec le timing social clair.
+- **A32** AU NIVEAU : conseil utile ; « observe comment il gagne du temps » reste un fait plausible et sans enjeu.
+- **A33** AU NIVEAU : critères nets (réserve : vérifier que toutes les phrases de l'article font moins de 25 mots ; les trois contrôlées font 17 à 23).
+- **A34** AU NIVEAU : phrase simple et vraie, suivie d'exemples drôles (imprimante, Excel).
+- **A35** AU NIVEAU : le contraste « don » contre « bides » est utile (réserve : date JCC 2006 de Gardin et « Point-Virgule » de Fary à confirmer, plausibles).
+- **A36** AU NIVEAU : « imagine » assumé, exercice concret derrière.
+- **A37** AU NIVEAU : synthèse nette, conseil actionnable.
+- **A38** AU NIVEAU : « mon ombre cherche de l'ombre » et la plante négociée font leur travail.
+- **A39** AU NIVEAU : phrase simple, vraie sur le fond, transition naturelle.
+- **A40** AU NIVEAU : renvoi produit sobre ; prix 2,99 €/mois à faire confirmer côté produit (hors passage).
+- **A41** AU NIVEAU : l'image du ketchup sur le soufflé est drôle et claire.
+- **A42** AU NIVEAU : formule claire, un peu élogieuse mais lisible.
+- **A43** AU NIVEAU : liste lisible (détail : « coup d'oeil » devrait s'écrire « œil »).
+- **A44** AU NIVEAU : phrase très reconnaissable, ton oral.
+- **A45** SOUS LA BARRE : « pas de pause entre les deux phrases » contredit la règle du site (pause avant la chute, règle des 3 secondes).
+  - Réécriture : « **18. "Je cuisine très bien. Mon four est comme neuf."** / → *Quand on parle de bouffe.* Le retournement est la clé : une toute petite pause avant la chute, juste le temps que l'autre y croie. »
+- **A46** AU NIVEAU : description d'une présence scénique, cohérente avec A4 et A49.
+- **A47** AU NIVEAU : explication nette de l'escalade.
+- **A48** AU NIVEAU : phrase d'ouverture rassurante et exacte (incongruité, tension, calibrage).
+- **A49** AU NIVEAU : cohérent avec A46, sans chiffre.
+- **A50** AU NIVEAU : résumé utile (réserve mineure : « escalade » et « énergie » ne sont pas des types de la liste des 5).
+- **A51** AU NIVEAU : technique du callback bien reliée à un exemple.
+- **A52** AU NIVEAU : « J'ai prévu de l'être jeudi » est une bonne chute, explication juste.
+- **A53** AU NIVEAU : décompte 7 + 3 = 10 cohérent.
+- **A54** AU NIVEAU : correct et cohérent avec la pause (réserve de goût : « améliore la qualité de chaque intervention » est un peu creux).
+- **A55** AU NIVEAU : fragment de liste, clair.
+- **A56** AU NIVEAU : portrait vivant, sans chiffre.
+- **A57** AU NIVEAU : « imagine » assumé, la blague « coucou » est bonne.
+- **A58** AU NIVEAU : « imagine » assumé, l'image du cimetière de notes est un peu mixte mais drôle.
+- **A59** AU NIVEAU : progression honnête, cohérente avec A11.
+- **A60** AU NIVEAU : exercice concret, « avoir l'air de buguer » dans le ton, cohérent avec A19.
+
+## Partie 2 (B1 à B70)
+
+- **B1** AU NIVEAU : « près de dix ans » cohérent avec A35, formulé prudemment.
+- **B2** AU NIVEAU : « imagine » assumé, le « juste relancer » rassure.
+- **B3** AU NIVEAU : constat sûr et rassurant, « gérer le plat » dans le ton.
+- **B4** AU NIVEAU : faits généraux, cohérents avec le reste du site.
+- **B5** AU NIVEAU : fragment bref, enchaîne bien avec B30.
+- **B6** AU NIVEAU : technique claire, utile pour un introverti (réserve : « dès que l'autre a fini » est à lire comme règle de la réponse de dépannage, pas de la punchline, à ne pas croiser avec la pause de A19).
+- **B7** AU NIVEAU : principe juste, sortie « notes en vrai, promis » drôle.
+- **B8** AU NIVEAU : théorie de Leary (autoprésentation, Duke) correctement résumée, FAQ cohérente.
+- **B9** AU NIVEAU : rassurant et dans le ton (réserve : « il fait juste mieux semblant » est affirmé au lieu d'un « sûrement »).
+- **B10** AU NIVEAU : conseil prudent et cohérent avec la ligne « vise la situation ».
+- **B11** AU NIVEAU : annonce claire, 5 structures pour 5 humoristes.
+- **B12** AU NIVEAU : « visage de PV de réunion » est drôle.
+- **B13** AU NIVEAU : cohérent avec « une seconde environ ».
+- **B14** SOUS LA BARRE : registre corporate (« signal de leadership », « crées de l'engagement ») et construction « pas parce que X, mais parce que Y » avec énumération, loin du pote drôle.
+  - Réécriture : « 3. **Un humour bien placé passe pour du leadership.** Il faut du calme pour plaisanter quand la tension monte, et ça se voit. »
+- **B15** AU NIVEAU : lien clair avec le storytelling.
+- **B16** SOUS LA BARRE : « l'effet est multiplié par 3 » est un chiffre inventé ; le test de la FAQ (deux groupes différents) ne prouve rien, les groupes faussent la comparaison.
+  - Réécriture : « **Bon (avec pause après "cuisiner hier") :** "Mon coloc a essayé de cuisiner hier... [pause d'une seconde environ] les voisins ont fermé leurs fenêtres." / Avec une seconde environ de silence sur la même phrase, la chute passe d'une info à une surprise. / (FAQ) Test simple : raconte la même vanne à deux moments différents, en ne changeant que le timing (aucune pause la première fois, une pause d'une seconde environ avant la chute la deuxième). »
+- **B17** AU NIVEAU : constat reconnaissable.
+- **B18** AU NIVEAU : « Le public comprend. Le spectateur aussi. » est drôle et juste.
+- **B19** AU NIVEAU : idée « tu répètes » utile.
+- **B20** AU NIVEAU : mauvais/bon bien construits, vanne « non à ça va » bonne.
+- **B21** AU NIVEAU : callback clair, « gilet pare-pigeons » drôle.
+- **B22** AU NIVEAU : technique claire.
+- **B23** AU NIVEAU : amorce naturelle, « période Paul Mirabel » bien trouvé.
+- **B24** SOUS LA BARRE : « fait 3x plus d'effet » est un chiffre inventé.
+  - Réécriture : « Une seconde environ de silence avant une réplique la fait mieux atterrir que la même réplique lancée tout de suite. » (reste inchangé, y compris la FAQ).
+- **B25** AU NIVEAU : fenêtre d'une seconde claire (réserve : peut croiser la pause de A19 si les deux sont lus à la suite).
+- **B26** AU NIVEAU : cohérent avec B1 et B51 (réserve : « des centaines de scènes ouvertes » est plausible mais invérifiable).
+- **B27** AU NIVEAU : accusé de réception utile.
+- **B28** SOUS LA BARRE : deux « ce n'est pas X, c'est Y » dans trois phrases (rafale).
+  - Réécriture : « Dans la veine de **Panayotis Pascot** : la peur du jugement est le plus grand tueur de répartie. Les idées, tu en as. Il manque l'audace de les sortir. » (laisser la phrase suivante).
+- **B29** AU NIVEAU : ligne claire.
+- **B30** AU NIVEAU : message libérateur.
+- **B31** AU NIVEAU : fait connu, bien placé.
+- **B32** AU NIVEAU : renvois propres (réserve : « 6 semaines » du Parcours Storytelling à confirmer côté produit).
+- **B33** SOUS LA BARRE : « on construit une bonne partie de son stand-up » mélange « on » et « son », faux à l'oral.
+  - Réécriture : « Un Pierre Croce ou un Paul Mirabel construisent une bonne partie de leur stand-up sur cette mécanique de pause et de silence. »
+- **B34** AU NIVEAU : étude Bressler, Martin, Balshine (2006) bien résumée, nuance honnête.
+- **B35** AU NIVEAU : conseil pratique.
+- **B36** AU NIVEAU : annonce claire.
+- **B37** AU NIVEAU : comptes de mots exacts (15 et 3), blague Tinder/thérapie bonne (réserve hors passage : « le public décroche au mot 8 » est un chiffre sans source).
+- **B38** SOUS LA BARRE : « plus tu chambres quelqu'un, plus ça montre que tu l'apprécies » contredit le « à condition de doser » et le conseil précédent.
+  - Réécriture : « Dans la veine de **Fary**, le chambrage, c'est du lien social : chambrer quelqu'un montre que tu l'apprécies assez pour qu'il encaisse, à condition de doser. »
+- **B39** AU NIVEAU : étude Bitterly, Brooks et Schweitzer correctement résumée.
+- **B40** AU NIVEAU : promesse claire (réserve : « 4 semaines » du Parcours Répartie à confirmer).
+- **B41** SOUS LA BARRE : « maîtrise ça à la précision » est incorrect.
+  - Réécriture : « **Pierre Croce** maîtrise ça avec précision : il pose son setup, **il laisse la salle attendre**, et lâche la chute quand le public a commencé à anticiper. Une seconde environ suffit : sur scène, c'est une éternité. »
+- **B42** SOUS LA BARRE : « virale en jouant une scène de couple » est un fait précis que je ne peux pas confirmer.
+  - Réécriture : « **Inès Reg** a percé avec des petites scènes du quotidien que tout le monde reconnaît, sans forcer. »
+- **B43** AU NIVEAU : « le manie souvent » prudent.
+- **B44** SOUS LA BARRE : « Ils » n'a pas d'antécédent dans le passage (seul Mirabel est cité, Pascot est dans la boîte précédente).
+  - Réécriture : « **Paul Mirabel** joue de sa timidité sur scène, et Panayotis Pascot de sa vulnérabilité. Ils sont partis d'où tu es. »
+- **B45** AU NIVEAU : palier clair.
+- **B46** AU NIVEAU : message utile.
+- **B47** AU NIVEAU : conseil clair.
+- **B48** AU NIVEAU : étude Harvard (Huang, Brooks, Gino) bien résumée.
+- **B49** AU NIVEAU : technique claire, exemple drôle.
+- **B50** AU NIVEAU : utile (le lien « attention diffuse » → « du coup » est un peu elliptique, pas bloquant).
+- **B51** AU NIVEAU : même ligne que B26, cohérente.
+- **B52** SOUS LA BARRE : le résumé annonce « phrases, règle de rapidité, habitude de poser des questions » alors que la FAQ donne « phrases, rapidité, 3 sujets préparés ».
+  - Réécriture : « La solution tient en trois choses : quelques phrases prêtes à l'emploi, une règle de rapidité et trois sujets préparés avant de sortir. » (et aligner FAQ et plan d'action sur ces trois).
+- **B53** SOUS LA BARRE : « entre 60 et 90 secondes » est un chiffre inventé.
+  - Réécriture : « 4. **Une sortie qui tient en une phrase.** Une conversation machine à café, ça reste court. Pars sur une note positive, pas quand ça s'essouffle. »
+- **B54** AU NIVEAU : idée utile (réserve de goût : deux oppositions « pas X, c'est Y » rapprochées).
+- **B55** AU NIVEAU : message rassurant.
+- **B56** AU NIVEAU : réconfortant (la phrase est reprise trois fois dans l'article).
+- **B57** AU NIVEAU : explication claire.
+- **B58** AU NIVEAU : renvois cohérents avec les raisons 1, 2, 3, 7.
+- **B59** AU NIVEAU : correct (« C'est exactement ça » est mou mais inoffensif).
+- **B60** SOUS LA BARRE : le « 23 % plus respectés » me semble mal rapporté (de mémoire, la stat d'Aaker et Bagdonas parle de leaders plus motivants et plus admirés), donc chiffre à ne pas garder sans vérification.
+  - Réécriture : « Oui, et les chercheurs le constatent : Jennifer Aaker et Naomi Bagdonas (Stanford) rapportent que les leaders qui utilisent l'humour sont perçus comme plus motivants et plus admirés par leurs équipes, à condition que la blague reste appropriée. »
+- **B61** AU NIVEAU : « d'astreinte, sans la prime » est drôle.
+- **B62** AU NIVEAU : « enterres deux fois » est efficace.
+- **B63** AU NIVEAU : phrase d'exemple naturelle.
+- **B64** SOUS LA BARRE : même problème que B60 (chiffre douteux, « plus compétents » en plus).
+  - Réécriture : « Jennifer Aaker et Naomi Bagdonas, qui enseignent l'humour à Stanford, rapportent que les leaders qui utilisent l'humour sont perçus comme plus motivants et plus admirés par leurs équipes. »
+- **B65** AU NIVEAU : conclusion nette.
+- **B66** AU NIVEAU : « une porte qui claque » est une bonne image.
+- **B67** SOUS LA BARRE : « 10 fois plus drôle » est un chiffre inventé prêté à une personne réelle.
+  - Réécriture : « Imagine **Panayotis Pascot** en interview qui laisse un blanc avant de répondre : ce blanc crée de la tension, et la phrase d'après n'en tombe que mieux. »
+- **B68** AU NIVEAU : technique claire.
+- **B69** AU NIVEAU : méthode simple, rassurante.
+- **B70** AU NIVEAU : plan cohérent (réserve mineure : les semaines 1 et 3 se ressemblent).
+
+## Points transverses
+
+- Chiffres suspects hors passages : « le public décroche au mot 8 » (B37, Avant), « multiplié par 3 » et « 3x » (B16, B24), « 10 fois » (B67), « 60 à 90 secondes » (B53).
+- Faits à confirmer côté produit : durées des parcours (4 et 6 semaines), prix 2,99 €/mois (A40).
+- Faits que je n'ai pu confirmer qu'à la mémoire : débuts nantais de Waly Dia, 2006 JCC de Gardin, 23 % d'Aaker et Bagdonas.
