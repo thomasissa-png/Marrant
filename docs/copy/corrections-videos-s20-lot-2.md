@@ -16,15 +16,15 @@ Conventions :
 
 **V2-51-1** | description | R1
 - **Avant :** `Thomas Wiesel, humoriste suisse incontournable, offre un spectacle complet où il pose son regard extérieur sur la France et ses habitudes.`
-- **Après :** `Thomas Wiesel, humoriste suisse incontournable, joue à Toulouse son dernier show avant un moment. Regarde ce que peut donner le regard extérieur d'un voisin francophone sur la France et ses habitudes [À VÉRIFIER : que ce show prenne bien cet angle].`
-- Raison : seul le titre réel (« Toulouse - dernier show avant un moment ») est sûr ; le contenu « regard sur la France » est passé en invitation.
+- **Après :** `Thomas Wiesel, humoriste suisse incontournable, joue à Toulouse son dernier show avant un moment. La description de la vidéo annonce le coronavirus, le TFC, les trains et les schtroumpfs.`
+- Raison : seul le titre réel (« Toulouse - dernier show avant un moment ») est sûr, avec les sujets annoncés dans la description YouTube ; le contenu « regard sur la France » et la « veille de la fermeture des salles » ne sont pas confirmés, retirés.
 
 ## Fiche 52 | HBJBxuIs6g0 (Pierre-Emmanuel Barré)
 
 **V2-52-1** | description | R1
 - **Avant :** `Pierre-Emmanuel Barré, chroniqueur passé par France Inter et connu pour ses positions tranchées, joue au Zénith un spectacle où la répartie politique et l'insolence sont travaillées comme un artisanat.`
-- **Après :** `Pierre-Emmanuel Barré, chroniqueur passé par France Inter [À VÉRIFIER : passage à France Inter] et connu pour ses positions tranchées, joue « Pfff… » au Zénith de Paris, entouré d'invités, dans un registre où la répartie politique et l'insolence se travaillent comme un artisanat.`
-- Raison : le titre réel donne « Pfff… », « Zenith de Paris » et « & Guests » ; le passage à France Inter n'a pas été confirmé en ligne.
+- **Après :** `Pierre-Emmanuel Barré, chroniqueur passé par France Inter et connu pour ses positions tranchées, joue « Pfff… » au Zénith de Paris, entouré d'invités, dans un registre où la répartie politique et l'insolence se travaillent comme un artisanat.`
+- Raison : le titre réel donne « Pfff… », « Zenith de Paris » et « & Guests » ; le passage à France Inter est confirmé (*On va tous y passer* 2012-2014, *La Bande originale* 2014-2017), formulation conservée.
 
 ## Fiche 53 | OMkHT3fRQJY (Haroun)
 
@@ -58,8 +58,33 @@ Aucune correction.
 
 **V2-56-1** | description | R1
 - **Avant :** `David Azencot offre « Inflammable », son spectacle capté à l'Européen. Son humour autobiographique mêle anecdotes familiales, vie parisienne et réflexions sur l'identité, dans un style chaleureux et généreux. Idéal pour voir comment on transforme sa propre famille en troupe de personnages.`
-- **Après :** `David Azencot offre un spectacle capté à l'Européen [À VÉRIFIER : titre du spectacle, « Inflammable » (titre du site) ou « Red Velvet » (titre YouTube)]. Idéal pour voir comment on peut puiser dans son propre vécu, jusqu'à sa famille, pour la transformer en troupe de personnages [À VÉRIFIER : humour autobiographique et familial d'Azencot].`
-- Raison : le titre YouTube réel dit « Captation Azencot à l'Européen (Red Velvet) », pas « Inflammable » ; les thèmes (famille, vie parisienne, identité) sont inventés (les descriptions publiques d'« Inflammable » parlent plutôt de société, politique, sexisme).
+- **Après :** `David Azencot offre sa captation à L'Européen. À regarder pour voir comment un humoriste s'empare de sujets de société, de politique et de sexisme.`
+- Raison : le titre YouTube réel dit « Captation Azencot à l'Européen (Red Velvet) » ; « Inflammable » n'est pas confirmé formellement pour cette captation, le spectacle n'est donc pas nommé. Aucune source pour un angle autobiographique ou familial ; seuls sont sourcés société, politique et sexisme (offi.fr, Radio VL).
+
+**V2-56-2** | learnings[0] | R1
+- **Avant :** `TECHNIQUE DE L'AUTOBIOGRAPHIE COMIQUE : raconte ta vraie vie plutôt que des situations inventées. L'authenticité donne du poids à chaque vanne, et le public sent quand une histoire a vraiment eu lieu.`
+- **Après :** `TECHNIQUE DE L'ACTUALITÉ DÉCALÉE : pars d'un sujet que tout le monde a en tête (une polémique, une réforme, une phrase de ministre) plutôt que d'une situation inventée. Le public a déjà un avis : ton rôle est de lui offrir l'angle auquel il n'a pas pensé.`
+- Raison : l'enseignement autobiographique n'a aucune source pour cette captation ; remplacé par une technique de société/actualité, cohérente avec V2-56-1.
+
+**V2-56-3** | learnings[1] | R1
+- **Avant :** `TECHNIQUE DE LA FAMILLE INÉPUISABLE : les anecdotes familiales se renouvellent sans fin, parce que chaque repas de famille en produit de nouvelles. Garde un carnet : ta famille écrit pour toi.`
+- **Après :** `TECHNIQUE DE LA SOURCE INÉPUISABLE : l'actualité se renouvelle sans fin, parce que chaque journal télévisé en produit de nouvelles. Garde un carnet de titres qui te font réagir : le monde écrit pour toi.`
+- Raison : angle familial sans source ; même mécanique (carnet de matière) transposée à l'actualité.
+
+**V2-56-4** | learnings[2] | R1
+- **Avant :** `TECHNIQUE DES SECONDS RÔLES VIVANTS : les personnages secondaires (parents, cousins, voisins) doivent être aussi vivants que toi. Donne à chacun une phrase, un geste ou une obsession, et ils porteront une bonne part de tes vannes.`
+- **Après :** `TECHNIQUE DE LA CARICATURE PRÉCISE : un sujet de société devient drôle quand tu lui donnes un visage. Choisis un type de personnage (le décideur sûr de lui, le collègue qui a un avis sur tout) et donne-lui une phrase, un geste ou une obsession : il portera une bonne part de tes vannes.`
+- Raison : personnages familiaux (parents, cousins) sans source ; la méthode « une phrase, un geste, une obsession » est conservée sur des types sociaux.
+
+**V2-56-5** | learnings[3] | R1
+- **Avant :** `TECHNIQUE DE LA CHALEUR DU CONTEUR : un ton chaleureux permet de dire des choses piquantes sur tes proches sans paraître cruel. Le public sent que tu les aimes, donc il rit sans culpabiliser.`
+- **Après :** `TECHNIQUE DE LA CIBLE CLAIRE : sur un sujet sensible (politique, sexisme), décide qui ou quoi tu vises avant d'écrire. Vise les comportements et les discours, pas les personnes qui les subissent : le public rit sans se demander s'il en a le droit.`
+- Raison : « tes proches » suppose un humour familial sans source ; remplacé par une technique de cadrage sur les thèmes sourcés (politique, sexisme).
+
+**V2-56-6** | exercise | R1, R4
+- **Avant :** `DÉFI DOCUMENTAIRE FAMILIAL : prends une anecdote familiale (Noël, vacances, mariage) et raconte-la comme un documentaire animalier, par exemple : « Le troupeau se regroupe autour de la table. Seule la grand-mère sait où sont rangées les cuillères à dessert, et elle ne le dira pas. » Teste ta version sur un membre de ta famille : s'il corrige un détail, c'est qu'il s'est reconnu.`
+- **Après :** `DÉFI GROS TITRE : prends un gros titre de la semaine et écris-en trois vannes sous trois angles différents (le décalage, l'exagération, la mauvaise foi assumée), par exemple : « La réforme simplifie les démarches. Il suffit désormais de remplir un seul formulaire, après avoir rempli les douze autres. » Lis tes trois versions à voix haute à quelqu'un : garde celle qui le fait rire avant la fin de ta phrase.`
+- Raison : exercice familial aligné sur les nouveaux enseignements (R4) ; il ne présume rien du contenu de la captation.
 
 ## Fiche 57 | 6lHjXqelKGo (Gad Elmaleh)
 
@@ -203,7 +228,7 @@ Aucune correction.
 
 **V2-72-1** | description | R1
 - **Avant :** `Kheiron, figure de l'improvisation et de l'énergie scénique, parle de sa taille dans cet extrait de ses « 60 minutes » avec une auto-dérision explosive.`
-- **Après :** `Kheiron, figure de l'improvisation et de l'énergie scénique [À VÉRIFIER : « figure de l'improvisation »], s'attaque à un « problème de taille » dans cet extrait de ses « 60 minutes », avec l'auto-dérision qu'on lui connaît.`
+- **Après :** `Kheiron, connu pour son énergie scénique et ses spectacles construits en direct avec le public, s'attaque à un « problème de taille » dans cet extrait de ses « 60 minutes », avec l'auto-dérision qu'on lui connaît.`
 - Raison : « sa taille » est plus précis que le titre (« taille » est ambigu) ; on reprend les mots du titre.
 
 **V2-72-2** | description | R1
@@ -351,16 +376,16 @@ Aucune correction. (Le thème de la sobriété est cohérent avec les spectacles
 ## Bilan
 
 - Fiches touchées : **31 / 39** (aucune correction : 54, 57, 60, 66, 68, 78, 82, 89).
-- Corrections : **48** (R1 : 39, R2 : 6 dont 2 cumulées avec R1, R3 : 4, R4 : 1).
+- Corrections : **53** (R1 : 44, R2 : 6 dont 2 cumulées avec R1, R3 : 4, R4 : 2 dont 1 cumulée avec R1).
 - Typo du duel : « 100% » une occurrence (88-2) ; « 3ème » et « x3 » : aucune dans ce lot. « 90% » (74-1) disparaît avec la reformulation.
 
-### `[À VÉRIFIER]` insérés dans les « Après »
+### `[À VÉRIFIER]` insérés dans les « Après » (5, tous levés, source : `docs/qa/videos-officielles-faits-s20.md`, partie B)
 
-1. V2-51-1 : que le show de Wiesel à Toulouse prenne bien l'angle « regard de voisin francophone sur la France ».
-2. V2-52-1 : passage de Pierre-Emmanuel Barré à France Inter (non confirmé par la recherche).
-3. V2-56-1 (a) : titre du spectacle de David Azencot, « Inflammable » (site) ou « Red Velvet » (YouTube).
-4. V2-56-1 (b) : humour autobiographique et familial d'Azencot (les descriptions publiques d'« Inflammable » évoquent la société, la politique, le sexisme).
-5. V2-72-1 : Kheiron « figure de l'improvisation ».
+1. V2-51-1 : angle « regard de voisin francophone sur la France » de Wiesel. **Levé : NON CONFIRMÉ, angle retiré.** Texte limité aux faits sourcés : humoriste suisse, show à Toulouse, sujets annoncés dans la description YouTube (coronavirus, TFC, trains, schtroumpfs). La mention « veille de la fermeture des salles » est retirée (non confirmée).
+2. V2-52-1 : passage de Pierre-Emmanuel Barré à France Inter. **Levé : VRAI** (*On va tous y passer* 2012-2014, *La Bande originale* 2014-2017). Marqueur retiré.
+3. V2-56-1 (a) : titre du spectacle d'Azencot. **Levé : « Inflammable » probable mais non confirmé formellement pour cette captation.** Spectacle non nommé, texte parle de « sa captation à L'Européen ».
+4. V2-56-1 (b) : humour autobiographique et familial d'Azencot. **Levé : aucune source, angle retiré.** Remplacé par les thèmes sourcés (société, politique, sexisme : offi.fr, Radio VL). Les 4 enseignements et l'exercice, tous familiaux, sont remplacés par V2-56-2 à V2-56-6 (société, actualité, décalage politique).
+5. V2-72-1 : Kheiron « figure de l'improvisation ». **Levé : VRAI avec nuance.** Remplacé par « spectacles construits en direct avec le public ».
 
 ### Signalements hors texte (données, non traités ici)
 
@@ -372,7 +397,7 @@ Aucune correction. (Le thème de la sobriété est cohérent avec les spectacles
 ## Handoff
 
 **Handoff → @orchestrator (puis relecture à l'aveugle avant mise en ligne)**
-- Fichier produit : `/home/user/Marrant/docs/copy/corrections-videos-s20-lot-2.md` (48 corrections, 31 fiches, Avant exacts pour remplacement automatique).
+- Fichier produit : `/home/user/Marrant/docs/copy/corrections-videos-s20-lot-2.md` (53 corrections, 31 fiches, Avant exacts pour remplacement automatique).
 - Décisions : tout fait précis non déductible du titre réel est passé en invitation (« Regarde comment… ») ; chiffres sans source retirés (50 ans, 10 vannes en 5 minutes, 90 %, 15 minutes, 3-4 minutes, 800 000) ; une erreur factuelle corrigée (Sugar Sammy, fiche 65) ; une incohérence titre/spectacle signalée (Azencot, fiche 56).
-- Points d'attention : 5 `[À VÉRIFIER]` à lever avant publication ; espaces insécables à appliquer au script (voir en-tête) ; les fiches sans correction (8) n'ont pas été retouchées ; aucune fiche corrigée ne doit être mise en ligne sans repasser la relecture à l'aveugle.
+- Points d'attention : les 5 `[À VÉRIFIER]` sont levés (plus aucun marqueur) ; espaces insécables à appliquer au script (voir en-tête) ; les fiches sans correction (8) n'ont pas été retouchées ; aucune fiche corrigée ne doit être mise en ligne sans repasser la relecture à l'aveugle.
 
