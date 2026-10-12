@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
-import { fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { buildVideoMetaDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { fixInvertedCase } from "@/lib/learning-format";
 import { buildVideoSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
@@ -86,11 +86,8 @@ export async function generateMetadata({
   const canonicalSlug = buildVideoSlug(video);
   // Titre YouTube conservé tel quel (fitTitle : jamais de « ... » au milieu),
   // description coupée proprement (lib/seo-meta.ts, passe SEO s11).
-  // s20 : « Chaîne : description » (plus de tiret cadratin, règle commune n° 12).
-  const baseDesc = fitDescription(`${video.channelName} : ${video.description}`);
-  const desc = baseDesc.length < 110 && video.technique
-    ? fitDescription(`${baseDesc} La technique à retenir : ${video.technique}.`)
-    : baseDesc;
+  // s20 : « Chaîne : description », ≤ 155 car. (lib/seo-meta.ts).
+  const desc = buildVideoMetaDescription(video);
 
   return {
     title: fitTitle(video.title),

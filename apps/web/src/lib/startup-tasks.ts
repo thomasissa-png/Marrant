@@ -24,6 +24,7 @@ import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 import { stripEmDashesWithStats } from "@/lib/em-dash";
 import { stripVideoEmDashesTask } from "@/lib/video-em-dash";
+import { applyVideoContentS20Task } from "@/lib/video-content-s20";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
 import { applyBoulotImportTask } from "@/lib/parcours-boulot-sync";
@@ -1447,6 +1448,10 @@ export async function runStartupTasks(): Promise<void> {
   // s20 : tirets cadratins des fiches vidéo (ponctuation seulement), après toute
   // tâche qui écrit des vidéos (catalogue, parcours Boulot).
   await stripVideoEmDashesTask();
+  // s20 : contenus des fiches vidéo (version gagnante du duel, fiche par fiche,
+  // garde-fou par empreinte du texte en base), APRÈS le retrait des tirets.
+  // Non bloquant : la tâche capture ses erreurs et ne lève jamais.
+  await applyVideoContentS20Task();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).

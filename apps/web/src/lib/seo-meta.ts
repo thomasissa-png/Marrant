@@ -61,10 +61,33 @@ export function fitTitle(title: string): Metadata["title"] {
 export function fitDescription(text: string, max = 160): string {
   const clean = stripMarkdown(text);
   if (clean.length <= max) return clean;
-  const window = clean.slice(0, max);
+  // max + 1 : une phrase qui finit pile au caractère `max` (suivie d'une espace)
+  // compte comme tenant dans la limite.
+  const window = clean.slice(0, max + 1);
   const lastStop = Math.max(window.lastIndexOf(". "), window.lastIndexOf("! "), window.lastIndexOf("? "));
   if (lastStop >= 110) return window.slice(0, lastStop + 1);
   return truncateAtWord(clean, max);
+}
+
+/** Méta description (et OG/Twitter) d'une fiche vidéo : 155 car. max (s20). */
+export const VIDEO_META_DESCRIPTION_MAX = 155;
+
+/**
+ * Méta d'une fiche vidéo : « Chaîne : description » (sans tiret cadratin, règle
+ * commune n° 12). Les descriptions s20 font 250 à 420 car. : coupe en fin de
+ * phrase (si elle dépasse 110 car.), sinon au dernier mot + « … ». Description
+ * courte (< 110 car.) : complétée par la technique à retenir.
+ */
+export function buildVideoMetaDescription(video: {
+  channelName: string;
+  description: string;
+  technique?: string | null;
+}): string {
+  const max = VIDEO_META_DESCRIPTION_MAX;
+  const base = fitDescription(`${video.channelName} : ${video.description}`, max);
+  return base.length < 110 && video.technique
+    ? fitDescription(`${base} La technique à retenir : ${video.technique}.`, max)
+    : base;
 }
 
 /**
