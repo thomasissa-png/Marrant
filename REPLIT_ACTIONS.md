@@ -1,5 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Maillage S1, S2, S5 (@fullstack, relu @design @ux 10/10), N-1 `d344ceb6-b152-4bb0-a903-64ea5969d443`
+
+- **S1** pagination numérotée des listes (`list-pagination.tsx`, `paginationItems`) : toutes les pages liées depuis chaque page de liste (profondeur 13 → 3) ; mobile en grille 2 rangées, chevrons bordés, page courante violette ; retour en haut + focus + annonce « Page N sur Y » (`use-list-page.ts`, `list-results.tsx`).
+- **S2** « Dans la même catégorie » en anneau (`related-ring.ts`, `related-catalogue.ts`, `unstable_cache` 1 h par catégorie) : 4 liens entrants par fiche.
+- **S5** sitemap : `lastmod` jamais futur, `/blog` = dernier article visible (`sitemap-lastmod.ts`).
+- Spec : `docs/seo/maillage-decouverte-s20.md` ; relectures et captures : `docs/seo/captures-maillage-s20/`. Aucune variable, migration ni ressource.
+- **Commande** : celle de s19 (chaîne Hyperdrive factice sur `build:cf` et `deploy:cf`). Rollback : `npx wrangler rollback d344ceb6-b152-4bb0-a903-64ea5969d443`.
+- **Vérifs** : `/vannes?page=6` contient 11 `aria-label="Page N"` dans le HTML serveur, `?page=13` en 404, fiches avec 4 voisins différents, sitemap sans date future, pages clés en 200.
+
 ## s15 (12/10/2026, ~08:30 Paris) : pilotage du J0, vague V1 tour 1, **RIEN À DÉPLOYER**
 
 - Article `se-presenter-avec-humour` en ligne (200) ; 3 réseaux ouverts, canaux `ok` ; alertes B seulement (file basse, lancement 1b, vague V1).
