@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Contenus des fiches vidéo (duel s11 14/14, corrections relues à l'aveugle en 5 tours), N-1 `a4058f12-8409-4c1e-a890-ee93ff67b9c2`
+## s20 Contenus des fiches vidéo (duel s11 14/14, corrections relues à l'aveugle en 5 tours), **DÉPLOYÉ le 12/10/2026, version `76cf42da-6e83-499b-8c53-b3e34f237bf7`** ; journal « contenus vidéo s20 v1 : 84 fiche(s) mise(s) à jour, 0 refus garde-fou » (au 2e appel de `startup-tasks`, le 1er s'était arrêté avant la tâche) ; base : 84 marqueurs ; pages : 84/84 au nouveau texte, 8 anciennes URL en 308, méta 111-155 car. ; IndexNow 200 (84 URL), Bing SubmitUrlBatch refusé (quota du jour 76) ; N-1 `a4058f12-8409-4c1e-a890-ee93ff67b9c2`
 
 - Nouvelle tâche de démarrage `applyVideoContentS20Task` (`src/lib/video-content-s20.ts`), branchée après `stripVideoEmDashesTask`, hors `catalogue-content` (version inchangée). Elle applique `src/data/video-content-s20.json` fiche par fiche : description, 4 enseignements, exercice, et selon la fiche titre (8), chaîne (21), catégorie (6), `youtubeId` (fiche 68 : `U80fwIfPC4M` vers `JNo86HEt86w`).
 - Garde-fou : empreinte sha256 du texte en base égale à `attendu`, sinon refus « GARDE-FOU » sans écriture. Marqueur `video-content-s20:v1:<youtubeId d'origine>` et `note.before` posés dans la même transaction.
