@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Tirets cadratins des 9 articles s11 (décision Thomas 12/10), N-1 `e50059e3-b154-4073-84df-307016008b5b`
+## s20 Tirets cadratins des 9 articles s11 (décision Thomas 12/10), **DÉPLOYÉ le 12/10/2026 à 10:02 UTC, version `a8ac0a07-e453-4a08-bf46-b9393a0d130c`** ; tâche lancée : « tirets cadratins blog v2 : 6 article(s) corrigé(s) (88 tiret(s)) » ; HTML des 9 articles : 0 tiret ; N-1 `e50059e3-b154-4073-84df-307016008b5b`
 
 - Cause (`docs/qa/diagnostic-base-vs-s11-s20.md`) : la copie Replit → Neon du 30/09 (`copie-replit-neon.py --reset`) a remis `BlogArticle` à l'ancien contenu sans vider `DataPatch` : refonte s11 et retrait des tirets perdus, marqueurs conservés.
 - Correctif : `BLOG_EM_DASH_PATCH_VERSION` 1 → 2 (`startup-tasks.ts`) : retrait des « — » du corps des articles publiés, titres exclus, aucun mot changé, contenu d'avant dans `DataPatch.note.before`.
