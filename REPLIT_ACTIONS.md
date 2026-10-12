@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Maillage S4, liens contextuels (@copywriter, relecture à l'aveugle 3 tours, @fullstack), N-1 `fffd731b-8355-4c04-a839-00cc0aa1945d`
+## s20 Maillage S4, liens contextuels (@copywriter, relecture à l'aveugle 3 tours, @fullstack), **DÉPLOYÉ le 12/10/2026 à 09:33 UTC, version `e50059e3-b154-4073-84df-307016008b5b`** (4 liens vérifiés en prod), N-1 `fffd731b-8355-4c04-a839-00cc0aa1945d`
 
 - **Déployé : 4 phrases statiques** (`src/lib/blog-articles.ts`, appariements 1, 5, 7, 14 de `docs/copy/liens-s4-s20.md`), validées par les deux relecteurs ; diff 0,98 à 1,51 % de mots ajoutés, 0 retiré (§8). `updatedAt` 2026-10-12 sur les 4 articles.
 - **Non branché : 5 phrases des articles en base** (2, 8, 10, 11, 12). Lecture seule du 12/10 : le contenu en base diffère du JSON de la refonte s11 (chaînes « avant » absentes, tirets cadratins encore présents) alors que les marqueurs `blog-rewrite:v2:*` sont posés depuis le 29/09. Tâche `applyBlogLiensS4S20Task` (`src/lib/blog-liens-s4-s20.ts`) gardée mais non appelée par `runStartupTasks` ; phrases reportées dans `blog-article-rewrites.json` (`_meta.version` inchangé). À rebrancher après ré-ancrage sur le texte réel (et diagnostic de l'écart base / s11).
