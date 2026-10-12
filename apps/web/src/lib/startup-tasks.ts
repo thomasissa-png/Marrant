@@ -1277,7 +1277,9 @@ async function applyCatalogueContentTask(): Promise<void> {
  *  - Fail-safe : erreur DB sur un slug → loggée, les autres continuent.
  *  - SANS IA. Doit tourner APRÈS les tâches qui réécrivent `content`
  *    (fix / rewrite / liens) : si une réécriture future réinjecte des tirets,
- *    bumper `BLOG_EM_DASH_PATCH_VERSION`.
+ *    bumper `BLOG_EM_DASH_PATCH_VERSION`. Depuis `blog-article-rewrites.json`
+ *    v4 (s20), le JSON est déjà sans « — » hors titres : sa réapplication ne
+ *    demande pas de bump (test `blog-corrections-s11-s20`).
  */
 const BLOG_EM_DASH_PATCH_VERSION = 3;
 

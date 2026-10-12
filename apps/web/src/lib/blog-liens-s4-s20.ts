@@ -94,9 +94,9 @@ export const BLOG_LIENS_S4_S20_PATCHES: readonly BlogLinkPatch[] = [
       {
         appariement: 10,
         before:
-          "une vanne courte tombe aussi vite qu'elle est partie. Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.",
+          "une vanne courte tombe aussi vite qu'elle est partie. Si tu en veux d'autres, notre [abonnement](/abonnement) débloque toutes les vannes du catalogue, avec leur décryptage.",
         after:
-          "une vanne courte tombe aussi vite qu'elle est partie. Dans le même esprit, on a rangé [40 citations drôles avec leur mode d'emploi](/blog/citation-drole) par situation. Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.",
+          "une vanne courte tombe aussi vite qu'elle est partie. Dans le même esprit, on a rangé [40 citations drôles avec leur mode d'emploi](/blog/citation-drole) par situation. Si tu en veux d'autres, notre [abonnement](/abonnement) débloque toutes les vannes du catalogue, avec leur décryptage.",
       },
     ],
   },

@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Corrections de la version s11 (32 passages validés à l'aveugle, 2 sur 3), **À DÉPLOYER (non commité)**
+
+- `blog-article-rewrites.json` `_meta.version` 3 → 4 : `applyBlogArticleRewritesTask` réapplique les 9 articles (32 corrections de `docs/copy/corrections-s11-s20.md` : §4, et §9 pour C, F, G, R, AE, N ; diff au §10). Le JSON ne contient plus aucun « — » hors titres (`stripEmDashes` appliqué à la source) : `BLOG_EM_DASH_PATCH_VERSION` reste à 3.
+- `blog-liens-s4-s20.ts` : chaînes de l'appariement 10 alignées sur C07 (tâche toujours non branchée, aucun effet en base).
+- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu : « réécritures blog v4 : 9 appliquée(s) », aucune ligne « tirets cadratins » (rien à retirer). Vérifs HTML : « Wharton School », « Exemple dans la veine de Fary », « L'heure d'arrivée » présents ; « Stanford », « 90% », « CLEF FINALE » absents ; 0 « — » dans le corps.
+- Retour arrière : le marqueur `blog-rewrite` ne garde pas l'ancien texte. Remettre le JSON de `HEAD` (version s11 v3) en `_meta.version` 5, puis le rejeu des tirets (`BLOG_EM_DASH_PATCH_VERSION` 4) ; ou rollback Worker (ne restaure pas la base).
+
 ## s20 Version s11 des 9 articles mise en ligne (duel à l'aveugle 9/9, décision Thomas 12/10), **DÉPLOYÉ le 12/10/2026 à 10:41 UTC, version `ac0c937d-2550-4bd2-8a61-55c93349cded`** ; journal : « réécritures blog v3 : 9 appliquée(s) », « tirets cadratins blog v3 : 6 article(s) corrigé(s) (59 tiret(s)) » ; HTML : 9 articles en 200, 0 tiret, 5 liens S4 présents ; N-1 `a8ac0a07-e453-4a08-bf46-b9393a0d130c`
 
 - `blog-article-rewrites.json` `_meta.version` 2 → 3 : `applyBlogArticleRewritesTask` réapplique les 9 articles (metaDescription + content s11, avec les 5 phrases S4 validées 2, 8, 10, 11, 12) ; `BLOG_EM_DASH_PATCH_VERSION` 2 → 3 (59 tirets de la version s11 retirés, titres exclus).

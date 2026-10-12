@@ -464,3 +464,32 @@ Convention : Origine = relecteur(s) qui ont relevé le point dans la version s11
 **Clé du tour 2 (NE PAS OUVRIR AVANT LES VERDICTS)** : P1 = C26 révisé (R) ; P2 = C03 révisé (N) ; P3 = C18 révisé (AE) ; P4 = C13 révisé (C) ; P5 = C21 révisé (G) ; P6 = C02 révisé (F).
 
 **Non touchés malgré une note isolée** : AD (« dans la veine de Fary », 1 avis sur 3 demande de préciser que la blague est imaginée), K/U/AC (éloges de Waly Dia, avis non chiffrés, à vérifier sur un extrait précis, pas à retirer), AF (le prix 2,99 € doit rester celui de `/abonnement` à la mise en ligne), AB (« avec leur décryptage » à confirmer côté produit : non vérifié dans le code).
+
+---
+
+## 10. Application (@fullstack, 12/10/2026, non commité)
+
+**32/32 corrections appliquées** dans `apps/web/src/data/blog-article-rewrites.json` : C01, C04 à C12, C14 à C17, C19, C20, C22 à C25, C27 à C32 en version §4 (26) ; C02 (F), C03 (N), C13 (C), C18 (AE), C21 (G), C26 (R) en version §9 (6), correspondance vérifiée par les clés §8 et §9. 36 remplacements exacts (C14 : 2 lignes, C16 : 3 lignes, C26 : 2), extraits par script de ce fichier (aucune recopie à la main), chaque « avant » trouvé exactement une fois, aucun refus. C32 : « avant » tronqué par « … » appliqué sur son préfixe exact.
+
+**Passage R (demande coordinateur, doublon relevé par les 3 relecteurs)** : « **Les codes … à connaître :** » était le seul intertitre gras de la liste (le gras suivant, « **Comment garder ta personnalité dans tout ça ?** », ouvre un paragraphe hors liste). Ligne supprimée, aucun autre mot touché : « Voici les essentiels : » est suivi directement de « - **L'heure d'arrivée** : … ».
+
+**Tirets cadratins** : `stripEmDashes` (même fonction que `stripBlogEmDashesTask`) appliqué à `content` et `metaDescription` : 59 tirets retirés à la source, 0 restant hors titres. `BLOG_EM_DASH_PATCH_VERSION` reste à 3. Le tiret de la ligne J donne « **Un silence d'une seconde avant la chute** : juste assez… » (deux-points, règle des puces), identique à ce qui est en ligne, alors que la liste à l'aveugle affichait une virgule. Reste 1 « — » dans l'`excerpt` de `comment-raconter-une-blague-sans-la-rater` (champ hors périmètre, non touché par la tâche des tirets).
+
+`_meta.version` 3 → 4. `blog-liens-s4-s20.ts` : chaînes de l'appariement 10 alignées sur C07 (§6, tâche non branchée).
+
+**Diff réel v3 → v4** (`content` + `metaDescription`, jetons séparés par des espaces ; « % changé » = jetons remplacés, retirés ou ajoutés / jetons v3 ; « dont tirets » = part due au seul retrait des « — »). H2/H3 et liens comparés liste contre liste (texte et URL) ; slug et excerpt inchangés partout. Seul `comment-improviser-des-blagues` a sa FAQ dans le JSON : section identique au caractère près. Les 5 phrases S4 sont intactes (tests `blog-liens-s4-s20`).
+
+| Article | Mots v3 | Mots v4 | % changé | dont corrections | dont tirets | % caractères | H2/H3 | Liens |
+|---|---|---|---|---|---|---|---|---|
+| `avoir-confiance-en-soi-grace-a-l-humour` | 1600 | 1619 | 5,5 % | 5,0 % | 0,5 % | 4,5 % | = (24) | = (8) |
+| `blague-courte-arme-secrete-humour` | 1960 | 1953 | 4,8 % | 4,1 % | 0,8 % | 3,7 % | = (10) | = (9) |
+| `blague-drole-7-criteres-pepite` | 1945 | 1947 | 2,1 % | 2,1 % | 0 % | 2,2 % | = (15) | = (9) |
+| `citation-drole` | 1851 | 1837 | 2,1 % | 2,1 % | 0 % | 1,4 % | = (27) | = (10) |
+| `comment-improviser-des-blagues` | 1920 | 1940 | 3,2 % | 3,1 % | 0,2 % | 2,3 % | = (31) | = (9) |
+| `comment-raconter-une-blague-sans-la-rater` | 2009 | 2012 | 2,2 % | 2,0 % | 0,2 % | 1,5 % | = (8) | = (11) |
+| `etre-plus-a-l-aise-en-societe` | 2067 | 2061 | 2,0 % | 2,0 % | 0 % | 1,9 % | = (22) | = (6) |
+| `jeu-de-mots-drole-techniques-creer` | 2185 | 2205 | 1,9 % | 0,9 % | 1,0 % | 1,0 % | = (35) | = (9) |
+| `techniques-humoristes-pros` | 1648 | 1643 | 0,9 % | 0,5 % | 0,4 % | 0,5 % | = (8) | = (8) |
+| **Total** | **17 185** | **17 217** | **2,7 %** | | | | | |
+
+Non touchés (hors périmètre) : « pause de 2 secondes » (art. 9) et règle 3-2-1 (décision Thomas en attente), « 2,99 EUR » de `blog-articles.ts`. Métas > 155 caractères déjà en v3 et non corrigées : `avoir-confiance…` 160, `comment-raconter…` 159, `techniques-humoristes-pros` 156.
