@@ -103,7 +103,7 @@ const BEFORES: { id: string; slug: string; field: Field; before: string }[] = [
 
 describe("corrections s20 de la version s11 (blog-article-rewrites.json v4)", () => {
   it("version 4 (réapplication des 9 articles au boot), tirets base laissés en v3", () => {
-    expect(file._meta.version).toBe(4);
+    expect(file._meta.version).toBe(5);
     expect(BLOG_EM_DASH_PATCH_VERSION).toBe(3);
   });
 

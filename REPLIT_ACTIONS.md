@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Petit lot final (pause, règle 3-2-1, 3 métas, « 2,99 € »), N-1 `cd7a93c3-e9ad-4841-96e4-561916da4035`
+
+- `blog-article-rewrites.json` `_meta.version` 4 → 5 : pause « d'une seconde » (`techniques-humoristes-pros`), encadré CLEF du critère #3 en trois temps sans règle 3-2-1 inventée (`blague-drole-7-criteres-pepite`), 3 métas ≤ 155 (150, 145, 152). Relus à l'aveugle (A B C E 3/3 ; D réécrit puis 2/2) : `docs/copy/lot-final-s11-s20*.md`, `docs/copy/relecture-corrections-s11/verdicts-*-lot-final.md`.
+- `blog-articles.ts` : « 2,99 EUR/mois » → « 2,99 €/mois » (19 articles statiques, diff Git prouvé).
+- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`), attendu « réécritures blog v5 : 9 appliquée(s) ». Retour arrière JSON : commit `5d6225c4` (v4) republié en version 6.
+
 ## s20 Correctif `scripts/infra/copie-replit-neon.py` (outil local, **rien à déployer**)
 
 - `--reset` refuse par défaut (code 2) si la cible a des tables non vides absentes de la source (`DataPatch`…) ; options `--purge-target-only-tables`, `--keep-target-only-tables=A,B`, `--dry-run`. `--verify` contrôle aussi ces tables et hache `BlogArticle`/`Joke`/`Tip` ligne à ligne. Détail : `docs/qa/diagnostic-base-vs-s11-s20.md` §5 ; tests : `scripts/infra/test_copie_replit_neon.py` (Postgres local).
