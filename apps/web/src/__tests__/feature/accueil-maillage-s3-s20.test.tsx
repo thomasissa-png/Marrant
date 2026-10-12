@@ -7,6 +7,7 @@ import { render, screen, within } from "@testing-library/react";
 import { blogArticles } from "@/lib/blog-articles";
 import { UNPUBLISHED_STATIC_SLUGS, REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { PREMIUM_PARCOURS } from "@/config/premium";
+import { frTypo } from "@/lib/fr-typo";
 
 type Row = { slug: string; title: string; isPublished: boolean; publishedAt: Date | null };
 type Where = {
@@ -90,18 +91,19 @@ describe("S3a : autres parcours sous les cartes personas", () => {
     expect(container.textContent).toBe(`Un autre parcours${NBSP}: Parcours Storytelling.`);
     expect(screen.getByRole("link", { name: "Parcours Storytelling" })).toHaveAttribute(
       "href",
-      "/parcours/storytelling?src=accueil#etape-1",
+      "/parcours/storytelling",
     );
   });
 
-  it("2 parcours restants : texte validé, liens ?src=accueil", () => {
+  it("2 parcours restants : texte validé, liens vers la page du parcours (sans ?src, cibles 44 px)", () => {
     const { container } = render(<AutresParcours parcours={TOUS} />);
     expect(container.textContent).toBe(`Deux autres parcours${NBSP}: Parcours Storytelling et Parcours Boulot.`);
     const liens = screen.getAllByRole("link");
     expect(liens.map((l) => l.getAttribute("href"))).toEqual([
-      "/parcours/storytelling?src=accueil#etape-1",
-      "/parcours/boulot?src=accueil#etape-1",
+      "/parcours/storytelling",
+      "/parcours/boulot",
     ]);
+    for (const l of liens) expect(l).toHaveClass("inline-flex", "min-h-[44px]", "items-center", "whitespace-nowrap");
   });
 
   it("3 parcours restants : « Trois autres parcours : X, Y et Z. »", () => {
@@ -109,7 +111,7 @@ describe("S3a : autres parcours sous les cartes personas", () => {
     expect(container.textContent).toBe(
       `Trois autres parcours${NBSP}: Parcours Confiance, Parcours Storytelling et Parcours Boulot.`,
     );
-    for (const l of screen.getAllByRole("link")) expect(l.getAttribute("href")).toContain("?src=accueil");
+    for (const l of screen.getAllByRole("link")) expect(l.getAttribute("href")).not.toContain("?");
   });
 
   it("par défaut : la liste des parcours publiés (PREMIUM_PARCOURS) privée des 3 cartes", () => {
@@ -185,6 +187,16 @@ describe("S3b : derniers articles (même source et même filtre que /blog)", () 
       ["Article C", "/blog/c"],
     ]);
     expect(bloc.textContent).toBe("Derniers articlesArticle AArticle BArticle C");
+    expect(within(bloc).getByRole("heading", { name: "Derniers articles" })).toHaveClass("text-center");
+    for (const l of liens) expect(l).toHaveClass("focus-visible:ring-2", "focus-visible:ring-accent-primary");
+  });
+
+  it("titres passés par frTypo : chiffre collé au nom, insécable avant « : »", () => {
+    render(<DerniersArticles articles={[{ slug: "p", title: "Pourquoi tes blagues ne marchent pas : 7 raisons concrètes", date: "2026-10-15" }]} />);
+    const lien = screen.getByRole("link");
+    expect(lien.textContent).toBe(frTypo("Pourquoi tes blagues ne marchent pas : 7 raisons concrètes"));
+    expect(lien.textContent).toContain(`7${NBSP}raisons`);
+    expect(lien.textContent).toContain(`pas${NBSP}:`);
   });
 
   it("liste vide : aucun bloc", () => {

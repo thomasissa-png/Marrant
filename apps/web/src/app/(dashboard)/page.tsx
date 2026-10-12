@@ -156,8 +156,8 @@ export default async function HomePage() {
         <AutresParcours />
 
         {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
-        <p className="mt-6 text-center text-sm text-text-secondary">
-          Tu veux d&apos;abord comprendre le mécanisme ? Lis notre guide{" "}
+        <p className="mt-8 text-center text-sm text-text-secondary">
+          Tu veux d&apos;abord comprendre le mécanisme&nbsp;? Lis notre guide{" "}
           <Link href="/blog/comment-devenir-drole" className="font-medium text-accent-link underline underline-offset-2">
             comment devenir drôle
           </Link>

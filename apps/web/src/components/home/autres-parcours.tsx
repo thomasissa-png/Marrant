@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Link from "next/link";
 import { PREMIUM_PARCOURS } from "@/config/premium";
-import { isParcoursSlug, parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
 
 /**
  * Accueil, maillage S3a (docs/seo/maillage-decouverte-s20.md §4, texte validé
@@ -11,7 +11,7 @@ import { isParcoursSlug, parcoursEtape1Href } from "@/lib/entrees-parcours";
  * Liste = parcours publiés de l'offre (`PREMIUM_PARCOURS`, déjà filtrée par les
  * interrupteurs de publication, source du hub /parcours depuis s19), privée des
  * parcours des cartes. Nombre en lettres qui suit la liste ; liste vide → rien.
- * Liens d'entrée à l'étape 1, `?src=accueil` (comme les cartes du hero).
+ * Liens vers la page du parcours (comme les cartes, sans `?src` : URL propre, arbitrage s20 UX C1).
  */
 
 /** Slugs des 3 cartes « Tu te reconnais ? ». */
@@ -35,19 +35,19 @@ export function AutresParcours({
   exclus = PARCOURS_CARTES_ACCUEIL,
 }: AutresParcoursProps) {
   const autres = parcours.flatMap((p) =>
-    isParcoursSlug(p.slug) && !exclus.includes(p.slug) ? [{ name: p.name, href: parcoursEtape1Href(p.slug, "accueil") }] : [],
+    isParcoursSlug(p.slug) && !exclus.includes(p.slug) ? [{ name: p.name, href: `/parcours/${p.slug}` }] : [],
   );
   if (autres.length === 0) return null;
 
   return (
-    <p className="mt-6 text-center text-sm text-text-secondary">
+    <p className="mt-4 text-center text-sm text-text-secondary">
       {autresParcoursIntro(autres.length)}&nbsp;:{" "}
       {autres.map((p, i) => (
         <Fragment key={p.href}>
           {i > 0 && (i === autres.length - 1 ? " et " : ", ")}
           <Link
             href={p.href}
-            className="font-medium text-accent-link underline underline-offset-2"
+            className="inline-flex min-h-[44px] items-center whitespace-nowrap font-medium text-accent-link underline underline-offset-2"
           >
             Parcours {p.name}
           </Link>

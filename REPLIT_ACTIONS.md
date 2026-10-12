@@ -2,10 +2,10 @@
 
 ## s20 Maillage S3 accueil (@fullstack), **NON DÉPLOYÉ, NON COMMITÉ** (attend la relecture du rendu @design et @ux à 10/10, règle du 07/10)
 
-- **S3a** : sous les 3 cartes personas, « Deux autres parcours : Parcours Storytelling et Parcours Boulot. » (`components/home/autres-parcours.tsx`, liste = `PREMIUM_PARCOURS` hors cartes, liens `/parcours/<slug>?src=accueil#etape-1`).
+- **S3a** : sous les 3 cartes personas, « Deux autres parcours : Parcours Storytelling et Parcours Boulot. » (`components/home/autres-parcours.tsx`, liste = `PREMIUM_PARCOURS` hors cartes, liens `/parcours/<slug>` (alignés sur les 3 cartes, relecture ux C1)).
 - **S3b** : bloc « Derniers articles », 3 liens titres (`components/home/derniers-articles.tsx`, `lib/derniers-articles.ts` : base visible + statiques, hors pilier, repli statique si la base échoue).
 - **ISR accueil** : `revalidate = 3600` (plafond) ; durée effective 300 s (prerender-manifest). Test `accueil-maillage-s3-s20.test.tsx`. Captures : `docs/seo/captures-accueil-s3/`. Aucune variable, migration ni ressource.
-- **Commande** : celle de s19 (chaîne Hyperdrive factice sur `build:cf` et `deploy:cf`). **Vérifs** : HTML de `/` contient `?src=accueil#etape-1` pour storytelling et boulot, et 3 liens `/blog/` sous « Derniers articles », sans `comment-devenir-drole` dans le bloc.
+- **Commande** : celle de s19 (chaîne Hyperdrive factice sur `build:cf` et `deploy:cf`). **Vérifs** : HTML de `/` contient `href="/parcours/storytelling"` et `href="/parcours/boulot"`, et 3 liens `/blog/` sous « Derniers articles », sans `comment-devenir-drole` dans le bloc.
 
 ## s20 Maillage S1, S2, S5 (@fullstack, relu @design @ux 10/10), **DÉPLOYÉ le 12/10/2026 à 07:46 UTC, version `ab4b458b-636f-4747-b183-54d6518c4855`**, N-1 `d344ceb6-b152-4bb0-a903-64ea5969d443`
 
