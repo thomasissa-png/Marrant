@@ -1273,13 +1273,13 @@ async function applyCatalogueContentTask(): Promise<void> {
  *  - Réversible : `DataPatch.note` garde le contenu d'origine (JSON, champ
  *    `before`). Retour arrière :
  *      UPDATE "BlogArticle" b SET content = (d.note::json->>'before')
- *      FROM "DataPatch" d WHERE d."patchId" = 'blog-em-dash:v2:' || b.slug;  (v1 : 29/09, écrasé par la copie du 30/09 ; v2 : s20)
+ *      FROM "DataPatch" d WHERE d."patchId" = 'blog-em-dash:v3:' || b.slug;  (v1 : 29/09, écrasé le 30/09 ; v2 : s20 sur l'ancien texte ; v3 : s20 sur la version s11)
  *  - Fail-safe : erreur DB sur un slug → loggée, les autres continuent.
  *  - SANS IA. Doit tourner APRÈS les tâches qui réécrivent `content`
  *    (fix / rewrite / liens) : si une réécriture future réinjecte des tirets,
  *    bumper `BLOG_EM_DASH_PATCH_VERSION`.
  */
-const BLOG_EM_DASH_PATCH_VERSION = 2;
+const BLOG_EM_DASH_PATCH_VERSION = 3;
 
 async function stripBlogEmDashesTask(): Promise<void> {
   const version = BLOG_EM_DASH_PATCH_VERSION;

@@ -63,13 +63,13 @@ describe("stripBlogEmDashesTask", () => {
       "## Pilier 1 : L'observation — Voir\n\nTon cerveau sait déjà faire tout ça : il le fait chaque jour.",
     );
     const patch = mockCreate.mock.calls[0][0] as { data: { patchId: string; note: string } };
-    expect(patch.data.patchId).toBe("blog-em-dash:v2:art");
+    expect(patch.data.patchId).toBe("blog-em-dash:v3:art");
     expect(JSON.parse(patch.data.note).before).toBe(WITH_BODY);
   });
 
   it("2e boot : marqueur présent → 0 update", async () => {
     mockFindMany.mockResolvedValue([{ id: "a1", slug: "art", content: WITH_BODY }]);
-    mockDataPatchFindUnique.mockResolvedValue({ patchId: "blog-em-dash:v2:art" });
+    mockDataPatchFindUnique.mockResolvedValue({ patchId: "blog-em-dash:v3:art" });
     await stripBlogEmDashesTask();
     expect(mockTransaction).not.toHaveBeenCalled();
   });

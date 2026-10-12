@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "version": 2,
+    "version": 3,
     "session": "s11",
     "description": "Réécritures complètes des articles de blog stockés en base (refonte copy s11, passe 2 — v2), appliquées une seule fois au boot par applyBlogArticleRewritesTask."
   },
