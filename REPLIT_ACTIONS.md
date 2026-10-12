@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Maillage S1, S2, S5 (@fullstack, relu @design @ux 10/10), N-1 `d344ceb6-b152-4bb0-a903-64ea5969d443`
+## s20 Maillage S1, S2, S5 (@fullstack, relu @design @ux 10/10), **DÉPLOYÉ le 12/10/2026 à 07:46 UTC, version `ab4b458b-636f-4747-b183-54d6518c4855`**, N-1 `d344ceb6-b152-4bb0-a903-64ea5969d443`
 
 - **S1** pagination numérotée des listes (`list-pagination.tsx`, `paginationItems`) : toutes les pages liées depuis chaque page de liste (profondeur 13 → 3) ; mobile en grille 2 rangées, chevrons bordés, page courante violette ; retour en haut + focus + annonce « Page N sur Y » (`use-list-page.ts`, `list-results.tsx`).
 - **S2** « Dans la même catégorie » en anneau (`related-ring.ts`, `related-catalogue.ts`, `unstable_cache` 1 h par catégorie) : 4 liens entrants par fiche.
