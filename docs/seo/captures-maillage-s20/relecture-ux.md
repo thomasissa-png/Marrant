@@ -121,3 +121,55 @@ Remplacer `flex flex-wrap` + `ol` séparée par **un seul `<ol role="list">`** d
 - Décisions : ne pas remettre « Page X / Y » ; grille unique 2 lignes sur mobile avec chevrons ; retour en haut instantané + focus + état de chargement dans le hook partagé.
 - Points d'attention : test `pagination-numerotee-s20.test.tsx` l.93 (`hidden`) ; libellés Précédent / Suivant ne doivent pas commencer par « Page » ; en-tête sticky `[À VÉRIFIER]` pour `scroll-mt` ; déploiement à noter dans `REPLIT_ACTIONS.md`.
 ---
+
+# Tour 2 : relecture du commit `e906661` (12/10/2026)
+
+Preuves : `list-pagination.tsx`, `list-results.tsx`, `use-list-page.ts`, `lib/list-pagination.ts`, les trois listes (`vannes-list` l.259, `conseils-list` l.238, `videos-grid` l.250 : même branchement `ListResults` + `ref={listRef}`), le test `pagination-numerotee-s20.test.tsx`, et les captures `pagination-vannes-*` (p1 / p6 / p12 à 320, 375, 768, 1280 ; 30 pages ; avant / après clic 7). Données simulées. Arbitrage de la session accepté (chevrons bordés, violet).
+
+## Notes
+
+| Device | Tour 1 | Tour 2 | Reste |
+|---|---|---|---|
+| Desktop 1280 et 768 | 7,5 | **10 / 10** | rien |
+| Mobile 375, 360, 320 | 5,5 | **9,5 / 10** | 1 correction visuelle d'une ligne (déjà demandée par @design, validée côté UX, §2) |
+
+## 1. Les 6 corrections du tour 1 : constat
+
+| Correction | État | Preuve |
+|---|---|---|
+| Retour en haut + focus | **Résolu** | `goToPage` : `scrollIntoView({block:"start", behavior:"instant"})` puis `focus({preventScroll:true})` sur `ListResults` (`tabIndex={-1}`, `outline-none`). Capture après clic 7 : première carte (« Vanne 73 ») à 80 px, sous l'en-tête collant de 64 px, URL `?page=7`. Ordre de tabulation : le Tab suivant tombe sur la première carte. |
+| Grille mobile 2 lignes | **Résolu** | 375 : 7 + 7 alignés, ~90 px au lieu de ~196 (−54 %), identique sur p1, p6, p12. 320 : 5 + 5 + 4 sans débordement. 30 pages : `‹ 1 2 … 8 9 10` puis `11 12 … 29 30 ›` (13 cellules, 7 + 6). Précédent en haut à gauche, Suivant en bas à droite (zone du pouce). |
+| Page courante violette, « sur Y » | **Résolu** | `bg-accent-secondary-hover text-white` (5,7:1), sr-only « Page 6 sur 12 », `aria-current="page"` conservé. Lisible sur toutes les captures. |
+| Extrémités inactives | **Résolu** | `span aria-hidden` de même taille, plus de `<button disabled>` ; la grille ne bouge pas. |
+| Clic raté (`touch-manipulation`, `active:`) | **Résolu** | `TAP` sur tous les liens ; cellules 44 px sous 768 px et sur écran tactile (`[@media(pointer:coarse)]`, tablettes couvertes). |
+| Accessibilité | **Résolu** | `role="list"`, `…` en `aria-hidden`, région `role="status"`, `aria-busy`. Libellés « Page précédente (page 5) » : contiennent le texte visible « précédent » (2.5.3 respecté, comparaison insensible à la casse). Texte « Précédent » / « Suivant » dans le HTML (`max-md:sr-only`, pas `display:none`). Tests adaptés (`/^Page \d+$/`, `hidden` ciblé sur la classe). |
+| Chargement | **Résolu, bien fait** | `pending = isLoading && liste non vide && pagination.page !== page` : pas de clignotement au premier rendu, et retour vers la page rendue par le serveur correctement atténué (comparer à `initialData.page` aurait raté ce cas). La pagination est hors du conteneur, donc reste nette. |
+
+Aucun point de la spec SEO n'est touché : liens `<a href>` réels, page 1 = URL de base, courante sans lien, ni `nofollow` ni `display:none`, pages thème inchangées (rechargement complet, ouvertes en haut de page).
+
+## 2. Reste à corriger (mobile 9,5 → 10)
+
+1. **Cellules carrées 44 px centrées** (relevé par @design, validé UX). À 2 px d'écart, la pastille violette (47 × 44) touche le contour du chevron voisin (p1 : x=65 contre x=63 ; p12 : x=310 contre x=312). Correction exacte, `list-pagination.tsx` :
+   `const MOBILE_CELL = "max-md:mx-auto max-md:h-11 max-md:w-11";` (remplace `"max-md:h-11 max-md:w-full max-md:min-w-11"`). Effet UX : cible 44 × 44 (règle du projet respectée), zone morte de ~3 px de chaque côté (pas de risque de clic sur le mauvais numéro, la cible est inchangée en hauteur et en centre). **Test à adapter dans le même commit** : `pagination-numerotee-s20.test.tsx` l.113 attend `max-md:min-w-11`, qui disparaît ; attendre `max-md:w-11` et `max-md:mx-auto`. Recapturer p1 et p12 à 375 px.
+
+## 3. Durcissement recommandé (non bloquant, même commit)
+
+2. **Annonce « Page N sur Y » trop tôt sur le retour arrière du navigateur.** Sur un clic, React 18 vide les effets avant le rendu (pas de fenêtre visible). Mais sur `popstate`, `setPage(urlPage)` rend une fois avec `isLoading === false` et `announce === true` avant que `fetchJokes` ne passe `isLoading` à vrai : le texte peut être annoncé, effacé, puis annoncé de nouveau `[À VÉRIFIER avec NVDA et VoiceOver]`. Correction d'une ligne dans chacune des 3 listes : passer `isLoading={isLoading || pagination?.page !== page}` à `ListResults` (l'annonce attend que les données affichées soient celles de la page demandée). `pending` reste inchangé (sinon `ErrorState` serait atténué à vie après un échec).
+
+## 4. Réserves de lecture des captures et compromis assumés
+
+- `pagination-vannes-avant-clic-7-375px.png` : la liste y est atténuée alors que la courante est « 1 ». Cause la plus probable : l'animation `animate-stagger-in` (délai `index × 50 ms`, la carte 12 démarre à 550 ms), capture prise trop tôt, et non `pending` (qui est faux sur la page rendue par le serveur). L'état `pending` n'est donc **pas prouvé par une capture** (la logique est correcte à la lecture). Renommer ou recapturer après 1 s ; recapture de `pending` possible avec l'API bridée `[non bloquant]`.
+- Absents des captures, à ajouter à la recette (non bloquant) : un état de focus clavier sur une cellule (anneau violet `ring-2`, 4,6:1, cellules à 2 px d'écart) ; un après-clic desktop à 1280 px (vérifier que `scroll-mt-20` laisse bien la liste sous l'en-tête).
+- Compromis assumé : après un changement de page, le focus clavier est sur la liste ; revenir à la pagination demande plusieurs Tab (ou la navigation par repères pour un lecteur d'écran : `nav` nommée « Pagination »). C'est le comportement attendu d'un SPA qui change de contenu, préférable à un focus perdu ; pas de correction.
+- Utilisateur gratuit, pages > 1 : la liste est vide et les cartes verrouillées sont hors `ListResults`, juste en dessous (`mt-4`) : le défilement les place bien en haut de l'écran. Conforme.
+
+## 5. Verdict tour 2
+
+**GO** après la correction §2 (une ligne + un test) ; §3 recommandé dans le même commit. Notes finales attendues : desktop 10 / 10, mobile 10 / 10.
+
+---
+**Handoff Tour 2 → @fullstack (§2, §3), @qa (recette : p1 et p12 à 375 px, focus clavier, retour arrière avec lecteur d'écran)**
+- Fichier mis à jour : `/home/user/Marrant/docs/seo/captures-maillage-s20/relecture-ux.md`.
+- Décisions : tour 1 validé à 6 sur 6 ; reste une correction visuelle (cellules carrées) et un durcissement d'annonce.
+- Points d'attention : test l.113 à adapter ; état `pending` non capturé ; déploiement à noter dans `REPLIT_ACTIONS.md`.
+---
