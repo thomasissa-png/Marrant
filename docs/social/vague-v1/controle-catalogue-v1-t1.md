@@ -1,3 +1,42 @@
 # Contrôle « jamais entendue » des 11 vannes au niveau, vague V1 tour 1 (12/10/2026)
 
-> En cours : requêtes base et recherche en ligne.
+> Source : table « Au niveau (11) » de `aveugle-v1-t1-resultat.md`. Méthode reprise de `pilote-p0/controle-catalogue-p0.md` (Jaccard sur mots de 4 lettres et plus), complétée par une recherche par mots-clés distinctifs puis par ressort, et par une recherche en ligne.
+
+## Périmètre et méthode
+
+- **Base** [LIVE, lecture seule] : `Joke` (862 lignes dont 142 actives ; colonnes `content`, `punchline`, `originalContent`, `originalPunchline`) et `SocialPost.content` (736 lignes, tous statuts). Aucune écriture.
+  1. Mots-clés distinctifs par vanne (ex. « Belém », « serre-file », « créneau », « champ libre », « irremplaçable », « wifi », « mot de passe », « agence de Lyon »).
+  2. Ressort (même chute avec d'autres mots : « voisin », « anonym », « annonce », « remplaç », « tu veux quelque chose », « encourag », « note », « préféré »…).
+  3. Jaccard contre tout le corpus. Score max observé : 0,167. **Aucune vanne n'atteint le seuil P0 de 0,30**, alors que 2 quasi-doublons existent (V1-3-05 à 0,167, V1-2-12 à 0,143) : le Jaccard seul ne suffit pas, c'est la recherche par ressort qui les trouve.
+- **En ligne** [LIVE, WebSearch] : chute exacte et ressort, en français puis en anglais (15 requêtes). Limite : TikTok, X et Instagram sont mal indexés, donc « non trouvé » ne veut pas dire « n'existe pas ».
+- **Règle de verdict** : **NEUVE** = ni doublon en base ni chute trouvée en ligne (un thème courant est signalé mais ne compte pas) ; **PROCHE** = même ressort qu'une vanne en base ou qu'un contenu en ligne ; **DÉJÀ VUE** = le ressort de la chute circule déjà en ligne. Une vanne est **écartée** si elle est DÉJÀ VUE, ou PROCHE avec la même mécanique de chute (quasi-doublon).
+
+## Verdicts
+
+| Id | Verdict | Preuve |
+|---|---|---|
+| V1-1-05 | **NEUVE** | Base : « agence de Lyon », « réunion de direction », « sans rien comprendre » = 0. Seul point commun : « hocher la tête » dans `cs14jk45ee75c68d340d52f2` (audioguide, active), avec un ressort différent. En ligne : la mise en place (« I nod thoughtfully in meetings… ») existe en blague de bureau ([travishale.com](https://www.travishale.com/?p=30208)), mais pas la chute « hocher la tête = accepter une mission ». |
+| V1-3-21 | **NEUVE** | Base : « Belém », « fond d'écran », « recadr » = 0 en Joke (1 SocialPost sans rapport : « ça recadre sans agresser »). En ligne : seulement des histoires de personnes coupées d'une photo (belle-mère, mariage), aucune version « il reste le monument ». |
+| V1-3-05 | **PROCHE, écartée** | Base : quasi-doublon de `cs14jk0761c9f2d885762bb5` (**active**) : « Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. […] Elle m'a demandé si on me répondait, parfois. » Même mécanique (la voisine montre par une question qu'elle entend tout à travers le mur) et même construction (« Ma voisine m'a dit qu'… / Elle m'a demandé si… »). Jaccard 0,167, le plus haut du lot. Proche aussi : `cs14jkab7cdbceeb2bf5da6c` (voisin qui se dispute avec sa télé à travers le mur, active). En ligne : rien de précis. |
+| V1-3-10 | **NEUVE** (thème courant) | Base : « wifi »/« wi-fi » = 14 Joke et 5 SocialPost, mais aucun sur le wifi de la voisine ; « moins de séries » = 0. En ligne : utiliser le wifi du voisin est un thème connu (noms de réseau passifs-agressifs, [Smithsonian](https://www.smithsonianmag.com/smart-news/passive-aggressive-snarks-own-wifi-networks-107035589/) ; message d'une voisine piratée, [Journal du Geek 2010](https://www.journaldugeek.com/2010/07/07/vole-mon-wifi-mais-cache-tes-dossiers-de-p0rn/)). Pas trouvé : le dîner qui sert en fait à négocier le débit. |
+| V1-4-20 | **PROCHE, écartée** | Base : « créneau », « sur dix », « quatre sur dix » = 0. En ligne : la chute (un inconnu note un stationnement sur 10) a déjà circulé : mot manuscrit « 2 sur 10 » laissé sur un pare-brise à Londres, repris par la presse en 2022 ([Malay Mail](https://www.malaymail.com/news/life/2022/08/09/london-motorist-gets-hand-drawn-note-on-how-to-park-properly-after-vehicle-takes-up-two-bays-in-parking-lot/21907)). Les passants qui jouent le jury sont aussi un gag connu. Seuls le décor (la terrasse comme tribune) et les « conversations arrêtées » sont neufs, pas la chute. |
+| V1-3-11 | **DÉJÀ VUE, écartée** | Base : rien sur ce ressort (4 « mot de passe » sans rapport). En ligne : c'est exactement la tendance TikTok de « l'enfant mot de passe » (le prénom choisi comme mot de passe révèle l'enfant préféré), [Slate](https://www.slate.fr/story/242879/enfant-mot-de-passe-test-prouve-prefere-fratrie-parents-netflix-tiktok). La chute « celui de mon frère en premier » repose sur ce ressort. |
+| V1-4-13 | **NEUVE** (thème courant) | Base : « serre-file », « encourag », « voiture-balai » = 0. En ligne : aucune blague avec cette chute ; l'anecdote la plus proche est celle d'un coureur dont l'ami n'avait filmé que ceux qui étaient devant lui ([srichinmoylibrary.com](https://www.srichinmoylibrary.com/rb-200)), avec un ressort différent. Le thème « dernier de la course » est courant, la méprise supporter/serre-file n'a pas été trouvée. |
+| V1-3-16 | **NEUVE** | Base : « poubelle », « colocataire », « tu sortais » = 0 (« coloc » : 2 Joke et 22 posts, aucun sur la poubelle). En ligne : l'habitude de descendre la poubelle seulement quand on sort est décrite (« syndrome de la poubelle », [skyminds.net](https://www.skyminds.net/page/570/)), mais aucune blague avec ce comptage et cette chute ([travishale.com](https://www.travishale.com/?p=30184) : poubelle et coloc, chute différente). |
+| V1-2-12 | **PROCHE, écartée** | Base : quasi-doublon de `cmmnsqn120006th633634ej4h` (inactive) : « Mon patron m'a dit : « Tu es irremplaçable. » […] / Puis j'ai vu l'annonce de mon poste. Aucun candidat. » Même mise en place et même pivot (« irremplaçable », contredit par l'annonce du poste). Proche aussi : `cs18jkstory5v5` (**active**, discours « irremplaçable » au pot de départ). En ligne : « tomber sur l'annonce de son propre poste » est un récit fréquent ([Ask a Manager](https://www.askamanager.org/2014/12/update-i-found-an-ad-for-my-own-job.html)). |
+| V1-2-09 | **PROCHE, écartée** | Base : la chute « tu veux quelque chose » en réponse à une amabilité inhabituelle existe déjà dans le SocialPost `cmnl03h42004vs60yuaeyth16` (Twitter, **PUBLISHED**) : « Quand tu dis « bonjour » avec 3 syllabes bien détachées, tu veux quelque chose. » Même ressort (geste inhabituel, puis soupçon d'arrière-pensée) dans `cs14jkbe6b6bc15755d06863` (active, « Elle m'a demandé si j'avais quelque chose à lui dire »). Neuf : l'IA qui révèle que le ton habituel est froid. Pas de doublon exact en ligne. |
+| V1-1-23 | **NEUVE** (thème courant) | Base : « champ libre », « anonym », « virgule », « évaluation » = 0 ; `cs14jkc13a4d9d7194d8e5ea` (manager, discrétion) a un autre ressort. En ligne : le sondage « anonyme » percé par le style d'écriture est un thème connu ([Fortune](https://fortune.com/2022/06/30/young-professionals-slam-anonymous-workplace-surveys-viral-tik-tok), [Ask a Manager](https://www.askamanager.org/?p=22080)), mais là, la personne est punie. Pas trouvé : la manager qui remercie (donc l'auteur a flatté) et qui reconnaît les virgules. |
+
+## Conséquences pour la suite (`aveugle-v1-t1-resultat.md`)
+
+- **Départage LinkedIn 20/10 et 27/10** : sur les 4 vannes bureau prévues, 2 restent en lice (V1-1-05, V1-1-23) ; V1-2-12 et V1-2-09 sont écartées.
+- **Échantillon D7** : la règle « 10 des 11 » ne tient plus. Il reste 6 vannes, toutes à soumettre à Thomas.
+- **Réécriture** : V1-2-09 (autre réplique de Fabrice) et V1-4-20 (autre chute que la note) pourraient être sauvées par une nouvelle chute. La version réécrite doit repasser la relecture à l'aveugle ([P0 s18]) ; elle ne peut pas entrer au pool directement.
+- **Méthode** : pour le tour 2, remplacer le seul Jaccard ≥ 0,30 du P0 par la recherche par ressort (le Jaccard n'a détecté aucun des 2 quasi-doublons).
+
+NEUVE : 6 sur 11 (V1-1-05, V1-3-21, V1-3-10, V1-4-13, V1-3-16, V1-1-23).
+Écartées : V1-3-05 (PROCHE, base), V1-4-20 (PROCHE, en ligne), V1-3-11 (DÉJÀ VUE, en ligne), V1-2-12 (PROCHE, base), V1-2-09 (PROCHE, base).
+
+## Complément session (12/10) : C10 n°1 (27/10 LinkedIn)
+
+Base : « photo d'équipe », « sourient », « turnover », « il en reste deux » = 0 en Joke et en SocialPost ; « photo de groupe » : 1 Joke et 1 post publié, ressort différent (photo de profil, Tinder). Verdict : **NEUVE** (base). En ligne : `[non vérifié]`.
