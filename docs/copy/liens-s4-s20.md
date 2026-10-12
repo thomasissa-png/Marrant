@@ -237,6 +237,49 @@ Convention du §3. « Avant » = chaîne à trouver ; « Après » = chaîne de 
 
 ---
 
+## 7. Tour 3 (12/10/2026) : reprise de E, F, G, J, K du tour 2
+
+Verdicts du tour 2 croisé : **A, B, C, D, H, I validées par les deux relecteurs : inchangées, blocs du §6 en vigueur.** À reprendre : G et K (sous la barre chez les deux), E, F, J (partagées). Remarques globales appliquées : plus de charnière deux-points « situation : lien » (aucune des 5 nouvelles phrases n'en a), pas de « notre / nos » dans les 5 nouvelles (la voix est « on »), pas de « se travaille aussi », pas de « il existe », plus de titre précédé de « sur » + infinitif, plus de « côté scène », un seul renvoi nouveau par paragraphe, et une construction différente de celle des phrases validées du même article.
+
+**Aucun appariement retiré.** Un emplacement déplacé : **appariement 9** (K), du paragraphe « Nos conseils humour… » (déjà un renvoi, collé au moule de la phrase B de l'article) vers le paragraphe « Choisis 5 phrases de cet article… » de la section « Mémorise 5, pas 30 », où « Si aucune ne te va, écris la tienne » est un enchaînement naturel. Ce paragraphe est suivi de deux autres (le dernier est la liste de flèches) : la règle « hors dernier paragraphe » est respectée, mais c'est la section de conclusion, à signaler à Thomas. Si l'emplacement déplaît : retirer l'appariement 9, ce qui ramène `phrases-droles-conversations` à 20 mots ajoutés (au lieu de 38) ; `citation-drole` garde alors un seul lien entrant (l'appariement 10).
+
+### Table de correspondance : lettres de `extraits-aveugle-tour3.md`
+
+| Lettre | Appariement | Ancienne lettre (tour 2) | Source → Cible |
+|---|---|---|---|
+| V | 10 | E | `blague-courte-arme-secrete-humour` → `citation-drole` |
+| W | 9 | K | `phrases-droles-conversations` → `citation-drole` |
+| X | 14 | F | `comment-avoir-de-la-repartie` → `timidite-et-humour` |
+| Y | 8 | J | `blague-drole-7-criteres-pepite` → `techniques-humoristes-pros` |
+| Z | 3 | G | `avoir-confiance-en-soi-grace-a-l-humour` → `etre-plus-a-l-aise-en-societe` |
+
+### Blocs avant / après finaux des 5 phrases reprises (chaînes « avant » revérifiées à l'identique, une occurrence chacune, le 12/10)
+
+**3 · lettre Z · `avoir-confiance-en-soi-grace-a-l-humour`, base (JSON l.12)**, fin du « Niveau 3 » (emplacement inchangé)
+- Avant : `C'est là que tu testes vraiment ta [répartie en situation réelle](/blog/comment-avoir-de-la-repartie).\n\nPanayotis Pascot raconte`
+- Après : `…[répartie en situation réelle](/blog/comment-avoir-de-la-repartie).` **`Cette échelle, de la famille aux inconnus, on la déroule aussi en cercles concentriques pour t'aider à [être plus à l'aise en société](/blog/etre-plus-a-l-aise-en-societe).`** `\n\nPanayotis Pascot raconte` · 23 mots.
+
+**8 · lettre Y · `blague-drole-7-criteres-pepite`, base (JSON l.24)**, fin de l'intro (emplacement inchangé)
+- Avant : `On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.\n\n## MYTHE BRISÉ`
+- Après : `On les passe en revue un par un, avec une grille pour tester les tiennes à la fin.` **`L'envers du décor, c'est aussi [comment les pros construisent leurs blagues](/blog/techniques-humoristes-pros).`** `\n\n## MYTHE BRISÉ` · 11 mots. Pertinence moyenne : à retirer en premier si une relecture résiste (la phrase ne casse rien en son absence).
+
+**9 · lettre W · `phrases-droles-conversations`, statique** · emplacement DÉPLACÉ (l.1354). Paragraphe précédent : `Dernier conseil de Fary : "T'as pas besoin de 200 vannes. T'as besoin de 5 que tu maîtrises les yeux fermés."` Paragraphe suivant : `La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu sors avec assurance.` L'ajout du bloc §6 (l.1346) est abandonné.
+- Avant : `Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette semaine.`
+- Après : même paragraphe + **`Si aucune ne te va, écris la tienne avec les trois méthodes de l'article sur la [citation drôle](/blog/citation-drole).`** · 18 mots.
+
+**10 · lettre V · `blague-courte-arme-secrete-humour`, base (JSON l.18)** (emplacement inchangé)
+- Avant : `une vanne courte tombe aussi vite qu'elle est partie. Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.`
+- Après : `une vanne courte tombe aussi vite qu'elle est partie.` **`Dans le même esprit, on a rangé [40 citations drôles avec leur mode d'emploi](/blog/citation-drole) par situation.`** `Si tu en veux d'autres, notre [abonnement](/abonnement) en propose 50 nouvelles chaque mois.` · 16 mots.
+
+**14 · lettre X · `comment-avoir-de-la-repartie`, statique l.215** (emplacement inchangé)
+- Avant : `parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides`
+- Après : `parce que quand elles parlent, tout le monde écoute.` **`C'est peut-être toi, et on t'a préparé un guide pour [oser faire rire quand on est timide](/blog/timidite-et-humour), palier par palier.`** `L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides` · 20 mots.
+
+### État final des 11 (à appliquer une fois les 5 reprises validées)
+Appariements 1, 2, 5, 7, 11, 12 : blocs du §6, inchangés. Appariements 3, 8, 9, 10, 14 : blocs ci-dessus. Mots ajoutés par article : `phrases-droles-conversations` 38 (20 + 18), `comment-improviser-des-blagues` 43 (inchangé), les 7 autres articles 11 à 23 `[À MESURER]`. Règle d'or P0 s18 : les 5 phrases reprises repassent la relecture à l'aveugle (`extraits-aveugle-tour3.md`) avant application ; les 6 validées n'y repassent pas.
+
+---
+
 **Handoff → @orchestrator (puis @reviewer pour la relecture à l'aveugle, puis @fullstack pour l'application)**
 - Fichier produit : `/home/user/Marrant/docs/copy/liens-s4-s20.md`.
 - Décisions : 11 appariements retenus, 3 écartés (4, 6, 13) sans remplacement ; 0 ajout sur le n°1 et sur le pilier ; ancres toutes différentes par cible ; remplacement exact en base avec marqueur `DataPatch`, sans bump de version du JSON.
