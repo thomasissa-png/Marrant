@@ -77,7 +77,7 @@ export const DEFAULT_OG_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: "deviens-marrant.fr — Apprends à devenir drôle et à avoir de la répartie",
+  alt: "deviens-marrant.fr : apprends à devenir drôle et à avoir de la répartie",
 } as const;
 
 /**

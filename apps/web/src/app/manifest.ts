@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "deviens-marrant.fr — Apprends à être drôle",
+    name: "deviens-marrant.fr : apprends à être drôle",
     short_name: "deviens-marrant",
     description:
       "La plateforme francophone pour progresser en humour et en répartie. Blagues, conseils et vidéos stand-up.",
