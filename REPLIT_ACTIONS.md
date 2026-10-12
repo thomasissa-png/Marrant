@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Maillage S3 accueil (@fullstack), **NON DÉPLOYÉ, NON COMMITÉ** (attend la relecture du rendu @design et @ux à 10/10, règle du 07/10)
+## s20 Maillage S3 accueil (@fullstack, relu @design @ux 10/10 au tour 3), **DÉPLOYÉ le 12/10/2026 à 08:52 UTC, version `fffd731b-8355-4c04-a839-00cc0aa1945d`**, N-1 `ab4b458b-636f-4747-b183-54d6518c4855` (rollback : `npx wrangler rollback ab4b458b-636f-4747-b183-54d6518c4855`). Vérifié en prod : liens `/parcours/storytelling` et `/parcours/boulot`, bloc « Derniers articles » (se-presenter-avec-humour, blagues-halloween-soiree-deguisee, jeu-de-mots-drole-techniques-creer), pilier exclu ; accueil servi en ancienne version ~1 min après le déploiement (ISR 300 s, stale-while-revalidate), puis à jour.
 
 - **S3a** : sous les 3 cartes personas, « Deux autres parcours : Parcours Storytelling et Parcours Boulot. » (`components/home/autres-parcours.tsx`, liste = `PREMIUM_PARCOURS` hors cartes, liens `/parcours/<slug>` (alignés sur les 3 cartes, relecture ux C1)).
 - **S3b** : bloc « Derniers articles », 3 liens titres (`components/home/derniers-articles.tsx`, `lib/derniers-articles.ts` : base visible + statiques, hors pilier, repli statique si la base échoue).
