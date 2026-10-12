@@ -1,12 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Contenus des fiches vidéo, **non commité, non déployé**
+## s20 Contenus des fiches vidéo (duel s11 14/14, corrections relues à l'aveugle en 5 tours), N-1 `a4058f12-8409-4c1e-a890-ee93ff67b9c2`
 
-- Nouvelle tâche de démarrage `applyVideoContentS20Task` (`src/lib/video-content-s20.ts`), branchée après `stripVideoEmDashesTask`, hors `catalogue-content` (version inchangée). Elle applique `src/data/video-content-s20.json` fiche par fiche : description, 4 enseignements, exercice, et selon la fiche titre (8), chaîne (22), catégorie (6), `youtubeId` (fiche 68 : `U80fwIfPC4M` vers `JNo86HEt86w`).
+- Nouvelle tâche de démarrage `applyVideoContentS20Task` (`src/lib/video-content-s20.ts`), branchée après `stripVideoEmDashesTask`, hors `catalogue-content` (version inchangée). Elle applique `src/data/video-content-s20.json` fiche par fiche : description, 4 enseignements, exercice, et selon la fiche titre (8), chaîne (21), catégorie (6), `youtubeId` (fiche 68 : `U80fwIfPC4M` vers `JNo86HEt86w`).
 - Garde-fou : empreinte sha256 du texte en base égale à `attendu`, sinon refus « GARDE-FOU » sans écriture. Marqueur `video-content-s20:v1:<youtubeId d'origine>` et `note.before` posés dans la même transaction.
 - Méta, OG et Twitter des fiches vidéo limitées à 155 caractères (`buildVideoMetaDescription`, `lib/seo-meta.ts`).
-- Simulation sur la prod en lecture seule (12/10) : 86/86 passent le garde-fou ; 2e passage : 0 mise à jour.
-- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu : « contenus vidéo s20 v1 : 86 fiche(s) mise(s) à jour, 0 refus garde-fou, 0 déjà faite(s) ». Puis IndexNow sur les 8 fiches renommées (anciennes URL en 308).
+- **84 fiches** (86 moins Karim Duval id 24 et Azencot id 56, descriptions encore sous la barre au tour 5 : texte en ligne inchangé, tour 6 à part). Simulation prod en lecture seule : 84/84 passent le garde-fou ; 2e passage : 0 mise à jour.
+- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu : « contenus vidéo s20 v1 : 84 fiche(s) mise(s) à jour, 0 refus garde-fou, 0 déjà faite(s) ». Puis IndexNow sur les 8 fiches renommées (anciennes URL en 308).
 - Retour arrière base : SQL en tête de `video-content-s20.ts`, en gardant les marqueurs. Détails, impacts et durée de la fiche 68 à décider : `docs/copy/application-videos-s20.md`.
 
 ## s20 Audit des articles du code (corrections validées à l'aveugle), **DÉPLOYÉ le 12/10/2026, version `a4058f12-8409-4c1e-a890-ee93ff67b9c2`, commit `242477ce`** ; prod : 24 articles en 200, 0 ancien passage, 0 intertitre à tiret, 0 ancre cassée ; IndexNow 200, Bing SubmitUrlBatch 200 ; N-1 `124265e9-1eaf-42f1-935e-feb04061f66f`
