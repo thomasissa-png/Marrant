@@ -160,6 +160,31 @@ Point commun à toutes les options : il faut **bumper `BLOG_EM_DASH_PATCH_VERSIO
 2. Les tâches à marqueur ne vérifient jamais le contenu : un contrôle « contenu = attendu » en lecture seule (par ex. au rapport du lundi ou dans `/api/health`) aurait détecté l'écart le 30/09.
 3. Diagnostic séparé de `catalogue-content:v1` (§2.4) avant toute décision sur les vannes.
 
+## 5. Correctif du script, 12/10
+
+> @infrastructure, 12/10/2026. Point 1 ci-dessus traité. Script jamais lancé contre Replit ni Neon : tests sur un Postgres 16 local jetable. Pas de commit.
+
+Fichiers : `scripts/infra/copie-replit-neon.py` (corrigé), `scripts/infra/test_copie_replit_neon.py` (nouveau), `docs/infra/bascule-checklist.md` §1 (encadré « leçon du 30/09 » + commandes).
+
+| | Avant | Après |
+|---|---|---|
+| `--reset`, cible avec une table non vide absente de la source (`DataPatch`, `NewsletterSubscriber`) | Table ignorée, copie faite : état incohérent (incident du 30/09) | **Refus, code 2, aucune écriture**, liste des tables avec leur nombre de lignes, tables d'état signalées |
+| Choix explicite | Aucun | `--purge-target-only-tables` (les vide dans le même `TRUNCATE`, puis rappel d'appeler `/api/cron/startup-tasks`) ; `--keep-target-only-tables=A,B` pour une table de données. Garder `DataPatch`, `JobLock`, `SocialPostDailyLock` ou `CeoDedup` = refus ; garder une table que le `TRUNCATE CASCADE` viderait quand même = refus |
+| Copie sans `--reset` | Même angle mort | Même contrôle (le contenu copié et les marqueurs divergeraient aussi) |
+| `--verify` | 35 tables de la source : nombre de lignes + md5 global | En plus : toute table « cible seulement » non vide = écart (code 1) ; colonnes propres à la cible listées (non comparées) ; `BlogArticle`, `Joke`, `Tip` : hash ligne à ligne d'un échantillon (50 clés tirées de chaque côté, réparties par md5), identifiants des lignes divergentes affichés |
+| `--dry-run` | N'existait pas | Plan complet (tables vidées, gardées, copiées, comptes source/cible), lecture seule des deux bases |
+| Source | Lecture seule par convention | Garde-fou : toute requête non `SELECT` vers la source est refusée |
+
+Vérification (`python3 -m unittest scripts/infra/test_copie_replit_neon.py -v`, 10/10 OK) : seul le transport HTTPS Neon est remplacé par `psql` local, le SQL du script tourne tel quel. Le jeu de données reproduit la veille de la bascule (`BlogArticle` = JSON v2 en cible, 2 marqueurs `DataPatch`, 1 abonné newsletter). Tests clés :
+- refus par défaut de `--reset` : code 2, cible identique avant/après ; message listant `DataPatch : 2 lignes [ÉTAT …]` ;
+- `--reset --purge-target-only-tables --dry-run` : plan affiché, aucune écriture ;
+- reproduction de l'ancien `--reset` (tables source seules vidées) : `--verify` affiche toujours « 4/4 » sur les tables source, comme le « 35/35 » du 30/09, mais renvoie maintenant **code 1** avec `ÉCART DataPatch` ;
+- un article modifié sans changer le nombre de lignes : `ÉCART contenu BlogArticle : 1/2 lignes différentes, ex. ['b2']`.
+
+Note : l'ancien `--verify` hachait déjà le contenu des tables source (md5 global) ; son seul angle mort était les tables propres à la cible. L'échantillon ligne à ligne sert surtout à dire **quelles** lignes divergent.
+
+Risque restant, hors script : depuis le 30/09 la prod est sur Neon. Rejouer `--reset` depuis Replit (retour arrière) effacerait tout ce qui a été écrit depuis (comptes, abonnements, articles du pipeline). Le refus par défaut le signalera (marqueurs `DataPatch` v2 à v4 présents), mais la décision reste à Thomas.
+
 ---
 
 **Handoff → @orchestrator**

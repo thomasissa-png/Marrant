@@ -12,10 +12,20 @@ Constats du test s13 (30/09) : `CRON_SECRET`, `ADMIN_PASSWORD`, `RESEND_API_KEY`
 - [ ] Aucun point bloquant ouvert sur le Worker de test (Stripe test, e-mail, connexion Google testés).
 
 ## 1. Dernière copie des données (~2 min)
+
+> **Leçon du 30/09** : `--reset` ne vidait que les tables de Replit ; `DataPatch` (absente de Replit) a gardé ses marqueurs.
+> `BlogArticle` est revenu à l'ancien texte, les tâches de démarrage ont cru la refonte s11 faite, et `--verify` « 35/35 » était vert.
+> Depuis le 12/10 : refus par défaut si la cible a des tables non vides absentes de la source ; `--verify` les contrôle et hache le contenu ligne à ligne.
+
 ```bash
-python3 scripts/infra/copie-replit-neon.py --reset   # vide la cible puis copie
-python3 scripts/infra/copie-replit-neon.py --verify  # doit afficher 35/35 (sauf écritures Replit pendant la copie)
+python3 scripts/infra/copie-replit-neon.py --reset --dry-run   # plan seul, aucune écriture : lire la liste « cible seulement »
+python3 scripts/infra/copie-replit-neon.py --reset --purge-target-only-tables   # vide la cible (DataPatch compris) puis copie
+python3 scripts/infra/copie-replit-neon.py --verify  # code 0 = tables identiques + aucune table « cible seulement » non vide + échantillon BlogArticle/Joke/Tip identique
 ```
+- Sans option, `--reset` s'arrête (code 2) et liste les tables propres à la cible non vides. Garder une table de données : `--keep-target-only-tables=NewsletterSubscriber` (à passer aussi à `--verify`) ; garder une table d'état (`DataPatch`, `JobLock`, `SocialPostDailyLock`, `CeoDedup`) est refusé.
+- `DataPatch` vidée = toutes les tâches de démarrage se rejouent : appeler `/api/cron/startup-tasks` juste après (§4).
+- **Depuis la bascule, Neon est la base de prod** : un `--reset` depuis Replit écraserait tout ce qui a été écrit depuis le 30/09 (comptes, abonnements, articles). Ne rejouer qu'après décision de Thomas, `--dry-run` d'abord.
+- Tests (Postgres local jetable, jamais Replit ni Neon) : `scripts/infra/test_copie_replit_neon.py` (mode d'emploi en tête du fichier).
 
 ## 2. Build + secrets de prod + crons
 - `CRON_ENABLED` → `"true"` dans `apps/web/wrangler.jsonc`.

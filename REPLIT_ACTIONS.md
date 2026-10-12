@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Correctif `scripts/infra/copie-replit-neon.py` (outil local, **rien à déployer**)
+
+- `--reset` refuse par défaut (code 2) si la cible a des tables non vides absentes de la source (`DataPatch`…) ; options `--purge-target-only-tables`, `--keep-target-only-tables=A,B`, `--dry-run`. `--verify` contrôle aussi ces tables et hache `BlogArticle`/`Joke`/`Tip` ligne à ligne. Détail : `docs/qa/diagnostic-base-vs-s11-s20.md` §5 ; tests : `scripts/infra/test_copie_replit_neon.py` (Postgres local).
+
 ## s20 Corrections de la version s11 (32 passages validés à l'aveugle, 2 sur 3), **DÉPLOYÉ le 12/10/2026 à 11:15 UTC, version `cd7a93c3-e9ad-4841-96e4-561916da4035`**, N-1 `ac0c937d-2550-4bd2-8a61-55c93349cded` ; journal « réécritures blog v4 : 9 appliquée(s) » ; HTML : 9 articles en 200, 0 tiret, Stanford absent, étude Wharton/HBS présente, « L'heure d'arrivée » en ligne ; excerpt de `comment-raconter…` sans tiret
 
 - `blog-article-rewrites.json` `_meta.version` 3 → 4 : `applyBlogArticleRewritesTask` réapplique les 9 articles (32 corrections de `docs/copy/corrections-s11-s20.md` : §4, et §9 pour C, F, G, R, AE, N ; diff au §10). Le JSON ne contient plus aucun « — » hors titres (`stripEmDashes` appliqué à la source) : `BLOG_EM_DASH_PATCH_VERSION` reste à 3.
