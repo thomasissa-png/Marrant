@@ -85,8 +85,9 @@ export async function generateMetadata({
 
   const canonicalSlug = buildVideoSlug(video);
   // Titre YouTube conservé tel quel (fitTitle : jamais de « ... » au milieu),
-  // description coupée proprement (lib/seo-meta.ts — passe SEO s11).
-  const baseDesc = fitDescription(`${video.channelName} — ${video.description}`);
+  // description coupée proprement (lib/seo-meta.ts, passe SEO s11).
+  // s20 : « Chaîne : description » (plus de tiret cadratin, règle commune n° 12).
+  const baseDesc = fitDescription(`${video.channelName} : ${video.description}`);
   const desc = baseDesc.length < 110 && video.technique
     ? fitDescription(`${baseDesc} La technique à retenir : ${video.technique}.`)
     : baseDesc;

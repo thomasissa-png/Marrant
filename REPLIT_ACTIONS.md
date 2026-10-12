@@ -1,6 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Sécurisation du catalogue (décision Thomas 12/10 : ne rien changer en ligne), **commité, non déployé (rien d'urgent)**
+## s20 Tirets cadratins des fiches vidéo + llms-full.txt (décision Thomas 12/10), N-1 `f9e7ebd8-4cf6-4ac5-8c99-f3ee40225fd7`
+
+- Nouvelle tâche de démarrage `applyVideoEmDashTask` (`src/lib/video-em-dash.ts`, hors tâche catalogue) : `stripEmDashes` sur description / technique / exercise / enseignements, marqueur `video-em-dash:v1:<youtubeId>`, `note.before`. Simulation prod en lecture seule : 52 fiches, 170 tirets, 0 mot changé.
+- Gabarit méta vidéo « Chaîne : description » (était « — »), `llms-full.txt` sans tiret dans le texte produit.
+- Part avec la sécurisation du catalogue (entrée ci-dessous).
+- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`), attendu « tirets cadratins vidéos v1 : 52 fiche(s) corrigée(s) (170 tiret(s)) ». Retour arrière base : SQL en tête de `video-em-dash.ts`.
+
+## s20 Sécurisation du catalogue (décision Thomas 12/10 : ne rien changer en ligne), déployée avec le lot « tirets vidéo »
 
 - Seeds alignés sur la base de prod : `blagues-seed.json` 264 → 80 (6 actives alignées, 184 inactives retirées), `conseils-seed.json` 69 → 38 (9 alignés, 31 inactifs retirés). `videos-seed.json` inchangé.
 - Garde-fou `catalogue-content` (`startup-tasks.ts`) : réécriture seulement si la ligne porte encore le texte remplacé (`previousContent` / `previousTitle`), sinon refus « GARDE-FOU » sans écriture ; écritures vidéo et parcours retirées. Rejoué en lecture seule sur la prod : 0 écriture.

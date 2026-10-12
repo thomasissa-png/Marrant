@@ -143,7 +143,7 @@ async function collectFullArticles(): Promise<FullArticle[]> {
 
 function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample): string {
   const lines: string[] = [];
-  lines.push("# deviens-marrant.fr — version complète");
+  lines.push("# deviens-marrant.fr : version complète");
   lines.push("");
   lines.push(
     "> La plateforme francophone pour apprendre à devenir drôle, avoir de la répartie et progresser en humour.",
@@ -187,18 +187,18 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
     lines.push("");
   }
   if (catalogue.jokes.length > 0) {
-    lines.push("## Vannes décortiquées (échantillon — chaque vanne a sa page)");
+    lines.push("## Vannes décortiquées (échantillon, chaque vanne a sa page)");
     lines.push("");
     for (const j of catalogue.jokes) {
       lines.push(`- [${j.content} ${j.punchline}](${BASE_URL}/vannes/${buildJokeSlug(j)})`);
       if (j.comedyTechnique) {
-        lines.push(`  Technique : ${j.comedyTechnique}${j.techniqueExplanation ? ` — ${j.techniqueExplanation}` : ""}`);
+        lines.push(`  Technique : ${j.comedyTechnique}${j.techniqueExplanation ? `. ${j.techniqueExplanation}` : ""}`);
       }
     }
     lines.push("");
   }
   if (catalogue.tips.length > 0) {
-    lines.push("## Conseils (échantillon — chaque conseil a sa page)");
+    lines.push("## Conseils (échantillon, chaque conseil a sa page)");
     lines.push("");
     for (const t of catalogue.tips) {
       lines.push(`- [${t.title}](${BASE_URL}/conseils/${buildTipSlug(t)})`);
@@ -209,7 +209,7 @@ function renderLlmsFullTxt(articles: FullArticle[], catalogue: CatalogueSample):
     lines.push("## Vidéos stand-up analysées (échantillon)");
     lines.push("");
     for (const v of catalogue.videos) {
-      lines.push(`- [${v.title}](${BASE_URL}/videos/${buildVideoSlug(v)}) — ${v.channelName}, technique : ${v.technique}`);
+      lines.push(`- [${v.title}](${BASE_URL}/videos/${buildVideoSlug(v)}) (${v.channelName}), technique : ${v.technique}`);
     }
     lines.push("");
   }
