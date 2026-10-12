@@ -12,6 +12,8 @@
  */
 type Call = { model: string; method: string; args: unknown };
 const calls: Call[] = [];
+/** s20 : garde-fou du seed. Base vierge par défaut (0 utilisateur, 0 DataPatch). */
+const guardCounts: Record<string, number> = { user: 0, dataPatch: 0 };
 
 jest.mock("@prisma/client", () => {
   const handler = (model: string) =>
@@ -20,7 +22,10 @@ jest.mock("@prisma/client", () => {
       {
         get: (_t, method: string) => async (args: unknown) => {
           calls.push({ model, method, args });
-          if (method === "count") return model === "dailyContent" ? 1 : 10;
+          if (method === "count") {
+            if (model in guardCounts) return guardCounts[model];
+            return model === "dailyContent" ? 1 : 10;
+          }
           if (method === "findMany") return [];
           if (method === "updateMany" || method === "deleteMany" || method === "createMany") return { count: 0 };
           return { id: `${model}-id` };
@@ -82,5 +87,37 @@ describe("seed-data — contenus IA jamais désactivés", () => {
     for (const c of selects) {
       expect((c.args as { where: { generatedByAI?: boolean } }).where.generatedByAI).toBe(false);
     }
+  });
+});
+
+describe("seed-data — garde-fou s20 (base non vierge)", () => {
+  const prevEnv = process.env.NODE_ENV;
+  const prevConfirm = process.env.MARRANT_SEED_CONFIRM_HOST;
+  let exitSpy: jest.SpyInstance;
+  beforeAll(async () => {
+    calls.length = 0;
+    Object.assign(guardCounts, { user: 3, dataPatch: 40 });
+    Object.assign(process.env, { NODE_ENV: "test" });
+    delete process.env.MARRANT_SEED_CONFIRM_HOST;
+    exitSpy = jest.spyOn(process, "exit").mockImplementation((() => undefined) as never);
+    jest.spyOn(console, "error").mockImplementation(() => undefined);
+    jest.isolateModules(() => {
+      require("../../../prisma/seed-data");
+    });
+    await flush();
+  });
+  afterAll(() => {
+    Object.assign(process.env, { NODE_ENV: prevEnv });
+    if (prevConfirm !== undefined) process.env.MARRANT_SEED_CONFIRM_HOST = prevConfirm;
+    Object.assign(guardCounts, { user: 0, dataPatch: 0 });
+    jest.restoreAllMocks();
+  });
+
+  it("refus : sortie en erreur et aucune écriture", () => {
+    expect(exitSpy).toHaveBeenCalledWith(1);
+    const writes = calls.filter((c) =>
+      ["create", "createMany", "update", "updateMany", "upsert", "delete", "deleteMany"].includes(c.method),
+    );
+    expect(writes).toEqual([]);
   });
 });

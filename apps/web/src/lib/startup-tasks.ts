@@ -841,6 +841,19 @@ async function convergeBlogSlugRedirectsTask(): Promise<void> {
  * `catalogue-content:v<version>` écrit APRÈS succès complet des 4 sections
  * (échec partiel → pas de marqueur → le boot suivant réessaie, sans risque
  * puisque tout est idempotent).
+ *
+ * Garde-fou s20 (décision Thomas du 12/10, `docs/qa/diagnostic-vannes-s11-s20.md`) :
+ * à chaque exécution (premier passage, bump de version ou marqueur supprimé),
+ * une ligne n'est réécrite QUE si elle est encore au texte que la refonte
+ * remplace : clé en base = un `previousContent` (vannes) ou `previousTitle`
+ * (conseils) du seed. Une ligne déjà à la clé cible mais dont un autre champ
+ * diffère du seed (chute, décryptage, corps du conseil, description de vidéo
+ * ou de parcours) a pu être relue et validée depuis : REFUS, log d'erreur,
+ * aucune écriture sur cette ligne, et pas de marqueur (l'alerte revient à
+ * chaque boot tant que seed et base ne sont pas réconciliés). Vidéos et
+ * parcours n'ont pas de version précédente déclarée : toute différence est
+ * refusée. Pour réécrire volontairement une ligne : aligner le seed sur la
+ * base, ou déclarer l'ancien texte en alias, après relecture.
  */
 /**
  * Version du patch catalogue. BUMP MANUEL (1 → 2…) après toute nouvelle
@@ -887,6 +900,21 @@ interface CatalogueSectionResult {
   unchanged: number;
   missing: number;
   aliasSkipped: number;
+  /** Lignes refusées par le garde-fou s20 (pas au texte attendu avant refonte). */
+  refused: string[];
+}
+
+/**
+ * Garde-fou s20 : enregistre le refus d'écrire une ligne qui n'est pas au texte
+ * que la refonte remplace (voir le bloc de documentation ci-dessus).
+ */
+function refuseCatalogueWrite(
+  result: CatalogueSectionResult,
+  rowId: string,
+  key: string,
+  fields: string[],
+): void {
+  result.refused.push(`${rowId} « ${key.slice(0, 50)} » (${fields.join(", ")})`);
 }
 
 function toAliasList(value: string | string[] | undefined): string[] {
@@ -908,7 +936,7 @@ async function runCatalogueOps<T>(
 }
 
 function emptyCatalogueResult(): CatalogueSectionResult {
-  return { updated: 0, renamed: 0, unchanged: 0, missing: 0, aliasSkipped: 0 };
+  return { updated: 0, renamed: 0, unchanged: 0, missing: 0, aliasSkipped: 0, refused: [] };
 }
 
 /**
@@ -1018,6 +1046,11 @@ async function patchCatalogueJokes(): Promise<CatalogueSectionResult> {
         result.unchanged++;
         continue;
       }
+      // Garde-fou s20 : seule une ligne encore au `previousContent` est réécrite.
+      if (!renamed) {
+        refuseCatalogueWrite(result, row.id, row.content, Object.keys(data));
+        continue;
+      }
       ops.push({ id: row.id, data, renamed });
     }
   }
@@ -1083,6 +1116,11 @@ async function patchCatalogueTips(): Promise<CatalogueSectionResult> {
         result.unchanged++;
         continue;
       }
+      // Garde-fou s20 : seule une ligne encore au `previousTitle` est réécrite.
+      if (!renamed) {
+        refuseCatalogueWrite(result, row.id, row.title, Object.keys(data));
+        continue;
+      }
       ops.push({ id: row.id, data, renamed });
     }
   }
@@ -1118,7 +1156,6 @@ async function patchCatalogueVideos(): Promise<CatalogueSectionResult> {
     { label: "catalogue-content:videos:findMany" },
   );
   const byYoutubeId = new Map(rows.map((r) => [r.youtubeId, r]));
-  const ops: CataloguePatchOp<CatalogueVideoData>[] = [];
 
   for (const video of seed) {
     const row = byYoutubeId.get(video.youtubeId);
@@ -1146,15 +1183,10 @@ async function patchCatalogueVideos(): Promise<CatalogueSectionResult> {
       result.unchanged++;
       continue;
     }
-    ops.push({ id: row.id, data, renamed: false });
+    // Garde-fou s20 : aucune version précédente déclarée pour les vidéos, donc
+    // aucune écriture possible ici (l'ancien `prisma.video.update` est retiré).
+    refuseCatalogueWrite(result, row.id, video.youtubeId, Object.keys(data));
   }
-
-  await runCatalogueOps(
-    ops,
-    (op) => prisma.video.update({ where: { id: op.id }, data: op.data }),
-    "catalogue-content:videos:update",
-  );
-  result.updated = ops.length;
   return result;
 }
 
@@ -1172,7 +1204,6 @@ async function patchCatalogueParcours(): Promise<CatalogueSectionResult> {
     { label: "catalogue-content:parcours:findMany" },
   );
   const bySlug = new Map(rows.map((r) => [r.slug, r]));
-  const ops: CataloguePatchOp<{ description: string }>[] = [];
 
   for (const path of seed) {
     const row = bySlug.get(path.slug);
@@ -1184,15 +1215,10 @@ async function patchCatalogueParcours(): Promise<CatalogueSectionResult> {
       result.unchanged++;
       continue;
     }
-    ops.push({ id: row.id, data: { description: path.description }, renamed: false });
+    // Garde-fou s20 : aucune version précédente déclarée pour les parcours, donc
+    // aucune écriture possible ici (l'ancien `learningPath.update` est retiré).
+    refuseCatalogueWrite(result, row.id, path.slug, ["description"]);
   }
-
-  await runCatalogueOps(
-    ops,
-    (op) => prisma.learningPath.update({ where: { id: op.id }, data: op.data }),
-    "catalogue-content:parcours:update",
-  );
-  result.updated = ops.length;
   return result;
 }
 
@@ -1202,6 +1228,7 @@ function formatCatalogueResult(name: string, r: CatalogueSectionResult): string 
     `${r.unchanged} inchangé(s)`,
     r.missing > 0 ? `${r.missing} absent(s) en base` : "",
     r.aliasSkipped > 0 ? `${r.aliasSkipped} alias ignoré(s) (doublon évité)` : "",
+    r.refused.length > 0 ? `${r.refused.length} REFUSÉ(S) par le garde-fou` : "",
   ].filter(Boolean);
   return `${name} ${r.updated} mis à jour (${extras.join(", ")})`;
 }
@@ -1225,9 +1252,22 @@ async function applyCatalogueContentTask(): Promise<void> {
     ];
     const summaries: string[] = [];
     let failed = 0;
+    let refused = 0;
     for (const [name, run] of sections) {
       try {
-        summaries.push(formatCatalogueResult(name, await run()));
+        const result = await run();
+        summaries.push(formatCatalogueResult(name, result));
+        if (result.refused.length > 0) {
+          refused += result.refused.length;
+          const sample = result.refused.slice(0, 10).join(" ; ");
+          const more = result.refused.length > 10 ? ` ; … (+${result.refused.length - 10})` : "";
+          console.error(
+            `[startup] catalogue ${CATALOGUE_CONTENT_PATCH_ID} : GARDE-FOU, ${result.refused.length} ${name} NON réécrit(s) : ` +
+              `la base diffère du seed alors que la ligne n'est pas au texte que la refonte remplace ` +
+              `(texte peut-être validé depuis). Aucune écriture sur ces lignes. Aligner le seed sur la base ` +
+              `ou déclarer l'ancien texte en alias après relecture. Lignes : ${sample}${more}`,
+          );
+        }
       } catch (err) {
         failed++;
         console.error(`[startup] catalogue : section ${name} échouée (non bloquant) :`, err);
@@ -1240,8 +1280,13 @@ async function applyCatalogueContentTask(): Promise<void> {
       console.warn(
         `[startup] catalogue : ${failed} section(s) en échec → marqueur NON écrit (réessai au prochain boot).`,
       );
-      return;
     }
+    if (refused > 0) {
+      console.error(
+        `[startup] catalogue : ${refused} ligne(s) refusée(s) par le garde-fou → marqueur NON écrit (alerte répétée à chaque boot jusqu'à réconciliation).`,
+      );
+    }
+    if (failed > 0 || refused > 0) return;
     await withDbRetry(
       () =>
         prisma.dataPatch.upsert({

@@ -171,11 +171,12 @@ describe("conseils réactivés et seed des conseils", () => {
     expect(meta.conseilsReactives[0].exercise.startsWith("DÉFI COUPE :")).toBe(true);
   });
 
-  it("repli solo de l'étape 3 dans le seed ; défi B de l'étape 6 réservé à la publication", () => {
+  it("repli solo de l'étape 3 dans le seed ; défi B de l'étape 6 dans le seed depuis s20 (aligné sur la base, parcours publié)", () => {
     const [r3, r6] = meta.defisRetouches;
     expect(byTitle.get("Rigoler de ses échecs")?.exercise.endsWith(r3.ajouterALaFin)).toBe(true);
     expect(r6.ajouterALaFin.startsWith("Tu travailles ton anecdote du parcours Storytelling ?")).toBe(true);
-    expect(byTitle.get(r6.tipTitle)?.exercise).not.toContain("Storytelling");
+    // s20 : le seed suit la base (défi appliqué à la publication), cf. diagnostic conseils-vidéos §2.1 D.
+    expect(byTitle.get(r6.tipTitle)?.exercise.endsWith(`\n\n${r6.ajouterALaFin}`)).toBe(true);
   });
 });
 

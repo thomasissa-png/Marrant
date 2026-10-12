@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Sécurisation du catalogue (décision Thomas 12/10 : ne rien changer en ligne), **commité, non déployé (rien d'urgent)**
+
+- Seeds alignés sur la base de prod : `blagues-seed.json` 264 → 80 (6 actives alignées, 184 inactives retirées), `conseils-seed.json` 69 → 38 (9 alignés, 31 inactifs retirés). `videos-seed.json` inchangé.
+- Garde-fou `catalogue-content` (`startup-tasks.ts`) : réécriture seulement si la ligne porte encore le texte remplacé (`previousContent` / `previousTitle`), sinon refus « GARDE-FOU » sans écriture ; écritures vidéo et parcours retirées. Rejoué en lecture seule sur la prod : 0 écriture.
+- Seed de dev (`seed-guard.ts`) : refus si la base contient un utilisateur ou un `DataPatch`, sauf `MARRANT_SEED_CONFIRM_HOST` = hôte exact.
+- Prend effet au prochain déploiement (part avec le lot suivant).
+
 ## s20 Petit lot final (pause, règle 3-2-1, 3 métas, « 2,99 € »), **DÉPLOYÉ le 12/10/2026 à 12:18 UTC, version `f9e7ebd8-4cf6-4ac5-8c99-f3ee40225fd7`** ; « réécritures blog v5 : 9 appliquée(s) » ; HTML vérifié (pause une seconde, 3-2-1 absent, 0 « EUR ») ; N-1 `cd7a93c3-e9ad-4841-96e4-561916da4035`
 
 - `blog-article-rewrites.json` `_meta.version` 4 → 5 : pause « d'une seconde » (`techniques-humoristes-pros`), encadré CLEF du critère #3 en trois temps sans règle 3-2-1 inventée (`blague-drole-7-criteres-pepite`), 3 métas ≤ 155 (150, 145, 152). Relus à l'aveugle (A B C E 3/3 ; D réécrit puis 2/2) : `docs/copy/lot-final-s11-s20*.md`, `docs/copy/relecture-corrections-s11/verdicts-*-lot-final.md`.

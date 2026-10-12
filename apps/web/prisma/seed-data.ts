@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { checkSeedTarget, SEED_CONFIRM_ENV } from "../src/lib/seed-guard";
 
 const prisma = new PrismaClient();
 
@@ -78,6 +79,24 @@ async function main() {
     console.log("   Utilisez NODE_ENV=development pour forcer le seed.");
     process.exit(0);
   }
+
+  // Protection s20 : refus sur une base non vierge (copie de prod, branche Neon
+  // de test) sauf confirmation liée à l'hôte. Détail : src/lib/seed-guard.ts.
+  const [userCount, dataPatchCount] = await Promise.all([
+    prisma.user.count(),
+    prisma.dataPatch.count(),
+  ]);
+  const guard = checkSeedTarget(
+    { users: userCount, dataPatches: dataPatchCount },
+    process.env.DATABASE_URL,
+    process.env[SEED_CONFIRM_ENV],
+  );
+  if (!guard.allowed) {
+    console.error(`⛔ Seed refusé : ${guard.reason}`);
+    process.exit(1);
+    return;
+  }
+  console.log(`Seed autorisé : ${guard.reason}.`);
 
   console.log("Début du seeding...");
 

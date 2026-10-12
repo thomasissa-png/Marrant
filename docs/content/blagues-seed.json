@@ -10,51 +10,11 @@
   },
   {
     "id": 2,
-    "content": "J'ai arrêté de me comparer aux autres. Je me compare à moi il y a cinq ans.",
-    "punchline": "Lui aussi s'en sortait mieux.",
+    "content": "Mon psy m'a dit que je devais arrêter de me comparer aux autres.",
+    "punchline": "J'ai vérifié, les autres n'ont pas ce problème.",
     "category": "AUTODERISION",
     "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Mon psy m'a dit que je devais arrêter de me comparer aux autres."
-  },
-  {
-    "id": 3,
-    "content": "Je me suis inscrit à un atelier pour vaincre la timidité.",
-    "punchline": "On était douze devant la porte. Personne a osé frapper.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": [
-      "Un homme entre dans une bibliothèque et demande un livre sur le paranoia.",
-      "J'ai demandé à la bibliothécaire un livre sur la paranoïa."
-    ]
-  },
-  {
-    "id": 4,
-    "content": "Le site m'a demandé un mot de passe avec un caractère spécial.",
-    "punchline": "J'ai mis le prénom de mon oncle.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon mot de passe c'est « incorrect »."
-  },
-  {
-    "id": 5,
-    "content": "Nouvelle région, nouvelle règle : ici, on fait trois bises.",
-    "punchline": "Je suis reparti après la deuxième. La troisième, je l'ai reçue dans l'oreille.",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "En France, on a pas de pétrole, mais on a des idées."
-  },
-  {
-    "id": 6,
-    "content": "On a un agenda partagé dans le couple.",
-    "punchline": "Il m'a invitée à « Dîner en amoureux ». J'ai mis « Peut-être ».",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Ma copine m'a demandé de choisir entre elle et le foot."
+    "type": "SUBTIL"
   },
   {
     "id": 7,
@@ -64,42 +24,6 @@
     "maturityLevel": 2,
     "type": "SUBTIL",
     "previousContent": "Mon patron m'a dit : « Tu es irremplaçable. »"
-  },
-  {
-    "id": 8,
-    "content": "Mon pote a annulé notre soirée de samedi à la dernière minute.",
-    "punchline": "J'ai dit « dommage » avec une voix triste. J'étais en pyjama depuis 18h.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Tu sais que t'es adulte quand tu te réjouis d'un samedi soir à la maison."
-  },
-  {
-    "id": 9,
-    "content": "Je retiens tous les prénoms.",
-    "punchline": "Trois secondes. Après, je dis « toi » avec chaleur.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "SUBTIL",
-    "previousContent": "J'ai une mémoire photographique."
-  },
-  {
-    "id": 12,
-    "content": "Pour voir si j'écoute, ma copine glisse des phrases absurdes.",
-    "punchline": "J'ai dit oui à un lama. Il arrive samedi.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Ma femme m'a dit : « Chéri, est-ce que tu m'écoutes ? »"
-  },
-  {
-    "id": 13,
-    "content": "En entretien annuel, j'ai eu droit au feedback sandwich : un compliment, une critique, un compliment.",
-    "punchline": "J'ai mangé que la garniture.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Lors de mon entretien annuel, mon manager m'a dit que j'avais un problème d'attitude."
   },
   {
     "id": 16,
@@ -112,12 +36,11 @@
   },
   {
     "id": 18,
-    "content": "Mon chat m'a apporté une souris morte. J'ai dit merci, par politesse.",
-    "punchline": "Le lendemain, il en a apporté deux.",
+    "content": "J'ai dit à mon chat qu'on allait chez le vétérinaire.",
+    "punchline": "Depuis, il cherche « droits des animaux » sur mon ordinateur.",
     "category": "ABSURDE",
     "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai dit à mon chat qu'on allait chez le vétérinaire."
+    "type": "CLASSIQUE"
   },
   {
     "id": 19,
@@ -127,51 +50,6 @@
     "maturityLevel": 1,
     "type": "CLASSIQUE",
     "previousContent": "J'essaie de faire un régime, mais c'est compliqué en France."
-  },
-  {
-    "id": 21,
-    "content": "Sur mon CV, j'ai écrit « résistant au stress ».",
-    "punchline": "On m'a demandé un exemple. J'ai transpiré.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon CV dit que je suis « résistant au stress »."
-  },
-  {
-    "id": 22,
-    "content": "« Appeler la banque » est sur ma to-do depuis deux ans.",
-    "punchline": "Je peux plus la supprimer. Elle a de l'ancienneté.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai tellement procrastiné que ma liste de choses à faire a pris la poussière."
-  },
-  {
-    "id": 23,
-    "content": "Je suis quelqu'un de profondément authentique.",
-    "punchline": "C'est dans ma bio. Entre deux photos faussement spontanées.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "On dit qu'il faut rester soi-même dans la vie."
-  },
-  {
-    "id": 25,
-    "content": "En août, mon médecin, mon coiffeur et mon boulanger étaient fermés.",
-    "punchline": "J'ai compris que j'étais le seul à pas être invité.",
-    "category": "CULTUREL",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "La SNCF annonce un retard de 45 minutes."
-  },
-  {
-    "id": 27,
-    "content": "Mon copain m'a envoyé un vocal depuis la pièce d'à côté.",
-    "punchline": "J'ai répondu par écrit. Ça fait deux jours qu'on est en froid.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "CLASSIQUE",
-    "previousContent": "Ma copine m'a envoyé un message : « C'est fini entre nous. » J'ai répondu : « D'accord. »"
   },
   {
     "id": 28,
@@ -191,51 +69,6 @@
     "type": "CLASSIQUE"
   },
   {
-    "id": 31,
-    "content": "Je rattrape un verre qui tombe en plein vol.",
-    "punchline": "Une occasion, par contre, je la regarde tomber.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "La seule course que je gagne régulièrement..."
-  },
-  {
-    "id": 35,
-    "content": "Mon bazar avait un système.",
-    "punchline": "Mon copain a rangé. Depuis, personne trouve plus rien.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Ma copine me dit que je ne fais jamais attention aux détails."
-  },
-  {
-    "id": 36,
-    "content": "Mon responsable met « URGENT » dans tous ses mails.",
-    "punchline": "Ce matin : « URGENT – pas urgent ». Je suis perdu.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai reçu un mail de mon chef qui disait : « Urgent, à traiter immédiatement. »"
-  },
-  {
-    "id": 38,
-    "content": "Je parle anglais couramment.",
-    "punchline": "Tant que personne me répond.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Je parle couramment trois langues."
-  },
-  {
-    "id": 39,
-    "content": "Ma mère sait plier un drap-housse parfaitement.",
-    "punchline": "Elle refuse de me montrer. Tant que je sais pas, je reviens le dimanche.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Un jour, j'arriverai à plier un drap-housse correctement."
-  },
-  {
     "id": 41,
     "content": "Pour pouvoir travailler, je me bloque des créneaux dans l'agenda.",
     "punchline": "Titre : « Réunion ». Personne ose y toucher.",
@@ -245,15 +78,6 @@
     "previousContent": "En réunion, « on en reparlera » veut dire..."
   },
   {
-    "id": 43,
-    "content": "Quand ça va mal, on me dit : « Ça pourrait être pire. »",
-    "punchline": "Merci. Donc il reste de la marge.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "L'avantage d'être pessimiste..."
-  },
-  {
     "id": 44,
     "content": "Au yoga, la prof a dit : « Écoutez votre corps. »",
     "punchline": "Le mien a dit : « Rentrons. » J'ai été le seul élève à obéir.",
@@ -261,51 +85,6 @@
     "maturityLevel": 1,
     "type": "CLASSIQUE",
     "previousContent": "J'ai essayé le yoga pour me détendre."
-  },
-  {
-    "id": 46,
-    "content": "Mon téléphone m'a fait un montage « Mon été ».",
-    "punchline": "Trois tickets de caisse et une place de parking.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon téléphone a plus de mémoire que moi."
-  },
-  {
-    "id": 47,
-    "content": "Après trois jours enfermé à réviser, je suis sorti.",
-    "punchline": "J'ai salué un pigeon. Il a eu l'air gêné pour moi.",
-    "category": "ABSURDE",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Je suis sorti de chez moi pour la première fois en trois jours."
-  },
-  {
-    "id": 49,
-    "content": "Au lit, on a notre équilibre.",
-    "punchline": "Elle a la couette. J'ai le souvenir de la couette.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon couple est comme une connexion Wi-Fi."
-  },
-  {
-    "id": 50,
-    "content": "L'offre disait « salaire selon profil ».",
-    "punchline": "J'ai vu le chiffre. Mon profil l'a mal pris.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "On m'a proposé un poste avec « un salaire compétitif »."
-  },
-  {
-    "id": 51,
-    "content": "Je vais très régulièrement à la salle de sport.",
-    "punchline": "Enfin, je passe devant. Tous les matins, en allant à la boulangerie.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Je me suis inscrit à la salle de sport en janvier."
   },
   {
     "id": 52,
@@ -334,105 +113,6 @@
     "type": "ONE_LINER"
   },
   {
-    "id": 56,
-    "content": "Règle sacrée du couple : pas de série sans l'autre.",
-    "punchline": "Hier, au gros rebondissement, il a pas bronché.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Ma copine a changé son statut en « c'est compliqué »."
-  },
-  {
-    "id": 57,
-    "content": "J'ai appelé le support informatique. « Vous avez essayé d'éteindre et de rallumer ? » J'ai dit oui.",
-    "punchline": "« Et avec conviction ? »",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Le WiFi au bureau est tellement lent..."
-  },
-  {
-    "id": 58,
-    "content": "Pour dormir, j'écoute un bruit de pluie sur mon téléphone.",
-    "punchline": "Quand il pleut vraiment, je cherche qui a lancé le son.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
-    "type": "SUBTIL",
-    "previousContent": "J'ai vu un documentaire sur le sommeil hier soir."
-  },
-  {
-    "id": 59,
-    "content": "Mon programme du week-end : samedi, rien de prévu.",
-    "punchline": "Dimanche, je récupère de samedi.",
-    "category": "AUTODERISION",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Ma vie sociale ressemble à mon frigo un dimanche soir."
-  },
-  {
-    "id": 60,
-    "content": "Mon neveu m'a battu à cache-cache.",
-    "punchline": "Il était rentré chez ses parents. Le règlement disait rien contre.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "ABSURDE",
-    "previousContent": "Un GPS recalcule l'itinéraire pour la sixième fois."
-  },
-  {
-    "id": 63,
-    "content": "Dans mon couple, on se dit tout.",
-    "punchline": "Sauf le vrai prix des baskets.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon mec m'a demandé si je voulais un diamant ou un voyage."
-  },
-  {
-    "id": 64,
-    "content": "J'ai mis à jour mon profil LinkedIn un dimanche soir.",
-    "punchline": "Lundi matin, mon manager m'a proposé un café. Juste nous deux.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Sur LinkedIn, tout le monde est « passionné » par son travail."
-  },
-  {
-    "id": 65,
-    "content": "J'ai demandé au serveur ce qu'il me conseillait.",
-    "punchline": "Il a vérifié que le chef regardait pas. Il a chuchoté : « Le pain. »",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai commandé un plat végan au restaurant."
-  },
-  {
-    "id": 66,
-    "content": "J'ai un plan très précis pour dans dix ans.",
-    "punchline": "Pour mardi prochain, je sais pas.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon plan de carrière, c'est d'avoir un plan de carrière."
-  },
-  {
-    "id": 67,
-    "content": "J'avais préparé trois symptômes pour le médecin.",
-    "punchline": "Devant lui, j'ai dit « rien de grave ». J'ai payé pour le rassurer.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "On dit que le rire est le meilleur médicament."
-  },
-  {
-    "id": 68,
-    "content": "Avant d'appeler le médecin, j'ai préparé tout mon texte.",
-    "punchline": "Il a dit « Allô ? ». Ça, j'avais pas prévu.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Je suis tellement introverti..."
-  },
-  {
     "id": 69,
     "content": "J'étais chez moi quand le livreur a glissé un avis de passage sous ma porte.",
     "punchline": "J'ai ouvert. Il m'a dit : « Vous étiez absent. » J'ai dit : « Ah, pardon. »",
@@ -440,33 +120,6 @@
     "maturityLevel": 2,
     "type": "CLASSIQUE",
     "previousContent": "Le livreur a sonné à ma porte à 7h du matin un samedi."
-  },
-  {
-    "id": 72,
-    "content": "On a pris une plante pour tester avant le chien.",
-    "punchline": "Elle est morte. On hésite entre un cactus et une photo de cactus.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Ma copine dit que je suis immature."
-  },
-  {
-    "id": 73,
-    "content": "En brainstorming : « Il n'y a pas de mauvaise idée. »",
-    "punchline": "J'ai proposé la mienne. Il y en avait une.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon chef a dit « pensez out of the box »."
-  },
-  {
-    "id": 75,
-    "content": "J'ai dit bonjour à une vague connaissance à l'entrée du supermarché.",
-    "punchline": "On s'est recroisés à chaque rayon. Aux surgelés, je lisais la composition des petits pois.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai une capacité unique à transformer n'importe quelle situation sociale en malaise."
   },
   {
     "id": 76,
@@ -478,49 +131,12 @@
     "previousContent": "La pire chose au réveil, c'est de réaliser que la veille, c'est toi qui as mis l'alarme si tôt."
   },
   {
-    "id": 79,
-    "content": "Au resto, le plat était raté. Le serveur a demandé : « Ça a été ? »",
-    "punchline": "J'ai dit « très bien ». On se reverra jamais, autant se quitter bons amis.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Le serveur au restaurant me demande : « Ça vous a plu ? »"
-  },
-  {
     "id": 80,
-    "content": "Je cherchais quelque chose de drôle à regarder ce soir.",
-    "punchline": "J'ai relu mes DMs de 2018. Ça valait tous les spectacles.",
+    "content": "J'ai dit à Alexa de me raconter une blague.",
+    "punchline": "Elle m'a lu mon historique de recherches.",
     "category": "AUTODERISION",
     "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "J'ai dit à Alexa de me raconter une blague."
-  },
-  {
-    "id": 83,
-    "content": "La machine à café du bureau est en panne depuis lundi.",
-    "punchline": "Personne se parle. On a compris que c'était elle qui faisait la conversation.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "La machine à café du bureau est tombée en panne."
-  },
-  {
-    "id": 84,
-    "content": "Tard le soir, l'écran de ma télé m'a demandé : « Qui regarde ? »",
-    "punchline": "Vu l'heure et le programme, j'ai préféré garder l'anonymat.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Hier soir, Netflix m'a demandé : « Vous êtes toujours là ? »"
-  },
-  {
-    "id": 87,
-    "content": "À la méditation, on nous a dit de laisser passer nos pensées comme des nuages.",
-    "punchline": "Les miennes se sont garées.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai essayé la méditation de pleine conscience."
+    "type": "SUBTIL"
   },
   {
     "id": 89,
@@ -530,51 +146,6 @@
     "maturityLevel": 3,
     "type": "SUBTIL",
     "previousContent": "Les gens qui disent « l'argent ne fait pas le bonheur »..."
-  },
-  {
-    "id": 90,
-    "content": "Quand on tombe malades en même temps, c'est un concours.",
-    "punchline": "Le plus malade a le droit de rien faire. L'autre fait la soupe en toussant plus fort.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Mon mec range les courses n'importe comment dans le frigo."
-  },
-  {
-    "id": 91,
-    "content": "Mon collègue est passé de « Bises » à « Cordialement ».",
-    "punchline": "Je sais pas ce que j'ai fait, mais je dors mal.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon collègue met « cordialement » en fin de mail."
-  },
-  {
-    "id": 93,
-    "content": "Le dimanche, les joggeurs me saluent d'un signe de tête.",
-    "punchline": "Je rentre de la boulangerie en survêt. Je dis rien.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Les gens qui courent le matin avec le sourire..."
-  },
-  {
-    "id": 94,
-    "content": "Mon talent caché : rire au bon moment quand j'ai rien entendu.",
-    "punchline": "Sauf quand c'était une question.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai un talent caché."
-  },
-  {
-    "id": 95,
-    "content": "J'avais préparé trois sujets pour mon rendez-vous.",
-    "punchline": "Elle en a lancé un quatrième. J'ai paniqué, j'ai enchaîné sur le premier.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai voulu impressionner une fille en cuisinant."
   },
   {
     "id": 97,
@@ -595,15 +166,6 @@
     "previousContent": "Ma copine m'a demandé d'être plus romantique."
   },
   {
-    "id": 99,
-    "content": "Le directeur : « Ici, on est une famille. »",
-    "punchline": "À table, tout le monde l'a évité. Il avait raison.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon patron a dit : « Ici, on est une famille. »"
-  },
-  {
     "id": 101,
     "content": "Le lundi matin, je suis livré en plusieurs colis.",
     "punchline": "Le corps à 9h. Le cerveau entre 10h et 13h, sans créneau garanti.",
@@ -611,15 +173,6 @@
     "maturityLevel": 2,
     "type": "SUBTIL",
     "previousContent": "Mon niveau d'énergie le lundi matin est comparable à celui de mon téléphone le dimanche soir."
-  },
-  {
-    "id": 102,
-    "content": "J'ai demandé à mon dentiste s'il allait faire mal.",
-    "punchline": "Il a souri avant de répondre. J'ai pas aimé ce sourire.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "J'ai dit à mon dentiste que je n'avais pas peur."
   },
   {
     "id": 104,
@@ -657,21 +210,11 @@
   },
   {
     "id": 109,
-    "content": "Je rêve d'avoir la confiance d'un pigeon en terrasse.",
-    "punchline": "Il s'approche de ma table comme s'il avait réservé.",
+    "content": "Mon ambition dans la vie, c'est d'être aussi confiant...",
+    "punchline": "Que le mec qui répond « à peu près » quand on lui demande s'il sait nager.",
     "category": "AUTODERISION",
     "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Mon ambition dans la vie, c'est d'être aussi confiant..."
-  },
-  {
-    "id": 110,
-    "content": "Un ado m'a laissé sa place dans le bus.",
-    "punchline": "J'ai dit « ça va, merci ». Mes genoux avaient déjà dit oui.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Tu sais que tu es vieux quand les policiers commencent à avoir l'air jeune."
+    "type": "SUBTIL"
   },
   {
     "id": 112,
@@ -681,33 +224,6 @@
     "maturityLevel": 2,
     "type": "SUBTIL",
     "previousContent": "En France, quand quelqu'un dit « c'est pas mal »..."
-  },
-  {
-    "id": 113,
-    "content": "Cette année, on s'était promis : pas de cadeaux.",
-    "punchline": "On a triché tous les deux. On s'est offert le même livre.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon copain m'offre toujours des cadeaux pratiques."
-  },
-  {
-    "id": 114,
-    "content": "J'ai demandé au stagiaire de m'expliquer le nouveau logiciel.",
-    "punchline": "Il m'a parlé lentement, en articulant. Comme à son grand-père.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "CLASSIQUE",
-    "previousContent": "Le stagiaire a demandé quand il serait embauché."
-  },
-  {
-    "id": 115,
-    "content": "Au partiel de philo, j'ai répondu « ça dépend » partout.",
-    "punchline": "J'ai eu 12. C'est ce qui se rapproche le plus d'une bonne réponse.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "QA",
-    "previousContent": "Mon prof de philo a dit « remettez tout en question »."
   },
   {
     "id": 116,
@@ -727,24 +243,6 @@
     "previousContent": "Ma mère m'appelle chaque dimanche pour me demander si je mange bien."
   },
   {
-    "id": 118,
-    "content": "J'ai acheté un parapluie en urgence.",
-    "punchline": "Premier coup de vent, il s'est retourné. On a fini le trajet ensemble, humiliés.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai oublié mon parapluie un jour de pluie."
-  },
-  {
-    "id": 120,
-    "content": "La mairie voulait un justificatif de domicile de moins de trois mois.",
-    "punchline": "Le mien en avait quatre. Apparemment, j'habitais plus chez moi.",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Le Français moyen a trois certitudes dans la vie."
-  },
-  {
     "id": 121,
     "content": "Quand mon copain fait la tête, il répond « rien, ça va ».",
     "punchline": "Je connais la technique : c'est moi qui la lui ai apprise.",
@@ -752,87 +250,6 @@
     "maturityLevel": 3,
     "type": "SUBTIL",
     "previousContent": "J'ai dit « je t'aime » par erreur à mon livreur Uber Eats."
-  },
-  {
-    "id": 122,
-    "content": "J'ai parlé cinq minutes en visio, micro coupé.",
-    "punchline": "Ma meilleure intervention. Personne l'a entendue.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "La réunion qui « devait durer 15 minutes »..."
-  },
-  {
-    "id": 124,
-    "content": "La caisse automatique a dit : « Article inattendu dans la zone d'ensachage. »",
-    "punchline": "C'était mon coude. Un vendeur est venu le valider.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Le supermarché à 18h un vendredi soir."
-  },
-  {
-    "id": 125,
-    "content": "J'ai posté ma première vidéo.",
-    "punchline": "Ma mère l'a likée, puis m'a appelé pour savoir si ça allait.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai essayé de devenir influenceur."
-  },
-  {
-    "id": 128,
-    "content": "Au bac d'anglais, l'examinateur m'a demandé : « Where are you from? »",
-    "punchline": "J'ai répondu « Yes ». On a continué comme si de rien n'était.",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Le bac français, c'est l'épreuve où on te demande ton avis..."
-  },
-  {
-    "id": 129,
-    "content": "Je dis pardon même quand j'ai raison.",
-    "punchline": "Avoir raison, c'est deux heures. Pardon, deux secondes.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Ma copine dit que je suis trop possessif."
-  },
-  {
-    "id": 130,
-    "content": "Je travaille très bien sous pression.",
-    "punchline": "Du coup, j'attends qu'il y en ait.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Je travaille bien sous pression."
-  },
-  {
-    "id": 132,
-    "content": "Pour mon régime, je m'autorise un carré de chocolat par jour.",
-    "punchline": "J'ai jamais précisé la taille du carré.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Le plus dur dans un régime, c'est pas de résister aux gâteaux."
-  },
-  {
-    "id": 133,
-    "content": "Pour accrocher un cadre, j'ai percé trois trous.",
-    "punchline": "Le cadre en cache un. Pour les deux autres, j'achète des cadres.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon niveau en bricolage est tel que quand j'achète un meuble Ikea..."
-  },
-  {
-    "id": 134,
-    "content": "J'ai cherché mes clés partout ce matin.",
-    "punchline": "Elles étaient sur la porte. Côté palier. Depuis hier soir.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai passé 15 minutes à chercher mes lunettes."
   },
   {
     "id": 136,
@@ -853,15 +270,6 @@
     "previousContent": "Mon mec a dit : « Ce soir, c'est moi qui cuisine. »"
   },
   {
-    "id": 138,
-    "content": "J'ai envoyé un mail « ci-joint le document », sans le document.",
-    "punchline": "Le deuxième disait « avec le document ». C'était pas le bon.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon collègue met toujours « envoyé depuis mon iPhone » en signature."
-  },
-  {
     "id": 139,
     "content": "J'ai une playlist « Motivation » de trois heures.",
     "punchline": "Je l'écoute en entier. Allongé.",
@@ -880,24 +288,6 @@
     "previousContent": "T'as remarqué qu'on dit toujours « il faudrait qu'on se fasse un truc » ?"
   },
   {
-    "id": 141,
-    "content": "On me tend le poing, je serre la main. On me tend la main, je fais un check.",
-    "punchline": "On finit par se tenir les doigts.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Je suis tellement maladroit socialement..."
-  },
-  {
-    "id": 142,
-    "content": "Ce matin, pour une fois, mon train est arrivé à l'heure.",
-    "punchline": "J'ai dû expliquer mon retard au bureau avec la vérité.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Le train de 7h12 est arrivé à l'heure."
-  },
-  {
     "id": 144,
     "content": "À la poste, j'ai soupiré fort dans la file d'attente.",
     "punchline": "Toute la file a suivi. On s'est jamais sentis aussi proches.",
@@ -905,51 +295,6 @@
     "maturityLevel": 1,
     "type": "CLASSIQUE",
     "previousContent": "Le Français a inventé un sport national : râler dans la file d'attente."
-  },
-  {
-    "id": 145,
-    "content": "Notre conversation la plus active : la liste de courses.",
-    "punchline": "Nos plus beaux échanges, entre « lait » et « éponges ».",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Ma copine et moi, on fait tout ensemble."
-  },
-  {
-    "id": 146,
-    "content": "En télétravail, mon collègue le plus proche, c'est le livreur.",
-    "punchline": "Lui, il demande comment je vais.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "CLASSIQUE",
-    "previousContent": "En télétravail, je suis habillé en haut pour les réunions Zoom."
-  },
-  {
-    "id": 148,
-    "content": "Je me suis pris la porte vitrée de la banque.",
-    "punchline": "Au vigile, j'ai expliqué : « Je vérifiais qu'elle était propre. »",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
-    "type": "SUBTIL",
-    "previousContent": "L'invention la plus cruelle de l'humanité, c'est la porte vitrée trop propre."
-  },
-  {
-    "id": 150,
-    "content": "J'ai pris un bain avec des bougies pour me détendre.",
-    "punchline": "Au bout de cinq minutes, j'ai regardé l'heure. Pour savoir si ça comptait déjà.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai voulu prendre un bain relaxant avec des bougies."
-  },
-  {
-    "id": 153,
-    "content": "Elle : « Tu penses à quoi ? » Moi : « À toi. »",
-    "punchline": "On regardait un documentaire sur les requins.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Mon copain m'a demandé : « Tu penses à quoi ? »"
   },
   {
     "id": 154,
@@ -961,60 +306,6 @@
     "previousContent": "Le team building, c'est l'art de mettre des gens qui ne s'aiment pas dans une forêt."
   },
   {
-    "id": 155,
-    "content": "Le soir, je décide de courir à 6h.",
-    "punchline": "À 6h, le gars qui a décidé ça répond plus.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon réveil sonne à 6h."
-  },
-  {
-    "id": 156,
-    "content": "Mon manager m'a écrit « On peut s'appeler ? », sans smiley.",
-    "punchline": "J'ai revu toute ma carrière. C'était pour savoir où était l'agrafeuse.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Le moment le plus stressant de la journée..."
-  },
-  {
-    "id": 157,
-    "content": "Je sens tout de suite quand une idée est mauvaise.",
-    "punchline": "Juste après l'avoir dite tout haut.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai un sixième sens."
-  },
-  {
-    "id": 158,
-    "content": "Il s'est mis à pleuvoir sur mon linge étendu.",
-    "punchline": "Je l'ai laissé. C'est un deuxième rinçage.",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai lavé mon pull préféré à 60 degrés au lieu de 30."
-  },
-  {
-    "id": 160,
-    "content": "J'ai tenu la porte à quelqu'un qui était encore à dix mètres.",
-    "punchline": "Il a couru pour pas me faire attendre. On s'est remerciés, essoufflés et fâchés.",
-    "category": "CULTUREL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Quand un Français dit « c'est intéressant »..."
-  },
-  {
-    "id": 161,
-    "content": "Quand on s'est séparés, on a partagé les affaires équitablement.",
-    "punchline": "J'ai eu le canapé. Elle a eu les amis.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon ex m'a dit : « Tu trouveras mieux que moi. »"
-  },
-  {
     "id": 162,
     "content": "L'imprimante du bureau affiche « impression en cours » depuis ce matin.",
     "punchline": "Rien sort. Elle a compris comment on survit ici.",
@@ -1022,15 +313,6 @@
     "maturityLevel": 2,
     "type": "CLASSIQUE",
     "previousContent": "L'imprimante du bureau ne marche jamais quand tu en as besoin."
-  },
-  {
-    "id": 163,
-    "content": "Petit, mes parents m'envoyaient au lit à 21h.",
-    "punchline": "Maintenant, c'est moi qui pars de chez eux à 21h, et eux qui me supplient de rester.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 1,
-    "type": "QA",
-    "previousContent": "La différence entre un adulte et un enfant ?"
   },
   {
     "id": 164,
@@ -1042,24 +324,6 @@
     "previousContent": "Le panneau « Souriez, vous êtes filmés »."
   },
   {
-    "id": 165,
-    "content": "Je suis redoutable dans les débats.",
-    "punchline": "Seul, sous la douche, trois jours après.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Ma confiance en moi est comme la batterie de mon téléphone."
-  },
-  {
-    "id": 166,
-    "content": "J'ai monté ma commode seul. Mon père est venu l'inspecter.",
-    "punchline": "Il a ouvert un tiroir, l'a refermé très doucement, et a dit : « C'est bien. »",
-    "category": "SITUATION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai essayé de monter un meuble sans la notice."
-  },
-  {
     "id": 168,
     "content": "Mon pote commence toutes ses phrases par « en vrai ».",
     "punchline": "Du coup, je me demande ce qu'il me racontait avant.",
@@ -1067,24 +331,6 @@
     "maturityLevel": 2,
     "type": "SUBTIL",
     "previousContent": "En France, les gens qui disent « à la base » commencent à raconter une histoire..."
-  },
-  {
-    "id": 169,
-    "content": "Je lui ai demandé s'il m'aimait plus que tout.",
-    "punchline": "Il a dit oui. Puis on a commandé, et il a pas partagé ses frites.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "Mon couple est basé sur la confiance et la communication."
-  },
-  {
-    "id": 170,
-    "content": "Cette année, j'ai eu une vraie évolution de carrière.",
-    "punchline": "Je suis passé du bureau près de la porte au bureau près de la fenêtre.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "On m'a dit que j'avais une « progression de carrière latérale »."
   },
   {
     "id": 172,
@@ -1112,15 +358,6 @@
     "maturityLevel": 2,
     "type": "CLASSIQUE",
     "previousContent": "J'ai essayé de faire du vélo à Paris."
-  },
-  {
-    "id": 177,
-    "content": "Chez nous, celui qui a tort fait la vaisselle.",
-    "punchline": "Depuis, on a toujours raison tous les deux. La vaisselle s'empile.",
-    "category": "COUPLE",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Ma copine veut toujours avoir raison."
   },
   {
     "id": 178,
@@ -1159,15 +396,6 @@
     "previousContent": "Deux Parisiens se croisent en province. L'un dit : « T'es en exil aussi ? »"
   },
   {
-    "id": 185,
-    "content": "Mon ex a gardé mon sweat préféré. Je l'ai vu passer dans une story.",
-    "punchline": "Il a l'air plus heureux sans moi.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "Mon ex m'a bloqué sur tous les réseaux."
-  },
-  {
     "id": 186,
     "content": "Mon collègue commence par « en toute bienveillance ».",
     "punchline": "C'est le bip du camion qui recule. On s'écarte.",
@@ -1175,51 +403,6 @@
     "maturityLevel": 2,
     "type": "CLASSIQUE",
     "previousContent": "J'ai un collègue qui commence toutes ses phrases par « sans vouloir t'offenser »."
-  },
-  {
-    "id": 187,
-    "content": "J'ai acheté un agenda trop beau pour écrire dedans.",
-    "punchline": "Mes rendez-vous sont sur un ticket de métro.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "J'ai acheté un agenda pour être organisé."
-  },
-  {
-    "id": 188,
-    "content": "Quand une de mes blagues tombe à plat en soirée, je la répète plus fort.",
-    "punchline": "Au cas où c'était un problème de son.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "Le silence après qu'on a dit une blague et que personne ne rit."
-  },
-  {
-    "id": 189,
-    "content": "Pour ranger mon appart, je déplace le bazar d'une pièce à l'autre.",
-    "punchline": "Je fais tourner les cultures.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Je me suis motivé à ranger mon appart."
-  },
-  {
-    "id": 190,
-    "content": "Un numéro inconnu m'a appelé et a laissé un message vocal.",
-    "punchline": "Ça fait trois jours que je l'ai pas écouté. On se surveille.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "CLASSIQUE",
-    "previousContent": "J'ai eu un appel inconnu à 8h du matin."
-  },
-  {
-    "id": 192,
-    "content": "Au marché, le fromager m'a fait goûter cinq fromages. J'aimais aucun.",
-    "punchline": "Par politesse, j'en ai acheté un sixième. Que j'avais pas goûté.",
-    "category": "CULTUREL",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Le plus grand mystère de France..."
   },
   {
     "id": 193,
@@ -1231,51 +414,6 @@
     "previousContent": "Ma femme m'a demandé ce que je ferais si je gagnais au loto."
   },
   {
-    "id": 194,
-    "content": "Dans ma startup, il y a un baby-foot.",
-    "punchline": "Personne y touche. Jouer, ce serait avouer qu'on a fini son travail.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "SUBTIL",
-    "previousContent": "« On a un baby-foot et des fruits frais ! » dit la startup dans l'annonce."
-  },
-  {
-    "id": 196,
-    "content": "Samedi soir, j'ai comparé des aspirateurs pendant deux heures.",
-    "punchline": "Le plus inquiétant, c'est que c'était une bonne soirée.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "La vie d'adulte, c'est être content quand l'aspirateur fonctionne bien."
-  },
-  {
-    "id": 197,
-    "content": "Quand j'écris « je suis en bas », c'est vrai.",
-    "punchline": "En bas de chez moi.",
-    "category": "AUTODERISION",
-    "maturityLevel": 1,
-    "type": "CLASSIQUE",
-    "previousContent": "Je suis le genre de personne qui répète « j'arrive dans 5 minutes »."
-  },
-  {
-    "id": 198,
-    "content": "J'ai lu le message de mon pote en aperçu, pour pas qu'il voie « vu ».",
-    "punchline": "Maintenant, je dois attendre une heure avant d'avoir le droit d'être surpris.",
-    "category": "SITUATION",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "La pire invention moderne, c'est la notification « vu »."
-  },
-  {
-    "id": 200,
-    "content": "Chaque fois que je prends un gilet « au cas où », il fait grand soleil.",
-    "punchline": "Depuis, je le prends tous les jours. Pour le bien du quartier.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "SUBTIL",
-    "previousContent": "La vie, c'est comme une tartine de confiture."
-  },
-  {
     "id": 201,
     "content": "En maths, j'avais le bon résultat. Le prof m'a demandé de détailler mon raisonnement.",
     "punchline": "Je l'ai détaillé. Il m'a retiré des points.",
@@ -1283,15 +421,6 @@
     "maturityLevel": 1,
     "type": "DIALOGUE",
     "previousContent": "Mon prof de maths m'a dit que j'étais nul. J'ai répondu : « Au moins en maths, zéro c'est quelqu'un. »"
-  },
-  {
-    "id": 202,
-    "content": "En troisième, le prof a dit : « Ça vous servira toute votre vie. »",
-    "punchline": "C'était le volume du cône. Je l'attends toujours, ce cône.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "QA",
-    "previousContent": "La différence entre l'école et la vie ?"
   },
   {
     "id": 203,
@@ -1302,42 +431,6 @@
     "type": "STORY"
   },
   {
-    "id": 204,
-    "content": "Le prof a dit : « Il n'y a pas de mauvaise réponse. »",
-    "punchline": "J'en ai trouvé une. Il avait l'air impressionné.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "Mon prof a dit « il n'y a pas de questions bêtes »."
-  },
-  {
-    "id": 205,
-    "content": "Au partiel, j'ai écrit une réponse avec beaucoup d'assurance.",
-    "punchline": "Le prof a écrit « Non » dans la marge. Avec encore plus d'assurance.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai écrit « je ne sais pas » sur ma copie d'examen."
-  },
-  {
-    "id": 206,
-    "content": "Mon prof d'histoire parle de Napoléon comme d'un ex.",
-    "punchline": "Avec de l'amertume, et toujours un « il avait des qualités, hein ».",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "En cours d'histoire, le prof nous a demandé ce qui s'est passé en 1789."
-  },
-  {
-    "id": 208,
-    "content": "Au resto U, le plat du jour s'appelait « surprise du chef ».",
-    "punchline": "Le chef avait l'air aussi surpris que nous.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "La cantine de la fac propose un menu « équilibré »."
-  },
-  {
     "id": 209,
     "content": "Avant le partiel, mon pote m'a dit qu'il avait « à peine révisé ».",
     "punchline": "Il a eu 17. J'avais à peine révisé aussi. J'ai eu 6.",
@@ -1345,33 +438,6 @@
     "maturityLevel": 1,
     "type": "STORY",
     "previousContent": "Mon pote révise la veille de l'examen et a 15."
-  },
-  {
-    "id": 210,
-    "content": "À la fac, le wifi marche à un seul endroit : devant les toilettes du deuxième.",
-    "punchline": "C'est devenu la bibliothèque officieuse.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Le WiFi de la fac est comme mes notes :"
-  },
-  {
-    "id": 211,
-    "content": "À l'oral, j'ai dit « excellente question » pour gagner du temps.",
-    "punchline": "Le prof a dit « merci » et il a attendu. Il connaissait la technique.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai fait un exposé de 10 minutes sur un sujet que je maîtrisais pas."
-  },
-  {
-    "id": 212,
-    "content": "En rattrapages, j'ai rencontré plein de gens de ma promo.",
-    "punchline": "On était dans le même TD depuis septembre.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "Mon prof de philo a dit : « Je pense, donc je suis. »"
   },
   {
     "id": 213,
@@ -1384,87 +450,6 @@
     "category": "ECOLE",
     "maturityLevel": 1,
     "type": "STORY"
-  },
-  {
-    "id": 214,
-    "content": "En amphi, le prof a demandé : « Ceux du fond, vous m'entendez ? »",
-    "punchline": "On a répondu « non ». Tous ensemble. Très distinctement.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "En amphi, y'a trois types d'étudiants :"
-  },
-  {
-    "id": 215,
-    "content": "J'ai recopié tout le cours sur une antisèche minuscule.",
-    "punchline": "Le lendemain, je le savais par cœur. Piégé par ma propre triche.",
-    "category": "ECOLE",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Mon prof a dit que la triche ne mène nulle part."
-  },
-  {
-    "id": 217,
-    "content": "Le BDE a organisé une soirée « révisions ».",
-    "punchline": "À minuit, on connaissait toutes les chansons de 2005. Le partiel était en éco.",
-    "category": "ECOLE",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Le BDE organise une soirée « révisions »."
-  },
-  {
-    "id": 218,
-    "content": "J'ai montré mon relevé de notes à ma mère.",
-    "punchline": "Elle a enlevé ses lunettes, puis les a remises. Elle espérait que c'était les lunettes.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon relevé de notes ressemble à la météo :"
-  },
-  {
-    "id": 220,
-    "content": "J'ai dit à mes parents que j'étais « dans la moyenne de la classe ».",
-    "punchline": "C'est vrai. La moyenne de la classe, c'était 6.",
-    "category": "ECOLE",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "J'ai dit à mes parents que j'avais la moyenne."
-  },
-  {
-    "id": 222,
-    "content": "Le jeu m'a affiché : « Pensez à faire une pause. »",
-    "punchline": "J'ai fait une pause. J'ai regardé des vidéos du jeu.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "J'ai passé 200 heures sur un jeu vidéo."
-  },
-  {
-    "id": 224,
-    "content": "En ligne, mon pseudo fait peur à tout le monde.",
-    "punchline": "Ma mère l'a lu à voix haute. Elle a dit : « C'est mignon. »",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Sur Discord, mon pseudo c'est « xX_DarkKiller_Xx »."
-  },
-  {
-    "id": 225,
-    "content": "Après une défaite, j'ai tout éteint : « J'arrête ce jeu. »",
-    "punchline": "Je l'ai rallumé dix minutes plus tard. Pour vérifier que j'avais bien arrêté.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai ragequit tellement fort que j'ai cassé ma manette."
-  },
-  {
-    "id": 227,
-    "content": "Un coéquipier m'a écrit : « Tu joues comme ma grand-mère. »",
-    "punchline": "Puis : « Et elle est très forte. » Je sais toujours pas si c'était une excuse.",
-    "category": "GAMING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Mon coéquipier random en ranked m'a insulté en 4 langues."
   },
   {
     "id": 228,
@@ -1482,51 +467,6 @@
     "maturityLevel": 2,
     "type": "ONE_LINER",
     "previousContent": "Le mec qui dit « GG easy » après un match de 45 minutes :"
-  },
-  {
-    "id": 230,
-    "content": "J'ai passé une heure à donner mon visage à mon personnage.",
-    "punchline": "Après une partie, j'ai remis celui par défaut. Ça faisait plus héros.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon perso dans le jeu a une meilleure vie sociale que moi."
-  },
-  {
-    "id": 231,
-    "content": "Ma mère a crié « À table ! » en pleine partie. J'ai dit : « Deux minutes. »",
-    "punchline": "Elle a demandé : « Des vraies minutes ou des minutes de jeu ? » Elle apprend vite.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "Ma mère m'a demandé si je pouvais « mettre le jeu en pause »."
-  },
-  {
-    "id": 233,
-    "content": "J'ai perdu dix parties classées d'affilée.",
-    "punchline": "Le jeu m'a reproposé le tutoriel. Très délicatement.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "En ranked, j'ai un plan de jeu très précis :"
-  },
-  {
-    "id": 234,
-    "content": "Mon pote dit qu'il perd à cause de ses coéquipiers.",
-    "punchline": "C'est un jeu solo.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon pote dit qu'il est « hardstuck » à cause de ses teammates."
-  },
-  {
-    "id": 235,
-    "content": "Mon casque gaming isole de tous les bruits.",
-    "punchline": "Maintenant, pour me parler, mon coloc fait clignoter la lumière. On a un code.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Je me suis endormi avec mon casque gaming."
   },
   {
     "id": 236,
@@ -1555,51 +495,6 @@
     "previousContent": "Mon historique Steam, c'est comme mes résolutions du Nouvel An :"
   },
   {
-    "id": 240,
-    "content": "J'ai fait un discours de motivation à mon équipe dans le micro.",
-    "punchline": "J'étais en mute. On a gagné. J'ai pas su comment le prendre.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai crié « ALLONS-Y LES GARS » dans mon micro."
-  },
-  {
-    "id": 241,
-    "content": "Au resto, j'ai pris le plat en photo sous tous les angles.",
-    "punchline": "Puis le serveur l'a posé à la table d'à côté. C'était le leur.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai posté une photo de mon plat au restaurant."
-  },
-  {
-    "id": 242,
-    "content": "En fouillant le profil d'une collègue, j'ai liké une photo d'il y a cinq ans.",
-    "punchline": "Pour noyer le poisson, j'ai liké toutes les autres. Elle pense que je suis fan.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "Mon ex a liké ma story de vacances."
-  },
-  {
-    "id": 243,
-    "content": "J'ai supprimé l'appli pour passer moins de temps sur les réseaux.",
-    "punchline": "Maintenant j'y vais par le navigateur. C'est plus lent, donc j'y reste plus longtemps.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai supprimé Instagram pendant 3 jours."
-  },
-  {
-    "id": 244,
-    "content": "Pour ma photo de profil, j'ai pris deux cents photos.",
-    "punchline": "J'ai gardé celle où on me voit le moins.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Ma bio Instagram dit « living my best life »."
-  },
-  {
     "id": 245,
     "content": "Je me suis couché à 23h pour regarder « juste deux vidéos ».",
     "punchline": "À 2h, je regardais un inconnu restaurer une pelle rouillée. J'étais très investi.",
@@ -1607,33 +502,6 @@
     "maturityLevel": 1,
     "type": "STORY",
     "previousContent": "J'ai passé 4 heures à scroller TikTok."
-  },
-  {
-    "id": 246,
-    "content": "Chaque dimanche, mon téléphone m'envoie mon temps d'écran de la semaine.",
-    "punchline": "Je le traite comme mes relevés bancaires : je l'ouvre pas.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon temps d'écran cette semaine : 9h par jour."
-  },
-  {
-    "id": 247,
-    "content": "J'ai perdu un abonné cette nuit.",
-    "punchline": "Toute la matinée à enquêter. C'était ma grand-mère : nouveau téléphone.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Quelqu'un m'a unfollow sur Instagram."
-  },
-  {
-    "id": 250,
-    "content": "Ma story a été vue quinze fois.",
-    "punchline": "Treize potes, et moi deux fois. Pour vérifier qu'elle rendait bien.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "J'ai mis « influenceur » dans ma bio."
   },
   {
     "id": 253,
@@ -1645,39 +513,12 @@
     "previousContent": "J'envoie des snaps à mes potes pour maintenir les flammes."
   },
   {
-    "id": 254,
-    "content": "Ma première vidéo en ligne a eu un seul commentaire.",
-    "punchline": "« Mets un pull. » Ma mère avait trouvé les commentaires.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Quelqu'un a commenté « premier » sous ma vidéo."
-  },
-  {
-    "id": 256,
-    "content": "Mon post le plus liké de tous les temps : une photo floue de mon chat.",
-    "punchline": "Depuis, c'est lui qui décide de ce qu'on publie.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon algorithme TikTok me connaît mieux que mes parents."
-  },
-  {
     "id": 257,
     "content": "J'ai bloqué quelqu'un sur les réseaux.",
     "punchline": "Le lendemain, depuis un autre compte : « Je crois que tu m'as bloqué par erreur. »",
     "category": "RESEAUX_SOCIAUX",
     "maturityLevel": 2,
     "type": "STORY"
-  },
-  {
-    "id": 260,
-    "content": "J'ai fait une faute dans un post, alors j'ai publié des excuses officielles.",
-    "punchline": "Une seule réaction : mon oncle, « Pas grave ». Crise maîtrisée.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon compte Twitter a 12 followers."
   },
   {
     "id": 261,
@@ -1689,58 +530,12 @@
     "previousContent": "Elle m'a dit « sois toi-même » sur Tinder."
   },
   {
-    "id": 263,
-    "content": "Après une heure à swiper, l'appli m'a affiché : « Il n'y a plus personne autour de vous. »",
-    "punchline": "Je l'ai pris personnellement.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "On m'a dit que les applis de rencontre c'est un jeu de chiffres."
-  },
-  {
-    "id": 264,
-    "content": "Au premier date, j'ai misé sur l'humour. Elle a ri.",
-    "punchline": "Surtout quand j'étais sérieux.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "Ma technique de drague c'est l'humour."
-  },
-  {
-    "id": 265,
-    "content": "En plein date, elle a regardé son téléphone : « Oh non, ma coloc a un souci. »",
-    "punchline": "L'écran était éteint.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "J'ai eu un date Tinder dans un café."
-  },
-  {
     "id": 266,
-    "content": "Elle : « Je cherche quelqu'un de drôle. » Moi : « Moi aussi. »",
-    "punchline": "Long silence. On attendait tous les deux.",
+    "content": "Elle m'a demandé ce que je faisais dans la vie.",
+    "punchline": "J'ai dit « des erreurs, principalement ». Elle a ri. Puis elle est partie.",
     "category": "DATING",
     "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Elle m'a demandé ce que je faisais dans la vie."
-  },
-  {
-    "id": 267,
-    "content": "Elle a mis vingt-quatre heures à m'écrire « Salut ».",
-    "punchline": "J'ai attendu vingt-quatre heures pour répondre. Par respect pour le processus.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Sur Bumble, la fille doit écrire en premier."
-  },
-  {
-    "id": 268,
-    "content": "Mon pote a mis une photo avec un chien sur son profil.",
-    "punchline": "Toutes demandent des nouvelles du chien. Il est à sa sœur.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "Mon pote utilise des photos d'il y a 5 ans sur Tinder."
+    "type": "DIALOGUE"
   },
   {
     "id": 269,
@@ -1750,51 +545,6 @@
     "maturityLevel": 2,
     "type": "ONE_LINER",
     "previousContent": "J'ai mis « 1m80 » sur mon profil."
-  },
-  {
-    "id": 270,
-    "content": "Au date, elle m'a dit : « T'es plus drôle par message. »",
-    "punchline": "J'ai proposé de lui écrire. On était assis face à face.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Mon date m'a dit « t'es pas comme sur tes photos »."
-  },
-  {
-    "id": 272,
-    "content": "J'ai abordé une fille dans un bar, en vrai, sans appli.",
-    "punchline": "Elle a dit : « C'est quoi ton @ ? Je te réponds là-bas. »",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "J'ai essayé la drague à l'ancienne, en vrai."
-  },
-  {
-    "id": 273,
-    "content": "J'ai envoyé un premier message que je trouvais très drôle.",
-    "punchline": "Elle a répondu avec un GIF de quelqu'un qui rit. Je sais pas si elle a ri ou si elle a délégué.",
-    "category": "DATING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon premier message Tinder c'est toujours un jeu de mots avec son prénom."
-  },
-  {
-    "id": 274,
-    "content": "Ma grand-mère me demandait toujours si j'avais « quelqu'un ».",
-    "punchline": "Cette année, elle a pas demandé. C'était pire.",
-    "category": "DATING",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "Ma mère me demande quand je vais ramener quelqu'un à la maison."
-  },
-  {
-    "id": 275,
-    "content": "L'amour arrive quand on s'y attend pas, paraît-il.",
-    "punchline": "Du coup, je vais à la laverie en chemise.",
-    "category": "DATING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "On m'a dit « l'amour vient quand on s'y attend pas »."
   },
   {
     "id": 276,
@@ -1813,51 +563,6 @@
     "maturityLevel": 2,
     "type": "DIALOGUE",
     "previousContent": "Elle m'a demandé « c'est quoi ton love language ? »"
-  },
-  {
-    "id": 278,
-    "content": "Elle m'a demandé : « Tu cherches quelque chose de sérieux ? » J'ai dit oui.",
-    "punchline": "Elle a dit : « Moi aussi. C'est pour ça que je vais passer mon tour. »",
-    "category": "DATING",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon profil Hinge dit « en recherche de quelque chose de sérieux »."
-  },
-  {
-    "id": 279,
-    "content": "Dans sa bio, mon pote a écrit : « Pas là pour perdre mon temps. »",
-    "punchline": "Il a connu trois logos de l'appli.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "Sur les applis, y'a toujours la question « tu cherches quoi ? »"
-  },
-  {
-    "id": 280,
-    "content": "Elle : « On reste amis ? » Moi : « Avec plaisir. »",
-    "punchline": "Elle a précisé : « Genre, sur Instagram. »",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Elle m'a dit « on reste amis »."
-  },
-  {
-    "id": 281,
-    "content": "Pour une fois, j'étais le seul sobre de la soirée.",
-    "punchline": "J'ai entendu mes blagues à jeun. C'est surtout des informations.",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "En soirée, y'a toujours un mec qui dit « je bois pas ce soir »."
-  },
-  {
-    "id": 282,
-    "content": "En soirée, je reste toujours près du buffet.",
-    "punchline": "Tant que j'ai la bouche pleine, personne attend que je sois intéressant.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Ma technique de drague en soirée :"
   },
   {
     "id": 283,
@@ -1894,15 +599,6 @@
     "type": "ONE_LINER"
   },
   {
-    "id": 287,
-    "content": "Soirée déguisée : j'ai passé une semaine sur mon costume.",
-    "punchline": "J'étais le seul déguisé. Les autres avaient mis « un accessoire ».",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "La playlist de soirée commence par du chill."
-  },
-  {
     "id": 289,
     "content": "À 3h du matin, avec mes potes, on a refait le monde.",
     "punchline": "À 3h20, on était incapables de décider qui commandait le taxi.",
@@ -1910,60 +606,6 @@
     "maturityLevel": 2,
     "type": "ONE_LINER",
     "previousContent": "En soirée, tout le monde devient philosophe à 3h du mat."
-  },
-  {
-    "id": 290,
-    "content": "J'ai apporté une salade de riz en soirée.",
-    "punchline": "Elle est rentrée avec moi, intacte. Silence dans le métro.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai apporté des chips en soirée."
-  },
-  {
-    "id": 291,
-    "content": "Je connaissais que l'hôte.",
-    "punchline": "J'ai passé la soirée à ouvrir la porte avec lui.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "En soirée, y'a toujours un mec qui connaît personne."
-  },
-  {
-    "id": 292,
-    "content": "Au karaoké, j'ai pris une chanson dont je connais le refrain.",
-    "punchline": "Il arrive à deux minutes. Avant, j'ai lu les couplets comme un communiqué.",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "La règle numéro 1 en soirée : ne jamais prendre le micro au karaoké."
-  },
-  {
-    "id": 293,
-    "content": "Mon pote organise une « petite soirée tranquille ».",
-    "punchline": "Je l'ai croisé au supermarché. Il achetait des gobelets par 200.",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Mon pote organise une soirée « tranquille, juste 10 personnes »."
-  },
-  {
-    "id": 294,
-    "content": "Mes meilleures conversations de soirée ont lieu dans l'entrée.",
-    "punchline": "En manteau. Depuis quarante minutes.",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "En after, tout le monde dit « demain je me lève tôt »."
-  },
-  {
-    "id": 295,
-    "content": "C'est toujours moi qui prends la photo de groupe.",
-    "punchline": "On voit juste mon pouce, en haut à gauche. Ma signature.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "La soirée était tellement bien que j'ai oublié de prendre des photos."
   },
   {
     "id": 296,
@@ -1975,24 +617,6 @@
     "previousContent": "En soirée, je danse comme si personne me regardait."
   },
   {
-    "id": 298,
-    "content": "Un pote a tenu à brancher sa propre enceinte Bluetooth.",
-    "punchline": "Il s'est connecté à celle du voisin. Le voisin a passé une super soirée.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon pote est arrivé en soirée avec une enceinte Bluetooth."
-  },
-  {
-    "id": 299,
-    "content": "Un inconnu m'a écrit : « Merci pour hier, t'as été incroyable. »",
-    "punchline": "J'ose pas demander. Ça peut que redescendre.",
-    "category": "SOIREES",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "En soirée, j'ai perdu mes clés, mon téléphone et ma dignité."
-  },
-  {
     "id": 300,
     "content": "Un pote raconte la même anecdote à chaque soirée.",
     "punchline": "Hier, il a oublié la fin. Je l'ai racontée à sa place. Il a beaucoup ri.",
@@ -2002,60 +626,6 @@
     "previousContent": "Y'a toujours un mec en soirée qui raconte la même histoire."
   },
   {
-    "id": 301,
-    "content": "Les vocaux de ma mère durent quatre minutes.",
-    "punchline": "Ils commencent tous par : « Bon, je fais court. »",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Ma mère m'envoie des vocaux de 4 minutes."
-  },
-  {
-    "id": 302,
-    "content": "Mon père répond à tous mes messages par un pouce levé.",
-    "punchline": "Quand j'ai eu mon diplôme, il m'en a envoyé deux. Il était ému.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père a découvert les emojis."
-  },
-  {
-    "id": 303,
-    "content": "Quand je décroche pas, ma mère appelle mon coloc.",
-    "punchline": "Hier, c'est la mère de mon coloc qui m'a dit de rappeler la mienne.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Ma mère m'a appelé pour me dire qu'elle m'a envoyé un SMS."
-  },
-  {
-    "id": 304,
-    "content": "Mon père m'a appelé : « Internet est cassé. »",
-    "punchline": "Il avait débranché la box pour la friteuse. On a mangé des frites.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père utilise Google comme barre d'adresse."
-  },
-  {
-    "id": 305,
-    "content": "Ma mère m'a envoyé une chaîne « pour les dix personnes qu'on aime le plus ».",
-    "punchline": "Je l'ai reçue en dixième.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Ma mère a partagé un article Facebook sur les dangers d'Internet."
-  },
-  {
-    "id": 306,
-    "content": "J'ai appris à mon père à faire une capture d'écran.",
-    "punchline": "Depuis, il m'envoie des captures de mes messages pour me demander ce que je voulais dire.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père m'a demandé d'installer WhatsApp sur sa tablette."
-  },
-  {
     "id": 308,
     "content": "Mon père écrit ses messages en majuscules.",
     "punchline": "Je lui ai dit que ça voulait dire crier. Depuis, il ajoute « JE CRIE PAS ».",
@@ -2063,69 +633,6 @@
     "maturityLevel": 1,
     "type": "ONE_LINER",
     "previousContent": "Mon père m'envoie des messages en MAJUSCULES."
-  },
-  {
-    "id": 309,
-    "content": "Dans le groupe famille, ma tante répond « Bravo !! » à tout.",
-    "punchline": "J'ai annoncé que j'avais raté mon permis. « Bravo !! » Ça m'a fait du bien, en fait.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Ma mère a créé un groupe WhatsApp famille."
-  },
-  {
-    "id": 310,
-    "content": "Mon père a réparé le lave-linge grâce à une vidéo.",
-    "punchline": "Depuis, il parle du type de la vidéo comme de « son collègue ».",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père regarde des tutos YouTube à fond le son dans le salon."
-  },
-  {
-    "id": 311,
-    "content": "Ma mère m'envoie chaque rumeur avec : « C'est vrai ? »",
-    "punchline": "Je réponds « non ». Elle la transfère quand même à ma tante, « au cas où ».",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Ma mère m'a envoyé un lien suspect en me disant « c'est vrai ? »"
-  },
-  {
-    "id": 312,
-    "content": "Premier selfie de mon père.",
-    "punchline": "Il a pas souri. Il pensait que c'était comme pour le passeport.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père a pris un selfie pour la première fois."
-  },
-  {
-    "id": 313,
-    "content": "Ma chambre d'ado est devenue le bureau de mon père.",
-    "punchline": "Il a gardé mon poster de rappeur. Il dit que ça le motive.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "DIALOGUE",
-    "previousContent": "Ma mère m'a dit « je t'ai vu en ligne à 2h du mat »."
-  },
-  {
-    "id": 314,
-    "content": "Mon père se dispute avec la voix du GPS.",
-    "punchline": "Il a tort à chaque fois. À l'arrivée, il lui dit quand même merci.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon père dit « de mon temps, on avait pas de téléphone »."
-  },
-  {
-    "id": 315,
-    "content": "Ma mère m'a répondu « D'accord. », avec un point.",
-    "punchline": "J'ai relu toute la conversation pour trouver ce que j'avais fait.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Ma mère croit que « LOL » veut dire « Lots Of Love »."
   },
   {
     "id": 316,
@@ -2140,15 +647,6 @@
     "type": "ONE_LINER"
   },
   {
-    "id": 318,
-    "content": "Pour la photo de famille, mon père crie « Je la prends ! », puis attend dix secondes.",
-    "punchline": "On arrête tous de sourire. Il appelle ça des photos naturelles.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon père a essayé de prendre une photo du coucher de soleil."
-  },
-  {
     "id": 319,
     "content": "Ma mère a mis du scotch sur sa webcam, par sécurité.",
     "punchline": "En visio, elle me demande pourquoi je la vois pas.",
@@ -2156,24 +654,6 @@
     "maturityLevel": 1,
     "type": "DIALOGUE",
     "previousContent": "Ma mère m'a demandé de supprimer « le Google » de son téléphone."
-  },
-  {
-    "id": 320,
-    "content": "Mon père termine tous ses SMS par « Bien cordialement ».",
-    "punchline": "Hier : « Je suis fier de toi. Bien cordialement. » J'ai été ému, mais professionnellement.",
-    "category": "PARENTS",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Mon père signe ses SMS comme des lettres."
-  },
-  {
-    "id": 321,
-    "content": "J'ai lu la notice de mon médicament contre les maux de tête.",
-    "punchline": "Effet indésirable fréquent : maux de tête.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "J'ai googlé mes symptômes."
   },
   {
     "id": 322,
@@ -2185,21 +665,11 @@
   },
   {
     "id": 323,
-    "content": "Pour arrêter de grignoter, j'ai caché les biscuits tout en haut du placard.",
-    "punchline": "Le soir même, je les ai trouvés du premier coup. Je connais mes cachettes.",
+    "content": "J'ai mis mon réveil en face du lit pour être obligé de me lever.",
+    "punchline": "Maintenant je dors par terre, à côté du réveil.",
     "category": "ABSURDE",
     "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai mis mon réveil en face du lit pour être obligé de me lever."
-  },
-  {
-    "id": 324,
-    "content": "Ma machine à laver affiche « 1 min » pendant dix minutes.",
-    "punchline": "Je la comprends. Moi aussi, quand j'écris « j'arrive », je suis sous la douche.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "Ma machine à laver mange une chaussette par cycle."
+    "type": "STORY"
   },
   {
     "id": 325,
@@ -2210,45 +680,6 @@
     "type": "STORY"
   },
   {
-    "id": 326,
-    "content": "Avec mon coloc, on a fait un tableau de répartition des tâches.",
-    "punchline": "On le met à jour tous les dimanches. C'est la seule tâche qu'on fait.",
-    "previousContent": [
-      "J'ai dit à Siri de m'appeler un taxi.",
-      "J'ai demandé à mon coloc de m'appeler un taxi."
-    ],
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "DIALOGUE"
-  },
-  {
-    "id": 328,
-    "content": "Ce soir, on a mis une heure à choisir un film.",
-    "punchline": "Le premier qu'on avait proposé a quitté le catalogue entre-temps.",
-    "category": "ABSURDE",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai mis 45 minutes à choisir un film sur Netflix."
-  },
-  {
-    "id": 329,
-    "content": "Ma pote avocate m'a donné un conseil « d'amie ».",
-    "punchline": "Le seul qui était gratuit.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "Mon amie est avocate. Je lui ai demandé un conseil."
-  },
-  {
-    "id": 333,
-    "content": "Au permis, l'inspecteur : « Garez-vous en bataille. »",
-    "punchline": "Il a eu sa bataille. Le plot a perdu.",
-    "category": "JEUX_DE_MOTS",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "J'ai raté mon examen de conduite."
-  },
-  {
     "id": 334,
     "content": "Mon coiffeur m'a dit que j'avais une belle structure de crâne.",
     "punchline": "C'est le seul compliment qu'il lui restait à donner.",
@@ -2256,87 +687,6 @@
     "previousContent": "Mon coiffeur m'a dit que je perdais mes cheveux.",
     "maturityLevel": 1,
     "type": "DIALOGUE"
-  },
-  {
-    "id": 335,
-    "content": "Ma photo « prise sur le vif » a demandé quarante essais.",
-    "punchline": "Au quarantième, j'ai ri pour de vrai. D'épuisement.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 1,
-    "type": "ONE_LINER",
-    "previousContent": "BeReal me notifie toujours quand je fais rien."
-  },
-  {
-    "id": 336,
-    "content": "Ma photo de profil, c'est une photo de groupe recadrée.",
-    "punchline": "Il reste une main sur mon épaule. Personne sait à qui elle est. Moi non plus.",
-    "category": "RESEAUX_SOCIAUX",
-    "maturityLevel": 2,
-    "type": "ONE_LINER",
-    "previousContent": "J'ai mis une photo de groupe en photo de profil."
-  },
-  {
-    "id": 337,
-    "content": "Un inconnu : « On se connaît ? » J'ai dit non.",
-    "punchline": "« Pardon, vous avez une tête très répandue. »",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Quelqu'un m'a dit « tu ressembles à personne »."
-  },
-  {
-    "id": 338,
-    "content": "J'ai expliqué mon métier pendant cinq minutes.",
-    "punchline": "Résumé : « Ah, t'es dans les bureaux. » Oui, voilà.",
-    "category": "AUTODERISION",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "On m'a demandé « tu fais quoi dans la vie ? »"
-  },
-  {
-    "id": 339,
-    "content": "Un mec m'a dit : « Moi, je me lève à 5h tous les matins. »",
-    "punchline": "Je lui ai demandé s'il en avait parlé à quelqu'un.",
-    "category": "OBSERVATIONNEL",
-    "maturityLevel": 2,
-    "type": "DIALOGUE",
-    "previousContent": "Un mec m'a dit « moi je me lève à 5h tous les matins »."
-  },
-  {
-    "id": 340,
-    "content": "Ma collègue a trouvé mon exposé « courageux ».",
-    "punchline": "Après quatre secondes de réflexion.",
-    "category": "BOULOT",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Ma collègue m'a dit « tu devrais sourire plus »."
-  },
-  {
-    "id": 341,
-    "content": "« Votre plus grand défaut ? » J'ai dit : « Le perfectionnisme. »",
-    "punchline": "« Et le vrai ? » J'ai demandé à appeler un ami.",
-    "category": "BOULOT",
-    "maturityLevel": 3,
-    "type": "DIALOGUE",
-    "previousContent": "On m'a demandé mes qualités en entretien. J'ai dit « l'honnêteté »."
-  },
-  {
-    "id": 342,
-    "content": "Il m'a demandé : « Honnête ou gentil ? » J'ai dit honnête.",
-    "punchline": "Il a été honnête. Je voudrais changer ma réponse.",
-    "category": "COUPLE",
-    "maturityLevel": 3,
-    "type": "DIALOGUE",
-    "previousContent": "Ma copine m'a demandé si son jean la grossissait."
-  },
-  {
-    "id": 343,
-    "content": "Au mariage, j'étais à la table « Divers ».",
-    "punchline": "Les mariés sont venus nous saluer. Eux non plus savaient pas qui on était.",
-    "category": "SOIREES",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai été invité à un mariage où je connaissais personne."
   },
   {
     "id": 344,
@@ -2353,23 +703,5 @@
     "category": "ECOLE",
     "maturityLevel": 2,
     "type": "STORY"
-  },
-  {
-    "id": 346,
-    "content": "Partie de 45 minutes perdue : déconnexion.",
-    "punchline": "Mon coloc avait lancé le micro-ondes. Depuis, il me demande la permission.",
-    "category": "GAMING",
-    "maturityLevel": 1,
-    "type": "STORY",
-    "previousContent": "J'ai perdu une game de 45 minutes à cause d'un déco."
-  },
-  {
-    "id": 347,
-    "content": "Trois mois sans nouvelles. Hier, elle a liké ma story.",
-    "punchline": "Pas un retour. Un contrôle technique.",
-    "category": "DATING",
-    "maturityLevel": 2,
-    "type": "STORY",
-    "previousContent": "Mon match Tinder m'a demandé si j'aimais les surprises."
   }
 ]
