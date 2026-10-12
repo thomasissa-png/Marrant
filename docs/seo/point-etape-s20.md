@@ -5,6 +5,8 @@ Sources et dates : Search Console (API, compte de service `sc-domain:deviens-mar
 
 ## 1. Anomalie nouvelle (P0) : Google range 11 pages dans le doublon de sites étrangers
 
+> **Mise à jour 12/10 (@seo)** : le pilier est **sorti** du doublon (« Envoyée et indexée », exploré le 12/10 06:33 UTC, canonique Google = notre URL). Il reste **10 URL** concernées, liste exacte et règles de contrôle du 15/10 et du 19/10 au §9. Cloudflare exclu (`docs/infra/googlebot-cloudflare-s20.md`), doublon de texte avec `exercices-developper-humour` exclu par la mesure (`docs/seo/maillage-decouverte-s20.md` §1). Le texte ci-dessous est l'état du 11/10, conservé tel quel.
+
 Inspection d'URL du pilier `/blog/comment-devenir-drole` (11/10) :
 - Statut **« Page en double sans URL canonique sélectionnée par l'utilisateur »** (le 05/10 : « Explorée, non indexée », canonique OK). Dernier crawl **11/10 13:06 UTC** (donc avant le déploiement s20 de 20:24 UTC), récupération réussie, robots autorisé.
 - **Canonique choisie par Google : `https://www.747live.bet/`**, page d'accueil d'un site de paris en ligne sans rapport (vérifié : titre « 747 Live | Sports Betting, Casino Games… », aucune trace de notre domaine). **Aucune canonique déclarée vue par Google** (`userCanonical` absent), alors que le HTML servi aujourd'hui contient bien `<link rel="canonical" href="https://deviens-marrant.fr/blog/comment-devenir-drole"/>` et `index, follow` (testé avec un agent Googlebot mobile, 3 passes, 200, 19,6 Ko, cache HIT).
@@ -101,6 +103,36 @@ Le sitemap (soumis 30/09, relu par Google le 10/10, 0 erreur, 398 URLs déclaré
 6. Quora et Reddit avec les modèles M1 à M3 : 1 réponse par jour maximum, règle 90/10, aucune pub (cibles 7 et 8). 30 min/semaine, règles des subreddits non vérifiées dans le kit.
 7. Product Hunt, Indie Hackers, Peerlist en dernier (public makers, faible valeur FR). Rédiger le post depuis « Longue EN » avec validation. Non prioritaire.
 8. Suivi : reporter les statuts dans le tableau du kit §4 ; relancer une fois les cibles sans réponse au 04/11 (J+30), objectif ≥ 5 domaines référents au 04/12.
+
+## 9. Suivi canonique étrangère (état au 12/10/2026, inspection API ~06:45 UTC)
+
+**Pilier `/blog/comment-devenir-drole` : RÉSOLU.** Statut « Envoyée et indexée », dernier crawl 12/10 06:33 UTC, canonique Google = `https://deviens-marrant.fr/blog/comment-devenir-drole`, canonique déclarée vue par Google = la même, récupération réussie, robots autorisé. Il sort de la liste ; il reste à surveiller (contrôle 3 ci-dessous).
+
+**Les 10 URL encore en « Page en double sans URL canonique sélectionnée par l'utilisateur »** (verdict NEUTRAL, récupération réussie, robots autorisé, **canonique déclarée vue par Google : aucune** pour les 10). Triées par type puis date de crawl.
+
+| # | URL exacte (inspection API) | Type | Canonique choisie par Google | Dernier crawl Google (UTC) |
+|---|---|---|---|---|
+| 1 | `https://deviens-marrant.fr/blog/pourquoi-blagues-marchent-pas` | blog | `https://www.747live.bet/` | 13/08 23:21 (époque Replit) |
+| 2 | `https://deviens-marrant.fr/vannes/ma-mere-mappelle-chaque-dimanche-pour-savoir-si-je-mange-cmmnsqn130` | vanne | `https://www.747live.bet/` | 30/09 19:10 |
+| 3 | `https://deviens-marrant.fr/vannes/un-pote-a-quitte-le-groupe-pour-quon-lui-demande-pourquoi-cs14jke92e` | vanne | `https://www.747live.bet/` | 30/09 22:50 |
+| 4 | `https://deviens-marrant.fr/conseils/interroger-le-suspect-improbable-cs14tipd20` | conseil | `https://www.747live.bet/` | 30/09 19:13 |
+| 5 | `https://deviens-marrant.fr/conseils/consulter-ton-equipe-imaginaire-cs14tip262` | conseil | `https://www.marcustheatres.com/theatre-locations/hollywood-cinema` | 02/10 02:11 |
+| 6 | `https://deviens-marrant.fr/conseils/raconter-a-lenvers-cs14tip6cf` | conseil | `https://www.marcustheatres.com/` | 02/10 15:08 |
+| 7 | `https://deviens-marrant.fr/conseils/le-serment-quon-brise-dans-lhistoire-cs14tip18b` | conseil | `https://www.747live.bet/` | 10/10 07:02 |
+| 8 | `https://deviens-marrant.fr/conseils/lauto-vanne-preventive-desamorcer-avant-que-ca-glace-cmqdc6vay0` | conseil | `https://www.747live.bet/` | 10/10 07:03 |
+| 9 | `https://deviens-marrant.fr/conseils/raconter-une-anecdote-en-3-actes-cmmp8ozsx0` | conseil | `https://www.747live.bet/` | 10/10 16:19 |
+| 10 | `https://deviens-marrant.fr/videos/fanny-ruwet-je-ne-serais-pas-une-bonne-mere-cmmp8p4u10` | vidéo | `https://www.747live.bet/` | 30/09 22:48 |
+
+8 chez `747live.bet`, 2 chez `marcustheatres.com`. **Aucune de ces 10 URL n'a été recrawlée depuis le 10/10** : le statut n'a pas encore pu changer, c'est normal à J+1.
+
+**Ce que sert la prod aux 10 URL (curl avec UA Googlebot mobile, 12/10 ~07:00 UTC)** : HTTP 200 pour toutes, `<link rel="canonical">` = l'URL elle-même (10/10), `<meta name="robots" content="index, follow">`, aucun en-tête `x-robots-tag`, cache `HIT`, variante `www.` en 301 vers l'apex en un saut. 40 fiches comparées (dont ces 9 fiches) : aucun signe qui les distingue des fiches indexées (longueur de texte propre, canonique, robots) ; elles sont minces comme les autres (`maillage-decouverte-s20.md` §1.5).
+
+### Règles de contrôle (@data-analyst, 5 min chacun, recette d'inspection dans `maillage-decouverte-s20.md` §7)
+1. **15/10 (J+3)** : réinspecter les 10 URL + le pilier. Ne conclure que sur les URL dont le dernier crawl est **postérieur au 12/10**. Recrawlée et canonique = notre URL : résolue. Recrawlée et canonique encore étrangère : ouvrir un dossier par URL (test en direct par Thomas, capture de « Afficher la page testée » à @infrastructure ; ne pas redemander l'indexation avant d'avoir vu la capture). Non recrawlée : aucun verdict, reporter au contrôle suivant.
+2. **19/10 (J+7)** : idem. Si **5 URL ou plus** sont recrawlées et toujours étrangères : cause = rendu jugé quasi vide ou interchangeable, pas l'infrastructure (Cloudflare exclu, texte propre vérifié) ; décision O1 / O2 (`maillage-decouverte-s20.md` §5) avec Thomas. Si moins de 5 sont recrawlées : repousser à J+14 (26/10).
+3. **Pilier** : rester « Envoyée et indexée » avec canonique nôtre aux 15/10, 19/10, 26/10 ; relever au 26/10 ses impressions sous l'URL apex sur « comment devenir drôle » (14/07→09/10 : aucune impression sous l'URL apex ; `exercices-developper-humour` porte 49 impressions, positions 52 à 54, sur les graphies « drôle » et « drole »).
+4. **Demandes d'indexation** (Thomas) : lot 2 du 13/10 = ces 10 URL (`maillage-decouverte-s20.md` §5, A1), une seule demande par URL, après un test en direct montrant la page complète.
+5. Ajouter toute nouvelle URL en « canonique étrangère » repérée à ce tableau (indicateur : `googleCanonical` hors `deviens-marrant.fr`).
 
 ## Handoff → @orchestrator (puis @infrastructure, @fullstack, @growth)
 - Fichier : `/home/user/Marrant/docs/seo/point-etape-s20.md`. Scripts et exports de la session : scratchpad uniquement (aucun secret dans le repo).
