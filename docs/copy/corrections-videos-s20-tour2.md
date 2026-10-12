@@ -178,10 +178,6 @@ Seule la tournure en cause change, le reste du champ est repris à l'identique.
 `Baptiste Lecaplain s'empare de la timidité, un sujet taillé pour le monologue intérieur : ce qui se passe dans la tête d'un timide pendant une interaction sociale est un désastre très bien organisé. L'écart entre ce qu'on pense et ce qu'on finit par dire est drôle parce que tout le monde l'a vécu, surtout ceux qui se croient les seuls.`
 Raison : "un sujet rêvé" (famille "terrain rêvé") remplacé par "taillé pour".
 
-### T | 65:description
-`Sugar Sammy, humoriste québécois d'origine indienne, s'empare de « La procureure et l'immigrant » avec une répartie cinglante et beaucoup d'intelligence comique. Regarde comment l'humour peut devenir une arme contre les préjugés, surtout quand c'est la personne visée qui la tient.`
-Raison : "qu'on lui connaît" retiré (A06).
-
 ### T | 17:description
 `Haroun consacre tout un spectacle aux élections : l'occasion d'observer comment se construit un humour sur l'actualité politique. La technique à retenir, c'est le cheval de Troie : une opinion glissée dans une vanne passe beaucoup mieux qu'un discours. Le spectacle est long, et c'est justement l'intérêt : tu peux observer comment on tient la distance sur des sujets sérieux sans perdre le rire.`
 Raison : "le titre l'annonce" supprimé (A19).

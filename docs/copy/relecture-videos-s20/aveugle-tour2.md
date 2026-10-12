@@ -1,4 +1,4 @@
-# Relecture à l'aveugle, fiches vidéo, tour 2 (60 items)
+# Relecture à l'aveugle, fiches vidéo, tour 2 (59 items)
 
 Chaque item est un texte de fiche vidéo destiné à être mis en ligne. Le titre réel de la vidéo et la chaîne sont donnés pour contrôler la fidélité.
 
@@ -22,21 +22,21 @@ Vidéo : « Fadily Camara Jamel Comedy Club Saison 8 » (chaîne Fadily Camara).
 
 ## C04
 
-Vidéo : « Karim Duval sur scène : "génération Y" (Open du Rire) » (chaîne Rire & Chansons). Humoriste et titre réels.
+Vidéo : « Ahmed Sparrow - Piétons vs Automobilistes » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Karim Duval s'attaque à la « génération Y », un bon sujet pour le détournement de jargon : traduire en langage de tous les jours le vocabulaire des millennials et des start-up en révèle l'absurdité. Le principe : un mot qui impressionne en réunion devient ridicule dès qu'on l'explique simplement. Bonne nouvelle, le jargon de ta propre tribu est ton meilleur matériau.
+**Description publique (sert aussi de méta) :** Ahmed Sparrow oppose les comportements des piétons et des automobilistes avec une énergie physique débordante. On y voit comment jouer les deux camps fait vivre chaque situation, au point que des scènes de rue banales deviennent de vrais moments de comédie. Le sujet idéal, puisque tout le monde a été les deux, parfois dans la même journée.
 
 ## C05
 
-Vidéo : « Jason Brokerss - Snapchat » (chaîne Campus Comedy Tour). Humoriste et titre réels.
+Vidéo : « Fary - Neymar » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Jason Brokerss s'attaque à Snapchat, une mine d'observations précises sur des comportements que tout le monde a et que personne n'avoue. L'effet miroir est immédiat, et un peu vexant.
+**Description publique (sert aussi de méta) :** Fary met Neymar au cœur de son passage, une référence que toute la salle connaît. C'est tout l'intérêt de la porte d'entrée pop culture : le public accroche sur le familier, et tu en profites pour l'emmener vers une idée qu'il n'avait jamais formulée. À retenir pour construire une vanne à partir de ce que les gens connaissent déjà.
 
 ## C06
 
-Vidéo : « Élodie Poux - Survivre en école maternelle » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « Djimo - J'aurais kiffé être une tortue » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Élodie Poux aborde l'école maternelle comme un lieu où il s'agit de survivre. Ce point de vue transforme un lieu que tout le monde croit connaître en terrain d'observation comique. Sa leçon : prendre de la distance avec ce qu'on connaît trop bien, pour enfin le voir.
+**Description publique (sert aussi de méta) :** Djimo aurait kiffé être une tortue, et c'est le point de départ d'une idée absurde qu'on peut défendre avec une logique imparable. Quand les arguments s'empilent, le public peut glisser de « n'importe quoi » à « il a pas totalement tort ». Un sketch idéal pour comprendre comment choisir une idée absurde et la tenir jusqu'au bout sans jamais cligner de l'œil.
 
 ## C07
 
@@ -46,9 +46,9 @@ Vidéo : « Baptiste Lecaplain - La timidité » (chaîne Montreux Comedy). Humo
 
 ## C08
 
-Vidéo : « Artus - Commissariat du 18 ème » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « ANNE ROUMANOFF - Carmen et la crise » (chaîne YouHumour). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Artus joue un sketch situé dans un commissariat, avec un jeu physique démesuré. La règle à retenir : si le texte est absurde, le corps doit l'être aussi. Chez lui, les gestes portent autant que le texte, et c'est une bonne raison de regarder ce sketch plutôt que de l'écouter.
+**Description publique (sert aussi de méta) :** Anne Roumanoff met Carmen face à la crise. Regarde comment un personnage candide fait rire : quand il prend tout au premier degré face à un système absurde, c'est son innocence qui fait le travail. Idéal pour voir comment un sujet lourd devient léger quand on le regarde depuis le quotidien de quelqu'un.
 
 ## C09
 
@@ -76,9 +76,9 @@ Vidéo : « Max Bird - Les effets de l'alcool » (chaîne Montreux Comedy). Humo
 
 ## C13
 
-Vidéo : « CONSTANCE - Le rendez-vous coquin » (chaîne YouHumour). Humoriste et titre réels.
+Vidéo : « AHMED SYLLA - La théorie du genre » (chaîne YouHumour). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Constance raconte un rendez-vous coquin avec une franchise frontale, le genre qui met la salle mal à l'aise avant de la faire rire. Sa technique : le récit intime sans filtre, où la gêne assumée devient le moteur du comique. Idéal pour apprendre à raconter une anecdote embarrassante sans s'excuser de la raconter.
+**Description publique (sert aussi de méta) :** Ahmed Sylla s'empare d'un sujet miné, la théorie du genre, avec beaucoup d'énergie. Regarde comment la posture du candide qui essaie de comprendre, plutôt que celle du militant, peut désamorcer la tension et libérer le rire.
 
 ## C14
 
@@ -88,9 +88,9 @@ Vidéo : « Akim Omiri - Les féministes » (chaîne Montreux Comedy). Humoriste
 
 ## C15
 
-Vidéo : « PAUL TAYLOR - #FRANGLAIS - FULL SHOW » (chaîne Paul Taylor). Humoriste et titre réels.
+Vidéo : « Sugar Sammy : La procureure et l'immigrant » (chaîne Sugarsammy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Paul Taylor vit entre le français et l'anglais, et ce va-et-vient est devenu sa signature. Un spectacle sur le franglais est un excellent terrain de jeu pour la traduction mot à mot : elle révèle l'absurdité cachée dans chaque langue, du genre « il pleut des cordes » qui devient « it's raining ropes ». Chaque langue est absurde, et aucune ne s'en doute.
+**Description publique (sert aussi de méta) :** Sugar Sammy, humoriste québécois d'origine indienne, met face à face « La procureure et l'immigrant ». Regarde comment il installe deux personnages en quelques mots, puis laisse l'écart entre eux faire le travail.
 
 ## C16
 
@@ -106,15 +106,15 @@ Vidéo : « "Gala Stand-up avec Noman Hosni"- Spectacle complet Montreux Comedy 
 
 ## C18
 
-Vidéo : « ANNE ROUMANOFF - Carmen et la crise » (chaîne YouHumour). Humoriste et titre réels.
+Vidéo : « Élodie Poux - Survivre en école maternelle » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Anne Roumanoff met Carmen face à la crise. Regarde comment un personnage candide fait rire : quand il prend tout au premier degré face à un système absurde, c'est son innocence qui fait le travail. Idéal pour voir comment un sujet lourd devient léger quand on le regarde depuis le quotidien de quelqu'un.
+**Description publique (sert aussi de méta) :** Élodie Poux aborde l'école maternelle comme un lieu où il s'agit de survivre. Ce point de vue transforme un lieu que tout le monde croit connaître en terrain d'observation comique. Sa leçon : prendre de la distance avec ce qu'on connaît trop bien, pour enfin le voir.
 
 ## C19
 
-Vidéo : « Mehdi Bousaidan - Les sports de pauvre » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « PAUL TAYLOR - #FRANGLAIS - FULL SHOW » (chaîne Paul Taylor). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Mehdi Bousaidan s'intéresse aux « sports de pauvre », ce qui pose d'emblée un classement social des loisirs. Regarde comment on peut dire tout haut ce que tout le monde remarque sans le formuler : la hiérarchie sociale invisible qui se cache derrière un simple loisir.
+**Description publique (sert aussi de méta) :** Paul Taylor vit entre le français et l'anglais, et ce va-et-vient est devenu sa signature. Un spectacle sur le franglais est un excellent terrain de jeu pour la traduction mot à mot : elle révèle l'absurdité cachée dans chaque langue, du genre « il pleut des cordes » qui devient « it's raining ropes ». Chaque langue est absurde, et aucune ne s'en doute.
 
 ## C20
 
@@ -130,15 +130,15 @@ Vidéo : « Bloqués #71 - Les aventures de Serge le Mytho et Steve Jobs » (cha
 
 ## C22
 
-Vidéo : « Fary - Neymar » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « Tester Tinder avec un enfant » (chaîne Pierre Croce). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Fary met Neymar au cœur de son passage, une référence que toute la salle connaît. C'est tout l'intérêt de la porte d'entrée pop culture : le public accroche sur le familier, et tu en profites pour l'emmener vers une idée qu'il n'avait jamais formulée. À retenir pour construire une vanne à partir de ce que les gens connaissent déjà.
+**Description publique (sert aussi de méta) :** Pierre Croce teste Tinder avec un enfant, et le concept tient en une ligne. Regarde ce que le regard innocent d'un enfant sur une appli de rencontres peut révéler de l'absurdité de nos comportements en ligne. De quoi apprendre à faire parler un personnage candide à ta place.
 
 ## C23
 
-Vidéo : « Ahmed Sparrow - Piétons vs Automobilistes » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « Jason Brokerss - Snapchat » (chaîne Campus Comedy Tour). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Ahmed Sparrow oppose les comportements des piétons et des automobilistes avec une énergie physique débordante. On y voit comment jouer les deux camps fait vivre chaque situation, au point que des scènes de rue banales deviennent de vrais moments de comédie. Le sujet idéal, puisque tout le monde a été les deux, parfois dans la même journée.
+**Description publique (sert aussi de méta) :** Jason Brokerss s'attaque à Snapchat, une mine d'observations précises sur des comportements que tout le monde a et que personne n'avoue. L'effet miroir est immédiat, et un peu vexant.
 
 ## C24
 
@@ -208,9 +208,9 @@ Vidéo : « [Mon Premier Montreux] François Guédon - La consanguinité » (cha
 
 ## C35
 
-Vidéo : « Haroun - Spectacle spécial élections » (chaîne Haroun). Humoriste et titre réels.
+Vidéo : « Karim Duval sur scène : "génération Y" (Open du Rire) » (chaîne Rire & Chansons). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Haroun consacre tout un spectacle aux élections : l'occasion d'observer comment se construit un humour sur l'actualité politique. La technique à retenir, c'est le cheval de Troie : une opinion glissée dans une vanne passe beaucoup mieux qu'un discours. Le spectacle est long, et c'est justement l'intérêt : tu peux observer comment on tient la distance sur des sujets sérieux sans perdre le rire.
+**Description publique (sert aussi de méta) :** Karim Duval s'attaque à la « génération Y », un bon sujet pour le détournement de jargon : traduire en langage de tous les jours le vocabulaire des millennials et des start-up en révèle l'absurdité. Le principe : un mot qui impressionne en réunion devient ridicule dès qu'on l'explique simplement. Bonne nouvelle, le jargon de ta propre tribu est ton meilleur matériau.
 
 ## C36
 
@@ -244,9 +244,9 @@ Vidéo : « Quand Djimo croise Carl Lewis - Le Pestacle, Clique - CANAL+ » (cha
 
 ## C41
 
-Vidéo : « AHMED SYLLA - La théorie du genre » (chaîne YouHumour). Humoriste et titre réels.
+Vidéo : « Mehdi Bousaidan - Les sports de pauvre » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Ahmed Sylla s'empare d'un sujet miné, la théorie du genre, avec beaucoup d'énergie. Regarde comment la posture du candide qui essaie de comprendre, plutôt que celle du militant, peut désamorcer la tension et libérer le rire.
+**Description publique (sert aussi de méta) :** Mehdi Bousaidan s'intéresse aux « sports de pauvre », ce qui pose d'emblée un classement social des loisirs. Regarde comment on peut dire tout haut ce que tout le monde remarque sans le formuler : la hiérarchie sociale invisible qui se cache derrière un simple loisir.
 
 ## C42
 
@@ -256,9 +256,9 @@ Vidéo : « Élodie Poux - Survivre en école maternelle » (chaîne Montreux Co
 
 ## C43
 
-Vidéo : « Djimo - J'aurais kiffé être une tortue » (chaîne Montreux Comedy). Humoriste et titre réels.
+Vidéo : « CONSTANCE - Le rendez-vous coquin » (chaîne YouHumour). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Djimo aurait kiffé être une tortue, et c'est le point de départ d'une idée absurde qu'on peut défendre avec une logique imparable. Quand les arguments s'empilent, le public peut glisser de « n'importe quoi » à « il a pas totalement tort ». Un sketch idéal pour comprendre comment choisir une idée absurde et la tenir jusqu'au bout sans jamais cligner de l'œil.
+**Description publique (sert aussi de méta) :** Constance raconte un rendez-vous coquin avec une franchise frontale, le genre qui met la salle mal à l'aise avant de la faire rire. Sa technique : le récit intime sans filtre, où la gêne assumée devient le moteur du comique. Idéal pour apprendre à raconter une anecdote embarrassante sans s'excuser de la raconter.
 
 ## C44
 
@@ -274,15 +274,15 @@ Vidéo : « Fadily Camara Jamel Comedy Club Saison 8 » (chaîne Fadily Camara).
 
 ## C46
 
-Vidéo : « Toulouse - dernier show avant un moment » (chaîne Thomas Wiesel). Humoriste et titre réels.
+Vidéo : « Yacine Belhousse - "Les Québécoises" » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Thomas Wiesel, humoriste suisse, joue à Toulouse son dernier show avant un moment. Au programme, d'après la vidéo : le coronavirus, le TFC, les trains et les Schtroumpfs. Regarde comment il passe d'un sujet à l'autre sans perdre la salle.
+**Description publique (sert aussi de méta) :** Yacine Belhousse prend pour sujet « Les Québécoises » : l'occasion d'étudier le regard d'un humoriste français sur une autre culture. Entre la France et le Québec, qui partagent la même langue, chaque petit écart devient une surprise, qu'on peut transformer en matière comique précise.
 
 ## C47
 
-Vidéo : « Sugar Sammy : La procureure et l'immigrant » (chaîne Sugarsammy). Humoriste et titre réels.
+Vidéo : « Toulouse - dernier show avant un moment » (chaîne Thomas Wiesel). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Sugar Sammy, humoriste québécois d'origine indienne, met face à face « La procureure et l'immigrant ». Regarde comment il installe deux personnages en quelques mots, puis laisse l'écart entre eux faire le travail.
+**Description publique (sert aussi de méta) :** Thomas Wiesel, humoriste suisse, joue à Toulouse son dernier show avant un moment. Au programme, d'après la vidéo : le coronavirus, le TFC, les trains et les Schtroumpfs. Regarde comment il passe d'un sujet à l'autre sans perdre la salle.
 
 ## C48
 
@@ -292,9 +292,9 @@ Vidéo : « Captation Azencot à l'Européen (Red Velvet) » (chaîne TéléPa
 
 ## C49
 
-Vidéo : « Tester Tinder avec un enfant » (chaîne Pierre Croce). Humoriste et titre réels.
+Vidéo : « Artus - Commissariat du 18 ème » (chaîne Montreux Comedy). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Pierre Croce teste Tinder avec un enfant, et le concept tient en une ligne. Regarde ce que le regard innocent d'un enfant sur une appli de rencontres peut révéler de l'absurdité de nos comportements en ligne. De quoi apprendre à faire parler un personnage candide à ta place.
+**Description publique (sert aussi de méta) :** Artus joue un sketch situé dans un commissariat, avec un jeu physique démesuré. La règle à retenir : si le texte est absurde, le corps doit l'être aussi. Chez lui, les gestes portent autant que le texte, et c'est une bonne raison de regarder ce sketch plutôt que de l'écouter.
 
 ## C50
 
@@ -340,9 +340,9 @@ Vidéo : « ADIB ALKHALIDEY - Je t'aime (Spectacle complet) » (chaîne Adib Alk
 
 ## C57
 
-Vidéo : « Sugar Sammy : La procureure et l'immigrant » (chaîne Sugarsammy). Humoriste et titre réels.
+Vidéo : « Haroun - Spectacle spécial élections » (chaîne Haroun). Humoriste et titre réels.
 
-**Description publique (sert aussi de méta) :** Sugar Sammy, humoriste québécois d'origine indienne, s'empare de « La procureure et l'immigrant » avec une répartie cinglante et beaucoup d'intelligence comique. Regarde comment l'humour peut devenir une arme contre les préjugés, surtout quand c'est la personne visée qui la tient.
+**Description publique (sert aussi de méta) :** Haroun consacre tout un spectacle aux élections : l'occasion d'observer comment se construit un humour sur l'actualité politique. La technique à retenir, c'est le cheval de Troie : une opinion glissée dans une vanne passe beaucoup mieux qu'un discours. Le spectacle est long, et c'est justement l'intérêt : tu peux observer comment on tient la distance sur des sujets sérieux sans perdre le rire.
 
 ## C58
 
@@ -355,9 +355,3 @@ Vidéo : « Quentin Ratieuville - Handicapé, et alors ? » (chaîne Montreux Co
 Vidéo : « Fabrice Eboue Plus Rien A Perdre 2020 FRENCH » (chaîne Moulay Soultan). Humoriste et titre réels.
 
 **Enseignement (Premium) :** TECHNIQUE DE LA FINESSE À LA LIMITE : sur un sujet limite, écris d'abord l'angle auquel personne ne s'attend, puis la vanne qui va avec. Test : retire le mot le plus choquant. Si la vanne tient encore debout, garde-la. Sinon, elle ne faisait que choquer.
-
-## C60
-
-Vidéo : « Yacine Belhousse - "Les Québécoises" » (chaîne Montreux Comedy). Humoriste et titre réels.
-
-**Description publique (sert aussi de méta) :** Yacine Belhousse prend pour sujet « Les Québécoises » : l'occasion d'étudier le regard d'un humoriste français sur une autre culture. Entre la France et le Québec, qui partagent la même langue, chaque petit écart devient une surprise, qu'on peut transformer en matière comique précise.
