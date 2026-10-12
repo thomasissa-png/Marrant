@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { VannesList } from "@/components/vannes/vannes-list";
 
@@ -49,6 +49,8 @@ const mockJokes = [
 
 describe("VannesList", () => {
   beforeEach(() => {
+    // Absent de jsdom : appelé par useListPage après un changement de page (s20).
+    Element.prototype.scrollIntoView = jest.fn();
     global.fetch = jest.fn().mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -232,7 +234,7 @@ describe("VannesList", () => {
     });
   });
 
-  it("disables Précédent on first page", async () => {
+  it("Précédent inactif en page 1 : span aria-hidden, aucun lien", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({
@@ -242,7 +244,9 @@ describe("VannesList", () => {
     });
     render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Précédent")).toBeDisabled();
+      // s20 (relecture UX) : extrémité inactive = span aria-hidden, plus de bouton désactivé.
+      expect(screen.getByText("Précédent").closest('[aria-hidden="true"]')).not.toBeNull();
+      expect(screen.queryByRole("link", { name: /Page précédente/ })).not.toBeInTheDocument();
     });
   });
 
@@ -274,18 +278,48 @@ describe("VannesList", () => {
       render(<VannesList initialData={serverPage(2)} initialPage={2} />);
       expect(screen.getByText("2").closest("[aria-current]")).toHaveAttribute("aria-current", "page");
       expect(screen.getByRole("link", { name: "Page 3" })).toHaveAttribute("href", "/vannes?page=3");
-      expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");
-      expect(screen.getByRole("link", { name: "Suivant" })).toHaveAttribute("href", "/vannes?page=3");
+      expect(screen.getByRole("link", { name: "Page précédente (page 1)" })).toHaveAttribute("href", "/vannes");
+      expect(screen.getByRole("link", { name: "Page suivante (page 3)" })).toHaveAttribute("href", "/vannes?page=3");
     });
 
     it("clic sur Suivant : pas de rechargement, URL mise à jour, page suivante chargée", async () => {
       mockSearch = "page=2";
       const pushState = jest.spyOn(window.history, "pushState");
       render(<VannesList initialData={serverPage(2)} initialPage={2} />);
-      await userEvent.click(screen.getByRole("link", { name: "Suivant" }));
+      await userEvent.click(screen.getByRole("link", { name: "Page suivante (page 3)" }));
       expect(pushState).toHaveBeenCalledWith(null, "", expect.stringContaining("page=3"));
       await waitFor(() => expect(global.fetch).toHaveBeenCalledWith(expect.stringContaining("page=3")));
       pushState.mockRestore();
+    });
+
+    it("s20 : clic sur un numéro en bas de liste → retour instantané en haut de la liste, focus, annonce", async () => {
+      mockSearch = "";
+      let resolveFetch: (value: unknown) => void = () => {};
+      global.fetch = jest.fn(() => new Promise((resolve) => { resolveFetch = resolve; })) as jest.Mock;
+      const scrollIntoView = Element.prototype.scrollIntoView as jest.Mock;
+      render(<VannesList initialData={serverPage(1)} initialPage={1} />);
+      // Rafraîchissement client de la page rendue par le serveur : ni atténuation ni aria-busy.
+      const initialResults = screen.getByRole("tabpanel").parentElement as HTMLElement;
+      expect(initialResults).toHaveAttribute("aria-busy", "false");
+      expect(initialResults.className).not.toContain("opacity-60");
+      await act(async () => resolveFetch({ ok: true, json: async () => ({ jokes: mockJokes, pagination: { page: 1, limit: 12, total: 30, totalPages: 3 } }) }));
+
+      await userEvent.click(screen.getByRole("link", { name: "Page 3" }));
+      const results = screen.getByRole("tabpanel").parentElement as HTMLElement;
+      expect(scrollIntoView).toHaveBeenCalledWith({ block: "start", behavior: "instant" });
+      expect(scrollIntoView.mock.instances[0]).toBe(results);
+      expect(document.activeElement).toBe(results);
+      expect(results).toHaveAttribute("tabindex", "-1");
+      expect(results.className).toContain("scroll-mt-20");
+      // Pendant le chargement : aria-busy, liste atténuée, rien d'annoncé.
+      expect(results).toHaveAttribute("aria-busy", "true");
+      expect(results.className).toContain("opacity-60");
+      expect(screen.getByRole("status")).toHaveTextContent("");
+
+      await act(async () => resolveFetch({ ok: true, json: async () => ({ jokes: mockJokes, pagination: { page: 3, limit: 12, total: 30, totalPages: 3 } }) }));
+      expect(results).toHaveAttribute("aria-busy", "false");
+      expect(results.className).not.toContain("opacity-60");
+      expect(screen.getByRole("status")).toHaveTextContent("Page 3 sur 3");
     });
 
     it("garde la liste du serveur si l'API est inaccessible (robot, /api/ interdit)", async () => {
@@ -321,7 +355,7 @@ describe("VannesList", () => {
       expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
       // La pagination du catalogue public reste disponible (retour en page 1).
-      expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");
+      expect(screen.getByRole("link", { name: "Page précédente (page 1)" })).toHaveAttribute("href", "/vannes");
     });
   });
 });

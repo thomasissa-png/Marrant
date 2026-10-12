@@ -13,6 +13,7 @@ import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import Link from "next/link";
 import { ListPagination } from "@/components/ui/list-pagination";
+import { ListResults } from "@/components/ui/list-results";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
@@ -114,7 +115,7 @@ interface VideosGridProps {
 export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
-  const { page, goToPage, resetPage } = useListPage(initialPage);
+  const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
   const [videos, setVideos] = useState<Video[]>(initialData?.items ?? []);
   const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
   const [difficulty, setDifficulty] = useState("");
@@ -191,6 +192,13 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
     fetchVideos();
   }, [fetchVideos]);
 
+  // Pages de la pagination (aussi annoncées après changement de page, ListResults).
+  const totalPages = Math.max(
+    pagination?.totalPages ?? 0,
+    // Catalogue public complet (pages rendues par le serveur), hors filtres et recherche.
+    !difficulty && !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
+  );
+
   return (
     <>
       {/* Filtres niveau + catégorie — PREMIUM uniquement */}
@@ -239,6 +247,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
         </>
       )}
 
+      <ListResults ref={listRef} isLoading={isLoading} pending={isLoading && videos.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState message="Les vidéos ont pris un jour de congé." onRetry={fetchVideos} />
       ) : showSkeleton ? (
@@ -333,6 +342,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
           ))}
         </div>
       )}
+      </ListResults>
 
       {/* Cartes verrouillées pour FREE users */}
       {limited && (videos.length > 0 || page > 1) && (
@@ -386,11 +396,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
       <ListPagination
         basePath="/videos"
         page={page}
-        totalPages={Math.max(
-          pagination?.totalPages ?? 0,
-          // Catalogue public complet (pages rendues par le serveur), hors filtres et recherche.
-          !difficulty && !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
-        )}
+        totalPages={totalPages}
         onNavigate={goToPage}
       />
     </>

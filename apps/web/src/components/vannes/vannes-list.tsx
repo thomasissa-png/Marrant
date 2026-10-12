@@ -15,6 +15,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { ListPagination } from "@/components/ui/list-pagination";
+import { ListResults } from "@/components/ui/list-results";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
@@ -116,7 +117,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
   const searchQuery = searchParams.get("q") ?? "";
   const { status: sessionStatus } = useSession();
   const isAnonymous = sessionStatus === "unauthenticated";
-  const { page, goToPage, resetPage } = useListPage(initialPage);
+  const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
   const [jokes, setJokes] = useState<Joke[]>(initialData?.items ?? []);
   const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
   const [category, setCategory] = useState("");
@@ -196,6 +197,13 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
     });
   };
 
+  // Pages de la pagination (aussi annoncées après changement de page, ListResults).
+  const totalPages = Math.max(
+    pagination?.totalPages ?? 0,
+    // Catalogue public complet (pages rendues par le serveur), hors filtre et recherche.
+    !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
+  );
+
   return (
     <>
       {/* Bandeau limite gratuite pour anonymes — clair et posé avant l'inscription */}
@@ -248,6 +256,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         </div>
       )}
 
+      <ListResults ref={listRef} isLoading={isLoading} pending={isLoading && jokes.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState
           message="Les vannes se sont perdues en chemin."
@@ -380,6 +389,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           ))}
         </div>
       )}
+      </ListResults>
 
       {/* Cartes verrouillées pour FREE users */}
       {limited && (jokes.length > 0 || page > 1) && (
@@ -437,11 +447,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       <ListPagination
         basePath="/vannes"
         page={page}
-        totalPages={Math.max(
-          pagination?.totalPages ?? 0,
-          // Catalogue public complet (pages rendues par le serveur), hors filtre et recherche.
-          !category && !searchQuery ? initialData?.totalPages ?? 0 : 0,
-        )}
+        totalPages={totalPages}
         onNavigate={goToPage}
       />
     </>

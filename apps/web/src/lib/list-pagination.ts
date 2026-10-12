@@ -62,6 +62,19 @@ export function paginationItems(page: number, totalPages: number): PaginationIte
   return items;
 }
 
+/** Colonnes max de la grille mobile : 7 cellules de 44 px dès 360 px de large, 6 en dessous. */
+const GRID_MAX_COLS = 7;
+const GRID_MAX_COLS_XS = 6;
+
+/**
+ * Colonnes de la grille mobile de pagination (cellules = Précédent + numéros/« … » + Suivant),
+ * choisies pour des rangées égales : 14 cellules → 7 + 7, 10 → 5 + 5, 13 → 7 + 6.
+ */
+export function paginationGridColumns(cells: number): { cols: number; colsXs: number } {
+  const columns = (max: number) => Math.ceil(cells / Math.ceil(cells / max));
+  return { cols: columns(GRID_MAX_COLS), colsXs: columns(GRID_MAX_COLS_XS) };
+}
+
 /** Canonical absolu et auto-référent (les autres paramètres, `q`, `utm_*`, sont ignorés). */
 export function listCanonical(path: string, page: number): string {
   return `${SITE_URL}${listPageHref(path, page)}`;

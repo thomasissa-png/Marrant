@@ -10,7 +10,7 @@
 import { renderToString } from "react-dom/server";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { VannesList } from "@/components/vannes/vannes-list";
-import { paginationItems } from "@/lib/list-pagination";
+import { paginationGridColumns, paginationItems } from "@/lib/list-pagination";
 
 jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(""),
@@ -49,13 +49,13 @@ function paginationLinks(html: string): { href: string; label: string | null }[]
 
 function numberedTargets(html: string, basePath: string): number[] {
   return paginationLinks(html)
-    .filter((l) => l.label?.startsWith("Page "))
+    .filter((l) => l.label !== null && /^Page \d+$/.test(l.label))
     .map((l) => (l.href === basePath ? 1 : Number(l.href.split("?page=")[1])))
     .sort((a, b) => a - b);
 }
 
 function currentPage(html: string): number | null {
-  const m = html.match(/<span aria-current="page"[^>]*>(?:<span[^>]*>Page <\/span>)?(\d+)<\/span>/);
+  const m = html.match(/<span aria-current="page"[^>]*><span[^>]*>Page <\/span>(\d+)<span[^>]*> sur (?:<!-- -->)?\d+<\/span><\/span>/);
   return m ? Number(m[1]) : null;
 }
 
@@ -89,8 +89,13 @@ describe("ListPagination : HTML serveur", () => {
     // Page courante : aucun lien vers elle-même dans la rangée.
     const self = page === 1 ? basePath : `${basePath}?page=${page}`;
     expect(paginationLinks(html).filter((l) => l.label === `Page ${page}` || (l.label && l.href === self))).toEqual([]);
-    // Liens réels, jamais masqués, jamais nofollow.
-    expect(html).not.toMatch(/nofollow|display:\s*none|hidden/);
+    // Liens réels, jamais masqués (ni classe `hidden` ni display:none), jamais nofollow.
+    // `aria-hidden` (chevrons, « … », extrémité inactive) et `sr-only` restent permis.
+    expect(html).not.toMatch(/nofollow|display:\s*none/);
+    expect(html).not.toMatch(/class="[^"]*\bhidden\b/);
+    // Libellés Précédent / Suivant présents dans le HTML serveur.
+    expect(html).toContain("Précédent");
+    expect(html).toContain("Suivant");
     // Page 1 = URL de base, sans ?page=1.
     expect(html).not.toContain("?page=1\"");
   });
@@ -102,11 +107,58 @@ describe("ListPagination : HTML serveur", () => {
     expect(paginationLinks(html).some((l) => l.label === null && l.href.includes("…"))).toBe(false);
   });
 
-  it("cible tactile 44 px sur mobile et retour à la ligne", () => {
+  it("cible tactile 44 px sur mobile et tablette tactile, pas régulier des numéros", () => {
     const html = renderToString(<ListPagination basePath="/vannes" page={6} totalPages={12} />);
-    expect(html).toContain("flex-wrap");
     expect(html).toContain("max-md:h-11");
     expect(html).toContain("max-md:min-w-11");
+    expect(html).toContain("[@media(pointer:coarse)]:h-11");
+    expect(html).toContain("touch-manipulation");
+    expect(html).toContain("tabular-nums");
+    expect(html).toContain("md:min-w-8");
+  });
+
+  it("page courante : aria-current, violet du site, « sur Y » pour les lecteurs d'écran", () => {
+    const html = renderToString(<ListPagination basePath="/vannes" page={6} totalPages={12} />);
+    const current = html.match(/<span aria-current="page" class="([^"]*)">([\s\S]*?)<\/span><\/li>/);
+    expect(current).not.toBeNull();
+    expect(current![1]).toEqual(expect.stringContaining("bg-accent-secondary-hover"));
+    expect(current![1]).toEqual(expect.stringContaining("text-white"));
+    expect(current![1]).toEqual(expect.stringContaining("cursor-default"));
+    expect(current![2].replace(/<[^>]+>/g, "")).toBe("Page 6 sur 12");
+  });
+
+  it("extrémités inactives : span aria-hidden de même taille, jamais de bouton désactivé", () => {
+    const first = renderToString(<ListPagination basePath="/vannes" page={1} totalPages={12} />);
+    const last = renderToString(<ListPagination basePath="/vannes" page={12} totalPages={12} />);
+    for (const html of [first, last]) {
+      expect(html).not.toContain("<button");
+      expect(html).not.toMatch(/\sdisabled(=|>|\s)/); // attribut, pas les variantes `disabled:`
+    }
+    expect(first).toMatch(/<li class="flex md:mr-3"><span aria-hidden="true" class="[^"]*max-md:h-11[^"]*">/);
+    expect(last).toMatch(/<li class="flex md:ml-3"><span aria-hidden="true" class="[^"]*max-md:h-11[^"]*">/);
+    expect(paginationLinks(first).find((l) => l.label === "Page suivante (page 2)")?.href).toBe("/vannes?page=2");
+    expect(paginationLinks(last).find((l) => l.label === "Page précédente (page 11)")?.href).toBe("/vannes?page=11");
+  });
+
+  it("grille mobile : une seule liste (Précédent, numéros, Suivant), rangées égales", () => {
+    const html = renderToString(<ListPagination basePath="/vannes" page={6} totalPages={12} />);
+    expect(html.match(/<ol /g)).toHaveLength(1);
+    expect(html).toMatch(/<ol role="list" style="--cols:7;--cols-xs:5"/);
+    expect(html).toContain("grid-cols-[repeat(var(--cols),minmax(0,1fr))]");
+    expect(html).toContain("max-[359px]:grid-cols-[repeat(var(--cols-xs),minmax(0,1fr))]");
+    expect(html).toContain("md:flex");
+    // Chevrons bordés sur mobile, libellé texte en sr-only (pas display:none).
+    expect(html).toContain("max-md:border");
+    expect(html).toContain('<span class="max-md:sr-only">Précédent</span>');
+    expect(paginationGridColumns(14)).toEqual({ cols: 7, colsXs: 5 }); // 12 pages : 7 + 7
+    expect(paginationGridColumns(10)).toEqual({ cols: 5, colsXs: 5 }); // 8 pages : 5 + 5
+    expect(paginationGridColumns(13)).toEqual({ cols: 7, colsXs: 5 }); // > 15 pages, ellipses
+    expect(paginationGridColumns(4)).toEqual({ cols: 4, colsXs: 4 });
+  });
+
+  it("« … » masqué aux lecteurs d'écran", () => {
+    const html = renderToString(<ListPagination basePath="/vannes" page={10} totalPages={30} />);
+    expect(html.match(/<li aria-hidden="true" class="flex"><span[^>]*>…<\/span><\/li>/g)).toHaveLength(2);
   });
 });
 
