@@ -48,6 +48,26 @@
         "slug": "comment-devenir-drole",
         "session": "s15 haut de page",
         "raison": "étalons 1A (En bref), 2A (title = H1 « Comment devenir drôle : 5 piliers et un plan sur 30 jours »), 3B (1 paragraphe + lien /blog/exercices-developper-humour), GO Thomas 06/10 : slug, excerpt, H2/H3, FAQ et updatedAt inchangés, aucun tiret cadratin ajouté, diff mesuré dans docs/seo/pilier-haut-de-page-applique-s15.md"
+      },
+      {
+        "slug": "phrases-droles-conversations",
+        "session": "s20 liens S4",
+        "raison": "liens S4 maillage s20 (docs/copy/liens-s4-s20.md §6/§7) : 1 phrase avec lien ajoutée, updatedAt 2026-10-12 ; titres, chiffres, FAQ inchangés, 0 mot retiré, vérifiés par blog-liens-s4-s20.test.ts"
+      },
+      {
+        "slug": "autoderision-interactions",
+        "session": "s20 liens S4",
+        "raison": "liens S4 maillage s20 (docs/copy/liens-s4-s20.md §6/§7) : 1 phrase avec lien ajoutée, updatedAt 2026-10-12 ; titres, chiffres, FAQ inchangés, 0 mot retiré, vérifiés par blog-liens-s4-s20.test.ts"
+      },
+      {
+        "slug": "exercices-developper-humour",
+        "session": "s20 liens S4",
+        "raison": "liens S4 maillage s20 (docs/copy/liens-s4-s20.md §6/§7) : 1 phrase avec lien ajoutée, updatedAt 2026-10-12 ; titres, chiffres, FAQ inchangés, 0 mot retiré, vérifiés par blog-liens-s4-s20.test.ts"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s20 liens S4",
+        "raison": "liens S4 maillage s20 (docs/copy/liens-s4-s20.md §6/§7) : 1 phrase avec lien ajoutée, updatedAt 2026-10-12 ; titres, chiffres, FAQ inchangés, 0 mot retiré, vérifiés par blog-liens-s4-s20.test.ts"
       }
     ]
   },
@@ -62,12 +82,12 @@
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {
-      "words": "e0fc64bbb361f584431f2273757c69438ed425d637bb8f9439a328077f24027f",
-      "wordCount": 1589,
+      "words": "8606222488b27fa522a78b5ce7e0ae36b239208bba4f7b324607af17b7dc2069",
+      "wordCount": 1616,
       "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
-      "links": "6497ebc73860ed4f9a9ca234dc1b0d4def347b5ec6b7e17d05f691df2b29bd3b",
+      "links": "1de657434cbe1edacc5139b160bd392ea77c4a18a82f073fdcfc76b390472db8",
       "numbers": "c8f72de03fcbce9f1ac5a9bdde58527d0a77ade9ae38f8e89131b66f72bf89ec",
-      "meta": "f00a61c61cca6c8f4bc8e689b73a8c7bf1d57106f9b688a3ed9b738392f5594a",
+      "meta": "a4642779164f2a410653e2286cfc80ce3eb27e0031a4740050b3a2bb6580a479",
       "emDashesBefore": 23
     },
     "timing-humour": {
@@ -89,12 +109,12 @@
       "emDashesBefore": 11
     },
     "autoderision-interactions": {
-      "words": "848409d7a3657edf3f7669738c894f3b53d83a19466d0ad35f9f64d362c88198",
-      "wordCount": 1189,
+      "words": "4cc716d48d2ea56d36d1ffe13662a927b31473d4df3b765a9cbb3d81fb4b4559",
+      "wordCount": 1212,
       "headings": "e25a3ba7acfdd7f3af2bd97c9b933198ea4e202c547570942eba4d1d67d7cca0",
-      "links": "84824849b8b4cea86974c4798df0b1d98c8359cb58a997c53f561fa12d1bba76",
+      "links": "44692a91380be91bbb8d27cc98b6aa431554bf8570caeb9d53ec2003298d2e5b",
       "numbers": "e84d215af5d3c46a28b302c4ec06940fd983124e1b1809c9d34363322811269e",
-      "meta": "855475710660ae672f50ce109f5c6e365a3a42f6fda977cde5c47385dd7dc01e",
+      "meta": "6bb4ab64b343c4c5ec205ca8b95c3a12e08f9cbd17a3fadbcd47450ba38d2c82",
       "emDashesBefore": 8
     },
     "repartie-debutant-5-etapes": {
@@ -143,12 +163,12 @@
       "emDashesBefore": 3
     },
     "exercices-developper-humour": {
-      "words": "a67a9a6f1303bf4abfd168cca8f248c0a3a5454902c09d6b34537c472af64f65",
-      "wordCount": 1237,
+      "words": "45707994281dea6756e72765faaadffe2755a5d632da18768a8e18df0c62a293",
+      "wordCount": 1258,
       "headings": "f0c80dc5265625ffd4f82328b92f997eb5775d02caeeb79632f6d03286ed5579",
-      "links": "43fcbe7f48a05a6941c12cd5103edf90e6127d925c043d53d0c8f1fd4279c42f",
+      "links": "5d19f602705ab52e9bf7540f889dd20180ec583f246b061ba75b844404ecbd32",
       "numbers": "4b3f32a06d7996a521d4f1dca22bf7f843beae2c13ef76d2b0b6735adc005773",
-      "meta": "f6e60410f23fcd585c3e7f48d1853a516cfc9afd55036e6274d5be2db1b1357e",
+      "meta": "179aedde05f9239e5b4cb6ddc73120af2f319db6c987daca763511ecb9b2183f",
       "emDashesBefore": 13
     },
     "timing-humour-ralentir": {
@@ -170,12 +190,12 @@
       "emDashesBefore": 6
     },
     "phrases-droles-conversations": {
-      "words": "b330288fa0d2e14f3adcbc82d7e81ff0f8cab6030bc56fd668e433fddb38631d",
-      "wordCount": 2128,
+      "words": "24fc69a818bd7d3a68df569d2e4c3a47aa5d3098d41c64be5ce0c1f2fa3adffe",
+      "wordCount": 2154,
       "headings": "2775640f4ef04fd921185663e212a090772cb00c58a5c7b0c8bea13a6e584a34",
-      "links": "d4632649240d2168428250b485b98794bb1a441f9c60fa8d9a4f442c77c802cb",
+      "links": "265c33531f5271c78e3647884cd42491c302cfa8c0b1f602dfb254f945d9a623",
       "numbers": "dfbdb1892e8edefbd3d5c91d222fe592f6815d965b848c3c5333c46c23f5482e",
-      "meta": "7ce06a2353a4f90936b740c8f5e71ec2abf15c0258c3e44935cc18eb69eae28c",
+      "meta": "68f04872d0937dbfa8ea7cadb95f5ce96242cc433605ddcb9afc0641b9c6eaca",
       "emDashesBefore": 20
     },
     "meilleures-blagues-droles-2026": {

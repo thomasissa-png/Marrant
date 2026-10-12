@@ -212,7 +212,7 @@ Parfois, la meilleure répartie, c'est pas de réponse : un sourire, un regard a
 
 ## Comment avoir de la répartie quand on est timide ?
 
-Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice, parce que quand elles parlent, tout le monde écoute. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides : elle casse la glace sans forcer. Si tu bloques surtout en groupe, lis comment [ne plus rester muet en groupe](/blog/rester-muet-en-groupe) ; si c'est le blanc total face à une question, voici [5 techniques quand tu sais jamais quoi répondre](/blog/jamais-quoi-repondre-techniques).
+Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïveté) et 10 (silence souriant) sont tes meilleures amies. Elles ne demandent ni d'être bruyant ni d'être le centre de l'attention. Et souvent, ce sont les personnes calmes qui ont la répartie la plus dévastatrice, parce que quand elles parlent, tout le monde écoute. C'est peut-être toi, et on t'a préparé un guide pour [oser faire rire quand on est timide](/blog/timidite-et-humour), palier par palier. L'[autodérision](/blog/autoderision-interactions) est aussi un allié puissant pour les timides : elle casse la glace sans forcer. Si tu bloques surtout en groupe, lis comment [ne plus rester muet en groupe](/blog/rester-muet-en-groupe) ; si c'est le blanc total face à une question, voici [5 techniques quand tu sais jamais quoi répondre](/blog/jamais-quoi-repondre-techniques).
 
 ## Un dernier truc important
 
@@ -220,7 +220,7 @@ La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et 
 
 Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours/repartie) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **2,99 EUR/mois** : de quoi arrêter de répondre sous la douche.`,
     date: "2026-03-12",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "REPARTIE",
     faqs: [
@@ -423,7 +423,7 @@ Option A : Rester dans un coin en espérant que quelqu'un vienne te parler. (Per
 
 Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le buffet et la sortie de secours." La glace se brise, et d'un coup tu deviens approchable, parce que tu viens de montrer ta vulnérabilité avec humour, et ça crée une connexion instantanée.
 
-**Paul Mirabel** utilise exactement cette technique en début de spectacle. Il se met dans une position de "faux faible" qui rend le public bienveillant. Et à partir de là, tout ce qu'il dit est accueilli avec sympathie.
+**Paul Mirabel** utilise exactement cette technique en début de spectacle. Il se met dans une position de "faux faible" qui rend le public bienveillant. Et à partir de là, tout ce qu'il dit est accueilli avec sympathie. Même principe au tour de table, avec une petite formule en trois temps pour [te présenter avec humour](/blog/se-presenter-avec-humour).
 
 ## L'autodérision dans différents contextes
 
@@ -443,7 +443,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours/confiance) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **2,99 EUR/mois**, et tes défauts deviennent enfin rentables.`,
     date: "2026-02-15",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "5 min",
     category: "AUTODERISION",
     faqs: [
@@ -950,7 +950,7 @@ Situation : quelqu'un dit "T'es toujours en retard"
 **Durée :** 15 minutes
 **Le principe :** Regarde 5 minutes d'un sketch d'un humoriste. Mets en pause après chaque rire. Note : c'est quoi la technique ? Setup ? Punchline ? Timing ? Callback ?
 
-Nos [vidéos](/videos) de pros sont analysées technique par technique : c'est l'exercice déjà fait pour toi. Mais le faire toi-même avec du nouveau matériel te rend meilleur.
+Nos [vidéos](/videos) de pros sont analysées technique par technique : c'est l'exercice déjà fait pour toi. Mais le faire toi-même avec du nouveau matériel te rend meilleur. Au début, les ficelles passent inaperçues : on a décortiqué [les techniques des humoristes pros](/blog/techniques-humoristes-pros), sept en tout.
 
 **Blanche Gardin** est parfaite pour cet exercice : ses sketches sont de vraies leçons de timing et de construction. Chaque silence, chaque mot est calculé.
 
@@ -983,7 +983,7 @@ Sujet : les messages vocaux
 
 Pour structurer ta progression, nos [parcours](/parcours) te guident étape par étape avec des exercices calibrés pour chaque profil. **2,99 EUR/mois**, et cette fois, personne te dit "débrouille-toi".`,
     date: "2026-03-10",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "PRATIQUE",
     faqs: [
@@ -1208,7 +1208,7 @@ La machine à café, c'est l'open mic du monde professionnel. Ton public est cap
 **6. "Ma boîte mail, c'est un journal intime : j'écris, personne répond."**
 → *Quand quelqu'un se plaint des mails.* Enchaîne immédiatement après sa plainte, comme si c'était une évidence.
 
-Pour plus de techniques sur [comment avoir de la répartie au travail](/blog/comment-avoir-de-la-repartie), on a un article entier là-dessus.
+Pour plus de techniques sur [comment avoir de la répartie au travail](/blog/comment-avoir-de-la-repartie), on a un article entier là-dessus. Reste à savoir quoi dire entre deux vannes : notre guide sur [la conversation à la machine à café](/blog/conversation-machine-a-cafe) s'en occupe.
 
 ---
 
@@ -1363,7 +1363,7 @@ La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu s
 
 → [Choisis ton parcours](/parcours) : 3 à 6 semaines pour que ce soit toi qu'on cite le lendemain.`,
     date: "2026-03-19",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "CATALOGUE",
     faqs: [

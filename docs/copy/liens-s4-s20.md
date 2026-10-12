@@ -280,7 +280,34 @@ Appariements 1, 2, 5, 7, 11, 12 : blocs du §6, inchangés. Appariements 3, 8, 9
 
 ---
 
-**Handoff → @orchestrator (puis @reviewer pour la relecture à l'aveugle, puis @fullstack pour l'application)**
+## 8. Application (@fullstack, 12/10/2026, non commité, non déployé)
+
+**9 phrases appliquées dans le code** : 1, 2, 5, 7, 11, 12 (§6) et 8, 10, 14 (§7), copiées au caractère près (contrôle script : chaque phrase du doc présente une seule fois dans la source). **Non appliquées** : 3, 9 (non validées), 4, 6, 13 (écartées).
+
+- **Statique** (`blog-articles.ts`) : 1, 5, 7, 14 ; `updatedAt` 2026-10-12 sur les 4 articles ; baseline `blog-em-dash-baseline.json` régénérée pour ces 4 slugs (mots, liens, meta changent ; titres et chiffres identiques). Aucune ligne `BlogArticle` en base ne porte ces 4 slugs (lecture seule du 12/10), le statique est donc bien servi.
+- **Base** : tâche `applyBlogLiensS4S20Task` (`src/lib/blog-liens-s4-s20.ts`), marqueurs `blog-liens-s4-s20:v1:<slug>`, tout-ou-rien par article ; copie dans `blog-article-rewrites.json` (`_meta.version` inchangé).
+
+### Mesure du diff réel (P0 s11)
+
+Mots visibles (texte des ancres compté, URL non comptée ; découpage `[\p{L}\p{N}]+`, donc « s'en » = 2 mots : comptes plus hauts que ceux des §6/§7). « Retirés » = mots d'avant absents de la plus longue sous-suite commune.
+
+| Article | Source | Mots avant | Mots après | Ajoutés | % | Retirés | H2/H3 | FAQ | Liens existants | Chiffres existants | « — » ajoutés |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| `phrases-droles-conversations` (1) | statique | 2 137 | 2 158 | 21 | 0,98 % | 0 | identiques | identique | tous gardés, +1 | identiques | 0 |
+| `autoderision-interactions` (5) | statique | 1 192 | 1 210 | 18 | 1,51 % | 0 | identiques | identique | tous gardés, +1 | identiques | 0 |
+| `exercices-developper-humour` (7) | statique | 1 259 | 1 276 | 17 | 1,35 % | 0 | identiques | identique | tous gardés, +1 | identiques | 0 |
+| `comment-avoir-de-la-repartie` (14) | statique | 1 598 | 1 621 | 23 | 1,44 % | 0 | identiques | identique | tous gardés, +1 | identiques | 0 |
+| `blague-courte-arme-secrete-humour` (10) | JSON | 2 061 | 2 078 | 17 | 0,82 % | 0 | identiques | identique | tous gardés, +1 | gardés, +« 40 » | 0 |
+| `blague-drole-7-criteres-pepite` (8) | JSON | 2 054 | 2 067 | 13 | 0,63 % | 0 | identiques | identique | tous gardés, +1 | identiques | 0 |
+| `comment-improviser-des-blagues` (2, 12) | JSON | 1 996 | 2 041 | 45 | 2,25 % | 0 | identiques | identique | tous gardés, +2 | identiques | 0 |
+| `comment-raconter-une-blague-sans-la-rater` (11) | JSON | 2 100 | 2 121 | 21 | 1,00 % | 0 | identiques | identique | tous gardés, +1 | gardés, +« 5 » | 0 |
+
+Contrôles : aucun nouveau lien en FAQ ni dans le dernier paragraphe ; cibles hors redirections et hors `UNPUBLISHED_STATIC_SLUGS` ; en base (lecture seule 12/10), `citation-drole`, `techniques-humoristes-pros` (7 techniques en H2) et `se-presenter-avec-humour` (« trois temps » présent) sont publiés. `comment-improviser-des-blagues` dépasse le seuil de 1,5 % du §6 (2,25 % sur le JSON) : décision Thomas / @copywriter, rien retiré ici.
+
+### Base de prod : chaînes « avant » absentes `[BLOQUANT pour 2, 8, 10, 11, 12]`
+
+Lecture seule du 12/10 (base Neon servie par le site, recoupée avec le HTML en ligne) : le contenu en base des 4 articles **diffère du JSON s11** (marqueurs `blog-rewrite:v2:*` présents depuis le 29/09, mais texte plus ancien : « punchlines chirurgicales », « Et tu vas les apprendre. Tous. », pas de « rayon fromage », tirets cadratins encore présents). Résultat simulé sur ce contenu : 2, 8, 10, 11 trouvés **0 fois** ; 12 trouvé 1 fois mais bloqué par le tout-ou-rien de `comment-improviser-des-blagues`. **La tâche ne modifiera aucun article en base** et journalisera 4 erreurs. Retour @copywriter (§0, limite 1) pour des emplacements écrits sur le texte en base, puis relecture à l'aveugle si une phrase change.
+
 - Fichier produit : `/home/user/Marrant/docs/copy/liens-s4-s20.md`.
 - Décisions : 11 appariements retenus, 3 écartés (4, 6, 13) sans remplacement ; 0 ajout sur le n°1 et sur le pilier ; ancres toutes différentes par cible ; remplacement exact en base avec marqueur `DataPatch`, sans bump de version du JSON.
 - Points d'attention : prod non lue (pas de shell, `curl` impossible), chaînes « avant » à contrôler à l'identique avant application ; baseline `blog-em-dash-baseline.json` à régénérer pour 4 articles statiques ; `se-presenter-avec-humour` jugé sur le brouillon validé ; objections traitées : sans objet (phrases de liaison).

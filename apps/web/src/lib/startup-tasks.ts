@@ -1391,6 +1391,9 @@ export async function runStartupTasks(): Promise<void> {
   await backfillMissingJokeDecryptagesTask();
   await convergeBlogSlugRedirectsTask();
   await rewriteRedirectedBlogLinksTask();
+  // s20 : liens S4 des articles en base NON branchés : le contenu en base diffère du
+  // JSON s11 (chaînes « avant » absentes). Rebrancher `applyBlogLiensS4S20Task`
+  // (lib/blog-liens-s4-s20.ts) après ré-ancrage sur le texte réellement en base.
   // EN DERNIER : après toute tâche qui réécrit `content` des articles.
   await stripBlogEmDashesTask();
 }
