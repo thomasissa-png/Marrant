@@ -163,44 +163,184 @@
         "slug": "rester-muet-en-groupe",
         "session": "s20 prix",
         "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "5-types-humour-lequel-pour-toi",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "blagues-travail-faire-rire-pro",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "comment-faire-rire-un-homme",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "comment-faire-rire-une-fille",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "confiance-humour-apres-rupture",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "conversation-machine-a-cafe",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "erreurs-blagues",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "exercices-developper-humour",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "humour-noir-utiliser-sans-blesser",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "humour-quotidien-8-habitudes",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "jamais-quoi-repondre-techniques",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "je-suis-pas-drole-comment-changer",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "meilleures-blagues-droles-2026",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "phrases-droles-conversations",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "pourquoi-blagues-marchent-pas",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "repartie-debutant-5-etapes",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "repartie-soiree-anti-malaise",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "repondre-moqueries-avec-humour",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "rester-muet-en-groupe",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "storytelling-drole-5-structures",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "timidite-et-humour",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "timing-humour",
+        "session": "s20 audit code",
+        "raison": "audit s20, corrections validées à l'aveugle, docs/copy/application-audit-code-s20.md"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s20 libellés timing",
+        "raison": "libellé de lien aligné sur le titre réel de /blog/timing-humour (« Timing humour : le secret de la blague »), aucun autre mot modifié"
+      },
+      {
+        "slug": "timing-humour-ralentir",
+        "session": "s20 libellés timing",
+        "raison": "libellé de lien aligné sur le titre réel de /blog/timing-humour (« Timing humour : le secret de la blague »), aucun autre mot modifié"
+      },
+      {
+        "slug": "storytelling-drole-5-structures",
+        "session": "s20 libellés timing",
+        "raison": "libellé de lien aligné sur le titre réel de /blog/timing-humour (« Timing humour : le secret de la blague »), aucun autre mot modifié"
+      },
+      {
+        "slug": "blagues-courtes-vs-longues",
+        "session": "s20 libellés timing",
+        "raison": "libellé de lien aligné sur le titre réel de /blog/timing-humour (« Timing humour : le secret de la blague »), aucun autre mot modifié"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "21f6974de0bc5ce867d744f80f6a9c082213906352db3b30b9a8b8be880a6d00",
-      "wordCount": 1849,
-      "headings": "0d0f261cf80a2c1797565694eb2d6b0fe351b84c50f1e5f4db280c3964c32f4b",
-      "links": "0b14d9aa76bb89d72c532df0f317a9457f3ab56a63ce59795fbb3f78546ff12c",
-      "numbers": "05bc115fc9c3f54a49b2e0d3e027dd1e9f43a57b7f96204e4ccf36ad4bffb461",
-      "meta": "6b14c598cef5ec3af1a34a54c8c98f1656e5f1d3ffa6dcbe5b50c96e559b2bd1",
+      "words": "0e5300413e78b171a17bf2c4bdeef07d2ccf8aff11bc33f8064c04a2e07b6e1e",
+      "wordCount": 1821,
+      "headings": "ee87c953cda3bc02526b3ff1738f4629022c4b0e3b9617892f8b608093e4d521",
+      "links": "a68c99adcea46ebcc723ccc12448d2af31e8fd4a1e21c780fa2d110eeb9f1238",
+      "numbers": "2f59fc0424ae8d71718ec72cfabaa222d462f1f059885b5ff76e70de8c5feb47",
+      "meta": "8f87327334ee3eb3fd1abea6f85bfef8fa0083df31c12484f40082509e61b8d7",
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {
-      "words": "d30436522b4041c738ba2a7aa269d8f7753005b903ba08227ebfa04d734337b8",
-      "wordCount": 1615,
+      "words": "868f0f8d94a858ee55507e92a0c2f057da1515e8863d2f41c82d53cecb50c6f9",
+      "wordCount": 1618,
       "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
-      "links": "1de657434cbe1edacc5139b160bd392ea77c4a18a82f073fdcfc76b390472db8",
-      "numbers": "c8f72de03fcbce9f1ac5a9bdde58527d0a77ade9ae38f8e89131b66f72bf89ec",
+      "links": "7a2203b3dd9ea9488bf95b38930d3a1665f4686ce18096f47a3c72da8a0eb0c3",
+      "numbers": "11a377c24c365dd5570a03ab2d5e795968b6ef99f2d89cfc8d3a0544e39570b9",
       "meta": "a4642779164f2a410653e2286cfc80ce3eb27e0031a4740050b3a2bb6580a479",
       "emDashesBefore": 23
     },
     "timing-humour": {
-      "words": "3a282e3982ee42bd8da5fc15646355407df386b839e9b94e3e44ad66caf07bdf",
-      "wordCount": 1290,
+      "words": "7d0c31a76cc8d32434d0faddc93835d8173109288e5cd2411c7048f16169f717",
+      "wordCount": 1335,
       "headings": "0ec476513593b64f2947e67b46962ff61c12cfbfaba72175bb454579422d06f2",
       "links": "253cb6b3fb24beb4da957834947e7b8da1268c4787fa4d066d6cb63b9ede0f4e",
-      "numbers": "1d4062d64593a8b2c031932b26b350b26150fb91da03343bbc744b7930702bf5",
-      "meta": "6f642e21ed19268a542d076aa05810c644afc61f374a1c90097ff301aeab9750",
+      "numbers": "6d48db781820fcadb5a406238d3ca8570f84d0f14d5d76526886e525296d2e1d",
+      "meta": "7fc6359944688d03003f5413bb20c963f1df738518c9dfb357ee69e3cd3a55a8",
       "emDashesBefore": 8
     },
     "erreurs-blagues": {
-      "words": "fb354b44590a69f1e0841c1e771512e0b96fb2d810cc538d3492828c725fc294",
-      "wordCount": 1017,
+      "words": "823833ce8e54653e969473eb05af416f81f927447291b78038db5d3e57b1dd84",
+      "wordCount": 1006,
       "headings": "cff073fffbfd811103fadae8772c86b7170e75808f80dccca4ae0238cf4f6d5f",
-      "links": "7218f1dab0678d4e92fa4435ef04a990d35d2631d59fc634acb337cbe5e03891",
-      "numbers": "89990cbb43b34a625f96b89b1e5445c7d4731d5b57617fd4c13779de562d8bc9",
-      "meta": "17980df18f34391ea2280f9f39a9582c93eef67a142d6eeb2f256e061cceb1ec",
+      "links": "314bbe727d4f19e509ea12a373e64a6e9d1c9f1337aa6525e5558789f6cdb8c0",
+      "numbers": "1845fc43bf7c60021d5c7fca66232242f613ba05db003c47a5f6bab4ccc300dc",
+      "meta": "deba9091aca83c4e131569e89a2a77af10af275a59153c437e98dccba97ac985",
       "emDashesBefore": 11
     },
     "autoderision-interactions": {
@@ -213,39 +353,39 @@
       "emDashesBefore": 8
     },
     "repartie-debutant-5-etapes": {
-      "words": "f05f6bc8e51dfe5808aaf6f5c724cb88f6e30809cc15c746670bbc61022355b2",
-      "wordCount": 1108,
-      "headings": "921a4acfd71fc64247c865087f7635084d8abc702bceb7343b9f67e5a8dc5202",
+      "words": "a909e8a1294606437a054b2a33df2e377a17c75e3bdef19de0f1d2e51ff134dd",
+      "wordCount": 1099,
+      "headings": "4ab8b356b33bf3e8f23c0dd78d5288252922029e4310e652285a996e86ee0f93",
       "links": "a3c5c2c5519d6593becb999580f158b2d09d10bbc2a775009e74ae7ea2215a33",
-      "numbers": "5ddb27c41f36b2ef4c54cd9ff05bc6d343aae414ebddaab19f6a419ad9cb237f",
-      "meta": "01336849ea28794538db7056de7c7ef0f6ce000b2ce42b0f866d6947ec31c346",
+      "numbers": "c21b8fc34947a3f575a54dcb10e8a0efbb7b5e15fc96388701cbf6862e258d70",
+      "meta": "53ac83fcbaafe6e8481a4286405913824e6f4ad4e4cd73c9693b8fe7335a53ee",
       "emDashesBefore": 10
     },
     "humour-quotidien-8-habitudes": {
-      "words": "54375dbed7a36517c6f0f669dab3d25641d923fd91891549e79165c880f88f99",
-      "wordCount": 1185,
+      "words": "c018ff78fa95534b16311a788052a665dc8c4b4edc979506d9e20212630065f3",
+      "wordCount": 1209,
       "headings": "93e94facac19f5aac4bae3a4a09ccb360b79681b109cee3b16f7a5d858f7193a",
       "links": "af0711a8070021c1d52ab2940afab1d75f9ce06551e0c993c90bcb2878ac984b",
-      "numbers": "5327436a8d27c9fb7341e877c225ef09fe2965d00f4866ab087815b5d3e19b91",
-      "meta": "6be2c05284c4a5cef247576531159187d324cf522db3d80c0e19926c0b0000ae",
+      "numbers": "f62139e80b799ee966c3b1ea6e4901d3321aea2fed4c422fb8371fa4aefdaa6e",
+      "meta": "f8b0224380fe1310d1dc7992a78a3ebd17e505a4b23c085b6ec254014aa83ae7",
       "emDashesBefore": 11
     },
     "5-types-humour-lequel-pour-toi": {
-      "words": "9edd5b640c20bd45ab9e7be8ea4f8306a0bd8ade781565f709ea875fa049ad22",
-      "wordCount": 1527,
-      "headings": "b4107bbf9375f5d9d08d2317e6eb05d1eb5a3902c59e68d1746bcead9e0ab897",
+      "words": "0c3891e47856a35207cac3237495bfdf15ff69bfb277db9d10098522d7a024f6",
+      "wordCount": 1529,
+      "headings": "26ba22d4e94ff0067ad09105503150fd85a45368923facd7b843d79056701cf7",
       "links": "9e8a1330cd302240811a7a9b94b82ec7c5ba00b3b430addbf4a9a35c032099e7",
-      "numbers": "92713f55ee0ae3cec34f2d0d23fe12c5be8073cab5f5bdc37b8e06271f60f312",
-      "meta": "12b9f6ae8710dab2a0855eaefb400057e599df873a32b39fc1ac69c815bde046",
+      "numbers": "cfe16e2a74c41abd9e88fbb5ca2b08b585c14cd0993624a453ffb6af2f155082",
+      "meta": "2a0cacacc0c8a28ef5174a8599f903508619ab68987330a162df692239cefa82",
       "emDashesBefore": 15
     },
     "humour-noir-utiliser-sans-blesser": {
-      "words": "a00f8a70abc9b64cfa6cefe25c298d1ccb98bd4d3a4b3c45ace700b56a5afc53",
-      "wordCount": 1153,
-      "headings": "2f053264ff8497415d21a99ba02cc90cfa834fc6464b431dd65860de9aa5ed35",
+      "words": "e0b61603bc581c79e67b6b30508b2cc05e0e5ee125a0421d99d059c9df8de924",
+      "wordCount": 1205,
+      "headings": "5bf4cd1dab368f75973918bfa1b4e931148a531530f44c7ff9d16e687837363e",
       "links": "4fe0710315f288370cbb6cd75cdc1dea3015dd8a15f52c16bb171d3005c0cf6d",
-      "numbers": "0f0ce6bad93b6d1434fe4f1f1b126b101052634b73e24aaa1f3f31dcf9de3fa2",
-      "meta": "96e93a82a458706e9470ec3f31a7631a40ac27180d3b05dbc2e6098d3672a196",
+      "numbers": "07ef0152832f97621e5d73b7c12551e1f13b504068fd04d1ca6985614d1068c1",
+      "meta": "c19c61f29cd69453f3c5c4a5029469dc1c65b96ca0a0cd7e7e4c2317f3a48834",
       "emDashesBefore": 13
     },
     "jeux-de-mots-technique-3-etapes": {
@@ -258,19 +398,19 @@
       "emDashesBefore": 3
     },
     "exercices-developper-humour": {
-      "words": "97d5d44137316c3d6a1c0dfc25dec540a37d2427a1d7501df6b337a086e44409",
-      "wordCount": 1257,
+      "words": "9f2a7ee2565af81b796178489cb1a910fe23feeee4c86078073e05b112d978af",
+      "wordCount": 1271,
       "headings": "f0c80dc5265625ffd4f82328b92f997eb5775d02caeeb79632f6d03286ed5579",
       "links": "5d19f602705ab52e9bf7540f889dd20180ec583f246b061ba75b844404ecbd32",
-      "numbers": "4b3f32a06d7996a521d4f1dca22bf7f843beae2c13ef76d2b0b6735adc005773",
+      "numbers": "0d94360828718673c89363a6bbf572b927ea45ffa69da40e27aaab46c5b6375b",
       "meta": "179aedde05f9239e5b4cb6ddc73120af2f319db6c987daca763511ecb9b2183f",
       "emDashesBefore": 13
     },
     "timing-humour-ralentir": {
-      "words": "9af08cd03361246e52e4507598556ac8cf5f969487394547005f1116c50c004b",
+      "words": "bdad857a5a1d1b2e000fda7c38893c030d387ee43b1657c069cc3f8c7cc19560",
       "wordCount": 922,
       "headings": "ab6b0547b55c3e8dced74831d73dbc65eef71ba97f4d7820144714bfafede0d8",
-      "links": "24c48f4b0cffe468839ccdc07bf45ac49670e07db536a25855d3d40ff924a6ae",
+      "links": "61d71aa16e6792f089fd3590b828d3f6f30346a6bac837422fe5f1232de444b2",
       "numbers": "c3e25f4dce6d0a7a48d4c48291d296ec16ec5dd8a50f99a47e807893308c661a",
       "meta": "761d7cf423b83ff2accc8df01332a53c75b9a7bd3a1276726699f1b9e5495a3c",
       "emDashesBefore": 5
@@ -285,111 +425,111 @@
       "emDashesBefore": 6
     },
     "phrases-droles-conversations": {
-      "words": "24fc69a818bd7d3a68df569d2e4c3a47aa5d3098d41c64be5ce0c1f2fa3adffe",
-      "wordCount": 2154,
+      "words": "d94e8ed9cf13ef4e2bbb084a3185c87d546c001951da21fcf9062be1a4a47b07",
+      "wordCount": 2244,
       "headings": "2775640f4ef04fd921185663e212a090772cb00c58a5c7b0c8bea13a6e584a34",
       "links": "265c33531f5271c78e3647884cd42491c302cfa8c0b1f602dfb254f945d9a623",
-      "numbers": "dfbdb1892e8edefbd3d5c91d222fe592f6815d965b848c3c5333c46c23f5482e",
+      "numbers": "8cd135decc9bc540a9f6e526902aead46a9477d4e808bffcf144d513604556a5",
       "meta": "68f04872d0937dbfa8ea7cadb95f5ce96242cc433605ddcb9afc0641b9c6eaca",
       "emDashesBefore": 20
     },
     "meilleures-blagues-droles-2026": {
-      "words": "9e6983239fc075e2646aa6b274237d718539901578c173d87bf8aaa728cd46b3",
-      "wordCount": 2555,
+      "words": "c2a3e83812e883228680591fc0a2cce2c236f02facef989e165f03ec86d78e30",
+      "wordCount": 2554,
       "headings": "1f316593f32e57d29184adda284a3c57a99db8926707916dc1767ae66d238d30",
       "links": "3c2d70e181853f607dc938d1b2d7cc32a88b08784c6de3610fffa2a2e673b3cf",
-      "numbers": "20c868673800ebf6148325c9b15898365899b7aa9c32213aa6948914975a7002",
-      "meta": "1b03b6938e1eafc528d4dd48699d746336d7f04dff3d64285d293cd21178b0ee",
+      "numbers": "b330fc707abded0d7afb4426ad76ce2ffdf796e49118607f0556eb9183fea376",
+      "meta": "38c2f3cec7afca438b0b68c08277e015e1d7df4d082d444ef57c1ce306d049bd",
       "emDashesBefore": 6
     },
     "comment-faire-rire-une-fille": {
-      "words": "4e99cc2b1bfa17cb5640464dfe1f37557096fa697ad31d4ed053d81cd65dbc7c",
-      "wordCount": 1341,
-      "headings": "7c4ba2aadc3b20162d1055eeef38e4806df9e83f55996590e342b9cbb725b8b7",
+      "words": "f0c2efbf8b876bc334c8f34a1b41648296dbe6d9c78d328ae420de6a83431a88",
+      "wordCount": 1367,
+      "headings": "fa450c24974db715495c6d144d0adc4a928e134fca47318ada33a695c879f453",
       "links": "a9cf50d5826227f1524fe399ceeeb0c570c909a3f551fb5646325cfc6f479a5c",
-      "numbers": "818e9da7ab3deea4f6684add70fca4a87cc1b35f46921ac45e1888f89d935499",
-      "meta": "cdcbfd744d4919cf2e1da20f0304cbf6457425890001641788222c70cd882027",
+      "numbers": "cbc5f588a40d81c0fdeec543911757feac702b240a7b787b400283f4bb4bda0b",
+      "meta": "3a394045ec34a7e0f2d67c7756b0a4e3ff58ea104ff38fac46ec43cd9de57294",
       "emDashesBefore": 8
     },
     "comment-faire-rire-un-homme": {
-      "words": "23ce4ecec4d63a7540f26551a7308c8b1865505e944b37f5738cf23b25debd50",
-      "wordCount": 1435,
-      "headings": "4ee022a4eaaf059d04e2aa7b6c0e6858d15a5f747db174b156d3580086b31611",
-      "links": "67b655ebef2004719b1a36e0ec5c34482e90f3d88636af485e50c694cdf57d37",
-      "numbers": "d29cc4d51892840d177e9cdc74fcc39db227e52ae38dc9d8fcc5f5736459ebf3",
-      "meta": "022492a729024117d6f9e571dcc98a63e5c84f491b2448f4c319419d6fb5a5db",
+      "words": "5b340134166b7fe796d29f800982322d43f3c039fc332460cc862e3a3d334a38",
+      "wordCount": 1478,
+      "headings": "feb7cc4e986fade8e4e1e0b6ab87a971b6a732ed10981cf78f1327b9a338ff41",
+      "links": "04e2174cb383f3dea0b79c4864ae3eb171442b1ca9ced42e7bb907a197d8a188",
+      "numbers": "320204e37aded09b3af692204f20774fe8ed61c011425a440cabea07ee2771ba",
+      "meta": "15d86db410e537259b27e8d90c1f125f4b4ba0a6c6d9a8194f7fe5045a3eaa88",
       "emDashesBefore": 10
     },
     "je-suis-pas-drole-comment-changer": {
-      "words": "02e80b4f77506fb0ae8d942ea40bdd5744b352cf2573f6b152317fb991e14250",
-      "wordCount": 1799,
+      "words": "a17a3c8707d26e79c16c23a9ecf28300eb47ee8dd82c81bd7edfa20607c5581d",
+      "wordCount": 1767,
       "headings": "755813c7c13608e8983f0a7a226639d7e9907e030fbdd612b32fea24ba2a33db",
       "links": "d6f4951c6cb204cc5aec15e165d55268a1a2574b14562b7c2fed091d90061b0f",
-      "numbers": "eb1eacaf4c12e4d239abf011d55e7212b6ccd835329a895cab780ad3509432e5",
-      "meta": "c1fadd6515cf1179f6a9ed92bf8d1e3e9416f39de11a9da3f80759d2c68ddb95",
+      "numbers": "1997b0c7d257d4d4e836f6f552e0081eb82b65d78b1ad6492a66804e8a409d4d",
+      "meta": "01d9bb3b7b5ba2412391c1bf3aed0a37113d88da37d6d647585d1ca414ab9813",
       "emDashesBefore": 10
     },
     "repondre-moqueries-avec-humour": {
-      "words": "81170509b27a59cba0eb5e34ee0f85b6fe928c5e647dab52b1a98c53256c5932",
-      "wordCount": 1602,
-      "headings": "b1b1201eb8c2c0bb10a1c59141197599e7f6b57730520136443679135a291521",
+      "words": "debe32f65a285e133fd20d43ab26323129f55743b08b3b7c784b4f4b576a511c",
+      "wordCount": 1599,
+      "headings": "1f5e552b19a16078f91b8853e4e024aaf31c9c101f2a7bc3ed733c7007ac631b",
       "links": "f12e8a407834eb1160387679804e2bb5cc0fa92068f934e5c11a4bdba272ecc0",
-      "numbers": "2739ae293b2bee687fa24df6ce860365a9ccf0b3f286c8eb7a3ace66cb2504cb",
-      "meta": "d6bc070d24802ffd92374a07ac1d6769534c884f51818fb83e65b42299879b1b",
+      "numbers": "cc89e5ed785b70fdeaaf39298ab92e421ab5d2414d291d9a5d3d2498ccdf1d1e",
+      "meta": "b34b0b6a5d2a94f9a73d93291a58dae2091c5de400fa4f830addbb8643499298",
       "emDashesBefore": 12
     },
     "blagues-travail-faire-rire-pro": {
-      "words": "bf08e292af30d9e856f7ee9b18b642af97d24d162b6f52533ef704bb9ee18942",
-      "wordCount": 1822,
-      "headings": "095d0613c969b223dab563a1da0ab7a1a6dc86e56ffcbb6b41fb642d643c4854",
+      "words": "3d79aaee77abfeeff82e50c0bd4230d1560c107892bc8725ab5312c2c4ee5c65",
+      "wordCount": 1851,
+      "headings": "c5b38675c92b27842e4b409a10e8cd3decb985537d8c7eff96bbb0e907eae389",
       "links": "8a67a643b4fcc1f2988bae9421dba68457a7e540599bd45be3e75304c416714c",
-      "numbers": "f8af988c5d2b6c644941f1f646199004600a1c2932fcc1725574663f340ef664",
-      "meta": "466ccfecb08d90bead7715b7d0eeb7ec946f90d2c0f535d96cc9736d14dcf9e5",
+      "numbers": "d22757e54945c7a8652c9bb08cca1a166e1b5e721523563f0d4d4a5901d825fd",
+      "meta": "bd28c40dddca83bffddbffb1a0ed42a93bb033554888aec23fbc087fd974a950",
       "emDashesBefore": 15
     },
     "jamais-quoi-repondre-techniques": {
-      "words": "2550d7727573f7e0b15b3f38d36994fe6a922ad0ea0ff4e96dfe01eb84962540",
-      "wordCount": 1731,
-      "headings": "f6451e632e243cd71cefc64c2dbf784ed11c5f3bf843b098c4a2e7bf19d38b05",
+      "words": "335d9fcd85e7121ee0321a823911a06fdf1cbbc591b8bcab3ae2e1dd9c210f73",
+      "wordCount": 1711,
+      "headings": "8c266605320797f76dc09229df7a2f2048e24b48e2eed80d719bf68304c7117c",
       "links": "fc15f175dbfe893fb7f76cb0620566256db42270ed39b8e15fec9f5f16848f9e",
-      "numbers": "78cc2170c71f475aa24fe99a216ae3dbbccdb3974db990165aba26bb73931853",
-      "meta": "5aa7ea81a2030aa58a36035791e06bff76d4497af1f1c97fe67b460b629f4b1f",
+      "numbers": "f4aca09cee1376f0fcf32344c2f51581e6275d2894e67a5c76992fbda1a55c7c",
+      "meta": "e4f50c960ef2cee4e397c42d37d005397b3fbb4138c54f5e35d931a405cec8dd",
       "emDashesBefore": 19
     },
     "timidite-et-humour": {
-      "words": "3a2c2b6946afbea18f7e24eba3618b6352cacdce270dd814cffc84a044ca8c37",
-      "wordCount": 2198,
-      "headings": "8fec2e023d4633819c83948d2703b61270872e1be81ba5687ad9726aa219ee58",
-      "links": "c5aea2e8f2e0b4777c0a739b1ee1e86aa4a4506dbc9f3af2c7c9ae859804a4e7",
-      "numbers": "2bf5b64a73d9ccae02fde4efa27304d80e4bb3674d660f1490e557998a5da5c3",
-      "meta": "bdeb1a274e30550392301079f36a39033eb3a5825d3a5a8da7b2737d69c694ef",
+      "words": "eddc736677505ea0f3b05e70c20a671da41750c5c3d72684df3203b275ab1c24",
+      "wordCount": 2199,
+      "headings": "70c5e8be1175760c8738d22f17d54a6145259f80f98b0679fe3a7973aa1cd0f1",
+      "links": "814f55619940924883b783b8f5f162eb76128a0096daec9672867a8b73e0c08d",
+      "numbers": "6a1d15e4747dd99c64ef6d382d76f2b16d816dc6c9812a09589a279964ac15e9",
+      "meta": "18a204f61d3e9828d7a9a6eabcfcd819d8bb5fe4968496fb16f101f83e825c89",
       "emDashesBefore": 32
     },
     "storytelling-drole-5-structures": {
-      "words": "aea34f2bb3f8840fa25cdd39b9be8f893b482007a6d1fe35e60c8e869e699e56",
-      "wordCount": 2497,
+      "words": "eaf5292a0d45847231c6ac246d88eeeff4bbd059db0b59a3df6ba995096a8ee9",
+      "wordCount": 2512,
       "headings": "07bd12458ad6c200c90a2bfba86b177698d332fccd9ec39a29a3f81095bd4adc",
-      "links": "1cead9eba77a5ea71108be48b2da12c834734cbf7dc63fd09d6dd9718668ef73",
-      "numbers": "e52ce9c66d406f12c9921e4689b981f98732e8a857cd4594d591434a4a6690a6",
-      "meta": "5da27c2d88633794ae403df7b5c9d556e3ff71a7b7d504c29b821a4aebcc9ee0",
+      "links": "4d73505d8998b7e597d1f1e5d9f79c4106f23ebeaf3b503086526398da12ccf5",
+      "numbers": "53776cf6f77be0e2a02d41a64d78b39bb60ea415d13477558e112fe0d494f62c",
+      "meta": "32c329038c3537638f8bbd39d7ecfe952affe3e2655054d41ebb6d3062d1f88f",
       "emDashesBefore": 37
     },
     "conversation-machine-a-cafe": {
-      "words": "98143b944faf8151150cd7be09c2d8dd177502bdc9f968552eefbc134bca6a90",
-      "wordCount": 1812,
-      "headings": "91883ea2a980217d56b02f0254d99b5083da41cac64a3b4584baa5eca521a077",
+      "words": "0bb9f124c156b183282ae98b8997531492563acd27b4cec171708b48749978fa",
+      "wordCount": 1821,
+      "headings": "3e5da04c99bbe7394e46ab5a19b6123c6e335836c7f6cf545d04b5dc19d51cf6",
       "links": "e8d638df9004168f9bb10c80e302f94830c188efa4d2d1d10745e869beae5eb4",
-      "numbers": "b2e270ca4acada7d214bfc19f25c90477445738360c8d3982274915db5329905",
-      "meta": "a60f65e6b3eebdf3fcd3c7800f10a8db29378977b92a0a690b3bfe598c7862c3",
+      "numbers": "b4e69306ff018017bbf867e5cac9c174cc0d5302f1ea3f278241689262851229",
+      "meta": "ea949dea42ee1d47fd68292c705e4a2a9edd6b370e5ac74113707a0f58abb6e0",
       "emDashesBefore": 18
     },
     "repartie-soiree-anti-malaise": {
-      "words": "c337b15ac961908d5a650b8633eaf8662df5ec1a5f6a4f850aa8f26be87d9e08",
-      "wordCount": 1857,
-      "headings": "157f727c3eea8d581e4acd2dd211e0e7e6565c0de55ce0e2e64ef275d16166b5",
+      "words": "741e2451612ef1259ca50404424624f10fced3a51b99d97017049b0cb2066080",
+      "wordCount": 1843,
+      "headings": "91d4a5fd4c3a9baaba53d4027a31c0175bbd6b16a423144748a3f14b467c3ed7",
       "links": "f1a290933bafab6f5a47229afa6c5578991f21ed6fd812e99175fc6225a316e0",
-      "numbers": "57d761237c82baf32112b3d8df46bf01b095d81bdf132f7e67c24295eb159e60",
-      "meta": "ed0ff5b99eed9fa61b64682a4cc6cb89c8d35952845e545746076710a9939f92",
+      "numbers": "5642704e748f382012d43515f121314bf43c88b50eacecb042113033e984f45b",
+      "meta": "86141ef7059e52160a35b129bdbd493b3ef6a86a39ab5b4a4115243c43659e03",
       "emDashesBefore": 18
     },
     "humour-apres-rupture": {
@@ -402,39 +542,39 @@
       "emDashesBefore": 26
     },
     "confiance-humour-apres-rupture": {
-      "words": "6216c16fd6a21c92ca304ba0fb1d144fcbacc6ef293aab36e9d18c48ea0a5d17",
-      "wordCount": 2025,
+      "words": "13905f261e505d50540cef8bbfacd874a676c88eb8a1e46d2d45d6daf0f8dd6a",
+      "wordCount": 2017,
       "headings": "e26b14261fe3628f2fd05a2243b0fa7d9e45ad1970dca81b0a1391e19bdeda96",
       "links": "a4fc01191286dba97b1ff012226a6cfe1633fe591fafc58827024ec58f371e72",
-      "numbers": "991255becedf401311faa050aef17094e4f2398953c1ce3e97fdb2e4b6c16698",
-      "meta": "c216ce679546d4da210e99599bda59c00fcf521acbc83a23c1dcfb5e9d2e097a",
+      "numbers": "ecf47438b16a0500bf6128b94621d368f520101b804317ddefb679d4be687294",
+      "meta": "36fd974baf5a7c36f3786d166b5d62c1f62ddb11b8ccb2073d0aa00f5957d81f",
       "emDashesBefore": 36
     },
     "pourquoi-blagues-marchent-pas": {
-      "words": "4b9a2857b503606564eb2c9f61b27303c105ebafd5b62e73211e67b9fc2ce0c8",
-      "wordCount": 2040,
-      "headings": "4aa57b42fb9c9f2bd1284a4d38421737fe7d87231c0e99197047680395e9e08d",
+      "words": "65e0210f84ab9239dc01e209c373bc5e603f818c5366e92b8f9273d7cc94794b",
+      "wordCount": 2065,
+      "headings": "7fde899802dea357c756e4b91bfb40ed8aa179d1d751a4c06f60707f7cccf5ef",
       "links": "c5601e71aba3e326a764517170fa69945b3e6171147a995be7db7046d7a58a0d",
-      "numbers": "994f633d65cf05256ae890dcb6d0a786e1935ed7a83472d766e09550e750c900",
-      "meta": "7447fdb18230f0284140f0c0f363f18e5e3d65f0dd7f3727297dc3b1f0097411",
+      "numbers": "505d146e6308a78a662be00d4a9496cdf7d06b5d29f4c652c301d2fb9f4b5e1f",
+      "meta": "b1ea98909c22c724a9a0fe17c1c68375629f70601aaa7db78c05466e8ecdc584",
       "emDashesBefore": 21
     },
     "blagues-courtes-vs-longues": {
-      "words": "204a799e5737ec9a41ec813e826d661fefab1cfbeae7b539bf0b890e4a6f1fee",
+      "words": "c611a74b0597718963f03ff930b54282d7803c020bd3276e27907f5d0a945441",
       "wordCount": 1856,
       "headings": "6e2830e79238b6ce1b011e119fbf6b25c4ca0ec422e5319d0a1dd489a5fca24d",
-      "links": "8fc987fc7194478e5ce191d60b7c87121148352d1b220d2cd97aca5c639869ec",
+      "links": "cf42e65f4c36a9dfb93cfda06e7e5220146912b0017addd317494e1b4ae2a9ad",
       "numbers": "5f8921b80234ce8f825fac7b80bd2a2a077e07c101f7cc0155b3a2d925738159",
       "meta": "c36c6279a5b03dbf6af75065d995a4006c29ae651518330aae6c0c622058adf2",
       "emDashesBefore": 11
     },
     "rester-muet-en-groupe": {
-      "words": "b34584083083ead92e8a1c67c255ba5b25cb6ba087e8c85b5180a0c2c784405f",
-      "wordCount": 2747,
-      "headings": "9254b1dfe216c6ddb698a0c2e0c842dae30ecaf05a5f7d921a433f1963d1acc8",
+      "words": "2dd771bcef8f35a46ba060d471fc5534f327d6d06520f485ab4aa8b4b7a187eb",
+      "wordCount": 2771,
+      "headings": "a21362807497094d1d517576712f2a7136ba6b527d75a204d9cff052db6cd26d",
       "links": "31f4ba876cde104942f029bedf728c9724ad25877ac88ab3eff88cc3f30b79ce",
-      "numbers": "256486f2a4d2762fb1b7e526a4760fa21dcf4933c95136604d8925b9628d1eee",
-      "meta": "8b0cef783a80651ed71a2541aeb2d3d2e56fff94ce133599326d74347dbe45b2",
+      "numbers": "8736700e897623a0856b64d903c396e3a6a2c6138d15f8cfb68c6f71a079160d",
+      "meta": "963412c763a3632275566b790c361c020b1c02058d3c0c7c43f82752b79b8b4a",
       "emDashesBefore": 24
     }
   }

@@ -37,11 +37,12 @@ describe("pilier comment-devenir-drole : haut de page s15", () => {
     expect(bref).not.toMatch(/leviers|semaines/);
   });
 
-  it("excerpt et updatedAt inchangés", () => {
+  it("excerpt inchangé, updatedAt = audit s20 (12/10)", () => {
     expect(pilier?.excerpt).toBe(
       "Devenir drôle, ça s'apprend, n'en déplaise à l'oncle qui répète « t'es drôle ou tu l'es pas » : les 5 piliers, ce qu'en dit la science et un plan sur 30 jours."
     );
-    expect(pilier?.updatedAt).toBe("2026-10-06");
+    // 2026-10-06 (s15) puis 2026-10-12 : corrections de l'audit s20 (docs/copy/application-audit-code-s20.md).
+    expect(pilier?.updatedAt).toBe("2026-10-12");
   });
 
   it("aucun tiret cadratin ajouté dans le haut de page", () => {

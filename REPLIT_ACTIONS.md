@@ -1,6 +1,14 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Tirets cadratins des fiches vidéo + llms-full.txt (décision Thomas 12/10), N-1 `f9e7ebd8-4cf6-4ac5-8c99-f3ee40225fd7`
+## s20 Audit des articles du code (corrections validées à l'aveugle), N-1 `124265e9-1eaf-42f1-935e-feb04061f66f`
+
+- `blog-articles.ts` : 166 remplacements exacts (partie 1, partie 2, C1-C3 de `docs/copy/application-audit-code-s20.md`) + 49 intertitres « — » → « : » / « , » ; 24 articles, `updatedAt` 2026-10-12 ; diff réel au §5 du même fichier (3,8 % des mots).
+- Libellés de lien vers `/blog/timing-humour` alignés sur le titre réel « Timing humour : le secret de la blague » (6 liens, dont 4 hors audit : mécanique, 0 mot ajouté).
+- Part aussi avec le correctif alt OG / manifest (e4b32aae, non encore déployé).
+- Statique, rien en base : prend effet au déploiement, aucune tâche de démarrage. Après déploiement : IndexNow sur les 24 slugs.
+- Ancres H2 changées (aucun lien ne les vise) : `#3-sketches-decortiques` → `#3-exemples-decortiques`, `#technique-2-la-regle-des-3-secondes-reponds-avant-de-reflechir` → `#technique-2-reponds-sans-trop-reflechir`.
+
+## s20 Tirets cadratins des fiches vidéo + llms-full.txt (décision Thomas 12/10), N-1 `f9e7ebd8-4cf6-4ac5-8c99-f3ee40225fd7`, **DÉPLOYÉ 12/10 12:49 UTC version `124265e9-1eaf-42f1-935e-feb04061f66f`**
 
 - Nouvelle tâche de démarrage `applyVideoEmDashTask` (`src/lib/video-em-dash.ts`, hors tâche catalogue) : `stripEmDashes` sur description / technique / exercise / enseignements, marqueur `video-em-dash:v1:<youtubeId>`, `note.before`. Simulation prod en lecture seule : 52 fiches, 170 tirets, 0 mot changé.
 - Gabarit méta vidéo « Chaîne : description » (était « — »), `llms-full.txt` sans tiret dans le texte produit.

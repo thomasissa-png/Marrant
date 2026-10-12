@@ -28,13 +28,13 @@ Reste à savoir comment. Au programme : pourquoi les humoristes ne sont pas « n
 
 ## Pourquoi pense-t-on que l'humour est un talent inné ?
 
-Quand tu vois **Paul Mirabel** remplir Bercy avec un naturel déconcertant, tu te dis "OK, ce mec est né avec un don." Sauf que Paul a commencé dans des salles de 20 personnes à Paris, à tester des vannes qui tombaient à plat une fois sur deux. **Fary** a fait des centaines d'open mics avant de trouver son style. **Blanche Gardin** a mis plus de 10 ans à passer de l'écriture pour les autres à son propre spectacle.
+Quand tu vois **Paul Mirabel** remplir Bercy avec un naturel déconcertant, tu te dis "OK, ce mec est né avec un don." Sauf que Paul a joué dans des cafés-concerts parisiens, à tester des vannes devant de tout petits publics. **Fary** est passé par le Jamel Comedy Club puis par le Point-Virgule avant de remplir les grandes salles. **Blanche Gardin** a longtemps enchaîné les petites scènes, Jamel Comedy Club compris, avant de s'imposer avec ses propres spectacles.
 
 Derrière chaque "naturel", il y a des centaines de bides que personne n'a filmés.
 
 ## Que dit la science sur l'apprentissage de l'humour ?
 
-Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des **mécanismes cognitifs précis** : détection d'incongruité, résolution de tension, calibrage social. Ton cerveau sait déjà faire tout ça : il le fait chaque fois que tu comprends une blague. Le truc, c'est de passer de "comprendre" à "produire".
+L'humour repose sur des **mécanismes cognitifs précis** : détection d'incongruité, résolution de tension, calibrage social. Ton cerveau sait déjà faire tout ça : il le fait chaque fois que tu comprends une blague. Le truc, c'est de passer de "comprendre" à "produire".
 
 Une étude de Crawford et Caltabiano (2011, *Journal of Positive Psychology*) a montré qu'un programme d'humour de 8 semaines améliorait significativement le bien-être émotionnel des participants : plus d'optimisme et d'émotions positives, moins de stress et d'anxiété. 8 semaines : moins que ce qu'il faut à la plupart des gens pour réussir un créneau.
 
@@ -46,15 +46,15 @@ Une étude de Crawford et Caltabiano (2011, *Journal of Positive Psychology*) a 
 
 > **Définition :** L'humour est la capacité à provoquer le rire en exploitant 3 mécanismes cognitifs : la détection d'incongruité (quelque chose ne colle pas), la résolution de tension (le cerveau trouve la logique cachée) et le calibrage social (adapter le propos au contexte). Ces 3 mécanismes se développent par la pratique.
 
-### Pilier 1 : L'observation — Voir ce que les autres ignorent
+### Pilier 1 : L'observation, Voir ce que les autres ignorent
 
-**Roman Frayssinet** est un génie de l'observation. Il prend un truc que tout le monde vit (les groupes WhatsApp, les gens dans le métro, les réunions Zoom) et il le décrit avec une précision chirurgicale qui te fait dire "mais c'est exactement ça".
+**Roman Frayssinet** part de détails minuscules, un truc que tout le monde a vécu, et les fait dériver vers l'absurde. Tout commence par un regard qui a vu ce que les autres ignorent : c'est ça, l'observation.
 
 L'observation, c'est le premier muscle à entraîner. Note chaque jour un truc absurde que tu as remarqué. Le collègue qui répond "bien et toi ?" à "bon week-end !". Le mec qui fait semblant de chercher dans son sac au moment de payer au resto. Le mail pro qui commence par "J'espère que tu vas bien", envoyé par quelqu'un qui n'a jamais attendu la réponse.
 
 En 30 jours, tu auras 30 observations. Et au moins 10 potentiellement drôles. Pour en faire un réflexe, pioche dans nos [8 habitudes simples d'humour au quotidien](/blog/humour-quotidien-8-habitudes).
 
-### Pilier 2 : La surprise — L'art du virage inattendu
+### Pilier 2 : La surprise, L'art du virage inattendu
 
 L'humour, c'est de la manipulation d'attentes. Tu emmènes le cerveau de ton public dans une direction... et tu tournes. **Fary** est le roi de ça : il commence une histoire de façon banale, tu crois savoir où ça va, et il atterrit à l'exact opposé de là où tu l'attendais.
 
@@ -63,23 +63,23 @@ La formule : setup (tu poses le décor) → pivot (tu changes de direction) → 
 Exemple nul : "J'ai essayé le yoga. C'est dur." (Pas de surprise, pas de pivot.)
 Exemple qui marche : "J'ai essayé le yoga. La prof a corrigé ma posture, puis elle est allée chercher une collègue."
 
-### Pilier 3 : Le timing — Le silence qui vaut de l'or
+### Pilier 3 : Le timing, Le silence qui vaut de l'or
 
-Regarde un sketch de **Blanche Gardin** au ralenti. Compte les secondes de silence avant chaque chute. Ce silence crée de la tension. Le rire, c'est la libération de cette tension. Sans le silence, pas de tension, pas de rire. Si tu veux creuser ce sujet en profondeur, notre article [Timing humour : plus fort que la blague](/blog/timing-humour) détaille les techniques des pros.
+Regarde un sketch de **Blanche Gardin** au ralenti. Compte les secondes de silence avant chaque chute. Ce silence crée de la tension. Le rire, c'est la libération de cette tension. Sans le silence, pas de tension, pas de rire. Si tu veux creuser ce sujet en profondeur, notre article [Timing humour : le secret de la blague](/blog/timing-humour) détaille les techniques des pros.
 
 Un bon timing, ça veut dire : résister à l'envie de combler le vide. La plupart des gens débitent leur blague comme un communiqué de presse. Ralentis. Pose ta phrase. Laisse le silence faire le travail.
 
-### Pilier 4 : L'autodérision — Rire de soi sans se démolir
+### Pilier 4 : L'autodérision, Rire de soi sans se démolir
 
 **Panayotis Pascot** est un maître de l'autodérision positive. Il parle de ses galères, de ses maladresses, de ses moments gênants, mais toujours avec un recul bienveillant. Tu ris avec lui, jamais de lui. On a écrit un guide complet sur le sujet : [Autodérision : transforme tes interactions](/blog/autoderision-interactions).
 
 La règle : plaisante sur des trucs mineurs (ton sens de l'orientation, ta relation avec la technologie, tes goûts musicaux douteux). Jamais sur des blessures profondes. L'autodérision, c'est montrer qu'on s'assume, pas qu'on se détruit.
 
-### Pilier 5 : La pratique — Le seul vrai secret
+### Pilier 5 : La pratique, Le seul vrai secret
 
 Tu ne deviendras pas drôle en lisant des articles. (Oui, celui-ci compris. On assume.) Tu deviendras drôle en essayant de faire rire, en te plantant, en comprenant pourquoi, et en recommençant.
 
-**Waly Dia** raconte qu'à ses débuts, il avait un taux de réussite de 30%. Aujourd'hui, il remplit des salles, et entre les deux il y a des milliers de vannes testées, affinées, recalibrées.
+**Waly Dia** a débuté sur les scènes nantaises. Aujourd'hui, il remplit des salles, et entre les deux il y a un paquet de vannes testées, affinées, recalibrées.
 
 ## Comment devenir drôle en 30 jours ? Le plan d'action
 
@@ -113,12 +113,12 @@ Tu ne sais pas encore quel humour est le tien ? Fais le [quiz humour](/quiz-humo
 Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 2,99 €/mois**, sans engagement.`,
     date: "2026-03-13",
     // s15 (L7) : date réelle de la modification (liens L6). Si le déploiement glisse, la reporter au jour du déploiement.
-    updatedAt: "2026-10-06",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "GUIDE",
     faqs: [
       { question: "Comment devenir drôle rapidement ?", answer: "Commence par noter une absurdité par jour dans ton téléphone, ressors 5 vannes courtes avec des proches, et teste. En 2 à 4 semaines de pratique régulière, tu vas voir la différence dans tes interactions, et les gens le sentiront avant que tu t'en rendes compte." },
-      { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour repose sur 3 leviers (observation, surprise, timing) que n'importe qui peut développer. Paul Mirabel, Fary, Blanche Gardin ont tous commencé en salle de 20 personnes à rater leurs vannes une fois sur deux. C'est ça, la progression." },
+      { question: "Est-ce que tout le monde peut devenir drôle ?", answer: "Oui. L'humour repose sur 3 leviers (observation, surprise, timing) que n'importe qui peut développer. Paul Mirabel, Fary, Blanche Gardin ont tous commencé sur de petites scènes, avec leur lot de bides. C'est ça, la progression." },
       { question: "Comment devenir drôle quand on est timide ?", answer: "La timidité est un atout : tu observes plus et tu parles moins, donc quand tu interviens, l'effet de surprise est décuplé. Commence par l'humour à l'écrit (messages, réseaux), puis passe à l'oral progressivement avec des amis proches. Moins tu parles, plus chaque mot compte." },
       { question: "Peut-on apprendre à être drôle à tout âge ?", answer: "Absolument. L'humour est un muscle cognitif qui se développe à tout âge. Une étude (Crawford et Caltabiano, 2011) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel, et l'humour se travaille, peu importe le point de départ." },
     ],
@@ -154,7 +154,7 @@ Tu connais ce moment : quelqu'un te lance une remarque, ton cerveau affiche un �
 
 La plus simple, et la plus sous-estimée. Quelqu'un te balance une remarque ? Au lieu de paniquer, tu poses un "Intéressant", "Pas faux" ou "Bien vu". Ça te donne **2 à 3 secondes** pour formuler ta vraie réponse. C'est le "chargement en cours" de la répartie.
 
-Regarde **Fary** en interview. Quand un journaliste lui pose une question piège, il ne se précipite jamais. Il accuse réception, sourit, prend son temps. Et sa réponse est toujours meilleure que s'il avait répondu en panique.
+Regarde **Fary** en interview face à une question piège, et note ce qu'il fait des deux premières secondes. Toi, tu peux faire simple : accuse réception, souris, prends ton temps. Ta réponse sera presque toujours meilleure que si tu avais répondu en panique.
 
 ## Technique 2 : Le rebond sur mot-clé
 
@@ -166,7 +166,7 @@ Simple, efficace, et ça prouve que tu écoutes, ce qui est déjà mieux que 80%
 
 Au lieu de te défendre, tu retournes la remarque vers l'expéditeur. C'est du judo verbal. "Tu manges encore ?" → "Et toi, tu surveilles encore mon assiette ? C'est un métier ou un hobby ?"
 
-**Roman Frayssinet** utilise beaucoup cette technique sur scène : une remarque du public, et elle repart à l'envoyeur avec un supplément.
+Imagine **Roman Frayssinet** face à une remarque venue du public : avec ce réflexe, elle repart à l'envoyeur avec un supplément.
 
 ## Technique 4 : La fausse naïveté
 
@@ -198,7 +198,7 @@ Répète ce que l'autre vient de dire, mais sur un ton complètement différent 
 
 ## Technique 10 : Le silence souriant
 
-Parfois, la meilleure répartie, c'est pas de réponse : un sourire, un regard amusé, et du silence. **Blanche Gardin** peut tenir un silence de 5 secondes face au public, et la salle rit avant même qu'elle ait dit un mot. Le silence dit : "Ta remarque ne mérite même pas que je dépense des mots." Le timing de ce silence est tout un art : on en parle en détail dans [Timing humour : plus fort que la blague](/blog/timing-humour).
+Parfois, la meilleure répartie, c'est pas de réponse : un sourire, un regard amusé, et du silence. **Blanche Gardin** sait tenir un silence face au public, et la salle rit avant même qu'elle ait dit un mot. Le silence dit : "Ta remarque ne mérite même pas que je dépense des mots." Le timing de ce silence est tout un art : on en parle en détail dans [Timing humour : le secret de la blague](/blog/timing-humour).
 
 ## Comment s'entraîner à la répartie au quotidien ?
 
@@ -235,7 +235,7 @@ Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/
     title: "Timing humour : le secret de la blague",
     excerpt:
       "Ton pote raconte ta blague mot pour mot 10 minutes plus tard et fait exploser la table ? C'est le timing en humour, et ça se travaille avec les bons silences.",
-    content: `> **En bref :** Le timing en humour, c'est l'art de placer le silence et le rythme au bon endroit : une pause de 2 à 3 secondes avant la punchline crée la tension, et la chute la libère en rire. C'est souvent plus décisif que la blague elle-même : la même vanne fait un bide ou fait exploser la table selon le moment où tu la places.
+    content: `> **En bref :** Le timing en humour, c'est l'art de placer le silence et le rythme au bon endroit : une pause d'une seconde environ avant la punchline crée la tension, et la chute la libère en rire. C'est souvent plus décisif que la blague elle-même : la même vanne fait un bide ou fait exploser la table selon le moment où tu la places.
 
 Tu as déjà raconté une blague que tu trouvais excellente, et... rien. Pas un sourire, même pas un "ah ouais". 10 minutes plus tard, un pote raconte exactement la même, et la table explose. Le problème, c'était pas ta blague, c'était ton **timing**.
 
@@ -245,29 +245,29 @@ Tu as déjà raconté une blague que tu trouvais excellente, et... rien. Pas un 
 
 Le timing, c'est le "quand" et le "comment" de l'humour. C'est la différence entre dire "Je t'aime" et "Je t'aime... toi aussi Sandrine." Presque les mêmes mots, pas du tout la même soirée.
 
-**Roman Frayssinet** est probablement le meilleur exemple de timing en stand-up français actuel. Regarde un de ses sketches au ralenti : il y a des silences de 3-4 secondes avant certaines chutes. Il regarde le public, laisse la tension monter, et lâche sa punchline pile au moment où le cerveau de tout le monde est en mode "mais il va dire quoi ?".
+**Roman Frayssinet** est probablement le meilleur exemple de timing en stand-up français actuel. Regarde un de ses sketches au ralenti : écoute ses silences avant certaines chutes. Il regarde le public, laisse la tension monter, et lâche sa punchline pile au moment où le cerveau de tout le monde est en mode "mais il va dire quoi ?".
 
 C'est ce suspense microscopique qui déclenche le rire. Le timing n'est qu'un des piliers pour [devenir drôle](/blog/comment-devenir-drole), mais c'est peut-être le plus sous-estimé.
 
-> **À retenir :** Le timing en humour, c'est l'art du silence et du rythme. Une pause de 2 à 3 secondes avant la punchline crée la tension nécessaire au rire. En conversation, attendre 3 secondes avant de répondre donne l'impression de spontanéité et améliore la qualité de chaque intervention.
+> **À retenir :** Le timing en humour, c'est l'art du silence et du rythme. Une pause d'une seconde environ avant la punchline crée la tension nécessaire au rire. En conversation, attendre un instant avant de lâcher ta chute donne l'impression de spontanéité et améliore la qualité de chaque intervention.
 
 ## Comment utiliser la règle des 3 secondes ?
 
-En conversation, quand tu veux placer une remarque drôle : **attends 3 secondes** après que la personne a fini de parler.
+En conversation, avant de lâcher ta remarque drôle ou ta chute : **attends un instant**, une seconde environ, après la fin de la phrase qui précède.
 
-Pas 1 seconde : trop rapide, on dirait que tu n'écoutais pas et que tu attendais juste ton tour de parler. (On a tous ce pote, et on a tous arrêté de lui raconter des trucs.)
+Pas de pause du tout : trop rapide, on dirait que tu n'écoutais pas et que tu attendais juste ton tour de parler. (On a tous ce pote, et on a tous arrêté de lui raconter des trucs.)
 
-Pas 10 secondes : le train est parti et tu es resté sur le quai avec ta vanne.
+Pas dix secondes : le train est parti et tu es resté sur le quai avec ta vanne.
 
-3 secondes, c'est le bon dosage : assez pour avoir l'air de réfléchir, pas assez pour avoir l'air de dormir. Ta réponse paraît spontanée, et c'est exactement ce que font les bons improvisateurs.
+Pourquoi « 3 secondes » ? Parce que le réflexe se compte en trois temps dans ta tête, « un, deux, trois », sans traîner : ça tient en une seconde environ, assez pour avoir l'air de réfléchir, pas assez pour avoir l'air de dormir. Ta réponse paraît spontanée, et c'est exactement ce que font les bons improvisateurs.
 
 ## Pourquoi le silence est-il plus puissant que les mots ?
 
 La plupart des gens ont peur du silence : trois secondes sans parler et ils ont l'impression d'avoir cassé la soirée. Alors ils débitent leur blague comme les mentions légales à la fin d'une pub radio, sans respirer, et se demandent pourquoi personne ne rit. Sans silences entre les notes, c'est plus de la musique : c'est du bruit.
 
-**Blanche Gardin** est redoutable pour ça. Elle peut rester immobile 5 secondes en regardant le public, et la salle rit déjà nerveusement avant qu'elle ait dit un mot. Le silence, c'est la blague.
+**Blanche Gardin** est redoutable pour ça. Elle sait rester immobile en regardant le public, et la salle rit déjà nerveusement avant qu'elle ait dit un mot. Le silence, c'est la blague.
 
-**Fary** utilise un timing différent mais tout aussi efficace : il accélère son débit dans le setup, puis freine d'un coup avant la chute. Ce contraste crée une surprise presque physique : ton cerveau est lancé à pleine vitesse, et le coup de frein le projette dans le rire.
+Dans la veine de **Fary**, le timing passe plutôt par le débit : tu accélères dans le setup, puis tu freines d'un coup avant la chute. Ce contraste crée une surprise presque physique : le cerveau de ton public est lancé à pleine vitesse, et le coup de frein le projette dans le rire.
 
 ## Comment structurer une punchline avec le bon timing ?
 
@@ -275,7 +275,7 @@ Voici la structure en 4 étapes :
 
 1. **Le setup** : tu racontes normalement, rythme conversationnel
 2. **Le ralentissement** : juste avant la chute, tu baisses le volume et tu ralentis
-3. **La micro-pause** : 2-3 secondes de silence
+3. **La micro-pause** : une seconde de silence environ
 4. **La punchline** : changement de ton, souvent plus bas ou plus direct
 
 C'est ce **contraste** qui fait le travail. Le cerveau de ton public s'attend à la suite logique du setup... et le silence le met en alerte. La punchline libère la tension sous forme de rire.
@@ -284,7 +284,7 @@ C'est ce **contraste** qui fait le travail. Le cerveau de ton public s'attend à
 
 > **CLEF :** Le timing social (choisir quand intervenir) représente 50% du succès d'une blague. Une bonne vanne au mauvais moment tombe à plat. Une vanne moyenne au moment parfait (transition, silence naturel, rebond sur un lapsus) fait exploser la table.
 
-Le timing, c'est aussi savoir **quand** c'est ton moment. Est-ce que les gens sont détendus ou tendus ? Est-ce qu'on rigole déjà, ou est-ce qu'on parle du pot de départ de quelqu'un qui ne voulait pas partir ? Placer une blague au mauvais moment, même une bonne, c'est du ketchup sur un soufflé : techniquement légal.
+Le timing, c'est aussi savoir **quand** c'est ton moment. Est-ce que les gens sont détendus ou tendus ? Est-ce qu'on rigole déjà, ou est-ce qu'on parle du pot de départ de quelqu'un qui ne voulait pas partir ? Placer une blague au mauvais moment, même une bonne, c'est du ketchup sur un soufflé : personne ne t'arrête, mais le soufflé ne s'en remet pas.
 
 Les bons moments pour l'humour en groupe :
 - La transition entre deux sujets (le "creux" naturel de la conversation)
@@ -302,18 +302,18 @@ Se tromper de moment fait partie des [5 erreurs qui tuent tes blagues](/blog/err
 
 **Exercice 1 : L'analyse au ralenti.** Regarde un sketch de Roman Frayssinet, Blanche Gardin ou Fary avec un chronomètre. Mesure les silences avant les punchlines. Note les changements de rythme. Tu vas voir des patterns.
 
-**Exercice 2 : Les 3 secondes.** En conversation, force-toi à compter mentalement "1... 2... 3..." avant de répondre. Au début, tu vas avoir l'air de buguer. Ensuite, tu auras l'air de réfléchir.
+**Exercice 2 : Les 3 secondes.** En conversation, force-toi à compter mentalement "1... 2... 3...", sans traîner, avant de lâcher ta remarque. Au début, tu vas avoir l'air de buguer. Ensuite, tu auras l'air de réfléchir.
 
 **Exercice 3 : Le silence volontaire.** Quand tu racontes une histoire, marque une pause avant la chute : regarde ton interlocuteur, laisse le silence s'installer, puis lâche la punchline. C'est contre-intuitif, mais essaie une fois : la différence se voit sur les visages.
 
 Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. Nos [parcours](/parcours) progressifs intègrent des exercices de timing dès la première semaine, et notre catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner. **2,99 €/mois**, 5 minutes par jour, et tes blagues arriveront enfin à l'heure.`,
     date: "2026-02-28",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "5 min",
     category: "TIMING",
     faqs: [
       { question: "C'est quoi le timing en humour ?", answer: "Le timing, c'est l'art de dire le bon mot au bon moment : la combinaison du silence avant la punchline, du rythme de ta narration, et du choix du moment pour intervenir. C'est souvent plus important que la blague elle-même. Une blague moyenne au bon moment fait rire. Une bonne blague au mauvais moment... fait rien." },
-      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices : analyse les silences dans les sketches de Roman Frayssinet ou Blanche Gardin (chronomètre en main), pratique la règle des 3 secondes en conversation (compte avant de répondre), et marque des pauses volontaires avant tes punchlines. Inconfortable au début, redoutable au bout d'une semaine." },
+      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices : analyse les silences dans les sketches de Roman Frayssinet ou Blanche Gardin (chronomètre en main), pratique la règle des 3 secondes en conversation (compte « un, deux, trois » dans ta tête avant de lâcher ta remarque), et marque des pauses volontaires avant tes punchlines. Inconfortable au début, redoutable au bout d'une semaine." },
       { question: "Pourquoi mes blagues tombent à plat ?", answer: "Le coupable numéro un : le timing, pas la blague. Parler trop vite, sauter la pause avant la chute, intervenir quand l'ambiance est tendue : ces trois erreurs tuent même les meilleures vannes. Ralentis, et laisse le silence bosser pour toi." },
     ],
   },
@@ -330,7 +330,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
 
 C'est le crime numéro 1 contre l'humour. Tu fais ta blague, il y a un flottement, tu paniques : "Non mais tu vois, c'est drôle parce que..." Arrête tout. Expliquer une blague, c'est offrir un cadeau déjà déballé.
 
-**Paul Mirabel** a un sketch entier sur ce thème : il raconte une situation, la salle ne réagit pas immédiatement, et au lieu d'expliquer, il continue comme si de rien n'était. Et 30 secondes plus tard, le rire arrive. Parce que parfois, le cerveau a besoin de quelques secondes pour faire "clic".
+Imagine **Paul Mirabel** devant une salle qui ne réagit pas tout de suite : au lieu d'expliquer sa vanne, il continue comme si de rien n'était, et le rire finit par arriver. Parce que parfois, le cerveau a besoin de quelques secondes pour faire "clic".
 
 Si personne ne rit, la seule bonne réponse c'est : sourire et passer à la suite. La confiance de celui qui ne se justifie pas est infiniment plus drôle que l'explication gênée.
 
@@ -356,11 +356,11 @@ Tu marmonnes ta blague les yeux rivés sur tes chaussures, avec un demi-sourire 
 
 Regarde les gens dans les yeux et assume. Même si la blague est moyenne, la conviction dans la livraison peut la sauver. À l'inverse, la meilleure vanne du monde livrée sans énergie tombera à plat.
 
-**Panayotis Pascot** peut raconter un truc banal, genre faire ses courses, et c'est hilarant, parce qu'il est dedans : il revit la scène, ses yeux brillent, son corps accompagne l'histoire. L'engagement total transforme le banal en comique.
+**Panayotis Pascot** peut raconter un truc banal et c'est hilarant, parce qu'il est dedans : il revit la scène, ses yeux brillent, son corps accompagne l'histoire. L'engagement total transforme le banal en comique.
 
 ## Erreur 5 : Ignorer les signaux du groupe
 
-Tu as ta blague prête, tu attends ton moment. Sauf que le groupe parle de la grand-mère d'un pote, qui est malade. Et toi, tu balances ta vanne sur les pigeons. Le timing social, c'est pas optionnel : c'est la base. On a écrit un article entier sur le sujet : [Timing humour : plus fort que la blague](/blog/timing-humour).
+Tu as ta blague prête, tu attends ton moment. Sauf que le groupe parle de la grand-mère d'un pote, qui est malade. Et toi, tu balances ta vanne sur les pigeons. Le timing social, c'est pas optionnel : c'est la base. On a écrit un article entier sur le sujet : [Timing humour : le secret de la blague](/blog/timing-humour).
 
 Les signaux verts (go) : rires, énergie montante, transitions entre sujets, silences légers et détendus.
 Les signaux rouges (pas maintenant) : voix basses, sujet sérieux, quelqu'un qui se confie, ton manager qui fait sa face de "j'attends une vraie réponse".
@@ -371,7 +371,7 @@ Choisis une erreur que tu fais souvent. **Une seule.** Pendant une semaine, conc
 
 Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [parcours](/parcours) progressifs t'accompagnent semaine par semaine pour corriger ces erreurs. Nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **2,99 €/mois**, et le prochain silence après ta chute sera celui de gens qui reprennent leur souffle.`,
     date: "2026-02-20",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "5 min",
     category: "GUIDE",
     faqs: [
@@ -467,32 +467,32 @@ On va le suivre sur 5 étapes concrètes, loin des livres de développement pers
 
 Ça paraît contre-intuitif, mais le premier réflexe de quelqu'un qui veut avoir de la répartie, c'est de chercher la réplique parfaite. Et le cerveau se fige : il cherche le bon mot pendant 45 secondes, et quand il le trouve, tout le monde parle d'autre chose.
 
-**Paul Mirabel** a dit en interview qu'à ses débuts, il ne cherchait pas à être drôle : il cherchait à être honnête. L'humour venait après, naturellement. C'est la même chose en conversation.
+Regarde **Paul Mirabel** : une bonne partie de ses vannes, c'est juste une gêne honnête dite à voix haute. L'humour vient après, naturellement. C'est la même chose en conversation.
 
 Lucas a commencé par ça : au lieu de chercher la vanne, il a commencé à dire ce qu'il pensait vraiment. "C'est quand même bizarre que tu dises ça." Rien de brillant, mais c'est honnête, et ça marche étrangement bien.
 
 **Exercice :** Pendant 3 jours, en conversation, dis exactement ce que tu penses sans filtrer (dans les limites du respect, évidemment). Note les réactions. Tu vas voir : l'honnêteté surprend, et la surprise, c'est le moteur de l'humour.
 
-## Étape 2 : Le filet de sécurité — 3 phrases prêtes
+## Étape 2 : Le filet de sécurité, 3 phrases prêtes
 
 Avoir 3 réponses universelles en poche, c'est le parapluie de la conversation : tant que tu l'as sur toi, il pleut pas.
 
 Les 3 phrases de Lucas :
-- **"Intéressant"** (dit avec un demi-sourire) : l'accusé de réception ultime. Donne 3 secondes de réflexion.
+- **"Intéressant"** (dit avec un demi-sourire) : l'accusé de réception ultime. Te laisse un instant pour réfléchir.
 - **"Tu me connais tellement bien"** (ironique) : retourne n'importe quelle remarque.
 - **"C'est noté, je transmets"** (ton neutre) : désamorce avec absurdité.
 
-**Fary** utilise des phrases filet de sécurité tout le temps en interview. Quand un journaliste pose une question gênante, il a toujours un "c'est une excellente question" qui lui achète 5 secondes. Ce sont nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) en version concentrée.
+Les humoristes en interview ont leurs phrases filet de sécurité. Imagine **Fary** face à une question gênante : un "c'est une excellente question" lui achète quelques secondes. Ce sont nos [techniques de répartie](/blog/comment-avoir-de-la-repartie) en version concentrée.
 
 **Exercice :** Choisis 3 phrases qui te ressemblent et garde-les sous le coude. Utilise-en au moins une par jour cette semaine. Le but n'est pas d'être brillant : c'est de ne plus rester muet.
 
-## Étape 3 : L'écoute active — Ton arme secrète
+## Étape 3 : L'écoute active, Ton arme secrète
 
-90% des gens en conversation n'écoutent pas : ils attendent leur tour de parler. Du coup, ils ratent toutes les ouvertures. L'écoute active, c'est attraper un mot ou un détail dans ce que l'autre dit et rebondir dessus.
+La plupart des gens en conversation n'écoutent pas vraiment : ils attendent leur tour de parler. Du coup, ils ratent toutes les ouvertures. L'écoute active, c'est attraper un mot ou un détail dans ce que l'autre dit et rebondir dessus.
 
 Quelqu'un dit "J'ai passé un week-end horrible". La plupart des gens : "Ah mince." Lucas version améliorée : "Horrible genre ennuyeux, ou horrible genre tu as survécu à quelque chose ?" La question ouvre la conversation et montre que tu écoutes.
 
-**Roman Frayssinet** fait ça sur scène : il attrape un mot du public et construit dessus. Ce n'est pas du génie : c'est de l'écoute active avec un twist. Regarde ses [vidéos](/videos) analysées sur le site pour voir comment il fait.
+Imagine **Roman Frayssinet** avec un mot lancé par le public : il l'attrape et construit dessus. Ce n'est pas du génie : c'est de l'écoute active avec un twist. Regarde nos [vidéos](/videos) analysées pour repérer cette écoute chez les pros.
 
 **Exercice :** Dans ta prochaine conversation, repère un mot intéressant dans ce que l'autre dit. Rebondis dessus avec une question ou un commentaire. C'est le début du "rebond sur mot-clé" qu'on détaille dans nos [conseils](/conseils).
 
@@ -502,7 +502,7 @@ Lucas a fait l'erreur de tester sa répartie en soirée de 50 personnes. Mauvais
 
 La bonne approche : commence par des conversations à faible enjeu. Le boulanger. Le collègue à la machine à café. Le serveur. Les gens que tu ne reverras peut-être jamais. Zéro pression, 100% terrain d'entraînement.
 
-**Waly Dia** raconte qu'il testait ses vannes dans des salles de 10 personnes avant de monter sur les grandes scènes. Même principe : tu ne fais pas tes gammes devant 10 000 personnes.
+**Waly Dia** a débuté sur les scènes nantaises avant de monter sur les grandes. Même principe : tu ne fais pas tes gammes devant 10 000 personnes.
 
 **Exercice :** Cette semaine, place une de tes 3 phrases filet dans une conversation à basse pression. Avec le boulanger, le livreur, un collègue que tu croises aux toilettes. Note ce qui marche.
 
@@ -513,7 +513,7 @@ Après chaque conversation un peu riche, Lucas prend 30 secondes pour se poser 3
 2. Qu'est-ce qui a bien marché ?
 3. Qu'est-ce que j'aurais fait différemment ?
 
-C'est exactement ce que font les pros. **Panayotis Pascot** a raconté qu'il notait ses vannes ratées pour comprendre pourquoi elles ne marchaient pas. L'analyse, c'est ce qui transforme l'expérience en compétence.
+C'est exactement ce que font les pros. Imagine **Panayotis Pascot** après un soir où une vanne n'a pas pris : il se demande pourquoi, puis il la réécrit. L'analyse, c'est ce qui transforme l'expérience en compétence.
 
 **Exercice :** Ce soir, repense à une conversation et écris 3 réponses alternatives à un moment où tu es resté silencieux. En 3 semaines de ce rituel, tes réponses commenceront à venir en temps réel.
 
@@ -523,7 +523,7 @@ Lucas, notre cas d'école, n'est pas devenu humoriste. Mais il n'est plus "celui
 
 Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semaine après semaine avec des exercices comme ceux de Lucas. Et le catalogue de [vannes](/vannes) te donne du matériel concret pour t'entraîner. **2,99 €/mois**, et ça t'évite le "euh... toi-même".`,
     date: "2026-03-15",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "6 min",
     category: "GUIDE",
     faqs: [
@@ -545,7 +545,7 @@ Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semai
 
 **Mythe cassé : "Les gens drôles improvisent tout."**
 
-En réalité, **Roman Frayssinet** note tout : ses observations dans le métro, les phrases bizarres entendues au supermarché, les situations absurdes du quotidien. Son téléphone est un cimetière de notes vocales, et ses meilleurs sketches en sortent.
+En réalité, les humoristes notent tout : leurs observations dans le métro, les phrases bizarres entendues au supermarché, les situations absurdes du quotidien. Imagine le téléphone d'un **Roman Frayssinet** : un cimetière de notes vocales, d'où sortent les meilleurs sketches.
 
 L'habitude : chaque jour, note une chose absurde que tu as observée. Le mail pro qui commence par "Suite à notre échange téléphonique" alors que vous ne vous êtes jamais appelés. Le mec qui dit "bon appétit" à quelqu'un qui boit un café. Après 30 jours, tu as 30 observations, et dans le tas, au moins 10 qui peuvent faire rire quelqu'un.
 
@@ -555,13 +555,13 @@ L'habitude : chaque jour, note une chose absurde que tu as observée. Le mail pr
 
 L'humour du quotidien, c'est rarement une blague formatée. C'est une façon de dire les choses. Au lieu de "j'ai mal dormi", essaie "j'ai passé la nuit à me disputer avec mon oreiller. Il a gagné." Au lieu de "je suis en retard", "j'étais à l'heure, c'est le rendez-vous qui était en avance".
 
-**Paul Mirabel** est le roi de la reformulation. Il prend une situation banale (aller chez le médecin, manger au resto) et la décrit avec des mots tellement inattendus que tu ris de ta propre vie. C'est l'art de voir le quotidien autrement, et ça s'apprend avec nos [conseils](/conseils) d'observation.
+**Paul Mirabel** est le roi de la reformulation. Il prend une situation banale et la décrit avec des mots tellement inattendus que tu ris de ta propre vie. C'est l'art de voir le quotidien autrement, et ça s'apprend avec nos [conseils](/conseils) d'observation.
 
 ## Habitude 3 : Le compliment absurde
 
 **Mythe cassé : "L'humour, ça divise."**
 
-Le compliment absurde est la forme d'humour la plus universellement appréciée. "Tu as réparé l'imprimante. Je pense qu'il faut qu'on parle de ton avenir dans cette boîte." "Ton Excel est tellement propre que j'ose pas scroller." C'est drôle, c'est positif, et personne ne peut le prendre mal.
+Le compliment absurde est l'une des formes d'humour les plus faciles à faire passer. "Tu as réparé l'imprimante. Je pense qu'il faut qu'on parle de ton avenir dans cette boîte." "Ton Excel est tellement propre que j'ose pas scroller." C'est drôle, c'est positif, et personne ne peut le prendre mal.
 
 À la machine à café, tu pourrais dire à ton collègue : "Ton choix de mug est incroyable. C'est le genre de décision qui change une carrière." Ça coûte rien et ça lance la journée.
 
@@ -579,7 +579,7 @@ L'observation partagée, c'est pointer un truc que tout le monde voit mais que p
 
 Chaque jour, prends une situation banale et pousse-la à l'absurde. "Et si les réunions avaient un arbitre qui siffle les hors-sujets ?" "Et si les mails pro étaient honnêtes ? 'Bonjour, je relance parce que je sais que tu as lu.'"
 
-Ce muscle créatif, c'est celui que tous les humoristes entraînent. **Blanche Gardin** part souvent d'un "et si" pour construire ses sketches : "Et si on arrêtait de faire semblant d'aimer Noël ?"
+Ce muscle créatif, c'est celui que tous les humoristes entraînent. Un "et si" à la **Blanche Gardin**, ça pourrait donner : "Et si Noël avait un service client ? 'Bonjour, je voudrais retourner l'oncle Gérard.'"
 
 ## Habitude 6 : L'autodérision dosée
 
@@ -593,7 +593,7 @@ L'[autodérision](/blog/autoderision-interactions) est paradoxalement un signe d
 
 **Mythe cassé : "Les meilleures vannes sont spontanées."**
 
-Le callback, c'est reprendre un truc dit plus tôt dans la conversation. Quelqu'un a dit "je déteste les lundis" il y a 20 minutes ? Quand un problème arrive plus tard : "Voilà. Lundi." C'est une technique de stand-up que **Waly Dia** utilise dans chaque spectacle, et elle marche aussi bien au bureau qu'en soirée.
+Le callback, c'est reprendre un truc dit plus tôt dans la conversation. Quelqu'un a dit "je déteste les lundis" il y a 20 minutes ? Quand un problème arrive plus tard : "Voilà. Lundi." C'est une technique de stand-up que **Waly Dia** manie très bien, et elle marche aussi bien au bureau qu'en soirée.
 
 Le callback montre que tu écoutes et que tu fais des connexions. C'est du [timing](/blog/timing-humour) + de la mémoire. Et nos [vidéos](/videos) de pros décortiquent cette technique en détail.
 
@@ -601,7 +601,7 @@ Le callback montre que tu écoutes et que tu fais des connexions. C'est du [timi
 
 **Mythe cassé : "L'humour, c'est pour les extravertis."**
 
-Chaque soir, repense à ta journée et reformule un moment de façon drôle. Pas besoin de le partager, juste de le penser. "Ma journée en un mot ? Tableur." Ce rituel entraîne ton cerveau à chercher l'angle drôle automatiquement.
+Chaque soir, repense à ta journée et reformule un moment de façon drôle. Pas besoin de le partager, juste de le penser. "Ma journée en un mot ? Onglets. J'en ai ouvert quarante, j'en ai lu zéro." Ce rituel entraîne ton cerveau à chercher l'angle drôle automatiquement.
 
 Au bout de 30 jours, tu ne "chercheras" plus l'humour : il viendra tout seul, comme un réflexe. C'est exactement le processus décrit dans notre guide [Comment devenir drôle](/blog/comment-devenir-drole).
 
@@ -611,14 +611,14 @@ Pas besoin d'adopter les 8 habitudes d'un coup. Commence par les habitudes 1 (ca
 
 Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **2,99 €/mois** : pour devenir la personne qu'on veut à sa table.`,
     date: "2026-03-14",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "6 min",
     category: "HABITUDES",
     faqs: [
       { question: "Comment intégrer l'humour dans son quotidien ?", answer: "Commence par deux habitudes simples : noter une absurdité par jour dans ton téléphone, et reformuler une phrase banale de façon décalée. En une semaine, tu vas remarquer la différence, pas juste dans tes conversations, mais dans la façon dont tu perçois ta journée." },
       { question: "Faut-il être extraverti pour être drôle ?", answer: "Pas du tout. L'humour du quotidien, c'est une habitude mentale, pas une énergie de la fête. Les introvertis ont souvent un sens de l'observation plus aiguisé, et c'est le premier ingrédient de l'humour. Tu observes plus, tu parles moins, et quand tu parles, ça a du poids." },
       { question: "Quelle est l'habitude la plus facile pour commencer ?", answer: "Le carnet d'absurdités : une situation absurde par jour dans ton téléphone. C'est passif, zéro pression sociale, et ça entraîne ton radar comique en arrière-plan pendant que tu vis ta vie normalement." },
-      { question: "Combien de temps pour que ça devienne naturel ?", answer: "Environ 30 jours de pratique quotidienne. Ton cerveau commence à chercher l'angle drôle automatiquement, comme un réflexe qu'on installe. Roman Frayssinet a son téléphone rempli de notes vocales de moments absurdes : c'est exactement ce processus, juste fait depuis des années." },
+      { question: "Combien de temps pour que ça devienne naturel ?", answer: "Compte une trentaine de jours de pratique quotidienne, un peu plus ou un peu moins selon les gens : ton cerveau finit par chercher l'angle drôle tout seul, comme un réflexe qu'on installe. Imagine un Roman Frayssinet qui note ses moments absurdes depuis des années : c'est le même réflexe, simplement entretenu plus longtemps." },
     ],
   },
   {
@@ -631,23 +631,23 @@ Pour accélérer ta progression, nos [parcours](/parcours) structurés te guiden
 Tu connais ce moment où quelqu'un sort une vanne et tu te dis "ça, c'est mon humour" ? C'est que tu as déjà un style, même si tu ne l'as jamais nommé. Le trouver, c'est le moyen le plus simple d'être drôle sans forcer.
 
 **Les 5 types d'humour en un coup d'oeil :**
-1. **L'observationnel** : décrire la réalité avec une précision qui fait rire (Roman Frayssinet)
+1. **L'observationnel** : décrire la réalité avec une précision qui fait rire (Fary)
 2. **L'autodérision** : rire de soi avec bienveillance et confiance (Panayotis Pascot, Blanche Gardin)
-3. **L'absurde** : créer du non-sens surprenant par escalade (Paul Mirabel)
-4. **Les jeux de mots** : exploiter les doubles sens et détournements (Fary)
+3. **L'absurde** : créer du non-sens surprenant par escalade (Paul Mirabel, Roman Frayssinet)
+4. **Les jeux de mots** : exploiter les doubles sens et détournements
 5. **L'humour noir** : aborder les tabous avec finesse et calibrage (Blanche Gardin, Waly Dia)
 
-## Type 1 : L'observationnel — "C'est tellement vrai"
+## Type 1 : L'observationnel, "C'est tellement vrai"
 
 C'est l'humour qui décrit la réalité avec une précision chirurgicale. Tu ne dis rien de faux : tu dis juste un truc que tout le monde pense mais que personne ne formule.
 
-**Roman Frayssinet** est le maître absolu de l'observationnel français. Quand il parle des gens dans le métro qui font semblant de ne pas voir la personne à côté d'eux, tu ris parce que c'est toi. Quand il décrit les messages vocaux de 7 minutes de ta mère, tu ris parce que c'est exactement ça.
+**Fary** puise beaucoup dans l'observation sociale : l'identité, la vie courante, ces petits travers que tout le monde reconnaît. Tu ris parce que c'est exactement ça, et que tu ne l'avais jamais formulé comme ça.
 
 **Est-ce ton type ?** Tu remarques des trucs que les autres ignorent. Tu dis souvent "nan mais c'est vrai quoi". Les gens te disent "t'as tellement raison" avant de rire.
 
 **Le test :** Décris ta journée d'hier à un ami en pointant 3 absurdités que tu as vécues. Si ça le fait sourire, l'observationnel est ton terrain.
 
-## Type 2 : L'autodérision — "Je suis un désastre (et j'assume)"
+## Type 2 : L'autodérision, "Je suis un désastre (et j'assume)"
 
 L'[autodérision](/blog/autoderision-interactions), c'est transformer ses failles en matériel comique. Pas pour se détruire : pour créer de la connexion. C'est montrer qu'on s'assume assez pour rire de soi.
 
@@ -657,27 +657,27 @@ L'[autodérision](/blog/autoderision-interactions), c'est transformer ses faille
 
 **Le test :** Raconte ton pire rendez-vous galant ou ta pire gaffe professionnelle à quelqu'un. Si tu souris en le racontant et que l'autre rit, c'est ton type.
 
-## Type 3 : L'absurde — "Ça n'a aucun sens (et c'est ça qui est drôle)"
+## Type 3 : L'absurde, "Ça n'a aucun sens (et c'est ça qui est drôle)"
 
 L'absurde, c'est le décalage total entre ce qu'on attend et ce qui arrive. C'est le non sequitur, le changement de registre brutal, la logique qui déraille.
 
-**Paul Mirabel** utilise beaucoup l'absurde dans ses escalades. Il part d'une situation normale et la pousse tellement loin que tu atterris dans une dimension parallèle. Le principe, en une vanne : "Mon médecin m'a dit de marcher tous les jours. Je l'ai écouté. Là, je suis en Belgique." L'absurde n'a qu'une règle : suivre sa propre logique jusqu'au bout.
+**Paul Mirabel** utilise beaucoup l'absurde dans ses escalades. Il part d'une situation normale et la pousse tellement loin que tu atterris dans une dimension parallèle. **Roman Frayssinet** joue aussi dans ce registre : il part d'un détail minuscule et le fait dériver vers l'absurde. Le principe, en une vanne : "J'ai mis mon réveil en face du lit pour être obligé de me lever. Maintenant je dors par terre, à côté du réveil." L'absurde n'a qu'une règle : suivre sa propre logique jusqu'au bout.
 
 **Est-ce ton type ?** Tes amis te disent souvent "t'es bizarre mais drôle". Tu fais des connexions que personne ne voit venir. Tu aimes les réponses qui n'ont rien à voir avec la question.
 
 **Le test :** La prochaine fois qu'on te pose une question banale ("ça va ?"), réponds avec un truc complètement décalé ("Ça va. Mon grille-pain et moi, on s'est réconciliés."). Si ça fait rire, bienvenue dans l'absurde.
 
-## Type 4 : Les jeux de mots — "Tu l'as ? Tu l'as ?"
+## Type 4 : Les jeux de mots, "Tu l'as ? Tu l'as ?"
 
 Les jeux de mots, c'est l'humour intellectuel par excellence. Homophones, polysémie, détournements : ton cerveau fait un double sens et la surprise déclenche le rire.
 
-**Fary** glisse des jeux de mots dans ses punchlines avec une fluidité déconcertante. Le truc, c'est que les bons jeux de mots sont courts et percutants, pas le calembour de tonton qui nécessite 3 minutes d'explication.
+Un bon jeu de mots se glisse dans une punchline avec une fluidité déconcertante. Le truc, c'est que les bons jeux de mots sont courts et percutants, pas le calembour de tonton qui nécessite 3 minutes d'explication.
 
 **Est-ce ton type ?** Tu joues avec les mots naturellement. Tu repères les doubles sens dans les phrases des autres. Tu as déjà fait rire quelqu'un en changeant un seul mot dans une phrase.
 
 **Le test :** Prends 3 expressions courantes et prends-les au pied de la lettre. "Mettre de l'eau dans son vin" → "J'ai mis de l'eau dans mon vin. Mon oncle ne m'adresse plus la parole." Si tes proches rigolent (ou soupirent avec un sourire), c'est validé.
 
-## Type 5 : L'humour noir — "Trop loin ? Pas assez loin."
+## Type 5 : L'humour noir, "Trop loin ? Pas assez loin."
 
 L'humour noir joue avec les tabous, l'inconfort et les sujets graves. C'est le piment du placard : une pincée relève tout, une cuillère gâche le repas. On a un article entier sur [comment l'utiliser sans blesser](/blog/humour-noir-utiliser-sans-blesser).
 
@@ -689,9 +689,9 @@ L'humour noir joue avec les tabous, l'inconfort et les sujets graves. C'est le p
 
 ## Peut-on combiner plusieurs types d'humour ?
 
-> **CLEF :** Les meilleurs humoristes ne se limitent pas à un seul type, ils combinent 2-3 styles pour créer leur signature. Paul Mirabel = observationnel + absurde + escalade. Fary = observationnel + jeux de mots + énergie. Ton objectif : identifier ton type dominant, puis l'enrichir avec un second type complémentaire.
+> **CLEF :** Les meilleurs humoristes ne se limitent pas à un seul type, ils combinent 2-3 styles pour créer leur signature. Paul Mirabel = observationnel + absurde + escalade. Fary = observationnel + autodérision + énergie. Ton objectif : identifier ton type dominant, puis l'enrichir avec un second type complémentaire.
 
-La réalité, c'est que la plupart des gens drôles ne sont pas "un type". Ils sont des hybrides. **Paul Mirabel** mélange observationnel + absurde + escalade. **Fary** combine observationnel + jeux de mots + énergie. **Roman Frayssinet** fait de l'observationnel avec une touche d'absurde. Regarde nos [vidéos](/videos) analysées pour identifier les combinaisons de chaque pro.
+La réalité, c'est que la plupart des gens drôles ne sont pas "un type". Ils sont des hybrides. **Paul Mirabel** mélange observationnel + absurde + escalade. **Fary** combine observationnel + autodérision + énergie. **Roman Frayssinet** part du quotidien pour le faire dériver vers l'absurde. Regarde nos [vidéos](/videos) analysées pour identifier les combinaisons de chaque pro.
 
 Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d'un second type. Un observateur qui s'autorise un peu d'absurde, ou un autodérisif qui glisse un jeu de mots, ajoute une surprise de plus à chaque vanne. Pour travailler ton style au quotidien, lis notre guide [comment devenir drôle](/blog/comment-devenir-drole).
 
@@ -703,13 +703,13 @@ Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d
 
 Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t'accompagnent avec des exercices adaptés. Et notre catalogue de [vannes](/vannes) te permet de voir chaque type en action. Nos [conseils](/conseils) de pros t'aident à affiner ton style. **2,99 €/mois**, et ton style arrête d'être un secret, même pour toi.`,
     date: "2026-03-17",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "ANALYSE",
     faqs: [
       { question: "Quels sont les différents types d'humour ?", answer: "Les 5 grands : observationnel (décrire la réalité avec une précision qui fait rire), autodérision (rire de soi depuis une position de force), absurde (décalage et non-sens surprenant), jeux de mots (double sens et détournements), humour noir (jouer avec les tabous en visant vers le haut). La plupart des gens drôles en combinent deux ou trois." },
       { question: "Comment savoir quel type d'humour me correspond ?", answer: "Trois façons simples : relis tes derniers fous rires (memes absurdes ? observations d'un pote ? jeux de mots ?), demande à tes proches quand tu les fais rire, et teste un type par jour pendant une semaine. Celui qui vient sans effort : c'est le tien." },
-      { question: "Peut-on avoir plusieurs types d'humour ?", answer: "Oui, et les meilleurs humoristes sont tous des hybrides. Paul Mirabel mélange observationnel et absurde. Fary combine observationnel et jeux de mots. Roman Frayssinet fait de l'observationnel avec une touche d'absurde. Trouve ton type dominant, puis enrichis-le avec un second." },
+      { question: "Peut-on avoir plusieurs types d'humour ?", answer: "Oui, et les meilleurs humoristes sont tous des hybrides. Paul Mirabel mélange observationnel et absurde. Fary combine observationnel et autodérision. Roman Frayssinet part du quotidien pour le faire dériver vers l'absurde. Trouve ton type dominant, puis enrichis-le avec un second." },
       { question: "Quel type d'humour est le plus facile à apprendre ?", answer: "L'observationnel est le point d'entrée idéal : tu décris ce que tout le monde vit mais que personne ne formule. Pas besoin d'être créatif ou de construire une blague : il suffit de dire à voix haute ce que ton cerveau pense déjà. C'est aussi le type le plus universel." },
     ],
   },
@@ -729,7 +729,7 @@ L'humour noir joue avec l'inconfort pour créer du rire. Il aborde des sujets gr
 
 > **À retenir :** L'humour noir réussi vise toujours vers le haut (le pouvoir, le système, soi-même) et jamais vers le bas (les personnes vulnérables). Ses 3 règles : la cible c'est toi ou le système, le contexte détermine tout, et la punchline doit justifier la transgression.
 
-**Blanche Gardin** est la référence absolue de l'humour noir français réussi. Quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance : elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible. C'est l'un des [5 types d'humour](/blog/5-types-humour-lequel-pour-toi) les plus puissants, mais aussi le plus risqué.
+**Blanche Gardin** reste la référence de l'humour noir français réussi, même si elle a fait polémique en 2024 avec un sketch sur Gaza, puis annoncé en novembre 2025 qu'elle arrêtait le stand-up. Dans ses spectacles, quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance : elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible. C'est l'un des [5 types d'humour](/blog/5-types-humour-lequel-pour-toi) les plus puissants, mais aussi le plus risqué.
 
 ## Les 3 règles de l'humour noir réussi
 
@@ -746,23 +746,23 @@ La même blague noire peut être hilarante entre potes proches et catastrophique
 **Feu vert :** Entre amis proches qui partagent les mêmes codes, en petit comité, quand l'ambiance est déjà détendue.
 **Feu rouge :** Avec des inconnus, en grand groupe, quand quelqu'un vit le sujet en ce moment, au travail avec la hiérarchie.
 
-**Fary** a expliqué en interview qu'il adapte constamment son niveau d'humour noir selon la salle. Même spectacle, même texte, mais le dosage change. C'est du [timing](/blog/timing-humour) social appliqué à l'humour noir.
+Imagine **Fary** devant deux salles différentes : même spectacle, même texte, mais le dosage d'humour noir change avec le public. C'est du [timing](/blog/timing-humour) social appliqué à l'humour noir.
 
 ### Règle 3 : La punchline justifie la transgression
 
 Si tu vas dans le noir, la chute doit valoir le voyage. Un setup inconfortable sans punchline brillante, c'est juste... inconfortable. La punchline doit être tellement surprenante ou vraie qu'elle fait oublier l'inconfort du setup.
 
-**Paul Mirabel** utilise parfois l'humour noir dans ses escalades : il part d'un sujet léger, monte progressivement vers le sombre, et la chute est tellement inattendue que tu ris de surprise. La construction est millimétrée.
+Prends l'escalade, ce mécanisme qu'on associe à **Paul Mirabel** : tu pars d'un sujet léger, tu montes progressivement vers le sombre, et la chute est tellement inattendue qu'on rit de surprise. La construction doit être millimétrée.
 
-## 3 sketches décortiqués
+## 3 exemples décortiqués
 
-### Sketch 1 : Blanche Gardin sur la thérapie (BON humour noir)
-Elle parle de ses années de thérapie avec une franchise terrifiante. "Mon psy m'a dit que j'avais fait des progrès. J'ai répondu que lui aussi devrait en faire : ça fait 8 ans qu'il me supporte." La cible : elle-même et le système thérapeutique ; personne n'est blessé, et tout le monde rit.
+### Exemple 1, dans la veine de Blanche Gardin : la thérapie (BON humour noir)
+Imagine une séance de thérapie racontée sans filtre : "Mon psy m'a dit que j'avais fait d'énormes progrès. Il veut qu'on se voie deux fois par semaine pour les consolider." La cible, c'est le système : personne n'est blessé, et tout le monde rit.
 
-### Sketch 2 : Waly Dia sur les clichés racistes (BON humour noir)
-Il reprend les clichés racistes qu'on lui sort et les pousse à l'absurde : "On m'a dit 'retourne dans ton pays'. J'ai répondu 'je suis de Créteil, tu veux que je retourne à Créteil ?'" La cible : le racisme et son absurdité. La victime reprend le pouvoir par le rire.
+### Exemple 2, dans la veine de Waly Dia : les clichés racistes (BON humour noir)
+Exemple imaginé, dans la veine de Waly Dia, qui fait de l'humour politique sur le racisme qu'il vit : on reprend le cliché qu'on nous sort et on le pousse à l'absurde. "On m'a dit 'retourne dans ton pays'. J'ai répondu 'je suis né à deux rues d'ici, tu veux que je retourne à la maternité ?'" La cible : le racisme et son absurdité. La victime reprend le pouvoir par le rire.
 
-### Sketch 3 : Quand ça ne marche PAS (MAUVAIS humour noir)
+### Exemple 3 : quand ça ne marche PAS (MAUVAIS humour noir)
 "Blague" sur un sujet grave qui vise les victimes, pas de punchline, juste le choc. C'est pas de l'humour noir : c'est de la provocation sans talent. Si après ta blague il y a un silence gêné et pas un rire, c'est que tu as cassé la règle 1 ou 3.
 
 ## Le dosage en conversation
@@ -780,9 +780,9 @@ Avant chaque blague noire, pose-toi 3 questions :
 2. **Le contexte ?** Les gens présents partagent mes codes ? (Oui = go. Inconnus ou hiérarchie = version très légère uniquement.)
 3. **La punchline ?** Elle est assez forte pour justifier le setup ? (Oui = go. Bof = réécris.)
 
-Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant : nos [parcours](/parcours) t'apprennent à le doser, et nos [vannes](/vannes) classées par style te donnent des exemples de second degré réussi. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **2,99 €/mois** : c'est pas cher payé pour éviter les silences de mort.`,
+Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant : nos [parcours](/parcours) t'entraînent à sentir le bon moment pour sortir une vanne, et nos [vannes](/vannes) rangées par thème te donnent du matériel pour t'exercer. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **2,99 €/mois** : c'est pas cher payé pour éviter les silences de mort.`,
     date: "2026-03-16",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "6 min",
     category: "ANALYSE",
     faqs: [
@@ -886,7 +886,7 @@ Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédié
 
 Le mec qui tient la porte pour quelqu'un à 15 mètres, forçant l'autre à courir. Le mail "urgent" envoyé un vendredi à 18h47. Le "petit point rapide" de 2 heures.
 
-**Roman Frayssinet** a dit que 80% de son matériel vient de ce qu'il observe dans la vie quotidienne. Son téléphone est rempli de notes. Deviens un collecteur d'absurdités.
+Les humoristes tirent une bonne part de leur matériel de ce qu'ils observent dans la vie quotidienne, et leur téléphone est rempli de notes (imagine celui d'un **Roman Frayssinet**). Deviens un collecteur d'absurdités.
 
 **Résultat attendu :** Après 2 semaines, tu remarques des trucs que tu ignorais avant. C'est la base de tout, comme expliqué dans notre guide [Comment devenir drôle](/blog/comment-devenir-drole).
 
@@ -897,7 +897,7 @@ Le mec qui tient la porte pour quelqu'un à 15 mètres, forçant l'autre à cour
 
 "J'ai pas dormi" →
 1. "J'ai vu toutes les heures de la nuit. Aucune ne m'a plu."
-2. "J'ai passé la nuit à compter les moutons. Ils ont fui au 47e"
+2. "J'ai passé la nuit à compter les moutons. Ils ont fui au 47e."
 3. "Mon lit, cette nuit, c'était surtout un lieu de réflexion."
 
 L'objectif : forcer ton cerveau à chercher l'angle drôle. Au début c'est laborieux, après 10 jours ça devient un réflexe.
@@ -907,7 +907,7 @@ L'objectif : forcer ton cerveau à chercher l'angle drôle. Au début c'est labo
 **Durée :** 5 minutes
 **Le principe :** Prends un fait réel et pousse-le à l'extrême.
 
-"Il fait chaud" → "Il fait tellement chaud que même mon déodorant transpire."
+"Il fait chaud" → "Il fait tellement chaud que mon ombre cherche de l'ombre."
 "J'ai faim" → "J'ai tellement faim que j'ai commencé à négocier avec une plante."
 
 **Paul Mirabel** fait cet exercice naturellement : il part du réel et grimpe jusqu'à l'absurde total. Entraîne-toi avec nos [vannes](/vannes) comme modèle.
@@ -933,7 +933,7 @@ Situation : quelqu'un dit "T'es toujours en retard"
 - Retournement : "Et toi, t'es toujours là à me chronométrer ?"
 - Absurde : "En retard ? Non. Je passe en dernier, comme la tête d'affiche."
 
-**Panayotis Pascot** a raconté qu'il notait tout : les vannes ratées, les répliques qu'il aurait voulu sortir. C'est l'analyse qui fait la progression.
+Imagine **Panayotis Pascot** qui note tout : les vannes ratées, les répliques qu'il aurait voulu sortir. C'est l'analyse qui fait la progression.
 
 ### Exercice 6 : Le compliment absurde
 
@@ -943,7 +943,7 @@ Situation : quelqu'un dit "T'es toujours en retard"
 "Ce café est tellement bon que je vais demander la recette à la machine."
 "Ton choix de chaussettes aujourd'hui est une déclaration artistique."
 
-**Fary** utilise des compliments absurdes en interview pour créer de la complicité. C'est sans risque, toujours positif, et ça fait sourire. Consulte nos [conseils](/conseils) pour plus de techniques de brise-glace.
+Dans la veine de **Fary**, le compliment absurde sert à créer de la complicité. C'est sans risque, toujours positif, et ça fait sourire. Consulte nos [conseils](/conseils) pour plus de techniques de brise-glace.
 
 ### Exercice 7 : L'analyse de sketch
 
@@ -990,7 +990,7 @@ Pour structurer ta progression, nos [parcours](/parcours) te guident étape par 
       { question: "Comment développer son sens de l'humour avec des exercices ?", answer: "Commence par les exercices passifs (noter une absurdité par jour, reformulation x3) puis progresse vers les exercices actifs (ping-pong verbal, journal de répartie). 5 minutes par jour, ça paraît rien, et au bout de 2 semaines tu remarques que ton cerveau cherche l'angle drôle tout seul." },
       { question: "Quel est l'exercice le plus efficace pour devenir drôle ?", answer: "Le journal de répartie : chaque soir, identifie un moment où tu aurais aimé mieux répondre et écris 3 réponses avec 3 techniques différentes (rebond, retournement, absurde). C'est ce qui développe la rapidité d'esprit, pas un talent naturel, une mémoire musculaire." },
       { question: "Combien de temps par jour faut-il consacrer ?", answer: "5 minutes pour les débutants, 10-15 pour les intermédiaires. La régularité est 10 fois plus importante que la durée. 5 minutes par jour pendant 30 jours battent largement 2 heures un samedi par mois." },
-      { question: "Peut-on s'entraîner seul à être drôle ?", answer: "Oui, pour 7 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch, écriture de bit, et callback en conversation. Seuls le ping-pong verbal et le one-man-show de 2 minutes nécessitent un partenaire." },
+      { question: "Peut-on s'entraîner seul à être drôle ?", answer: "Oui, pour 6 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch et écriture de bit. Il te faut quelqu'un pour le ping-pong verbal, le compliment absurde, le callback en conversation et le one-man-show de 2 minutes." },
     ],
   },
   {
@@ -1004,7 +1004,7 @@ Pour structurer ta progression, nos [parcours](/parcours) te guident étape par 
 
 C'est contre-intuitif. Quand on est nerveux, on accélère. On veut arriver à la chute le plus vite possible, comme si le rire était un bus qu'on allait rater. Sauf que l'humour, c'est le contraire : c'est le bus qu'il faut laisser arriver.
 
-Regarde **Roman Frayssinet** sur scène. Chronomètre en main, tu peux mesurer des silences de 3 à 5 secondes avant ses punchlines. Trois secondes, ça paraît rien à l'écrit. En live, c'est une éternité. Et c'est exactement cette éternité qui crée la tension nécessaire au rire. C'est un art qu'on explore en profondeur dans [Timing humour : plus fort que la blague](/blog/timing-humour).
+Regarde **Roman Frayssinet** sur scène. Chronomètre en main, tu peux mesurer des silences de 3 à 5 secondes avant ses punchlines. Trois secondes, ça paraît rien à l'écrit. En live, c'est une éternité. Et c'est exactement cette éternité qui crée la tension nécessaire au rire. C'est un art qu'on explore en profondeur dans [Timing humour : le secret de la blague](/blog/timing-humour).
 
 ## Analyse seconde par seconde : Roman Frayssinet
 
@@ -1178,7 +1178,7 @@ Nos [parcours](/parcours) incluent des exercices de structure comique avec feedb
       "Phrases drôles pour la soirée, le date, WhatsApp ou la réunion : 33 répliques à placer, chacune avec le moment où la sortir pour qu'elle fasse rire.",
     content: `Tu connais ce moment où quelqu'un sort la phrase drôle parfaite, pile au bon moment, et toute la table explose ? Et toi, tu retrouves la réplique idéale… sous la douche, 3 heures plus tard ?
 
-Les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste **un stock de phrases rodées**, qu'ils ressortent au bon moment. Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.
+Les gens drôles ne sont pas tous des génies de l'improvisation. La plupart ont juste **un stock de phrases rodées**, qu'ils ressortent au bon moment. Regarde Paul Mirabel : derrière son naturel de scène, il y a de la préparation que personne ne voit.
 
 Cet article, c'est ta réserve : plus de 30 phrases drôles, classées par situation, avec le contexte exact et le timing pour les placer. Il te reste juste à choisir celles qui te ressemblent.
 
@@ -1214,16 +1214,16 @@ Pour plus de techniques sur [comment avoir de la répartie au travail](/blog/com
 
 ## Phrases drôles pour les soirées
 
-En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute une histoire de 45 secondes avec de la musique à fond. Roman Frayssinet l'a bien compris : ses meilleures punchlines tiennent en une phrase.
+En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute une histoire de 45 secondes avec de la musique à fond. Sur scène, un Roman Frayssinet peut se permettre des digressions, devant un public venu l'écouter. En soirée, tu n'as pas ce luxe : une phrase, qui doit tomber juste.
 
-**7. "J'ai failli pas venir. La dernière fois, c'était dans l'ascenseur."**
+**7. "J'ai failli pas venir. La dernière fois, j'ai fait demi-tour dans l'ascenseur."**
 → *En arrivant à une soirée.* Brise-glace parfait pour les timides : tu avoues ton trac, et tout le monde se détend.
 
 **8. "J'ai une mémoire incroyable. Elle me réveille à 3h du mat pour me rappeler un truc que j'ai dit en CM2."**
 → *Quand quelqu'un dit "t'as une bonne mémoire".* Le détail précis ("en CM2") fait tout le travail.
 
-**9. "Je suis très spontané. Il me faut juste 48h de préavis."**
-→ *Quand on parle de dating en groupe.* Le contraste entre l'image et la réalité crée le rire.
+**9. "Je suis quelqu'un de très spontané. J'ai prévu de l'être jeudi."**
+→ *Quand on te propose un plan à la dernière minute.* Le contraste entre l'image et la réalité crée le rire.
 
 **10. "Je suis bilingue : français et 'vas-y, on verra bien'."**
 → *Après avoir fait un truc un peu con.* Timing : juste après l'action, pas avant.
@@ -1234,8 +1234,8 @@ En soirée, la règle c'est : **court, fort, mémorable**. Personne n'écoute un
 **12. "La dernière fois, on s'était dit 'on se fait un truc bientôt'. Voilà. C'est ça, le truc."**
 → *Quand tu retrouves par hasard quelqu'un que t'as pas vu depuis longtemps.* Tout le monde a déjà fait cette promesse, et tout le monde se reconnaît.
 
-**13. "Je mange équilibré : un dessert dans chaque main."**
-→ *Quand on parle de bouffe ou de régime.* La fausse logique fait le boulot.
+**13. "J'ai téléchargé une appli pour compter les calories. J'ai rentré ma journée. Elle m'a demandé si tout allait bien."**
+→ *Quand on parle de bouffe ou de régime.* C'est l'appli qui s'inquiète à ta place, et ça fait le boulot.
 
 Que tu sois étudiant, jeune actif ou en pleine reconstruction, [nos parcours](/parcours) sont calibrés pour chaque profil. Tu bosses les techniques qui correspondent à ta vraie vie.
 
@@ -1257,8 +1257,8 @@ Blanche Gardin a prouvé qu'on peut être cash, drôle et séduisant en même te
 **17. "Si on me demande comment on s'est rencontrés, je raconte qu'on s'est battus pour le dernier avocat au supermarché."**
 → *Quand le date se passe bien.* Projette un futur tout en étant absurde.
 
-**18. "Je cuisine très bien. Mon livreur peut en témoigner."**
-→ *Quand on parle de bouffe.* Le retournement rapide est la clé, pas de pause entre les deux phrases.
+**18. "Je cuisine très bien. Mon four est comme neuf."**
+→ *Quand on parle de bouffe.* Le retournement est la clé : une petite seconde de pause avant la chute, juste le temps que l'autre y croie.
 
 **19. "J'ai toujours un plan B. C'est le même canapé, mais de l'autre côté."**
 → *Quand la conversation tourne autour des qualités/défauts.*
@@ -1274,8 +1274,8 @@ Panayotis Pascot a montré que la vulnérabilité pouvait être une force comiqu
 **20. "Je ressors après 6 mois d'hibernation. Soyez indulgents : ma dernière conversation, c'était avec la caisse automatique."**
 → *Premier apéro avec des potes après une longue absence.* L'autodérision dédramatise le retour.
 
-**21. "Tout le monde me dit de me remettre en selle. J'ai même pas de vélo."**
-→ *Quand quelqu'un te pousse à sortir.* Fonctionne aussi en réponse aux "alors, tu as rencontré quelqu'un ?".
+**21. "Ma grand-mère m'a demandé si j'avais quelqu'un. J'ai dit non. Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé."**
+→ *En réponse aux "alors, tu as rencontré quelqu'un ?" ou quand on te pousse à sortir.* Le sérieux de la grand-mère qui prend le dossier en main fait le travail.
 
 **22. "Je recommence à dîner avec des gens. C'est dur, ils répondent. Mon chat, lui, me laissait finir."**
 → *Quand tu retrouves un cercle social.* Reprendre confiance, un dîner à la fois.
@@ -1286,7 +1286,7 @@ Si tu veux structurer ta progression, [nos parcours](/parcours) incluent le Parc
 
 ## Phrases drôles par WhatsApp et SMS
 
-Le format texte a ses propres règles. Waly Dia l'a théorisé : à l'écrit, "le rythme c'est la ponctuation et le retour à la ligne." Pas de ton de voix pour t'aider, donc la construction doit être chirurgicale.
+Le format texte a ses propres règles. Imagine Waly Dia privé de sa voix : à l'écrit, le rythme, c'est la ponctuation et le retour à la ligne. Pas de ton de voix pour t'aider, donc la construction doit être chirurgicale.
 
 **23. "Désolé, ça fait 3 jours que je rédige la réponse parfaite. La voici : 'coucou'."**
 → *Quand tu réponds après 3 jours de silence radio.* Envoie-la telle quelle, sans autre excuse.
@@ -1349,7 +1349,7 @@ Nos [conseils humour](/conseils) te donnent les techniques derrière ces phrases
 
 ## Mémorise 5, pas 30
 
-Dernier conseil de Fary : "T'as pas besoin de 200 vannes. T'as besoin de 5 que tu maîtrises les yeux fermés."
+Dernier conseil, dans la veine de Fary : pas besoin de 200 vannes, il t'en faut 5 que tu maîtrises les yeux fermés.
 
 Choisis 5 phrases de cet article. Celles qui te ressemblent. Et teste-les cette semaine.
 
@@ -1369,7 +1369,7 @@ La phrase drôle parfaite, c'est pas la plus intelligente : c'est celle que tu s
     faqs: [
       { question: "Comment trouver des phrases drôles à sortir en conversation ?", answer: "Note les phrases qui te font rire dans la vraie vie (séries, potes, réseaux), puis adapte-les à tes situations. Avoir 5 à 10 phrases prêtes pour les contextes récurrents (machine à café, soirée, date) suffit largement : l'important c'est qu'elles te ressemblent." },
       { question: "Comment être drôle sans avoir l'air de forcer ?", answer: "Ne ris jamais de ta propre phrase avant la chute, et choisis des phrases qui collent à ta personnalité. Teste avec des proches d'abord. Si ça sort sans effort, c'est la bonne. L'autodérision légère est le format le plus safe pour commencer : elle marche dans quasiment tous les contextes." },
-      { question: "Quelles sont les meilleures phrases drôles pour briser la glace ?", answer: "Courtes (moins de 15 mots), universelles (situation que tout le monde reconnaît), et avec un twist qu'on ne voit pas venir. L'autodérision bien dosée fonctionne dans la grande majorité des contextes sociaux, et elle te rend sympathique immédiatement." },
+      { question: "Quelles sont les meilleures phrases drôles pour briser la glace ?", answer: "Courtes (moins de 25 mots, comme celles de cet article), universelles (situation que tout le monde reconnaît), et avec un twist qu'on ne voit pas venir. L'autodérision bien dosée fonctionne dans la grande majorité des contextes sociaux, et elle te rend sympathique immédiatement." },
       { question: "Comment avoir de la répartie avec des phrases toutes faites ?", answer: "Les phrases toutes faites sont un tremplin, pas un script. Tu les ressors, tu vois ce qui colle, puis ton cerveau crée ses propres variantes. C'est comme en musique : on apprend des morceaux existants avant d'improviser. Paul Mirabel a fait pareil." },
       { question: "Est-ce que l'humour s'apprend vraiment ?", answer: "À 100%. Paul Mirabel, Roman Frayssinet : ils écrivent, testent et réécrivent leurs vannes des dizaines de fois. Ressortir des phrases drôles et les placer au bon moment, c'est exactement comme ça que les pros ont débuté. Sauf qu'eux ont commencé sans cet article." },
     ],
@@ -1567,11 +1567,11 @@ Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour)
 
 ## Comment bien raconter une blague drôle ?
 
-> **CLEF :** Connaître des blagues et savoir les raconter sont deux compétences différentes. Le secret tient en 3 règles : ne rigole jamais avant ta punchline, adapte la vanne au contexte (soirée/bureau/date), et marque une pause de 2-3 secondes avant la chute. Ces 3 règles transforment n'importe quelle vanne correcte en blague mémorable.
+> **CLEF :** Connaître des blagues et savoir les raconter sont deux compétences différentes. Le secret tient en 3 règles : ne rigole jamais avant ta punchline, adapte la vanne au contexte (soirée/bureau/date), et marque une pause d'une seconde environ avant la chute. Ces 3 règles transforment n'importe quelle vanne correcte en blague mémorable.
 
 Avoir 50 vannes en stock, c'est bien. Savoir les placer, c'est ce qui sépare le mec drôle du mec qui « connaît des blagues ».
 
-**Le timing, c'est sacré.** Un silence de 3 secondes peut faire rire à lui tout seul. Et un silence, tout le monde sait le faire. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
+**Le timing, c'est sacré.** Une seconde de silence peut faire rire à lui tout seul. Et un silence, tout le monde sait le faire. La pause juste avant la punchline crée l'attente. On a un [guide complet sur le timing](/blog/timing-humour).
 
 **Le contexte fait la vanne.** La blague sur le flex office, tu la sors au bureau, pas en boîte.
 
@@ -1587,7 +1587,7 @@ Si tu veux progresser sérieusement, nos [parcours structurés](/parcours) te do
 
 → **[Comment devenir drôle](/blog/comment-devenir-drole)** : le guide complet avec plan d'action sur 30 jours.`,
     date: "2026-03-19",
-    updatedAt: "2026-10-05",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "CATALOGUE",
     faqs: [
@@ -1609,7 +1609,7 @@ La réponse courte : arrête de performer, commence à observer. **Faire rire qu
 
 ## Comment faire rire une fille avec l'autodérision
 
-**Fary** l'a dit mieux que personne : "L'autodérision, c'est montrer qu'on est assez confiant pour rire de soi." C'est le contraire du mec qui essaie d'impressionner.
+Dans la veine de **Fary**, qui sait parler de lui sur scène : l'autodérision, c'est montrer qu'on est assez confiant pour rire de soi. C'est le contraire du mec qui essaie d'impressionner.
 
 Raconte un truc où tu passes pour un idiot : un idiot attachant.
 
@@ -1619,7 +1619,7 @@ Raconte un truc où tu passes pour un idiot : un idiot attachant.
 
 La nuance ? L'autodérision drôle montre de la confiance. L'autodérision triste cherche de la pitié. On a un [guide complet sur l'autodérision bien dosée](/blog/autoderision-interactions).
 
-## 2. L'observation partagée — "Tu vois le truc aussi ?"
+## 2. L'observation partagée : "Tu vois le truc aussi ?"
 
 **Roman Frayssinet** est le roi de ça. Il décrit un truc que tout le monde vit et personne ne verbalise. En conversation, c'est pareil : pointe un truc absurde que vous vivez ensemble, en ce moment.
 
@@ -1629,23 +1629,23 @@ En date : "C'est moi ou le serveur nous regarde comme si on allait partir sans p
 
 Le truc clé : tu ne racontes pas une blague. Tu partages un regard. Et partager un regard, c'est 10 fois plus intime que réciter un sketch.
 
-## 3. L'effet de surprise — Le virage que personne voit venir
+## 3. L'effet de surprise : Le virage que personne voit venir
 
 Le cerveau adore être surpris. Tu commences une phrase dans une direction, et tu tournes.
 
-"Au début, je t'ai trouvée normale. Et puis t'as parlé de ta collection de cactus. Ouf."
+"Au début, je t'ai trouvée normale, j'étais presque déçu. Et puis t'as parlé de ta collection de cactus."
 
 **Paul Mirabel** utilise ça en permanence : setup normal → pivot absurde → punchline au mauvais endroit. Le secret, c'est que le virage doit être net. Pas "ah et du coup haha non en fait", mais un vrai changement de direction. Notre article sur le [timing](/blog/timing-humour) détaille cette mécanique.
 
 ## Faire rire une fille en prouvant que tu écoutes
 
-Reprends un truc qu'elle a dit il y a 20 minutes et replace-le dans un nouveau contexte. C'est un callback : la technique préférée de **Blanche Gardin** en spectacle.
+Reprends un truc qu'elle a dit il y a 20 minutes et replace-le dans un nouveau contexte. C'est un callback, une technique qu'on retrouve chez **Blanche Gardin** en spectacle.
 
 Elle mentionne qu'elle a peur des pigeons. 20 minutes plus tard, devant un parc : "Bon, on traverse ou tu veux un gilet pare-pigeons ?"
 
-Pourquoi ça marche ? Parce que ça prouve que tu écoutes. Et ça, c'est plus rare que tu ne crois. 90% des gens attendent juste leur tour pour parler. Toi, tu recycles ce qu'on te dit pour en faire quelque chose de drôle. C'est une déclaration d'attention.
+Pourquoi ça marche ? Parce que ça prouve que tu écoutes. Et ça, c'est plus rare que tu ne crois. La plupart des gens attendent juste leur tour pour parler. Toi, tu recycles ce qu'on te dit pour en faire quelque chose de drôle. C'est une déclaration d'attention.
 
-## 5. L'exagération stratégique — Le curseur poussé à fond
+## 5. L'exagération stratégique : Le curseur poussé à fond
 
 Prends un détail et pousse-le à 11/10.
 
@@ -1653,17 +1653,17 @@ Elle dit qu'elle aime le fromage ? "Donc si le plateau de fromages arrive, je te
 
 **Waly Dia** fait ça tout le temps : il prend un détail anodin de la vie et construit un univers absurde autour. L'astuce : une seule exagération suffit. Si tu en empiles trois, ça devient du bruit.
 
-## 6. Le silence qui parle — Ne pas tout remplir
+## 6. Le silence qui parle : Ne pas tout remplir
 
 La plupart des mecs parlent trop. Par nervosité, par envie de combler le vide, par peur du silence. Or le silence n'est pas un trou à boucher.
 
-Regarde **Panayotis Pascot** en interview. Il laisse des blancs. Ces blancs créent de la tension, et la phrase d'après en est 10 fois plus drôle.
+Imagine **Panayotis Pascot** en interview qui laisse un blanc avant de répondre : ce blanc crée de la tension, et la phrase d'après n'en est que plus drôle.
 
 En pratique : après ta punchline, ne rajoute rien. Pas de "haha tu vois ce que je veux dire ?". Pose ta vanne et laisse-la respirer. Le rire vient dans le silence.
 
 ## La vraie technique pour faire rire une fille : être toi
 
-Paradoxe : les gens les plus drôles ne sont pas ceux qui essaient d'être drôles. **Inès Reg** est devenue virale en étant juste elle-même, sans filtre, sans calcul.
+Paradoxe : les gens les plus drôles ne sont pas ceux qui essaient d'être drôles. Imagine **Inès Reg** qui raconte une scène de couple que tout le monde a vécue : elle décrit sans forcer, et c'est ce qui fait rire.
 
 Les meilleurs moments d'humour en date ou en soirée, c'est quand tu dis un truc que tu penses vraiment, avec un angle légèrement décalé. C'est pas un numéro : c'est toi, avec le filtre "tiens, c'est absurde quand on y pense".
 
@@ -1690,7 +1690,7 @@ Si tu veux travailler ta répartie en général, nos [techniques de répartie](/
 
 → **[Comment devenir drôle](/blog/comment-devenir-drole)** : le guide complet si tu veux reprendre les bases.`,
     date: "2026-03-19",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "CONTEXTE",
     faqs: [
@@ -1719,9 +1719,9 @@ La plupart des mecs communiquent par chambrages. C'est leur langage d'amitié. S
 
 **Ce qui ne marche pas :** les chambrages sur des sujets sensibles (physique, travail, famille). Tu le connais pas assez pour aller là.
 
-**Fary** parle souvent de ça : le chambrage, c'est du lien social. Plus tu chambres quelqu'un, plus ça montre que tu l'apprécies : à condition de doser.
+Imagine **Fary** qui taquine le premier rang : ça passe parce que la salle sent qu'il l'aime bien. Le chambrage, c'est pareil : du lien social, à condition de connaître la personne et de rester léger.
 
-## 2. L'humour décalé — Dire le truc que personne attendait
+## 2. L'humour décalé : Dire le truc que personne attendait
 
 Il s'attend à une certaine réaction. Tu casses le script, tu gagnes le rire.
 
@@ -1730,7 +1730,7 @@ Toi : "Bordélique créatif, ou bordélique 'je rachète un chargeur plutôt que
 
 **Paul Mirabel** a construit toute sa carrière sur le décalage : ses réponses ne sont jamais celles qu'on attend. En conversation, c'est pareil : si la chute se voit venir, elle ne fait plus rire.
 
-## 3. Les références partagées — Le ciment du rire complice
+## 3. Les références partagées : Le ciment du rire complice
 
 Films, séries, memes, moments vécus ensemble. Les références partagées créent un langage privé qui fait rire parce qu'il y a un contexte que vous seuls comprenez.
 
@@ -1739,7 +1739,7 @@ Toi : "Tu dis ça avec le même ton que 'je connais un raccourci', à Lisbonne."
 
 Ce type d'humour est imbattable parce qu'il est exclusif : personne d'autre ne peut faire cette blague, c'est votre truc.
 
-## 4. L'autodérision cool — Pas fragile, juste lucide
+## 4. L'autodérision cool : Pas fragile, juste lucide
 
 L'autodérision fonctionne dans les deux sens, mais la nuance compte.
 
@@ -1758,14 +1758,14 @@ Au resto : "On a levé la main tellement de fois pour le serveur qu'à la table 
 
 **Roman Frayssinet** fait ça mieux que personne : il décrit la réalité avec une précision telle que la justesse suffit à faire rire. Pas besoin de blague, juste de bien regarder et de bien dire.
 
-## 6. Le timing de la punchline — Dire moins, pas plus
+## 6. Le timing de la punchline : Dire moins, pas plus
 
 La plupart des gens noient leur humour dans les mots. La phrase drôle, c'est souvent la phrase la plus courte.
 
 Lui : (long monologue sur un plan foireux)
 Toi, après un silence : "Non."
 
-Ce "non" fait plus rire qu'un paragraphe. Parce que le timing est parfait. **Blanche Gardin** utilise des silences de 3-4 secondes avant certaines punchlines. Ces silences créent l'attente, et l'attente crée le rire. Notre article sur le [timing en humour](/blog/timing-humour) explique cette mécanique en détail.
+Ce "non" fait plus rire qu'un paragraphe. Parce que le timing est parfait. **Blanche Gardin** laisse la salle attendre avant certaines punchlines ; en conversation, une seconde environ suffit. Ce silence crée l'attente, et l'attente crée le rire. Notre article sur le [timing en humour](/blog/timing-humour) explique cette mécanique en détail.
 
 ## L'exercice du jour : ton humour en 3 situations
 
@@ -1790,22 +1790,22 @@ L'erreur serait de croire que **faire rire un homme** nécessite un mode d'emplo
 
 Ce qui change, c'est le contexte. En date, le chambrage léger crée de la complicité. Entre amis, les références partagées solidifient le groupe. Au travail, l'observation fine te rend mémorable.
 
-**Waly Dia** dit un truc juste : "Les gens drôles ne sont pas ceux qui font rire, ce sont ceux avec qui on se sent assez à l'aise pour rire." C'est exactement ça. **Comment faire rire un homme** se résume à ça : crée un climat où le rire est naturel, pas une performance. Et ton humour deviendra ta signature, pas un rôle que tu joues.
+L'humour est d'abord une affaire de confort : on rit avec ceux auprès de qui on se sent à l'aise. Même **Waly Dia**, qui tape sur la politique et la société, ne fait rire que si la salle est avec lui. **Comment faire rire un homme** se résume à ça : crée un climat où le rire est naturel, pas une performance. Et ton humour deviendra ta signature, pas un rôle que tu joues.
 
 Si tu veux développer ton propre style d'humour, notre guide [Comment devenir drôle](/blog/comment-devenir-drole) t'accompagne étape par étape. Et pour la répartie, nos [10 techniques efficaces](/blog/comment-avoir-de-la-repartie) te donnent des réflexes concrets.
 
 → **[Nos vannes du jour](/vannes)** : des vannes testées que tu peux adapter et ressortir ce soir.
 
-→ **[Nos techniques de répartie](/conseils)**, timing, repartie, autodérision : les outils des pros.
+→ **[Nos conseils d'humour](/conseils)**, timing, répartie, autodérision : les outils des pros.
 
 → **[Les 5 types d'humour](/blog/5-types-humour-lequel-pour-toi)** : trouve quel style te correspond le mieux.`,
     date: "2026-03-19",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "6 min",
     category: "CONTEXTE",
     faqs: [
       { question: "Comment faire rire un homme facilement ?", answer: "Le chambrage bienveillant est la voie royale : les mecs communiquent naturellement par taquineries. Un tacle affectueux sur un détail anodin (son sport du dimanche, son appli de productivité qu'il n'utilise pas) crée de la complicité instantanée. L'observation décalée marche aussi très bien : pointe un truc absurde que personne n'ose dire." },
-      { question: "Les hommes aiment les femmes drôles ?", answer: "Oui, et les études le confirment : l'humour est un marqueur d'intelligence sociale et de confiance en soi. Les hommes apprécient les femmes qui les font rire parce que ça crée une dynamique de complicité, pas de performance. Blanche Gardin, Inès Reg, Florence Foresti : elles font rire tout le monde, sans adapter leur style." },
+      { question: "Les hommes aiment les femmes drôles ?", answer: "Oui, mais pas forcément comme on l'imagine. Les études sont nuancées : dans l'expérience de Bressler, Martin et Balshine (2006), les hommes valorisaient surtout une partenaire qui apprécie leur humour, plus qu'une partenaire qui en produit. Ce qui compte, c'est la complicité, pas la performance : l'humour est un marqueur d'intelligence sociale et de confiance en soi. Blanche Gardin, Inès Reg, Florence Foresti : elles font rire tout le monde, sans adapter leur style." },
       { question: "Comment être drôle en tant que femme ?", answer: "De la même façon qu'en tant qu'humain : observation, surprise, timing, autodérision calibrée. L'erreur serait de croire qu'il faut un 'humour féminin' différent. Les mécanismes du rire sont universels. Trouve ton style (absurde, observationnel, taquin) et assume-le, sans demander permission." },
       { question: "Quel humour plaît aux hommes ?", answer: "L'humour qui surprend. Les mecs s'attendent à certaines réactions : si tu casses le script avec une réponse décalée, tu gagnes le rire. Le chambrage calibré, l'observation bien vue et le timing (savoir quand ne pas parler : la phrase courte au bon moment) sont les trois outils les plus efficaces." },
     ],
@@ -1817,7 +1817,7 @@ Si tu veux développer ton propre style d'humour, notre guide [Comment devenir d
       "Tu te dis « je suis pas drôle » ? Tu te trompes sûrement : l'humour s'entraîne, et tu as déjà la matière première. 7 pistes concrètes pour le débloquer.",
     content: `Si tu penses ne pas être drôle, tu te trompes sûrement : l'humour n'est pas un don qu'on a ou pas, c'est une compétence qui s'entraîne, et tu en as déjà la matière première puisque tu sais reconnaître ce qui te fait rire. Ce qui te manque, c'est de la pratique et la permission de rater.
 
-"Je suis pas drôle", tu l'as sûrement pensé après un blanc en soirée, ou le jour où ta vanne a eu pour seule réponse un "ah." poli. T'es pas seul : 76% des gens pensent ne pas être drôles, selon une étude de l'Université du Colorado. Trois personnes sur quatre. Dans ta prochaine soirée, sur les 10 personnes présentes, 7 pensent secrètement comme toi. Y compris le mec qui a l'air super à l'aise. Il fait juste mieux semblant.
+"Je suis pas drôle", tu l'as sûrement pensé après un blanc en soirée, ou le jour où ta vanne a eu pour seule réponse un "ah." poli. T'es pas seul : dans ta prochaine soirée, plusieurs personnes pensent exactement pareil, y compris le mec qui a l'air super à l'aise. Il fait juste mieux semblant.
 
 > **CLEF :** "Je suis pas drôle" n'est pas un diagnostic, c'est une croyance. L'humour est une compétence cognitive qui s'apprend, pas un trait de personnalité figé. Si tu sais reconnaître ce qui est drôle (et tu le fais déjà en riant), tu as déjà la matière première pour produire de l'humour.
 
@@ -1827,7 +1827,7 @@ Avant de te donner les 7 pistes, démolissons les 3 croyances qui te bloquent.
 
 ### Croyance n°1 : "Les gens drôles sont nés comme ça"
 
-**Paul Mirabel** remplit Bercy. Tu le regardes et tu te dis "ce mec est né drôle". Sauf que Paul a fait des centaines d'open mics à Paris devant 15 personnes, avec des vannes qui tombaient à plat une fois sur deux. **Fary** a écrit des milliers de blagues avant de trouver son style. **Blanche Gardin** a mis plus de 10 ans à oser faire du stand-up solo.
+**Paul Mirabel** remplit Bercy. Tu le regardes et tu te dis "ce mec est né drôle". Sauf que Paul a fait des centaines de scènes ouvertes à Paris, avec son lot de vannes qui tombaient à plat. **Fary**, comme tous les pros, a beaucoup écrit et beaucoup jeté avant de trouver son style. **Blanche Gardin** a fait près de dix ans de scène avant son premier spectacle solo.
 
 Les gens drôles ne sont pas nés drôles : ils ont commencé plus tôt que toi. Leur "naturel" est le résultat de milliers d'heures de pratique. Et chaque humoriste pro a un cimetière de vannes ratées qu'il ne montre jamais.
 
@@ -1839,7 +1839,7 @@ Si tu te juges sur ta capacité à raconter des blagues formatées, c'est comme 
 
 ### Croyance n°3 : "Quand je fais une blague et que ça marche pas, c'est la preuve que je suis nul"
 
-**Roman Frayssinet** a un taux de réussite d'environ 70% sur scène. Autrement dit, même chez un pro, 30% de ses vannes ne marchent pas comme prévu, et ça ne l'empêche pas de continuer.
+Même **Roman Frayssinet** a des vannes qui ne marchent pas comme prévu. C'est le métier, et ça ne l'empêche pas de continuer.
 
 Toi, tu fais une vanne, ça tombe à plat, et tu conclus : "je suis pas drôle". C'est comme rater un panier au basket et décider que tu ne seras jamais sportif. Une vanne ratée n'est pas un diagnostic, c'est une info : pas ce public, pas ce moment, ou pas cette formulation.
 
@@ -1867,7 +1867,7 @@ Avec 3 vannes bien rodées, tu as de quoi couvrir 80% des situations sociales. N
 
 ### Piste 3 : Teste en terrain safe avant le grand bain
 
-**Waly Dia** ne teste pas ses nouvelles vannes à Bercy. Il les teste dans des petites salles de 30 personnes.
+Les humoristes ne testent pas leurs nouvelles vannes à Bercy : ils les rodent dans de petites salles, **Waly Dia** comme les autres.
 
 Toi pareil. Teste tes observations et tes vannes avec :
 1. Ton meilleur pote (le moins jugeant)
@@ -1899,7 +1899,7 @@ Les gens drôles n'annoncent pas qu'ils vont être drôles. Ils glissent le truc
 
 Paradoxe : les gens les plus drôles sont ceux qui s'autorisent à ne pas l'être. Ils tentent, ça marche pas, ils haussent les épaules et passent à autre chose sans en faire un drame.
 
-**Panayotis Pascot** parle de ça : la liberté de foirer. Quand tu acceptes que 40% de tes tentatives d'humour vont tomber à plat, tu arrêtes de te censurer. Et c'est en arrêtant de te censurer que tu trouves les pépites.
+Dans la veine de **Panayotis Pascot** : la liberté de foirer. Quand tu acceptes qu'une bonne partie de tes tentatives d'humour vont tomber à plat, tu arrêtes de te censurer. Et c'est en arrêtant de te censurer que tu trouves les pépites.
 
 Le deal : sur 10 tentatives d'humour, 3-4 vont marcher. C'est le ratio normal. Même pour les pros. La différence entre toi et eux ? Ils ont accepté ce ratio et continuent de lancer.
 
@@ -1924,7 +1924,7 @@ Notre guide complet [Comment devenir drôle](/blog/comment-devenir-drole) t'acco
 
 **Pour commencer : note 3 observations absurdes aujourd'hui.** Si t'en trouves aucune, relis ta journée : c'est souvent là que se cache la première.`,
     date: "2026-03-24",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "PSYCHOLOGIE",
     faqs: [
@@ -1956,9 +1956,9 @@ Ce n'est pas de la faiblesse. C'est de la biologie. Ton cerveau préfère le sil
 
 La bonne nouvelle : en programmant des réponses à l'avance, tu court-circuites le freeze. Ton cerveau n'a plus besoin de créer une réponse sous stress : il la pioche dans sa réserve.
 
-## Technique 1 : L'accord exagéré — "Oui, et c'est encore pire"
+## Technique 1 : L'accord exagéré, "Oui, et c'est encore pire"
 
-La technique préférée de **Blanche Gardin**. Au lieu de nier la moquerie, tu l'acceptes et tu la pousses jusqu'à l'absurde. L'attaquant ne s'y attend pas du tout.
+Une technique qu'on retrouve chez **Blanche Gardin**. Au lieu de nier la moquerie, tu l'acceptes et tu la pousses jusqu'à l'absurde. L'attaquant ne s'y attend pas du tout.
 
 **Situation :** "T'es toujours en retard, c'est abusé."
 **Mauvaise réaction :** "Mais non, c'est pas vrai !" (défensif, faible)
@@ -1975,9 +1975,9 @@ La technique préférée de **Blanche Gardin**. Au lieu de nier la moquerie, tu 
 
 Le moqueur s'attend à te déstabiliser. Quand tu surenchéris avec le sourire, tu montres que sa remarque ne t'atteint pas. C'est la définition de la confiance en soi.
 
-## Technique 2 : Le rebond sur mot-clé — Retourne ses propres mots
+## Technique 2 : Le rebond sur mot-clé, Retourne ses propres mots
 
-Attrape un seul mot dans la phrase de l'autre et construis ta réponse dessus. **Fary** fait ça en interview constamment : il ne répond jamais à la question, il rebondit sur un mot et part ailleurs.
+Attrape un seul mot dans la phrase de l'autre et construis ta réponse dessus. Dans la veine de **Fary** en interview : tu rebondis sur un mot et tu pars ailleurs, sans forcément répondre à la question.
 
 **Situation :** "Tu manges encore ?"
 **Réponse :** "'Encore' ? Tu tiens un registre ? Je peux te mettre en copie de mes repas."
@@ -1987,7 +1987,7 @@ Attrape un seul mot dans la phrase de l'autre et construis ta réponse dessus. *
 
 > **CLEF :** Le rebond sur mot-clé est la technique la plus rapide à apprendre. Tu n'as pas besoin de trouver une vanne, juste de répéter un mot de l'autre et de l'emmener ailleurs. C'est du jiu-jitsu verbal : tu utilises la force de l'adversaire.
 
-## Technique 3 : Le compliment inversé — "Merci, c'est adorable"
+## Technique 3 : Le compliment inversé, "Merci, c'est adorable"
 
 Tu transformes l'attaque en compliment. L'attaquant ne sait plus s'il t'a insulté ou flatté.
 
@@ -1999,7 +1999,7 @@ Tu transformes l'attaque en compliment. L'attaquant ne sait plus s'il t'a insult
 
 **Panayotis Pascot** utilise beaucoup cette technique : il transforme ses "faiblesses" en traits positifs avec une sincérité tellement désarmante que le public est avec lui, jamais contre lui.
 
-## Technique 4 : La question Colombo — "Ah bon ? Explique-moi"
+## Technique 4 : La question Colombo, "Ah bon ? Explique-moi"
 
 Au lieu de répondre, tu poses une question. Comme l'inspecteur Colombo : faussement naïf, redoutablement efficace.
 
@@ -2015,9 +2015,9 @@ Au lieu de répondre, tu poses une question. Comme l'inspecteur Colombo : fausse
 
 C'est la technique la plus utile au travail. Un collègue qui doit *expliquer* sa moquerie réalise vite qu'il n'a pas grand-chose à dire. Pour plus de techniques en contexte pro, notre article [Blagues au travail](/blog/blagues-travail-faire-rire-pro) couvre les situations bureau en détail.
 
-## Technique 5 : Le callback — Reviens-y 20 minutes plus tard
+## Technique 5 : Le callback, Reviens-y 20 minutes plus tard
 
-**Paul Mirabel** est le roi du callback en spectacle : il fait une blague en début de show, et la reprend 40 minutes plus tard dans un contexte totalement différent. Le public explose.
+Le callback, **Paul Mirabel** le manie souvent en spectacle : une blague en début de show, reprise bien plus tard dans un contexte totalement différent. Le public explose.
 
 En conversation, tu peux faire pareil. Quelqu'un se moque de toi à 20h. À 20h30, tu glisses une référence à sa moquerie dans un autre contexte.
 
@@ -2031,11 +2031,11 @@ Le callback est dévastateur parce qu'il montre que :
 
 Pour approfondir le timing, notre guide [Timing en humour](/blog/timing-humour) détaille pourquoi le silence avant la chute fait toute la différence.
 
-## Technique 6 : Le silence + sourire — L'arme nucléaire
+## Technique 6 : Le silence + sourire, L'arme nucléaire
 
 Parfois, la meilleure réponse, c'est pas de réponse. Juste un regard, un sourire, et le silence.
 
-**Waly Dia** fait ça sur scène quand un spectateur tente un truc : il le regarde, sourit, attend. Le public comprend. Le spectateur aussi.
+Imagine **Waly Dia** sur scène quand un spectateur tente un truc : il le regarde, sourit, attend. Le public comprend. Le spectateur aussi.
 
 **Situation :** Quelqu'un te balance une moquerie méchante.
 **Réponse :** (tu le regardes, tu souris légèrement, tu ne dis rien pendant 3 secondes, puis tu changes de sujet)
@@ -2065,7 +2065,7 @@ En 2 semaines de pratique, ces réponses deviendront des réflexes. Tu n'auras p
 
 Pour aller plus loin, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvrent des situations bien au-delà des moqueries. Et si tu veux un parcours complet, le [Parcours Répartie](/parcours/repartie) te guide semaine par semaine pour passer de "je sais jamais quoi répondre" à "je gère".`,
     date: "2026-03-24",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "REPARTIE",
     faqs: [
@@ -2084,17 +2084,17 @@ Pour aller plus loin, nos [10 techniques de répartie](/blog/comment-avoir-de-la
 
 Le bureau, c'est ce territoire étrange où tu passes 8 heures par jour avec des gens que tu n'as pas choisis, dans des réunions qui finissent par "on se refait un point". Et au milieu de tout ça, tu voudrais faire rire. Sans te retrouver convoqué aux RH. Voici comment, zone par zone.
 
-> **CLEF :** L'humour au travail n'est pas un risque, c'est un avantage compétitif. Selon une étude de Stanford, les leaders qui utilisent l'humour sont perçus comme 23% plus compétents et 25% plus appréciés. La clé : l'humour situationnel (réagir à ce qui se passe) plutôt que les blagues formatées.
+> **CLEF :** L'humour au travail n'est pas un risque, c'est un avantage compétitif. Jennifer Aaker et Naomi Bagdonas, qui enseignent l'humour à Stanford, rapportent que les leaders qui utilisent l'humour sont jugés 23% plus respectés, et perçus comme plus compétents. La clé : l'humour situationnel (réagir à ce qui se passe) plutôt que les blagues formatées.
 
 ## Pourquoi l'humour au travail est ton meilleur investissement
 
 Être drôle au bureau, c'est pas juste "sympa". C'est stratégique.
 
-1. **Les gens drôles sont perçus comme plus intelligents.** Une étude de l'Université de Pennsylvanie montre que l'humour est un marqueur de compétence sociale et cognitive. Quand tu fais rire en réunion, tu envoies un message aux autres : "cette personne a compris la situation mieux que tout le monde, et en plus elle sait le dire."
+1. **Les gens drôles sont perçus comme plus intelligents.** Une étude de chercheurs de Wharton (Université de Pennsylvanie) et de Harvard montre qu'une blague réussie te fait passer pour quelqu'un de plus sûr de toi et de plus compétent, et qu'une blague déplacée fait l'inverse. Quand tu fais rire en réunion, tu envoies un message aux autres : "cette personne a compris la situation mieux que tout le monde, et en plus elle sait le dire."
 2. **L'humour crée du lien plus vite qu'un team building.** Un bon mot à la machine à café fait plus pour la cohésion d'équipe que 3 heures de paintball sous la pluie.
-3. **Les gens qui font rire sont promus plus vite.** Pas parce qu'ils sont "sympas", mais parce que l'humour est un signal de leadership. Tu gères le stress, tu communiques bien, tu crées de l'engagement.
+3. **Un humour bien placé te donne l'allure d'un leader.** Tu gardes la tête froide sous pression, tu sais t'exprimer, et les gens ont envie de t'écouter.
 
-## Zone 1 : La machine à café — Le terrain d'entraînement
+## Zone 1 : La machine à café, Le terrain d'entraînement
 
 La machine à café, c'est le stand-up club du bureau. Public captif (le café met 90 secondes à couler), contexte détendu, enjeux faibles. L'endroit idéal pour tester ton humour.
 
@@ -2116,7 +2116,7 @@ La machine à café, c'est le stand-up club du bureau. Public captif (le café m
 
 > **CLEF :** L'humour à la machine à café repose sur l'observation partagée : tu mets des mots sur un truc que tout le monde vit mais que personne n'ose dire. C'est sans risque parce que tu ne vises personne : tu vises la situation.
 
-## Zone 2 : La réunion — L'art du timing chirurgical
+## Zone 2 : La réunion, L'art du timing chirurgical
 
 La réunion, c'est le boss final de l'humour au travail. Public exigeant, contexte formel, marge d'erreur faible. Mais la récompense est à la hauteur : une bonne vanne en réunion, les gens s'en souviennent encore au déjeuner.
 
@@ -2126,7 +2126,7 @@ Le meilleur moment pour placer de l'humour en réunion, c'est entre deux sujets,
 
 "Bon, point suivant : le budget. Profitez, c'était la partie joyeuse."
 
-**Fary** parle souvent du timing en spectacle : il ne place jamais une vanne au milieu d'un développement. Toujours dans une pause, une transition, un silence. En réunion, c'est pareil. Tu ne coupes pas le flux : tu le ponctues. Notre article sur le [timing en humour](/blog/timing-humour) détaille cette mécanique.
+Dans la veine de **Fary** : on ne place pas une vanne au milieu d'un développement, mais dans une pause, une transition, un silence. En réunion, c'est pareil. Tu ne coupes pas le flux : tu le ponctues. Notre article sur le [timing en humour](/blog/timing-humour) détaille cette mécanique.
 
 ### Les formules qui marchent en réunion
 
@@ -2140,7 +2140,7 @@ Le meilleur moment pour placer de l'humour en réunion, c'est entre deux sujets,
 - **Jamais sur le travail** de quelqu'un devant d'autres. En privé, pourquoi pas ; en public, non.
 - **Jamais de blague qui nécessite une explication.** Si tu dois dire "Non mais c'était drôle parce que...", c'est déjà mort.
 
-## Zone 3 : L'afterwork — Le terrain miné
+## Zone 3 : L'afterwork, Le terrain miné
 
 L'afterwork, c'est le moment où les frontières bougent. T'es plus en réunion, mais t'es toujours avec des collègues. L'alcool est là, les langues se délient, et les dérapages commencent.
 
@@ -2150,7 +2150,7 @@ Ce qui se dit à l'afterwork ne reste pas à l'afterwork : ça t'attend au burea
 
 Donc sois drôle, mais reste en terrain sûr. L'observation partagée marche toujours, l'autodérision légère aussi. Le chambrage, seulement avec quelqu'un que tu connais vraiment bien.
 
-**Paul Mirabel** a une règle : il ne se moque que de lui-même ou de situations universelles. Jamais d'attaques personnelles. Au bureau, c'est la même stratégie : vise la situation, pas les gens.
+L'humour de **Paul Mirabel** vise surtout lui-même et des situations que tout le monde connaît. Au bureau, c'est la même stratégie : vise la situation, pas les gens.
 
 ### Les 3 vannes passe-partout d'afterwork
 
@@ -2160,7 +2160,7 @@ Donc sois drôle, mais reste en terrain sûr. L'observation partagée marche tou
 
 > **CLEF :** L'humour professionnel le plus efficace cible les situations universelles du bureau (emails, réunions, procédures), jamais les personnes. C'est la version bureau de l'observation façon **Roman Frayssinet** : la précision de la description *est* la blague.
 
-## Zone 4 : Les emails et Slack — L'humour écrit au bureau
+## Zone 4 : Les emails et Slack, L'humour écrit au bureau
 
 L'humour écrit au travail, c'est un art délicat. Parce que tu n'as pas le ton de voix, pas le sourire, pas le contexte. Un truc drôle à l'oral peut devenir bizarre par écrit.
 
@@ -2204,12 +2204,12 @@ Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/bl
 
 > **[Nos conseils de timing](/conseils)** : le timing fait 80% de la blague, surtout en contexte formel.`,
     date: "2026-03-24",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "CONTEXTE",
     faqs: [
       { question: "Comment être drôle au travail sans être lourd ?", answer: "L'humour le plus efficace au bureau est l'observation situationnelle : tu décris ce que tout le monde vit (emails interminables, réunions inutiles, procédures absurdes) sans viser personne. C'est sûr, universel, et ça crée du lien. Évite les blagues formatées, le sarcasme par écrit et les vannes sur les collègues absents." },
-      { question: "Est-ce que l'humour est professionnel ?", answer: "Oui, et les études le prouvent : les leaders qui utilisent l'humour sont perçus comme 23% plus compétents (Stanford). L'humour au travail est un marqueur d'intelligence sociale, de gestion du stress et de leadership. La clé : l'humour situationnel, pas les blagues de comptoir." },
+      { question: "Est-ce que l'humour est professionnel ?", answer: "Oui, et les chercheurs le constatent : Jennifer Aaker et Naomi Bagdonas (Stanford) rapportent que les leaders qui utilisent l'humour sont jugés 23% plus respectés, à condition que la blague reste appropriée. L'humour au travail est un marqueur d'intelligence sociale, de gestion du stress et de leadership. La clé : l'humour situationnel, pas les blagues de comptoir." },
       { question: "Comment placer une blague en réunion ?", answer: "Le moment idéal est la transition entre deux sujets : le creux de tension naturel. Les 3 formats qui marchent : l'autodérision professionnelle, la reformulation absurde d'un propos compliqué, et le callback (reprendre un élément du début de réunion dans un contexte différent). Jamais en coupant quelqu'un, jamais sur le travail de quelqu'un." },
       { question: "Quelles blagues éviter au bureau ?", answer: "Les interdits absolus : humour sur le physique, le travail d'un collègue devant d'autres, le sarcasme par écrit (sans le ton de voix, impossible à détecter), l'humour noir en réunion, et les blagues internes que seules 3 personnes comprennent sur un canal de 30. Reste sur l'observation situationnelle et l'autodérision : ce sont les formats les moins risqués." },
     ],
@@ -2219,21 +2219,21 @@ Pour approfondir la répartie en contexte pro, nos [techniques de répartie](/bl
     title: "Tu sais jamais quoi répondre ? 5 techniques",
     excerpt:
       "Tu sais jamais quoi répondre et le blanc s'installe pendant que tu cherches tes mots ? Ça s'entraîne : 5 techniques pour ne plus revivre ce moment.",
-    content: `Si tu sais jamais quoi répondre, ce n'est ni un manque d'intelligence ni un défaut de personnalité : c'est un réflexe qui n'a pas été entraîné. La solution tient en quelques phrases prêtes à l'emploi, une règle de timing et l'habitude de poser des questions.
+    content: `Si tu sais jamais quoi répondre, ce n'est ni un manque d'intelligence ni un défaut de personnalité : c'est un réflexe qui n'a pas été entraîné. La solution tient en trois réflexes : avoir quelques phrases prêtes à l'emploi, répondre sans trop réfléchir et poser des questions.
 
 Tu connais la scène : en groupe, quelqu'un te pose une question, ou pire, te chambre. Et là, rien. Ton cerveau affiche une page 404 : les mots sont là, mais bloqués à 99%, comme un téléchargement qui attend que tu partes pour finir. Et 20 minutes plus tard, la réponse parfaite arrive, pile quand le sujet a changé trois fois.
 
-Si ça t'arrive, tu fais partie des 65% des gens qui rapportent avoir régulièrement le "blanc conversationnel". C'est pas un défaut, c'est un manque de réflexes, et les réflexes, ça se programme.
+Si ça t'arrive, tu es loin d'être le seul à connaître le "blanc conversationnel". C'est pas un défaut, c'est un manque de réflexes, et les réflexes, ça se programme.
 
 > **CLEF :** Le blanc conversationnel ("je sais jamais quoi répondre") n'est pas un problème d'intelligence ni de personnalité, c'est un réflexe qui n'a pas été entraîné. Le cerveau sous stress social choisit le silence par défaut. En programmant 3-5 réponses automatiques, tu court-circuites ce freeze en 2 semaines.
 
 ## Pourquoi ton cerveau bugge (c'est pas de ta faute)
 
-### Le "freeze social" — ton cerveau te protège
+### Le "freeze social" : ton cerveau te protège
 
 Quand quelqu'un t'interpelle en groupe, ton cerveau active l'amygdale : la partie qui gère les menaces. "Attention, on me regarde. Si je dis un truc nul, c'est la honte." Résultat : mode protection. Silence.
 
-C'est la même réaction que le trac. **Paul Mirabel** l'a décrit dans une interview : "Mes premiers open mics, j'avais le blanc total entre deux vannes. Mon cerveau disait 'tais-toi, tu vas te ridiculiser'." Et c'est un mec qui remplit Bercy aujourd'hui.
+C'est la même réaction que le trac. **Paul Mirabel**, qui joue de sa timidité sur scène, a commencé par enchaîner les scènes ouvertes, et c'est aujourd'hui un mec qui remplit Bercy.
 
 ### Les 3 vraies causes du "je sais jamais quoi répondre"
 
@@ -2241,7 +2241,7 @@ C'est la même réaction que le trac. **Paul Mirabel** l'a décrit dans une inte
 2. **Tu es trop dans ta tête.** Tu analyses ce que l'autre a dit, tu imagines ce que les autres vont penser de ta réponse, tu évalues 4 options possibles... pendant ce temps, le silence s'installe.
 3. **Tu n'as pas de "stock" de réponses.** Les gens qui ont toujours quelque chose à dire ont des phrases reflexes prêtes. Pas des vannes, juste des réponses passe-partout qui maintiennent la conversation.
 
-## Technique 1 : Les 5 réponses automatiques — Ton kit de survie
+## Technique 1 : Les 5 réponses automatiques, Ton kit de survie
 
 Garde ces 5 phrases en tête. Elles marchent dans 80% des situations où tu resterais muet.
 
@@ -2259,17 +2259,17 @@ Garde ces 5 phrases en tête. Elles marchent dans 80% des situations où tu rest
 
 Les gens drôles ne sont pas plus rapides que toi. Ils ont juste des **réponses par défaut** qui leur achètent du temps pour trouver la vraie réponse. C'est comme un joueur de tennis : le retour de service est un réflexe, pas une réflexion.
 
-## Technique 2 : La règle des 3 secondes — Réponds avant de réfléchir
+## Technique 2 : Réponds sans trop réfléchir
 
 Ton ennemi n°1, c'est le perfectionnisme verbal. Tu veux que ta réponse soit pertinente, drôle, bien formulée... et pendant que tu optimises, le silence s'installe.
 
-**La règle** : réponds dans les 3 secondes qui suivent la fin de la phrase de l'autre. N'importe quoi. Même un "hmm" ou un "ah ouais ?". Parce que :
+**La règle** : réponds dès que l'autre a fini sa phrase, sans chercher la réponse parfaite. N'importe quoi. Même un "hmm" ou un "ah ouais ?". Parce que :
 
 1. Une réponse moyenne dite au bon moment vaut mieux qu'une réponse parfaite dite trop tard
-2. C'est le silence après 3 secondes qui crée le malaise, même une réponse banale le prévient
+2. C'est le silence qui s'étire qui crée le malaise, même une réponse banale le prévient
 3. Tu peux toujours compléter/corriger ta première réponse : tu ne peux pas compenser un blanc
 
-**Fary** a une technique en interview : il réagit d'abord ("Ah mais c'est intéressant ça") puis développe. La première réaction n'est jamais sa vraie réponse : c'est un accusé de réception qui maintient le flux.
+Dans la veine de **Fary** en interview : tu réagis d'abord ("Ah mais c'est intéressant ça") puis tu développes. La première réaction n'est jamais ta vraie réponse : c'est un accusé de réception qui maintient le flux.
 
 Pour approfondir cette technique, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) détaillent comment l'accusé de réception devient un réflexe.
 
@@ -2287,9 +2287,9 @@ Tu ne sais pas quoi dire ? Retourne la balle. Pose une question.
 
 Les gens qui "ont toujours quelque chose à dire" posent en réalité beaucoup de questions. C'est leur secret. Ils ne parlent pas plus : ils font parler les autres et rebondissent sur ce qui est dit.
 
-> **CLEF :** Poser une question est la réponse la plus sous-estimée face au blanc conversationnel. Ça maintient la conversation, te donne du temps, et montre que tu écoutes. 50% des "bons conversationnalistes" sont en réalité de bons questionneurs.
+> **CLEF :** Poser une question est la réponse la plus sous-estimée face au blanc conversationnel. Ça maintient la conversation, te donne du temps, et montre que tu écoutes. Des chercheurs de Harvard ont observé que ceux qui posent des questions, surtout des questions de relance, sont plus appréciés.
 
-## Technique 4 : Le rebond sur le dernier mot — La technique du perroquet intelligent
+## Technique 4 : Le rebond sur le dernier mot, La technique du perroquet intelligent
 
 Tu ne sais pas quoi répondre ? Reprends le dernier mot (ou le mot le plus intéressant) de la phrase de l'autre et construis dessus.
 
@@ -2301,13 +2301,13 @@ Tu ne sais pas quoi répondre ? Reprends le dernier mot (ou le mot le plus inté
 
 Tu n'as pas besoin d'être drôle, tu as besoin de rebondir. Le rebond montre que tu écoutes et que tu es engagé dans la conversation. C'est souvent suffisant.
 
-**Waly Dia** utilise cette technique en spectacle quand il interagit avec le public. Il reprend le mot de la personne et part dans une direction inattendue. En conversation, c'est pareil, mais pas besoin de partir dans l'absurde. Juste de relancer.
+Imagine **Waly Dia** face au public : il reprend le mot de la personne et part dans une direction inattendue. En conversation, c'est pareil, mais pas besoin de partir dans l'absurde. Juste de relancer.
 
-## Technique 5 : La "banque de sujets" — Ne pars plus les mains vides
+## Technique 5 : La "banque de sujets", Ne pars plus les mains vides
 
 Avant un événement social (soirée, afterwork, réunion informelle), prépare 3 sujets dans ta tête. Pas des discours, juste des amorces.
 
-1. **Un truc que tu as vu/lu récemment** : "Vous avez vu le dernier spectacle de [humoriste] ? Le sketch sur [sujet] est incroyable"
+1. **Un truc que tu as vu/lu récemment** : "Vous avez vu quoi de bien en ce moment ? Moi, je suis en pleine période Paul Mirabel."
 2. **Une question sur l'autre** : "Tu fais quoi ce week-end ?" / "T'as testé le nouveau resto à côté du bureau ?"
 3. **Une observation sur le contexte** : "La musique ici ressemble à la playlist de mon dentiste" / "Ce buffet a l'air d'avoir vécu des choses"
 
@@ -2323,7 +2323,7 @@ Avoir 3 sujets prêts ne veut pas dire les réciter comme une poésie de CE2. Ç
 3. Quand tu ne sais pas quoi dire, pose une question (Technique 3) : c'est toujours mieux que le silence
 
 **Étape 2. Monter en puissance (deuxième semaine) :**
-1. Applique la règle des 3 secondes (Technique 2) dans chaque conversation
+1. Réponds sans trop réfléchir (Technique 2) dans chaque conversation
 2. Teste le rebond sur le dernier mot (Technique 4) au moins 3 fois dans la semaine
 3. Prépare ta banque de 3 sujets avant chaque événement social (Technique 5)
 
@@ -2331,14 +2331,14 @@ En 2 semaines, les blancs se raréfient. En 4 semaines, tu ne t'en soucies plus.
 
 Notre [Parcours Répartie](/parcours/repartie) structure exactement cette progression semaine par semaine, avec des exercices calibrés et des [conseils de timing](/conseils) pour chaque étape. Et si ton problème est plus spécifiquement lié aux moqueries, notre guide [Répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) couvre 6 techniques dédiées.`,
     date: "2026-03-24",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "REPARTIE",
     faqs: [
       { question: "Pourquoi je ne sais jamais quoi répondre ?", answer: "C'est un réflexe de protection du cerveau appelé 'freeze social'. Quand on t'interpelle en groupe, l'amygdale active le mode menace et le silence devient la réponse par défaut. Ce n'est pas un manque d'intelligence : c'est un manque de réflexes verbaux qui se programment avec 2 à 4 semaines de pratique." },
       { question: "Comment avoir toujours quelque chose à dire ?", answer: "Les bons conversationnalistes ont 2 secrets : des réponses automatiques ('Ah c'est marrant que tu dises ça...', 'J'avoue') qui leur achètent du temps pour trouver la vraie réponse, et l'habitude de poser des questions. Poser une question est la meilleure réponse quand tu sèches : ça relance la conversation et montre que tu écoutes." },
-      { question: "Comment ne plus avoir de blancs en conversation ?", answer: "3 leviers : garde en tête 5 réponses passe-partout (kit de survie), applique la règle des 3 secondes (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et prépare 3 sujets dans ta tête avant chaque événement social. En 2 semaines, les blancs se raréfient nettement." },
-      { question: "Comment répondre quand quelqu'un te pose une question et que tu ne sais pas quoi dire ?", answer: "Utilise le rebond sur le dernier mot : reprends un mot de la question et construis dessus. 'Les Vosges ? C'est quoi, un week-end ou une expédition ?' Tu n'as pas besoin d'être drôle, juste de relancer. Autre option : retourne la question directement ('Bonne question. Toi t'en penses quoi ?') : ça te donne 30 secondes pour formuler ta vraie réponse." },
+      { question: "Comment ne plus avoir de blancs en conversation ?", answer: "3 leviers : garde en tête 5 réponses passe-partout (kit de survie), réponds sans trop réfléchir (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et pose des questions pour relancer. Avec de la pratique, les blancs se font plus rares." },
+      { question: "Comment répondre quand quelqu'un te pose une question et que tu ne sais pas quoi dire ?", answer: "Utilise le rebond sur le dernier mot : reprends un mot de la question et construis dessus. 'Les Vosges ? C'est quoi, un week-end ou une expédition ?' Tu n'as pas besoin d'être drôle, juste de relancer. Autre option : retourne la question directement ('Bonne question. Toi t'en penses quoi ?') : ça te donne quelques secondes pour formuler ta vraie réponse." },
     ],
   },
   {
@@ -2354,7 +2354,7 @@ Toi, tu observes, tu écoutes. Et la nuit, tu trouves enfin la réplique parfait
 
 Ce texte, c'est pour toi. Pas pour te dire "sois extraverti". Pour te dire que **ta timidité est déjà une compétence comique** : elle est juste mal employée.
 
-> **CLEF :** La timidité n'est pas l'opposé de l'humour. C'est souvent son meilleur carburant. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise : l'ingrédient n°1 du rire. **Panayotis Pascot** a construit toute sa carrière sur sa vulnérabilité. **Paul Mirabel** a commencé dans des salles de 20 personnes avec une timidité maladive. Ils sont partis d'où tu es.
+> **CLEF :** La timidité n'est pas l'opposé de l'humour. C'est souvent son meilleur carburant. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise : l'ingrédient n°1 du rire. **Panayotis Pascot** a construit toute sa carrière sur sa vulnérabilité. **Paul Mirabel** joue de sa timidité sur scène. Ils sont partis d'où tu es.
 
 ## Tu n'es pas "pas drôle". Tu es juste mal équipé.
 
@@ -2385,17 +2385,17 @@ La seule chose qui te manque, c'est de sortir ces observations au bon moment.
 2. Formule-la en une phrase, comme si tu l'envoyais à un pote par message
 3. Relis le vendredi : tu verras que 3 ou 4 de ces observations sont objectivement drôles
 
-Le simple fait de formuler à l'écrit entraîne ton cerveau à trouver l'angle comique. C'est la même mécanique que les [techniques de storytelling](/blog/comment-devenir-drole) : tu apprends à extraire la substance drôle d'un fait réel.
+Le simple fait de formuler à l'écrit entraîne ton cerveau à trouver l'angle comique. C'est la même mécanique que les [techniques de storytelling](/blog/storytelling-drole-5-structures) : tu apprends à extraire la substance drôle d'un fait réel.
 
 ---
 
-## Clé 2 : L'humour écrit d'abord — ta zone d'entraînement
+## Clé 2 : L'humour écrit d'abord, ta zone d'entraînement
 
 La scène de soirée te terrorise ? Parfait. Tu n'as pas besoin d'elle au début.
 
 **L'humour écrit (messages, groupes WhatsApp, réponses Instagram), c'est ton terrain d'entraînement idéal.** Tu as le temps de formuler. Tu peux relire avant d'envoyer. Tu peux corriger. Et si ça tombe à plat, tu n'as pas à gérer 12 visages qui te regardent.
 
-C'est exactement comme ça que **Panayotis Pascot** décrit ses débuts : "J'écrivais des trucs, je testais par messages, je voyais ce qui faisait réagir." L'écrit sert de brouillon avant l'oral, et de filet de sécurité.
+La méthode est simple : tu écris un truc, tu le testes par message, tu regardes ce qui fait réagir. L'écrit sert de brouillon avant l'oral, et de filet de sécurité.
 
 **Les 3 formats d'entraînement écrits, du plus sûr au moins sûr :**
 
@@ -2406,11 +2406,11 @@ C'est exactement comme ça que **Panayotis Pascot** décrit ses débuts : "J'éc
 **Exercice concret, le test message :**
 Ce soir, prends une de tes observations de la clé 1 et envoie-la à un pote. Pas avec "tu trouves ça drôle ?", juste l'observation, naturellement. Note sa réaction. Si c'est un emoji rire, tu as une vanne. Si c'est "ok..." tu as une donnée.
 
-Tu répètes, en somme. **Roman Frayssinet** teste ses sketches en conversation avant de les mettre sur scène : tu fais exactement la même chose, en plus petit. Et pour les répliques en direct, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) prennent le relais.
+Tu répètes, en somme. Les humoristes rodent leurs vannes avant la scène, **Roman Frayssinet** comme les autres : tu fais exactement la même chose, en plus petit. Et pour les répliques en direct, nos [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) prennent le relais.
 
 ---
 
-## Clé 3 : L'effet de surprise — quand un timide parle, tout le monde écoute
+## Clé 3 : L'effet de surprise, quand un timide parle, tout le monde écoute
 
 Voici un truc que tu ne réalises probablement pas : **quand tu parles en groupe, les gens t'écoutent vraiment**.
 
@@ -2427,7 +2427,7 @@ La semaine prochaine, en groupe, attends qu'un sujet soit "presque clos" et glis
 
 ---
 
-## Clé 4 : L'autodérision légère — ta timidité devient matière comique
+## Clé 4 : L'autodérision légère, ta timidité devient matière comique
 
 Ta timidité t'a sûrement causé des moments embarrassants. Des blancs gênants. Des situations où tu aurais voulu disparaître.
 
@@ -2450,7 +2450,7 @@ Prends un moment gênant récent lié à ta timidité. Écris-le en une phrase f
 
 ---
 
-## Clé 5 : La progression par paliers — du petit groupe au grand groupe
+## Clé 5 : La progression par paliers, du petit groupe au grand groupe
 
 Tu n'as pas à commencer en soirée de 30 personnes. Personne ne fait ça.
 
@@ -2463,7 +2463,7 @@ La progression en humour pour les introvertis suit une courbe précise :
 
 Chaque palier est un niveau à débloquer : tu ne passes au suivant que quand le précédent est devenu confortable.
 
-C'est exactement la progression de notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr : 4 semaines structurées pour passer de "je sais jamais quoi dire" à "je gère", à raison d'un palier par semaine.
+C'est la même logique de montée en douceur que notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr : 4 semaines structurées, une étape par semaine, de tes premières répliques à l'improvisation sur l'inattendu, pour passer de "je sais jamais quoi dire" à "je gère".
 
 **Les erreurs à éviter dans la progression :**
 - **Sauter les paliers** : vouloir briller en groupe de 20 avant d'être à l'aise en groupe de 5, c'est le meilleur moyen de se planter et de se décourager pour rien
@@ -2496,14 +2496,14 @@ Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-d
 
 Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme : palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. Le tout pour 2,99 €/mois, sans engagement.`,
     date: "2026-03-25",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "PSYCHOLOGIE",
     faqs: [
       {
         question: "Est-ce qu'on peut être drôle quand on est timide ?",
         answer:
-          "Oui, et la timidité est souvent un atout. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise quand ils interviennent. Panayotis Pascot et Paul Mirabel ont tous les deux commencé en introvertis maladroits. La timidité n'empêche pas l'humour : elle demande juste des techniques adaptées.",
+          "Oui, et la timidité est souvent un atout. Les introvertis observent plus, parlent moins, et créent naturellement l'effet de surprise quand ils interviennent. Paul Mirabel joue de sa timidité sur scène, et Panayotis Pascot de sa vulnérabilité. La timidité n'empêche pas l'humour : elle demande juste des techniques adaptées.",
       },
       {
         question: "Comment développer son humour quand on est introverti ?",
@@ -2524,7 +2524,7 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
       {
         question: "Par où commencer pour oser faire rire quand on est timide ?",
         answer:
-          "Commence par le palier 0 : envoie une vanne par message à un seul ami de confiance. Pas de risque social, pas de regard, juste du texte. Si ça fait rire, note-le. Si ça tombe à plat, c'est une donnée, pas un verdict. En une semaine de messages, tu auras ton premier répertoire de blagues personnelles qui fonctionnent : prêt à tester en conversation.",
+          "Commence par le palier 1 : envoie une vanne par message à un seul ami de confiance. Pas de risque social, pas de regard, juste du texte. Si ça fait rire, note-le. Si ça tombe à plat, c'est une donnée, pas un verdict. En une semaine de messages, tu auras ton premier répertoire de blagues personnelles qui fonctionnent : prêt à tester en conversation.",
       },
     ],
   },
@@ -2537,9 +2537,9 @@ Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour 
 
 Ton pote raconte sa queue à la boulangerie, la table pleure de rire. Toi, tu racontes ton road trip en Islande, quelqu'un regarde son téléphone. La différence n'est pas dans l'histoire, elle est dans la façon de la construire.
 
-Les meilleurs humoristes ne "sont" pas drôles. Ils utilisent des structures narratives précises qui transforment n'importe quelle anecdote banale en histoire qui fait rire. **Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia** : chacun a ses signatures. Et ces signatures, elles s'apprennent.
+Les meilleurs humoristes ne "sont" pas drôles. Ils utilisent des structures narratives précises qui transforment n'importe quelle anecdote banale en histoire qui fait rire. **Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia** : chez chacun, on reconnaît des façons de construire une histoire. Et ces façons de faire, elles s'apprennent.
 
-Voici les 5 structures à maîtriser, une par humoriste, avec des exercices pour les appliquer dès ce soir.
+Voici les 5 structures à maîtriser, chacune avec un humoriste chez qui tu la reconnaîtras, et des exercices pour les appliquer dès ce soir.
 
 > **CLEF :** Le storytelling humour n'est pas une question d'inspiration, c'est de l'architecture narrative. Maîtriser 2 ou 3 structures suffit pour transformer n'importe quelle anecdote ordinaire en histoire qui fait rire. La structure fait 70% du travail, le contenu fait 30%.
 
@@ -2556,7 +2556,7 @@ Les 3 ingrédients universels du storytelling humour :
 
 La différence entre les 5 structures ci-dessous, c'est la façon dont elles construisent cette tension et la libèrent.
 
-Si tu veux creuser les bases de la construction comique, notre article [Comment bien raconter une blague](/blog/comment-raconter-une-blague-sans-la-rater) couvre les fondamentaux. Pour le timing dans la livraison, voir [Timing humour : plus fort que la blague](/blog/timing-humour).
+Si tu veux creuser les bases de la construction comique, notre article [Comment bien raconter une blague](/blog/comment-raconter-une-blague-sans-la-rater) couvre les fondamentaux. Pour le timing dans la livraison, voir [Timing humour : le secret de la blague](/blog/timing-humour).
 
 ## Comment l'escalade peut transformer une anecdote banale ?
 
@@ -2572,7 +2572,7 @@ La mécanique est simple : 3 crans d'intensité croissante.
 
 **Cran 1 (réaliste) :** "Mon boss envoie des emails le dimanche soir."
 **Cran 2 (légèrement exagéré) :** "Le dimanche à 23h. Avec 'URGENT' dans l'objet."
-**Cran 3 (absurde total) :** "Du coup, je dors avec mon téléphone allumé. Je suis devenu l'assistante de mon propre sommeil."
+**Cran 3 (absurde total) :** "Du coup, je dors avec mon téléphone allumé. Mon sommeil est d'astreinte, sans la prime."
 
 Chaque étape est plus inattendue que la précédente. Et chaque étape crée une attente pour la suivante. Le public rit deux fois : en voyant chaque cran, et à la chute finale.
 
@@ -2631,7 +2631,7 @@ Pour voir des exemples de cette technique en action, nos [vidéos](/videos) de s
 
 Le callback, c'est mentionner un élément en début de récit, apparemment anodin, et y revenir à la fin de façon inattendue. Le rire vient du double effet : la surprise du retour + la satisfaction de retrouver quelque chose qu'on avait "oublié".
 
-**Blanche Gardin** excelle dans les callbacks sur plusieurs minutes. Elle pose une info en passant, tu l'oublies, elle te la balance 10 minutes plus tard. L'effet est dévastateur parce que tu ne l'as pas vu venir, mais rétrospectivement, tu réalises que le signe était là depuis le début.
+**Blanche Gardin** excelle dans les callbacks sur plusieurs minutes. Elle pose une info en passant, tu l'oublies, elle te la balance bien plus tard. L'effet est dévastateur parce que tu ne l'as pas vu venir, mais rétrospectivement, tu réalises que le signe était là depuis le début.
 
 Le callback crée un **sentiment de complicité**. Le public a l'impression d'avoir participé à la construction de la blague sans le savoir. C'est le truc le plus satisfaisant à ressentir dans une audience, et le plus impressionnant à produire.
 
@@ -2700,11 +2700,11 @@ Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle
 
 **Roman Frayssinet** passe des minutes à décrire un comportement humain avant de livrer la punchline. Ce n'est pas du remplissage : c'est la construction de la complicité. L'observation est drôle en elle-même ; la punchline est un bonus.
 
-Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Les [parcours](/parcours) incluent un module storytelling avec exercices progressifs. Et pour voir les 5 structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques de chaque humoriste. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
+Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Le [Parcours Storytelling](/parcours/storytelling) te fait pratiquer en 6 semaines, avec des exercices progressifs. Et pour voir ces structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques des pros. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
 
 Le tout pour 2,99 €/mois, sans engagement.`,
     date: "2026-03-25",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "STORYTELLING",
     faqs: [
@@ -2748,7 +2748,7 @@ Ce guide couvre les 5 situations machine à café les plus courantes : avec exac
 
 > **CLEF :** La conversation au travail ne repose pas sur l'inspiration du moment, elle repose sur des amorces préparées qui donnent l'illusion de la spontanéité. Comme les meilleurs humoristes, les gens qui "parlent facilement" ont simplement plus de matériel en stock.
 
-## Le lundi matin — comment briser la glace avec un zombie
+## Le lundi matin : comment briser la glace avec un zombie
 
 Le lundi matin, tes collègues sont là physiquement. Le reste arrive avec le deuxième café. Et toi, en pleine forme (ou pas), tu cherches quelque chose à dire.
 
@@ -2765,7 +2765,7 @@ Tu valides l'état mental de l'autre. Tu ne demandes pas "ça va ?", tu constate
 
 L'erreur à ne pas faire : poser des questions sur le week-end de quelqu'un qu'on connaît à peine. Si la réponse est "pas grand-chose", la conversation s'arrête là.
 
-## Le nouveau collègue — l'intégrer sans être awkward
+## Le nouveau collègue : l'intégrer sans être awkward
 
 Le nouveau vient d'arriver. Tout le monde l'accueille avec un "Bienvenue !" ultra-formel et retourne immédiatement à son écran. Tu le croises à la machine à café 3 jours après.
 
@@ -2782,7 +2782,7 @@ Tu lui donnes une info utile avec une légère exagération comique. Tu te posit
 
 Pour aller plus loin sur l'humour au travail, notre article sur les [blagues au boulot](/blog/blagues-travail-faire-rire-pro) détaille les codes à respecter dans un contexte pro.
 
-## Face au boss — l'humour hiérarchique et ses règles
+## Face au boss : l'humour hiérarchique et ses règles
 
 Ton N+1 arrive à la machine. Ton cerveau fait un calcul rapide : "Je sers l'ambiance ou je la fuis ?"
 
@@ -2794,7 +2794,7 @@ Ton N+1 arrive à la machine. Ton cerveau fait un calcul rapide : "Je sers l'amb
 
 **La relance :** Il dit "Ah oui, ça va être chargé" ? "J'ai préparé mes questions. Enfin, je me suis préparé à avoir l'air d'écouter."
 
-L'autodérision sur soi, jamais sur le contexte professionnel. **Panayotis Pascot** en fait une démonstration sur scène : rire de soi montre qu'on est à l'aise ; rire des autres montre plutôt qu'on ne l'est pas.
+L'autodérision sur soi, jamais sur le contexte professionnel. C'est l'esprit de **Panayotis Pascot**, qui rit d'abord de lui : rire de soi montre qu'on est à l'aise ; rire des autres montre plutôt qu'on ne l'est pas.
 
 **La sortie élégante :** "Bon, bonne réunion. Je prends des notes en vrai, promis."
 
@@ -2804,7 +2804,7 @@ L'autodérision sur soi, jamais sur le contexte professionnel. **Panayotis Pasco
 3. Jamais d'humour sur les clients
 4. Toujours à visage découvert, pas de sous-entendu qu'on "doit" expliquer
 
-## Le crush du 3ème étage — flirter subtilement à la machine à café
+## Le crush du 3ème étage : flirter subtilement à la machine à café
 
 La machine à café est l'un des meilleurs endroits pour créer une connexion. Neutre, court, sans pression. Pas de dîner, pas d'afterwork forcé. Juste 90 secondes.
 
@@ -2825,7 +2825,7 @@ Tu as créé un bout de complicité sur rien. La prochaine fois, vous avez un "t
 
 > **À noter :** La complicité se construit sur des observations partagées, pas sur des compliments. Les gens qui flirtent le mieux en contexte pro créent d'abord de la connexion, pas de l'attraction directe.
 
-## Le silence gênant entre inconnus — la technique du sauvetage
+## Le silence gênant entre inconnus : la technique du sauvetage
 
 Tu ne connais pas cette personne, elle ne te connaît pas, vous attendez tous les deux. Le silence dure, et devient franchement gênant.
 
@@ -2850,7 +2850,7 @@ Une petite référence à ce qui vient de se passer. Tu nommes implicitement le 
 1. **Observer, pas interroger.** "T'as vu que..." marche 10x mieux que "Tu vas bien ?". L'observation crée de la complicité, la question crée de la pression.
 2. **Exagérer légèrement.** Une observation précise + une légère exagération = humour. C'est la mécanique de base de l'humour observationnel.
 3. **L'autodérision courte.** "Je suis encore en mode week-end" ou "ou c'est juste moi ?" : une micro-autodérision par échange suffit.
-4. **La sortie en 10 secondes.** Une bonne conversation machine à café dure entre 60 et 90 secondes. Pars sur une note positive, pas quand ça s'essouffle.
+4. **Une sortie qui tient en une phrase.** Une conversation machine à café, c'est le temps d'un café, pas d'une réunion. Pars sur une note positive, avant que ça s'essouffle.
 5. **Garder 3 phrases en poche.** Tu n'improvises pas à 8h30 avec ton premier café. Avoir 3 phrases testées en stock, c'est la vraie différence.
 
 > **CLEF :** Les gens qui semblent "naturellement à l'aise" à la machine à café n'improvisent pas, ils ont un répertoire rodé. Avoir 3 phrases d'accroche par situation, c'est 80% du travail.
@@ -2877,7 +2877,7 @@ En 5 jours, tu sais ce qui marche avec tes collègues. Et la semaine d'après, c
 
 Notre [Parcours Machine à Café](/parcours/machine-a-cafe) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. 2,99 €/mois : le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
     date: "2026-03-25",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "CONTEXTE",
     faqs: [
@@ -2899,7 +2899,7 @@ Notre [Parcours Machine à Café](/parcours/machine-a-cafe) sur deviens-marrant.
       {
         question: "Combien de temps doit durer une conversation machine à café ?",
         answer:
-          "Entre 60 et 90 secondes, c'est l'idéal. Partir sur une note positive avant que ça s'essouffle, c'est la clé. Une sortie élégante ('Bon courage à toi', 'À la prochaine inspection de la machine') te laisse dans l'esprit de l'autre comme quelqu'un de naturel.",
+          "Le temps d'un café, pas plus. Partir sur une note positive avant que ça s'essouffle, c'est la clé. Une sortie élégante ('Bon courage à toi', 'À la prochaine inspection de la machine') te laisse dans l'esprit de l'autre comme quelqu'un de naturel.",
       },
     ],
   },
@@ -2918,7 +2918,7 @@ Ce guide, c'est pour le deuxième cas. Parce qu'on a tous vécu les deux.
 
 La répartie en soirée, ce n'est pas juste avoir des vannes prêtes. C'est gérer la **pression sociale en temps réel** : avec du bruit, de l'alcool, des gens que tu connais à moitié, et l'impression que tout le monde te regarde.
 
-**Panayotis Pascot** explique dans un de ses spectacles que la peur du jugement est le plus grand tueur de répartie : ce qui manque, ce ne sont pas les idées, c'est l'audace de les sortir. Et ce n'est pas une question de confiance en soi innée : c'est une compétence.
+**Panayotis Pascot** pourrait le dire sur scène : la peur du jugement tue plus de répliques que le manque d'idées. Des idées, tu en as. Il te manque l'audace de les sortir. Et l'audace, ça se travaille.
 
 > **CLEF :** La répartie en soirée ne requiert pas de génie, elle requiert d'avoir 3-4 réponses types rodées pour les situations qui reviennent toujours. Improviser, c'est 20% du travail. Préparer, c'est 80%.
 
@@ -2928,14 +2928,14 @@ Les 5 situations qui suivent sont celles qui reviennent dans presque chaque soir
 
 **Le diagnostic :** silence, deux ou trois sourires polis, et quelqu'un change de sujet avec une rapidité suspecte.
 
-C'est la peur de tout le monde. Et c'est aussi ce qui arrive aux meilleurs. **Fary** a passé des années d'open mic à se planter devant 20 personnes. La différence entre lui et quelqu'un qui arrête, c'est la façon de gérer le plat.
+C'est la peur de tout le monde. Et c'est aussi ce qui arrive aux meilleurs. **Fary**, comme tous les humoristes, a connu des salles où ça ne riait pas. La différence entre lui et quelqu'un qui arrête, c'est la façon de gérer le plat.
 
 **La technique, le rebond autodérisoire :**
 
 Ne justifie pas. Ne répète pas. Retourne la situation contre toi avec un timing sec.
 
 **L'exemple :**
-- Vanne plantée → silence → tu attends 2 secondes → "OK, j'annule mon spectacle."
+- Vanne plantée → silence → tu laisses passer une seconde environ → "OK, j'annule mon spectacle."
 - Ou : "Bon. Dans ma tête c'était hilarant. On va s'en tenir à ça."
 - Ou : "Restez dans le coin, le génie arrive souvent vers minuit."
 
@@ -2962,7 +2962,7 @@ Exemple : tu arrives en retard → quelqu'un dit "Ah, le roi du timing !" → tu
 
 Pour développer ce réflexe, notre article [Répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour) détaille les mécanismes pas à pas.
 
-## Situation 3 : Tu rejoins un groupe déjà lancé — et tu ne sais pas comment t'insérer
+## Situation 3 : Tu rejoins un groupe déjà lancé, et tu ne sais pas comment t'insérer
 
 **Le diagnostic :** La conversation est déjà en cours. Il y a une énergie. Tu es debout avec ton verre, tu souris vaguement, et tu attends une "ouverture" qui ne vient pas.
 
@@ -2981,7 +2981,7 @@ Tu n'as pas besoin d'une entrée dramatique. Une observation courte sur ce qui v
 
 Pour aller plus loin sur les techniques d'insertion sociale, nos [conseils de répartie](/conseils) proposent des exercices concrets à tester avant la prochaine soirée.
 
-## Situation 4 : Il y a un malaise généralisé — sujet glissant, blague ratée de quelqu'un d'autre
+## Situation 4 : Il y a un malaise généralisé, sujet glissant, blague ratée de quelqu'un d'autre
 
 **Le diagnostic :** Quelqu'un vient de sortir une blague douteuse. Ou un sujet délicat a été abordé. L'ambiance s'est plombée. Tout le monde regarde ailleurs.
 
@@ -2996,7 +2996,7 @@ Ou : "Je propose qu'on parle de la météo comme toutes les personnes normales."
 
 Ou (version plus culottée) : "Bien. On va dire que ce sujet a quitté la soirée avant nous."
 
-**Roman Frayssinet** utilise souvent ce type de pivot dans ses spectacles : transformer le malaise en méta-commentaire absurde sur le malaise lui-même. La technique, c'est de nommer l'inconfort de façon tellement décalée que ça le dédramatise.
+Dans la veine de **Roman Frayssinet** : transformer le malaise en méta-commentaire absurde sur le malaise lui-même. La technique, c'est de nommer l'inconfort de façon tellement décalée que ça le dédramatise.
 
 ## Situation 5 : La soirée s'essouffle et tu veux finir sur une bonne note
 
@@ -3019,26 +3019,26 @@ Si tu pars à ce moment-là avec une réplique qui colle, tu es la dernière ima
 
 1. **Prépare 3 réponses-types pour les situations récurrentes.** La vanne plantée, la moquerie, le malaise : elles reviennent dans chaque soirée. Avoir une réponse rodée, c'est ne pas avoir à improviser sous pression.
 2. **L'autodérision est toujours sûre.** Elle ne blesse personne, elle te rend accessible, et elle transforme chaque situation difficile en matériau comique.
-3. **La pause vaut de l'or.** Deux secondes de silence avant une réplique font 3x plus d'effet que la même réplique lancée tout de suite. Notre article [Timing en humour](/blog/timing-humour) détaille exactement comment utiliser ce silence.
+3. **La pause vaut de l'or.** Un silence juste avant la réplique, et elle fait bien plus d'effet que si tu la lances dans la foulée. Notre article [Timing en humour](/blog/timing-humour) détaille exactement comment utiliser ce silence.
 4. **Ne justifie jamais une vanne.** Une explication tue le rire. Si ça ne passe pas, pivot ou autodérision, jamais d'explication.
 5. **La constance compte plus que la qualité des vannes.** Quelqu'un qui garde son calme et son sens de l'humour dans toutes les situations est bien plus impressionnant que quelqu'un qui place 2 blagues hilarantes puis se ferme pendant une heure.
 
 ## Par où commencer ?
 
 1. **Choisis une situation parmi les 5 et la réplique qui va avec.** Une seule, pas cinq : tu la sors ce soir.
-2. **Travaille la pause.** Après une vanne, attends 2 secondes avant de parler. C'est contre-intuitif mais c'est le changement le plus visible.
+2. **Travaille la pause.** Après une vanne, laisse un petit blanc avant de parler. C'est contre-intuitif mais c'est le changement le plus visible.
 3. **Prépare ta sortie avant d'arriver.** Avoir une phrase de sortie prête transforme la fin de soirée en micro-performance.
 
 Notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr est construit sur ces principes : situations réelles, phrases testées, progression mesurable. Et le catalogue de [vannes](/vannes) te donne des centaines de formules adaptées aux contextes sociaux, de quoi te construire un répertoire à toi avant la prochaine soirée.`,
     date: "2026-03-26",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "7 min",
     category: "CONTEXTE",
     faqs: [
       {
         question: "Comment réagir quand ma vanne tombe à plat en soirée ?",
         answer:
-          "L'autodérision sèche est ta meilleure arme : attends 2 secondes, puis sors 'OK, j'annule mon spectacle' ou 'Dans ma tête c'était hilarant, on va s'en tenir à ça'. Ne justifie jamais, ne répète pas. Transformer le moment gênant en matériau comique sur toi, c'est le vrai niveau supérieur.",
+          "L'autodérision sèche est ta meilleure arme : attends un instant, puis sors 'OK, j'annule mon spectacle' ou 'Dans ma tête c'était hilarant, on va s'en tenir à ça'. Ne justifie jamais, ne répète pas. Transformer le moment gênant en matériau comique sur toi, c'est le vrai niveau supérieur.",
       },
       {
         question: "Comment répondre aux moqueries sans paraître défensif ?",
@@ -3250,22 +3250,22 @@ Le problème des conseils du type "sois drôle, ça ira mieux", c'est qu'ils sup
 
 **Le programme en douceur :**
 
-**Étape 1. Observer sans produire (première semaine) :**
+**Semaine 1. Observer sans produire :**
 - 20 minutes de stand-up par soir. **Fary**, **Roman Frayssinet** ou **Blanche Gardin** : choisis selon ton état d'esprit. Notre page [vidéos](/videos) regroupe les meilleurs spectacles analysés.
 - Note mentalement (pas besoin d'écrire) ce qui te fait sourire. Juste remarquer.
 - Objectif : retrouver le contact avec le rire. Pas faire rire.
 
-**Étape 2. Partager des trucs drôles (deuxième semaine) :**
+**Semaine 2. Partager des trucs drôles :**
 - Envoie 1 mème ou 1 vidéo drôle par jour à quelqu'un. N'importe qui.
 - L'humour partagé crée une connexion. Et la connexion est l'un des meilleurs antidotes à l'isolement émotionnel.
 - Objectif : être le passeur, pas le créateur.
 
-**Étape 3. Remarquer des absurdités du quotidien (troisième semaine) :**
+**Semaine 3. Remarquer des absurdités du quotidien :**
 - Note 1 truc absurde par jour. Par message vocal, sur un carnet, peu importe.
 - "Quelqu'un a mis un Post-it sur la machine à café pour dire 'merci de laisser propre'. La machine est beige crade depuis 2019."
 - Objectif : réactiver le regard d'observateur.
 
-**Étape 4. Faire une remarque à voix haute (quatrième semaine) :**
+**Semaine 4. Faire une remarque à voix haute :**
 - Une remarque par jour, en contexte naturel. Machine à café, trajet, repas.
 - Pas forcément drôle : une observation légère, un peu décalée, suffit.
 - Objectif : reprendre l'habitude de dire à voix haute ce que tu remarques.
@@ -3303,7 +3303,7 @@ Commence par les contextes où tu te sens déjà un peu à l'aise. Ne commence p
 1. **Les interactions à 1 :** un ami proche, quelqu'un de confiance. Tu peux rater. Il n'y a pas de conséquence.
 2. **Les micro-interactions de contexte** (caissier, collègue de passage, café du coin) : 30 secondes, une observation légère, aucune pression. Au comptoir, quand on te demande "Comme d'habitude ?" : "Oui. Je suis devenu prévisible, mais avec constance."
 3. **Les petits groupes de connaissances.** 3-4 personnes que tu connais à moitié. Objectif : une remarque drôle par soirée, pas dix.
-4. **Les contextes plus larges.** Soirées, nouvelles rencontres, quand les étapes 1-3 sont stabilisées.
+4. **Les contextes plus larges.** Soirées, nouvelles rencontres, quand les trois niveaux précédents sont stabilisés.
 
 Chaque interaction réussie, même micro, recalibre la confiance. Ce n'est pas un processus spectaculaire. C'est une accumulation.
 
@@ -3336,7 +3336,7 @@ Ce retour du plaisir dans les interactions est un indicateur fiable, même s'il 
 
 Si tu veux un cadre pour avancer, notre [Parcours Confiance](/parcours/confiance) sur deviens-marrant.fr est conçu pour cette reconstruction : 6 semaines de progression structurée, de l'observation à la pratique en groupe, à ton rythme.`,
     date: "2026-03-26",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "PSYCHOLOGIE",
     faqs: [
@@ -3384,23 +3384,23 @@ L'humour, c'est 30% d'idée et 70% d'exécution. Voici les 7 raisons précises q
 
 Le tueur silencieux n°1. Annoncer une blague, c'est armer le public à juger. C'est dire "préparez-vous à rire", ce qui produit l'effet inverse. **Paul Mirabel** ne dit jamais "voici une blague" sur scène. Il glisse l'observation dans le flux, et le rire vient parce que personne ne l'a vu venir.
 
-**Mauvais :** "Attendez attendez, j'ai une bonne, écoutez. Pourquoi le coq a deux ailes ? Pour traverser la route." (Personne ne rit.)
+**Mauvais :** "Attendez attendez, j'ai une bonne, écoutez. Ça fait trois semaines que je réponds 'non' quand on me dit 'ça va ?'. Personne a relevé." (Personne ne rit.)
 
-**Bon :** "On a passé 200 000 ans à se demander pourquoi le coq traverse la route. Personne lui a jamais demandé comment il allait."
+**Bon :** "Ça fait trois semaines que je réponds 'non' quand on me dit 'ça va ?'. Personne a relevé."
 
 Différence : pas d'annonce, pas de pression, pas de "préparez-vous". Juste le truc qui sort.
 
-### Raison 2 : Le timing — le tueur silencieux n°2
+### Raison 2 : Le timing, le tueur silencieux n°2
 
 Une blague, c'est un rythme : setup, pause, punchline. La pause **avant** la chute crée la tension. La tension libérée, c'est le rire. Sans pause, pas de tension. Sans tension, juste une phrase plate.
 
-**Pierre Croce** maîtrise ça à la précision : il pose son setup, **il attend** (parfois 2 secondes, une éternité sur scène), et lâche la chute quand le public a commencé à anticiper. Le décalage entre ce qu'on attend et ce qui arrive, c'est l'humour.
+**Pierre Croce** en fait une arme : il pose son setup, **il laisse la salle attendre**, et lâche la chute quand le public a commencé à anticiper. Une petite seconde suffit : sur scène, c'est une éternité. Le décalage entre ce qu'on attend et ce qui arrive, c'est l'humour.
 
 **Mauvais (débit mitraillette) :** "Mon coloc a essayé de cuisiner hier les voisins ont fermé leurs fenêtres."
 
-**Bon (avec pause après "cuisiner hier") :** "Mon coloc a essayé de cuisiner hier... [pause d'1,5 sec] les voisins ont fermé leurs fenêtres."
+**Bon (avec pause après "cuisiner hier") :** "Mon coloc a essayé de cuisiner hier... [pause d'une seconde environ] les voisins ont fermé leurs fenêtres."
 
-Tu rajoutes 1,5 seconde de silence à la même phrase, et l'effet est multiplié par 3. Pour creuser le sujet, on a un guide complet sur [le timing en humour](/blog/timing-humour).
+Tu rajoutes une petite seconde de silence à la même phrase, et la chute passe d'un "ah, ok" à un vrai rire. Pour creuser le sujet, on a un guide complet sur [le timing en humour](/blog/timing-humour).
 
 ### Raison 3 : Tu ne connais pas ton public
 
@@ -3414,7 +3414,7 @@ La blague qui cartonne entre potes peut tomber à plat au boulot, et inversement
 
 Si tu dois expliquer pourquoi c'est drôle, c'est mort. La punchline doit atterrir et **se fermer toute seule**. Quand tu rajoutes "tu vois ce que je veux dire ?" ou "enfin c'est plus drôle dans le contexte", tu es en train d'enterrer ta propre vanne.
 
-**Fary** dit souvent : "Ma règle, c'est : si la blague a besoin d'une notice, elle a échoué. La punchline doit être comme une porte qui claque : sec, fini."
+Dans la veine de **Fary**, la règle tient en deux lignes : si la blague a besoin d'une notice, elle a échoué, et la punchline doit être comme une porte qui claque : sec, fini.
 
 **Mauvais :** "Mon proprio m'a augmenté le loyer de 15%, et toi tu sais l'inflation c'est 3%, donc en gros il me vole, c'est ça que je veux dire, c'est abusé."
 
@@ -3424,19 +3424,19 @@ Même fond, livraison sèche, et aucune explication derrière.
 
 ### Raison 5 : La punchline est plus longue que le setup
 
-En stand-up, la chute est **toujours plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. **Le public décroche au mot 8** d'une punchline trop longue.
+En stand-up, la chute est **en général plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. Une chute qui s'éternise, c'est un public qui regarde son téléphone.
 
 **Mauvais :** "Tinder ? J'y suis depuis 6 mois et je crois que ça m'a appris plus de choses sur ma propre psychologie, sur mes blocages relationnels et sur ma capacité à juger les autres en 3 secondes que 10 ans de psychanalyse à 90 balles la séance."
 
-**Bon :** "Six mois sur Tinder, bilan : c'est une thérapie, sauf que le psy ne me répond jamais."
+**Bon :** "Six mois sur Tinder, j'ai parlé de moi à des inconnus qui ne répondent jamais. Une thérapie, quoi."
 
-Setup 5 mots, punchline 11 mots : sec et clair.
+Setup 15 mots, punchline 3 mots : sec et clair.
 
 ### Raison 6 : Tu manques d'énergie ou tu en as trop
 
 Le débit, le ton, l'engagement physique : tout ça compte. Si tu racontes une vanne en marmonnant, elle tombe à plat. Si tu la racontes en surjouant, elle tombe à plat aussi. **Inès Reg** a un don pour ça : elle est à fond mais elle ne force pas, elle est juste **proportionnée à ce qu'elle dit**.
 
-**Test simple :** demande à un pote de te filmer pendant que tu racontes une blague. Regarde-toi. 80% des "blagues qui marchent pas" sont en fait des blagues correctement écrites mais racontées avec un visage de PV de réunion.
+**Test simple :** demande à un pote de te filmer pendant que tu racontes une blague. Regarde-toi. La plupart des "blagues qui marchent pas" sont en fait des blagues correctement écrites mais racontées avec un visage de PV de réunion.
 
 ### Raison 7 : Le contexte est mort avant que tu commences
 
@@ -3462,7 +3462,7 @@ Règle : observe l'énergie de la pièce avant de placer une vanne. Si le groupe
 
 **Stratégie 2. Le rebond instantané :** tu enchaînes immédiatement avec une observation drôle sans laisser le silence s'installer. Le cerveau du public n'a pas eu le temps d'enregistrer l'échec.
 
-**Stratégie 3. Le silence assumé :** tu ne dis rien, tu fais juste un demi-sourire et tu passes à autre chose. Surtout, ne répète pas la blague plus fort, et ne l'explique pas. **Roman Frayssinet** dit que la pire chose à faire après une blague qui rate, c'est d'essayer de la sauver : tu enterres deux fois au lieu d'une.
+**Stratégie 3. Le silence assumé :** tu ne dis rien, tu fais juste un demi-sourire et tu passes à autre chose. Surtout, ne répète pas la blague plus fort, et ne l'explique pas. Dans la veine de **Roman Frayssinet** : la pire chose à faire après une blague qui rate, c'est d'essayer de la sauver. Tu enterres deux fois au lieu d'une.
 
 ## Comment t'entraîner à corriger ces 7 erreurs
 
@@ -3472,11 +3472,11 @@ Ensuite, choisis **une seule erreur à corriger par semaine**, pas les sept d'un
 
 ## À qui ça s'adresse ?
 
-Que tu sois en train de redécouvrir l'humour entre potes après une période où tu n'avais plus le cœur, la raison 6 (l'énergie) est ta priorité, le ton revient avec la pratique. Que tu cherches à placer plus de vannes au boulot, les raisons 3 (public) et 7 (contexte) sont les plus importantes : un open space n'est pas une scène. Ou que tu galères en soirée à faire rire alors que tu en es capable en privé, la raison 1 (annoncer la blague) et la raison 2 (timing) sont 90% de ton problème.
+Que tu sois en train de redécouvrir l'humour entre potes après une période où tu n'avais plus le cœur, la raison 6 (l'énergie) est ta priorité, le ton revient avec la pratique. Que tu cherches à placer plus de vannes au boulot, les raisons 3 (public) et 7 (contexte) sont les plus importantes : un open space n'est pas une scène. Ou que tu galères en soirée à faire rire alors que tu en es capable en privé, la raison 1 (annoncer la blague) et la raison 2 (timing) sont l'essentiel de ton problème.
 
 Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blague-courte-arme-secrete-humour). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. Le tout pour 2,99 €/mois : moins cher qu'une vanne ratée, qui elle peut te coûter la soirée.`,
     date: "2026-05-05",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "8 min",
     category: "GUIDE",
     faqs: [
@@ -3488,7 +3488,7 @@ Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur
       {
         question: "Comment savoir si c'est mon timing ou ma blague qui rate ?",
         answer:
-          "Test simple : raconte la même vanne deux fois, à deux groupes différents, en variant uniquement le timing (pause de 1,5 seconde avant la chute la deuxième fois). Si la deuxième version marche mieux, c'est ton timing. Si les deux tombent à plat, c'est probablement le calibrage du public ou la longueur de la punchline.",
+          "Test simple : raconte la même vanne deux fois, à deux amis aussi proches l'un que l'autre, en variant uniquement le timing (une petite pause avant la chute la deuxième fois). Si la deuxième version marche mieux, c'est ton timing. Si les deux tombent à plat, c'est probablement le calibrage du public ou la longueur de la punchline.",
       },
       {
         question: "Que faire quand une blague tombe à plat en plein milieu d'une soirée ?",
@@ -3498,7 +3498,7 @@ Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur
       {
         question: "Pourquoi le timing est-il plus important que la blague elle-même ?",
         answer:
-          "Parce que l'humour repose sur la libération d'une tension. Sans pause avant la punchline, il n'y a pas de tension à libérer, donc pas de rire. Une blague moyenne avec un excellent timing fait sourire ; une bonne blague avec un mauvais timing tombe à plat. Pierre Croce et Paul Mirabel construisent une bonne partie de leur stand-up sur cette mécanique de pause et de silence.",
+          "Parce que l'humour repose sur la libération d'une tension. Sans pause avant la punchline, il n'y a pas de tension à libérer, donc pas de rire. Une blague moyenne avec un excellent timing fait sourire ; une bonne blague avec un mauvais timing tombe à plat. Des stand-uppeurs comme Pierre Croce ou Paul Mirabel jouent beaucoup sur la pause et le silence.",
       },
     ],
   },
@@ -3603,7 +3603,7 @@ Tu kiffes raconter des histoires longues, donc tu en places partout. Mauvaise st
 
 Que tu cherches à placer plus de vannes en soirée et que tu te sentes mieux à l'aise avec les phrases courtes, bonne nouvelle, c'est le format qui domine en groupe. Que tu veuilles devenir mémorable au boulot ou en famille avec des anecdotes qui marquent, investis sur le storytelling, mais réserve-le aux bons contextes. Ou que tu sois en train de retrouver ton humour après une période sèche, commence par les courtes, c'est moins risqué et ça remet la machine en route.
 
-Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : plus fort que la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 2,99 €/mois**, sans engagement.`,
+Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : le secret de la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 2,99 €/mois**, sans engagement.`,
     date: "2026-05-05",
     readingTime: "8 min",
     category: "ANALYSE",
@@ -3651,7 +3651,7 @@ Avant de te jeter sur les techniques, comprends ce qui bloque. C'est pas de la t
 
 Quand tu es seul avec quelqu'un, tu parles parce que le silence est plus inconfortable que le risque. En groupe, le silence est confortable (les autres comblent), donc ton cerveau a le luxe d'évaluer ta phrase avant de la sortir. Et il l'évalue sept fois, sous tous les angles, comme un jury de Top Chef devant une mousse au chocolat. Pendant ce temps, le sujet est passé.
 
-Des chercheurs en psychologie sociale (notamment Mark Leary, Université Duke) appellent ça l'**hyper-monitoring social** : plus le groupe est grand, plus on évalue ses propres mots, plus le délai augmente, plus on rate la fenêtre de tir. C'est une boucle.
+Le psychologue Mark Leary (Université Duke), spécialiste de l'anxiété sociale, l'explique ainsi : on se tait quand on tient à faire bonne impression et qu'on doute d'y arriver. Résultat, on évalue ses propres mots, le délai augmente, on rate la fenêtre de tir. C'est une boucle.
 
 ### Mécanisme 2 : le syndrome du ticket de caisse
 
@@ -3697,13 +3697,13 @@ Tu rates le bon moment ? Pas grave. **Reviens sur un mot précis** que quelqu'un
 
 ### Technique 4 : La question idiote assumée
 
-Personne n'écoute vraiment dans un groupe. Du coup, **poser une question naïve** est souvent un acte de courage utile :
+En groupe, beaucoup de gens font semblant d'avoir suivi. Du coup, **poser la question naïve** rend service à tout le monde :
 
 - "Attendez, c'est quoi le padel, exactement ?"
 - "Vous parlez de qui là, j'ai loupé."
 - "Pourquoi c'est drôle ?"
 
-Tu déclenches deux réactions possibles : soit quelqu'un t'explique (et la conversation rebascule autour de toi), soit tout le monde réalise que personne n'avait suivi non plus, et tu deviens le héros silencieux du groupe. **Inès Reg** a fait carrière sur cette posture : celle qui pose la question que tout le monde se pose et que personne n'ose poser.
+Tu déclenches deux réactions possibles : soit quelqu'un t'explique (et la conversation rebascule autour de toi), soit tout le monde réalise que personne n'avait suivi non plus, et tu deviens le héros silencieux du groupe. Dans la veine d'**Inès Reg** : celle qui pose la question que tout le monde se pose et que personne n'ose poser.
 
 ### Technique 5 : Le piggyback (s'accrocher à quelqu'un)
 
@@ -3719,27 +3719,27 @@ Si personne réagit : aucun problème, ça passe inaperçu. Si quelqu'un capte :
 
 ### Technique 7 : Le timing des silences
 
-Le moment d'or, c'est **les 1,5 seconde après une chute** : quelqu'un finit une histoire, le groupe rit, et il y a une fenêtre de 1,5 seconde avant que la personne suivante ne reprenne la parole. C'est ton créneau. Pas avant (tu coupes), pas après (c'est fermé). À toi de placer ton observation préparée.
+Le moment d'or, c'est **la seconde qui suit une chute** : quelqu'un finit une histoire, le groupe rit, et il y a une fenêtre d'une seconde environ avant que la personne suivante ne reprenne la parole. C'est ton créneau. Pas avant (tu coupes), pas après (c'est fermé). À toi de placer ton observation préparée.
 
-**Blanche Gardin** parle souvent de cette mécanique : elle dit que dans une conversation, "ce n'est pas le mec le plus drôle qui parle, c'est le mec qui place le bon truc dans le bon trou de silence." C'est le timing, pas la blague.
+Les silences de **Blanche Gardin** le montrent : souvent, le moment fait plus rire que la phrase. En conversation, c'est celui qui glisse le bon truc dans le bon blanc qui fait rire, même s'il n'est pas le plus drôle de la bande.
 
 > **CLEF :** Les 7 techniques se résument en une seule règle : **n'attends pas l'idée parfaite, prends l'espace verbal disponible**. Une intervention banale faite au bon moment vaut dix interventions brillantes faites trop tard.
 
 ## Comment t'entraîner sans pression : 3 contextes progressifs
 
-### Niveau 1 — La micro-interaction (caissier, livreur, voisin)
+### Niveau 1 : La micro-interaction (caissier, livreur, voisin)
 
 Avant de t'attaquer aux groupes, **muscle le réflexe de prendre la parole** dans des contextes à zéro enjeu social. Le caissier qui te demande si tu as la carte fidélité, tu réponds plus que "non". Tu ajoutes : "Je résiste depuis trois ans, je vais finir par craquer." C'est anodin, et c'est tout l'intérêt : tu entraînes le muscle sans rien risquer.
 
 Objectif : **5 micro-interactions augmentées par jour pendant 2 semaines**. Ça change tout.
 
-### Niveau 2 — Le groupe de confiance (3-4 personnes que tu connais bien)
+### Niveau 2 : Le groupe de confiance (3-4 personnes que tu connais bien)
 
 Une fois le réflexe verbal ré-installé, **passe à un petit groupe d'amis proches**. L'enjeu est faible (ils t'aiment de toute façon), le matériau est riche (tu connais leur vie, leurs vannes, leurs références). C'est le terrain d'entraînement parfait pour tester les 7 techniques.
 
 Objectif : **placer au moins 3 interventions par soirée, dont 1 observation drôle**. Trois, pas dix : un objectif que tu peux vraiment cocher en rentrant.
 
-### Niveau 3 — Le groupe ouvert (soirée, dîner, afterwork élargi)
+### Niveau 3 : Le groupe ouvert (soirée, dîner, afterwork élargi)
 
 Là tu testes en conditions réelles. Mais avec deux outils dans la poche : tes **3 phrases d'amorçage** et la technique du **piggyback** (s'accrocher à la personne sociable du groupe).
 
@@ -3801,14 +3801,14 @@ Que tu sois étudiant et que tu galères en soirée alors que tu sais être drô
 
 Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) : une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 2,99 €/mois, sans engagement.`,
     date: "2026-05-05",
-    updatedAt: "2026-09-29",
+    updatedAt: "2026-10-12",
     readingTime: "10 min",
     category: "PSYCHOLOGIE",
     faqs: [
       {
         question: "Pourquoi je deviens muet en groupe alors que je suis bavard en tête-à-tête ?",
         answer:
-          "C'est l'hyper-monitoring social : plus le groupe est grand, plus ton cerveau évalue tes phrases avant de les sortir, plus le délai augmente, plus tu rates la fenêtre de tir. En tête-à-tête, le silence est inconfortable donc tu parles ; en groupe, les autres comblent, donc tu réfléchis trop. C'est un mécanisme cognitif, pas un défaut de personnalité.",
+          "C'est la peur de mal faire impression : quand on tient à bien paraître et qu'on doute d'y arriver (c'est la théorie du psychologue Mark Leary), ton cerveau évalue tes phrases avant de les sortir, le délai augmente, tu rates la fenêtre de tir. En tête-à-tête, le silence est inconfortable donc tu parles ; en groupe, les autres comblent, donc tu réfléchis trop. C'est un mécanisme cognitif, pas un défaut de personnalité.",
       },
       {
         question: "Comment dépasser la peur de parler en groupe ?",
@@ -3818,7 +3818,7 @@ Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/p
       {
         question: "Quelles techniques fonctionnent vraiment en soirée ?",
         answer:
-          "Trois techniques marchent dès le premier essai : (1) le piggyback, t'accrocher à la personne la plus sociable du groupe et lui poser une question, (2) le recyclage d'observation, pointer une absurdité dans ce qui vient d'être dit, (3) le timing des 1,5 seconde après une chute, la fenêtre de tir où la conversation est ouverte. Aucune ne demande d'être drôle, juste d'être présent.",
+          "Trois techniques marchent dès le premier essai : (1) le piggyback, t'accrocher à la personne la plus sociable du groupe et lui poser une question, (2) le recyclage d'observation, pointer une absurdité dans ce qui vient d'être dit, (3) le timing de la seconde qui suit une chute, la fenêtre de tir où la conversation est ouverte. Aucune ne demande d'être drôle, juste d'être présent.",
       },
       {
         question: "Combien de temps faut-il pour ne plus rester muet en groupe ?",
@@ -3828,7 +3828,7 @@ Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/p
       {
         question: "Est-ce que les introvertis peuvent vraiment apprendre à parler en groupe ?",
         answer:
-          "Oui : être introverti, c'est avoir besoin de calme pour recharger, pas être incapable de parler. La plupart des humoristes professionnels (Roman Frayssinet, Blanche Gardin, Panayotis Pascot) sont des introvertis qui ont appris à utiliser leur sensibilité comme matière première. L'observation est même un avantage pour les introvertis : tu vois ce que les autres ratent.",
+          "Oui : être introverti, c'est avoir besoin de calme pour recharger, pas être incapable de parler. Paul Mirabel joue de sa timidité sur scène, et des humoristes comme Roman Frayssinet, Blanche Gardin ou Panayotis Pascot ont fait de l'observation leur matière première. L'observation est même un avantage pour les introvertis : tu vois ce que les autres ratent.",
       },
     ],
   },

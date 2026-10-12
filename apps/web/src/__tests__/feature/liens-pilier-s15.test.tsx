@@ -120,8 +120,9 @@ describe("L6 et L7 : pilier", () => {
     }
   });
 
-  it("updatedAt réel (s15), postérieur à la refonte du 29/09", () => {
-    expect(pilier.updatedAt).toBe("2026-10-06");
+  it("updatedAt réel (s15, puis audit s20), postérieur à la refonte du 29/09", () => {
+    // 2026-10-06 (liens s15) puis 2026-10-12 : corrections de l'audit s20 (docs/copy/application-audit-code-s20.md).
+    expect(pilier.updatedAt).toBe("2026-10-12");
   });
 
   it("H2, FAQ et humoristes intouchés, zéro tiret cadratin ajouté", () => {
@@ -137,7 +138,7 @@ describe("L6 et L7 : pilier", () => {
     for (const nom of ["Paul Mirabel", "Fary", "Blanche Gardin", "Roman Frayssinet", "Panayotis Pascot", "Waly Dia", "Inès Reg"]) {
       expect(pilier.content).toContain(nom);
     }
-    // Les 5 tirets cadratins préexistants (titres H3 « Pilier n — ») restent les seuls.
-    expect(pilier.content.split("—").length - 1).toBe(5);
+    // Les 5 tirets cadratins des H3 « Pilier n — » sont devenus « , » (audit s20, règle 4) : plus aucun.
+    expect(pilier.content.split("—").length - 1).toBe(0);
   });
 });

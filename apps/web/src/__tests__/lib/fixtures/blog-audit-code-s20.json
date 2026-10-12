@@ -1,0 +1,1280 @@
+{
+  "_meta": {
+    "source": "docs/copy/application-audit-code-s20.md (partie 1, partie 2, C1-C3, §4 tirets d'intertitres)",
+    "genere": "extrait par script des documents corrections-audit-code-s20-partie-1.md / -partie-2.md / application-audit-code-s20.md, 2026-10-12",
+    "remplacements": 166,
+    "intertitres": 49
+  },
+  "updatedAt": "2026-10-12",
+  "modified": [
+    "5-types-humour-lequel-pour-toi",
+    "blagues-travail-faire-rire-pro",
+    "comment-avoir-de-la-repartie",
+    "comment-devenir-drole",
+    "comment-faire-rire-un-homme",
+    "comment-faire-rire-une-fille",
+    "confiance-humour-apres-rupture",
+    "conversation-machine-a-cafe",
+    "erreurs-blagues",
+    "exercices-developper-humour",
+    "humour-noir-utiliser-sans-blesser",
+    "humour-quotidien-8-habitudes",
+    "jamais-quoi-repondre-techniques",
+    "je-suis-pas-drole-comment-changer",
+    "meilleures-blagues-droles-2026",
+    "phrases-droles-conversations",
+    "pourquoi-blagues-marchent-pas",
+    "repartie-debutant-5-etapes",
+    "repartie-soiree-anti-malaise",
+    "repondre-moqueries-avec-humour",
+    "rester-muet-en-groupe",
+    "storytelling-drole-5-structures",
+    "timidite-et-humour",
+    "timing-humour"
+  ],
+  "pairs": [
+    {
+      "id": "P1-T1 PI2",
+      "slug": "comment-devenir-drole",
+      "avant": "Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des **mécanismes cognitifs précis** : détection d'incongruité, résolution de tension, calibrage social.",
+      "apres": "L'humour repose sur des **mécanismes cognitifs précis** : détection d'incongruité, résolution de tension, calibrage social."
+    },
+    {
+      "id": "P1-T1 PI3",
+      "slug": "comment-devenir-drole",
+      "avant": "**Roman Frayssinet** est un génie de l'observation. Il prend un truc que tout le monde vit (les groupes WhatsApp, les gens dans le métro, les réunions Zoom) et il le décrit avec une précision chirurgicale qui te fait dire \"mais c'est exactement ça\".",
+      "apres": "**Roman Frayssinet** part de détails minuscules, un truc que tout le monde a vécu, et les fait dériver vers l'absurde. Tout commence par un regard qui a vu ce que les autres ignorent : c'est ça, l'observation."
+    },
+    {
+      "id": "P1-T1 PI4",
+      "slug": "comment-devenir-drole",
+      "avant": "notre article [Timing humour : plus fort que la blague](/blog/timing-humour) détaille les techniques des pros.",
+      "apres": "notre article [Timing humour : le secret de la blague](/blog/timing-humour) détaille les techniques des pros."
+    },
+    {
+      "id": "P1-T1 PI5",
+      "slug": "comment-devenir-drole",
+      "avant": "**Waly Dia** raconte qu'à ses débuts, il avait un taux de réussite de 30%. Aujourd'hui, il remplit des salles, et entre les deux il y a des milliers de vannes testées, affinées, recalibrées.",
+      "apres": "**Waly Dia** a débuté sur les scènes nantaises. Aujourd'hui, il remplit des salles, et entre les deux il y a un paquet de vannes testées, affinées, recalibrées."
+    },
+    {
+      "id": "P1-T1 PI6",
+      "slug": "comment-devenir-drole",
+      "avant": "Paul Mirabel, Fary, Blanche Gardin ont tous commencé en salle de 20 personnes à rater leurs vannes une fois sur deux. C'est ça, la progression.",
+      "apres": "Paul Mirabel, Fary, Blanche Gardin ont tous commencé sur de petites scènes, avec leur lot de bides. C'est ça, la progression."
+    },
+    {
+      "id": "P1-T1 RE2",
+      "slug": "comment-avoir-de-la-repartie",
+      "avant": "**Roman Frayssinet** utilise beaucoup cette technique sur scène : une remarque du public, et elle repart à l'envoyeur avec un supplément.",
+      "apres": "Imagine **Roman Frayssinet** face à une remarque venue du public : avec ce réflexe, elle repart à l'envoyeur avec un supplément."
+    },
+    {
+      "id": "P1-T1 RE3",
+      "slug": "comment-avoir-de-la-repartie",
+      "avant": "**Blanche Gardin** peut tenir un silence de 5 secondes face au public, et la salle rit avant même qu'elle ait dit un mot.",
+      "apres": "**Blanche Gardin** sait tenir un silence face au public, et la salle rit avant même qu'elle ait dit un mot."
+    },
+    {
+      "id": "P1-T1 TI1",
+      "slug": "timing-humour",
+      "avant": "une pause de 2 à 3 secondes avant la punchline crée la tension, et la chute la libère en rire.",
+      "apres": "une pause d'une seconde environ avant la punchline crée la tension, et la chute la libère en rire."
+    },
+    {
+      "id": "P1-T1 TI2",
+      "slug": "timing-humour",
+      "avant": "Regarde un de ses sketches au ralenti : il y a des silences de 3-4 secondes avant certaines chutes. Il regarde le public,",
+      "apres": "Regarde un de ses sketches au ralenti : écoute ses silences avant certaines chutes. Il regarde le public,"
+    },
+    {
+      "id": "P1-T1 TI3",
+      "slug": "timing-humour",
+      "avant": "Une pause de 2 à 3 secondes avant la punchline crée la tension nécessaire au rire. En conversation, attendre 3 secondes avant de répondre donne l'impression de spontanéité et améliore la qualité de chaque intervention.",
+      "apres": "Une pause d'une seconde environ avant la punchline crée la tension nécessaire au rire. En conversation, attendre un instant avant de lâcher ta chute donne l'impression de spontanéité et améliore la qualité de chaque intervention."
+    },
+    {
+      "id": "P1-T1 TI4",
+      "slug": "timing-humour",
+      "avant": "En conversation, quand tu veux placer une remarque drôle : **attends 3 secondes** après que la personne a fini de parler.\n\nPas 1 seconde : trop rapide, on dirait que tu n'écoutais pas et que tu attendais juste ton tour de parler. (On a tous ce pote, et on a tous arrêté de lui raconter des trucs.)\n\nPas 10 secondes : le train est parti et tu es resté sur le quai avec ta vanne.\n\n3 secondes, c'est le bon dosage : assez pour avoir l'air de réfléchir, pas assez pour avoir l'air de dormir. Ta réponse paraît spontanée, et c'est exactement ce que font les bons improvisateurs.",
+      "apres": "En conversation, avant de lâcher ta remarque drôle ou ta chute : **attends un instant**, une seconde environ, après la fin de la phrase qui précède.\n\nPas de pause du tout : trop rapide, on dirait que tu n'écoutais pas et que tu attendais juste ton tour de parler. (On a tous ce pote, et on a tous arrêté de lui raconter des trucs.)\n\nPas dix secondes : le train est parti et tu es resté sur le quai avec ta vanne.\n\nPourquoi « 3 secondes » ? Parce que le réflexe se compte en trois temps dans ta tête, « un, deux, trois », sans traîner : ça tient en une seconde environ, assez pour avoir l'air de réfléchir, pas assez pour avoir l'air de dormir. Ta réponse paraît spontanée, et c'est exactement ce que font les bons improvisateurs."
+    },
+    {
+      "id": "P1-T1 TI5",
+      "slug": "timing-humour",
+      "avant": "Elle peut rester immobile 5 secondes en regardant le public, et la salle rit déjà nerveusement avant qu'elle ait dit un mot.",
+      "apres": "Elle sait rester immobile en regardant le public, et la salle rit déjà nerveusement avant qu'elle ait dit un mot."
+    },
+    {
+      "id": "P1-T1 TI6",
+      "slug": "timing-humour",
+      "avant": "**Fary** utilise un timing différent mais tout aussi efficace : il accélère son débit dans le setup, puis freine d'un coup avant la chute. Ce contraste crée une surprise presque physique : ton cerveau est lancé à pleine vitesse, et le coup de frein le projette dans le rire.",
+      "apres": "Dans la veine de **Fary**, le timing passe plutôt par le débit : tu accélères dans le setup, puis tu freines d'un coup avant la chute. Ce contraste crée une surprise presque physique : le cerveau de ton public est lancé à pleine vitesse, et le coup de frein le projette dans le rire."
+    },
+    {
+      "id": "P1-T1 TI7",
+      "slug": "timing-humour",
+      "avant": "3. **La micro-pause** : 2-3 secondes de silence",
+      "apres": "3. **La micro-pause** : une seconde de silence environ"
+    },
+    {
+      "id": "P1-T1 TI8",
+      "slug": "timing-humour",
+      "avant": "c'est du ketchup sur un soufflé : techniquement légal.",
+      "apres": "c'est du ketchup sur un soufflé : personne ne t'arrête, mais le soufflé ne s'en remet pas."
+    },
+    {
+      "id": "P1-T1 TI9",
+      "slug": "timing-humour",
+      "avant": "**Exercice 2 : Les 3 secondes.** En conversation, force-toi à compter mentalement \"1... 2... 3...\" avant de répondre.",
+      "apres": "**Exercice 2 : Les 3 secondes.** En conversation, force-toi à compter mentalement \"1... 2... 3...\", sans traîner, avant de lâcher ta remarque."
+    },
+    {
+      "id": "P1-T1 TI10",
+      "slug": "timing-humour",
+      "avant": "pratique la règle des 3 secondes en conversation (compte avant de répondre)",
+      "apres": "pratique la règle des 3 secondes en conversation (compte « un, deux, trois » dans ta tête avant de lâcher ta remarque)"
+    },
+    {
+      "id": "P1-T1 ER1",
+      "slug": "erreurs-blagues",
+      "avant": "**Paul Mirabel** a un sketch entier sur ce thème : il raconte une situation, la salle ne réagit pas immédiatement, et au lieu d'expliquer, il continue comme si de rien n'était. Et 30 secondes plus tard, le rire arrive. Parce que parfois, le cerveau a besoin de quelques secondes pour faire \"clic\".",
+      "apres": "Imagine **Paul Mirabel** devant une salle qui ne réagit pas tout de suite : au lieu d'expliquer sa vanne, il continue comme si de rien n'était, et le rire finit par arriver. Parce que parfois, le cerveau a besoin de quelques secondes pour faire \"clic\"."
+    },
+    {
+      "id": "P1-T1 ER2",
+      "slug": "erreurs-blagues",
+      "avant": "**Panayotis Pascot** peut raconter un truc banal, genre faire ses courses, et c'est hilarant, parce qu'il est dedans",
+      "apres": "**Panayotis Pascot** peut raconter un truc banal et c'est hilarant, parce qu'il est dedans"
+    },
+    {
+      "id": "P1-T1 ER3",
+      "slug": "erreurs-blagues",
+      "avant": "On a écrit un article entier sur le sujet : [Timing humour : plus fort que la blague](/blog/timing-humour).",
+      "apres": "On a écrit un article entier sur le sujet : [Timing humour : le secret de la blague](/blog/timing-humour)."
+    },
+    {
+      "id": "P1-T1 DE1",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "**Paul Mirabel** a dit en interview qu'à ses débuts, il ne cherchait pas à être drôle : il cherchait à être honnête. L'humour venait après, naturellement. C'est la même chose en conversation.",
+      "apres": "Regarde **Paul Mirabel** : une bonne partie de ses vannes, c'est juste une gêne honnête dite à voix haute. L'humour vient après, naturellement. C'est la même chose en conversation."
+    },
+    {
+      "id": "P1-T1 DE2",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "l'accusé de réception ultime. Donne 3 secondes de réflexion.",
+      "apres": "l'accusé de réception ultime. Te laisse un instant pour réfléchir."
+    },
+    {
+      "id": "P1-T1 DE3",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "**Fary** utilise des phrases filet de sécurité tout le temps en interview. Quand un journaliste pose une question gênante, il a toujours un \"c'est une excellente question\" qui lui achète 5 secondes. Ce sont nos",
+      "apres": "Les humoristes en interview ont leurs phrases filet de sécurité. Imagine **Fary** face à une question gênante : un \"c'est une excellente question\" lui achète quelques secondes. Ce sont nos"
+    },
+    {
+      "id": "P1-T1 DE4",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "90% des gens en conversation n'écoutent pas : ils attendent leur tour de parler.",
+      "apres": "La plupart des gens en conversation n'écoutent pas vraiment : ils attendent leur tour de parler."
+    },
+    {
+      "id": "P1-T1 DE5",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "**Roman Frayssinet** fait ça sur scène : il attrape un mot du public et construit dessus. Ce n'est pas du génie : c'est de l'écoute active avec un twist. Regarde ses [vidéos](/videos) analysées sur le site pour voir comment il fait.",
+      "apres": "Imagine **Roman Frayssinet** avec un mot lancé par le public : il l'attrape et construit dessus. Ce n'est pas du génie : c'est de l'écoute active avec un twist. Regarde nos [vidéos](/videos) analysées pour repérer cette écoute chez les pros."
+    },
+    {
+      "id": "P1-T1 DE6",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "**Waly Dia** raconte qu'il testait ses vannes dans des salles de 10 personnes avant de monter sur les grandes scènes. Même principe",
+      "apres": "**Waly Dia** a débuté sur les scènes nantaises avant de monter sur les grandes. Même principe"
+    },
+    {
+      "id": "P1-T1 DE7",
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "C'est exactement ce que font les pros. **Panayotis Pascot** a raconté qu'il notait ses vannes ratées pour comprendre pourquoi elles ne marchaient pas. L'analyse, c'est ce qui transforme l'expérience en compétence.",
+      "apres": "C'est exactement ce que font les pros. Imagine **Panayotis Pascot** après un soir où une vanne n'a pas pris : il se demande pourquoi, puis il la réécrit. L'analyse, c'est ce qui transforme l'expérience en compétence."
+    },
+    {
+      "id": "P1-T1 HQ1",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "En réalité, **Roman Frayssinet** note tout : ses observations dans le métro, les phrases bizarres entendues au supermarché, les situations absurdes du quotidien. Son téléphone est un cimetière de notes vocales, et ses meilleurs sketches en sortent.",
+      "apres": "En réalité, les humoristes notent tout : leurs observations dans le métro, les phrases bizarres entendues au supermarché, les situations absurdes du quotidien. Imagine le téléphone d'un **Roman Frayssinet** : un cimetière de notes vocales, d'où sortent les meilleurs sketches."
+    },
+    {
+      "id": "P1-T1 HQ3",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "Il prend une situation banale (aller chez le médecin, manger au resto) et la décrit avec des mots tellement inattendus",
+      "apres": "Il prend une situation banale et la décrit avec des mots tellement inattendus"
+    },
+    {
+      "id": "P1-T1 HQ4",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "Le compliment absurde est la forme d'humour la plus universellement appréciée.",
+      "apres": "Le compliment absurde est l'une des formes d'humour les plus faciles à faire passer."
+    },
+    {
+      "id": "P1-T1 HQ6",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "C'est une technique de stand-up que **Waly Dia** utilise dans chaque spectacle, et elle marche",
+      "apres": "C'est une technique de stand-up que **Waly Dia** manie très bien, et elle marche"
+    },
+    {
+      "id": "P1-T1 HQ7",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "\"Ma journée en un mot ? Tableur.\"",
+      "apres": "\"Ma journée en un mot ? Onglets. J'en ai ouvert quarante, j'en ai lu zéro.\""
+    },
+    {
+      "id": "P1-T1 FT1#1",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "décrire la réalité avec une précision qui fait rire (Roman Frayssinet)",
+      "apres": "décrire la réalité avec une précision qui fait rire (Fary)"
+    },
+    {
+      "id": "P1-T1 FT1#2",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "créer du non-sens surprenant par escalade (Paul Mirabel)",
+      "apres": "créer du non-sens surprenant par escalade (Paul Mirabel, Roman Frayssinet)"
+    },
+    {
+      "id": "P1-T1 FT1#3",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "exploiter les doubles sens et détournements (Fary)",
+      "apres": "exploiter les doubles sens et détournements"
+    },
+    {
+      "id": "P1-T1 FT2",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "**Roman Frayssinet** est le maître absolu de l'observationnel français. Quand il parle des gens dans le métro qui font semblant de ne pas voir la personne à côté d'eux, tu ris parce que c'est toi. Quand il décrit les messages vocaux de 7 minutes de ta mère, tu ris parce que c'est exactement ça.",
+      "apres": "**Fary** puise beaucoup dans l'observation sociale : l'identité, la vie courante, ces petits travers que tout le monde reconnaît. Tu ris parce que c'est exactement ça, et que tu ne l'avais jamais formulé comme ça."
+    },
+    {
+      "id": "P1-T1 FT3",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "**Paul Mirabel** utilise beaucoup l'absurde dans ses escalades. Il part d'une situation normale et la pousse tellement loin que tu atterris dans une dimension parallèle. Le principe, en une vanne : \"Mon médecin m'a dit de marcher tous les jours. Je l'ai écouté. Là, je suis en Belgique.\" L'absurde n'a qu'une règle : suivre sa propre logique jusqu'au bout.",
+      "apres": "**Paul Mirabel** utilise beaucoup l'absurde dans ses escalades. Il part d'une situation normale et la pousse tellement loin que tu atterris dans une dimension parallèle. **Roman Frayssinet** joue aussi dans ce registre : il part d'un détail minuscule et le fait dériver vers l'absurde. Le principe, en une vanne : \"J'ai mis mon réveil en face du lit pour être obligé de me lever. Maintenant je dors par terre, à côté du réveil.\" L'absurde n'a qu'une règle : suivre sa propre logique jusqu'au bout."
+    },
+    {
+      "id": "P1-T1 FT4",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "**Fary** glisse des jeux de mots dans ses punchlines avec une fluidité déconcertante. Le truc, c'est que les bons jeux de mots sont courts et percutants",
+      "apres": "Un bon jeu de mots se glisse dans une punchline avec une fluidité déconcertante. Le truc, c'est que les bons jeux de mots sont courts et percutants"
+    },
+    {
+      "id": "P1-T1 FT5",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "Paul Mirabel = observationnel + absurde + escalade. Fary = observationnel + jeux de mots + énergie. Ton objectif",
+      "apres": "Paul Mirabel = observationnel + absurde + escalade. Fary = observationnel + autodérision + énergie. Ton objectif"
+    },
+    {
+      "id": "P1-T1 FT6",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "**Fary** combine observationnel + jeux de mots + énergie. **Roman Frayssinet** fait de l'observationnel avec une touche d'absurde.",
+      "apres": "**Fary** combine observationnel + autodérision + énergie. **Roman Frayssinet** part du quotidien pour le faire dériver vers l'absurde."
+    },
+    {
+      "id": "P1-T1 FT7",
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "Fary combine observationnel et jeux de mots. Roman Frayssinet fait de l'observationnel avec une touche d'absurde.",
+      "apres": "Fary combine observationnel et autodérision. Roman Frayssinet part du quotidien pour le faire dériver vers l'absurde."
+    },
+    {
+      "id": "P1-T1 HN1",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "**Blanche Gardin** est la référence absolue de l'humour noir français réussi. Quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance : elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible.",
+      "apres": "**Blanche Gardin** reste la référence de l'humour noir français réussi, même si elle a fait polémique en 2024 avec un sketch sur Gaza, puis annoncé en novembre 2025 qu'elle arrêtait le stand-up. Dans ses spectacles, quand elle parle de ses thérapies ou de la mort, elle ne se moque pas de la souffrance : elle la regarde en face avec une honnêteté tellement crue que le rire est la seule réponse possible."
+    },
+    {
+      "id": "P1-T1 HN2",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "**Fary** a expliqué en interview qu'il adapte constamment son niveau d'humour noir selon la salle. Même spectacle, même texte, mais le dosage change.",
+      "apres": "Imagine **Fary** devant deux salles différentes : même spectacle, même texte, mais le dosage d'humour noir change avec le public."
+    },
+    {
+      "id": "P1-T1 HN3",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "**Paul Mirabel** utilise parfois l'humour noir dans ses escalades : il part d'un sujet léger, monte progressivement vers le sombre, et la chute est tellement inattendue que tu ris de surprise. La construction est millimétrée.",
+      "apres": "Prends l'escalade, ce mécanisme qu'on associe à **Paul Mirabel** : tu pars d'un sujet léger, tu montes progressivement vers le sombre, et la chute est tellement inattendue qu'on rit de surprise. La construction doit être millimétrée."
+    },
+    {
+      "id": "P1-T1 HN5",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "Il reprend les clichés racistes qu'on lui sort et les pousse à l'absurde : \"On m'a dit 'retourne dans ton pays'. J'ai répondu 'je suis de Créteil, tu veux que je retourne à Créteil ?'\" La cible : le racisme et son absurdité. La victime reprend le pouvoir par le rire.",
+      "apres": "Exemple imaginé, dans la veine de Waly Dia, qui fait de l'humour politique sur le racisme qu'il vit : on reprend le cliché qu'on nous sort et on le pousse à l'absurde. \"On m'a dit 'retourne dans ton pays'. J'ai répondu 'je suis né à deux rues d'ici, tu veux que je retourne à la maternité ?'\" La cible : le racisme et son absurdité. La victime reprend le pouvoir par le rire."
+    },
+    {
+      "id": "P1-T1 HN6",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "nos [parcours](/parcours) t'apprennent à le doser, et nos [vannes](/vannes) classées par style te donnent des exemples de second degré réussi.",
+      "apres": "nos [parcours](/parcours) t'entraînent à sentir le bon moment pour sortir une vanne, et nos [vannes](/vannes) rangées par thème te donnent du matériel pour t'exercer."
+    },
+    {
+      "id": "P1-T1 EX1",
+      "slug": "exercices-developper-humour",
+      "avant": "**Roman Frayssinet** a dit que 80% de son matériel vient de ce qu'il observe dans la vie quotidienne. Son téléphone est rempli de notes. Deviens un collecteur d'absurdités.",
+      "apres": "Les humoristes tirent une bonne part de leur matériel de ce qu'ils observent dans la vie quotidienne, et leur téléphone est rempli de notes (imagine celui d'un **Roman Frayssinet**). Deviens un collecteur d'absurdités."
+    },
+    {
+      "id": "P1-T1 EX2",
+      "slug": "exercices-developper-humour",
+      "avant": "Ils ont fui au 47e\"",
+      "apres": "Ils ont fui au 47e.\""
+    },
+    {
+      "id": "P1-T1 EX3",
+      "slug": "exercices-developper-humour",
+      "avant": "\"Il fait chaud\" → \"Il fait tellement chaud que même mon déodorant transpire.\"",
+      "apres": "\"Il fait chaud\" → \"Il fait tellement chaud que mon ombre cherche de l'ombre.\""
+    },
+    {
+      "id": "P1-T1 EX4",
+      "slug": "exercices-developper-humour",
+      "avant": "**Panayotis Pascot** a raconté qu'il notait tout : les vannes ratées, les répliques qu'il aurait voulu sortir. C'est l'analyse qui fait la progression.",
+      "apres": "Imagine **Panayotis Pascot** qui note tout : les vannes ratées, les répliques qu'il aurait voulu sortir. C'est l'analyse qui fait la progression."
+    },
+    {
+      "id": "P1-T1 EX5",
+      "slug": "exercices-developper-humour",
+      "avant": "**Fary** utilise des compliments absurdes en interview pour créer de la complicité. C'est sans risque",
+      "apres": "Dans la veine de **Fary**, le compliment absurde sert à créer de la complicité. C'est sans risque"
+    },
+    {
+      "id": "P1-T1 PD1",
+      "slug": "phrases-droles-conversations",
+      "avant": "Comme le dit Paul Mirabel : l'humour, c'est 10% de talent et 90% de préparation que personne ne voit.",
+      "apres": "Regarde Paul Mirabel : derrière son naturel de scène, il y a de la préparation que personne ne voit."
+    },
+    {
+      "id": "P1-T1 PD2",
+      "slug": "phrases-droles-conversations",
+      "avant": "Roman Frayssinet l'a bien compris : ses meilleures punchlines tiennent en une phrase.",
+      "apres": "Sur scène, un Roman Frayssinet peut se permettre des digressions, devant un public venu l'écouter. En soirée, tu n'as pas ce luxe : une phrase, qui doit tomber juste."
+    },
+    {
+      "id": "P1-T1 PD3",
+      "slug": "phrases-droles-conversations",
+      "avant": "**7. \"J'ai failli pas venir. La dernière fois, c'était dans l'ascenseur.\"**",
+      "apres": "**7. \"J'ai failli pas venir. La dernière fois, j'ai fait demi-tour dans l'ascenseur.\"**"
+    },
+    {
+      "id": "P1-T1 PD4",
+      "slug": "phrases-droles-conversations",
+      "avant": "**9. \"Je suis très spontané. Il me faut juste 48h de préavis.\"**\n→ *Quand on parle de dating en groupe.* Le contraste entre l'image et la réalité crée le rire.",
+      "apres": "**9. \"Je suis quelqu'un de très spontané. J'ai prévu de l'être jeudi.\"**\n→ *Quand on te propose un plan à la dernière minute.* Le contraste entre l'image et la réalité crée le rire."
+    },
+    {
+      "id": "P1-T1 PD5",
+      "slug": "phrases-droles-conversations",
+      "avant": "**13. \"Je mange équilibré : un dessert dans chaque main.\"**\n→ *Quand on parle de bouffe ou de régime.* La fausse logique fait le boulot.",
+      "apres": "**13. \"J'ai téléchargé une appli pour compter les calories. J'ai rentré ma journée. Elle m'a demandé si tout allait bien.\"**\n→ *Quand on parle de bouffe ou de régime.* C'est l'appli qui s'inquiète à ta place, et ça fait le boulot."
+    },
+    {
+      "id": "P1-T1 PD7",
+      "slug": "phrases-droles-conversations",
+      "avant": "**21. \"Tout le monde me dit de me remettre en selle. J'ai même pas de vélo.\"**\n→ *Quand quelqu'un te pousse à sortir.* Fonctionne aussi en réponse aux \"alors, tu as rencontré quelqu'un ?\".",
+      "apres": "**21. \"Ma grand-mère m'a demandé si j'avais quelqu'un. J'ai dit non. Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé.\"**\n→ *En réponse aux \"alors, tu as rencontré quelqu'un ?\" ou quand on te pousse à sortir.* Le sérieux de la grand-mère qui prend le dossier en main fait le travail."
+    },
+    {
+      "id": "P1-T1 PD8",
+      "slug": "phrases-droles-conversations",
+      "avant": "Waly Dia l'a théorisé : à l'écrit, \"le rythme c'est la ponctuation et le retour à la ligne.\" Pas de ton de voix pour t'aider",
+      "apres": "Imagine Waly Dia privé de sa voix : à l'écrit, le rythme, c'est la ponctuation et le retour à la ligne. Pas de ton de voix pour t'aider"
+    },
+    {
+      "id": "P1-T1 PD9",
+      "slug": "phrases-droles-conversations",
+      "avant": "Dernier conseil de Fary : \"T'as pas besoin de 200 vannes. T'as besoin de 5 que tu maîtrises les yeux fermés.\"",
+      "apres": "Dernier conseil, dans la veine de Fary : pas besoin de 200 vannes, il t'en faut 5 que tu maîtrises les yeux fermés."
+    },
+    {
+      "id": "P1-T1 PD10",
+      "slug": "phrases-droles-conversations",
+      "avant": "Courtes (moins de 15 mots), universelles",
+      "apres": "Courtes (moins de 25 mots, comme celles de cet article), universelles"
+    },
+    {
+      "id": "P1-T1 MB1",
+      "slug": "meilleures-blagues-droles-2026",
+      "avant": "et marque une pause de 2-3 secondes avant la chute.",
+      "apres": "et marque une pause d'une seconde environ avant la chute."
+    },
+    {
+      "id": "P1-T1 MB2",
+      "slug": "meilleures-blagues-droles-2026",
+      "avant": "Un silence de 3 secondes peut faire rire à lui tout seul.",
+      "apres": "Une seconde de silence peut faire rire à lui tout seul."
+    },
+    {
+      "id": "P1-T1(PD6 phrase, conservée par §9) PD6",
+      "slug": "phrases-droles-conversations",
+      "avant": "**18. \"Je cuisine très bien. Mon livreur peut en témoigner.\"**",
+      "apres": "**18. \"Je cuisine très bien. Mon four est comme neuf.\"**"
+    },
+    {
+      "id": "P1-T2 HQ5",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "**Blanche Gardin** part souvent d'un \"et si\" pour construire ses sketches : \"Et si on arrêtait de faire semblant d'aimer Noël ?\"",
+      "apres": "Un \"et si\" à la **Blanche Gardin**, ça pourrait donner : \"Et si Noël avait un service client ? 'Bonjour, je voudrais retourner l'oncle Gérard.'\""
+    },
+    {
+      "id": "P1-T2 HN4 -> C1",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "Elle parle de ses années de thérapie avec une franchise terrifiante. \"Mon psy m'a dit que j'avais fait des progrès. J'ai répondu que lui aussi devrait en faire : ça fait 8 ans qu'il me supporte.\" La cible : elle-même et le système thérapeutique ; personne n'est blessé, et tout le monde rit.",
+      "apres": "Imagine une séance de thérapie racontée sans filtre : \"Mon psy m'a dit que j'avais fait d'énormes progrès. Il veut qu'on se voie deux fois par semaine pour les consolider.\" La cible, c'est le système : personne n'est blessé, et tout le monde rit."
+    },
+    {
+      "id": "P1-T2 HQ2",
+      "slug": "humour-quotidien-8-habitudes",
+      "avant": "Environ 30 jours de pratique quotidienne. Ton cerveau commence à chercher l'angle drôle automatiquement, comme un réflexe qu'on installe. Roman Frayssinet a son téléphone rempli de notes vocales de moments absurdes : c'est exactement ce processus, juste fait depuis des années.",
+      "apres": "Compte une trentaine de jours de pratique quotidienne, un peu plus ou un peu moins selon les gens : ton cerveau finit par chercher l'angle drôle tout seul, comme un réflexe qu'on installe. Imagine un Roman Frayssinet qui note ses moments absurdes depuis des années : c'est le même réflexe, simplement entretenu plus longtemps."
+    },
+    {
+      "id": "P1-T2 RE1",
+      "slug": "comment-avoir-de-la-repartie",
+      "avant": "Regarde **Fary** en interview. Quand un journaliste lui pose une question piège, il ne se précipite jamais. Il accuse réception, sourit, prend son temps. Et sa réponse est toujours meilleure que s'il avait répondu en panique.",
+      "apres": "Regarde **Fary** en interview face à une question piège, et note ce qu'il fait des deux premières secondes. Toi, tu peux faire simple : accuse réception, souris, prends ton temps. Ta réponse sera presque toujours meilleure que si tu avais répondu en panique."
+    },
+    {
+      "id": "P1-T2 PI1",
+      "slug": "comment-devenir-drole",
+      "avant": "Sauf que Paul a commencé dans des salles de 20 personnes à Paris, à tester des vannes qui tombaient à plat une fois sur deux. **Fary** a fait des centaines d'open mics avant de trouver son style. **Blanche Gardin** a mis plus de 10 ans à passer de l'écriture pour les autres à son propre spectacle.",
+      "apres": "Sauf que Paul a joué dans des cafés-concerts parisiens, à tester des vannes devant de tout petits publics. **Fary** est passé par le Jamel Comedy Club puis par le Point-Virgule avant de remplir les grandes salles. **Blanche Gardin** a longtemps enchaîné les petites scènes, Jamel Comedy Club compris, avant de s'imposer avec ses propres spectacles."
+    },
+    {
+      "id": "P1-T2 PD6",
+      "slug": "phrases-droles-conversations",
+      "avant": "Le retournement rapide est la clé, pas de pause entre les deux phrases.",
+      "apres": "Le retournement est la clé : une petite seconde de pause avant la chute, juste le temps que l'autre y croie."
+    },
+    {
+      "id": "P1-T2 EX6",
+      "slug": "exercices-developper-humour",
+      "avant": "Oui, pour 7 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch, écriture de bit, et callback en conversation. Seuls le ping-pong verbal et le one-man-show de 2 minutes nécessitent un partenaire.",
+      "apres": "Oui, pour 6 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch et écriture de bit. Il te faut quelqu'un pour le ping-pong verbal, le compliment absurde, le callback en conversation et le one-man-show de 2 minutes."
+    },
+    {
+      "id": "P1-T2 H-A",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "## 3 sketches décortiqués",
+      "apres": "## 3 exemples décortiqués"
+    },
+    {
+      "id": "P1-T2 H-B",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "### Sketch 1 : Blanche Gardin sur la thérapie (BON humour noir)",
+      "apres": "### Exemple 1, dans la veine de Blanche Gardin : la thérapie (BON humour noir)"
+    },
+    {
+      "id": "P1-T2 H-C",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "### Sketch 2 : Waly Dia sur les clichés racistes (BON humour noir)",
+      "apres": "### Exemple 2, dans la veine de Waly Dia : les clichés racistes (BON humour noir)"
+    },
+    {
+      "id": "P1-T2 H-D",
+      "slug": "humour-noir-utiliser-sans-blesser",
+      "avant": "### Sketch 3 : Quand ça ne marche PAS (MAUVAIS humour noir)",
+      "apres": "### Exemple 3 : quand ça ne marche PAS (MAUVAIS humour noir)"
+    },
+    {
+      "id": "P2-T1 1.1",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "**Fary** l'a dit mieux que personne : \"L'autodérision, c'est montrer qu'on est assez confiant pour rire de soi.\" C'est le contraire du mec qui essaie d'impressionner.",
+      "apres": "Dans la veine de **Fary**, qui sait parler de lui sur scène : l'autodérision, c'est montrer qu'on est assez confiant pour rire de soi. C'est le contraire du mec qui essaie d'impressionner."
+    },
+    {
+      "id": "P2-T1 1.2",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "C'est un callback : la technique préférée de **Blanche Gardin** en spectacle.",
+      "apres": "C'est un callback, une technique qu'on retrouve chez **Blanche Gardin** en spectacle."
+    },
+    {
+      "id": "P2-T1 1.5",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "Et ça, c'est plus rare que tu ne crois. 90% des gens attendent juste leur tour pour parler.",
+      "apres": "Et ça, c'est plus rare que tu ne crois. La plupart des gens attendent juste leur tour pour parler."
+    },
+    {
+      "id": "P2-T1 1.6",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "\"Au début, je t'ai trouvée normale. Et puis t'as parlé de ta collection de cactus. Ouf.\"",
+      "apres": "\"Au début, je t'ai trouvée normale, j'étais presque déçu. Et puis t'as parlé de ta collection de cactus.\""
+    },
+    {
+      "id": "P2-T1 2.2",
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "**Blanche Gardin** utilise des silences de 3-4 secondes avant certaines punchlines. Ces silences créent l'attente, et l'attente crée le rire.",
+      "apres": "**Blanche Gardin** laisse la salle attendre avant certaines punchlines ; en conversation, une seconde environ suffit. Ce silence crée l'attente, et l'attente crée le rire."
+    },
+    {
+      "id": "P2-T1 2.4",
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "Oui, et les études le confirment : l'humour est un marqueur d'intelligence sociale et de confiance en soi. Les hommes apprécient les femmes qui les font rire parce que ça crée une dynamique de complicité, pas de performance.",
+      "apres": "Oui, mais pas forcément comme on l'imagine. Les études sont nuancées : dans l'expérience de Bressler, Martin et Balshine (2006), les hommes valorisaient surtout une partenaire qui apprécie leur humour, plus qu'une partenaire qui en produit. Ce qui compte, c'est la complicité, pas la performance : l'humour est un marqueur d'intelligence sociale et de confiance en soi."
+    },
+    {
+      "id": "P2-T1 2.5",
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "→ **[Nos techniques de répartie](/conseils)**, timing, repartie, autodérision : les outils des pros.",
+      "apres": "→ **[Nos conseils d'humour](/conseils)**, timing, répartie, autodérision : les outils des pros."
+    },
+    {
+      "id": "P2-T1 3.1",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "T'es pas seul : 76% des gens pensent ne pas être drôles, selon une étude de l'Université du Colorado. Trois personnes sur quatre. Dans ta prochaine soirée, sur les 10 personnes présentes, 7 pensent secrètement comme toi. Y compris le mec qui a l'air super à l'aise. Il fait juste mieux semblant.",
+      "apres": "T'es pas seul : dans ta prochaine soirée, plusieurs personnes pensent exactement pareil, y compris le mec qui a l'air super à l'aise. Il fait juste mieux semblant."
+    },
+    {
+      "id": "P2-T1 3.2",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "**Roman Frayssinet** a un taux de réussite d'environ 70% sur scène. Autrement dit, même chez un pro, 30% de ses vannes ne marchent pas comme prévu, et ça ne l'empêche pas de continuer.",
+      "apres": "Même **Roman Frayssinet** a des vannes qui ne marchent pas comme prévu. C'est le métier, et ça ne l'empêche pas de continuer."
+    },
+    {
+      "id": "P2-T1 3.3",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "Quand tu acceptes que 40% de tes tentatives d'humour vont tomber à plat, tu arrêtes de te censurer.",
+      "apres": "Quand tu acceptes qu'une bonne partie de tes tentatives d'humour vont tomber à plat, tu arrêtes de te censurer."
+    },
+    {
+      "id": "P2-T1 3.4",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "**Panayotis Pascot** parle de ça : la liberté de foirer.",
+      "apres": "Dans la veine de **Panayotis Pascot** : la liberté de foirer."
+    },
+    {
+      "id": "P2-T1 3.5",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "Sauf que Paul a fait des centaines d'open mics à Paris devant 15 personnes, avec des vannes qui tombaient à plat une fois sur deux.",
+      "apres": "Sauf que Paul a fait des centaines de scènes ouvertes à Paris, avec son lot de vannes qui tombaient à plat."
+    },
+    {
+      "id": "P2-T1 3.6",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "**Fary** a écrit des milliers de blagues avant de trouver son style.",
+      "apres": "**Fary**, comme tous les pros, a beaucoup écrit et beaucoup jeté avant de trouver son style."
+    },
+    {
+      "id": "P2-T1 3.7",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "**Blanche Gardin** a mis plus de 10 ans à oser faire du stand-up solo.",
+      "apres": "**Blanche Gardin** a fait près de dix ans de scène avant son premier spectacle solo."
+    },
+    {
+      "id": "P2-T1 3.8",
+      "slug": "je-suis-pas-drole-comment-changer",
+      "avant": "**Waly Dia** ne teste pas ses nouvelles vannes à Bercy. Il les teste dans des petites salles de 30 personnes.",
+      "apres": "Les humoristes ne testent pas leurs nouvelles vannes à Bercy : ils les rodent dans de petites salles, **Waly Dia** comme les autres."
+    },
+    {
+      "id": "P2-T1 4.1",
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "La technique préférée de **Blanche Gardin**. Au lieu de nier la moquerie, tu l'acceptes et tu la pousses jusqu'à l'absurde.",
+      "apres": "Une technique qu'on retrouve chez **Blanche Gardin**. Au lieu de nier la moquerie, tu l'acceptes et tu la pousses jusqu'à l'absurde."
+    },
+    {
+      "id": "P2-T1 4.2",
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "**Fary** fait ça en interview constamment : il ne répond jamais à la question, il rebondit sur un mot et part ailleurs.",
+      "apres": "Dans la veine de **Fary** en interview : tu rebondis sur un mot et tu pars ailleurs, sans forcément répondre à la question."
+    },
+    {
+      "id": "P2-T1 4.3",
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "**Paul Mirabel** est le roi du callback en spectacle : il fait une blague en début de show, et la reprend 40 minutes plus tard dans un contexte totalement différent. Le public explose.",
+      "apres": "Le callback, **Paul Mirabel** le manie souvent en spectacle : une blague en début de show, reprise bien plus tard dans un contexte totalement différent. Le public explose."
+    },
+    {
+      "id": "P2-T1 4.4",
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "**Waly Dia** fait ça sur scène quand un spectateur tente un truc : il le regarde, sourit, attend. Le public comprend. Le spectateur aussi.",
+      "apres": "Imagine **Waly Dia** sur scène quand un spectateur tente un truc : il le regarde, sourit, attend. Le public comprend. Le spectateur aussi."
+    },
+    {
+      "id": "P2-T1 5.1",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "Selon une étude de Stanford, les leaders qui utilisent l'humour sont perçus comme 23% plus compétents et 25% plus appréciés. La clé : l'humour situationnel",
+      "apres": "Jennifer Aaker et Naomi Bagdonas, qui enseignent l'humour à Stanford, rapportent que les leaders qui utilisent l'humour sont jugés 23% plus respectés, et perçus comme plus compétents. La clé : l'humour situationnel"
+    },
+    {
+      "id": "P2-T1 5.2",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "Une étude de l'Université de Pennsylvanie montre que l'humour est un marqueur de compétence sociale et cognitive. Quand tu fais rire en réunion,",
+      "apres": "Une étude de chercheurs de Wharton (Université de Pennsylvanie) et de Harvard montre qu'une blague réussie te fait passer pour quelqu'un de plus sûr de toi et de plus compétent, et qu'une blague déplacée fait l'inverse. Quand tu fais rire en réunion,"
+    },
+    {
+      "id": "P2-T1 5.4",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "Oui, et les études le prouvent : les leaders qui utilisent l'humour sont perçus comme 23% plus compétents (Stanford). L'humour au travail est un marqueur d'intelligence sociale, de gestion du stress et de leadership.",
+      "apres": "Oui, et les chercheurs le constatent : Jennifer Aaker et Naomi Bagdonas (Stanford) rapportent que les leaders qui utilisent l'humour sont jugés 23% plus respectés, à condition que la blague reste appropriée. L'humour au travail est un marqueur d'intelligence sociale, de gestion du stress et de leadership."
+    },
+    {
+      "id": "P2-T1 5.5",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "**Fary** parle souvent du timing en spectacle : il ne place jamais une vanne au milieu d'un développement. Toujours dans une pause, une transition, un silence. En réunion, c'est pareil.",
+      "apres": "Dans la veine de **Fary** : on ne place pas une vanne au milieu d'un développement, mais dans une pause, une transition, un silence. En réunion, c'est pareil."
+    },
+    {
+      "id": "P2-T1 5.6",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "**Paul Mirabel** a une règle : il ne se moque que de lui-même ou de situations universelles. Jamais d'attaques personnelles. Au bureau, c'est la même stratégie : vise la situation, pas les gens.",
+      "apres": "L'humour de **Paul Mirabel** vise surtout lui-même et des situations que tout le monde connaît. Au bureau, c'est la même stratégie : vise la situation, pas les gens."
+    },
+    {
+      "id": "P2-T1 6.1",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "Si ça t'arrive, tu fais partie des 65% des gens qui rapportent avoir régulièrement le \"blanc conversationnel\". C'est pas un défaut,",
+      "apres": "Si ça t'arrive, tu es loin d'être le seul à connaître le \"blanc conversationnel\". C'est pas un défaut,"
+    },
+    {
+      "id": "P2-T1 6.2",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "**Paul Mirabel** l'a décrit dans une interview : \"Mes premiers open mics, j'avais le blanc total entre deux vannes. Mon cerveau disait 'tais-toi, tu vas te ridiculiser'.\" Et c'est un mec qui remplit Bercy aujourd'hui.",
+      "apres": "**Paul Mirabel**, qui joue de sa timidité sur scène, a commencé par enchaîner les scènes ouvertes, et c'est aujourd'hui un mec qui remplit Bercy."
+    },
+    {
+      "id": "P2-T1 6.4",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "**Fary** a une technique en interview : il réagit d'abord (\"Ah mais c'est intéressant ça\") puis développe. La première réaction n'est jamais sa vraie réponse : c'est un accusé de réception qui maintient le flux.",
+      "apres": "Dans la veine de **Fary** en interview : tu réagis d'abord (\"Ah mais c'est intéressant ça\") puis tu développes. La première réaction n'est jamais ta vraie réponse : c'est un accusé de réception qui maintient le flux."
+    },
+    {
+      "id": "P2-T1 6.5",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "**Waly Dia** utilise cette technique en spectacle quand il interagit avec le public. Il reprend le mot de la personne et part dans une direction inattendue. En conversation, c'est pareil, mais pas besoin de partir dans l'absurde. Juste de relancer.",
+      "apres": "Imagine **Waly Dia** face au public : il reprend le mot de la personne et part dans une direction inattendue. En conversation, c'est pareil, mais pas besoin de partir dans l'absurde. Juste de relancer."
+    },
+    {
+      "id": "P2-T1 6.6",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "Ça maintient la conversation, te donne du temps, et montre que tu écoutes. 50% des \"bons conversationnalistes\" sont en réalité de bons questionneurs.",
+      "apres": "Ça maintient la conversation, te donne du temps, et montre que tu écoutes. Des chercheurs de Harvard ont observé que ceux qui posent des questions, surtout des questions de relance, sont plus appréciés."
+    },
+    {
+      "id": "P2-T1 6.7",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "1. **Un truc que tu as vu/lu récemment** : \"Vous avez vu le dernier spectacle de [humoriste] ? Le sketch sur [sujet] est incroyable\"",
+      "apres": "1. **Un truc que tu as vu/lu récemment** : \"Vous avez vu quoi de bien en ce moment ? Moi, je suis en pleine période Paul Mirabel.\""
+    },
+    {
+      "id": "P2-T1 6.8",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "ça te donne 30 secondes pour formuler ta vraie réponse.",
+      "apres": "ça te donne quelques secondes pour formuler ta vraie réponse."
+    },
+    {
+      "id": "P2-T1 7.1",
+      "slug": "timidite-et-humour",
+      "avant": "C'est exactement comme ça que **Panayotis Pascot** décrit ses débuts : \"J'écrivais des trucs, je testais par messages, je voyais ce qui faisait réagir.\" L'écrit sert de brouillon avant l'oral, et de filet de sécurité.",
+      "apres": "La méthode est simple : tu écris un truc, tu le testes par message, tu regardes ce qui fait réagir. L'écrit sert de brouillon avant l'oral, et de filet de sécurité."
+    },
+    {
+      "id": "P2-T1 7.2",
+      "slug": "timidite-et-humour",
+      "avant": "**Paul Mirabel** a commencé dans des salles de 20 personnes avec une timidité maladive. Ils sont partis d'où tu es.",
+      "apres": "**Paul Mirabel** joue de sa timidité sur scène. Ils sont partis d'où tu es."
+    },
+    {
+      "id": "P2-T1 7.3",
+      "slug": "timidite-et-humour",
+      "avant": "Tu répètes, en somme. **Roman Frayssinet** teste ses sketches en conversation avant de les mettre sur scène : tu fais exactement la même chose, en plus petit.",
+      "apres": "Tu répètes, en somme. Les humoristes rodent leurs vannes avant la scène, **Roman Frayssinet** comme les autres : tu fais exactement la même chose, en plus petit."
+    },
+    {
+      "id": "P2-T1 7.4",
+      "slug": "timidite-et-humour",
+      "avant": "Panayotis Pascot et Paul Mirabel ont tous les deux commencé en introvertis maladroits. La timidité n'empêche pas l'humour",
+      "apres": "Paul Mirabel joue de sa timidité sur scène, et Panayotis Pascot de sa vulnérabilité. La timidité n'empêche pas l'humour"
+    },
+    {
+      "id": "P2-T1 7.5",
+      "slug": "timidite-et-humour",
+      "avant": "C'est exactement la progression de notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr : 4 semaines structurées pour passer de \"je sais jamais quoi dire\" à \"je gère\", à raison d'un palier par semaine.",
+      "apres": "C'est la même logique de montée en douceur que notre [Parcours Répartie](/parcours/repartie) sur deviens-marrant.fr : 4 semaines structurées, une étape par semaine, de tes premières répliques à l'improvisation sur l'inattendu, pour passer de \"je sais jamais quoi dire\" à \"je gère\"."
+    },
+    {
+      "id": "P2-T1 7.6",
+      "slug": "timidite-et-humour",
+      "avant": "Commence par le palier 0 : envoie une vanne par message à un seul ami de confiance.",
+      "apres": "Commence par le palier 1 : envoie une vanne par message à un seul ami de confiance."
+    },
+    {
+      "id": "P2-T1 7.7",
+      "slug": "timidite-et-humour",
+      "avant": "C'est la même mécanique que les [techniques de storytelling](/blog/comment-devenir-drole) : tu apprends à extraire la substance drôle d'un fait réel.",
+      "apres": "C'est la même mécanique que les [techniques de storytelling](/blog/storytelling-drole-5-structures) : tu apprends à extraire la substance drôle d'un fait réel."
+    },
+    {
+      "id": "P2-T1 8.1",
+      "slug": "storytelling-drole-5-structures",
+      "avant": "**Cran 3 (absurde total) :** \"Du coup, je dors avec mon téléphone allumé. Je suis devenu l'assistante de mon propre sommeil.\"",
+      "apres": "**Cran 3 (absurde total) :** \"Du coup, je dors avec mon téléphone allumé. Mon sommeil est d'astreinte, sans la prime.\""
+    },
+    {
+      "id": "P2-T1 8.2",
+      "slug": "storytelling-drole-5-structures",
+      "avant": "**Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia** : chacun a ses signatures. Et ces signatures, elles s'apprennent.",
+      "apres": "**Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia** : chez chacun, on reconnaît des façons de construire une histoire. Et ces façons de faire, elles s'apprennent."
+    },
+    {
+      "id": "P2-T1 8.3",
+      "slug": "storytelling-drole-5-structures",
+      "avant": "Voici les 5 structures à maîtriser, une par humoriste, avec des exercices pour les appliquer dès ce soir.",
+      "apres": "Voici les 5 structures à maîtriser, chacune avec un humoriste chez qui tu la reconnaîtras, et des exercices pour les appliquer dès ce soir."
+    },
+    {
+      "id": "P2-T1 8.4",
+      "slug": "storytelling-drole-5-structures",
+      "avant": "Elle pose une info en passant, tu l'oublies, elle te la balance 10 minutes plus tard.",
+      "apres": "Elle pose une info en passant, tu l'oublies, elle te la balance bien plus tard."
+    },
+    {
+      "id": "P2-T1 8.5",
+      "slug": "storytelling-drole-5-structures",
+      "avant": "Les [parcours](/parcours) incluent un module storytelling avec exercices progressifs. Et pour voir les 5 structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques de chaque humoriste.",
+      "apres": "Le [Parcours Storytelling](/parcours/storytelling) te fait pratiquer en 6 semaines, avec des exercices progressifs. Et pour voir ces structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques des pros."
+    },
+    {
+      "id": "P2-T1 9.1",
+      "slug": "conversation-machine-a-cafe",
+      "avant": "L'autodérision sur soi, jamais sur le contexte professionnel. **Panayotis Pascot** en fait une démonstration sur scène : rire de soi montre qu'on est à l'aise ; rire des autres montre plutôt qu'on ne l'est pas.",
+      "apres": "L'autodérision sur soi, jamais sur le contexte professionnel. C'est l'esprit de **Panayotis Pascot**, qui rit d'abord de lui : rire de soi montre qu'on est à l'aise ; rire des autres montre plutôt qu'on ne l'est pas."
+    },
+    {
+      "id": "P2-T1 10.2",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "**Fary** a passé des années d'open mic à se planter devant 20 personnes.",
+      "apres": "**Fary**, comme tous les humoristes, a connu des salles où ça ne riait pas."
+    },
+    {
+      "id": "P2-T1 10.3",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "**Roman Frayssinet** utilise souvent ce type de pivot dans ses spectacles : transformer le malaise en méta-commentaire absurde sur le malaise lui-même.",
+      "apres": "Dans la veine de **Roman Frayssinet** : transformer le malaise en méta-commentaire absurde sur le malaise lui-même."
+    },
+    {
+      "id": "P2-T1 11.1/1",
+      "slug": "confiance-humour-apres-rupture",
+      "avant": "**Étape 1. Observer sans produire (première semaine) :**",
+      "apres": "**Semaine 1. Observer sans produire :**"
+    },
+    {
+      "id": "P2-T1 11.1/2",
+      "slug": "confiance-humour-apres-rupture",
+      "avant": "**Étape 2. Partager des trucs drôles (deuxième semaine) :**",
+      "apres": "**Semaine 2. Partager des trucs drôles :**"
+    },
+    {
+      "id": "P2-T1 11.1/3",
+      "slug": "confiance-humour-apres-rupture",
+      "avant": "**Étape 3. Remarquer des absurdités du quotidien (troisième semaine) :**",
+      "apres": "**Semaine 3. Remarquer des absurdités du quotidien :**"
+    },
+    {
+      "id": "P2-T1 11.1/4",
+      "slug": "confiance-humour-apres-rupture",
+      "avant": "**Étape 4. Faire une remarque à voix haute (quatrième semaine) :**",
+      "apres": "**Semaine 4. Faire une remarque à voix haute :**"
+    },
+    {
+      "id": "P2-T1 11.2",
+      "slug": "confiance-humour-apres-rupture",
+      "avant": "4. **Les contextes plus larges.** Soirées, nouvelles rencontres, quand les étapes 1-3 sont stabilisées.",
+      "apres": "4. **Les contextes plus larges.** Soirées, nouvelles rencontres, quand les trois niveaux précédents sont stabilisés."
+    },
+    {
+      "id": "P2-T1 12.1/1",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Mauvais :** \"Attendez attendez, j'ai une bonne, écoutez. Pourquoi le coq a deux ailes ? Pour traverser la route.\" (Personne ne rit.)",
+      "apres": "**Mauvais :** \"Attendez attendez, j'ai une bonne, écoutez. Ça fait trois semaines que je réponds 'non' quand on me dit 'ça va ?'. Personne a relevé.\" (Personne ne rit.)"
+    },
+    {
+      "id": "P2-T1 12.1/2",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Bon :** \"On a passé 200 000 ans à se demander pourquoi le coq traverse la route. Personne lui a jamais demandé comment il allait.\"",
+      "apres": "**Bon :** \"Ça fait trois semaines que je réponds 'non' quand on me dit 'ça va ?'. Personne a relevé.\""
+    },
+    {
+      "id": "P2-T1 12.2",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Fary** dit souvent : \"Ma règle, c'est : si la blague a besoin d'une notice, elle a échoué. La punchline doit être comme une porte qui claque : sec, fini.\"",
+      "apres": "Dans la veine de **Fary**, la règle tient en deux lignes : si la blague a besoin d'une notice, elle a échoué, et la punchline doit être comme une porte qui claque : sec, fini."
+    },
+    {
+      "id": "P2-T1 12.4",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Roman Frayssinet** dit que la pire chose à faire après une blague qui rate, c'est d'essayer de la sauver : tu enterres deux fois au lieu d'une.",
+      "apres": "Dans la veine de **Roman Frayssinet** : la pire chose à faire après une blague qui rate, c'est d'essayer de la sauver. Tu enterres deux fois au lieu d'une."
+    },
+    {
+      "id": "P2-T1 12.6/1",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Bon :** \"Six mois sur Tinder, bilan : c'est une thérapie, sauf que le psy ne me répond jamais.\"",
+      "apres": "**Bon :** \"Six mois sur Tinder, j'ai parlé de moi à des inconnus qui ne répondent jamais. Une thérapie, quoi.\""
+    },
+    {
+      "id": "P2-T1 12.6/2",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "Setup 5 mots, punchline 11 mots : sec et clair.",
+      "apres": "Setup 15 mots, punchline 3 mots : sec et clair."
+    },
+    {
+      "id": "P2-T1 12.7",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "Regarde-toi. 80% des \"blagues qui marchent pas\" sont en fait des blagues correctement écrites",
+      "apres": "Regarde-toi. La plupart des \"blagues qui marchent pas\" sont en fait des blagues correctement écrites"
+    },
+    {
+      "id": "P2-T1 12.8",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "la raison 1 (annoncer la blague) et la raison 2 (timing) sont 90% de ton problème.",
+      "apres": "la raison 1 (annoncer la blague) et la raison 2 (timing) sont l'essentiel de ton problème."
+    },
+    {
+      "id": "P2-T1 13.1a",
+      "slug": "rester-muet-en-groupe",
+      "avant": "Des chercheurs en psychologie sociale (notamment Mark Leary, Université Duke) appellent ça l'**hyper-monitoring social** : plus le groupe est grand, plus on évalue ses propres mots, plus le délai augmente, plus on rate la fenêtre de tir. C'est une boucle.",
+      "apres": "Le psychologue Mark Leary (Université Duke), spécialiste de l'anxiété sociale, l'explique ainsi : on se tait quand on tient à faire bonne impression et qu'on doute d'y arriver. Résultat, on évalue ses propres mots, le délai augmente, on rate la fenêtre de tir. C'est une boucle."
+    },
+    {
+      "id": "P2-T1 13.1b",
+      "slug": "rester-muet-en-groupe",
+      "avant": "C'est l'hyper-monitoring social : plus le groupe est grand, plus ton cerveau évalue tes phrases avant de les sortir, plus le délai augmente, plus tu rates la fenêtre de tir.",
+      "apres": "C'est la peur de mal faire impression : quand on tient à bien paraître et qu'on doute d'y arriver (c'est la théorie du psychologue Mark Leary), ton cerveau évalue tes phrases avant de les sortir, le délai augmente, tu rates la fenêtre de tir."
+    },
+    {
+      "id": "P2-T1 13.3",
+      "slug": "rester-muet-en-groupe",
+      "avant": "**Inès Reg** a fait carrière sur cette posture : celle qui pose la question que tout le monde se pose et que personne n'ose poser.",
+      "apres": "Dans la veine d'**Inès Reg** : celle qui pose la question que tout le monde se pose et que personne n'ose poser."
+    },
+    {
+      "id": "P2-T1 13.4",
+      "slug": "rester-muet-en-groupe",
+      "avant": "La plupart des humoristes professionnels (Roman Frayssinet, Blanche Gardin, Panayotis Pascot) sont des introvertis qui ont appris à utiliser leur sensibilité comme matière première.",
+      "apres": "Paul Mirabel joue de sa timidité sur scène, et des humoristes comme Roman Frayssinet, Blanche Gardin ou Panayotis Pascot ont fait de l'observation leur matière première."
+    },
+    {
+      "id": "P2-T1 13.6a",
+      "slug": "rester-muet-en-groupe",
+      "avant": "Le moment d'or, c'est **les 1,5 seconde après une chute** : quelqu'un finit une histoire, le groupe rit, et il y a une fenêtre de 1,5 seconde avant que la personne suivante ne reprenne la parole.",
+      "apres": "Le moment d'or, c'est **la seconde qui suit une chute** : quelqu'un finit une histoire, le groupe rit, et il y a une fenêtre d'une seconde environ avant que la personne suivante ne reprenne la parole."
+    },
+    {
+      "id": "P2-T1 13.6b",
+      "slug": "rester-muet-en-groupe",
+      "avant": "(3) le timing des 1,5 seconde après une chute, la fenêtre de tir où la conversation est ouverte.",
+      "apres": "(3) le timing de la seconde qui suit une chute, la fenêtre de tir où la conversation est ouverte."
+    },
+    {
+      "id": "P2-T1 6.3b",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "## Technique 2 : La règle des 3 secondes — Réponds avant de réfléchir",
+      "apres": "## Technique 2 : Réponds sans trop réfléchir"
+    },
+    {
+      "id": "P2-T1 6.3c",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "**La règle** : réponds dans les 3 secondes qui suivent la fin de la phrase de l'autre. N'importe quoi. Même un \"hmm\" ou un \"ah ouais ?\". Parce que :",
+      "apres": "**La règle** : réponds dès que l'autre a fini sa phrase, sans chercher la réponse parfaite. N'importe quoi. Même un \"hmm\" ou un \"ah ouais ?\". Parce que :"
+    },
+    {
+      "id": "P2-T1 6.3d",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "2. C'est le silence après 3 secondes qui crée le malaise, même une réponse banale le prévient",
+      "apres": "2. C'est le silence qui s'étire qui crée le malaise, même une réponse banale le prévient"
+    },
+    {
+      "id": "P2-T1 6.3e",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "1. Applique la règle des 3 secondes (Technique 2) dans chaque conversation",
+      "apres": "1. Réponds sans trop réfléchir (Technique 2) dans chaque conversation"
+    },
+    {
+      "id": "P2-T1 12.5a",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Bon (avec pause après \"cuisiner hier\") :** \"Mon coloc a essayé de cuisiner hier... [pause d'1,5 sec] les voisins ont fermé leurs fenêtres.\"",
+      "apres": "**Bon (avec pause après \"cuisiner hier\") :** \"Mon coloc a essayé de cuisiner hier... [pause d'une seconde environ] les voisins ont fermé leurs fenêtres.\""
+    },
+    {
+      "id": "P2-T2 1.3",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "Regarde **Panayotis Pascot** en interview. Il laisse des blancs. Ces blancs créent de la tension, et la phrase d'après en est 10 fois plus drôle.",
+      "apres": "Imagine **Panayotis Pascot** en interview qui laisse un blanc avant de répondre : ce blanc crée de la tension, et la phrase d'après n'en est que plus drôle."
+    },
+    {
+      "id": "P2-T2 1.4",
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "**Inès Reg** est devenue virale en étant juste elle-même, sans filtre, sans calcul.",
+      "apres": "Imagine **Inès Reg** qui raconte une scène de couple que tout le monde a vécue : elle décrit sans forcer, et c'est ce qui fait rire."
+    },
+    {
+      "id": "P2-T2 2.1",
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "**Fary** parle souvent de ça : le chambrage, c'est du lien social. Plus tu chambres quelqu'un, plus ça montre que tu l'apprécies : à condition de doser.",
+      "apres": "Imagine **Fary** qui taquine le premier rang : ça passe parce que la salle sent qu'il l'aime bien. Le chambrage, c'est pareil : du lien social, à condition de connaître la personne et de rester léger."
+    },
+    {
+      "id": "P2-T2 2.3",
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "**Waly Dia** dit un truc juste : \"Les gens drôles ne sont pas ceux qui font rire, ce sont ceux avec qui on se sent assez à l'aise pour rire.\" C'est exactement ça.",
+      "apres": "L'humour est d'abord une affaire de confort : on rit avec ceux auprès de qui on se sent à l'aise. Même **Waly Dia**, qui tape sur la politique et la société, ne fait rire que si la salle est avec lui."
+    },
+    {
+      "id": "P2-T2 5.3",
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "3. **Les gens qui font rire sont promus plus vite.** Pas parce qu'ils sont \"sympas\", mais parce que l'humour est un signal de leadership. Tu gères le stress, tu communiques bien, tu crées de l'engagement.",
+      "apres": "3. **Un humour bien placé te donne l'allure d'un leader.** Tu gardes la tête froide sous pression, tu sais t'exprimer, et les gens ont envie de t'écouter."
+    },
+    {
+      "id": "P2-T2 9.2",
+      "slug": "conversation-machine-a-cafe",
+      "avant": "4. **La sortie en 10 secondes.** Une bonne conversation machine à café dure entre 60 et 90 secondes. Pars sur une note positive, pas quand ça s'essouffle.",
+      "apres": "4. **Une sortie qui tient en une phrase.** Une conversation machine à café, c'est le temps d'un café, pas d'une réunion. Pars sur une note positive, avant que ça s'essouffle."
+    },
+    {
+      "id": "P2-T2 9.2:FAQ",
+      "slug": "conversation-machine-a-cafe",
+      "avant": "Entre 60 et 90 secondes, c'est l'idéal. Partir sur une note positive avant que ça s'essouffle, c'est la clé.",
+      "apres": "Le temps d'un café, pas plus. Partir sur une note positive avant que ça s'essouffle, c'est la clé."
+    },
+    {
+      "id": "P2-T2 10.1",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "**Panayotis Pascot** explique dans un de ses spectacles que la peur du jugement est le plus grand tueur de répartie : ce qui manque, ce ne sont pas les idées, c'est l'audace de les sortir. Et ce n'est pas une question de confiance en soi innée : c'est une compétence.",
+      "apres": "**Panayotis Pascot** pourrait le dire sur scène : la peur du jugement tue plus de répliques que le manque d'idées. Des idées, tu en as. Il te manque l'audace de les sortir. Et l'audace, ça se travaille."
+    },
+    {
+      "id": "P2-T2 10.4a",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "- Vanne plantée → silence → tu attends 2 secondes → \"OK, j'annule mon spectacle.\"",
+      "apres": "- Vanne plantée → silence → tu laisses passer une seconde environ → \"OK, j'annule mon spectacle.\""
+    },
+    {
+      "id": "P2-T2 10.4b",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "Deux secondes de silence avant une réplique font 3x plus d'effet que la même réplique lancée tout de suite.",
+      "apres": "Un silence juste avant la réplique, et elle fait bien plus d'effet que si tu la lances dans la foulée."
+    },
+    {
+      "id": "P2-T2 10.4c",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "Après une vanne, attends 2 secondes avant de parler.",
+      "apres": "Après une vanne, laisse un petit blanc avant de parler."
+    },
+    {
+      "id": "P2-T2 10.4d",
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "attends 2 secondes, puis sors",
+      "apres": "attends un instant, puis sors"
+    },
+    {
+      "id": "P2-T2 12.3",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "**Pierre Croce** maîtrise ça à la précision : il pose son setup, **il attend** (parfois 2 secondes, une éternité sur scène), et lâche la chute quand le public a commencé à anticiper.",
+      "apres": "**Pierre Croce** en fait une arme : il pose son setup, **il laisse la salle attendre**, et lâche la chute quand le public a commencé à anticiper. Une petite seconde suffit : sur scène, c'est une éternité."
+    },
+    {
+      "id": "P2-T2 12.5b",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "Tu rajoutes 1,5 seconde de silence à la même phrase, et l'effet est multiplié par 3.",
+      "apres": "Tu rajoutes une petite seconde de silence à la même phrase, et la chute passe d'un \"ah, ok\" à un vrai rire."
+    },
+    {
+      "id": "P2-T2 12.5c",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "raconte la même vanne deux fois, à deux groupes différents, en variant uniquement le timing (pause de 1,5 seconde avant la chute la deuxième fois)",
+      "apres": "raconte la même vanne deux fois, à deux amis aussi proches l'un que l'autre, en variant uniquement le timing (une petite pause avant la chute la deuxième fois)"
+    },
+    {
+      "id": "P2-T2 12.9",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "Pierre Croce et Paul Mirabel construisent une bonne partie de leur stand-up sur cette mécanique de pause et de silence.",
+      "apres": "Des stand-uppeurs comme Pierre Croce ou Paul Mirabel jouent beaucoup sur la pause et le silence."
+    },
+    {
+      "id": "P2-T2 13.2",
+      "slug": "rester-muet-en-groupe",
+      "avant": "**Blanche Gardin** parle souvent de cette mécanique : elle dit que dans une conversation, \"ce n'est pas le mec le plus drôle qui parle, c'est le mec qui place le bon truc dans le bon trou de silence.\" C'est le timing, pas la blague.",
+      "apres": "Les silences de **Blanche Gardin** le montrent : souvent, le moment fait plus rire que la phrase. En conversation, c'est celui qui glisse le bon truc dans le bon blanc qui fait rire, même s'il n'est pas le plus drôle de la bande."
+    },
+    {
+      "id": "P2-T2 13.5",
+      "slug": "rester-muet-en-groupe",
+      "avant": "Personne n'écoute vraiment dans un groupe. Du coup, **poser une question naïve** est souvent un acte de courage utile :",
+      "apres": "En groupe, beaucoup de gens font semblant d'avoir suivi. Du coup, **poser la question naïve** rend service à tout le monde :"
+    },
+    {
+      "id": "P2-T2 6.3a -> C2",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "La solution tient en quelques phrases prêtes à l'emploi, une règle de timing et l'habitude de poser des questions.",
+      "apres": "La solution tient en trois réflexes : avoir quelques phrases prêtes à l'emploi, répondre sans trop réfléchir et poser des questions."
+    },
+    {
+      "id": "P2-T2 6.3f",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "3 leviers : garde en tête 5 réponses passe-partout (kit de survie), applique la règle des 3 secondes (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et prépare 3 sujets dans ta tête avant chaque événement social.",
+      "apres": "3 leviers : garde en tête 5 réponses passe-partout (kit de survie), réponds sans trop réfléchir (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et pose des questions pour relancer."
+    },
+    {
+      "id": "C2 FAQ",
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "En 2 semaines, les blancs se raréfient nettement.",
+      "apres": "Avec de la pratique, les blancs se font plus rares."
+    },
+    {
+      "id": "P2-T2 12.10 -> C3",
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "En stand-up, la chute est **toujours plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. **Le public décroche au mot 8** d'une punchline trop longue.",
+      "apres": "En stand-up, la chute est **en général plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. Une chute qui s'éternise, c'est un public qui regarde son téléphone."
+    }
+  ],
+  "headings": [
+    {
+      "slug": "comment-devenir-drole",
+      "avant": "### Pilier 1 : L'observation — Voir ce que les autres ignorent",
+      "apres": "### Pilier 1 : L'observation, Voir ce que les autres ignorent"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "avant": "### Pilier 2 : La surprise — L'art du virage inattendu",
+      "apres": "### Pilier 2 : La surprise, L'art du virage inattendu"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "avant": "### Pilier 3 : Le timing — Le silence qui vaut de l'or",
+      "apres": "### Pilier 3 : Le timing, Le silence qui vaut de l'or"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "avant": "### Pilier 4 : L'autodérision — Rire de soi sans se démolir",
+      "apres": "### Pilier 4 : L'autodérision, Rire de soi sans se démolir"
+    },
+    {
+      "slug": "comment-devenir-drole",
+      "avant": "### Pilier 5 : La pratique — Le seul vrai secret",
+      "apres": "### Pilier 5 : La pratique, Le seul vrai secret"
+    },
+    {
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "## Étape 2 : Le filet de sécurité — 3 phrases prêtes",
+      "apres": "## Étape 2 : Le filet de sécurité, 3 phrases prêtes"
+    },
+    {
+      "slug": "repartie-debutant-5-etapes",
+      "avant": "## Étape 3 : L'écoute active — Ton arme secrète",
+      "apres": "## Étape 3 : L'écoute active, Ton arme secrète"
+    },
+    {
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "## Type 1 : L'observationnel — \"C'est tellement vrai\"",
+      "apres": "## Type 1 : L'observationnel, \"C'est tellement vrai\""
+    },
+    {
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "## Type 2 : L'autodérision — \"Je suis un désastre (et j'assume)\"",
+      "apres": "## Type 2 : L'autodérision, \"Je suis un désastre (et j'assume)\""
+    },
+    {
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "## Type 3 : L'absurde — \"Ça n'a aucun sens (et c'est ça qui est drôle)\"",
+      "apres": "## Type 3 : L'absurde, \"Ça n'a aucun sens (et c'est ça qui est drôle)\""
+    },
+    {
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "## Type 4 : Les jeux de mots — \"Tu l'as ? Tu l'as ?\"",
+      "apres": "## Type 4 : Les jeux de mots, \"Tu l'as ? Tu l'as ?\""
+    },
+    {
+      "slug": "5-types-humour-lequel-pour-toi",
+      "avant": "## Type 5 : L'humour noir — \"Trop loin ? Pas assez loin.\"",
+      "apres": "## Type 5 : L'humour noir, \"Trop loin ? Pas assez loin.\""
+    },
+    {
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "## 2. L'observation partagée — \"Tu vois le truc aussi ?\"",
+      "apres": "## 2. L'observation partagée : \"Tu vois le truc aussi ?\""
+    },
+    {
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "## 3. L'effet de surprise — Le virage que personne voit venir",
+      "apres": "## 3. L'effet de surprise : Le virage que personne voit venir"
+    },
+    {
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "## 5. L'exagération stratégique — Le curseur poussé à fond",
+      "apres": "## 5. L'exagération stratégique : Le curseur poussé à fond"
+    },
+    {
+      "slug": "comment-faire-rire-une-fille",
+      "avant": "## 6. Le silence qui parle — Ne pas tout remplir",
+      "apres": "## 6. Le silence qui parle : Ne pas tout remplir"
+    },
+    {
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "## 2. L'humour décalé — Dire le truc que personne attendait",
+      "apres": "## 2. L'humour décalé : Dire le truc que personne attendait"
+    },
+    {
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "## 3. Les références partagées — Le ciment du rire complice",
+      "apres": "## 3. Les références partagées : Le ciment du rire complice"
+    },
+    {
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "## 4. L'autodérision cool — Pas fragile, juste lucide",
+      "apres": "## 4. L'autodérision cool : Pas fragile, juste lucide"
+    },
+    {
+      "slug": "comment-faire-rire-un-homme",
+      "avant": "## 6. Le timing de la punchline — Dire moins, pas plus",
+      "apres": "## 6. Le timing de la punchline : Dire moins, pas plus"
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 1 : L'accord exagéré — \"Oui, et c'est encore pire\"",
+      "apres": "## Technique 1 : L'accord exagéré, \"Oui, et c'est encore pire\""
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 2 : Le rebond sur mot-clé — Retourne ses propres mots",
+      "apres": "## Technique 2 : Le rebond sur mot-clé, Retourne ses propres mots"
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 3 : Le compliment inversé — \"Merci, c'est adorable\"",
+      "apres": "## Technique 3 : Le compliment inversé, \"Merci, c'est adorable\""
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 4 : La question Colombo — \"Ah bon ? Explique-moi\"",
+      "apres": "## Technique 4 : La question Colombo, \"Ah bon ? Explique-moi\""
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 5 : Le callback — Reviens-y 20 minutes plus tard",
+      "apres": "## Technique 5 : Le callback, Reviens-y 20 minutes plus tard"
+    },
+    {
+      "slug": "repondre-moqueries-avec-humour",
+      "avant": "## Technique 6 : Le silence + sourire — L'arme nucléaire",
+      "apres": "## Technique 6 : Le silence + sourire, L'arme nucléaire"
+    },
+    {
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "## Zone 1 : La machine à café — Le terrain d'entraînement",
+      "apres": "## Zone 1 : La machine à café, Le terrain d'entraînement"
+    },
+    {
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "## Zone 2 : La réunion — L'art du timing chirurgical",
+      "apres": "## Zone 2 : La réunion, L'art du timing chirurgical"
+    },
+    {
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "## Zone 3 : L'afterwork — Le terrain miné",
+      "apres": "## Zone 3 : L'afterwork, Le terrain miné"
+    },
+    {
+      "slug": "blagues-travail-faire-rire-pro",
+      "avant": "## Zone 4 : Les emails et Slack — L'humour écrit au bureau",
+      "apres": "## Zone 4 : Les emails et Slack, L'humour écrit au bureau"
+    },
+    {
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "### Le \"freeze social\" — ton cerveau te protège",
+      "apres": "### Le \"freeze social\" : ton cerveau te protège"
+    },
+    {
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "## Technique 1 : Les 5 réponses automatiques — Ton kit de survie",
+      "apres": "## Technique 1 : Les 5 réponses automatiques, Ton kit de survie"
+    },
+    {
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "## Technique 4 : Le rebond sur le dernier mot — La technique du perroquet intelligent",
+      "apres": "## Technique 4 : Le rebond sur le dernier mot, La technique du perroquet intelligent"
+    },
+    {
+      "slug": "jamais-quoi-repondre-techniques",
+      "avant": "## Technique 5 : La \"banque de sujets\" — Ne pars plus les mains vides",
+      "apres": "## Technique 5 : La \"banque de sujets\", Ne pars plus les mains vides"
+    },
+    {
+      "slug": "timidite-et-humour",
+      "avant": "## Clé 2 : L'humour écrit d'abord — ta zone d'entraînement",
+      "apres": "## Clé 2 : L'humour écrit d'abord, ta zone d'entraînement"
+    },
+    {
+      "slug": "timidite-et-humour",
+      "avant": "## Clé 3 : L'effet de surprise — quand un timide parle, tout le monde écoute",
+      "apres": "## Clé 3 : L'effet de surprise, quand un timide parle, tout le monde écoute"
+    },
+    {
+      "slug": "timidite-et-humour",
+      "avant": "## Clé 4 : L'autodérision légère — ta timidité devient matière comique",
+      "apres": "## Clé 4 : L'autodérision légère, ta timidité devient matière comique"
+    },
+    {
+      "slug": "timidite-et-humour",
+      "avant": "## Clé 5 : La progression par paliers — du petit groupe au grand groupe",
+      "apres": "## Clé 5 : La progression par paliers, du petit groupe au grand groupe"
+    },
+    {
+      "slug": "conversation-machine-a-cafe",
+      "avant": "## Le lundi matin — comment briser la glace avec un zombie",
+      "apres": "## Le lundi matin : comment briser la glace avec un zombie"
+    },
+    {
+      "slug": "conversation-machine-a-cafe",
+      "avant": "## Le nouveau collègue — l'intégrer sans être awkward",
+      "apres": "## Le nouveau collègue : l'intégrer sans être awkward"
+    },
+    {
+      "slug": "conversation-machine-a-cafe",
+      "avant": "## Face au boss — l'humour hiérarchique et ses règles",
+      "apres": "## Face au boss : l'humour hiérarchique et ses règles"
+    },
+    {
+      "slug": "conversation-machine-a-cafe",
+      "avant": "## Le crush du 3ème étage — flirter subtilement à la machine à café",
+      "apres": "## Le crush du 3ème étage : flirter subtilement à la machine à café"
+    },
+    {
+      "slug": "conversation-machine-a-cafe",
+      "avant": "## Le silence gênant entre inconnus — la technique du sauvetage",
+      "apres": "## Le silence gênant entre inconnus : la technique du sauvetage"
+    },
+    {
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "## Situation 3 : Tu rejoins un groupe déjà lancé — et tu ne sais pas comment t'insérer",
+      "apres": "## Situation 3 : Tu rejoins un groupe déjà lancé, et tu ne sais pas comment t'insérer"
+    },
+    {
+      "slug": "repartie-soiree-anti-malaise",
+      "avant": "## Situation 4 : Il y a un malaise généralisé — sujet glissant, blague ratée de quelqu'un d'autre",
+      "apres": "## Situation 4 : Il y a un malaise généralisé, sujet glissant, blague ratée de quelqu'un d'autre"
+    },
+    {
+      "slug": "pourquoi-blagues-marchent-pas",
+      "avant": "### Raison 2 : Le timing — le tueur silencieux n°2",
+      "apres": "### Raison 2 : Le timing, le tueur silencieux n°2"
+    },
+    {
+      "slug": "rester-muet-en-groupe",
+      "avant": "### Niveau 1 — La micro-interaction (caissier, livreur, voisin)",
+      "apres": "### Niveau 1 : La micro-interaction (caissier, livreur, voisin)"
+    },
+    {
+      "slug": "rester-muet-en-groupe",
+      "avant": "### Niveau 2 — Le groupe de confiance (3-4 personnes que tu connais bien)",
+      "apres": "### Niveau 2 : Le groupe de confiance (3-4 personnes que tu connais bien)"
+    },
+    {
+      "slug": "rester-muet-en-groupe",
+      "avant": "### Niveau 3 — Le groupe ouvert (soirée, dîner, afterwork élargi)",
+      "apres": "### Niveau 3 : Le groupe ouvert (soirée, dîner, afterwork élargi)"
+    }
+  ]
+}
