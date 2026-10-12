@@ -68,13 +68,108 @@
         "slug": "comment-avoir-de-la-repartie",
         "session": "s20 liens S4",
         "raison": "liens S4 maillage s20 (docs/copy/liens-s4-s20.md §6/§7) : 1 phrase avec lien ajoutée, updatedAt 2026-10-12 ; titres, chiffres, FAQ inchangés, 0 mot retiré, vérifiés par blog-liens-s4-s20.test.ts"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "timing-humour",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "erreurs-blagues",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "autoderision-interactions",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "repartie-debutant-5-etapes",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "humour-quotidien-8-habitudes",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "5-types-humour-lequel-pour-toi",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "humour-noir-utiliser-sans-blesser",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "jeux-de-mots-technique-3-etapes",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "exercices-developper-humour",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "timing-humour-ralentir",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "raconter-blague-sans-massacrer",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "timidite-et-humour",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "storytelling-drole-5-structures",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "conversation-machine-a-cafe",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "pourquoi-blagues-marchent-pas",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "blagues-courtes-vs-longues",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
+      },
+      {
+        "slug": "rester-muet-en-groupe",
+        "session": "s20 prix",
+        "raison": "« 2,99 EUR/mois » → « 2,99 €/mois » (typographie) : diff Git = uniquement EUR remplacé par €, mots −1 par occurrence (EUR), titres, liens, chiffres et meta inchangés"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "f3e44302f1893e65c70203bbc3bc5b0ab6df008af8a2852981356f83ccd0c7dd",
-      "wordCount": 1850,
+      "words": "21f6974de0bc5ce867d744f80f6a9c082213906352db3b30b9a8b8be880a6d00",
+      "wordCount": 1849,
       "headings": "0d0f261cf80a2c1797565694eb2d6b0fe351b84c50f1e5f4db280c3964c32f4b",
       "links": "0b14d9aa76bb89d72c532df0f317a9457f3ab56a63ce59795fbb3f78546ff12c",
       "numbers": "05bc115fc9c3f54a49b2e0d3e027dd1e9f43a57b7f96204e4ccf36ad4bffb461",
@@ -82,8 +177,8 @@
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {
-      "words": "8606222488b27fa522a78b5ce7e0ae36b239208bba4f7b324607af17b7dc2069",
-      "wordCount": 1616,
+      "words": "d30436522b4041c738ba2a7aa269d8f7753005b903ba08227ebfa04d734337b8",
+      "wordCount": 1615,
       "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
       "links": "1de657434cbe1edacc5139b160bd392ea77c4a18a82f073fdcfc76b390472db8",
       "numbers": "c8f72de03fcbce9f1ac5a9bdde58527d0a77ade9ae38f8e89131b66f72bf89ec",
@@ -91,8 +186,8 @@
       "emDashesBefore": 23
     },
     "timing-humour": {
-      "words": "e6e23464d3bc74393160dddf5acf08d59316505b2331c535c219b4ea110d45c0",
-      "wordCount": 1291,
+      "words": "3a282e3982ee42bd8da5fc15646355407df386b839e9b94e3e44ad66caf07bdf",
+      "wordCount": 1290,
       "headings": "0ec476513593b64f2947e67b46962ff61c12cfbfaba72175bb454579422d06f2",
       "links": "253cb6b3fb24beb4da957834947e7b8da1268c4787fa4d066d6cb63b9ede0f4e",
       "numbers": "1d4062d64593a8b2c031932b26b350b26150fb91da03343bbc744b7930702bf5",
@@ -100,8 +195,8 @@
       "emDashesBefore": 8
     },
     "erreurs-blagues": {
-      "words": "a19cf69cee72c9d14705c1bb6b25d7dd1a4f647239450b10608d544b0b12e26e",
-      "wordCount": 1018,
+      "words": "fb354b44590a69f1e0841c1e771512e0b96fb2d810cc538d3492828c725fc294",
+      "wordCount": 1017,
       "headings": "cff073fffbfd811103fadae8772c86b7170e75808f80dccca4ae0238cf4f6d5f",
       "links": "7218f1dab0678d4e92fa4435ef04a990d35d2631d59fc634acb337cbe5e03891",
       "numbers": "89990cbb43b34a625f96b89b1e5445c7d4731d5b57617fd4c13779de562d8bc9",
@@ -109,8 +204,8 @@
       "emDashesBefore": 11
     },
     "autoderision-interactions": {
-      "words": "4cc716d48d2ea56d36d1ffe13662a927b31473d4df3b765a9cbb3d81fb4b4559",
-      "wordCount": 1212,
+      "words": "6ea09e70a7c755cc829596a0567187f58b48aacac4d081160a3208da4efd5116",
+      "wordCount": 1211,
       "headings": "e25a3ba7acfdd7f3af2bd97c9b933198ea4e202c547570942eba4d1d67d7cca0",
       "links": "44692a91380be91bbb8d27cc98b6aa431554bf8570caeb9d53ec2003298d2e5b",
       "numbers": "e84d215af5d3c46a28b302c4ec06940fd983124e1b1809c9d34363322811269e",
@@ -118,8 +213,8 @@
       "emDashesBefore": 8
     },
     "repartie-debutant-5-etapes": {
-      "words": "92990c8e4c0ddd0a6422122cfad1fa8c56b80f1b19e18f5b144119184655feb7",
-      "wordCount": 1109,
+      "words": "f05f6bc8e51dfe5808aaf6f5c724cb88f6e30809cc15c746670bbc61022355b2",
+      "wordCount": 1108,
       "headings": "921a4acfd71fc64247c865087f7635084d8abc702bceb7343b9f67e5a8dc5202",
       "links": "a3c5c2c5519d6593becb999580f158b2d09d10bbc2a775009e74ae7ea2215a33",
       "numbers": "5ddb27c41f36b2ef4c54cd9ff05bc6d343aae414ebddaab19f6a419ad9cb237f",
@@ -127,8 +222,8 @@
       "emDashesBefore": 10
     },
     "humour-quotidien-8-habitudes": {
-      "words": "b4e5927108f8f2312a92dc6f4714ea24475d486ed12acd55f57e96cd16e07328",
-      "wordCount": 1186,
+      "words": "54375dbed7a36517c6f0f669dab3d25641d923fd91891549e79165c880f88f99",
+      "wordCount": 1185,
       "headings": "93e94facac19f5aac4bae3a4a09ccb360b79681b109cee3b16f7a5d858f7193a",
       "links": "af0711a8070021c1d52ab2940afab1d75f9ce06551e0c993c90bcb2878ac984b",
       "numbers": "5327436a8d27c9fb7341e877c225ef09fe2965d00f4866ab087815b5d3e19b91",
@@ -136,8 +231,8 @@
       "emDashesBefore": 11
     },
     "5-types-humour-lequel-pour-toi": {
-      "words": "b9a8c4550acc177d98b05f2b17cd62519646d1df5e428a6a2c5c9f7fed1a4631",
-      "wordCount": 1528,
+      "words": "9edd5b640c20bd45ab9e7be8ea4f8306a0bd8ade781565f709ea875fa049ad22",
+      "wordCount": 1527,
       "headings": "b4107bbf9375f5d9d08d2317e6eb05d1eb5a3902c59e68d1746bcead9e0ab897",
       "links": "9e8a1330cd302240811a7a9b94b82ec7c5ba00b3b430addbf4a9a35c032099e7",
       "numbers": "92713f55ee0ae3cec34f2d0d23fe12c5be8073cab5f5bdc37b8e06271f60f312",
@@ -145,8 +240,8 @@
       "emDashesBefore": 15
     },
     "humour-noir-utiliser-sans-blesser": {
-      "words": "654acff2c98b04021c59a1ecace07a51dd953032dcfe711de537a9f06a0c88ff",
-      "wordCount": 1154,
+      "words": "a00f8a70abc9b64cfa6cefe25c298d1ccb98bd4d3a4b3c45ace700b56a5afc53",
+      "wordCount": 1153,
       "headings": "2f053264ff8497415d21a99ba02cc90cfa834fc6464b431dd65860de9aa5ed35",
       "links": "4fe0710315f288370cbb6cd75cdc1dea3015dd8a15f52c16bb171d3005c0cf6d",
       "numbers": "0f0ce6bad93b6d1434fe4f1f1b126b101052634b73e24aaa1f3f31dcf9de3fa2",
@@ -154,8 +249,8 @@
       "emDashesBefore": 13
     },
     "jeux-de-mots-technique-3-etapes": {
-      "words": "2a9184a6e3efd4714c87786bd1cd5555a9938d7d06618492baddaa768c4c696a",
-      "wordCount": 1004,
+      "words": "7c7dfdf4e13962bda53c59a2e859a93dd7c65468979998dfaae112a496518962",
+      "wordCount": 1003,
       "headings": "404907be83d3bb673cb6de2b422aa37f94bbb396473e0d9331d016303eaea9ca",
       "links": "ea4cfb26b5d472276eda192a669bc53498ad4015bc93367b88fddeedbf4fa87e",
       "numbers": "8679e55ed4c7489ec103eb3abd074941f0371df7017d50b7030e7d2d8ccc95fc",
@@ -163,8 +258,8 @@
       "emDashesBefore": 3
     },
     "exercices-developper-humour": {
-      "words": "45707994281dea6756e72765faaadffe2755a5d632da18768a8e18df0c62a293",
-      "wordCount": 1258,
+      "words": "97d5d44137316c3d6a1c0dfc25dec540a37d2427a1d7501df6b337a086e44409",
+      "wordCount": 1257,
       "headings": "f0c80dc5265625ffd4f82328b92f997eb5775d02caeeb79632f6d03286ed5579",
       "links": "5d19f602705ab52e9bf7540f889dd20180ec583f246b061ba75b844404ecbd32",
       "numbers": "4b3f32a06d7996a521d4f1dca22bf7f843beae2c13ef76d2b0b6735adc005773",
@@ -172,8 +267,8 @@
       "emDashesBefore": 13
     },
     "timing-humour-ralentir": {
-      "words": "fcc679595a65f44db7b72ed36e534f216f31e118eea4d446ddd7e106ff689251",
-      "wordCount": 923,
+      "words": "9af08cd03361246e52e4507598556ac8cf5f969487394547005f1116c50c004b",
+      "wordCount": 922,
       "headings": "ab6b0547b55c3e8dced74831d73dbc65eef71ba97f4d7820144714bfafede0d8",
       "links": "24c48f4b0cffe468839ccdc07bf45ac49670e07db536a25855d3d40ff924a6ae",
       "numbers": "c3e25f4dce6d0a7a48d4c48291d296ec16ec5dd8a50f99a47e807893308c661a",
@@ -181,8 +276,8 @@
       "emDashesBefore": 5
     },
     "raconter-blague-sans-massacrer": {
-      "words": "ec5465b6c86706481e1a983519db212852efb48a7e52826f4ac5c68279ed8703",
-      "wordCount": 1051,
+      "words": "0c5129e8fcd4a7aeb40e863d6c77741e4f8b2c9a67350a1abe8ba89c25be3406",
+      "wordCount": 1050,
       "headings": "a6f5204c9834a12401e5995c41f5337bbf6633982ff460dd9f14358958566400",
       "links": "141944969d83d7f74d036c0cc562c921a94968eca135cac206f199ecdce382bd",
       "numbers": "0e4b5e99bcf64d1e4eb30c14525c92924e21d722edb0c1f5473d8fb9b443ae96",
@@ -262,8 +357,8 @@
       "emDashesBefore": 19
     },
     "timidite-et-humour": {
-      "words": "4e4f9fce52aee5a5ad18f5c38e2002b621e0f4fcd96acb0913d63732b41dfa61",
-      "wordCount": 2199,
+      "words": "3a2c2b6946afbea18f7e24eba3618b6352cacdce270dd814cffc84a044ca8c37",
+      "wordCount": 2198,
       "headings": "8fec2e023d4633819c83948d2703b61270872e1be81ba5687ad9726aa219ee58",
       "links": "c5aea2e8f2e0b4777c0a739b1ee1e86aa4a4506dbc9f3af2c7c9ae859804a4e7",
       "numbers": "2bf5b64a73d9ccae02fde4efa27304d80e4bb3674d660f1490e557998a5da5c3",
@@ -271,8 +366,8 @@
       "emDashesBefore": 32
     },
     "storytelling-drole-5-structures": {
-      "words": "80b1a2a3848b13d549b20446f7894485b95030632397230fb9965e6ca2c1da67",
-      "wordCount": 2498,
+      "words": "aea34f2bb3f8840fa25cdd39b9be8f893b482007a6d1fe35e60c8e869e699e56",
+      "wordCount": 2497,
       "headings": "07bd12458ad6c200c90a2bfba86b177698d332fccd9ec39a29a3f81095bd4adc",
       "links": "1cead9eba77a5ea71108be48b2da12c834734cbf7dc63fd09d6dd9718668ef73",
       "numbers": "e52ce9c66d406f12c9921e4689b981f98732e8a857cd4594d591434a4a6690a6",
@@ -280,8 +375,8 @@
       "emDashesBefore": 37
     },
     "conversation-machine-a-cafe": {
-      "words": "80bc6db9b0ee32a62be7c6237ce73d729dc3a4db11b20d58bb10ffb78304b0c6",
-      "wordCount": 1813,
+      "words": "98143b944faf8151150cd7be09c2d8dd177502bdc9f968552eefbc134bca6a90",
+      "wordCount": 1812,
       "headings": "91883ea2a980217d56b02f0254d99b5083da41cac64a3b4584baa5eca521a077",
       "links": "e8d638df9004168f9bb10c80e302f94830c188efa4d2d1d10745e869beae5eb4",
       "numbers": "b2e270ca4acada7d214bfc19f25c90477445738360c8d3982274915db5329905",
@@ -316,8 +411,8 @@
       "emDashesBefore": 36
     },
     "pourquoi-blagues-marchent-pas": {
-      "words": "f71fca1ffa7949db377aa4459d8313788e6a5675b4faf508b0ba2ad9f8e05306",
-      "wordCount": 2041,
+      "words": "4b9a2857b503606564eb2c9f61b27303c105ebafd5b62e73211e67b9fc2ce0c8",
+      "wordCount": 2040,
       "headings": "4aa57b42fb9c9f2bd1284a4d38421737fe7d87231c0e99197047680395e9e08d",
       "links": "c5601e71aba3e326a764517170fa69945b3e6171147a995be7db7046d7a58a0d",
       "numbers": "994f633d65cf05256ae890dcb6d0a786e1935ed7a83472d766e09550e750c900",
@@ -325,8 +420,8 @@
       "emDashesBefore": 21
     },
     "blagues-courtes-vs-longues": {
-      "words": "150cadb79f6bfd95856ee028d309e61703436c82929d87887ff677a471e75437",
-      "wordCount": 1857,
+      "words": "204a799e5737ec9a41ec813e826d661fefab1cfbeae7b539bf0b890e4a6f1fee",
+      "wordCount": 1856,
       "headings": "6e2830e79238b6ce1b011e119fbf6b25c4ca0ec422e5319d0a1dd489a5fca24d",
       "links": "8fc987fc7194478e5ce191d60b7c87121148352d1b220d2cd97aca5c639869ec",
       "numbers": "5f8921b80234ce8f825fac7b80bd2a2a077e07c101f7cc0155b3a2d925738159",
@@ -334,8 +429,8 @@
       "emDashesBefore": 11
     },
     "rester-muet-en-groupe": {
-      "words": "2f851ab06179d00ad2e432b141d2beb2ee126ce0b0397a87d11cf6fcf6e20b75",
-      "wordCount": 2748,
+      "words": "b34584083083ead92e8a1c67c255ba5b25cb6ba087e8c85b5180a0c2c784405f",
+      "wordCount": 2747,
       "headings": "9254b1dfe216c6ddb698a0c2e0c842dae30ecaf05a5f7d921a433f1963d1acc8",
       "links": "31f4ba876cde104942f029bedf728c9724ad25877ac88ab3eff88cc3f30b79ce",
       "numbers": "256486f2a4d2762fb1b7e526a4760fa21dcf4933c95136604d8925b9628d1eee",
