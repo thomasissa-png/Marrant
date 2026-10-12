@@ -11,6 +11,9 @@ const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ 
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
+import { AutresParcours } from "@/components/home/autres-parcours";
+import { DerniersArticles } from "@/components/home/derniers-articles";
+import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
 
 const homepageFaqs = [
@@ -72,8 +75,13 @@ export async function generateMetadata(): Promise<Metadata> {
 // Stratégie de rendu : statique + ISR (revalidation portée par les unstable_cache :
 // compteurs 5 min, listes 1 h). Les liens vers les fiches (FeatureCards) sont dans le
 // HTML ; sans base au build, les cartes s'affichent sans liens jusqu'à la revalidation.
+// Durée effective (constatée dans prerender-manifest, s20) : 300 s, le plus court des
+// unstable_cache (compteurs). `revalidate = 3600` est le plafond si ce cache change :
+// un article publié (jeudi) entre dans « Derniers articles » en 1 h au plus (S3b).
+export const revalidate = 3600;
+
 export default async function HomePage() {
-  const featureExamples = await getHomeFeatureExamples();
+  const [featureExamples, derniersArticles] = await Promise.all([getHomeFeatureExamples(), getDerniersArticles()]);
   return (
     <>
       <JsonLd data={buildFaqJsonLd(allFaqs)} />
@@ -144,6 +152,9 @@ export default async function HomePage() {
           </div>
         </div>
 
+        {/* Maillage S3a : parcours publiés hors cartes (docs/seo/maillage-decouverte-s20.md §4) */}
+        <AutresParcours />
+
         {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
         <p className="mt-6 text-center text-sm text-text-secondary">
           Tu veux d&apos;abord comprendre le mécanisme ? Lis notre guide{" "}
@@ -153,6 +164,9 @@ export default async function HomePage() {
           .
         </p>
       </section>
+
+      {/* Maillage S3b : 3 derniers articles visibles, hors pilier */}
+      <DerniersArticles articles={derniersArticles} />
 
       {/* CTA principal */}
       <HomeCta />
