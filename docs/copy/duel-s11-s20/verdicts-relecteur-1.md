@@ -22,7 +22,7 @@ Bilan : version 1 = 6 articles (1, 2, 5, 7, 8, 9) ; version 2 = 3 articles (3, 4
 
 - Chiffres inventés qui survivent dans les deux versions : « étude de l'Université de Stanford » (art. 1 et 2), « 90% » (art. 3 et 5), « dix fois plus de chances » (art. 6), « 50% » (art. 9).
 - « Paul Mirabel remplit Bercy » répété dans 3 articles (3, 5 en V2, 9) : à vérifier une fois, puis harmoniser.
-- Durées de pause contradictoires d'un article à l'autre : 0,5 s (art. 2), 1 s (art. 3), « micro-pause » de 2-3 s (art. 6), 2-3 s (art. 9).
+- Durées de pause contradictoires d'un article à l'autre : 0,5 s (art. 2), « 2 secondes de suspense » (art. 3), « micro-pause » de 2-3 s (art. 6), 2-3 s (art. 9).
 
 ## Détails par article
 
