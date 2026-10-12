@@ -1,0 +1,10 @@
+# Verdict relecture à l'aveugle, tour 6 (@reviewer)
+
+Source lue : `aveugle-tour6.md` uniquement. Critères : fidélité, utilité, ton et langue, envie de regarder.
+
+| Item | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|
+| G01 | non | Fidélité OK : rien n'est attribué à la vidéo au-delà du titre, et l'exemple du téléphone vient bien du lecteur, pas de Karim Duval. Mais la consigne d'observation, qui est le cœur de la fiche, est bancale : « note ce qui y était reconnu » est un passif sans sujet (reconnu par qui ?), donc on ne sait pas quoi noter en regardant. Défaut secondaire : « rappeler par texto » se contredit (rappeler, c'est téléphoner). L'exemple, lui, est au niveau : l'escalade est claire, il tient en deux phrases et la chute sur « entendus » fonctionne. | Remplacer par « note ce que tu y as reconnu, chez toi ou chez tes proches (un mot, un réflexe, une situation) » et « rappeler par texto » par « répondre par texto ». |
+| G02 | non | Fidélité OK : « captation » et « L'Européen » viennent du titre, et le retour d'une vanne est au conditionnel (« si »), donc on n'affirme pas un rappel qu'on n'a pas vu. Utilité bonne : trois types de transitions à repérer, ça se tient en regardant, et l'exemple montre bien le pont par un mot (« couper »). Mais il y a une faute dans la phrase qui porte l'angle : « une vanne isolée [...] ce qui les relie », où « les » n'a pas d'antécédent pluriel. L'accroche (« Azencot sur la scène de L'Européen, une captation proposée par... ») est aussi plate et ne donne pas envie avant la deuxième phrase. | Écrire « Un extrait te montre des vannes isolées, une captation te laisse voir ce qui les relie : les enchaînements », et ouvrir la fiche sur cette phrase plutôt que sur la mention de la chaîne. |
+
+Bilan : 0/2 au niveau. Aucun problème de fidélité, de tutoiement ni de tiret cadratin, et les deux exemples tiennent. Il y a dans chaque fiche un seul défaut de langue, mais il tombe sur la phrase clé : ce sont des corrections d'une phrase, puis un nouveau passage à l'aveugle.
