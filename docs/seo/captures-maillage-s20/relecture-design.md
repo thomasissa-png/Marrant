@@ -95,3 +95,50 @@ Recapturer pages 1, 6 et 12 à 320, 375, 768 et 1280 px, plus un cas > 15 pages 
 ## Notes projetées après correctif
 
 Desktop 10 / 10, mobile 9,5 à 10 / 10 (sous réserve de la recapture ; le seul résidu est le compromis d'ordre visuel/DOM ci-dessus).
+
+---
+
+# Tour 2 : relecture du commit `e906661` (arbitrage design + UX)
+
+Preuves : les 16 captures `pagination-vannes-*` lues une à une (p1/p6/p12 à 320, 375, 768, 1280 ; 30 pages p10 à 375 et 1280 ; avant/après clic 7 à 375), plus `list-pagination.tsx`, `list-results.tsx`, `lib/list-pagination.ts`. Données simulées, thème sombre.
+
+## Notes
+
+| Device | Tour 1 | Tour 2 | Reste |
+|---|---|---|---|
+| Desktop 1280 (et 768) | 8 | **10 / 10** | rien |
+| Mobile 375 (320, 360) | 5 | **9 / 10** | 1 micro-correctif visuel (ci-dessous) |
+
+## Ce qui est résolu (constaté sur le rendu)
+
+- **Desktop** : pas régulier de 36 px de 1 à 12 (1280 : 10 à x=775, 11 à 811, 12 à 847), page courante violette (même #7C3AED que `chipClass("active")`), Précédent / Suivant en texte ghost avec écart de groupe, extrémité inactive de même largeur (la rangée ne bouge pas d'une page à l'autre). 768 identique, propre. Tablette tactile : couverte par `[@media(pointer:coarse)]`, non capturable ici.
+- **Mobile 375** : une grille 7 + 7 parfaitement alignée (colonnes x=39, 89, 138, 187, 237, 286, 335), 2 lignes (~90 px, contre ~195 avant), chevrons bordés 44 px (« bordé = cliquable »), page courante violette lisible sur p1, p6 et p12, géométrie identique sur toutes les pages. Précédent en haut à gauche, Suivant en bas à droite (zone du pouce).
+- **Mobile 30 pages (ellipses)** : 14 cellules, 7 + 7, `1 2 … 8 9 [10]` puis `11 12 … 29 30 ›` : aucune rupture, courante toujours visible, « … » en gris secondaire non cliquable.
+- **Mobile 320** : 5 + 5 + 4 (3 lignes), sans débordement ; la dernière rangée a une case vide à droite, acceptable (cas limite, colonnes calculées pour des rangées quasi égales).
+- **Après clic 7 (375)** : la liste arrive en haut sous l'en-tête collant (première carte « Vanne 73 », marge 16 px sous le header, `scroll-mt-20` correct). La capture « avant-clic » montre la liste atténuée (60 %) avec la courante encore sur 1 : c'est en réalité l'état de chargement (`pending`), cohérent (indicateur et contenu sur la même page, pagination intacte). Le feedback de tap existe bien.
+- **Accessibilité lue dans le code** : « Page 6 sur 12 » en `sr-only`, `aria-label` des chevrons contenant le texte visible (« Page suivante (page 7) » contient « suivant » : 2.5.3 respecté), extrémités inactives non annoncées, focus ring hérité.
+
+## Reste à corriger (mobile : 9 → 10)
+
+**Constat** : à 2 px d'écart, la pastille violette (47 × 44) touche presque la bordure du chevron voisin : p1 (violet « 1 » à x=65, bord du chevron Précédent à x=63) et p12 (violet « 12 » finit à x=310, chevron Suivant commence à x=312). Le contraste violet / contour crée une tension visuelle (critères PROPRE, AÉRÉ), et la pastille rectangulaire (47 × 44) est moins nette qu'un carré.
+
+**Correctif exact** (`list-pagination.tsx`, une ligne) : cellules carrées 44 px centrées dans leur colonne.
+
+```tsx
+// avant
+const MOBILE_CELL = "max-md:h-11 max-md:w-full max-md:min-w-11";
+// après : ~5 px entre pastille et chevron à 375 px, 14 px à 320 px, cible toujours 44 × 44
+const MOBILE_CELL = "max-md:mx-auto max-md:h-11 max-md:w-11";
+```
+
+`mx-auto` agit car chaque `<li>` est `flex`. `min-w-11` devient redondant (retiré). Aucune autre classe à changer : `gap-0.5` et les colonnes (7 max dès 360 px : cellule 45,1 px ≥ 44) restent valables. Les cibles tactiles passent de 47 × 44 à 44 × 44 (conforme à la règle 44 px du projet).
+
+**Vérification** : recapturer p1 et p12 à 375 px ; attendu : écart visible d'environ 5 px entre la pastille violette et le contour du chevron, pastille carrée 44 × 44. Après cela : mobile 10 / 10.
+
+## Points non bloquants (pas de correctif demandé)
+
+- Test `pagination-numerotee-s20.test.tsx` : l'assertion `not.toMatch(/nofollow|display:\s*none|hidden/)` échoue à cause de `aria-hidden` ; la cibler sur `class="[^"]*\bhidden\b` et `display:\s*none` (déjà signalé par @ux). Les libellés Précédent / Suivant sont bien dans le HTML (`max-md:sr-only`, pas `display:none`).
+- Renommer la capture « avant-clic-7 » en « pendant-chargement-7 » pour ne pas induire en erreur la prochaine lecture.
+- Décision « Page X / Y » : confirmée, non rétabli (X = violet + `sr-only`, Y = dernier numéro + « sur Y » `sr-only` + annonce `role="status"`).
+
+Verdict tour 2 : **GO** après le correctif d'une ligne ci-dessus. Notes finales attendues : desktop 10 / 10, mobile 10 / 10.
