@@ -99,3 +99,53 @@ Effet à 375 px : « Parcours Storytelling » et « Parcours Boulot » sur deux 
 - Décisions : S3a s'aligne sur les cartes (page du parcours, sans `?src` ni `#etape-1`) ; les 3 cartes et la phrase du pilier ne sont pas modifiées ; placement de « Derniers articles » conservé (aide plus que distraction).
 - Points d'attention : écart d'attribution `?src` existant sur les 3 cartes (hors lot) ; absence de capture clavier et 640 / 768 px ; déploiement à noter dans `REPLIT_ACTIONS.md`.
 ---
+
+# Tour 2 : relecture du commit `3902aa8` (12/10/2026)
+
+Preuves : `autres-parcours.tsx`, `derniers-articles.tsx`, `page.tsx` l.155-169, test `accueil-maillage-s3-s20.test.tsx` l.83-121, captures `accueil-s3-section-{375,640,768,1280}px.png`, `accueil-s3a-ligne-375px.png`, `accueil-s3b-focus-clavier-1280px.png`.
+
+## Notes
+
+| Device | Tour 1 | Tour 2 | Reste |
+|---|---|---|---|
+| Desktop 1280, 768, 640 | 9 | **10 / 10** | rien |
+| Mobile 375 | 8 | **9 / 10** | 1 correction de mise en page (C5) |
+
+## 1. Les corrections du tour 1 : constat
+
+| Correction | État | Preuve |
+|---|---|---|
+| C1 liens `/parcours/<slug>` | **Résolu** | `autres-parcours.tsx` l.38 ; filtre `isParcoursSlug` conservé (interrupteurs de publication) ; test l.94, 103-104, 114 (`not.toContain("?")`). |
+| C2 cibles 44 px | **Résolu, mais effet de bord** (§2) | classes `inline-flex min-h-[44px] items-center whitespace-nowrap` testées l.106. |
+| C3 `md:grid-cols-3` | **Résolu** | 640 px : 3 cartes pleine largeur, titres sur 1 ligne ; 768 px : 3 colonnes de même hauteur, titres sur 3 lignes, lisibles ; 1280 px : 3 colonnes, 2 lignes. |
+| Titre centré, `frTypo`, espacements, anneau de focus | **Résolu** | titre centré (cohérent avec « Tu te reconnais ? ») ; S3a à 16 px des cartes (groupé avec elles), pilier à 32 px (séparé) ; « pas : 7 raisons » insécable ; capture clavier 1280 : anneau violet 2 px + écart 2 px, visible, sans chevauchement (24 px entre cartes). |
+
+## 2. Effet de bord de C2 et position sur l'alternative `inline-block py-3 -my-3`
+
+Constat sur `accueil-s3a-ligne-375px.png` : « Parcours Boulot. » est sur une 2e ligne de 44 px, à ~44 px du « et » de la ligne 1 (22 px de plus que l'interligne normal) : un trou visible au milieu d'une phrase, et un bloc d'environ 90 px pour une ligne de texte. Défaut de rendu réel, pas de fonction (les cibles sont bonnes).
+
+**Position : ne pas retenir l'alternative, elle ne tient pas quand les liens sont sur deux lignes consécutives.** Géométrie : `text-sm` = interligne 20 px (`1.25rem`, il écrase le 1,6 du `body`) ; la boîte d'un lien inline fait ~17 px de haut ; avec `py-3` elle devient ~41 px, centrée sur la ligne. Deux liens sur deux lignes voisines (pas de 20 px) voient donc leurs zones **se chevaucher d'environ 21 px** : le lien peint en dernier gagne la zone commune, et la cible effective du premier retombe à ~20 px, soit aucun gain dans le cas même qui pose problème (375 px). Deux cibles empilées de 44 px sans chevauchement exigent 44 px de pas entre les lignes : c'est exactement ce que fait C2. `-my-3` sur un `inline-block` n'y change rien (marges négatives sur boîte en ligne : alignement de base fragile `[À VÉRIFIER sur appareil]`). Le trou vient de l'empilement, il faut supprimer l'empilement, pas lutter contre.
+
+**C5 (P1), `autres-parcours.tsx` l.44, une classe : la phrase passe à la ligne après le deux-points sous 640 px, et les deux liens se retrouvent côte à côte sur une seule ligne.**
+```tsx
+<span className="block sm:inline">{autresParcoursIntro(autres.length)}&nbsp;:</span>{" "}
+```
+(à la place de `{autresParcoursIntro(autres.length)}&nbsp;:{" "}`) ; les liens gardent **exactement** leurs classes actuelles (`inline-flex min-h-[44px] items-center whitespace-nowrap`).
+- Largeurs mesurées sur la capture 375 : « Parcours Storytelling » 140 px, « et » ~24 px, « Parcours Boulot. » ~111 px = ~275 px, contre 343 px utiles à 375, 328 à 360, 288 à 320 : tient sur une ligne dès 320 px (marge de 13 px). Les deux cibles de 44 px sont côte à côte, donc aucun chevauchement ni trou ; la ligne de liens fait 44 px, l'intitulé 20 px : ~64 px au lieu de ~90.
+- `sm:inline` (640 px) : la capture 640 montre la phrase sur une seule ligne, rendu inchangé à partir de là. Entre 462 et 639 px la phrase tiendrait sur une ligne mais pas en dessous de ~430 px : un seuil à 640 px évite que les largeurs 414 à 430 px (téléphones courants) retombent dans le trou.
+- Le texte rendu est identique (le `<span>` ne change pas `textContent` : le test l.100 passe tel quel) ; le texte validé n'est pas touché. Cas limite connu : avec 3 parcours ou plus (`Trois autres parcours…`), la ligne de liens peut se casser sur mobile et reproduire le trou ; non atteint aujourd'hui (2 parcours), à revoir si Thomas publie un 6e parcours.
+- Test à ajouter : `expect(container.querySelector("span")).toHaveClass("block", "sm:inline")`. Recapturer la ligne S3a à 375 et 320 px.
+
+## 3. Reste non bloquant
+- Cohérence du focus : les cartes d'articles ont l'anneau violet, les liens S3a, les cartes personas et la phrase du pilier gardent le contour natif (aucune capture clavier de S3a). Pas un défaut d'accessibilité ; si @design veut l'homogénéité, appliquer l'anneau aux liens S3a (dans le lot) sans toucher aux liens existants, ou n'y toucher nulle part. Capture clavier de S3a à ajouter à la recette `[À VÉRIFIER]`.
+- À 768 px, les liens des cartes personas passent sur deux lignes (existant, hors lot).
+
+## 4. Verdict tour 2
+**GO** après C5 (une classe, un test). Notes finales attendues : desktop 10 / 10, mobile 10 / 10.
+
+---
+**Handoff Tour 2 → @fullstack (C5 + test), @design (arbitrage focus §3), @qa (captures S3a à 375 et 320 px après C5)**
+- Fichier mis à jour : `/home/user/Marrant/docs/seo/captures-accueil-s3/relecture-ux.md`.
+- Décisions : alternative `inline-block py-3 -my-3` écartée (chevauchement de ~21 px sur lignes consécutives) ; C2 conservé ; l'empilement des deux liens est supprimé par un retour à la ligne après le deux-points sous 640 px.
+- Points d'attention : cas de 3 parcours ou plus ; capture 320 px ; déploiement à noter dans `REPLIT_ACTIONS.md`.
+---
