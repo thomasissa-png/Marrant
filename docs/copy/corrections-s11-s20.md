@@ -420,3 +420,47 @@ Convention : Origine = relecteur(s) qui ont relevé le point dans la version s11
 | F | C02 | N | C03 | V | C01 | AD | C10 |
 | G | C21 | O | C32 | W | C28 | AE | C18 |
 | H | C11 | P | C09 | X | C14 | AF | C23 |
+
+---
+
+## 9. Tour 2 : réécritures après relecture croisée (27 passages sur 32 validés, ne plus y toucher)
+
+> Verdicts : `docs/copy/relecture-corrections-s11/verdicts-relecteur-1/2/3.md`. À réécrire : C, F, G, R, AE (2 avis sur 3 ou faute objective), plus N par garde-fou (fait sur Frayssinet). Les avant/après ci-dessous REMPLACENT ceux de C13, C02, C21, C26, C18 et C03 en section 4. Tous sans tiret cadratin. Passages à relire à l'aveugle : `docs/copy/relecture-corrections-s11/passages-aveugle-tour2.md` (lettres P1 à P6, clé ci-dessous, à ne pas ouvrir avant les verdicts).
+
+**C13 révisé (lettre C)** | article `citation-drole` | défauts : « Une précision honnête » (tic), « formules maison » (originalité invérifiable), ton de mention légale
+- Avant (s11 du JSON) : `Une précision honnête : quelques-unes revisitent des classiques (l'auteur est cité quand on en est sûr), toutes les autres sont des formules maison. Pas de faux Churchill ici : tu peux les ressortir comme si elles venaient de toi.`
+- Après final : `Quelques-unes revisitent des classiques, et on cite l'auteur quand on le connaît. Les autres, tu peux les ressortir comme si elles venaient de toi.`
+- On n'affirme plus d'origine ; on dit seulement qu'il n'y a pas d'auteur à citer. Les citations attribuées (Wilde, vérifié) restent annotées dans la liste.
+
+**C02 révisé (lettre F)** | article `avoir-confiance-en-soi-grace-a-l-humour` | défauts : « L'explication tient en une phrase » (tic), lien social non étayé par l'étude, nuance « bien choisie » perdue
+- Avant (s11 du JSON) : `Une étude de l'Université de Stanford a montré que les personnes qui utilisent l'humour dans leurs interactions sociales développent une confiance en eux 40% plus élevée que la moyenne. L'explication tient en une phrase : l'humour crée du lien tout de suite.`
+- Après final : `Les autres le remarquent aussi : des chercheurs de la Wharton School et de la Harvard Business School ont montré qu'une blague bien choisie fait paraître son auteur plus sûr de lui et plus compétent, donc mieux placé dans le groupe. À condition qu'elle tombe au bon moment : une blague déplacée fait l'effet inverse.`
+- La phrase suivante du JSON (« Quand tu fais rire, tu ne subis plus la situation, tu y participes. ») est conservée telle quelle.
+- Source relue (WebSearch, 12/10) : Bitterly, Brooks et Schweitzer, « Risky Business: When Humor Increases and Decreases Status », Journal of Personality and Social Psychology, 2017, huit expériences. Ce que dit l'étude : l'humour réussi augmente le statut, avec la confiance et la compétence perçues comme médiateurs ; raconter une blague signale la confiance quel que soit le résultat ; une blague inappropriée signale une faible compétence et fait baisser le statut ; dans une expérience, l'utilisateur d'humour efficace est plus souvent choisi comme chef du groupe suivant. Rien sur le « lien social ». Stanford n'est pas remis. https://doi.org/10.2139/ssrn.2656617 ; https://knowledge.wharton.upenn.edu/article/using-humor-in-the-office-when-it-works-when-it-backfires/ ; https://www.hbs.edu/ris/Publication%20Files/Bitterly%20Brooks%20Schweitzer%20JPSP%202016_54efbab5-2561-4408-b008-38d958e0ad50.pdf
+- Cohérence avec la lettre V (neurosciences, validée) : la phrase V reste juste avant, sans doublon.
+
+**C21 révisé (lettre G)** | article `comment-raconter-une-blague-sans-la-rater` | défauts : durée en désaccord avec Z, promesse trop forte
+- Avant (s11 du JSON) : `Une pause de 2-3 secondes avant la punchline transforme un sourire en éclat de rire.`
+- Après final : `Une seconde de pause avant la punchline, et un sourire peut devenir un éclat de rire.` (le début de la CLEF, « Le timing, c'est le silence entre deux notes : c'est lui qui donne envie d'entendre la suivante. », reste celui du JSON)
+- **Valeur unique retenue : une seconde** (Z « une seconde environ », J « une seconde »). Restent à aligner, hors des 32 passages et non touchés ici : art. 9, exemple `[pause de 2 secondes, regard vers ton public]` (proposition : `[pause d'une seconde, regard vers ton public]`) ; art. 3, règle 3-2-1 (« 2 secondes de suspense ») qui est un rythme de scène complet et non une pause isolée, à garder ou à reformuler au choix de Thomas ; `blog-articles.ts` l.1570 (« 2-3 secondes »).
+
+**C26 révisé (lettre R)** | article `etre-plus-a-l-aise-en-societe` | défauts : libellé sans rapport avec le contenu, seuils posés comme universels
+- Avant (s11 du JSON) : `**Les codes universels à connaître :**` puis `- **Le timing des salutations** : 15 minutes de retard, c'est de la décontraction. 45 minutes, c'est de l'irrespect déguisé en nonchalance.`
+- Après final : `**Les codes de base à connaître :**` puis `- **L'heure d'arrivée** : à un dîner, 15 minutes de retard passent pour de la décontraction. 45 minutes, pour de l'irrespect déguisé en nonchalance. En soirée, c'est beaucoup plus souple.`
+- Les seuils sont rattachés à un contexte (dîner) et l'exception soirée est dite ; « universels » disparaît de l'intertitre gras (ce n'est pas un H2).
+
+**C18 révisé (lettre AE)** | article `comment-improviser-des-blagues` | défauts : « Il existe des… », « incontournables » (corporate), « grande majorité des situations » (invérifiable)
+- Avant (s11 du JSON) : `Il existe des **schémas humoristiques** qui fonctionnent dans 90% des situations. Voici les 5 incontournables :`
+- Après final : `Certains **schémas humoristiques** reviennent d'un sketch à l'autre, et tu peux les piquer sans scrupule. En voici 5, à garder sous le coude :`
+- Plus aucun pourcentage dans cette phrase (le « 80% » de la CLEF est gardé, règle du 08/10). « Ces patterns sont partout dans le stand-up » plus bas n'est pas répété.
+
+**C03 révisé (lettre N)** | article `blague-courte-arme-secrete-humour` | garde-fou P0 s15 : vérifier, ne pas retirer Frayssinet
+- Verdict du fait : **non étayé, et plutôt contredit.** Les descriptions trouvées de ses spectacles parlent d'humour absurde, de « flights of fancy » parfois difficiles à suivre, de parcours d'anecdotes (Corse, hôtel breton), pas de punchlines ultra-courtes. La Presse (2017) : https://www.lapresse.ca/arts/festivals/juste-pour-rire/critiques/201707/17/01-5116820-le-savoureux-delire-de-roman-frayssinet.php ; TheTVDB, synopsis de « O dedans » : https://thetvdb.com/movies/roman-frayssinet-o-dedans/people ; Sans Crier Art : https://www.sanscrierart.com/2026/08/roman-frayssinet-o-dedans.html. On garde Frayssinet, on change la qualité illustrée : l'anecdote longue, mais le rire vient de la phrase qui tombe au bon endroit.
+- Avant (s11 du JSON) : `Regarde Roman Frayssinet : ses meilleures punchlines durent moins de 5 secondes. Un setup de 5 mots, une chute de 4, et la salle est déjà partie.`
+- Après final : `Regarde Roman Frayssinet : ses spectacles sont pleins d'anecdotes et de digressions, mais ce qui fait éclater la salle, c'est la phrase qui tombe au bon endroit. Un setup court, une chute plus courte encore, et c'est parti.`
+- Le « la salle est déjà partie » ambigu disparaît. La phrase suivante (« Compare avec ton pote qui raconte l'histoire du gars qui entre dans un bar avec un pingouin… ») enchaîne toujours.
+- Cohérence : Z (« écoute ses silences avant certaines punchlines »), validée, reste vraie avec ce portrait.
+
+**Clé du tour 2 (NE PAS OUVRIR AVANT LES VERDICTS)** : P1 = C26 révisé (R) ; P2 = C03 révisé (N) ; P3 = C18 révisé (AE) ; P4 = C13 révisé (C) ; P5 = C21 révisé (G) ; P6 = C02 révisé (F).
+
+**Non touchés malgré une note isolée** : AD (« dans la veine de Fary », 1 avis sur 3 demande de préciser que la blague est imaginée), K/U/AC (éloges de Waly Dia, avis non chiffrés, à vérifier sur un extrait précis, pas à retirer), AF (le prix 2,99 € doit rester celui de `/abonnement` à la mise en ligne), AB (« avec leur décryptage » à confirmer côté produit : non vérifié dans le code).
