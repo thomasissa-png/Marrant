@@ -113,7 +113,7 @@ export default async function HomePage() {
               courtes à ressortir sur le moment, et un streak pour garder le rythme.
             </p>
             <Link href="/parcours/machine-a-cafe" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Machine à Café · {parcoursWeeks("machine-a-cafe")} semaines →
+              Parcours Machine à Café · {parcoursWeeks("machine-a-cafe")}&nbsp;semaines →
             </Link>
           </div>
 
@@ -130,7 +130,7 @@ export default async function HomePage() {
               montrent que tu avances.
             </p>
             <Link href="/parcours/repartie" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Répartie · {parcoursWeeks("repartie")} semaines →
+              Parcours Répartie · {parcoursWeeks("repartie")}&nbsp;semaines →
             </Link>
           </div>
 
@@ -147,7 +147,7 @@ export default async function HomePage() {
               mesurer le chemin parcouru.
             </p>
             <Link href="/parcours/confiance" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
-              Parcours Confiance · {parcoursWeeks("confiance")} semaines →
+              Parcours Confiance · {parcoursWeeks("confiance")}&nbsp;semaines →
             </Link>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default async function HomePage() {
         {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
         <p className="mt-8 text-center text-sm text-text-secondary">
           Tu veux d&apos;abord comprendre le mécanisme&nbsp;? Lis notre guide{" "}
-          <Link href="/blog/comment-devenir-drole" className="font-medium text-accent-link underline underline-offset-2">
+          <Link href="/blog/comment-devenir-drole" className="-my-3 inline-block py-3 font-medium text-accent-link underline underline-offset-2">
             comment devenir drôle
           </Link>
           .

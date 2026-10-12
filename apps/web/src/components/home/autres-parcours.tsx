@@ -41,13 +41,14 @@ export function AutresParcours({
 
   return (
     <p className="mt-4 text-center text-sm text-text-secondary">
-      {autresParcoursIntro(autres.length)}&nbsp;:{" "}
+      {/* Sous 640 px : intro seule sur sa ligne, les liens côte à côte dessous (relecture tour 2). */}
+      <span className="max-sm:block">{autresParcoursIntro(autres.length)}&nbsp;:</span>{" "}
       {autres.map((p, i) => (
         <Fragment key={p.href}>
           {i > 0 && (i === autres.length - 1 ? " et " : ", ")}
           <Link
             href={p.href}
-            className="inline-flex min-h-[44px] items-center whitespace-nowrap font-medium text-accent-link underline underline-offset-2"
+            className="-my-3 inline-block whitespace-nowrap py-3 font-medium text-accent-link underline underline-offset-2"
           >
             Parcours {p.name}
           </Link>

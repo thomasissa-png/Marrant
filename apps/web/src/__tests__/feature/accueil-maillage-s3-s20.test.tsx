@@ -103,7 +103,9 @@ describe("S3a : autres parcours sous les cartes personas", () => {
       "/parcours/storytelling",
       "/parcours/boulot",
     ]);
-    for (const l of liens) expect(l).toHaveClass("inline-flex", "min-h-[44px]", "items-center", "whitespace-nowrap");
+    for (const l of liens) expect(l).toHaveClass("inline-block", "py-3", "-my-3", "whitespace-nowrap");
+    expect(container.querySelector("p > span")).toHaveClass("max-sm:block");
+    expect(container.querySelector("p > span")?.textContent).toBe(`Deux autres parcours${NBSP}:`);
   });
 
   it("3 parcours restants : « Trois autres parcours : X, Y et Z. »", () => {
@@ -214,6 +216,11 @@ describe("Accueil : placement et revalidation", () => {
     const ligne = within(section).getByText(/autres? parcours/).closest("p") as HTMLElement;
     const pilier = within(section).getByRole("link", { name: "comment devenir drôle" }).closest("p");
     expect(ligne.nextElementSibling).toBe(pilier);
+    // Tour 2 : zone de 44 px sur le lien du pilier, « N semaines » insécable dans les 3 cartes.
+    expect(within(section).getByRole("link", { name: "comment devenir drôle" })).toHaveClass("inline-block", "py-3", "-my-3");
+    for (const nom of ["Machine à Café", "Répartie", "Confiance"]) {
+      expect(within(section).getByRole("link", { name: new RegExp(`^Parcours ${nom} ·`) }).textContent).toMatch(new RegExp(`\\d${NBSP}semaines`));
+    }
     const bloc = screen.getByRole("region", { name: "Derniers articles" });
     expect(section.nextElementSibling).toBe(bloc);
     expect(within(bloc).getAllByRole("link")).toHaveLength(3);
