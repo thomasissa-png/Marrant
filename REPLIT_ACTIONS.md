@@ -1,5 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Tirets cadratins des 9 articles s11 (décision Thomas 12/10), N-1 `e50059e3-b154-4073-84df-307016008b5b`
+
+- Cause (`docs/qa/diagnostic-base-vs-s11-s20.md`) : la copie Replit → Neon du 30/09 (`copie-replit-neon.py --reset`) a remis `BlogArticle` à l'ancien contenu sans vider `DataPatch` : refonte s11 et retrait des tirets perdus, marqueurs conservés.
+- Correctif : `BLOG_EM_DASH_PATCH_VERSION` 1 → 2 (`startup-tasks.ts`) : retrait des « — » du corps des articles publiés, titres exclus, aucun mot changé, contenu d'avant dans `DataPatch.note.before`.
+- Après déploiement : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Retour arrière base : `UPDATE "BlogArticle" b SET content = (d.note::json->>'before') FROM "DataPatch" d WHERE d."patchId" = 'blog-em-dash:v2:' || b.slug;`
+- **À corriger avant toute réutilisation** : `copie-replit-neon.py` (`--reset` ne vide pas `DataPatch`, `--verify` ne voit que les tables de Replit).
+- Suite (décision Thomas) : duel à l'aveugle ancienne version contre s11, article par article.
+
 ## s20 Maillage S4, liens contextuels (@copywriter, relecture à l'aveugle 3 tours, @fullstack), **DÉPLOYÉ le 12/10/2026 à 09:33 UTC, version `e50059e3-b154-4073-84df-307016008b5b`** (4 liens vérifiés en prod), N-1 `fffd731b-8355-4c04-a839-00cc0aa1945d`
 
 - **Déployé : 4 phrases statiques** (`src/lib/blog-articles.ts`, appariements 1, 5, 7, 14 de `docs/copy/liens-s4-s20.md`), validées par les deux relecteurs ; diff 0,98 à 1,51 % de mots ajoutés, 0 retiré (§8). `updatedAt` 2026-10-12 sur les 4 articles.
