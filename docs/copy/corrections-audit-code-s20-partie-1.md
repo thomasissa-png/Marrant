@@ -830,3 +830,77 @@ Les deux articles « à revoir en profondeur » (humour noir, phrases drôles) r
 | A13 | HN1 | A28 | PD3 | A43 | FT1 | A58 | HQ1 |
 | A14 | FT6 | A29 | TI2 | A44 | DE4 | A59 | PI5 |
 | A15 | EX1 | A30 | FT4 | A45 | PD6 | A60 | TI9 |
+
+---
+
+## 9. Tour 2 : réécritures après relecture croisée (53 passages sur 60 validés, ne plus y toucher)
+
+> Verdicts : `docs/copy/relecture-audit-code-s20/verdicts-relecteur-1/2/3.md`. À réécrire (2 avis sur 3 ou faute objective) : A7 (HQ5), A23 (HN4), A25 (HQ2), A32 (RE1), A35 (PI1), A45 (PD6), A53 (EX6). Les « après » ci-dessous REMPLACENT ceux de la section 4 pour ces sept codes ; les « avant » sont le texte actuel de `blog-articles.ts` (rien n'est appliqué). Ajouts demandés (règle n°1) : intertitres de l'article humour noir (H1) et « mot 8 » (H2). Les passages à relire sont dans `docs/copy/relecture-audit-code-s20/passages-partie-1-tour2.md` (AA1 à AA10, sans clé ; clé tout en bas). Tous les « après » sont sans tiret cadratin et évitent la tournure « Dans la veine de X : » suivie d'un principe sans verbe (A4, A24, A27, validés au tour 1, ne sont pas touchés).
+> A13 (Gardin, faits 2024 et 2025) a été jugé sous la barre par les 3 relecteurs, mais la règle 5 de Thomas (12/10) impose ces deux faits justes : gardé tel quel, [CHOIX UTILISATEUR] non re-questionnable.
+
+**HQ5 révisé (A7)** | article `humour-quotidien-8-habitudes`, l.582 | défaut : « Et si on arrêtait de faire semblant d'aimer Noël ? » est un avis, pas un « et si » absurde comme les deux exemples d'avant (exemple qui contredit sa règle)
+- Avant : `**Blanche Gardin** part souvent d'un "et si" pour construire ses sketches : "Et si on arrêtait de faire semblant d'aimer Noël ?"`
+- Après : `Un "et si" à la **Blanche Gardin**, ça pourrait donner : "Et si Noël avait un service client ? 'Bonjour, je voudrais retourner l'oncle Gérard.'"`
+- Exemple imaginé assumé, absurde, sans citation prêtée. La phrase qui précède (« Ce muscle créatif, c'est celui que tous les humoristes entraînent. ») est gardée.
+
+**HN4 révisé (A23)** | article `humour-noir-utiliser-sans-blesser`, l.760 | défaut : la chute ne tenait pas (qui devrait « faire des progrès », et pourquoi ?) et n'était pas noire
+- Avant : `Elle parle de ses années de thérapie avec une franchise terrifiante. "Mon psy m'a dit que j'avais fait des progrès. J'ai répondu que lui aussi devrait en faire : ça fait 8 ans qu'il me supporte." La cible : elle-même et le système thérapeutique ; personne n'est blessé, et tout le monde rit.`
+- Après : `Imagine une séance de thérapie racontée avec cette franchise terrifiante : "Mon psy m'a dit que j'avais fait d'énormes progrès. Il veut qu'on se voie plus souvent pour les consolider." La cible : soi-même et le système thérapeutique ; personne n'est blessé, et tout le monde rit.`
+- La chute vise bien le système (le psy qui rallonge le suivi) et soi-même (le « progrès » qui sert de prétexte). Aucun chiffre. L'attribution passe dans l'intertitre (H-A ci-dessous).
+
+**HQ2 révisé (A25)** | article `humour-quotidien-8-habitudes`, FAQ « Combien de temps pour que ça devienne naturel ? » (l.621) | défaut : « environ 30 jours » posé comme un fait sur la formation d'un réflexe ; « exactement ce processus » s'appuie sur une scène imaginée ; l'image du téléphone de Frayssinet est déjà dans le corps (A58)
+- Avant : `Environ 30 jours de pratique quotidienne. Ton cerveau commence à chercher l'angle drôle automatiquement, comme un réflexe qu'on installe. Roman Frayssinet a son téléphone rempli de notes vocales de moments absurdes : c'est exactement ce processus, juste fait depuis des années.`
+- Après : `Compte une trentaine de jours de pratique quotidienne, un peu plus ou un peu moins selon les gens : ton cerveau finit par chercher l'angle drôle tout seul, comme un réflexe qu'on installe. Imagine un Roman Frayssinet qui note ses moments absurdes depuis des années : c'est le même réflexe, simplement entretenu plus longtemps.`
+- Le « 30 jours » reste le repère du site (corps de l'article : « au bout de 30 jours », plan de démarrage), présenté comme un ordre de grandeur. La question de la FAQ est intacte.
+
+**RE1 révisé (A32)** | article `comment-avoir-de-la-repartie`, l.157 | défaut : « observe comment il gagne du temps » affirmait un comportement de Fary non établi
+- Avant : `Regarde **Fary** en interview. Quand un journaliste lui pose une question piège, il ne se précipite jamais. Il accuse réception, sourit, prend son temps. Et sa réponse est toujours meilleure que s'il avait répondu en panique.`
+- Après : `Regarde **Fary** en interview face à une question piège, et note ce qu'il fait des deux premières secondes. Toi, tu peux faire simple : accuse réception, souris, prends ton temps. Ta réponse sera presque toujours meilleure que si tu avais répondu en panique.`
+- Consigne d'observation sans résultat affirmé ; la technique est donnée comme conseil au lecteur, pas comme habitude de Fary. « Imagine Fary » est évité ici (déjà utilisé pour Roman Frayssinet dans la technique 3 du même article).
+
+**PI1 révisé (A35)** | article `comment-devenir-drole`, l.31 | défaut : dates précises de Blanche Gardin (2006, 2015) et « près de dix ans » contestés par un relecteur ; le premier spectacle est discuté
+- Avant : `Sauf que Paul a commencé dans des salles de 20 personnes à Paris, à tester des vannes qui tombaient à plat une fois sur deux. **Fary** a fait des centaines d'open mics avant de trouver son style. **Blanche Gardin** a mis plus de 10 ans à passer de l'écriture pour les autres à son propre spectacle.`
+- Après : `Sauf que Paul a joué dans des cafés-concerts parisiens, à tester des vannes devant de tout petits publics. **Fary** est passé par le Jamel Comedy Club puis par le Point-Virgule avant de remplir les grandes salles. **Blanche Gardin** a longtemps enchaîné les petites scènes, Jamel Comedy Club compris, avant de s'imposer avec ses propres spectacles.`
+- Plus aucune date ni durée pour Gardin ; le fait gardé (Jamel Comedy Club, petites scènes d'abord) est celui des sources du §3. Mirabel et Fary inchangés par rapport au tour 1 (validés).
+
+**PD6 révisé (A45)** | article `phrases-droles-conversations`, l.1261 (ligne de contexte de la phrase n°18 ; la phrase n°18 « Je cuisine très bien. Mon four est comme neuf. » reste celle du tour 1) | défaut : « pas de pause entre les deux phrases » contredisait la pause d'une seconde du site
+- Avant : `Le retournement rapide est la clé, pas de pause entre les deux phrases.`
+- Après : `Le retournement est la clé : une petite seconde de pause avant la chute, juste le temps que l'autre y croie.`
+- Le cas « pas de pause » est supprimé au lieu d'être expliqué : une seule doctrine sur le site.
+
+**EX6 révisé (A53)** | article `exercices-developper-humour`, FAQ « Peut-on s'entraîner seul à être drôle ? » (l.993) | défaut : le callback en conversation était rangé parmi les exercices solo
+- Avant : `Oui, pour 7 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch, écriture de bit, et callback en conversation. Seuls le ping-pong verbal et le one-man-show de 2 minutes nécessitent un partenaire.`
+- Après : `Oui, pour 6 exercices sur 10 : radar, reformulation, exagération, journal de répartie, analyse de sketch et écriture de bit. Il te faut quelqu'un pour le ping-pong verbal, le compliment absurde, le callback en conversation et le one-man-show de 2 minutes.`
+- Le compte est vérifié sur l'article : exercices 1, 2, 3, 5, 7, 8 en solo ; 4, 6, 9, 10 avec quelqu'un. « 7 sur 10 » devient « 6 sur 10 » parce que le chiffre d'origine était faux (correction d'un fait, pas retrait d'un chiffre).
+
+**Intertitres de l'article humour noir (H1 à H3, règle n°1)** | `humour-noir-utiliser-sans-blesser`, l.757-765 | les intertitres présentaient comme de vrais « sketchs » deux exemples imaginés. Slug, title et H1 intouchés ; les trois exemples sont renommés, le H2 qui les annonce aussi.
+- H-A Avant : `## 3 sketches décortiqués` / Après : `## 3 exemples décortiqués`
+- H-B Avant : `### Sketch 1 : Blanche Gardin sur la thérapie (BON humour noir)` / Après : `### Exemple 1, dans la veine de Blanche Gardin : la thérapie (BON humour noir)`
+- H-C Avant : `### Sketch 2 : Waly Dia sur les clichés racistes (BON humour noir)` / Après : `### Exemple 2, dans la veine de Waly Dia : les clichés racistes (BON humour noir)`
+- H-D Avant : `### Sketch 3 : Quand ça ne marche PAS (MAUVAIS humour noir)` / Après : `### Exemple 3 : quand ça ne marche PAS (MAUVAIS humour noir)`
+- **Ancres vérifiées** : `headingId()` (`markdown-renderer.tsx` l.202) ne pose un `id` que sur les H2. L'ancre du H2 passe de `3-sketches-decortiques` à `3-exemples-decortiques`. Aucune référence à l'ancien texte ou à l'ancre dans `apps/web/src` (Grep sur « Sketch 1/2/3 », « sketches décortiqués », « 3-sketches ») ; le test `markdown-renderer.test.ts` l.54 utilise sa propre chaîne (« ### Sketch 1 ») et n'est pas concerné. Les H3 n'ont pas d'ancre. Le H1 et le slug ne changent pas.
+- Autres intertitres « X sur… » du périmètre : aucun (Grep des H2/H3 de la partie 1 ; les H3 « Type N », « Pilier N », « Habitude N », « Exercice N », « Technique N » nomment une technique, pas un sketch).
+
+**« Le public décroche au mot 8 » (H2)** : la phrase est dans `blog-articles.ts` l.3427, article `pourquoi-blagues-marchent-pas` (l.3371 et suivantes), donc **partie 2, pas dans mes articles**. À corriger par la partie 2, juste avant le passage B37. Proposition : `**Le public décroche avant la fin d'une punchline trop longue.**` (même phrase, sans chiffre). Avant exact : `**Le public décroche au mot 8** d'une punchline trop longue.`
+
+**Points relevés à ne pas oublier (non corrigés, non demandés)**
+- `phrases-droles-conversations` l.1203 (phrase n°4, contexte) : « Le twist sur "la cantine" doit arriver vite, pas de pause. » et l.1209 « Enchaîne immédiatement » : même type de cas que PD6, jugés à part (rapidité volontaire sur un mot-clé, pas la pause avant la chute). Si Thomas veut une doctrine sans exception, les aligner sur « une petite seconde ».
+- Réserves transversales des relecteurs, hors passages à réécrire : « Imagine X » et « le téléphone de Frayssinet » reviennent dans plusieurs articles (série), formule « une seconde environ » répétée (variantes « une petite seconde », « un temps ») ; Frayssinet « détails minuscules vers l'absurde » repose sur la presse du §3 mais reste la caractérisation la plus fragile (relecteur 3) ; A54 « améliore la qualité de chaque intervention » un peu corporate (relecteur 3, 1 avis sur 3 : non retouché).
+
+### 9.1 Mesure du diff, tour 2 (estimation manuelle)
+
+Les sept réécritures remplacent des « après » du tour 1 ; elles touchent environ 150 mots de l'ancien texte sur les articles concernés (HQ5, HQ2 : humour quotidien ; HN4 et les 4 intertitres : humour noir ; RE1 : répartie ; PI1 : pilier ; PD6 : phrases drôles ; EX6 : exercices), soit un taux total inchangé à l'arrondi (≈ 7 %). Seul `humour-noir-utiliser-sans-blesser` monte légèrement (≈ 18 % à 19 %, avec les intertitres). Intouchables : slugs, H1, liens, prix inchangés ; seuls changent les 4 intertitres de l'article humour noir (1 H2 et 3 H3, règle n°1). Les 6 réponses de FAQ modifiées restent les mêmes qu'au tour 1 (HQ2 et EX6 sont réécrites, pas ajoutées).
+
+## 10. Liste anonymisée du tour 2 (10 passages)
+
+> Identique au fichier `docs/copy/relecture-audit-code-s20/passages-partie-1-tour2.md`, à donner aux relecteurs sans la clé ni les sections 1 à 9.
+
+### Clé du tour 2 (NE PAS OUVRIR AVANT LES VERDICTS)
+
+| Lettre | Code | Lettre | Code |
+|---|---|---|---|
+| AA1 | PD6 révisé (A45) | AA6 | H-A et H-B (H2 « 3 exemples décortiqués » et H3 Gardin) |
+| AA2 | H-C (H3 Waly Dia) | AA7 | HQ2 révisé (A25) |
+| AA3 | RE1 révisé (A32) | AA8 | PI1 révisé (A35) |
+| AA4 | HQ5 révisé (A7) | AA9 | H-D (H3 « Exemple 3 ») |
+| AA5 | EX6 révisé (A53) | AA10 | HN4 révisé (A23) |
