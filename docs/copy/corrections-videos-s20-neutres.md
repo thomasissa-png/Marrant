@@ -64,7 +64,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **title :** Thomas Ngijol au Jamel Comedy Club
 
-**description :** Thomas Ngijol, humoriste, acteur et réalisateur (Case départ), au Jamel Comedy Club : un passage à regarder en écoutant sa voix et ses silences. Regarde ce qu'il fait de sa posture et de son rythme, et repars avec une technique pour dire une vanne sans la pousser.
+**description :** Thomas Ngijol, humoriste, acteur et réalisateur (Case départ), au Jamel Comedy Club : un passage pour observer comment on pose une vanne sans la pousser. Regarde comment il occupe la scène, et repars avec une technique à tester.
 
 **learnings :**
 1. TECHNIQUE DU JEU RETENU : joue un cran en dessous de ce que la phrase semble demander. Moins tu insistes sur la vanne, plus la salle fait le travail elle-même.
@@ -72,9 +72,9 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 3. TECHNIQUE DU SILENCE ASSUMÉ : après la chute, ne comble pas. Tiens ta position une seconde de plus que ce qui est confortable : le silence fait partie de la vanne.
 4. TECHNIQUE DE LA REMARQUE PRATIQUE : dis l'énormité sur le ton de l'information utile. « En réunion, je ne dis rien, je garde mon énergie pour le parking. » Le décalage entre le ton et le contenu fait le travail.
 
-**exercise :** DÉFI FLEGME : prends une vanne que tu racontes d'habitude avec le sourire. Dis-la à un ami le visage fermé, la voix basse, sans sourire, puis ne dis plus rien pendant 3 secondes. Redis-la ensuite avec ton sourire habituel et demande-lui laquelle l'a fait le plus rire.
+**exercise :** DÉFI VOIX BASSE : prends une vanne que tu racontes d'habitude avec le sourire. Dis-la à un ami le visage fermé, la voix basse, sans sourire, puis ne dis plus rien pendant 3 secondes. Redis-la ensuite avec ton sourire habituel et demande-lui laquelle l'a fait le plus rire.
 
-**Faits publics utilisés :** humoriste ; acteur et réalisateur ; co-auteur et co-réalisateur de *Case départ* (2011) avec Fabrice Eboué ; issu du Jamel Comedy Club. Sources : titre YouTube réel ; https://www.allocine.fr/film/fichefilm-207788/secrets-tournage/ et https://www.unifrance.org/annuaires/personne/343272/fabrice-eboue (recherche web du 12/10/2026). Le style « posé / pince-sans-rire » n'est PAS affirmé dans le texte : voir [À VÉRIFIER] n° 2.
+**Faits publics utilisés :** humoriste ; acteur et réalisateur ; co-auteur et co-réalisateur de *Case départ* (2011) avec Fabrice Eboué ; issu du Jamel Comedy Club. Sources : titre YouTube réel ; https://www.allocine.fr/film/fichefilm-207788/secrets-tournage/ et https://www.unifrance.org/annuaires/personne/343272/fabrice-eboue (recherche web du 12/10/2026). Aucun style (« posé », « pince-sans-rire ») n'est affirmé dans le texte, la description ne dit rien de sa voix ni de ses silences : voir note n° 2, levée.
 
 ## Fiche id 15 | PrQTbXOz2iU
 
@@ -83,7 +83,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **title :** Laura Domenge - Jamel Comedy Club
 
-**description :** Laura Domenge, humoriste, comédienne et autrice, au Jamel Comedy Club : un passage pour voir comment se construit un récit, de l'accroche à la chute. Elle tourne aussi avec son spectacle « Une nuit avec Laura Domenge ». Regarde comment le passage s'organise du début à la fin, et repars avec un plan simple à réutiliser.
+**description :** Laura Domenge, humoriste, comédienne et autrice, au Jamel Comedy Club : un passage pour voir comment se construit un récit, de l'accroche à la chute. Elle a aussi présenté en tournée son spectacle « Une nuit avec Laura Domenge ». Regarde comment le passage s'organise du début à la fin, et repars avec un plan simple à réutiliser.
 
 **learnings :**
 1. TECHNIQUE DE LA PROMESSE D'OUVERTURE : commence par une phrase qui annonce un enjeu précis (« Je vais vous parler de la pire soirée de ma vie »), puis tiens-la. Le public écoute pour savoir comment ça finit.
@@ -104,7 +104,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **title :** Nordine Ganso - Tarmac Comedy
 
-**description :** Nordine Ganso, humoriste de stand-up au style d'autodérision, dans une vidéo Tarmac Comedy : de quoi observer comment on rit de soi sans s'écraser. Il a aussi un spectacle, « Violet ». Regarde où il place le curseur entre se moquer de soi et rester complice de la salle, puis teste la même dose sur toi.
+**description :** Nordine Ganso, humoriste de stand-up dont le style est présenté comme fondé sur l'autodérision, dans une vidéo Tarmac Comedy : de quoi observer comment on rit de soi sans s'écraser. Il a aussi présenté un spectacle, « Violet ». Regarde où il place le curseur entre se moquer de soi et rester complice de la salle, puis teste la même dose sur toi.
 
 **learnings :**
 1. TECHNIQUE DE LA DOSE : moque-toi d'un défaut réel mais sans gravité. Le public rit plus volontiers quand il sent que tu vas bien.
@@ -144,7 +144,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **title :** Paul Séré - Jamel Comedy Club, saison 8 (2015)
 
-**description :** Paul Séré, humoriste de stand-up passé par plusieurs saisons du Jamel Comedy Club, ici en saison 8 (2015) : un passage pour regarder comment tenir un rythme serré. On lui doit aussi plusieurs spectacles, dont « 100 peurs et 100 reproches ». Regarde à quels endroits le texte respire, à quels endroits il file, et note ce qu'un mot de moins changerait.
+**description :** Paul Séré, humoriste de stand-up passé par plusieurs saisons du Jamel Comedy Club, ici en saison 8 (2015) : un passage pour regarder comment tenir un rythme serré. Il a aussi joué un spectacle, « 100 peurs et 100 reproches ». Regarde à quels endroits le texte respire, à quels endroits il file, et note ce qu'un mot de moins changerait.
 
 **learnings :**
 1. TECHNIQUE DU MOT EN MOINS : relis chaque phrase et retire un mot. Le plus souvent, la chute arrive plus tôt et frappe plus net.
@@ -165,7 +165,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **title :** Félix Dhjan - Jamel Comedy Club, saison 10
 
-**description :** Félix Dhjan, humoriste et comédien, au Jamel Comedy Club (saison 10) : un passage pour regarder comment le jeu d'acteur sert une vanne. Il joue aussi son spectacle « Nuances ». Regarde sa voix, son visage et son rythme, et repère ce qui change entre un texte lu et un texte joué.
+**description :** Félix Dhjan, humoriste, au Jamel Comedy Club (saison 10) : un passage pour regarder comment l'incarnation sert une vanne. Il joue aussi son spectacle « Nuances ». Regarde sa voix, son visage et son rythme, et repère ce qui change entre un texte lu et un texte joué.
 
 **learnings :**
 1. TECHNIQUE DU PERSONNAGE QUI PARLE : donne à une personne de ton anecdote (ton chef, ta mère, un voisin) une voix et une posture à elle. On rit plus de quelqu'un qu'on voit que de quelqu'un qu'on décrit.
@@ -175,7 +175,7 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 **exercise :** DÉFI PERSONNAGE : choisis quelqu'un de ton entourage et dis à un ami une phrase typique de cette personne, avec sa voix, son visage et sa posture. Par exemple, le collègue des réunions : « Je dis juste ça comme ça, hein, sans vouloir jouer l'avocat du diable... mais je vais jouer l'avocat du diable. » Demande-lui de deviner qui c'est : s'il trouve sans que tu aies donné le nom, l'imitation fonctionne.
 
-**Faits publics utilisés :** humoriste et comédien ; membre du Jamel Comedy Club (saison 10 d'après le titre) ; spectacle « Nuances » (tournée 2025-2026). Sources : titre YouTube réel ; https://www.offi.fr/artiste/felix-dhjan-103070.html , https://www.parisbouge.com/events/292300 , https://www.billetreduc.com/artiste/felix-dhjan (recherche web du 12/10/2026). Graphie « Dhjan » (titre YouTube) ; « Djhan » dans quelques agendas.
+**Faits publics utilisés :** humoriste ; membre du Jamel Comedy Club (saison 10 d'après le titre) ; spectacle « Nuances » (tournée 2025-2026). Sources : titre YouTube réel ; https://www.offi.fr/artiste/felix-dhjan-103070.html , https://www.parisbouge.com/events/292300 , https://www.billetreduc.com/artiste/felix-dhjan (recherche web du 12/10/2026). Graphie « Dhjan » (titre YouTube) ; « Djhan » dans quelques agendas.
 
 ---
 
@@ -194,16 +194,18 @@ Source du texte remplacé : `docs/copy/duel-videos-s20/s11-sujets-non-confirmes.
 
 Répartition après changement : OBSERVATION 2, REPARTIE 1, TIMING 2, STORYTELLING 2, AUTODERISION 1. Si Thomas préfère ne rien déplacer, les textes restent publiables sous la catégorie d'origine (ils décrivent des techniques, pas des scènes), mais l'étiquette AUTODERISION des fiches 10 et 11 ou STORYTELLING de la fiche 14 y suggérerait un thème que rien ne confirme.
 
-## [À VÉRIFIER] (par Thomas ou @seo avant mise en ligne)
+## [À VÉRIFIER] : tous levés (s20, source : `docs/qa/videos-officielles-faits-s20.md` et sources citées par fiche)
+
+Règle de levée : tout fait non confirmé par une source citée dans ce fichier est retiré du texte ; seuls les faits sourcés restent.
 
 1. **Faits écartés faute de certitude (non utilisés dans les textes)** : Fadily Camara « parisienne » et « premier one-woman-show de stand-up français diffusé en entier sur Netflix » (source agrégateur, texte proche de Wikipédia, non recoupé) ; Laura Domenge chroniqueuse à France Inter et co-animatrice de *Piquantes* (une seule source) ; Nordine Ganso bordelais, troupe du Jamel Comedy Club en 2019, prix de l'étudiant le plus drôle de France 2017 (sources de presse, non recoupées par deux) ; Félix Dhjan né en 1991, Cours Simon, chronique « Monsieur Connard » sur Rire et Chansons, troupe en 2020 (une seule source : Billetreduc).
-2. **Fiche 14, style de Thomas Ngijol** : l'idée d'un jeu posé, pince-sans-rire, est répandue mais je ne l'ai pas sourcée. Le texte ne l'affirme pas (« à regarder en écoutant sa voix et ses silences »). Si Thomas veut l'écrire noir sur blanc, à confirmer.
-3. **Fiche 14, cadre** : la vidéo est publiée par la chaîne Ryme Beast, pas par une chaîne officielle. Le titre dit « au Jamel Comedy Club », donc le cadre est déduit du titre ; origine de la mise en ligne non vérifiée.
-4. **Fiche 15** : « autrice » (macommune.info, jds.fr) et date de début de tournée décembre 2022 (dhnet.be). Le titre YouTube donne « JAMEL COMEDY CLUB » sans saison.
-5. **Fiche 16** : « Violet » (lematin.ma, 2023) et « style d'autodérision » (presse). Aucun lien Ganso / Tarmac Comedy trouvé hors du titre YouTube ; cadre pris du titre seul.
-6. **Fiche 25** : « originaire de Troyes », « scène ouverte 2014-2015 », « humour bienveillant » (presse / billetterie). La formule « souvent présenté comme bienveillant » est volontairement prudente ; à confirmer si Thomas veut l'affirmer.
-7. **Fiche 26** : « 100 peurs et 100 reproches » à l'Apollo 2019-2020 (offi.fr, une source principale) ; « plusieurs saisons du Jamel Comedy Club » (saisons 2 et 3 d'après Purebreak, saison 8 d'après le titre).
-8. **Fiche 27** : « Nuances » (4 sources concordantes, fiable) ; « comédien » (Billetreduc).
+2. **Fiche 14, style de Thomas Ngijol** : l'idée d'un jeu posé, pince-sans-rire, est répandue mais je ne l'ai pas sourcée. Le texte ne l'affirme pas (« à regarder en écoutant sa voix et ses silences »). **Levé : non sourcé, donc retiré.** « Voix et silences » et « posture et rythme » ôtés de la description, « DÉFI FLEGME » renommé « DÉFI VOIX BASSE » ; les learnings restent des techniques générales, sans affirmer que Ngijol les fait dans ce passage.
+3. **Fiche 14, cadre** : la vidéo est publiée par la chaîne Ryme Beast, pas par une chaîne officielle. Le titre dit « au Jamel Comedy Club », donc le cadre est déduit du titre ; origine de la mise en ligne non vérifiée. **Levé : le texte ne s'appuie que sur le titre YouTube réel.**
+4. **Fiche 15** : « autrice » (macommune.info, jds.fr) et date de début de tournée décembre 2022 (dhnet.be). Le titre YouTube donne « JAMEL COMEDY CLUB » sans saison. **Levé : « autrice » (2 sources) conservé ; « tourne » passé au passé composé (« a présenté en tournée »), la tournée datant de décembre 2022 et aucune source ne garantit qu'elle continue.**
+5. **Fiche 16** : « Violet » (lematin.ma, 2023) et « style d'autodérision » (presse). Aucun lien Ganso / Tarmac Comedy trouvé hors du titre YouTube ; cadre pris du titre seul. **Levé : « style d'autodérision » reformulé en « présenté comme fondé sur l'autodérision » (attribué à la presse) ; « Violet » conservé (lematin.ma).**
+6. **Fiche 25** : « originaire de Troyes », « scène ouverte 2014-2015 », « humour bienveillant » (presse / billetterie). La formule « souvent présenté comme bienveillant » est volontairement prudente ; **Levé : Troyes, scène ouverte et « bienveillant » sont portés par 3 sources citées (fnacspectacles, offi, lematin) ; la formule prudente « souvent présenté comme » est conservée.**
+7. **Fiche 26** : « 100 peurs et 100 reproches » à l'Apollo 2019-2020 (offi.fr, une source principale) ; « plusieurs saisons du Jamel Comedy Club » (saisons 2 et 3 d'après Purebreak, saison 8 d'après le titre). **Levé : « plusieurs spectacles » retiré (un seul spectacle sourcé), remplacé par « Il a aussi joué un spectacle » ; « plusieurs saisons » conservé (2 sources).**
+8. **Fiche 27** : « Nuances » (4 sources concordantes, fiable) ; « comédien » (Billetreduc). **Levé : « Nuances » conservé ; « comédien » (source unique) retiré de la description et de la liste des faits, « jeu d'acteur » remplacé par « incarnation ».**
 9. **Hors périmètre, à signaler** : pour les fiches 10, 11, 14, 15, 25, 26, 27, la chaîne affichée sur le site est « Jamel Comedy Club » alors que la chaîne réelle est celle de l'humoriste (ou Ryme Beast pour 14, Tarmac pour 16). Ces textes ne touchent pas à la chaîne.
 
 ## Handoff

@@ -138,7 +138,7 @@ Typographie : dans ce fichier, l'espace devant `%` et devant `h` (« 100 % », �
 
 - **V1-19-1** (description) · R2 (« le million de vues » : chiffre sans source retiré) et R1 (fait public sur Fary conservé mais à vérifier)
   - **Avant** : `Le sketch du legging a lancé la carrière de Fary et dépassé le million de vues.`
-  - **Après** : `Le sketch du legging a lancé la carrière de Fary [À VÉRIFIER : « a lancé la carrière » non confirmé par la recherche web ; si non confirmé, remplacer par « est l'un des sketches marquants de Fary au Jamel Comedy Club »].`
+  - **Après** : `Le sketch du legging est l'un des passages marquants de Fary au Jamel Comedy Club.`
 - **V1-19-2** (description) · R2 (« 8 minutes » contredit la durée de la fiche, PT5M00S) et R1 (« ne parler que du legging » présenté comme fait)
   - **Avant** : `Son secret : un seul objet banal, 8 minutes d'observations imparables dessus. La contrainte de ne parler que du legging l'oblige à creuser au lieu de survoler`
   - **Après** : `Regarde comment un seul objet banal peut nourrir tout un sketch. La contrainte de s'en tenir au legging oblige à creuser au lieu de survoler`
@@ -337,9 +337,9 @@ Aucune correction. (« Chroniqueur de France Inter » confirmé par la recherche
 - Corrections de pure typographie ou de langue (R3) : 1-3, 4-3, 6-3, 12-3, 18-4, 30-3, 45-3. Corrections de chiffres (R2) : 7-1, 13-3, 18-3, 19-1, 19-2, 38-1. Corrections d'exercice ou d'enseignement (R4) : 4-4, 9-3, 12-3, 34-1. Toutes les autres relèvent de R1 (zéro invention).
 - Corrections imposées par le duel : 30-1 (EVJF et EVG), 12-3 (accord), 45-1 et 45-2 (position d'Omiri), 18-3 (« 50% »), typos 100 % (4-3, 6-3, 18-4), 3e (30-3). Aucun « x3 » ni « 5ème / 8ème » dans ce lot.
 
-### Liste des `[À VÉRIFIER]` (1)
+### Liste des `[À VÉRIFIER]` (1, levé)
 
-1. **V1-19-1** (Fary, id 19) : « le sketch du legging a lancé la carrière de Fary ». La recherche web n'a trouvé aucune source sur ce sketch. Si le fait n'est pas confirmé, remplacer par « est l'un des sketches marquants de Fary au Jamel Comedy Club ». Le marqueur `[À VÉRIFIER : …]` doit être retiré avant mise en ligne.
+1. **V1-19-1** (Fary, id 19) : « le sketch du legging a lancé la carrière de Fary ». **Levé** (`docs/qa/videos-officielles-faits-s20.md`, partie B, n° 1) : FAUX tel que formulé (Fary connu par *On n'demande qu'à en rire* 2010-2011, puis Jamel Comedy Club 2014-2016). Texte remplacé par « est l'un des passages marquants de Fary au Jamel Comedy Club ». Marqueur retiré.
 
 ### Chiffres retirés (charte s11 règle 1, à porter à la connaissance de Thomas)
 
@@ -362,5 +362,5 @@ Le brief de cette passe demande « aucun chiffre sans source » et prime ici sur
 **Handoff → session principale (@orchestrator)**
 - Fichier produit : `/home/user/Marrant/docs/copy/corrections-videos-s20-lot-1.md`
 - Décisions : 66 corrections sur 34 fiches (39, 42, 46, 49, 50 inchangées). Priorité à l'invitation (« Regarde comment… ») ou à la généralité de technique plutôt qu'à l'affirmation sur le contenu ; titre, chaîne et durée intouchés ; chiffres non sourcés retirés (liste ci-dessus, à signaler à Thomas).
-- Points d'attention : 1 `[À VÉRIFIER]` (Fary, 19-1) à résoudre avant mise en ligne ; les « Avant » sont des extraits exacts uniques par champ pour remplacement automatique (vérifier l'unicité à l'application) ; espaces insécables U+00A0 à conserver ; relecture à l'aveugle des seules phrases corrigées requise (règle d'or P0 s18).
+- Points d'attention : le `[À VÉRIFIER]` (Fary, 19-1) est levé, plus aucun marqueur ; les « Avant » sont des extraits exacts uniques par champ pour remplacement automatique (vérifier l'unicité à l'application) ; espaces insécables U+00A0 à conserver ; relecture à l'aveugle des seules phrases corrigées requise (règle d'or P0 s18).
 ---
