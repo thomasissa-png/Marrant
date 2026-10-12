@@ -407,7 +407,7 @@ Convention : chaque « Avant » est une chaîne unique du fichier (à vérifier 
 - Après :
   `**Bon :** "Six mois sur Tinder, j'ai parlé de moi à des inconnus qui ne répondent jamais. Une thérapie, quoi."`
   `Setup 15 mots, punchline 3 mots : sec et clair.`
-- Comptage : « Six mois sur Tinder, j'ai parlé de moi à des inconnus qui ne répondent jamais. » = 15 mots ; « Une thérapie, quoi. » = 3 mots, bien sous le seuil du mot 8. Le « Mauvais » (l. 3429) et la règle (l. 3427) sont inchangés. À relire à l'aveugle.
+- Comptage : « Six mois sur Tinder, j'ai parlé de moi à des inconnus qui ne répondent jamais. » = 15 mots ; « Une thérapie, quoi. » = 3 mots, nettement plus court que l'amorce (voir aussi 12.10 : le « mot 8 » de la règle est retiré au tour 2). Le « Mauvais » (l. 3429) et la règle (l. 3427) sont inchangés. À relire à l'aveugle.
 
 **12.7** | type 8 | audit §2.12 (« 80 % des blagues qui marchent pas ») | `content` l. 3439
 - Avant : `Regarde-toi. 80% des "blagues qui marchent pas" sont en fait des blagues correctement écrites`
@@ -883,4 +883,116 @@ Convention : chaque « Avant » est une chaîne unique du fichier (à vérifier 
 Non soumises à la relecture (corrections purement mécaniques, vérifiables à la lecture) : 2.5 (libellé de lien et accent), 6.8 (« 30 secondes » devenu « quelques secondes »), 7.6 (« palier 0 » devenu « palier 1 »).
 
 Après verdicts : pour chaque « SOUS LA BARRE », ne pas appliquer la correction correspondante telle quelle (règle d'or) ; la réécriture proposée repasse la relecture à l'aveugle avant mise en ligne.
+
+---
+
+## 9. Tour 2 : réécriture des 14 passages refusés + 1 ajout (12/10/2026)
+
+> Relecture croisée du tour 1 (3 relecteurs, 2 sur 3) : 56 passages validés (ne plus y toucher, dont B60 et B64 : Aaker dit bien sur NPR « 23 % plus respectés, vus comme plus compétents et plus confiants »), 14 à réécrire. Pour ces 14 corrections, **l'« Après » de la section 4 est remplacé par celui ci-dessous**. Les « Avant » (texte du fichier) sont inchangés. Verdicts : `docs/copy/relecture-audit-code-s20/verdicts-relecteur-1.md`, `-2.md`, `-3.md`. Rien appliqué, pas de commit. Les nouveaux passages sont dans `docs/copy/relecture-audit-code-s20/passages-partie-2-tour2.md` (BB1 à BB15, BB15 étant l'ajout 12.10). La règle d'or reste : aucune de ces réécritures n'est appliquée avant d'avoir passé la relecture à l'aveugle.
+
+Motifs de refus retenus : chiffres inventés (B16, B24, B53, B67), jargon de management (B14, B50), « ce n'est pas X, c'est Y » en rafale (B28, B54), « on » et « son » mélangés (B33), contradiction interne (B38), français incorrect (B41), détail invérifiable sur Inès Reg (B42), résumé et FAQ qui ne listent pas les mêmes leviers (B52), « le mec » pour Blanche Gardin (B54), contre-emploi sur Waly Dia (B59), et la formule « Dans la veine de X : » + principe sans verbe, ici remplacée par des tournures variées (« Imagine X qui… », « X pourrait le dire sur scène », « des humoristes comme X »).
+
+**1.3 (BB3)** | B67 | `content` l. 1660
+- Avant : `Regarde **Panayotis Pascot** en interview. Il laisse des blancs. Ces blancs créent de la tension, et la phrase d'après en est 10 fois plus drôle.`
+- Après (tour 2) : `Imagine **Panayotis Pascot** en interview qui laisse un blanc avant de répondre : ce blanc crée de la tension, et la phrase d'après n'en est que plus drôle.`
+- Retiré : « 10 fois plus drôle ».
+
+**1.4 (BB6)** | B42 | `content` l. 1666
+- Avant : `**Inès Reg** est devenue virale en étant juste elle-même, sans filtre, sans calcul.`
+- Après (tour 2) : `Imagine **Inès Reg** qui raconte une scène de couple que tout le monde a vécue : elle décrit sans forcer, et c'est ce qui fait rire.`
+- Plus aucun fait précis sur la vidéo de 2019 (jouée ou improvisée : les sources divergent) ; exemple imaginé assumé.
+
+**2.1 (BB9)** | B38 | `content` l. 1722
+- Avant : `**Fary** parle souvent de ça : le chambrage, c'est du lien social. Plus tu chambres quelqu'un, plus ça montre que tu l'apprécies : à condition de doser.`
+- Après (tour 2) : `Imagine **Fary** qui taquine le premier rang : ça passe parce que la salle sent qu'il l'aime bien. Le chambrage, c'est pareil : du lien social, à condition de connaître la personne et de rester léger.`
+- La contradiction avec la phrase d'avant (« Tu le connais pas assez pour aller là ») disparaît : plus de « plus tu chambres, plus… ».
+
+**2.3 (BB8)** | B59 | `content` l. 1793
+- Avant : `**Waly Dia** dit un truc juste : "Les gens drôles ne sont pas ceux qui font rire, ce sont ceux avec qui on se sent assez à l'aise pour rire." C'est exactement ça.`
+- Après (tour 2) : `L'humour est d'abord une affaire de confort : on rit avec ceux auprès de qui on se sent à l'aise. Même **Waly Dia**, qui tape sur la politique et la société, ne fait rire que si la salle est avec lui.`
+- Trait établi de Waly Dia (humour politique et de société, sources Le Temps https://www.letemps.ch/culture/waly-dia-le-sniper-de-punchlines-fier-rempart-de-l-humour-politique et Politis https://www.politis.fr/articles/2022/01/waly-dia-eclats-de-rire-sur-france-reac-43985, déjà vérifiées dans `docs/copy/corrections-s11-s20.md` section 3) ; « C'est exactement ça. » supprimé.
+
+**5.3 (BB2)** | B14 | `content` l. 2095
+- Avant : `3. **Les gens qui font rire sont promus plus vite.** Pas parce qu'ils sont "sympas", mais parce que l'humour est un signal de leadership. Tu gères le stress, tu communiques bien, tu crées de l'engagement.`
+- Après (tour 2) : `3. **Un humour bien placé te donne l'allure d'un leader.** Tu gardes la tête froide sous pression, tu sais t'exprimer, et les gens ont envie de t'écouter.`
+- Retirés : « signal de leadership », « tu crées de l'engagement », construction « pas parce que… mais parce que… ».
+
+**6.3 (BB5)** | B52 | `content` l. 2222 et 2326, `faqs[2].answer` l. 2340. Le résumé et la FAQ listent désormais les mêmes 3 leviers (phrases prêtes, répondre sans trop réfléchir, poser des questions).
+- 6.3a, Avant : `La solution tient en quelques phrases prêtes à l'emploi, une règle de timing et l'habitude de poser des questions.`
+  - Après (tour 2) : `La solution tient en trois réflexes : quelques phrases prêtes à l'emploi, répondre sans trop réfléchir et poser des questions.`
+- 6.3e (plan d'action) : inchangé par rapport au tour 1 : `1. Réponds sans trop réfléchir (Technique 2) dans chaque conversation`
+- 6.3f, Avant : `3 leviers : garde en tête 5 réponses passe-partout (kit de survie), applique la règle des 3 secondes (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et prépare 3 sujets dans ta tête avant chaque événement social.`
+  - Après (tour 2) : `3 leviers : garde en tête 5 réponses passe-partout (kit de survie), réponds sans trop réfléchir (réponds n'importe quoi plutôt que rien, une réponse moyenne au bon moment vaut mieux qu'une réponse parfaite trop tard), et pose des questions pour relancer.`
+  - La suite de la réponse (« En 2 semaines, les blancs se raréfient nettement. ») est inchangée. La banque de 3 sujets (Technique 5) reste dans le corps de l'article.
+
+**9.2 (BB14)** | B53 | `content` l. 2853 et `faqs[3].answer` l. 2902
+- Avant : `4. **La sortie en 10 secondes.** Une bonne conversation machine à café dure entre 60 et 90 secondes. Pars sur une note positive, pas quand ça s'essouffle.`
+- Après (tour 2) : `4. **Une sortie qui tient en une phrase.** Une conversation machine à café, c'est le temps d'un café, pas d'une réunion. Pars sur une note positive, avant que ça s'essouffle.`
+- FAQ, Avant : `Entre 60 et 90 secondes, c'est l'idéal. Partir sur une note positive avant que ça s'essouffle, c'est la clé.`
+  - Après (tour 2) : `Le temps d'un café, pas plus. Partir sur une note positive avant que ça s'essouffle, c'est la clé.`
+- Retiré : « 60 à 90 secondes » dans le corps et dans la FAQ (sinon la FAQ contredirait le corps).
+
+**10.1 (BB12)** | B28 | `content` l. 2921-2922 (deux phrases)
+- Avant : `**Panayotis Pascot** explique dans un de ses spectacles que la peur du jugement est le plus grand tueur de répartie : ce qui manque, ce ne sont pas les idées, c'est l'audace de les sortir. Et ce n'est pas une question de confiance en soi innée : c'est une compétence.`
+- Après (tour 2) : `**Panayotis Pascot** pourrait le dire sur scène : la peur du jugement tue plus de répliques que le manque d'idées. Des idées, tu en as. Il te manque l'audace de les sortir. Et l'audace, ça se travaille.`
+- Les deux « ce n'est pas X, c'est Y » du passage et de la phrase suivante disparaissent. La phrase d'avant (« ce n'est pas juste avoir des vannes prêtes. C'est gérer… ») est du texte d'origine, laissée en l'état.
+
+**10.4 (BB7)** | B24 | 4 chaînes. Une seule durée explicite reste (« une seconde environ »), les autres occurrences sont reformulées sans la répéter ; « 3x plus d'effet » retiré.
+- 10.4a, Avant : `- Vanne plantée → silence → tu attends 2 secondes → "OK, j'annule mon spectacle."`
+  - Après (tour 2) : `- Vanne plantée → silence → tu laisses passer une seconde environ → "OK, j'annule mon spectacle."`
+- 10.4b, Avant : `Deux secondes de silence avant une réplique font 3x plus d'effet que la même réplique lancée tout de suite.`
+  - Après (tour 2) : `Un silence juste avant la réplique, et elle fait bien plus d'effet que si tu la lances dans la foulée.`
+- 10.4c, Avant : `Après une vanne, attends 2 secondes avant de parler.`
+  - Après (tour 2) : `Après une vanne, laisse un petit blanc avant de parler.`
+- 10.4d (FAQ), Avant : `attends 2 secondes, puis sors`
+  - Après (tour 2) : `attends un instant, puis sors`
+
+**12.3 (BB13)** | B41 | `content` l. 3397
+- Avant : `**Pierre Croce** maîtrise ça à la précision : il pose son setup, **il attend** (parfois 2 secondes, une éternité sur scène), et lâche la chute quand le public a commencé à anticiper.`
+- Après (tour 2) : `**Pierre Croce** en fait une arme : il pose son setup, **il laisse la salle attendre**, et lâche la chute quand le public a commencé à anticiper. Une petite seconde suffit : sur scène, c'est une éternité.`
+
+**12.5 (BB10)** | B16 | `content` l. 3401-3403 et `faqs[1].answer` l. 3491
+- 12.5a (crochet de pause) : inchangé par rapport au tour 1 : `[pause d'une seconde environ]` (c'est la seule durée explicite du passage).
+- 12.5b, Avant : `Tu rajoutes 1,5 seconde de silence à la même phrase, et l'effet est multiplié par 3.`
+  - Après (tour 2) : `Tu rajoutes une petite seconde de silence à la même phrase, et la chute passe d'un "ah, ok" à un vrai rire.`
+- 12.5c (FAQ), Avant : `raconte la même vanne deux fois, à deux groupes différents, en variant uniquement le timing (pause de 1,5 seconde avant la chute la deuxième fois)`
+  - Après (tour 2) : `raconte la même vanne deux fois, à deux amis aussi proches l'un que l'autre, en variant uniquement le timing (une petite pause avant la chute la deuxième fois)`
+  - Corrige aussi le défaut relevé par un relecteur : deux groupes différents faussaient la comparaison.
+
+**12.9 (BB4)** | B33 | `faqs[3].answer` l. 3501
+- Avant : `Pierre Croce et Paul Mirabel construisent une bonne partie de leur stand-up sur cette mécanique de pause et de silence.`
+- Après (tour 2) : `Des stand-uppeurs comme Pierre Croce ou Paul Mirabel jouent beaucoup sur la pause et le silence.`
+
+**13.2 (BB1)** | B54 | `content` l. 3724
+- Avant : `**Blanche Gardin** parle souvent de cette mécanique : elle dit que dans une conversation, "ce n'est pas le mec le plus drôle qui parle, c'est le mec qui place le bon truc dans le bon trou de silence." C'est le timing, pas la blague.`
+- Après (tour 2) : `Les silences de **Blanche Gardin** le montrent : souvent, le moment fait plus rire que la phrase. En conversation, c'est celui qui glisse le bon truc dans le bon blanc qui fait rire, même s'il n'est pas le plus drôle de la bande.`
+- Plus de « le mec » pour Blanche Gardin, plus de double « pas X, c'est Y ».
+
+**13.5 (BB11)** | B50 | `content` l. 3700
+- Avant : `Personne n'écoute vraiment dans un groupe. Du coup, **poser une question naïve** est souvent un acte de courage utile :`
+- Après (tour 2) : `En groupe, beaucoup de gens font semblant d'avoir suivi. Du coup, **poser la question naïve** rend service à tout le monde :`
+- Cohérent avec la suite (« tout le monde réalise que personne n'avait suivi non plus ») et avec `timidite-et-humour` (plus de « personne n'écoute »).
+
+**12.10 (BB15)** | ajout demandé par le coordinateur (règle n°1 : chiffre inventé, signalé aussi par deux relecteurs en voisin de B37) | `content` l. 3427
+- Avant : `En stand-up, la chute est **toujours plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. **Le public décroche au mot 8** d'une punchline trop longue.`
+- Après (tour 2) : `En stand-up, la chute est **toujours plus courte** que l'amorce. Si ton setup fait 12 mots et ta punchline en fait 25, tu vas perdre l'attention avant l'atterrissage. **Le public décroche avant la fin** d'une punchline trop longue.`
+- Seul « au mot 8 » est retiré. « 12 mots » et « 25 mots » restent : c'est un exemple chiffré de la règle, pas une mesure. Conséquence sur 12.6 : la remarque « bien sous le seuil du mot 8 » n'a plus d'objet (le compte 15 mots / 3 mots reste exact). Passage nouveau : à relire à l'aveugle avant application.
+
+**Points restés en l'état, à signaler** (hors des 15 passages) :
+- `conversation-machine-a-cafe` garde d'autres occurrences de « 90 secondes » (extrait l. 2742, « Juste 90 secondes » l. 2809, « après 90 secondes de conversation » l. 2872) : durée du café ou du plan d'action, non touchées ; à harmoniser avec « le temps d'un café » si Thomas veut aller au bout.
+- « 10 fois plus intime » (`comment-faire-rire-une-fille` l. 1630) : chiffre pédagogique conservé (règle du 08/10), seul le « 10 fois plus drôle » prêté à une scène de Pascot a été retiré.
+
+### Clé du tour 2 (NE PAS OUVRIR AVANT LES VERDICTS)
+
+| BB1 | BB2 | BB3 | BB4 | BB5 | BB6 | BB7 |
+|---|---|---|---|---|---|---|
+| 13.2 (B54) | 5.3 (B14) | 1.3 (B67) | 12.9 (B33) | 6.3 a, e, f (B52) | 1.4 (B42) | 10.4 (B24) |
+
+| BB8 | BB9 | BB10 | BB11 | BB12 | BB13 | BB14 |
+|---|---|---|---|---|---|---|
+| 2.3 (B59) | 2.1 (B38) | 12.5 (B16) | 13.5 (B50) | 10.1 (B28) | 12.3 (B41) | 9.2 (B53) |
+
+| BB15 |
+|---|
+| 12.10 (ajout hors tour 1) |
 
