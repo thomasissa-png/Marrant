@@ -1,5 +1,12 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (12/10/2026, ~08:30 Paris) : pilotage du J0, vague V1 tour 1, **RIEN À DÉPLOYER**
+
+- Article `se-presenter-avec-humour` en ligne (200) ; 3 réseaux ouverts, canaux `ok` ; alertes B seulement (file basse, lancement 1b, vague V1).
+- **Vague V1, tour 1** (`docs/social/vague-v1/`) : 120 candidats (4 lots par thème, format C10), 11 au niveau à l'aveugle chez 2 relecteurs (9,2 %, contre 0,8 % au pilote P0), **6 neuves** au contrôle catalogue (5 écartées : 3 proches en base, 2 déjà vues en ligne). Échantillon D7 à Thomas (`echantillon-d7-v1-t1.md`), délai 14/10 08:00 Paris.
+- **LinkedIn 20/10 et 27/10** : départage neuf à l'aveugle ; 20/10 = V1-1-05 (9 / 9), 27/10 = C10 n°1 (3e relecteur) ; échange en base programmé le 13/10 07:30 UTC (consigne mise à jour).
+- Programmé : H+45 X 11:15 UTC et Instagram 18:15 UTC ; décision « lien en bio » 15:00 UTC ; insertion du 1b le 13/10 06:30 UTC ; fin D7 et tour 2 de V1 le 14/10 06:15 UTC.
+
 ## s20 Correctifs audit Ahrefs du 07/10 (@fullstack @copywriter @infrastructure), **DÉPLOYÉ le 11/10/2026 à 20:24 UTC, version `d344ceb6-b152-4bb0-a903-64ea5969d443`, HEAD `fb5ff6b`**, N-1 `67697811-9f53-4857-84ef-16a82eccefba`
 
 - **robots.txt** : `/register` et `/abonnement?` bloqués pour tous les user-agents (variantes `?callbackUrl=` / `?returnTo=` : 391 noindex, 490 meta longues, ~868 lien entrant unique chez Ahrefs). `/abonnement` nu reste explorable.
