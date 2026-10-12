@@ -227,7 +227,8 @@ describe("VannesList", () => {
     await waitFor(() => {
       expect(screen.getByText("Précédent")).toBeInTheDocument();
       expect(screen.getByText("Suivant")).toBeInTheDocument();
-      expect(screen.getByText("Page 1 / 3")).toBeInTheDocument();
+      // s20 (S1) : la rangée de numéros remplace « Page X / Y ».
+      expect(screen.getByText("1").closest("[aria-current]")).toHaveAttribute("aria-current", "page");
     });
   });
 
@@ -271,7 +272,8 @@ describe("VannesList", () => {
       mockSearch = "page=2";
       global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock;
       render(<VannesList initialData={serverPage(2)} initialPage={2} />);
-      expect(screen.getByText("Page 2 / 3")).toBeInTheDocument();
+      expect(screen.getByText("2").closest("[aria-current]")).toHaveAttribute("aria-current", "page");
+      expect(screen.getByRole("link", { name: "Page 3" })).toHaveAttribute("href", "/vannes?page=3");
       expect(screen.getByRole("link", { name: "Précédent" })).toHaveAttribute("href", "/vannes");
       expect(screen.getByRole("link", { name: "Suivant" })).toHaveAttribute("href", "/vannes?page=3");
     });

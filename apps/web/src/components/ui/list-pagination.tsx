@@ -2,7 +2,8 @@
 
 import type { MouseEvent } from "react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { listPageHref } from "@/lib/list-pagination";
+import { listPageHref, paginationItems } from "@/lib/list-pagination";
+import { cn } from "@/lib/utils";
 
 interface ListPaginationProps {
   /** Chemin de la liste, ex. "/vannes". */
@@ -16,15 +17,21 @@ interface ListPaginationProps {
   onNavigate?: (page: number) => void;
 }
 
+// Mêmes classes que Précédent / Suivant (ghost, sm : 44 px de haut sous md).
+// Largeur minimale = cible tactile carrée de 44 px sur mobile (32 px au-delà).
+const PAGE_CELL = "min-w-8 max-md:min-w-11";
+
 /**
- * Pagination Précédent / Page X / Y / Suivant des listes catalogue (lot S1 s14).
- * Même rendu que les anciens boutons ; les pages accessibles sont de vrais liens
- * `<a href="?page=N">` (crawlables sans JS). Page sans voisine : bouton désactivé.
+ * Pagination des listes catalogue : Précédent, rangée de numéros, Suivant
+ * (lot S1 s14, numéros ajoutés en s20 : spec `docs/seo/maillage-decouverte-s20.md` S1).
+ * Toutes les pages accessibles sont de vrais liens `<a href="?page=N">` présents dans
+ * le HTML serveur (aucun lien masqué) : la page N est à un clic de n'importe quelle page.
+ * Page courante : `<span aria-current="page">` sans lien. Page sans voisine : bouton désactivé.
  */
 export function ListPagination({ basePath, page, totalPages, onNavigate }: ListPaginationProps) {
   if (totalPages <= 1) return null;
 
-  const link = (target: number, label: string) => {
+  const link = (target: number, label: string, className?: string, ariaLabel?: string) => {
     const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
       // Ctrl/Cmd/Maj + clic, clic molette : comportement natif du navigateur.
       if (!onNavigate || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
@@ -32,14 +39,19 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
       onNavigate(target);
     };
     return (
-      <a href={listPageHref(basePath, target)} onClick={onClick} className={buttonVariants({ variant: "ghost", size: "sm" })}>
+      <a
+        href={listPageHref(basePath, target)}
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className={cn(buttonVariants({ variant: "ghost", size: "sm" }), className)}
+      >
         {label}
       </a>
     );
   };
 
   return (
-    <nav aria-label="Pagination" className="mt-8 flex items-center justify-center gap-4">
+    <nav aria-label="Pagination" className="mt-8 flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
       {page > 1 ? (
         link(page - 1, "Précédent")
       ) : (
@@ -47,9 +59,31 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
           Précédent
         </Button>
       )}
-      <span className="text-sm text-text-secondary">
-        Page {page} / {totalPages}
-      </span>
+      <ol className="flex flex-wrap items-center justify-center gap-1">
+        {paginationItems(page, totalPages).map((item, index) => (
+          <li key={item === "ellipsis" ? `ellipsis-${index}` : item}>
+            {item === "ellipsis" ? (
+              <span className={cn("inline-flex items-center justify-center text-sm text-text-secondary", PAGE_CELL)}>
+                …
+              </span>
+            ) : item === page ? (
+              <span
+                aria-current="page"
+                className={cn(
+                  buttonVariants({ variant: "ghost", size: "sm" }),
+                  PAGE_CELL,
+                  "bg-background-elevated text-text-primary",
+                )}
+              >
+                <span className="sr-only">Page </span>
+                {item}
+              </span>
+            ) : (
+              link(item, String(item), PAGE_CELL, `Page ${item}`)
+            )}
+          </li>
+        ))}
+      </ol>
       {page < totalPages ? (
         link(page + 1, "Suivant")
       ) : (

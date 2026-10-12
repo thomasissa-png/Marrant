@@ -12,7 +12,7 @@ import {
   parseShortIdFromSlug,
   resolveBySlug,
 } from "@/lib/catalogue-slug";
-import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
+import { getRelatedTips, type RelatedTip } from "@/lib/related-catalogue";
 import { tipProse } from "@/lib/tip-prose";
 import {
   JsonLd,
@@ -138,20 +138,12 @@ export default async function ConseilPage({
   const categoryLabel = CATEGORY_LABELS[tip.category] ?? tip.category;
   const difficultyLabel = DIFFICULTY_LABELS[tip.difficulty] ?? tip.difficulty;
 
-  let related: { id: string; title: string; category: string }[] = [];
+  // Contenus liés (s20, spec maillage S2) : 4 voisins en anneau dans la liste
+  // dédoublonnée par titre (N12 s12) de la catégorie, jamais le conseil courant.
+  // Liste en cache 1 h par catégorie (lib/related-catalogue). Base KO : pas de bloc.
+  let related: RelatedTip[] = [];
   try {
-    // Titres en double en base : un seul affiché, jamais le conseil courant (N12 s12)
-    const candidates = await prisma.tip.findMany({
-      where: {
-        isActive: true,
-        category: tip.category,
-        id: { not: tip.id },
-      },
-      select: { id: true, title: true, category: true },
-      take: 12,
-    });
-    related = dedupeTipsByTitle([{ id: tip.id, title: tip.title, category: tip.category }, ...candidates])
-      .slice(1, 5);
+    related = await getRelatedTips({ id: tip.id, title: tip.title, category: tip.category });
   } catch {}
 
   // Étape de parcours qui utilise ce conseil (SEO-06, s17) : table des étapes en

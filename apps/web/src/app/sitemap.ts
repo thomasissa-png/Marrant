@@ -6,6 +6,7 @@ import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redir
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
 import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { blogIndexLastMod, capLastModToToday, startOfTomorrowUtc, type BlogDateCandidate } from "@/lib/sitemap-lastmod";
 
 export const revalidate = 3600;
 
@@ -20,6 +21,7 @@ const THEME_PAGES_LASTMOD = "2026-09-30";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://deviens-marrant.fr";
+  const now = new Date();
 
   // lastModified doit etre stable — Bing penalise les dates qui changent a chaque crawl.
   // Pages structurelles : date REELLE de derniere modification du contenu
@@ -30,11 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const legalLastMod = new Date(LEGAL_PAGES_LASTMOD);
   const parcoursDates = await getParcoursSitemapDates();
 
-  // Pour les pages a contenu quotidien, on query la date du dernier DailyContent
+  // Pour les pages a contenu quotidien, on query la date du dernier DailyContent.
+  // s20 (S5) : borne haute = aujourd'hui (UTC). Le contenu du jour est préparé à
+  // l'avance (jusqu'au 31/12) : sans borne, 6 URL annonçaient une date future.
   let lastContentDate = lastDeploy;
   try {
     const { prisma } = await import("@/lib/prisma");
     const lastDaily = await prisma.dailyContent.findFirst({
+      where: { date: { lt: startOfTomorrowUtc(now) } },
       orderBy: { date: "desc" },
       select: { date: true },
     });
@@ -57,7 +62,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),
-    { url: `${baseUrl}/blog`, lastModified: lastContentDate, changeFrequency: "weekly", priority: 0.8 },
+    // s20 (S5) : date du dernier article visible, plus la vanne du jour (calculée plus bas).
+    { url: `${baseUrl}/blog`, lastModified: lastDeploy, changeFrequency: "weekly", priority: 0.8 },
     { url: `${baseUrl}/abonnement`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.6 },
     { url: `${baseUrl}/glossaire`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
@@ -80,8 +86,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Articles statiques — exclure les slugs dépubliés (cannibalisation s11) ;
   // lastModified = vraie date de modif si dispo, sinon date de publication
   // (évite d'écraser des lastmod réels par une date de build — pénalité Bing).
-  const staticBlogRoutes: MetadataRoute.Sitemap = blogArticles
-    .filter((article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug) && !REDIRECTED_BLOG_SLUGS.includes(article.slug))
+  const publishedStaticArticles = blogArticles.filter(
+    (article) => !UNPUBLISHED_STATIC_SLUGS.has(article.slug) && !REDIRECTED_BLOG_SLUGS.includes(article.slug),
+  );
+  const blogDateCandidates: BlogDateCandidate[] = publishedStaticArticles.map((article) => ({
+    publishedAt: new Date(article.date),
+    lastModified: new Date(article.updatedAt || article.date),
+  }));
+  const staticBlogRoutes: MetadataRoute.Sitemap = publishedStaticArticles
     .map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
       lastModified: new Date(article.updatedAt || article.date),
@@ -97,6 +109,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       where: { ...visibleBlogArticleWhere(), slug: { notIn: [...REDIRECTED_BLOG_SLUGS] } },
       select: { slug: true, publishedAt: true, updatedAt: true },
     });
+    for (const article of dbArticles) {
+      // Article sans date de publication (anciens) : jamais « le plus récent ».
+      if (article.publishedAt) {
+        blogDateCandidates.push({
+          publishedAt: article.publishedAt,
+          lastModified: publicUpdatedAt(article) || article.publishedAt,
+        });
+      }
+    }
     dbBlogRoutes = dbArticles.map((article) => ({
       url: `${baseUrl}/blog/${article.slug}`,
       lastModified: publicUpdatedAt(article) || article.publishedAt || new Date(),
@@ -111,12 +132,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Isolé dans son propre helper pour minimiser les conflits de merge.
   const catalogueRoutes = await getCatalogueSitemapEntries();
 
-  // Dédupliquer par URL
-  const allRoutes = [...staticRoutes, ...staticBlogRoutes, ...dbBlogRoutes, ...catalogueRoutes];
+  // s20 (S5) : /blog = date du dernier article visible (repli : pages structurelles).
+  const blogLastMod = blogIndexLastMod(blogDateCandidates, now, lastDeploy);
+  const routesWithBlogDate = staticRoutes.map((route) =>
+    route.url === `${baseUrl}/blog` ? { ...route, lastModified: blogLastMod } : route,
+  );
+
+  // Dédupliquer par URL ; garde-fou S5 : aucun lastmod postérieur à aujourd'hui (UTC).
+  // Les dates passées (fiches, articles) ne sont pas touchées.
+  const allRoutes = [...routesWithBlogDate, ...staticBlogRoutes, ...dbBlogRoutes, ...catalogueRoutes];
   const seen = new Set<string>();
-  return allRoutes.filter((route) => {
-    if (seen.has(route.url)) return false;
-    seen.add(route.url);
-    return true;
-  });
+  return allRoutes
+    .filter((route) => {
+      if (seen.has(route.url)) return false;
+      seen.add(route.url);
+      return true;
+    })
+    .map((route) => ({ ...route, lastModified: capLastModToToday(route.lastModified, now) }));
 }

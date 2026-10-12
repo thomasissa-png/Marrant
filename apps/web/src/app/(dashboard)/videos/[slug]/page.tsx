@@ -14,6 +14,7 @@ import {
 } from "@/components/seo/json-ld";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
+import { getRelatedVideos, type RelatedVideo } from "@/lib/related-catalogue";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -135,17 +136,12 @@ export default async function VideoPage({
   const categoryLabel = CATEGORY_LABELS[video.category] ?? video.category;
   const difficultyLabel = DIFFICULTY_LABELS[video.difficulty] ?? video.difficulty;
 
-  let related: { id: string; title: string; channelName: string; youtubeId: string }[] = [];
+  // Contenus liés (s20, spec maillage S2) : 4 voisines en anneau dans la liste de la
+  // catégorie (ordre des listes), jamais la vidéo courante. Liste en cache 1 h par
+  // catégorie (lib/related-catalogue). Base KO : pas de bloc.
+  let related: RelatedVideo[] = [];
   try {
-    related = await prisma.video.findMany({
-      where: {
-        isActive: true,
-        category: video.category,
-        id: { not: video.id },
-      },
-      select: { id: true, title: true, channelName: true, youtubeId: true },
-      take: 4,
-    });
+    related = await getRelatedVideos({ id: video.id, youtubeId: video.youtubeId, category: video.category });
   } catch {}
 
   const videoJsonLd = buildVideoObjectJsonLd({

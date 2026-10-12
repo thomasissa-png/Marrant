@@ -5,7 +5,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
-import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
+import { getRelatedJokes, type RelatedJoke } from "@/lib/related-catalogue";
 import { NOT_FOUND_ROBOTS, TITLE_MAX, truncateAtWord } from "@/lib/seo-meta";
 import { buildJokeSlug, isNonCanonicalSlug, parseShortIdFromSlug, resolveBySlug } from "@/lib/catalogue-slug";
 import {
@@ -150,24 +150,12 @@ export default async function VannePage({
   const categoryLabel = CATEGORY_LABELS[joke.category] ?? "Vanne";
   const url = `https://deviens-marrant.fr/vannes/${canonicalSlug}`;
 
-  // Contenus liés — 3 vannes de la même catégorie, hors vanne courante
-  // Dédoublonnées au rendu (copies d'une même vanne en base, et copies de la vanne courante) :
-  // on lit un peu plus large pour en garder 4 distinctes.
-  let related: { id: string; content: string; category: string }[] = [];
+  // Contenus liés (s20, spec maillage S2) : 4 voisines en anneau dans la liste
+  // dédoublonnée de la catégorie (ordre des listes), jamais la vanne courante ni une
+  // copie. Liste en cache 1 h par catégorie (lib/related-catalogue). Base KO : pas de bloc.
+  let related: RelatedJoke[] = [];
   try {
-    const candidates = await prisma.joke.findMany({
-      where: {
-        isActive: true,
-        category: joke.category,
-        id: { not: joke.id },
-      },
-      select: { id: true, content: true, category: true },
-      take: 12,
-    });
-    const currentKey = jokeContentKey(joke.content);
-    related = dedupeJokesByContent(candidates)
-      .filter((r) => jokeContentKey(r.content) !== currentKey)
-      .slice(0, 4);
+    related = await getRelatedJokes({ id: joke.id, content: joke.content, category: joke.category });
   } catch {}
 
   const creativeWorkJsonLd = {
