@@ -1,13 +1,13 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Articles : FAQ timing et numéros des H2 (décisions Thomas 13/10), **non déployé**
+## s20 Articles : FAQ timing et numéros des H2 (décisions Thomas 13/10), **DÉPLOYÉ le 13/10/2026, version `dbc25485-463b-44ca-80aa-8b1ede9300c5`, commit `2d4c350c`** ; journal « contenus vidéo s20 v1 : 2 fiche(s) mise(s) à jour, 0 refus garde-fou, 84 déjà faite(s) » ; pages vérifiées ; N-1 `76cf42da-6e83-499b-8c53-b3e34f237bf7`
 
 - `timing-humour` : réponse FAQ « Comment améliorer son timing comique ? » réécrite (une seconde environ, trois exercices distincts ; relecture à l'aveugle 3/3).
 - `comment-faire-rire-une-fille` et `comment-faire-rire-un-homme` : numéros « 2. », « 3. »… retirés des 8 H2 (mécanique, aucun lien ne vise ces ancres).
 - Fiches vidéo Karim Duval (24) et Azencot (56) ajoutées à `video-content-s20.json` (tour 7 validé à 2 sur 3) : la tâche les applique au prochain appel (84 déjà faites).
 - Paragraphe Waly Dia (`confiance-humour-apres-rupture`) : encore sous la barre, texte en ligne inchangé.
 
-## s20 Durées réelles des fiches vidéo, **non commité, non déployé**
+## s20 Durées réelles des fiches vidéo, **DÉPLOYÉ le 13/10/2026, version `dbc25485-463b-44ca-80aa-8b1ede9300c5`** ; journal « durées vidéo s20 v1 : 89 corrigée(s), 0 refus garde-fou, 0 déjà faite(s), 0 absente(s) » ; JSON-LD vérifié (Barré `PT2H26M19S`) ; IndexNow 200 (92 URL) ; N-1 `76cf42da-6e83-499b-8c53-b3e34f237bf7`
 
 - Les 89 `Video.duration` en base sont fausses (estimations arrondies du seed, ex. `PT68M00S` pour 1 h 17). Vraies durées lues le 13/10 via l'API YouTube Data v3 : `src/data/video-durations-s20.json` (89 entrées, généré par la session, ne pas éditer à la main).
 - Nouvelle tâche de démarrage `applyVideoDurationsS20Task` (`src/lib/video-durations-s20.ts`), branchée APRÈS `applyVideoContentS20Task` (le JSON porte le nouvel id Dany Boon `JNo86HEt86w`). Garde-fou : écriture seulement si `duration` en base === `attendu`, sinon refus « GARDE-FOU » sans écriture ni marqueur. Marqueur `video-duration-s20:v1:<youtubeId>` et `note.before.duration` posés dans la même transaction, une par vidéo. Non bloquante.
