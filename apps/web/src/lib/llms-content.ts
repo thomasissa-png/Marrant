@@ -99,7 +99,7 @@ L'humour repose sur trois piliers qui s'apprennent :
 ## Sections du site
 
 ### Vannes (${LLMS_BASE_URL}/vannes)
-Un catalogue de vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (couple, boulot, école, soirées, dating…). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
+Un catalogue de vannes classées par catégorie (autodérision, situationnel, absurde, observationnel, jeux de mots) et par contexte (boulot, couple, soirées, famille, gaming). Chaque vanne est décortiquée : la technique comique utilisée (« Pourquoi ça marche ») et comment l'appliquer soi-même (« À toi de jouer »). Chaque vanne a sa propre page.
 
 ### Conseils humour et répartie (${LLMS_BASE_URL}/conseils)
 Des techniques concrètes avec exemples et exercices :

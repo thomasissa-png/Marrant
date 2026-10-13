@@ -1,0 +1,16 @@
+# Verdict à l'aveugle, page « Anatomie d'une vanne » (relecteur : @reviewer)
+
+Source lue : `aveugle-anatomie.md` uniquement. Barre appliquée : rire franc d'un adulte francophone, clair dès la première lecture, chute nette, technique annoncée illustrée exactement, analyse juste et sans affirmation gratuite.
+
+| Item | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|
+| N1 | oui | Défaut mineur : le pivot affiché (« on attend une moutarde à jeter ») suppose une attente que le setup n'installe pas vraiment, puisque le setup pose un mystère (« personne n'a achetée ») et pas une moutarde périmée. La chute « Elle a l'ancienneté » marche quand même : personnification nette, vocabulaire RH décalé, 8 mots vérifiés. | Facultatif : ajouter « périmée depuis 2021 » au setup pour que l'attente « à jeter » existe vraiment avant la chute. |
+| N2 | oui | Défauts de forme seulement : guillemets anglais (“Bonne journée”) alors que le reste de la page utilise « », et l'analyse passe de « mon père » à « tu es occupé » (changement de personne). Le fond est au niveau : détail ultra reconnaissable (la fleur qui scintille), renversement clair (le bonjour devient un contrôle de présence), escalade concrète avec la voisine. Comptes de mots vérifiés (12 et 9). | Facultatif : passer en « Bonne journée » avec guillemets français et écrire « il ne se demande pas si je suis occupé » dans l'analyse. |
+| N3 | non | Chute prévisible : « des agendas pleins » est exactement ce que le public attend après « il faut qu'on se voie plus souvent », donc on sourit de reconnaissance mais on ne rit pas. En plus, « mars » dépend du moment où on lit (lu en février, mars, c'est le mois prochain et la chute s'effondre), ce qui contredit l'analyse « mars fait tout le travail ». | Remplacer la punchline par « Chacun sort son agenda. Premier créneau commun : la même soirée, l'an prochain. », qui boucle sur la phrase rituelle et ne dépend plus de la date de lecture. |
+| P1 | oui | Aucun défaut bloquant : double sens propre sur les deux mots du setup (« passer » et « voir » pris au sens littéral), chute en trois temps avec rythme montant, « Il a continué sa route » ajoute une petite cruauté qui fait rire. Illustre exactement « tu installes un sens, la chute révèle l'autre ». | |
+| P2 | non | Calembour de niveau « blague de papa » : le jeu « compter sur » / « compter » est connu et produit un soupir plus qu'un rire, et la logique est floue (qu'est-ce qui a été compté : lui, l'augmentation, les promesses ?). | Rendre le zéro visuel et absurde, par exemple « J'ai compté. J'ai même pas eu besoin des doigts. », ou abandonner ce calembour pour un double sens moins usé. |
+| P3 | oui | Aucun défaut bloquant : le setup installe le sens psychologique (« poser ses limites »), la chute bascule sur la limitation de vitesse, puis « Personne n'a ralenti » revient au sens figuré (personne ne respecte mes limites). Double retour, chute nette, clair dès la première lecture. | |
+
+**Meilleure Observation : N2** (détail le plus reconnaissable, renversement le plus net, escalade concrète ; N1 au niveau juste derrière).
+
+**Meilleur Double sens : P3** (la chute porte les deux sens à la fois, c'est la version la plus drôle ; P1 au niveau, plus simple et très sûr en repli).

@@ -84,12 +84,14 @@ export function runJokeGates(
       : "OK",
   });
 
-  // G-J3 — Pas d'objets qui parlent
-  const objetPattern = /(?:un |une |le |la |l')(?:stylo|crayon|fourchette|couteau|miroir|chaise|table|porte|mur|frigo|micro-ondes|télé)\s+(?:dit|demande|répond|murmure|crie|chuchote)/i;
+  // G-J3 — Pas d'objet inanimé qui parle tout seul (absurde gratuit). Décision
+  // Thomas 13/10 : un objet dont c'est la fonction de parler ou répondre
+  // (assistant vocal, GPS, appli, répondeur, télé) n'est pas visé (étalon Alexa).
+  const objetPattern = /(?:un |une |le |la |l')(?:stylo|crayon|fourchette|couteau|miroir|chaise|table|porte|mur|frigo|micro-ondes)\s+(?:dit|demande|répond|murmure|crie|chuchote)/i;
   results.push({
-    gate: "G-J3 Pas d'objets qui parlent",
+    gate: "G-J3 Pas d'objet inanimé qui parle tout seul",
     pass: !objetPattern.test(fullText),
-    reason: objetPattern.test(fullText) ? "Objet inanimé qui parle détecté" : "OK",
+    reason: objetPattern.test(fullText) ? "Objet inanimé qui parle tout seul détecté" : "OK",
   });
 
   // G-J4 — Pas de persona leak
@@ -878,7 +880,7 @@ CRITÈRES SPÉCIFIQUES VANNES :
 - Y a-t-il un vrai twist ou c'est prévisible ?
 - Est-ce relatable pour ${p.name} (${p.interests.slice(0, 4).join(", ")}) ?
 - Est-ce que ça respecte le ton de la marque (jamais vulgaire, jamais forcé) ?
-- Pas d'objets qui parlent, pas de format Carambar, pas d'autodérision triste sans punch
+- Pas de grille-pain qui parle tout seul (objet inanimé qui parle sans raison) ; un assistant vocal, un GPS, une appli ou un répondeur qui parle ou répond fait son travail, ce critère ne le vise pas. Pas de format Carambar, pas d'autodérision triste sans punch
 - Est-elle NEUVE ? Une blague déjà connue ailleurs (classique d'Internet, meme recyclé, vanne de tonton, Carambar) est FAIBLE même si elle marche → score max 5
 - Le twist vient-il d'une IDÉE ? Calembour phonétique (« parce que ça sonne comme… ») → score max 5
 - La cible est-elle un groupe (origine, genre, religion, orientation, métier, âge, région, physique, handicap) ? → REJECTED

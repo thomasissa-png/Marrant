@@ -45,7 +45,7 @@ function buildFaqs(jokeCount: number) {
     },
     {
       question: "Où trouver d'autres vannes que celle du jour ?",
-      answer: `Dans le catalogue, classé par situation : boulot, couple, soirée, école. ${count}, chacune avec sa chute.`,
+      answer: `Dans le catalogue, classé par situation : boulot, couple, soirées, famille, gaming. ${count}, chacune avec sa chute.`,
     },
   ];
 }

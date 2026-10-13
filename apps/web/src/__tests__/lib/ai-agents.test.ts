@@ -2092,11 +2092,11 @@ describe("Director integration — validation retry loop", () => {
       monthlyPlanSummary: "",
     });
 
-    // Gate programmatique rejette AVANT le LLM (objets qui parlent) — pas d'appel API
+    // Gate programmatique rejette AVANT le LLM (objet inanimé qui parle tout seul) — pas d'appel API
     const validation = await validateJoke(badJoke, "YANIS");
     expect(validation.verdict).toBe("REJECTED");
     expect(validation.score).toBe(0);
-    expect(validation.issues.some((i: string) => i.includes("objets qui parlent") || i.includes("Objet"))).toBe(true);
+    expect(validation.issues.some((i: string) => i.includes("G-J3 Pas d'objet inanimé qui parle tout seul"))).toBe(true);
 
     // 2nd call (was 3rd): joke re-generation with feedback in theme
     const feedbackTheme = `Test — FEEDBACK DIRECTEUR: ${validation.issues.join(". ")}. SUGGESTION: Faire une vanne sur une situation réelle`;

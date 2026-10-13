@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Vannes d'exemple d'`/anatomie-vanne` et « école » (décision Thomas « toutes recos » 13/10)
+
+- Vanne 1 (Observation) : « Chaque matin, mon père m'envoie une fleur qui scintille avec « Bonne journée ». / Un matin sans réponse, il a appelé ma voisine. » ; vanne 4 (Double sens) : « Il paraît qu'il faut savoir poser ses limites. » → « J'ai planté un panneau 30 devant chez moi. Personne n'a ralenti. » Écrites pour l'occasion, choisies à l'unanimité à l'aveugle (3/3) parmi 3+3 candidates.
+- « école » retiré de `llms-content.ts` et de la FAQ `/blague-du-jour` (liste « boulot, couple, soirées, famille, gaming »).
+
+## s20 Porte G-J3 du générateur, **non commité, non déployé**
+
+- Décision Thomas 13/10 : G-J3 vise le grille-pain qui parle tout seul (objet inanimé qui parle sans raison), plus les objets dont c'est la fonction de parler ou répondre (assistant vocal, GPS, appli, répondeur), alignée sur le texte public de `/vannes`. `src/lib/ai/agents/standup-director-agent.ts` : libellé de la porte (« G-J3 Pas d'objet inanimé qui parle tout seul ») + raison + ligne du prompt de validation des vannes. Tests : `ai-agents.test.ts` (libellé), nouveau cas dans `ai/joke-prompt-v7.test.ts`. Code seul, rien à lancer après déploiement.
+- Recos validées par Thomas (13/10) : (1) critère du générateur `src/lib/ai/agents/joke-agent.ts` (ligne 130) aligné : « ❌ GRILLE-PAIN QUI PARLE TOUT SEUL », assistant vocal, GPS, appli, répondeur non visés ; reste du prompt inchangé. (2) « télé » retirée de la liste de détection de G-J3 (« La télé dit qu'il va pleuvoir » passe, « Un stylo dit à un crayon » toujours refusé). Tests ajoutés dans `ai/joke-prompt-v7.test.ts`. Contrôles (13/10, après les 2 recos) : 2 `tsc` OK, lint OK (1 avertissement préexistant `admin/page.tsx`), Jest sans secrets Stripe 300 suites / 4598 tests OK, build OK.
+
 ## s20 Audit des pages, lot 1 + tour 2 + titre du bloc des offres, **DÉPLOYÉ le 13/10/2026, version `07c24e84-873d-48fa-9207-6fad53c0a987`, commits `cc6f96b0` et suivant** ; pages vérifiées en ligne (titre « Pour t'y mettre, il y a Premium », 0 coaching, listes de situations à 5, Waly Dia, titres sans tiret) ; IndexNow 200 (12 URL) ; N-1 `dbc25485-463b-44ca-80aa-8b1ede9300c5`. **Action Thomas : désactiver l'événement Calendly de 45 min (coaching) et vérifier s'il y a eu des réservations.** Vannes 1 et 4 de `/anatomie-vanne` inchangées (remplaçantes du catalogue refusées à l'aveugle)
 
 - Code seul, aucune migration, aucune tâche de démarrage, aucune variable d'env, aucune écriture en base. 37 fichiers de `apps/web/src` modifiés + 1 test ajouté (`coaching-retire-s20.test.tsx`). Détail ligne par ligne : `docs/copy/application-pages-site-s20.md`.

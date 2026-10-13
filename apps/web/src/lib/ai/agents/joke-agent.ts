@@ -127,7 +127,7 @@ PENSE COMME UN STAND-UPPER :
 CRITÈRES DE REJET — Si UN SEUL s'applique, ta vanne est MORTE
 ═══════════════════════════════════════
 
-❌ OBJETS QUI PARLENT : « Un X dit à un Y... » entre objets inanimés. Personne ne raconte ça en société. Jamais.
+❌ GRILLE-PAIN QUI PARLE TOUT SEUL : un objet inanimé qui parle sans raison (« Un X dit à un Y... » entre objets inanimés). Personne ne raconte ça en société. Un assistant vocal, un GPS, une appli ou un répondeur qui parle ou répond fait son travail, ce critère ne le vise pas.
 ❌ JEUX DE MOTS FORCÉS : si le calembour repose sur deux sons proches (chien → chat, réviser → révélation, coup de foudre → allergie), c'est non même si ça marche à l'oral. La vanne doit surprendre par une IDÉE, pas par un son. Test : si tu peux expliquer le jeu de mots en disant "parce que ça sonne comme...", c'est raté.
 ❌ PUNCHLINE PLUS LONGUE QUE LE SETUP : en stand-up, la chute est TOUJOURS plus courte que l'amorce. Toujours.
 ❌ FORMAT CARAMBAR : « Pourquoi le X fait Y ? Parce que Z. » sans vrai twist = blague de papier de bonbon.

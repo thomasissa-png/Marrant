@@ -83,6 +83,14 @@ describe("buildJokeSystemBlocks (générateur)", () => {
     expect(stable).toMatch(/Alexa, Siri, ChatGPT/);
   });
 
+  it("critère G-J3 du générateur aligné sur le texte public (grille-pain qui parle tout seul)", async () => {
+    const { jokeAgent } = await loadWithMock();
+    const stable = (jokeAgent.buildJokeSystemBlocks(CTX) as Block[])[0].text;
+    expect(stable).toContain("❌ GRILLE-PAIN QUI PARLE TOUT SEUL : un objet inanimé qui parle sans raison");
+    expect(stable).toContain("Un assistant vocal, un GPS, une appli ou un répondeur qui parle ou répond fait son travail, ce critère ne le vise pas.");
+    expect(stable).not.toContain("OBJETS QUI PARLENT");
+  });
+
   it("generateDailyJoke envoie ces blocs, sans changer le modèle ni l'effort par défaut", async () => {
     const { create, jokeAgent, client } = await loadWithMock();
     create.mockResolvedValueOnce(
@@ -127,6 +135,26 @@ describe("Director : G-J11 et validateJoke", () => {
     expect(msg).toContain(JOKE_QUALITY_BAR);
     expect(msg).not.toContain("Zéro mention d'IA");
     expect(res.verdict).toBe("APPROVED");
+  });
+
+  it("G-J3 (décision 13/10) : vise le grille-pain qui parle tout seul, pas l'assistant vocal qui répond", async () => {
+    const { create, director } = await loadWithMock();
+    const gj3 = (joke: typeof ALEXA) => director.runJokeGates(joke).find((r) => r.gate.startsWith("G-J3"));
+    expect(gj3(ALEXA)?.gate).toBe("G-J3 Pas d'objet inanimé qui parle tout seul");
+    expect(gj3(ALEXA)?.pass).toBe(true);
+    const stylo = gj3({ ...ALEXA, content: "Un stylo dit à un crayon", punchline: "Tu manques de pointe" });
+    expect(stylo?.pass).toBe(false);
+    expect(stylo?.reason).toBe("Objet inanimé qui parle tout seul détecté");
+    // La télé parle par fonction : plus visée (reco validée 13/10)
+    const tele = gj3({ ...ALEXA, content: "La télé dit qu'il va pleuvoir tout le week-end.", punchline: "J'ai annulé mon footing." });
+    expect(tele?.pass).toBe(true);
+
+    create.mockResolvedValueOnce(json({ verdict: "APPROVED", score: 9, strengths: [], issues: [], directorNote: "" }));
+    await director.validateJoke(ALEXA, "SOPHIE", { dailyGeneration: true });
+    const msg = create.mock.calls[0][0].messages[0].content as string;
+    expect(msg).toContain("Pas de grille-pain qui parle tout seul (objet inanimé qui parle sans raison)");
+    expect(msg).toContain("un assistant vocal, un GPS, une appli ou un répondeur qui parle ou répond fait son travail, ce critère ne le vise pas");
+    expect(msg).not.toContain("Pas d'objets qui parlent");
   });
 
   it("directorRewriteJoke porte la barre V7", async () => {

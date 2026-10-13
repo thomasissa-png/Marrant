@@ -60,11 +60,11 @@ const anatomyFaqs = [
 const vanneExamples = [
   {
     category: "Observation",
-    setup: "J'ai lancé une séance de sport sur une appli, dans mon salon.",
-    pivot: "On attend l'effort, on découvre qui a vraiment remarqué l'abandon",
-    punchline: "Après 4 minutes, elle m'a demandé : “Toujours là ?”",
+    setup: "Chaque matin, mon père m'envoie une fleur qui scintille avec « Bonne journée ».",
+    pivot: "Le bonjour du matin est en fait un contrôle de présence",
+    punchline: "Un matin sans réponse, il a appelé ma voisine.",
     analysis:
-      "Setup court et relatable (tout le monde a déjà ouvert une appli de sport pleine de bonnes intentions). Le pivot est invisible : l'appli censée te motiver se met à vérifier que tu n'es pas parti. La punchline tient en 8 mots, et c'est l'appli qui la délivre à ta place : tu n'as même pas besoin d'avouer que tu t'es arrêté.",
+      "Setup de 12 mots : un détail précis (la fleur qui scintille) plutôt qu'un portrait de père dépassé par la technologie, et un geste d'affection qui n'éveille aucun soupçon. Le pivot est le sens du message : ce qu'on lisait comme un bonjour fonctionne comme un contrôle de présence, et c'est son absence qui le révèle. La punchline tient en 9 mots, et la voisine fait l'escalade : le père ne se demande pas si tu es occupé, il passe directement au plan B.",
   },
   {
     category: "Autodérision",
@@ -264,7 +264,7 @@ export default function AnatomieVannePage() {
                 name: "Double sens",
                 emoji: "🔀",
                 desc: "Un mot a deux sens : tu en installes un, et la chute révèle l'autre.",
-                example: "« Mon chef m'a dit de prendre des initiatives. » → « J'ai pris mon vendredi. »",
+                example: "« Il paraît qu'il faut savoir poser ses limites. » → « J'ai planté un panneau 30 devant chez moi. Personne n'a ralenti. »",
               },
               {
                 name: "Retournement",
