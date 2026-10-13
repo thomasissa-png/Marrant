@@ -11,9 +11,9 @@ describe("AnatomieVannePage", () => {
 
   it("renders the 3 structure parts", () => {
     render(<AnatomieVannePage />);
-    expect(screen.getByText("Le Setup")).toBeInTheDocument();
-    expect(screen.getByText("Le Pivot")).toBeInTheDocument();
-    expect(screen.getByText("La Punchline")).toBeInTheDocument();
+    expect(screen.getByText("Le setup")).toBeInTheDocument();
+    expect(screen.getByText("Le pivot")).toBeInTheDocument();
+    expect(screen.getByText("La punchline")).toBeInTheDocument();
   });
 
   it("renders the 3 dissected joke examples", () => {

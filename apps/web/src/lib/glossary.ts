@@ -35,8 +35,8 @@ export const glossary = [
     term: "Storytelling",
     definition:
       "L'art de raconter une histoire drôle sans perdre personne en route. En humour, le storytelling repose sur 3 ingrédients : une structure claire (une situation, une complication, une chute), des détails précis qu'on peut presque voir, et un rythme qui donne envie d'entendre la suite.",
-    related: "/parcours",
-    relatedLabel: "Parcours storytelling",
+    related: "/parcours/storytelling",
+    relatedLabel: "Parcours Storytelling",
   },
   {
     term: "One-liner",
@@ -76,7 +76,7 @@ export const glossary = [
   {
     term: "Accusé de réception",
     definition:
-      "Première technique de répartie : face à une remarque, tu commences par accuser réception (« Intéressant », « Pas faux », « Bien vu ») pour gagner 2-3 secondes et trouver ta vraie réponse. Vu de l'extérieur, tu as l'air de réfléchir calmement, alors qu'en dedans c'est la panique au standard.",
+      "Première technique de répartie : face à une remarque, tu commences par accuser réception (« Intéressant », « Pas faux », « Bien vu ») pour gagner quelques secondes et trouver ta vraie réponse. Vu de l'extérieur, tu as l'air de réfléchir calmement, alors qu'en dedans c'est la panique au standard.",
     related: "/conseils",
     relatedLabel: "Pratiquer la technique",
   },

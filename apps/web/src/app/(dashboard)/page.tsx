@@ -16,38 +16,11 @@ import { DerniersArticles } from "@/components/home/derniers-articles";
 import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
 
-const homepageFaqs = [
-  {
-    question: "Comment devenir drôle quand on n'est pas drôle ?",
-    answer:
-      "L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Avec des exercices progressifs (vannes à ressortir, techniques de répartie, analyse de stand-up), tu peux devenir plus drôle en quelques semaines. Nos parcours structurés te guident pas à pas.",
-  },
-  {
-    question: "Comment avoir de la répartie rapidement ?",
-    answer:
-      "La répartie repose sur des techniques précises : accuser réception, rebondir sur un mot-clé, retourner la situation. En pratiquant 5-10 minutes par jour avec nos exercices, tu peux voir une vraie différence en 2 à 4 semaines.",
-  },
-  {
-    question: "Est-ce que je peux apprendre à être drôle en ligne ?",
-    answer:
-      "Oui, deviens-marrant.fr est une plateforme en ligne avec des vannes classées par catégorie, des conseils d'humour avec exercices concrets, des vidéos de stand-up analysées et des parcours structurés. Tu progresses à ton rythme depuis chez toi.",
-  },
-  {
-    question: "Combien coûte deviens-marrant.fr ?",
-    answer:
-      "Premium coûte 2,99 €/mois. Tu accèdes à toutes les vannes, tous les conseils, toutes les vidéos analysées, les parcours structurés et le contenu du jour. Annulation en 1 clic, sans engagement.",
-  },
-];
-
 // FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
 // un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
 // est `FaqSection` (rendue via PremiumCta) → `faqSectionFaqs`.
-// `homepageFaqs` n'est affiché nulle part : exclu du JSON-LD (passe SEO s11).
-// Conservé tel quel (chiffres compris) en attendant l'arbitrage de Thomas :
-// l'afficher dans une section visible (puis le réintégrer ici) ou le supprimer.
-// Voir docs/seo/passe-finale-s11.md §3.
+// L'ancien `homepageFaqs` (jamais affiché) a été supprimé (décision Thomas, 13/10/2026).
 const allFaqs = [...faqSectionFaqs];
-void homepageFaqs;
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -110,7 +83,7 @@ export default async function HomePage() {
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis : la bonne vanne te vient
               toujours, mais dans le métro du retour. On te donne des vannes
-              courtes à ressortir sur le moment, et un streak pour garder le rythme.
+              courtes à ressortir sur le moment, et une série de jours de pratique pour garder le rythme.
             </p>
             <Link href="/parcours/machine-a-cafe" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
               Parcours Machine à Café · {parcoursWeeks("machine-a-cafe")}&nbsp;semaines →
@@ -142,8 +115,8 @@ export default async function HomePage() {
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Après une période compliquée, ton humour n&apos;est pas parti, il
-              est juste rouillé. Blagues, storytelling et auto-dérision pour le
-              remettre en route à ton rythme, avec tes XP et ton streak pour
+              est juste rouillé. Blagues, storytelling et autodérision pour le
+              remettre en route à ton rythme, avec tes XP et ta série pour
               mesurer le chemin parcouru.
             </p>
             <Link href="/parcours/confiance" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link hover:underline">
@@ -171,7 +144,7 @@ export default async function HomePage() {
       {/* CTA principal */}
       <HomeCta />
 
-      {/* CTA Offres — abonnement d'abord, coaching en dessous */}
+      {/* CTA Offre : abonnement Premium (coaching retiré le 13/10/2026) */}
       <PremiumCta />
 
       {/* Prochainement — fonctionnalités à venir avec votes */}

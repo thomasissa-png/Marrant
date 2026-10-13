@@ -3,7 +3,7 @@ import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
-import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -12,7 +12,7 @@ import {
 } from "@/components/seo/json-ld";
 
 export const metadata: Metadata = {
-  title: "L'humour s'apprend — notre mission",
+  title: "L'humour s'apprend : notre mission",
   description:
     "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.",
   keywords: [
@@ -33,7 +33,7 @@ const aboutFaqs = [
   {
     question: "Quelles techniques d'humour sont enseignées ?",
     answer:
-      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots — les mêmes techniques utilisées par les pros de la scène.",
+      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots : les mêmes techniques utilisées par les pros de la scène.",
   },
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
@@ -117,7 +117,7 @@ export default function AProposPage() {
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Des parcours structurés</strong> de {PARCOURS_MIN_WEEKS} à {PARCOURS_MAX_WEEKS} semaines pour
-                progresser pas à pas avec des XP et des streaks
+                progresser pas à pas avec des XP et une série de jours de pratique
               </span>
             </li>
             <li className="flex items-start gap-2">
@@ -149,7 +149,7 @@ export default function AProposPage() {
             </li>
             <li>
               <strong>Roder, comme en open mic</strong>&nbsp;: un humoriste teste
-              son set soir après soir : ce qui fait rire reste, ce qui fait un
+              son set soir après soir. Ce qui fait rire reste, ce qui fait un
               blanc saute. Tu avances de la même façon, essai après essai.
             </li>
           </ol>
@@ -162,14 +162,14 @@ export default function AProposPage() {
             passionné de stand-up et de pédagogie. Après des années à
             décortiquer les techniques des meilleurs humoristes français, il a
             créé cette plateforme pour rendre l&apos;humour accessible à tous,
-            pas juste à ceux qui sont &quot;nés drôles&quot;.
+            pas juste à ceux qui sont «&nbsp;nés drôles&nbsp;».
           </p>
           <p className="mt-3 text-text-secondary">
             L&apos;équipe mélange culture stand-up et pédagogie, avec une
             obsession : que ce que tu lis ici te serve dès ce soir. Chaque
             vanne, chaque conseil, chaque vidéo
-            passe un test simple avant d&apos;être publié : &quot;est-ce que
-            je la sors ce soir en soirée ?&quot;
+            passe un test simple avant d&apos;être publié : «&nbsp;est-ce que
+            je peux la sortir ce soir et faire rire ?&nbsp;»
           </p>
         </section>
 
@@ -213,7 +213,7 @@ export default function AProposPage() {
           <div className="mt-4 inline-flex flex-col items-center gap-1">
             <AuthCta label="Accéder aux parcours complets" src="a-propos" />
             <p className="max-w-md text-balance text-sm text-text-muted">
-              2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre.
+              {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
             </p>
           </div>
         </div>

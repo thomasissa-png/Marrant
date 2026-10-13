@@ -128,7 +128,7 @@ describe("VideosGrid", () => {
     });
     render(<VideosGrid />);
     await waitFor(() => {
-      expect(screen.getByText("Pas de vidéo ici... même les humoristes font des pauses")).toBeInTheDocument();
+      expect(screen.getByText("Pas de vidéo ici… même les humoristes font des pauses")).toBeInTheDocument();
     });
   });
 

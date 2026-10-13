@@ -45,7 +45,7 @@ const quizFaqs = [
   {
     question: "Le quiz est-il gratuit ?",
     answer:
-      "Oui, le quiz est 100% gratuit et se fait sans inscription. Tu peux le refaire autant de fois que tu veux, jusqu'à tomber sur le profil qui te plaît (on ne dira rien).",
+      "Oui, le quiz est 100 % gratuit et se fait sans inscription. Tu peux le refaire autant de fois que tu veux, jusqu'à tomber sur le profil qui te plaît (on ne dira rien).",
   },
   {
     question: "Comment le profil est-il calculé ?",

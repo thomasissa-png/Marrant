@@ -1,5 +1,16 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Audit des pages, lot 1, **NON COMMITÉ, NON DÉPLOYÉ** (13/10/2026)
+
+- Code seul, aucune migration, aucune tâche de démarrage, aucune variable d'env, aucune écriture en base. 37 fichiers de `apps/web/src` modifiés + 1 test ajouté (`coaching-retire-s20.test.tsx`). Détail ligne par ligne : `docs/copy/application-pages-site-s20.md`.
+- Retouches de mots validées à l'aveugle (2 sur 3) de `docs/copy/corrections-pages-site-s20.md` §1-§7 : 34 remplacements exacts (34 items J). Non appliqués : J10, J20, J29, J30, J32, J39, J40, J41, J43 (en reprise), AN2 (vanne 1 à remplacer), §11.
+- Graphie « autodérision » (§8) : 15 emplacements + test `feature-cards`.
+- Retouches à 0 mot : tirets cadratins des titles `/blog` et `/a-propos` et du JSON-LD FAQ `/a-propos`, « … », « 100 % », guillemets « » des devises du quiz, casse des 3 H2 de `/anatomie-vanne`, lien du glossaire vers `/parcours/storytelling`.
+- **Offre coaching à 99 € retirée** (décision Thomas) : bloc de `premium-cta.tsx` (lien Calendly), ligne tarif de llms.txt, mention dans le prompt du générateur marketing. Il n'existait ni produit Stripe ni route de paiement pour le coaching (réservation Calendly externe) : rien à désactiver côté Stripe ni en base. **Avant mise en ligne** : le H2 du bloc « Deux façons de t'y mettre » ne présente plus qu'une offre, nouveau texte à faire relire à l'aveugle (voir rapport). Désactiver aussi l'événement Calendly `contact-deviens-marrant/45min` côté Calendly (Thomas).
+- `homepageFaqs` supprimé (code mort) ; replis JSON-LD inventés 50 (`/conseils`) et 60 (`/videos`) retirés (base KO = `numberOfItems` omis) ; prix écrits en dur branchés sur `PREMIUM_PRICE_LABEL` (`/a-propos`, `/parcours`, `/glossaire`, FAQ prix, llms.txt, paywall mobile, quiz d'accueil), même texte affiché.
+- Contrôles (13/10) : `tsc -p tsconfig.build.json` OK, `tsc` complet OK, `npm run lint` OK (1 avertissement préexistant `admin/page.tsx`), Jest sans secrets Stripe 300 suites / 4596 tests OK, `npm run build` OK.
+- Pour déployer : commit, CI verte, puis déploiement normal (rien à lancer après). IndexNow conseillé sur `/`, `/vannes`, `/conseils`, `/videos`, `/a-propos`, `/blog`, `/glossaire`, `/anatomie-vanne`, `/quiz-humour`, `/parcours`, `/abonnement`.
+
 ## s20 Articles : FAQ timing et numéros des H2 (décisions Thomas 13/10), **DÉPLOYÉ le 13/10/2026, version `dbc25485-463b-44ca-80aa-8b1ede9300c5`, commit `2d4c350c`** ; journal « contenus vidéo s20 v1 : 2 fiche(s) mise(s) à jour, 0 refus garde-fou, 84 déjà faite(s) » ; pages vérifiées ; N-1 `76cf42da-6e83-499b-8c53-b3e34f237bf7`
 
 - `timing-humour` : réponse FAQ « Comment améliorer son timing comique ? » réécrite (une seconde environ, trois exercices distincts ; relecture à l'aveugle 3/3).

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -213,7 +214,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 onClick={() => router.push("/abonnement")}
                 className="min-h-[44px] text-xs text-text-muted underline hover:text-text-secondary"
               >
-                Tout débloquer à 2,99 €/mois
+                Tout débloquer à {PREMIUM_PRICE_LABEL}
               </button>
             </div>
           </CardContent>

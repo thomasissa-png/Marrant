@@ -318,6 +318,11 @@
         "slug": "timing-humour",
         "session": "s20 FAQ timing",
         "raison": "réponse FAQ « Comment améliorer son timing comique ? » réécrite : une seconde environ, trois exercices distincts (décision Thomas 13/10, relecture à l'aveugle 3/3, docs/copy/corrections-articles-s20-suite-tour2.md)"
+      },
+      {
+        "slug": "confiance-humour-apres-rupture",
+        "session": "s20 Waly Dia",
+        "raison": "paragraphe Waly Dia réécrit (« systématiquement » invérifiable ; humour frontal sourcé Politis/Le Temps ; consigne et exemple pour le lecteur), relecture à l'aveugle 2 sur 3, docs/copy/corrections-pages-site-s20-tour2.md §5"
       }
     ]
   },
@@ -557,8 +562,8 @@
       "emDashesBefore": 26
     },
     "confiance-humour-apres-rupture": {
-      "words": "13905f261e505d50540cef8bbfacd874a676c88eb8a1e46d2d45d6daf0f8dd6a",
-      "wordCount": 2017,
+      "words": "09a2b9ac960b70c86ee7196ef961503b7de7c8dcee861ecfd5cf5e2e3445787d",
+      "wordCount": 2082,
       "headings": "e26b14261fe3628f2fd05a2243b0fa7d9e45ad1970dca81b0a1391e19bdeda96",
       "links": "a4fc01191286dba97b1ff012226a6cfe1633fe591fafc58827024ec58f371e72",
       "numbers": "ecf47438b16a0500bf6128b94621d368f520101b804317ddefb679d4be687294",

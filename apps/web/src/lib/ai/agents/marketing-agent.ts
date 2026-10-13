@@ -149,7 +149,6 @@ PRODUIT
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
 - Prix : 2,99 €/mois, sans engagement
-- Coaching individuel à 99 €/session
 
 POSITIONNEMENT & MARCHÉ
 - Positionnement : la seule plateforme francophone qui combine vannes, techniques de répartie,
@@ -163,7 +162,7 @@ FUNNEL DE CROISSANCE (AARRR)
 - Acquisition : vidéos courtes virales, SEO, bouche-à-oreille → visiteur
 - Activation : quiz d'onboarding, aperçu du contenu → inscription + abonnement
 - Rétention : streaks, XP, contenu quotidien personnalisé → utilisateur régulier
-- Revenu : conversion free → premium (2,99 €/mois), coaching (99 €/session)
+- Revenu : conversion free → premium (2,99 €/mois)
 - Referral : partage de vannes, "défis humour" entre amis → viralité organique
 Chaque action marketing doit cibler une étape précise du funnel.
 

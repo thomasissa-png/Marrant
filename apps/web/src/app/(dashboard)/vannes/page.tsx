@@ -30,7 +30,7 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
   return {
     title: "Vannes et blagues drôles à ressortir",
-    description: `${prefix} (ou blagues) rangées par situation : soirée, boulot, couple, école. Chacune a sa chute et son décryptage pour la replacer au bon moment.`,
+    description: `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`,
     keywords: [
       "blague drôle",
       "blagues courtes",
@@ -49,17 +49,17 @@ const vannesFaqs = [
   {
     question: "Comment trouver la bonne vanne pour une situation ?",
     answer:
-      "Passe par les filtres : boulot, couple, soirée, école, gaming. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Mets tes préférées en favoris : tu les auras sous la main le jour J.",
+      "Passe par les pages thème (boulot, couple, soirées, famille, gaming) ou, avec Premium, par les filtres. Chaque vanne est rangée par contexte, pour que tu trouves en 3 secondes celle qui colle à ta situation plutôt que celle qui jette un froid. Avec Premium, mets tes préférées en favoris : tu les auras sous la main le jour J.",
   },
   {
     question: "Comment retenir une blague pour la ressortir au bon moment ?",
     answer:
-      "Le truc, c'est la répétition espacée : tu lis une vanne le matin et tu essaies de la ressortir dans la journée. Tes favoris te servent de carnet à relire de temps en temps. Au bout de 3-4 répétitions, elle sort toute seule, et de préférence au bon moment.",
+      "Le truc, c'est la répétition espacée : tu lis une vanne le matin et tu essaies de la ressortir dans la journée. Avec Premium, tes favoris te servent de carnet à relire de temps en temps. À force de la répéter, elle sort toute seule, et de préférence au bon moment.",
   },
   {
     question: "Est-ce que les vannes sont adaptées à toutes les situations ?",
     answer:
-      "Chaque vanne est rangée par catégorie et passe le Test Stand-Up : « est-ce que je peux la sortir ce soir en soirée ? ». Rien de vulgaire, pas d'objets qui parlent, pas de jeux de mots forcés : seulement des vannes qu'on peut sortir entre potes ou au boulot sans que la pièce se refroidisse.",
+      "Chaque vanne est rangée par catégorie et passe le Test Stand-Up : « est-ce que je peux la sortir ce soir et faire rire ? ». Rien de vulgaire, pas de grille-pain qui parle tout seul, pas de jeux de mots forcés : seulement des vannes qu'on peut sortir entre potes ou au boulot sans que la pièce se refroidisse.",
   },
 ];
 
@@ -89,7 +89,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${jokeLabel} vannes drôles à ressortir ce soir`,
-          description: `${jokeLabel} vannes classées par situation (soirée, boulot, couple, école), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
+          description: `${jokeLabel} vannes classées par situation (boulot, couple, soirées, famille, gaming), chacune avec sa chute et son décryptage pour que tu saches la replacer au bon moment.`,
           url: "https://deviens-marrant.fr/vannes",
           numberOfItems: jokeCount,
           relatedArticles: [
@@ -107,8 +107,8 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         title={<>Vannes drôles à ressortir ce soir, pas trois jours plus tard</>}
         lead={
           <>
-            Boulot, couple, soirées, école, gaming&nbsp;: choisis ta situation, clique
-            pour révéler la chute et garde tes préférées sous le coude. La
+            Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique
+            pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La
             théorie, c&apos;est bien. Avoir une vanne prête au moment où tout le
             monde te regarde, c&apos;est mieux.
           </>
@@ -132,10 +132,10 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir en soirée et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas d&apos;objets qui parlent, pas de jeux de mots qui nécessitent un doctorat en linguistique.
+            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas de grille-pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
-            Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirée, potes</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
+            Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirées, famille, gaming</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
           </p>
           <p>
             Tu veux aller plus loin ? Apprends à <Link href="/blog/comment-raconter-une-blague-sans-la-rater" className="text-accent-link underline underline-offset-2">raconter une blague sans la massacrer</Link> ou découvre les <Link href="/blog/erreurs-blagues" className="text-accent-link underline underline-offset-2">5 erreurs qui tuent tes blagues</Link>.

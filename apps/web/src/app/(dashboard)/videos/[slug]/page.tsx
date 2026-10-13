@@ -22,7 +22,7 @@ export const dynamicParams = true;
 
 const CATEGORY_LABELS: Record<string, string> = {
   TIMING: "Timing",
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",

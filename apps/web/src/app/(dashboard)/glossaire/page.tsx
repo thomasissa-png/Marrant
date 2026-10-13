@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
 const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
@@ -137,7 +138,7 @@ export default function GlossairePage() {
           bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
         <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
-          Commencer à 2,99 €/mois
+          Commencer à {PREMIUM_PRICE_LABEL}
         </Link>
       </div>
     </>

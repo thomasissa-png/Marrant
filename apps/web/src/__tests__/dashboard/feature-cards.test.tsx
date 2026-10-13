@@ -47,7 +47,7 @@ describe("FeatureCards", () => {
   it("renders descriptions for each card", () => {
     render(<FeatureCards />);
     expect(screen.getByText(/école, boulot, couple, soirées/i)).toBeInTheDocument();
-    expect(screen.getByText(/timing, auto-dérision, storytelling/i)).toBeInTheDocument();
+    expect(screen.getByText(/timing, autodérision, storytelling/i)).toBeInTheDocument();
     expect(screen.getByText(/les meilleurs extraits d.humoristes/i)).toBeInTheDocument();
   });
 

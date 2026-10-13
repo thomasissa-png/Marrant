@@ -24,7 +24,7 @@ export const revalidate = 86400;
 export const dynamicParams = true;
 
 const CATEGORY_LABELS: Record<string, string> = {
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   SITUATION: "Vie quotidienne",
   ABSURDE: "Absurde",
   OBSERVATIONNEL: "Vie quotidienne",

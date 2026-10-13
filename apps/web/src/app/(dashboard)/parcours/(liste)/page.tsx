@@ -12,7 +12,7 @@ import { buildParcoursItemListJsonLd } from "@/lib/parcours-jsonld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
-import { PARCOURS_COUNT, PREMIUM_PARCOURS } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { listeFr } from "@/lib/liste-fr";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
@@ -107,7 +107,7 @@ export default async function ParcoursPage() {
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
           <Link href="/abonnement" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="font-display text-base font-bold text-text-primary">Abonnement 2,99 &euro;/mois</h3>
+            <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
             <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">

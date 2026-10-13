@@ -3286,7 +3286,7 @@ Mal utilisée : elle amplifie la douleur. Bien utilisée : elle signale que tu e
 
 3. **Autodérision de recul** (celle qu'on cherche) : observer le *contexte* avec distance. "J'ai passé 3 mois à analyser une relation de 6 mois. C'est plus un chagrin, c'est une thèse." Ou : "J'ai eu la rupture la plus administrative de l'histoire : par message, un mardi à 14h37. J'étais visiblement son activité de pause déjeuner." → Tu vois la situation de l'extérieur, tu n'es plus dedans. Tu te moques du contexte, pas de ta valeur.
 
-**Waly Dia** utilise systématiquement ce troisième niveau dans ses spectacles : il parle de ses expériences difficiles avec une précision d'entomologiste. Pas pour minimiser, mais pour montrer qu'il les a traversées et qu'il peut maintenant les cartographier.
+**Waly Dia** nomme frontalement ce qui fait mal dans la société et en fait rire, sans détourner le regard. Fais pareil avec ta rupture : prends du champ par rapport à elle en la racontant comme un reporter. Consigne : trois phrases de compte rendu neutres, sans un seul adjectif, puis une quatrième avec le détail le plus absurdement précis. Exemple imaginé : « Samedi, elle m'a proposé de faire un point. Nous nous sommes assis dans la cuisine. Elle a parlé, j'ai écouté. Elle avait préparé un support de douze diapositives, sommaire inclus. » Relis-le à voix haute : si tu souris, le recul est là.
 
 Notre article [Autodérision : transforme tes interactions](/blog/autoderision-interactions) détaille les techniques pour tenir cette frontière entre les 3 niveaux.
 

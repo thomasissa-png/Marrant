@@ -123,7 +123,7 @@ export default function AnatomieVannePage() {
                 Partie 1
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
-                Le Setup
+                Le setup
               </h2>
               <p className="mt-3 text-sm text-text-secondary">
                 La <strong>mise en place</strong>. Tu installes le contexte et tu emmènes
@@ -148,7 +148,7 @@ export default function AnatomieVannePage() {
                 Partie 2
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
-                Le Pivot
+                Le pivot
               </h2>
               <p className="mt-3 text-sm text-text-secondary">
                 Le <strong>point de bascule</strong> : le moment exact où la blague change de
@@ -158,8 +158,8 @@ export default function AnatomieVannePage() {
               <div className="mt-4 rounded-lg bg-background-elevated p-3">
                 <p className="text-xs font-semibold text-text-muted">Types de pivots</p>
                 <p className="mt-1 text-sm text-text-primary">
-                  Double sens, retournement, association inattendue, exagération,
-                  sous-entendu, décalage temporel.
+                  Double sens, retournement, exagération, décalage,
+                  sous-entendu, anti-chute.
                 </p>
               </div>
             </div>
@@ -173,7 +173,7 @@ export default function AnatomieVannePage() {
                 Partie 3
               </div>
               <h2 className="mt-2 font-display text-xl font-bold text-text-primary">
-                La Punchline
+                La punchline
               </h2>
               <p className="mt-3 text-sm text-text-secondary">
                 La <strong>chute</strong> : la phrase qui déclenche le rire. Elle doit
