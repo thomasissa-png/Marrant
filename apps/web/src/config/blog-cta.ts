@@ -53,10 +53,10 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
     secondaryLabel: "Lire l'étape 1 de Confiance",
     parcoursHref: "/parcours/confiance",
   },
-  // Article à forte frappe s14 : textes de la notation iter1 (A4-blagues-de-couple.md). Étalon 3.2c (texte exact validé).
+  // Article à forte frappe s14 : textes de la notation iter1 (A4-blagues-de-couple.md). Étalon 3.2c ; phrase corrigée le 13/10/2026 (Thomas « je valide tout », relue 3/3 à l'aveugle).
   "blagues-de-couple-drole": {
     title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
-    text: "Le parcours Répartie t'entraîne à renvoyer la balle quand l'autre te répond du tac au tac, étape après étape.",
+    text: "Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre.",
     primaryLabel: "Commencer le parcours Répartie",
     note: `Premium à ${PREMIUM_PRICE_LABEL}, sans engagement. La première étape se lit sans compte.`,
     secondaryLabel: "Lire l'étape 1 de Répartie",
