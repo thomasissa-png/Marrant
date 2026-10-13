@@ -11,6 +11,33 @@
 - Code : note V107 (« 7,5 / 7,5 au C10, ne plus tirer sur LinkedIn sans relecture ») en commentaire dans `src/config/social-pool.ts` ; commentaire seul (le parseur de notes garde 8,5 / 8,5), non bloquant pour le script de lot. tsc, lint, build OK ; Jest 4 567 PASS.
 - Retour arrière : UPDATE des 2 posts vers l'ancien texte (`content`, `hook`, `threadParts`, `imageUrls`, `sourceId`, `directorNote` « [variante:…] Lot relance-s15 (VANNE, TIRAGE) ») puis `DELETE FROM "Joke"` des 2 ids.
 
+## s20 Audit des pages, lot 1 + tour 2 + titre du bloc des offres, **DÉPLOYÉ le 13/10/2026, version `07c24e84-873d-48fa-9207-6fad53c0a987`, commits `cc6f96b0` et suivant** ; pages vérifiées en ligne (titre « Pour t'y mettre, il y a Premium », 0 coaching, listes de situations à 5, Waly Dia, titres sans tiret) ; IndexNow 200 (12 URL) ; N-1 `dbc25485-463b-44ca-80aa-8b1ede9300c5`. **Action Thomas : désactiver l'événement Calendly de 45 min (coaching) et vérifier s'il y a eu des réservations.** Vannes 1 et 4 de `/anatomie-vanne` inchangées (remplaçantes du catalogue refusées à l'aveugle)
+
+- Code seul, aucune migration, aucune tâche de démarrage, aucune variable d'env, aucune écriture en base. 37 fichiers de `apps/web/src` modifiés + 1 test ajouté (`coaching-retire-s20.test.tsx`). Détail ligne par ligne : `docs/copy/application-pages-site-s20.md`.
+- Retouches de mots validées à l'aveugle (2 sur 3) de `docs/copy/corrections-pages-site-s20.md` §1-§7 : 34 remplacements exacts (34 items J). Non appliqués : J10, J20, J29, J30, J32, J39, J40, J41, J43 (en reprise), AN2 (vanne 1 à remplacer), §11.
+- Graphie « autodérision » (§8) : 15 emplacements + test `feature-cards`.
+- Retouches à 0 mot : tirets cadratins des titles `/blog` et `/a-propos` et du JSON-LD FAQ `/a-propos`, « … », « 100 % », guillemets « » des devises du quiz, casse des 3 H2 de `/anatomie-vanne`, lien du glossaire vers `/parcours/storytelling`.
+- **Offre coaching à 99 € retirée** (décision Thomas) : bloc de `premium-cta.tsx` (lien Calendly), ligne tarif de llms.txt, mention dans le prompt du générateur marketing. Il n'existait ni produit Stripe ni route de paiement pour le coaching (réservation Calendly externe) : rien à désactiver côté Stripe ni en base. **Avant mise en ligne** : le H2 du bloc « Deux façons de t'y mettre » ne présente plus qu'une offre, nouveau texte à faire relire à l'aveugle (voir rapport). Désactiver aussi l'événement Calendly `contact-deviens-marrant/45min` côté Calendly (Thomas).
+- `homepageFaqs` supprimé (code mort) ; replis JSON-LD inventés 50 (`/conseils`) et 60 (`/videos`) retirés (base KO = `numberOfItems` omis) ; prix écrits en dur branchés sur `PREMIUM_PRICE_LABEL` (`/a-propos`, `/parcours`, `/glossaire`, FAQ prix, llms.txt, paywall mobile, quiz d'accueil), même texte affiché.
+- Contrôles (13/10) : `tsc -p tsconfig.build.json` OK, `tsc` complet OK, `npm run lint` OK (1 avertissement préexistant `admin/page.tsx`), Jest sans secrets Stripe 300 suites / 4596 tests OK, `npm run build` OK.
+- Pour déployer : commit, CI verte, puis déploiement normal (rien à lancer après). IndexNow conseillé sur `/`, `/vannes`, `/conseils`, `/videos`, `/a-propos`, `/blog`, `/glossaire`, `/anatomie-vanne`, `/quiz-humour`, `/parcours`, `/abonnement`.
+
+## s20 Articles : FAQ timing et numéros des H2 (décisions Thomas 13/10), **DÉPLOYÉ le 13/10/2026, version `dbc25485-463b-44ca-80aa-8b1ede9300c5`, commit `2d4c350c`** ; journal « contenus vidéo s20 v1 : 2 fiche(s) mise(s) à jour, 0 refus garde-fou, 84 déjà faite(s) » ; pages vérifiées ; N-1 `76cf42da-6e83-499b-8c53-b3e34f237bf7`
+
+- `timing-humour` : réponse FAQ « Comment améliorer son timing comique ? » réécrite (une seconde environ, trois exercices distincts ; relecture à l'aveugle 3/3).
+- `comment-faire-rire-une-fille` et `comment-faire-rire-un-homme` : numéros « 2. », « 3. »… retirés des 8 H2 (mécanique, aucun lien ne vise ces ancres).
+- Fiches vidéo Karim Duval (24) et Azencot (56) ajoutées à `video-content-s20.json` (tour 7 validé à 2 sur 3) : la tâche les applique au prochain appel (84 déjà faites).
+- Paragraphe Waly Dia (`confiance-humour-apres-rupture`) : encore sous la barre, texte en ligne inchangé.
+
+## s20 Durées réelles des fiches vidéo, **DÉPLOYÉ le 13/10/2026, version `dbc25485-463b-44ca-80aa-8b1ede9300c5`** ; journal « durées vidéo s20 v1 : 89 corrigée(s), 0 refus garde-fou, 0 déjà faite(s), 0 absente(s) » ; JSON-LD vérifié (Barré `PT2H26M19S`) ; IndexNow 200 (92 URL) ; N-1 `76cf42da-6e83-499b-8c53-b3e34f237bf7`
+
+- Les 89 `Video.duration` en base sont fausses (estimations arrondies du seed, ex. `PT68M00S` pour 1 h 17). Vraies durées lues le 13/10 via l'API YouTube Data v3 : `src/data/video-durations-s20.json` (89 entrées, généré par la session, ne pas éditer à la main).
+- Nouvelle tâche de démarrage `applyVideoDurationsS20Task` (`src/lib/video-durations-s20.ts`), branchée APRÈS `applyVideoContentS20Task` (le JSON porte le nouvel id Dany Boon `JNo86HEt86w`). Garde-fou : écriture seulement si `duration` en base === `attendu`, sinon refus « GARDE-FOU » sans écriture ni marqueur. Marqueur `video-duration-s20:v1:<youtubeId>` et `note.before.duration` posés dans la même transaction, une par vidéo. Non bloquante.
+- JSON-LD `VideoObject` : `duration` transmise seulement si ISO 8601 valide (`lib/video-duration-format.ts`), heures comprises (`PT2H26M19S`). La durée n'est affichée nulle part ailleurs ; ancien `formatDuration` de `videos-grid.tsx` (code mort, qui aurait rendu `PT1H9M56S` en « 1:9:56 ») supprimé.
+- Simulation prod en lecture seule (13/10) : **89/89 passent le garde-fou**, 0 refus, 0 absente, 0 déjà faite. 30 vidéos inactives hors JSON, non touchées.
+- Après déploiement (attendre que la nouvelle version serve 100 % du trafic) : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu dans le journal : « durées vidéo s20 v1 : 89 corrigée(s), 0 refus garde-fou, 0 déjà faite(s), 0 absente(s) » (la tâche ajoute environ 45 à 50 s, une transaction par vidéo). 2e appel : « 0 corrigée(s), …, 89 déjà faite(s) ». Si l'appel répond en quelques secondes sans cette ligne, voir le point « 1er appel à 4 s » du handoff s20 avant de relancer.
+- Retour arrière base : SQL en tête de `video-durations-s20.ts`, en gardant les marqueurs.
+
 ## s15 (13/10/2026, 08:31 Paris) : LOT 1b INSÉRÉ en base (19/10 au 15/11), **RIEN À DÉPLOYER**
 
 - Avant : `lot-1b.json` identique à `e7caadb` (sha256 `2268b3d9…`) ; replis du 1a REJECTED (`c92df7ca8db3e3ef8cdd36470` IG 12/10, `cb2cb272487d56bb82eff560f` LinkedIn 13/10), 0 FAILED au 1a ; V7 : `premier-message-drole-appli-de-rencontre` = 18 messages, `publishedAt` 29/10 05:00 UTC ; 0 APPROVED préexistant sur la tranche (36 REJECTED anciens).

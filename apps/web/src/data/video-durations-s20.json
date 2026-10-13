@@ -1,0 +1,455 @@
+{
+ "_meta": {
+  "version": 1,
+  "genere": "2026-10-13",
+  "source": "YouTube Data API v3 (videos.list contentDetails.duration), lu le 13/10/2026",
+  "garde_fou": "écriture seulement si la durée en base est encore « attendu »"
+ },
+ "videos": [
+  {
+   "youtubeId": "-LlW0io5w30",
+   "attendu": "PT9M00S",
+   "duree": "PT9M8S"
+  },
+  {
+   "youtubeId": "0CFdBNtFPbE",
+   "attendu": "PT68M00S",
+   "duree": "PT1H17M18S"
+  },
+  {
+   "youtubeId": "0FmK8RA_hnE",
+   "attendu": "PT6M20S",
+   "duree": "PT7M28S"
+  },
+  {
+   "youtubeId": "3v8Y4C9Q5hE",
+   "attendu": "PT5M20S",
+   "duree": "PT2M48S"
+  },
+  {
+   "youtubeId": "4t9a0To2ygo",
+   "attendu": "PT6M40S",
+   "duree": "PT8M13S"
+  },
+  {
+   "youtubeId": "4wxWv241V3g",
+   "attendu": "PT10M30S",
+   "duree": "PT9M5S"
+  },
+  {
+   "youtubeId": "57Ip2k3us_8",
+   "attendu": "PT4M30S",
+   "duree": "PT4M20S"
+  },
+  {
+   "youtubeId": "57KJEtKDf2U",
+   "attendu": "PT6M45S",
+   "duree": "PT7M18S"
+  },
+  {
+   "youtubeId": "5yaEdgAz8Is",
+   "attendu": "PT7M00S",
+   "duree": "PT6M"
+  },
+  {
+   "youtubeId": "6RnIUcFonik",
+   "attendu": "PT7M20S",
+   "duree": "PT8M51S"
+  },
+  {
+   "youtubeId": "6lHjXqelKGo",
+   "attendu": "PT75M00S",
+   "duree": "PT1H31M51S"
+  },
+  {
+   "youtubeId": "B1ooaLzgFlY",
+   "attendu": "PT8M00S",
+   "duree": "PT8M20S"
+  },
+  {
+   "youtubeId": "CWPFF2ld9jI",
+   "attendu": "PT7M10S",
+   "duree": "PT8M33S"
+  },
+  {
+   "youtubeId": "CdRedv9PM40",
+   "attendu": "PT80M00S",
+   "duree": "PT1H21M41S"
+  },
+  {
+   "youtubeId": "DK7ASNHnKm4",
+   "attendu": "PT4M30S",
+   "duree": "PT3M13S"
+  },
+  {
+   "youtubeId": "F5WiaMalDSc",
+   "attendu": "PT8M20S",
+   "duree": "PT9M18S"
+  },
+  {
+   "youtubeId": "FM1rtYhkSjE",
+   "attendu": "PT5M00S",
+   "duree": "PT5M36S"
+  },
+  {
+   "youtubeId": "Fw14PLdtSyA",
+   "attendu": "PT4M00S",
+   "duree": "PT3M37S"
+  },
+  {
+   "youtubeId": "GFS3p1Z8IiE",
+   "attendu": "PT65M00S",
+   "duree": "PT1H13M35S"
+  },
+  {
+   "youtubeId": "GKJKPlf6EqA",
+   "attendu": "PT5M15S",
+   "duree": "PT5M26S"
+  },
+  {
+   "youtubeId": "GO-E-pgBqa8",
+   "attendu": "PT55M00S",
+   "duree": "PT1H47M6S"
+  },
+  {
+   "youtubeId": "HBJBxuIs6g0",
+   "attendu": "PT85M00S",
+   "duree": "PT2H26M19S"
+  },
+  {
+   "youtubeId": "JNo86HEt86w",
+   "attendu": "PT7M00S",
+   "duree": "PT5M21S"
+  },
+  {
+   "youtubeId": "JRJJwIdpL00",
+   "attendu": "PT6M00S",
+   "duree": "PT54S"
+  },
+  {
+   "youtubeId": "JmF7CXVoIz0",
+   "attendu": "PT7M30S",
+   "duree": "PT8M22S"
+  },
+  {
+   "youtubeId": "JtU_EB5i2Mk",
+   "attendu": "PT5M30S",
+   "duree": "PT6M32S"
+  },
+  {
+   "youtubeId": "JuB6-b0fhLE",
+   "attendu": "PT6M30S",
+   "duree": "PT3M15S"
+  },
+  {
+   "youtubeId": "K-oIyXvLUeg",
+   "attendu": "PT5M25S",
+   "duree": "PT5M58S"
+  },
+  {
+   "youtubeId": "Mw2zHEaBPDs",
+   "attendu": "PT6M30S",
+   "duree": "PT7M39S"
+  },
+  {
+   "youtubeId": "NebHsD_K9lM",
+   "attendu": "PT4M30S",
+   "duree": "PT3M25S"
+  },
+  {
+   "youtubeId": "OMkHT3fRQJY",
+   "attendu": "PT55M00S",
+   "duree": "PT1H17M52S"
+  },
+  {
+   "youtubeId": "OR-1TUobxk8",
+   "attendu": "PT8M00S",
+   "duree": "PT7M28S"
+  },
+  {
+   "youtubeId": "Pae2AMnmUVA",
+   "attendu": "PT62M00S",
+   "duree": "PT1H9M56S"
+  },
+  {
+   "youtubeId": "PrQTbXOz2iU",
+   "attendu": "PT5M10S",
+   "duree": "PT6M18S"
+  },
+  {
+   "youtubeId": "Ps3UNPLpmKc",
+   "attendu": "PT7M00S",
+   "duree": "PT3M12S"
+  },
+  {
+   "youtubeId": "QGqA4va99rw",
+   "attendu": "PT2M30S",
+   "duree": "PT56S"
+  },
+  {
+   "youtubeId": "R1yqN11ln_g",
+   "attendu": "PT4M45S",
+   "duree": "PT7M30S"
+  },
+  {
+   "youtubeId": "R5ophuvAqho",
+   "attendu": "PT5M00S",
+   "duree": "PT8M23S"
+  },
+  {
+   "youtubeId": "RYjfe8OSRFw",
+   "attendu": "PT7M45S",
+   "duree": "PT8M57S"
+  },
+  {
+   "youtubeId": "RoBBdJLzPqw",
+   "attendu": "PT6M30S",
+   "duree": "PT6M44S"
+  },
+  {
+   "youtubeId": "Rre1afUQKW0",
+   "attendu": "PT5M30S",
+   "duree": "PT5M42S"
+  },
+  {
+   "youtubeId": "TDmd7JRlxFc",
+   "attendu": "PT6M00S",
+   "duree": "PT3M45S"
+  },
+  {
+   "youtubeId": "TWGNkUX8wbk",
+   "attendu": "PT8M00S",
+   "duree": "PT6M46S"
+  },
+  {
+   "youtubeId": "UbaqKoflh_A",
+   "attendu": "PT5M30S",
+   "duree": "PT5M28S"
+  },
+  {
+   "youtubeId": "UrLkh-Ne0nM",
+   "attendu": "PT65M00S",
+   "duree": "PT1H20M35S"
+  },
+  {
+   "youtubeId": "WGCAhqQz1I0",
+   "attendu": "PT8M15S",
+   "duree": "PT7M10S"
+  },
+  {
+   "youtubeId": "WiOtrTASZWU",
+   "attendu": "PT8M45S",
+   "duree": "PT7M46S"
+  },
+  {
+   "youtubeId": "XrWYDgHAy6c",
+   "attendu": "PT8M00S",
+   "duree": "PT5M17S"
+  },
+  {
+   "youtubeId": "XwG5Ie10rEg",
+   "attendu": "PT90M00S",
+   "duree": "PT1H16M18S"
+  },
+  {
+   "youtubeId": "YY4M7TQTrXE",
+   "attendu": "PT5M15S",
+   "duree": "PT5M44S"
+  },
+  {
+   "youtubeId": "ZMJDmHNqKis",
+   "attendu": "PT12M00S",
+   "duree": "PT1M51S"
+  },
+  {
+   "youtubeId": "Za2F_8DX9Dc",
+   "attendu": "PT7M45S",
+   "duree": "PT8M39S"
+  },
+  {
+   "youtubeId": "_Gru82H__ZM",
+   "attendu": "PT70M00S",
+   "duree": "PT26M28S"
+  },
+  {
+   "youtubeId": "_bwxPjiGPOM",
+   "attendu": "PT8M00S",
+   "duree": "PT6M56S"
+  },
+  {
+   "youtubeId": "afFehefVWxk",
+   "attendu": "PT6M10S",
+   "duree": "PT5M19S"
+  },
+  {
+   "youtubeId": "agciwdzBH3w",
+   "attendu": "PT5M30S",
+   "duree": "PT5M13S"
+  },
+  {
+   "youtubeId": "b0sxUyrE1Cs",
+   "attendu": "PT9M00S",
+   "duree": "PT7M25S"
+  },
+  {
+   "youtubeId": "brlY_DMoaRk",
+   "attendu": "PT8M12S",
+   "duree": "PT7M22S"
+  },
+  {
+   "youtubeId": "cZB0NO0jnz0",
+   "attendu": "PT60M00S",
+   "duree": "PT1H4M56S"
+  },
+  {
+   "youtubeId": "cl-fIl6hjTw",
+   "attendu": "PT7M00S",
+   "duree": "PT8M16S"
+  },
+  {
+   "youtubeId": "dQ--q5y2e4k",
+   "attendu": "PT6M00S",
+   "duree": "PT11M35S"
+  },
+  {
+   "youtubeId": "da21Xp8hGYY",
+   "attendu": "PT7M30S",
+   "duree": "PT7M14S"
+  },
+  {
+   "youtubeId": "eYhWcDdI3rM",
+   "attendu": "PT3M00S",
+   "duree": "PT2M5S"
+  },
+  {
+   "youtubeId": "egM-wlaobjo",
+   "attendu": "PT7M15S",
+   "duree": "PT12M12S"
+  },
+  {
+   "youtubeId": "fQW5AJG-Qj0",
+   "attendu": "PT6M30S",
+   "duree": "PT5M55S"
+  },
+  {
+   "youtubeId": "fnu6fRa-BN4",
+   "attendu": "PT5M10S",
+   "duree": "PT7M23S"
+  },
+  {
+   "youtubeId": "itrLXrwG18c",
+   "attendu": "PT8M30S",
+   "duree": "PT8M32S"
+  },
+  {
+   "youtubeId": "jKhIOyk9kdU",
+   "attendu": "PT3M00S",
+   "duree": "PT4M57S"
+  },
+  {
+   "youtubeId": "jgNSu968qD4",
+   "attendu": "PT4M30S",
+   "duree": "PT3M42S"
+  },
+  {
+   "youtubeId": "lw0hwSg87qk",
+   "attendu": "PT5M00S",
+   "duree": "PT7M8S"
+  },
+  {
+   "youtubeId": "m30qZa8p_Js",
+   "attendu": "PT5M08S",
+   "duree": "PT5M9S"
+  },
+  {
+   "youtubeId": "mFKUThh26oU",
+   "attendu": "PT7M50S",
+   "duree": "PT10M30S"
+  },
+  {
+   "youtubeId": "qdqIc-uzdbA",
+   "attendu": "PT5M45S",
+   "duree": "PT5M21S"
+  },
+  {
+   "youtubeId": "qvgM5npfcdM",
+   "attendu": "PT58M00S",
+   "duree": "PT1H6M42S"
+  },
+  {
+   "youtubeId": "rldvVgHQSvo",
+   "attendu": "PT5M51S",
+   "duree": "PT5M52S"
+  },
+  {
+   "youtubeId": "sjsdIlrotXY",
+   "attendu": "PT6M45S",
+   "duree": "PT8M20S"
+  },
+  {
+   "youtubeId": "t2MsC6I9t5U",
+   "attendu": "PT5M00S",
+   "duree": "PT5M38S"
+  },
+  {
+   "youtubeId": "t7fgrrRVyaU",
+   "attendu": "PT9M15S",
+   "duree": "PT7M21S"
+  },
+  {
+   "youtubeId": "tj6qta_9PaM",
+   "attendu": "PT4M50S",
+   "duree": "PT2M33S"
+  },
+  {
+   "youtubeId": "tpIOLzv11qo",
+   "attendu": "PT4M30S",
+   "duree": "PT4M"
+  },
+  {
+   "youtubeId": "u41ujNodvnM",
+   "attendu": "PT72M00S",
+   "duree": "PT1H9M46S"
+  },
+  {
+   "youtubeId": "uEj_jmlANXE",
+   "attendu": "PT8M50S",
+   "duree": "PT9M47S"
+  },
+  {
+   "youtubeId": "v-ySkBGAXLI",
+   "attendu": "PT5M40S",
+   "duree": "PT7M8S"
+  },
+  {
+   "youtubeId": "vpdrKdWY838",
+   "attendu": "PT9M30S",
+   "duree": "PT4M39S"
+  },
+  {
+   "youtubeId": "y7M7tn6ObfY",
+   "attendu": "PT7M15S",
+   "duree": "PT10M46S"
+  },
+  {
+   "youtubeId": "yx1EJngHCac",
+   "attendu": "PT12M00S",
+   "duree": "PT11M29S"
+  },
+  {
+   "youtubeId": "zC7ff6w7x-Y",
+   "attendu": "PT5M00S",
+   "duree": "PT6M17S"
+  },
+  {
+   "youtubeId": "zGT7TX66JFQ",
+   "attendu": "PT5M40S",
+   "duree": "PT8M50S"
+  },
+  {
+   "youtubeId": "ztKRY4eNUTA",
+   "attendu": "PT6M00S",
+   "duree": "PT6M46S"
+  }
+ ]
+}

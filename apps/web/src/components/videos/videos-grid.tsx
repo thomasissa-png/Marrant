@@ -53,22 +53,13 @@ const DIFFICULTIES = [
 
 const CATEGORY_LABELS: Record<string, string> = {
   TIMING: "Timing",
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",
   ABSURDE: "Absurde",
   JEUX_DE_MOTS: "Jeux de mots",
 };
-
-function formatDuration(iso: string): string {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return iso;
-  const h = match[1] ? `${match[1]}:` : "";
-  const m = match[2] ?? "0";
-  const s = (match[3] ?? "0").padStart(2, "0");
-  return `${h}${m}:${s}`;
-}
 
 /** « TITRE : explication » : titre en gras, explication à la suite. */
 function renderLearning(raw: string) {
@@ -98,7 +89,7 @@ function Chevron() {
 const CATEGORIES = [
   { value: "", label: "Toutes" },
   { value: "TIMING", label: "Timing" },
-  { value: "AUTODERISION", label: "Auto-dérision" },
+  { value: "AUTODERISION", label: "Autodérision" },
   { value: "OBSERVATION", label: "Observation" },
   { value: "REPARTIE", label: "Répartie" },
   { value: "STORYTELLING", label: "Storytelling" },
@@ -267,7 +258,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
         limited && page > 1 ? null : <EmptyState
           emoji="🎬"
           emojiLabel="pas de vidéos"
-          title="Pas de vidéo ici... même les humoristes font des pauses"
+          title="Pas de vidéo ici… même les humoristes font des pauses"
           description="Essaie un autre niveau, y'a du lourd qui t'attend."
           ctaLabel="Voir toutes les vidéos"
           ctaHref="/videos"

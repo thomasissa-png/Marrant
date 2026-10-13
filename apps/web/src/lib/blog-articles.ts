@@ -313,7 +313,7 @@ Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversa
     category: "TIMING",
     faqs: [
       { question: "C'est quoi le timing en humour ?", answer: "Le timing, c'est l'art de dire le bon mot au bon moment : la combinaison du silence avant la punchline, du rythme de ta narration, et du choix du moment pour intervenir. C'est souvent plus important que la blague elle-même. Une blague moyenne au bon moment fait rire. Une bonne blague au mauvais moment... fait rien." },
-      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices : analyse les silences dans les sketches de Roman Frayssinet ou Blanche Gardin (chronomètre en main), pratique la règle des 3 secondes en conversation (compte « un, deux, trois » dans ta tête avant de lâcher ta remarque), et marque des pauses volontaires avant tes punchlines. Inconfortable au début, redoutable au bout d'une semaine." },
+      { question: "Comment améliorer son timing comique ?", answer: "Trois exercices, trois gestes différents. 1) Observer : regarde un extrait de spectacle de Roman Frayssinet ou de Blanche Gardin, chronomètre en main, et note pour trois chutes la durée du silence juste avant et la première phrase qui le suit. 2) Marquer un temps : en conversation, laisse passer une seconde environ après la phrase de l'autre avant de lâcher ta remarque. Un ami annonce « j'ai enfin rangé mon bureau » ? Tu attends, puis : « Il était temps, il demandait l'asile politique. » 3) Ralentir l'amorce : enregistre-toi en racontant une anecdote, réécoute, et si le début file trop vite, refais-le plus posément pour garder la vitesse pour la chute. Inconfortable au début, puis ça devient un réflexe." },
       { question: "Pourquoi mes blagues tombent à plat ?", answer: "Le coupable numéro un : le timing, pas la blague. Parler trop vite, sauter la pause avant la chute, intervenir quand l'ambiance est tendue : ces trois erreurs tuent même les meilleures vannes. Ralentis, et laisse le silence bosser pour toi." },
     ],
   },
@@ -1619,7 +1619,7 @@ Raconte un truc où tu passes pour un idiot : un idiot attachant.
 
 La nuance ? L'autodérision drôle montre de la confiance. L'autodérision triste cherche de la pitié. On a un [guide complet sur l'autodérision bien dosée](/blog/autoderision-interactions).
 
-## 2. L'observation partagée : "Tu vois le truc aussi ?"
+## L'observation partagée : "Tu vois le truc aussi ?"
 
 **Roman Frayssinet** est le roi de ça. Il décrit un truc que tout le monde vit et personne ne verbalise. En conversation, c'est pareil : pointe un truc absurde que vous vivez ensemble, en ce moment.
 
@@ -1629,7 +1629,7 @@ En date : "C'est moi ou le serveur nous regarde comme si on allait partir sans p
 
 Le truc clé : tu ne racontes pas une blague. Tu partages un regard. Et partager un regard, c'est 10 fois plus intime que réciter un sketch.
 
-## 3. L'effet de surprise : Le virage que personne voit venir
+## L'effet de surprise : Le virage que personne voit venir
 
 Le cerveau adore être surpris. Tu commences une phrase dans une direction, et tu tournes.
 
@@ -1645,7 +1645,7 @@ Elle mentionne qu'elle a peur des pigeons. 20 minutes plus tard, devant un parc 
 
 Pourquoi ça marche ? Parce que ça prouve que tu écoutes. Et ça, c'est plus rare que tu ne crois. La plupart des gens attendent juste leur tour pour parler. Toi, tu recycles ce qu'on te dit pour en faire quelque chose de drôle. C'est une déclaration d'attention.
 
-## 5. L'exagération stratégique : Le curseur poussé à fond
+## L'exagération stratégique : Le curseur poussé à fond
 
 Prends un détail et pousse-le à 11/10.
 
@@ -1653,7 +1653,7 @@ Elle dit qu'elle aime le fromage ? "Donc si le plateau de fromages arrive, je te
 
 **Waly Dia** fait ça tout le temps : il prend un détail anodin de la vie et construit un univers absurde autour. L'astuce : une seule exagération suffit. Si tu en empiles trois, ça devient du bruit.
 
-## 6. Le silence qui parle : Ne pas tout remplir
+## Le silence qui parle : Ne pas tout remplir
 
 La plupart des mecs parlent trop. Par nervosité, par envie de combler le vide, par peur du silence. Or le silence n'est pas un trou à boucher.
 
@@ -1721,7 +1721,7 @@ La plupart des mecs communiquent par chambrages. C'est leur langage d'amitié. S
 
 Imagine **Fary** qui taquine le premier rang : ça passe parce que la salle sent qu'il l'aime bien. Le chambrage, c'est pareil : du lien social, à condition de connaître la personne et de rester léger.
 
-## 2. L'humour décalé : Dire le truc que personne attendait
+## L'humour décalé : Dire le truc que personne attendait
 
 Il s'attend à une certaine réaction. Tu casses le script, tu gagnes le rire.
 
@@ -1730,7 +1730,7 @@ Toi : "Bordélique créatif, ou bordélique 'je rachète un chargeur plutôt que
 
 **Paul Mirabel** a construit toute sa carrière sur le décalage : ses réponses ne sont jamais celles qu'on attend. En conversation, c'est pareil : si la chute se voit venir, elle ne fait plus rire.
 
-## 3. Les références partagées : Le ciment du rire complice
+## Les références partagées : Le ciment du rire complice
 
 Films, séries, memes, moments vécus ensemble. Les références partagées créent un langage privé qui fait rire parce qu'il y a un contexte que vous seuls comprenez.
 
@@ -1739,7 +1739,7 @@ Toi : "Tu dis ça avec le même ton que 'je connais un raccourci', à Lisbonne."
 
 Ce type d'humour est imbattable parce qu'il est exclusif : personne d'autre ne peut faire cette blague, c'est votre truc.
 
-## 4. L'autodérision cool : Pas fragile, juste lucide
+## L'autodérision cool : Pas fragile, juste lucide
 
 L'autodérision fonctionne dans les deux sens, mais la nuance compte.
 
@@ -1758,7 +1758,7 @@ Au resto : "On a levé la main tellement de fois pour le serveur qu'à la table 
 
 **Roman Frayssinet** fait ça mieux que personne : il décrit la réalité avec une précision telle que la justesse suffit à faire rire. Pas besoin de blague, juste de bien regarder et de bien dire.
 
-## 6. Le timing de la punchline : Dire moins, pas plus
+## Le timing de la punchline : Dire moins, pas plus
 
 La plupart des gens noient leur humour dans les mots. La phrase drôle, c'est souvent la phrase la plus courte.
 
@@ -3286,7 +3286,7 @@ Mal utilisée : elle amplifie la douleur. Bien utilisée : elle signale que tu e
 
 3. **Autodérision de recul** (celle qu'on cherche) : observer le *contexte* avec distance. "J'ai passé 3 mois à analyser une relation de 6 mois. C'est plus un chagrin, c'est une thèse." Ou : "J'ai eu la rupture la plus administrative de l'histoire : par message, un mardi à 14h37. J'étais visiblement son activité de pause déjeuner." → Tu vois la situation de l'extérieur, tu n'es plus dedans. Tu te moques du contexte, pas de ta valeur.
 
-**Waly Dia** utilise systématiquement ce troisième niveau dans ses spectacles : il parle de ses expériences difficiles avec une précision d'entomologiste. Pas pour minimiser, mais pour montrer qu'il les a traversées et qu'il peut maintenant les cartographier.
+**Waly Dia** nomme frontalement ce qui fait mal dans la société et en fait rire, sans détourner le regard. Fais pareil avec ta rupture : prends du champ par rapport à elle en la racontant comme un reporter. Consigne : trois phrases de compte rendu neutres, sans un seul adjectif, puis une quatrième avec le détail le plus absurdement précis. Exemple imaginé : « Samedi, elle m'a proposé de faire un point. Nous nous sommes assis dans la cuisine. Elle a parlé, j'ai écouté. Elle avait préparé un support de douze diapositives, sommaire inclus. » Relis-le à voix haute : si tu souris, le recul est là.
 
 Notre article [Autodérision : transforme tes interactions](/blog/autoderision-interactions) détaille les techniques pour tenir cette frontière entre les 3 niveaux.
 

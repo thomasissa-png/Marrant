@@ -54,7 +54,7 @@ const conseilsFaqs = [
   {
     question: "Combien de temps faut-il pour avoir de la répartie ?",
     answer:
-      `Avec 5-10 minutes de pratique quotidienne, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure ${parcoursWeeks("repartie")} semaines et te donne des exercices concrets à tester chaque jour. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.`,
+      `Avec une pratique quotidienne, même courte, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure ${parcoursWeeks("repartie")} semaines et te donne un défi concret à chaque étape, à raison d'une par semaine. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.`,
   },
   {
     question: "Comment avoir de la répartie sans être méchant ?",
@@ -73,7 +73,8 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
   ]);
   // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
   if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
-  const tipCount = stats.tips > 0 ? stats.tips : 50;
+  // Pas de chiffre de repli inventé (ex-50) : base KO = numberOfItems omis (comme /vannes).
+  const tipCount = stats.tips;
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
   return (
     <>

@@ -53,7 +53,7 @@ export function PremiumCta() {
     <section className="py-12 md:py-16" id="offres">
       <div className="text-center">
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-          Deux façons de t&apos;y mettre
+          Pour t&apos;y mettre, il y a {OFFRE_NOM}
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
           Étudiant, jeune actif ou en train de tourner une page : tu trouves
@@ -63,7 +63,7 @@ export function PremiumCta() {
 
 
       <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-6">
-        {/* Offre 1 : Premium (nom unique de l'offre, D4 audit s16) */}
+        {/* Offre : Premium (nom unique de l'offre, D4 audit s16) */}
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 sm:p-8">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
           <div className="relative">
@@ -116,62 +116,7 @@ export function PremiumCta() {
           </div>
         </div>
 
-        {/* Offre 2 — Appel coaching : repliée par défaut pour ne pas brouiller l'offre à 2,99 € (T08) */}
-        <details className="group rounded-2xl border border-border bg-background-card">
-          <summary className="flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 p-6 sm:px-8 [&::-webkit-details-marker]:hidden">
-            <h3 className="min-w-0 font-display text-lg font-bold text-text-primary">Coaching individuel</h3>
-            <span className="flex shrink-0 items-center gap-2 whitespace-nowrap text-text-muted">
-              <span className="font-display text-lg font-bold text-text-primary">99&nbsp;€</span>
-              <span className="text-sm">/ séance</span>
-              <svg className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </span>
-          </summary>
-          <div className="px-6 pb-8 sm:px-8">
-          <p className="text-sm text-text-secondary">
-            Un appel de 45 min avec un professionnel de l&apos;humour
-          </p>
-
-          <ul className="mt-6 space-y-3 text-sm text-text-secondary">
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">✓</span>
-              <span><strong>Appel individuel 45 min</strong> en visio</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">✓</span>
-              <span><strong>Diagnostic personnalisé</strong> de tes points forts / faiblesses</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">✓</span>
-              <span><strong>Plan d&apos;action sur mesure</strong> adapté à ta situation</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">✓</span>
-              <span><strong>Exercices ciblés</strong> pour progresser rapidement</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="mt-0.5 text-success">✓</span>
-              <span><strong>Suivi post-appel</strong> par email pendant 1 semaine</span>
-            </li>
-          </ul>
-
-          <a
-            href="https://calendly.com/contact-deviens-marrant/45min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "mt-8 w-full")}
-          >
-            Réserver un appel · 99 €
-            <svg className="ml-2 h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </svg>
-          </a>
-          <p className="mt-3 text-center text-xs text-text-muted">
-            Pour toi si tu préfères qu&apos;on regarde ensemble, en direct, ce qui coince
-          </p>
-          </div>
-        </details>
+        {/* Offre coaching à 99 € retirée (décision Thomas, 13/10/2026, audit des pages s20). */}
       </div>
 
 

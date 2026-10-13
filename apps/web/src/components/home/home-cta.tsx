@@ -26,7 +26,7 @@ export function HomeCta() {
           Tu crois avoir tout essayé pour être drôle ?
         </h2>
         <p className="mt-2 text-text-secondary">
-          {jokesLabel} vannes, {tipsLabel} conseils de pros et {videosLabel} vidéos analysées, le tout pour {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
+          {jokesLabel} vannes, {tipsLabel} conseils concrets et {videosLabel} vidéos analysées, le tout pour {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois, sans engagement. La seule chose que tu n&apos;as pas encore essayée pour être plus drôle.
         </p>
         <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
           {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}

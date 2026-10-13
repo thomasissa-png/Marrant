@@ -60,7 +60,8 @@ describe("affichage conditionné", () => {
     expect(texts).not.toMatch(/4 mois/);
     expect(texts).not.toContain("—");
     expect(getLlmsTarifs(true)).toHaveLength(LLMS_TARIFS.length + 1);
-    expect(getLlmsTarifs(true).at(-1)).toMatch(/^Coaching/);
+    // Coaching à 99 € retiré (13/10/2026) : la formule annuelle ferme la liste.
+    expect(getLlmsTarifs(true).at(-1)).toMatch(/^Premium en formule annuelle/);
     expect(getPremiumFaqs(true)).toHaveLength(faqs.length);
   });
 });

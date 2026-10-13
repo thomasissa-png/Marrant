@@ -52,7 +52,7 @@ interface DailyData {
 
 // Labels alignés avec le regroupement des filtres vannes + conseils/vidéos
 const JOKE_CATEGORY_LABELS: Record<string, string> = {
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   SITUATION: "Vie quotidienne",
   ABSURDE: "Absurde",
   OBSERVATIONNEL: "Vie quotidienne",
@@ -70,7 +70,7 @@ const JOKE_CATEGORY_LABELS: Record<string, string> = {
 
 const TIP_VIDEO_CATEGORY_LABELS: Record<string, string> = {
   TIMING: "Timing",
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",

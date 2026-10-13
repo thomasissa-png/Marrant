@@ -133,7 +133,8 @@
       "id": "P1-T1 TI10",
       "slug": "timing-humour",
       "avant": "pratique la règle des 3 secondes en conversation (compte avant de répondre)",
-      "apres": "pratique la règle des 3 secondes en conversation (compte « un, deux, trois » dans ta tête avant de lâcher ta remarque)"
+      "apres": "Trois exercices, trois gestes différents. 1) Observer : regarde un extrait de spectacle de Roman Frayssinet ou de Blanche Gardin, chronomètre en main, et note pour trois chutes la durée du silence juste avant et la première phrase qui le suit. 2) Marquer un temps : en conversation, laisse passer une seconde environ après la phrase de l'autre avant de lâcher ta remarque. Un ami annonce « j'ai enfin rangé mon bureau » ? Tu attends, puis : « Il était temps, il demandait l'asile politique. » 3) Ralentir l'amorce : enregistre-toi en racontant une anecdote, réécoute, et si le début file trop vite, refais-le plus posément pour garder la vitesse pour la chute. Inconfortable au début, puis ça devient un réflexe.",
+      "note": "remplacé le 13/10 par la réponse FAQ réécrite (décision Thomas, relecture à l'aveugle 3/3)"
     },
     {
       "id": "P1-T1 ER1",
@@ -1094,42 +1095,42 @@
     {
       "slug": "comment-faire-rire-une-fille",
       "avant": "## 2. L'observation partagée — \"Tu vois le truc aussi ?\"",
-      "apres": "## 2. L'observation partagée : \"Tu vois le truc aussi ?\""
+      "apres": "## L'observation partagée : \"Tu vois le truc aussi ?\""
     },
     {
       "slug": "comment-faire-rire-une-fille",
       "avant": "## 3. L'effet de surprise — Le virage que personne voit venir",
-      "apres": "## 3. L'effet de surprise : Le virage que personne voit venir"
+      "apres": "## L'effet de surprise : Le virage que personne voit venir"
     },
     {
       "slug": "comment-faire-rire-une-fille",
       "avant": "## 5. L'exagération stratégique — Le curseur poussé à fond",
-      "apres": "## 5. L'exagération stratégique : Le curseur poussé à fond"
+      "apres": "## L'exagération stratégique : Le curseur poussé à fond"
     },
     {
       "slug": "comment-faire-rire-une-fille",
       "avant": "## 6. Le silence qui parle — Ne pas tout remplir",
-      "apres": "## 6. Le silence qui parle : Ne pas tout remplir"
+      "apres": "## Le silence qui parle : Ne pas tout remplir"
     },
     {
       "slug": "comment-faire-rire-un-homme",
       "avant": "## 2. L'humour décalé — Dire le truc que personne attendait",
-      "apres": "## 2. L'humour décalé : Dire le truc que personne attendait"
+      "apres": "## L'humour décalé : Dire le truc que personne attendait"
     },
     {
       "slug": "comment-faire-rire-un-homme",
       "avant": "## 3. Les références partagées — Le ciment du rire complice",
-      "apres": "## 3. Les références partagées : Le ciment du rire complice"
+      "apres": "## Les références partagées : Le ciment du rire complice"
     },
     {
       "slug": "comment-faire-rire-un-homme",
       "avant": "## 4. L'autodérision cool — Pas fragile, juste lucide",
-      "apres": "## 4. L'autodérision cool : Pas fragile, juste lucide"
+      "apres": "## L'autodérision cool : Pas fragile, juste lucide"
     },
     {
       "slug": "comment-faire-rire-un-homme",
       "avant": "## 6. Le timing de la punchline — Dire moins, pas plus",
-      "apres": "## 6. Le timing de la punchline : Dire moins, pas plus"
+      "apres": "## Le timing de la punchline : Dire moins, pas plus"
     },
     {
       "slug": "repondre-moqueries-avec-humour",

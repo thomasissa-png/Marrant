@@ -52,7 +52,7 @@ const DIFFICULTIES = [
 const CATEGORIES = [
   { value: "", label: "Toutes" },
   { value: "TIMING", label: "Timing" },
-  { value: "AUTODERISION", label: "Auto-dérision" },
+  { value: "AUTODERISION", label: "Autodérision" },
   { value: "OBSERVATION", label: "Observation" },
   { value: "REPARTIE", label: "Répartie" },
   { value: "STORYTELLING", label: "Storytelling" },
@@ -238,7 +238,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       <ListResults ref={listRef} isLoading={isLoading || pagination?.page !== page} pending={isLoading && tips.length > 0 && pagination?.page !== page} page={page} totalPages={totalPages} announce={announce}>
       {error ? (
         <ErrorState
-          message="Les conseils se font désirer... comme une bonne chute."
+          message="Les conseils se font désirer… comme une bonne chute."
           onRetry={fetchTips}
         />
       ) : showSkeleton ? (

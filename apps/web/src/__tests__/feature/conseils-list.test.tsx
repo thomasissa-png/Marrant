@@ -117,7 +117,7 @@ describe("ConseilsList", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("fail"));
     render(<ConseilsList />);
     await waitFor(() => {
-      expect(screen.getByText("Les conseils se font désirer... comme une bonne chute.")).toBeInTheDocument();
+      expect(screen.getByText("Les conseils se font désirer… comme une bonne chute.")).toBeInTheDocument();
     });
   });
 

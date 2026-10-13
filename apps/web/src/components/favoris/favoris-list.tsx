@@ -56,7 +56,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
 ];
 
 const JOKE_CATEGORY_LABELS: Record<string, string> = {
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   SITUATION: "Vie quotidienne",
   ABSURDE: "Absurde",
   OBSERVATIONNEL: "Vie quotidienne",
@@ -74,7 +74,7 @@ const JOKE_CATEGORY_LABELS: Record<string, string> = {
 
 const TIP_CATEGORY_LABELS: Record<string, string> = {
   TIMING: "Timing",
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   OBSERVATION: "Observation",
   REPARTIE: "Répartie",
   STORYTELLING: "Storytelling",

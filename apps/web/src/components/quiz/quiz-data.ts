@@ -70,7 +70,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
     emoji: "🌀",
     description:
       "Tu relies des idées que personne n'aurait mises dans la même phrase, et tu le fais avec un sérieux total. Les autres ne savent jamais où tu vas, toi non plus parfois, et c'est exactement ce qui les fait rire.",
-    strength: "Ton humour est difficile à imiter : c'est 100% toi, et ça s'entend.",
+    strength: "Ton humour est difficile à imiter : c'est 100 % toi, et ça s'entend.",
     tip: "Quand une blague évidente te vient, garde-la et pousse-la un cran plus loin dans l'absurde. Le premier réflexe est rarement le plus drôle.",
     color: "#EC4899",
     recommendedParcours: "machine-a-cafe",
@@ -103,7 +103,7 @@ export const QUIZ_PROFILES: Record<HumorProfileType, HumorProfileResult> = {
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
-    question: "En soirée, t'es plutôt...",
+    question: "En soirée, tu fais plutôt quoi ?",
     options: [
       {
         label: "Tu observes en silence, puis tu places la vanne au bon moment",
@@ -128,7 +128,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Ta vanne idéale, c'est...",
+    question: "Ta vanne idéale, c'est…",
     options: [
       {
         label: "Une observation que tout le monde vit mais personne n'a formulée",
@@ -153,7 +153,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Quand quelqu'un te chambre...",
+    question: "Quand quelqu'un te chambre…",
     options: [
       {
         label: "Tu encaisses, et tu gardes la réponse pour le bon moment",
@@ -178,7 +178,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Si tu devais piquer une technique aux pros de la scène...",
+    question: "Si tu devais piquer une technique aux pros de la scène…",
     options: [
       {
         label: "La simplicité et la précision",
@@ -203,7 +203,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "À la machine à café...",
+    question: "À la machine à café…",
     options: [
       {
         label: "Tu fais une remarque sur un truc absurde du bureau",
@@ -228,7 +228,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Quand tu regardes un sketch, tu retiens...",
+    question: "Quand tu regardes un sketch, tu retiens…",
     options: [
       {
         label: "Les détails hyper précis qui rendent ça réaliste",
@@ -253,7 +253,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Par message, t'es plutôt...",
+    question: "Par message, t'es plutôt…",
     options: [
       {
         label: "Captures d'écran de panneaux et d'étiquettes absurdes croisés dans la journée",
@@ -278,7 +278,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Quand t'es stressé(e), tu...",
+    question: "Quand la pression monte, tu fais quoi ?",
     options: [
       {
         label: "Tu relativises en pointant l'absurdité de la situation",
@@ -303,7 +303,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "En rencard, tu mises sur...",
+    question: "En rencard, tu mises sur…",
     options: [
       {
         label: "Des remarques fines sur ce qui se passe autour de vous",
@@ -328,7 +328,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Tes potes diraient...",
+    question: "Tes potes diraient…",
     options: [
       {
         label: "Qu'aucun détail ne t'échappe, même ceux qu'on aurait préféré cacher",
@@ -353,7 +353,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Si tu devais écrire un sketch, ce serait sur...",
+    question: "Si tu devais écrire un sketch, ce serait sur…",
     options: [
       {
         label: "Les trucs absurdes qu'on fait tous sans s'en rendre compte",
@@ -378,25 +378,25 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     ],
   },
   {
-    question: "Ta devise, ce serait...",
+    question: "Ta devise, ce serait…",
     options: [
       {
-        label: "\"Le diable est dans les détails, et les vannes aussi\"",
+        label: "« Le diable est dans les détails, et les vannes aussi »",
         emoji: "🔎",
         scores: { OBSERVATEUR: 3 },
       },
       {
-        label: "\"Tout est une histoire, il suffit de bien la raconter\"",
+        label: "« Tout est une histoire, il suffit de bien la raconter »",
         emoji: "📖",
         scores: { STORYTELLER: 3 },
       },
       {
-        label: "\"Si c'est pas bizarre, c'est pas assez drôle\"",
+        label: "« Si c'est pas bizarre, c'est pas assez drôle »",
         emoji: "🎪",
         scores: { ABSURDE: 3 },
       },
       {
-        label: "\"Une bonne réplique vaut mieux qu'un long discours\"",
+        label: "« Une bonne réplique vaut mieux qu'un long discours »",
         emoji: "⚡",
         scores: { PUNCHLINEUR: 2, TAQUIN: 2 },
       },

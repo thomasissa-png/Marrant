@@ -1,18 +1,20 @@
 import {
-  parcoursWeeks,
+  PARCOURS_MAX_WEEKS,
+  PARCOURS_MIN_WEEKS,
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_LABEL,
+  PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
 import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
 
-const PRICE_FAQ_QUESTION = "2,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?";
+const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
 
 export const faqs = [
   {
     question: "Est-ce que je peux vraiment apprendre à être drôle ?",
     answer:
-      "Oui. L\u2019humour n\u2019est pas un talent inné, c\u2019est une compétence qui se travaille. La science va dans ce sens : Crawford et Caltabiano (2011, Journal of Positive Psychology) ont montré qu\u2019un programme d\u2019humour de 8 semaines améliorait significativement le bien-être émotionnel. Comme un muscle, plus tu pratiques, plus tu progresses. Nos membres gagnent en moyenne 50 XP par semaine et voient une vraie différence en quelques jours.",
+      "Oui. L\u2019humour n\u2019est pas un talent inné, c\u2019est une compétence qui se travaille. La science va dans ce sens : Crawford et Caltabiano (2011, Journal of Positive Psychology) ont montré qu\u2019un programme d\u2019humour de 8 semaines améliorait significativement le bien-être émotionnel. Comme un muscle, plus tu pratiques, plus tu progresses. Nos membres gagnent en moyenne 50 XP par semaine et sentent la différence au fil des semaines.",
   },
   {
     question: "Comment devenir drôle quand on est timide ou introverti ?",
@@ -23,7 +25,7 @@ export const faqs = [
     question: "Combien de temps faut-il pour devenir plus drôle ?",
     // s17 (UX-04) : dernière phrase, deux rythmes dits clairement (texte provisoire).
     answer:
-      `Avec une pratique quotidienne de 5-10 minutes, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Machine à Café dure ${parcoursWeeks("machine-a-cafe")} semaines, le Parcours Répartie ${parcoursWeeks("repartie")} semaines, et le Parcours Confiance ${parcoursWeeks("confiance")} semaines. ${FAQ_REGULARITE}`,
+      `Avec une pratique quotidienne, même courte, tu peux voir une vraie différence en 2 à 4 semaines. Nos parcours durent de ${PARCOURS_MIN_WEEKS} à ${PARCOURS_MAX_WEEKS} semaines, à toi de choisir celui qui colle à ta situation. ${FAQ_REGULARITE}`,
   },
   {
     question: "C\u2019est quoi la répartie exactement ?",
@@ -33,7 +35,7 @@ export const faqs = [
   {
     question: "Comment avoir de la répartie sans être méchant ?",
     answer:
-      "La vraie répartie, ce n\u2019est pas écraser l\u2019autre. C\u2019est créer un moment drôle et léger, même quand la remarque de départ était piquante. L\u2019objectif, c\u2019est que tout le monde rie, y compris la personne qui t\u2019a lancé la remarque. Des techniques comme l\u2019autodérision ou le redirect absurde permettent de désamorcer sans blesser.",
+      "La vraie répartie, ce n\u2019est pas écraser l\u2019autre. C\u2019est créer un moment drôle et léger, même quand la remarque de départ était piquante. L\u2019objectif, c\u2019est que tout le monde rie, y compris la personne qui t\u2019a lancé la remarque. Des techniques comme l\u2019autodérision ou le détour par l’absurde permettent de désamorcer sans blesser.",
   },
   {
     question: PRICE_FAQ_QUESTION,
@@ -45,7 +47,7 @@ export const faqs = [
       "C\u2019est quoi la différence avec juste regarder des vidéos YouTube ?",
     // s17 (PM-12, UX-04) : série et XP décrites telles qu'elles fonctionnent (texte provisoire).
     answer:
-      `YouTube te montre des humoristes. Nous, on t’apprend leurs techniques. Chaque vidéo est analysée avec la technique utilisée (timing, autodérision, observation...), chaque conseil vient avec un exercice concret. ${FAQ_SERIE_XP} C’est la différence entre regarder du tennis et prendre des cours de tennis.`,
+      `YouTube te montre des humoristes. Nous, on t’apprend leurs techniques. Chaque vidéo est analysée avec la technique utilisée (timing, autodérision, observation…), chaque conseil vient avec un exercice concret. ${FAQ_SERIE_XP} C’est la différence entre regarder du tennis et prendre des cours de tennis.`,
   },
   {
     question: "Comment devenir marrant si je n\u2019ai pas le \u00AB sens de l\u2019humour \u00BB ?",

@@ -39,6 +39,10 @@ const localStorageMock = (() => {
 })();
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+// Les devises du quiz ont des guillemets « » avec espaces insécables (s20) : getByText
+// normalise le texte rendu (espaces fusionnés) mais pas la chaîne cherchée.
+const optionLabel = (i: number) => QUIZ_QUESTIONS[i].options[0].label.replace(/\s+/g, " ");
+
 describe("ViralQuiz", () => {
   beforeEach(() => {
     localStorageMock.clear();
@@ -68,7 +72,7 @@ describe("ViralQuiz", () => {
   it("advances to Q2 after answering Q1", async () => {
     render(<ViralQuiz />);
     await userEvent.click(
-      screen.getByText(QUIZ_QUESTIONS[0].options[0].label),
+      screen.getByText(optionLabel(0)),
     );
     expect(
       screen.getByText(QUIZ_QUESTIONS[1].question),
@@ -90,7 +94,7 @@ describe("ViralQuiz", () => {
     // Answer all 12 questions with first option
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
 
@@ -106,7 +110,7 @@ describe("ViralQuiz", () => {
     mockTrack.mockClear();
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
-      await userEvent.click(screen.getByText(QUIZ_QUESTIONS[i].options[0].label));
+      await userEvent.click(screen.getByText(optionLabel(i)));
     }
     expect(mockTrack).toHaveBeenCalledTimes(1);
     const [name, data] = mockTrack.mock.calls[0];
@@ -121,7 +125,7 @@ describe("ViralQuiz", () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
     expect(screen.getByText("Partage ton résultat")).toBeInTheDocument();
@@ -131,7 +135,7 @@ describe("ViralQuiz", () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
     expect(screen.getByText("Lire la première étape gratuite")).toBeInTheDocument();
@@ -144,7 +148,7 @@ describe("ViralQuiz", () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
@@ -183,7 +187,7 @@ describe("ViralQuiz", () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
     const humoristNames = Object.values(QUIZ_PROFILES).map(
@@ -199,7 +203,7 @@ describe("ViralQuiz", () => {
     render(<ViralQuiz />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
-        screen.getByText(QUIZ_QUESTIONS[i].options[0].label),
+        screen.getByText(optionLabel(i)),
       );
     }
     expect(screen.getByText("Ta force")).toBeInTheDocument();

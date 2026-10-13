@@ -59,14 +59,14 @@ const CATEGORIES = [
   { value: "PARENTS", label: "Famille" },
   { value: "RESEAUX_SOCIAUX,GAMING", label: "Digital & Gaming" },
   // Par style — comment elle marche
-  { value: "AUTODERISION", label: "Auto-dérision" },
+  { value: "AUTODERISION", label: "Autodérision" },
   { value: "ABSURDE", label: "Absurde" },
   { value: "JEUX_DE_MOTS", label: "Jeux de mots" },
 ];
 
 // Labels pour les badges individuels sur chaque carte (DB enum → label lisible)
 const CATEGORY_LABELS: Record<string, string> = {
-  AUTODERISION: "Auto-dérision",
+  AUTODERISION: "Autodérision",
   SITUATION: "Vie quotidienne",
   ABSURDE: "Absurde",
   OBSERVATIONNEL: "Vie quotidienne",
@@ -211,7 +211,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         <div className="mb-6 flex flex-col gap-3 rounded-lg border border-accent-primary/30 bg-accent-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-sm font-semibold text-text-primary">
-              Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans compte.
+              Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans abonnement.
             </p>
             <p className="text-xs text-text-secondary">
               Passe à {OFFRE_NOM} à {PREMIUM_PRICE_LABEL} : tout le catalogue, les filtres et les favoris.

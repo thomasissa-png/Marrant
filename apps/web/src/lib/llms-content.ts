@@ -15,6 +15,7 @@ import {
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_LABEL,
+  PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
 
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
@@ -74,7 +75,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à 2,99 €/mois, sans engagement, résiliable en un clic depuis le profil.`,
+      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, sans engagement, résiliable en un clic depuis le profil.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -121,8 +122,7 @@ Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complèt
 
 export const LLMS_TARIFS: string[] = [
   `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
-  `Premium : 2,99 €/mois : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
-  "Coaching individuel : 99 €/séance (45 min en visio).",
+  `Premium : ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
 ];
 
 export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
@@ -141,9 +141,8 @@ const ANNUAL_TARIF = `Premium en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL
 
 export function getLlmsTarifs(annualAvailable: boolean): string[] {
   if (!annualAvailable) return LLMS_TARIFS;
-  const coachingIndex = LLMS_TARIFS.findIndex((t) => t.startsWith("Coaching"));
-  const at = coachingIndex === -1 ? LLMS_TARIFS.length : coachingIndex;
-  return [...LLMS_TARIFS.slice(0, at), ANNUAL_TARIF, ...LLMS_TARIFS.slice(at)];
+  // Offre coaching à 99 € retirée (13/10/2026) : la formule annuelle ferme la liste.
+  return [...LLMS_TARIFS, ANNUAL_TARIF];
 }
 
 export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
@@ -152,7 +151,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à 2,99 €/mois sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL} sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
         }
       : entry,
   );

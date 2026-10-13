@@ -29,7 +29,7 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
   return {
     title: "Stand-up analysé : les techniques des pros",
-    description: `${videos} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+    description: `${videos} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
     keywords: [
       "stand-up français",
       "vidéos humour analysées",
@@ -50,12 +50,12 @@ const videosFaqs = [
   {
     question: "Quels styles de stand-up sont analysés sur deviens-marrant.fr ?",
     answer:
-      "On décortique les meilleurs passages de pros de la scène française, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
+      "On décortique les meilleurs passages de pros de la scène francophone, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
   },
   {
     question: "C'est quoi la différence avec juste regarder YouTube ?",
     answer:
-      "YouTube te montre des humoristes ; ici, on te montre comment ils s'y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd'hui. Et avec les streaks et les XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
+      "YouTube te montre des humoristes ; ici, on te montre comment ils s'y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd'hui. Et avec ta série et tes XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
   },
 ];
 
@@ -69,7 +69,8 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
   ]);
   // Page hors catalogue (?page=999) : 404 plutôt qu'une liste vide indexable.
   if (listPage && page > Math.max(1, listPage.totalPages)) notFound();
-  const videoCount = stats.videos > 0 ? stats.videos : 60;
+  // Pas de chiffre de repli inventé (ex-60) : base KO = numberOfItems omis (comme /vannes).
+  const videoCount = stats.videos;
   const videoLabel = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return (
     <>
@@ -84,7 +85,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: "Stand-up analysé : les techniques des pros",
-          description: `${videoLabel} de stand-up français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+          description: `${videoLabel} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
           url: "https://deviens-marrant.fr/videos",
           numberOfItems: videoCount,
           relatedArticles: [

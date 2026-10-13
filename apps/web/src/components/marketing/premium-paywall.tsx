@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
-import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS } from "@/config/premium";
+import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /**
  * Valeur Premium (décision Thomas, 03/10/2026) : uniquement ce qui est vrai.
@@ -170,7 +170,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         disabled={loading}
         className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-4 py-3 font-semibold transition"
       >
-        {loading ? "On t'emmène au paiement…" : "S'abonner · 2,99 €/mois"}
+        {loading ? "On t'emmène au paiement…" : `S'abonner · ${PREMIUM_PRICE_LABEL}`}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       <p className="mt-3 text-xs text-gray-400">

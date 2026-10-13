@@ -378,6 +378,23 @@
    }
   },
   {
+   "seedId": 24,
+   "youtubeId": "afFehefVWxk",
+   "attendu": "0cd08cc831c3700d",
+   "source": "s11-corrige",
+   "cible": {
+    "description": "Karim Duval sur scène avec « génération Y », une vidéo de l'Open du Rire proposée par la chaîne Rire & Chansons. Chaque génération a ses habitudes, et c'est une belle matière à rire. Laisse tourner la vidéo sans t'arrêter, puis reviens sur trois passages qui t'ont fait rire. Pour chacun, note ce que tu y reconnais, chez toi ou chez tes proches (un mot, un réflexe, une situation), et à quel moment la situation devient exagérée. Écris ensuite une habitude propre à une génération, la tienne ou celle de ton entourage, puis pousse cette habitude jusqu'à l'absurde en deux phrases. Par exemple, pars de l'habitude de ne jamais décrocher et de répondre par texto : « Je ne décroche jamais, je réponds par texto. Quand mon voisin m'a dit bonjour dans l'ascenseur, j'ai sorti mon téléphone pour lui répondre. »",
+    "learnings": [
+     "TECHNIQUE DU DÉTOURNEMENT DE JARGON : prends un mot de jargon (bureau, tech, réseaux sociaux) et explique-le au sens littéral : « Un point rapide, c'est une réunion qui annonce sa durée pour mieux la dépasser. »",
+     "TECHNIQUE DU SOCIOLOGUE POP : étudie ta propre génération avec la distance d'un chercheur. « Nous, les millennials, on fait X parce que Y » est plus drôle que « on fait X », parce que l'explication pseudo-scientifique ajoute une couche d'absurde.",
+     "TECHNIQUE DE LA COMPARAISON GÉNÉRATIONNELLE : oppose le même concept vu par deux générations : « Pour mes parents, un CDI, c'est la sécurité. Pour moi, c'est un engagement plus long que toutes mes relations. »",
+     "TECHNIQUE DE L'AUTODÉRISION DE TRIBU : moque-toi du groupe auquel tu appartiens. Ta légitimité vient de ton appartenance : tu as le droit d'en rire parce que tu as déjà prononcé les mêmes mots en réunion."
+    ],
+    "exercise": "DÉFI JARGON : prends 5 mots anglais que tu utilises au boulot ou en cours (meeting, deadline, brainstorm…), traduis-les littéralement en français et place chaque traduction dans une phrase sérieuse. « Je travaille sous une ligne de mort » sonne tout de suite plus dramatique qu'une deadline. Teste la meilleure sur un collègue.",
+    "channelName": "Rire & Chansons"
+   }
+  },
+  {
    "seedId": 25,
    "youtubeId": "K-oIyXvLUeg",
    "attendu": "eaf88e64c1f31dc0",
@@ -849,6 +866,22 @@
      "TECHNIQUE DU TITRE QUI ENGAGE : un titre simple et sincère comme « Je t'aime » crée une attente. Fais pareil à l'échelle d'une anecdote, en deux temps : une première phrase sincère, qui se suffit à elle-même, puis une deuxième qui la détourne. Par exemple : « Mon père m'a dit un jour qu'il était fier de moi. J'avais réussi à garer la voiture du premier coup. » Lis la première phrase seule : si tu peux la dire sans sourire, elle est assez sincère. Plus elle l'est, plus le détournement surprend."
     ],
     "exercise": "DÉFI RIRE ET TOUCHER : raconte en 2 minutes un moment émouvant que tu as vécu (une déclaration, des retrouvailles, un départ) et insère 2 détails absurdes mais vrais dans le récit. L'objectif : faire rire sans trahir l'émotion. Si ton auditeur sourit, puis se tait un instant, tu as réussi les deux."
+   }
+  },
+  {
+   "seedId": 56,
+   "youtubeId": "GFS3p1Z8IiE",
+   "attendu": "f63fe5047cc9463d",
+   "source": "s11-corrige",
+   "cible": {
+    "description": "Dans une captation, tu ne vois pas des vannes isolées, tu vois ce qui les relie : les enchaînements. Azencot à L'Européen, une captation proposée par la chaîne TéléParis, s'y prête. Repère trois moments où le sujet change et note comment se fait le passage (un rebond sur un mot, un retour sur une vanne précédente, une rupture assumée). Si une vanne déjà entendue revient, note ce qu'elle gagne à revenir. Écris ensuite deux moments de ta journée sans rapport entre eux, puis la phrase qui les relie en reprenant un même mot avec un autre sens. Par exemple : « Le matin, je coupe mon réveil sans remords. À la réunion, quelqu'un me coupe la parole, et là, aucun bouton. »",
+    "learnings": [
+     "TECHNIQUE DE L'ACTUALITÉ DÉCALÉE : pars d'un sujet que tout le monde a en tête (une polémique, une réforme, une phrase de ministre) plutôt que d'une situation inventée. Le public a déjà un avis : ton rôle est de lui offrir l'angle auquel il n'a pas pensé.",
+     "TECHNIQUE DE LA SOURCE INÉPUISABLE : prends l'habitude d'un carnet de titres. Chaque soir, note un titre qui te fait réagir et écris en une phrase sa conséquence la plus absurde. Par exemple, pour « La ville installe de nouveaux horodateurs » : « Dans dix ans, on paiera pour avoir le droit de chercher une place. » En fin de semaine, relis et garde la meilleure.",
+     "TECHNIQUE DE LA CARICATURE PRÉCISE : un sujet de société devient drôle quand tu lui donnes un visage. Choisis un type de personnage (le décideur sûr de lui, le collègue qui a un avis sur tout) et donne-lui une phrase, un geste ou une obsession : il portera une bonne part de tes vannes.",
+     "TECHNIQUE DE LA CIBLE CLAIRE : sur un sujet sensible (politique, sexisme), décide qui ou quoi tu vises avant d'écrire. Vise les comportements et les discours, pas les personnes qui les subissent : le public rit sans se demander s'il en a le droit."
+    ],
+    "exercise": "DÉFI GROS TITRE : prends un gros titre de la semaine et écris trois vannes dessus, chacune sous un angle différent : le décalage, l'exagération, la mauvaise foi assumée. Exemple d'exagération, à partir d'une réforme annoncée : « La réforme simplifie les démarches. Il suffit désormais de remplir un seul formulaire, après avoir rempli les douze autres. » Lis tes trois versions à voix haute à quelqu'un et garde celle qui le fait rire sur le dernier mot, sans que tu aies à l'expliquer."
    }
   },
   {

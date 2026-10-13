@@ -23,7 +23,7 @@ const features = [
     getTitle: (count: number) =>
       count > 0 ? `${count}+ techniques de répartie` : "Techniques de répartie",
     description:
-      "Timing, auto-dérision, storytelling : chaque technique arrive avec un exemple concret et un exercice à tester dès ce midi, à table.",
+      "Timing, autodérision, storytelling : chaque technique arrive avec un exemple concret et un exercice à tester dès ce midi, à table.",
     cta: "Découvrir les techniques",
     href: "/conseils",
     variant: "outline" as const,
@@ -42,7 +42,7 @@ const features = [
         </>
       ),
     description:
-      "Les meilleurs extraits d'humoristes français, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
+      "Les meilleurs extraits d'humoristes francophones, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
     cta: "Regarder les vidéos",
     href: "/videos",
     variant: "outline" as const,

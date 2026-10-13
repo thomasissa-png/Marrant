@@ -88,7 +88,7 @@ export const VANNES_THEMES: readonly VannesTheme[] = [
   {
     slug: "autoderision",
     category: "AUTODERISION",
-    label: "Auto-dérision",
+    label: "Autodérision",
     title: "Blagues d'autodérision : rire de soi",
     description:
       "Des blagues d'autodérision pour rire de toi sans te rabaisser. Chaque vanne a sa chute et son décryptage. Douce, jamais cruelle.",

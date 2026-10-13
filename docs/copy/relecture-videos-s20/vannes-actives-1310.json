@@ -1,0 +1,712 @@
+[
+ {
+  "id": "cmmnsqn120000th63o435xsb0",
+  "cat": "AUTODERISION",
+  "content": "Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont venus."
+ },
+ {
+  "id": "cmmnsqn120001th63ryms5sxv",
+  "cat": "AUTODERISION",
+  "content": "Mon psy m'a dit que je devais arrêter de me comparer aux autres."
+ },
+ {
+  "id": "cmmnsqn130027th63at2ene9i",
+  "cat": "AUTODERISION",
+  "content": "J'ai dit à Alexa de me raconter une blague."
+ },
+ {
+  "id": "cmmnsqn130030th6381ol5rxt",
+  "cat": "AUTODERISION",
+  "content": "Mon ambition dans la vie, c'est d'être aussi confiant..."
+ },
+ {
+  "id": "cmmnsqn130038th63fxn1wvhn",
+  "cat": "AUTODERISION",
+  "content": "Ma mère m'appelle chaque dimanche pour savoir si je mange bien. Je réponds oui."
+ },
+ {
+  "id": "cmmnsqn14004sth63rnutrbwi",
+  "cat": "AUTODERISION",
+  "content": "Je suis nul en small talk. Quelqu'un m'a dit « il fait beau »."
+ },
+ {
+  "id": "cmozb1ocr006ws60yraru87yn",
+  "cat": "AUTODERISION",
+  "content": "J'ai téléchargé une app pour compter les calories. J'ai rentré ma journée."
+ },
+ {
+  "id": "cs14jk2150421b8b4969cb67",
+  "cat": "AUTODERISION",
+  "content": "Dans le métro, quelqu'un m'a demandé « vous descendez ? ». J'ai dit oui par réflexe."
+ },
+ {
+  "id": "cs14jk4e0348d6f06a41d826",
+  "cat": "AUTODERISION",
+  "content": "J'ai demandé à l'IA d'écrire mon discours pour le mariage de mon frère. Elle m'a posé cinq questions sur lui."
+ },
+ {
+  "id": "cs14jk9cc844b92fde69e845",
+  "cat": "AUTODERISION",
+  "content": "J'ai pris un chien pour me faire des amis."
+ },
+ {
+  "id": "cs14jkafa211aede70b92cc8",
+  "cat": "AUTODERISION",
+  "content": "Mon prof a cru que mon devoir était écrit par une IA."
+ },
+ {
+  "id": "cs14jkc13a4d9d7194d8e5ea",
+  "cat": "AUTODERISION",
+  "content": "Mon manager m'a félicité pour ma discrétion."
+ },
+ {
+  "id": "cs14jke6736001250d3a940d",
+  "cat": "AUTODERISION",
+  "content": "J'ai demandé à l'IA un avis honnête sur mon manuscrit. Elle a répondu « passionnant »."
+ },
+ {
+  "id": "cmnl01zwv004ss60y2ecodj9a",
+  "cat": "SITUATION",
+  "content": "J'ai attendu mon bus sous la pluie ce matin pendant 20 minutes."
+ },
+ {
+  "id": "cmnl1ns640055s60yy53xfnbw",
+  "cat": "SITUATION",
+  "content": "J'ai couru pour attraper le bus ce matin sous la pluie."
+ },
+ {
+  "id": "cs14jk2ef0aabfbf4784ad82",
+  "cat": "SITUATION",
+  "content": "Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère."
+ },
+ {
+  "id": "cs14jk577fa779cb48fa9b55",
+  "cat": "SITUATION",
+  "content": "Le médecin m'a demandé combien de cafés je bois par jour. J'ai dit deux."
+ },
+ {
+  "id": "cs18jkstory5v1",
+  "cat": "SITUATION",
+  "content": "Mardi, j'ai suivi mon premier cours de poterie. Parenthèse : un pigeon marche toujours comme quelqu'un qui est en retard à un rendez-vous qu'il n'a pas. Bref."
+ },
+ {
+  "id": "cs18jkstory5v3",
+  "cat": "SITUATION",
+  "content": "Premier cours de salsa. Le prof nous dit : « Ne réfléchissez pas, laissez la musique vous guider. » Parenthèse : une girafe dort moins de deux heures par nuit, souvent debout : elle a forcément un patron. Bref."
+ },
+ {
+  "id": "cs18jkstory5v4",
+  "cat": "SITUATION",
+  "content": "Lundi, j'ai appelé mon dentiste pour annuler mon rendez-vous. Parenthèse : le manchot empereur couve son œuf deux mois sans manger, ce qui met une sacrée pression sur tous les autres pères. Bref."
+ },
+ {
+  "id": "cmmnsqn12000hth63y5wqmb9d",
+  "cat": "ABSURDE",
+  "content": "J'ai dit à mon chat qu'on allait chez le vétérinaire."
+ },
+ {
+  "id": "cmmw0togs0001mw62152nl589",
+  "cat": "ABSURDE",
+  "content": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve."
+ },
+ {
+  "id": "cmmw0tois0002mw62b7bkcvj7",
+  "cat": "ABSURDE",
+  "content": "J'ai mis mon réveil en face du lit pour être obligé de me lever."
+ },
+ {
+  "id": "cs14jk396779a0b184b83c64",
+  "cat": "ABSURDE",
+  "content": "Mon voisin m'a offert une tomate de son balcon avec la solennité d'un don d'organe."
+ },
+ {
+  "id": "cs14jk42ccc92a7e1c88add1",
+  "cat": "ABSURDE",
+  "content": "On m'a volé le cadenas de mon vélo. Pas le vélo."
+ },
+ {
+  "id": "cs14jka7e683e43af915bb60",
+  "cat": "ABSURDE",
+  "content": "Quelqu'un a récupéré le fauteuil que je venais de jeter à la déchetterie. Il l'a essayé sur place."
+ },
+ {
+  "id": "cs14jkab7cdbceeb2bf5da6c",
+  "cat": "ABSURDE",
+  "content": "Tous les soirs, mon voisin se dispute avec sa télé à travers le mur."
+ },
+ {
+  "id": "cs14jkfc1715f1d4c7509f3b",
+  "cat": "ABSURDE",
+  "content": "J'ai trouvé un carnet dans la rue. Rien que des listes de choses à faire. Aucune n'est barrée."
+ },
+ {
+  "id": "cmmnsqn14003vth63i2are7es",
+  "cat": "OBSERVATIONNEL",
+  "content": "Mon meilleur pote et moi, on se dit « il faudrait qu'on se fasse un truc » depuis des années."
+ },
+ {
+  "id": "cs14jk02047ed5635bab6a52",
+  "cat": "OBSERVATIONNEL",
+  "content": "J'ai dit à mon grand-père que je l'admirais."
+ },
+ {
+  "id": "cs14jk1a722c352c691f600e",
+  "cat": "OBSERVATIONNEL",
+  "content": "Mon voisin tousse tous les matins à 7h12. Ce matin, 7h20."
+ },
+ {
+  "id": "cs14jk46b113c7c6bcb044ba",
+  "cat": "OBSERVATIONNEL",
+  "content": "Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non."
+ },
+ {
+  "id": "cs14jk4fe660e7238281ce47",
+  "cat": "OBSERVATIONNEL",
+  "content": "Ma grand-mère cuisine toujours pour douze. On est trois."
+ },
+ {
+  "id": "cs14jk50c85bb0d73deaebaf",
+  "cat": "OBSERVATIONNEL",
+  "content": "Dans le train, la place à côté de moi était réservée. Personne n'est venu."
+ },
+ {
+  "id": "cs14jk76ca7ad32cce9041ce",
+  "cat": "OBSERVATIONNEL",
+  "content": "Dans le TGV, la seule prise qui marche est sous le siège d'un inconnu."
+ },
+ {
+  "id": "cs14jk9de039def971586501",
+  "cat": "OBSERVATIONNEL",
+  "content": "Ma nièce de quatre ans m'a demandé pourquoi je travaillais. J'ai dit pour payer mon loyer."
+ },
+ {
+  "id": "cmmnsqn130033th63b54ux45o",
+  "cat": "CULTUREL",
+  "content": "Mon père a vu mon appart. Il a dit « c'est pas mal »."
+ },
+ {
+  "id": "cmmnsqn14003rth6379n30nzd",
+  "cat": "CULTUREL",
+  "content": "En France, la pause déjeuner est sacrée. Dis à un collègue que t'as sauté le tien."
+ },
+ {
+  "id": "cmmnsqn14004nth638k89q5ig",
+  "cat": "CULTUREL",
+  "content": "Quand quelqu'un commence par « à la base », il faut être patient."
+ },
+ {
+  "id": "cmp9fpyd4006ys60xwsegez9e",
+  "cat": "CULTUREL",
+  "content": "Ma mère a vu que j'allais au Hellfest."
+ },
+ {
+  "id": "cmp9gspno007ms60xngd592ct",
+  "cat": "CULTUREL",
+  "content": "J'ai regardé les prix des pass 3 jours pour les Eurockéennes."
+ },
+ {
+  "id": "cs14jk0be97f32ce3e899598",
+  "cat": "CULTUREL",
+  "content": "J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles."
+ },
+ {
+  "id": "cs14jk19d61c474a856962a1",
+  "cat": "CULTUREL",
+  "content": "Mon voisin a sonné, inquiet, à cause des cris de ma série."
+ },
+ {
+  "id": "cs14jk20142f9a641e8ea80f",
+  "cat": "CULTUREL",
+  "content": "À la fête de la musique, trois bars de ma rue jouaient la même reprise, à trois tempos."
+ },
+ {
+  "id": "cs14jk2f7e474771284319f5",
+  "cat": "CULTUREL",
+  "content": "Mon copain a regardé un épisode de notre série sans moi."
+ },
+ {
+  "id": "cs14jk45ee75c68d340d52f2",
+  "cat": "CULTUREL",
+  "content": "L'audioguide du musée s'est éteint dans la première salle."
+ },
+ {
+  "id": "cs14jkbc3334e2de46753dcf",
+  "cat": "CULTUREL",
+  "content": "Au théâtre, l'acteur s'est arrêté au milieu d'une phrase. Silence de deux minutes."
+ },
+ {
+  "id": "cmni62ad30005s60yc7qnog31",
+  "cat": "COUPLE",
+  "content": "Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare."
+ },
+ {
+  "id": "cmnz0jqsx000rs60xrbrqm8kk",
+  "cat": "COUPLE",
+  "content": "Mon copain : 'Choisis le resto, ça m'est égal.'"
+ },
+ {
+  "id": "cmnz37u510010s60xj40i8lqu",
+  "cat": "COUPLE",
+  "content": "Mon copain et moi, on a trouvé comment choisir un resto sans se disputer."
+ },
+ {
+  "id": "cs14jk18882246f6446df2b7",
+  "cat": "COUPLE",
+  "content": "Ma copine m'a envoyé son planning de la semaine pour qu'on s'organise."
+ },
+ {
+  "id": "cs14jk34c841ef6e1abadb11",
+  "cat": "COUPLE",
+  "content": "Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier."
+ },
+ {
+  "id": "cs14jk360d10ea650e662770",
+  "cat": "COUPLE",
+  "content": "Je fais semblant d'aimer la série préférée de ma copine depuis deux ans."
+ },
+ {
+  "id": "cs14jk778d1f9eea5f8ea3a8",
+  "cat": "COUPLE",
+  "content": "Le dimanche, mon copain se lève à 7 h pour profiter de la journée."
+ },
+ {
+  "id": "cs14jk8bb84cc5521b608aed",
+  "cat": "COUPLE",
+  "content": "Mon copain n'a jamais retenu le prénom de ma meilleure amie. Il l'appelle « la fille de la soirée »."
+ },
+ {
+  "id": "cs14jka3336e7e90a453a9d6",
+  "cat": "COUPLE",
+  "content": "Mon copain a dit « je m'en occupe » pour la fuite sous l'évier. C'était en mars."
+ },
+ {
+  "id": "cs14jkb13ecb02394551151e",
+  "cat": "COUPLE",
+  "content": "Ma copine a fait un tableau des tâches ménagères avec un code couleur."
+ },
+ {
+  "id": "cs14jkbe6b6bc15755d06863",
+  "cat": "COUPLE",
+  "content": "Ce matin, j'ai dormi du côté gauche du lit par erreur."
+ },
+ {
+  "id": "cs14jkc1eca6d5be193e2dbb",
+  "cat": "COUPLE",
+  "content": "Ma copine a acheté deux couettes pour qu'on arrête de se disputer."
+ },
+ {
+  "id": "cs14jkdf1cef669030ec828a",
+  "cat": "COUPLE",
+  "content": "Mon copain m'a dit qu'il ne pouvait pas vivre sans moi. Je suis partie trois jours chez ma mère."
+ },
+ {
+  "id": "cs14jke10b58d158ae638560",
+  "cat": "COUPLE",
+  "content": "Mon copain m'a rendu le chargeur qu'il m'avait pris il y a un an."
+ },
+ {
+  "id": "cs14jkee5c537f7286c1da98",
+  "cat": "COUPLE",
+  "content": "Premier Noël chez ma belle-famille. On m'a placé à côté du grand-père, qui entend rien."
+ },
+ {
+  "id": "cs14jkfec1cb933d1931e868",
+  "cat": "COUPLE",
+  "content": "Ma copine nous a acheté deux pulls assortis. On les a mis pour sortir."
+ },
+ {
+  "id": "cmoapu9k80020s60x7jv317hv",
+  "cat": "BOULOT",
+  "content": "Ma collègue m'a briefé pendant 45 minutes avant ses congés pour me passer ses dossiers."
+ },
+ {
+  "id": "cmonlkgeu000ds60wu0gazutb",
+  "cat": "BOULOT",
+  "content": "Mon collègue revient de 4 jours à Rome et me raconte tout en détail."
+ },
+ {
+  "id": "cmoxx7e56003xs60yyooxncw3",
+  "cat": "BOULOT",
+  "content": "Ma réunion 'point rapide avant l'été' a commencé à 14h."
+ },
+ {
+  "id": "cs14jk0761c9f2d885762bb5",
+  "cat": "BOULOT",
+  "content": "Ma voisine m'a dit qu'elle m'entendait parler seul toute la journée à travers le mur. J'ai répondu que j'étais en visio."
+ },
+ {
+  "id": "cs14jk0aa83dd779a1c72b43",
+  "cat": "BOULOT",
+  "content": "J'ai passé mon stage à ranger les archives par ordre alphabétique."
+ },
+ {
+  "id": "cs14jk0c96df8dc97a67e3f6",
+  "cat": "BOULOT",
+  "content": "Dans le mail de bienvenue, on m'a appelé Nicolas. Je m'appelle Julien. J'ai rien dit."
+ },
+ {
+  "id": "cs14jk4d523526fb0d6ca24e",
+  "cat": "BOULOT",
+  "content": "Le portique à reconnaissance faciale du bureau refuse de m'ouvrir. Ma photo date de mon embauche."
+ },
+ {
+  "id": "cs14jk69eb578cce484b6f87",
+  "cat": "BOULOT",
+  "content": "Je suis en copie de 90 mails par jour. Hier, j'ai répondu à un."
+ },
+ {
+  "id": "cs14jka89abf28d3769b05fe",
+  "cat": "BOULOT",
+  "content": "Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis."
+ },
+ {
+  "id": "cs14jkdb222991fcbf194845",
+  "cat": "BOULOT",
+  "content": "Pour mon entretien, j'ai emprunté le costume de mon père. Son nom est cousu sur la manche. Le recruteur m'a appelé Robert toute l'heure."
+ },
+ {
+  "id": "cs14jke4221e9a31a33b0395",
+  "cat": "BOULOT",
+  "content": "J'ai préparé mon entretien pendant trois jours. Première question : « Vous avez trouvé facilement ? »"
+ },
+ {
+  "id": "cs14jke5d015b07714055538",
+  "cat": "BOULOT",
+  "content": "Mon tuteur a lu mon rapport de stage. Il m'a dit « les remerciements sont très bien »."
+ },
+ {
+  "id": "cs14jke956e7ca02641e25c5",
+  "cat": "BOULOT",
+  "content": "Je télétravaillais chez ma mère. Elle m'a demandé d'aller chercher du pain. J'ai dit « je suis en réunion »."
+ },
+ {
+  "id": "cs14jkefbc9f40abb6f8a2ca",
+  "cat": "BOULOT",
+  "content": "Notre chef a offert à chacun un mug « meilleur collègue du monde ». On est quatorze."
+ },
+ {
+  "id": "cs14jkf30f2d648e83002b90",
+  "cat": "BOULOT",
+  "content": "Avec un collègue, on a enfin comparé nos salaires."
+ },
+ {
+  "id": "cs18jkstory5v5",
+  "cat": "BOULOT",
+  "content": "À mon pot de départ, mon chef a fait un discours de dix minutes : j'étais irremplaçable, le cœur de l'équipe, une chance pour la boîte. Parenthèse : on ne peut pas se chatouiller soi-même, ce qui prouve que le cerveau est un mauvais public : il connaît déjà la fin. Bref."
+ },
+ {
+  "id": "cs19jkboulot1",
+  "cat": "BOULOT",
+  "content": "La notice plastifiée de la visio, salle du deuxième, compte quatre étapes."
+ },
+ {
+  "id": "cs19jkboulot10",
+  "cat": "BOULOT",
+  "content": "Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros."
+ },
+ {
+  "id": "cs19jkboulot2",
+  "cat": "BOULOT",
+  "content": "Un parapluie noir est appuyé au mur de la salle 4 depuis 2018."
+ },
+ {
+  "id": "cs19jkboulot3",
+  "cat": "BOULOT",
+  "content": "Il n'y a pas de salle A au deuxième étage."
+ },
+ {
+  "id": "cs19jkboulot4",
+  "cat": "BOULOT",
+  "content": "J'ai fini un mail de trois lignes par un smiley, pour signaler la vanne."
+ },
+ {
+  "id": "cs19jkboulot5",
+  "cat": "BOULOT",
+  "content": "Le micro de la salle capte les stylos."
+ },
+ {
+  "id": "cs19jkboulot6",
+  "cat": "BOULOT",
+  "content": "Les murs sont fins."
+ },
+ {
+  "id": "cs19jkboulot7",
+  "cat": "BOULOT",
+  "content": "Mon casier ne contient qu'une chose."
+ },
+ {
+  "id": "cs19jkboulot8",
+  "cat": "BOULOT",
+  "content": "Jeudi, en visio, j'ai mis un fond de plage pour détendre l'ambiance. Le logiciel a gardé le sable, puis effacé mon oreille, mon épaule, et la moitié de mon visage."
+ },
+ {
+  "id": "cs19jkboulot9",
+  "cat": "BOULOT",
+  "content": "Mesdames, messieurs, le discours que vous avez demandé est momentanément indisponible."
+ },
+ {
+  "id": "cp05d2c3950800b7575c12ce6",
+  "cat": "ECOLE",
+  "content": "Je suis allé à la BU chercher les quatre ouvrages cités par l'IA pour mon devoir."
+ },
+ {
+  "id": "cs14jk177b62432b07f5d17a",
+  "cat": "ECOLE",
+  "content": "Le jury m'a dit « prenez votre temps ». Je me suis tu quarante secondes."
+ },
+ {
+  "id": "cs14jk95ff5ad63e2e414ac6",
+  "cat": "ECOLE",
+  "content": "Le prof écrit au feutre presque vide. La formule finale, c'était un 3 ou un 8 ?"
+ },
+ {
+  "id": "cs14jkd6b11e811ffbf7f301",
+  "cat": "ECOLE",
+  "content": "Mon adresse mail pro d'alternant commence par « alternant2 »."
+ },
+ {
+  "id": "cs14jkfa44f4f0eb4df4e459",
+  "cat": "ECOLE",
+  "content": "Je me suis filmé pour préparer mon oral."
+ },
+ {
+  "id": "cmmnsqn15006kth63res9rqp9",
+  "cat": "GAMING",
+  "content": "J'ai installé un jeu de 120 Go. J'y ai joué 20 minutes. C'était nul."
+ },
+ {
+  "id": "cs14jk0ae967eb481a4ecc4f",
+  "cat": "GAMING",
+  "content": "Je joue depuis dix ans avec un pote que je n'ai jamais vu. Il m'a enfin envoyé une photo."
+ },
+ {
+  "id": "cs14jk28b5acf3a95217071c",
+  "cat": "GAMING",
+  "content": "J'ai passé six heures à installer des mods pour embellir mon jeu."
+ },
+ {
+  "id": "cs14jkb81aae613b293f204b",
+  "cat": "GAMING",
+  "content": "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle."
+ },
+ {
+  "id": "cmmnsqn150074th63m5g2yqip",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "J'ai bloqué quelqu'un sur les réseaux. Il m'a appelé pour demander pourquoi."
+ },
+ {
+  "id": "cs14jk04b4bc8bbf8a2d8a05",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "J'ai découvert que mes potes avaient un groupe sans moi. J'ai boudé trois jours."
+ },
+ {
+  "id": "cs14jk44dcd2dbf3ec29324d",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "Dans le groupe de mon ancienne classe, quelqu'un a demandé « des nouvelles de Maxime ? »."
+ },
+ {
+  "id": "cs14jk7911857c4ff09eb025",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "Quand on tape mon nom sur Internet, on tombe sur un champion de tir à l'arc."
+ },
+ {
+  "id": "cs14jk7cac6246ac112b5afc",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "Ma mère dit que je ne lui donne plus de nouvelles depuis que j'ai quitté Facebook. On s'est parlé deux fois cette semaine."
+ },
+ {
+  "id": "cs14jk812483721e0a4d4228",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "Le groupe de mon immeuble a été créé il y a un an. Premier message : « Bonjour à tous »."
+ },
+ {
+  "id": "cs14jk8c54311509a1108b0a",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu « à demain ! »."
+ },
+ {
+  "id": "cs14jke92ed6178b5326c48c",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "Un pote a quitté le groupe pour qu'on lui demande pourquoi. Personne n'a demandé."
+ },
+ {
+  "id": "cs14jkf0a20e0837fa95c784",
+  "cat": "RESEAUX_SOCIAUX",
+  "content": "J'ai demandé à une IA si mon message « tu viens ce soir ? » n'était pas trop sec."
+ },
+ {
+  "id": "cmmnsqn15007dth63pcggw13x",
+  "cat": "DATING",
+  "content": "Elle m'a demandé ce que je faisais dans la vie."
+ },
+ {
+  "id": "cmmnsqn15007oth63jbugyxvs",
+  "cat": "DATING",
+  "content": "Elle m'a demandé mon love language. J'ai répondu « envoyer des memes à 3h du mat »."
+ },
+ {
+  "id": "cs14jk1bc86d3502a2cef27b",
+  "cat": "DATING",
+  "content": "Pour Halloween, j'ai proposé à mon date qu'on se déguise en couple."
+ },
+ {
+  "id": "cs14jk29357d022f6880a69e",
+  "cat": "DATING",
+  "content": "Pendant que j'étais aux toilettes, mon date a remonté tout mon Instagram."
+ },
+ {
+  "id": "cs14jk4f97079b992f85eeb1",
+  "cat": "DATING",
+  "content": "Mon ex est venue nous dire bonjour pendant mon rendez-vous. Mon date lui a demandé si elle avait des conseils."
+ },
+ {
+  "id": "cs14jk55b4243d4d1c132b97",
+  "cat": "DATING",
+  "content": "Mon date a posé son téléphone face contre la table pour me montrer qu'elle m'écoutait."
+ },
+ {
+  "id": "cs14jk9a9e7a1b8e0e16264e",
+  "cat": "DATING",
+  "content": "Au jeu « deux vérités et un mensonge », j'ai dit trois vérités."
+ },
+ {
+  "id": "cs14jkb9ba433a0746280280",
+  "cat": "DATING",
+  "content": "Mon date a enregistré mon numéro devant moi. Elle a tapé « Antoine bar »."
+ },
+ {
+  "id": "cs14jkdbc8310a260d111f1d",
+  "cat": "DATING",
+  "content": "Premier rendez-vous en hiver. J'ai enlevé mon gros manteau."
+ },
+ {
+  "id": "cmmnsqn15007xth63p3dzv6pc",
+  "cat": "SOIREES",
+  "content": "Y'a toujours un mec qui dit « c'est ma chanson ! » toutes les 3 chansons."
+ },
+ {
+  "id": "cs14jk0d9dfe9b5c26db5f8d",
+  "cat": "SOIREES",
+  "content": "Au milieu de la soirée, j'ai proposé de faire la vaisselle pour échapper à quelqu'un."
+ },
+ {
+  "id": "cs14jk1e07f8547b752601b8",
+  "cat": "SOIREES",
+  "content": "Je ne connaissais personne à la soirée, alors j'ai parlé au chat."
+ },
+ {
+  "id": "cs14jk8f28ff20e1cf82f3a8",
+  "cat": "SOIREES",
+  "content": "Au jeu de mimes, ma carte disait « la timidité »."
+ },
+ {
+  "id": "cs14jkb03209d55cbfc17448",
+  "cat": "SOIREES",
+  "content": "Mon voisin a glissé un mot sous ma porte : « Soirée samedi, désolé pour le bruit ». J'ai apporté un dessert."
+ },
+ {
+  "id": "cs14jkbdb9858fdd496e962a",
+  "cat": "SOIREES",
+  "content": "Au mariage de mon cousin, j'étais placé à la « table des amis d'enfance »."
+ },
+ {
+  "id": "cs14jkbe889a47471bf8cbeb",
+  "cat": "SOIREES",
+  "content": "Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée."
+ },
+ {
+  "id": "cs14jkd9058d03e24961004a",
+  "cat": "SOIREES",
+  "content": "Un mec a filmé tout le concert devant moi, téléphone en l'air. J'ai suivi le concert sur son écran."
+ },
+ {
+  "id": "cs18jkstory5v2",
+  "cat": "SOIREES",
+  "content": "Dans ma bande de potes, il y en a un qui triche à tous les jeux de société. Tout le monde le sait. On a fini par le surveiller de près. Parenthèse : le dimanche à dix-sept heures, le ciel a déjà une couleur de lundi. Bref."
+ },
+ {
+  "id": "cmmnsqn16008jth63zwal8rzj",
+  "cat": "PARENTS",
+  "content": "Mon père m'envoie ses messages en MAJUSCULES."
+ },
+ {
+  "id": "cp0465e601e49c114994d1a00",
+  "cat": "PARENTS",
+  "content": "Mon père m'a dit qu'il fallait que je « fasse mes preuves »."
+ },
+ {
+  "id": "cs14jk0e4fedaac1a91fddf1",
+  "cat": "PARENTS",
+  "content": "Mes parents m'ont dit qu'ils étaient fiers de moi. J'ai demandé pourquoi."
+ },
+ {
+  "id": "cs14jk10c844a13d108646fd",
+  "cat": "PARENTS",
+  "content": "Ma sœur m'a dit qu'elle m'avait « pardonné » mon retard à son anniversaire."
+ },
+ {
+  "id": "cs14jk2fd7c7c96d7815407d",
+  "cat": "PARENTS",
+  "content": "Mon père est retraité depuis un an et me dit toujours qu'il est très pris."
+ },
+ {
+  "id": "cs14jk3ff87c9e6097be570d",
+  "cat": "PARENTS",
+  "content": "Mon frère m'a emprunté ma console il y a dix ans."
+ },
+ {
+  "id": "cs14jk4942477c8d985a2dc1",
+  "cat": "PARENTS",
+  "content": "Mon cousin ramène une nouvelle copine à chaque repas de famille."
+ },
+ {
+  "id": "cs14jk5828aab353759ef4d5",
+  "cat": "PARENTS",
+  "content": "Mon père décroche toujours par « qu'est-ce qui se passe ? »."
+ },
+ {
+  "id": "cs14jk5ce9195f000dfa330f",
+  "cat": "PARENTS",
+  "content": "Mon frère jumeau est né six minutes avant moi."
+ },
+ {
+  "id": "cs14jk626438b67f197925d2",
+  "cat": "PARENTS",
+  "content": "Mon petit frère m'appelle « papi ». J'ai 26 ans."
+ },
+ {
+  "id": "cs14jk72ac436450535a3c29",
+  "cat": "PARENTS",
+  "content": "Ma mère m'a dit avoir regardé un film hier soir sur Netflix."
+ },
+ {
+  "id": "cs14jk88f075a4297ed90830",
+  "cat": "PARENTS",
+  "content": "Ma mère a rêvé que j'avais une promotion et l'a annoncé à toute la famille."
+ },
+ {
+  "id": "cs14jk90226d6abb90287724",
+  "cat": "PARENTS",
+  "content": "Ma mère me demande encore des nouvelles de mon ex."
+ },
+ {
+  "id": "cs14jkb541b3fd46a4229415",
+  "cat": "PARENTS",
+  "content": "Mon petit frère m'a demandé de lui expliquer la vie. J'ai répondu « ça dépend »."
+ },
+ {
+  "id": "cs14jkc4a2c545e132b38a92",
+  "cat": "PARENTS",
+  "content": "Ma sœur raconte à chaque repas de famille la même anecdote sur moi à huit ans."
+ },
+ {
+  "id": "cs14jkd11f7913f8177df395",
+  "cat": "PARENTS",
+  "content": "Mon père a acheté une tondeuse robot pour ne plus avoir à tondre la pelouse."
+ },
+ {
+  "id": "cs14jkffeab1620070f2263e",
+  "cat": "PARENTS",
+  "content": "Mon père dit « je vais chercher du pain » dès qu'il y a trop de monde à la maison."
+ }
+]
