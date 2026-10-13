@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Vannes d'exemple d'`/anatomie-vanne` et « école » (décision Thomas « toutes recos » 13/10)
+## s20 Vannes d'exemple d'`/anatomie-vanne`, « école », porte G-J3 (décision Thomas « toutes recos » 13/10), **DÉPLOYÉ le 13/10/2026, version `a7d1779a-c160-4e76-94d6-a57815311eca`, commit `e8ce433f`** ; pages vérifiées (nouvelles vannes en ligne, anciennes absentes, « école » absent) ; IndexNow 200 ; N-1 `07c24e84-873d-48fa-9207-6fad53c0a987`
 
 - Vanne 1 (Observation) : « Chaque matin, mon père m'envoie une fleur qui scintille avec « Bonne journée ». / Un matin sans réponse, il a appelé ma voisine. » ; vanne 4 (Double sens) : « Il paraît qu'il faut savoir poser ses limites. » → « J'ai planté un panneau 30 devant chez moi. Personne n'a ralenti. » Écrites pour l'occasion, choisies à l'unanimité à l'aveugle (3/3) parmi 3+3 candidates.
 - « école » retiré de `llms-content.ts` et de la FAQ `/blague-du-jour` (liste « boulot, couple, soirées, famille, gaming »).
