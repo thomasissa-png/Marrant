@@ -67,7 +67,7 @@ export const prismaParcoursCounter: ParcoursDbCounter = async (startAt, endAt, e
              )) AS actives
       FROM "Subscription" s JOIN "User" u ON u.id = s."userId"
       WHERE s.plan = 'PREMIUM' AND s.status <> 'INACTIVE'
-        AND s."createdAt" >= ${startAt} - interval '28 days' AND s."createdAt" < ${endAt}
+        AND s."createdAt" >= ${startAt}::timestamp - interval '28 days' AND s."createdAt" < ${endAt}
         AND s."createdAt" <= now() - interval '48 hours'
         AND lower(u.email) <> ALL (${ex}::text[])`),
     prisma.$queryRaw<Array<{ slug: string; etape: number; ont_valide: bigint }>>(Prisma.sql`
