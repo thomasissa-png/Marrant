@@ -73,13 +73,13 @@ describe("CTA d'article", () => {
   it("visiteur : le lien « étape 1 » ouvre l'étape 1 du parcours de l'article", () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
-    const { container } = render(<ArticleCta parcoursHref="/parcours/machine-a-cafe" src="blog-x" />);
+    const { container } = render(<ArticleCta parcours="machine-a-cafe" src="blog-x" />);
     expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/machine-a-cafe?src=blog#etape-1");
   });
   it("abonné avec parcours en cours : « Continuer mon parcours » mène à l'étape à reprendre", async () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/progress": progress });
-    const { container } = render(<ArticleCta parcoursHref="/parcours/repartie" src="blog-x" />);
+    const { container } = render(<ArticleCta parcours="repartie" src="blog-x" />);
     await waitFor(() =>
       expect(container.querySelector('a[data-blog-cta="parcours"]')).toHaveAttribute("href", "/parcours/confiance?src=blog#etape-3"),
     );

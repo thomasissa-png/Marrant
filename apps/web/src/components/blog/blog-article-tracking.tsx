@@ -13,7 +13,11 @@ interface BlogArticleTrackingProps {
 
 /**
  * Mesure Umami d'un article (audit growth s14, E1 à E3), sans toucher au contenu :
- *  - `blog-cta-clic` {slug, bouton} : élément marqué `data-blog-cta` ;
+ *  - `blog-cta-clic` {slug, bouton, position, parcours} : élément marqué `data-blog-cta` ;
+ *    position (`milieu-1`, `milieu-2`, `fin`) et parcours lus sur l'encart parent
+ *    (`data-blog-cta-position`, `data-blog-cta-parcours`, s20), « inconnu » sinon ;
+ *  - `blog-cta-vu` {slug, position, parcours} (s20) : encart visible à 50 % ou plus,
+ *    une seule fois par encart et par vue de page (IntersectionObserver) ;
  *  - `blog-ancre-clic` {slug, cible} : ancre interne (#…), navigation dans la page ;
  *  - `blog-sortie-clic` {slug, zone, section, cible} : tout autre lien (2e page). Zone =
  *    `data-blog-zone` du bloc (related, cluster, parcours), sinon, dans le corps
@@ -35,7 +39,7 @@ export function BlogArticleTracking({ slug, children }: BlogArticleTrackingProps
       if (!(event.target instanceof Element)) return;
       const cta = event.target.closest<HTMLElement>("[data-blog-cta]");
       if (cta && root.contains(cta)) {
-        trackUmami("blog-cta-clic", { slug, bouton: cta.dataset.blogCta ?? "inconnu" });
+        trackUmami("blog-cta-clic", { slug, bouton: cta.dataset.blogCta ?? "inconnu", ...ctaPlacement(cta) });
         return;
       }
       const link = event.target.closest<HTMLAnchorElement>("a[href]");
@@ -70,16 +74,50 @@ export function BlogArticleTracking({ slug, children }: BlogArticleTrackingProps
       if (!frame) frame = window.requestAnimationFrame(measure);
     };
 
+    // blog-cta-vu (s20) : chaque encart une fois, dès qu'il est visible à 50 %.
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      const seen = new Set<string>();
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting || entry.intersectionRatio < CTA_VU_RATIO) continue;
+            const el = entry.target as HTMLElement;
+            const placement = ctaPlacement(el);
+            observer?.unobserve(el);
+            if (seen.has(placement.position)) continue;
+            seen.add(placement.position);
+            trackUmami("blog-cta-vu", { slug, ...placement });
+          }
+        },
+        { threshold: CTA_VU_RATIO },
+      );
+      root.querySelectorAll<HTMLElement>("[data-blog-cta-position]").forEach((el) => observer?.observe(el));
+    }
+
     root.addEventListener("click", onClick);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       root.removeEventListener("click", onClick);
       window.removeEventListener("scroll", onScroll);
+      observer?.disconnect();
       if (frame) window.cancelAnimationFrame(frame);
     };
   }, [slug]);
 
   return <div ref={rootRef}>{children}</div>;
+}
+
+/** Part visible d'un encart pour compter `blog-cta-vu`. */
+export const CTA_VU_RATIO = 0.5;
+
+/** Position et parcours de l'encart qui contient l'élément (s20). */
+export function ctaPlacement(el: HTMLElement): { position: string; parcours: string } {
+  const box = el.closest<HTMLElement>("[data-blog-cta-position]");
+  return {
+    position: box?.dataset.blogCtaPosition ?? "inconnu",
+    parcours: box?.dataset.blogCtaParcours ?? "inconnu",
+  };
 }
 
 /** Zone et section d'un lien cliqué (voir la doc du composant). */
@@ -90,9 +128,15 @@ export function linkZone(link: HTMLAnchorElement): { zone: string; section: stri
   const body = link.closest<HTMLElement>("[data-blog-body]");
   if (!body) return { zone: "autre", section: "" };
 
-  // Bloc de premier niveau du corps qui contient le lien, puis H2 qui le précède.
+  // Bloc de premier niveau du corps (ou de sa section, s20 : `data-blog-section`)
+  // qui contient le lien, puis H2 qui le précède.
   let block: Element | null = link;
-  while (block && block.parentElement !== body.firstElementChild && block.parentElement !== body) {
+  while (
+    block &&
+    block.parentElement !== body.firstElementChild &&
+    block.parentElement !== body &&
+    !block.parentElement?.hasAttribute("data-blog-section")
+  ) {
     block = block.parentElement;
   }
   let prev = block?.previousElementSibling ?? null;

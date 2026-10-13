@@ -272,9 +272,27 @@ function renderBlock(block: string): string {
   return parts.join("");
 }
 
+/** Section rendue : intitulé Markdown du H2 qui l'ouvre (null pour l'intro) et HTML. */
+export interface RenderedSection {
+  heading: string | null;
+  html: string;
+}
+
 export function renderMarkdown(content: string, options: RenderOptions = {}): string {
+  return renderMarkdownSections(content, options)
+    .map((s) => s.html)
+    .join("");
+}
+
+/**
+ * Même rendu que `renderMarkdown`, découpé en sections : [intro, H2 n°1, H2 n°2, …]
+ * (chaque section commence par son H2). Ancres calculées sur tout l'article :
+ * uniques même si les sections sont rendues séparément (encarts au fil du texte, s20).
+ */
+export function renderMarkdownSections(content: string, options: RenderOptions = {}): RenderedSection[] {
   const blocks = content.split("\n\n");
-  const htmlParts: string[] = [];
+  const sections: { heading: string | null; parts: string[] }[] = [{ heading: null, parts: [] }];
+  let htmlParts = sections[0].parts;
   // Ancres uniques dans la page : un 2e titre identique reçoit « -2 », etc.
   const usedIds = new Map<string, number>();
   const uniqueId = (text: string): string => {
@@ -298,6 +316,10 @@ export function renderMarkdown(content: string, options: RenderOptions = {}): st
     const heading = /^(#{2,3}) (.*)$/.exec(block.split("\n")[0]);
     if (heading) {
       const text = inlineMarkdown(heading[2]);
+      if (heading[1] === "##") {
+        sections.push({ heading: heading[2], parts: [] });
+        htmlParts = sections[sections.length - 1].parts;
+      }
       htmlParts.push(
         heading[1] === "##"
           ? `<h2 id="${uniqueId(heading[2])}" class="mt-12 mb-4 scroll-mt-20 font-display text-xl font-bold text-text-primary md:text-2xl">${text}</h2>`
@@ -343,7 +365,7 @@ export function renderMarkdown(content: string, options: RenderOptions = {}): st
     i++;
   }
 
-  return htmlParts.join("");
+  return sections.map((section) => ({ heading: section.heading, html: section.parts.join("") }));
 }
 
 interface MarkdownRendererProps {

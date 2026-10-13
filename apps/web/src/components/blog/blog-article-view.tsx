@@ -4,10 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
-import { BlogArticleParcoursMaillage, resolveArticleParcours } from "@/components/blog/blog-article-parcours-maillage";
+import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { BlogArticleRelated } from "@/components/blog/blog-article-related";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
+import { BLOC_FIN_AVANT_FAQ } from "@/config/blog-encarts";
 import { FORTE_FRAPPE_SHARE } from "@/config/blog-forte-frappe";
+import { BLOC_FIN_PAR_ARTICLE } from "@/config/textes/encarts-blog-s20";
+import { resolveArticleParcours } from "@/lib/blog-parcours";
 import {
   JsonLd,
   buildArticleJsonLd,
@@ -16,7 +19,6 @@ import {
   buildHowToJsonLd,
   authorPersonJsonLd,
 } from "@/components/seo/json-ld";
-import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { frTypo } from "@/lib/fr-typo";
 import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
@@ -31,15 +33,23 @@ interface BlogArticleViewProps {
 
 /** Gabarit d'un article, commun à `/blog/[slug]` et `/blog/apercu/[slug]`. */
 export function BlogArticleView({ article, navigation, banner }: BlogArticleViewProps) {
-  // CTA de fin : textes et position propres à l'article si config/blog-cta.ts en définit.
-  // Abonnement attribuable à l'article (s15) : /abonnement?src=blog-<slug>, relayé
-  // à /register ; `src` alimente les événements inscription-envoi / inscription-reussie.
+  // Bloc de fin unique (s20) : étape 1 gratuite (contour) puis Premium (principal),
+  // vers le parcours de l'article (lib/blog-parcours : table par slug, puis cluster).
+  // Textes : surcharge s20 de l'article, sinon config/blog-cta.ts (s14), sinon parcours.
+  // /abonnement?src=blog-<slug> (s15) : abonnement attribuable à l'article.
+  const parcours = resolveArticleParcours(article.slug, article.category);
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
-  // s17 (reco 14) : sans parcours dédié dans config/blog-cta, le CTA prend le parcours
-  // de l'encart (même règle thématique), donc son lien « étape 1 » ouvre une vraie étape 1.
-  const ctaParcoursHref =
-    ctaCopy?.parcoursHref ?? `/parcours/${resolveArticleParcours(article.slug, article.category)}`;
-  const cta = <ArticleCta {...ctaCopy} parcoursHref={ctaParcoursHref} src={`blog-${article.slug}`} />;
+  const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
+  const blocFin = (
+    <ArticleCta
+      parcours={parcours}
+      src={`blog-${article.slug}`}
+      title={finCopy?.titre ?? ctaCopy?.title}
+      text={finCopy?.texte ?? ctaCopy?.text}
+      note={finCopy?.note ?? ctaCopy?.note}
+    />
+  );
+  const blocFinAvantFaq = BLOC_FIN_AVANT_FAQ.has(article.slug);
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];
@@ -112,17 +122,21 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         <span>{article.readingTime} de lecture</span>
       </div>
 
-      {/* Mesure Umami (blog-sortie-clic, blog-cta-clic, blog-scroll) : wrapper client, contenu inchangé.
-          Sous /blog/apercu, lib/umami.ts et le layout racine bloquent tout envoi. */}
+      {/* Mesure Umami (blog-cta-vu, blog-cta-clic, blog-sortie-clic, blog-scroll) : wrapper client,
+          contenu inchangé. Sous /blog/apercu, lib/umami.ts et le layout racine bloquent tout envoi. */}
       <BlogArticleTracking slug={article.slug}>
-        <div data-blog-body>
-          <MarkdownRenderer content={article.content} className="mt-8" shareJokes={Boolean(shareMode)} />
-        </div>
+        {/* Corps + encarts au fil du texte (s20, lib/blog-encarts.ts). */}
+        <BlogArticleBody
+          slug={article.slug}
+          category={article.category}
+          content={article.content}
+          shareJokes={Boolean(shareMode)}
+        />
         {shareMode && <BlogVanneShare slug={article.slug} mode={shareMode} />}
 
-        {/* Article à CTA dédié (config/blog-cta.ts) : CTA au moment où la lecture
-            se termine, avant FAQ et maillage. Sinon, CTA en bas (défaut). */}
-        {ctaCopy && cta}
+        {/* Articles à CTA dédié (config/blog-cta.ts) et liste s20 : bloc de fin au moment
+            où la lecture se termine, avant la FAQ. Sinon, après la FAQ. */}
+        {blocFinAvantFaq && blocFin}
 
         {faqs.length > 0 && (
           <section className="mt-12 border-t border-border pt-8">
@@ -138,16 +152,10 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           </section>
         )}
 
+        {!blocFinAvantFaq && blocFin}
+
+        {/* Articles liés : toujours APRÈS le bloc de fin (s20). */}
         <BlogArticleRelated navigation={navigation} />
-
-        {/* Maillage contextuel vers le parcours pertinent selon le cluster. */}
-        <div data-blog-zone="parcours">
-          <BlogArticleParcoursMaillage articleSlug={article.slug} articleCategory={article.category} />
-        </div>
-
-        {/* CTA de fin (Premium + étape 1 en lecture libre), collé au parcours recommandé (T35)
-            pour les articles sans CTA dédié. */}
-        {!ctaCopy && cta}
       </BlogArticleTracking>
     </article>
   );

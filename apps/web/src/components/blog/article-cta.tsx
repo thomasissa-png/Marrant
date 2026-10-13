@@ -3,116 +3,119 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
-import { parcoursEtape1Href, parcoursEtapeHref, parcoursSlugFromHref } from "@/lib/entrees-parcours";
+import { frTypo } from "@/lib/fr-typo";
+import { PREMIUM_PARCOURS } from "@/config/premium";
+import {
+  PARCOURS_NOMS,
+  parcoursEtape1Href,
+  parcoursEtapeHref,
+  type ParcoursSlug,
+} from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
+import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 
 interface ArticleCtaProps {
-  /**
-   * Parcours lié (lien secondaire « étape 1 », lecture libre, et retour après
-   * paiement), ex. `/parcours/repartie`. Défaut : la liste `/parcours`.
-   */
-  parcoursHref?: string;
-  /** Source du clic pour la mesure du tunnel (ex. `blog-<slug>`), relayée par /abonnement. */
+  /** Parcours de l'article (lib/blog-parcours) : étape 1 et retour après paiement. */
+  parcours?: ParcoursSlug;
+  /** Source du clic pour la mesure du tunnel (`blog-<slug>`), relayée par /abonnement. */
   src?: string;
-  /** Titre du bloc (défaut : texte générique des articles). */
+  /** Surcharges par article (config/textes/encarts-blog-s20 puis config/blog-cta). */
   title?: string;
-  /** Paragraphe sous le titre (défaut : texte générique des articles). */
   text?: string;
-  /** Libellé du bouton principal vers Premium (défaut : « Passer à Premium »). */
-  primaryLabel?: string;
-  /** Libellé du lien secondaire vers l'étape 1 (défaut : « Lire la première étape d'un parcours »). */
-  secondaryLabel?: string;
-  /** Ligne sous les boutons (défaut : prix et lecture libre). */
   note?: string;
 }
 
-const DEFAULT_TITLE = "Maintenant, reste à le dire à voix haute";
-const DEFAULT_TEXT =
-  "Des exercices concrets, des parcours étape par étape et des XP pour voir le chemin parcouru. Parce qu'un article lu finit par s'oublier, alors qu'un réflexe entraîné reste.";
-// Étalon 3.1 validé par Thomas (s15, docs/copy/etalons-chemin-premium-s15.md).
-const DEFAULT_PRIMARY_LABEL = "Passer à Premium";
-const DEFAULT_SECONDARY_LABEL = "Lire la première étape d'un parcours";
-const DEFAULT_NOTE = `${PREMIUM_PRICE_LABEL}, sans engagement. Cet article reste en lecture libre.`;
-
 /**
- * CTA de fin d'article (plus de compte gratuit, s15 §2.6).
+ * Bloc de fin unique d'un article (audit conversion s20, lot 1) : fusion de l'encart
+ * « Parcours recommandé » et de l'ancien CTA de fin. Toujours le même ordre :
+ * 1. étape 1 gratuite du parcours, bouton CONTOUR (`data-blog-cta="etape-1"`) ;
+ * 2. Premium, bouton PRINCIPAL vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`).
+ * Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),
+ * vers l'étape à reprendre, sinon l'étape 1 du parcours de l'article.
  *
- * Visiteur et compte non abonné : un bouton principal vers /abonnement
- * (`data-blog-cta="abonnement"`, ex-« inscription » : rupture de série datée
- * au déploiement) + un lien secondaire vers l'étape 1 d'un parcours, en
- * lecture libre (`data-blog-cta="etape-1"`).
- * Abonné : « Continuer mon parcours » (`data-blog-cta="parcours"`) vers l'étape à
- * reprendre de son parcours en cours, sinon l'étape 1 du parcours de l'article.
- *
- * s17 (reco 14, QA-13) : le lien « étape 1 » ouvre l'étape 1 du parcours lié
- * (`/parcours/<slug>?src=blog#etape-1`), plus la liste ; `parcoursHref` reste
- * l'adresse propre du parcours pour le retour après paiement.
- *
- * Textes surchargeables par article (config/blog-cta.ts) ; boutons marqués
- * `data-blog-cta` pour la mesure Umami (components/blog/blog-article-tracking).
+ * Mesure : `data-blog-cta-position="fin"` + `data-blog-cta-parcours`
+ * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
+ * Textes : config/textes/encarts-blog-s20.ts.
  */
-export function ArticleCta({
-  parcoursHref = "/parcours",
-  src,
-  title = DEFAULT_TITLE,
-  text = DEFAULT_TEXT,
-  primaryLabel = DEFAULT_PRIMARY_LABEL,
-  secondaryLabel = DEFAULT_SECONDARY_LABEL,
-  note = DEFAULT_NOTE,
-}: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, text, note }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
   const aReprendre = useParcoursAReprendre();
-  const articleParcours = parcoursSlugFromHref(parcoursHref);
-  const etape1Href = articleParcours ? parcoursEtape1Href(articleParcours, "blog") : parcoursHref;
-  const continuerHref = aReprendre
-    ? parcoursEtapeHref(aReprendre.slug, aReprendre.etape, "blog")
-    : articleParcours
-      ? etape1Href
-      : "/parcours";
+  const textes = TEXTES_PARCOURS_BLOG[parcours];
+  const etape1Href = parcoursEtape1Href(parcours, "blog");
+  const continuerHref = aReprendre ? parcoursEtapeHref(aReprendre.slug, aReprendre.etape, "blog") : etape1Href;
+  // Lecture directe de config/premium : pas de lib/blog-parcours (clusters) dans le bundle client.
+  const semaines = PREMIUM_PARCOURS.find((p) => p.slug === parcours)?.weeks ?? null;
+  const surtitre = TEXTES_BLOC_FIN.surtitre
+    .replace("{parcours}", PARCOURS_NOMS[parcours])
+    .replace("{semaines}", String(semaines ?? ""));
 
   return (
-    <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
-      <p className="font-display text-xl font-bold text-text-primary">
-        {title}
-      </p>
-      <p className="mt-2 text-text-secondary">{text}</p>
+    <aside
+      aria-label={TEXTES_BLOC_FIN.ariaLabel}
+      data-blog-bloc-fin
+      data-blog-cta-position="fin"
+      data-blog-cta-parcours={parcours}
+      className="mt-12 rounded-lg border border-border bg-background-card p-6"
+    >
+      {semaines !== null && (
+        <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(surtitre)}</p>
+      )}
+      <p className="mt-2 font-display text-xl font-bold text-text-primary">{frTypo(title ?? textes.finTitre)}</p>
+      {(text ?? textes.finTexte) && <p className="mt-2 text-text-secondary">{frTypo(text ?? textes.finTexte)}</p>}
+      {textes.finPuces.length > 0 && (
+        <ul className="mt-4 space-y-2 text-sm text-text-secondary">
+          {textes.finPuces.map((puce) => (
+            <li key={puce} className="flex gap-2">
+              <span aria-hidden className="text-accent-link">
+                →
+              </span>
+              <span>{frTypo(puce)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
 
-      <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         {isPremium ? (
           <Link
             href={continuerHref}
             data-blog-cta="parcours"
-            className={buttonVariants({ variant: "primary", size: "lg" })}
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "min-h-12")}
           >
-            Continuer mon parcours
+            {TEXTES_BLOC_FIN.boutonAbonne}
           </Link>
         ) : (
           <>
             <Link
-              href={buildAbonnementUrl(parcoursHref, "monthly", src)}
-              data-blog-cta="abonnement"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 whitespace-normal py-2")}
-            >
-              {primaryLabel}
-            </Link>
-            <Link
               href={etape1Href}
               data-blog-cta="etape-1"
-              className="inline-flex min-h-[44px] items-center text-sm font-medium text-text-secondary underline decoration-border underline-offset-4 hover:text-text-primary hover:decoration-current"
+              className={cn(
+                buttonVariants({ variant: "outline", size: "lg" }),
+                "h-auto min-h-12 whitespace-normal py-2 text-center",
+              )}
             >
-              {secondaryLabel}
+              {frTypo(textes.finBoutonEtape1)}
+            </Link>
+            <Link
+              href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
+              data-blog-cta="abonnement"
+              className={cn(
+                buttonVariants({ variant: "primary", size: "lg" }),
+                "h-auto min-h-12 whitespace-normal py-2 text-center",
+              )}
+            >
+              {frTypo(TEXTES_BLOC_FIN.boutonPremium)}
             </Link>
           </>
         )}
       </div>
 
-      {!isPremium && <p className="mt-3 text-xs text-text-muted">{note}</p>}
-    </div>
+      {!isPremium && <p className="mt-3 text-xs text-text-muted">{frTypo(note ?? TEXTES_BLOC_FIN.note)}</p>}
+    </aside>
   );
 }

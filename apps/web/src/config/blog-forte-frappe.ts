@@ -1,3 +1,5 @@
+import type { ParcoursSlug } from "@/lib/entrees-parcours";
+
 /**
  * Articles de blog « à forte frappe » (étalon `meilleures-blagues-droles-2026`
  * et les 11 articles construits sur son modèle, statiques ou en base).
@@ -49,11 +51,12 @@ export function shareTitle(slug: string): string {
     : "Vanne - deviens-marrant.fr";
 }
 
-export type ParcoursSlug = "repartie" | "machine-a-cafe" | "confiance";
+/** Les 5 parcours (s20 : type unique, défini dans lib/entrees-parcours). */
+export type { ParcoursSlug };
 
 /**
  * Parcours imposé dans l'encart « Parcours recommandé »
- * (components/blog/blog-article-parcours-maillage). Slug absent = parcours
+ * (repris dans config/blog-encarts.ts, PARCOURS_PAR_ARTICLE). Slug absent = parcours
  * déduit du cluster, comportement inchangé.
  */
 export const FORTE_FRAPPE_PARCOURS: Readonly<Partial<Record<string, ParcoursSlug>>> = {

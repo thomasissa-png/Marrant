@@ -23,6 +23,11 @@ export type FunnelDbCounts = {
   comptesCrees: number;
   /** Paiements Stripe réussis (premiers paiements et renouvellements). */
   paiements: number;
+  /**
+   * Nouveaux abonnés (s20) : paiements Stripe Checkout terminés dans la semaine
+   * (`checkout.session.completed`, un par nouvel abonnement).
+   */
+  nouveauxAbonnes: number;
   /** Abonnements terminés chez Stripe dans la semaine. */
   resiliations: number;
   /** Abonnements actifs dont la fin est programmée (instantané). */
@@ -34,6 +39,9 @@ export type FunnelDbCounts = {
 export type FunnelDbCounter = (startAt: Date, endAt: Date) => Promise<FunnelDbCounts>;
 
 export type WeeklyFunnel = {
+  /** s20 : encarts d'article vus (blog-cta-vu) et cliqués (blog-cta-clic), seuil du lot 1. */
+  encartsBlogVus: number | null;
+  clicsEncartsBlog: number | null;
   vuesAbonnement: number | null;
   mursVus: number | null;
   clicsAbonnement: number | null;
@@ -44,6 +52,15 @@ export type WeeklyFunnel = {
 
 const STRIPE_PAYMENT_EVENT = "invoice.payment_succeeded";
 const STRIPE_END_EVENT = "customer.subscription.deleted";
+const STRIPE_CHECKOUT_EVENT = "checkout.session.completed";
+
+/**
+ * Renouvellements (s20) : paiements réussis qui ne sont pas le premier paiement
+ * d'un abonnement de la semaine. Jamais négatif (webhook de paiement en retard).
+ */
+export function renouvellements(db: Pick<FunnelDbCounts, "paiements" | "nouveauxAbonnes">): number {
+  return Math.max(0, db.paiements - db.nouveauxAbonnes);
+}
 
 /** Lecture Prisma : imports dynamiques (comme le reste du job), jamais au chargement. */
 export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt) => {
@@ -51,9 +68,10 @@ export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt) => {
   const { PREMIUM_PRICE_CENTS } = await import("@/lib/stripe");
   const { monthlyRevenueCents } = await import("@/lib/stripe-subscription");
   const range = { gte: startAt, lte: endAt };
-  const [comptesCrees, paiements, resiliations, resiliationsProgrammees, actifs] = await Promise.all([
+  const [comptesCrees, paiements, nouveauxAbonnes, resiliations, resiliationsProgrammees, actifs] = await Promise.all([
     prisma.user.count({ where: { createdAt: range } }),
     prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_PAYMENT_EVENT, processedAt: range } }),
+    prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_CHECKOUT_EVENT, processedAt: range } }),
     prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_END_EVENT, processedAt: range } }),
     prisma.subscription.count({ where: { status: "ACTIVE", cancelAtPeriodEnd: true } }),
     prisma.subscription.findMany({
@@ -62,7 +80,15 @@ export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt) => {
     }),
   ]);
   const mrrCents = actifs.reduce((sum, sub) => sum + monthlyRevenueCents(sub, PREMIUM_PRICE_CENTS), 0);
-  return { comptesCrees, paiements, resiliations, resiliationsProgrammees, abonnesActifs: actifs.length, mrrCents };
+  return {
+    comptesCrees,
+    paiements,
+    nouveauxAbonnes,
+    resiliations,
+    resiliationsProgrammees,
+    abonnesActifs: actifs.length,
+    mrrCents,
+  };
 };
 
 function viewsOf(points: UmamiPoint[], path: string): number {
@@ -96,6 +122,8 @@ export async function buildWeeklyFunnel(
     }),
   ]);
   return {
+    encartsBlogVus: events ? eventCount(events, "blog-cta-vu") : null,
+    clicsEncartsBlog: events ? eventCount(events, "blog-cta-clic") : null,
     vuesAbonnement: paths ? viewsOf(paths, "/abonnement") : null,
     mursVus: events ? eventCount(events, "mur-vu") : null,
     clicsAbonnement: events ? eventCount(events, "abonnement-clic") : null,
@@ -124,12 +152,16 @@ const euros = (cents: number | null | undefined) =>
 /** Section HTML « Funnel de la semaine » (même e-mail du lundi, aucun nouvel envoi). */
 export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
   const rows: [string, string][] = [
+    ["Encarts d'article vus (blog-cta-vu)", n(f.encartsBlogVus)],
+    ["Clics sur ces encarts (blog-cta-clic)", n(f.clicsEncartsBlog)],
     ["Murs Premium vus (mur-vu)", n(f.mursVus)],
     ["Vues de /abonnement", n(f.vuesAbonnement)],
     ["Clics vers le paiement (abonnement-clic)", n(f.clicsAbonnement)],
     ["Comptes créés", n(f.db?.comptesCrees)],
     ["Échecs d'inscription (inscription-echec)", n(f.echecsInscription)],
-    ["Paiements reçus (Stripe)", n(f.db?.paiements)],
+    ["Nouveaux abonnés (premier paiement)", n(f.db?.nouveauxAbonnes)],
+    ["Renouvellements (abonnés déjà là)", n(f.db ? renouvellements(f.db) : null)],
+    ["Paiements reçus au total (Stripe)", n(f.db?.paiements)],
     ["Résiliations effectives", n(f.db?.resiliations)],
     ["Résiliations programmées en cours", n(f.db?.resiliationsProgrammees)],
     ["Abonnés actifs (aujourd'hui)", n(f.db?.abonnesActifs)],

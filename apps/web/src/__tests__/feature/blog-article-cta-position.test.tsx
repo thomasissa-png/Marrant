@@ -1,6 +1,7 @@
 /**
  * Page article (notation iter1, C4, C7, C13) : article à CTA dédié = CTA juste
  * après le corps, avant FAQ et maillage ; autres articles = CTA en bas.
+ * s20 : un seul bloc de fin (encart parcours + CTA fusionnés), articles liés après lui.
  * Boutons Partager montés sur les 50 vannes de /blog/meilleures-blagues-droles-2026 seulement.
  */
 import { render, screen, within } from "@testing-library/react";
@@ -37,6 +38,7 @@ import BlogArticlePage from "@/app/(dashboard)/blog/[slug]/page";
 import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 
@@ -54,10 +56,12 @@ describe("Page article : position du CTA et partage", () => {
     const body = container.querySelector("[data-blog-body]")!;
     expect(follows(body, titles[0])).toBe(true);
     expect(follows(titles[0], screen.getByText("Questions fréquentes"))).toBe(true);
-    expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
+    expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
+    expect(container.querySelectorAll("[data-blog-bloc-fin]")).toHaveLength(1);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
-    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=blog-meilleures-blagues-droles-2026");
+    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
+    // s20 : Répartie (parcours de Yanis), plus Machine à Café.
+    expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026");
   });
 
   it("meilleures-blagues : 50 boutons Partager, un par vanne", async () => {
@@ -69,8 +73,9 @@ describe("Page article : position du CTA et partage", () => {
 
   it("autre article : CTA par défaut en bas, sans bouton Partager", async () => {
     const { container } = await renderArticle("comment-devenir-drole");
-    const title = screen.getByText("Maintenant, reste à le dire à voix haute");
-    expect(follows(container.querySelector('[data-blog-zone="parcours"]')!, title)).toBe(true);
+    const title = screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre);
+    expect(follows(screen.getByText("Questions fréquentes"), title)).toBe(true);
+    expect(follows(title, container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(container.querySelector("[data-share-vanne]")).toBeNull();
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-comment-devenir-drole");
   });
@@ -131,14 +136,14 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(screen.queryByRole("button", { name: /^(Partager la vanne|Envoyer le message) n°/ })).toBeNull();
   });
 
-  it("A1 en base : CTA dédié juste après le corps, avant le maillage", async () => {
+  it("A1 en base : CTA dédié juste après le corps, avant les articles liés", async () => {
     const { container } = await renderDb("message-anniversaire-drole-par-situation");
     const titles = screen.getAllByText("Le message, c'est fait. Reste le moment du gâteau.");
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
-    expect(follows(titles[0], container.querySelector('[data-blog-zone="parcours"]')!)).toBe(true);
+    expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Passer à Premium" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Accéder aux parcours complets" })).toBeInTheDocument();
   });
 });
 

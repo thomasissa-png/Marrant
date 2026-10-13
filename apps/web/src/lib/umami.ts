@@ -25,6 +25,8 @@ export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
   "inscription-reussie",
   "onboarding-termine",
   "blog-cta-clic",
+  // s20 : exposition aux encarts d'article (dénominateur de blog-cta-clic).
+  "blog-cta-vu",
   // Chemin visiteur → Premium (plus de compte gratuit, s15) : le jugement porte
   // sur ces trois-là, attribués comme le reste du tunnel.
   "abonnement-clic",

@@ -6,6 +6,8 @@
 export const PARCOURS_SRC = [
   "hub",
   "blog",
+  // s20 : encart au fil du texte d'un article (audit conversion, lot 1).
+  "blog-milieu",
   "accueil",
   "header",
   "onboarding",

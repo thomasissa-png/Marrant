@@ -10,7 +10,7 @@ import {
 } from "@/lib/entrees-parcours";
 import { findParcoursForJoke, findParcoursForVideo, refsFromDbSteps } from "@/lib/entrees-parcours-fiches";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
-import { resolveArticleParcours } from "@/components/blog/blog-article-parcours-maillage";
+import { resolveArticleParcours } from "@/lib/blog-parcours";
 import { QUIZ_PROFILES } from "@/components/quiz/quiz-data";
 import { computeParcoursDates } from "@/lib/sitemap-parcours";
 import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";

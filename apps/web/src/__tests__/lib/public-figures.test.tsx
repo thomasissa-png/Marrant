@@ -96,7 +96,8 @@ describe("parcours : nombre et durées dérivés du seed", () => {
       "app/llms.txt/route.ts",
       "app/llms-full.txt/route.ts",
       "lib/llms-content.ts",
-      "components/blog/blog-article-parcours-maillage.tsx",
+      "components/blog/article-cta.tsx",
+      "config/textes/encarts-blog-s20.ts",
       "components/profil/profil-dashboard.tsx",
     ]) {
       // Durées des parcours (3, 4, 6) ; « 2 à 4 semaines » de pratique et l'étude à 8 semaines restent.

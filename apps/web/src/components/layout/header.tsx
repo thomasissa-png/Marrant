@@ -67,9 +67,10 @@ export function Header() {
       {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4">
-          {/* Logo (s16 : un cran plus petit sous 640 px pour loger « Connexion » sur mobile) */}
+          {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px
+              pour loger « Commencer » à côté du menu dès 360 px) */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="whitespace-nowrap font-display text-lg font-bold text-gradient sm:text-xl">
+            <span className="whitespace-nowrap font-display text-base font-bold text-gradient min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
             </span>
           </Link>
@@ -145,23 +146,35 @@ export function Header() {
 
           {/* Actions mobile */}
           <div className="flex items-center gap-1 lg:hidden">
-            {/* s16 reco 19 : « Connexion » visible sans ouvrir le menu (anonyme). Texte à
-                partir de 400 px, icône (nom accessible « Connexion ») en dessous ; sous
-                360 px, place insuffisante : le lien reste dans le menu. */}
+            {/* s16 reco 19 puis s20 : « Connexion » visible sans ouvrir le menu à partir de
+                520 px. En dessous, la place va à « Commencer » (audit conversion s20, 66 %
+                du trafic sur mobile) ; le lien reste dans le menu. */}
             {!isAuthenticated && (
               <Link
                 href={loginHref}
-                className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary min-[360px]:flex min-[400px]:px-2"
+                className="hidden h-11 min-w-[44px] items-center justify-center rounded-lg px-2 text-sm font-medium text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary min-[520px]:flex"
               >
-                <svg className="h-5 w-5 min-[400px]:hidden" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span className="sr-only min-[400px]:not-sr-only">{TEXTES_CONNEXION.lienConnexionMobile}</span>
+                {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
             )}
-            {/* Bouton recherche mobile */}
+            {/* s20 (audit conversion, lot 1) : « Commencer » visible sur mobile dès 360 px,
+                même lien que sur ordinateur (registerHref, src=header). Cible de 44 px.
+                Sous 360 px, place insuffisante : il reste dans le menu. */}
+            {!isAuthenticated && (
+              <Link
+                href={registerHref}
+                className={cn(
+                  buttonVariants({ variant: "primary", size: "sm" }),
+                  "hidden h-11 shrink-0 px-3 min-[360px]:inline-flex",
+                )}
+              >
+                Commencer
+              </Link>
+            )}
+            {/* Bouton recherche mobile (s20 : à partir de 440 px ; en dessous, la recherche
+                est en tête du menu, pour laisser la place à « Commencer »). */}
             <button
-              className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className="hidden h-11 w-11 min-[440px]:flex items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
               aria-label="Rechercher"
             >
@@ -207,6 +220,10 @@ export function Header() {
             aria-label="Navigation mobile"
           >
             <div className="flex flex-col gap-2">
+              {/* s20 : recherche dans le menu sous 440 px (plus d'icône dans la barre). */}
+              <div className="mb-2 min-[440px]:hidden">
+                <SearchBar className="w-full" onNavigate={() => setIsMenuOpen(false)} />
+              </div>
               {items.map((item) => (
                 <Link
                   key={item.href}

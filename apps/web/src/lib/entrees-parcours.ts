@@ -44,6 +44,8 @@ export const PARCOURS_NOMS: Readonly<Record<ParcoursSlug, string>> = {
  */
 export type ParcoursEntreeSrc =
   | "blog"
+  // s20 : encart au fil du texte d'un article (le bloc de fin garde `blog`).
+  | "blog-milieu"
   | "accueil"
   | "onboarding"
   | "quiz"

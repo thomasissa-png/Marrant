@@ -16,6 +16,7 @@ import {
   buildFunnelSectionHtml,
   buildWeeklyFunnel,
   conversionHorsAnciensComptes,
+  renouvellements,
   type FunnelDbCounts,
 } from "@/lib/analytics/weekly-funnel";
 
@@ -24,6 +25,7 @@ const week = { startAt: Date.UTC(2026, 8, 27, 22), endAt: Date.UTC(2026, 9, 4, 2
 const db: FunnelDbCounts = {
   comptesCrees: 3,
   paiements: 2,
+  nouveauxAbonnes: 1,
   resiliations: 1,
   resiliationsProgrammees: 1,
   abonnesActifs: 2,
@@ -42,6 +44,8 @@ beforeEach(() => {
     { x: "abonnement-clic", y: 5 },
     { x: "inscription-echec", y: 1 },
     { x: "blog-scroll", y: 40 },
+    { x: "blog-cta-vu", y: 30 },
+    { x: "blog-cta-clic", y: 2 },
   ]);
 });
 
@@ -52,6 +56,8 @@ describe("buildWeeklyFunnel", () => {
     expect(countDb).toHaveBeenCalledWith(new Date(week.startAt), new Date(week.endAt));
     expect(fetchUmamiPathMetrics).toHaveBeenCalledWith(config, week.startAt, week.endAt, 10, "/abonnement");
     expect(funnel).toEqual({
+      encartsBlogVus: 30,
+      clicsEncartsBlog: 2,
       vuesAbonnement: 9,
       mursVus: 12,
       clicsAbonnement: 5,
@@ -80,7 +86,10 @@ describe("buildFunnelSectionHtml", () => {
     for (const label of [
       "Vues de /abonnement",
       "Comptes créés",
-      "Paiements reçus (Stripe)",
+      "Paiements reçus au total (Stripe)",
+      "Nouveaux abonnés (premier paiement)",
+      "Renouvellements (abonnés déjà là)",
+      "Encarts d'article vus (blog-cta-vu)",
       "Résiliations effectives",
       "Abonnés actifs",
       "Revenu mensuel récurrent",
@@ -90,6 +99,21 @@ describe("buildFunnelSectionHtml", () => {
     expect(html).toContain("5,07 €");
     expect(html).not.toContain("Section partielle");
     expect(html).not.toContain("—");
+  });
+});
+
+describe("s20 : nouveaux abonnés séparés des renouvellements", () => {
+  it("renouvellements = paiements moins premiers paiements, jamais négatif", () => {
+    expect(renouvellements({ paiements: 5, nouveauxAbonnes: 2 })).toBe(3);
+    expect(renouvellements({ paiements: 1, nouveauxAbonnes: 2 })).toBe(0);
+  });
+
+  it("le rapport affiche les deux lignes avec leur valeur", async () => {
+    const html = buildFunnelSectionHtml(await buildWeeklyFunnel(config, week, async () => db));
+    const row = (label: string) => new RegExp(`${label.replace(/[()]/g, "\\$&")}</td><td[^>]*>(\\d+)</td>`).exec(html)?.[1];
+    expect(row("Nouveaux abonnés (premier paiement)")).toBe("1");
+    expect(row("Renouvellements (abonnés déjà là)")).toBe("1");
+    expect(row("Clics sur ces encarts (blog-cta-clic)")).toBe("2");
   });
 });
 

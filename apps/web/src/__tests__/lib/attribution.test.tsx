@@ -116,6 +116,8 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
         "abonnement-reussi",
         "abonnement-vu",
         "blog-cta-clic",
+        // s20 : exposition aux encarts d'article, attribuée comme le clic.
+        "blog-cta-vu",
         "inscription-echec",
         "mur-vu",
         "inscription-envoi",

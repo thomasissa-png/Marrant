@@ -1,5 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Lots 0-1 de l'audit conversion (« montrer l'offre ») : mécanique, textes PROVISOIRES, **non commité, non déployé**
+
+- Encarts au fil du texte (articles code ET base) : `components/blog/blog-article-body.tsx` + `blog-encart-milieu.tsx`, placement `lib/blog-encarts.ts` (après une section H2 vers 40 % du texte, rien sous 3 H2) ; article n°1 : 2 encarts imposés (Répartie après « soirée », Boulot après « bureau »), `config/blog-encarts.ts`. Lien `?src=blog-milieu` (ajouté aux listes blanches `parcours-ouvert`).
+- Bloc de fin unique (`components/blog/article-cta.tsx`) : étape 1 gratuite en contour, puis Premium ; ancien encart `blog-article-parcours-maillage.tsx` supprimé ; articles liés après le bloc ; `phrases-droles-conversations` : bloc avant la FAQ, parcours Répartie (article n°1 aussi, au lieu de Machine à Café).
+- 5 parcours dans le type unique `ParcoursSlug` ; table article → parcours `PARCOURS_PAR_ARTICLE` (prioritaire sur le cluster), à compléter par @copywriter.
+- **Textes provisoires** : `config/textes/encarts-blog-s20.ts` (seul fichier à remplacer par les textes relus à l'aveugle).
+- En-tête mobile : « Commencer » visible dès 360 px (même lien `src=header`), cible 44 px ; la recherche passe dans le menu sous 440 px, « Connexion » dans la barre seulement dès 520 px (sinon dans le menu).
+- Mesure : `blog-cta-vu` (50 % visible, une fois par encart) et `blog-cta-clic` avec `position`/`parcours`/`slug` ; `?ne-pas-compter=1` / `?compter=1` (localStorage `umami.disabled`, dans `lib/umami-before-send.ts`) ; rapport du lundi : nouveaux abonnés (`checkout.session.completed`) séparés des renouvellements + lignes encarts vus/cliqués.
+- Rien à lancer après déploiement. Thomas : ouvrir une fois `https://deviens-marrant.fr/?ne-pas-compter=1` sur chacun de ses navigateurs.
+
 ## s20 Rapport du lundi : section « Parcours » réparée, **DÉPLOYÉ le 13/10/2026, version `d2bdace2-ee72-418f-b4ca-67cc4466aa28`, commit `82b47e83`** ; N-1 `11601326`
 
 - Le rapport du 12/10 (bien envoyé à 07:01 Paris, verrou `weekly-visits-report-2026-10-12`) affichait « Section partielle » : `src/lib/analytics/weekly-parcours.ts`, paramètre non typé suivi de `- interval '28 days'` lu comme un intervalle par Postgres (erreur 42883). Correctif : `${startAt}::timestamp`. Reproduit puis validé en lecture seule sur Neon ; les 7 requêtes de la section rejouées sur la prod via l'API HTTP : OK. Test `weekly-parcours-sql-s20.test.ts`. tsc ×2, lint, build OK. Rien à lancer : prochain envoi lundi 19/10 07:00 Paris.

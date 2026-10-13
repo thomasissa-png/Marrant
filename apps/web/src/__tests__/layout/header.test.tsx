@@ -52,10 +52,10 @@ describe("Header", () => {
   it("s15 : « Commencer » et « Connexion » sont de vrais liens (HTML serveur), retour sur la page", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     render(<Header />);
-    expect(screen.getByRole("link", { name: "Commencer" })).toHaveAttribute(
-      "href",
-      "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header",
-    );
+    // Desktop + en-tête mobile (s20) : même destination.
+    for (const link of screen.getAllByRole("link", { name: "Commencer" })) {
+      expect(link).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    }
     // Desktop + en-tête mobile (s16) : même destination.
     for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
       expect(link).toHaveAttribute("href", "/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026");
@@ -65,14 +65,15 @@ describe("Header", () => {
   it("s15 : session en cours de chargement (rendu serveur) = liens anonymes présents", () => {
     useSession.mockReturnValue({ data: null, status: "loading" });
     render(<Header />);
-    expect(screen.getByRole("link", { name: "Commencer" })).toBeInTheDocument();
+    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
   });
 
   it("s15 : menu mobile anonyme avec les deux liens", async () => {
     render(<Header />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
-    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
+    // Desktop + en-tête mobile (s20) + menu.
+    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(3);
     // Desktop + en-tête mobile (s16) + menu.
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(3);
   });
@@ -87,6 +88,20 @@ describe("Header", () => {
     useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
     render(<Header />);
     expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
+  });
+
+  it("s20 : « Commencer » dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent si connecté", () => {
+    usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
+    const { unmount } = render(<Header />);
+    const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
+    const lien = within(mobile).getByRole("link", { name: "Commencer" });
+    expect(lien).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    expect(lien.className).toContain("h-11");
+    expect(mobile.className).toContain("lg:hidden");
+    unmount();
+    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    render(<Header />);
+    expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
   it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {

@@ -111,6 +111,7 @@ jest.mock("@/lib/blog-clusters", () => ({
 }));
 
 import BlogPage from "@/app/(dashboard)/blog/page";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BlogListView } from "@/app/(dashboard)/blog/blog-list-client";
 import BlogArticlePage, {
   generateStaticParams,
@@ -230,12 +231,11 @@ describe("BlogArticlePage — article detail", () => {
       params: { slug: "comment-devenir-drole" },
     });
     render(Page);
-    expect(
-      screen.getByText("Maintenant, reste à le dire à voix haute")
-    ).toBeInTheDocument();
-    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre (étalon 3.1).
-    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
-    expect(screen.getByText("Lire la première étape d'un parcours")).toBeInTheDocument();
+    // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
+    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
+    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre.
+    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
+    expect(screen.getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).length).toBeGreaterThan(0);
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 

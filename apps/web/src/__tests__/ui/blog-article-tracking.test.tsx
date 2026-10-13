@@ -8,6 +8,7 @@ import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
+import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 
@@ -60,21 +61,24 @@ describe("blog-sortie-clic", () => {
 describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText("Passer à Premium"));
-    fireEvent.click(screen.getByText("Lire la première étape d'un parcours"));
+    fireEvent.click(screen.getByText(TEXTES_BLOC_FIN.boutonPremium));
+    fireEvent.click(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
     expect(track).toHaveBeenCalledTimes(2);
-    expect(track).toHaveBeenNthCalledWith(1, "blog-cta-clic", { slug: SLUG, bouton: "abonnement" });
-    expect(track).toHaveBeenNthCalledWith(2, "blog-cta-clic", { slug: SLUG, bouton: "etape-1" });
+    // s20 : position et parcours du bloc qui contient le bouton.
+    const props = { slug: SLUG, position: "fin", parcours: "repartie" };
+    expect(track).toHaveBeenNthCalledWith(1, "blog-cta-clic", { ...props, bouton: "abonnement" });
+    expect(track).toHaveBeenNthCalledWith(2, "blog-cta-clic", { ...props, bouton: "etape-1" });
   });
 
-  it("textes par défaut : titre et texte gardés, étalon 3.1 pour bouton, note et lien", () => {
-    const { container } = render(<ArticleCta />);
-    expect(screen.getByText("Maintenant, reste à le dire à voix haute")).toBeInTheDocument();
-    expect(screen.getByText(/^Des exercices concrets, des parcours étape par étape et des XP/)).toBeInTheDocument();
-    expect(screen.getByText("Passer à Premium")).toBeInTheDocument();
+  it("textes par défaut (s20) : ceux du parcours et du bloc de fin, config/textes/encarts-blog-s20", () => {
+    render(<ArticleCta />);
+    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
+    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
     expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
-    expect(screen.getByText("Lire la première étape d'un parcours").closest("a")).toHaveAttribute("href", "/parcours");
-    expect(container.textContent).not.toMatch(/gratuit|sans carte/i);
+    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).closest("a")).toHaveAttribute(
+      "href",
+      "/parcours/repartie?src=blog#etape-1",
+    );
   });
 });
 
@@ -221,7 +225,7 @@ describe("CTA d'article : note et inscription attribuable", () => {
   });
 
   it("le bouton principal mène à /abonnement avec retour au parcours et source de l'article (s15)", () => {
-    const { container } = render(<ArticleCta parcoursHref="/parcours/repartie" src={`blog-${SLUG}`} />);
+    const { container } = render(<ArticleCta parcours="repartie" src={`blog-${SLUG}`} />);
     const link = container.querySelector('a[data-blog-cta="abonnement"]');
     expect(link).toHaveAttribute("href", `/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-${SLUG}`);
     expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
