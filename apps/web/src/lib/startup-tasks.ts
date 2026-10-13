@@ -25,6 +25,7 @@ import { DB_LOSER_SLUGS } from "@/lib/seo-redirects";
 import { stripEmDashesWithStats } from "@/lib/em-dash";
 import { stripVideoEmDashesTask } from "@/lib/video-em-dash";
 import { applyVideoContentS20Task } from "@/lib/video-content-s20";
+import { applyVideoDurationsS20Task } from "@/lib/video-durations-s20";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
 import { applyBoulotImportTask } from "@/lib/parcours-boulot-sync";
@@ -1452,6 +1453,10 @@ export async function runStartupTasks(): Promise<void> {
   // garde-fou par empreinte du texte en base), APRÈS le retrait des tirets.
   // Non bloquant : la tâche capture ses erreurs et ne lève jamais.
   await applyVideoContentS20Task();
+  // s20 : durées réelles des fiches vidéo (API YouTube du 13/10), APRÈS les contenus
+  // (la fiche Dany Boon y prend son nouveau youtubeId). Garde-fou : durée en base
+  // === `attendu`. Non bloquante : capture ses erreurs et ne lève jamais.
+  await applyVideoDurationsS20Task();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).

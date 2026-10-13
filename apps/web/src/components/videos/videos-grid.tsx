@@ -61,15 +61,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   JEUX_DE_MOTS: "Jeux de mots",
 };
 
-function formatDuration(iso: string): string {
-  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-  if (!match) return iso;
-  const h = match[1] ? `${match[1]}:` : "";
-  const m = match[2] ?? "0";
-  const s = (match[3] ?? "0").padStart(2, "0");
-  return `${h}${m}:${s}`;
-}
-
 /** « TITRE : explication » : titre en gras, explication à la suite. */
 function renderLearning(raw: string) {
   const learning = fixInvertedCase(raw);

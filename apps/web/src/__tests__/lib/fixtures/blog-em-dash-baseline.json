@@ -303,6 +303,21 @@
         "slug": "blagues-courtes-vs-longues",
         "session": "s20 libellés timing",
         "raison": "libellé de lien aligné sur le titre réel de /blog/timing-humour (« Timing humour : le secret de la blague »), aucun autre mot modifié"
+      },
+      {
+        "slug": "comment-faire-rire-une-fille",
+        "session": "s20 numéros H2",
+        "raison": "numéros « 2. », « 3. »… retirés des 4 H2 numérotés (décision Thomas 13/10) ; 4 mots de moins, aucun autre changement"
+      },
+      {
+        "slug": "comment-faire-rire-un-homme",
+        "session": "s20 numéros H2",
+        "raison": "numéros « 2. », « 3. »… retirés des 4 H2 numérotés (décision Thomas 13/10) ; 4 mots de moins, aucun autre changement"
+      },
+      {
+        "slug": "timing-humour",
+        "session": "s20 FAQ timing",
+        "raison": "réponse FAQ « Comment améliorer son timing comique ? » réécrite : une seconde environ, trois exercices distincts (décision Thomas 13/10, relecture à l'aveugle 3/3, docs/copy/corrections-articles-s20-suite-tour2.md)"
       }
     ]
   },
@@ -326,11 +341,11 @@
       "emDashesBefore": 23
     },
     "timing-humour": {
-      "words": "7d0c31a76cc8d32434d0faddc93835d8173109288e5cd2411c7048f16169f717",
-      "wordCount": 1335,
+      "words": "70ecc07aea2c62ad529c6e4e20ca809ce63798c664647c68c7012f9ea725e835",
+      "wordCount": 1400,
       "headings": "0ec476513593b64f2947e67b46962ff61c12cfbfaba72175bb454579422d06f2",
       "links": "253cb6b3fb24beb4da957834947e7b8da1268c4787fa4d066d6cb63b9ede0f4e",
-      "numbers": "6d48db781820fcadb5a406238d3ca8570f84d0f14d5d76526886e525296d2e1d",
+      "numbers": "0d30cfa74ec378697058a128a4043d2aabc42e901b6f96dea7c182596c4b4710",
       "meta": "7fc6359944688d03003f5413bb20c963f1df738518c9dfb357ee69e3cd3a55a8",
       "emDashesBefore": 8
     },
@@ -443,20 +458,20 @@
       "emDashesBefore": 6
     },
     "comment-faire-rire-une-fille": {
-      "words": "f0c2efbf8b876bc334c8f34a1b41648296dbe6d9c78d328ae420de6a83431a88",
-      "wordCount": 1367,
-      "headings": "fa450c24974db715495c6d144d0adc4a928e134fca47318ada33a695c879f453",
+      "words": "8c63b8aeea8861b992699024471cd6b801b6866b95804b42e548baf66dbfb2e9",
+      "wordCount": 1363,
+      "headings": "cca023c3c3245193289fc151bb708815ce45e685536cb44b27fd2725a4a550d2",
       "links": "a9cf50d5826227f1524fe399ceeeb0c570c909a3f551fb5646325cfc6f479a5c",
-      "numbers": "cbc5f588a40d81c0fdeec543911757feac702b240a7b787b400283f4bb4bda0b",
+      "numbers": "450da6f44239dbbe215cac7db87df7d4a309c93d549886a4a1ae8ad4387c3e24",
       "meta": "3a394045ec34a7e0f2d67c7756b0a4e3ff58ea104ff38fac46ec43cd9de57294",
       "emDashesBefore": 8
     },
     "comment-faire-rire-un-homme": {
-      "words": "5b340134166b7fe796d29f800982322d43f3c039fc332460cc862e3a3d334a38",
-      "wordCount": 1478,
-      "headings": "feb7cc4e986fade8e4e1e0b6ab87a971b6a732ed10981cf78f1327b9a338ff41",
+      "words": "2f0f23d7ffe7007aeb85f3cc51310c842b2b60b9e54202a9e25dab4e5aae9119",
+      "wordCount": 1474,
+      "headings": "9c511a9d920bfd08d2ead9b02a582aff2d926225fd33c75acdd29559cec05684",
       "links": "04e2174cb383f3dea0b79c4864ae3eb171442b1ca9ced42e7bb907a197d8a188",
-      "numbers": "320204e37aded09b3af692204f20774fe8ed61c011425a440cabea07ee2771ba",
+      "numbers": "99fc545b3f64d1a38db314b2a30b04973d4715bb02db15fc87b43edaf9309b5d",
       "meta": "15d86db410e537259b27e8d90c1f125f4b4ba0a6c6d9a8194f7fe5045a3eaa88",
       "emDashesBefore": 10
     },

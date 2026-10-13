@@ -1,5 +1,21 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Articles : FAQ timing et numéros des H2 (décisions Thomas 13/10), **non déployé**
+
+- `timing-humour` : réponse FAQ « Comment améliorer son timing comique ? » réécrite (une seconde environ, trois exercices distincts ; relecture à l'aveugle 3/3).
+- `comment-faire-rire-une-fille` et `comment-faire-rire-un-homme` : numéros « 2. », « 3. »… retirés des 8 H2 (mécanique, aucun lien ne vise ces ancres).
+- Fiches vidéo Karim Duval (24) et Azencot (56) ajoutées à `video-content-s20.json` (tour 7 validé à 2 sur 3) : la tâche les applique au prochain appel (84 déjà faites).
+- Paragraphe Waly Dia (`confiance-humour-apres-rupture`) : encore sous la barre, texte en ligne inchangé.
+
+## s20 Durées réelles des fiches vidéo, **non commité, non déployé**
+
+- Les 89 `Video.duration` en base sont fausses (estimations arrondies du seed, ex. `PT68M00S` pour 1 h 17). Vraies durées lues le 13/10 via l'API YouTube Data v3 : `src/data/video-durations-s20.json` (89 entrées, généré par la session, ne pas éditer à la main).
+- Nouvelle tâche de démarrage `applyVideoDurationsS20Task` (`src/lib/video-durations-s20.ts`), branchée APRÈS `applyVideoContentS20Task` (le JSON porte le nouvel id Dany Boon `JNo86HEt86w`). Garde-fou : écriture seulement si `duration` en base === `attendu`, sinon refus « GARDE-FOU » sans écriture ni marqueur. Marqueur `video-duration-s20:v1:<youtubeId>` et `note.before.duration` posés dans la même transaction, une par vidéo. Non bloquante.
+- JSON-LD `VideoObject` : `duration` transmise seulement si ISO 8601 valide (`lib/video-duration-format.ts`), heures comprises (`PT2H26M19S`). La durée n'est affichée nulle part ailleurs ; ancien `formatDuration` de `videos-grid.tsx` (code mort, qui aurait rendu `PT1H9M56S` en « 1:9:56 ») supprimé.
+- Simulation prod en lecture seule (13/10) : **89/89 passent le garde-fou**, 0 refus, 0 absente, 0 déjà faite. 30 vidéos inactives hors JSON, non touchées.
+- Après déploiement (attendre que la nouvelle version serve 100 % du trafic) : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu dans le journal : « durées vidéo s20 v1 : 89 corrigée(s), 0 refus garde-fou, 0 déjà faite(s), 0 absente(s) » (la tâche ajoute environ 45 à 50 s, une transaction par vidéo). 2e appel : « 0 corrigée(s), …, 89 déjà faite(s) ». Si l'appel répond en quelques secondes sans cette ligne, voir le point « 1er appel à 4 s » du handoff s20 avant de relancer.
+- Retour arrière base : SQL en tête de `video-durations-s20.ts`, en gardant les marqueurs.
+
 ## s20 Contenus des fiches vidéo (duel s11 14/14, corrections relues à l'aveugle en 5 tours), **DÉPLOYÉ le 12/10/2026, version `76cf42da-6e83-499b-8c53-b3e34f237bf7`** ; journal « contenus vidéo s20 v1 : 84 fiche(s) mise(s) à jour, 0 refus garde-fou » (au 2e appel de `startup-tasks`, le 1er s'était arrêté avant la tâche) ; base : 84 marqueurs ; pages : 84/84 au nouveau texte, 8 anciennes URL en 308, méta 111-155 car. ; IndexNow 200 (84 URL), Bing SubmitUrlBatch refusé (quota du jour 76) ; N-1 `a4058f12-8409-4c1e-a890-ee93ff67b9c2`
 
 - Nouvelle tâche de démarrage `applyVideoContentS20Task` (`src/lib/video-content-s20.ts`), branchée après `stripVideoEmDashesTask`, hors `catalogue-content` (version inchangée). Elle applique `src/data/video-content-s20.json` fiche par fiche : description, 4 enseignements, exercice, et selon la fiche titre (8), chaîne (21), catégorie (6), `youtubeId` (fiche 68 : `U80fwIfPC4M` vers `JNo86HEt86w`).

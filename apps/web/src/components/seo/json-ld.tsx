@@ -1,4 +1,5 @@
 import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
+import { isIsoVideoDuration } from "@/lib/video-duration-format";
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
@@ -301,7 +302,9 @@ export function buildVideoObjectJsonLd(video: {
     uploadDate: video.uploadDate,
     contentUrl: video.contentUrl,
     embedUrl: video.embedUrl,
-    ...(video.duration && { duration: video.duration }),
+    // Durée transmise telle quelle si ISO 8601 (heures comprises : « PT2H26M19S ») ;
+    // valeur invalide omise plutôt que signalée en erreur par Google.
+    ...(isIsoVideoDuration(video.duration) && { duration: video.duration }),
     publisher: {
       "@type": "Organization",
       name: "deviens-marrant.fr",
