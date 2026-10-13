@@ -58,15 +58,23 @@ export function fitTitle(title: string): Metadata["title"] {
  * Meta description ≤ 160 caractères : coupe de préférence en fin de phrase
  * (si la phrase dépasse 110 car.), sinon à la frontière de mot avec « … ».
  */
+const openQuote = (s: string) => (s.match(/«/g) ?? []).length > (s.match(/»/g) ?? []).length;
+
 export function fitDescription(text: string, max = 160): string {
   const clean = stripMarkdown(text);
   if (clean.length <= max) return clean;
   // max + 1 : une phrase qui finit pile au caractère `max` (suivie d'une espace)
-  // compte comme tenant dans la limite.
+  // compte comme tenant dans la limite. Une phrase qui finit dans une citation
+  // garde son » (« … rire. ») ; jamais de coupe avant lui (s20 : guillemet orphelin).
   const window = clean.slice(0, max + 1);
-  const lastStop = Math.max(window.lastIndexOf(". "), window.lastIndexOf("! "), window.lastIndexOf("? "));
-  if (lastStop >= 110) return window.slice(0, lastStop + 1);
-  return truncateAtWord(clean, max);
+  const ends = [...window.matchAll(/[.!?](?: »)?(?= )/g)]
+    .map((m) => m.index! + m[0].length)
+    .filter((end) => end > 110 && end <= max && !openQuote(window.slice(0, end)));
+  if (ends.length) return window.slice(0, ends[ends.length - 1]);
+  const cut = truncateAtWord(clean, max);
+  if (!openQuote(cut)) return cut;
+  // coupe au mot tombée dans une citation : on s'arrête avant le guillemet ouvrant
+  return cut.slice(0, cut.lastIndexOf("«")).replace(/[\s,;:]+$/, "") + "…";
 }
 
 /** Méta description (et OG/Twitter) d'une fiche vidéo : 155 car. max (s20). */

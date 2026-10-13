@@ -55,8 +55,21 @@ describe("buildVideoMetaDescription (155 car.)", () => {
       const out = buildVideoMetaDescription({ channelName: "Chaîne Officielle", description: f.cible.description });
       expect(out.length).toBeLessThanOrEqual(VIDEO_META_DESCRIPTION_MAX);
       expect(out).not.toContain("—");
-      expect(out.endsWith(".") || out.endsWith("!") || out.endsWith("?") || out.endsWith("…")).toBe(true);
+      expect(/([.!?…]|[.!?] »)$/.test(out)).toBe(true);
+      expect((out.match(/«/g) ?? []).length).toBe((out.match(/»/g) ?? []).length);
     }
+  });
+
+  it("fin de phrase dans une citation coupée avant le » : jamais de guillemet orphelin", () => {
+    const desc = "Haroun, humoriste, au Jamel Comedy Club (saison 9). Dans sa description YouTube, il écrit « De toute façon, on ne peut plus rien rire. » (la formule détourne « on ne peut plus rien dire »). Un sujet sensible.";
+    const out = buildVideoMetaDescription({ channelName: "Haroun", description: desc });
+    expect(out).toBe("Haroun : Haroun, humoriste, au Jamel Comedy Club (saison 9). Dans sa description YouTube, il écrit « De toute façon, on ne peut plus rien rire. »");
+  });
+
+  it("coupe au mot tombée dans une citation : arrêt avant le guillemet ouvrant", () => {
+    const desc = "Une installation assez longue pour dépasser le seuil des cent dix caractères sans aucun point final, et puis il écrit « une citation qui ne se ferme pas avant la limite de la méta description vidéo ».";
+    const out = buildVideoMetaDescription({ channelName: "Chaîne", description: desc });
+    expect(out).toBe("Chaîne : Une installation assez longue pour dépasser le seuil des cent dix caractères sans aucun point final, et puis il écrit…");
   });
 });
 
