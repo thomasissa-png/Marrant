@@ -1,0 +1,10 @@
+# Verdict relecture à l'aveugle, articles tour 2 (relecteur UX)
+
+Angle : le lecteur en tire-t-il quelque chose d'utile ? Lecture limitée à `aveugle-articles-tour2.md`, aucune vérification externe (les points de fidélité non vérifiables sont signalés comme tels).
+
+| Item | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|
+| I01 | oui | Aucun défaut bloquant. Trois gestes distincts (observer, marquer un temps, ralentir l'amorce), « une seconde environ » cohérent avec le reste du site, Frayssinet et Gardin cités sans rien leur prêter, exemple « asile politique » qui montre bien l'attente puis la chute, tutoiement, « », zéro tiret cadratin, ton vivant. Réserves mineures non bloquantes : « garder la vitesse pour la chute » est un peu flou, et mesurer une seconde « chronomètre en main » est approximatif (compter « mille-un » mentalement serait plus praticable). | n/a |
+| I02 | non | (1) Fidélité : « Waly Dia, dont les spectacles visent la politique et la société » est une caractérisation d'une personne réelle sans source, et surtout elle ne sert pas la technique : un humoriste qui vise la politique n'illustre pas une autodérision de recul sur une rupture, le lecteur ne voit pas le lien. (2) Utilité : la consigne dit « trois phrases, puis ajoute le détail le plus absurdement précis » (soit 3 + 1), mais l'exemple n'a que trois phrases et on ne sait pas si le détail est « onze minutes » ou « un support », donc l'exemple ne montre pas exactement la technique. (3) Redondance : la première phrase répète la définition qui précède juste avant dans l'article. (4) Léger mélange d'images : « compte rendu » et « fait divers ». | Retirer la mention de Waly Dia (ou la remplacer par une référence sourcée et pertinente sur l'autodérision), supprimer la phrase de définition redondante, et réécrire l'exemple en trois phrases sans adjectif suivies d'un quatrième élément signalé comme « le détail précis » (par exemple « Elle avait préparé un support, avec un sommaire. »). |
+
+**Bilan :** 1 item sur 2 au niveau (I01 oui, I02 non) ; I02 ne doit pas être mis en ligne avant correction et nouvelle relecture à l'aveugle.
