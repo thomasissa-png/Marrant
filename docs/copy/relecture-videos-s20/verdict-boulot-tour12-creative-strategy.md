@@ -1,0 +1,16 @@
+| Fiche | Champ | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|---|
+| T1 (Marina Rollman, JCC saison 8) | Titre | oui | Aucun : « Marina Rollman - Jamel Comedy Club, saison 8 » est lisible, le trait d'union est un tiret court (pas un cadratin). | - |
+| T1 | Description | oui | Aucun : durée cohérente avec 5m9s, « humoriste suisse » est un fait vérifié, « quatre techniques » correspond aux quatre enseignements, et rien n'est affirmé sur le contenu de la vidéo (la consigne « repère où tu souris… » est une invitation, pas une affirmation). | - |
+| T1 | Enseignement 1, mot-chute | oui | Aucun défaut bloquant : les deux phrases reprennent les mêmes mots, seul l'ordre change, et « frites » passe bien en dernière position. Le « retombe à plat » est un jugement de goût, pas une erreur. | - |
+| T1 | Enseignement 2, règle de trois | oui | Aucun : deux éléments logiques (mail urgent, réunion à 10 h), un troisième qui dévie (tiramisu), et l'explication du rythme est cohérente avec l'exemple. | - |
+| T1 | Enseignement 3, dernière phrase d'abord | oui | Aucun : l'exemple montre bien une installation d'une phrase puis une chute, et la consigne « chemin le plus court » est illustrée. | - |
+| T1 | Enseignement 4, pause | oui | Aucun : la notation « [silence] » est expliquée (« à l'écrit, marque-le »), l'exemple place le silence juste avant la chute, le conseil de test à voix haute est actionnable. | - |
+| T1 | Exercice, consigne | oui | Aucun bloquant : un lecteur de bonne foi comprend qu'il faut une phrase dont le complément d'ouverture finit sur le mot drôle (le contre-exemple « Avant le café du matin » le fait voir, et l'exemple « Jusqu'au saucisson » le confirme). Faisable seul, avec une feuille. | - |
+| T1 | Exercice, exemple (départ → arrivée) | oui | Aucun : « Jusqu'au saucisson, mon régime tenait très bien. » → « Mon régime tenait très bien jusqu'au saucisson. » reprend exactement les mêmes mots, le mot souligné est dernier avant le point, et l'exemple montre la technique. | - |
+| T1 | Exercice, critère de réussite | oui | Aucun : les deux questions (mot souligné en dernier avant le point, mêmes mots que le départ) sont vérifiables seul par simple comparaison des deux phrases. | - |
+| T1 | Exercice, cas d'échec et remède | oui | Aucun : boucle déroulée. Échec « Mon régime, jusqu'au saucisson, tenait très bien. » (finit sur « bien », critère non atteint) ; remède pris à la lettre : repartir de « Jusqu'au saucisson, mon régime tenait très bien. », déplacer « jusqu'au saucisson » en fin, sans ajouter ni retirer de mot, donne « Mon régime tenait très bien jusqu'au saucisson. », critère atteint. Le remède fonctionne aussi pour « Avant mon café, … », puisque la consigne impose un complément d'ouverture terminé par le mot souligné. | - |
+| T1 | Catégorie | oui | Aucun : TIMING est cohérent avec le titre de la description (« techniques de timing ») et avec le contenu des quatre enseignements et de l'exercice. | - |
+| T1 | Forme (tutoiement, « », tirets, français) | oui | Aucun : tutoiement constant (place, donne, écris, teste, ton critère), guillemets « » partout, zéro tiret cadratin, français correct (« Récris-la » est une forme valide de l'impératif). | - |
+
+Bilan : GO, la fiche T1 (Marina Rollman) est au niveau pour la mise en ligne, aucun défaut bloquant trouvé.
