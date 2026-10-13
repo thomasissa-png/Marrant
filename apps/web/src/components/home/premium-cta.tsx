@@ -53,7 +53,7 @@ export function PremiumCta() {
     <section className="py-12 md:py-16" id="offres">
       <div className="text-center">
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-          Deux façons de t&apos;y mettre
+          Pour t&apos;y mettre, il y a {OFFRE_NOM}
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
           Étudiant, jeune actif ou en train de tourner une page : tu trouves
@@ -63,7 +63,7 @@ export function PremiumCta() {
 
 
       <div className="mx-auto mt-10 flex max-w-2xl flex-col gap-6">
-        {/* Offre 1 : Premium (nom unique de l'offre, D4 audit s16) */}
+        {/* Offre : Premium (nom unique de l'offre, D4 audit s16) */}
         <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 sm:p-8">
           <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
           <div className="relative">
