@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Phrase Répartie de l'article couple corrigée, **DÉPLOYÉ le 13/10/2026, version `e582e79f-e1ca-498a-83b2-fddb543b7035`, commit `fb185e53`** ; N-1 `b5c6ce51`
+
+- `config/blog-cta.ts` (`blagues-de-couple-drole`, programmé le 05/11) : « Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre. » (Thomas « je valide tout » ; relue 3/3 à l'aveugle, `docs/copy/relecture-videos-s20/verdict-phrase-repartie-*.md`). Test `suppression-compte-gratuit-s15` aligné. tsc ×2, lint, Jest 4 614, build OK. Rien à lancer.
+
 ## s20 Lot « montrer l'offre » (audit conversion, lots 0-1), **DÉPLOYÉ le 13/10/2026, version `b5c6ce51-dc4a-4917-ad0f-b8f694ad9ade`, commits `2a43d615` + `3faf9777`** ; N-1 `d2bdace2`
 
 - Encarts au fil du texte (articles du code ET de la base) : `components/blog/blog-article-body.tsx` + `blog-encart-milieu.tsx`, placement `lib/blog-encarts.ts` (après une section H2 vers 40 % du texte, rien sous 3 H2) ; article n°1 : 2 encarts imposés (Répartie après « soirée », Boulot après « bureau »), à 21 % et 32 % de la page mobile (premier lien produit à 77 % avant).
