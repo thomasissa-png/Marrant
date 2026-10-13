@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 (13/10/2026, ~10:30 Paris) : décryptages des 2 vannes de l'échange C10 en base, **RIEN À DÉPLOYER**
+
+- `Joke` `cv1105a3e91c7d42b8f06d5e1` (V1-1-05, « La conséquence démesurée ») et `cc10n1b7d24e8a59f3c61047a` (C10 n°1, « Le recadrage optimiste ») : `comedyTechnique`, `techniqueExplanation`, `howToApply` écrits (UPDATE ciblé id + champs vides), textes de @copywriter (`docs/social/vague-v1/decryptages-v1-1-05-c10-1.json`), même format que P0-072. Fiche en ligne vérifiée : plus de « Décryptage à venir ».
+
 ## s15 : échange C10 des LinkedIn du 20/10 et 27/10 @fullstack, **RIEN À DÉPLOYER** (13/10/2026)
 
 - Décision : `docs/social/preparation/aveugle-c10-linkedin-resultat.md`, « Révision du 12/10 ». Écriture en base Neon, une transaction (4 lignes, 1 chacune), via `@neondatabase/serverless`, script temporaire supprimé.
