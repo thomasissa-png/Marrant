@@ -51,4 +51,67 @@ Ce que l'on sait : (1) le trafic est une seule porte (article n°1, Google) ; (2
 
 Arithmétique de l'objectif (aucune hypothèse de churn, inconnu) : 335 abonnés actifs en 12 mois = 28 nouveaux par mois = **4,1 % des 683 visiteurs mensuels actuels**, contre 0,15 % observé (au plus 0,8 %). L'écart se comble par le volume autant que par le taux : mesurer ne remplace pas ce levier.
 
-<!-- SUITE -->
+## 4. Seuils de lisibilité et méthode de test
+
+**Précision d'un compte seul** (Poisson) : marge relative à 95 % ≈ 2 / √k.
+
+| Événements k | 5 | 16 | 30 | 100 |
+|---|---|---|---|---|
+| Marge relative | ± 90 % | ± 50 % | ± 36 % | ± 20 % |
+
+Règle de lecture : **sous 30 événements au numérateur, on cite le compte, pas le taux** (c'est déjà le choix de `weekly-funnel.ts:3-6`, à conserver). Entre 30 et 100, un taux est un ordre de grandeur. Au-dessus de 100, on compare deux périodes.
+
+**Dénominateur nécessaire pour lire un taux** (n ≈ 3,84 · p(1-p) / marge², marge absolue à 95 %) :
+
+| Taux attendu | Marge voulue | Dénominateur | Délai au volume actuel |
+|---|---|---|---|
+| 20 % (ex. vue d'offre vers clic) | ± 10 pts | ≈ 60 vues d'offre | ≈ 4 semaines au rythme de la semaine du 05/10 (15 / sem.), si ce rythme est réel |
+| 5 % (ex. CTA d'article) | ± 2 pts | ≈ 460 entrées de l'article | ≈ 5 semaines (≈ 100 entrées / sem.) |
+| 1 % (visiteur vers paiement) | ± 0,5 pt | ≈ 1 500 visiteurs | ≈ 9 semaines (≈ 170 visiteurs / sem.), et seulement 15 paiements attendus : le taux restera flou |
+
+**Test A/B classique : non viable** (règle du cadre : < 1 000 visiteurs / mois). Calcul (puissance 80 %, seuil 5 %, n par bras ≈ 16 · p̄(1-p̄) / écart²) :
+- CTA de l'article n°1, 3 % vers 6 % : ≈ 760 entrées par bras, soit ≈ 15 semaines pour les deux bras.
+- Même CTA, 3 % vers 9 % : ≈ 250 par bras, soit ≈ 5 semaines.
+- Paiement, 1 % vers 2 % : ≈ 2 400 visiteurs par bras, soit ≈ 28 semaines. Impossible.
+
+**Recommandation : tests avant / après, un changement à la fois, 4 semaines de chaque côté, décision sur un seuil écrit à l'avance.**
+- Effet minimal détectable en avant / après sur un taux d'environ 5 % : ≈ 6 pts avec 2 semaines (200 entrées par période), ≈ 4 pts avec 4 semaines (400). Autrement dit : on ne verra qu'un doublement ou un triplement. Un gain de 20 % relatif restera invisible, quoi qu'on fasse.
+- Écrire avant la mise en ligne : la métrique, le seuil de succès (déjà posé en s15 : `blog-cta-clic` ≥ 3 % des entrées de l'article), la date de changement, et ce qui n'a pas le droit de bouger en parallèle (titre, position du CTA, tarif).
+- Jamais deux changements sur l'article n°1 dans la même fenêtre : il porte 58 % des entrées.
+- Compléter par du qualitatif, plus informatif que les chiffres à ce volume : 5 à 10 sessions observées de visiteurs réels, un sondage d'une question sur `/abonnement` (« Qu'est-ce qui t'empêche de t'abonner ? »), une porte factice (fake door) pour une offre non encore construite.
+- Le A/B reste utilisable uniquement sur l'article n°1 et uniquement pour un effet attendu supérieur à x2 (≈ 5 à 15 semaines).
+
+## 5. Cinq actions de mesure, par utilité pour décider
+
+**A1. Mesurer l'exposition du CTA d'article : `blog-cta-vu`.**
+Pourquoi : 97 % des entrées partent de l'article et `blog-cta-clic` vaut 0. Sans savoir combien voient le CTA, on ne peut pas choisir entre « mal placé » et « offre qui ne convainc pas ».
+Où : `apps/web/src/components/blog/blog-article-tracking.tsx` (dans le `useEffect` de la ligne 30), IntersectionObserver sur `root.querySelector('[data-blog-cta="abonnement"], [data-blog-cta="parcours"]')` ; un seul envoi par page : `trackUmami("blog-cta-vu", { slug })`. Ajouter l'événement au rapport blog (`weekly-blog-report.ts:30-34`) et à la liste `ATTRIBUTED_EVENTS` (`lib/umami.ts:21`). Lecture : `blog-cta-clic / blog-cta-vu` (clic), `blog-cta-vu / entrées` (exposition). Vérifier aussi, en prod, un clic réel sur le CTA.
+
+**A2. Exclure le trafic interne et les comptes de test (Umami et base).**
+Pourquoi : à 20 événements par étape, 5 passages internes faussent un taux de 25 %.
+Où : (a) Umami : poser sur les appareils de Thomas et de la QA la clé native `localStorage.setItem('umami.disabled', 1)` (mécanisme documenté d'Umami, `[À CONFIRMER dans la doc de la version cloud]`) et ajouter `/admin` au filtre de `lib/umami-before-send.ts:16` (aujourd'hui seul `BLOG_PREVIEW_PATH` est filtré). (b) Base : renseigner `ANALYTICS_EMAILS_EXCLUS` en prod (`comptes-test.ts:9`) `[À FOURNIR : valeur actuelle, adresses de Thomas et de la QA]` et appliquer `emailsExclus()` à `comptesCrees` et aux paiements dans `weekly-funnel.ts:55-56` (filtre `user: { email: { notIn: exclus } }`). Rattraper le passé : identifier le payeur du 07/10 dans Stripe.
+
+**A3. Compter des personnes, pas des clics, et donner un dénominateur au rapport du lundi.**
+Où : `weekly-funnel.ts`. (a) Ventiler `abonnement-clic` par propriété avec `fetchUmamiEventDataValues(config, start, end, "abonnement-clic", "statut")` puis `"declencheur"` (fonction déjà utilisée par `weekly-blog-report.ts:143`). Lignes proposées : « Clics visiteur vers inscription » (`statut=visiteur`), « Paiements ouverts automatiquement après inscription » (`statut=membre`, `declencheur=auto`), « Clics membre vers paiement » (`declencheur=manuel`). (b) Renommer la ligne `weekly-funnel.ts:129`. (c) Ajouter en tête de tableau « Visiteurs de la semaine » et « Entrées article n°1 » (déjà dans `report.current`, `weekly-visits-job.ts:98`), et la semaine précédente entre parenthèses. (d) Ventiler `mur-vu` par `type` et `abonnement-vu` par `src` (propriétés déjà émises : `use-mur-vu.ts:18`, `abonnement-view.tsx:113`). (e) Une ligne de lecture sous le tableau : seuil d'alerte et action (ex. « si `abonnement-vu` < 60 en 4 semaines : ne pas calculer de taux »).
+
+**A4. Ouvrir la boîte noire entre le clic et le paiement : `checkout-ouvert` et `checkout-echec`.**
+Pourquoi : 5 clics pour 1 paiement, et rien ne distingue un abandon sur Stripe d'une erreur technique. `abonnement-annule` vaut 0 alors que 3 visites viennent de `checkout.stripe.com`.
+Où : `apps/web/src/components/premium/abonnement-view.tsx`, dans `handleCheckout` : après `res.ok && data.url` (ligne 160) `trackUmami("checkout-ouvert", { formule, declencheur })` avant la redirection ; dans les branches de la ligne 162 (conflit) et 164 (erreur) et le `catch` `trackUmami("checkout-echec", { formule, statut_http: res.status, motif: "conflit" | "serveur" | "reseau" })`. Même ajout dans `premium-modal.tsx` si le paiement y est lancé. Vérifier pourquoi `abonnement-annule` ne remonte pas (`isCheckoutCancelReturn`, ligne 60, attend `paiement=annule` ou `upgrade=cancel` : confirmer que `cancel_url` de `lib/stripe.ts` les pose). Contrôle croisé gratuit : sessions Stripe créées contre complétées, dans le tableau de bord Stripe.
+
+**A5. Séparer nouveaux abonnés et renouvellements dans la base.**
+Où : `weekly-funnel.ts:49-66` et le type `FunnelDbCounts` (ligne 22). Ajouter `nouveauxAbonnes: prisma.subscription.count({ where: { createdAt: range } })` (`schema.prisma:513`, avec le même filtre de comptes de test que A2) et afficher « Nouveaux abonnés » à la place de « Paiements reçus » comme chiffre de conversion ; garder « Renouvellements » à part (paiements moins nouveaux abonnés). Ajouter `abonnementsAnnules7j` si la résiliation le même jour (cas du 07/10) doit rester visible. Cette ligne est la vérité de référence pour recouper `abonnement-reussi` (écart 1 / 4 vues de succès).
+
+## 6. Données à obtenir avant de trancher (rien n'est inventé ici)
+
+1. Umami `event-data/values` sur 28 j : `blog-scroll.palier`, `mur-vu.type`, `abonnement-vu.src`, `abonnement-clic.statut` et `.declencheur`.
+2. Date de mise en ligne de chaque événement du tunnel.
+3. E-mail du payeur du 07/10 et valeur de `ANALYTICS_EMAILS_EXCLUS` en prod.
+4. Pour CN, US, CA : pages d'entrée et durée, pour trancher « bots ou lecteurs ».
+5. Stripe : sessions de paiement créées / complétées sur 28 j.
+6. Re-mesure dans 4 semaines (10/11/2026) avec A1 à A5 en ligne, puis seulement calculer des taux.
+
+---
+**Handoff → @orchestrator**
+- Fichier : `/home/user/Marrant/docs/marrant/audit-conversion-s20/data-analyst.md` ; note mesure 4,5 / 10 (M1 7, M2 4, M3 5, M4 3) ; le funnel aval (< 20 événements par étape) ne permet aucune conclusion de taux.
+- Décisions : pas de A/B classique (683 visiteurs / 28 j), avant / après 4 semaines + qualitatif ; priorité A1 `blog-cta-vu`, A2 exclusion interne, A3 ventilation d'`abonnement-clic`, A4 `checkout-ouvert` / `checkout-echec`, A5 nouveaux abonnés.
+- Points d'attention : possible pollution du funnel du 05/10 par des tests, rebond 74 % à ne pas célébrer (hypothèse événements), implémentation par @fullstack, validation @legal inutile (aucun identifiant ni cookie ajouté).
