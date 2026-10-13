@@ -38,7 +38,7 @@ export function BlogEncartMilieu({ position, parcours, textes }: BlogEncartMilie
         data-blog-cta="etape-1"
         className={cn(
           buttonVariants({ variant: "outline", size: "md" }),
-          "mt-4 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center sm:w-auto",
+          "mt-4 h-auto min-h-[44px] w-full whitespace-normal border-accent-primary/60 py-2 text-center hover:border-accent-primary sm:w-auto",
         )}
       >
         {frTypo(textes.bouton)}

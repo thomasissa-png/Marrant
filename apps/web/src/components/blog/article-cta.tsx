@@ -96,7 +96,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
               data-blog-cta="etape-1"
               className={cn(
                 buttonVariants({ variant: "outline", size: "lg" }),
-                "h-auto min-h-12 whitespace-normal py-2 text-center",
+                "h-auto min-h-12 whitespace-normal border-accent-primary/60 px-4 py-2 text-center hover:border-accent-primary",
               )}
             >
               {frTypo(textes.finBoutonEtape1)}
@@ -106,7 +106,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
               data-blog-cta="abonnement"
               className={cn(
                 buttonVariants({ variant: "primary", size: "lg" }),
-                "h-auto min-h-12 whitespace-normal py-2 text-center",
+                "h-auto min-h-12 whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
               )}
             >
               {frTypo(TEXTES_BLOC_FIN.boutonPremium)}
