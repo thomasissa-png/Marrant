@@ -1,5 +1,11 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Fiches Boulot Haroun et Marina Rollman + méta vidéo sans guillemet orphelin, **DÉPLOYÉ le 13/10/2026, version `11601326-dc68-4a1a-8332-07a110ad8f86`, commit `5bc40319`** ; N-1 `1d420fa8-8f6f-4978-ac19-c6d79d256801`
+
+- `src/data/video-content-s20.json` : fiches 28 (Haroun, `qdqIc-uzdbA`, AUTODERISION) et 29 (Marina Rollman, `m30qZa8p_Js`, TIMING) ajoutées (89 fiches), texte de `docs/copy/corrections-videos-s20-boulot.md`, validé à l'aveugle (Haroun au tour 7, Rollman au tour 12, 3/3 ; clé `docs/copy/relecture-videos-s20/cle-boulot-tours6-12.md`). Déployé en `1d420fa8` (commit `0a0ff963`, N-1 `8ce0accc`) ; startup-tasks lancé à 100 % du trafic : « contenus vidéo s20 v1 : 2 fiche(s) mise(s) à jour, 0 refus garde-fou, 87 déjà faite(s) », durées « 89 déjà faite(s) ». Base vérifiée en lecture seule (titre, chaîne, catégorie, exercice). Rollman change de slug : l'ancien `marina-rollman-jcc-8e-saison-cmmp8p1tw0` redirige en 308.
+- `src/lib/seo-meta.ts` (`fitDescription`) : une phrase qui finit dans une citation garde son » ; une coupe au mot tombée dans une citation s'arrête avant le «. Seule la méta de Haroun change sur 149 (119 vidéos + 30 articles). Test `video-meta-155-s20.test.ts` (2 cas + contrôle d'équilibre des guillemets sur tout le JSON). tsc ×2, lint, Jest 300 suites / 4600 tests, build OK. Pages vérifiées, IndexNow 200.
+- Rattrapage : la fiche Vérino (id 2, `rldvVgHQSvo`) a été déployée plus tôt le 13/10 en `8ce0accc-1d9b-4e9a-961c-ecd5726aa72b` (startup : 1 fiche mise à jour, 86 déjà faites).
+
 ## s20 Vannes d'exemple d'`/anatomie-vanne`, « école », porte G-J3 (décision Thomas « toutes recos » 13/10), **DÉPLOYÉ le 13/10/2026, version `a7d1779a-c160-4e76-94d6-a57815311eca`, commit `e8ce433f`** ; pages vérifiées (nouvelles vannes en ligne, anciennes absentes, « école » absent) ; IndexNow 200 ; N-1 `07c24e84-873d-48fa-9207-6fad53c0a987`
 
 - Vanne 1 (Observation) : « Chaque matin, mon père m'envoie une fleur qui scintille avec « Bonne journée ». / Un matin sans réponse, il a appelé ma voisine. » ; vanne 4 (Double sens) : « Il paraît qu'il faut savoir poser ses limites. » → « J'ai planté un panneau 30 devant chez moi. Personne n'a ralenti. » Écrites pour l'occasion, choisies à l'unanimité à l'aveugle (3/3) parmi 3+3 candidates.
