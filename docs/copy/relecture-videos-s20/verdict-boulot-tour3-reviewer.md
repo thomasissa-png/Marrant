@@ -1,0 +1,27 @@
+# Verdict relecture à l'aveugle, fiches boulot tour 3 (@reviewer)
+
+Source lue : `aveugle-boulot-tour3.md` uniquement. Faits pré-vérifiés (citation Haroun, nationalité Marina Rollman) non re-questionnés. Contrôle forme sur les 2 fiches : tutoiement OK, guillemets « » OK, zéro tiret cadratin (les « - » des titres sont des traits d'union de titre YouTube).
+
+| Fiche | Champ | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|---|
+| S1 | Titre affiché | oui | Fidèle au titre YouTube. | |
+| S1 | Description publique | oui | Citation attribuée à la description YouTube (vérifiée), le reste est générique et n'affirme rien sur le contenu. L'invitation « note les moments où tu hésites » suppose des passages sensibles, mais c'est formulé comme une consigne et non comme une affirmation : acceptable. | |
+| S1 | Enseignement 1 (reproche devancé) | oui | Libellé, consigne et exemple concordent (la critique est formulée par l'humoriste avant le public). | |
+| S1 | Enseignement 2 (la cible c'est toi) | non | Doublon avec l'enseignement 4 : les deux font « critique des autres, puis même travers retourné contre soi » (politique / pizza ; boomers qui laissent / moi qui laisse la vaisselle), donc on annonce quatre techniques et on n'en livre que trois. En plus, la consigne « dis d'abord le reproche que tu t'apprêtais à faire » est confuse (on le fait, on ne s'apprête pas à le faire), et la conclusion « avant d'avoir fini de viser les autres » contredit l'exemple, où le reproche est entièrement dit avant le retournement. | Réécrire la consigne en « fais d'abord le reproche aux autres, puis montre que tu as exactement le même travers », supprimer « avant d'avoir fini de viser les autres » et laisser l'enseignement 4 porter une autre mécanique (voir ligne Sas). |
+| S1 | Enseignement 3 (angle personnel) | non | « le prix de la vie » est incorrect en français (l'expression est « le coût de la vie » ; « le prix de la vie » renvoie à la valeur d'une vie). La chute « ma dignité, elle, n'a pas de prix » se lit mal : on ne voit pas pourquoi les biscuits sauvent la dignité. | Remplacer par « le coût de la vie » et resserrer la chute sur une logique lisible (par exemple, le seul achat qu'il ne calcule pas est celui qui le console). |
+| S1 | Enseignement 4 (sas) | non | L'exemple est un retournement du même reproche (« laisser » aux autres / « laisser » la vaisselle), c'est donc la technique 2 sous un autre nom. Le sas, tel que le libellé le décrit (laisser la salle respirer après une phrase clivante, pour pouvoir continuer), n'est pas montré. | Garder la pique, mais donner un sas qui est une vanne contre soi sur un autre travers, suivie d'une relance du propos, et dire en une phrase ce qui le distingue de la technique 2 (il détend avant la suite, il ne renvoie pas le reproche). |
+| S1 | Exercice | non | Le test est biaisé : l'ami entend la pique seule, puis l'entend une seconde fois suivie du retournement. Il est moins crispé la seconde fois par simple familiarité, et le retournement en récolte le mérite. De plus, « si son sourire arrive avec la seconde » est ambigu (seconde phrase ou seconde prise ?). | Dire les deux phrases d'un seul trait à un ami en observant son visage entre la pique et le retournement (crispation puis sourire), ou dire la pique seule à un ami et les deux phrases à un autre, et écrire « avec la seconde phrase ». |
+| S1 | Catégorie | oui | AUTODERISION cohérente : les quatre enseignements et l'exercice consistent à se viser soi-même. | |
+| S2 | Titre affiché | oui | Fidèle au titre YouTube, en version normalisée. | |
+| S2 | Description publique | oui | « Un peu plus de cinq minutes » correspond à la durée réelle (5m9s), « humoriste suisse » est pré-vérifié, et rien n'est affirmé sur le contenu du sketch. La consigne d'observation (où tu souris, où tu ris, ce qui précède) est concrète et donne envie. | |
+| S2 | Enseignement 1 (mot-chute) | oui | La paire salade/frites montre exactement la technique : mêmes mots, seul l'ordre change, et la version qui finit sur « frites » porte la surprise. | |
+| S2 | Enseignement 2 (règle de trois) | oui | L'exemple (mail, réunion, tiramisu à 10 h) montre bien la mécanique. Ça touche au rythme plus qu'au timing pur, mais ça reste cohérent avec la catégorie. | |
+| S2 | Enseignement 3 (dernière phrase d'abord) | oui | Installation d'une phrase et chute (mariage / pleurer plus fort que la mariée) : la démonstration de l'économie est exacte. | |
+| S2 | Enseignement 4 (pause) | oui | La consigne est actionnable (où placer la pause, comment la marquer à l'écrit, comment la tester trop courte ou trop longue) et l'exemple est clair. | |
+| S2 | Exercice | oui | Concret, faisable, avec un biais d'ordre traité (deux amis ou ordre tiré à pile ou face), un critère de réussite et une marche à suivre si ça rate. La version « au milieu » sonne forcément bancale, mais la consigne « exactement les mêmes mots » l'impose, c'est assumé. | |
+| S2 | Catégorie | oui | TIMING cohérent (placement de la chute, rythme, pause). | |
+
+## Bilan
+
+- **S1 : NON au niveau.** Trois défauts bloquants : les enseignements 2 et 4 sont en doublon (deux techniques sur quatre partagent la même mécanique), l'enseignement 3 contient « prix de la vie » (incorrect, la chute est confuse) et le test de l'exercice est biaisé par la répétition. Fiche à corriger puis à repasser à l'aveugle.
+- **S2 : OUI au niveau.** Fidèle aux sources, quatre techniques distinctes et bien illustrées, exercice rigoureux et faisable : publiable en l'état.
