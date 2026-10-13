@@ -49,3 +49,15 @@ Note : si #1 et #2 montrent un canonique apex ou un retour à la normale en 7 jo
 - **Fichier produit** : `/home/user/Marrant/docs/seo/anomalie-canonique-747live-13-10.md` (aucun autre fichier modifié, pas de commit).
 - **Décision** : pas de changement de code ni de règle Cloudflare tant qu'aucune copie n'est prouvée.
 - **Points d'attention** : limites WebSearch ; crt.sh et Wayback indisponibles ; la bascule du 30/09 est la fenêtre suspecte ; `REPLIT_ACTIONS.md` à mettre à jour seulement si une règle Cloudflare est posée.
+
+## Reproduction par l'API (session, 13/10 ~06:50 UTC)
+
+| URL | Couverture | Dernière exploration | Canonique Google |
+|---|---|---|---|
+| `https://www.deviens-marrant.fr/` | Page avec redirection | 20/09 | `https://deviens-marrant.fr/` (correct) |
+| `https://deviens-marrant.fr/` | Envoyée et indexée | 09/10 | la même (correct) |
+| `https://www.deviens-marrant.fr/blog` | Page avec redirection | 11/08 | `https://deviens-marrant.fr/blog` (correct) |
+| `https://www.deviens-marrant.fr/quiz-humour` | Google ne reconnaît pas cette URL | jamais | aucun |
+| `https://deviens-marrant.fr/quiz-humour` | **Détectée, actuellement non indexée** | jamais | aucun |
+
+**Lecture** : l'anomalie 747live est isolée à une seule URL `www` (le pilier) ; les autres URL `www` ont le bon canonique. Gravité faible confirmée ; recontrôle avec le J+14 du pilier (20/10). **Constat annexe** : `/quiz-humour`, destination des posts X du mercredi, est « Détectée, actuellement non indexée » (sans effet sur le trafic social, à traiter côté SEO : liens internes et sitemap) `[@seo]`.
