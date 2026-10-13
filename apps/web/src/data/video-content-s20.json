@@ -23,6 +23,23 @@
    }
   },
   {
+   "seedId": 2,
+   "youtubeId": "rldvVgHQSvo",
+   "attendu": "23f1aa61250c8589",
+   "source": "neutre",
+   "cible": {
+    "description": "Vérino : un distributeur de baguettes, un truc que personne ne remarque, regardé comme par un étranger, dans cette vidéo de Montreux Comedy. Le sujet est minuscule et le regard vient d'ailleurs : c'est la technique à observer, et la plus simple à tester dès ce soir. La vidéo dure moins de six minutes : observe la distance qu'il prend avec l'objet, puis repars avec quatre techniques pour trouver ton propre sujet invisible.",
+    "learnings": [
+     "TECHNIQUE DE L'ŒIL D'ÉTRANGER : décris un objet familier comme si tu débarquais d'un pays où il n'existe pas. Pose les questions que plus personne ne pose (« qui a décidé que c'était normal ? ») et réponds-y sérieusement : l'habitude disparaît, l'étrangeté reste.",
+     "TECHNIQUE DU SUJET MINUSCULE : cherche tes sujets là où personne ne regarde, pas dans les grands thèmes. Sur un objet banal, le public a moins de chances d'avoir déjà entendu la vanne, et toi tu as plus d'angles que tu ne crois.",
+     "TECHNIQUE DU MODE D'EMPLOI SOLENNEL : explique le fonctionnement de l'objet étape par étape, avec le sérieux d'une notice. Plus le ton est appliqué, plus l'écart avec le côté dérisoire de l'objet fait rire : « Insérez la pièce. Patientez. Attendez la baguette comme on attend un verdict. »",
+     "TECHNIQUE DE LA RECONNAISSANCE : choisis un objet que presque tout le monde a déjà croisé. Quand chacun a son propre souvenir, la salle rit de se reconnaître, avant même que tu aies fini ta phrase."
+    ],
+    "exercise": "DÉFI OBJET INVISIBLE : choisis un objet que tu croises tous les jours sans le voir (l'ascenseur de ton immeuble, le gobelet de la machine à café, le portique du métro) et décris-le à un ami en 30 secondes, comme un touriste qui n'a jamais rien vu de tel. Par exemple : « Il y a une machine, tu lui donnes une pièce, elle te rend une boisson brûlante dans un verre qui fond. Et tout le monde dit merci à la machine. » Si ton ami répond « c'est vrai que c'est bizarre », tu tiens ton angle.",
+    "title": "Vérino - Le distributeur de baguettes"
+   }
+  },
+  {
    "seedId": 3,
    "youtubeId": "57KJEtKDf2U",
    "attendu": "9cff817edc324f54",
