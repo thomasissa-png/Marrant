@@ -1,0 +1,1018 @@
+{
+ "periode": "15/09/2026 au 12/10/2026 (28 j, heure de Paris)",
+ "periode_precedente": "18/08 au 14/09/2026",
+ "stats": {
+  "pageviews": 1166,
+  "visitors": 683,
+  "visits": 803,
+  "bounces": 597,
+  "totaltime": 49649,
+  "comparison": {
+   "pageviews": 799,
+   "visitors": 574,
+   "visits": 666,
+   "bounces": 607,
+   "totaltime": 21026
+  }
+ },
+ "stats_precedente": {
+  "pageviews": 802,
+  "visitors": 577,
+  "visits": 669,
+  "bounces": 610,
+  "totaltime": 21026,
+  "comparison": {
+   "pageviews": 953,
+   "visitors": 732,
+   "visits": 820,
+   "bounces": 767,
+   "totaltime": 24775
+  }
+ },
+ "url": [
+  {
+   "x": "/blog/meilleures-blagues-droles-2026",
+   "y": 404
+  },
+  {
+   "x": "/blog/phrases-droles-conversations",
+   "y": 63
+  },
+  {
+   "x": "/vannes",
+   "y": 57
+  },
+  {
+   "x": "/",
+   "y": 51
+  },
+  {
+   "x": "/blog/exercices-developper-humour",
+   "y": 25
+  },
+  {
+   "x": "/videos",
+   "y": 21
+  },
+  {
+   "x": "/abonnement",
+   "y": 19
+  },
+  {
+   "x": "/conseils",
+   "y": 18
+  },
+  {
+   "x": "/parcours",
+   "y": 16
+  },
+  {
+   "x": "/login",
+   "y": 15
+  },
+  {
+   "x": "/register",
+   "y": 14
+  },
+  {
+   "x": "/blog/citation-drole",
+   "y": 14
+  },
+  {
+   "x": "/blog",
+   "y": 13
+  },
+  {
+   "x": "/blog/repondre-moqueries-avec-humour",
+   "y": 11
+  },
+  {
+   "x": "/blog/techniques-humoristes-pros",
+   "y": 10
+  },
+  {
+   "x": "/blog/comment-faire-rire-une-fille",
+   "y": 9
+  },
+  {
+   "x": "/parcours/machine-a-cafe",
+   "y": 9
+  },
+  {
+   "x": "/blog/comment-devenir-drole",
+   "y": 9
+  },
+  {
+   "x": "/quiz-humour",
+   "y": 8
+  },
+  {
+   "x": "/blog/storytelling-drole-5-structures",
+   "y": 7
+  },
+  {
+   "x": "/blog/autoderision-interactions",
+   "y": 7
+  },
+  {
+   "x": "/admin",
+   "y": 6
+  },
+  {
+   "x": "/blog/conversation-machine-a-cafe",
+   "y": 6
+  },
+  {
+   "x": "/vannes/theme/boulot",
+   "y": 5
+  },
+  {
+   "x": "/parcours/confiance",
+   "y": 5
+  },
+  {
+   "x": "/blog/jeu-de-mots-drole-techniques-creer",
+   "y": 5
+  },
+  {
+   "x": "/reset-password",
+   "y": 5
+  },
+  {
+   "x": "/blog/comment-avoir-de-la-repartie",
+   "y": 5
+  },
+  {
+   "x": "/blog/je-suis-pas-drole-comment-changer",
+   "y": 5
+  },
+  {
+   "x": "/parcours/repartie",
+   "y": 5
+  },
+  {
+   "x": "/vannes/theme/famille",
+   "y": 4
+  },
+  {
+   "x": "/blog/comment-raconter-une-blague-sans-la-rater",
+   "y": 4
+  },
+  {
+   "x": "/vannes/theme/autoderision",
+   "y": 4
+  },
+  {
+   "x": "/blog/comment-faire-rire-un-homme",
+   "y": 4
+  },
+  {
+   "x": "/blog/blague-drole-7-criteres-pepite",
+   "y": 4
+  },
+  {
+   "x": "/blog/comment-improviser-des-blagues",
+   "y": 4
+  },
+  {
+   "x": "/abonnement/success",
+   "y": 4
+  },
+  {
+   "x": "/blog/jamais-quoi-repondre-techniques",
+   "y": 3
+  },
+  {
+   "x": "/blague-du-jour",
+   "y": 3
+  },
+  {
+   "x": "/vannes/theme/couple",
+   "y": 3
+  },
+  {
+   "x": "/blog/5-types-humour-lequel-pour-toi",
+   "y": 3
+  },
+  {
+   "x": "/profil",
+   "y": 3
+  },
+  {
+   "x": "/blog/humour-quotidien-8-habitudes",
+   "y": 3
+  },
+  {
+   "x": "/blog/blagues-halloween-soiree-deguisee",
+   "y": 3
+  },
+  {
+   "x": "/vannes/a-la-fete-de-la-musique-trois-bars-de-ma-rue-jouaient-la-cs14jk2014",
+   "y": 3
+  },
+  {
+   "x": "/blog/jeux-de-mots-technique-3-etapes",
+   "y": 3
+  },
+  {
+   "x": "/vannes/mon-pere-est-retraite-depuis-un-an-et-me-dit-toujours-quil-cs14jk2fd7",
+   "y": 2
+  },
+  {
+   "x": "/blog/repartie-soiree-anti-malaise",
+   "y": 2
+  },
+  {
+   "x": "/a-propos",
+   "y": 2
+  },
+  {
+   "x": "/blog/timing-humour",
+   "y": 2
+  },
+  {
+   "x": "/mentions-legales",
+   "y": 2
+  },
+  {
+   "x": "/retractation",
+   "y": 2
+  },
+  {
+   "x": "/liens/li",
+   "y": 2
+  },
+  {
+   "x": "/anatomie-vanne",
+   "y": 2
+  },
+  {
+   "x": "/vannes/mon-pere-ma-dit-quil-fallait-que-je-fasse-mes-preuves-cp0465e601",
+   "y": 2
+  },
+  {
+   "x": "/liens/x",
+   "y": 2
+  },
+  {
+   "x": "/forgot-password",
+   "y": 2
+  },
+  {
+   "x": "/vannes/theme/gaming",
+   "y": 2
+  },
+  {
+   "x": "/cgu",
+   "y": 2
+  },
+  {
+   "x": "/vannes/jai-passe-mon-stage-a-ranger-les-archives-par-ordre-cs14jk0aa8",
+   "y": 2
+  }
+ ],
+ "entry": [
+  {
+   "x": "/blog/meilleures-blagues-droles-2026",
+   "y": 397
+  },
+  {
+   "x": "/blog/phrases-droles-conversations",
+   "y": 51
+  },
+  {
+   "x": "/",
+   "y": 40
+  },
+  {
+   "x": "/vannes",
+   "y": 29
+  },
+  {
+   "x": "/blog/exercices-developper-humour",
+   "y": 19
+  },
+  {
+   "x": "/abonnement",
+   "y": 9
+  },
+  {
+   "x": "/blog/citation-drole",
+   "y": 8
+  },
+  {
+   "x": "/blog/autoderision-interactions",
+   "y": 7
+  },
+  {
+   "x": "/blog",
+   "y": 7
+  },
+  {
+   "x": "/videos",
+   "y": 7
+  },
+  {
+   "x": "/register",
+   "y": 6
+  },
+  {
+   "x": "/blog/techniques-humoristes-pros",
+   "y": 6
+  },
+  {
+   "x": "/login",
+   "y": 6
+  },
+  {
+   "x": "/parcours",
+   "y": 6
+  },
+  {
+   "x": "/blog/comment-avoir-de-la-repartie",
+   "y": 5
+  },
+  {
+   "x": "/blog/comment-faire-rire-une-fille",
+   "y": 5
+  },
+  {
+   "x": "/quiz-humour",
+   "y": 5
+  },
+  {
+   "x": "/blog/comment-faire-rire-un-homme",
+   "y": 4
+  },
+  {
+   "x": "/blog/conversation-machine-a-cafe",
+   "y": 3
+  },
+  {
+   "x": "/blog/comment-improviser-des-blagues",
+   "y": 2
+  },
+  {
+   "x": "/vannes/mon-pere-est-retraite-depuis-un-an-et-me-dit-toujours-quil-cs14jk2fd7",
+   "y": 2
+  },
+  {
+   "x": "/blog/comment-devenir-drole",
+   "y": 2
+  },
+  {
+   "x": "/mentions-legales",
+   "y": 2
+  },
+  {
+   "x": "/blog/jeux-de-mots-technique-3-etapes",
+   "y": 2
+  },
+  {
+   "x": "/blog/repondre-moqueries-avec-humour",
+   "y": 2
+  },
+  {
+   "x": "/blog/jamais-quoi-repondre-techniques",
+   "y": 2
+  },
+  {
+   "x": "/conseils",
+   "y": 2
+  },
+  {
+   "x": "/vannes/a-la-fete-de-la-musique-trois-bars-de-ma-rue-jouaient-la-cs14jk2014",
+   "y": 2
+  },
+  {
+   "x": "/blog/jeu-de-mots-drole-techniques-creer",
+   "y": 2
+  },
+  {
+   "x": "/blog/5-types-humour-lequel-pour-toi",
+   "y": 1
+  },
+  {
+   "x": "/a-propos",
+   "y": 1
+  },
+  {
+   "x": "/vannes/quelquun-a-recupere-le-fauteuil-que-je-venais-de-jeter-a-la-cs14jka7e6",
+   "y": 1
+  },
+  {
+   "x": "/conseils/prevenir-ton-week-end-cs14tip8f8",
+   "y": 1
+  },
+  {
+   "x": "/vannes/tous-les-soirs-mon-voisin-se-dispute-avec-sa-tele-a-travers-cs14jkab7c",
+   "y": 1
+  },
+  {
+   "x": "/vannes/jai-prepare-mon-entretien-pendant-trois-jours-premiere-cs14jke422",
+   "y": 1
+  },
+  {
+   "x": "/blog/rester-muet-en-groupe",
+   "y": 1
+  },
+  {
+   "x": "/videos/laura-laune-finale-frances-got-talent-2017-cmmp8p4fz0",
+   "y": 1
+  },
+  {
+   "x": "/blog/avoir-confiance-en-soi-grace-a-l-humour",
+   "y": 1
+  },
+  {
+   "x": "/blog/blague-drole-7-criteres-pepite",
+   "y": 1
+  },
+  {
+   "x": "/vannes/jai-passe-mon-stage-a-ranger-les-archives-par-ordre-cs14jk0aa8",
+   "y": 1
+  },
+  {
+   "x": "/vannes/ma-voisine-ma-dit-quelle-mentendait-parler-seul-toute-la-cs14jk0761",
+   "y": 1
+  },
+  {
+   "x": "/vannes/mon-date-a-enregistre-mon-numero-devant-moi-elle-a-tape-cs14jkb9ba",
+   "y": 1
+  },
+  {
+   "x": "/blog/je-suis-pas-drole-comment-changer",
+   "y": 1
+  },
+  {
+   "x": "/parcours/slug-inexistant-qa",
+   "y": 1
+  },
+  {
+   "x": "/blog/comment-raconter-une-blague-sans-la-rater",
+   "y": 1
+  },
+  {
+   "x": "/videos/blanche-gardin-la-vie-eternelle-cmmp8p4y10",
+   "y": 1
+  },
+  {
+   "x": "/liens/x",
+   "y": 1
+  },
+  {
+   "x": "/vannes/ma-soeur-raconte-a-chaque-repas-de-famille-la-meme-anecdote-cs14jkc4a2",
+   "y": 1
+  },
+  {
+   "x": "/conseils/construire-une-histoire-drole-cmmp8ozsx0",
+   "y": 1
+  },
+  {
+   "x": "/vannes/theme/gaming",
+   "y": 1
+  },
+  {
+   "x": "/parcours/confiance",
+   "y": 1
+  },
+  {
+   "x": "/parcours/machine-a-cafe",
+   "y": 1
+  },
+  {
+   "x": "/abonnement/success",
+   "y": 1
+  },
+  {
+   "x": "/admin",
+   "y": 1
+  },
+  {
+   "x": "/vannes/mon-copain-na-jamais-retenu-le-prenom-de-ma-meilleure-amie-cs14jk8bb8",
+   "y": 1
+  },
+  {
+   "x": "/anatomie-vanne",
+   "y": 1
+  },
+  {
+   "x": "/carnet",
+   "y": 1
+  },
+  {
+   "x": "/liens/li",
+   "y": 1
+  },
+  {
+   "x": "/reset-password",
+   "y": 1
+  },
+  {
+   "x": "/blog/blagues-halloween-soiree-deguisee",
+   "y": 1
+  }
+ ],
+ "exit": [
+  {
+   "x": "/blog/meilleures-blagues-droles-2026",
+   "y": 385
+  },
+  {
+   "x": "/blog/phrases-droles-conversations",
+   "y": 51
+  },
+  {
+   "x": "/vannes",
+   "y": 36
+  },
+  {
+   "x": "/",
+   "y": 32
+  },
+  {
+   "x": "/blog/exercices-developper-humour",
+   "y": 16
+  },
+  {
+   "x": "/videos",
+   "y": 10
+  },
+  {
+   "x": "/blog",
+   "y": 9
+  },
+  {
+   "x": "/abonnement",
+   "y": 9
+  },
+  {
+   "x": "/blog/citation-drole",
+   "y": 9
+  },
+  {
+   "x": "/blog/autoderision-interactions",
+   "y": 7
+  },
+  {
+   "x": "/parcours",
+   "y": 6
+  },
+  {
+   "x": "/quiz-humour",
+   "y": 6
+  },
+  {
+   "x": "/blog/comment-faire-rire-une-fille",
+   "y": 5
+  },
+  {
+   "x": "/conseils",
+   "y": 5
+  },
+  {
+   "x": "/login",
+   "y": 5
+  },
+  {
+   "x": "/register",
+   "y": 4
+  },
+  {
+   "x": "/parcours/machine-a-cafe",
+   "y": 4
+  },
+  {
+   "x": "/admin",
+   "y": 4
+  },
+  {
+   "x": "/blog/comment-avoir-de-la-repartie",
+   "y": 4
+  },
+  {
+   "x": "/vannes/theme/famille",
+   "y": 4
+  },
+  {
+   "x": "/blog/repondre-moqueries-avec-humour",
+   "y": 4
+  },
+  {
+   "x": "/blog/comment-raconter-une-blague-sans-la-rater",
+   "y": 3
+  },
+  {
+   "x": "/blog/blague-drole-7-criteres-pepite",
+   "y": 3
+  },
+  {
+   "x": "/blog/comment-faire-rire-un-homme",
+   "y": 3
+  },
+  {
+   "x": "/blog/jeu-de-mots-drole-techniques-creer",
+   "y": 2
+  },
+  {
+   "x": "/blog/techniques-humoristes-pros",
+   "y": 2
+  },
+  {
+   "x": "/blog/blagues-halloween-soiree-deguisee",
+   "y": 2
+  },
+  {
+   "x": "/abonnement/success",
+   "y": 2
+  },
+  {
+   "x": "/parcours/confiance",
+   "y": 2
+  },
+  {
+   "x": "/blog/comment-devenir-drole",
+   "y": 2
+  },
+  {
+   "x": "/blog/je-suis-pas-drole-comment-changer",
+   "y": 2
+  },
+  {
+   "x": "/blog/storytelling-drole-5-structures",
+   "y": 2
+  },
+  {
+   "x": "/vannes/theme/autoderision",
+   "y": 2
+  },
+  {
+   "x": "/mentions-legales",
+   "y": 2
+  },
+  {
+   "x": "/blog/avoir-confiance-en-soi-grace-a-l-humour",
+   "y": 1
+  },
+  {
+   "x": "/a-propos",
+   "y": 1
+  },
+  {
+   "x": "/vannes/ma-collegue-ma-briefe-pendant-45-minutes-avant-ses-conges-cmoapu9k80",
+   "y": 1
+  },
+  {
+   "x": "/vannes/tous-les-soirs-mon-voisin-se-dispute-avec-sa-tele-a-travers-cs14jkab7c",
+   "y": 1
+  },
+  {
+   "x": "/videos/fary-le-legging-cmmp8p1800",
+   "y": 1
+  },
+  {
+   "x": "/vannes/jai-mis-mon-reveil-en-face-du-lit-pour-etre-oblige-de-me-cmmw0tois0",
+   "y": 1
+  },
+  {
+   "x": "/vannes/ma-voisine-ma-dit-quelle-mentendait-parler-seul-toute-la-cs14jk0761",
+   "y": 1
+  },
+  {
+   "x": "/blog/rester-muet-en-groupe",
+   "y": 1
+  },
+  {
+   "x": "/blog/jamais-quoi-repondre-techniques",
+   "y": 1
+  },
+  {
+   "x": "/videos/laura-laune-finale-frances-got-talent-2017-cmmp8p4fz0",
+   "y": 1
+  },
+  {
+   "x": "/blog/jeux-de-mots-technique-3-etapes",
+   "y": 1
+  },
+  {
+   "x": "/vannes/jai-passe-mon-stage-a-ranger-les-archives-par-ordre-cs14jk0aa8",
+   "y": 1
+  },
+  {
+   "x": "/vannes/mon-date-a-enregistre-mon-numero-devant-moi-elle-a-tape-cs14jkb9ba",
+   "y": 1
+  },
+  {
+   "x": "/vannes/mon-pere-est-retraite-depuis-un-an-et-me-dit-toujours-quil-cs14jk2fd7",
+   "y": 1
+  },
+  {
+   "x": "/vannes/a-la-fete-de-la-musique-trois-bars-de-ma-rue-jouaient-la-cs14jk2014",
+   "y": 1
+  },
+  {
+   "x": "/blog/conversation-machine-a-cafe",
+   "y": 1
+  },
+  {
+   "x": "/parcours/slug-inexistant-qa",
+   "y": 1
+  },
+  {
+   "x": "/videos/haroun-limpro-et-la-repartie-cmmp8p1rw0",
+   "y": 1
+  },
+  {
+   "x": "/videos/fadily-camara-les-complexes-cmmp8p0ro0",
+   "y": 1
+  },
+  {
+   "x": "/vannes/jai-demande-a-lia-decrire-mon-discours-pour-le-mariage-de-cs14jk4e03",
+   "y": 1
+  },
+  {
+   "x": "/conseils/construire-une-histoire-drole-cmmp8ozsx0",
+   "y": 1
+  },
+  {
+   "x": "/videos/baptiste-lecaplain-la-timidite-cmmp8p0nl0",
+   "y": 1
+  },
+  {
+   "x": "/parcours/repartie",
+   "y": 1
+  },
+  {
+   "x": "/vannes/theme/dating",
+   "y": 1
+  },
+  {
+   "x": "/anatomie-vanne",
+   "y": 1
+  },
+  {
+   "x": "/blog/5-types-humour-lequel-pour-toi",
+   "y": 1
+  }
+ ],
+ "referrer": [
+  {
+   "x": "google.com",
+   "y": 402
+  },
+  {
+   "x": "bing.com",
+   "y": 50
+  },
+  {
+   "x": "duckduckgo.com",
+   "y": 13
+  },
+  {
+   "x": "ecosia.org",
+   "y": 12
+  },
+  {
+   "x": "google.fr",
+   "y": 4
+  },
+  {
+   "x": "fr.search.yahoo.com",
+   "y": 4
+  },
+  {
+   "x": "chatgpt.com",
+   "y": 3
+  },
+  {
+   "x": "checkout.stripe.com",
+   "y": 3
+  },
+  {
+   "x": "qwant.com",
+   "y": 2
+  },
+  {
+   "x": "search.yahoo.com",
+   "y": 2
+  },
+  {
+   "x": "qwantjunior.com",
+   "y": 1
+  },
+  {
+   "x": "google.ch",
+   "y": 1
+  },
+  {
+   "x": "t.co",
+   "y": 1
+  },
+  {
+   "x": "accounts.google.com",
+   "y": 1
+  }
+ ],
+ "event": [
+  {
+   "x": "blog-scroll",
+   "y": 201
+  },
+  {
+   "x": "mur-vu",
+   "y": 16
+  },
+  {
+   "x": "blog-sortie-clic",
+   "y": 10
+  },
+  {
+   "x": "abonnement-vu",
+   "y": 6
+  },
+  {
+   "x": "abonnement-clic",
+   "y": 5
+  },
+  {
+   "x": "blog-ancre-clic",
+   "y": 4
+  },
+  {
+   "x": "inscription-envoi",
+   "y": 3
+  },
+  {
+   "x": "inscription-reussie",
+   "y": 2
+  },
+  {
+   "x": "quiz-termine",
+   "y": 1
+  },
+  {
+   "x": "abonnement-reussi",
+   "y": 1
+  },
+  {
+   "x": "inscription-echec",
+   "y": 1
+  },
+  {
+   "x": "connexion-reussie",
+   "y": 1
+  }
+ ],
+ "device": [
+  {
+   "x": "mobile",
+   "y": 455
+  },
+  {
+   "x": "laptop",
+   "y": 210
+  },
+  {
+   "x": "tablet",
+   "y": 13
+  },
+  {
+   "x": "desktop",
+   "y": 5
+  }
+ ],
+ "country": [
+  {
+   "x": "FR",
+   "y": 435
+  },
+  {
+   "x": "US",
+   "y": 59
+  },
+  {
+   "x": "CN",
+   "y": 53
+  },
+  {
+   "x": "CA",
+   "y": 34
+  },
+  {
+   "x": "BE",
+   "y": 28
+  },
+  {
+   "x": "CH",
+   "y": 15
+  },
+  {
+   "x": "MA",
+   "y": 10
+  },
+  {
+   "x": "RE",
+   "y": 6
+  },
+  {
+   "x": "SG",
+   "y": 5
+  },
+  {
+   "x": "CI",
+   "y": 4
+  },
+  {
+   "x": "MG",
+   "y": 4
+  },
+  {
+   "x": "DE",
+   "y": 3
+  },
+  {
+   "x": "ES",
+   "y": 3
+  },
+  {
+   "x": "NC",
+   "y": 2
+  },
+  {
+   "x": "GA",
+   "y": 2
+  },
+  {
+   "x": "GB",
+   "y": 2
+  },
+  {
+   "x": "TN",
+   "y": 2
+  },
+  {
+   "x": "CM",
+   "y": 1
+  },
+  {
+   "x": "ML",
+   "y": 1
+  },
+  {
+   "x": "KR",
+   "y": 1
+  },
+  {
+   "x": "DO",
+   "y": 1
+  },
+  {
+   "x": "NE",
+   "y": 1
+  },
+  {
+   "x": "PF",
+   "y": 1
+  },
+  {
+   "x": "GN",
+   "y": 1
+  },
+  {
+   "x": "LU",
+   "y": 1
+  },
+  {
+   "x": "MX",
+   "y": 1
+  },
+  {
+   "x": "DZ",
+   "y": 1
+  },
+  {
+   "x": "GP",
+   "y": 1
+  },
+  {
+   "x": "AT",
+   "y": 1
+  },
+  {
+   "x": "ZA",
+   "y": 1
+  },
+  {
+   "x": "CD",
+   "y": 1
+  },
+  {
+   "x": "JP",
+   "y": 1
+  },
+  {
+   "x": "NL",
+   "y": 1
+  }
+ ]
+}

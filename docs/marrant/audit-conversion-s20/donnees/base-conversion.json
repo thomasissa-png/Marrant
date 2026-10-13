@@ -1,0 +1,74 @@
+{
+ "users_total": [
+  {
+   "n": "14"
+  }
+ ],
+ "users_par_mois": [
+  {
+   "mois": "2026-03",
+   "n": "4"
+  },
+  {
+   "mois": "2026-04",
+   "n": "2"
+  },
+  {
+   "mois": "2026-06",
+   "n": "2"
+  },
+  {
+   "mois": "2026-08",
+   "n": "1"
+  },
+  {
+   "mois": "2026-09",
+   "n": "3"
+  },
+  {
+   "mois": "2026-10",
+   "n": "2"
+  }
+ ],
+ "users_28j": [
+  {
+   "n": "5"
+  }
+ ],
+ "subscriptions": [
+  {
+   "plan": "PREMIUM",
+   "status": "ACTIVE",
+   "billingInterval": "month",
+   "priceAmountCents": 99,
+   "cancelAtPeriodEnd": false,
+   "cree": "2026-03-18",
+   "maj": "2026-10-05"
+  },
+  {
+   "plan": "PREMIUM",
+   "status": "ACTIVE",
+   "billingInterval": "month",
+   "priceAmountCents": 99,
+   "cancelAtPeriodEnd": false,
+   "cree": "2026-08-14",
+   "maj": "2026-10-05"
+  },
+  {
+   "plan": "PREMIUM",
+   "status": "CANCELED",
+   "billingInterval": "month",
+   "priceAmountCents": 299,
+   "cancelAtPeriodEnd": false,
+   "cree": "2026-10-07",
+   "maj": "2026-10-07"
+  }
+ ],
+ "users_onboarding": "ERREUR {\"message\":\"column \\\"onboardingCompleted\\\" does not exist\",\"code\":\"42703\",\"detail\":null,\"hint\":null,\"position\":\"31\",\"internalPosition\":null,\"internalQuery\":null,\"severity\":\"ERROR\",\"where\":null,\"table\"",
+ "progression_parcours": [
+  {
+   "utilisateurs": "1",
+   "lignes": "1"
+  }
+ ]
+}
