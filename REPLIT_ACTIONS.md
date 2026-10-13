@@ -16,6 +16,14 @@
 - Après déploiement (attendre que la nouvelle version serve 100 % du trafic) : `GET /api/cron/startup-tasks` (Bearer `CRON_SECRET`). Attendu dans le journal : « durées vidéo s20 v1 : 89 corrigée(s), 0 refus garde-fou, 0 déjà faite(s), 0 absente(s) » (la tâche ajoute environ 45 à 50 s, une transaction par vidéo). 2e appel : « 0 corrigée(s), …, 89 déjà faite(s) ». Si l'appel répond en quelques secondes sans cette ligne, voir le point « 1er appel à 4 s » du handoff s20 avant de relancer.
 - Retour arrière base : SQL en tête de `video-durations-s20.ts`, en gardant les marqueurs.
 
+## s15 (13/10/2026, 08:31 Paris) : LOT 1b INSÉRÉ en base (19/10 au 15/11), **RIEN À DÉPLOYER**
+
+- Avant : `lot-1b.json` identique à `e7caadb` (sha256 `2268b3d9…`) ; replis du 1a REJECTED (`c92df7ca8db3e3ef8cdd36470` IG 12/10, `cb2cb272487d56bb82eff560f` LinkedIn 13/10), 0 FAILED au 1a ; V7 : `premier-message-drole-appli-de-rencontre` = 18 messages, `publishedAt` 29/10 05:00 UTC ; 0 APPROVED préexistant sur la tranche (36 REJECTED anciens).
+- Commande (depuis `apps/web`) : `npx tsx scripts/content/prepare-social-month.ts --lot relance-s15 --pool strict --debut 2026-10-19 --fin 2026-11-15 --json ../../docs/social/preparation/lot-1b.json --insert --driver=neon-http` : « Inséré : 46 posts APPROVED (thomas-s15) ; contrôle après insertion : conforme (par réseau et par semaine) ».
+- Après : X 19, Instagram 19, LinkedIn 8 APPROVED ; 0 doublon de créneau depuis le 12/10 ; 1a inchangé (9 APPROVED, 3 PUBLISHED, 2 REJECTED) ; réseaux ouverts, canaux `ok`.
+- Retour arrière (borné) : même commande avec `--rollback --debut 2026-10-19 --fin 2026-11-15 --confirmer` (sans `--json`/`--insert`).
+- Suite : échange C10 des LinkedIn du 20/10 et 27/10 (07:30 UTC) ; remplacements issus de l'audit qualité (`docs/social/audit-qualite-12-10.md`) sur décision de Thomas, par UPDATE ciblé avant chaque date.
+
 ## s20 Contenus des fiches vidéo (duel s11 14/14, corrections relues à l'aveugle en 5 tours), **DÉPLOYÉ le 12/10/2026, version `76cf42da-6e83-499b-8c53-b3e34f237bf7`** ; journal « contenus vidéo s20 v1 : 84 fiche(s) mise(s) à jour, 0 refus garde-fou » (au 2e appel de `startup-tasks`, le 1er s'était arrêté avant la tâche) ; base : 84 marqueurs ; pages : 84/84 au nouveau texte, 8 anciennes URL en 308, méta 111-155 car. ; IndexNow 200 (84 URL), Bing SubmitUrlBatch refusé (quota du jour 76) ; N-1 `a4058f12-8409-4c1e-a890-ee93ff67b9c2`
 
 - Nouvelle tâche de démarrage `applyVideoContentS20Task` (`src/lib/video-content-s20.ts`), branchée après `stripVideoEmDashesTask`, hors `catalogue-content` (version inchangée). Elle applique `src/data/video-content-s20.json` fiche par fiche : description, 4 enseignements, exercice, et selon la fiche titre (8), chaîne (21), catégorie (6), `youtubeId` (fiche 68 : `U80fwIfPC4M` vers `JNo86HEt86w`).
@@ -214,7 +222,7 @@
 - **Tests C2 et preuve D8 (@qa)** : C2 PASS sur les 3 réseaux (X avec Google actif, voulu par le code), D8 reçue par Umami le 11/10 (05:55 à 05:56 UTC) ; compte de test créé puis supprimé ; client Stripe de test `cus_VQ5vmmsBTa8djr` restant (session de paiement expirée seule) : à soustraire de la baseline 2. Détail : `docs/qa/tests-c2-navigateurs-integres-11-10.md`.
 - **Liens de bio non confirmés** : décision programmée le 12/10 15:00 UTC (légende IG2 tronquée à sa 1re phrase si le lien n'est pas posé) et le 13/10 19:00 UTC (5e partie d'IG3).
 
-## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER ; @reviewer GO révision 8 le 10/10 (`8453e20`) ; insertion programmée le 13/10 06:30 UTC (après la condition QA du 13/10 08:15 Paris), PAS AVANT**
+## s15 lot 1b, révisions 7 et 8 : corrections E1 à E5 du contrôle @reviewer, textes tranchés à l'aveugle versés @fullstack, **RIEN À DÉPLOYER ; @reviewer GO révision 8 le 10/10 (`8453e20`) ; INSÉRÉ le 13/10 à 06:31 UTC (voir l'entrée du 13/10 en tête)**
 
 > - **Révision 8 (10/10)** : 6 textes retenus à l'aveugle versés mot pour mot (légendes 1C et 2C, renvois 3a, 4b, 6b, 7a ; `social-lot-v5-legendes.ts`, nouveau `social-lot-v5-renvois.ts`) ; 19/10 IG : repli de la clé, L38 seule, sans renvoi. Dry-run 1b : 46 posts, **0 erreur**, `lot-1b.{md,json}` régénérés (sha256 `2268b3d9…`) ; contrôle `--insert` rejoué sans insérer : 0 écart, période vide en base. 1a identique à l'octet. tsc, lint, build verts ; Jest 3 916 passés. Commande d'insertion : `lot-1b-dry-run-08-10.md` révision 8, **à ne lancer qu'après le GO @reviewer**.
 > - Révision 7 : la commande d'insertion de la révision 6 ne vaut plus (contrôle @reviewer NO-GO, 7 textes à relire à l'aveugle).

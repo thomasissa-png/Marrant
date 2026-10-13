@@ -81,3 +81,14 @@ Inspection API des 12 articles citants (date d'exploration, statut) : si aucun n
 - **Pour @fullstack** : L1 à L7 (§4.1), `updatedAt` réel du pilier, IndexNow ; documenter dans `REPLIT_ACTIONS.md` ; pre-commit `npx tsc --noEmit -p tsconfig.build.json && npx next lint && npm run build`. Coordonner L4 avec le chantier CTA de l'article n°1.
 - **Pour @copywriter** : §4.3, calibrer 3-5 étalons avec Thomas avant brief (P0 s8), zéro tiret cadratin, tutoiement, mesure du diff réel (P0 s11).
 - **Points d'attention** : les 4 articles en base (rewrites) non vérifiables sans DB ; liens non datables (git tronqué) ; GSC annonce 1 page citante contre 12+ dans le code (§6) ; le pilier et `exercices-developper-humour` sont à traiter dans le même déploiement (double optimisation SEO/GEO : le pilier est la cible des citations IA, à valider avec @geo avant réécriture de la tête de page).
+
+## Suivi J+7 (13/10/2026, 06:40 UTC, API d'inspection d'URL Search Console)
+
+| URL | Couverture | Dernière exploration | Canonique Google |
+|---|---|---|---|
+| `https://deviens-marrant.fr/blog/comment-devenir-drole` | **Envoyée et indexée** (PASS) | 12/10 06:33 UTC (postérieure au 06/10 : attendu J+7 atteint) | la même URL ; référent : `storytelling-drole-5-structures` |
+| `https://www.deviens-marrant.fr/blog/comment-devenir-drole` | Page avec redirection (NEUTRAL) | 11/10 13:06 UTC | **`https://www.747live.bet/`** (site de paris, anomalie) |
+| `https://deviens-marrant.fr/blog/meilleures-blagues-droles-2026` | Envoyée et indexée (PASS) | 12/10 11:57 UTC | la même URL |
+
+- **Pilier : indexé.** Plus d'action de Thomas pour la demande d'indexation.
+- **Anomalie `www`** : la redirection en ligne est saine (301 Cloudflare vers l'apex, vérifiée le 13/10) et le DNS aussi (`www` et apex sur les mêmes adresses Cloudflare). Le canonique Google externe sur une URL redirigée suggère un site tiers qui recopie ou sert nos pages (détournement par proxy) `[À VÉRIFIER : enquête @seo, 13/10]`.
