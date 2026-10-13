@@ -1,14 +1,15 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Lots 0-1 de l'audit conversion (« montrer l'offre ») : mécanique, textes PROVISOIRES, **non commité, non déployé**
+## s20 Lot « montrer l'offre » (audit conversion, lots 0-1), **DÉPLOYÉ le 13/10/2026, version `b5c6ce51-dc4a-4917-ad0f-b8f694ad9ade`, commits `2a43d615` + `3faf9777`** ; N-1 `d2bdace2`
 
-- Encarts au fil du texte (articles code ET base) : `components/blog/blog-article-body.tsx` + `blog-encart-milieu.tsx`, placement `lib/blog-encarts.ts` (après une section H2 vers 40 % du texte, rien sous 3 H2) ; article n°1 : 2 encarts imposés (Répartie après « soirée », Boulot après « bureau »), `config/blog-encarts.ts`. Lien `?src=blog-milieu` (ajouté aux listes blanches `parcours-ouvert`).
-- Bloc de fin unique (`components/blog/article-cta.tsx`) : étape 1 gratuite en contour, puis Premium ; ancien encart `blog-article-parcours-maillage.tsx` supprimé ; articles liés après le bloc ; `phrases-droles-conversations` : bloc avant la FAQ, parcours Répartie (article n°1 aussi, au lieu de Machine à Café).
-- 5 parcours dans le type unique `ParcoursSlug` ; table article → parcours `PARCOURS_PAR_ARTICLE` (prioritaire sur le cluster), à compléter par @copywriter.
-- **Textes provisoires** : `config/textes/encarts-blog-s20.ts` (seul fichier à remplacer par les textes relus à l'aveugle).
-- En-tête mobile : « Commencer » visible dès 360 px (même lien `src=header`), cible 44 px ; la recherche passe dans le menu sous 440 px, « Connexion » dans la barre seulement dès 520 px (sinon dans le menu).
-- Mesure : `blog-cta-vu` (50 % visible, une fois par encart) et `blog-cta-clic` avec `position`/`parcours`/`slug` ; `?ne-pas-compter=1` / `?compter=1` (localStorage `umami.disabled`, dans `lib/umami-before-send.ts`) ; rapport du lundi : nouveaux abonnés (`checkout.session.completed`) séparés des renouvellements + lignes encarts vus/cliqués.
-- Rien à lancer après déploiement. Thomas : ouvrir une fois `https://deviens-marrant.fr/?ne-pas-compter=1` sur chacun de ses navigateurs.
+- Encarts au fil du texte (articles du code ET de la base) : `components/blog/blog-article-body.tsx` + `blog-encart-milieu.tsx`, placement `lib/blog-encarts.ts` (après une section H2 vers 40 % du texte, rien sous 3 H2) ; article n°1 : 2 encarts imposés (Répartie après « soirée », Boulot après « bureau »), à 21 % et 32 % de la page mobile (premier lien produit à 77 % avant).
+- Bloc de fin unique (`components/blog/article-cta.tsx`) : étape 1 gratuite (contour violet), puis « Accéder aux parcours complets » (plein) ; ancien encart `blog-article-parcours-maillage.tsx` supprimé ; articles liés après le bloc ; `phrases-droles-conversations` : bloc avant la FAQ.
+- 5 parcours (`ParcoursSlug` unique) ; correspondance article → parcours `config/blog-encarts.ts` (17 changements, `docs/copy/encarts-montrer-offre-s20.md` §D) ; clusters `fort-volume` → Répartie, `humour-contexte` → Boulot (`lib/blog-parcours.ts`).
+- Textes : `config/textes/encarts-blog-s20.ts`, validés à l'aveugle (verdicts `docs/copy/relecture-videos-s20/verdict-encarts-offre-*`, tours 1 et 2) ; durées lues dans `config/premium.ts`.
+- En-tête mobile : « Commencer » visible dès 360 px pour les visiteurs (cible 44 px) ; recherche dans le menu sous 440 px, « Connexion » dans la barre dès 520 px (sinon dans le menu).
+- Mesure : `blog-cta-vu` (50 % visible, une fois par encart) et `blog-cta-clic` avec `position` / `parcours` / `slug` ; `?ne-pas-compter=1` / `?compter=1` (localStorage `umami.disabled`) ; rapport du lundi : nouveaux abonnés séparés des renouvellements, lignes « encarts vus » et « clics ».
+- Validation sur captures : @design GO 7,5, @ux GO 7 (`docs/marrant/audit-conversion-s20/validation-lot1-*.md`) ; contrôles : tsc ×2, lint, Jest 302 suites / 4 614 tests, build. Prod vérifiée (encarts et bloc sur articles du code et de la base, clic → `/parcours/repartie?src=blog-milieu#etape-1` ouverte en lecture libre), IndexNow 200.
+- **Thomas** : ouvrir une fois `https://deviens-marrant.fr/?ne-pas-compter=1` sur chacun de ses navigateurs (téléphone compris). Mesure avant / après : 4 semaines, cible `blog-cta-clic` ≥ 3 % des vues de l'article n°1 et `abonnement-vu` ×2.
 
 ## s20 Rapport du lundi : section « Parcours » réparée, **DÉPLOYÉ le 13/10/2026, version `d2bdace2-ee72-418f-b4ca-67cc4466aa28`, commit `82b47e83`** ; N-1 `11601326`
 
