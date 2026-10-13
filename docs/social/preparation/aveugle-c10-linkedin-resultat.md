@@ -49,3 +49,5 @@ Au tour 1 de la vague V1 (12/10), les 2 vannes C10 retombent à 8 / 8 (n°6) et 
 - **20/10 LinkedIn** (`[variante:image]`) : **V1-1-05**, mot pour mot : « Pendant la réunion de direction, j'ai hoché la tête dix minutes sans rien comprendre. » / « J'ouvre l'agence de Lyon lundi. » (amorce de 85 caractères). Remplace V107, et non plus le n°6.
 - **27/10 LinkedIn** (`[variante:texte]`) : **C10 n°1** (photo d'équipe), inchangé.
 - C10 n°6 n'entre pas au catalogue ; V1-2-09 reste au pool de la vague V1 (au niveau dans ses 2 tours).
+
+**Appliqué le 13/10** (@fullstack, `REPLIT_ACTIONS.md`) : V1-1-05 `cv1105a3e91c7d42b8f06d5e1` et C10 n°1 `cc10n1b7d24e8a59f3c61047a` au catalogue (BOULOT, GARDER, décryptage à fournir) ; posts `c9892ac953d655704e63e7fb1` (20/10) et `cd9b63b6e046d4e8b536d59b9` (27/10) échangés ; V107 (V035 au pool strict, `cs14jk90226d6abb90287724`) et la tondeuse sans aucun post en base, de nouveau tirables ; note V107 portée dans `src/config/social-pool.ts` (non bloquante pour le script de lot).

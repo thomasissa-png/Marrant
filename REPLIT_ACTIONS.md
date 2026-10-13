@@ -1,5 +1,16 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s15 : échange C10 des LinkedIn du 20/10 et 27/10 @fullstack, **RIEN À DÉPLOYER** (13/10/2026)
+
+- Décision : `docs/social/preparation/aveugle-c10-linkedin-resultat.md`, « Révision du 12/10 ». Écriture en base Neon, une transaction (4 lignes, 1 chacune), via `@neondatabase/serverless`, script temporaire supprimé.
+- **Catalogue** (`Joke`, BOULOT, ONE_LINER, `isActive`, `GARDER`, `copyReviewVersion` 1, `generatedByAI` false, mot pour mot) : V1-1-05 `cv1105a3e91c7d42b8f06d5e1`, C10 n°1 `cc10n1b7d24e8a59f3c61047a`. **Décryptage vide** (technique, explication, « À toi de jouer ») : aucun texte relu disponible, rien inventé ; à fournir par @copywriter comme pour P0-072 / P0-041 (sinon le site affiche « Décryptage à venir » sur ces 2 vannes). Hors `POOL_STRICT` (ajout = déploiement, à décider).
+- **20/10 06:15 UTC, `c9892ac953d655704e63e7fb1`** (`[variante:image]`) : avant V107 `cs14jk90226d6abb90287724` « Ma mère me demande encore des nouvelles de mon ex. » ; après V1-1-05, `threadParts` [amorce, chute], texte en 2 lignes « » (R6), envoyé = l'amorce seule (85 car.), `imageUrls` = `/api/social/image?postId=c9892ac953d655704e63e7fb1&slide=0`.
+- **27/10 07:15 UTC (08:15 Paris), `cd9b63b6e046d4e8b536d59b9`** (`[variante:texte]`) : avant tondeuse `cs14jkd11f7913f8177df395` ; après C10 n°1, 2 lignes « », `threadParts` et `imageUrls` vides.
+- WHERE de chaque UPDATE : id + `APPROVED` + ancien `sourceId` + texte exact relu juste avant. Heures, marqueurs, `approvedBy` (`thomas-s15`), statut inchangés ; `directorNote` : marqueur conservé, mention « TIRAGE » remplacée par l'origine de l'échange.
+- **Contrôles** : `checkPost` (R6, LinkedIn) et `vanneLinkedInImage` OK avant écriture ; comptes 19/10 au 15/11 identiques avant/après (X 19 APPROVED + 20 REJECTED, Instagram 19 + 16, LinkedIn 8 APPROVED) ; registre des 90 jours (`loadLotInputs` : `sourceId` hors REJECTED/FAILED) : V107 et la tondeuse n'ont plus aucun post, de nouveau tirables ; carte en ligne : 200, `image/png`, 1080×1350, « J'ouvre l'agence de Lyon lundi. » entre « », rien de rogné (`cache-control` 24 h, sans effet au 20/10).
+- Code : note V107 (« 7,5 / 7,5 au C10, ne plus tirer sur LinkedIn sans relecture ») en commentaire dans `src/config/social-pool.ts` ; commentaire seul (le parseur de notes garde 8,5 / 8,5), non bloquant pour le script de lot. tsc, lint, build OK ; Jest 4 567 PASS.
+- Retour arrière : UPDATE des 2 posts vers l'ancien texte (`content`, `hook`, `threadParts`, `imageUrls`, `sourceId`, `directorNote` « [variante:…] Lot relance-s15 (VANNE, TIRAGE) ») puis `DELETE FROM "Joke"` des 2 ids.
+
 ## s15 (13/10/2026, 08:31 Paris) : LOT 1b INSÉRÉ en base (19/10 au 15/11), **RIEN À DÉPLOYER**
 
 - Avant : `lot-1b.json` identique à `e7caadb` (sha256 `2268b3d9…`) ; replis du 1a REJECTED (`c92df7ca8db3e3ef8cdd36470` IG 12/10, `cb2cb272487d56bb82eff560f` LinkedIn 13/10), 0 FAILED au 1a ; V7 : `premier-message-drole-appli-de-rencontre` = 18 messages, `publishedAt` 29/10 05:00 UTC ; 0 APPROVED préexistant sur la tranche (36 REJECTED anciens).

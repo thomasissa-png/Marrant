@@ -34,7 +34,7 @@ export const POOL_STRICT: string[] = [
   "cs14jke10b58d158ae638560", // V013 : 8,5 / 8,5
   "cs14jk29357d022f6880a69e", // V015 : 8,5 / 8,5
   "cmmnsqn130033th63b54ux45o", // V028 : 8,5 / 8,5
-  "cs14jk90226d6abb90287724", // V035 : 8,5 / 8,5
+  "cs14jk90226d6abb90287724", // V035 : 8,5 / 8,5 ; ancre « V107 » au C10 (11/10) : 7,5 / 7,5, ne plus tirer sur LinkedIn sans relecture
   "cs14jka7e683e43af915bb60", // V037 : 8,5 / 8,5
   "cs14jkd11f7913f8177df395", // V040 : 8,5 / 8,5
   "cs14jkd9058d03e24961004a", // V041 : 8,5 / 8,5
