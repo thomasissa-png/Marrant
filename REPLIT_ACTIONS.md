@@ -1,6 +1,6 @@
 # Actions Replit — Deviens-marrant.fr
 
-## s20 Audit des pages, lot 1, **NON COMMITÉ, NON DÉPLOYÉ** (13/10/2026)
+## s20 Audit des pages, lot 1 + tour 2 + titre du bloc des offres, **DÉPLOYÉ le 13/10/2026, version `07c24e84-873d-48fa-9207-6fad53c0a987`, commits `cc6f96b0` et suivant** ; pages vérifiées en ligne (titre « Pour t'y mettre, il y a Premium », 0 coaching, listes de situations à 5, Waly Dia, titres sans tiret) ; IndexNow 200 (12 URL) ; N-1 `dbc25485-463b-44ca-80aa-8b1ede9300c5`. **Action Thomas : désactiver l'événement Calendly de 45 min (coaching) et vérifier s'il y a eu des réservations.** Vannes 1 et 4 de `/anatomie-vanne` inchangées (remplaçantes du catalogue refusées à l'aveugle)
 
 - Code seul, aucune migration, aucune tâche de démarrage, aucune variable d'env, aucune écriture en base. 37 fichiers de `apps/web/src` modifiés + 1 test ajouté (`coaching-retire-s20.test.tsx`). Détail ligne par ligne : `docs/copy/application-pages-site-s20.md`.
 - Retouches de mots validées à l'aveugle (2 sur 3) de `docs/copy/corrections-pages-site-s20.md` §1-§7 : 34 remplacements exacts (34 items J). Non appliqués : J10, J20, J29, J30, J32, J39, J40, J41, J43 (en reprise), AN2 (vanne 1 à remplacer), §11.
