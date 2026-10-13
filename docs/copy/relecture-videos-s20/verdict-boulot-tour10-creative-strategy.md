@@ -1,0 +1,13 @@
+| Fiche | Champ | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|---|
+| V1 (Marina Rollman, JCC saison 8) | Titre | oui | Aucun : « Marina Rollman - Jamel Comedy Club, saison 8 » reprend le titre réel, le séparateur est un tiret simple (pas un cadratin). | n/a |
+| V1 | Description | oui | Aucun : « humoriste suisse » est sourcé (Le Temps), « un peu plus de cinq minutes » colle aux 5m9s, rien n'est affirmé sur le contenu de la vidéo (les consignes « repère où tu souris… » sont des invitations au spectateur), « quatre techniques » = les quatre enseignements. La promesse (placer ses chutes là où elles frappent) est crédible. | n/a |
+| V1 | Enseignement 1, mot-chute | oui | Aucun : les deux phrases ont exactement les mêmes mots, « frites » est bien le dernier mot de la seconde et pas de la première, l'exemple montre la technique. | n/a |
+| V1 | Enseignement 2, règle de trois | oui | Aucun : deux éléments cohérents (mail urgent, réunion à 10 h), un troisième qui dévie (tiramisu), l'explication correspond à l'exemple. | n/a |
+| V1 | Enseignement 3, dernière phrase d'abord | oui | Aucun : une phrase d'installation et une chute, le chemin est bien le plus court, l'exemple illustre la consigne. | n/a |
+| V1 | Enseignement 4, pause | oui | Aucun : le [silence] est placé juste avant la chute (« partir plus tôt »), le conseil d'essai à voix haute est actionnable. | n/a |
+| V1 | Exercice (consigne, exemple, critère, remède) | oui | Aucun défaut bloquant. Boucle déroulée : départ « Jusqu'au saucisson, mon régime tenait très bien. » vers arrivée « Mon régime tenait très bien jusqu'au saucisson. » : mêmes mots, « saucisson » dernier avant le point, critère vérifiable seul. Cas d'échec « Mon régime, jusqu'au saucisson, tenait très bien. » : finit sur « bien », donc détecté par le critère ; le remède pris à la lettre (remettre « jusqu'au saucisson » en fin de phrase) donne « Mon régime tenait très bien jusqu'au saucisson. » (ponctuation à ajuster, les mots et l'ordre final sont corrects), ce qui passe le critère. Réserve non bloquante : un départ qui finit déjà sur le mot souligné passerait trivialement, mais la consigne « récris-la » et l'exemple l'excluent assez. | n/a |
+| V1 | Catégorie (TIMING) | oui | Aucun défaut bloquant : cohérent avec la description (« techniques de timing ») et avec la pause, le mot-chute et la règle de trois. | n/a |
+| V1 | Forme (tutoiement, « », tirets, français) | oui | Aucun : tutoiement constant (« tu », « ton », « ta », « repère », « teste »), guillemets « » partout, aucun tiret cadratin, orthographe et accords corrects. | n/a |
+
+Bilan : GO (aucun défaut bloquant, la fiche V1 peut être mise en ligne telle quelle).
