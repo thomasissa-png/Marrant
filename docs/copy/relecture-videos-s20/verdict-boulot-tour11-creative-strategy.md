@@ -1,0 +1,13 @@
+| Fiche | Champ | Au niveau (oui/non) | Défaut précis | Correction en une phrase (si non) |
+|---|---|---|---|---|
+| U1 | Titre | oui | Aucun. Titre cohérent avec la vidéo (chaîne, JCC, saison 8), trait d'union simple et non tiret cadratin. | - |
+| U1 | Description | oui | Aucun. Seul fait sur la vidéo : humoriste suisse (vérifié), JCC saison 8, durée « un peu plus de cinq minutes » exacte (5m9s). La consigne d'observation (« repère où tu souris… ») est une invitation, pas une affirmation sur le contenu. « Quatre techniques » = quatre enseignements. Tutoiement tenu. | - |
+| U1 | Enseignement 1 (mot-chute) | oui | Aucun. L'exemple montre la technique : mêmes mots dans les deux versions, seul l'ordre change, et « frites » passe en fin de phrase. | - |
+| U1 | Enseignement 2 (règle de trois) | oui | Aucun. Deux éléments logiques (mail urgent, réunion à 10 h), troisième qui dévie (tiramisu) : l'exemple illustre bien la consigne. | - |
+| U1 | Enseignement 3 (dernière phrase d'abord) | oui | Aucun. Installation d'une phrase puis chute : l'exemple tient la consigne « chemin le plus court ». | - |
+| U1 | Enseignement 4 (pause) | oui | Aucun. L'exemple place le silence juste avant la chute, la chute finit la phrase, et le conseil de test à voix haute est actionnable seul. | - |
+| U1 | Exercice | oui | Aucun. Boucle déroulée : (1) consigne faisable seul (phrase banale ouverte par un complément, mot souligné, réécriture avec les mêmes mots, mot souligné en dernier) ; (2) critère vérifiable sur la page (dernier mot avant le point = mot souligné, mêmes mots que le départ) ; (3) l'exemple (« Jusqu'au saucisson, mon régime tenait très bien. » vers « Mon régime tenait très bien jusqu'au saucisson. ») respecte exactement ses propres règles ; (4) cas d'échec (« Mon régime, jusqu'au saucisson, tenait très bien. », fin sur « bien ») : le remède pris à la lettre (repartir du départ, remettre « jusqu'au saucisson » en fin sans ajouter ni retirer de mot) produit « Mon régime tenait très bien jusqu'au saucisson. », qui passe le critère. Le remède vaut aussi pour « Avant… » et « Depuis… » puisque le complément d'ouverture se déplace en bloc. | - |
+| U1 | Catégorie (TIMING) | oui | Aucun. Cohérente avec le contenu (placement de la chute, rythme, pause) ; deux techniques relèvent autant de la construction que du timing, ce qui reste une préférence et non un défaut. | - |
+| U1 | Forme (tutoiement, « », tirets, français) | oui | Aucun. Tutoiement constant, guillemets « » partout, aucun tiret cadratin, orthographe et ponctuation corrects, aucun nom de concurrent. | - |
+
+Bilan : GO, la fiche U1 est au niveau pour être mise en ligne, aucun défaut bloquant relevé.
