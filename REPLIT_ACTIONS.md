@@ -1,5 +1,9 @@
 # Actions Replit — Deviens-marrant.fr
 
+## s20 Rapport du lundi : section « Parcours » réparée, **DÉPLOYÉ le 13/10/2026, version `d2bdace2-ee72-418f-b4ca-67cc4466aa28`, commit `82b47e83`** ; N-1 `11601326`
+
+- Le rapport du 12/10 (bien envoyé à 07:01 Paris, verrou `weekly-visits-report-2026-10-12`) affichait « Section partielle » : `src/lib/analytics/weekly-parcours.ts`, paramètre non typé suivi de `- interval '28 days'` lu comme un intervalle par Postgres (erreur 42883). Correctif : `${startAt}::timestamp`. Reproduit puis validé en lecture seule sur Neon ; les 7 requêtes de la section rejouées sur la prod via l'API HTTP : OK. Test `weekly-parcours-sql-s20.test.ts`. tsc ×2, lint, build OK. Rien à lancer : prochain envoi lundi 19/10 07:00 Paris.
+
 ## s20 Fiches Boulot Haroun et Marina Rollman + méta vidéo sans guillemet orphelin, **DÉPLOYÉ le 13/10/2026, version `11601326-dc68-4a1a-8332-07a110ad8f86`, commit `5bc40319`** ; N-1 `1d420fa8-8f6f-4978-ac19-c6d79d256801`
 
 - `src/data/video-content-s20.json` : fiches 28 (Haroun, `qdqIc-uzdbA`, AUTODERISION) et 29 (Marina Rollman, `m30qZa8p_Js`, TIMING) ajoutées (89 fiches), texte de `docs/copy/corrections-videos-s20-boulot.md`, validé à l'aveugle (Haroun au tour 7, Rollman au tour 12, 3/3 ; clé `docs/copy/relecture-videos-s20/cle-boulot-tours6-12.md`). Déployé en `1d420fa8` (commit `0a0ff963`, N-1 `8ce0accc`) ; startup-tasks lancé à 100 % du trafic : « contenus vidéo s20 v1 : 2 fiche(s) mise(s) à jour, 0 refus garde-fou, 87 déjà faite(s) », durées « 89 déjà faite(s) ». Base vérifiée en lecture seule (titre, chaîne, catégorie, exercice). Rollman change de slug : l'ancien `marina-rollman-jcc-8e-saison-cmmp8p1tw0` redirige en 308.
