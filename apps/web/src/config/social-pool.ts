@@ -4,7 +4,8 @@
  * et par `prepare-social-month.ts --pool` (fichier exporté depuis cette liste).
  *
  * Source : `docs/social/preparation/stock-vannes-resultat-s15.md` (41 au niveau, 05/10/2026)
- * moins Alexa V100 (exemptée, post validé X1) = 40, plus 2 du pilote P0 (07/10) = 42, identifiants via la clé du
+ * moins Alexa V100 (exemptée, post validé X1) = 40, plus 2 du pilote P0 (07/10) = 42, plus C10 n°1 et
+ * 6 de la vague V1 tour 1 (14/10) = 49, moins V1-1-05 (PROCHE au contrôle catalogue, 14/10) = 48, identifiants via la clé du
  * croisement (`aveugle-stock-lot-CLE-ne-pas-ouvrir.json`), ordre : note moyenne des 2
  * relecteurs décroissante, puis numéro V.
  * MISE À JOUR À CHAQUE VAGUE (14 hors lot notées le 07/10, pilote P0, V1 à V4) :
@@ -28,6 +29,8 @@ export const POOL_STRICT: string[] = [
   "cs14jk2ef0aabfbf4784ad82", // V101 : 8,5 / 9,0
   "cmnz0jqsx000rs60xrbrqm8kk", // V105 : 9,0 / 8,5
   "cs14jk9a9e7a1b8e0e16264e", // V111 : 8,5 / 9,0
+  // V1-1-05 (cv1105a3e91c7d42b8f06d5e1) retirée le 14/10 : PROCHE au contrôle catalogue (`controle-catalogue-v1-t2.md`).
+  "cv1321baa312105ca92398ea3", // V1-3-21 : 9,0 / 8,5 (Instagram 16/10)
   "cmmnsqn15006kth63res9rqp9", // V007 : 8,5 / 8,5
   "cmmnsqn120000th63o435xsb0", // V009 : 8,5 / 8,5
   "cmmnsqn130038th63fxn1wvhn", // V011 : 8,5 / 8,5
@@ -53,5 +56,12 @@ export const POOL_STRICT: string[] = [
   "cs14jkee5c537f7286c1da98", // V097 : 8,5 / 8,5
   // Pilote P0 (06/10, `docs/social/pilote-p0/resultat-p0.md`), insérées au catalogue le 07/10.
   "cp05d2c3950800b7575c12ce6", // P0-072 : 8,5 / 8,5
+  // C10 (11/10, `docs/social/preparation/aveugle-c10-linkedin-resultat.md`) et vague V1 tour 1
+  // (12/10, `docs/social/vague-v1/aveugle-v1-t1-resultat.md`, D7 sans veto 14/10), au catalogue les 13-14/10.
+  "cc10n1b7d24e8a59f3c61047a", // C10 n°1 : 8,5 / 8,5 ; V1 tour 1 : 8,5 / 8 ; départage 12/10 : 8,5 / 8,5 (LinkedIn 27/10) ; notée 7,5 / 7,5 le 14/10 : ne plus la tirer sur LinkedIn sans nouvelle relecture
+  "cv13109a2ec9fb9ceba2a1ae3", // V1-3-10 : 8,5 / 8,5
+  "cv141330f7753ee15285ae40a", // V1-4-13 : 8,5 / 8,5
+  "cv131698c0aa03a1194d3e2d2", // V1-3-16 : 8,5 / 8,5
+  "cv11236cb2b8716b34a7f6191", // V1-1-23 : 8,5 / 8,5 ; départage 12/10 : 8 / 8,5
   "cp0465e601e49c114994d1a00", // P0-041 : 8 / 8,5, égale l'étalon Alexa en duel chez les 2
 ];

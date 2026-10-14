@@ -1,0 +1,16 @@
+{
+  "post": "2026-10-16",
+  "tour": 2,
+  "regle": "Retenue = note 8,5 ou plus chez les 2 relecteurs. Parmi les éligibles : meilleure somme ; égalité : note minimale la plus haute, puis 3e relecteur. Si aucune au niveau : le post du 16/10 garde sa vanne et sa légende actuelles.",
+  "statut": "relectures à l'aveugle non faites : notes à renseigner",
+  "candidates": [
+    { "n": 1, "cible": "tous les couples", "texte": "À envoyer à tous les couples qui ont une photo devant un monument. Donc tous.", "car": 77, "note_r1": null, "note_r2": null },
+    { "n": 2, "cible": "celle qui pose (la personne recadrable)", "texte": "À envoyer à la reine du « prends-moi devant ça », mariée de préférence.", "car": 70, "note_r1": null, "note_r2": null },
+    { "n": 3, "cible": "le mari (celui qui recadre)", "texte": "À envoyer à son mari, l'air de rien, juste après la photo de couple.", "car": 68, "note_r1": null, "note_r2": null },
+    { "n": 4, "cible": "l'épouse (la personne recadrable)", "texte": "À envoyer à l'épouse qui sourit sur chaque photo de vacances. Pour l'instant.", "car": 77, "note_r1": null, "note_r2": null },
+    { "n": 5, "cible": "l'amie dont le mari recadre", "texte": "À envoyer à l'amie dont le mari « s'occupe des photos de vacances ».", "car": 68, "note_r1": null, "note_r2": null },
+    { "n": 6, "cible": "celle qui pose (la personne recadrable)", "texte": "À envoyer à celle qui a demandé « une dernière » douze fois devant ce mur.", "car": 74, "note_r1": null, "note_r2": null }
+  ],
+  "gagnante": null,
+  "legende_actuelle_conservee": null
+}

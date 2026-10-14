@@ -1,0 +1,37 @@
+[
+  {
+    "id": "V1-3-21",
+    "decryptage": "Pourquoi ça fait rire : le fond d'écran a été recadré, et la phrase s'arrête juste avant de dire qui a disparu de l'image. Il reste la tour de Belém, et c'est tout ce que l'autre a gardé de ce voyage.",
+    "comedyTechnique": "L'ellipse",
+    "techniqueExplanation": "Tu racontes le geste concret (un simple recadrage) et tu laisses de côté la phrase qui dirait ce qu'il signifie. Personne ne prononce « il m'a effacé de la photo » : c'est le lecteur qui termine, et il rit parce qu'il l'a trouvé tout seul. Le ton factuel, qui constate comme on lit un relevé de compte, rend la scène plus cruelle et donc plus drôle.",
+    "howToApply": "Choisis une situation où quelqu'un est écarté ou remplacé, et décris seulement le geste concret, sans dire ce qu'il prouve. Exemple : « Ma mère a refait la maison après mon départ. Ma chambre a maintenant un tapis de yoga et un ficus. »"
+  },
+  {
+    "id": "V1-3-10",
+    "decryptage": "Pourquoi ça fait rire : tu te crois malin avec ton wifi gratuit, et le dessert t'apprend que la voisine a remarqué ta consommation depuis longtemps. Sa demande est polie, et c'est ça qui est cinglant.",
+    "comedyTechnique": "L'arroseur arrosé",
+    "techniqueExplanation": "Le narrateur annonce son petit vol comme un détail, avec l'aplomb de celui qui se croit discret. La chute le renverse : la voisine savait depuis le début, et elle choisit le moment le plus doux du repas pour poser sa limite. Le lecteur rit parce que le malin se fait piéger par la gentillesse, sans une seule phrase de reproche.",
+    "howToApply": "Fais avouer à ton narrateur une petite combine, puis termine par la réaction de la personne qui était au courant depuis le début, toujours aimable. Exemple : « Je prends les dosettes de la salle de pause depuis un an sans cotiser. Pour mon pot de départ, ils m'ont offert un paquet de dosettes. »"
+  },
+  {
+    "id": "V1-4-13",
+    "decryptage": "Pourquoi ça fait rire : des kilomètres d'encouragements, et la dernière phrase change qui les recevait vraiment. Ce que tu prenais pour un supporter faisait simplement son travail.",
+    "comedyTechnique": "Le quiproquo",
+    "techniqueExplanation": "Le narrateur interprète la situation de travers, et le lecteur le suit sans méfiance jusqu'à la dernière phrase. Un seul mot, « serre-file », remet tout en place et transforme l'émotion en humiliation tranquille. La fin, « J'étais le dernier », est de l'auto-dérision pure : il le dit lui-même, sans se défendre.",
+    "howToApply": "Repère un moment où tu as mal compris l'intention de quelqu'un, raconte-le avec ton interprétation flatteuse, puis donne la vraie explication en une phrase courte. Exemple : « Tout le monde m'a souri dans le métro ce matin. J'étais touché. Mon pull était à l'envers. »"
+  },
+  {
+    "id": "V1-3-16",
+    "decryptage": "Pourquoi ça fait rire : la colocataire compte, le narrateur s'accroche à ce score minuscule, et une précision de rien du tout lui retire même ce mérite. Deux sorties de poubelle, zéro effort.",
+    "comedyTechnique": "Le compliment empoisonné",
+    "techniqueExplanation": "Tu accordes un petit mérite au narrateur, puis tu le reprends dans la phrase suivante avec un détail qui change tout : il sortait de toute façon, la poubelle n'était qu'un détour. La colocataire ne s'énerve pas, elle précise avec la rigueur d'une comptable, et c'est ce calme qui fait mal. Le rire arrive quand le lecteur réalise que même ses deux exploits n'en étaient pas.",
+    "howToApply": "Écris une action dont quelqu'un pourrait se vanter, puis une réplique qui la prive de tout mérite en ajoutant un seul détail. Exemple : « Mon pote dit qu'il m'a déposé à la gare. Il a précisé qu'il allait de toute façon dans la même direction. »"
+  },
+  {
+    "id": "V1-1-23",
+    "decryptage": "Pourquoi ça fait rire : l'anonymat tient jusqu'à la dernière phrase, où le style trahit l'auteur. Ce ne sont pas ses idées qui l'ont dénoncé, ce sont ses virgules.",
+    "comedyTechnique": "Le détail qui trahit",
+    "techniqueExplanation": "Tu poses une protection (l'anonymat), puis tu la fais tomber par un détail minuscule et très précis que personne ne contrôle : une manie d'écriture. Plus le détail est petit, plus la chute est forte, parce qu'il dessine quelqu'un qui ponctue tout, y compris ses reproches. Le remerciement de la manager ajoute une politesse qui glace.",
+    "howToApply": "Imagine une situation censée rester secrète, puis fais démasquer la personne par une habitude minuscule qu'elle ne peut pas cacher. Exemple : « J'ai signé le cadeau de départ de façon anonyme. On m'a démasqué à l'emballage : j'avais mis trois couches de scotch. »"
+  }
+]
