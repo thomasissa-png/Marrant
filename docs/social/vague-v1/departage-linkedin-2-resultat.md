@@ -31,3 +31,11 @@ Le même texte varie de 1,5 point d'un panel à l'autre : un tour seul ne suffit
   - **20/10 : garder V1-1-05.** Moyenne 8,50 sur 8 notes, la seule à la barre ; « connue » sans source ; la chute n'est pas trouvée en ligne.
   - **27/10 : retirer C10 n°1.** Moyenne 8,23, et 7,5 / 7,5 au dernier panel. Remplaçante à choisir par Thomas, parmi les vannes bureau proches de la barre ou un autre format LinkedIn du lot.
 - **Défaut sans réponse** : le 20/10 garde V1-1-05 (butoir 19/10 18:00 Paris) ; le 27/10 est tranché avant le 26/10 18:00 Paris, LinkedIn n'est jamais mis en pause.
+
+## Révision du 14/10 (contrôle catalogue, `controle-catalogue-v1-t2.md`)
+
+V1-1-05 est **PROCHE, écartée** : « hocher la tête sans suivre = monter en grade » existe en ligne (SmartCompany), le geste machinal pris pour un engagement est un trope catalogué (enchère involontaire), et un post X publié par Marrant (`cmnljdqn1002cs60z6g5e77hg`, « On dit OUI par réflexe ») joue sur le même ressort. La recommandation « garder V1-1-05 » tombe.
+
+- **20/10 LinkedIn : V1-1-23** (champ libre / virgules), appliqué en base par @fullstack le 14/10. Au pool strict (au niveau au tour 1, neuve, D7 passé), moyenne 8,33, la plus haute des vannes bureau restantes. Thomas peut la remplacer jusqu'au 19/10 18:00 Paris.
+- **27/10 LinkedIn** : C10 n°1 reste en place jusqu'au choix de Thomas (proposition : V1T2-2-30 après son D7) ; butoir 26/10 18:00 Paris.
+- V1-1-05 sort du pool strict (reste au catalogue du site, hors social).
