@@ -156,9 +156,10 @@ describe("fonctions pures", () => {
     expect(stockEligible(pool, diff, "INSTAGRAM", new Date("2026-12-24T08:00:00Z"))).toBe(4); // + réservée Noël
   });
 
-  it("pool strict : 40 vannes au niveau + 2 du pilote P0 + C10 n°1 + 6 de V1 tour 1, sans doublon, Alexa (V100) exemptée", () => {
-    expect(POOL_STRICT).toHaveLength(49);
-    expect(new Set(POOL_STRICT).size).toBe(49);
+  it("pool strict : 40 vannes au niveau + 2 du pilote P0 + C10 n°1 + 6 de V1 tour 1 - V1-1-05 (PROCHE, 14/10), sans doublon, Alexa (V100) exemptée", () => {
+    expect(POOL_STRICT).toHaveLength(48);
+    expect(new Set(POOL_STRICT).size).toBe(48);
+    expect(POOL_STRICT).not.toContain("cv1105a3e91c7d42b8f06d5e1");
   });
 
   it("jalonsDuJour : fiche le dimanche d'avant chaque jalon (J0 12/10) : 25/10, 08/11, 06/12, 03/01, 31/01", () => {

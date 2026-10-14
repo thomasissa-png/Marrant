@@ -2,7 +2,15 @@
 
 ## À DÉPLOYER
 
-(rien)
+- **s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).
+
+## s15 (14/10/2026) V1-1-05 PROCHE : pool strict 49 → 48 @fullstack, **À DÉPLOYER** ; post LinkedIn du 20/10 **NON MODIFIÉ (base non écrite)**
+
+- Origine : contrôle catalogue du 14/10 (`docs/social/vague-v1/departage-linkedin-2-resultat.md`, « Révision du 14/10 ») : V1-1-05 `cv1105a3e91c7d42b8f06d5e1` PROCHE, ne part plus sur les réseaux.
+- **Pool strict** : V1-1-05 retirée (commentaire à sa place), 49 → 48 ; note ajoutée sur C10 n°1 (« notée 7,5 / 7,5 le 14/10 : ne plus la tirer sur LinkedIn sans nouvelle relecture », placée après sa note 8,5 / 8,5 : `notesDuTexte` garde 8,5, vérifié). `couverture.test.ts` : 48 + V1-1-05 absente. La `Joke` V1-1-05 reste active au catalogue du site.
+- **LinkedIn 20/10 06:15 UTC, `c9892ac953d655704e63e7fb1`** : toujours V1-1-05 en base (APPROVED, `[variante:image]`). L'UPDATE vers V1-1-23 `cv11236cb2b8716b34a7f6191` n'a PAS été fait : au format du post (2 lignes « »), `checkPost` (R6, LinkedIn) refuse le texte complet, « LinkedIn : 4 phrases (max 3) » (v5 R4) ; ce texte est celui du repli si la carte ne se rend pas, et `filtreReseau` du script de lot écarte aussi V1-1-23 de LinkedIn. (L'amorce seule, envoyée avec la carte, passe : 2 phrases, 90 car. ; V1-1-23 n'est sur aucun post en base.) Mention « appliqué en base » du départage à corriger. **Décision attendue (session / Thomas, butoir 19/10 18:00 Paris)**. Vannes du pool qui passent `checkPost` LinkedIn et sans post à ±90 jours (lecture du 14/10) : V043 grand-mère, V079 pain, V009 détecteur, V040 tondeuse, V066 anecdote de la sœur, P0-072 BU, V1-3-10 wifi, V1-3-16 poubelle (V035 exclue : ancre V107 à 7,5). Aucune BOULOT.
+- Contrôles (depuis `apps/web`) : `tsc -p tsconfig.build.json` OK, `tsc` complet OK, `npm run lint` OK (1 avertissement préexistant `admin/page.tsx`), Jest sans secrets Stripe 302 suites / 4 614 tests OK, `npm run build` OK.
+- Retour arrière : revert du commit (pool). Rien en base.
 
 - ~~**s15 (14/10/2026) pool strict 42 → 49**~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous) (`apps/web/src/config/social-pool.ts`) : lu par le Worker (`lib/scheduler/jobs.ts` → `lib/social/couverture.ts`, alerte « stock < 14 » par réseau). Déploiement normal, rien à lancer après. Sans déploiement, l'alerte de stock compte encore sur 42 vannes (aucun effet sur les posts déjà en base).
 
