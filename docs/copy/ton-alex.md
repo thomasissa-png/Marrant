@@ -2,7 +2,7 @@
 
 ## Qui est Alex
 Alex est l'identité publique de Deviens Marrant quand on répond à quelqu'un : e-mail, forum, commentaire, message privé, presse. C'est un homme. Il dit « je » au nom de l'équipe et ne raconte pas sa vie.
-Il signe « Alex, Deviens Marrant » dans les e-mails et les pitchs. Pas de signature en message privé ni en commentaire. Forums au cas par cas.
+Il signe « Alex, Deviens Marrant » dans les e-mails et les pitchs. Pas de signature en message privé ni en commentaire. Sur les forums, il peut utiliser son nom complet, **Alex Durand** (signature au cas par cas : « Alex Durand, Deviens Marrant »).
 Les posts des comptes de la marque gardent la voix du site (pas de « je »).
 
 ## Le plus important : la qualité

@@ -10,7 +10,7 @@ Version longue de `ton-alex.md`, pour qui veut des exemples. En cas de doute, de
 
 ## Qui est Alex
 
-Alex est l'identité publique de Deviens Marrant quand on répond à quelqu'un : e-mail, forum, commentaire, message privé, presse, partenaires. C'est un homme (« ravi », « content »). Il dit « je » au nom de l'équipe, centré sur le lecteur : jamais de vie personnelle, d'anecdote, de « mon coloc » ou de « mon ex ». Ni nom de famille, ni photo, ni biographie, et le fondateur n'est jamais nommé. « On » reste courant pour parler de l'équipe ou du site. Au premier contact avec quelqu'un qui ne nous connaît pas : « Je suis Alex, de Deviens Marrant. »
+Alex est l'identité publique de Deviens Marrant quand on répond à quelqu'un : e-mail, forum, commentaire, message privé, presse, partenaires. C'est un homme (« ravi », « content »). Il dit « je » au nom de l'équipe, centré sur le lecteur : jamais de vie personnelle, d'anecdote, de « mon coloc » ou de « mon ex ». Son nom complet est **Alex Durand** : on l'utilise sur les forums ; ailleurs, « Alex » suffit. Ni photo ni biographie, et le fondateur n'est jamais nommé. « On » reste courant pour parler de l'équipe ou du site. Au premier contact avec quelqu'un qui ne nous connaît pas : « Je suis Alex, de Deviens Marrant. »
 
 **Signature**
 
@@ -19,7 +19,7 @@ Alex est l'identité publique de Deviens Marrant quand on répond à quelqu'un :
 | E-mail envoyé depuis l'adresse d'Alex, pitch | `Alex, Deviens Marrant` (virgule, rien d'autre) |
 | E-mails automatiques (adresse `noreply@`) | `L'Équipe Deviens Marrant` |
 | Message privé, commentaire | Aucune, le compte est déjà identifié |
-| Forum | Au cas par cas : aucune par défaut, on signe si le compte ne montre pas clairement la marque ou si la communauté l'attend |
+| Forum | Au cas par cas : aucune par défaut ; quand on signe, `Alex Durand, Deviens Marrant`. Présentation au premier message d'un fil : « Je suis Alex Durand, de Deviens Marrant. » |
 | Posts des comptes de la marque (X, Instagram, LinkedIn) | Aucune. Voix du site : pas de « je », sauf dans une vanne citée entre « » |
 
 **Tutoiement** pour tout le monde (abonnés, internautes, blogueurs, podcasteurs, partenaires), même quand la personne nous vouvoie. **Vouvoiement** pour la presse seulement.
@@ -103,7 +103,7 @@ Ils donnent le ton, ils ne sont pas à recopier. Un texte neuf se calibre sur eu
 
 **E-mail.** Objet de moins de 50 caractères, court et intriguant, sans FOMO. Ouverture « Salut {{prénom}}, » (« Salut, » sans prénom). Corps d'une centaine de mots : une idée utile, un ancrage, une porte ouverte, un seul trait drôle placé en fermeture. La ressource arrive en dernier, sans pression. Fin : « Bonne découverte, » à l'accueil, « À très vite, » pour une réponse ponctuelle, jamais « Cordialement » ni « Dans l'attente de votre retour ». Le texte répond à ce que la personne a écrit, avec un mot repris d'elle.
 
-**Forum.** Lire les règles de la communauté, répondre d'abord à la question avec une technique concrète, tutoiement, un trait d'humour au maximum : le respect du fil passe avant la vanne. Aucun lien dans le premier message, on offre (« On peut te partager X si tu as envie d'en savoir plus »). Pas de pub déguisée, pas de message copié-collé d'un forum à l'autre, pas de faux témoignage ni de « moi aussi j'étais timide ».
+**Forum.** Alex peut y utiliser son nom complet, Alex Durand. Lire les règles de la communauté, répondre d'abord à la question avec une technique concrète, tutoiement, un trait d'humour au maximum : le respect du fil passe avant la vanne. Aucun lien dans le premier message, on offre (« On peut te partager X si tu as envie d'en savoir plus »). Pas de pub déguisée, pas de message copié-collé d'un forum à l'autre, pas de faux témoignage ni de « moi aussi j'étais timide ».
 
 **Commentaire.** Une ou deux phrases (140 caractères visés sur X), un mot de la personne repris, jamais deux fois la même première phrase sur un fil. Humour léger : on rit de soi, jamais de l'autre. Pas de signature.
 - Compliment : « Merci, ça fait plaisir de lire ça. »
