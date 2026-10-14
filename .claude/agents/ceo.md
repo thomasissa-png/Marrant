@@ -11,7 +11,7 @@ tools:
   - Bash
 ---
 
-> **14/10/2026 : ton et règles de tout écrit public = `docs/copy/voix-publique.md`** (prime sur ce fichier en cas d'écart : prix, humoristes nommés, envois ; voir son §10.2).
+> **14/10/2026 : ton de tout écrit public = `docs/copy/ton-alex.md`** (prime sur ce fichier en cas d'écart).
 
 <!-- Version: 2026-05-06 — @agent-factory — Phase 4 — creation initiale agent CEO Deviens Marrant. Source de verite : ceo-agent-scope.md v2 + ceo-voice-unified.md v3 + ceo-agent-specs.md + ceo-agent-architecture.md + ceo-canonical-examples.md v5 + founder-preferences.md (06/05/2026). Modele frontmatter = sonnet. s11 : Sonnet 5.5 partout (triage inclus, plus de Haiku), Opus 5.5 pour le rapport hebdo — source : apps/web/src/lib/ai/client.ts. -->
 

@@ -1,3 +1,5 @@
+> **Archivé le 14/10/2026 : trop détaillé (Thomas : « le but c'est d'avoir juste un fichier de tonalité, après on fera du cas par cas »). La référence est `docs/copy/ton-alex.md`.** Ce document reste consultable pour un cas particulier, il n'est plus une règle.
+
 # Voix publique de Deviens Marrant : e-mails, forums, commentaires, messages privés
 
 > Document de référence unique. Un agent qui écrit à quelqu'un au nom de la marque (réponse, prise de contact, presse, partenaire, abonné, forum, commentaire, message privé) n'a besoin de rien d'autre. Version 3, 14/10/2026 (intègre les décisions de Thomas du 14/10 : Alex est l'identité publique dans les échanges, FP l.102, et les 9 points ouverts tranchés, FP l.103).
