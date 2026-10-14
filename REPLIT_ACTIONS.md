@@ -2,9 +2,13 @@
 
 ## À DÉPLOYER
 
-- **s15 (14/10/2026) pool strict 42 → 49** (`apps/web/src/config/social-pool.ts`) : lu par le Worker (`lib/scheduler/jobs.ts` → `lib/social/couverture.ts`, alerte « stock < 14 » par réseau). Déploiement normal, rien à lancer après. Sans déploiement, l'alerte de stock compte encore sur 42 vannes (aucun effet sur les posts déjà en base).
+(rien)
 
-## s15 (14/10/2026) Vague V1 tour 1 au catalogue et au pool strict + Instagram du 16/10 échangé @fullstack, **base écrite ; code À DÉPLOYER**
+- ~~**s15 (14/10/2026) pool strict 42 → 49**~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous) (`apps/web/src/config/social-pool.ts`) : lu par le Worker (`lib/scheduler/jobs.ts` → `lib/social/couverture.ts`, alerte « stock < 14 » par réseau). Déploiement normal, rien à lancer après. Sans déploiement, l'alerte de stock compte encore sur 42 vannes (aucun effet sur les posts déjà en base).
+
+## s15 (14/10/2026) Vague V1 tour 1 au catalogue et au pool strict + Instagram du 16/10 échangé @fullstack, **base écrite ; DÉPLOYÉ le 14/10/2026, version `3a00b3d5-571a-460c-88fb-c7c704233cbb`, HEAD `c8712edf`** ; N-1 `e582e79f` (retour arrière : `npx wrangler rollback e582e79f-e1ca-498a-83b2-fddb543b7035`)
+
+- Déployé par la session de pilotage depuis l'arbre principal propre (aucun worktree), garde vérifiée : seule entrée en attente ; `fb185e53` (s20, en ligne) ancêtre de HEAD ; seul diff de code depuis : `social-pool.ts` et son test. Après : `/`, `/api/health`, `/liens` en 200. Vérifié en base par la session : post `ccae22fef4df074be8e423987` APPROVED 16/10 17:30 UTC, `sourceId` V1-3-21, légende exacte ; 5 `Joke` actives ; carte slide 1 relue.
 
 - Délai de veto D7 écoulé (14/10 08:00 Paris) sans retrait : `docs/social/vague-v1/echantillon-d7-v1-t1.md`. Écritures Neon via `@neondatabase/serverless` (scripts temporaires dans `apps/web`, supprimés) ; doublon vérifié avant insertion (texte exact de l'amorce et de la chute, mots clés Belém, wifi, serre-file, poubelle, virgules, anonyme : aucun).
 - **Catalogue** (`Joke`, une transaction, ONE_LINER, `isActive`, `GARDER`, `copyReviewVersion` 1, `generatedByAI` false comme V1-1-05, décryptage de `decryptages-v1-t1.json`, mot pour mot) : V1-3-21 `cv1321baa312105ca92398ea3` (COUPLE), V1-3-10 `cv13109a2ec9fb9ceba2a1ae3` (SITUATION, voisine), V1-4-13 `cv141330f7753ee15285ae40a` (SITUATION, comme les vannes course/bus existantes), V1-3-16 `cv131698c0aa03a1194d3e2d2` (SITUATION, comme la vanne coloc existante), V1-1-23 `cv11236cb2b8716b34a7f6191` (BOULOT).
