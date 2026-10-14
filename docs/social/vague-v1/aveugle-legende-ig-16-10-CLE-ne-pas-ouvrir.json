@@ -1,0 +1,18 @@
+{
+  "_lot": "Légende IG du ven. 16/10/2026 17:30, vanne « fond d'écran / tour de Belém » (carte 1 : « Sur le fond d'écran de mon mari, il y avait nous deux devant la tour de Belém. » ; carte 2 : « Il l'a recadré. Il reste la tour. »), remplaçante au niveau 9 / 8,5.",
+  "_sources": "lot-relance-s15.md (règle R3 : pour qui ou quand, jamais ce que ça raconte ; 80 caractères) ; aveugle-legendes-1a-resultat.md (formats et voisins : 12/10 « qui a ton chargeur », 13/10 « qui devait monter ton étagère », 14/10 « celui qui », 15/10 « ton oncle, qui »).",
+  "_regle_de_choix": "Au niveau = 8,5 et plus chez les 2 relecteurs. Gagnante = meilleure somme des 2 notes parmi les candidates au niveau. Égalité : note minimale la plus haute, puis 3e relecteur à l'aveugle. Aucune au niveau = nouveau tour, jamais de légende hors barre.",
+  "_ce_qui_a_ete_evite": "Chute (« recadré », « tour ») jamais reprise ; aucune tournure « ton/ta » ni « qui » ou « celui qui » en tête (voisins IG 12 au 15/10) ; aucun « lien en bio » ; aucun tiret cadratin ; aucun prix.",
+  "_controles": "Longueurs comptées à la main (espaces et accents pour 1) : 1 = 69, 2 = 61, 3 = 54, 4 = 66, 5 = 57, 6 = 67 ; limite 80. [À MESURER par l'outil de longueur avant insertion].",
+  "ordre_dans_le_fichier": "1 à 6, attribués par tirage aléatoire.",
+  "versions": [
+    {"numero": 1, "texte": "À envoyer à l'ami qui prend toujours la photo et n'est jamais dessus.", "longueur": 69, "angle": "le photographe absent de toutes les photos", "note_r1": null, "note_r2": null},
+    {"numero": 2, "texte": "À envoyer à la belle-sœur, avant le prochain voyage à deux.", "longueur": 61, "angle": "quand : avant un voyage de couple", "note_r1": null, "note_r2": null},
+    {"numero": 3, "texte": "À envoyer à la copine qui pose devant chaque monument.", "longueur": 54, "angle": "celle qui pose devant chaque monument", "note_r1": null, "note_r2": null},
+    {"numero": 4, "texte": "À envoyer à la cousine qui poste ses photos de vacances en rafale.", "longueur": 66, "angle": "la cousine des photos de vacances", "note_r1": null, "note_r2": null},
+    {"numero": 5, "texte": "À envoyer à l'ami marié, avant qu'il change de téléphone.", "longueur": 57, "angle": "quand : avant le changement de téléphone", "note_r1": null, "note_r2": null},
+    {"numero": 6, "texte": "À envoyer à la collègue qui change de fond d'écran à chaque voyage.", "longueur": 67, "angle": "le fond d'écran de voyage (lien direct avec la carte 1)", "note_r1": null, "note_r2": null}
+  ],
+  "gagnante": null,
+  "_ou_recopier": "Légende retenue : apps/web/scripts/content/social-lot-v5-legendes.ts, post IG ven. 16/10, par @fullstack."
+}
