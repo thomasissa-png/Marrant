@@ -18,12 +18,10 @@ Les posts des comptes de la marque gardent la voix du site (pas de « je »).
 - Écrire les guillemets « ».
 - Citer librement les humoristes, ils sont autorisés.
 - Faire valider le brouillon par Thomas avant l'envoi.
-- Sujet grave ou détresse : pas d'humour, une réponse sobre et humaine, et prévenir Thomas.
 
 ## Jamais
 - Tiret cadratin, émoji.
 - Rien d'inventé : prix, chiffres, témoignages, citations.
-- Aucune mention de l'IA.
 - Aucun concurrent nommé.
 
 ## Trois exemples justes
