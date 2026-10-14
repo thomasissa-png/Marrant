@@ -2,9 +2,11 @@
 
 ## À DÉPLOYER
 
-- **s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).
+(rien)
 
-## s15 (14/10/2026) V1-1-05 PROCHE : pool strict 49 → 48 @fullstack, **À DÉPLOYER** ; post LinkedIn du 20/10 passé à V1-3-10, **base écrite**
+- ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
+
+## s15 (14/10/2026) V1-1-05 PROCHE : pool strict 49 → 48 @fullstack, **DÉPLOYÉ le 14/10/2026, version `476cc8f0-3d07-448a-8f40-ba37953c310e`, HEAD `d1f092a7`** (N-1 `3a00b3d5`, retour arrière `npx wrangler rollback 3a00b3d5-571a-460c-88fb-c7c704233cbb` ; déployé par la session depuis l'arbre principal propre, `/`, `/api/health`, `/liens` en 200 ; carte LinkedIn du 20/10 relue par la session) ; post LinkedIn du 20/10 passé à V1-3-10, **base écrite**
 
 - Origine : contrôle catalogue du 14/10 (`docs/social/vague-v1/departage-linkedin-2-resultat.md`, « Révision du 14/10 ») : V1-1-05 `cv1105a3e91c7d42b8f06d5e1` PROCHE, ne part plus sur les réseaux.
 - **Pool strict** : V1-1-05 retirée (commentaire à sa place), 49 → 48 ; note ajoutée sur C10 n°1 (« notée 7,5 / 7,5 le 14/10 : ne plus la tirer sur LinkedIn sans nouvelle relecture », placée après sa note 8,5 / 8,5 : `notesDuTexte` garde 8,5, vérifié). `couverture.test.ts` : 48 + V1-1-05 absente. La `Joke` V1-1-05 reste active au catalogue du site.
