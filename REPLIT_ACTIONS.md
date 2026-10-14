@@ -1,5 +1,18 @@
 # Actions Replit — Deviens-marrant.fr
 
+## À DÉPLOYER
+
+- **s15 (14/10/2026) pool strict 42 → 49** (`apps/web/src/config/social-pool.ts`) : lu par le Worker (`lib/scheduler/jobs.ts` → `lib/social/couverture.ts`, alerte « stock < 14 » par réseau). Déploiement normal, rien à lancer après. Sans déploiement, l'alerte de stock compte encore sur 42 vannes (aucun effet sur les posts déjà en base).
+
+## s15 (14/10/2026) Vague V1 tour 1 au catalogue et au pool strict + Instagram du 16/10 échangé @fullstack, **base écrite ; code À DÉPLOYER**
+
+- Délai de veto D7 écoulé (14/10 08:00 Paris) sans retrait : `docs/social/vague-v1/echantillon-d7-v1-t1.md`. Écritures Neon via `@neondatabase/serverless` (scripts temporaires dans `apps/web`, supprimés) ; doublon vérifié avant insertion (texte exact de l'amorce et de la chute, mots clés Belém, wifi, serre-file, poubelle, virgules, anonyme : aucun).
+- **Catalogue** (`Joke`, une transaction, ONE_LINER, `isActive`, `GARDER`, `copyReviewVersion` 1, `generatedByAI` false comme V1-1-05, décryptage de `decryptages-v1-t1.json`, mot pour mot) : V1-3-21 `cv1321baa312105ca92398ea3` (COUPLE), V1-3-10 `cv13109a2ec9fb9ceba2a1ae3` (SITUATION, voisine), V1-4-13 `cv141330f7753ee15285ae40a` (SITUATION, comme les vannes course/bus existantes), V1-3-16 `cv131698c0aa03a1194d3e2d2` (SITUATION, comme la vanne coloc existante), V1-1-23 `cv11236cb2b8716b34a7f6191` (BOULOT).
+- **Pool strict** : 42 → 49, à leur rang (moyenne des notes à l'aveugle) : V1-1-05 et V1-3-21 (9 / 8,5) après V111 ; C10 n°1, V1-3-10, V1-4-13, V1-3-16, V1-1-23 (8,5 / 8,5) après P0-072, avant P0-041. Tests : `couverture.test.ts` (compte 49 ; test d'alerte de stock : « toutes sauf 10 » au lieu de « 30 sur 40 »).
+- **Instagram 16/10 17:30 UTC, `ccae22fef4df074be8e423987`** (UPDATE ciblé : id + APPROVED + INSTAGRAM + ancien texte exact + ancien `sourceId` + heure) : avant détecteur de fumée `cmmnsqn120000th63o435xsb0`, légende « À envoyer à ta mère, qui t'avait dit de surveiller le four. » ; après V1-3-21, `threadParts` [amorce, chute] (format des autres posts vanne Instagram, « » posés par la carte), `hook` = amorce, légende « À envoyer à l'amie dont le mari « s'occupe des photos de vacances ». » (8,5 / 8,5, `aveugle-legende-ig-16-10-resultat.md`), `imageUrls`, heure, statut, `approvedBy` inchangés ; `directorNote` : origine (audit qualité 12/10, prémisse circulée) au lieu de « TIRAGE ». `defautsLegende` et `checkPost` (R6) : conformes. Cartes en ligne : slide 0 et 1, 200 `image/png` 1080×1350, relues : amorce et chute entières entre « », rien de rogné.
+- **Contrôles** (depuis `apps/web`) : `tsc -p tsconfig.build.json` OK, `npm run lint` OK (1 avertissement préexistant `admin/page.tsx`), `npm run build` OK, `tsc` complet OK, Jest sans secrets Stripe 302 suites / 4 614 tests OK.
+- Retour arrière : UPDATE du post vers l'ancien état (`content`, `hook` « Mon détecteur de fumée me sert de minuteur. La dernière fois, les pompiers sont », `threadParts`, `sourceId` `cmmnsqn120000th63o435xsb0`, `directorNote` « Lot relance-s15 (VANNE, TIRAGE) ») puis `DELETE FROM "Joke"` des 5 ids ; revert du commit pour le pool.
+
 ## s20 Phrase Répartie de l'article couple corrigée, **DÉPLOYÉ le 13/10/2026, version `e582e79f-e1ca-498a-83b2-fddb543b7035`, commit `fb185e53`** ; N-1 `b5c6ce51`
 
 - `config/blog-cta.ts` (`blagues-de-couple-drole`, programmé le 05/11) : « Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre. » (Thomas « je valide tout » ; relue 3/3 à l'aveugle, `docs/copy/relecture-videos-s20/verdict-phrase-repartie-*.md`). Test `suppression-compte-gratuit-s15` aligné. tsc ×2, lint, Jest 4 614, build OK. Rien à lancer.
