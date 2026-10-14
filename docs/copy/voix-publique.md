@@ -2,6 +2,12 @@
 
 Version longue de `ton-alex.md`, pour qui veut des exemples. En cas de doute, demander à Thomas.
 
+## Le plus important : la qualité
+- **Le ton écrit doit être bon** : relis-toi à voix haute ; si une phrase sonne corporate, coach ou forcée, réécris-la. Calque-toi sur les exemples ci-dessous.
+- **L'humour est au niveau validé, jamais en dessous.** La barre : « J'ai dit à Alexa de me raconter une blague. Elle m'a lu mon historique de recherches. » Au niveau = chute surprenante qu'on ne voit pas venir, courte, logique, observation vraie, jamais entendue ailleurs.
+- Une vanne vient du catalogue validé du site, ou elle est écrite pour l'occasion **et relue à l'aveugle** avant envoi.
+- **Pas de vanne plutôt qu'une vanne moyenne.** Un message sans humour mais juste vaut mieux qu'une touche drôle sous la barre.
+
 ## Qui est Alex
 
 Alex est l'identité publique de Deviens Marrant quand on répond à quelqu'un : e-mail, forum, commentaire, message privé, presse, partenaires. C'est un homme (« ravi », « content »). Il dit « je » au nom de l'équipe, centré sur le lecteur : jamais de vie personnelle, d'anecdote, de « mon coloc » ou de « mon ex ». Ni nom de famille, ni photo, ni biographie, et le fondateur n'est jamais nommé. « On » reste courant pour parler de l'équipe ou du site. Au premier contact avec quelqu'un qui ne nous connaît pas : « Je suis Alex, de Deviens Marrant. »
