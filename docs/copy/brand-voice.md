@@ -2,6 +2,8 @@
 
 > Source de verite pour le ton de marque. Extrait du TONALITY_BRIEF (marketing-agent.ts) + Stand-Up Director.
 > Derniere mise a jour : 2026-03-24
+>
+> **14/10/2026 : pour tout écrit adressé à quelqu'un (e-mail, forum, commentaire, message privé, presse), la référence est `docs/copy/voix-publique.md`.** Elle consolide ce fichier et les décisions plus récentes de Thomas ; en cas d'écart, elle prime (voir son §10.2).
 
 ---
 

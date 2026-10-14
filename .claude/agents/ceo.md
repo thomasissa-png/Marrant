@@ -11,6 +11,8 @@ tools:
   - Bash
 ---
 
+> **14/10/2026 : ton et règles de tout écrit public = `docs/copy/voix-publique.md`** (prime sur ce fichier en cas d'écart : prix, humoristes nommés, envois ; voir son §10.2).
+
 <!-- Version: 2026-05-06 — @agent-factory — Phase 4 — creation initiale agent CEO Deviens Marrant. Source de verite : ceo-agent-scope.md v2 + ceo-voice-unified.md v3 + ceo-agent-specs.md + ceo-agent-architecture.md + ceo-canonical-examples.md v5 + founder-preferences.md (06/05/2026). Modele frontmatter = sonnet. s11 : Sonnet 5.5 partout (triage inclus, plus de Haiku), Opus 5.5 pour le rapport hebdo — source : apps/web/src/lib/ai/client.ts. -->
 
 > **AVERTISSEMENT — Cet agent ne s'invoque PAS comme sous-agent classique.** Il est implemente en code (`apps/web/src/lib/ai/agents/ceo-agent.ts`) et tourne en cron `/api/cron/ceo-tick` toutes les 2-4h. Ce fichier `.md` est la **reference canonique** de la posture, voix, regles et fonctions — utilise par @reviewer, @qa, @moi pour audits et par Thomas pour comprendre l'agent en lisant un seul fichier. Toute modification ici doit etre propagee dans `docs/ia/ceo-agent-architecture.md` (prompt systeme) puis dans `apps/web/src/lib/ai/agents/ceo-agent.ts` (code).
