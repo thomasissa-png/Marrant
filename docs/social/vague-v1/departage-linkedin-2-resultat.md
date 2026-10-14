@@ -36,6 +36,6 @@ Le même texte varie de 1,5 point d'un panel à l'autre : un tour seul ne suffit
 
 V1-1-05 est **PROCHE, écartée** : « hocher la tête sans suivre = monter en grade » existe en ligne (SmartCompany), le geste machinal pris pour un engagement est un trope catalogué (enchère involontaire), et un post X publié par Marrant (`cmnljdqn1002cs60z6g5e77hg`, « On dit OUI par réflexe ») joue sur le même ressort. La recommandation « garder V1-1-05 » tombe.
 
-- **20/10 LinkedIn : V1-1-23** (champ libre / virgules), appliqué en base par @fullstack le 14/10. Au pool strict (au niveau au tour 1, neuve, D7 passé), moyenne 8,33, la plus haute des vannes bureau restantes. Thomas peut la remplacer jusqu'au 19/10 18:00 Paris.
+- **20/10 LinkedIn : V1-3-10** (wifi de la voisine ; au pool strict, 8,5 / 8,5, neuve, D7 passé ; passe `checkPost` LinkedIn). V1-1-23 était le premier choix mais son texte complet fait 4 phrases et `checkPost` refuse au-delà de 3 sur LinkedIn (R4) ; la reformuler l'obligerait à repasser à l'aveugle. Aucune vanne BOULOT du pool ne passe. Échange en base par @fullstack (voir `REPLIT_ACTIONS.md`). Thomas peut la remplacer jusqu'au 19/10 18:00 Paris.
 - **27/10 LinkedIn** : C10 n°1 reste en place jusqu'au choix de Thomas (proposition : V1T2-2-30 après son D7) ; butoir 26/10 18:00 Paris.
 - V1-1-05 sort du pool strict (reste au catalogue du site, hors social).

@@ -13,4 +13,4 @@
 
 ## V1-1-05 sort (contrôle catalogue du 14/10)
 
-V1-1-05 (réunion de direction / agence de Lyon) est **PROCHE** : « hocher la tête sans suivre = monter en grade » existe en ligne, et un post X déjà publié par Marrant joue sur le même ressort (« On dit OUI par réflexe »). Elle sort du pool strict. Le LinkedIn du 20/10 passe à **V1-1-23** (champ libre / virgules : au pool depuis le 14/10, neuve, D7 passé sans veto, moyenne 8,33 sur 6 notes, la plus haute des vannes bureau restantes). Thomas peut choisir une autre vanne jusqu'au 19/10 18:00 Paris.
+V1-1-05 (réunion de direction / agence de Lyon) est **PROCHE** : « hocher la tête sans suivre = monter en grade » existe en ligne, et un post X déjà publié par Marrant joue sur le même ressort (« On dit OUI par réflexe »). Elle sort du pool strict. Le LinkedIn du 20/10 passe à **V1-3-10** (wifi de la voisine, au pool strict, neuve, D7 passé) : V1-1-23 est refusée sur LinkedIn par la règle des 3 phrases au plus (R4). Thomas peut choisir une autre vanne jusqu'au 19/10 18:00 Paris.
