@@ -6,6 +6,20 @@
 
 - ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
 
+## Pause réseaux sociaux (15/10/2026, 09:50 Paris), **RIEN À DÉPLOYER** (base uniquement)
+
+- **X, Instagram, LinkedIn EN PAUSE** via `POST /api/admin/social/platforms` (`action: pause`, raison « Pause d'une semaine demandée par Thomas le 15/10 (test) »). Vérifié par `GET` : `paused: true` sur les 3, canaux Buffer `ok`. Les posts APPROVED restent en base (X 21, Instagram 21, LinkedIn 8) ; rien n'est envoyé à Buffer à l'avance. LinkedIn du 15/10 06:15 UTC parti avant la pause.
+- **Session s15 interrompue** et ses **8 routines désactivées** (non supprimées) : lecture des alertes (`trig_01CMoR4CaRWFxByFq3XLuqVB`), pilotage quotidien (`trig_01RVttxde5WDkZ5ghQdo1zan`), V1 tour 2 (`trig_01MdYLH4Pff7XCBhzvjveM2D`), production de la semaine (`trig_014aP9oq7MbtEL8Psc5ntTmM`), relevé du lundi (`trig_01HKSsVU1h8q5AxhiXV5XVs3`), pilier J+14 (`trig_01SBRUPeFnFPpqEE8D2DNY6i`), LinkedIn 27/10 (`trig_01VkVL2GErhqdQAsdqnqHJs7`), liens de bio 03/11 (`trig_01XEADTxfFqaFHqvArNCVQ88`).
+- **Reprise (GO Thomas uniquement)** : décaler d'abord les dates des posts APPROVED de la durée de la pause (sinon `reprendre()` passe en REJECTED tout post en retard de plus de 24 h), puis `action: reprise` par réseau, puis réactiver les routines (`update_trigger enabled=true`).
+- Effet de bord connu : sans la routine de lecture des alertes, le site peut envoyer à Thomas le digest « N alerte(s) non relue(s) » (07:30) pour des alertes hors réseaux ; les réseaux en pause n'en génèrent pas (`couverture.ts`).
+
+## s15 (15/10/2026, 07:13 Paris) : lecture quotidienne des alertes, **RIEN À DÉPLOYER**
+
+- Lecture réelle (sans `apercu`) de `/api/admin/alertes?jours=2` : 13 alertes, toutes de classe B, aucune A. Précédente lecture : 14/10 07:34 UTC (le filet de 48 h ne se déclenche pas).
+- **Stock** (X, Instagram, LinkedIn : 8 vannes éligibles, seuil 14) : déjà en traitement, rien à corriger à chaud. Les posts en base couvrent jusqu'au 15/11 (lot 1b). +4 vannes du tour 2 V1 au pool le 16/10 après le D7 (rappel programmé), livraison V1 le 26/10, lot 2a ensuite (routine de production du lundi 19/10).
+- **Files basses et lancement 1b** (13/10) : périmées, le lot 1b est inséré depuis le 13/10.
+- Aucun FAILED, aucun 429. Rien à écrire à Thomas.
+
 ## s15 (14/10/2026) V1-1-05 PROCHE : pool strict 49 → 48 @fullstack, **DÉPLOYÉ le 14/10/2026, version `476cc8f0-3d07-448a-8f40-ba37953c310e`, HEAD `d1f092a7`** (N-1 `3a00b3d5`, retour arrière `npx wrangler rollback 3a00b3d5-571a-460c-88fb-c7c704233cbb` ; déployé par la session depuis l'arbre principal propre, `/`, `/api/health`, `/liens` en 200 ; carte LinkedIn du 20/10 relue par la session) ; post LinkedIn du 20/10 passé à V1-3-10, **base écrite**
 
 - Origine : contrôle catalogue du 14/10 (`docs/social/vague-v1/departage-linkedin-2-resultat.md`, « Révision du 14/10 ») : V1-1-05 `cv1105a3e91c7d42b8f06d5e1` PROCHE, ne part plus sur les réseaux.
