@@ -6,6 +6,13 @@
 
 - ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
 
+## s15 (15/10/2026, 07:13 Paris) : lecture quotidienne des alertes, **RIEN À DÉPLOYER**
+
+- Lecture réelle (sans `apercu`) de `/api/admin/alertes?jours=2` : 13 alertes, toutes de classe B, aucune A. Précédente lecture : 14/10 07:34 UTC (le filet de 48 h ne se déclenche pas).
+- **Stock** (X, Instagram, LinkedIn : 8 vannes éligibles, seuil 14) : déjà en traitement, rien à corriger à chaud. Les posts en base couvrent jusqu'au 15/11 (lot 1b). +4 vannes du tour 2 V1 au pool le 16/10 après le D7 (rappel programmé), livraison V1 le 26/10, lot 2a ensuite (routine de production du lundi 19/10).
+- **Files basses et lancement 1b** (13/10) : périmées, le lot 1b est inséré depuis le 13/10.
+- Aucun FAILED, aucun 429. Rien à écrire à Thomas.
+
 ## s15 (14/10/2026) V1-1-05 PROCHE : pool strict 49 → 48 @fullstack, **DÉPLOYÉ le 14/10/2026, version `476cc8f0-3d07-448a-8f40-ba37953c310e`, HEAD `d1f092a7`** (N-1 `3a00b3d5`, retour arrière `npx wrangler rollback 3a00b3d5-571a-460c-88fb-c7c704233cbb` ; déployé par la session depuis l'arbre principal propre, `/`, `/api/health`, `/liens` en 200 ; carte LinkedIn du 20/10 relue par la session) ; post LinkedIn du 20/10 passé à V1-3-10, **base écrite**
 
 - Origine : contrôle catalogue du 14/10 (`docs/social/vague-v1/departage-linkedin-2-resultat.md`, « Révision du 14/10 ») : V1-1-05 `cv1105a3e91c7d42b8f06d5e1` PROCHE, ne part plus sur les réseaux.
