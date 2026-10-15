@@ -6,6 +6,13 @@
 
 - ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
 
+## Pause réseaux sociaux (15/10/2026, 09:50 Paris), **RIEN À DÉPLOYER** (base uniquement)
+
+- **X, Instagram, LinkedIn EN PAUSE** via `POST /api/admin/social/platforms` (`action: pause`, raison « Pause d'une semaine demandée par Thomas le 15/10 (test) »). Vérifié par `GET` : `paused: true` sur les 3, canaux Buffer `ok`. Les posts APPROVED restent en base (X 21, Instagram 21, LinkedIn 8) ; rien n'est envoyé à Buffer à l'avance. LinkedIn du 15/10 06:15 UTC parti avant la pause.
+- **Session s15 interrompue** et ses **8 routines désactivées** (non supprimées) : lecture des alertes (`trig_01CMoR4CaRWFxByFq3XLuqVB`), pilotage quotidien (`trig_01RVttxde5WDkZ5ghQdo1zan`), V1 tour 2 (`trig_01MdYLH4Pff7XCBhzvjveM2D`), production de la semaine (`trig_014aP9oq7MbtEL8Psc5ntTmM`), relevé du lundi (`trig_01HKSsVU1h8q5AxhiXV5XVs3`), pilier J+14 (`trig_01SBRUPeFnFPpqEE8D2DNY6i`), LinkedIn 27/10 (`trig_01VkVL2GErhqdQAsdqnqHJs7`), liens de bio 03/11 (`trig_01XEADTxfFqaFHqvArNCVQ88`).
+- **Reprise (GO Thomas uniquement)** : décaler d'abord les dates des posts APPROVED de la durée de la pause (sinon `reprendre()` passe en REJECTED tout post en retard de plus de 24 h), puis `action: reprise` par réseau, puis réactiver les routines (`update_trigger enabled=true`).
+- Effet de bord connu : sans la routine de lecture des alertes, le site peut envoyer à Thomas le digest « N alerte(s) non relue(s) » (07:30) pour des alertes hors réseaux ; les réseaux en pause n'en génèrent pas (`couverture.ts`).
+
 ## s15 (15/10/2026, 07:13 Paris) : lecture quotidienne des alertes, **RIEN À DÉPLOYER**
 
 - Lecture réelle (sans `apercu`) de `/api/admin/alertes?jours=2` : 13 alertes, toutes de classe B, aucune A. Précédente lecture : 14/10 07:34 UTC (le filet de 48 h ne se déclenche pas).

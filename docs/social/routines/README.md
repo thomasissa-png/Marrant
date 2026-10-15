@@ -2,6 +2,8 @@
 
 > Créées par la session principale le 05/10/2026 (GO de Thomas, 05/10 : « Oui ok »). Plan de référence : `docs/social/plan-execution-s15.md` (§4 textes, §5 lots, §7 fiabilité, §8 démarrages, §9 pilotage). Heures de Paris. Toute routine se gère dans claude.ai (Routines) : pause, modification, suppression.
 
+> **15/10/2026 : PAUSE.** Réseaux en pause et routines ci-dessous DÉSACTIVÉES à la demande de Thomas (test d'une semaine). Ne rien réactiver ni reprendre sans son GO explicite : voir `docs/founder-preferences.md` (15/10) et `REPLIT_ACTIONS.md`.
+
 ## Principe
 
 - **Toutes les routines relancent la session principale** (`session_018LhMLAUcg6rWocuejGrCgR`), qui a le dépôt, les accès et tout le contexte. **Test du 05/10 21:14 (session neuve) : échec**, deux causes : (1) push refusé, le dépôt n'est pas dans les sources d'une session neuve créée par routine (« not in this session's authorized repository set ») ; (2) lecture Neon, Buffer et des variables refusée par le classifieur de permissions d'une session neuve (« Credential Exploration »). D'où le choix de relancer la session principale.
