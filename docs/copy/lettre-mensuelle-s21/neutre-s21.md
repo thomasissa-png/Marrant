@@ -6,9 +6,24 @@ Périmètre relevé : `apps/web/src/config/textes/lettre-s21.ts` (formulaire, er
 
 Bilan : **2 accords adjectivaux/participiaux au masculin** visant le lecteur, **2 pronoms génériques « celui qui »** visant le lecteur ou l'auditeur dans le numéro 6. Tout le reste est déjà neutre (le tutoiement, « je » de la case, les verbes à l'impératif et les noms féminins ou épicènes font le travail).
 
-## 1. Phrases modifiées (4)
+## 0. État de la relecture à l'aveugle (mis à jour 17/10)
 
-Les 4 passent en duel à l'aveugle (`pack-relecture-neutre.md`) : règle d'or s18, un texte validé à l'aveugle ne change pas sans repasser la relecture.
+- **Tour 1** (`pack-relecture-neutre.md`, 3 relecteurs, verdicts `verdict-neutre-reviewer-{1,2,3}.md`) :
+  - **#2 (pied « parce que tu l'as demandée ») : VALIDÉ**, la version neutre gagne 3/3, au niveau, mention de consentement jugée plus claire que l'actuel. Reste le passage @legal (pied L3) avant mise en ligne.
+  - **#1, #3, #4 : la version « personne / confirmée » ne passe pas** (la version actuelle au masculin gagne 3/3 à chaque duel). En revanche, les 3 relecteurs proposent spontanément des tournures neutres jugées meilleures que les deux versions en duel : #1 « C'est bon, c'est confirmé. » ; #3 et #4 « l'autre » (« c'est l'autre qui le reconstitue, et c'est ça qui fait rire » ; « laisse l'autre le reconstituer »), qui règle aussi le décalage « écoute / lit » et la suite de trois « qui ».
+- **Tour 2 EN COURS** (`pack-relecture-neutre-tour2.md`, 3 duels : version actuelle contre la tournure proposée par les relecteurs, nouveau tirage de l'ordre A/B). Aucune intégration de #1, #3, #4 avant le verdict. Si l'actuel gagne encore, on le garde et on ne ré-ouvre pas.
+
+Formulations mises en duel au tour 2 :
+
+| # | Actuel | Tournure testée |
+|---|---|---|
+| 1 | C'est bon, tu es inscrit. | C'est bon, c'est confirmé. |
+| 3 | Le maillon manquant n'est jamais écrit, et c'est celui qui écoute qui le reconstitue, ce qui fait rire. | Le maillon manquant n'est jamais écrit : c'est l'autre qui le reconstitue, et c'est ça qui fait rire. |
+| 4 | N'explique pas le raisonnement : c'est à celui qui lit de le reconstituer. | N'explique pas le raisonnement : laisse l'autre le reconstituer. |
+
+## 1. Phrases modifiées (4) : formulations du tour 1
+
+Les 4 sont passées en duel à l'aveugle au tour 1 (`pack-relecture-neutre.md`) : règle d'or s18, un texte validé à l'aveugle ne change pas sans repasser la relecture. Seule la #2 est validée telle quelle ; les colonnes « Texte neutre » des #1, #3 et #4 sont remplacées par les tournures du tour 2 (voir §0) si elles gagnent.
 
 | # | Emplacement | Texte actuel | Texte neutre |
 |---|---|---|---|
@@ -52,7 +67,7 @@ Notes par ligne :
 
 ## 4. Intégration (@fullstack), après relecture à l'aveugle
 
-À ne faire que sur les duels gagnés par la version neutre (règle d'or s18 : la version retenue sort de la relecture au niveau).
+À ne faire que sur les duels gagnés par la version neutre (règle d'or s18 : la version retenue sort de la relecture au niveau). État : #2 intégrable (après @legal) ; #1, #3, #4 en attente du tour 2, avec les tournures du §0 (et non celles de la table §1).
 
 - #1 : `lettre-s21.ts` ligne 122 ; test `__tests__/lib/lettre-textes-valides-s21.test.ts` ligne 111 ; commentaire de `components/lettre/lettre-succes.tsx` (ligne 20, « Jamais « Tu es inscrit » avant le clic ») à aligner. Le test `lettre-inscription-s21.test.tsx` ligne 217 (`queryByText(/inscrit/i)` à l'état succès) n'est pas touché : l'état succès ne montre pas ce titre.
 - #2 : `lettre-s21.ts` ligne 237 ; tests `lettre-textes-valides-s21.test.ts` ligne 195 et `lettre-envoi-s21.test.ts` ligne 206. Valider avec @legal (pied L3).
