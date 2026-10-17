@@ -22,3 +22,26 @@ Contrôles transverses sur les 26 versions : aucun tiret cadratin, aucune mentio
 | 13 | A | oui | Complet, rien à redire. | « Se désinscrire en un clic » sur le lien de bas de numéro : ce lien ouvre une page avec un bouton, donc deux actions. **Plus large que le fait.** Le « un clic » vaut pour l'en-tête du client mail. | — |
 
 Bilan : 8 choix au niveau, 5 sous la barre (duels 1, 2, 8, 9, 11). Dans chacun de ces 5 duels, la version écartée est elle aussi sous la barre. Corrections proposées ci-dessus.
+
+## Questions
+
+**1. Duels 1 à 3 (B, B, B) : qu'est-ce que le visiteur croit recevoir, à quel rythme, et pour quel coût ?**
+Il croit recevoir par e-mail une vanne décryptée (la vanne et pourquoi elle marche), une fois par mois, avec parfois une mention de Premium. Ça ne coûte rien, pas besoin de compte, seulement son adresse, et il peut se désinscrire en un clic. C'est exact et on le comprend en cinq secondes. Deux défauts : le rythme est répété trois fois (titre, case, réassurance), et l'exercice « À toi de jouer », pourtant dans chaque numéro, n'apparaît nulle part. La version A du duel 2 lui ferait croire qu'il ne recevra jamais plus d'un e-mail par mois, ce qui est faux.
+
+**2. Duels 5 (B) et 7 (A) : le visiteur sait-il qu'il n'est pas encore inscrit et ce qu'il doit faire ?**
+Oui. Le duel 5 B dit les deux étapes (« Ouvre le lien qu'il contient et touche le bouton « Confirmer mon adresse » ») et la conséquence (« sans ça, tu ne reçois rien »). Le drapeau dit « Il reste à confirmer ton adresse ». Le duel 7 A annonce « Dernière étape. » puis « C'est bon, tu es inscrit. » : l'état est clair avant et après. Le duel 5 A, lui, échouerait sur ce point : il ne parle pas du bouton.
+
+**3. Duel 8 (A) : comprend-on ce qui s'arrête et ce qui continue ?**
+Oui : la lettre s'arrête, et les e-mails du compte et de l'abonnement continuent, avec la raison (ils sont obligatoires). Deux réserves, d'où le « non » : « rappel avant renouvellement » est plus large que la fiche (il manque « annuel »), et le texte suppose un compte et un abonnement chez un lecteur qui n'a peut-être ni l'un ni l'autre.
+
+**4. Duels 10 à 13 : une version oublie-t-elle une mention obligatoire ?**
+- Duel 10 : non. Les deux pieds sont conformes (la raison et le lien de désinscription ne sont pas exigés dans l'e-mail de confirmation).
+- Duel 11 : **oui, la version B**. Elle ne dit pas pourquoi la personne reçoit ce message (une nouvelle demande d'inscription a été faite avec son adresse), et le pied ne le dit pas non plus. A le dit dans le corps du texte.
+- Duel 12 : non. La raison est dans le corps (« depuis 2 ans » / « Cela fait 2 ans ») et le lien de désinscription est dans le pied, pour les deux versions.
+- Duel 13 : non, les deux pieds sont complets. B ajoute en revanche une promesse fausse (« en un clic »).
+
+## Points hors duel à remonter
+
+- **Tension avec la fiche** (dans les deux versions du duel 7) : la fiche dit « pas de date d'envoi annoncée », mais la ligne conditionnelle affiche une date (« Le prochain numéro arrive le {date} »). Le pack précise qu'elle n'apparaît que si un numéro est validé et programmé, donc la règle produit semble assumée. Le fondateur doit confirmer que c'est bien l'exception voulue à « aucune date annoncée ».
+- **Cohérence entre duels** : si les choix ci-dessus sont retenus, aligner l'onglet (duel 6 A, « chaque mois ») sur le H1 (duel 1 B, « par mois »), et le placeholder (duel 2 B) sur l'exemple des messages d'erreur (duel 4 A, « toi@exemple.fr »).
+- La case (mention juridique validée) dit « désinscrire en un clic » : c'est vrai via l'en-tête du client mail, donc non contesté. En revanche, ce « un clic » ne doit pas être repris sur le lien de bas de numéro (duel 13 B).
