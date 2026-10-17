@@ -20,7 +20,7 @@
 | 5 | Mars 2027 | 15 au 26/03 (plancher **25/02**) | Avant le 1er avril | `cs14jke10b58d158ae638560` (COUPLE) | Le geste normal devenu suspect | `/blog/blagues-poisson-d-avril-adultes` |
 | 6 | Avr. 2027 | 8 au 20/04 (aucun plancher) | Festivals d'été, budgets | `cmp9gspno007ms60xngd592ct` (CULTUREL) | La solution démesurée | `/parcours/repartie#etape-1` (étape 1 gratuite) |
 
-- **Jours d'envoi : à fixer par Thomas** (aucune date décidée, `lettre-inscription-s21.md` §7.1). Les fenêtres ci-dessus sont des conseils tirés de la saison ; la contrainte dure est la **date plancher** : un numéro ne part jamais avant la publication de l'article qu'il cite. Le modèle `NewsletterIssue` porte une date prévue par numéro, donc rien n'oblige à un même jour du mois.
+- **Jours d'envoi (FIXÉS le 17/10 : n°1 jeudi 05/11 8 h, puis premier jeudi du mois 8 h)** ; ancien statut : à fixer par Thomas (aucune date décidée, `lettre-inscription-s21.md` §7.1). Les fenêtres ci-dessus sont des conseils tirés de la saison ; la contrainte dure est la **date plancher** : un numéro ne part jamais avant la publication de l'article qu'il cite. Le modèle `NewsletterIssue` porte une date prévue par numéro, donc rien n'oblige à un même jour du mois.
 - **Une catégorie différente par numéro**, six techniques différentes, aucune vanne déjà utilisée dans l'article lié (vérifié par recherche dans les fichiers des articles, voir §8).
 - **Origine des vannes** : `docs/content/vannes-actives-s19.json` (export prod en lecture seule du 11/10/2026, 132 vannes actives). Textes recopiés mot pour mot. Décryptages : catalogue (`docs/copy/audit-vannes-s14/decryptage-ecrit-1.json` et `-2.json`, `decryptage-5-anciennes-ecrit.json`), repris presque à l'identique, retouchés seulement pour le tutoiement.
 - **Rien d'inventé** : aucun chiffre hors des vannes et des faits déjà publiés sur le site (« 15 à 20 minutes par semaine selon le parcours », 29/09 ; « quatre semaines », « six questions », « règle des 3 zones », chiffres de leurs articles). Aucun prix (la constante `PREMIUM_PRICE_LABEL` peut changer : on n'écrit pas le montant dans un numéro préparé).
@@ -391,11 +391,11 @@ L'Équipe Deviens Marrant
 
 **À faire avant l'envoi du n°1** (liste courte) : ~~duel du n°1~~ fait (VALIDÉ, voir en tête), puis relecture à l'aveugle des numéros 2 à 6 corrigés (pack tour 2) ; confirmer en base que chaque article lié est `isPublished` à la date d'envoi (n°2 : 23/11, n°4 : 05/11, n°5 : 25/02/2027) et que les titres cités entre « » sont ceux affichés ; fixer les jours d'envoi (Thomas) ; compléter `{{mention_editeur}}` après l'avis @legal ; ajouter `lettre` à l'attribution (`lib/attribution.ts`) ; vérifier les 6 URL en production le jour de l'envoi.
 
-**Points à trancher par Thomas**
-1. N3 (chien) est la vanne la plus fragile (2 sur 3 au tour 2) mais a tenu dans le numéro entier (3 sur 3 au duel tour 1) : la garder, ou passer à R1 ?
+**Points à trancher par Thomas (refermés le 17/10, s21)**
+1. FERMÉ : on garde N3 (tenu 3 sur 3 dans le numéro entier). N3 (chien) est la vanne la plus fragile (2 sur 3 au tour 2) mais a tenu dans le numéro entier (3 sur 3 au duel tour 1) : la garder, ou passer à R1 ?
 2. ~~N4 : A3 ou A4~~ réglé par le duel : A4 (blagues de couple), sans redite.
-3. N1 : changer le libellé « Voir les parcours » en « Voir l'offre Premium » (nécessite un nouveau passage à l'aveugle) ou le laisser tel quel (VALIDÉ) ?
-4. Adresse de réponse : aucune n'est définie pour la lettre (e-mail automatique, `noreply@`). Les numéros n'invitent donc jamais à répondre.
+3. FERMÉ : « Voir l'offre Premium » au n°1, libellé déjà validé à l'aveugle au même endroit dans les n°2 à 6. N1 : changer le libellé « Voir les parcours » en « Voir l'offre Premium » (nécessite un nouveau passage à l'aveugle) ou le laisser tel quel (VALIDÉ) ?
+4. FERMÉ : réponse vers contact@deviens-marrant.fr (`Reply-To`, @legal L3). Adresse de réponse : aucune n'est définie pour la lettre (e-mail automatique, `noreply@`). Les numéros n'invitent donc jamais à répondre.
 
 **Fabrication des numéros suivants (lot de 6 préparé à l'avance, jamais généré au fil de l'eau, décision du 01/10)** : (1) choisir 6 vannes actives de l'export le plus récent, une catégorie et une technique par numéro, sans aucune présente dans l'article lié ; (2) recopier le décryptage du catalogue (tutoiement seulement) et écrire un exemple qui transpose le mécanisme dans une autre situation (relu à l'aveugle) ; (3) écrire accroche, pont vers l'article et invitation Premium dans la trame du §1 ; (4) relecture à l'aveugle à deux, puis validation de Thomas ; (5) import en `NewsletterIssue` (objet, pré-en-tête, corps, date prévue, statut BROUILLON puis VALIDÉ). Aucun envoi sans le statut VALIDÉ.
 
