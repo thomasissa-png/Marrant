@@ -6,7 +6,7 @@
  */
 
 // Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
-const NBSP = String.fromCharCode(0xa0);
+export const NBSP = String.fromCharCode(0xa0);
 
 // Idempotente : une insécable déjà présente (seule ou collée à une espace) donne
 // une seule insécable, jamais deux.
@@ -46,13 +46,19 @@ export function frTypoTexte(text: string): string {
   return frTypoParcours(text).replace(A_ISOLE, `$1$2${NBSP}`).replace(EN_NOMBRE, `$1$2${NBSP}`);
 }
 
+/**
+ * s21 (lettre) : seulement la ponctuation haute (« : ; ! ? ») et les guillemets
+ * (« … ») liés au mot voisin. Aucun autre caractère touché : sûr pour les
+ * e-mails texte (liens, jetons) et les textes validés mot pour mot.
+ */
+export function frPonctuation(text: string): string {
+  return text.replace(SPACES_BEFORE_PUNCT, `${NBSP}$1`).replace(SPACES_AFTER_OPEN, `«${NBSP}`);
+}
+
 export function frTypo(text: string): string {
   return (
-    text
-      // « mot : » ne se coupe plus avant la ponctuation haute
-      .replace(SPACES_BEFORE_PUNCT, `${NBSP}$1`)
-      // « mot » ne se coupe plus après le guillemet ouvrant
-      .replace(SPACES_AFTER_OPEN, `«${NBSP}`)
+    // « mot : » ne se coupe plus avant la ponctuation haute ; « mot » ne se coupe plus après le guillemet ouvrant
+    frPonctuation(text)
       // « 7 techniques », « 5 min » restent liés
       .replace(/(\d) (?=[A-Za-zÀ-ÿ€%°])/g, `$1${NBSP}`)
       // « 4 812 » et « 23 h 40 » ne se coupent jamais (notation B2 iter2)

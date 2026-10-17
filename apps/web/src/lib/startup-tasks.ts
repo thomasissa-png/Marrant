@@ -29,6 +29,7 @@ import { applyVideoDurationsS20Task } from "@/lib/video-durations-s20";
 import { applyParcoursContentTask } from "@/lib/parcours-content-sync";
 import { applyStorytellingImportTask } from "@/lib/parcours-storytelling-sync";
 import { applyBoulotImportTask } from "@/lib/parcours-boulot-sync";
+import { applyLettreNumerosTask } from "@/lib/lettre/numeros";
 // Seeds du catalogue (source de vérité de la refonte copy s11) — même procédé
 // d'import relatif que `components/parcours/parcours-content.tsx`.
 import blaguesSeed from "../../../../docs/content/blagues-seed.json";
@@ -1457,6 +1458,9 @@ export async function runStartupTasks(): Promise<void> {
   // (la fiche Dany Boon y prend son nouveau youtubeId). Garde-fou : durée en base
   // === `attendu`. Non bloquante : capture ses erreurs et ne lève jamais.
   await applyVideoDurationsS20Task();
+  // s21 : numéros préparés de la lettre mensuelle (data/lettre/numeros.json). Fichier
+  // vide : aucune requête. Jamais un numéro ENVOYE modifié. Ne lève jamais.
+  await applyLettreNumerosTask();
 }
 
 // Export nommé pour les tests unitaires (sans passer par runStartupTasks).

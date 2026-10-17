@@ -749,6 +749,79 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Lettre mensuelle gratuite (s21). À chaque tick : rien si l'interrupteur
+   * `LETTRE_OUVERTE` est fermé ; sinon envoie le numéro VALIDE du mois dès que sa
+   * date prévue est passée, par lots (`LETTRE_LOT_PAR_PASSAGE`), journal réservé
+   * avant chaque envoi (jamais deux fois la même adresse). Verrou par mois, relâché
+   * à la fin du passage. Aucun LLM, contenu préparé en base uniquement.
+   */
+  const runLettreMensuelleJob = async (now: Date = new Date()) => {
+    try {
+      const { LETTRE_OUVERTE } = await import("@/config/lettre");
+      if (!LETTRE_OUVERTE) return;
+      const { periodeMensuelle, envoyerLettreDuMois } = await import("@/lib/lettre/envoi");
+      const { tryAcquireLock, releaseLock } = await import("@/lib/job-lock");
+      const lockKey = `lettre-mensuelle-${periodeMensuelle(now)}`;
+      if (!(await tryAcquireLock(lockKey, 20 * 60 * 1000))) return;
+      try {
+        const { sendServiceTextEmail } = await import("@/lib/email");
+        const { LETTRE_CONTACT } = await import("@/config/textes/lettre-s21");
+        const { siteBaseUrl } = await import("@/lib/newsletter");
+        const res = await envoyerLettreDuMois(now, {
+          baseUrl: siteBaseUrl(),
+          envoyer: (to, subject, text, headers) =>
+            sendServiceTextEmail(to, subject, text, "lettre-numero", { headers, replyTo: LETTRE_CONTACT }),
+        });
+        if (res.bloque) {
+          console.warn(`[scheduler:lettre-mensuelle] ${res.numero} bloqué : marqueur [À COMPLÉTER] dans le numéro (mention d'éditeur @legal ?). Rien n'est envoyé.`);
+        }
+        if (res.numero && res.candidats + res.dejaTraites > 0) {
+          console.log(
+            `[scheduler:lettre-mensuelle] ${res.numero} : ${res.envoyes} envoyé(s), ${res.echecs} échec(s), ${res.dejaTraites} déjà traité(s), ${res.exclusPremiumHebdo} exclu(s) hebdo Premium, ${res.exclusOpposition} exclu(s) opposition${res.termine ? ", numéro terminé" : ""}.`,
+          );
+        }
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:lettre-mensuelle] Échec :", err);
+    }
+  };
+
+  /**
+   * Job : Entretien de la liste de la lettre (s21, @legal L4), une fois par jour
+   * à 4 h heure de Paris : purge des non confirmés (7 j), reconfirmation (24 mois),
+   * effacement des traces de désinscription (3 ans). Interrupteur fermé et liste
+   * vide : aucune requête au-delà du comptage.
+   */
+  const runLettreEntretienJob = async (now: Date = new Date()) => {
+    try {
+      const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
+      if (parisParts(now).hour !== 4) return;
+      const { LETTRE_OUVERTE } = await import("@/config/lettre");
+      const { prisma } = await import("@/lib/prisma");
+      if (!LETTRE_OUVERTE && (await prisma.newsletterSubscriber.count()) === 0) return;
+      const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+      // Verrou de 2 h non relâché : un seul passage par jour.
+      if (!(await tryAcquireLock(buildJobLockKey("lettre-entretien", now), 2 * 3600 * 1000))) return;
+      const { sendServiceTextEmail } = await import("@/lib/email");
+      const { LETTRE_CONTACT } = await import("@/config/textes/lettre-s21");
+      const { siteBaseUrl } = await import("@/lib/newsletter");
+      const { entretenirLettre } = await import("@/lib/lettre/entretien");
+      const res = await entretenirLettre(now, {
+        baseUrl: siteBaseUrl(),
+        envoyer: (to, subject, text, headers) =>
+          sendServiceTextEmail(to, subject, text, "lettre-confirmation", { headers, replyTo: LETTRE_CONTACT }),
+      });
+      console.log(
+        `[scheduler:lettre-entretien] ${res.pendingEffaces} non confirmé(s) effacé(s), ${res.reconfirmationsEnvoyees} reconfirmation(s), ${res.desinscritsSansReponse} désinscrit(s) sans réponse, ${res.tracesEffacees} trace(s) effacée(s).`,
+      );
+    } catch (err) {
+      console.error("[scheduler:lettre-entretien] Échec :", err);
+    }
+  };
+
+  /**
    * Job : Rapport hebdomadaire des visites (Umami + conversions en base).
    * Lundi 7h-8h heure de Paris (heure d'été gérée), verrou hebdomadaire
    * conservé après envoi (1 email par semaine), relâché en cas d'échec pour
@@ -805,6 +878,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runStripeReconciliationJob();
     await runParcoursAlertesJob();
     await runParcoursReminderJob();
+    await runLettreMensuelleJob();
+    await runLettreEntretienJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -818,6 +893,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runStripeReconciliationJob,
     runParcoursAlertesJob,
     runParcoursReminderJob,
+    runLettreMensuelleJob,
+    runLettreEntretienJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

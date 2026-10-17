@@ -36,7 +36,10 @@ export type TransactionalEmailKind =
   | "resiliation"
   | "retractation-accuse"
   | "retractation-admin"
-  | "rappel-parcours";
+  | "rappel-parcours"
+  // s21 : lettre mensuelle (confirmation ou « déjà inscrit », puis numéro du mois).
+  | "lettre-confirmation"
+  | "lettre-numero";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";

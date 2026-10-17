@@ -39,6 +39,11 @@ export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
   // Audit parcours d'apprentissage s17 (data-analyst §5.2) : ouverture et fin d'un parcours.
   "parcours-ouvert",
   "parcours-termine",
+  // s21 : lettre mensuelle (spec lettre §4) : vu, soumis, échec, confirmé.
+  "lettre-vu",
+  "lettre-envoi",
+  "lettre-echec",
+  "lettre-confirmee",
 ]);
 
 function withAttribution(name: string, data?: UmamiData): UmamiData | undefined {
