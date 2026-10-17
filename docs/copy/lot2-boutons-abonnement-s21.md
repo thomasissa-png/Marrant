@@ -11,10 +11,10 @@
 | Inventaire des libellés | **Fait** (§2), lu dans le code, lignes citées |
 | Libellés unifiés, 3 variantes, reco | **Fait** (§4) |
 | Premier écran de /abonnement, économie annuelle, ligne « muet », extrait de carnet | **Fait** (§5), prix lus dans `config/premium.ts` |
-| 3 relectures à l'aveugle par sous-agents @reviewer | **PAS LANCÉES.** Cet agent n'a pas l'outil Task (ni shell) : il ne peut pas invoquer `@reviewer`. Aucun résultat n'est inventé. Le dossier de duel est prêt (`docs/copy/lot2-s21/pack-relecture-tour1.md`, clé du tirage au §6, prompts prêts à coller au §6.3). **À lancer par la session principale.** |
-| `git add` / commit / pull / push | **PAS FAIT**, même raison (pas de shell). Commande et message prêts au §8. |
+| 3 relectures à l'aveugle par sous-agents @reviewer | **Tour 1 joué par la session principale** (3 verdicts, §6.4). **Tour 2 (duels 3 et 4 corrigés) : dossier prêt** (`docs/copy/lot2-s21/pack-relecture-tour2.md`, clé au §6.2 bis, prompts au §6.3), **à lancer par la session principale** (cet agent n'a ni Task ni shell). Aucun résultat du tour 2 n'est inventé. |
+| `git add` / commit / pull / push | **PAS FAIT**, pas de shell. Commande et message prêts au §8. |
 
-Conséquence : aucun texte ci-dessous n'est « validé ». Ce sont des **propositions en attente du duel** (règle d'or P0 s18 : rien sous la barre ne part, une version corrigée repasse le duel).
+Conséquence : duels 1 et 2 **validés** (tour 1, 3 sur 3, au niveau). Duels 3 et 4 : la version proposée a gagné mais n'était pas au niveau ; elle a été **corrigée par coupes (s21, tour 2)** et **n'est pas validée** tant que le tour 2 n'est pas joué (règle d'or P0 s18 : rien sous la barre ne part, une version corrigée repasse le duel).
 
 ## 1. Cadre et intouchables respectés
 
@@ -177,15 +177,15 @@ Source : `config/premium.ts` (prix affichés, `PREMIUM_MONTHLY_PRICE_CENTS = 299
 | 24,99 € / 12 (centime inférieur) | **2,08 € par mois** | `PREMIUM_ANNUAL_EQUIVALENT_LABEL` |
 | 10,89 € / 2,99 € = 3,64 mois | **« plus de 3 mois offerts »** | `ANNUEL_MOIS_OFFERTS_LABEL` |
 
-Aujourd'hui ces trois libellés ne s'affichent qu'**après** un clic sur « Annuel » (`plan-selector.tsx`). Proposition : les montrer dès l'état par défaut (mensuel), sans rien écrire en dur, par concaténation des constantes : `Ou {PREMIUM_ANNUAL_PRICE_LABEL}, {PREMIUM_ANNUAL_EQUIVALENT_LABEL} : {ANNUEL_AVANTAGE_LABEL}.` Rendu : « Ou 24,99 €/an, soit 2,08 € par mois : plus de 3 mois offerts, 10,89 € économisés par an. » Affiché seulement si l'annuel est disponible (`annualAvailable`), sinon la page reste strictement mensuelle (comportement actuel inchangé).
+Aujourd'hui ces trois libellés ne s'affichent qu'**après** un clic sur « Annuel » (`plan-selector.tsx`). Proposition **corrigée au tour 2** : montrer dès l'état par défaut (mensuel) « plus de 3 mois offerts » **une seule fois, sur la pastille « Annuel »**, et une ligne sous le prix, sans rien écrire en dur, par concaténation des constantes : `Ou {PREMIUM_ANNUAL_PRICE_LABEL}, {PREMIUM_ANNUAL_EQUIVALENT_LABEL} et {PREMIUM_ANNUAL_SAVINGS_LABEL}.` Rendu : « Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an. » (prix lus dans `config/premium.ts`, constantes `PREMIUM_ANNUAL_PRICE_LABEL`, `PREMIUM_ANNUAL_EQUIVALENT_LABEL`, `PREMIUM_ANNUAL_SAVINGS_LABEL`). Affichée seulement si l'annuel est disponible (`annualAvailable`), sinon la page reste strictement mensuelle (comportement actuel inchangé). Version du tour 1 (abandonnée) : « …soit 2,08 € par mois : plus de 3 mois offerts, 10,89 € économisés par an. », qui disait deux fois « plus de 3 mois offerts » à deux lignes d'écart.
 
 ### 5.2 Exigence de structure (rendu, pour @design et @fullstack)
 
 Le bouton d'achat est aujourd'hui à y ≈ 1 033 (écran de 812) parce que les avantages (dont une première puce de 8 lignes) sont **avant** lui. Ordre demandé : surtitre, H1, sous-titre, carte [Premium, sélecteur, prix, « sans engagement », ligne annuelle, **bouton**, réassurance, rétractation], **puis** les avantages. Estimation de hauteur : en-tête ≈ 64, surtitre ≈ 20, H1 sur 3 lignes ≈ 108, sous-titre sur 4 lignes ≈ 112, carte jusqu'au bas du bouton ≈ 330, marges ≈ 70, soit un bouton entre y ≈ 650 et 700 `[À MESURER sur capture réelle, estimation à l'œil]`. Alternative sans changer l'ordre : première puce en 5 lignes courtes (un parcours par ligne, durée à droite), sans retirer un mot ni un chiffre. **Pas de barre collante** dans cette proposition (voir §7 : @design et @ux en proposent une sur /abonnement, @growth rappelle le refus de barre collante).
 
-### 5.3 Le texte complet du premier écran (proposition, en attente du duel 3)
+### 5.3 Le texte complet du premier écran (version corrigée du tour 2, en attente du duel 3 bis)
 
-Visiteur, mensuel par défaut, annuel disponible. Rien d'autre ne change dans la carte : mêmes constantes de prix, même réassurance validée en s16.
+Visiteur, mensuel par défaut, annuel disponible. Deux coupes par rapport au tour 1 : « plus de 3 mois offerts » une seule fois (pastille), et la ligne « Sans engagement, annulable à tout moment » retirée de la carte (l'absence d'engagement n'est dite qu'une fois, dans la réassurance sous le bouton). Même constantes de prix ; réassurance sous le bouton remplacée par la formule @legal (ci-dessous).
 
 ```
 [surtitre, petite ligne violette]
@@ -201,14 +201,17 @@ Ta réplique pendant la soirée, pas dans le bus du retour
 Premium
 (Mensuel)  (Annuel) [badge : plus de 3 mois offerts]
 2,99 € / mois
-Sans engagement, annulable à tout moment
-Ou 24,99 €/an, soit 2,08 € par mois : plus de 3 mois offerts, 10,89 € économisés par an.
+Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.
 
 [bouton]  Commencer à 2,99 €/mois
 
-2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.
+2,99 € TTC par mois. Tu as 14 jours pour te faire rembourser, et tu résilies en ligne quand tu veux.
 Droit de rétractation · Paiement sécurisé par Stripe
 ```
+
+Pour @fullstack : la ligne retirée est `plan-selector.tsx` l.77 (« Sans engagement, annulable à tout moment »). Elle est aussi écrite dans `premium-modal.tsx` l.98 : **la modale reste inchangée** (elle n'a pas la ligne de réassurance du bas, c'est sa seule mention). Si `plan-selector.tsx` est utilisé ailleurs que sur /abonnement, vérifier avant de retirer la ligne partout.
+
+**Ligne de réassurance (formulation @legal, `docs/legal/remboursement-abonnement-s21.md` §3, formule A)** : remplace « 2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux. » (`config/textes/offre.ts` l.33-35, étalon 1.1 s16). Elle reprend la formule déjà validée de la page Stripe (`config/textes/paiement.ts` l.119), lève l'ambiguïté du « remboursé » et **fusionne** la mention d'absence d'engagement avec la résiliation : c'est elle qui permet de n'avoir qu'une seule mention. Prix variable (`prixTtcLabel(plan)`) : avec « Annuel » choisi, « 24,99 € TTC par an. Tu as 14 jours… ». **Réserve @legal : valable pour le premier paiement seulement.** Cette phrase reste sous le bouton d'achat, jamais répétée ailleurs (profil, e-mail de renouvellement, social, encarts d'articles) sans la précision « premier paiement ». Comme elle remplace un étalon validé, elle passe le tour 2 à l'aveugle (duel 1 du pack) et l'accord de Thomas est à confirmer (§7 point 6).
 
 « 5 » est `PARCOURS_COUNT` (dynamique). Le bouton est inchangé ([CHOIX] étalon 1.1) ; avec « Annuel » choisi il devient « Commencer à 24,99 €/an » (mécanisme existant). Version membre connecté (« Active ton accès pour commencer », « Ton compte est prêt. Encore un clic et les 5 parcours sont à toi en entier, de la première à la dernière étape. », bouton « Active mon accès · {prix} ») : **inchangée**.
 
@@ -237,7 +240,7 @@ Droit de rétractation · Paiement sécurisé par Stripe
 ```
 [surtitre]  CARNET D'OCTOBRE · SITUATION 1, OFFERTE
 [H2]        Le carnet, en vrai
-[intro]     Voici la première situation du mois, la seule offerte. Les {N moins 1} autres sont dans Premium, avec un nouveau carnet chaque mois.
+[intro]     Les {N moins 1} autres situations du mois sont dans Premium.
 
 [fiche]     Le soleil dans l'ascenseur
 Dans l'ascenseur, un voisin que tu croises une fois par mois regarde les chiffres des étages monter, puis se tourne vers toi.
@@ -247,6 +250,16 @@ Pourquoi ça marche : Tu prends la remarque sur la météo comme une preuve : le
 
 [lien, contour]  Lire la fiche en entier   (vers /carnet : la sortie polie et l'exercice y sont, en accès libre)
 ```
+
+**Version corrigée au tour 2** : l'intro du tour 1 (« Voici la première situation du mois, la seule offerte. Les {N-1} autres sont dans Premium, avec un nouveau carnet chaque mois. ») répétait « offerte » (déjà dans le surtitre) et « nouveau chaque mois » (déjà dans la ligne ✓ juste au-dessus). Elle est réduite à une phrase.
+
+**Spécification pour @fullstack (tout est calculé, rien en dur)** :
+- `n = totalFiches - 1` (`totalFiches` = `carnet.fiches.length`, `lib/carnet.ts` l.153 ; octobre 2026 : 15 fiches, donc n = 14).
+- `n >= 2` : « Les {n} autres situations du mois sont dans Premium. »
+- `n === 1` : « L'autre situation du mois est dans Premium. » (singulier).
+- `n === 0` (ou `totalFiches` absent) : **aucune phrase d'intro** ; le surtitre, le titre et la fiche restent. `totalFiches === 0` : ne pas afficher le bloc du tout.
+- Surtitre : mois du carnet courant calculé, jamais « OCTOBRE » en dur. `deCarnetMonth(mois)` (`lib/carnet.ts` l.170) renvoie « d'octobre 2026 » avec l'année : prévoir un petit helper qui renvoie le nom du mois seul avec élision (« d'octobre », « de novembre ») à partir de `MOIS_FR` (l.157), puis le mettre en majuscules par le style (`uppercase`). Rendu : « CARNET D'OCTOBRE · SITUATION 1, OFFERTE ».
+- Le mot « situations » reste au pluriel dans la phrase pour n >= 2 ; le chiffre s'écrit en chiffres.
 
 `{N}` = `totalFiches` du carnet du mois (donnée du JSON, non écrite ici). Libellés « On te dit », « Tu réponds », « Pourquoi ça marche » = ceux de `carnet-fiche-card.tsx`. Environ 85 mots : à rendre avec la carte `CarnetFicheCard` existante (sans les blocs « Si ça se tend » et « À toi de jouer »), pas dans un nouveau composant.
 
@@ -287,6 +300,17 @@ Zéro tiret cadratin, zéro « 1 500+ », zéro avis, zéro concurrent, tutoieme
 
 Tirage fait à la main (pas de générateur disponible dans cet environnement) en équilibrant 2 A et 2 B pour neutraliser le biais de position. Les relecteurs ne reçoivent que le chemin du dossier, jamais cette page.
 
+### 6.2 bis Clé du tirage du tour 2 (NE PAS transmettre aux relecteurs)
+
+Dossier : `docs/copy/lot2-s21/pack-relecture-tour2.md`. Numérotation du pack : duel 1 = ancien duel 3 (haut de /abonnement), duel 2 = ancien duel 4 (fiche du carnet). Nouveau tirage, fait à la main, **position inversée par rapport au tour 1** pour les deux duels (1 A et 1 B, aucune habitude de position à réutiliser).
+
+| Duel du pack | Version A | Version B | Version corrigée (proposée) |
+|---|---|---|---|
+| 1 Haut de /abonnement (ex-duel 3) | corrigée (ligne annuelle sans « plus de 3 mois offerts », pas de « Sans engagement, annulable… », réassurance @legal « Tu as 14 jours pour te faire rembourser, et tu résilies en ligne quand tu veux. ») | actuel en ligne | **A** |
+| 2 Fiche du carnet (ex-duel 4) | actuel en ligne (sans fiche) | avec fiche, intro d'une phrase « Les 14 autres situations du mois sont dans Premium. » | **B** |
+
+Le pack ne contient ni cette clé, ni mention d'un « tour 1 », ni indice sur ce qui a été coupé. Il ajoute seulement deux faits neutres : « le carnet d'octobre compte 15 situations » (pour que « 14 autres » soit vérifiable) et « le premier paiement est remboursé sur demande dans les 14 jours » (fait validé par @legal, utile pour juger la réassurance sans le contester).
+
 ### 6.3 Prompt à coller pour chaque relecteur (N = 1, 2, 3)
 
 ```
@@ -302,21 +326,41 @@ quelle version est en ligne. Choix obligatoire A ou B par duel. Écris ton verdi
 /home/user/Marrant/docs/copy/lot2-s21/verdict-tour1-reviewer-N.md, au tableau demandé.
 ```
 
+**Prompt du tour 2** (même texte, deux changements : fichier `pack-relecture-tour2.md` et verdict dans `verdict-tour2-reviewer-N.md`, « 2 duels » au lieu de « 4 duels »). Lancer 3 relecteurs `reviewer` frais (pas ceux du tour 1, ils connaissent déjà les textes), en parallèle.
+
 ### 6.4 Résultats, tour par tour
 
-| Tour | Duel | Relecteur 1 | Relecteur 2 | Relecteur 3 | Version proposée gagnante (≥ 2 sur 3) ? |
-|---|---|---|---|---|---|
-| 1 | 1 Libellé du mur | **NON LANCÉ** | **NON LANCÉ** | **NON LANCÉ** | à jouer |
-| 1 | 2 Bouton gratuit nommé | NON LANCÉ | NON LANCÉ | NON LANCÉ | à jouer |
-| 1 | 3 Haut de /abonnement | NON LANCÉ | NON LANCÉ | NON LANCÉ | à jouer |
-| 1 | 4 Extrait du carnet | NON LANCÉ | NON LANCÉ | NON LANCÉ | à jouer |
+Sources : `docs/copy/lot2-s21/verdict-tour1-reviewer-{1,2,3}.md`. Les trois relecteurs ont choisi la version proposée aux 4 duels (**3 sur 3**, 4 duels sur 4). « Au niveau » = « je le laisserais en ligne tel quel ».
 
-**Score des duels : 0 sur 4 joués.** Rien n'est validé. La session principale remplit ce tableau avec les 3 fichiers de verdict puis applique la règle du §6.1.
+| Tour | Duel | Relecteur 1 | Relecteur 2 | Relecteur 3 | Proposée gagnante ? | Statut |
+|---|---|---|---|---|---|---|
+| 1 | 1 Libellé du mur (A = « Voir ce que contient Premium » ×3) | A, au niveau | A, au niveau | A, au niveau | **oui, 3/3** | **VALIDÉ** |
+| 1 | 2 Bouton gratuit nommé (B = « Lire la première étape gratuite de Répartie ») | B, au niveau | B, au niveau | B, au niveau | **oui, 3/3** | **VALIDÉ** |
+| 1 | 3 Haut de /abonnement | B, pas au niveau | B, pas au niveau | B, pas au niveau | **oui, 3/3** | **GAGNE MAIS PAS AU NIVEAU : corrigé, tour 2 à jouer** |
+| 1 | 4 Extrait du carnet | A, pas au niveau | A, pas au niveau | A, pas au niveau | **oui, 3/3** | **GAGNE MAIS PAS AU NIVEAU : corrigé, tour 2 à jouer** |
+| 2 | Duel 1 du pack tour 2 (= ancien 3) | à jouer | à jouer | à jouer | à jouer | en attente |
+| 2 | Duel 2 du pack tour 2 (= ancien 4) | à jouer | à jouer | à jouer | à jouer | en attente |
+
+**Score : 4 duels sur 4 gagnés par la proposition au tour 1 ; 2 validés (1, 2) ; 2 à rejouer (3, 4).** Règle d'or P0 s18 : les versions corrigées des duels 3 et 4 ne vont en ligne qu'après avoir gagné **et** été jugées au niveau par au moins 2 relecteurs sur 3 au tour 2.
+
+**Défauts relevés par convergence des 3 verdicts (et correction faite)**
+
+| Duel | Défaut convergent | Relecteurs | Correction |
+|---|---|---|---|
+| 3 | « plus de 3 mois offerts » dit deux fois à deux ou trois lignes d'écart (pastille et ligne annuelle) | 1, 2, 3 | Gardé sur la pastille seulement ; ligne annuelle : « Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an. » (formule proposée par 2 et 3) |
+| 3 | Absence d'engagement dite 2 à 3 fois (« Sans engagement, annulable à tout moment », « résiliable en ligne quand tu veux ») | 1, 2, 3 | Ligne « Sans engagement, annulable… » retirée de la carte /abonnement (formule proposée par 2) ; la seule mention restante est « tu résilies en ligne quand tu veux », dans la réassurance @legal sous le bouton (§5.3) |
+| 4 | « offerte » dit deux fois (surtitre puis « la seule offerte ») | 1, 2, 3 | Intro réduite à une phrase, « offerte » reste dans le surtitre seul |
+| 4 | « nouveau carnet chaque mois » redit la ligne ✓ juste au-dessus | 1, 2, 3 | Phrase retirée |
+| 4 | « [N moins 1] autres » : « Les 1 autres » / « Les 0 autres » ; mois codé en dur | 1, 2, 3 | Singulier si n = 1, rien si n = 0, mois calculé (spec §5.5) |
+| 3 (hors défaut de texte) | Chiffres vérifiés justes par les 3 (35,88 ; 10,89 ; 2,08 ; 3,6 mois) | 1, 2, 3 | Rien à faire |
+
+Désaccord résiduel : aucun sur le choix. Aucun tiret cadratin, aucun chiffre faux, aucun témoignage relevé dans les 8 versions.
 
 ### 6.5 Réserves prêtes si un duel est perdu (itération sans réécrire de zéro)
 
 - Duel 1 : variante c (« Voir comment Premium t'entraîne »), puis variante b (« Voir Premium » généralisé aux 6 emplacements, c'est le minimum de changement).
 - Duel 2 : variante b (« Lire l'étape 1 gratuite de Répartie »). Si l'actuel gagne encore, on le garde et on aligne seulement G5/G9 sur lui.
+- (Réserves ci-dessous écrites avant le tour 1. Duels 1 et 2 : plus utiles, validés. Duels 3 et 4 : voir en plus le tour 2, §6.4 et §6.2 bis. Si le tour 2 échoue encore sur la répétition, couper la ligne annuelle entière avant de toucher au H1 ou à la ligne « muet » : la pastille « plus de 3 mois offerts » porte déjà l'argument.)
 - Duel 3 : si la défaite vient du H1, rejouer avec le H1 actuel (variante c), la ligne a et le sous-titre a ; si elle vient de la ligne « muet », essayer la variante b ou c avec le H1 actuel. La ligne annuelle et le badge ne sont pas du texte libre (calcul du §5.1) : ils restent dans tous les cas.
 - Duel 4 : retirer la phrase d'intro (garder surtitre, fiche, lien) ; sinon fiche 3 si Thomas l'autorise (§7 point 5).
 
@@ -327,14 +371,37 @@ quelle version est en ligne. Choix obligatoire A ou B par duel. Écris ton verdi
 - **Duel 2** : la variante c est la plus longue ; elle peut perdre au profit de l'actuelle sur la seule brièveté, ce qui serait un résultat acceptable (on garde a).
 - **Duel 1** : A gagne probablement sur la cohérence, ce qui est le but du lot, mais les relecteurs doivent surtout juger ce que dit le libellé au clic.
 
+### 6.7 Corrections du texte commun relevées hors duel (tour 1, s21)
+
+Relevées par les relecteurs dans le texte identique à A et B. Vérifiées dans le code le 17/10/2026.
+
+| # | Faute | Vérification (source) | Correction | Statut |
+|---|---|---|---|---|
+| a | « Accède à tout le catalogue **dès** 2,99 €/mois » : faux, l'annuel revient à 2,08 €/mois | `PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS` = 208 dans `config/premium.ts` ; texte dans `vannes-list.tsx` l.435, `conseils-list.tsx` l.384, `videos-grid.tsx` l.374 | « Accède à tout le catalogue **pour** 2,99 €/mois » (juste : c'est le prix du mensuel, le bouton dit déjà « Commencer à 2,99 €/mois ») | Texte prêt, factuel, à appliquer avec le lot 2. Même défaut dans la méta de `app/(auth)/register/layout.tsx` l.8 (« …et carnet, dès 2,99 €/mois ») : à corriger de la même façon (« pour »). Information pour @seo : c'est une meta description |
+| b | « N vannes supplémentaires **avec l'abonnement** » : « abonnement » alors que partout ailleurs c'est « Premium » | `api/jokes/route.ts` l.108, `api/tips/route.ts` l.99, `api/videos/route.ts` l.120 (champ `upgradeMessage`, affiché tel quel par les 3 listes) | « N vannes supplémentaires avec **Premium** » (idem « conseils », « vidéos »). Les `upgradeMessage` « Abonne-toi pour accéder à… » (l.88, l.79, l.70) sont un autre cas, non touchés | Texte prêt, à appliquer avec le lot 2. Tests à reprendre par @fullstack s'ils figent la chaîne |
+| c | Surtitre « Analyse pédagogique complète » : scolaire | `app/(dashboard)/videos/[slug]/page.tsx` l.218, placé au-dessus de « Les points clés et l'exercice de cette vidéo font partie de Premium. » | 3 variantes ci-dessous | **À REJOUER à l'aveugle** (texte réécrit, règle d'or) ; ne pas déployer sans passage |
+| d | « 4 SEMAINES » et « environ 20 minutes » pour Répartie : vrais ? | **Vrai.** `PREMIUM_PARCOURS` : Répartie `weeks: 4`, `timePerWeek: "20 min/semaine"` (`config/premium.ts` l.74) ; seed `docs/content/parcours-seed.json` l.264 (« 4 semaines ») et l.265 (« 20 min/semaine ») ; test `__tests__/lib/premium-offer.test.ts` vérifie la copie contre le seed ; l'encart calcule « environ {minutes} minutes » (`encarts-blog-s20.ts` l.57) | Rien à corriger | Fait vérifié |
+| e | « remboursé sous 14 jours » (ambigu, hors liste de faits) | `config/textes/offre.ts` l.34 ; avis `docs/legal/remboursement-abonnement-s21.md` : vrai, légal (droit de rétractation, CGU art. 6, aucune case de renonciation au checkout), premier paiement seulement | **Remplacé** par la formule @legal : « 2,99 € TTC par mois. Tu as 14 jours pour te faire rembourser, et tu résilies en ligne quand tu veux. » (§5.3) | Intégré à la version corrigée du duel 3, **à valider au tour 2**. Jamais répétée hors du bouton d'achat sans « premier paiement » |
+
+**Surtitre de la fiche vidéo verrouillée** (3 variantes, affichage en majuscules par le style) :
+
+| | Texte | Avis |
+|---|---|---|
+| a | **Après la vidéo, l'exercice** | Recommandé. Dit ce qui est derrière le mur (le travail à faire, pas un « contenu pédagogique »), 5 mots, aucun jargon. Ne répète pas la phrase d'après (« points clés et exercice ») : il annonce, elle précise. |
+| b | Pour passer de la vidéo à la pratique | Clair mais plus long (7 mots) et un peu coach. |
+| c | La suite de la vidéo | Très court et neutre ; ne dit pas qu'il s'agit d'un exercice. |
+
+Sans surtitre est aussi une option valable (le texte dessous suffit) : « vide assumé > placeholder bancal ». À mettre dans le prochain pack avec a, et avec l'option « sans surtitre ».
+
 ## 7. Ce qui reste à trancher par Thomas
 
-1. **Go pour lancer les 3 relectures** (je n'ai pas pu les lancer) puis, après le bilan du lot 1 vers le 10/11, pour le déploiement. Rien n'est déployé ni ne doit l'être avant.
+1. **Tour 1 joué (3 sur 3 aux 4 duels)** : duels 1 et 2 validés, duels 3 et 4 corrigés et à rejouer (tour 2, dossier prêt). Après le tour 2 et le bilan du lot 1 vers le 10/11 : go pour le déploiement. Rien n'est déployé ni ne doit l'être avant.
 2. **H1 de /abonnement** : le nouveau (§5.3) ou garder « Accéder aux parcours complets ». Ce n'est pas un [CHOIX] écrit (le [CHOIX] vise le libellé du bouton) mais le texte est le même.
 3. **Bouton d'achat dans le premier écran** : ordre des blocs (bouton avant les avantages, ma proposition, sans barre collante), ou barre collante en bas de /abonnement (proposée par @design et @ux), ou puce en 5 lignes courtes. @growth rappelle que les choix fondateur excluent la barre collante sur les articles ; la question n'est pas tranchée pour /abonnement.
 4. **« Tout débloquer »** : le bandeau de /vannes (l.225 de `vannes-list.tsx`) et le lien du quiz d'humour. [CHOIX] pour /vannes : on le garde (un libellé hors système) ou on l'aligne sur le mur si le duel 1 est gagné ?
 5. **Extrait d'une fiche payante** : autoriser la fiche 3 (« Le lundi à la machine à café ») en repli du duel 4 ? Elle fait gagner de la force à l'extrait mais montre un contenu aujourd'hui réservé aux abonnés.
-6. **« Remboursé sous 14 jours »** sous le bouton : la règle du 07/10 limite le remboursement au premier paiement. La phrase de la réassurance (validée en s16) ne le dit pas. Je ne l'ai pas touchée ; relecture @legal avant qu'elle soit répétée sur plus de pages.
+6. **Réassurance sous le bouton** : @legal confirme que la mention est vraie et légale (`docs/legal/remboursement-abonnement-s21.md`), premier paiement seulement. La formule recommandée (« Tu as 14 jours pour te faire rembourser, et tu résilies en ligne quand tu veux ») remplace l'étalon s16 dans la version corrigée du duel 3. Accord de Thomas à confirmer (c'est un étalon validé) ; elle passe aussi le tour 2. Ne pas la répéter ailleurs sans « premier paiement ».
+6 bis. **Tour 2 et surtitre vidéo** : go pour lancer les 3 relectures du tour 2 (`pack-relecture-tour2.md`) ; surtitre « Analyse pédagogique complète » : valider la variante a « Après la vidéo, l'exercice » ou « sans surtitre » (§6.7), à rejouer à l'aveugle avant mise en ligne. Corrections factuelles « pour 2,99 €/mois » (3 listes + méta de `register/layout.tsx`) et « avec Premium » (3 routes `upgradeMessage`) : prêtes, à appliquer avec le lot 2.
 7. **« Déjà 1 500+ inscrits, et toi ? » sous le bouton de /abonnement** : proposé par @copywriter et @design (formule validée le 03/10). Non ajouté ici (consigne « zéro chiffre non sourcé »). Oui ou non, sans changer la formule.
 8. **Libellé « Commencer ce parcours » pour le visiteur** (liste /parcours) : le remplacer par « Lire la première étape gratuite » ? Mon avis : oui (lève l'ambiguïté « libre ou payant »).
 9. **Nettoyage du code mort** (`primaryLabel`/`secondaryLabel` de `config/blog-cta.ts`, `premium-paywall.tsx`) : go pour @fullstack, sans effet visible.
@@ -346,7 +413,7 @@ quelle version est en ligne. Choix obligatoire A ou B par duel. Écris ton verdi
 - Fichiers produits : `/home/user/Marrant/docs/copy/lot2-boutons-abonnement-s21.md`, `/home/user/Marrant/docs/copy/lot2-s21/pack-relecture-tour1.md`. Aucun fichier de `src/` touché.
 - Décisions : système à deux niveaux (Premium plein, gratuit en contour), 6 emplacements ; libellés [CHOIX] gardés (E1, E2) ; E3 étendu ; E4 « Voir ce que contient Premium » (forme courte « Voir Premium ») ; E5 « Lire la première étape gratuite de X » ; H1 « Ta réplique pendant la soirée, pas dans le bus du retour » ; ligne « C'est pour toi si tu restes muet quand on te chambre. » ; économie annuelle visible par défaut (10,89 € économisés par an, 2,08 € par mois, plus de 3 mois offerts, calculés) ; extrait = fiche 1 du carnet (offerte, citée mot pour mot). [Framework : PAS / règle d'usage] [Conscience : Problem-Aware puis Product-Aware].
 - Objections traitées : « je vais payer sans voir » (extrait réel du carnet, étape 1 en lecture libre), « abonnement piégeux » (sans engagement, annulable, prix et économie visibles), « je ne sais pas ce que je débloque » (libellé du mur), « est-ce pour moi ? » (ligne « muet »). Références de marché : recherche web faite, sans valeur de preuve (§1).
-- Points d'attention : duels non lancés, git non fait (§0), 10 points à trancher (§7).
+- Points d'attention : tour 2 à lancer (`pack-relecture-tour2.md`), git non fait (§0), 10 points à trancher (§7). Mise à jour s21 tour 2 : duels 3 et 4 corrigés, fautes du texte commun traitées (§6.7), réassurance @legal intégrée.
 
 **Git (à exécuter par la session principale, cet agent n'a pas de shell)**
 
