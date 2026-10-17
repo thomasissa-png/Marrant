@@ -22,4 +22,25 @@ Contrôles transverses sur les 26 versions : aucun tiret cadratin, aucune mentio
 | 12. E-mail de reconfirmation | B | oui | « Avant de t'en envoyer d'autres » laisse croire que les envois s'arrêtent pendant les 30 jours, ce que la fiche ne dit pas. « sans autre démarche de ta part » redit « si tu ne fais rien ». La dernière phrase redit le lien du pied (« Se désinscrire maintenant »). « recevoir » revient quatre fois. | « Sans clic de ta part » est un peu imprécis, puisque c'est le bouton qui compte, mais le contexte est donné deux lignes plus haut. « Rien d'autre à faire. » est un fragment un peu sec. Défauts mineurs. | |
 | 13. Pied de chaque numéro | A | oui | RAS : la raison, l'éditeur, le contact, la désinscription et la Confidentialité y sont. | **Faute objective** : « Se désinscrire en un clic » est faux pour ce lien précis, qui ouvre une page avec un bouton « Me désinscrire » (deux actions). Le « un clic » vaut pour l'en-tête du client mail, pas pour le pied. | |
 
-Bilan : 8 choix au niveau, 5 sous la barre (1, 2, 6, 8, 11), chacun avec une correction d'une phrase. Aucun duel n'a ses deux versions irrécupérables. Pour les duels 1, 6 et 8, les deux versions sont sous la barre, et la correction proposée part de la meilleure.
+Bilan : 8 choix au niveau, 5 sous la barre (1, 2, 6, 8, 11). Dans ces cinq duels, les deux versions sont sous la barre, et la correction proposée part de la meilleure. Règle d'or : ces cinq emplacements ne partent pas tels quels, et la version corrigée repasse en relecture.
+
+## Réponses aux questions
+
+**1. Duels 1 à 3 (A, B, A).** Le visiteur croit recevoir par e-mail une vanne accompagnée de son explication, une fois par mois (« au maximum », donc sans risque de spam), parfois avec une mention de Premium. Il croit que ça ne lui coûte rien : c'est gratuit, sans compte, seule son adresse est demandée, et il peut se désinscrire en un clic. C'est conforme à la fiche. Deux réserves. L'exercice « À toi de jouer » n'apparaît nulle part, alors que c'est la vraie valeur pour Yanis, qui veut s'entraîner et pas seulement comprendre. Et le rythme mensuel est dit quatre fois sur un même écran (titre, appui, réassurance, case), d'où la correction du duel 1.
+
+**2. Duels 5 et 7 (B, A).** Oui. B5 dit explicitement « Ouvre le lien qu'il contient et touche le bouton « Confirmer mon adresse » : sans ça, tu ne reçois rien », puis A7 enchaîne avec « Dernière étape. » et le bouton. Avec A5, la réponse aurait été non : « Tant que tu n'as pas cliqué dessus » laisse croire que cliquer le lien suffit.
+
+**3. Duel 8 (B).** Il comprend ce qui s'arrête (« la lettre du mois, et c'est tout ») et ce qui continue (facture, sécurité, rappel avant un renouvellement annuel). Mais le texte s'adresse à lui comme s'il avait un compte et un abonnement, ce qui est faux pour la plupart des inscrits à une lettre sans compte. D'où la correction « Si tu as un compte ou un abonnement Premium ».
+
+**4. Duels 10 à 13.**
+- Duel 10 : rien ne manque (le pied de la confirmation est exempté de la raison et du lien de désinscription).
+- Duel 11 : **B oublie « pourquoi la personne reçoit le message »**. Le pied ne le dit pas, et le corps non plus. A le couvre dans le corps (« Une demande d'inscription vient d'être faite avec cette adresse »).
+- Duel 12 : les deux pieds n'ont pas de ligne « pourquoi », mais les deux corps le disent (2 ans d'inscription). C'est conforme, et ce serait plus robuste de l'avoir dans le pied.
+- Duel 13 : les deux versions sont complètes, mais « en un clic » est inexact dans B.
+
+## Points hors copy à remonter (concernent les deux versions)
+
+- **Durée du drapeau (duel 5) contre durée de validité.** Le drapeau reste affiché 14 jours, alors que le lien expire et que l'adresse est effacée au bout de 7 jours. Entre J+7 et J+14, « regarde ta boîte mail » envoie vers un lien expiré, puis vers le message « lien invalide ». Il faut soit limiter le drapeau à 7 jours, soit passer après J+7 à un texte du type « Le lien a expiré : renvoie-toi l'e-mail ». C'est à trancher par @product-manager et @fullstack.
+- **Harmonisation des exemples.** L'exemple grisé du champ et l'exemple des messages d'erreur doivent être identiques (« toi@exemple.fr »).
+- **Accord au masculin** (inscrit, oublié, désinscrit) dans tout le pack. Ce n'est pas une faute au regard de la grille, mais c'est à confirmer par Thomas si l'audience n'est pas que masculine. Ce n'est pas bloquant.
+- **Titre de l'onglet (duel 6).** « La lettre : ... » est opaque dans une barre d'onglets si le gabarit n'ajoute pas le nom du site. Je ne peux pas le vérifier depuis le pack.
