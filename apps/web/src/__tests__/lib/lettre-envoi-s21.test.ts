@@ -6,10 +6,15 @@
  * exclusions (Premium avec hebdo, oppositions) et les en-têtes de désinscription.
  */
 let mockOuvert = true;
+// Valeur d'essai : la vraie mention attend @legal (marqueur, voir lettre-numeros-s21.test.ts).
+let mockMention = "deviens-marrant SAS";
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
   get LETTRE_OUVERTE() {
     return mockOuvert;
+  },
+  get LETTRE_MENTION_EDITEUR_NUMERO() {
+    return mockMention;
   },
 }));
 
@@ -68,6 +73,7 @@ function abonne(email: string, confirmedAt: Date | null = avant) {
 
 beforeEach(() => {
   mockOuvert = true;
+  mockMention = "deviens-marrant SAS";
   mockDb.issue = { id: "n1", periodKey: "2026-11", subject: "Objet du mois", bodyText: "Corps préparé du numéro.", status: "VALIDE" };
   mockDb.abonnes = [abonne("a@x.fr"), abonne("b@x.fr"), abonne("premium@x.fr"), abonne("stop@x.fr"), abonne("revenu@x.fr", new Date("2026-10-20T00:00:00Z"))];
   mockDb.users = [
@@ -92,6 +98,16 @@ describe("envoyerLettreDuMois", () => {
     const envoyer = jest.fn();
     const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(r.ferme).toBe(true);
+    expect(envoyer).not.toHaveBeenCalled();
+    expect(mockDb.journal).toHaveLength(0);
+  });
+
+  it("marqueur [À COMPLÉTER] dans le pied (mention d'éditeur) : numéro bloqué, rien n'est envoyé", async () => {
+    mockMention = jest.requireActual("@/config/lettre").LETTRE_MENTION_EDITEUR_NUMERO;
+    expect(mockMention).toContain("[À COMPLÉTER");
+    const envoyer = jest.fn();
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    expect(r).toMatchObject({ bloque: true, numero: "2026-11", envoyes: 0, termine: false });
     expect(envoyer).not.toHaveBeenCalled();
     expect(mockDb.journal).toHaveLength(0);
   });

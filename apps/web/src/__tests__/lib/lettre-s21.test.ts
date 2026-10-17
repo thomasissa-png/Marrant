@@ -63,12 +63,18 @@ describe("Textes de la lettre", () => {
       EMAILS_LETTRE.confirmation.corps("L", "https://deviens-marrant.fr"),
       EMAILS_LETTRE.dejaInscrit.corps("L", "https://deviens-marrant.fr"),
       EMAILS_LETTRE.reconfirmation.corps("L", "L2", "https://deviens-marrant.fr"),
-      EMAILS_LETTRE.piedNumero("L", "https://deviens-marrant.fr"),
     ];
     for (const t of corps) {
       expect(t).toContain("deviens-marrant SAS");
       expect(t).toContain("contact@deviens-marrant.fr");
     }
+  });
+
+  it("le pied des numéros porte la mention d'éditeur @legal (marqueur tant qu'elle manque) et le contact", () => {
+    const pied = EMAILS_LETTRE.piedNumero("L", "https://deviens-marrant.fr");
+    const { LETTRE_MENTION_EDITEUR_NUMERO } = jest.requireActual("@/config/lettre");
+    expect(pied).toContain(`Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}.`);
+    expect(pied).toContain("contact@deviens-marrant.fr");
   });
 });
 
@@ -77,8 +83,9 @@ describe("Interrupteur", () => {
     expect(jest.requireActual("@/config/lettre").LETTRE_OUVERTE).toBe(false);
   });
 
-  it("le fichier des numéros livré est vide (contenu hors mission, rédigé en parallèle)", () => {
-    expect(numerosJson).toEqual([]);
+  it("les numéros livrés n'ont pas encore de jour d'envoi : aucun n'est chargé en base", () => {
+    expect(numerosJson.length).toBeGreaterThan(0);
+    for (const n of numerosJson) expect(n.envoiPrevu).toBeNull();
   });
 });
 
@@ -100,8 +107,21 @@ describe("synchroniserNumerosLettre", () => {
 
   it("fichier vide : aucune requête", async () => {
     const r = await synchroniserNumerosLettre([]);
-    expect(r).toEqual({ crees: 0, misAJour: 0, ignores: [] });
+    expect(r).toEqual({ crees: 0, misAJour: 0, ignores: [], enAttente: [] });
     expect(issue.findUnique).not.toHaveBeenCalled();
+  });
+
+  it("jour d'envoi non fixé (envoiPrevu null) : en attente, rien n'est écrit en base", async () => {
+    const r = await synchroniserNumerosLettre([numero({ envoiPrevu: null, datePlancher: "2026-11-16" })]);
+    expect(r).toEqual({ crees: 0, misAJour: 0, ignores: [], enAttente: ["2026-11"] });
+    expect(issue.findUnique).not.toHaveBeenCalled();
+    expect(issue.create).not.toHaveBeenCalled();
+  });
+
+  it("refuse une date d'envoi antérieure à la date plancher", async () => {
+    const r = await synchroniserNumerosLettre([numero({ datePlancher: "2026-11-16" })]);
+    expect(r.ignores[0]).toContain("date plancher");
+    expect(issue.create).not.toHaveBeenCalled();
   });
 
   it("crée un numéro VALIDE avec sa date d'envoi", async () => {

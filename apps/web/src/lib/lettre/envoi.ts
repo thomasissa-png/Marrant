@@ -2,6 +2,8 @@
  * Envoi de la lettre mensuelle (s21, spec §7.2 point 4 ; @legal L3, L4, L6).
  *
  *  - Rien ne part si `LETTRE_OUVERTE` est fermé.
+ *  - Rien ne part si un marqueur `[À COMPLÉTER` figure dans le numéro rendu
+ *    (objet, pré-en-tête, corps, pied) : `bloque = true`.
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
  *    `scheduledFor` atteint. Aucun numéro : rien n'est envoyé (jamais de contenu
  *    généré au fil de l'eau, règle du 01/10).
@@ -16,7 +18,7 @@
  *    lien de désinscription et pied légal dans le corps.
  */
 import { prisma } from "@/lib/prisma";
-import { LETTRE_ESSAIS_MAX, LETTRE_LOT_PAR_PASSAGE, LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_ESSAIS_MAX, LETTRE_LOT_PAR_PASSAGE, LETTRE_OUVERTE, MARQUEUR_A_COMPLETER } from "@/config/lettre";
 import { EMAILS_LETTRE } from "@/config/textes/lettre-s21";
 import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
@@ -33,6 +35,8 @@ export function periodeMensuelle(now: Date): string {
 
 export interface EnvoiResultat {
   ferme: boolean;
+  /** Numéro trouvé mais bloqué : un marqueur `[À COMPLÉTER` y figure (pied compris). */
+  bloque: boolean;
   numero: string | null;
   candidats: number;
   envoyes: number;
@@ -84,6 +88,7 @@ export async function envoyerLettreDuMois(
 ): Promise<EnvoiResultat> {
   const r: EnvoiResultat = {
     ferme: !LETTRE_OUVERTE,
+    bloque: false,
     numero: null,
     candidats: 0,
     envoyes: 0,
@@ -100,6 +105,12 @@ export async function envoyerLettreDuMois(
   });
   if (!numero) return r;
   r.numero = numero.periodKey;
+  // Aucun numéro ne part avec un trou (mention d'éditeur @legal, etc.).
+  const rendu = [numero.subject, numero.preheader ?? "", corpsNumero(numero.bodyText, deps.baseUrl, "jeton")].join("\n");
+  if (rendu.includes(MARQUEUR_A_COMPLETER)) {
+    r.bloque = true;
+    return r;
+  }
 
   const { hebdo, oppositions } = await listesExclusion();
   const abonnes = await prisma.newsletterSubscriber.findMany({

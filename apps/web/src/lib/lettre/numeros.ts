@@ -17,14 +17,20 @@
  *   "preEntete": "…",                            // facultatif (aperçu de la boîte de réception)
  *   "corps": "…",                                // texte seul ; le pied (désinscription, éditeur,
  *                                                //   confidentialité) est ajouté à l'envoi
- *   "envoiPrevu": "2026-11-05T08:00:00+01:00",   // date et heure d'envoi (dans le mois de `periode`)
+ *   "envoiPrevu": "2026-11-05T08:00:00+01:00",   // date et heure d'envoi (dans le mois de `periode`),
+ *                                                //   ou null tant que Thomas n'a pas fixé le jour :
+ *                                                //   le numéro n'est alors PAS chargé en base
+ *   "datePlancher": "2026-11-16" | null,         // jour (Paris) de publication de l'article cité :
+ *                                                //   jamais d'envoi avant ; null = aucun article cité
+ *   "numero": 1,                                 // facultatif, repère éditorial
  *   "statut": "BROUILLON" | "VALIDE"
  * }
  */
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import numerosJson from "@/data/lettre/numeros.json";
-import { periodeMensuelle } from "@/lib/lettre/envoi";
+import { corpsNumero, periodeMensuelle } from "@/lib/lettre/envoi";
+import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
 
 const TIRET_CADRATIN = "—";
 const sansTiret = (champ: string) => z.string().refine((v) => !v.includes(TIRET_CADRATIN), { message: `${champ} : tiret cadratin interdit` });
@@ -35,23 +41,51 @@ export const numeroSchema = z
     objet: sansTiret("objet").pipe(z.string().trim().min(3).max(150)),
     preEntete: sansTiret("preEntete").pipe(z.string().trim().max(200)).optional(),
     corps: sansTiret("corps").pipe(z.string().trim().min(50).max(20_000)),
-    envoiPrevu: z.string().datetime({ offset: true }),
+    envoiPrevu: z.string().datetime({ offset: true }).nullable(),
+    datePlancher: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(),
+    numero: z.number().int().positive().optional(),
     statut: z.enum(["BROUILLON", "VALIDE"]),
   })
-  .refine((n) => periodeMensuelle(new Date(n.envoiPrevu)) === n.periode, {
+  .refine((n) => n.envoiPrevu === null || periodeMensuelle(new Date(n.envoiPrevu)) === n.periode, {
     message: "envoiPrevu doit tomber dans le mois de periode (heure de Paris)",
+  })
+  .refine((n) => n.envoiPrevu === null || !n.datePlancher || jourParis(new Date(n.envoiPrevu)) >= n.datePlancher, {
+    message: "envoiPrevu avant la date plancher (publication de l'article cité)",
   });
 
 export type NumeroLettre = z.infer<typeof numeroSchema>;
+
+const jourFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" });
+
+/** Jour « AAAA-MM-JJ » au calendrier de Paris. */
+export function jourParis(d: Date): string {
+  return jourFormat.format(d);
+}
+
+/**
+ * Un numéro préparé peut-il partir à `now` ? Toutes les conditions, sans base :
+ * statut VALIDE, jour d'envoi fixé et atteint, date plancher atteinte, et aucun
+ * marqueur `[À COMPLÉTER` dans l'e-mail tel qu'il partirait (objet, corps, pied).
+ * L'interrupteur `LETTRE_OUVERTE` reste vérifié à part, par la tâche d'envoi.
+ */
+export function numeroEnvoyable(n: NumeroLettre, now: Date, baseUrl = "https://deviens-marrant.fr"): boolean {
+  if (n.statut !== "VALIDE" || n.envoiPrevu === null) return false;
+  if (now.getTime() < new Date(n.envoiPrevu).getTime()) return false;
+  if (n.datePlancher && jourParis(now) < n.datePlancher) return false;
+  const email = [n.objet, n.preEntete ?? "", corpsNumero(n.corps, baseUrl, "jeton")].join("\n");
+  return !email.includes(MARQUEUR_A_COMPLETER);
+}
 
 export interface SyncNumerosResultat {
   crees: number;
   misAJour: number;
   ignores: string[];
+  /** Numéros valides dont le jour d'envoi n'est pas encore fixé : non chargés en base. */
+  enAttente: string[];
 }
 
 export async function synchroniserNumerosLettre(source: unknown = numerosJson, now: Date = new Date()): Promise<SyncNumerosResultat> {
-  const r: SyncNumerosResultat = { crees: 0, misAJour: 0, ignores: [] };
+  const r: SyncNumerosResultat = { crees: 0, misAJour: 0, ignores: [], enAttente: [] };
   const entrees = Array.isArray(source) ? source : [];
   if (entrees.length === 0) return r;
 
@@ -62,6 +96,10 @@ export async function synchroniserNumerosLettre(source: unknown = numerosJson, n
       continue;
     }
     const n = parsed.data;
+    if (n.envoiPrevu === null) {
+      r.enAttente.push(n.periode);
+      continue;
+    }
     const donnees = {
       subject: n.objet,
       preheader: n.preEntete ?? null,
@@ -105,6 +143,9 @@ export async function applyLettreNumerosTask(): Promise<void> {
     if (r.crees + r.misAJour + r.ignores.length > 0) {
       console.log(`[startup] lettre : ${r.crees} numéro(s) créé(s), ${r.misAJour} mis à jour, ${r.ignores.length} ignoré(s).`);
       for (const m of r.ignores) console.warn(`[startup] lettre : ignoré ${m}`);
+    }
+    if (r.enAttente.length > 0) {
+      console.log(`[startup] lettre : ${r.enAttente.length} numéro(s) en attente du jour d'envoi (${r.enAttente.join(", ")}), non chargé(s).`);
     }
   } catch (err) {
     console.error("[startup] lettre : synchronisation des numéros échouée (non bloquant) :", err instanceof Error ? err.message : err);

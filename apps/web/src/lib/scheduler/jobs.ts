@@ -772,6 +772,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           envoyer: (to, subject, text, headers) =>
             sendServiceTextEmail(to, subject, text, "lettre-numero", { headers, replyTo: LETTRE_CONTACT }),
         });
+        if (res.bloque) {
+          console.warn(`[scheduler:lettre-mensuelle] ${res.numero} bloqué : marqueur [À COMPLÉTER] dans le numéro (mention d'éditeur @legal ?). Rien n'est envoyé.`);
+        }
         if (res.numero && res.candidats + res.dejaTraites > 0) {
           console.log(
             `[scheduler:lettre-mensuelle] ${res.numero} : ${res.envoyes} envoyé(s), ${res.echecs} échec(s), ${res.dejaTraites} déjà traité(s), ${res.exclusPremiumHebdo} exclu(s) hebdo Premium, ${res.exclusOpposition} exclu(s) opposition${res.termine ? ", numéro terminé" : ""}.`,

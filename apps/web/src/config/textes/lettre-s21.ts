@@ -11,6 +11,8 @@
  * Zéro tiret cadratin (test `lettre-s21.test.ts`).
  */
 
+import { LETTRE_MENTION_EDITEUR_NUMERO } from "@/config/lettre";
+
 export const LETTRE_CONTACT = "contact@deviens-marrant.fr";
 
 export const TEXTES_LETTRE = {
@@ -158,7 +160,7 @@ export const EMAILS_LETTRE = {
       "",
       "--",
       "Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.",
-      ...piedLegal(baseUrl).slice(0, 1),
+      `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
       `Se désinscrire : ${lienDesinscrire}`,
       ...piedLegal(baseUrl).slice(1),
     ].join("\n"),
