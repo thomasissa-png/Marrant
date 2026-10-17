@@ -88,6 +88,7 @@ model User {
   pathStepCompletions UserPathStepCompletion[]
   pathStepFeedbacks   UserPathStepFeedback[]
   parcoursReminder    ParcoursReminderPreference?
+  equipeQuestions     EquipeQuestion[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -359,6 +360,74 @@ model ParcoursReminderPreference {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([enabled, weekday])
+}
+
+// ==========================================
+// TA QUESTION À L'ÉQUIPE (s21, interrupteur QUESTIONS_OUVERTES fermé)
+// Spec : docs/product/ta-question-a-l-equipe-s21.md ; migration 14_equipe_questions.
+// ==========================================
+
+enum EquipeQuestionStatut {
+  RECUE
+  BROUILLON
+  RELUE
+  ENVOYEE
+  ECARTEE
+}
+
+enum EquipeExtraitStatut {
+  AUCUN
+  PROPOSE
+  ACCEPTE
+  REFUSE
+}
+
+model EquipeQuestion {
+  id                      String               @id @default(cuid())
+  userId                  String
+  situation               String               @db.Text
+  retour                  String?              @db.Text
+  statut                  EquipeQuestionStatut @default(RECUE)
+  /// Posé à la main : sort du lot préparé, réponse écrite à la main (@legal Q5).
+  sensible                Boolean              @default(false)
+  receivedAt              DateTime             @default(now())
+  /// Échéance visée : receivedAt + DELAI_REPONSE_HEURES (48 h).
+  dueAt                   DateTime
+  idempotencyKey          String               @unique
+  /// `site` | `admin` (question reçue hors site, pilote §8).
+  origine                 String               @default("site")
+  brouillon               String?              @db.Text
+  /// `agents` (lot préparé en session) | `admin`.
+  brouillonSource         String?
+  brouillonAt             DateTime?
+  reponse                 String?              @db.Text
+  reponseModifieeParAdmin Boolean              @default(false)
+  relueAt                 DateTime?
+  /// `humaine` | `automatique` (mode de validation au moment de la relecture).
+  relueMode               String?
+  /// Réservation atomique de l'envoi (idempotence), puis date d'envoi effectif.
+  envoiReserveAt          DateTime?
+  sentAt                  DateTime?
+  ecarteeAt               DateTime?
+  alerteArriveeAt         DateTime?
+  alerteEcheanceAt        DateTime?
+  /// Case facultative à la soumission : accepte qu'on lui PROPOSE un extrait.
+  reutilisationAcceptee   Boolean              @default(false)
+  reutilisationVersion    String?
+  reutilisationAt         DateTime?
+  /// Accord par extrait (@legal Q4) : texte exact proposé, décision de l'abonné.
+  extraitTexte            String?              @db.Text
+  extraitStatut           EquipeExtraitStatut  @default(AUCUN)
+  extraitVersion          String?
+  extraitProposeAt        DateTime?
+  extraitDecisionAt       DateTime?
+  createdAt               DateTime             @default(now())
+  updatedAt               DateTime             @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, receivedAt])
+  @@index([statut, dueAt])
 }
 
 // ==========================================

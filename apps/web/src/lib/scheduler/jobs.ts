@@ -749,6 +749,36 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : « Ta question à l'équipe » (s21). À chaque tick : alerte admin des
+   * questions reçues (groupée, 1 par jour), alerte d'échéance proche (48 h),
+   * purge selon la conservation. Envoi automatique UNIQUEMENT en mode
+   * `relecture_automatique` (non activé). Aucun LLM. Interrupteur fermé = la
+   * tâche ne lit même pas la base (déployable avant la migration 14).
+   */
+  const runEquipeQuestionsJob = async (now: Date = new Date()) => {
+    try {
+      const { questionsOuvertes } = await import("@/config/equipe-questions");
+      if (!questionsOuvertes()) return;
+      const { tryAcquireLock, releaseLock } = await import("@/lib/job-lock");
+      const lockKey = "equipe-questions";
+      if (!(await tryAcquireLock(lockKey, 10 * 60 * 1000))) return;
+      try {
+        const { executerTacheQuestions } = await import("@/lib/equipe-questions/taches");
+        const bilan = await executerTacheQuestions(now);
+        if (bilan.arrivees + bilan.echeances + bilan.envoisAuto + bilan.purgees > 0) {
+          console.log(
+            `[scheduler:equipe-questions] ${bilan.arrivees} arrivée(s), ${bilan.echeances} échéance(s), ${bilan.envoisAuto} envoi(s) auto, ${bilan.purgees} purgée(s).`,
+          );
+        }
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:equipe-questions] Échec :", err);
+    }
+  };
+
+  /**
    * Job : Rapport hebdomadaire des visites (Umami + conversions en base).
    * Lundi 7h-8h heure de Paris (heure d'été gérée), verrou hebdomadaire
    * conservé après envoi (1 email par semaine), relâché en cas d'échec pour
@@ -805,6 +835,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runStripeReconciliationJob();
     await runParcoursAlertesJob();
     await runParcoursReminderJob();
+    await runEquipeQuestionsJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -818,6 +849,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runStripeReconciliationJob,
     runParcoursAlertesJob,
     runParcoursReminderJob,
+    runEquipeQuestionsJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

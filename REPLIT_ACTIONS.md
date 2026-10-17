@@ -2,6 +2,17 @@
 
 ## À DÉPLOYER
 
+### s21 (17/10/2026) « Ta question à l'équipe » (Premium) @fullstack, **À DÉPLOYER INTERRUPTEUR FERMÉ, OUVERTURE SUR DÉCISION DE THOMAS**
+
+- **Branche** : `claude/marrant-s21-questions` (depuis `claude/ouverture-session-nzwj0w`). Rien n'est déployé, rien n'est écrit en base de production.
+- **Interrupteur** : `QUESTIONS_OUVERTES = false` (`apps/web/src/config/equipe-questions.ts`). Fermé : `/ta-question-a-l-equipe` et `/api/equipe-questions/*` en 404 pour tout le monde, aucune entrée de menu, de profil ni de sitemap, tâche planifiée inactive (elle ne lit même pas la base). Seul le back-office `/admin/equipe-questions` (mot de passe admin) fonctionne, pour le pilote.
+- **Écarts décidés** : réponse visée en moins de 48 h (date affichée) ; aucune limite affichée, garde-fou invisible 5 questions par 7 jours glissants (`GARDE_FOU`, message « on te répond d'abord sur tes questions précédentes ») ; validation `validation_humaine` (défaut : rien ne part sans « Marquer relue » puis « Envoyer ») ou `relecture_automatique` (**ne pas activer**, décision de Thomas, contredit en l'état la règle du 01/10) ; accord **par extrait** (texte exact, clic « Publier », silence = rien) ; conservation 6 mois après la fin de l'abonnement (hypothèse @legal Q3). Préparation des brouillons : export du lot sans identité, rédaction en session, import ; aucun appel d'IA (`PREPARATEUR_ACTIF = null`).
+- **Alertes** : à `EQUIPE_QUESTIONS_ADMIN_EMAIL` (sinon adresse admin du site) : « question reçue » groupée, au plus 1 e-mail par jour (règle du 06/10) ; « échéance proche » (moins de 12 h restantes) une fois par question.
+- **Migration** `14_equipe_questions` (idempotente, additive, table `EquipeQuestion` + 2 types, `User` intact) : jouée 2 fois sur PostgreSQL 16 jetable, 2e passe OK, `prisma migrate diff` vide ensuite. **Non appliquée en production.** À l'ouverture : depuis `apps/web`, `npx prisma db execute --schema prisma/schema.prisma --file prisma/migrations/14_equipe_questions/migration.sql`, 2 fois. Le code peut être déployé AVANT la migration (fermé, aucune lecture de la table hors back-office).
+- **Textes** : `apps/web/src/config/textes/equipe-questions.ts`, **à relire à l'aveugle avant ouverture** ; textes [PROVISOIRE] et e-mails à valider par Thomas.
+- **Avant ouverture (rien en ligne sans)** : textes relus à l'aveugle, sections confidentialité et CGU @legal publiées (B7, B8, Q1, Q3, Q4), conduite « sensible » écrite (Q5), migration 14 appliquée 2 fois, décision du mode de validation, puis `QUESTIONS_OUVERTES = true` + déploiement. La lettre hebdomadaire Premium n'est PAS dans ce lot.
+- **Contrôles** (depuis `apps/web`) : `tsc -p tsconfig.build.json` OK, `npm run lint` OK (avertissement préexistant `admin/page.tsx`), `npm run build` OK, `tsc` complet OK, Jest complet sans secrets Stripe 306 suites / 4 657 tests OK (2 suites ignorées dont l'intégration PostgreSQL, passée à part sur la base jetable). Test d'intégration sur vraie base : `EQUIPE_QUESTIONS_TEST_DATABASE_URL=<base jetable> npx jest equipe-questions-postgres` (ignoré sinon ; jamais la production).
+
 ### s21 (17/10/2026) Réassurance « premier paiement » sous les boutons d'achat et sur /register @fullstack, **DÉPLOYÉ le 17/10/2026 vers 16:30 Paris** (feu vert de Thomas : « Déploie-les »)
 
 - **Commits** : `2b96f37` (boutons d'achat) puis celui qui complète /register (`git log -1 --format=%h -- apps/web/src/config/textes/offre.ts`), branche `claude/ouverture-session-nzwj0w` ; déployer le dernier (il contient les deux).

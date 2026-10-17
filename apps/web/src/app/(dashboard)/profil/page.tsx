@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
 import { UpgradeToast } from "@/components/profil/upgrade-toast";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
+import { EntreeQuestionsProfil } from "@/components/equipe-questions/entree-profil";
 
 export const metadata: Metadata = {
   title: "Mon profil | Progression & Statistiques",
@@ -32,6 +33,9 @@ export default function ProfilPage({
 
       {/* Rappel e-mail sur demande (D7, legal C1) : rendu dans ProfilDashboard, sous « Mes parcours » (s17 tour 1, UXV-1-02). */}
       <ProfilDashboard />
+
+      {/* « Ta question à l'équipe » (s21) : rien tant que QUESTIONS_OUVERTES est fermé. */}
+      <EntreeQuestionsProfil />
     </>
   );
 }

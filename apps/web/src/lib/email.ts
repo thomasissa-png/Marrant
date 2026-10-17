@@ -36,7 +36,13 @@ export type TransactionalEmailKind =
   | "resiliation"
   | "retractation-accuse"
   | "retractation-admin"
-  | "rappel-parcours";
+  | "rappel-parcours"
+  // s21 « Ta question à l'équipe » (interrupteur fermé : aucun envoi tant qu'il l'est)
+  | "equipe-accuse"
+  | "equipe-reponse"
+  | "equipe-ecartee"
+  | "equipe-extrait"
+  | "equipe-alerte-admin";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";
