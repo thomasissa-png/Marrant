@@ -1,25 +1,36 @@
 import type { CarnetFiche, CarnetFicheApercu } from "@/lib/carnet";
 import { Card } from "@/components/ui/card";
 
-/** Fiche complète (Server Component : aucune donnée ne part dans le JS client). */
+/**
+ * Fiche complète (Server Component : aucune donnée ne part dans le JS client).
+ * `extrait` (lot 2 s21, /abonnement) : le bloc qui l'entoure porte déjà « Situation 1,
+ * offerte » ; la carte ne montre que le titre, la situation, la réplique et
+ * « Pourquoi ça marche » (sans contexte, « Si ça se tend » ni « À toi de jouer »).
+ */
 export function CarnetFicheCard({
   fiche,
   numero,
   offerte = false,
+  extrait = false,
 }: {
   fiche: CarnetFiche;
   numero: number;
   offerte?: boolean;
+  extrait?: boolean;
 }) {
+  const Titre = extrait ? "h3" : "h2";
+  const blocTitre = extrait ? "h4" : "h3";
   return (
-    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={`fiche-${fiche.id}`}>
+    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={extrait ? undefined : `fiche-${fiche.id}`}>
       <header className="space-y-1">
-        <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-          Situation {numero}
-          {offerte ? " · offerte" : ""}
-        </p>
-        <h2 className="font-display text-xl font-bold text-text-primary">{fiche.titre}</h2>
-        <p className="text-sm text-text-muted">{fiche.contexte}</p>
+        {!extrait && (
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
+            Situation {numero}
+            {offerte ? " · offerte" : ""}
+          </p>
+        )}
+        <Titre className="font-display text-xl font-bold text-text-primary">{fiche.titre}</Titre>
+        {!extrait && <p className="text-sm text-text-muted">{fiche.contexte}</p>}
       </header>
 
       <p className="text-sm text-text-secondary">{fiche.situation}</p>
@@ -34,17 +45,21 @@ export function CarnetFicheCard({
         <p className="mt-1 text-base font-semibold text-text-primary">{fiche.reponse}</p>
       </div>
 
-      <FicheBloc titre="Pourquoi ça marche">{fiche.pourquoi}</FicheBloc>
-      <FicheBloc titre="Si ça se tend">{fiche.siTendu}</FicheBloc>
-      <FicheBloc titre="À toi de jouer">{fiche.exercice}</FicheBloc>
+      <FicheBloc titre="Pourquoi ça marche" as={blocTitre}>{fiche.pourquoi}</FicheBloc>
+      {!extrait && (
+        <>
+          <FicheBloc titre="Si ça se tend" as={blocTitre}>{fiche.siTendu}</FicheBloc>
+          <FicheBloc titre="À toi de jouer" as={blocTitre}>{fiche.exercice}</FicheBloc>
+        </>
+      )}
     </Card>
   );
 }
 
-function FicheBloc({ titre, children }: { titre: string; children: string }) {
+function FicheBloc({ titre, as: Heading, children }: { titre: string; as: "h3" | "h4"; children: string }) {
   return (
     <div>
-      <h3 className="mb-1 text-sm font-semibold text-text-primary">{titre}</h3>
+      <Heading className="mb-1 text-sm font-semibold text-text-primary">{titre}</Heading>
       <p className="text-sm text-text-secondary">{children}</p>
     </div>
   );

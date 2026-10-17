@@ -92,7 +92,7 @@ export const QUIZ_FIN_BOUTON = {
   visiteur: "Refaire le quiz",
 } as const;
 
-// s17 tour 1 (UXV-1-07) : réassurance sous « Voir l'offre Premium », prix lu dans config/premium.ts
+// s17 tour 1 (UXV-1-07) : réassurance sous le bouton du mur (« Voir ce que contient Premium » depuis s21), prix lu dans config/premium.ts
 /** Ligne discrète sous le bouton de l'aperçu verrouillé et du blocage de validation (texte du blocage inchangé). */
 export const APERCU_REASSURANCE = `${PREMIUM_PRICE_LABEL}, sans engagement.`;
 

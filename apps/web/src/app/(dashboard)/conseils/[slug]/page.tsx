@@ -21,6 +21,9 @@ import {
 } from "@/components/seo/json-ld";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
+import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -219,9 +222,9 @@ export default async function ConseilPage({
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href={buildAbonnementUrl(`/conseils/${canonicalSlug}`, "monthly", "fiche-conseil")}
-              className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
+              className={cn(buttonVariants({ variant: "primary" }), "h-auto min-h-11 whitespace-normal py-2 text-center")}
             >
-              Voir Premium
+              {MUR_PREMIUM_BOUTON}
             </Link>
             <Link
               href="/conseils"

@@ -25,6 +25,7 @@ import { FREE_JOKE_LIMIT, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { CARTE_VERROUILLEE_LABEL, OFFRE_NOM } from "@/config/textes/offre";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
+import { MUR_PREMIUM_BOUTON, MUR_PREMIUM_LIEN } from "@/config/textes/offre";
 
 interface Joke {
   id: string;
@@ -418,7 +419,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
+                    <span className="text-xs font-medium text-accent-link">{MUR_PREMIUM_LIEN}</span>
                   </div>
                 </div>
               </CardContent>
@@ -432,10 +433,10 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
           <p className="font-semibold text-text-primary">{upgradeMessage}</p>
           <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
+            Accède à tout le catalogue pour {PREMIUM_PRICE_LABEL}
           </p>
           <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
-            Voir l&apos;offre
+            {MUR_PREMIUM_BOUTON}
           </Button>
         </div>
       )}

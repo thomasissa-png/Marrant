@@ -8,7 +8,12 @@ import {
   PREMIUM_MONTHLY_PRICE_CENTS,
   type PremiumPlan,
 } from "@/config/premium";
-import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
+import { Badge } from "@/components/ui/badge";
+import {
+  ANNUEL_AVANTAGE_LABEL,
+  ANNUEL_LIGNE_MENSUEL,
+  ANNUEL_MOIS_OFFERTS_LABEL,
+} from "@/config/textes/offre";
 
 const OPTIONS: { value: PremiumPlan; label: string }[] = [
   { value: "monthly", label: "Mensuel" },
@@ -33,7 +38,7 @@ export function PlanSelector({
     <div className="mt-3">
       <fieldset>
         <legend className="sr-only">Choisis ta formule</legend>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {OPTIONS.map((option) => (
             <label
               key={option.value}
@@ -53,6 +58,13 @@ export function PlanSelector({
               {option.label}
             </label>
           ))}
+          {/* Lot 2 s21 : « plus de 3 mois offerts » dit une seule fois, sur la pastille
+              « Annuel », dès l'état mensuel. Annuel choisi : la ligne sous le prix le dit. */}
+          {!isAnnual && (
+            <Badge variant="primary" data-testid="annuel-mois-offerts">
+              {ANNUEL_MOIS_OFFERTS_LABEL}
+            </Badge>
+          )}
         </div>
       </fieldset>
 
@@ -73,8 +85,10 @@ export function PlanSelector({
           </p>
         </>
       ) : (
-        <p className="mt-1 text-sm font-medium text-accent-link">
-          Sans engagement, annulable à tout moment
+        // Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
+        // « Sans engagement, annulable à tout moment » retiré (dit par la réassurance).
+        <p className="mt-1 text-sm font-medium text-accent-link" data-testid="annuel-ligne-mensuel">
+          {ANNUEL_LIGNE_MENSUEL}
         </p>
       )}
     </div>

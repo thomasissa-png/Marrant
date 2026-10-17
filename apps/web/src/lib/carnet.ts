@@ -166,8 +166,42 @@ export function formatCarnetMonth(mois: string): string {
   return name ? `${name} ${year}` : mois;
 }
 
+/** Élision devant voyelle : « d'octobre », « de novembre ». */
+function avecElision(label: string): string {
+  return /^[aeiouâéèêîôû]/i.test(label) ? `d'${label}` : `de ${label}`;
+}
+
 /** « 2026-10 » → « d'octobre 2026 », « 2026-11 » → « de novembre 2026 » (élision). */
 export function deCarnetMonth(mois: string): string {
-  const label = formatCarnetMonth(mois);
-  return /^[aeiouâéèêîôû]/i.test(label) ? `d'${label}` : `de ${label}`;
+  return avecElision(formatCarnetMonth(mois));
+}
+
+/**
+ * « 2026-10 » → « d'octobre », « 2026-11 » → « de novembre » : nom du mois seul,
+ * sans l'année (extrait du carnet sur /abonnement, lot 2 s21). Mois invalide : null.
+ */
+export function deMoisSeul(mois: string): string | null {
+  const name = MOIS_FR[Number(mois.split("-")[1]) - 1];
+  return name ? avecElision(name) : null;
+}
+
+/** Extrait du carnet affiché sur /abonnement : la fiche offerte du mois en cours. */
+export interface CarnetExtrait {
+  mois: string;
+  fiche: CarnetFiche;
+  totalFiches: number;
+}
+
+/**
+ * Première fiche (celle offerte à tous, `CARNET_FREE_FICHES`) du carnet du mois
+ * en cours à Paris. Null si le carnet du mois n'est pas encore déposé : le bloc
+ * ne doit jamais montrer le carnet d'un mois passé comme « du mois » (condition
+ * de mise en ligne du duel carnet, lot 2 s21 tour 2).
+ */
+export function getCarnetExtrait(carnets?: Carnet[], now: Date = new Date()): CarnetExtrait | null {
+  const carnet = getCurrentCarnet(carnets, now);
+  if (!carnet || carnet.mois !== currentParisMonth(now)) return null;
+  const fiche = carnet.fiches[0];
+  if (!fiche) return null;
+  return { mois: carnet.mois, fiche: { ...fiche }, totalFiches: carnet.fiches.length };
 }

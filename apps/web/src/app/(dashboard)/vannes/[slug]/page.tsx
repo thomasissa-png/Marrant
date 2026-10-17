@@ -17,6 +17,8 @@ import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
 import { buttonVariants } from "@/components/ui/button";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
+import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
+import { cn } from "@/lib/utils";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -271,9 +273,9 @@ export default async function VannePage({
           <div className="mt-4 flex flex-wrap gap-3">
             <Link
               href={buildAbonnementUrl(`/vannes/${canonicalSlug}`, "monthly", "fiche-vanne")}
-              className={buttonVariants({ variant: "primary" })}
+              className={cn(buttonVariants({ variant: "primary" }), "h-auto min-h-11 whitespace-normal py-2 text-center")}
             >
-              Voir Premium
+              {MUR_PREMIUM_BOUTON}
             </Link>
             <Link
               href="/vannes"

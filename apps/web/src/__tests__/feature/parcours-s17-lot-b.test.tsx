@@ -260,8 +260,8 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
     expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
-    // Un seul bouton plein : « Voir l'offre Premium » passe en plein une fois le quiz fini.
-    expect(screen.getByRole("link", { name: "Voir l'offre Premium" }).className).toContain("bg-accent-secondary-hover");
+    // Un seul bouton plein : « Voir ce que contient Premium » (s21) passe en plein une fois le quiz fini.
+    expect(screen.getByRole("link", { name: "Voir ce que contient Premium" }).className).toContain("bg-accent-secondary-hover");
     await userEvent.click(screen.getByText("Refaire le quiz"));
     expect(screen.getByText("Q1 ?")).toBeInTheDocument();
     expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();

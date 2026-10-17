@@ -74,9 +74,15 @@ describe("blog-cta-vu", () => {
 
 describe("blog-cta-clic", () => {
   it("position et parcours de l'encart cliqué", () => {
-    const { getByText } = setup();
+    const { getByText, getAllByText } = setup();
     fireEvent.click(getByText(ENCARTS_ARTICLE_1.boulot.bouton));
-    fireEvent.click(getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
+    // s21 (lot 2, E5) : l'encart Répartie du milieu et le bloc de fin portent le même
+    // libellé ; le bouton du bloc de fin est celui dont le lien porte `src=blog`.
+    const finEtape1 = getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).find((el) =>
+      el.closest("a")?.getAttribute("href")?.includes("?src=blog#"),
+    );
+    expect(finEtape1).toBeDefined();
+    fireEvent.click(finEtape1!);
     fireEvent.click(getByText(TEXTES_BLOC_FIN.boutonPremium));
     expect(track.mock.calls).toEqual([
       ["blog-cta-clic", { slug: SLUG, bouton: "etape-1", position: "milieu-2", parcours: "boulot" }],

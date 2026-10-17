@@ -15,6 +15,14 @@ import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 /** Accueil visiteur : lien secondaire sous le bouton principal (UX-08). */
 export const ACCUEIL_LIEN_ETAPE_1 = "Lire la première étape gratuite";
 
+// VALIDÉ à l'aveugle s21 (lot 2, duel 2, tour 1 : 3/3 au niveau ; docs/copy/lot2-boutons-abonnement-s21.md §4.2)
+/**
+ * Bouton vers l'étape 1 gratuite d'un parcours nommé (emplacement E5) : même
+ * squelette que le lien de l'accueil, « Lire la première étape gratuite » + « de X ».
+ */
+export const etape1GratuiteBouton = (slug: ParcoursSlug): string =>
+  `${ACCUEIL_LIEN_ETAPE_1} de ${PARCOURS_NOMS[slug]}`;
+
 // s17 tour 1 (UXV-1-05) : même libellé (étalon 3.9 A) sur l'encart « Parcours recommandé » du blog
 /** Encart de maillage des articles : bouton principal vers l'étape 1 du parcours lié. */
 export const BLOG_LIEN_ETAPE_1 = ACCUEIL_LIEN_ETAPE_1;
