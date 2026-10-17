@@ -9,7 +9,7 @@ Décision de Thomas (17/10) : tout intégrer proprement, inscriptions à la lett
 4. **Mentions** : section « La lettre » de la politique de confidentialité et ajout aux CGU (textes @legal, `docs/legal/lettre-et-questions-s21.md`), publiées le même jour (bloquant B7).
 
 ## Calendrier des envois
-- Numéro 1 : **jeudi 5 novembre, 8 h**. Il renvoie à l'article « Soirée de Noël au boulot », prévu le 16/11 : on avance cet article au **lundi 2 novembre** et on recule « Humour en visio » au 16/11 (échange de deux dates, aucun texte touché).
+- Numéro 1 : **jeudi 5 novembre, 8 h**. Il renvoie à l'article « Soirée de Noël au boulot », prévu le 16/11 : on avance cet article au **lundi 2 novembre** (seule date modifiée ; « Humour en visio » reste au 02/11 ; aucun texte touché ; commande : étape P5 de `REPLIT_ACTIONS.md`).
 - Numéros 2 à 6 : premier jeudi de décembre à avril, 8 h.
 
 ## Ce qui suit, sans bloquer la mise en ligne
