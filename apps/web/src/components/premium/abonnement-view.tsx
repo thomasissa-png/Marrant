@@ -252,8 +252,6 @@ export function AbonnementView({
             </>
           )}
 
-          <PremiumBenefits className="mt-6 space-y-3" />
-
           {isAuthenticated && resiliation ? (
             <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-8" />
           ) : isAuthenticated ? (
@@ -300,6 +298,10 @@ export function AbonnementView({
             </Link>{" "}
             &middot; Paiement s&eacute;curis&eacute; par Stripe
           </p>
+
+          {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
+              d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}
+          <PremiumBenefits className="mt-6 space-y-3" />
         </CardContent>
       </Card>
 

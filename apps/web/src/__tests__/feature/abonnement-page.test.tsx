@@ -64,7 +64,7 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
   });
 
-  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre (§5.3, tour 3, 3/3 au niveau)", () => {
+  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre, bouton avant les avantages (§5.2, §5.3)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable carnetExtrait={null} />);
     const texte = (document.body.textContent ?? "").replace(/\s+/g, " ");
@@ -83,6 +83,11 @@ describe("AbonnementPage (s12 T45)", () => {
       "Commencer à 2,99 €/mois",
       "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
       "Droit de rétractation · Paiement sécurisé par Stripe",
+      // §5.2 / §7 point 3 (choix de Thomas) : les avantages viennent APRÈS le bouton d'achat.
+      "Les 5 parcours en entier",
+      "Le carnet mensuel de situations de répartie",
+      "Tes favoris",
+      "Les listes complètes",
     ];
     let depuis = 0;
     for (const ligne of lignes) {
