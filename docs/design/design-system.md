@@ -80,7 +80,7 @@ Variants : `primary`, `secondary`, `gradient`
 Animation pulse sur l'emoji feu (coupée si mouvement réduit), fond `accent-secondary/10`, texte `accent-link` « {n} jours de pratique d'affilée » + aide (étalon 3.8 A)
 
 ### Interrupteur (s17 tour 1, DES-1-08)
-`<input type="checkbox" role="switch" class="peer sr-only">` + piste `h-6 w-11 rounded-full` (`background-elevated`, cochée `accent-primary`, focus visible `accent-primary`) + pastille blanche `h-5 w-5`, le tout dans un `<label>` de 44 px de haut. Jamais de case native sur fond sombre.
+`<input type="checkbox" role="switch" class="peer sr-only">` + piste `h-6 w-11 rounded-full` (`background-elevated`, cochée `accent-primary`, focus visible `accent-primary`) + pastille blanche `h-5 w-5`, le tout dans un `<label>` de 44 px de haut. Pour un interrupteur (oui/non), jamais de case native : la piste ci-dessus. Pour une case de consentement (lettre), la case native est admise, dessinée en sombre par `color-scheme: dark` (voir plus haut).
 
 ## Animations
 
