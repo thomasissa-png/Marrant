@@ -155,3 +155,110 @@
 - B : répétition « table » ×3 ; exemple ambigu qui reprend le mot-clé de la vanne ; « l'article… Lire l'article » (T3).
 
 ---
+
+## NUMÉRO 5 (mars) : avant le 1er avril
+
+### Grille
+
+| # | Critère | A | B |
+|---|---|---|---|
+| 1 | Promesse en 5 s | = | = |
+| 2 | Voix | = (« en rirais-tu ? » : l'inversion fait un peu scolaire ; mineur) | = |
+| 3 | Fluidité | = | = |
+| 4 | Décryptage | = | = |
+| 5 | Exercice | = « J'ai relu mon contrat. » : transposition nette, très drôle | = « J'ai demandé à ma mère s'il était malade. » : transposition nette |
+| 6 | Valeur d'abord | = | = |
+| 7 | Appels à l'action | = (article sur le chambrage décrit fidèlement ; le pont « une taquinerie qui a rendez-vous avec le calendrier » est honnête, même si le pré-en-tête annonce le 1er avril et que le lien n'en parle pas) | < « Aucune ne fait peur ni ne vexe » : promet plus que l'article (voir ligne 10) |
+| 8 | Humour hors vanne | = « Dans tout couple, il y a un objet prêté qu'on ne reverra jamais. » | = « la date où un geste gentil et inattendu passe pour un piège » |
+| 9 | Longueur | = | = |
+| 10 | Règles absolues | = | < « ni ne vexe » : la fiche dit « rien qui fasse peur, rien d'humiliant », pas « rien qui vexe », et l'article prévoit justement une partie « que faire si la personne le prend mal ». Promesse hors des faits |
+| 11 | Tics | = (« taquinerie… taquiner » à une phrase d'écart ; mineur) | = (« L'article… Lire l'article », mineur) |
+
+### Questions décisives
+
+- **A, objet** : « Mon copain est devenu bizarre » : **je l'ouvrirais**, par curiosité, même si l'objet a l'air d'un message personnel ; le pré-en-tête rattrape le coup. **Lu en entier : je reste inscrit**, décidé par « Mon patron m'a remercié devant toute l'équipe. J'ai relu mon contrat. »
+- **B, objet** : « Le chargeur, un an après » : **je l'ouvrirais**, le « un an après » intrigue. **Lu en entier : je reste inscrit**, décidé par « la date où un geste gentil et inattendu passe pour un piège » : tout le numéro tient autour de cette idée.
+
+### Verdicts
+
+- **Version A** : **=** ; 7/10 ; ouvrirais : oui ; me désinscrirais : non.
+- **Version B** : **<** ; 7,5/10 ; ouvrirais : oui ; me désinscrirais : non.
+- **Je choisis B, à condition de la corriger.** C'est le numéro le mieux tenu : l'accroche relie la vanne au 1er avril, le lien envoie vers l'article sur le poisson d'avril (le contenu que le lecteur veut fin mars), et Répartie est amenée par « le jour où c'est toi la cible ». Mais telle quelle, elle ne part pas (promesse « ni ne vexe »). Si aucune retouche n'est possible, **seule A peut partir telle quelle**.
+- Pas les deux sous la barre : A est au niveau.
+
+### Les 3 phrases les plus faibles
+
+**A**
+1. « L'article pose cinq règles pour taquiner sans blesser et se lit sans compte. Le test du retour, par exemple : si l'autre te rendait la même pique, en rirais-tu ? » → « Cet article donne cinq règles pour chambrer sans blesser, en lecture libre. Exemple, le test du retour : si on te rendait la même pique, tu en rirais ? »
+2. Lien vers le chambrage dans un numéro d'avant 1er avril, alors que l'article sur le poisson d'avril existe → garder le pont « Un canular est une taquinerie qui a rendez-vous avec le calendrier » mais lier l'article sur le poisson d'avril.
+3. « Pour t'entraîner à ton rythme, les parcours complets sont dans Premium » (formule générique) → « Et le jour où c'est toi qu'on chambre, le parcours Répartie apprend à répondre à voix haute et au bon moment. »
+
+**B**
+1. « Aucune ne fait peur ni ne vexe, et tout est en lecture libre. » → « Aucune n'est dangereuse ni humiliante, l'article dit même quoi faire si quelqu'un le prend mal. Lecture libre. »
+2. « L'article réunit des idées de canulars pour adultes, classées par terrain. » → « Pour le 1er avril, cet article réunit quinze canulars pour adultes, classés par terrain : bureau, famille, potes et couple. »
+3. « Choisis un comportement tout à fait correct, mais devenu rare chez quelqu'un de précis. » → « Choisis un geste normal que quelqu'un de précis ne fait plus. »
+
+### Fautes objectives
+- A : aucune bloquante.
+- B : promesse hors des faits (« ni ne vexe ») ; « L'article » sans antécédent (T3).
+
+---
+
+## NUMÉRO 6 (avril) : les festivals d'été
+
+### Grille
+
+| # | Critère | A | B |
+|---|---|---|---|
+| 1 | Promesse en 5 s | = | < objet « Combien coûte un festival ? » : il pose une question pratique que le numéro ne traite jamais. Ça ressemble à un mail de bons plans et le contenu ne tient pas cette promesse |
+| 2 | Voix | = | = |
+| 3 | Fluidité | = | = |
+| 4 | Décryptage | = | = |
+| 5 | Exercice | = « Le déménageur m'a donné son prix. Je commence la musculation. » : autre domaine, même mécanisme, court | < « J'ai regardé le prix d'un billet pour Roland-Garros. Je m'inscris pour ramasser les balles. » : même début que la vanne (« J'ai regardé le prix… pour [événement] »), même terrain (un billet trop cher), même solution (y entrer en y travaillant). Ça rejoue la vanne |
+| 6 | Valeur d'abord | = | = |
+| 7 | Appels à l'action | = (étape 1 Répartie décrite fidèlement : « répliques… en direct ») | = (étape 1 Machine à Café fidèle : cinq vannes, 15 min) |
+| 8 | Humour hors vanne | = (pas de trait, acceptable) | = « on ouvre la billetterie d'un festival, puis on referme l'onglet » |
+| 9 | Longueur | = | = |
+| 10 | Règles absolues | = | = |
+| 11 | Tics | = (« répliques » texte puis libellé ; « celle-ci » peut viser la vanne ou l'exemple ; mineur) | < « vanne » quatre fois dans le bloc du lien (« Une vanne de cette taille… cinq vannes… des vannes courtes »), en sortant d'un exercice déjà centré sur la vanne |
+
+### Questions décisives
+
+- **A, objet** : « J'ai regardé les prix des pass 3 jours » : **je l'ouvrirais**, la phrase est en suspens et je veux la fin. **Lu en entier : je reste inscrit**, décidé par « Je commence la musculation. »
+- **B, objet** : « Combien coûte un festival ? » : **je ne l'ouvrirais pas**, j'y vois un comparatif de prix ou une promo dans une boîte pleine. **Si je l'ouvre et le lis : je reste inscrit**, grâce à « on ouvre la billetterie d'un festival, puis on referme l'onglet », mais l'exemple Roland-Garros sent le réchauffé.
+
+### Verdicts
+
+- **Version A** : **=** ; 7,5/10 ; ouvrirais : oui ; me désinscrirais : non.
+- **Version B** : **<** ; 5,5/10 ; ouvrirais : non ; me désinscrirais : non.
+- **Je choisis A.** Le meilleur exemple du duel et un objet qui accroche. B a la meilleure accroche, mais son objet ne sera pas ouvert et son exemple rejoue la vanne.
+
+### Les 3 phrases les plus faibles
+
+**A**
+1. « Dès que les jours rallongent, quelqu'un regarde le prix d'un festival d'été et pousse un soupir. » → « En avril, les billetteries des festivals d'été ouvrent. Les soupirs aussi. »
+2. « Une vanne comme celle-ci se prépare tranquillement chez soi. Pour les répliques qu'il faut trouver en direct, le parcours Répartie commence par une étape qu'on lit sans compte. » → « Ce genre de vanne se prépare chez soi. Pour répondre en direct à une pique, l'étape 1 du parcours Répartie se lit sans compte. »
+3. « Si l'étape te plaît, la suite de ce parcours et celle des quatre autres sont dans Premium, sans engagement. » → « Si elle te plaît, la suite de Répartie (20 minutes par semaine) et les quatre autres parcours sont dans Premium, sans engagement. »
+
+**B**
+1. Exemple Roland-Garros → « Le garagiste m'a donné son devis. Je m'inscris en CAP mécanique. »
+2. Objet « Combien coûte un festival ? » → « J'ai regardé le prix d'un pass festival ».
+3. « Une vanne de cette taille se glisse à la pause café. Pour en avoir d'autres sous la main, l'étape 1 du parcours Machine à Café donne cinq vannes pour commencer et se lit sans compte. » → « Ce format court se glisse à la pause café. L'étape 1 du parcours Machine à Café en donne cinq autres, en lecture libre. » ; libellé : « Lire l'étape 1 de Machine à Café ».
+
+### Fautes objectives
+- A : aucune bloquante.
+- B : objet qui promet une info absente ; exemple qui rejoue la vanne ; répétition « vanne » ×4.
+
+---
+
+## Tableau de synthèse final
+
+| N° | Version choisie | A : = ou < (note) | B : = ou < (note) | Les deux sous la barre ? |
+|---|---|---|---|---|
+| 2 | A (après correction de la « sixième » et du décryptage) | < (6,5) | < (6) | **Oui** (décryptage commun inexact, plus une faute propre à chaque version) |
+| 3 | A | = (7,5) | < (6) | Non |
+| 4 | A | = (8) | < (6,5) | Non |
+| 5 | B (après correction de « ni ne vexe ») ; à défaut A, seule envoyable telle quelle | = (7) | < (7,5) | Non |
+| 6 | A | = (7,5) | < (5,5) | Non |
+
+**Règle d'or** : le n°2 ne part dans aucune des deux versions telle quelle. Le n°5 B ne part qu'une fois corrigée. Toute version corrigée repasse une relecture à l'aveugle.
