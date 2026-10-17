@@ -207,6 +207,15 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(compte(document.body.textContent ?? "")).toBe(1);
       expect(document.body.textContent).not.toContain("Sans engagement, annulable");
       expect(screen.getByText("2,99 €")).toBeInTheDocument();
+      // Correctif s21 (QA 375 px) : la pastille est rattachée à « Annuel » (même colonne,
+      // annoncée avec l'option), jamais à « Mensuel », quelle que soit la largeur.
+      const pastille = screen.getByTestId("annuel-mois-offerts");
+      const radioAnnuel = screen.getByRole("radio", { name: "Annuel" });
+      const radioMensuel = screen.getByRole("radio", { name: "Mensuel" });
+      expect(pastille.parentElement).toContainElement(radioAnnuel);
+      expect(pastille.parentElement).not.toContainElement(radioMensuel);
+      expect(radioAnnuel).toHaveAttribute("aria-describedby", pastille.id);
+      expect(radioMensuel).not.toHaveAttribute("aria-describedby");
       // Annuel choisi : la ligne sous le prix le dit, la pastille s'efface (jamais deux fois).
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
       expect(screen.queryByTestId("annuel-mois-offerts")).not.toBeInTheDocument();
