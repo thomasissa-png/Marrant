@@ -1,0 +1,22 @@
+# @legal L5 : en-têtes servis par le build de production local (commit de travail sur 46d455f, 2026-10-17T22:46:24Z)
+# Serveur : node .next/standalone/server.js, port 5300, environnement vide (aucune clé Stripe, Anthropic ni Umami)
+
+$ curl -sI http://localhost:5300/lettre
+HTTP/1.1 200 OK
+Referrer-Policy: same-origin
+
+$ curl -sI http://localhost:5300/lettre?statut=confirmee
+HTTP/1.1 200 OK
+Referrer-Policy: same-origin
+
+$ curl -sI http://localhost:5300/lettre/confirmer?token=jetonDePreuveCurl_xxxxxxxxxxxxxxxxxx
+HTTP/1.1 200 OK
+Referrer-Policy: same-origin
+
+$ curl -sI http://localhost:5300/lettre/desinscrire?token=jetonDePreuveCurl_xxxxxxxxxxxxxxxxxx
+HTTP/1.1 200 OK
+Referrer-Policy: same-origin
+
+$ curl -sI http://localhost:5300/conseils
+HTTP/1.1 200 OK
+Referrer-Policy: strict-origin-when-cross-origin
