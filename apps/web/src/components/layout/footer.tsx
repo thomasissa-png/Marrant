@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
-import { LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 
 const footerLinks = {
@@ -61,7 +61,7 @@ const socialLinks = [
 
 /** s21 : lien « La lettre du mois » après « Quiz humour » (spec lettre §1.4), interrupteur ouvert seulement. */
 function liensProduit() {
-  if (!LETTRE_OUVERTE) return footerLinks.produit;
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) return footerLinks.produit;
   const i = footerLinks.produit.findIndex((l) => l.href === "/quiz-humour") + 1;
   return [...footerLinks.produit.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...footerLinks.produit.slice(i)];
 }

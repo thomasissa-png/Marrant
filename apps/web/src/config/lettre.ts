@@ -1,18 +1,31 @@
 /**
  * Lettre mensuelle gratuite (s21, spec UX `docs/ux/lettre-inscription-s21.md`).
  *
- * Interrupteur `LETTRE_OUVERTE` (motif `BOULOT_PUBLIE`) :
- *  - `false` (défaut) : rien n'est visible ni envoyé. Composant d'inscription
- *    absent des 3 emplacements, lien de pied de page absent, `/lettre` en 404
- *    (sauf la désinscription, toujours possible), `POST /api/newsletter` en 410,
- *    confirmation en 404, tâche d'envoi mensuelle inactive.
- *  - `true` : ouverture, sur feu vert de Thomas seulement, après les prérequis
- *    du §7.1 (premier numéro validé à l'aveugle, tâche d'envoi testée, jour
- *    d'envoi fixé). Voir REPLIT_ACTIONS.md (entrée s21 Lettre mensuelle).
+ * Deux interrupteurs indépendants (intégration s21, 17/10 : l'ancien
+ * `LETTRE_OUVERTE` commandait à la fois le formulaire et les envois ; décision
+ * de Thomas : inscriptions ouvertes dès la mise en ligne, avant le n°1).
+ *
+ * `LETTRE_INSCRIPTIONS_OUVERTES` (ce qui se voit) :
+ *  - `false` : composant d'inscription absent des 3 emplacements, lien de pied
+ *    de page absent, `/lettre` et `/lettre/confirmer` en 404 (sauf la
+ *    désinscription, toujours possible), `POST /api/newsletter` en 410,
+ *    confirmation en 404, aucun e-mail de reconfirmation.
+ *  - `true` : formulaire, page `/lettre`, double opt-in et reconfirmation actifs.
+ *
+ * `LETTRE_ENVOIS_OUVERTS` (ce qui part) : la tâche mensuelle n'envoie un numéro
+ * que si cet interrupteur est ouvert ET que sa date d'envoi est passée (premier
+ * jeudi du mois à 8 h, Paris, jamais avant la date plancher) ET qu'aucun
+ * marqueur `[À COMPLÉTER` n'y reste. Les dates restent donc le vrai verrou ;
+ * l'interrupteur sert d'arrêt d'urgence (le passer à `false` stoppe tout envoi
+ * sans fermer les inscriptions).
+ *
+ * La désinscription et l'entretien de la liste (purge des non confirmés à 7 j,
+ * traces à 3 ans) fonctionnent quel que soit l'état des interrupteurs.
  *
  * Module sans dépendance : importable côté client.
  */
-export const LETTRE_OUVERTE = false;
+export const LETTRE_INSCRIPTIONS_OUVERTES = true;
+export const LETTRE_ENVOIS_OUVERTS = true;
 
 /**
  * Marqueur de trou à combler : tant qu'il figure dans un numéro tel qu'il
@@ -48,8 +61,8 @@ export const LETTRE_CONSENT_VERSION = "lettre-mensuelle-v2";
 
 /**
  * Lien « Confidentialité » sous le bouton : section lettre de la page
- * Confidentialité (réserve @legal R2). La section et son `id` sont publiés le
- * jour de l'ouverture ; d'ici là le lien mène en haut de la page.
+ * Confidentialité (réserve @legal R2). Section « 8. La lettre » publiée avec les
+ * inscriptions (intégration s21, B7), test `dashboard/lettre-mentions-s21`.
  */
 export const LETTRE_CONFIDENTIALITE_ANCRE = "lettre";
 export const LETTRE_CONFIDENTIALITE_HREF = `/confidentialite#${LETTRE_CONFIDENTIALITE_ANCRE}`;

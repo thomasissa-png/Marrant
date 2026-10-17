@@ -130,7 +130,7 @@ describe("envoi des numéros", () => {
 
   it("jours d'envoi livrés (Thomas, 17/10) : premier jeudi du mois à 8 h (Paris) ; n°1 le premier jeudi après sa date plancher", () => {
     expect(numeros.map((n) => n.envoiPrevu)).toEqual([
-      "2026-11-19T08:00:00+01:00",
+      "2026-11-05T08:00:00+01:00",
       "2026-12-03T08:00:00+01:00",
       "2027-01-07T08:00:00+01:00",
       "2027-02-04T08:00:00+01:00",

@@ -7,7 +7,7 @@
  * Versions VALIDÉES à l'aveugle (s21, 17/10), mot pour mot : packs
  * `docs/copy/lettre-mensuelle-s21/pack-relecture-textes-lettre*.md` (tour 1 et
  * tour 2) ; « Bloc N » = numéro du duel. Toute modification repasse la relecture
- * à l'aveugle (règle d'or s18). Tant que `LETTRE_OUVERTE` est fermé, aucun de
+ * à l'aveugle (règle d'or s18). Tant que `LETTRE_INSCRIPTIONS_OUVERTES` est fermé, aucun de
  * ces textes n'est visible ni envoyé.
  * Vocabulaire : « la lettre », « recevoir », « te désinscrire » ; jamais
  * « newsletter » ni « abonnement » à l'écran (réservés à Premium).

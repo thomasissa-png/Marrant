@@ -2,13 +2,13 @@
  * Entretien quotidien de la liste de la lettre (s21, @legal L4). Durées dans `config/lettre.ts`.
  *
  *  1. Inscrits jamais confirmés : effacés après 7 jours.
- *  2. Reconfirmation à 24 mois (interrupteur ouvert seulement : c'est un e-mail) :
+ *  2. Reconfirmation à 24 mois (inscriptions ouvertes seulement : son bouton mène à la confirmation) :
  *     nouveau jeton, e-mail avec bouton ; sans clic sous 30 jours, désinscription.
  *  3. Trace de désinscription (adresse, dates, version du consentement) effacée après 3 ans.
  */
 import { prisma } from "@/lib/prisma";
 import {
-  LETTRE_OUVERTE,
+  LETTRE_INSCRIPTIONS_OUVERTES,
   LETTRE_PENDING_JOURS,
   LETTRE_RECONFIRMATION_DELAI_JOURS,
   LETTRE_RECONFIRMATION_MOIS,
@@ -61,7 +61,7 @@ export async function entretenirLettre(
     })
   ).count;
 
-  if (!LETTRE_OUVERTE) return r;
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) return r;
 
   const aReconfirmer = await prisma.newsletterSubscriber.findMany({
     where: { status: "CONFIRMED", reconfirmRequestedAt: null, confirmedAt: { lt: moisAvant(now, LETTRE_RECONFIRMATION_MOIS) } },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { LETTRE_CONFIDENTIALITE_ANCRE } from "@/config/lettre";
 
 export const metadata: Metadata = {
   title: "Politique de confidentialité",
@@ -20,7 +21,8 @@ const PRESTATAIRES: { nom: string; role: string }[] = [
   { nom: "Cloudflare", role: "hébergement et diffusion du site" },
   { nom: "Neon", role: "base de données (compte, progression, abonnement)" },
   { nom: "Stripe", role: "prestataire de paiement : paiement et gestion de l'abonnement (tes données bancaires restent chez Stripe)" },
-  { nom: "Resend", role: "envoi des e-mails liés à ton compte et à ton abonnement" },
+  // s21 (@legal B7, partie 4) : la lettre passe aussi par Resend.
+  { nom: "Resend", role: "envoi des e-mails liés à ton compte et à ton abonnement, et des lettres" },
   { nom: "Umami Cloud", role: "mesure d'audience, sans cookie" },
   { nom: "Google", role: "connexion avec ton compte Google, si tu la choisis, et lecture des vidéos YouTube" },
 ];
@@ -32,7 +34,7 @@ export default function ConfidentialitePage() {
   return (
     <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Politique <span className="whitespace-nowrap">de confidentialité</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 7 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 17 octobre 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className={SECTION_TITLE}>1. Responsable du traitement</h2>
@@ -119,6 +121,22 @@ export default function ConfidentialitePage() {
           </p>
           {/* P8, legal s17 §4 */}
           <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l&apos;arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-mail : ce que tu as reçu avant reste valable.</p>
+        </section>
+        {/* s21, bloquant @legal B7 : section lettre, mot pour mot (docs/legal/lettre-et-questions-s21.md,
+            parties 1, 2, 3 et 6 ; seules les phrases sur la lettre mensuelle). Ancre visée par le lien
+            « Confidentialité » du formulaire (LETTRE_CONFIDENTIALITE_HREF). Les phrases sur « Ta question
+            à l'équipe » et la lettre hebdomadaire Premium attendent l'ouverture de ces services. */}
+        <section id={LETTRE_CONFIDENTIALITE_ANCRE} className="scroll-mt-24">
+          <h2 className={SECTION_TITLE}>8. La lettre</h2>
+          <p>La lettre et le site s&apos;adressent aux personnes de 15 ans et plus.</p>
+          <ul className={LIST}>
+            <li>Lettre par e-mail, si tu t&apos;y inscris : ton adresse e-mail, la page où tu t&apos;es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n&apos;est créé.</li>
+          </ul>
+          <ul className={LIST}>
+            <li>T&apos;envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-mail), que tu peux retirer en un clic</li>
+            <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
+          </ul>
+          <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l&apos;empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c&apos;est la preuve de ton choix et la liste qui nous empêche de t&apos;écrire de nouveau.</p>
         </section>
       </div>
     </div>

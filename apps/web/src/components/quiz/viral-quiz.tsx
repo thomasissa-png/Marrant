@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
-import { LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
@@ -166,7 +166,7 @@ export function ViralQuiz() {
 
   // s21 : lettre mensuelle SOUS la carte du résultat, hors carte (spec lettre §1.3).
   const lettre = (profile: HumorProfileResult) =>
-    LETTRE_OUVERTE ? <LettreInscription emplacement="quiz" profil={profile.type} className="mx-auto mt-6 max-w-lg" /> : null;
+    LETTRE_INSCRIPTIONS_OUVERTES ? <LettreInscription emplacement="quiz" profil={profile.type} className="mx-auto mt-6 max-w-lg" /> : null;
 
   if (showRetake && result) {
     return (

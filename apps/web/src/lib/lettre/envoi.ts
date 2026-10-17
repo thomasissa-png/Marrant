@@ -1,7 +1,7 @@
 /**
  * Envoi de la lettre mensuelle (s21, spec §7.2 point 4 ; @legal L3, L4, L6).
  *
- *  - Rien ne part si `LETTRE_OUVERTE` est fermé.
+ *  - Rien ne part si `LETTRE_ENVOIS_OUVERTS` est fermé.
  *  - Jour d'envoi : premier jeudi du mois à 8 h, heure de Paris, jamais avant la
  *    date plancher (`dateEnvoiLettre`, imposée à `envoiPrevu` par le schéma).
  *  - Rien ne part si un marqueur `[À COMPLÉTER` figure dans le numéro rendu
@@ -20,7 +20,7 @@
  *    lien de désinscription et pied légal dans le corps.
  */
 import { prisma } from "@/lib/prisma";
-import { LETTRE_ESSAIS_MAX, LETTRE_LOT_PAR_PASSAGE, LETTRE_OUVERTE, MARQUEUR_A_COMPLETER } from "@/config/lettre";
+import { LETTRE_ESSAIS_MAX, LETTRE_LOT_PAR_PASSAGE, LETTRE_ENVOIS_OUVERTS, MARQUEUR_A_COMPLETER } from "@/config/lettre";
 import { EMAILS_LETTRE } from "@/config/textes/lettre-s21";
 import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
@@ -132,7 +132,7 @@ export async function envoyerLettreDuMois(
   deps: { envoyer: EnvoyerEmail; baseUrl: string },
 ): Promise<EnvoiResultat> {
   const r: EnvoiResultat = {
-    ferme: !LETTRE_OUVERTE,
+    ferme: !LETTRE_ENVOIS_OUVERTS,
     bloque: false,
     numero: null,
     candidats: 0,
@@ -143,7 +143,7 @@ export async function envoyerLettreDuMois(
     dejaTraites: 0,
     termine: false,
   };
-  if (!LETTRE_OUVERTE) return r;
+  if (!LETTRE_ENVOIS_OUVERTS) return r;
   // Jamais avant le premier jeudi du mois à 8 h (Paris), même si la base dit plus tôt.
   const echeance = dateEnvoiLettre(periodeMensuelle(now));
   if (!echeance || now.getTime() < echeance.getTime()) return r;

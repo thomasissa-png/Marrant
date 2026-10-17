@@ -1,15 +1,20 @@
 /**
  * @jest-environment node
  *
- * Lettre s21 : textes (zéro tiret cadratin, vocabulaire protégé), interrupteur fermé
- * par défaut, numéros préparés (format, jamais un numéro envoyé modifié) et entretien
+ * Lettre s21 : textes (zéro tiret cadratin, vocabulaire protégé), interrupteurs
+ * (inscriptions et envois, livrés ouverts), numéros préparés (format, jamais un numéro envoyé modifié) et entretien
  * de la liste (@legal L4 : 7 jours, 24 mois, 3 ans).
  */
 let mockOuvert = false;
+// Envois : null = suit `mockOuvert` (les deux interrupteurs ensemble), sinon valeur propre.
+let mockEnvoisOuverts: boolean | null = null;
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
-  get LETTRE_OUVERTE() {
+  get LETTRE_INSCRIPTIONS_OUVERTES() {
     return mockOuvert;
+  },
+  get LETTRE_ENVOIS_OUVERTS() {
+    return mockEnvoisOuverts ?? mockOuvert;
   },
 }));
 
@@ -78,13 +83,16 @@ describe("Textes de la lettre", () => {
 });
 
 describe("Interrupteur", () => {
-  it("LETTRE_OUVERTE est fermé dans le code livré", () => {
-    expect(jest.requireActual("@/config/lettre").LETTRE_OUVERTE).toBe(false);
+  it("intégration s21 (décision de Thomas) : inscriptions et envois ouverts dans le code livré, ancien interrupteur unique retiré", () => {
+    const reel = jest.requireActual("@/config/lettre");
+    expect(reel.LETTRE_INSCRIPTIONS_OUVERTES).toBe(true);
+    expect(reel.LETTRE_ENVOIS_OUVERTS).toBe(true);
+    expect("LETTRE_OUVERTE" in reel).toBe(false);
   });
 
-  it("jours d'envoi livrés : jamais avant le jeudi 19/11/2026 à 8 h (Paris), premier jeudi après la date plancher du n°1", () => {
+  it("jours d'envoi livrés : jamais avant le jeudi 05/11/2026 à 8 h (Paris), n°1 (intégration s21, date plancher 02/11)", () => {
     expect(numerosJson.length).toBeGreaterThan(0);
-    for (const n of numerosJson) if (n.envoiPrevu) expect(new Date(n.envoiPrevu).getTime()).toBeGreaterThanOrEqual(Date.parse("2026-11-19T08:00:00+01:00"));
+    for (const n of numerosJson) if (n.envoiPrevu) expect(new Date(n.envoiPrevu).getTime()).toBeGreaterThanOrEqual(Date.parse("2026-11-05T08:00:00+01:00"));
   });
 });
 
@@ -155,6 +163,7 @@ describe("entretenirLettre", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockOuvert = false;
+    mockEnvoisOuverts = null;
     sub.deleteMany.mockResolvedValue({ count: 0 });
     sub.updateMany.mockResolvedValue({ count: 0 });
     sub.findMany.mockResolvedValue([]);
@@ -175,6 +184,15 @@ describe("entretenirLettre", () => {
     const { where, data } = sub.updateMany.mock.calls[0][0];
     expect(where.reconfirmRequestedAt.lt.toISOString()).toBe("2026-10-06T03:00:00.000Z");
     expect(data).toMatchObject({ status: "UNSUBSCRIBED", ipAddress: null });
+  });
+
+  it("inscriptions fermées, envois ouverts : purge à 7 jours faite quand même, aucune reconfirmation", async () => {
+    mockEnvoisOuverts = true;
+    const envoyer = jest.fn();
+    await entretenirLettre(NOW, { envoyer, baseUrl: "https://deviens-marrant.fr" });
+    expect(sub.deleteMany.mock.calls[0][0].where.status).toBe("PENDING");
+    expect(sub.findMany).not.toHaveBeenCalled();
+    expect(envoyer).not.toHaveBeenCalled();
   });
 
   it("interrupteur fermé : aucune demande de reconfirmation envoyée", async () => {

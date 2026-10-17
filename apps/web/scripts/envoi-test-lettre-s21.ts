@@ -15,7 +15,7 @@
  *    juste avant chaque envoi ; toute autre adresse = arrêt, rien n'est envoyé ;
  *  - aucune lecture ni écriture en base (pas de `sendOrAlert`, qui enregistre une
  *    alerte en base en cas d'échec) ; jetons fictifs, les liens mènent à « lien
- *    invalide » ; interrupteur `LETTRE_OUVERTE` non touché ;
+ *    invalide » ; interrupteurs `LETTRE_INSCRIPTIONS_OUVERTES` et `LETTRE_ENVOIS_OUVERTS` non lus ;
  *  - aucun secret affiché : seule leur présence est vérifiée.
  *
  * Usage (depuis apps/web) :

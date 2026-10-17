@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { LettreStatut } from "@/components/lettre/lettre-statut";
-import { LETTRE_EMPLACEMENTS, LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_EMPLACEMENTS, LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
@@ -35,9 +35,9 @@ type Params = { statut?: string; mesure?: string; emplacement?: string };
 
 export default async function LettrePage({ searchParams }: { searchParams: Params }) {
   const statut = typeof searchParams.statut === "string" ? searchParams.statut : null;
-  if (!LETTRE_OUVERTE && !(statut && (STATUTS_TOUJOURS as readonly string[]).includes(statut))) notFound();
+  if (!LETTRE_INSCRIPTIONS_OUVERTES && !(statut && (STATUTS_TOUJOURS as readonly string[]).includes(statut))) notFound();
 
-  const apercu = LETTRE_OUVERTE ? await lireApercuLettre() : { dernier: null };
+  const apercu = LETTRE_INSCRIPTIONS_OUVERTES ? await lireApercuLettre() : { dernier: null };
   const emplacement = (LETTRE_EMPLACEMENTS as readonly string[]).includes(searchParams.emplacement ?? "")
     ? (searchParams.emplacement as string)
     : null;
@@ -54,7 +54,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
       )}
       {statut === "desinscrit" && (
         <LettreStatut titre={S.desinscrit.titre}>
-          {LETTRE_OUVERTE && (
+          {LETTRE_INSCRIPTIONS_OUVERTES && (
             <Link href="/lettre" className="mt-2 inline-flex min-h-11 items-center text-sm text-accent-link underline">
               {S.desinscrit.lien}
             </Link>
@@ -79,7 +79,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
         <LettreStatut titre={statut === "saisie-email" ? TEXTES_LETTRE.erreurs.email : TEXTES_LETTRE.erreurs.case} />
       )}
 
-      {LETTRE_OUVERTE && statut !== "desinscrit" && (
+      {LETTRE_INSCRIPTIONS_OUVERTES && statut !== "desinscrit" && (
         <>
           <header>
             <h1 id="lettre-titre-page" className="font-display text-3xl font-bold text-text-primary">

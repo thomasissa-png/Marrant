@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
-import { LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
@@ -53,7 +53,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         text={finCopy?.texte ?? ctaCopy?.text}
         note={finCopy?.note ?? ctaCopy?.note}
       />
-      {LETTRE_OUVERTE && (
+      {LETTRE_INSCRIPTIONS_OUVERTES && (
         <LettreInscription emplacement="article" slug={article.slug} className="mt-4 border-t border-border pt-4" />
       )}
     </>

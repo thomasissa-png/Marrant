@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { LettreBoutonAction } from "@/components/lettre/lettre-bouton-action";
-import { LETTRE_OUVERTE } from "@/config/lettre";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { confirmActionPath, isPlausibleToken } from "@/lib/newsletter";
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default function LettreConfirmerPage({ searchParams }: { searchParams: { token?: string } }) {
-  if (!LETTRE_OUVERTE) notFound();
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) notFound();
   const token = typeof searchParams.token === "string" ? searchParams.token.trim() : "";
   if (!isPlausibleToken(token)) redirect("/lettre?statut=invalide");
   const t = TEXTES_LETTRE.page.confirmer;

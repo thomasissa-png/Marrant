@@ -13,7 +13,7 @@ export default function CGUPage() {
   return (
     <div className="max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d&apos;Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 7 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 17 octobre 2026</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
@@ -57,6 +57,8 @@ export default function CGUPage() {
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">8. Limitation de responsabilité</h2>
           <p>L&apos;éditeur ne garantit pas que le service sera disponible de manière ininterrompue. L&apos;éditeur ne pourra être tenu responsable des dommages indirects liés à l&apos;utilisation du service.</p>
+          {/* s21, @legal B7 (docs/legal/lettre-et-questions-s21.md, « Ajout à l'article 8 »), mot pour mot. */}
+          <p className="mt-2">Aucune clause du présent article ne limite la responsabilité de l&apos;éditeur pour les dommages corporels, sa faute lourde ou son dol, ni ne te prive des droits que la loi te garantit.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">9. Droit applicable</h2>
@@ -65,6 +67,14 @@ export default function CGUPage() {
           <p>Les présentes CGU sont soumises au droit français, sans te priver de la protection que t&apos;accordent les règles impératives du pays où tu résides.</p>
           <p className="mt-2">En cas de litige, écris-nous d&apos;abord à contact@deviens-marrant.fr : on cherche une solution amiable avec toi. Tu peux aussi recourir gratuitement à un médiateur de la consommation.</p>
           <p className="mt-2">À défaut d&apos;accord, tu peux saisir, à ton choix, l&apos;une des juridictions territorialement compétentes selon le Code de procédure civile ou la juridiction du lieu où tu demeurais au moment de la conclusion du contrat ou de la survenance du fait dommageable (article R.631-3 du Code de la consommation).</p>
+        </section>
+        {/* s21, @legal B7 : phrase de la lettre mensuelle, mot pour mot (dernière phrase de l'article
+            « Ta question à l'équipe et les lettres »). Placée en article 10 pour ne pas renuméroter les
+            renvois existants (articles 6 et 7). Le reste de l'article (questions, lettre hebdomadaire
+            Premium) attend l'ouverture de ces services : jamais de promesse non tenue. */}
+        <section id="lettre" className="scroll-mt-24">
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">10. La lettre</h2>
+          <p>La lettre mensuelle gratuite est indépendante de l&apos;abonnement : elle se fait sur inscription, confirmée par e-mail.</p>
         </section>
       </div>
     </div>

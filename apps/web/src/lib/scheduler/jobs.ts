@@ -750,15 +750,15 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
 
   /**
    * Job : Lettre mensuelle gratuite (s21). À chaque tick : rien si l'interrupteur
-   * `LETTRE_OUVERTE` est fermé ; sinon envoie le numéro VALIDE du mois dès que sa
+   * `LETTRE_ENVOIS_OUVERTS` est fermé ; sinon envoie le numéro VALIDE du mois dès que sa
    * date prévue est passée, par lots (`LETTRE_LOT_PAR_PASSAGE`), journal réservé
    * avant chaque envoi (jamais deux fois la même adresse). Verrou par mois, relâché
    * à la fin du passage. Aucun LLM, contenu préparé en base uniquement.
    */
   const runLettreMensuelleJob = async (now: Date = new Date()) => {
     try {
-      const { LETTRE_OUVERTE } = await import("@/config/lettre");
-      if (!LETTRE_OUVERTE) return;
+      const { LETTRE_ENVOIS_OUVERTS } = await import("@/config/lettre");
+      if (!LETTRE_ENVOIS_OUVERTS) return;
       const { periodeMensuelle, envoyerLettreDuMois } = await import("@/lib/lettre/envoi");
       const { tryAcquireLock, releaseLock } = await import("@/lib/job-lock");
       const lockKey = `lettre-mensuelle-${periodeMensuelle(now)}`;
@@ -791,16 +791,16 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   /**
    * Job : Entretien de la liste de la lettre (s21, @legal L4), une fois par jour
    * à 4 h heure de Paris : purge des non confirmés (7 j), reconfirmation (24 mois),
-   * effacement des traces de désinscription (3 ans). Interrupteur fermé et liste
+   * effacement des traces de désinscription (3 ans). Inscriptions fermées et liste
    * vide : aucune requête au-delà du comptage.
    */
   const runLettreEntretienJob = async (now: Date = new Date()) => {
     try {
       const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
       if (parisParts(now).hour !== 4) return;
-      const { LETTRE_OUVERTE } = await import("@/config/lettre");
+      const { LETTRE_INSCRIPTIONS_OUVERTES } = await import("@/config/lettre");
       const { prisma } = await import("@/lib/prisma");
-      if (!LETTRE_OUVERTE && (await prisma.newsletterSubscriber.count()) === 0) return;
+      if (!LETTRE_INSCRIPTIONS_OUVERTES && (await prisma.newsletterSubscriber.count()) === 0) return;
       const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
       // Verrou de 2 h non relâché : un seul passage par jour.
       if (!(await tryAcquireLock(buildJobLockKey("lettre-entretien", now), 2 * 3600 * 1000))) return;

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { emplacementDeSource, LETTRE_OUVERTE } from "@/config/lettre";
+import { emplacementDeSource, LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { emailsExclus } from "@/lib/analytics/comptes-test";
 import { confirmerLettre } from "@/lib/lettre/inscription";
 import { isPlausibleToken } from "@/lib/newsletter";
@@ -23,14 +23,14 @@ function vers(request: NextRequest, chemin: string) {
 }
 
 export async function GET(request: NextRequest, { params }: { params: { token: string } }) {
-  if (!LETTRE_OUVERTE) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
   const token = params.token?.trim();
   if (!isPlausibleToken(token)) return vers(request, "/lettre?statut=invalide");
   return vers(request, `/lettre/confirmer?token=${encodeURIComponent(token)}`);
 }
 
 export async function POST(request: NextRequest, { params }: { params: { token: string } }) {
-  if (!LETTRE_OUVERTE) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
   const autreSite = refuserSiAutreSite(request, "newsletter/confirm");
   if (autreSite) return autreSite;
 

@@ -69,7 +69,7 @@ export function jourParis(d: Date): string {
  * Un numéro préparé peut-il partir à `now` ? Toutes les conditions, sans base :
  * statut VALIDE, jour d'envoi fixé et atteint, date plancher atteinte, et aucun
  * marqueur `[À COMPLÉTER` dans l'e-mail tel qu'il partirait (objet, corps, pied).
- * L'interrupteur `LETTRE_OUVERTE` reste vérifié à part, par la tâche d'envoi.
+ * L'interrupteur `LETTRE_ENVOIS_OUVERTS` reste vérifié à part, par la tâche d'envoi.
  */
 export function numeroEnvoyable(n: NumeroLettre, now: Date, baseUrl = "https://deviens-marrant.fr"): boolean {
   if (n.statut !== "VALIDE" || n.envoiPrevu === null) return false;

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { LETTRE_EMPLACEMENTS, LETTRE_OUVERTE, lettreSource } from "@/config/lettre";
+import { LETTRE_EMPLACEMENTS, LETTRE_INSCRIPTIONS_OUVERTES, lettreSource } from "@/config/lettre";
 import { LETTRE_CONTACT } from "@/config/textes/lettre-s21";
 import { sendServiceTextEmail } from "@/lib/email";
 import { inscrireALaLettre } from "@/lib/lettre/inscription";
@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 /**
  * Inscription à la lettre mensuelle gratuite (s21, double opt-in).
  *
- * Interrupteur `LETTRE_OUVERTE` fermé : 410 sans rien lire ni écrire (comme
+ * Interrupteur `LETTRE_INSCRIPTIONS_OUVERTES` fermé : 410 sans rien lire ni écrire (comme
  * depuis le 01/10). Ouvert : validation zod, case obligatoire, champ piège,
  * contrôle d'origine, limite par IP (429 + Retry-After) et par adresse
  * (silencieuse), puis réponse IDENTIQUE quel que soit le statut de l'adresse
@@ -32,7 +32,7 @@ const corpsSchema = z.object({
 const MESSAGE_FERME = "Les inscriptions sont fermées pour le moment.";
 
 export async function POST(request: Request) {
-  if (!LETTRE_OUVERTE) {
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) {
     return NextResponse.json({ error: MESSAGE_FERME, code: "ferme" }, { status: 410 });
   }
 

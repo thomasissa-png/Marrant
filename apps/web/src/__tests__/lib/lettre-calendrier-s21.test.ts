@@ -91,4 +91,38 @@ describe("numeroSchema impose la règle à envoiPrevu", () => {
     expect(numeroSchema.safeParse(numero("2026-11", "2026-11-05T08:00:00+01:00", "2026-11-16")).success).toBe(false);
     expect(numeroSchema.safeParse(numero("2026-11", "2026-11-19T08:00:00+01:00", "2026-11-16")).success).toBe(true);
   });
+
+  it("n°1 (intégration s21) : plancher lundi 02/11/2026, départ jeudi 05/11/2026 à 8 h accepté", () => {
+    expect(iso(dateEnvoiLettre("2026-11", "2026-11-02"))).toBe("2026-11-05T07:00:00.000Z");
+    expect(numeroSchema.safeParse(numero("2026-11", "2026-11-05T08:00:00+01:00", "2026-11-02")).success).toBe(true);
+  });
+});
+
+describe("Numéros livrés (intégration s21, décision de Thomas du 17/10)", () => {
+  // L'article cité par le n°1 (« soiree-de-noel-entreprise-humour ») est avancé au lundi
+  // 02/11/2026 à la mise en ligne (échange de dates avec « humour-en-visio-reunion-en-ligne »).
+  const numerosJson = jest.requireActual("@/data/lettre/numeros.json") as Array<{
+    numero: number;
+    periode: string;
+    datePlancher: string | null;
+    envoiPrevu: string | null;
+  }>;
+
+  it("n°1 : plancher 02/11 et envoi jeudi 05/11/2026 8 h (Paris) ; n°2 à 6 inchangés", () => {
+    const parNumero = Object.fromEntries(numerosJson.map((n) => [n.numero, [n.periode, n.datePlancher, n.envoiPrevu]]));
+    expect(parNumero).toEqual({
+      1: ["2026-11", "2026-11-02", "2026-11-05T08:00:00+01:00"],
+      2: ["2026-12", "2026-11-23", "2026-12-03T08:00:00+01:00"],
+      3: ["2027-01", null, "2027-01-07T08:00:00+01:00"],
+      4: ["2027-02", "2026-11-05", "2027-02-04T08:00:00+01:00"],
+      5: ["2027-03", "2027-02-25", "2027-03-04T08:00:00+01:00"],
+      6: ["2027-04", null, "2027-04-01T08:00:00+02:00"],
+    });
+  });
+
+  it("chaque envoiPrevu livré = la règle (premier jeudi 8 h, jamais avant la date plancher)", () => {
+    for (const n of numerosJson) {
+      expect(new Date(n.envoiPrevu as string).getTime()).toBe(dateEnvoiLettre(n.periode, n.datePlancher)?.getTime());
+    }
+  });
 });

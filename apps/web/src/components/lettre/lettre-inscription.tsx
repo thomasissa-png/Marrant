@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_OUVERTE, type LettreEmplacement } from "@/config/lettre";
+import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_INSCRIPTIONS_OUVERTES, type LettreEmplacement } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
@@ -51,7 +51,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
   const [consent, setConsent] = useState(false);
   const [hauteur, setHauteur] = useState<number | undefined>(undefined);
 
-  useLettreVu(sectionRef, LETTRE_OUVERTE && !isPremium, mesure);
+  useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium, mesure);
 
   // E-mail du compte pré-rempli (modifiable) tant que la personne n'a rien tapé.
   useEffect(() => {
@@ -63,7 +63,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
     if (erreur === "case") caseRef.current?.focus();
   }, [erreur]);
 
-  if (!LETTRE_OUVERTE || isPremium) return null;
+  if (!LETTRE_INSCRIPTIONS_OUVERTES || isPremium) return null;
 
   const id = `lettre-${emplacement}`;
   const occupe = etat === "envoi";

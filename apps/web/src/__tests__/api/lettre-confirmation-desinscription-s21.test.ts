@@ -8,7 +8,10 @@
 let mockOuvert = true;
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
-  get LETTRE_OUVERTE() {
+  get LETTRE_INSCRIPTIONS_OUVERTES() {
+    return mockOuvert;
+  },
+  get LETTRE_ENVOIS_OUVERTS() {
     return mockOuvert;
   },
 }));

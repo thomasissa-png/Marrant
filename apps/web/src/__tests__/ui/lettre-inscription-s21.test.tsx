@@ -10,7 +10,10 @@ import { act, fireEvent, render, screen, waitFor } from "@testing-library/react"
 let mockOuvert = false;
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
-  get LETTRE_OUVERTE() {
+  get LETTRE_INSCRIPTIONS_OUVERTES() {
+    return mockOuvert;
+  },
+  get LETTRE_ENVOIS_OUVERTS() {
     return mockOuvert;
   },
 }));
@@ -89,7 +92,7 @@ function poserResultatQuiz() {
   window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "OBSERVATEUR", completedAt: new Date().toISOString() }));
 }
 
-describe("Interrupteur LETTRE_OUVERTE fermé (défaut) : rien n'est rendu", () => {
+describe("Inscriptions fermées (LETTRE_INSCRIPTIONS_OUVERTES = false) : rien n'est rendu", () => {
   it("le composant ne rend rien", () => {
     const { container } = render(<LettreInscription emplacement="article" slug={SLUG} />);
     expect(container).toBeEmptyDOMElement();
