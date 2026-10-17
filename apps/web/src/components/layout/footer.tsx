@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import { LETTRE_OUVERTE } from "@/config/lettre";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 
 const footerLinks = {
   produit: [
@@ -57,6 +59,13 @@ const socialLinks = [
   },
 ];
 
+/** s21 : lien « La lettre du mois » après « Quiz humour » (spec lettre §1.4), interrupteur ouvert seulement. */
+function liensProduit() {
+  if (!LETTRE_OUVERTE) return footerLinks.produit;
+  const i = footerLinks.produit.findIndex((l) => l.href === "/quiz-humour") + 1;
+  return [...footerLinks.produit.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...footerLinks.produit.slice(i)];
+}
+
 export function Footer() {
   return (
     <footer className="border-t border-border bg-background-light">
@@ -101,7 +110,7 @@ export function Footer() {
               Produit
             </h3>
             <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-              {footerLinks.produit.map((link) => (
+              {liensProduit().map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

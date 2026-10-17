@@ -128,6 +128,11 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
         "parcours-ouvert",
         "parcours-termine",
         "quiz-termine",
+        // s21 : lettre mensuelle (spec lettre §4 règle 1) : vu, soumis, échec, confirmé.
+        "lettre-vu",
+        "lettre-envoi",
+        "lettre-echec",
+        "lettre-confirmee",
       ].sort(),
     );
   });

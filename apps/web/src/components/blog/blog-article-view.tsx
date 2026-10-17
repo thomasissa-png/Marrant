@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArticleCta } from "@/components/blog/article-cta";
+import { LettreInscription } from "@/components/lettre/lettre-inscription";
+import { LETTRE_OUVERTE } from "@/config/lettre";
 import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
@@ -40,14 +42,21 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   const parcours = resolveArticleParcours(article.slug, article.category);
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
+  // s21 : lettre mensuelle juste APRÈS le bloc de fin, où qu'il soit (spec lettre §1.2),
+  // ligne sans carte, sans attribut data-blog-cta* (mesure du lot 1 isolée).
   const blocFin = (
-    <ArticleCta
-      parcours={parcours}
-      src={`blog-${article.slug}`}
-      title={finCopy?.titre ?? ctaCopy?.title}
-      text={finCopy?.texte ?? ctaCopy?.text}
-      note={finCopy?.note ?? ctaCopy?.note}
-    />
+    <>
+      <ArticleCta
+        parcours={parcours}
+        src={`blog-${article.slug}`}
+        title={finCopy?.titre ?? ctaCopy?.title}
+        text={finCopy?.texte ?? ctaCopy?.text}
+        note={finCopy?.note ?? ctaCopy?.note}
+      />
+      {LETTRE_OUVERTE && (
+        <LettreInscription emplacement="article" slug={article.slug} className="mt-4 border-t border-border pt-4" />
+      )}
+    </>
   );
   const blocFinAvantFaq = BLOC_FIN_AVANT_FAQ.has(article.slug);
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
