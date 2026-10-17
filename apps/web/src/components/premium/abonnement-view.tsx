@@ -147,11 +147,10 @@ export function AbonnementView({
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
   const pageBadge = "Plus qu'une étape";
-  // H1 visiteur gardé tant que Thomas n'a pas tranché (lot 2 s21, §7 point 2).
+  // Lot 2 s21 (haut de /abonnement validé à l'aveugle, tour 3) : surtitre, H1 et sous-titre visiteur.
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
-    : "Accéder aux parcours complets";
-  // Lot 2 s21 (haut de /abonnement validé à l'aveugle, tour 3) : surtitre et sous-titre visiteur.
+    : ABONNEMENT_HAUT_VISITEUR.titre;
   const pageSubtitle = isAuthenticated
     ? `Ton compte est prêt. Encore un clic et les ${PARCOURS_COUNT} parcours sont à toi en entier, de la première à la dernière étape.`
     : ABONNEMENT_HAUT_VISITEUR.sousTitre;

@@ -45,9 +45,12 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    // H1 de l'étalon 1.2 gardé (lot 2 s21 : à trancher par Thomas) ; surtitre et
-    // sous-titre du haut de page validés à l'aveugle (lot 2 s21, tour 3).
-    expect(screen.getByRole("heading", { level: 1, name: "Accéder aux parcours complets" })).toBeInTheDocument();
+    // Surtitre, H1 et sous-titre validés ensemble à l'aveugle (lot 2 s21, tour 3) ;
+    // décision Thomas 17/10 : le H1 validé remplace « Accéder aux parcours complets ».
+    expect(
+      screen.getByRole("heading", { level: 1, name: "Ta réplique pendant la soirée, pas dans le bus du retour" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Accéder aux parcours complets" })).not.toBeInTheDocument();
     expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(
       "C'est pour toi si tu restes muet quand on te chambre.",
     );
@@ -59,6 +62,38 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
     // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
+  });
+
+  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre (§5.3, tour 3, 3/3 au niveau)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable carnetExtrait={null} />);
+    const texte = (document.body.textContent ?? "").replace(/\s+/g, " ");
+    const lignes = [
+      "C'est pour toi si tu restes muet quand on te chambre.",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      "Premium",
+      "Mensuel",
+      "Annuel",
+      "plus de 3 mois offerts",
+      // « 2,99 € » et « TTC / mois » : deux spans séparés par l'espacement flex (gap), sans espace dans le texte.
+      "2,99 €",
+      "TTC / mois",
+      "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
+      "Commencer à 2,99 €/mois",
+      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
+      "Droit de rétractation · Paiement sécurisé par Stripe",
+    ];
+    let depuis = 0;
+    for (const ligne of lignes) {
+      const position = texte.indexOf(ligne, depuis);
+      expect({ ligne, trouvee: position >= 0 }).toEqual({ ligne, trouvee: true });
+      depuis = position + ligne.length;
+    }
+    // « plus de 3 mois offerts » une seule fois, plus de « Sans engagement » dans la carte.
+    expect(texte.split("plus de 3 mois offerts")).toHaveLength(2);
+    expect(texte).not.toContain("Sans engagement, annulable");
+    expect(texte).not.toContain("Accéder aux parcours complets");
   });
 
   it("lot 2 s21 : l'extrait du carnet s'insère après la carte, avant « Pas encore sûr ? »", () => {

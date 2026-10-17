@@ -117,10 +117,13 @@ function dureeParcoursLabel(): string {
 
 // VALIDÉ à l'aveugle s21 (lot 2, haut de /abonnement, tour 3 : 3/3 au niveau)
 /**
- * Haut de /abonnement pour un visiteur. Le H1 reste « Accéder aux parcours
- * complets » tant que Thomas n'a pas tranché (§7 point 2 du lot 2).
+ * Haut de /abonnement pour un visiteur : surtitre, H1 et sous-titre tels que
+ * relus ensemble à l'aveugle (docs/copy/lot2-boutons-abonnement-s21.md §5.3),
+ * mot pour mot. Décision Thomas 17/10 : le H1 validé remplace « Accéder aux
+ * parcours complets » (jamais relu avec ce surtitre et ce sous-titre).
  */
 export const ABONNEMENT_HAUT_VISITEUR = {
+  titre: "Ta réplique pendant la soirée, pas dans le bus du retour",
   surtitre: "C'est pour toi si tu restes muet quand on te chambre.",
   sousTitre: `${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine, ${dureeParcoursLabel()}. La première étape de chacun reste en lecture libre.`,
 } as const;
