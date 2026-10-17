@@ -258,3 +258,98 @@ Les points 1 à 4 suffisent pour GO à 9,5. Les points 5 à 7 font le 10/10. Auc
 - Je n'avais ni shell ni accès à la CI : le `git diff --stat` n'a pas été lancé, la CI de `46d455fb` n'est pas vérifiée, et les tests n'ont pas été rejoués. Le commit a été établi par les reflogs locaux, la branche locale et `origin` étant tous deux sur `46d455fb`.
 - Les captures du tour 2 viennent de @fullstack, pas de @qa.
 - Je n'ai pas vérifié l'état de la base de production : existence et date de l'article, inscrits, réglage Resend.
+
+---
+
+# Tour 3 (verdict final) : 17/10/2026
+
+Revue de la branche `claude/marrant-s21-integration` au commit `878eaee` (branche locale et `origin` sur ce commit d'après les refs ; dernier commit de code `5db36c6`, `878eaee` ne touche que `REPLIT_ACTIONS.md`). Copie de travail `.claude/worktrees/agent-a6072b0ac19da7774`. Aucun code modifié, aucune commande git lancée.
+
+Points tenus pour acquis (tranchés par la session principale, non re-vérifiés) : m8 refermé, car le libellé « Voir l'offre Premium » du n°1 reprend mot pour mot un libellé validé à l'aveugle au même emplacement dans les n°2 à 6 (vérifié : `numeros.json` l.10, identique aux l.20 à 60) ; aucune vue locale dans Umami.
+
+## Résumé exécutif (tour 3)
+
+La mise à jour est prête, et la procédure de mise en ligne est désormais complète et sûre sur presque tous les points : elle relève la version précédente, contrôle la base, Resend et le secret avant la migration, avance le seul article « Soirée de Noël » au plus tard le 01/11, et dit clairement ce que laisse un retour arrière. Il reste **un défaut qui empêche de la suivre telle quelle** : l'essai de désinscription avec l'adresse d'Alex (P7, étape 4) ne peut pas marcher le jour même. Le site n'envoie pas l'e-mail « déjà dans la liste » dans les 24 h qui suivent l'e-mail de confirmation (`lib/lettre/inscription.ts` l.151). La procédure renvoie alors la vérification « au premier numéro », c'est-à-dire sur de vrais inscrits. Il suffit de réécrire 2 lignes de la procédure, sans toucher au code. Une fois ces lignes réécrites, c'est GO sans nouvelle revue.
+
+## Note : 9,5 / 10 (NO-GO tant que P7 étape 4 n'est pas réécrite ; GO dès qu'elle l'est, sans nouvelle revue : l'orchestrateur vérifie la ligne)
+
+| Axe | Constat tour 3 | Tour 2 | Tour 3 |
+|---|---|---|---|
+| (1) Textes validés à l'aveugle | « Mon compte » n'est plus qu'un nom vocal (`account-menu.tsx` l.26 `aria-label`, plus de `title`) ; libellé du n°1 = libellé validé des n°2 à 6 | 1,75 / 2 | 2 / 2 |
+| (2) Cohérence entre pages | Inchangé. m3 (tutoiement de l'article 8 des CGU) reste, compté en mineur | 2 / 2 | 2 / 2 |
+| (3) Décisions de Thomas et @legal | m8 refermé ; la rupture de mesure du lot 1 est une étape de la procédure (P6 « Trace ») ; décision « seule Soirée de Noël avance » appliquée partout où elle compte | 1,75 / 2 | 2 / 2 |
+| (4) Risques de casse | B-3, M2, N2 et N5 levés par P0 à P8 ; reliquat B-4 couvert par le job CI `e2e-local`, imposé en P0. **P7 étape 4 inexécutable le jour même** (R1) | 1 / 2 | 1,5 / 2 |
+| (5) Zéro tiret cadratin | 0 occurrence (Grep U+2014, U+2013, `&mdash;`, `&ndash;` sur `config/textes`, `config/lettre.ts`, `components/layout`, `components/lettre`, `components/premium`, `lettre-accueil.tsx`, `data/lettre`, pages `cgu`, `confidentialite`, `lettre`) | 1,5 / 1,5 | 1,5 / 1,5 |
+| Rendu | Captures `docs/qa/captures-s21/final/` lues (voir plus bas) | 0,5 / 0,5 | 0,5 / 0,5 |
+| **Total** | | **8,5** | **9,5** |
+
+## Points du tour 2 : levé / non levé
+
+| Point | Verdict | Évidence |
+|---|---|---|
+| B-3 contrôles de production | **Levé** | P2 (a) `NewsletterSubscriber` = `(0 rows)`, sinon arrêt et décision de Thomas ; (b) secret présent, jamais régénéré, longueur prouvée en P7 ; (c) réglage Resend relevé par capture, preuve réelle en P7.2 (lien direct, `text/plain`). Tous bloquants et placés avant la migration (P3). |
+| N1 essai réel en production | **Levé en partie** | P7 étapes 1 à 3 : inscription, e-mail reçu, bouton « Confirmer », `CONFIRMED`, empreinte relevée : c'est exactement le chemin du B1 de la QA. **Étape 4 inexécutable le jour même** : voir R1. |
+| N2 avance de « Soirée de Noël » | **Levé** | P5 : lecture avant, écriture comparer-et-écrire sur `slug` + `isPublished = false` + `publishedAt` relevé (Prisma 6, `slug @unique`, `schema.prisma` l.618 : la clause est acceptée), lecture après, retour arrière, délai « au plus tard le dimanche 01/11 », possible seule sur N-1 si la mise en ligne glisse, faite avant les tâches de démarrage. Contrôlé contre le code : `publishDueScheduledArticles` publie tout article `isPublished = false` dont la date est dans la semaine ISO en cours et passée (`prepared-content.ts` l.120), donc les deux articles du 02/11 partent au même passage (boucle l.131). Date juste : 05:00 UTC = 06:00 Paris (heure d'hiver depuis le 25/10). |
+| M2 procédure contraire à la décision | **Levé** | `REPLIT_ACTIONS.md` l.38 et l.80 : « seule Soirée de Noël avance au 02/11, Humour en visio reste au 02/11 » ; `plan-integration-s21.md` l.12 réécrit. Reliquat de forme : l.31 du plan (« E. Mise en ligne, échange des dates d'articles ») (r4). |
+| m5 « aucun contrôle automatique » | **Levé** | Grep : 0 occurrence ; l.77 « le n°1 attend sa publication au lieu de partir avec un lien mort ». |
+| B-4 reliquat (contre-épreuve sur le commit final, CI) | **Levé, par substitution** | La QA tour 2 porte sur `46d455f`, pas sur `5db36c6`. Mais le spec @qa `local` (clic « Confirmer », désinscription, base relue, en-tête 6 largeurs × 3 états) tourne désormais en CI (`tests.yml` l.105 à 188, job `e2e-local`), et P0 exige `test`, `lint` **et** `e2e-local` à `success` sur le commit exact déployé. Preuves finales : `header-budget-resultat.txt` (18 combinaisons, 0 débordement, 0 libellé coupé), `curl-referrer-policy.txt` (`same-origin` sur les 4 pages lettre). Je n'ai pas pu lire la CI (pas de shell) : P0 en fait foi. |
+| m8 points ouverts des numéros | **Levé** | Tranché par la session principale (motif ci-dessus). Reliquat documentaire : les deux copies de `numeros-1-a-6.md` divergent (r5). |
+| N3 « Mon compte » affiché | **Levé** | `account-menu.tsx` l.26 (`aria-label` seul) ; commentaire corrigé (`compte.ts` l.46 et 47). |
+| N4 consignes périmées | **Levé** | l.91 et l.110 : « INCLUS DANS L'INTÉGRATION S21, ne pas déployer ni suivre séparément » ; l.123 et l.130 barrés « PÉRIMÉ » ; « encore à venir » et « dit encore newsletter » : 0 occurrence. Les dates périmées des entrées de référence (l.112, l.116, l.120) restent, mais sous un titre qui les déclare périmées : acceptable. |
+| N5 ce que laisse le retour arrière | **Levé** | P8 : commande, contrôle, durée ; quand préférer le correctif redéployé ; ce qui reste en base (migration, numéros inertes, inscrits, purge manuelle des `PENDING` à J+7, date de l'article) ; liens morts du corps, lien en un clic toujours servi par N-1, désinscription à la main sous 24 h ; qui prévenir. |
+| m2 textes juridiques non relus | **Non levé**, non bloquant | Aucune ligne écrite (Grep « exempt », « juridiques secondaires » dans la charte : 0). |
+| m3 tutoiement CGU | **Non levé**, non bloquant | `cgu/page.tsx` l.61 « ni ne te prive des droits que la loi te garantit » (et l.67, « sans te priver », même registre). |
+| m7 historique `project-context.md` | Non levé, attendu à la clôture | |
+| Défauts QA n1 à n3 | **Levés** | n1 : Échap géré (`header.tsx` l.80) ; n2 : capture `320-vannes.png` sans débordement visible ; n3 : job `e2e-local` en CI. |
+
+## Procédure P0 à P8 : vérification (`REPLIT_ACTIONS.md` l.7 à 67)
+
+| Exigence | Verdict | Évidence |
+|---|---|---|
+| Complète | **Oui** | Chaque étape a une commande, un critère de réussite et une conduite en cas d'échec ; règle « une étape échouée = arrêt » (l.9) ; aucun secret affiché. |
+| Version précédente | **Oui** | P1 : `wrangler deployments list`, N-1 noté avant tout déploiement (attendu `5ea46dd8-…`), pas de déploiement sans N-1 ; en-têtes de sécurité relevés pour comparaison en P6. |
+| Commit exact et CI | **Oui** | P0 : arbre propre, `headSha` du dernier run = `HEAD`, jobs `test`, `lint`, `e2e-local` verts, aucun commit de `main`, `master` ou `claude/ouverture-session-nzwj0w` absent de `HEAD` (les 3 refs existent : la boucle ne produit pas de fausse erreur). La CI se déclenche sur toute branche `claude/**` sans filtre de chemin (`tests.yml` l.8 à 11) : `878eaee` aura bien son run. |
+| Contrôles avant | **Oui** | P2 (a), (b), (c) bloquants, avant P3 ; migration jouée deux fois avec contrôle des 3 tables et des 3 colonnes. |
+| Contrôles après | **Oui** | P6 : pages en 200, `Referrer-Policy: same-origin` (sinon P8 avant toute inscription), en-têtes de sécurité inchangés, textes du lot 2, formulaire visible, tâches planifiées et entretien, contrôles datés du 02/11 et du 05/11, trace de la rupture de mesure. P5 : journal « 6 numéro(s) créé(s) », aucune ALERTE, `scheduledFor` du n°1 = 05/11 07:00 UTC (8 h Paris), `NewsletterSend` = 0. |
+| Avance de l'article au plus tard le 01/11 | **Oui** | P5 (voir N2 ci-dessus). |
+| Retour arrière et ce qu'il laisse | **Oui** | P8 (voir N5 ci-dessus). |
+| Essai réel avec l'adresse d'Alex | **Non, en partie** | Étapes 1 à 3 justes. Étape 4 fausse (R1), étape 1 ambiguë (R2). |
+
+**R1 (majeur, procédure, seul point qui retient le GO). P7 étape 4 ne peut pas réussir le jour de la mise en ligne.**
+- L'étape 4 demande de se réinscrire avec l'adresse déjà confirmée pour recevoir l'e-mail « déjà dans la liste », qui porte le lien de désinscription et les en-têtes `List-Unsubscribe`.
+- Or, pour une adresse `CONFIRMED`, le code ne l'envoie pas si `confirmationSentAt` date de moins de 24 h (`inscription.ts` l.150 et 151, `return "plafond"`), et la confirmation ne remet pas cette date à zéro (l.203). L'e-mail de confirmation est parti à l'étape 1, quelques minutes plus tôt : l'écran affichera « Regarde ta boîte mail », sans aucun e-mail. Ce n'est donc pas un cas rare (« si l'e-mail n'arrive pas ») : c'est le cas certain.
+- La conduite prévue (« noter, désinscription testée sur le premier numéro ») reporte le seul essai réel de désinscription sur l'envoi aux vrais inscrits du 05/11. Un lien de désinscription mort ce jour-là serait un manquement direct (L.34-5, @legal B3), alors qu'il peut être vérifié avant.
+- Correction (@infrastructure, 2 lignes, aucun code) : réécrire l'étape 4 ainsi. Lire le jeton en base : `psql "$DATABASE_URL" -At -c "SELECT \"unsubscribeToken\" FROM \"NewsletterSubscriber\" WHERE email = 'alex@deviens-marrant.fr';"`, sans le coller nulle part. Ouvrir `https://deviens-marrant.fr/lettre/desinscrire?token=<jeton>` dans le même vrai navigateur, puis cliquer sur le bouton. Réussite : `/lettre?statut=desinscrit`, en base `UNSUBSCRIBED | f`. Échec (`statut=erreur`) : même conduite qu'à l'étape 3, et **aucun envoi le 05/11** tant que ce n'est pas réglé. C'est le même contrôle d'origine que le bouton « Confirmer », donc le risque B1, vérifié avant le premier envoi. Le lien en un clic des en-têtes passe par une route déjà servie en production (N-1) et testée par `e2e-local` : pas d'essai réel exigé. Variante sans base : refaire l'étape 4 actuelle au moins 24 h après l'étape 1 et avant le jeudi 05/11 8 h, puis l'étape 5. Dans les deux cas, supprimer « désinscription testée sur le premier numéro ».
+
+**R2 (mineur, procédure). P7 étape 1 attend `PENDING | t | 1`, mais l'empreinte (`t`) dépend du secret de P2 (b), dès l'inscription (`inscription.ts` l.117).** Avec la règle « une étape échouée = arrêt », un `f` à l'étape 1 arrêterait l'essai, alors que l'étape 3 le déclare non bloquant. Correction : à l'étape 1, écrire « `PENDING | f | 1` : continuer, voir l'étape 3 ».
+
+**Point d'organisation (pas un défaut).** Thomas est absent du 18 au 25/10 (`founder-preferences.md` l.108). Or P0 (feu vert), P2 (c) (tableau de bord Resend) et P7 (boîte d'Alex) le demandent, ou demandent la personne qui lit cette boîte. La fenêtre réelle va donc du lundi 26/10 au dimanche 01/11. Si elle est manquée, il faut faire P5 seule avant le 01/11, comme le prévoit la l.39.
+
+## Rendu : captures `final/` lues
+
+- `abonnement-mensuel-375x812.png` : H1 validé, bouton « Commencer à 2,99 €/mois » au premier écran, réassurance « premier paiement » dessous. Une bande vide d'environ 50 px sépare la ligne annuelle du bouton : c'est la hauteur fixe choisie pour que le bouton ne bouge pas entre mensuel et annuel. Choix de @design accepté, pas un défaut.
+- `768-abonnement-premier-ecran.png` : premier écran complet et aéré, avantages sous le bouton.
+- `entete-1280-gratuit.png` : 7 onglets, champ « Rechercher… » entier, « Activer mon accès », icône de compte. Plus rien n'est tronqué.
+- `article-bloc-lettre-1280.png` : contour pour l'étape 1, bouton plein pour les parcours, formulaire de la lettre sous un filet.
+- `quiz-resultat-premier-passage-375.png` : 2 boutons, puis le formulaire de la lettre avec la case décochée et la mention.
+- `lettre-statut-confirmee-375.png` : « C'est bon, c'est confirmé. », sans formulaire répété.
+- `menu-mobile-ouvert-375x550-gratuit.png` : « La lettre » après « Blog », menu borné.
+- `320-vannes.png` : pas de débordement visible.
+- Les 10 critères visuels sont tenus sur ces écrans. À 320 px, l'en-tête n'affiche que le logo et le menu (« Commencer » est absent) : à confirmer par @design comme voulu, non bloquant.
+
+## Ce qui manque pour 10/10 (liste exacte)
+
+1. **R1 (bloquant pour GO)** : P7 étape 4 réécrite comme ci-dessus, avec la mention « aucun envoi le 05/11 sans désinscription réelle vérifiée ».
+2. **R2** : une demi-ligne à l'étape 1 de P7.
+3. **m3** : CGU article 8 (l.61) au registre du document (« ni ne prive l'utilisateur des droits que la loi lui garantit »), une phrase @legal ; l.67 à aligner dans le même geste ou dans un lot de tutoiement séparé.
+4. **m2** : une ligne de l'orchestrateur qui classe la relecture des textes juridiques sous le report du 07/10 (`founder-preferences.md` l.72), ou un pack court.
+5. **r4** : `plan-integration-s21.md` l.31, remplacer « échange des dates d'articles » par « avance de Soirée de Noël (P5) ».
+6. **r5** : aligner les deux copies de `numeros-1-a-6.md`. Sur la branche principale, la l.84 dit encore « Voir les parcours », alors que l.397 est marquée FERMÉE. Sur la branche d'intégration, le corps est aligné, mais l.381 dit « n°1 à décider » et l.397 n'est pas fermée. La source d'envoi (`numeros.json`) est juste : c'est de la documentation seulement.
+7. **m7** à la clôture ; à la reprise du 26/10, @social traite les posts du 16/11 sur « Soirée de Noël » (N2, hors mise en ligne).
+
+Le point 1 suffit pour GO à 9,5. Les points 2 à 7 font le 10/10. Aucun ne touche un texte validé, le code envoyé ni un [CHOIX UTILISATEUR].
+
+## Limites du tour 3
+- Je n'avais ni shell ni accès à GitHub Actions : la CI de `5db36c6` et de `878eaee` n'est pas vérifiée par moi. Elle est relevée verte sur `5db36c6` par @infrastructure (l.11), et P0 la rend bloquante sur le commit déployé.
+- Les preuves `final/` viennent de la passe finale de @fullstack (« commit de travail sur 46d455f »). La contre-épreuve indépendante est le job `e2e-local`, et non un nouveau passage @qa.
+- Je n'ai pas lu la base de production. Je me suis appuyé sur l'état relevé le 17/10 vers 23 h UTC (l.11), que P2 et P5 re-vérifient de toute façon avant d'écrire.

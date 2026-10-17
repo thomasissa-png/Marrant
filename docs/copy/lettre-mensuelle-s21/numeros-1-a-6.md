@@ -81,7 +81,7 @@ Exemple : « Mon coloc a fini par remarquer que sa chambre faisait le double de 
 Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
 
 PS : si une vanne par mois ne te suffit pas, les parcours complets sont dans Premium, sans engagement. La première étape de chacun se lit sans compte.
-Voir les parcours : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
+Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 
 Rendez-vous le mois prochain,
 L'Équipe Deviens Marrant

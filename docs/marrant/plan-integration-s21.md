@@ -28,5 +28,5 @@ Décision de Thomas (17/10) : tout intégrer proprement, inscriptions à la lett
 | B. Fusion des deux branches, date du numéro 1, mentions juridiques, menu et bloc d'accueil | @fullstack | branches terminées, A |
 | C. Contrôle complet : tests de bout en bout, captures téléphone et ordinateur | @qa | B |
 | D. Revue d'ensemble notée sur 10, corrections, nouvelle revue jusqu'à 10/10 | @reviewer, @ux, @design, puis @fullstack | C |
-| E. Mise en ligne, échange des dates d'articles, contrôle du site réel | @infrastructure | D, feu vert de Thomas |
+| E. Mise en ligne, avance de « Soirée de Noël » au 02/11 (P5), contrôle du site réel | @infrastructure | D, feu vert de Thomas |
 | F. « Ta question à l'équipe » et lettre de la semaine (interrupteur fermé) | @fullstack, @copywriter | en parallèle |
