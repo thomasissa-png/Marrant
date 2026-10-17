@@ -8,12 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPostSignupRedirect, readSignupPlan } from "@/lib/premium-return";
-import {
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
-  PREMIUM_ANNUAL_PRICE_LABEL,
-  PREMIUM_PRICE_LABEL,
-  type PremiumPlan,
-} from "@/config/premium";
+import type { PremiumPlan } from "@/config/premium";
 import {
   AUTH_RETURN_SIGNUP_GOOGLE,
   buildLoginUrl,
@@ -24,7 +19,7 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
-import { CGU_ACCEPTATION, OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
+import { CGU_ACCEPTATION, OFFRE_NOM, prixTtcLabel, REMBOURSEMENT_PREMIER_PAIEMENT } from "@/config/textes/offre";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
@@ -35,13 +30,13 @@ const OAUTH_ERRORS: Record<string, string> = {
 };
 
 /**
- * Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15), avec le
- * nom unique de l'offre (« Premium », décision D4 de l'audit s16).
+ * Rappel de la formule choisie, avec le nom unique de l'offre (« Premium »,
+ * D4 s16) et le prix TTC (validé à l'aveugle s21, duel /register, 3/3) :
+ * « Premium, 2,99 € TTC par mois, annulable à tout moment. » ; en annuel,
+ * seul le prix change (« 24,99 € TTC par an »).
  */
 function planReminder(plan: PremiumPlan): string {
-  return plan === "annual"
-    ? `${OFFRE_NOM}, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
-    : `${OFFRE_NOM}, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
+  return `${OFFRE_NOM}, ${prixTtcLabel(plan)}, annulable à tout moment.`;
 }
 
 /**
@@ -335,9 +330,9 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               S&apos;inscrire avec Google
             </Button>
             <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
-            {/* Réassurance et CGU (audit s16, reco 9) : étalon 1.1 validé, config/textes/offre.ts. */}
+            {/* Réassurance (premier paiement seulement, validée à l'aveugle s21) et CGU (audit s16, reco 9). */}
             <p className="text-center text-xs text-text-muted" data-testid="register-reassurance">
-              {reassurancePaiement(plan)}
+              {REMBOURSEMENT_PREMIER_PAIEMENT}
             </p>
             <p className="text-center text-xs text-text-muted">
               {CGU_ACCEPTATION.avant}

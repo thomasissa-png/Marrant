@@ -35,15 +35,14 @@ export function prixTtcLabel(plan: PremiumPlan): string {
 export const REASSURANCE_PAIEMENT =
   "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.";
 
-// ANCIEN étalon 1.1 (s16), promet plus que le fait (« chaque mois remboursé »).
+// VALIDÉ à l'aveugle s21 (duel /register, 3/3 au niveau)
 /**
- * Encore utilisé sur /register seulement : le prix y est rappelé en petit
- * sans « TTC » (« Premium, 2,99 €/mois, annulable à tout moment. »), cas qui
- * n'entre ni dans V3 ni dans V2 (s21). En attente d'un texte validé.
+ * Réassurance sous le formulaire de /register : le prix TTC est déjà rappelé
+ * en haut de la page (« Premium, 2,99 € TTC par mois, annulable à tout
+ * moment. »), donc ni prix ni résiliation ici, seulement le remboursement du
+ * premier paiement (docs/copy/lot2-s21/pack-relecture-register.md).
  */
-export function reassurancePaiement(plan: PremiumPlan): string {
-  return `${prixTtcLabel(plan)}, remboursé sous 14 jours, résiliable en ligne quand tu veux.`;
-}
+export const REMBOURSEMENT_PREMIER_PAIEMENT = "Tu as 14 jours pour te faire rembourser ton premier paiement.";
 
 // PROVISOIRE s16, étalon à valider
 /** Acceptation des CGU sous le bouton de création de compte (reco 9). */
