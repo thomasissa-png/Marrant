@@ -10,6 +10,17 @@ import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+
+/**
+ * Largeur à partir de laquelle l'onglet « La lettre » tient dans la barre ordinateur
+ * (mesuré le 17/10, s21) : connecté sans abonnement, la barre déborde dès 1100 px avec
+ * l'onglet (elle débordait déjà de 70 px à 1024 sans lui) ; anonyme à 1024, la recherche
+ * tombe à 65 px. Dès 1280 (`xl`), plus aucun débordement. Entre 1024 et 1279 : l'onglet
+ * n'est pas dans la barre, la lettre reste dans le pied de page (et le menu déroulant < 1024).
+ */
+const LETTRE_ONGLET_ORDINATEUR = "xl:inline-flex";
 
 /** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
 function isActivePath(pathname: string | null, href: string): boolean {
@@ -17,7 +28,9 @@ function isActivePath(pathname: string | null, href: string): boolean {
   return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
 }
 
-const navItems = [
+type NavItem = { href: string; label: string; desktopClassName?: string };
+
+const navItems: NavItem[] = [
   { href: "/", label: "Accueil" },
   { href: "/vannes", label: "Vannes" },
   { href: "/conseils", label: "Conseils" },
@@ -27,11 +40,19 @@ const navItems = [
 ];
 
 /** Abonnés Premium : le carnet mensuel juste après les parcours. */
-const premiumNavItems = [
+const premiumNavItems: NavItem[] = [
   ...navItems.slice(0, 5),
   { href: "/carnet", label: "Carnet" },
   ...navItems.slice(5),
 ];
+
+/**
+ * s21 : la lettre gratuite, dernier onglet après « Blog » (interrupteur des
+ * inscriptions ouvert, visiteurs non Premium comme le formulaire de la lettre).
+ * Toujours dans le menu déroulant ; dans la barre ordinateur seulement là où elle
+ * tient sans déborder (`desktopClassName`, mesuré à 1024, 1280 et 1440 px).
+ */
+const lettreNavItem: NavItem = { href: "/lettre", label: TEXTES_LETTRE.menu, desktopClassName: LETTRE_ONGLET_ORDINATEUR };
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,7 +61,7 @@ export function Header() {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const isPremium = (session?.user as { plan?: string } | undefined)?.plan === "PREMIUM";
-  const items = isPremium ? premiumNavItems : navItems;
+  const items = isPremium ? premiumNavItems : LETTRE_INSCRIPTIONS_OUVERTES ? [...navItems, lettreNavItem] : navItems;
 
   // T47 : à l'ouverture de la recherche mobile, le champ reçoit le focus (1 tap au lieu de 2)
   useEffect(() => {
@@ -83,6 +104,7 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "rounded-lg px-2 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
+                  item.desktopClassName && cn("hidden", item.desktopClassName),
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"

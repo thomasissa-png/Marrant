@@ -40,4 +40,13 @@ describe("Planificateur : tâches de la lettre", () => {
     expect(entretien).toContain("if (!LETTRE_INSCRIPTIONS_OUVERTES && (await prisma.newsletterSubscriber.count()) === 0) return;");
     expect(jobs).not.toContain("LETTRE_OUVERTE");
   });
+
+  it("garde-fou s21 : un numéro reporté (article cité pas en ligne) laisse une alerte dans le journal de la tâche, verrou relâché", () => {
+    const jobs = lire("src/lib/scheduler/jobs.ts");
+    const envoi = jobs.slice(jobs.indexOf("const runLettreMensuelleJob"), jobs.indexOf("const runLettreEntretienJob"));
+    expect(envoi).toMatch(/if \(res\.reporte\) \{\s*console\.warn\(\s*`\[scheduler:lettre-mensuelle\] ALERTE \$\{res\.numero\} reporté au passage suivant/);
+    expect(envoi).toContain("res.articlesNonPublies.join");
+    // Verrou relâché en fin de passage : le passage suivant (15 min) revérifie la base.
+    expect(envoi).toContain("await releaseLock(lockKey);");
+  });
 });

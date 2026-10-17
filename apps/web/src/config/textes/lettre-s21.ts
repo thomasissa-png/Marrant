@@ -97,6 +97,18 @@ const TEXTES_SOURCE = {
     renvoyer: "Renvoyer l'e-mail",
   },
   piedDePage: "La lettre du mois",
+  /**
+   * Place de la lettre sur le site (intégration s21, 17/10), validé à l'aveugle :
+   * pack `docs/copy/lettre-mensuelle-s21/pack-relecture-place-sur-le-site.md`.
+   * `menu` : duel 1, version A. `accueil` : duel 2, version A (titre et phrase
+   * repris du bloc 1, réassurance du formulaire, lien nouveau).
+   */
+  menu: "La lettre",
+  accueil: {
+    titre: "Une vanne décryptée, chaque mois",
+    phrase: "Tu la reçois par e-mail, avec un exercice pour t'entraîner. Gratuit, sans compte.",
+    lien: "Voir la lettre",
+  },
   page: {
     /** Bloc 6 (tour 2, duel 6, B). */
     metaTitre: "La lettre : une vanne décryptée, chaque mois",

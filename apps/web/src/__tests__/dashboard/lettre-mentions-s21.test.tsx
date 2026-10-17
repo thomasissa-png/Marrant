@@ -44,6 +44,39 @@ describe("Confidentialité : section « La lettre »", () => {
   });
 });
 
+describe("Textes @legal publiés à l'ouverture (17/10), mot pour mot", () => {
+  const sectionN = (container: HTMLElement, n: number) =>
+    texte(Array.from(container.querySelectorAll("section")).find((s) => s.querySelector("h2")?.textContent?.startsWith(`${n}.`)) ?? null);
+
+  it("section 7 : retrait du consentement à la lettre seule, rien sur les questions", () => {
+    const { container } = render(<ConfidentialitePage />);
+    const s7 = sectionN(container, 7);
+    expect(s7).toContain("Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-mail : ce que tu as reçu avant reste valable.");
+    expect(s7).not.toMatch(/question/i);
+  });
+
+  it("section 6 : inscription à la lettre faite avec l'adresse du compte, plus de « newsletter »", () => {
+    const { container } = render(<ConfidentialitePage />);
+    const s6 = sectionN(container, 6);
+    expect(s6).toContain("ton inscription à la lettre faite avec l'adresse de ton compte sont effacés tout de suite");
+    expect(texte(container)).not.toMatch(/newsletter/i);
+  });
+
+  it("section 8 : la trace de désinscription part avec le compte supprimé", () => {
+    const { container } = render(<ConfidentialitePage />);
+    expect(sectionN(container, 8)).toContain(
+      "c'est la preuve de ton choix et la liste qui nous empêche de t'écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.",
+    );
+  });
+
+  it("âge aligné : « 15 ans et plus » dans la politique et dans les CGU (article 2)", () => {
+    expect(texte(render(<ConfidentialitePage />).container)).toContain("aux personnes de 15 ans et plus.");
+    const cgu = render(<CGUPage />).container;
+    expect(sectionN(cgu, 2)).toContain("L'inscription est ouverte à toute personne de 15 ans et plus.");
+    expect(texte(cgu)).not.toContain("plus de 15 ans");
+  });
+});
+
 describe("CGU : ajouts @legal", () => {
   it("lettre mensuelle (article 10, ancre #lettre) et ajout à l'article 8, mot pour mot", () => {
     const { container } = render(<CGUPage />);

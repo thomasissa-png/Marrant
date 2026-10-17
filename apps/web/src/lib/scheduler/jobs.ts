@@ -772,6 +772,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           envoyer: (to, subject, text, headers) =>
             sendServiceTextEmail(to, subject, text, "lettre-numero", { headers, replyTo: LETTRE_CONTACT }),
         });
+        if (res.reporte) {
+          console.warn(
+            `[scheduler:lettre-mensuelle] ALERTE ${res.numero} reporté au passage suivant : article(s) cité(s) pas encore en ligne (${res.articlesNonPublies.join(", ")}). Rien n'est envoyé ; vérifier isPublished et publishedAt.`,
+          );
+        }
         if (res.bloque) {
           console.warn(`[scheduler:lettre-mensuelle] ${res.numero} bloqué : marqueur [À COMPLÉTER] dans le numéro (mention d'éditeur @legal ?). Rien n'est envoyé.`);
         }

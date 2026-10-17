@@ -8,6 +8,7 @@ import { parcoursWeeks } from "@/config/premium";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
 const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
+const LettreAccueil = dynamic(() => import("@/components/home/lettre-accueil").then(m => ({ default: m.LettreAccueil })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import { faqs as faqSectionFaqs } from "@/lib/faqs";
@@ -146,6 +147,9 @@ export default async function HomePage() {
 
       {/* CTA Offre : abonnement Premium (coaching retiré le 13/10/2026) */}
       <PremiumCta />
+
+      {/* s21 : la lettre gratuite, lien discret après l'offre (interrupteur des inscriptions) */}
+      <LettreAccueil />
 
       {/* Prochainement — fonctionnalités à venir avec votes */}
       <UpcomingFeatures />

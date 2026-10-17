@@ -92,7 +92,7 @@ export default function ConfidentialitePage() {
         <section>
           <h2 className={SECTION_TITLE}>6. Durée de conservation</h2>
           {/* PROVISOIRE s16 (lot D), à relire par @legal : suppression en libre-service (lib/account.ts#deleteAccount). */}
-          <p>Tes données sont conservées tant que ton compte existe. Tu peux supprimer ton compte toi-même, à tout moment, depuis ton profil (voir la partie 7) : ton compte, ta progression, tes favoris et ton inscription à la newsletter sont effacés tout de suite, et ton abonnement s&apos;arrête aussitôt.</p>
+          <p>Tes données sont conservées tant que ton compte existe. Tu peux supprimer ton compte toi-même, à tout moment, depuis ton profil (voir la partie 7) : ton compte, ta progression, tes favoris et ton inscription à la lettre faite avec l&apos;adresse de ton compte sont effacés tout de suite, et ton abonnement s&apos;arrête aussitôt.</p>
           {/* [À FIXER PAR THOMAS] durée de conservation des comptes inactifs (11 anciens comptes FREE compris) :
               aucune purge automatique n'existe ; texte neutre sans durée chiffrée en attendant (@legal point 11 c). */}
           <p className="mt-2">Un compte inactif n&apos;est pas supprimé automatiquement : il reste en place jusqu&apos;à ce que tu le supprimes depuis ton profil.</p>
@@ -121,6 +121,8 @@ export default function ConfidentialitePage() {
           </p>
           {/* P8, legal s17 §4 */}
           <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l&apos;arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-mail : ce que tu as reçu avant reste valable.</p>
+          {/* s21, @legal « Textes publiés à l'ouverture, 17/10 », texte 1 : lettre seule (rien sur les questions). */}
+          <p className="mt-2">Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-mail : ce que tu as reçu avant reste valable.</p>
         </section>
         {/* s21, bloquant @legal B7 : section lettre, mot pour mot (docs/legal/lettre-et-questions-s21.md,
             parties 1, 2, 3 et 6 ; seules les phrases sur la lettre mensuelle). Ancre visée par le lien
@@ -136,7 +138,7 @@ export default function ConfidentialitePage() {
             <li>T&apos;envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-mail), que tu peux retirer en un clic</li>
             <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
           </ul>
-          <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l&apos;empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c&apos;est la preuve de ton choix et la liste qui nous empêche de t&apos;écrire de nouveau.</p>
+          <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l&apos;empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c&apos;est la preuve de ton choix et la liste qui nous empêche de t&apos;écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
         </section>
       </div>
     </div>

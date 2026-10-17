@@ -6,6 +6,12 @@
  *    date plancher (`dateEnvoiLettre`, imposée à `envoiPrevu` par le schéma).
  *  - Rien ne part si un marqueur `[À COMPLÉTER` figure dans le numéro rendu
  *    (objet, pré-en-tête, corps, pied) : `bloque = true`.
+ *  - Rien ne part si un article du blog cité dans le numéro (lien
+ *    `deviens-marrant.fr/blog/<slug>`) n'est pas en ligne au moment de l'envoi :
+ *    article du code, ou article en base publié (`isPublished`) dont la date de
+ *    publication est passée (`visibleBlogArticleWhere`, même règle que la page
+ *    article). Le numéro est reporté au passage suivant (`reporte = true`, slugs
+ *    manquants dans `articlesNonPublies`, alerte dans le journal de la tâche).
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
  *    `scheduledFor` atteint. Aucun numéro : rien n'est envoyé (jamais de contenu
  *    généré au fil de l'eau, règle du 01/10).
@@ -25,6 +31,8 @@ import { EMAILS_LETTRE } from "@/config/textes/lettre-s21";
 import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
 import { frPonctuation } from "@/lib/fr-typo";
+import { getArticleBySlug } from "@/lib/blog-articles";
+import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 const moisFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit" });
 
@@ -75,8 +83,36 @@ export function dateEnvoiLettre(periode: string, datePlancher?: string | null): 
   return aHeureParis(an, mois, jour, LETTRE_HEURE_ENVOI_PARIS);
 }
 
+/** Liens vers un article du blog du site (absolus, avec ou sans « www »), `?` et `#` exclus du slug. */
+const LIEN_ARTICLE = /(?:https?:\/\/)?(?:www\.)?deviens-marrant\.fr\/blog\/([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
+
+/** Slugs des articles du blog cités dans un texte (sans doublon, dans l'ordre d'apparition). */
+export function articlesCites(texte: string): string[] {
+  return [...new Set([...texte.matchAll(LIEN_ARTICLE)].map((m) => m[1].toLowerCase()))];
+}
+
+/**
+ * Articles cités qui ne sont PAS en ligne à `now` : ni article du code, ni
+ * article en base visible (publié et date de publication passée). Lit la base
+ * seulement si un article cité n'est pas dans le code.
+ */
+export async function articlesCitesNonPublies(slugs: readonly string[], now: Date): Promise<string[]> {
+  const aVerifier = slugs.filter((s) => !getArticleBySlug(s));
+  if (aVerifier.length === 0) return [];
+  const enLigne = await prisma.blogArticle.findMany({
+    where: { slug: { in: aVerifier }, ...visibleBlogArticleWhere(now) },
+    select: { slug: true },
+  });
+  const visibles = new Set(enLigne.map((a) => a.slug));
+  return aVerifier.filter((s) => !visibles.has(s));
+}
+
 export interface EnvoiResultat {
   ferme: boolean;
+  /** Numéro trouvé mais reporté au passage suivant : un article cité n'est pas encore en ligne. */
+  reporte: boolean;
+  /** Slugs des articles cités pas encore en ligne (vide sauf si `reporte`). */
+  articlesNonPublies: string[];
   /** Numéro trouvé mais bloqué : un marqueur `[À COMPLÉTER` y figure (pied compris). */
   bloque: boolean;
   numero: string | null;
@@ -133,6 +169,8 @@ export async function envoyerLettreDuMois(
 ): Promise<EnvoiResultat> {
   const r: EnvoiResultat = {
     ferme: !LETTRE_ENVOIS_OUVERTS,
+    reporte: false,
+    articlesNonPublies: [],
     bloque: false,
     numero: null,
     candidats: 0,
@@ -157,6 +195,13 @@ export async function envoyerLettreDuMois(
   const rendu = [numero.subject, numero.preheader ?? "", corpsNumero(numero.bodyText, deps.baseUrl, "jeton")].join("\n");
   if (rendu.includes(MARQUEUR_A_COMPLETER)) {
     r.bloque = true;
+    return r;
+  }
+  // Jamais de lien mort : chaque article cité doit être en ligne MAINTENANT (vérifié en
+  // base à chaque passage, la date plancher du fichier ne suffit pas). Sinon : report.
+  r.articlesNonPublies = await articlesCitesNonPublies(articlesCites(rendu), now);
+  if (r.articlesNonPublies.length > 0) {
+    r.reporte = true;
     return r;
   }
 

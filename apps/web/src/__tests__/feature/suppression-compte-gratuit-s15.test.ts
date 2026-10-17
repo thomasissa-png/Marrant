@@ -83,7 +83,7 @@ describe("textes : plus de compte gratuit côté utilisateur", () => {
     const cgu = read("app/(dashboard)/cgu/page.tsx");
     expect(cgu).not.toMatch(/compte gratuit/i);
     expect(cgu).toContain(
-      "L&apos;inscription est ouverte à toute personne de plus de 15 ans. L&apos;accès à l&apos;ensemble du contenu nécessite un abonnement actif.",
+      "L&apos;inscription est ouverte à toute personne de 15 ans et plus. L&apos;accès à l&apos;ensemble du contenu nécessite un abonnement actif.",
     );
   });
 });
