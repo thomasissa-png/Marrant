@@ -13,7 +13,7 @@ import { FaqSection } from "@/components/home/faq-section";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
+import { OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
@@ -73,7 +73,7 @@ export function PremiumCta() {
               <span className="font-display text-4xl font-bold text-text-primary">
                 {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
               </span>
-              <span className="text-text-muted">/ mois</span>
+              <span className="text-text-muted">TTC / mois</span>
             </div>
             <p className="mt-1 text-xs text-text-muted">
               Sans engagement, annulable &agrave; tout moment &middot;{" "}
@@ -108,7 +108,7 @@ export function PremiumCta() {
               </Link>
             )}
             {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
-            <p className="mt-3 text-center text-xs text-text-muted">{reassurancePaiement("monthly")}</p>
+            <p className="mt-3 text-center text-xs text-text-muted">{REASSURANCE_PAIEMENT}</p>
             {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
             <p className="mt-3 text-center text-sm text-text-secondary">
               Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?

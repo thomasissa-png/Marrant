@@ -60,7 +60,7 @@ export function PlanSelector({
         <span className="font-display text-4xl font-bold text-text-primary">
           {formatEuros(isAnnual ? PREMIUM_ANNUAL_PRICE_CENTS : PREMIUM_MONTHLY_PRICE_CENTS)}
         </span>
-        <span className="text-text-muted">{isAnnual ? "/ an" : "/ mois"}</span>
+        <span className="text-text-muted">{isAnnual ? "TTC / an" : "TTC / mois"}</span>
       </div>
       {isAnnual ? (
         <>

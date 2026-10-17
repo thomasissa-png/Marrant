@@ -55,9 +55,21 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     window.history.pushState({}, "", "/abonnement?src=vannes");
     render(<AbonnementView annualAvailable={false} />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
+    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
+    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.")).toBeInTheDocument(); // V3 validée à l'aveugle s21
+    expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
+  });
+
+  it("annuel choisi : « TTC / an » près du montant, même réassurance (V3 s21)", async () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable />);
+    await userEvent.click(screen.getByLabelText("Annuel"));
+    expect(screen.getByText("TTC / an")).toBeInTheDocument();
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent(
+      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
+    );
   });
 
   it("visiteur : clic vers l'inscription mesuré (abonnement-clic, statut visiteur)", async () => {
@@ -100,7 +112,9 @@ describe("accueil : bloc Premium", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
+    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
+    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.")).toBeInTheDocument(); // V3 validée à l'aveugle s21
+    expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
     const link = screen.getByText("Commencer à 2,99 €/mois");
     link.addEventListener("click", (e) => e.preventDefault());

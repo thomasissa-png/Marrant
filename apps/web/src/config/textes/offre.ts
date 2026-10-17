@@ -24,11 +24,22 @@ export function prixTtcLabel(plan: PremiumPlan): string {
     : `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
 }
 
-// VALIDÉ s16 (étalon 1.1)
+// VALIDÉ à l'aveugle s21 (lot 2 tour 3, 3/3 au niveau ; formule @legal A)
 /**
- * Ligne de réassurance posée sous chaque bouton de paiement (reco 9), selon la
- * formule affichée : « 2,99 € TTC par mois, remboursé sous 14 jours,
- * résiliable en ligne quand tu veux. »
+ * Réassurance sous le bouton de paiement quand le prix TTC est déjà affiché en
+ * gros juste au-dessus (« 2,99 € TTC / mois ») : elle ne redit pas le prix et
+ * ne promet le remboursement que du premier paiement, sur demande dans les
+ * 14 jours (docs/legal/remboursement-abonnement-s21.md). Même texte en mensuel
+ * et en annuel.
+ */
+export const REASSURANCE_PAIEMENT =
+  "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.";
+
+// ANCIEN étalon 1.1 (s16), promet plus que le fait (« chaque mois remboursé »).
+/**
+ * Encore utilisé sur /register seulement : le prix y est rappelé en petit
+ * sans « TTC » (« Premium, 2,99 €/mois, annulable à tout moment. »), cas qui
+ * n'entre ni dans V3 ni dans V2 (s21). En attente d'un texte validé.
  */
 export function reassurancePaiement(plan: PremiumPlan): string {
   return `${prixTtcLabel(plan)}, remboursé sous 14 jours, résiliable en ligne quand tu veux.`;

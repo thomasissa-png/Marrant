@@ -29,7 +29,7 @@ import {
   texteStripeSubmit,
   TEXTES_SUCCESS,
 } from "@/config/textes/paiement";
-import { PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
+import { PAIEMENT_ANNULE, REASSURANCE_PAIEMENT, reassurancePaiement } from "@/config/textes/offre";
 import { formatEuros } from "@/config/premium";
 import { firstNameFrom, renderAnnualRenewalReminder, salutation } from "@/lib/emails/annual-renewal-reminder";
 import { renderPasswordResetEmail } from "@/lib/email";
@@ -262,7 +262,12 @@ describe("dates, montants, textes d'écran validés", () => {
     expect(formatEuros(2499)).toBe(`24,99${NBSP}€`);
   });
 
-  it("étalon 1.1 (réassurance) et texte Stripe : seule la formule choisie", () => {
+  it("réassurance V3 s21 (premier paiement, sans prix), ancien étalon 1.1 (/register) et texte Stripe : seule la formule choisie", () => {
+    expect(REASSURANCE_PAIEMENT).toBe(
+      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
+    );
+    expect(REASSURANCE_PAIEMENT).not.toMatch(/€|remboursé sous|—/);
+    // Ancien étalon 1.1, encore sur /register seulement (cas hors V2/V3, à trancher).
     expect(lisible(reassurancePaiement("monthly"))).toBe(
       "2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.",
     );

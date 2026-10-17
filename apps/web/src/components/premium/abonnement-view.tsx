@@ -30,7 +30,7 @@ import {
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
-import { OFFRE_NOM, PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
+import { OFFRE_NOM, PAIEMENT_ANNULE, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
@@ -227,7 +227,7 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
                 <span className="font-display text-4xl font-bold text-text-primary">
                   {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
                 </span>
-                <span className="text-text-muted">/ mois</span>
+                <span className="text-text-muted">TTC / mois</span>
               </div>
               <p className="mt-1 text-sm font-medium text-accent-link">
                 Sans engagement, annulable &agrave; tout moment
@@ -271,7 +271,7 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
 
           <p className="mt-3 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
-            {reassurancePaiement(plan)}
+            {REASSURANCE_PAIEMENT}
           </p>
           <p className="mt-1 text-center text-xs text-text-muted">
             Droit de{" "}

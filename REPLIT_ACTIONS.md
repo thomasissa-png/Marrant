@@ -2,7 +2,14 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s21 (17/10/2026) Réassurance « premier paiement » sous les boutons d'achat @fullstack, **À DÉPLOYER sur feu vert de Thomas** (rien n'est déployé)
+
+- **Commit** : celui qui ajoute cette entrée (`git log -1 --format=%h -- apps/web/src/config/textes/offre.ts`), branche `claude/ouverture-session-nzwj0w`.
+- **Quoi** : « 2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux. » se lisait « chaque mois remboursable » (6 relecteurs à l'aveugle) ; seul le premier paiement l'est. Remplacé par la V3 validée à l'aveugle (lot 2 tour 3, 3/3 au niveau) là où le prix est affiché en gros juste au-dessus : prix « 2,99 € TTC / mois » (« 24,99 € TTC / an » en annuel) et « Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux. »
+- **Fichiers** (`apps/web/src/`) : `config/textes/offre.ts` (`REASSURANCE_PAIEMENT`), `components/premium/abonnement-view.tsx` (/abonnement), `components/premium/plan-selector.tsx` (TTC près du montant, 2 plans), `components/premium/premium-modal.tsx` (modale), `components/home/premium-cta.tsx` (accueil) ; tests `offre-s16-lot-c`, `premium-modal`, `emails-etalons-s16-lot-e`.
+- **Non modifié, à trancher par Thomas** : `/register` garde l'ancienne phrase (`reassurancePaiement(plan)`) : le prix y est rappelé en petit sans « TTC » (« Premium, 2,99 €/mois, annulable à tout moment. »), cas qui n'entre ni dans V3 ni dans V2. Aucun e-mail n'utilise cette phrase.
+- **Contrôles** (depuis `apps/web`) : `tsc -p tsconfig.build.json` OK, `npm run lint` OK (1 avertissement préexistant `admin/page.tsx`), `npm run build` OK, `tsc` complet OK, Jest sans secrets Stripe 302 suites / 4 615 tests OK.
+- **Procédure** (arbre principal propre, branche à jour) : relever d'abord le N-1 (`npx wrangler deployments list`, noter la version en ligne), puis `cd apps/web && npm run build:cf && npm run deploy:cf`. Après : `/`, `/abonnement`, `/api/health` en 200, vérifier « TTC / mois » et la nouvelle phrase sur /abonnement (mensuel et annuel), la modale et l'accueil. Retour arrière : `npx wrangler rollback <version N-1>`.
 
 - ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
 
