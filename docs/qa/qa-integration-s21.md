@@ -113,3 +113,99 @@ Vus en passant, identiques sur la version en ligne, hors périmètre de la mise 
 ## Nettoyage
 
 Serveurs locaux arrêtés, base `/var/lib/postgresql/qa-integ` supprimée, worktree temporaire de la version en ligne supprimé, worktree d'intégration non modifié (seuls les fichiers de build ignorés par git).
+
+## Tour 2 (après les correctifs `46d455f`)
+
+> @qa, session 21, 17/10/2026. Branche `claude/marrant-s21-integration` @ `46d455f` (dernier commit de la branche, CI « Tests CI » verte dessus). Worktree temporaire `qa-tour2`, supprimé à la fin.
+> Captures : `docs/qa/captures-s21/qa-tour2/` (111 PNG, échelle 1, relues). Marquage : **[LIVE]** = Chromium réel sur le build de production local, sortie observée ; **[STATIQUE]** = lecture du code ou du diff.
+
+### Verdict du tour 2
+
+**Les 6 défauts du tour 1 sont corrigés. 0 bloquant, 0 majeur, 3 mineurs nouveaux** (deux préexistants, un de process). La lettre fonctionne de bout en bout dans un vrai navigateur : inscription, confirmation **par le bouton**, désinscription **par le bouton** (lien de la page et lien réel du pied du n°1), statuts relus en base à chaque étape. L'en-tête ne déborde dans aucun des 12 cas demandés (4 largeurs x 3 états). Rien ne bloque la mise en ligne côté QA.
+
+| Défaut du tour 1 | Statut | Preuve |
+|---|---|---|
+| B1 Confirmation de la lettre en 403 | **Corrigé** [LIVE] | 375 et 1280 : Referrer-Policy `same-origin` sur `/lettre/confirmer` et `/lettre/desinscrire`, le clic envoie `Origin: http://localhost:5300`, redirection `/lettre?statut=confirmee`, base `PENDING` → **`CONFIRMED`**. Un POST d'un autre site (`Origin: https://pirate.example` ou `Origin: null` + `cross-site`) → 303 vers `/lettre?statut=erreur`, statut inchangé, plus aucun JSON brut. `lettre-confirmer-page-*`, `lettre-confirmee-*`, `lettre-statut-erreur-*` |
+| M1 Suite de bout en bout rouge, lettre non testée | **Corrigé** [LIVE] | Suite complète (4 projets) contre le build local : **131 réussis, 0 échec, 10 ignorés** (8 `achat` sans clé Stripe de test, 2 contrôles réservés à un gabarit). Le nouveau `local/lettre-parcours.spec.ts` clique Confirmer puis Me désinscrire et relit la base (vert aux 2 largeurs) ; il aurait échoué sur `bb64d37` (il exige `referrer-policy: same-origin` et `CONFIRMED`) [STATIQUE]. Jest : test `Origin: null` + `same-origin` ajouté. Voir n3 pour le branchement en CI. |
+| m1 « utilise le formulaire » sans formulaire | **Corrigé** [LIVE] | Inscription puis jeton invalide dans le même navigateur : bandeau « Ce lien ne marche plus… » et formulaire complet affiché dessous. `lettre-jeton-invalide-*` |
+| m2 Formulaire réaffiché après confirmation | **Corrigé** [LIVE] | Sous « C'est bon, c'est confirmé. » : 0 champ e-mail, seule la carte reste, avec le lien vers la vanne du jour. `lettre-confirmee-*` |
+| m3 Anneau de focus de « Confidentialité » | **Corrigé** [LIVE] | Lien `inline` de 15 px de haut, contour blanc de 2 px autour du seul mot, plus de chevauchement de la ligne au-dessus. `11-focus-lien-confidentialite-*` |
+| m4 « décryptée , » à 375 | **Corrigé à l'écran** [LIVE] | Le H1 passe à la ligne après la virgule, plus d'espace apparent. Confirmation sur iPhone réel toujours conseillée. `lettre-vide-375.png` |
+| Préexistant : barre connectée qui déborde à 1024 | **Corrigé** [LIVE] | Voir l'en-tête ci-dessous. |
+| Préexistant : contraste axe des cartes verrouillées `/conseils`, `/videos` | **Corrigé** [LIVE] | Smoke axe vert sur ces pages, sans exclusion de règle. |
+| Préexistant : bouton « Créer mon compte et m'abonner » de la modale à 375 | **Non corrigé** (hors périmètre) | Toujours sur deux lignes alignées à gauche, peu de marge. `04-videos-modale-premium-375.png` |
+
+### Conditions
+
+- **Local uniquement.** `npm run build` de la racine puis `node .next/standalone/server.js` (port 5300), environnement vide : secret NextAuth factice, prix `price_qa_local_…`, aucune clé Stripe ni Anthropic. Le proxy n'a servi qu'au build (polices Google) ; le serveur lancé n'avait aucun accès sortant.
+- **E-mails simulés** : `RESEND_BASE_URL` pointé sur un faux Resend local (127.0.0.1:5301, clé factice) qui enregistre les messages et répond 200. Aucun e-mail réel. Le n°1 a été rendu par le vrai code (`rendreEmailsTest` du script d'envoi de test, sans envoi ni base) pour récupérer le vrai lien « Se désinscrire » et l'en-tête `List-Unsubscribe`.
+- **Base PostgreSQL 16 jetable** `/var/lib/postgresql/qa-tour2` (port 5499, 127.0.0.1), schéma poussé puis seed du dépôt (80 vannes, 38 conseils, 89 vidéos). Supprimée à la fin. Jamais la production ni Neon.
+- Largeurs : 375x812 (tactile) et 1280x800 ; en-tête à 1024, 1100, 1280, 1440 ; menu mobile aussi à 375x550 et 320x568.
+- Artefacts locaux, **pas des défauts** : `/_next/image` en 500 sur les miniatures YouTube (pas d'accès sortant) ; « Failed to fetch RSC payload » (préchargements coupés par la navigation du script) ; au démarrage, `ALERTE 2026-11 : article cité « soiree-de-noel-entreprise-humour » absent de la base` (et 3 autres numéros) parce que le seed ne contient pas les articles du blog. Le garde-fou fait son travail ; en production, la date de publication de `soiree-de-noel-entreprise-humour` reste à avancer avant le 05/11 (procédure de `REPLIT_ACTIONS.md` en cours de mise à jour, voir `docs/reviews/revue-integration-s21.md`, M2).
+
+### Lettre : parcours complet [LIVE]
+
+| Étape | 375 | 1280 | Base après l'étape |
+|---|---|---|---|
+| `/lettre` vide, axe | OK, 0 violation | OK, 0 violation | |
+| Adresse `yanis@gmail` | « ! Cette adresse n'a pas l'air complète. Un exemple : toi@exemple.fr » | identique | |
+| Inscription réelle | « Regarde ta boîte mail. », renvoi dans 60 s, « Mauvaise adresse ? La corriger » | identique | `PENDING` |
+| E-mail reçu (faux Resend) | « Une dernière étape pour recevoir la lettre », lien `/lettre/confirmer?token=…` | identique | |
+| Clic « Confirmer mon adresse » | `Origin` envoyé, « C'est bon, c'est confirmé. » | identique | **`CONFIRMED`** |
+| Lien de la page `/lettre/desinscrire`, clic « Me désinscrire » | « C'est fait, tu ne recevras plus la lettre. » + « Mauvais bouton ? Te réinscrire » | identique | **`UNSUBSCRIBED`** |
+| Lien « Se désinscrire » **du pied du n°1** (vrai rendu), clic | redirection `statut=desinscrit` | identique | **`UNSUBSCRIBED`** |
+| POST en un clic de l'en-tête `List-Unsubscribe` (RFC 8058), sans `Origin` | 200 | | **`UNSUBSCRIBED`** |
+| POST de désinscription depuis un autre site, sans corps « un clic » | 303 vers `statut=erreur` | | reste `CONFIRMED` |
+| Formulaire de fin d'article, sans case puis avec | « ! Coche la case… », puis succès | identique | `PENDING`, source `article:comment-devenir-drole` |
+
+Ordre clavier du formulaire : champ, case, bouton, « Confidentialité » (ordre visuel identique). axe 0 sur `/lettre`, `/lettre/confirmer`, `/lettre/desinscrire` et le formulaire d'article.
+
+### En-tête : 4 largeurs x 3 états [LIVE]
+
+Mesuré sur `/conseils` : largeur de défilement = largeur d'écran, aucun chevauchement entre logo, onglets, recherche et actions, aucun libellé coupé ni sur deux lignes, dans les **12 cas**. Captures `entete-<largeur>-<état>.png`.
+
+| État | 1024 et 1100 | 1280 et 1440 |
+|---|---|---|
+| Visiteur | 7 onglets (dont « La lettre »), loupe 44x44, « Connexion », « Commencer » | 7 onglets, champ « Rechercher... » de 176 px, « Connexion », « Commencer » |
+| Connecté gratuit | 7 onglets, loupe, « Activer mon accès », bouton « Mon compte » 44x44 | idem avec le champ de 176 px |
+| Connecté Premium | 7 onglets (« Carnet » à la place de « La lettre »), loupe, « Mon compte » | idem avec le champ de 176 px |
+
+- **Loupe à 1100** : ouvre le panneau (`aria-expanded="true"`), le focus va dans le champ, axe 0 sur le panneau.
+- **Menu de compte au clavier** (gratuit et Premium, à 1024, 1280 et 1440) : bouton atteint à la tabulation (12e à 1024 en gratuit), anneau violet de 2 px visible, `aria-haspopup="menu"` ; Entrée ou Espace ouvre, le focus va sur « Favoris », flèche bas → « Mon profil » → « Déconnexion », Fin → « Déconnexion » ; Échap ferme et rend le focus au bouton ; Entrée sur « Mon profil » ouvre `/profil` ; Entrée sur « Déconnexion » ramène à `/` en visiteur. 3 entrées de 44 px, menu dans l'écran (bord droit à 1008 px à 1024). axe 0 sur le menu ouvert. Captures `menu-compte-focus-*`, `menu-compte-clavier-1280-*`, `menu-compte-ouvert-clavier-*`.
+- Remarque, pas un défaut : Tab dans le menu ouvert ne le ferme pas (comportement Radix) ; Échap en sort toujours, ce n'est pas un piège clavier.
+
+### Menu mobile [LIVE]
+
+| Gabarit | Visiteur | Gratuit | Premium |
+|---|---|---|---|
+| 375x812 | 9 entrées, bas à 638 px, pas de défilement | 11 entrées, bas à 742 px | 10 entrées, bas à 690 px |
+| 375x550 | borné à 549 px, défile jusqu'à « Connexion » | défile jusqu'à « Déconnexion » | idem |
+| 320x568 | borné à 567 px, défile jusqu'au bout | idem | idem |
+
+Toutes les entrées font 44 px, « La lettre » après « Blog » (absente en Premium, voulu), axe 0 sur le menu dans les 3 états. Captures `menu-mobile-*`.
+
+### /abonnement mensuel et annuel [LIVE]
+
+H1 « Ta réplique pendant la soirée, pas dans le bus du retour ». Bouton d'achat de 48 px au premier écran, **même position dans les deux formules** : bas à 646 px sur 812 à 375 (tour 1 : 739 et 757), 675 px sur 800 à 1280. « Commencer à 2,99 €/mois » ; « Commencer à 24,99 €/an » avec « soit 2,08 € par mois, plus de 3 mois offerts, 10,89 € économisés par an ». Clic annuel → `/register?callbackUrl=/abonnement?plan=annual&src=abonnement`, qui affiche « Premium, 24,99 € TTC par an, annulable à tout moment. ». Rien payé. axe 0. Captures `06-*`.
+
+### Non-régression des autres parcours [LIVE]
+
+Tous OK aux deux largeurs, axe 0 partout, aucune erreur JavaScript : accueil (un seul H1, bloc lettre + « Voir la lettre → ») ; article `comment-devenir-drole` (« Lire la première étape gratuite de Répartie » en contour, « Accéder aux parcours complets » en plein, formulaire de la lettre) ; quiz jusqu'au résultat (2 boutons, formulaire de la lettre dans un navigateur neuf, bloc « il reste à confirmer » si une inscription est en attente, voulu) ; `/vannes`, fiches vanne, conseil et vidéo (« Voir ce que contient Premium » en 44 px) ; modale Premium ; `/parcours` et `machine-a-cafe` (« Lecture libre », étape 2 en aperçu) ; `/register`, `/login` ; pied de page (« La lettre du mois » → `/lettre`) ; `/confidentialite#lettre` (titre « 8. La lettre » à 96 px du haut, sous l'en-tête) ; `/cgu` ; 404 (« Oups, cette page a oublié sa punchline », code 404). Console : seules erreurs = artefacts listés plus haut et le 404 voulu.
+
+### Tests automatiques [LIVE]
+
+- **Playwright, suite complète** (`npm run test:e2e`, projets `desktop`, `iphone-13`, `local`, `achat`) contre le build local, Chromium `/opt/pw-browsers` : **131 réussis, 0 échec, 10 ignorés** (1,1 min). `local` : 9/9 (lettre aux 2 largeurs, en-tête 6 largeurs x 3 états, menu de compte au clavier, loupe, menu mobile 375x550).
+- **Jest sans secrets** : **319 suites, 4 873 tests réussis**, 5 ignorés, 0 échec (tour 1 : 318 et 4 841).
+- `tsc -p playwright/tsconfig.json` : 0 erreur.
+
+### Nouveaux défauts
+
+| # | Gravité | Défaut | Régression ? |
+|---|---|---|---|
+| n1 | Mineur | Menu mobile : **Échap ne le ferme pas** (3 états, 375x812). Correction : écouter Échap dans `mobile-nav.tsx`, fermer et rendre le focus au bouton « Menu ». | Non : aucun gestionnaire Échap ni avant (`75a809b`) ni maintenant [STATIQUE] |
+| n2 | Mineur | **Défilement horizontal à 320 px** : `/conseils` 332 px (+12), `/vannes` 348 px (+28). La grille de cartes déborde de sa boîte de 288 px (cause probable : largeur minimale de contenu d'une carte, grille sans `min-w-0` ni `minmax(0,1fr)`, à confirmer par @fullstack). 375 et 360 px : aucun débordement. Le menu mobile lui-même reste correct à 320. `debordement-320-*.png` | Probablement non : aucun composant de carte modifié depuis `75a809b` [STATIQUE, version en ligne non reconstruite pour ce point] |
+| n3 | Mineur (process) | Le projet Playwright `local` (le seul test qui clique « Confirmer mon adresse » dans un navigateur) **n'est lancé par aucun workflow** : `tests.yml` joue Jest, `e2e-parcours.yml` seulement le smoke. En CI, la cause de B1 n'est couverte que par Jest (`Origin: null` + `same-origin`). Proposition : job `local` dans `tests.yml` (service PostgreSQL, build, faux Resend déjà fourni par le spec), ou au minimum le lancer avant chaque mise en ligne qui touche la lettre ou l'en-tête. | Non |
+
+### Nettoyage
+
+Serveur local arrêté, base `/var/lib/postgresql/qa-tour2` supprimée, worktree `qa-tour2` supprimé. Seuls ce fichier et `docs/qa/captures-s21/qa-tour2/` sont commités.
