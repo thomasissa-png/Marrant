@@ -96,3 +96,17 @@ Draft de référence, pas un avis d'avocat (articles de mémoire, `[À VÉRIFIER
 - **R2** : case et mention visibles ensemble sur mobile, sans repli ni défilement caché, et le lien Confidentialité mène à la section lettre, publiée le jour de l'ouverture (B7).
 - **R3** : le lien « Te réinscrire » ne rétablit jamais `CONFIRMED` en silence : il ramène au formulaire (case non cochée, double opt-in) ou, au minimum, à un bouton qui réécrit date et version du texte de la case.
 - **R4 (A6)** : « deviens-marrant SAS » figure dans la mention du duel 3 et les pieds. Tant que la société n'est pas immatriculée, elle n'a pas de personnalité morale (art. 1842 Code civil, L.210-6 Code de commerce `[À VÉRIFIER]`) et le responsable réel est le fondateur : l'identité affichée serait inexacte. Ouvrir la lettre une fois la SAS immatriculée (et mentions légales alignées), sinon remplacer le nom par l'identité exacte de l'éditeur actuel telle qu'au site. Immatriculation au 17/10 : `[À CONFIRMER par le fondateur]`, non établie dans les documents lus.
+
+## Textes publiés à l'ouverture, 17/10
+Draft de référence, pas un avis d'avocat. Contrôle fait sur la copie de travail `.claude/worktrees/agent-a6072b0ac19da7774` (pas de git) : à reconfirmer si la branche d'intégration a divergé.
+
+**1. Partie 7, retrait du consentement.** Ma phrase d'origine est retirée (elle citait la reprise d'une question et la copie des questions, services non ouverts). À publier en section 7, après le paragraphe du rappel de parcours :
+« Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-mail : ce que tu as reçu avant reste valable. »
+L'accès aux données de la lettre est déjà couvert par « Pour les autres droits, écris à contact@deviens-marrant.fr ».
+
+**2. Partie 6, effacement.** Ma parenthèse « (sauf la trace de ta désinscription) » serait fausse : `deleteAccount` supprime la ligne `newsletterSubscriber` de l'adresse du compte, preuve de désinscription comprise. Dans la section 6, premier paragraphe, remplacer « ton inscription à la newsletter » par :
+« ton inscription à la lettre faite avec l'adresse de ton compte »
+Et ajouter à la fin du paragraphe « Lettre : tu restes inscrit… » de la section 8 (sinon elle promet 3 ans de conservation que le code ne tient pas dans ce cas) :
+« Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui. »
+
+**Reste conforme ?** Oui, mot pour mot : section 8 (données, bases, durées 7 jours, 24 mois, 3 ans), Resend, article 8 des CGU, article 10 (phrase de la lettre mensuelle seule, numérotation à la fin pour ne pas casser les renvois), et rien n'annonce les questions ni l'hebdo. Quatre écarts : (a) « newsletter » en section 6, corrigé par le texte 2 ; (b) CGU article 2 dit « plus de 15 ans », la politique « 15 ans et plus » : aligner sur « de 15 ans et plus » ; (c) R4 toujours ouverte (« deviens-marrant SAS » comme responsable tant que l'immatriculation n'est pas confirmée) ; (d) code : conserver à terme les lignes `UNSUBSCRIBED` à la suppression du compte (adresse, dates, version, sans empreinte d'IP, 3 ans) pour garder la liste d'exclusion, puis rétablir ma parenthèse d'origine. Risque d'ici là : faible (aucune réinscription sans nouvelle case et double opt-in).
