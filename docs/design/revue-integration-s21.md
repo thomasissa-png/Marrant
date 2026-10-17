@@ -197,3 +197,80 @@ Les points 1 à 3 sont des changements de classes Tailwind (aucun texte, aucun j
 - Preuves manquantes pour 10 : quiz, 768, 320 /abonnement, en-tête 1100 / 1536 / 1920, menu mobile connecté, résultat chiffré de `header-budget`.
 ---
 
+# Tour 3 (verdict final, 17/10/2026, commit 878eaee ou plus récent)
+
+Périmètre : lu une à une 30 captures de `docs/qa/captures-s21/final/` (quiz x4, 768 x6, abonnement 320 / 375 x 700 / focus clavier, en-tête 1024, 1100, 1280, 1536, 1920 dans les 3 états, menu mobile 375 x 550 dans les 3 états, statuts et sous-pages /lettre, bloc lettre d'article 375 et 1280, pied de page, 320 vannes / conseils), `header-budget-resultat.txt` en entier (18 lignes), `liste-captures.txt`, et le code du worktree (`lettre-statut.tsx`, `lettre-bouton-action.tsx`, `abonnement-view.tsx` lignes 259-290, `blog-article-view.tsx` lignes 47-60, `docs/design/design-system.md`). Aucun code modifié, aucun git. Limite : je ne peux pas vérifier le numéro de commit (pas de git) ; j'ai vérifié les changements eux-mêmes dans le code et sur le rendu.
+
+## T3.1 Note : 9,5 / 10 (GO mise en ligne : aucun défaut visible, aucun défaut de parcours ; reste un écart de documentation et une capture de preuve)
+
+| Zone | Tour 2 | Tour 3 | Raison en une ligne |
+|---|---|---|---|
+| En-tête, toutes largeurs | 9,5 | 10 | 18 combinaisons mesurées vertes (voir T3.3) et 15 captures lues sans coupe ; marge droite 16 px aux 3 états à 1024, 1100, 1280. |
+| Menu mobile | 9,5 | 10 | 375 x 550 dans les 3 états : bas du menu atteignable (« Connexion » visiteur, « Activer mon accès » / « Déconnexion » gratuit, « Déconnexion » Premium). |
+| Page /abonnement | 9,0 | 9,5 | Bouton entier à 375 x 700 aux deux formules (603 à 650) ; reste un trou de 60 px en mensuel contre 23 px en annuel (esthétique, sans saut). |
+| Boutons niveau 1 / niveau 2 | 9,5 | 10 | Une seule bordure de niveau 2 sur toutes les pages relues, y compris quiz, sous-pages /lettre et article. |
+| Formulaire de la lettre | 9,0 | 10 | Quiz prouvé (premier passage et retour, 375 et 1280) : 24 px d'écart, bouton contour sous le plein, case sombre. |
+| Statuts et sous-pages /lettre | 8,0 | 10 | Plus d'anneau violet, même colonne (x = 320) et même H1 que /lettre à 1280. |
+| Bloc d'accueil, pied de page | 9,5 | 9,5 | Inchangés ; 768 prouvé pour l'accueil. |
+| Documentation du design system | n/a | 9,0 | Une ligne contredit le rendu livré (T3.4 point 1). |
+
+Grille des 10 critères :
+
+| # | Critère | Tour 2 | Tour 3 | Preuve |
+|---|---|---|---|---|
+| 1 | PRO | 0,95 | 1,0 | `entete-1024-gratuit.png`, `entete-1100-gratuit-ecran.png`, `entete-1920-visiteur-ecran.png` : aucun libellé coupé ; `libellés-coupés=0` sur 18 lignes. |
+| 2 | BEAU | 0,9 | 1,0 | Statuts sobres (`lettre-statut-erreur-375.png`), quiz propre (`quiz-resultat-premier-passage-1280.png`). |
+| 3 | BRAND-ALIGNED | 0,95 | 1,0 | Plus de violet fort sur un message d'erreur ; violet plein = Premium seul. |
+| 4 | MÊME IDENTITÉ | 0,9 | 1,0 | `lettre-desinscrire-page-1280.png` et `lettre-vide-1280.png` : mêmes colonne, H1 et bouton ; même bordure de niveau 2 partout. |
+| 5 | PROPRE | 0,9 | 1,0 | Aucun anneau résiduel, aucune coupe. |
+| 6 | ALIGNÉ | 0,85 | 0,95 | Bouton fixe entre formules ; seul écart : trou de 60 px (mensuel) contre 23 px (annuel) sous le texte du prix. |
+| 7 | AÉRÉ | 0,9 | 1,0 | `article-bloc-lettre-375.png` : 33 px sous la carte Premium jusqu'au filet ; 1280 : 32 px. |
+| 8 | CONVERSION | 0,95 | 1,0 | Un seul plein par écran sur toutes les pages relues (le menu mobile ouvert montre deux « Commencer », voir observation c). |
+| 9 | HIÉRARCHIE | 0,95 | 1,0 | Titre, prix, bouton à 375 et 768 ; la lettre reste en retrait derrière Premium dans le quiz et l'article. |
+| 10 | ACCESSIBLE | 0,95 | 1,0 | Focus clavier du sélecteur lisible (`abonnement-selecteur-focus-clavier-1280.png`), cibles et contrastes inchangés. |
+
+Total des critères : 9,9. Note finale 9,5 : j'enlève 0,4 pour l'écart de documentation (T3.4 point 1) et la capture non refaite (point 2), qui figuraient dans ma liste « pour 10 » du tour 2 et ne sont pas faits ; ce sont les seuls retraits, aucun ne tient à un goût.
+
+## T3.2 Points du tour 2 : levé / non levé
+
+| Réf. | Verdict | Preuve |
+|---|---|---|
+| N1 anneau violet sur les bandeaux de statut | **Levé** | Code : `lettre-statut.tsx` ligne 43, `focus:outline-none` sans `ring`, bordure `border-border`. Rendu : `lettre-statut-erreur-375.png`, `lettre-statut-invalide-1280.png`, `lettre-statut-confirmee-375.png`, `lettre-statut-desinscrit-1280.png` : aucun cadre violet. |
+| N2 sous-pages décalées | **Levé** | Code : `lettre-bouton-action.tsx` `max-w-2xl px-4 py-10`, H1 `text-balance ... text-2xl sm:text-3xl`, paragraphe `max-w-lg`. Rendu : `lettre-desinscrire-page-1280.png` texte à x = 320, H1 30 px, identiques à `lettre-vide-1280.png` ; 375 : `lettre-confirmer-page-375.png` cohérent. |
+| N3 bouton collé en annuel | **Levé** | Code : `mt-5 sm:mt-8` aux deux boutons (lignes 265 et 276). Rendu : `abonnement-annuel-375x700.png` environ 23 px de texte à bouton (18 avant), bouton 603 à 650 sur 700. |
+| N4 lettre collée au bloc Premium | **Levé** | Code : `blog-article-view.tsx` ligne 57, `mt-8 border-t border-border pt-6`. Rendu : environ 33 px (375) et 32 px (1280) entre la carte et le filet, contre 17 et 16. |
+| Preuve quiz (m8) | **Levé** | `quiz-resultat-premier-passage-375/1280.png`, `quiz-resultat-retour-375/1280.png` : environ 24 px entre la carte du résultat et « Une vanne décryptée, chaque mois », « Refaire le quiz » en lien discret au retour ; aucun défaut nouveau. |
+| Preuve 768 | **Levé** | Accueil, article, /abonnement, /lettre, menu ouvert : barre mobile (Connexion, Commencer, loupe, menu), carte de prix centrée, formulaire 640 px centré, menu avec « La lettre » et « Commencer » en bas. Aucun défaut. |
+| Preuve /abonnement 320 x 568 | **Levé** | Titre sur 3 lignes, sélecteur, pastille « plus de 3 mois offerts » qui suit à la ligne, prix, début de la ligne annuelle ; le bouton est sous le pli (voir observation a). |
+| Preuve en-tête 1100, 1536, 1920 x 3 états | **Levé** | 9 captures + `-ecran` : barre centrée sur 1280, aucune coupe ; 1100 : loupe, 7 onglets, « Activer mon accès » + compte. |
+| Preuve menu mobile connecté et Premium (375 x 550) | **Levé** | `menu-mobile-ouvert-375x550-gratuit-bas.png` et `-premium-bas.png` : bas atteignable, entrées Favoris / Mon profil / Déconnexion lisibles. |
+| Preuve focus clavier du sélecteur | **Levé** | `abonnement-selecteur-focus-clavier-1280.png` : anneau double sur « Annuel » au clavier (attendu : sélection + focus), absent au clic (tour 2). |
+| Chiffres `header-budget` (T2.4 point 5) | **Levé** | `header-budget-resultat.txt` : 18 lignes, 0 libellé coupé, 0 débordement, recherche 176 px et aide entière dès 1280, loupe en dessous ; plus petite marge entre blocs 23,0 px (visiteur 1024) ; suite complète 137 réussis, 0 échec. |
+| Capture d'élément du pied de page 375 (T2.4 point 6) | **Non levé** | `pied-de-page-375.png` montre toujours l'en-tête sticky au milieu de l'image. Sans conséquence produit : le pied de page 375 est lisible en 6 / 5 sur `quiz-resultat-premier-passage-375.png` et `lettre-statut-confirmee-375.png`. |
+| Doc : nuancer « Jamais de case native » (T2.4 point 7) | **Non levé** | `docs/design/design-system.md` ligne 83 (rubrique Interrupteur) dit toujours « Jamais de case native sur fond sombre », alors que la rubrique « Contrôles natifs » ligne 65 et le rendu (case de consentement native en `color-scheme: dark`) disent l'inverse. |
+
+## T3.3 Mesures : lecture critique de `header-budget-resultat.txt`
+
+Cohérent avec les captures : recherche 176 px et « aide entière » à 1280, 1440, 1536, 1920 dans les 3 états, `barre=1280/1280` au-delà de 1280 (max-w-7xl respecté, pas de débordement), marge droite 16,0 px à 1024, 1100, 1280 (tout est calé sur la marge de page). Marge la plus faible : 23,0 px entre blocs (visiteur 1024), 26,3 px (gratuit 1024) ; assez pour ne pas coller, mais le prochain onglet ou bouton consommerait cette marge : le test échouera à ce moment-là, ce qui est le but. Aucune valeur n'est fabriquée à ma connaissance ; les chiffres recoupent ce que je mesure sur les captures (loupe à 1024, champ à 1280).
+
+## T3.4 Ce qui manque pour 10 / 10 et pourquoi
+
+1. **Une phrase de documentation** : `docs/design/design-system.md` ligne 83, remplacer « Jamais de case native sur fond sombre. » par « Pas de case native pour un interrupteur ; la case de consentement reste native, en `color-scheme: dark` (voir Contrôles natifs). » Pourquoi ce n'est pas anodin : le design system est le contrat entre designer et développeur ; la prochaine personne qui lira « jamais de case native » corrigera à raison la case de consentement vers un composant sur mesure, et défera ce qui vient d'être validé. Non bloquant pour la mise en ligne (rien de public n'est touché), à faire dans le même commit.
+2. **Capture du pied de page 375 en capture d'élément** (sans en-tête sticky) : `pied-de-page-375.png` doit être reprise ou supprimée de `final/`, sinon un lecteur futur jugera ce rendu à tort. La preuve visuelle existe ailleurs ; c'est de l'hygiène de dossier, 2 minutes.
+
+Aucun des deux points ne justifie de retarder la mise en ligne. Avec 1 et 2 faits, la note est 10 / 10.
+
+## T3.5 Observations (aucune action requise pour la note)
+
+a. **Correction d'une affirmation du tour 2** : j'avais écrit que « Commencer » de l'en-tête reste visible à 320 x 568. C'est faux : à 320, l'en-tête n'affiche que le logo et le menu (`abonnement-mensuel-320x568.png`). Le bouton d'achat est donc sous le pli à 320 x 568 (iPhone SE 1re génération, usage marginal) et on y accède par un défilement d'environ 100 px, le prix et le sélecteur étant déjà visibles. Je ne le compte pas comme défaut (le critère demandé était 375 x 700, tenu) ; si un jour on veut le couvrir : `Commencer` en en-tête dès 320 (même discussion que sur les 360 ou moins).
+b. **Trou en mensuel à 375** (60 px entre « économisés par an. » et le bouton) : conséquence assumée de la hauteur réservée anti-saut ; lisible comme de l'air. Optionnel : réduire la hauteur réservée de 16 px sans réintroduire de saut.
+c. **Menu mobile ouvert (visiteur)** : « Commencer » apparaît deux fois (barre et bas du panneau), même action, même destination ; ce n'est pas deux actions en concurrence. À ne pas toucher.
+d. **Hors périmètre** : `320-conseils-cartes.png` montre l'encart « Filtres par niveau et catégorie disponibles avec l'abonnement Premium » avec une coupe de ligne irrégulière (3 lignes, la dernière plus espacée) ; antérieur à s21, page /conseils, à noter pour un lot ultérieur.
+e. **Liens du bandeau de statut** (« Voir la vanne du jour... », « Mauvais bouton ? Te réinscrire ») : hauteur de cible d'environ 20 px, sans autre cible à moins de 24 px : conforme à WCAG 2.5.8 (exception d'espacement), sous la barre des 44 px que le projet vise ailleurs. Un `py-3` suffirait si on veut l'homogénéité.
+
+---
+**Handoff Tour 3 → @orchestrator (puis @fullstack, @qa)**
+- Fichier : `/home/user/Marrant/docs/design/revue-integration-s21.md` (section « Tour 3 ») ; NOTE 9,5 / 10, GO mise en ligne : N1 à N4 levés, toutes les preuves du tour 2 fournies sans nouveau défaut, 18 combinaisons `header-budget` vertes.
+- Pour 10 : (1) `design-system.md` ligne 83, nuancer « Jamais de case native » (contredit « Contrôles natifs » ligne 65) ; (2) reprendre `pied-de-page-375.png` en capture d'élément ou la supprimer. Aucun des deux ne bloque la prod.
+---
+
