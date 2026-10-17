@@ -69,7 +69,7 @@ describe("Textes de la lettre", () => {
     }
   });
 
-  it("le pied des numéros porte la mention d'éditeur @legal (marqueur tant qu'elle manque) et le contact", () => {
+  it("le pied des numéros porte la mention d'éditeur @legal (« deviens-marrant SAS », Thomas 17/10) et le contact", () => {
     const pied = EMAILS_LETTRE.piedNumero("L", "https://deviens-marrant.fr");
     const { LETTRE_MENTION_EDITEUR_NUMERO } = jest.requireActual("@/config/lettre");
     expect(pied).toContain(`Éditeur${NBSP}: ${frPonctuation(LETTRE_MENTION_EDITEUR_NUMERO)}.`);
@@ -82,9 +82,9 @@ describe("Interrupteur", () => {
     expect(jest.requireActual("@/config/lettre").LETTRE_OUVERTE).toBe(false);
   });
 
-  it("jours d'envoi livrés : jamais avant décembre 2026 (ouverture après le 10/11)", () => {
+  it("jours d'envoi livrés : jamais avant le jeudi 19/11/2026 à 8 h (Paris), premier jeudi après la date plancher du n°1", () => {
     expect(numerosJson.length).toBeGreaterThan(0);
-    for (const n of numerosJson) if (n.envoiPrevu) expect(new Date(n.envoiPrevu).getTime()).toBeGreaterThanOrEqual(Date.parse("2026-12-01T00:00:00+01:00"));
+    for (const n of numerosJson) if (n.envoiPrevu) expect(new Date(n.envoiPrevu).getTime()).toBeGreaterThanOrEqual(Date.parse("2026-11-19T08:00:00+01:00"));
   });
 });
 

@@ -23,11 +23,11 @@ export const MARQUEUR_A_COMPLETER = "[À COMPLÉTER";
 
 /**
  * Mention d'éditeur du pied des NUMÉROS (`docs/copy/lettre-mensuelle-s21/numeros-1-a-6.md`
- * §1.5, `{{mention_editeur}}`). En attente de @legal (A6 : SAS en cours
- * d'immatriculation, siège, RCS). Remplacer le marqueur par le texte de @legal
- * débloque l'envoi ; le pied des e-mails de confirmation n'en dépend pas.
+ * §1.5, `{{mention_editeur}}`). Décision de Thomas du 17/10 : « deviens-marrant SAS »,
+ * identique à la mention sous le bouton. Le garde-fou `MARQUEUR_A_COMPLETER` reste
+ * actif : un marqueur réintroduit ici bloquerait de nouveau l'envoi.
  */
-export const LETTRE_MENTION_EDITEUR_NUMERO: string = `${MARQUEUR_A_COMPLETER} : mention d'éditeur des numéros, avis @legal A6]`;
+export const LETTRE_MENTION_EDITEUR_NUMERO: string = "deviens-marrant SAS";
 
 /** Emplacements du composant (spec §1). `page` = /lettre. */
 export const LETTRE_EMPLACEMENTS = ["article", "quiz", "page"] as const;

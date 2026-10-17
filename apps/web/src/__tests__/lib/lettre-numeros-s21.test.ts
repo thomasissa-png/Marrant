@@ -114,25 +114,30 @@ describe("envoi des numéros", () => {
     mockMention = null;
   });
 
-  it("mention d'éditeur encore [À COMPLÉTER] : aucun numéro n'est envoyable, même jour d'envoi fixé et atteint", () => {
+  it("mention d'éditeur livrée (Thomas, 17/10) : « deviens-marrant SAS », sans marqueur", () => {
+    const { LETTRE_MENTION_EDITEUR_NUMERO, MARQUEUR_A_COMPLETER } = jest.requireActual("@/config/lettre");
+    expect(LETTRE_MENTION_EDITEUR_NUMERO).toBe("deviens-marrant SAS");
+    expect(LETTRE_MENTION_EDITEUR_NUMERO).not.toContain(MARQUEUR_A_COMPLETER);
+  });
+
+  it("garde-fou : mention d'éditeur avec un marqueur [À COMPLÉTER], aucun numéro n'est envoyable, même jour d'envoi fixé et atteint", () => {
+    mockMention = `${jest.requireActual("@/config/lettre").MARQUEUR_A_COMPLETER} : mention d'éditeur]`;
     const loin = new Date("2030-01-01T12:00:00Z");
     for (const n of numeros) {
       expect(numeroEnvoyable({ ...n, envoiPrevu: "2027-06-01T08:00:00+02:00" }, loin)).toBe(false);
     }
   });
 
-  it("jours d'envoi livrés (Thomas, 17/10) : premier jeudi du mois à 8 h (Paris), dès décembre 2026 ; n°1 en attente", () => {
+  it("jours d'envoi livrés (Thomas, 17/10) : premier jeudi du mois à 8 h (Paris) ; n°1 le premier jeudi après sa date plancher", () => {
     expect(numeros.map((n) => n.envoiPrevu)).toEqual([
-      null,
+      "2026-11-19T08:00:00+01:00",
       "2026-12-03T08:00:00+01:00",
       "2027-01-07T08:00:00+01:00",
       "2027-02-04T08:00:00+01:00",
       "2027-03-04T08:00:00+01:00",
       "2027-04-01T08:00:00+02:00",
     ]);
-    mockMention = "mention de test";
-    expect(numeroEnvoyable(numeros[0], new Date("2030-01-01T12:00:00Z"))).toBe(false);
-    for (const n of numeros.slice(1)) {
+    for (const n of numeros) {
       const prevu = new Date(n.envoiPrevu as string);
       expect(numeroEnvoyable(n, new Date(prevu.getTime() - 60_000))).toBe(false);
       expect(numeroEnvoyable(n, prevu)).toBe(true);

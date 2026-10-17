@@ -120,8 +120,8 @@ describe("envoyerLettreDuMois", () => {
   });
 
   it("marqueur [À COMPLÉTER] dans le pied (mention d'éditeur) : numéro bloqué, rien n'est envoyé", async () => {
-    mockMention = jest.requireActual("@/config/lettre").LETTRE_MENTION_EDITEUR_NUMERO;
-    expect(mockMention).toContain("[À COMPLÉTER");
+    // Garde-fou conservé pour l'avenir : un marqueur réintroduit dans la mention bloque l'envoi.
+    mockMention = `${jest.requireActual("@/config/lettre").MARQUEUR_A_COMPLETER} : mention d'éditeur]`;
     const envoyer = jest.fn();
     const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(r).toMatchObject({ bloque: true, numero: "2026-11", envoyes: 0, termine: false });
@@ -219,7 +219,7 @@ describe("envoyerLettreDuMois", () => {
 describe("corpsNumero", () => {
   it("ajoute le pied légal et la désinscription, sans tiret cadratin", () => {
     const texte = corpsNumero("La vanne du mois.\n", BASE, "tok");
-    expect(texte).toContain("Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.");
+    expect(texte).toContain("Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.");
     expect(texte).toContain(`Contact${NBSP}: contact@deviens-marrant.fr`);
     expect(texte).toContain(`Confidentialité${NBSP}: ${BASE}/confidentialite`);
     expect(texte).not.toContain("—");

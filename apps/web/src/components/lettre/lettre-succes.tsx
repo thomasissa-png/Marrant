@@ -17,7 +17,7 @@ const S = TEXTES_LETTRE.succes;
 
 /**
  * État « Regarde ta boîte mail » (spec §2.4) : même écran pour une nouvelle adresse et
- * une adresse déjà inscrite (anti-fuite). Jamais « Tu es inscrit » avant le clic de
+ * une adresse déjà inscrite (anti-fuite). Jamais « C'est confirmé » avant le clic de
  * confirmation. Focus sur le titre ; compte à rebours annoncé toutes les 15 s.
  */
 export function LettreSucces({ id, attente, erreur, onRenvoyer, onChanger }: LettreSuccesProps) {

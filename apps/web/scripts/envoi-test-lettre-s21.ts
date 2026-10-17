@@ -8,7 +8,7 @@
  *      objet passé par `frPonctuation`, corps + pied par `corpsNumero`, en-têtes
  *      `List-Unsubscribe` par `enTetesDesinscription`, réponse à `LETTRE_CONTACT`.
  * puis les envoie par Resend (clé `RESEND_API_KEY`, expéditeur `EMAIL_FROM`),
- * objet préfixé « [TEST] ».
+ * objet préfixé « [TEST 2] » (2e envoi : textes neutres validés, mention d'éditeur, 17/10).
  *
  * Garde-fous :
  *  - liste blanche codée en dur (adresse d'Alex SEULE), vérifiée au départ ET
@@ -33,7 +33,7 @@ import { frPonctuation } from "@/lib/fr-typo";
 /** Seule adresse autorisée (Thomas, 17/10). Ne jamais élargir sans son accord écrit. */
 export const DESTINATAIRES_TEST_AUTORISES: readonly string[] = ["alex@deviens-marrant.fr"];
 export const ADRESSE_TEST = "alex@deviens-marrant.fr";
-export const PREFIXE_TEST = "[TEST] ";
+export const PREFIXE_TEST = "[TEST 2] ";
 const BASE_URL = "https://deviens-marrant.fr";
 /** Jeton fictif : les liens de l'e-mail de test ne confirment ni ne désinscrivent personne. */
 const JETON_TEST = "envoi-de-test-lien-non-valide";

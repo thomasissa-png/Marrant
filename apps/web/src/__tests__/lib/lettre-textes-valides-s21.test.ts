@@ -106,7 +106,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     });
     const c = T.statuts.confirmee;
     expect([c.titre, c.texte, c.lien]).toEqual([
-      "C'est bon, tu es inscrit.",
+      "C'est bon, c'est confirmé.",
       "Une lettre par mois, avec une vanne décryptée.",
       "Voir la vanne du jour et son décryptage",
     ]);
@@ -186,13 +186,12 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     ]);
   });
 
-  it("bloc 13 : pied de chaque numéro (tour 1, A, inchangé)", () => {
-    const { LETTRE_MENTION_EDITEUR_NUMERO } = jest.requireActual("@/config/lettre");
+  it("bloc 13 : pied de chaque numéro (1re ligne neutre validée à l'aveugle, mention d'éditeur de Thomas)", () => {
     expect(EMAILS.piedNumero("DESINSCRIRE", BASE).split("\n")).toEqual([
       "",
       "--",
-      "Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.",
-      `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : contact@deviens-marrant.fr.`,
+      "Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.",
+      "Éditeur : deviens-marrant SAS. Contact : contact@deviens-marrant.fr.",
       "Se désinscrire : DESINSCRIRE",
       `Confidentialité : ${BASE}/confidentialite`,
     ]);

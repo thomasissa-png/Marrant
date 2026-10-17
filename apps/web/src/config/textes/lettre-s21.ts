@@ -117,9 +117,9 @@ const TEXTES_SOURCE = {
     },
   },
   statuts: {
-    /** Bloc 7 (tour 1, duel 7, A). */
+    /** Bloc 7 (tour 1, duel 7, A ; titre neutre validé à l'aveugle, relecture neutre tour 2, duel 1). */
     confirmee: {
-      titre: "C'est bon, tu es inscrit.",
+      titre: "C'est bon, c'est confirmé.",
       texte: "Une lettre par mois, avec une vanne décryptée.",
       /* Pas de ligne « Le prochain numéro arrive le… » : date jamais affichée (Thomas, 17/10). */
       lien: "Voir la vanne du jour et son décryptage",
@@ -225,12 +225,12 @@ const EMAILS_SOURCE = {
         `Se désinscrire maintenant : ${lienDesinscrire}`,
       ].join("\n"),
   },
-  /** Bloc 13 (tour 1, duel 13, A), inchangé. Pied ajouté à chaque numéro mensuel (le corps vient de `NewsletterIssue.bodyText`). */
+  /** Bloc 13 (tour 1, duel 13, A ; 1re ligne neutre validée à l'aveugle, relecture neutre tour 1, duel 2, B). Pied ajouté à chaque numéro mensuel (le corps vient de `NewsletterIssue.bodyText`). */
   piedNumero: (lienDesinscrire: string, baseUrl: string) =>
     [
       "",
       "--",
-      "Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.",
+      "Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.",
       `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
       `Se désinscrire : ${lienDesinscrire}`,
       ...piedLegal(baseUrl).slice(1),

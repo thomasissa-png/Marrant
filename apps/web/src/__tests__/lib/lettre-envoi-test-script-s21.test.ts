@@ -3,7 +3,7 @@
  *
  * Lettre s21 : script d'envoi de TEST (`scripts/envoi-test-lettre-s21.ts`).
  * Liste blanche codée en dur (adresse d'Alex seule), rendu par le vrai code,
- * objet préfixé « [TEST] », aucune base touchée.
+ * objet préfixé « [TEST 2] », aucune base touchée.
  */
 jest.mock("@/lib/prisma", () => ({
   prisma: new Proxy({}, { get: () => { throw new Error("aucun accès base attendu"); } }),
@@ -52,14 +52,17 @@ describe("liste blanche de l'envoi de test", () => {
 });
 
 describe("rendu et envoi", () => {
-  it("rend les 2 e-mails avec le vrai code, objet préfixé [TEST]", async () => {
+  it("rend les 2 e-mails avec le vrai code, objet préfixé [TEST 2]", async () => {
     const [confirmation, numero] = await rendreEmailsTest();
-    expect(confirmation.subject).toBe(`[TEST] ${EMAILS_LETTRE.confirmation.sujet}`);
+    expect(confirmation.subject).toBe(`[TEST 2] ${EMAILS_LETTRE.confirmation.sujet}`);
     expect(confirmation.text).toContain("https://deviens-marrant.fr/lettre/confirmer?token=");
     const n1 = numerosJson.find((n) => n.numero === 1)!;
-    expect(numero.subject).toBe(`[TEST] ${frPonctuation(n1.objet)}`);
+    expect(numero.subject).toBe(`[TEST 2] ${frPonctuation(n1.objet)}`);
     expect(numero.text).toBe(corpsNumero(n1.corps, "https://deviens-marrant.fr", "envoi-de-test-lien-non-valide"));
     expect(numero.headers?.["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
+    expect(numero.text).not.toContain("[À COMPLÉTER");
+    expect(numero.text).toContain("Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.");
+    expect(numero.text).toContain("deviens-marrant SAS");
   });
 
   it("envoie 2 e-mails à Alex seulement et relève les identifiants", async () => {
@@ -72,7 +75,7 @@ describe("rendu et envoi", () => {
     expect(send).toHaveBeenCalledTimes(2);
     for (const [payload] of send.mock.calls as unknown as Array<[{ to: string; subject: string; replyTo: string }]>) {
       expect(payload.to).toBe("alex@deviens-marrant.fr");
-      expect(payload.subject.startsWith("[TEST] ")).toBe(true);
+      expect(payload.subject.startsWith("[TEST 2] ")).toBe(true);
       expect(payload.replyTo).toBe(LETTRE_CONTACT);
     }
   });
