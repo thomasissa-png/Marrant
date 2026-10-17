@@ -275,8 +275,9 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpanded(tip.id); } }}
             >
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
                       {DIFFICULTIES.find((d) => d.value === tip.difficulty)?.label ?? tip.difficulty}
                     </Badge>
@@ -284,7 +285,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                       {CATEGORY_LABELS[tip.category] ?? tip.category}
                     </Badge>
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="TIP" contentId={tip.id} />
                     <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>

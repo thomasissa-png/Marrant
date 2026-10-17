@@ -368,8 +368,9 @@ export function FavorisList() {
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleTipExpanded(fav.id); } }}
                 >
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                    {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <Badge variant="secondary">Conseil</Badge>
                         <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
                           {DIFFICULTY_LABELS[tip.difficulty] ?? tip.difficulty}
@@ -378,7 +379,7 @@ export function FavorisList() {
                           {TIP_CATEGORY_LABELS[tip.category] ?? tip.category}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex shrink-0 items-center gap-1">
                         <ShareButton
                           title={`${tip.title} - deviens-marrant.fr`}
                           text={tip.content}

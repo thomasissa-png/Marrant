@@ -24,7 +24,6 @@ export function AccountMenu() {
     <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger
         aria-label={TEXTES_CONNEXION.menuCompte}
-        title={TEXTES_CONNEXION.menuCompte}
         className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-11 shrink-0 px-0 data-[state=open]:bg-background-elevated")}
       >
         <IconeProfil />

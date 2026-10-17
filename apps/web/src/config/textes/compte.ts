@@ -43,8 +43,9 @@ export const TEXTES_CONNEXION = {
     "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
   // PROVISOIRE s16, hors étalons
   lienConnexionMobile: "Connexion",
-  // PROVISOIRE s21 (revue design, en-tête) : nom vocal du bouton du menu de compte,
-  // jamais affiché ; les entrées du menu reprennent les libellés existants.
+  // PROVISOIRE s21 (revue design, en-tête) : nom vocal du bouton du menu de compte
+  // (`aria-label` seul, sans `title` : jamais affiché, ni en infobulle, revue s21 N3) ;
+  // les entrées du menu reprennent les libellés existants.
   menuCompte: "Mon compte",
 } as const;
 

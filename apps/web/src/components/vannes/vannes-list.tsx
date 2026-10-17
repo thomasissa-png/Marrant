@@ -295,8 +295,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
               onClick={() => togglePunchline(joke.id)}
             >
               <CardContent className="pt-0">
-                <div className="mb-3 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                <div className="mb-3 flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <Badge variant="primary">
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
@@ -306,7 +307,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                         <Badge variant="default">{JOKE_TYPE_LABELS[joke.type]}</Badge>
                       )}
                   </div>
-                  <div className="flex items-center">
+                  <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
                     <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>

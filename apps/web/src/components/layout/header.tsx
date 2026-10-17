@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
@@ -59,6 +59,7 @@ const lettreNavItem: NavItem = { href: "/lettre", label: TEXTES_LETTRE.menu };
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const boutonMenu = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
@@ -70,6 +71,19 @@ export function Header() {
     if (!isMobileSearchOpen) return;
     document.querySelector<HTMLInputElement>("#mobile-search input")?.focus();
   }, [isMobileSearchOpen]);
+
+  // QA s21 tour 2 n1 : Échap ferme le menu mobile et rend le focus au bouton « Menu ».
+  // Une touche déjà traitée (suggestions de la recherche du menu) ne ferme rien.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const surTouche = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      setIsMenuOpen(false);
+      boutonMenu.current?.focus();
+    };
+    document.addEventListener("keydown", surTouche);
+    return () => document.removeEventListener("keydown", surTouche);
+  }, [isMenuOpen]);
 
   // Close mobile search/menu on route change
   useEffect(() => {
@@ -195,6 +209,7 @@ export function Header() {
 
             {/* Menu burger mobile */}
             <button
+              ref={boutonMenu}
               className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMenuOpen(!isMenuOpen); setIsMobileSearchOpen(false); }}
               aria-label="Menu"

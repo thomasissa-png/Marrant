@@ -115,6 +115,8 @@ describe("Header", () => {
     expect(screen.queryByText("Déconnexion")).not.toBeInTheDocument();
     const compte = screen.getByRole("button", { name: "Mon compte" });
     expect(compte).toHaveAttribute("aria-haspopup", "menu");
+    // Revue s21 N3 : « Mon compte » reste un nom vocal, jamais une infobulle affichée.
+    expect(compte).not.toHaveAttribute("title");
     expect(compte.className).toContain("h-11");
     // Radix ouvre le menu au clavier (Entrée), focus dans le menu.
     compte.focus();
@@ -156,6 +158,18 @@ describe("Header", () => {
     await userEvent.click(menuBtn);
     expect(menuBtn).toHaveAttribute("aria-expanded", "true");
     expect(screen.getByLabelText("Navigation mobile")).toBeInTheDocument();
+  });
+
+  it("menu mobile : Échap le ferme et rend le focus au bouton « Menu » (QA s21 tour 2 n1)", async () => {
+    render(<Header />);
+    const menuBtn = screen.getByLabelText("Menu");
+    await userEvent.click(menuBtn);
+    // Focus dans le menu (premier onglet), puis Échap.
+    screen.getByLabelText("Navigation mobile").querySelector("a")?.focus();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByLabelText("Navigation mobile")).not.toBeInTheDocument();
+    expect(menuBtn).toHaveAttribute("aria-expanded", "false");
+    expect(menuBtn).toHaveFocus();
   });
 
   it("recherche : champ dès 1280 px (xl, largeur fixe), loupe de 1024 à 1279 px et sur mobile", async () => {

@@ -1,3 +1,4 @@
+import { appendFileSync } from "node:fs";
 import type { Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, type PlanCompte } from "../support/base-locale";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
@@ -8,6 +9,8 @@ import { TEXTES_CONNEXION } from "@/config/textes/compte";
  * déborde de l'écran, en chevauche un autre, ou si un libellé est coupé ; vérifie
  * la recherche (champ >= 160 px et texte d'aide entier dès 1280 px, loupe avant) et
  * le menu de compte. Budget documenté dans `apps/web/src/components/layout/header.tsx`.
+ * Mesures chiffrées (revue design s21 tour 2, point 5) : jointes au rapport
+ * (`mesures-<état>`) et ajoutées à `E2E_MESURES_EN_TETE` si la variable est posée.
  */
 const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 type Etat = "visiteur" | PlanCompte;
@@ -72,7 +75,8 @@ test.describe("En-tête : budget de largeur", () => {
         if (cookies.length > 0) await context.addCookies(cookies);
       });
 
-      test(`6 largeurs sans débordement ni libellé coupé (${etat})`, async ({ page }) => {
+      test(`6 largeurs sans débordement ni libellé coupé (${etat})`, async ({ page }, testInfo) => {
+        const lignes: string[] = [];
         for (const largeur of LARGEURS) {
           await page.setViewportSize({ width: largeur, height: 800 });
           await page.goto("/conseils");
@@ -80,6 +84,21 @@ test.describe("En-tête : budget de largeur", () => {
           await expect(barre.getByRole("navigation", { name: "Navigation principale" })).toBeVisible();
           const m = await mesurer(page);
           const ici = `${etat} à ${largeur} px`;
+          const plusADroite = Math.max(...m.controles.map((c) => c.droite));
+          const ecartMin = Math.min(...m.enfants.slice(1).map((e, i) => e.gauche - m.enfants[i].droite));
+          lignes.push(
+            [
+              `état=${etat}`,
+              `largeur=${largeur}`,
+              `défilement=${m.scroll}/${m.fenetre}`,
+              `barre=${m.barre.scroll}/${m.barre.client}`,
+              `recherche=${m.recherche ? `${Math.round(m.recherche.largeur)}px, aide ${m.recherche.aideEntiere ? "entière" : "COUPÉE"}` : "loupe"}`,
+              `marge-droite=${(m.fenetre - plusADroite).toFixed(1)}px`,
+              `écart-min-entre-blocs=${ecartMin.toFixed(1)}px`,
+              `libellés-coupés=${m.controles.filter((c) => c.coupe).length}`,
+              `hauteur-max=${Math.max(...m.controles.map((c) => c.hauteur)).toFixed(0)}px`,
+            ].join(" ; "),
+          );
 
           expect(m.scroll, `défilement horizontal de la page, ${ici}`).toBeLessThanOrEqual(m.fenetre);
           expect(m.barre.scroll, `barre plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
@@ -124,6 +143,8 @@ test.describe("En-tête : budget de largeur", () => {
             await expect(barre.getByRole("link", { name: "Activer mon accès" })).toHaveCount(etat === "FREE" ? 1 : 0);
           }
         }
+        await testInfo.attach(`mesures-${etat}`, { body: lignes.join("\n"), contentType: "text/plain" });
+        if (process.env.E2E_MESURES_EN_TETE) appendFileSync(process.env.E2E_MESURES_EN_TETE, `${lignes.join("\n")}\n`);
       });
 
       if (etat !== "visiteur") {

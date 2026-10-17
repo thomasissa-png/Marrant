@@ -96,3 +96,104 @@ jobs:
 
       - name: Run linter
         run: npm run lint
+
+  # QA s21 tour 2 n3 : projet Playwright « local » (le seul qui clique « Confirmer
+  # mon adresse » dans un vrai navigateur, en-tête 6 largeurs x 3 états, 320 px,
+  # @legal L5). Build de production, base PostgreSQL jetable du service, faux Resend
+  # démarré par le test lui-même (aucun e-mail réel), aucune clé Stripe ni Anthropic.
+  # En parallèle des autres jobs : la CI ne dure que l'écart avec le job `test`.
+  e2e-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: marrant_e2e
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    defaults:
+      run:
+        working-directory: apps/web
+
+    env:
+      CI: "true"
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/marrant_e2e
+      NEXTAUTH_URL: http://localhost:5300
+      NEXTAUTH_SECRET: secret-factice-e2e-local
+      RESEND_API_KEY: re_factice_e2e
+      RESEND_BASE_URL: http://127.0.0.1:5301
+      STRIPE_PREMIUM_PRICE_ID: price_e2e_local_mensuel
+      STRIPE_PREMIUM_ANNUAL_PRICE_ID: price_e2e_local_annuel
+      E2E_BASE_URL: http://localhost:5300
+      E2E_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/marrant_e2e
+      E2E_FAUX_RESEND_PORT: "5301"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Cache du build Next.js
+        uses: actions/cache@v4
+        with:
+          path: apps/web/.next/cache
+          key: next-e2e-${{ hashFiles('apps/web/package-lock.json') }}-${{ github.sha }}
+          restore-keys: next-e2e-${{ hashFiles('apps/web/package-lock.json') }}-
+
+      - name: Base jetable (schéma + seed)
+        run: bash scripts/seed.sh
+
+      - name: Build de production
+        run: |
+          npm run build
+          cp -r public .next/standalone/public
+          cp -r .next/static .next/standalone/.next/static
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck E2E
+        run: npx tsc -p ../../playwright/tsconfig.json
+
+      - name: Démarrer le serveur local
+        run: |
+          PORT=5300 HOSTNAME=127.0.0.1 nohup node .next/standalone/server.js > serveur-e2e.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf -o /dev/null http://localhost:5300/lettre && break
+            sleep 1
+          done
+          curl -sf -o /dev/null http://localhost:5300/lettre || (cat serveur-e2e.log; exit 1)
+
+      - name: Playwright, projet local
+        run: npm run test:e2e:local
+
+      - name: Upload report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-local-report
+          path: |
+            playwright/playwright-report
+            playwright/test-results
+            apps/web/serveur-e2e.log
+          retention-days: 14

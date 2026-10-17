@@ -262,7 +262,7 @@ export function AbonnementView({
             <Button
               variant="primary"
               size="lg"
-              className="mt-4 w-full sm:mt-8"
+              className="mt-5 w-full sm:mt-8"
               onClick={() => void handleCheckout("manuel", plan)}
               disabled={isCheckoutLoading}
             >
@@ -273,7 +273,7 @@ export function AbonnementView({
           ) : (
             <Link
               href={paidSignupHref}
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4 w-full sm:mt-8")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 w-full sm:mt-8")}
               onClick={() =>
                 trackUmami("abonnement-clic", {
                   formule: isAnnual ? "annuel" : "mensuel",

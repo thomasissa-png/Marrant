@@ -54,7 +54,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         note={finCopy?.note ?? ctaCopy?.note}
       />
       {LETTRE_INSCRIPTIONS_OUVERTES && (
-        <LettreInscription emplacement="article" slug={article.slug} className="mt-4 border-t border-border pt-4" />
+        <LettreInscription emplacement="article" slug={article.slug} className="mt-8 border-t border-border pt-6" />
       )}
     </>
   );

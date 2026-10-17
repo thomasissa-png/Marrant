@@ -7,7 +7,8 @@ name: E2E parcours
 #   Tant que le code s16 n'est pas déployé, poser la variable de dépôt
 #   E2E_EXCLURE_S16=true pour ignorer les tests tagués @s16 (et @s21 : lot 2
 #   s21, libellés des murs, jusqu'à sa mise en ligne).
-# - local (playwright/tests/local) : écrit en base jetable, jamais lancé ici.
+# - local (playwright/tests/local) : écrit en base jetable, jamais lancé ici ;
+#   joué à chaque push par le job `e2e-local` de tests.yml (build local, base du service).
 # - achat : parcours Stripe complet, MANUEL uniquement, sur un environnement
 #   de test (variable E2E_ACHAT_BASE_URL + secret STRIPE_TEST_SECRET_KEY).
 #   Refusé par les tests eux-mêmes si l'URL vise deviens-marrant.fr.
