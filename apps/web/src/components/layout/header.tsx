@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
+import { AccountMenu } from "@/components/layout/account-menu";
+import { IconeRecherche } from "@/components/layout/header-icons";
+import { MobileNav, isActivePath, type NavItem } from "@/components/layout/mobile-nav";
 import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
@@ -14,21 +17,21 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 
 /**
- * Largeur à partir de laquelle l'onglet « La lettre » tient dans la barre ordinateur
- * (mesuré le 17/10, s21) : connecté sans abonnement, la barre déborde dès 1100 px avec
- * l'onglet (elle débordait déjà de 70 px à 1024 sans lui) ; anonyme à 1024, la recherche
- * tombe à 65 px. Dès 1280 (`xl`), plus aucun débordement. Entre 1024 et 1279 : l'onglet
- * n'est pas dans la barre, la lettre reste dans le pied de page (et le menu déroulant < 1024).
+ * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
+ * 1024, 1248 px dès 1280 (max-w-7xl : identique à 1440, 1536 et 1920). Tout est
+ * `shrink-0` : rien ne s'écrase en silence.
+ *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-2), ~534 dès
+ *    1280 (px-3) ;
+ *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
+ *    champ de 176 px (`w-44`) dès 1280 ;
+ *  - actions : visiteur « Connexion » + « Commencer » ; connecté « Activer mon accès »
+ *    (sans abonnement) + menu de compte 44 px (« Favoris », « Mon profil »,
+ *    « Déconnexion » regroupés, `account-menu.tsx`).
+ * Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états,
+ * aucun débordement, aucun libellé coupé, recherche >= 160 px). Un onglet ou un
+ * bouton de plus doit d'abord trouver sa place dans ce budget, sinon aller dans le
+ * menu de compte ou le menu déroulant.
  */
-const LETTRE_ONGLET_ORDINATEUR = "xl:inline-flex";
-
-/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
-function isActivePath(pathname: string | null, href: string): boolean {
-  if (!pathname) return false;
-  return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
-}
-
-type NavItem = { href: string; label: string; desktopClassName?: string };
 
 const navItems: NavItem[] = [
   { href: "/", label: "Accueil" },
@@ -48,11 +51,10 @@ const premiumNavItems: NavItem[] = [
 
 /**
  * s21 : la lettre gratuite, dernier onglet après « Blog » (interrupteur des
- * inscriptions ouvert, visiteurs non Premium comme le formulaire de la lettre).
- * Toujours dans le menu déroulant ; dans la barre ordinateur seulement là où elle
- * tient sans déborder (`desktopClassName`, mesuré à 1024, 1280 et 1440 px).
+ * inscriptions ouvert, visiteurs non Premium comme le formulaire de la lettre),
+ * onglet comme les autres à toutes les largeurs (budget ci-dessus).
  */
-const lettreNavItem: NavItem = { href: "/lettre", label: TEXTES_LETTRE.menu, desktopClassName: LETTRE_ONGLET_ORDINATEUR };
+const lettreNavItem: NavItem = { href: "/lettre", label: TEXTES_LETTRE.menu };
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -104,7 +106,6 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "rounded-lg px-2 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
-                  item.desktopClassName && cn("hidden", item.desktopClassName),
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -115,44 +116,30 @@ export function Header() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-36 lg:block xl:w-48 2xl:w-64" onNavigate={closeMobileSearch} />
+          {/* Recherche : champ dès 1280 px ; de 1024 à 1279, une loupe qui ouvre le panneau
+              de recherche (même geste qu'au téléphone). */}
+          <SearchBar className="hidden w-44 shrink-0 xl:block" onNavigate={closeMobileSearch} />
+          <button
+            type="button"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary lg:flex xl:hidden"
+            onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
+            aria-label="Rechercher"
+            aria-expanded={isMobileSearchOpen}
+            aria-controls="mobile-search"
+          >
+            <IconeRecherche />
+          </button>
 
           {/* Actions desktop */}
           <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
             {isAuthenticated ? (
               <>
                 {!isPremium && (
-                  <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
+                  <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}>
                     Activer mon accès
                   </Link>
                 )}
-                <Link
-                  href="/favoris"
-                  aria-label="Favoris"
-                  title="Favoris"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-                >
-                  <svg className="h-5 w-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="/profil"
-                  aria-label="Mon profil"
-                  title="Mon profil"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-                >
-                  <svg className="h-5 w-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                >
-                  Déconnexion
-                </Button>
+                <AccountMenu />
               </>
             ) : (
               <>
@@ -196,13 +183,14 @@ export function Header() {
             {/* Bouton recherche mobile (s20 : à partir de 440 px ; en dessous, la recherche
                 est en tête du menu, pour laisser la place à « Commencer »). */}
             <button
+              type="button"
               className="hidden h-11 w-11 min-[440px]:flex items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
               aria-label="Rechercher"
+              aria-expanded={isMobileSearchOpen}
+              aria-controls="mobile-search"
             >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <IconeRecherche />
             </button>
 
             {/* Menu burger mobile */}
@@ -230,93 +218,21 @@ export function Header() {
 
         {/* Overlay recherche mobile */}
         {isMobileSearchOpen && (
-          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 lg:hidden animate-slide-up">
+          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 xl:hidden animate-slide-up">
             <SearchBar className="w-full" onNavigate={closeMobileSearch} />
           </div>
         )}
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <nav
-            className="border-t border-border bg-background px-4 py-4 lg:hidden animate-slide-up"
-            aria-label="Navigation mobile"
-          >
-            <div className="flex flex-col gap-2">
-              {/* s20 : recherche dans le menu sous 440 px (plus d'icône dans la barre). */}
-              <div className="mb-2 min-[440px]:hidden">
-                <SearchBar className="w-full" onNavigate={() => setIsMenuOpen(false)} />
-              </div>
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "rounded-lg px-3 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                    isActivePath(pathname, item.href)
-                      ? "bg-background-elevated text-accent-link"
-                      : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
-                  )}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <hr className="my-2 border-border" />
-              {isAuthenticated ? (
-                <>
-                  {!isPremium && (
-                    <Link
-                      href={activateHref}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
-                    >
-                      Activer mon accès
-                    </Link>
-                  )}
-                  <Link
-                    href="/favoris"
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2")}
-                  >
-                    <svg className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                    Favoris
-                  </Link>
-                  <Link
-                    href="/profil"
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2")}
-                  >
-                    <svg className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Mon profil
-                  </Link>
-                  <Button variant="ghost" size="sm" className="w-full" onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}>
-                    Déconnexion
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href={registerHref}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
-                  >
-                    Commencer
-                  </Link>
-                  <Link
-                    href={loginHref}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}
-                  >
-                    Connexion
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
+          <MobileNav
+            items={items}
+            pathname={pathname}
+            isAuthenticated={isAuthenticated}
+            isPremium={isPremium}
+            hrefs={{ activate: activateHref, register: registerHref, login: loginHref }}
+            onClose={() => setIsMenuOpen(false)}
+          />
         )}
       </header>
     </>

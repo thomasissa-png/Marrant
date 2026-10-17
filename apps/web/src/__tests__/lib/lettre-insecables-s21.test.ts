@@ -69,4 +69,14 @@ describe("Insécables avant « : ; ? ! » (lettre s21)", () => {
   it("métadonnées de /lettre inchangées (pas de typographie de rendu dans metadata)", () => {
     expect(TEXTES_LETTRE.page.metaTitre).toBe("La lettre : une vanne décryptée, chaque mois");
   });
+
+  it("revue s21 m6 : <title> de /lettre/confirmer et /lettre/desinscrire sans insécable de rendu", async () => {
+    const confirmer = (await import("@/app/(dashboard)/lettre/confirmer/page")).metadata;
+    const desinscrire = (await import("@/app/(dashboard)/lettre/desinscrire/page")).metadata;
+    expect(confirmer.title).toBe("Dernière étape.");
+    expect(desinscrire.title).toBe("Arrêter la lettre ?");
+    expect(String(desinscrire.title)).not.toContain(NBSP);
+    // Le titre affiché dans la page garde l'insécable avant « ? ».
+    expect(TEXTES_LETTRE.page.desinscrire.titre).toBe(`Arrêter la lettre${NBSP}?`);
+  });
 });

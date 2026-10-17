@@ -772,7 +772,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           envoyer: (to, subject, text, headers) =>
             sendServiceTextEmail(to, subject, text, "lettre-numero", { headers, replyTo: LETTRE_CONTACT }),
         });
-        if (res.reporte) {
+        if (res.reporte && res.prochainEnvoi) {
+          console.log(
+            `[scheduler:lettre-mensuelle] ${res.numero} reporté : article(s) cité(s) en ligne, départ au créneau du ${res.prochainEnvoi.toISOString()} (jeudi 8 h, Paris).`,
+          );
+        } else if (res.reporte) {
           console.warn(
             `[scheduler:lettre-mensuelle] ALERTE ${res.numero} reporté au passage suivant : article(s) cité(s) pas encore en ligne (${res.articlesNonPublies.join(", ")}). Rien n'est envoyé ; vérifier isPublished et publishedAt.`,
           );

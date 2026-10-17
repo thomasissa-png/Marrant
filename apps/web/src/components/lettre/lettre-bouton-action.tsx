@@ -20,7 +20,7 @@ export function LettreBoutonAction({ titre, texte, bouton, action }: LettreBouto
       <h1 className="font-display text-2xl font-bold text-text-primary">{titre}</h1>
       <p className="mt-2 text-text-secondary">{texte}</p>
       <form method="post" action={action} className="mt-6">
-        <button type="submit" className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}>
+        <button type="submit" className={cn(buttonVariants({ variant: "outline-accent", size: "lg" }), "w-full sm:w-auto")}>
           {bouton}
         </button>
       </form>

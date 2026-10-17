@@ -10,6 +10,7 @@ import {
   type PremiumPlan,
 } from "@/config/premium";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import {
   ANNUEL_AVANTAGE_LABEL,
   ANNUEL_LIGNE_MENSUEL,
@@ -47,12 +48,19 @@ export function PlanSelector({
         <div className="flex flex-wrap items-start gap-2">
           {OPTIONS.map((option) => {
             const showOffert = option.value === "annual" && !isAnnual;
+            const actif = value === option.value;
             return (
               <div key={option.value} className="flex flex-col items-start gap-1.5">
+                {/* Revue design s21 m1 : anneau au clavier seulement (plus d'anneau resté
+                    après un clic). m3 : formule choisie en violet léger bordé, le seul violet
+                    plein du premier écran reste le bouton d'achat. */}
                 <label
                   className={chipClass(
-                    value === option.value ? "active" : "idle",
-                    "cursor-pointer focus-within:ring-2 focus-within:ring-accent-primary focus-within:ring-offset-2",
+                    actif ? "active" : "idle",
+                    cn(
+                      "cursor-pointer has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-primary has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card",
+                      actif && "border-accent-primary bg-accent-primary/20 text-text-primary",
+                    ),
                   )}
                 >
                   <input
@@ -67,9 +75,17 @@ export function PlanSelector({
                   {option.label}
                 </label>
                 {/* Lot 2 s21 : « plus de 3 mois offerts » dit une seule fois, rattaché à
-                    « Annuel », dès l'état mensuel. Annuel choisi : la ligne sous le prix le dit. */}
-                {showOffert && (
-                  <Badge id={offertId} variant="primary" data-testid="annuel-mois-offerts">
+                    « Annuel », dès l'état mensuel. Annuel choisi : la ligne sous le prix le dit,
+                    la pastille reste dans le flux mais invisible et muette (revue design s21
+                    m2 : le prix et le bouton ne bougent plus sous le pouce). */}
+                {option.value === "annual" && (
+                  <Badge
+                    id={offertId}
+                    variant="primary"
+                    data-testid="annuel-mois-offerts"
+                    aria-hidden={showOffert ? undefined : true}
+                    className={showOffert ? undefined : "invisible"}
+                  >
                     {ANNUEL_MOIS_OFFERTS_LABEL}
                   </Badge>
                 )}
@@ -79,14 +95,17 @@ export function PlanSelector({
         </div>
       </fieldset>
 
-      <div className="mt-4 flex items-baseline gap-2" aria-live="polite">
+      <div className="mt-3 flex items-baseline gap-2 sm:mt-4" aria-live="polite">
         <span className="font-display text-4xl font-bold text-text-primary">
           {formatEuros(isAnnual ? PREMIUM_ANNUAL_PRICE_CENTS : PREMIUM_MONTHLY_PRICE_CENTS)}
         </span>
         <span className="text-text-muted">{isAnnual ? "TTC / an" : "TTC / mois"}</span>
       </div>
-      {isAnnual ? (
-        <>
+      {/* Revue design s21 m2 : les lignes des deux formules occupent la même case de
+          grille ; celle de la formule non choisie est invisible et muette. La hauteur est
+          celle de la plus haute à toutes les largeurs : le bouton ne bouge plus. */}
+      <div className="grid">
+        <div className={cn("col-start-1 row-start-1", !isAnnual && "invisible")} aria-hidden={isAnnual ? undefined : true}>
           <p className="mt-1 text-sm font-medium text-accent-link">
             {/* D5 (audit s16) : « plus de 3 mois offerts » ET « 10,89 € économisés », calculés. */}
             {PREMIUM_ANNUAL_EQUIVALENT_LABEL}, {ANNUEL_AVANTAGE_LABEL}
@@ -94,14 +113,17 @@ export function PlanSelector({
           <p className="mt-1 text-sm text-text-secondary">
             Payé en une fois, renouvelé chaque année, résiliable depuis ton profil
           </p>
-        </>
-      ) : (
-        // Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
-        // « Sans engagement, annulable à tout moment » retiré (dit par la réassurance).
-        <p className="mt-1 text-sm font-medium text-accent-link" data-testid="annuel-ligne-mensuel">
+        </div>
+        {/* Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
+            « Sans engagement, annulable à tout moment » retiré (dit par la réassurance). */}
+        <p
+          className={cn("col-start-1 row-start-1 mt-1 text-sm font-medium text-accent-link", isAnnual && "invisible")}
+          aria-hidden={isAnnual ? true : undefined}
+          data-testid="annuel-ligne-mensuel"
+        >
           {ANNUEL_LIGNE_MENSUEL}
         </p>
-      )}
+      </div>
     </div>
   );
 }

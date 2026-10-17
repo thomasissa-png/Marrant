@@ -114,3 +114,13 @@ export async function auditAxe(page: Page): Promise<ViolationAxe[]> {
   });
   return violations as ViolationAxe[];
 }
+
+/**
+ * Texte validé du dépôt (constante de `apps/web/src/config/textes`) en motif souple :
+ * caractères spéciaux échappés, toute espace (ordinaire ou insécable posée au rendu)
+ * acceptée. Les tests vérifient ainsi le texte en vigueur sans le recopier.
+ */
+export function texteValide(texte: string): RegExp {
+  const echappe = texte.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return new RegExp(echappe.replace(/[\s\u00a0\u202f]+/g, "[\\s\\u00a0\\u202f]+"));
+}

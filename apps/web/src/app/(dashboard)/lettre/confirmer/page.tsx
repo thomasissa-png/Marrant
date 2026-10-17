@@ -2,21 +2,22 @@ import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { LettreBoutonAction } from "@/components/lettre/lettre-bouton-action";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { TEXTES_LETTRE, TITRES_META_LETTRE } from "@/config/textes/lettre-s21";
 import { confirmActionPath, isPlausibleToken } from "@/lib/newsletter";
 
 /**
  * Lien de confirmation de l'e-mail (s21, @legal L5) : la page n'écrit rien, seul
  * le bouton (POST) confirme. Rendu : SSR (jeton lu dans l'URL), aucune lecture en
- * base. `noindex`, `no-referrer` (le jeton ne fuit pas vers un autre site) ; le
+ * base. `noindex`, `same-origin` (le jeton ne part jamais vers un autre site, et le
+ * POST du bouton porte la vraie origine : QA s21 B1) ; le
  * paramètre `token` est retiré des URL envoyées à Umami.
  */
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: TEXTES_LETTRE.page.confirmer.titre,
+  title: TITRES_META_LETTRE.confirmer,
   robots: { index: false, follow: false },
-  referrer: "no-referrer",
+  referrer: "same-origin",
 };
 
 export default function LettreConfirmerPage({ searchParams }: { searchParams: { token?: string } }) {

@@ -81,7 +81,10 @@ export function ListPagination({ basePath, page, totalPages, onNavigate }: ListP
     const available = direction === "prev" ? page > 1 : page < totalPages;
     if (!available) {
       return (
-        <span aria-hidden="true" className={cn(GHOST_SM, STEP_CELL, "pointer-events-none opacity-50")}>
+        // Extrémité sans voisine : libellé grisé par la couleur (`text-muted`, environ 7:1 sur le
+        // fond) et non par une opacité de 50 % qui faisait tomber « Précédent » sous 4,5:1
+        // (axe color-contrast, smoke s21). Sous 768 px, chevron seul (libellé sr-only) : opacité gardée.
+        <span aria-hidden="true" className={cn(GHOST_SM, STEP_CELL, "pointer-events-none text-text-muted max-md:opacity-50")}>
           <StepContent direction={direction} />
         </span>
       );

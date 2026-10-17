@@ -126,10 +126,13 @@ const nextConfig = {
               ],
             },
             // s21 (@legal L5) : pages de la lettre portant un jeton dans l'URL, jamais
-            // transmis en Referer (entrée placée après la règle générale : elle l'emporte).
+            // transmis en Referer à un autre site (entrée placée après la règle
+            // générale : elle l'emporte). `same-origin` et non `no-referrer` (QA s21
+            // B1) : sous `no-referrer`, le navigateur envoie `Origin: null` sur le POST
+            // du bouton « Confirmer mon adresse », que le contrôle d'origine refusait.
             {
               source: "/lettre/:path*",
-              headers: [{ key: "Referrer-Policy", value: "no-referrer" }],
+              headers: [{ key: "Referrer-Policy", value: "same-origin" }],
             },
           ];
         },

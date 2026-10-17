@@ -335,4 +335,53 @@ describe("Corrections s21 (textes validés, drapeau, réserves @legal)", () => {
       prisma.newsletterIssue.findFirst.mockResolvedValue(null);
     }
   });
+
+  it("QA s21 m1 : lien invalide ou erreur, le formulaire annoncé est là même avec une inscription en attente", async () => {
+    for (const statut of ["invalide", "erreur"]) {
+      window.localStorage.setItem("dm-lettre", new Date().toISOString());
+      const { unmount } = render(await LettrePage({ searchParams: { statut } }));
+      expect(screen.getByLabelText(TEXTES_LETTRE.formulaire.label)).toBeInTheDocument();
+      expect(screen.queryByText(TEXTES_LETTRE.drapeau.texte, { exact: false })).toBeNull();
+      unmount();
+    }
+  });
+
+  it("QA s21 m2 : après la confirmation, le statut seul (ni titre ni formulaire d'inscription) et drapeau effacé", async () => {
+    window.localStorage.setItem("dm-lettre", new Date().toISOString());
+    render(await LettrePage({ searchParams: { statut: "confirmee" } }));
+    expect(screen.getByText(TEXTES_LETTRE.statuts.confirmee.titre)).toBeInTheDocument();
+    expect(screen.queryByLabelText(TEXTES_LETTRE.formulaire.label)).toBeNull();
+    expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
+    expect(window.localStorage.getItem("dm-lettre")).toBeNull();
+  });
+
+  it("revue s21 m4 : abonné Premium connecté, ni titre ni phrase sans formulaire (plus d'impasse)", async () => {
+    mockSession = { data: { user: { email: "p@x.fr", plan: "PREMIUM" } }, status: "authenticated" };
+    try {
+      render(await LettrePage({ searchParams: {} }));
+      expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
+      expect(screen.queryByText(TEXTES_LETTRE.phrase)).toBeNull();
+      expect(screen.queryByLabelText(TEXTES_LETTRE.formulaire.label)).toBeNull();
+    } finally {
+      mockSession = { data: null, status: "unauthenticated" };
+    }
+  });
+
+  it("revue s21 m4 : pas de lien « La lettre du mois » en pied de page pour un Premium connecté", () => {
+    mockSession = { data: { user: { email: "p@x.fr", plan: "PREMIUM" } }, status: "authenticated" };
+    try {
+      render(<Footer />);
+      expect(screen.queryByRole("link", { name: TEXTES_LETTRE.piedDePage })).toBeNull();
+      expect(screen.getByRole("link", { name: "Quiz humour" })).toBeInTheDocument();
+    } finally {
+      mockSession = { data: null, status: "unauthenticated" };
+    }
+  });
+
+  it("QA s21 m3 : lien « Confidentialité » sans padding vertical (anneau de focus à la hauteur du texte), zone tactile par pseudo-élément", () => {
+    render(<LettreInscription emplacement="page" />);
+    const lien = screen.getByRole("link", { name: TEXTES_LETTRE.formulaire.lienConfidentialite });
+    expect(lien.className).not.toMatch(/(^| )(py-|min-h-|inline-flex)/);
+    expect(lien.className).toContain("after:-inset-y-3");
+  });
 });

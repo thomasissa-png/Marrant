@@ -40,6 +40,9 @@ jest.mock("@/components/seo/json-ld", () => ({
 import HomePage from "@/app/(dashboard)/page";
 import BlogPage from "@/app/(dashboard)/blog/page";
 
+// Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
+jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
+
 function article(slug: string) {
   const found = blogArticles.find((a) => a.slug === slug);
   if (!found) throw new Error(`article absent : ${slug}`);

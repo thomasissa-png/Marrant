@@ -24,6 +24,7 @@ import { Footer } from "@/components/layout/footer";
 import { LettreAccueil } from "@/components/home/lettre-accueil";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { NBSP } from "@/lib/fr-typo";
+import { TitreDisplay } from "@/components/ui/titre-display";
 
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
 const { usePathname } = jest.requireMock("next/navigation") as { usePathname: jest.Mock };
@@ -54,9 +55,10 @@ describe("Menu", () => {
     expect(liens[6]).toHaveAttribute("href", "/lettre");
     // Mêmes classes que les autres onglets, aucune couleur d'accent hors état actif.
     expect(liens[6].className).not.toMatch(/bg-accent|badge/);
-    // Mesuré : la barre déborde entre 1024 et 1279 px avec l'onglet ; il n'y entre qu'à 1280 (xl).
-    expect(liens[6].className.split(" ")).toEqual(expect.arrayContaining(["hidden", "xl:inline-flex"]));
-    expect(liens[5].className).not.toMatch(/(^| )hidden( |$)/);
+    // Revue design s21 : onglet comme les autres à toutes les largeurs (budget de
+    // l'en-tête tenu par le menu de compte et la loupe entre 1024 et 1279 px).
+    expect(liens[6].className).toBe(liens[5].className);
+    expect(liens[6].className).not.toMatch(/(^| )hidden( |$)/);
   });
 
   it("menu déroulant : après « Blog », avant le filet et « Commencer »", async () => {
@@ -121,6 +123,15 @@ describe("Accueil", () => {
 });
 
 describe("Pied de page", () => {
+  it("revue design s21 m4 : 2 colonnes lues de haut en bas, rangées = moitié des liens (arrondie)", () => {
+    render(<Footer />);
+    const liste = screen.getByRole("link", { name: "La lettre du mois" }).closest("ul") as HTMLUListElement;
+    const liens = within(liste).getAllByRole("link").map((l) => l.textContent);
+    expect(liens.indexOf("La lettre du mois")).toBe(liens.indexOf("Quiz humour") + 1);
+    expect(liste.className.split(" ")).toEqual(expect.arrayContaining(["grid-flow-col", "grid-cols-2", "sm:grid-flow-row", "lg:grid-flow-col"]));
+    expect(liste.style.getPropertyValue("--rangs-produit")).toBe(String(Math.ceil(liens.length / 2)));
+  });
+
   it("lien « La lettre du mois » selon l'interrupteur", () => {
     const { unmount } = render(<Footer />);
     expect(screen.getByRole("link", { name: "La lettre du mois" })).toHaveAttribute("href", "/lettre");
@@ -128,5 +139,17 @@ describe("Pied de page", () => {
     mockOuvert = false;
     render(<Footer />);
     expect(screen.queryByRole("link", { name: "La lettre du mois" })).toBeNull();
+  });
+});
+
+describe("Titre en police d'affichage (QA s21 m4)", () => {
+  it("virgule rapprochée du mot par une marge négative, texte et nom accessible inchangés", () => {
+    const { container } = render(<TitreDisplay as="h1" texte={TEXTES_LETTRE.titre} />);
+    const h1 = container.querySelector("h1") as HTMLElement;
+    expect(h1.textContent).toBe(TEXTES_LETTRE.titre);
+    expect(screen.getByRole("heading", { level: 1, name: TEXTES_LETTRE.titre })).toBeInTheDocument();
+    const virgules = h1.querySelectorAll("span");
+    expect(virgules).toHaveLength((TEXTES_LETTRE.titre.match(/,/g) ?? []).length);
+    virgules.forEach((v) => expect(v.className).toMatch(/^-ml-\[/));
   });
 });

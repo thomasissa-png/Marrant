@@ -1,6 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Footer } from "@/components/layout/footer";
 
+// Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
+jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
+
 describe("Footer", () => {
   it("renders brand name", () => {
     render(<Footer />);

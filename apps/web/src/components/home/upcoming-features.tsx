@@ -158,7 +158,9 @@ export function UpcomingFeatures() {
   );
 
   return (
-    <section className="py-12 md:py-16">
+    // Revue design s21 m5 : haut resserré, l'écart sous le bloc de la lettre (qui précède)
+    // ne dépasse plus de beaucoup l'écart au-dessus de lui.
+    <section className="pb-12 pt-6 md:pb-16 md:pt-6">
       <div className="mb-4 flex items-center justify-center gap-3">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-primary/30" />
         <Badge variant="premium">Abonnés</Badge>

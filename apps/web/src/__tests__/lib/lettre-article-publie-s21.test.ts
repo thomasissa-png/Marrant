@@ -35,7 +35,7 @@ jest.mock("@/lib/prisma", () => ({
           .filter((a) =>
             where.OR.some((c) => (c.publishedAt === null ? a.publishedAt === null : a.publishedAt !== null && a.publishedAt <= c.publishedAt.lte)),
           )
-          .map((a) => ({ slug: a.slug })),
+          .map((a) => ({ slug: a.slug, publishedAt: a.publishedAt })),
       ),
     },
     user: { findMany: jest.fn(async () => []) },
@@ -58,7 +58,7 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
-import { articlesCites, articlesCitesNonPublies, envoyerLettreDuMois } from "@/lib/lettre/envoi";
+import { articlesCites, articlesCitesNonPublies, envoyerLettreDuMois, prochainCreneauLettre } from "@/lib/lettre/envoi";
 import { blogArticles } from "@/lib/blog-articles";
 
 const NOW = new Date("2026-11-05T07:30:00Z"); // jeudi 05/11/2026, 8 h 30 à Paris
@@ -120,15 +120,39 @@ describe("envoyerLettreDuMois : article cité pas encore en ligne", () => {
     expect(mockDb.issue?.status).toBe("VALIDE");
   });
 
-  it("passage suivant, article publié entre-temps : le numéro part", async () => {
+  // Revue s21 M1 : un numéro reporté repart au créneau suivant (jeudi 8 h, Paris),
+  // jamais au premier passage de 15 min qui suit la mise en ligne.
+  it("article mis en ligne après le créneau : rien au passage suivant, départ le jeudi suivant à 8 h", async () => {
     mockDb.articles = [{ slug: SLUG, isPublished: true, publishedAt: new Date("2026-11-05T09:00:00Z") }];
     const envoyer = jest.fn().mockResolvedValue(undefined);
     expect((await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE })).reporte).toBe(true);
 
-    const plusTard = new Date("2026-11-05T09:15:00Z");
-    const r = await envoyerLettreDuMois(plusTard, { envoyer, baseUrl: BASE });
-    expect(r).toMatchObject({ reporte: false, articlesNonPublies: [], envoyes: 1, termine: true });
+    const jeudiSuivant = new Date("2026-11-12T07:00:00Z"); // jeudi 12/11, 8 h à Paris (UTC+1)
+    for (const passage of ["2026-11-05T09:15:00Z", "2026-11-09T00:15:00Z", "2026-11-12T06:45:00Z"]) {
+      const r = await envoyerLettreDuMois(new Date(passage), { envoyer, baseUrl: BASE });
+      expect(r).toMatchObject({ reporte: true, articlesNonPublies: [], prochainEnvoi: jeudiSuivant, envoyes: 0 });
+    }
+    expect(envoyer).not.toHaveBeenCalled();
+    expect(mockDb.journal).toHaveLength(0);
+
+    const r = await envoyerLettreDuMois(jeudiSuivant, { envoyer, baseUrl: BASE });
+    expect(r).toMatchObject({ reporte: false, prochainEnvoi: null, envoyes: 1, termine: true });
     expect(envoyer).toHaveBeenCalledTimes(1);
+  });
+
+  it("article mis en ligne le lundi à 0 h : départ le jeudi de la même semaine à 8 h", async () => {
+    mockDb.articles = [{ slug: SLUG, isPublished: true, publishedAt: new Date("2026-11-15T23:00:00Z") }]; // lundi 16/11, 0 h Paris
+    const envoyer = jest.fn().mockResolvedValue(undefined);
+    const r = await envoyerLettreDuMois(new Date("2026-11-15T23:15:00Z"), { envoyer, baseUrl: BASE });
+    expect(r).toMatchObject({ reporte: true, prochainEnvoi: new Date("2026-11-19T07:00:00Z"), envoyes: 0 });
+    expect(envoyer).not.toHaveBeenCalled();
+  });
+
+  it("envoi déjà commencé (journal non vide) : il se termine sans attendre de créneau", async () => {
+    mockDb.articles = [{ slug: SLUG, isPublished: true, publishedAt: new Date("2026-11-05T09:00:00Z") }];
+    mockDb.journal = [{ id: "l0", email: "z@x.fr", status: "ENVOYE", attempts: 1 }];
+    const r = await envoyerLettreDuMois(new Date("2026-11-05T09:15:00Z"), { envoyer: jest.fn().mockResolvedValue(undefined), baseUrl: BASE });
+    expect(r).toMatchObject({ reporte: false, envoyes: 1 });
   });
 
   it("article publié et date passée : envoi normal", async () => {
@@ -145,5 +169,18 @@ describe("envoyerLettreDuMois : article cité pas encore en ligne", () => {
     const r = await envoyerLettreDuMois(NOW, { envoyer: jest.fn().mockResolvedValue(undefined), baseUrl: BASE });
     expect(r).toMatchObject({ reporte: false, envoyes: 1 });
     expect(prisma.blogArticle.findMany).not.toHaveBeenCalled();
+  });
+});
+
+describe("prochainCreneauLettre", () => {
+  it.each([
+    ["jeudi avant 8 h : le jour même", "2026-11-05T06:59:00Z", "2026-11-05T07:00:00Z"],
+    ["jeudi 8 h pile : le jour même", "2026-11-05T07:00:00Z", "2026-11-05T07:00:00Z"],
+    ["jeudi après 8 h : jeudi suivant", "2026-11-05T07:01:00Z", "2026-11-12T07:00:00Z"],
+    ["dimanche 23 h 30 à Paris : jeudi suivant", "2026-11-08T22:30:00Z", "2026-11-12T07:00:00Z"],
+    ["passage à l'heure d'été : 8 h Paris = 6 h UTC", "2027-03-29T10:00:00Z", "2027-04-01T06:00:00Z"],
+    ["mercredi 23 h 30 UTC, déjà jeudi 0 h 30 à Paris : ce jeudi à 8 h", "2026-11-11T23:30:00Z", "2026-11-12T07:00:00Z"],
+  ])("%s", (_cas, apres, attendu) => {
+    expect(prochainCreneauLettre(new Date(apres))).toEqual(new Date(attendu));
   });
 });

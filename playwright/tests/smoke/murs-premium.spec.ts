@@ -1,8 +1,12 @@
-import { test, expect, lireUrl } from "../support/fixtures";
+import { test, expect, lireUrl, texteValide } from "../support/fixtures";
+import { REASSURANCE_PAIEMENT, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { APERCU_INTRO, progressionVisiteurTexte } from "@/config/textes/parcours";
 
 /**
  * J1 : pages des parcours et murs Premium (lecture seule).
  * Tag @s16 = dépend du code des lots A/B/C (échoue tant qu'il n'est pas déployé).
+ * Tag @s21 = dépend du lot 2 s21 (libellés des murs), même règle.
+ * Textes : constantes du dépôt (`apps/web/src/config/textes`), jamais recopiés.
  */
 
 const PAGES_PARCOURS = [
@@ -90,17 +94,27 @@ test.describe("Murs Premium @smoke", () => {
       await carte.focus();
       await page.keyboard.press("Enter");
       await expect(page.getByRole("dialog")).toBeVisible();
-      await expect(page.getByRole("dialog")).toContainText(/2,99\s€ TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux\./);
+      // Réassurance validée s21 (remboursement du premier paiement), sous le bouton de la modale.
+      await expect(page.getByRole("dialog")).toContainText(texteValide(REASSURANCE_PAIEMENT));
     });
   }
 
-  test("/parcours/machine-a-cafe : étape 2 verrouillée, l'étape 1 mène à /abonnement", async ({ page }) => {
+  test("/parcours/machine-a-cafe : étape 2 verrouillée, l'étape 1 mène à /abonnement @s21", async ({ page }) => {
     await page.goto("/parcours/machine-a-cafe");
-    await expect(page.getByText("Termine l'étape 1 pour débloquer")).toBeVisible();
+    // Visiteur (s17) : plus de « Termine l'étape 1 pour débloquer » (réservé à l'abonné,
+    // ordre conseillé) ; la progression annonce l'étape 1 offerte et les suivantes avec Premium.
+    const etapes = await page.getByRole("button", { name: /^Étape \d+ :/ }).count();
+    expect(etapes).toBeGreaterThan(1);
+    await expect(page.getByText(progressionVisiteurTexte(etapes))).toBeVisible();
+    await expect(page.getByText(APERCU_INTRO)).toBeVisible();
+    await expect(
+      page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : .*Fait partie de Premium$/ }),
+    ).toHaveCount(1);
 
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    const cta = page.getByRole("link", { name: /Voir l'accès complet|Voir l'offre Premium/ });
+    // Libellé du mur validé à l'aveugle (lot 2 s21, duel 1).
+    const cta = page.getByRole("link", { name: VALIDATION_ETAPE.bouton });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/abonnement");
@@ -108,7 +122,7 @@ test.describe("Murs Premium @smoke", () => {
     expect(url.searchParams.get("src")).toBe("parcours-etape");
   });
 
-  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu Premium) @s16", async ({ page }) => {
+  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu Premium) @s16 @s21", async ({ page }) => {
     await page.goto("/parcours/machine-a-cafe");
     await expect(page.getByText("Lecture libre").first()).toBeVisible();
     await expect(page.getByText("Essai gratuit")).toHaveCount(0);
@@ -118,7 +132,9 @@ test.describe("Murs Premium @smoke", () => {
     ).toHaveCount(1);
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    await expect(page.getByText("Valider l'étape fait partie de Premium.")).toBeVisible();
-    await expect(page.getByRole("link", { name: "Voir l'offre Premium" })).toBeVisible();
+    await expect(page.getByText(VALIDATION_ETAPE.texte)).toBeVisible();
+    // s21 : « Voir ce que contient Premium » (lot 2, duel 1) au lieu de « Voir l'offre Premium ».
+    await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Voir l'offre Premium" })).toHaveCount(0);
   });
 });

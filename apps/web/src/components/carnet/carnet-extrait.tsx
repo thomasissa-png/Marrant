@@ -42,8 +42,8 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
         <Link
           href={`/carnet#fiche-${extrait.fiche.id}`}
           className={cn(
-            buttonVariants({ variant: "outline", size: "lg" }),
-            "h-auto min-h-12 border-accent-primary/60 px-4 py-2 hover:border-accent-primary",
+            buttonVariants({ variant: "outline-accent", size: "lg" }),
+            "h-auto min-h-12 px-4 py-2",
           )}
         >
           {CARNET_EXTRAIT_LIEN}

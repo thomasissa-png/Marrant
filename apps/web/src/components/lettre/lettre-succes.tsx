@@ -39,7 +39,7 @@ export function LettreSucces({ id, attente, erreur, onRenvoyer, onChanger }: Let
         <p className="mt-2 text-xs text-text-muted">{S.aide}</p>
       </div>
       {(erreur === "reseau" || erreur === "limite") && (
-        <p role="alert" className="mt-2 text-sm text-error">
+        <p role="alert" className="mt-2 text-sm text-error-text">
           {erreur === "limite" ? TEXTES_LETTRE.erreurs.limite : TEXTES_LETTRE.erreurs.reseau}
         </p>
       )}

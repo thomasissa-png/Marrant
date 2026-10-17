@@ -156,6 +156,16 @@ const TEXTES_SOURCE = {
 export const TEXTES_LETTRE = insecables(TEXTES_SOURCE, ["page.metaTitre", "page.metaDescription"]);
 
 /**
+ * `<title>` des pages à bouton (revue s21 m6) : chaînes SOURCE, sans les insécables
+ * de rendu (jamais de typographie de rendu dans `metadata`, convention de
+ * `lib/fr-typo`). Le titre affiché dans la page reste celui de `TEXTES_LETTRE`.
+ */
+export const TITRES_META_LETTRE = {
+  confirmer: TEXTES_SOURCE.page.confirmer.titre,
+  desinscrire: TEXTES_SOURCE.page.desinscrire.titre,
+} as const;
+
+/**
  * Textes de consentement déjà présentés, gardés pour la preuve des
  * consentements donnés sous une version antérieure (`consentText` stocké en
  * base = `<version> : <texte de la case>`). Ne jamais supprimer une entrée.

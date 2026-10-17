@@ -4,6 +4,11 @@
 
 @layer base {
   :root {
+    /* Site 100 % sombre (revue design s21 M4) : contrôles natifs (case à cocher,
+       barres de défilement, listes déroulantes, saisie automatique) dessinés en
+       sombre par le navigateur, au lieu d'un carré blanc sur fond noir. */
+    color-scheme: dark;
+
     /* Palette principale — ambiance cinéma/Netflix */
     --color-bg: #0D0D0D;
     --color-bg-light: #1A1A1A;

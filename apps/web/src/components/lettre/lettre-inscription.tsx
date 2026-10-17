@@ -20,6 +20,8 @@ interface LettreInscriptionProps {
   profil?: string;
   /** Page /lettre : le titre est le H1 de la page (id fourni), pas de titre en double. */
   titreId?: string;
+  /** `/lettre?statut=invalide|erreur` : formulaire affiché même avec une inscription en attente (QA s21 m1). */
+  ignorerDrapeau?: boolean;
   className?: string;
 }
 
@@ -30,10 +32,10 @@ const E = TEXTES_LETTRE.erreurs;
  * Inscription à la lettre mensuelle (s21, spec `docs/ux/lettre-inscription-s21.md` §2).
  * Interrupteur fermé ou abonné Premium connecté : rien n'est rendu.
  * Article : `data-blog-zone="lettre"`, JAMAIS `data-blog-cta*` (mesure du lot 1 isolée).
- * Bouton `outline` neutre : les variantes `primary` et `secondary` du site sont
- * violettes pleines, réservées à Premium (spec §1.2).
+ * Bouton de niveau 2 (`outline-accent`, revue design s21 M3) : la variante pleine
+ * `primary` reste réservée à Premium (spec §1.2).
  */
-export function LettreInscription({ emplacement, slug, profil, titreId, className }: LettreInscriptionProps) {
+export function LettreInscription({ emplacement, slug, profil, titreId, ignorerDrapeau = false, className }: LettreInscriptionProps) {
   const { data: session, status } = useSession();
   const user = session?.user as { email?: string | null; plan?: string } | undefined;
   const isPremium = status === "authenticated" && isPremiumPlan(user?.plan);
@@ -45,7 +47,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
   const emailRef = useRef<HTMLInputElement>(null);
   const caseRef = useRef<HTMLInputElement>(null);
   const piegeRef = useRef<HTMLInputElement>(null);
-  const { etat, setEtat, erreur, setErreur, lente, attente, envoyer } = useLettreInscription(emplacement, slug, mesure);
+  const { etat, setEtat, erreur, setErreur, lente, attente, envoyer } = useLettreInscription(emplacement, slug, mesure, ignorerDrapeau);
   const [email, setEmail] = useState("");
   const [modifie, setModifie] = useState(false);
   const [consent, setConsent] = useState(false);
@@ -126,7 +128,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
           </label>
           {/* Une seule colonne à toutes les largeurs : ordre visuel = ordre du clavier
               (champ, case, bouton, mention ; WCAG 2.4.3, vérification visuelle s21). */}
-          <div className="mt-1 grid gap-3">
+          <div className="mt-1 grid gap-2.5">
             <div>
               <input
                 ref={emailRef}
@@ -153,7 +155,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
                 className="h-12 w-full rounded-lg border border-border bg-background-light px-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-primary"
               />
               {erreur === "email" && (
-                <p id={`${id}-erreur-email`} role="alert" className="mt-1 text-sm text-error">
+                <p id={`${id}-erreur-email`} role="alert" className="mt-1 text-sm text-error-text">
                   <span aria-hidden="true">! </span>
                   {E.email}
                 </p>
@@ -180,7 +182,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
                 <span>{T.case}</span>
               </label>
               {erreur === "case" && (
-                <p id={`${id}-erreur-case`} role="alert" className="mt-1 text-sm text-error">
+                <p id={`${id}-erreur-case`} role="alert" className="mt-1 text-sm text-error-text">
                   <span aria-hidden="true">! </span>
                   {E.case}
                 </p>
@@ -188,14 +190,14 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
             </div>
 
             {(erreur === "reseau" || erreur === "limite") && (
-              <p role="alert" className="text-sm text-error">
+              <p role="alert" className="text-sm text-error-text">
                 {erreur === "limite" ? E.limite : E.reseau}
               </p>
             )}
 
             <Button
               type="submit"
-              variant="outline"
+              variant="outline-accent"
               size="lg"
               aria-busy={occupe || undefined}
               className="w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"
@@ -208,13 +210,19 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
               {T.attenteLongue}
             </p>
           )}
-          <p className="mt-2 text-xs text-text-muted">{T.reassurance}</p>
-          <p className="mt-1 text-xs text-text-muted">
-            {/* Insécable avant le lien : « droits : Confidentialité » ne se sépare pas. Lien en ligne
-                (zone tactile agrandie par le padding, sans ligne haute de 44 px dans la mention). */}
-            {T.mention}
+          {/* Revue design s21 m6 : « Gratuit, sans compte. » et la mention dans un seul
+              paragraphe (textes inchangés), le bloc pèse moins lourd sur mobile.
+              Insécable avant le lien : « droits : Confidentialité » ne se sépare pas.
+              QA s21 m3 : zone tactile de 44 px portée par un pseudo-élément ; le lien
+              reste une boîte de la hauteur du texte, son anneau de focus ne chevauche
+              plus la ligne du dessus. */}
+          <p className="mt-2 text-xs text-text-muted">
+            {T.reassurance} {T.mention}
             {NBSP}
-            <Link href={LETTRE_CONFIDENTIALITE_HREF} className="py-3 underline">
+            <Link
+              href={LETTRE_CONFIDENTIALITE_HREF}
+              className="relative rounded-sm underline after:absolute after:-inset-x-1 after:-inset-y-3 after:content-[''] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-text-primary"
+            >
               {T.lienConfidentialite}
             </Link>
           </p>

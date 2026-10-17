@@ -103,9 +103,9 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
           <Link
             href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
             className={buttonVariants({
-              variant: "outline",
+              variant: "outline-accent",
               size: "lg",
-              className: "w-full border-accent-primary/60 hover:border-accent-primary",
+              className: "w-full",
             })}
           >
             {QUIZ_HUMOUR_PARCOURS.bouton}
@@ -170,10 +170,11 @@ export function ViralQuiz() {
 
   if (showRetake && result) {
     return (
-      <div className="space-y-4">
+      // Revue design s21 m8 : marges explicites (un `space-y-4` écrasait le `mt-6` de la lettre).
+      <div>
         <ResultCard profile={result} />
         {lettre(result)}
-        <div className="text-center">
+        <div className="mt-4 text-center">
           <Button variant="ghost" size="sm" onClick={handleRetake}>
             Refaire le quiz
           </Button>

@@ -13,6 +13,10 @@ export const dynamic = "force-dynamic";
  * `/lettre/confirmer` confirme. Un GET (scanner de liens, ancien lien) ne change
  * rien et renvoie vers la page du bouton.
  *
+ * Contrôle d'origine (`lib/same-site.ts`) : la vraie origine du site, ou
+ * `Origin: null` avec `Sec-Fetch-Site: same-origin` ; une autre origine est
+ * refusée et renvoyée vers `/lettre?statut=erreur` (303), sans rien confirmer.
+ *
  * Mesure (spec §4 règle 3) : `mesure=1` n'est ajouté à la redirection que si
  * l'adresse n'est pas dans `emailsExclus()` ; `emplacement` est relu de `source`
  * en base, jamais de l'e-mail. Aucune adresse ni jeton dans l'URL d'arrivée.
@@ -31,8 +35,9 @@ export async function GET(request: NextRequest, { params }: { params: { token: s
 
 export async function POST(request: NextRequest, { params }: { params: { token: string } }) {
   if (!LETTRE_INSCRIPTIONS_OUVERTES) return NextResponse.json({ error: "Introuvable" }, { status: 404 });
-  const autreSite = refuserSiAutreSite(request, "newsletter/confirm");
-  if (autreSite) return autreSite;
+  // Bouton d'une page HTML : un refus renvoie vers la page de statut, jamais du
+  // JSON brut affiché à un humain (QA s21 B1).
+  if (refuserSiAutreSite(request, "newsletter/confirm")) return vers(request, "/lettre?statut=erreur");
 
   const token = params.token?.trim();
   if (!isPlausibleToken(token)) return vers(request, "/lettre?statut=invalide");

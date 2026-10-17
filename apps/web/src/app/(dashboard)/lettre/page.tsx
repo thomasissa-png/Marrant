@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { LettreInscription } from "@/components/lettre/lettre-inscription";
+import { LettrePageInscription } from "@/components/lettre/lettre-page-inscription";
 import { LettreStatut } from "@/components/lettre/lettre-statut";
 import { LETTRE_EMPLACEMENTS, LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   title: TEXTES_LETTRE.page.metaTitre,
   description: TEXTES_LETTRE.page.metaDescription,
   robots: { index: false, follow: false },
-  referrer: "no-referrer",
+  referrer: "same-origin",
 };
 
 const STATUTS_TOUJOURS = ["desinscrit", "invalide", "erreur"] as const;
@@ -45,7 +45,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   return (
     <div className="mx-auto max-w-2xl space-y-8 px-4 py-10">
       {statut === "confirmee" && (
-        <LettreStatut titre={S.confirmee.titre} confirmeeMesuree={searchParams.mesure === "1" ? { emplacement } : undefined}>
+        <LettreStatut titre={S.confirmee.titre} confirmee confirmeeMesuree={searchParams.mesure === "1" ? { emplacement } : undefined}>
           <p className="mt-1 text-sm text-text-secondary">{S.confirmee.texte}</p>
           <Link href={S.confirmee.lienHref} className="mt-2 inline-flex min-h-11 items-center text-sm text-accent-link underline">
             {S.confirmee.lien}
@@ -79,16 +79,11 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
         <LettreStatut titre={statut === "saisie-email" ? TEXTES_LETTRE.erreurs.email : TEXTES_LETTRE.erreurs.case} />
       )}
 
-      {LETTRE_INSCRIPTIONS_OUVERTES && statut !== "desinscrit" && (
-        <>
-          <header>
-            <h1 id="lettre-titre-page" className="font-display text-3xl font-bold text-text-primary">
-              {TEXTES_LETTRE.titre}
-            </h1>
-            <p className="mt-2 text-text-secondary">{TEXTES_LETTRE.phrase}</p>
-          </header>
-          <LettreInscription emplacement="page" titreId="lettre-titre-page" />
-        </>
+      {/* QA s21 m2 : après la confirmation comme après la désinscription, le statut
+          seul (plus de formulaire qui invite à s'inscrire une seconde fois). QA s21 m1 :
+          lien invalide ou erreur, le formulaire annoncé par le bandeau est toujours là. */}
+      {LETTRE_INSCRIPTIONS_OUVERTES && statut !== "desinscrit" && statut !== "confirmee" && (
+        <LettrePageInscription ignorerDrapeau={statut === "invalide" || statut === "erreur"} />
       )}
 
       {apercu.dernier && (

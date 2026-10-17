@@ -29,9 +29,8 @@ export function FicheParcoursLien({ type, refs }: { type: FicheType; refs: reado
       <Link
         href={parcoursEtape1Href(ref.slug, "fiche")}
         className={cn(
-          buttonVariants({ variant: "outline" }),
-          // s17 tour 2 (DES-2-02) : contour violet lisible et survol visible, variante globale intacte.
-          "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
+          // Niveau 2 (étape 1 gratuite) : variante unique `outline-accent` (revue design s21 M3).
+          buttonVariants({ variant: "outline-accent" }),
           "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center [text-wrap:balance] sm:w-auto",
         )}
       >

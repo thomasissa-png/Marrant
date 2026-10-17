@@ -50,8 +50,19 @@
 ## Composants UI
 
 ### Button
-Variants : `primary` (violet vif), `secondary` (violet profond), `ghost`, `outline`, `danger`
+Variants : `primary` (violet vif), `outline-accent`, `outline`, `ghost`, `danger` ; `secondary` (violet profond plein) est déprécié.
 Tailles : `sm`, `md`, `lg`, `icon`
+
+**Deux niveaux de boutons (revue design s21 M3)** :
+- **Niveau 1 = `primary`** (plein) : Premium seulement (achat, « Commencer », « Activer mon accès »).
+- **Niveau 2 = `outline-accent`**, UNIQUE variante : toute action gratuite qui entre dans le produit (étape 1 d'un parcours, lettre, extrait du carnet). Bordure `accent-primary/80` (environ 3,2:1). Aucune surcharge locale de bordure (`border-accent-primary/60` interdit sur un bouton ; garde-fou dans `__tests__/ui/button.test.tsx`).
+- **`outline`** (bordure neutre) : utilitaire seulement (annuler, retour, voir tout).
+
+### En-tête (budget de largeur, revue design s21)
+Largeur utile 992 px à 1024, 1248 px dès 1280 (max-w-7xl). Tout est `shrink-0`. De 1024 à 1279 : recherche en loupe (panneau `#mobile-search`) ; dès 1280 : champ `w-44`. Compte connecté : « Favoris », « Mon profil », « Déconnexion » dans un seul menu Radix (`account-menu.tsx`) ; « Activer mon accès » reste dans la barre. Un onglet ou un bouton de plus doit d'abord trouver sa place dans ce budget (tableau dans `components/layout/header.tsx`), sinon il va dans le menu de compte ou le menu déroulant. Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états). Menu déroulant mobile : hauteur maximale = écran moins la barre, défilement interne.
+
+### Contrôles natifs
+`color-scheme: dark` sur `:root` (`styles/globals.css`) : cases à cocher, barres de défilement, listes déroulantes et saisie automatique dessinées en sombre (plus de carré blanc sur fond noir).
 
 ### Card
 Fond `background-card`, bordure `border`, hover `border-hover`, radius `lg`

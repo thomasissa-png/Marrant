@@ -32,6 +32,18 @@ function drapeauActif(): boolean {
   }
 }
 
+/**
+ * Adresse confirmée (QA s21 m1/m2) : le drapeau « en attente » n'a plus lieu
+ * d'être, le formulaire ne doit plus dire « il reste à confirmer ».
+ */
+export function effacerDrapeauLettre() {
+  try {
+    window.localStorage.removeItem(LETTRE_STORAGE_KEY);
+  } catch {
+    // Stockage indisponible : rien à effacer.
+  }
+}
+
 function poserDrapeau() {
   try {
     window.localStorage.setItem(LETTRE_STORAGE_KEY, new Date().toISOString());
@@ -63,7 +75,17 @@ export function useLettreVu(ref: RefObject<HTMLElement>, actif: boolean, mesure:
   }, [ref, actif]);
 }
 
-export function useLettreInscription(emplacement: LettreEmplacement, slug: string | undefined, mesure: LettreMesure) {
+/**
+ * `ignorerDrapeau` : `/lettre?statut=invalide|erreur` (QA s21 m1). Le bandeau
+ * renvoie vers « le formulaire de cette page » : il doit être là, même si une
+ * inscription en attente est mémorisée dans ce navigateur.
+ */
+export function useLettreInscription(
+  emplacement: LettreEmplacement,
+  slug: string | undefined,
+  mesure: LettreMesure,
+  ignorerDrapeau = false,
+) {
   const [etat, setEtat] = useState<LettreEtat>("formulaire");
   const [erreur, setErreur] = useState<LettreErreur>(null);
   const [lente, setLente] = useState(false);
@@ -71,8 +93,8 @@ export function useLettreInscription(emplacement: LettreEmplacement, slug: strin
   const enCours = useRef(false);
 
   useEffect(() => {
-    if (drapeauActif()) setEtat("drapeau");
-  }, []);
+    if (!ignorerDrapeau && drapeauActif()) setEtat("drapeau");
+  }, [ignorerDrapeau]);
 
   useEffect(() => {
     if (attente <= 0) return;

@@ -9,12 +9,22 @@ const buttonVariants = cva(
       variant: {
         primary:
           "bg-accent-secondary-hover text-white hover:bg-accent-secondary focus-visible:ring-accent-secondary-hover",
+        /** @deprecated Violet plein, lu comme un niveau 1 : utiliser `primary` (Premium) ou `outline-accent` (niveau 2). */
         secondary:
           "bg-accent-secondary text-white hover:bg-accent-secondary-hover focus-visible:ring-accent-secondary",
         ghost:
           "text-text-secondary hover:bg-background-elevated hover:text-text-primary focus-visible:ring-accent-primary",
+        /** Utilitaire seulement (annuler, retour, voir tout) : bordure neutre. */
         outline:
           "border border-border text-text-primary hover:bg-background-elevated hover:border-border-hover focus-visible:ring-accent-primary",
+        /**
+         * Niveau 2, UNIQUE variante (revue design s21 M3) : toute action gratuite qui
+         * entre dans le produit (étape 1 d'un parcours, lettre, extrait du carnet).
+         * Bordure violette à 80 % (environ 3,2:1 sur le fond, WCAG 1.4.11). Le niveau 1
+         * (`primary`, plein) reste réservé à Premium. Aucune surcharge locale de bordure.
+         */
+        "outline-accent":
+          "border border-accent-primary/80 text-text-primary hover:bg-background-elevated hover:border-accent-primary focus-visible:ring-accent-primary",
         danger:
           "bg-error text-white hover:bg-error/90 focus-visible:ring-error",
       },

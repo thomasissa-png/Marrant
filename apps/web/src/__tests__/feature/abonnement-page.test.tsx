@@ -67,7 +67,11 @@ describe("AbonnementPage (s12 T45)", () => {
   it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre, bouton avant les avantages (§5.2, §5.3)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable carnetExtrait={null} />);
-    const texte = (document.body.textContent ?? "").replace(/\s+/g, " ");
+    // Texte perçu (vue et lecteur d'écran) : sans les lignes de la formule non choisie,
+    // gardées invisibles et `aria-hidden` pour la stabilité de la mise en page (revue design s21 m2).
+    const perceptible = document.body.cloneNode(true) as HTMLElement;
+    perceptible.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
+    const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ");
     const lignes = [
       "C'est pour toi si tu restes muet quand on te chambre.",
       "Ta réplique pendant la soirée, pas dans le bus du retour",
@@ -244,7 +248,13 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
         "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
       );
       const compte = (t: string) => (t.match(/mois offerts/g) ?? []).length;
-      expect(compte(document.body.textContent ?? "")).toBe(1);
+      /** Texte perçu : sans les éléments `aria-hidden` (invisibles, gardés pour la mise en page). */
+      const texteAccessible = (racine: HTMLElement) => {
+        const copie = racine.cloneNode(true) as HTMLElement;
+        copie.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
+        return copie.textContent ?? "";
+      };
+      expect(compte(texteAccessible(document.body))).toBe(1);
       expect(document.body.textContent).not.toContain("Sans engagement, annulable");
       expect(screen.getByText("2,99 €")).toBeInTheDocument();
       // Correctif s21 (QA 375 px) : la pastille est rattachée à « Annuel » (même colonne,
@@ -256,11 +266,21 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(pastille.parentElement).not.toContainElement(radioMensuel);
       expect(radioAnnuel).toHaveAttribute("aria-describedby", pastille.id);
       expect(radioMensuel).not.toHaveAttribute("aria-describedby");
-      // Annuel choisi : la ligne sous le prix le dit, la pastille s'efface (jamais deux fois).
+      // Annuel choisi : la ligne sous le prix le dit, la pastille s'efface (jamais deux fois
+      // pour l'œil ni pour un lecteur d'écran). Revue design s21 m2 : effacée mais gardée
+      // dans le flux (invisible, aria-hidden), pour que le prix et le bouton ne bougent pas.
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
-      expect(screen.queryByTestId("annuel-mois-offerts")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("annuel-ligne-mensuel")).not.toBeInTheDocument();
-      expect(compte(document.body.textContent ?? "")).toBe(1);
+      for (const id of ["annuel-mois-offerts", "annuel-ligne-mensuel"]) {
+        expect(screen.getByTestId(id)).toHaveAttribute("aria-hidden", "true");
+        expect(screen.getByTestId(id).className).toContain("invisible");
+      }
+      expect(radioAnnuel).not.toHaveAttribute("aria-describedby");
+      expect(compte(texteAccessible(document.body))).toBe(1);
+      // Retour au mensuel : les lignes de l'annuel s'effacent à leur tour.
+      await userEvent.click(screen.getByRole("radio", { name: "Mensuel" }));
+      expect(screen.getByTestId("annuel-ligne-mensuel")).not.toHaveAttribute("aria-hidden");
+      expect(screen.getByText(/^soit 2,08/).parentElement).toHaveAttribute("aria-hidden", "true");
+      expect(compte(texteAccessible(document.body))).toBe(1);
     });
 
     it("mensuel choisi : corps historique, sans plan", async () => {

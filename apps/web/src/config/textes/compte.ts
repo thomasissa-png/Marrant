@@ -43,6 +43,9 @@ export const TEXTES_CONNEXION = {
     "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
   // PROVISOIRE s16, hors étalons
   lienConnexionMobile: "Connexion",
+  // PROVISOIRE s21 (revue design, en-tête) : nom vocal du bouton du menu de compte,
+  // jamais affiché ; les entrées du menu reprennent les libellés existants.
+  menuCompte: "Mon compte",
 } as const;
 
 // PROVISOIRE s16, étalon à valider
@@ -104,7 +107,7 @@ export const MOT_CONFIRMATION_SUPPRESSION = "SUPPRIMER";
 export const TEXTES_SUPPRESSION = {
   titre: "Supprimer mon compte",
   intro:
-    "Tu peux supprimer ton compte quand tu veux. On efface ton profil, tes favoris, ta progression et ton inscription à la newsletter. C'est définitif.",
+    "Tu peux supprimer ton compte quand tu veux. On efface ton profil, tes favoris, ta progression et ton inscription à la lettre. C'est définitif.",
   /**
    * Avertissement avant suppression d'un compte abonné (lot G, relecture @legal
    * point 8). Avec date : texte exact @legal. Sans date (résumé illisible) :

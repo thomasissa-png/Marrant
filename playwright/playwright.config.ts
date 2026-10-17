@@ -8,6 +8,8 @@ import path from "node:path";
  * - `E2E_BASE_URL` : site visé (ex. https://deviens-marrant.fr). Absent : serveur
  *   local `next dev` sur le port 5000, lancé depuis apps/web.
  * - Projets `desktop` et `iphone-13` : suite `@smoke`, lecture seule, jouable en prod.
+ * - Projet `local` : parcours qui écrivent (lettre, en-tête connecté), base jetable
+ *   (`E2E_DATABASE_URL`) et faux Resend (`E2E_FAUX_RESEND_PORT`) ; jamais en prod.
  * - Projet `achat` : parcours complet avec Stripe en mode test. Skippé tout seul
  *   sans `STRIPE_TEST_SECRET_KEY` + `E2E_BASE_URL` d'un environnement de test.
  * - Chromium uniquement (WebKit non installé ici). `E2E_CHROMIUM_PATH` force un
@@ -51,6 +53,15 @@ export default defineConfig({
       testMatch: /smoke\/.*\.spec\.ts/,
       // Gabarit iPhone 13 (viewport, DPR, tactile, user agent) rendu par Chromium.
       use: { ...devices["iPhone 13"], browserName: "chromium" },
+    },
+    {
+      // Tests LOCAUX qui écrivent en base jetable (lettre, comptes de test, en-tête
+      // connecté). Sautés d'eux-mêmes hors localhost ou sans E2E_DATABASE_URL
+      // (tests/support/base-locale.ts). Jamais dans le smoke de production.
+      name: "local",
+      testMatch: /local\/.*\.spec\.ts/,
+      fullyParallel: false,
+      use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } },
     },
     {
       name: "achat",

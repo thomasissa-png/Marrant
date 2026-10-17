@@ -217,21 +217,25 @@ export function AbonnementView({
           </Badge>
         )}
         {!isAuthenticated && (
-          <p className="mb-3 text-sm font-semibold text-accent-link" data-testid="abonnement-surtitre">
+          <p className="mb-2 text-[0.8125rem] font-semibold text-accent-link sm:mb-3 sm:text-sm" data-testid="abonnement-surtitre">
             {ABONNEMENT_HAUT_VISITEUR.surtitre}
           </p>
         )}
-        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
+        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary sm:text-3xl md:text-4xl">
           {pageTitle}
         </h1>
-        <p className="mx-auto mt-3 max-w-xl text-balance text-lg text-text-secondary">
+        <p className="mx-auto mt-2 max-w-xl text-balance text-[0.9375rem] leading-snug text-text-secondary sm:mt-3 sm:text-lg">
           {pageSubtitle}
         </p>
       </div>
 
       {/* Offre principale */}
-      <Card className={`mt-10 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary`}>
-        <CardContent className="p-6 sm:p-8">
+      {/* Revue design s21 M2 : sous 640 px, marges et tailles resserrées (aucun texte touché)
+          pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
+          iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
+          formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
+      <Card className={`mt-5 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
+        <CardContent className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">
               {OFFRE_NOM}
@@ -258,7 +262,7 @@ export function AbonnementView({
             <Button
               variant="primary"
               size="lg"
-              className="mt-8 w-full"
+              className="mt-4 w-full sm:mt-8"
               onClick={() => void handleCheckout("manuel", plan)}
               disabled={isCheckoutLoading}
             >
@@ -269,7 +273,7 @@ export function AbonnementView({
           ) : (
             <Link
               href={paidSignupHref}
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4 w-full sm:mt-8")}
               onClick={() =>
                 trackUmami("abonnement-clic", {
                   formule: isAnnual ? "annuel" : "mensuel",

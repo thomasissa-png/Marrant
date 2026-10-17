@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { desinscrireLettre } from "@/lib/lettre/inscription";
 import { isPlausibleToken } from "@/lib/newsletter";
+import { refuserSiAutreSite } from "@/lib/same-site";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,9 @@ export const dynamic = "force-dynamic";
  *  - POST `List-Unsubscribe=One-Click` (RFC 8058, client mail) : immédiat, 200 texte.
  *  - POST du bouton de `/lettre/desinscrire` : 303 vers `/lettre?statut=desinscrit`.
  *  - GET (scanner de liens, ancien lien) : ne change rien, renvoie vers la page du bouton.
- * Pas de contrôle d'origine : le POST en un clic vient des serveurs de messagerie.
+ * Contrôle d'origine sur le bouton seulement (même règle que la confirmation :
+ * autre site → `/lettre?statut=erreur`, rien d'arrêté) ; jamais sur le POST en un
+ * clic, qui vient des serveurs de messagerie.
  * Seule la lettre mensuelle est arrêtée, rien d'autre.
  */
 function vers(request: NextRequest, chemin: string) {
@@ -42,6 +45,7 @@ export async function POST(request: NextRequest, { params }: { params: { token: 
   if (!isPlausibleToken(token)) {
     return unClic ? new NextResponse("Lien invalide", { status: 400 }) : vers(request, "/lettre?statut=invalide");
   }
+  if (!unClic && refuserSiAutreSite(request, "newsletter/unsubscribe")) return vers(request, "/lettre?statut=erreur");
   try {
     const res = await desinscrireLettre(token);
     if (unClic) {

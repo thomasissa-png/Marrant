@@ -2,6 +2,7 @@ import Link from "next/link";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
 
 const footerLinks = {
   produit: [
@@ -66,7 +67,10 @@ function liensProduit() {
   return [...footerLinks.produit.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...footerLinks.produit.slice(i)];
 }
 
+const LIEN_PIED = "inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary";
+
 export function Footer() {
+  const produit = liensProduit();
   return (
     <footer className="border-t border-border bg-background-light">
       <div className="mx-auto max-w-7xl px-4 py-12">
@@ -109,17 +113,24 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-              {liensProduit().map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            {/* Revue design s21 m4 : 2 colonnes lues de haut en bas (gauche puis droite),
+                plus en zigzag ; nombre de rangées = moitié des liens arrondie au-dessus,
+                recalculé si un lien est ajouté. */}
+            <ul
+              style={{ ["--rangs-produit" as string]: Math.ceil(produit.length / 2) }}
+              className="grid grid-flow-col grid-cols-2 grid-rows-[repeat(var(--rangs-produit),auto)] gap-x-6 sm:grid-flow-row sm:grid-cols-1 sm:grid-rows-none lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-[repeat(var(--rangs-produit),auto)] lg:gap-x-8"
+            >
+              {produit.map((link) =>
+                link.href === "/lettre" ? (
+                  <LienLettrePied key={link.href} href={link.href} label={link.label} className={LIEN_PIED} />
+                ) : (
+                  <li key={link.href}>
+                    <Link href={link.href} className={LIEN_PIED}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 

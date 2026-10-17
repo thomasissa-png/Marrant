@@ -95,9 +95,9 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
               href={etape1Href}
               data-blog-cta="etape-1"
               className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
+                buttonVariants({ variant: "outline-accent", size: "lg" }),
                 // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
-                "h-auto min-h-12 whitespace-normal border-accent-primary/60 px-4 py-2 text-center [text-wrap:balance] hover:border-accent-primary",
+                "h-auto min-h-12 whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
               )}
             >
               {frTypo(textes.finBoutonEtape1)}

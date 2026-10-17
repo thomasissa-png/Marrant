@@ -18,7 +18,8 @@ import { MODELE_FORMULAIRE_TITRE, RETRACTATION_PERIMETRE } from "@/config/textes
 import { formulaireTypeRetractation } from "@/config/textes/paiement";
 import type { SubscriptionSummary } from "@/lib/account";
 
-jest.mock("next-auth/react", () => ({ signOut: jest.fn() }));
+// Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
+jest.mock("next-auth/react", () => ({ signOut: jest.fn(), useSession: () => ({ data: null, status: "unauthenticated" }) }));
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
 jest.mock("@/components/retractation/retractation-form", () => ({ RetractationForm: () => null }));

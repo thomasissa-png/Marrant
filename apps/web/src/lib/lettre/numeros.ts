@@ -29,7 +29,8 @@
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import numerosJson from "@/data/lettre/numeros.json";
-import { corpsNumero, dateEnvoiLettre, periodeMensuelle } from "@/lib/lettre/envoi";
+import { articlesCites, corpsNumero, dateEnvoiLettre, periodeMensuelle } from "@/lib/lettre/envoi";
+import { getArticleBySlug } from "@/lib/blog-articles";
 import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
 
 const TIRET_CADRATIN = "—";
@@ -139,6 +140,40 @@ export async function synchroniserNumerosLettre(source: unknown = numerosJson, n
   return r;
 }
 
+/**
+ * Contrôle de démarrage (revue s21 M1) : pour chaque numéro VALIDE pas encore
+ * parti qui cite un article du blog en base, compare la date plancher du
+ * fichier à la date de publication réelle de l'article. Renvoie une alerte par
+ * écart (article absent, non publié sans date, ou publié après la date
+ * plancher) : visible dès le déploiement, pas le jour de l'envoi.
+ */
+export async function controlerDatesPlancher(source: unknown = numerosJson, now: Date = new Date()): Promise<string[]> {
+  const alertes: string[] = [];
+  const entrees = Array.isArray(source) ? source : [];
+  for (const brut of entrees) {
+    const parsed = numeroSchema.safeParse(brut);
+    if (!parsed.success) continue;
+    const n = parsed.data;
+    if (n.statut !== "VALIDE" || n.envoiPrevu === null || !n.datePlancher) continue;
+    if (new Date(n.envoiPrevu).getTime() < now.getTime() - 31 * 86_400_000) continue;
+    const slugs = articlesCites(n.corps).filter((slug) => !getArticleBySlug(slug));
+    if (slugs.length === 0) continue;
+    const articles = await prisma.blogArticle.findMany({
+      where: { slug: { in: slugs } },
+      select: { slug: true, isPublished: true, publishedAt: true },
+    });
+    for (const slug of slugs) {
+      const a = articles.find((x) => x.slug === slug);
+      if (!a) alertes.push(`${n.periode} : article cité « ${slug} » absent de la base`);
+      else if (!a.publishedAt && !a.isPublished) alertes.push(`${n.periode} : article cité « ${slug} » non publié et sans date`);
+      else if (a.publishedAt && jourParis(a.publishedAt) > n.datePlancher) {
+        alertes.push(`${n.periode} : article cité « ${slug} » publié le ${jourParis(a.publishedAt)}, après la date plancher ${n.datePlancher} : numéro reporté au jeudi qui suit`);
+      }
+    }
+  }
+  return alertes;
+}
+
 /** Tâche de démarrage : non bloquante, ne lève jamais. */
 export async function applyLettreNumerosTask(): Promise<void> {
   try {
@@ -150,6 +185,7 @@ export async function applyLettreNumerosTask(): Promise<void> {
     if (r.enAttente.length > 0) {
       console.log(`[startup] lettre : ${r.enAttente.length} numéro(s) en attente du jour d'envoi (${r.enAttente.join(", ")}), non chargé(s).`);
     }
+    for (const alerte of await controlerDatesPlancher()) console.warn(`[startup] lettre : ALERTE ${alerte}`);
   } catch (err) {
     console.error("[startup] lettre : synchronisation des numéros échouée (non bloquant) :", err instanceof Error ? err.message : err);
   }

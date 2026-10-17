@@ -104,15 +104,39 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
-  it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {
+  it("connecté : un seul bouton « Mon compte » (menu Radix) regroupe Favoris, Mon profil et Déconnexion", async () => {
     useSession.mockReturnValue({
       data: { user: { name: "Jean" } },
       status: "authenticated",
     });
     render(<Header />);
-    expect(screen.getAllByLabelText("Favoris").length).toBeGreaterThan(0);
-    expect(screen.getAllByLabelText("Mon profil").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Déconnexion").length).toBeGreaterThan(0);
+    // Barre ordinateur : plus d'étoile, de profil ni de « Déconnexion » permanents.
+    expect(screen.queryByLabelText("Favoris")).not.toBeInTheDocument();
+    expect(screen.queryByText("Déconnexion")).not.toBeInTheDocument();
+    const compte = screen.getByRole("button", { name: "Mon compte" });
+    expect(compte).toHaveAttribute("aria-haspopup", "menu");
+    expect(compte.className).toContain("h-11");
+    // Radix ouvre le menu au clavier (Entrée), focus dans le menu.
+    compte.focus();
+    await userEvent.keyboard("{Enter}");
+    const menu = await screen.findByRole("menu");
+    const entrees = within(menu).getAllByRole("menuitem");
+    expect(entrees.map((e) => e.textContent)).toEqual(["Favoris", "Mon profil", "Déconnexion"]);
+    expect(entrees[0]).toHaveAttribute("href", "/favoris");
+    expect(entrees[1]).toHaveAttribute("href", "/profil");
+    await userEvent.click(entrees[2]);
+    expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: "/" });
+  });
+
+  it("« Activer mon accès » reste dans la barre (hors menu de compte), pas pour un Premium", () => {
+    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    const { unmount } = render(<Header />);
+    expect(screen.getAllByRole("link", { name: "Activer mon accès" })).toHaveLength(1);
+    unmount();
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "PREMIUM" } }, status: "authenticated" });
+    render(<Header />);
+    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mon compte" })).toBeInTheDocument();
   });
 
   it("has navigation principale aria-label", () => {
@@ -134,9 +158,30 @@ describe("Header", () => {
     expect(screen.getByLabelText("Navigation mobile")).toBeInTheDocument();
   });
 
-  it("has search button on mobile", () => {
+  it("recherche : champ dès 1280 px (xl, largeur fixe), loupe de 1024 à 1279 px et sur mobile", async () => {
     render(<Header />);
-    expect(screen.getByLabelText("Rechercher")).toBeInTheDocument();
+    const champ = screen.getByTestId("search-bar");
+    expect(champ.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "xl:block", "w-44", "shrink-0"]));
+    expect(champ.className).not.toMatch(/(^| )lg:block|2xl:/);
+    const loupes = screen.getAllByRole("button", { name: "Rechercher" });
+    expect(loupes).toHaveLength(2);
+    expect(loupes[0].className.split(" ")).toEqual(expect.arrayContaining(["hidden", "lg:flex", "xl:hidden"]));
+    for (const loupe of loupes) {
+      expect(loupe).toHaveAttribute("aria-controls", "mobile-search");
+      expect(loupe).toHaveAttribute("aria-expanded", "false");
+    }
+    await userEvent.click(loupes[0]);
+    expect(loupes[0]).toHaveAttribute("aria-expanded", "true");
+    expect(document.getElementById("mobile-search")?.className).toContain("xl:hidden");
+  });
+
+  it("menu mobile : hauteur maximale, défilement interne et marge de zone sûre (revue design s21 M1)", async () => {
+    render(<Header />);
+    await userEvent.click(screen.getByLabelText("Menu"));
+    const nav = screen.getByLabelText("Navigation mobile");
+    expect(nav.className.split(" ")).toEqual(
+      expect.arrayContaining(["max-h-[calc(100dvh-4rem-1px)]", "overflow-y-auto", "overscroll-contain", "pb-[max(1rem,env(safe-area-inset-bottom))]"]),
+    );
   });
 
   it("highlights current path in navigation", () => {

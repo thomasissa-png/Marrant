@@ -10,8 +10,10 @@
  *    `deviens-marrant.fr/blog/<slug>`) n'est pas en ligne au moment de l'envoi :
  *    article du code, ou article en base publié (`isPublished`) dont la date de
  *    publication est passée (`visibleBlogArticleWhere`, même règle que la page
- *    article). Le numéro est reporté au passage suivant (`reporte = true`, slugs
- *    manquants dans `articlesNonPublies`, alerte dans le journal de la tâche).
+ *    article). Le numéro est reporté (`reporte = true`, slugs manquants dans
+ *    `articlesNonPublies`, alerte dans le journal de la tâche), puis part au
+ *    premier créneau valable (jeudi 8 h, Paris) après la mise en ligne de
+ *    l'article (`prochainEnvoi`), jamais au premier passage qui suit.
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
  *    `scheduledFor` atteint. Aucun numéro : rien n'est envoyé (jamais de contenu
  *    généré au fil de l'eau, règle du 01/10).
@@ -83,6 +85,26 @@ export function dateEnvoiLettre(periode: string, datePlancher?: string | null): 
   return aHeureParis(an, mois, jour, LETTRE_HEURE_ENVOI_PARIS);
 }
 
+const jourParisFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" });
+
+/**
+ * Premier créneau d'envoi valable (jeudi à 8 h, heure de Paris) à partir de
+ * `apres`, `apres` compris. Sert au numéro reporté (revue s21 M1) : un article
+ * cité mis en ligne le lundi à 0 h ne fait pas partir le numéro au passage de
+ * 0 h 15, mais le jeudi suivant à 8 h.
+ */
+export function prochainCreneauLettre(apres: Date): Date {
+  const [an, mois, jour] = jourParisFormat.format(apres).split("-").map(Number);
+  const base = Date.UTC(an, mois - 1, jour);
+  for (const semaines of [0, 1]) {
+    const decalage = ((LETTRE_JOUR_ENVOI - new Date(base).getUTCDay() + 7) % 7) + semaines * 7;
+    const jeudi = new Date(base + decalage * 86_400_000);
+    const creneau = aHeureParis(jeudi.getUTCFullYear(), jeudi.getUTCMonth() + 1, jeudi.getUTCDate(), LETTRE_HEURE_ENVOI_PARIS);
+    if (creneau.getTime() >= apres.getTime()) return creneau;
+  }
+  throw new Error("Créneau d'envoi introuvable");
+}
+
 /** Liens vers un article du blog du site (absolus, avec ou sans « www »), `?` et `#` exclus du slug. */
 const LIEN_ARTICLE = /(?:https?:\/\/)?(?:www\.)?deviens-marrant\.fr\/blog\/([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
 
@@ -97,20 +119,42 @@ export function articlesCites(texte: string): string[] {
  * seulement si un article cité n'est pas dans le code.
  */
 export async function articlesCitesNonPublies(slugs: readonly string[], now: Date): Promise<string[]> {
+  return (await etatArticlesCites(slugs, now)).nonPublies;
+}
+
+/**
+ * État des articles cités à `now` : ceux qui ne sont pas en ligne, et la date de
+ * mise en ligne la plus récente des articles en base (`publishedAt`, `null` si
+ * aucun n'est daté : article du code ou publié sans date).
+ */
+export async function etatArticlesCites(
+  slugs: readonly string[],
+  now: Date,
+): Promise<{ nonPublies: string[]; enLigneDepuis: Date | null }> {
   const aVerifier = slugs.filter((s) => !getArticleBySlug(s));
-  if (aVerifier.length === 0) return [];
+  if (aVerifier.length === 0) return { nonPublies: [], enLigneDepuis: null };
   const enLigne = await prisma.blogArticle.findMany({
     where: { slug: { in: aVerifier }, ...visibleBlogArticleWhere(now) },
-    select: { slug: true },
+    select: { slug: true, publishedAt: true },
   });
   const visibles = new Set(enLigne.map((a) => a.slug));
-  return aVerifier.filter((s) => !visibles.has(s));
+  let enLigneDepuis: Date | null = null;
+  for (const a of enLigne) {
+    if (a.publishedAt && (!enLigneDepuis || a.publishedAt > enLigneDepuis)) enLigneDepuis = a.publishedAt;
+  }
+  return { nonPublies: aVerifier.filter((s) => !visibles.has(s)), enLigneDepuis };
 }
 
 export interface EnvoiResultat {
   ferme: boolean;
-  /** Numéro trouvé mais reporté au passage suivant : un article cité n'est pas encore en ligne. */
+  /**
+   * Numéro trouvé mais reporté : un article cité n'est pas encore en ligne
+   * (`articlesNonPublies`), ou il vient de l'être et le numéro attend le
+   * créneau suivant (`prochainEnvoi`).
+   */
   reporte: boolean;
+  /** Créneau (jeudi 8 h, Paris) auquel part un numéro reporté dont les articles sont en ligne. */
+  prochainEnvoi: Date | null;
   /** Slugs des articles cités pas encore en ligne (vide sauf si `reporte`). */
   articlesNonPublies: string[];
   /** Numéro trouvé mais bloqué : un marqueur `[À COMPLÉTER` y figure (pied compris). */
@@ -170,6 +214,7 @@ export async function envoyerLettreDuMois(
   const r: EnvoiResultat = {
     ferme: !LETTRE_ENVOIS_OUVERTS,
     reporte: false,
+    prochainEnvoi: null,
     articlesNonPublies: [],
     bloque: false,
     numero: null,
@@ -199,10 +244,27 @@ export async function envoyerLettreDuMois(
   }
   // Jamais de lien mort : chaque article cité doit être en ligne MAINTENANT (vérifié en
   // base à chaque passage, la date plancher du fichier ne suffit pas). Sinon : report.
-  r.articlesNonPublies = await articlesCitesNonPublies(articlesCites(rendu), now);
+  const articles = await etatArticlesCites(articlesCites(rendu), now);
+  r.articlesNonPublies = articles.nonPublies;
   if (r.articlesNonPublies.length > 0) {
     r.reporte = true;
     return r;
+  }
+  const journal = await prisma.newsletterSend.findMany({
+    where: { issueId: numero.id },
+    select: { id: true, email: true, status: true, attempts: true },
+  });
+  // Numéro reporté (revue s21 M1) : l'article cité est en ligne depuis la date
+  // d'envoi prévue ; le numéro part au créneau suivant (jeudi 8 h, Paris), jamais
+  // au premier passage de 15 min. Un envoi déjà commencé (journal non vide) se
+  // termine sans attendre.
+  if (journal.length === 0 && articles.enLigneDepuis && articles.enLigneDepuis.getTime() > echeance.getTime()) {
+    const creneau = prochainCreneauLettre(articles.enLigneDepuis);
+    if (now.getTime() < creneau.getTime()) {
+      r.reporte = true;
+      r.prochainEnvoi = creneau;
+      return r;
+    }
   }
 
   const { hebdo, oppositions } = await listesExclusion();
@@ -210,10 +272,6 @@ export async function envoyerLettreDuMois(
     where: { status: "CONFIRMED" },
     select: { email: true, unsubscribeToken: true, confirmedAt: true },
     orderBy: { createdAt: "asc" },
-  });
-  const journal = await prisma.newsletterSend.findMany({
-    where: { issueId: numero.id },
-    select: { id: true, email: true, status: true, attempts: true },
   });
   const parEmail = new Map(journal.map((j) => [j.email, j]));
 
