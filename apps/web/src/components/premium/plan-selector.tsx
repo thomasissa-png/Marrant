@@ -1,5 +1,6 @@
 "use client";
 
+import { useId } from "react";
 import { chipClass } from "@/components/ui/chip";
 import {
   formatEuros,
@@ -8,7 +9,12 @@ import {
   PREMIUM_MONTHLY_PRICE_CENTS,
   type PremiumPlan,
 } from "@/config/premium";
-import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
+import { Badge } from "@/components/ui/badge";
+import {
+  ANNUEL_AVANTAGE_LABEL,
+  ANNUEL_LIGNE_MENSUEL,
+  ANNUEL_MOIS_OFFERTS_LABEL,
+} from "@/config/textes/offre";
 
 const OPTIONS: { value: PremiumPlan; label: string }[] = [
   { value: "monthly", label: "Mensuel" },
@@ -29,30 +35,47 @@ export function PlanSelector({
   onChange: (plan: PremiumPlan) => void;
 }) {
   const isAnnual = value === "annual";
+  const offertId = useId();
   return (
     <div className="mt-3">
       <fieldset>
         <legend className="sr-only">Choisis ta formule</legend>
-        <div className="flex flex-wrap gap-2">
-          {OPTIONS.map((option) => (
-            <label
-              key={option.value}
-              className={chipClass(
-                value === option.value ? "active" : "idle",
-                "cursor-pointer focus-within:ring-2 focus-within:ring-accent-primary focus-within:ring-offset-2",
-              )}
-            >
-              <input
-                type="radio"
-                name="premium-plan"
-                value={option.value}
-                checked={value === option.value}
-                onChange={() => onChange(option.value)}
-                className="sr-only"
-              />
-              {option.label}
-            </label>
-          ))}
+        {/* Correctif s21 (QA visuelle, 375 px) : chaque option est une colonne ; la pastille
+            « plus de 3 mois offerts » vit DANS la colonne « Annuel », sous sa pastille et
+            alignée sur elle. Si la ligne casse (320 px), elle part avec « Annuel », jamais
+            sous « Mensuel ». Annoncée avec l'option Annuel (aria-describedby). */}
+        <div className="flex flex-wrap items-start gap-2">
+          {OPTIONS.map((option) => {
+            const showOffert = option.value === "annual" && !isAnnual;
+            return (
+              <div key={option.value} className="flex flex-col items-start gap-1.5">
+                <label
+                  className={chipClass(
+                    value === option.value ? "active" : "idle",
+                    "cursor-pointer focus-within:ring-2 focus-within:ring-accent-primary focus-within:ring-offset-2",
+                  )}
+                >
+                  <input
+                    type="radio"
+                    name="premium-plan"
+                    value={option.value}
+                    checked={value === option.value}
+                    onChange={() => onChange(option.value)}
+                    aria-describedby={showOffert ? offertId : undefined}
+                    className="sr-only"
+                  />
+                  {option.label}
+                </label>
+                {/* Lot 2 s21 : « plus de 3 mois offerts » dit une seule fois, rattaché à
+                    « Annuel », dès l'état mensuel. Annuel choisi : la ligne sous le prix le dit. */}
+                {showOffert && (
+                  <Badge id={offertId} variant="primary" data-testid="annuel-mois-offerts">
+                    {ANNUEL_MOIS_OFFERTS_LABEL}
+                  </Badge>
+                )}
+              </div>
+            );
+          })}
         </div>
       </fieldset>
 
@@ -73,8 +96,10 @@ export function PlanSelector({
           </p>
         </>
       ) : (
-        <p className="mt-1 text-sm font-medium text-accent-link">
-          Sans engagement, annulable à tout moment
+        // Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
+        // « Sans engagement, annulable à tout moment » retiré (dit par la réassurance).
+        <p className="mt-1 text-sm font-medium text-accent-link" data-testid="annuel-ligne-mensuel">
+          {ANNUEL_LIGNE_MENSUEL}
         </p>
       )}
     </div>

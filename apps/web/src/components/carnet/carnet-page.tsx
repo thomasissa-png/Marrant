@@ -105,7 +105,7 @@ function CarnetPaywall({ returnTo }: { returnTo: string }) {
         href={buildAbonnementUrl(returnTo)}
         className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full")}
       >
-        S&apos;abonner · {PREMIUM_PRICE_LABEL}
+        Commencer à {PREMIUM_PRICE_LABEL}
       </Link>
     </div>
   );

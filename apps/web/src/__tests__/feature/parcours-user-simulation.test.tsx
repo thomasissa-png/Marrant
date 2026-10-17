@@ -790,7 +790,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(header).not.toBeNull();
     await userEvent.click(header as HTMLElement);
     expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
-    const cta = screen.getByText("Voir l'offre Premium").closest("a");
+    const cta = screen.getByText("Voir ce que contient Premium").closest("a");
     expect(cta?.getAttribute("href")).toContain("src=parcours-apercu");
   });
 

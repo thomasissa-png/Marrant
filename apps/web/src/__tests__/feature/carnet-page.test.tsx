@@ -51,7 +51,7 @@ describe("/carnet non Premium", () => {
     }
     expect(html).not.toContain("2026-11");
 
-    const cta = screen.getByRole("link", { name: /S'abonner · 2,99\s€\/mois/ });
+    const cta = screen.getByRole("link", { name: /Commencer à 2,99\s€\/mois/ });
     expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet");
     expect(html).not.toContain("—");
   });
@@ -66,7 +66,7 @@ describe("/carnet Premium", () => {
     for (const fiche of october.fiches) {
       for (const field of SECRET_FIELDS) expect(html).toContain(fiche[field]);
     }
-    expect(screen.queryByRole("link", { name: /S'abonner/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Commencer à/ })).toBeNull();
     expect(screen.getByRole("link", { name: "septembre 2026" })).toHaveAttribute("href", "/carnet/2026-09");
     expect(html).not.toContain("novembre 2026");
   });
@@ -88,7 +88,7 @@ describe("/carnet/[mois]", () => {
     planMock.mockResolvedValue(null);
     const { container } = await render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
     expect(container.innerHTML).not.toContain("REPONSE_SECRETE_2026-09-F2");
-    expect(screen.getByRole("link", { name: /S'abonner/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Commencer à/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fcarnet%2F2026-09",
     );

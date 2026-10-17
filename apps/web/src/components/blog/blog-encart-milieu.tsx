@@ -38,7 +38,8 @@ export function BlogEncartMilieu({ position, parcours, textes }: BlogEncartMilie
         data-blog-cta="etape-1"
         className={cn(
           buttonVariants({ variant: "outline", size: "md" }),
-          "mt-4 h-auto min-h-[44px] w-full whitespace-normal border-accent-primary/60 py-2 text-center hover:border-accent-primary sm:w-auto",
+          // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
+          "mt-4 h-auto min-h-[44px] w-full whitespace-normal border-accent-primary/60 py-2 text-center [text-wrap:balance] hover:border-accent-primary sm:w-auto",
         )}
       >
         {frTypo(textes.bouton)}

@@ -98,7 +98,7 @@ describe("FavorisList", () => {
     );
     render(<FavorisList />);
     expect(screen.getByText(/réservés aux membres Premium/)).toBeInTheDocument();
-    expect(screen.getByText(/Découvrir l'offre Premium/)).toBeInTheDocument();
+    expect(screen.getByText("Voir ce que contient Premium")).toBeInTheDocument();
   });
 
   it("renders tab filters with ARIA", () => {

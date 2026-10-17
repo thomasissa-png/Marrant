@@ -8,9 +8,14 @@
  */
 import {
   formatEuros,
+  PARCOURS_COUNT,
+  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
+  PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
+  PREMIUM_ANNUAL_SAVINGS_LABEL,
   PREMIUM_MONTHLY_PRICE_CENTS,
+  PREMIUM_PARCOURS,
   type PremiumPlan,
 } from "@/config/premium";
 
@@ -83,6 +88,46 @@ export const PAIEMENT_ANNULE = {
 /** Badge de la première étape d'un parcours (remplace « Essai gratuit », reco 16). */
 export const ETAPE_LIBRE_BADGE = "Lecture libre";
 
+// VALIDÉ à l'aveugle s21 (lot 2, duel 1, tour 1 : 3/3 au niveau ; docs/copy/lot2-boutons-abonnement-s21.md §4.1)
+/**
+ * Mur (contenu verrouillé, emplacement E4) : forme longue sur les boutons
+ * (fiches, bas de liste, étapes de parcours, favoris), forme courte sur les
+ * liens et les cartes. Le bouton mène à une page qui détaille l'offre : il ne
+ * débloque rien tout de suite.
+ */
+export const MUR_PREMIUM_BOUTON = `Voir ce que contient ${OFFRE_NOM}`;
+export const MUR_PREMIUM_LIEN = `Voir ${OFFRE_NOM}`;
+
+// VALIDÉ à l'aveugle s21 (lot 2, haut de /abonnement, tour 3 : 3/3 au niveau)
+/**
+ * Ligne sous le prix mensuel de /abonnement, affichée dès l'état par défaut si
+ * l'annuel est disponible : « Ou 24,99 €/an, soit 2,08 € par mois et 10,89 €
+ * économisés par an. » Tout vient de config/premium.ts ; « plus de 3 mois
+ * offerts » n'est dit qu'une fois, sur la pastille « Annuel ».
+ */
+export const ANNUEL_LIGNE_MENSUEL = `Ou ${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} et ${PREMIUM_ANNUAL_SAVINGS_LABEL}.`;
+
+/** « 15 à 20 minutes » : bornes lues dans les rythmes des parcours publiés ([CHOIX 29/09]). */
+function dureeParcoursLabel(): string {
+  const minutes = PREMIUM_PARCOURS.map((p) => Number.parseInt(p.timePerWeek, 10)).filter((m) => m > 0);
+  const min = Math.min(...minutes);
+  const max = Math.max(...minutes);
+  return min === max ? `${min} minutes` : `${min} à ${max} minutes selon le parcours`;
+}
+
+// VALIDÉ à l'aveugle s21 (lot 2, haut de /abonnement, tour 3 : 3/3 au niveau)
+/**
+ * Haut de /abonnement pour un visiteur : surtitre, H1 et sous-titre tels que
+ * relus ensemble à l'aveugle (docs/copy/lot2-boutons-abonnement-s21.md §5.3),
+ * mot pour mot. Décision Thomas 17/10 : le H1 validé remplace « Accéder aux
+ * parcours complets » (jamais relu avec ce surtitre et ce sous-titre).
+ */
+export const ABONNEMENT_HAUT_VISITEUR = {
+  titre: "Ta réplique pendant la soirée, pas dans le bus du retour",
+  surtitre: "C'est pour toi si tu restes muet quand on te chambre.",
+  sousTitre: `${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine, ${dureeParcoursLabel()}. La première étape de chacun reste en lecture libre.`,
+} as const;
+
 // PROVISOIRE s16, étalon à valider
 /** Mur de l'étape 2 et suivantes d'un parcours (D4 : « Premium »). */
 export function etapeVerrouilleeTexte(prixLabel: string): string {
@@ -93,7 +138,8 @@ export function etapeVerrouilleeTexte(prixLabel: string): string {
 /** Étape 1 vue par un non-abonné (déclinaison de l'étalon 4.1 avec « Premium », D4). */
 export const VALIDATION_ETAPE = {
   texte: `Valider l'étape fait partie de ${OFFRE_NOM}.`,
-  bouton: `Voir l'offre ${OFFRE_NOM}`,
+  // s21 : libellé du mur (lot 2, duel 1 validé), au lieu de « Voir l'offre Premium ».
+  bouton: MUR_PREMIUM_BOUTON,
 } as const;
 
 // PROVISOIRE s16, étalon à valider

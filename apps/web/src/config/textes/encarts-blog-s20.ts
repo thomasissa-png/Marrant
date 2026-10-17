@@ -8,9 +8,14 @@
  * (le prix vient de config/premium.ts), aucun chiffre d'audience.
  *
  * Mécanique (placement, parcours par article) : config/blog-encarts.ts.
+ *
+ * s21 (lot 2, duel 2 validé à l'aveugle 3/3) : tous les boutons vers l'étape 1
+ * gratuite disent « Lire la première étape gratuite de {parcours} »
+ * (`etape1GratuiteBouton`), au lieu de « Étape 1 gratuite : {parcours} ».
  */
 import { PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
+import { etape1GratuiteBouton } from "@/config/textes/entrees-parcours";
 
 /** Encart au fil du texte (après une section H2, vers 35 à 45 % de l'article). */
 export interface TexteEncartMilieu {
@@ -47,7 +52,7 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
       surtitre: "Parcours Répartie",
       titre: "Tu trouves la réplique dans le bus du retour ?",
       texte: "Lire des répliques, c'est un début. Le parcours Répartie t'entraîne à les sortir sur le moment, à ton rythme.",
-      bouton: "Lire la première étape gratuite",
+      bouton: etape1GratuiteBouton("repartie"),
     },
     finTitre: "Ces techniques, travaille-les dans un parcours guidé",
     // s20 : pas de paragraphe (la phrase de l'étalon 3.2c, contestée à l'aveugle, n'est pas reprise ici) ;
@@ -57,55 +62,55 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
       `Une étape par semaine, environ ${minutes("repartie")} minutes`,
       "Des situations que tu connais : le chambrage entre potes, la pique en TD, le raté à rattraper",
     ],
-    finBoutonEtape1: "Étape 1 gratuite : Répartie",
+    finBoutonEtape1: etape1GratuiteBouton("repartie"),
   },
   "machine-a-cafe": {
     encartMilieu: {
       surtitre: "Parcours Machine à Café",
       titre: "La pause café mérite mieux que « Ça va ? »",
       texte: `Des vannes courtes, le bon moment pour les placer, et un week-end raconté pour qu'on te demande la suite. En ${minutes("machine-a-cafe")} min par semaine.`,
-      bouton: "Étape 1 gratuite : Machine à Café",
+      bouton: etape1GratuiteBouton("machine-a-cafe"),
     },
     finTitre: "Sois drôle au bureau sans avoir l'air d'essayer",
     finTexte: `Des vannes courtes, le bon moment pour les placer et des anecdotes qu'on écoute jusqu'au bout, ${minutes("machine-a-cafe")} min par semaine.`,
     finPuces: [],
-    finBoutonEtape1: "Étape 1 gratuite : Machine à Café",
+    finBoutonEtape1: etape1GratuiteBouton("machine-a-cafe"),
   },
   confiance: {
     encartMilieu: {
       surtitre: "Parcours Confiance",
       titre: "Pas besoin d'être drôle pour commencer",
       texte: "Observation, autodérision, place en groupe : tu reprends tout à ton rythme, sans personne pour te pousser sur scène.",
-      bouton: "Étape 1 gratuite : Confiance",
+      bouton: etape1GratuiteBouton("confiance"),
     },
     finTitre: "Reprends confiance, une conversation à la fois",
     finTexte: "Le parcours Confiance t'entraîne, étape après étape, à trouver ta place dans un groupe qui rit, sans personne pour te pousser sur scène.",
     finPuces: [],
-    finBoutonEtape1: "Étape 1 gratuite : Confiance",
+    finBoutonEtape1: etape1GratuiteBouton("confiance"),
   },
   storytelling: {
     encartMilieu: {
       surtitre: "Parcours Storytelling",
       titre: "« Et donc ? » : apprends à ne plus perdre ta table",
       texte: `Coupe, personnages, chute, détour, détail qui revient : ${semaines("storytelling")} semaines sur une seule anecdote vraie, la tienne.`,
-      bouton: "Étape 1 gratuite : Storytelling",
+      bouton: etape1GratuiteBouton("storytelling"),
     },
     finTitre: "Une anecdote, travaillée jusqu'à ce qu'on te la redemande",
     finTexte: `Le parcours Storytelling te fait retravailler une seule anecdote vraie, d'étape en étape, ${minutes("storytelling")} min par semaine.`,
     finPuces: [],
-    finBoutonEtape1: "Étape 1 gratuite : Storytelling",
+    finBoutonEtape1: etape1GratuiteBouton("storytelling"),
   },
   boulot: {
     encartMilieu: {
       surtitre: "Parcours Boulot",
       titre: "Sortir une vanne au boulot sans te griller",
       texte: `Tu commences par observer une salle de réunion sans rien dire, et tu finis par un toast. ${majuscule(nombreEnLettres(semaines("boulot")))} semaines, ${minutes("boulot")} minutes par semaine.`,
-      bouton: "Étape 1 gratuite : Boulot",
+      bouton: etape1GratuiteBouton("boulot"),
     },
     finTitre: "Ta vanne du lundi, sans te griller",
     finTexte: "Le parcours Boulot t'apprend à la sortir un cran à la fois, de la salle de réunion au toast. Chaque exercice a une version sans risque.",
     finPuces: [],
-    finBoutonEtape1: "Étape 1 gratuite : Boulot",
+    finBoutonEtape1: etape1GratuiteBouton("boulot"),
   },
 };
 
@@ -118,13 +123,13 @@ export const ENCARTS_ARTICLE_1 = {
     surtitre: "Parcours Répartie",
     titre: "Et quand c'est toi qu'on chambre ?",
     texte: "Une vanne se choisit à l'avance. Une réplique se trouve sur le moment, et le parcours Répartie t'y entraîne.",
-    bouton: "Lire la première étape gratuite",
+    bouton: etape1GratuiteBouton("repartie"),
   },
   boulot: {
     surtitre: "Parcours Boulot",
     titre: "Drôle le samedi, ton de compte rendu le lundi ?",
     texte: "Ces vannes de bureau, tu peux les sortir. Le parcours Boulot t'apprend à le faire sans cibler personne et sans te griller.",
-    bouton: "Étape 1 gratuite : Boulot",
+    bouton: etape1GratuiteBouton("boulot"),
   },
 } as const satisfies Record<string, TexteEncartMilieu>;
 

@@ -100,15 +100,20 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
           {/* Lien stylé en bouton : plus de <button> imbriqué dans un <a> (T44). */}
           <Link
             href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
-            className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
+            className={buttonVariants({
+              variant: "outline",
+              size: "lg",
+              className: "w-full border-accent-primary/60 hover:border-accent-primary",
+            })}
           >
             {QUIZ_HUMOUR_PARCOURS.bouton}
           </Link>
 
-          {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé. */}
+          {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé.
+              Lot 2 s21 (deux niveaux) : Premium en plein, l'étape 1 gratuite en contour. */}
           <Link
             href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}
+            className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
           >
             Accéder aux parcours complets
           </Link>

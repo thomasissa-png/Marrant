@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+import { AbonnementView } from "@/components/premium/abonnement-view";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next-auth/react", () => ({
@@ -44,14 +45,72 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    // Titre et sous-titre déclinés de l'étalon 1.2 (prix visible, lecture libre).
-    expect(screen.getByRole("heading", { level: 1, name: "Accéder aux parcours complets" })).toBeInTheDocument();
+    // Surtitre, H1 et sous-titre validés ensemble à l'aveugle (lot 2 s21, tour 3) ;
+    // décision Thomas 17/10 : le H1 validé remplace « Accéder aux parcours complets ».
     expect(
-      screen.getByText("2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre."),
+      screen.getByRole("heading", { level: 1, name: "Ta réplique pendant la soirée, pas dans le bus du retour" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "Accéder aux parcours complets" })).not.toBeInTheDocument();
+    expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(
+      "C'est pour toi si tu restes muet quand on te chambre.",
+    );
+    expect(
+      screen.getByText(
+        "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      ),
     ).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
     // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
+  });
+
+  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre, bouton avant les avantages (§5.2, §5.3)", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable carnetExtrait={null} />);
+    const texte = (document.body.textContent ?? "").replace(/\s+/g, " ");
+    const lignes = [
+      "C'est pour toi si tu restes muet quand on te chambre.",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      "Premium",
+      "Mensuel",
+      "Annuel",
+      "plus de 3 mois offerts",
+      // « 2,99 € » et « TTC / mois » : deux spans séparés par l'espacement flex (gap), sans espace dans le texte.
+      "2,99 €",
+      "TTC / mois",
+      "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
+      "Commencer à 2,99 €/mois",
+      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
+      "Droit de rétractation · Paiement sécurisé par Stripe",
+      // §5.2 / §7 point 3 (choix de Thomas) : les avantages viennent APRÈS le bouton d'achat.
+      "Les 5 parcours en entier",
+      "Le carnet mensuel de situations de répartie",
+      "Tes favoris",
+      "Les listes complètes",
+    ];
+    let depuis = 0;
+    for (const ligne of lignes) {
+      const position = texte.indexOf(ligne, depuis);
+      expect({ ligne, trouvee: position >= 0 }).toEqual({ ligne, trouvee: true });
+      depuis = position + ligne.length;
+    }
+    // « plus de 3 mois offerts » une seule fois, plus de « Sans engagement » dans la carte.
+    expect(texte.split("plus de 3 mois offerts")).toHaveLength(2);
+    expect(texte).not.toContain("Sans engagement, annulable");
+    expect(texte).not.toContain("Accéder aux parcours complets");
+  });
+
+  it("lot 2 s21 : l'extrait du carnet s'insère après la carte, avant « Pas encore sûr ? »", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable={false} carnetExtrait={<section data-testid="extrait-carnet" />} />);
+    const extrait = screen.getByTestId("extrait-carnet");
+    const etape1 = screen.getByTestId("abonnement-etape-1");
+    const bouton = screen.getByText("Commencer à 2,99 €/mois");
+    expect(bouton.compareDocumentPosition(extrait) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(extrait.compareDocumentPosition(etape1) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // Mensuel seul : pas de ligne « Sans engagement, annulable… » non plus.
+    expect(document.body.textContent).not.toContain("Sans engagement, annulable");
   });
 
   it("paid CTA keeps /abonnement as the destination", () => {
@@ -175,6 +234,33 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(text).not.toContain("—");
       await userEvent.click(screen.getByText("Active mon accès · 24,99 €/an"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ plan: "annual" });
+    });
+
+    it("lot 2 s21 : dès l'état mensuel, l'annuel est montré et « plus de 3 mois offerts » n'est dit qu'une fois", async () => {
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(<AbonnementPage />);
+      expect(screen.getByTestId("annuel-mois-offerts")).toHaveTextContent("plus de 3 mois offerts");
+      expect(screen.getByTestId("annuel-ligne-mensuel")).toHaveTextContent(
+        "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
+      );
+      const compte = (t: string) => (t.match(/mois offerts/g) ?? []).length;
+      expect(compte(document.body.textContent ?? "")).toBe(1);
+      expect(document.body.textContent).not.toContain("Sans engagement, annulable");
+      expect(screen.getByText("2,99 €")).toBeInTheDocument();
+      // Correctif s21 (QA 375 px) : la pastille est rattachée à « Annuel » (même colonne,
+      // annoncée avec l'option), jamais à « Mensuel », quelle que soit la largeur.
+      const pastille = screen.getByTestId("annuel-mois-offerts");
+      const radioAnnuel = screen.getByRole("radio", { name: "Annuel" });
+      const radioMensuel = screen.getByRole("radio", { name: "Mensuel" });
+      expect(pastille.parentElement).toContainElement(radioAnnuel);
+      expect(pastille.parentElement).not.toContainElement(radioMensuel);
+      expect(radioAnnuel).toHaveAttribute("aria-describedby", pastille.id);
+      expect(radioMensuel).not.toHaveAttribute("aria-describedby");
+      // Annuel choisi : la ligne sous le prix le dit, la pastille s'efface (jamais deux fois).
+      await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
+      expect(screen.queryByTestId("annuel-mois-offerts")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("annuel-ligne-mensuel")).not.toBeInTheDocument();
+      expect(compte(document.body.textContent ?? "")).toBe(1);
     });
 
     it("mensuel choisi : corps historique, sans plan", async () => {

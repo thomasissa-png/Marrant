@@ -143,7 +143,7 @@ describe("ProfilDashboard", () => {
 
     it("bouton d'abonnement, sans « filtres avancés »", () => {
       render(<ProfilDashboard />);
-      expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
+      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/filtres avancés/);
     });
   });
@@ -151,7 +151,7 @@ describe("ProfilDashboard", () => {
   it("shows subscribe button with engagement copy for FREE plan", () => {
     useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
-    expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
     expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
   });

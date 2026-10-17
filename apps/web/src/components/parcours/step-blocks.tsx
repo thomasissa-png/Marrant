@@ -23,7 +23,7 @@ import type { Step, VideoRef } from "@/components/parcours/parcours-types";
 /**
  * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
  * (en-tête), ce qu'on y apprend, format, rien d'autre ; texte du bas et bouton
- * « Voir l'offre Premium » `src=parcours-apercu`. Aucun contenu payant reçu.
+ * le bouton du mur (VALIDATION_ETAPE.bouton) `src=parcours-apercu`. Aucun contenu payant reçu.
  */
 export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
   // Mur vu (audit s16 reco 17) : une fois par aperçu ouvert.

@@ -5,7 +5,7 @@ import { OFFRE_NOM } from "@/config/textes/offre";
 export const metadata: Metadata = {
   title: "Inscription : apprends à devenir drôle",
   description:
-    `Crée ton compte pour activer ${OFFRE_NOM} : parcours, listes et carnet, dès ${PREMIUM_PRICE_LABEL}.`,
+    `Crée ton compte pour activer ${OFFRE_NOM} : parcours, listes et carnet, pour ${PREMIUM_PRICE_LABEL}.`,
   robots: { index: false, follow: false },
 };
 

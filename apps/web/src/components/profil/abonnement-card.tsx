@@ -144,7 +144,7 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonne
             )}
             <p className="mb-4 text-xs text-text-muted">Sans engagement &middot; Annulable à tout moment</p>
             <Button variant="secondary" size="sm" onClick={onCheckout} disabled={isCheckoutLoading}>
-              {isCheckoutLoading ? "On t'emmène au paiement…" : `S'abonner à ${PREMIUM_PRICE_LABEL}`}
+              {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
             </Button>
           </>
         )}

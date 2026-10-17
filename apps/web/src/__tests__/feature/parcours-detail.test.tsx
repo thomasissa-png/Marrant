@@ -390,7 +390,7 @@ describe("ParcoursDetail — tunnel s15", () => {
   it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
-    const link = screen.getByRole("link", { name: "Voir l'offre Premium" });
+    const link = screen.getByRole("link", { name: "Voir ce que contient Premium" });
     expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
@@ -508,7 +508,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     // s17 QA-13 : pas de barre immobile pour un non-abonné.
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
     // Retour au parcours après paiement (returnTo interne, encodé), provenance « aperçu » (D1 s17).
-    expect(screen.getByRole("link", { name: /Voir l'offre Premium/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Voir ce que contient Premium/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-apercu",
     );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -30,7 +30,12 @@ import {
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
-import { OFFRE_NOM, PAIEMENT_ANNULE, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import {
+  ABONNEMENT_HAUT_VISITEUR,
+  OFFRE_NOM,
+  PAIEMENT_ANNULE,
+  REASSURANCE_PAIEMENT,
+} from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
@@ -94,7 +99,14 @@ function checkoutErrorMessage(status: number): string {
  * côté serveur au rendu (page dynamique) : faux tant que le prix Stripe
  * annuel n'est pas configuré, et la vue reste alors strictement mensuelle.
  */
-export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }) {
+export function AbonnementView({
+  annualAvailable,
+  carnetExtrait = null,
+}: {
+  annualAvailable: boolean;
+  /** Extrait du carnet du mois (lot 2 s21), rendu par le serveur ; null si le carnet du mois manque. */
+  carnetExtrait?: ReactNode;
+}) {
   const { status } = useSession();
   // Mensuel par défaut ; ?plan=annual préselectionne l'annuel (si disponible).
   const [selectedPlan, setSelectedPlan] = useState<PremiumPlan>("monthly");
@@ -135,12 +147,13 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
   const pageBadge = "Plus qu'une étape";
+  // Lot 2 s21 (haut de /abonnement validé à l'aveugle, tour 3) : surtitre, H1 et sous-titre visiteur.
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
-    : "Accéder aux parcours complets";
+    : ABONNEMENT_HAUT_VISITEUR.titre;
   const pageSubtitle = isAuthenticated
     ? `Ton compte est prêt. Encore un clic et les ${PARCOURS_COUNT} parcours sont à toi en entier, de la première à la dernière étape.`
-    : `${PREMIUM_PRICE_LABEL}${annualAvailable ? ` ou ${PREMIUM_ANNUAL_PRICE_LABEL}` : ""}, sans engagement. La première étape de chaque parcours reste en lecture libre.`;
+    : ABONNEMENT_HAUT_VISITEUR.sousTitre;
 
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
     const annual = chosenPlan === "annual";
@@ -203,6 +216,11 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
             {pageBadge}
           </Badge>
         )}
+        {!isAuthenticated && (
+          <p className="mb-3 text-sm font-semibold text-accent-link" data-testid="abonnement-surtitre">
+            {ABONNEMENT_HAUT_VISITEUR.surtitre}
+          </p>
+        )}
         <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
           {pageTitle}
         </h1>
@@ -229,13 +247,10 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
                 </span>
                 <span className="text-text-muted">TTC / mois</span>
               </div>
-              <p className="mt-1 text-sm font-medium text-accent-link">
-                Sans engagement, annulable &agrave; tout moment
-              </p>
+              {/* Lot 2 s21 : plus de « Sans engagement, annulable à tout moment » ici ;
+                  la seule mention est la réassurance sous le bouton. */}
             </>
           )}
-
-          <PremiumBenefits className="mt-6 space-y-3" />
 
           {isAuthenticated && resiliation ? (
             <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-8" />
@@ -283,8 +298,15 @@ export function AbonnementView({ annualAvailable }: { annualAvailable: boolean }
             </Link>{" "}
             &middot; Paiement s&eacute;curis&eacute; par Stripe
           </p>
+
+          {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
+              d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}
+          <PremiumBenefits className="mt-6 space-y-3" />
         </CardContent>
       </Card>
+
+      {/* Lot 2 s21 : la fiche offerte du carnet du mois, avant « Pas encore sûr ? ». */}
+      {carnetExtrait}
 
       {/* s17 (QA-13) : voir ce qu'on achète. Retour vers un parcours précis : son étape 1 ;
           sinon les 3. Le lien n'apparaît qu'après montage pour le retour (HTML serveur : les 3). */}

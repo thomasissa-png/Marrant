@@ -13,6 +13,7 @@ import { tipProse } from "@/lib/tip-prose";
 import { useUserStore } from "@/stores/user-store";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
+import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -193,7 +194,7 @@ export function FavorisList() {
           </p>
           <Link href="/abonnement" className="mt-4">
             <Button variant="primary" size="sm">
-              D&#233;couvrir l&apos;offre Premium
+              {MUR_PREMIUM_BOUTON}
             </Button>
           </Link>
         </CardContent>
