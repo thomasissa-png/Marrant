@@ -12,6 +12,7 @@
 - **Session s15 interrompue** et ses **8 routines désactivées** (non supprimées) : lecture des alertes (`trig_01CMoR4CaRWFxByFq3XLuqVB`), pilotage quotidien (`trig_01RVttxde5WDkZ5ghQdo1zan`), V1 tour 2 (`trig_01MdYLH4Pff7XCBhzvjveM2D`), production de la semaine (`trig_014aP9oq7MbtEL8Psc5ntTmM`), relevé du lundi (`trig_01HKSsVU1h8q5AxhiXV5XVs3`), pilier J+14 (`trig_01SBRUPeFnFPpqEE8D2DNY6i`), LinkedIn 27/10 (`trig_01VkVL2GErhqdQAsdqnqHJs7`), liens de bio 03/11 (`trig_01XEADTxfFqaFHqvArNCVQ88`).
 - **Reprise (GO Thomas uniquement)** : décaler d'abord les dates des posts APPROVED de la durée de la pause (sinon `reprendre()` passe en REJECTED tout post en retard de plus de 24 h), puis `action: reprise` par réseau, puis réactiver les routines (`update_trigger enabled=true`).
 - Effet de bord connu : sans la routine de lecture des alertes, le site peut envoyer à Thomas le digest « N alerte(s) non relue(s) » (07:30) pour des alertes hors réseaux ; les réseaux en pause n'en génèrent pas (`couverture.ts`).
+- **Prolongation (17/10, s21, décision Thomas)** : pause maintenue jusqu'au **lundi 26/10** ; rappel de fin de test décalé au 26/10 07:33 UTC. Au moment de la reprise, décaler les posts APPROVED de toute la durée de la pause (du 15/10 au jour de reprise). Rien à déployer.
 
 ## s15 (15/10/2026, 07:13 Paris) : lecture quotidienne des alertes, **RIEN À DÉPLOYER**
 
