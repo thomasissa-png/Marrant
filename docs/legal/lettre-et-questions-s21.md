@@ -73,3 +73,26 @@ Article 3 : n'y ajouter la lettre hebdo et les questions qu'à l'ouverture réel
 @fullstack : L4, L5, L6, B1 à B6, `equipe-purge`. @data-analyst : retirer ouvertures et clics. @copywriter : case v2 et mentions soumises à la relecture à l'aveugle. @infrastructure : réglage Resend (suivi désactivé, DPA).
 
 Sources : [CNIL, communications électroniques](https://www.cnil.fr/fr/communication-electronique-quelles-regles) ; [CMS, prospection et RGPD](https://cms.law/en/fra/legal-updates/prospection-commerciale-et-rgpd-vers-un-durcissement-du-cadre-juridique) ; [durées de conservation](https://donneespersonnelles.fr/rgpd-conservation-des-donnees) (résumés secondaires, à relire sur cnil.fr et Légifrance).
+
+## Revalidation des textes retenus, 17/10
+Draft de référence, pas un avis d'avocat (articles de mémoire, `[À VÉRIFIER]`). Grille : consentement libre, spécifique, éclairé, univoque (RGPD art. 4.11 et 7, CPCE L.34-5) ; Premium ; identité du responsable ; renvoi Confidentialité ; désinscription ; motif de réception. Aucun texte n'est réécrit : seules des réserves de mise en oeuvre.
+
+| Texte retenu | Verdict |
+|---|---|
+| Duel 3 B, case et mention sous le bouton | **Conforme sous réserve (R1, R2, R4)** |
+| Duel 8 A (tour 2), page de désinscription | **Conforme sous réserve (R3)** |
+| Duel 9 B (tour 2), lien invalide et erreur technique | **Conforme** |
+| Duel 11 B (tour 2), e-mail « déjà dans la liste » | **Conforme sous réserve (R4)** |
+| Duel 13 A (tour 1), pied de numéro | **Conforme sous réserve (R4)** |
+
+- **Duel 3 B** : libre (case jamais cochée, séparée des CGU, aucune contrepartie exigée), spécifique (une seule finalité), éclairé (rythme, contenu, Premium, responsable, droits par le lien), univoque (acte positif puis bouton de confirmation). Premium est dit (« parfois une mention de Premium »), la désinscription aussi. « Ne sert qu'à t'envoyer la lettre » reste exact : confirmation, « déjà dans la liste » et reconfirmation font partie de la lettre, et la trace de preuve après désinscription est détaillée dans Confidentialité.
+- **Duel 8 A** : dit ce qui s'arrête (la lettre du mois) et ce qui continue (compte, abonnement, obligatoires), y compris pour qui n'a ni compte ni abonnement ; conforme à L6. À l'ouverture de l'hebdo Premium, ajouter qu'il a son propre réglage (L2), pas avant.
+- **Duel 9 B** : un lien de désinscription mort laisse un moyen valable d'opposition (contact@), ce que L.34-5 exige. Hors texte : contact@ relevé, un « stop » reçu = opposition globale (L6), traité sous un mois.
+- **Duel 11 B** : le motif est dans le corps (« demande d'inscription faite avec cette adresse »), éditeur, contact, Confidentialité et désinscription sont au pied ; aucune offre, c'est un message de service. Hors texte : limiter l'envoi à un par adresse et par 24 h `[HYPOTHÈSE : seuil à fixer par @fullstack]` pour qu'un tiers ne sature pas une boîte.
+- **Duel 13 A** : reprend L3 mot pour mot (motif, éditeur, contact valable, désinscription, Confidentialité). Hors texte : l'adresse d'envoi noreply est tolérable puisque le pied donne un contact valable ; afficher le nom « Deviens Marrant », objet non trompeur ; la mention de Premium dans le corps doit être identifiable comme une offre (« discrète » ne veut pas dire déguisée, LCEN art. 20 `[À VÉRIFIER]`).
+
+**Réserves (correction minimale)**
+- **R1** : la version stockée côté serveur est le texte B mot pour mot, avec une nouvelle étiquette de version (pas celle du texte v2 de L1), sinon la preuve ne correspond pas au texte vu.
+- **R2** : case et mention visibles ensemble sur mobile, sans repli ni défilement caché, et le lien Confidentialité mène à la section lettre, publiée le jour de l'ouverture (B7).
+- **R3** : le lien « Te réinscrire » ne rétablit jamais `CONFIRMED` en silence : il ramène au formulaire (case non cochée, double opt-in) ou, au minimum, à un bouton qui réécrit date et version du texte de la case.
+- **R4 (A6)** : « deviens-marrant SAS » figure dans la mention du duel 3 et les pieds. Tant que la société n'est pas immatriculée, elle n'a pas de personnalité morale (art. 1842 Code civil, L.210-6 Code de commerce `[À VÉRIFIER]`) et le responsable réel est le fondateur : l'identité affichée serait inexacte. Ouvrir la lettre une fois la SAS immatriculée (et mentions légales alignées), sinon remplacer le nom par l'identité exacte de l'éditeur actuel telle qu'au site. Immatriculation au 17/10 : `[À CONFIRMER par le fondateur]`, non établie dans les documents lus.
