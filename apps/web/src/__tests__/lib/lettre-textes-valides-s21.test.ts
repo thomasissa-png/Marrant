@@ -18,10 +18,28 @@ import {
 import { LETTRE_CONSENT_TEXT } from "@/lib/lettre/inscription";
 import { envoiPrevuFixe } from "@/lib/lettre/numeros";
 import numerosJson from "@/data/lettre/numeros.json";
+import { NBSP } from "@/lib/fr-typo";
 
 const BASE = "https://deviens-marrant.fr";
 const PIED = ["--", "Éditeur : deviens-marrant SAS. Contact : contact@deviens-marrant.fr.", `Confidentialité : ${BASE}/confidentialite`];
-const T = TEXTES_LETTRE;
+/**
+ * Comparaison mot pour mot avec les packs : les insécables posées au rendu
+ * (« : ; ? ! », « … », test `lettre-insecables-s21.test.ts`) redeviennent des
+ * espaces ordinaires. Tout autre écart (un mot, une virgule) fait échouer.
+ */
+function sansInsecables<V>(valeur: V): V {
+  if (typeof valeur === "string") return valeur.split(NBSP).join(" ") as V;
+  if (typeof valeur === "function") {
+    const rendre = valeur as (...args: unknown[]) => unknown;
+    return ((...args: unknown[]) => sansInsecables(rendre(...args))) as V;
+  }
+  if (valeur && typeof valeur === "object") {
+    return Object.fromEntries(Object.entries(valeur).map(([k, v]) => [k, sansInsecables(v)])) as V;
+  }
+  return valeur;
+}
+const T = sansInsecables(TEXTES_LETTRE);
+const EMAILS = sansInsecables(EMAILS_LETTRE);
 
 describe("Textes validés à l'aveugle (mot pour mot)", () => {
   it("bloc 1 : en-tête du formulaire (tour 2, A)", () => {
@@ -117,8 +135,8 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
   });
 
   it("bloc 10 : e-mail de confirmation (tour 1, B)", () => {
-    expect(EMAILS_LETTRE.confirmation.sujet).toBe("Une dernière étape pour recevoir la lettre");
-    expect(EMAILS_LETTRE.confirmation.corps("LIEN", BASE).split("\n")).toEqual([
+    expect(EMAILS.confirmation.sujet).toBe("Une dernière étape pour recevoir la lettre");
+    expect(EMAILS.confirmation.corps("LIEN", BASE).split("\n")).toEqual([
       "Salut,",
       "",
       "Quelqu'un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
@@ -135,8 +153,8 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
   });
 
   it("bloc 11 : e-mail « déjà dans la liste » (tour 2, B)", () => {
-    expect(EMAILS_LETTRE.dejaInscrit.sujet).toBe("Tu reçois déjà la lettre");
-    expect(EMAILS_LETTRE.dejaInscrit.corps("DESINSCRIRE", BASE).split("\n")).toEqual([
+    expect(EMAILS.dejaInscrit.sujet).toBe("Tu reçois déjà la lettre");
+    expect(EMAILS.dejaInscrit.corps("DESINSCRIRE", BASE).split("\n")).toEqual([
       "Salut,",
       "",
       "Une demande d'inscription vient d'être faite avec cette adresse, mais elle reçoit déjà la lettre : rien à faire de ton côté. Un numéro arrive une fois par mois.",
@@ -151,8 +169,8 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
   });
 
   it("bloc 12 : e-mail de reconfirmation (tour 1, B)", () => {
-    expect(EMAILS_LETTRE.reconfirmation.sujet).toBe("Tu veux toujours recevoir la lettre ?");
-    expect(EMAILS_LETTRE.reconfirmation.corps("OUI", "NON", BASE).split("\n")).toEqual([
+    expect(EMAILS.reconfirmation.sujet).toBe("Tu veux toujours recevoir la lettre ?");
+    expect(EMAILS.reconfirmation.corps("OUI", "NON", BASE).split("\n")).toEqual([
       "Salut,",
       "",
       "Tu reçois la lettre de Deviens Marrant depuis 2 ans. On vérifie que tu veux la garder.",
@@ -171,7 +189,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
 
   it("bloc 13 : pied de chaque numéro (tour 1, A, inchangé)", () => {
     const { LETTRE_MENTION_EDITEUR_NUMERO } = jest.requireActual("@/config/lettre");
-    expect(EMAILS_LETTRE.piedNumero("DESINSCRIRE", BASE).split("\n")).toEqual([
+    expect(EMAILS.piedNumero("DESINSCRIRE", BASE).split("\n")).toEqual([
       "",
       "--",
       "Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.",

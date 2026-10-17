@@ -22,6 +22,7 @@ import { LETTRE_ESSAIS_MAX, LETTRE_LOT_PAR_PASSAGE, LETTRE_OUVERTE, MARQUEUR_A_C
 import { EMAILS_LETTRE } from "@/config/textes/lettre-s21";
 import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
+import { frPonctuation } from "@/lib/fr-typo";
 
 const moisFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit" });
 
@@ -51,9 +52,12 @@ interface Opposition {
   date: Date;
 }
 
-/** Corps complet d'un numéro : texte préparé + pied (identité, désinscription, confidentialité). */
+/**
+ * Corps complet d'un numéro : texte préparé + pied (identité, désinscription, confidentialité).
+ * Insécables posées avant « : ; ! ? » au rendu (texte stocké intact), comme l'objet.
+ */
 export function corpsNumero(bodyText: string, baseUrl: string, unsubscribeToken: string): string {
-  return `${bodyText.trimEnd()}\n${EMAILS_LETTRE.piedNumero(buildUnsubscribeUrl(baseUrl, unsubscribeToken), baseUrl)}`;
+  return `${frPonctuation(bodyText.trimEnd())}\n${EMAILS_LETTRE.piedNumero(buildUnsubscribeUrl(baseUrl, unsubscribeToken), baseUrl)}`;
 }
 
 async function listesExclusion(): Promise<{ hebdo: Set<string>; oppositions: Map<string, Opposition> }> {
@@ -179,7 +183,7 @@ export async function envoyerLettreDuMois(
 
     try {
       await avecDelai(
-        deps.envoyer(email, numero.subject, corpsNumero(numero.bodyText, deps.baseUrl, a.unsubscribeToken), enTetesDesinscription(deps.baseUrl, a.unsubscribeToken)),
+        deps.envoyer(email, frPonctuation(numero.subject), corpsNumero(numero.bodyText, deps.baseUrl, a.unsubscribeToken), enTetesDesinscription(deps.baseUrl, a.unsubscribeToken)),
         LETTRE_EMAIL_TIMEOUT_MS,
         "Numéro de la lettre",
       );

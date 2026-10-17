@@ -7,6 +7,7 @@ import { LETTRE_EMPLACEMENTS, LETTRE_OUVERTE } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
+import { frPonctuation } from "@/lib/fr-typo";
 
 /**
  * Page de la lettre mensuelle (s21, spec §1.4 et §5) : présentation, formulaire,
@@ -101,8 +102,8 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           <h2 id="lettre-dernier" className="text-sm font-medium uppercase tracking-wider text-text-muted">
             {TEXTES_LETTRE.page.dernierNumero}
           </h2>
-          <p className="mt-2 font-semibold text-text-primary">{apercu.dernier.subject}</p>
-          <div className="mt-2 whitespace-pre-line text-text-secondary">{apercu.dernier.bodyText}</div>
+          <p className="mt-2 font-semibold text-text-primary">{frPonctuation(apercu.dernier.subject)}</p>
+          <div className="mt-2 whitespace-pre-line text-text-secondary">{frPonctuation(apercu.dernier.bodyText)}</div>
         </section>
       )}
     </div>

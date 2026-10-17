@@ -25,6 +25,7 @@ import { EMAILS_LETTRE, TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { synchroniserNumerosLettre } from "@/lib/lettre/numeros";
 import { entretenirLettre } from "@/lib/lettre/entretien";
 import numerosJson from "@/data/lettre/numeros.json";
+import { frPonctuation, NBSP } from "@/lib/fr-typo";
 
 const issue = prisma.newsletterIssue as unknown as Record<"findUnique" | "create" | "update", jest.Mock>;
 const sub = prisma.newsletterSubscriber as unknown as Record<"deleteMany" | "updateMany" | "findMany" | "update", jest.Mock>;
@@ -71,7 +72,7 @@ describe("Textes de la lettre", () => {
   it("le pied des numéros porte la mention d'éditeur @legal (marqueur tant qu'elle manque) et le contact", () => {
     const pied = EMAILS_LETTRE.piedNumero("L", "https://deviens-marrant.fr");
     const { LETTRE_MENTION_EDITEUR_NUMERO } = jest.requireActual("@/config/lettre");
-    expect(pied).toContain(`Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}.`);
+    expect(pied).toContain(`Éditeur${NBSP}: ${frPonctuation(LETTRE_MENTION_EDITEUR_NUMERO)}.`);
     expect(pied).toContain("contact@deviens-marrant.fr");
   });
 });

@@ -12,13 +12,46 @@
  * Vocabulaire : « la lettre », « recevoir », « te désinscrire » ; jamais
  * « newsletter » ni « abonnement » à l'écran (réservés à Premium).
  * Zéro tiret cadratin (test `lettre-s21.test.ts`).
+ *
+ * Typographie (s21, vérification visuelle @qa) : les textes s'écrivent ici avec
+ * des espaces ordinaires, identiques aux packs validés ; les objets exportés
+ * passent par `insecables()`, qui lie « : ; ! ? » et « … » au mot voisin par une
+ * espace insécable (jamais « : Confidentialité » en début de ligne, ni dans les
+ * e-mails texte). Aucun mot changé. Test : `lettre-insecables-s21.test.ts`.
  */
 
 import { LETTRE_MENTION_EDITEUR_NUMERO, LETTRE_PENDING_JOURS } from "@/config/lettre";
+import { frPonctuation } from "@/lib/fr-typo";
 
 export const LETTRE_CONTACT = "contact@deviens-marrant.fr";
 
-export const TEXTES_LETTRE = {
+/** Chaînes et fonctions qui rendent une chaîne : même forme, insécables posées. */
+type Insecables<T> = T extends string
+  ? string
+  : T extends (...args: infer A) => string
+    ? (...args: A) => string
+    : { readonly [K in keyof T]: Insecables<T[K]> };
+
+/**
+ * Pose les insécables sur toutes les chaînes de `valeur` (et sur le retour de
+ * ses fonctions), sauf aux chemins de `garder` (métadonnées : jamais de
+ * typographie de rendu dans `metadata`, convention de `lib/fr-typo`).
+ */
+function insecables<T>(valeur: T, garder: readonly string[] = [], chemin = ""): Insecables<T> {
+  if (garder.includes(chemin)) return valeur as Insecables<T>;
+  if (typeof valeur === "string") return frPonctuation(valeur) as Insecables<T>;
+  if (typeof valeur === "function") {
+    const rendre = valeur as (...args: unknown[]) => string;
+    return ((...args: unknown[]) => frPonctuation(rendre(...args))) as Insecables<T>;
+  }
+  const sortie: Record<string, unknown> = {};
+  for (const [cle, v] of Object.entries(valeur as Record<string, unknown>)) {
+    sortie[cle] = insecables(v, garder, chemin ? `${chemin}.${cle}` : cle);
+  }
+  return sortie as Insecables<T>;
+}
+
+const TEXTES_SOURCE = {
   /** Bloc 1 (tour 2, duel 1, A). Repris dans `page.metaTitre`. */
   titre: "Une vanne décryptée, chaque mois",
   phrase: "Tu la reçois par e-mail, avec un exercice pour t'entraîner.",
@@ -112,6 +145,8 @@ export const TEXTES_LETTRE = {
   },
 } as const;
 
+export const TEXTES_LETTRE = insecables(TEXTES_SOURCE, ["page.metaTitre", "page.metaDescription"]);
+
 /**
  * Textes de consentement déjà présentés, gardés pour la preuve des
  * consentements donnés sous une version antérieure (`consentText` stocké en
@@ -134,7 +169,7 @@ function piedLegal(baseUrl: string): string[] {
  * Texte seul : aucun pixel ni lien suivi (@legal L4, B4).
  * Partent de `EMAIL_FROM` (noreply@), `Reply-To` contact@, signés « L'Équipe Deviens Marrant ».
  */
-export const EMAILS_LETTRE = {
+const EMAILS_SOURCE = {
   /** Bloc 10 (tour 1, duel 10, B). */
   confirmation: {
     sujet: "Une dernière étape pour recevoir la lettre",
@@ -205,3 +240,5 @@ export const EMAILS_LETTRE = {
       ...piedLegal(baseUrl).slice(1),
     ].join("\n"),
 } as const;
+
+export const EMAILS_LETTRE = insecables(EMAILS_SOURCE);

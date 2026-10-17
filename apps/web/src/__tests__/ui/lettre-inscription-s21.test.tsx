@@ -43,7 +43,23 @@ import { Footer } from "@/components/layout/footer";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import BlogArticlePage from "@/app/(dashboard)/blog/[slug]/page";
 import LettrePage from "@/app/(dashboard)/lettre/page";
-import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { TEXTES_LETTRE as TEXTES_RENDUS } from "@/config/textes/lettre-s21";
+import { NBSP } from "@/lib/fr-typo";
+
+/**
+ * Testing Library ramène les insécables du DOM à des espaces ordinaires avant de
+ * comparer : on fait de même sur les textes attendus. Les insécables elles-mêmes
+ * sont vérifiées sur le `textContent` brut (test « mention ») et dans
+ * `lettre-insecables-s21.test.ts`.
+ */
+function sansInsecables<V>(valeur: V): V {
+  if (typeof valeur === "string") return valeur.split(NBSP).join(" ") as V;
+  if (valeur && typeof valeur === "object") {
+    return Object.fromEntries(Object.entries(valeur).map(([k, v]) => [k, sansInsecables(v)])) as V;
+  }
+  return valeur;
+}
+const TEXTES_LETTRE = sansInsecables(TEXTES_RENDUS);
 
 const SLUG = "meilleures-blagues-droles-2026";
 const track = jest.fn();
@@ -263,9 +279,29 @@ describe("Corrections s21 (textes validés, drapeau, réserves @legal)", () => {
     expect(screen.getByRole("link", { name: TEXTES_LETTRE.formulaire.lienConfidentialite })).toHaveAttribute("href", "/confidentialite#lettre");
   });
 
+  it("ordre visuel = ordre du clavier à toutes les largeurs : champ, case, bouton, mention (une seule colonne)", () => {
+    const { container } = render(<LettreInscription emplacement="article" slug={SLUG} />);
+    const form = container.querySelector("form")!;
+    const champ = screen.getByLabelText(TEXTES_LETTRE.formulaire.label);
+    const caseConsent = screen.getByRole("checkbox");
+    const bouton = screen.getByRole("button", { name: TEXTES_LETTRE.formulaire.bouton });
+    const lien = screen.getByRole("link", { name: TEXTES_LETTRE.formulaire.lienConfidentialite });
+    const suit = (a: Element, b: Element) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(suit(champ, caseConsent) && suit(caseConsent, bouton) && suit(bouton, lien)).toBe(true);
+    // Aucun placement en grille qui remonterait le bouton à côté du champ (constat @qa s21 à 1280 px).
+    expect(form.innerHTML).not.toMatch(/(?:^|\s)(?:\w+:)?(?:grid-cols|col-start|row-start|col-span|order)-/);
+  });
+
+  it("mention : « droits : Confidentialité » lié par des insécables, jamais « : » en début de ligne", () => {
+    const { container } = render(<LettreInscription emplacement="page" />);
+    const mention = screen.getByRole("link", { name: TEXTES_LETTRE.formulaire.lienConfidentialite }).parentElement!;
+    expect(mention.textContent).toContain(`droits${NBSP}:${NBSP}Confidentialité`);
+    expect(container.querySelector("form")!.textContent).not.toMatch(/ [:;?!]/);
+  });
+
   it("R3 : « Te réinscrire » ramène au formulaire (double opt-in), jamais un lien qui réinscrit", async () => {
     render(await LettrePage({ searchParams: { statut: "desinscrit" } }));
-    const lien = screen.getByRole("link", { name: TEXTES_LETTRE.statuts.desinscrit.lien });
+    const lien = screen.getByRole("link", { name: TEXTES_RENDUS.statuts.desinscrit.lien /* nom accessible : insécable gardée */ });
     expect(lien).toHaveAttribute("href", "/lettre");
   });
 

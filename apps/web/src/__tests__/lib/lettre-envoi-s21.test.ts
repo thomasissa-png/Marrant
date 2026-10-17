@@ -62,6 +62,7 @@ jest.mock("@/lib/prisma", () => ({
 }));
 
 import { corpsNumero, envoyerLettreDuMois, periodeMensuelle } from "@/lib/lettre/envoi";
+import { NBSP } from "@/lib/fr-typo";
 
 const NOW = new Date("2026-11-05T08:30:00Z");
 const BASE = "https://deviens-marrant.fr";
@@ -141,7 +142,7 @@ describe("envoyerLettreDuMois", () => {
     expect(sujet).toBe("Objet du mois");
     expect(texte).toContain("Corps préparé du numéro.");
     expect(texte).toContain(`${BASE}/lettre/desinscrire?token=u-a%40x.fr`);
-    expect(texte).toContain("Éditeur : deviens-marrant SAS");
+    expect(texte).toContain(`Éditeur${NBSP}: deviens-marrant SAS`);
     expect(texte).not.toMatch(/<img|pixel/i);
     expect(headers["List-Unsubscribe"]).toMatch(/^<https:\/\/deviens-marrant\.fr\/api\/newsletter\/unsubscribe\/u-a%40x\.fr/);
     expect(headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
@@ -203,8 +204,8 @@ describe("corpsNumero", () => {
   it("ajoute le pied légal et la désinscription, sans tiret cadratin", () => {
     const texte = corpsNumero("La vanne du mois.\n", BASE, "tok");
     expect(texte).toContain("Tu reçois cette lettre parce que tu t'es inscrit sur deviens-marrant.fr.");
-    expect(texte).toContain("Contact : contact@deviens-marrant.fr");
-    expect(texte).toContain(`Confidentialité : ${BASE}/confidentialite`);
+    expect(texte).toContain(`Contact${NBSP}: contact@deviens-marrant.fr`);
+    expect(texte).toContain(`Confidentialité${NBSP}: ${BASE}/confidentialite`);
     expect(texte).not.toContain("—");
   });
 });

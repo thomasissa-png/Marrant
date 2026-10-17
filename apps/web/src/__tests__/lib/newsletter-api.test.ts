@@ -35,6 +35,7 @@ import { sharedRateLimit } from "@/lib/rate-limit";
 import { LETTRE_CONSENT_TEXT } from "@/lib/lettre/inscription";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_DEJA_INSCRIT_HEURES } from "@/config/lettre";
+import { NBSP } from "@/lib/fr-typo";
 
 const db = prisma.newsletterSubscriber as unknown as Record<"findUnique" | "create" | "update", jest.Mock>;
 const envoi = sendServiceTextEmail as jest.Mock;
@@ -123,7 +124,7 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     expect(kind).toBe("lettre-confirmation");
     expect(options.replyTo).toBe("contact@deviens-marrant.fr");
     expect(texte).toContain(`https://deviens-marrant.fr/lettre/confirmer?token=${data.confirmationToken}`);
-    expect(texte).toContain("Éditeur : deviens-marrant SAS");
+    expect(texte).toContain(`Éditeur${NBSP}: deviens-marrant SAS`);
     expect(texte).not.toMatch(/\/api\/newsletter\/confirm/);
   });
 

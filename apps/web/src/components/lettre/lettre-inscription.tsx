@@ -9,6 +9,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
+import { NBSP } from "@/lib/fr-typo";
 import { LettreSucces } from "@/components/lettre/lettre-succes";
 
 interface LettreInscriptionProps {
@@ -123,8 +124,10 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
           <label htmlFor={`${id}-email`} className="text-sm font-medium text-text-primary">
             {T.label}
           </label>
-          <div className="mt-1 grid gap-3 sm:grid-cols-[1fr_minmax(200px,auto)]">
-            <div className="sm:col-start-1 sm:row-start-1">
+          {/* Une seule colonne à toutes les largeurs : ordre visuel = ordre du clavier
+              (champ, case, bouton, mention ; WCAG 2.4.3, vérification visuelle s21). */}
+          <div className="mt-1 grid gap-3">
+            <div>
               <input
                 ref={emailRef}
                 id={`${id}-email`}
@@ -157,7 +160,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
               )}
             </div>
 
-            <div className="sm:col-span-2 sm:row-start-2">
+            <div>
               <label className="flex min-h-11 cursor-pointer items-start gap-3 text-sm text-text-secondary">
                 <input
                   ref={caseRef}
@@ -185,7 +188,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
             </div>
 
             {(erreur === "reseau" || erreur === "limite") && (
-              <p role="alert" className="text-sm text-error sm:col-span-2 sm:row-start-3">
+              <p role="alert" className="text-sm text-error">
                 {erreur === "limite" ? E.limite : E.reseau}
               </p>
             )}
@@ -195,7 +198,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
               variant="outline"
               size="lg"
               aria-busy={occupe || undefined}
-              className="w-full sm:col-start-2 sm:row-start-1"
+              className="w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"
             >
               {occupe ? T.boutonEnvoi : T.bouton}
             </Button>
@@ -207,8 +210,11 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
           )}
           <p className="mt-2 text-xs text-text-muted">{T.reassurance}</p>
           <p className="mt-1 text-xs text-text-muted">
-            {T.mention}{" "}
-            <Link href={LETTRE_CONFIDENTIALITE_HREF} className="inline-flex min-h-11 items-center underline sm:min-h-0">
+            {/* Insécable avant le lien : « droits : Confidentialité » ne se sépare pas. Lien en ligne
+                (zone tactile agrandie par le padding, sans ligne haute de 44 px dans la mention). */}
+            {T.mention}
+            {NBSP}
+            <Link href={LETTRE_CONFIDENTIALITE_HREF} className="py-3 underline">
               {T.lienConfidentialite}
             </Link>
           </p>
