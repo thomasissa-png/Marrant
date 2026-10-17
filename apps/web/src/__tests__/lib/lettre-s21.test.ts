@@ -82,9 +82,9 @@ describe("Interrupteur", () => {
     expect(jest.requireActual("@/config/lettre").LETTRE_OUVERTE).toBe(false);
   });
 
-  it("les numéros livrés n'ont pas encore de jour d'envoi : aucun n'est chargé en base", () => {
+  it("jours d'envoi livrés : jamais avant décembre 2026 (ouverture après le 10/11)", () => {
     expect(numerosJson.length).toBeGreaterThan(0);
-    for (const n of numerosJson) expect(n.envoiPrevu).toBeNull();
+    for (const n of numerosJson) if (n.envoiPrevu) expect(new Date(n.envoiPrevu).getTime()).toBeGreaterThanOrEqual(Date.parse("2026-12-01T00:00:00+01:00"));
   });
 });
 

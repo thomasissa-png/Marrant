@@ -17,9 +17,9 @@
  *   "preEntete": "…",                            // facultatif (aperçu de la boîte de réception)
  *   "corps": "…",                                // texte seul ; le pied (désinscription, éditeur,
  *                                                //   confidentialité) est ajouté à l'envoi
- *   "envoiPrevu": "2026-11-05T08:00:00+01:00",   // date et heure d'envoi (dans le mois de `periode`),
- *                                                //   ou null tant que Thomas n'a pas fixé le jour :
- *                                                //   le numéro n'est alors PAS chargé en base
+ *   "envoiPrevu": "2026-12-03T08:00:00+01:00",   // date et heure d'envoi = `dateEnvoiLettre(periode,
+ *                                                //   datePlancher)` (premier jeudi du mois, 8 h Paris),
+ *                                                //   ou null : le numéro n'est alors PAS chargé en base
  *   "datePlancher": "2026-11-16" | null,         // jour (Paris) de publication de l'article cité :
  *                                                //   jamais d'envoi avant ; null = aucun article cité
  *   "numero": 1,                                 // facultatif, repère éditorial
@@ -29,7 +29,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import numerosJson from "@/data/lettre/numeros.json";
-import { corpsNumero, periodeMensuelle } from "@/lib/lettre/envoi";
+import { corpsNumero, dateEnvoiLettre, periodeMensuelle } from "@/lib/lettre/envoi";
 import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
 
 const TIRET_CADRATIN = "—";
@@ -51,6 +51,9 @@ export const numeroSchema = z
   })
   .refine((n) => n.envoiPrevu === null || !n.datePlancher || jourParis(new Date(n.envoiPrevu)) >= n.datePlancher, {
     message: "envoiPrevu avant la date plancher (publication de l'article cité)",
+  })
+  .refine((n) => n.envoiPrevu === null || new Date(n.envoiPrevu).getTime() === dateEnvoiLettre(n.periode, n.datePlancher)?.getTime(), {
+    message: "envoiPrevu hors règle : premier jeudi du mois à 8 h (Paris), ou premier jeudi après la date plancher",
   });
 
 export type NumeroLettre = z.infer<typeof numeroSchema>;
@@ -74,20 +77,6 @@ export function numeroEnvoyable(n: NumeroLettre, now: Date, baseUrl = "https://d
   if (n.datePlancher && jourParis(now) < n.datePlancher) return false;
   const email = [n.objet, n.preEntete ?? "", corpsNumero(n.corps, baseUrl, "jeton")].join("\n");
   return !email.includes(MARQUEUR_A_COMPLETER);
-}
-
-/**
- * Le jour d'envoi du numéro de `periode` est-il fixé dans la source
- * (`envoiPrevu` non null) ? Sinon la ligne « Le prochain numéro arrive le… »
- * de la page de confirmation reste masquée, même si la base garde une date
- * d'un ancien chargement.
- */
-export function envoiPrevuFixe(periode: string, source: unknown = numerosJson): boolean {
-  const entrees = Array.isArray(source) ? source : [];
-  return entrees.some((brut) => {
-    const n = numeroSchema.safeParse(brut);
-    return n.success && n.data.periode === periode && n.data.envoiPrevu !== null;
-  });
 }
 
 export interface SyncNumerosResultat {

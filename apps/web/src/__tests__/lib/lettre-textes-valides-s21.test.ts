@@ -16,8 +16,6 @@ import {
   LETTRE_PENDING_JOURS,
 } from "@/config/lettre";
 import { LETTRE_CONSENT_TEXT } from "@/lib/lettre/inscription";
-import { envoiPrevuFixe } from "@/lib/lettre/numeros";
-import numerosJson from "@/data/lettre/numeros.json";
 import { NBSP } from "@/lib/fr-typo";
 
 const BASE = "https://deviens-marrant.fr";
@@ -107,12 +105,13 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
       bouton: "Confirmer mon adresse",
     });
     const c = T.statuts.confirmee;
-    expect([c.titre, c.texte, c.prochain, c.lien]).toEqual([
+    expect([c.titre, c.texte, c.lien]).toEqual([
       "C'est bon, tu es inscrit.",
       "Une lettre par mois, avec une vanne décryptée.",
-      "Le prochain numéro arrive le {date}.",
       "Voir la vanne du jour et son décryptage",
     ]);
+    // Date du prochain numéro jamais affichée (Thomas, 17/10) : plus de texte prévu.
+    expect("prochain" in c).toBe(false);
   });
 
   it("bloc 8 : désinscription (tour 2, A)", () => {
@@ -223,26 +222,5 @@ describe("Durées lues dans la config", () => {
 
   it("un « déjà dans la liste » au plus par adresse et par 24 h", () => {
     expect(LETTRE_DEJA_INSCRIT_HEURES).toBe(24);
-  });
-});
-
-describe("Ligne « Le prochain numéro arrive le… » (envoiPrevu)", () => {
-  const numero = (envoiPrevu: string | null) => ({
-    periode: "2026-11",
-    objet: "Objet du numéro",
-    corps: "x".repeat(60),
-    envoiPrevu,
-    datePlancher: null,
-    statut: "VALIDE",
-  });
-
-  it("masquée tant que le jour d'envoi n'est pas fixé", () => {
-    expect(envoiPrevuFixe("2026-11", [numero(null)])).toBe(false);
-    expect(envoiPrevuFixe("2026-12", [numero("2026-11-05T08:00:00+01:00")])).toBe(false);
-    for (const n of numerosJson) expect(envoiPrevuFixe(n.periode)).toBe(false);
-  });
-
-  it("affichable une fois le jour fixé", () => {
-    expect(envoiPrevuFixe("2026-11", [numero("2026-11-05T08:00:00+01:00")])).toBe(true);
   });
 });

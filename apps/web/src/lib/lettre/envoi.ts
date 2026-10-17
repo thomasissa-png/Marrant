@@ -2,6 +2,8 @@
  * Envoi de la lettre mensuelle (s21, spec §7.2 point 4 ; @legal L3, L4, L6).
  *
  *  - Rien ne part si `LETTRE_OUVERTE` est fermé.
+ *  - Jour d'envoi : premier jeudi du mois à 8 h, heure de Paris, jamais avant la
+ *    date plancher (`dateEnvoiLettre`, imposée à `envoiPrevu` par le schéma).
  *  - Rien ne part si un marqueur `[À COMPLÉTER` figure dans le numéro rendu
  *    (objet, pré-en-tête, corps, pied) : `bloque = true`.
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
@@ -32,6 +34,45 @@ export function periodeMensuelle(now: Date): string {
   const an = parts.find((p) => p.type === "year")?.value ?? "0000";
   const mois = parts.find((p) => p.type === "month")?.value ?? "00";
   return `${an}-${mois}`;
+}
+
+/** Jour d'envoi : jeudi (`getUTCDay`), à 8 h heure de Paris (décision de Thomas, 17/10). */
+export const LETTRE_JOUR_ENVOI = 4;
+export const LETTRE_HEURE_ENVOI_PARIS = 8;
+
+const heureParisFormat = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hour: "2-digit", hourCycle: "h23" });
+
+/** Instant « jour à HH:00, heure de Paris » (heure d'hiver UTC+1 ou d'été UTC+2). */
+function aHeureParis(an: number, mois: number, jour: number, heure: number): Date {
+  for (const decalage of [1, 2]) {
+    const essai = new Date(Date.UTC(an, mois - 1, jour, heure - decalage));
+    if (Number(heureParisFormat.format(essai)) === heure) return essai;
+  }
+  throw new Error(`Heure de Paris introuvable pour ${an}-${mois}-${jour} ${heure} h`);
+}
+
+/**
+ * Date d'envoi d'un numéro (règle unique, décision de Thomas du 17/10) :
+ * le PREMIER JEUDI du mois de `periode`, à 8 h heure de Paris. Si la date
+ * plancher (publication de l'article cité) tombe après ce jeudi, le numéro
+ * part le premier jeudi qui suit la date plancher (ou le jour même si c'est un
+ * jeudi), toujours à 8 h. `null` si ce jeudi sort du mois de `periode` :
+ * le numéro doit alors changer de mois (le schéma le refuse en l'état).
+ */
+export function dateEnvoiLettre(periode: string, datePlancher?: string | null): Date | null {
+  const [an, mois] = periode.split("-").map(Number);
+  const premier = new Date(Date.UTC(an, mois - 1, 1));
+  let jour = 1 + ((LETTRE_JOUR_ENVOI - premier.getUTCDay() + 7) % 7);
+  if (datePlancher) {
+    const [pa, pm, pj] = datePlancher.split("-").map(Number);
+    const plancher = new Date(Date.UTC(pa, pm - 1, pj));
+    if (plancher.getTime() > Date.UTC(an, mois - 1, jour)) {
+      const jeudi = new Date(plancher.getTime() + ((LETTRE_JOUR_ENVOI - plancher.getUTCDay() + 7) % 7) * 86_400_000);
+      if (jeudi.getUTCFullYear() !== an || jeudi.getUTCMonth() !== mois - 1) return null;
+      jour = jeudi.getUTCDate();
+    }
+  }
+  return aHeureParis(an, mois, jour, LETTRE_HEURE_ENVOI_PARIS);
 }
 
 export interface EnvoiResultat {
@@ -103,6 +144,9 @@ export async function envoyerLettreDuMois(
     termine: false,
   };
   if (!LETTRE_OUVERTE) return r;
+  // Jamais avant le premier jeudi du mois à 8 h (Paris), même si la base dit plus tôt.
+  const echeance = dateEnvoiLettre(periodeMensuelle(now));
+  if (!echeance || now.getTime() < echeance.getTime()) return r;
 
   const numero = await prisma.newsletterIssue.findFirst({
     where: { audience: "MENSUELLE", periodKey: periodeMensuelle(now), status: "VALIDE", scheduledFor: { lte: now } },

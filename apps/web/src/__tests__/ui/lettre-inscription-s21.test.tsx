@@ -318,15 +318,16 @@ describe("Corrections s21 (textes validés, drapeau, réserves @legal)", () => {
     expect(screen.getAllByRole("link", { name: "contact@deviens-marrant.fr" })).toHaveLength(1);
   });
 
-  it("confirmation : « Le prochain numéro arrive le… » masqué tant que envoiPrevu est null, même avec une date en base", async () => {
+  it("confirmation : la date du prochain numéro n'est jamais affichée, même programmée en base (Thomas, 17/10)", async () => {
     const { prisma } = jest.requireMock("@/lib/prisma") as { prisma: { newsletterIssue: { findFirst: jest.Mock } } };
     prisma.newsletterIssue.findFirst.mockImplementation(async (args: { where: { status: string } }) =>
-      args.where.status === "VALIDE" ? { scheduledFor: new Date(Date.now() + 10 * JOUR), periodKey: "2026-11" } : null,
+      args.where.status === "VALIDE" ? { scheduledFor: new Date(Date.now() + 10 * JOUR), periodKey: "2026-12" } : null,
     );
     try {
       render(await LettrePage({ searchParams: { statut: "confirmee" } }));
       expect(screen.getByText(TEXTES_LETTRE.statuts.confirmee.titre)).toBeInTheDocument();
-      expect(screen.queryByText(/Le prochain numéro arrive le/)).toBeNull();
+      expect(screen.queryByText(/prochain numéro/i)).toBeNull();
+      expect(prisma.newsletterIssue.findFirst).not.toHaveBeenCalledWith(expect.objectContaining({ where: expect.objectContaining({ status: "VALIDE" }) }));
     } finally {
       prisma.newsletterIssue.findFirst.mockResolvedValue(null);
     }

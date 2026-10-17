@@ -103,6 +103,22 @@ describe("envoyerLettreDuMois", () => {
     expect(mockDb.journal).toHaveLength(0);
   });
 
+  it("avant le premier jeudi du mois à 8 h (Paris) : rien n'est lu ni envoyé, même numéro programmé plus tôt en base", async () => {
+    const { prisma } = jest.requireMock("@/lib/prisma") as { prisma: { newsletterIssue: { findFirst: jest.Mock } } };
+    prisma.newsletterIssue.findFirst.mockClear();
+    const envoyer = jest.fn();
+    // Jeudi 05/11/2026 à 7 h 59 (Paris, UTC+1), puis mercredi 04/11.
+    for (const t of ["2026-11-05T06:59:00Z", "2026-11-04T12:00:00Z"]) {
+      const r = await envoyerLettreDuMois(new Date(t), { envoyer, baseUrl: BASE });
+      expect(r).toMatchObject({ ferme: false, numero: null, envoyes: 0 });
+    }
+    expect(prisma.newsletterIssue.findFirst).not.toHaveBeenCalled();
+    expect(envoyer).not.toHaveBeenCalled();
+    // Jeudi 05/11/2026 à 8 h pile (Paris) : la tâche lit le numéro du mois.
+    await envoyerLettreDuMois(new Date("2026-11-05T07:00:00Z"), { envoyer, baseUrl: BASE });
+    expect(prisma.newsletterIssue.findFirst).toHaveBeenCalledTimes(1);
+  });
+
   it("marqueur [À COMPLÉTER] dans le pied (mention d'éditeur) : numéro bloqué, rien n'est envoyé", async () => {
     mockMention = jest.requireActual("@/config/lettre").LETTRE_MENTION_EDITEUR_NUMERO;
     expect(mockMention).toContain("[À COMPLÉTER");

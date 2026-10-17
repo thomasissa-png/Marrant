@@ -14,7 +14,8 @@ import { frPonctuation } from "@/lib/fr-typo";
  * dernier numéro envoyé, et arrivée de la confirmation, de la désinscription et
  * des liens invalides (`?statut=`).
  *
- * Rendu : SSR à chaque requête (statut lu dans l'URL, prochain numéro en base).
+ * Rendu : SSR à chaque requête (statut lu dans l'URL, dernier numéro en base).
+ * La date du prochain numéro n'est jamais affichée (décision de Thomas, 17/10).
  * `noindex`, hors sitemap. Interrupteur fermé : 404, sauf les statuts de
  * désinscription (un e-mail déjà parti doit pouvoir être arrêté).
  */
@@ -29,7 +30,6 @@ export const metadata: Metadata = {
 
 const STATUTS_TOUJOURS = ["desinscrit", "invalide", "erreur"] as const;
 const S = TEXTES_LETTRE.statuts;
-const dateParis = new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" });
 
 type Params = { statut?: string; mesure?: string; emplacement?: string };
 
@@ -37,7 +37,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
   const statut = typeof searchParams.statut === "string" ? searchParams.statut : null;
   if (!LETTRE_OUVERTE && !(statut && (STATUTS_TOUJOURS as readonly string[]).includes(statut))) notFound();
 
-  const apercu = LETTRE_OUVERTE ? await lireApercuLettre(new Date()) : { dernier: null, prochain: null };
+  const apercu = LETTRE_OUVERTE ? await lireApercuLettre() : { dernier: null };
   const emplacement = (LETTRE_EMPLACEMENTS as readonly string[]).includes(searchParams.emplacement ?? "")
     ? (searchParams.emplacement as string)
     : null;
@@ -47,12 +47,6 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
       {statut === "confirmee" && (
         <LettreStatut titre={S.confirmee.titre} confirmeeMesuree={searchParams.mesure === "1" ? { emplacement } : undefined}>
           <p className="mt-1 text-sm text-text-secondary">{S.confirmee.texte}</p>
-          {/* Ligne gardée mais masquée tant que le jour d'envoi n'est pas fixé (envoiPrevu null) : décision de Thomas attendue. */}
-          {apercu.prochain && (
-            <p className="mt-1 text-sm text-text-secondary">
-              {S.confirmee.prochain.replace("{date}", dateParis.format(apercu.prochain))}
-            </p>
-          )}
           <Link href={S.confirmee.lienHref} className="mt-2 inline-flex min-h-11 items-center text-sm text-accent-link underline">
             {S.confirmee.lien}
           </Link>

@@ -121,11 +121,21 @@ describe("envoi des numéros", () => {
     }
   });
 
-  it("aucun jour d'envoi fixé dans le fichier livré : rien n'est envoyable", () => {
+  it("jours d'envoi livrés (Thomas, 17/10) : premier jeudi du mois à 8 h (Paris), dès décembre 2026 ; n°1 en attente", () => {
+    expect(numeros.map((n) => n.envoiPrevu)).toEqual([
+      null,
+      "2026-12-03T08:00:00+01:00",
+      "2027-01-07T08:00:00+01:00",
+      "2027-02-04T08:00:00+01:00",
+      "2027-03-04T08:00:00+01:00",
+      "2027-04-01T08:00:00+02:00",
+    ]);
     mockMention = "mention de test";
-    for (const n of numeros) {
-      expect(n.envoiPrevu).toBeNull();
-      expect(numeroEnvoyable(n, new Date("2030-01-01T12:00:00Z"))).toBe(false);
+    expect(numeroEnvoyable(numeros[0], new Date("2030-01-01T12:00:00Z"))).toBe(false);
+    for (const n of numeros.slice(1)) {
+      const prevu = new Date(n.envoiPrevu as string);
+      expect(numeroEnvoyable(n, new Date(prevu.getTime() - 60_000))).toBe(false);
+      expect(numeroEnvoyable(n, prevu)).toBe(true);
     }
   });
 

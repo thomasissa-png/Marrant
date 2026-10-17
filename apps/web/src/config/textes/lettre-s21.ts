@@ -121,11 +121,7 @@ const TEXTES_SOURCE = {
     confirmee: {
       titre: "C'est bon, tu es inscrit.",
       texte: "Une lettre par mois, avec une vanne décryptée.",
-      /**
-       * `{date}` = date du prochain numéro VALIDÉ programmé. Ligne masquée tant que
-       * le jour d'envoi n'est pas fixé (`envoiPrevu` null) ; décision de Thomas attendue.
-       */
-      prochain: "Le prochain numéro arrive le {date}.",
+      /* Pas de ligne « Le prochain numéro arrive le… » : date jamais affichée (Thomas, 17/10). */
       lien: "Voir la vanne du jour et son décryptage",
       lienHref: "/blague-du-jour",
     },
