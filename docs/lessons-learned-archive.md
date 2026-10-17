@@ -58,3 +58,7 @@
 | Session | Date | Catégorie | Sévérité | Description | Correction appliquée | Recommandation framework | Cible propagation | Fichiers impactés | Statut | Propagation |
 |---------|------|-----------|----------|-------------|---------------------|--------------------------|-------------------|-------------------|--------|-------------|
 | 14 | 05/10/2026 | 5. Pattern efficace | P1 | Noter un article sur le brouillon laisse passer les défauts de rendu : « <!-- FIN --> » affiché en FAQ et JSON-LD, « Mis à jour » antérieur à la publication, « » imbriqués coupant la chute. | Aperçu admin `/blog/apercu/[slug]` + `snapshot-article.sh` (captures prod sans JS) ; import refuse les commentaires HTML ; `publicUpdatedAt` | **Toute notation de contenu publié se fait sur le rendu réel (captures + HTML servi), pas sur la source.** | règle-globale | _base-agent-protocol.md (reviewer) | fait | propagé (framework-feedback #2) |
+
+## Archivé en clôture s20 (17/10/2026, TTL 5 sessions)
+
+| 16 | 07/10/2026 | 1. Problème corrigé | P1 | 4 tests E2E rouges après déploiement : la spec attendait le texte provisoire remplacé ensuite par l'étalon validé. | Spec alignée | **Les tests E2E lisent les textes depuis `config/textes/*` (ou une regex tolérante), jamais une copie en dur d'un texte provisoire.** | qa | `playwright/tests/` | fait | — |
