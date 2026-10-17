@@ -1,7 +1,7 @@
 # La lettre mensuelle gratuite : numéros 1 à 6 (novembre 2026 à avril 2027)
 
 > Session 21, 17/10/2026. Statut : BROUILLONS à relire à l'aveugle (règle d'or s18), puis à valider par Thomas avant tout envoi. Rien n'est codé ni envoyé.
-> **Mise à jour tour 2 (17/10)** : le duel à l'aveugle du n°1 (3 relecteurs, 3 sur 3) a donné gagnante la version à exercice en 3 temps, jugée « de peu sous la barre ». Elle est retouchée ci-dessous (n°1) et les mêmes leçons sont appliquées aux n°2 à 6. Le n°1 retouché repasse en duel (`pack-relecture-n1-tour2.md`) ; **les exemples neufs des n°2 à 6 n'ont pas encore été relus à l'aveugle** (voir §8).
+> **Mise à jour tour 2 (17/10)** : le duel à l'aveugle du n°1 (3 relecteurs, 3 sur 3) a donné gagnante la version à exercice en 3 temps, jugée « de peu sous la barre ». Elle est retouchée ci-dessous (n°1) et les mêmes leçons sont appliquées aux n°2 à 6. Le n°1 retouché a repassé le duel (`pack-relecture-n1-tour2.md`) : **VALIDÉ, 3 relecteurs sur 3, au niveau (8/10 chacun)**. **Les n°2 à 6 n'ont jamais été relus à l'aveugle** : les remarques mineures du n°1 (référent ambigu du pont, répétition entre le texte et le libellé du lien) leur ont été appliquées, puis chaque numéro est opposé à une 2e version complète dans `pack-relecture-n2-a-6.md` (5 duels, clé de tirage conservée par l'orchestrateur, jamais dans ce dossier). Les textes ci-dessous sont les versions actuelles des n°2 à 6, **en attente de ce duel** (voir §8).
 > Promesse tenue par chaque numéro : « Une vanne décryptée par mois » (`docs/ux/lettre-inscription-s21.md` §3), pas plus d'un e-mail par mois, gratuit, sans compte.
 > Sources lues : `project-context.md`, `docs/founder-preferences.md` (01/10, 06/05, 14/10, 17/10), `docs/copy/ton-alex.md`, `docs/copy/charte-refonte-copy-s11.md`, `docs/ux/lettre-inscription-s21.md`, `docs/marrant/playbook.md` (test stand-up), `docs/seo/calendrier-editorial-q4-2026.md`, fiches des articles liés.
 > `[Framework : value-first en trois temps (une vanne, son mécanisme, un geste à faire soi-même), puis une ressource gratuite, puis une seule invitation Premium en fin de lettre]` · `[Conscience : Problem-Aware, la personne s'est inscrite parce qu'elle veut être plus drôle, elle connaît son problème, pas encore la méthode]`
@@ -44,7 +44,7 @@
 
 ## 2. Numéro 1 : novembre 2026, la soirée de Noël au boulot
 
-> **Version retenue : « A » du tour 1 (exercice en 3 temps), retouchée** selon les 3 verdicts à l'aveugle (A choisie 3 sur 3, notes 7, 7,5 et 7,5 sur 10, « de peu sous la barre »). La version « B » du tour 1 (objet = chute) est abandonnée, sauf son trait « une vanne ratée dure jusqu'en janvier », repris. Statut : **en attente du duel tour 2** (`pack-relecture-n1-tour2.md`).
+> **Version retenue : « A » du tour 1 (exercice en 3 temps), retouchée** selon les 3 verdicts à l'aveugle (A choisie 3 sur 3, notes 7, 7,5 et 7,5 sur 10, « de peu sous la barre »). La version « B » du tour 1 (objet = chute) est abandonnée, sauf son trait « une vanne ratée dure jusqu'en janvier », repris. Statut : **VALIDÉ au duel tour 2** (`verdict-n1-tour2-reviewer-{1,2,3}.md` : A choisie 3 sur 3, « = », 8/10 ; B « < »). Deux retouches de confort restent possibles (référent de « Celle de ce mois », libellé du lien qui répète « la soirée de Noël au boulot ») : **non appliquées**, car toute modification repasse la relecture à l'aveugle (règle d'or s18) et le texte est déjà au niveau.
 
 **Envoi** : 17 au 24/11 (jamais avant le 16/11, publication de l'article lié).
 **Objet (3 variantes)**
@@ -116,7 +116,7 @@ L'Équipe Deviens Marrant
 
 Salut,
 
-À Noël, il y a toujours quelqu'un pour poser la question. Tu sais laquelle. Voici la vanne du mois.
+À Noël, il y a toujours un proche pour poser la question. Tu sais laquelle. Voici la vanne du mois.
 
 > Ma grand-mère m'a demandé si j'avais quelqu'un dans ma vie. J'ai dit non.
 > Elle a dit qu'elle allait en parler à quelqu'un de plus haut placé.
@@ -132,7 +132,7 @@ Le mot « quelqu'un » a un sens amoureux pour toi et un sens hiérarchique pour
 Exemple : « Mon banquier m'a demandé si j'avais des économies. J'ai dit que je ne chauffais plus que la cuisine. »
 
 **Pour les autres questions**
-Cette question est la première des six questions de Noël qui piquent que l'article passe en revue, avec des réparties et un plan B si on insiste. Il est en lecture libre.
+Dans l'article, cette question ouvre une liste de six questions de Noël qui piquent : cinq ont leurs réparties, la sixième une limite posée avec le sourire, et chacune une sortie si on insiste. Le tout est en lecture libre.
 Lire l'article sur le repas de famille : https://deviens-marrant.fr/blog/repas-de-famille-questions-genantes-humour?utm_source=lettre&utm_medium=email&utm_content=n2-article
 
 Pour répondre du tac au tac sans avoir préparé, le parcours Répartie est dans Premium, sans engagement. Son étape 1 se lit sans compte.
@@ -185,7 +185,7 @@ Exemple : « J'ai acheté une plante pour qu'on vienne me parler au bureau. Tout
 
 **Si « être plus drôle » est dans tes résolutions**
 L'article propose une habitude de quelques minutes et un suivi sur quatre semaines, pour ne pas lâcher avant la mi-janvier. Il est en lecture libre.
-Lire l'article sur la résolution : https://deviens-marrant.fr/blog/resolution-nouvelle-annee-etre-plus-drole?utm_source=lettre&utm_medium=email&utm_content=n3-article
+Lire l'article : petit, daté, suivi : https://deviens-marrant.fr/blog/resolution-nouvelle-annee-etre-plus-drole?utm_source=lettre&utm_medium=email&utm_content=n3-article
 
 Si tu préfères un cadre, les parcours complets sont dans Premium, sans engagement, à raison de 15 à 20 minutes par semaine selon le parcours. La première étape de chacun se lit sans compte.
 Voir les parcours : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n3-premium
@@ -235,8 +235,8 @@ Deux chiffres presque identiques, onze et dix, transforment l'écoute en épreuv
 Exemple : « Ma voisine a promis de baisser la musique à minuit. Elle a tenu jusqu'à minuit cinq. »
 
 **Pour le premier message**
-Si tu en es encore à l'écrire, l'article part d'une bio ou d'une photo de voyage, et explique comment relancer après un silence sans insister. Il est en lecture libre.
-Lire l'article sur le premier message : https://deviens-marrant.fr/blog/premier-message-drole-appli-de-rencontre?utm_source=lettre&utm_medium=email&utm_content=n4-article
+Si tu en es encore à écrire ton premier message, l'article part d'une bio ou d'une photo de voyage, et explique comment relancer après un silence sans insister. Il est en lecture libre.
+Lire l'article : quoi écrire sur une appli : https://deviens-marrant.fr/blog/premier-message-drole-appli-de-rencontre?utm_source=lettre&utm_medium=email&utm_content=n4-article
 
 Pour retrouver un humour qui te ressemble, à ton rythme, le parcours Confiance est dans Premium, sans engagement. Son étape 1 se lit sans compte.
 Voir le parcours Confiance : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n4-premium
@@ -286,8 +286,8 @@ Rendre un objet qu'on doit rendre est la chose la plus normale du monde, mais un
 Exemple : « Mon frère a répondu à mon message dans l'heure. J'ai demandé à ma mère s'il était malade. »
 
 **Pour le 1er avril**
-L'article réunit des idées de canulars pour adultes, classées par terrain. Aucune ne fait peur ni ne vexe. Il est en lecture libre.
-Lire les idées de canulars : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n5-article
+L'article réunit des idées de canulars pour adultes, classées par terrain. Aucune ne fait peur ni ne vexe, et tout est en lecture libre.
+Lire l'article sur le poisson d'avril : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n5-article
 
 Et le jour où c'est toi la cible, le parcours Répartie t'apprend à répondre à voix haute et au bon moment. Il est dans Premium, sans engagement, et son étape 1 se lit sans compte.
 Voir le parcours Répartie : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n5-premium
@@ -301,7 +301,7 @@ L'Équipe Deviens Marrant
 - **Source de la vanne** : `vannes-actives-s19.json`, id `cs14jke10b58d158ae638560` ; décryptage : `decryptage-ecrit-1.json` (vid V003), identique dans `vannes-actives-s17.json` l.560 ; `catalogue-vannes-valides.md` l.80.
 - **Trace de relecture** : tour 1 à l'aveugle, « = » chez les deux relecteurs (`neuves-aveugle-1-critique-A.md` l.217 : « net, imprévu » ; `-B.md` l.217 : « implication inattendue, courte, vraie »).
 - **Lien** : `blagues-poisson-d-avril-adultes`, fiche `A5-blagues-poisson-d-avril-adultes.md`, publication 25/02/2027. La vanne n'y figure pas. Le nombre d'idées de l'article n'est volontairement pas cité (la fiche demande de le corriger si une idée change).
-- **Faits repris** : idées « classées par terrain » et garde-fou « aucune ne fait peur ni ne vexe » (extrait A5, 2 des 3 garde-fous : la triple énumération et la liste de terrains sont retirées ; la fiche A5 signale d'ailleurs que le terrain « couple » est fusionné avec « potes », donc la liste de quatre terrains de l'excerpt est à éviter). La vanne figure en revanche dans le parcours Machine à Café (`parcours-seed.json` l.297) : sans conséquence pour la lettre.
+- **Faits repris** : idées « classées par terrain » et garde-fou « aucune ne fait peur ni ne vexe » (extrait A5, 2 des 3 garde-fous : la triple énumération et la liste de terrains sont retirées ; la fiche A5 signale d'ailleurs que le terrain « couple » est fusionné avec « potes », donc la liste de quatre terrains de l'excerpt est à éviter). La vanne figure en revanche dans l'étape 1 du parcours **Répartie** (`parcours-seed.json` l.297, correction s21 : la première version de cette ligne disait « Machine à Café », à tort) : sans conséquence pour le n°5, mais **le n°6 (version actuelle) renvoie justement vers l'étape 1 de Répartie** : redite d'un mois sur l'autre à trancher (voir §8).
 - **Tour 2** : objet = l'objet et le délai, plus la chute ; exemple « frère qui répond dans l'heure » = même mécanisme (le comportement correct devenu suspect) dans une autre situation que l'objet rendu ; l'ancien exemple (collègue à l'heure) restait proche. Exercice en 3 étapes. **Exemple à relire à l'aveugle.**
 - **Objection traitée** : « je ne veux pas blesser avec un canular » ; « et si c'est moi qu'on piège » (Répartie).
 
@@ -336,9 +336,9 @@ Face à un prix trop haut, la réaction normale serait de renoncer ou de râler.
 
 Exemple : « Le déménageur m'a donné son prix. Je commence la musculation. »
 
-**Pour celles qui se sortent sur le moment**
-Une vanne comme celle-ci se prépare tranquillement chez soi. Pour les répliques qu'il faut trouver en direct, l'étape 1 du parcours Répartie se lit sans compte.
-Lire l'étape 1 de Répartie : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n6-etape1#etape-1
+**Quand il faut répondre sur le moment**
+Une vanne comme celle-ci se prépare tranquillement chez soi. Pour les répliques qu'il faut trouver en direct, le parcours Répartie commence par une étape qu'on lit sans compte.
+Lire l'étape 1 : tes premières répliques : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n6-etape1#etape-1
 
 Si l'étape te plaît, la suite de ce parcours et celle des quatre autres sont dans Premium, sans engagement.
 Voir les parcours : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n6-premium
@@ -374,13 +374,15 @@ L'Équipe Deviens Marrant
 | Une seule invitation Premium par numéro, en bas | 6 sur 6 |
 | Signature « L'Équipe Deviens Marrant » | 6 sur 6 |
 | Objet sans la chute de la vanne (tour 2) | 6 sur 6 |
-| Exemple de « À toi de jouer » dans une autre situation que la vanne (tour 2) | 6 sur 6 (n°2 à 6 : exemples neufs, **jamais relus à l'aveugle**) |
+| Exemple de « À toi de jouer » dans une autre situation que la vanne (tour 2) | 6 sur 6 (n°2 à 6 : exemples neufs, **jamais relus à l'aveugle**, duel préparé dans `pack-relecture-n2-a-6.md`) |
 | Morale de clôture (« on rit de la situation… ») et triple énumération dans les textes écrits pour la lettre | 0 |
 | Faits du pont n°1 contre la fiche S7 (3 zones, moments, zone rouge « argent ») | vérifiés, un écart corrigé (voir n°1) |
 
 **Références de marché** : `[SANS BENCHMARK : WebSearch non concluant]` (une recherche le 17/10/2026, aucun exemple français de lettre mensuelle qui décortique une vanne ; seules des lettres d'humour en anglais et des formats « analyse d'un exemple » sont ressorties, sans enseignement exploitable). Le niveau visé est donc celui des étalons internes de la charte s11, pas celui d'un concurrent.
 
-**À faire avant l'envoi du n°1** (liste courte) : duel à l'aveugle du n°1 retouché contre la version en cours (pack `pack-relecture-n1-tour2.md`, la version retouchée ne part que si elle en sort « = »), puis relecture à l'aveugle des **exemples neufs** des n°2 à 6 (une seule passe de 5 exemples suffit) et des cinq autres numéros ; confirmer en base que chaque article lié est `isPublished` à la date d'envoi ; fixer les jours d'envoi (Thomas) ; compléter `{{mention_editeur}}` après l'avis @legal ; ajouter `lettre` à l'attribution (`lib/attribution.ts`) ; vérifier les 6 URL en production le jour de l'envoi.
+**Duel des n°2 à 6** (`pack-relecture-n2-a-6.md`, s21) : chaque version actuelle est opposée à une 2e version complète (même vanne, objet, pont, exercice et lien différents ; n°6 : exemple du catalogue). Liens alternatifs utilisés dans les 2es versions : n°2 `jamais-quoi-repondre-techniques` (publié le 24/03/2026, générique, pas Noël) ; n°3 étape 1 de Confiance ; n°4 `blagues-de-couple-drole` (05/11/2026, ne parle pas de la Saint-Valentin) ; n°5 `chambrer-sans-blesser-entre-potes` (09/11/2026, ne parle pas du 1er avril) ; n°6 étape 1 de Machine à Café. **Redites à connaître si une 2e version gagne ou si la version actuelle du n°6 part** : l'étape 1 de Répartie (lien du n°6 actuel) contient la vanne du n°5 (chargeur) ; l'étape 1 de Machine à Café (lien du n°6, 2e version) contient la vanne du n°1 (salaires) ; `jamais-quoi-repondre-techniques` est antérieur à la lettre et son contenu cite des humoristes (autorisé, règle P0 s15). Un numéro dont les deux versions sortent « < » repart en réécriture, il ne part pas.
+
+**À faire avant l'envoi du n°1** (liste courte) : ~~duel du n°1~~ fait (VALIDÉ, voir en tête), puis relecture à l'aveugle des numéros 2 à 6 (pack ci-dessus) ; confirmer en base que chaque article lié est `isPublished` à la date d'envoi ; fixer les jours d'envoi (Thomas) ; compléter `{{mention_editeur}}` après l'avis @legal ; ajouter `lettre` à l'attribution (`lib/attribution.ts`) ; vérifier les 6 URL en production le jour de l'envoi.
 
 **Points à trancher par Thomas**
 1. N3 (chien) est la vanne la plus fragile (2 sur 3) : la garder, ou passer à R1 ?
