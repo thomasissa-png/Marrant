@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { LettreStatut } from "@/components/lettre/lettre-statut";
 import { LETTRE_EMPLACEMENTS, LETTRE_OUVERTE } from "@/config/lettre";
-import { LETTRE_CONTACT, TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { AvecContact } from "@/components/lettre/avec-contact";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
 
 /**
@@ -45,6 +46,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
       {statut === "confirmee" && (
         <LettreStatut titre={S.confirmee.titre} confirmeeMesuree={searchParams.mesure === "1" ? { emplacement } : undefined}>
           <p className="mt-1 text-sm text-text-secondary">{S.confirmee.texte}</p>
+          {/* Ligne gardée mais masquée tant que le jour d'envoi n'est pas fixé (envoiPrevu null) : décision de Thomas attendue. */}
           {apercu.prochain && (
             <p className="mt-1 text-sm text-text-secondary">
               {S.confirmee.prochain.replace("{date}", dateParis.format(apercu.prochain))}
@@ -64,14 +66,14 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
           )}
         </LettreStatut>
       )}
-      {statut === "invalide" && <LettreStatut titre={S.invalide.titre} />}
-      {statut === "erreur" && (
-        <LettreStatut titre={S.erreur.titre}>
-          <a href={`mailto:${LETTRE_CONTACT}`} className="mt-2 inline-flex min-h-11 items-center text-sm text-accent-link underline">
-            {LETTRE_CONTACT}
-          </a>
+      {statut === "invalide" && (
+        <LettreStatut titre={S.invalide.titre}>
+          <p className="mt-1 text-sm text-text-secondary">
+            <AvecContact texte={S.invalide.texte} />
+          </p>
         </LettreStatut>
       )}
+      {statut === "erreur" && <LettreStatut titre={<AvecContact texte={S.erreur.titre} />} />}
       {statut === "verifie" && (
         <LettreStatut titre={TEXTES_LETTRE.succes.titre}>
           <p className="mt-1 text-sm text-text-secondary">{TEXTES_LETTRE.succes.texte}</p>

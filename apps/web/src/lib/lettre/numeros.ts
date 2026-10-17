@@ -76,6 +76,20 @@ export function numeroEnvoyable(n: NumeroLettre, now: Date, baseUrl = "https://d
   return !email.includes(MARQUEUR_A_COMPLETER);
 }
 
+/**
+ * Le jour d'envoi du numéro de `periode` est-il fixé dans la source
+ * (`envoiPrevu` non null) ? Sinon la ligne « Le prochain numéro arrive le… »
+ * de la page de confirmation reste masquée, même si la base garde une date
+ * d'un ancien chargement.
+ */
+export function envoiPrevuFixe(periode: string, source: unknown = numerosJson): boolean {
+  const entrees = Array.isArray(source) ? source : [];
+  return entrees.some((brut) => {
+    const n = numeroSchema.safeParse(brut);
+    return n.success && n.data.periode === periode && n.data.envoiPrevu !== null;
+  });
+}
+
 export interface SyncNumerosResultat {
   crees: number;
   misAJour: number;

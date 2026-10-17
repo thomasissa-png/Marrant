@@ -11,7 +11,8 @@
  * personnelle, jamais de valeur libre.
  */
 
-export const ORIGINES = ["x", "instagram", "linkedin"] as const;
+/** `lettre` : liens des numéros de la lettre mensuelle (`utm_source=lettre`, s21). */
+export const ORIGINES = ["x", "instagram", "linkedin", "lettre"] as const;
 export type Origine = (typeof ORIGINES)[number];
 
 /** `utm_content` du tableau v5 §2 (X, LinkedIn, blocs de `/liens`). */

@@ -4,7 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import { trackUmamiWhenReady } from "@/lib/umami";
 
 interface LettreStatutProps {
-  titre: string;
+  titre: ReactNode;
   children?: ReactNode;
   /**
    * Confirmation mesurée : `lettre-confirmee` avec l'emplacement relu en base. La route

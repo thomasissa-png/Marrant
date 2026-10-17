@@ -34,6 +34,7 @@ import { sendServiceTextEmail } from "@/lib/email";
 import { sharedRateLimit } from "@/lib/rate-limit";
 import { LETTRE_CONSENT_TEXT } from "@/lib/lettre/inscription";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { LETTRE_DEJA_INSCRIT_HEURES } from "@/config/lettre";
 
 const db = prisma.newsletterSubscriber as unknown as Record<"findUnique" | "create" | "update", jest.Mock>;
 const envoi = sendServiceTextEmail as jest.Mock;
@@ -109,7 +110,7 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     expect(data.status).toBe("PENDING");
     expect(data.source).toBe("article:meilleures-blagues-droles-2026");
     expect(data.consentText).toBe(LETTRE_CONSENT_TEXT);
-    expect(data.consentText).toBe(`lettre-mensuelle-v1 : ${TEXTES_LETTRE.formulaire.case}`);
+    expect(data.consentText).toBe(`lettre-mensuelle-v2 : ${TEXTES_LETTRE.formulaire.case}`);
     expect(data.consentText).toContain("Premium");
     expect(data.ipAddress).toMatch(/^[0-9a-f]{32}$/);
     expect(data.ipAddress).not.toContain("203.0.113.9");
@@ -154,7 +155,7 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     expect(res.status).toBe(200);
     expect(await res.json()).toEqual({ ok: true });
     const [, sujet, texte, , options] = envoi.mock.calls[0];
-    expect(sujet).toBe("Tu es déjà dans la liste");
+    expect(sujet).toBe("Tu reçois déjà la lettre");
     expect(texte).toContain(`/lettre/desinscrire?token=${"u".repeat(43)}`);
     expect(options.headers["List-Unsubscribe"]).toBe(`<https://deviens-marrant.fr/api/newsletter/unsubscribe/${"u".repeat(43)}>`);
     expect(options.headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
@@ -166,6 +167,19 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     const res = await POST(requete(valide));
     expect(await res.json()).toEqual({ ok: true });
     expect(envoi).not.toHaveBeenCalled();
+  });
+
+  it("« déjà dans la liste » : un seul par 24 h (anti-harcèlement), le suivant possible après la fenêtre", async () => {
+    const h = 3600_000;
+    db.findUnique.mockResolvedValue(abonne({ status: "CONFIRMED", confirmationSentAt: new Date(Date.now() - (LETTRE_DEJA_INSCRIT_HEURES * h - 60_000)) }));
+    for (let i = 0; i < 3; i++) await POST(requete(valide));
+    expect(envoi).not.toHaveBeenCalled();
+    expect(db.update).not.toHaveBeenCalled();
+
+    db.findUnique.mockResolvedValue(abonne({ status: "CONFIRMED", confirmationSentAt: new Date(Date.now() - (LETTRE_DEJA_INSCRIT_HEURES * h + 60_000)) }));
+    await POST(requete(valide));
+    expect(envoi).toHaveBeenCalledTimes(1);
+    expect(db.update.mock.calls[0][0].data.confirmationSentAt).toBeInstanceOf(Date);
   });
 
   it("PENDING relancé sous 60 s : même réponse, aucun e-mail", async () => {
@@ -195,6 +209,8 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     expect(data.status).toBe("PENDING");
     expect(data.confirmationToken).not.toBe("c".repeat(43));
     expect(data.consentText).toBe(LETTRE_CONSENT_TEXT);
+    expect(data.consentAt).toBeInstanceOf(Date);
+    expect(data.confirmedAt).toBeNull();
     expect(envoi.mock.calls[0][2]).toContain(data.confirmationToken);
   });
 

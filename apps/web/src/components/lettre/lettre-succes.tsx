@@ -16,7 +16,7 @@ interface LettreSuccesProps {
 const S = TEXTES_LETTRE.succes;
 
 /**
- * État « Vérifie ta boîte » (spec §2.4) : même écran pour une nouvelle adresse et
+ * État « Regarde ta boîte mail » (spec §2.4) : même écran pour une nouvelle adresse et
  * une adresse déjà inscrite (anti-fuite). Jamais « Tu es inscrit » avant le clic de
  * confirmation. Focus sur le titre ; compte à rebours annoncé toutes les 15 s.
  */

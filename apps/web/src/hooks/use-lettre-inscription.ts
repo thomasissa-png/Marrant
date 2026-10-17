@@ -92,7 +92,7 @@ export function useLettreInscription(emplacement: LettreEmplacement, slug: strin
       }
       enCours.current = true;
       setErreur(null);
-      // Renvoi : on reste sur « Vérifie ta boîte » (pas de retour au formulaire).
+      // Renvoi : on reste sur « Regarde ta boîte mail » (pas de retour au formulaire).
       if (!renvoi) {
         setEtat("envoi");
         trackUmami("lettre-envoi", mesure);

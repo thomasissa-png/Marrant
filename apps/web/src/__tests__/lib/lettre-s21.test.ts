@@ -51,11 +51,9 @@ describe("Textes de la lettre", () => {
     expect(TEXTES_LETTRE.page.desinscrire.texte).not.toMatch(/newsletter/i);
   });
 
-  it("libellés de la spec UX (V1) et case @legal L1", () => {
-    expect(TEXTES_LETTRE.titre).toBe("Une vanne décryptée par mois");
-    expect(TEXTES_LETTRE.formulaire.bouton).toBe("Recevoir la lettre");
-    expect(TEXTES_LETTRE.formulaire.reassurance).toBe("Gratuit, sans compte. Pas plus d'un e-mail par mois.");
-    expect(TEXTES_LETTRE.formulaire.case).toContain("parfois avec une mention de Premium");
+  it("case @legal L1 : Premium et désinscription en un clic (texte exact : lettre-textes-valides-s21.test.ts)", () => {
+    expect(TEXTES_LETTRE.formulaire.case).toContain("parfois une mention de Premium");
+    expect(TEXTES_LETTRE.formulaire.case).toContain("me désinscrire en un clic");
   });
 
   it("chaque e-mail porte l'identité de l'éditeur et le contact (@legal L3)", () => {

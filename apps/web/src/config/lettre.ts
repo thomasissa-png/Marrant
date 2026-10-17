@@ -35,19 +35,24 @@ export type LettreEmplacement = (typeof LETTRE_EMPLACEMENTS)[number];
 
 /**
  * Version du consentement. Toute modification du texte de la case
- * (`TEXTES_LETTRE.formulaire.case`) = nouvelle version (spec §2.3). Le texte
- * « v2 » de @legal (L1, mention de Premium) est stocké sous `lettre-mensuelle-v1` :
- * c'est le premier texte jamais présenté au public.
+ * (`TEXTES_LETTRE.formulaire.case`) = nouvelle version (spec §2.3), l'ancien
+ * texte reste dans `CONSENTEMENTS_LETTRE_ARCHIVES` (preuve des consentements
+ * déjà donnés).
+ *  - `lettre-mensuelle-v1` : texte « v2 » de @legal L1 (jamais présenté au
+ *    public : interrupteur resté fermé).
+ *  - `lettre-mensuelle-v2` : texte validé à l'aveugle le 17/10 (s21, duel 3 B),
+ *    réserve @legal R1.
  * Le serveur stocke `<version> : <texte exact>`, jamais le texte du navigateur.
  */
-export const LETTRE_CONSENT_VERSION = "lettre-mensuelle-v1";
+export const LETTRE_CONSENT_VERSION = "lettre-mensuelle-v2";
 
-/** Drapeau d'appareil après un envoi réussi (spec §2.4, état « déjà inscrit »). */
-export const LETTRE_STORAGE_KEY = "dm-lettre";
-export const LETTRE_DRAPEAU_JOURS = 14;
-
-/** Délai minimal entre deux e-mails de confirmation à la même adresse (bouton « Renvoyer »). */
-export const LETTRE_RENVOI_SECONDES = 60;
+/**
+ * Lien « Confidentialité » sous le bouton : section lettre de la page
+ * Confidentialité (réserve @legal R2). La section et son `id` sont publiés le
+ * jour de l'ouverture ; d'ici là le lien mène en haut de la page.
+ */
+export const LETTRE_CONFIDENTIALITE_ANCRE = "lettre";
+export const LETTRE_CONFIDENTIALITE_HREF = `/confidentialite#${LETTRE_CONFIDENTIALITE_ANCRE}`;
 
 /*
  * Durées et plafonds (décisions @legal s21, `docs/legal/lettre-et-questions-s21.md` L4).
@@ -55,9 +60,21 @@ export const LETTRE_RENVOI_SECONDES = 60;
  */
 /** Lien de confirmation valable 7 jours ; au-delà, l'inscrit non confirmé est effacé. */
 export const LETTRE_PENDING_JOURS = 7;
+
+/**
+ * Drapeau d'appareil après un envoi réussi (spec §2.4, état « déjà inscrit ») :
+ * « vérifie ta boîte » n'a plus de sens après l'expiration du lien et
+ * l'effacement de l'adresse non confirmée, d'où la même durée.
+ */
+export const LETTRE_STORAGE_KEY = "dm-lettre";
+export const LETTRE_DRAPEAU_JOURS = LETTRE_PENDING_JOURS;
+
+/** Délai minimal entre deux e-mails de confirmation à la même adresse (bouton « Renvoyer »). */
+export const LETTRE_RENVOI_SECONDES = 60;
+
 /** E-mails de confirmation au plus par adresse et par inscription. */
 export const LETTRE_CONFIRMATIONS_MAX = 2;
-/** Un e-mail « déjà dans la liste » au plus par adresse sur cette durée. */
+/** Un e-mail « déjà dans la liste » au plus par adresse sur cette durée (anti-harcèlement, @legal duel 11). */
 export const LETTRE_DEJA_INSCRIT_HEURES = 24;
 /** Reconfirmation demandée par e-mail 24 mois après la dernière confirmation. */
 export const LETTRE_RECONFIRMATION_MOIS = 24;

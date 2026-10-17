@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
-import { LETTRE_OUVERTE, type LettreEmplacement } from "@/config/lettre";
+import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_OUVERTE, type LettreEmplacement } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
@@ -208,7 +208,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, classNam
           <p className="mt-2 text-xs text-text-muted">{T.reassurance}</p>
           <p className="mt-1 text-xs text-text-muted">
             {T.mention}{" "}
-            <Link href="/confidentialite" className="inline-flex min-h-11 items-center underline sm:min-h-0">
+            <Link href={LETTRE_CONFIDENTIALITE_HREF} className="inline-flex min-h-11 items-center underline sm:min-h-0">
               {T.lienConfidentialite}
             </Link>
           </p>

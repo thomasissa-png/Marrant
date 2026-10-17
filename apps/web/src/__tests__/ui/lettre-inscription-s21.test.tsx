@@ -2,7 +2,7 @@
  * Lettre mensuelle s21 : interrupteur, emplacements, états du composant et mesure Umami.
  *  - Fermé (défaut) : RIEN de rendu (article, quiz, pied de page, /lettre en 404).
  *  - Ouvert : 3 emplacements, bloc d'article sans `data-blog-cta*`, Premium sans composant,
- *    erreurs de saisie, succès « Vérifie ta boîte », `lettre-vu` / `lettre-envoi` /
+ *    erreurs de saisie, succès « Regarde ta boîte mail », `lettre-vu` / `lettre-envoi` /
  *    `lettre-echec` / `lettre-confirmee`.
  */
 import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
@@ -187,7 +187,7 @@ describe("Interrupteur ouvert", () => {
     expect(champ.getAttribute("aria-describedby")).toBe("lettre-page-erreur-email");
   });
 
-  it("succès : lettre-envoi, « Vérifie ta boîte » (jamais « inscrit »), drapeau d'appareil", async () => {
+  it("succès : lettre-envoi, « Regarde ta boîte mail » (jamais « inscrit »), drapeau d'appareil", async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200, json: async () => ({ ok: true }) });
     render(<LettreInscription emplacement="article" slug={SLUG} />);
     fireEvent.change(screen.getByLabelText(TEXTES_LETTRE.formulaire.label), { target: { value: "yanis@exemple.fr" } });
@@ -231,5 +231,68 @@ describe("Interrupteur ouvert", () => {
   it("/lettre?statut=confirmee sans mesure (compte de test) : rien n'est compté", async () => {
     render(await LettrePage({ searchParams: { statut: "confirmee" } }));
     expect(track).not.toHaveBeenCalledWith("lettre-confirmee", expect.anything());
+  });
+});
+
+describe("Corrections s21 (textes validés, drapeau, réserves @legal)", () => {
+  const JOUR = 24 * 3600 * 1000;
+
+  beforeEach(() => {
+    mockOuvert = true;
+  });
+
+  it("drapeau posé il y a 6 jours : « vérifie ta boîte » encore affiché", () => {
+    window.localStorage.setItem("dm-lettre", new Date(Date.now() - 6 * JOUR).toISOString());
+    render(<LettreInscription emplacement="article" slug={SLUG} />);
+    expect(screen.getByText(TEXTES_LETTRE.drapeau.texte, { exact: false })).toBeInTheDocument();
+  });
+
+  it("drapeau posé il y a 8 jours (lien expiré, adresse effacée) : formulaire, plus de « vérifie ta boîte »", () => {
+    window.localStorage.setItem("dm-lettre", new Date(Date.now() - 8 * JOUR).toISOString());
+    render(<LettreInscription emplacement="article" slug={SLUG} />);
+    expect(screen.queryByText(TEXTES_LETTRE.drapeau.texte, { exact: false })).toBeNull();
+    expect(screen.getByLabelText(TEXTES_LETTRE.formulaire.label)).toBeInTheDocument();
+  });
+
+  it("R2 : case et mention dans le même formulaire, sans repli ; lien vers la section lettre de Confidentialité", () => {
+    const { container } = render(<LettreInscription emplacement="page" />);
+    const form = container.querySelector("form")!;
+    expect(form).toHaveTextContent(TEXTES_LETTRE.formulaire.case);
+    expect(form).toHaveTextContent(TEXTES_LETTRE.formulaire.mention);
+    expect(form.querySelector("details, [hidden], [aria-expanded]")).toBeNull();
+    expect(screen.getByRole("link", { name: TEXTES_LETTRE.formulaire.lienConfidentialite })).toHaveAttribute("href", "/confidentialite#lettre");
+  });
+
+  it("R3 : « Te réinscrire » ramène au formulaire (double opt-in), jamais un lien qui réinscrit", async () => {
+    render(await LettrePage({ searchParams: { statut: "desinscrit" } }));
+    const lien = screen.getByRole("link", { name: TEXTES_LETTRE.statuts.desinscrit.lien });
+    expect(lien).toHaveAttribute("href", "/lettre");
+  });
+
+  it("bloc 9 : lien invalide, texte validé et contact cliquable", async () => {
+    render(await LettrePage({ searchParams: { statut: "invalide" } }));
+    const statut = screen.getByRole("status");
+    expect(statut).toHaveTextContent(`${TEXTES_LETTRE.statuts.invalide.titre}${TEXTES_LETTRE.statuts.invalide.texte}`);
+    expect(screen.getByRole("link", { name: "contact@deviens-marrant.fr" })).toHaveAttribute("href", "mailto:contact@deviens-marrant.fr");
+  });
+
+  it("bloc 9 : erreur technique, texte validé une seule fois et contact cliquable", async () => {
+    render(await LettrePage({ searchParams: { statut: "erreur" } }));
+    expect(screen.getByRole("status")).toHaveTextContent(TEXTES_LETTRE.statuts.erreur.titre);
+    expect(screen.getAllByRole("link", { name: "contact@deviens-marrant.fr" })).toHaveLength(1);
+  });
+
+  it("confirmation : « Le prochain numéro arrive le… » masqué tant que envoiPrevu est null, même avec une date en base", async () => {
+    const { prisma } = jest.requireMock("@/lib/prisma") as { prisma: { newsletterIssue: { findFirst: jest.Mock } } };
+    prisma.newsletterIssue.findFirst.mockImplementation(async (args: { where: { status: string } }) =>
+      args.where.status === "VALIDE" ? { scheduledFor: new Date(Date.now() + 10 * JOUR), periodKey: "2026-11" } : null,
+    );
+    try {
+      render(await LettrePage({ searchParams: { statut: "confirmee" } }));
+      expect(screen.getByText(TEXTES_LETTRE.statuts.confirmee.titre)).toBeInTheDocument();
+      expect(screen.queryByText(/Le prochain numéro arrive le/)).toBeNull();
+    } finally {
+      prisma.newsletterIssue.findFirst.mockResolvedValue(null);
+    }
   });
 });
