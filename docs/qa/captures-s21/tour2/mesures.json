@@ -1,0 +1,40 @@
+{
+  "accueil-375": {
+    "auDessusDuTitre": 41,
+    "sousLeLien": 40
+  },
+  "abonnement-mensuel-375": {
+    "x": 34,
+    "y": 597.828125,
+    "width": 307,
+    "height": 48
+  },
+  "abonnement-annuel-375": {
+    "x": 34,
+    "y": 597.828125,
+    "width": 307,
+    "height": 48
+  },
+  "abonnement-mensuel-375x700": {
+    "x": 34,
+    "y": 597.828125,
+    "width": 307,
+    "height": 48
+  },
+  "accueil-1280": {
+    "auDessusDuTitre": 49,
+    "sousLeLien": 48
+  },
+  "abonnement-mensuel-1280": {
+    "x": 338,
+    "y": 626.59375,
+    "width": 604,
+    "height": 48
+  },
+  "abonnement-annuel-1280": {
+    "x": 338,
+    "y": 626.59375,
+    "width": 604,
+    "height": 48
+  }
+}
