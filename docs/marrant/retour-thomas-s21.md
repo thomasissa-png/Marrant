@@ -14,7 +14,7 @@ Rien de ce qui suit n'est en ligne, sauf mention contraire. Chaque point a une r
 3. **Lot 2 (boutons et page d'abonnement)**, prêt sur la branche `claude/marrant-s21-lot2-boutons`, à mettre en ligne seul après le bilan du lot 1 (~10/11). Points ouverts : `docs/copy/lot2-boutons-abonnement-s21.md` §7 (titre de la page d'abonnement, barre d'achat qui reste visible, « Tout débloquer »...).
 4. **Lettre mensuelle gratuite**, prête sur la branche `claude/marrant-s21-lettre`, interrupteur fermé, 6 numéros validés à l'aveugle :
    - jour d'envoi des numéros ? Reco : le jeudi à 8 h, comme la future lettre hebdomadaire des abonnés ;
-   - la société « deviens-marrant SAS » est-elle immatriculée ? Si non, quelle identité d'éditeur afficher ?
+   - (tranché le 17/10) société citée seulement là où c'est obligatoire, « deviens-marrant SAS » pour l'instant ;
    - afficher la date du prochain numéro sur la page de confirmation ? Reco : non tant que le jour n'est pas fixé ;
    - textes accordés au masculin (« inscrit ») ou neutres ? Reco : neutres là où c'est possible sans lourdeur.
 5. **« Ta question à l'équipe »** (`docs/product/ta-question-a-l-equipe-s21.md`, points T1 à T8) : délai de réponse 7 jours, 1 question par semaine, lettre hebdomadaire le jeudi, test à la main avec les 2 abonnés avant tout code. Reco : valider les 8 recommandations telles quelles.
