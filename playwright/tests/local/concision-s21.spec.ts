@@ -102,8 +102,11 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     const ligne = fin.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
     await expect(ligne).toHaveAttribute("aria-expanded", "false");
     await expect(fin.locator('input[type="email"]')).toHaveCount(0);
-    const avant = await plein.boundingBox();
-    const ligneAvant = await ligne.boundingBox();
+    // Positions dans la page (et non dans l'écran) : le champ prend le focus au dépliage, le
+    // navigateur peut faire défiler pour le montrer (ligne en bas d'écran à 375 x 812).
+    const yPage = async (l: typeof plein) => ((await l.boundingBox())?.y ?? NaN) + (await page.evaluate(() => window.scrollY));
+    const avant = await yPage(plein);
+    const ligneAvant = await yPage(ligne);
     // QA v4 m-7 : le formulaire n'est pas dans le JS de la page, il arrive au dépliage.
     const morceau = page.waitForResponse((r) => r.url().includes("/_next/static/chunks/") && r.request().resourceType() === "script");
     await ligne.click();
@@ -111,8 +114,8 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     await expect(fin.locator('input[type="email"]')).toBeFocused();
     await expect(fin.getByRole("checkbox")).toBeVisible();
     // Le plein ne bouge pas quand la lettre se déplie (elle est dessous), la ligne non plus.
-    expect((await plein.boundingBox())?.y).toBe(avant?.y);
-    expect((await ligne.boundingBox())?.y).toBe(ligneAvant?.y);
+    expect(Math.abs((await yPage(plein)) - avant)).toBeLessThanOrEqual(0.5);
+    expect(Math.abs((await yPage(ligne)) - ligneAvant)).toBeLessThanOrEqual(0.5);
     await expect(ligne).toHaveAttribute("aria-expanded", "true");
   });
 });
