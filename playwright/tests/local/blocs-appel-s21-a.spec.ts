@@ -1,5 +1,8 @@
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import path from "node:path";
+import { ficheOfferte, parseCarnets } from "@/lib/carnet";
+import { DEMO_VANNE } from "@/config/textes/cta-articles-accueil";
+import { frTypo } from "@/lib/fr-typo";
 import { test, expect, localSeulement } from "../support/base-locale";
 
 /**
@@ -15,6 +18,17 @@ import { test, expect, localSeulement } from "../support/base-locale";
  */
 const ARTICLE = "/blog/meilleures-blagues-droles-2026";
 const LARGEURS = [375, 1280];
+
+/**
+ * Fiche offerte attendue pour le mois « AAAA-MM » : mêmes fonctions et même JSON que le site
+ * (`ficheOfferte` sur `src/data/carnet/AAAA-MM.json`). Le mois vient de la page (l'id de la
+ * fiche montrée), jamais de l'horloge du test : le carnet courant est choisi par le serveur.
+ */
+function ficheOfferteDuMois(mois: string) {
+  const fichier = path.join(__dirname, "..", "..", "..", "apps", "web", "src", "data", "carnet", `${mois}.json`);
+  const [carnet] = parseCarnets([JSON.parse(readFileSync(fichier, "utf8"))]);
+  return ficheOfferte(carnet);
+}
 
 async function capture(page: import("@playwright/test").Page, nom: string, testInfo: import("@playwright/test").TestInfo) {
   const dossier = process.env.E2E_CAPTURES_DIR;
@@ -42,8 +56,15 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       await expect(demo).toBeVisible();
       const bouton = demo.getByRole("link");
       await expect(bouton).toHaveCount(1);
-      await expect(bouton).toHaveAttribute("href", /^\/carnet\?src=blog-demo-milieu-1#fiche-2026-10-15$/);
-      await expect(demo).toContainText("Tu parles toujours aussi peu");
+      // La fiche montrée est la fiche offerte de son carnet (même fonction que le site), et
+      // /carnet (carnet du mois en cours, choisi par le serveur) l'affiche ouverte, à cette ancre.
+      const ficheId = (await demo.getAttribute("data-blog-cta-fiche")) ?? "";
+      expect(ficheId, "id de fiche AAAA-MM-JJ").toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      const attendue = ficheOfferteDuMois(ficheId.slice(0, 7));
+      expect(ficheId, "fiche offerte du carnet").toBe(attendue.id);
+      const hrefDemo = `/carnet?src=blog-demo-milieu-1#fiche-${ficheId}`;
+      await expect(bouton).toHaveAttribute("href", hrefDemo);
+      await expect(demo).toContainText(frTypo(DEMO_VANNE.situation(attendue.accroche ?? "", attendue.onTeDit)));
       const hDemo = (await demo.boundingBox())?.height ?? 0;
       if (largeur < 400) expect(hDemo, "DemoVanne : 400 px au plus à 375").toBeLessThanOrEqual(400);
       await capture(page, `article-demo-${largeur}`, testInfo);
@@ -71,6 +92,10 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       expect(yFin).toBeLessThan(yLettre);
       expect(yLettre).toBeLessThan(yLies);
       expect(yLies).toBeLessThan(yFaq);
+
+      // Cible du bouton de la démonstration : la fiche est celle du carnet en cours, ouverte.
+      await page.goto(hrefDemo);
+      await expect(page.locator(`#fiche-${ficheId}`)).toBeVisible();
     });
 
     test(`accueil à ${largeur} px : haut de page et carte Premium`, async ({ page }, testInfo) => {
