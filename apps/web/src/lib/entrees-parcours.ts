@@ -51,7 +51,11 @@ export type ParcoursEntreeSrc =
   | "quiz"
   | "fiche"
   | "abonnement"
-  | "profil";
+  | "profil"
+  // s21 (QA m5) : contour sous les murs de liste, distinct d'un clic de fiche.
+  | "mur-vannes"
+  | "mur-conseils"
+  | "mur-videos";
 
 export function isParcoursSlug(value: unknown): value is ParcoursSlug {
   return typeof value === "string" && (PARCOURS_SLUGS as readonly string[]).includes(value);

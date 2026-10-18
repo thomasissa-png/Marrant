@@ -71,6 +71,8 @@ describe("B7 : murs des listes", () => {
     const contour = screen.getByRole("link", { name: frTypo(MUR_LISTE[liste].contour(MUR_PARCOURS)) });
     expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toMatch(/^Étape 1 de Répartie, gratuite : /);
     expect(contour.getAttribute("href")).toMatch(new RegExp(`^/parcours/${MUR_PARCOURS}\\?`));
+    // s21 (QA m5) : source propre au mur, distincte d'un clic de fiche.
+    expect(contour.getAttribute("href")).toBe(`/parcours/${MUR_PARCOURS}?src=mur-${liste}#etape-1`);
     expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE[liste].titre) })).toBeInTheDocument();
     expect(container.textContent).toContain(frTypo(lignePrixGarantie(false)));
     // Ordre : plein, prix + garantie, puis contour.

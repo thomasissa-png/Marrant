@@ -75,7 +75,7 @@ export function MurListe({ liste, annuel }: MurListeProps) {
       </div>
       <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
       <Link
-        href={parcoursEtape1Href(MUR_PARCOURS, "fiche")}
+        href={parcoursEtape1Href(MUR_PARCOURS, `mur-${liste}`)}
         className={cn(
           buttonVariants({ variant: "outline-accent", size: "lg" }),
           "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:w-auto",

@@ -18,6 +18,10 @@ export const PARCOURS_SRC = [
   "fiche",
   "abonnement",
   "profil",
+  // s21 (QA m5) : contour sous les murs de liste (/vannes, /conseils, /videos).
+  "mur-vannes",
+  "mur-conseils",
+  "mur-videos",
   // Lien de l'e-mail de rappel (lot A, D7).
   "rappel",
   "direct",
