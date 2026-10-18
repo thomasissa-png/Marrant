@@ -12,7 +12,7 @@ import {
   VALIDATION_ETAPE,
 } from "@/config/textes/offre";
 import { etape1GratuiteBouton } from "@/config/textes/entrees-parcours";
-import { ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { PARCOURS_SLUGS } from "@/lib/entrees-parcours";
 
 const SRC = path.join(__dirname, "..", "..");
@@ -68,13 +68,14 @@ describe("E5, l'étape 1 gratuite nommée (duel 2, tour 1, 3/3)", () => {
     expect(etape1GratuiteBouton("boulot")).toBe("Lire la première étape gratuite de Boulot");
   });
 
-  it("tous les boutons des encarts d'articles et du bloc de fin", () => {
+  // Fusion s21 : l'ancien encart au fil du texte (encartMilieu, ENCARTS_ARTICLE_1) est
+  // supprimé, remplacé par DemoVanne (partie A) ; reste le bouton du bloc de fin.
+  it("tous les boutons du bloc de fin d'article", () => {
     for (const slug of PARCOURS_SLUGS) {
-      expect(TEXTES_PARCOURS_BLOG[slug].encartMilieu.bouton).toBe(etape1GratuiteBouton(slug));
+      expect(TEXTES_PARCOURS_BLOG[slug]).not.toHaveProperty("encartMilieu");
       expect(TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1).toBe(etape1GratuiteBouton(slug));
     }
-    expect(ENCARTS_ARTICLE_1.repartie.bouton).toBe("Lire la première étape gratuite de Répartie");
-    expect(ENCARTS_ARTICLE_1.boulot.bouton).toBe("Lire la première étape gratuite de Boulot");
+    expect(lire("config/textes/encarts-blog-s20.ts")).not.toContain("ENCARTS_ARTICLE_1");
     expect(lire("config/textes/encarts-blog-s20.ts")).not.toContain('"Étape 1 gratuite :');
   });
 });

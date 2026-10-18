@@ -37,7 +37,6 @@ export interface EncartPlacement {
   apresIndex: number;
   position: Exclude<BlogCtaPosition, "fin">;
   parcours: ParcoursSlug;
-  texte?: EncartImpose["texte"];
 }
 
 /** s21 : une seule position d'encart au fil du texte. */
@@ -52,7 +51,7 @@ function placementsImposes(sections: readonly BlogSection[], imposes: readonly E
     // Section introuvable ou dernière section : pas d'encart (le bloc de fin suit déjà).
     if (index <= 0 || index >= lastH2) continue;
     if (found.some((f) => f.apresIndex === index)) continue;
-    found.push({ apresIndex: index, parcours: encart.parcours, texte: encart.texte });
+    found.push({ apresIndex: index, parcours: encart.parcours });
   }
   return found.sort((a, b) => a.apresIndex - b.apresIndex).slice(0, POSITIONS.length);
 }

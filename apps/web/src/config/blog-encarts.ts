@@ -10,7 +10,6 @@
  *   (spec cta-forme-place §3.1).
  */
 import { FORTE_FRAPPE_PARCOURS } from "@/config/blog-forte-frappe";
-import type { CleEncartArticle1 } from "@/config/textes/encarts-blog-s20";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 
 export const PARCOURS_PAR_ARTICLE: Readonly<Partial<Record<string, ParcoursSlug>>> = {
@@ -44,8 +43,6 @@ export interface EncartImpose {
   /** Intitulé exact du H2 après la section duquel l'encart est placé. */
   apresSection: string;
   parcours: ParcoursSlug;
-  /** Clé des textes (ENCARTS_ARTICLE_1) ; absente = textes génériques du parcours. */
-  texte?: CleEncartArticle1;
 }
 
 export const ENCARTS_IMPOSES: Readonly<Partial<Record<string, readonly EncartImpose[]>>> = {
@@ -53,7 +50,6 @@ export const ENCARTS_IMPOSES: Readonly<Partial<Record<string, readonly EncartImp
     {
       apresSection: "Quelles blagues sortir en soirée ? (celles qui marchent à partir de 22h)",
       parcours: "repartie",
-      texte: "repartie",
     },
     // s21 (spec cta-forme-place §2.5, D1c de l'audit) : plus d'encart d'offre en milieu-2
     // (16 % de vues, 0 clic). Un seul encart démonstration par article.

@@ -27,7 +27,7 @@ import { renderMarkdownSections } from "@/components/ui/markdown-renderer";
 import { computeEncartPlacements, visibleTextLength, type BlogSection } from "@/lib/blog-encarts";
 import { resolveArticleParcours } from "@/lib/blog-parcours";
 import { PARCOURS_SLUGS, parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
-import { ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
 import { normalise } from "../helpers/texte-normalise";
@@ -149,13 +149,13 @@ describe("bloc de fin unique (s21, B2)", () => {
 describe("les 5 parcours", () => {
   const CINQ: ParcoursSlug[] = ["repartie", "machine-a-cafe", "confiance", "storytelling", "boulot"];
 
-  it("publiés, avec une route d'étape 1 (seed) et des textes d'encart", () => {
+  it("publiés, avec une route d'étape 1 (seed) et des textes de bloc de fin", () => {
     expect([...PARCOURS_SLUGS].sort()).toEqual([...CINQ].sort());
     const seedSlugs = PARCOURS_SEED_JSON.map((p) => p.slug);
     for (const slug of CINQ) {
       expect(seedSlugs).toContain(slug);
       expect(parcoursEtape1Href(slug, "blog-milieu")).toBe(`/parcours/${slug}?src=blog-milieu#etape-1`);
-      expect(TEXTES_PARCOURS_BLOG[slug].encartMilieu.bouton).toBeTruthy();
+      expect(TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1).toBeTruthy();
     }
   });
 
@@ -180,7 +180,7 @@ describe("les 5 parcours", () => {
 
 describe("textes provisoires (config/textes/encarts-blog-s20)", () => {
   it("zéro tiret cadratin, aucune mention d'IA", () => {
-    const tout = JSON.stringify({ ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG });
+    const tout = JSON.stringify({ TEXTES_PARCOURS_BLOG });
     expect(tout).not.toContain("—");
     expect(tout.toLowerCase()).not.toMatch(/\bia\b|intelligence artificielle|gpt/);
   });
