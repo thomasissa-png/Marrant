@@ -86,3 +86,5 @@ Méthode (data-analyst) : à 680 visiteurs par mois, un test A/B n'est pas faisa
 - Pas de capture de la page Stripe, du menu mobile ouvert, d'une étape 1 de parcours ni du choix annuel : ces points ne sont pas notés.
 - Contrastes estimés à l'œil, non mesurés.
 - Volumes trop faibles pour chiffrer un gain attendu ; les seuils ci-dessus sont des cibles à valider, pas des prévisions.
+
+**Trace de mesure (P6 de la mise en ligne s21)** : blocs d'appel s21 et concision du tunnel en ligne le **18/10/2026 à 20:11 UTC (22:11 Paris)**, version `586c4adc-12cd-41e5-ab09-d3064819baaf` (N-1 `5ea46dd8`). Rupture de la mesure du lot 1 à cette date : série `accueil-hero` close, nouvelles sources `src` (voir `REPLIT_ACTIONS.md`, entrée « Blocs d'appel s21 », section Mesure).
