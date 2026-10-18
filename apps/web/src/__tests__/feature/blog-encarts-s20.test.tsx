@@ -16,6 +16,8 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
   usePathname: () => "/blog",
 }));
+// s21 : l'encart du milieu montre la fiche offerte du carnet du mois (DemoVanne).
+jest.mock("@/lib/carnet", () => jest.requireActual("../helpers/carnet-octobre").mockCarnetOctobre());
 jest.mock("@/lib/prisma", () => ({
   prisma: { blogArticle: { findMany: jest.fn().mockResolvedValue([]), findUnique: jest.fn().mockResolvedValue(null) } },
 }));
@@ -81,23 +83,21 @@ async function renderArticle(slug: string) {
   return render(await BlogArticlePage({ params: { slug } }));
 }
 
-describe("article n°1 : 2 encarts imposés", () => {
-  it("Répartie après la section soirée, Boulot après la section bureau", async () => {
+describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
+  it("après la section soirée, plus de milieu-2 ; bouton plein vers la fiche offerte du carnet", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const encarts = [...container.querySelectorAll<HTMLElement>("[data-blog-body] [data-blog-cta-position]")];
-    expect(encarts.map((e) => [e.dataset.blogCtaPosition, e.dataset.blogCtaParcours])).toEqual([
-      ["milieu-1", "repartie"],
-      ["milieu-2", "boulot"],
+    expect(encarts.map((e) => [e.dataset.blogCtaPosition, e.dataset.blogCtaParcours, e.dataset.blogCtaFiche])).toEqual([
+      ["milieu-1", "repartie", "2026-10-15"],
     ]);
     const soiree = h2(container, "Quelles blagues sortir en soirée");
     const bureau = h2(container, "Quelles blagues au bureau");
-    const date = h2(container, "Comment faire rire en date");
     expect(follows(soiree, encarts[0]) && follows(encarts[0], bureau)).toBe(true);
-    expect(follows(bureau, encarts[1]) && follows(encarts[1], date)).toBe(true);
-    expect(encarts[0].querySelector("a")).toHaveAttribute("href", "/parcours/repartie?src=blog-milieu#etape-1");
-    expect(encarts[1].querySelector("a")).toHaveAttribute("href", "/parcours/boulot?src=blog-milieu#etape-1");
-    expect(encarts[0]).toHaveTextContent(ENCARTS_ARTICLE_1.repartie.bouton);
-    expect(encarts[1]).toHaveTextContent(ENCARTS_ARTICLE_1.boulot.bouton);
+    const liens = encarts[0].querySelectorAll("a");
+    expect(liens).toHaveLength(1);
+    expect(liens[0]).toHaveAttribute("href", "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15");
+    expect(liens[0]).toHaveAttribute("data-blog-cta", "demo-fiche");
+    expect(encarts[0]).toHaveTextContent("Tu parles toujours aussi peu ?");
   });
 });
 

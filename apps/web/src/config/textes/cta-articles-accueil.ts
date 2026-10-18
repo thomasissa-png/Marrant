@@ -36,3 +36,28 @@ export const EN_TETE = {
   bouton: PREMIUM_PRICE_LABEL,
   nomAccessible: `${PREMIUM_PRICE_LABEL} : voir les prix de Premium`,
 } as const;
+
+/**
+ * B1, encart du milieu des articles (`DemoVanne variante="milieu"`) : gagnant du tour 4
+ * (A, 3 voix sur 3). La situation montrée est la fiche OFFERTE du carnet du mois
+ * (`lib/carnet.ts`, champs `offerte` et `accroche`) : « Gratuit, sans compte » n'est
+ * vrai que pour elle. Pas de « Pourquoi ça marche » ici : la réplique se lit au clic.
+ */
+export const DEMO_VANNE = {
+  /** [S1] */
+  surtitre: "Une situation de répartie",
+  /** [S2] : `accroche` de la fiche puis ce qu'on te dit. */
+  situation: (accroche: string, onTeDit: string) => `${accroche}, et on te lance : « ${onTeDit} »`,
+  /** [S3] */
+  question: "Tu réponds quoi ?",
+  /** [S6] : ouvre la même fiche sur /carnet. */
+  bouton: "Voir la réplique",
+  /**
+   * [S7] : la seconde phrase seulement si le carnet compte d'autres situations
+   * (annexe tour 4 §5, point 4).
+   */
+  note: (autresSituations: boolean) =>
+    `Gratuit, sans compte : la réplique, pourquoi elle marche et une sortie polie si ça se tend.${
+      autresSituations ? " Les autres situations, nouvelles chaque mois, sont dans Premium, l'abonnement du site." : ""
+    }`,
+} as const;

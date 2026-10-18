@@ -5,8 +5,11 @@
  * H2 n°2, …]. Un encart se place APRÈS la fin d'une section H2, jamais après la
  * dernière (ce serait le bloc de fin) ni dans l'intro.
  *
- * - Article à encarts imposés (ENCARTS_IMPOSES) : après chaque section nommée
+ * - Article à encart imposé (ENCARTS_IMPOSES) : après la première section nommée
  *   trouvée (intitulé comparé par ancre, insensible au rendu typographique).
+ * - s21 : UN seul encart par article (`DemoVanne`, position milieu-1) ; milieu-2
+ *   n'est plus posé (spec cta-forme-place §2.5). Le type garde « milieu-2 » pour
+ *   lire les anciennes mesures.
  *   Aucune section trouvée (article modifié en base) : repli sur l'encart automatique.
  * - Sinon : un encart, si l'article a au moins 3 H2, après la section dont la fin
  *   tombe au plus près de 40 % du texte (fenêtre visée 35 à 45 %).
@@ -37,7 +40,8 @@ export interface EncartPlacement {
   texte?: EncartImpose["texte"];
 }
 
-const POSITIONS = ["milieu-1", "milieu-2"] as const;
+/** s21 : une seule position d'encart au fil du texte. */
+const POSITIONS = ["milieu-1"] as const;
 
 function placementsImposes(sections: readonly BlogSection[], imposes: readonly EncartImpose[]) {
   const lastH2 = sections.length - 1;

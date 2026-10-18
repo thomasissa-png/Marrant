@@ -27,6 +27,9 @@ declare global {
   }
 }
 
+/** Longueur maximale de l'`accroche` d'une fiche (encart des articles, s21). */
+export const CARNET_ACCROCHE_MAX = 110;
+
 const ficheSchema = z.object({
   id: z.string().min(1),
   titre: z.string().min(1),
@@ -37,14 +40,30 @@ const ficheSchema = z.object({
   pourquoi: z.string().min(1),
   siTendu: z.string().min(1),
   exercice: z.string().min(1),
+  /**
+   * s21 (blocs d'appel, B1) : LA fiche offerte du mois, lisible en entier sans compte
+   * (une seule par carnet). Absente partout : `fiches[0]` sert de repli.
+   * Règle de choix (annexe tour 4 §5) : un chambrage adressé au lecteur.
+   */
+  offerte: z.boolean().optional(),
+  /**
+   * s21 (B1) : amorce de la situation pour l'encart des articles (`DemoVanne`),
+   * « {contexte}. {détail} » ; l'encart y ajoute « , et on te lance : « {onTeDit} » ».
+   */
+  accroche: z.string().min(1).max(CARNET_ACCROCHE_MAX).optional(),
 });
 
-const carnetSchema = z.object({
-  mois: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
-  titre: z.string().min(1),
-  intro: z.string().min(1),
-  fiches: z.array(ficheSchema).min(1),
-});
+const carnetSchema = z
+  .object({
+    mois: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/),
+    titre: z.string().min(1),
+    intro: z.string().min(1),
+    fiches: z.array(ficheSchema).min(1),
+  })
+  .refine((c) => c.fiches.filter((f) => f.offerte === true).length <= 1, {
+    message: "une seule fiche « offerte » par carnet",
+    path: ["fiches"],
+  });
 
 export type CarnetFiche = z.infer<typeof ficheSchema>;
 export type Carnet = z.infer<typeof carnetSchema>;
@@ -71,6 +90,15 @@ export interface CarnetView {
 
 /** Nombre de fiches offertes en entier aux non-abonnés. */
 export const CARNET_FREE_FICHES = 1;
+
+/**
+ * Fiche offerte du carnet (s21) : celle marquée `offerte`, sinon la première.
+ * Seule source de l'accès gratuit : /carnet, l'extrait de /abonnement et l'encart
+ * des articles montrent toujours la même fiche.
+ */
+export function ficheOfferte(carnet: Carnet): CarnetFiche {
+  return carnet.fiches.find((f) => f.offerte === true) ?? carnet.fiches[0];
+}
 
 /** Valide un contenu brut ; les fichiers invalides sont écartés (et signalés). */
 export function parseCarnets(raw: unknown[]): Carnet[] {
@@ -141,8 +169,11 @@ export function getCarnetByMonth(mois: string, carnets?: Carnet[], now?: Date): 
 /** Vue servie pour ce plan : complète pour un Premium, aperçu sinon. */
 export function carnetViewForPlan(carnet: Carnet, plan: string | null | undefined): CarnetView {
   const premium = isPremiumPlan(plan);
-  const offertes = premium ? carnet.fiches : carnet.fiches.slice(0, CARNET_FREE_FICHES);
-  const reservees = premium ? [] : carnet.fiches.slice(CARNET_FREE_FICHES);
+  // s21 : la fiche gratuite suit le champ `offerte` (repli : la première) ; les autres
+  // restent dans l'ordre du carnet (de la moins tendue à la plus tendue).
+  const offerte = ficheOfferte(carnet);
+  const offertes = premium ? carnet.fiches : [offerte];
+  const reservees = premium ? [] : carnet.fiches.filter((f) => f !== offerte);
   return {
     mois: carnet.mois,
     titre: carnet.titre,
@@ -193,7 +224,7 @@ export interface CarnetExtrait {
 }
 
 /**
- * Première fiche (celle offerte à tous, `CARNET_FREE_FICHES`) du carnet du mois
+ * Fiche offerte à tous (`ficheOfferte`, s21) du carnet du mois
  * en cours à Paris. Null si le carnet du mois n'est pas encore déposé : le bloc
  * ne doit jamais montrer le carnet d'un mois passé comme « du mois » (condition
  * de mise en ligne du duel carnet, lot 2 s21 tour 2).
@@ -201,7 +232,28 @@ export interface CarnetExtrait {
 export function getCarnetExtrait(carnets?: Carnet[], now: Date = new Date()): CarnetExtrait | null {
   const carnet = getCurrentCarnet(carnets, now);
   if (!carnet || carnet.mois !== currentParisMonth(now)) return null;
-  const fiche = carnet.fiches[0];
+  const fiche = ficheOfferte(carnet);
   if (!fiche) return null;
   return { mois: carnet.mois, fiche: { ...fiche }, totalFiches: carnet.fiches.length };
+}
+
+/** Encart des articles (s21, B1) : le strict nécessaire de la fiche offerte, rien de plus. */
+export interface CarnetDemo {
+  mois: string;
+  fiche: { id: string; titre: string; accroche: string; onTeDit: string };
+  totalFiches: number;
+}
+
+/**
+ * Fiche offerte du mois en cours pour l'encart `DemoVanne` des articles. Null si le
+ * carnet du mois n'est pas déposé ou si la fiche offerte n'a pas d'`accroche` :
+ * l'encart ne s'affiche pas (vide propre, spec §2.6), jamais une situation de substitution.
+ * La réplique n'en sort pas : elle se lit sur /carnet, au clic.
+ */
+export function getCarnetDemo(carnets?: Carnet[], now: Date = new Date()): CarnetDemo | null {
+  const extrait = getCarnetExtrait(carnets, now);
+  const accroche = extrait?.fiche.accroche;
+  if (!extrait || !accroche) return null;
+  const { id, titre, onTeDit } = extrait.fiche;
+  return { mois: extrait.mois, fiche: { id, titre, accroche, onTeDit }, totalFiches: extrait.totalFiches };
 }

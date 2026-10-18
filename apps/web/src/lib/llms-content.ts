@@ -122,7 +122,7 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée (ti
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la première situation du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
+  `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la situation offerte du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
   `Premium : ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
 ];
 

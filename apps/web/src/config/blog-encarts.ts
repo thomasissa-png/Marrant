@@ -3,7 +3,7 @@
  *
  * - PARCOURS_PAR_ARTICLE : parcours d'un article, prioritaire sur le cluster
  *   (lib/blog-parcours.ts). Table définitive à recevoir de @copywriter.
- * - ENCARTS_IMPOSES : encarts au fil du texte placés après des sections nommées
+ * - ENCARTS_IMPOSES : encart au fil du texte placé après une section nommée
  *   (intitulé H2 exact, tel qu'écrit dans le Markdown). Article absent = un seul
  *   encart placé automatiquement (lib/blog-encarts.ts).
  * - BLOC_FIN_AVANT_FAQ : articles dont le bloc de fin passe juste après le corps,
@@ -56,11 +56,8 @@ export const ENCARTS_IMPOSES: Readonly<Partial<Record<string, readonly EncartImp
       parcours: "repartie",
       texte: "repartie",
     },
-    {
-      apresSection: "Quelles blagues au bureau ? (le lundi matin est un sport de combat)",
-      parcours: "boulot",
-      texte: "boulot",
-    },
+    // s21 (spec cta-forme-place §2.5, D1c de l'audit) : plus d'encart d'offre en milieu-2
+    // (16 % de vues, 0 clic). Un seul encart démonstration par article.
   ],
 };
 

@@ -10,7 +10,7 @@ import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /**
  * Rendu d'un carnet (Server Component). Reçoit une vue DÉJÀ filtrée par
- * `carnetViewForPlan` : pour un non-abonné, seules la première fiche et les
+ * `carnetViewForPlan` : pour un non-abonné, seules la fiche offerte (champ `offerte`, sinon la première) et les
  * titres/contextes des autres existent dans les props, donc dans le HTML.
  */
 export function CarnetPage({

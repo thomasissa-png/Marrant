@@ -17,7 +17,11 @@ import { PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { etape1GratuiteBouton } from "@/config/textes/entrees-parcours";
 
-/** Encart au fil du texte (après une section H2, vers 35 à 45 % de l'article). */
+/**
+ * Encart au fil du texte (après une section H2, vers 35 à 45 % de l'article).
+ * s21 : plus affiché (remplacé par `DemoVanne`, textes dans cta-articles-accueil.ts) ;
+ * conservé jusqu'à la fusion des parties A et B (tests lot 2 partagés), puis à supprimer.
+ */
 export interface TexteEncartMilieu {
   /** Petite ligne au-dessus du titre. */
   surtitre: string;
