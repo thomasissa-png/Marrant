@@ -141,6 +141,7 @@ test.describe("Murs Premium @smoke", () => {
     await expect(page.getByText(VALIDATION_ETAPE.texte)).toBeVisible();
     // s21 : « Voir ce que contient Premium » (lot 2, duel 1) au lieu de « Voir l'offre Premium ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Voir l'offre Premium" })).toHaveCount(0);
+    // Nom exact : le bouton d'en-tête s'appelle « 2,99 € par mois : voir l'offre Premium » (B6, textes validés).
+    await expect(page.getByRole("link", { name: "Voir l'offre Premium", exact: true })).toHaveCount(0);
   });
 });
