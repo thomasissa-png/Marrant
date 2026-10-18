@@ -11,7 +11,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import Link from "next/link";

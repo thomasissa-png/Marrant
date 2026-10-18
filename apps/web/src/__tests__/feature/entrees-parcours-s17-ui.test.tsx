@@ -11,6 +11,7 @@ import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-t
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
+import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({ useContentStats: () => ({ jokes: 600, tips: 400, videos: 80 }) }));
@@ -202,7 +203,7 @@ describe("Quiz d'humour et /abonnement", () => {
   it("résultat : parcours conseillé, lien vers son étape 1 (src=quiz)", () => {
     useSession.mockReturnValue(visiteur);
     window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "TAQUIN", completedAt: "2026-10-07" }));
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
     // s21 B12 : libellé qui nomme le parcours (config/textes/cta-pages.ts).
     expect(screen.getByRole("link", { name: QUIZ_HUMOUR_CTA.bouton("repartie") })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");

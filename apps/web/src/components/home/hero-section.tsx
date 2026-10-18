@@ -6,11 +6,10 @@ import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { LIEN_L1 } from "@/components/premium/mur-liste";
+import { LIEN_L1 } from "@/components/ui/liens";
 import { trackUmami } from "@/lib/umami";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { ACCUEIL_HAUT } from "@/config/textes/cta-articles-accueil";
 import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 
@@ -30,7 +29,15 @@ const HERO_ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-hero")
 
 const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
 
-export function HeroSection() {
+/** Textes validés du haut d'accueil ([S19], OUVRIR_ACCUEIL, [S20]), passés par la page serveur. */
+export interface TextesAccueilHaut {
+  bouton: string;
+  lien: string;
+  note: string;
+}
+
+/** s21 (QA m3, budget JS) : `textes` = `ACCUEIL_HAUT`, lu côté serveur (le module n'est plus dans le JS client). */
+export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
   const aReprendre = useParcoursAReprendre();
@@ -94,7 +101,7 @@ export function HeroSection() {
               "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
             )}
           >
-            {frTypo(ACCUEIL_HAUT.bouton)}
+            {frTypo(textes.bouton)}
           </Link>
           <Link
             href={HERO_ABONNEMENT_HREF}
@@ -103,9 +110,9 @@ export function HeroSection() {
             className={cn(LIEN_L1, "mt-2 px-3 py-2 text-center [text-wrap:balance]")}
             onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
           >
-            {frTypo(ACCUEIL_HAUT.lien)}
+            {frTypo(textes.lien)}
           </Link>
-          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(ACCUEIL_HAUT.note)}</p>
+          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(textes.note)}</p>
         </div>
       )}
 

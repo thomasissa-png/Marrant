@@ -3,7 +3,7 @@ import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import type { FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 import { FICHE_PARCOURS } from "@/config/textes/entrees-parcours";
 import { buttonVariants } from "@/components/ui/button";
-import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { cn } from "@/lib/utils";
 
 type FicheType = "vanne" | "conseil" | "video";

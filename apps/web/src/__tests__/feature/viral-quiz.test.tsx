@@ -9,6 +9,7 @@ import {
   type HumorProfileType,
 } from "@/components/quiz/quiz-data";
 import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -57,26 +58,26 @@ describe("ViralQuiz", () => {
   });
 
   it("renders first question", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
     ).toBeInTheDocument();
   });
 
   it("shows question counter badge", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     expect(screen.getByText(`1/${QUIZ_QUESTIONS.length}`)).toBeInTheDocument();
   });
 
   it("shows 4 answer options for Q1", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     QUIZ_QUESTIONS[0].options.forEach((opt) => {
       expect(screen.getByText(opt.label)).toBeInTheDocument();
     });
   });
 
   it("advances to Q2 after answering Q1", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     await userEvent.click(
       screen.getByText(optionLabel(0)),
     );
@@ -87,7 +88,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows progress bar that grows", async () => {
-    const { container } = render(<ViralQuiz />);
+    const { container } = render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     const progressBar = container.querySelector(
       ".bg-accent-primary.transition-all",
     );
@@ -95,7 +96,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows a result after completing all 12 questions", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
 
     // Answer all 12 questions with first option
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
@@ -114,7 +115,7 @@ describe("ViralQuiz", () => {
 
   it("quiz terminé : événement quiz-termine avec le profil (s15), CTA vers /register", async () => {
     mockTrack.mockClear();
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(screen.getByText(optionLabel(i)));
     }
@@ -129,7 +130,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows share button on result screen", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -139,7 +140,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows CTA buttons on result screen", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -165,7 +166,7 @@ describe("ViralQuiz", () => {
     const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
     useSession.mockReturnValue({ data: { user: { id: "u1", plan: "PREMIUM" } }, status: "authenticated" });
     try {
-      render(<ViralQuiz />);
+      render(<ViralQuiz textes={textesResultatQuiz(false)} />);
       for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
         await userEvent.click(screen.getByText(optionLabel(i)));
       }
@@ -180,7 +181,7 @@ describe("ViralQuiz", () => {
   });
 
   it("offre annuelle disponible : la ligne Premium la mentionne", async () => {
-    render(<ViralQuiz annualAvailable />);
+    render(<ViralQuiz textes={textesResultatQuiz(true)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(screen.getByText(optionLabel(i)));
     }
@@ -191,7 +192,7 @@ describe("ViralQuiz", () => {
   });
 
   it("saves result to localStorage", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -210,7 +211,7 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     expect(screen.getByText("L'Observateur")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
@@ -222,7 +223,7 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     await userEvent.click(screen.getByText("Refaire le quiz"));
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
@@ -230,7 +231,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows humoriste name in result", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -246,7 +247,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows strength and tip on result", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),

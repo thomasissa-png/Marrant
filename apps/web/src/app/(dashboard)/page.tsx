@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import { DailyContent } from "@/components/home/daily-content";
 import { HeroSection } from "@/components/home/hero-section";
+import { ACCUEIL_HAUT } from "@/config/textes/cta-articles-accueil";
 import { FeatureCards } from "@/components/home/feature-cards";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getHomeFeatureExamples } from "@/lib/catalogue-pages";
 import { parcoursWeeks } from "@/config/premium";
 import dynamic from "next/dynamic";
-const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
+// s21 (QA m3) : composant serveur (îlots client à l'intérieur), import direct.
+import { PremiumCta } from "@/components/home/premium-cta";
 const LettreAccueil = dynamic(() => import("@/components/home/lettre-accueil").then(m => ({ default: m.LettreAccueil })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
@@ -61,7 +63,7 @@ export default async function HomePage() {
       <JsonLd data={buildFaqJsonLd(allFaqs)} />
 
       {/* Hero section */}
-      <HeroSection />
+      <HeroSection textes={ACCUEIL_HAUT} />
 
       {/* Contenu du jour (dynamique) */}
       <DailyContent />

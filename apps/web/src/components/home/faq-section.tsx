@@ -1,5 +1,3 @@
-"use client";
-
 import { faqs } from "@/lib/faqs";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
@@ -19,7 +17,8 @@ interface FaqSectionProps {
 }
 
 /**
- * FAQ en accordéon fermé : un seul composant pour toutes les pages
+ * FAQ en accordéon fermé (`<details>` natif, aucun état) : un seul composant pour toutes les pages.
+ * s21 (QA m3) : plus de « use client » ; rendue par le serveur (accueil, listes), sans JS.
  * (passe s12 : UX T19/T46, design T11).
  */
 export function FaqSection({ items = faqs, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {

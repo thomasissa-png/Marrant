@@ -15,7 +15,7 @@ import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
-import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { FENETRE_CHARGEMENT, QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 

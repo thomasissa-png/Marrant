@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
-import { AccountMenu } from "@/components/layout/account-menu";
-import { IconeRecherche } from "@/components/layout/header-icons";
+import dynamic from "next/dynamic";
+import { IconeProfil, IconeRecherche } from "@/components/layout/header-icons";
 import { MobileNav, isActivePath, type NavItem } from "@/components/layout/mobile-nav";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
@@ -16,6 +16,19 @@ import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { EN_TETE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+
+/**
+ * s21 (QA m3, budget JS) : menu de compte (Radix, ~25 Ko compressés) chargé seulement pour un
+ * compte connecté, jamais pour un visiteur. Repère de même taille pendant le chargement (pas de saut).
+ */
+const AccountMenu = dynamic(() => import("@/components/layout/account-menu").then((m) => m.AccountMenu), {
+  ssr: false,
+  loading: () => (
+    <span aria-hidden="true" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-11 shrink-0 px-0")}>
+      <IconeProfil />
+    </span>
+  ),
+});
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à

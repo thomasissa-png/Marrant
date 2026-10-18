@@ -10,7 +10,7 @@ import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { isPremiumPlan } from "@/lib/parcours-access";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";

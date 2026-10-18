@@ -4,7 +4,7 @@ import { frTypo } from "@/lib/fr-typo";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
-import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { isPremiumPlan } from "@/lib/parcours-access";

@@ -6,7 +6,7 @@ import { useFavoritesStore } from "@/stores/favorites-store";
 import { useEstPremium } from "@/hooks/use-est-premium";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 
 /** Objet du favori, pour accorder la fenêtre Premium (s21 B11). */
 const CONTENU = { JOKE: "vanne", TIP: "conseil", VIDEO: "video" } as const;

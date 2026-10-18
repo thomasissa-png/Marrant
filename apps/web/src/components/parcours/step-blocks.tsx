@@ -13,7 +13,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
 import { FIN_ETAPE_1, lignePrixGarantie } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
-import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import {
   APERCU_BAS,

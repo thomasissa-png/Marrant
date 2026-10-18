@@ -7,16 +7,13 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
-import { LIEN_L1 } from "@/components/premium/mur-liste";
+import { LIEN_L1 } from "@/components/ui/liens";
 import { useEstPremium } from "@/hooks/use-est-premium";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { buildAbonnementUrl } from "@/lib/premium-return";
-import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
-import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
+import type { TextesResultatQuiz, TexteResultatQuiz } from "@/lib/quiz-resultat-textes";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -51,8 +48,7 @@ function saveResult(profile: HumorProfileType): void {
   );
 }
 
-function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: boolean }) {
-  const ligne = QUIZ_HUMOUR_CTA.premium(profile.type, profile.recommendedParcours, annuel);
+function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResultatQuiz }) {
   // s21 (QA m6) : l'abonné n'a ni lien payant ni ligne de prix (il a déjà tout).
   const estPremium = useEstPremium();
   const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
@@ -99,38 +95,38 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
 
           {/* s17 (QA-13) : un des 3 parcours selon le profil, ouvert sur son étape 1. */}
           <div className="w-full rounded-lg border border-border bg-background-elevated p-4 text-left" data-testid="quiz-parcours-conseille">
-            <p className="text-sm font-medium text-accent-link">{QUIZ_HUMOUR_PARCOURS.intro}</p>
+            <p className="text-sm font-medium text-accent-link">{t.intro}</p>
             <h3 className="mt-1 font-display text-lg font-bold text-text-primary">
-              {QUIZ_HUMOUR_PARCOURS.titre(profile.recommendedParcours)}
+              {t.titre}
             </h3>
-            <p className="mt-1 text-sm text-text-secondary">{QUIZ_HUMOUR_PARCOURS.raison[profile.type]}</p>
+            <p className="mt-1 text-sm text-text-secondary">{t.raison}</p>
           </div>
 
           {/* s21 B12 (froid) : phrase de pont, plein vers l'étape 1 du parcours conseillé,
               lien fort vers Premium (retour au parcours conseillé), ligne Premium. */}
-          <p className="w-full text-left text-sm text-text-secondary">{frTypo(QUIZ_HUMOUR_CTA.phrase(profile.recommendedParcours))}</p>
+          <p className="w-full text-left text-sm text-text-secondary">{frTypo(t.phrase)}</p>
           <Link
-            href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
+            href={t.boutonHref}
             className={buttonVariants({
               variant: "primary",
               size: "lg",
               className: "h-auto min-h-12 w-full whitespace-normal py-2 text-center",
             })}
           >
-            {QUIZ_HUMOUR_CTA.bouton(profile.recommendedParcours)}
+            {t.bouton}
           </Link>
           {!estPremium && (
             <>
               <Link
-                href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
+                href={t.lienHref}
                 className={cn(LIEN_L1, "justify-center text-center")}
               >
-                {QUIZ_HUMOUR_CTA.lien(profile.recommendedParcours)}
+                {t.lien}
               </Link>
               {/* Ligne Premium en un seul paragraphe ; la phrase de profil sur sa propre ligne (tour 16). */}
               <p className="text-center text-xs text-text-muted" data-testid="quiz-ligne-premium">
-                {ligne.profil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(ligne.profil)}</span>}
-                {frTypo(ligne.suite)}
+                {t.ligneProfil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(t.ligneProfil)}</span>}
+                {frTypo(t.ligneSuite)}
               </p>
             </>
           )}
@@ -140,7 +136,11 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
   );
 }
 
-export function ViralQuiz({ annualAvailable = false }: { annualAvailable?: boolean } = {}) {
+/**
+ * `textes` : textes du résultat pour les 5 profils, calculés par la page serveur
+ * (`textesResultatQuiz(isAnnualPlanAvailable())`, s21 QA m3 : rien de ces modules dans le JS client).
+ */
+export function ViralQuiz({ textes }: { textes: TextesResultatQuiz }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<
     Partial<Record<HumorProfileType, number>>[]
@@ -187,7 +187,7 @@ export function ViralQuiz({ annualAvailable = false }: { annualAvailable?: boole
     return (
       // Revue design s21 m8 : marges explicites (un `space-y-4` écrasait le `mt-6` de la lettre).
       <div>
-        <ResultCard profile={result} annuel={annualAvailable} />
+        <ResultCard profile={result} t={textes[result.type]} />
         {lettre(result)}
         <div className="mt-4 text-center">
           <Button variant="ghost" size="sm" onClick={handleRetake}>
@@ -201,7 +201,7 @@ export function ViralQuiz({ annualAvailable = false }: { annualAvailable?: boole
   if (result) {
     return (
       <>
-        <ResultCard profile={result} annuel={annualAvailable} />
+        <ResultCard profile={result} t={textes[result.type]} />
         {lettre(result)}
       </>
     );

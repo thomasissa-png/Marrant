@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
-import { LIEN_L1 } from "@/components/premium/mur-liste";
+import { LIEN_L1 } from "@/components/ui/liens";
 import { frTypo } from "@/lib/fr-typo";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import {

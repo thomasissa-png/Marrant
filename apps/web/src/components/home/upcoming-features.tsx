@@ -7,7 +7,7 @@ import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import { isPremiumPlan } from "@/lib/parcours-access";
 
 interface Feature {

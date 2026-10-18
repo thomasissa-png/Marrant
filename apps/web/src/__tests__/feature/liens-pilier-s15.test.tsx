@@ -23,6 +23,8 @@ jest.mock("@/lib/prisma", () => ({
 
 // Accueil : on isole la section personas (les autres blocs ont leurs propres tests).
 jest.mock("next/dynamic", () => () => function DynamicStub() { return null; });
+// s21 (QA m3) : PremiumCta importé directement (composant serveur), plus via next/dynamic.
+jest.mock("@/components/home/premium-cta", () => ({ PremiumCta: () => null }));
 jest.mock("@/components/home/hero-section", () => ({ HeroSection: () => null }));
 jest.mock("@/components/home/daily-content", () => ({ DailyContent: () => null }));
 jest.mock("@/components/home/feature-cards", () => ({ FeatureCards: () => null }));
