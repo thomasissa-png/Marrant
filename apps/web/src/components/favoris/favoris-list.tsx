@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -313,7 +314,7 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <p className="text-text-primary">{joke.content}</p>
+                    <p className="text-text-primary">{frTypo(joke.content)}</p>
                     {isRevealed ? (
                       <>
                         <p className="mt-3 font-semibold text-accent-link animate-fade-in">
@@ -400,7 +401,7 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <CardTitle>{tip.title}</CardTitle>
+                    <CardTitle>{frTypo(tip.title)}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-sm leading-relaxed text-text-primary">{tipProse(tip.content)}</p>

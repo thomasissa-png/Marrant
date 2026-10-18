@@ -2,6 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { MasquePourPremium } from "@/components/blog/masque-pour-premium";
 import { cn } from "@/lib/utils";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL } from "@/components/layout/gabarit";
 import { frTypo } from "@/lib/fr-typo";
 import type { CarnetDemo } from "@/lib/carnet";
 import type { BlogCtaPosition } from "@/lib/blog-encarts";
@@ -40,7 +41,7 @@ export function DemoVanne({ demo, position, parcours }: DemoVanneProps) {
         data-blog-cta-parcours={parcours}
         data-blog-cta-fiche={fiche.id}
         data-demo-vanne="milieu"
-        className="my-10 rounded-lg border border-border bg-background-card p-5 sm:p-6"
+        className={cn("my-10", BLOC_APPEL)}
       >
         <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(DEMO_VANNE.surtitre)}</p>
         <div className="mt-3 rounded-md border border-border bg-background p-4">
@@ -50,10 +51,7 @@ export function DemoVanne({ demo, position, parcours }: DemoVanneProps) {
         <Link
           href={href}
           data-blog-cta="demo-fiche"
-          className={cn(
-            buttonVariants({ variant: "primary", size: "lg" }),
-            "mt-4 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
-          )}
+          className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-4", BOUTON_BLOC_APPEL)}
         >
           {frTypo(DEMO_VANNE.bouton)}
         </Link>

@@ -44,7 +44,7 @@ export default async function LettrePage({ searchParams }: { searchParams: Param
     : null;
 
   return (
-    <div className="mx-auto max-w-2xl space-y-8 px-4 py-10">
+    <div className="mx-auto max-w-3xl space-y-8 py-10">
       {statut === "confirmee" && (
         <LettreStatut titre={S.confirmee.titre} confirmee confirmeeMesuree={searchParams.mesure === "1" ? { emplacement } : undefined}>
           <p className="mt-1 text-sm text-text-secondary">{S.confirmee.texte}</p>

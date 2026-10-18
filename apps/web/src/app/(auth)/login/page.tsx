@@ -166,7 +166,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
     <main className="flex min-h-screen flex-col items-center justify-center px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
@@ -264,7 +264,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
             )}
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/forgot-password" className="text-accent-link underline underline-offset-2">
+            <Link href="/forgot-password" className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
               Mot de passe oublié ?
             </Link>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
@@ -20,7 +21,7 @@ import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
 import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
-import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
+import { MurListe } from "@/components/premium/mur-liste";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 
@@ -258,7 +259,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                   </div>
                 </div>
                 {/* Toucher l'amorce (ou la carte) révèle la chute : c'est le geste de la page. */}
-                <p className="text-text-primary">{joke.content}</p>
+                <p className="text-text-primary">{frTypo(joke.content)}</p>
                 {revealedIds.has(joke.id) && (
                   <p
                     id={`punchline-${joke.id}`}
@@ -346,17 +347,13 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       )}
       </ListResults>
 
-      {/* s21 B7 : limite annoncée après la dernière carte, bloc de bas de liste, puis cartes floutées. */}
-      {limited && (jokes.length > 0 || page > 1) && (
-        <>
-          <MurListeLimite liste="vannes" />
-          <MurListe liste="vannes" />
-        </>
-      )}
+      {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
+      {limited && (jokes.length > 0 || page > 1) && <MurListe liste="vannes" />}
 
       {/* Cartes verrouillées pour FREE users */}
+      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur. */}
       {limited && (jokes.length > 0 || page > 1) && (
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div className="mt-4 grid gap-4">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}

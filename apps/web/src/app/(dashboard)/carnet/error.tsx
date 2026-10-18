@@ -11,7 +11,7 @@ export default function CarnetError({
   reset: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto max-w-3xl py-12">
       <Card>
         <CardContent className="py-12 text-center">
           <h2 className="font-display text-xl font-bold text-text-primary">

@@ -54,7 +54,7 @@ function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResul
   const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
-    <Card className="mx-auto max-w-lg animate-scale-in">
+    <Card className="animate-scale-in">
       <CardContent className="py-8">
         <div className="text-center">
           <span className="text-6xl">{profile.emoji}</span>
@@ -173,7 +173,7 @@ export function ViralQuiz({ textes }: { textes: TextesResultatQuiz }) {
 
   // s21 : lettre mensuelle SOUS la carte du résultat, hors carte (spec lettre §1.3).
   const lettre = (profile: HumorProfileResult) =>
-    LETTRE_INSCRIPTIONS_OUVERTES ? <LettreInscription emplacement="quiz" profil={profile.type} className="mx-auto mt-6 max-w-lg" /> : null;
+    LETTRE_INSCRIPTIONS_OUVERTES ? <LettreInscription emplacement="quiz" profil={profile.type} className="mt-6" /> : null;
 
   if (showRetake && result) {
     return (
@@ -203,7 +203,7 @@ export function ViralQuiz({ textes }: { textes: TextesResultatQuiz }) {
   const progress = ((currentQ + 1) / QUIZ_QUESTIONS.length) * 100;
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div>
       <div className="mb-6 flex items-center justify-between">
         <Badge variant="primary">
           {currentQ + 1}/{QUIZ_QUESTIONS.length}

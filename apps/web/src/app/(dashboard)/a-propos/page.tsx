@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
 import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { LIEN_L2 } from "@/components/ui/liens";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { A_PROPOS_FIN, FIN_DE_PAGE_PARCOURS_ETAPE_1 } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
@@ -214,9 +216,10 @@ export default function AProposPage() {
         {/* s21 (revue v2) : bloc payant masqué pour un abonné Premium. Textes : concision v5
             (config/textes/cta-pages.ts) ; titre inchangé, celui de l'accueil. */}
         <MasqueSiPremium>
-        <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center" data-testid="a-propos-fin">
+        {/* Revue visuelle s21 : même bloc d'appel que les murs et les fins d'article (contenu à gauche). */}
+        <div className={cn("mt-12", BLOC_APPEL)} data-testid="a-propos-fin">
           {/* Une phrase par ligne, même découpe que le H1 de l'accueil (hero-section.tsx). */}
-          <p className="font-display text-xl font-bold text-text-primary">
+          <p className={TITRE_BLOC_APPEL}>
             {A_PROPOS_FIN.titre.map((phrase) => (
               <span key={phrase} className="block">{phrase}</span>
             ))}
@@ -232,13 +235,11 @@ export default function AProposPage() {
           </MasqueSiConnecte>
           {/* Étalon 1.2 validé par Thomas (s15), aligné sur l'accueil : inscription (étape 1
               sur 2) puis paiement ouvert tout seul ; connecté : /abonnement. */}
-          <div className="mt-4 flex flex-col items-center gap-1">
-            <AuthCta
-              label={frTypo(A_PROPOS_FIN.bouton)}
-              src="a-propos"
-              className="h-auto min-h-12 whitespace-normal py-2 [text-wrap:balance]"
-            />
-            <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+          <div className="mt-4">
+            <AuthCta label={frTypo(A_PROPOS_FIN.bouton)} src="a-propos" className={BOUTON_BLOC_APPEL} />
+          </div>
+          <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+          <div className="mt-1">
             <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "a-propos-etape1")} className={LIEN_L2}>
               {frTypo(A_PROPOS_FIN.lienEtape1)}
             </Link>

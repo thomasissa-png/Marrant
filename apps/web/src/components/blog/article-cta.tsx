@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { LIEN_L1 } from "@/components/ui/liens";
 import { frTypo } from "@/lib/fr-typo";
 import { parcoursEtape1Href, parcoursEtapeHref, type ParcoursSlug } from "@/lib/entrees-parcours";
@@ -63,10 +64,10 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
       data-blog-bloc-fin
       data-blog-cta-position="fin"
       data-blog-cta-parcours={parcours}
-      className="mt-10 rounded-lg border border-border bg-background-card p-5 sm:p-6"
+      className={cn("mt-10", BLOC_APPEL)}
     >
       {/* s21 (QA m2) : 18 px sous 640 px, le titre tient sur 2 lignes à 360 et 375. */}
-      <p className="font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl">
+      <p className={TITRE_BLOC_APPEL}>
         {frTypo(titreBlocFin(title ?? textes.finTitre))}
       </p>
       {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré).
@@ -78,7 +79,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
           <Link
             href={continuerHref}
             data-blog-cta="parcours"
-            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "min-h-12")}
+            className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
           >
             {TEXTES_BLOC_FIN.boutonAbonne}
           </Link>
@@ -89,11 +90,8 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
             <Link
               href={etape1Href}
               data-blog-cta="etape-1"
-              className={cn(
-                buttonVariants({ variant: "primary", size: "lg" }),
-                // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
-                "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
-              )}
+              // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
             >
               {frTypo(boutonEtape1 ?? textes.finBoutonEtape1)}
             </Link>

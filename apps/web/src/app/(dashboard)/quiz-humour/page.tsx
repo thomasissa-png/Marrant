@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FaqSection } from "@/components/home/faq-section";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
@@ -79,7 +80,7 @@ export default function QuizHumourPage() {
       />
       <JsonLd data={buildFaqJsonLd(quizFaqs)} />
 
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
             Quel type d&apos;humour es-tu ?
@@ -135,24 +136,8 @@ export default function QuizHumourPage() {
             </p>
           </div>
 
-          {/* FAQ */}
-          <div className="rounded-xl border border-border bg-background-card p-6">
-            <h2 className="font-display text-xl font-bold text-text-primary">
-              Questions fréquentes
-            </h2>
-            <div className="mt-4 space-y-4">
-              {quizFaqs.map((faq) => (
-                <details key={faq.question} className="group">
-                  <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
-                    {faq.question}
-                  </summary>
-                  <p className="mt-2 text-sm text-text-secondary pl-4">
-                    {faq.answer}
-                  </p>
-                </details>
-              ))}
-            </div>
-          </div>
+          {/* FAQ. Revue visuelle s21 : même accordéon que le reste du site (plus de triangles du navigateur). */}
+          <FaqSection items={quizFaqs} align="left" />
         </section>
       </div>
     </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,7 +21,7 @@ import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildTipSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
-import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
+import { MurListe } from "@/components/premium/mur-liste";
 import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
@@ -231,7 +232,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           onRetry={fetchTips}
         />
       ) : showSkeleton ? (
-        <div className="grid max-w-4xl gap-4">
+        <div className="grid gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="py-6">
@@ -252,7 +253,8 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           ctaHref="/conseils"
         />
       ) : (
-        <div className="grid max-w-4xl gap-4" role="tabpanel">
+        // Revue visuelle s21 : une colonne pleine largeur (3 conseils gratuits : pas de rangée à moitié vide).
+        <div className="grid gap-4" role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
@@ -286,7 +288,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     onKeyDown={(e) => e.stopPropagation()}
                     className={TITRE_CARTE_LIEN}
                   >
-                    {tip.title}
+                    {frTypo(tip.title)}
                   </Link>
                 </CardTitle>
               </CardHeader>
@@ -325,17 +327,13 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       )}
       </ListResults>
 
-      {/* s21 B7 : limite annoncée après la dernière carte, bloc de bas de liste, puis cartes floutées. */}
-      {limited && (tips.length > 0 || page > 1) && (
-        <>
-          <MurListeLimite liste="conseils" />
-          <MurListe liste="conseils" />
-        </>
-      )}
+      {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
+      {limited && (tips.length > 0 || page > 1) && <MurListe liste="conseils" />}
 
       {/* Cartes verrouillées pour FREE users */}
+      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur. */}
       {limited && (tips.length > 0 || page > 1) && (
-        <div className="mt-4 grid max-w-4xl gap-4">
+        <div className="mt-4 grid gap-4">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}
@@ -362,7 +360,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
                   <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>

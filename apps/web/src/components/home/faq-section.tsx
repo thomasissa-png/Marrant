@@ -1,6 +1,7 @@
 import { faqs } from "@/lib/faqs";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
+import { COLONNE_LECTURE, MESURE_TEXTE } from "@/components/layout/gabarit";
 export { faqs };
 
 export interface FaqItem {
@@ -12,7 +13,10 @@ interface FaqSectionProps {
   /** Questions à afficher (par défaut : FAQ générale du site). */
   items?: readonly FaqItem[];
   title?: string;
-  /** "left" : pages catalogue (titre aligné à gauche, même largeur que les blocs voisins). */
+  /**
+   * "left" : pages catalogue et de lecture, pleine largeur de la colonne (mêmes bords que les blocs
+   * voisins, revue visuelle s21). "center" : colonne de lecture centrée (accueil, abonnement).
+   */
   align?: "center" | "left";
 }
 
@@ -24,7 +28,7 @@ interface FaqSectionProps {
 export function FaqSection({ items = faqs, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
   const left = align === "left";
   return (
-    <div className={left ? "max-w-3xl" : "mx-auto max-w-2xl"}>
+    <div className={left ? undefined : COLONNE_LECTURE}>
       <h2
         className={cn(
           "font-display font-bold text-text-primary",
@@ -52,7 +56,7 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <p className="px-4 pb-4 text-sm text-text-secondary">{faq.answer}</p>
+            <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{faq.answer}</p>
           </details>
         ))}
       </div>

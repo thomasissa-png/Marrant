@@ -13,6 +13,8 @@ import { glossary } from "@/lib/glossary";
 import { FIN_DE_PAGE_PARCOURS_ETAPE_1, GLOSSAIRE_FIN } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { LIEN_L2 } from "@/components/ui/liens";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { buildAbonnementUrl } from "@/lib/premium-return";
@@ -97,7 +99,8 @@ export default function GlossairePage() {
         </ul>
       </nav>
 
-      <div className="max-w-4xl space-y-6">
+      {/* Revue visuelle s21 : définitions sur la pleine colonne, comme l'index et « Passe de la théorie à la pratique ». */}
+      <div className="space-y-6">
         {glossary.map((item) => (
           <section
             key={item.term}
@@ -112,7 +115,7 @@ export default function GlossairePage() {
             </p>
             <Link
               href={item.related}
-              className="mt-3 inline-block text-sm font-medium text-accent-link hover:underline"
+              className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-accent-link hover:underline"
             >
               {item.relatedLabel} →
             </Link>
@@ -142,14 +145,17 @@ export default function GlossairePage() {
       {/* CTA. s21 (revue v2) : masqué pour un abonné Premium ; source `glossaire` suivie
           jusqu'à `checkout-ouvert` (m-1). Textes : concision v5 (config/textes/cta-pages.ts). */}
       <MasqueSiPremium>
-      <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center" data-testid="glossaire-fin">
-        <p className="font-display text-xl font-bold text-text-primary">{frTypo(GLOSSAIRE_FIN.titre)}</p>
+      {/* Revue visuelle s21 : même bloc d'appel que les murs et les fins d'article (contenu à gauche). */}
+      <div className={cn("mt-12", BLOC_APPEL)} data-testid="glossaire-fin">
+        <p className={TITRE_BLOC_APPEL}>{frTypo(GLOSSAIRE_FIN.titre)}</p>
         <p className="mt-2 text-text-secondary">{frTypo(GLOSSAIRE_FIN.paragraphe)}</p>
-        <div className="mt-4 flex flex-col items-center gap-1">
-          <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={buttonVariants({ variant: "primary", size: "lg", className: "h-auto min-h-12 whitespace-normal py-2 [text-wrap:balance]" })}>
+        <div className="mt-4">
+          <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}>
             {frTypo(GLOSSAIRE_FIN.bouton)}
           </Link>
-          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+        </div>
+        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+        <div className="mt-1">
           <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
             {frTypo(GLOSSAIRE_FIN.lienEtape1)}
           </Link>

@@ -3,6 +3,7 @@ import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { FaqSection } from "@/components/home/faq-section";
 import { VideosGrid } from "@/components/videos/videos-grid";
 import {
   JsonLd,
@@ -22,7 +23,6 @@ import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 interface ListPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
-import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
   const page = parsePageParam(searchParams.page);
@@ -122,16 +122,9 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
       </Suspense>
 
       {/* FAQ SEO */}
+      {/* Revue visuelle s21 : même FAQ que /vannes (accordéon, pleine colonne ; contenu dans le DOM pour le SEO). */}
       <section className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="max-w-3xl space-y-4">
-          {videosFaqs.map((faq, i) => (
-            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
-              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
+        <FaqSection items={videosFaqs} align="left" />
       </section>
 
       {/* Contenu SEO — methode pedagogique */}

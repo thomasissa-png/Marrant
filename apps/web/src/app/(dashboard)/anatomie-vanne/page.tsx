@@ -98,7 +98,7 @@ export default function AnatomieVannePage() {
       />
       <JsonLd data={buildFaqJsonLd(anatomyFaqs)} />
 
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-3xl">
         {/* Hero */}
         <div className="mb-12 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">

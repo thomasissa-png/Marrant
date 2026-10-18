@@ -49,7 +49,7 @@ export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
   const catalogue = getParcoursCatalogue();
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-3xl">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { JsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
 import { PageHeader } from "@/components/layout/page-header";
 import { FaqSection } from "@/components/home/faq-section";
@@ -63,6 +64,8 @@ export default async function BlagueDuJourPage() {
         ])}
       />
       <JsonLd data={buildFaqJsonLd(faqs)} />
+      {/* Revue visuelle s21 : page de lecture, colonne centrée commune (gabarit.ts). */}
+      <div className={COLONNE_LECTURE}>
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
@@ -76,7 +79,7 @@ export default async function BlagueDuJourPage() {
       />
 
       {joke && (
-        <article className="max-w-2xl">
+        <article>
           <h2 className="font-display text-2xl font-bold">
             <Link href={`/vannes/${buildJokeSlug(joke)}`} className="hover:text-accent-link">
               {joke.content}
@@ -112,6 +115,7 @@ export default async function BlagueDuJourPage() {
       <section className="mt-12 border-t border-border pt-8">
         <FaqSection items={faqs} align="left" />
       </section>
+      </div>
     </>
   );
 }
