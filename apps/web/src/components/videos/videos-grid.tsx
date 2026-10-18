@@ -17,7 +17,7 @@ import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
-import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
+import { MurListe } from "@/components/premium/mur-liste";
 import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
@@ -316,17 +316,14 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
       )}
       </ListResults>
 
-      {/* s21 B7 : limite annoncée après la dernière carte, bloc de bas de liste, puis cartes floutées. */}
-      {limited && (videos.length > 0 || page > 1) && (
-        <>
-          <MurListeLimite liste="videos" />
-          <MurListe liste="videos" />
-        </>
-      )}
+      {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
+      {limited && (videos.length > 0 || page > 1) && <MurListe liste="videos" />}
 
       {/* Cartes verrouillées pour FREE users */}
+      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur ;
+          vignette à gauche dès 768 px pour garder la proportion d'une carte vidéo. */}
       {limited && (videos.length > 0 || page > 1) && (
-        <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-6">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}
@@ -337,13 +334,15 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
               aria-label={CARTE_VERROUILLEE_LABEL}
             >
-              <CardContent className="pt-0">
-                <div className="mb-3 aspect-video rounded-lg bg-text-muted/10" />
-                <div className="h-4 w-3/4 rounded bg-text-muted/10" />
-                <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />
+              <CardContent className="pt-0 md:flex md:items-center md:gap-6">
+                <div className="mb-3 aspect-video rounded-lg bg-text-muted/10 md:mb-0 md:w-1/3 md:shrink-0" />
+                <div className="md:flex-1">
+                  <div className="h-4 w-3/4 rounded bg-text-muted/10" />
+                  <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />
+                </div>
                 <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
                   <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                   </div>
