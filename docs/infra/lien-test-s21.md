@@ -1,26 +1,38 @@
 # Lien de test s21 (version d'aperçu Cloudflare, hors production)
 
-@infrastructure, 18/10/2026 vers 13 h 15 UTC. Branche `claude/marrant-s21-integration`, commit `1083e0b` (CI verte, QA v3 et revue d'ensemble v2 : GO lien de test).
+@infrastructure, 18/10/2026 vers 18 h 25 UTC. Branche `claude/marrant-s21-integration`, commit `f13b8e8` (corrections de la QA v4, CI « Tests CI » verte : run 39153527398).
 
 ## Lien d'aperçu
 
-**https://8f69a315-marrant.thomas-issa.workers.dev/?ne-pas-compter=1**
+**https://fba36551-marrant.thomas-issa.workers.dev/?ne-pas-compter=1**
 
 Ouvrir d'abord ce lien tel quel (avec `?ne-pas-compter=1`) dans chaque navigateur utilisé : il coupe Umami pour ce site d'aperçu (le réglage de deviens-marrant.fr ne s'applique pas ici, c'est une autre adresse).
+
+L'ancien lien `https://8f69a315-marrant.thomas-issa.workers.dev` (commit `1083e0b`, avant la QA v4) est **périmé : ne plus l'utiliser**.
 
 ## Version de test et production
 
 | | Identifiant | Tag | Trafic |
 |---|---|---|---|
-| Version de test (ce lien) | `8f69a315-64ec-4a37-b681-ef7793796ade` | `s21-test-1083e0b` | 0 % (lien d'aperçu seulement) |
+| Version de test (ce lien) | `fba36551-4b56-4523-9986-fb2fbd9d20a6` | `s21-test-f13b8e8` | 0 % (lien d'aperçu seulement) |
+| PÉRIMÉE, ne pas utiliser | `8f69a315-64ec-4a37-b681-ef7793796ade` | `s21-test-1083e0b` | 0 % |
+| PÉRIMÉE, ne pas utiliser | `47b8c826-0a05-4e88-a7c5-c6791332b5e0` | `s21-test` | 0 % |
 | Production avant le téléversement | `5ea46dd8-1e31-4175-bc99-3d0873925901` | aucun | 100 % |
 | Production après le téléversement | `5ea46dd8-1e31-4175-bc99-3d0873925901` | aucun | 100 % (inchangée) |
 
-- Commandes passées : `rm -rf .open-next && CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run build:cf`, puis `CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npx opennextjs-cloudflare upload -- --tag s21-test-1083e0b` (depuis `apps/web`). Aucun `deploy`, aucun `versions deploy`, aucun changement de routage, de domaine ni de tâche planifiée.
-- Une version plus ancienne `47b8c826-0a05-4e88-a7c5-c6791332b5e0` (tag `s21-test`, 18/10 01:03 UTC, commit antérieur aux corrections du jour) existe aussi : **périmée, ne pas l'utiliser**.
+- Commandes passées : `rm -rf .open-next && CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run build:cf`, puis `CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npx opennextjs-cloudflare upload -- --tag s21-test-f13b8e8` (depuis `apps/web`). Aucun `deploy`, aucun `versions deploy`, aucun changement de routage, de domaine ni de tâche planifiée.
 - Les tâches planifiées (`*/15`, lettre, social) ne tournent que sur la version en production : la version de test n'en lance aucune.
 
 ## Contrôles faits (curl, `?ne-pas-compter=1`, visiteur sans cookie)
+
+Contrôles de la version `fba36551` (commit `f13b8e8`). Motifs ancrés sur le HTML affiché (`>` au début ou `<` à la fin, comme le contrôle 14 de `REPLIT_ACTIONS.md`), pour ne pas compter la charge RSC. Attention : le site met une espace insécable après les chiffres (« 5 parcours », « étape 1 de ») et écrit l'apostrophe `&#x27;` ; un `grep` avec une espace normale trouve 0. Normaliser d'abord (`sed 's/\xc2\xa0/ /g; s/&#x27;/'"'"'/g'`).
+
+- Aperçu, code 200 : `/`, `/abonnement`, `/carnet`, `/glossaire`, `/a-propos`, `/parcours`, `/parcours/repartie`, `/vannes`, `/blog/meilleures-blagues-droles-2026`, `/blog/jamais-quoi-repondre-techniques`, `/api/health`.
+- Aperçu, textes : `>Tester l'étape 1 de Répartie, gratuite<` = 1 sur `/blog/jamais-quoi-repondre-techniques` ; `>Tester mes premières répliques, gratuit<` = 1 sur `/blog/meilleures-blagues-droles-2026` ; `>Ouvrir les 5 parcours` = 1 sur `/abonnement` ; « Reste à s'en servir » présent sur `/glossaire` ; « Active mon accès » et « Activer mon accès » : 0 sur les 11 adresses (même sans ancrage).
+- `/api/health` : 200, `critical` ok (base `up`, Stripe et Resend configurés), `status: degraded` uniquement à cause de contenus anciens (vannes, conseils, vidéos, dernier succès LLM). **Même réponse sur la production** : rien à voir avec cette version.
+- Production (deviens-marrant.fr), ancienne version toujours servie : `/glossaire` contient « Place aux rires » et pas « Reste à s'en servir » ; `/blog/jamais-quoi-repondre-techniques` n'a pas « Tester l'étape 1 de Répartie, gratuite ».
+
+### Contrôles de la version précédente (8f69a315, périmée, pour mémoire)
 
 - Aperçu, code 200 : `/`, `/abonnement`, `/carnet`, `/glossaire`, `/a-propos`, `/parcours`, `/blog/meilleures-blagues-droles-2026`, `/api/health`.
 - Aperçu, textes : « Ouvrir les 5 parcours » sur `/` et `/abonnement` (et le bouton de fin de `/glossaire` et `/a-propos`) ; « Reste à s'en servir » sur `/glossaire` ; « Situation 15, offerte » sur `/abonnement` (« Situation 1, offerte » : 0) ; « Tester mes premières répliques, gratuit » sur l'accueil ; « Ça, c'était la réplique offerte. Il en reste … » et `returnTo=%2Fcarnet&src=carnet` sur `/carnet` ; « La situation offerte ce mois-ci » dans l'article ; « Active mon accès », « Débloquer », « Débloque tout le carnet », « Tu crois avoir tout essayé », « Accéder aux parcours complets » : 0 partout.
@@ -40,6 +52,14 @@ L'aperçu est le même Worker `marrant` : mêmes secrets et mêmes liaisons. Ce 
 
 ## Pages à regarder
 
+**Changé par la QA v4 (commit `f13b8e8`) : à regarder en priorité**
+- Compte sans abonnement : l'en-tête montre le bouton prix « 2,99 €/mois » (plus d'« Activer mon accès »).
+- `/quiz-humour` : sur l'écran de résultat, le bouton plein payant est visible dès le premier écran, sans faire défiler.
+- Visiteur : les murs en bas de `/vannes`, `/conseils` et `/videos` n'ont pas de pagination.
+- Abonné Premium : `/parcours` n'a pas d'encart d'abonnement.
+- `/parcours/[slug]` (par exemple `/parcours/repartie`) : l'encart de la lettre est replié.
+- Article Répartie `/blog/jamais-quoi-repondre-techniques` : bloc de fin « Tester l'étape 1 de Répartie, gratuite ».
+
 **Visiteur (navigation privée, sans compte)**
 - `/` : haut de page « Tester mes premières répliques, gratuit », carte Premium « Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois », bouton « 2,99 €/mois » de l'en-tête.
 - `/abonnement` : « Situation 15, offerte », bouton « Ouvrir les 5 parcours · 2,99 €/mois ». `/abonnement?returnTo=%2Fparcours%2Fconfiance` : « Ouvrir Confiance et les 4 autres ».
@@ -58,5 +78,5 @@ L'aperçu est le même Worker `marrant` : mêmes secrets et mêmes liaisons. Ce 
 ## Supprimer ou ignorer cette version
 
 - **L'ignorer suffit** : elle ne reçoit aucun trafic de deviens-marrant.fr tant que personne ne la déploie. La mise en ligne réelle reste la procédure P0 à P8 de `REPLIT_ACTIONS.md` (build et `deploy:cf` du commit validé), pas un déploiement de cette version.
-- **Ne jamais lancer** `npx wrangler versions deploy 8f69a315…` (ni pour 47b8c826) : cela mettrait la version en production sans la migration 14 ni les contrôles P2.
+- **Ne jamais lancer** `npx wrangler versions deploy fba36551…` (ni pour 8f69a315 ou 47b8c826) : cela mettrait la version en production sans la migration 14 ni les contrôles P2.
 - **Couper le lien** : tableau de bord Cloudflare → Workers & Pages → `marrant` → Settings → Domains & Routes → « Preview URLs » désactivé. Cela coupe les liens d'aperçu de toutes les versions, pas deviens-marrant.fr ni `marrant.thomas-issa.workers.dev`. [À VÉRIFIER dans le tableau de bord : je n'ai pas trouvé de suppression d'une version seule ; les anciennes versions restent listées dans `wrangler versions list`, sans effet.]
