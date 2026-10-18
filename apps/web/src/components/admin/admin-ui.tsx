@@ -72,6 +72,10 @@ export function Section({ titre, sousTitre, children, action }: { titre: string;
   );
 }
 
+// Revue visuelle s21, tour 3 (T2-14) : au-delà de cette longueur, une valeur texte ne tient plus d'un
+// tenant à droite sur téléphone ; elle passe sous son libellé, alignée à gauche (comme LignesEmpilees).
+const VALEUR_LONGUE = 14;
+
 /** Tableau libellé / valeur (une colonne de chiffres à droite), lisible sur téléphone. */
 export function LignesChiffres({ lignes }: { lignes: Array<[string, ReactNode]> }) {
   return (
@@ -80,8 +84,17 @@ export function LignesChiffres({ lignes }: { lignes: Array<[string, ReactNode]> 
         <tbody>
           {lignes.map(([label, value]) => (
             <tr key={label} className="border-b border-border/60 last:border-0">
-              <td className="px-3 py-2 text-text-secondary">{label}</td>
-              <td className="px-3 py-2 text-right font-semibold tabular-nums text-text-primary">{value}</td>
+              {typeof value === "string" && value.length > VALEUR_LONGUE ? (
+                <td colSpan={2} className="px-3 py-2">
+                  <span className="block text-text-secondary">{label}</span>
+                  <span className="mt-1 block font-semibold tabular-nums text-text-primary">{value}</span>
+                </td>
+              ) : (
+                <>
+                  <td className="px-3 py-2 text-text-secondary">{label}</td>
+                  <td className="px-3 py-2 text-right font-semibold tabular-nums text-text-primary">{value}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

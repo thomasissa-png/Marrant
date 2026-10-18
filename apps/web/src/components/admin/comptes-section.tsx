@@ -155,7 +155,7 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
                     {activiteConnue && <td className="px-3 py-2 text-xs text-text-muted">{u.lastActiveAt ? dateCourte(u.lastActiveAt) : "jamais"}</td>}
                     <td className="px-3 py-2 text-xs text-text-muted">{dateCourte(u.subscription?.currentPeriodEnd)}</td>
                     <td className="px-3 py-2 text-right">
-                      <button type="button" onClick={() => sync(u.id)} title="Synchroniser le plan avec Stripe" className="rounded px-2 py-1 text-xs text-accent-primary hover:bg-accent-primary/10">
+                      <button type="button" onClick={() => sync(u.id)} title="Synchroniser le plan avec Stripe" className="inline-flex min-h-11 items-center rounded-md px-3 text-sm text-accent-primary hover:bg-accent-primary/10">
                         Sync
                       </button>
                     </td>
