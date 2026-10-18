@@ -1,0 +1,174 @@
+{
+  "mois": "2026-11",
+  "titre": "Carnet de novembre",
+  "intro": "Des situations de la vie courante, rangées de la moins tendue à la plus tendue, pour que tu progresses au fil du mois. Chaque fiche se lit en une minute : la phrase qu'on te dit, une réplique, une sortie polie et un exercice à faire à voix haute.",
+  "fiches": [
+    {
+      "id": "2026-11-01",
+      "titre": "La nuit à cinq heures et demie",
+      "contexte": "quotidien",
+      "situation": "À l'arrêt de bus, il est 17 h 35, la nuit est déjà tombée, et la personne qui attend à côté de toi lève la tête vers le ciel noir.",
+      "onTeDit": "Déjà nuit à cinq heures et demie, c'est incroyable, non ?",
+      "reponse": "Le soleil vient d'obtenir les horaires que je demande depuis trois ans.",
+      "pourquoi": "Tu fais du soleil un collègue qui décroche ce que toi, tu n'obtiens pas, et « trois ans » donne à ta demande un vrai dossier. Le rire tombe sur tes horaires, et la personne qui commente la nuit n'a rien à défendre.",
+      "siTendu": "Oui, les jours raccourcissent vite. Bonne soirée à vous.",
+      "exercice": "Dis la réplique à voix haute avec le ton résigné de quelqu'un qui relit sa propre demande, et marque un temps avant « trois ans »."
+    },
+    {
+      "id": "2026-11-02",
+      "titre": "Le tour des au revoir",
+      "contexte": "soirée",
+      "situation": "Chez des amis, il est minuit, tu es dans l'entrée avec ton manteau sur le dos, au milieu d'une conversation qui n'en finit pas, quand l'hôte passe devant toi.",
+      "onTeDit": "Tu pars déjà ?",
+      "reponse": "Pas déjà. J'ai commencé mes au revoir il y a quarante minutes.",
+      "pourquoi": "Tu corriges le « déjà » avec un chiffre précis, et tu avoues que tes départs durent plus longtemps que tes arrivées. Le rire tombe sur ta façon de quitter une soirée, et l'hôte, qui comprend que tu t'es plu chez lui, n'a rien à défendre.",
+      "siTendu": "Oui, je dois rentrer. Merci pour la soirée, c'était très bien.",
+      "exercice": "Dis la réplique à voix haute en enfilant vraiment un manteau, et marque un temps avant « quarante minutes »."
+    },
+    {
+      "id": "2026-11-03",
+      "titre": "L'écharpe dans le sac",
+      "contexte": "famille",
+      "situation": "Dimanche de Toussaint chez ta grand-mère, tu enfiles ta veste sur le pas de la porte, et elle te regarde partir avec inquiétude.",
+      "onTeDit": "Tu n'as pas d'écharpe ? Tu vas attraper froid !",
+      "reponse": "Si, elle est dans mon sac. Elle, au moins, elle est au chaud.",
+      "pourquoi": "Tu confirmes que l'écharpe existe, et tu avoues qu'elle est mieux traitée que toi. Le rire tombe sur ta façon de t'habiller, et ta grand-mère garde le plaisir d'avoir eu raison de s'inquiéter.",
+      "siTendu": "Tu as raison, je la mets tout de suite. Merci de t'inquiéter.",
+      "exercice": "Dis la réplique à voix haute avec la douceur de quelqu'un pris sur le fait, et souris légèrement sur « au chaud »."
+    },
+    {
+      "id": "2026-11-04",
+      "titre": "Le mail resté sans réponse",
+      "contexte": "boulot",
+      "situation": "Mardi matin, une collègue s'arrête à ton bureau, sa tasse à la main, au sujet d'un mail qu'elle t'a envoyé il y a trois jours et qui n'a reçu aucune réponse.",
+      "onTeDit": "Tu as vu mon mail ?",
+      "reponse": "Je l'ai vu passer. Il avait l'air pressé, je ne l'ai pas retenu.",
+      "pourquoi": "Tu traites le mail comme un passant croisé dans le couloir, et « retenu » avoue que tu ne l'as ni gardé en tête ni traité. Le rire tombe sur ta lenteur à répondre, et ta collègue n'a rien à défendre : sa question reste légitime.",
+      "siTendu": "Oui, je l'ai vu. Je m'en occupe cet après-midi et je te réponds avant ce soir.",
+      "exercice": "Dis la réplique à voix haute avec le calme d'un témoin qui raconte une scène, et laisse un temps avant « Il avait l'air pressé »."
+    },
+    {
+      "id": "2026-11-05",
+      "titre": "Ça fait trois ans",
+      "contexte": "amis",
+      "situation": "Tu arrives enfin chez un ami qui t'invite depuis trois ans, il t'ouvre la porte, et les autres invités lèvent la tête vers toi.",
+      "onTeDit": "Ah, te voilà ! Ça fait trois ans que tu devais passer.",
+      "reponse": "J'ai toujours dit que je viendrais. Je n'ai jamais dit par quel chemin.",
+      "pourquoi": "Tu transformes trois ans de retard en un trajet que tu aurais choisi long, sans t'excuser plus que nécessaire. Le rire tombe sur ta lenteur, et ton ami reçoit surtout la preuve que tu es là.",
+      "siTendu": "Je sais, j'aurais dû venir plus tôt. Je suis content d'être là.",
+      "exercice": "Dis la réplique à voix haute en souriant, comme si tu présentais un itinéraire, et marque un temps avant « par quel chemin »."
+    },
+    {
+      "id": "2026-11-06",
+      "titre": "Le thermostat",
+      "contexte": "couple",
+      "situation": "Samedi soir, c'est la première vraie soirée froide, et ton ou ta partenaire vient de voir que le thermostat est passé de 19 à 22 degrés.",
+      "onTeDit": "Tu as encore touché au thermostat ?",
+      "reponse": "À 19 degrés, je râle. À 22, je suis adorable. Tu choisis avec lequel des deux tu passes la soirée.",
+      "pourquoi": "Tu ne nies pas : tu présentes deux versions de toi, et le choix devient un cadeau pour l'autre. Le rire tombe sur ton humeur qui suit la température, et ton ou ta partenaire reçoit un choix plutôt qu'un reproche.",
+      "siTendu": "Oui, j'avais froid. On le remet à 20 ensemble ?",
+      "exercice": "Dis la réplique à voix haute avec la voix très douce de la version à 22 degrés, puis recommence avec celle, un peu grincheuse, de la version à 19."
+    },
+    {
+      "id": "2026-11-07",
+      "titre": "Le Beaujolais nouveau",
+      "contexte": "soirée",
+      "situation": "À la soirée Beaujolais nouveau d'un ami, tout le monde goûte, et il te tend un verre en attendant ton verdict.",
+      "onTeDit": "Alors, tu lui trouves quoi, à ce Beaujolais ?",
+      "reponse": "Je n'ai pas le vocabulaire, mais j'ai du courage : j'en reprends.",
+      "pourquoi": "Tu avoues ton ignorance, puis tu la compenses par la seule preuve que tout hôte aime recevoir : un verre vide. Le rire tombe sur ton palais, et ton ami garde le beau rôle de celui qui sait.",
+      "siTendu": "Je ne m'y connais pas assez pour en parler, mais il est agréable. Merci de me l'avoir fait goûter.",
+      "exercice": "Dis la réplique à voix haute en faisant semblant de réfléchir longuement, puis lève ton verre sur « j'en reprends »."
+    },
+    {
+      "id": "2026-11-08",
+      "titre": "Fidèle aux pâtes",
+      "contexte": "famille",
+      "situation": "Déjeuner de Toussaint, ta tante te ressert de la tarte sans te demander, et regarde ton assiette d'un air inquiet.",
+      "onTeDit": "Et chez toi, tu te fais à manger, au moins ?",
+      "reponse": "Je mange très bien. Je suis fidèle aux pâtes depuis quatre ans.",
+      "pourquoi": "Tu réponds « très bien » avant de parler de fidélité, et les pâtes prennent la place d'un partenaire de longue date. Le rire tombe sur ton menu, et ta tante, rassurée de te voir manger, n'a rien à corriger.",
+      "siTendu": "Oui, ne t'inquiète pas, je me débrouille. Ta tarte est délicieuse, d'ailleurs.",
+      "exercice": "Dis la réplique à voix haute avec le sérieux d'un serment, et laisse un temps avant « quatre ans »."
+    },
+    {
+      "id": "2026-11-09",
+      "titre": "Le plat fait maison",
+      "offerte": true,
+      "accroche": "Dîner entre amis, chez toi. Tu poses un plat fumant au milieu de la table",
+      "contexte": "amis",
+      "situation": "Dîner entre amis chez toi, tout le monde est installé, et tu viens de poser au milieu de la table le plat que tu as cuisiné toi-même.",
+      "onTeDit": "Attends, c'est toi qui as cuisiné ?",
+      "reponse": "Je l'apprends en même temps que vous. Goûtez, vous me direz si c'est vrai.",
+      "pourquoi": "Tu traites ton talent de cuisinier comme une rumeur dont tu serais le dernier informé, et tu confies la vérification aux invités. Le rire tombe sur toi et sur ton plat, et l'ami qui a lancé la question reçoit surtout une invitation à goûter.",
+      "siTendu": "Oui, c'est moi, j'ai suivi la recette de près. Dis-moi ce que tu en penses.",
+      "exercice": "Dis la réplique à voix haute en regardant ton plat avec surprise, puis laisse un temps de silence avant « si c'est vrai »."
+    },
+    {
+      "id": "2026-11-10",
+      "titre": "Les économies du vendredi",
+      "contexte": "couple",
+      "situation": "Vendredi soir, en pleine semaine de promotions, ton téléphone est dans ta main depuis une heure et ton ou ta partenaire te regarde par-dessus son livre.",
+      "onTeDit": "Tu regardes quoi, depuis une heure ?",
+      "reponse": "Je fais des économies. J'ai déjà trois cents euros dans mon panier.",
+      "pourquoi": "Tu présentes ton panier comme un plan d'épargne, et le montant précis ruine la démonstration en une demi-phrase. Le rire tombe sur ton raisonnement de soldes, et ton ou ta partenaire n'a rien à défendre.",
+      "siTendu": "Je regarde des idées de cadeaux. Je te montre dès que j'ai fini.",
+      "exercice": "Dis la réplique à voix haute avec la fierté tranquille de quelqu'un qui présente un bilan, sans sourire avant « panier »."
+    },
+    {
+      "id": "2026-11-11",
+      "titre": "Les objectifs de l'année",
+      "contexte": "boulot",
+      "situation": "Fin novembre, ton manager te croise près des bureaux et lance le sujet de l'entretien annuel devant deux collègues.",
+      "onTeDit": "Au fait, tu en es où de tes objectifs de l'année ?",
+      "reponse": "Je les ai retrouvés dans le tiroir de mes résolutions de janvier. Ils n'ont pas bougé.",
+      "pourquoi": "Tes objectifs partagent un tiroir avec tes bonnes résolutions, et « ils n'ont pas bougé » dit l'essentiel sans un chiffre. Le rire tombe sur ton année, et ton manager n'a rien à défendre.",
+      "siTendu": "Je prépare un point précis pour notre entretien. Je te l'envoie avant.",
+      "exercice": "Dis la réplique à voix haute sur le ton d'un compte rendu, en détachant « Ils n'ont pas bougé »."
+    },
+    {
+      "id": "2026-11-12",
+      "titre": "Le groupe resté sans réponse",
+      "contexte": "amis",
+      "situation": "Dîner à six, et une amie ouvre le sujet du groupe de messages où tu n'as pas répondu depuis des semaines.",
+      "onTeDit": "Tu nous lis, au moins ? Tu ne réponds jamais dans le groupe.",
+      "reponse": "Je réponds à tous vos messages. Dans ma tête. Le réseau est mauvais entre ma tête et mon pouce.",
+      "pourquoi": "Tu avoues ne jamais répondre en inventant une panne de réseau interne, et l'image du pouce rend la scène concrète. Le rire tombe sur ta lenteur, et tes amis comprennent que tu les lis.",
+      "siTendu": "Je vous lis, promis. Répondre n'est pas mon fort, je vais m'y mettre.",
+      "exercice": "Dis la réplique à voix haute avec le ton neutre d'un technicien qui annonce une panne, et laisse un temps avant « Le réseau »."
+    },
+    {
+      "id": "2026-11-13",
+      "titre": "Le repas de l'équipe",
+      "contexte": "boulot",
+      "situation": "En réunion d'équipe, ton manager demande qui organise le repas de fin d'année, personne ne bouge, et tous les regards glissent vers toi.",
+      "onTeDit": "Alors, qui s'occupe du repas de fin d'année ?",
+      "reponse": "Je m'en charge. Je lance le sondage pour la date : on devrait s'y retrouver vers février.",
+      "pourquoi": "Tu acceptes la mission et tu annonces le délai le plus crédible de la vie de bureau. Le rire tombe sur le sondage et sur toi, personne dans la salle n'est visé.",
+      "siTendu": "Je veux bien m'en occuper, mais j'aurais besoin d'un coup de main pour la réservation.",
+      "exercice": "Dis la réplique à voix haute avec l'enthousiasme d'un volontaire, puis ralentis sur « vers février »."
+    },
+    {
+      "id": "2026-11-14",
+      "titre": "Noël, cette année ?",
+      "contexte": "famille",
+      "situation": "Dimanche soir au téléphone, ton frère ou ta sœur organise déjà Noël et voudrait un nom de plus sur sa liste : le tien.",
+      "onTeDit": "Cette année, tu viens à Noël, ou tu as encore une urgence ?",
+      "reponse": "Je viens. J'ai demandé à ma grippe de passer en janvier.",
+      "pourquoi": "Tu reconnais l'excuse des années précédentes sans la discuter, et tu traites la grippe comme un rendez-vous qu'on déplace. Le rire tombe sur ton absence passée, et l'invitation de ton frère ou de ta sœur reste la seule chose sérieuse.",
+      "siTendu": "Oui, je viens. Je te confirme mes horaires de train dès cette semaine.",
+      "exercice": "Dis la réplique à voix haute sans sourire, comme un agenda qu'on met à jour, et appuie légèrement sur « janvier »."
+    },
+    {
+      "id": "2026-11-15",
+      "titre": "Celle que tu racontes toujours",
+      "contexte": "amis",
+      "situation": "Dîner entre amis, tu commences ton histoire préférée avec ton plus beau sourire, et une personne te coupe avant la fin de la première phrase.",
+      "onTeDit": "Celle-là, tu nous l'as déjà racontée.",
+      "reponse": "Je la raconte jusqu'à ce que quelqu'un rie au bon endroit. Vous êtes ma sixième tentative.",
+      "pourquoi": "Tu avoues que l'histoire est un test que tu repasses, et le chiffre précis fait de la table un jury. Le rire tombe sur ton obstination, et la personne qui t'a coupé n'a rien à défendre : elle peut même essayer de rire au bon endroit.",
+      "siTendu": "Ah, pardon, je me répète. Racontez-moi plutôt votre semaine.",
+      "exercice": "Dis la réplique à voix haute en comptant sur tes doigts jusqu'à six, avec le sérieux d'un candidat, et marque un temps avant « sixième »."
+    }
+  ]
+}
