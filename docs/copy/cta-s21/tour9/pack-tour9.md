@@ -304,4 +304,106 @@ Format de réponse, par bloc :
 
 ---
 
-<!-- SUITE -->
+## Bloc B13 : le résultat du quiz d'orientation, pour un membre sans abonnement
+
+### Fiche de situation (neutre)
+
+- **Qui** : une personne qui a créé son compte (mot de passe, e-mail) mais n'a pas fini le paiement : elle n'est donc pas abonnée. Elle est connectée. Peu de monde est dans ce cas. Elle a pu créer son compte sans ouvrir aucune étape.
+- **Ce qu'elle vient de faire** : un quiz d'orientation de 3 questions. Le résultat est affiché au-dessus du bloc : « Ton point de départ » et le parcours conseillé (ici, Répartie, 4 étapes ; second exemple plus bas : Storytelling, 6 étapes). Un lien « Refaire le quiz » existe à côté.
+- **Ce qu'elle cherche** : son résultat. Elle a déjà fait une partie du chemin vers l'abonnement.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein, qui ouvre directement le paiement sécurisé par Stripe (le compte existe déjà). Le libellé du bouton fait partie du texte à juger.
+- **Composition du bloc** : une phrase d'ouverture sur le résultat, le contenu du parcours, le bouton plein, une ligne de garantie, le lien discret « Refaire le quiz ». Le nom du parcours est celui du résultat affiché ; le texte reprend la ligne de la carte de ce parcours et les titres de ses étapes.
+- **Rappel** : avec Premium, toutes les étapes sont ouvertes d'un coup ; une étape par semaine est le rythme conseillé.
+
+### Texte
+
+**Résultat : Répartie**
+> Ton quiz te conseille Répartie, le parcours pour toi si on te chambre en soirée, en coloc ou en TD et que tu cherches encore quoi répondre. Au programme après l'étape 1, offerte : le rythme et les silences, retourner les piques avec le sourire, improviser sur l'inattendu. Avec Premium, les étapes 2 à 4 sont ouvertes tout de suite (20 minutes chacune, et on te conseille une par semaine), et pour 2,99 € par mois tu ouvres les 5 parcours, pas seulement Répartie. Ton compte est prêt : il ne reste que le paiement.
+> [ Suivre Répartie en entier · 2,99 €/mois ]
+> Prix TTC, paiement sécurisé par Stripe. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.
+
+**Résultat : Storytelling**
+> Ton quiz te conseille Storytelling, le parcours pour toi si tu as de quoi tenir une table, mais que ta chute arrive quand tout le monde est passé au dessert. Au programme après l'étape 1, offerte, entre autres : des personnages qu'on entend, une chute qui se lit de deux façons, un détour qui ne perd personne. Avec Premium, les étapes 2 à 6 sont ouvertes tout de suite (20 minutes chacune, et on te conseille une par semaine), et pour 2,99 € par mois tu ouvres les 5 parcours, pas seulement Storytelling. Ton compte est prêt : il ne reste que le paiement.
+> [ Suivre Storytelling en entier · 2,99 €/mois ]
+> Prix TTC, paiement sécurisé par Stripe. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.
+
+*Au clic : le bouton ouvre directement le paiement sécurisé.*
+
+`Envie de payer : /10 | Écriture : /10 | Manque pour 10 : ... | Alertes : ...`
+
+---
+
+## Bloc B14 : la fin de l'étape 1 d'un parcours
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur anonyme qui vient de lire en entier l'étape 1 de Répartie (sans compte) et de répondre au petit quiz de l'étape. C'est le moment où il sait le mieux ce que le site propose.
+- **Ce qu'il voit juste au-dessus** : le résultat du quiz, « Sans faute. » ou « 3 sur 4. Les explications sont là pour ça. ».
+- **Ce qu'il cherche** : savoir si c'est fini, ce qu'il y a après, et ce que ça lui coûte pour continuer. Il ne peut pas valider l'étape sans Premium.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement). Une alternative discrète existe pour qui n'est pas prêt.
+- **Composition du bloc** : une carte « Étape 2 » (`[S17]` surtitre, titre de l'étape et `[S18]` texte, qui sont des données publiques ; rien de payant n'est dévoilé), puis une phrase sur la suite et la validation de l'étape, le bouton plein, la ligne `[S16]`, et un lien discret `[S30]` vers la lettre. Les libellés de la phrase et du bouton font partie du texte à juger.
+- **Rappel** : avec Premium, toutes les étapes sont ouvertes d'un coup, rien n'est bloqué ; une étape par semaine est le rythme conseillé.
+- **Données d'exemple (réelles, étape 2 de Répartie, 4 étapes, 20 minutes par semaine)** : titre « Le rythme et les silences » ; format « Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. » ; aperçu « Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. »
+
+### Texte
+
+> `[S17]` Étape 2 sur 4, 20 minutes
+> **Le rythme et les silences**
+> `[S18]` Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.
+>
+> Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les 4 autres parcours en entier.
+> [ Passer à l'étape 2 avec Premium ]
+> `[S16]` 2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
+> `[S30]` Lien : Ou la lettre gratuite, sans compte : une vanne décryptée et un exercice, une fois par mois par e-mail
+
+*Au clic : le bouton ouvre la page d'abonnement et ramène ensuite sur ce parcours ; le lien ouvre le formulaire de la lettre.*
+
+`Envie de payer : /10 | Écriture : /10 | Manque pour 10 : ... | Alertes : ...`
+
+---
+
+## Bloc B16 : la page d'abonnement
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur anonyme qui a décidé de regarder l'offre : il est arrivé par le bouton d'en-tête, par un bouton « … avec Premium » ou par une adresse directe. Il vient souvent d'un parcours précis (la page s'adapte).
+- **Ce qu'il voit** : un surtitre, un titre, le sous-titre « 5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre. », la carte Premium (mensuel 2,99 € TTC ou annuel 24,99 € TTC, au choix du visiteur), le bouton plein, puis la garantie, l'extrait du carnet, des liens vers les étapes gratuites et une FAQ.
+- **Ce qui se passe au clic sur le bouton** : un formulaire de création de compte (« Étape 1 sur 2 »), puis le paiement sécurisé (« Étape 2 »). Rien près du bouton ne le dit.
+- **Ce qu'il cherche** : savoir si c'est pour lui, combien ça coûte, ce qui se passe s'il clique.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein.
+- **Contraintes de forme** : le surtitre tient sur 2 lignes au maximum sur mobile (environ 80 caractères) ; la ligne `[S32]` s'affiche juste sous le bouton, en petit. Le surtitre, le titre et le bouton dépendent du parcours d'origine ; les parcours sans texte propre (et l'arrivée par une adresse directe) reçoivent le surtitre, le titre et le bouton « par défaut ». Le bouton affiche le prix de la formule choisie sur la carte : les deux libellés sont donnés.
+- **Rappel** : Confiance dure 6 semaines à 20 minutes par semaine ; Storytelling parle de raconter une anecdote (voir sa carte et sa description dans les faits).
+
+### Texte
+
+*Lis chaque surtitre avec le titre qui s'affiche juste dessous, puis avec le bouton.*
+
+> Par défaut (adresse directe, parcours sans texte propre) :
+> `[S33a]` Pour toi si tu trouves la bonne réponse, mais avec un temps de retard
+> Titre : **Ta réplique pendant la soirée, pas dans le bus du retour**
+> Bouton : [ Ouvrir les 5 parcours · 2,99 €/mois ]  *(formule annuelle choisie : [ Ouvrir les 5 parcours · 24,99 €/an ])*
+>
+> Arrivée depuis Répartie :
+> `[S33a]` et titre ci-dessus.
+> Bouton : [ Ouvrir Répartie et les 4 autres · 2,99 €/mois ]  *(annuelle : [ Ouvrir Répartie et les 4 autres · 24,99 €/an ])*
+>
+> Arrivée depuis Machine à Café ou Boulot :
+> `[S33b]` Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force
+> Titre : **Ta réplique pendant la réunion, pas dans l'ascenseur d'après**
+> Bouton : [ Ouvrir Machine à Café et les 4 autres · 2,99 €/mois ]  *(ou [ Ouvrir Boulot et les 4 autres · 2,99 €/mois ] ; annuelle : « · 24,99 €/an »)*
+>
+> Arrivée depuis Confiance :
+> `[S33c]` Pour toi si tu sors d'une période compliquée et que le rire te manque
+> Titre : **Retrouver le rire à table, 20 minutes par semaine, sans te forcer**
+> Bouton : [ Ouvrir Confiance et les 4 autres · 2,99 €/mois ]  *(annuelle : « · 24,99 €/an »)*
+>
+> Arrivée depuis Storytelling :
+> `[S33d]` Pour toi si ta chute arrive quand tout le monde est passé au dessert
+> Titre : **Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »**
+> Bouton : [ Ouvrir Storytelling et les 4 autres · 2,99 €/mois ]  *(annuelle : « · 24,99 €/an »)*
+>
+> *(sous-titre et carte : inchangés)*
+> `[S32]` Deux étapes : ton compte, puis le paiement sécurisé par Stripe.
+
+`Envie de payer : /10 | Écriture : /10 | Manque pour 10 : ... | Alertes : ...`
+
