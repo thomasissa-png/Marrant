@@ -17,6 +17,8 @@ import { LISTE_PARCOURS } from "@/config/textes/parcours";
 import { trackUmami } from "@/lib/umami";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import Link from "next/link";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
+import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import { totalParcoursXp } from "@/lib/parcours-xp";
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
@@ -265,6 +267,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           const prog = userProgress[p.slug];
           const progressValue = prog ? prog.completed : 0;
           const isDone = !!prog?.done;
+          // s21 B15 (froid) : visiteur ou membre qui n'a pas commencé ce parcours.
+          const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
             <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
@@ -356,14 +360,22 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 </details>
 
                 <div className="flex flex-col gap-2">
+                  {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     variant="primary"
                     size="lg"
-                    className="w-full sm:w-auto"
+                    className="h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto"
                     onClick={() => handleCta(p.slug)}
                   >
-                    {isDone ? LISTE_PARCOURS.revoir : progressValue > 0 ? "Continuer ce parcours" : "Commencer ce parcours"}
+                    {etape1Slug
+                      ? LISTE_PARCOURS_CTA.bouton(etape1Slug)
+                      : isDone
+                        ? LISTE_PARCOURS.revoir
+                        : progressValue > 0
+                          ? "Continuer ce parcours"
+                          : "Commencer ce parcours"}
                   </Button>
+                  {etape1Slug && <p className="text-xs text-text-muted">{LISTE_PARCOURS_CTA.frontiere(etape1Slug)}</p>}
                 </div>
               </CardContent>
             </Card>

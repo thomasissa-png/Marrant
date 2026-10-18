@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
 import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
@@ -88,16 +89,21 @@ describe("ParcoursPage — Parcours structurés", () => {
     }
   });
 
-  it("renders CTA buttons for each parcours", () => {
-    const buttons = screen.getAllByText("Commencer ce parcours");
+  it("renders CTA buttons for each parcours (s21 B15 : étape 1 gratuite nommée, ligne frontière)", () => {
+    const buttons = screen.getAllByText(/^Commencer l'étape 1 de .+, gratuite$/);
     expect(buttons).toHaveLength(NB);
     buttons.forEach((btn) => {
       expect(btn.tagName).toBe("BUTTON");
     });
+    expect(screen.getByText(LISTE_PARCOURS_CTA.bouton("repartie"))).toBeInTheDocument();
+    expect(screen.getByText(LISTE_PARCOURS_CTA.frontiere("repartie"))).toBeInTheDocument();
+    expect(LISTE_PARCOURS_CTA.frontiere("machine-a-cafe")).toBe(
+      "Sans compte, sans abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+    );
   });
 
   it("anonyme : le CTA mène directement au parcours, sans /register (s15 §2.7, étape 1 en lecture libre)", async () => {
-    const buttons = screen.getAllByText("Commencer ce parcours");
+    const buttons = screen.getAllByText(/^Commencer l'étape 1 de /);
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+\?src=hub$/));
     expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
@@ -217,7 +223,7 @@ describe("ParcoursPage — authenticated user", () => {
   it("navigates to /parcours/[slug] when authenticated user clicks CTA", async () => {
     const Page = await ParcoursPage();
     render(Page);
-    const buttons = screen.getAllByText("Commencer ce parcours");
+    const buttons = screen.getAllByText(/^Commencer l'étape 1 de /);
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe?src=hub");
   });
