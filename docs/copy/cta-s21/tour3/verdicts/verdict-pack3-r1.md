@@ -150,19 +150,121 @@ La phrase d'ouverture de T1, en revanche, est bancale. « Un humour, ça se trav
 **Alertes** : aucune.
 
 ## B13 : résultat du quiz d'orientation (membre sans abonnement)
-[à remplir]
+
+`Choix : 2 | Conversion : T1 6/10, T2 8/10 | Écriture : T1 5/10, T2 7/10`
+
+J'ai un compte, je n'ai pas payé, je viens d'avoir mon résultat. T1 me ramène au point où j'ai lâché (« il ne reste que le paiement ») sans me redonner de raison. Son bouton a une faute de grammaire : « Active mon accès » mélange un impératif adressé à moi et un « mon ». T2 rappelle à quoi sert Répartie et ce qui m'attend (étapes 2 à 4, une par semaine), et le bouton « Suivre Répartie en entier » nomme le désir, pas la transaction.
+
+**Manque pour 10, T1** :
+- Il faut corriger la grammaire du bouton (« Activer mon accès »), mais surtout redonner une raison.
+- Version : celle de T2 ci-dessous.
+
+**Manque pour 10, T2** :
+- La phrase est trop longue, avec une parenthèse en fin.
+- « Répondre du tac au tac » n'est pas dans les faits vrais (voir alerte).
+- Version :
+  - Phrase : Ton compte est prêt. Plus qu'un pas pour suivre Répartie en entier, le parcours pour toi si on te chambre et que tu cherches encore quoi répondre : une étape par semaine, 20 minutes.
+  - Bouton : [ Suivre Répartie en entier · 2,99 €/mois ]
+  - Ligne : Prix TTC. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.
+
+**Alertes** :
+- T2 : « le parcours pour répondre du tac au tac » n'est pas une formulation des faits vrais. C'est le sens du nom « Répartie », mais lu comme une promesse, cela frôle le résultat. Il vaut mieux reprendre la ligne réelle de la carte (« Pour toi si on te chambre… et que tu cherches encore quoi répondre »).
 
 ## B14 : fin de l'étape 1
-[à remplir]
+
+`Choix : 2 | Conversion : T1 6/10, T2 8/10 | Écriture : T1 6/10, T2 8/10`
+
+Je viens de finir l'étape 1 et son quiz, c'est le moment où j'ai le plus envie de continuer. T1 m'envoie une phrase administrative (« Valider l'étape fait partie de Premium. »), un bouton-catalogue, puis une garantie au ton de notice. T2 me reconnaît d'abord (« Bien joué. ») et me fait faire le pas suivant : « Passer à l'étape 2 avec Premium » est le bouton le plus désirable du pack à ce moment du parcours. Il est honnête, puisqu'il nomme Premium. « Dans l'étape » est aussi plus juste que « Au menu », un cliché.
+
+**Manque pour 10, T2** :
+- « c'est avec Premium » est un peu mou.
+- Le lien vers la lettre pourrait dire qu'elle contient aussi un exercice, ce qui la rend plus utile pour qui n'est pas prêt.
+- Version :
+  - Phrase : Bien joué. Valider cette étape et ouvrir la suivante, c'est dans Premium.
+  - Bouton : [ Passer à l'étape 2 avec Premium ]
+  - S16 : 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
+  - S30 : Ou la lettre gratuite, sans compte : une vanne décryptée et un exercice, une fois par mois par e-mail
+
+**Manque pour 10, T1** : tout le passage après la carte. Version : celle de T2 ci-dessus.
+
+**Alertes** : aucune. « Bien joué » tient aussi après « 3 sur 4 ».
 
 ## B15 : page des parcours
-[à remplir]
+
+`Choix : 2 | Conversion : T1 7/10, T2 8/10 | Écriture : T1 7/10, T2 8/10`
+
+Je compare cinq cartes et je veux savoir ce que je peux voir avant de payer. T2 me donne une raison de plus d'essayer (« quiz compris »), et « Essayer gratuitement » est plus léger que « Lire ». La ligne « Étapes 2 à 4 avec Premium » de T1 est très sèche. Les deux tracent clairement la frontière entre le gratuit et le payant, ce qui manquait sur la page.
+
+**Manque pour 10, T2** :
+- « Essayer » reste un peu timide pour quelqu'un qui choisit un parcours. « Commencer » dit qu'on entre dans le parcours, et la ligne dessous suffit à rassurer sur le compte.
+- Version :
+  - Bouton : [ Commencer Répartie gratuitement ]
+  - S31 : L'étape 1 se lit sans compte, quiz compris. Les étapes 2 à 4 sont dans Premium.
+
+**Manque pour 10, T1** : la ligne est trop sèche et il manque « quiz compris ». Version : celle ci-dessus.
+
+**Alertes** : aucune.
 
 ## B16 : page d'abonnement
-[à remplir]
+
+`Choix : 2 | Conversion : T1 7/10, T2 8/10 | Écriture : T1 7/10, T2 8/10`
+
+Je regarde l'offre et je me demande si c'est pour moi. Chaque texte gagne sur des morceaux différents :
+- **Titre** : T1 gagne, avec la meilleure image du pack (« Ta réplique pendant la soirée, pas dans le bus du retour »), courte et vraie. Le titre de T2, « Ta réplique, tu la veux… », dit la même chose en plus lourd.
+- **Surtitres** : T2 gagne. S33b, « sans devenir le collègue qui force », nomme la peur exacte de quelqu'un qui veut faire rire au boulot. C'est ce qui débloque l'envie. S33a de T2 évite aussi la répétition « réplique / réplique » avec le titre.
+- **Bouton** : T2 gagne. « Ouvrir les 5 parcours · 2,99 €/mois » dit ce que j'obtiens. « Commencer à 2,99 €/mois » peut se lire « à partir de 2,99 € », ce qui laisse planer un doute sur le prix.
+- **S32** : T2 est plus net. Les parenthèses de T1, « (1 sur 2) » et « (2 sur 2) », alourdissent la ligne.
+
+T2 l'emporte parce que le bouton et le surtitre pèsent plus sur le clic que la tournure du titre.
+
+**Manque pour 10, T2** :
+- Le titre de T1 est meilleur.
+- Le titre, unique, jure sous S33c (Confiance, « période compliquée ») : une personne qui sort d'une période compliquée ne cherche pas une réplique en soirée. Ce défaut vaut pour les deux textes. Il faudrait un titre propre au parcours d'origine, ou un titre plus large.
+- Version :
+  - S33a : Pour toi si tu trouves la bonne réponse, mais avec un temps de retard
+  - S33b : Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force
+  - S33c : Pour toi si tu sors d'une période compliquée et que le rire te manque
+  - Titre : **Ta réplique pendant la soirée, pas dans le bus du retour** (avec Confiance, prévoir un titre propre, à écrire et à relire à l'aveugle)
+  - Bouton : [ Ouvrir les 5 parcours · 2,99 €/mois ]
+  - S32 : Deux étapes : ton compte, puis le paiement sécurisé par Stripe.
+
+**Manque pour 10, T1** :
+- Le bouton est ambigu.
+- S33b est moins juste.
+- S32 est trop chargée.
+- Version : celle ci-dessus.
+
+**Alertes** :
+- Aucune affirmation hors des faits vrais.
+- Le titre fait rêver une scène sans rien garantir : c'est permis.
 
 ## B17 : création de compte
-[à remplir]
+
+`Choix : 1 | Conversion : T1 8/10, T2 7/10 | Écriture : T1 8/10, T2 6/10`
+
+Je suis presque décidé et je veux en finir vite. T1 me pousse en avant : « Créer mon compte, plus qu'une étape » me dit que la fin est proche. Son libellé du prénom (« pour te saluer dans nos e-mails ») est chaleureux et exact. T2, avec « pour nos e-mails », peut laisser croire que donner son prénom inscrit à de la publicité, ce qui crée une petite méfiance au mauvais moment. Le lien de sortie de T2 est télégraphique.
+
+**Manque pour 10, T1** :
+- « plus qu'une étape » peut se lire de deux façons : « ce clic est la dernière étape » ou « après ce clic, il en reste une ». Il faut dire laquelle.
+- Version :
+  - S34 : Prénom (facultatif, pour te saluer dans nos e-mails)
+  - S36 : [ Créer mon compte et passer au paiement ]
+  - S35 : Tu préfères lire d'abord ? L'étape 1 de Répartie, gratuite et sans compte
+
+**Manque pour 10, T2** :
+- Le libellé du prénom est flou.
+- Le bouton ne donne aucun élan.
+- Le lien est sec.
+- Version : celle de T1 ci-dessus.
+
+**Alertes** : aucune.
 
 ## Synthèse
-[à remplir]
+
+Le texte 2 gagne 7 duels sur 11 (B9, B10, B11, B13, B14, B15, B16), le texte 1 en gagne 4 (B7, B8, B12, B17). Aucun texte n'atteint 10 : les meilleurs (8/10) gagnent par un bouton qui prolonge le geste du visiteur, par exemple « Écrire la mienne », « Passer à l'étape 2 », « Décrypter cette vidéo ». Les perdants finissent sur un bouton-catalogue (« Voir ce que contient Premium », « Tout débloquer »).
+
+Deux corrections passent avant le reste :
+- B7 T1 /conseils : rattacher l'exercice à Premium, sinon le visiteur le croit gratuit.
+- B13 T2 : remplacer « pour répondre du tac au tac », absent des faits vrais, par la ligne réelle de la carte Répartie.
+
+Aucun tiret cadratin dans le pack.

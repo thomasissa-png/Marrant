@@ -91,22 +91,113 @@ T1 commence chaque S27 par « Les 5 parcours en entier », alors que je n'ai rie
 - **Alertes** : aucune affirmation hors faits. Les boutons « Je m'abonne… » mènent d'abord à la création du compte, mais l'intro le dit juste au-dessus (« deux étapes »), donc pas d'alerte. Aucun tiret cadratin.
 
 ## B12 : résultat du quiz d'humour
-[à remplir]
+
+`Choix : 1 | Conversion : T1 7/10, T2 6,5/10 | Écriture : T1 6,5/10, T2 7/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. Je suis venu pour m'amuser et je viens d'avoir mon profil. Le seul pas réaliste, c'est l'étape gratuite. T1 l'emporte de peu, grâce à deux éléments :
+- « quiz compris » parle à quelqu'un qui vient d'aimer un quiz ;
+- « Essayer gratuitement » est plus actif que « Lire ».
+
+Son lien « Voir les 5 parcours avec Premium » dit où il mène. Mais l'ouverture « Un humour, ça se travaille » donne une petite leçon, et « Un humour » sonne faux. Sa ligne Premium est trop chargée (« de 15 à 20 minutes selon le parcours » répète ce qui précède). T2 est propre mais sans pont avec le profil. Son lien « Accéder aux parcours complets » laisse croire à un accès immédiat, alors qu'il ouvre une page de paiement : un léger décalage au clic.
+
+- **Manque pour 10, T1** :
+  - Faire le lien avec le résultat que le visiteur vient de recevoir, au lieu de lui faire la leçon.
+  - Alléger la ligne Premium.
+  - Ma version : phrase « Ton profil, c'est le point de départ. Confiance, c'est 6 étapes de 20 minutes, une par semaine, et la première se lit tout de suite, sans compte, quiz compris. » ; bouton « Essayer gratuitement l'étape 1 de Confiance » ; lien « Voir les 5 parcours avec Premium » ; ligne « Premium : les 5 parcours en entier, 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement. »
+- **Manque pour 10, T2** :
+  - Le pont avec le profil manque, et « quiz compris » aussi.
+  - Le lien doit dire Premium.
+  - Ma version : celle de T1 ci-dessus.
+- **Alertes** : aucune, aucun tiret cadratin.
 
 ## B13 : résultat du quiz d'orientation (membre non abonné)
-[à remplir]
+
+`Choix : 2 | Conversion : T1 7/10, T2 8,5/10 | Écriture : T1 6,5/10, T2 8/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. J'ai déjà fait la moitié du chemin. On doit me rappeler ce que je gagne, pas seulement ce qu'il me reste à faire. T2 nomme le gain (« la suite de Répartie », « étapes 2 à 4, une par semaine »), et son bouton « Suivre Répartie en entier · 2,99 €/mois » est mon objectif avec son prix. T1 réduit le pas à une formalité (« il ne reste que le paiement »). Son bouton « Active mon accès » mélange l'impératif adressé à « tu » et « mon » : il faut « Activer mon accès » ou « J'active mon accès ». « Accès » reste en plus un mot de logiciel.
+
+- **Manque pour 10, T2** :
+  - La parenthèse rend la phrase longue sur téléphone.
+  - « le parcours pour répondre du tac au tac » répète ce que le résultat vient d'afficher. Mieux vaut donner le rythme réel (20 minutes).
+  - Ma version : « Ton compte est prêt : plus qu'un pas avant la suite de Répartie, les étapes 2 à 4, une par semaine, 20 minutes chacune. » ; bouton « Suivre Répartie en entier · 2,99 €/mois » inchangé ; garantie inchangée.
+- **Manque pour 10, T1** :
+  - Corriger l'accord du bouton.
+  - Nommer ce que le paiement ouvre.
+  - Ma version : celle de T2 ci-dessus.
+- **Alertes** : aucune. « répondre du tac au tac » décrit le sujet du parcours (cohérent avec « tu cherches encore quoi répondre »), ce n'est pas une promesse de résultat. Aucun tiret cadratin.
 
 ## B14 : fin de l'étape 1
-[à remplir]
+
+`Choix : 2 | Conversion : T1 6,5/10, T2 8,5/10 | Écriture : T1 7/10, T2 8/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. Je viens de finir l'étape, j'ai mon score, et l'envie de continuer est à son maximum. T2 la saisit :
+- « Bien joué » reconnaît ce que je viens de faire, et marche après « Sans faute. » comme après « 3 sur 4 » ;
+- « Passer à l'étape 2 avec Premium » est le geste que je veux faire, et la carte juste au-dessus vient de me la faire désirer ;
+- le lien vers la lettre, avec son « Ou », se présente comme une alternative et ne vole pas la vedette.
+
+T1 met une phrase froide (« Valider l'étape fait partie de Premium. ») et un bouton de brochure, au moment le plus chaud du parcours. « Au menu : » est un petit cliché.
+
+- **Manque pour 10, T2** :
+  - « c'est avec Premium » est un peu plat juste après « Bien joué ».
+  - Ma version : phrase « Bien joué. La suite de Répartie est dans Premium : tu valides cette étape et tu ouvres la suivante. » ; bouton « Passer à l'étape 2 avec Premium » inchangé ; S16 et S30 inchangés.
+- **Manque pour 10, T1** :
+  - Il faut féliciter le visiteur et nommer l'étape 2 dans le bouton.
+  - Ma version : celle de T2 ci-dessus.
+- **Alertes** : aucune. S18 reprend les données publiques sans rien dévoiler. La lettre « une vanne décryptée » est fidèle aux faits. Aucun tiret cadratin.
 
 ## B15 : page des parcours
-[à remplir]
+
+`Choix : 2 | Conversion : T1 7,5/10, T2 9/10 | Écriture : T1 7,5/10, T2 8,5/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. Je compare cinq cartes, et ce que je veux savoir, c'est ce que je peux voir sans payer. T2 répond en une ligne et ajoute un bonus concret (« quiz compris ») qui rend l'étape gratuite plus vivante qu'une simple lecture. « Essayer gratuitement » est plus actif que « Lire ». T1 est juste mais télégraphique : « Étapes 2 à 4 avec Premium. » ressemble à une note de bas de page.
+
+- **Manque pour 10, T2** :
+  - Le bouton fait environ 44 caractères. Sur un téléphone de 375 px, il risque de passer sur deux lignes. Garder le nom du parcours est utile (cinq boutons identiques sur la page poseraient un problème de lecteur d'écran), donc raccourcir ailleurs.
+  - Ma version : bouton « Essayer l'étape 1 de Répartie, gratuite » ; S31 « Sans compte, quiz compris. Les étapes 2 à 4 sont dans Premium. »
+  - Au-delà, je ne vois pas comment donner plus envie avec une seule ligne et sans offre sur la carte.
+- **Manque pour 10, T1** :
+  - « quiz compris » et un verbe d'action manquent.
+  - Ma version : celle de T2 ci-dessus.
+- **Alertes** : aucune, aucun tiret cadratin.
 
 ## B16 : page d'abonnement
-[à remplir]
+
+`Choix : 2 (de peu) | Conversion : T1 7,5/10, T2 8/10 | Écriture : T1 7,5/10, T2 8/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. Je regarde l'offre : est-ce pour moi, et qu'est-ce que je reçois ? Les deux textes sont bons. T2 gagne grâce à trois éléments :
+- S33b, « sans devenir le collègue qui force », désamorce la vraie peur de qui veut faire rire au travail. C'est la meilleure ligne du duel.
+- Le bouton « Ouvrir les 5 parcours · 2,99 €/mois » dit ce que j'achète, là où « Commencer » ne dit rien.
+- S32 est plus net : les parenthèses « (1 sur 2) » et « (2 sur 2) » de T1 font doublon.
+
+T1 a le titre au meilleur rythme (« Ta réplique pendant la soirée, pas dans le bus du retour »). Son S33a répète « réplique » juste au-dessus de ce titre ; le « trouves la bonne réponse » de T2 évite la répétition et décrit plus justement le retard.
+
+- **Manque pour 10, T2** :
+  - Le titre de T2 est alourdi par « tu la veux ».
+  - Le prix du bouton est figé en « 2,99 €/mois » alors que la carte propose aussi l'annuel : si je choisis 24,99 €/an, le bouton me contredit. Il doit suivre le plan choisi.
+  - Le titre parle de « soirée » sous un surtitre « au boulot » ou « période compliquée ». La dissonance est légère, mais elle existe pour Machine à Café, Boulot et Confiance.
+  - Ma version : surtitres de T2 ; titre de T1, « **Ta réplique pendant la soirée, pas dans le bus du retour** » (et, si le titre peut varier comme le surtitre, pour S33b : « **Ta réplique pendant la réunion, pas dans l'ascenseur du retour** ») ; bouton « Ouvrir les 5 parcours · 2,99 €/mois », qui devient « · 24,99 €/an » si l'annuel est choisi ; S32 de T2.
+- **Manque pour 10, T1** :
+  - S33b est un catalogue de lieux sans la peur du « collègue qui force ».
+  - Le bouton est muet sur le gain.
+  - Ma version : celle ci-dessus.
+- **Alertes** : aucune. « et que le rire te manque » (S33c, identique dans les deux textes) parle du visiteur, pas du produit. Aucun tiret cadratin.
 
 ## B17 : création de compte
-[à remplir]
+
+`Choix : 1 | Conversion : T1 8/10, T2 7/10 | Écriture : T1 7,5/10, T2 7/10 | Manque pour 10 : voir ci-dessous | Alertes : aucune`
+
+Lecture visiteur. Je veux en finir vite, et je me méfie un peu des e-mails. T1 dit précisément à quoi sert mon prénom (« pour te saluer dans nos e-mails »). T2 dit « pour nos e-mails », ce qui ouvre le doute « ils vont m'en envoyer combien ? ». Le bouton de T1 annonce qu'on avance (« plus qu'une étape »), mais en lecture rapide, il peut se lire « c'est la dernière étape », alors que le paiement suit. Le contexte (« Étape 1 sur 2 », « Étape 2 : le paiement… ») corrige, donc ce n'est pas une alerte. Le lien de sortie de T1 est plus fluide (« lire d'abord », « gratuite et sans compte ») que le style télégraphique de T2.
+
+- **Manque pour 10, T1** :
+  - Le bouton doit dire sans ambiguïté ce qui vient après, puisque c'est la question qu'on se pose devant un formulaire de paiement.
+  - Ma version : S34 inchangé ; S36 « Créer mon compte et passer au paiement » ; S35 inchangé.
+- **Manque pour 10, T2** :
+  - L'usage du prénom doit être précis.
+  - Le lien doit être plus fluide.
+  - Ma version : celle de T1 ci-dessus.
+- **Alertes** : aucune, aucun tiret cadratin.
 
 ## Synthèse
-[à remplir]
+
+Choix : T1 sur B7, B8, B12 et B17 ; T2 sur B9, B10, B11, B13, B14, B15 et B16. Aucun duel à 10. Le texte qui gagne est toujours celui qui reprend le geste du visiteur (« Écrire la mienne », « Passer à l'étape 2 », « Suivre Répartie en entier ») ; « Voir ce que contient Premium » et « Tout débloquer » sont les boutons qui donnent le moins envie.
+Aucune alerte factuelle ni de promesse, aucun tiret cadratin. Deux défauts à corriger avant toute mise en ligne : « Garde-la » faux sur un conseil (B11, T2) et « Active mon accès » mal accordé (B13, T1), plus le bouton à prix figé mensuel sur la page d'abonnement (B16, les deux textes).
