@@ -75,7 +75,8 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
         <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(surtitre)}</p>
       )}
       <p className="mt-2 font-display text-xl font-bold text-text-primary">{frTypo(title ?? textes.finTitre)}</p>
-      {paragraphe && <p className="mt-2 text-text-secondary">{frTypo(paragraphe)}</p>}
+      {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré). */}
+      {paragraphe && <p className="mt-2 text-sm leading-5 text-text-secondary sm:text-base sm:leading-6">{frTypo(paragraphe)}</p>}
 
       {isPremium ? (
         <div className="mt-6">
@@ -89,7 +90,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
         </div>
       ) : (
         <>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="mt-4 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:items-center sm:gap-4">
             <Link
               href={etape1Href}
               data-blog-cta="etape-1"

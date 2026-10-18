@@ -21,7 +21,8 @@ import { EN_TETE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
  * 1024, 1248 px dès 1280 (max-w-7xl : identique à 1440, 1536 et 1920). Tout est
  * `shrink-0` : rien ne s'écrase en silence.
- *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-2), ~534 dès
+ *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-1.5 depuis s21 :
+ *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~534 dès
  *    1280 (px-3) ;
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
@@ -125,7 +126,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-2 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
+                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
