@@ -2,7 +2,7 @@
  * Suppression du compte gratuit (s15, docs/product/suppression-compte-gratuit-s15.md) :
  * invariants. Un visiteur garde EXACTEMENT ses accès (10/3/3, étape 1 lisible,
  * carnet 1 fiche, recherche 3) ; plus aucun texte « compte gratuit » côté
- * utilisateur ; titres des 12 CTA d'articles inchangés, prix et « 1 500+ » intacts.
+ * utilisateur ; blocs de fin des 11 articles à forte frappe (v3), prix et « 1 500+ » intacts.
  */
 import fs from "fs";
 import path from "path";
@@ -86,45 +86,37 @@ describe("textes : plus de compte gratuit côté utilisateur", () => {
   });
 });
 
-describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c déclinés", () => {
-  const TITRES_INCHANGES: Record<string, string> = {
-    "meilleures-blagues-droles-2026": "Tu les as lues. Reste à les sortir pour de vrai.",
-    "message-anniversaire-drole-par-situation": "Le message, c'est fait. Reste le moment du gâteau.",
-    "voeux-drole-nouvelle-annee": "Ton message est choisi. Le reste de l'année, c'est toi qui écris.",
-    "premier-message-drole-appli-de-rencontre": "Ton premier message est prêt. La suite s'entraîne.",
-    "blagues-de-couple-drole": "Tu as les vannes. Et quand l'autre te les renvoie ?",
-    "blagues-poisson-d-avril-adultes": "Le canular est prêt. Et la riposte ?",
-    "blagues-de-gamer-jeux-video": "Tu as les vannes. Reste à les sortir en vocal.",
-    "refuser-une-invitation-avec-humour": "Le refus est parti. Reste la relance en face.",
-    "mot-de-depart-collegue-drole": "Le mot est écrit. Reste le pot.",
-    "message-drole-fete-des-meres": "Le message est choisi. Le reste de la journée s'improvise.",
-    "message-drole-fete-des-peres": "Le message est prêt. Reste à le dire en face.",
-    "blagues-vacances-ete-entre-amis": "Les vannes sont prêtes. Reste à oser les sortir.",
+describe("11 blocs de fin d'article (config/blog-cta.ts) : v3 validée (correction C1 de la revue v3)", () => {
+  // Textes de docs/copy/cta-s21/concision/fins-articles-v3.md, mot pour mot.
+  const V3: Record<string, [titre: string, phrase: string]> = {
+    "message-anniversaire-drole-par-situation": ["Au moment du gâteau, tout le monde t'écoute", "Mieux vaut avoir de quoi enchaîner après la chanson."],
+    "voeux-drole-nouvelle-annee": ["En janvier, les vœux se disent en face.", "Toute la tournée des bises, sans rester sec."],
+    "premier-message-drole-appli-de-rencontre": ["On te répond. Tu écris quoi, maintenant ?", "C'est au deuxième message que ça se joue."],
+    "blagues-de-couple-drole": ["Chez vous, qui a le dernier mot ?", "Du tac au tac, même pour la télécommande."],
+    "blagues-poisson-d-avril-adultes": ["Le 1er avril, tu peux aussi être la cible.", "Une riposte, ça se prépare avant."],
+    "blagues-de-gamer-jeux-video": ["En vocal, la team ne laisse rien passer.", "Prochaine partie, à toi de chambrer."],
+    "refuser-une-invitation-avec-humour": ["Après ton non, il y a le « t'es sûr ? »", "Répondre sans dix excuses, ça se travaille."],
+    "mot-de-depart-collegue-drole": ["Au pot, il faudra bien dire un mot.", "Autour du buffet, ta carte ne parlera pas pour toi."],
+    "message-drole-fete-des-meres": ["À table, impossible de copier-coller.", "Il faudra tes propres mots."],
+    "message-drole-fete-des-peres": ["Le SMS, c'est fait. Reste le repas.", "Garde une vanne pour le dessert."],
+    "blagues-vacances-ete-entre-amis": ["Cet été, la blague culte peut être la tienne.", "Celle qu'on se répète encore à la rentrée."],
   };
 
-  it("mêmes 12 articles, titres propres à chaque article inchangés", () => {
-    expect(Object.keys(BLOG_CTA_BY_SLUG).sort()).toEqual(Object.keys(TITRES_INCHANGES).sort());
-    for (const [slug, title] of Object.entries(TITRES_INCHANGES)) expect(BLOG_CTA_BY_SLUG[slug].title).toBe(title);
-  });
-
-  it("aucun « gratuit », « sans carte », « compte gratuit » ni tiret cadratin ; prix au tarif en vigueur", () => {
-    for (const cta of Object.values(BLOG_CTA_BY_SLUG)) {
-      const all = Object.values(cta).join(" ");
-      expect(all).not.toMatch(/gratuit|sans carte|compte ou pas/i);
-      expect(all).not.toContain("—");
-      // Concision v5 : plus de note de prix sous le bloc de fin (le prix vit sur /abonnement).
-      expect(cta).not.toHaveProperty("note");
+  it("11 articles, titre et phrase v3 mot pour mot ; l'article n°1 n'a plus d'entrée (bloc v5)", () => {
+    expect(Object.keys(BLOG_CTA_BY_SLUG).sort()).toEqual(Object.keys(V3).sort());
+    expect(BLOG_CTA_BY_SLUG).not.toHaveProperty("meilleures-blagues-droles-2026");
+    for (const [slug, [titre, phrase]] of Object.entries(V3)) {
+      expect([slug, BLOG_CTA_BY_SLUG[slug].title, BLOG_CTA_BY_SLUG[slug].text]).toEqual([slug, titre, phrase]);
     }
   });
 
-  it("cas « couple » : étalon 3.2c exact", () => {
-    expect(BLOG_CTA_BY_SLUG["blagues-de-couple-drole"]).toEqual({
-      title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
-      text: "Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre.",
-      primaryLabel: "Commencer le parcours Répartie",
-      secondaryLabel: "Lire l'étape 1 de Répartie",
-      parcoursHref: "/parcours/repartie",
-    });
+  it("plus aucun libellé de bouton dans les données, ni ancien libellé, ni « gratuit », ni tiret cadratin", () => {
+    for (const cta of Object.values(BLOG_CTA_BY_SLUG)) {
+      expect(Object.keys(cta).filter((k) => !["title", "text", "parcoursHref"].includes(k))).toEqual([]);
+      const all = Object.values(cta).join(" ");
+      expect(all).not.toMatch(/Passer à Premium|Commencer le parcours|Lire l'étape 1|parcours complets|gratuit|sans carte/i);
+      expect(all).not.toContain("—");
+    }
   });
 });
 

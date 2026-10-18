@@ -12,6 +12,7 @@ import { getArticleBySlug } from "@/lib/blog-articles";
 import { renderMarkdown } from "@/components/ui/markdown-renderer";
 import { getVannesTheme } from "@/lib/vannes-themes";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 import blogArticleRewrites from "@/data/blog-article-rewrites.json";
 
 const SLUG = "meilleures-blagues-droles-2026";
@@ -115,15 +116,12 @@ describe("meilleures-blagues-droles-2026 : audit s14", () => {
     expect(body).not.toContain("—");
   });
 
-  it("CTA de fin : étalon 3.1 (s15, plus de compte gratuit), titre propre à l'article gardé", () => {
-    expect(BLOG_CTA_BY_SLUG[SLUG]).toEqual({
-      title: "Tu les as lues. Reste à les sortir pour de vrai.",
-      text: "Les parcours complets : de quoi t'entraîner à les placer au bon moment, pas juste à les connaître.",
-      primaryLabel: "Passer à Premium",
+  it("bloc de fin : plus d'entrée dans config/blog-cta.ts, le bloc v5 validé s'affiche (BLOC_FIN.parArticle)", () => {
+    expect(BLOG_CTA_BY_SLUG[SLUG]).toBeUndefined();
+    expect(BLOC_FIN.parArticle[SLUG]).toEqual({
+      titre: "La vanne dans ta bouche, pas dans ton téléphone",
+      texte: "La placer à voix haute, ça s'entraîne.",
     });
-    // La vanne décryptée du jour est publique : le CTA ne la vend pas.
-    expect(Object.values(BLOG_CTA_BY_SLUG[SLUG]).join(" ")).not.toMatch(/vanne décryptée/);
-    expect(Object.values(BLOG_CTA_BY_SLUG[SLUG]).join(" ")).not.toMatch(/gratuit|sans carte/i);
   });
 });
 

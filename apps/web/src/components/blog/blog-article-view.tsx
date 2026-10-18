@@ -8,7 +8,7 @@ import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { BlogArticleRelated } from "@/components/blog/blog-article-related";
-import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
+import { BLOG_CTA_BY_SLUG, boutonEtape1Article } from "@/config/blog-cta";
 import { FORTE_FRAPPE_SHARE } from "@/config/blog-forte-frappe";
 import { BLOC_FIN_PAR_ARTICLE } from "@/config/textes/encarts-blog-s20";
 import { resolveArticleParcours } from "@/lib/blog-parcours";
@@ -43,6 +43,8 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
   const s21Copy = BLOC_FIN.parArticle[article.slug];
+  // Articles à forte frappe (config/blog-cta.ts, fins-articles-v3) : parcours nommé = GRATUIT_P, sinon GRATUIT_ACCUEIL.
+  const boutonEtape1 = boutonEtape1Article(article.slug, parcours);
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];
@@ -135,6 +137,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           src={`blog-${article.slug}`}
           title={s21Copy?.titre ?? finCopy?.titre ?? ctaCopy?.title}
           text={s21Copy?.texte ?? finCopy?.texte ?? ctaCopy?.text}
+          boutonEtape1={boutonEtape1}
         />
         {/* Lettre mensuelle juste APRÈS le bloc de fin (spec lettre §1.2, B18 rang 4), sans
             attribut data-blog-cta* (mesure du lot 1 isolée). Textes B18 du tour 4. */}

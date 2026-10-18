@@ -21,6 +21,16 @@ interface ArticleCtaProps {
   /** Surcharges par article (cta-articles-accueil, encarts-blog-s20 puis blog-cta). */
   title?: string;
   text?: string;
+  /** Libellé du plein gratuit imposé par l'article (config/blog-cta.ts), sinon celui du parcours. */
+  boutonEtape1?: string;
+}
+
+/**
+ * Règle unique de ponctuation des titres du bloc de fin (fins-articles-v3) : pas de point final,
+ * sauf « ? » et « » » (qui restent tels quels).
+ */
+export function titreBlocFin(titre: string): string {
+  return titre.trim().replace(/\.+$/, "");
 }
 
 
@@ -37,7 +47,7 @@ interface ArticleCtaProps {
  * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
  * Textes : config/textes/cta-articles-accueil.ts (BLOC_FIN) et encarts-blog-s20.ts.
  */
-export function ArticleCta({ parcours = "repartie", src, title, text }: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtape1 }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -57,7 +67,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text }: ArticleC
     >
       {/* s21 (QA m2) : 18 px sous 640 px, le titre tient sur 2 lignes à 360 et 375. */}
       <p className="font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl">
-        {frTypo(title ?? textes.finTitre)}
+        {frTypo(titreBlocFin(title ?? textes.finTitre))}
       </p>
       {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré).
           s21 (QA v2 m-d) : corps du visiteur (« sans compte », étape par semaine) masqué pour l'abonné. */}
@@ -85,7 +95,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text }: ArticleC
                 "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
               )}
             >
-              {frTypo(BLOC_FIN.boutonEtape1[parcours] ?? textes.finBoutonEtape1)}
+              {frTypo(boutonEtape1 ?? BLOC_FIN.boutonEtape1[parcours] ?? textes.finBoutonEtape1)}
             </Link>
             <p className="mt-2 text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>
           </div>
