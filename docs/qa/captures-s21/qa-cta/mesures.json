@@ -1,0 +1,5035 @@
+{
+ "note": "QA s21 blocs d appel, build local c9a56c1, env vide, Umami et Stripe mockés. head = s21, n1 = 75a809b.",
+ "lighthouse": {
+  "head_-1": {
+   "perf": 93,
+   "a11y": 100,
+   "lcp_ms": 3184,
+   "tbt_ms": 38,
+   "cls": 0,
+   "js_ko": 253
+  },
+  "head_-2": {
+   "perf": 89,
+   "a11y": 100,
+   "lcp_ms": 3134,
+   "tbt_ms": 248,
+   "cls": 0,
+   "js_ko": 253
+  },
+  "head_-3": {
+   "perf": 96,
+   "a11y": 100,
+   "lcp_ms": 2775,
+   "tbt_ms": 2,
+   "cls": 0,
+   "js_ko": 253
+  },
+  "head_abonnement-1": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2946,
+   "tbt_ms": 8,
+   "cls": 0,
+   "js_ko": 234
+  },
+  "head_abonnement-2": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2913,
+   "tbt_ms": 10,
+   "cls": 0,
+   "js_ko": 234
+  },
+  "head_abonnement-3": {
+   "perf": 97,
+   "a11y": 100,
+   "lcp_ms": 2636,
+   "tbt_ms": 10,
+   "cls": 0,
+   "js_ko": 234
+  },
+  "head_blog_meilleures-blagues-droles-2026-1": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2768,
+   "tbt_ms": 133,
+   "cls": 0,
+   "js_ko": 239
+  },
+  "head_blog_meilleures-blagues-droles-2026-2": {
+   "perf": 96,
+   "a11y": 100,
+   "lcp_ms": 2768,
+   "tbt_ms": 46,
+   "cls": 0,
+   "js_ko": 239
+  },
+  "head_blog_meilleures-blagues-droles-2026-3": {
+   "perf": 96,
+   "a11y": 100,
+   "lcp_ms": 2848,
+   "tbt_ms": 62,
+   "cls": 0,
+   "js_ko": 239
+  },
+  "n1_-1": {
+   "perf": 97,
+   "a11y": 100,
+   "lcp_ms": 2610,
+   "tbt_ms": 43,
+   "cls": 0,
+   "js_ko": 224
+  },
+  "n1_-2": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2920,
+   "tbt_ms": 37,
+   "cls": 0,
+   "js_ko": 224
+  },
+  "n1_-3": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2997,
+   "tbt_ms": 10,
+   "cls": 0,
+   "js_ko": 224
+  },
+  "n1_abonnement-1": {
+   "perf": 96,
+   "a11y": 100,
+   "lcp_ms": 2761,
+   "tbt_ms": 8,
+   "cls": 0.001,
+   "js_ko": 202
+  },
+  "n1_abonnement-2": {
+   "perf": 97,
+   "a11y": 100,
+   "lcp_ms": 2507,
+   "tbt_ms": 10,
+   "cls": 0.001,
+   "js_ko": 202
+  },
+  "n1_abonnement-3": {
+   "perf": 95,
+   "a11y": 100,
+   "lcp_ms": 2991,
+   "tbt_ms": 7,
+   "cls": 0.001,
+   "js_ko": 202
+  },
+  "n1_blog_meilleures-blagues-droles-2026-1": {
+   "perf": 98,
+   "a11y": 100,
+   "lcp_ms": 2409,
+   "tbt_ms": 5,
+   "cls": 0,
+   "js_ko": 210
+  },
+  "n1_blog_meilleures-blagues-droles-2026-2": {
+   "perf": 98,
+   "a11y": 100,
+   "lcp_ms": 2465,
+   "tbt_ms": 5,
+   "cls": 0,
+   "js_ko": 210
+  },
+  "n1_blog_meilleures-blagues-droles-2026-3": {
+   "perf": 98,
+   "a11y": 100,
+   "lcp_ms": 2412,
+   "tbt_ms": 14,
+   "cls": 0,
+   "js_ko": 210
+  }
+ },
+ "achat": {
+  "liens": {
+   "accueil": [
+    [
+     "Tester mes premières répliques, gratuit",
+     "/parcours/repartie?src=accueil#etape-1"
+    ],
+    [
+     "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+     "/abonnement?src=accueil-hero"
+    ],
+    [
+     "Briller à la machine à café",
+     "/parcours/machine-a-cafe?src=accueil#etape-1"
+    ],
+    [
+     "Avoir de la répartie",
+     "/parcours/repartie?src=accueil#etape-1"
+    ],
+    [
+     "Reprendre confiance en toi",
+     "/parcours/confiance?src=accueil#etape-1"
+    ],
+    [
+     "Parcours Machine à Café · 3 semaines →",
+     "/parcours/machine-a-cafe"
+    ],
+    [
+     "Parcours Répartie · 4 semaines →",
+     "/parcours/repartie"
+    ],
+    [
+     "Parcours Confiance · 6 semaines →",
+     "/parcours/confiance"
+    ],
+    [
+     "Parcours Storytelling",
+     "/parcours/storytelling"
+    ],
+    [
+     "Parcours Boulot",
+     "/parcours/boulot"
+    ],
+    [
+     "Ouvrir les 5 parcours · 2,99 €/mois",
+     "/abonnement?src=accueil-premium"
+    ],
+    [
+     "Tester mes premières répliques, gratuit",
+     "/parcours/repartie?src=accueil#etape-1"
+    ],
+    [
+     "Voir la lettre →",
+     "/lettre"
+    ]
+   ],
+   "article": [
+    [
+     "Voir la réplique",
+     "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15"
+    ],
+    [
+     "devenir la personne qu'on attend à la machine à café",
+     "/parcours/machine-a-cafe"
+    ],
+    [
+     "parcours structurés",
+     "/parcours"
+    ],
+    [
+     "Tester mes premières répliques, gratuit",
+     "/parcours/repartie?src=blog#etape-1"
+    ],
+    [
+     "Ouvrir les 5 parcours · 2,99 €/mois",
+     "/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026"
+    ]
+   ],
+   "fiche-vanne": [
+    [
+     "Écrire la mienne avec Premium",
+     "/abonnement?returnTo=%2Fvannes%2Fmes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0&src=exercice-vanne"
+    ],
+    [
+     "Gratuit : 5 vannes et un défi, étape 1 de Répartie",
+     "/parcours/repartie?src=fiche#etape-1"
+    ]
+   ],
+   "fiche-conseil": [
+    [
+     "Essayer ce conseil avec Premium",
+     "/abonnement?returnTo=%2Fconseils%2Fla-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0&src=exercice-conseil"
+    ],
+    [
+     "Gratuit : un défi à tenter et 5 vannes, étape 1 de Répartie",
+     "/parcours/repartie?src=fiche#etape-1"
+    ]
+   ],
+   "fiche-video": [
+    [
+     "Décrypter cette vidéo avec Premium",
+     "/abonnement?returnTo=%2Fvideos%2Froman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0&src=exercice-video"
+    ],
+    [
+     "Gratuit : 2 vidéos et un défi, étape 1 de Confiance",
+     "/parcours/confiance?src=fiche#etape-1"
+    ],
+    [
+     "Lire la première étape gratuite du parcours Confiance",
+     "/parcours/confiance?src=fiche#etape-1"
+    ]
+   ],
+   "mur-vannes": [
+    [
+     "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te f",
+     "/abonnement?returnTo=%2Fvannes&src=mur-vannes"
+    ],
+    [
+     "Voir la suite des vannes avec Premium",
+     "/abonnement?returnTo=%2Fvannes&src=mur-vannes"
+    ],
+    [
+     "Étape 1 de Répartie, gratuite : 5 vannes et un défi",
+     "/parcours/repartie?src=fiche#etape-1"
+    ]
+   ],
+   "mur-conseils": [
+    [
+     "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à c",
+     "/abonnement?returnTo=%2Fconseils&src=mur-conseils"
+    ],
+    [
+     "Voir la suite des conseils avec Premium",
+     "/abonnement?returnTo=%2Fconseils&src=mur-conseils"
+    ],
+    [
+     "Étape 1 de Répartie, gratuite : un conseil et un défi",
+     "/parcours/repartie?src=fiche#etape-1"
+    ],
+    [
+     "Parcours structurés Progresse semaine après semaine avec des exercices concrets ",
+     "/parcours"
+    ]
+   ],
+   "mur-videos": [
+    [
+     "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à c",
+     "/abonnement?returnTo=%2Fvideos&src=mur-videos"
+    ],
+    [
+     "Voir la suite des vidéos avec Premium",
+     "/abonnement?returnTo=%2Fvideos&src=mur-videos"
+    ],
+    [
+     "Étape 1 de Répartie, gratuite : 2 vidéos et un défi",
+     "/parcours/repartie?src=fiche#etape-1"
+    ]
+   ],
+   "quiz": [
+    [
+     "parcours structurés",
+     "/parcours"
+    ]
+   ],
+   "parcours": [
+    [
+     "Machine à Café Pour que la pause café ne se résume plus à « Ça va ? » « Ça va. »",
+     "/parcours/machine-a-cafe"
+    ],
+    [
+     "Répartie Pour toi qui as toujours la bonne réplique… dans ta tête, avec un temps",
+     "/parcours/repartie"
+    ],
+    [
+     "Confiance Pour le jour où tu te rends compte que ça fait longtemps que tu n'as f",
+     "/parcours/confiance"
+    ],
+    [
+     "Storytelling Il y a toujours quelqu'un pour dire « et donc ? » au milieu de ton ",
+     "/parcours/storytelling"
+    ],
+    [
+     "Boulot Il y a toujours une vanne qui t'est venue au boulot et que tu as gardée p",
+     "/parcours/boulot"
+    ],
+    [
+     "Abonnement 2,99 €/mois Premium : tous les parcours, vannes, conseils et vidéos.",
+     "/abonnement"
+    ]
+   ],
+   "etape-repartie": [
+    [
+     "Parcours",
+     "/parcours"
+    ],
+    [
+     "Voir ce que contient Premium",
+     "/abonnement?returnTo=%2Fparcours%2Frepartie&src=parcours-etape"
+    ],
+    [
+     "Jette un œil au parcours suivant",
+     "/parcours/confiance?src=suite"
+    ]
+   ],
+   "abonnement": [
+    [
+     "Ouvrir les 5 parcours · 2,99 €/mois",
+     "/register?callbackUrl=%2Fabonnement&src=abonnement"
+    ],
+    [
+     "Lire la fiche en entier",
+     "/carnet#fiche-2026-10-15"
+    ],
+    [
+     "Étape 1 du parcours Machine à Café",
+     "/parcours/machine-a-cafe?src=abonnement#etape-1"
+    ],
+    [
+     "Étape 1 du parcours Répartie",
+     "/parcours/repartie?src=abonnement#etape-1"
+    ],
+    [
+     "Étape 1 du parcours Confiance",
+     "/parcours/confiance?src=abonnement#etape-1"
+    ],
+    [
+     "Étape 1 du parcours Storytelling",
+     "/parcours/storytelling?src=abonnement#etape-1"
+    ],
+    [
+     "Étape 1 du parcours Boulot",
+     "/parcours/boulot?src=abonnement#etape-1"
+    ]
+   ],
+   "register": [
+    [
+     "Tu préfères lire d'abord ? L'étape 1 du parcours Répartie, gratuite et sans comp",
+     "/parcours/repartie?src=abonnement#etape-1"
+    ]
+   ]
+  },
+  "parcours": [
+   {
+    "nom": "B6 en-tête",
+    "arrivee": "/abonnement?src=header",
+    "events": [
+     "abonnement-vu {\"src\":\"header\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B3 plein",
+    "arrivee": "/parcours/repartie?src=accueil#etape-1",
+    "events": [
+     "mur-vu {\"type\":\"parcours-validation\",\"src\":\"repartie\",\"etape\":1}",
+     "parcours-ouvert {\"parcours\":\"repartie\",\"statut\":\"visiteur\",\"src\":\"accueil\"}",
+     "etape-ouverte {\"parcours\":\"repartie\",\"etape\":1,\"statut\":\"visiteur\",\"declencheur\":\"auto\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B3 lien",
+    "arrivee": "/abonnement?src=accueil-hero",
+    "events": [
+     "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"accueil-hero\",\"statut\":\"visiteur\"}",
+     "abonnement-vu {\"src\":\"accueil-hero\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B4B5 plein",
+    "arrivee": "/abonnement?src=accueil-premium",
+    "events": [
+     "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"accueil-premium\",\"statut\":\"visiteur\"}",
+     "abonnement-vu {\"src\":\"accueil-premium\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B1 démonstration",
+    "arrivee": "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15",
+    "events": [
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":25}",
+     "blog-cta-vu {\"slug\":\"meilleures-blagues-droles-2026\",\"position\":\"milieu-1\",\"parcours\":\"repartie\",\"fiche\":\"2026-10-15\"}",
+     "blog-cta-clic {\"slug\":\"meilleures-blagues-droles-2026\",\"bouton\":\"demo-fiche\",\"position\":\"milieu-1\",\"parcours\":\"repartie\",\"fiche\":\"2026-10-15\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B2 plein",
+    "arrivee": "/parcours/repartie?src=blog#etape-1",
+    "events": [
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":25}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":50}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":75}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":100}",
+     "blog-cta-vu {\"slug\":\"meilleures-blagues-droles-2026\",\"position\":\"fin\",\"parcours\":\"repartie\"}",
+     "blog-cta-clic {\"slug\":\"meilleures-blagues-droles-2026\",\"bouton\":\"etape-1\",\"position\":\"fin\",\"parcours\":\"repartie\"}",
+     "mur-vu {\"type\":\"parcours-validation\",\"src\":\"repartie\",\"etape\":1}",
+     "parcours-ouvert {\"parcours\":\"repartie\",\"statut\":\"visiteur\",\"src\":\"blog\"}",
+     "etape-ouverte {\"parcours\":\"repartie\",\"etape\":1,\"statut\":\"visiteur\",\"declencheur\":\"auto\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B2 lien",
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026",
+    "events": [
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":25}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":50}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":75}",
+     "blog-scroll {\"slug\":\"meilleures-blagues-droles-2026\",\"palier\":100}",
+     "blog-cta-vu {\"slug\":\"meilleures-blagues-droles-2026\",\"position\":\"fin\",\"parcours\":\"repartie\"}",
+     "blog-cta-clic {\"slug\":\"meilleures-blagues-droles-2026\",\"bouton\":\"abonnement\",\"position\":\"fin\",\"parcours\":\"repartie\"}",
+     "abonnement-vu {\"src\":\"blog-meilleures-blagues-droles-2026\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B7 plein vannes",
+    "arrivee": "/abonnement?returnTo=%2Fvannes&src=mur-vannes",
+    "events": [
+     "abonnement-vu {\"src\":\"mur-vannes\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B7 contour vannes",
+    "arrivee": "/parcours/repartie?src=fiche#etape-1",
+    "events": [
+     "mur-vu {\"type\":\"parcours-validation\",\"src\":\"repartie\",\"etape\":1}",
+     "parcours-ouvert {\"parcours\":\"repartie\",\"statut\":\"visiteur\",\"src\":\"fiche\"}",
+     "etape-ouverte {\"parcours\":\"repartie\",\"etape\":1,\"statut\":\"visiteur\",\"declencheur\":\"auto\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B8 plein",
+    "arrivee": "/abonnement?returnTo=%2Fvannes%2Fmes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0&src=exercice-vanne",
+    "events": [
+     "abonnement-vu {\"src\":\"exercice-vanne\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B9 plein",
+    "arrivee": "/abonnement?returnTo=%2Fconseils%2Fla-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0&src=exercice-conseil",
+    "events": [
+     "abonnement-vu {\"src\":\"exercice-conseil\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B10 plein",
+    "arrivee": "/abonnement?returnTo=%2Fvideos%2Froman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0&src=exercice-video",
+    "events": [
+     "abonnement-vu {\"src\":\"exercice-video\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B15 Confiance",
+    "arrivee": "/parcours/confiance?src=hub",
+    "events": [
+     "mur-vu {\"type\":\"parcours-validation\",\"src\":\"confiance\",\"etape\":1}",
+     "parcours-ouvert {\"parcours\":\"confiance\",\"statut\":\"visiteur\",\"src\":\"hub\"}",
+     "etape-ouverte {\"parcours\":\"confiance\",\"etape\":1,\"statut\":\"visiteur\",\"declencheur\":\"auto\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "B16 plein",
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance&src=quiz",
+    "events": [
+     "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"abonnement\",\"entree\":\"quiz\",\"statut\":\"visiteur\"}"
+    ],
+    "href": null
+   },
+   {
+    "nom": "tunnel complet (succes)",
+    "etapes": [
+     {
+      "nom": "fenêtre -> bouton",
+      "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fvannes&src=modale-carte",
+      "events": [
+       "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"modale-carte\",\"statut\":\"visiteur\"}"
+      ]
+     },
+     {
+      "nom": "register -> paiement",
+      "arrivee": "https://checkout.stripe.com/c/pay/cs_test_qa",
+      "events": [
+       "inscription-envoi {\"methode\":\"email\",\"src\":\"modale-carte\",\"etape\":\"abonnement\"}",
+       "inscription-reussie {\"methode\":\"email\",\"src\":\"modale-carte\",\"etape\":\"abonnement\"}",
+       "abonnement-vu {\"src\":\"direct\"}",
+       "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"abonnement\",\"declencheur\":\"auto\",\"statut\":\"membre\"}",
+       "checkout-ouvert {\"src\":\"abonnement\",\"formule\":\"mensuel\"}"
+      ],
+      "corpsCheckout": [
+       "{\"returnTo\":\"/vannes\"}"
+      ]
+     },
+     {
+      "nom": "retour sans paiement",
+      "arrivee": "/abonnement?paiement=annule",
+      "events": [
+       "abonnement-vu {\"src\":\"direct\"}",
+       "abonnement-annule null",
+       "checkout-echec {\"src\":\"abonnement\",\"raison\":\"retour-sans-paiement\"}"
+      ]
+     }
+    ],
+    "compte": {
+     "plan": "FREE",
+     "name": null
+    }
+   },
+   {
+    "nom": "tunnel complet (erreur)",
+    "etapes": [
+     {
+      "nom": "fenêtre -> bouton",
+      "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fvannes&src=modale-carte",
+      "events": [
+       "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"modale-carte\",\"statut\":\"visiteur\"}"
+      ]
+     },
+     {
+      "nom": "register -> paiement",
+      "arrivee": "/abonnement?returnTo=%2Fvannes",
+      "events": [
+       "inscription-envoi {\"methode\":\"email\",\"src\":\"modale-carte\",\"etape\":\"abonnement\"}",
+       "inscription-reussie {\"methode\":\"email\",\"src\":\"modale-carte\",\"etape\":\"abonnement\"}",
+       "abonnement-vu {\"src\":\"direct\"}",
+       "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"abonnement\",\"declencheur\":\"auto\",\"statut\":\"membre\"}",
+       "checkout-echec {\"src\":\"abonnement\",\"raison\":\"erreur\",\"formule\":\"mensuel\"}"
+      ],
+      "corpsCheckout": [
+       "{\"returnTo\":\"/vannes\"}"
+      ]
+     }
+    ],
+    "compte": {
+     "plan": "FREE",
+     "name": null
+    }
+   }
+  ]
+ },
+ "b13": {
+  "trouves": {
+   "repartie": {
+    "manquants": [],
+    "paragraphes": 4
+   },
+   "machine-a-cafe": {
+    "manquants": [],
+    "paragraphes": 4
+   },
+   "confiance": {
+    "manquants": [],
+    "paragraphes": 4
+   },
+   "boulot": {
+    "manquants": [
+     "(pas de texte de référence pour boulot)"
+    ],
+    "paragraphes": 4
+   }
+  },
+  "clic": {
+   "arrivee": "https://checkout.stripe.com/c/pay/cs_test_qa",
+   "corps": [
+    "{\"returnTo\":\"/parcours/repartie\"}"
+   ],
+   "events": [
+    "abonnement-clic {\"formule\":\"mensuel\",\"src\":\"onboarding\",\"declencheur\":\"manuel\",\"statut\":\"membre\"}",
+    "checkout-ouvert {\"src\":\"onboarding\",\"formule\":\"mensuel\"}"
+   ]
+  }
+ },
+ "paires_pleins": [
+  {
+   "profil": "visiteur",
+   "w": 768,
+   "u": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+   "paires": [
+    "Partager (y=360) + Écrire la mienne avec Premium (y=918), écart 606px"
+   ]
+  },
+  {
+   "profil": "visiteur",
+   "w": 1280,
+   "u": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+   "paires": [
+    "Partager (y=360) + Écrire la mienne avec Premium (y=918), écart 606px"
+   ]
+  },
+  {
+   "profil": "gratuit",
+   "w": 768,
+   "u": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+   "paires": [
+    "Partager (y=360) + Écrire la mienne avec Premium (y=918), écart 606px"
+   ]
+  },
+  {
+   "profil": "gratuit",
+   "w": 1280,
+   "u": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+   "paires": [
+    "Partager (y=360) + Écrire la mienne avec Premium (y=918), écart 606px"
+   ]
+  }
+ ],
+ "voir_toutes": [
+  {
+   "page": "/vannes/theme/boulot",
+   "status": 200,
+   "lien": 1,
+   "href": "/vannes",
+   "arrivee": "/vannes",
+   "cartesLisibles": 26,
+   "verrouillees": 4,
+   "mur": "Voilà les 10 premières vannes.",
+   "parcoursCartes": 0
+  },
+  {
+   "page": "/blague-du-jour",
+   "status": 200,
+   "lien": 1,
+   "href": "/vannes",
+   "arrivee": "/vannes",
+   "cartesLisibles": 26,
+   "verrouillees": 4,
+   "mur": "Voilà les 10 premières vannes.",
+   "parcoursCartes": 0
+  },
+  {
+   "page": "/liens",
+   "status": 200,
+   "lien": 1,
+   "href": "/vannes?utm_source=instagram&utm_medium=social&utm_campaign=bio&utm_content=bio-vannes",
+   "arrivee": "/vannes?utm_source=instagram&utm_medium=social&utm_campaign=bio&utm_content=bio-vannes",
+   "cartesLisibles": 26,
+   "verrouillees": 4,
+   "mur": "Voilà les 10 premières vannes.",
+   "parcoursCartes": 0
+  },
+  {
+   "page": "/parcours/repartie",
+   "status": 200,
+   "lien": 0,
+   "href": null
+  },
+  {
+   "page": "/parcours/storytelling",
+   "status": 200,
+   "lien": 0,
+   "href": null
+  }
+ ],
+ "regress": {
+  "menu-375": [
+   "Articles=/blog",
+   "Connexion=/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026",
+   "Articles=/blog",
+   "Suivant\n\n30 phrases drôles prêtes à ressortir=/blog/phrases-droles-conversations"
+  ],
+  "footer-375": [
+   "Comment devenir drôle=/blog/comment-devenir-drole",
+   "Articles=/blog"
+  ],
+  "ariane-375": [
+   "Accueil=/",
+   "Articles=/blog"
+  ],
+  "jsonld-ariane-375": [
+   "\"name\":\"Accueil\",\"name\":\"Articles\",\"name\":\"50 blagues drôles à ressortir en 2026\""
+  ],
+  "blog-375": {
+   "status": 200,
+   "h1": "Comment devenir drôle : guides et techniques d'humour",
+   "articles": 26
+  },
+  "carnet-375": {
+   "ficheOfferte": 1,
+   "titre": true,
+   "reponseVisible": true,
+   "soleilVerrouille": true,
+   "offerte": "ice à faire à voix haute. SITUATION 1 · OFFERTE Le premier rendez-vous silencieux couple Premier rendez-vou"
+  },
+  "legal/mentions-legales-375": {
+   "status": 200,
+   "h1": "Mentions légales",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "legal/cgu-375": {
+   "status": 200,
+   "h1": "Conditions Générales d'Utilisation",
+   "tiret": 0,
+   "sansEngagement": [
+    "ensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mo"
+   ],
+   "enUnClic": []
+  },
+  "legal/confidentialite-375": {
+   "status": 200,
+   "h1": "Politique de confidentialité",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": [
+    "mandé : ton consentement, que tu peux retirer à tout moment en un clic 4. Prestataires (sous-traitan",
+    "à cocher puis confirmation par e-mail), que tu peux retirer en un clic Respecter tes choix et prouve"
+   ]
+  },
+  "legal/retractation-375": {
+   "status": 200,
+   "h1": "Exercer ton droit de rétractation",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "legal/a-propos-375": {
+   "status": 200,
+   "h1": "À propos de deviens-marrant.fr",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "404-375": {
+   "status": 404,
+   "texte": "🤔 Oups, cette page a oublié sa punchline Cette page n'existe pas, ou plus. Les vannes, elles, sont toujours là. Retour à l'accueil Voir les vannes"
+  },
+  "404-blog-375": {
+   "status": 404
+  },
+  "menu-1280": [
+   "Articles=/blog",
+   "Connexion=/login?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026",
+   "Articles=/blog",
+   "Suivant\n\n30 phrases drôles prêtes à ressortir=/blog/phrases-droles-conversations"
+  ],
+  "footer-1280": [
+   "Comment devenir drôle=/blog/comment-devenir-drole",
+   "Articles=/blog"
+  ],
+  "ariane-1280": [
+   "Accueil=/",
+   "Articles=/blog"
+  ],
+  "jsonld-ariane-1280": [
+   "\"name\":\"Accueil\",\"name\":\"Articles\",\"name\":\"50 blagues drôles à ressortir en 2026\""
+  ],
+  "blog-1280": {
+   "status": 200,
+   "h1": "Comment devenir drôle : guides et techniques d'humour",
+   "articles": 26
+  },
+  "carnet-1280": {
+   "ficheOfferte": 1,
+   "titre": true,
+   "reponseVisible": true,
+   "soleilVerrouille": true,
+   "offerte": "ice à faire à voix haute. SITUATION 1 · OFFERTE Le premier rendez-vous silencieux couple Premier rendez-vou"
+  },
+  "legal/mentions-legales-1280": {
+   "status": 200,
+   "h1": "Mentions légales",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "legal/cgu-1280": {
+   "status": 200,
+   "h1": "Conditions Générales d'Utilisation",
+   "tiret": 0,
+   "sansEngagement": [
+    "ensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mo"
+   ],
+   "enUnClic": []
+  },
+  "legal/confidentialite-1280": {
+   "status": 200,
+   "h1": "Politique de confidentialité",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": [
+    "mandé : ton consentement, que tu peux retirer à tout moment en un clic 4. Prestataires (sous-traitan",
+    "à cocher puis confirmation par e-mail), que tu peux retirer en un clic Respecter tes choix et prouve"
+   ]
+  },
+  "legal/retractation-1280": {
+   "status": 200,
+   "h1": "Exercer ton droit de rétractation",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "legal/a-propos-1280": {
+   "status": 200,
+   "h1": "À propos de deviens-marrant.fr",
+   "tiret": 0,
+   "sansEngagement": [],
+   "enUnClic": []
+  },
+  "404-1280": {
+   "status": 404,
+   "texte": "🤔 Oups, cette page a oublié sa punchline Cette page n'existe pas, ou plus. Les vannes, elles, sont toujours là. Retour à l'accueil Voir les vannes"
+  },
+  "404-blog-1280": {
+   "status": 404
+  },
+  "profilSql": "column \"stripeCustomerId\" of relation \"User\" does not exist",
+  "profil": {
+   "url": "/profil",
+   "resilier": [
+    "es, tous les conseils, toutes les vidéos, les filtres et les parcours complets. Résilier ton contrat Si tu résilies, tu gardes Premium jusqu'à la fin de la période dé",
+    "on et ton inscription à la lettre. C'est définitif. Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si ta période payée n'",
+    "ayée n'est pas remboursée. Pour garder Premium jusqu'à la fin de cette période, résilie d'abord ton abonnement, puis supprime ton compte après cette date. Tu as sousc",
+    "nne Nos offres LÉGAL À propos Mentions légales CGU Confidentialité Rétractation Résilier ton contrat © 2026 deviens-marrant.fr · Fait avec humour (et un peu de café)"
+   ],
+   "enUnClic": false,
+   "apresClic": "http://localhost:5310/profil",
+   "appelsPortail": []
+  },
+  "resilier": {
+   "status": 404,
+   "url": "/resilier",
+   "texte": "🤔 Oups, cette page a oublié sa punchline Cette page n'existe pas, ou plus. Les vannes, elles, sont toujours là. Retour à l'accueil Voir les vannes"
+  }
+ },
+ "profil_resiliation": {
+  "375": {
+   "carte": 1,
+   "texte": "Abonnement Premium Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets. Résilier ton contrat Si tu résilies, tu gardes Premium jusqu'à la fin de la période déjà payée.",
+   "boutons": [
+    "Résilier ton contrat"
+   ],
+   "apres": "https://billing.stripe.com/p/session/qa_resilier",
+   "appels": [
+    "/api/user/subscription/portal {\"parcours\":\"resilier\"}"
+   ]
+  },
+  "1280": {
+   "carte": 1,
+   "texte": "Abonnement Premium Tout le catalogue est à toi : vannes illimitées, tous les conseils, toutes les vidéos, les filtres et les parcours complets. Résilier ton contrat Si tu résilies, tu gardes Premium jusqu'à la fin de la période déjà payée.",
+   "boutons": [
+    "Résilier ton contrat"
+   ],
+   "apres": "https://billing.stripe.com/p/session/qa_resilier",
+   "appels": [
+    "/api/user/subscription/portal {\"parcours\":\"resilier\"}"
+   ]
+  }
+ },
+ "blocs": {
+  "visiteur": [
+   {
+    "w": 360,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B4B5": [
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 360,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B4B5": [
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 375,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B4B5": [
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 768,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B4B5": [
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 1
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   }
+  ],
+  "gratuit": [
+   {
+    "w": 360,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/abonnement",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Frepartie",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fboulot",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fconfiance",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/abonnement?returnTo=%2Fparcours%2Fstorytelling",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   }
+  ],
+  "abonne": [
+   {
+    "w": 360,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {
+     "B1": [
+      "La situation offerte ce mois-ci",
+      "Premier rendez-vous, au dessert. Tu viens de dire ta troisième phrase de la soirée, et on te lance : « Tu parles toujours aussi peu ? »",
+      "Tu réponds quoi ?",
+      "Voir la réplique",
+      "Gratuit, sans compte : la réplique, pourquoi elle marche et quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site."
+     ],
+     "B2": [
+      "Tester mes premières répliques, gratuit",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium, l'abonnement du site : 2,99 € TTC par mois, ou 24,99 € TTC par an (2,08 € par mois). Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux."
+     ],
+     "B18": [
+      "La vanne du mois, et la méthode pour écrire la tienne",
+      "« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. » Voilà le genre de vanne que tu reçois chaque mois, avec ce qui la fait marcher.",
+      "Et surtout trois étapes pour fabriquer la tienne, avec un exemple.",
+      "Envoie-moi la lettre",
+      "La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B7": [
+      "Voilà les 10 premières vannes. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.",
+      "Et si la prochaine vanne qui fait rire la table était la tienne ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne pour écrire la tienne, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vannes avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 5 vannes et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premiers conseils. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à ceux qu'il te faut.",
+      "Et si la bonne réplique sortait sur le moment, pas trois heures après ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour l'essayer, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des conseils avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : un conseil et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 11,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premières vidéos. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à celles qu'il te faut.",
+      "Tu les regardes pour rire. Et si tu les regardais pour faire rire ?",
+      "Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vidéos avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 2 vidéos et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 17,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {
+     "B8": [
+      "Et si demain, c'était la tienne qu'on se répétait ?",
+      "La mécanique, tu l'as. Reste à écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. L'exercice « À toi de jouer » est fait pour ça : une consigne, un exemple, la même technique que cette vanne. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent celle-ci sous la main.",
+      "Écrire la mienne avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vannes",
+      "/Gratuit : 5 vannes et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {
+     "B9": [
+      "Essaie-le avant le soir où il te servira",
+      "À froid, rater ne coûte rien : c'est tout l'intérêt de l'exercice « À toi de jouer ». Une consigne pour démarrer, un exemple à réutiliser le moment venu. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent ce conseil sous la main.",
+      "Essayer ce conseil avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres conseils",
+      "/Gratuit : un défi à tenter et 5 vannes, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {
+     "B10": [
+      "Faire rire une salle, c'est son métier. Toi, une table te suffit",
+      "Et ça s'entraîne, à petites doses. Avec Premium, l'abonnement du site, tu as les points clés de cette vidéo et son exercice : de quoi la revoir pour faire rire, plus seulement pour rire. Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork : 15 à 20 minutes par semaine, un défi à chaque étape.",
+      "Décrypter cette vidéo avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vidéos",
+      "/Gratuit : 2 vidéos et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {
+     "B15": [
+      "Commencer Machine à Café, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+      "Commencer Répartie, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 4 sont dans Premium.",
+      "Commencer Confiance, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Storytelling, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Boulot, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 360,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {
+     "B1": [
+      "La situation offerte ce mois-ci",
+      "Premier rendez-vous, au dessert. Tu viens de dire ta troisième phrase de la soirée, et on te lance : « Tu parles toujours aussi peu ? »",
+      "Tu réponds quoi ?",
+      "Voir la réplique",
+      "Gratuit, sans compte : la réplique, pourquoi elle marche et quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site."
+     ],
+     "B2": [
+      "Tester mes premières répliques, gratuit",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium, l'abonnement du site : 2,99 € TTC par mois, ou 24,99 € TTC par an (2,08 € par mois). Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux."
+     ],
+     "B18": [
+      "La vanne du mois, et la méthode pour écrire la tienne",
+      "« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. » Voilà le genre de vanne que tu reçois chaque mois, avec ce qui la fait marcher.",
+      "Et surtout trois étapes pour fabriquer la tienne, avec un exemple.",
+      "Envoie-moi la lettre",
+      "La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B7": [
+      "Voilà les 10 premières vannes. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.",
+      "Et si la prochaine vanne qui fait rire la table était la tienne ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne pour écrire la tienne, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vannes avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 5 vannes et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premiers conseils. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à ceux qu'il te faut.",
+      "Et si la bonne réplique sortait sur le moment, pas trois heures après ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour l'essayer, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des conseils avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : un conseil et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 11,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premières vidéos. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à celles qu'il te faut.",
+      "Tu les regardes pour rire. Et si tu les regardais pour faire rire ?",
+      "Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vidéos avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 2 vidéos et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 17,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {
+     "B8": [
+      "Et si demain, c'était la tienne qu'on se répétait ?",
+      "La mécanique, tu l'as. Reste à écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. L'exercice « À toi de jouer » est fait pour ça : une consigne, un exemple, la même technique que cette vanne. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent celle-ci sous la main.",
+      "Écrire la mienne avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vannes",
+      "/Gratuit : 5 vannes et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {
+     "B9": [
+      "Essaie-le avant le soir où il te servira",
+      "À froid, rater ne coûte rien : c'est tout l'intérêt de l'exercice « À toi de jouer ». Une consigne pour démarrer, un exemple à réutiliser le moment venu. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent ce conseil sous la main.",
+      "Essayer ce conseil avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres conseils",
+      "/Gratuit : un défi à tenter et 5 vannes, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {
+     "B10": [
+      "Faire rire une salle, c'est son métier. Toi, une table te suffit",
+      "Et ça s'entraîne, à petites doses. Avec Premium, l'abonnement du site, tu as les points clés de cette vidéo et son exercice : de quoi la revoir pour faire rire, plus seulement pour rire. Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork : 15 à 20 minutes par semaine, un défi à chaque étape.",
+      "Décrypter cette vidéo avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vidéos",
+      "/Gratuit : 2 vidéos et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {
+     "B15": [
+      "Commencer Machine à Café, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+      "Commencer Répartie, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 4 sont dans Premium.",
+      "Commencer Confiance, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Storytelling, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Boulot, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 375,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {
+     "B1": [
+      "La situation offerte ce mois-ci",
+      "Premier rendez-vous, au dessert. Tu viens de dire ta troisième phrase de la soirée, et on te lance : « Tu parles toujours aussi peu ? »",
+      "Tu réponds quoi ?",
+      "Voir la réplique",
+      "Gratuit, sans compte : la réplique, pourquoi elle marche et quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site."
+     ],
+     "B2": [
+      "Tester mes premières répliques, gratuit",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium, l'abonnement du site : 2,99 € TTC par mois, ou 24,99 € TTC par an (2,08 € par mois). Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux."
+     ],
+     "B18": [
+      "La vanne du mois, et la méthode pour écrire la tienne",
+      "« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. » Voilà le genre de vanne que tu reçois chaque mois, avec ce qui la fait marcher.",
+      "Et surtout trois étapes pour fabriquer la tienne, avec un exemple.",
+      "Envoie-moi la lettre",
+      "La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B7": [
+      "Voilà les 10 premières vannes. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.",
+      "Et si la prochaine vanne qui fait rire la table était la tienne ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne pour écrire la tienne, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vannes avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 5 vannes et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premiers conseils. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à ceux qu'il te faut.",
+      "Et si la bonne réplique sortait sur le moment, pas trois heures après ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour l'essayer, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des conseils avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : un conseil et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 8,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premières vidéos. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à celles qu'il te faut.",
+      "Tu les regardes pour rire. Et si tu les regardais pour faire rire ?",
+      "Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vidéos avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 2 vidéos et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 15,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {
+     "B8": [
+      "Et si demain, c'était la tienne qu'on se répétait ?",
+      "La mécanique, tu l'as. Reste à écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. L'exercice « À toi de jouer » est fait pour ça : une consigne, un exemple, la même technique que cette vanne. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent celle-ci sous la main.",
+      "Écrire la mienne avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vannes",
+      "/Gratuit : 5 vannes et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {
+     "B9": [
+      "Essaie-le avant le soir où il te servira",
+      "À froid, rater ne coûte rien : c'est tout l'intérêt de l'exercice « À toi de jouer ». Une consigne pour démarrer, un exemple à réutiliser le moment venu. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent ce conseil sous la main.",
+      "Essayer ce conseil avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres conseils",
+      "/Gratuit : un défi à tenter et 5 vannes, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {
+     "B10": [
+      "Faire rire une salle, c'est son métier. Toi, une table te suffit",
+      "Et ça s'entraîne, à petites doses. Avec Premium, l'abonnement du site, tu as les points clés de cette vidéo et son exercice : de quoi la revoir pour faire rire, plus seulement pour rire. Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork : 15 à 20 minutes par semaine, un défi à chaque étape.",
+      "Décrypter cette vidéo avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vidéos",
+      "/Gratuit : 2 vidéos et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {
+     "B15": [
+      "Commencer Machine à Café, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+      "Commencer Répartie, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 4 sont dans Premium.",
+      "Commencer Confiance, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Storytelling, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Boulot, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 768,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "accueil",
+    "http": 200,
+    "arrivee": "/",
+    "manquants": {
+     "B3": [
+      "Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois",
+      "Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil."
+     ],
+     "B4B5": [
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium2,99 €/mois"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "article",
+    "http": 200,
+    "arrivee": "/blog/meilleures-blagues-droles-2026",
+    "manquants": {
+     "B1": [
+      "La situation offerte ce mois-ci",
+      "Premier rendez-vous, au dessert. Tu viens de dire ta troisième phrase de la soirée, et on te lance : « Tu parles toujours aussi peu ? »",
+      "Tu réponds quoi ?",
+      "Voir la réplique",
+      "Gratuit, sans compte : la réplique, pourquoi elle marche et quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site."
+     ],
+     "B2": [
+      "Tester mes premières répliques, gratuit",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Premium, l'abonnement du site : 2,99 € TTC par mois, ou 24,99 € TTC par an (2,08 € par mois). Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux."
+     ],
+     "B18": [
+      "La vanne du mois, et la méthode pour écrire la tienne",
+      "« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. » Voilà le genre de vanne que tu reçois chaque mois, avec ce qui la fait marcher.",
+      "Et surtout trois étapes pour fabriquer la tienne, avec un exemple.",
+      "Envoie-moi la lettre",
+      "La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "vannes",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B7": [
+      "Voilà les 10 premières vannes. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.",
+      "Et si la prochaine vanne qui fait rire la table était la tienne ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne pour écrire la tienne, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vannes avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 5 vannes et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "conseils",
+    "http": 200,
+    "arrivee": "/conseils",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premiers conseils. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à ceux qu'il te faut.",
+      "Et si la bonne réplique sortait sur le moment, pas trois heures après ?",
+      "Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour l'essayer, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des conseils avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : un conseil et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 8,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "videos",
+    "http": 200,
+    "arrivee": "/videos",
+    "manquants": {
+     "B7": [
+      "Voilà les 3 premières vidéos. La suite est juste en dessous, dans Premium.",
+      "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à celles qu'il te faut.",
+      "Tu les regardes pour rire. Et si tu les regardais pour faire rire ?",
+      "Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).",
+      "Voir la suite des vidéos avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Étape 1 de Répartie, gratuite : 2 vidéos et un défi"
+     ]
+    },
+    "pleins_meme_ecran": 10,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-vanne",
+    "http": 200,
+    "arrivee": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdi7xgc0",
+    "manquants": {
+     "B8": [
+      "Et si demain, c'était la tienne qu'on se répétait ?",
+      "La mécanique, tu l'as. Reste à écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. L'exercice « À toi de jouer » est fait pour ça : une consigne, un exemple, la même technique que cette vanne. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent celle-ci sous la main.",
+      "Écrire la mienne avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vannes",
+      "/Gratuit : 5 vannes et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-conseil",
+    "http": 200,
+    "arrivee": "/conseils/la-pause-et-le-silence-tes-meilleurs-allies-cmvdi7xjk0",
+    "manquants": {
+     "B9": [
+      "Essaie-le avant le soir où il te servira",
+      "À froid, rater ne coûte rien : c'est tout l'intérêt de l'exercice « À toi de jouer ». Une consigne pour démarrer, un exemple à réutiliser le moment venu. Il est dans Premium, l'abonnement du site, qui ouvre aussi les 5 parcours en entier. Et tes favoris te gardent ce conseil sous la main.",
+      "Essayer ce conseil avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres conseils",
+      "/Gratuit : un défi à tenter et 5 vannes, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "fiche-video",
+    "http": 200,
+    "arrivee": "/videos/roman-frayssinet-lintelligence-des-animaux-cmvdi7xkv0",
+    "manquants": {
+     "B10": [
+      "Faire rire une salle, c'est son métier. Toi, une table te suffit",
+      "Et ça s'entraîne, à petites doses. Avec Premium, l'abonnement du site, tu as les points clés de cette vidéo et son exercice : de quoi la revoir pour faire rire, plus seulement pour rire. Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork : 15 à 20 minutes par semaine, un défi à chaque étape.",
+      "Décrypter cette vidéo avec Premium",
+      "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable depuis ton profil quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.",
+      "Voir d'autres vidéos",
+      "/Gratuit : 2 vidéos et un défi, étape 1 de (Répartie|Machine à Café|Confiance|Storytelling|Boulot)/"
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "parcours",
+    "http": 200,
+    "arrivee": "/parcours",
+    "manquants": {
+     "B15": [
+      "Commencer Machine à Café, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+      "Commencer Répartie, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 4 sont dans Premium.",
+      "Commencer Confiance, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Storytelling, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium.",
+      "Commencer Boulot, étape 1 gratuite",
+      "Sans compte ni abonnement, quiz compris. Les étapes 2 à 6 sont dans Premium."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-defaut",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-repartie",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
+      "Ta réplique pendant la soirée, pas dans le bus du retour",
+      "Ouvrir Répartie et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-machine-a-cafe",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-boulot",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force",
+      "Ta réplique pendant la réunion, pas dans l'ascenseur d'après",
+      "Ouvrir Boulot et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-confiance",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si tu sors d'une période compliquée et que le rire te manque",
+      "Retrouver le rire à table, 20 minutes par semaine, sans te forcer",
+      "Ouvrir Confiance et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "abonnement-storytelling",
+    "http": 200,
+    "arrivee": "/vannes",
+    "manquants": {
+     "B16": [
+      "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+      "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
+      "Ouvrir Storytelling et les 4 autres · 2,99 €/mois",
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."
+     ]
+    },
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   },
+   {
+    "w": 1280,
+    "page": "register",
+    "http": 200,
+    "arrivee": "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance",
+    "manquants": {},
+    "pleins_meme_ecran": 0,
+    "debordement": false,
+    "tirets": 0,
+    "b6": 0
+   }
+  ]
+ },
+ "flux": {
+  "visiteur": [
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   }
+  ],
+  "gratuit": [
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 360,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 375,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 768,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-vanne",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-conseil",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "favori-video",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "vote",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-vannes",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-conseils",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B11",
+    "cle": "carte-videos",
+    "ouvert": true,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 1,
+    "manquants": []
+   },
+   {
+    "w": 1280,
+    "bloc": "B14",
+    "present": 1,
+    "manquants": []
+   }
+  ],
+  "abonne": [
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 360,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 360,
+    "bloc": "B14",
+    "present": 0,
+    "manquants": [
+     "Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les 4 autres parcours en entier.",
+     "Passer à l'étape 2 avec Premium",
+     "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement."
+    ]
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 375,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 375,
+    "bloc": "B14",
+    "present": 0,
+    "manquants": [
+     "Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les 4 autres parcours en entier.",
+     "Passer à l'étape 2 avec Premium",
+     "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement."
+    ]
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 768,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 768,
+    "bloc": "B14",
+    "present": 0,
+    "manquants": [
+     "Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les 4 autres parcours en entier.",
+     "Passer à l'étape 2 avec Premium",
+     "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement."
+    ]
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "OBSERVATEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fconfiance&src=quiz",
+    "plein": "/parcours/confiance?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "STORYTELLER",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fstorytelling&src=quiz",
+    "plein": "/parcours/storytelling?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "ABSURDE",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=quiz",
+    "plein": "/parcours/machine-a-cafe?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "PUNCHLINEUR",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B12",
+    "cle": "TAQUIN",
+    "manquants": [],
+    "lien": "/abonnement?returnTo=%2Fparcours%2Frepartie&src=quiz",
+    "plein": "/parcours/repartie?src=quiz#etape-1"
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=0",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=1",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=2",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 1280,
+    "bloc": "B13",
+    "cle": "q1=3",
+    "present": 0,
+    "manquants": [
+     "aucun parcours reconnu"
+    ]
+   },
+   {
+    "w": 1280,
+    "bloc": "B14",
+    "present": 0,
+    "manquants": [
+     "Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les 4 autres parcours en entier.",
+     "Passer à l'étape 2 avec Premium",
+     "2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement."
+    ]
+   }
+  ]
+ }
+}
