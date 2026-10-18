@@ -239,7 +239,7 @@ export default function AProposPage() {
             <AuthCta label={frTypo(A_PROPOS_FIN.bouton)} src="a-propos" className={BOUTON_BLOC_APPEL} />
           </div>
           <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
-          <div className="mt-1">
+          <div className="-mb-3 mt-1">
             <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "a-propos-etape1")} className={LIEN_L2}>
               {frTypo(A_PROPOS_FIN.lienEtape1)}
             </Link>

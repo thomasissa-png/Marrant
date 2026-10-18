@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { contenuAffiche } from "@/lib/tip-prose";
 import Link from "next/link";
 import { COLONNE_LECTURE } from "@/components/layout/gabarit";
 import { JsonLd, buildBreadcrumbJsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
@@ -82,12 +83,12 @@ export default async function BlagueDuJourPage() {
         <article>
           <h2 className="font-display text-2xl font-bold">
             <Link href={`/vannes/${buildJokeSlug(joke)}`} className="hover:text-accent-link">
-              {joke.content}
+              {contenuAffiche(joke.content)}
             </Link>
           </h2>
           <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
             <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">La chute</div>
-            <p className="text-lg font-semibold text-text-primary">{joke.punchline}</p>
+            <p className="text-lg font-semibold text-text-primary">{contenuAffiche(joke.punchline)}</p>
           </div>
           {joke.comedyTechnique && (
             <section
@@ -98,7 +99,7 @@ export default async function BlagueDuJourPage() {
                 Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
               </h3>
               {joke.techniqueExplanation && (
-                <p className="mt-2 text-sm text-text-secondary">{joke.techniqueExplanation}</p>
+                <p className="mt-2 text-sm text-text-secondary">{contenuAffiche(joke.techniqueExplanation)}</p>
               )}
             </section>
           )}

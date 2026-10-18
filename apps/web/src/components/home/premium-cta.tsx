@@ -34,7 +34,7 @@ export function PremiumCta() {
         </div>
 
         <div className="mx-auto mt-8 flex max-w-3xl flex-col gap-6">
-          <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 sm:p-8">
+          <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 max-[399px]:p-5 sm:p-8">
             <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
             <div className="relative">
               <CartePremiumAchat bouton={frTypo(CARTE_PREMIUM.bouton)} />

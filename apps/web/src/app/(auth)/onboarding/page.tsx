@@ -13,7 +13,7 @@ const DEFAULT_EXIT = "/parcours";
 export default function OnboardingPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-12">
-      <Link href="/" className="mb-8 inline-block">
+      <Link href="/" className="mb-8 inline-flex min-h-11 items-center">
         <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
           deviens-marrant.fr
         </span>

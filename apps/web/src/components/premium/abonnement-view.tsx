@@ -19,6 +19,7 @@ import { getPremiumFaqs } from "@/lib/faqs";
 import { buildRegisterUrl, sanitizeSignupSrc } from "@/lib/auth-links";
 import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
+import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
 import { PlanSelector } from "@/components/premium/plan-selector";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS, MUR_PARCOURS } from "@/config/textes/cta-pages";
@@ -264,7 +265,7 @@ export function AbonnementView({
             <Button
               variant="primary"
               size="lg"
-              className="mt-4 w-full sm:mt-8"
+              className={cn("mt-4 w-full whitespace-normal text-center sm:mt-8 sm:px-6", BOUTON_PRIX_UNE_LIGNE)}
               onClick={() => void handleCheckout("manuel", plan)}
               disabled={isCheckoutLoading}
             >
@@ -276,7 +277,7 @@ export function AbonnementView({
             <Link
               href={paidSignupHref}
               data-testid="abonnement-bouton-achat"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 h-auto min-h-12 w-full whitespace-normal px-3 py-2 text-center [text-wrap:balance] sm:mt-8 sm:px-6")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 w-full whitespace-normal text-center [text-wrap:balance] sm:mt-8 sm:px-6", BOUTON_PRIX_UNE_LIGNE)}
               onClick={() =>
                 trackUmami("abonnement-clic", {
                   formule: isAnnual ? "annuel" : "mensuel",
@@ -332,7 +333,7 @@ export function AbonnementView({
       )}
 
       {/* FAQ */}
-      <div className="mt-12">
+      <div className="mt-12 md:mt-16">
         <FaqSection items={getPremiumFaqs(annualAvailable)} />
       </div>
     </div>

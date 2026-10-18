@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
 import { trackUmami } from "@/lib/umami";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { useSession } from "next-auth/react";
@@ -199,10 +200,11 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
     return (
       <div className="mx-auto max-w-lg text-center">
         <Card className="animate-scale-in">
-          <CardContent className="py-8 text-center">
+          {/* Revue visuelle s21 (R16) : le dernier lien a sa zone tactile de 44 px, marge basse réduite d'autant. */}
+          <CardContent className="pb-5 pt-8 text-center">
             <span className="text-6xl" aria-hidden="true">{levelResult.emoji}</span>
             <h2 className="mt-4 font-display text-2xl font-bold text-text-primary">{profile.title}</h2>
-            <p className="mt-2 text-text-secondary">{levelResult.description}</p>
+            <p className="mt-2 text-text-secondary">{frTypo(levelResult.description)}</p>
             {isExisting && existingProfile && (
               <p className="mt-2 text-sm text-text-muted">
                 Quiz complété le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
@@ -227,7 +229,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                   <Button
                     variant="primary"
                     size="lg"
-                    className="mt-3 h-auto min-h-12 w-full whitespace-normal py-2"
+                    className={cn("mt-3 w-full whitespace-normal", BOUTON_PRIX_UNE_LIGNE)}
                     onClick={() => startCheckout(`/parcours/${recommendation.slug}`)}
                     disabled={isCheckoutLoading}
                   >
@@ -236,12 +238,13 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 ) : (
                   <Link
                     href={buildAbonnementUrl(`/parcours/${recommendation.slug}`, "monthly", "onboarding")}
-                    className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center")}
+                    className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-3 w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)}
                   >
                     {QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
                   </Link>
                 )}
-                <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+                {/* Revue visuelle s21 (R16) : groupe d'action centré (bouton pleine largeur, REASS, lien gratuit). */}
+                <p className="mt-2 text-center text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
                 {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
               </div>
             )}

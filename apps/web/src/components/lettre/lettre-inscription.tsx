@@ -181,7 +181,8 @@ export function LettreInscription({
           method="post"
           action="/api/newsletter"
           onSubmit={soumettre}
-          className={repliee ? "mt-1 text-left" : "mt-3"}
+          // Revue visuelle s21 (décision 3) : formulaire déplié en colonne centrée de 448 px dans le bloc centré.
+          className={repliee ? "mx-auto mt-1 w-full max-w-md text-left" : "mt-3"}
         >
           <input type="hidden" name="emplacement" value={emplacement} />
           {slug && <input type="hidden" name="slug" value={slug} />}
@@ -266,14 +267,12 @@ export function LettreInscription({
 
             <Button
               type="submit"
-              variant={repliee ? "ghost" : "outline-accent"}
-              size={repliee ? "sm" : "lg"}
+              variant="outline-accent"
+              size="lg"
               aria-busy={occupe || undefined}
-              className={
-                repliee
-                  ? "min-h-11 justify-self-start px-0 text-accent-link underline underline-offset-2 hover:bg-transparent"
-                  : "w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"
-              }
+              // Revue visuelle s21 (décision 3) : même bouton que sur /lettre ; replié (fin d'étape 1),
+              // pleine largeur de sa colonne centrée. Le seul plein du bloc reste « Passer à l'étape 2 ».
+              className={repliee ? "min-h-12 w-full" : "w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"}
             >
               {occupe ? T.boutonEnvoi : T.bouton}
             </Button>

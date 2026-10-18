@@ -36,16 +36,18 @@ export function PlanSelector({
     <div className="mt-3" data-testid="plan-selector">
       <fieldset>
         <legend className="sr-only">Choisis ta formule</legend>
-        {/* Correctif s21 (QA visuelle, 375 px) : chaque option est une colonne ; la pastille
-            « plus de 3 mois offerts » vit DANS la colonne « Annuel », sous sa pastille et
-            alignée sur elle. Si la ligne casse (320 px), elle part avec « Annuel », jamais
-            sous « Mensuel ». Annoncée avec l'option Annuel (aria-describedby). */}
-        <div className="flex flex-wrap items-start gap-2">
+        {/* Correctif s21 (QA visuelle, 375 px) : chaque option est un groupe ; la pastille
+            « plus de 3 mois offerts » vit DANS le groupe « Annuel » (sous sa pastille sous 640 px, à sa droite au-delà, revue visuelle
+            s21, R17). Si la ligne casse (320 px), elle part avec « Annuel », jamais sous
+            « Mensuel ». Annoncée avec l'option Annuel (aria-describedby). */}
+        <div className="flex flex-wrap items-start gap-2 sm:items-center">
           {OPTIONS.map((option) => {
             const showOffert = option.value === "annual" && !isAnnual;
             const actif = value === option.value;
             return (
-              <div key={option.value} className="flex flex-col items-start gap-1.5">
+              // Revue visuelle s21 (R17) : dès 640 px, la pastille « mois offerts » en ligne, à droite de
+              // « Annuel » ; en dessous, sous sa pastille (Mensuel et Annuel restent sur une ligne à 375).
+              <div key={option.value} className="flex flex-col items-start gap-1.5 sm:flex-row sm:items-center sm:gap-2">
                 {/* Revue design s21 m1 : anneau au clavier seulement (plus d'anneau resté
                     après un clic). m3 : formule choisie en violet léger bordé, le seul violet
                     plein du premier écran reste le bouton d'achat. */}

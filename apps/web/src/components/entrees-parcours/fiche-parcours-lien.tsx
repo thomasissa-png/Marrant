@@ -18,7 +18,7 @@ export function FicheParcoursLien({ type, refs }: { type: FicheType; refs: reado
     <aside
       aria-label={FICHE_PARCOURS.titre}
       data-testid="fiche-parcours-lien"
-      className="mt-6 rounded-xl border border-border bg-background-card p-5"
+      className="mt-6 rounded-xl border border-border bg-background-card p-5 md:p-6"
     >
       <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">{FICHE_PARCOURS.titre}</p>
       <p className="mt-2 text-sm text-text-secondary">{FICHE_PARCOURS[type](ref.etape, ref.slug)}</p>

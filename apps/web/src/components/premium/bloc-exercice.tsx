@@ -66,7 +66,7 @@ export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExercic
       </div>
       <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
-      <div className="mt-1">
+      <div className="-mb-3 mt-1">
         <Link href={parcoursEtape1Href(parcours, "fiche")} className={LIEN_L2} data-fiche-cta="etape-1">
           {frTypo(t.contour(parcours))}
         </Link>

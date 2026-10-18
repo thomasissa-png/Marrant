@@ -32,7 +32,8 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
- * 1024, 1248 px dès 1280 (max-w-7xl : identique à 1440, 1536 et 1920). Tout est
+ * 1024, 1216 px dès 1280 (max-w-7xl et marges de 32 px dès 1280, revue visuelle s21 R26 :
+ * mêmes marges que le contenu et le pied ; identique à 1440, 1536 et 1920). Tout est
  * `shrink-0` : rien ne s'écrase en silence.
  *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-1.5 depuis s21 :
  *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~478 dès
@@ -120,9 +121,14 @@ export function Header() {
 
   return (
     <>
+      {/* Revue visuelle s21 (R22) : voile sous le menu mobile ouvert (la page ne reste plus lumineuse dessous) ;
+          un toucher dessus ferme le menu. L'en-tête (z-50) et son panneau restent au-dessus. */}
+      {isMenuOpen && (
+        <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => setIsMenuOpen(false)} />
+      )}
       {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 xl:px-8">
           {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px ;
               concision v5 : encore un cran sous 360 px, avec des marges de 12 px, pour que le
               bouton prix tienne à côté du menu dès 320 px) */}
@@ -218,6 +224,8 @@ export function Header() {
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
                   "inline-flex h-11 shrink-0 whitespace-nowrap px-2 text-xs min-[360px]:px-3 min-[360px]:text-sm",
+                  // Revue visuelle s21 (R22) : menu ouvert, un seul bouton prix (celui du panneau) ; la place est gardée.
+                  isMenuOpen && "invisible",
                 )}
               >
                 <span className="sm:hidden">{EN_TETE.boutonCourt}</span>

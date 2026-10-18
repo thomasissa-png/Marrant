@@ -32,7 +32,8 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
       <h2
         className={cn(
           "font-display font-bold text-text-primary",
-          left ? "mb-4 text-xl" : "mb-8 text-center text-2xl",
+          // Revue visuelle s21 (R29) : titre secondaire, même taille que « Derniers articles » et la lettre.
+          left ? "mb-4 text-xl" : "mb-8 text-center text-xl md:text-2xl",
         )}
       >
         {title}
@@ -56,7 +57,7 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{faq.answer}</p>
+            <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
           </details>
         ))}
       </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
 import { toast } from "@/components/ui/toast";
 import { trackUmami } from "@/lib/umami";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
@@ -58,7 +59,7 @@ export function CartePremiumAchat({ bouton }: { bouton: string }) {
   return (
     <>
       {status === "authenticated" ? (
-        <Button variant="primary" size="lg" className="w-full" onClick={handleCheckout} disabled={isCheckoutLoading}>
+        <Button variant="primary" size="lg" className={cn("w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)} onClick={handleCheckout} disabled={isCheckoutLoading}>
           {isCheckoutLoading ? "On t'emmène au paiement…" : bouton}
         </Button>
       ) : (
@@ -68,7 +69,8 @@ export function CartePremiumAchat({ bouton }: { bouton: string }) {
           data-accueil-cta="abonnement"
           className={cn(
             buttonVariants({ variant: "primary", size: "lg" }),
-            "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+            "w-full whitespace-normal text-center [text-wrap:balance]",
+            BOUTON_PRIX_UNE_LIGNE,
           )}
           onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: ACCUEIL_PREMIUM_SRC, statut: "visiteur" })}
         >

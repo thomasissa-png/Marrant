@@ -66,7 +66,7 @@ function ResetPasswordContent() {
 
   if (!token || !email) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4">
+      <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
         <Card className="w-full max-w-md">
           <CardContent className="py-8 text-center">
             <h1 className="mb-3 font-display text-lg font-bold text-text-primary">Nouveau mot de passe</h1>
@@ -81,10 +81,10 @@ function ResetPasswordContent() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-flex min-h-11 items-center">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>

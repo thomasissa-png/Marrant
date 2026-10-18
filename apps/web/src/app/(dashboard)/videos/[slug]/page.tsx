@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { contenuAffiche } from "@/lib/tip-prose";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -187,7 +188,7 @@ export default async function VideoPage({
           </span>
         </div>
 
-        <h1 className="font-display text-2xl font-bold md:text-3xl">{video.title}</h1>
+        <h1 className="font-display text-2xl font-bold md:text-3xl">{contenuAffiche(video.title)}</h1>
 
         <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-border bg-black">
           <iframe
@@ -203,9 +204,9 @@ export default async function VideoPage({
         <section className="mt-8">
           <h2 className="font-display mb-2 text-lg font-bold">Ce qu&apos;elle montre</h2>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
-            {fixInvertedCase(video.description)}
+            {contenuAffiche(fixInvertedCase(video.description))}
           </p>
-          <div className="mt-4 rounded-lg border border-border bg-background-card p-4">
+          <div className="mt-4 rounded-lg border border-border bg-background-card p-5 md:p-6">
             <div className="text-xs uppercase tracking-wider text-text-muted">Technique principale</div>
             <div className="mt-1 text-sm font-semibold text-text-primary">{video.technique}</div>
           </div>
@@ -225,12 +226,12 @@ export default async function VideoPage({
         {related.length > 0 && (
           <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">
             <h2 className="font-display mb-4 text-xl font-bold">Dans la même thématique</h2>
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:auto-rows-fr sm:grid-cols-2">
               {related.slice(0, 4).map((r) => (
                 <li key={r.id}>
                   <Link
                     href={`/videos/${buildVideoSlug(r)}`}
-                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
                     <p className="text-sm font-semibold text-text-primary line-clamp-2">{r.title}</p>
                     <p className="mt-1 text-xs text-text-muted">{r.channelName}</p>

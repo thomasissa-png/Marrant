@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { contenuAffiche } from "@/lib/tip-prose";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -205,11 +206,11 @@ export default async function VannePage({
           {categoryLabel}
         </div>
         <h1 className="font-display text-2xl font-bold md:text-3xl">
-          {joke.content}
+          {contenuAffiche(joke.content)}
         </h1>
-        <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
+        <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5 md:p-6">
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">La chute</div>
-          <p className="text-lg font-semibold text-text-primary">{joke.punchline}</p>
+          <p className="text-lg font-semibold text-text-primary">{contenuAffiche(joke.punchline)}</p>
         </div>
 
         <VanneShareRow
@@ -227,7 +228,7 @@ export default async function VannePage({
         {joke.comedyTechnique && (
           <section
             aria-labelledby="pourquoi-ca-marche"
-            className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
+            className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5 md:p-6"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
               Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
@@ -237,7 +238,8 @@ export default async function VannePage({
             </h2>
             {joke.techniqueExplanation && (
               <p className="mt-2 text-sm text-text-secondary">
-                {joke.techniqueExplanation}
+                {/* Revue visuelle s21 (décision 4) : apostrophes, guillemets et tirets au rendu, donnée intacte. */}
+                {contenuAffiche(joke.techniqueExplanation)}
               </p>
             )}
             <p className="mt-3 text-xs text-text-muted">
@@ -253,7 +255,7 @@ export default async function VannePage({
         )}
 
         {/* Comment la ressortir : le texte reste, en prose, sans bouton (s21 B8). */}
-        <section className="mt-6 rounded-xl border border-border bg-background-card p-5">
+        <section className="mt-6 rounded-xl border border-border bg-background-card p-5 md:p-6">
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
@@ -277,12 +279,12 @@ export default async function VannePage({
         {related.length > 0 && (
           <nav aria-label="Vannes liées" className="mt-12 border-t border-border pt-8">
             <h2 className="font-display mb-4 text-xl font-bold">Dans la même catégorie</h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:auto-rows-fr sm:grid-cols-2">
               {related.slice(0, 4).map((r) => (
                 <li key={r.id}>
                   <Link
                     href={`/vannes/${buildJokeSlug(r)}`}
-                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
                     <p className="text-sm text-text-primary line-clamp-2">{r.content}</p>
                   </Link>

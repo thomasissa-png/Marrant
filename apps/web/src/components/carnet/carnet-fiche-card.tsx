@@ -68,9 +68,9 @@ function FicheBloc({ titre, as: Heading, children }: { titre: string; as: "h3" |
 /** Fiche réservée : titre et contexte uniquement (le reste n'a jamais quitté le serveur). */
 export function CarnetFicheLocked({ fiche, numero }: { fiche: CarnetFicheApercu; numero: number }) {
   return (
-    <li className="flex items-start gap-3 rounded-lg border border-border bg-background-card p-4">
+    <li className="flex items-center gap-4 rounded-lg border border-border bg-background-card p-4">
       <svg
-        className="mt-0.5 h-5 w-5 shrink-0 text-text-muted/60"
+        className="h-5 w-5 shrink-0 text-text-muted/60"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

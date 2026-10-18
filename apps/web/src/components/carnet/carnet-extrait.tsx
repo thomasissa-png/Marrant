@@ -18,7 +18,8 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
     <section
       aria-labelledby="abonnement-carnet-titre"
       data-testid="abonnement-carnet-extrait"
-      className="mt-6 space-y-4"
+      // Revue visuelle s21 (R17) : même écart de section que la FAQ (carte, carnet, FAQ).
+      className="mt-12 space-y-4 md:mt-16"
     >
       <header className="space-y-1 text-center">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">

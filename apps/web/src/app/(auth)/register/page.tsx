@@ -217,10 +217,10 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-flex min-h-11 items-center">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
@@ -337,7 +337,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             <Button
               type="submit"
               variant="primary"
-              className="h-auto min-h-11 w-full whitespace-normal py-2 text-center"
+              className="h-auto min-h-12 w-full whitespace-normal py-3 text-center leading-5 [text-wrap:balance]"
               disabled={isLoading}
             >
               {isLoading ? "On prépare ton compte…" : REGISTER_CTA.bouton}

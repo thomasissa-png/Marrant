@@ -59,7 +59,7 @@ export function MurListe({ liste }: MurListeProps) {
       </div>
       <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
-      <div className="mt-1">
+      <div className="-mb-3 mt-1">
         <Link
           href={parcoursEtape1Href(MUR_PARCOURS, `mur-${liste}`)}
           className={LIEN_L2}

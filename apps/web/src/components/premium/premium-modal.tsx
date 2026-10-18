@@ -75,7 +75,7 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
         {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" onNavigate={onClose} />}
 
         {/* Pied collant : le plein est toujours visible sans défiler (spec B11). */}
-        <div className="sticky bottom-0 -mx-6 mt-5 bg-background-card px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
+        <div className="sticky bottom-0 -mx-6 mt-5 bg-background-card px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3">
           {status === "authenticated" ? (
             <Button variant="primary" size="lg" className={plein} onClick={handleCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? FENETRE_CHARGEMENT : t.bouton}

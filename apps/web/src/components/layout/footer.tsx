@@ -74,11 +74,12 @@ export function Footer() {
   const produit = liensProduit();
   return (
     <footer className="border-t border-border bg-background-light">
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-12 xl:px-8">
         {/* 375 : une colonne ; 640-1023 : 3 colonnes (Produit sur une seule liste) ;
             ≥ 1024 : 4 pistes égales, Produit sur 2 pistes (sous-colonnes au même
             écart que la grille, donc alignées sur elle) : plus de 4e colonne vide (s17). */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+        {/* Revue visuelle s21 (R18) : dès 768 px, colonne marque plus large et liste Produit sur 2 colonnes (comme à 1 280). */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-[1.3fr_1.7fr_1fr] lg:grid-cols-4">
           {/* Marque + Réseaux sociaux */}
           <div>
             <span className="font-display text-xl font-bold text-gradient">
@@ -119,7 +120,7 @@ export function Footer() {
                 recalculé si un lien est ajouté. */}
             <ul
               style={{ ["--rangs-produit" as string]: Math.ceil(produit.length / 2) }}
-              className="grid grid-flow-col grid-cols-2 grid-rows-[repeat(var(--rangs-produit),auto)] gap-x-6 sm:grid-flow-row sm:grid-cols-1 sm:grid-rows-none lg:grid-flow-col lg:grid-cols-2 lg:grid-rows-[repeat(var(--rangs-produit),auto)] lg:gap-x-8"
+              className="grid grid-flow-col grid-cols-2 grid-rows-[repeat(var(--rangs-produit),auto)] gap-x-6 sm:grid-flow-row sm:grid-cols-1 sm:grid-rows-none md:grid-flow-col md:grid-cols-2 md:grid-rows-[repeat(var(--rangs-produit),auto)] lg:gap-x-8"
             >
               {produit.map((link) =>
                 link.href === "/lettre" ? (

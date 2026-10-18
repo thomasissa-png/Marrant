@@ -12,7 +12,7 @@ import {
   resolveBySlug,
 } from "@/lib/catalogue-slug";
 import { getRelatedTips, type RelatedTip } from "@/lib/related-catalogue";
-import { tipProse } from "@/lib/tip-prose";
+import { contenuAffiche } from "@/lib/tip-prose";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -202,12 +202,25 @@ export default async function ConseilPage({
         <h1 className="font-display text-2xl font-bold md:text-3xl">{frTypo(tip.title)}</h1>
 
         <div className="mt-6 space-y-4 text-text-secondary">
-          <p className="whitespace-pre-wrap text-base leading-relaxed">{tipProse(tip.content)}</p>
+          <p className="whitespace-pre-wrap text-base leading-relaxed">{contenuAffiche(tip.content)}</p>
         </div>
 
-        <section className="mt-8 rounded-xl border border-border bg-background-card p-5">
+        <section className="mt-8 rounded-xl border border-border bg-background-card p-5 md:p-6">
           <h2 className="font-display text-base font-bold text-text-primary">Exemple concret</h2>
-          <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
+          {/* Revue visuelle s21 (R13) : une ligne de l'exemple par paragraphe, lisible (rendu seul, aucun mot
+              changé) ; la ligne de total, quand il y en a une, séparée par un filet. */}
+          <div className="mt-3 space-y-2 text-base leading-7 text-text-primary/90">
+            {contenuAffiche(tip.example)
+              .split("\n")
+              .filter((ligne) => ligne.trim())
+              .map((ligne, i) =>
+                /^Total\b/.test(ligne.trim()) ? (
+                  <p key={i} className="!mt-3 border-t border-border pt-3 text-sm text-text-muted">{ligne}</p>
+                ) : (
+                  <p key={i}>{ligne}</p>
+                ),
+              )}
+          </div>
         </section>
 
         {/* s21 B9 : l'exercice fait partie de Premium (s15 §1.1) ; un plein, un contour étape 1, le reste en lien. */}
@@ -222,14 +235,14 @@ export default async function ConseilPage({
         {related.length > 0 && (
           <nav aria-label="Conseils liés" className="mt-12 border-t border-border pt-8">
             <h2 className="font-display mb-4 text-xl font-bold">Dans la même thématique</h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:auto-rows-fr sm:grid-cols-2">
               {related.slice(0, 4).map((r) => (
                 <li key={r.id}>
                   <Link
                     href={`/conseils/${buildTipSlug(r)}`}
-                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
-                    <p className="text-sm font-semibold text-text-primary">{r.title}</p>
+                    <p className="text-sm font-semibold text-text-primary">{frTypo(r.title)}</p>
                   </Link>
                 </li>
               ))}
