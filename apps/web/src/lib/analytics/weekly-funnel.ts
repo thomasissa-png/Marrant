@@ -8,7 +8,14 @@
  * Ne lève jamais : une source illisible donne « n.d. » et un avertissement,
  * le reste du rapport part quand même.
  */
-import { fetchUmamiMetrics, fetchUmamiPathMetrics, type UmamiConfig, type UmamiPoint } from "./umami";
+import {
+  fetchUmamiEventDataValues,
+  fetchUmamiMetrics,
+  fetchUmamiPathMetrics,
+  type UmamiConfig,
+  type UmamiPoint,
+  type UmamiPropertyValue,
+} from "./umami";
 import { escapeHtml } from "./weekly-visits-email";
 
 /**
@@ -36,6 +43,9 @@ export type FunnelDbCounts = {
   mrrCents: number;
 };
 
+/** Une ligne de la ventilation par bloc d'entrée (`src` de `checkout-ouvert` / `checkout-echec`). */
+export type CheckoutParSource = { src: string; ouverts: number; echecs: number };
+
 export type FunnelDbCounter = (startAt: Date, endAt: Date) => Promise<FunnelDbCounts>;
 
 export type WeeklyFunnel = {
@@ -46,6 +56,11 @@ export type WeeklyFunnel = {
   mursVus: number | null;
   clicsAbonnement: number | null;
   echecsInscription: number | null;
+  /** s21 (revue v2 m-2) : Stripe Checkout ouvert (`checkout-ouvert`) et échecs (`checkout-echec`). */
+  checkoutsOuverts: number | null;
+  echecsCheckout: number | null;
+  /** Les deux, ventilés par `src` (bloc d'entrée) ; null si aucune des deux répartitions n'est lisible. */
+  checkoutParSource: CheckoutParSource[] | null;
   db: FunnelDbCounts | null;
   warnings: string[];
 };
@@ -99,6 +114,29 @@ function eventCount(points: UmamiPoint[], name: string): number {
   return points.filter((p) => p.x === name).reduce((sum, p) => sum + p.y, 0);
 }
 
+/**
+ * Fusionne les répartitions `src` des deux événements, triées par ouvertures puis échecs
+ * décroissants, puis par nom. Une répartition illisible (null) compte pour zéro.
+ */
+export function fusionnerCheckoutParSource(
+  ouverts: UmamiPropertyValue[] | null,
+  echecs: UmamiPropertyValue[] | null,
+): CheckoutParSource[] | null {
+  if (!ouverts && !echecs) return null;
+  const parSrc = new Map<string, CheckoutParSource>();
+  const ligne = (src: string) => {
+    const cle = src || "inconnu";
+    const existante = parSrc.get(cle) ?? { src: cle, ouverts: 0, echecs: 0 };
+    parSrc.set(cle, existante);
+    return existante;
+  };
+  for (const v of ouverts ?? []) ligne(v.value).ouverts += v.total;
+  for (const v of echecs ?? []) ligne(v.value).echecs += v.total;
+  return [...parSrc.values()].sort(
+    (a, b) => b.ouverts - a.ouverts || b.echecs - a.echecs || a.src.localeCompare(b.src),
+  );
+}
+
 const reason = (err: unknown) => (err instanceof Error ? err.message : "erreur inconnue");
 
 export async function buildWeeklyFunnel(
@@ -107,7 +145,7 @@ export async function buildWeeklyFunnel(
   countDb: FunnelDbCounter = prismaFunnelCounter,
 ): Promise<WeeklyFunnel> {
   const warnings: string[] = [];
-  const [paths, events, db] = await Promise.all([
+  const [paths, events, db, srcOuverts, srcEchecs] = await Promise.all([
     fetchUmamiPathMetrics(config, window.startAt, window.endAt, 10, "/abonnement").catch((err) => {
       warnings.push(`vues /abonnement : ${reason(err)}`);
       return null;
@@ -120,6 +158,15 @@ export async function buildWeeklyFunnel(
       warnings.push(`base : ${reason(err)}`);
       return null;
     }),
+    // s21 (revue v2 m-2) : même filtre d'hôte que le reste (appliqué par `umamiGet`).
+    fetchUmamiEventDataValues(config, window.startAt, window.endAt, "checkout-ouvert", "src").catch((err) => {
+      warnings.push(`checkout-ouvert par source : ${reason(err)}`);
+      return null;
+    }),
+    fetchUmamiEventDataValues(config, window.startAt, window.endAt, "checkout-echec", "src").catch((err) => {
+      warnings.push(`checkout-echec par source : ${reason(err)}`);
+      return null;
+    }),
   ]);
   return {
     encartsBlogVus: events ? eventCount(events, "blog-cta-vu") : null,
@@ -128,6 +175,9 @@ export async function buildWeeklyFunnel(
     mursVus: events ? eventCount(events, "mur-vu") : null,
     clicsAbonnement: events ? eventCount(events, "abonnement-clic") : null,
     echecsInscription: events ? eventCount(events, "inscription-echec") : null,
+    checkoutsOuverts: events ? eventCount(events, "checkout-ouvert") : null,
+    echecsCheckout: events ? eventCount(events, "checkout-echec") : null,
+    checkoutParSource: fusionnerCheckoutParSource(srcOuverts, srcEchecs),
     db,
     warnings,
   };
@@ -157,6 +207,8 @@ export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
     ["Murs Premium vus (mur-vu)", n(f.mursVus)],
     ["Vues de /abonnement", n(f.vuesAbonnement)],
     ["Clics vers le paiement (abonnement-clic)", n(f.clicsAbonnement)],
+    ["Paiements ouverts chez Stripe (checkout-ouvert)", n(f.checkoutsOuverts)],
+    ["Échecs d'ouverture ou retours sans payer (checkout-echec)", n(f.echecsCheckout)],
     ["Comptes créés", n(f.db?.comptesCrees)],
     ["Échecs d'inscription (inscription-echec)", n(f.echecsInscription)],
     ["Nouveaux abonnés (premier paiement)", n(f.db?.nouveauxAbonnes)],
@@ -174,6 +226,21 @@ export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
     ? `<p style="font-size:13px;color:#b45309;margin:0 0 8px;">Section partielle : ${escapeHtml(f.warnings.join(" ; "))}.</p>`
     : "";
   return `<h3 style="${H3}">Funnel de la semaine (chiffres absolus)</h3>${partial}
-  <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${body}</table>
+  <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${body}</table>${buildCheckoutParSourceHtml(f.checkoutParSource)}
   <p style="font-size:12px;color:#999;margin:8px 0 0;">Umami pour les vues et les clics, base (webhooks Stripe) pour les comptes, paiements et résiliations. Volumes trop faibles pour des pourcentages. n.d. : donnée non disponible.</p>`;
+}
+
+/** s21 (revue v2 m-2) : quel bloc d'entrée mène jusqu'au paiement (`src` des événements checkout). */
+function buildCheckoutParSourceHtml(lignes: CheckoutParSource[] | null): string {
+  const titre = `<p style="font-size:14px;font-weight:600;margin:16px 0 4px;">Paiement ouvert par bloc d'entrée (src)</p>`;
+  if (lignes === null) return `${titre}<p style="font-size:13px;color:#999;margin:0;">${NA}</p>`;
+  if (lignes.length === 0) return `${titre}<p style="font-size:13px;color:#999;margin:0;">Aucun paiement ouvert cette semaine.</p>`;
+  const head = `<tr><th style="${TD}text-align:left;">src</th><th style="${TD_NUM}">checkout-ouvert</th><th style="${TD_NUM}">checkout-echec</th></tr>`;
+  const body = lignes
+    .map(
+      (l) =>
+        `<tr><td style="${TD}">${escapeHtml(l.src)}</td><td style="${TD_NUM}">${n(l.ouverts)}</td><td style="${TD_NUM}">${n(l.echecs)}</td></tr>`,
+    )
+    .join("");
+  return `${titre}<table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${head}${body}</table>`;
 }

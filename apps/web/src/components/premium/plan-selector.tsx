@@ -38,7 +38,7 @@ export function PlanSelector({
   const isAnnual = value === "annual";
   const offertId = useId();
   return (
-    <div className="mt-3">
+    <div className="mt-3" data-testid="plan-selector">
       <fieldset>
         <legend className="sr-only">Choisis ta formule</legend>
         {/* Correctif s21 (QA visuelle, 375 px) : chaque option est une colonne ; la pastille
@@ -101,19 +101,19 @@ export function PlanSelector({
         </span>
         <span className="text-text-muted">{isAnnual ? "TTC / an" : "TTC / mois"}</span>
       </div>
-      {/* Revue design s21 m2 : les lignes des deux formules occupent la même case de
-          grille ; celle de la formule non choisie est invisible et muette. La hauteur est
-          celle de la plus haute à toutes les largeurs : le bouton ne bouge plus. */}
+      {/* Revue design s21 m2, puis revue design v2 (point 1) : la 1re ligne de chaque formule
+          occupe la même case de grille (celle de la formule non choisie est invisible et
+          muette) ; seule la hauteur de cette ligne est réservée. « Payé en une fois… » n'est
+          rendu qu'en annuel, sous la case : en mensuel, plus de vide entre le prix et le
+          bouton. Le HTML serveur est celui du mensuel : aucun saut au chargement. */}
       <div className="grid">
-        <div className={cn("col-start-1 row-start-1", !isAnnual && "invisible")} aria-hidden={isAnnual ? undefined : true}>
-          <p className="mt-1 text-sm font-medium text-accent-link">
-            {/* D5 (audit s16) : « plus de 3 mois offerts » ET « 10,89 € économisés », calculés. */}
-            {PREMIUM_ANNUAL_EQUIVALENT_LABEL}, {ANNUEL_AVANTAGE_LABEL}
-          </p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Payé en une fois, renouvelé chaque année, résiliable depuis ton profil
-          </p>
-        </div>
+        <p
+          className={cn("col-start-1 row-start-1 mt-1 text-sm font-medium text-accent-link", !isAnnual && "invisible")}
+          aria-hidden={isAnnual ? undefined : true}
+        >
+          {/* D5 (audit s16) : « plus de 3 mois offerts » ET « 10,89 € économisés », calculés. */}
+          {PREMIUM_ANNUAL_EQUIVALENT_LABEL}, {ANNUEL_AVANTAGE_LABEL}
+        </p>
         {/* Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
             « Sans engagement, annulable à tout moment » retiré (dit par la réassurance). */}
         <p
@@ -124,6 +124,11 @@ export function PlanSelector({
           {ANNUEL_LIGNE_MENSUEL}
         </p>
       </div>
+      {isAnnual && (
+        <p className="mt-1 text-sm text-text-secondary">
+          Payé en une fois, renouvelé chaque année, résiliable depuis ton profil
+        </p>
+      )}
     </div>
   );
 }

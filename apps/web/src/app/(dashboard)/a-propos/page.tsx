@@ -3,6 +3,7 @@ import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import {
   JsonLd,
@@ -198,6 +199,8 @@ export default function AProposPage() {
           </p>
         </section>
 
+        {/* s21 (revue v2) : bloc payant masqué pour un abonné Premium. */}
+        <MasqueSiPremium>
         <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
           {/* Une phrase par ligne, même découpe que le H1 de l'accueil (hero-section.tsx). */}
           <p className="font-display text-xl font-bold text-text-primary">
@@ -217,6 +220,7 @@ export default function AProposPage() {
             </p>
           </div>
         </div>
+        </MasqueSiPremium>
       </div>
     </>
   );

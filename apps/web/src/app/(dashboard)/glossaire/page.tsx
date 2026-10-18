@@ -10,6 +10,8 @@ import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
 import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 
 /** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
 const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
@@ -127,7 +129,9 @@ export default function GlossairePage() {
         </div>
       </nav>
 
-      {/* CTA */}
+      {/* CTA. s21 (revue v2) : masqué pour un abonné Premium ; source `glossaire` suivie
+          jusqu'à `checkout-ouvert` (m-1). */}
+      <MasqueSiPremium>
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
         <p className="font-display text-xl font-bold text-text-primary">
           Le vocabulaire, c&apos;est fait. Place aux rires.
@@ -137,10 +141,11 @@ export default function GlossairePage() {
           voir le chemin parcouru. Connaître le mot « callback », c&apos;est
           bien ; en placer un au dîner de samedi, c&apos;est mieux.
         </p>
-        <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
+        <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
           Commencer à {PREMIUM_PRICE_LABEL}
         </Link>
       </div>
+      </MasqueSiPremium>
     </>
   );
 }

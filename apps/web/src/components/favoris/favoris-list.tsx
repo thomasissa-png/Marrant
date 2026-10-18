@@ -13,6 +13,7 @@ import { tipProse } from "@/lib/tip-prose";
 import { useEstPremium } from "@/hooks/use-est-premium";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
@@ -193,7 +194,8 @@ export function FavorisList() {
           <p className="mt-1 text-sm text-text-secondary">
             Passe &#224; l&apos;offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
           </p>
-          <Link href="/abonnement" className="mt-4">
+          {/* s21 (revue v2 m-1) : source `favoris`, suivie jusqu'à `checkout-ouvert` ; retour ici après paiement. */}
+          <Link href={buildAbonnementUrl("/favoris", "monthly", "favoris")} className="mt-4">
             <Button variant="primary" size="sm">
               {MUR_PREMIUM_BOUTON}
             </Button>

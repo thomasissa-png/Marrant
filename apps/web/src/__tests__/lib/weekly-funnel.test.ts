@@ -6,9 +6,11 @@
  */
 const fetchUmamiMetrics = jest.fn();
 const fetchUmamiPathMetrics = jest.fn();
+const fetchUmamiEventDataValues = jest.fn();
 jest.mock("@/lib/analytics/umami", () => ({
   fetchUmamiMetrics: (...a: unknown[]) => fetchUmamiMetrics(...a),
   fetchUmamiPathMetrics: (...a: unknown[]) => fetchUmamiPathMetrics(...a),
+  fetchUmamiEventDataValues: (...a: unknown[]) => fetchUmamiEventDataValues(...a),
 }));
 
 import {
@@ -16,6 +18,7 @@ import {
   buildFunnelSectionHtml,
   buildWeeklyFunnel,
   conversionHorsAnciensComptes,
+  fusionnerCheckoutParSource,
   renouvellements,
   type FunnelDbCounts,
 } from "@/lib/analytics/weekly-funnel";
@@ -46,7 +49,20 @@ beforeEach(() => {
     { x: "blog-scroll", y: 40 },
     { x: "blog-cta-vu", y: 30 },
     { x: "blog-cta-clic", y: 2 },
+    { x: "checkout-ouvert", y: 4 },
+    { x: "checkout-echec", y: 2 },
   ]);
+  fetchUmamiEventDataValues.mockImplementation(async (_c, _s, _e, event: string) =>
+    event === "checkout-ouvert"
+      ? [
+          { value: "carnet", total: 1 },
+          { value: "glossaire", total: 3 },
+        ]
+      : [
+          { value: "glossaire", total: 1 },
+          { value: "recherche", total: 1 },
+        ],
+  );
 });
 
 describe("buildWeeklyFunnel", () => {
@@ -62,6 +78,13 @@ describe("buildWeeklyFunnel", () => {
       mursVus: 12,
       clicsAbonnement: 5,
       echecsInscription: 1,
+      checkoutsOuverts: 4,
+      echecsCheckout: 2,
+      checkoutParSource: [
+        { src: "glossaire", ouverts: 3, echecs: 1 },
+        { src: "carnet", ouverts: 1, echecs: 0 },
+        { src: "recherche", ouverts: 0, echecs: 1 },
+      ],
       db,
       warnings: [],
     });
@@ -127,5 +150,53 @@ describe("conversion de l'admin hors anciens comptes gratuits", () => {
 
   it("date de coupure = déploiement s15 (06/10/2026 07:45, Paris)", () => {
     expect(LEGACY_FREE_CUTOFF.toISOString()).toBe("2026-10-06T05:45:00.000Z");
+  });
+});
+
+describe("s21 (revue v2 m-2) : checkout-ouvert et checkout-echec par source", () => {
+  it("lit la propriété `src` des deux événements sur la semaine du rapport", async () => {
+    await buildWeeklyFunnel(config, week, async () => db);
+    expect(fetchUmamiEventDataValues).toHaveBeenCalledWith(config, week.startAt, week.endAt, "checkout-ouvert", "src");
+    expect(fetchUmamiEventDataValues).toHaveBeenCalledWith(config, week.startAt, week.endAt, "checkout-echec", "src");
+  });
+
+  it("fusionne, trie et nomme « inconnu » une source vide", () => {
+    expect(fusionnerCheckoutParSource(null, null)).toBeNull();
+    expect(fusionnerCheckoutParSource([], [])).toEqual([]);
+    expect(
+      fusionnerCheckoutParSource(
+        [
+          { value: "b", total: 2 },
+          { value: "a", total: 2 },
+          { value: "", total: 1 },
+        ],
+        null,
+      ),
+    ).toEqual([
+      { src: "a", ouverts: 2, echecs: 0 },
+      { src: "b", ouverts: 2, echecs: 0 },
+      { src: "inconnu", ouverts: 1, echecs: 0 },
+    ]);
+  });
+
+  it("le rapport affiche les totaux et la ventilation, sans toucher aux autres lignes", async () => {
+    const html = buildFunnelSectionHtml(await buildWeeklyFunnel(config, week, async () => db));
+    const row = (label: string) => new RegExp(`${label.replace(/[()]/g, "\\$&")}</td><td[^>]*>(\\d+)</td>`).exec(html)?.[1];
+    expect(row("Paiements ouverts chez Stripe (checkout-ouvert)")).toBe("4");
+    expect(row("Clics vers le paiement (abonnement-clic)")).toBe("5");
+    expect(html).toContain("Paiement ouvert par bloc d'entrée (src)");
+    expect(html).toMatch(/>glossaire<\/td><td[^>]*>3<\/td><td[^>]*>1<\/td>/);
+    expect(html).toMatch(/>recherche<\/td><td[^>]*>0<\/td><td[^>]*>1<\/td>/);
+  });
+
+  it("répartition illisible : avertissement, n.d., et les autres chiffres restent", async () => {
+    fetchUmamiEventDataValues.mockRejectedValue(new Error("HTTP 404"));
+    const funnel = await buildWeeklyFunnel(config, week, async () => db);
+    expect(funnel.checkoutParSource).toBeNull();
+    expect(funnel.checkoutsOuverts).toBe(4);
+    expect(funnel.clicsAbonnement).toBe(5);
+    expect(funnel.warnings).toEqual(["checkout-ouvert par source : HTTP 404", "checkout-echec par source : HTTP 404"]);
+    const html = buildFunnelSectionHtml(funnel);
+    expect(html).toContain("Section partielle");
   });
 });

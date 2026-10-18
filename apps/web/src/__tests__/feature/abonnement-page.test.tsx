@@ -288,6 +288,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(
         screen.getByText("soit 2,08 € par mois, plus de 3 mois offerts, 10,89 € économisés par an"),
       ).toBeInTheDocument();
+      expect(screen.getByText("Payé en une fois, renouvelé chaque année, résiliable depuis ton profil")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/4 mois/);
       const text = document.body.textContent ?? "";
       expect(text).not.toMatch(/4 mois/);
@@ -335,7 +336,10 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       // Retour au mensuel : les lignes de l'annuel s'effacent à leur tour.
       await userEvent.click(screen.getByRole("radio", { name: "Mensuel" }));
       expect(screen.getByTestId("annuel-ligne-mensuel")).not.toHaveAttribute("aria-hidden");
-      expect(screen.getByText(/^soit 2,08/).parentElement).toHaveAttribute("aria-hidden", "true");
+      // Revue design v2 (point 1) : la ligne d'économie porte elle-même aria-hidden ;
+      // « Payé en une fois… » n'est rendu qu'en annuel.
+      expect(screen.getByText(/^soit 2,08/)).toHaveAttribute("aria-hidden", "true");
+      expect(screen.queryByText(/^Payé en une fois/)).not.toBeInTheDocument();
       expect(compte(texteAccessible(document.body))).toBe(1);
     });
 

@@ -264,7 +264,7 @@ export function AbonnementView({
           pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
           iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
           formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
-      <Card className={`${isAuthenticated ? "mt-5" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
+      <Card data-testid="abonnement-offre" className={`${isAuthenticated ? "mt-5" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
         <CardContent className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">

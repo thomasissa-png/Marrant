@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 
 interface SearchResult {
   id: string;
@@ -252,7 +253,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           {searchLimited && (
             <div className="border-t border-border px-4 py-2.5">
               <p className="text-center text-xs text-text-muted">
-                Résultats limités&nbsp;: <a href="/abonnement" className="font-medium text-accent-link underline underline-offset-2">passe en Premium</a> pour tout voir
+                Résultats limités&nbsp;: <a href={buildAbonnementUrl(null, "monthly", "recherche")} className="font-medium text-accent-link underline underline-offset-2">passe en Premium</a> pour tout voir
               </p>
             </div>
           )}
