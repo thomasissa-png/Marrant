@@ -8,10 +8,12 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
 
 **Ce qui change (état final)**
 - Tunnel réécrit en v5 : un bloc = un titre, une phrase, un bouton plein, puis la réassurance unique « Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » sous chaque plein qui porte un prix, puis un lien. Libellé payant unique « Ouvrir les 5 parcours · 2,99 €/mois ». Surfaces : accueil (haut, carte Premium), en-tête, articles (démonstration du carnet au milieu, bloc de fin, lettre), murs `/vannes` `/conseils` `/videos` (une seule carte floutée), fiches, fenêtre Premium, quiz, `/parcours` et page d'un parcours, fin d'étape 1, `/abonnement`, `/register`, retour de paiement, `/carnet`, `/profil`, `/glossaire`, `/a-propos`, FAQ de vente (4 questions sur l'accueil et `/abonnement`), e-mail de confirmation (une phrase).
-- Structure : plus de lien payant dans le haut de l'accueil. Le payant passe par le bouton prix de l'en-tête, visible à toutes les largeurs : « 2,99 €/mois » sous 640 px et de 1 024 à 1 279 px, « Premium · 2,99 €/mois » de 640 à 1 023 px et dès 1 280 px (onglets resserrés, revue v3 m4) ; il est masqué sur `/abonnement` et `/register`.
+- Structure : plus de lien payant dans le haut de l'accueil. Le payant passe par le bouton prix de l'en-tête, visible à toutes les largeurs : « 2,99 €/mois » sous 640 px et de 1 024 à 1 279 px, « Premium · 2,99 €/mois » de 640 à 1 023 px et dès 1 280 px (onglets resserrés, revue v3 m4) ; il est masqué sur `/abonnement` et `/register`. **Même bouton pour le compte sans abonnement** (QA v4 m-3) : « Activer mon accès » n'existe plus, le compte a le bouton prix à toutes les largeurs (avant : rien sous 1 024 px), vers `/abonnement?src=header` comme le visiteur (plus de `returnTo` de la page courante).
 - Fin d'étape 1 (visiteur) : le plein « Passer à l'étape 2 · 2,99 €/mois » mène à `/register`, quiz fini ou en cours (revue v3 m6). Le paiement s'ouvre ensuite tout seul, puis on revient au parcours. Sous la réassurance, une ligne de la lettre déplie le champ (emplacement `parcours`).
 - `/register` : plus de champ prénom, Google passe en premier, la mention des CGU juste dessous (revue v3 m2). Le prénom se renseigne dans `/profil` (carte « Ton prénom », route `PATCH /api/user`).
 - Fins des 11 articles « à forte frappe » (correction C1, `docs/copy/cta-s21/concision/fins-articles-v3.md`) : titre et phrase v3, plein « Tester l'étape 1 de {P}, gratuite » (5 articles qui nomment un parcours) ou « Tester mes premières répliques, gratuit », « Sans compte. », lien « Ouvrir les 5 parcours · 2,99 €/mois » ; titres du bloc de fin sans point final (sauf « ? » et « » »). L'article n°1 garde son bloc v5.
+- Libellé unique du plein de fin d'article (QA v4 m-2) : parcours connu, Répartie compris = « Tester l'étape 1 de {P}, gratuite » ; « Tester mes premières répliques, gratuit » reste à l'accueil, à l'article n°1 et aux articles dont le parcours n'est pas connu.
+- QA v4 m-4 à m-7 : résultat du quiz d'orientation (compte sans abonnement) réduit au bloc v5, parcours nommé une fois, plein payant au-dessus du lien gratuit et dans le premier écran à 375 × 812 (bas du plein : 923 → 708 px) ; plus de pagination sous les murs pour une liste limitée (visiteur, compte sans abonnement : les pages 2 et suivantes étaient vides ; l'abonné la garde, le HTML du serveur garde les liens `?page=N`) ; encart « Abonnement 2,99 €/mois » de `/parcours` masqué à l'abonné ; formulaire de la lettre de fin d'étape 1 chargé au dépliage (First Load `/parcours/[slug]` 153 → 149 kB).
 - Murs `/vannes`, `/conseils`, `/videos` : plus de « Page dédiée ». Sur `/conseils` et `/videos`, le titre de chaque carte est le lien vers la fiche. Sur `/vannes`, toucher l'amorce (ou la carte) révèle la chute, comme avant ; le lien vers la fiche est une petite flèche sans texte au coin inférieur droit de la carte (nom accessible « Voir la fiche de cette vanne », cible de 44 px). Même maillage : un lien de fiche par carte (mesuré en local : 12 / 10 / 12 avant et après).
 - Avantages Premium (4 lignes) : sur `/abonnement` seulement.
 - Gardé de l'intégration :
@@ -41,7 +43,12 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
 - Jest : 340 suites / 5 198 tests OK (5 ignorés). Playwright, projet `local` : 44/44 OK (dont en-tête à 1 280 px avec « Premium · 2,99 €/mois », titres cliquables des murs au clavier).
 - Maillage des murs, HTML du serveur sur la même base jetable : 12 / 10 / 12 liens de fiche sur `/vannes`, `/conseils`, `/videos` avant (`f0f400a`) et après, mêmes fiches.
 - Flèche de fiche de `/vannes` (commit suivant `f5946f6`, mêmes contrôles `env -i`) : tsc ×3, lint, build OK ; Jest 340 suites / 5 198 tests OK ; Playwright `local` 47/47 OK (amorce touchée = chute révélée, flèche = fiche) ; maillage 12 / 10 / 12, 12 flèches, 0 « Page dédiée » ; First Load `/vannes` 133 kB inchangé.
-- First Load JS : `/parcours/[slug]` 153 kB, `/register` 127 kB (126 avant), `/vannes` 133, `/conseils` 134, `/videos` 138 kB (inchangés).
+- First Load JS (avant la QA v4) : `/parcours/[slug]` 153 kB, `/register` 127 kB (126 avant), `/vannes` 133, `/conseils` 134, `/videos` 138 kB (inchangés).
+- **Correctifs de la QA v4** (`docs/qa/qa-cta-s21-v4.md`, commits `1883d71` à `d975885`, mêmes contrôles `env -i` avec les seules variables factices de `tests.yml`) :
+  - MJ-1 : smoke `@s21` de la fin d'étape 1 (quiz en cours) mis à jour (`/register`, `src=parcours-etape`, `callbackUrl` vers `/abonnement?returnTo=…`). **Smoke complet (desktop + iPhone 13) contre le build local : 128 réussis, 2 ignorés (voulus), 0 échec** ; le contrôle 11 ne sortira plus rouge sur ce test ;
+  - m-1 : contrôle 14 réécrit avec des motifs ancrés sur le HTML affiché (vérifiés sur le build local, articles posés en base jetable : `Reste le repas\.` valait 1 à cause de la charge RSC, `Reste le repas\.<` vaut 0) ;
+  - tsc ×3, `next lint`, build : OK. Jest : 342 suites / 5 212 tests OK (5 ignorés). Playwright `local` : 54/54 OK (dont `mineurs-qa4-s21`, en-tête du compte FREE de 320 à 768 px, lettre dépliée sans saut de la ligne ni du plein) ;
+  - First Load JS : `/parcours/[slug]` 153 → **149 kB** ; `/parcours` 128 → 129, `/vannes` 133 → 134, `/blog/[slug]` 128 → 129 ; `/` 146, `/onboarding` 130, `/abonnement` 132, `/register` 127, `/conseils` 134, `/videos` 138 inchangés.
 - **À faire avant P0** : CI verte sur le commit final, et contre-épreuve @qa de la concision (rendu à 320, 375, 768 et 1 280 px, captures lues).
 
 **Contrôles P6 : SEULE liste valable (revue v3, 18/10). Elle remplace toutes les anciennes listes et consignes de contrôle de cette entrée.**
@@ -70,8 +77,9 @@ Contrôles :
    - `/parcours/repartie` : `Étape 1 gratuite, la suite avec Premium` ≥ 1, `Fait partie de Premium` 0, `grep -ci "sans engagement"` 0 ;
    - `/parcours/confiance` : `pour débloquer` 0.
 5. **Article**, `B="https://deviens-marrant.fr/blog/meilleures-blagues-droles-2026?ne-pas-compter=1"` :
-   - ≥ 1 : `Situation offerte ce mois-ci`, `La vanne dans ta bouche`, `Ouvrir les ` ;
-   - 0 : `La situation offerte`, `TTC par mois`, `Débloquer`.
+   - ≥ 1 : `Situation offerte ce mois-ci`, `pas dans ton téléphone<`, `Tester mes premières répliques, gratuit<`, `Ouvrir les ` ;
+   - 0 : `La situation offerte`, `TTC par mois`, `Débloquer` ;
+   - article Répartie (QA v4 m-2) : `curl -s "https://deviens-marrant.fr/blog/jamais-quoi-repondre-techniques?ne-pas-compter=1" | grep -c "<motif>"` → `de Répartie, gratuite<` ≥ 1, `Tester mes premières répliques, gratuit` 0.
 6. **`/carnet` jusqu'au 31/10**, `C="https://deviens-marrant.fr/carnet?ne-pas-compter=1"` :
    - ≥ 1 : `Il en reste 14`, `Et 11 autres répliques`, `Voir tout le carnet`, `returnTo=%2Fcarnet&amp;src=carnet` ;
    - 0 : `avantages-premium`, `Débloque tout le carnet`, `je parle dans un ascenseur`, `fiche-2026-11` ;
@@ -93,9 +101,10 @@ Contrôles :
       - bas de `/vannes` : « Encore des vannes à ressortir », une seule carte floutée qui ouvre « Le reste de la liste est juste derrière » ;
       - fiche vanne : « Écrire la mienne · 2,99 €/mois », réassurance, lien gratuit ;
       - cœur d'une vanne : fenêtre « Mets-la de côté » ;
-      - fin de l'étape 1 de Répartie : « Bien joué ! », carte « Étape 2 sur 4 », le plein ouvre `/register`, réassurance, la ligne de la lettre déplie le champ.
+      - fin de l'étape 1 de Répartie : « Bien joué ! », carte « Étape 2 sur 4 », le plein ouvre `/register`, réassurance, la ligne de la lettre déplie le champ (sans que la ligne ni le plein bougent) ;
+      - bas de `/vannes` : aucune pagination sous le mur (QA v4 m-5).
     - **Compte sans abonnement** (jamais le compte Premium) :
-      - accueil : carte « Et si ton… », plein, réassurance ;
+      - accueil : carte « Et si ton… », plein, réassurance ; en-tête : bouton « 2,99 €/mois » (comme le visiteur), plus de « Activer mon accès » (QA v4 m-3) ;
       - `/abonnement` : titre du parcours d'origine, « Paiement sécurisé par Stripe », bouton entier sans défiler ;
       - `/profil` : « Chaque mois, un nouveau carnet… », plein ; carte « Ton prénom » : enregistrer un prénom, puis le vider ;
       - un cœur sur `/vannes` : fenêtre sans « Deux étapes » ;
@@ -103,20 +112,20 @@ Contrôles :
     - **Compte Premium de l'équipe** :
       - accueil sans carte Premium ;
       - un cœur sur `/vannes` devient « Retirer des favoris » ;
-      - `/glossaire` sans bloc payant ;
+      - `/glossaire` sans bloc payant ; `/parcours` sans encart « Abonnement 2,99 €/mois » (QA v4 m-6) ;
       - étape 3 de `/parcours/confiance` ouverte (contrôle de P6, ne pas valider).
 11. **Smoke** : `E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke -- --grep @s21` (lecture seule ; `test:e2e:smoke:deploye` exclut `@s21`).
 12. **Mesure** :
     - le lendemain : `checkout-ouvert` / `checkout-echec` visibles dans Umami, avec la source, après un essai de paiement abandonné ;
     - le lundi suivant : le rapport contient « Paiement ouvert par bloc d'entrée (src) ». Sinon : `git show <commit déployé>:apps/web/src/lib/analytics/weekly-funnel.ts | grep -c checkout-ouvert`, puis @fullstack.
 13. **Contrôle daté du 01/12** : un carnet de décembre est en ligne (« Un nouveau carnet arrive chaque mois » est affiché sur le carnet, le profil et `/abonnement`). Sinon : @copywriter et @fullstack avant le 30/11.
-14. **Bloc de fin des 11 articles « à forte frappe »** (correction C1 de la revue v3, faite au commit `1403f4b`, textes `docs/copy/cta-s21/concision/fins-articles-v3.md`). Ces articles sont en base : contrôle sur le site seulement (404 en local). `curl -s "https://deviens-marrant.fr/blog/<slug>?ne-pas-compter=1" | grep -c "<motif>"` :
-    - `message-anniversaire-drole-par-situation` : ≥ 1 pour `Au moment du gâteau, tout le monde`, `Mieux vaut avoir de quoi enchaîner`, `Tester mes premières répliques, gratuit`, `Sans compte.` ; 0 pour `Les parcours complets`, `Passer à Premium`, `Reste le moment du gâteau` ;
-    - `blagues-de-couple-drole` : ≥ 1 pour `qui a le dernier mot`, `de Répartie, gratuite` ; 0 pour `Commencer le parcours`, `Les parcours complets` ;
-    - `message-drole-fete-des-peres` : ≥ 1 pour `Reste le repas<` (titre sans point final) ; 0 pour `Reste le repas\.` (point échappé), `Les parcours complets` ;
-    - `blagues-poisson-d-avril-adultes` : ≥ 1 pour `Une riposte, ça se prépare avant` ; 0 pour `Le canular est prêt` ;
-    - `meilleures-blagues-droles-2026` : contrôle 5 (bloc v5 `La vanne dans ta bouche`), 0 pour `Tu les as lues`.
-    Si écart : `git show <commit déployé>:apps/web/src/config/blog-cta.ts | grep -c "Au moment du gâteau"` → 1, puis @fullstack.
+14. **Bloc de fin des 11 articles « à forte frappe »** (correction C1 de la revue v3, faite au commit `1403f4b`, textes `docs/copy/cta-s21/concision/fins-articles-v3.md`). Ces articles sont en base : contrôle sur le site (404 sur un build local sans ces lignes). `curl -s "https://deviens-marrant.fr/blog/<slug>?ne-pas-compter=1" | grep -c "<motif>"`. **Motifs ancrés sur le HTML affiché** (QA v4 m-1) : la page transmet aussi les textes bruts du bloc dans la charge RSC (`"title":"…"`), où un motif nu se trouve même si le texte affiché diffère ; les motifs ci-dessous finissent par `<` (fin de balise) ou commencent par `>`, ce que la charge RSC ne contient pas (vérifié sur un build local avec ces articles en base jetable : chaque motif « ≥ 1 » vaut 1 dans le HTML et 0 dans la charge RSC) :
+    - `message-anniversaire-drole-par-situation` : ≥ 1 pour `Au moment du gâteau, tout le monde t&#x27;écoute<`, `de quoi enchaîner après la chanson.<`, `Tester mes premières répliques, gratuit<`, `Sans compte.<` ; 0 pour `Les parcours complets`, `Passer à Premium`, `Reste le moment du gâteau` ;
+    - `blagues-de-couple-drole` : ≥ 1 pour `>Chez vous, qui a le dernier mot`, `de Répartie, gratuite<` ; 0 pour `Commencer le parcours`, `Les parcours complets` ;
+    - `message-drole-fete-des-peres` : ≥ 1 pour `Reste le repas<` (titre sans point final) ; 0 pour `Reste le repas\.<` (point échappé, suivi de la fin de balise : le titre brut « Reste le repas. » de la charge RSC n'est pas compté), `Les parcours complets` ;
+    - `blagues-poisson-d-avril-adultes` : ≥ 1 pour `Une riposte, ça se prépare avant.<` ; 0 pour `Le canular est prêt` ;
+    - `meilleures-blagues-droles-2026` : contrôle 5 (bloc v5 `pas dans ton téléphone<`), 0 pour `Tu les as lues`.
+    Les motifs « 0 » restants n'existent nulle part dans le code (ni charge RSC possible). Si écart : `git show <commit déployé>:apps/web/src/config/blog-cta.ts | grep -c "Au moment du gâteau"` → 1, puis @fullstack.
 15. **Lien de fiche des cartes des murs** (`/vannes` : flèche de coin ; `/conseils`, `/videos` : titre cliquable) :
     - **Relevé N-1 (avant P0, sur le site actuel)**, puis le même après la mise en ligne : `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -oE "<a [^>]*href=\"/$r/[^\"?#]+\"" | grep -v "/$r/theme/" | wc -l; done` → les trois nombres sont identiques avant et après (maillage inchangé : un lien de fiche par carte ; 12 / 10 / 12 en local, avant comme après) ;
     - `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -o "Page dédiée" | wc -l; done` → `0` trois fois ;
