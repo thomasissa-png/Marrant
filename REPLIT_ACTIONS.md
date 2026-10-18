@@ -2,6 +2,29 @@
 
 ## À DÉPLOYER
 
+### Blocs d'appel s21 : textes finaux VALIDÉS branchés, branche `claude/marrant-s21-integration` (@fullstack, 18/10/2026)
+
+Part avec la mise en ligne s21 (P0 à P8), jamais seule. **Aucune migration, aucun secret, aucune variable, aucune écriture en base.** Source : `docs/copy/cta-s21/textes-finaux-valides.md` (B3 et B12 du tour 17, B10 `[S15]` du tour 21, les 14 autres blocs inchangés depuis le tour 13). Textes dans `apps/web/src/config/textes/cta-articles-accueil.ts` et `cta-pages.ts` ; titres d'étapes et lignes de carte dans `apps/web/src/config/parcours-etapes.ts` (copie du seed vérifiée par un test).
+
+**Ce qui change**
+- Libellés « Ouvrir … · 2,99 €/mois » partout (plus aucun « Débloquer ») ; accueil : « Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois » (repli sur le libellé court si Répartie ou Machine à Café est dépublié ou s'il reste moins de 5 parcours).
+- Bouton de `/abonnement` : suit la formule (mensuel / annuel) et nomme le parcours d'origine (« Ouvrir Confiance et les 4 autres · 2,99 €/mois ») ; titres Confiance et Storytelling propres. Position du bouton inchangée (y = 602,1 à 375 x 700 ; deux lignes quand un parcours est nommé).
+- Accueil : carte Premium en trois blocs avec une vraie liste des parcours ; « 2,99 € /mois » en tête de carte, « Prix TTC. » dans la ligne dessous.
+- Quiz d'humour : phrase propre au profil sur sa propre ligne, au-dessus du prix ; quiz d'orientation : trois paragraphes, le troisième seulement pour un compte connecté.
+- En-tête : nom accessible « 2,99 € par mois : voir l'offre Premium ».
+- `llms.txt` : la résiliation n'est plus dite « en un clic » (« depuis le profil, à tout moment »).
+
+**À vérifier à la mise en ligne (après P4, `?ne-pas-compter=1`)**
+1. `curl -s "https://deviens-marrant.fr/?ne-pas-compter=1" | grep -c "de la coloc à l'afterwork"` → 1 ou plus ; `| grep -c "Débloquer"` → `0`.
+2. `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Retrouver le rire à table"` → 1 ou plus.
+3. `curl -s https://deviens-marrant.fr/llms.txt | grep -c "sili[a-z]* en un clic\|en un clic depuis le profil"` → `0`.
+4. À l'œil, 375 px : quiz d'humour (profil L'Absurde : phrase de profil en gras léger au-dessus du prix), fiche vidéo (« Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork »). Captures de référence : `docs/qa/captures-s21/textes-finaux/` (mesures dans `mesures.json`).
+
+**Non posé (décision requise)** : ligne repliée de la lettre au milieu des articles (B18) et lien de lettre en fin d'étape 1 (B14 `[S30]`) : textes prêts dans la config, nouveaux emplacements soumis à l'accord de Thomas et de @legal.
+
+Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
+
+
 ### Blocs d'appel s21, partie A (articles, accueil, en-tête), branche `claude/marrant-s21-cta-a`, à fusionner dans `claude/marrant-s21-integration` avec la partie B (@fullstack, 18/10/2026)
 
 Part avec la mise en ligne s21 (procédure P0 à P8 ci-dessous), jamais seule. **Aucune migration, aucun secret, aucune écriture en base.** Textes : gagnants du tour 4 (`docs/copy/cta-s21/tour4/`), tous dans `apps/web/src/config/textes/cta-articles-accueil.ts` ; le remplacement par les textes finaux (tour 5 ou 6, après relecture à l'aveugle) se fait dans ce seul fichier.

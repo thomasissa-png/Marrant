@@ -1,0 +1,293 @@
+[
+ {
+  "largeur": 360,
+  "nom": "accueil",
+  "debordements": [
+   "",
+   "",
+   "Roman Frayssinet - L'intelligence des animaux",
+   "",
+   ""
+  ],
+  "noteB3": {
+   "h": 64,
+   "lignes": 4
+  }
+ },
+ {
+  "largeur": 360,
+  "nom": "abonnement",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 622.7,
+   "h": 64,
+   "texte": "Ouvrir les 5 parcours · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 360,
+  "nom": "abonnement-confiance",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 622.7,
+   "h": 64,
+   "texte": "Ouvrir Confiance et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 360,
+  "nom": "abonnement-machine-a-cafe",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 622.7,
+   "h": 64,
+   "texte": "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 360,
+  "nom": "vannes-mur",
+  "debordements": []
+ },
+ {
+  "largeur": 360,
+  "nom": "fiche-vanne",
+  "debordements": []
+ },
+ {
+  "largeur": 360,
+  "nom": "fiche-conseil",
+  "debordements": []
+ },
+ {
+  "largeur": 360,
+  "nom": "fiche-video",
+  "debordements": []
+ },
+ {
+  "largeur": 360,
+  "nom": "parcours",
+  "debordements": [
+   "Machine à CaféPour que la pause café ne se résume plus à « Ç",
+   "RépartiePour toi qui as toujours la bonne réplique… dans ta ",
+   "ConfiancePour le jour où tu te rends compte que ça fait long",
+   "StorytellingIl y a toujours quelqu'un pour dire « et donc ? ",
+   "BoulotIl y a toujours une vanne qui t'est venue au boulot et"
+  ]
+ },
+ {
+  "largeur": 360,
+  "nom": "article",
+  "debordements": []
+ },
+ {
+  "largeur": 360,
+  "nom": "quiz-ABSURDE",
+  "debordements": [],
+  "ligne": 180
+ },
+ {
+  "largeur": 360,
+  "nom": "quiz-PUNCHLINEUR",
+  "debordements": [],
+  "ligne": 148
+ },
+ {
+  "largeur": 360,
+  "nom": "quiz-OBSERVATEUR",
+  "debordements": [],
+  "ligne": 148
+ },
+ {
+  "largeur": 375,
+  "nom": "accueil",
+  "debordements": [
+   "",
+   "",
+   "Roman Frayssinet - L'intelligence des animaux",
+   "",
+   ""
+  ],
+  "noteB3": {
+   "h": 64,
+   "lignes": 4
+  }
+ },
+ {
+  "largeur": 375,
+  "nom": "abonnement",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 602.1,
+   "h": 48,
+   "texte": "Ouvrir les 5 parcours · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 375,
+  "nom": "abonnement-confiance",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 602.1,
+   "h": 64,
+   "texte": "Ouvrir Confiance et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 375,
+  "nom": "abonnement-machine-a-cafe",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 602.1,
+   "h": 64,
+   "texte": "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 375,
+  "nom": "vannes-mur",
+  "debordements": []
+ },
+ {
+  "largeur": 375,
+  "nom": "fiche-vanne",
+  "debordements": []
+ },
+ {
+  "largeur": 375,
+  "nom": "fiche-conseil",
+  "debordements": []
+ },
+ {
+  "largeur": 375,
+  "nom": "fiche-video",
+  "debordements": []
+ },
+ {
+  "largeur": 375,
+  "nom": "parcours",
+  "debordements": [
+   "Machine à CaféPour que la pause café ne se résume plus à « Ç",
+   "RépartiePour toi qui as toujours la bonne réplique… dans ta ",
+   "ConfiancePour le jour où tu te rends compte que ça fait long",
+   "StorytellingIl y a toujours quelqu'un pour dire « et donc ? ",
+   "BoulotIl y a toujours une vanne qui t'est venue au boulot et"
+  ]
+ },
+ {
+  "largeur": 375,
+  "nom": "article",
+  "debordements": []
+ },
+ {
+  "largeur": 375,
+  "nom": "quiz-ABSURDE",
+  "debordements": [],
+  "ligne": 180
+ },
+ {
+  "largeur": 375,
+  "nom": "quiz-PUNCHLINEUR",
+  "debordements": [],
+  "ligne": 148
+ },
+ {
+  "largeur": 375,
+  "nom": "quiz-OBSERVATEUR",
+  "debordements": [],
+  "ligne": 148
+ },
+ {
+  "largeur": 1280,
+  "nom": "accueil",
+  "debordements": [],
+  "noteB3": {
+   "h": 48,
+   "lignes": 3
+  }
+ },
+ {
+  "largeur": 1280,
+  "nom": "abonnement",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 598.6,
+   "h": 48,
+   "texte": "Ouvrir les 5 parcours · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 1280,
+  "nom": "abonnement-confiance",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 598.6,
+   "h": 48,
+   "texte": "Ouvrir Confiance et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 1280,
+  "nom": "abonnement-machine-a-cafe",
+  "debordements": [],
+  "boutonAchat": {
+   "y": 598.6,
+   "h": 48,
+   "texte": "Ouvrir Machine à Café et les 4 autres · 2,99 €/mois"
+  }
+ },
+ {
+  "largeur": 1280,
+  "nom": "vannes-mur",
+  "debordements": []
+ },
+ {
+  "largeur": 1280,
+  "nom": "fiche-vanne",
+  "debordements": []
+ },
+ {
+  "largeur": 1280,
+  "nom": "fiche-conseil",
+  "debordements": []
+ },
+ {
+  "largeur": 1280,
+  "nom": "fiche-video",
+  "debordements": []
+ },
+ {
+  "largeur": 1280,
+  "nom": "parcours",
+  "debordements": [
+   "Machine à CaféPour que la pause café ne se résume plus à « Ç",
+   "RépartiePour toi qui as toujours la bonne réplique… dans ta ",
+   "ConfiancePour le jour où tu te rends compte que ça fait long",
+   "StorytellingIl y a toujours quelqu'un pour dire « et donc ? ",
+   "BoulotIl y a toujours une vanne qui t'est venue au boulot et"
+  ]
+ },
+ {
+  "largeur": 1280,
+  "nom": "article",
+  "debordements": []
+ },
+ {
+  "largeur": 1280,
+  "nom": "quiz-ABSURDE",
+  "debordements": [],
+  "ligne": 116
+ },
+ {
+  "largeur": 1280,
+  "nom": "quiz-PUNCHLINEUR",
+  "debordements": [],
+  "ligne": 100
+ },
+ {
+  "largeur": 1280,
+  "nom": "quiz-OBSERVATEUR",
+  "debordements": [],
+  "ligne": 100
+ }
+]
