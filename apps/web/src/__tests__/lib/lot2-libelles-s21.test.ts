@@ -31,9 +31,6 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
     "app/(dashboard)/vannes/[slug]/page.tsx",
     "app/(dashboard)/conseils/[slug]/page.tsx",
     "app/(dashboard)/videos/[slug]/page.tsx",
-    "components/vannes/vannes-list.tsx",
-    "components/conseils/conseils-list.tsx",
-    "components/videos/videos-grid.tsx",
     "components/favoris/favoris-list.tsx",
   ])("%s : bouton du mur au libellé E4, plus d'ancien libellé", (rel) => {
     const src = lire(rel);
@@ -41,6 +38,19 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
     expect(src).not.toMatch(/>\s*Voir Premium\s*</);
     expect(src).not.toContain("Voir l&apos;offre");
     expect(src).not.toContain("couvrir l&apos;offre Premium");
+    expect(src).not.toContain(">Débloquer<");
+  });
+
+  // s21 B7 : les listes passent au bloc de bas de liste (textes dans config/textes/cta-pages.ts).
+  it.each([
+    "components/vannes/vannes-list.tsx",
+    "components/conseils/conseils-list.tsx",
+    "components/videos/videos-grid.tsx",
+  ])("%s : bloc MurListe et lien court des cartes verrouillées", (rel) => {
+    const src = lire(rel);
+    expect(src).toContain("<MurListe ");
+    expect(src).toContain("{MUR_CARTE_LIEN}");
+    expect(src).not.toMatch(/>\s*Voir Premium\s*</);
     expect(src).not.toContain(">Débloquer<");
   });
 
@@ -100,7 +110,8 @@ describe("Libellés existants réutilisés (E2, E3) et corrections du §6.7", ()
 
   it("« pour 2,99 €/mois », jamais « dès » (l'annuel revient à 2,08 €/mois)", () => {
     for (const rel of ["components/vannes/vannes-list.tsx", "components/conseils/conseils-list.tsx", "components/videos/videos-grid.tsx"]) {
-      expect(lire(rel)).toContain("Accède à tout le catalogue pour {PREMIUM_PRICE_LABEL}");
+      // s21 B7 : le bas de liste est le bloc MurListe (textes dans config/textes/cta-pages.ts).
+      expect(lire(rel)).toContain("<MurListe ");
       expect(lire(rel)).not.toContain("dès {PREMIUM_PRICE_LABEL}");
     }
     expect(lire("app/(auth)/register/layout.tsx")).toContain("carnet, pour ${PREMIUM_PRICE_LABEL}");

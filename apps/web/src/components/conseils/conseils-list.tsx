@@ -19,12 +19,12 @@ import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildTipSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 import { tipProse } from "@/lib/tip-prose";
-import { MUR_PREMIUM_BOUTON, MUR_PREMIUM_LIEN } from "@/config/textes/offre";
+import { MUR_CARTE_LIEN } from "@/config/textes/cta-pages";
 
 interface Tip {
   id: string;
@@ -86,9 +86,11 @@ interface ConseilsListProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
   initialData?: CataloguePage<Tip> | null;
   initialPage?: number;
+  /** Offre annuelle disponible (lue côté serveur) : demi-ligne de prix du mur. */
+  annualAvailable?: boolean;
 }
 
-export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsListProps = {}) {
+export function ConseilsList({ initialData = null, initialPage = 1, annualAvailable = false }: ConseilsListProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
@@ -107,7 +109,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
-  const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
@@ -148,7 +149,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         setTips(data.tips);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
-        setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
         fallBackToServer();
@@ -191,18 +191,8 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   return (
     <>
       {/* Filtres niveaux + catégories — PREMIUM uniquement */}
-      {limited ? (
-        // Même traitement que /vannes (T14) : une ligne cadenas + texte existant, sans chips fantômes.
-        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
-          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <p className="text-sm text-text-secondary">
-            Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
-          </p>
-        </div>
-      ) : (
+      {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
+      {limited ? null : (
         <>
           <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
             {DIFFICULTIES.map((d) => (
@@ -337,6 +327,14 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       )}
       </ListResults>
 
+      {/* s21 B7 : limite annoncée après la dernière carte, bloc de bas de liste, puis cartes floutées. */}
+      {limited && (tips.length > 0 || page > 1) && (
+        <>
+          <MurListeLimite liste="conseils" />
+          <MurListe liste="conseils" annuel={annualAvailable} />
+        </>
+      )}
+
       {/* Cartes verrouillées pour FREE users */}
       {limited && (tips.length > 0 || page > 1) && (
         <div className="mt-4 grid max-w-4xl gap-4">
@@ -369,26 +367,12 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-link">{MUR_PREMIUM_LIEN}</span>
+                    <span className="text-xs font-medium text-accent-link">{MUR_CARTE_LIEN}</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
-        </div>
-      )}
-
-      {/* Bannière upgrade FREE */}
-      {limited && upgradeMessage && (
-        <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="font-semibold text-text-primary">{upgradeMessage}</p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue pour {PREMIUM_PRICE_LABEL}
-          </p>
-          {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
-          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
-            {MUR_PREMIUM_BOUTON}
-          </Button>
         </div>
       )}
 
