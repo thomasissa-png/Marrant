@@ -2,6 +2,30 @@
 
 ## À DÉPLOYER
 
+### Blocs d'appel s21, partie A (articles, accueil, en-tête), branche `claude/marrant-s21-cta-a`, à fusionner dans `claude/marrant-s21-integration` avec la partie B (@fullstack, 18/10/2026)
+
+Part avec la mise en ligne s21 (procédure P0 à P8 ci-dessous), jamais seule. **Aucune migration, aucun secret, aucune écriture en base.** Textes : gagnants du tour 4 (`docs/copy/cta-s21/tour4/`), tous dans `apps/web/src/config/textes/cta-articles-accueil.ts` ; le remplacement par les textes finaux (tour 5 ou 6, après relecture à l'aveugle) se fait dans ce seul fichier.
+
+**Ce qui change**
+- Section « Blog » renommée « Articles » (menu, pied de page, fil d'Ariane, BreadcrumbList, intertitre de llms.txt) ; `/blog` et les slugs inchangés.
+- En-tête visiteur : bouton « 2,99 €/mois » (prix de `config/premium.ts`) vers `/abonnement?src=header` ; plus de bouton plein sur `/abonnement` et `/register`. Onglets un peu resserrés de 1024 à 1279 px.
+- Articles : encart du milieu remplacé par la démonstration (situation offerte du carnet, bouton « Voir la réplique » vers `/carnet?src=blog-demo-milieu-1#fiche-…`), un seul encart par article (plus de milieu-2), masqué pour les abonnés. Bas d'article : bloc de fin (étape 1 gratuite en plein, lien « Débloquer les 5 parcours, 2,99 €/mois », note prix et garantie), lettre, articles liés, puis la FAQ en dernier.
+- Carnet d'octobre : la fiche offerte devient « Le premier rendez-vous silencieux » (`2026-10-15`) ; « Le soleil dans l'ascenseur » passe dans Premium. `/carnet`, l'extrait de `/abonnement` et l'encart suivent la même fiche (champ `offerte`).
+- Accueil : haut de page vers l'étape 1 de Répartie + lien payant ; bloc « Tu crois avoir tout essayé » supprimé ; carte Premium réécrite (sans « Droit de rétractation »), plein vers `/abonnement?src=accueil-premium`, contour vers l'étape 1 de Répartie.
+- « Sans engagement » remplacé par « résiliable en ligne » (notes d'articles, 5 articles, llms.txt, 6 numéros de la lettre, /carnet, /a-propos, profil) ; consigne de l'agent marketing corrigée.
+- Mesure Umami : `checkout-ouvert` et `checkout-echec` (propriété `src`, raison `erreur`, `conflit`, `reseau`, `retour-sans-paiement`) ; `blog-cta-clic` avec `bouton=demo-fiche` et `fiche` ; rapport du lundi et alertes filtrés sur `hostname=deviens-marrant.fr`.
+
+**À vérifier à la mise en ligne (après P4, `?ne-pas-compter=1`)**
+1. `/blog/meilleures-blagues-droles-2026` à 375 px : un seul encart « Une situation de répartie » après la section soirée ; son bouton ouvre `/carnet` sur la fiche « Le premier rendez-vous silencieux », lisible en entier sans compte ; bas d'article dans l'ordre bloc de fin, lettre, articles liés, FAQ.
+2. `/carnet` en visiteur : situation 1 · offerte = « Le premier rendez-vous silencieux » ; « Le soleil dans l'ascenseur » dans la liste réservée, sans sa réplique dans le HTML (`curl -s https://deviens-marrant.fr/carnet | grep -c "je parle dans un ascenseur"` → `0`).
+3. `/abonnement` : l'extrait du carnet montre la même fiche ; pas de bouton « 2,99 €/mois » dans l'en-tête.
+4. Accueil à 375 px : bouton « Tester mes premières répliques, gratuit » vers `/parcours/repartie?src=accueil#etape-1` ; plus de « Tu crois avoir tout essayé » ; carte Premium sans « Droit de rétractation ».
+5. En-tête à 360 px : « 2,99 €/mois » entier sur une ligne, à côté du menu.
+6. Umami (tableau de bord, le lendemain) : événements `checkout-ouvert` / `checkout-echec` visibles après un essai de paiement abandonné ; rapport du lundi suivant : chiffres limités au domaine (les aperçus *.workers.dev n'y sont plus).
+7. Annuel : la note du bloc de fin et la ligne de la carte Premium ne citent 24,99 € que si `STRIPE_PREMIUM_ANNUAL_PRICE_ID` est posé (pages en ISR, 1 h au plus après la pose du secret).
+
+Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
+
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026)
 
 #### Procédure de mise en ligne s21, P0 à P8 (@infrastructure, 17/10/2026 ; remplace toutes les consignes de procédure plus bas)
