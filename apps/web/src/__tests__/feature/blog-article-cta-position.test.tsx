@@ -53,8 +53,8 @@ describe("Page article : position du CTA et partage", () => {
 
   it("meilleures-blagues : CTA juste après le corps, avant la FAQ, une seule fois", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
-    // s21 (B2) : textes du tour 4 (cta-articles-accueil.ts), prioritaires sur blog-cta.ts.
-    const titles = screen.getAllByText("Quand on te chambre et que rien ne sort");
+    // s21 (B2) : textes du tour 16 (cta-articles-accueil.ts), prioritaires sur blog-cta.ts.
+    const titles = screen.getAllByText("La vanne qui sort de ta bouche, pas de ton téléphone");
     expect(titles).toHaveLength(1);
     const body = container.querySelector("[data-blog-body]")!;
     expect(follows(body, titles[0])).toBe(true);

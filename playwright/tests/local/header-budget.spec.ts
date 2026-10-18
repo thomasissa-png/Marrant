@@ -17,8 +17,8 @@ const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
-/** s21 (B6) : bouton prix de l'en-tête, nom accessible « 2,99 €/mois : voir les prix de Premium ». */
-const PRIX = /^2,99\s€\/mois : voir les prix de Premium$/;
+/** s21 (B6) : bouton prix de l'en-tête, nom accessible « 2,99 € par mois : voir l'offre Premium » (textes validés). */
+const PRIX = /^2,99\s€ par mois : voir l'offre Premium$/;
 /** Largeurs de téléphone (s21, B6) : 320 sans bouton (menu seul), bouton visible dès 360. */
 const LARGEURS_MOBILES = [320, 360, 375];
 /** Libellé comparé (annexe tour 4 §6) : « Voir les prix », perdant du duel B6. */

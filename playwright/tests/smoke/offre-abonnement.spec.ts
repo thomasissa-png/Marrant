@@ -111,7 +111,7 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
     await page.goto("/conseils");
     const barre = page.getByRole("banner");
-    const commencer = barre.getByRole("link", { name: /^2,99\s€\/mois : voir les prix de Premium$/ }).filter({ visible: true }).first();
+    const commencer = barre.getByRole("link", { name: /^2,99\s€ par mois : voir l'offre Premium$/ }).filter({ visible: true }).first();
     await expect(commencer).toHaveAttribute("href", "/abonnement?src=header");
     await expect(commencer).toBeVisible();
     expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);

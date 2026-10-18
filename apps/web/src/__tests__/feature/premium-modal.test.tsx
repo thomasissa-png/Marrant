@@ -21,7 +21,7 @@ describe("PremiumModal (s21 B11 : un titre, une intro et un bouton par geste)", 
   it.each([
     ["vanne", "Garde-la pour le soir où tu en auras besoin"],
     ["conseil", "Garde-le pour le soir où tu en auras besoin"],
-    ["video", "Garde-la pour le soir où tu en auras besoin"],
+    ["video", "Garde-la sous le coude"],
   ] as const)("favori sur un(e) %s : titre accordé", (contenu, titre) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu={contenu} />);
@@ -42,10 +42,10 @@ describe("PremiumModal (s21 B11 : un titre, une intro et un bouton par geste)", 
     useSession.mockReturnValue({ status: "unauthenticated" });
     const { rerender } = render(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="vanne" />);
     expect(screen.getByText(T.carte.vanne.avantage)).toBeInTheDocument();
-    expect(T.carte.vanne.avantage).toContain("le filtre par catégorie");
+    expect(T.carte.vanne.avantage).toContain("un exercice par vanne, le filtre et les");
     rerender(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="conseil" />);
     expect(screen.getByText(T.carte.conseil.avantage)).toBeInTheDocument();
-    expect(T.carte.conseil.avantage).toContain("les filtres par niveau et par catégorie");
+    expect(T.carte.conseil.avantage).toContain("un exercice par conseil, les filtres et les");
   });
 
   it("plus de « Droit de rétractation » ni de « Sans engagement » ; une seule ligne de garantie (choix du 18/10)", () => {

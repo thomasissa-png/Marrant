@@ -1,6 +1,7 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MUR_LISTE } from "@/config/textes/cta-pages";
+import { frTypo } from "@/lib/fr-typo";
 import { VannesList } from "@/components/vannes/vannes-list";
 
 const mockPush = jest.fn();
@@ -372,7 +373,7 @@ describe("VannesList", () => {
       render(<VannesList initialData={serverPage(2)} initialPage={2} />);
       await waitFor(() => {
         // s21 B7 : bloc de bas de liste (le message de l'API n'est plus affiché).
-        expect(screen.getByRole("heading", { name: MUR_LISTE.vannes.titre })).toBeInTheDocument();
+        expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE.vannes.titre) })).toBeInTheDocument();
       });
       expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();

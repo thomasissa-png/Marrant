@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { frTypo } from "@/lib/fr-typo";
 import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
@@ -43,13 +44,15 @@ describe("s21 B16 : /abonnement visiteur", () => {
   it.each([
     ["machine-a-cafe", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
     ["boulot", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
-    ["confiance", "Le rire, à ton rythme, sans te forcer"],
-    ["storytelling", "Ta réplique pendant la soirée, pas dans le bus du retour"],
+    ["confiance", "Retrouver le rire à table, 20 minutes par semaine, sans te forcer"],
+    ["storytelling", "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »"],
   ] as const)("parcours d'origine %s : surtitre et titre dédiés", (slug, titre) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} parcoursOrigine={slug} />);
-    expect(screen.getByRole("heading", { level: 1, name: titre })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: frTypo(titre) })).toBeInTheDocument();
     expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(ABONNEMENT_HAUT_PAR_PARCOURS[slug].surtitre);
+    // Tour 16 (B16) : le bouton d'achat nomme le parcours d'origine.
+    expect(screen.getByTestId("abonnement-bouton-achat")).toHaveTextContent(ABONNEMENT_CTA.bouton("monthly", slug).replace(/\s/g, " "));
   });
 
   it("[S32] sous le bouton, carte « Étape 2 » avant l'extrait du carnet", () => {

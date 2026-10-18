@@ -58,13 +58,13 @@ describe("note [S9] du bloc de fin", () => {
 });
 
 describe("lettre en bas d'article (B18)", () => {
-  it("titre, sous-titre en deux paragraphes et note du tour 4, après le bloc de fin", async () => {
+  it("titre, sous-titre en deux paragraphes et note du tour 16, après le bloc de fin", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const lettre = container.querySelector<HTMLElement>('[data-blog-zone="lettre"]')!;
     expect(lettre).toHaveTextContent(LETTRE_ARTICLE.titre);
     expect(lettre).toHaveTextContent("J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse.");
-    expect(lettre).toHaveTextContent("un exercice en trois étapes pour écrire la tienne");
-    expect(lettre).toHaveTextContent("Gratuit, sans compte. Désinscription en un clic.");
+    expect(lettre).toHaveTextContent("Et surtout trois étapes pour fabriquer la tienne, avec un exemple.");
+    expect(lettre).toHaveTextContent("La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic.");
     expect(lettre).not.toHaveTextContent(TEXTES_LETTRE.titre);
     const bloc = container.querySelector("[data-blog-bloc-fin]")!;
     expect(bloc.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();

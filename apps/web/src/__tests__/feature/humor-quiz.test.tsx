@@ -290,14 +290,18 @@ describe("HumorQuiz", () => {
     };
     afterEach(() => mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } }));
 
-    it("le plein prolonge le geste : « Suivre Répartie en entier · prix », phrase du parcours, garantie", async () => {
+    it("le plein prolonge le geste : « Ouvrir Répartie en entier · prix », trois paragraphes, garantie", async () => {
       mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
       const fetchMock = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) });
       global.fetch = fetchMock as unknown as typeof fetch;
       render(<HumorQuiz />);
       await finir();
-      expect(document.body.textContent).toContain(QUIZ_ORIENTATION_CTA.phrase("repartie"));
-      expect(QUIZ_ORIENTATION_CTA.phrase("repartie")).toContain("étapes 2 à 4, une par semaine, 20 minutes");
+      const bloc = document.querySelector("[data-quiz-orientation-cta]")!;
+      const paragraphes = QUIZ_ORIENTATION_CTA.paragraphes("repartie");
+      expect(paragraphes).toHaveLength(3);
+      for (const p of paragraphes) expect(screen.getByText(p.replace(/\s/g, " "))).toBeInTheDocument();
+      expect(bloc.querySelectorAll(".space-y-2 > p")).toHaveLength(3);
+      expect(paragraphes[1]).toContain("les étapes 2 à 4 sont ouvertes tout de suite, 20 minutes chacune (idéalement une par semaine)");
       expect(screen.getByText(QUIZ_ORIENTATION_CTA.garantie)).toBeInTheDocument();
       const plein = screen.getByRole("button", { name: QUIZ_ORIENTATION_CTA.bouton("repartie") });
       expect(document.body.textContent).not.toContain("Tout débloquer");
@@ -312,11 +316,12 @@ describe("HumorQuiz", () => {
       expect(screen.queryByText(QUIZ_ORIENTATION_CTA.bouton("repartie"))).not.toBeInTheDocument();
     });
 
-    it("une phrase par parcours ; repli sans ligne pour Storytelling et Boulot", () => {
-      expect(QUIZ_ORIENTATION_CTA.phrase("machine-a-cafe")).toContain("étapes 2 et 3, une par semaine, 15 minutes");
-      expect(QUIZ_ORIENTATION_CTA.phrase("confiance")).toContain("si tu sors d'une période compliquée");
-      expect(QUIZ_ORIENTATION_CTA.phrase("boulot")).toBe(
-        "Ton compte est prêt. Plus qu'un pas pour suivre Boulot en entier : étapes 2 à 6, une par semaine, 15 minutes.",
+    it("trois paragraphes par parcours, ligne de carte lue dans la donnée (Storytelling et Boulot compris)", () => {
+      expect(QUIZ_ORIENTATION_CTA.paragraphes("machine-a-cafe")[1]).toContain("les étapes 2 et 3 sont ouvertes tout de suite, 15 minutes chacune");
+      expect(QUIZ_ORIENTATION_CTA.paragraphes("confiance")[0]).toContain("pour toi si tu sors d'une période compliquée");
+      expect(QUIZ_ORIENTATION_CTA.paragraphes("storytelling")[0]).toContain("pour toi si tu as de quoi tenir une table");
+      expect(QUIZ_ORIENTATION_CTA.paragraphes("boulot")[1].replace(/\s/g, " ")).toBe(
+        "Avec Premium, les étapes 2 à 6 sont ouvertes tout de suite, 15 minutes chacune (idéalement une par semaine). Un seul prix, 2,99 € par mois, ouvre les 5 parcours, pas seulement Boulot.",
       );
     });
   });

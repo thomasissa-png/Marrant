@@ -86,7 +86,8 @@ describe("HeroSection", () => {
     expect(lien).toHaveAttribute("href", "/abonnement?src=accueil-hero");
     expect(lien.className).toContain("underline");
     expect(lien.className).not.toContain("bg-accent-secondary-hover");
-    expect(screen.getByText(/^Ça se lit sans compte, quiz compris\. La suite est dans Premium/)).toBeInTheDocument();
+    expect(screen.getByText(/^Sans compte : l'étape 1 du parcours Répartie \(conseil, défi, 5 vannes, 2 vidéos, quiz\)\. Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil\.$/)).toBeInTheDocument();
+    expect(lien).toHaveTextContent(/^Ouvrir les \d parcours, de la coloc à l'afterwork\s·\s2,99\s€\/mois$/);
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans engagement|Accéder aux parcours complets/i);
     expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();

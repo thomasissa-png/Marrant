@@ -114,8 +114,8 @@ describe("accueil : bloc Premium", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
-    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.")).toBeInTheDocument(); // V3 validée à l'aveugle s21
+    expect(screen.getByText("/mois")).toBeInTheDocument(); // tour 16 : en-tête « Premium · 2,99 €/mois », TTC dans [S12]
+    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.")).toBeInTheDocument(); // [S13] tour 16
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
     // s21 (B4 + B5) : plein vers /abonnement?src=accueil-premium, libellé du tour 4.

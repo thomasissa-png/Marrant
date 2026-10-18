@@ -391,7 +391,7 @@ describe("ParcoursDetail — tunnel s15", () => {
   it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     // s21 B14 : sans quiz dans l'étape, la fin d'étape 1 (phrase du tour 4 et un seul plein).
-    expect(await screen.findByText(FIN_ETAPE_1.phrase("machine-a-cafe"))).toBeInTheDocument();
+    expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
     const link = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
     expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
@@ -407,7 +407,7 @@ describe("ParcoursDetail — tunnel s15", () => {
       json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
     });
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText(FIN_ETAPE_1.phrase("machine-a-cafe"))).toBeInTheDocument();
+    expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
     expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
   });

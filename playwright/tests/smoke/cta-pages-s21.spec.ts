@@ -20,14 +20,15 @@ test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
       ["/abonnement?returnTo=%2Fparcours%2Fconfiance", "confiance"],
     ] as const) {
       await page.goto(chemin);
-      await expect(page.locator("h1")).toHaveText(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre);
+      await expect(page.locator("h1")).toHaveText(texteValide(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre));
       const bouton = page.getByTestId("abonnement-bouton-achat");
-      await expect(bouton).toHaveText(texteValide(ABONNEMENT_CTA.bouton("monthly")));
+      // Textes validés : le bouton nomme le parcours d'origine (« Ouvrir {P} et les 4 autres · prix »).
+      await expect(bouton).toHaveText(texteValide(ABONNEMENT_CTA.bouton("monthly", slug === "defaut" ? null : slug)));
       const box = await bouton.boundingBox();
       expect(box, `bouton d'achat de ${chemin}`).not.toBeNull();
       // Bas du bouton dans le premier écran (y mesuré : 431,8 en mensuel seul, 602,1 avec l'annuel).
       expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(700);
-      await expect(page.getByTestId("abonnement-suite")).toHaveText(ABONNEMENT_CTA.suite);
+      await expect(page.getByTestId("abonnement-suite")).toHaveText(texteValide(ABONNEMENT_CTA.suite));
     }
   });
 

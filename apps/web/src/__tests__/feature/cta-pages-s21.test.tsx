@@ -12,7 +12,6 @@ import { validateRegisterFields } from "@/lib/register-validation";
 import { ValidationWall } from "@/components/parcours/step-blocks";
 import {
   BLOC_EXERCICE,
-  contourEtape1,
   FIN_ETAPE_1,
   lignePrixGarantie,
   MUR_LISTE,
@@ -22,6 +21,7 @@ import {
   type ListeMur,
 } from "@/config/textes/cta-pages";
 import { FREE_JOKE_LIMIT, FREE_TIP_LIMIT, FREE_VIDEO_LIMIT, PARCOURS_COUNT } from "@/config/premium";
+import { frTypo } from "@/lib/fr-typo";
 
 const LISTES: ListeMur[] = ["vannes", "conseils", "videos"];
 
@@ -39,7 +39,7 @@ describe("cta-pages.ts : textes et nombres", () => {
   });
 
   it("filtres : catégorie pour /vannes, niveau et catégorie pour /conseils et /videos", () => {
-    expect(MUR_LISTE.vannes.filtres).toBe("Le filtre par catégorie est dans Premium.");
+    expect(MUR_LISTE.vannes.filtres).toBe("Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.");
     expect(MUR_LISTE.conseils.filtres).toContain("par niveau et par catégorie");
     expect(MUR_LISTE.videos.filtres).toContain("par niveau et par catégorie");
   });
@@ -49,6 +49,10 @@ describe("cta-pages.ts : textes et nombres", () => {
     expect(lignePrixGarantie(true)).toContain("2,08");
     expect(lignePrixGarantie(false)).not.toContain("24,99");
     expect(lignePrixGarantie(false)).not.toContain("si tu vois loin");
+    expect(lignePrixGarantie(true)).not.toContain("si tu vois loin");
+    // LP-A (B7, B14) garde « en ligne » ; LP-A2 (B8 à B10) dit « depuis ton profil ».
+    expect(lignePrixGarantie(true)).toContain("Résiliable en ligne quand tu veux.");
+    expect(lignePrixGarantie(true, "profil")).toContain("Résiliable depuis ton profil quand tu veux.");
     for (const a of [true, false]) {
       expect(lignePrixGarantie(a)).toContain("2,99");
       expect(lignePrixGarantie(a)).toContain("14 jours pour te faire rembourser ton premier paiement");
@@ -64,14 +68,15 @@ describe("B7 : murs des listes", () => {
     expect(href.pathname).toBe("/abonnement");
     expect(href.searchParams.get("src")).toBe(`mur-${liste}`);
     expect(href.searchParams.get("returnTo")).toBe(`/${liste}`);
-    const contour = screen.getByRole("link", { name: contourEtape1(MUR_PARCOURS) });
+    const contour = screen.getByRole("link", { name: frTypo(MUR_LISTE[liste].contour(MUR_PARCOURS)) });
+    expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toMatch(/^Étape 1 de Répartie, gratuite : /);
     expect(contour.getAttribute("href")).toMatch(new RegExp(`^/parcours/${MUR_PARCOURS}\\?`));
-    expect(screen.getByRole("heading", { name: MUR_LISTE[liste].titre })).toBeInTheDocument();
-    expect(container.textContent).toContain(lignePrixGarantie(false));
+    expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE[liste].titre) })).toBeInTheDocument();
+    expect(container.textContent).toContain(frTypo(lignePrixGarantie(false)));
     // Ordre : plein, prix + garantie, puis contour.
     const html = container.innerHTML;
     expect(html.indexOf(MUR_LISTE[liste].bouton)).toBeLessThan(html.indexOf("Résiliable"));
-    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf(contourEtape1(MUR_PARCOURS)));
+    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf("Étape"));
   });
 
   it.each(LISTES)("/%s : annonce de la limite et lien des filtres", (liste) => {
@@ -93,18 +98,19 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
       <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" annuel exercice="Consigne" />,
     );
     const t = BLOC_EXERCICE[type];
-    expect(screen.getByRole("heading", { name: t.titre })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: frTypo(t.titre) })).toBeInTheDocument();
     const plein = screen.getByRole("link", { name: t.bouton });
     const href = new URL(plein.getAttribute("href") ?? "", "https://x.fr");
     expect(href.pathname).toBe("/abonnement");
     expect(href.searchParams.get("returnTo")).toBe(`/x/${type}`);
     expect(href.searchParams.get("src")).toBe(`exercice-${type}`);
     expect(plein.getAttribute("data-fiche-cta")).toBe("premium");
-    expect(screen.getByRole("link", { name: contourEtape1("confiance") }).getAttribute("href")).toMatch(
+    expect(t.contour("confiance")).toMatch(/^Gratuit : .+, étape 1 de Confiance$/);
+    expect(screen.getByRole("link", { name: frTypo(t.contour("confiance")) }).getAttribute("href")).toMatch(
       /^\/parcours\/confiance\?src=fiche/,
     );
     expect(screen.getByRole("link", { name: t.toutVoir }).getAttribute("href")).toBe(t.toutVoirHref);
-    expect(container.textContent).toContain(lignePrixGarantie(true));
+    expect(container.textContent).toContain(frTypo(lignePrixGarantie(true, "profil")));
     // L'exercice n'est jamais montré à un non-abonné.
     expect(container.textContent).not.toContain("Consigne");
   });
@@ -151,10 +157,11 @@ describe("B14 : fin d'étape 1, carte « Étape 2 » au-dessus de la phrase, un 
     expect(html.indexOf("Le rythme et les silences")).toBeLessThan(html.indexOf("Bien joué"));
     expect(screen.getByText(FIN_ETAPE_1.carteSurtitre("repartie"))).toBeInTheDocument();
     expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4, 20 minutes");
-    expect(screen.getByText(FIN_ETAPE_1.phrase("repartie"))).toBeInTheDocument();
+    expect(screen.getByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
+    expect(FIN_ETAPE_1.phrase).toContain(`les ${PARCOURS_COUNT - 1} autres parcours en entier`);
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton })).toHaveAttribute("href", "/abonnement?x");
-    expect(container.textContent).toContain(lignePrixGarantie(false));
+    expect(container.textContent).toContain(frTypo(lignePrixGarantie(false)));
     expect(container.textContent).not.toMatch(/lettre/i);
   });
 
@@ -178,7 +185,7 @@ describe("B17 : prénom facultatif (validation client)", () => {
     expect(validateRegisterFields({ name: "A", email: "a@b.fr", password: "12345678" }).name).toBeDefined();
   });
 
-  it("textes du tour 4 : bouton, libellé du prénom, lien d'étape gratuite nommé", () => {
+  it("textes validés (tour 16) : bouton, libellé du prénom, lien d'étape gratuite nommé", () => {
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     expect(REGISTER_CTA.prenomLabel).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
     expect(REGISTER_CTA.lienEtape1("confiance")).toBe(

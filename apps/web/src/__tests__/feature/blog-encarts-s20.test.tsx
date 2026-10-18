@@ -128,11 +128,12 @@ describe("bloc de fin unique (s21, B2)", () => {
     },
   );
 
-  it("article n°1 : textes du tour 4 (titre, scène, note [S9] sans annuel tant qu'il n'est pas configuré)", async () => {
+  it("article n°1 : textes du tour 16 (titre, scène, note [S9] sans annuel tant qu'il n'est pas configuré)", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
-    expect(bloc).toHaveTextContent("Quand on te chambre et que rien ne sort");
-    expect(bloc).toHaveTextContent(/Tu viens de lire cinquante vannes\..*Une étape par semaine, 20 minutes/);
+    expect(bloc).toHaveTextContent("La vanne qui sort de ta bouche, pas de ton téléphone");
+    expect(bloc).toHaveTextContent(/Tu viens de lire cinquante vannes\..*Une étape par semaine, 20 minutes.*La première se lit tout de suite, sans compte\./);
+    expect(bloc).toHaveTextContent(/Ouvrir les \d parcours\s·\s2,99\s€\/mois/);
     expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
     expect(bloc).toHaveTextContent(/2,99\s€ TTC par mois\. Tu as 14 jours/);
     expect(bloc).not.toHaveTextContent("24,99");

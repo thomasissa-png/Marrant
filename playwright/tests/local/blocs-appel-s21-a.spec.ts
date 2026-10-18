@@ -52,7 +52,7 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       const fin = page.locator("[data-blog-bloc-fin]");
       await fin.scrollIntoViewIfNeeded();
       await expect(fin.locator("a[data-blog-cta='etape-1']")).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
-      await expect(fin.locator("a[data-blog-cta='abonnement']")).toContainText(/Débloquer les\s\d\sparcours/);
+      await expect(fin.locator("a[data-blog-cta='abonnement']")).toContainText(/Ouvrir les\s\d\sparcours\s·\s2,99/);
       await expect(fin.locator("ul")).toHaveCount(0);
       const hFin = (await fin.boundingBox())?.height ?? 0;
       if (largeur < 400) expect(hFin, "bloc de fin : 560 px au plus à 375").toBeLessThanOrEqual(560);

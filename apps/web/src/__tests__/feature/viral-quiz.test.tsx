@@ -43,6 +43,11 @@ Object.defineProperty(window, "localStorage", { value: localStorageMock });
 // Les devises du quiz ont des guillemets « » avec espaces insécables (s20) : getByText
 // normalise le texte rendu (espaces fusionnés) mais pas la chaîne cherchée.
 const optionLabel = (i: number) => QUIZ_QUESTIONS[i].options[0].label.replace(/\s+/g, " ");
+/** Profil du dernier quiz terminé (événement quiz-termine). */
+const resultat = (): keyof typeof QUIZ_PROFILES => {
+  const appels = mockTrack.mock.calls.filter((c) => c[0] === "quiz-termine");
+  return appels[appels.length - 1][1].profil;
+};
 
 describe("ViralQuiz", () => {
   beforeEach(() => {
@@ -118,7 +123,8 @@ describe("ViralQuiz", () => {
     expect(name).toBe("quiz-termine");
     expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
     // s15 : plus de compte gratuit, CTA vers Premium avec retour au parcours conseillé.
-    const cta = screen.getByText(QUIZ_HUMOUR_CTA.lien).closest("a");
+    const conseille = QUIZ_PROFILES[data.profil as keyof typeof QUIZ_PROFILES].recommendedParcours;
+    const cta = screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).closest("a");
     expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance|storytelling|boulot)&src=quiz$/);
   });
 
@@ -139,14 +145,20 @@ describe("ViralQuiz", () => {
         screen.getByText(optionLabel(i)),
       );
     }
-    // s21 B12 : le plein mène à l'étape 1 nommée du parcours conseillé (froid), Premium en lien fort.
-    const plein = screen.getByText(/^Essayer gratuitement l'étape 1 de /).closest("a");
+    // s21 B12 (tour 16) : le plein mène à l'étape 1 du parcours conseillé, OUVRIR_P en lien fort.
+    const profil = resultat();
+    const conseille = QUIZ_PROFILES[profil].recommendedParcours;
+    const plein = screen.getByText(/^Commencer mon parcours .+, étape 1 gratuite$/).closest("a");
     expect(plein?.getAttribute("href")).toMatch(/^\/parcours\/[a-z-]+\?src=quiz#etape-1$/);
     expect(plein?.className).toContain("bg-accent-secondary-hover");
-    expect(screen.getByText(QUIZ_HUMOUR_CTA.lien)).toBeInTheDocument();
-    expect(screen.getByText(/^Ton humour, tu viens de le découvrir\. Ça se travaille : /)).toBeInTheDocument();
-    // Sans offre annuelle disponible : mensuel seul.
-    expect(document.body.textContent).toContain(QUIZ_HUMOUR_CTA.premium(false));
+    expect(screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).toBeInTheDocument();
+    expect(screen.getByText(/^Ta force, tu viens de la lire\. Reste à t'en servir\s?: /)).toBeInTheDocument();
+    // Sans offre annuelle disponible : mensuel seul ; la phrase de profil sur sa propre ligne.
+    const ligne = QUIZ_HUMOUR_CTA.premium(profil, conseille, false);
+    const rendu = screen.getByTestId("quiz-ligne-premium");
+    expect(rendu).toHaveTextContent(ligne.suite.replace(/\s/g, " "));
+    if (ligne.profil) expect(rendu.querySelector("span.block")).toHaveTextContent(ligne.profil.replace(/\s/g, " "));
+    expect(rendu).not.toHaveTextContent("24,99");
   });
 
   it("offre annuelle disponible : la ligne Premium la mentionne", async () => {
@@ -154,7 +166,10 @@ describe("ViralQuiz", () => {
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(screen.getByText(optionLabel(i)));
     }
-    expect(document.body.textContent).toContain(QUIZ_HUMOUR_CTA.premium(true));
+    const profil = resultat();
+    const ligne = QUIZ_HUMOUR_CTA.premium(profil, QUIZ_PROFILES[profil].recommendedParcours, true);
+    expect(screen.getByTestId("quiz-ligne-premium")).toHaveTextContent(ligne.suite.replace(/\s/g, " "));
+    expect(ligne.suite).toContain("24,99");
   });
 
   it("saves result to localStorage", async () => {

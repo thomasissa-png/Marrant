@@ -113,13 +113,13 @@ describe("DemoVanne (B1)", () => {
     expect(liens[0]).toHaveAttribute("href", "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15");
     expect(liens[0]).toHaveAttribute("data-blog-cta", "demo-fiche");
     expect(liens[0].className).toContain("bg-accent-secondary-hover"); // variante primary (plein)
-    expect(encart).toHaveTextContent("Les autres situations, nouvelles chaque mois, sont dans Premium");
+    expect(encart).toHaveTextContent("quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site.");
     expect(encart.className).not.toContain("border-l-");
   });
 
   it("carnet d'une seule situation : pas de phrase sur les autres", () => {
     render(<DemoVanne demo={{ ...demo, totalFiches: 1 }} position="milieu-1" parcours="repartie" />);
-    expect(screen.getByRole("complementary")).not.toHaveTextContent("Les autres situations");
+    expect(screen.getByRole("complementary")).not.toHaveTextContent("de nouvelles situations");
   });
 
   it("abonné Premium connecté : masqué", () => {

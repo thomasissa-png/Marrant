@@ -1,7 +1,7 @@
 import { test, expect, lireUrl, texteValide } from "../support/fixtures";
 import { REASSURANCE_PAIEMENT, VALIDATION_ETAPE } from "@/config/textes/offre";
 import { APERCU_INTRO, progressionVisiteurTexte } from "@/config/textes/parcours";
-import { contourEtape1, FENETRE_PREMIUM, MUR_LISTE, MUR_PARCOURS } from "@/config/textes/cta-pages";
+import { FENETRE_PREMIUM, MUR_LISTE, MUR_PARCOURS } from "@/config/textes/cta-pages";
 
 /**
  * J1 : pages des parcours et murs Premium (lecture seule).
@@ -60,7 +60,7 @@ test.describe("Murs Premium @smoke", () => {
     expect(url.searchParams.get("returnTo")).toBe("/vannes");
     expect(url.searchParams.get("src")).toBe("mur-vannes");
     // Contour vers l'étape 1 gratuite, sous le plein.
-    await expect(page.getByRole("link", { name: contourEtape1(MUR_PARCOURS) })).toBeVisible();
+    await expect(page.getByRole("link", { name: texteValide(MUR_LISTE.vannes.contour(MUR_PARCOURS)) })).toBeVisible();
 
     await cta.click();
     await expect(page).toHaveURL(/\/abonnement\?/);
