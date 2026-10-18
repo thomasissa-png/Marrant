@@ -72,7 +72,10 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
       {semaines !== null && (
         <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(surtitre)}</p>
       )}
-      <p className="mt-2 font-display text-xl font-bold text-text-primary">{frTypo(title ?? textes.finTitre)}</p>
+      {/* s21 (QA m2) : 18 px sous 640 px, le titre [S8] tient sur 2 lignes à 360 et 375 (forme seule, texte inchangé). */}
+      <p className="mt-2 font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl">
+        {frTypo(title ?? textes.finTitre)}
+      </p>
       {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré). */}
       {paragraphe && <p className="mt-2 text-sm leading-5 text-text-secondary sm:text-base sm:leading-6">{frTypo(paragraphe)}</p>}
 
