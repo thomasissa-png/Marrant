@@ -136,7 +136,7 @@ describe("bloc de fin unique (s21, B2)", () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc).toHaveTextContent("La vanne dans ta bouche, pas dans ton téléphone");
-    expect(bloc).toHaveTextContent("La placer à voix haute, ça s'entraîne.");
+    expect(bloc).toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
     expect(bloc).toHaveTextContent(/Ouvrir les \d parcours\s·\s2,99\s€\/mois/);
     expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
     expect(bloc).toHaveTextContent("Sans compte.");

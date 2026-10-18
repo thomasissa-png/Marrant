@@ -39,7 +39,7 @@ describe("Version sans risque : coupe au début de la dernière phrase interroga
     for (const texte of [DEFIS[etape - 1], prose(DEFIS[etape - 1])]) {
       const parts = decouperRepli(texte);
       expect(parts).not.toBeNull();
-      expect(parts![1].replaceAll(NBSP, " ").startsWith(debut)).toBe(true);
+      expect(parts![1].replaceAll(NBSP, " ").replace(/’/g, "'").startsWith(debut)).toBe(true);
       // Concaténation = texte d'origine, au caractère près.
       expect(parts!.join("")).toBe(texte);
       // Le libellé « DÉFI X » reste dans la première partie.
@@ -65,8 +65,8 @@ describe("Version sans risque : coupe au début de la dernière phrase interroga
       if (debut === null) {
         expect(parts[2]).toBe("");
       } else {
-        expect(parts[2].startsWith("C'est")).toBe(true);
-        expect(parts[2].replaceAll(NBSP, " ").startsWith(debut)).toBe(true);
+        expect(parts[2].replace(/’/g, "'").startsWith("C'est")).toBe(true);
+        expect(parts[2].replaceAll(NBSP, " ").replace(/’/g, "'").startsWith(debut)).toBe(true);
         expect(parts[1]).not.toMatch(/C'est (réussi|gagné)/);
       }
     }
@@ -113,7 +113,7 @@ describe("typographie : gluon après le trait d'union des impératifs à pronom 
     // « Entre » n'est pas « En » : seule la règle de frTypo (chiffre + mot) s'applique.
     expect(frTypoTexte("Entre 6 et 8")).toBe(`Entre 6${NBSP}et 8`);
     const d = boulot.parcours.description;
-    expect(sansGluon(frTypoTexte(d)).replaceAll(NBSP, " ")).toBe(d);
+    expect(sansGluon(frTypoTexte(d)).replaceAll(NBSP, " ").replace(/’/g, "'")).toBe(d);
   });
 });
 

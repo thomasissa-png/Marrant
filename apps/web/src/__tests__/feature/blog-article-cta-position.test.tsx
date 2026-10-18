@@ -149,7 +149,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
   it("A1 en base : CTA dédié juste après le corps, avant les articles liés", async () => {
     const { container } = await renderDb("message-anniversaire-drole-par-situation");
     // Bloc de fin v3 (fins-articles-v3) : parcours non nommé = « Tester mes premières répliques, gratuit ».
-    const titles = screen.getAllByText("Au moment du gâteau, tout le monde t'écoute");
+    const titles = screen.getAllByText(normalise("Au moment du gâteau, tout le monde t'écoute"));
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);

@@ -68,7 +68,7 @@ describe("/carnet non Premium", () => {
     planMock.mockResolvedValue(null);
     await renderCurrent();
     const n = october.fiches.length - 1;
-    const t = (el: HTMLElement) => (el.textContent ?? "").replace(/\u00a0/g, " ").replace(/\u2060/g, "");
+    const t = (el: HTMLElement) => (el.textContent ?? "").replace(/\u00a0/g, " ").replace(/\u2060/g, "").replace(/’/g, "'");
     expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(`Ça, c'était la réplique offerte. Il en reste ${n}.`);
     expect(screen.getByText("Un nouveau carnet arrive chaque mois.")).toBeInTheDocument();
     expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir tout le carnet · 2,99 €/mois");

@@ -15,6 +15,7 @@ import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
+import { apostropheSouple } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({ useContentStats: () => ({ jokes: 600, tips: 400, videos: 80 }) }));
@@ -230,7 +231,7 @@ describe("Quiz d'humour et /abonnement", () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
     render(await AbonnementPage({}));
-    expect(screen.getByRole("link", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: apostropheSouple(/^Tester l'étape\s1\sde Répartie, gratuite$/) })).toHaveAttribute(
       "href",
       "/parcours/repartie?src=abonnement#etape-1",
     );

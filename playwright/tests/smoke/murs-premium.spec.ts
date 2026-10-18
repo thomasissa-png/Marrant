@@ -52,7 +52,7 @@ test.describe("Murs Premium @smoke", () => {
     const slugs = new Set(await fiches.evaluateAll((liens) => liens.map((a) => a.getAttribute("href"))));
     expect(slugs.size).toBe(10);
 
-    await expect(page.getByText(MUR_LISTE.vannes.limite)).toBeVisible();
+    await expect(page.getByText(texteValide(MUR_LISTE.vannes.limite))).toBeVisible();
     const cta = page.getByRole("link", { name: MUR_LISTE.vannes.bouton });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
@@ -138,7 +138,7 @@ test.describe("Murs Premium @smoke", () => {
     await expect(page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : / })).toHaveCount(1);
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    await expect(page.getByText(VALIDATION_ETAPE.texte)).toBeVisible();
+    await expect(page.getByText(texteValide(VALIDATION_ETAPE.texte))).toBeVisible();
     // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
     // Nom exact : le bouton d'en-tête s'appelle « 2,99 € par mois : voir l'offre Premium » (B6, textes validés).

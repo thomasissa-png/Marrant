@@ -100,7 +100,7 @@ test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
   test("m-2 : fin d'article Répartie = GRATUIT_P ; article n°1 = GRATUIT_ACCUEIL", async ({ page }) => {
     const plein = page.locator('[data-blog-bloc-fin] a[data-blog-cta="etape-1"]');
     await page.goto("/blog/jamais-quoi-repondre-techniques");
-    await expect(plein).toHaveText(/^Tester l'étape\s1\sde Répartie, gratuite$/);
+    await expect(plein).toHaveText(/^Tester l['’]étape\s1\sde Répartie, gratuite$/);
     await page.goto("/blog/meilleures-blagues-droles-2026");
     await expect(plein).toHaveText(/^Tester mes premières répliques, gratuit$/);
   });

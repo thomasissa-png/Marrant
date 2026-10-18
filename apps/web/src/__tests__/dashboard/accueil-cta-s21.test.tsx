@@ -23,7 +23,7 @@ describe("carte Premium de l'accueil (B4 + B5)", () => {
     render(<PremiumCta />);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(normalise(CARTE_PREMIUM.titre));
     expect(normalise(screen.getByTestId("carte-premium-intro").textContent ?? "")).toBe(
-      "De la coloc à l'afterwork, de quoi répondre partout.",
+      normalise("De la coloc à l'afterwork, de quoi répondre partout."),
     );
     expect(screen.queryByTestId("avantages")).toBeNull();
     const texte = normalise(document.body.textContent ?? "");

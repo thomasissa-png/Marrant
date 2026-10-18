@@ -22,7 +22,7 @@ const SRC = path.join(__dirname, "..", "..");
 // Rendu : espaces insécables (frTypo) ramenées à des espaces, gluons retirés.
 const INVISIBLES = new RegExp(`[${NBSP}${String.fromCharCode(0x202f)}]`, "g");
 const GLUON = new RegExp(String.fromCharCode(0x2060), "g");
-const norm = (s: string | null | undefined) => (s ?? "").replace(INVISIBLES, " ").replace(GLUON, "");
+const norm = (s: string | null | undefined) => (s ?? "").replace(INVISIBLES, " ").replace(GLUON, "").replace(/’/g, "'");
 
 /** Copie mot pour mot de `docs/copy/cta-s21/concision/textes-v5-c.md` §8. */
 const REASS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";

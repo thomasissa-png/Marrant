@@ -12,6 +12,7 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
+import { apostropheSouple, courbe } from "../helpers/texte-normalise";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -527,7 +528,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     expect(screen.getByText("Le conseil")).toBeInTheDocument();
     expect(screen.getByText(/Apprends les one-liners/)).toBeInTheDocument();
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
-    expect(screen.getByText(/patron m'a dit/)).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/patron m'a dit/))).toBeInTheDocument();
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();
     expect(screen.getByText(/DÉFI SOPHIE/)).toBeInTheDocument();
   });
@@ -598,7 +599,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Suivi de progression = Premium (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText("Les étapes suivantes s'ouvrent avec Premium.")).toBeInTheDocument();
+      expect(screen.getByText(courbe("Les étapes suivantes s'ouvrent avec Premium."))).toBeInTheDocument();
     });
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -618,8 +619,8 @@ describe("Yanis (PREMIUM) — Parcours Répartie", () => {
     await waitFor(() => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Répartie");
     });
-    expect(screen.getByText(/étudiant et que tu veux t'affirmer/)).toBeInTheDocument();
-    expect(screen.getByText(/Mes potes n'en reviennent pas/)).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/étudiant et que tu veux t'affirmer/))).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/Mes potes n'en reviennent pas/))).toBeInTheDocument();
   });
 
   it("sees all 4 steps with correct XP: 50, 75, 100, 150", async () => {
@@ -712,7 +713,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     await waitFor(() => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Parcours Confiance");
     });
-    expect(screen.getByText(/renouer avec l'humour après une période difficile/)).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/renouer avec l'humour après une période difficile/))).toBeInTheDocument();
     expect(screen.getByText(/Après ma séparation/)).toBeInTheDocument();
   });
 
@@ -769,7 +770,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
 
     // Valider = Premium (s15, étalon 4.1)
-    expect(screen.getByText("Les étapes suivantes s'ouvrent avec Premium.")).toBeInTheDocument();
+    expect(screen.getByText(courbe("Les étapes suivantes s'ouvrent avec Premium."))).toBeInTheDocument();
   });
 
   it("D1 s17 : visiteur, étapes 2 à 6 marquées « Fait partie de Premium », sans « Termine l'étape »", async () => {

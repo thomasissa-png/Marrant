@@ -24,6 +24,7 @@ import {
 import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
 import { FREE_JOKE_LIMIT, FREE_TIP_LIMIT, FREE_VIDEO_LIMIT } from "@/config/premium";
 import { frTypo } from "@/lib/fr-typo";
+import { courbe } from "../helpers/texte-normalise";
 
 const LISTES: ListeMur[] = ["vannes", "conseils", "videos"];
 const REASS = frTypo(REASSURANCE_UNIQUE);
@@ -160,7 +161,7 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
   it("quiz en cours : phrase, plein et REASS, sans carte ni lettre", () => {
     const { container } = render(<ValidationWall slug="repartie" href="/abonnement?x" quizPending etapeSuivante={etape2} />);
     expect(screen.queryByText("Le rythme et les silences")).not.toBeInTheDocument();
-    expect(screen.getByText(VALIDATION_ETAPE.texte)).toBeInTheDocument();
+    expect(screen.getByText(courbe(VALIDATION_ETAPE.texte))).toBeInTheDocument();
     expect(screen.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeInTheDocument();
     expect(VALIDATION_ETAPE.bouton).toBe(FIN_ETAPE_1.bouton);
     expect(container.textContent).toContain(REASS);

@@ -63,7 +63,7 @@ const { CARNET_ACCROCHE_MAX, carnetViewForPlan, getCarnetDemo, getCarnetExtrait,
   actual;
 const carnets: Carnet[] = actual.parseCarnets([lire("2026-10.json"), lire("2026-11.json")]);
 const novembre = carnets.find((c) => c.mois === "2026-11")!;
-const norm = (s: string) => s.replace(/[  ]/g, " ").replace(/⁠/g, "");
+const norm = (s: string) => s.replace(/[  ]/g, " ").replace(/⁠/g, "").replace(/’/g, "'");
 const t = (el: HTMLElement) => norm(el.textContent ?? "");
 
 describe("fichier 2026-11.json", () => {

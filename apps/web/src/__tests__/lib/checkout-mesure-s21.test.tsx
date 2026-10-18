@@ -10,6 +10,7 @@ import userEvent from "@testing-library/user-event";
 import { mesurerRetourCheckout, trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { CheckoutRetourTracker } from "@/components/analytics/checkout-retour-tracker";
 import { PremiumCta } from "@/components/home/premium-cta";
+import { courbe } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ data: { user: { plan: "FREE" } }, status: "authenticated" }) }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
@@ -85,7 +86,7 @@ describe("carte Premium de l'accueil, compte connecté sans abonnement (concisio
   it("même phrase que le visiteur avant le bouton, puis OUVRIR (paiement direct) ; plus de « Tu as déjà ton compte »", () => {
     render(<PremiumCta />);
     const phrase = screen.getByTestId("carte-premium-intro");
-    expect(phrase).toHaveTextContent("De la coloc à l'afterwork, de quoi répondre partout.");
+    expect(phrase).toHaveTextContent(courbe("De la coloc à l'afterwork, de quoi répondre partout."));
     const bouton = screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ });
     expect(phrase.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.queryByTestId("carte-premium-ligne-connecte")).toBeNull();

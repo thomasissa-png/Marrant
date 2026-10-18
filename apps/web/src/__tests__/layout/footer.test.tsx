@@ -96,6 +96,6 @@ describe("Footer", () => {
     expect(grille).toHaveClass("grid-cols-1", "sm:grid-cols-3", "lg:grid-cols-4", "gap-8");
     expect(produit).toHaveClass("lg:col-span-2");
     // Sous-colonnes au même écart que la grille (gap-8) : alignées sur les pistes.
-    expect(produit.querySelector("ul")).toHaveClass("grid-cols-2", "sm:grid-cols-1", "lg:grid-cols-2", "lg:gap-x-8");
+    expect(produit.querySelector("ul")).toHaveClass("grid-cols-2", "sm:grid-cols-1", "md:grid-cols-2", "lg:gap-x-8");
   });
 });

@@ -54,7 +54,8 @@ const visibleText = (html: string): string =>
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&#x27;/g, "'")
-    .replace(/[  ]/g, " ");
+    .replace(/[  ]/g, " ")
+    .replace(/’/g, "'");
 const unlink = (md: string) => md.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
 const paragraphs = (content: string) => content.split("\n\n").filter((p) => p.trim());
 

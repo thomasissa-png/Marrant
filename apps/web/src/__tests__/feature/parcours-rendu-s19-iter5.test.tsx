@@ -15,7 +15,7 @@ jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
 const NBSP = String.fromCharCode(0xa0);
 const GLUON = String.fromCharCode(0x2060);
-const plain = (t: string | null) => (t ?? "").replaceAll(NBSP, " ").replaceAll(GLUON, "");
+const plain = (t: string | null) => (t ?? "").replaceAll(NBSP, " ").replaceAll(GLUON, "").replace(/’/g, "'");
 
 type Conseil = { id: number | string; example?: string; exercise?: string };
 const conseil = (id: number) => (conseils as Conseil[]).find((c) => String(c.id) === String(id)) as Conseil;
@@ -77,7 +77,7 @@ describe("H / S17 : typographie française sur les 3 anciens parcours", () => {
     const { container } = carte("confiance", step({ exercise: DEFI_CONFIANCE }));
     const rendu = container.textContent ?? "";
     expect(rendu).toContain(`réécris-${GLUON}le`);
-    expect(rendu).toContain(`Écris-${GLUON}le d'abord`);
+    expect(rendu).toContain(`Écris-${GLUON}le d’abord`);
     expect(screen.getByText("DÉFI FAIT DIVERS").tagName).toBe("STRONG");
     expect(plain(rendu)).toContain(DEFI_CONFIANCE);
   });

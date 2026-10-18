@@ -8,6 +8,7 @@ import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
+import { courbe } from "../helpers/texte-normalise";
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -289,7 +290,7 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     await userEvent.click(screen.getByRole("button", { name: /Étape 2 : Module 2/ }));
     expect(mockTrack).toHaveBeenCalledWith("etape-ouverte", { parcours: "confiance", etape: 2, statut: "visiteur", declencheur: "manuel" });
     // Aperçu D1 : ce qu'on apprend, durée estimée, jamais le conseil.
-    expect(screen.getByText("Ce qu'on apprend 2")).toBeInTheDocument();
+    expect(screen.getByText(courbe("Ce qu'on apprend 2"))).toBeInTheDocument();
     // Étalon 3.1 : l'aperçu montre titre, ce qu'on apprend, format, rien d'autre.
   });
 

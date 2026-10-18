@@ -56,6 +56,7 @@ import BlogArticlePage from "@/app/(dashboard)/blog/[slug]/page";
 import { BLOG_PREVIEW_COOKIE } from "@/config/blog-preview";
 import { createPreviewToken } from "@/lib/blog-preview-auth";
 import { trackUmami } from "@/lib/umami";
+import { courbe } from "../helpers/texte-normalise";
 
 const PASSWORD = "mot-de-passe-admin-test";
 const params = { slug: "sortie-programmee" };
@@ -133,7 +134,7 @@ describe("/blog/apercu/[slug] : rendu", () => {
   it("rend l'article programmé avec la bonne clé Bearer et le bandeau de date", async () => {
     mockHeaders.set("authorization", `Bearer ${PASSWORD}`);
     await renderPreview();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Titre de l'article programmé");
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(courbe("Titre de l'article programmé"));
     expect(screen.getByRole("status")).toHaveTextContent("Aperçu : publication prévue le 12/10/2099");
     expect(screen.getByText(/Texte avec/)).toBeInTheDocument();
   });

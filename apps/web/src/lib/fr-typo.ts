@@ -55,10 +55,23 @@ export function frPonctuation(text: string): string {
   return text.replace(SPACES_BEFORE_PUNCT, `${NBSP}$1`).replace(SPACES_AFTER_OPEN, `«${NBSP}`);
 }
 
+// Revue visuelle s21 (verdict @design, décision 4) : filtre d'affichage, aucun mot changé, la donnée
+// stockée reste intacte. Apostrophe droite entre deux lettres : apostrophe typographique.
+const APOSTROPHE_DROITE = /(\p{L})'(?=\p{L})/gu;
+// Guillemets droits appariés sur une ligne : guillemets français (insécables posés ensuite).
+const GUILLEMETS_DROITS = /"([^"\n]+)"/g;
+// Tiret cadratin entre deux espaces (règle 12 du projet) : virgule, en filet de sécurité.
+const CADRATIN_ESPACE = / — /g;
+
 export function frTypo(text: string): string {
   return (
     // « mot : » ne se coupe plus avant la ponctuation haute ; « mot » ne se coupe plus après le guillemet ouvrant
-    frPonctuation(text)
+    frPonctuation(
+      text
+        .replace(APOSTROPHE_DROITE, "$1’")
+        .replace(GUILLEMETS_DROITS, "« $1 »")
+        .replace(CADRATIN_ESPACE, ", "),
+    )
       // « 7 techniques », « 5 min » restent liés
       .replace(/(\d) (?=[A-Za-zÀ-ÿ€%°])/g, `$1${NBSP}`)
       // « 4 812 » et « 23 h 40 » ne se coupent jamais (notation B2 iter2)

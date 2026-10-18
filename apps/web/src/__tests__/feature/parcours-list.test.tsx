@@ -74,7 +74,7 @@ describe("ParcoursPage — Parcours structurés", () => {
 
   // s11 : textes des parcours réécrits — les attentes sont dérivées du seed
   // (source de vérité) pour ne pas figer la copy dans les tests.
-  const bodyText = () => (document.body.textContent ?? "").replace(/\s+/g, " ");
+  const bodyText = () => (document.body.textContent ?? "").replace(/\s+/g, " ").replace(/’/g, "'");
   const norm = (t: string) => t.replace(/\s+/g, " ").trim();
 
   it("shows persona targeting text for each parcours", () => {

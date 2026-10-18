@@ -8,6 +8,7 @@ import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { AbonnementView } from "@/components/premium/abonnement-view";
 import { envNeutre } from "../helpers/env-neutre";
+import { apostropheSouple } from "../helpers/texte-normalise";
 
 // s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
 envNeutre("STRIPE_PREMIUM_ANNUAL_PRICE_ID", "NEXTAUTH_URL");
@@ -73,9 +74,9 @@ describe("/abonnement visiteur (concision v5, textes-v5-c §1)", () => {
     expect(html.indexOf("abonnement-bouton-achat")).toBeLessThan(html.indexOf("abonnement-suite"));
     expect(html.indexOf("abonnement-suite")).toBeLessThan(html.indexOf("reassurance-paiement"));
     expect(html.indexOf('data-testid="carnet"')).toBeLessThan(html.indexOf("abonnement-etape-1"));
-    const lien = screen.getByRole("link", { name: /^Tester l'étape\s1\sde Confiance, gratuite$/ });
+    const lien = screen.getByRole("link", { name: apostropheSouple(/^Tester l'étape\s1\sde Confiance, gratuite$/) });
     expect(lien).toHaveAttribute("href", "/parcours/confiance?src=abonnement#etape-1");
-    expect(screen.getByTestId("abonnement-etape-1")).toHaveTextContent(/^Pas encore sûr\s\?\sTester l'étape\s1\sde Confiance, gratuite$/);
+    expect(screen.getByTestId("abonnement-etape-1")).toHaveTextContent(apostropheSouple(/^Pas encore sûr\s\?\sTester l'étape\s1\sde Confiance, gratuite$/));
     expect(document.body.textContent).not.toMatch(/Tu annules quand tu veux|Lis d'abord une étape|Étape 2 sur/);
   });
 });
@@ -91,7 +92,7 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Ta réplique en soirée, pas dans le bus du retour" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Accéder aux parcours complets" })).not.toBeInTheDocument();
     expect(screen.queryByTestId("abonnement-surtitre")).toBeNull();
-    expect(screen.getByText(/^Pas d'attente entre les étapes, de 15 à 20 minutes chacune\.$/)).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/^Pas d'attente entre les étapes, de 15 à 20 minutes chacune\.$/))).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
     // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
@@ -104,7 +105,8 @@ describe("AbonnementPage (s12 T45)", () => {
     // gardées invisibles et `aria-hidden` pour la stabilité de la mise en page (revue design s21 m2).
     const perceptible = document.body.cloneNode(true) as HTMLElement;
     perceptible.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
-    const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ");
+    // Revue visuelle s21 : apostrophes typographiques au rendu (frTypo), comparées en apostrophes droites.
+    const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ").replace(/’/g, "'");
     const lignes = [
       "Ta réplique en soirée, pas dans le bus du retour",
       "Pas d'attente entre les étapes, de 15 à 20 minutes chacune.",
@@ -171,7 +173,7 @@ describe("AbonnementPage (s12 T45)", () => {
     render(await AbonnementPage({}));
     expect(screen.queryByText("Un abonnement, tout ouvert")).toBeNull();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Ta réplique en soirée, pas dans le bus du retour");
-    expect(screen.getByText(/^Pas d'attente entre les étapes/)).toBeInTheDocument();
+    expect(screen.getByText(apostropheSouple(/^Pas d'attente entre les étapes/))).toBeInTheDocument();
     expect(screen.getByTestId("paiement-stripe")).toHaveTextContent("Paiement sécurisé par Stripe");
     expect(screen.queryByTestId("abonnement-suite")).toBeNull();
     expect(screen.queryByTestId("abonnement-etape-1")).toBeNull();

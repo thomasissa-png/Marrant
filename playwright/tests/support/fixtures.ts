@@ -122,5 +122,6 @@ export async function auditAxe(page: Page): Promise<ViolationAxe[]> {
  */
 export function texteValide(texte: string): RegExp {
   const echappe = texte.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  return new RegExp(echappe.replace(/[\s\u00a0\u202f]+/g, "[\\s\\u00a0\\u202f]+"));
+  // Revue visuelle s21 (décision 4) : apostrophe droite ou typographique (frTypo affiche « ’ »).
+  return new RegExp(echappe.replace(/[\s\u00a0\u202f]+/g, "[\\s\\u00a0\\u202f]+").replace(/['’]/g, "['’]"));
 }

@@ -128,7 +128,7 @@ describe("Pied de page", () => {
     const liste = screen.getByRole("link", { name: "La lettre du mois" }).closest("ul") as HTMLUListElement;
     const liens = within(liste).getAllByRole("link").map((l) => l.textContent);
     expect(liens.indexOf("La lettre du mois")).toBe(liens.indexOf("Quiz humour") + 1);
-    expect(liste.className.split(" ")).toEqual(expect.arrayContaining(["grid-flow-col", "grid-cols-2", "sm:grid-flow-row", "lg:grid-flow-col"]));
+    expect(liste.className.split(" ")).toEqual(expect.arrayContaining(["grid-flow-col", "grid-cols-2", "sm:grid-flow-row", "md:grid-flow-col"]));
     expect(liste.style.getPropertyValue("--rangs-produit")).toBe(String(Math.ceil(liens.length / 2)));
   });
 

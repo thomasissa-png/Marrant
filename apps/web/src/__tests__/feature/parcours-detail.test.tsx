@@ -3,6 +3,7 @@ import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { useUserStore } from "@/stores/user-store";
+import { courbe } from "../helpers/texte-normalise";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -222,7 +223,7 @@ describe("ParcoursDetail — enriched content", () => {
       expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
-    expect(screen.getByText("Quelle est la clé d'une bonne vanne ?")).toBeInTheDocument();
+    expect(screen.getByText(courbe("Quelle est la clé d'une bonne vanne ?"))).toBeInTheDocument();
 
     // Answer correctly
     await userEvent.click(screen.getByText("La surprise de la chute"));
@@ -391,7 +392,7 @@ describe("ParcoursDetail — tunnel s15", () => {
   it("anonyme : étape 1 lisible, valider = Premium ; s21 concision : plein direct vers /register, retour au paiement puis au parcours", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     // s21 B14 : sans quiz dans l'étape, la fin d'étape 1 (phrase du tour 4 et un seul plein).
-    expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
+    expect(await screen.findByText(courbe(FIN_ETAPE_1.phrase))).toBeInTheDocument();
     const link = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
     // Même tunnel que les autres boutons d'achat : /register?callbackUrl=/abonnement?…&src=…
     const url = new URL(link.getAttribute("href")!, "https://deviens-marrant.fr");
@@ -413,7 +414,7 @@ describe("ParcoursDetail — tunnel s15", () => {
       json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
     });
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
+    expect(await screen.findByText(courbe(FIN_ETAPE_1.phrase))).toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
     expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
     // s21 concision : compte déjà créé, le plein mène à /abonnement (pas de nouvelle inscription).

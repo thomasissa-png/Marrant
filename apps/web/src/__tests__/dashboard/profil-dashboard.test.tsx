@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
+import { courbe } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -148,7 +149,7 @@ describe("ProfilDashboard", () => {
     render(<ProfilDashboard />);
     // Concision v5 (textes-v5-c §7) : phrase, plein OUVRIR, REASS, mot pour mot.
     expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
-    expect(screen.getByText("Chaque mois, un nouveau carnet de répartie s'ajoute aux parcours.")).toBeInTheDocument();
+    expect(screen.getByText(courbe("Chaque mois, un nouveau carnet de répartie s'ajoute aux parcours."))).toBeInTheDocument();
     expect(
       screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
     ).toBeInTheDocument();
