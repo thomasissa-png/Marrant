@@ -270,6 +270,18 @@
     },
     {
       "id": "2026-11-23",
+      "titre": "La photo de la carte de vœux",
+      "accroche": "Photo de famille pour la carte de vœux. Ta sœur te place au premier rang et règle le minuteur",
+      "contexte": "famille",
+      "situation": "Un dimanche de novembre, ta sœur organise la photo de famille pour la carte de vœux, te place au premier rang et règle le téléphone sur le minuteur.",
+      "onTeDit": "Cette année, essaie d'avoir les deux yeux ouverts en même temps.",
+      "reponse": "Je te garantis un œil. Pas toujours le même.",
+      "pourquoi": "Tu réponds comme un prestataire qui revoit son cahier des charges à la baisse : deux yeux demandés, un seul garanti. La vraie chute est dans la seconde phrase, parce que « pas toujours le même » donne à ton défaut une régularité de mécanisme, comme si tes paupières se relayaient.",
+      "siTendu": "D'accord, je fais attention. Tu peux faire deux prises, au cas où ?",
+      "exercice": "Dis la réplique à voix haute avec l'aplomb d'un artisan qui annonce un délai, en clignant d'un œil sur « un œil » puis de l'autre sur « le même »."
+    },
+    {
+      "id": "2026-11-24",
       "titre": "La table des enfants",
       "accroche": "Dimanche de novembre en famille. Ta cousine fait le plan de table de Noël et te montre ta place",
       "contexte": "famille",
@@ -281,7 +293,7 @@
       "exercice": "Dis la réplique à voix haute avec la satisfaction d'un voyageur à qui on vient de donner la place côté fenêtre, puis recommence plus doucement sur « quelqu'un »."
     },
     {
-      "id": "2026-11-24",
+      "id": "2026-11-25",
       "titre": "Les cadeaux du 24 à 17 h",
       "accroche": "En famille. Ta sœur parle de la liste des cadeaux et te demande ce que tu as prévu cette année",
       "contexte": "famille",
@@ -293,7 +305,7 @@
       "exercice": "Dis la réplique à voix haute comme un commentateur sportif qui résume un match serré, avec un vrai souffle sur « aux points »."
     },
     {
-      "id": "2026-11-25",
+      "id": "2026-11-26",
       "titre": "Le revenant",
       "accroche": "Soirée chez des amis, la première depuis des semaines. Tu poses à peine ton manteau",
       "contexte": "soirée",
@@ -305,7 +317,7 @@
       "exercice": "Hausse les épaules sur « dehors » en disant la réplique à voix haute, comme si c'était la conclusion de n'importe qui."
     },
     {
-      "id": "2026-11-26",
+      "id": "2026-11-27",
       "titre": "Tu ne viens jamais me voir",
       "accroche": "Dimanche chez ta grand-mère. Elle te ressert du café et regarde par la fenêtre",
       "contexte": "famille",
