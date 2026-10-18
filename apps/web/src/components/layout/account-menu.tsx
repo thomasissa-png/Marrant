@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  * « Mon profil » et « Déconnexion » derrière UN bouton de 44 px au lieu de trois
  * contrôles permanents (environ 200 px rendus à la recherche et aux onglets).
  * Radix fournit le clavier (flèches, Échap, focus rendu au bouton) et les rôles
- * ARIA. « Activer mon accès » reste hors du menu : c'est le bouton Premium.
+ * ARIA. Le bouton prix (« Premium · 2,99 €/mois ») reste hors du menu.
  * Sous 1024 px, le menu mobile garde ces entrées à plat.
  */
 const ITEM =

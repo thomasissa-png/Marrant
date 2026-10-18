@@ -21,8 +21,8 @@ interface MobileNavProps {
   pathname: string | null;
   isAuthenticated: boolean;
   isPremium: boolean;
-  /** `prix` : bouton visiteur (s21, B6) vers /abonnement?src=header. */
-  hrefs: { activate: string; prix: string; login: string };
+  /** `prix` : bouton visiteur et compte sans abonnement (s21 B6, QA v4 m-3) vers /abonnement?src=header. */
+  hrefs: { prix: string; login: string };
   /** s21 (B6) : pas de bouton plein sur /abonnement et /register. */
   masquerPlein?: boolean;
   onClose: () => void;
@@ -62,13 +62,19 @@ export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, 
           </Link>
         ))}
         <hr className="my-2 border-border" />
+        {/* QA v4 m-3 : même bouton prix pour le visiteur et le compte sans abonnement. */}
+        {!isPremium && !masquerPlein && (
+          <Link
+            href={hrefs.prix}
+            onClick={onClose}
+            aria-label={EN_TETE.nomAccessible}
+            className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
+          >
+            {EN_TETE.bouton}
+          </Link>
+        )}
         {isAuthenticated ? (
           <>
-            {!isPremium && !masquerPlein && (
-              <Link href={hrefs.activate} onClick={onClose} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}>
-                Activer mon accès
-              </Link>
-            )}
             <Link href="/favoris" onClick={onClose} className={secondaire}>
               <IconeFavoris className="h-4 w-4" />
               Favoris
@@ -90,21 +96,9 @@ export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, 
             </Button>
           </>
         ) : (
-          <>
-            {!masquerPlein && (
-              <Link
-                href={hrefs.prix}
-                onClick={onClose}
-                aria-label={EN_TETE.nomAccessible}
-                className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
-              >
-                {EN_TETE.bouton}
-              </Link>
-            )}
-            <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}>
-              Connexion
-            </Link>
-          </>
+          <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}>
+            Connexion
+          </Link>
         )}
       </div>
     </nav>

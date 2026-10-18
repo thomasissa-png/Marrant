@@ -69,7 +69,7 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
-  it("s21 (B6) : bouton prix et « Activer mon accès » masqués sur /abonnement et /register", async () => {
+  it("s21 (B6) : bouton prix masqué sur /abonnement et /register, visiteur comme compte", async () => {
     for (const page of ["/abonnement", "/register", "/abonnement/success"]) {
       usePathname.mockReturnValue(page);
       const { unmount } = render(<Header />);
@@ -80,7 +80,8 @@ describe("Header", () => {
     useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "FREE" } }, status: "authenticated" });
     usePathname.mockReturnValue("/abonnement");
     render(<Header />);
-    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
   });
 
   it("s15 puis s21 : bouton prix et « Connexion » sont de vrais liens (HTML serveur)", () => {
@@ -124,7 +125,7 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
   });
 
-  it("s20 puis s21 : bouton prix dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent si connecté", () => {
+  it("s20 puis s21 : bouton prix dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent pour l'abonné", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     const { unmount } = render(<Header />);
     const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
@@ -134,7 +135,7 @@ describe("Header", () => {
     expect(lien.className).toContain("whitespace-nowrap");
     expect(mobile.className).toContain("lg:hidden");
     unmount();
-    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "PREMIUM" } }, status: "authenticated" });
     render(<Header />);
     expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
   });
@@ -165,14 +166,25 @@ describe("Header", () => {
     expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: "/" });
   });
 
-  it("« Activer mon accès » reste dans la barre (hors menu de compte), pas pour un Premium", () => {
-    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+  it("QA v4 m-3 : compte sans abonnement = même bouton prix que le visiteur (barre, en-tête mobile, menu), pas pour un Premium", async () => {
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "FREE" } }, status: "authenticated" });
+    usePathname.mockReturnValue("/vannes");
     const { unmount } = render(<Header />);
-    expect(screen.getAllByRole("link", { name: "Activer mon accès" })).toHaveLength(1);
+    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+    const liens = screen.getAllByRole("link", { name: PRIX });
+    expect(liens).toHaveLength(2);
+    for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?src=header");
+    const [court, complet] = Array.from(liens[0].querySelectorAll("span"));
+    expect(court.textContent).toBe("2,99\u00A0€/mois");
+    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);
+    expect(screen.queryByText("Activer mon accès")).not.toBeInTheDocument();
     unmount();
     useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "PREMIUM" } }, status: "authenticated" });
     render(<Header />);
-    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Mon compte" })).toBeInTheDocument();
   });
 

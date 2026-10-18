@@ -5,7 +5,8 @@ import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 /**
  * Garde-fou de l'en-tête (revue design s21, bloquant) : 6 largeurs x 3 états, plus
- * 320, 360, 375 et 414 px pour le bouton prix du visiteur (s21 B6, concision v5)
+ * 320 à 768 px pour le bouton prix du visiteur et du compte sans abonnement (s21 B6,
+ * concision v5, QA v4 m-3)
  * (visiteur, connecté gratuit, connecté Premium). Échoue si un élément de la barre
  * déborde de l'écran, en chevauche un autre, ou si un libellé est coupé ; vérifie
  * la recherche (champ >= 160 px et texte d'aide entier dès 1280 px, loupe avant) et
@@ -144,24 +145,54 @@ test.describe("En-tête : budget de largeur", () => {
 
           // Actions selon l'état.
           const compte = barre.getByRole("button", { name: TEXTES_CONNEXION.menuCompte });
-          if (etat === "visiteur") {
-            await expect(barre.getByRole("link", { name: "Connexion" })).toBeVisible();
+          if (etat === "visiteur") await expect(barre.getByRole("link", { name: "Connexion" })).toBeVisible();
+          if (etat !== "PREMIUM") {
             // s21 (B6) : « 2,99 €/mois » vers /abonnement?src=header (nom accessible : libellé d'abord).
+            // QA v4 m-3 : même bouton pour le compte sans abonnement (plus de « Activer mon accès »).
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toBeVisible();
             await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
             expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^2,99\s€\/mois$/);
+          } else {
+            await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
+          }
+          await expect(barre.getByText("Activer mon accès")).toHaveCount(0);
+          if (etat === "visiteur") {
             await expect(compte).toHaveCount(0);
           } else {
             await expect(compte).toBeVisible();
             await expect(barre.getByText("Déconnexion")).toHaveCount(0);
-            await expect(barre.getByRole("link", { name: "Activer mon accès" })).toHaveCount(etat === "FREE" ? 1 : 0);
           }
         }
         await testInfo.attach(`mesures-${etat}`, { body: lignes.join("\n"), contentType: "text/plain" });
         if (process.env.E2E_MESURES_EN_TETE) appendFileSync(process.env.E2E_MESURES_EN_TETE, `${lignes.join("\n")}\n`);
       });
+
+      if (etat === "FREE") {
+        // QA v4 m-3 : le compte sans abonnement a le bouton prix à toutes les largeurs de téléphone.
+        test("compte sans abonnement : bouton prix de 320 à 768 px, sur une ligne, sans débordement", async ({ page }) => {
+          for (const largeur of LARGEURS_MOBILES) {
+            await page.setViewportSize({ width: largeur, height: 800 });
+            await page.goto("/conseils");
+            const barre = page.getByRole("banner");
+            await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible();
+            const ici = `compte FREE à ${largeur} px`;
+            const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
+            await expect(prix).toHaveCount(1);
+            await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+            expect(await prix.innerText()).toMatch(largeur < 640 ? /^2,99\s€\/mois$/ : /^Premium\s·\s2,99\s€\/mois$/);
+            const m = await mesurer(page);
+            expect(m.scroll, `défilement horizontal, ${ici}`).toBeLessThanOrEqual(m.fenetre);
+            for (const c of m.controles) {
+              expect(c.droite, `« ${c.nom} » sort à droite, ${ici}`).toBeLessThanOrEqual(m.fenetre + 0.5);
+              expect(c.coupe, `« ${c.nom} » coupé, ${ici}`).toBe(false);
+              expect(c.hauteur, `« ${c.nom} » sur deux lignes, ${ici}`).toBeLessThanOrEqual(48);
+            }
+            expect((await prix.boundingBox())?.height ?? 0, `cible de 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
+          }
+        });
+      }
 
       if (etat !== "visiteur") {
         test(`menu de compte au clavier, dans l'écran à 1024 px (${etat})`, async ({ page }) => {

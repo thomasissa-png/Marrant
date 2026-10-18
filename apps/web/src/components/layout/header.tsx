@@ -40,9 +40,9 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
  *  - actions : visiteur « Connexion » + « 2,99 €/mois » de 1024 à 1279, « Premium · 2,99 €/mois »
- *    dès 1280 (s21, vers /abonnement) ; connecté « Activer mon accès »
- *    (sans abonnement) + menu de compte 44 px (« Favoris », « Mon profil »,
- *    « Déconnexion » regroupés, `account-menu.tsx`).
+ *    dès 1280 (s21, vers /abonnement) ; compte sans abonnement : le même bouton (QA v4 m-3)
+ *    + menu de compte 44 px (« Favoris », « Mon profil », « Déconnexion » regroupés,
+ *    `account-menu.tsx`) ; abonné : menu de compte seul.
  * Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états,
  * aucun débordement, aucun libellé coupé, recherche >= 160 px). Un onglet ou un
  * bouton de plus doit d'abord trouver sa place dans ce budget, sinon aller dans le
@@ -115,8 +115,6 @@ export function Header() {
   // s21 (B6, spec §1.3 a) : bouton plein masqué sur /abonnement et /register (même
   // destination ou boucle : un seul plein par page chaude).
   const pageChaude = isActivePath(pathname, "/abonnement") || isActivePath(pathname, "/register");
-  // Compte connecté sans abonnement (s15 §2.4) : un accès direct au paiement.
-  const activateHref = buildAbonnementUrl(pathname, "monthly", "header");
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
@@ -168,36 +166,28 @@ export function Header() {
 
           {/* Actions desktop */}
           <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
-            {isAuthenticated ? (
-              <>
-                {!isPremium && !pageChaude && (
-                  <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}>
-                    Activer mon accès
-                  </Link>
-                )}
-                <AccountMenu />
-              </>
-            ) : (
-              <>
-                <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
-                  Connexion
-                </Link>
-                {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
-                    (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
-                    Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
-                    29 manquants) et libellé complet. */}
-                {!pageChaude && (
-                  <Link
-                    href={prixHref}
-                    aria-label={EN_TETE.nomAccessible}
-                    className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
-                  >
-                    <span className="xl:hidden">{EN_TETE.boutonCourt}</span>
-                    <span className="hidden xl:inline">{EN_TETE.bouton}</span>
-                  </Link>
-                )}
-              </>
+            {!isAuthenticated && (
+              <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+                Connexion
+              </Link>
             )}
+            {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
+                (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
+                Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
+                29 manquants) et libellé complet. QA v4 m-3 : même bouton pour le compte sans
+                abonnement (plus de « Activer mon accès »), suivi du menu de compte (44 px,
+                plus étroit que « Connexion »). */}
+            {!isPremium && !pageChaude && (
+              <Link
+                href={prixHref}
+                aria-label={EN_TETE.nomAccessible}
+                className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
+              >
+                <span className="xl:hidden">{EN_TETE.boutonCourt}</span>
+                <span className="hidden xl:inline">{EN_TETE.bouton}</span>
+              </Link>
+            )}
+            {isAuthenticated && <AccountMenu />}
           </div>
 
           {/* Actions mobile */}
@@ -218,8 +208,9 @@ export function Header() {
                 cible de 44 px. « Premium · 2,99 €/mois » dès 640 px, où il tient à côté du logo,
                 de « Connexion », de la loupe et du menu (il lui faut 447 px seul, 590 px avec
                 « Connexion » et la loupe) ; en dessous, libellé court « 2,99 €/mois » (largeurs
-                mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes. */}
-            {!isAuthenticated && !pageChaude && (
+                mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes.
+                QA v4 m-3 : aussi pour le compte sans abonnement (sans « Connexion », il a plus de place). */}
+            {!isPremium && !pageChaude && (
               <Link
                 href={prixHref}
                 aria-label={EN_TETE.nomAccessible}
@@ -284,7 +275,7 @@ export function Header() {
             pathname={pathname}
             isAuthenticated={isAuthenticated}
             isPremium={isPremium}
-            hrefs={{ activate: activateHref, prix: prixHref, login: loginHref }}
+            hrefs={{ prix: prixHref, login: loginHref }}
             masquerPlein={pageChaude}
             onClose={() => setIsMenuOpen(false)}
           />
