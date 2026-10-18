@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { cn } from "@/lib/utils";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
@@ -11,7 +11,7 @@ import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
 
-/** Contour : étape 1 de Répartie, en lecture libre (remplace « Voir les vannes gratuites »). */
+/** Lien gratuit (L2 depuis s21 concision) : étape 1 de Répartie, en lecture libre. */
 const ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
 
 interface PremiumCtaProps {
@@ -22,7 +22,7 @@ interface PremiumCtaProps {
 /**
  * Carte Premium de l'accueil (s21, B4 + B5, spec cta-forme-place §3.2) : le bloc « Tu crois
  * avoir tout essayé » y est fusionné (et supprimé). Température tiède : plein Premium, puis
- * contour vers l'étape 1 de Répartie, dans le même écran. Textes : cta-articles-accueil.ts.
+ * lien texte vers l'étape 1 de Répartie (s21 concision : un seul plein par bloc), dans le même écran. Textes : cta-articles-accueil.ts.
  * s21 (QA m3, budget JS) : composant serveur ; textes, liste et FAQ rendus sans JS. Îlots
  * client : le masque abonné (`MasqueSiPremium`), le plein (`CartePremiumAchat`), les avantages.
  */
@@ -74,16 +74,16 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
                 boutonVisiteur={frTypo(CARTE_PREMIUM.bouton)}
                 connecte={{ ligne: frTypo(CARTE_PREMIUM.connecte.ligne), bouton: frTypo(CARTE_PREMIUM.connecte.bouton) }}
               />
-              <Link
-                href={ETAPE_1_HREF}
-                data-accueil-cta="etape-1"
-                className={cn(
-                  buttonVariants({ variant: "outline-accent", size: "lg" }),
-                  "mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
-                )}
-              >
-                {frTypo(CARTE_PREMIUM.contour)}
-              </Link>
+              {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
+              <div className="mt-2 text-center">
+                <Link
+                  href={ETAPE_1_HREF}
+                  data-accueil-cta="etape-1"
+                  className={cn(LIEN_L2, "justify-center px-2 text-center [text-wrap:balance]")}
+                >
+                  {frTypo(CARTE_PREMIUM.contour)}
+                </Link>
+              </div>
               <p className="mt-3 text-center text-xs text-text-muted">{frTypo(CARTE_PREMIUM.reassurance)}</p>
               {/* Social proof : chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09).
                   s21 (QA v2 m-c) : visiteur seulement, la ligne invite à s'inscrire. */}

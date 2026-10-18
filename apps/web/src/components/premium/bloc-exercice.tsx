@@ -67,17 +67,13 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
         {t.bouton}
       </Link>
       <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel, "profil"))}</p>
-      <Link
-        href={parcoursEtape1Href(parcours, "fiche")}
-        className={cn(
-          buttonVariants({ variant: "outline-accent", size: "lg" }),
-          "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:max-w-lg",
-        )}
-        data-fiche-cta="etape-1"
-      >
-        {frTypo(t.contour(parcours))}
-      </Link>
-      <div className="mt-3">
+      {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
+      <div className="mt-1">
+        <Link href={parcoursEtape1Href(parcours, "fiche")} className={LIEN_L2} data-fiche-cta="etape-1">
+          {frTypo(t.contour(parcours))}
+        </Link>
+      </div>
+      <div>
         <Link href={t.toutVoirHref} className={LIEN_L2}>
           {t.toutVoir}
         </Link>

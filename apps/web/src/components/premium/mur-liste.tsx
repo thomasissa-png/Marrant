@@ -69,16 +69,16 @@ export function MurListe({ liste, annuel }: MurListeProps) {
         </Link>
       </div>
       <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
-      <Link
-        href={parcoursEtape1Href(MUR_PARCOURS, `mur-${liste}`)}
-        className={cn(
-          buttonVariants({ variant: "outline-accent", size: "lg" }),
-          "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:w-auto",
-        )}
-        data-mur-cta="etape-1"
-      >
-        {frTypo(t.contour(MUR_PARCOURS))}
-      </Link>
+      {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
+      <div className="mt-1">
+        <Link
+          href={parcoursEtape1Href(MUR_PARCOURS, `mur-${liste}`)}
+          className={LIEN_L2}
+          data-mur-cta="etape-1"
+        >
+          {frTypo(t.contour(MUR_PARCOURS))}
+        </Link>
+      </div>
     </section>
   );
 }

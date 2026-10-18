@@ -49,7 +49,7 @@ describe("carte Premium de l'accueil (B4 + B5)", () => {
     expect(normalise(document.body.textContent ?? "")).toContain("Ou 24,99 €/an (2,08 €/mois, 10,89 € économisés). Prix TTC.");
   });
 
-  it("plein Premium puis contour étape 1 de Répartie, dans cet ordre, un seul plein", () => {
+  it("plein Premium puis lien texte étape 1 de Répartie (s21 concision), dans cet ordre, un seul plein", () => {
     const { container } = render(<PremiumCta />);
     const plein = container.querySelector<HTMLAnchorElement>('a[data-accueil-cta="abonnement"]')!;
     const contour = container.querySelector<HTMLAnchorElement>('a[data-accueil-cta="etape-1"]')!;
@@ -57,7 +57,9 @@ describe("carte Premium de l'accueil (B4 + B5)", () => {
     expect(plein).toHaveTextContent(normalise(CARTE_PREMIUM.bouton));
     expect(contour).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
     expect(contour).toHaveTextContent(CARTE_PREMIUM.contour);
-    expect(contour.className).toContain("border");
+    // s21 concision (18/10) : le gratuit n'est plus un bouton contour mais un lien texte (L2).
+    expect(contour.className).toContain("underline");
+    expect(contour.className).not.toMatch(/\bborder\b/);
     expect(plein.compareDocumentPosition(contour) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(container.querySelectorAll("a.bg-accent-secondary-hover")).toHaveLength(1);
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();

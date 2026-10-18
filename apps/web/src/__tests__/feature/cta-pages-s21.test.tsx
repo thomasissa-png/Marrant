@@ -62,7 +62,7 @@ describe("cta-pages.ts : textes et nombres", () => {
 });
 
 describe("B7 : murs des listes", () => {
-  it.each(LISTES)("/%s : un plein vers /abonnement?src=mur-<liste>, un contour vers l'étape 1", (liste) => {
+  it.each(LISTES)("/%s : un plein vers /abonnement?src=mur-<liste>, un lien texte vers l'étape 1 (s21 concision)", (liste) => {
     const { container } = render(<MurListe liste={liste} annuel={false} />);
     const plein = screen.getByRole("link", { name: MUR_LISTE[liste].bouton });
     const href = new URL(plein.getAttribute("href") ?? "", "https://x.fr");
@@ -96,7 +96,7 @@ jest.mock("next-auth/react", () => ({ useSession: jest.fn(() => ({ status: "unau
 describe("B8 à B10 : bloc d'exercice des fiches", () => {
   const TYPES: FicheType[] = ["vanne", "conseil", "video"];
 
-  it.each(TYPES)("%s : un plein Premium (retour fiche), un contour étape 1, « Voir toutes » en lien", (type) => {
+  it.each(TYPES)("%s : un plein Premium (retour fiche), un lien texte étape 1 (s21 concision), « Voir toutes » en lien", (type) => {
     const { container } = render(
       <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" annuel exercice="Consigne" />,
     );
