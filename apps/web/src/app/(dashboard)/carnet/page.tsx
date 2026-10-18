@@ -5,7 +5,7 @@
 // dans le JS client. Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CarnetPage } from "@/components/carnet/carnet-page";
+import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import { carnetViewForPlan, getCurrentCarnet, listCarnetMonths } from "@/lib/carnet";
 import { readSessionPlan } from "@/lib/session-plan";
 
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function CarnetCurrentPage() {
+export default async function CarnetCurrentPage({ searchParams }: { searchParams?: { src?: string | string[] } }) {
   const carnet = getCurrentCarnet();
 
   if (!carnet) {
@@ -42,6 +42,7 @@ export default async function CarnetCurrentPage() {
       view={carnetViewForPlan(carnet, plan)}
       months={listCarnetMonths()}
       returnTo="/carnet"
+      src={carnetSrc(searchParams?.src)}
     />
   );
 }

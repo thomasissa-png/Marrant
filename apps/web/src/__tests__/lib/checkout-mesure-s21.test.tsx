@@ -67,6 +67,18 @@ describe("checkout-ouvert / checkout-echec", () => {
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "accueil-premium", raison: "erreur" }]);
   });
+
+  it("carte Premium (compte sans abonnement), QA v2 m-b : abonnement-clic et checkout-ouvert, même source", async () => {
+    global.fetch = jest.fn(async () => ({ ok: true, status: 200, json: async () => ({ url: "#stripe-simule" }) })) as unknown as typeof fetch;
+    render(<PremiumCta />);
+    await act(async () => {
+      await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
+    });
+    expect(appels("abonnement-clic")).toEqual([
+      { formule: "mensuel", src: "accueil-premium", declencheur: "manuel", statut: "membre" },
+    ]);
+    expect(appels("checkout-ouvert")).toEqual([{ src: "accueil-premium", formule: "mensuel" }]);
+  });
 });
 
 describe("E2, carte Premium de l'accueil, compte connecté sans abonnement (textes validés du 18/10)", () => {
@@ -77,5 +89,11 @@ describe("E2, carte Premium de l'accueil, compte connecté sans abonnement (text
     const bouton = screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ });
     expect(ligne.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.queryByText(/Active mon accès/)).toBeNull();
+  });
+
+  it("QA v2 m-c : pas de « Déjà 1 500+ inscrits, et toi ? » pour un compte déjà inscrit", () => {
+    render(<PremiumCta />);
+    expect(screen.queryByTestId("carte-premium-inscrits")).toBeNull();
+    expect(screen.queryByText(/inscrits, et toi/)).toBeNull();
   });
 });

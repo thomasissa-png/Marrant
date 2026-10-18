@@ -34,7 +34,7 @@ const planMock = readSessionPlan as jest.Mock;
 const october = CARNET_FIXTURES.find((c) => c.mois === "2026-10")!;
 
 async function renderCurrent() {
-  return render(await CarnetCurrentPage());
+  return render(await CarnetCurrentPage({}));
 }
 
 describe("/carnet non Premium", () => {
@@ -53,7 +53,7 @@ describe("/carnet non Premium", () => {
 
     const n = october.fiches.length - 1;
     const cta = screen.getByRole("link", { name: new RegExp(`^Voir les ${n}\\sautres répliques\\s·\\s2,99\\s€/mois$`) });
-    expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet");
+    expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
     expect(html).not.toContain("—");
   });
 
@@ -109,8 +109,30 @@ describe("/carnet/[mois]", () => {
     expect(container.innerHTML).not.toContain("REPONSE_SECRETE_2026-09-F2");
     expect(screen.getByRole("link", { name: /Voir les \d+\sautres répliques/ })).toHaveAttribute(
       "href",
-      "/abonnement?returnTo=%2Fcarnet%2F2026-09",
+      "/abonnement?returnTo=%2Fcarnet%2F2026-09&src=carnet",
     );
+  });
+});
+
+describe("source de mesure du bouton E1 (QA v2 MJ-1)", () => {
+  const bouton = () => screen.getByTestId("carnet-paywall-bouton");
+
+  it("arrivée depuis l'encart d'un article : la source d'origine suit le visiteur", async () => {
+    planMock.mockResolvedValue(null);
+    render(await CarnetCurrentPage({ searchParams: { src: "blog-demo-milieu-1" } }));
+    expect(bouton()).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=blog-demo-milieu-1");
+  });
+
+  it.each([["Bad Src"], [["a", "b"]], [""]])("src d'arrivée invalide (%j) : repli sur carnet", async (src) => {
+    planMock.mockResolvedValue("FREE");
+    render(await CarnetCurrentPage({ searchParams: { src } }));
+    expect(bouton()).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
+  });
+
+  it("/carnet/[mois] garde aussi la source d'arrivée", async () => {
+    planMock.mockResolvedValue(null);
+    render(await CarnetMonthPage({ params: { mois: "2026-09" }, searchParams: { src: "header" } }));
+    expect(bouton()).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet%2F2026-09&src=header");
   });
 });
 

@@ -3,7 +3,7 @@
 // Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CarnetPage } from "@/components/carnet/carnet-page";
+import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import {
   carnetViewForPlan,
   deCarnetMonth,
@@ -24,7 +24,13 @@ export function generateMetadata({ params }: { params: { mois: string } }): Meta
   };
 }
 
-export default async function CarnetMonthPage({ params }: { params: { mois: string } }) {
+export default async function CarnetMonthPage({
+  params,
+  searchParams,
+}: {
+  params: { mois: string };
+  searchParams?: { src?: string | string[] };
+}) {
   const carnet = getCarnetByMonth(params.mois);
   if (!carnet) notFound();
 
@@ -34,6 +40,7 @@ export default async function CarnetMonthPage({ params }: { params: { mois: stri
       view={carnetViewForPlan(carnet, plan)}
       months={listCarnetMonths()}
       returnTo={`/carnet/${carnet.mois}`}
+      src={carnetSrc(searchParams?.src)}
     />
   );
 }

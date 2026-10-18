@@ -27,3 +27,17 @@ describe("PremiumCta, abonné reconnu par la session", () => {
     expect(screen.getAllByRole("button").length + screen.queryAllByRole("link").length).toBeGreaterThan(0);
   });
 });
+
+describe("PremiumCta, ligne « inscrits » (QA v2 m-c)", () => {
+  it("visiteur : ligne affichée, texte inchangé", () => {
+    session = { data: null, status: "unauthenticated" };
+    render(<PremiumCta />);
+    expect(screen.getByTestId("carte-premium-inscrits")).toHaveTextContent(/^Déjà 1\s500\+ inscrits, et toi\s?\?$/);
+  });
+
+  it("compte connecté sans abonnement : ligne masquée", () => {
+    session = { data: { user: { id: "u3", plan: "FREE" } }, status: "authenticated" };
+    render(<PremiumCta />);
+    expect(screen.queryByTestId("carte-premium-inscrits")).toBeNull();
+  });
+});

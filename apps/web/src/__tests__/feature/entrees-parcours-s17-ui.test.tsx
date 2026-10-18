@@ -86,6 +86,20 @@ describe("CTA d'article", () => {
       expect(container.querySelector('a[data-blog-cta="parcours"]')).toHaveAttribute("href", "/parcours/confiance?src=blog#etape-3"),
     );
   });
+  it("QA v2 m-d : le corps de texte du visiteur n'est pas montré à l'abonné (titre et bouton gardés)", async () => {
+    const texte = "Une étape par semaine, corps du visiteur, sans compte.";
+    useSession.mockReturnValue(visiteur);
+    mockFetch({});
+    const { unmount } = render(<ArticleCta parcours="repartie" src="blog-x" title="Titre" text={texte} />);
+    expect(screen.getByText(texte)).toBeInTheDocument();
+    unmount();
+    useSession.mockReturnValue(premium);
+    mockFetch({ "/api/user/progress": progress });
+    const { container } = render(<ArticleCta parcours="repartie" src="blog-x" title="Titre" text={texte} />);
+    await waitFor(() => expect(container.querySelector('a[data-blog-cta="parcours"]')).not.toBeNull());
+    expect(screen.queryByText(texte)).toBeNull();
+    expect(screen.getByText("Titre")).toBeInTheDocument();
+  });
 });
 
 describe("Rappel e-mail de parcours (profil, legal C1)", () => {

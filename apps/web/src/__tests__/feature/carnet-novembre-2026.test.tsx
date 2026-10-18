@@ -109,7 +109,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
 
   it("31/10 23:59:59 Paris : carnet d'octobre, rien de novembre dans le HTML", async () => {
     mockNow = AVANT_MINUIT;
-    const { container } = render(await CarnetCurrentPage());
+    const { container } = render(await CarnetCurrentPage({}));
     const html = container.innerHTML;
     expect(html).toContain('id="fiche-2026-10-15"');
     expect(html).not.toContain("2026-11");
@@ -123,7 +123,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
 
   it("01/11 00:00:00 Paris : carnet de novembre, fiche 2026-11-10 en entier, « Il en reste 29 »", async () => {
     mockNow = MINUIT;
-    const { container } = render(await CarnetCurrentPage());
+    const { container } = render(await CarnetCurrentPage({}));
     const html = container.innerHTML;
     const offerte = novembre.fiches.find((f) => f.id === "2026-11-10")!;
     expect(html).toContain('id="fiche-2026-11-10"');
@@ -142,7 +142,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     );
     const bouton = screen.getByTestId("carnet-paywall-bouton");
     expect(t(bouton)).toBe("Voir les 29 autres répliques · 2,99 €/mois");
-    expect(bouton.closest("a") ?? bouton).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet");
+    expect(bouton.closest("a") ?? bouton).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
   });
 });
 

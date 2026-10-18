@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
 import { CartePremiumAchat } from "@/components/home/carte-premium-achat";
-import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { frTypo } from "@/lib/fr-typo";
 import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
@@ -85,8 +85,13 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
                 {frTypo(CARTE_PREMIUM.contour)}
               </Link>
               <p className="mt-3 text-center text-xs text-text-muted">{frTypo(CARTE_PREMIUM.reassurance)}</p>
-              {/* Social proof : chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
-              <p className="mt-3 text-center text-sm text-text-secondary">{frTypo(CARTE_PREMIUM.inscrits)}</p>
+              {/* Social proof : chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09).
+                  s21 (QA v2 m-c) : visiteur seulement, la ligne invite à s'inscrire. */}
+              <MasqueSiConnecte>
+                <p className="mt-3 text-center text-sm text-text-secondary" data-testid="carte-premium-inscrits">
+                  {frTypo(CARTE_PREMIUM.inscrits)}
+                </p>
+              </MasqueSiConnecte>
             </div>
           </div>
 

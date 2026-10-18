@@ -12,8 +12,10 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
+/** Source de mesure du plein de la carte, visiteur comme compte connecté (QA v2 m-b). */
+const ACCUEIL_PREMIUM_SRC = "accueil-premium";
 /** s21 (B4 + B5) : plein visiteur vers /abonnement (prix, carnet, garantie avant le compte). */
-const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-premium");
+const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", ACCUEIL_PREMIUM_SRC);
 
 /**
  * Plein de la carte Premium de l'accueil (îlot client de `PremiumCta`, s21 QA m3) : seul ce
@@ -37,22 +39,23 @@ export function CartePremiumAchat({
   const handleCheckout = async () => {
     setIsCheckoutLoading(true);
     setConflict(null);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil", declencheur: "manuel", statut: "membre" });
+    // s21 (QA v2 m-b) : même nom de source que `checkout-ouvert` et que le bouton visiteur.
+    trackUmami("abonnement-clic", { formule: "mensuel", src: ACCUEIL_PREMIUM_SRC, declencheur: "manuel", statut: "membre" });
     try {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
-        trackCheckoutOuvert("accueil-premium");
+        trackCheckoutOuvert(ACCUEIL_PREMIUM_SRC);
         window.location.href = data.url;
         return;
       }
       // Refus 409 (déjà abonné, impayé) : message + lien /profil (audit s16, lot D).
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
-      trackCheckoutEchec("accueil-premium", conflit ? "conflit" : "erreur");
+      trackCheckoutEchec(ACCUEIL_PREMIUM_SRC, conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
       else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
-      trackCheckoutEchec("accueil-premium", "reseau");
+      trackCheckoutEchec(ACCUEIL_PREMIUM_SRC, "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);
@@ -79,7 +82,7 @@ export function CartePremiumAchat({
             buttonVariants({ variant: "primary", size: "lg" }),
             "mt-8 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
           )}
-          onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-premium", statut: "visiteur" })}
+          onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: ACCUEIL_PREMIUM_SRC, statut: "visiteur" })}
         >
           {boutonVisiteur}
         </Link>
