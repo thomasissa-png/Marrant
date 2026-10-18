@@ -115,7 +115,7 @@ Format de réponse, par texte :
 ### Fiche de situation (neutre)
 
 - **Qui** : un membre connecté sans abonnement (jamais abonné, ou ancien abonné), qui ouvre son profil. Il est sur la carte « Abonnement », qui lui dit qu'il n'a pas Premium. Mobile ou ordinateur.
-- **Ce qui s'affiche, dans l'ordre** : une phrase d'offre ; si le membre a déjà gagné des points d'expérience, la ligne « Les 120 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés. » (la valeur change selon le membre ; la ligne n'apparaît pas à 0 XP) ; la ligne discrète « Sans engagement · Annulable à tout moment » ; un petit bouton.
+- **Ce qui s'affiche, dans l'ordre** : une phrase d'offre ; si le membre a déjà gagné des points d'expérience, la ligne « Les 120 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés. » (la valeur change selon le membre ; la ligne n'apparaît pas à 0 XP) ; la ligne discrète « Résiliable quand tu veux, depuis ce profil » ; un petit bouton.
 - **Ce que fait le bouton** : il ouvre **directement la page de paiement sécurisé** (Stripe), comme sur la page d'accueil. Pendant le chargement, il affiche « On t'emmène au paiement… ». Il est mensuel (2,99 € par mois). Il est petit (taille réduite, couleur secondaire) : un libellé court est nécessaire.
 - **Ce qu'il cherche** : il est venu pour son profil, pas pour acheter. La carte est l'un des rares endroits de cette page qui lui parle d'argent.
 - **Ce que le bloc peut obtenir** : l'ouverture du paiement.
@@ -127,7 +127,7 @@ Format de réponse, par texte :
 >
 > *(si le membre a des XP : « Les 120 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés. »)*
 >
-> *(ligne discrète : « Sans engagement · Annulable à tout moment »)*
+> *(ligne discrète : « Résiliable quand tu veux, depuis ce profil »)*
 >
 > [ Ouvrir les 5 parcours · 2,99 €/mois ]  *(petit bouton)*
 

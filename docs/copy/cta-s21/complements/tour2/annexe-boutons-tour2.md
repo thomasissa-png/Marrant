@@ -71,3 +71,6 @@ Inchangés dans l'élément 4 : la ligne XP (l.140-144), « Sans engagement · A
 | Carte du profil `aucun` : bouton vers le paiement direct, libellé de chargement « On t'emmène au paiement… » | `abonnement-card.tsx` l.135-150 |
 | Bouton connecté d'accueil et de /abonnement : paiement direct | `premium-cta.tsx` l.116-125 ; `abonnement-view.tsx` l.176-211 |
 | `libelleOuvrirParcours(count, prix)` : « Ouvrir les 5 parcours · prix », repli « tous les parcours » | `config/textes/cta-articles-accueil.ts` l.63 |
+
+## Correction de l orchestrateur (18/10)
+La ligne discrète de l élément 4 « Sans engagement · Annulable à tout moment » est remplacée par « Résiliable quand tu veux, depuis ce profil » (choix du 18/10 : « sans engagement » est banni, faux pour l annuel). @fullstack : appliquer dans `components/profil/abonnement-card.tsx`.
