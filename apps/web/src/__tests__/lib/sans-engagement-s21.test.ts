@@ -3,9 +3,9 @@
  *
  * s21, blocs d'appel partie A : « sans engagement » est faux pour la formule annuelle.
  * Il disparaît des textes client de la partie A (articles, accueil, lettre, carnet, profil,
- * llms.txt), remplacé par « résiliable en ligne ». Restent hors périmètre : les CGU
- * (description juridique de la formule mensuelle) et les fichiers de la partie B
- * (fenêtre, listes, parcours, /abonnement), traités sur leur branche.
+ * llms.txt), remplacé par « résiliable en ligne ». À la fusion A + B (s21) : aussi le mur
+ * d'étape, l'aperçu verrouillé des parcours et la description de /abonnement. Seule
+ * exception : les CGU (description juridique de la formule mensuelle).
  */
 import fs from "fs";
 import path from "path";
@@ -25,6 +25,10 @@ const PARTIE_A = [
   "components/home/premium-cta.tsx",
   "components/profil/abonnement-card.tsx",
   "app/(dashboard)/a-propos/page.tsx",
+  // Fusion A + B (s21)
+  "config/textes/offre.ts",
+  "config/textes/parcours.ts",
+  "app/(dashboard)/abonnement/layout.tsx",
 ];
 
 describe("« sans engagement » retiré (partie A)", () => {

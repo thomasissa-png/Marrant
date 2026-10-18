@@ -123,14 +123,14 @@ describe("UXV-1-03 : parcours terminé, rechargé", () => {
 });
 
 describe("UXV-1-06 et UXV-1-07 : repères du visiteur", () => {
-  it("étape 1 : nom et durée du parcours au-dessus du titre ; aperçu verrouillé : prix et « sans engagement »", async () => {
+  it("étape 1 : nom et durée du parcours au-dessus du titre ; aperçu verrouillé : prix et « résiliable en ligne » (s21)", async () => {
     render(<ParcoursDetail slug="repartie" initialPath={buildPath([50, 75, 100, 150])} />);
     expect(await screen.findByText("Parcours Répartie · 4 semaines")).toBeInTheDocument();
     // Le nom vocal de l'en-tête reste « Étape 1 : … » (repère masqué au lecteur d'écran, il répète le H1).
     expect(screen.getByRole("button", { name: /^Étape 1 : Module 1/ })).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /^Étape 2 : Module 2/ }));
     // Prix lu dans config/premium.ts (espaces insécables de formatEuros : comparaison sur textContent).
-    expect(screen.getByText(/sans engagement\.$/).textContent).toBe(`${PREMIUM_PRICE_LABEL}, sans engagement.`);
+    expect(screen.getByText(/résiliable en ligne\.$/).textContent).toBe(`${PREMIUM_PRICE_LABEL}, résiliable en ligne.`);
     expect(screen.getByText("Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium.")).toBeInTheDocument();
   });
 });

@@ -94,7 +94,7 @@ export const QUIZ_FIN_BOUTON = {
 
 // s17 tour 1 (UXV-1-07) : réassurance sous le bouton du mur (« Voir ce que contient Premium » depuis s21), prix lu dans config/premium.ts
 /** Ligne discrète sous le bouton de l'aperçu verrouillé et du blocage de validation (texte du blocage inchangé). */
-export const APERCU_REASSURANCE = `${PREMIUM_PRICE_LABEL}, sans engagement.`;
+export const APERCU_REASSURANCE = `${PREMIUM_PRICE_LABEL}, résiliable en ligne.`;
 
 // VALIDÉ s17 (étalon 3.8 A, série comptée sur la pratique) ; titre « Série » : s17 tour 1 (UXV-1-09, DES-1-03)
 /** Série du profil : libellé, aide, état à zéro (jamais de culpabilité). */

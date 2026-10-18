@@ -131,7 +131,7 @@ export const ABONNEMENT_HAUT_VISITEUR = {
 // PROVISOIRE s16, étalon à valider
 /** Mur de l'étape 2 et suivantes d'un parcours (D4 : « Premium »). */
 export function etapeVerrouilleeTexte(prixLabel: string): string {
-  return `Cette étape fait partie de ${OFFRE_NOM}. La première étape est offerte, les suivantes viennent avec l'abonnement à ${prixLabel}, sans engagement.`;
+  return `Cette étape fait partie de ${OFFRE_NOM}. La première étape est offerte, les suivantes viennent avec l'abonnement à ${prixLabel}, résiliable en ligne.`;
 }
 
 // PROVISOIRE s16, étalon à valider

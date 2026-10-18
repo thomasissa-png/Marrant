@@ -23,9 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
   ].filter(Boolean);
   const annual = isAnnualPlanAvailable() ? ` ou ${PREMIUM_ANNUAL_PRICE_LABEL}` : "";
   const catalogueText = catalogue.length > 0 ? `, ${catalogue.join(", ")}` : "";
-  const full = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}. Premium à ${PREMIUM_PRICE_LABEL}${annual}, sans engagement.`;
+  const full = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}. Premium à ${PREMIUM_PRICE_LABEL}${annual}, résiliable en ligne.`;
   // Repli sans compteurs si un compteur fait déborder la limite.
-  const short = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte) et toutes les listes, à ${PREMIUM_PRICE_LABEL}${annual}. Sans engagement, tu annules quand tu veux.`;
+  const short = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte) et toutes les listes, à ${PREMIUM_PRICE_LABEL}${annual}, résiliable en ligne.`;
   return {
     title: `Abonnement Premium : ${PREMIUM_PRICE_LABEL}`,
     description: full.length <= META_DESCRIPTION_MAX ? full : short,
