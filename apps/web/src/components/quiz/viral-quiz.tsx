@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -49,6 +50,7 @@ function saveResult(profile: HumorProfileType): void {
 }
 
 function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: boolean }) {
+  const ligne = QUIZ_HUMOUR_CTA.premium(profile.type, profile.recommendedParcours, annuel);
   const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
@@ -102,7 +104,7 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
 
           {/* s21 B12 (froid) : phrase de pont, plein vers l'étape 1 du parcours conseillé,
               lien fort vers Premium (retour au parcours conseillé), ligne Premium. */}
-          <p className="w-full text-left text-sm text-text-secondary">{QUIZ_HUMOUR_CTA.phrase(profile.recommendedParcours)}</p>
+          <p className="w-full text-left text-sm text-text-secondary">{frTypo(QUIZ_HUMOUR_CTA.phrase(profile.recommendedParcours))}</p>
           <Link
             href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
             className={buttonVariants({
@@ -117,9 +119,13 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
             href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
             className="inline-flex min-h-11 items-center justify-center text-center font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4"
           >
-            {QUIZ_HUMOUR_CTA.lien}
+            {QUIZ_HUMOUR_CTA.lien(profile.recommendedParcours)}
           </Link>
-          <p className="text-center text-xs text-text-muted">{QUIZ_HUMOUR_CTA.premium(annuel)}</p>
+          {/* Ligne Premium en un seul paragraphe ; la phrase de profil sur sa propre ligne (tour 16). */}
+          <p className="text-center text-xs text-text-muted" data-testid="quiz-ligne-premium">
+            {ligne.profil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(ligne.profil)}</span>}
+            {frTypo(ligne.suite)}
+          </p>
         </div>
       </CardContent>
     </Card>

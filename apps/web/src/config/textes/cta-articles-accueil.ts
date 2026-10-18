@@ -1,20 +1,16 @@
 /**
  * Blocs d'appel s21, partie A : éléments globaux, articles, accueil, en-tête.
  *
- * FICHIER UNIQUE des textes de la partie A (règle d'architecture de
- * l'intégration s21) : aucun texte de ces blocs n'est écrit en dur dans un
- * composant. Le remplacement des textes après le tour 5
- * (`docs/copy/cta-s21/tour5/textes-finaux-12.md`) se fait ICI et nulle part
- * ailleurs.
+ * FICHIER UNIQUE des textes de la partie A : aucun texte de ces blocs n'est écrit en dur
+ * dans un composant.
  *
- * Source actuelle : gagnants du tour 4 (`docs/copy/cta-s21/tour4/pack-12-tour4.md`,
- * clés `cles-pack12-tour4.md`, votes `resultats-tour4.md`, points @fullstack
- * `annexe-pack12-tour4.md`). Forme et place : `docs/design/cta-forme-place-s21.md`.
+ * Source : textes finaux VALIDÉS du 18/10/2026 (`docs/copy/cta-s21/textes-finaux-valides.md`) :
+ * B1, B2, B4+B5, B6, B18 inchangés depuis le tour 13 ; B3 en version du tour 17.
  *
- * Règles : tutoiement, zéro tiret cadratin, UTF-8. Aucun nombre écrit en dur :
- * prix depuis `config/premium.ts` (prix de l'offre Stripe affichée), nombre de
- * parcours depuis `PARCOURS_COUNT` / `PREMIUM_PARCOURS`, annuel seulement si
- * `isAnnualPlanAvailable()` (lu côté serveur, passé en paramètre ici).
+ * Règles : tutoiement, zéro tiret cadratin, UTF-8. Aucun nombre écrit en dur : prix depuis
+ * `config/premium.ts`, nombre de parcours depuis `PARCOURS_COUNT` / `PREMIUM_PARCOURS`,
+ * titres d'étapes depuis `config/parcours-etapes.ts` (copie du seed vérifiée par un test),
+ * annuel seulement si `isAnnualPlanAvailable()` (lu côté serveur, passé en paramètre ici).
  */
 import {
   ESPACE_INSECABLE,
@@ -28,7 +24,9 @@ import {
   PREMIUM_PRICE_LABEL,
   formatEuros,
 } from "@/config/premium";
+import { titreEtape } from "@/config/parcours-etapes";
 import { REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 /**
  * Libellé de la section des articles (menu, pied de page, fil d'Ariane,
@@ -37,56 +35,56 @@ import { REASSURANCE_PAIEMENT } from "@/config/textes/offre";
  */
 export const LIBELLE_SECTION_ARTICLES = "Articles";
 
-/**
- * B6, bouton d'en-tête (visiteur) : gagnant du tour 4 (A, 2 voix sur 3) « 2,99 €/mois »,
- * construit depuis le prix (espace insécable avant « € », `formatEuros`).
- * Destination : `/abonnement?src=header`. Nom accessible : le libellé visible d'abord
- * (WCAG 2.5.3), puis ce que fait le lien (annexe tour 4 §6 : « Voir les prix de Premium »).
- * « Voir les prix » reste le repli si le test sur le trafic réel le donne gagnant.
- */
-export const EN_TETE = {
-  bouton: PREMIUM_PRICE_LABEL,
-  nomAccessible: `${PREMIUM_PRICE_LABEL} : voir les prix de Premium`,
-} as const;
+// ─── Briques communes (nombres lus à la source) ─────────────────────────────
+
+/** « · » des libellés d'ouverture : espace insécable avant, le prix passe à la ligne avec lui. */
+const POINT_MEDIAN = `${ESPACE_INSECABLE}· `;
+
+/** Minutes par semaine d'un parcours publié (config/premium.ts), `NaN` s'il n'est pas publié. */
+export const minutesParSemaine = (slug: string): number =>
+  Number.parseInt(PREMIUM_PARCOURS.find((p) => p.slug === slug)?.timePerWeek ?? "", 10);
+
+/** Nombre d'étapes d'un parcours publié, `null` s'il n'est pas publié. */
+export const etapesDuParcours = (slug: string): number | null =>
+  PREMIUM_PARCOURS.find((p) => p.slug === slug)?.weeks ?? null;
+
+const MINUTES = PREMIUM_PARCOURS.map((p) => minutesParSemaine(p.slug)).filter((m) => Number.isFinite(m));
+
+/** « 15 à 20 minutes » : min et max de `{D}` sur les parcours publiés. */
+export const DUREE_ETAPES =
+  Math.min(...MINUTES) === Math.max(...MINUTES)
+    ? `${Math.min(...MINUTES)} minutes`
+    : `${Math.min(...MINUTES)} à ${Math.max(...MINUTES)} minutes`;
 
 /**
- * B1, encart du milieu des articles (`DemoVanne variante="milieu"`) : gagnant du tour 4
- * (A, 3 voix sur 3). La situation montrée est la fiche OFFERTE du carnet du mois
- * (`lib/carnet.ts`, champs `offerte` et `accroche`) : « Gratuit, sans compte » n'est
- * vrai que pour elle. Pas de « Pourquoi ça marche » ici : la réplique se lit au clic.
+ * `OUVRIR` : « Ouvrir les 5 parcours · 2,99 €/mois » (B2, B4+B5, B16). Repli « tous les
+ * parcours » si le compte tombe à 1 ou 0. `prix` : libellé de la formule (annuel pour B16).
  */
-export const DEMO_VANNE = {
-  /** [S1] */
-  surtitre: "Une situation de répartie",
-  /** [S2] : `accroche` de la fiche puis ce qu'on te dit. */
-  situation: (accroche: string, onTeDit: string) => `${accroche}, et on te lance : « ${onTeDit} »`,
-  /** [S3] */
-  question: "Tu réponds quoi ?",
-  /** [S6] : ouvre la même fiche sur /carnet. */
-  bouton: "Voir la réplique",
-  /**
-   * [S7] : la seconde phrase seulement si le carnet compte d'autres situations
-   * (annexe tour 4 §5, point 4).
-   */
-  note: (autresSituations: boolean) =>
-    `Gratuit, sans compte : la réplique, pourquoi elle marche et une sortie polie si ça se tend.${
-      autresSituations ? " Les autres situations, nouvelles chaque mois, sont dans Premium, l'abonnement du site." : ""
-    }`,
-} as const;
-
-/**
- * Lien payant des blocs d'appel (B2, B3) : « Débloquer les 5 parcours, 2,99 €/mois »
- * (correction 1 de Thomas, tour 4). Nombre depuis PARCOURS_COUNT ; repli « tous les
- * parcours » si le compte tombe à 1 ou 0 (annexe tour 4 §2).
- */
-export function lienDebloquerParcours(count: number = PARCOURS_COUNT): string {
+export function libelleOuvrirParcours(count: number = PARCOURS_COUNT, prix: string = PREMIUM_PRICE_LABEL): string {
   const quoi = count >= 2 ? `les ${count} parcours` : "tous les parcours";
-  return `Débloquer ${quoi}, ${PREMIUM_PRICE_LABEL}`;
+  return `Ouvrir ${quoi}${POINT_MEDIAN}${prix}`;
 }
 
-/** Minutes par semaine d'un parcours (config/premium.ts, jamais écrites en dur). */
-const minutesParSemaine = (slug: string) =>
-  Number.parseInt(PREMIUM_PARCOURS.find((p) => p.slug === slug)?.timePerWeek ?? "", 10);
+/** `OUVRIR_P` : « Ouvrir {P} en entier · 2,99 €/mois » (lien de B12, bouton de B13). */
+export const libelleOuvrirUnParcours = (slug: ParcoursSlug): string =>
+  `Ouvrir ${PARCOURS_NOMS[slug]} en entier${POINT_MEDIAN}${PREMIUM_PRICE_LABEL}`;
+
+/**
+ * `OUVRIR_ACCUEIL` (B3 seulement, tour 16) : « Ouvrir les 5 parcours, de la coloc à
+ * l'afterwork · 2,99 €/mois ». « De la coloc » = carte de Répartie, « à l'afterwork » = carte
+ * de Machine à Café : repli sur `OUVRIR` si l'un des deux n'est plus publié ou s'il reste
+ * moins de 5 parcours (`colocAfterworkVrai`, même condition pour B10 `[S15]`).
+ */
+export function colocAfterworkVrai(parcours: readonly { slug: string }[] = PREMIUM_PARCOURS): boolean {
+  const publies = new Set(parcours.map((p) => p.slug));
+  return parcours.length >= 5 && publies.has("repartie") && publies.has("machine-a-cafe");
+}
+
+export function libelleOuvrirAccueil(parcours: readonly { slug: string }[] = PREMIUM_PARCOURS): string {
+  return colocAfterworkVrai(parcours)
+    ? `Ouvrir les ${parcours.length} parcours, de la coloc à l'afterwork${POINT_MEDIAN}${PREMIUM_PRICE_LABEL}`
+    : libelleOuvrirParcours(parcours.length);
+}
 
 /** « Premium, l'abonnement du site : 2,99 € TTC par mois[, ou 24,99 € TTC par an (2,08 € par mois)]. » */
 function prixPremiumTtc(annuelDisponible: boolean): string {
@@ -95,118 +93,147 @@ function prixPremiumTtc(annuelDisponible: boolean): string {
   return `Premium, l'abonnement du site : ${mensuel}${annuelDisponible ? annuel : ""}.`;
 }
 
+// ─── B6. Bouton d'en-tête ───────────────────────────────────────────────────
+
 /**
- * B2, bloc de fin d'article (`ArticleCta`, spec §2.5 variante « fin », sans objet vanne) :
- * gagnant du tour 4 (A, 3 voix sur 3). Un seul plein (étape 1 gratuite), le lien payant
- * dessous, puis la note [S9]. Plus de puces.
+ * B6 : « 2,99 €/mois » (espace insécable avant « € »), vers `/abonnement?src=header`.
+ * Nom accessible : le libellé visible d'abord (WCAG 2.5.3), puis ce que fait le lien.
+ */
+export const EN_TETE = {
+  bouton: PREMIUM_PRICE_LABEL,
+  nomAccessible: `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l'offre Premium`,
+} as const;
+
+// ─── B1. Encart du milieu des articles ──────────────────────────────────────
+
+/**
+ * B1 (`DemoVanne variante="milieu"`). La situation montrée est la fiche OFFERTE du carnet du
+ * mois (`lib/carnet.ts`, champs `offerte` et `accroche`) : « offerte ce mois-ci » et
+ * « Gratuit, sans compte » ne sont vrais que pour elle.
+ */
+export const DEMO_VANNE = {
+  /** [S1] */
+  surtitre: "La situation offerte ce mois-ci",
+  /** [S2] : `accroche` de la fiche puis ce qu'on te dit. */
+  situation: (accroche: string, onTeDit: string) => `${accroche}, et on te lance : « ${onTeDit} »`,
+  /** [S3] */
+  question: "Tu réponds quoi ?",
+  /** [S6] : ouvre la même fiche sur /carnet. */
+  bouton: "Voir la réplique",
+  /** [S7] : la seconde phrase seulement si le carnet compte plus d'une fiche. */
+  note: (autresSituations: boolean) =>
+    `Gratuit, sans compte : la réplique, pourquoi elle marche et quoi dire si ça se tend.${
+      autresSituations ? " Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site." : ""
+    }`,
+} as const;
+
+// ─── B2. Bloc de fin d'article ──────────────────────────────────────────────
+
+/**
+ * B2 (`ArticleCta`, variante « fin ») : un plein (étape 1 gratuite), le lien `OUVRIR` dessous,
+ * puis la note [S9]. [S1] « Parcours Répartie · 4 semaines » : `TEXTES_BLOC_FIN.surtitre`.
  */
 export const BLOC_FIN = {
-  /**
-   * [S6] : bouton plein de l'étape 1, par parcours. Répartie : texte du tour 4 (l'étape 1
-   * s'appelle « Tes premières répliques ») ; autres parcours : libellé E5 du lot 2
-   * (`etape1GratuiteBouton`), inchangé.
-   */
+  /** [S6] : bouton plein de l'étape 1, par parcours (autres parcours : `etape1GratuiteBouton`). */
   boutonEtape1: { repartie: "Tester mes premières répliques, gratuit" } as Readonly<Partial<Record<string, string>>>,
-  /** Lien payant sous le plein. */
-  lienAbonnement: lienDebloquerParcours(),
+  /** Lien sous le plein : `OUVRIR`. */
+  lienAbonnement: libelleOuvrirParcours(),
   /** [S9] : annuel seulement si `isAnnualPlanAvailable()`. */
   note: (annuelDisponible: boolean) => `${prixPremiumTtc(annuelDisponible)} ${REASSURANCE_PAIEMENT}`,
   /**
    * Surcharges par article (prioritaires sur config/blog-cta.ts et encarts-blog-s20.ts).
-   * Article n°1 : [S8] titre, [S5'] scène propre au bloc (« cinquante vannes » : l'article
-   * en compte cinquante ; à paramétrer si le texte est repris ailleurs), [S9] note.
+   * Article n°1 : [S8] titre, [S5'] scène (« cinquante vannes » : l'article en compte
+   * cinquante ; à paramétrer si le texte est repris ailleurs), [S9] note.
    */
   parArticle: {
     "meilleures-blagues-droles-2026": {
-      titre: "Quand on te chambre et que rien ne sort",
+      titre: "La vanne qui sort de ta bouche, pas de ton téléphone",
       texte:
-        `Tu viens de lire cinquante vannes. Il reste la seconde qui compte, celle où la bonne doit sortir de ta bouche et pas de ton téléphone. Une étape par semaine, ${minutesParSemaine("repartie")} minutes : tes premières répliques, le rythme et les silences, retourner les piques avec le sourire, rebondir quand une vanne tombe à plat. À chaque étape, un défi à tenter.`,
+        `Tu viens de lire cinquante vannes. Le jour où on te chambre, tu n'auras pas le temps de les chercher dans ton téléphone : ça se joue en une seconde, et ça s'entraîne. Une étape par semaine, ${minutesParSemaine("repartie")} minutes : tes premières répliques, le rythme et les silences, les piques qu'on retourne avec le sourire, et la vanne tombée à plat qui devient une deuxième chance. À chaque étape, un défi à tenter, en vrai ou à l'écrit. La première se lit tout de suite, sans compte.`,
       noteS9: true,
     },
   } as Readonly<Partial<Record<string, { titre?: string; texte?: string; noteS9?: boolean }>>>,
 } as const;
 
-/**
- * B18, la lettre en bas d'article (formulaire complet, rang 4) : gagnant du tour 4
- * (A, 3 voix sur 3). Titre et note identiques dans les deux textes du duel ; sous-titre A
- * avec la vanne du numéro 3 (statut VALIDE, mot pour mot). Avant le premier envoi
- * (05/11/2026) on garde cette vanne ; ensuite, afficher la dernière vanne DÉJÀ envoyée.
- * La ligne repliée du milieu ([S36]) n'est PAS posée : elle attend l'accord de Thomas.
- */
-export const LETTRE_ARTICLE = {
-  titre: "La vanne du mois et pourquoi elle marche",
-  phrase: [
-    "Un e-mail par mois. Ça donne, par exemple : « J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. »",
-    "Tu reçois aussi ce qui la fait marcher, puis un exercice en trois étapes pour écrire la tienne, avec son exemple. À la fin, une lecture à suivre et un mot sur Premium, notre abonnement.",
-  ],
-  reassurance: "Gratuit, sans compte. Désinscription en un clic.",
-} as const;
+// ─── B18. La lettre par e-mail dans l'article ───────────────────────────────
 
 /**
- * B3, haut de l'accueil (visiteur) : gagnant du tour 4 (A, 3 voix sur 3). Le plein mène à
- * l'étape 1 de Répartie (lecture libre), le lien payant à /abonnement, la note dessous.
- * Titre, paragraphe, « 1 500+ membres » et pastilles : inchangés (hors duel).
+ * B18, formulaire complet en bas d'article. La vanne de la ligne 1 : avant le premier envoi
+ * (05/11/2026) celle-ci ; ensuite, la dernière vanne DÉJÀ envoyée.
+ * `ligneRepliee` : textes validés de la ligne repliée du milieu d'article, NON posée (accord
+ * de Thomas et de @legal requis, `docs/design/cta-forme-place-s21.md` §4.4).
  */
+export const LETTRE_ARTICLE = {
+  titre: "La vanne du mois, et la méthode pour écrire la tienne",
+  phrase: [
+    "« J'ai pris un chien pour me faire des amis. Il en a plein. Moi, je tiens la laisse. » Voilà le genre de vanne que tu reçois chaque mois, avec ce qui la fait marcher.",
+    "Et surtout trois étapes pour fabriquer la tienne, avec un exemple.",
+  ],
+  reassurance:
+    "La lettre est gratuite, sans compte. En fin de message, une lecture à suivre et un mot sur Premium, notre abonnement. Désinscription en un clic.",
+  ligneRepliee: { phrase: "Chaque mois, une vanne et de quoi écrire la tienne.", bouton: "Recevoir par e-mail" },
+} as const;
+
+// ─── B3. Haut de l'accueil (version du tour 17, validée) ─────────────────────
+
+/**
+ * [S20] : « Les {N - 1} suivantes » et le titre de l'étape payante citée (3e de Répartie)
+ * sont lus dans la donnée. Limite dure : 200 caractères (test, décision du tour 17). Si l'étape citée n'existe
+ * plus, la clause « dont « … » » disparaît.
+ */
+export function noteAccueilHaut(slug: ParcoursSlug = "repartie"): string {
+  const n = etapesDuParcours(slug) ?? 0;
+  const citee = titreEtape(slug, 3);
+  const dont = citee && n >= 3 ? `, dont « ${citee} »,` : ",";
+  return `Sans compte : l'étape 1 du parcours ${PARCOURS_NOMS[slug]} (conseil, défi, 5 vannes, 2 vidéos, quiz). Les ${n - 1} suivantes${dont} c'est Premium, résiliable depuis ton profil.`;
+}
+
+/** B3 : le plein mène à l'étape 1 de Répartie, le lien `OUVRIR_ACCUEIL` à /abonnement. */
 export const ACCUEIL_HAUT = {
   /** [S19] */
   bouton: "Tester mes premières répliques, gratuit",
-  lien: lienDebloquerParcours(),
-  /** [S20] : sans prix (le lien le donne). */
-  note: "Ça se lit sans compte, quiz compris. La suite est dans Premium, l'abonnement du site : tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
+  lien: libelleOuvrirAccueil(),
+  /** [S20] */
+  note: noteAccueilHaut(),
 } as const;
 
-/** Phrase de correspondance parcours → situation, dans l'ordre du texte validé. */
-function correspondanceParcours(): string {
-  const publies = new Set(PREMIUM_PARCOURS.map((p) => p.slug));
-  const travail = ["machine-a-cafe", "boulot"].filter((slug) => publies.has(slug));
-  const noms: Record<string, string> = { "machine-a-cafe": "Machine à Café", boulot: "Boulot" };
-  const morceaux = [
-    publies.has("repartie") ? "Répartie quand on te chambre" : null,
-    travail.length > 0 ? `${travail.map((slug) => noms[slug]).join(" et ")} côté travail` : null,
-    publies.has("confiance") ? "Confiance pour retrouver ta légèreté" : null,
-    publies.has("storytelling") ? "Storytelling pour raconter une anecdote" : null,
-  ].filter((m): m is string => m !== null);
-  return morceaux.length > 0 ? `${morceaux.join(", ")}.` : "";
-}
+// ─── B4 + B5. Carte Premium de l'accueil ────────────────────────────────────
 
-const MINUTES = PREMIUM_PARCOURS.map((p) => minutesParSemaine(p.slug)).filter((m) => Number.isFinite(m));
-const DUREE_ETAPE =
-  Math.min(...MINUTES) === Math.max(...MINUTES)
-    ? `${Math.min(...MINUTES)} minutes`
-    : `${Math.min(...MINUTES)} à ${Math.max(...MINUTES)} minutes`;
+/** Une ligne par parcours publié, dans l'ordre du texte validé. */
+const LIGNES_PARCOURS: readonly { slug: ParcoursSlug; ligne: string }[] = [
+  { slug: "repartie", ligne: "pour répondre quand on te chambre" },
+  { slug: "machine-a-cafe", ligne: "pour faire rire à la pause sans forcer" },
+  { slug: "boulot", ligne: "pour le lundi à 9 h sans le ton de compte rendu" },
+  { slug: "confiance", ligne: "pour retrouver ta légèreté" },
+  { slug: "storytelling", ligne: "pour que ta chute arrive avant le dessert" },
+];
 
-/**
- * B4 + B5, carte Premium de l'accueil (bloc « Tu crois avoir tout essayé » fusionné et
- * supprimé) : gagnant du tour 4 (B, 2 voix sur 3, texte du tour 3). « Droit de
- * rétractation » retiré de [S12] (choix de Thomas du 18/10 : marketing, pas de mention
- * juridique dans les blocs d'appel). Plein : /abonnement?src=accueil-premium ; contour :
- * étape 1 de Répartie.
- */
+/** B4 + B5 : plein `OUVRIR` vers /abonnement?src=accueil-premium ; contour : étape 1 de Répartie. */
 export const CARTE_PREMIUM = {
   /** [S10] */
-  titre: "Et si le « j'aurais dû dire » devenait un « j'ai dit » ?",
-  /** [S11] : durées et parcours depuis PREMIUM_PARCOURS. */
-  intro: [
-    "La table qui rit, et la réplique, c'est toi qui l'as lancée.",
-    `Chaque parcours avance d'une étape par semaine (${DUREE_ETAPE}), avec à chaque fois un défi : une petite mission à tenter, dans la vie ou à l'écrit.`,
-    correspondanceParcours(),
-    "La première étape se lit sans compte, quiz compris.",
-  ]
-    .filter(Boolean)
-    .join(" "),
-  /** Sous le prix « 2,99 € TTC / mois » de la carte. */
-  prixUnite: "TTC / mois",
+  titre: "Et si ton « j'aurais dû dire » devenait un « j'ai dit » ?",
+  /** [S11] en trois blocs : paragraphe, intro + `<ul>`, paragraphe. */
+  intro: {
+    scene: "La table qui rit, et c'est ta réplique qui l'a lancée.",
+    listeIntro: `Un seul prix ouvre les ${PARCOURS_COUNT} parcours, et l'étape 1 de chacun se lit gratuitement :`,
+    liste: LIGNES_PARCOURS.filter(({ slug }) => PREMIUM_PARCOURS.some((p) => p.slug === slug)).map(
+      ({ slug, ligne }) => `${PARCOURS_NOMS[slug]} ${ligne}`,
+    ),
+    fin: `Une fois abonné, tout est ouvert d'un coup : ${DUREE_ETAPES} par étape, avec un défi à tenter, dans la vie ou à l'écrit.`,
+  },
+  /** En-tête de carte « Premium · 2,99 €/mois » : unité sous le montant en gros. */
+  prixUnite: "/mois",
   /** [S12] : l'annuel seulement si `isAnnualPlanAvailable()`. */
   ligneTarif: (annuelDisponible: boolean) =>
     annuelDisponible
-      ? `Prix TTC, ou ${PREMIUM_ANNUAL_PRICE_LABEL} (soit ${formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)}/mois, ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés)`
-      : "Prix TTC",
-  /** Bouton plein (visiteur). Le texte gagnant dit « tous les parcours ». */
-  bouton: `Débloquer tous les parcours, ${PREMIUM_PRICE_LABEL}`,
-  /** Bouton contour : étape 1 de Répartie (remplace « Voir les vannes gratuites »). */
+      ? `Ou ${PREMIUM_ANNUAL_PRICE_LABEL} (${formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)}/mois, ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés). Prix TTC.`
+      : "Prix TTC.",
+  /** Bouton plein (visiteur) : `OUVRIR`. */
+  bouton: libelleOuvrirParcours(),
+  /** Bouton contour : étape 1 de Répartie. */
   contour: "Tester mes premières répliques, gratuit",
   /** [S13] */
-  reassurance: REASSURANCE_PAIEMENT,
+  reassurance: "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.",
   /** Chiffre fixe validé par Thomas (29/09/2026). */
   inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`,
 } as const;

@@ -1,10 +1,10 @@
 import Link from "next/link";
+import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { cn } from "@/lib/utils";
 import {
-  contourEtape1,
   lignePrixGarantie,
   MUR_LISTE,
   MUR_PARCOURS,
@@ -54,9 +54,9 @@ export function MurListe({ liste, annuel }: MurListeProps) {
       data-mur-liste={liste}
     >
       <h2 id={`mur-liste-${liste}-titre`} className="font-display text-lg font-bold text-text-primary">
-        {t.titre}
+        {frTypo(t.titre)}
       </h2>
-      <p className="mt-2 text-sm text-text-secondary">{t.texte}</p>
+      <p className="mt-2 text-sm text-text-secondary">{frTypo(t.texte)}</p>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link
           href={murAbonnementHref(liste)}
@@ -69,7 +69,7 @@ export function MurListe({ liste, annuel }: MurListeProps) {
           {t.bouton}
         </Link>
       </div>
-      <p className="mt-2 text-xs text-text-muted">{lignePrixGarantie(annuel)}</p>
+      <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
       <Link
         href={parcoursEtape1Href(MUR_PARCOURS, "fiche")}
         className={cn(
@@ -78,7 +78,7 @@ export function MurListe({ liste, annuel }: MurListeProps) {
         )}
         data-mur-cta="etape-1"
       >
-        {contourEtape1(MUR_PARCOURS)}
+        {frTypo(t.contour(MUR_PARCOURS))}
       </Link>
     </section>
   );

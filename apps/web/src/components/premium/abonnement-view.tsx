@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -236,7 +237,7 @@ export function AbonnementView({
           // s21 B16 : surtitre sur deux lignes à 375 (hauteur fixe), compensée sous le titre :
           // le bouton d'achat garde sa position (mesurée à 375 x 700 avant et après).
           <p className="min-h-8 text-[0.8125rem] font-semibold leading-4 text-accent-link sm:mb-3 sm:min-h-0 sm:text-sm sm:leading-5" data-testid="abonnement-surtitre">
-            {hautVisiteur.surtitre}
+            {frTypo(hautVisiteur.surtitre)}
           </p>
         )}
         {/* s21 B16 : trois lignes réservées à 375 (titre le plus long), titre court centré dedans. */}
@@ -246,7 +247,7 @@ export function AbonnementView({
             !isAuthenticated && "flex min-h-[3.45em] items-center justify-center sm:block sm:min-h-0",
           )}
         >
-          {pageTitle}
+          {frTypo(pageTitle)}
         </h1>
         <p className="mx-auto mt-2 max-w-xl text-balance text-[0.9375rem] leading-snug text-text-secondary sm:mt-3 sm:text-lg">
           {pageSubtitle}
@@ -308,13 +309,13 @@ export function AbonnementView({
                 })
               }
             >
-              {ABONNEMENT_CTA.bouton(plan)}
+              {ABONNEMENT_CTA.bouton(plan, parcoursOrigine)}
             </Link>
           )}
           {/* s21 B16 : [S32] ce qui suit le clic, juste sous le bouton (visiteur). */}
           {!isAuthenticated && (
             <p className="mt-2 text-center text-xs text-text-secondary" data-testid="abonnement-suite">
-              {ABONNEMENT_CTA.suite}
+              {frTypo(ABONNEMENT_CTA.suite)}
             </p>
           )}
 

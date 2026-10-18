@@ -4,16 +4,16 @@
  * d'orientation (B13), fin d'étape 1 (B14), /parcours (B15), /abonnement (B16)
  * et /register (B17).
  *
- * SOURCE UNIQUE des textes de ces blocs : aucun texte en dur dans les
- * composants. Après le tour 5 (docs/copy/cta-s21/tour5/textes-finaux-3.md),
- * seul ce fichier change.
+ * SOURCE UNIQUE des textes de ces blocs : aucun texte en dur dans les composants.
  *
- * Version actuelle : gagnants du tour 4 (docs/copy/cta-s21/tour4/
- * resultats-tour4.md, cles-pack3-tour4.md, annexe-pack3-tour4.md §5).
+ * Source : textes finaux VALIDÉS du 18/10/2026 (`docs/copy/cta-s21/textes-finaux-valides.md`) :
+ * B7, B8, B9, B11, B13 à B17 inchangés depuis le tour 13 ; B10 `[S15]` du tour 21 ; B12 du tour 17.
+ *
  * Les nombres viennent de leur source : PARCOURS_COUNT et PREMIUM_PARCOURS
- * (config/premium.ts), les prix de l'offre (config/premium.ts, mêmes
- * montants que Stripe), l'annuel seulement si `isAnnualPlanAvailable()`
- * (passé en paramètre `annuel` : lu côté serveur, jamais deviné côté client).
+ * (config/premium.ts), titres d'étapes et lignes de carte (config/parcours-etapes.ts,
+ * copie du seed vérifiée par un test), prix de l'offre (config/premium.ts, mêmes
+ * montants que Stripe), annuel seulement si `isAnnualPlanAvailable()` (passé en
+ * paramètre `annuel` : lu côté serveur, jamais deviné côté client).
  * « · » des boutons : espace insécable avant, le prix passe à la ligne avec lui.
  */
 import {
@@ -31,6 +31,14 @@ import {
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
+import { ligneCarte, minusculeInitiale, PARCOURS_ETAPES, titreEtape } from "@/config/parcours-etapes";
+import {
+  colocAfterworkVrai,
+  DUREE_ETAPES,
+  libelleOuvrirParcours,
+  libelleOuvrirUnParcours,
+} from "@/config/textes/cta-articles-accueil";
+import type { HumorProfileType } from "@/components/quiz/quiz-data";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 // ─── Briques communes (nombres lus à la source) ─────────────────────────────
@@ -39,15 +47,18 @@ const MENSUEL_TTC = `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
 const ANNUEL_TTC = `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)} TTC par an`;
 const GARANTIE = "Tu as 14 jours pour te faire rembourser ton premier paiement.";
 
-/** Minutes par semaine d'un parcours (« 20 min/semaine » → 20). */
+/** `{AUTRES}` = PARCOURS_COUNT - 1. */
+const AUTRES = PARCOURS_COUNT - 1;
+
+/** `{D}` : minutes par semaine d'un parcours (« 20 min/semaine » → 20). */
 function minutesParcours(slug: ParcoursSlug): number {
   const p = PREMIUM_PARCOURS.find((x) => x.slug === slug);
   return p ? Number.parseInt(p.timePerWeek, 10) : 20;
 }
 
-/** Nombre d'étapes d'un parcours (une par semaine). */
+/** `{N}` : nombre d'étapes d'un parcours. */
 function etapesParcours(slug: ParcoursSlug): number {
-  return PREMIUM_PARCOURS.find((x) => x.slug === slug)?.weeks ?? 4;
+  return PREMIUM_PARCOURS.find((x) => x.slug === slug)?.weeks ?? PARCOURS_ETAPES[slug].titres.length;
 }
 
 /** « 2 à 4 », ou « 2 et 3 » pour un parcours de 3 étapes. */
@@ -56,37 +67,27 @@ function etapesPayantes(slug: ParcoursSlug): string {
   return n === 3 ? "2 et 3" : `2 à ${n}`;
 }
 
-/** « de 15 à 20 minutes » : bornes des parcours publiés. */
-function fourchetteMinutes(): string {
-  const m = PREMIUM_PARCOURS.map((p) => Number.parseInt(p.timePerWeek, 10)).filter((x) => x > 0);
-  const min = Math.min(...m);
-  const max = Math.max(...m);
-  return min === max ? `${min} minutes` : `de ${min} à ${max} minutes`;
-}
+/** Formule de résiliation : « en ligne » (LP-A, blocs validés B7 et B14) ou « depuis ton profil » (LP-A2, B8 à B10). */
+export type FormuleResiliation = "en-ligne" | "profil";
 
 /**
- * Ligne prix + garantie sous un plein Premium (B7 à B10, B14). La demi-ligne
- * annuelle n'existe que si l'offre annuelle est disponible (annexe §5.3).
+ * LP-A / LP-M (B7 `[S26]`, B14 `[S16]`) et LP-A2 / LP-M2 (B8 à B10 `[S16]`). La demi-ligne
+ * annuelle n'existe que si l'offre annuelle est disponible.
  */
-export function lignePrixGarantie(annuel: boolean): string {
-  const prix = annuel
-    ? `${MENSUEL_TTC}, ou ${ANNUEL_TTC} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, si tu vois loin).`
-    : `${MENSUEL_TTC}.`;
-  return `${prix} Résiliable en ligne quand tu veux. ${GARANTIE}`;
+export function lignePrixGarantie(annuel: boolean, formule: FormuleResiliation = "en-ligne"): string {
+  const prix = annuel ? `${MENSUEL_TTC}, ou ${ANNUEL_TTC} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}).` : `${MENSUEL_TTC}.`;
+  const resiliation = formule === "profil" ? "Résiliable depuis ton profil quand tu veux." : "Résiliable en ligne quand tu veux.";
+  return `${prix} ${resiliation} ${GARANTIE}`;
 }
 
-/** Contour vers l'étape 1 gratuite d'un parcours (B7 à B10, [S25]). */
-export const contourEtape1 = (slug: ParcoursSlug): string =>
-  `Essayer gratuitement l'étape 1 du parcours ${PARCOURS_NOMS[slug]}`;
-
-// ─── B7. Murs des listes /vannes, /conseils, /videos (tour 4, A, 3-0) ───────
+// ─── B7. Murs des listes /vannes, /conseils, /videos (validé) ───────────────
 
 export type ListeMur = "vannes" | "conseils" | "videos";
 
 /** Parcours de l'étape gratuite proposée en contour sous les murs. */
 export const MUR_PARCOURS: ParcoursSlug = "repartie";
 
-const AVEC_PREMIUM_FIN = `${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine (${fourchetteMinutes()})`;
+const AVEC_PREMIUM_FIN = `${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine (de ${DUREE_ETAPES})`;
 
 export const MUR_LISTE: Readonly<
   Record<
@@ -94,7 +95,7 @@ export const MUR_LISTE: Readonly<
     {
       /** [S21] après la dernière carte gratuite. */
       limite: string;
-      /** [S22] lien discret vers les filtres (Premium). */
+      /** [S22] phrase entière, lien vers /abonnement, toujours lue après [S21]. */
       filtres: string;
       /** [S23] titre de la carte. */
       titre: string;
@@ -102,64 +103,83 @@ export const MUR_LISTE: Readonly<
       texte: string;
       /** Plein vers /abonnement?src=mur-<liste>. */
       bouton: string;
+      /** [S25] contour vers l'étape 1, gabarit (a) « Étape 1 de {P}, gratuite : … ». */
+      contour: (slug: ParcoursSlug) => string;
     }
   >
 > = {
   vannes: {
     limite: `Voilà les ${FREE_JOKE_LIMIT} premières vannes. La suite est juste en dessous, dans Premium.`,
-    filtres: "Le filtre par catégorie est dans Premium.",
+    filtres: "Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.",
     titre: "Et si la prochaine vanne qui fait rire la table était la tienne ?",
     texte: `Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne pour écrire la tienne, tes favoris, et ${AVEC_PREMIUM_FIN}.`,
     bouton: "Voir la suite des vannes avec Premium",
+    contour: (slug) => `Étape 1 de ${PARCOURS_NOMS[slug]}, gratuite : 5 vannes et un défi`,
   },
   conseils: {
     limite: `Voilà les ${FREE_TIP_LIMIT} premiers conseils. La suite est juste en dessous, dans Premium.`,
-    filtres: "Les filtres par niveau et par catégorie sont dans Premium.",
+    filtres: "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à ceux qu'il te faut.",
     titre: "Et si la bonne réplique sortait sur le moment, pas trois heures après ?",
-    texte: `Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour le tester sur toi, tes favoris, et ${AVEC_PREMIUM_FIN}.`,
+    texte: `Avec Premium : toute la liste, l'exercice « À toi de jouer » de chaque conseil pour l'essayer, tes favoris, et ${AVEC_PREMIUM_FIN}.`,
     bouton: "Voir la suite des conseils avec Premium",
+    contour: (slug) => `Étape 1 de ${PARCOURS_NOMS[slug]}, gratuite : un conseil et un défi`,
   },
   videos: {
     limite: `Voilà les ${FREE_VIDEO_LIMIT} premières vidéos. La suite est juste en dessous, dans Premium.`,
-    filtres: "Les filtres par niveau et par catégorie sont dans Premium.",
+    filtres: "Tu y trouves aussi les filtres par niveau et par catégorie, pour aller droit à celles qu'il te faut.",
     titre: "Tu les regardes pour rire. Et si tu les regardais pour faire rire ?",
     texte: `Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et ${AVEC_PREMIUM_FIN}.`,
     bouton: "Voir la suite des vidéos avec Premium",
+    contour: (slug) => `Étape 1 de ${PARCOURS_NOMS[slug]}, gratuite : 2 vidéos et un défi`,
   },
 };
 
 /** Lien court sur les cartes verrouillées (même destination que le plein). */
 export const MUR_CARTE_LIEN = "Voir Premium";
 
-// ─── B8 à B10. Fiches vanne, conseil, vidéo (tour 4, A, 3-0) ────────────────
+// ─── B8 à B10. Fiches vanne, conseil, vidéo ─────────────────────────────────
 
 export type FicheType = "vanne" | "conseil" | "video";
 
-const AVEC_PARCOURS = `avec ${PARCOURS_COUNT} parcours pour t'entraîner : une étape par semaine, ${fourchetteMinutes()}`;
-
 export const BLOC_EXERCICE: Readonly<
-  Record<FicheType, { titre: string; texte: string; bouton: string; toutVoir: string; toutVoirHref: string }>
+  Record<
+    FicheType,
+    {
+      /** [S14] */
+      titre: string;
+      /** [S15] en une seule `<p>`. */
+      texte: string;
+      bouton: string;
+      /** [S25] contour, gabarit (b) « Gratuit : …, étape 1 de {P} ». */
+      contour: (slug: ParcoursSlug) => string;
+      toutVoir: string;
+      toutVoirHref: string;
+    }
+  >
 > = {
   vanne: {
     titre: "Et si demain, c'était la tienne qu'on se répétait ?",
-    texte:
-      "La mécanique, tu l'as. Il te reste l'exercice « À toi de jouer » : une consigne et un exemple à réutiliser pour écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. Il est dans Premium.",
+    texte: `La mécanique, tu l'as. Reste à écrire ta version, celle que tu auras envie de sortir à la prochaine soirée. L'exercice « À toi de jouer » est fait pour ça : une consigne, un exemple, la même technique que cette vanne. Il est dans Premium, l'abonnement du site, qui ouvre aussi les ${PARCOURS_COUNT} parcours en entier. Et tes favoris te gardent celle-ci sous la main.`,
     bouton: "Écrire la mienne avec Premium",
-    toutVoir: "Voir toutes les vannes",
+    contour: (slug) => `Gratuit : 5 vannes et un défi, étape 1 de ${PARCOURS_NOMS[slug]}`,
+    toutVoir: "Voir d'autres vannes",
     toutVoirHref: "/vannes",
   },
   conseil: {
-    titre: "Ce conseil, avant le soir où il servira",
-    texte: `L'exercice « À toi de jouer » te donne une consigne et un exemple à réutiliser pour tester ce conseil sur toi, tranquillement. Il est dans Premium, ${AVEC_PARCOURS}.`,
-    bouton: "Tester ce conseil avec Premium",
-    toutVoir: "Voir tous les conseils",
+    titre: "Essaie-le avant le soir où il te servira",
+    texte: `À froid, rater ne coûte rien : c'est tout l'intérêt de l'exercice « À toi de jouer ». Une consigne pour démarrer, un exemple à réutiliser le moment venu. Il est dans Premium, l'abonnement du site, qui ouvre aussi les ${PARCOURS_COUNT} parcours en entier. Et tes favoris te gardent ce conseil sous la main.`,
+    bouton: "Essayer ce conseil avec Premium",
+    contour: (slug) => `Gratuit : un défi à tenter et 5 vannes, étape 1 de ${PARCOURS_NOMS[slug]}`,
+    toutVoir: "Voir d'autres conseils",
     toutVoirHref: "/conseils",
   },
+  // B10 : `[S15]` du tour 21. « , de la coloc à l'afterwork » : même condition que OUVRIR_ACCUEIL.
   video: {
-    titre: "Après le rire, l'analyse",
-    texte: `Sur scène, il faut faire rire une salle. Toi, une table te suffit. Les points clés de cette vidéo et son exercice sont dans Premium, ${AVEC_PARCOURS}.`,
+    titre: "Faire rire une salle, c'est son métier. Toi, une table te suffit",
+    texte: `Et ça s'entraîne, à petites doses. Avec Premium, l'abonnement du site, tu as les points clés de cette vidéo et son exercice : de quoi la revoir pour faire rire, plus seulement pour rire. Les ${PARCOURS_COUNT} parcours s'ouvrent aussi en entier${colocAfterworkVrai() ? ", de la coloc à l'afterwork" : ""} : ${DUREE_ETAPES} par semaine, un défi à chaque étape.`,
     bouton: "Décrypter cette vidéo avec Premium",
-    toutVoir: "Voir toutes les vidéos",
+    contour: (slug) => `Gratuit : 2 vidéos et un défi, étape 1 de ${PARCOURS_NOMS[slug]}`,
+    toutVoir: "Voir d'autres vidéos",
     toutVoirHref: "/videos",
   },
 };
@@ -167,7 +187,7 @@ export const BLOC_EXERCICE: Readonly<
 /** Titre du bloc pour un abonné (l'exercice s'affiche, aucun bouton). */
 export const BLOC_EXERCICE_ABONNE_TITRE = "À toi de jouer";
 
-// ─── B11. Fenêtre Premium (tour 4, B, 3-0) ──────────────────────────────────
+// ─── B11. Fenêtre Premium, par geste (validé) ───────────────────────────────
 
 /** Geste qui ouvre la fenêtre. `carte` = carte floutée d'une liste. */
 export type GesteFenetre = "favori" | "vote" | "carte";
@@ -175,47 +195,58 @@ export type GesteFenetre = "favori" | "vote" | "carte";
 export interface TexteFenetre {
   titre: string;
   intro: string;
-  /** [S27] avantage du geste, deux lignes au plus. */
+  /** [S27] avantage du geste, 90 caractères au plus (deux lignes à 375 px). */
   avantage: string;
   bouton: string;
 }
 
-const INTRO_FENETRE =
-  "Tu peux fermer cette fenêtre, ta page reste là. S'abonner, c'est deux étapes : ton compte, puis le paiement sécurisé.";
+/** Intro composée : deux phrases communes + `{OBJET}`. */
+const introFenetre = (objet: string) =>
+  `Deux étapes : ton compte, puis le paiement sécurisé. Et si tu fermes, ${objet} reste là.`;
+
+const AVANTAGE_FAVORI = `Avec Premium : tes favoris, l'exercice de chaque fiche et les ${PARCOURS_COUNT} parcours en entier.`;
 
 const VOTE_FENETRE: TexteFenetre = {
-  titre: "Voter sur les nouveautés, c'est dans Premium",
-  intro: INTRO_FENETRE,
-  avantage: `Ton vote sur les nouveautés, et ${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine.`,
+  titre: "Pour voter, il ne te manque que Premium",
+  intro: introFenetre("la page"),
+  avantage: `Avec Premium : ton vote, tes favoris et les ${PARCOURS_COUNT} parcours en entier.`,
   bouton: "Je m'abonne et je vote",
 };
 
-const favori = (titre: string): TexteFenetre => ({
-  titre,
-  intro: INTRO_FENETRE,
-  avantage: `Avec Premium : tes favoris prêts pour le bon moment, et ${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine.`,
-  bouton: "Je m'abonne et je garde mes favoris",
-});
-
-const carte = (filtres: string): TexteFenetre => ({
+const carte = (avantage: string): TexteFenetre => ({
   titre: "Le reste de la liste est juste derrière",
-  intro: INTRO_FENETRE,
-  avantage: `Avec Premium : toute la liste, ${filtres}, tes favoris, et ${PARCOURS_COUNT} parcours pour t'entraîner.`,
+  intro: introFenetre("la liste"),
+  avantage,
   bouton: "Je m'abonne et j'ouvre toute la liste",
 });
 
-/** Une intro et un titre par geste, déclinés pour vanne, conseil et vidéo. */
+/** Un titre, une intro, un avantage et un bouton par geste, déclinés pour vanne, conseil et vidéo. */
 export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<FicheType, TexteFenetre>>>> = {
   favori: {
-    vanne: favori("Garde-la pour le soir où tu en auras besoin"),
-    conseil: favori("Garde-le pour le soir où tu en auras besoin"),
-    video: favori("Garde-la pour le soir où tu en auras besoin"),
+    vanne: {
+      titre: "Garde-la pour le soir où tu en auras besoin",
+      intro: introFenetre("la vanne"),
+      avantage: AVANTAGE_FAVORI,
+      bouton: "Je m'abonne et je la garde",
+    },
+    conseil: {
+      titre: "Garde-le pour le soir où tu en auras besoin",
+      intro: introFenetre("le conseil"),
+      avantage: AVANTAGE_FAVORI,
+      bouton: "Je m'abonne et je le garde",
+    },
+    video: {
+      titre: "Garde-la sous le coude",
+      intro: introFenetre("la vidéo"),
+      avantage: AVANTAGE_FAVORI,
+      bouton: "Je m'abonne et je la garde",
+    },
   },
   vote: { vanne: VOTE_FENETRE, conseil: VOTE_FENETRE, video: VOTE_FENETRE },
   carte: {
-    vanne: carte("le filtre par catégorie"),
-    conseil: carte("les filtres par niveau et par catégorie"),
-    video: carte("les filtres par niveau et par catégorie"),
+    vanne: carte(`Avec Premium : toute la liste, un exercice par vanne, le filtre et les ${PARCOURS_COUNT} parcours.`),
+    conseil: carte(`Avec Premium : toute la liste, un exercice par conseil, les filtres et les ${PARCOURS_COUNT} parcours.`),
+    video: carte(`Avec Premium : toute la liste, points clés et exercice par vidéo, et les ${PARCOURS_COUNT} parcours.`),
   },
 };
 
@@ -225,66 +256,152 @@ export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS),
 /** Bouton pendant l'ouverture du paiement (compte connecté). */
 export const FENETRE_CHARGEMENT = "On t'emmène au paiement…";
 
-/** Unique ligne de garantie de la fenêtre (plus de mentions juridiques en doublon, choix du 18/10). */
+/** Ligne de garantie finale de la fenêtre (inchangée). */
 export const FENETRE_GARANTIE =
   "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.";
 
 /** [S28] lien discret vers l'étape 1 gratuite. */
 export const fenetreLienEtape1 = (slug: ParcoursSlug): string =>
-  `Ou lire d'abord l'étape 1 de ${PARCOURS_NOMS[slug]} (gratuite, sans compte)`;
+  `Ou lire d'abord l'étape 1 du parcours ${PARCOURS_NOMS[slug]} (gratuite, sans compte)`;
 
-// ─── B12. Résultat du quiz d'humour (tour 4, A, 3-0) ────────────────────────
-
-export const QUIZ_HUMOUR_CTA = {
-  phrase: (slug: ParcoursSlug) =>
-    `Ton humour, tu viens de le découvrir. Ça se travaille : ${PARCOURS_NOMS[slug]}, c'est ${etapesParcours(slug)} étapes de ${minutesParcours(slug)} minutes, une par semaine. La première se lit tout de suite, sans compte, quiz compris.`,
-  /** Plein vers l'étape 1 du parcours conseillé. */
-  bouton: (slug: ParcoursSlug) => `Essayer gratuitement l'étape 1 de ${PARCOURS_NOMS[slug]}`,
-  /** Lien vers /abonnement (retour au parcours conseillé). */
-  lien: `Voir les ${PARCOURS_COUNT} parcours en entier avec Premium`,
-  premium: (annuel: boolean) =>
-    `Premium : ${MENSUEL_TTC}${annuel ? `, ou ${ANNUEL_TTC} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL})` : ""}. Résiliable en ligne. ${GARANTIE}`,
-} as const;
-
-// ─── B13. Résultat du quiz d'orientation, compte sans abonnement (tour 4, A, 3-0) ──
+// ─── B12. Résultat du quiz d'humour (version du tour 17, validée) ───────────
 
 /**
- * Ligne « Pour toi si… » de la carte de chaque parcours, raccourcie pour le
- * bloc (annexe §4). Storytelling et Boulot : pas de `personaTagline` dans le
- * seed, repli sans ligne tant que Thomas ne les a pas fournies.
+ * `{PHRASE_PROFIL}` : par profil, le parcours de la table, le rang du module cité et la phrase.
+ * Le titre (`{ETAPE_PROFIL}`) se lit dans la donnée, le rang s'écrit « 2e », « 3e ».
  */
-const POUR_TOI_SI: Readonly<Partial<Record<ParcoursSlug, string>>> = {
-  repartie: "on te chambre et que tu cherches encore quoi répondre",
-  "machine-a-cafe": "tu veux faire rire à la pause sans devenir le collègue qui force",
-  confiance: "tu sors d'une période compliquée",
+const PHRASES_PROFIL: Readonly<
+  Partial<Record<HumorProfileType, { parcours: ParcoursSlug; rang: number; phrase: (etape: string, rang: string, p: string) => string }>>
+> = {
+  OBSERVATEUR: {
+    parcours: "confiance",
+    rang: 3,
+    phrase: (e, r, p) => `Ce que tu remarques et que personne ne voit a son étape : « ${e} », la ${r} de ${p}.`,
+  },
+  STORYTELLER: {
+    parcours: "storytelling",
+    rang: 4,
+    phrase: (e, r, p) => `Les autres attendent la suite, et ta chute a son étape : « ${e} », la ${r} de ${p}.`,
+  },
+  ABSURDE: {
+    parcours: "machine-a-cafe",
+    rang: 2,
+    phrase: (e, r, p) =>
+      `Tes idées, personne ne les voit venir. Le moment de les lancer a son étape : « ${e} », la ${r} de ${p}, où tu écoutes un groupe comme un morceau pour repérer où il y a de la place pour toi.`,
+  },
+  PUNCHLINEUR: {
+    parcours: "repartie",
+    rang: 2,
+    phrase: (e, r, p) => `La seconde où la table se tait avant de rire a son étape : « ${e} », la ${r} de ${p}.`,
+  },
+  TAQUIN: {
+    parcours: "repartie",
+    rang: 3,
+    phrase: (e, r, p) => `Les balles que tu renvoies ont leur étape : « ${e} », la ${r} de ${p}.`,
+  },
 };
 
-export const QUIZ_ORIENTATION_CTA = {
+/**
+ * `{PHRASE_PROFIL}` ou `null` (repli) : clé (profil, parcours) absente de la table, parcours
+ * non publié ou module cité introuvable. Jamais de titre inventé.
+ */
+export function phraseProfil(profil: HumorProfileType, slug: ParcoursSlug): string | null {
+  const ligne = PHRASES_PROFIL[profil];
+  if (!ligne || ligne.parcours !== slug || !PREMIUM_PARCOURS.some((p) => p.slug === slug)) return null;
+  const etape = titreEtape(slug, ligne.rang);
+  if (!etape || ligne.rang > etapesParcours(slug)) return null;
+  return ligne.phrase(etape, `${ligne.rang}e`, PARCOURS_NOMS[slug]);
+}
+
+export const QUIZ_HUMOUR_CTA = {
+  /** Phrase d'étape 1, avec `{TITRE1}` lu dans la donnée. */
   phrase: (slug: ParcoursSlug) => {
-    const nom = PARCOURS_NOMS[slug];
-    const ligne = POUR_TOI_SI[slug];
-    const pourToi = ligne ? `, le parcours pour toi si ${ligne}` : "";
-    return `Ton compte est prêt. Plus qu'un pas pour suivre ${nom} en entier${pourToi} : étapes ${etapesPayantes(slug)}, une par semaine, ${minutesParcours(slug)} minutes.`;
+    const titre1 = titreEtape(slug, 1);
+    const etape1 = titre1 ? `l'étape 1 de ${PARCOURS_NOMS[slug]}, « ${titre1} »,` : `l'étape 1 de ${PARCOURS_NOMS[slug]}`;
+    return `Ta force, tu viens de la lire. Reste à t'en servir : ${etape1} se lit tout de suite, sans compte. Dedans, un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.`;
   },
-  /** Plein : ouvre directement le paiement (le compte existe). */
-  bouton: (slug: ParcoursSlug) => `Suivre ${PARCOURS_NOMS[slug]} en entier${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
+  /** Plein vers l'étape 1 du parcours conseillé. */
+  bouton: (slug: ParcoursSlug) => `Commencer mon parcours ${PARCOURS_NOMS[slug]}, étape 1 gratuite`,
+  /** Lien `OUVRIR_P` vers /abonnement (retour au parcours conseillé). */
+  lien: (slug: ParcoursSlug) => libelleOuvrirUnParcours(slug),
+  /**
+   * Ligne Premium, rendue dans un seul paragraphe : `profil` (sur sa propre ligne) puis
+   * `suite` = `{LP_B12_A}` ou `{LP_B12_M}` puis `{GARANTIE_B12}`. Sans phrase de profil :
+   * « les {N} étapes de {P} ».
+   */
+  premium: (profil: HumorProfileType, slug: ParcoursSlug, annuel: boolean) => {
+    const phrase = phraseProfil(profil, slug);
+    const etapes = phrase
+      ? `les ${etapesParcours(slug)} étapes`
+      : `les ${etapesParcours(slug)} étapes de ${PARCOURS_NOMS[slug]}`;
+    const prix = annuel ? `${MENSUEL_TTC}, ou ${ANNUEL_TTC} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL})` : MENSUEL_TTC;
+    const suite = `Premium ouvre d'un coup ${etapes} (${minutesParcours(slug)} minutes chacune) et les ${AUTRES} autres parcours : ${prix}. Tu résilies depuis ton profil quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.`;
+    return { profil: phrase, suite };
+  },
+} as const;
+
+// ─── B13. Quiz d'orientation, membre sans abonnement (validé) ───────────────
+
+/**
+ * `{PROGRAMME}` : rangs des étapes citées (jusqu'à 3), titres lus dans la donnée. Forme
+ * courte d'un titre seulement si le titre de la donnée est encore celui-là (sinon le titre
+ * de la donnée, initiale en minuscule : le texte suit la donnée).
+ */
+const PROGRAMME: Readonly<Record<ParcoursSlug, readonly number[]>> = {
+  repartie: [2, 3, 4],
+  "machine-a-cafe": [2, 3],
+  confiance: [2, 3, 4],
+  storytelling: [2, 4, 5],
+  boulot: [2, 3, 6],
+};
+const FORMES_COURTES: Readonly<Record<string, string>> = {
+  "Un PS drôle, sans finir en capture d'écran": "un PS drôle sans finir en capture d'écran",
+  "Le couloir : quinze secondes": "le couloir en quinze secondes",
+  "Un toast de soixante secondes, une seule vanne": "un toast de soixante secondes",
+};
+
+function programme(slug: ParcoursSlug): { titres: string[]; complet: boolean } {
+  const titres = PROGRAMME[slug]
+    .map((rang) => titreEtape(slug, rang))
+    .filter((t): t is string => t !== null)
+    .map((t) => FORMES_COURTES[t] ?? minusculeInitiale(t));
+  return { titres, complet: titres.length === etapesParcours(slug) - 1 };
+}
+
+export const QUIZ_ORIENTATION_CTA = {
+  /**
+   * Trois paragraphes (trois `<p>`). Le troisième (« Ton compte est prêt ») n'est vrai que
+   * pour un compte connecté : `compte = false` le retire.
+   */
+  paragraphes: (slug: ParcoursSlug, compte = true): string[] => {
+    const p = PARCOURS_NOMS[slug];
+    const { titres, complet } = programme(slug);
+    const ensuite = titres.length > 0 ? ` ${complet ? "Ensuite" : "Ensuite, entre autres"} : ${titres.join(", ")}.` : "";
+    return [
+      `Ton quiz te conseille ${p} : pour toi si ${ligneCarte(slug)}. L'étape 1 est offerte.${ensuite}`,
+      `Avec Premium, les étapes ${etapesPayantes(slug)} sont ouvertes tout de suite, ${minutesParcours(slug)} minutes chacune (idéalement une par semaine). Un seul prix, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois, ouvre les ${PARCOURS_COUNT} parcours, pas seulement ${p}.`,
+      ...(compte ? ["Ton compte est prêt : il ne reste que le paiement."] : []),
+    ];
+  },
+  /** Plein `OUVRIR_P` : ouvre directement le paiement (le compte existe). */
+  bouton: (slug: ParcoursSlug) => libelleOuvrirUnParcours(slug),
   garantie:
-    "Prix TTC. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
+    "Prix TTC, paiement sécurisé par Stripe. Tu résilies depuis ton profil quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
   /** Lien discret (existant) vers l'étape 1 du parcours conseillé ; plein pour un abonné. */
   commencer: "Voir par où commencer",
   /** Lien discret (existant). */
   refaire: "Refaire le quiz",
 } as const;
 
-// ─── B14. Fin d'étape 1 et carte « Étape 2 » (tour 4, A, 3-0) ───────────────
+// ─── B14. Fin d'étape 1 et carte « Étape 2 » (validé) ───────────────────────
 
 export const FIN_ETAPE_1 = {
-  /** [S17] surtitre de la carte `CarteEtapeSuivante`. */
+  /** [S17] surtitre de la carte `CarteEtapeSuivante` (données publiques, inchangé). */
   carteSurtitre: (slug: ParcoursSlug, numero = 2) =>
     `Étape ${numero} sur ${etapesParcours(slug)}, ${minutesParcours(slug)} minutes`,
   /**
    * Fin de [S18] : « Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz. »
-   * à partir du format public de l'étape (« Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. »).
+   * à partir du format public de l'étape (inchangé).
    */
   carteFormat: (format: string) => {
     const liste = format.trim().replace(/\.$/, "");
@@ -293,21 +410,26 @@ export const FIN_ETAPE_1 = {
     const avecEt = i > 0 ? `${minuscule.slice(0, i)} et ${minuscule.slice(i + 2)}` : minuscule;
     return `Dans l'étape : ${avecEt}.`;
   },
-  phrase: (slug: ParcoursSlug) =>
-    `Bien joué, l'étape 1 est faite. La valider et ouvrir l'étape 2, c'est dans Premium, comme toute la suite : ${minutesParcours(slug)} minutes par semaine.`,
+  /** Phrase de suite et de validation (sans nombre d'étapes ni durée). */
+  phrase: `Bien joué pour l'étape 1. Avec Premium, tu la valides et tu enchaînes : l'étape 2 est ouverte tout de suite, les suivantes aussi. Le rythme conseillé : une par semaine, mais rien ne t'y oblige. Le même abonnement ouvre aussi les ${AUTRES} autres parcours en entier.`,
   bouton: "Passer à l'étape 2 avec Premium",
+  /**
+   * [S30] lien discret vers la lettre : texte validé, NON posé (nouvel emplacement, accord de
+   * Thomas requis, `docs/design/cta-forme-place-s21.md` §8).
+   */
+  lienLettre: "Ou la lettre gratuite, sans compte : une vanne décryptée et un exercice, une fois par mois par e-mail",
 } as const;
 
-// ─── B15. Page /parcours (tour 4, A, 3-0) ───────────────────────────────────
+// ─── B15. Page /parcours (validé) ───────────────────────────────────────────
 
 export const LISTE_PARCOURS_CTA = {
-  bouton: (slug: ParcoursSlug) => `Commencer l'étape 1 de ${PARCOURS_NOMS[slug]}, gratuite`,
+  bouton: (slug: ParcoursSlug) => `Commencer ${PARCOURS_NOMS[slug]}, étape 1 gratuite`,
   /** [S31] ligne frontière sous le bouton. */
   frontiere: (slug: ParcoursSlug) =>
-    `Sans compte, sans abonnement, quiz compris. Les étapes ${etapesPayantes(slug)} sont dans Premium.`,
+    `Sans compte ni abonnement, quiz compris. Les étapes ${etapesPayantes(slug)} sont dans Premium.`,
 } as const;
 
-// ─── B16. Page /abonnement, visiteur (tour 4, A, 3-0) ───────────────────────
+// ─── B16. Page /abonnement, visiteur (validé) ───────────────────────────────
 
 interface HautAbonnement {
   surtitre: string;
@@ -324,28 +446,40 @@ const HAUT_BOULOT: HautAbonnement = {
 };
 const HAUT_CONFIANCE: HautAbonnement = {
   surtitre: "Pour toi si tu sors d'une période compliquée et que le rire te manque",
-  titre: "Le rire, à ton rythme, sans te forcer",
+  titre: `Retrouver le rire à table, ${minutesParcours("confiance")} minutes par semaine, sans te forcer`,
+};
+const HAUT_STORYTELLING: HautAbonnement = {
+  surtitre: "Pour toi si ta chute arrive quand tout le monde est passé au dessert",
+  titre: "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »",
 };
 
 /** Surtitre et titre selon le parcours d'origine (`returnTo`), repli Répartie. */
 export const ABONNEMENT_HAUT_PAR_PARCOURS: Readonly<Record<ParcoursSlug | "defaut", HautAbonnement>> = {
   defaut: HAUT_REPARTIE,
   repartie: HAUT_REPARTIE,
-  storytelling: HAUT_REPARTIE,
+  storytelling: HAUT_STORYTELLING,
   "machine-a-cafe": HAUT_BOULOT,
   boulot: HAUT_BOULOT,
   confiance: HAUT_CONFIANCE,
 };
 
 export const ABONNEMENT_CTA = {
-  /** Libellé du bouton d'achat : suit la formule choisie, sans rechargement. */
-  bouton: (plan: PremiumPlan) =>
-    `Ouvrir les ${PARCOURS_COUNT} parcours${ESPACE_INSECABLE}· ${plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL}`,
+  /**
+   * Libellé du bouton d'achat : suit la formule choisie, sans rechargement. Parcours d'origine
+   * publié : « Ouvrir {P} et les {AUTRES} autres · prix » ; sinon (adresse directe) `OUVRIR`.
+   */
+  bouton: (plan: PremiumPlan, origine: ParcoursSlug | null = null) => {
+    const prix = plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
+    if (origine && AUTRES >= 1 && PREMIUM_PARCOURS.some((p) => p.slug === origine)) {
+      return `Ouvrir ${PARCOURS_NOMS[origine]} et les ${AUTRES} autres${ESPACE_INSECABLE}· ${prix}`;
+    }
+    return libelleOuvrirParcours(PARCOURS_COUNT, prix);
+  },
   /** [S32] juste sous le bouton. */
   suite: "Deux étapes : ton compte, puis le paiement sécurisé par Stripe.",
 } as const;
 
-// ─── B17. Page /register (tour 4, A, 2-1) ───────────────────────────────────
+// ─── B17. Page /register (validé) ───────────────────────────────────────────
 
 export const REGISTER_CTA = {
   /** [S34] libellé du champ prénom (facultatif, en dernier). */

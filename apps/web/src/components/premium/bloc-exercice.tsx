@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,7 +9,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
-import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, contourEtape1, lignePrixGarantie, type FicheType } from "@/config/textes/cta-pages";
+import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, lignePrixGarantie, type FicheType } from "@/config/textes/cta-pages";
 
 interface BlocExerciceProps {
   type: FicheType;
@@ -25,7 +26,7 @@ interface BlocExerciceProps {
 /**
  * Bloc d'appel des fiches vanne, conseil et vidéo (B8 à B10, cta-forme-place-s21 §3.3) :
  * un plein Premium, la ligne prix + garantie, un contour vers l'étape 1 gratuite,
- * puis « Voir toutes les … » en lien. Composant client : les fiches sont en ISR,
+ * puis « Voir d'autres … » en lien. Composant client : les fiches sont en ISR,
  * la session ne se lit pas côté serveur.
  */
 export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: BlocExerciceProps) {
@@ -51,9 +52,9 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
       data-bloc-exercice={type}
     >
       <h2 id={`bloc-exercice-${type}`} className="font-display text-lg font-bold text-text-primary">
-        {t.titre}
+        {frTypo(t.titre)}
       </h2>
-      <p className="mt-2 text-sm text-text-secondary">{t.texte}</p>
+      <p className="mt-2 text-sm text-text-secondary">{frTypo(t.texte)}</p>
       <Link
         href={buildAbonnementUrl(returnTo, "monthly", `exercice-${type}`)}
         className={cn(
@@ -64,7 +65,7 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
       >
         {t.bouton}
       </Link>
-      <p className="mt-2 text-xs text-text-muted">{lignePrixGarantie(annuel)}</p>
+      <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel, "profil"))}</p>
       <Link
         href={parcoursEtape1Href(parcours, "fiche")}
         className={cn(
@@ -73,7 +74,7 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
         )}
         data-fiche-cta="etape-1"
       >
-        {contourEtape1(parcours)}
+        {frTypo(t.contour(parcours))}
       </Link>
       <div className="mt-3">
         <Link href={t.toutVoirHref} className={LIEN_L2}>

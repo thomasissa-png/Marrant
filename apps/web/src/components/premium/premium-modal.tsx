@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -71,12 +72,12 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
         <h3 id="premium-modal-title" className="pr-10 font-display text-xl font-bold text-text-primary">
           {t.titre}
         </h3>
-        <p className="mt-2 text-sm text-text-secondary">{t.intro}</p>
+        <p className="mt-2 text-sm text-text-secondary">{frTypo(t.intro)}</p>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-4xl font-bold text-text-primary">{FENETRE_PRIX.montant}</span>
           <span className="text-text-muted">{FENETRE_PRIX.suffixe}</span>
         </div>
-        <p className="mt-2 text-sm text-text-secondary">{t.avantage}</p>
+        <p className="mt-2 text-sm text-text-secondary">{frTypo(t.avantage)}</p>
 
         {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" onNavigate={onClose} />}
 

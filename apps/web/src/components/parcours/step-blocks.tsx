@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { trackUmami } from "@/lib/umami";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypoParcours } from "@/lib/fr-typo";
+import { frTypo, frTypoParcours } from "@/lib/fr-typo";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
@@ -120,7 +120,7 @@ export function ValidationWall({
         />
       )}
       <div className="text-center">
-        <p className="text-sm text-text-secondary">{FIN_ETAPE_1.phrase(slug)}</p>
+        <p className="text-sm text-text-secondary">{frTypo(FIN_ETAPE_1.phrase)}</p>
         <Link
           href={href}
           className={cn(
@@ -130,7 +130,7 @@ export function ValidationWall({
         >
           {FIN_ETAPE_1.bouton}
         </Link>
-        <p className="mt-2 text-xs text-text-muted">{lignePrixGarantie(annuel)}</p>
+        <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
       </div>
     </div>
   );

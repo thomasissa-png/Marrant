@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -229,7 +230,14 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
             {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct). */}
             {!isPremium && (
               <div className="mt-4 text-left" data-quiz-orientation-cta>
-                <p className="text-sm text-text-secondary">{QUIZ_ORIENTATION_CTA.phrase(recommendation.slug)}</p>
+                {/* B13 : trois paragraphes courts, le dernier (compte prêt) seulement pour un compte connecté. */}
+                <div className="space-y-2">
+                  {QUIZ_ORIENTATION_CTA.paragraphes(recommendation.slug, status === "authenticated").map((texte) => (
+                    <p key={frTypo(texte)} className="text-sm text-text-secondary">
+                      {frTypo(texte)}
+                    </p>
+                  ))}
+                </div>
                 {status === "authenticated" ? (
                   <Button
                     variant="primary"
@@ -248,7 +256,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                     {QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
                   </Link>
                 )}
-                <p className="mt-2 text-xs text-text-muted">{QUIZ_ORIENTATION_CTA.garantie}</p>
+                <p className="mt-2 text-xs text-text-muted">{frTypo(QUIZ_ORIENTATION_CTA.garantie)}</p>
                 {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
               </div>
             )}

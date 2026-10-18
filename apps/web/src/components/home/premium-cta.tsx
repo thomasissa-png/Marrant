@@ -77,7 +77,19 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
         <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl [text-wrap:balance]">
           {frTypo(CARTE_PREMIUM.titre)}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">{frTypo(CARTE_PREMIUM.intro)}</p>
+        {/* [S11] en trois blocs : scène, intro + liste des parcours publiés (`<ul>`), ouverture. */}
+        <div className="mx-auto mt-3 max-w-xl space-y-3 text-lg text-text-secondary" data-testid="carte-premium-intro">
+          <p>{frTypo(CARTE_PREMIUM.intro.scene)}</p>
+          <div>
+            <p>{frTypo(CARTE_PREMIUM.intro.listeIntro)}</p>
+            <ul className="mt-2 space-y-1 text-base">
+              {CARTE_PREMIUM.intro.liste.map((ligne) => (
+                <li key={ligne}>{frTypo(ligne)}</li>
+              ))}
+            </ul>
+          </div>
+          <p>{frTypo(CARTE_PREMIUM.intro.fin)}</p>
+        </div>
       </div>
 
 
@@ -88,7 +100,7 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
           <div className="relative">
             {/* Badge « Populaire » retiré : offre payante unique (reco validée par Thomas) */}
             <h3 className="font-display text-lg font-bold text-text-primary">{OFFRE_NOM}</h3>
-            <div className="mt-3 flex items-baseline gap-2">
+            <div className="mt-3 flex items-baseline gap-1">
               <span className="font-display text-4xl font-bold text-text-primary">
                 {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
               </span>
