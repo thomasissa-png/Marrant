@@ -15,7 +15,7 @@ import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premiu
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import Link from "next/link";
-import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
+import { FLECHE_CARTE_LIEN, FLECHE_CARTE_PASTILLE } from "@/components/ui/liens";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
@@ -257,17 +257,8 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
                 </div>
-                {/* s21 : l'amorce (H1 de la fiche) est le titre cliquable de la carte, seul lien vers la
-                    fiche (plus de « Page dédiée »). Le reste de la carte révèle toujours la chute. */}
-                <p className="text-text-primary">
-                  <Link
-                    href={`/vannes/${buildJokeSlug(joke)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className={TITRE_CARTE_LIEN}
-                  >
-                    {joke.content}
-                  </Link>
-                </p>
+                {/* Toucher l'amorce (ou la carte) révèle la chute : c'est le geste de la page. */}
+                <p className="text-text-primary">{joke.content}</p>
                 {revealedIds.has(joke.id) && (
                   <p
                     id={`punchline-${joke.id}`}
@@ -310,27 +301,44 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     </p>
                   </div>
                 )}
-                {!revealedIds.has(joke.id) && (
-                  <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="min-h-[44px]"
-                      aria-expanded={false}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        togglePunchline(joke.id);
-                        // Le bouton disparaît : le focus passe à la chute révélée.
-                        requestAnimationFrame(() => document.getElementById(`punchline-${joke.id}`)?.focus());
-                      }}
-                    >
-                      Révéler la chute
-                    </Button>
-                    <p className="text-sm text-text-muted">
-                      {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
-                    </p>
-                  </div>
-                )}
+                {/* s21 : pied de carte. Le seul lien vers la fiche (explorable, même URL) est une flèche
+                    discrète au coin inférieur droit, pour ne pas voler le geste de révélation ; elle ne
+                    révèle pas la chute. Présente avant comme après la révélation. */}
+                <div className="mt-3 flex items-end gap-2">
+                  {!revealedIds.has(joke.id) && (
+                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="min-h-[44px]"
+                        aria-expanded={false}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          togglePunchline(joke.id);
+                          // Le bouton disparaît : le focus passe à la chute révélée.
+                          requestAnimationFrame(() => document.getElementById(`punchline-${joke.id}`)?.focus());
+                        }}
+                      >
+                        Révéler la chute
+                      </Button>
+                      <p className="text-sm text-text-muted">
+                        {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
+                      </p>
+                    </div>
+                  )}
+                  <Link
+                    href={`/vannes/${buildJokeSlug(joke)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className={`ml-auto shrink-0 ${FLECHE_CARTE_LIEN}`}
+                    aria-label="Voir la fiche de cette vanne"
+                  >
+                    <span aria-hidden="true" className={FLECHE_CARTE_PASTILLE}>
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    </span>
+                  </Link>
+                </div>
               </CardContent>
             </Card>
           ))}

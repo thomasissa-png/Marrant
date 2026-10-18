@@ -12,7 +12,7 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
 - Fin d'étape 1 (visiteur) : le plein « Passer à l'étape 2 · 2,99 €/mois » mène à `/register`, quiz fini ou en cours (revue v3 m6). Le paiement s'ouvre ensuite tout seul, puis on revient au parcours. Sous la réassurance, une ligne de la lettre déplie le champ (emplacement `parcours`).
 - `/register` : plus de champ prénom, Google passe en premier, la mention des CGU juste dessous (revue v3 m2). Le prénom se renseigne dans `/profil` (carte « Ton prénom », route `PATCH /api/user`).
 - Fins des 11 articles « à forte frappe » (correction C1, `docs/copy/cta-s21/concision/fins-articles-v3.md`) : titre et phrase v3, plein « Tester l'étape 1 de {P}, gratuite » (5 articles qui nomment un parcours) ou « Tester mes premières répliques, gratuit », « Sans compte. », lien « Ouvrir les 5 parcours · 2,99 €/mois » ; titres du bloc de fin sans point final (sauf « ? » et « » »). L'article n°1 garde son bloc v5.
-- Murs `/vannes`, `/conseils`, `/videos` : le titre de chaque carte (l'amorce pour une vanne) est le lien vers la fiche ; plus de « Page dédiée ». Même maillage : un lien de fiche par carte (mesuré en local : 12 / 10 / 12 avant et après).
+- Murs `/vannes`, `/conseils`, `/videos` : plus de « Page dédiée ». Sur `/conseils` et `/videos`, le titre de chaque carte est le lien vers la fiche. Sur `/vannes`, toucher l'amorce (ou la carte) révèle la chute, comme avant ; le lien vers la fiche est une petite flèche sans texte au coin inférieur droit de la carte (nom accessible « Voir la fiche de cette vanne », cible de 44 px). Même maillage : un lien de fiche par carte (mesuré en local : 12 / 10 / 12 avant et après).
 - Avantages Premium (4 lignes) : sur `/abonnement` seulement.
 - Gardé de l'intégration :
   - avec Premium, toutes les étapes sont ouvertes d'un coup (plus de 409 `ordre`) ;
@@ -40,6 +40,7 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
 - `next lint` : OK (avertissements `<img>` préexistants). `npm run build` : OK.
 - Jest : 340 suites / 5 198 tests OK (5 ignorés). Playwright, projet `local` : 44/44 OK (dont en-tête à 1 280 px avec « Premium · 2,99 €/mois », titres cliquables des murs au clavier).
 - Maillage des murs, HTML du serveur sur la même base jetable : 12 / 10 / 12 liens de fiche sur `/vannes`, `/conseils`, `/videos` avant (`f0f400a`) et après, mêmes fiches.
+- Flèche de fiche de `/vannes` (commit suivant `f5946f6`, mêmes contrôles `env -i`) : tsc ×3, lint, build OK ; Jest 340 suites / 5 198 tests OK ; Playwright `local` 47/47 OK (amorce touchée = chute révélée, flèche = fiche) ; maillage 12 / 10 / 12, 12 flèches, 0 « Page dédiée » ; First Load `/vannes` 133 kB inchangé.
 - First Load JS : `/parcours/[slug]` 153 kB, `/register` 127 kB (126 avant), `/vannes` 133, `/conseils` 134, `/videos` 138 kB (inchangés).
 - **À faire avant P0** : CI verte sur le commit final, et contre-épreuve @qa de la concision (rendu à 320, 375, 768 et 1 280 px, captures lues).
 
@@ -116,11 +117,13 @@ Contrôles :
     - `blagues-poisson-d-avril-adultes` : ≥ 1 pour `Une riposte, ça se prépare avant` ; 0 pour `Le canular est prêt` ;
     - `meilleures-blagues-droles-2026` : contrôle 5 (bloc v5 `La vanne dans ta bouche`), 0 pour `Tu les as lues`.
     Si écart : `git show <commit déployé>:apps/web/src/config/blog-cta.ts | grep -c "Au moment du gâteau"` → 1, puis @fullstack.
-15. **Titres de carte cliquables des murs** (`/vannes`, `/conseils`, `/videos`) :
+15. **Lien de fiche des cartes des murs** (`/vannes` : flèche de coin ; `/conseils`, `/videos` : titre cliquable) :
     - **Relevé N-1 (avant P0, sur le site actuel)**, puis le même après la mise en ligne : `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -oE "<a [^>]*href=\"/$r/[^\"?#]+\"" | grep -v "/$r/theme/" | wc -l; done` → les trois nombres sont identiques avant et après (maillage inchangé : un lien de fiche par carte ; 12 / 10 / 12 en local, avant comme après) ;
     - `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -o "Page dédiée" | wc -l; done` → `0` trois fois ;
-    - à l'œil (ordinateur) : Tab jusqu'au titre de la première carte de `/conseils` (anneau de focus visible), Entrée ouvre sa fiche ; sur `/vannes`, un clic sur l'amorce ouvre la fiche, un clic ailleurs sur la carte (ou « Révéler la chute ») révèle la chute.
-    Si écart : `git show <commit déployé>:apps/web/src/components/ui/liens.ts | grep -c TITRE_CARTE_LIEN` → 1, puis @fullstack.
+    - `curl -s "https://deviens-marrant.fr/vannes?ne-pas-compter=1" | grep -o "Voir la fiche de cette vanne" | wc -l` → même nombre que le premier relevé de `/vannes` (chaque lien de fiche est une flèche) ;
+    - à l'œil (ordinateur) : Tab jusqu'au titre de la première carte de `/conseils` (anneau de focus visible), Entrée ouvre sa fiche ; sur `/vannes`, un clic sur l'amorce révèle la chute (on reste sur `/vannes`), Tab jusqu'à la flèche du coin inférieur droit (anneau visible), Entrée ou clic ouvre la fiche sans révéler la chute ;
+    - à l'œil (téléphone) : sur `/vannes`, toucher l'amorce révèle la chute ; toucher la flèche ouvre la fiche.
+    Si écart : `git show <commit déployé>:apps/web/src/components/ui/liens.ts | grep -c FLECHE_CARTE_LIEN` → 1, puis @fullstack.
 
 **Décisions** : la lettre en fin d'étape 1 (B14) est posée (choix de Thomas du 18/10). La ligne de la lettre au milieu des articles (B18) a été refusée par Thomas : elle n'est pas posée.
 

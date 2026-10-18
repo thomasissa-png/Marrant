@@ -105,26 +105,30 @@ describe("VannesList", () => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
 
-    // s21 : l'amorce est le lien vers la fiche ; un clic ailleurs sur la carte révèle la chute.
-    await userEvent.click(screen.getByText("Setup vanne 1").closest(".cursor-pointer")!);
+    // Toucher l'amorce elle-même révèle la chute (geste de la page, rétabli après 5cecb79).
+    await userEvent.click(screen.getByText("Setup vanne 1"));
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
   });
 
-  it("s21 : l'amorce est le titre cliquable de la carte, seul lien vers la fiche, sans « Page dédiée »", async () => {
+  it("s21 : la flèche de coin est le seul lien vers la fiche, sans texte visible, et ne révèle pas la chute", async () => {
     render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
-    const titre = screen.getByRole("link", { name: "Setup vanne 1" });
-    expect(titre.getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
-    const carte = titre.closest(".cursor-pointer")!;
-    expect([...carte.querySelectorAll('a[href^="/vannes/"]')]).toEqual([titre]);
+    // L'amorce n'est plus un lien.
+    expect(screen.queryByRole("link", { name: "Setup vanne 1" })).not.toBeInTheDocument();
+    const fleche = screen.getAllByRole("link", { name: "Voir la fiche de cette vanne" })[0];
+    expect(fleche.getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
+    expect(fleche.textContent?.trim()).toBe("");
+    expect(fleche.className).toContain("h-11 w-11");
+    const carte = fleche.closest(".cursor-pointer")!;
+    expect([...carte.querySelectorAll('a[href^="/vannes/"]')]).toEqual([fleche]);
     expect(screen.queryByText(/Page dédiée/)).not.toBeInTheDocument();
-    titre.focus();
-    expect(titre).toHaveFocus();
-    // Le clic sur le titre mène à la fiche : il ne révèle pas la chute dans la liste.
-    titre.addEventListener("click", (e) => e.preventDefault());
-    await userEvent.click(titre);
+    fleche.focus();
+    expect(fleche).toHaveFocus();
+    // Le clic sur la flèche mène à la fiche : il ne révèle pas la chute dans la liste.
+    fleche.addEventListener("click", (e) => e.preventDefault());
+    await userEvent.click(fleche);
     expect(screen.queryByText("Chute 1")).not.toBeInTheDocument();
   });
 
@@ -289,10 +293,10 @@ describe("VannesList", () => {
       global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock; // fetch jamais résolu
       render(<VannesList initialData={serverPage(1)} initialPage={1} />);
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
-      // s21 : un seul lien par carte vers la fiche, le titre (amorce) ; même maillage qu'avant.
+      // s21 : un seul lien par carte vers la fiche, la flèche de coin ; même maillage qu'avant.
       const ficheLinks = screen.getAllByRole("link").filter((a) => /^\/vannes\/[^?]/.test(a.getAttribute("href") ?? ""));
       expect(ficheLinks).toHaveLength(2);
-      expect(ficheLinks[0]).toHaveAccessibleName("Setup vanne 1");
+      expect(ficheLinks[0]).toHaveAccessibleName("Voir la fiche de cette vanne");
       expect(ficheLinks[0].getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
     });
 
