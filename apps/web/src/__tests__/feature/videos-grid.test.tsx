@@ -77,6 +77,21 @@ describe("VideosGrid", () => {
     });
   });
 
+  it("s21 : titre cliquable vers la fiche, un seul lien de fiche par carte, sans « Page dédiée »", async () => {
+    render(<VideosGrid />);
+    await waitFor(() => {
+      expect(screen.getByText("Stand-up hilarant")).toBeInTheDocument();
+    });
+    const titre = screen.getByRole("link", { name: "Stand-up hilarant" });
+    expect(titre.closest("h3")).not.toBeNull();
+    expect(titre.getAttribute("href")).toMatch(/^\/videos\/./);
+    const fiches = screen.getAllByRole("link").filter((a) => /^\/videos\/./.test(a.getAttribute("href") ?? ""));
+    expect(fiches.map((a) => a.textContent)).toEqual(["Stand-up hilarant", "Masterclass humour"]);
+    expect(screen.queryByText(/Page dédiée/)).not.toBeInTheDocument();
+    titre.focus();
+    expect(titre).toHaveFocus();
+  });
+
   it("displays channel names", async () => {
     render(<VideosGrid />);
     await waitFor(() => {

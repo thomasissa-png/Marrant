@@ -15,6 +15,7 @@ import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildTipSlug } from "@/lib/catalogue-slug";
@@ -277,7 +278,17 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>
                 </div>
-                <CardTitle>{tip.title}</CardTitle>
+                {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »). */}
+                <CardTitle>
+                  <Link
+                    href={`/conseils/${buildTipSlug(tip)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                    className={TITRE_CARTE_LIEN}
+                  >
+                    {tip.title}
+                  </Link>
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 {/* T20 : conseil replié à 4 lignes, affiché en entier au dépliage (clic sur la carte). */}
@@ -307,16 +318,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     {TIP_TEASERS[index % TIP_TEASERS.length]}
                   </p>
                 )}
-                <div className="mt-3 border-t border-border pt-2">
-                  <Link
-                    href={`/conseils/${buildTipSlug(tip)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
-                    aria-label="Ouvrir la page dédiée de ce conseil"
-                  >
-                    Page dédiée &rarr;
-                  </Link>
-                </div>
               </CardContent>
             </Card>
           ))}

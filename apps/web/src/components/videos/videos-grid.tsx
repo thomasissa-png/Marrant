@@ -12,6 +12,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import Link from "next/link";
+import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
@@ -265,7 +266,10 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                 </div>
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
-                    {video.title}
+                    {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »). */}
+                    <Link href={`/videos/${buildVideoSlug(video)}`} className={TITRE_CARTE_LIEN}>
+                      {video.title}
+                    </Link>
                   </h3>
                   <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="VIDEO" contentId={video.id} />
@@ -305,17 +309,6 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                     <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(video.exercise)}</p>
                   </details>
                 )}
-                <div className="mt-auto pt-3">
-                  <div className="border-t border-border pt-2">
-                    <Link
-                      href={`/videos/${buildVideoSlug(video)}`}
-                      className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
-                      aria-label="Ouvrir la page dédiée de cette vidéo"
-                    >
-                      Page dédiée &rarr;
-                    </Link>
-                  </div>
-                </div>
               </CardContent>
             </Card>
           ))}

@@ -15,6 +15,7 @@ import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premiu
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import Link from "next/link";
+import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
@@ -256,7 +257,17 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
                 </div>
-                <p className="text-text-primary">{joke.content}</p>
+                {/* s21 : l'amorce (H1 de la fiche) est le titre cliquable de la carte, seul lien vers la
+                    fiche (plus de « Page dédiée »). Le reste de la carte révèle toujours la chute. */}
+                <p className="text-text-primary">
+                  <Link
+                    href={`/vannes/${buildJokeSlug(joke)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className={TITRE_CARTE_LIEN}
+                  >
+                    {joke.content}
+                  </Link>
+                </p>
                 {revealedIds.has(joke.id) && (
                   <p
                     id={`punchline-${joke.id}`}
@@ -320,16 +331,6 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     </p>
                   </div>
                 )}
-                <div className="mt-3 border-t border-border pt-2">
-                  <Link
-                    href={`/vannes/${buildJokeSlug(joke)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
-                    aria-label="Ouvrir la page dédiée de cette vanne"
-                  >
-                    Page dédiée &rarr;
-                  </Link>
-                </div>
               </CardContent>
             </Card>
           ))}

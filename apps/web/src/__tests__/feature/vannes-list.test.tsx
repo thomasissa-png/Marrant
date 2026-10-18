@@ -105,8 +105,27 @@ describe("VannesList", () => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByText("Setup vanne 1"));
+    // s21 : l'amorce est le lien vers la fiche ; un clic ailleurs sur la carte révèle la chute.
+    await userEvent.click(screen.getByText("Setup vanne 1").closest(".cursor-pointer")!);
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
+  });
+
+  it("s21 : l'amorce est le titre cliquable de la carte, seul lien vers la fiche, sans « Page dédiée »", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+    const titre = screen.getByRole("link", { name: "Setup vanne 1" });
+    expect(titre.getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
+    const carte = titre.closest(".cursor-pointer")!;
+    expect([...carte.querySelectorAll('a[href^="/vannes/"]')]).toEqual([titre]);
+    expect(screen.queryByText(/Page dédiée/)).not.toBeInTheDocument();
+    titre.focus();
+    expect(titre).toHaveFocus();
+    // Le clic sur le titre mène à la fiche : il ne révèle pas la chute dans la liste.
+    titre.addEventListener("click", (e) => e.preventDefault());
+    await userEvent.click(titre);
+    expect(screen.queryByText("Chute 1")).not.toBeInTheDocument();
   });
 
   it("reveals punchline with the « Révéler la chute » button (s12 T16)", async () => {
@@ -140,7 +159,7 @@ describe("VannesList", () => {
     // Avant révélation : pas de décryptage visible
     expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByText("Setup vanne 1"));
+    await userEvent.click(screen.getAllByRole("button", { name: "Révéler la chute" })[0]);
 
     expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
     expect(screen.getByText("À toi de jouer")).toBeInTheDocument();
@@ -156,7 +175,7 @@ describe("VannesList", () => {
       expect(screen.getByText("Setup vanne 2")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByText("Setup vanne 2"));
+    await userEvent.click(screen.getAllByRole("button", { name: "Révéler la chute" })[1]);
 
     // Vanne 2 révélée (chute visible) mais SANS décryptage (champs null)
     expect(screen.getByText("Chute 2")).toBeInTheDocument();
@@ -270,8 +289,10 @@ describe("VannesList", () => {
       global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock; // fetch jamais résolu
       render(<VannesList initialData={serverPage(1)} initialPage={1} />);
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
-      const ficheLinks = screen.getAllByRole("link", { name: "Ouvrir la page dédiée de cette vanne" });
+      // s21 : un seul lien par carte vers la fiche, le titre (amorce) ; même maillage qu'avant.
+      const ficheLinks = screen.getAllByRole("link").filter((a) => /^\/vannes\/[^?]/.test(a.getAttribute("href") ?? ""));
       expect(ficheLinks).toHaveLength(2);
+      expect(ficheLinks[0]).toHaveAccessibleName("Setup vanne 1");
       expect(ficheLinks[0].getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
     });
 
