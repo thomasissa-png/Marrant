@@ -2,77 +2,39 @@
 
 ## À DÉPLOYER
 
-### Blocs d'appel s21 : textes finaux VALIDÉS branchés, branche `claude/marrant-s21-integration` (@fullstack, 18/10/2026)
+### Blocs d'appel s21 (parties A et B, textes finaux, corrections des revues) : UNE SEULE ENTRÉE, branche `claude/marrant-s21-integration` (@fullstack, 18/10/2026)
 
-Part avec la mise en ligne s21 (P0 à P8), jamais seule. **Aucune migration, aucun secret, aucune variable, aucune écriture en base.** Source : `docs/copy/cta-s21/textes-finaux-valides.md` (B3 et B12 du tour 17, B10 `[S15]` du tour 21, les 14 autres blocs inchangés depuis le tour 13). Textes dans `apps/web/src/config/textes/cta-articles-accueil.ts` et `cta-pages.ts` ; titres d'étapes et lignes de carte dans `apps/web/src/config/parcours-etapes.ts` (copie du seed vérifiée par un test).
-
-**Ce qui change**
-- Libellés « Ouvrir … · 2,99 €/mois » partout (plus aucun « Débloquer ») ; accueil : « Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois » (repli sur le libellé court si Répartie ou Machine à Café est dépublié ou s'il reste moins de 5 parcours).
-- Bouton de `/abonnement` : suit la formule (mensuel / annuel) et nomme le parcours d'origine (« Ouvrir Confiance et les 4 autres · 2,99 €/mois ») ; titres Confiance et Storytelling propres. Position du bouton inchangée (y = 602,1 à 375 x 700 ; deux lignes quand un parcours est nommé).
-- Accueil : carte Premium en trois blocs avec une vraie liste des parcours ; « 2,99 € /mois » en tête de carte, « Prix TTC. » dans la ligne dessous.
-- Quiz d'humour : phrase propre au profil sur sa propre ligne, au-dessus du prix ; quiz d'orientation : trois paragraphes, le troisième seulement pour un compte connecté.
-- En-tête : nom accessible « 2,99 € par mois : voir l'offre Premium ».
-- `llms.txt` : la résiliation n'est plus dite « en un clic » (« depuis le profil, à tout moment »).
-
-**À vérifier à la mise en ligne (après P4, `?ne-pas-compter=1`)**
-1. `curl -s "https://deviens-marrant.fr/?ne-pas-compter=1" | grep -c "de la coloc à l'afterwork"` → 1 ou plus ; `| grep -c "Débloquer"` → `0`.
-2. `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Retrouver le rire à table"` → 1 ou plus.
-3. `curl -s https://deviens-marrant.fr/llms.txt | grep -c "sili[a-z]* en un clic\|en un clic depuis le profil"` → `0`.
-4. À l'œil, 375 px : quiz d'humour (profil L'Absurde : phrase de profil en gras léger au-dessus du prix), fiche vidéo (« Les 5 parcours s'ouvrent aussi en entier, de la coloc à l'afterwork »). Captures de référence : `docs/qa/captures-s21/textes-finaux/` (mesures dans `mesures.json`).
-
-**Non posé (décision requise)** : ligne repliée de la lettre au milieu des articles (B18) et lien de lettre en fin d'étape 1 (B14 `[S30]`) : textes prêts dans la config, nouveaux emplacements soumis à l'accord de Thomas et de @legal.
-
-Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
-
-
-### Blocs d'appel s21, partie A (articles, accueil, en-tête), branche `claude/marrant-s21-cta-a`, à fusionner dans `claude/marrant-s21-integration` avec la partie B (@fullstack, 18/10/2026)
-
-Part avec la mise en ligne s21 (procédure P0 à P8 ci-dessous), jamais seule. **Aucune migration, aucun secret, aucune écriture en base.** Textes : gagnants du tour 4 (`docs/copy/cta-s21/tour4/`), tous dans `apps/web/src/config/textes/cta-articles-accueil.ts` ; le remplacement par les textes finaux (tour 5 ou 6, après relecture à l'aveugle) se fait dans ce seul fichier.
+Fusionne et remplace les quatre entrées « Blocs d'appel s21 » du 18/10 (partie A, partie B, fusion A + B, textes finaux) : leurs contrôles périmés sont retirés (revue @reviewer I-1). Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base.** Source des textes : `docs/copy/cta-s21/textes-finaux-valides.md` ; code : `apps/web/src/config/textes/cta-articles-accueil.ts`, `cta-pages.ts`, titres d'étapes dans `config/parcours-etapes.ts`.
 
 **Ce qui change**
-- Section « Blog » renommée « Articles » (menu, pied de page, fil d'Ariane, BreadcrumbList, intertitre de llms.txt) ; `/blog` et les slugs inchangés.
-- En-tête visiteur : bouton « 2,99 €/mois » (prix de `config/premium.ts`) vers `/abonnement?src=header` ; plus de bouton plein sur `/abonnement` et `/register`. Onglets un peu resserrés de 1024 à 1279 px.
-- Articles : encart du milieu remplacé par la démonstration (situation offerte du carnet, bouton « Voir la réplique » vers `/carnet?src=blog-demo-milieu-1#fiche-…`), un seul encart par article (plus de milieu-2), masqué pour les abonnés. Bas d'article : bloc de fin (étape 1 gratuite en plein, lien « Débloquer les 5 parcours, 2,99 €/mois », note prix et garantie), lettre, articles liés, puis la FAQ en dernier.
-- Carnet d'octobre : la fiche offerte devient « Le premier rendez-vous silencieux » (`2026-10-15`) ; « Le soleil dans l'ascenseur » passe dans Premium. `/carnet`, l'extrait de `/abonnement` et l'encart suivent la même fiche (champ `offerte`).
-- Accueil : haut de page vers l'étape 1 de Répartie + lien payant ; bloc « Tu crois avoir tout essayé » supprimé ; carte Premium réécrite (sans « Droit de rétractation »), plein vers `/abonnement?src=accueil-premium`, contour vers l'étape 1 de Répartie.
-- « Sans engagement » remplacé par « résiliable en ligne » (notes d'articles, 5 articles, llms.txt, 6 numéros de la lettre, /carnet, /a-propos, profil) ; consigne de l'agent marketing corrigée.
-- Mesure Umami : `checkout-ouvert` et `checkout-echec` (propriété `src`, raison `erreur`, `conflit`, `reseau`, `retour-sans-paiement`) ; `blog-cta-clic` avec `bouton=demo-fiche` et `fiche` ; rapport du lundi et alertes filtrés sur `hostname=deviens-marrant.fr`.
+- Libellés « Ouvrir … · 2,99 €/mois » dans tous les blocs du chantier (plus aucun « Débloquer ») ; accueil : « Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois » (repli sur le libellé court si Répartie ou Machine à Café est dépublié). `/abonnement` nomme le parcours d'origine (« Ouvrir Confiance et les 4 autres · 2,99 €/mois ») et suit la formule.
+- Section « Blog » renommée « Articles » (menu, pied de page, fil d'Ariane, BreadcrumbList, llms.txt) ; `/blog` et les slugs inchangés.
+- En-tête visiteur : bouton « 2,99 €/mois » vers `/abonnement?src=header` (nom accessible « 2,99 € par mois : voir l'offre Premium »), masqué sur `/abonnement` et `/register`.
+- Articles : un seul encart au milieu, la démonstration du carnet (surtitre « La situation offerte ce mois-ci », bouton vers `/carnet?src=blog-demo-milieu-1#fiche-…`), masqué pour les abonnés ; bas d'article : bloc de fin (étape 1 gratuite en plein, lien « Ouvrir les 5 parcours · 2,99 €/mois », note prix et garantie), lettre, articles liés, FAQ en dernier.
+- Carnet d'octobre : fiche offerte « Le premier rendez-vous silencieux » (`2026-10-15`), la même sur `/carnet`, l'extrait de `/abonnement` et l'encart.
+- Accueil : haut de page « Tester mes premières répliques, gratuit » (étape 1 de Répartie) + lien payant ; bloc « Tu crois avoir tout essayé » supprimé ; carte Premium en trois blocs avec la liste des parcours (nom en gras), sans « Droit de rétractation ».
+- Murs de liste (`/vannes`, `/conseils`, `/videos`), fiches (bloc d'exercice), fenêtre Premium, quiz d'humour (phrase de profil), quiz d'orientation, fin d'étape 1, `/parcours`, `/abonnement`, `/register` (prénom facultatif, `User.name` déjà nullable).
+- **Parcours (décision de Thomas du 18/10, revue B-1)** : avec Premium, toutes les étapes sont ouvertes d'un coup ; l'abonné ouvre et valide n'importe quelle étape (plus de verrou d'ordre ni de refus 409 `ordre` de l'API). Date conseillée et prochaine étape conseillée toujours affichées. Visiteur et compte sans abonnement inchangés (étape 1 libre, 2+ en aperçu).
+- « Sans engagement » remplacé par « résiliable en ligne » (hors CGU) ; `llms.txt` ne dit plus « en un clic ».
+- Rendu : `/quiz-humour` passe en ISR 1 h (`revalidate = 3600`) pour lire l'annuel côté serveur ; l'annuel des lignes de prix suit `STRIPE_PREMIUM_ANNUAL_PRICE_ID` (`isAnnualPlanAvailable()`).
+- Mesure Umami : `checkout-ouvert` / `checkout-echec` (`src`, raison `erreur`, `conflit`, `reseau`, `retour-sans-paiement`) sur tous les chemins de paiement ; `blog-cta-clic` avec `bouton=demo-fiche` ; rapport du lundi et alertes filtrés sur `hostname=deviens-marrant.fr`.
+- Design (revue @design `docs/design/revue-cta-s21.md`, P1 et P2) : plus de doublon de contour sur les fiches, anneau de focus du plein en `accent-link`, boutons du bloc d'exercice de même largeur.
 
-**À vérifier à la mise en ligne (après P4, `?ne-pas-compter=1`)**
-1. `/blog/meilleures-blagues-droles-2026` à 375 px : un seul encart « Une situation de répartie » après la section soirée ; son bouton ouvre `/carnet` sur la fiche « Le premier rendez-vous silencieux », lisible en entier sans compte ; bas d'article dans l'ordre bloc de fin, lettre, articles liés, FAQ.
-2. `/carnet` en visiteur : situation 1 · offerte = « Le premier rendez-vous silencieux » ; « Le soleil dans l'ascenseur » dans la liste réservée, sans sa réplique dans le HTML (`curl -s https://deviens-marrant.fr/carnet | grep -c "je parle dans un ascenseur"` → `0`).
-3. `/abonnement` : l'extrait du carnet montre la même fiche ; pas de bouton « 2,99 €/mois » dans l'en-tête.
-4. Accueil à 375 px : bouton « Tester mes premières répliques, gratuit » vers `/parcours/repartie?src=accueil#etape-1` ; plus de « Tu crois avoir tout essayé » ; carte Premium sans « Droit de rétractation ».
-5. En-tête à 360 px : « 2,99 €/mois » entier sur une ligne, à côté du menu.
-6. Umami (tableau de bord, le lendemain) : événements `checkout-ouvert` / `checkout-echec` visibles après un essai de paiement abandonné ; rapport du lundi suivant : chiffres limités au domaine (les aperçus *.workers.dev n'y sont plus).
-7. Annuel : la note du bloc de fin et la ligne de la carte Premium ne citent 24,99 € que si `STRIPE_PREMIUM_ANNUAL_PRICE_ID` est posé (pages en ISR, 1 h au plus après la pose du secret).
+**À vérifier à la mise en ligne (en P6, `?ne-pas-compter=1`)** : commandes vérifiées le 18/10 sur un build local du commit. Les apostrophes sont échappées dans le HTML (`&#x27;`) : aucun motif ci-dessous n'en contient.
+1. Accueil : `curl -s "https://deviens-marrant.fr/?ne-pas-compter=1" | grep -c "Tester mes premières répliques, gratuit"` → 1 ; `| grep -c "afterwork"` → 1 ; `| grep -c "Débloquer"` → `0` ; `| grep -c "Tu crois avoir tout essayé"` → `0` ; `| grep -c "Droit de rétractation"` → `0`.
+2. `/abonnement` : `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Retrouver le rire à table"` → 1 ; `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "puis le paiement sécurisé par Stripe"` → 1 ; `| grep -c "Droit de"` → `0`. (« à ton rythme » figure dans la description du parcours Confiance, hors bloc d'appel : ne pas le compter.)
+3. `/register` : `curl -s "https://deviens-marrant.fr/register?ne-pas-compter=1" | grep -c "Créer mon compte et passer au paiement"` → 1.
+4. `/parcours` : `curl -s "https://deviens-marrant.fr/parcours?ne-pas-compter=1" | grep -c "étape 1 gratuite"` → 1 ou plus (boutons « Commencer Répartie, étape 1 gratuite ») ; `curl -s "https://deviens-marrant.fr/parcours/confiance?ne-pas-compter=1" | grep -c "pour débloquer"` → `0` ; `curl -s "https://deviens-marrant.fr/parcours/repartie?ne-pas-compter=1" | grep -ci "sans engagement"` → `0`.
+5. Article : `A="https://deviens-marrant.fr/blog/meilleures-blagues-droles-2026?ne-pas-compter=1"` ; `curl -s "$A" | grep -c "La situation offerte ce mois-ci"` → 1 ; `| grep -c "Ouvrir les "` → 1 ou plus ; `| grep -c "Débloquer"` → `0`.
+6. `/carnet` (jusqu'au 31/10, carnet d'octobre) : `curl -s "https://deviens-marrant.fr/carnet?ne-pas-compter=1" | grep -c "je parle dans un ascenseur"` → `0`.
+7. Fiche vidéo et fiche vanne réelles, lues dans le sitemap : `V=$(curl -s https://deviens-marrant.fr/sitemap.xml | grep -o 'https://deviens-marrant.fr/videos/[a-z0-9-]*' | head -1)` ; `curl -s "$V?ne-pas-compter=1" | grep -c "ouvrent aussi en entier"` → 1 ; `F=$(curl -s https://deviens-marrant.fr/sitemap.xml | grep -o 'https://deviens-marrant.fr/vannes/[a-z0-9-]*' | grep -v /theme/ | head -1)` ; `curl -s -o /dev/null -w '%{http_code}\n' "$F?ne-pas-compter=1"` → `200`.
+8. À l'œil, 375 px : bas de `/vannes` (mur « Et si la prochaine vanne qui fait rire la table était la tienne ? », rendu côté client, absent du HTML curl), une fiche vanne (bloc d'exercice), le cœur d'une vanne en visiteur (fenêtre qui monte du bas), quiz d'humour (phrase de profil au-dessus du prix), fin de l'étape 1 de Répartie (carte « Étape 2 »). Captures de référence : `docs/qa/captures-s21/viewport/` (écran visible, hauteurs mesurées).
+9. Smoke de production : `npm run test:e2e:smoke:deploye` exclut `@s21` ; après la mise en ligne, `E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke -- --grep @s21` (lecture seule).
+10. Umami, le lendemain : `checkout-ouvert` / `checkout-echec` visibles après un essai de paiement abandonné, avec la source du bloc d'entrée.
+
+**Non posé (décision requise)** : ligne repliée de la lettre au milieu des articles (B18) et lien de lettre en fin d'étape 1 (B14 `[S30]`) : textes prêts dans la config, emplacements soumis à Thomas et à @legal.
 
 Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
-
-### Blocs d'appel s21, partie B : murs, fiches, fenêtre Premium, quiz, fin d'étape 1, /parcours, /abonnement, /register (@fullstack, 18/10/2026)
-
-Branche `claude/marrant-s21-cta-b`, à fusionner dans `claude/marrant-s21-integration` avec la partie A, puis mise en ligne avec la procédure P0 à P8 ci-dessous (aucune étape propre). **Rien à faire seul sur Replit ou Cloudflare.**
-
-- **Base** : aucune migration. Le prénom devient facultatif à l'inscription ; la colonne `User.name` est déjà nullable (`String?`), un prénom vide est enregistré `NULL` et les e-mails disent « Salut, ».
-- **Secrets / variables** : aucun nouveau. L'annuel des nouvelles lignes de prix suit `STRIPE_PREMIUM_ANNUAL_PRICE_ID` (`isAnnualPlanAvailable()`), comme /abonnement.
-- **Rendu** : `/quiz-humour` passe de statique à ISR 1 h (`revalidate = 3600`), pour lire l'annuel côté serveur. `/abonnement` lit `returnTo` côté serveur (déjà dynamique).
-- **Textes** : tous dans `apps/web/src/config/textes/cta-pages.ts` (gagnants du tour 4). Le remplacement par les textes finaux du tour 5 se fait dans ce seul fichier.
-- **Contrôles après mise en ligne** (en plus de P6) :
-  - `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Le rire, à ton rythme, sans te forcer"` → 1 ou plus ; `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."` → 1 ou plus.
-  - `curl -s "https://deviens-marrant.fr/register?ne-pas-compter=1" | grep -c "Créer mon compte et passer au paiement"` → 1 ou plus.
-  - `curl -s "https://deviens-marrant.fr/parcours?ne-pas-compter=1" | grep -c "gratuite"` → 1 ou plus (bouton « Commencer l'étape 1 de … , gratuite »).
-  - À l'œil, 375 px : bas de /vannes (bloc « Voir la suite des vannes avec Premium »), une fiche vanne (bloc d'exercice), le cœur d'une vanne (fenêtre qui monte du bas), fin de l'étape 1 de Répartie (carte « Étape 2 »). Captures de référence : `docs/qa/captures-s21/cta-partie-b/`.
-  - Smoke de production : `npm run test:e2e:smoke:deploye` exclut `@s21` ; après la mise en ligne, lancer aussi `E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke -- --grep @s21` (lecture seule).
-- **Retour arrière** : P8 (version N-1), aucune donnée à défaire.
-
-### Blocs d'appel s21, fusion A + B dans `claude/marrant-s21-integration` (@fullstack, 18/10/2026)
-
-Part avec la mise en ligne s21 (P0 à P8), jamais seule. **Aucune migration, aucun secret, aucune écriture en base.**
-- Mesure : `checkout-ouvert` / `checkout-echec` aussi sur les paiements de la partie B (fenêtre Premium et quiz via `usePremiumCheckout`, /abonnement connecté avec la source d'entrée `?src=` sinon `abonnement`, paywall `paywall`).
-- « Sans engagement » remplacé par « résiliable en ligne » sur le mur d'étape, l'aperçu verrouillé des parcours et la description de /abonnement ; les CGU gardent leur formulation juridique.
-- /abonnement : plus de ligne « Droit de rétractation · Paiement sécurisé par Stripe » sous le bouton ; une seule mention de Stripe ([S32] en visiteur, « Paiement sécurisé par Stripe » en compte connecté). /retractation reste dans le pied de page et la FAQ.
-- Anciens textes d'encart (`encartMilieu`, `ENCARTS_ARTICLE_1`) supprimés, sans effet visible (déjà remplacés par la démonstration).
-- Contrôle après mise en ligne : `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "Droit de"` → `0` ; `curl -s "https://deviens-marrant.fr/parcours/repartie?ne-pas-compter=1" | grep -ci "sans engagement"` → `0`. Captures : `docs/qa/captures-s21/fusion-cta/`.
 
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026)
 
@@ -116,7 +78,9 @@ Règles : une étape échouée = arrêt, on ne passe pas à la suivante. Ne jama
 - Puis tâches de démarrage, avec `npx wrangler tail --format pretty` ouvert dans un autre terminal : `curl -sS -m 120 -H "Authorization: Bearer $CRON_SECRET" https://deviens-marrant.fr/api/cron/startup-tasks`. Réussite : journal `[startup] lettre : 6 numéro(s) créé(s), 0 mis à jour, 0 ignoré(s).`, **aucune** ligne `lettre : ALERTE` ; `psql "$DATABASE_URL" -c 'SELECT "periodKey", status, "scheduledFor" FROM "NewsletterIssue" ORDER BY "scheduledFor";'` → 6 lignes `VALIDE`, `2026-11` à `2026-11-05 07:00:00` ; `psql "$DATABASE_URL" -c 'SELECT count(*) FROM "NewsletterSend";'` → `0`. Si ALERTE sur 2026-11 : P5 pas appliquée, la refaire puis relancer. Si moins de 6 numéros : lire les lignes `ignoré`, @fullstack.
 
 **P6. Contrôles après mise en ligne**
-- Pages : `for p in / /abonnement /lettre /confidentialite /cgu /register /blog/se-presenter-avec-humour /api/health; do printf '%s ' "$p"; curl -s -o /dev/null -w '%{http_code}\n' "https://deviens-marrant.fr$p?ne-pas-compter=1"; done`. Réussite : 200 partout. Si une page en 5xx : P8.
+- Pages : `V=$(curl -s https://deviens-marrant.fr/sitemap.xml | grep -o 'https://deviens-marrant.fr/videos/[a-z0-9-]*' | head -1 | sed 's#https://deviens-marrant.fr##')` puis `for p in / /abonnement /lettre /confidentialite /cgu /register /blog/se-presenter-avec-humour /quiz-humour /parcours /carnet /vannes "$V" /api/health; do printf '%s ' "$p"; curl -s -o /dev/null -w '%{http_code}\n' "https://deviens-marrant.fr$p?ne-pas-compter=1"; done`. Réussite : 200 partout (`$V` = une fiche vidéo réelle, prise dans le sitemap ; vide = sitemap à vérifier avant de conclure). Si une page en 5xx : P8.
+- Blocs d'appel s21 : contrôles 1 à 8 de l'entrée « Blocs d'appel s21 » en tête de ce fichier. Réussite : valeurs attendues partout. Si écart : @fullstack (pas de P8 pour un texte, sauf page cassée).
+- Étape 3 ouverte par un abonné (décision du 18/10) : vrai navigateur, compte Premium de l'équipe, `https://deviens-marrant.fr/parcours/confiance?ne-pas-compter=1` sur un parcours où les étapes 1 et 2 ne sont **pas** validées. Clic sur l'en-tête « Étape 3 » : l'étape se déplie avec son conseil et son bouton « Valider cette étape », aucun « Termine l'étape … pour débloquer ». Ne pas valider (l'XP et la progression seraient réelles) ; si on valide pour l'essai : réponse 200 (onglet Réseau, `POST /api/parcours/<id>/progress`), jamais 409. Réussite : étape ouverte. Si l'étape reste fermée ou si un 409 `ordre` revient : le commit déployé n'est pas le bon (`git show HEAD:apps/web/src/app/api/parcours/[id]/progress/route.ts | grep -c ordre` → `0` attendu sur le code ; voir la règle P0 s8), @fullstack.
 - En-têtes : `curl -sI "https://deviens-marrant.fr/lettre?ne-pas-compter=1" | grep -i '^referrer-policy'` → `same-origin` (sans lui, le bouton « Confirmer » est refusé, B1 de la QA) ; `diff <(grep -iE '^(strict-transport-security|content-security-policy|x-frame-options|x-content-type-options|permissions-policy)' entetes-avant.txt | sort) <(curl -sI "https://deviens-marrant.fr/?ne-pas-compter=1" | grep -iE '^(strict-transport-security|content-security-policy|x-frame-options|x-content-type-options|permissions-policy)' | sort)` → aucune différence. Si écart : @fullstack ; `Referrer-Policy` absente sur `/lettre` = P8 avant toute inscription.
 - Textes : `for p in / /abonnement /register; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -c "remboursé sous 14 jours"; done` → `0` trois fois ; `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "Ta réplique pendant la soirée"` → 1 ou plus.
 - Formulaire de la lettre visible : `for p in /lettre /blog/se-presenter-avec-humour /; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -cE 'confidentialite#lettre|La lettre du mois'; done` → au moins 1 partout (formulaire sur `/lettre` et sous l'article, lien de pied de page). Puis à l'œil : formulaire sous le résultat du quiz, onglet « La lettre » dans le menu. Si absent : vérifier `LETTRE_INSCRIPTIONS_OUVERTES` dans le commit déployé (`git show HEAD:apps/web/src/config/lettre.ts`), @fullstack.
