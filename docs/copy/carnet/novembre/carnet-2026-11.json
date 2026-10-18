@@ -304,9 +304,53 @@
       "siTendu": "Oui, ça faisait longtemps. Ça me fait plaisir de vous voir.",
       "exercice": "Hausse les épaules sur « dehors » en disant la réplique à voix haute, comme si c'était la conclusion de n'importe qui."
     },
-    @@F26@@
-    @@F27@@
-    @@F28@@
-    @@F29@@
+    {
+      "id": "2026-11-26",
+      "titre": "Tu ne viens jamais me voir",
+      "accroche": "Dimanche chez ta grand-mère. Elle te ressert du café et regarde par la fenêtre",
+      "contexte": "famille",
+      "situation": "Dimanche chez ta grand-mère, vous êtes à table, elle te ressert du café et regarde par la fenêtre.",
+      "onTeDit": "Tu ne viens jamais me voir. Remarque, je ne t'en veux pas.",
+      "reponse": "« Jamais », c'est exagéré. Je suis venu à Pâques. Mais tu as raison, c'était à Pâques.",
+      "pourquoi": "Tu plaides d'abord, tu t'effondres ensuite : la correction de « jamais » est ruinée tout de suite par la preuve que tu apportes toi-même, Pâques. Ta grand-mère n'a rien à ajouter, et ta façon de te rendre en deux phrases est ce qui rend la scène tendre.",
+      "siTendu": "Tu as raison, je ne viens pas assez. Je te propose un dimanche, dis-moi lequel te va.",
+      "exercice": "Dis la réplique à voix haute en deux temps : la première phrase en défendant ton honneur, la fin en baissant les yeux avec un sourire pour ta grand-mère."
+    },
+    {
+      "id": "2026-11-28",
+      "titre": "Le carton dans l'entrée",
+      "accroche": "Vendredi soir de Black Friday. Un carton attend dans l'entrée et ton ou ta partenaire te regarde",
+      "contexte": "couple",
+      "situation": "Vendredi soir de Black Friday, un carton attend dans l'entrée et ton ou ta partenaire le regarde, puis te regarde.",
+      "onTeDit": "Tu m'avais dit que tu ne ferais pas le Black Friday.",
+      "reponse": "Un site m'a écrit que j'allais le regretter. J'ai voulu savoir quoi.",
+      "pourquoi": "Tu transformes l'achat en enquête : un avertissement de site devient une raison de vérifier. La curiosité est l'excuse la plus absurde, parce qu'elle trahit ta promesse tout en ayant l'air scientifique. On rit de ta faiblesse devant la sollicitation, pas de ton ou ta partenaire.",
+      "siTendu": "Tu as raison, j'avais dit que non. Je te montre ce qu'il y a dedans, et on décide ensemble si on le garde.",
+      "exercice": "Dis la réplique à voix haute avec la curiosité sincère d'un enquêteur, en marquant un petit temps avant « quoi »."
+    },
+    {
+      "id": "2026-11-29",
+      "titre": "Le oui automatique",
+      "accroche": "Dimanche soir à la maison. Ton ou ta partenaire expose un projet de week-end, tu fixes ton écran",
+      "contexte": "couple",
+      "situation": "Dimanche soir à la maison, ton ou ta partenaire vient d'exposer un projet de week-end pendant que tu fixais ton écran.",
+      "onTeDit": "Tu viens de dire « oui » sans m'écouter.",
+      "reponse": "Je regardais un chien qui apprenait à ouvrir une porte. C'est mon excuse, elle est complète.",
+      "pourquoi": "L'excuse est absurde de précision : un chien, une porte, un apprentissage, comme un résumé de vidéo. Annoncer qu'elle est « complète » parodie le ton d'un dossier de défense alors qu'elle n'excuse rien, et l'aveu franc désarme la remarque.",
+      "siTendu": "Tu as raison, je n'écoutais pas. Redis-moi ton idée, cette fois je te regarde.",
+      "exercice": "Dis la réplique à voix haute avec le sérieux d'un avocat qui présente sa pièce maîtresse, en décrivant le chien comme si tu le voyais encore à l'écran."
+    },
+    {
+      "id": "2026-11-30",
+      "titre": "Ce que le profil ne dit pas",
+      "accroche": "Premier rendez-vous dans un bar. Vous avez commandé, le silence dure une seconde de trop",
+      "contexte": "couple",
+      "situation": "Premier rendez-vous dans un bar, vous avez commandé, le silence dure une seconde de trop et la personne en face se penche vers toi.",
+      "onTeDit": "Raconte-moi un truc sur toi que je ne trouverais pas sur ton profil.",
+      "reponse": "J'ai écrit « drôle » sur mon profil. Depuis que je suis assis, je sens la dette.",
+      "pourquoi": "Tu réponds sans livrer de secret : ce que le profil ne dit pas, c'est la pression que le profil a créée. « La dette » est une métaphore financière précise, tu as promis de la drôlerie et tu dois la livrer, et l'aveu est drôle parce qu'il décrit exactement ce qui se passe dans ce bar. Dis-la avec un sourire : sans lui, elle sonne comme une panique.",
+      "siTendu": "Je suis un peu nerveux, je te l'avoue. Qu'est-ce qui t'a donné envie de venir ?",
+      "exercice": "Souris légèrement, comme si tu partageais un secret, et dis la réplique à voix haute en marquant un temps avant « la dette » pour que le mot arrive seul."
+    }
   ]
 }

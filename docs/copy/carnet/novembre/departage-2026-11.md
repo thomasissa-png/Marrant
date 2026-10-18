@@ -29,12 +29,15 @@ Critiques A et B (360 répliques, 2 moitiés), puis 3 relecteurs de départage s
 | S23 Rencontres, le premier rendez-vous | 8 (orig. 273, L3-3) | J'ai écrit « drôle » sur mon profil. Depuis que je suis assis, je sens la dette. |
 | S24 Soirée, le revenant | 148 (orig. 6, L1-S1) | J'ai fini ma série hier soir. C'est comme ça qu'on se retrouve dehors. |
 | S25 Boulot, l'heure d'été | 314 (orig. 68, L1-S6) | J'ai changé le four, la voiture, la pendule du salon. Pour la mienne, je n'ai pas trouvé le bouton. |
+| S26 Famille, la photo de la carte de vœux (remplace « l'âge ») | 424 (orig. V2-25, vague 2) | Je te garantis un œil. Pas toujours le même. |
 | S27 Boulot, le partage d'écran | 308 (orig. 106, L1-S9) | Je cherche la bonne fenêtre. C'est celle qui s'appelle « Sans titre 14 ». |
 | S28 Famille, la guirlande | 94 (orig. 194, L2-S7) | L'an dernier, tu as dit « ça va aller vite ». On a fini le 26. |
 | S29 Transports, le retard sous la pluie | 70 (orig. 320, L3-7) | Oui, le métro. Je l'accuse depuis six ans, il ne s'est jamais défendu. |
 | S30 Couple, le « oui » sans écouter | 47 (orig. 255, L3-2) | Je regardais un chien qui apprenait à ouvrir une porte. C'est mon excuse, elle est complète. |
 
-**S26 « Famille, l'âge »** : aucune réplique au niveau chez A et B : vague 2 en cours (`candidates-vague2.md`).
+**S26** : « Famille, l'âge » n'a donné aucune réplique au niveau au premier passage. Vague 2 (`candidates-vague2.md`, pack `aveugle-vague2.md`, clés `cles-aveugle-vague2.json`) : 20 nouvelles pour « l'âge » et 12 pour une variante, « la photo de la carte de vœux ». Critiques A et B (`critique-A-vague2.md`, `critique-B-vague2.md`) : les deux désignent la variante comme meilleure fiche et la 424 comme meilleure réplique des 32 (« = » chez A et chez B). Pas de départage nécessaire. S26 devient « Famille, la photo de la carte de vœux ».
+
+Situation S26 retenue : un dimanche de novembre, ta sœur organise la photo de famille pour la carte de vœux, te place au premier rang et règle le téléphone sur le minuteur. On te dit : « Cette année, essaie d'avoir les deux yeux ouverts en même temps. »
 
 Consensus A et B dès le premier passage : S2, S3, S7, S8, S10, S11, S13, S15, S17, S18, S19, S21, S23, S24, S27, S29. Départage (3 relecteurs) : S1 233 (3/3), S4 35 (2/3), S5 78 (2 voix « = » sur 4 contre 152 ; 78 retenue car le rire tombe sur le lecteur, 152 lue comme une pique à la grand-mère par 2 avis), S6 331 (3/3), S9 90 (3/3), S12 41 (3/3), S14 99 (3/3), S16 91 (3/3), S20 316 (3/3), S22 359 (3/3), S25 314 (2/3 ; 77 écartée, logique horaire contestée), S28 94 (3/3), S30 47 (3/3, 2 « = »).
 
