@@ -150,6 +150,8 @@ test.describe("En-tête : budget de largeur", () => {
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toBeVisible();
             await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+            // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
+            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^2,99\s€\/mois$/);
             await expect(compte).toHaveCount(0);
           } else {
             await expect(compte).toBeVisible();

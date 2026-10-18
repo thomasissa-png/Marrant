@@ -35,11 +35,12 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
  * 1024, 1248 px dès 1280 (max-w-7xl : identique à 1440, 1536 et 1920). Tout est
  * `shrink-0` : rien ne s'écrase en silence.
  *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-1.5 depuis s21 :
- *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~534 dès
- *    1280 (px-3) ;
+ *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~478 dès
+ *    1280 (px-2 depuis la revue v3 m4, pour le libellé complet du bouton prix) ;
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
- *  - actions : visiteur « Connexion » + « 2,99 €/mois » (s21, vers /abonnement) ; connecté « Activer mon accès »
+ *  - actions : visiteur « Connexion » + « 2,99 €/mois » de 1024 à 1279, « Premium · 2,99 €/mois »
+ *    dès 1280 (s21, vers /abonnement) ; connecté « Activer mon accès »
  *    (sans abonnement) + menu de compte 44 px (« Favoris », « Mon profil »,
  *    « Déconnexion » regroupés, `account-menu.tsx`).
  * Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états,
@@ -140,7 +141,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
+                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -181,16 +182,18 @@ export function Header() {
                 <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
                   Connexion
                 </Link>
-                {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas dans la barre
-                    d'ordinateur (conteneur plafonné à 1 280 px : 61 px de trop à 1 024, 29 à
-                    1 280, mesuré) : libellé court ici, même lien et même nom accessible. */}
+                {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
+                    (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
+                    Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
+                    29 manquants) et libellé complet. */}
                 {!pageChaude && (
                   <Link
                     href={prixHref}
                     aria-label={EN_TETE.nomAccessible}
                     className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
                   >
-                    {EN_TETE.boutonCourt}
+                    <span className="xl:hidden">{EN_TETE.boutonCourt}</span>
+                    <span className="hidden xl:inline">{EN_TETE.bouton}</span>
                   </Link>
                 )}
               </>

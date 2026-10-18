@@ -47,12 +47,16 @@ describe("Header", () => {
     expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("concision v5 : bouton prix « Premium · 2,99 €/mois » dès 640 px, libellé court en dessous et sur ordinateur", () => {
+  it("concision v5 : bouton prix « Premium · 2,99 €/mois » dès 640 px, libellé court en dessous et de 1 024 à 1 279 px", () => {
     render(<Header />);
     const liens = screen.getAllByRole("link", { name: PRIX });
     expect(liens.length).toBe(2);
-    // Ordinateur : libellé court (le libellé complet ne tient pas dans la barre, mesuré).
-    expect(liens[0].textContent).toBe("2,99\u00A0€/mois");
+    // Ordinateur : libellé court de 1 024 à 1 279 px (mesuré), complet dès 1 280 px (revue v3 m4).
+    const [courtOrdi, completOrdi] = Array.from(liens[0].querySelectorAll("span"));
+    expect(courtOrdi.textContent).toBe("2,99\u00A0€/mois");
+    expect(courtOrdi.className).toBe("xl:hidden");
+    expect(completOrdi.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(completOrdi.className).toBe("hidden xl:inline");
     // Téléphone : toujours rendu (plus de « hidden » sous 360 px), libellé court sous 640 px, complet au-delà.
     const mobile = liens[1];
     expect(mobile.className).not.toMatch(/(^| )hidden( |$)/);
