@@ -2,6 +2,17 @@
 
 ## À DÉPLOYER
 
+### Page admin s21 (18/10/2026) : refonte + inscrits à la lettre, branche `claude/marrant-s21-admin` (depuis `claude/marrant-s21-integration`)
+
+**Rien au déploiement : aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base.** Lecture seule. Sans la migration 14, la page tourne (numéros de la lettre affichés « migration 14 non jouée »).
+- `/admin` : onglets Semaine (défaut : semaine du dernier rapport du lundi, ou 7 derniers jours), Abonnés (Premium et comptes ; Lettre), Réseaux sociaux, Planning. Connexion inchangée.
+- Nouvelles routes, même protection Bearer `ADMIN_PASSWORD` : `GET /api/admin/semaine`, `GET /api/admin/lettre` (jamais l'empreinte IP ni les jetons).
+- Rapport du lundi : section « Lettre mensuelle » ajoutée ; ligne « Abonnés actifs » ventilée mensuel / annuel. Mêmes fonctions que la page admin.
+- **Comptes de test (`ANALYTICS_EMAILS_EXCLUS`) exclus** des comptes créés, abonnés actifs, revenu mensuel, nouveaux abonnés et résiliations, dans l'admin ET l'e-mail du lundi (même fonction `prismaFunnelCounter`), ligne « N compte(s) de test exclu(s) ». **Rupture de série datée de la mise en ligne** : ces chiffres baissent du nombre de comptes de test (à transmettre à @data-analyst).
+- `/admin` et `/admin/ceo` : coquille dédiée (barre « Backoffice », « Voir le site », Déconnexion), sans l'en-tête ni le pied de page publics. `/admin/social` inchangé.
+- Audit et captures : `docs/admin/audit-admin-s21.md`, `docs/admin/captures/`.
+- Après mise en ligne : ouvrir `/admin`, vérifier l'onglet Semaine contre l'e-mail du lundi 19/10.
+
 ### Revue visuelle s21 (ordinateur et mobile) : branche `claude/marrant-s21-visuel`, à fusionner dans `claude/marrant-s21-integration` avant la mise en ligne
 
 Mise en page seulement : **aucun texte modifié, aucune migration, aucun secret, aucune variable, aucune écriture en base**. Gabarit de colonne unique (`apps/web/src/components/layout/gabarit.ts`) : pages catalogue sur la pleine colonne, pages de lecture sur une colonne centrée de 768 px, un seul style de bloc d'appel ; mur des listes aligné sur la liste, phrase de limite dans le mur ; FAQ en accordéon commun ; cibles tactiles de 44 px sur mobile. Audit, avant/après et 540 captures : `docs/design/revue-visuelle-s21/`. Nouveau test Playwright `local` : `mur-alignement-s21.spec.ts`. Après déploiement : ouvrir `/conseils` en visiteur à 1 280 et 375 px, le bloc « Pour la prochaine fois qu'on te chambre » doit avoir les bords de la liste.

@@ -77,6 +77,17 @@ export function computeReportPeriods(now: Date): ReportPeriods {
   return { current: window(-7, 0), previous: window(-14, -7), days };
 }
 
+/**
+ * Instant du dernier rapport du lundi (lundi 7 h, heure de Paris) à `now` ou
+ * avant (s21, page admin). `computeReportPeriods(dernierRapportDuLundi(now))`
+ * donne exactement la semaine de l'e-mail reçu ce lundi-là.
+ */
+export function dernierRapportDuLundi(now: Date, heureEnvoi = 7): Date {
+  const p = parisParts(now);
+  const recul = p.weekday - 1 + (p.weekday === 1 && p.hour < heureEnvoi ? 7 : 0);
+  return new Date(parisMidnightUtc(p.year, p.month, p.day - recul) + heureEnvoi * 3_600_000);
+}
+
 /** Variation en % arrondie au dixième ; null si la base est nulle (division par zéro). */
 export function pctChange(current: number, previous: number): number | null {
   if (previous === 0) return current === 0 ? 0 : null;

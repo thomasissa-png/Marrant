@@ -9,7 +9,8 @@
  * (vues /abonnement, comptes, paiements, résiliations, abonnés, MRR).
  * s21 (18/10) : ligne « Stock du contenu du jour » en tête des sections
  * (weekly-stock.ts, même calcul que /api/health) ; « Nouveau lot à préparer »
- * sous 14 jours.
+ * sous 14 jours. Section « Lettre mensuelle » (weekly-lettre.ts, même calcul
+ * que la page admin).
  */
 import { getUmamiConfig } from "./umami";
 import { buildWeeklyVisitsHtml, buildWeeklyVisitsSubject } from "./weekly-visits-email";
@@ -19,6 +20,7 @@ import { buildWeeklyVisitsReport, type ConversionCounter, type WeeklyVisitsRepor
 import { buildFunnelSectionHtml, buildWeeklyFunnel, type FunnelDbCounter } from "./weekly-funnel";
 import { buildParcoursSectionHtml, buildWeeklyParcours, type ParcoursDbCounter } from "./weekly-parcours";
 import { loadStockLineHtml, type StockReader } from "./weekly-stock";
+import { buildLettreSectionHtml, chargerLettreResume, type LettreResume } from "./weekly-lettre";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
 /** Verrou conservé après succès : un seul envoi par semaine, même si un tick rejoue. */
@@ -29,19 +31,27 @@ export type WeeklyVisitsResult =
   | { status: "skipped"; reason: "umami-not-configured" }
   | { status: "dry-run" | "sent"; subject: string; report: WeeklyVisitsReport };
 
-const prismaConversions: ConversionCounter = async (startAt, endAt) => {
+/**
+ * Exportée pour la page admin (s21) : mêmes lectures que l'e-mail. Comptes de
+ * test exclus (s21, 18/10), comme l'entonnoir (`idsComptesTest`).
+ */
+export const prismaConversions: ConversionCounter = async (startAt, endAt) => {
   const { prisma } = await import("@/lib/prisma");
+  const { idsComptesTest } = await import("./comptes-test");
   const range = { gte: startAt, lte: endAt };
+  const testIds = await idsComptesTest();
   const [signups, newPremium] = await Promise.all([
-    prisma.user.count({ where: { createdAt: range } }),
+    prisma.user.count({ where: { createdAt: range, ...(testIds.length ? { id: { notIn: testIds } } : {}) } }),
     // Ligne Subscription créée au 1er passage Premium (webhook Stripe, upsert par userId).
-    prisma.subscription.count({ where: { plan: "PREMIUM", createdAt: range } }),
+    prisma.subscription.count({
+      where: { plan: "PREMIUM", createdAt: range, ...(testIds.length ? { userId: { notIn: testIds } } : {}) },
+    }),
   ]);
   return { signups, newPremium };
 };
 
 /** Statut de publication des articles suivis (section blog du rapport). */
-const prismaBlogArticles: BlogArticleLookup = async (slugs) => {
+export const prismaBlogArticles: BlogArticleLookup = async (slugs) => {
   const { prisma } = await import("@/lib/prisma");
   return prisma.blogArticle.findMany({
     where: { slug: { in: slugs } },
@@ -76,6 +86,8 @@ export async function runWeeklyVisitsReport(
     countParcours?: ParcoursDbCounter;
     /** Lecture du stock de contenu du jour (s21), injectable pour les tests. */
     readStock?: StockReader;
+    /** Résumé de la lettre mensuelle (s21, même fonction que la page admin), injectable. */
+    readLettre?: (window: { startAt: number; endAt: number }, now: Date) => Promise<LettreResume>;
     /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
     digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
@@ -94,7 +106,7 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
-  const [social, funnel, parcours, stockLine] = await Promise.all([
+  const [social, funnel, parcours, stockLine, lettre] = await Promise.all([
     (opts.socialSection ?? prismaSocialSection)(
       new Date(report.current.startAt),
       new Date(report.current.endAt),
@@ -106,13 +118,15 @@ export async function runWeeklyVisitsReport(
     buildWeeklyParcours(config, report.current, opts.countParcours),
     // s21 : ligne de stock, ne lève jamais.
     loadStockLineHtml(opts.readStock),
+    // s21 (18/10) : section « Lettre mensuelle », ne lève jamais.
+    (opts.readLettre ?? chargerLettreResume)(report.current, opts.now ?? new Date()),
   ]);
   const digest = opts.digest;
   const finalSubject = digest
     ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
     : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${stockLine}${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${social}${digest?.html ?? ""}`));
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${stockLine}${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${buildLettreSectionHtml(lettre)}${social}${digest?.html ?? ""}`));
   return { status: "sent", subject: finalSubject, report };
 }
 

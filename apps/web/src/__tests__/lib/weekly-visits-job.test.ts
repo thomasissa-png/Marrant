@@ -157,6 +157,43 @@ describe("runWeeklyVisitsReport", () => {
     });
   });
 
+  describe("s21 : section « Lettre mensuelle » (même fonction que la page admin)", () => {
+    const html = () => sendAdminHtmlEmail.mock.calls[0][1] as string;
+
+    it("inscrits, semaine, prochain numéro et dernier envoi dans le même e-mail", async () => {
+      const readLettre = jest.fn().mockResolvedValue({
+        etat: "ok",
+        statuts: { confirmes: 12, enAttente: 3, desinscrits: 1 },
+        comptesTestExclus: 1,
+        semaine: { inscriptions: 4, confirmations: 3, desinscriptions: 0 },
+        parEmplacement: [],
+        numeros: {
+          prochain: { periodKey: "2026-11", subject: "Novembre", statut: "BROUILLON", envoiPrevu: "2026-11-05T07:00:00.000Z", envoyeLe: null },
+          aVenir: 1,
+          envoyes: [{ periodKey: "2026-10", subject: "Octobre", statut: "ENVOYE", envoiPrevu: "2026-10-01T06:00:00.000Z", envoyeLe: null, envoyes: 10, echecs: 1, enCours: 0 }],
+        },
+      });
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS, readLettre });
+      expect(readLettre).toHaveBeenCalledWith(expect.objectContaining({ startAt: WEEK_START_2809 }), MONDAY_7H_PARIS);
+      expect(sendAdminHtmlEmail).toHaveBeenCalledTimes(1);
+      expect(html()).toContain("Lettre mensuelle");
+      expect(html()).toMatch(/Inscrits confirmés \(reçoivent la lettre\)<\/td><td[^>]*>12</);
+      expect(html()).toMatch(/Inscriptions de la semaine<\/td><td[^>]*>4</);
+      expect(html()).toContain("2026-11, jeudi 5 novembre");
+      expect(html()).toContain("brouillon, à valider");
+      expect(html()).toContain("10 envoyés, 1 échecs");
+      expect(html()).toContain("1 compte(s) de test exclu(s)");
+    });
+
+    it("lettre illisible : ligne d'avertissement, le rapport part quand même", async () => {
+      // Base de test sans table des inscrits : la lecture par défaut échoue sans lever.
+      const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(res.status).toBe("sent");
+      expect(html()).toContain("Lettre mensuelle</h3><p");
+      expect(html()).toContain("Section indisponible : base illisible.");
+    });
+  });
+
   it("section réseaux sociaux « prévu contre publié » sur la semaine du rapport (s15)", async () => {
     const socialSection = jest.fn().mockResolvedValue("<h3>Réseaux sociaux : prévu contre publié</h3>");
     await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS, socialSection });

@@ -65,6 +65,7 @@ export default function CeoDashboardPage() {
       if (res.ok) {
         sessionStorage.setItem("admin_auth", "true");
         sessionStorage.setItem("admin_pass", password);
+        window.dispatchEvent(new Event("admin-session"));
         setAuthed(true);
       } else {
         const err = await res.json();
