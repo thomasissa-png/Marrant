@@ -10,6 +10,7 @@ import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
 import { BLOC_FIN, DEMO_VANNE } from "@/config/textes/cta-articles-accueil";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
@@ -80,7 +81,7 @@ describe("blog-cta-clic", () => {
     // s21 (B1) : `blog-cta="demo-fiche"` sur le bouton de la démonstration.
     fireEvent.click(getByText(DEMO_VANNE.bouton));
     // s21 (B2) : plein de l'étape 1 puis lien payant du bloc de fin.
-    const finEtape1 = getAllByText(BLOC_FIN.boutonEtape1.repartie!).find((el) =>
+    const finEtape1 = getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).find((el) =>
       el.closest("a")?.getAttribute("href")?.includes("?src=blog#"),
     );
     expect(finEtape1).toBeDefined();

@@ -10,8 +10,8 @@
  * Mécanique (placement, parcours par article) : config/blog-encarts.ts.
  *
  * s21 concision v5 (textes-v5-a §3, mot pour mot) : même gabarit pour chaque parcours (titre,
- * une phrase, plein gratuit `GRATUIT_P`, « Sans compte. », lien `OUVRIR`). Le plein des articles
- * Répartie est `GRATUIT_ACCUEIL` (`BLOC_FIN.boutonEtape1.repartie`, prioritaire).
+ * une phrase, plein gratuit `GRATUIT_P`, « Sans compte. », lien `OUVRIR`). Répartie compris (QA v4
+ * m-2) ; `GRATUIT_ACCUEIL` reste à l'article n°1 et aux articles sans parcours connu.
  */
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";

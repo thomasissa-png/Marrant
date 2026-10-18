@@ -97,8 +97,10 @@ describe("partie A : accueil, en-tête, articles", () => {
 
   it("§3 fin d'article n°1 et déclinaisons par parcours", () => {
     const a1 = BLOC_FIN.parArticle["meilleures-blagues-droles-2026"]!;
-    expect(a1).toEqual({ titre: "La vanne dans ta bouche, pas dans ton téléphone", texte: "La placer à voix haute, ça s'entraîne." });
-    expect(BLOC_FIN.boutonEtape1.repartie).toBe(GRATUIT_ACCUEIL);
+    expect(a1).toEqual({ titre: "La vanne dans ta bouche, pas dans ton téléphone", texte: "La placer à voix haute, ça s'entraîne.", bouton: GRATUIT_ACCUEIL });
+    // QA v4 m-2 : GRATUIT_ACCUEIL = article n°1 et fin d'article sans parcours connu ; Répartie connu = GRATUIT_P.
+    expect(BLOC_FIN.boutonSansParcours).toBe(GRATUIT_ACCUEIL);
+    expect(BLOC_FIN).not.toHaveProperty("boutonEtape1");
     expect(BLOC_FIN.noteSansCompte).toBe("Sans compte.");
     expect(t(BLOC_FIN.lienAbonnement)).toBe(OUVRIR);
     expect(mots(a1.titre!, a1.texte!, BLOC_FIN.noteSansCompte)).toBe(18);

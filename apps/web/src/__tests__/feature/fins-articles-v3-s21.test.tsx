@@ -16,7 +16,7 @@ jest.mock("next-auth/react", () => ({
 jest.mock("@/hooks/use-parcours-a-reprendre", () => ({ useParcoursAReprendre: () => null }));
 
 import { ArticleCta, titreBlocFin } from "@/components/blog/article-cta";
-import { BLOG_CTA_BY_SLUG, boutonEtape1Article } from "@/config/blog-cta";
+import { BLOG_CTA_BY_SLUG, boutonEtape1Article, boutonFinArticle } from "@/config/blog-cta";
 import { BLOC_FIN, GRATUIT_ACCUEIL, libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { resolveArticleParcours } from "@/lib/blog-parcours";
@@ -80,6 +80,23 @@ describe("fins d'articles v3 : 11 blocs rendus", () => {
     const total = mots(copy.title, copy.text, BLOC_FIN.noteSansCompte);
     expect(total).toBe(TOTAUX_V3[slug]);
     expect(total).toBeLessThanOrEqual(25);
+  });
+});
+
+describe("QA v4 m-2 : libellé unique du plein gratuit de fin d'article", () => {
+  it("parcours connu (Répartie compris) = GRATUIT_P ; article n°1 et parcours inconnu = GRATUIT_ACCUEIL", () => {
+    const repartie = resolveArticleParcours("jamais-quoi-repondre-techniques", "TECHNIQUE");
+    expect(repartie).toBe("repartie");
+    // undefined : le composant prend « Tester l'étape 1 de Répartie, gratuite » (TEXTES_PARCOURS_BLOG).
+    expect(boutonFinArticle("jamais-quoi-repondre-techniques", repartie, "TECHNIQUE")).toBeUndefined();
+    const { container } = render(<ArticleCta parcours={repartie} />);
+    expect(normalise(container.querySelector('a[data-blog-cta="etape-1"]')!.textContent ?? "")).toBe(
+      normalise("Tester l'étape 1 de Répartie, gratuite"),
+    );
+    expect(boutonFinArticle("meilleures-blagues-droles-2026", resolveArticleParcours("meilleures-blagues-droles-2026"))).toBe(
+      GRATUIT_ACCUEIL,
+    );
+    expect(boutonFinArticle("article-sans-cluster-connu", "repartie")).toBe(GRATUIT_ACCUEIL);
   });
 });
 

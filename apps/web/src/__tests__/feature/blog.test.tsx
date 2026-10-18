@@ -238,10 +238,11 @@ describe("BlogArticlePage — article detail", () => {
     render(Page);
     // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
     expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    // s21 (B2) : étape 1 gratuite en plein (Répartie : « Tester mes premières répliques, gratuit »)
+    // s21 (B2) : étape 1 gratuite en plein. Clusters simulés ici (aucun) : parcours non connu,
+    // donc « Tester mes premières répliques, gratuit » (QA v4 m-2, libellé unique)
     // puis le lien payant « Débloquer les N parcours, 2,99 €/mois ».
     expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
-    expect(screen.getAllByText(BLOC_FIN.boutonEtape1.repartie!).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(BLOC_FIN.boutonSansParcours).length).toBeGreaterThan(0);
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 

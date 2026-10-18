@@ -95,7 +95,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
                 "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
               )}
             >
-              {frTypo(boutonEtape1 ?? BLOC_FIN.boutonEtape1[parcours] ?? textes.finBoutonEtape1)}
+              {frTypo(boutonEtape1 ?? textes.finBoutonEtape1)}
             </Link>
             <p className="mt-2 text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>
           </div>

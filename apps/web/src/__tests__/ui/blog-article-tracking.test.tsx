@@ -64,7 +64,7 @@ describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
     fireEvent.click(screen.getByText(normalise(BLOC_FIN.lienAbonnement)));
-    fireEvent.click(screen.getByText(BLOC_FIN.boutonEtape1.repartie!));
+    fireEvent.click(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
     expect(track).toHaveBeenCalledTimes(2);
     // s20 : position et parcours du bloc qui contient le bouton.
     const props = { slug: SLUG, position: "fin", parcours: "repartie" };
@@ -79,7 +79,7 @@ describe("blog-cta-clic", () => {
     expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/TTC|14 jours/);
-    expect(screen.getByText(BLOC_FIN.boutonEtape1.repartie!).closest("a")).toHaveAttribute(
+    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).closest("a")).toHaveAttribute(
       "href",
       "/parcours/repartie?src=blog#etape-1",
     );
@@ -222,7 +222,7 @@ describe("blog-vanne-partage", () => {
 describe("CTA d'article : « Sans compte. » et inscription attribuable", () => {
   it("concision v5 : plus de note sous le bloc, « Sans compte. » sous le plein gratuit", () => {
     render(<ArticleCta />);
-    const plein = screen.getByText(BLOC_FIN.boutonEtape1.repartie!).closest("a")!;
+    const plein = screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).closest("a")!;
     const note = screen.getByText("Sans compte.");
     expect(plein.compareDocumentPosition(note) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(document.body.textContent).not.toMatch(/l'abonnement du site|TTC/);

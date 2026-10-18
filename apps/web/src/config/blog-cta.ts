@@ -12,7 +12,8 @@
  * (P = parcours de l'article, même valeur que `parcoursHref`, vérifié par un test) ; absent =
  * « Tester mes premières répliques, gratuit ».
  */
-import { GRATUIT_ACCUEIL, libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
+import { BLOC_FIN, GRATUIT_ACCUEIL, libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
+import { articleParcoursConnu } from "@/lib/blog-parcours";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 
 export interface BlogCtaCopy {
@@ -79,4 +80,17 @@ export function boutonEtape1Article(slug: string, parcours: ParcoursSlug): strin
   const copy = BLOG_CTA_BY_SLUG[slug];
   if (!copy) return undefined;
   return copy.parcoursHref ? libelleGratuitParcours(parcours) : GRATUIT_ACCUEIL;
+}
+
+/**
+ * Plein gratuit du bloc de fin, tous articles (QA v4 m-2, libellé unique) : table ci-dessus, puis
+ * article n°1 (`GRATUIT_ACCUEIL` validé), puis `GRATUIT_ACCUEIL` si le parcours n'est pas connu.
+ * undefined = « Tester l'étape 1 de {P}, gratuite » du parcours (`TEXTES_PARCOURS_BLOG`).
+ */
+export function boutonFinArticle(slug: string, parcours: ParcoursSlug, category?: string): string | undefined {
+  return (
+    boutonEtape1Article(slug, parcours) ??
+    BLOC_FIN.parArticle[slug]?.bouton ??
+    (articleParcoursConnu(slug, category) ? undefined : BLOC_FIN.boutonSansParcours)
+  );
 }

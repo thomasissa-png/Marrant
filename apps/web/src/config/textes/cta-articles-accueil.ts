@@ -88,8 +88,12 @@ export const DEMO_VANNE = {
  * le lien `OUVRIR`. Rien sous le lien (le prix et la garantie vivent sur /abonnement).
  */
 export const BLOC_FIN = {
-  /** Plein gratuit, par parcours (autres parcours : `TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1`). */
-  boutonEtape1: { repartie: GRATUIT_ACCUEIL } as Readonly<Partial<Record<string, string>>>,
+  /**
+   * Plein gratuit quand le parcours de l'article n'est pas connu (ni table par slug, ni cluster) :
+   * `GRATUIT_ACCUEIL`. Parcours connu : `GRATUIT_P` (`TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1`),
+   * Répartie compris (QA v4 m-2, règle du libellé unique §0). L'article n°1 garde le sien (`parArticle`).
+   */
+  boutonSansParcours: GRATUIT_ACCUEIL,
   noteSansCompte: SANS_COMPTE,
   /** Lien payant sous le plein : `OUVRIR`. */
   lienAbonnement: libelleOuvrirParcours(),
@@ -98,8 +102,10 @@ export const BLOC_FIN = {
     "meilleures-blagues-droles-2026": {
       titre: "La vanne dans ta bouche, pas dans ton téléphone",
       texte: "La placer à voix haute, ça s'entraîne.",
+      /** Article n°1 validé (textes-v5-a §3) : libellé générique. */
+      bouton: GRATUIT_ACCUEIL,
     },
-  } as Readonly<Partial<Record<string, { titre?: string; texte?: string }>>>,
+  } as Readonly<Partial<Record<string, { titre?: string; texte?: string; bouton?: string }>>>,
 } as const;
 
 // ─── La lettre par e-mail en bas d'article ──────────────────────────────────
