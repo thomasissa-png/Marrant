@@ -69,7 +69,7 @@ export const ANNUEL_AVANTAGE_LABEL = `${ANNUEL_MOIS_OFFERTS_LABEL}, ${ANNUEL_ECO
 // VALIDÉ s16 (étalon 5b.2) : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
 /** Retour de Stripe sans paiement (reco 12), affiché sur /abonnement. */
 export const PAIEMENT_ANNULE = {
-  titre: "Paiement annulé, rien n'a été prélevé.",
+  titre: "Paiement annulé, rien n’a été prélevé.",
   texte: "Tu peux réessayer quand tu veux.",
 } as const;
 
@@ -98,22 +98,22 @@ export const DUREE_ETAPES = MINUTES_MIN === MINUTES_MAX ? `${MINUTES_MIN} minute
  * (`ABONNEMENT_HAUT_PAR_PARCOURS`, cta-pages.ts).
  */
 export const ABONNEMENT_HAUT_VISITEUR = {
-  sousTitre: `Pas d'attente entre les étapes, ${MINUTES_MIN === MINUTES_MAX ? "" : "de "}${DUREE_ETAPES} chacune.`,
+  sousTitre: `Pas d’attente entre les étapes, ${MINUTES_MIN === MINUTES_MAX ? "" : "de "}${DUREE_ETAPES} chacune.`,
 } as const;
 
 // VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §6)
 /** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */
-export const PASSER_ETAPE_2 = `Passer à l'étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
+export const PASSER_ETAPE_2 = `Passer à l’étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
 
 /** Fin d'étape 1, variante quiz en cours (`ValidationWall`, `quizPending`) : texte, plein, REASS dessous. */
 export const VALIDATION_ETAPE = {
-  texte: `Les étapes suivantes s'ouvrent avec ${OFFRE_NOM}.`,
+  texte: `Les étapes suivantes s’ouvrent avec ${OFFRE_NOM}.`,
   bouton: PASSER_ETAPE_2,
 } as const;
 
 // PROVISOIRE s16, étalon à valider
 /** Nom accessible des cartes verrouillées des listes (lecteur d'écran, D4). */
-export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l'offre`;
+export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l’offre`;
 
 // PROVISOIRE s16 (lot F), hors étalons, étalon à valider
 /**
@@ -123,5 +123,5 @@ export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l'offre`;
  */
 export const RESILIATION_PROGRAMMEE = {
   texte: (date: string | null) =>
-    `${date ? `Ton Premium court jusqu'au ${date}.` : "Ton Premium court jusqu'à la fin de la période déjà payée."} Pour le garder, réactive-le depuis ton profil.`,
+    `${date ? `Ton Premium court jusqu’au ${date}.` : "Ton Premium court jusqu’à la fin de la période déjà payée."} Pour le garder, réactive-le depuis ton profil.`,
 } as const;

@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
+import { frTypo } from "@/lib/fr-typo";
 
 interface YouTubePlayerProps {
   youtubeId: string;
@@ -45,7 +46,7 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
       {/* Thumbnail YouTube ; si elle échoue (T22) : fond dégradé + titre de la vidéo */}
       {thumbFailed ? (
         <span className="absolute inset-0 flex items-end bg-gradient-to-br from-accent-primary/30 to-background-elevated p-4 text-left">
-          <span className="line-clamp-2 text-sm font-semibold text-text-primary">{title}</span>
+          <span className="line-clamp-2 text-sm font-semibold text-text-primary">{frTypo(title)}</span>
         </span>
       ) : (
         <Image

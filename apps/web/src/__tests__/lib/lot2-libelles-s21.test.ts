@@ -22,10 +22,10 @@ const texte = (s: string) => s.replace(/ /g, " ");
 describe("Libellés uniques (concision v5, textes-v5-a §0)", () => {
   it("OUVRIR partout pour l'action payante générique (mur des favoris compris), GRATUIT_P pour l'étape 1", () => {
     expect(texte(libelleOuvrirParcours())).toBe("Ouvrir les 5 parcours · 2,99 €/mois");
-    expect(texte(VALIDATION_ETAPE.bouton)).toBe("Passer à l'étape 2 · 2,99 €/mois");
+    expect(texte(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 2,99 €/mois");
     expect(lire("components/favoris/favoris-list.tsx")).toContain("{libelleOuvrirParcours()}");
-    expect(libelleGratuitParcours("repartie")).toBe("Tester l'étape 1 de Répartie, gratuite");
-    expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l'étape 1 de Machine à Café, gratuite");
+    expect(libelleGratuitParcours("repartie")).toBe("Tester l’étape 1 de Répartie, gratuite");
+    expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
   });
 
   // Les listes passent au bloc de bas de liste (textes dans config/textes/cta-pages.ts) ;
@@ -63,7 +63,7 @@ describe("Libellés uniques (concision v5, textes-v5-a §0)", () => {
 
 describe("Haut de /abonnement (concision v5)", () => {
   it("sous-titre mot pour mot, plus de surtitre", () => {
-    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d'attente entre les étapes, de 15 à 20 minutes chacune.");
+    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d’attente entre les étapes, de 15 à 20 minutes chacune.");
     expect(ABONNEMENT_HAUT_VISITEUR).not.toHaveProperty("surtitre");
     expect(ABONNEMENT_HAUT_VISITEUR).not.toHaveProperty("titre");
   });

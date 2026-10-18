@@ -150,7 +150,7 @@ describe("ViralQuiz", () => {
     const profil = resultat();
     const conseille = QUIZ_PROFILES[profil].recommendedParcours;
     const plein = screen.getByText(QUIZ_HUMOUR_CTA.bouton(conseille)).closest("a");
-    expect(QUIZ_HUMOUR_CTA.bouton(conseille)).toMatch(/^Tester l'étape 1 de .+, gratuite$/);
+    expect(QUIZ_HUMOUR_CTA.bouton(conseille)).toMatch(/^Tester l['’]étape 1 de .+, gratuite$/);
     expect(plein?.getAttribute("href")).toMatch(/^\/parcours\/[a-z-]+\?src=quiz#etape-1$/);
     expect(plein?.className).toContain("bg-accent-secondary-hover");
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
@@ -199,7 +199,7 @@ describe("ViralQuiz", () => {
       }),
     );
     render(<ViralQuiz textes={textesResultatQuiz()} />);
-    expect(screen.getByText("L'Observateur")).toBeInTheDocument();
+    expect(screen.getByText("L’Observateur")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
 

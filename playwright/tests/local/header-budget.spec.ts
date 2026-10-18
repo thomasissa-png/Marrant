@@ -19,7 +19,7 @@ type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
 /** s21 (B6) : bouton prix de l'en-tête, nom accessible « 2,99 € par mois : voir l'offre Premium » (textes validés). */
-const PRIX = /^2,99\s€ par mois : voir l'offre Premium$/;
+const PRIX = /^2,99\s€ par mois : voir l['’]offre Premium$/;
 /**
  * Largeurs de téléphone (concision v5) : bouton prix visible à toutes les largeurs, libellé court
  * « 2,99 €/mois » sous 640 px, « Premium · 2,99 €/mois » au-delà (mesuré : il lui faut 590 px avec

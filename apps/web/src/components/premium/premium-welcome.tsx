@@ -26,7 +26,7 @@ export function PremiumWelcome() {
       <div>
         <p className="font-semibold text-text-primary">Bienvenue dans {OFFRE_NOM}</p>
         <p className="mt-1 text-sm text-text-secondary">
-          Toutes les étapes des parcours sont débloquées, et tes favoris t&apos;attendent. Reprends là où tu t&apos;étais arrêté.
+          Toutes les étapes des parcours sont débloquées, et tes favoris t’attendent. Reprends là où tu t’étais arrêté.
         </p>
       </div>
       <button

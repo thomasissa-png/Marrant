@@ -84,12 +84,12 @@ describe("ProfilDashboard", () => {
 
   it("displays motivational message under progress bar", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Ça avance, et ça commence à s'entendre.")).toBeInTheDocument();
+    expect(screen.getByText("Ça avance, et ça commence à s’entendre.")).toBeInTheDocument();
   });
 
   it("displays streak counter", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("5 jours de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("5 jours de pratique d’affilée")).toBeInTheDocument();
     // s17 tour 1 (DES-1-03) : titre en français.
     expect(screen.getByText("Série")).toBeInTheDocument();
     expect(screen.queryByText("Streak")).not.toBeInTheDocument();

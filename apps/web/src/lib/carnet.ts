@@ -202,7 +202,7 @@ export function formatCarnetMonth(mois: string): string {
 
 /** Élision devant voyelle : « d'octobre », « de novembre ». */
 function avecElision(label: string): string {
-  return /^[aeiouâéèêîôû]/i.test(label) ? `d'${label}` : `de ${label}`;
+  return /^[aeiouâéèêîôû]/i.test(label) ? `d’${label}` : `de ${label}`;
 }
 
 /** « 2026-10 » → « d'octobre 2026 », « 2026-11 » → « de novembre 2026 » (élision). */

@@ -25,7 +25,7 @@ export interface BlogCtaCopy {
 
 export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   "message-anniversaire-drole-par-situation": {
-    title: "Au moment du gâteau, tout le monde t'écoute",
+    title: "Au moment du gâteau, tout le monde t’écoute",
     text: "Mieux vaut avoir de quoi enchaîner après la chanson.",
   },
   "voeux-drole-nouvelle-annee": {
@@ -34,7 +34,7 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   },
   "premier-message-drole-appli-de-rencontre": {
     title: "On te répond. Tu écris quoi, maintenant ?",
-    text: "C'est au deuxième message que ça se joue.",
+    text: "C’est au deuxième message que ça se joue.",
     parcoursHref: "/parcours/confiance",
   },
   "blagues-de-couple-drole": {
@@ -52,7 +52,7 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
     parcoursHref: "/parcours/repartie",
   },
   "refuser-une-invitation-avec-humour": {
-    title: "Après ton non, il y a le « t'es sûr ? »",
+    title: "Après ton non, il y a le « t’es sûr ? »",
     text: "Répondre sans dix excuses, ça se travaille.",
   },
   "mot-de-depart-collegue-drole": {
@@ -65,12 +65,12 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
     parcoursHref: "/parcours/confiance",
   },
   "message-drole-fete-des-peres": {
-    title: "Le SMS, c'est fait. Reste le repas.",
+    title: "Le SMS, c’est fait. Reste le repas.",
     text: "Garde une vanne pour le dessert.",
   },
   "blagues-vacances-ete-entre-amis": {
     title: "Cet été, la blague culte peut être la tienne.",
-    text: "Celle qu'on se répète encore à la rentrée.",
+    text: "Celle qu’on se répète encore à la rentrée.",
     parcoursHref: "/parcours/confiance",
   },
 };

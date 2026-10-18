@@ -18,7 +18,7 @@ export default function CarnetError({
             Le carnet a raté son entrée en scène
           </h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Le souci vient de chez nous, pas de toi. Réessaie, ou va t&apos;entraîner sur les parcours.
+            Le souci vient de chez nous, pas de toi. Réessaie, ou va t’entraîner sur les parcours.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button variant="primary" size="sm" onClick={reset}>

@@ -47,6 +47,6 @@ describe("fiche vanne : compteur de la description", () => {
 
   it("base KO (compteur à 0) : aucun chiffre inventé", async () => {
     getContentStatsCached.mockResolvedValue({ jokes: 0, tips: 0, videos: 0 });
-    expect(await description()).toContain("avec d'autres vannes par situation.");
+    expect(await description()).toContain("avec d’autres vannes par situation.");
   });
 });

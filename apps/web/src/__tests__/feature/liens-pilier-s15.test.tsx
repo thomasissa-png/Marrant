@@ -67,7 +67,7 @@ describe("L2 : accueil, sous les cartes « Tu te reconnais ? »", () => {
     const section = screen.getByText("Tu te reconnais ?").closest("section") as HTMLElement;
     const lien = within(section).getByRole("link", { name: "comment devenir drôle" });
     expect(lien).toHaveAttribute("href", PILIER);
-    expect(lien.closest("p")).toHaveTextContent("Tu veux d'abord comprendre le mécanisme ? Lis notre guide comment devenir drôle.");
+    expect(lien.closest("p")).toHaveTextContent("Tu veux d’abord comprendre le mécanisme ? Lis notre guide comment devenir drôle.");
   });
 });
 

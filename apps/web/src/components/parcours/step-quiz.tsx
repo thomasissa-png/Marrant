@@ -99,8 +99,8 @@ export function StepQuiz({
         </p>
         <p className="mt-1 text-sm text-text-secondary">
           {allCorrect
-            ? "Tu as tout compris. Tu peux valider l'étape."
-            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c'est ta prochaine conversation. Tu peux valider l'étape."}
+            ? "Tu as tout compris. Tu peux valider l’étape."
+            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c’est ta prochaine conversation. Tu peux valider l’étape."}
         </p>
         <Button
           variant="outline"

@@ -24,7 +24,7 @@ import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 import { salutation } from "@/lib/emails/annual-renewal-reminder";
 
 export const CONTACT_EMAIL = "contact@deviens-marrant.fr";
-export const SIGNATURE = "L'Équipe Deviens Marrant";
+export const SIGNATURE = "L’Équipe Deviens Marrant";
 
 /** URL publique du site (liens des e-mails). */
 export function siteUrl(): string {
@@ -108,15 +108,15 @@ export function dateHeure(date: Date): string {
  * ta résiliation ». Bouton Stripe : `submit_type: "subscribe"` + locale fr
  * = « S'abonner » (lib/stripe.ts). Longueur vérifiée par les tests (≤ 1 200).
  */
-export const LIBELLE_BOUTON_STRIPE = "S'abonner";
+export const LIBELLE_BOUTON_STRIPE = "S’abonner";
 
 export function texteStripeSubmit(plan: PremiumPlan): string {
   const prix =
     plan === "annual"
       ? `${prixTtcLabel("annual")}, renouvelé chaque année`
-      : `${prixTtcLabel("monthly")}, prélevé chaque mois jusqu'à ta résiliation`;
+      : `${prixTtcLabel("monthly")}, prélevé chaque mois jusqu’à ta résiliation`;
   const lien = (chemin: string) => `[${siteDomaine()}${chemin}](${siteUrl()}${chemin})`;
-  return `En cliquant sur « ${LIBELLE_BOUTON_STRIPE} », tu passes une commande avec obligation de paiement : Premium, ${prix}. Tu as 14 jours pour te faire rembourser (formulaire : ${lien("/retractation")}). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : ${lien("/cgu")}`;
+  return `En cliquant sur « ${LIBELLE_BOUTON_STRIPE} », tu passes une commande avec obligation de paiement : Premium, ${prix}. Tu as 14 jours pour te faire rembourser (formulaire : ${lien("/retractation")}). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu’à la fin de la période payée. En payant, tu acceptes les CGU : ${lien("/cgu")}`;
 }
 
 // PROVISOIRE s16, étalon à valider
@@ -124,15 +124,15 @@ export const TEXTES_CHECKOUT = {
   dejaAbonne:
     "Tu as déjà un abonnement Premium. Pour changer de formule ou mettre ta carte à jour, passe par ton profil.",
   impaye:
-    "Ton dernier paiement n'est pas passé. Mets ta carte à jour depuis ton profil pour garder ton accès : pas besoin de te réabonner.",
+    "Ton dernier paiement n’est pas passé. Mets ta carte à jour depuis ton profil pour garder ton accès : pas besoin de te réabonner.",
   /** Lien affiché sous dejaAbonne / impaye (/abonnement, modale Premium, accueil). Lot D. */
   lienProfil: "Aller à mon profil",
 } as const;
 
 // PROVISOIRE s16, étalon à valider
 export const TEXTES_PORTAIL = {
-  aucunAbonnement: "On ne trouve pas d'abonnement sur ton compte. Écris-nous à " + CONTACT_EMAIL + " si tu penses que c'est une erreur.",
-  indisponible: "La gestion de l'abonnement ne répond pas pour le moment. Réessaie dans un instant.",
+  aucunAbonnement: "On ne trouve pas d’abonnement sur ton compte. Écris-nous à " + CONTACT_EMAIL + " si tu penses que c’est une erreur.",
+  indisponible: "La gestion de l’abonnement ne répond pas pour le moment. Réessaie dans un instant.",
   connexion: "Connecte-toi pour gérer ton abonnement.",
 } as const;
 
@@ -140,7 +140,7 @@ export const TEXTES_PORTAIL = {
 export const TEXTES_SUCCESS = {
   // Concision v5 (textes-v5-c §5) : paiement vérifié, juste avant le retour automatique.
   pretTitre: "Paiement reçu !",
-  pretTexte: "Merci. Ton accès s'active…",
+  pretTexte: "Merci. Ton accès s’active…",
   /** Plein vers /parcours. */
   pretBouton: "Choisir mon parcours",
   verificationTitre: "On vérifie ton paiement",
@@ -148,13 +148,13 @@ export const TEXTES_SUCCESS = {
   // VALIDÉ s16 (étalon 5a.2) : client non connecté.
   connexionTitre: "Connecte-toi pour retrouver ton abonnement",
   connexionTexte:
-    "Tu n'es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d'ici. Si tu viens de t'abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
+    "Tu n’es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d’ici. Si tu viens de t’abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
   connexionBouton: "Me connecter",
   connexionLienAvant: "Pas encore abonné ? ",
   connexionLien: "Voir Premium",
-  nonVerifieTitre: "On n'arrive pas à confirmer ton paiement",
+  nonVerifieTitre: "On n’arrive pas à confirmer ton paiement",
   nonVerifieTexte:
-    "On n'a pas encore de confirmation de ton paiement. Si tu as bien été débité, pas d'inquiétude : écris-nous à " +
+    "On n’a pas encore de confirmation de ton paiement. Si tu as bien été débité, pas d’inquiétude : écris-nous à " +
     CONTACT_EMAIL +
     " et on active ton accès à la main.",
   reessayer: "Réessayer",
@@ -168,12 +168,12 @@ export const TEXTES_RETRACTATION_FORM = {
   bouton: "Envoyer ma demande",
   succesTitre: "Ta demande de rétractation est bien enregistrée.",
   succesTexte:
-    "On t'a envoyé un e-mail de confirmation. Tu ne le vois pas sous 1 heure ? Regarde dans tes spams, ou écris-nous à",
+    "On t’a envoyé un e-mail de confirmation. Tu ne le vois pas sous 1 heure ? Regarde dans tes spams, ou écris-nous à",
   succesSansEmail:
-    "On n'a pas réussi à t'envoyer l'e-mail de confirmation, mais ta demande est bien enregistrée. Pour en garder une trace, écris-nous aussi à",
-  erreurValidation: "Vérifie ton adresse e-mail et la date d'achat.",
+    "On n’a pas réussi à t’envoyer l’e-mail de confirmation, mais ta demande est bien enregistrée. Pour en garder une trace, écris-nous aussi à",
+  erreurValidation: "Vérifie ton adresse e-mail et la date d’achat.",
   erreurTropDeDemandes: "Tu as déjà envoyé plusieurs demandes. On les traite : pas besoin de recommencer.",
-  erreurServeur: "L'envoi n'a pas marché. Réessaie, ou écris-nous directement à",
+  erreurServeur: "L’envoi n’a pas marché. Réessaie, ou écris-nous directement à",
 } as const;
 
 export { formatEuros };
@@ -206,7 +206,7 @@ export function formuleDe(interval: string | null | undefined, montantCents: num
 export function formulaireTypeRetractation(): string {
   return `MODÈLE DE FORMULAIRE DE RÉTRACTATION
 (Veuillez compléter et renvoyer le présent formulaire uniquement si vous souhaitez vous rétracter du contrat.)
-À l'attention de Deviens Marrant, ${CONTACT_EMAIL} :
+À l’attention de Deviens Marrant, ${CONTACT_EMAIL} :
 Je/Nous (*) vous notifie/notifions (*) par la présente ma/notre (*) rétractation du contrat portant sur la vente du bien (*)/pour la prestation de services (*) ci-dessous :
 Commandé le (*)/reçu le (*) :
 Nom du (des) consommateur(s) :
@@ -244,7 +244,7 @@ export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): Emai
   const prochain = dateValide(v.prochainRenouvellement) ?? ajouterPeriodeParis(souscription, annuel ? "year" : "month");
   const finRetractation = ajouterJoursParis(souscription, 14);
   const ligneAnnuelle = annuel
-    ? `\nAvec l'annuel, tu as ${ANNUEL_MOIS_OFFERTS_LABEL} : ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par rapport au mensuel.\n`
+    ? `\nAvec l’annuel, tu as ${ANNUEL_MOIS_OFFERTS_LABEL} : ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par rapport au mensuel.\n`
     : "";
   return {
     subject: "Bienvenue dans Premium, ton abonnement est confirmé",
@@ -256,13 +256,13 @@ Voici ta confirmation :
 - Formule : Premium ${annuel ? "annuel" : "mensuel"}
 - Prix : ${prix}
 - Souscrit le : ${dateLongue(souscription)}
-- Prochain prélèvement : ${dateLongue(prochain)}, ${montant} TTC. L'abonnement se reconduit automatiquement à cette date, jusqu'à ce que tu le résilies.
+- Prochain prélèvement : ${dateLongue(prochain)}, ${montant} TTC. L’abonnement se reconduit automatiquement à cette date, jusqu’à ce que tu le résilies.
 ${ligneAnnuelle}
-Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu'à la fin de la période payée.
+Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu’à la fin de la période payée.
 
-Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit au moins jusqu'au ${dateLongue(finRetractation)}, pour te rétracter sans donner de motif. On te rembourse alors l'intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : ${url}/retractation.
+Droit de rétractation : tu as 14 jours à partir d’aujourd’hui, soit au moins jusqu’au ${dateLongue(finRetractation)}, pour te rétracter sans donner de motif. On te rembourse alors l’intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : ${url}/retractation.
 
-Les CGU qui s'appliquent à ton abonnement : ${url}/cgu.
+Les CGU qui s’appliquent à ton abonnement : ${url}/cgu.
 
 Tout est ouvert. Pour démarrer, choisis un parcours : ${url}/parcours.
 
@@ -297,16 +297,16 @@ export function emailPaiementRefuse(v: PaiementRefuseVars): EmailRendu {
     .filter(Boolean)
     .join(", ");
   return {
-    subject: "Ton paiement n'est pas passé, ton Premium reste actif",
+    subject: "Ton paiement n’est pas passé, ton Premium reste actif",
     text: `${salutation(v.prenom)}
 
-Le prélèvement de ton abonnement Premium${details ? ` (${details})` : ""} n'est pas passé. Ça arrive : carte expirée, plafond atteint, vérification de la banque.
+Le prélèvement de ton abonnement Premium${details ? ` (${details})` : ""} n’est pas passé. Ça arrive : carte expirée, plafond atteint, vérification de la banque.
 
-Rien n'est coupé pour l'instant : ton accès Premium reste ouvert pendant que le prélèvement est retenté automatiquement dans les prochains jours.
+Rien n’est coupé pour l’instant : ton accès Premium reste ouvert pendant que le prélèvement est retenté automatiquement dans les prochains jours.
 
 Si ta carte a changé ou si ta banque a bloqué le paiement, tu peux la mettre à jour ici : ${url}/profil.
 
-Si le paiement reste impossible à la fin des tentatives, l'abonnement s'arrête et l'accès Premium se ferme. Tu pourras te réabonner quand tu veux.
+Si le paiement reste impossible à la fin des tentatives, l’abonnement s’arrête et l’accès Premium se ferme. Tu pourras te réabonner quand tu veux.
 
 ${SIGNATURE}
 `,
@@ -327,16 +327,16 @@ export interface ResiliationVars {
 export function emailConfirmationResiliation(v: ResiliationVars): EmailRendu {
   const url = siteUrl();
   const fin = dateValide(v.finAcces);
-  const jusquau = fin ? `jusqu'au ${dateLongue(fin)}` : "jusqu'à la fin de la période payée";
+  const jusquau = fin ? `jusqu’au ${dateLongue(fin)}` : "jusqu’à la fin de la période payée";
   return {
-    subject: fin ? `C'est noté : ton Premium s'arrête le ${dateLongue(fin)}` : "Ta résiliation est confirmée",
+    subject: fin ? `C’est noté : ton Premium s’arrête le ${dateLongue(fin)}` : "Ta résiliation est confirmée",
     text: `${salutation(v.prenom)}
 
-Ta résiliation est bien prise en compte. Tu gardes l'accès Premium ${jusquau}, puis l'abonnement s'arrête : aucun nouveau prélèvement.
+Ta résiliation est bien prise en compte. Tu gardes l’accès Premium ${jusquau}, puis l’abonnement s’arrête : aucun nouveau prélèvement.
 
 Tu peux te réabonner quand tu veux : ${url}/abonnement. Les premières étapes des parcours restent en lecture libre.
 
-Merci d'avoir bossé ton humour avec nous.
+Merci d’avoir bossé ton humour avec nous.
 
 ${SIGNATURE}
 `,
@@ -385,7 +385,7 @@ export function delaiRetractation(premiereSouscription: Date | null | undefined,
 // `remboursementSousCondition` : texte exact @legal (point 7, réserve 1).
 export const TEXTES_ACCUSE_RETRACTATION = {
   remboursementDansLeDelai:
-    "On te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé pour l'achat. Ton abonnement est alors arrêté : plus aucun prélèvement.",
+    "On te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé pour l’achat. Ton abonnement est alors arrêté : plus aucun prélèvement.",
   remboursementSousCondition:
     "Si ta demande est faite dans les 14 jours qui suivent ta souscription, on te rembourse sous 14 jours maximum, sur le moyen de paiement utilisé. Ton abonnement est alors arrêté.",
 } as const;
@@ -398,7 +398,7 @@ export const TEXTES_ACCUSE_RETRACTATION = {
  */
 export function emailAccuseRetractation(v: RetractationVars): EmailRendu {
   const dateAchat = dateValide(v.dateAchat);
-  const achat = dateAchat ? `\nDate d'achat indiquée : le ${dateLongue(dateAchat)}` : "";
+  const achat = dateAchat ? `\nDate d’achat indiquée : le ${dateLongue(dateAchat)}` : "";
   const recue = dateValide(v.recueLe) ?? new Date();
   const remboursement =
     delaiRetractation(v.premiereSouscription, recue) === "dans-le-delai"
@@ -415,7 +415,7 @@ Adresse du compte : ${v.email}${achat}
 
 ${remboursement}
 
-Garde cet e-mail : c'est la preuve de ta demande.
+Garde cet e-mail : c’est la preuve de ta demande.
 
 Une question ? ${CONTACT_EMAIL}
 
@@ -427,7 +427,7 @@ ${SIGNATURE}
 const LIGNE_DELAI_ADMIN: Record<DelaiRetractation, (debut: string) => string> = {
   "dans-le-delai": (debut) => `dans le délai de 14 jours (première souscription le ${debut})`,
   depasse: (debut) =>
-    `DÉPASSÉ d'après la première souscription (le ${debut}). Remboursement dû seulement pour le premier paiement d'un abonnement : vérifier dans Stripe la date de début de l'abonnement en cours (réabonnement possible).`,
+    `DÉPASSÉ d’après la première souscription (le ${debut}). Remboursement dû seulement pour le premier paiement d’un abonnement : vérifier dans Stripe la date de début de l’abonnement en cours (réabonnement possible).`,
   inconnu: () => "INCONNU (aucun abonnement enregistré pour cet e-mail) : vérifier dans Stripe.",
 };
 
@@ -443,11 +443,11 @@ Reçue le : ${dateHeure(v.recueLe)}
 Date limite de remboursement : ${dateLongue(ajouterJoursParis(v.recueLe, 14))} (demande + 14 jours)
 Référence : ${v.reference}
 E-mail saisi : ${v.email} (${v.compteTrouve ? "compte trouvé" : "AUCUN compte avec cet e-mail"})
-Date d'achat indiquée : ${v.dateAchat ? dateLongue(v.dateAchat) : "non renseignée"}
+Date d’achat indiquée : ${v.dateAchat ? dateLongue(v.dateAchat) : "non renseignée"}
 Délai de rétractation : ${LIGNE_DELAI_ADMIN[delai](debut ? dateLongue(debut) : "")}
 Motif : ${v.motif || "non renseigné"}
 
-À faire dans Stripe : rembourser le paiement (remboursement total). Le site résilie alors l'abonnement automatiquement et repasse le compte sans Premium.
+À faire dans Stripe : rembourser le paiement (remboursement total). Le site résilie alors l’abonnement automatiquement et repasse le compte sans Premium.
 `,
   };
 }

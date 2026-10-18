@@ -70,7 +70,7 @@ describe("/login : échecs de connexion e-mail", () => {
   });
 
   it.each([
-    [LOGIN_ERROR_CODES.tropDEssais, "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu, ou réinitialise ton mot de passe."],
+    [LOGIN_ERROR_CODES.tropDEssais, "Trop d’essais pour l’instant, c’est une sécurité. Attends un peu, ou réinitialise ton mot de passe."],
     [LOGIN_ERROR_CODES.serveur, "Quelque chose a coincé de notre côté. Réessaie dans un instant."],
   ])("%s : texte validé mot pour mot, sans aide Google", async (code, attendu) => {
     mockSignIn.mockResolvedValue({ error: code });
@@ -93,7 +93,7 @@ describe("/login : retour Google en erreur", () => {
     mockSearchParams.set("error", "OAuthAccountNotLinked");
     render(<LoginPage />);
     expect(screen.getByRole("alert").textContent).toBe(
-      "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
+      "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l’as oublié.",
     ); // étalon 4 b validé
     expect(mockSignIn).not.toHaveBeenCalled();
     expect(mockTrack).toHaveBeenCalledWith("connexion-echec", { methode: "google", motif: "compte-mot-de-passe" });

@@ -109,7 +109,7 @@ export function ValidationWall({
         <CarteEtapeSuivante
           parcours={slug}
           numero={etapeSuivante.order}
-          titre={etapeSuivante.moduleTitle ?? etapeSuivante.tip.title}
+          titre={frTypoParcours(etapeSuivante.moduleTitle ?? etapeSuivante.tip.title)}
           apercu={etapeSuivante.moduleDetail || etapeSuivante.why ? frTypoParcours(etapeSuivante.moduleDetail || etapeSuivante.why || "") : null}
         />
       )}
@@ -136,7 +136,7 @@ export function VideoCard({ video, seule = false }: { video: VideoRef; seule?: b
       </div>
       <div className="p-3">
         <p className="text-sm font-medium text-text-primary">{video.artist}</p>
-        <p className="text-xs text-text-secondary">{video.title}</p>
+        <p className="text-xs text-text-secondary">{frTypoParcours(video.title)}</p>
         {/* s17 tour 1 (DES-1-13) : description lisible, lien en cible de 44 px. */}
         <p className="mt-1 text-sm text-text-secondary">{frTypoParcours(stripEmDashes(video.why))}</p>
         {video.href && (

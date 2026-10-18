@@ -88,7 +88,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     global.fetch = fetchMock as unknown as typeof fetch;
     render(await AbonnementPage({}));
     const notice = await screen.findByTestId("resiliation-programmee");
-    expect(notice).toHaveTextContent("Ton Premium court jusqu'au 12 novembre 2099. Pour le garder, réactive-le depuis ton profil.");
+    expect(notice).toHaveTextContent("Ton Premium court jusqu’au 12 novembre 2099. Pour le garder, réactive-le depuis ton profil.");
     expect(screen.getByRole("link", { name: "Aller à mon profil" })).toHaveAttribute("href", "/profil");
     expect(screen.queryByText(/Ouvrir les 5 parcours/)).toBeNull();
     expect(fetchMock.mock.calls.map(([url]) => url)).toEqual(["/api/stripe/status"]);
@@ -117,7 +117,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     global.fetch = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: true, currentPeriodEnd: null })) as unknown as typeof fetch;
     render(await AbonnementPage({}));
     expect(await screen.findByTestId("resiliation-programmee")).toHaveTextContent(
-      "Ton Premium court jusqu'à la fin de la période déjà payée. Pour le garder, réactive-le depuis ton profil.",
+      "Ton Premium court jusqu’à la fin de la période déjà payée. Pour le garder, réactive-le depuis ton profil.",
     );
   });
 });

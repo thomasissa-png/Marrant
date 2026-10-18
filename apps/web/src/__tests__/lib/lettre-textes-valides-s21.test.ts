@@ -41,7 +41,7 @@ const EMAILS = sansInsecables(EMAILS_LETTRE);
 
 describe("Textes validés à l'aveugle (mot pour mot)", () => {
   it("bloc 1 : en-tête du formulaire (tour 2, A)", () => {
-    expect([T.titre, T.phrase]).toEqual(["Une vanne décryptée, chaque mois", "Tu la reçois par e-mail, avec un exercice pour t'entraîner."]);
+    expect([T.titre, T.phrase]).toEqual(["Une vanne décryptée, chaque mois", "Tu la reçois par e-mail, avec un exercice pour t’entraîner."]);
   });
 
   it("bloc 2 : champ, bouton et réassurance (tour 2, B)", () => {
@@ -59,32 +59,32 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
       "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     );
     expect(T.formulaire.mention).toBe(
-      "Ton adresse ne sert qu'à t'envoyer la lettre. deviens-marrant SAS, l'éditeur du site, en est responsable. Détails et droits :",
+      "Ton adresse ne sert qu’à t’envoyer la lettre. deviens-marrant SAS, l’éditeur du site, en est responsable. Détails et droits :",
     );
     expect(T.formulaire.lienConfidentialite).toBe("Confidentialité");
     expect(LETTRE_CONFIDENTIALITE_HREF).toBe("/confidentialite#lettre");
   });
 
-  it("bloc 4 : messages d'erreur (tour 1, A)", () => {
+  it("bloc 4 : messages d’erreur (tour 1, A)", () => {
     expect(T.erreurs).toEqual({
-      email: "Cette adresse n'a pas l'air complète. Un exemple : toi@exemple.fr",
-      case: "Coche la case, sans ça on ne peut pas t'envoyer la lettre.",
-      reseau: "L'envoi n'a pas abouti, et c'est de notre côté. Ce que tu as saisi reste dans le champ : réessaie dans un instant.",
-      limite: "Il y a eu beaucoup d'essais d'un coup. Attends une minute et réessaie.",
+      email: "Cette adresse n’a pas l’air complète. Un exemple : toi@exemple.fr",
+      case: "Coche la case, sans ça on ne peut pas t’envoyer la lettre.",
+      reseau: "L’envoi n’a pas abouti, et c’est de notre côté. Ce que tu as saisi reste dans le champ : réessaie dans un instant.",
+      limite: "Il y a eu beaucoup d’essais d’un coup. Attends une minute et réessaie.",
     });
   });
 
   it("bloc 5 : envoi en cours, succès, renvoi, drapeau (tour 1, B)", () => {
-    expect([T.formulaire.boutonEnvoi, T.formulaire.attenteLongue]).toEqual(["Envoi de l'e-mail", "Ça traîne un peu, patiente quelques secondes."]);
+    expect([T.formulaire.boutonEnvoi, T.formulaire.attenteLongue]).toEqual(["Envoi de l’e-mail", "Ça traîne un peu, patiente quelques secondes."]);
     expect(T.succes).toEqual({
       titre: "Regarde ta boîte mail.",
-      texte: "On t'a envoyé un e-mail. Ouvre le lien qu'il contient et touche le bouton « Confirmer mon adresse » : sans ça, tu ne reçois rien.",
+      texte: "On t’a envoyé un e-mail. Ouvre le lien qu’il contient et touche le bouton « Confirmer mon adresse » : sans ça, tu ne reçois rien.",
       aide: "Rien au bout de quelques minutes ? Jette un œil aux spams et aux promotions.",
-      renvoyer: "Renvoyer l'e-mail",
-      renvoyerDans: "Renvoyer l'e-mail dans {s} s",
+      renvoyer: "Renvoyer l’e-mail",
+      renvoyerDans: "Renvoyer l’e-mail dans {s} s",
       changer: "Mauvaise adresse ? La corriger",
     });
-    expect(T.drapeau).toEqual({ texte: "Il reste à confirmer ton adresse : regarde ta boîte mail.", renvoyer: "Renvoyer l'e-mail" });
+    expect(T.drapeau).toEqual({ texte: "Il reste à confirmer ton adresse : regarde ta boîte mail.", renvoyer: "Renvoyer l’e-mail" });
     // Le bouton cité dans le texte de succès est bien celui de la page de confirmation.
     expect(T.succes.texte).toContain(`« ${T.page.confirmer.bouton} »`);
   });
@@ -92,7 +92,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
   it("bloc 6 : titre de l'onglet, description, intitulé de l'aperçu (tour 2, B)", () => {
     expect([T.page.metaTitre, T.page.metaDescription, T.page.dernierNumero]).toEqual([
       "La lettre : une vanne décryptée, chaque mois",
-      "Une vanne, ce qui la fait marcher et un exercice pour t'entraîner, dans ta boîte mail. Gratuit, sans compte.",
+      "Une vanne, ce qui la fait marcher et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
       "À quoi ça ressemble : le dernier numéro",
     ]);
     expect(T.page.metaTitre).toBe(`La lettre : ${T.titre.charAt(0).toLowerCase()}${T.titre.slice(1)}`);
@@ -106,7 +106,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     });
     const c = T.statuts.confirmee;
     expect([c.titre, c.texte, c.lien]).toEqual([
-      "C'est bon, c'est confirmé.",
+      "C’est bon, c’est confirmé.",
       "Une lettre par mois, avec une vanne décryptée.",
       "Voir la vanne du jour et son décryptage",
     ]);
@@ -121,12 +121,12 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
         "Tu ne recevras plus la lettre du mois. Si tu as un compte ou un abonnement Premium, leurs e-mails (facture, sécurité, rappel avant un renouvellement annuel) continuent : ils sont obligatoires.",
       bouton: "Me désinscrire",
     });
-    expect(T.statuts.desinscrit).toEqual({ titre: "C'est fait, tu ne recevras plus la lettre.", lien: "Mauvais bouton ? Te réinscrire" });
+    expect(T.statuts.desinscrit).toEqual({ titre: "C’est fait, tu ne recevras plus la lettre.", lien: "Mauvais bouton ? Te réinscrire" });
   });
 
   it("bloc 9 : lien invalide et erreur technique (tour 2, B)", () => {
     expect(`${T.statuts.invalide.titre} ${T.statuts.invalide.texte}`).toBe(
-      "Ce lien ne marche plus : il a peut-être expiré ou déjà servi. Pour t'inscrire, utilise le formulaire de cette page. Pour te désinscrire, écris-nous à contact@deviens-marrant.fr.",
+      "Ce lien ne marche plus : il a peut-être expiré ou déjà servi. Pour t’inscrire, utilise le formulaire de cette page. Pour te désinscrire, écris-nous à contact@deviens-marrant.fr.",
     );
     expect(T.statuts.erreur.titre).toBe(
       "Un souci de notre côté. Réessaie ce lien dans quelques minutes, et écris-nous à contact@deviens-marrant.fr si ça persiste.",
@@ -138,14 +138,14 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     expect(EMAILS.confirmation.corps("LIEN", BASE).split("\n")).toEqual([
       "Salut,",
       "",
-      "Quelqu'un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
+      "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
       "",
       "Pour confirmer, ouvre ce lien et touche le bouton « Confirmer mon adresse ». Il est valable 7 jours.",
       "LIEN",
       "",
-      "Ce n'était pas toi ? Ignore ce message : tu ne recevras rien, et l'adresse sera effacée au bout de 7 jours.",
+      "Ce n’était pas toi ? Ignore ce message : tu ne recevras rien, et l’adresse sera effacée au bout de 7 jours.",
       "",
-      "L'Équipe Deviens Marrant",
+      "L’Équipe Deviens Marrant",
       "",
       ...PIED,
     ]);
@@ -156,11 +156,11 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     expect(EMAILS.dejaInscrit.corps("DESINSCRIRE", BASE).split("\n")).toEqual([
       "Salut,",
       "",
-      "Une demande d'inscription vient d'être faite avec cette adresse, mais elle reçoit déjà la lettre : rien à faire de ton côté. Un numéro arrive une fois par mois.",
+      "Une demande d’inscription vient d’être faite avec cette adresse, mais elle reçoit déjà la lettre : rien à faire de ton côté. Un numéro arrive une fois par mois.",
       "",
       "Si tu veux arrêter, le lien de désinscription est en bas de ce message.",
       "",
-      "L'Équipe Deviens Marrant",
+      "L’Équipe Deviens Marrant",
       "",
       ...PIED,
       "Se désinscrire : DESINSCRIRE",
@@ -177,9 +177,9 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
       "Pour continuer, ouvre ce lien puis touche le bouton :",
       "OUI",
       "",
-      "Sans clic de ta part dans les 30 jours, on te désinscrit. Rien d'autre à faire.",
+      "Sans clic de ta part dans les 30 jours, on te désinscrit. Rien d’autre à faire.",
       "",
-      "L'Équipe Deviens Marrant",
+      "L’Équipe Deviens Marrant",
       "",
       ...PIED,
       "Se désinscrire maintenant : NON",
@@ -190,7 +190,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     expect(EMAILS.piedNumero("DESINSCRIRE", BASE).split("\n")).toEqual([
       "",
       "--",
-      "Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.",
+      "Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.",
       "Éditeur : deviens-marrant SAS. Contact : contact@deviens-marrant.fr.",
       "Se désinscrire : DESINSCRIRE",
       `Confidentialité : ${BASE}/confidentialite`,

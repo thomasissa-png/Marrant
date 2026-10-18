@@ -15,7 +15,7 @@ import { isPreviewAuthorized } from "@/lib/blog-preview-auth";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Aperçu d'article",
+  title: "Aperçu d’article",
   robots: {
     index: false,
     follow: false,

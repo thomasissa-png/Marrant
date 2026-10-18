@@ -15,7 +15,7 @@
  * texte exact @legal (point 3).
  */
 export const RETRACTATION_PERIMETRE =
-  "Le remboursement sous 14 jours ne vaut que pour le premier paiement de ton abonnement, jamais pour un renouvellement. Ce délai court à partir de ta souscription ; un renouvellement n'ouvre pas un nouveau délai de 14 jours.";
+  "Le remboursement sous 14 jours ne vaut que pour le premier paiement de ton abonnement, jamais pour un renouvellement. Ce délai court à partir de ta souscription ; un renouvellement n’ouvre pas un nouveau délai de 14 jours.";
 
 /** Titre placé avant le modèle légal de formulaire (texte exact @legal, point 2). */
 export const MODELE_FORMULAIRE_TITRE = "Modèle de formulaire de rétractation (facultatif, le formulaire en ligne suffit)";

@@ -34,7 +34,7 @@ describe("OnboardingFlow", () => {
     const onComplete = jest.fn();
     render(<OnboardingFlow onComplete={onComplete} />);
     fireEvent.click(screen.getByText("On y va"));
-    expect(screen.getByText(/T'as quel âge en gros/i)).toBeInTheDocument();
+    expect(screen.getByText(/T['’]as quel âge en gros/i)).toBeInTheDocument();
   });
 
   it("détecte persona YANIS pour age u22 + goal repartie", async () => {
@@ -76,7 +76,7 @@ describe("OnboardingFlow", () => {
     await waitFor(() => {
       expect(window.localStorage.getItem("detectedPersona")).toBe("MARC");
     });
-    expect(screen.getByText(/Ta légèreté n'est pas partie loin/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ta légèreté n['’]est pas partie loin/i)).toBeInTheDocument();
   });
 
   it("propose Plus tard sur l'écran push", async () => {

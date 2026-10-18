@@ -40,11 +40,11 @@ const HUMOR_PROFILE_KEY = "humor-profile";
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    question: "C'est quoi ton objectif principal ?",
+    question: "C’est quoi ton objectif principal ?",
     options: [
       { label: "Avoir de la répartie", value: "REPARTIE", emoji: "⚡" },
       { label: "Faire rire les gens", value: "VANNES", emoji: "😂" },
-      { label: "Être plus à l'aise socialement", value: "CONFIANCE", emoji: "💪" },
+      { label: "Être plus à l’aise socialement", value: "CONFIANCE", emoji: "💪" },
       { label: "Tout ça à la fois", value: "GLOBAL", emoji: "🎯" },
     ],
   },
@@ -71,17 +71,17 @@ const QUESTIONS: QuizQuestion[] = [
 const RESULTS: Record<string, { title: string; description: string; emoji: string }> = {
   DEBUTANT: {
     title: "En route vers la répartie",
-    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
+    description: "T’as le potentiel, il te manque juste les techniques ! On va t’apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
     emoji: "🌱",
   },
   INTERMEDIAIRE: {
     title: "Le blagueur affûté",
-    description: "T'as déjà le sens de l'humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu'on écoute quand il prend la parole.",
+    description: "T’as déjà le sens de l’humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu’on écoute quand il prend la parole.",
     emoji: "🌿",
   },
   AVANCE: {
     title: "Le comique naturel",
-    description: "T'es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
+    description: "T’es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
     emoji: "🔥",
   },
   EXPERT: {
@@ -113,7 +113,7 @@ function RecommendedParcours({ recommendation, onStart }: { recommendation: Parc
     <div className="mt-6 rounded-lg border border-border bg-background-elevated p-4 text-left">
       <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
       <h3 className="mt-1 font-display text-lg font-bold text-text-primary">{recommendation.title}</h3>
-      <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
+      <p className="mt-1 text-sm text-text-secondary">{frTypo(recommendation.reason)}</p>
       <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
         {QUIZ_ORIENTATION_CTA.commencerAbonne}
       </Button>

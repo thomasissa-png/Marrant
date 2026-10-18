@@ -40,17 +40,17 @@ const NOV_2 = new Date("2026-11-02T12:00:00Z");
 
 describe("deMoisSeul : nom du mois sans l'année, avec élision", () => {
   it("« d'octobre », « de novembre », « d'avril », « d'août », « de décembre »", () => {
-    expect(deMoisSeul("2026-10")).toBe("d'octobre");
+    expect(deMoisSeul("2026-10")).toBe("d’octobre");
     expect(deMoisSeul("2026-11")).toBe("de novembre");
-    expect(deMoisSeul("2027-04")).toBe("d'avril");
-    expect(deMoisSeul("2027-08")).toBe("d'août");
+    expect(deMoisSeul("2027-04")).toBe("d’avril");
+    expect(deMoisSeul("2027-08")).toBe("d’août");
     expect(deMoisSeul("2026-12")).toBe("de décembre");
   });
 
   it("mois invalide : null ; deCarnetMonth garde l'année", () => {
     expect(deMoisSeul("2026-13")).toBeNull();
     expect(deMoisSeul("n'importe quoi")).toBeNull();
-    expect(deCarnetMonth("2026-10")).toBe("d'octobre 2026");
+    expect(deCarnetMonth("2026-10")).toBe("d’octobre 2026");
   });
 });
 
@@ -84,7 +84,7 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
     expect(extrait?.totalFiches).toBe(15);
     expect(extrait?.numero).toBe(15);
     render(<CarnetExtraitBloc extrait={extrait!} />);
-    expect(screen.getByText("Carnet d'octobre · Situation 15, offerte")).toBeInTheDocument();
+    expect(screen.getByText("Carnet d’octobre · Situation 15, offerte")).toBeInTheDocument();
   });
 
   it("carnet réel de novembre 2026 après bascule : « Situation 10, offerte »", () => {
@@ -107,7 +107,7 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
 describe("CarnetExtraitBloc", () => {
   it("rend le surtitre, le titre, la fiche sans « Si ça se tend » ni « À toi de jouer », et le lien (plus d'intro)", () => {
     render(<CarnetExtraitBloc extrait={{ mois: "2026-10", fiche: fiche(1), totalFiches: 15, numero: 1 }} />);
-    expect(screen.getByText("Carnet d'octobre · Situation 1, offerte")).toBeInTheDocument();
+    expect(screen.getByText("Carnet d’octobre · Situation 1, offerte")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Le carnet, en vrai" })).toBeInTheDocument();
     expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 3, name: "Titre 1" })).toBeInTheDocument();

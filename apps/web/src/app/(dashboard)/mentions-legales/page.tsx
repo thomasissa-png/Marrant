@@ -25,7 +25,7 @@ export default function MentionsLegalesPage() {
           <p>deviens-marrant.fr est édité par la société deviens-marrant SAS.</p>
           <p>Capital social : 1 000 €</p>
           <p>Siège social : Paris, France</p>
-          <p>RCS : en cours d&apos;immatriculation</p>
+          <p>RCS : en cours d’immatriculation</p>
           <p>Email : contact@deviens-marrant.fr</p>
           <p>Directeur de publication : Alex Durand</p>
         </section>
@@ -39,8 +39,8 @@ export default function MentionsLegalesPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Propriété intellectuelle</h2>
-          <p>L&apos;ensemble du contenu de ce site (textes, images, vidéos, logos, design) est protégé par le droit d&apos;auteur et le droit des marques. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l&apos;éditeur.</p>
-          <p className="mt-2">Les vidéos intégrées restent la propriété de leurs auteurs respectifs et sont diffusées via l&apos;API YouTube conformément aux conditions d&apos;utilisation de YouTube.</p>
+          <p>L’ensemble du contenu de ce site (textes, images, vidéos, logos, design) est protégé par le droit d’auteur et le droit des marques. Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l’éditeur.</p>
+          <p className="mt-2">Les vidéos intégrées restent la propriété de leurs auteurs respectifs et sont diffusées via l’API YouTube conformément aux conditions d’utilisation de YouTube.</p>
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Crédits</h2>

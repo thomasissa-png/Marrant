@@ -51,7 +51,7 @@ function saveResult(profile: HumorProfileType): void {
 function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResultatQuiz }) {
   // s21 (QA m6) : l'abonné n'a ni lien payant ni ligne de prix (il a déjà tout).
   const estPremium = useEstPremium();
-  const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
+  const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t’es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
     <Card className="animate-scale-in">

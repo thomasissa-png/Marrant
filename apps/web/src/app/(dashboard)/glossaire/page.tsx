@@ -25,14 +25,14 @@ const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
 const PAGE_URL = "https://deviens-marrant.fr/glossaire";
 const PAGE_TITLE = `Glossaire humour : ${glossary.length} termes clés`;
 const PAGE_DESCRIPTION =
-  `Punchline, timing, callback, one-liner : le dico de l'humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`;
+  `Punchline, timing, callback, one-liner : le dico de l’humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`;
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
   description: PAGE_DESCRIPTION,
   keywords: [
     "définition répartie",
-    "qu'est-ce que la répartie",
+    "qu’est-ce que la répartie",
     "timing humour définition",
     "autodérision définition",
     "glossaire humour",
@@ -61,7 +61,7 @@ export default function GlossairePage() {
           })),
         )}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Glossaire</span>
@@ -73,8 +73,8 @@ export default function GlossairePage() {
           <>
             Répartie, timing, autodérision, punchline… Les mots que les
             humoristes utilisent entre eux, expliqués simplement et avec des
-            exemples concrets. Parce que savoir comment s&apos;appelle une
-            technique, c&apos;est déjà un peu savoir s&apos;en servir.
+            exemples concrets. Parce que savoir comment s’appelle une
+            technique, c’est déjà un peu savoir s’en servir.
           </>
         }
       />
@@ -139,7 +139,7 @@ export default function GlossairePage() {
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
-            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l&apos;humour s&apos;apprend.</p>
+            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l’humour s’apprend.</p>
           </Link>
         </div>
       </nav>

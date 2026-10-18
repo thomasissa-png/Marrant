@@ -32,7 +32,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
   },
   {
     id: "types-humour",
-    name: "Types d'humour",
+    name: "Types d’humour",
     pillarSlug: "5-types-humour-lequel-pour-toi",
     satelliteSlugs: ["humour-noir-utiliser-sans-blesser", "jeu-de-mots-drole-techniques-creer", "humour-self-deprecating"],
   },
@@ -50,7 +50,7 @@ export const BLOG_CLUSTERS: ClusterInfo[] = [
   },
   {
     id: "douleurs-personas",
-    name: "Quand l'humour coince",
+    name: "Quand l’humour coince",
     pillarSlug: "je-suis-pas-drole-comment-changer",
     satelliteSlugs: ["repondre-moqueries-avec-humour", "jamais-quoi-repondre-techniques", "confiance-humour-apres-rupture", "rester-muet-en-groupe"],
   },

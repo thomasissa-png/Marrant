@@ -173,7 +173,7 @@ describe("UpcomingFeatures", () => {
     // Should rollback to 62 after error
     await waitFor(() => {
       expect(screen.getByLabelText("62 votes pour Une communauté")).toHaveTextContent("Je veux ça !");
-      expect(toast).toHaveBeenCalledWith("Ton vote s'est perdu en route, réessaie.", "error");
+      expect(toast).toHaveBeenCalledWith("Ton vote s’est perdu en route, réessaie.", "error");
     });
   });
 

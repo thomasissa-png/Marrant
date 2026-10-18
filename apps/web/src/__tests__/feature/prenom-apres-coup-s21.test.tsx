@@ -43,7 +43,7 @@ describe("Carte « Ton prénom » de /profil", () => {
   });
 
   it("erreur serveur ou réseau : « Ça n'a pas marché, réessaie. »", async () => {
-    expect(TEXTES_PRENOM.erreur).toBe("Ça n'a pas marché, réessaie.");
+    expect(TEXTES_PRENOM.erreur).toBe("Ça n’a pas marché, réessaie.");
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({ error: TEXTES_API.erreurServeur }) });
     const { unmount } = render(<PrenomCard prenom="Jean" />);
     await userEvent.click(screen.getByRole("button", { name: TEXTES_PRENOM.bouton }));
@@ -58,6 +58,6 @@ describe("Carte « Ton prénom » de /profil", () => {
   it("textes de la carte : titre, bouton, succès", () => {
     expect(TEXTES_PRENOM.titre).toBe("Ton prénom");
     expect(TEXTES_PRENOM.bouton).toBe("Enregistrer");
-    expect(TEXTES_PRENOM.succes).toBe("C'est noté.");
+    expect(TEXTES_PRENOM.succes).toBe("C’est noté.");
   });
 });

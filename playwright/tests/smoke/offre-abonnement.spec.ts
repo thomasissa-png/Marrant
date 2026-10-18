@@ -76,7 +76,7 @@ test.describe("Offre /abonnement @smoke", () => {
 
   test("retour Stripe annulé ?paiement=annule → « Paiement annulé, rien n'a été prélevé. » (étalon 5b.2) @s16", async ({ page }) => {
     await page.goto("/abonnement?paiement=annule&upgrade=cancel");
-    const bandeau = page.getByRole("status").filter({ hasText: "Paiement annulé, rien n'a été prélevé." });
+    const bandeau = page.getByRole("status").filter({ hasText: /Paiement annulé, rien n['’]a été prélevé\./ });
     await expect(bandeau).toBeVisible();
     await expect(bandeau).toContainText("Tu peux réessayer quand tu veux.");
     // Le retour annulé ne relance jamais le paiement : on reste sur la page.
@@ -110,7 +110,7 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
     await page.goto("/conseils");
     const barre = page.getByRole("banner");
-    const commencer = barre.getByRole("link", { name: /^2,99\s€ par mois : voir l'offre Premium$/ }).filter({ visible: true }).first();
+    const commencer = barre.getByRole("link", { name: /^2,99\s€ par mois : voir l['’]offre Premium$/ }).filter({ visible: true }).first();
     await expect(commencer).toHaveAttribute("href", "/abonnement?src=header");
     await expect(commencer).toBeVisible();
     expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);

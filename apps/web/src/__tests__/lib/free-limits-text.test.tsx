@@ -42,9 +42,9 @@ describe("limites gratuites affichées = constantes de config", () => {
   });
 
   it("murs des listes : limites lues dans les constantes de config", () => {
-    expect(MUR_LISTE.vannes.limite).toBe("Les 12 gratuites, c'est fait.");
-    expect(MUR_LISTE.conseils.limite).toBe("6 conseils gratuits, c'est fait.");
-    expect(MUR_LISTE.videos.limite).toBe("2 vidéos gratuites, c'est fait.");
+    expect(MUR_LISTE.vannes.limite).toBe("Les 12 gratuites, c’est fait.");
+    expect(MUR_LISTE.conseils.limite).toBe("6 conseils gratuits, c’est fait.");
+    expect(MUR_LISTE.videos.limite).toBe("2 vidéos gratuites, c’est fait.");
   });
 
   it("llms.txt / llms-full.txt (tarifs et FAQ)", () => {

@@ -131,7 +131,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
       window.history.pushState({}, "", url);
       render(<AbonnementView annualAvailable={false} />);
       // Étalon 5b.2 validé : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
-      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n'a été prélevé.");
+      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n’a été prélevé.");
       expect(screen.getByRole("status")).toHaveTextContent("Tu peux réessayer quand tu veux.");
       expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
     },

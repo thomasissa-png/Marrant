@@ -25,7 +25,7 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 const REGISTER_MESSAGE =
-  "Google n'accepte pas l'inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.";
+  "Google n’accepte pas l’inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.";
 
 function setUserAgent(ua: string) {
   jest.spyOn(window.navigator, "userAgent", "get").mockReturnValue(ua);
@@ -122,7 +122,7 @@ describe("/login", () => {
     await waitFor(() => expect(google).toBeDisabled());
     expect(
       screen.getByText(
-        "Google n'accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
+        "Google n’accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
       ),
     ).toBeInTheDocument();
     const open = screen.getByRole("link", { name: "Ouvrir dans mon navigateur" });

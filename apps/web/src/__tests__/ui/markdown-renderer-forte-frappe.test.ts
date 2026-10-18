@@ -178,8 +178,8 @@ describe("B2 importé : lignes « **N.** « … » » à guillemets imbriqués",
 describe("Libellé du bouton de partage (notation A5 iter2)", () => {
   it("A5 : « Partager l'idée n°N », titre adapté, mode with-url conservé", () => {
     expect(FORTE_FRAPPE_SHARE["blagues-poisson-d-avril-adultes"]).toBe("with-url");
-    expect(shareLabel("blagues-poisson-d-avril-adultes", "with-url", "3")).toBe("Partager l'idée n°3");
-    expect(shareTitle("blagues-poisson-d-avril-adultes")).toBe("Idée de poisson d'avril - deviens-marrant.fr");
+    expect(shareLabel("blagues-poisson-d-avril-adultes", "with-url", "3")).toBe("Partager l’idée n°3");
+    expect(shareTitle("blagues-poisson-d-avril-adultes")).toBe("Idée de poisson d’avril - deviens-marrant.fr");
   });
 
   it("les autres slugs ne bougent pas", () => {

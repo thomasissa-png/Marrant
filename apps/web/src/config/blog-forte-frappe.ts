@@ -41,13 +41,13 @@ export const FORTE_FRAPPE_IDEA_SLUGS: ReadonlySet<string> = new Set(["blagues-po
 /** Libellé du bouton de partage d'une ligne numérotée (components/blog/blog-vanne-share). */
 export function shareLabel(slug: string, mode: BlogShareMode, n: string): string {
   if (mode === "text-only") return `Envoyer le message n°${n}`;
-  return `Partager ${FORTE_FRAPPE_IDEA_SLUGS.has(slug) ? "l'idée" : "la vanne"} n°${n}`;
+  return `Partager ${FORTE_FRAPPE_IDEA_SLUGS.has(slug) ? "l’idée" : "la vanne"} n°${n}`;
 }
 
 /** Titre de partage (partage natif `with-url`). */
 export function shareTitle(slug: string): string {
   return FORTE_FRAPPE_IDEA_SLUGS.has(slug)
-    ? "Idée de poisson d'avril - deviens-marrant.fr"
+    ? "Idée de poisson d’avril - deviens-marrant.fr"
     : "Vanne - deviens-marrant.fr";
 }
 

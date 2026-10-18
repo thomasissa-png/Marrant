@@ -53,8 +53,8 @@ describe("/abonnement visiteur (concision v5, textes-v5-c §1)", () => {
     ["machine-a-cafe", "Faire rire au bureau, au bon moment"],
     ["boulot", "Faire rire au bureau, au bon moment"],
     ["confiance", "Rire à table, sans monter sur scène"],
-    ["storytelling", "Ton histoire jusqu'à la chute, avant le « et donc ? »"],
-  ] as const)("parcours d'origine %s : titre dédié, plus de surtitre, bouton OUVRIR unique", (slug, titre) => {
+    ["storytelling", "Ton histoire jusqu’à la chute, avant le « et donc ? »"],
+  ] as const)("parcours d’origine %s : titre dédié, plus de surtitre, bouton OUVRIR unique", (slug, titre) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} parcoursOrigine={slug} />);
     expect(screen.getByRole("heading", { level: 1, name: frTypo(titre) })).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe("/abonnement visiteur (concision v5, textes-v5-c §1)", () => {
     expect(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre).toBe(titre);
   });
 
-  it("suite sous le bouton, puis REASS ; extrait du carnet puis « Pas encore sûr ? » (parcours d'origine)", () => {
+  it("suite sous le bouton, puis REASS ; extrait du carnet puis « Pas encore sûr ? » (parcours d’origine)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     const { container } = render(
       <AbonnementView annualAvailable={false} parcoursOrigine="confiance" carnetExtrait={<div data-testid="carnet" />} />,
@@ -98,18 +98,17 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
   });
 
-  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l'ordre, bouton avant les avantages (§5.2, §5.3)", () => {
+  it("lot 2 s21 : premier écran visiteur mot pour mot et dans l’ordre, bouton avant les avantages (§5.2, §5.3)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable carnetExtrait={null} />);
     // Texte perçu (vue et lecteur d'écran) : sans les lignes de la formule non choisie,
     // gardées invisibles et `aria-hidden` pour la stabilité de la mise en page (revue design s21 m2).
     const perceptible = document.body.cloneNode(true) as HTMLElement;
     perceptible.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
-    // Revue visuelle s21 : apostrophes typographiques au rendu (frTypo), comparées en apostrophes droites.
-    const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ").replace(/’/g, "'");
+    const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ");
     const lignes = [
       "Ta réplique en soirée, pas dans le bus du retour",
-      "Pas d'attente entre les étapes, de 15 à 20 minutes chacune.",
+      "Pas d’attente entre les étapes, de 15 à 20 minutes chacune.",
       "Premium",
       "Mensuel",
       "Annuel",
@@ -127,7 +126,7 @@ describe("AbonnementPage (s12 T45)", () => {
       "Un nouveau carnet de répartie chaque mois",
       "Tout le catalogue : vannes, conseils, vidéos",
       "Tes favoris sous la main",
-      "Pas encore sûr ? Tester l'étape 1 de Répartie, gratuite",
+      "Pas encore sûr ? Tester l’étape 1 de Répartie, gratuite",
     ];
     let depuis = 0;
     for (const ligne of lignes) {
@@ -141,7 +140,7 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(texte).not.toContain("Accéder aux parcours complets");
   });
 
-  it("lot 2 s21 : l'extrait du carnet s'insère après la carte, avant « Pas encore sûr ? »", () => {
+  it("lot 2 s21 : l’extrait du carnet s’insère après la carte, avant « Pas encore sûr ? »", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} carnetExtrait={<section data-testid="extrait-carnet" />} />);
     const extrait = screen.getByTestId("extrait-carnet");
@@ -168,7 +167,7 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
   });
 
-  it("compte connecté : titre du parcours d'origine, sous-titre commun, ligne Stripe, sans pastille ni « Pas encore sûr ? »", async () => {
+  it("compte connecté : titre du parcours d’origine, sous-titre commun, ligne Stripe, sans pastille ni « Pas encore sûr ? »", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(await AbonnementPage({}));
     expect(screen.queryByText("Un abonnement, tout ouvert")).toBeNull();
@@ -184,7 +183,7 @@ describe("AbonnementPage (s12 T45)", () => {
   describe("offre Premium vraie (décision Thomas 03/10)", () => {
     afterEach(() => window.history.pushState({}, "", "/"));
 
-    it("vend ce qui existe (parcours, carnet, catalogue, favoris), sans l'inexistant", async () => {
+    it("vend ce qui existe (parcours, carnet, catalogue, favoris), sans l’inexistant", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
       expect(screen.getByText("Chaque parcours en entier")).toBeInTheDocument();
@@ -195,7 +194,7 @@ describe("AbonnementPage (s12 T45)", () => {
       expect(text).not.toContain("\u2014");
     });
 
-    it("anonyme : le CTA payant garde l'intention d'origine (returnTo)", async () => {
+    it("anonyme : le CTA payant garde l’intention d’origine (returnTo)", async () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
@@ -238,7 +237,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
   });
 
   describe("sans STRIPE_PREMIUM_ANNUAL_PRICE_ID : mensuel seul, comme avant", () => {
-    it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX"])("valeur %p : aucune trace de l'annuel", async (value) => {
+    it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX"])("valeur %p : aucune trace de l’annuel", async (value) => {
       if (value === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
       else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = value;
       useSession.mockReturnValue({ status: "authenticated" });
@@ -286,7 +285,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ plan: "annual" });
     });
 
-    it("lot 2 s21 : dès l'état mensuel, l'annuel est montré et « plus de 3 mois offerts » n'est dit qu'une fois", async () => {
+    it("lot 2 s21 : dès l’état mensuel, l’annuel est montré et « plus de 3 mois offerts » n’est dit qu’une fois", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
       expect(screen.getByTestId("annuel-mois-offerts")).toHaveTextContent("plus de 3 mois offerts");
@@ -337,7 +336,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
 
-    it("anonyme : le choix annuel survit à l'inscription (callback plan=annual + returnTo)", async () => {
+    it("anonyme : le choix annuel survit à l’inscription (callback plan=annual + returnTo)", async () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fcarnet");
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
@@ -347,7 +346,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       );
     });
 
-    it("?plan=annual préselectionne l'annuel", async () => {
+    it("?plan=annual préselectionne l’annuel", async () => {
       window.history.pushState({}, "", "/abonnement?plan=annual");
       useSession.mockReturnValue({ status: "authenticated" });
       render(await AbonnementPage({}));

@@ -81,28 +81,28 @@ describe("textes : plus de compte gratuit côté utilisateur", () => {
     const cgu = read("app/(dashboard)/cgu/page.tsx");
     expect(cgu).not.toMatch(/compte gratuit/i);
     expect(cgu).toContain(
-      "L&apos;inscription est ouverte à toute personne de 15 ans et plus. L&apos;accès à l&apos;ensemble du contenu nécessite un abonnement actif.",
+      "L’inscription est ouverte à toute personne de 15 ans et plus. L’accès à l’ensemble du contenu nécessite un abonnement actif.",
     );
   });
 });
 
-describe("11 blocs de fin d'article (config/blog-cta.ts) : v3 validée (correction C1 de la revue v3)", () => {
+describe("11 blocs de fin d’article (config/blog-cta.ts) : v3 validée (correction C1 de la revue v3)", () => {
   // Textes de docs/copy/cta-s21/concision/fins-articles-v3.md, mot pour mot.
   const V3: Record<string, [titre: string, phrase: string]> = {
-    "message-anniversaire-drole-par-situation": ["Au moment du gâteau, tout le monde t'écoute", "Mieux vaut avoir de quoi enchaîner après la chanson."],
+    "message-anniversaire-drole-par-situation": ["Au moment du gâteau, tout le monde t’écoute", "Mieux vaut avoir de quoi enchaîner après la chanson."],
     "voeux-drole-nouvelle-annee": ["En janvier, les vœux se disent en face.", "Toute la tournée des bises, sans rester sec."],
-    "premier-message-drole-appli-de-rencontre": ["On te répond. Tu écris quoi, maintenant ?", "C'est au deuxième message que ça se joue."],
+    "premier-message-drole-appli-de-rencontre": ["On te répond. Tu écris quoi, maintenant ?", "C’est au deuxième message que ça se joue."],
     "blagues-de-couple-drole": ["Chez vous, qui a le dernier mot ?", "Du tac au tac, même pour la télécommande."],
     "blagues-poisson-d-avril-adultes": ["Le 1er avril, tu peux aussi être la cible.", "Une riposte, ça se prépare avant."],
     "blagues-de-gamer-jeux-video": ["En vocal, la team ne laisse rien passer.", "Prochaine partie, à toi de chambrer."],
-    "refuser-une-invitation-avec-humour": ["Après ton non, il y a le « t'es sûr ? »", "Répondre sans dix excuses, ça se travaille."],
+    "refuser-une-invitation-avec-humour": ["Après ton non, il y a le « t’es sûr ? »", "Répondre sans dix excuses, ça se travaille."],
     "mot-de-depart-collegue-drole": ["Au pot, il faudra bien dire un mot.", "Autour du buffet, ta carte ne parlera pas pour toi."],
     "message-drole-fete-des-meres": ["À table, impossible de copier-coller.", "Il faudra tes propres mots."],
-    "message-drole-fete-des-peres": ["Le SMS, c'est fait. Reste le repas.", "Garde une vanne pour le dessert."],
-    "blagues-vacances-ete-entre-amis": ["Cet été, la blague culte peut être la tienne.", "Celle qu'on se répète encore à la rentrée."],
+    "message-drole-fete-des-peres": ["Le SMS, c’est fait. Reste le repas.", "Garde une vanne pour le dessert."],
+    "blagues-vacances-ete-entre-amis": ["Cet été, la blague culte peut être la tienne.", "Celle qu’on se répète encore à la rentrée."],
   };
 
-  it("11 articles, titre et phrase v3 mot pour mot ; l'article n°1 n'a plus d'entrée (bloc v5)", () => {
+  it("11 articles, titre et phrase v3 mot pour mot ; l’article n°1 n’a plus d’entrée (bloc v5)", () => {
     expect(Object.keys(BLOG_CTA_BY_SLUG).sort()).toEqual(Object.keys(V3).sort());
     expect(BLOG_CTA_BY_SLUG).not.toHaveProperty("meilleures-blagues-droles-2026");
     for (const [slug, [titre, phrase]] of Object.entries(V3)) {

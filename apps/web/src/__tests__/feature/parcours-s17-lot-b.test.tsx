@@ -162,7 +162,7 @@ describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
     );
     render(<ParcoursDetail slug="confiance" />);
     await userEvent.click(await screen.findByText("Valider cette étape"));
-    expect(await screen.findByRole("alert")).toHaveTextContent("L'étape n'a pas voulu se valider. Réessaie.");
+    expect(await screen.findByRole("alert")).toHaveTextContent("L’étape n’a pas voulu se valider. Réessaie.");
     expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 1, motif: "refus" });
   });
 
@@ -187,7 +187,7 @@ describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
     );
     await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 0, motif: "chargement" }));
     // Étape 2 ouverte d'office (étape à reprendre) : plus d'attente sans fin.
-    expect(await screen.findByText("Le contenu de l'étape n'a pas voulu se charger.")).toBeInTheDocument();
+    expect(await screen.findByText("Le contenu de l’étape n’a pas voulu se charger.")).toBeInTheDocument();
     // s17 tour 3 (UXV-3-01) : un seul « Réessayer », celui de l'étape dépliée.
     expect(screen.getAllByRole("button", { name: "Réessayer" })).toHaveLength(1);
     await userEvent.click(within(document.getElementById("etape-2") as HTMLElement).getByText("Réessayer"));
@@ -260,7 +260,7 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     expect(screen.queryByText(/Tu peux valider/)).not.toBeInTheDocument();
     // s17 tour 1 (UXV-1-04) : quiz compté dès la fin, plus de « Continuer » ; titre sans « valider ».
     expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
-    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
     // Un seul bouton plein (s21 B14) : « Passer à l'étape 2 avec Premium » une fois le quiz fini.
     const plein = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
@@ -341,7 +341,7 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
       "/api/parcours/db-path/quiz",
       expect.objectContaining({ method: "POST", body: JSON.stringify({ stepOrder: 1 }) }),
     );
-    expect(screen.getByText("Quiz bouclé, tu peux valider l'étape")).toBeInTheDocument();
+    expect(screen.getByText("Quiz bouclé, tu peux valider l’étape")).toBeInTheDocument();
   });
 });
 

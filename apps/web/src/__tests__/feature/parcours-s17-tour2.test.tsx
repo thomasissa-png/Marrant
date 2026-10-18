@@ -93,7 +93,7 @@ describe("s17 tour 2 : chargement Premium lent", () => {
     // Carte ouverte : squelette de 3 lignes, aria-busy (DES-2-01).
     const etape2 = document.getElementById("etape-2") as HTMLElement;
     expect(within(etape2).getByTestId("etape-squelette").children).toHaveLength(3);
-    expect(within(etape2).getByText("Chargement du contenu de l'étape…").parentElement).toHaveAttribute("aria-busy", "true");
+    expect(within(etape2).getByText("Chargement du contenu de l’étape…").parentElement).toHaveAttribute("aria-busy", "true");
 
     await act(async () => lente.resoudre(ok({ path: buildPath(false), userProgress: ETAPE_1_FAITE })));
     await waitFor(() => expect(screen.queryByText(CHARGEMENT_PREMIUM.enCours)).toBeNull());
@@ -308,7 +308,7 @@ describe("s17 tour 3 (QA) : échec de la validation d'une étape", () => {
 
     // Nouvel échec (serveur) : message remplacé, toujours une seule alerte, focus de nouveau sur « Valider ».
     await user.click(valider);
-    expect(await within(etape2).findByText("L'étape n'a pas voulu se valider. Réessaie.")).toHaveAttribute("role", "alert");
+    expect(await within(etape2).findByText("L’étape n’a pas voulu se valider. Réessaie.")).toHaveAttribute("role", "alert");
     expect(screen.getAllByRole("alert")).toHaveLength(1);
     await waitFor(() => expect(within(etape2).getByRole("button", { name: "Valider cette étape" })).toHaveFocus());
   });

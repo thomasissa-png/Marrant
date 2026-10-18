@@ -37,7 +37,7 @@ export function usePremiumCheckout(src: string) {
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
       trackCheckoutEchec(src, conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
-      else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+      else toast("Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
       trackCheckoutEchec(src, "reseau");
       toast("Connexion perdue, réessaie", "error");

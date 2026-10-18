@@ -33,20 +33,20 @@ export const metadata: Metadata = {
 
 /** FAQ validée (docs/copy/landings-s14.md) ; compteur dynamique, jamais figé. */
 function buildFaqs(jokeCount: number) {
-  const count = jokeCount > 0 ? `Il y en a ${jokeCount}+` : "Il y en a bien d'autres";
+  const count = jokeCount > 0 ? `Il y en a ${jokeCount}+` : "Il y en a bien d’autres";
   return [
     {
-      question: "C'est quoi la blague du jour ?",
+      question: "C’est quoi la blague du jour ?",
       answer:
         "Une vanne choisie pour la journée, avec sa chute et son décryptage. Elle change au fil des jours, et les précédentes se retrouvent dans le catalogue des vannes.",
     },
     {
-      question: "Comment la ressortir sans avoir l'air de la réciter ?",
+      question: "Comment la ressortir sans avoir l’air de la réciter ?",
       answer:
-        "Raconte-la avec tes mots, pas mot pour mot. Garde la chute pour la fin, marque une courte pause juste avant, et attends le bon moment de la conversation. Le décryptage te dit pourquoi elle marche : tu peux l'adapter à ta situation.",
+        "Raconte-la avec tes mots, pas mot pour mot. Garde la chute pour la fin, marque une courte pause juste avant, et attends le bon moment de la conversation. Le décryptage te dit pourquoi elle marche : tu peux l’adapter à ta situation.",
     },
     {
-      question: "Où trouver d'autres vannes que celle du jour ?",
+      question: "Où trouver d’autres vannes que celle du jour ?",
       answer: `Dans le catalogue, classé par situation : boulot, couple, soirées, famille, gaming. ${count}, chacune avec sa chute.`,
     },
   ];
@@ -67,7 +67,7 @@ export default async function BlagueDuJourPage() {
       <JsonLd data={buildFaqJsonLd(faqs)} />
       {/* Revue visuelle s21 : page de lecture, colonne centrée commune (gabarit.ts). */}
       <div className={COLONNE_LECTURE}>
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Blague du jour</span>
@@ -75,7 +75,7 @@ export default async function BlagueDuJourPage() {
       <PageHeader
         title="La blague du jour"
         lead={frTypo(
-          "Une vanne, sa chute, et l'explication de ce qui la fait marcher. Tu la lis, tu la retiens, tu la ressors ce soir au bon moment. Demain, une autre prend sa place.",
+          "Une vanne, sa chute, et l’explication de ce qui la fait marcher. Tu la lis, tu la retiens, tu la ressors ce soir au bon moment. Demain, une autre prend sa place.",
         )}
       />
 
@@ -96,7 +96,7 @@ export default async function BlagueDuJourPage() {
               className="mt-6 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
             >
               <h3 id="pourquoi-ca-marche" className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-                Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+                Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
               </h3>
               {joke.techniqueExplanation && (
                 <p className="mt-2 text-sm text-text-secondary">{contenuAffiche(joke.techniqueExplanation)}</p>

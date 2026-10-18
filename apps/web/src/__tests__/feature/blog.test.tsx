@@ -129,7 +129,7 @@ describe("BlogPage — listing", () => {
   it("renders the page title", () => {
     expect(
       screen.getByText(
-        "Comment devenir drôle : guides et techniques d'humour"
+        "Comment devenir drôle : guides et techniques d’humour"
       )
     ).toBeInTheDocument();
   });
@@ -173,7 +173,7 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders breadcrumb navigation", () => {
-    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    const breadcrumb = screen.getByLabelText("Fil d’Ariane");
     expect(breadcrumb).toBeInTheDocument();
     expect(screen.getByText("Accueil")).toBeInTheDocument();
     // s21 [CHOIX UTILISATEUR] : la section s'appelle « Articles » (adresse /blog inchangée).
@@ -251,7 +251,7 @@ describe("BlogArticlePage — article detail", () => {
       params: { slug: "comment-devenir-drole" },
     });
     render(Page);
-    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    const breadcrumb = screen.getByLabelText("Fil d’Ariane");
     expect(breadcrumb).toBeInTheDocument();
     // s21 : lien « Articles » vers /blog, et BreadcrumbList au même libellé.
     expect(screen.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");

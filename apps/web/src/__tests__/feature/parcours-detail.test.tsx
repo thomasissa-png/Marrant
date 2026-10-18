@@ -157,7 +157,7 @@ describe("ParcoursDetail — enriched content", () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
       expect(screen.getByText("Vannes courtes et mémorisables")).toBeInTheDocument();
-      expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
+      expect(screen.getByText("L’art du timing social")).toBeInTheDocument();
     });
   });
 
@@ -220,10 +220,10 @@ describe("ParcoursDetail — enriched content", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/1")).toBeInTheDocument();
-    expect(screen.getByText(courbe("Quelle est la clé d'une bonne vanne ?"))).toBeInTheDocument();
+    expect(screen.getByText(courbe("Quelle est la clé d’une bonne vanne ?"))).toBeInTheDocument();
 
     // Answer correctly
     await userEvent.click(screen.getByText("La surprise de la chute"));
@@ -248,11 +248,11 @@ describe("ParcoursDetail — enriched content", () => {
   it("D1 s17 : visiteur, l'étape 2 est marquée « Fait partie de Premium » et s'ouvre sur l'aperçu", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
+      expect(screen.getByText("L’art du timing social")).toBeInTheDocument();
     });
     expect(screen.queryByText("Fait partie de Premium")).toBeNull(); // concision v5 : badge retiré
     expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
-    const header = screen.getByRole("button", { name: /Étape 2 : L'art du timing social/ });
+    const header = screen.getByRole("button", { name: /Étape 2 : L’art du timing social/ });
     await userEvent.click(header);
     expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
@@ -481,7 +481,7 @@ describe("ParcoursDetail — sequential unlock for authenticated users", () => {
 
     // Step 2 auto-expands (first incomplete step)
     await waitFor(() => {
-      expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
+      expect(screen.getByText("L’art du timing social")).toBeInTheDocument();
     });
 
     // Step 2 should NOT show lock message (step 1 is completed)

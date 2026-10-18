@@ -43,7 +43,7 @@ describe("HumorQuiz", () => {
 
   it("renders first question about objectif", () => {
     render(<HumorQuiz />);
-    expect(screen.getByText("C'est quoi ton objectif principal ?")).toBeInTheDocument();
+    expect(screen.getByText("C’est quoi ton objectif principal ?")).toBeInTheDocument();
   });
 
   it("shows question counter badge", () => {
@@ -61,7 +61,7 @@ describe("HumorQuiz", () => {
     render(<HumorQuiz />);
     expect(screen.getByText("Avoir de la répartie")).toBeInTheDocument();
     expect(screen.getByText("Faire rire les gens")).toBeInTheDocument();
-    expect(screen.getByText("Être plus à l'aise socialement")).toBeInTheDocument();
+    expect(screen.getByText("Être plus à l’aise socialement")).toBeInTheDocument();
     expect(screen.getByText("Tout ça à la fois")).toBeInTheDocument();
   });
 
@@ -217,7 +217,7 @@ describe("HumorQuiz", () => {
 
     render(<HumorQuiz />);
     await userEvent.click(screen.getByText("Refaire le quiz"));
-    expect(screen.getByText("C'est quoi ton objectif principal ?")).toBeInTheDocument();
+    expect(screen.getByText("C’est quoi ton objectif principal ?")).toBeInTheDocument();
     expect(screen.getByText("Question 1/3")).toBeInTheDocument();
   });
 
@@ -264,7 +264,7 @@ describe("HumorQuiz", () => {
 
   it("recommends Confiance for « Être plus à l'aise socialement »", async () => {
     render(<HumorQuiz />);
-    await userEvent.click(screen.getByText("Être plus à l'aise socialement"));
+    await userEvent.click(screen.getByText("Être plus à l’aise socialement"));
     await userEvent.click(screen.getByText("Partout"));
     await userEvent.click(screen.getByText("Je fais rire souvent"));
 
@@ -301,7 +301,7 @@ describe("HumorQuiz", () => {
       expect(texte).toBe(
         "Ton parcours : RépartiePour toi si on te chambre et que tu cherches encore quoi répondre.Ouvrir les 5 parcours · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
       );
-      const gratuit = screen.getByRole("button", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ });
+      const gratuit = screen.getByRole("button", { name: /^Tester l['’]étape\s1\sde Répartie, gratuite$/ });
       expect(document.body.textContent).not.toMatch(/Ton quiz te conseille|Ton compte est prêt|Voir par où commencer|Tout débloquer/);
       // QA v4 m-4 : parcours nommé une seule fois (plus de « Ton point de départ : Parcours Répartie »
       // ni de raison hors v5) ; le plein payant passe au-dessus du lien gratuit.

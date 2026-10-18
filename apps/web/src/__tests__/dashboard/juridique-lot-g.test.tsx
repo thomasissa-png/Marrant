@@ -106,12 +106,12 @@ describe("suppression du compte en cours d'abonnement", () => {
 describe("pages légales", () => {
   it("CGU : art. 3 mensuel à durée indéterminée, art. 6 périmètre, art. 7 sans libellé Stripe", () => {
     render(<CGUPage />);
-    const text = document.body.textContent ?? "";
+    const text = (document.body.textContent ?? "").replace(/\u00a0/g, " ");
     expect(text).not.toContain("reconduite tacitement chaque mois");
-    expect(text).toContain("La formule mensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mois jusqu'à ta résiliation.");
+    expect(text).toContain("La formule mensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mois jusqu’à ta résiliation.");
     expect(text).toContain(RETRACTATION_PERIMETRE);
     expect(text).not.toContain("Confirmer la résiliation");
-    expect(text).toContain(`via le bouton « ${RESILIER} », puis en confirmant la résiliation sur la page qui s'ouvre.`);
+    expect(text).toContain(`via le bouton « ${RESILIER} », puis en confirmant la résiliation sur la page qui s’ouvre.`);
     expect(text).toContain("sans remboursement de la période déjà payée, sauf rétractation (article 6)");
   });
 
@@ -127,7 +127,7 @@ describe("pages légales", () => {
     const text = document.body.textContent ?? "";
     expect(text).toContain("empreinte de ton adresse IP");
     expect(text).toContain("pendant 10 ans");
-    expect(text).toContain("Un compte inactif n'est pas supprimé automatiquement");
+    expect(text).toContain("Un compte inactif n’est pas supprimé automatiquement");
     expect(text).toContain("on te répond sous un mois");
     expect(text).toContain("pour son propre compte (prévention de la fraude");
     expect(text).not.toMatch(/—|\bvous\b/i);

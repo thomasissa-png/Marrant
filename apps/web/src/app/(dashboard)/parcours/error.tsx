@@ -18,7 +18,7 @@ export default function ParcoursListError({ reset }: { error: Error; reset: () =
               Réessayer
             </Button>
             <Link href="/" className={buttonVariants({ variant: "outline", size: "sm" })}>
-              Retour à l&apos;accueil
+              Retour à l’accueil
             </Link>
           </div>
         </CardContent>

@@ -44,7 +44,7 @@ export function CarnetPage({
 
   return (
     <div className="mx-auto max-w-3xl">
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/carnet" className="hover:text-text-primary max-md:py-3.5">Carnet</Link>
@@ -56,8 +56,8 @@ export function CarnetPage({
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
           Carnet {deCarnetMonth(view.mois)} · {view.totalFiches} situations
         </p>
-        <h1 className="font-display text-3xl font-bold md:text-4xl">{view.titre}</h1>
-        <p className="text-text-secondary">{view.intro}</p>
+        <h1 className="font-display text-3xl font-bold md:text-4xl">{frTypo(view.titre)}</h1>
+        <p className="text-text-secondary">{frTypo(view.intro)}</p>
       </header>
 
       <div className="space-y-6">

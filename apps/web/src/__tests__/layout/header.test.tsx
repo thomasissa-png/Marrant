@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { Header } from "@/components/layout/header";
 
 /** s21 (B6) : nom accessible du bouton prix de l'en-tête (libellé visible d'abord). */
-const PRIX = /^2,99\s€ par mois : voir l'offre Premium$/;
+const PRIX = /^2,99\s€ par mois : voir l['’]offre Premium$/;
 
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),

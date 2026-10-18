@@ -100,7 +100,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
     render(<AbonnementView annualAvailable={false} />);
     await waitFor(() =>
       expect(mockToast).toHaveBeenCalledWith(
-        "Cette formule n'est pas disponible pour le moment. Choisis le mensuel ou réessaie plus tard.",
+        "Cette formule n’est pas disponible pour le moment. Choisis le mensuel ou réessaie plus tard.",
         "error",
       ),
     );

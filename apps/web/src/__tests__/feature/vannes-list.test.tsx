@@ -211,7 +211,7 @@ describe("VannesList", () => {
     });
     render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Rien dans cette catégorie pour l'instant, même pas un jeu de mots")).toBeInTheDocument();
+      expect(screen.getByText("Rien dans cette catégorie pour l’instant, même pas un jeu de mots")).toBeInTheDocument();
     });
   });
 
@@ -401,7 +401,7 @@ describe("VannesList", () => {
         // s21 B7 : bloc de bas de liste (le message de l'API n'est plus affiché).
         expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE.vannes.titre) })).toBeInTheDocument();
       });
-      expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l’offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
       // QA v4 m-5 : liste limitée, plus de pagination (le mur fait office de fin).
       expect(screen.queryByRole("link", { name: "Page précédente (page 1)" })).not.toBeInTheDocument();

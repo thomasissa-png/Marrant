@@ -95,7 +95,7 @@ test.describe("Murs Premium @smoke", () => {
 
     test(`/${rubrique} : cartes verrouillées en role=button nommées « Contenu Premium : voir l'offre » @s16`, async ({ page }) => {
       await page.goto(`/${rubrique}`);
-      const carte = page.getByRole("button", { name: "Contenu Premium : voir l'offre" }).first();
+      const carte = page.getByRole("button", { name: /Contenu Premium\s:\svoir l['’]offre/i }).first();
       await expect(carte).toBeVisible();
       await carte.focus();
       await page.keyboard.press("Enter");
@@ -142,6 +142,6 @@ test.describe("Murs Premium @smoke", () => {
     // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
     // Nom exact : le bouton d'en-tête s'appelle « 2,99 € par mois : voir l'offre Premium » (B6, textes validés).
-    await expect(page.getByRole("link", { name: "Voir l'offre Premium", exact: true })).toHaveCount(0);
+    await expect(page.getByRole("link", { name: /^Voir l['’]offre Premium$/ })).toHaveCount(0);
   });
 });

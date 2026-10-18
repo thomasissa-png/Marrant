@@ -54,7 +54,7 @@ function insecables<T>(valeur: T, garder: readonly string[] = [], chemin = ""): 
 const TEXTES_SOURCE = {
   /** Bloc 1 (tour 2, duel 1, A). Repris dans `page.metaTitre`. */
   titre: "Une vanne décryptée, chaque mois",
-  phrase: "Tu la reçois par e-mail, avec un exercice pour t'entraîner.",
+  phrase: "Tu la reçois par e-mail, avec un exercice pour t’entraîner.",
   formulaire: {
     /** Bloc 2 (tour 2, duel 2, B). */
     label: "Ton adresse e-mail",
@@ -67,34 +67,34 @@ const TEXTES_SOURCE = {
     case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     bouton: "Envoie-moi la lettre",
     /** Bloc 5 (tour 1, duel 5, B). */
-    boutonEnvoi: "Envoi de l'e-mail",
+    boutonEnvoi: "Envoi de l’e-mail",
     attenteLongue: "Ça traîne un peu, patiente quelques secondes.",
     reassurance: "Gratuit, sans compte.",
     /** Mention sous le bouton (@legal L1, bloc 3) ; `lienConfidentialite` est le lien final. */
-    mention: "Ton adresse ne sert qu'à t'envoyer la lettre. deviens-marrant SAS, l'éditeur du site, en est responsable. Détails et droits :",
+    mention: "Ton adresse ne sert qu’à t’envoyer la lettre. deviens-marrant SAS, l’éditeur du site, en est responsable. Détails et droits :",
     lienConfidentialite: "Confidentialité",
   },
   /** Bloc 4 (tour 1, duel 4, A). */
   erreurs: {
-    email: "Cette adresse n'a pas l'air complète. Un exemple : toi@exemple.fr",
-    case: "Coche la case, sans ça on ne peut pas t'envoyer la lettre.",
-    reseau: "L'envoi n'a pas abouti, et c'est de notre côté. Ce que tu as saisi reste dans le champ : réessaie dans un instant.",
-    limite: "Il y a eu beaucoup d'essais d'un coup. Attends une minute et réessaie.",
+    email: "Cette adresse n’a pas l’air complète. Un exemple : toi@exemple.fr",
+    case: "Coche la case, sans ça on ne peut pas t’envoyer la lettre.",
+    reseau: "L’envoi n’a pas abouti, et c’est de notre côté. Ce que tu as saisi reste dans le champ : réessaie dans un instant.",
+    limite: "Il y a eu beaucoup d’essais d’un coup. Attends une minute et réessaie.",
   },
   /** Bloc 5 (tour 1, duel 5, B). */
   succes: {
     titre: "Regarde ta boîte mail.",
-    texte: "On t'a envoyé un e-mail. Ouvre le lien qu'il contient et touche le bouton « Confirmer mon adresse » : sans ça, tu ne reçois rien.",
+    texte: "On t’a envoyé un e-mail. Ouvre le lien qu’il contient et touche le bouton « Confirmer mon adresse » : sans ça, tu ne reçois rien.",
     aide: "Rien au bout de quelques minutes ? Jette un œil aux spams et aux promotions.",
-    renvoyer: "Renvoyer l'e-mail",
+    renvoyer: "Renvoyer l’e-mail",
     /** `{s}` = secondes restantes. */
-    renvoyerDans: "Renvoyer l'e-mail dans {s} s",
+    renvoyerDans: "Renvoyer l’e-mail dans {s} s",
     changer: "Mauvaise adresse ? La corriger",
   },
   /** Drapeau d'appareil (LETTRE_DRAPEAU_JOURS) : ligne courte à la place du formulaire. Bloc 5. */
   drapeau: {
     texte: "Il reste à confirmer ton adresse : regarde ta boîte mail.",
-    renvoyer: "Renvoyer l'e-mail",
+    renvoyer: "Renvoyer l’e-mail",
   },
   piedDePage: "La lettre du mois",
   /**
@@ -106,13 +106,13 @@ const TEXTES_SOURCE = {
   menu: "La lettre",
   accueil: {
     titre: "Une vanne décryptée, chaque mois",
-    phrase: "Tu la reçois par e-mail, avec un exercice pour t'entraîner. Gratuit, sans compte.",
+    phrase: "Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte.",
     lien: "Voir la lettre",
   },
   page: {
     /** Bloc 6 (tour 2, duel 6, B). */
     metaTitre: "La lettre : une vanne décryptée, chaque mois",
-    metaDescription: "Une vanne, ce qui la fait marcher et un exercice pour t'entraîner, dans ta boîte mail. Gratuit, sans compte.",
+    metaDescription: "Une vanne, ce qui la fait marcher et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
     dernierNumero: "À quoi ça ressemble : le dernier numéro",
     /** Bloc 7 (tour 1, duel 7, A). */
     confirmer: {
@@ -131,7 +131,7 @@ const TEXTES_SOURCE = {
   statuts: {
     /** Bloc 7 (tour 1, duel 7, A ; titre neutre validé à l'aveugle, relecture neutre tour 2, duel 1). */
     confirmee: {
-      titre: "C'est bon, c'est confirmé.",
+      titre: "C’est bon, c’est confirmé.",
       texte: "Une lettre par mois, avec une vanne décryptée.",
       /* Pas de ligne « Le prochain numéro arrive le… » : date jamais affichée (Thomas, 17/10). */
       lien: "Voir la vanne du jour et son décryptage",
@@ -139,13 +139,13 @@ const TEXTES_SOURCE = {
     },
     /** Bloc 8 (tour 2, duel 8, A). */
     desinscrit: {
-      titre: "C'est fait, tu ne recevras plus la lettre.",
+      titre: "C’est fait, tu ne recevras plus la lettre.",
       lien: "Mauvais bouton ? Te réinscrire",
     },
     /** Bloc 9 (tour 2, duel 9, B). L'adresse de contact devient un lien `mailto:` à l'affichage. */
     invalide: {
       titre: "Ce lien ne marche plus : il a peut-être expiré ou déjà servi.",
-      texte: `Pour t'inscrire, utilise le formulaire de cette page. Pour te désinscrire, écris-nous à ${LETTRE_CONTACT}.`,
+      texte: `Pour t’inscrire, utilise le formulaire de cette page. Pour te désinscrire, écris-nous à ${LETTRE_CONTACT}.`,
     },
     erreur: {
       titre: `Un souci de notre côté. Réessaie ce lien dans quelques minutes, et écris-nous à ${LETTRE_CONTACT} si ça persiste.`,
@@ -173,7 +173,7 @@ export const TITRES_META_LETTRE = {
 export const CONSENTEMENTS_LETTRE_ARCHIVES = {
   "lettre-mensuelle-v1": {
     case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois : une vanne décryptée, parfois avec une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
-    mention: "Ton e-mail sert à t'envoyer la lettre, rien d'autre. deviens-marrant SAS en est responsable. Détails et droits :",
+    mention: "Ton e-mail sert à t’envoyer la lettre, rien d’autre. deviens-marrant SAS en est responsable. Détails et droits :",
   },
 } as const;
 
@@ -195,14 +195,14 @@ const EMAILS_SOURCE = {
       [
         "Salut,",
         "",
-        "Quelqu'un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
+        "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
         "",
         `Pour confirmer, ouvre ce lien et touche le bouton « ${TEXTES_LETTRE.page.confirmer.bouton} ». Il est valable ${LETTRE_PENDING_JOURS} jours.`,
         lienConfirmer,
         "",
-        `Ce n'était pas toi ? Ignore ce message : tu ne recevras rien, et l'adresse sera effacée au bout de ${LETTRE_PENDING_JOURS} jours.`,
+        `Ce n’était pas toi ? Ignore ce message : tu ne recevras rien, et l’adresse sera effacée au bout de ${LETTRE_PENDING_JOURS} jours.`,
         "",
-        "L'Équipe Deviens Marrant",
+        "L’Équipe Deviens Marrant",
         "",
         "--",
         ...piedLegal(baseUrl),
@@ -215,11 +215,11 @@ const EMAILS_SOURCE = {
       [
         "Salut,",
         "",
-        "Une demande d'inscription vient d'être faite avec cette adresse, mais elle reçoit déjà la lettre : rien à faire de ton côté. Un numéro arrive une fois par mois.",
+        "Une demande d’inscription vient d’être faite avec cette adresse, mais elle reçoit déjà la lettre : rien à faire de ton côté. Un numéro arrive une fois par mois.",
         "",
         "Si tu veux arrêter, le lien de désinscription est en bas de ce message.",
         "",
-        "L'Équipe Deviens Marrant",
+        "L’Équipe Deviens Marrant",
         "",
         "--",
         ...piedLegal(baseUrl),
@@ -238,9 +238,9 @@ const EMAILS_SOURCE = {
         "Pour continuer, ouvre ce lien puis touche le bouton :",
         lienConfirmer,
         "",
-        "Sans clic de ta part dans les 30 jours, on te désinscrit. Rien d'autre à faire.",
+        "Sans clic de ta part dans les 30 jours, on te désinscrit. Rien d’autre à faire.",
         "",
-        "L'Équipe Deviens Marrant",
+        "L’Équipe Deviens Marrant",
         "",
         "--",
         ...piedLegal(baseUrl),
@@ -252,7 +252,7 @@ const EMAILS_SOURCE = {
     [
       "",
       "--",
-      "Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.",
+      "Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.",
       `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
       `Se désinscrire : ${lienDesinscrire}`,
       ...piedLegal(baseUrl).slice(1),

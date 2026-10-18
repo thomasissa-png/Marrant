@@ -63,7 +63,7 @@ describe("409 au checkout : message + lien /profil", () => {
     mockCheckout(500, { error: "x" });
     render(<AbonnementView annualAvailable={false} />);
     await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
-    expect(mockToast).toHaveBeenCalledWith("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+    expect(mockToast).toHaveBeenCalledWith("Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
     expect(screen.queryByTestId("checkout-conflit")).not.toBeInTheDocument();
   });
 
@@ -71,7 +71,7 @@ describe("409 au checkout : message + lien /profil", () => {
     mockCheckout(409, DEJA);
     const onClose = jest.fn();
     render(<PremiumModal isOpen onClose={onClose} reason="favoris" />);
-    await userEvent.click(screen.getByRole("button", { name: /Je m'abonne/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Je m['’]abonne/ }));
     await expectConflict(TEXTES_CHECKOUT.dejaAbonne, "deja-abonne");
     jest.spyOn(console, "error").mockImplementation(() => {}); // navigation jsdom non implémentée
     await userEvent.click(screen.getByRole("link", { name: TEXTES_CHECKOUT.lienProfil }));

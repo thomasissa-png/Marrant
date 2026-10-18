@@ -83,7 +83,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
       />
 
       {/* Breadcrumb visuel */}
-      <nav aria-label="Fil d'Ariane" className="mb-6 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-6 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">
           Accueil
         </Link>

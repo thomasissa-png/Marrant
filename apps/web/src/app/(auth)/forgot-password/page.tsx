@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           <CardDescription>
             {success
               ? "Jette un œil à ta boîte mail, le lien est en route."
-              : "Donne-nous ton email, on t'envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
+              : "Donne-nous ton email, on t’envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                   <p className="text-sm text-error">{error}</p>
                 )}
                 <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                  {isLoading ? "On t'envoie ça…" : "Envoyer le lien"}
+                  {isLoading ? "On t’envoie ça…" : "Envoyer le lien"}
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">
@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
         href="/"
         className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
       >
-        Retour à l&apos;accueil
+        Retour à l’accueil
       </Link>
     </main>
   );

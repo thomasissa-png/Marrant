@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "des dizaines de vidéos";
   return {
     title: "Devenir drôle et avoir de la répartie",
-    description: `Devenir drôle, ça s'apprend : ${jokes} à ressortir, ${tips} de répartie et ${videos} de stand-up décortiquées pour sortir la bonne réplique à temps.`,
+    description: `Devenir drôle, ça s’apprend : ${jokes} à ressortir, ${tips} de répartie et ${videos} de stand-up décortiquées pour sortir la bonne réplique à temps.`,
     keywords: [
     "comment devenir drôle",
     "devenir drôle",
@@ -80,7 +80,7 @@ export default async function HomePage() {
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-3xl" aria-hidden="true">☕️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
-              «&nbsp;Je n&apos;ai jamais rien de drôle à dire&nbsp;»
+              «&nbsp;Je n’ai jamais rien de drôle à dire&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Pause café, afterwork, dîner entre amis : la bonne vanne te vient
@@ -100,7 +100,7 @@ export default async function HomePage() {
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
               Tes potes se chambrent, tu cherches quoi répondre, et quand tu
-              trouves, la conversation est passée à autre chose. On t&apos;apprend
+              trouves, la conversation est passée à autre chose. On t’apprend
               les réflexes de base avec des exercices simples, et tes XP te
               montrent que tu avances.
             </p>
@@ -113,10 +113,10 @@ export default async function HomePage() {
           <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
             <p className="text-3xl" aria-hidden="true">🌱</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
-              «&nbsp;J&apos;ai perdu ma légèreté&nbsp;»
+              «&nbsp;J’ai perdu ma légèreté&nbsp;»
             </h3>
             <p className="mt-2 flex-1 text-sm text-text-secondary">
-              Après une période compliquée, ton humour n&apos;est pas parti, il
+              Après une période compliquée, ton humour n’est pas parti, il
               est juste rouillé. Blagues, storytelling et autodérision pour le
               remettre en route à ton rythme, avec tes XP et ta série pour
               mesurer le chemin parcouru.
@@ -132,7 +132,7 @@ export default async function HomePage() {
 
         {/* Lien vers le pilier SEO (docs/seo/pilier-non-indexe-s15.md, L2) */}
         <p className="mt-8 text-center text-sm text-text-secondary">
-          Tu veux d&apos;abord comprendre le mécanisme&nbsp;? Lis notre guide{" "}
+          Tu veux d’abord comprendre le mécanisme&nbsp;? Lis notre guide{" "}
           <Link href="/blog/comment-devenir-drole" className="-my-3 inline-block py-3 font-medium text-accent-link underline underline-offset-2">
             comment devenir drôle
           </Link>

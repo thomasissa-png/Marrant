@@ -18,7 +18,7 @@ import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 const PAGE_URL = "https://deviens-marrant.fr/blog";
 const PAGE_TITLE = "Blog humour : guides et techniques";
 const PAGE_DESCRIPTION =
-  "Le blog qui t'apprend l'humour en te faisant rire : techniques de stand-up, répartie, analyses d'humoristes et exercices à tester. Si tu souris pas, on a raté.";
+  "Le blog qui t’apprend l’humour en te faisant rire : techniques de stand-up, répartie, analyses d’humoristes et exercices à tester. Si tu souris pas, on a raté.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -126,13 +126,13 @@ export default async function BlogPage() {
           }))
         )}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">{LIBELLE_SECTION_ARTICLES}</span>
       </nav>
       <PageHeader
-        title={<>Comment devenir drôle&nbsp;: guides et techniques d&apos;humour</>}
+        title={<>Comment devenir drôle&nbsp;: guides et techniques d’humour</>}
         lead={
           <>
             Guides pratiques pour devenir drôle, avoir de la répartie et
@@ -154,7 +154,7 @@ export default async function BlogPage() {
         >
           <span className="block font-display text-lg font-bold text-text-primary">Comment devenir drôle : 5 piliers et un plan sur 30 jours</span>
           <span className="mt-1 block text-sm text-text-secondary">
-            Les 5 piliers, ce qu&apos;en dit la science et un plan sur 30 jours.
+            Les 5 piliers, ce qu’en dit la science et un plan sur 30 jours.
           </span>
         </Link>
       </aside>
@@ -179,7 +179,7 @@ export default async function BlogPage() {
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
-            <p className="mt-1 text-xs text-text-secondary">Notre mission : prouver que l&apos;humour s&apos;apprend.</p>
+            <p className="mt-1 text-xs text-text-secondary">Notre mission : prouver que l’humour s’apprend.</p>
           </Link>
         </div>
       </nav>

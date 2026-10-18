@@ -255,7 +255,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 className={`text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`}
               >
                 <span className="sr-only">Étape {step.order} : </span>
-                {title}
+                {frTypoParcours(title)}
                 {isCompleted && <span className="sr-only"> (validée)</span>}
               </CardTitle>
               <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -488,7 +488,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {hasQuiz && isQuizDone && !isCompleted && isPremium && (
-        <p className="text-center text-sm font-medium text-accent-link">Quiz bouclé, tu peux valider l&apos;étape</p>
+        <p className="text-center text-sm font-medium text-accent-link">Quiz bouclé, tu peux valider l’étape</p>
       )}
 
       {!isCompleted && isPremium && !isSeedFallback && hasQuiz && !isQuizDone && (

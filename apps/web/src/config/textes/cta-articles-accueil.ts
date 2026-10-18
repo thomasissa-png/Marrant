@@ -48,7 +48,7 @@ export function libelleOuvrirParcours(count: number = PARCOURS_COUNT, prix: stri
 export const GRATUIT_ACCUEIL = "Tester mes premières répliques, gratuit";
 
 /** `GRATUIT_P` : « Tester l'étape 1 de {P}, gratuite », partout où le parcours est connu. */
-export const libelleGratuitParcours = (slug: ParcoursSlug): string => `Tester l'étape 1 de ${PARCOURS_NOMS[slug]}, gratuite`;
+export const libelleGratuitParcours = (slug: ParcoursSlug): string => `Tester l’étape 1 de ${PARCOURS_NOMS[slug]}, gratuite`;
 
 /** « Sans compte. » : sous les pleins gratuits des surfaces froides (accueil, fin d'article, quiz). */
 export const SANS_COMPTE = "Sans compte.";
@@ -63,7 +63,7 @@ export const SANS_COMPTE = "Sans compte.";
 export const EN_TETE = {
   bouton: `${OFFRE_NOM}${POINT_MEDIAN}${PREMIUM_PRICE_LABEL}`,
   boutonCourt: PREMIUM_PRICE_LABEL,
-  nomAccessible: `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l'offre ${OFFRE_NOM}`,
+  nomAccessible: `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre ${OFFRE_NOM}`,
 } as const;
 
 // ─── Encart du milieu des articles ──────────────────────────────────────────
@@ -101,7 +101,7 @@ export const BLOC_FIN = {
   parArticle: {
     "meilleures-blagues-droles-2026": {
       titre: "La vanne dans ta bouche, pas dans ton téléphone",
-      texte: "La placer à voix haute, ça s'entraîne.",
+      texte: "La placer à voix haute, ça s’entraîne.",
       /** Article n°1 validé (textes-v5-a §3) : libellé générique. */
       bouton: GRATUIT_ACCUEIL,
     },
@@ -135,9 +135,9 @@ export const ACCUEIL_HAUT = {
  * gratuit (étape 1 de Répartie).
  */
 export const CARTE_PREMIUM = {
-  titre: "Et si ton « j'aurais dû dire » devenait un « j'ai dit » ?",
+  titre: "Et si ton « j’aurais dû dire » devenait un « j’ai dit » ?",
   /** Phrase unique avant le bouton (visiteur et compte connecté). */
-  phrase: "De la coloc à l'afterwork, de quoi répondre partout.",
+  phrase: "De la coloc à l’afterwork, de quoi répondre partout.",
   bouton: libelleOuvrirParcours(),
   contour: GRATUIT_ACCUEIL,
 } as const;

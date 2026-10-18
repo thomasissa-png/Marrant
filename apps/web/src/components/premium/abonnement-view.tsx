@@ -83,9 +83,9 @@ function consumeAutoCheckout(): boolean {
 /** Messages humains : jamais l'erreur brute de l'API (audit tunnel F14). */
 function checkoutErrorMessage(status: number): string {
   if (status === 401) return "Ta session a expiré. Reconnecte-toi pour reprendre le paiement.";
-  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
-  if (status === 503) return "Cette formule n'est pas disponible pour le moment. Choisis le mensuel ou réessaie plus tard.";
-  return "Le paiement n'a pas pu démarrer. Réessaie dans un instant.";
+  if (status === 429) return "Trop d’essais pour l’instant. Réessaie un peu plus tard.";
+  if (status === 503) return "Cette formule n’est pas disponible pour le moment. Choisis le mensuel ou réessaie plus tard.";
+  return "Le paiement n’a pas pu démarrer. Réessaie dans un instant.";
 }
 
 /**
@@ -270,7 +270,7 @@ export function AbonnementView({
               disabled={isCheckoutLoading}
             >
               {isCheckoutLoading
-                ? "On t'emmène au paiement…"
+                ? "On t’emmène au paiement…"
                 : frTypo(ABONNEMENT_CTA.bouton(plan))}
             </Button>
           ) : (

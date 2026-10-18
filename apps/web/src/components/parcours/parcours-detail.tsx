@@ -442,7 +442,7 @@ export function ParcoursDetail({
           message:
             res.status === 429
               ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
-              : "L'étape n'a pas voulu se valider. Réessaie.",
+              : "L’étape n’a pas voulu se valider. Réessaie.",
         });
       }
     } catch {
@@ -474,8 +474,8 @@ export function ParcoursDetail({
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
             {fetchError
-              ? "Ce parcours ne veut pas se charger pour l'instant. Réessaie un peu plus tard."
-              : "Ce parcours n'existe pas, ou plus."}{" "}
+              ? "Ce parcours ne veut pas se charger pour l’instant. Réessaie un peu plus tard."
+              : "Ce parcours n’existe pas, ou plus."}{" "}
             <Link href="/parcours" className="text-accent-link underline underline-offset-2">
               Voir tous les parcours
             </Link>
@@ -544,18 +544,18 @@ export function ParcoursDetail({
   return (
     <>
       <div className="mb-8">
-        <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
           <Link href="/parcours" className="hover:text-text-primary max-md:py-3.5">Parcours</Link>
           <span className="mx-2">/</span>
-          <span className="text-text-secondary">{path.title}</span>
+          <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
         </nav>
 
         <div className="flex items-center gap-3">
           <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
-            <h1 className="font-display text-3xl font-bold">{path.title}</h1>
+            <h1 className="font-display text-3xl font-bold">{frTypoTexte(path.title)}</h1>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
               {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;

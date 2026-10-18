@@ -32,11 +32,11 @@ export interface TextesParcoursBlog {
 export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursBlog>> = {
   repartie: {
     finTitre: "Ces techniques, rode-les avant la prochaine pique",
-    finTexte: "Quand on te chambre, tu as une seconde, et ça s'entraîne.",
+    finTexte: "Quand on te chambre, tu as une seconde, et ça s’entraîne.",
     finBoutonEtape1: libelleGratuitParcours("repartie"),
   },
   "machine-a-cafe": {
-    finTitre: "Sois drôle au bureau sans avoir l'air d'essayer",
+    finTitre: "Sois drôle au bureau sans avoir l’air d’essayer",
     finTexte: "Des vannes courtes, et le bon moment pour les placer.",
     finBoutonEtape1: libelleGratuitParcours("machine-a-cafe"),
   },
@@ -46,7 +46,7 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     finBoutonEtape1: libelleGratuitParcours("confiance"),
   },
   storytelling: {
-    finTitre: "Une anecdote, travaillée jusqu'à ce qu'on te la redemande",
+    finTitre: "Une anecdote, travaillée jusqu’à ce qu’on te la redemande",
     finTexte: "Ton histoire vraie, resserrée étape après étape.",
     finBoutonEtape1: libelleGratuitParcours("storytelling"),
   },

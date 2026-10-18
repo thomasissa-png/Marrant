@@ -20,9 +20,9 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
   afterEach(() => window.history.pushState({}, "", "/"));
 
   it.each([
-    ["vanne", "Mets-la de côté", "Je m'abonne et je la garde"],
-    ["conseil", "Garde-le sous le coude", "Je m'abonne et je le garde"],
-    ["video", "Garde-la pour la revoir", "Je m'abonne et je la garde"],
+    ["vanne", "Mets-la de côté", "Je m’abonne et je la garde"],
+    ["conseil", "Garde-le sous le coude", "Je m’abonne et je le garde"],
+    ["video", "Garde-la pour la revoir", "Je m’abonne et je la garde"],
   ] as const)("favori sur un(e) %s : titre et bouton v5", (contenu, titre, bouton) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu={contenu} />);
@@ -35,7 +35,7 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
     render(<PremiumModal isOpen onClose={jest.fn()} reason="vote" />);
     expect(T.vote.vanne.titre).toBe("Voter, et tout le reste : Premium");
     expect(screen.getByRole("heading", { name: /^Voter, et tout le reste\s:\sPremium$/ })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Je m'abonne et je vote" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Je m’abonne et je vote" })).toBeInTheDocument();
   });
 
   it("carte floutée : même titre et même bouton pour les 3 listes", () => {
@@ -43,7 +43,7 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
     const { rerender } = render(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="vanne" />);
     expect(screen.getByRole("heading", { name: "Le reste de la liste est juste derrière" })).toBeInTheDocument();
     rerender(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="conseil" />);
-    expect(screen.getByRole("link", { name: "Je m'abonne et j'ouvre toute la liste" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Je m’abonne et j’ouvre toute la liste" })).toBeInTheDocument();
   });
 
   it.each([
@@ -106,7 +106,7 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
       expect(mockTrack).not.toHaveBeenCalledWith("mur-vu", expect.anything());
     });
 
-    it("visiteur : clic vers l'abonnement mesuré avec sa source", async () => {
+    it("visiteur : clic vers l’abonnement mesuré avec sa source", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       const onClose = jest.fn();
       render(<PremiumModal isOpen onClose={onClose} reason="vote" />);

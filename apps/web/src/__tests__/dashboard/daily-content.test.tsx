@@ -175,9 +175,9 @@ describe("DailyContent", () => {
     });
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("Même l'humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
-      expect(screen.getByText("Le conseil du jour s'est attardé à la machine à café. Il revient demain, avec des anecdotes.")).toBeInTheDocument();
-      expect(screen.getByText("L'humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
+      expect(screen.getByText("Même l’humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
+      expect(screen.getByText("Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.")).toBeInTheDocument();
+      expect(screen.getByText("L’humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
     });
   });
 
@@ -188,7 +188,7 @@ describe("DailyContent", () => {
     });
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("L'humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
+      expect(screen.getByText("L’humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
       expect(
         screen.getByText("Pourquoi les plongeurs plongent-ils toujours en arrière ?")
       ).toBeInTheDocument();
@@ -202,9 +202,9 @@ describe("DailyContent", () => {
     });
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("Même l'humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
-      expect(screen.getByText("Le conseil du jour s'est attardé à la machine à café. Il revient demain, avec des anecdotes.")).toBeInTheDocument();
-      expect(screen.getByText("L'humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
+      expect(screen.getByText("Même l’humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
+      expect(screen.getByText("Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.")).toBeInTheDocument();
+      expect(screen.getByText("L’humoriste du jour est en coulisses. À demain !")).toBeInTheDocument();
     });
   });
 
@@ -212,7 +212,7 @@ describe("DailyContent", () => {
     (global.fetch as jest.Mock).mockRejectedValue(new Error("Network error"));
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("Même l'humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
+      expect(screen.getByText("Même l’humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
     });
   });
 
@@ -352,7 +352,7 @@ describe("DailyContent", () => {
     });
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByText("Même l'humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
+      expect(screen.getByText("Même l’humour prend un jour off. Reviens demain pour ta dose !")).toBeInTheDocument();
     });
     expect(screen.queryByLabelText("Partager")).not.toBeInTheDocument();
     expect(screen.queryByLabelText("Ajouter aux favoris")).not.toBeInTheDocument();

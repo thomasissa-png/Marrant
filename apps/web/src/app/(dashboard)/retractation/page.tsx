@@ -39,14 +39,14 @@ export default function RetractationPage() {
           </h2>
           <p>
             Conformément à la directive européenne 2011/83/UE et aux articles L.221-18 et suivants
-            du Code de la consommation, tu disposes d&apos;un délai de <strong>14 jours</strong> à compter
+            du Code de la consommation, tu disposes d’un délai de <strong>14 jours</strong> à compter
             de la conclusion du contrat (ta souscription) pour exercer ton droit de rétractation, sans avoir à justifier
             de motif ni à payer de pénalités.
           </p>
           <p className="mt-2">
-            Ce droit s&apos;applique à tout abonnement souscrit sur deviens-marrant.fr.
+            Ce droit s’applique à tout abonnement souscrit sur deviens-marrant.fr.
             Le remboursement est effectué dans un délai de 14 jours suivant la réception
-            de ta demande, avec le même moyen de paiement que celui utilisé lors de l&apos;achat.
+            de ta demande, avec le même moyen de paiement que celui utilisé lors de l’achat.
           </p>
           <p className="mt-2">{RETRACTATION_PERIMETRE}</p>
         </section>
@@ -63,7 +63,7 @@ export default function RetractationPage() {
             >
               contact@deviens-marrant.fr
             </a>{" "}
-            en précisant l&apos;adresse e-mail de ton compte et la date d&apos;achat.
+            en précisant l’adresse e-mail de ton compte et la date d’achat.
           </p>
         </section>
 

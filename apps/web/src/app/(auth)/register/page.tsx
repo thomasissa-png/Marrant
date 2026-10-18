@@ -24,10 +24,10 @@ import { MUR_PARCOURS, REGISTER_CTA } from "@/config/textes/cta-pages";
 import { parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
+  OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
   OAuthCallback:
-    "L'inscription avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
-  OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
+    "L’inscription avec Google n’a pas abouti. Si tu viens d’une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
+  OAuthSignin: "Google ne répond pas pour l’instant. Réessaie.",
   Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
@@ -51,9 +51,9 @@ function registerFailureReason(status: number): string {
 
 /** Message humain affiché : jamais l'erreur brute de l'API (audit s16, reco 16). */
 function registerErrorMessage(status: number): string {
-  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
+  if (status === 429) return "Trop d’essais pour l’instant. Réessaie un peu plus tard.";
   if (status >= 500) return "Quelque chose a coincé de notre côté. Réessaie.";
-  return "L'inscription n'a pas abouti. Réessaie.";
+  return "L’inscription n’a pas abouti. Réessaie.";
 }
 
 /** Source du plein de fin d'étape 1 (parcours-detail.tsx) : pas de lien vers l'étape 1 qu'on vient de lire. */

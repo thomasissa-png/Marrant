@@ -242,7 +242,7 @@ describe("envoyerLettreDuMois", () => {
 describe("corpsNumero", () => {
   it("ajoute le pied légal et la désinscription, sans tiret cadratin", () => {
     const texte = corpsNumero("La vanne du mois.\n", BASE, "tok");
-    expect(texte).toContain("Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.");
+    expect(texte).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
     expect(texte).toContain(`Contact${NBSP}: contact@deviens-marrant.fr`);
     expect(texte).toContain(`Confidentialité${NBSP}: ${BASE}/confidentialite`);
     expect(texte).not.toContain("—");

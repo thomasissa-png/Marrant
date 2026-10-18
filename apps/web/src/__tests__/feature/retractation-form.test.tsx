@@ -12,7 +12,7 @@ const ok = (body: Record<string, unknown> = { ok: true, reference: "R-1", ackSen
 
 async function remplirEtEnvoyer() {
   await userEvent.type(screen.getByLabelText(/Adresse email du compte/), "test@example.com");
-  await userEvent.type(screen.getByLabelText(/Date d'achat/), "2026-03-01");
+  await userEvent.type(screen.getByLabelText(/Date d['’]achat/), "2026-03-01");
   await userEvent.click(screen.getByRole("button", { name: "Envoyer ma demande" }));
 }
 
@@ -29,7 +29,7 @@ describe("RetractationForm", () => {
 
   it("renders date field", () => {
     render(<RetractationForm />);
-    expect(screen.getByLabelText(/Date d'achat/)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Date d['’]achat/)).toBeInTheDocument();
   });
 
   it("renders optional motif field", () => {
@@ -46,7 +46,7 @@ describe("RetractationForm", () => {
     render(<RetractationForm />);
 
     await userEvent.type(screen.getByLabelText(/Adresse email du compte/), "test@example.com");
-    await userEvent.type(screen.getByLabelText(/Date d'achat/), "2026-03-01");
+    await userEvent.type(screen.getByLabelText(/Date d['’]achat/), "2026-03-01");
     await userEvent.click(screen.getByRole("button", { name: "Envoyer ma demande" }));
 
     expect(await screen.findByRole("status")).toBeInTheDocument();
@@ -62,7 +62,7 @@ describe("RetractationForm", () => {
     render(<RetractationForm />);
 
     await userEvent.type(screen.getByLabelText(/Adresse email du compte/), "test@example.com");
-    await userEvent.type(screen.getByLabelText(/Date d'achat/), "2026-03-01");
+    await userEvent.type(screen.getByLabelText(/Date d['’]achat/), "2026-03-01");
     await userEvent.click(screen.getByRole("button", { name: "Envoyer ma demande" }));
 
     expect(await screen.findByText("contact@deviens-marrant.fr")).toBeInTheDocument();
@@ -72,7 +72,7 @@ describe("RetractationForm", () => {
     render(<RetractationForm />);
 
     await userEvent.type(screen.getByLabelText(/Adresse email du compte/), "test@example.com");
-    await userEvent.type(screen.getByLabelText(/Date d'achat/), "2026-03-01");
+    await userEvent.type(screen.getByLabelText(/Date d['’]achat/), "2026-03-01");
     await userEvent.click(screen.getByRole("button", { name: "Envoyer ma demande" }));
 
     await screen.findByRole("status");
@@ -87,7 +87,7 @@ describe("RetractationForm", () => {
 
   it("date field is required", () => {
     render(<RetractationForm />);
-    const dateInput = screen.getByLabelText(/Date d'achat/);
+    const dateInput = screen.getByLabelText(/Date d['’]achat/);
     expect(dateInput).toBeRequired();
   });
 

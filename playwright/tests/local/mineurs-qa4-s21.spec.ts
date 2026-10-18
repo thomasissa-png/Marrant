@@ -47,7 +47,7 @@ test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
     await expect(plein).toBeVisible();
     await expect(page.getByText("Ton point de départ")).toHaveCount(0);
     expect((await page.locator("main").innerText()).match(/Ton parcours/g)).toHaveLength(1);
-    const gratuit = page.getByRole("button", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ });
+    const gratuit = page.getByRole("button", { name: /^Tester l['’]étape\s1\sde Répartie, gratuite$/ });
     await page.evaluate(() => window.scrollTo(0, 0));
     const p = await plein.boundingBox();
     const g = await gratuit.boundingBox();

@@ -209,7 +209,7 @@ describe("FavorisList", () => {
       removeFavorite: mockRemoveFavorite,
     });
     render(<FavorisList />);
-    expect(screen.getByText("Aucun favori pour l'instant")).toBeInTheDocument();
+    expect(screen.getByText("Aucun favori pour l’instant")).toBeInTheDocument();
   });
 
   // Bug fix: joke punchline reveal

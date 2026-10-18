@@ -65,7 +65,7 @@ export const QUIZ_LETTRE_VOCALE = (lettre: string) => `Réponse ${lettre} : `;
 /** Titre du bloc quiz d'une étape. */
 export const QUIZ_TITRE = {
   abonne: "Petit quiz avant de valider",
-  visiteur: "Petit quiz pour t'entraîner",
+  visiteur: "Petit quiz pour t’entraîner",
 } as const;
 
 // s17 tour 1 (UXV-1-04) : fin de quiz, bouton secondaire qui dit son effet (le visiteur garde ses explications et peut recommencer)
@@ -79,16 +79,16 @@ export const QUIZ_FIN_BOUTON = {
 export const SERIE = {
   titre: "Série",
   ariaIcone: "série",
-  jours: (n: number) => `${n} ${n > 1 ? "jours" : "jour"} de pratique d'affilée`,
-  aide: "Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.",
+  jours: (n: number) => `${n} ${n > 1 ? "jours" : "jour"} de pratique d’affilée`,
+  aide: "Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.",
   zero: "Ta série démarre à ta prochaine étape.",
 } as const;
 
 // s17 tour 1 (UXV-1-09) : phrase sous la barre de niveau, selon le niveau réel (plus de « Premiers XP » à 600 XP)
 export const PROGRESSION_NIVEAU = {
-  max: "Niveau maximum. Il ne te reste plus qu'à faire rire les autres.",
+  max: "Niveau maximum. Il ne te reste plus qu’à faire rire les autres.",
   presque: "Le niveau suivant est à portée de vanne.",
-  milieu: "Ça avance, et ça commence à s'entendre.",
+  milieu: "Ça avance, et ça commence à s’entendre.",
   debut: "Premiers XP au compteur : le reste vient en pratiquant.",
   nouveauNiveau: (niveau: string) => `Niveau ${niveau} atteint. Le prochain se gagne en pratiquant.`,
 } as const;
@@ -120,7 +120,7 @@ export function prochaineEtapeTexte(date: string): string {
 }
 
 // VALIDÉ s17 (étalon 3.3 A, date passée ou aujourd'hui)
-export const PROCHAINE_ETAPE_DISPONIBLE = "La prochaine étape t'attend.";
+export const PROCHAINE_ETAPE_DISPONIBLE = "La prochaine étape t’attend.";
 
 // s19 iter 4 (S11 @ux, [CHOIX UTILISATEUR] 11/10) : point médian, pas de second « : » (« Le couloir : quinze secondes »).
 /** 2e ligne du lien de la carte de progression : « Étape 3 · Le couloir : quinze secondes ». */
@@ -131,7 +131,7 @@ export function etapeLienTexte(numero: number, titre: string): string {
 // s17, aligné sur les étalons (3.7 A : rappel sur demande, jour choisi par la personne)
 /** Rappel e-mail sur demande (D7) : réglé au profil (lot C, avis @legal), ici un lien discret. */
 export const RAPPEL_LIEN = {
-  texte: "Envie d'un rappel par e-mail le jour de ton choix ?",
+  texte: "Envie d’un rappel par e-mail le jour de ton choix ?",
   lien: "Règle-le dans ton profil",
 } as const;
 
@@ -140,11 +140,11 @@ export const RAPPEL_LIEN = {
 export const RETOUR_EXERCICE = {
   question: "Alors, ce défi ?",
   options: [
-    { resultat: "pas-essaye", label: "Pas encore essayé", reponse: "Pas de souci, le défi t'attend quand tu veux." },
+    { resultat: "pas-essaye", label: "Pas encore essayé", reponse: "Pas de souci, le défi t’attend quand tu veux." },
     {
       resultat: "essaye-bof",
       label: "Essayé, bof",
-      reponse: "Ça arrive, et c'est utile à savoir. Relis l'exemple et retente sur une autre situation.",
+      reponse: "Ça arrive, et c’est utile à savoir. Relis l’exemple et retente sur une autre situation.",
     },
     {
       resultat: "essaye-ca-a-marche",
@@ -160,17 +160,17 @@ export const CHARGEMENT_PREMIUM = {
   enCours: "Chargement de ta progression et de tes étapes…",
   // UXV-2-01 : « Ta progression est intacte » + un message court.
   echec: "Ta progression est intacte.",
-  echecTexte: "Tes étapes n'ont pas voulu se charger, le souci vient de chez nous.",
+  echecTexte: "Tes étapes n’ont pas voulu se charger, le souci vient de chez nous.",
   reessayer: "Réessayer",
 } as const;
 
 // s17, aligné sur les étalons (déplacé sous CHARGEMENT_PREMIUM au tour 3 pour réutiliser sa phrase)
 /** Contenu abonné qui ne se charge pas (FS-09, UX-11). */
 export const CHARGEMENT_ETAPE = {
-  enCours: "Chargement du contenu de l'étape…",
+  enCours: "Chargement du contenu de l’étape…",
   // s17 tour 3 : arrivée par #etape-N, l'alerte de la page est hors écran ; même phrase rassurante dans la carte.
   progressionIntacte: CHARGEMENT_PREMIUM.echec,
-  echec: "Le contenu de l'étape n'a pas voulu se charger.",
+  echec: "Le contenu de l’étape n’a pas voulu se charger.",
   reessayer: "Réessayer",
 } as const;
 
@@ -207,14 +207,14 @@ export const TITRES_SECTIONS = {
 /** Bilan de fin (A2, UX-06) : affiché quand le serveur confirme la fin. */
 export const FIN_PARCOURS = {
   titre: (titreParcours: string) => `${titreParcours} terminé`,
-  sousTitre: "Le plus dur, maintenant, c'est de ne pas le raconter à tout le monde.",
+  sousTitre: "Le plus dur, maintenant, c’est de ne pas le raconter à tout le monde.",
   xp: (etapes: number, xp: number) => `Tu as fait les ${etapes} étapes et gagné ${xp} XP, bonus de fin compris.`,
   acquis: "Ce que tu sais faire maintenant :",
   exercices: (essayes: number, reussis: number) =>
     `${essayes} ${essayes > 1 ? "défis essayés" : "défi essayé"}, dont ${reussis} qui ${reussis > 1 ? "ont" : "a"} marché.`,
   // s18 (I-2 @design) : le nom du parcours ne se coupe pas (« Machine à Café » sur une ligne).
   suite: (nom: string) => `Passer au parcours ${nom.replace(/ /g, String.fromCharCode(0xa0))}`,
-  carnetAvant: "Pour continuer à t'entraîner, le carnet du mois te donne de nouvelles fiches : ",
+  carnetAvant: "Pour continuer à t’entraîner, le carnet du mois te donne de nouvelles fiches : ",
   carnet: "ouvrir le carnet",
 } as const;
 
@@ -232,8 +232,8 @@ export const LISTE_PARCOURS = {
 /** Pages d'état des parcours (FS-13, QA-11). */
 export const PAGES_ETAT = {
   chargement: "Chargement du parcours…",
-  introuvableTitre: "Ce parcours n'existe pas, ou plus.",
-  introuvableTexte: "Les parcours disponibles t'attendent juste ici.",
+  introuvableTitre: "Ce parcours n’existe pas, ou plus.",
+  introuvableTexte: "Les parcours disponibles t’attendent juste ici.",
   voirParcours: "Voir les parcours",
   erreurListeTitre: "Les parcours ont raté leur entrée en scène",
   erreurTexte: "Le souci vient de chez nous, pas de toi. Réessaie dans un instant.",

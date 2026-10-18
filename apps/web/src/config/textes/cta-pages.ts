@@ -54,19 +54,19 @@ export const MUR_LISTE: Readonly<
 > = {
   vannes: {
     titre: "Encore des vannes à ressortir",
-    limite: `Les ${FREE_JOKE_LIMIT} gratuites, c'est fait.`,
+    limite: `Les ${FREE_JOKE_LIMIT} gratuites, c’est fait.`,
     bouton: avecPrix("Voir la suite des vannes"),
     contour: libelleGratuitParcours,
   },
   conseils: {
-    titre: "Pour la prochaine fois qu'on te chambre",
-    limite: `${FREE_TIP_LIMIT} conseils gratuits, c'est fait.`,
+    titre: "Pour la prochaine fois qu’on te chambre",
+    limite: `${FREE_TIP_LIMIT} conseils gratuits, c’est fait.`,
     bouton: avecPrix("Voir la suite des conseils"),
     contour: libelleGratuitParcours,
   },
   videos: {
     titre: "Tu regardes pour rire. Et pour faire rire ?",
-    limite: `${FREE_VIDEO_LIMIT} vidéos gratuites, c'est fait.`,
+    limite: `${FREE_VIDEO_LIMIT} vidéos gratuites, c’est fait.`,
     bouton: avecPrix("Voir la suite des vidéos"),
     contour: libelleGratuitParcours,
   },
@@ -81,20 +81,20 @@ export const BLOC_EXERCICE: Readonly<
   Record<FicheType, { titre: string; texte: string; bouton: string; contour: (slug: ParcoursSlug) => string }>
 > = {
   vanne: {
-    titre: "Demain, c'est peut-être la tienne qu'on répète",
-    texte: "Une consigne, un exemple, et c'est à toi.",
+    titre: "Demain, c’est peut-être la tienne qu’on répète",
+    texte: "Une consigne, un exemple, et c’est à toi.",
     bouton: avecPrix("Écrire la mienne"),
     contour: libelleGratuitParcours,
   },
   conseil: {
     titre: "Essaie-le avant le soir où il te servira",
-    texte: "À froid, rater est sans risque : l'exercice sert à ça.",
+    texte: "À froid, rater est sans risque : l’exercice sert à ça.",
     bouton: avecPrix("Essayer ce conseil"),
     contour: libelleGratuitParcours,
   },
   video: {
-    titre: "L'humoriste a sa salle. Toi, une table suffit",
-    texte: "Les points clés, et un exercice pour t'en servir.",
+    titre: "L’humoriste a sa salle. Toi, une table suffit",
+    texte: "Les points clés, et un exercice pour t’en servir.",
     bouton: avecPrix("Décrypter cette vidéo"),
     contour: libelleGratuitParcours,
   },
@@ -114,18 +114,18 @@ export interface TexteFenetre {
   bouton: string;
 }
 
-const VOTE_FENETRE: TexteFenetre = { titre: `Voter, et tout le reste : ${OFFRE_NOM}`, bouton: "Je m'abonne et je vote" };
+const VOTE_FENETRE: TexteFenetre = { titre: `Voter, et tout le reste : ${OFFRE_NOM}`, bouton: "Je m’abonne et je vote" };
 const CARTE_FENETRE: TexteFenetre = {
   titre: "Le reste de la liste est juste derrière",
-  bouton: "Je m'abonne et j'ouvre toute la liste",
+  bouton: "Je m’abonne et j’ouvre toute la liste",
 };
 
 /** Visiteur et compte connecté voient la même fenêtre. */
 export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<FicheType, TexteFenetre>>>> = {
   favori: {
-    vanne: { titre: "Mets-la de côté", bouton: "Je m'abonne et je la garde" },
-    conseil: { titre: "Garde-le sous le coude", bouton: "Je m'abonne et je le garde" },
-    video: { titre: "Garde-la pour la revoir", bouton: "Je m'abonne et je la garde" },
+    vanne: { titre: "Mets-la de côté", bouton: "Je m’abonne et je la garde" },
+    conseil: { titre: "Garde-le sous le coude", bouton: "Je m’abonne et je le garde" },
+    video: { titre: "Garde-la pour la revoir", bouton: "Je m’abonne et je la garde" },
   },
   vote: { vanne: VOTE_FENETRE, conseil: VOTE_FENETRE, video: VOTE_FENETRE },
   carte: { vanne: CARTE_FENETRE, conseil: CARTE_FENETRE, video: CARTE_FENETRE },
@@ -135,7 +135,7 @@ export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<Fich
 export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS), suffixe: "TTC / mois" } as const;
 
 /** Bouton pendant l'ouverture du paiement (compte connecté). */
-export const FENETRE_CHARGEMENT = "On t'emmène au paiement…";
+export const FENETRE_CHARGEMENT = "On t’emmène au paiement…";
 
 // ─── Paywall `premium-paywall.tsx` ──────────────────────────────────────────
 
@@ -184,7 +184,7 @@ export const FIN_ETAPE_1 = {
   /** Surtitre de la carte `CarteEtapeSuivante` : « Étape 2 sur {N} », {N} lu dans la donnée. */
   carteSurtitre: (slug: ParcoursSlug, numero = 2) => `Étape ${numero} sur ${etapesParcours(slug)}`,
   titre: "Bien joué !",
-  phrase: `${OFFRE_NOM} ouvre la suite et les autres parcours d'un coup.`,
+  phrase: `${OFFRE_NOM} ouvre la suite et les autres parcours d’un coup.`,
   /** Plein vers /register (puis paiement). REASS dessous. */
   bouton: PASSER_ETAPE_2,
   /**
@@ -214,7 +214,7 @@ export const ABONNEMENT_HAUT_PAR_PARCOURS: Readonly<Record<ParcoursSlug | "defau
   "machine-a-cafe": { titre: TITRE_BUREAU },
   boulot: { titre: TITRE_BUREAU },
   confiance: { titre: "Rire à table, sans monter sur scène" },
-  storytelling: { titre: "Ton histoire jusqu'à la chute, avant le « et donc ? »" },
+  storytelling: { titre: "Ton histoire jusqu’à la chute, avant le « et donc ? »" },
 };
 
 export const ABONNEMENT_CTA = {
@@ -249,7 +249,7 @@ export const REGISTER_CTA = {
 
 /** `n` = `view.apercus.length` (répliques restantes du mois). */
 export const CARNET_PAYWALL = {
-  titre: (n: number) => `Ça, c'était la réplique offerte. Il en reste ${n}.`,
+  titre: (n: number) => `Ça, c’était la réplique offerte. Il en reste ${n}.`,
   paragraphe: "Un nouveau carnet arrive chaque mois.",
   bouton: avecPrix("Voir tout le carnet"),
   listeTitre: "Au programme",
@@ -263,7 +263,7 @@ export const CARNET_LISTE_VISIBLES = 3;
 // ─── /profil, compte sans abonnement ────────────────────────────────────────
 
 export const PROFIL_ABONNEMENT_OFFRE = {
-  phrase: "Chaque mois, un nouveau carnet de répartie s'ajoute aux parcours.",
+  phrase: "Chaque mois, un nouveau carnet de répartie s’ajoute aux parcours.",
   bouton: libelleOuvrirParcours(),
 } as const;
 
@@ -279,15 +279,15 @@ const FIN_DE_PAGE_COMMUN = {
 
 /** /glossaire (bouton vers /abonnement, `src=glossaire`). */
 export const GLOSSAIRE_FIN = {
-  titre: "Le vocabulaire, c'est fait. Reste à s'en servir.",
-  paragraphe: "Placer un callback au dîner de samedi, c'est autre chose : ça se travaille.",
+  titre: "Le vocabulaire, c’est fait. Reste à s’en servir.",
+  paragraphe: "Placer un callback au dîner de samedi, c’est autre chose : ça se travaille.",
   ...FIN_DE_PAGE_COMMUN,
 } as const;
 
 /** /a-propos (titre de l'accueil). `preuve` : retirée pour un compte connecté. */
 export const A_PROPOS_FIN = {
   titre: ["Tu parles et personne rit.", "On va arranger ça."],
-  paragraphe: "Observer d'abord, roder ensuite : voilà le programme.",
+  paragraphe: "Observer d’abord, roder ensuite : voilà le programme.",
   preuve: `Déjà 1${ESPACE_INSECABLE}500+ inscrits.`,
   ...FIN_DE_PAGE_COMMUN,
 } as const;

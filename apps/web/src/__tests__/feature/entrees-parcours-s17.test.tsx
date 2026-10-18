@@ -127,7 +127,7 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
     expect(container).toBeEmptyDOMElement();
     rerender(<FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} />);
     expect(screen.getByText("Dans un parcours")).toBeInTheDocument();
-    expect(screen.getByText("Ce conseil est l'étape 3 du parcours Répartie.")).toBeInTheDocument();
+    expect(screen.getByText("Ce conseil est l’étape 3 du parcours Répartie.")).toBeInTheDocument();
     expect(screen.queryByRole("link")).toBeNull();
   });
 });

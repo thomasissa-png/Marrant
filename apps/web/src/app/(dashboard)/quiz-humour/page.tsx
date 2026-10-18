@@ -15,9 +15,9 @@ import {
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Quiz : quel type d'humour es-tu ?",
+  title: "Quiz : quel type d’humour es-tu ?",
   description:
-    "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Ce quiz gratuit inspiré du stand-up te dit en 2 minutes quel type d'humour est le tien.",
+    "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Ce quiz gratuit inspiré du stand-up te dit en 2 minutes quel type d’humour est le tien.",
   keywords: [
     "quiz humour",
     "type humour",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: "https://deviens-marrant.fr/quiz-humour" },
   openGraph: {
-    title: `Quel type d'humour es-tu ? Quiz en ${QUIZ_QUESTIONS.length} questions`,
+    title: `Quel type d’humour es-tu ? Quiz en ${QUIZ_QUESTIONS.length} questions`,
     description:
       "Observateur, Storyteller, Absurde, Punchlineur ou Taquin ? Découvre ton profil humour en 2 minutes.",
     url: "https://deviens-marrant.fr/quiz-humour",
@@ -47,12 +47,12 @@ const quizFaqs = [
   {
     question: "Quels sont les profils humour possibles ?",
     answer:
-      "Il existe 5 profils : L'Observateur (l'observation précise), Le Storyteller (le récit qui monte), L'Absurde (la surprise permanente), Le Punchlineur (le mot juste et les silences) et Le Taquin (la répartie complice). Chaque profil vient avec sa force principale et un conseil concret pour progresser dans ton style.",
+      "Il existe 5 profils : L’Observateur (l’observation précise), Le Storyteller (le récit qui monte), L’Absurde (la surprise permanente), Le Punchlineur (le mot juste et les silences) et Le Taquin (la répartie complice). Chaque profil vient avec sa force principale et un conseil concret pour progresser dans ton style.",
   },
   {
     question: "Le quiz est-il gratuit ?",
     answer:
-      "Oui, le quiz est 100 % gratuit et se fait sans inscription. Tu peux le refaire autant de fois que tu veux, jusqu'à tomber sur le profil qui te plaît (on ne dira rien).",
+      "Oui, le quiz est 100 % gratuit et se fait sans inscription. Tu peux le refaire autant de fois que tu veux, jusqu’à tomber sur le profil qui te plaît (on ne dira rien).",
   },
   {
     question: "Comment le profil est-il calculé ?",
@@ -62,7 +62,7 @@ const quizFaqs = [
   {
     question: "Je peux partager mon résultat ?",
     answer:
-      "Oui. À la fin du quiz, le bouton de partage t'aide à envoyer ton profil par message, sur les réseaux ou à copier le lien. Fais-le passer à tes potes : comparer vos profils, c'est souvent plus drôle que le quiz lui-même.",
+      "Oui. À la fin du quiz, le bouton de partage t’aide à envoyer ton profil par message, sur les réseaux ou à copier le lien. Fais-le passer à tes potes : comparer vos profils, c’est souvent plus drôle que le quiz lui-même.",
   },
 ];
 
@@ -83,7 +83,7 @@ export default function QuizHumourPage() {
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-            Quel type d&apos;humour es-tu ?
+            Quel type d’humour es-tu ?
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
             {QUIZ_QUESTIONS.length} questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
@@ -99,18 +99,18 @@ export default function QuizHumourPage() {
               5 profils, 5 styles de stand-up
             </h2>
             <p className="mt-3 text-text-secondary">
-              Chaque profil correspond à un style d&apos;humour qu&apos;on retrouve chez les
-              pros de la scène. <strong>L&apos;Observateur</strong> repère les détails
+              Chaque profil correspond à un style d’humour qu’on retrouve chez les
+              pros de la scène. <strong>L’Observateur</strong> repère les détails
               absurdes du quotidien. <strong>Le Storyteller</strong> transforme la moindre
-              anecdote en sketch. <strong>L&apos;Absurde</strong> surprend en permanence avec
+              anecdote en sketch. <strong>L’Absurde</strong> surprend en permanence avec
               des associations imprévisibles. <strong>Le Punchlineur</strong> tape juste
               avec trois fois rien. <strong>Le Taquin</strong> a toujours la bonne réplique
               au bon moment.
             </p>
             <p className="mt-3 text-text-secondary">
-              Connaître ton profil, c&apos;est savoir quelles <a href="/conseils" className="text-accent-link underline underline-offset-2">techniques
+              Connaître ton profil, c’est savoir quelles <a href="/conseils" className="text-accent-link underline underline-offset-2">techniques
               travailler en priorité</a> pour progresser plus vite. Un Storyteller et un
-              Punchlineur ne s&apos;entraînent pas de la même façon, un peu comme un marathonien
+              Punchlineur ne s’entraînent pas de la même façon, un peu comme un marathonien
               et un sprinteur qui partageraient le même vestiaire.
             </p>
           </div>
@@ -124,8 +124,8 @@ export default function QuizHumourPage() {
               départ</strong> pour progresser. Que tu veuilles{" "}
               <a href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">devenir plus drôle</a>,{" "}
               <a href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">avoir de la répartie</a> ou
-              juste <a href="/vannes" className="text-accent-link underline underline-offset-2">avoir des vannes d&apos;avance</a> pour la machine à café, ton
-              profil t&apos;indique par quoi commencer.
+              juste <a href="/vannes" className="text-accent-link underline underline-offset-2">avoir des vannes d’avance</a> pour la machine à café, ton
+              profil t’indique par quoi commencer.
             </p>
             <p className="mt-3 text-text-secondary">
               Et le jour où tu veux aller plus loin, nos{" "}

@@ -19,7 +19,7 @@ import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 export const REPRENDRE = {
   titre: "Reprendre ton parcours",
   ligne: LISTE_PARCOURS.repriseLigne,
-  bouton: (etape: number) => `Reprendre l'étape ${etape}`,
+  bouton: (etape: number) => `Reprendre l’étape ${etape}`,
 } as const;
 
 // s17, validé (étalon 3.9 A, lien de fin de fiche) ; phrases par fiche : aligné sur les étalons
@@ -27,11 +27,11 @@ export const REPRENDRE = {
 export const FICHE_PARCOURS = {
   titre: "Dans un parcours",
   vanne: (etape: number, slug: ParcoursSlug) =>
-    `Cette vanne fait partie de l'étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
+    `Cette vanne fait partie de l’étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
   conseil: (etape: number, slug: ParcoursSlug) =>
-    `Ce conseil est l'étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
+    `Ce conseil est l’étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
   video: (etape: number, slug: ParcoursSlug) =>
-    `Cette vidéo est travaillée dans l'étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
+    `Cette vidéo est travaillée dans l’étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
 } as const;
 
 // s17, aligné sur les étalons (raisons de profil) ; bouton : validé (étalon 3.9 A)
@@ -43,11 +43,11 @@ export const QUIZ_HUMOUR_PARCOURS = {
   raison: {
     OBSERVATEUR: "Tu vois ce que les autres ne remarquent pas : ce parcours part de là.",
     STORYTELLER: STORYTELLING_PUBLIE
-      ? "Tu tiens une table avec tes histoires : ce parcours t'apprend à couper ce qui traîne."
-      : "Tu tiens une table avec une histoire : ce parcours t'apprend à la raconter jusqu'au bout.",
+      ? "Tu tiens une table avec tes histoires : ce parcours t’apprend à couper ce qui traîne."
+      : "Tu tiens une table avec une histoire : ce parcours t’apprend à la raconter jusqu’au bout.",
     ABSURDE: "Tes idées surprennent : ici, tu apprends à les placer au bon moment.",
     PUNCHLINEUR: "Tu vises le mot juste : ce parcours travaille le rythme et les silences.",
-    TAQUIN: "Tu renvoies chaque balle : ce parcours t'apprend à viser sans blesser.",
+    TAQUIN: "Tu renvoies chaque balle : ce parcours t’apprend à viser sans blesser.",
   },
 } as const;
 
@@ -58,12 +58,12 @@ export const QUIZ_HUMOUR_PARCOURS = {
  * Les chiffres de la FAQ (« 8 semaines », « 50 XP par semaine ») restent intacts.
  */
 export const FAQ_SERIE_XP =
-  "Avec Premium, tes XP montent à chaque étape validée et ta série compte les jours où tu pratiques (une étape validée, un quiz d'étape terminé). Le rythme conseillé : une étape par semaine, de quoi tenir sur la durée.";
+  "Avec Premium, tes XP montent à chaque étape validée et ta série compte les jours où tu pratiques (une étape validée, un quiz d’étape terminé). Le rythme conseillé : une étape par semaine, de quoi tenir sur la durée.";
 
 // s17, aligné sur les étalons
 /** FAQ « Combien de temps » : dernière phrase, deux rythmes dits clairement (UX-04). */
 export const FAQ_REGULARITE =
-  "L'important, c'est la régularité : dans un parcours, une étape par semaine ; à côté, le contenu du jour te prend 5 minutes.";
+  "L’important, c’est la régularité : dans un parcours, une étape par semaine ; à côté, le contenu du jour te prend 5 minutes.";
 
 // Texte juridique du rappel (legal C1) et version : source unique côté lot A,
 // `config/textes/parcours-emails.ts` (RAPPEL_PARCOURS_CONSENTEMENT).
@@ -72,9 +72,9 @@ export const FAQ_REGULARITE =
 export const RAPPEL_PARCOURS_UI = {
   titre: "Rappel de parcours",
   jourLabel: "Jour du rappel",
-  enregistre: "C'est noté.",
-  erreur: "On n'a pas pu enregistrer ton choix. Réessaie dans un instant.",
+  enregistre: "C’est noté.",
+  erreur: "On n’a pas pu enregistrer ton choix. Réessaie dans un instant.",
   // PROVISOIRE s17 lot E, étalon à valider (étalon 3.7 : aucun jour présélectionné)
   jourVide: "Choisis un jour",
-  choisirJour: "Choisis d'abord le jour du rappel, il s'activera aussitôt.",
+  choisirJour: "Choisis d’abord le jour du rappel, il s’activera aussitôt.",
 } as const;

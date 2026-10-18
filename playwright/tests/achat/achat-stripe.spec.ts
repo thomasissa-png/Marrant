@@ -96,7 +96,7 @@ test.describe("Achat Premium de bout en bout @achat", () => {
         .poll(async () => (await (await page.request.get("/api/stripe/status")).json()).cancelAtPeriodEnd, { timeout: 60_000, intervals: [2_000] })
         .toBe(true);
       await page.goto("/profil");
-      await expect(page.getByText(/Premium jusqu'au \d{1,2} \S+ \d{4}/)).toBeVisible();
+      await expect(page.getByText(/Premium jusqu['’]au \d{1,2} \S+ \d{4}/)).toBeVisible();
       await attendrePlan(page, "PREMIUM", 5_000);
     });
 

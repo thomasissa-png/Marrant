@@ -21,12 +21,12 @@ export default function NotFound() {
         <span className="text-gradient">punchline</span>
       </h1>
       <p className="mt-4 max-w-md text-lg text-text-secondary">
-        Cette page n&apos;existe pas, ou plus. Les vannes, elles, sont toujours là.
+        Cette page n’existe pas, ou plus. Les vannes, elles, sont toujours là.
       </p>
       <div className="mt-8 flex gap-4">
         <Link href="/">
           <Button variant="primary" size="lg">
-            Retour à l&apos;accueil
+            Retour à l’accueil
           </Button>
         </Link>
         <Link href="/vannes">

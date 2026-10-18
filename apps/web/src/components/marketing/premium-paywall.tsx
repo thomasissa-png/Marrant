@@ -40,7 +40,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         const offerings = await getOfferings();
         if (!cancelled) setProducts(offerings);
       } catch (err) {
-        if (!cancelled) setError("La boutique ne répond pas pour l'instant. Réessaie un peu plus tard.");
+        if (!cancelled) setError("La boutique ne répond pas pour l’instant. Réessaie un peu plus tard.");
       }
     })();
     return () => {
@@ -64,7 +64,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         window.location.href = data.url;
       } else {
         trackCheckoutEchec("paywall", res.status === 409 ? "conflit" : "erreur");
-        setError("Le paiement n'a pas pu démarrer. Réessaie dans un instant.");
+        setError("Le paiement n’a pas pu démarrer. Réessaie dans un instant.");
       }
     } catch {
       trackCheckoutEchec("paywall", "reseau");
@@ -83,7 +83,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         onSuccess?.();
         router.refresh();
       } else {
-        setError("L'achat n'a pas été confirmé de notre côté. Écris-nous et on règle ça ensemble.");
+        setError("L’achat n’a pas été confirmé de notre côté. Écris-nous et on règle ça ensemble.");
       }
     } catch (err: any) {
       // RevenueCat retourne userCancelled = true si annulé : pas d'erreur affichée
@@ -91,7 +91,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         setLoading(false);
         return;
       }
-      setError("L'achat n'est pas passé. Réessaie.");
+      setError("L’achat n’est pas passé. Réessaie.");
     } finally {
       setLoading(false);
     }
@@ -106,10 +106,10 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         onSuccess?.();
         router.refresh();
       } else {
-        setError("On n'a trouvé aucun achat à restaurer sur ce compte.");
+        setError("On n’a trouvé aucun achat à restaurer sur ce compte.");
       }
     } catch {
-      setError("La restauration n'a pas abouti. Réessaie.");
+      setError("La restauration n’a pas abouti. Réessaie.");
     } finally {
       setLoading(false);
     }
@@ -168,7 +168,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         disabled={loading}
         className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-4 py-3 font-semibold transition"
       >
-        {loading ? "On t'emmène au paiement…" : PAYWALL_PREMIUM.bouton}
+        {loading ? "On t’emmène au paiement…" : PAYWALL_PREMIUM.bouton}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       {/* Concision v5 : la REASS unique sous le plein qui porte un prix (web seulement). */}

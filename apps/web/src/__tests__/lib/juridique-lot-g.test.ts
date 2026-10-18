@@ -64,7 +64,7 @@ describe("e-mail admin de rétractation (réserve 2 @legal)", () => {
     expect(dans.text).toContain("Date limite de remboursement : 4 novembre 2026 (demande + 14 jours)");
     expect(dans.text).toContain("dans le délai de 14 jours (première souscription le 10 octobre 2026)");
     const hors = emailAdminRetractation({ ...base, compteTrouve: true, premiereSouscription: new Date("2026-01-10T10:00:00Z") });
-    expect(hors.text).toContain("DÉPASSÉ d'après la première souscription (le 10 janvier 2026)");
+    expect(hors.text).toContain("DÉPASSÉ d’après la première souscription (le 10 janvier 2026)");
     const inconnu = emailAdminRetractation({ ...base, compteTrouve: false });
     expect(inconnu.text).toContain("Délai de rétractation : INCONNU");
     for (const r of [dans, hors, inconnu]) assertRenduPropre(`${r.subject}\n${r.text}`, "admin");
@@ -81,7 +81,7 @@ describe("e-mail de confirmation : paragraphe rétractation @legal (validé par 
       prochainRenouvellement: null,
     });
     expect(lisible(text)).toContain(
-      "Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit au moins jusqu'au 21 octobre 2026, pour te rétracter sans donner de motif. On te rembourse alors l'intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : https://deviens-marrant.fr/retractation.",
+      "Droit de rétractation : tu as 14 jours à partir d’aujourd’hui, soit au moins jusqu’au 21 octobre 2026, pour te rétracter sans donner de motif. On te rembourse alors l’intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : https://deviens-marrant.fr/retractation.",
     );
     expect(text).toContain(formulaireTypeRetractation());
   });
@@ -90,9 +90,9 @@ describe("e-mail de confirmation : paragraphe rétractation @legal (validé par 
 describe("texte Stripe : obligation de paiement (L.221-14, validé par Thomas)", () => {
   it.each(["monthly", "annual"] as const)("%s : ouverture exacte, ≤ 1 200 caractères", (plan) => {
     const t = texteStripeSubmit(plan);
-    expect(t.startsWith("En cliquant sur « S'abonner », tu passes une commande avec obligation de paiement : Premium, ")).toBe(true);
+    expect(t.startsWith("En cliquant sur « S’abonner », tu passes une commande avec obligation de paiement : Premium, ")).toBe(true);
     expect(t.length).toBeLessThanOrEqual(1200);
-    expect(t.includes("prélevé chaque mois jusqu'à ta résiliation")).toBe(plan === "monthly");
+    expect(t.includes("prélevé chaque mois jusqu’à ta résiliation")).toBe(plan === "monthly");
     expect(t).not.toContain("—");
   });
 });
@@ -114,13 +114,13 @@ describe("rappel annuel : « au plus tard la veille » (@legal point 14)", () =>
 describe("suppression du compte en cours d'abonnement (@legal point 8)", () => {
   it("texte exact @legal avec la vraie date ; repli sans date ; déjà résilié", () => {
     expect(TEXTES_SUPPRESSION.avecAbonnement("12 novembre 2026")).toBe(
-      "Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si tu as payé jusqu'au 12 novembre 2026. La période déjà payée n'est pas remboursée. Pour garder Premium jusqu'au 12 novembre 2026, résilie d'abord ton abonnement, puis supprime ton compte après cette date.",
+      "Ton abonnement Premium sera résilié tout de suite et tu perdras l’accès immédiatement, même si tu as payé jusqu’au 12 novembre 2026. La période déjà payée n’est pas remboursée. Pour garder Premium jusqu’au 12 novembre 2026, résilie d’abord ton abonnement, puis supprime ton compte après cette date.",
     );
     expect(`${TEXTES_SUPPRESSION.retractationAvant}${TEXTES_SUPPRESSION.retractationLien}${TEXTES_SUPPRESSION.retractationApres}`).toBe(
       "Tu as souscrit il y a moins de 14 jours ? Demande ton remboursement avec le formulaire de rétractation avant de supprimer ton compte.",
     );
     for (const t of [TEXTES_SUPPRESSION.avecAbonnement(null), TEXTES_SUPPRESSION.avecAbonnementResilie("12 novembre 2026")]) {
-      expect(t).toContain("n'est pas remboursée");
+      expect(t).toContain("n’est pas remboursée");
       assertRenduPropre(t, "suppression");
       expect(t).not.toMatch(/—|\bvous\b/i);
     }

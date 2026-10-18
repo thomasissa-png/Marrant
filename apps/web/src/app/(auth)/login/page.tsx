@@ -23,8 +23,8 @@ const OAUTH_ERRORS: Record<string, string> = {
   // s16 reco 13 : plus de liaison automatique, on renvoie vers le mot de passe.
   OAuthAccountNotLinked: TEXTES_CONNEXION.oauthCompteExistant,
   OAuthCallback:
-    "La connexion avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
-  OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
+    "La connexion avec Google n’a pas abouti. Si tu viens d’une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
+  OAuthSignin: "Google ne répond pas pour l’instant. Réessaie.",
   // Lot E : erreur inconnue = erreur de notre côté, étalon 4 b.
   Default: TEXTES_CONNEXION.serveur,
 };
@@ -245,7 +245,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               </div>
             </div>
             <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-              {isLoading ? "On t'ouvre…" : "Se connecter"}
+              {isLoading ? "On t’ouvre…" : "Se connecter"}
             </Button>
             <Button
               ref={googleRef}
@@ -275,7 +275,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               href={registerHref}
               className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
             >
-              Créer mon compte et m&apos;abonner
+              Créer mon compte et m’abonner
             </Link>
           </div>
         </CardContent>
@@ -285,7 +285,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
         href="/"
         className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
       >
-        Retour à l&apos;accueil
+        Retour à l’accueil
       </Link>
     </main>
   );

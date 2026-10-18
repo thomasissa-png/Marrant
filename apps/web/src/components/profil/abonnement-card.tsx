@@ -139,7 +139,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
                 plein `OUVRIR`, la REASS dessous. */}
             <p className="mb-4 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
             <Button variant="primary" size="sm" className="h-auto min-h-11 w-full whitespace-normal py-2 sm:w-auto" onClick={onCheckout} disabled={isCheckoutLoading}>
-              {isCheckoutLoading ? "On t'emmène au paiement…" : frTypo(OFFRE.bouton)}
+              {isCheckoutLoading ? "On t’emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
             <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
           </>

@@ -5,7 +5,7 @@ describe("AnatomieVannePage", () => {
   it("renders the main heading", () => {
     render(<AnatomieVannePage />);
     expect(
-      screen.getByText("Anatomie d'une vanne"),
+      screen.getByText("Anatomie d’une vanne"),
     ).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe("AnatomieVannePage", () => {
     render(<AnatomieVannePage />);
     expect(screen.getByText("Questions fréquentes")).toBeInTheDocument();
     expect(
-      screen.getByText("C'est quoi le setup d'une blague ?"),
+      screen.getByText("C’est quoi le setup d’une blague ?"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Comment écrire une bonne punchline ?"),

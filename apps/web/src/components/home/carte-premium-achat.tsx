@@ -47,7 +47,7 @@ export function CartePremiumAchat({ bouton }: { bouton: string }) {
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
       trackCheckoutEchec(ACCUEIL_PREMIUM_SRC, conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
-      else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+      else toast("Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
       trackCheckoutEchec(ACCUEIL_PREMIUM_SRC, "reseau");
       toast("Connexion perdue, réessaie", "error");
@@ -60,7 +60,7 @@ export function CartePremiumAchat({ bouton }: { bouton: string }) {
     <>
       {status === "authenticated" ? (
         <Button variant="primary" size="lg" className={cn("w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)} onClick={handleCheckout} disabled={isCheckoutLoading}>
-          {isCheckoutLoading ? "On t'emmène au paiement…" : bouton}
+          {isCheckoutLoading ? "On t’emmène au paiement…" : bouton}
         </Button>
       ) : (
         // s21 : plein payant vers /abonnement (prix, carnet, garantie), puis compte et paiement.

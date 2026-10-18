@@ -51,9 +51,9 @@ export const authorPersonJsonLd = {
     "Stand-up comedy",
     "Écriture comique",
     "Techniques de répartie",
-    "Psychologie de l'humour",
+    "Psychologie de l’humour",
     "Humour français contemporain",
-    "Formation à l'humour",
+    "Formation à l’humour",
   ],
   worksFor: {
     "@type": "Organization",
@@ -441,7 +441,7 @@ export function buildDefinedTermListJsonLd(
     "@type": "DefinedTermSet",
     name: "Glossaire humour",
     description:
-      `Les ${terms.length} termes clés de l'humour expliqués : répartie, timing, punchline, callback et plus.`,
+      `Les ${terms.length} termes clés de l’humour expliqués : répartie, timing, punchline, callback et plus.`,
     url: `${BASE_URL}/glossaire`,
     hasDefinedTerm: terms.map((t) => ({
       "@type": "DefinedTerm",

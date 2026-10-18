@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Le carnet de répartie du mois",
   description:
-    "Chaque mois, des situations du quotidien et la réplique qui va avec : ce qu'on te dit, quoi répondre, pourquoi ça marche et quoi faire si ça se tend.",
+    "Chaque mois, des situations du quotidien et la réplique qui va avec : ce qu’on te dit, quoi répondre, pourquoi ça marche et quoi faire si ça se tend.",
   ...NOINDEX_ROBOTS,
 };
 

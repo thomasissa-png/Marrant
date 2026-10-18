@@ -18,7 +18,7 @@ describe("faits faux corrigés (concision s21)", () => {
   });
 
   it("sous-titre de /abonnement : « Pas d'attente entre les étapes », aucun rythme imposé", () => {
-    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d'attente entre les étapes, de 15 à 20 minutes chacune.");
+    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d’attente entre les étapes, de 15 à 20 minutes chacune.");
     expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).not.toMatch(/par semaine/);
   });
 });

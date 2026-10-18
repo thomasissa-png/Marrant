@@ -287,7 +287,7 @@ describe("RegisterPage", () => {
     it("OAuthCallback : message compréhensible", () => {
       mockSearchParams.set("error", "OAuthCallback");
       render(<RegisterPage />);
-      expect(screen.getByRole("alert")).toHaveTextContent("L'inscription avec Google n'a pas abouti");
+      expect(screen.getByRole("alert")).toHaveTextContent("L’inscription avec Google n’a pas abouti");
     });
   });
 

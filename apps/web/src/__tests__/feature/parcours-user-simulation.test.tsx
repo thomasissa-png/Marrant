@@ -551,7 +551,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Step 1 auto-expands
     await waitFor(() => {
-      expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
+      expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
     });
     expect(screen.getByText("Quiz 1/2")).toBeInTheDocument();
 
@@ -741,8 +741,8 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     await waitFor(() => {
       expect(screen.getByText("Redécouvrir ce qui te fait rire")).toBeInTheDocument();
       expect(screen.getByText("Rire de soi avec bienveillance")).toBeInTheDocument();
-      expect(screen.getByText("L'art de l'observation comique")).toBeInTheDocument();
-      expect(screen.getByText("Être à l'aise en groupe")).toBeInTheDocument();
+      expect(screen.getByText("L’art de l’observation comique")).toBeInTheDocument();
+      expect(screen.getByText("Être à l’aise en groupe")).toBeInTheDocument();
       expect(screen.getByText("Les registres avancés")).toBeInTheDocument();
       expect(screen.getByText("Affirmer ton style personnel")).toBeInTheDocument();
     });
@@ -767,7 +767,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText(/^5 vannes dans cette étape\.$/)).toBeInTheDocument();
 
     // Quiz
-    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
 
     // Valider = Premium (s15, étalon 4.1)
     expect(screen.getByText(courbe("Les étapes suivantes s'ouvrent avec Premium."))).toBeInTheDocument();
@@ -785,9 +785,9 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
   it("D1 s17 : visiteur, une étape 3+ s'ouvre sur l'aperçu, sans ordre imposé", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText("L'art de l'observation comique")).toBeInTheDocument();
+      expect(screen.getByText("L’art de l’observation comique")).toBeInTheDocument();
     });
-    const header = screen.getByText("L'art de l'observation comique").closest("[role='button']");
+    const header = screen.getByText("L’art de l’observation comique").closest("[role='button']");
     expect(header).not.toBeNull();
     await userEvent.click(header as HTMLElement);
     expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();

@@ -281,7 +281,7 @@ describe("SubscriptionSuccessPage", () => {
       expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Connecte-toi pour retrouver ton abonnement");
       expect(
         screen.getByText(
-          "Tu n'es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d'ici. Si tu viens de t'abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
+          "Tu n’es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d’ici. Si tu viens de t’abonner, connecte-toi : ton accès apparaîtra dans ton profil.",
         ),
       ).toBeInTheDocument();
       expect(link).toHaveTextContent("Me connecter");

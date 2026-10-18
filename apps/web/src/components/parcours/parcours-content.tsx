@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { emojiReponseBoulot, recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
+import { frTypo, frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
 import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
@@ -41,11 +41,11 @@ const ORIENTATION_QUESTIONS = [
     ],
   },
   {
-    question: "Qu'est-ce qui coince le plus ?",
+    question: "Qu’est-ce qui coince le plus ?",
     options: [
-      { label: "Je n'ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
+      { label: "Je n’ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
       { label: "Je ne sais pas quoi répondre sur le moment", value: "repartie", emoji: "⚡" },
-      { label: "J'ai perdu confiance en moi", value: "confiance", emoji: "💪" },
+      { label: "J’ai perdu confiance en moi", value: "confiance", emoji: "💪" },
     ],
   },
 ];
@@ -87,7 +87,7 @@ function OrientationQuiz({
         <CardContent>
           <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
-          <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
+          <p className="mt-2 text-sm text-text-secondary">{frTypo(result.reason)}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
             <Button variant="primary" size="sm" onClick={() => onShowParcours(result.slug)}>
               Voir ce parcours
@@ -336,7 +336,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium text-text-primary">
-                              {m.title}
+                              {frTypo(m.title)}
                             </span>
                             {m.free && (
                               <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>

@@ -23,7 +23,7 @@ export function validateRegisterFields({ name = "", email, password }: RegisterF
   }
 
   if (!EMAIL_REGEX.test(email)) {
-    errors.email = "Cette adresse email a l'air bizarre. Tu peux vérifier ?";
+    errors.email = "Cette adresse email a l’air bizarre. Tu peux vérifier ?";
   }
 
   if (password.length < 8) {

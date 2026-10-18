@@ -1,4 +1,5 @@
 import type { CarnetFiche, CarnetFicheApercu } from "@/lib/carnet";
+import { frTypo } from "@/lib/fr-typo";
 import { Card } from "@/components/ui/card";
 
 /**
@@ -29,27 +30,27 @@ export function CarnetFicheCard({
             {offerte ? " · offerte" : ""}
           </p>
         )}
-        <Titre className="font-display text-xl font-bold text-text-primary">{fiche.titre}</Titre>
-        {!extrait && <p className="text-sm text-text-muted">{fiche.contexte}</p>}
+        <Titre className="font-display text-xl font-bold text-text-primary">{frTypo(fiche.titre)}</Titre>
+        {!extrait && <p className="text-sm text-text-muted">{frTypo(fiche.contexte)}</p>}
       </header>
 
-      <p className="text-sm text-text-secondary">{fiche.situation}</p>
+      <p className="text-sm text-text-secondary">{frTypo(fiche.situation)}</p>
 
       <div className="rounded-lg bg-background-elevated p-3">
         <p className="text-xs font-medium text-text-muted">On te dit</p>
-        <p className="mt-1 text-sm italic text-text-primary">{fiche.onTeDit}</p>
+        <p className="mt-1 text-sm italic text-text-primary">{frTypo(fiche.onTeDit)}</p>
       </div>
 
       <div className="rounded-lg border border-accent-primary/30 bg-accent-primary/10 p-3">
         <p className="text-xs font-medium text-accent-link">Tu réponds</p>
-        <p className="mt-1 text-base font-semibold text-text-primary">{fiche.reponse}</p>
+        <p className="mt-1 text-base font-semibold text-text-primary">{frTypo(fiche.reponse)}</p>
       </div>
 
-      <FicheBloc titre="Pourquoi ça marche" as={blocTitre}>{fiche.pourquoi}</FicheBloc>
+      <FicheBloc titre="Pourquoi ça marche" as={blocTitre}>{frTypo(fiche.pourquoi)}</FicheBloc>
       {!extrait && (
         <>
-          <FicheBloc titre="Si ça se tend" as={blocTitre}>{fiche.siTendu}</FicheBloc>
-          <FicheBloc titre="À toi de jouer" as={blocTitre}>{fiche.exercice}</FicheBloc>
+          <FicheBloc titre="Si ça se tend" as={blocTitre}>{frTypo(fiche.siTendu)}</FicheBloc>
+          <FicheBloc titre="À toi de jouer" as={blocTitre}>{frTypo(fiche.exercice)}</FicheBloc>
         </>
       )}
     </Card>
@@ -85,8 +86,8 @@ export function CarnetFicheLocked({ fiche, numero }: { fiche: CarnetFicheApercu;
       </svg>
       <div>
         <p className="text-xs text-text-muted">Situation {numero}</p>
-        <p className="font-semibold text-text-primary">{fiche.titre}</p>
-        <p className="mt-0.5 text-sm text-text-secondary">{fiche.contexte}</p>
+        <p className="font-semibold text-text-primary">{frTypo(fiche.titre)}</p>
+        <p className="mt-0.5 text-sm text-text-secondary">{frTypo(fiche.contexte)}</p>
       </div>
     </li>
   );

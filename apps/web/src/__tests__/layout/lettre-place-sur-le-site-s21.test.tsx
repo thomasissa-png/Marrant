@@ -42,7 +42,7 @@ describe("Textes validés à l'aveugle, mot pour mot", () => {
   it("menu : duel 1, version A ; accueil : duel 2, version A", () => {
     expect(TEXTES_LETTRE.menu).toBe("La lettre");
     expect(sansInsecables(TEXTES_LETTRE.accueil.titre)).toBe("Une vanne décryptée, chaque mois");
-    expect(sansInsecables(TEXTES_LETTRE.accueil.phrase)).toBe("Tu la reçois par e-mail, avec un exercice pour t'entraîner. Gratuit, sans compte.");
+    expect(sansInsecables(TEXTES_LETTRE.accueil.phrase)).toBe("Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte.");
     expect(TEXTES_LETTRE.accueil.lien).toBe("Voir la lettre");
   });
 });
@@ -98,7 +98,7 @@ describe("Accueil", () => {
     const { container } = render(<LettreAccueil />);
     const section = container.querySelector("section[aria-labelledby='lettre-accueil']");
     expect(sansInsecables(section?.querySelector("h2#lettre-accueil")?.textContent)).toBe("Une vanne décryptée, chaque mois");
-    expect(sansInsecables(section?.textContent)).toContain("Tu la reçois par e-mail, avec un exercice pour t'entraîner. Gratuit, sans compte.");
+    expect(sansInsecables(section?.textContent)).toContain("Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte.");
     const lien = screen.getByRole("link", { name: "Voir la lettre" });
     expect(lien).toHaveAttribute("href", "/lettre");
     expect(sansInsecables(lien.textContent)).toBe("Voir la lettre →");

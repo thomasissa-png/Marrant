@@ -79,7 +79,7 @@ export function ProfilDashboard() {
         // s16 : message du serveur s'il existe (ex. abonnement déjà en cours, 409).
         const data = (await res.json().catch(() => ({}))) as { error?: string };
         trackCheckoutEchec("profil", res.status === 409 ? "conflit" : "erreur");
-        toast(data.error ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        toast(data.error ?? "Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
       trackCheckoutEchec("profil", "reseau");
@@ -245,7 +245,7 @@ export function ProfilDashboard() {
           {parcoursProgress.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <p className="text-sm text-text-secondary">
-                Tu n&apos;as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t&apos;y habituer.
+                Tu n’as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t’y habituer.
               </p>
               <Link href="/parcours">
                 <Button variant="primary" size="sm" className="mt-3">
@@ -331,7 +331,7 @@ export function ProfilDashboard() {
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                   <p className="font-semibold text-accent-link">Lance-toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l&apos;autre.
+                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l’autre.
                   </p>
                 </div>
               </Link>

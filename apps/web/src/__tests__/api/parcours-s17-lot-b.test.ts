@@ -198,7 +198,7 @@ describe("Page /parcours/[slug] (ISR) : D1, D8, SEO-02, SEO-04, SEO-11", () => {
   });
 
   it("hub /parcours : titre D8 « Cours d'humour en ligne » et aperçu de partage de la page", () => {
-    expect(hubMetadata.title).toEqual({ absolute: `Cours d'humour en ligne : ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours pour devenir drôle` });
+    expect(hubMetadata.title).toEqual({ absolute: `Cours d’humour en ligne : ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours pour devenir drôle` });
     expect(hubMetadata.openGraph).toMatchObject({ url: "https://deviens-marrant.fr/parcours" });
     expect(hubMetadata.twitter).toMatchObject({ card: "summary_large_image" });
     // s19 : la mention remonte en tête de la description du hub ; D8 inchangé (jamais « cours gratuit »).

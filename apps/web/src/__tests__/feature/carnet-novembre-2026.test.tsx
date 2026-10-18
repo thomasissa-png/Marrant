@@ -137,9 +137,9 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     expect(html).toContain(">Situation 3<");
     expect(html).not.toContain(">Situation 30<");
     expect(screen.getByText("Et 26 autres répliques")).toBeInTheDocument();
-    expect(screen.getByText("Du premier froid aux préparatifs de Noël, des répliques qui montent d'un cran.")).toBeInTheDocument();
+    expect(screen.getByText("Du premier froid aux préparatifs de Noël, des répliques qui montent d’un cran.")).toBeInTheDocument();
     for (const champ of ["situation", "onTeDit", "reponse", "pourquoi", "siTendu", "exercice"] as const) {
-      expect(html).toContain(offerte[champ]);
+      expect(html.replace(/’/g, "'").replace(/\u00a0|&nbsp;/g, " ")).toContain(offerte[champ]);
     }
     novembre.fiches.filter((x) => x !== offerte).forEach((f, i) => {
       if (i < 3) expect(html).toContain(f.titre);
@@ -174,7 +174,7 @@ describe("consommateurs de la fiche offerte au 01/11 (encart des articles, extra
   it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10 (plus d'intro « autres situations »)", () => {
     const extrait = getCarnetExtrait(carnets, MINUIT)!;
     render(<CarnetExtraitBloc extrait={extrait} />);
-    expect(screen.getByRole("heading", { level: 3, name: "Le gratin « intéressant »" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 3, name: /^Le gratin «\s+intéressant\s+»$/ })).toBeInTheDocument();
     expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Lire la fiche en entier" })).toHaveAttribute("href", "/carnet#fiche-2026-11-10");
   });

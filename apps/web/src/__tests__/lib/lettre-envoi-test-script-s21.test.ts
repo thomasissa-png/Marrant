@@ -61,7 +61,7 @@ describe("rendu et envoi", () => {
     expect(numero.text).toBe(corpsNumero(n1.corps, "https://deviens-marrant.fr", "envoi-de-test-lien-non-valide"));
     expect(numero.headers?.["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
     expect(numero.text).not.toContain("[À COMPLÉTER");
-    expect(numero.text).toContain("Tu reçois cette lettre parce que tu l'as demandée sur deviens-marrant.fr.");
+    expect(numero.text).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
     expect(numero.text).toContain("deviens-marrant SAS");
   });
 

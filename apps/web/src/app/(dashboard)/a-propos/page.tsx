@@ -21,9 +21,9 @@ import {
 } from "@/components/seo/json-ld";
 
 const PAGE_URL = "https://deviens-marrant.fr/a-propos";
-const PAGE_TITLE = "L'humour s'apprend : notre mission";
+const PAGE_TITLE = "L’humour s’apprend : notre mission";
 const PAGE_DESCRIPTION =
-  "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.";
+  "L’humour, ça s’apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -43,17 +43,17 @@ const aboutFaqs = [
   {
     question: "Est-ce que deviens-marrant.fr est fait pour les débutants ?",
     answer:
-      "Oui, c'est même pour eux qu'on l'a construit. La majorité de nos membres n'avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Les parcours partent du niveau zéro et avancent étape par étape, sans jamais te pousser sur scène.",
+      "Oui, c’est même pour eux qu’on l’a construit. La majorité de nos membres n’avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Les parcours partent du niveau zéro et avancent étape par étape, sans jamais te pousser sur scène.",
   },
   {
-    question: "Quelles techniques d'humour sont enseignées ?",
+    question: "Quelles techniques d’humour sont enseignées ?",
     answer:
-      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots : les mêmes techniques utilisées par les pros de la scène.",
+      "On enseigne l’observation, le timing, l’autodérision, la répartie, le storytelling et les jeux de mots : les mêmes techniques utilisées par les pros de la scène.",
   },
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
     answer:
-      `Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent ${PARCOURS_MIN_WEEKS} semaines, les plus complets ${PARCOURS_MAX_WEEKS} semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel.`,
+      `Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent ${PARCOURS_MIN_WEEKS} semaines, les plus complets ${PARCOURS_MAX_WEEKS} semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu’un programme d’humour de 8 semaines améliore significativement le bien-être émotionnel.`,
   },
 ];
 
@@ -69,7 +69,7 @@ export default function AProposPage() {
       <JsonLd data={buildFaqJsonLd(aboutFaqs)} />
       <JsonLd data={authorPersonJsonLd} />
       <div className="mx-auto max-w-3xl">
-        <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
           <span className="text-text-secondary">À propos</span>
@@ -80,8 +80,8 @@ export default function AProposPage() {
         </h1>
         <p className="mt-4 text-lg text-text-secondary">
           deviens-marrant.fr est la première plateforme francophone dédiée à
-          l&apos;apprentissage de l&apos;humour, de la répartie et du
-          storytelling. Notre mission : prouver que l&apos;humour n&apos;est pas
+          l’apprentissage de l’humour, de la répartie et du
+          storytelling. Notre mission : prouver que l’humour n’est pas
           un don tombé du ciel sur quelques chanceux, mais un muscle que tout
           le monde peut entraîner, toi compris.
         </p>
@@ -89,14 +89,14 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">Notre mission</h2>
           <p className="mt-3 text-text-secondary">
-            Tout le monde a le droit d&apos;être drôle, y compris ceux qui
+            Tout le monde a le droit d’être drôle, y compris ceux qui
             répètent leur blague trois fois dans leur tête avant de renoncer à
             la dire. Étudiant timide qui veut de la répartie, jeune actif qui
             sèche à la machine à café, ou en train de tourner une page et à la
-            recherche d&apos;un peu de légèreté : il y a un parcours pensé pour toi.
+            recherche d’un peu de légèreté : il y a un parcours pensé pour toi.
           </p>
           <p className="mt-3 text-text-secondary">
-            On s&apos;appuie sur les techniques des meilleurs humoristes
+            On s’appuie sur les techniques des meilleurs humoristes
             français, les principes de la psychologie positive et des exercices
             à mettre en pratique.
           </p>
@@ -118,14 +118,14 @@ export default function AProposPage() {
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Des techniques de répartie</strong> concrètes avec
-                exemples et exercices à tester dès aujourd&apos;hui
+                exemples et exercices à tester dès aujourd’hui
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Des vidéos de stand-up analysées</strong>&nbsp;: chaque
-                technique décryptée pour que tu puisses l&apos;appliquer
+                technique décryptée pour que tu puisses l’appliquer
               </span>
             </li>
             <li className="flex items-start gap-2">
@@ -139,7 +139,7 @@ export default function AProposPage() {
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Un blog</strong> avec des guides complets sur
-                l&apos;humour, la répartie et le storytelling
+                l’humour, la répartie et le storytelling
               </span>
             </li>
           </ul>
@@ -154,12 +154,12 @@ export default function AProposPage() {
           <ol className="mt-4 list-outside list-decimal space-y-3 pl-6 text-text-secondary">
             <li>
               <strong>Observer avant de produire</strong>&nbsp;: on entraîne
-              d&apos;abord le regard (repérer l&apos;absurde du quotidien)
+              d’abord le regard (repérer l’absurde du quotidien)
               avant de passer à la création de vannes.
             </li>
             <li>
               <strong>Pratiquer dans des situations réelles</strong>&nbsp;: chaque
-              conseil inclut un défi concret à tester aujourd&apos;hui, pas
+              conseil inclut un défi concret à tester aujourd’hui, pas
               dans 3 mois.
             </li>
             <li>
@@ -171,19 +171,19 @@ export default function AProposPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="font-display text-2xl font-bold">L&apos;équipe</h2>
+          <h2 className="font-display text-2xl font-bold">L’équipe</h2>
           <p className="mt-3 text-text-secondary">
             deviens-marrant.fr est fondé par <strong>Alex Durand</strong>,
             passionné de stand-up et de pédagogie. Après des années à
             décortiquer les techniques des meilleurs humoristes français, il a
-            créé cette plateforme pour rendre l&apos;humour accessible à tous,
+            créé cette plateforme pour rendre l’humour accessible à tous,
             pas juste à ceux qui sont «&nbsp;nés drôles&nbsp;».
           </p>
           <p className="mt-3 text-text-secondary">
-            L&apos;équipe mélange culture stand-up et pédagogie, avec une
+            L’équipe mélange culture stand-up et pédagogie, avec une
             obsession : que ce que tu lis ici te serve dès ce soir. Chaque
             vanne, chaque conseil, chaque vidéo
-            passe un test simple avant d&apos;être publié : «&nbsp;est-ce que
+            passe un test simple avant d’être publié : «&nbsp;est-ce que
             je peux la sortir ce soir et faire rire ?&nbsp;»
           </p>
         </section>

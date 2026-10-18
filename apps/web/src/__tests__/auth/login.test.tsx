@@ -56,14 +56,14 @@ describe("LoginPage", () => {
   it("propose clairement l'abonnement vers /register (s15, plus de compte gratuit)", () => {
     render(<LoginPage />);
     expect(screen.getByText("Pas encore abonné ?")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Créer mon compte et m'abonner" })).toHaveAttribute("href", "/register?src=login");
+    expect(screen.getByRole("link", { name: "Créer mon compte et m’abonner" })).toHaveAttribute("href", "/register?src=login");
   });
 
   it("le lien d'inscription garde la destination et la source (s15)", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
     mockSearchParams.set("src", "header");
     render(<LoginPage />);
-    expect(screen.getByRole("link", { name: "Créer mon compte et m'abonner" })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: "Créer mon compte et m’abonner" })).toHaveAttribute(
       "href",
       "/register?callbackUrl=%2Fabonnement%3Fplan%3Dannual&src=header",
     );
@@ -75,7 +75,7 @@ describe("LoginPage", () => {
     mockSearchParams.set("error", "OAuthCallback");
     mockSearchParams.set("callbackUrl", "https://deviens-marrant.fr");
     render(<LoginPage />);
-    expect(screen.getByRole("alert")).toHaveTextContent("La connexion avec Google n'a pas abouti");
+    expect(screen.getByRole("alert")).toHaveTextContent("La connexion avec Google n’a pas abouti");
     expect(screen.getByRole("alert")).toHaveTextContent("ouvre le site dans ton navigateur");
     expect(screen.getByRole("alert").textContent).not.toContain("\u2014");
     mockSearchParams.delete("error");
@@ -182,7 +182,7 @@ describe("LoginPage", () => {
     await userEvent.type(screen.getByLabelText("Mot de passe"), "pass1234");
     await userEvent.click(screen.getByRole("button", { name: "Se connecter" }));
 
-    expect(screen.getByText("On t'ouvre…")).toBeInTheDocument();
+    expect(screen.getByText("On t’ouvre…")).toBeInTheDocument();
   });
 
   it("calls Google signIn with default /vannes callbackUrl", async () => {

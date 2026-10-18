@@ -36,9 +36,9 @@ describe("cta-pages.ts : textes et nombres", () => {
   });
 
   it("limites gratuites lues à la source", () => {
-    expect(MUR_LISTE.vannes.limite).toBe(`Les ${FREE_JOKE_LIMIT} gratuites, c'est fait.`);
-    expect(MUR_LISTE.conseils.limite).toBe(`${FREE_TIP_LIMIT} conseils gratuits, c'est fait.`);
-    expect(MUR_LISTE.videos.limite).toBe(`${FREE_VIDEO_LIMIT} vidéos gratuites, c'est fait.`);
+    expect(MUR_LISTE.vannes.limite).toBe(`Les ${FREE_JOKE_LIMIT} gratuites, c’est fait.`);
+    expect(MUR_LISTE.conseils.limite).toBe(`${FREE_TIP_LIMIT} conseils gratuits, c’est fait.`);
+    expect(MUR_LISTE.videos.limite).toBe(`${FREE_VIDEO_LIMIT} vidéos gratuites, c’est fait.`);
   });
 });
 
@@ -51,7 +51,7 @@ describe("B7 : murs des listes", () => {
     expect(href.searchParams.get("src")).toBe(`mur-${liste}`);
     expect(href.searchParams.get("returnTo")).toBe(`/${liste}`);
     const lien = screen.getByRole("link", { name: frTypo(MUR_LISTE[liste].contour(MUR_PARCOURS)) });
-    expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toBe("Tester l'étape 1 de Répartie, gratuite");
+    expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toBe("Tester l’étape 1 de Répartie, gratuite");
     // s21 (QA m5) : source propre au mur, distincte d'un clic de fiche.
     expect(lien.getAttribute("href")).toBe(`/parcours/${MUR_PARCOURS}?src=mur-${liste}#etape-1`);
     expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE[liste].titre) })).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
     expect(href.searchParams.get("returnTo")).toBe(`/x/${type}`);
     expect(href.searchParams.get("src")).toBe(`exercice-${type}`);
     expect(plein.getAttribute("data-fiche-cta")).toBe("premium");
-    expect(t.contour("confiance")).toBe("Tester l'étape 1 de Confiance, gratuite");
+    expect(t.contour("confiance")).toBe("Tester l’étape 1 de Confiance, gratuite");
     expect(screen.getByRole("link", { name: frTypo(t.contour("confiance")) }).getAttribute("href")).toMatch(
       /^\/parcours\/confiance\?src=fiche/,
     );
@@ -191,6 +191,6 @@ describe("B17 : prénom facultatif (validation client)", () => {
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     // s21 concision : libellé du prénom déplacé dans /profil (TEXTES_PRENOM), texte inchangé.
     expect(TEXTES_PRENOM.label).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
-    expect(REGISTER_CTA.lienEtape1("confiance")).toBe("Tester l'étape 1 de Confiance, gratuite");
+    expect(REGISTER_CTA.lienEtape1("confiance")).toBe("Tester l’étape 1 de Confiance, gratuite");
   });
 });
