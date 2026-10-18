@@ -18,6 +18,8 @@ import {
   ANNUEL_ECONOMIE_LABEL,
   ANNUEL_MOIS_OFFERTS_LABEL,
 } from "@/config/textes/offre";
+import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
@@ -116,7 +118,9 @@ describe("accueil : bloc Premium", () => {
     expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.")).toBeInTheDocument(); // V3 validée à l'aveugle s21
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
-    const link = screen.getByText("Commencer à 2,99 €/mois");
+    // s21 (B4 + B5) : plein vers /abonnement?src=accueil-premium, libellé du tour 4.
+    const link = screen.getByText(normalise(CARTE_PREMIUM.bouton));
+    expect(link.closest("a")).toHaveAttribute("href", "/abonnement?src=accueil-premium");
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "accueil-premium", statut: "visiteur" });

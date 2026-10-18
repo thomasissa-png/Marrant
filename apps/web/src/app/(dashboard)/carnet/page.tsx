@@ -1,6 +1,6 @@
 // Stratégie de rendu : SSR dynamique (jamais de cache partagé).
 // Le contenu dépend du plan lu en base : un abonné reçoit le carnet complet,
-// un visiteur non Premium la première fiche + les titres/contextes des autres.
+// un visiteur non Premium la fiche offerte (lib/carnet `ficheOfferte`) + les titres/contextes des autres.
 // Le filtrage se fait ICI, côté serveur : rien d'autre n'est dans le HTML ni
 // dans le JS client. Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";

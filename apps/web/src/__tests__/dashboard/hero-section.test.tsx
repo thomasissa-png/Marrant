@@ -1,5 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { HeroSection } from "@/components/home/hero-section";
+import { ACCUEIL_HAUT } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -74,22 +76,22 @@ describe("HeroSection", () => {
     expect(h1.textContent).toBe("Tu parles et personne rit.On va arranger ça.");
   });
 
-  it("shows CTA when unauthenticated, with the free path right below (s12 T03)", () => {
+  it("s21 (B3) visiteur : plein vers l'étape 1 de Répartie, lien payant vers /abonnement, note", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection />);
-    // Étalon 1.2 validé par Thomas (s15) : bouton parcours, prix en note, lien vers /register.
-    expect(screen.getByText("Accéder aux parcours complets").closest("a")).toHaveAttribute("href", "/register?src=accueil-hero");
-    expect(
-      screen.getByText("2,99 €/mois, sans engagement. La première étape de chaque parcours reste en lecture libre."),
-    ).toBeInTheDocument();
-    expect(document.body.textContent).not.toMatch(/compte gratuit/i);
+    const plein = screen.getByText(ACCUEIL_HAUT.bouton).closest("a")!;
+    expect(plein).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
+    expect(plein.className).toContain("bg-accent-secondary-hover");
+    const lien = screen.getByText(normalise(ACCUEIL_HAUT.lien)).closest("a")!;
+    expect(lien).toHaveAttribute("href", "/abonnement?src=accueil-hero");
+    expect(lien.className).toContain("underline");
+    expect(lien.className).not.toContain("bg-accent-secondary-hover");
+    expect(screen.getByText(/^Ça se lit sans compte, quiz compris\. La suite est dans Premium/)).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/compte gratuit|sans engagement|Accéder aux parcours complets/i);
     expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
-    // s17 UX-08 : seul le lien secondaire change, vers l'étape 1 en lecture libre.
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
-    expect(screen.getByText("Lire la première étape gratuite").closest("a")).toHaveAttribute(
-      "href",
-      "/parcours/machine-a-cafe?src=accueil#etape-1",
-    );
+    // Un seul plein dans la zone d'action (les pastilles sont des chips).
+    expect(document.querySelectorAll("a.bg-accent-secondary-hover")).toHaveLength(1);
   });
 
   it("shows authenticated buttons", () => {

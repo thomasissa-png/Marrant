@@ -4,11 +4,18 @@
  * - Base : https://api.umami.is/v1, header `x-umami-api-key`.
  * - Secrets Worker : `UMAMI_API_KEY`, `UMAMI_WEBSITE_ID`. Absents ou placeholder
  *   → `getUmamiConfig()` renvoie null : l'appelant ne fait rien et le signale.
+ * - Filtre d'hôte `hostname=deviens-marrant.fr` sur chaque appel (s21).
  * - Timeout explicite (5 s) sur chaque appel. La clé n'est jamais journalisée
  *   ni recopiée dans un message d'erreur.
  */
 
 export const UMAMI_API_BASE = "https://api.umami.is/v1";
+/**
+ * s21 : seul le site en production compte (filtre `hostname` de l'API Umami). Les vues
+ * des aperçus Cloudflare (*.workers.dev), de localhost ou d'une copie du site sont
+ * écartées du rapport du lundi et des alertes. Un filtre explicite de l'appelant prime.
+ */
+export const UMAMI_HOSTNAME = "deviens-marrant.fr";
 export const UMAMI_TIMEOUT_MS = 5_000;
 
 export type UmamiConfig = { apiKey: string; websiteId: string };
@@ -70,7 +77,9 @@ function toPoints(raw: unknown): UmamiPoint[] {
 }
 
 async function umamiGet(config: UmamiConfig, path: string, params: Record<string, string | number>): Promise<unknown> {
-  const query = new URLSearchParams(Object.entries(params).map(([k, v]) => [k, String(v)]));
+  const query = new URLSearchParams(
+    Object.entries({ hostname: UMAMI_HOSTNAME, ...params }).map(([k, v]) => [k, String(v)]),
+  );
   const url = `${UMAMI_API_BASE}/websites/${encodeURIComponent(config.websiteId)}/${path}?${query}`;
   let res: Response;
   try {

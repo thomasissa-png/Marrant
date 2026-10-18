@@ -9,7 +9,6 @@ import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { BlogArticleRelated } from "@/components/blog/blog-article-related";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
-import { BLOC_FIN_AVANT_FAQ } from "@/config/blog-encarts";
 import { FORTE_FRAPPE_SHARE } from "@/config/blog-forte-frappe";
 import { BLOC_FIN_PAR_ARTICLE } from "@/config/textes/encarts-blog-s20";
 import { resolveArticleParcours } from "@/lib/blog-parcours";
@@ -25,6 +24,8 @@ import { frTypo } from "@/lib/fr-typo";
 import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
 import type { BlogArticleData, BlogArticleNavigation } from "@/lib/blog-article-page";
+import { BLOC_FIN, LETTRE_ARTICLE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 interface BlogArticleViewProps {
   article: BlogArticleData;
@@ -35,30 +36,16 @@ interface BlogArticleViewProps {
 
 /** Gabarit d'un article, commun à `/blog/[slug]` et `/blog/apercu/[slug]`. */
 export function BlogArticleView({ article, navigation, banner }: BlogArticleViewProps) {
-  // Bloc de fin unique (s20) : étape 1 gratuite (contour) puis Premium (principal),
+  // Bloc de fin unique (s20, revu s21 B2) : étape 1 gratuite (plein) puis lien payant,
   // vers le parcours de l'article (lib/blog-parcours : table par slug, puis cluster).
-  // Textes : surcharge s20 de l'article, sinon config/blog-cta.ts (s14), sinon parcours.
-  // /abonnement?src=blog-<slug> (s15) : abonnement attribuable à l'article.
+  // Textes : surcharge s21 (cta-articles-accueil), puis s20, puis config/blog-cta.ts (s14),
+  // sinon parcours. /abonnement?src=blog-<slug> (s15) : abonnement attribuable à l'article.
   const parcours = resolveArticleParcours(article.slug, article.category);
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
-  // s21 : lettre mensuelle juste APRÈS le bloc de fin, où qu'il soit (spec lettre §1.2),
-  // ligne sans carte, sans attribut data-blog-cta* (mesure du lot 1 isolée).
-  const blocFin = (
-    <>
-      <ArticleCta
-        parcours={parcours}
-        src={`blog-${article.slug}`}
-        title={finCopy?.titre ?? ctaCopy?.title}
-        text={finCopy?.texte ?? ctaCopy?.text}
-        note={finCopy?.note ?? ctaCopy?.note}
-      />
-      {LETTRE_INSCRIPTIONS_OUVERTES && (
-        <LettreInscription emplacement="article" slug={article.slug} className="mt-8 border-t border-border pt-6" />
-      )}
-    </>
-  );
-  const blocFinAvantFaq = BLOC_FIN_AVANT_FAQ.has(article.slug);
+  const s21Copy = BLOC_FIN.parArticle[article.slug];
+  // Annuel lu au rendu (ISR) : absent tant que le prix Stripe annuel n'est pas posé.
+  const annuelDisponible = isAnnualPlanAvailable();
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];
@@ -89,7 +76,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
-          { name: "Blog", url: "https://deviens-marrant.fr/blog" },
+          { name: LIBELLE_SECTION_ARTICLES, url: "https://deviens-marrant.fr/blog" },
           { name: article.title, url: `https://deviens-marrant.fr/blog/${article.slug}` },
         ])}
       />
@@ -101,7 +88,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         </Link>
         <span className="mx-2">/</span>
         <Link href="/blog" className="hover:text-text-primary max-md:py-3.5">
-          Blog
+          {LIBELLE_SECTION_ARTICLES}
         </Link>
         <span className="mx-2">/</span>
         <span className="inline-block max-w-[55vw] truncate align-bottom text-text-secondary sm:max-w-none">
@@ -143,12 +130,33 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         />
         {shareMode && <BlogVanneShare slug={article.slug} mode={shareMode} />}
 
-        {/* Articles à CTA dédié (config/blog-cta.ts) et liste s20 : bloc de fin au moment
-            où la lecture se termine, avant la FAQ. Sinon, après la FAQ. */}
-        {blocFinAvantFaq && blocFin}
+        {/* s21 (spec cta-forme-place §3.1) : ordre identique pour tous les articles. Corps,
+            partage, bloc de fin, lettre, cluster et « À lire ensuite », puis la FAQ en
+            dernier (le JSON-LD FAQPage ne dépend pas de l'ordre du DOM). */}
+        <ArticleCta
+          parcours={parcours}
+          src={`blog-${article.slug}`}
+          title={s21Copy?.titre ?? finCopy?.titre ?? ctaCopy?.title}
+          text={s21Copy?.texte ?? finCopy?.texte ?? ctaCopy?.text}
+          note={s21Copy?.noteS9 ? BLOC_FIN.note(annuelDisponible) : (finCopy?.note ?? ctaCopy?.note)}
+          annuelDisponible={annuelDisponible}
+        />
+        {/* Lettre mensuelle juste APRÈS le bloc de fin (spec lettre §1.2, B18 rang 4), sans
+            attribut data-blog-cta* (mesure du lot 1 isolée). Textes B18 du tour 4. */}
+        {LETTRE_INSCRIPTIONS_OUVERTES && (
+          <LettreInscription
+            emplacement="article"
+            slug={article.slug}
+            textes={LETTRE_ARTICLE}
+            className="mt-8 border-t border-border pt-6"
+          />
+        )}
+
+        {/* Cluster (précédent / suivant) puis « À lire ensuite ». */}
+        <BlogArticleRelated navigation={navigation} />
 
         {faqs.length > 0 && (
-          <section className="mt-12 border-t border-border pt-8">
+          <section className="mt-10 border-t border-border pt-8">
             <h2 className="font-display text-xl font-bold text-text-primary">Questions fréquentes</h2>
             <dl className="mt-4 space-y-4">
               {faqs.map((faq, i) => (
@@ -161,10 +169,6 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           </section>
         )}
 
-        {!blocFinAvantFaq && blocFin}
-
-        {/* Articles liés : toujours APRÈS le bloc de fin (s20). */}
-        <BlogArticleRelated navigation={navigation} />
       </BlogArticleTracking>
     </article>
   );

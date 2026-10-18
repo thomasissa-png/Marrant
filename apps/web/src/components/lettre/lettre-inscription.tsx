@@ -9,7 +9,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
-import { NBSP } from "@/lib/fr-typo";
+import { NBSP, frPonctuation } from "@/lib/fr-typo";
 import { LettreSucces } from "@/components/lettre/lettre-succes";
 
 interface LettreInscriptionProps {
@@ -20,6 +20,11 @@ interface LettreInscriptionProps {
   profil?: string;
   /** Page /lettre : le titre est le H1 de la page (id fourni), pas de titre en double. */
   titreId?: string;
+  /**
+   * s21 (B18, bas d'article) : titre, sous-titre (un paragraphe par entrée) et ligne
+   * « Gratuit, sans compte… » propres à l'emplacement. Absent : textes communs de la lettre.
+   */
+  textes?: { titre: string; phrase: readonly string[]; reassurance: string };
   /** `/lettre?statut=invalide|erreur` : formulaire affiché même avec une inscription en attente (QA s21 m1). */
   ignorerDrapeau?: boolean;
   className?: string;
@@ -35,7 +40,7 @@ const E = TEXTES_LETTRE.erreurs;
  * Bouton de niveau 2 (`outline-accent`, revue design s21 M3) : la variante pleine
  * `primary` reste réservée à Premium (spec §1.2).
  */
-export function LettreInscription({ emplacement, slug, profil, titreId, ignorerDrapeau = false, className }: LettreInscriptionProps) {
+export function LettreInscription({ emplacement, slug, profil, titreId, textes, ignorerDrapeau = false, className }: LettreInscriptionProps) {
   const { data: session, status } = useSession();
   const user = session?.user as { email?: string | null; plan?: string } | undefined;
   const isPremium = status === "authenticated" && isPremiumPlan(user?.plan);
@@ -88,9 +93,13 @@ export function LettreInscription({ emplacement, slug, profil, titreId, ignorerD
       {!titreId && (
         <>
           <p id={`${id}-titre`} className="text-base font-semibold text-text-primary">
-            {TEXTES_LETTRE.titre}
+            {textes ? frPonctuation(textes.titre) : TEXTES_LETTRE.titre}
           </p>
-          <p className="mt-1 text-sm text-text-secondary">{TEXTES_LETTRE.phrase}</p>
+          {(textes ? textes.phrase.map(frPonctuation) : [TEXTES_LETTRE.phrase]).map((phrase) => (
+            <p key={phrase} className="mt-1 text-sm text-text-secondary">
+              {phrase}
+            </p>
+          ))}
         </>
       )}
 
@@ -217,7 +226,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, ignorerD
               reste une boîte de la hauteur du texte, son anneau de focus ne chevauche
               plus la ligne du dessus. */}
           <p className="mt-2 text-xs text-text-muted">
-            {T.reassurance} {T.mention}
+            {textes ? frPonctuation(textes.reassurance) : T.reassurance} {T.mention}
             {NBSP}
             <Link
               href={LETTRE_CONFIDENTIALITE_HREF}

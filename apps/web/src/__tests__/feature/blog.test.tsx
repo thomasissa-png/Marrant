@@ -117,6 +117,8 @@ import BlogArticlePage, {
   generateStaticParams,
   generateMetadata,
 } from "@/app/(dashboard)/blog/[slug]/page";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
@@ -174,6 +176,9 @@ describe("BlogPage — listing", () => {
     const breadcrumb = screen.getByLabelText("Fil d'Ariane");
     expect(breadcrumb).toBeInTheDocument();
     expect(screen.getByText("Accueil")).toBeInTheDocument();
+    // s21 [CHOIX UTILISATEUR] : la section s'appelle « Articles » (adresse /blog inchangée).
+    expect(breadcrumb).toHaveTextContent("Articles");
+    expect(breadcrumb).not.toHaveTextContent("Blog");
   });
 
   it("renders JSON-LD structured data", () => {
@@ -233,9 +238,10 @@ describe("BlogArticlePage — article detail", () => {
     render(Page);
     // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
     expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre.
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
-    expect(screen.getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).length).toBeGreaterThan(0);
+    // s21 (B2) : étape 1 gratuite en plein (Répartie : « Tester mes premières répliques, gratuit »)
+    // puis le lien payant « Débloquer les N parcours, 2,99 €/mois ».
+    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getAllByText(BLOC_FIN.boutonEtape1.repartie!).length).toBeGreaterThan(0);
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 
@@ -246,6 +252,10 @@ describe("BlogArticlePage — article detail", () => {
     render(Page);
     const breadcrumb = screen.getByLabelText("Fil d'Ariane");
     expect(breadcrumb).toBeInTheDocument();
+    // s21 : lien « Articles » vers /blog, et BreadcrumbList au même libellé.
+    expect(screen.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");
+    const jsonLd = Array.from(document.querySelectorAll('[data-testid="json-ld"]')).map((el) => el.textContent ?? "");
+    expect(jsonLd.some((t) => t.includes('"BreadcrumbList"') && t.includes('"name":"Articles"'))).toBe(true);
   });
 
   it("renders related articles section", async () => {

@@ -153,7 +153,9 @@ describe("ProfilDashboard", () => {
     render(<ProfilDashboard />);
     expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
-    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
+    // s21 : « Sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel).
+    expect(screen.getByText("Résiliable en ligne quand tu veux")).toBeInTheDocument();
+    expect(screen.queryByText(/Sans engagement/)).toBeNull();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {

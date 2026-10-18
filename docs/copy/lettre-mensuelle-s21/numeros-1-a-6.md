@@ -39,7 +39,7 @@
    - `{{mention_editeur}}` = `[À COMPLÉTER : identification de l'éditeur, formulation selon l'avis @legal, question 3 du §8 de lettre-inscription-s21.md]`. Rien n'est inventé ici.
 6. **Liens** : `https://deviens-marrant.fr<chemin>?utm_source=lettre&utm_medium=email&utm_content=nX-article` (ou `nX-premium`). Vers un parcours : ajouter `#etape-1` (**ancre vérifiée dans le code** : `components/parcours/parcours-step-card.tsx` pose `id="etape-<ordre>"` sur chaque carte d'étape, `parcours-detail.tsx` lit `#etape-N` à l'arrivée, ouvre l'étape et y fait défiler ; `lib/entrees-parcours.ts` construit les mêmes liens `/parcours/<slug>?src=…#etape-1`). **Destinations vérifiées** : `/abonnement` = page d'offre (« Accéder aux parcours complets », carte Premium avec prix et avantages, puis liens « Étape 1 du parcours X » vers chaque parcours) : ce n'est PAS la page d'un parcours, d'où le libellé **« Voir l'offre Premium »** pour tout lien `nX-premium` ; `/parcours/<slug>` = page du parcours (étape 1 dépliée et lisible sans compte, aperçu des étapes suivantes). Point pour @fullstack : `lettre` n'est pas dans la liste blanche `Origine` de `lib/attribution.ts` (sinon l'origine est perdue) ; et `/abonnement?…` est bloqué aux robots (`robots.ts`), sans effet sur les clics.
 7. **Vocabulaire protégé** : « la lettre », jamais « newsletter » ni « abonnement » pour la lettre (« abonné » = Premium payant). Pas de « sans pub » (une mention Premium existe). Rien sur la lettre hebdomadaire Premium tant qu'elle n'existe pas.
-8. **Une invitation Premium par numéro**, formulée comme une proposition (ton d'Alex : on propose, on n'impose), toujours vraie : « sans engagement » et « la première étape de chaque parcours se lit sans compte » sont des phrases déjà publiées sur le site.
+8. **Une invitation Premium par numéro**, formulée comme une proposition (ton d'Alex : on propose, on n'impose), toujours vraie : « résiliable en ligne » (s21, 18/10 : « sans engagement » retiré partout, faux pour l'annuel) et « la première étape de chaque parcours se lit sans compte » sont des phrases déjà publiées sur le site.
 9. **Leçons du tour 1, appliquées à chaque numéro** : (a) l'exemple de « À toi de jouer » **transpose le mécanisme dans une autre situation**, il ne rejoue pas la vanne avec d'autres mots ; (b) les étapes de l'exercice ne se contredisent pas ; (c) le pont vers l'article décrit ce que l'article fait réellement, sans « plan complet » ni autre promesse large, et ne prétend pas que la vanne y figure ; (d) pas de morale de clôture (« on rit de la situation, jamais de la personne ») ; (e) pas de triple énumération, pas de répétition de mot à courte distance ; (f) le même mot pour le même objet (titre de l'article, libellé du lien, texte) ; (g) *tour 3* : le libellé d'un lien dit ce que montre la destination (« Voir l'offre Premium » pour `/abonnement`, jamais « Voir le parcours X ») ; (h) l'article est **nommé (titre entre « ») avant le lien**, jamais « l'article » sans antécédent ; (i) les invitations Premium ont une tournure différente d'un mois à l'autre (pas deux fois « Si l'étape te plaît » ni la même phrase de fin) ; (j) les affirmations sur le contenu d'un article suivent la fiche (« rien d'humiliant », pas « rien qui vexe »).
 10. **Garde-fou d'humour** : si une vanne tombe sous la barre à la relecture, le numéro part **sans vanne** (réserve de remplacement au §8), jamais avec une vanne moyenne.
 
@@ -80,7 +80,7 @@ Exemple : « Mon coloc a fini par remarquer que sa chambre faisait le double de 
 À la soirée de Noël au boulot, une vanne ratée dure jusqu'en janvier. L'article suit la soirée moment par moment, de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Celle de ce mois parle de salaires : il les range en zone rouge, donc elle reste pour la machine à café. L'article est en lecture libre.
 Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
 
-PS : si une vanne par mois ne te suffit pas, les parcours complets sont dans Premium, sans engagement. La première étape de chacun se lit sans compte.
+PS : si une vanne par mois ne te suffit pas, les parcours complets sont dans Premium, résiliable en ligne. La première étape de chacun se lit sans compte.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 
 Rendez-vous le mois prochain,
@@ -137,7 +137,7 @@ Exemple : « Mon banquier m'a demandé si j'avais des économies. J'ai dit que j
 Sur notre blog, « Repas de famille : répondre aux questions gênantes » passe en revue six questions de Noël qui piquent, à commencer par « Alors, t'as quelqu'un ? ». Chacune a sa sortie si on insiste, et cinq ont leurs réparties : celle sur le physique n'a qu'une limite posée avec le sourire. Lecture libre.
 Lire l'article : https://deviens-marrant.fr/blog/repas-de-famille-questions-genantes-humour?utm_source=lettre&utm_medium=email&utm_content=n2-article
 
-Pour que la bonne réplique arrive avant le dessert, il y a le parcours Répartie, dans Premium, sans engagement. Son étape 1 se lit sans compte.
+Pour que la bonne réplique arrive avant le dessert, il y a le parcours Répartie, dans Premium, résiliable en ligne. Son étape 1 se lit sans compte.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n2-premium
 
 Bonnes fêtes. Rendez-vous en janvier,
@@ -190,7 +190,7 @@ Exemple : « J'ai acheté une liseuse pour lire davantage. Elle a déjà fini qu
 Si ta résolution est d'être plus drôle sans te forcer, l'étape 1 du parcours Confiance ne demande aucune vanne réussie : tu regardes ta journée et tu repères les règles que tout le monde suit sans les dire. Elle se lit sans compte.
 Lire : redécouvrir ce qui te fait rire : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n3-etape1#etape-1
 
-Pour aller plus loin, Confiance se poursuit dans Premium, à raison de 20 minutes par semaine, sans engagement. Les quatre autres parcours aussi.
+Pour aller plus loin, Confiance se poursuit dans Premium, à raison de 20 minutes par semaine, résiliable en ligne. Les quatre autres parcours aussi.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n3-premium
 
 Rendez-vous le mois prochain,
@@ -240,7 +240,7 @@ Exemple : « Ma mère m'a dit qu'elle n'était pas du tout inquiète. Elle a rap
 Si ton 14 février se passe à deux à la maison, notre blog a « Blagues de couple : 30 vannes à se dire ou à s'envoyer », rangées par moment du quotidien, du canapé aux messages de la journée. Lecture libre.
 Lire l'article : https://deviens-marrant.fr/blog/blagues-de-couple-drole?utm_source=lettre&utm_medium=email&utm_content=n4-article
 
-Pour renvoyer la balle quand l'autre te répond du tac au tac, le parcours Répartie est dans Premium, sans engagement. Tu peux d'abord lire son étape 1, sans compte.
+Pour renvoyer la balle quand l'autre te répond du tac au tac, le parcours Répartie est dans Premium, résiliable en ligne. Tu peux d'abord lire son étape 1, sans compte.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n4-premium
 
 Rendez-vous le mois prochain,
@@ -290,7 +290,7 @@ Exemple : « Mon frère a répondu à mon message dans l'heure. J'ai demandé à
 « Blague poisson d'avril pour adultes » réunit, sur notre blog, des idées de canulars classées par terrain. Aucune n'est dangereuse ni humiliante, et on y trouve quoi faire si quelqu'un le prend mal. Lecture libre.
 Lire l'article : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n5-article
 
-Et le jour où c'est toi la cible, le parcours Répartie t'apprend à répondre à voix haute et au bon moment. Il est dans Premium, sans engagement. Sa première étape se lit sans compte.
+Et le jour où c'est toi la cible, le parcours Répartie t'apprend à répondre à voix haute et au bon moment. Il est dans Premium, résiliable en ligne. Sa première étape se lit sans compte.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n5-premium
 
 Rendez-vous le mois prochain,
@@ -341,7 +341,7 @@ Exemple : « Le déménageur m'a donné son prix. Je commence la musculation. »
 Ce genre de vanne se prépare tranquillement chez soi. Pour trouver quoi répondre en direct, le parcours Répartie commence par une étape qu'on lit sans compte.
 Lire l'étape 1 : tes premières répliques : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n6-etape1#etape-1
 
-La suite de Répartie est dans Premium, sans engagement, comme celle des quatre autres parcours.
+La suite de Répartie est dans Premium, résiliable en ligne, comme celle des quatre autres parcours.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n6-premium
 
 Rendez-vous le mois prochain,

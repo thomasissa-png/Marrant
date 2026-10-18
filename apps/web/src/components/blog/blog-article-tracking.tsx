@@ -13,7 +13,8 @@ interface BlogArticleTrackingProps {
 
 /**
  * Mesure Umami d'un article (audit growth s14, E1 à E3), sans toucher au contenu :
- *  - `blog-cta-clic` {slug, bouton, position, parcours} : élément marqué `data-blog-cta` ;
+ *  - `blog-cta-clic` {slug, bouton, position, parcours[, fiche]} : élément marqué `data-blog-cta`
+ *    (s21 : `bouton="demo-fiche"` et `fiche` = id de la fiche du carnet, encart DemoVanne) ;
  *    position (`milieu-1`, `milieu-2`, `fin`) et parcours lus sur l'encart parent
  *    (`data-blog-cta-position`, `data-blog-cta-parcours`, s20), « inconnu » sinon ;
  *  - `blog-cta-vu` {slug, position, parcours} (s20) : encart visible à 50 % ou plus,
@@ -112,11 +113,14 @@ export function BlogArticleTracking({ slug, children }: BlogArticleTrackingProps
 export const CTA_VU_RATIO = 0.5;
 
 /** Position et parcours de l'encart qui contient l'élément (s20). */
-export function ctaPlacement(el: HTMLElement): { position: string; parcours: string } {
+export function ctaPlacement(el: HTMLElement): { position: string; parcours: string; fiche?: string } {
   const box = el.closest<HTMLElement>("[data-blog-cta-position]");
+  const fiche = box?.dataset.blogCtaFiche;
   return {
     position: box?.dataset.blogCtaPosition ?? "inconnu",
     parcours: box?.dataset.blogCtaParcours ?? "inconnu",
+    // s21 : encart DemoVanne, fiche du carnet montrée (`data-blog-cta-fiche`).
+    ...(fiche ? { fiche } : {}),
   };
 }
 

@@ -102,13 +102,16 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     await expect(page.getByRole("link", { name: "Connexion" }).filter({ visible: true }).first()).toBeVisible();
   });
 
-  // s20 (audit conversion, lot 1) : sous 520 px, la barre mobile donne la place à « Commencer »
+  // s20 (audit conversion, lot 1) : sous 520 px, la barre mobile donne la place au bouton d'appel
   // et « Connexion » passe dans le menu ; dès 520 px, « Connexion » revient dans la barre.
-  test("mobile : « Commencer » dans la barre ; « Connexion » dans la barre dès 520 px, sinon dans le menu @s16", async ({ page }) => {
+  // s21 (B6) : le bouton devient « 2,99 €/mois » vers /abonnement?src=header, masqué sur
+  // /abonnement et /register : contrôle sur /conseils.
+  test("mobile : bouton prix dans la barre ; « Connexion » dans la barre dès 520 px, sinon dans le menu @s16 @s21", async ({ page }) => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
-    await page.goto("/abonnement");
+    await page.goto("/conseils");
     const barre = page.getByRole("banner");
-    const commencer = barre.getByRole("link", { name: "Commencer" }).filter({ visible: true }).first();
+    const commencer = barre.getByRole("link", { name: /^2,99\s€\/mois : voir les prix de Premium$/ }).filter({ visible: true }).first();
+    await expect(commencer).toHaveAttribute("href", "/abonnement?src=header");
     await expect(commencer).toBeVisible();
     expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
 

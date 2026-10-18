@@ -10,14 +10,33 @@ import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
-import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { frTypo } from "@/lib/fr-typo";
 import { formatEuros, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
+import { OFFRE_NOM } from "@/config/textes/offre";
+import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
-export function PremiumCta() {
+/** s21 (B4 + B5) : plein visiteur vers /abonnement (prix, carnet, garantie avant le compte). */
+const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-premium");
+/** Contour : étape 1 de Répartie, en lecture libre (remplace « Voir les vannes gratuites »). */
+const ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
+
+interface PremiumCtaProps {
+  /** `isAnnualPlanAvailable()` lu côté serveur (page d'accueil) : annuel dans [S12] seulement s'il existe. */
+  annuelDisponible?: boolean;
+}
+
+/**
+ * Carte Premium de l'accueil (s21, B4 + B5, spec cta-forme-place §3.2) : le bloc « Tu crois
+ * avoir tout essayé » y est fusionné (et supprimé). Température tiède : plein Premium, puis
+ * contour vers l'étape 1 de Répartie, dans le même écran. Textes : cta-articles-accueil.ts.
+ */
+export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
   const { status } = useSession();
   const user = useUserStore((s) => s.user);
 
@@ -32,14 +51,17 @@ export function PremiumCta() {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
+        trackCheckoutOuvert("accueil-premium");
         window.location.href = data.url;
         return;
       }
       // Refus 409 (déjà abonné, impayé) : message + lien /profil (audit s16, lot D).
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
+      trackCheckoutEchec("accueil-premium", conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
       else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
+      trackCheckoutEchec("accueil-premium", "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);
@@ -52,13 +74,10 @@ export function PremiumCta() {
   return (
     <section className="py-12 md:py-16" id="offres">
       <div className="text-center">
-        <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-          Pour t&apos;y mettre, il y a {OFFRE_NOM}
+        <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl [text-wrap:balance]">
+          {frTypo(CARTE_PREMIUM.titre)}
         </h2>
-        <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">
-          Étudiant, jeune actif ou en train de tourner une page : tu trouves
-          ici de quoi devenir drôle pour de bon, pas seulement le temps d&apos;un apéro.
-        </p>
+        <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary">{frTypo(CARTE_PREMIUM.intro)}</p>
       </div>
 
 
@@ -73,14 +92,9 @@ export function PremiumCta() {
               <span className="font-display text-4xl font-bold text-text-primary">
                 {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
               </span>
-              <span className="text-text-muted">TTC / mois</span>
+              <span className="text-text-muted">{CARTE_PREMIUM.prixUnite}</span>
             </div>
-            <p className="mt-1 text-xs text-text-muted">
-              Sans engagement, annulable &agrave; tout moment &middot;{" "}
-              <Link href="/retractation" className="underline hover:text-text-secondary">
-                Droit de r&eacute;tractation
-              </Link>
-            </p>
+            <p className="mt-1 text-xs text-text-muted">{frTypo(CARTE_PREMIUM.ligneTarif(annuelDisponible))}</p>
 
             <PremiumBenefits className="mt-6 space-y-3" />
 
@@ -95,24 +109,35 @@ export function PremiumCta() {
                 {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
               </Button>
             ) : (
-              // CTA payant : après inscription, /abonnement avec paiement ouvert
-              // tout seul (`auto=1`), voir getPostSignupRedirect (s15).
+              // s21 : plein payant vers /abonnement (prix, carnet, garantie), puis compte et paiement.
               <Link
-                href={buildRegisterUrl({ callbackUrl: "/abonnement", src: "accueil-premium" })}
-                className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-8 w-full")}
+                href={ABONNEMENT_HREF}
+                data-accueil-cta="abonnement"
+                className={cn(
+                  buttonVariants({ variant: "primary", size: "lg" }),
+                  "mt-8 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+                )}
                 onClick={() =>
                   trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-premium", statut: "visiteur" })
                 }
               >
-                Commencer à {PREMIUM_PRICE_LABEL}
+                {frTypo(CARTE_PREMIUM.bouton)}
               </Link>
             )}
             {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
-            <p className="mt-3 text-center text-xs text-text-muted">{REASSURANCE_PAIEMENT}</p>
-            {/* Social proof — chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
-            <p className="mt-3 text-center text-sm text-text-secondary">
-              Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?
-            </p>
+            <Link
+              href={ETAPE_1_HREF}
+              data-accueil-cta="etape-1"
+              className={cn(
+                buttonVariants({ variant: "outline-accent", size: "lg" }),
+                "mt-3 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+              )}
+            >
+              {frTypo(CARTE_PREMIUM.contour)}
+            </Link>
+            <p className="mt-3 text-center text-xs text-text-muted">{frTypo(CARTE_PREMIUM.reassurance)}</p>
+            {/* Social proof : chiffre fixe validé fondateur 29/09/2026 ; remonté sous le CTA (T09) */}
+            <p className="mt-3 text-center text-sm text-text-secondary">{frTypo(CARTE_PREMIUM.inscrits)}</p>
           </div>
         </div>
 

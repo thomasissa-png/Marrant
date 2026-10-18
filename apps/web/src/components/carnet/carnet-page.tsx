@@ -10,7 +10,7 @@ import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /**
  * Rendu d'un carnet (Server Component). Reçoit une vue DÉJÀ filtrée par
- * `carnetViewForPlan` : pour un non-abonné, seules la première fiche et les
+ * `carnetViewForPlan` : pour un non-abonné, seules la fiche offerte (champ `offerte`, sinon la première) et les
  * titres/contextes des autres existent dans les props, donc dans le HTML.
  */
 export function CarnetPage({
@@ -98,7 +98,7 @@ function CarnetPaywall({ returnTo }: { returnTo: string }) {
       <h3 className="mb-2 font-display text-xl font-bold">Débloque tout le carnet</h3>
       <p className="mb-4 text-sm text-text-secondary">
         La première situation est offerte. Les autres, et un nouveau carnet chaque mois, se
-        débloquent avec l&apos;abonnement à {PREMIUM_PRICE_LABEL}, sans engagement.
+        débloquent avec l&apos;abonnement à {PREMIUM_PRICE_LABEL}, résiliable en ligne.
       </p>
       <PremiumBenefits className="mb-5 space-y-3" />
       <Link

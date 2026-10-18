@@ -44,6 +44,10 @@ export const ATTRIBUTED_EVENTS: ReadonlySet<string> = new Set([
   "lettre-envoi",
   "lettre-echec",
   "lettre-confirmee",
+  // s21 (blocs d'appel, partie A) : ouverture de Stripe Checkout et échec (erreur ou
+  // retour sans paiement), avec `src` (lib/checkout-tracking.ts).
+  "checkout-ouvert",
+  "checkout-echec",
 ]);
 
 function withAttribution(name: string, data?: UmamiData): UmamiData | undefined {

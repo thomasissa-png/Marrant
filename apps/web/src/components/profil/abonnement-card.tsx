@@ -142,7 +142,7 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonne
                 Les {xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés.
               </p>
             )}
-            <p className="mb-4 text-xs text-text-muted">Sans engagement &middot; Annulable à tout moment</p>
+            <p className="mb-4 text-xs text-text-muted">Résiliable en ligne quand tu veux</p>
             <Button variant="secondary" size="sm" onClick={onCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
             </Button>

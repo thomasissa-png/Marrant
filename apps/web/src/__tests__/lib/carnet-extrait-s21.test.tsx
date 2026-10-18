@@ -86,12 +86,12 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
     expect(getCarnetExtrait([], OCT_17)).toBeNull();
   });
 
-  it("carnet réel d'octobre 2026 : « Le soleil dans l'ascenseur », 14 autres situations", () => {
+  it("carnet réel d'octobre 2026 : la fiche offerte (s21) « Le premier rendez-vous silencieux », 14 autres situations", () => {
     const json = fs.readFileSync(path.join(__dirname, "..", "..", "data", "carnet", "2026-10.json"), "utf8");
     const reel = parseCarnets([JSON.parse(json)]);
     const extrait = getCarnetExtrait(reel, OCT_17);
-    expect(extrait?.fiche.titre).toBe("Le soleil dans l'ascenseur");
-    expect(extrait?.fiche.reponse).toBe("Vous voyez l'effet qu'il a : je parle dans un ascenseur.");
+    expect(extrait?.fiche.titre).toBe("Le premier rendez-vous silencieux");
+    expect(extrait?.fiche.reponse).toBe("Donne-moi la nuit. Demain, je t'envoie un message magnifique.");
     expect(carnetExtraitIntro((extrait?.totalFiches ?? 0) - 1)).toBe("Les 14 autres situations du mois sont dans Premium.");
   });
 

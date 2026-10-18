@@ -123,7 +123,7 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
       title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
       text: "Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre.",
       primaryLabel: "Commencer le parcours Répartie",
-      note: "Premium à 2,99\u00A0€/mois, sans engagement. La première étape se lit sans compte.",
+      note: "Premium à 2,99\u00A0€/mois, résiliable en ligne. La première étape se lit sans compte.",
       secondaryLabel: "Lire l'étape 1 de Répartie",
       parcoursHref: "/parcours/repartie",
     });
@@ -138,7 +138,8 @@ describe("prix et « 1 500+ » intacts", () => {
 
   it("formulations 1 500+ validées par Thomas", () => {
     expect(read("components/home/hero-section.tsx")).toContain("1&nbsp;500+ membres bossent leur humour. Rejoins-les.");
-    expect(read("components/home/premium-cta.tsx")).toContain("Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?");
+    // s21 : texte de la carte Premium déplacé dans config/textes/cta-articles-accueil.ts.
+    expect(read("config/textes/cta-articles-accueil.ts")).toContain("inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`");
     expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.");
   });
 });
