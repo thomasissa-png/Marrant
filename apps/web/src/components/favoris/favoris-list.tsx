@@ -10,7 +10,7 @@ import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { tipProse } from "@/lib/tip-prose";
-import { useUserStore } from "@/stores/user-store";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
@@ -130,7 +130,7 @@ interface VideoData {
 export function FavorisList() {
   const { status } = useSession();
   const { favorites, isLoading, fetchFavorites, removeFavorite } = useFavoritesStore();
-  const user = useUserStore((s) => s.user);
+  const estPremium = useEstPremium();
   const [activeTab, setActiveTab] = useState<TabFilter>("ALL");
   const [revealedJokes, setRevealedJokes] = useState<Set<string>>(new Set());
   const [expandedTips, setExpandedTips] = useState<Set<string>>(new Set());
@@ -179,7 +179,8 @@ export function FavorisList() {
     );
   }
 
-  if (user?.plan !== "PREMIUM") {
+  // s21 (QA M2) : plan lu dans la session, pas seulement dans le store (vide hors /profil).
+  if (!estPremium) {
     return (
       <Card>
         <CardContent className="flex flex-col items-center py-12 text-center">

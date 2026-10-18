@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useUserStore } from "@/stores/user-store";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -38,7 +38,7 @@ interface PremiumCtaProps {
  */
 export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
   const { status } = useSession();
-  const user = useUserStore((s) => s.user);
+  const estPremium = useEstPremium();
 
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
@@ -68,8 +68,8 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
     }
   };
 
-  // Ne pas afficher si déjà premium
-  if (user?.plan === "PREMIUM") return null;
+  // Ne pas afficher si déjà premium (s21 QA M2 : plan lu dans la session, pas seulement dans le store).
+  if (estPremium) return null;
 
   return (
     <section className="py-12 md:py-16" id="offres">

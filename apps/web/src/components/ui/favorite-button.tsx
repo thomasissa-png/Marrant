@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useFavoritesStore } from "@/stores/favorites-store";
-import { useUserStore } from "@/stores/user-store";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { PremiumModal } from "@/components/premium/premium-modal";
@@ -20,11 +20,10 @@ interface FavoriteButtonProps {
 export function FavoriteButton({ contentType, contentId, className }: FavoriteButtonProps) {
   const { status } = useSession();
   const { isFavorite, addFavorite, removeFavorite, getFavoriteId } = useFavoritesStore();
-  const user = useUserStore((s) => s.user);
   const [premiumOpen, setPremiumOpen] = useState(false);
 
   const isAuth = status === "authenticated";
-  const isPremium = isAuth && user?.plan === "PREMIUM";
+  const isPremium = useEstPremium();
   const isFav = isPremium ? isFavorite(contentType, contentId) : false;
   const favId = isPremium ? getFavoriteId(contentType, contentId) : null;
 
