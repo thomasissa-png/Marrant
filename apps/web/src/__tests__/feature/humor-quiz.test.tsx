@@ -301,8 +301,17 @@ describe("HumorQuiz", () => {
       expect(texte).toBe(
         "Ton parcours : RépartiePour toi si on te chambre et que tu cherches encore quoi répondre.Ouvrir les 5 parcours · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
       );
-      expect(screen.getByRole("button", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ })).toBeInTheDocument();
+      const gratuit = screen.getByRole("button", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ });
       expect(document.body.textContent).not.toMatch(/Ton quiz te conseille|Ton compte est prêt|Voir par où commencer|Tout débloquer/);
+      // QA v4 m-4 : parcours nommé une seule fois (plus de « Ton point de départ : Parcours Répartie »
+      // ni de raison hors v5) ; le plein payant passe au-dessus du lien gratuit.
+      expect(screen.queryByText("Ton point de départ :")).not.toBeInTheDocument();
+      expect(screen.queryByText("Parcours Répartie")).not.toBeInTheDocument();
+      expect((document.body.textContent ?? "").match(/Ton parcours/g)).toHaveLength(1);
+      const pleinAvant = screen.getByRole("button", { name: QUIZ_ORIENTATION_CTA.bouton("repartie") });
+      expect(pleinAvant.compareDocumentPosition(gratuit) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+      await userEvent.click(gratuit);
+      expect(mockPush).toHaveBeenCalledWith("/parcours/repartie?src=onboarding#etape-1");
       const plein = screen.getByRole("button", { name: QUIZ_ORIENTATION_CTA.bouton("repartie") });
       await userEvent.click(plein);
       expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/repartie" });

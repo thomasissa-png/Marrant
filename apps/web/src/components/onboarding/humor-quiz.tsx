@@ -106,31 +106,16 @@ function saveProfile(profile: HumorProfile): void {
   localStorage.setItem(HUMOR_PROFILE_KEY, JSON.stringify(profile));
 }
 
-/** Encart « Ton point de départ » : le parcours recommandé à partir de Q1 + Q2. */
-function RecommendedParcours({
-  recommendation,
-  onStart,
-  plein,
-}: {
-  recommendation: ParcoursRecommendation;
-  onStart: () => void;
-  /** Abonné : plein ; sinon lien discret (le plein du bloc est le paiement, s21 B13). */
-  plein: boolean;
-}) {
+/** Encart « Ton point de départ » (abonné) : le parcours recommandé à partir de Q1 + Q2. */
+function RecommendedParcours({ recommendation, onStart }: { recommendation: ParcoursRecommendation; onStart: () => void }) {
   return (
     <div className="mt-6 rounded-lg border border-border bg-background-elevated p-4 text-left">
       <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
       <h3 className="mt-1 font-display text-lg font-bold text-text-primary">{recommendation.title}</h3>
       <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
-      {plein ? (
-        <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
-          {QUIZ_ORIENTATION_CTA.commencerAbonne}
-        </Button>
-      ) : (
-        <button type="button" onClick={onStart} className={cn(LIEN_L2, "mt-2")}>
-          {QUIZ_ORIENTATION_CTA.commencer(recommendation.slug)}
-        </button>
-      )}
+      <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
+        {QUIZ_ORIENTATION_CTA.commencerAbonne}
+      </Button>
     </div>
   );
 }
@@ -223,14 +208,16 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 Quiz complété le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
               </p>
             )}
-            <RecommendedParcours
-              recommendation={recommendation}
-              onStart={() => goToParcours(recommendation)}
-              plein={isPremium}
-            />
-            {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct). */}
+            {/* Abonné : encart « Ton point de départ » et son plein vers l'étape 1. */}
+            {isPremium && (
+              <RecommendedParcours recommendation={recommendation} onStart={() => goToParcours(recommendation)} />
+            )}
+            {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct).
+                QA v4 m-4 : bloc v5 seul (textes-v5-b §5), le parcours n'y est nommé qu'une fois
+                (« Ton parcours : P ») ; plein payant puis REASS, lien gratuit dessous ; le plein
+                tient dans le premier écran à 375 x 812. */}
             {!isPremium && (
-              <div className="mt-4 text-left" data-quiz-orientation-cta>
+              <div className="mt-6 text-left" data-quiz-orientation-cta>
                 {/* Concision v5 (textes-v5-b §5) : titre, une phrase, plein `OUVRIR`, REASS. */}
                 <p className="font-display text-base font-bold text-text-primary">
                   {frTypo(QUIZ_ORIENTATION_CTA.titre(recommendation.slug))}
@@ -256,6 +243,13 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 )}
                 <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
                 {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
+              </div>
+            )}
+            {!isPremium && (
+              <div className="mt-3 flex justify-center">
+                <button type="button" onClick={() => goToParcours(recommendation)} className={LIEN_L2}>
+                  {QUIZ_ORIENTATION_CTA.commencer(recommendation.slug)}
+                </button>
               </div>
             )}
             {isExisting && (
