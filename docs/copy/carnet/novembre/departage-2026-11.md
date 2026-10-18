@@ -42,3 +42,9 @@ Situation S26 retenue : un dimanche de novembre, ta sœur organise la photo de f
 Consensus A et B dès le premier passage : S2, S3, S7, S8, S10, S11, S13, S15, S17, S18, S19, S21, S23, S24, S27, S29. Départage (3 relecteurs) : S1 233 (3/3), S4 35 (2/3), S5 78 (2 voix « = » sur 4 contre 152 ; 78 retenue car le rire tombe sur le lecteur, 152 lue comme une pique à la grand-mère par 2 avis), S6 331 (3/3), S9 90 (3/3), S12 41 (3/3), S14 99 (3/3), S16 91 (3/3), S20 316 (3/3), S22 359 (3/3), S25 314 (2/3 ; 77 écartée, logique horaire contestée), S28 94 (3/3), S30 47 (3/3, 2 « = »).
 
 **Fiche offerte proposée** : S15 « le gratin » (chambrage, consensus A et B au premier passage) : « J'ai suivi une recette. Elle a résisté. »
+
+## Fiches rédigées : relecture à l'aveugle (18/10)
+
+5 passes de 3 relecteurs (justesse, abonné sur téléphone, sceptique de l'écriture IA), verdicts dans `verdicts-fiches/`. v1 environ 7,5/10 de moyenne ; v2 9,0 à 9,3 (9 fiches à 10/10/10) ; v3 9,3 à 9,5 ; v4 9,9 (23 fiches à 10/10/10) ; v5 : les 6 dernières à 10/10/10 après retouches mot pour mot des relecteurs, plus une erreur de fait corrigée sur 2026-11-25 (« aux points » = décision des juges). Résultat : 30 fiches à 10/10/10. Réplique et « On te dit » jamais modifiés ; situations modifiées pour le décor seulement (2026-11-01 sans Black Friday, 2026-11-19 sans le collègue derrière son écran, 2026-11-13 « ton téléphone »).
+Fiche offerte : 2026-11-10 « Le gratin « intéressant » ».
+Point laissé à Thomas : 2026-11-18, la prémisse « resté à l'heure d'été » ferait arriver en avance, pas en retard (expression courante, réplique validée, gardée par défaut).
