@@ -98,7 +98,7 @@ function CarnetPaywall({ returnTo }: { returnTo: string }) {
       <h3 className="mb-2 font-display text-xl font-bold">Débloque tout le carnet</h3>
       <p className="mb-4 text-sm text-text-secondary">
         La première situation est offerte. Les autres, et un nouveau carnet chaque mois, se
-        débloquent avec l&apos;abonnement à {PREMIUM_PRICE_LABEL}, sans engagement.
+        débloquent avec l&apos;abonnement à {PREMIUM_PRICE_LABEL}, résiliable en ligne.
       </p>
       <PremiumBenefits className="mb-5 space-y-3" />
       <Link

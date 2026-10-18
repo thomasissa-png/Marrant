@@ -76,7 +76,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, sans engagement, résiliable en un clic depuis le profil.`,
+      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne en un clic depuis le profil.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -123,7 +123,7 @@ Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complèt
 
 export const LLMS_TARIFS: string[] = [
   `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la situation offerte du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
-  `Premium : ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, sans engagement.`,
+  `Premium : ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, résiliable en ligne.`,
 ];
 
 export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
@@ -152,7 +152,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL} sans engagement, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
         }
       : entry,
   );

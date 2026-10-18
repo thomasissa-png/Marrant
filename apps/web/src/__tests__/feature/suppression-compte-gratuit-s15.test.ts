@@ -123,7 +123,7 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
       title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
       text: "Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre.",
       primaryLabel: "Commencer le parcours Répartie",
-      note: "Premium à 2,99\u00A0€/mois, sans engagement. La première étape se lit sans compte.",
+      note: "Premium à 2,99\u00A0€/mois, résiliable en ligne. La première étape se lit sans compte.",
       secondaryLabel: "Lire l'étape 1 de Répartie",
       parcoursHref: "/parcours/repartie",
     });

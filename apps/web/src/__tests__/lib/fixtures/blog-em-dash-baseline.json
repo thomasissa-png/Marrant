@@ -323,13 +323,38 @@
         "slug": "confiance-humour-apres-rupture",
         "session": "s20 Waly Dia",
         "raison": "paragraphe Waly Dia réécrit (« systématiquement » invérifiable ; humour frontal sourcé Politis/Le Temps ; consigne et exemple pour le lecteur), relecture à l'aveugle 2 sur 3, docs/copy/corrections-pages-site-s20-tour2.md §5"
+      },
+      {
+        "slug": "blagues-courtes-vs-longues",
+        "session": "s21 blocs d'appel A",
+        "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s21 blocs d'appel A",
+        "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
+      },
+      {
+        "slug": "rester-muet-en-groupe",
+        "session": "s21 blocs d'appel A",
+        "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
+      },
+      {
+        "slug": "storytelling-drole-5-structures",
+        "session": "s21 blocs d'appel A",
+        "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
+      },
+      {
+        "slug": "timidite-et-humour",
+        "session": "s21 blocs d'appel A",
+        "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "0e5300413e78b171a17bf2c4bdeef07d2ccf8aff11bc33f8064c04a2e07b6e1e",
-      "wordCount": 1821,
+      "words": "13e5acf46a62fa87e94d960cb5f2e4384e7afc88053b9430b47eba16245b36b3",
+      "wordCount": 1822,
       "headings": "ee87c953cda3bc02526b3ff1738f4629022c4b0e3b9617892f8b608093e4d521",
       "links": "a68c99adcea46ebcc723ccc12448d2af31e8fd4a1e21c780fa2d110eeb9f1238",
       "numbers": "2f59fc0424ae8d71718ec72cfabaa222d462f1f059885b5ff76e70de8c5feb47",
@@ -517,8 +542,8 @@
       "emDashesBefore": 19
     },
     "timidite-et-humour": {
-      "words": "eddc736677505ea0f3b05e70c20a671da41750c5c3d72684df3203b275ab1c24",
-      "wordCount": 2199,
+      "words": "f9487643f96cca12893665aa72341a04eb7fc7bcecc60817405036581fa99208",
+      "wordCount": 2200,
       "headings": "70c5e8be1175760c8738d22f17d54a6145259f80f98b0679fe3a7973aa1cd0f1",
       "links": "814f55619940924883b783b8f5f162eb76128a0096daec9672867a8b73e0c08d",
       "numbers": "6a1d15e4747dd99c64ef6d382d76f2b16d816dc6c9812a09589a279964ac15e9",
@@ -526,8 +551,8 @@
       "emDashesBefore": 32
     },
     "storytelling-drole-5-structures": {
-      "words": "eaf5292a0d45847231c6ac246d88eeeff4bbd059db0b59a3df6ba995096a8ee9",
-      "wordCount": 2512,
+      "words": "014bf54de0bce955da3dbde314f53203826e5d167b12ab72fb6f2a41c898a97d",
+      "wordCount": 2513,
       "headings": "07bd12458ad6c200c90a2bfba86b177698d332fccd9ec39a29a3f81095bd4adc",
       "links": "4d73505d8998b7e597d1f1e5d9f79c4106f23ebeaf3b503086526398da12ccf5",
       "numbers": "53776cf6f77be0e2a02d41a64d78b39bb60ea415d13477558e112fe0d494f62c",
@@ -580,8 +605,8 @@
       "emDashesBefore": 21
     },
     "blagues-courtes-vs-longues": {
-      "words": "c611a74b0597718963f03ff930b54282d7803c020bd3276e27907f5d0a945441",
-      "wordCount": 1856,
+      "words": "b63ffaa6a4d456058523051e928b2e79e6e994cd3629532f0ae03146227c2131",
+      "wordCount": 1857,
       "headings": "6e2830e79238b6ce1b011e119fbf6b25c4ca0ec422e5319d0a1dd489a5fca24d",
       "links": "cf42e65f4c36a9dfb93cfda06e7e5220146912b0017addd317494e1b4ae2a9ad",
       "numbers": "5f8921b80234ce8f825fac7b80bd2a2a077e07c101f7cc0155b3a2d925738159",
@@ -589,8 +614,8 @@
       "emDashesBefore": 11
     },
     "rester-muet-en-groupe": {
-      "words": "2dd771bcef8f35a46ba060d471fc5534f327d6d06520f485ab4aa8b4b7a187eb",
-      "wordCount": 2771,
+      "words": "7b8171e6d051767d80c0d0dc0dbb5bd8cc4b11eb65dbe279917a019207ba5393",
+      "wordCount": 2772,
       "headings": "a21362807497094d1d517576712f2a7136ba6b527d75a204d9cff052db6cd26d",
       "links": "31f4ba876cde104942f029bedf728c9724ad25877ac88ab3eff88cc3f30b79ce",
       "numbers": "8736700e897623a0856b64d903c396e3a6a2c6138d15f8cfb68c6f71a079160d",

@@ -132,7 +132,7 @@ export type CleEncartArticle1 = keyof typeof ENCARTS_ARTICLE_1;
 /**
  * Bloc de fin unique. s21 (B2) : étape 1 gratuite en PLEIN, lien payant et note [S9]
  * dans config/textes/cta-articles-accueil.ts (BLOC_FIN) ; l'ancien bouton « Accéder aux
- * parcours complets » et l'ancienne note (« sans engagement ») sont remplacés.
+ * parcours complets » et l'ancienne note de prix sont remplacés.
  */
 export const TEXTES_BLOC_FIN = {
   ariaLabel: "Aller plus loin",

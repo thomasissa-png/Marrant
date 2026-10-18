@@ -146,7 +146,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
+    expect(screen.getByText("2,99 €/mois, résiliable en ligne. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.lienAbonnement) })).toBeInTheDocument();
   });
 });

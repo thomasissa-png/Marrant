@@ -213,7 +213,7 @@ export default function AProposPage() {
           <div className="mt-4 inline-flex flex-col items-center gap-1">
             <AuthCta label="Accéder aux parcours complets" src="a-propos" />
             <p className="max-w-md text-balance text-sm text-text-muted">
-              {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
+              {PREMIUM_PRICE_LABEL}, résiliable en ligne. La première étape de chaque parcours reste en lecture libre.
             </p>
           </div>
         </div>
