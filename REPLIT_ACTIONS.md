@@ -110,7 +110,7 @@ Règles : une étape échouée = arrêt, on ne passe pas à la suivante. Ne jama
 - Si échec : arrêt avant P4. La version en ligne reste N-1, compatible avec une migration partielle (ajouts seulement) ; rien à défaire. Message d'erreur à @infrastructure, rejeu sur base jetable.
 
 **P4. Build et déploiement**
-- Commande : `rm -rf .open-next && CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run build:cf && npm run deploy:cf`, puis `npx wrangler deployments list | tail -8`.
+- Commande : `rm -rf .open-next && CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run build:cf && CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run deploy:cf`, puis `npx wrangler deployments list | tail -8`. (La variable factice est exigée aussi par `deploy:cf` et par `upload` : constaté au téléversement de la version de test du 18/10, `8f69a315`.)
 - Réussite : build et déploiement en code 0 ; nouvelle version à 100 %, notée ici avec le commit (« DÉPLOYÉ le …, version …, N-1 … »). Ne pas appeler les tâches de démarrage ici : on enchaîne P5 dans la même séance.
 - Si échec du build : rien n'est en ligne, @fullstack. Si déployé mais pages en 5xx : P8 tout de suite.
 
