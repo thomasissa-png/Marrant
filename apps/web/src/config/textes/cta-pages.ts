@@ -199,27 +199,31 @@ export type GesteFenetre = "favori" | "vote" | "carte";
 export interface TexteFenetre {
   titre: string;
   intro: string;
+  /** Intro pour un compte connecté (s21 QA v3 m-2) : sans « Deux étapes… », il va droit au paiement. */
+  introCompte: string;
   /** [S27] avantage du geste, 90 caractères au plus (deux lignes à 375 px). */
   avantage: string;
   bouton: string;
 }
 
-/** Intro composée : deux phrases communes + `{OBJET}`. */
-const introFenetre = (objet: string) =>
-  `Deux étapes : ton compte, puis le paiement sécurisé. Et si tu fermes, ${objet} reste là.`;
+/** Intro composée : deux phrases communes + `{OBJET}` ; la première est pour le visiteur seulement. */
+const introFenetre = (objet: string): Pick<TexteFenetre, "intro" | "introCompte"> => {
+  const introCompte = `Et si tu fermes, ${objet} reste là.`;
+  return { intro: `Deux étapes : ton compte, puis le paiement sécurisé. ${introCompte}`, introCompte };
+};
 
 const AVANTAGE_FAVORI = `Avec Premium : tes favoris, l'exercice de chaque fiche et les ${PARCOURS_COUNT} parcours en entier.`;
 
 const VOTE_FENETRE: TexteFenetre = {
   titre: "Pour voter, il ne te manque que Premium",
-  intro: introFenetre("la page"),
+  ...introFenetre("la page"),
   avantage: `Avec Premium : ton vote, tes favoris et les ${PARCOURS_COUNT} parcours en entier.`,
   bouton: "Je m'abonne et je vote",
 };
 
 const carte = (avantage: string): TexteFenetre => ({
   titre: "Le reste de la liste est juste derrière",
-  intro: introFenetre("la liste"),
+  ...introFenetre("la liste"),
   avantage,
   bouton: "Je m'abonne et j'ouvre toute la liste",
 });
@@ -229,19 +233,19 @@ export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<Fich
   favori: {
     vanne: {
       titre: "Garde-la pour le soir où tu en auras besoin",
-      intro: introFenetre("la vanne"),
+      ...introFenetre("la vanne"),
       avantage: AVANTAGE_FAVORI,
       bouton: "Je m'abonne et je la garde",
     },
     conseil: {
       titre: "Garde-le pour le soir où tu en auras besoin",
-      intro: introFenetre("le conseil"),
+      ...introFenetre("le conseil"),
       avantage: AVANTAGE_FAVORI,
       bouton: "Je m'abonne et je le garde",
     },
     video: {
       titre: "Garde-la sous le coude",
-      intro: introFenetre("la vidéo"),
+      ...introFenetre("la vidéo"),
       avantage: AVANTAGE_FAVORI,
       bouton: "Je m'abonne et je la garde",
     },

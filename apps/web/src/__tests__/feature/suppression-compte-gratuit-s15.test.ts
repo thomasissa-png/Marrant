@@ -50,10 +50,8 @@ describe("visiteur : accès strictement inchangés", () => {
     expect(read("app/api/search/route.ts")).toMatch(/const resultLimit = isPremium \? 5 : 3;/);
   });
 
-  it("/onboarding sans session ne mène plus à /register", () => {
-    const mw = read("middleware.ts");
-    expect(mw).toMatch(/path\.startsWith\("\/onboarding"\) && !token[\s\S]{0,120}new URL\("\/abonnement"/);
-  });
+  // « /onboarding sans session ne mène plus à /register » : joué sur une vraie requête depuis
+  // s21 (QA v3 m-1), voir lib/middleware-abonnement-src-s21.test.ts.
 });
 
 describe("textes : plus de compte gratuit côté utilisateur", () => {

@@ -18,6 +18,8 @@ const { useEstPremium } = require("@/hooks/use-est-premium");
 const SRC = path.join(__dirname, "..", "..");
 const lire = (rel: string) => fs.readFileSync(path.join(SRC, rel), "utf8");
 
+// /favoris, compte sans abonnement : le middleware redirige avant que ce bouton s'affiche ; la
+// redirection porte la même source, jouée sur une vraie requête (lib/middleware-abonnement-src-s21.test.ts).
 describe("m-1 : une source distincte par bouton payant", () => {
   it.each([
     ["app/(dashboard)/glossaire/page.tsx", 'buildAbonnementUrl(null, "monthly", "glossaire")'],

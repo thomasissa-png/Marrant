@@ -72,7 +72,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
         <h3 id="premium-modal-title" className="pr-10 font-display text-xl font-bold text-text-primary">
           {t.titre}
         </h3>
-        <p className="mt-2 text-sm text-text-secondary">{frTypo(t.intro)}</p>
+        {/* s21 (QA v3 m-2) : « Deux étapes… » pour le visiteur seulement ; le compte connecté va droit au paiement. */}
+        <p className="mt-2 text-sm text-text-secondary">{frTypo(status === "authenticated" ? t.introCompte : t.intro)}</p>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-4xl font-bold text-text-primary">{FENETRE_PRIX.montant}</span>
           <span className="text-text-muted">{FENETRE_PRIX.suffixe}</span>

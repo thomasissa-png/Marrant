@@ -241,7 +241,7 @@ export function AbonnementView({
       <div className="text-center">
         {/* Badge affiché uniquement pour un utilisateur connecté */}
         {isAuthenticated && !resiliation && (
-          <Badge variant="primary" className="mb-4">
+          <Badge variant="primary" className="mb-3 sm:mb-4">
             {pageBadge}
           </Badge>
         )}
@@ -252,10 +252,14 @@ export function AbonnementView({
             {frTypo(hautVisiteur.surtitre)}
           </p>
         )}
-        {/* s21 B16 : trois lignes réservées à 375 (titre le plus long), titre court centré dedans. */}
+        {/* s21 B16 : trois lignes réservées à 375 (titre le plus long), titre court centré dedans.
+            s21 (QA v3 m-3) : compte connecté, écran mobile de 760 px de haut au plus (360 x 740,
+            375 x 700) : titre à 24 px (trois lignes au lieu de quatre à 360) pour que le bouton
+            d'achat tienne au premier écran. Règle CSS lue par le serveur : aucun saut au chargement. */}
         <h1
           className={cn(
             "font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary sm:text-3xl md:text-4xl",
+            isAuthenticated && "[@media(max-width:639px)_and_(max-height:760px)]:text-[1.5rem]",
             !isAuthenticated && "flex min-h-[3.45em] items-center justify-center sm:block sm:min-h-0",
           )}
         >
@@ -271,7 +275,7 @@ export function AbonnementView({
           pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
           iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
           formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
-      <Card data-testid="abonnement-offre" className={`${isAuthenticated ? "mt-5" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
+      <Card data-testid="abonnement-offre" className={`${isAuthenticated ? "mt-4" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
         <CardContent className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">
@@ -299,7 +303,7 @@ export function AbonnementView({
             <Button
               variant="primary"
               size="lg"
-              className="mt-5 w-full sm:mt-8"
+              className="mt-4 w-full sm:mt-8"
               onClick={() => void handleCheckout("manuel", plan)}
               disabled={isCheckoutLoading}
             >

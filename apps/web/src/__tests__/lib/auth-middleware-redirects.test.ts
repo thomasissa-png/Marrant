@@ -31,7 +31,8 @@ describe("middleware : anonyme sur une page réservée", () => {
     expect([302, 307]).toContain(res.status);
     const target = location(res);
     expect(target.pathname).toBe("/abonnement");
-    expect(target.search).toBe("");
+    // s21 (QA v3 m-1) : source fixe de la redirection, la `src` d'arrivée n'est pas relayée.
+    expect(target.search).toBe("?src=onboarding-visiteur");
   });
 
   it("/onboarding sans paramètre → /abonnement, jamais /register", async () => {

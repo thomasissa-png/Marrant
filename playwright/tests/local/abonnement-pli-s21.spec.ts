@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import type { Page } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, BASE_URL } from "../support/base-locale";
 
 /**
  * Revue design s21 v2, « à corriger avant mise en ligne » 1 : /abonnement, compte connecté
@@ -11,6 +11,9 @@ import { test, expect, localSeulement, requete, creerCompte, connecter } from ".
  * - s21 (CLS de page) : la session est lue par le serveur, la version connectée est dans le
  *   HTML ; CLS total de la page < 0,05 à 320, 360 et 375 (0,164 / 0,114 / 0,095 avant).
  * - Bascule mensuel/annuel : un changement de hauteur est accepté (choix du 18/10).
+ * - s21 (QA v3 m-3) : mesure aussi en émulation mobile tactile (isMobile, hasTouch, DPR 3),
+ *   comme la QA : bas du bouton à 700 px au plus à 360 × 740, à 690 px au plus à 375 × 700
+ *   (avant : 732 et 700 ; la QA mesurait 752 à 360). L'émulation bureau ne voyait pas l'écart.
  * Mesures écrites dans la sortie du test (avant/après du correctif).
  */
 const LARGEURS: [number, number][] = [
@@ -29,6 +32,13 @@ async function mesurer(page: Page) {
   const [hautBouton, basPrix] = [await haut(bouton), await bas(prix)];
   return { hautBouton: Math.round(hautBouton), ecartPrixBouton: Math.round(hautBouton - basPrix) };
 }
+
+/** s21 (QA v3 m-3) : émulation mobile tactile, bas du bouton (mensuel) au premier écran. */
+const MOBILE: { largeur: number; hauteur: number; basMax: number }[] = [
+  { largeur: 360, hauteur: 740, basMax: 700 },
+  { largeur: 375, hauteur: 700, basMax: 690 },
+  { largeur: 375, hauteur: 812, basMax: 728 },
+];
 
 /** Layout-shift cumulé de la page (`__cls`) et dans le choix de formule (`__clsCarte`). */
 async function poserObservateur(page: Page) {
@@ -111,6 +121,46 @@ test.describe("/abonnement : bouton du compte connecté remonté, sans saut @s21
       // s21 (CLS) : plus de bascule visiteur puis connecté de l'en-tête et de la carte.
       expect(cls).toBeLessThan(0.05);
       if (largeur === 375) expect(mensuel.hautBouton).toBeLessThanOrEqual(680);
+    }
+  });
+
+  test("émulation mobile tactile : bouton entier au premier écran (360 × 740, 375 × 700), CLS nul", async ({
+    page,
+    browser,
+  }) => {
+    await connecter(page, email, motDePasse);
+    const session = await page.context().storageState();
+    for (const { largeur, hauteur, basMax } of MOBILE) {
+      const ctx = await browser.newContext({
+        baseURL: BASE_URL,
+        viewport: { width: largeur, height: hauteur },
+        isMobile: true,
+        hasTouch: true,
+        deviceScaleFactor: 3,
+        locale: "fr-FR",
+        timezoneId: "Europe/Paris",
+        storageState: session,
+      });
+      const mobile = await ctx.newPage();
+      await poserObservateur(mobile);
+      await mobile.goto("/abonnement");
+      await mobile.waitForLoadState("networkidle");
+      const bouton = mobile.getByRole("button", { name: /^Ouvrir les/ });
+      await expect(bouton).toBeVisible();
+      // Position dans l'écran au chargement (sans défilement).
+      const { haut, bas } = await bouton.evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        return { haut: Math.round(r.top + window.scrollY), bas: Math.round(r.bottom + window.scrollY) };
+      });
+      const { cls, clsCarte } = await lireSauts(mobile);
+      await mobile.screenshot({ path: test.info().outputPath(`abonnement-mobile-${largeur}x${hauteur}.png`) });
+      console.log(
+        `[pli /abonnement] mobile ${largeur}×${hauteur} DPR 3 : bouton ${haut}-${bas} px (bas max ${basMax}) ; CLS ${cls.toFixed(4)}`,
+      );
+      await ctx.close();
+      expect(bas).toBeLessThanOrEqual(basMax);
+      expect(clsCarte).toBe(0);
+      expect(cls).toBeLessThan(0.05);
     }
   });
 

@@ -67,6 +67,26 @@ describe("PremiumModal (s21 B11 : un titre, une intro et un bouton par geste)", 
     expect(screen.getByRole("link", { name: fenetreLienEtape1("confiance") })).toBeInTheDocument();
   });
 
+  it.each([
+    ["favoris", "vanne", "la vanne"],
+    ["favoris", "video", "la vidéo"],
+    ["vote", "vanne", "la page"],
+    ["carte", "conseil", "la liste"],
+  ] as const)("QA v3 m-2 : « Deux étapes… » pour le visiteur seulement (%s, %s)", (reason, contenu, objet) => {
+    const etapes = "Deux étapes : ton compte, puis le paiement sécurisé.";
+    const suite = `Et si tu fermes, ${objet} reste là.`;
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    const { unmount } = render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
+    expect(screen.getByText(`${etapes} ${suite}`)).toBeInTheDocument();
+    unmount();
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
+    render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
+    expect(screen.getByText(suite)).toBeInTheDocument();
+    expect(document.body.textContent).not.toContain("Deux étapes");
+    // Le bouton du compte connecté va droit au paiement (pas d'inscription).
+    expect(screen.queryByRole("link", { name: FENETRE_PREMIUM[reason === "favoris" ? "favori" : reason][contenu].bouton })).toBeNull();
+  });
+
   it("anonyme : inscription puis /abonnement avec retour à la page courante", async () => {
     window.history.pushState({}, "", "/vannes?page=2");
     useSession.mockReturnValue({ status: "unauthenticated" });
