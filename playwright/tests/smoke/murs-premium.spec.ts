@@ -105,7 +105,7 @@ test.describe("Murs Premium @smoke", () => {
     });
   }
 
-  test("/parcours/machine-a-cafe : étape 2 verrouillée, l'étape 1 mène à /abonnement @s21", async ({ page }) => {
+  test("/parcours/machine-a-cafe : étape 2 verrouillée, l'étape 1 mène à /register puis au paiement @s21", async ({ page }) => {
     await page.goto("/parcours/machine-a-cafe");
     // Visiteur (s17) : plus de « Termine l'étape 1 pour débloquer » (réservé à l'abonné,
     // ordre conseillé) ; la progression annonce l'étape 1 offerte et les suivantes avec Premium.
@@ -117,13 +117,17 @@ test.describe("Murs Premium @smoke", () => {
 
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois » (quiz en cours : vers /abonnement).
+    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ». Revue v3 m6 (9a03c41) : quiz fini ou en
+    // cours, le visiteur passe par /register (src=parcours-etape), le paiement s'ouvre ensuite
+    // (callbackUrl vers /abonnement, retour au parcours). Même attendu que concision-s21.spec.ts.
     const cta = page.getByRole("link", { name: VALIDATION_ETAPE.bouton });
     await expect(cta).toBeVisible();
-    const url = lireUrl(await cta.getAttribute("href"));
-    expect(url.pathname).toBe("/abonnement");
-    expect(url.searchParams.get("returnTo")).toBe("/parcours/machine-a-cafe");
+    const href = (await cta.getAttribute("href")) ?? "";
+    expect(href.match(/parcours-etape/g), href).toHaveLength(1);
+    const url = lireUrl(href);
+    expect(url.pathname).toBe("/register");
     expect(url.searchParams.get("src")).toBe("parcours-etape");
+    expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe");
   });
 
   test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu) @s16 @s21", async ({ page }) => {
