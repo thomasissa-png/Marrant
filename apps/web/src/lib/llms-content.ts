@@ -76,7 +76,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne en un clic depuis le profil.`,
+      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable depuis le profil, à tout moment.`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -152,7 +152,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient en un clic depuis le profil.`,
+          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient depuis le profil, à tout moment.`,
         }
       : entry,
   );
