@@ -348,6 +348,8 @@ export const ABONNEMENT_CTA = {
 export const REGISTER_CTA = {
   /** [S34] libellé du champ prénom (facultatif, en dernier). */
   prenomLabel: "Prénom (facultatif, pour te saluer dans nos e-mails)",
+  /** Indication dans le champ prénom (existante). */
+  prenomPlaceholder: "Ton prénom",
   /** [S36] plein du formulaire. */
   bouton: "Créer mon compte et passer au paiement",
   /** [S35] lien discret sous « Déjà un compte ? ». */

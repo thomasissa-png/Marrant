@@ -6,7 +6,13 @@ import { getClientIp, retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limi
 import { TEXTES_API } from "@/config/textes/compte";
 
 const registerSchema = z.object({
-  name: z.string().min(2, "Le prénom doit faire au moins 2 caractères"),
+  // s21 B17 : prénom facultatif (vide ou absent → null en base, colonne déjà nullable ;
+  // les e-mails disent alors « Salut, »). S'il est donné : au moins 2 caractères.
+  name: z
+    .string()
+    .optional()
+    .transform((v) => (v ?? "").trim())
+    .refine((v) => v === "" || v.length >= 2, "Le prénom doit faire au moins 2 caractères"),
   email: z.string().email("Email invalide"),
   password: z
     .string()
@@ -30,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const parsed = registerSchema.parse(body);
-    const name = parsed.name.trim();
+    const name = parsed.name || null;
     const email = parsed.email.toLowerCase().trim();
     const password = parsed.password;
 

@@ -79,7 +79,8 @@ export async function inscriptionJusquAuCheckout(page: Page, email: string, plan
   await page.locator("#name").fill("Testeur E2E");
   await page.locator("#email").fill(email);
   await page.locator("#password").fill(MOT_DE_PASSE);
-  await page.getByRole("button", { name: "Créer mon compte" }).click();
+  // s21 B17 : « Créer mon compte et passer au paiement » (avant : « Créer mon compte »).
+  await page.getByRole("button", { name: /^Créer mon compte/ }).click();
   // Retour sur /abonnement?auto=1 qui ouvre le paiement tout seul.
   await page.waitForURL(/checkout\.stripe\.com/, { timeout: 45_000 });
 }

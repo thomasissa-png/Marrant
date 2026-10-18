@@ -140,4 +140,20 @@ describe("register", () => {
     res = await register(req("/api/auth/register", { name: "Al", email: "a@b.fr", password: "12345678" }));
     expect((await res.json()).error).toBe(TEXTES_API.erreurServeur);
   });
+
+  it("s21 B17 : prénom facultatif (absent ou vide → null en base), sinon au moins 2 caractères", async () => {
+    sharedRateLimit.mockResolvedValue({ allowed: true, remaining: 4, resetAt: Date.now() + 60_000 });
+    mockDb.user.findUnique.mockReset().mockResolvedValue(null);
+    mockDb.user.create.mockReset().mockResolvedValue({ id: "u1" });
+    for (const corps of [{ email: "a@b.fr", password: "12345678" }, { name: "  ", email: "a@b.fr", password: "12345678" }]) {
+      const res = await register(req("/api/auth/register", corps));
+      expect(res.status).toBe(201);
+      expect(mockDb.user.create).toHaveBeenLastCalledWith(expect.objectContaining({ data: expect.objectContaining({ name: null }) }));
+    }
+    const res = await register(req("/api/auth/register", { name: " Marie ", email: "a@b.fr", password: "12345678" }));
+    expect(res.status).toBe(201);
+    expect(mockDb.user.create).toHaveBeenLastCalledWith(expect.objectContaining({ data: expect.objectContaining({ name: "Marie" }) }));
+    const court = await register(req("/api/auth/register", { name: "A", email: "a@b.fr", password: "12345678" }));
+    expect(court.status).toBe(400);
+  });
 });

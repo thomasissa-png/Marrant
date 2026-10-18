@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { validateRegisterFields } from "@/lib/register-validation";
 import { ValidationWall } from "@/components/parcours/step-blocks";
 import {
   BLOC_EXERCICE,
@@ -16,6 +17,7 @@ import {
   lignePrixGarantie,
   MUR_LISTE,
   MUR_PARCOURS,
+  REGISTER_CTA,
   type FicheType,
   type ListeMur,
 } from "@/config/textes/cta-pages";
@@ -166,5 +168,21 @@ describe("B14 : fin d'étape 1, carte « Étape 2 » au-dessus de la phrase, un 
     render(<ValidationWall slug="repartie" href="/abonnement?x" quizPending etapeSuivante={etape2} />);
     expect(screen.queryByText("Le rythme et les silences")).not.toBeInTheDocument();
     expect(screen.queryByText(FIN_ETAPE_1.bouton)).not.toBeInTheDocument();
+  });
+});
+
+// ─── B17 : /register ────────────────────────────────────────────────────────
+describe("B17 : prénom facultatif (validation client)", () => {
+  it("vide : aucune erreur ; un seul caractère : erreur", () => {
+    expect(validateRegisterFields({ name: "", email: "a@b.fr", password: "12345678" })).toEqual({});
+    expect(validateRegisterFields({ name: "A", email: "a@b.fr", password: "12345678" }).name).toBeDefined();
+  });
+
+  it("textes du tour 4 : bouton, libellé du prénom, lien d'étape gratuite nommé", () => {
+    expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
+    expect(REGISTER_CTA.prenomLabel).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
+    expect(REGISTER_CTA.lienEtape1("confiance")).toBe(
+      "Tu préfères lire d'abord ? L'étape 1 du parcours Confiance, gratuite et sans compte",
+    );
   });
 });

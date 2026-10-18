@@ -16,9 +16,8 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function validateRegisterFields({ name, email, password }: RegisterFields): RegisterFieldErrors {
   const errors: RegisterFieldErrors = {};
 
-  if (!name.trim()) {
-    errors.name = "Il nous manque ton prénom.";
-  } else if (name.trim().length < 2) {
+  // s21 B17 : prénom facultatif ; s'il est donné, au moins 2 caractères.
+  if (name.trim() && name.trim().length < 2) {
     errors.name = "Ton prénom doit faire au moins 2 caractères.";
   }
 

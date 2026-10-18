@@ -3,6 +3,7 @@
  * `inscription-echec`, reco 19 liens soulignés, D4 « Premium »).
  */
 import { render, screen, waitFor } from "@testing-library/react";
+import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
 
@@ -18,10 +19,10 @@ const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+  await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-  await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+  await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
 
 describe("RegisterPage, audit s16", () => {

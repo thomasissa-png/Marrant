@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
 
@@ -22,10 +23,10 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+  await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-  await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+  await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
 
 describe("RegisterPage", () => {
@@ -41,14 +42,48 @@ describe("RegisterPage", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
     expect(screen.getByText("Premium, 2,99 € TTC par mois, annulable à tout moment.")).toBeInTheDocument();
     expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
-    expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
+    expect(screen.getByLabelText(/^Prénom/)).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
   });
 
+  it("s21 B17 : prénom facultatif et en dernier, lien d'étape gratuite sous « Déjà un compte ? »", () => {
+    mockSearchParams.set("callbackUrl", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
+    const { container } = render(<RegisterPage />);
+    const ids = Array.from(container.querySelectorAll("input")).map((i) => i.id);
+    expect(ids.indexOf("email")).toBeLessThan(ids.indexOf("password"));
+    expect(ids.indexOf("password")).toBeLessThan(ids.indexOf("name"));
+    expect(screen.getByLabelText(REGISTER_CTA.prenomLabel)).not.toBeRequired();
+    const lien = screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
+    expect(lien).toHaveAttribute("href", "/parcours/confiance?src=abonnement#etape-1");
+    const html = container.innerHTML;
+    expect(html.indexOf("Déjà un compte")).toBeLessThan(html.indexOf('href="/parcours/confiance'));
+    mockSearchParams.delete("callbackUrl");
+  });
+
+  it("s21 B17 : sans parcours d'origine, l'étape 1 de Répartie", () => {
+    render(<RegisterPage />);
+    expect(screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("repartie") })).toBeInTheDocument();
+  });
+
+  it("s21 B17 : inscription sans prénom envoyée telle quelle", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "u" } }) });
+    mockSignIn.mockResolvedValue({ ok: true });
+    render(<RegisterPage />);
+    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    expect(JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)).toEqual({
+      name: "",
+      email: "jean@test.fr",
+      password: "password1234545",
+    });
+  });
+
   it("has submit button", () => {
     render(<RegisterPage />);
-    expect(screen.getByRole("button", { name: "Créer mon compte" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: REGISTER_CTA.bouton })).toBeInTheDocument();
   });
 
   it("has Google sign-up button", () => {
@@ -84,10 +119,10 @@ describe("RegisterPage", () => {
 
     render(<RegisterPage />);
 
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith("/api/auth/register", {
@@ -114,10 +149,10 @@ describe("RegisterPage", () => {
     mockSignIn.mockResolvedValue({ error: null });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
@@ -132,10 +167,10 @@ describe("RegisterPage", () => {
     });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
@@ -146,10 +181,10 @@ describe("RegisterPage", () => {
   it("shows loading state", async () => {
     (global.fetch as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
+    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
     await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     expect(screen.getByText("On prépare ton compte…")).toBeInTheDocument();
   });

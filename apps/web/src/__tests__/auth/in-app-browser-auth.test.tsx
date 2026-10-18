@@ -5,6 +5,7 @@
  * lien en premier sur iOS.
  */
 import { render, screen, waitFor } from "@testing-library/react";
+import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
 import LoginPage from "@/app/(auth)/login/page";
@@ -43,7 +44,7 @@ describe("/register", () => {
   it("e-mail avant Google pour tous, sans order-first (Safari : Google actif, aucun message)", async () => {
     setUserAgent(UA.safariIos);
     render(<RegisterPage />);
-    const submit = screen.getByRole("button", { name: "Créer mon compte" });
+    const submit = screen.getByRole("button", { name: REGISTER_CTA.bouton });
     const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
     expect(submit.compareDocumentPosition(google) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(google.className).not.toMatch(/order-first/);
