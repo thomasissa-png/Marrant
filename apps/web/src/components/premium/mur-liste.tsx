@@ -5,18 +5,11 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { cn } from "@/lib/utils";
 import { LIEN_L2 } from "@/components/ui/liens";
-import {
-  lignePrixGarantie,
-  MUR_LISTE,
-  MUR_PARCOURS,
-  type ListeMur,
-} from "@/config/textes/cta-pages";
-
+import { MUR_LISTE, MUR_PARCOURS, type ListeMur } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 interface MurListeProps {
   liste: ListeMur;
-  /** Offre annuelle disponible (lue côté serveur, `isAnnualPlanAvailable()`). */
-  annuel: boolean;
 }
 
 /** Destination unique des murs de liste (B7) : /abonnement, retour à la liste. */
@@ -25,26 +18,22 @@ export function murAbonnementHref(liste: ListeMur): string {
 }
 
 /**
- * Annonce de la limite, placée après la dernière carte gratuite (B7 a et b) :
- * plus de bandeau en haut de liste.
+ * Annonce de la limite, placée après la dernière carte gratuite (concision v5 : une ligne,
+ * « Les 10 gratuites, c'est fait. ») : plus de bandeau en haut de liste.
  */
 export function MurListeLimite({ liste }: { liste: ListeMur }) {
-  const t = MUR_LISTE[liste];
   return (
-    <div className="mt-6" data-mur-liste-limite={liste}>
-      <p className="text-sm text-text-secondary">{t.limite}</p>
-      <Link href={murAbonnementHref(liste)} className={LIEN_L2}>
-        {t.filtres}
-      </Link>
-    </div>
+    <p className="mt-6 text-sm text-text-secondary" data-mur-liste-limite={liste}>
+      {frTypo(MUR_LISTE[liste].limite)}
+    </p>
   );
 }
 
 /**
- * Bloc de bas de liste (B7 d) : tiède, un plein Premium, un contour vers
- * l'étape 1 gratuite, puis prix et garantie.
+ * Bloc de bas de liste (concision v5, textes-v5-b §1) : titre, un plein payant, la REASS
+ * dessous, puis le lien gratuit `GRATUIT_P` vers l'étape 1.
  */
-export function MurListe({ liste, annuel }: MurListeProps) {
+export function MurListe({ liste }: MurListeProps) {
   const t = MUR_LISTE[liste];
   return (
     <section
@@ -55,7 +44,6 @@ export function MurListe({ liste, annuel }: MurListeProps) {
       <h2 id={`mur-liste-${liste}-titre`} className="font-display text-lg font-bold text-text-primary">
         {frTypo(t.titre)}
       </h2>
-      <p className="mt-2 text-sm text-text-secondary">{frTypo(t.texte)}</p>
       <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
         <Link
           href={murAbonnementHref(liste)}
@@ -68,7 +56,7 @@ export function MurListe({ liste, annuel }: MurListeProps) {
           {t.bouton}
         </Link>
       </div>
-      <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
+      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="mt-1">
         <Link

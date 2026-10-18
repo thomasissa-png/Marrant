@@ -22,7 +22,6 @@ import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-
 import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -215,10 +214,9 @@ export default async function ConseilPage({
           type="conseil"
           returnTo={`/conseils/${canonicalSlug}`}
           parcours={parcoursPourFiche(parcoursRefs, tip.category)}
-          annuel={isAnnualPlanAvailable()}
         />
 
-        <FicheParcoursLien type="conseil" refs={parcoursRefs} parcoursBloc={parcoursPourFiche(parcoursRefs, tip.category)} />
+        <FicheParcoursLien type="conseil" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Conseils liés" className="mt-12 border-t border-border pt-8">

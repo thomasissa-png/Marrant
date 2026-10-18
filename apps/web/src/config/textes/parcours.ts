@@ -4,28 +4,16 @@
  * validés par Thomas : ne rien y écrire de pédagogique (D5), seulement l'interface.
  */
 import { OFFRE_NOM } from "@/config/textes/offre";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
 
-// VALIDÉ s17 (étalon 3.1 a)
-/** Badge d'une étape 2+ vue par un non-abonné (D1 : aperçu ouvrable, pas d'ordre imposé). */
-export const ETAPE_APERCU_LIBELLE = `Fait partie de ${OFFRE_NOM}`;
-
-// VALIDÉ s17 (étalon 3.1 b, « mixte »)
-/** Intro au-dessus de la liste des étapes, pour un non-abonné. */
-export const APERCU_INTRO = "La première étape est gratuite. Pour les suivantes, tu vois ici ce qu'elles contiennent.";
-
-// VALIDÉ s17 (étalon 3.1 c, A ; bouton 3.1 d = VALIDATION_ETAPE.bouton, validé s16)
-/** Bas de l'aperçu d'une étape 2+, au-dessus du bouton. */
-export const APERCU_BAS = `Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de ${OFFRE_NOM}.`;
-
-// s17, aligné sur les étalons (« offerte » : formule validée s15/s16 dans le paywall et /abonnement)
-/** Barre de progression remplacée pour un non-abonné (QA-13). */
-export function progressionVisiteurTexte(totalEtapes: number): string {
-  // s19 : « étapes 2 et 3 » pour 3 étapes (« 2 à 3 » relevé en QA), « 2 à N » au-delà.
-  if (totalEtapes > 3) return `Étape 1 offerte, étapes 2 à ${totalEtapes} avec ${OFFRE_NOM}`;
-  if (totalEtapes === 3) return `Étape 1 offerte, étapes 2 et 3 avec ${OFFRE_NOM}`;
-  return `Étape 1 offerte, étape 2 avec ${OFFRE_NOM}`;
+// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §8)
+/** Barre de progression remplacée pour un non-abonné : « Étape 1 gratuite, la suite avec Premium ». */
+export function progressionVisiteurTexte(): string {
+  return `Étape 1 gratuite, la suite avec ${OFFRE_NOM}`;
 }
+
+/** Lien sous l'aperçu ouvert d'une étape 2+ : `OUVRIR`. */
+export const APERCU_LIEN = libelleOuvrirParcours();
 
 // s17, aligné sur les étalons (« Durée estimée » sonnait fiche de cours ; le rythme « 15 à 20 min/semaine » ne change pas)
 /**
@@ -85,10 +73,6 @@ export const QUIZ_FIN_BOUTON = {
   abonne: "Continuer",
   visiteur: "Refaire le quiz",
 } as const;
-
-// s17 tour 1 (UXV-1-07) : réassurance sous le bouton du mur (« Voir ce que contient Premium » depuis s21), prix lu dans config/premium.ts
-/** Ligne discrète sous le bouton de l'aperçu verrouillé et du blocage de validation (texte du blocage inchangé). */
-export const APERCU_REASSURANCE = `${PREMIUM_PRICE_LABEL}, résiliable en ligne.`;
 
 // VALIDÉ s17 (étalon 3.8 A, série comptée sur la pratique) ; titre « Série » : s17 tour 1 (UXV-1-09, DES-1-03)
 /** Série du profil : libellé, aide, état à zéro (jamais de culpabilité). */
@@ -195,7 +179,8 @@ export const CHARGEMENT_ETAPE = {
 export const VANNES_ETAPE = {
   titre: "Vannes à pratiquer",
   voirFiche: "Voir la fiche",
-  apercuVisiteur: (n: number) => `${n} vannes choisies pour cette étape t'attendent avec ${OFFRE_NOM}.`,
+  /** Concision v5 (textes-v5-b.md §8). */
+  apercuVisiteur: (n: number) => `${n} vannes dans cette étape.`,
 } as const;
 
 // s17, aligné sur les étalons

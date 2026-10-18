@@ -89,21 +89,21 @@ describe("ParcoursPage — Parcours structurés", () => {
     }
   });
 
-  it("renders CTA buttons for each parcours (s21 B15 : étape 1 gratuite nommée, ligne frontière)", () => {
-    const buttons = screen.getAllByText(/^Commencer .+, étape 1 gratuite$/);
+  it("renders CTA buttons for each parcours (concision v5 : GRATUIT_P, ligne frontière sans nombre d'étapes)", () => {
+    const buttons = screen.getAllByText(/^Tester l'étape\s1\sde .+, gratuite$/);
     expect(buttons).toHaveLength(NB);
     buttons.forEach((btn) => {
       expect(btn.tagName).toBe("BUTTON");
     });
     expect(screen.getByText(LISTE_PARCOURS_CTA.bouton("repartie"))).toBeInTheDocument();
-    expect(screen.getByText(LISTE_PARCOURS_CTA.frontiere("repartie"))).toBeInTheDocument();
+    expect(screen.getAllByText(LISTE_PARCOURS_CTA.frontiere("repartie"))).toHaveLength(NB);
     expect(LISTE_PARCOURS_CTA.frontiere("machine-a-cafe")).toBe(
-      "Sans compte ni abonnement, quiz compris. Les étapes 2 et 3 sont dans Premium.",
+      "Sans compte. La suite : Premium.",
     );
   });
 
   it("anonyme : le CTA mène directement au parcours, sans /register (s15 §2.7, étape 1 en lecture libre)", async () => {
-    const buttons = screen.getAllByText(/^Commencer .+, étape 1 gratuite$/);
+    const buttons = screen.getAllByText(/^Tester l'étape\s1\sde .+, gratuite$/);
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith(expect.stringMatching(/^\/parcours\/[a-z-]+\?src=hub$/));
     expect(mockPush).not.toHaveBeenCalledWith(expect.stringContaining("/register"));
@@ -223,7 +223,7 @@ describe("ParcoursPage — authenticated user", () => {
   it("navigates to /parcours/[slug] when authenticated user clicks CTA", async () => {
     const Page = await ParcoursPage();
     render(Page);
-    const buttons = screen.getAllByText(/^Commencer .+, étape 1 gratuite$/);
+    const buttons = screen.getAllByText(/^Tester l'étape\s1\sde .+, gratuite$/);
     await userEvent.click(buttons[0]);
     expect(mockPush).toHaveBeenCalledWith("/parcours/machine-a-cafe?src=hub");
   });

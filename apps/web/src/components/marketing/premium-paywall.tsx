@@ -6,15 +6,8 @@ import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
-import { FENETRE_GARANTIE } from "@/config/textes/cta-pages";
-import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-
-/**
- * Valeur Premium (décision Thomas, 03/10/2026) : uniquement ce qui est vrai.
- * Parcours complets en tête ; pas de « contenu quotidien » (gratuit), pas de
- * filtres avancés (inexistants). Carnet mensuel ajouté le 03/10/2026.
- */
-const PREMIUM_VALUE_TEXT = `Les ${PARCOURS_COUNT} parcours en entier (${PREMIUM_PARCOURS.map((p) => p.name).join(", ")}), la première étape de chaque parcours restant offerte, ${PREMIUM_CARNET_BENEFIT}, plus tes favoris et les listes complètes de vannes, conseils et vidéos.`;
+import { PAYWALL_PREMIUM } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 type Props = {
   userId?: string;
@@ -126,7 +119,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
     return (
       <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
         <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-        <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
+        <p className="text-gray-300 mb-4">{PAYWALL_PREMIUM.valeur}</p>
 
         {products.length === 0 ? (
           <p className="text-gray-400 text-sm">Chargement des offres…</p>
@@ -168,18 +161,18 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
   // Mode web → Stripe
   return (
     <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
-      <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-      <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
+      <h3 className="text-2xl font-bold mb-2">{PAYWALL_PREMIUM.titre}</h3>
+      <p className="text-gray-300 mb-4">{PAYWALL_PREMIUM.valeur}</p>
       <button
         onClick={handleStripeCheckout}
         disabled={loading}
         className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-4 py-3 font-semibold transition"
       >
-        {loading ? "On t'emmène au paiement…" : `S'abonner · ${PREMIUM_PRICE_LABEL}`}
+        {loading ? "On t'emmène au paiement…" : PAYWALL_PREMIUM.bouton}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
-      {/* s21 B11 (choix de Thomas du 18/10) : une seule ligne de garantie, pas de mentions juridiques. */}
-      <p className="mt-3 text-xs text-gray-400">{FENETRE_GARANTIE}</p>
+      {/* Concision v5 : la REASS unique sous le plein qui porte un prix (web seulement). */}
+      <p className="mt-3 text-xs text-gray-400">{REASSURANCE_UNIQUE}</p>
     </div>
   );
 }

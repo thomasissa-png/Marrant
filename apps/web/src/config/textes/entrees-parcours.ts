@@ -11,21 +11,8 @@ import { PARCOURS_NOMS } from "@/lib/entrees-parcours";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
 import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
-// s17, validé (étalon 3.9 A, bouton secondaire de l'accueil)
-/** Accueil visiteur : lien secondaire sous le bouton principal (UX-08). */
-export const ACCUEIL_LIEN_ETAPE_1 = "Lire la première étape gratuite";
-
-// VALIDÉ à l'aveugle s21 (lot 2, duel 2, tour 1 : 3/3 au niveau ; docs/copy/lot2-boutons-abonnement-s21.md §4.2)
-/**
- * Bouton vers l'étape 1 gratuite d'un parcours nommé (emplacement E5) : même
- * squelette que le lien de l'accueil, « Lire la première étape gratuite » + « de X ».
- */
-export const etape1GratuiteBouton = (slug: ParcoursSlug): string =>
-  `${ACCUEIL_LIEN_ETAPE_1} de ${PARCOURS_NOMS[slug]}`;
-
-// s17 tour 1 (UXV-1-05) : même libellé (étalon 3.9 A) sur l'encart « Parcours recommandé » du blog
-/** Encart de maillage des articles : bouton principal vers l'étape 1 du parcours lié. */
-export const BLOG_LIEN_ETAPE_1 = ACCUEIL_LIEN_ETAPE_1;
+// Concision v5 : le libellé de l'étape 1 gratuite est `GRATUIT_P` (`libelleGratuitParcours`,
+// cta-articles-accueil.ts), l'ancien libellé « Lire la première étape… » a disparu.
 
 // s17, validé (étalon 3.4 A : titre « Reprendre ton parcours », ligne « {parcours}, étape N sur M : {titre de l'étape} ») ; bouton : aligné sur les étalons
 /** Bloc « Reprendre ton parcours » (accueil abonné, profil). Ligne : même format que la liste /parcours. */
@@ -45,7 +32,6 @@ export const FICHE_PARCOURS = {
     `Ce conseil est l'étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
   video: (etape: number, slug: ParcoursSlug) =>
     `Cette vidéo est travaillée dans l'étape ${etape} du parcours ${PARCOURS_NOMS[slug]}.`,
-  lien: (slug: ParcoursSlug) => `Lire la première étape gratuite du parcours ${PARCOURS_NOMS[slug]}`,
 } as const;
 
 // s17, aligné sur les étalons (raisons de profil) ; bouton : validé (étalon 3.9 A)
@@ -53,25 +39,16 @@ export const FICHE_PARCOURS = {
 export const QUIZ_HUMOUR_PARCOURS = {
   intro: "Ton point de départ :",
   titre: (slug: ParcoursSlug) => `Parcours ${PARCOURS_NOMS[slug]}`,
+  // Concision v5 (textes-v5-b §4), mot pour mot. STORYTELLER : version selon la publication de /parcours/storytelling.
   raison: {
-    OBSERVATEUR: "Tu vois ce que les autres ne remarquent pas : ce parcours commence justement par regarder ton quotidien avec un œil comique.",
-    // s18 : accroche validée (étalons Storytelling, choix 4 A), affichée seulement avec /parcours/storytelling en ligne.
+    OBSERVATEUR: "Tu vois ce que les autres ne remarquent pas : ce parcours part de là.",
     STORYTELLER: STORYTELLING_PUBLIE
-      ? "Tu sais tenir une table avec tes histoires : ce parcours commence par en écrire une comme elle vient, puis par couper ce qui traîne."
-      : "Tu sais tenir une table avec une histoire : ce parcours t'apprend à la raconter au bon moment et jusqu'au bout.",
-    ABSURDE: "Tes idées surprennent : ce parcours t'aide à les placer au bon moment, en quelques mots.",
-    PUNCHLINEUR: "Tu vises le mot juste : ce parcours travaille le rythme, les silences et la réplique qui tombe pile.",
-    TAQUIN: "Tu renvoies chaque balle : ce parcours t'apprend à retourner une pique avec le sourire.",
+      ? "Tu tiens une table avec tes histoires : ce parcours t'apprend à couper ce qui traîne."
+      : "Tu tiens une table avec une histoire : ce parcours t'apprend à la raconter jusqu'au bout.",
+    ABSURDE: "Tes idées surprennent : ici, tu apprends à les placer au bon moment.",
+    PUNCHLINEUR: "Tu vises le mot juste : ce parcours travaille le rythme et les silences.",
+    TAQUIN: "Tu renvoies chaque balle : ce parcours t'apprend à viser sans blesser.",
   },
-  bouton: "Lire la première étape gratuite",
-} as const;
-
-// s17, aligné sur les étalons (3.2 et 3.9 : la première étape se lit et se teste sans abonnement)
-/** /abonnement : voir ce qu'on achète avant de payer (QA-13). */
-export const ABONNEMENT_ETAPE_1 = {
-  titre: "Pas encore sûr ? Lis d'abord une étape",
-  texte: "La première étape de chaque parcours est gratuite : tu la lis et tu testes le quiz sans t'abonner.",
-  lien: (slug: ParcoursSlug) => `Étape 1 du parcours ${PARCOURS_NOMS[slug]}`,
 } as const;
 
 // s17, validé (étalon 3.8 A : règle de la série, chiffres de la FAQ intacts)

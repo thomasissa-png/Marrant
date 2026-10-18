@@ -22,7 +22,6 @@ import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 import { frTypo } from "@/lib/fr-typo";
-import { MUR_CARTE_LIEN } from "@/config/textes/cta-pages";
 
 interface Video {
   id: string;
@@ -102,11 +101,9 @@ interface VideosGridProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
   initialData?: CataloguePage<Video> | null;
   initialPage?: number;
-  /** Offre annuelle disponible (lue côté serveur) : demi-ligne de prix du mur. */
-  annualAvailable?: boolean;
 }
 
-export function VideosGrid({ initialData = null, initialPage = 1, annualAvailable = false }: VideosGridProps = {}) {
+export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
@@ -330,14 +327,14 @@ export function VideosGrid({ initialData = null, initialPage = 1, annualAvailabl
       {limited && (videos.length > 0 || page > 1) && (
         <>
           <MurListeLimite liste="videos" />
-          <MurListe liste="videos" annuel={annualAvailable} />
+          <MurListe liste="videos" />
         </>
       )}
 
       {/* Cartes verrouillées pour FREE users */}
       {limited && (videos.length > 0 || page > 1) && (
         <div className="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: Math.min(3, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
+          {Array.from({ length: Math.min(1, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
@@ -356,7 +353,6 @@ export function VideosGrid({ initialData = null, initialPage = 1, annualAvailabl
                     <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-link">{MUR_CARTE_LIEN}</span>
                   </div>
                 </div>
               </CardContent>

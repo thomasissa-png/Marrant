@@ -22,7 +22,6 @@ import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
-import { MUR_CARTE_LIEN } from "@/config/textes/cta-pages";
 
 interface Joke {
   id: string;
@@ -80,18 +79,6 @@ const CATEGORY_LABELS: Record<string, string> = {
   PARENTS: "Famille",
 };
 
-// Libellés du type de vanne (enum JokeType) : arbitrage Thomas s12 pour STORY et QA,
-// les autres reprennent le mot de l'enum en casse normale (aucune valeur brute affichée).
-const JOKE_TYPE_LABELS: Record<string, string> = {
-  SUBTIL: "Subtil",
-  CLASSIQUE: "Classique",
-  ABSURDE: "Absurde",
-  ONE_LINER: "One-liner",
-  STORY: "Histoire",
-  DIALOGUE: "Dialogue",
-  QA: "Question / réponse",
-};
-
 const PUNCHLINE_TEASERS = [
   "Clique pour la chute",
   "Parie sur la chute, puis vérifie",
@@ -108,11 +95,9 @@ interface VannesListProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
   initialData?: CataloguePage<Joke> | null;
   initialPage?: number;
-  /** Offre annuelle disponible (lue côté serveur) : demi-ligne de prix du mur. */
-  annualAvailable?: boolean;
 }
 
-export function VannesList({ initialData = null, initialPage = 1, annualAvailable = false }: VannesListProps = {}) {
+export function VannesList({ initialData = null, initialPage = 1 }: VannesListProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
   const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
@@ -265,11 +250,6 @@ export function VannesList({ initialData = null, initialPage = 1, annualAvailabl
                     <Badge variant="primary">
                       {CATEGORY_LABELS[joke.category] ?? joke.category}
                     </Badge>
-                    {/* Type masqué s'il est inconnu ou s'il répète la catégorie (ex. Absurde / Absurde) */}
-                    {JOKE_TYPE_LABELS[joke.type] &&
-                      JOKE_TYPE_LABELS[joke.type] !== (CATEGORY_LABELS[joke.category] ?? joke.category) && (
-                        <Badge variant="default">{JOKE_TYPE_LABELS[joke.type]}</Badge>
-                      )}
                   </div>
                   <div className="flex shrink-0 items-center">
                     <FavoriteButton contentType="JOKE" contentId={joke.id} />
@@ -361,14 +341,14 @@ export function VannesList({ initialData = null, initialPage = 1, annualAvailabl
       {limited && (jokes.length > 0 || page > 1) && (
         <>
           <MurListeLimite liste="vannes" />
-          <MurListe liste="vannes" annuel={annualAvailable} />
+          <MurListe liste="vannes" />
         </>
       )}
 
       {/* Cartes verrouillées pour FREE users */}
       {limited && (jokes.length > 0 || page > 1) && (
         <div className="mt-4 grid gap-4 md:grid-cols-2">
-          {Array.from({ length: Math.min(4, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
+          {Array.from({ length: Math.min(1, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
             <Card
               key={`locked-${i}`}
               className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
@@ -392,7 +372,6 @@ export function VannesList({ initialData = null, initialPage = 1, annualAvailabl
                     <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-link">{MUR_CARTE_LIEN}</span>
                   </div>
                 </div>
               </CardContent>

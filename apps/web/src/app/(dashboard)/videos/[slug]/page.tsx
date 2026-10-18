@@ -16,7 +16,6 @@ import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 import { getRelatedVideos, type RelatedVideo } from "@/lib/related-catalogue";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -218,11 +217,10 @@ export default async function VideoPage({
           type="video"
           returnTo={`/videos/${canonicalSlug}`}
           parcours={parcoursPourFiche(parcoursRefs, video.category)}
-          annuel={isAnnualPlanAvailable()}
         />
 
         {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="video" refs={parcoursRefs} parcoursBloc={parcoursPourFiche(parcoursRefs, video.category)} />
+        <FicheParcoursLien type="video" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">

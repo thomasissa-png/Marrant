@@ -507,7 +507,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
   it("compte non abonné : pas de barre immobile, l'offre des étapes 2+ à la place (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("Étape 1 offerte, étapes 2 et 3 avec Premium")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 gratuite, la suite avec Premium")).toBeInTheDocument();
     });
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });
@@ -539,7 +539,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
+    expect(screen.getByText(/^5 vannes dans cette étape\.$/)).toBeInTheDocument();
     expect(screen.getByText("Pour aller plus loin, facultatif")).toBeInTheDocument();
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Roman Frayssinet")).toBeInTheDocument();
@@ -598,7 +598,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Suivi de progression = Premium (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+      expect(screen.getByText("Les étapes suivantes s'ouvrent avec Premium.")).toBeInTheDocument();
     });
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -731,7 +731,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
   it("visiteur : étape 1 offerte, étapes 2 à 6 avec Premium (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 gratuite, la suite avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -763,13 +763,13 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
 
     // Jokes
     expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
-    expect(screen.getByText(/5 vannes choisies pour cette étape t'attendent avec Premium/)).toBeInTheDocument();
+    expect(screen.getByText(/^5 vannes dans cette étape\.$/)).toBeInTheDocument();
 
     // Quiz
     expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
 
     // Valider = Premium (s15, étalon 4.1)
-    expect(screen.getByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+    expect(screen.getByText("Les étapes suivantes s'ouvrent avec Premium.")).toBeInTheDocument();
   });
 
   it("D1 s17 : visiteur, étapes 2 à 6 marquées « Fait partie de Premium », sans « Termine l'étape »", async () => {
@@ -777,7 +777,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     await waitFor(() => {
       expect(screen.getByText("Rire de soi avec bienveillance")).toBeInTheDocument();
     });
-    expect(screen.getAllByText("Fait partie de Premium")).toHaveLength(5);
+    expect(screen.queryAllByText("Fait partie de Premium")).toHaveLength(0); // concision v5 : badge retiré
     expect(screen.queryByText(/Termine l'étape/)).not.toBeInTheDocument();
   });
 
@@ -789,8 +789,8 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     const header = screen.getByText("L'art de l'observation comique").closest("[role='button']");
     expect(header).not.toBeNull();
     await userEvent.click(header as HTMLElement);
-    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
-    const cta = screen.getByText("Voir ce que contient Premium").closest("a");
+    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
+    const cta = screen.getByText(/^Ouvrir les \d\sparcours\s·/).closest("a");
     expect(cta?.getAttribute("href")).toContain("src=parcours-apercu");
   });
 
@@ -880,7 +880,7 @@ describe("Progress bar — all parcours", () => {
 
     render(<ParcoursDetail slug="confiance" />);
     await waitFor(() => {
-      expect(screen.getByText("Étape 1 offerte, étapes 2 à 6 avec Premium")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 gratuite, la suite avec Premium")).toBeInTheDocument();
     });
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
   });

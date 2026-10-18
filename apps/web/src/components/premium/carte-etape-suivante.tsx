@@ -7,16 +7,14 @@ interface CarteEtapeSuivanteProps {
   titre: string;
   /** « Ce que tu vas apprendre » : texte déjà public de l'aperçu. */
   apercu?: string | null;
-  /** Format public de l'étape (« Un conseil, un défi, 5 vannes… »). */
-  format?: string | null;
   className?: string;
 }
 
 /**
- * Carte « Étape 2 » (cta-forme-place-s21 §3.4, B14 et B16) : surtitre, titre,
+ * Carte « Étape 2 » (fin d'étape 1, concision v5) : surtitre « Étape 2 sur {N} », titre,
  * aperçu public. Rien de payant dévoilé, jamais de bouton dedans.
  */
-export function CarteEtapeSuivante({ parcours, numero, titre, apercu, format, className }: CarteEtapeSuivanteProps) {
+export function CarteEtapeSuivante({ parcours, numero, titre, apercu, className }: CarteEtapeSuivanteProps) {
   return (
     <div
       className={`rounded-lg border border-accent-primary/40 bg-background-card p-4 text-left sm:p-5${className ? ` ${className}` : ""}`}
@@ -27,7 +25,6 @@ export function CarteEtapeSuivante({ parcours, numero, titre, apercu, format, cl
       </p>
       <p className="mt-1 font-display text-lg font-bold text-text-primary">{titre}</p>
       {apercu && <p className="mt-2 line-clamp-3 text-sm text-text-secondary">{apercu}</p>}
-      {format && <p className="mt-2 text-sm text-text-secondary">{FIN_ETAPE_1.carteFormat(format)}</p>}
     </div>
   );
 }

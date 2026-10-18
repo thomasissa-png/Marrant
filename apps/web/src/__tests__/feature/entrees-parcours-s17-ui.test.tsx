@@ -220,19 +220,21 @@ describe("Quiz d'humour et /abonnement", () => {
   it("résultat : parcours conseillé, lien vers son étape 1 (src=quiz)", () => {
     useSession.mockReturnValue(visiteur);
     window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "TAQUIN", completedAt: "2026-10-07" }));
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
     // s21 B12 : libellé qui nomme le parcours (config/textes/cta-pages.ts).
     expect(screen.getByRole("link", { name: QUIZ_HUMOUR_CTA.bouton("repartie") })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
     window.localStorage.clear();
   });
-  it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", async () => {
+  it("/abonnement visiteur (concision v5) : un seul lien d'étape 1, Répartie sans parcours d'origine", async () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
     render(await AbonnementPage({}));
-    for (const [slug, nom] of [["machine-a-cafe", "Machine à Café"], ["repartie", "Répartie"], ["confiance", "Confiance"]]) {
-      expect(screen.getByRole("link", { name: `Étape 1 du parcours ${nom}` })).toHaveAttribute("href", `/parcours/${slug}?src=abonnement#etape-1`);
-    }
+    expect(screen.getByRole("link", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ })).toHaveAttribute(
+      "href",
+      "/parcours/repartie?src=abonnement#etape-1",
+    );
+    expect(screen.queryByRole("link", { name: /Étape 1 du parcours/ })).toBeNull();
   });
 });
 

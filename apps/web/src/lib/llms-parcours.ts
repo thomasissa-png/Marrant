@@ -16,7 +16,7 @@ export function renderLlmsParcoursProgramme(
 ): string[] {
   const lines: string[] = ["## Programme des parcours", ""];
   lines.push(
-    "Chaque parcours suit une étape par semaine (conseil, vannes, vidéos d'humoristes, exercice et quiz). La première étape de chaque parcours est gratuite, en lecture libre et sans compte ; les suivantes font partie de Premium.",
+    "Chaque parcours se suit étape par étape, une par semaine conseillée (conseil, vannes, vidéos d'humoristes, exercice et quiz) ; avec Premium, toutes les étapes sont ouvertes d'un coup. La première étape de chaque parcours est gratuite, en lecture libre et sans compte ; les suivantes font partie de Premium.",
   );
   lines.push("");
   for (const p of catalogue) {

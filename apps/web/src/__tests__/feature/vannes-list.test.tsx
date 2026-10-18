@@ -119,13 +119,14 @@ describe("VannesList", () => {
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
   });
 
-  it("shows readable joke type labels, never raw enums (s12 T13)", async () => {
+  it("concision v5 : plus d'étiquette de type sur les cartes, jamais d'enum brut", async () => {
     render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
     expect(screen.queryByText("DIALOGUE")).not.toBeInTheDocument();
-    expect(screen.getByText("Dialogue")).toBeInTheDocument();
+    expect(screen.queryByText("Dialogue")).not.toBeInTheDocument();
+    expect(screen.queryByText("One-liner")).not.toBeInTheDocument();
     // Type inconnu (ONESHOT dans la fixture) : aucun badge brut.
     expect(screen.queryByText("ONESHOT")).not.toBeInTheDocument();
   });

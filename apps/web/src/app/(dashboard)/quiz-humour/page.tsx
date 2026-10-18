@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import {
@@ -90,7 +89,7 @@ export default function QuizHumourPage() {
           </p>
         </div>
 
-        <ViralQuiz textes={textesResultatQuiz(isAnnualPlanAvailable())} />
+        <ViralQuiz textes={textesResultatQuiz()} />
 
         {/* SEO content below quiz */}
         <section className="mt-16 space-y-8">

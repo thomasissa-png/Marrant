@@ -1,10 +1,11 @@
 /**
- * Blocs d'appel s21, partie B (B7 à B17) : textes branchés depuis
- * config/textes/cta-pages.ts (source unique), nombres lus à la source,
- * hiérarchie des boutons (un plein, un contour, le reste en lien).
+ * Blocs d'appel s21, parties B et C, après la concision v5 (18/10) : textes branchés depuis
+ * config/textes/cta-pages.ts (source unique), nombres lus à la source, hiérarchie des boutons
+ * (un plein, la REASS dessous, le gratuit en lien).
  */
 import { TEXTES_PRENOM } from "@/config/textes/compte";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { useSession } from "next-auth/react";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
@@ -14,78 +15,56 @@ import { ValidationWall } from "@/components/parcours/step-blocks";
 import {
   BLOC_EXERCICE,
   FIN_ETAPE_1,
-  lignePrixGarantie,
   MUR_LISTE,
   MUR_PARCOURS,
   REGISTER_CTA,
   type FicheType,
   type ListeMur,
 } from "@/config/textes/cta-pages";
-import { FREE_JOKE_LIMIT, FREE_TIP_LIMIT, FREE_VIDEO_LIMIT, PARCOURS_COUNT } from "@/config/premium";
+import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { FREE_JOKE_LIMIT, FREE_TIP_LIMIT, FREE_VIDEO_LIMIT } from "@/config/premium";
 import { frTypo } from "@/lib/fr-typo";
 
 const LISTES: ListeMur[] = ["vannes", "conseils", "videos"];
+const REASS = frTypo(REASSURANCE_UNIQUE);
 
 describe("cta-pages.ts : textes et nombres", () => {
   it("aucun tiret cadratin ni demi-cadratin dans les textes", () => {
-    const tout = JSON.stringify(MUR_LISTE);
-    expect(tout).not.toMatch(/[—–]/);
+    const tout = JSON.stringify([MUR_LISTE, BLOC_EXERCICE, FIN_ETAPE_1]);
+    expect(tout).not.toMatch(/[\u2014\u2013]/);
   });
 
-  it("limites gratuites et nombre de parcours lus à la source", () => {
-    expect(MUR_LISTE.vannes.limite).toContain(`${FREE_JOKE_LIMIT} premières vannes`);
-    expect(MUR_LISTE.conseils.limite).toContain(`${FREE_TIP_LIMIT} premiers conseils`);
-    expect(MUR_LISTE.videos.limite).toContain(`${FREE_VIDEO_LIMIT} premières vidéos`);
-    for (const l of LISTES) expect(MUR_LISTE[l].texte).toContain(`${PARCOURS_COUNT} parcours`);
-  });
-
-  it("filtres : catégorie pour /vannes, niveau et catégorie pour /conseils et /videos", () => {
-    expect(MUR_LISTE.vannes.filtres).toBe("Tu y trouves aussi le filtre par catégorie, pour aller droit à celles qu'il te faut.");
-    expect(MUR_LISTE.conseils.filtres).toContain("par niveau et par catégorie");
-    expect(MUR_LISTE.videos.filtres).toContain("par niveau et par catégorie");
-  });
-
-  it("demi-ligne annuelle seulement si l'offre annuelle est disponible", () => {
-    expect(lignePrixGarantie(true)).toContain("24,99");
-    expect(lignePrixGarantie(true)).toContain("2,08");
-    expect(lignePrixGarantie(false)).not.toContain("24,99");
-    expect(lignePrixGarantie(false)).not.toContain("si tu vois loin");
-    expect(lignePrixGarantie(true)).not.toContain("si tu vois loin");
-    // LP-A (B7, B14) garde « en ligne » ; LP-A2 (B8 à B10) dit « depuis ton profil ».
-    expect(lignePrixGarantie(true)).toContain("Résiliable en ligne quand tu veux.");
-    expect(lignePrixGarantie(true, "profil")).toContain("Résiliable depuis ton profil quand tu veux.");
-    for (const a of [true, false]) {
-      expect(lignePrixGarantie(a)).toContain("2,99");
-      expect(lignePrixGarantie(a)).toContain("14 jours pour te faire rembourser ton premier paiement");
-    }
+  it("limites gratuites lues à la source", () => {
+    expect(MUR_LISTE.vannes.limite).toBe(`Les ${FREE_JOKE_LIMIT} gratuites, c'est fait.`);
+    expect(MUR_LISTE.conseils.limite).toBe(`${FREE_TIP_LIMIT} conseils gratuits, c'est fait.`);
+    expect(MUR_LISTE.videos.limite).toBe(`${FREE_VIDEO_LIMIT} vidéos gratuites, c'est fait.`);
   });
 });
 
 describe("B7 : murs des listes", () => {
-  it.each(LISTES)("/%s : un plein vers /abonnement?src=mur-<liste>, un lien texte vers l'étape 1 (s21 concision)", (liste) => {
-    const { container } = render(<MurListe liste={liste} annuel={false} />);
+  it.each(LISTES)("/%s : un plein vers /abonnement?src=mur-<liste>, la REASS, puis le lien GRATUIT_P", (liste) => {
+    const { container } = render(<MurListe liste={liste} />);
     const plein = screen.getByRole("link", { name: MUR_LISTE[liste].bouton });
     const href = new URL(plein.getAttribute("href") ?? "", "https://x.fr");
     expect(href.pathname).toBe("/abonnement");
     expect(href.searchParams.get("src")).toBe(`mur-${liste}`);
     expect(href.searchParams.get("returnTo")).toBe(`/${liste}`);
-    const contour = screen.getByRole("link", { name: frTypo(MUR_LISTE[liste].contour(MUR_PARCOURS)) });
-    expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toMatch(/^Étape 1 de Répartie, gratuite : /);
-    expect(contour.getAttribute("href")).toMatch(new RegExp(`^/parcours/${MUR_PARCOURS}\\?`));
+    const lien = screen.getByRole("link", { name: frTypo(MUR_LISTE[liste].contour(MUR_PARCOURS)) });
+    expect(MUR_LISTE[liste].contour(MUR_PARCOURS)).toBe("Tester l'étape 1 de Répartie, gratuite");
     // s21 (QA m5) : source propre au mur, distincte d'un clic de fiche.
-    expect(contour.getAttribute("href")).toBe(`/parcours/${MUR_PARCOURS}?src=mur-${liste}#etape-1`);
+    expect(lien.getAttribute("href")).toBe(`/parcours/${MUR_PARCOURS}?src=mur-${liste}#etape-1`);
     expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE[liste].titre) })).toBeInTheDocument();
-    expect(container.textContent).toContain(frTypo(lignePrixGarantie(false)));
-    // Ordre : plein, prix + garantie, puis contour.
+    expect(container.textContent).toContain(REASS);
+    // Ordre : plein, REASS, puis lien gratuit.
     const html = container.innerHTML;
     expect(html.indexOf(MUR_LISTE[liste].bouton)).toBeLessThan(html.indexOf("Résiliable"));
-    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf("Étape"));
+    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf("Tester"));
   });
 
-  it.each(LISTES)("/%s : annonce de la limite et lien des filtres", (liste) => {
-    render(<MurListeLimite liste={liste} />);
-    expect(screen.getByText(MUR_LISTE[liste].limite)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: MUR_LISTE[liste].filtres })).toBeInTheDocument();
+  it.each(LISTES)("/%s : annonce de la limite, sans lien de filtres", (liste) => {
+    const { container } = render(<MurListeLimite liste={liste} />);
+    expect(container.textContent).toBe(frTypo(MUR_LISTE[liste].limite));
+    expect(screen.queryAllByRole("link")).toHaveLength(0);
   });
 });
 
@@ -96,10 +75,8 @@ jest.mock("next-auth/react", () => ({ useSession: jest.fn(() => ({ status: "unau
 describe("B8 à B10 : bloc d'exercice des fiches", () => {
   const TYPES: FicheType[] = ["vanne", "conseil", "video"];
 
-  it.each(TYPES)("%s : un plein Premium (retour fiche), un lien texte étape 1 (s21 concision), « Voir toutes » en lien", (type) => {
-    const { container } = render(
-      <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" annuel exercice="Consigne" />,
-    );
+  it.each(TYPES)("%s : titre, phrase, un plein (retour fiche), la REASS, le lien GRATUIT_P ; plus de « Voir d'autres »", (type) => {
+    const { container } = render(<BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" exercice="Consigne" />);
     const t = BLOC_EXERCICE[type];
     expect(screen.getByRole("heading", { name: frTypo(t.titre) })).toBeInTheDocument();
     const plein = screen.getByRole("link", { name: t.bouton });
@@ -108,29 +85,27 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
     expect(href.searchParams.get("returnTo")).toBe(`/x/${type}`);
     expect(href.searchParams.get("src")).toBe(`exercice-${type}`);
     expect(plein.getAttribute("data-fiche-cta")).toBe("premium");
-    expect(t.contour("confiance")).toMatch(/^Gratuit : .+, étape 1 de Confiance$/);
+    expect(t.contour("confiance")).toBe("Tester l'étape 1 de Confiance, gratuite");
     expect(screen.getByRole("link", { name: frTypo(t.contour("confiance")) }).getAttribute("href")).toMatch(
       /^\/parcours\/confiance\?src=fiche/,
     );
-    expect(screen.getByRole("link", { name: t.toutVoir }).getAttribute("href")).toBe(t.toutVoirHref);
-    expect(container.textContent).toContain(frTypo(lignePrixGarantie(true, "profil")));
+    expect(screen.getAllByRole("link")).toHaveLength(2);
+    expect(container.textContent).toContain(REASS);
     // L'exercice n'est jamais montré à un non-abonné.
     expect(container.textContent).not.toContain("Consigne");
   });
 
   it("abonné : l'exercice s'affiche, aucun bouton ; sans exercice, rien", () => {
     nextAuth.useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
-    const { container, rerender } = render(
-      <BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" annuel={false} exercice="Consigne" />,
-    );
+    const { container, rerender } = render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" exercice="Consigne" />);
     expect(screen.getByText("Consigne")).toBeInTheDocument();
     expect(screen.queryAllByRole("link")).toHaveLength(0);
-    rerender(<BlocExercice type="conseil" returnTo="/conseils/a" parcours="repartie" annuel={false} />);
+    rerender(<BlocExercice type="conseil" returnTo="/conseils/a" parcours="repartie" />);
     expect(container.innerHTML).toBe("");
     nextAuth.useSession.mockReturnValue({ status: "unauthenticated", data: null });
   });
 
-  it("parcours du contour : étape de la fiche d'abord, puis catégorie, sinon Répartie", () => {
+  it("parcours du lien : étape de la fiche d'abord, puis catégorie, sinon Répartie", () => {
     expect(parcoursPourFiche([{ slug: "confiance", etape: 3 }, { slug: "boulot", etape: 1 }], "COUPLE")).toBe("boulot");
     expect(parcoursPourFiche([], "BOULOT")).toBe("boulot");
     expect(parcoursPourFiche([], "COUPLE")).toBe("repartie");
@@ -141,7 +116,7 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
 // ─── B14 : fin d'étape 1 ────────────────────────────────────────────────────
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
-describe("B14 : fin d'étape 1, carte « Étape 2 » au-dessus de la phrase, un seul plein", () => {
+describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 sur {N} », un plein, REASS, lettre repliée", () => {
   const etape2 = {
     id: "s2",
     order: 2,
@@ -152,32 +127,43 @@ describe("B14 : fin d'étape 1, carte « Étape 2 » au-dessus de la phrase, un 
     tip: { id: "t", title: "x", content: "", category: "", difficulty: "", example: "", exercise: "" },
   };
 
-  it("quiz fini : carte, phrase, plein Premium, prix et garantie (sans lettre)", () => {
-    const { container } = render(
-      <ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} annuel={false} />,
-    );
+  it("quiz fini : titre, carte, phrase, plein, REASS puis la ligne de la lettre (repliée)", () => {
+    const { container } = render(<ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} />);
     const html = container.innerHTML;
-    expect(html.indexOf("Le rythme et les silences")).toBeLessThan(html.indexOf("Bien joué"));
+    expect(html.indexOf("Bien joué")).toBeLessThan(html.indexOf("Le rythme et les silences"));
+    expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4");
     expect(screen.getByText(FIN_ETAPE_1.carteSurtitre("repartie"))).toBeInTheDocument();
-    expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4, 20 minutes");
-    expect(screen.getByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
-    expect(FIN_ETAPE_1.phrase).toContain(`les ${PARCOURS_COUNT - 1} autres parcours en entier`);
+    expect(container.textContent).not.toContain("Dans l'étape :");
+    expect(screen.getByText(frTypo(FIN_ETAPE_1.phrase))).toBeInTheDocument();
+    const plein = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
+    expect(plein).toHaveAttribute("href", "/abonnement?x");
     expect(screen.getAllByRole("link")).toHaveLength(1);
-    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton })).toHaveAttribute("href", "/abonnement?x");
-    expect(container.textContent).toContain(frTypo(lignePrixGarantie(false)));
-    expect(container.textContent).not.toMatch(/lettre/i);
+    expect(container.textContent).toContain(REASS);
+    // Lettre : une ligne discrète (bouton replié), aucun champ au chargement.
+    const ligne = screen.getByRole("button", { name: /Lettre gratuite\s:\sune vanne décryptée par mois\./ });
+    expect(ligne).toHaveAttribute("aria-expanded", "false");
+    expect(container.querySelector('input[type="email"]')).toBeNull();
+    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf("Lettre gratuite"));
   });
 
-  it("format de l'étape : minuscule, « et » avant le dernier élément", () => {
-    expect(FIN_ETAPE_1.carteFormat("Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.")).toBe(
-      "Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.",
-    );
+  it("la ligne de la lettre déplie le champ au clic (focus dans le champ), case et mention avec lui", async () => {
+    render(<ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} />);
+    await userEvent.click(screen.getByRole("button", { name: /Lettre gratuite/ }));
+    const champ = screen.getByPlaceholderText("toi@exemple.fr");
+    expect(champ).toHaveFocus();
+    expect(screen.getByRole("checkbox")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Envoie-moi la lettre" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Lettre gratuite/ })).toHaveAttribute("aria-expanded", "true");
   });
 
-  it("quiz en cours : contour d'attente, sans carte", () => {
-    render(<ValidationWall slug="repartie" href="/abonnement?x" quizPending etapeSuivante={etape2} />);
+  it("quiz en cours : phrase, plein et REASS, sans carte ni lettre", () => {
+    const { container } = render(<ValidationWall slug="repartie" href="/abonnement?x" quizPending etapeSuivante={etape2} />);
     expect(screen.queryByText("Le rythme et les silences")).not.toBeInTheDocument();
-    expect(screen.queryByText(FIN_ETAPE_1.bouton)).not.toBeInTheDocument();
+    expect(screen.getByText(VALIDATION_ETAPE.texte)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeInTheDocument();
+    expect(VALIDATION_ETAPE.bouton).toBe(FIN_ETAPE_1.bouton);
+    expect(container.textContent).toContain(REASS);
+    expect(container.textContent).not.toMatch(/lettre/i);
   });
 });
 
@@ -188,12 +174,10 @@ describe("B17 : prénom facultatif (validation client)", () => {
     expect(validateRegisterFields({ name: "A", email: "a@b.fr", password: "12345678" }).name).toBeDefined();
   });
 
-  it("textes validés (tour 16) : bouton, libellé du prénom, lien d'étape gratuite nommé", () => {
+  it("textes v5 : bouton, libellé du prénom, lien d'étape gratuite GRATUIT_P", () => {
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     // s21 concision : libellé du prénom déplacé dans /profil (TEXTES_PRENOM), texte inchangé.
     expect(TEXTES_PRENOM.label).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
-    expect(REGISTER_CTA.lienEtape1("confiance")).toBe(
-      "Tu préfères lire d'abord ? L'étape 1 du parcours Confiance, gratuite et sans compte",
-    );
+    expect(REGISTER_CTA.lienEtape1("confiance")).toBe("Tester l'étape 1 de Confiance, gratuite");
   });
 });

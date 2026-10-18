@@ -32,7 +32,6 @@ import {
   etapeLienTexte,
   progressionVisiteurTexte,
   prochaineEtapeTexte,
-  APERCU_INTRO,
   CHARGEMENT_PREMIUM,
   PROCHAINE_ETAPE_DISPONIBLE,
   RAPPEL_LIEN,
@@ -78,11 +77,8 @@ export function ParcoursDetail({
   slug,
   initialPath = null,
   initialProgress = null,
-  annualAvailable = false,
 }: {
   slug: string;
-  /** Offre annuelle disponible (lue côté serveur) : ligne de prix de la fin d'étape 1 (s21 B14). */
-  annualAvailable?: boolean;
   /** Contenu pré-rendu côté serveur (ISR) : étape 1 complète, aperçu des étapes 2+. */
   initialPath?: PathData | null;
   /** Progression pré-chargée (null : chargée côté navigateur après la session). */
@@ -138,8 +134,12 @@ export function ParcoursDetail({
   // s21 concision (18/10) : le plein de fin d'étape 1 mène droit à l'inscription (même tunnel que
   // les autres boutons d'achat : /register, puis paiement ouvert seul, retour au parcours), sans
   // passer par /abonnement. Compte déjà connecté : /abonnement, comme AuthCta.
+  // Concision v5 : la source n'est portée qu'une fois, par /register (`src=parcours-etape`) ;
+  // `getPostSignupRedirect` la reporte sur /abonnement après l'inscription (checkout-ouvert).
   const finEtape1Href =
-    statut === "visiteur" ? buildRegisterUrl({ callbackUrl: abonnementHref, src: "parcours-etape" }) : abonnementHref;
+    statut === "visiteur"
+      ? buildRegisterUrl({ callbackUrl: buildAbonnementUrl(`/parcours/${slug}`, "monthly"), src: "parcours-etape" })
+      : abonnementHref;
 
   // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
   useEffect(() => {
@@ -675,7 +675,7 @@ export function ParcoursDetail({
             </>
           ) : (
             // QA-13 : pas de barre immobile pour un non-abonné.
-            <p className="text-sm text-text-secondary">{progressionVisiteurTexte(totalSteps)}</p>
+            <p className="text-sm text-text-secondary">{progressionVisiteurTexte()}</p>
           )}
         </CardContent>
       </Card>
@@ -704,7 +704,6 @@ export function ParcoursDetail({
       {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
 
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
-      {!isPremium && <p className="mb-4 text-sm text-text-secondary">{APERCU_INTRO}</p>}
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
           const isCompleted = completedSteps.includes(step.order);
@@ -720,7 +719,6 @@ export function ParcoursDetail({
               // D1 : le visiteur ouvre l'aperçu ; l'abonné ouvre toutes les étapes (décision du 18/10).
               isPremiumLocked={!etapeAccessible(step.order)}
               etapeSuivante={path.steps[stepIndex + 1] ?? null}
-              annuel={annualAvailable}
               isQuizDone={quizDone.has(step.order)}
               isSeedFallback={isSeedFallback}
               completing={completing === step.order}

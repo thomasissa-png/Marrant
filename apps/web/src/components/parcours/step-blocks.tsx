@@ -10,14 +10,14 @@ import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo, frTypoParcours } from "@/lib/fr-typo";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { VALIDATION_ETAPE } from "@/config/textes/offre";
-import { FIN_ETAPE_1, lignePrixGarantie } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
+import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import {
-  APERCU_BAS,
-  APERCU_REASSURANCE,
+  APERCU_LIEN,
   LIENS_FICHES,
   RETOUR_EXERCICE,
   VANNES_ETAPE,
@@ -26,8 +26,8 @@ import type { Step, VideoRef } from "@/components/parcours/parcours-types";
 
 /**
  * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
- * (en-tête), ce qu'on y apprend, format, rien d'autre ; texte du bas et bouton
- * le bouton du mur (VALIDATION_ETAPE.bouton) `src=parcours-apercu`. Aucun contenu payant reçu.
+ * (en-tête), ce qu'on y apprend, format, puis le lien `OUVRIR` (`src=parcours-apercu`).
+ * Aucun contenu payant reçu.
  */
 export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) {
   // Mur vu (audit s16 reco 17) : une fois par aperçu ouvert.
@@ -48,26 +48,23 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
         </div>
       )}
       {step.moduleFormat && <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>}
+      {/* Concision v5 (textes-v5-b §8) : l'aperçu finit par le lien `OUVRIR`, rien dessous
+          (la REASS ne vit que sous un plein). Un seul plein par page : celui de la fin d'étape 1. */}
       <div className="border-t border-border pt-3 text-center">
-        <p className="mx-auto max-w-[48ch] text-sm text-text-secondary">{APERCU_BAS}</p>
-        {/* s21 B14 : un seul plein par page (celui de la fin d'étape 1) ; l'aperçu finit par un lien. */}
-        <Link
-          href={buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-apercu")}
-          className={cn(LIEN_L2, "mt-1")}
-        >
-          {VALIDATION_ETAPE.bouton}
+        <Link href={buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-apercu")} className={LIEN_L2}>
+          {APERCU_LIEN}
         </Link>
-        {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton, texte du blocage s16 inchangé. */}
-        <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
       </div>
     </div>
   );
 }
 
 /**
- * Mur de validation de l'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2).
- * Quiz fini (ou sans quiz), s21 B14 : carte « Étape 2 » au-dessus de la phrase, un seul plein
- * (Premium), prix et garantie. Quiz en cours : contour d'attente, sans carte.
+ * Mur de fin d'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2).
+ * Concision v5 (textes-v5-b §6) : « Bien joué ! », carte « Étape 2 sur {N} », une phrase, un
+ * plein (`/register` puis paiement pour un visiteur), la REASS, puis la lettre en ligne discrète
+ * qui déplie son champ au clic (rien si l'interrupteur de la lettre est fermé). Quiz en cours :
+ * une phrase, le plein et la REASS, sans carte ni lettre.
  */
 export function ValidationWall({
   slug,
@@ -75,71 +72,54 @@ export function ValidationWall({
   finEtape1Href,
   quizPending = false,
   etapeSuivante = null,
-  annuel = false,
 }: {
   slug: string;
-  /** /abonnement (contour d'attente du quiz, « Voir ce que contient Premium »). */
+  /** /abonnement (variante quiz en cours, et compte connecté sans abonnement). */
   href: string;
-  /**
-   * s21 concision (18/10) : plein de fin d'étape 1, direct vers l'inscription (/register avec la
-   * source et le retour vers le paiement). Absent : `href`.
-   */
+  /** Plein de fin d'étape 1 d'un visiteur : /register avec la source et le retour vers le paiement. Absent : `href`. */
   finEtape1Href?: string;
-  /** s17 tour 1 (DES-1-05) : quiz pas encore fini, le bouton reste en contour (un seul plein à l'écran). */
+  /** Quiz pas encore fini : variante courte, sans carte ni lettre. */
   quizPending?: boolean;
   /** Étape 2 (aperçu public) pour la carte `CarteEtapeSuivante`. */
   etapeSuivante?: Step | null;
-  /** Offre annuelle disponible (lue côté serveur). */
-  annuel?: boolean;
 }) {
   useEffect(() => {
     trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
   }, [slug]);
+  const plein = cn(
+    buttonVariants({ variant: "primary", size: "lg" }),
+    "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
+  );
   if (quizPending || !isParcoursSlug(slug)) {
     return (
       <div className="mt-2 border-t border-border pt-4 text-center">
-        <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
-        <Link
-          href={href}
-          className={cn(
-            buttonVariants({ variant: quizPending ? "outline" : "primary" }),
-            // s17 tour 2 (DES-2-02) : contour violet lisible (≈ 3,9:1) et survol visible, variante globale intacte.
-            quizPending && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
-            "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug",
-          )}
-        >
+        <p className="text-sm text-text-secondary">{frTypo(VALIDATION_ETAPE.texte)}</p>
+        <Link href={href} className={plein}>
           {VALIDATION_ETAPE.bouton}
         </Link>
-        {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton. */}
-        <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
+        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       </div>
     );
   }
   return (
     <div className="mt-2 space-y-4 border-t border-border pt-4" data-fin-etape-1>
+      <p className="text-center font-display text-xl font-bold text-text-primary">{frTypo(FIN_ETAPE_1.titre)}</p>
       {etapeSuivante && (
         <CarteEtapeSuivante
           parcours={slug}
           numero={etapeSuivante.order}
           titre={etapeSuivante.moduleTitle ?? etapeSuivante.tip.title}
           apercu={etapeSuivante.moduleDetail || etapeSuivante.why ? frTypoParcours(etapeSuivante.moduleDetail || etapeSuivante.why || "") : null}
-          format={etapeSuivante.moduleFormat ?? null}
         />
       )}
       <div className="text-center">
         <p className="text-sm text-text-secondary">{frTypo(FIN_ETAPE_1.phrase)}</p>
-        <Link
-          href={finEtape1Href ?? href}
-          data-fin-etape-1-cta="premium"
-          className={cn(
-            buttonVariants({ variant: "primary", size: "lg" }),
-            "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
-          )}
-        >
+        <Link href={finEtape1Href ?? href} data-fin-etape-1-cta="premium" className={plein}>
           {FIN_ETAPE_1.bouton}
         </Link>
-        <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel))}</p>
+        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       </div>
+      <LettreInscription emplacement="parcours" slug={slug} repliee={FIN_ETAPE_1.lettre.ligne} className="text-center" />
     </div>
   );
 }

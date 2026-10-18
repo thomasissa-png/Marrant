@@ -58,26 +58,26 @@ describe("ViralQuiz", () => {
   });
 
   it("renders first question", () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
     ).toBeInTheDocument();
   });
 
   it("shows question counter badge", () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText(`1/${QUIZ_QUESTIONS.length}`)).toBeInTheDocument();
   });
 
   it("shows 4 answer options for Q1", () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     QUIZ_QUESTIONS[0].options.forEach((opt) => {
       expect(screen.getByText(opt.label)).toBeInTheDocument();
     });
   });
 
   it("advances to Q2 after answering Q1", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     await userEvent.click(
       screen.getByText(optionLabel(0)),
     );
@@ -88,7 +88,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows progress bar that grows", async () => {
-    const { container } = render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    const { container } = render(<ViralQuiz textes={textesResultatQuiz()} />);
     const progressBar = container.querySelector(
       ".bg-accent-primary.transition-all",
     );
@@ -96,7 +96,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows a result after completing all 12 questions", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
 
     // Answer all 12 questions with first option
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
@@ -115,7 +115,7 @@ describe("ViralQuiz", () => {
 
   it("quiz terminé : événement quiz-termine avec le profil (s15), CTA vers /register", async () => {
     mockTrack.mockClear();
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(screen.getByText(optionLabel(i)));
     }
@@ -130,7 +130,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows share button on result screen", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -140,38 +140,36 @@ describe("ViralQuiz", () => {
   });
 
   it("shows CTA buttons on result screen", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
       );
     }
-    // s21 B12 (tour 16) : le plein mène à l'étape 1 du parcours conseillé, OUVRIR_P en lien fort.
+    // Concision v5 (textes-v5-b §4) : plein GRATUIT_P vers l'étape 1, « Sans compte. », lien OUVRIR.
     const profil = resultat();
     const conseille = QUIZ_PROFILES[profil].recommendedParcours;
-    const plein = screen.getByText(/^Commencer mon parcours .+, étape 1 gratuite$/).closest("a");
+    const plein = screen.getByText(QUIZ_HUMOUR_CTA.bouton(conseille)).closest("a");
+    expect(QUIZ_HUMOUR_CTA.bouton(conseille)).toMatch(/^Tester l'étape 1 de .+, gratuite$/);
     expect(plein?.getAttribute("href")).toMatch(/^\/parcours\/[a-z-]+\?src=quiz#etape-1$/);
     expect(plein?.className).toContain("bg-accent-secondary-hover");
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).toBeInTheDocument();
-    expect(screen.getByText(/^Ta force, tu viens de la lire\. Reste à t'en servir\s?: /)).toBeInTheDocument();
-    // Sans offre annuelle disponible : mensuel seul ; la phrase de profil sur sa propre ligne.
-    const ligne = QUIZ_HUMOUR_CTA.premium(profil, conseille, false);
-    const rendu = screen.getByTestId("quiz-ligne-premium");
-    expect(rendu).toHaveTextContent(ligne.suite.replace(/\s/g, " "));
-    if (ligne.profil) expect(rendu.querySelector("span.block")).toHaveTextContent(ligne.profil.replace(/\s/g, " "));
-    expect(rendu).not.toHaveTextContent("24,99");
+    expect(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).toBe("Ouvrir les 5 parcours · 2,99 €/mois");
+    expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/Ta force, tu viens de la lire|24,99|TTC|14 jours|en entier/);
   });
 
   it("s21 (QA m6) : abonné, ni lien payant ni ligne de prix ; le plein vers l'étape 1 reste", async () => {
     const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
     useSession.mockReturnValue({ data: { user: { id: "u1", plan: "PREMIUM" } }, status: "authenticated" });
     try {
-      render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+      render(<ViralQuiz textes={textesResultatQuiz()} />);
       for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
         await userEvent.click(screen.getByText(optionLabel(i)));
       }
       const conseille = QUIZ_PROFILES[resultat()].recommendedParcours;
-      expect(screen.getByText(/^Commencer mon parcours .+, étape 1 gratuite$/)).toBeInTheDocument();
+      expect(screen.getByText(QUIZ_HUMOUR_CTA.bouton(conseille))).toBeInTheDocument();
       expect(screen.queryByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).not.toBeInTheDocument();
       expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
       expect(document.querySelector("a[href^='/abonnement']")).toBeNull();
@@ -180,19 +178,8 @@ describe("ViralQuiz", () => {
     }
   });
 
-  it("offre annuelle disponible : la ligne Premium la mentionne", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(true)} />);
-    for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
-      await userEvent.click(screen.getByText(optionLabel(i)));
-    }
-    const profil = resultat();
-    const ligne = QUIZ_HUMOUR_CTA.premium(profil, QUIZ_PROFILES[profil].recommendedParcours, true);
-    expect(screen.getByTestId("quiz-ligne-premium")).toHaveTextContent(ligne.suite.replace(/\s/g, " "));
-    expect(ligne.suite).toContain("24,99");
-  });
-
   it("saves result to localStorage", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -211,7 +198,7 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText("L'Observateur")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
@@ -223,7 +210,7 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     await userEvent.click(screen.getByText("Refaire le quiz"));
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
@@ -231,7 +218,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows humoriste name in result", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -247,7 +234,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows strength and tip on result", async () => {
-    render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),

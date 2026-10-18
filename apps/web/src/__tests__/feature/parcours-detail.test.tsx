@@ -148,7 +148,7 @@ describe("ParcoursDetail — enriched content", () => {
   it("visiteur : l'offre des étapes 2+ remplace la barre (s17 QA-13)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     await waitFor(() => {
-      expect(screen.getByText("Étape 1 offerte, étape 2 avec Premium")).toBeInTheDocument();
+      expect(screen.getByText("Étape 1 gratuite, la suite avec Premium")).toBeInTheDocument();
     });
   });
 
@@ -198,7 +198,7 @@ describe("ParcoursDetail — enriched content", () => {
     await waitFor(() => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
-    expect(screen.getByText(/3 vannes choisies pour cette étape/)).toBeInTheDocument();
+    expect(screen.getByText(/^3 vannes dans cette étape\.$/)).toBeInTheDocument();
     expect(screen.queryByText("Découvre-les dans le catalogue")).not.toBeInTheDocument();
   });
 
@@ -249,11 +249,11 @@ describe("ParcoursDetail — enriched content", () => {
     await waitFor(() => {
       expect(screen.getByText("L'art du timing social")).toBeInTheDocument();
     });
-    expect(screen.getByText("Fait partie de Premium")).toBeInTheDocument();
+    expect(screen.queryByText("Fait partie de Premium")).toBeNull(); // concision v5 : badge retiré
     expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
     const header = screen.getByRole("button", { name: /Étape 2 : L'art du timing social/ });
     await userEvent.click(header);
-    expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
   });
 
@@ -397,7 +397,9 @@ describe("ParcoursDetail — tunnel s15", () => {
     const url = new URL(link.getAttribute("href")!, "https://deviens-marrant.fr");
     expect(url.pathname).toBe("/register");
     expect(url.searchParams.get("src")).toBe("parcours-etape");
-    expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+    expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe");
+    // Concision v5 : la source n'est portée qu'une fois, par /register.
+    expect(link.getAttribute("href")!.match(/parcours-etape/g)).toHaveLength(1);
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
 
@@ -512,14 +514,14 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+      expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
     });
     // Audit s16 (reco 17) : le mur de l'étape 2 est mesuré.
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
     // s17 QA-13 : pas de barre immobile pour un non-abonné.
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
     // Retour au parcours après paiement (returnTo interne, encodé), provenance « aperçu » (D1 s17).
-    expect(screen.getByRole("link", { name: /Voir ce que contient Premium/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /^Ouvrir les \d\sparcours\s·/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-apercu",
     );
@@ -555,7 +557,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
   });
 
   it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
@@ -576,7 +578,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
   });
 
   it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
@@ -594,6 +596,6 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
   });
 });

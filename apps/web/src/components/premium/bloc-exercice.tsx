@@ -9,27 +9,25 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
-import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, lignePrixGarantie, type FicheType } from "@/config/textes/cta-pages";
+import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, type FicheType } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 interface BlocExerciceProps {
   type: FicheType;
   /** Chemin de la fiche, retrouvée après paiement. */
   returnTo: string;
-  /** Parcours de l'étape 1 gratuite proposée en contour. */
+  /** Parcours de l'étape 1 gratuite proposée en lien. */
   parcours: ParcoursSlug;
-  /** Offre annuelle disponible (lue côté serveur). */
-  annuel: boolean;
   /** Exercice affiché aux abonnés (vanne : `howToApply`). Absent : rien pour un abonné. */
   exercice?: string | null;
 }
 
 /**
- * Bloc d'appel des fiches vanne, conseil et vidéo (B8 à B10, cta-forme-place-s21 §3.3) :
- * un plein Premium, la ligne prix + garantie, un contour vers l'étape 1 gratuite,
- * puis « Voir d'autres … » en lien. Composant client : les fiches sont en ISR,
- * la session ne se lit pas côté serveur.
+ * Bloc d'appel des fiches vanne, conseil et vidéo (concision v5, textes-v5-b §2) : titre,
+ * une phrase, un plein payant, la REASS dessous, puis le lien gratuit `GRATUIT_P`.
+ * Composant client : les fiches sont en ISR, la session ne se lit pas côté serveur.
  */
-export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: BlocExerciceProps) {
+export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExerciceProps) {
   const { data: session, status } = useSession();
   const t = BLOC_EXERCICE[type];
   const isPremium =
@@ -66,16 +64,11 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
       >
         {t.bouton}
       </Link>
-      <p className="mt-2 text-xs text-text-muted">{frTypo(lignePrixGarantie(annuel, "profil"))}</p>
+      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="mt-1">
         <Link href={parcoursEtape1Href(parcours, "fiche")} className={LIEN_L2} data-fiche-cta="etape-1">
           {frTypo(t.contour(parcours))}
-        </Link>
-      </div>
-      <div>
-        <Link href={t.toutVoirHref} className={LIEN_L2}>
-          {t.toutVoir}
         </Link>
       </div>
     </section>

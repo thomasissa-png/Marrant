@@ -21,10 +21,17 @@ interface LettreInscriptionProps {
   /** Page /lettre : le titre est le H1 de la page (id fourni), pas de titre en double. */
   titreId?: string;
   /**
-   * s21 (B18, bas d'article) : titre, sous-titre (un paragraphe par entrée) et ligne
-   * « Gratuit, sans compte… » propres à l'emplacement. Absent : textes communs de la lettre.
+   * s21 (bas d'article, concision v5) : titre et sous-titre (un paragraphe par entrée) propres
+   * à l'emplacement, sans ligne de réassurance (la phrase dit déjà « Gratuite »). Absent :
+   * textes communs de la lettre.
    */
-  textes?: { titre: string; phrase: readonly string[]; reassurance: string };
+  textes?: { titre: string; phrase: readonly string[] };
+  /**
+   * Concision v5 (fin d'étape 1) : ligne discrète, sans titre ni sous-titre, qui déplie le
+   * formulaire au clic (fermé au chargement : aucun saut de mise en page). Case et mention
+   * apparaissent avec le champ, qui prend le focus à l'ouverture.
+   */
+  repliee?: string;
   /** `/lettre?statut=invalide|erreur` : formulaire affiché même avec une inscription en attente (QA s21 m1). */
   ignorerDrapeau?: boolean;
   className?: string;
@@ -40,7 +47,16 @@ const E = TEXTES_LETTRE.erreurs;
  * Bouton de niveau 2 (`outline-accent`, revue design s21 M3) : la variante pleine
  * `primary` reste réservée à Premium (spec §1.2).
  */
-export function LettreInscription({ emplacement, slug, profil, titreId, textes, ignorerDrapeau = false, className }: LettreInscriptionProps) {
+export function LettreInscription({
+  emplacement,
+  slug,
+  profil,
+  titreId,
+  textes,
+  repliee,
+  ignorerDrapeau = false,
+  className,
+}: LettreInscriptionProps) {
   const { data: session, status } = useSession();
   const user = session?.user as { email?: string | null; plan?: string } | undefined;
   const isPremium = status === "authenticated" && isPremiumPlan(user?.plan);
@@ -57,6 +73,8 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
   const [modifie, setModifie] = useState(false);
   const [consent, setConsent] = useState(false);
   const [hauteur, setHauteur] = useState<number | undefined>(undefined);
+  const [ouvert, setOuvert] = useState(!repliee);
+  const [focusOuverture, setFocusOuverture] = useState(false);
 
   useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium, mesure);
 
@@ -69,6 +87,14 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
     if (erreur === "email") emailRef.current?.focus();
     if (erreur === "case") caseRef.current?.focus();
   }, [erreur]);
+
+  // Ligne repliée : le champ prend le focus quand on déplie (geste de la personne, jamais au chargement).
+  useEffect(() => {
+    if (focusOuverture && ouvert) {
+      emailRef.current?.focus();
+      setFocusOuverture(false);
+    }
+  }, [focusOuverture, ouvert]);
 
   if (!LETTRE_INSCRIPTIONS_OUVERTES || isPremium) return null;
 
@@ -90,17 +116,35 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
       className={cn("relative", className)}
       style={etat === "succes" && hauteur ? { minHeight: hauteur } : undefined}
     >
-      {!titreId && (
-        <>
-          <p id={`${id}-titre`} className="text-base font-semibold text-text-primary">
-            {textes ? frPonctuation(textes.titre) : TEXTES_LETTRE.titre}
-          </p>
-          {(textes ? textes.phrase.map(frPonctuation) : [TEXTES_LETTRE.phrase]).map((phrase) => (
-            <p key={phrase} className="mt-1 text-sm text-text-secondary">
-              {phrase}
+      {repliee ? (
+        <p className="text-sm text-text-muted">
+          <button
+            type="button"
+            id={`${id}-titre`}
+            aria-expanded={ouvert}
+            aria-controls={`${id}-formulaire`}
+            onClick={() => {
+              setOuvert((o) => !o);
+              setFocusOuverture(true);
+            }}
+            className="min-h-11 text-left underline decoration-text-muted/60 underline-offset-2 hover:text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+          >
+            {frPonctuation(repliee)}
+          </button>
+        </p>
+      ) : (
+        !titreId && (
+          <>
+            <p id={`${id}-titre`} className="text-base font-semibold text-text-primary">
+              {textes ? frPonctuation(textes.titre) : TEXTES_LETTRE.titre}
             </p>
-          ))}
-        </>
+            {(textes ? textes.phrase.map(frPonctuation) : [TEXTES_LETTRE.phrase]).map((phrase) => (
+              <p key={phrase} className="mt-1 text-sm text-text-secondary">
+                {phrase}
+              </p>
+            ))}
+          </>
+        )
       )}
 
       {etat === "drapeau" ? (
@@ -121,8 +165,15 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
             setEtat("formulaire");
           }}
         />
-      ) : (
-        <form noValidate method="post" action="/api/newsletter" onSubmit={soumettre} className="mt-3">
+      ) : !ouvert ? null : (
+        <form
+          id={`${id}-formulaire`}
+          noValidate
+          method="post"
+          action="/api/newsletter"
+          onSubmit={soumettre}
+          className={repliee ? "mt-1 text-left" : "mt-3"}
+        >
           <input type="hidden" name="emplacement" value={emplacement} />
           {slug && <input type="hidden" name="slug" value={slug} />}
           <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -132,7 +183,7 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
             </label>
           </div>
 
-          <label htmlFor={`${id}-email`} className="text-sm font-medium text-text-primary">
+          <label htmlFor={`${id}-email`} className={repliee ? "sr-only" : "text-sm font-medium text-text-primary"}>
             {T.label}
           </label>
           {/* Une seule colonne à toutes les largeurs : ordre visuel = ordre du clavier
@@ -206,10 +257,14 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
 
             <Button
               type="submit"
-              variant="outline-accent"
-              size="lg"
+              variant={repliee ? "ghost" : "outline-accent"}
+              size={repliee ? "sm" : "lg"}
               aria-busy={occupe || undefined}
-              className="w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"
+              className={
+                repliee
+                  ? "min-h-11 justify-self-start px-0 text-accent-link underline underline-offset-2 hover:bg-transparent"
+                  : "w-full sm:w-auto sm:min-w-[200px] sm:justify-self-start"
+              }
             >
               {occupe ? T.boutonEnvoi : T.bouton}
             </Button>
@@ -226,7 +281,8 @@ export function LettreInscription({ emplacement, slug, profil, titreId, textes, 
               reste une boîte de la hauteur du texte, son anneau de focus ne chevauche
               plus la ligne du dessus. */}
           <p className="mt-2 text-xs text-text-muted">
-            {textes ? frPonctuation(textes.reassurance) : T.reassurance} {T.mention}
+            {textes || repliee ? "" : `${T.reassurance} `}
+            {T.mention}
             {NBSP}
             <Link
               href={LETTRE_CONFIDENTIALITE_HREF}

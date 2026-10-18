@@ -42,8 +42,11 @@ export const MARQUEUR_A_COMPLETER = "[À COMPLÉTER";
  */
 export const LETTRE_MENTION_EDITEUR_NUMERO: string = "deviens-marrant SAS";
 
-/** Emplacements du composant (spec §1). `page` = /lettre. */
-export const LETTRE_EMPLACEMENTS = ["article", "quiz", "page"] as const;
+/**
+ * Emplacements du composant (spec §1). `page` = /lettre. `parcours` = fin de l'étape 1 d'un
+ * parcours (visiteur), ligne repliée sous la REASS (concision v5, textes-v5-b §6).
+ */
+export const LETTRE_EMPLACEMENTS = ["article", "quiz", "page", "parcours"] as const;
 export type LettreEmplacement = (typeof LETTRE_EMPLACEMENTS)[number];
 
 /**

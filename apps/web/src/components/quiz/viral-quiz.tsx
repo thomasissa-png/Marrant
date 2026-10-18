@@ -102,33 +102,25 @@ function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResul
             <p className="mt-1 text-sm text-text-secondary">{t.raison}</p>
           </div>
 
-          {/* s21 B12 (froid) : phrase de pont, plein vers l'étape 1 du parcours conseillé,
-              lien fort vers Premium (retour au parcours conseillé), ligne Premium. */}
-          <p className="w-full text-left text-sm text-text-secondary">{frTypo(t.phrase)}</p>
-          <Link
-            href={t.boutonHref}
-            className={buttonVariants({
-              variant: "primary",
-              size: "lg",
-              className: "h-auto min-h-12 w-full whitespace-normal py-2 text-center",
-            })}
-          >
-            {t.bouton}
-          </Link>
+          {/* Concision v5 (froid) : plein gratuit vers l'étape 1 du parcours conseillé, « Sans compte. »,
+              puis le lien payant `OUVRIR` (retour au parcours conseillé). */}
+          <div className="w-full">
+            <Link
+              href={t.boutonHref}
+              className={buttonVariants({
+                variant: "primary",
+                size: "lg",
+                className: "h-auto min-h-12 w-full whitespace-normal py-2 text-center",
+              })}
+            >
+              {t.bouton}
+            </Link>
+            <p className="mt-2 text-center text-xs text-text-muted">{t.sansCompte}</p>
+          </div>
           {!estPremium && (
-            <>
-              <Link
-                href={t.lienHref}
-                className={cn(LIEN_L1, "justify-center text-center")}
-              >
-                {t.lien}
-              </Link>
-              {/* Ligne Premium en un seul paragraphe ; la phrase de profil sur sa propre ligne (tour 16). */}
-              <p className="text-center text-xs text-text-muted" data-testid="quiz-ligne-premium">
-                {t.ligneProfil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(t.ligneProfil)}</span>}
-                {frTypo(t.ligneSuite)}
-              </p>
-            </>
+            <Link href={t.lienHref} className={cn(LIEN_L1, "justify-center text-center")}>
+              {t.lien}
+            </Link>
           )}
         </div>
       </CardContent>
@@ -138,7 +130,7 @@ function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResul
 
 /**
  * `textes` : textes du résultat pour les 5 profils, calculés par la page serveur
- * (`textesResultatQuiz(isAnnualPlanAvailable())`, s21 QA m3 : rien de ces modules dans le JS client).
+ * (`textesResultatQuiz()`, s21 QA m3 : rien de ces modules dans le JS client).
  */
 export function ViralQuiz({ textes }: { textes: TextesResultatQuiz }) {
   const [currentQ, setCurrentQ] = useState(0);

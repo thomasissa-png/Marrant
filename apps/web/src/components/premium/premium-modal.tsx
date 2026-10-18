@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
-import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
@@ -15,14 +14,12 @@ import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import {
   FENETRE_CHARGEMENT,
-  FENETRE_GARANTIE,
   FENETRE_PREMIUM,
   FENETRE_PRIX,
-  fenetreLienEtape1,
-  MUR_PARCOURS,
   type FicheType,
   type GesteFenetre,
 } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 /** Geste qui a ouvert la fenêtre : le titre, l'intro et le bouton en dépendent (B11). */
 export type PremiumModalReason = "favoris" | "vote" | "carte";
@@ -37,8 +34,6 @@ interface PremiumModalProps {
   contenu?: FicheType;
   /** Page à retrouver après paiement (chemin interne) ; par défaut la page courante. */
   returnTo?: string;
-  /** Parcours du lien vers l'étape 1 gratuite ([S28]). */
-  parcours?: ParcoursSlug;
 }
 
 function currentPath(): string | null {
@@ -47,11 +42,11 @@ function currentPath(): string | null {
 }
 
 /**
- * Fenêtre Premium (B11, chaud) : panneau qui monte du bas sur mobile, plein
- * toujours visible dans le pied collant, une seule ligne de garantie (choix
- * de Thomas du 18/10 : pas de mentions juridiques dans les blocs d'appel).
+ * Fenêtre Premium (chaud, concision v5 textes-v5-b §3) : 4 éléments visibles, titre, prix en
+ * gros, plein, REASS. Panneau qui monte du bas sur mobile, plein toujours visible dans le pied
+ * collant. Visiteur et compte connecté voient la même fenêtre (seul le geste du plein change).
  */
-export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", returnTo, parcours = MUR_PARCOURS }: PremiumModalProps) {
+export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", returnTo }: PremiumModalProps) {
   const { status } = useSession();
   const t = FENETRE_PREMIUM[GESTE[reason]][contenu];
   const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
@@ -70,15 +65,12 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg" labelledBy="premium-modal-title" sheet>
       <div className="max-h-[90dvh] overflow-y-auto rounded-t-2xl border-2 border-b-0 border-accent-primary bg-background-card px-6 pt-6 shadow-lg shadow-accent-primary/10 sm:rounded-2xl sm:border-b-2">
         <h3 id="premium-modal-title" className="pr-10 font-display text-xl font-bold text-text-primary">
-          {t.titre}
+          {frTypo(t.titre)}
         </h3>
-        {/* s21 (QA v3 m-2) : « Deux étapes… » pour le visiteur seulement ; le compte connecté va droit au paiement. */}
-        <p className="mt-2 text-sm text-text-secondary">{frTypo(status === "authenticated" ? t.introCompte : t.intro)}</p>
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-4xl font-bold text-text-primary">{FENETRE_PRIX.montant}</span>
           <span className="text-text-muted">{FENETRE_PRIX.suffixe}</span>
         </div>
-        <p className="mt-2 text-sm text-text-secondary">{frTypo(t.avantage)}</p>
 
         {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" onNavigate={onClose} />}
 
@@ -104,17 +96,7 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
               {t.bouton}
             </Link>
           )}
-          {/* s21 (revue design P3-9) : 4 px entre le plein et le lien L2. */}
-          <div className="mt-1 text-center">
-            <Link
-              href={parcoursEtape1Href(parcours, "abonnement")}
-              className="inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2"
-              onClick={onClose}
-            >
-              {fenetreLienEtape1(parcours)}
-            </Link>
-          </div>
-          <p className="text-center text-xs text-text-muted">{FENETRE_GARANTIE}</p>
+          <p className="mt-2 text-center text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
         </div>
       </div>
     </Modal>

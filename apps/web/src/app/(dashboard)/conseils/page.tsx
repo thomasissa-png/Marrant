@@ -13,7 +13,6 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { parcoursWeeks } from "@/config/premium";
 import { PageHeader } from "@/components/layout/page-header";
 import { getTipsPage } from "@/lib/catalogue-pages";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 
 // Stratégie de rendu : SSR (lecture de `?page=N`, lot S1 s14 P0-1). Les données de
@@ -118,7 +117,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
       />
 
       <Suspense fallback={null}>
-        <ConseilsList initialData={listPage} initialPage={page} annualAvailable={isAnnualPlanAvailable()} />
+        <ConseilsList initialData={listPage} initialPage={page} />
       </Suspense>
 
       {/* FAQ SEO */}

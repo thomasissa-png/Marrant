@@ -108,7 +108,7 @@ describe("Inscriptions fermées (LETTRE_INSCRIPTIONS_OUVERTES = false) : rien n'
 
   it("quiz : aucun bloc lettre sous le résultat", () => {
     poserResultatQuiz();
-    const { container } = render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    const { container } = render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
     expect(container.querySelector("[data-lettre]")).toBeNull();
   });
@@ -150,7 +150,7 @@ describe("Interrupteur ouvert", () => {
 
   it("quiz : bloc sous la carte du résultat, avant « Refaire le quiz »", () => {
     poserResultatQuiz();
-    const { container } = render(<ViralQuiz textes={textesResultatQuiz(false)} />);
+    const { container } = render(<ViralQuiz textes={textesResultatQuiz()} />);
     const bloc = container.querySelector('[data-lettre="quiz"]')!;
     expect(bloc).not.toBeNull();
     const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);

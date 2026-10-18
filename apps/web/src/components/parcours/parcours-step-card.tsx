@@ -14,7 +14,6 @@ import {
   DEFI_BOULOT,
   dureeEtapeTexte,
   VIDEOS_ETAPE,
-  ETAPE_APERCU_LIBELLE,
   LIENS_FICHES,
   QUIZ_TITRE,
 } from "@/config/textes/parcours";
@@ -190,8 +189,6 @@ export interface ParcoursStepCardProps {
   contexte?: string | null;
   /** s21 B14 : étape suivante (aperçu public), carte de la fin d'étape 1. */
   etapeSuivante?: Step | null;
-  /** s21 B14 : offre annuelle disponible (lue côté serveur). */
-  annuel?: boolean;
 }
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
@@ -268,7 +265,6 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 )}
                 {/* s19 (N3 @ux rendu) : « Lecture libre » ne parle qu'au visiteur. */}
                 {!isPremium && (step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
-                {isPremiumLocked && !isCompleted && <Badge variant="premium">{ETAPE_APERCU_LIBELLE}</Badge>}
               </div>
             </div>
           </div>
@@ -556,7 +552,6 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
           finEtape1Href={props.finEtape1Href}
           quizPending={hasQuiz && !isQuizDone}
           etapeSuivante={props.etapeSuivante ?? null}
-          annuel={props.annuel ?? false}
         />
       )}
     </div>

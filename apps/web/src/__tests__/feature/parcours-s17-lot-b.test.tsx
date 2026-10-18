@@ -268,6 +268,7 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     // est un lien texte (L2), sans fond ni contour : un seul bouton à l'écran.
     expect(plein.getAttribute("href")).toMatch(/^\/register\?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance/);
     expect(plein.getAttribute("href")).toContain("&src=parcours-etape");
+    expect(plein.getAttribute("href")!.match(/parcours-etape/g)).toHaveLength(1);
     const refaire = screen.getByRole("button", { name: "Refaire le quiz" });
     expect(refaire.className).toContain("underline");
     expect(refaire.className).not.toMatch(/\bborder\b|bg-/);
@@ -352,7 +353,7 @@ describe("Ancres #etape-N des liens d'entrée (demande du lot C)", () => {
     const { container } = render(<ParcoursDetail slug="confiance" initialPath={isr} />);
     expect(container.querySelector("#etape-1")).not.toBeNull();
     expect(container.querySelector("#etape-3")).not.toBeNull();
-    expect(await screen.findByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
     await waitFor(() =>
       expect(mockTrack).toHaveBeenCalledWith("parcours-ouvert", { parcours: "confiance", statut: "visiteur", src: "fiche" }),
     );
@@ -404,6 +405,6 @@ describe("s21 (décision de Thomas du 18/10) : Premium ouvre toutes les étapes 
     mockFetch((url) => (url.includes("by-slug") ? { body: { path, userProgress: null } } : { body: {} }));
     render(<ParcoursDetail slug="confiance" />);
     await screen.findByRole("button", { name: /^Étape 3 : Module 3/ });
-    expect(screen.getAllByText("Fait partie de Premium")).toHaveLength(2);
+    expect(screen.queryAllByText("Fait partie de Premium")).toHaveLength(0); // concision v5 : badge retiré
   });
 });

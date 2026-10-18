@@ -16,7 +16,6 @@ import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -268,13 +267,12 @@ export default async function VannePage({
             type="vanne"
             returnTo={`/vannes/${canonicalSlug}`}
             parcours={parcoursPourFiche(parcoursRefs, joke.category)}
-            annuel={isAnnualPlanAvailable()}
             exercice={joke.howToApply}
           />
         ) : null}
 
         {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="vanne" refs={parcoursRefs} parcoursBloc={joke.howToApply ? parcoursPourFiche(parcoursRefs, joke.category) : null} />
+        <FicheParcoursLien type="vanne" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vannes liées" className="mt-12 border-t border-border pt-8">

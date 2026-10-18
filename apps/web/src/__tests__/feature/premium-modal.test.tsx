@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { PremiumModal } from "@/components/premium/premium-modal";
-import { FENETRE_GARANTIE, FENETRE_PREMIUM, fenetreLienEtape1 } from "@/config/textes/cta-pages";
+import { FENETRE_PREMIUM } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({
@@ -15,76 +16,50 @@ const { useSession } = require("next-auth/react");
 
 const T = FENETRE_PREMIUM;
 
-describe("PremiumModal (s21 B11 : un titre, une intro et un bouton par geste)", () => {
+describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", () => {
   afterEach(() => window.history.pushState({}, "", "/"));
 
   it.each([
-    ["vanne", "Garde-la pour le soir où tu en auras besoin"],
-    ["conseil", "Garde-le pour le soir où tu en auras besoin"],
-    ["video", "Garde-la sous le coude"],
-  ] as const)("favori sur un(e) %s : titre accordé", (contenu, titre) => {
+    ["vanne", "Mets-la de côté", "Je m'abonne et je la garde"],
+    ["conseil", "Garde-le sous le coude", "Je m'abonne et je le garde"],
+    ["video", "Garde-la pour la revoir", "Je m'abonne et je la garde"],
+  ] as const)("favori sur un(e) %s : titre et bouton v5", (contenu, titre, bouton) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu={contenu} />);
     expect(screen.getByRole("heading", { name: titre })).toBeInTheDocument();
-    expect(screen.getByText(T.favori[contenu].intro)).toBeInTheDocument();
-    expect(screen.getByText(T.favori[contenu].avantage)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: T.favori[contenu].bouton })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: bouton })).toBeInTheDocument();
   });
 
   it("vote : titre et bouton dédiés", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="vote" />);
-    expect(screen.getByRole("heading", { name: T.vote.vanne.titre })).toBeInTheDocument();
+    expect(T.vote.vanne.titre).toBe("Voter, et tout le reste : Premium");
+    expect(screen.getByRole("heading", { name: /^Voter, et tout le reste\s:\sPremium$/ })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Je m'abonne et je vote" })).toBeInTheDocument();
   });
 
-  it("carte floutée : filtre par catégorie sur /vannes, par niveau et catégorie ailleurs", () => {
+  it("carte floutée : même titre et même bouton pour les 3 listes", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     const { rerender } = render(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="vanne" />);
-    expect(screen.getByText(T.carte.vanne.avantage)).toBeInTheDocument();
-    expect(T.carte.vanne.avantage).toContain("un exercice par vanne, le filtre et les");
+    expect(screen.getByRole("heading", { name: "Le reste de la liste est juste derrière" })).toBeInTheDocument();
     rerender(<PremiumModal isOpen onClose={jest.fn()} reason="carte" contenu="conseil" />);
-    expect(screen.getByText(T.carte.conseil.avantage)).toBeInTheDocument();
-    expect(T.carte.conseil.avantage).toContain("un exercice par conseil, les filtres et les");
-  });
-
-  it("plus de « Droit de rétractation » ni de « Sans engagement » ; une seule ligne de garantie (choix du 18/10)", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" />);
-    const text = document.body.textContent ?? "";
-    expect(text).not.toMatch(/rétractation|Sans engagement/i);
-    expect(screen.getAllByText(FENETRE_GARANTIE)).toHaveLength(1);
-    expect(screen.getByText("TTC / mois")).toBeInTheDocument();
-  });
-
-  it("lien discret vers l'étape 1 gratuite (Répartie par défaut, parcours passé sinon)", () => {
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    const { rerender } = render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" />);
-    expect(screen.getByRole("link", { name: fenetreLienEtape1("repartie") }).getAttribute("href")).toMatch(
-      /^\/parcours\/repartie\?/,
-    );
-    rerender(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" parcours="confiance" />);
-    expect(screen.getByRole("link", { name: fenetreLienEtape1("confiance") })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Je m'abonne et j'ouvre toute la liste" })).toBeInTheDocument();
   });
 
   it.each([
-    ["favoris", "vanne", "la vanne"],
-    ["favoris", "video", "la vidéo"],
-    ["vote", "vanne", "la page"],
-    ["carte", "conseil", "la liste"],
-  ] as const)("QA v3 m-2 : « Deux étapes… » pour le visiteur seulement (%s, %s)", (reason, contenu, objet) => {
-    const etapes = "Deux étapes : ton compte, puis le paiement sécurisé.";
-    const suite = `Et si tu fermes, ${objet} reste là.`;
-    useSession.mockReturnValue({ status: "unauthenticated" });
-    const { unmount } = render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
-    expect(screen.getByText(`${etapes} ${suite}`)).toBeInTheDocument();
-    unmount();
-    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
-    render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
-    expect(screen.getByText(suite)).toBeInTheDocument();
-    expect(document.body.textContent).not.toContain("Deux étapes");
-    // Le bouton du compte connecté va droit au paiement (pas d'inscription).
-    expect(screen.queryByRole("link", { name: FENETRE_PREMIUM[reason === "favoris" ? "favori" : reason][contenu].bouton })).toBeNull();
+    ["favoris", "vanne"],
+    ["vote", "conseil"],
+    ["carte", "video"],
+  ] as const)("4 éléments visibles seulement (%s, %s), visiteur et compte connecté", (reason, contenu) => {
+    for (const status of ["unauthenticated", "authenticated"] as const) {
+      useSession.mockReturnValue({ status, data: status === "authenticated" ? { user: { plan: "FREE" } } : undefined });
+      const { unmount } = render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
+      const t = T[reason === "favoris" ? "favori" : reason][contenu];
+      const texte = (document.body.textContent ?? "").replace(/\u00a0/g, " ");
+      expect(texte).toBe(`${t.titre}2,99 €TTC / mois${t.bouton}${REASSURANCE_UNIQUE}`.replace(/\u00a0/g, " "));
+      expect(texte).not.toMatch(/Deux étapes|reste là|Avec Premium|étape 1|rétractation|Sans engagement/i);
+      unmount();
+    }
   });
 
   it("anonyme : inscription puis /abonnement avec retour à la page courante", async () => {

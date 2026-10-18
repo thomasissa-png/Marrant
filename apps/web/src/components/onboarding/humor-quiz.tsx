@@ -17,6 +17,7 @@ import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { FENETRE_CHARGEMENT, QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -123,11 +124,11 @@ function RecommendedParcours({
       <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
       {plein ? (
         <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
-          {QUIZ_ORIENTATION_CTA.commencer}
+          {QUIZ_ORIENTATION_CTA.commencerAbonne}
         </Button>
       ) : (
         <button type="button" onClick={onStart} className={cn(LIEN_L2, "mt-2")}>
-          {QUIZ_ORIENTATION_CTA.commencer}
+          {QUIZ_ORIENTATION_CTA.commencer(recommendation.slug)}
         </button>
       )}
     </div>
@@ -230,14 +231,11 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
             {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct). */}
             {!isPremium && (
               <div className="mt-4 text-left" data-quiz-orientation-cta>
-                {/* B13 : trois paragraphes courts, le dernier (compte prêt) seulement pour un compte connecté. */}
-                <div className="space-y-2">
-                  {QUIZ_ORIENTATION_CTA.paragraphes(recommendation.slug, status === "authenticated").map((texte) => (
-                    <p key={frTypo(texte)} className="text-sm text-text-secondary">
-                      {frTypo(texte)}
-                    </p>
-                  ))}
-                </div>
+                {/* Concision v5 (textes-v5-b §5) : titre, une phrase, plein `OUVRIR`, REASS. */}
+                <p className="font-display text-base font-bold text-text-primary">
+                  {frTypo(QUIZ_ORIENTATION_CTA.titre(recommendation.slug))}
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">{frTypo(QUIZ_ORIENTATION_CTA.phrase(recommendation.slug))}</p>
                 {status === "authenticated" ? (
                   <Button
                     variant="primary"
@@ -256,7 +254,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                     {QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
                   </Link>
                 )}
-                <p className="mt-2 text-xs text-text-muted">{frTypo(QUIZ_ORIENTATION_CTA.garantie)}</p>
+                <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
                 {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
               </div>
             )}

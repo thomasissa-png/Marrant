@@ -91,7 +91,7 @@ describe("PremiumPaywall (web)", () => {
     checkoutVers(500, { error: "x" });
     render(<PremiumPaywall />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /S.abonner/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^Ouvrir les \d\sparcours/ }));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "paywall", raison: "erreur" }]);

@@ -42,7 +42,7 @@ describe("un seul bouton plein par bloc, le gratuit en lien texte", () => {
   });
 
   it.each(["vannes", "conseils", "videos"] as const)("mur /%s", (liste) => {
-    const { container } = render(<MurListe liste={liste} annuel={false} />);
+    const { container } = render(<MurListe liste={liste} />);
     const { pleins, contours } = hierarchie(container);
     expect(pleins).toHaveLength(1);
     expect(contours).toHaveLength(0);
@@ -51,7 +51,7 @@ describe("un seul bouton plein par bloc, le gratuit en lien texte", () => {
 
   it.each(["vanne", "conseil", "video"] as const)("bloc d'exercice de la fiche %s", (type) => {
     const { container } = render(
-      <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" annuel={false} exercice="Consigne" />,
+      <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" exercice="Consigne" />,
     );
     const { pleins, contours } = hierarchie(container);
     expect(pleins).toHaveLength(1);

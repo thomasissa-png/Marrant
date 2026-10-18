@@ -122,23 +122,13 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
       ...(BOULOT_PUBLIE ? [{ slug: "boulot", etape: 4 }] : []),
     ]);
   });
-  it("bloc de fiche : rien sans parcours, sinon lien vers l'étape 1 avec src=fiche", () => {
+  it("bloc de fiche : rien sans parcours, sinon titre et phrase, sans lien (concision v5, textes-v5-b §2)", () => {
     const { container, rerender } = render(<FicheParcoursLien type="video" refs={[]} />);
     expect(container).toBeEmptyDOMElement();
     rerender(<FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} />);
+    expect(screen.getByText("Dans un parcours")).toBeInTheDocument();
     expect(screen.getByText("Ce conseil est l'étape 3 du parcours Répartie.")).toBeInTheDocument();
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/parcours/repartie?src=fiche#etape-1");
-  });
-  it("s21 (revue design P1-1) : même parcours que le bloc d'exercice → lien L2, sinon contour", () => {
-    const { rerender } = render(
-      <FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} parcoursBloc="repartie" />,
-    );
-    const lien = screen.getByRole("link");
-    expect(lien).toHaveAttribute("data-niveau", "l2");
-    expect(lien).toHaveAttribute("href", "/parcours/repartie?src=fiche#etape-1");
-    expect(lien.className).not.toMatch(/border/);
-    rerender(<FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} parcoursBloc="boulot" />);
-    expect(screen.getByRole("link")).toHaveAttribute("data-niveau", "contour");
+    expect(screen.queryByRole("link")).toBeNull();
   });
 });
 

@@ -290,21 +290,20 @@ describe("HumorQuiz", () => {
     };
     afterEach(() => mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } }));
 
-    it("le plein prolonge le geste : « Ouvrir Répartie en entier · prix », trois paragraphes, garantie", async () => {
+    it("concision v5 : titre, une phrase, plein OUVRIR (paiement direct), REASS, lien GRATUIT_P", async () => {
       mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
       const fetchMock = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) });
       global.fetch = fetchMock as unknown as typeof fetch;
       render(<HumorQuiz />);
       await finir();
-      const bloc = document.querySelector("[data-quiz-orientation-cta]")!;
-      const paragraphes = QUIZ_ORIENTATION_CTA.paragraphes("repartie");
-      expect(paragraphes).toHaveLength(3);
-      for (const p of paragraphes) expect(screen.getByText(p.replace(/\s/g, " "))).toBeInTheDocument();
-      expect(bloc.querySelectorAll(".space-y-2 > p")).toHaveLength(3);
-      expect(paragraphes[1]).toContain("les étapes 2 à 4 sont ouvertes tout de suite, 20 minutes chacune (idéalement une par semaine)");
-      expect(screen.getByText(QUIZ_ORIENTATION_CTA.garantie)).toBeInTheDocument();
+      const bloc = document.querySelector<HTMLElement>("[data-quiz-orientation-cta]")!;
+      const texte = (bloc.textContent ?? "").replace(/\u00a0/g, " ");
+      expect(texte).toBe(
+        "Ton parcours : RépartiePour toi si on te chambre et que tu cherches encore quoi répondre.Ouvrir les 5 parcours · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+      );
+      expect(screen.getByRole("button", { name: /^Tester l'étape\s1\sde Répartie, gratuite$/ })).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/Ton quiz te conseille|Ton compte est prêt|Voir par où commencer|Tout débloquer/);
       const plein = screen.getByRole("button", { name: QUIZ_ORIENTATION_CTA.bouton("repartie") });
-      expect(document.body.textContent).not.toContain("Tout débloquer");
       await userEvent.click(plein);
       expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/repartie" });
       expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", expect.objectContaining({ src: "onboarding" }));
@@ -316,13 +315,12 @@ describe("HumorQuiz", () => {
       expect(screen.queryByText(QUIZ_ORIENTATION_CTA.bouton("repartie"))).not.toBeInTheDocument();
     });
 
-    it("trois paragraphes par parcours, ligne de carte lue dans la donnée (Storytelling et Boulot compris)", () => {
-      expect(QUIZ_ORIENTATION_CTA.paragraphes("machine-a-cafe")[1]).toContain("les étapes 2 et 3 sont ouvertes tout de suite, 15 minutes chacune");
-      expect(QUIZ_ORIENTATION_CTA.paragraphes("confiance")[0]).toContain("pour toi si tu sors d'une période compliquée");
-      expect(QUIZ_ORIENTATION_CTA.paragraphes("storytelling")[0]).toContain("pour toi si tu as de quoi tenir une table");
-      expect(QUIZ_ORIENTATION_CTA.paragraphes("boulot")[1].replace(/\s/g, " ")).toBe(
-        "Avec Premium, les étapes 2 à 6 sont ouvertes tout de suite, 15 minutes chacune (idéalement une par semaine). Un seul prix, 2,99 € par mois, ouvre les 5 parcours, pas seulement Boulot.",
-      );
+    it("titre et phrase par parcours (table LIGNE_QUIZ de la v5)", () => {
+      expect(QUIZ_ORIENTATION_CTA.titre("machine-a-cafe")).toBe("Ton parcours : Machine à Café");
+      expect(QUIZ_ORIENTATION_CTA.phrase("machine-a-cafe")).toBe("Pour toi si tu veux faire rire à la pause.");
+      expect(QUIZ_ORIENTATION_CTA.phrase("confiance")).toBe("Pour toi si tu aimerais rire plus souvent avec les autres.");
+      expect(QUIZ_ORIENTATION_CTA.phrase("storytelling")).toBe("Pour toi si ta chute arrive quand tout le monde est passé au dessert.");
+      expect(QUIZ_ORIENTATION_CTA.phrase("boulot")).toBe("Pour toi si, le lundi à 9 h, tu prends un ton de compte rendu.");
     });
   });
 });

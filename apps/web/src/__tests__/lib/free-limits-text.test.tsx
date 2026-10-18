@@ -10,6 +10,7 @@ import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 // s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
 jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { LLMS_FAQ_FULL, LLMS_TARIFS } from "@/lib/llms-content";
+import { MUR_LISTE } from "@/config/textes/cta-pages";
 
 jest.mock("@/config/premium", () => ({
   ...jest.requireActual("@/config/premium"),
@@ -27,20 +28,23 @@ jest.mock("@/hooks/use-content-stats", () => ({
 }));
 
 describe("limites gratuites affichées = constantes de config", () => {
-  it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), prix seul", () => {
+  it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), « Sans compte. » seul", () => {
     const { container } = render(<ArticleCta />);
-    // s21 (B2) : note [S9] du tour 4 (prix TTC, garantie, résiliation en ligne).
-    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\./)).toBeInTheDocument();
-    expect(container.textContent).not.toMatch(/compte gratuit|sans carte/i);
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/compte gratuit|sans carte|TTC/i);
   });
 
-  it("page /abonnement (avantages Premium)", async () => {
+  it("page /abonnement : concision v5, plus de limites gratuites dans les avantages", async () => {
     const { container } = render(await AbonnementPage({}));
     const text = container.textContent ?? "";
-    // Plus de bloc « Compte gratuit » (s15) : les limites ne restent que dans les avantages Premium.
     expect(text).not.toMatch(/compte gratuit/i);
-    expect(text).toContain("au lieu de 12 vannes, 6 conseils et 2 vidéos sans abonnement");
-    expect(text).not.toMatch(/\b10 vannes\b/);
+    expect(text).not.toMatch(/au lieu de|\b10 vannes\b/);
+  });
+
+  it("murs des listes : limites lues dans les constantes de config", () => {
+    expect(MUR_LISTE.vannes.limite).toBe("Les 12 gratuites, c'est fait.");
+    expect(MUR_LISTE.conseils.limite).toBe("6 conseils gratuits, c'est fait.");
+    expect(MUR_LISTE.videos.limite).toBe("2 vidéos gratuites, c'est fait.");
   });
 
   it("llms.txt / llms-full.txt (tarifs et FAQ)", () => {

@@ -130,7 +130,8 @@ describe("UXV-1-06 et UXV-1-07 : repères du visiteur", () => {
     expect(screen.getByRole("button", { name: /^Étape 1 : Module 1/ })).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: /^Étape 2 : Module 2/ }));
     // Prix lu dans config/premium.ts (espaces insécables de formatEuros : comparaison sur textContent).
-    expect(screen.getByText(/résiliable en ligne\.$/).textContent).toBe(`${PREMIUM_PRICE_LABEL}, résiliable en ligne.`);
-    expect(screen.getByText("Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium.")).toBeInTheDocument();
+    // Concision v5 : l'aperçu finit par le lien OUVRIR, plus de ligne de prix dessous.
+    expect(screen.queryByText(/résiliable en ligne\.$/)).toBeNull();
+    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
   });
 });
