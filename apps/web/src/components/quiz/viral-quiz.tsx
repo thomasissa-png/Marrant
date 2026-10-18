@@ -115,7 +115,7 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
           </Link>
           <Link
             href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className="inline-flex min-h-11 items-center font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4"
+            className="inline-flex min-h-11 items-center justify-center text-center font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4"
           >
             {QUIZ_HUMOUR_CTA.lien}
           </Link>

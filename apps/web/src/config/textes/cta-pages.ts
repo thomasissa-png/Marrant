@@ -14,8 +14,10 @@
  * (config/premium.ts), les prix de l'offre (config/premium.ts, mêmes
  * montants que Stripe), l'annuel seulement si `isAnnualPlanAvailable()`
  * (passé en paramètre `annuel` : lu côté serveur, jamais deviné côté client).
+ * « · » des boutons : espace insécable avant, le prix passe à la ligne avec lui.
  */
 import {
+  ESPACE_INSECABLE,
   formatEuros,
   FREE_JOKE_LIMIT,
   FREE_TIP_LIMIT,
@@ -265,7 +267,7 @@ export const QUIZ_ORIENTATION_CTA = {
     return `Ton compte est prêt. Plus qu'un pas pour suivre ${nom} en entier${pourToi} : étapes ${etapesPayantes(slug)}, une par semaine, ${minutesParcours(slug)} minutes.`;
   },
   /** Plein : ouvre directement le paiement (le compte existe). */
-  bouton: (slug: ParcoursSlug) => `Suivre ${PARCOURS_NOMS[slug]} en entier · ${PREMIUM_PRICE_LABEL}`,
+  bouton: (slug: ParcoursSlug) => `Suivre ${PARCOURS_NOMS[slug]} en entier${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
   garantie:
     "Prix TTC. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
   /** Lien discret (existant) vers l'étape 1 du parcours conseillé ; plein pour un abonné. */
@@ -338,7 +340,7 @@ export const ABONNEMENT_HAUT_PAR_PARCOURS: Readonly<Record<ParcoursSlug | "defau
 export const ABONNEMENT_CTA = {
   /** Libellé du bouton d'achat : suit la formule choisie, sans rechargement. */
   bouton: (plan: PremiumPlan) =>
-    `Ouvrir les ${PARCOURS_COUNT} parcours · ${plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL}`,
+    `Ouvrir les ${PARCOURS_COUNT} parcours${ESPACE_INSECABLE}· ${plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL}`,
   /** [S32] juste sous le bouton. */
   suite: "Deux étapes : ton compte, puis le paiement sécurisé par Stripe.",
 } as const;

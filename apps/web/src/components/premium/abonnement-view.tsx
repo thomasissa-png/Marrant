@@ -290,7 +290,7 @@ export function AbonnementView({
             <Link
               href={paidSignupHref}
               data-testid="abonnement-bouton-achat"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 h-auto min-h-12 w-full whitespace-normal py-2 text-center [text-wrap:balance] sm:mt-8")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 h-auto min-h-12 w-full whitespace-normal px-3 py-2 text-center [text-wrap:balance] sm:mt-8 sm:px-6")}
               onClick={() =>
                 trackUmami("abonnement-clic", {
                   formule: isAnnual ? "annuel" : "mensuel",

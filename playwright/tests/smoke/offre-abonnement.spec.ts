@@ -31,7 +31,7 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    await expect(page.getByLabel(/e-?mail/i)).toBeVisible();
+    await expect(page.getByRole("textbox", { name: /^e-?mail$/i })).toBeVisible();
   });
 
   test("CTA annuel « Ouvrir les N parcours · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
