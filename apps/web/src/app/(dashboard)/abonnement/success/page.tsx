@@ -113,9 +113,11 @@ function SubscriptionSuccessContent() {
         <CardContent className="p-8" aria-live="polite">
           {etat === "pret" && (
             <>
-              <div className="mb-4 text-4xl" aria-hidden="true">🎉</div>
-              <h1 className="font-display text-2xl font-bold text-text-primary">Paiement reçu !</h1>
-              <p className="mt-2 text-text-secondary">On déroule le tapis rouge, ton accès s&apos;active…</p>
+              <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
+              <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
+              <Link href="/parcours" className={buttonVariants({ variant: "primary", className: "mt-4" })}>
+                {TEXTES_SUCCESS.pretBouton}
+              </Link>
             </>
           )}
           {etat === "verification" && (

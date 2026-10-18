@@ -36,11 +36,12 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix (TTC depuis s21).
-    expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
+    // Concision v5 (textes-v5-c §4) : titre, rappel formule et prix TTC, plus d'« Étape 1 sur 2 ».
+    expect(screen.queryByText("Étape 1 sur 2")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
-    expect(screen.getByText("Premium, 2,99 € TTC par mois, annulable à tout moment.")).toBeInTheDocument();
-    expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
+    expect(screen.getByText("Premium, 2,99 € TTC par mois.")).toBeInTheDocument();
+    expect(screen.queryByText(/Étape 2 : le paiement/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Retour à l/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/^Prénom/)).not.toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
@@ -54,7 +55,7 @@ describe("RegisterPage", () => {
     expect(container.querySelector("#name")).toBeNull();
     // Google avant le premier champ et avant le bouton d'envoi.
     const form = container.querySelector("form")!;
-    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     const email = screen.getByLabelText("Email");
     const envoi = screen.getByRole("button", { name: REGISTER_CTA.bouton });
     expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -93,7 +94,7 @@ describe("RegisterPage", () => {
 
   it("has Google sign-up button", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("S'inscrire avec Google")).toBeInTheDocument();
+    expect(screen.getByText("Continuer avec Google")).toBeInTheDocument();
   });
 
   it("has login link", () => {
@@ -192,7 +193,7 @@ describe("RegisterPage", () => {
 
   it("calls Google signIn with /abonnement?auto=1 callback when no callbackUrl", async () => {
     render(<RegisterPage />);
-    await userEvent.click(screen.getByText("S'inscrire avec Google"));
+    await userEvent.click(screen.getByText("Continuer avec Google"));
     // Marqueur de retour pour la mesure (AuthReturnTracker), s15.
     expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/abonnement?auto=1&auth=inscription-google" });
     expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
@@ -241,7 +242,7 @@ describe("RegisterPage", () => {
       await fillAndSubmit();
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
       // Rappel de la formule annuelle choisie (validé à l'aveugle s21 : seul le prix change).
-      expect(screen.getByText("Premium, 24,99 € TTC par an, annulable à tout moment.")).toBeInTheDocument();
+      expect(screen.getByText("Premium, 24,99 € TTC par an.")).toBeInTheDocument();
     });
 
     it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {
@@ -259,7 +260,7 @@ describe("RegisterPage", () => {
       mockSearchParams.set("callbackUrl", "/parcours/repartie");
       mockSearchParams.set("src", "parcours");
       render(<RegisterPage />);
-      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      await userEvent.click(screen.getByText("Continuer avec Google"));
       expect(mockSignIn).toHaveBeenCalledWith("google", {
         // s21 (QA M1) : source déjà dans la cible, jamais en double.
         callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&src=parcours&auto=1&auth=inscription-google",
@@ -269,7 +270,7 @@ describe("RegisterPage", () => {
     it("source invalide ignorée (jamais de donnée libre envoyée)", async () => {
       mockSearchParams.set("src", "jean@test.fr");
       render(<RegisterPage />);
-      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      await userEvent.click(screen.getByText("Continuer avec Google"));
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
     });
 

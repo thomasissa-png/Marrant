@@ -138,6 +138,11 @@ export const TEXTES_PORTAIL = {
 
 // PROVISOIRE s16, étalon à valider (sauf la partie « connexion », VALIDÉ s16, étalon 5a.2)
 export const TEXTES_SUCCESS = {
+  // Concision v5 (textes-v5-c §5) : paiement vérifié, juste avant le retour automatique.
+  pretTitre: "Paiement reçu !",
+  pretTexte: "Merci. Ton accès s'active…",
+  /** Plein vers /parcours. */
+  pretBouton: "Choisir mon parcours",
   verificationTitre: "On vérifie ton paiement",
   verificationTexte: "Quelques secondes, le temps de confirmer avec notre service de paiement.",
   // VALIDÉ s16 (étalon 5a.2) : client non connecté.
@@ -259,7 +264,7 @@ Droit de rétractation : tu as 14 jours à partir d'aujourd'hui, soit au moins j
 
 Les CGU qui s'appliquent à ton abonnement : ${url}/cgu.
 
-Pour bien démarrer : ouvre un parcours et lance l'étape 2 (la première se lit déjà sans compte) : ${url}/parcours.
+Tout est ouvert. Pour démarrer, choisis un parcours : ${url}/parcours.
 
 À très vite,
 ${SIGNATURE}

@@ -143,7 +143,8 @@ export const TEXTES_SUPPRESSION = {
 // ---------------------------------------------------------------------------
 
 // Libellé et indication : textes existants de /register (s21 B17), déplacés tels quels.
-// [PROVISOIRE] titre, bouton et messages : microtextes minimaux, à remplacer par @copywriter.
+// Titre, bouton, succès et erreur : textes demandés pour la carte (s21, intégration de la
+// concision v5, 18/10), encore provisoires tant que @copywriter ne les a pas relus à l'aveugle.
 export const TEXTES_PRENOM = {
   titre: "Ton prénom",
   label: "Prénom (facultatif, pour te saluer dans nos e-mails)",
@@ -151,6 +152,8 @@ export const TEXTES_PRENOM = {
   bouton: "Enregistrer",
   enCours: "On enregistre…",
   succes: "C'est noté.",
+  /** Échec réseau ou serveur (les erreurs de saisie gardent leur message propre). */
+  erreur: "Ça n'a pas marché, réessaie.",
   tropCourt: "Ton prénom doit faire au moins 2 caractères.",
 } as const;
 

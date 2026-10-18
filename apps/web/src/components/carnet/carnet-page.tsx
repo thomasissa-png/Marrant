@@ -6,7 +6,8 @@ import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-f
 import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { frTypo } from "@/lib/fr-typo";
-import { CARNET_PAYWALL } from "@/config/textes/cta-pages";
+import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { sanitizeSignupSrc } from "@/lib/auth-links";
 
 /** Source de mesure du bouton E1 quand on arrive sur le carnet sans `?src=` (QA v2 MJ-1). */
@@ -69,18 +70,29 @@ export function CarnetPage({
         ))}
       </div>
 
+      {/* Concision v5 (textes-v5-c §6) : le bloc d'achat juste après la fiche offerte, puis
+          « Au programme » : 3 titres de fiches et « Et N autres répliques ». */}
       {!view.premium && view.apercus.length > 0 && (
-        <section aria-labelledby="carnet-reserve" className="mt-10 space-y-4">
-          <h2 id="carnet-reserve" className="font-display text-xl font-bold">
-            Les {view.apercus.length} autres situations du mois
-          </h2>
-          <ol className="space-y-3">
-            {view.apercus.map((fiche) => (
-              <CarnetFicheLocked key={fiche.id} fiche={fiche} numero={view.numeros[fiche.id]} />
-            ))}
-          </ol>
-          <CarnetPaywall returnTo={returnTo} src={src} restantes={view.apercus.length} />
-        </section>
+        <>
+          <div className="mt-8">
+            <CarnetPaywall returnTo={returnTo} src={src} restantes={view.apercus.length} />
+          </div>
+          <section aria-labelledby="carnet-reserve" className="mt-10 space-y-4">
+            <h2 id="carnet-reserve" className="font-display text-xl font-bold">
+              {CARNET_PAYWALL.listeTitre}
+            </h2>
+            <ol className="space-y-3">
+              {view.apercus.slice(0, CARNET_LISTE_VISIBLES).map((fiche) => (
+                <CarnetFicheLocked key={fiche.id} fiche={fiche} numero={view.numeros[fiche.id]} />
+              ))}
+            </ol>
+            {view.apercus.length > CARNET_LISTE_VISIBLES && (
+              <p className="text-sm text-text-secondary">
+                {CARNET_PAYWALL.listeReste(view.apercus.length - CARNET_LISTE_VISIBLES)}
+              </p>
+            )}
+          </section>
+        </>
       )}
 
       {view.premium && autresMois.length > 0 && (
@@ -108,7 +120,7 @@ export function CarnetPage({
 
 /**
  * Appel à l'abonnement : même destination que les étapes verrouillées des parcours.
- * Textes E1 validés (`CARNET_PAYWALL`, config/textes/cta-pages.ts) ; `restantes` = `view.apercus.length`.
+ * Textes de la concision v5 (`CARNET_PAYWALL`, config/textes/cta-pages.ts) ; `restantes` = `view.apercus.length`.
  * s21 (QA v2 MJ-1) : `src` relayé par /abonnement jusqu'à `checkout-ouvert` / `checkout-echec`.
  */
 function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: string; restantes: number }) {
@@ -125,9 +137,9 @@ function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: st
           "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
         )}
       >
-        {frTypo(CARNET_PAYWALL.bouton(restantes))}
+        {frTypo(CARNET_PAYWALL.bouton)}
       </Link>
-      <p className="mt-2 text-center text-xs text-text-secondary">{frTypo(CARNET_PAYWALL.suite)}</p>
+      <p className="mt-2 text-center text-xs text-text-secondary">{frTypo(REASSURANCE_UNIQUE)}</p>
     </div>
   );
 }

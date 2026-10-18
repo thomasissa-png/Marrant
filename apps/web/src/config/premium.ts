@@ -110,10 +110,6 @@ export const FREE_VIDEO_LIMIT = 3;
 /** « 10 vannes, 3 conseils, 3 vidéos » : énumération des limites gratuites. */
 export const FREE_CATALOGUE_LIMITS_LABEL = `${FREE_JOKE_LIMIT} vannes, ${FREE_TIP_LIMIT} conseils, ${FREE_VIDEO_LIMIT} vidéos`;
 
-/** Avantage « carnet mensuel » : libellé unique (avantages, paywall, JSON-LD, llms.txt). */
-export const PREMIUM_CARNET_BENEFIT =
-  "le carnet mensuel de situations de répartie (nouveau chaque mois)";
-
 /** Destination par défaut après paiement quand aucune intention n'a été mémorisée. */
 export const PREMIUM_DEFAULT_RETURN = "/parcours";
 

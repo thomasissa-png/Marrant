@@ -4,18 +4,13 @@ import { useId } from "react";
 import { chipClass } from "@/components/ui/chip";
 import {
   formatEuros,
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
   type PremiumPlan,
 } from "@/config/premium";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import {
-  ANNUEL_AVANTAGE_LABEL,
-  ANNUEL_LIGNE_MENSUEL,
-  ANNUEL_MOIS_OFFERTS_LABEL,
-} from "@/config/textes/offre";
+import { ANNUEL_LIGNE_ANNUEL, ANNUEL_LIGNE_MENSUEL, ANNUEL_MOIS_OFFERTS_LABEL } from "@/config/textes/offre";
 
 const OPTIONS: { value: PremiumPlan; label: string }[] = [
   { value: "monthly", label: "Mensuel" },
@@ -103,16 +98,15 @@ export function PlanSelector({
       </div>
       {/* Revue design s21 m2, puis revue design v2 (point 1) : la 1re ligne de chaque formule
           occupe la même case de grille (celle de la formule non choisie est invisible et
-          muette) ; seule la hauteur de cette ligne est réservée. « Payé en une fois… » n'est
-          rendu qu'en annuel, sous la case : en mensuel, plus de vide entre le prix et le
-          bouton. Le HTML serveur est celui du mensuel : aucun saut au chargement. */}
+          muette) ; seule la hauteur de cette ligne est réservée. Le HTML serveur est celui du
+          mensuel : aucun saut au chargement. */}
       <div className="grid">
         <p
           className={cn("col-start-1 row-start-1 mt-1 text-sm font-medium text-accent-link", !isAnnual && "invisible")}
           aria-hidden={isAnnual ? undefined : true}
         >
-          {/* D5 (audit s16) : « plus de 3 mois offerts » ET « 10,89 € économisés », calculés. */}
-          {PREMIUM_ANNUAL_EQUIVALENT_LABEL}, {ANNUEL_AVANTAGE_LABEL}
+          {/* Concision v5 : « Soit 2,08 € par mois, plus de 3 mois offerts. » (calculé). */}
+          {ANNUEL_LIGNE_ANNUEL}
         </p>
         {/* Lot 2 s21 (validé à l'aveugle, tour 3) : l'annuel visible dès l'état par défaut ;
             « Sans engagement, annulable à tout moment » retiré (dit par la réassurance). */}
@@ -124,11 +118,6 @@ export function PlanSelector({
           {ANNUEL_LIGNE_MENSUEL}
         </p>
       </div>
-      {isAnnual && (
-        <p className="mt-1 text-sm text-text-secondary">
-          Payé en une fois, renouvelé chaque année, résiliable depuis ton profil
-        </p>
-      )}
     </div>
   );
 }

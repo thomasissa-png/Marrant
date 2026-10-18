@@ -362,7 +362,6 @@ export function ProfilDashboard() {
       {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
       <AbonnementCard
         plan={user.plan}
-        xp={user.xp}
         onCheckout={handleCheckout}
         isCheckoutLoading={isCheckoutLoading}
         abonnement={abonnement}

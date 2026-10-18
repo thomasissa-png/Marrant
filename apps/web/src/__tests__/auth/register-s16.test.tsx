@@ -34,7 +34,7 @@ describe("RegisterPage, audit s16", () => {
   it("réassurance premier paiement (s21) et acceptation des CGU avec lien", () => {
     render(<RegisterPage />);
     expect(screen.getByTestId("register-reassurance")).toHaveTextContent(
-      /^Tu as 14 jours pour te faire rembourser ton premier paiement\.$/,
+      /^Premium : premier paiement remboursable sous 14 jours\. Résiliable depuis ton profil\.$/,
     );
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");
@@ -43,9 +43,7 @@ describe("RegisterPage, audit s16", () => {
 
   it("rappel de formule avec le nom Premium (D4) et le prix TTC (s21)", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Premium, 2,99 € TTC par mois, annulable à tout moment.")).toBeInTheDocument();
-    expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
-    expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
+    expect(screen.getByText("Premium, 2,99 € TTC par mois.")).toBeInTheDocument();
   });
 
   it("liens dans le texte soulignés en permanence (axe link-in-text-block)", () => {

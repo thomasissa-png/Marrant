@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
 import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { formatEuros } from "@/config/premium";
-import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
+import { ANNUEL_AVANTAGE_LABEL, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
@@ -45,14 +45,13 @@ function formuleLigne(s: SubscriptionSummary): string | null {
 
 interface AbonnementCardProps {
   plan: string;
-  xp: number;
   onCheckout: () => void;
   isCheckoutLoading: boolean;
   /** Résumé et portail, lus une seule fois par le profil (partagés avec la suppression du compte). */
   abonnement: ReturnType<typeof useSubscriptionSummary>;
 }
 
-export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonnement }: AbonnementCardProps) {
+export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement }: AbonnementCardProps) {
   const { summary, openPortal, portalLoading } = abonnement;
   const etat = etatAbonnement(plan, summary);
   const carteRef = useRef<HTMLDivElement>(null);
@@ -136,13 +135,13 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonne
 
         {etat === "aucun" && (
           <>
-            {/* Textes E4 validés (`PROFIL_ABONNEMENT_OFFRE`, config/textes/cta-pages.ts). */}
-            <p className="mb-2 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
-            {xp > 0 && <p className="mb-2 text-sm text-text-secondary">{OFFRE.ligneXp(xp)}</p>}
-            <p className="mb-4 text-xs text-text-muted">{frTypo(OFFRE.ligneDiscrete)}</p>
-            <Button variant="secondary" size="sm" onClick={onCheckout} disabled={isCheckoutLoading}>
+            {/* Concision v5 (`PROFIL_ABONNEMENT_OFFRE`, config/textes/cta-pages.ts) : une phrase, le
+                plein `OUVRIR`, la REASS dessous. */}
+            <p className="mb-4 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
+            <Button variant="primary" size="sm" className="h-auto min-h-11 whitespace-normal py-2" onClick={onCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? "On t'emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
+            <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
           </>
         )}
       </CardContent>

@@ -36,7 +36,7 @@ function mockSummary(subscription: SubscriptionSummary | null) {
 /** Le profil lit le résumé une fois et le passe à la carte (lot G) : même câblage ici. */
 function CarteAvecResume({ plan }: { plan: string }) {
   const abonnement = useSubscriptionSummary(true);
-  return <AbonnementCard plan={plan} xp={0} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
+  return <AbonnementCard plan={plan} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
 }
 const card = (plan = "PREMIUM") => <CarteAvecResume plan={plan} />;
 

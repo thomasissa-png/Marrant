@@ -112,7 +112,8 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
       const all = Object.values(cta).join(" ");
       expect(all).not.toMatch(/gratuit|sans carte|compte ou pas/i);
       expect(all).not.toContain("—");
-      expect(cta.note).toContain(PREMIUM_PRICE_LABEL);
+      // Concision v5 : plus de note de prix sous le bloc de fin (le prix vit sur /abonnement).
+      expect(cta).not.toHaveProperty("note");
     }
   });
 
@@ -121,7 +122,6 @@ describe("12 CTA de fin d'article (config/blog-cta.ts) : étalons 3.1 et 3.2c d�
       title: "Tu as les vannes. Et quand l'autre te les renvoie ?",
       text: "Le parcours Répartie t'entraîne, étape après étape, à trouver quoi répondre du tac au tac quand on te chambre.",
       primaryLabel: "Commencer le parcours Répartie",
-      note: "Premium à 2,99\u00A0€/mois, résiliable en ligne. La première étape se lit sans compte.",
       secondaryLabel: "Lire l'étape 1 de Répartie",
       parcoursHref: "/parcours/repartie",
     });
@@ -135,12 +135,12 @@ describe("prix et « 1 500+ » intacts", () => {
   });
 
   it("formulations 1 500+ validées par Thomas", () => {
-    expect(read("components/home/hero-section.tsx")).toContain("1&nbsp;500+ membres bossent leur humour. Rejoins-les.");
-    // s21 : texte de la carte Premium déplacé dans config/textes/cta-articles-accueil.ts.
-    expect(read("config/textes/cta-articles-accueil.ts")).toContain("inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`");
-    // s21 (E6 validé le 18/10, tour 7) : fin de /a-propos, même phrase que la carte de l'accueil.
-    expect(read("config/textes/cta-pages.ts")).toContain("inscrits: CARTE_PREMIUM.inscrits,");
-    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("frTypo(A_PROPOS_FIN.inscrits)");
-    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("1&nbsp;500+ membres mettent en pratique.");
+    // Concision v5 : « 1 500+ inscrits » sous le titre de l'accueil et en fin de /a-propos, plus
+    // dans la carte Premium ni dans le corps de /a-propos.
+    expect(read("config/textes/cta-articles-accueil.ts")).toContain("preuve: `1${ESPACE_INSECABLE}500+ inscrits bossent leur humour.`");
+    expect(read("config/textes/cta-pages.ts")).toContain("preuve: `Déjà 1${ESPACE_INSECABLE}500+ inscrits.`");
+    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("frTypo(A_PROPOS_FIN.preuve)");
+    expect(read("app/(dashboard)/a-propos/page.tsx")).not.toContain("membres mettent en pratique");
+    expect(read("components/home/hero-section.tsx")).not.toContain("Rejoins-les");
   });
 });

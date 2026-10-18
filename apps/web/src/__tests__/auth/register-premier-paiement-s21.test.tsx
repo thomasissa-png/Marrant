@@ -1,7 +1,7 @@
 /**
  * s21, correctif « premier paiement » sur /register (duel à l'aveugle, 3/3) :
  * - ligne du haut : prix TTC de la formule choisie (mensuel ou annuel) ;
- * - ligne du bas : seul le premier paiement est remboursable ;
+ * - ligne du bas : seul le premier paiement est remboursable (REASS unique depuis la concision v5) ;
  * - plus aucune trace de « remboursé sous 14 jours » dans le code du site.
  */
 import { readdirSync, readFileSync, statSync } from "fs";
@@ -18,7 +18,8 @@ jest.mock("next-auth/react", () => ({ signIn: jest.fn() }));
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
 const ANCIENNE_PHRASE = "remboursé sous 14 jours";
-const LIGNE_BAS = "Tu as 14 jours pour te faire rembourser ton premier paiement.";
+/** Concision v5 : la REASS unique, collée sous le plein. */
+const LIGNE_BAS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 
 /** Texte de la page, espaces insécables ramenés à des espaces simples. */
 function textePage(): string {
@@ -43,7 +44,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
   it("mensuel (par défaut) : les deux lignes validées, sans l'ancienne phrase", () => {
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 2,99 € TTC par mois, annulable à tout moment.",
+      haut: "Premium, 2,99 € TTC par mois.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
@@ -54,7 +55,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 24,99 € TTC par an, annulable à tout moment.",
+      haut: "Premium, 24,99 € TTC par an.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
@@ -64,7 +65,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
   it("annuel par ?plan=annual : même ligne du haut", () => {
     mockSearchParams.set("plan", "annual");
     render(<RegisterPage />);
-    expect(lignes().haut).toBe("Premium, 24,99 € TTC par an, annulable à tout moment.");
+    expect(lignes().haut).toBe("Premium, 24,99 € TTC par an.");
   });
 
   it("aucun fichier de apps/web/src (hors tests) ne contient encore « remboursé sous 14 jours »", () => {

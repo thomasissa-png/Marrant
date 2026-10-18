@@ -16,8 +16,12 @@ import type { Carnet } from "@/lib/carnet";
 import { readSessionPlan } from "@/lib/session-plan";
 
 const DATA = path.join(__dirname, "..", "..", "data", "carnet");
-/** Empreinte de la source validée (`docs/copy/carnet/novembre/carnet-2026-11.json`, commit e6f5584). */
-const SHA256_VALIDE = "44b3a8c74c2ae5b68742c43d6d0033dbf0f2e171941fbc39978b05c3c67cac8c";
+/**
+ * Empreinte de la source validée (`docs/copy/carnet/novembre/carnet-2026-11.json`, commit e6f5584,
+ * sha256 44b3a8c7…cac8c), seule la clé `intro` remplacée par le texte de la concision v5
+ * (`docs/copy/cta-s21/concision/textes-v5-c.md` §6) : aucun autre octet ne bouge.
+ */
+const SHA256_VALIDE = "e2b15d0f38422b7baf72eeaf814697702786d04a8c62a0c244fb02b1985b270a";
 
 function lire(fichier: string): unknown {
   return JSON.parse(fs.readFileSync(path.join(DATA, fichier), "utf8"));
@@ -63,7 +67,7 @@ const norm = (s: string) => s.replace(/[  ]/g, " ").replace(/⁠/g, "");
 const t = (el: HTMLElement) => norm(el.textContent ?? "");
 
 describe("fichier 2026-11.json", () => {
-  it("octets identiques à la version validée à l'aveugle (sha256 de docs/copy/carnet/novembre/carnet-2026-11.json)", () => {
+  it("octets identiques à la version validée à l'aveugle (sha256 de docs/copy/carnet/novembre/carnet-2026-11.json, intro v5)", () => {
     const empreinte = crypto.createHash("sha256").update(fs.readFileSync(path.join(DATA, "2026-11.json"))).digest("hex");
     expect(empreinte).toBe(SHA256_VALIDE);
   });
@@ -114,10 +118,12 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     expect(html).toContain('id="fiche-2026-10-15"');
     expect(html).not.toContain("2026-11");
     for (const f of novembre.fiches) expect(html).not.toContain(f.reponse);
-    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir les 14 autres répliques · 2,99 €/mois");
-    // Numéro = position réelle dans le carnet : offerte 15e, les 14 autres de 1 à 14.
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir tout le carnet · 2,99 €/mois");
+    // Numéro = position réelle dans le carnet : offerte 15e ; liste verrouillée réduite à 3 titres (v5).
     expect(html).toContain(">Situation 15 · offerte<");
-    expect(html).toContain(">Situation 14<");
+    expect(html).toContain(">Situation 3<");
+    expect(html).not.toContain(">Situation 4<");
+    expect(screen.getByText("Et 11 autres répliques")).toBeInTheDocument();
     expect(html).not.toContain(">Situation 1 · offerte<");
   });
 
@@ -128,20 +134,23 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     const offerte = novembre.fiches.find((f) => f.id === "2026-11-10")!;
     expect(html).toContain('id="fiche-2026-11-10"');
     expect(html).toContain(">Situation 10 · offerte<");
-    expect(html).toContain(">Situation 30<");
+    expect(html).toContain(">Situation 3<");
+    expect(html).not.toContain(">Situation 30<");
+    expect(screen.getByText("Et 26 autres répliques")).toBeInTheDocument();
+    expect(screen.getByText("Du premier froid aux préparatifs de Noël, des répliques qui montent d'un cran.")).toBeInTheDocument();
     for (const champ of ["situation", "onTeDit", "reponse", "pourquoi", "siTendu", "exercice"] as const) {
       expect(html).toContain(offerte[champ]);
     }
-    for (const f of novembre.fiches.filter((x) => x !== offerte)) {
-      expect(html).toContain(f.titre);
+    novembre.fiches.filter((x) => x !== offerte).forEach((f, i) => {
+      if (i < 3) expect(html).toContain(f.titre);
       expect(html).not.toContain(f.reponse);
       expect(html).not.toContain(f.siTendu);
-    }
+    });
     expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(
       "Ça, c'était la réplique offerte. Il en reste 29.",
     );
     const bouton = screen.getByTestId("carnet-paywall-bouton");
-    expect(t(bouton)).toBe("Voir les 29 autres répliques · 2,99 €/mois");
+    expect(t(bouton)).toBe("Voir tout le carnet · 2,99 €/mois");
     expect(bouton.closest("a") ?? bouton).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
   });
 });
@@ -162,11 +171,11 @@ describe("consommateurs de la fiche offerte au 01/11 (encart des articles, extra
     expect(aside.innerHTML).not.toMatch(/\.\s*,\s*et on te lance|,,/);
   });
 
-  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10, 29 autres situations", () => {
+  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10 (plus d'intro « autres situations »)", () => {
     const extrait = getCarnetExtrait(carnets, MINUIT)!;
     render(<CarnetExtraitBloc extrait={extrait} />);
     expect(screen.getByRole("heading", { level: 3, name: "Le gratin « intéressant »" })).toBeInTheDocument();
-    expect(screen.getByText("Les 29 autres situations du mois sont dans Premium.")).toBeInTheDocument();
+    expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Lire la fiche en entier" })).toHaveAttribute("href", "/carnet#fiche-2026-11-10");
   });
 });

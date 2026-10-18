@@ -130,35 +130,27 @@ describe("ProfilDashboard", () => {
       expect(screen.getByText("Prochaine étape")).toBeInTheDocument();
     });
 
-    it("XP gagnés > 0 : ligne XP E4 (« Tu as déjà {xp} XP. »), sinon rien", () => {
-      const { unmount } = render(<ProfilDashboard />);
-      expect(screen.getByText("Tu as déjà 750 XP.")).toBeInTheDocument();
-      expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
-      unmount();
-      useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE", xp: 0 }, isLoading: false, fetchUser: mockFetchUser });
+    it("concision v5 : plus de ligne XP (« Tu as déjà {xp} XP. ») dans la carte d'offre", () => {
       render(<ProfilDashboard />);
       expect(screen.queryByText(/^Tu as déjà \d+ XP\.$/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
     });
 
     it("bouton d'abonnement, sans « filtres avancés »", () => {
       render(<ProfilDashboard />);
-      expect(screen.getByText("Tout ouvrir · 2,99 €/mois")).toBeInTheDocument();
-      expect(document.body.textContent).not.toMatch(/filtres avancés/);
+      expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/filtres avancés|Tout ouvrir/);
     });
   });
 
   it("shows subscribe button with engagement copy for FREE plan", () => {
     useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
-    // E4 (textes validés du 18/10) : phrase d'offre, ligne discrète et bouton, mot pour mot.
-    expect(screen.getByText("Tout ouvrir · 2,99 €/mois")).toBeInTheDocument();
+    // Concision v5 (textes-v5-c §7) : phrase, plein OUVRIR, REASS, mot pour mot.
+    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Chaque mois, un nouveau carnet de répartie s'ajoute aux parcours.")).toBeInTheDocument();
     expect(
-      screen.getByText(
-        "Avec Premium, tout est ouvert : les 5 parcours en entier, un nouveau carnet de répartie chaque mois, toutes les vannes, tous les conseils et toutes les vidéos. Et tu gardes en favori ce que tu veux ressortir.",
-      ),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("Résiliable quand tu veux depuis ce profil. Tu as 14 jours pour te faire rembourser ce paiement."),
+      screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
     ).toBeInTheDocument();
     expect(screen.queryByText(/Passe Premium pour débloquer|Résiliable en ligne quand tu veux|Active mon accès/)).toBeNull();
     expect(screen.queryByText(/Sans engagement/)).toBeNull();

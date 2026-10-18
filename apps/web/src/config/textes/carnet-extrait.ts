@@ -17,15 +17,5 @@ export function carnetExtraitSurtitre(deMois: string, numero: number): string {
 
 export const CARNET_EXTRAIT_TITRE = "Le carnet, en vrai";
 
-/**
- * Phrase d'intro selon le nombre d'autres situations du mois (`totalFiches - 1`) :
- * pluriel en chiffres à partir de 2, singulier pour 1, aucune phrase pour 0.
- */
-export function carnetExtraitIntro(autres: number): string | null {
-  if (!Number.isFinite(autres) || autres < 1) return null;
-  if (autres === 1) return "L'autre situation du mois est dans Premium.";
-  return `Les ${Math.floor(autres)} autres situations du mois sont dans Premium.`;
-}
-
 /** Lien en contour vers /carnet (la fiche y est entière, en accès libre). */
 export const CARNET_EXTRAIT_LIEN = "Lire la fiche en entier";

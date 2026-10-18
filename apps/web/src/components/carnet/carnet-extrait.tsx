@@ -2,12 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { CarnetFicheCard } from "@/components/carnet/carnet-fiche-card";
 import { deMoisSeul, type CarnetExtrait } from "@/lib/carnet";
-import {
-  CARNET_EXTRAIT_LIEN,
-  CARNET_EXTRAIT_TITRE,
-  carnetExtraitIntro,
-  carnetExtraitSurtitre,
-} from "@/config/textes/carnet-extrait";
+import { CARNET_EXTRAIT_LIEN, CARNET_EXTRAIT_TITRE, carnetExtraitSurtitre } from "@/config/textes/carnet-extrait";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,7 +13,6 @@ import { cn } from "@/lib/utils";
 export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
   const deMois = deMoisSeul(extrait.mois);
   if (!deMois || extrait.totalFiches < 1) return null;
-  const intro = carnetExtraitIntro(extrait.totalFiches - 1);
 
   return (
     <section
@@ -33,7 +27,6 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
         <h2 id="abonnement-carnet-titre" className="font-display text-2xl font-bold text-text-primary">
           {CARNET_EXTRAIT_TITRE}
         </h2>
-        {intro && <p className="text-sm text-text-secondary">{intro}</p>}
       </header>
 
       <CarnetFicheCard fiche={extrait.fiche} numero={extrait.numero} extrait />

@@ -44,34 +44,42 @@ describe("/carnet non Premium", () => {
     const html = container.innerHTML;
 
     for (const field of SECRET_FIELDS) expect(html).toContain(october.fiches[0][field]);
-    for (const fiche of october.fiches.slice(1)) {
-      expect(html).toContain(fiche.titre);
-      expect(html).toContain(fiche.contexte);
+    // Concision v5 : « Au programme », 3 titres de fiches puis « Et N autres répliques ».
+    october.fiches.slice(1).forEach((fiche, i) => {
+      if (i < 3) {
+        expect(html).toContain(fiche.titre);
+        expect(html).toContain(fiche.contexte);
+      } else {
+        expect(html).not.toContain(fiche.titre);
+      }
       for (const field of SECRET_FIELDS) expect(html).not.toContain(fiche[field]);
-    }
+    });
     expect(html).not.toContain("2026-11");
 
     const n = october.fiches.length - 1;
-    const cta = screen.getByRole("link", { name: new RegExp(`^Voir les ${n}\\sautres répliques\\s·\\s2,99\\s€/mois$`) });
+    expect(screen.getByRole("heading", { name: "Au programme" })).toBeInTheDocument();
+    expect(screen.getByText(`Et ${n - 3} autres répliques`)).toBeInTheDocument();
+    const cta = screen.getByRole("link", { name: /^Voir tout le carnet\s·\s2,99\s€\/mois$/ });
     expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
     expect(html).not.toContain("—");
   });
 
-  it("E1 (textes validés du 18/10) : titre, paragraphe, bouton et ligne sous le bouton, mot pour mot", async () => {
+  it("concision v5 : titre, paragraphe, bouton et REASS, mot pour mot, juste après la fiche offerte", async () => {
     planMock.mockResolvedValue(null);
     await renderCurrent();
     const n = october.fiches.length - 1;
     const t = (el: HTMLElement) => (el.textContent ?? "").replace(/\u00a0/g, " ").replace(/\u2060/g, "");
     expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(`Ça, c'était la réplique offerte. Il en reste ${n}.`);
-    expect(
-      screen.getByText(/^Elles vont de la moins tendue/),
-    ).toHaveTextContent(
-      "Elles vont de la moins tendue à la plus tendue, alors tu commences tranquille et tu montes d'un cran. Avec Premium, elles s'ouvrent toutes d'un coup, et un nouveau carnet arrive chaque mois.",
+    expect(screen.getByText("Un nouveau carnet arrive chaque mois.")).toBeInTheDocument();
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir tout le carnet · 2,99 €/mois");
+    expect(t(screen.getByText(/^Premium\s:\spremier paiement/))).toBe(
+      "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
     );
-    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe(`Voir les ${n} autres répliques · 2,99 €/mois`);
-    expect(t(screen.getByText(/^2,99\s€ TTC par mois\./))).toBe(
-      "2,99 € TTC par mois. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.",
-    );
+    // Bloc d'achat avant la liste verrouillée.
+    const bouton = screen.getByTestId("carnet-paywall-bouton");
+    const liste = screen.getByRole("heading", { name: "Au programme" });
+    expect(bouton.compareDocumentPosition(liste) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/autres situations du mois|Elles vont de la moins tendue/);
     expect(screen.queryByText(/Débloque tout le carnet|Commencer à/)).toBeNull();
   });
 });
@@ -85,7 +93,7 @@ describe("/carnet Premium", () => {
     for (const fiche of october.fiches) {
       for (const field of SECRET_FIELDS) expect(html).toContain(fiche[field]);
     }
-    expect(screen.queryByRole("link", { name: /Voir les \d+\sautres répliques/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Voir tout le carnet/ })).toBeNull();
     expect(screen.getByRole("link", { name: "septembre 2026" })).toHaveAttribute("href", "/carnet/2026-09");
     expect(html).not.toContain("novembre 2026");
   });
@@ -107,7 +115,7 @@ describe("/carnet/[mois]", () => {
     planMock.mockResolvedValue(null);
     const { container } = await render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
     expect(container.innerHTML).not.toContain("REPONSE_SECRETE_2026-09-F2");
-    expect(screen.getByRole("link", { name: /Voir les \d+\sautres répliques/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Voir tout le carnet/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fcarnet%2F2026-09&src=carnet",
     );

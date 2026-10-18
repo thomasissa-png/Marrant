@@ -44,7 +44,7 @@ describe("/register", () => {
     setUserAgent(UA.safariIos);
     render(<RegisterPage />);
     const email = screen.getByLabelText("Email");
-    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(google.className).not.toMatch(/order-first/);
     await waitFor(() => expect(google).toBeEnabled());
@@ -54,7 +54,7 @@ describe("/register", () => {
   it.each(["chromeAndroid", "xAndroid"] as const)("%s : Google actif", async (key) => {
     setUserAgent(UA[key]);
     render(<RegisterPage />);
-    await userEvent.click(screen.getByRole("button", { name: /S'inscrire avec Google/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Continuer avec Google/ }));
     expect(mockSignIn).toHaveBeenCalledWith("google", expect.any(Object));
     expect(screen.queryByTestId("in-app-notice")).not.toBeInTheDocument();
   });
@@ -68,7 +68,7 @@ describe("/register", () => {
     Object.defineProperty(window.navigator, "clipboard", { value: { writeText }, configurable: true });
 
     render(<RegisterPage />);
-    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     await waitFor(() => expect(google).toBeDisabled());
     expect(screen.getByText(REGISTER_MESSAGE)).toBeInTheDocument();
     expect(google).toHaveAttribute("aria-describedby", "google-in-app-notice");

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
 import { AvantagesPremium } from "@/components/premium/avantages-premium";
@@ -21,20 +20,14 @@ import { buildRegisterUrl, sanitizeSignupSrc } from "@/lib/auth-links";
 import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { PlanSelector } from "@/components/premium/plan-selector";
-import { PARCOURS_SLUGS, parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
-import { ABONNEMENT_ETAPE_1 } from "@/config/textes/entrees-parcours";
-import { ABONNEMENT_CONNECTE, ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
+import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
+import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS, MUR_PARCOURS } from "@/config/textes/cta-pages";
 import {
   formatEuros,
   PREMIUM_MONTHLY_PRICE_CENTS,
   type PremiumPlan,
 } from "@/config/premium";
-import {
-  ABONNEMENT_HAUT_VISITEUR,
-  OFFRE_NOM,
-  PAIEMENT_ANNULE,
-  REASSURANCE_PAIEMENT,
-} from "@/config/textes/offre";
+import { ABONNEMENT_HAUT_VISITEUR, PAIEMENT_ANNULE, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { trackCheckoutEchec, trackCheckoutOuvert, type CheckoutFormule } from "@/lib/checkout-tracking";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
@@ -103,7 +96,6 @@ export function AbonnementView({
   annualAvailable,
   carnetExtrait = null,
   parcoursOrigine = null,
-  etapeSuivante = null,
   connecteServeur = false,
 }: {
   annualAvailable: boolean;
@@ -114,10 +106,8 @@ export function AbonnementView({
   connecteServeur?: boolean;
   /** Extrait du carnet du mois (lot 2 s21), rendu par le serveur ; null si le carnet du mois manque. */
   carnetExtrait?: ReactNode;
-  /** s21 B16 : parcours d'origine (`returnTo`), lu par le serveur : surtitre et titre. */
+  /** Parcours d'origine (`returnTo`), lu par le serveur : titre et lien « Pas encore sûr ? ». */
   parcoursOrigine?: ParcoursSlug | null;
-  /** s21 B16 : carte « Étape 2 » du parcours d'origine, rendue par le serveur, avant l'extrait du carnet. */
-  etapeSuivante?: ReactNode;
 }) {
   const { status } = useSession();
   // Mensuel par défaut ; ?plan=annual préselectionne l'annuel (si disponible).
@@ -166,16 +156,10 @@ export function AbonnementView({
   const isAuthenticated = status === "authenticated" || (status === "loading" && connecteServeur);
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
-  // Compte connecté : pastille, titre et paragraphe E3 validés (`ABONNEMENT_CONNECTE`, cta-pages.ts).
-  const pageBadge = ABONNEMENT_CONNECTE.pastille;
-  // s21 B16 : surtitre et H1 visiteur selon le parcours d'origine (tour 4), sous-titre du lot 2.
-  const hautVisiteur = ABONNEMENT_HAUT_PAR_PARCOURS[parcoursOrigine ?? "defaut"];
-  const pageTitle = isAuthenticated
-    ? ABONNEMENT_CONNECTE.titre
-    : hautVisiteur.titre;
-  const pageSubtitle = isAuthenticated
-    ? frTypo(ABONNEMENT_CONNECTE.paragraphe)
-    : ABONNEMENT_HAUT_VISITEUR.sousTitre;
+  // Concision v5 (textes-v5-c §1) : titre du parcours d'origine (visiteur et compte connecté),
+  // un sous-titre commun, plus de surtitre ni de pastille.
+  const pageTitle = ABONNEMENT_HAUT_PAR_PARCOURS[parcoursOrigine ?? "defaut"].titre;
+  const pageSubtitle = ABONNEMENT_HAUT_VISITEUR.sousTitre;
 
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
     const annual = chosenPlan === "annual";
@@ -239,34 +223,11 @@ export function AbonnementView({
       )}
 
       <div className="text-center">
-        {/* Badge affiché uniquement pour un utilisateur connecté */}
-        {isAuthenticated && !resiliation && (
-          <Badge variant="primary" className="mb-3 sm:mb-4">
-            {pageBadge}
-          </Badge>
-        )}
-        {!isAuthenticated && (
-          // s21 B16 : surtitre sur deux lignes à 375 (hauteur fixe), compensée sous le titre :
-          // le bouton d'achat garde sa position (mesurée à 375 x 700 avant et après).
-          <p className="min-h-8 text-[0.8125rem] font-semibold leading-4 text-accent-link sm:mb-3 sm:min-h-0 sm:text-sm sm:leading-5" data-testid="abonnement-surtitre">
-            {frTypo(hautVisiteur.surtitre)}
-          </p>
-        )}
-        {/* s21 B16 : trois lignes réservées à 375 (titre le plus long), titre court centré dedans.
-            s21 (QA v3 m-3) : compte connecté, écran mobile de 760 px de haut au plus (360 x 740,
-            375 x 700) : titre à 24 px (trois lignes au lieu de quatre à 360) pour que le bouton
-            d'achat tienne au premier écran. Règle CSS lue par le serveur : aucun saut au chargement. */}
-        <h1
-          className={cn(
-            "font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary sm:text-3xl md:text-4xl",
-            isAuthenticated && "[@media(max-width:639px)_and_(max-height:760px)]:text-[1.5rem]",
-            !isAuthenticated && "flex min-h-[3.45em] items-center justify-center sm:block sm:min-h-0",
-          )}
-        >
+        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary [text-wrap:balance] sm:text-3xl md:text-4xl">
           {frTypo(pageTitle)}
         </h1>
         <p className="mx-auto mt-2 max-w-xl text-balance text-[0.9375rem] leading-snug text-text-secondary sm:mt-3 sm:text-lg">
-          {pageSubtitle}
+          {frTypo(pageSubtitle)}
         </p>
       </div>
 
@@ -275,11 +236,11 @@ export function AbonnementView({
           pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
           iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
           formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
-      <Card data-testid="abonnement-offre" className={`${isAuthenticated ? "mt-4" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
+      <Card data-testid="abonnement-offre" className="mt-4 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10">
         <CardContent className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">
-              {OFFRE_NOM}
+              {ABONNEMENT_CTA.carteNom}
             </h2>
           </div>
           {annualAvailable ? (
@@ -309,7 +270,7 @@ export function AbonnementView({
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : frTypo(ABONNEMENT_CONNECTE.bouton(plan))}
+                : frTypo(ABONNEMENT_CTA.bouton(plan))}
             </Button>
           ) : (
             <Link
@@ -325,10 +286,10 @@ export function AbonnementView({
                 })
               }
             >
-              {ABONNEMENT_CTA.bouton(plan, parcoursOrigine)}
+              {frTypo(ABONNEMENT_CTA.bouton(plan))}
             </Link>
           )}
-          {/* s21 B16 : [S32] ce qui suit le clic, juste sous le bouton (visiteur). */}
+          {/* Ce qui suit le clic, juste sous le bouton (visiteur). */}
           {!isAuthenticated && (
             <p className="mt-2 text-center text-xs text-text-secondary" data-testid="abonnement-suite">
               {frTypo(ABONNEMENT_CTA.suite)}
@@ -337,17 +298,15 @@ export function AbonnementView({
 
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
 
-          <p className="mt-3 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
-            {REASSURANCE_PAIEMENT}
-          </p>
-          {/* Fusion s21 (choix de Thomas du 18/10 : pas de juridique dans les blocs d'appel) :
-              une seule mention de Stripe. Visiteur : [S32] la porte déjà ; compte connecté
-              (pas de [S32]) : cette ligne. /retractation reste dans le pied de page et la FAQ. */}
+          {/* Une seule mention de Stripe : compte connecté seulement (le visiteur lit `suite`). */}
           {isAuthenticated && (
-            <p className="mt-1 text-center text-xs text-text-muted" data-testid="paiement-stripe">
-              Paiement sécurisé par Stripe
+            <p className="mt-2 text-center text-xs text-text-secondary" data-testid="paiement-stripe">
+              {ABONNEMENT_CTA.ligneConnecte}
             </p>
           )}
+          <p className="mt-2 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
+            {frTypo(REASSURANCE_UNIQUE)}
+          </p>
 
           {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
               d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}
@@ -355,50 +314,22 @@ export function AbonnementView({
         </CardContent>
       </Card>
 
-      {/* s21 B16 : aperçu public de l'étape 2 du parcours d'origine, avant l'extrait du carnet. */}
-      {!isAuthenticated && etapeSuivante}
-
       {/* Lot 2 s21 : la fiche offerte du carnet du mois, avant « Pas encore sûr ? ». */}
       {carnetExtrait}
 
-      {/* s17 (QA-13) : voir ce qu'on achète. Retour vers un parcours précis : son étape 1 ;
-          sinon les 3. Le lien n'apparaît qu'après montage pour le retour (HTML serveur : les 3). */}
-      <section
-        aria-labelledby="abonnement-etape-1-titre"
-        data-testid="abonnement-etape-1"
-        className="mt-6 rounded-xl border border-border bg-background-card p-6 text-center"
-      >
-        <h2 id="abonnement-etape-1-titre" className="font-semibold text-text-primary">
-          {ABONNEMENT_ETAPE_1.titre}
-        </h2>
-        <p className="mt-1 text-sm text-text-secondary">{ABONNEMENT_ETAPE_1.texte}</p>
-        <ul className="mt-3 flex flex-col items-center gap-1 sm:flex-row sm:justify-center sm:gap-4">
-          {(parcoursSlugFromHref(returnTo ?? undefined) ? [parcoursSlugFromHref(returnTo ?? undefined)!] : PARCOURS_SLUGS).map(
-            (slug) => (
-              <li key={slug}>
-                <Link
-                  href={parcoursEtape1Href(slug, "abonnement")}
-                  className="inline-flex min-h-[44px] items-center text-sm font-medium text-accent-link underline underline-offset-4 hover:text-text-primary"
-                >
-                  {ABONNEMENT_ETAPE_1.lien(slug)}
-                </Link>
-              </li>
-            ),
-          )}
-        </ul>
-      </section>
-
-      {/* Garantie */}
-      <div className="mt-6 rounded-xl bg-background-elevated p-6 text-center">
-        <p className="font-semibold text-text-primary">
-          Tu annules quand tu veux
+      {/* Concision v5 : « Pas encore sûr ? » et un seul lien, l'étape 1 du parcours d'origine
+          (Répartie par défaut). Visiteur seulement. */}
+      {!isAuthenticated && (
+        <p className="mt-6 text-center text-sm text-text-secondary" data-testid="abonnement-etape-1">
+          {frTypo(ABONNEMENT_CTA.pasEncoreSur)}{" "}
+          <Link
+            href={parcoursEtape1Href(parcoursOrigine ?? MUR_PARCOURS, "abonnement")}
+            className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-4 hover:text-text-primary"
+          >
+            {frTypo(ABONNEMENT_CTA.lienEtape1(parcoursOrigine ?? MUR_PARCOURS))}
+          </Link>
         </p>
-        <p className="mt-1 text-sm text-text-secondary">
-          Ton acc&egrave;s reste actif jusqu&apos;à la fin de ta p&eacute;riode en cours
-          {annualAvailable ? " (le mois ou l'année déjà payés)" : ""}.
-          Pas de frais cach&eacute;s, pas de pi&egrave;ge.
-        </p>
-      </div>
+      )}
 
       {/* FAQ */}
       <div className="mt-12">

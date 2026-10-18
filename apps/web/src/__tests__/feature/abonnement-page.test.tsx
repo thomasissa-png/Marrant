@@ -7,7 +7,6 @@ import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 // s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
 jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { AbonnementView } from "@/components/premium/abonnement-view";
-import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { envNeutre } from "../helpers/env-neutre";
 
 // s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
@@ -47,35 +46,37 @@ function checkoutCalls(mock: jest.Mock) {
   return mock.mock.calls.filter(([url]) => url === "/api/stripe/checkout");
 }
 
-describe("s21 B16 : /abonnement visiteur", () => {
+describe("/abonnement visiteur (concision v5, textes-v5-c §1)", () => {
   it.each([
-    ["machine-a-cafe", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
-    ["boulot", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
-    ["confiance", "Retrouver le rire à table, 20 minutes par semaine, sans te forcer"],
-    ["storytelling", "Ton histoire jusqu'à la chute, avant qu'on te dise « et donc ? »"],
-  ] as const)("parcours d'origine %s : surtitre et titre dédiés", (slug, titre) => {
+    ["repartie", "Ta réplique en soirée, pas dans le bus du retour"],
+    ["machine-a-cafe", "Faire rire au bureau, au bon moment"],
+    ["boulot", "Faire rire au bureau, au bon moment"],
+    ["confiance", "Rire à table, sans monter sur scène"],
+    ["storytelling", "Ton histoire jusqu'à la chute, avant le « et donc ? »"],
+  ] as const)("parcours d'origine %s : titre dédié, plus de surtitre, bouton OUVRIR unique", (slug, titre) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} parcoursOrigine={slug} />);
     expect(screen.getByRole("heading", { level: 1, name: frTypo(titre) })).toBeInTheDocument();
-    expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(ABONNEMENT_HAUT_PAR_PARCOURS[slug].surtitre);
-    // Tour 16 (B16) : le bouton d'achat nomme le parcours d'origine.
-    expect(screen.getByTestId("abonnement-bouton-achat")).toHaveTextContent(ABONNEMENT_CTA.bouton("monthly", slug).replace(/\s/g, " "));
+    expect(screen.queryByTestId("abonnement-surtitre")).toBeNull();
+    expect(screen.getByTestId("abonnement-bouton-achat")).toHaveTextContent("Ouvrir les 5 parcours · 2,99 €/mois");
+    expect(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre).toBe(titre);
   });
 
-  it("[S32] sous le bouton, carte « Étape 2 » avant l'extrait du carnet", () => {
+  it("suite sous le bouton, puis REASS ; extrait du carnet puis « Pas encore sûr ? » (parcours d'origine)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     const { container } = render(
-      <AbonnementView
-        annualAvailable={false}
-        etapeSuivante={<div data-testid="carte-etape-2" />}
-        carnetExtrait={<div data-testid="carnet" />}
-      />,
+      <AbonnementView annualAvailable={false} parcoursOrigine="confiance" carnetExtrait={<div data-testid="carnet" />} />,
     );
     expect(screen.getByTestId("abonnement-suite")).toHaveTextContent(ABONNEMENT_CTA.suite);
+    expect(ABONNEMENT_CTA.suite).toBe("Ton compte, puis le paiement sécurisé.");
     const html = container.innerHTML;
     expect(html.indexOf("abonnement-bouton-achat")).toBeLessThan(html.indexOf("abonnement-suite"));
     expect(html.indexOf("abonnement-suite")).toBeLessThan(html.indexOf("reassurance-paiement"));
-    expect(html.indexOf("carte-etape-2")).toBeLessThan(html.indexOf('data-testid="carnet"'));
+    expect(html.indexOf('data-testid="carnet"')).toBeLessThan(html.indexOf("abonnement-etape-1"));
+    const lien = screen.getByRole("link", { name: /^Tester l'étape\s1\sde Confiance, gratuite$/ });
+    expect(lien).toHaveAttribute("href", "/parcours/confiance?src=abonnement#etape-1");
+    expect(screen.getByTestId("abonnement-etape-1")).toHaveTextContent(/^Pas encore sûr\s\?\sTester l'étape\s1\sde Confiance, gratuite$/);
+    expect(document.body.textContent).not.toMatch(/Tu annules quand tu veux|Lis d'abord une étape|Étape 2 sur/);
   });
 });
 
@@ -86,21 +87,11 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    // Surtitre, H1 et sous-titre validés ensemble à l'aveugle (lot 2 s21, tour 3) ;
-    // décision Thomas 17/10 : le H1 validé remplace « Accéder aux parcours complets ».
-    expect(
-      screen.getByRole("heading", { level: 1, name: "Ta réplique pendant la soirée, pas dans le bus du retour" }),
-    ).toBeInTheDocument();
+    // Concision v5 : titre de Répartie par défaut, sous-titre unique, plus de surtitre.
+    expect(screen.getByRole("heading", { level: 1, name: "Ta réplique en soirée, pas dans le bus du retour" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Accéder aux parcours complets" })).not.toBeInTheDocument();
-    // s21 B16 : surtitre par parcours d'origine, défaut = Répartie (tour 4).
-    expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(
-      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
-    );
-    expect(
-      screen.getByText(
-        "5 parcours pour t'entraîner, une étape par semaine conseillée, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
-      ),
-    ).toBeInTheDocument();
+    expect(screen.queryByTestId("abonnement-surtitre")).toBeNull();
+    expect(screen.getByText(/^Pas d'attente entre les étapes, de 15 à 20 minutes chacune\.$/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
     // Fin de l'offre de lancement (01/10/2026) : plus aucun badge « Prix de lancement ».
     expect(screen.queryByText("Prix de lancement")).not.toBeInTheDocument();
@@ -115,9 +106,8 @@ describe("AbonnementPage (s12 T45)", () => {
     perceptible.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
     const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ");
     const lignes = [
-      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
-      "Ta réplique pendant la soirée, pas dans le bus du retour",
-      "5 parcours pour t'entraîner, une étape par semaine conseillée, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      "Ta réplique en soirée, pas dans le bus du retour",
+      "Pas d'attente entre les étapes, de 15 à 20 minutes chacune.",
       "Premium",
       "Mensuel",
       "Annuel",
@@ -125,16 +115,17 @@ describe("AbonnementPage (s12 T45)", () => {
       // « 2,99 € » et « TTC / mois » : deux spans séparés par l'espacement flex (gap), sans espace dans le texte.
       "2,99 €",
       "TTC / mois",
-      "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
+      "Ou 24,99 €/an, soit 2,08 € par mois.",
       "Ouvrir les 5 parcours · 2,99 €/mois",
-      // s21 B16 : [S32] juste sous le bouton, avant la garantie.
-      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe.",
-      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
-      // §5.2 / §7 point 3 (choix de Thomas) : les avantages viennent APRÈS le bouton d'achat.
-      "Les 5 parcours en entier",
-      "Le carnet mensuel de situations de répartie",
-      "Tes favoris",
-      "Les listes complètes",
+      // Juste sous le bouton, avant la REASS.
+      "Ton compte, puis le paiement sécurisé.",
+      "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+      // Les avantages viennent APRÈS le bouton d'achat (bouton visible sans défiler).
+      "Chaque parcours en entier",
+      "Un nouveau carnet de répartie chaque mois",
+      "Tout le catalogue : vannes, conseils, vidéos",
+      "Tes favoris sous la main",
+      "Pas encore sûr ? Tester l'étape 1 de Répartie, gratuite",
     ];
     let depuis = 0;
     for (const ligne of lignes) {
@@ -175,35 +166,30 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
   });
 
-  it("E3 (textes validés du 18/10) : pastille, titre, paragraphe et bouton du compte connecté, mot pour mot", async () => {
+  it("compte connecté : titre du parcours d'origine, sous-titre commun, ligne Stripe, sans pastille ni « Pas encore sûr ? »", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(await AbonnementPage({}));
-    expect(screen.getByText("Un abonnement, tout ouvert")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Les 5 parcours en entier, et un nouveau carnet de répartie chaque mois.",
-    );
-    expect(
-      screen.getByText(
-        "Machine à Café, Répartie, Confiance, Storytelling et Boulot, de 3 à 6 semaines chacun, et tout s'ouvre d'un coup. Chaque étape tient en 15 à 20 minutes : un conseil, un défi à tenter, 5 vannes, 2 vidéos et un petit quiz. En plus des parcours : toutes les vannes, tous les conseils et toutes les vidéos du site.",
-      ),
-    ).toBeInTheDocument();
+    expect(screen.queryByText("Un abonnement, tout ouvert")).toBeNull();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Ta réplique en soirée, pas dans le bus du retour");
+    expect(screen.getByText(/^Pas d'attente entre les étapes/)).toBeInTheDocument();
+    expect(screen.getByTestId("paiement-stripe")).toHaveTextContent("Paiement sécurisé par Stripe");
+    expect(screen.queryByTestId("abonnement-suite")).toBeNull();
+    expect(screen.queryByTestId("abonnement-etape-1")).toBeNull();
     expect(screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ })).toBeInTheDocument();
-    expect(screen.queryByText(/Plus qu'une étape|Active ton accès|Active mon accès|Ton compte est prêt/)).toBeNull();
+    expect(screen.queryByText(/Plus qu'une étape|Active ton accès|Active mon accès|Ton compte est prêt|tout s'ouvre d'un coup/)).toBeNull();
   });
 
   describe("offre Premium vraie (décision Thomas 03/10)", () => {
     afterEach(() => window.history.pushState({}, "", "/"));
 
-    it("met les 3 parcours en avant et ne vend plus le gratuit ni l'inexistant", async () => {
+    it("vend ce qui existe (parcours, carnet, catalogue, favoris), sans l'inexistant", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
-      expect(screen.getByText(`Les ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours en entier`)).toBeInTheDocument();
+      expect(screen.getByText("Chaque parcours en entier")).toBeInTheDocument();
       const text = document.body.textContent ?? "";
-      expect(text).toContain("Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine)");
-      expect(text).toContain("La première étape de chaque parcours est offerte");
       // Seul contenu mensuel vendu : le carnet, qui existe (décision 03/10/2026).
-      expect(text).toContain("Le carnet mensuel de situations de répartie");
-      expect(text.replace("(nouveau chaque mois)", "")).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|chaque mois|annuel|par an/i);
+      expect(text).toContain("Un nouveau carnet de répartie chaque mois");
+      expect(text).not.toMatch(/Contenu quotidien|Filtres avancés|illimit|annuel|par an/i);
       expect(text).not.toContain("\u2014");
     });
 
@@ -283,15 +269,13 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
     });
 
-    it("annuel : 24,99 €/an, soit 2,08 € par mois, plus de 3 mois offerts et 10,89 € économisés (D5 s16), envoi plan=annual", async () => {
+    it("annuel : 24,99 €/an, « Soit 2,08 € par mois, plus de 3 mois offerts. » (concision v5), envoi plan=annual", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(await AbonnementPage({}));
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
       expect(screen.getByText("24,99 €")).toBeInTheDocument();
-      expect(
-        screen.getByText("soit 2,08 € par mois, plus de 3 mois offerts, 10,89 € économisés par an"),
-      ).toBeInTheDocument();
-      expect(screen.getByText("Payé en une fois, renouvelé chaque année, résiliable depuis ton profil")).toBeInTheDocument();
+      expect(screen.getByText("Soit 2,08 € par mois, plus de 3 mois offerts.")).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/Payé en une fois|économisés/);
       expect(document.body.textContent).not.toMatch(/4 mois/);
       const text = document.body.textContent ?? "";
       expect(text).not.toMatch(/4 mois/);
@@ -304,9 +288,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
       expect(screen.getByTestId("annuel-mois-offerts")).toHaveTextContent("plus de 3 mois offerts");
-      expect(screen.getByTestId("annuel-ligne-mensuel")).toHaveTextContent(
-        "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
-      );
+      expect(screen.getByTestId("annuel-ligne-mensuel")).toHaveTextContent("Ou 24,99 €/an, soit 2,08 € par mois.");
       const compte = (t: string) => (t.match(/mois offerts/g) ?? []).length;
       /** Texte perçu : sans les éléments `aria-hidden` (invisibles, gardés pour la mise en page). */
       const texteAccessible = (racine: HTMLElement) => {
@@ -341,7 +323,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(screen.getByTestId("annuel-ligne-mensuel")).not.toHaveAttribute("aria-hidden");
       // Revue design v2 (point 1) : la ligne d'économie porte elle-même aria-hidden ;
       // « Payé en une fois… » n'est rendu qu'en annuel.
-      expect(screen.getByText(/^soit 2,08/)).toHaveAttribute("aria-hidden", "true");
+      expect(screen.getByText(/^Soit 2,08/)).toHaveAttribute("aria-hidden", "true");
       expect(screen.queryByText(/^Payé en une fois/)).not.toBeInTheDocument();
       expect(compte(texteAccessible(document.body))).toBe(1);
     });

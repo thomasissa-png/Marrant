@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useUserStore } from "@/stores/user-store";
-import { PRENOM_MAX, TEXTES_API, TEXTES_PRENOM as T } from "@/config/textes/compte";
+import { PRENOM_MAX, TEXTES_PRENOM as T } from "@/config/textes/compte";
 
 /**
  * Prénom du compte (s21 concision, choix de Thomas du 18/10) : il n'est plus demandé à
@@ -36,14 +36,15 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
       });
       const data = (await res.json().catch(() => ({}))) as { name?: string | null; error?: string };
       if (!res.ok) {
-        setErreur(data.error ?? TEXTES_API.erreurServeur);
+        // Saisie refusée (400) : le message de validation ; tout autre échec : le message de la carte.
+        setErreur(res.status === 400 && data.error ? data.error : T.erreur);
         return;
       }
       setName(data.name ?? null);
       setValeur(data.name ?? "");
       toast(T.succes, "success");
     } catch {
-      setErreur(TEXTES_API.erreurServeur);
+      setErreur(T.erreur);
     } finally {
       setEnCours(false);
     }

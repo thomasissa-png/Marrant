@@ -10,6 +10,7 @@ import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
 import { FIN_DE_PAGE_PARCOURS_ETAPE_1, GLOSSAIRE_FIN } from "@/config/textes/cta-pages";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { MasqueSiPremium } from "@/components/home/masque-si-premium";
@@ -132,7 +133,7 @@ export default function GlossairePage() {
       </nav>
 
       {/* CTA. s21 (revue v2) : masqué pour un abonné Premium ; source `glossaire` suivie
-          jusqu'à `checkout-ouvert` (m-1). Textes : E5 validé (config/textes/cta-pages.ts). */}
+          jusqu'à `checkout-ouvert` (m-1). Textes : concision v5 (config/textes/cta-pages.ts). */}
       <MasqueSiPremium>
       <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center" data-testid="glossaire-fin">
         <p className="font-display text-xl font-bold text-text-primary">{frTypo(GLOSSAIRE_FIN.titre)}</p>
@@ -141,7 +142,7 @@ export default function GlossairePage() {
           <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={buttonVariants({ variant: "primary", size: "lg", className: "h-auto min-h-12 whitespace-normal py-2 [text-wrap:balance]" })}>
             {frTypo(GLOSSAIRE_FIN.bouton)}
           </Link>
-          <p className="max-w-md text-balance text-sm text-text-muted">{frTypo(GLOSSAIRE_FIN.ligneDiscrete)}</p>
+          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
           <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
             {frTypo(GLOSSAIRE_FIN.lienEtape1)}
           </Link>

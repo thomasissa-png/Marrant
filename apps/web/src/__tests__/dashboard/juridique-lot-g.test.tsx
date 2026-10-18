@@ -28,7 +28,7 @@ const RESILIER = TEXTES_ABONNEMENT.resilier;
 
 function Carte({ plan = "PREMIUM" }: { plan?: string }) {
   const abonnement = useSubscriptionSummary(true);
-  return <AbonnementCard plan={plan} xp={0} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
+  return <AbonnementCard plan={plan} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
 }
 
 beforeEach(() => jest.clearAllMocks());

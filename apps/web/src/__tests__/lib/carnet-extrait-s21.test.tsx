@@ -14,7 +14,7 @@ import {
   type Carnet,
   type CarnetFiche,
 } from "@/lib/carnet";
-import { carnetExtraitIntro, carnetExtraitSurtitre } from "@/config/textes/carnet-extrait";
+import { carnetExtraitSurtitre } from "@/config/textes/carnet-extrait";
 import { CarnetExtraitBloc } from "@/components/carnet/carnet-extrait";
 
 function fiche(n: number): CarnetFiche {
@@ -54,19 +54,7 @@ describe("deMoisSeul : nom du mois sans l'année, avec élision", () => {
   });
 });
 
-describe("carnetExtraitIntro : nombre d'autres situations", () => {
-  it("pluriel en chiffres à partir de 2", () => {
-    expect(carnetExtraitIntro(14)).toBe("Les 14 autres situations du mois sont dans Premium.");
-    expect(carnetExtraitIntro(2)).toBe("Les 2 autres situations du mois sont dans Premium.");
-  });
-
-  it("singulier pour 1, rien pour 0 ou une valeur absurde", () => {
-    expect(carnetExtraitIntro(1)).toBe("L'autre situation du mois est dans Premium.");
-    expect(carnetExtraitIntro(0)).toBeNull();
-    expect(carnetExtraitIntro(-1)).toBeNull();
-    expect(carnetExtraitIntro(Number.NaN)).toBeNull();
-  });
-
+describe("surtitre de l'extrait (concision v5 : plus de phrase d'intro)", () => {
   it("surtitre calculé, jamais « octobre » ni « Situation 1 » en dur", () => {
     expect(carnetExtraitSurtitre("d'octobre", 15)).toBe("Carnet d'octobre · Situation 15, offerte");
     expect(carnetExtraitSurtitre("de novembre", 10)).toBe("Carnet de novembre · Situation 10, offerte");
@@ -93,7 +81,7 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
     const extrait = getCarnetExtrait(reel, OCT_17);
     expect(extrait?.fiche.titre).toBe("Le premier rendez-vous silencieux");
     expect(extrait?.fiche.reponse).toBe("Donne-moi la nuit. Demain, je t'envoie un message magnifique.");
-    expect(carnetExtraitIntro((extrait?.totalFiches ?? 0) - 1)).toBe("Les 14 autres situations du mois sont dans Premium.");
+    expect(extrait?.totalFiches).toBe(15);
     expect(extrait?.numero).toBe(15);
     render(<CarnetExtraitBloc extrait={extrait!} />);
     expect(screen.getByText("Carnet d'octobre · Situation 15, offerte")).toBeInTheDocument();
@@ -117,11 +105,11 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
 });
 
 describe("CarnetExtraitBloc", () => {
-  it("rend le surtitre, le titre, l'intro, la fiche sans « Si ça se tend » ni « À toi de jouer », et le lien", () => {
+  it("rend le surtitre, le titre, la fiche sans « Si ça se tend » ni « À toi de jouer », et le lien (plus d'intro)", () => {
     render(<CarnetExtraitBloc extrait={{ mois: "2026-10", fiche: fiche(1), totalFiches: 15, numero: 1 }} />);
     expect(screen.getByText("Carnet d'octobre · Situation 1, offerte")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Le carnet, en vrai" })).toBeInTheDocument();
-    expect(screen.getByText("Les 14 autres situations du mois sont dans Premium.")).toBeInTheDocument();
+    expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 3, name: "Titre 1" })).toBeInTheDocument();
     for (const t of ["Situation 1", "On te dit 1", "Réponse 1", "Pourquoi 1"]) {
       expect(screen.getByText(t)).toBeInTheDocument();
@@ -133,10 +121,10 @@ describe("CarnetExtraitBloc", () => {
     expect(screen.getByRole("link", { name: "Lire la fiche en entier" })).toHaveAttribute("href", "/carnet#fiche-f1");
   });
 
-  it("singulier avec 2 fiches, aucune intro avec 1 seule fiche", () => {
+  it("aucune intro, quel que soit le nombre de fiches", () => {
     const { unmount } = render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 2, numero: 1 }} />);
     expect(screen.getByText("Carnet de novembre · Situation 1, offerte")).toBeInTheDocument();
-    expect(screen.getByText("L'autre situation du mois est dans Premium.")).toBeInTheDocument();
+    expect(screen.queryByText(/situations? du mois/)).not.toBeInTheDocument();
     unmount();
     render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 1, numero: 1 }} />);
     expect(screen.queryByText(/situations? du mois/)).not.toBeInTheDocument();
