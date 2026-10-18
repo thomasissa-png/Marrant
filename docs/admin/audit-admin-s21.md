@@ -43,7 +43,7 @@ Manquent aussi : abonnés actifs par formule (mensuel, annuel), nouveaux abonné
 - Section **lettre ajoutée au rapport du lundi** (même fonction que l'admin) : le rapport et la page disent la même chose.
 - Abonnés actifs ventilés mensuel / annuel dans la fonction partagée (`prismaFunnelCounter`), donc dans l'e-mail aussi.
 - Retirés : « Engagement », « Plans mensuels agents », textes « directeur artistique 9/10 », métriques Twitter. Corrigés : alerte contenu du jour (jour UTC, cause = stock), libellés.
-- Recommandation non appliquée (change les chiffres du lundi) : exclure les comptes de test de l'entonnoir (comptes créés, abonnés actifs, MRR), comme le bloc parcours.
+- Comptes de test exclus de l'entonnoir (comptes créés, abonnés actifs, revenu, nouveaux abonnés, résiliations), admin et e-mail, tranché par la coordination le 18/10 (2e passe).
 
 ## 5. Livré (s21, 18/10)
 
@@ -52,3 +52,10 @@ Manquent aussi : abonnés actifs par formule (mensuel, annuel), nouveaux abonné
 - Fonctions partagées avec l'e-mail : `lib/analytics/weekly-lettre.ts` (nouveau), `lignesFunnel` et `compterParFormule` (`weekly-funnel.ts`), `lignesParcours` (`weekly-parcours.ts`), `dernierRapportDuLundi` (`weekly-visits-period.ts`) ; Umami facultatif dans `buildWeeklyFunnel` / `buildWeeklyParcours` (la base reste lue sans Umami).
 - `/api/admin/stats` n'est plus lu par la page (gardé pour les appels curl et son test) ; `/api/admin/planning` renvoie encore `contentPlans`, ignoré par l'écran.
 - Captures (build local, PostgreSQL 16 jetable, données factices, Umami simulé côté serveur pour la capture seulement) : `captures/admin-semaine-{375,1280}.png`, `captures/admin-abonnes-lettre-{375,1280}.png`, `captures/admin-abonnes-premium-{375,1280}.png`. Aucun débordement horizontal à 375 px, aucune erreur JavaScript.
+
+## 6. Deuxième passe (18/10, retours de la coordination)
+
+- **Comptes de test exclus partout** : `idsComptesTest` (`comptes-test.ts`) alimente `prismaFunnelCounter` et `prismaConversions`, donc l'admin et l'e-mail. Filtre sur le compte pour comptes créés, abonnés actifs, revenu, résiliations programmées. Les événements Stripe (`WebhookEvent`) ne portent pas le compte : on retire les abonnements des comptes de test créés sur la période (nouveaux abonnés et premier paiement) et ceux terminés sur la période (résiliations), jamais sous zéro. Ligne « N compte(s) de test exclu(s) » sous l'entonnoir (e-mail) et sous les chiffres clés (admin).
+- **Coquille admin** : `admin/layout.tsx` sans Header ni Footer publics, barre `AdminBar` (« Backoffice », « Voir le site », Déconnexion). Le « doublon » de la capture mobile était un artefact : l'en-tête public, collant, redessiné en pleine page ; un seul pied de page. Vérifié sur build local : `/admin/ceo` sous la coquille, connecté par la même session ; `/admin/social` (layout `(dashboard)`) s'affiche normalement.
+- **Mobile** : lignes des parcours empilées (libellé puis valeurs, retour à la ligne) ; titre de la barre raccourci sous 640 px. Aucun défilement horizontal de page à 375 px sur Semaine, Abonnés › Lettre, Abonnés › Premium, Réseaux sociaux, Planning et `/admin/ceo` (mesuré).
+- `abonnement-clic` gardé tel quel.

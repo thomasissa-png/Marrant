@@ -3,7 +3,8 @@
 /**
  * Backoffice (Client Component : connexion par mot de passe, onglets interactifs).
  *
- * s21 (18/10) : refonte. Connexion inchangée (POST /api/admin/auth, puis Bearer
+ * s21 (18/10) : refonte. Barre et Déconnexion : coquille `admin/layout.tsx` (AdminBar).
+ * Connexion inchangée (POST /api/admin/auth, puis Bearer
  * ADMIN_PASSWORD gardé en sessionStorage). Onglets :
  *  - Semaine (défaut) : le rapport du lundi, mêmes fonctions (/api/admin/semaine) ;
  *  - Abonnés : Premium et comptes (/api/admin/users), lettre (/api/admin/lettre) ;
@@ -42,6 +43,7 @@ export default function AdminPage() {
   const logout = useCallback((message = "") => {
     sessionStorage.removeItem(AUTH_KEY);
     sessionStorage.removeItem(ADMIN_PASS_KEY);
+    window.dispatchEvent(new Event("admin-session"));
     setIsAuthenticated(false);
     setError(message);
   }, []);
@@ -59,6 +61,7 @@ export default function AdminPage() {
       if (res.ok) {
         sessionStorage.setItem(AUTH_KEY, "true");
         sessionStorage.setItem(ADMIN_PASS_KEY, password);
+        window.dispatchEvent(new Event("admin-session"));
         setIsAuthenticated(true);
       } else {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -98,22 +101,9 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="md:p-4">
+    <div>
       <div className="mx-auto max-w-7xl">
-        <div className="mb-4 flex items-center justify-between gap-3">
-          <div>
-            <h1 className="font-display text-2xl font-bold text-text-primary md:text-3xl">Backoffice</h1>
-            <p className="text-sm text-text-muted">deviens-marrant.fr</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => logout()}
-            className="rounded-lg border border-border px-3 py-2 text-sm text-text-secondary transition-colors hover:bg-background-elevated"
-          >
-            Déconnexion
-          </button>
-        </div>
-
+        <h1 className="sr-only">Backoffice deviens-marrant.fr</h1>
         <nav className="-mx-4 mb-6 overflow-x-auto px-4 md:mx-0 md:px-0" aria-label="Sections du backoffice">
           <div className="flex min-w-max gap-1 rounded-lg border border-border bg-background-elevated p-1 md:min-w-0">
             {TABS.map((tab) => (

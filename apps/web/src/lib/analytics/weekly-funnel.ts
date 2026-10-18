@@ -17,6 +17,7 @@ import {
   type UmamiPropertyValue,
 } from "./umami";
 import { escapeHtml } from "./weekly-visits-email";
+import { emailsExclus, idsComptesTest } from "./comptes-test";
 
 /**
  * Fin du compte gratuit (s15, déployé le 06/10/2026 à 07:45 heure de Paris) :
@@ -43,12 +44,14 @@ export type FunnelDbCounts = {
   /** s21 (page admin) : abonnés actifs par formule (`billingInterval` « month » / « year »). */
   parFormule?: { mensuel: number; annuel: number; inconnu: number };
   mrrCents: number;
+  /** s21 : comptes de test trouvés en base et exclus des chiffres ci-dessus. */
+  comptesTestExclus?: number;
 };
 
 /** Une ligne de la ventilation par bloc d'entrée (`src` de `checkout-ouvert` / `checkout-echec`). */
 export type CheckoutParSource = { src: string; ouverts: number; echecs: number };
 
-export type FunnelDbCounter = (startAt: Date, endAt: Date) => Promise<FunnelDbCounts>;
+export type FunnelDbCounter = (startAt: Date, endAt: Date, exclus?: string[]) => Promise<FunnelDbCounts>;
 
 export type WeeklyFunnel = {
   /** s20 : encarts d'article vus (blog-cta-vu) et cliqués (blog-cta-clic), seuil du lot 1. */
@@ -79,33 +82,51 @@ export function renouvellements(db: Pick<FunnelDbCounts, "paiements" | "nouveaux
   return Math.max(0, db.paiements - db.nouveauxAbonnes);
 }
 
-/** Lecture Prisma : imports dynamiques (comme le reste du job), jamais au chargement. */
-export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt) => {
+/**
+ * Lecture Prisma : imports dynamiques (comme le reste du job), jamais au chargement.
+ * s21 (18/10, décision de Thomas) : comptes de test (`ANALYTICS_EMAILS_EXCLUS`)
+ * exclus des comptes créés, abonnés actifs, revenu mensuel et résiliations
+ * programmées (filtre sur le compte). Les événements Stripe (`WebhookEvent`) ne
+ * portent pas le compte : on retire les nouveaux abonnements des comptes de test
+ * créés sur la période (premier paiement compris) et leurs abonnements terminés
+ * sur la période (jamais sous zéro).
+ */
+export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt, exclus = emailsExclus()) => {
   const { prisma } = await import("@/lib/prisma");
   const { PREMIUM_PRICE_CENTS } = await import("@/lib/stripe");
   const { monthlyRevenueCents } = await import("@/lib/stripe-subscription");
   const range = { gte: startAt, lte: endAt };
-  const [comptesCrees, paiements, nouveauxAbonnes, resiliations, resiliationsProgrammees, actifs] = await Promise.all([
-    prisma.user.count({ where: { createdAt: range } }),
-    prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_PAYMENT_EVENT, processedAt: range } }),
-    prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_CHECKOUT_EVENT, processedAt: range } }),
-    prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_END_EVENT, processedAt: range } }),
-    prisma.subscription.count({ where: { status: "ACTIVE", cancelAtPeriodEnd: true } }),
-    prisma.subscription.findMany({
-      where: { status: "ACTIVE" },
-      select: { billingInterval: true, priceAmountCents: true },
-    }),
-  ]);
+  const testIds = await idsComptesTest(exclus);
+  const horsTest = testIds.length ? { userId: { notIn: testIds } } : {};
+  const [comptesCrees, paiements, nouveauxAbonnes, resiliations, resiliationsProgrammees, actifs, testNouveaux, testTermines] =
+    await Promise.all([
+      prisma.user.count({ where: { createdAt: range, ...(testIds.length ? { id: { notIn: testIds } } : {}) } }),
+      prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_PAYMENT_EVENT, processedAt: range } }),
+      prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_CHECKOUT_EVENT, processedAt: range } }),
+      prisma.webhookEvent.count({ where: { provider: "stripe", eventType: STRIPE_END_EVENT, processedAt: range } }),
+      prisma.subscription.count({ where: { status: "ACTIVE", cancelAtPeriodEnd: true, ...horsTest } }),
+      prisma.subscription.findMany({
+        where: { status: "ACTIVE", ...horsTest },
+        select: { billingInterval: true, priceAmountCents: true },
+      }),
+      testIds.length
+        ? prisma.subscription.count({ where: { userId: { in: testIds }, plan: "PREMIUM", createdAt: range } })
+        : Promise.resolve(0),
+      testIds.length
+        ? prisma.subscription.count({ where: { userId: { in: testIds }, status: { in: ["CANCELED", "INACTIVE"] }, updatedAt: range } })
+        : Promise.resolve(0),
+    ]);
   const mrrCents = actifs.reduce((sum, sub) => sum + monthlyRevenueCents(sub, PREMIUM_PRICE_CENTS), 0);
   return {
     comptesCrees,
-    paiements,
-    nouveauxAbonnes,
-    resiliations,
+    paiements: Math.max(0, paiements - testNouveaux),
+    nouveauxAbonnes: Math.max(0, nouveauxAbonnes - testNouveaux),
+    resiliations: Math.max(0, resiliations - testTermines),
     resiliationsProgrammees,
     abonnesActifs: actifs.length,
     parFormule: compterParFormule(actifs),
     mrrCents,
+    comptesTestExclus: testIds.length,
   };
 };
 
@@ -251,6 +272,14 @@ export function lignesFunnel(f: WeeklyFunnel): [string, string][] {
   ];
 }
 
+/** « 1 compte de test exclu. » (vide sans compte de test) : e-mail et page admin. */
+export function libelleComptesTest(db: Pick<FunnelDbCounts, "comptesTestExclus"> | null | undefined): string {
+  const n = db?.comptesTestExclus ?? 0;
+  return n > 0 ? `${n} compte${n > 1 ? "s" : ""} de test exclu${n > 1 ? "s" : ""}.` : "";
+}
+
+const noteComptesTest = (db: FunnelDbCounts | null) => (libelleComptesTest(db) ? ` ${libelleComptesTest(db)}` : "");
+
 /** Section HTML « Funnel de la semaine » (même e-mail du lundi, aucun nouvel envoi). */
 export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
   const rows = lignesFunnel(f);
@@ -262,7 +291,7 @@ export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
     : "";
   return `<h3 style="${H3}">Funnel de la semaine (chiffres absolus)</h3>${partial}
   <table role="presentation" style="width:100%;border-collapse:collapse;font-size:14px;">${body}</table>${buildCheckoutParSourceHtml(f.checkoutParSource)}
-  <p style="font-size:12px;color:#999;margin:8px 0 0;">Umami pour les vues et les clics, base (webhooks Stripe) pour les comptes, paiements et résiliations. Volumes trop faibles pour des pourcentages. n.d. : donnée non disponible.</p>`;
+  <p style="font-size:12px;color:#999;margin:8px 0 0;">Umami pour les vues et les clics, base (webhooks Stripe) pour les comptes, paiements et résiliations. Volumes trop faibles pour des pourcentages. n.d. : donnée non disponible.${noteComptesTest(f.db)}</p>`;
 }
 
 /** s21 (revue v2 m-2) : quel bloc d'entrée mène jusqu'au paiement (`src` des événements checkout). */

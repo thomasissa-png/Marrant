@@ -5,7 +5,7 @@
  * par formule (fonction partagée avec l'e-mail), alertes dérivées.
  */
 import { computeReportPeriods, dernierRapportDuLundi } from "@/lib/analytics/weekly-visits-period";
-import { abonnesParFormule, compterParFormule, type FunnelDbCounts } from "@/lib/analytics/weekly-funnel";
+import { abonnesParFormule, buildFunnelSectionHtml, compterParFormule, libelleComptesTest, type FunnelDbCounts, type WeeklyFunnel } from "@/lib/analytics/weekly-funnel";
 import { alertesSemaine, type SemaineAdmin } from "@/lib/admin/semaine";
 import { estTableAbsente } from "@/lib/analytics/weekly-lettre";
 
@@ -41,6 +41,26 @@ describe("abonnés par formule", () => {
     expect(abonnesParFormule(db)).toBe("3 (2 mensuels, 1 annuel)");
     expect(abonnesParFormule({ ...db, parFormule: undefined })).toBe("3");
     expect(abonnesParFormule(null)).toBe("n.d.");
+  });
+});
+
+describe("comptes de test exclus : ligne discrète, même libellé e-mail et admin", () => {
+  const db = { comptesCrees: 2, paiements: 1, nouveauxAbonnes: 1, resiliations: 0, resiliationsProgrammees: 0, abonnesActifs: 2, mrrCents: 598 } as FunnelDbCounts;
+  const funnel = (d: FunnelDbCounts): WeeklyFunnel => ({
+    encartsBlogVus: 1, clicsEncartsBlog: 0, vuesAbonnement: 1, mursVus: 1, clicsAbonnement: 0, echecsInscription: 0,
+    checkoutsOuverts: 0, echecsCheckout: 0, checkoutParSource: [], db: d, warnings: [],
+  });
+
+  it("libellé singulier, pluriel, vide sans compte de test", () => {
+    expect(libelleComptesTest({ comptesTestExclus: 1 })).toBe("1 compte de test exclu.");
+    expect(libelleComptesTest({ comptesTestExclus: 2 })).toBe("2 comptes de test exclus.");
+    expect(libelleComptesTest({ comptesTestExclus: 0 })).toBe("");
+    expect(libelleComptesTest(null)).toBe("");
+  });
+
+  it("e-mail du lundi : la note de l'entonnoir le dit", () => {
+    expect(buildFunnelSectionHtml(funnel({ ...db, comptesTestExclus: 1 }))).toContain("donnée non disponible. 1 compte de test exclu.</p>");
+    expect(buildFunnelSectionHtml(funnel(db))).not.toContain("de test exclu");
   });
 });
 

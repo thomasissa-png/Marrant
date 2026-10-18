@@ -19,3 +19,18 @@ export function emailsExclus(env: Record<string, string | undefined> = process.e
     ),
   );
 }
+
+/**
+ * Identifiants des comptes du site dont l'e-mail est un compte de test (casse
+ * ignorée). Liste vide sans exclusion : aucune lecture en base. s21 (18/10) :
+ * partagé par l'entonnoir et les conversions du rapport du lundi et par l'admin.
+ */
+export async function idsComptesTest(exclus: string[] = emailsExclus()): Promise<string[]> {
+  if (exclus.length === 0) return [];
+  const { prisma } = await import("@/lib/prisma");
+  const comptes = await prisma.user.findMany({
+    where: { OR: exclus.map((email) => ({ email: { equals: email, mode: "insensitive" as const } })) },
+    select: { id: true },
+  });
+  return comptes.map((c) => c.id);
+}

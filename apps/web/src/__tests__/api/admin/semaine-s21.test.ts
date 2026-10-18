@@ -13,24 +13,24 @@ jest.mock("@/lib/analytics/weekly-visits-report", () => ({
 
 const queryRaw = jest.fn();
 const subscriptionCount = jest.fn();
+const userCount = jest.fn();
+const subscriptionFindMany = jest.fn();
 let lettreAbsente = false;
 const absente = () => Object.assign(new Error("relation \"NewsletterIssue\" does not exist"), { code: "P2021" });
 
 jest.mock("@/lib/prisma", () => ({
   prisma: {
-    user: { count: () => Promise.resolve(3) },
+    user: {
+      count: (a: unknown) => userCount(a),
+      findMany: () => Promise.resolve([{ id: "compte-test" }]),
+    },
     webhookEvent: {
       count: ({ where }: { where: { eventType: string } }) =>
         Promise.resolve({ "invoice.payment_succeeded": 2, "checkout.session.completed": 1, "customer.subscription.deleted": 1 }[where.eventType] ?? 0),
     },
     subscription: {
       count: (a: unknown) => subscriptionCount(a),
-      findMany: () =>
-        Promise.resolve([
-          { billingInterval: "month", priceAmountCents: 499 },
-          { billingInterval: "month", priceAmountCents: 499 },
-          { billingInterval: "year", priceAmountCents: 3999 },
-        ]),
+      findMany: (a: unknown) => subscriptionFindMany(a),
     },
     $queryRaw: (...a: unknown[]) => queryRaw(...a),
     joke: { count: () => Promise.resolve(5) },
@@ -69,8 +69,15 @@ beforeEach(() => {
   lettreAbsente = false;
   buildWeeklyVisitsReport.mockReset();
   queryRaw.mockReset().mockResolvedValue([]);
-  subscriptionCount.mockReset().mockImplementation(({ where }: { where: { status: string; cancelAtPeriodEnd?: boolean } }) =>
-    Promise.resolve(where.status === "PAST_DUE" ? 1 : 0),
+  userCount.mockReset().mockResolvedValue(3);
+  subscriptionFindMany.mockReset().mockResolvedValue([
+    { billingInterval: "month", priceAmountCents: 499 },
+    { billingInterval: "month", priceAmountCents: 499 },
+    { billingInterval: "year", priceAmountCents: 3999 },
+  ]);
+  // PAST_DUE : 1 ; abonnement du compte de test créé sur la période : 1 ; le reste : 0.
+  subscriptionCount.mockReset().mockImplementation(({ where }: { where: { status?: string; userId?: { in?: string[] }; createdAt?: unknown } }) =>
+    Promise.resolve(where.status === "PAST_DUE" ? 1 : where.userId?.in && where.createdAt ? 1 : 0),
   );
   jest.spyOn(console, "warn").mockImplementation(() => undefined);
   jest.spyOn(console, "error").mockImplementation(() => undefined);
@@ -103,9 +110,11 @@ describe("GET /api/admin/semaine", () => {
     expect(buildWeeklyVisitsReport).not.toHaveBeenCalled();
     expect(s.funnel.db).toMatchObject({
       comptesCrees: 3,
-      paiements: 2,
-      nouveauxAbonnes: 1,
+      // 2 paiements et 1 nouvel abonné Stripe, dont celui du compte de test : retiré.
+      paiements: 1,
+      nouveauxAbonnes: 0,
       resiliations: 1,
+      comptesTestExclus: 1,
       abonnesActifs: 3,
       parFormule: { mensuel: 2, annuel: 1, inconnu: 0 },
     });
@@ -133,6 +142,13 @@ describe("GET /api/admin/semaine", () => {
     const g = await (await GET(req("?periode=glissante"))).json();
     expect(g.mode).toBe("glissante");
     expect(g.periode.label).toBe(computeReportPeriods(new Date()).current.label);
+  });
+
+  it("comptes de test exclus des abonnés actifs, du revenu, des comptes créés et des résiliations programmées", async () => {
+    await GET(req());
+    expect(userCount).toHaveBeenCalledWith({ where: expect.objectContaining({ id: { notIn: ["compte-test"] } }) });
+    expect(subscriptionFindMany).toHaveBeenCalledWith(expect.objectContaining({ where: { status: "ACTIVE", userId: { notIn: ["compte-test"] } } }));
+    expect(subscriptionCount).toHaveBeenCalledWith({ where: { status: "ACTIVE", cancelAtPeriodEnd: true, userId: { notIn: ["compte-test"] } } });
   });
 
   it("comptes de test exclus (parcours et lettre), aucune empreinte IP dans la réponse", async () => {

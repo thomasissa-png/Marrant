@@ -17,6 +17,11 @@ export function euros(cents: number | null | undefined): string {
     : `${new Intl.NumberFormat("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100)} €`;
 }
 
+/** « 1 compte de test exclu. » ; vide sans compte de test (même libellé que l'e-mail du lundi). */
+export function comptesTestExclus(n: number | null | undefined): string {
+  return n ? `${n} compte${n > 1 ? "s" : ""} de test exclu${n > 1 ? "s" : ""}.` : "";
+}
+
 export function dateCourte(iso: string | null | undefined): string {
   if (!iso) return "–";
   return new Date(iso).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric", timeZone: "Europe/Paris" });
@@ -82,6 +87,29 @@ export function LignesChiffres({ lignes }: { lignes: Array<[string, ReactNode]> 
         </tbody>
       </table>
     </div>
+  );
+}
+
+/**
+ * Libellé puis valeurs (texte long, plusieurs lignes) : empilés sur téléphone,
+ * deux colonnes dès 768 px. Retour à la ligne partout, jamais de défilement horizontal.
+ */
+export function LignesEmpilees({ lignes }: { lignes: Array<[string, string[]]> }) {
+  return (
+    <ul className="divide-y divide-border/60 overflow-hidden rounded-lg border border-border bg-background-card text-sm">
+      {lignes.map(([label, valeurs]) => (
+        <li key={label} className="grid gap-1 px-3 py-2 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-4">
+          <span className="text-text-secondary">{label}</span>
+          <span className="min-w-0 space-y-0.5 md:text-right">
+            {valeurs.map((v) => (
+              <span key={v} className="block break-words font-semibold tabular-nums text-text-primary">
+                {v}
+              </span>
+            ))}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 

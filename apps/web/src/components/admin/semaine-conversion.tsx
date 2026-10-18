@@ -4,7 +4,7 @@
  * (construites côté serveur par `lignesFunnel` / `lignesParcours`).
  */
 import type { SemaineAdmin } from "@/lib/admin/semaine";
-import { Avertissement, LignesChiffres, Note, Pastille, Section, dateHeure, fmt } from "./admin-ui";
+import { Avertissement, LignesChiffres, LignesEmpilees, Note, Pastille, Section, comptesTestExclus, dateHeure, fmt } from "./admin-ui";
 
 export function SemaineFunnel({ s }: { s: SemaineAdmin }) {
   const parSrc = s.funnel.checkoutParSource;
@@ -12,6 +12,7 @@ export function SemaineFunnel({ s }: { s: SemaineAdmin }) {
     <Section titre="Entonnoir visiteur vers Premium" sousTitre="Chiffres absolus, Umami et webhooks Stripe">
       {s.funnel.warnings.length > 0 && <Avertissement>Section partielle : {s.funnel.warnings.join(" ; ")}.</Avertissement>}
       <LignesChiffres lignes={s.lignes.funnel} />
+      {comptesTestExclus(s.funnel.db?.comptesTestExclus) && <Note>{comptesTestExclus(s.funnel.db?.comptesTestExclus)}</Note>}
       <div className="rounded-lg border border-border bg-background-card p-3">
         <h3 className="mb-2 text-sm font-semibold text-text-primary">Paiement ouvert par bloc d&apos;entrée (src)</h3>
         {parSrc === null ? (
@@ -47,18 +48,7 @@ export function SemaineParcours({ s }: { s: SemaineAdmin }) {
   return (
     <Section titre="Parcours" sousTitre="Umami avant paiement, base pour les abonnés (cumul, comptes de test exclus)">
       {s.parcours.warnings.length > 0 && <Avertissement>Section partielle : {s.parcours.warnings.join(" ; ")}.</Avertissement>}
-      <LignesChiffres
-        lignes={s.lignes.parcours.map(([label, valeurs]) => [
-          label,
-          <span key={label} className="block">
-            {valeurs.map((v) => (
-              <span key={v} className="block font-semibold">
-                {v}
-              </span>
-            ))}
-          </span>,
-        ])}
-      />
+      <LignesEmpilees lignes={s.lignes.parcours} />
       <Note>Un taux ne se lit pas sous 30 cas : nombre et dénominateur seulement.</Note>
     </Section>
   );

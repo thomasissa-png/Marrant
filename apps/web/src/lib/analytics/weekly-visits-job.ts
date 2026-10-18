@@ -31,14 +31,21 @@ export type WeeklyVisitsResult =
   | { status: "skipped"; reason: "umami-not-configured" }
   | { status: "dry-run" | "sent"; subject: string; report: WeeklyVisitsReport };
 
-/** Exportée pour la page admin (s21) : mêmes lectures que l'e-mail. */
+/**
+ * Exportée pour la page admin (s21) : mêmes lectures que l'e-mail. Comptes de
+ * test exclus (s21, 18/10), comme l'entonnoir (`idsComptesTest`).
+ */
 export const prismaConversions: ConversionCounter = async (startAt, endAt) => {
   const { prisma } = await import("@/lib/prisma");
+  const { idsComptesTest } = await import("./comptes-test");
   const range = { gte: startAt, lte: endAt };
+  const testIds = await idsComptesTest();
   const [signups, newPremium] = await Promise.all([
-    prisma.user.count({ where: { createdAt: range } }),
+    prisma.user.count({ where: { createdAt: range, ...(testIds.length ? { id: { notIn: testIds } } : {}) } }),
     // Ligne Subscription créée au 1er passage Premium (webhook Stripe, upsert par userId).
-    prisma.subscription.count({ where: { plan: "PREMIUM", createdAt: range } }),
+    prisma.subscription.count({
+      where: { plan: "PREMIUM", createdAt: range, ...(testIds.length ? { userId: { notIn: testIds } } : {}) },
+    }),
   ]);
   return { signups, newPremium };
 };
