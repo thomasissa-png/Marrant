@@ -35,7 +35,7 @@
       "situation": "Mardi matin à la boulangerie, la boulangère emballe ton troisième pain au chocolat de la semaine, alors que tu lui avais annoncé que tu arrêtais le sucre.",
       "onTeDit": "Vous n'aviez pas arrêté le sucre, vous ?",
       "reponse": "Dans toutes les autres boulangeries, je suis irréprochable.",
-      "pourquoi": "Si tu es irréprochable partout ailleurs, c'est qu'ici, ses pains au chocolat te font craquer. L'excuse ne coûte rien (on résiste sans effort aux vitrines qu'on ne croise jamais), et le compliment tient dans le mot « ailleurs ».",
+      "pourquoi": "Si tu es irréprochable partout ailleurs, c'est que ses pains au chocolat sont les seuls qui te font craquer. L'excuse ne coûte rien (on résiste sans effort aux vitrines qu'on ne croise jamais), et le compliment tient dans « toutes les autres ».",
       "siTendu": "Vous avez bonne mémoire. J'essaie de réduire, et cette semaine, ce n'est pas une réussite.",
       "exercice": "Pose la main sur le cœur comme pour un serment et dis la réplique en appuyant sur « toutes les autres »."
     },
@@ -120,7 +120,7 @@
       "situation": "Tu as apporté un gratin à un dîner entre amis, un ami en a pris une bouchée et regarde le fond de son assiette.",
       "onTeDit": "Il est... intéressant, ton gratin. Tu as suivi une recette ?",
       "reponse": "J'ai suivi une recette. Elle a résisté.",
-      "pourquoi": "Tu réponds à la question mot pour mot, puis « elle a résisté » donne à la recette une volonté propre. Le gratin n'est plus un plat raté mais un bras de fer perdu contre une recette qui n'a pas voulu coopérer.",
+      "pourquoi": "Tu réponds à la question mot pour mot, puis « elle a résisté » transforme la cuisine en bras de fer : tu as suivi la recette, elle s'est débattue, et le gratin est ce qui reste du combat.",
       "siTendu": "Il n'est pas réussi, je te l'accorde. Tu ferais comment, toi ?",
       "exercice": "Dis « J'ai suivi une recette » d'un ton rassurant, laisse passer un vrai silence en fixant un plat vide, puis lâche « Elle a résisté » comme on annonce une mauvaise nouvelle."
     },
@@ -192,7 +192,7 @@
       "situation": "Premier vrai froid de l'année, l'open space est devenu un sauna, et une collègue pose la main sur le radiateur en te regardant.",
       "onTeDit": "C'est encore toi qui as touché au chauffage ?",
       "reponse": "Je le monte quand j'ai froid, tu le descends quand tu as chaud. C'est notre seul projet commun.",
-      "pourquoi": "Un projet commun, c'est censé avancer, alors que le vôtre consiste à défaire ce que l'autre vient de faire, dans le vocabulaire des réunions. Avec « seul », tu précises qu'en dehors de ce bouton, vous n'avez jamais rien monté ensemble.",
+      "pourquoi": "Un projet commun, c'est censé avancer. Le vôtre consiste à défaire ce que l'autre vient de faire, et tu lui donnes quand même le nom qu'on emploie en réunion. Avec « seul », tu précises qu'en dehors de ce bouton, vous n'avez jamais rien monté ensemble.",
       "siTendu": "C'est moi, j'avais froid. On cherche une température qui va à tout le monde ?",
       "exercice": "Prends un bouton de chez toi (le volume de l'enceinte, le thermostat d'un radiateur), tourne-le vers le haut en disant « Je le monte quand j'ai froid », vers le bas en disant « tu le descends quand tu as chaud », puis dis la dernière phrase sans insister, la main restée en l'air."
     },
@@ -266,7 +266,7 @@
       "reponse": "Je passe devant tous les jours, en bus. On se connaît de vue.",
       "pourquoi": "Tu parles de la salle comme d'une voisine : vous vous croisez chaque jour, vous ne vous êtes jamais parlé. « En bus » précise que même ces croisements se font assis, et « de vue » décrit exactement ton abonnement.",
       "siTendu": "Pas encore, non. Tu y vas, toi ? Ça me motiverait d'y aller avec quelqu'un.",
-      "exercice": "Assieds-toi comme dans un bus et fais un petit signe de tête poli vers la fenêtre. Puis dis la réplique d'un ton détaché, en donnant des nouvelles d'une vague connaissance."
+      "exercice": "Assieds-toi comme dans un bus et fais un petit signe de tête poli vers la fenêtre. Puis dis la réplique d'un ton détaché, comme on donne des nouvelles d'une vague connaissance."
     },
     {
       "id": "2026-11-23",
@@ -300,7 +300,7 @@
       "situation": "Ta sœur te demande ce que tu as prévu pour la famille cette année, tandis que vous parlez de la liste des cadeaux.",
       "onTeDit": "Tu fais tes cadeaux le 24 à 17 h, comme chaque année ?",
       "reponse": "Ton cadeau, je l'ai gagné aux points face à un monsieur avec un caddie.",
-      "pourquoi": "À 17 h le 24, un cadeau ne se choisit plus, il se dispute : tu racontes tes courses comme un match de boxe. « Aux points » désigne une victoire sans K.-O., arrachée au bout de tous les rounds : ce cadeau-là a été gagné, pas choisi.",
+      "pourquoi": "À 17 h le 24, un cadeau ne se choisit plus, il se dispute : tu racontes tes courses comme un match de boxe. « Aux points », c'est la victoire sans K.-O., arrachée au dernier round, et l'adversaire n'a rien d'un champion : un monsieur avec un caddie, qui visait la même boîte que toi.",
       "siTendu": "Je m'y prends tard, je sais. Dis-moi ce qui te ferait plaisir, et cette année, je m'en occupe avant le 24.",
       "exercice": "Debout, les poings levés comme à la fin d'un match, reprends ton souffle deux secondes, puis dis la réplique comme un compte rendu sportif, en appuyant sur « aux points »."
     },
@@ -348,7 +348,7 @@
       "situation": "Dimanche soir à la maison, ton ou ta partenaire vient d'exposer un projet de week-end pendant que tu fixais ton écran.",
       "onTeDit": "Tu viens de dire « oui » sans m'écouter.",
       "reponse": "Je regardais un chien qui apprenait à ouvrir une porte. C'est mon excuse, elle est complète.",
-      "pourquoi": "La vraie raison est pire que pas d'excuse, et tu la donnes quand même, avec ses détails. « Complète » est un mot de guichet : ton aveu devient un dossier où rien ne manque, sauf l'attention que tu devais au week-end.",
+      "pourquoi": "La vraie raison est pire que pas d'excuse, et tu la donnes quand même, avec ses détails. « Complète » est un mot de guichet : ton aveu devient un dossier où il ne manque aucune pièce. La seule chose absente, c'est le projet de week-end que tu viens d'accepter.",
       "siTendu": "Tu as raison, je n'écoutais pas. Redis-moi ton idée, cette fois je te regarde.",
       "exercice": "Dis la réplique en mimant le chien et la poignée avec les mains, comme si la vidéo tournait encore, puis croise les bras net après « complète »."
     },
