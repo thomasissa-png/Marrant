@@ -140,5 +140,31 @@ Barre : 10 = publiable tel quel. Situation, « On te dit » et réplique non tou
 **Manque :** la dernière phrase du Pourquoi est confuse (« un public qui n'y croyait pas, que tu cites sans rancune »). Le vrai ressort : pile ou face ne se conteste pas, et on l'a contesté quand même ; ce n'est plus toi qui perds, c'est le hasard qu'on corrige quand il se trompe en ta faveur.
 - **Pourquoi :** Ta seule victoire vient d'un jeu où le talent ne compte pas, et même là, on a demandé de refaire : ce n'est plus toi qui perds, c'est le hasard qu'on corrige quand il te donne raison. Tu ne contestes pas le verdict du groupe, tu lui apportes la meilleure preuve possible, et avec fierté.
 
+## Synthèse des notes
+F01 8 · F02 7 · F03 7 · F04 8 · F05 7 · F06 8 · F07 8 · F08 8 · F09 8 · F10 8 · F11 9 · F12 7 · F13 8 · F14 8 · F15 7 · F16 8 · F17 7 · F18 8 · F19 9 · F20 7 · F21 7 · F22 8 · F23 7 · F24 8 · F25 8 · F26 8 · F27 9 · F28 8 · F29 7 · F30 7. Aucun 10 ; moyenne 7,7.
+
+Défaut le plus fréquent : le Pourquoi paraphrase la réplique ou désigne le mauvais mot au lieu de nommer l'observation vraie ou le double sens (F02, F03, F12, F13, F20, F24, F29). Ensuite, les sorties polies qui se contredisent ou ajoutent un petit mensonge (F01, F05, F06, F07, F09, F12, F16, F20).
+
 ## Moules répétés
-[À COMPLÉTER]
+**Dans le « Pourquoi ça marche »**
+- « C'est X qui fait la chute / qui fait rire / ce mélange qui fait rire » en fin de paragraphe : F04, F10, F25, F26, F28 ; variantes « donne la chute », « prépare la chute », « rend la chute plus nette » : F12, F20, F29.
+- « Le chiffre fait le travail / la chute » en ouverture : F01, F22.
+- « Tout repose sur « X » / « X » est le mot qui bascule / le mot décalé / le mot « X » retourne » : F03, F05, F06, F24.
+- Le certificat de bienveillance en dernière phrase (« on rit de toi, pas de lui », « ton X peut sourire/se réjouir avec toi », « sans reproche », « sans rancune », « n'est pas touchée ») : F02, F03, F12, F13, F14, F27, F30.
+- « Ton ami/pote venu te chambrer / voulait te piquer, se retrouve face à / reçoit... » : F23, F24.
+- « Tu ne contestes pas X, tu Y / Au lieu de te défendre, tu confirmes / sans nier / sans mentir / tu valides » : F09, F18, F21, F26, F28.
+- « X devient Y / tu transformes X en Y / présenté comme » comme moteur unique d'explication : F02, F03, F09, F18, F21, F25, F29.
+- Découpage « la première phrase..., la seconde/dernière phrase... » : F04, F08, F12, F13, F30.
+- Lexique judiciaire (avocat, plaider, procureur, prévenu, dossier de défense, aveu) : F07, F14, F17, F26 ; lexique du combat (duel, bataille, adversaire) : F21, F29.
+
+**Dans « À toi de jouer »**
+- « Dis la réplique à voix haute avec le ton/l'aplomb/le sérieux d'un [métier] qui [action], en [appuyant / marquant un temps] sur « X » » : F02, F03, F04, F08, F09, F11, F13, F14, F17, F18, F21, F26, F27, F29, F30 (la moitié du carnet). Métiers en doublon : avocat F14 et F17 ; « officiel » F18 et F22.
+- « Marque / laisse un temps avant « X » » : F02, F04, F12, F16, F26, F29.
+
+**Dans « Si c'est tendu »**
+- Ouverture « Tu as raison, ... » : F02, F06, F07, F17, F18 ; « c'est vrai » : F28, F30.
+- Clôture « Dis-moi ... » : F03, F06, F07, F26, F29.
+
+**Titres et accroches**
+- Toutes les accroches suivent « [Cadre]. [Action] » ; « te regarde » en fin d'accroche : F02, F03, F11, F23.
+- Doublons de thème dans le même carnet : chauffage (F03, F12), Black Friday (F02, F25), retard au bureau avec un collègue qui lève les yeux de son écran (F20, F26), soirée chez des amis (F06, F10, F24).
