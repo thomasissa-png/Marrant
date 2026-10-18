@@ -60,6 +60,9 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
     }
   };
 
+  // Revue visuelle s21 (R25) : colonne « Dernière activité » masquée tant qu'aucun compte affiché n'en a.
+  const activiteConnue = data?.users.some((u) => u.lastActiveAt) ?? false;
+
   return (
     <Section titre="Comptes et abonnés Premium" sousTitre="Abonnement obligatoire depuis le 06/10 : « Gratuit » = anciens comptes">
       <div className="flex flex-wrap items-center gap-2">
@@ -121,7 +124,7 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
                   <Abonnement u={u} />
                   <span>Créé le {dateCourte(u.createdAt)}</span>
                   {u.subscription?.currentPeriodEnd && <span>Fin de période {dateCourte(u.subscription.currentPeriodEnd)}</span>}
-                  <button type="button" onClick={() => sync(u.id)} className="ml-auto text-accent-primary hover:underline">Sync Stripe</button>
+                  <button type="button" onClick={() => sync(u.id)} className="ml-auto inline-flex min-h-11 items-center rounded-md px-3 text-accent-primary hover:bg-accent-primary/10">Sync Stripe</button>
                 </p>
               </li>
             ))}
@@ -134,7 +137,7 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
                   <th className="px-3 py-2 font-medium">Plan</th>
                   <th className="px-3 py-2 font-medium">Abonnement</th>
                   <th className="px-3 py-2 font-medium">Créé le</th>
-                  <th className="px-3 py-2 font-medium">Dernière activité</th>
+                  {activiteConnue && <th className="px-3 py-2 font-medium">Dernière activité</th>}
                   <th className="px-3 py-2 font-medium">Fin de période</th>
                   <th className="px-3 py-2"><span className="sr-only">Actions</span></th>
                 </tr>
@@ -149,7 +152,7 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
                     <td className="px-3 py-2"><Pastille ton={u.plan === "PREMIUM" ? "accent" : "neutre"}>{u.plan === "PREMIUM" ? "Premium" : "Gratuit"}</Pastille></td>
                     <td className="px-3 py-2"><Abonnement u={u} /></td>
                     <td className="px-3 py-2 text-xs text-text-muted">{dateCourte(u.createdAt)}</td>
-                    <td className="px-3 py-2 text-xs text-text-muted">{u.lastActiveAt ? dateCourte(u.lastActiveAt) : "jamais"}</td>
+                    {activiteConnue && <td className="px-3 py-2 text-xs text-text-muted">{u.lastActiveAt ? dateCourte(u.lastActiveAt) : "jamais"}</td>}
                     <td className="px-3 py-2 text-xs text-text-muted">{dateCourte(u.subscription?.currentPeriodEnd)}</td>
                     <td className="px-3 py-2 text-right">
                       <button type="button" onClick={() => sync(u.id)} title="Synchroniser le plan avec Stripe" className="rounded px-2 py-1 text-xs text-accent-primary hover:bg-accent-primary/10">

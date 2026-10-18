@@ -91,19 +91,22 @@ export function LignesChiffres({ lignes }: { lignes: Array<[string, ReactNode]> 
 }
 
 /**
- * Libellé puis valeurs (texte long, plusieurs lignes) : empilés sur téléphone,
- * deux colonnes dès 768 px. Retour à la ligne partout, jamais de défilement horizontal.
+ * Libellé puis valeurs (texte long, plusieurs lignes) : toujours en pile, valeurs alignées à gauche
+ * (revue visuelle s21, R15 : plus de chaînes longues renvoyées à la ligne en alignement droit).
+ * Une valeur à segments « a | b | c » s'affiche segment par segment, chacun d'un tenant.
  */
 export function LignesEmpilees({ lignes }: { lignes: Array<[string, string[]]> }) {
   return (
     <ul className="divide-y divide-border/60 overflow-hidden rounded-lg border border-border bg-background-card text-sm">
       {lignes.map(([label, valeurs]) => (
-        <li key={label} className="grid gap-1 px-3 py-2 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-4">
+        <li key={label} className="grid gap-1 px-3 py-2">
           <span className="text-text-secondary">{label}</span>
-          <span className="min-w-0 space-y-0.5 md:text-right">
+          <span className="min-w-0 space-y-1">
             {valeurs.map((v) => (
-              <span key={v} className="block break-words font-semibold tabular-nums text-text-primary">
-                {v}
+              <span key={v} className="flex flex-wrap gap-x-3 text-xs font-semibold leading-5 tabular-nums text-text-primary">
+                {v.split(" | ").map((segment, i) => (
+                  <span key={i} className="whitespace-nowrap">{segment}</span>
+                ))}
               </span>
             ))}
           </span>

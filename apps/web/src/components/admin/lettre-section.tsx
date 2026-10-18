@@ -171,13 +171,14 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
               <Pastille ton={STATUTS[i.statut].ton}>{STATUTS[i.statut].label}</Pastille>
             </div>
             <p className="mt-1 break-all text-xs text-text-muted">{i.source ?? "source inconnue"}</p>
-            <p className="mt-1 flex flex-wrap gap-x-3 text-xs text-text-muted">
-              <span>Consentement {dateCourte(i.consentAt)}</span>
-              <span>Confirmé {dateCourte(i.confirmedAt)}</span>
-              <span>Compte <OuiNon oui={i.compteSite} /></span>
-              <span>Premium <OuiNon oui={i.premium} /></span>
-              {i.compteTest && <Pastille ton="accent">test</Pastille>}
-            </p>
+            {/* Revue visuelle s21 (R24) : libellé au-dessus de la valeur, 2 colonnes régulières. */}
+            <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
+              <div><dt className="text-text-muted">Consentement</dt><dd className="text-text-secondary">{dateCourte(i.consentAt)}</dd></div>
+              <div><dt className="text-text-muted">Confirmé</dt><dd className="text-text-secondary">{dateCourte(i.confirmedAt)}</dd></div>
+              <div><dt className="text-text-muted">Compte</dt><dd className="text-text-secondary"><OuiNon oui={i.compteSite} /></dd></div>
+              <div><dt className="text-text-muted">Premium</dt><dd className="text-text-secondary"><OuiNon oui={i.premium} /></dd></div>
+            </dl>
+            {i.compteTest && <p className="mt-1"><Pastille ton="accent">test</Pastille></p>}
           </li>
         ))}
       </ul>

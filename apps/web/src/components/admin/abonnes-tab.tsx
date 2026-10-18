@@ -29,7 +29,7 @@ export function AbonnesTab({
             type="button"
             aria-pressed={vue === v.id}
             onClick={() => onVue(v.id)}
-            className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`min-h-11 flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               vue === v.id ? "bg-background-card text-text-primary shadow-sm" : "text-text-muted hover:text-text-secondary"
             }`}
           >

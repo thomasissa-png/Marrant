@@ -104,15 +104,16 @@ export default function AdminPage() {
     <div>
       <div className="mx-auto max-w-7xl">
         <h1 className="sr-only">Backoffice deviens-marrant.fr</h1>
-        <nav className="-mx-4 mb-6 overflow-x-auto px-4 md:mx-0 md:px-0" aria-label="Sections du backoffice">
-          <div className="flex min-w-max gap-1 rounded-lg border border-border bg-background-elevated p-1 md:min-w-0">
+        {/* Revue visuelle s21 (R14) : 2 x 2 sous 640 px (plus d'onglet coupé), 4 colonnes égales au-delà. */}
+        <nav className="mb-6" aria-label="Sections du backoffice">
+          <div className="grid grid-cols-2 gap-1 rounded-lg border border-border bg-background-elevated p-1 sm:grid-cols-4">
             {TABS.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
                 aria-current={activeTab === tab.id ? "page" : undefined}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 whitespace-nowrap rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                className={`min-h-11 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                   activeTab === tab.id ? "bg-background-card text-text-primary shadow-sm" : "text-text-muted hover:text-text-secondary"
                 }`}
               >
