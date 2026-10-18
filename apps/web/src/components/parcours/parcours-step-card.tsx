@@ -167,6 +167,8 @@ export interface ParcoursStepCardProps {
   isSeedFallback: boolean;
   completing: boolean;
   abonnementHref: string;
+  /** s21 concision : plein de fin d'étape 1 (visiteur : /register ; compte : /abonnement). */
+  finEtape1Href?: string;
   loadFailed: boolean;
   onRetryLoad: () => void;
   /** s17 tour 3 : focus rendu au « Réessayer » de l'étape après un nouvel échec. */
@@ -551,6 +553,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <ValidationWall
           slug={slug}
           href={props.abonnementHref}
+          finEtape1Href={props.finEtape1Href}
           quizPending={hasQuiz && !isQuizDone}
           etapeSuivante={props.etapeSuivante ?? null}
           annuel={props.annuel ?? false}

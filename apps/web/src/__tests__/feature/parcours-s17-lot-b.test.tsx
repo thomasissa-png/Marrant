@@ -262,8 +262,17 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
     // Un seul bouton plein (s21 B14) : « Passer à l'étape 2 avec Premium » une fois le quiz fini.
-    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton }).className).toContain("bg-accent-secondary-hover");
-    await userEvent.click(screen.getByText("Refaire le quiz"));
+    const plein = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
+    expect(plein.className).toContain("bg-accent-secondary-hover");
+    // s21 concision (18/10) : le plein mène à l'inscription (plus à /abonnement), « Refaire le quiz »
+    // est un lien texte (L2), sans fond ni contour : un seul bouton à l'écran.
+    expect(plein.getAttribute("href")).toMatch(/^\/register\?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance/);
+    expect(plein.getAttribute("href")).toContain("&src=parcours-etape");
+    const refaire = screen.getByRole("button", { name: "Refaire le quiz" });
+    expect(refaire.className).toContain("underline");
+    expect(refaire.className).not.toMatch(/\bborder\b|bg-/);
+    expect(document.querySelectorAll("[data-fin-etape-1] a.bg-accent-secondary-hover")).toHaveLength(1);
+    await userEvent.click(refaire);
     expect(screen.getByText("Q1 ?")).toBeInTheDocument();
     expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();
   });

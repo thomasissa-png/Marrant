@@ -13,6 +13,7 @@ import { stripEmDashes } from "@/lib/em-dash";
 import { frTypoTexte } from "@/lib/fr-typo";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { buildRegisterUrl } from "@/lib/auth-links";
 import { estRepliSeed } from "@/lib/parcours-preview";
 import {
   derniereValidation,
@@ -134,6 +135,11 @@ export function ParcoursDetail({
   // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
   const userId = (session?.user as { id?: string } | undefined)?.id;
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
+  // s21 concision (18/10) : le plein de fin d'étape 1 mène droit à l'inscription (même tunnel que
+  // les autres boutons d'achat : /register, puis paiement ouvert seul, retour au parcours), sans
+  // passer par /abonnement. Compte déjà connecté : /abonnement, comme AuthCta.
+  const finEtape1Href =
+    statut === "visiteur" ? buildRegisterUrl({ callbackUrl: abonnementHref, src: "parcours-etape" }) : abonnementHref;
 
   // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
   useEffect(() => {
@@ -719,6 +725,7 @@ export function ParcoursDetail({
               isSeedFallback={isSeedFallback}
               completing={completing === step.order}
               abonnementHref={abonnementHref}
+              finEtape1Href={finEtape1Href}
               loadFailed={enrich === "echec"}
               onRetryLoad={() => setReloadKey((k) => k + 1)}
               reessayerRef={stepIndex === etapeEnEchec ? reessayerRef : undefined}

@@ -388,12 +388,16 @@ describe("ParcoursDetail — quiz gate", () => {
 });
 
 describe("ParcoursDetail — tunnel s15", () => {
-  it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
+  it("anonyme : étape 1 lisible, valider = Premium ; s21 concision : plein direct vers /register, retour au paiement puis au parcours", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
     // s21 B14 : sans quiz dans l'étape, la fin d'étape 1 (phrase du tour 4 et un seul plein).
     expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
     const link = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
-    expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
+    // Même tunnel que les autres boutons d'achat : /register?callbackUrl=/abonnement?…&src=…
+    const url = new URL(link.getAttribute("href")!, "https://deviens-marrant.fr");
+    expect(url.pathname).toBe("/register");
+    expect(url.searchParams.get("src")).toBe("parcours-etape");
+    expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
 
@@ -410,6 +414,11 @@ describe("ParcoursDetail — tunnel s15", () => {
     expect(await screen.findByText(FIN_ETAPE_1.phrase)).toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
     expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
+    // s21 concision : compte déjà créé, le plein mène à /abonnement (pas de nouvelle inscription).
+    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton })).toHaveAttribute(
+      "href",
+      "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape",
+    );
   });
 
   it("étape validée : événement parcours-etape {parcours, etape}", async () => {

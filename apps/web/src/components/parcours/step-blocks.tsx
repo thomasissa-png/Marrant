@@ -72,12 +72,19 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
 export function ValidationWall({
   slug,
   href,
+  finEtape1Href,
   quizPending = false,
   etapeSuivante = null,
   annuel = false,
 }: {
   slug: string;
+  /** /abonnement (contour d'attente du quiz, « Voir ce que contient Premium »). */
   href: string;
+  /**
+   * s21 concision (18/10) : plein de fin d'étape 1, direct vers l'inscription (/register avec la
+   * source et le retour vers le paiement). Absent : `href`.
+   */
+  finEtape1Href?: string;
   /** s17 tour 1 (DES-1-05) : quiz pas encore fini, le bouton reste en contour (un seul plein à l'écran). */
   quizPending?: boolean;
   /** Étape 2 (aperçu public) pour la carte `CarteEtapeSuivante`. */
@@ -122,7 +129,8 @@ export function ValidationWall({
       <div className="text-center">
         <p className="text-sm text-text-secondary">{frTypo(FIN_ETAPE_1.phrase)}</p>
         <Link
-          href={href}
+          href={finEtape1Href ?? href}
+          data-fin-etape-1-cta="premium"
           className={cn(
             buttonVariants({ variant: "primary", size: "lg" }),
             "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
