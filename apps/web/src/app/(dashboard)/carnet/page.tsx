@@ -24,7 +24,7 @@ export default async function CarnetCurrentPage({ searchParams }: { searchParams
 
   if (!carnet) {
     return (
-      <div className="mx-auto max-w-2xl py-12 text-center">
+      <div className="mx-auto max-w-3xl py-12 text-center">
         <h1 className="font-display text-3xl font-bold">Le carnet du mois arrive</h1>
         <p className="mt-3 text-text-secondary">
           Les situations de ce mois sont encore en préparation. En attendant, entraîne ta répartie

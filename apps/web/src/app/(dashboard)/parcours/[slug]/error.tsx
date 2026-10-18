@@ -20,7 +20,7 @@ export default function ParcoursError({
     if (slug) trackUmami("parcours-erreur", { parcours: slug, etape: 0, motif: "serveur" });
   }, [slug]);
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="mx-auto max-w-3xl py-12">
       <Card>
         <CardContent className="py-12 text-center">
           <h1 className="font-display text-xl font-bold text-text-primary">

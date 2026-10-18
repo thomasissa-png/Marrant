@@ -22,6 +22,7 @@ import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-
 import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { frTypo } from "@/lib/fr-typo";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -180,7 +181,7 @@ export default async function ConseilPage({
       />
       <JsonLd data={howToJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/conseils" className="hover:text-text-primary max-md:py-3.5">Conseils</Link>
@@ -188,7 +189,7 @@ export default async function ConseilPage({
         <span className="text-text-secondary">{categoryLabel}</span>
       </nav>
 
-      <article className="mx-auto max-w-2xl">
+      <article className="mx-auto max-w-3xl">
         <div className="mb-2 flex flex-wrap gap-2">
           <span className="rounded-full bg-accent-primary/15 px-3 py-1 text-xs uppercase tracking-wider text-accent-link">
             {categoryLabel}
@@ -198,7 +199,7 @@ export default async function ConseilPage({
           </span>
         </div>
 
-        <h1 className="font-display text-2xl font-bold md:text-3xl">{tip.title}</h1>
+        <h1 className="font-display text-2xl font-bold md:text-3xl">{frTypo(tip.title)}</h1>
 
         <div className="mt-6 space-y-4 text-text-secondary">
           <p className="whitespace-pre-wrap text-base leading-relaxed">{tipProse(tip.content)}</p>
@@ -237,7 +238,7 @@ export default async function ConseilPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="text-accent-link underline underline-offset-2">
+          <Link href={`/conseils?category=${encodeURIComponent(tip.category)}`} className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
             &larr; Tous les conseils {categoryLabel.toLowerCase()}
           </Link>
         </nav>

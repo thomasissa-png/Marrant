@@ -192,7 +192,7 @@ export default async function VannePage({
       />
       <JsonLd data={creativeWorkJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
+      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/vannes" className="hover:text-text-primary max-md:py-3.5">Vannes</Link>
@@ -200,7 +200,7 @@ export default async function VannePage({
         <span className="text-text-secondary">{categoryLabel}</span>
       </nav>
 
-      <article className="mx-auto max-w-2xl">
+      <article className="mx-auto max-w-3xl">
         <div className="mb-2 text-xs uppercase tracking-wider text-accent-link">
           {categoryLabel}
         </div>
@@ -293,7 +293,7 @@ export default async function VannePage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link underline underline-offset-2">
+          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
             &larr; Toutes les vannes {categoryLabel.toLowerCase()}
           </Link>
         </nav>

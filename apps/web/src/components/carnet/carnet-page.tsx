@@ -2,6 +2,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-fiche-card";
 import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
@@ -42,7 +43,7 @@ export function CarnetPage({
   const autresMois = months.filter((m) => m !== view.mois);
 
   return (
-    <div className="mx-auto max-w-2xl">
+    <div className="mx-auto max-w-3xl">
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
@@ -125,21 +126,21 @@ export function CarnetPage({
  */
 function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: string; restantes: number }) {
   return (
-    <div className="rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-6 sm:p-8">
-      <h3 className="mb-2 font-display text-xl font-bold">{frTypo(CARNET_PAYWALL.titre(restantes))}</h3>
-      <p className="mb-4 text-sm text-text-secondary">{frTypo(CARNET_PAYWALL.paragraphe)}</p>
+    // Revue visuelle s21 : même bloc d'appel que les murs des listes et les fiches (cadre, titre, bouton, REASS).
+    <div className={BLOC_APPEL}>
+      <h3 className={TITRE_BLOC_APPEL}>{frTypo(CARNET_PAYWALL.titre(restantes))}</h3>
+      <p className="mt-2 text-sm text-text-secondary">{frTypo(CARNET_PAYWALL.paragraphe)}</p>
       {/* s21 concision (18/10, étalon 4) : plus de liste d'avantages ici, elle vit sur /abonnement. */}
-      <Link
-        href={buildAbonnementUrl(returnTo, "monthly", src)}
-        data-testid="carnet-paywall-bouton"
-        className={cn(
-          buttonVariants({ variant: "primary", size: "lg" }),
-          "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
-        )}
-      >
-        {frTypo(CARNET_PAYWALL.bouton)}
-      </Link>
-      <p className="mt-2 text-center text-xs text-text-secondary">{frTypo(REASSURANCE_UNIQUE)}</p>
+      <div className="mt-4">
+        <Link
+          href={buildAbonnementUrl(returnTo, "monthly", src)}
+          data-testid="carnet-paywall-bouton"
+          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+        >
+          {frTypo(CARNET_PAYWALL.bouton)}
+        </Link>
+      </div>
+      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
     </div>
   );
 }

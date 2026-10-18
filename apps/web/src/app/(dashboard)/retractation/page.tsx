@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 // (L.221-5) : même source que l'annexe de l'e-mail de confirmation.
 export default function RetractationPage() {
   return (
-    <div className="max-w-3xl">
+    <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">
         Exercer ton droit de rétractation
       </h1>
