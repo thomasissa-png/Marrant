@@ -6,11 +6,10 @@ import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { ACCUEIL_LIEN_ETAPE_1 } from "@/config/textes/entrees-parcours";
+import { ACCUEIL_HAUT } from "@/config/textes/cta-articles-accueil";
 import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 
@@ -23,8 +22,10 @@ const HERO_PARCOURS_LINKS = [
   { label: "Reprendre confiance en toi", href: parcoursEtape1Href("confiance", "accueil") },
 ] as const;
 
-/** Lien secondaire visiteur (UX-08, s17) : l'étape 1 du parcours le plus court, en lecture libre. */
-const HERO_ETAPE_1_HREF = parcoursEtape1Href("machine-a-cafe", "accueil");
+/** s21 (B3) : le plein visiteur ouvre l'étape 1 de Répartie, en lecture libre (froid). */
+const HERO_ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
+/** Lien payant (L1) sous le plein : /abonnement, source attribuable. */
+const HERO_ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-hero");
 
 const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
 
@@ -82,25 +83,27 @@ export function HeroSection() {
         </>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
-          {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
-          <Link
-            href={buildRegisterUrl({ src: "accueil-hero" })}
-            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
-            onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
-          >
-            Accéder aux parcours complets
-          </Link>
-          <p className="max-w-md text-balance text-sm text-text-muted">
-            {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
-          </p>
-          {/* Seul ce lien secondaire change en s17 (UX-08) ; l'étalon 1.2 au-dessus reste intact.
-              s17 tour 1 (UXV-1-08, DES-1-13) : texte principal, soulignement violet, cible 44 px. */}
+          {/* s21 (B3, spec cta-forme-place §4) : visiteur froid. Plein = étape 1 de Répartie ;
+              lien fort (L1) payant dessous ; note en petit. Textes : cta-articles-accueil.ts. */}
           <Link
             href={HERO_ETAPE_1_HREF}
-            className="inline-flex min-h-[44px] items-center px-3 py-2 text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link"
+            data-accueil-cta="etape-1"
+            className={cn(
+              buttonVariants({ variant: "primary", size: "lg" }),
+              "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
+            )}
           >
-            {ACCUEIL_LIEN_ETAPE_1}
+            {frTypo(ACCUEIL_HAUT.bouton)}
           </Link>
+          <Link
+            href={HERO_ABONNEMENT_HREF}
+            data-accueil-cta="abonnement"
+            className="mt-2 inline-flex min-h-11 items-center px-3 py-2 text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link"
+            onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
+          >
+            {frTypo(ACCUEIL_HAUT.lien)}
+          </Link>
+          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(ACCUEIL_HAUT.note)}</p>
         </div>
       )}
 

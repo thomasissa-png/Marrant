@@ -138,7 +138,8 @@ describe("prix et « 1 500+ » intacts", () => {
 
   it("formulations 1 500+ validées par Thomas", () => {
     expect(read("components/home/hero-section.tsx")).toContain("1&nbsp;500+ membres bossent leur humour. Rejoins-les.");
-    expect(read("components/home/premium-cta.tsx")).toContain("Déjà 1&nbsp;500+ inscrits, et toi&nbsp;?");
+    // s21 : texte de la carte Premium déplacé dans config/textes/cta-articles-accueil.ts.
+    expect(read("config/textes/cta-articles-accueil.ts")).toContain("inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`");
     expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.");
   });
 });

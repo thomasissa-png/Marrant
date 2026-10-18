@@ -7,7 +7,6 @@ import { getHomeFeatureExamples } from "@/lib/catalogue-pages";
 import { parcoursWeeks } from "@/config/premium";
 import dynamic from "next/dynamic";
 const PremiumCta = dynamic(() => import("@/components/home/premium-cta").then(m => ({ default: m.PremiumCta })), { ssr: true });
-const HomeCta = dynamic(() => import("@/components/home/home-cta").then(m => ({ default: m.HomeCta })), { ssr: true });
 const LettreAccueil = dynamic(() => import("@/components/home/lettre-accueil").then(m => ({ default: m.LettreAccueil })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
@@ -16,6 +15,7 @@ import { AutresParcours } from "@/components/home/autres-parcours";
 import { DerniersArticles } from "@/components/home/derniers-articles";
 import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
 // un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
@@ -142,11 +142,10 @@ export default async function HomePage() {
       {/* Maillage S3b : 3 derniers articles visibles, hors pilier */}
       <DerniersArticles articles={derniersArticles} />
 
-      {/* CTA principal */}
-      <HomeCta />
-
-      {/* CTA Offre : abonnement Premium (coaching retiré le 13/10/2026) */}
-      <PremiumCta />
+      {/* CTA Offre : abonnement Premium (coaching retiré le 13/10/2026). s21 (B4 + B5) : le bloc
+          « Tu crois avoir tout essayé » (ancien home-cta.tsx) est fusionné dans cette carte et supprimé.
+          Annuel lu au rendu (ISR) : [S12] ne le cite que s'il est configuré. */}
+      <PremiumCta annuelDisponible={isAnnualPlanAvailable()} />
 
       {/* s21 : la lettre gratuite, lien discret après l'offre (interrupteur des inscriptions) */}
       <LettreAccueil />

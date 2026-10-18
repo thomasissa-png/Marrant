@@ -17,9 +17,12 @@
  * `isAnnualPlanAvailable()` (lu côté serveur, passé en paramètre ici).
  */
 import {
+  ESPACE_INSECABLE,
   PARCOURS_COUNT,
   PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS,
   PREMIUM_ANNUAL_PRICE_CENTS,
+  PREMIUM_ANNUAL_PRICE_LABEL,
+  PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PARCOURS,
   PREMIUM_PRICE_LABEL,
@@ -137,4 +140,73 @@ export const LETTRE_ARTICLE = {
     "Tu reçois aussi ce qui la fait marcher, puis un exercice en trois étapes pour écrire la tienne, avec son exemple. À la fin, une lecture à suivre et un mot sur Premium, notre abonnement.",
   ],
   reassurance: "Gratuit, sans compte. Désinscription en un clic.",
+} as const;
+
+/**
+ * B3, haut de l'accueil (visiteur) : gagnant du tour 4 (A, 3 voix sur 3). Le plein mène à
+ * l'étape 1 de Répartie (lecture libre), le lien payant à /abonnement, la note dessous.
+ * Titre, paragraphe, « 1 500+ membres » et pastilles : inchangés (hors duel).
+ */
+export const ACCUEIL_HAUT = {
+  /** [S19] */
+  bouton: "Tester mes premières répliques, gratuit",
+  lien: lienDebloquerParcours(),
+  /** [S20] : sans prix (le lien le donne). */
+  note: "Ça se lit sans compte, quiz compris. La suite est dans Premium, l'abonnement du site : tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
+} as const;
+
+/** Phrase de correspondance parcours → situation, dans l'ordre du texte validé. */
+function correspondanceParcours(): string {
+  const publies = new Set(PREMIUM_PARCOURS.map((p) => p.slug));
+  const travail = ["machine-a-cafe", "boulot"].filter((slug) => publies.has(slug));
+  const noms: Record<string, string> = { "machine-a-cafe": "Machine à Café", boulot: "Boulot" };
+  const morceaux = [
+    publies.has("repartie") ? "Répartie quand on te chambre" : null,
+    travail.length > 0 ? `${travail.map((slug) => noms[slug]).join(" et ")} côté travail` : null,
+    publies.has("confiance") ? "Confiance pour retrouver ta légèreté" : null,
+    publies.has("storytelling") ? "Storytelling pour raconter une anecdote" : null,
+  ].filter((m): m is string => m !== null);
+  return morceaux.length > 0 ? `${morceaux.join(", ")}.` : "";
+}
+
+const MINUTES = PREMIUM_PARCOURS.map((p) => minutesParSemaine(p.slug)).filter((m) => Number.isFinite(m));
+const DUREE_ETAPE =
+  Math.min(...MINUTES) === Math.max(...MINUTES)
+    ? `${Math.min(...MINUTES)} minutes`
+    : `${Math.min(...MINUTES)} à ${Math.max(...MINUTES)} minutes`;
+
+/**
+ * B4 + B5, carte Premium de l'accueil (bloc « Tu crois avoir tout essayé » fusionné et
+ * supprimé) : gagnant du tour 4 (B, 2 voix sur 3, texte du tour 3). « Droit de
+ * rétractation » retiré de [S12] (choix de Thomas du 18/10 : marketing, pas de mention
+ * juridique dans les blocs d'appel). Plein : /abonnement?src=accueil-premium ; contour :
+ * étape 1 de Répartie.
+ */
+export const CARTE_PREMIUM = {
+  /** [S10] */
+  titre: "Et si le « j'aurais dû dire » devenait un « j'ai dit » ?",
+  /** [S11] : durées et parcours depuis PREMIUM_PARCOURS. */
+  intro: [
+    "La table qui rit, et la réplique, c'est toi qui l'as lancée.",
+    `Chaque parcours avance d'une étape par semaine (${DUREE_ETAPE}), avec à chaque fois un défi : une petite mission à tenter, dans la vie ou à l'écrit.`,
+    correspondanceParcours(),
+    "La première étape se lit sans compte, quiz compris.",
+  ]
+    .filter(Boolean)
+    .join(" "),
+  /** Sous le prix « 2,99 € TTC / mois » de la carte. */
+  prixUnite: "TTC / mois",
+  /** [S12] : l'annuel seulement si `isAnnualPlanAvailable()`. */
+  ligneTarif: (annuelDisponible: boolean) =>
+    annuelDisponible
+      ? `Prix TTC, ou ${PREMIUM_ANNUAL_PRICE_LABEL} (soit ${formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)}/mois, ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés)`
+      : "Prix TTC",
+  /** Bouton plein (visiteur). Le texte gagnant dit « tous les parcours ». */
+  bouton: `Débloquer tous les parcours, ${PREMIUM_PRICE_LABEL}`,
+  /** Bouton contour : étape 1 de Répartie (remplace « Voir les vannes gratuites »). */
+  contour: "Tester mes premières répliques, gratuit",
+  /** [S13] */
+  reassurance: REASSURANCE_PAIEMENT,
+  /** Chiffre fixe validé par Thomas (29/09/2026). */
+  inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`,
 } as const;
