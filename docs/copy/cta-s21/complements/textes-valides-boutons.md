@@ -19,11 +19,11 @@ Critère unique : l'envie de payer (choix de Thomas du 18/10). Rien de faux, auc
 - Paragraphe : « Machine à Café, Répartie, Confiance, Storytelling et Boulot, de 3 à 6 semaines chacun, et tout s'ouvre d'un coup. Chaque étape tient en 15 à 20 minutes : un conseil, un défi à tenter, 5 vannes, 2 vidéos et un petit quiz. En plus des parcours : toutes les vannes, tous les conseils et toutes les vidéos du site. »
 - Bouton : « Ouvrir les 5 parcours · 2,99 €/mois » (« · 24,99 €/an » si l'annuel est choisi)
 
-## E4, carte « Abonnement » du profil (connecté sans abonnement) : en cours (tour 12)
+## E4, carte « Abonnement » du profil (connecté sans abonnement) : validé tour 14 (O1 à 2 voix contre 1, notes 10/10, 10/10, 9/9 ; arrêt motivé : le 9 vient du relecteur pressé, qui avait noté cette même phrase 10 aux tours 8, 9 et 10 ; ligne discrète D6 unanime au tour 13)
 - Phrase d'offre : « Avec Premium, tout est ouvert : les 5 parcours en entier, un nouveau carnet de répartie chaque mois, toutes les vannes, tous les conseils et toutes les vidéos. Et tu gardes en favori ce que tu veux ressortir. »
-- Ligne XP (si XP > 0) : « Tu as déjà {xp} XP. »
-- Ligne discrète : à trancher au tour 12 (remboursement du premier paiement sous 14 jours inclus, demandé par les 3 relecteurs du tour 11).
-- Bouton : « Tout ouvrir · 2,99 €/mois »
+- Ligne XP (si XP > 0) : « Tu as déjà {xp} XP. » (remplace « Les {xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés. »)
+- Ligne discrète : « Résiliable quand tu veux depuis ce profil. Tu as 14 jours pour te faire rembourser ce paiement. » (vrai aussi pour un ancien abonné : un réabonnement ouvre un nouvel abonnement, dont le premier paiement est remboursable, cf. config/textes/paiement.ts l.425)
+- Bouton : « Tout ouvrir · 2,99 €/mois » (chargement : « On t'emmène au paiement… »)
 
 ## Fichiers code concernés (pour @fullstack)
-carnet-page.tsx l.98-108, premium-cta.tsx l.121, abonnement-view.tsx l.161-163 et l.296, profil/abonnement-card.tsx l.138, l.142 et l.147, premium-modal.tsx l.111 (« Active mon accès »).
+carnet-page.tsx l.98-108, premium-cta.tsx l.121, abonnement-view.tsx l.161-163 et l.296, profil/abonnement-card.tsx l.138, l.142 et l.147, home/carte-premium-achat.tsx l.59 (« Active mon accès », branche connectée sans abonnement = E2). Plus aucun « Active mon accès » ne doit rester (Grep).
