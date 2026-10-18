@@ -11,6 +11,7 @@ import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { FaqSection } from "@/components/home/faq-section";
 import { trackUmami } from "@/lib/umami";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { frTypo } from "@/lib/fr-typo";
@@ -50,14 +51,17 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
+        trackCheckoutOuvert("accueil-premium");
         window.location.href = data.url;
         return;
       }
       // Refus 409 (déjà abonné, impayé) : message + lien /profil (audit s16, lot D).
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
+      trackCheckoutEchec("accueil-premium", conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
       else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
+      trackCheckoutEchec("accueil-premium", "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);

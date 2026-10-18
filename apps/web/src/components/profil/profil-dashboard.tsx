@@ -19,6 +19,7 @@ import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
 import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -71,13 +72,16 @@ export function ProfilDashboard() {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
+        trackCheckoutOuvert("profil");
         window.location.href = data.url;
       } else {
         // s16 : message du serveur s'il existe (ex. abonnement déjà en cours, 409).
         const data = (await res.json().catch(() => ({}))) as { error?: string };
+        trackCheckoutEchec("profil", res.status === 409 ? "conflit" : "erreur");
         toast(data.error ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
+      trackCheckoutEchec("profil", "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);

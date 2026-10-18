@@ -133,6 +133,9 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
         "lettre-envoi",
         "lettre-echec",
         "lettre-confirmee",
+        // s21 (blocs d'appel A) : ouverture et échec de Stripe Checkout.
+        "checkout-ouvert",
+        "checkout-echec",
       ].sort(),
     );
   });
