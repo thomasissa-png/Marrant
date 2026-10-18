@@ -12,7 +12,7 @@ export function BlogArticleRelated({ navigation }: { navigation: BlogArticleNavi
     <>
       {/* Navigation dans le cluster */}
       {cluster && (nextArticle || prevArticle) && (
-        <nav className="mt-12 border-t border-border pt-8" aria-label="Navigation dans le cluster" data-blog-zone="cluster">
+        <nav className="mt-10 border-t border-border pt-8" aria-label="Navigation dans le cluster" data-blog-zone="cluster">
           <p className="mb-4 text-xs font-medium uppercase tracking-wider text-text-muted">
             {cluster.name}
           </p>
@@ -46,7 +46,7 @@ export function BlogArticleRelated({ navigation }: { navigation: BlogArticleNavi
 
       {/* Articles similaires */}
       {relatedArticles.length > 0 && (
-        <div className="mt-12 border-t border-border pt-8" data-blog-zone="related">
+        <div className="mt-10 border-t border-border pt-8" data-blog-zone="related">
           <h2 className="font-display text-xl font-bold text-text-primary">À lire ensuite</h2>
           <div className={`mt-4 grid gap-4 ${relatedArticles.length >= 3 ? "sm:grid-cols-3" : "sm:grid-cols-2"}`}>
             {relatedArticles.map((related) => (

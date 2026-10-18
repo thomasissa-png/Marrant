@@ -39,6 +39,8 @@ import { blogArticles } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 
@@ -51,15 +53,16 @@ describe("Page article : position du CTA et partage", () => {
 
   it("meilleures-blagues : CTA juste après le corps, avant la FAQ, une seule fois", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
-    const titles = screen.getAllByText("Tu les as lues. Reste à les sortir pour de vrai.");
+    // s21 (B2) : textes du tour 4 (cta-articles-accueil.ts), prioritaires sur blog-cta.ts.
+    const titles = screen.getAllByText("Quand on te chambre et que rien ne sort");
     expect(titles).toHaveLength(1);
     const body = container.querySelector("[data-blog-body]")!;
     expect(follows(body, titles[0])).toBe(true);
     expect(follows(titles[0], screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(container.querySelectorAll("[data-blog-bloc-fin]")).toHaveLength(1);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Les vannes de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
+    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\./)).toBeInTheDocument();
+    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
     // s20 : Répartie (parcours de Yanis), plus Machine à Café.
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026");
   });
@@ -71,11 +74,12 @@ describe("Page article : position du CTA et partage", () => {
     expect(within(body).getByRole("button", { name: "Partager la vanne n°50" })).toBeInTheDocument();
   });
 
-  it("autre article : CTA par défaut en bas, sans bouton Partager", async () => {
+  it("autre article : même ordre (s21 : FAQ en dernier pour tous), sans bouton Partager", async () => {
     const { container } = await renderArticle("comment-devenir-drole");
     const title = screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre);
-    expect(follows(screen.getByText("Questions fréquentes"), title)).toBe(true);
+    expect(follows(title, screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(title, container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
+    expect(follows(container.querySelector('[data-blog-zone="related"]')!, screen.getByText("Questions fréquentes"))).toBe(true);
     expect(container.querySelector("[data-share-vanne]")).toBeNull();
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-comment-devenir-drole");
   });
@@ -143,7 +147,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(screen.getByText("2,99 €/mois, sans engagement. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Accéder aux parcours complets" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.lienAbonnement) })).toBeInTheDocument();
   });
 });
 

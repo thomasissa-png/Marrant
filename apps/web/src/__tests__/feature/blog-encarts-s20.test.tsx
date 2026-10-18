@@ -28,7 +28,9 @@ import { computeEncartPlacements, visibleTextLength, type BlogSection } from "@/
 import { resolveArticleParcours } from "@/lib/blog-parcours";
 import { PARCOURS_SLUGS, parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
+import { normalise } from "../helpers/texte-normalise";
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 const h2 = (container: HTMLElement, startsWith: string) =>
@@ -101,24 +103,42 @@ describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
   });
 });
 
-describe("bloc de fin unique", () => {
+describe("bloc de fin unique (s21, B2)", () => {
   it.each(["meilleures-blagues-droles-2026", "comment-devenir-drole", "phrases-droles-conversations"])(
-    "%s : étape 1 en contour PUIS Premium en principal, articles liés après",
+    "%s : étape 1 en PLEIN (seul plein) puis lien payant, lettre, articles liés, FAQ en dernier",
     async (slug) => {
       const { container } = await renderArticle(slug);
       const blocs = container.querySelectorAll<HTMLElement>("[data-blog-bloc-fin]");
       expect(blocs).toHaveLength(1);
       const links = [...blocs[0].querySelectorAll<HTMLAnchorElement>("a[data-blog-cta]")];
       expect(links.map((a) => a.dataset.blogCta)).toEqual(["etape-1", "abonnement"]);
-      expect(links[0].className).toContain("border");
-      expect(links[1].className).toContain("bg-accent-secondary-hover");
+      expect(links[0].className).toContain("bg-accent-secondary-hover");
+      expect(links[1].className).not.toContain("bg-accent-secondary-hover");
+      expect(links[1].className).toContain("underline");
+      expect(links[1]).toHaveTextContent(normalise(BLOC_FIN.lienAbonnement));
       expect(links[1].getAttribute("href")).toContain(`src=blog-${slug}`);
-      expect(follows(blocs[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
+      expect(blocs[0].querySelector("ul")).toBeNull();
+      // Ordre de la spec §3.1 : bloc de fin, lettre, cluster / « À lire ensuite », FAQ.
+      const lettre = container.querySelector('[data-blog-zone="lettre"]')!;
+      const related = container.querySelector('[data-blog-zone="related"]')!;
+      expect(follows(blocs[0], lettre) && follows(lettre, related)).toBe(true);
+      const faq = screen.queryByText("Questions fréquentes");
+      if (faq) expect(follows(related, faq)).toBe(true);
       expect(container.querySelector('[data-blog-zone="parcours"]')).toBeNull();
     },
   );
 
-  it("phrases-droles-conversations : la carte parcours (Répartie) remonte avant la FAQ", async () => {
+  it("article n°1 : textes du tour 4 (titre, scène, note [S9] sans annuel tant qu'il n'est pas configuré)", async () => {
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
+    expect(bloc).toHaveTextContent("Quand on te chambre et que rien ne sort");
+    expect(bloc).toHaveTextContent(/Tu viens de lire cinquante vannes\..*Une étape par semaine, 20 minutes/);
+    expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
+    expect(bloc).toHaveTextContent(/2,99\s€ TTC par mois\. Tu as 14 jours/);
+    expect(bloc).not.toHaveTextContent("24,99");
+  });
+
+  it("phrases-droles-conversations : la FAQ vient après le bloc de fin (Répartie)", async () => {
     const { container } = await renderArticle("phrases-droles-conversations");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc.dataset.blogCtaParcours).toBe("repartie");

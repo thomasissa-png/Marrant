@@ -13,7 +13,7 @@
  * gratuite disent « Lire la première étape gratuite de {parcours} »
  * (`etape1GratuiteBouton`), au lieu de « Étape 1 gratuite : {parcours} ».
  */
-import { PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { PREMIUM_PARCOURS } from "@/config/premium";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { etape1GratuiteBouton } from "@/config/textes/entrees-parcours";
 
@@ -37,8 +37,6 @@ export interface TextesParcoursBlog {
   /** Bloc de fin : titre et paragraphe par défaut (un article peut les surcharger). */
   finTitre: string;
   finTexte: string;
-  /** Puces du bloc de fin (0 à 3). */
-  finPuces: readonly string[];
   /** Bouton contour du bloc de fin vers l'étape 1 gratuite. */
   finBoutonEtape1: string;
 }
@@ -62,10 +60,6 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     // s20 : pas de paragraphe (la phrase de l'étalon 3.2c, contestée à l'aveugle, n'est pas reprise ici) ;
     // les deux puces sont les textes déjà en ligne de l'ancien encart Répartie.
     finTexte: "",
-    finPuces: [
-      `Une étape par semaine, environ ${minutes("repartie")} minutes`,
-      "Des situations que tu connais : le chambrage entre potes, la pique en TD, le raté à rattraper",
-    ],
     finBoutonEtape1: etape1GratuiteBouton("repartie"),
   },
   "machine-a-cafe": {
@@ -77,7 +71,6 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     },
     finTitre: "Sois drôle au bureau sans avoir l'air d'essayer",
     finTexte: `Des vannes courtes, le bon moment pour les placer et des anecdotes qu'on écoute jusqu'au bout, ${minutes("machine-a-cafe")} min par semaine.`,
-    finPuces: [],
     finBoutonEtape1: etape1GratuiteBouton("machine-a-cafe"),
   },
   confiance: {
@@ -89,7 +82,6 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     },
     finTitre: "Reprends confiance, une conversation à la fois",
     finTexte: "Le parcours Confiance t'entraîne, étape après étape, à trouver ta place dans un groupe qui rit, sans personne pour te pousser sur scène.",
-    finPuces: [],
     finBoutonEtape1: etape1GratuiteBouton("confiance"),
   },
   storytelling: {
@@ -101,7 +93,6 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     },
     finTitre: "Une anecdote, travaillée jusqu'à ce qu'on te la redemande",
     finTexte: `Le parcours Storytelling te fait retravailler une seule anecdote vraie, d'étape en étape, ${minutes("storytelling")} min par semaine.`,
-    finPuces: [],
     finBoutonEtape1: etape1GratuiteBouton("storytelling"),
   },
   boulot: {
@@ -113,7 +104,6 @@ export const TEXTES_PARCOURS_BLOG: Readonly<Record<ParcoursSlug, TextesParcoursB
     },
     finTitre: "Ta vanne du lundi, sans te griller",
     finTexte: "Le parcours Boulot t'apprend à la sortir un cran à la fois, de la salle de réunion au toast. Chaque exercice a une version sans risque.",
-    finPuces: [],
     finBoutonEtape1: etape1GratuiteBouton("boulot"),
   },
 };
@@ -139,13 +129,15 @@ export const ENCARTS_ARTICLE_1 = {
 
 export type CleEncartArticle1 = keyof typeof ENCARTS_ARTICLE_1;
 
-/** Bloc de fin unique (étape 1 gratuite en contour, puis Premium en principal). */
+/**
+ * Bloc de fin unique. s21 (B2) : étape 1 gratuite en PLEIN, lien payant et note [S9]
+ * dans config/textes/cta-articles-accueil.ts (BLOC_FIN) ; l'ancien bouton « Accéder aux
+ * parcours complets » et l'ancienne note (« sans engagement ») sont remplacés.
+ */
 export const TEXTES_BLOC_FIN = {
   ariaLabel: "Aller plus loin",
   /** Petite ligne au-dessus du titre ; `{parcours}` = nom du parcours, `{semaines}` = durée. */
   surtitre: "Parcours {parcours} · {semaines} semaines",
-  boutonPremium: "Accéder aux parcours complets",
-  note: `${PREMIUM_PRICE_LABEL}, sans engagement. Cet article reste en lecture libre.`,
   /** Abonné Premium : un seul bouton. */
   boutonAbonne: "Continuer mon parcours",
 } as const;
@@ -157,7 +149,5 @@ export const TEXTES_BLOC_FIN = {
 export const BLOC_FIN_PAR_ARTICLE: Readonly<
   Partial<Record<string, { titre?: string; texte?: string; note?: string }>>
 > = {
-  // Étalon 3.1 : titre et note gardés (config/blog-cta.ts) ; sa phrase « Les parcours complets… »
-  // écartée à l'aveugle (3/3, pluriel incohérent avec un bloc Répartie) : les puces Répartie la remplacent.
-  "meilleures-blagues-droles-2026": { texte: "" },
+  // s21 : l'article n°1 a ses textes du tour 4 dans cta-articles-accueil.ts (BLOC_FIN.parArticle).
 };

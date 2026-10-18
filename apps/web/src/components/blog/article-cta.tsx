@@ -16,31 +16,39 @@ import {
 } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 
 interface ArticleCtaProps {
   /** Parcours de l'article (lib/blog-parcours) : étape 1 et retour après paiement. */
   parcours?: ParcoursSlug;
   /** Source du clic pour la mesure du tunnel (`blog-<slug>`), relayée par /abonnement. */
   src?: string;
-  /** Surcharges par article (config/textes/encarts-blog-s20 puis config/blog-cta). */
+  /** Surcharges par article (cta-articles-accueil, encarts-blog-s20 puis blog-cta). */
   title?: string;
   text?: string;
   note?: string;
+  /** `isAnnualPlanAvailable()` lu côté serveur : l'annuel n'apparaît dans [S9] que s'il existe. */
+  annuelDisponible?: boolean;
 }
 
+/** Lien fort (L1, spec cta-forme-place §1.3) : le payant en niveau 3 sous le plein. */
+const LIEN_FORT =
+  "inline-flex min-h-11 items-center text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link";
+
 /**
- * Bloc de fin unique d'un article (audit conversion s20, lot 1) : fusion de l'encart
- * « Parcours recommandé » et de l'ancien CTA de fin. Toujours le même ordre :
- * 1. étape 1 gratuite du parcours, bouton CONTOUR (`data-blog-cta="etape-1"`) ;
- * 2. Premium, bouton PRINCIPAL vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`).
- * Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),
+ * Bloc de fin unique d'un article (s20, revu s21 : spec `cta-forme-place-s21.md` §2.5
+ * variante « fin », bloc B2, température froide). Ordre :
+ * 1. étape 1 gratuite du parcours, bouton PLEIN (`data-blog-cta="etape-1"`), seul plein ;
+ * 2. lien fort payant vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`) ;
+ * 3. note [S9] (prix TTC, garantie du premier paiement, résiliation en ligne).
+ * Plus de puces. Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),
  * vers l'étape à reprendre, sinon l'étape 1 du parcours de l'article.
  *
  * Mesure : `data-blog-cta-position="fin"` + `data-blog-cta-parcours`
  * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
- * Textes : config/textes/encarts-blog-s20.ts.
+ * Textes : config/textes/cta-articles-accueil.ts (BLOC_FIN) et encarts-blog-s20.ts.
  */
-export function ArticleCta({ parcours = "repartie", src, title, text, note }: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, text, note, annuelDisponible = false }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -53,6 +61,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
   const surtitre = TEXTES_BLOC_FIN.surtitre
     .replace("{parcours}", PARCOURS_NOMS[parcours])
     .replace("{semaines}", String(semaines ?? ""));
+  const paragraphe = text ?? textes.finTexte;
 
   return (
     <aside
@@ -60,28 +69,16 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
       data-blog-bloc-fin
       data-blog-cta-position="fin"
       data-blog-cta-parcours={parcours}
-      className="mt-12 rounded-lg border border-border bg-background-card p-6"
+      className="mt-10 rounded-lg border border-border bg-background-card p-5 sm:p-6"
     >
       {semaines !== null && (
         <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(surtitre)}</p>
       )}
       <p className="mt-2 font-display text-xl font-bold text-text-primary">{frTypo(title ?? textes.finTitre)}</p>
-      {(text ?? textes.finTexte) && <p className="mt-2 text-text-secondary">{frTypo(text ?? textes.finTexte)}</p>}
-      {textes.finPuces.length > 0 && (
-        <ul className="mt-4 space-y-2 text-sm text-text-secondary">
-          {textes.finPuces.map((puce) => (
-            <li key={puce} className="flex gap-2">
-              <span aria-hidden className="text-accent-link">
-                →
-              </span>
-              <span>{frTypo(puce)}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+      {paragraphe && <p className="mt-2 text-text-secondary">{frTypo(paragraphe)}</p>}
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-        {isPremium ? (
+      {isPremium ? (
+        <div className="mt-6">
           <Link
             href={continuerHref}
             data-blog-cta="parcours"
@@ -89,34 +86,32 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note }: Ar
           >
             {TEXTES_BLOC_FIN.boutonAbonne}
           </Link>
-        ) : (
-          <>
+        </div>
+      ) : (
+        <>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <Link
               href={etape1Href}
               data-blog-cta="etape-1"
               className={cn(
-                buttonVariants({ variant: "outline-accent", size: "lg" }),
+                buttonVariants({ variant: "primary", size: "lg" }),
                 // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
-                "h-auto min-h-12 whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+                "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
               )}
             >
-              {frTypo(textes.finBoutonEtape1)}
+              {frTypo(BLOC_FIN.boutonEtape1[parcours] ?? textes.finBoutonEtape1)}
             </Link>
             <Link
               href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
               data-blog-cta="abonnement"
-              className={cn(
-                buttonVariants({ variant: "primary", size: "lg" }),
-                "h-auto min-h-12 whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
-              )}
+              className={cn(LIEN_FORT, "self-start sm:self-auto")}
             >
-              {frTypo(TEXTES_BLOC_FIN.boutonPremium)}
+              {frTypo(BLOC_FIN.lienAbonnement)}
             </Link>
-          </>
-        )}
-      </div>
-
-      {!isPremium && <p className="mt-3 text-xs text-text-muted">{frTypo(note ?? TEXTES_BLOC_FIN.note)}</p>}
+          </div>
+          <p className="mt-2 text-xs text-text-muted">{frTypo(note ?? BLOC_FIN.note(annuelDisponible))}</p>
+        </>
+      )}
     </aside>
   );
 }

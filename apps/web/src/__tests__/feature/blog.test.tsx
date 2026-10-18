@@ -117,6 +117,8 @@ import BlogArticlePage, {
   generateStaticParams,
   generateMetadata,
 } from "@/app/(dashboard)/blog/[slug]/page";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
@@ -236,9 +238,10 @@ describe("BlogArticlePage — article detail", () => {
     render(Page);
     // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
     expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre.
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
-    expect(screen.getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).length).toBeGreaterThan(0);
+    // s21 (B2) : étape 1 gratuite en plein (Répartie : « Tester mes premières répliques, gratuit »)
+    // puis le lien payant « Débloquer les N parcours, 2,99 €/mois ».
+    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getAllByText(BLOC_FIN.boutonEtape1.repartie!).length).toBeGreaterThan(0);
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 

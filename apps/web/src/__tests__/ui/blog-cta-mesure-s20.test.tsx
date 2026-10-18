@@ -9,8 +9,8 @@ import { BlogArticleTracking, linkZone } from "@/components/blog/blog-article-tr
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
-import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
-import { DEMO_VANNE } from "@/config/textes/cta-articles-accueil";
+import { BLOC_FIN, DEMO_VANNE } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 // s21 : l'encart du milieu montre la fiche offerte du carnet du mois (DemoVanne).
@@ -79,12 +79,13 @@ describe("blog-cta-clic", () => {
     const { getByText, getAllByText } = setup();
     // s21 (B1) : `blog-cta="demo-fiche"` sur le bouton de la démonstration.
     fireEvent.click(getByText(DEMO_VANNE.bouton));
-    const finEtape1 = getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).find((el) =>
+    // s21 (B2) : plein de l'étape 1 puis lien payant du bloc de fin.
+    const finEtape1 = getAllByText(BLOC_FIN.boutonEtape1.repartie!).find((el) =>
       el.closest("a")?.getAttribute("href")?.includes("?src=blog#"),
     );
     expect(finEtape1).toBeDefined();
     fireEvent.click(finEtape1!);
-    fireEvent.click(getByText(TEXTES_BLOC_FIN.boutonPremium));
+    fireEvent.click(getByText(normalise(BLOC_FIN.lienAbonnement)));
     expect(track.mock.calls).toEqual([
       ["blog-cta-clic", { slug: SLUG, bouton: "demo-fiche", position: "milieu-1", parcours: "repartie", fiche: "2026-10-15" }],
       ["blog-cta-clic", { slug: SLUG, bouton: "etape-1", position: "fin", parcours: "repartie" }],

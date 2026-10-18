@@ -26,7 +26,8 @@ jest.mock("@/hooks/use-content-stats", () => ({
 describe("limites gratuites affichées = constantes de config", () => {
   it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), prix seul", () => {
     const { container } = render(<ArticleCta />);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
+    // s21 (B2) : note [S9] du tour 4 (prix TTC, garantie, résiliation en ligne).
+    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\./)).toBeInTheDocument();
     expect(container.textContent).not.toMatch(/compte gratuit|sans carte/i);
   });
 

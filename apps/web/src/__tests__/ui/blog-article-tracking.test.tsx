@@ -8,7 +8,9 @@ import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
-import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 
@@ -61,8 +63,8 @@ describe("blog-sortie-clic", () => {
 describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText(TEXTES_BLOC_FIN.boutonPremium));
-    fireEvent.click(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
+    fireEvent.click(screen.getByText(normalise(BLOC_FIN.lienAbonnement)));
+    fireEvent.click(screen.getByText(BLOC_FIN.boutonEtape1.repartie!));
     expect(track).toHaveBeenCalledTimes(2);
     // s20 : position et parcours du bloc qui contient le bouton.
     const props = { slug: SLUG, position: "fin", parcours: "repartie" };
@@ -73,9 +75,10 @@ describe("blog-cta-clic", () => {
   it("textes par défaut (s20) : ceux du parcours et du bloc de fin, config/textes/encarts-blog-s20", () => {
     render(<ArticleCta />);
     expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).closest("a")).toHaveAttribute(
+    // s21 (B2) : lien payant « Débloquer les N parcours, 2,99 €/mois », note [S9] du tour 4.
+    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux\.$/)).toBeInTheDocument();
+    expect(screen.getByText(BLOC_FIN.boutonEtape1.repartie!).closest("a")).toHaveAttribute(
       "href",
       "/parcours/repartie?src=blog#etape-1",
     );
@@ -221,7 +224,7 @@ describe("CTA d'article : note et inscription attribuable", () => {
     expect(screen.getByText("Note de l'article.")).toBeInTheDocument();
     unmount();
     render(<ArticleCta />);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
+    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux\.$/)).toBeInTheDocument();
   });
 
   it("le bouton principal mène à /abonnement avec retour au parcours et source de l'article (s15)", () => {
