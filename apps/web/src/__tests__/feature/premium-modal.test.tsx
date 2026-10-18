@@ -74,7 +74,8 @@ describe("PremiumModal (s21 B11 : un titre, une intro et un bouton par geste)", 
     const href = screen.getByRole("link", { name: T.favori.vanne.bouton }).getAttribute("href") ?? "";
     const params = new URL(href, "https://deviens-marrant.fr").searchParams;
     expect(href.startsWith("/register?")).toBe(true);
-    expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%3Fpage%3D2");
+    // s21 (QA M1) : la source revient avec le callback, jusqu'à checkout-ouvert.
+    expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%3Fpage%3D2&src=modale-favoris");
     expect(params.get("src")).toBe("modale-favoris");
   });
 

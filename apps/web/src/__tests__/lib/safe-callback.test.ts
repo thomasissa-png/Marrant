@@ -82,6 +82,20 @@ describe("getPostSignupRedirect (plus de compte gratuit, s15 : l'inscription mè
     expect(getPostSignupRedirect(null, "annual")).toBe("/abonnement?plan=annual&auto=1");
     expect(getPostSignupRedirect("/vannes", "annual")).toBe("/abonnement?returnTo=%2Fvannes&plan=annual&auto=1");
   });
+
+  it("s21 (QA M1) : la source d'entrée suit jusqu'au paiement (callback, sinon /register)", () => {
+    expect(getPostSignupRedirect("/abonnement?returnTo=%2Fvannes&src=modale-carte")).toBe(
+      "/abonnement?returnTo=%2Fvannes&src=modale-carte&auto=1",
+    );
+    // Source du callback prioritaire sur celle de /register.
+    expect(getPostSignupRedirect("/abonnement?src=header", "monthly", "abonnement")).toBe("/abonnement?src=header&auto=1");
+    // Callback sans source : celle de /register.
+    expect(getPostSignupRedirect("/parcours/repartie", "monthly", "a-propos")).toBe(
+      "/abonnement?returnTo=%2Fparcours%2Frepartie&src=a-propos&auto=1",
+    );
+    // Source invalide : ignorée.
+    expect(getPostSignupRedirect("/abonnement?src=%3Cscript%3E", "monthly", "BAD SRC")).toBe("/abonnement?auto=1");
+  });
 });
 
 describe("readSignupPlan", () => {

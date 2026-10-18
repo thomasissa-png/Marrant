@@ -124,7 +124,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // Règle unique d'après-inscription (lib/premium-return) : /abonnement avec
   // `auto=1` (paiement ouvert tout seul), intention d'origine gardée en
   // `returnTo`, formule conservée. Google suit la même règle.
-  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan);
+  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan, src);
   // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
   const oauthCallbackUrl = withAuthReturnMarker(postAuthTarget, AUTH_RETURN_SIGNUP_GOOGLE, src);
   // Source toujours renseignée (« direct » si la page est ouverte sans lien suivi).

@@ -2,7 +2,7 @@
  * Audit parcours s16, lot C : offre (D4, D5, reco 9, 12), mesure (reco 17),
  * pages légales (reco 18), accessibilité (reco 19).
  */
-import { render, renderHook, screen } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AbonnementView, isCheckoutCancelReturn } from "@/components/premium/abonnement-view";
 import { PremiumCta } from "@/components/home/premium-cta";
@@ -62,6 +62,43 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
+  });
+
+  it("s21 (QA M1) : visiteur, le lien d'inscription ramène la source d'entrée sur /abonnement", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    window.history.pushState({}, "", "/abonnement?returnTo=%2Fvannes&src=header");
+    render(<AbonnementView annualAvailable={false} />);
+    const lien = screen
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href") ?? "")
+      .find((h) => h.startsWith("/register?"));
+    expect(lien).toBeDefined();
+    const callback = new URL(`https://x${lien}`).searchParams.get("callbackUrl") ?? "";
+    expect(callback).toBe("/abonnement?returnTo=%2Fvannes&src=header");
+  });
+
+  it("s21 (QA M1) : retour d'inscription (auto=1) compté à part, la source d'entrée n'est pas doublée", () => {
+    useSession.mockReturnValue({ status: "loading" });
+    window.history.pushState({}, "", "/abonnement?returnTo=%2Fvannes&src=header&auto=1");
+    render(<AbonnementView annualAvailable={false} />);
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "retour-inscription" });
+    expect(mockTrack).not.toHaveBeenCalledWith("abonnement-vu", { src: "header" });
+  });
+
+  it("s21 (QA M1) : retour Google, `src` retiré de l'URL avant le paiement auto : la source lue au montage reste", async () => {
+    const fetchAvant = global.fetch;
+    global.fetch = jest.fn(async () => ({ ok: true, status: 200, json: async () => ({ url: "/?stripe=1" }) })) as unknown as typeof fetch;
+    useSession.mockReturnValue({ status: "loading" });
+    window.history.pushState({}, "", "/abonnement?src=header&auto=1&auth=inscription-google");
+    const { rerender } = render(<AbonnementView annualAvailable={false} />);
+    // Le traceur du layout (AuthReturnTracker) retire `auth` et `src` après coup.
+    window.history.replaceState({}, "", "/abonnement?auto=1");
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
+    rerender(<AbonnementView annualAvailable={false} />);
+    await waitFor(() =>
+      expect(mockTrack).toHaveBeenCalledWith("checkout-ouvert", expect.objectContaining({ src: "header", formule: "mensuel" })),
+    );
+    global.fetch = fetchAvant;
   });
 
   it("annuel choisi : « TTC / an » près du montant, même réassurance (V3 s21)", async () => {

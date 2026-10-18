@@ -90,7 +90,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
           ) : (
             <Link
               href={buildRegisterUrl({
-                callbackUrl: buildAbonnementUrl(resolveReturnTo()),
+                // s21 (QA M1) : la source suit jusqu'au paiement (checkout-ouvert {src: modale-…}).
+                callbackUrl: buildAbonnementUrl(resolveReturnTo(), "monthly", `modale-${reason}`),
                 src: `modale-${reason}`,
               })}
               className={plein}

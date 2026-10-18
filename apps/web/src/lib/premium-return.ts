@@ -86,6 +86,11 @@ export function readSignupPlan(
 export function getPostSignupRedirect(
   rawCallback: string | null | undefined,
   plan: PremiumPlan = readSignupPlan(null, rawCallback),
+  /**
+   * s21 (QA M1) : source d'entrée de /register, reprise sur /abonnement si le callback
+   * n'en porte pas, pour que `checkout-ouvert` / `checkout-echec` gardent la porte d'entrée.
+   */
+  signupSrc?: string | null,
 ): string {
   const safe = sanitizeCallbackUrl(rawCallback);
   const [path, query = ""] = (safe ?? "").split("#")[0].split("?");
@@ -104,6 +109,10 @@ export function getPostSignupRedirect(
   }
   params.delete("plan");
   if (plan === "annual") params.set("plan", "annual");
+  const srcCallback = params.get("src");
+  params.delete("src");
+  const src = [srcCallback, signupSrc].find((v) => typeof v === "string" && /^[a-z0-9][a-z0-9-]{0,119}$/.test(v));
+  if (src) params.set("src", src);
   params.set(AUTO_CHECKOUT_PARAM, AUTO_CHECKOUT_VALUE);
   return `/abonnement?${params.toString()}`;
 }

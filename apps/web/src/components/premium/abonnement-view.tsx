@@ -122,16 +122,23 @@ export function AbonnementView({
   // Intention d'origine lue après montage (le HTML serveur garde le lien sans returnTo).
   const [returnTo, setReturnTo] = useState<string | null>(null);
   const [entrySrc, setEntrySrc] = useState<string | null>(null);
+  // s21 (QA M1) : source lue au montage. Au retour d'une inscription Google, le traceur du
+  // layout retire `src` de l'URL (effet parent, après celui-ci) avant le paiement automatique.
+  const srcEntree = useRef<string | null>(null);
   // Retour de Stripe sans paiement : message clair au-dessus de l'offre (reco 12).
   const [paymentCanceled, setPaymentCanceled] = useState(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const src = readSrcFromUrl();
+    srcEntree.current = src;
     setSelectedPlan(readPlanFromUrl());
     setReturnTo(readReturnTo());
     setEntrySrc(src);
     // Vue de l'offre (audit s16 reco 17) : une fois par chargement, avec la porte d'entrée.
-    trackUmamiWhenReady("abonnement-vu", { src: src ?? "direct" });
+    // s21 (QA M1) : le retour d'inscription (`auto=1`) porte maintenant la source d'entrée ;
+    // compté à part (`retour-inscription`) pour ne pas doubler la vue de cette source.
+    const retourInscription = params.get(AUTO_CHECKOUT_PARAM) === AUTO_CHECKOUT_VALUE;
+    trackUmamiWhenReady("abonnement-vu", { src: retourInscription ? "retour-inscription" : (src ?? "direct") });
     // Retour de Stripe sans paiement (cancel_url) : mesuré une fois au chargement.
     if (isCheckoutCancelReturn(params)) {
       setPaymentCanceled(true);
@@ -148,7 +155,8 @@ export function AbonnementView({
   // puis retour ici avec `auto=1` (paiement ouvert tout seul), formule et
   // intention conservées (voir getPostSignupRedirect et buildAbonnementUrl).
   const paidSignupHref = buildRegisterUrl({
-    callbackUrl: buildAbonnementUrl(returnTo, plan),
+    // s21 (QA M1) : la source d'entrée revient avec le callback (mesure du paiement).
+    callbackUrl: buildAbonnementUrl(returnTo, plan, entrySrc),
     src: entrySrc ?? "abonnement",
   });
 
@@ -169,7 +177,7 @@ export function AbonnementView({
     const annual = chosenPlan === "annual";
     const formule: CheckoutFormule = annual ? "annuel" : "mensuel";
     // Source de mesure : le bloc d'entrée (`?src=`, ex. `header`), sinon la page elle-même.
-    const srcMesure = readSrcFromUrl() ?? "abonnement";
+    const srcMesure = srcEntree.current ?? readSrcFromUrl() ?? "abonnement";
     setIsCheckoutLoading(true);
     setConflict(null);
     trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur, statut: "membre" });

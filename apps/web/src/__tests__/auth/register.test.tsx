@@ -213,7 +213,8 @@ describe("RegisterPage", () => {
       const data = { methode: "email", src: "blog-meilleures-blagues-droles-2026", etape: "abonnement" };
       await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("inscription-reussie", data));
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", data);
-      expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
+      // s21 (QA M1) : la source suit jusqu'au paiement (checkout-ouvert).
+      expect(mockPush).toHaveBeenCalledWith("/abonnement?src=blog-meilleures-blagues-droles-2026&auto=1");
     });
 
     it("échec API : envoi mesuré, pas de réussite", async () => {
@@ -259,7 +260,8 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await userEvent.click(screen.getByText("S'inscrire avec Google"));
       expect(mockSignIn).toHaveBeenCalledWith("google", {
-        callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&auto=1&auth=inscription-google&src=parcours",
+        // s21 (QA M1) : source déjà dans la cible, jamais en double.
+        callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&src=parcours&auto=1&auth=inscription-google",
       });
     });
 
