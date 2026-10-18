@@ -1,0 +1,469 @@
+# Pack de relecture à l'aveugle : les 30 fiches d'un carnet mensuel de répartie
+
+Tu lis 30 fiches complètes, présentées dans le désordre et sans indication d'origine. Pour chacune, donne une note sur 10. Sous 10, dis ce qui manque et propose ta version exacte du passage (mot pour mot, prête à coller). Ne touche jamais à la situation, à « On te dit » ni à « Tu réponds » : ils sont validés. Tu juges le titre, l'accroche, le « Pourquoi ça marche », la sortie polie et l'exercice.
+
+**Critères (une seule note globale par fiche, mais regarde les quatre) :**
+1. **Justesse du « Pourquoi ça marche »** : explique-t-il le mécanisme précis de CETTE réplique (pourquoi c'est drôle), et pas seulement pourquoi c'est gentil ? La construction est-elle différente d'une fiche à l'autre ?
+2. **Utilité de la sortie polie** : se dit-elle sans risque, sans petit mensonge, sans se contredire ?
+3. **Utilité de l'exercice** : précis, faisable seul chez soi, et il aide vraiment à dire la réplique ?
+4. **Ton** : pote drôle et bienveillant, pas de formule de gabarit, rien de corporate ni de coach. La barre : « J'ai dit à Alexa de me raconter une blague. Elle m'a lu mon historique de recherches. »
+
+5. **Titre et accroche** : le titre est ce que voit un visiteur non abonné (avec le type de lieu ; le reste est réservé aux abonnés) : donne-t-il envie d'ouvrir la fiche, sans dévoiler la réplique ? L'accroche est une version courte de la situation, affichée en encart dans les articles, juste avant « On te dit » (d'où l'absence de point final) : se comprend-elle seule, en une ligne de téléphone ?
+
+Contexte : site d'humour et de répartie deviens-marrant.fr, tutoiement, ton de pote drôle et bienveillant. Règle : le rire tombe sur celui qui répond ou sur la situation, jamais sur l'autre. 10 = publiable tel quel. Zéro tiret cadratin dans tes propositions.
+
+À la fin : liste les tournures qui reviennent d'une fiche à l'autre (moules répétés), avec les codes des fiches concernées.
+
+
+
+---
+
+## Fiche F01
+
+**Titre :** Le billet introuvable
+**Accroche :** Dans le train de 18 h 12. Le contrôleur arrive pendant que tu fouilles ta troisième poche
+**Situation :** Dans le train de 18 h 12, le contrôleur arrive dans ta voiture pendant que tu fouilles ta troisième poche à la recherche de ton billet.
+**On te dit :** « Vos titres de transport, s'il vous plaît. »
+**Tu réponds :** « Il est sur mon téléphone, qui est à 4 %. On y croit tous les deux. »
+**Pourquoi ça marche :** Le chiffre fait le travail : 4 %, c'est assez pour espérer et pas assez pour être sûr. « On y croit tous les deux » installe le contrôleur dans ton suspense comme un camarade, et tu changes une vérification en attente partagée. À garder pour le jour où le billet est vraiment sur ton téléphone.
+**Si c'est tendu :** Désolé, je ne le retrouve pas. Je vous explique la situation.
+**À toi de jouer :** Regarde l'écran de ton téléphone avec espoir et dis la réplique à voix haute en prononçant « 4 % » comme une prévision météo.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F02
+
+**Titre :** Le carton dans l'entrée
+**Accroche :** Vendredi soir de Black Friday. Un carton attend dans l'entrée et ton ou ta partenaire te regarde
+**Situation :** Vendredi soir de Black Friday, un carton attend dans l'entrée et ton ou ta partenaire le regarde, puis te regarde.
+**On te dit :** « Tu m'avais dit que tu ne ferais pas le Black Friday. »
+**Tu réponds :** « Un site m'a écrit que j'allais le regretter. J'ai voulu savoir quoi. »
+**Pourquoi ça marche :** Tu transformes l'achat en enquête : un avertissement de site devient une raison de vérifier. La curiosité est l'excuse la plus absurde, parce qu'elle trahit ta promesse tout en ayant l'air scientifique. On rit de ta faiblesse devant la sollicitation, pas de ton ou ta partenaire.
+**Si c'est tendu :** Tu as raison, j'avais dit que non. Je te montre ce qu'il y a dedans, et on décide ensemble si on le garde.
+**À toi de jouer :** Dis la réplique à voix haute avec la curiosité sincère d'un enquêteur, en marquant un petit temps avant « quoi ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F03
+
+**Titre :** Qui a touché au chauffage
+**Accroche :** Open space, premier vrai froid. Une collègue pose la main sur le radiateur en te regardant
+**Situation :** Premier vrai froid de l'année, l'open space est devenu un sauna, et une collègue pose la main sur le radiateur en te regardant.
+**On te dit :** « C'est encore toi qui as touché au chauffage ? »
+**Tu réponds :** « Je le monte quand j'ai froid, tu le descends quand tu as chaud. C'est notre seul projet commun. »
+**Pourquoi ça marche :** Une dispute de thermostat est présentée comme une collaboration : l'un monte, l'autre descend, et ça s'appelle un projet. « Commun » est le mot décalé, parce qu'il laisse entendre que c'est le seul point sur lequel vous travaillez ensemble, dit sans reproche.
+**Si c'est tendu :** Oui, c'est moi, j'avais froid. Dis-moi quelle température te va et on se met d'accord.
+**À toi de jouer :** Dis la réplique à voix haute comme un chef de projet qui présente un bilan, en levant la main sur « monte » puis en la baissant sur « descends ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F04
+
+**Titre :** Où tu joues, d'habitude
+**Accroche :** Dimanche matin, six degrés sur le terrain. Le capitaine forme les équipes et s'arrête sur toi
+**Situation :** Dimanche matin, six degrés sur le terrain, le capitaine forme les équipes avec des plots et son regard s'arrête sur toi.
+**On te dit :** « Toi, tu joues où, d'habitude ? »
+**Tu réponds :** « Je suis ce qui fait onze. On ne m'a jamais demandé de faire plus. »
+**Pourquoi ça marche :** Il demande un poste, tu donnes un effectif : tu es le joueur qui permet d'atteindre onze. La seconde phrase ajoute que personne n'en a jamais attendu davantage, dite avec la sérénité de quelqu'un qui n'a jamais été déçu, et c'est ce calme qui fait la chute.
+**Si c'est tendu :** Mets-moi où tu as besoin de quelqu'un. Je ne suis pas très fort, mais je suis là.
+**À toi de jouer :** Dis la réplique à voix haute avec la modestie tranquille de quelqu'un qui lit son nom sur une feuille de match, en laissant un temps avant « On ne m'a jamais demandé ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F05
+
+**Titre :** Le canapé du troisième
+**Accroche :** Coup de fil d'un ami. Il parle d'une voix très douce et en profite pour évoquer le week-end
+**Situation :** Un ami t'appelle en milieu de semaine, d'une voix très douce, et en profite pour parler du week-end.
+**On te dit :** « Samedi, tu es libre ? J'ai juste un canapé à monter au troisième, sans ascenseur. »
+**Tu réponds :** « Avec plaisir. Mon dernier effort physique, c'était ton précédent canapé. »
+**Pourquoi ça marche :** « Précédent » est le mot qui bascule : il dit en passant que ce n'est pas la première fois, et que ton dernier effort physique date de là. Le « avec plaisir » reste sincère, la chute le pimente sans le retirer.
+**Si c'est tendu :** Je suis libre samedi, mais mon dos n'est pas fiable pour un troisième sans ascenseur. Je peux tenir les portes et porter les petits cartons ?
+**À toi de jouer :** Dis la réplique à voix haute en soufflant un peu avant « ton précédent canapé », comme si ton dos se souvenait.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F06
+
+**Titre :** Les chips, encore
+**Accroche :** Soirée chez des amis. Tu arrives avec ton sac de contribution, l'hôte jette un œil dedans
+**Situation :** Tu arrives chez des amis avec ton sac de contribution, et l'hôte jette un œil dedans avant même de dire bonsoir.
+**On te dit :** « Des chips ? Encore ? Tu as de l'imagination, toi. »
+**Tu réponds :** « Regarde mieux. Cette année, j'ai osé le paprika. »
+**Pourquoi ça marche :** La pique porte sur ton manque d'imagination, et tu réponds par un exploit minuscule présenté comme une audace. Tout repose sur « osé » : un parfum de chips devient une prise de risque, et « regarde mieux » fait de l'hôte le témoin d'une nouveauté qu'il aurait manquée.
+**Si c'est tendu :** Tu as raison, j'ai pris le plus simple. Dis-moi ce qui manque, et je ramène autre chose la prochaine fois.
+**À toi de jouer :** Brandis un paquet de ton placard (ou un objet qui y ressemble) comme une nouveauté de salon, et dis la réplique à voix haute en montant la voix d'un cran sur « osé ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F07
+
+**Titre :** Tu ne viens jamais me voir
+**Accroche :** Dimanche chez ta grand-mère. Elle te ressert du café et regarde par la fenêtre
+**Situation :** Dimanche chez ta grand-mère, vous êtes à table, elle te ressert du café et regarde par la fenêtre.
+**On te dit :** « Tu ne viens jamais me voir. Remarque, je ne t'en veux pas. »
+**Tu réponds :** « « Jamais », c'est exagéré. Je suis venu à Pâques. Mais tu as raison, c'était à Pâques. »
+**Pourquoi ça marche :** Tu plaides d'abord, tu t'effondres ensuite : la correction de « jamais » est ruinée tout de suite par la preuve que tu apportes toi-même, Pâques. Ta grand-mère n'a rien à ajouter, et ta façon de te rendre en deux phrases est ce qui rend la scène tendre.
+**Si c'est tendu :** Tu as raison, je ne viens pas assez. Je te propose un dimanche, dis-moi lequel te va.
+**À toi de jouer :** Dis la réplique à voix haute en deux temps : la première phrase en défendant ton honneur, la fin en baissant les yeux avec un sourire pour ta grand-mère.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F08
+
+**Titre :** La photo de la carte de vœux
+**Accroche :** Photo de famille pour la carte de vœux. Ta sœur te place au premier rang et règle le minuteur
+**Situation :** Un dimanche de novembre, ta sœur organise la photo de famille pour la carte de vœux, te place au premier rang et règle le téléphone sur le minuteur.
+**On te dit :** « Cette année, essaie d'avoir les deux yeux ouverts en même temps. »
+**Tu réponds :** « Je te garantis un œil. Pas toujours le même. »
+**Pourquoi ça marche :** Tu réponds comme un prestataire qui revoit son cahier des charges à la baisse : deux yeux demandés, un seul garanti. La vraie chute est dans la seconde phrase, parce que « pas toujours le même » donne à ton défaut une régularité de mécanisme, comme si tes paupières se relayaient.
+**Si c'est tendu :** D'accord, je fais attention. Tu peux faire deux prises, au cas où ?
+**À toi de jouer :** Dis la réplique à voix haute avec l'aplomb d'un artisan qui annonce un délai, en clignant d'un œil sur « un œil » puis de l'autre sur « le même ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F09
+
+**Titre :** La salle depuis septembre
+**Accroche :** Au pied de ton immeuble. Un ami te croise, il sait que tu t'es inscrit à la salle en septembre
+**Situation :** Début novembre, un ami te croise au pied de ton immeuble, il sait que tu t'es inscrit à la salle de sport en septembre.
+**On te dit :** « Alors, ta salle de sport, tu y es allé, depuis septembre ? »
+**Tu réponds :** « Je passe devant tous les jours, en bus. On se connaît de vue. »
+**Pourquoi ça marche :** Tu traites la salle comme un voisin : on se voit tous les jours, on ne se parle pas. « De vue » est l'expression des relations qui ne mènent nulle part, appliquée à un abonnement, et elle répond à la question sans mentir, puisque tu passes bien devant.
+**Si c'est tendu :** Pas encore, je n'y suis pas allé comme je voulais. Tu y vas, toi ? Tu pourrais m'y entraîner.
+**À toi de jouer :** Dis la réplique à voix haute avec la politesse d'un salut entre voisins de palier, en inclinant légèrement la tête sur « de vue ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F10
+
+**Titre :** La playlist de l'hôte
+**Accroche :** Chez des amis. La musique s'arrête en pleine conversation, l'hôte te tend son téléphone
+**Situation :** Chez des amis, la musique vient de s'arrêter en plein milieu d'une conversation, et l'hôte tend son téléphone dans ta direction.
+**On te dit :** « Allez, mets quelque chose, c'est toi qui as le meilleur goût. »
+**Tu réponds :** « Je préviens : ma dernière écoute, c'est de la pluie et un monsieur qui demande de respirer. »
+**Pourquoi ça marche :** Tu es censé avoir le meilleur goût, et tu annonces un enregistrement de relaxation. Le détail du « monsieur qui demande de respirer » est si précis qu'on l'entend, et c'est l'écart entre le compliment reçu et ce que tu écoutes vraiment qui fait la chute.
+**Si c'est tendu :** Je préfère te laisser la main, tu connais les invités. Je te dirai si une chanson me plaît.
+**À toi de jouer :** Pense à ta toute dernière écoute, celle dont tu n'es pas fier, et décris-la à voix haute en une phrase avec un détail aussi précis que le monsieur qui demande de respirer.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F11
+
+**Titre :** La quatrième tranche
+**Accroche :** Soirée raclette. Les appareils sont à fond et l'hôte te regarde glisser une tranche dans ton poêlon
+**Situation :** Soirée raclette, les appareils sont à fond, et l'hôte te regarde glisser une nouvelle tranche de fromage dans ton poêlon.
+**On te dit :** « C'est ta quatrième, là, non ? »
+**Tu réponds :** « Mon médecin m'a conseillé de varier. Ce soir, j'ai pris du fumé. »
+**Pourquoi ça marche :** Le conseil médical sert d'autorisation : « varier » voulait dire manger autre chose, et tu l'appliques à la variété de fromage. Ce contresens volontaire est dit avec le sérieux d'une ordonnance, et « du fumé » prouve que tu suis le traitement à la lettre.
+**Si c'est tendu :** Oui, c'est la quatrième, et elle est très bonne. Je m'arrête là.
+**À toi de jouer :** Dis la réplique à voix haute avec le ton grave d'un patient qui rapporte une consigne de son médecin, sans sourire avant « du fumé ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F12
+
+**Titre :** Le chauffage collectif rallumé
+**Accroche :** Dans le hall de l'immeuble. Ton voisin du dessus, en bonnet, apprend que le chauffage est rallumé
+**Situation :** Un matin de novembre dans le hall, ton voisin du dessus, bonnet sur la tête, vient d'apprendre que le chauffage collectif est rallumé.
+**On te dit :** « Ça y est, ils ont rallumé le chauffage collectif ! »
+**Tu réponds :** « Hier, je dormais en manteau. Ce matin, j'ai ouvert la fenêtre. Je n'ai aucun milieu. »
+**Pourquoi ça marche :** Le saut de « en manteau » à « fenêtre ouverte » est brutal, et c'est la dernière phrase qui l'explique : le problème n'est plus l'immeuble, c'est toi. Passer du chauffage au trait de caractère en une phrase donne la chute, et ton voisin peut se réjouir avec toi.
+**Si c'est tendu :** Ça fait du bien, oui. Bonne journée à vous.
+**À toi de jouer :** Dis les deux premières phrases d'un ton neutre, puis marque un temps avant « Je n'ai aucun milieu », comme si tu découvrais ta propre conclusion.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F13
+
+**Titre :** Dix kilomètres, tranquille
+**Accroche :** Apéro entre amis. Un sportif du groupe te propose de venir au footing du dimanche
+**Situation :** Un groupe d'amis sportifs organise un footing dominical, et l'un d'eux t'a repéré à l'apéro pour te proposer de venir.
+**On te dit :** « Viens courir avec nous dimanche, dix kilomètres, c'est tranquille ! »
+**Tu réponds :** « La dernière fois que j'ai couru, une poussette m'a doublé. Le bébé avait l'air gêné pour moi. »
+**Pourquoi ça marche :** La première phrase te met derrière une poussette, la seconde ajoute un bébé qui a de la peine pour toi. Le basculement vers la délicatesse d'un nourrisson est ce qu'on n'attend pas, et tout reste sur ton compte : l'invitation de ton ami n'est pas touchée.
+**Si c'est tendu :** Merci de penser à moi. Dix kilomètres, c'est trop pour moi en ce moment, mais je viens volontiers au café d'après.
+**À toi de jouer :** Dis la réplique à voix haute avec le ton d'un rapport d'accident, puis ajoute le bébé comme un détail qu'on se rappelle à contrecœur.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F14
+
+**Titre :** Le troisième pain au chocolat
+**Accroche :** Mardi matin à la boulangerie. Ta boulangère emballe ton troisième pain au chocolat de la semaine
+**Situation :** Mardi matin à la boulangerie, la boulangère emballe ton troisième pain au chocolat de la semaine, alors que tu lui avais annoncé que tu arrêtais le sucre.
+**On te dit :** « Vous n'aviez pas arrêté le sucre, vous ? »
+**Tu réponds :** « Dans toutes les autres boulangeries, je suis irréprochable. »
+**Pourquoi ça marche :** Ça ressemble à une défense, c'est un aveu : si tu es irréprochable dans toutes les autres boulangeries, c'est que celle-ci est l'exception, et tu viens de le dire à sa propriétaire. Le compliment passe en contrebande, et la boulangère le reçoit sans que tu aies à te justifier.
+**Si c'est tendu :** Vous avez bonne mémoire. Oui, j'essaie de réduire, et je n'y arrive pas encore.
+**À toi de jouer :** Dis la réplique à voix haute avec la dignité d'un avocat qui plaide un dossier perdu, en appuyant sur « toutes les autres ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F15
+
+**Titre :** La guirlande de l'an dernier
+**Accroche :** En famille, avant Noël. Ton père sort la guirlande de l'an dernier, devenue une seule grosse boule
+**Situation :** Ton père sort du carton la guirlande de l'an dernier, qui est devenue une seule grosse boule, et te la tend.
+**On te dit :** « Toi qui as de bons yeux, démêle-moi cette guirlande. Ça va aller vite. »
+**Tu réponds :** « L'an dernier, tu as dit « ça va aller vite ». On a fini le 26. »
+**Pourquoi ça marche :** Tu cites la promesse de ton père avec son résultat : le 26, donc après Noël. La date chiffrée remplace tout reproche, et comme c'est la même promesse que l'an dernier, la pique devient un souvenir de famille plutôt qu'une plainte.
+**Si c'est tendu :** D'accord, je m'y mets. On la démêle à deux et on la range proprement cette année.
+**À toi de jouer :** Compte les jours sur tes doigts jusqu'au « 26 » en disant la réplique à voix haute, avec l'air de quelqu'un qui garde un bon souvenir.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F16
+
+**Titre :** Ce que le profil ne dit pas
+**Accroche :** Premier rendez-vous dans un bar. Vous avez commandé, le silence dure une seconde de trop
+**Situation :** Premier rendez-vous dans un bar, vous avez commandé, le silence dure une seconde de trop et la personne en face se penche vers toi.
+**On te dit :** « Raconte-moi un truc sur toi que je ne trouverais pas sur ton profil. »
+**Tu réponds :** « J'ai écrit « drôle » sur mon profil. Depuis que je suis assis, je sens la dette. »
+**Pourquoi ça marche :** Tu réponds sans livrer de secret : ce que le profil ne dit pas, c'est la pression que le profil a créée. « La dette » est une métaphore financière précise, tu as promis de la drôlerie et tu dois la livrer, et l'aveu est drôle parce qu'il décrit exactement ce qui se passe dans ce bar. Dis-la avec un sourire : sans lui, elle sonne comme une panique.
+**Si c'est tendu :** Je suis un peu nerveux, je te l'avoue. Qu'est-ce qui t'a donné envie de venir ?
+**À toi de jouer :** Souris légèrement, comme si tu partageais un secret, et dis la réplique à voix haute en marquant un temps avant « la dette » pour que le mot arrive seul.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F17
+
+**Titre :** Le oui automatique
+**Accroche :** Dimanche soir à la maison. Ton ou ta partenaire expose un projet de week-end, tu fixes ton écran
+**Situation :** Dimanche soir à la maison, ton ou ta partenaire vient d'exposer un projet de week-end pendant que tu fixais ton écran.
+**On te dit :** « Tu viens de dire « oui » sans m'écouter. »
+**Tu réponds :** « Je regardais un chien qui apprenait à ouvrir une porte. C'est mon excuse, elle est complète. »
+**Pourquoi ça marche :** L'excuse est absurde de précision : un chien, une porte, un apprentissage, comme un résumé de vidéo. Annoncer qu'elle est « complète » parodie le ton d'un dossier de défense alors qu'elle n'excuse rien, et l'aveu franc désarme la remarque.
+**Si c'est tendu :** Tu as raison, je n'écoutais pas. Redis-moi ton idée, cette fois je te regarde.
+**À toi de jouer :** Dis la réplique à voix haute avec le sérieux d'un avocat qui présente sa pièce maîtresse, en décrivant le chien comme si tu le voyais encore à l'écran.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F18
+
+**Titre :** Le champ du GPS
+**Accroche :** Vendredi soir en voiture. Tu proposes de conduire, ton ami est déjà installé côté passager
+**Situation :** Vendredi soir, tu proposes de conduire pour aller à un dîner, et un ami, déjà installé côté passager, se tourne vers toi.
+**On te dit :** « Tu es sûr que tu connais le chemin ? La dernière fois, on a visité un champ. »
+**Tu réponds :** « Ce n'était pas un champ. C'était un raccourci qui avait de l'ambition. »
+**Pourquoi ça marche :** Tu ne contestes pas l'épisode, tu corriges le vocabulaire. « Raccourci » est un mot honorable, et « qui avait de l'ambition » tire ton erreur de route vers le portrait d'un héros malchanceux : le champ devient un projet qui n'a pas abouti.
+**Si c'est tendu :** Tu as raison, je mets le GPS pour ce soir. On arrivera à l'heure.
+**À toi de jouer :** Dis la réplique à voix haute sur le ton d'un communiqué officiel, en gardant le sérieux jusqu'au bout de « ambition ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F19
+
+**Titre :** Le système de rangement
+**Accroche :** Au bureau. Un collègue ralentit derrière ton poste devant tes piles de papiers
+**Situation :** Un collègue passe derrière ton poste de travail avec un dossier sous le bras et ralentit devant les piles de papiers.
+**On te dit :** « Ton bureau, il est rangé selon quel système ? »
+**Tu réponds :** « J'ai un système. Il est dans un des dossiers. »
+**Pourquoi ça marche :** Tu affirmes l'ordre, puis tu le localises : le système existe, mais il est rangé dans le désordre qu'il devrait organiser. Le « dans un des dossiers » boucle le cercle, et il donne raison au collègue qui observait ta pile sans que tu aies eu besoin de l'avouer.
+**Si c'est tendu :** Il n'y a pas vraiment de système, je range quand j'ai le temps. Tu cherches quelque chose ?
+**À toi de jouer :** Soulève un papier d'une table chez toi comme si le système était dessous, dis la réplique à voix haute, puis repose le papier sans conclure.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F20
+
+**Titre :** Toujours à l'heure d'été
+**Accroche :** Un lundi de début novembre. Tu entres dans l'open space à 9 h 40 et un collègue lève les yeux
+**Situation :** Un lundi de début novembre, tu entres dans l'open space à 9 h 40, et un collègue lève les yeux de son écran.
+**On te dit :** « Tu es encore à l'heure d'été, toi ? »
+**Tu réponds :** « J'ai changé le four, la voiture, la pendule du salon. Pour la mienne, je n'ai pas trouvé le bouton. »
+**Pourquoi ça marche :** La liste avance par trois objets qu'on règle sans effort, puis « la mienne » fait basculer la pendule vers toi : c'est ton horloge interne qui n'a pas de bouton. Ton retard devient un problème de matériel sans réparation, et le rythme de l'énumération prépare la chute.
+**Si c'est tendu :** Désolé pour le retard, le changement d'heure m'a décalé. Je rattrape dans la matinée.
+**À toi de jouer :** Accélère sur la liste (« le four, la voiture, la pendule »), puis ralentis d'un coup sur « Pour la mienne » en disant la réplique à voix haute.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F21
+
+**Titre :** Les cadeaux du 24 à 17 h
+**Accroche :** En famille. Ta sœur parle de la liste des cadeaux et te demande ce que tu as prévu cette année
+**Situation :** Ta sœur te demande ce que tu as prévu pour la famille cette année, tandis que vous parlez de la liste des cadeaux.
+**On te dit :** « Tu fais tes cadeaux le 24 à 17 h, comme chaque année ? »
+**Tu réponds :** « Ton cadeau, je l'ai gagné aux points face à un monsieur avec un caddie. »
+**Pourquoi ça marche :** Le cadeau n'est plus acheté mais remporté, comme un match : « aux points » dit que ça a été serré, et l'adversaire, un monsieur avec un caddie, est mieux équipé que toi. Tu réponds à la pique sur ton retard sans nier, en montrant que tu as livré malgré tout, au prix d'un duel.
+**Si c'est tendu :** Oui, je m'y prends tard. Cette année, j'essaie de m'y mettre plus tôt.
+**À toi de jouer :** Dis la réplique à voix haute comme un commentateur sportif qui résume un match serré, avec un vrai souffle sur « aux points ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F22
+
+**Titre :** Le partage d'écran
+**Accroche :** Visioconférence à huit. Ton manager dit « on regarde ça ensemble » et les carrés noirs attendent
+**Situation :** Visioconférence à huit, ton manager vient de dire « on regarde ça ensemble », et tous les carrés noirs attendent.
+**On te dit :** « Tu peux partager ton écran ? »
+**Tu réponds :** « Je cherche la bonne fenêtre. C'est celle qui s'appelle « Sans titre 14 ». »
+**Pourquoi ça marche :** Le chiffre fait la chute : « Sans titre 14 » veut dire que treize « Sans titre » existent déjà, ouverts et jamais nommés. Tu avoues ton désordre en donnant le nom d'un fichier, le genre de détail que chacun reconnaît sur son propre écran.
+**Si c'est tendu :** Une minute, j'ouvre le bon document et je partage.
+**À toi de jouer :** Clique dans le vide avec un doigt, comme si tu naviguais, et dis la réplique à voix haute en prononçant « Sans titre 14 » comme un titre officiel.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F23
+
+**Titre :** L'équipe de ton père
+**Accroche :** Dimanche au bar. Un ami qui supporte l'équipe adverse pose son demi et te regarde en souriant
+**Situation :** Dimanche, tu retrouves au bar un ami qui supporte l'équipe adverse, il pose son demi sur la table et te regarde avec un grand sourire.
+**On te dit :** « Alors, ton équipe a trouvé un nouveau moyen de perdre hier soir ? »
+**Tu réponds :** « Mon père m'a transmis cette équipe. J'aurais préféré sa montre. »
+**Pourquoi ça marche :** Tu compares deux héritages possibles, une équipe qui perd et une montre, et le choix était vite fait. « Transmis » donne à la défaite un air de patrimoine de famille, et ton ami, venu te chambrer, se retrouve face à quelqu'un qui n'a pas choisi sa souffrance.
+**Si c'est tendu :** Oui, c'était dur à regarder. On en reparle quand j'aurai digéré ?
+**À toi de jouer :** Dis la réplique à voix haute en regardant ton poignet nu au moment de dire « sa montre ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F24
+
+**Titre :** Le revenant
+**Accroche :** Soirée chez des amis, la première depuis des semaines. Tu poses à peine ton manteau
+**Situation :** Première soirée chez des amis depuis des semaines, tu viens à peine de poser ton manteau quand un pote te lance ça devant tout le monde.
+**On te dit :** « Tiens, un revenant ! On te croyait en hibernation. »
+**Tu réponds :** « J'ai fini ma série hier soir. C'est comme ça qu'on se retrouve dehors. »
+**Pourquoi ça marche :** L'hibernation a une cause et tu la nommes : une série. Le mot « dehors » retourne la situation : tu n'es pas revenu par envie, tu es sorti parce qu'il n'y avait plus d'épisode, et tu l'avoues comme un constat de bon sens. Ton pote voulait te piquer, il reçoit une franchise qu'il ne peut pas contredire.
+**Si c'est tendu :** Oui, ça faisait longtemps. Ça me fait plaisir de vous voir.
+**À toi de jouer :** Hausse les épaules sur « dehors » en disant la réplique à voix haute, comme si c'était la conclusion de n'importe qui.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F25
+
+**Titre :** Les deux derniers aspirateurs
+**Accroche :** Black Friday, rayon électroménager. Tu hésites devant un aspirateur et le vendeur surgit
+**Situation :** Magasin d'électroménager le jour du Black Friday, tu hésites depuis cinq minutes devant un aspirateur quand le vendeur surgit à ton épaule.
+**On te dit :** « Il n'en reste que deux, hein. »
+**Tu réponds :** « Ce sont les deux derniers ? Je m'en voudrais de les séparer. »
+**Pourquoi ça marche :** Le vendeur joue sur la rareté, toi tu t'attendris : les deux derniers aspirateurs deviennent un couple, et en acheter un reviendrait à briser l'autre. Tu retournes son argument de vente en scrupule sans jamais dire non, et c'est ta gravité qui fait rire.
+**Si c'est tendu :** Merci, je regarde encore un moment. Je vous appelle si j'ai une question.
+**À toi de jouer :** Pose deux objets identiques devant toi (deux tasses, deux chaises) et dis la réplique à voix haute en les regardant avec tendresse, en ralentissant sur « séparer ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F26
+
+**Titre :** Le métro, encore
+**Accroche :** Lundi matin sous la pluie. Tu arrives au bureau avec vingt minutes de retard
+**Situation :** Lundi matin, il pleut, tu arrives au bureau avec vingt minutes de retard et un collègue lève les yeux de son écran.
+**On te dit :** « Encore en retard ? C'est le métro, j'imagine ? »
+**Tu réponds :** « Oui, le métro. Je l'accuse depuis six ans, il ne s'est jamais défendu. »
+**Pourquoi ça marche :** Tu valides l'excuse que le collègue te tend, puis tu révèles qu'elle est ancienne : six ans. « Accuser » fait du métro un prévenu, et son silence devient la preuve de sa culpabilité, ce qui n'est évidemment pas un argument : c'est ce raisonnement bancal, dit avec aplomb, qui fait rire.
+**Si c'est tendu :** Désolé, je suis en retard. Dis-moi ce que j'ai raté.
+**À toi de jouer :** Dis la réplique à voix haute avec l'air d'un procureur fatigué, en laissant un petit temps avant « il ne s'est jamais défendu ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F27
+
+**Titre :** La table des enfants
+**Accroche :** Dimanche de novembre en famille. Ta cousine fait le plan de table de Noël et te montre ta place
+**Situation :** Un dimanche de novembre, ta cousine fait le plan de table du repas de Noël et te montre où elle t'a placé.
+**On te dit :** « Cette année encore, tu es à la table des enfants. »
+**Tu réponds :** « Parfait. À la table des enfants, personne ne me demande si j'ai quelqu'un. »
+**Pourquoi ça marche :** Tu prends la place qu'on te donne comme une aubaine, et tu en donnes la raison : on n'y pose pas la question que tu redoutes à la grande table. La chute révèle une gêne que tu n'avais pas annoncée, et ta cousine peut sourire avec toi : tu n'as rien dit contre elle ni contre le plan.
+**Si c'est tendu :** Je préférerais être à la grande table cette année, si c'est possible. Sinon, ça me va.
+**À toi de jouer :** Dis la réplique à voix haute avec la satisfaction d'un voyageur à qui on vient de donner la place côté fenêtre, puis recommence plus doucement sur « quelqu'un ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F28
+
+**Titre :** On ne te voit qu'aux pots
+**Accroche :** Pot de départ en salle de réunion. Tu es le premier arrivé, devant le plateau de gâteaux
+**Situation :** Pot de départ en salle de réunion, les gobelets sont sortis, et tu es le premier arrivé, juste devant le plateau de gâteaux.
+**On te dit :** « On ne te voit qu'aux pots, toi. »
+**Tu réponds :** « Je suis venu dire au revoir à Philippe. Quelqu'un peut me le montrer ? »
+**Pourquoi ça marche :** Au lieu de te défendre, tu confirmes et tu en rajoutes : tu viens dire au revoir à quelqu'un que tu ne saurais pas reconnaître. La demande finale, « quelqu'un peut me le montrer ? », est polie et totalement sérieuse, et c'est ce mélange qui fait rire.
+**Si c'est tendu :** C'est vrai, je ne suis pas très présent. Je suis là pour dire au revoir, et pour discuter un peu.
+**À toi de jouer :** Balaie la pièce des yeux, une main au-dessus des sourcils, et dis la réplique à voix haute en posant la question finale comme un vrai service demandé.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F29
+
+**Titre :** Le gratin
+**Accroche :** Dîner entre amis. Tu as apporté un gratin, un ami en prend une bouchée puis fixe son assiette
+**Situation :** Tu as apporté un gratin à un dîner entre amis, un ami en a pris une bouchée et regarde le fond de son assiette.
+**On te dit :** « Il est... intéressant, ton gratin. Tu as suivi une recette ? »
+**Tu réponds :** « J'ai suivi une recette. Elle a résisté. »
+**Pourquoi ça marche :** La recette devient un adversaire : tu l'as suivie, elle s'est défendue, et le gratin est le résultat du combat. Le verbe « résisté » fait passer la scène de la cuisine au duel, et tu réponds à la question posée, ce qui rend la chute plus nette.
+**Si c'est tendu :** Il n'est pas réussi, je te l'accorde. Dis-moi ce que tu en penses, je veux bien tes conseils.
+**À toi de jouer :** Dis la réplique à voix haute en laissant un vrai silence entre « recette. » et « Elle a résisté. », comme quelqu'un qui revient d'une bataille perdue.
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
+
+## Fiche F30
+
+**Titre :** Le perdant officiel
+**Accroche :** Soirée sous la pluie. Quelqu'un sort un jeu de société et on répartit les équipes
+**Situation :** Il pleut dehors, quelqu'un sort une boîte de jeu de société, et on se met à répartir les équipes.
+**On te dit :** « Toi, tu perds à tous les jeux de société. »
+**Tu réponds :** « J'ai gagné une fois à pile ou face. On a demandé de refaire. »
+**Pourquoi ça marche :** Ta seule victoire est un pile ou face, un jeu où personne ne gagne par talent, et même celle-là n'a pas été validée. Tu cites ton unique succès comme une preuve de forme, la dernière phrase le retourne contre toi, et « refaire » suppose un public qui n'y croyait pas, que tu cites sans rancune.
+**Si c'est tendu :** Je perds souvent, c'est vrai. Je joue volontiers quand même, mets-moi avec quelqu'un de patient.
+**À toi de jouer :** Dis la réplique à voix haute avec une fierté tranquille sur la première phrase, puis laisse retomber la voix sur « refaire ».
+
+Note : __ /10 · Manque pour 10 : ...
+
+---
