@@ -9,13 +9,13 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { AccountMenu } from "@/components/layout/account-menu";
 import { IconeRecherche } from "@/components/layout/header-icons";
 import { MobileNav, isActivePath, type NavItem } from "@/components/layout/mobile-nav";
-import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
+import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { EN_TETE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
@@ -25,7 +25,7 @@ import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
  *    1280 (px-3) ;
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
- *  - actions : visiteur « Connexion » + « Commencer » ; connecté « Activer mon accès »
+ *  - actions : visiteur « Connexion » + « 2,99 €/mois » (s21, vers /abonnement) ; connecté « Activer mon accès »
  *    (sans abonnement) + menu de compte 44 px (« Favoris », « Mon profil »,
  *    « Déconnexion » regroupés, `account-menu.tsx`).
  * Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états,
@@ -93,8 +93,13 @@ export function Header() {
   }, [pathname]);
 
   // Liens réels (présents dans le HTML serveur) : retour sur la page courante après coup.
-  const registerHref = buildRegisterUrl({ callbackUrl: pathname, src: "header" });
+  // s21 (B6) : le bouton visiteur mène à /abonnement?src=header (prix, carnet, garantie
+  // avant le formulaire), plus à /register.
+  const prixHref = buildAbonnementUrl(null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
+  // s21 (B6, spec §1.3 a) : bouton plein masqué sur /abonnement et /register (même
+  // destination ou boucle : un seul plein par page chaude).
+  const pageChaude = isActivePath(pathname, "/abonnement") || isActivePath(pathname, "/register");
   // Compte connecté sans abonnement (s15 §2.4) : un accès direct au paiement.
   const activateHref = buildAbonnementUrl(pathname, "monthly", "header");
 
@@ -149,7 +154,7 @@ export function Header() {
           <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
             {isAuthenticated ? (
               <>
-                {!isPremium && (
+                {!isPremium && !pageChaude && (
                   <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}>
                     Activer mon accès
                   </Link>
@@ -161,9 +166,15 @@ export function Header() {
                 <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
                   Connexion
                 </Link>
-                <Link href={registerHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
-                  Commencer
-                </Link>
+                {!pageChaude && (
+                  <Link
+                    href={prixHref}
+                    aria-label={EN_TETE.nomAccessible}
+                    className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
+                  >
+                    {EN_TETE.bouton}
+                  </Link>
+                )}
               </>
             )}
           </div>
@@ -181,22 +192,23 @@ export function Header() {
                 {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
             )}
-            {/* s20 (audit conversion, lot 1) : « Commencer » visible sur mobile dès 360 px,
-                même lien que sur ordinateur (registerHref, src=header). Cible de 44 px.
-                Sous 360 px, place insuffisante : il reste dans le menu. */}
-            {!isAuthenticated && (
+            {/* s20 (audit conversion, lot 1) puis s21 (B6) : bouton prix visible sur mobile dès
+                360 px, même lien que sur ordinateur (prixHref, src=header). Cible de 44 px.
+                Sous 360 px, place insuffisante : il reste dans le menu. Masqué sur les pages chaudes. */}
+            {!isAuthenticated && !pageChaude && (
               <Link
-                href={registerHref}
+                href={prixHref}
+                aria-label={EN_TETE.nomAccessible}
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
-                  "hidden h-11 shrink-0 px-3 min-[360px]:inline-flex",
+                  "hidden h-11 shrink-0 whitespace-nowrap px-3 min-[360px]:inline-flex",
                 )}
               >
-                Commencer
+                {EN_TETE.bouton}
               </Link>
             )}
             {/* Bouton recherche mobile (s20 : à partir de 440 px ; en dessous, la recherche
-                est en tête du menu, pour laisser la place à « Commencer »). */}
+                est en tête du menu, pour laisser la place au bouton prix). */}
             <button
               type="button"
               className="hidden h-11 w-11 min-[440px]:flex items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
@@ -246,7 +258,8 @@ export function Header() {
             pathname={pathname}
             isAuthenticated={isAuthenticated}
             isPremium={isPremium}
-            hrefs={{ activate: activateHref, register: registerHref, login: loginHref }}
+            hrefs={{ activate: activateHref, prix: prixHref, login: loginHref }}
+            masquerPlein={pageChaude}
             onClose={() => setIsMenuOpen(false)}
           />
         )}

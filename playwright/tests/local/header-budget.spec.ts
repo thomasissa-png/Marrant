@@ -4,7 +4,8 @@ import { test, expect, localSeulement, creerCompte, connecter, type PlanCompte }
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 /**
- * Garde-fou de l'en-tête (revue design s21, bloquant) : 6 largeurs x 3 états
+ * Garde-fou de l'en-tête (revue design s21, bloquant) : 6 largeurs x 3 états, plus
+ * 320, 360 et 375 px pour le bouton prix du visiteur (s21, B6)
  * (visiteur, connecté gratuit, connecté Premium). Échoue si un élément de la barre
  * déborde de l'écran, en chevauche un autre, ou si un libellé est coupé ; vérifie
  * la recherche (champ >= 160 px et texte d'aide entier dès 1280 px, loupe avant) et
@@ -16,6 +17,12 @@ const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
+/** s21 (B6) : bouton prix de l'en-tête, nom accessible « 2,99 €/mois : voir les prix de Premium ». */
+const PRIX = /^2,99\s€\/mois : voir les prix de Premium$/;
+/** Largeurs de téléphone (s21, B6) : 320 sans bouton (menu seul), bouton visible dès 360. */
+const LARGEURS_MOBILES = [320, 360, 375];
+/** Libellé comparé (annexe tour 4 §6) : « Voir les prix », perdant du duel B6. */
+const LIBELLE_COMPARE = "Voir les prix";
 
 /** Mesures de la barre ordinateur, dans la page. */
 async function mesurer(page: Page) {
@@ -135,7 +142,10 @@ test.describe("En-tête : budget de largeur", () => {
           const compte = barre.getByRole("button", { name: TEXTES_CONNEXION.menuCompte });
           if (etat === "visiteur") {
             await expect(barre.getByRole("link", { name: "Connexion" })).toBeVisible();
-            await expect(barre.getByRole("link", { name: "Commencer" })).toBeVisible();
+            // s21 (B6) : « 2,99 €/mois » vers /abonnement?src=header (nom accessible : libellé d'abord).
+            const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
+            await expect(prix).toBeVisible();
+            await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
             await expect(compte).toHaveCount(0);
           } else {
             await expect(compte).toBeVisible();
@@ -169,6 +179,63 @@ test.describe("En-tête : budget de largeur", () => {
       }
     });
   }
+
+  // s21 (B6) : « 2,99 €/mois » doit tenir à 360 et 375 px, sur une ligne, sans chevaucher
+  // le menu ; largeur mesurée et comparée à « Voir les prix » (annexe tour 4 §6 : estimation
+  // à la main 83 px contre 81, à confirmer au rendu). Mesures jointes au rapport.
+  test("mobile 320, 360, 375 px : bouton prix entier, sur une ligne, sans chevauchement (visiteur)", async ({ page }, testInfo) => {
+    const lignes: string[] = [];
+    for (const largeur of LARGEURS_MOBILES) {
+      await page.setViewportSize({ width: largeur, height: 800 });
+      await page.goto("/conseils");
+      const barre = page.getByRole("banner");
+      await expect(barre.getByRole("button", { name: "Menu" })).toBeVisible();
+      const ici = `visiteur à ${largeur} px`;
+      const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
+      const m = await mesurer(page);
+      expect(m.scroll, `défilement horizontal de la page, ${ici}`).toBeLessThanOrEqual(m.fenetre);
+      expect(m.barre.scroll, `barre plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
+      const tries = [...m.controles].sort((x, y) => x.gauche - y.gauche);
+      for (let i = 0; i < tries.length; i++) {
+        const c = tries[i];
+        expect(c.droite, `« ${c.nom} » sort à droite, ${ici}`).toBeLessThanOrEqual(m.fenetre + 0.5);
+        expect(c.coupe, `« ${c.nom} » coupé, ${ici}`).toBe(false);
+        expect(c.hauteur, `« ${c.nom} » sur deux lignes, ${ici}`).toBeLessThanOrEqual(48);
+        if (i > 0) expect(c.gauche, `« ${c.nom} » chevauche « ${tries[i - 1].nom} », ${ici}`).toBeGreaterThanOrEqual(tries[i - 1].droite - 0.5);
+      }
+      if (largeur < 360) {
+        await expect(prix).toHaveCount(0);
+        lignes.push(`largeur=${largeur} ; bouton prix absent (menu seul)`);
+        continue;
+      }
+      await expect(prix).toHaveCount(1);
+      await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+      const mesure = await prix.evaluate((el, compare) => {
+        const s = getComputedStyle(el);
+        const ctx = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
+        ctx.font = `${s.fontWeight} ${s.fontSize} ${s.fontFamily}`;
+        const r = el.getBoundingClientRect();
+        return {
+          texte: ctx.measureText(el.textContent ?? "").width,
+          compare: ctx.measureText(compare).width,
+          bouton: r.width,
+          hauteur: r.height,
+          sansCoupure: s.whiteSpace === "nowrap",
+        };
+      }, LIBELLE_COMPARE);
+      expect(mesure.sansCoupure, `bouton prix sans nowrap, ${ici}`).toBe(true);
+      expect(mesure.hauteur, `bouton prix : cible de 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
+      lignes.push(
+        `largeur=${largeur} ; « 2,99 €/mois »=${mesure.texte.toFixed(1)}px ; « ${LIBELLE_COMPARE} »=${mesure.compare.toFixed(1)}px ; écart=${(mesure.texte - mesure.compare).toFixed(1)}px ; bouton=${mesure.bouton.toFixed(1)}x${mesure.hauteur.toFixed(0)}px`,
+      );
+    }
+    // Page chaude : aucun bouton prix (spec B6, masqué sur /abonnement et /register).
+    await page.setViewportSize({ width: 375, height: 800 });
+    await page.goto("/abonnement");
+    await expect(page.getByRole("banner").getByRole("link", { name: PRIX })).toHaveCount(0);
+    await testInfo.attach("mesures-mobile-bouton-prix", { body: lignes.join("\n"), contentType: "text/plain" });
+    if (process.env.E2E_MESURES_EN_TETE) appendFileSync(process.env.E2E_MESURES_EN_TETE, `${lignes.join("\n")}\n`);
+  });
 
   test("loupe de 1024 à 1279 px : ouvre et ferme le panneau de recherche", async ({ page }) => {
     await page.setViewportSize({ width: 1100, height: 800 });

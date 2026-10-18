@@ -61,13 +61,13 @@ describe("Menu", () => {
     expect(liens[6].className).not.toMatch(/(^| )hidden( |$)/);
   });
 
-  it("menu déroulant : après « Articles », avant le filet et « Commencer »", async () => {
+  it("menu déroulant : après « Articles », avant le filet et le bouton prix", async () => {
     render(<Header />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     const menu = screen.getByRole("navigation", { name: "Navigation mobile" });
     const textes = within(menu).getAllByRole("link").map((l) => l.textContent);
     expect(textes.indexOf("La lettre")).toBe(textes.indexOf("Articles") + 1);
-    expect(textes.indexOf("La lettre")).toBeLessThan(textes.indexOf("Commencer"));
+    expect(textes.indexOf("La lettre")).toBeLessThan(textes.findIndex((t) => /^2,99\s€\/mois$/.test(t ?? "")));
   });
 
   it("jamais dans la barre mobile (menu fermé : un seul lien, celui de la barre ordinateur)", () => {

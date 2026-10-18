@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
 import { IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
 import { cn } from "@/lib/utils";
+import { EN_TETE } from "@/config/textes/cta-articles-accueil";
 
 export type NavItem = { href: string; label: string };
 
@@ -20,7 +21,10 @@ interface MobileNavProps {
   pathname: string | null;
   isAuthenticated: boolean;
   isPremium: boolean;
-  hrefs: { activate: string; register: string; login: string };
+  /** `prix` : bouton visiteur (s21, B6) vers /abonnement?src=header. */
+  hrefs: { activate: string; prix: string; login: string };
+  /** s21 (B6) : pas de bouton plein sur /abonnement et /register. */
+  masquerPlein?: boolean;
   onClose: () => void;
 }
 
@@ -30,7 +34,7 @@ interface MobileNavProps {
  * interne (l'en-tête est `sticky`, la page ne défile pas pour lui), marge basse
  * au-dessus de la barre d'accueil de l'iPhone. Testé à 375 x 550.
  */
-export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, onClose }: MobileNavProps) {
+export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, masquerPlein = false, onClose }: MobileNavProps) {
   const secondaire = cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2");
   return (
     <nav
@@ -60,7 +64,7 @@ export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, 
         <hr className="my-2 border-border" />
         {isAuthenticated ? (
           <>
-            {!isPremium && (
+            {!isPremium && !masquerPlein && (
               <Link href={hrefs.activate} onClick={onClose} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}>
                 Activer mon accès
               </Link>
@@ -87,9 +91,16 @@ export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, 
           </>
         ) : (
           <>
-            <Link href={hrefs.register} onClick={onClose} className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}>
-              Commencer
-            </Link>
+            {!masquerPlein && (
+              <Link
+                href={hrefs.prix}
+                onClick={onClose}
+                aria-label={EN_TETE.nomAccessible}
+                className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
+              >
+                {EN_TETE.bouton}
+              </Link>
+            )}
             <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}>
               Connexion
             </Link>

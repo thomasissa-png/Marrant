@@ -16,9 +16,23 @@
  * parcours depuis `PARCOURS_COUNT` / `PREMIUM_PARCOURS`, annuel seulement si
  * `isAnnualPlanAvailable()` (lu côté serveur, passé en paramètre ici).
  */
+import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+
 /**
  * Libellé de la section des articles (menu, pied de page, fil d'Ariane,
  * BreadcrumbList). [CHOIX UTILISATEUR] du 18/10/2026 : « Blog » devient
  * « Articles » ; l'adresse `/blog` et les slugs ne changent pas.
  */
 export const LIBELLE_SECTION_ARTICLES = "Articles";
+
+/**
+ * B6, bouton d'en-tête (visiteur) : gagnant du tour 4 (A, 2 voix sur 3) « 2,99 €/mois »,
+ * construit depuis le prix (espace insécable avant « € », `formatEuros`).
+ * Destination : `/abonnement?src=header`. Nom accessible : le libellé visible d'abord
+ * (WCAG 2.5.3), puis ce que fait le lien (annexe tour 4 §6 : « Voir les prix de Premium »).
+ * « Voir les prix » reste le repli si le test sur le trafic réel le donne gagnant.
+ */
+export const EN_TETE = {
+  bouton: PREMIUM_PRICE_LABEL,
+  nomAccessible: `${PREMIUM_PRICE_LABEL} : voir les prix de Premium`,
+} as const;

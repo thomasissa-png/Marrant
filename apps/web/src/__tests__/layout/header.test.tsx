@@ -2,6 +2,9 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "@/components/layout/header";
 
+/** s21 (B6) : nom accessible du bouton prix de l'en-tête (libellé visible d'abord). */
+const PRIX = /^2,99\s€\/mois : voir les prix de Premium$/;
+
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),
   useRouter: () => ({ push: jest.fn() }),
@@ -44,17 +47,37 @@ describe("Header", () => {
     expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("shows Commencer CTA when unauthenticated", () => {
+  it("s21 (B6) : bouton prix « 2,99 €/mois » quand non connecté, espace insécable avant €", () => {
     render(<Header />);
-    expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
+    const liens = screen.getAllByRole("link", { name: PRIX });
+    expect(liens.length).toBeGreaterThan(0);
+    for (const lien of liens) {
+      expect(lien.textContent).toBe("2,99\u00A0€/mois");
+      expect(lien).toHaveAccessibleName(PRIX);
+    }
+    expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
-  it("s15 : « Commencer » et « Connexion » sont de vrais liens (HTML serveur), retour sur la page", () => {
+  it("s21 (B6) : bouton prix et « Activer mon accès » masqués sur /abonnement et /register", async () => {
+    for (const page of ["/abonnement", "/register", "/abonnement/success"]) {
+      usePathname.mockReturnValue(page);
+      const { unmount } = render(<Header />);
+      await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+      expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
+      unmount();
+    }
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "FREE" } }, status: "authenticated" });
+    usePathname.mockReturnValue("/abonnement");
+    render(<Header />);
+    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+  });
+
+  it("s15 puis s21 : bouton prix et « Connexion » sont de vrais liens (HTML serveur)", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     render(<Header />);
-    // Desktop + en-tête mobile (s20) : même destination.
-    for (const link of screen.getAllByRole("link", { name: "Commencer" })) {
-      expect(link).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    // Desktop + en-tête mobile (s20) : même destination, /abonnement?src=header (s21, B6).
+    for (const link of screen.getAllByRole("link", { name: PRIX })) {
+      expect(link).toHaveAttribute("href", "/abonnement?src=header");
     }
     // Desktop + en-tête mobile (s16) : même destination.
     for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
@@ -65,7 +88,7 @@ describe("Header", () => {
   it("s15 : session en cours de chargement (rendu serveur) = liens anonymes présents", () => {
     useSession.mockReturnValue({ data: null, status: "loading" });
     render(<Header />);
-    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(2);
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
   });
 
@@ -73,7 +96,7 @@ describe("Header", () => {
     render(<Header />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     // Desktop + en-tête mobile (s20) + menu.
-    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(3);
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);
     // Desktop + en-tête mobile (s16) + menu.
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(3);
   });
@@ -90,18 +113,19 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
   });
 
-  it("s20 : « Commencer » dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent si connecté", () => {
+  it("s20 puis s21 : bouton prix dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent si connecté", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     const { unmount } = render(<Header />);
     const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
-    const lien = within(mobile).getByRole("link", { name: "Commencer" });
-    expect(lien).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    const lien = within(mobile).getByRole("link", { name: PRIX });
+    expect(lien).toHaveAttribute("href", "/abonnement?src=header");
     expect(lien.className).toContain("h-11");
+    expect(lien.className).toContain("whitespace-nowrap");
     expect(mobile.className).toContain("lg:hidden");
     unmount();
     useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
     render(<Header />);
-    expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
   });
 
   it("connecté : un seul bouton « Mon compte » (menu Radix) regroupe Favoris, Mon profil et Déconnexion", async () => {
