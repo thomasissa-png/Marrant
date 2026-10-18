@@ -42,6 +42,15 @@ Branche `claude/marrant-s21-cta-b`, à fusionner dans `claude/marrant-s21-integr
   - Smoke de production : `npm run test:e2e:smoke:deploye` exclut `@s21` ; après la mise en ligne, lancer aussi `E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke -- --grep @s21` (lecture seule).
 - **Retour arrière** : P8 (version N-1), aucune donnée à défaire.
 
+### Blocs d'appel s21, fusion A + B dans `claude/marrant-s21-integration` (@fullstack, 18/10/2026)
+
+Part avec la mise en ligne s21 (P0 à P8), jamais seule. **Aucune migration, aucun secret, aucune écriture en base.**
+- Mesure : `checkout-ouvert` / `checkout-echec` aussi sur les paiements de la partie B (fenêtre Premium et quiz via `usePremiumCheckout`, /abonnement connecté avec la source d'entrée `?src=` sinon `abonnement`, paywall `paywall`).
+- « Sans engagement » remplacé par « résiliable en ligne » sur le mur d'étape, l'aperçu verrouillé des parcours et la description de /abonnement ; les CGU gardent leur formulation juridique.
+- /abonnement : plus de ligne « Droit de rétractation · Paiement sécurisé par Stripe » sous le bouton ; une seule mention de Stripe ([S32] en visiteur, « Paiement sécurisé par Stripe » en compte connecté). /retractation reste dans le pied de page et la FAQ.
+- Anciens textes d'encart (`encartMilieu`, `ENCARTS_ARTICLE_1`) supprimés, sans effet visible (déjà remplacés par la démonstration).
+- Contrôle après mise en ligne : `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "Droit de"` → `0` ; `curl -s "https://deviens-marrant.fr/parcours/repartie?ne-pas-compter=1" | grep -ci "sans engagement"` → `0`. Captures : `docs/qa/captures-s21/fusion-cta/`.
+
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026)
 
 #### Procédure de mise en ligne s21, P0 à P8 (@infrastructure, 17/10/2026 ; remplace toutes les consignes de procédure plus bas)
