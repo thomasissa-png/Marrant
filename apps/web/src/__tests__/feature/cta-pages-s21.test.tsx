@@ -149,7 +149,8 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
   it("la ligne de la lettre déplie le champ au clic (focus dans le champ), case et mention avec lui", async () => {
     render(<ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} />);
     await userEvent.click(screen.getByRole("button", { name: /Lettre gratuite/ }));
-    const champ = screen.getByPlaceholderText("toi@exemple.fr");
+    // QA v4 m-7 : formulaire importé au dépliage (morceau séparé), puis affiché déplié.
+    const champ = await screen.findByPlaceholderText("toi@exemple.fr");
     expect(champ).toHaveFocus();
     expect(screen.getByRole("checkbox")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Envoie-moi la lettre" })).toBeInTheDocument();

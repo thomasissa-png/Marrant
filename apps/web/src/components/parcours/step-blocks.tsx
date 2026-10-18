@@ -13,7 +13,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
-import { LettreInscription } from "@/components/lettre/lettre-inscription";
+import { LettreRepliee } from "@/components/lettre/lettre-repliee";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import {
@@ -120,7 +120,8 @@ export function ValidationWall({
         </Link>
         <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       </div>
-      <LettreInscription emplacement="parcours" slug={slug} repliee={FIN_ETAPE_1.lettre.ligne} className="text-center" />
+      {/* QA v4 m-7 : formulaire chargé au dépliage (budget JS de /parcours/[slug]). */}
+      <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="text-center" />
     </div>
   );
 }

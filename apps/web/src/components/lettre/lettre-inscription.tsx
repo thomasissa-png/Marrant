@@ -11,6 +11,7 @@ import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
 import { NBSP, frPonctuation } from "@/lib/fr-typo";
 import { LettreSucces } from "@/components/lettre/lettre-succes";
+import { LIGNE_REPLIEE_CLASSES } from "@/components/lettre/lettre-repliee-style";
 
 interface LettreInscriptionProps {
   emplacement: LettreEmplacement;
@@ -32,6 +33,12 @@ interface LettreInscriptionProps {
    * apparaissent avec le champ, qui prend le focus à l'ouverture.
    */
   repliee?: string;
+  /**
+   * QA v4 m-7 (`LettreRepliee`, chargement au dépliage) : ligne déjà dépliée au montage, le champ
+   * prend le focus ; `lettre-vu` déjà mesuré par l'enveloppe légère (pas de double envoi).
+   */
+  ouverteAuDepart?: boolean;
+  sansMesureVu?: boolean;
   /** `/lettre?statut=invalide|erreur` : formulaire affiché même avec une inscription en attente (QA s21 m1). */
   ignorerDrapeau?: boolean;
   className?: string;
@@ -54,6 +61,8 @@ export function LettreInscription({
   titreId,
   textes,
   repliee,
+  ouverteAuDepart = false,
+  sansMesureVu = false,
   ignorerDrapeau = false,
   className,
 }: LettreInscriptionProps) {
@@ -73,10 +82,10 @@ export function LettreInscription({
   const [modifie, setModifie] = useState(false);
   const [consent, setConsent] = useState(false);
   const [hauteur, setHauteur] = useState<number | undefined>(undefined);
-  const [ouvert, setOuvert] = useState(!repliee);
-  const [focusOuverture, setFocusOuverture] = useState(false);
+  const [ouvert, setOuvert] = useState(!repliee || ouverteAuDepart);
+  const [focusOuverture, setFocusOuverture] = useState(Boolean(repliee && ouverteAuDepart));
 
-  useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium, mesure);
+  useLettreVu(sectionRef, LETTRE_INSCRIPTIONS_OUVERTES && !isPremium && !sansMesureVu, mesure);
 
   // E-mail du compte pré-rempli (modifiable) tant que la personne n'a rien tapé.
   useEffect(() => {
@@ -127,7 +136,7 @@ export function LettreInscription({
               setOuvert((o) => !o);
               setFocusOuverture(true);
             }}
-            className="min-h-11 text-left underline decoration-text-muted/60 underline-offset-2 hover:text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-primary"
+            className={LIGNE_REPLIEE_CLASSES}
           >
             {frPonctuation(repliee)}
           </button>

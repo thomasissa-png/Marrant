@@ -103,10 +103,16 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     await expect(ligne).toHaveAttribute("aria-expanded", "false");
     await expect(fin.locator('input[type="email"]')).toHaveCount(0);
     const avant = await plein.boundingBox();
+    const ligneAvant = await ligne.boundingBox();
+    // QA v4 m-7 : le formulaire n'est pas dans le JS de la page, il arrive au dépliage.
+    const morceau = page.waitForResponse((r) => r.url().includes("/_next/static/chunks/") && r.request().resourceType() === "script");
     await ligne.click();
+    await morceau;
     await expect(fin.locator('input[type="email"]')).toBeFocused();
     await expect(fin.getByRole("checkbox")).toBeVisible();
-    // Le plein ne bouge pas quand la lettre se déplie (elle est dessous).
+    // Le plein ne bouge pas quand la lettre se déplie (elle est dessous), la ligne non plus.
     expect((await plein.boundingBox())?.y).toBe(avant?.y);
+    expect((await ligne.boundingBox())?.y).toBe(ligneAvant?.y);
+    await expect(ligne).toHaveAttribute("aria-expanded", "true");
   });
 });

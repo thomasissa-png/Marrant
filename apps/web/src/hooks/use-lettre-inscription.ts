@@ -22,7 +22,8 @@ export type LettreMesure = Record<string, string>;
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function drapeauActif(): boolean {
+/** Inscription en attente de confirmation dans ce navigateur (drapeau de moins de 7 jours). */
+export function drapeauLettreActif(): boolean {
   try {
     const brut = window.localStorage.getItem(LETTRE_STORAGE_KEY);
     const date = brut ? Date.parse(brut) : NaN;
@@ -93,7 +94,7 @@ export function useLettreInscription(
   const enCours = useRef(false);
 
   useEffect(() => {
-    if (!ignorerDrapeau && drapeauActif()) setEtat("drapeau");
+    if (!ignorerDrapeau && drapeauLettreActif()) setEtat("drapeau");
   }, [ignorerDrapeau]);
 
   useEffect(() => {
