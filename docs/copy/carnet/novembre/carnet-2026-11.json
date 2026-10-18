@@ -1,0 +1,202 @@
+{
+  "mois": "2026-11",
+  "titre": "Carnet de novembre",
+  "intro": "Des situations de novembre, du premier froid aux préparatifs de Noël, rangées de la moins tendue à la plus tendue, pour que tu progresses au fil du mois. Chaque fiche se lit en une minute : la phrase qu'on te dit, une réplique, une sortie polie et un exercice à faire à voix haute.",
+  "fiches": [
+    {
+      "id": "2026-11-01",
+      "titre": "Les deux derniers aspirateurs",
+      "accroche": "Black Friday, rayon électroménager. Tu hésites devant un aspirateur et le vendeur surgit",
+      "contexte": "quotidien",
+      "situation": "Magasin d'électroménager le jour du Black Friday, tu hésites depuis cinq minutes devant un aspirateur quand le vendeur surgit à ton épaule.",
+      "onTeDit": "Il n'en reste que deux, hein.",
+      "reponse": "Ce sont les deux derniers ? Je m'en voudrais de les séparer.",
+      "pourquoi": "Le vendeur joue sur la rareté, toi tu t'attendris : les deux derniers aspirateurs deviennent un couple, et en acheter un reviendrait à briser l'autre. Tu retournes son argument de vente en scrupule sans jamais dire non, et c'est ta gravité qui fait rire.",
+      "siTendu": "Merci, je regarde encore un moment. Je vous appelle si j'ai une question.",
+      "exercice": "Pose deux objets identiques devant toi (deux tasses, deux chaises) et dis la réplique à voix haute en les regardant avec tendresse, en ralentissant sur « séparer »."
+    },
+    {
+      "id": "2026-11-02",
+      "titre": "Le chauffage collectif rallumé",
+      "accroche": "Dans le hall de l'immeuble. Ton voisin du dessus, en bonnet, apprend que le chauffage est rallumé",
+      "contexte": "quotidien",
+      "situation": "Un matin de novembre dans le hall, ton voisin du dessus, bonnet sur la tête, vient d'apprendre que le chauffage collectif est rallumé.",
+      "onTeDit": "Ça y est, ils ont rallumé le chauffage collectif !",
+      "reponse": "Hier, je dormais en manteau. Ce matin, j'ai ouvert la fenêtre. Je n'ai aucun milieu.",
+      "pourquoi": "Le saut de « en manteau » à « fenêtre ouverte » est brutal, et c'est la dernière phrase qui l'explique : le problème n'est plus l'immeuble, c'est toi. Passer du chauffage au trait de caractère en une phrase donne la chute, et ton voisin peut se réjouir avec toi.",
+      "siTendu": "Ça fait du bien, oui. Bonne journée à vous.",
+      "exercice": "Dis les deux premières phrases d'un ton neutre, puis marque un temps avant « Je n'ai aucun milieu », comme si tu découvrais ta propre conclusion."
+    },
+    {
+      "id": "2026-11-03",
+      "titre": "Le troisième pain au chocolat",
+      "accroche": "Mardi matin à la boulangerie. Ta boulangère emballe ton troisième pain au chocolat de la semaine",
+      "contexte": "quotidien",
+      "situation": "Mardi matin à la boulangerie, la boulangère emballe ton troisième pain au chocolat de la semaine, alors que tu lui avais annoncé que tu arrêtais le sucre.",
+      "onTeDit": "Vous n'aviez pas arrêté le sucre, vous ?",
+      "reponse": "Dans toutes les autres boulangeries, je suis irréprochable.",
+      "pourquoi": "Ça ressemble à une défense, c'est un aveu : si tu es irréprochable dans toutes les autres boulangeries, c'est que celle-ci est l'exception, et tu viens de le dire à sa propriétaire. Le compliment passe en contrebande, et la boulangère le reçoit sans que tu aies à te justifier.",
+      "siTendu": "Vous avez bonne mémoire. Oui, j'essaie de réduire, et je n'y arrive pas encore.",
+      "exercice": "Dis la réplique à voix haute avec la dignité d'un avocat qui plaide un dossier perdu, en appuyant sur « toutes les autres »."
+    },
+    {
+      "id": "2026-11-04",
+      "titre": "Le champ du GPS",
+      "accroche": "Vendredi soir en voiture. Tu proposes de conduire, ton ami est déjà installé côté passager",
+      "contexte": "amis",
+      "situation": "Vendredi soir, tu proposes de conduire pour aller à un dîner, et un ami, déjà installé côté passager, se tourne vers toi.",
+      "onTeDit": "Tu es sûr que tu connais le chemin ? La dernière fois, on a visité un champ.",
+      "reponse": "Ce n'était pas un champ. C'était un raccourci qui avait de l'ambition.",
+      "pourquoi": "Tu ne contestes pas l'épisode, tu corriges le vocabulaire. « Raccourci » est un mot honorable, et « qui avait de l'ambition » tire ton erreur de route vers le portrait d'un héros malchanceux : le champ devient un projet qui n'a pas abouti.",
+      "siTendu": "Tu as raison, je mets le GPS pour ce soir. On arrivera à l'heure.",
+      "exercice": "Dis la réplique à voix haute sur le ton d'un communiqué officiel, en gardant le sérieux jusqu'au bout de « ambition »."
+    },
+    {
+      "id": "2026-11-05",
+      "titre": "Les chips, encore",
+      "accroche": "Soirée chez des amis. Tu arrives avec ton sac de contribution, l'hôte jette un œil dedans",
+      "contexte": "soirée",
+      "situation": "Tu arrives chez des amis avec ton sac de contribution, et l'hôte jette un œil dedans avant même de dire bonsoir.",
+      "onTeDit": "Des chips ? Encore ? Tu as de l'imagination, toi.",
+      "reponse": "Regarde mieux. Cette année, j'ai osé le paprika.",
+      "pourquoi": "La pique porte sur ton manque d'imagination, et tu réponds par un exploit minuscule présenté comme une audace. Tout repose sur « osé » : un parfum de chips devient une prise de risque, et « regarde mieux » fait de l'hôte le témoin d'une nouveauté qu'il aurait manquée.",
+      "siTendu": "Tu as raison, j'ai pris le plus simple. Dis-moi ce qui manque, et je ramène autre chose la prochaine fois.",
+      "exercice": "Brandis un paquet de ton placard (ou un objet qui y ressemble) comme une nouveauté de salon, et dis la réplique à voix haute en montant la voix d'un cran sur « osé »."
+    },
+    {
+      "id": "2026-11-06",
+      "titre": "La playlist de l'hôte",
+      "accroche": "Chez des amis. La musique s'arrête en pleine conversation, l'hôte te tend son téléphone",
+      "contexte": "soirée",
+      "situation": "Chez des amis, la musique vient de s'arrêter en plein milieu d'une conversation, et l'hôte tend son téléphone dans ta direction.",
+      "onTeDit": "Allez, mets quelque chose, c'est toi qui as le meilleur goût.",
+      "reponse": "Je préviens : ma dernière écoute, c'est de la pluie et un monsieur qui demande de respirer.",
+      "pourquoi": "Tu es censé avoir le meilleur goût, et tu annonces un enregistrement de relaxation. Le détail du « monsieur qui demande de respirer » est si précis qu'on l'entend, et c'est l'écart entre le compliment reçu et ce que tu écoutes vraiment qui fait la chute.",
+      "siTendu": "Je préfère te laisser la main, tu connais les invités. Je te dirai si une chanson me plaît.",
+      "exercice": "Pense à ta toute dernière écoute, celle dont tu n'es pas fier, et décris-la à voix haute en une phrase avec un détail aussi précis que le monsieur qui demande de respirer."
+    },
+    {
+      "id": "2026-11-07",
+      "titre": "La quatrième tranche",
+      "accroche": "Soirée raclette. Les appareils sont à fond et l'hôte te regarde glisser une tranche dans ton poêlon",
+      "contexte": "soirée",
+      "situation": "Soirée raclette, les appareils sont à fond, et l'hôte te regarde glisser une nouvelle tranche de fromage dans ton poêlon.",
+      "onTeDit": "C'est ta quatrième, là, non ?",
+      "reponse": "Mon médecin m'a conseillé de varier. Ce soir, j'ai pris du fumé.",
+      "pourquoi": "Le conseil médical sert d'autorisation : « varier » voulait dire manger autre chose, et tu l'appliques à la variété de fromage. Ce contresens volontaire est dit avec le sérieux d'une ordonnance, et « du fumé » prouve que tu suis le traitement à la lettre.",
+      "siTendu": "Oui, c'est la quatrième, et elle est très bonne. Je m'arrête là.",
+      "exercice": "Dis la réplique à voix haute avec le ton grave d'un patient qui rapporte une consigne de son médecin, sans sourire avant « du fumé »."
+    },
+    {
+      "id": "2026-11-08",
+      "titre": "Dix kilomètres, tranquille",
+      "accroche": "Apéro entre amis. Un sportif du groupe te propose de venir au footing du dimanche",
+      "contexte": "amis",
+      "situation": "Un groupe d'amis sportifs organise un footing dominical, et l'un d'eux t'a repéré à l'apéro pour te proposer de venir.",
+      "onTeDit": "Viens courir avec nous dimanche, dix kilomètres, c'est tranquille !",
+      "reponse": "La dernière fois que j'ai couru, une poussette m'a doublé. Le bébé avait l'air gêné pour moi.",
+      "pourquoi": "La première phrase te met derrière une poussette, la seconde ajoute un bébé qui a de la peine pour toi. Le basculement vers la délicatesse d'un nourrisson est ce qu'on n'attend pas, et tout reste sur ton compte : l'invitation de ton ami n'est pas touchée.",
+      "siTendu": "Merci de penser à moi. Dix kilomètres, c'est trop pour moi en ce moment, mais je viens volontiers au café d'après.",
+      "exercice": "Dis la réplique à voix haute avec le ton d'un rapport d'accident, puis ajoute le bébé comme un détail qu'on se rappelle à contrecœur."
+    },
+    {
+      "id": "2026-11-09",
+      "titre": "Le canapé du troisième",
+      "accroche": "Coup de fil d'un ami. Il parle d'une voix très douce et en profite pour évoquer le week-end",
+      "contexte": "amis",
+      "situation": "Un ami t'appelle en milieu de semaine, d'une voix très douce, et en profite pour parler du week-end.",
+      "onTeDit": "Samedi, tu es libre ? J'ai juste un canapé à monter au troisième, sans ascenseur.",
+      "reponse": "Avec plaisir. Mon dernier effort physique, c'était ton précédent canapé.",
+      "pourquoi": "« Précédent » est le mot qui bascule : il dit en passant que ce n'est pas la première fois, et que ton dernier effort physique date de là. Le « avec plaisir » reste sincère, la chute le pimente sans le retirer.",
+      "siTendu": "Je suis libre samedi, mais mon dos n'est pas fiable pour un troisième sans ascenseur. Je peux tenir les portes et porter les petits cartons ?",
+      "exercice": "Dis la réplique à voix haute en soufflant un peu avant « ton précédent canapé », comme si ton dos se souvenait."
+    },
+    {
+      "id": "2026-11-10",
+      "titre": "Le gratin",
+      "offerte": true,
+      "accroche": "Dîner entre amis. Tu as apporté un gratin, un ami en prend une bouchée puis fixe son assiette",
+      "contexte": "amis",
+      "situation": "Tu as apporté un gratin à un dîner entre amis, un ami en a pris une bouchée et regarde le fond de son assiette.",
+      "onTeDit": "Il est... intéressant, ton gratin. Tu as suivi une recette ?",
+      "reponse": "J'ai suivi une recette. Elle a résisté.",
+      "pourquoi": "La recette devient un adversaire : tu l'as suivie, elle s'est défendue, et le gratin est le résultat du combat. Le verbe « résisté » fait passer la scène de la cuisine au duel, et tu réponds à la question posée, ce qui rend la chute plus nette.",
+      "siTendu": "Il n'est pas réussi, je te l'accorde. Dis-moi ce que tu en penses, je veux bien tes conseils.",
+      "exercice": "Dis la réplique à voix haute en laissant un vrai silence entre « recette. » et « Elle a résisté. », comme quelqu'un qui revient d'une bataille perdue."
+    },
+    {
+      "id": "2026-11-11",
+      "titre": "Où tu joues, d'habitude",
+      "accroche": "Dimanche matin, six degrés sur le terrain. Le capitaine forme les équipes et s'arrête sur toi",
+      "contexte": "sport",
+      "situation": "Dimanche matin, six degrés sur le terrain, le capitaine forme les équipes avec des plots et son regard s'arrête sur toi.",
+      "onTeDit": "Toi, tu joues où, d'habitude ?",
+      "reponse": "Je suis ce qui fait onze. On ne m'a jamais demandé de faire plus.",
+      "pourquoi": "Il demande un poste, tu donnes un effectif : tu es le joueur qui permet d'atteindre onze. La seconde phrase ajoute que personne n'en a jamais attendu davantage, dite avec la sérénité de quelqu'un qui n'a jamais été déçu, et c'est ce calme qui fait la chute.",
+      "siTendu": "Mets-moi où tu as besoin de quelqu'un. Je ne suis pas très fort, mais je suis là.",
+      "exercice": "Dis la réplique à voix haute avec la modestie tranquille de quelqu'un qui lit son nom sur une feuille de match, en laissant un temps avant « On ne m'a jamais demandé »."
+    },
+    {
+      "id": "2026-11-12",
+      "titre": "L'équipe de ton père",
+      "accroche": "Dimanche au bar. Un ami qui supporte l'équipe adverse pose son demi et te regarde en souriant",
+      "contexte": "amis",
+      "situation": "Dimanche, tu retrouves au bar un ami qui supporte l'équipe adverse, il pose son demi sur la table et te regarde avec un grand sourire.",
+      "onTeDit": "Alors, ton équipe a trouvé un nouveau moyen de perdre hier soir ?",
+      "reponse": "Mon père m'a transmis cette équipe. J'aurais préféré sa montre.",
+      "pourquoi": "Tu compares deux héritages possibles, une équipe qui perd et une montre, et le choix était vite fait. « Transmis » donne à la défaite un air de patrimoine de famille, et ton ami, venu te chambrer, se retrouve face à quelqu'un qui n'a pas choisi sa souffrance.",
+      "siTendu": "Oui, c'était dur à regarder. On en reparle quand j'aurai digéré ?",
+      "exercice": "Dis la réplique à voix haute en regardant ton poignet nu au moment de dire « sa montre »."
+    },
+    {
+      "id": "2026-11-13",
+      "titre": "Le billet introuvable",
+      "accroche": "Dans le train de 18 h 12. Le contrôleur arrive pendant que tu fouilles ta troisième poche",
+      "contexte": "quotidien",
+      "situation": "Dans le train de 18 h 12, le contrôleur arrive dans ta voiture pendant que tu fouilles ta troisième poche à la recherche de ton billet.",
+      "onTeDit": "Vos titres de transport, s'il vous plaît.",
+      "reponse": "Il est sur mon téléphone, qui est à 4 %. On y croit tous les deux.",
+      "pourquoi": "Le chiffre fait le travail : 4 %, c'est assez pour espérer et pas assez pour être sûr. « On y croit tous les deux » installe le contrôleur dans ton suspense comme un camarade, et tu changes une vérification en attente partagée. À garder pour le jour où le billet est vraiment sur ton téléphone.",
+      "siTendu": "Désolé, je ne le retrouve pas. Je vous explique la situation.",
+      "exercice": "Regarde l'écran de ton téléphone avec espoir et dis la réplique à voix haute en prononçant « 4 % » comme une prévision météo."
+    },
+    {
+      "id": "2026-11-14",
+      "titre": "Le perdant officiel",
+      "accroche": "Soirée sous la pluie. Quelqu'un sort un jeu de société et on répartit les équipes",
+      "contexte": "soirée",
+      "situation": "Il pleut dehors, quelqu'un sort une boîte de jeu de société, et on se met à répartir les équipes.",
+      "onTeDit": "Toi, tu perds à tous les jeux de société.",
+      "reponse": "J'ai gagné une fois à pile ou face. On a demandé de refaire.",
+      "pourquoi": "Ta seule victoire est un pile ou face, un jeu où personne ne gagne par talent, et même celle-là n'a pas été validée. Tu cites ton unique succès comme une preuve de forme, la dernière phrase le retourne contre toi, et « refaire » suppose un public qui n'y croyait pas, que tu cites sans rancune.",
+      "siTendu": "Je perds souvent, c'est vrai. Je joue volontiers quand même, mets-moi avec quelqu'un de patient.",
+      "exercice": "Dis la réplique à voix haute avec une fierté tranquille sur la première phrase, puis laisse retomber la voix sur « refaire »."
+    },
+    {
+      "id": "2026-11-15",
+      "titre": "La guirlande de l'an dernier",
+      "accroche": "En famille, avant Noël. Ton père sort la guirlande de l'an dernier, devenue une seule grosse boule",
+      "contexte": "famille",
+      "situation": "Ton père sort du carton la guirlande de l'an dernier, qui est devenue une seule grosse boule, et te la tend.",
+      "onTeDit": "Toi qui as de bons yeux, démêle-moi cette guirlande. Ça va aller vite.",
+      "reponse": "L'an dernier, tu as dit « ça va aller vite ». On a fini le 26.",
+      "pourquoi": "Tu cites la promesse de ton père avec son résultat : le 26, donc après Noël. La date chiffrée remplace tout reproche, et comme c'est la même promesse que l'an dernier, la pique devient un souvenir de famille plutôt qu'une plainte.",
+      "siTendu": "D'accord, je m'y mets. On la démêle à deux et on la range proprement cette année.",
+      "exercice": "Compte les jours sur tes doigts jusqu'au « 26 » en disant la réplique à voix haute, avec l'air de quelqu'un qui garde un bon souvenir."
+    },
+    @@F16@@
+    @@F17@@
+    @@F18@@
+    @@F19@@
+    @@F20@@
+    @@F21@@
+    @@F22@@
+    @@F23@@
+    @@F24@@
+    @@F25@@
+    @@F26@@
+    @@F27@@
+    @@F28@@
+    @@F29@@
+  ]
+}
