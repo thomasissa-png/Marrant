@@ -25,6 +25,7 @@ Fusionne et remplace les quatre entrées « Blocs d'appel s21 » du 18/10 (parti
 - M2 : un abonné Premium connecté est reconnu par le plan de la session (plus seulement par le store rempli sur `/profil`) : plus de carte « Active mon accès » sur l'accueil, le cœur des listes ajoute le favori au lieu d'ouvrir la fenêtre Premium, `/favoris` affiche ses favoris. Contrôle à l'œil en P6 (compte Premium de l'équipe) : accueil sans carte Premium, un cœur sur `/vannes` devient « Retirer des favoris ».
 - m2 : bloc de fin d'article (B2), titre `[S8]` en 18 px sous 640 px : 2 lignes à 360 et 375 (3 avant) ; bloc de 584 px à 360 et 548 px à 375 (618 et 582 avant). Texte inchangé.
 - m5 : le contour sous les murs de liste mène à `/parcours/repartie?src=mur-vannes#etape-1` (`mur-conseils`, `mur-videos`) au lieu de `src=fiche` : `parcours-ouvert` distingue le mur d'une fiche (valeurs ajoutées à la liste fermée `PARCOURS_SRC`, à signaler à @data-analyst).
+- m6 : résultat du quiz d'humour, un abonné ne voit plus le lien payant ni la ligne de prix (le plein vers l'étape 1 du parcours conseillé reste).
 - m7 : fiche vanne, « Partager » passe en contour (niveau 2) : un seul plein par écran à 768 et 1280 px (celui du bloc d'exercice).
 
 **À vérifier à la mise en ligne (en P6, `?ne-pas-compter=1`)** : commandes vérifiées le 18/10 sur un build local du commit. Les apostrophes sont échappées dans le HTML (`&#x27;`) : aucun motif ci-dessous n'en contient.

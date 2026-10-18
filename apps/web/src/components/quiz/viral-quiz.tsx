@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
 import { LIEN_L1 } from "@/components/premium/mur-liste";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
@@ -52,6 +53,8 @@ function saveResult(profile: HumorProfileType): void {
 
 function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: boolean }) {
   const ligne = QUIZ_HUMOUR_CTA.premium(profile.type, profile.recommendedParcours, annuel);
+  // s21 (QA m6) : l'abonné n'a ni lien payant ni ligne de prix (il a déjà tout).
+  const estPremium = useEstPremium();
   const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
@@ -116,17 +119,21 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
           >
             {QUIZ_HUMOUR_CTA.bouton(profile.recommendedParcours)}
           </Link>
-          <Link
-            href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className={cn(LIEN_L1, "justify-center text-center")}
-          >
-            {QUIZ_HUMOUR_CTA.lien(profile.recommendedParcours)}
-          </Link>
-          {/* Ligne Premium en un seul paragraphe ; la phrase de profil sur sa propre ligne (tour 16). */}
-          <p className="text-center text-xs text-text-muted" data-testid="quiz-ligne-premium">
-            {ligne.profil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(ligne.profil)}</span>}
-            {frTypo(ligne.suite)}
-          </p>
+          {!estPremium && (
+            <>
+              <Link
+                href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
+                className={cn(LIEN_L1, "justify-center text-center")}
+              >
+                {QUIZ_HUMOUR_CTA.lien(profile.recommendedParcours)}
+              </Link>
+              {/* Ligne Premium en un seul paragraphe ; la phrase de profil sur sa propre ligne (tour 16). */}
+              <p className="text-center text-xs text-text-muted" data-testid="quiz-ligne-premium">
+                {ligne.profil && <span className="mb-1 block font-medium text-text-secondary">{frTypo(ligne.profil)}</span>}
+                {frTypo(ligne.suite)}
+              </p>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

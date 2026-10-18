@@ -161,6 +161,24 @@ describe("ViralQuiz", () => {
     expect(rendu).not.toHaveTextContent("24,99");
   });
 
+  it("s21 (QA m6) : abonné, ni lien payant ni ligne de prix ; le plein vers l'étape 1 reste", async () => {
+    const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
+    useSession.mockReturnValue({ data: { user: { id: "u1", plan: "PREMIUM" } }, status: "authenticated" });
+    try {
+      render(<ViralQuiz />);
+      for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
+        await userEvent.click(screen.getByText(optionLabel(i)));
+      }
+      const conseille = QUIZ_PROFILES[resultat()].recommendedParcours;
+      expect(screen.getByText(/^Commencer mon parcours .+, étape 1 gratuite$/)).toBeInTheDocument();
+      expect(screen.queryByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).not.toBeInTheDocument();
+      expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
+      expect(document.querySelector("a[href^='/abonnement']")).toBeNull();
+    } finally {
+      useSession.mockReturnValue({ data: null, status: "unauthenticated" });
+    }
+  });
+
   it("offre annuelle disponible : la ligne Premium la mentionne", async () => {
     render(<ViralQuiz annualAvailable />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
