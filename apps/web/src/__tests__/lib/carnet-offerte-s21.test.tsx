@@ -101,7 +101,7 @@ describe("DemoVanne (B1)", () => {
   const demo = getCarnetDemo(parseCarnets([lireCarnetOctobre()]), OCTOBRE_18)!;
   beforeEach(() => useSession.mockReturnValue({ data: null, status: "unauthenticated" }));
 
-  it("situation, question, un plein vers la fiche, note ; jamais la réplique", () => {
+  it("situation, question, un plein vers la fiche, sans note (concision v5) ; jamais la réplique", () => {
     const { container } = render(<DemoVanne demo={demo} position="milieu-1" parcours="repartie" />);
     expect(container.innerHTML).not.toContain("Donne-moi la nuit");
     const encart = screen.getByRole("complementary", { name: DEMO_VANNE.surtitre });
@@ -113,7 +113,8 @@ describe("DemoVanne (B1)", () => {
     expect(liens[0]).toHaveAttribute("href", "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15");
     expect(liens[0]).toHaveAttribute("data-blog-cta", "demo-fiche");
     expect(liens[0].className).toContain("bg-accent-secondary-hover"); // variante primary (plein)
-    expect(encart).toHaveTextContent("quoi dire si ça se tend. Chaque mois, de nouvelles situations arrivent dans Premium, l'abonnement du site.");
+    expect(DEMO_VANNE.surtitre).toBe("Situation offerte ce mois-ci");
+    expect(encart).not.toHaveTextContent(/Gratuit, sans compte|quoi dire si ça se tend|de nouvelles situations/);
     expect(encart.className).not.toContain("border-l-");
   });
 
@@ -129,6 +130,6 @@ describe("DemoVanne (B1)", () => {
   });
 
   it("textes : zéro tiret cadratin", () => {
-    expect(JSON.stringify(DEMO_VANNE) + DEMO_VANNE.note(true)).not.toContain("—");
+    expect(JSON.stringify(DEMO_VANNE)).not.toContain("—");
   });
 });

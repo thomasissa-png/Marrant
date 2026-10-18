@@ -39,7 +39,8 @@ describe("AbonnementLayout et formule annuelle", () => {
     const out = html();
     expect(out).toContain('"billingDuration":"P1Y"');
     expect(out).toContain('"price":"24.99"');
-    expect(out).toContain("24,99\u00A0€/an en une fois, soit 2,08\u00A0€ par mois (10,89\u00A0€ économisés par an)");
+    // Concision v5 : la réponse prix de la FAQ dit le renouvellement mensuel ou annuel, sans prix.
+    expect(out).toContain("Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.");
     expect((await generateMetadata()).description).toContain("à 2,99\u00A0€/mois ou 24,99\u00A0€/an");
   });
 });

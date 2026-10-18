@@ -7,15 +7,15 @@
  * jamais en dur : changer un prix change le texte.
  */
 import {
+  ESPACE_INSECABLE,
   formatEuros,
-  PARCOURS_COUNT,
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
   PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
-  PREMIUM_ANNUAL_SAVINGS_LABEL,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PARCOURS,
+  PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
 
@@ -29,25 +29,14 @@ export function prixTtcLabel(plan: PremiumPlan): string {
     : `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
 }
 
-// VALIDÉ à l'aveugle s21 (lot 2 tour 3, 3/3 au niveau ; formule @legal A)
+// VALIDÉ à l'aveugle s21, concision v5 (18/10, docs/copy/cta-s21/concision/textes-v5-a.md §0)
 /**
- * Réassurance sous le bouton de paiement quand le prix TTC est déjà affiché en
- * gros juste au-dessus (« 2,99 € TTC / mois ») : elle ne redit pas le prix et
- * ne promet le remboursement que du premier paiement, sur demande dans les
- * 14 jours (docs/legal/remboursement-abonnement-s21.md). Même texte en mensuel
- * et en annuel.
+ * REASS : réassurance fixe, unique, sous tout bouton plein qui porte un prix (jamais sous un
+ * lien ni sous un bouton gratuit). Remplace toutes les anciennes variantes (« Tu as 14 jours
+ * pour te faire rembourser… », `lignePrixGarantie`, `FENETRE_GARANTIE`, etc.). Ne promet le
+ * remboursement que du premier paiement (docs/legal/remboursement-abonnement-s21.md).
  */
-export const REASSURANCE_PAIEMENT =
-  "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.";
-
-// VALIDÉ à l'aveugle s21 (duel /register, 3/3 au niveau)
-/**
- * Réassurance sous le formulaire de /register : le prix TTC est déjà rappelé
- * en haut de la page (« Premium, 2,99 € TTC par mois, annulable à tout
- * moment. »), donc ni prix ni résiliation ici, seulement le remboursement du
- * premier paiement (docs/copy/lot2-s21/pack-relecture-register.md).
- */
-export const REMBOURSEMENT_PREMIER_PAIEMENT = "Tu as 14 jours pour te faire rembourser ton premier paiement.";
+export const REASSURANCE_UNIQUE = `${OFFRE_NOM} : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.`;
 
 // PROVISOIRE s16, étalon à valider
 /** Acceptation des CGU sous le bouton de création de compte (reco 9). */
@@ -70,11 +59,11 @@ const MOIS_OFFERTS_EXACT = PREMIUM_ANNUAL_SAVINGS_CENTS % PREMIUM_MONTHLY_PRICE_
 export const ANNUEL_MOIS_OFFERTS_LABEL = `${MOIS_OFFERTS_EXACT ? "" : "plus de "}${ANNUEL_MOIS_OFFERTS} mois offerts`;
 
 // PROVISOIRE s16, étalon à valider
-/** « 10,89 € économisés » */
+/** « 10,89 € économisés » (profil d'un abonné mensuel, passage à l'annuel ; hors /abonnement depuis la concision v5). */
 export const ANNUEL_ECONOMIE_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés`;
 
 // PROVISOIRE s16, étalon à valider
-/** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux). */
+/** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux), profil d'un abonné mensuel. */
 export const ANNUEL_AVANTAGE_LABEL = `${ANNUEL_MOIS_OFFERTS_LABEL}, ${ANNUEL_ECONOMIE_LABEL} par an`;
 
 // VALIDÉ s16 (étalon 5b.2) : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
@@ -88,60 +77,38 @@ export const PAIEMENT_ANNULE = {
 /** Badge de la première étape d'un parcours (remplace « Essai gratuit », reco 16). */
 export const ETAPE_LIBRE_BADGE = "Lecture libre";
 
-// VALIDÉ à l'aveugle s21 (lot 2, duel 1, tour 1 : 3/3 au niveau ; docs/copy/lot2-boutons-abonnement-s21.md §4.1)
-/**
- * Mur (contenu verrouillé, emplacement E4) : forme longue sur les boutons
- * (fiches, bas de liste, étapes de parcours, favoris), forme courte sur les
- * liens et les cartes. Le bouton mène à une page qui détaille l'offre : il ne
- * débloque rien tout de suite.
- */
-export const MUR_PREMIUM_BOUTON = `Voir ce que contient ${OFFRE_NOM}`;
-export const MUR_PREMIUM_LIEN = `Voir ${OFFRE_NOM}`;
+// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-c.md §1)
+/** Ligne annuelle de /abonnement, état mensuel : « Ou 24,99 €/an, soit 2,08 € par mois. » */
+export const ANNUEL_LIGNE_MENSUEL = `Ou ${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL}.`;
 
-// VALIDÉ à l'aveugle s21 (lot 2, haut de /abonnement, tour 3 : 3/3 au niveau)
-/**
- * Ligne sous le prix mensuel de /abonnement, affichée dès l'état par défaut si
- * l'annuel est disponible : « Ou 24,99 €/an, soit 2,08 € par mois et 10,89 €
- * économisés par an. » Tout vient de config/premium.ts ; « plus de 3 mois
- * offerts » n'est dit qu'une fois, sur la pastille « Annuel ».
- */
-export const ANNUEL_LIGNE_MENSUEL = `Ou ${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} et ${PREMIUM_ANNUAL_SAVINGS_LABEL}.`;
+/** Ligne annuelle, état annuel (remplace la pastille et la ligne mensuelle) : « Soit 2,08 € par mois, plus de 3 mois offerts. » */
+export const ANNUEL_LIGNE_ANNUEL = `${PREMIUM_ANNUAL_EQUIVALENT_LABEL.charAt(0).toUpperCase()}${PREMIUM_ANNUAL_EQUIVALENT_LABEL.slice(1)}, ${ANNUEL_MOIS_OFFERTS_LABEL}.`;
 
-/** « 15 à 20 minutes » : bornes lues dans les rythmes des parcours publiés ([CHOIX 29/09]). */
-function dureeParcoursLabel(): string {
-  const minutes = PREMIUM_PARCOURS.map((p) => Number.parseInt(p.timePerWeek, 10)).filter((m) => m > 0);
-  const min = Math.min(...minutes);
-  const max = Math.max(...minutes);
-  return min === max ? `${min} minutes` : `${min} à ${max} minutes selon le parcours`;
-}
+const MINUTES_ETAPE = PREMIUM_PARCOURS.map((p) => Number.parseInt(p.timePerWeek, 10)).filter((m) => m > 0);
+const MINUTES_MIN = Math.min(...MINUTES_ETAPE);
+const MINUTES_MAX = Math.max(...MINUTES_ETAPE);
 
-// VALIDÉ à l'aveugle s21 (lot 2, haut de /abonnement, tour 3 : 3/3 au niveau)
+/** `{D}` : « 15 à 20 minutes », min et max des rythmes des parcours publiés (config/premium.ts). */
+export const DUREE_ETAPES = MINUTES_MIN === MINUTES_MAX ? `${MINUTES_MIN} minutes` : `${MINUTES_MIN} à ${MINUTES_MAX} minutes`;
+
+// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-c.md §1, retouche du tour 4)
 /**
- * Haut de /abonnement pour un visiteur : surtitre, H1 et sous-titre tels que
- * relus ensemble à l'aveugle (docs/copy/lot2-boutons-abonnement-s21.md §5.3),
- * mot pour mot. Décision Thomas 17/10 : le H1 validé remplace « Accéder aux
- * parcours complets » (jamais relu avec ce surtitre et ce sous-titre).
- * s21 concision (18/10, fait faux corrigé) : « une étape par semaine conseillée » (rythme
- * conseillé, jamais imposé : toutes les étapes s'ouvrent d'un coup avec Premium).
+ * Sous-titre de /abonnement (visiteur et compte connecté) : « Pas d'attente entre les étapes,
+ * de 15 à 20 minutes chacune. » Plus de surtitre. Le titre vient du parcours d'origine
+ * (`ABONNEMENT_HAUT_PAR_PARCOURS`, cta-pages.ts).
  */
 export const ABONNEMENT_HAUT_VISITEUR = {
-  titre: "Ta réplique pendant la soirée, pas dans le bus du retour",
-  surtitre: "C'est pour toi si tu restes muet quand on te chambre.",
-  sousTitre: `${PARCOURS_COUNT} parcours pour t'entraîner, une étape par semaine conseillée, ${dureeParcoursLabel()}. La première étape de chacun reste en lecture libre.`,
+  sousTitre: `Pas d'attente entre les étapes, ${MINUTES_MIN === MINUTES_MAX ? "" : "de "}${DUREE_ETAPES} chacune.`,
 } as const;
 
-// PROVISOIRE s16, étalon à valider
-/** Mur de l'étape 2 et suivantes d'un parcours (D4 : « Premium »). */
-export function etapeVerrouilleeTexte(prixLabel: string): string {
-  return `Cette étape fait partie de ${OFFRE_NOM}. La première étape est offerte, les suivantes viennent avec l'abonnement à ${prixLabel}, résiliable en ligne.`;
-}
+// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §6)
+/** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */
+export const PASSER_ETAPE_2 = `Passer à l'étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
 
-// PROVISOIRE s16, étalon à valider
-/** Étape 1 vue par un non-abonné (déclinaison de l'étalon 4.1 avec « Premium », D4). */
+/** Fin d'étape 1, variante quiz en cours (`ValidationWall`, `quizPending`) : texte, plein, REASS dessous. */
 export const VALIDATION_ETAPE = {
-  texte: `Valider l'étape fait partie de ${OFFRE_NOM}.`,
-  // s21 : libellé du mur (lot 2, duel 1 validé), au lieu de « Voir l'offre Premium ».
-  bouton: MUR_PREMIUM_BOUTON,
+  texte: `Les étapes suivantes s'ouvrent avec ${OFFRE_NOM}.`,
+  bouton: PASSER_ETAPE_2,
 } as const;
 
 // PROVISOIRE s16, étalon à valider

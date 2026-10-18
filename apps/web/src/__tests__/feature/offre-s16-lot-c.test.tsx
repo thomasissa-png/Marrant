@@ -58,7 +58,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     render(<AbonnementView annualAvailable={false} />);
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
     expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
-    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.")).toBeInTheDocument(); // V3 validée à l'aveugle s21
+    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument(); // REASS unique (concision v5)
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
@@ -106,9 +106,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     render(<AbonnementView annualAvailable />);
     await userEvent.click(screen.getByLabelText("Annuel"));
     expect(screen.getByText("TTC / an")).toBeInTheDocument();
-    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent(
-      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
-    );
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
 
   it("visiteur : clic vers l'inscription mesuré (abonnement-clic, statut visiteur)", async () => {
@@ -147,14 +145,13 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
 });
 
 describe("accueil : bloc Premium", () => {
-  it("visiteur : nom Premium, réassurance, clic mesuré ; 1 500+ intact", async () => {
+  it("visiteur : REASS sous le plein, clic mesuré (concision v5 : plus d'en-tête de prix ni d'« inscrits »)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
-    expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("/mois")).toBeInTheDocument(); // tour 16 : en-tête « Premium · 2,99 €/mois », TTC dans [S12]
-    expect(screen.getByText("Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.")).toBeInTheDocument(); // [S13] tour 16
+    expect(screen.queryByRole("heading", { name: "Premium" })).toBeNull();
+    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
-    expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
+    expect(document.body.textContent).not.toContain("inscrits");
     // s21 (B4 + B5) : plein vers /abonnement?src=accueil-premium, libellé du tour 4.
     const link = screen.getByText(normalise(CARTE_PREMIUM.bouton));
     expect(link.closest("a")).toHaveAttribute("href", "/abonnement?src=accueil-premium");

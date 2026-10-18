@@ -123,11 +123,12 @@ export function Header() {
     <>
       {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4">
-          {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px
-              pour loger « Commencer » à côté du menu dès 360 px) */}
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4">
+          {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px ;
+              concision v5 : encore un cran sous 360 px, avec des marges de 12 px, pour que le
+              bouton prix tienne à côté du menu dès 320 px) */}
           <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="whitespace-nowrap font-display text-base font-bold text-gradient min-[400px]:text-lg sm:text-xl">
+            <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
             </span>
           </Link>
@@ -180,13 +181,16 @@ export function Header() {
                 <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
                   Connexion
                 </Link>
+                {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas dans la barre
+                    d'ordinateur (conteneur plafonné à 1 280 px : 61 px de trop à 1 024, 29 à
+                    1 280, mesuré) : libellé court ici, même lien et même nom accessible. */}
                 {!pageChaude && (
                   <Link
                     href={prixHref}
                     aria-label={EN_TETE.nomAccessible}
                     className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
                   >
-                    {EN_TETE.bouton}
+                    {EN_TETE.boutonCourt}
                   </Link>
                 )}
               </>
@@ -206,19 +210,24 @@ export function Header() {
                 {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
             )}
-            {/* s20 (audit conversion, lot 1) puis s21 (B6) : bouton prix visible sur mobile dès
-                360 px, même lien que sur ordinateur (prixHref, src=header). Cible de 44 px.
-                Sous 360 px, place insuffisante : il reste dans le menu. Masqué sur les pages chaudes. */}
+            {/* s20 (audit conversion, lot 1), s21 (B6) puis concision v5 : bouton prix visible sur
+                mobile à toutes les largeurs (même lien que sur ordinateur, prixHref, src=header),
+                cible de 44 px. « Premium · 2,99 €/mois » dès 640 px, où il tient à côté du logo,
+                de « Connexion », de la loupe et du menu (il lui faut 447 px seul, 590 px avec
+                « Connexion » et la loupe) ; en dessous, libellé court « 2,99 €/mois » (largeurs
+                mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes. */}
             {!isAuthenticated && !pageChaude && (
               <Link
                 href={prixHref}
                 aria-label={EN_TETE.nomAccessible}
+                data-en-tete-prix
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
-                  "hidden h-11 shrink-0 whitespace-nowrap px-3 min-[360px]:inline-flex",
+                  "inline-flex h-11 shrink-0 whitespace-nowrap px-2 text-xs min-[360px]:px-3 min-[360px]:text-sm",
                 )}
               >
-                {EN_TETE.bouton}
+                <span className="sm:hidden">{EN_TETE.boutonCourt}</span>
+                <span className="hidden sm:inline">{EN_TETE.bouton}</span>
               </Link>
             )}
             {/* Bouton recherche mobile (s20 : à partir de 440 px ; en dessous, la recherche

@@ -12,18 +12,17 @@ import { PremiumCta } from "@/components/home/premium-cta";
 const LettreAccueil = dynamic(() => import("@/components/home/lettre-accueil").then(m => ({ default: m.LettreAccueil })), { ssr: true });
 const UpcomingFeatures = dynamic(() => import("@/components/home/upcoming-features").then(m => ({ default: m.UpcomingFeatures })), { ssr: true });
 import { JsonLd, buildFaqJsonLd } from "@/components/seo/json-ld";
-import { faqs as faqSectionFaqs } from "@/lib/faqs";
+import { FAQ_VENTE } from "@/lib/faqs";
 import { AutresParcours } from "@/components/home/autres-parcours";
 import { DerniersArticles } from "@/components/home/derniers-articles";
 import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
 // un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
-// est `FaqSection` (rendue via PremiumCta) → `faqSectionFaqs`.
+// est `FaqSection` (rendue via PremiumCta) → `FAQ_VENTE` (concision v5 : 4 questions).
 // L'ancien `homepageFaqs` (jamais affiché) a été supprimé (décision Thomas, 13/10/2026).
-const allFaqs = [...faqSectionFaqs];
+const allFaqs = [...FAQ_VENTE];
 
 export async function generateMetadata(): Promise<Metadata> {
   const stats = await getContentStatsRounded();
@@ -147,7 +146,7 @@ export default async function HomePage() {
       {/* CTA Offre : abonnement Premium (coaching retiré le 13/10/2026). s21 (B4 + B5) : le bloc
           « Tu crois avoir tout essayé » (ancien home-cta.tsx) est fusionné dans cette carte et supprimé.
           Annuel lu au rendu (ISR) : [S12] ne le cite que s'il est configuré. */}
-      <PremiumCta annuelDisponible={isAnnualPlanAvailable()} />
+      <PremiumCta />
 
       {/* s21 : la lettre gratuite, lien discret après l'offre (interrupteur des inscriptions) */}
       <LettreAccueil />

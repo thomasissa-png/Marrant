@@ -57,7 +57,6 @@ export function DemoVanne({ demo, position, parcours }: DemoVanneProps) {
         >
           {frTypo(DEMO_VANNE.bouton)}
         </Link>
-        <p className="mt-2 text-xs text-text-muted">{frTypo(DEMO_VANNE.note(demo.totalFiches > 1))}</p>
       </aside>
     </MasquePourPremium>
   );

@@ -58,14 +58,16 @@ describe("Page article : position du CTA et partage", () => {
   it("meilleures-blagues : CTA juste après le corps, avant la FAQ, une seule fois", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     // s21 (B2) : textes du tour 16 (cta-articles-accueil.ts), prioritaires sur blog-cta.ts.
-    const titles = screen.getAllByText("La vanne qui sort de ta bouche, pas de ton téléphone");
+    const titles = screen.getAllByText("La vanne dans ta bouche, pas dans ton téléphone");
     expect(titles).toHaveLength(1);
     const body = container.querySelector("[data-blog-body]")!;
     expect(follows(body, titles[0])).toBe(true);
     expect(follows(titles[0], screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(container.querySelectorAll("[data-blog-bloc-fin]")).toHaveLength(1);
-    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\./)).toBeInTheDocument();
+    // Concision v5 : « Sans compte. » sous le plein, plus de note de prix.
+    expect(screen.queryByText(/l'abonnement du site/)).toBeNull();
+    expect(screen.getAllByText("Sans compte.").length).toBeGreaterThan(0);
     expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
     // s20 : Répartie (parcours de Yanis), plus Machine à Café.
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026");
@@ -150,7 +152,9 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
     expect(follows(titles[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
-    expect(screen.getByText("2,99 €/mois, résiliable en ligne. Les messages de cette page restent en accès libre.")).toBeInTheDocument();
+    // Concision v5 : plus de note de prix sous le bloc de fin, « Sans compte. » sous le plein.
+    expect(screen.queryByText(/résiliable en ligne\. Les messages de cette page/)).toBeNull();
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.lienAbonnement) })).toBeInTheDocument();
   });
 });

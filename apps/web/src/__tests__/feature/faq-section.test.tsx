@@ -48,11 +48,10 @@ describe("FaqSection", () => {
     expect(screen.queryByText(/5 minutes chaque jour valent mieux/)).toBeNull();
   });
 
-  it("mentions trust reassurances in answers", () => {
-    // s21 concision (fait faux corrigé) : on résilie depuis le profil, jamais « en 1 clic ».
-    expect(screen.getByText(/Tu résilies depuis ton profil/)).toBeInTheDocument();
-    expect(screen.queryByText(/1 clic/)).toBeNull();
-    expect(screen.getByText(/Paiement sécurisé par Stripe/)).toBeInTheDocument();
+  it("réponse prix de la concision v5 : renouvellement dit, sans « 1 clic » ni Stripe (dit une fois sur la page)", () => {
+    expect(screen.getByText("C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas.")).toBeInTheDocument();
+    expect(screen.queryByText(/1 clic|reconduction surprise/)).toBeNull();
+    expect(screen.queryByText(/Paiement sécurisé par Stripe/)).toBeNull();
   });
 
   it("renders details elements for each FAQ", () => {

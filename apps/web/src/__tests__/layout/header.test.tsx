@@ -47,14 +47,21 @@ describe("Header", () => {
     expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("s21 (B6) : bouton prix « 2,99 €/mois » quand non connecté, espace insécable avant €", () => {
+  it("concision v5 : bouton prix « Premium · 2,99 €/mois » dès 640 px, libellé court en dessous et sur ordinateur", () => {
     render(<Header />);
     const liens = screen.getAllByRole("link", { name: PRIX });
-    expect(liens.length).toBeGreaterThan(0);
-    for (const lien of liens) {
-      expect(lien.textContent).toBe("2,99\u00A0€/mois");
-      expect(lien).toHaveAccessibleName(PRIX);
-    }
+    expect(liens.length).toBe(2);
+    // Ordinateur : libellé court (le libellé complet ne tient pas dans la barre, mesuré).
+    expect(liens[0].textContent).toBe("2,99\u00A0€/mois");
+    // Téléphone : toujours rendu (plus de « hidden » sous 360 px), libellé court sous 640 px, complet au-delà.
+    const mobile = liens[1];
+    expect(mobile.className).not.toMatch(/(^| )hidden( |$)/);
+    const [court, complet] = Array.from(mobile.querySelectorAll("span"));
+    expect(court.textContent).toBe("2,99\u00A0€/mois");
+    expect(court.className).toBe("sm:hidden");
+    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(complet.className).toBe("hidden sm:inline");
+    for (const lien of liens) expect(lien).toHaveAccessibleName(PRIX);
     expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 

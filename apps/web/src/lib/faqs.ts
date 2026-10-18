@@ -1,11 +1,4 @@
-import {
-  PARCOURS_MAX_WEEKS,
-  PARCOURS_MIN_WEEKS,
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
-  PREMIUM_ANNUAL_PRICE_LABEL,
-  PREMIUM_ANNUAL_SAVINGS_LABEL,
-  PREMIUM_PRICE_LABEL,
-} from "@/config/premium";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
 
 const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
@@ -40,7 +33,8 @@ export const faqs = [
   {
     question: PRICE_FAQ_QUESTION,
     answer:
-      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu résilies depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
+      // Concision v5 (textes-v5-c §3) : réponse mensuelle (accueil, et /abonnement sans annuel).
+      "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas.",
   },
   {
     question:
@@ -56,16 +50,33 @@ export const faqs = [
   },
 ];
 
-/** Réponse prix quand la formule annuelle est disponible (prix Stripe annuel configuré). */
-const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Tu préfères payer à l’année ? C’est ${PREMIUM_ANNUAL_PRICE_LABEL} en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL}). Pas de frais cachés. L’abonnement se renouvelle à la fin de chaque période (mois ou année) tant que tu ne l’annules pas, et tu résilies depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.`;
+/** Réponse prix quand la formule annuelle est disponible (concision v5, textes-v5-c §3). */
+const ANNUAL_PRICE_FAQ_ANSWER = "C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.";
 
 /**
- * FAQ Premium selon la disponibilité de l'annuel, lue côté serveur
- * (`isAnnualPlanAvailable()`). Sans annuel : `faqs` à l'identique.
+ * FAQ de vente (concision v5) : les 4 questions qui lèvent le plus de freins à l'achat, seules
+ * affichées sur l'accueil et /abonnement (JSON-LD identique) : apprendre, timide, prix, YouTube.
+ * Les 4 autres restent dans `faqs` (/parcours, SEO).
+ */
+const QUESTIONS_VENTE: readonly string[] = [
+  "Est-ce que je peux vraiment apprendre à être drôle ?",
+  "Comment devenir drôle quand on est timide ou introverti ?",
+  PRICE_FAQ_QUESTION,
+  "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
+];
+export const FAQ_VENTE: typeof faqs = QUESTIONS_VENTE.map((q) => {
+  const faq = faqs.find((f) => f.question === q);
+  if (!faq) throw new Error(`FAQ de vente : question introuvable (${q})`);
+  return faq;
+});
+
+/**
+ * FAQ de vente de /abonnement selon la disponibilité de l'annuel, lue côté serveur
+ * (`isAnnualPlanAvailable()`). Sans annuel : `FAQ_VENTE` à l'identique.
  */
 export function getPremiumFaqs(annualAvailable: boolean): typeof faqs {
-  if (!annualAvailable) return faqs;
-  return faqs.map((faq) =>
+  if (!annualAvailable) return FAQ_VENTE;
+  return FAQ_VENTE.map((faq) =>
     faq.question === PRICE_FAQ_QUESTION ? { ...faq, answer: ANNUAL_PRICE_FAQ_ANSWER } : faq,
   );
 }

@@ -22,18 +22,19 @@ describe("HeroSection", () => {
     expect(screen.getByText(/On va arranger ça/)).toBeInTheDocument();
   });
 
-  it("shows description with motivation hook", () => {
+  it("concision v5 : une phrase (plus de questions d'accroche)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection textes={ACCUEIL_HAUT} />);
-    expect(screen.getByText(/ta motivation/)).toBeInTheDocument();
+    expect(screen.getByText("Des vannes et des exercices pour répondre quand on te chambre.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/Tu restes muet|ta motivation|techniques/);
   });
 
-  it("shows social proof « 1 500+ membres » (texte fixe validé fondateur)", () => {
+  it("preuve sociale « 1 500+ inscrits » (chiffre fixe validé fondateur), sans « Rejoins-les »", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<HeroSection textes={ACCUEIL_HAUT} />);
-    const proof = screen.getByText(/1\s500\+ membres bossent leur humour\. Rejoins-les\./);
-    expect(proof).toBeInTheDocument();
-    expect(proof.textContent).toMatch(/1\s500\+ membres/);
+    const proof = screen.getByText(/1\s500\+ inscrits bossent leur humour\./);
+    expect(proof.textContent?.replace(/\u00a0/g, " ")).toBe("1 500+ inscrits bossent leur humour.");
+    expect(document.body.textContent).not.toContain("Rejoins-les");
   });
 
   it("links each persona tag to its parcours (s12 T02)", () => {
@@ -42,16 +43,9 @@ describe("HeroSection", () => {
     expect(screen.getByText("Avoir de la répartie").closest("a")).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
     expect(screen.getByText("Briller à la machine à café").closest("a")).toHaveAttribute("href", "/parcours/machine-a-cafe?src=accueil#etape-1");
     expect(screen.getByText("Reprendre confiance en toi").closest("a")).toHaveAttribute("href", "/parcours/confiance?src=accueil#etape-1");
-    // Les 2 libellés descriptifs restent, non cliquables et masqués en mobile (arbitrage Thomas).
-    // Forme audit s14 P0-1 : sortis de la rangée de pastilles, sur une ligne à part sans fond ni bordure.
+    // Concision v5 : les 2 libellés descriptifs (HERO_EXTRA_TAGS) ont disparu ; les 3 pastilles restent.
     for (const label of ["Un petit exercice par jour", "Vannes prêtes à ressortir"]) {
-      const tag = screen.getByText(label);
-      expect(tag.closest("a")).toBeNull();
-      expect(tag.closest("button")).toBeNull();
-      const row = tag.closest("ul");
-      expect(row).toHaveClass("hidden", "sm:flex");
-      expect(row?.querySelector("a")).toBeNull();
-      expect(tag.closest("li")).not.toHaveClass("border");
+      expect(screen.queryByText(label)).toBeNull();
     }
   });
 
@@ -75,7 +69,7 @@ describe("HeroSection", () => {
     expect(h1.textContent).toBe("Tu parles et personne rit.On va arranger ça.");
   });
 
-  it("s21 (B3) visiteur : plein vers l'étape 1 de Répartie, note ; s21 concision : aucun lien payant dessous", () => {
+  it("s21 (B3) visiteur : plein vers l'étape 1 de Répartie, « Sans compte. » ; aucun lien payant dessous", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     const { container } = render(<HeroSection textes={ACCUEIL_HAUT} />);
     const plein = screen.getByText(ACCUEIL_HAUT.bouton).closest("a")!;
@@ -85,9 +79,9 @@ describe("HeroSection", () => {
     expect(container.querySelector('a[href^="/abonnement"]')).toBeNull();
     expect(container.querySelector('a[data-accueil-cta="abonnement"]')).toBeNull();
     expect(screen.queryByText(/^Ouvrir les \d parcours/)).toBeNull();
-    expect(screen.getByText(/^Sans compte : l'étape 1 du parcours Répartie \(conseil, défi, 5 vannes, 2 vidéos, quiz\)\. Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil\.$/)).toBeInTheDocument();
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans engagement|Accéder aux parcours complets/i);
-    expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
+    expect(screen.getByText("1 500+ inscrits bossent leur humour.")).toBeInTheDocument();
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
     // Un seul plein dans la zone d'action (les pastilles sont des chips).
     expect(document.querySelectorAll("a.bg-accent-secondary-hover")).toHaveLength(1);

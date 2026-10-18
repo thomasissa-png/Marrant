@@ -22,10 +22,10 @@ const HERO_PARCOURS_LINKS = [
 /** s21 (B3) : le plein visiteur ouvre l'étape 1 de Répartie, en lecture libre (froid). */
 const HERO_ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
 
-const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
-
-/** Textes validés du haut d'accueil ([S19], OUVRIR_ACCUEIL, [S20]), passés par la page serveur. */
+/** Textes validés du haut d'accueil (concision v5 : phrase, preuve, plein, note), passés par la page serveur. */
 export interface TextesAccueilHaut {
+  intro: string;
+  preuve: string;
   bouton: string;
   note: string;
 }
@@ -47,15 +47,11 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
         <span className="block">On va arranger ça.</span>
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
-        {frTypo(
-          "Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les techniques et les exercices. Toi, tu ramènes ta motivation.",
-        )}
+        {frTypo(textes.intro)}
       </p>
 
-      {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
-      <p className="mt-6 text-sm font-medium text-accent-link">
-        1&nbsp;500+ membres bossent leur humour. Rejoins-les.
-      </p>
+      {/* Preuve sociale : chiffre fixe validé fondateur 29/09/2026 (texte : ACCUEIL_HAUT.preuve). */}
+      <p className="mt-6 text-sm font-medium text-accent-link">{frTypo(textes.preuve)}</p>
 
       {/* CTA : connectés vers le catalogue ; anonymes vers l'abonnement (étape 1
           sur 2 : le compte, puis le paiement), lecture libre visible dessous (T03) */}
@@ -110,16 +106,6 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
             <Link href={item.href} className={chipClass()}>
               {item.label}
             </Link>
-          </li>
-        ))}
-      </ul>
-
-      {/* Atouts : texte informatif, NON cliquable (ni fond ni bordure), masqué en mobile : arbitrage Thomas s12, forme audit s14 P0-1 */}
-      <ul className="mx-auto mt-4 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-text-muted sm:flex">
-        {HERO_EXTRA_TAGS.map((label) => (
-          <li key={label} className="flex items-center gap-2">
-            <span className="text-success" aria-hidden="true">✓</span>
-            {label}
           </li>
         ))}
       </ul>

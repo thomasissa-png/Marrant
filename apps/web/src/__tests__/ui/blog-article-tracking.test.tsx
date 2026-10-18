@@ -75,9 +75,10 @@ describe("blog-cta-clic", () => {
   it("textes par défaut (s20) : ceux du parcours et du bloc de fin, config/textes/encarts-blog-s20", () => {
     render(<ArticleCta />);
     expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    // s21 (B2) : lien payant « Débloquer les N parcours, 2,99 €/mois », note [S9] du tour 4.
+    // Concision v5 : lien payant OUVRIR, « Sans compte. » sous le plein, plus de note de prix.
     expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
-    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux\.$/)).toBeInTheDocument();
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/TTC|14 jours/);
     expect(screen.getByText(BLOC_FIN.boutonEtape1.repartie!).closest("a")).toHaveAttribute(
       "href",
       "/parcours/repartie?src=blog#etape-1",
@@ -218,13 +219,13 @@ describe("blog-vanne-partage", () => {
   });
 });
 
-describe("CTA d'article : note et inscription attribuable", () => {
-  it("note surchargeable, défaut : prix et lecture libre", () => {
-    const { unmount } = render(<ArticleCta note="Note de l'article." />);
-    expect(screen.getByText("Note de l'article.")).toBeInTheDocument();
-    unmount();
+describe("CTA d'article : « Sans compte. » et inscription attribuable", () => {
+  it("concision v5 : plus de note sous le bloc, « Sans compte. » sous le plein gratuit", () => {
     render(<ArticleCta />);
-    expect(screen.getByText(/^Premium, l'abonnement du site\s?: 2,99\s€ TTC par mois\. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux\.$/)).toBeInTheDocument();
+    const plein = screen.getByText(BLOC_FIN.boutonEtape1.repartie!).closest("a")!;
+    const note = screen.getByText("Sans compte.");
+    expect(plein.compareDocumentPosition(note) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/l'abonnement du site|TTC/);
   });
 
   it("le bouton principal mène à /abonnement avec retour au parcours et source de l'article (s15)", () => {

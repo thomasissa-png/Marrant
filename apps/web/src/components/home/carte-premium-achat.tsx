@@ -21,17 +21,10 @@ const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", ACCUEIL_PREMIUM_SRC)
  * Plein de la carte Premium de l'accueil (îlot client de `PremiumCta`, s21 QA m3) : seul ce
  * bouton dépend de la session ; le reste de la carte est rendu par le serveur, sans JS.
  * Visiteur : lien vers /abonnement. Compte connecté sans abonnement : paiement direct.
- * `boutonVisiteur` : libellé validé (`CARTE_PREMIUM.bouton`), passé tel quel par le serveur.
- * `connecte` : ligne et bouton E2 validés (`CARTE_PREMIUM.connecte`), passés par le serveur
- * (aucun fichier de textes dans le JS client de l'accueil, budget QA m3).
+ * `bouton` : libellé `OUVRIR` (`CARTE_PREMIUM.bouton`), le même pour le visiteur et le compte
+ * connecté, passé par le serveur (aucun fichier de textes dans le JS client de l'accueil, budget QA m3).
  */
-export function CartePremiumAchat({
-  boutonVisiteur,
-  connecte,
-}: {
-  boutonVisiteur: string;
-  connecte: { ligne: string; bouton: string };
-}) {
+export function CartePremiumAchat({ bouton }: { bouton: string }) {
   const { status } = useSession();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
@@ -65,14 +58,9 @@ export function CartePremiumAchat({
   return (
     <>
       {status === "authenticated" ? (
-        <>
-          <p className="mt-8 text-center text-sm text-text-secondary" data-testid="carte-premium-ligne-connecte">
-            {connecte.ligne}
-          </p>
-          <Button variant="primary" size="lg" className="mt-3 w-full" onClick={handleCheckout} disabled={isCheckoutLoading}>
-            {isCheckoutLoading ? "On t'emmène au paiement…" : connecte.bouton}
-          </Button>
-        </>
+        <Button variant="primary" size="lg" className="w-full" onClick={handleCheckout} disabled={isCheckoutLoading}>
+          {isCheckoutLoading ? "On t'emmène au paiement…" : bouton}
+        </Button>
       ) : (
         // s21 : plein payant vers /abonnement (prix, carnet, garantie), puis compte et paiement.
         <Link
@@ -80,11 +68,11 @@ export function CartePremiumAchat({
           data-accueil-cta="abonnement"
           className={cn(
             buttonVariants({ variant: "primary", size: "lg" }),
-            "mt-8 h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+            "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
           )}
           onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: ACCUEIL_PREMIUM_SRC, statut: "visiteur" })}
         >
-          {boutonVisiteur}
+          {bouton}
         </Link>
       )}
       {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}

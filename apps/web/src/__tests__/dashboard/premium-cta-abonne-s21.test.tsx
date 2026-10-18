@@ -28,16 +28,14 @@ describe("PremiumCta, abonné reconnu par la session", () => {
   });
 });
 
-describe("PremiumCta, ligne « inscrits » (QA v2 m-c)", () => {
-  it("visiteur : ligne affichée, texte inchangé", () => {
-    session = { data: null, status: "unauthenticated" };
-    render(<PremiumCta />);
-    expect(screen.getByTestId("carte-premium-inscrits")).toHaveTextContent(/^Déjà 1\s500\+ inscrits, et toi\s?\?$/);
-  });
-
-  it("compte connecté sans abonnement : ligne masquée", () => {
-    session = { data: { user: { id: "u3", plan: "FREE" } }, status: "authenticated" };
+describe("PremiumCta, plus de ligne « inscrits » (concision v5 : la preuve vit sous le titre du haut)", () => {
+  it.each([
+    [{ data: null, status: "unauthenticated" }],
+    [{ data: { user: { id: "u3", plan: "FREE" } }, status: "authenticated" }],
+  ])("aucune ligne « inscrits » dans la carte (%#)", (etat) => {
+    session = etat;
     render(<PremiumCta />);
     expect(screen.queryByTestId("carte-premium-inscrits")).toBeNull();
+    expect(document.body.textContent).not.toMatch(/inscrits/);
   });
 });

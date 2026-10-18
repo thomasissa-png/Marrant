@@ -8,13 +8,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 import { LIEN_L1 } from "@/components/ui/liens";
 import { frTypo } from "@/lib/fr-typo";
-import { PREMIUM_PARCOURS } from "@/config/premium";
-import {
-  PARCOURS_NOMS,
-  parcoursEtape1Href,
-  parcoursEtapeHref,
-  type ParcoursSlug,
-} from "@/lib/entrees-parcours";
+import { parcoursEtape1Href, parcoursEtapeHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
@@ -27,18 +21,15 @@ interface ArticleCtaProps {
   /** Surcharges par article (cta-articles-accueil, encarts-blog-s20 puis blog-cta). */
   title?: string;
   text?: string;
-  note?: string;
-  /** `isAnnualPlanAvailable()` lu côté serveur : l'annuel n'apparaît dans [S9] que s'il existe. */
-  annuelDisponible?: boolean;
 }
 
 
 /**
- * Bloc de fin unique d'un article (s20, revu s21 : spec `cta-forme-place-s21.md` §2.5
- * variante « fin », bloc B2, température froide). Ordre :
+ * Bloc de fin unique d'un article (s20, revu s21 puis concision v5, textes-v5-a §3) :
+ * titre, une phrase, puis
  * 1. étape 1 gratuite du parcours, bouton PLEIN (`data-blog-cta="etape-1"`), seul plein ;
- * 2. lien fort payant vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`) ;
- * 3. note [S9] (prix TTC, garantie du premier paiement, résiliation en ligne).
+ * 2. « Sans compte. » juste dessous ;
+ * 3. lien payant `OUVRIR` vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`).
  * Plus de puces. Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),
  * vers l'étape à reprendre, sinon l'étape 1 du parcours de l'article.
  *
@@ -46,7 +37,7 @@ interface ArticleCtaProps {
  * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
  * Textes : config/textes/cta-articles-accueil.ts (BLOC_FIN) et encarts-blog-s20.ts.
  */
-export function ArticleCta({ parcours = "repartie", src, title, text, note, annuelDisponible = false }: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, text }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -54,11 +45,6 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
   const textes = TEXTES_PARCOURS_BLOG[parcours];
   const etape1Href = parcoursEtape1Href(parcours, "blog");
   const continuerHref = aReprendre ? parcoursEtapeHref(aReprendre.slug, aReprendre.etape, "blog") : etape1Href;
-  // Lecture directe de config/premium : pas de lib/blog-parcours (clusters) dans le bundle client.
-  const semaines = PREMIUM_PARCOURS.find((p) => p.slug === parcours)?.weeks ?? null;
-  const surtitre = TEXTES_BLOC_FIN.surtitre
-    .replace("{parcours}", PARCOURS_NOMS[parcours])
-    .replace("{semaines}", String(semaines ?? ""));
   const paragraphe = text ?? textes.finTexte;
 
   return (
@@ -69,11 +55,8 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
       data-blog-cta-parcours={parcours}
       className="mt-10 rounded-lg border border-border bg-background-card p-5 sm:p-6"
     >
-      {semaines !== null && (
-        <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{frTypo(surtitre)}</p>
-      )}
-      {/* s21 (QA m2) : 18 px sous 640 px, le titre [S8] tient sur 2 lignes à 360 et 375 (forme seule, texte inchangé). */}
-      <p className="mt-2 font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl">
+      {/* s21 (QA m2) : 18 px sous 640 px, le titre tient sur 2 lignes à 360 et 375. */}
+      <p className="font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl">
         {frTypo(title ?? textes.finTitre)}
       </p>
       {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré).
@@ -92,7 +75,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
         </div>
       ) : (
         <>
-          <div className="mt-4 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:items-center sm:gap-4">
+          <div className="mt-4 sm:mt-6">
             <Link
               href={etape1Href}
               data-blog-cta="etape-1"
@@ -104,15 +87,15 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
             >
               {frTypo(BLOC_FIN.boutonEtape1[parcours] ?? textes.finBoutonEtape1)}
             </Link>
-            <Link
-              href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
-              data-blog-cta="abonnement"
-              className={cn(LIEN_L1, "self-start sm:self-auto")}
-            >
-              {frTypo(BLOC_FIN.lienAbonnement)}
-            </Link>
+            <p className="mt-2 text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>
           </div>
-          <p className="mt-2 text-xs text-text-muted">{frTypo(note ?? BLOC_FIN.note(annuelDisponible))}</p>
+          <Link
+            href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
+            data-blog-cta="abonnement"
+            className={cn(LIEN_L1, "mt-3")}
+          >
+            {frTypo(BLOC_FIN.lienAbonnement)}
+          </Link>
         </>
       )}
     </aside>

@@ -25,7 +25,6 @@ import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
 import type { BlogArticleData, BlogArticleNavigation } from "@/lib/blog-article-page";
 import { BLOC_FIN, LETTRE_ARTICLE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
-import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 interface BlogArticleViewProps {
   article: BlogArticleData;
@@ -44,8 +43,6 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
   const s21Copy = BLOC_FIN.parArticle[article.slug];
-  // Annuel lu au rendu (ISR) : absent tant que le prix Stripe annuel n'est pas posé.
-  const annuelDisponible = isAnnualPlanAvailable();
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).
   const shareMode = FORTE_FRAPPE_SHARE[article.slug];
@@ -138,8 +135,6 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
           src={`blog-${article.slug}`}
           title={s21Copy?.titre ?? finCopy?.titre ?? ctaCopy?.title}
           text={s21Copy?.texte ?? finCopy?.texte ?? ctaCopy?.text}
-          note={s21Copy?.noteS9 ? BLOC_FIN.note(annuelDisponible) : (finCopy?.note ?? ctaCopy?.note)}
-          annuelDisponible={annuelDisponible}
         />
         {/* Lettre mensuelle juste APRÈS le bloc de fin (spec lettre §1.2, B18 rang 4), sans
             attribut data-blog-cta* (mesure du lot 1 isolée). Textes B18 du tour 4. */}

@@ -81,14 +81,15 @@ describe("checkout-ouvert / checkout-echec", () => {
   });
 });
 
-describe("E2, carte Premium de l'accueil, compte connecté sans abonnement (textes validés du 18/10)", () => {
-  it("ligne avant le bouton puis bouton, mot pour mot ; plus de « Active mon accès »", () => {
+describe("carte Premium de l'accueil, compte connecté sans abonnement (concision v5, textes-v5-a §5)", () => {
+  it("même phrase que le visiteur avant le bouton, puis OUVRIR (paiement direct) ; plus de « Tu as déjà ton compte »", () => {
     render(<PremiumCta />);
-    const ligne = screen.getByTestId("carte-premium-ligne-connecte");
-    expect(ligne).toHaveTextContent("Tu as déjà ton compte : ce bouton t'emmène direct au paiement, sécurisé par Stripe.");
+    const phrase = screen.getByTestId("carte-premium-intro");
+    expect(phrase).toHaveTextContent("De la coloc à l'afterwork, de quoi répondre partout.");
     const bouton = screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ });
-    expect(ligne.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(screen.queryByText(/Active mon accès/)).toBeNull();
+    expect(phrase.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.queryByTestId("carte-premium-ligne-connecte")).toBeNull();
+    expect(screen.queryByText(/Active mon accès|Tu as déjà ton compte|sécurisé par Stripe/)).toBeNull();
   });
 
   it("QA v2 m-c : pas de « Déjà 1 500+ inscrits, et toi ? » pour un compte déjà inscrit", () => {

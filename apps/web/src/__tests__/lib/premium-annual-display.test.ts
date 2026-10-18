@@ -13,7 +13,7 @@ import {
   PREMIUM_ANNUAL_SUMMARY,
   PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
-import { faqs, getPremiumFaqs } from "@/lib/faqs";
+import { FAQ_VENTE, faqs, getPremiumFaqs } from "@/lib/faqs";
 import { buildProductJsonLd } from "@/components/seo/json-ld";
 import { getLlmsFaqFull, getLlmsTarifs, LLMS_FAQ_FULL, LLMS_TARIFS } from "@/lib/llms-content";
 import { monthlyRevenueCents } from "@/lib/stripe-subscription";
@@ -36,7 +36,9 @@ describe("affichage conditionné", () => {
   const all = (v: unknown) => JSON.stringify(v);
 
   it("sans annuel : FAQ, JSON-LD et llms strictement inchangés", () => {
-    expect(getPremiumFaqs(false)).toBe(faqs);
+    // Concision v5 : la FAQ de /abonnement est la FAQ de vente (4 questions), réponse prix mensuelle.
+    expect(getPremiumFaqs(false)).toBe(FAQ_VENTE);
+    expect(FAQ_VENTE.every((f) => faqs.includes(f))).toBe(true);
     expect(getLlmsTarifs(false)).toBe(LLMS_TARIFS);
     expect(getLlmsFaqFull(false)).toBe(LLMS_FAQ_FULL);
     const product = buildProductJsonLd();
@@ -53,7 +55,9 @@ describe("affichage conditionné", () => {
   });
 
   it("avec annuel : FAQ et llms citent les chiffres exacts, jamais « 4 mois », sans tiret cadratin", () => {
-    const texts = all([getPremiumFaqs(true), getLlmsTarifs(true), getLlmsFaqFull(true)]);
+    // Concision v5 : la réponse prix de la FAQ ne redit plus les prix annuels (déjà dans le sélecteur).
+    expect(all(getPremiumFaqs(true))).toContain("Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.");
+    const texts = all([getLlmsTarifs(true), getLlmsFaqFull(true)]);
     expect(texts).toContain("24,99\u00A0€/an");
     expect(texts).toContain("soit 2,08\u00A0€ par mois");
     expect(texts).toContain("10,89\u00A0€");
@@ -62,7 +66,7 @@ describe("affichage conditionné", () => {
     expect(getLlmsTarifs(true)).toHaveLength(LLMS_TARIFS.length + 1);
     // Coaching à 99 € retiré (13/10/2026) : la formule annuelle ferme la liste.
     expect(getLlmsTarifs(true).at(-1)).toMatch(/^Premium en formule annuelle/);
-    expect(getPremiumFaqs(true)).toHaveLength(faqs.length);
+    expect(getPremiumFaqs(true)).toHaveLength(FAQ_VENTE.length);
   });
 });
 
