@@ -23,15 +23,15 @@ import { TEXTES_PROGRESSION_API as T } from "@/config/textes/parcours-emails";
  *  - double validation impossible (FS-08) : la ligne `UserPathStepCompletion`
  *    (unique userId + parcours + étape) est insérée en `ON CONFLICT DO NOTHING`
  *    AVANT tout XP ; un 2e appel simultané attend le 1er puis ne compte rien ;
- *  - ordre conseillé pour l'abonné (QA-08) : étape refusée (409, `code: "ordre"`)
- *    tant qu'une étape précédente n'est pas validée ;
+ *  - aucun ordre imposé (décision du 18/10) : toute étape se valide, le parcours est
+ *    terminé quand toutes ses étapes le sont, quel que soit l'ordre ;
  *  - la fiche renvoyée est celle d'APRÈS la date de fin (UX-02) ; XP de fin
  *    compris dans `xpGained` et dans `pathXpTotal` (UX-05) ;
  *  - niveau recalculé et série de jours comptée sur la pratique (FS-07, D3) ;
  *  - limite de 10 validations par minute partagée entre isolats Workers (FS-13 e) ;
  *  - erreur serveur → alerte `parcours-progress-erreur` (data-analyst §7).
  * Erreurs : `{ error, code }` avec code ∈ auth | corps | etape | introuvable |
- * refus | limite | ordre | serveur (le lot B mappe `code` vers `parcours-erreur`).
+ * refus | limite | serveur (le lot B mappe `code` vers `parcours-erreur`).
  */
 
 type ProgressRow = {
@@ -149,10 +149,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       const done = new Set(existing?.completedSteps ?? []);
       if (done.has(stepOrder)) return dejaFait(existing);
 
-      const manquante = orders.find((o) => o < stepOrder && !done.has(o));
-      if (manquante !== undefined) {
-        return { echec: { status: 409, code: "ordre", error: T.ordre(manquante), extra: { etapeAttendue: manquante } } } as const;
-      }
+      // s21 (décision de Thomas du 18/10) : l'abonné valide n'importe quelle étape, dans n'importe quel ordre.
+      // Fin du parcours = toutes les étapes validées (compte des étapes distinctes plus bas), quel que soit l'ordre.
 
       // Verrou d'unicité : un appel simultané sur la même étape attend ici puis insère 0 ligne.
       const ins = await tx.userPathStepCompletion.createMany({

@@ -18,12 +18,6 @@ export const APERCU_INTRO = "La première étape est gratuite. Pour les suivante
 /** Bas de l'aperçu d'une étape 2+, au-dessus du bouton. */
 export const APERCU_BAS = `Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de ${OFFRE_NOM}.`;
 
-// s17, aligné sur les étalons
-/** En-tête d'une étape encore verrouillée pour un abonné (ordre conseillé). */
-export function etapeOrdreTexte(etapePrecedente: number): string {
-  return `Termine l'étape ${etapePrecedente} pour débloquer`;
-}
-
 // s17, aligné sur les étalons (« offerte » : formule validée s15/s16 dans le paywall et /abonnement)
 /** Barre de progression remplacée pour un non-abonné (QA-13). */
 export function progressionVisiteurTexte(totalEtapes: number): string {

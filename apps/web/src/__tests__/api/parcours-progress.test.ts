@@ -146,13 +146,28 @@ describe("POST progress — validation (s17)", () => {
     });
   });
 
-  it("ordre conseillé : étape 2 sans l'étape 1 → 409 code ordre, aucune écriture", async () => {
-    const res = await post(2);
-    expect(res.status).toBe(409);
+  it("s21 (décision du 18/10) : étape 3 sans les étapes 1 et 2 → 200, XP de l'étape, série, pas de fin", async () => {
+    const res = await post(3);
+    expect(res.status).toBe(200);
     const body = await res.json();
-    expect(body).toMatchObject({ code: "ordre", etapeAttendue: 1 });
-    expect(tx.userPathStepCompletion.createMany).not.toHaveBeenCalled();
-    expect(tx.user.update).not.toHaveBeenCalled();
+    expect(body).toMatchObject({ pathCompleted: false, bonusXp: 0, alreadyCompleted: false });
+    expect(body.xpGained).toBeGreaterThan(0);
+    expect(body.user.streak).toBe(1);
+    expect(body.nextRecommendedAt).toEqual(expect.any(String));
+    expect(tx.userPathStepCompletion.createMany).toHaveBeenCalledWith({
+      data: [expect.objectContaining({ stepOrder: 3 })],
+      skipDuplicates: true,
+    });
+    expect(tx.userPathProgress.update).not.toHaveBeenCalled();
+  });
+
+  it("s21 : étapes validées dans le désordre (1, 3 puis 2) → parcours terminé avec le bonus", async () => {
+    useTx(fakeTx({ existing: { completedSteps: [1, 3] } }));
+    const body = await (await post(2)).json();
+    expect(body).toMatchObject({ pathCompleted: true, bonusXp: 100, nextRecommendedAt: null });
+    expect(tx.userPathProgress.update).toHaveBeenCalledWith(
+      expect.objectContaining({ data: { completedAt: expect.any(Date) } }),
+    );
   });
 
   it("double validation simultanée : la 2e insère 0 ligne → 0 XP, aucune écriture de progression", async () => {

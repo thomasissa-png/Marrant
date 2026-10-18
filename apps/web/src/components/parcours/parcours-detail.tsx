@@ -415,7 +415,10 @@ export function ParcoursDetail({
             : PROCHAINE_ETAPE_DISPONIBLE;
         setStepResults((prev) => ({ ...prev, [stepOrder]: { xp: xpTexte, rythme } }));
         setAnnonce([xpTexte, rythme].filter(Boolean).join(" "));
-        const nextStep = path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order));
+        // s21 : étapes validables dans n'importe quel ordre ; après la dernière, on revient à la première non validée.
+        const nextStep =
+          path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order)) ??
+          path.steps.find((s) => !completed.includes(s.order));
         if (pathCompleted || !nextStep) {
           focusAfterValidation.current = "fin";
           setExpandedStep(null);
@@ -424,19 +427,16 @@ export function ParcoursDetail({
           setExpandedStep(nextStep.order);
         }
       } else {
-        const err = (await res.json().catch(() => null)) as { error?: string; code?: string } | null;
-        // Codes du lot A → motifs fermés de data-analyst §5.1 (« ordre » = refus d'ordre conseillé).
+        // Codes du lot A → motifs fermés de data-analyst §5.1.
         const motif =
-          res.status === 429 ? "limite" : res.status === 403 || res.status === 409 ? "refus" : "serveur";
+          res.status === 429 ? "limite" : res.status === 403 ? "refus" : "serveur";
         trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif });
         setCompletionError({
           order: stepOrder,
           message:
             res.status === 429
               ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
-              : err?.code === "ordre" && err.error
-                ? err.error
-                : "L'étape n'a pas voulu se valider. Réessaie.",
+              : "L'étape n'a pas voulu se valider. Réessaie.",
         });
       }
     } catch {
@@ -489,19 +489,14 @@ export function ParcoursDetail({
   const chargementPremium = isPremium && attendApi && enrich === "attente";
   const echecPremium = isPremium && attendApi && enrich === "echec";
   const progressionConnue = progress !== null || !attendApi || enrich === "ok";
-  // D1 : ordre conseillé pour l'abonné seulement. s17 tour 2 : pas de verrou tant que la progression est inconnue.
-  const etapeVerrouillee = (stepIndex: number) =>
-    isPremium &&
-    progressionConnue &&
-    !completedSteps.includes(path.steps[stepIndex].order) &&
-    !path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
+  // s21 (décision de Thomas du 18/10) : avec Premium, toutes les étapes sont ouvertes d'un coup ;
+  // l'ordre et « une étape par semaine » restent des conseils (date conseillée, prochaine étape), jamais un verrou.
   const etapeAccessible = (order: number) => canAccessParcoursStep(order, isPremium ? "PREMIUM" : null);
   // s17 tour 3 (UXV-3-01) : étape dépliée qui affiche l'échec = elle porte l'alerte et le seul « Réessayer ».
-  const etapeEnEchec = path.steps.findIndex((step, i) =>
+  const etapeEnEchec = path.steps.findIndex((step) =>
     etapeAfficheEchec({
       step,
       isExpanded: expandedStep === step.order,
-      isSequentiallyLocked: etapeVerrouillee(i),
       isPremiumLocked: !etapeAccessible(step.order),
       loadFailed: enrich === "echec",
     }),
@@ -716,10 +711,8 @@ export function ParcoursDetail({
               isPremium={isPremium}
               isCompleted={isCompleted}
               isExpanded={expandedStep === step.order}
-              // D1 : le visiteur ouvre l'aperçu ; règle de l'abonné dans etapeVerrouillee.
-              isSequentiallyLocked={etapeVerrouillee(stepIndex)}
+              // D1 : le visiteur ouvre l'aperçu ; l'abonné ouvre toutes les étapes (décision du 18/10).
               isPremiumLocked={!etapeAccessible(step.order)}
-              previousOrder={path.steps[stepIndex - 1]?.order ?? null}
               etapeSuivante={path.steps[stepIndex + 1] ?? null}
               annuel={annualAvailable}
               isQuizDone={quizDone.has(step.order)}

@@ -149,19 +149,19 @@ describe("A2 : « Parcours terminé ! » et carte de fin pilotés par le serveur
 });
 
 describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
-  it("409 ordre : le message du serveur, événement parcours-erreur motif refus", async () => {
+  it("403 refus : message générique, événement parcours-erreur motif refus", async () => {
     session = PREMIUM;
     const path = buildPath([50, 75]);
     mockFetch((url, init) =>
       init?.method === "POST"
-        ? { status: 409, body: { code: "ordre", error: "Valide d'abord l'étape 1." } }
+        ? { status: 403, body: { code: "refus", error: "Réservé" } }
         : url.includes("by-slug")
           ? { body: { path, userProgress: { completedSteps: [], currentStep: 0, completedAt: null } } }
           : { body: {} },
     );
     render(<ParcoursDetail slug="confiance" />);
     await userEvent.click(await screen.findByText("Valider cette étape"));
-    expect(await screen.findByRole("alert")).toHaveTextContent("Valide d'abord l'étape 1.");
+    expect(await screen.findByRole("alert")).toHaveTextContent("L'étape n'a pas voulu se valider. Réessaie.");
     expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 1, motif: "refus" });
   });
 
@@ -357,5 +357,44 @@ describe("Ancres #etape-N des liens d'entrée (demande du lot C)", () => {
     render(<ParcoursDetail slug="confiance" />);
     expect(await screen.findByText("Conseil complet 2")).toBeInTheDocument();
     expect(screen.queryByText("Conseil complet 3")).not.toBeInTheDocument();
+  });
+});
+
+describe("s21 (décision de Thomas du 18/10) : Premium ouvre toutes les étapes d'un coup", () => {
+  it("abonné sans étape validée : ouvre l'étape 3 et la valide, sans verrou d'ordre", async () => {
+    session = PREMIUM;
+    const path = buildPath([50, 75, 100, 125]);
+    const posts: unknown[] = [];
+    mockFetch((url, init) => {
+      if (init?.method === "POST" && url.includes("/progress")) {
+        posts.push(JSON.parse(String(init.body)));
+        return { body: { progress: { completedSteps: [3], currentStep: 3, completedAt: null }, xpGained: 100, pathCompleted: false } };
+      }
+      return url.includes("by-slug")
+        ? { body: { path, userProgress: { completedSteps: [], currentStep: 0, completedAt: null } } }
+        : { body: {} };
+    });
+    const user = userEvent.setup();
+    render(<ParcoursDetail slug="confiance" />);
+
+    const entete3 = await screen.findByRole("button", { name: /^Étape 3 : Module 3/ });
+    expect(screen.queryByText(/pour débloquer/)).toBeNull();
+    await user.click(entete3);
+    expect(entete3).toHaveAttribute("aria-expanded", "true");
+    const etape3 = document.getElementById("etape-3") as HTMLElement;
+    expect(within(etape3).getByText("Conseil complet 3")).toBeInTheDocument();
+    await user.click(within(etape3).getByText("Valider cette étape"));
+    await waitFor(() => expect(posts).toEqual([{ stepOrder: 3 }]));
+    expect(await screen.findByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
+    // La date conseillée reste affichée (conseil, pas contrainte).
+    expect(within(etape3).getByTestId("etape-resultat")).toHaveTextContent(/\+100 XP/);
+  });
+
+  it("visiteur : inchangé, étape 1 libre, étapes 2 et suivantes en aperçu", async () => {
+    const path = buildPath([50, 75, 100]);
+    mockFetch((url) => (url.includes("by-slug") ? { body: { path, userProgress: null } } : { body: {} }));
+    render(<ParcoursDetail slug="confiance" />);
+    await screen.findByRole("button", { name: /^Étape 3 : Module 3/ });
+    expect(screen.getAllByText("Fait partie de Premium")).toHaveLength(2);
   });
 });

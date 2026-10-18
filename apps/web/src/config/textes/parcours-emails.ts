@@ -16,8 +16,6 @@ export const TEXTES_PROGRESSION_API = {
   parcoursIntrouvable: "Ce parcours est introuvable.",
   reserveePremium: "Le suivi des étapes fait partie de Premium.",
   limite: "Trop de tentatives. Réessaie dans une minute.",
-  /** Abonné qui valide une étape avant la précédente (ordre conseillé). */
-  ordre: (etapeAttendue: number) => `Valide d'abord l'étape ${etapeAttendue}, la suite s'ouvre juste après.`,
   serveur: "L'étape n'a pas voulu se valider. Réessaie dans un instant.",
   retourInvalide: "Ce retour n'est pas reconnu.",
 } as const;
