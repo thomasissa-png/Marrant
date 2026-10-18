@@ -280,8 +280,17 @@ export const FIN_ETAPE_1 = {
   /** [S17] surtitre de la carte `CarteEtapeSuivante`. */
   carteSurtitre: (slug: ParcoursSlug, numero = 2) =>
     `Étape ${numero} sur ${etapesParcours(slug)}, ${minutesParcours(slug)} minutes`,
-  /** Fin de [S18] : « Dans l'étape : » + format de l'étape. */
-  carteFormat: "Dans l'étape : ",
+  /**
+   * Fin de [S18] : « Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz. »
+   * à partir du format public de l'étape (« Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. »).
+   */
+  carteFormat: (format: string) => {
+    const liste = format.trim().replace(/\.$/, "");
+    const minuscule = liste.charAt(0).toLowerCase() + liste.slice(1);
+    const i = minuscule.lastIndexOf(", ");
+    const avecEt = i > 0 ? `${minuscule.slice(0, i)} et ${minuscule.slice(i + 2)}` : minuscule;
+    return `Dans l'étape : ${avecEt}.`;
+  },
   phrase: (slug: ParcoursSlug) =>
     `Bien joué, l'étape 1 est faite. La valider et ouvrir l'étape 2, c'est dans Premium, comme toute la suite : ${minutesParcours(slug)} minutes par semaine.`,
   bouton: "Passer à l'étape 2 avec Premium",

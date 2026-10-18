@@ -11,6 +11,10 @@ import { frTypoParcours } from "@/lib/fr-typo";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
+import { FIN_ETAPE_1, lignePrixGarantie } from "@/config/textes/cta-pages";
+import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
+import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
 import {
   APERCU_BAS,
   APERCU_REASSURANCE,
@@ -46,9 +50,10 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
       {step.moduleFormat && <p className="text-xs text-text-muted">Format : {step.moduleFormat}</p>}
       <div className="border-t border-border pt-3 text-center">
         <p className="mx-auto max-w-[48ch] text-sm text-text-secondary">{APERCU_BAS}</p>
+        {/* s21 B14 : un seul plein par page (celui de la fin d'étape 1) ; l'aperçu finit par un lien. */}
         <Link
           href={buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-apercu")}
-          className={`${buttonVariants({ variant: "primary", size: "sm" })} mt-3 min-h-[44px]`}
+          className={cn(LIEN_L2, "mt-1")}
         >
           {VALIDATION_ETAPE.bouton}
         </Link>
@@ -59,36 +64,74 @@ export function LockedStepPreview({ step, slug }: { step: Step; slug: string }) 
   );
 }
 
-/** Mur de validation de l'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2). */
+/**
+ * Mur de validation de l'étape 1 pour un non-abonné : `mur-vu` type `parcours-validation` (§5.2).
+ * Quiz fini (ou sans quiz), s21 B14 : carte « Étape 2 » au-dessus de la phrase, un seul plein
+ * (Premium), prix et garantie. Quiz en cours : contour d'attente, sans carte.
+ */
 export function ValidationWall({
   slug,
   href,
   quizPending = false,
+  etapeSuivante = null,
+  annuel = false,
 }: {
   slug: string;
   href: string;
   /** s17 tour 1 (DES-1-05) : quiz pas encore fini, le bouton reste en contour (un seul plein à l'écran). */
   quizPending?: boolean;
+  /** Étape 2 (aperçu public) pour la carte `CarteEtapeSuivante`. */
+  etapeSuivante?: Step | null;
+  /** Offre annuelle disponible (lue côté serveur). */
+  annuel?: boolean;
 }) {
   useEffect(() => {
     trackUmami("mur-vu", { type: "parcours-validation", src: slug, etape: 1 });
   }, [slug]);
+  if (quizPending || !isParcoursSlug(slug)) {
+    return (
+      <div className="mt-2 border-t border-border pt-4 text-center">
+        <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
+        <Link
+          href={href}
+          className={cn(
+            buttonVariants({ variant: quizPending ? "outline" : "primary" }),
+            // s17 tour 2 (DES-2-02) : contour violet lisible (≈ 3,9:1) et survol visible, variante globale intacte.
+            quizPending && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
+            "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug",
+          )}
+        >
+          {VALIDATION_ETAPE.bouton}
+        </Link>
+        {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton. */}
+        <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
+      </div>
+    );
+  }
   return (
-    <div className="mt-2 border-t border-border pt-4 text-center">
-      <p className="text-sm text-text-secondary">{VALIDATION_ETAPE.texte}</p>
-      <Link
-        href={href}
-        className={cn(
-          buttonVariants({ variant: quizPending ? "outline" : "primary" }),
-          // s17 tour 2 (DES-2-02) : contour violet lisible (≈ 3,9:1) et survol visible, variante globale intacte.
-          quizPending && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
-          "mt-3 h-auto min-h-[44px] w-full whitespace-normal py-2 text-center leading-snug",
-        )}
-      >
-        {VALIDATION_ETAPE.bouton}
-      </Link>
-      {/* s17 tour 1 (UXV-1-07) : repère de prix sous le bouton. */}
-      <p className="mt-2 text-xs text-text-muted">{APERCU_REASSURANCE}</p>
+    <div className="mt-2 space-y-4 border-t border-border pt-4" data-fin-etape-1>
+      {etapeSuivante && (
+        <CarteEtapeSuivante
+          parcours={slug}
+          numero={etapeSuivante.order}
+          titre={etapeSuivante.moduleTitle ?? etapeSuivante.tip.title}
+          apercu={etapeSuivante.moduleDetail || etapeSuivante.why ? frTypoParcours(etapeSuivante.moduleDetail || etapeSuivante.why || "") : null}
+          format={etapeSuivante.moduleFormat ?? null}
+        />
+      )}
+      <div className="text-center">
+        <p className="text-sm text-text-secondary">{FIN_ETAPE_1.phrase(slug)}</p>
+        <Link
+          href={href}
+          className={cn(
+            buttonVariants({ variant: "primary", size: "lg" }),
+            "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
+          )}
+        >
+          {FIN_ETAPE_1.bouton}
+        </Link>
+        <p className="mt-2 text-xs text-text-muted">{lignePrixGarantie(annuel)}</p>
+      </div>
     </div>
   );
 }

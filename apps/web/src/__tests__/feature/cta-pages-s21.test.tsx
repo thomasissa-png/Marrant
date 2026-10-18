@@ -8,9 +8,11 @@ import { useSession } from "next-auth/react";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { ValidationWall } from "@/components/parcours/step-blocks";
 import {
   BLOC_EXERCICE,
   contourEtape1,
+  FIN_ETAPE_1,
   lignePrixGarantie,
   MUR_LISTE,
   MUR_PARCOURS,
@@ -122,5 +124,47 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
     expect(parcoursPourFiche([], "BOULOT")).toBe("boulot");
     expect(parcoursPourFiche([], "COUPLE")).toBe("repartie");
     expect(parcoursPourFiche([], null)).toBe("repartie");
+  });
+});
+
+// ─── B14 : fin d'étape 1 ────────────────────────────────────────────────────
+jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
+
+describe("B14 : fin d'étape 1, carte « Étape 2 » au-dessus de la phrase, un seul plein", () => {
+  const etape2 = {
+    id: "s2",
+    order: 2,
+    dayNumber: 8,
+    moduleTitle: "Le rythme et les silences",
+    moduleDetail: "Certaines phrases ne demandent aucun talent, seulement un bon timing.",
+    moduleFormat: "Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.",
+    tip: { id: "t", title: "x", content: "", category: "", difficulty: "", example: "", exercise: "" },
+  };
+
+  it("quiz fini : carte, phrase, plein Premium, prix et garantie (sans lettre)", () => {
+    const { container } = render(
+      <ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} annuel={false} />,
+    );
+    const html = container.innerHTML;
+    expect(html.indexOf("Le rythme et les silences")).toBeLessThan(html.indexOf("Bien joué"));
+    expect(screen.getByText(FIN_ETAPE_1.carteSurtitre("repartie"))).toBeInTheDocument();
+    expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4, 20 minutes");
+    expect(screen.getByText(FIN_ETAPE_1.phrase("repartie"))).toBeInTheDocument();
+    expect(screen.getAllByRole("link")).toHaveLength(1);
+    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton })).toHaveAttribute("href", "/abonnement?x");
+    expect(container.textContent).toContain(lignePrixGarantie(false));
+    expect(container.textContent).not.toMatch(/lettre/i);
+  });
+
+  it("format de l'étape : minuscule, « et » avant le dernier élément", () => {
+    expect(FIN_ETAPE_1.carteFormat("Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz.")).toBe(
+      "Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.",
+    );
+  });
+
+  it("quiz en cours : contour d'attente, sans carte", () => {
+    render(<ValidationWall slug="repartie" href="/abonnement?x" quizPending etapeSuivante={etape2} />);
+    expect(screen.queryByText("Le rythme et les silences")).not.toBeInTheDocument();
+    expect(screen.queryByText(FIN_ETAPE_1.bouton)).not.toBeInTheDocument();
   });
 });

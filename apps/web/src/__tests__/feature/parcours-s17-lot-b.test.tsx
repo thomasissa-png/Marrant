@@ -5,6 +5,7 @@
  * Parcours de 4 et 6 étapes (cas cités par l'audit).
  */
 import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
 
@@ -260,8 +261,8 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
     expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
-    // Un seul bouton plein : « Voir ce que contient Premium » (s21) passe en plein une fois le quiz fini.
-    expect(screen.getByRole("link", { name: "Voir ce que contient Premium" }).className).toContain("bg-accent-secondary-hover");
+    // Un seul bouton plein (s21 B14) : « Passer à l'étape 2 avec Premium » une fois le quiz fini.
+    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton }).className).toContain("bg-accent-secondary-hover");
     await userEvent.click(screen.getByText("Refaire le quiz"));
     expect(screen.getByText("Q1 ?")).toBeInTheDocument();
     expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();
