@@ -93,8 +93,8 @@ Format de réponse, par duel :
 > Semaine 3 : retourner les piques avec le sourire
 > Semaine 4 : rebondir quand une vanne tombe à plat
 >
-> `[S6]` [ Lire la première étape gratuite de Répartie ]
-> Lien : Accéder aux parcours complets
+> `[S6]` [ Commencer Répartie, étape 1 gratuite ]
+> Lien : Débloquer toute Répartie, 2,99 €/mois
 > `[S9]` Les parcours complets sont dans Premium, l'abonnement du site : 2,99 € TTC par mois ou 24,99 € TTC par an. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.
 
 *Au clic : le bouton ouvre l'étape 1 de Répartie, en lecture libre. Le lien ouvre la page d'abonnement (prix, garantie, extrait du carnet).*

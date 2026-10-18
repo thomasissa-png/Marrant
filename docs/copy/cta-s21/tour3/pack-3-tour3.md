@@ -55,9 +55,9 @@ Format de réponse, par duel :
 >
 > `[S23]` **Toute la liste, avec l'exercice de chaque vanne**
 > `[S24]` Avec Premium, tes favoris au même endroit, et 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Tout débloquer ]
+> [ Ouvrir toute la liste avec Premium ]
 > `[S26]` 2,99 € TTC par mois ou 24,99 € TTC par an, résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Lire gratuitement l'étape 1 de Répartie ]
 
 **Sur /conseils**
 > `[S21]` Voilà les 3 premiers conseils.
@@ -65,9 +65,9 @@ Format de réponse, par duel :
 >
 > `[S23]` **Toute la liste, avec l'exercice de chaque conseil**
 > `[S24]` Avec Premium, tes favoris au même endroit, et 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Tout débloquer ]
+> [ Ouvrir toute la liste avec Premium ]
 > `[S26]` 2,99 € TTC par mois ou 24,99 € TTC par an, résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Lire gratuitement l'étape 1 de Répartie ]
 
 **Sur /videos**
 > `[S21]` Voilà les 3 premières vidéos.
