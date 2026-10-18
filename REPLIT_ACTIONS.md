@@ -8,9 +8,11 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
 
 **Ce qui change (état final)**
 - Tunnel réécrit en v5 : un bloc = un titre, une phrase, un bouton plein, puis la réassurance unique « Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » sous chaque plein qui porte un prix, puis un lien. Libellé payant unique « Ouvrir les 5 parcours · 2,99 €/mois ». Surfaces : accueil (haut, carte Premium), en-tête, articles (démonstration du carnet au milieu, bloc de fin, lettre), murs `/vannes` `/conseils` `/videos` (une seule carte floutée), fiches, fenêtre Premium, quiz, `/parcours` et page d'un parcours, fin d'étape 1, `/abonnement`, `/register`, retour de paiement, `/carnet`, `/profil`, `/glossaire`, `/a-propos`, FAQ de vente (4 questions sur l'accueil et `/abonnement`), e-mail de confirmation (une phrase).
-- Structure : plus de lien payant dans le haut de l'accueil. Le payant passe par le bouton prix de l'en-tête, visible à toutes les largeurs : « 2,99 €/mois » sous 640 px et à partir de 1 024 px, « Premium · 2,99 €/mois » de 640 à 1 023 px ; il est masqué sur `/abonnement` et `/register`.
-- Fin d'étape 1 (visiteur) : le plein « Passer à l'étape 2 · 2,99 €/mois » mène à `/register`. Le paiement s'ouvre ensuite tout seul, puis on revient au parcours. Sous la réassurance, une ligne de la lettre déplie le champ (emplacement `parcours`).
-- `/register` : plus de champ prénom, Google passe en premier. Le prénom se renseigne dans `/profil` (carte « Ton prénom », route `PATCH /api/user`).
+- Structure : plus de lien payant dans le haut de l'accueil. Le payant passe par le bouton prix de l'en-tête, visible à toutes les largeurs : « 2,99 €/mois » sous 640 px et de 1 024 à 1 279 px, « Premium · 2,99 €/mois » de 640 à 1 023 px et dès 1 280 px (onglets resserrés, revue v3 m4) ; il est masqué sur `/abonnement` et `/register`.
+- Fin d'étape 1 (visiteur) : le plein « Passer à l'étape 2 · 2,99 €/mois » mène à `/register`, quiz fini ou en cours (revue v3 m6). Le paiement s'ouvre ensuite tout seul, puis on revient au parcours. Sous la réassurance, une ligne de la lettre déplie le champ (emplacement `parcours`).
+- `/register` : plus de champ prénom, Google passe en premier, la mention des CGU juste dessous (revue v3 m2). Le prénom se renseigne dans `/profil` (carte « Ton prénom », route `PATCH /api/user`).
+- Fins des 11 articles « à forte frappe » (correction C1, `docs/copy/cta-s21/concision/fins-articles-v3.md`) : titre et phrase v3, plein « Tester l'étape 1 de {P}, gratuite » (5 articles qui nomment un parcours) ou « Tester mes premières répliques, gratuit », « Sans compte. », lien « Ouvrir les 5 parcours · 2,99 €/mois » ; titres du bloc de fin sans point final (sauf « ? » et « » »). L'article n°1 garde son bloc v5.
+- Murs `/vannes`, `/conseils`, `/videos` : le titre de chaque carte (l'amorce pour une vanne) est le lien vers la fiche ; plus de « Page dédiée ». Même maillage : un lien de fiche par carte (mesuré en local : 12 / 10 / 12 avant et après).
 - Avantages Premium (4 lignes) : sur `/abonnement` seulement.
 - Gardé de l'intégration :
   - avec Premium, toutes les étapes sont ouvertes d'un coup (plus de 409 `ordre`) ;
@@ -18,7 +20,6 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
   - carnet de novembre embarqué (30 fiches, offerte `2026-11-10`, bascule le 01/11 à 00:00 Paris), numéro réel de la fiche offerte ;
   - l'abonné est reconnu par la session.
 - Gardé volontairement (revue v3) :
-  - liens « Page dédiée » des cartes de liste (seul lien explorable vers les fiches) ;
   - « Voir par où commencer » (abonné) ;
   - titre « Passe Premium » du paywall natif.
 
@@ -31,14 +32,15 @@ Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de pr
   - **`abonnement-clic` baisse mécaniquement** sur ce chemin : il ne reste que le clic automatique, compté `src: abonnement, declencheur: auto` ;
   - juger sur `checkout-ouvert` et sur les paiements Stripe, pas sur `abonnement-clic`.
 - `abonnement-vu` : `retour-inscription` remplace `direct` après une inscription. `direct` baisse aussi (`onboarding-visiteur`, `favoris`).
-- `parcours-ouvert` : nouvelles valeurs `mur-vannes`, `mur-conseils`, `mur-videos`, `glossaire-etape1`, `a-propos-etape1`.
+- `parcours-ouvert` : nouvelles valeurs `mur-vannes`, `mur-conseils`, `mur-videos`, `glossaire-etape1`, `a-propos-etape1`, `register-etape1` (lien vers l'étape 1 sous le formulaire de `/register`, compté `abonnement` jusque-là : revue v3 m3).
 - Lettre : `lettre-vu` / `lettre-inscrite` peuvent porter `emplacement: "parcours"` ; source `parcours` en base.
 
-**Vérifié par @fullstack en local (sur `5c91d30`, `env -i` avec les seules variables factices de `tests.yml`)** :
+**Vérifié par @fullstack en local (sur `a641de4` + spec `murs-titres-s21`, `env -i` avec les seules variables factices de `tests.yml`)** :
 - `tsc -p tsconfig.build.json`, `tsc` complet et `tsc -p ../../playwright/tsconfig.json` : OK.
 - `next lint` : OK (avertissements `<img>` préexistants). `npm run build` : OK.
-- Jest : 339 suites / 5 180 tests OK (5 ignorés). Playwright, projet `local` : 41/41 OK.
-- First Load JS : `/` 146 kB, `/abonnement` 132 kB, `/parcours/[slug]` 153 kB (formulaire de la lettre en fin d'étape 1).
+- Jest : 340 suites / 5 198 tests OK (5 ignorés). Playwright, projet `local` : 44/44 OK (dont en-tête à 1 280 px avec « Premium · 2,99 €/mois », titres cliquables des murs au clavier).
+- Maillage des murs, HTML du serveur sur la même base jetable : 12 / 10 / 12 liens de fiche sur `/vannes`, `/conseils`, `/videos` avant (`f0f400a`) et après, mêmes fiches.
+- First Load JS : `/parcours/[slug]` 153 kB, `/register` 127 kB (126 avant), `/vannes` 133, `/conseils` 134, `/videos` 138 kB (inchangés).
 - **À faire avant P0** : CI verte sur le commit final, et contre-épreuve @qa de la concision (rendu à 320, 375, 768 et 1 280 px, captures lues).
 
 **Contrôles P6 : SEULE liste valable (revue v3, 18/10). Elle remplace toutes les anciennes listes et consignes de contrôle de cette entrée.**
@@ -59,7 +61,8 @@ Contrôles :
    - jusqu'au 31/10 : `Situation 15, offerte` ≥ 1 ; dès le 01/11 : `Situation 10, offerte` ≥ 1 ;
    - `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Rire à table, sans monter sur scène"` ≥ 1.
 3. **`/register`** :
-   - ≥ 1 : `Créer mon compte et passer au paiement`, `Continuer avec Google`, `premier paiement remboursable sous` ;
+   - ≥ 1 : `Créer mon compte et passer au paiement`, `Continuer avec Google`, `premier paiement remboursable sous`, `src=register-etape1` ;
+   - ordre (revue v3 m2) : `curl -s "https://deviens-marrant.fr/register?ne-pas-compter=1" | grep -oE "Continuer avec Google|tu acceptes les|Mot de passe" | head -3` → `Continuer avec Google`, `tu acceptes les`, `Mot de passe` ;
    - 0 : `autocomplete="given-name"` (motif entre apostrophes simples), `Étape 1 sur 2`.
 4. **Parcours** :
    - `/parcours` : `Sans compte. La suite` ≥ 1, `abonnement?src=parcours-liste` ≥ 1, `Commencer Répartie` 0 ;
@@ -106,7 +109,18 @@ Contrôles :
     - le lendemain : `checkout-ouvert` / `checkout-echec` visibles dans Umami, avec la source, après un essai de paiement abandonné ;
     - le lundi suivant : le rapport contient « Paiement ouvert par bloc d'entrée (src) ». Sinon : `git show <commit déployé>:apps/web/src/lib/analytics/weekly-funnel.ts | grep -c checkout-ouvert`, puis @fullstack.
 13. **Contrôle daté du 01/12** : un carnet de décembre est en ligne (« Un nouveau carnet arrive chaque mois » est affiché sur le carnet, le profil et `/abonnement`). Sinon : @copywriter et @fullstack avant le 30/11.
-14. **Bloc de fin des 10 articles « à forte frappe »** (correction C1 de la revue v3, à faire avant P0) : `curl -s "https://deviens-marrant.fr/blog/message-anniversaire-drole-par-situation?ne-pas-compter=1" | grep -c "Les parcours complets"` → 0. Même contrôle sur `/blog/blagues-poisson-d-avril-adultes`.
+14. **Bloc de fin des 11 articles « à forte frappe »** (correction C1 de la revue v3, faite au commit `1403f4b`, textes `docs/copy/cta-s21/concision/fins-articles-v3.md`). Ces articles sont en base : contrôle sur le site seulement (404 en local). `curl -s "https://deviens-marrant.fr/blog/<slug>?ne-pas-compter=1" | grep -c "<motif>"` :
+    - `message-anniversaire-drole-par-situation` : ≥ 1 pour `Au moment du gâteau, tout le monde`, `Mieux vaut avoir de quoi enchaîner`, `Tester mes premières répliques, gratuit`, `Sans compte.` ; 0 pour `Les parcours complets`, `Passer à Premium`, `Reste le moment du gâteau` ;
+    - `blagues-de-couple-drole` : ≥ 1 pour `qui a le dernier mot`, `de Répartie, gratuite` ; 0 pour `Commencer le parcours`, `Les parcours complets` ;
+    - `message-drole-fete-des-peres` : ≥ 1 pour `Reste le repas<` (titre sans point final) ; 0 pour `Reste le repas\.` (point échappé), `Les parcours complets` ;
+    - `blagues-poisson-d-avril-adultes` : ≥ 1 pour `Une riposte, ça se prépare avant` ; 0 pour `Le canular est prêt` ;
+    - `meilleures-blagues-droles-2026` : contrôle 5 (bloc v5 `La vanne dans ta bouche`), 0 pour `Tu les as lues`.
+    Si écart : `git show <commit déployé>:apps/web/src/config/blog-cta.ts | grep -c "Au moment du gâteau"` → 1, puis @fullstack.
+15. **Titres de carte cliquables des murs** (`/vannes`, `/conseils`, `/videos`) :
+    - **Relevé N-1 (avant P0, sur le site actuel)**, puis le même après la mise en ligne : `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -oE "<a [^>]*href=\"/$r/[^\"?#]+\"" | grep -v "/$r/theme/" | wc -l; done` → les trois nombres sont identiques avant et après (maillage inchangé : un lien de fiche par carte ; 12 / 10 / 12 en local, avant comme après) ;
+    - `for r in vannes conseils videos; do curl -s "https://deviens-marrant.fr/$r?ne-pas-compter=1" | grep -o "Page dédiée" | wc -l; done` → `0` trois fois ;
+    - à l'œil (ordinateur) : Tab jusqu'au titre de la première carte de `/conseils` (anneau de focus visible), Entrée ouvre sa fiche ; sur `/vannes`, un clic sur l'amorce ouvre la fiche, un clic ailleurs sur la carte (ou « Révéler la chute ») révèle la chute.
+    Si écart : `git show <commit déployé>:apps/web/src/components/ui/liens.ts | grep -c TITRE_CARTE_LIEN` → 1, puis @fullstack.
 
 **Décisions** : la lettre en fin d'étape 1 (B14) est posée (choix de Thomas du 18/10). La ligne de la lettre au milieu des articles (B18) a été refusée par Thomas : elle n'est pas posée.
 
@@ -156,10 +170,10 @@ Règles : une étape échouée = arrêt, on ne passe pas à la suivante. Ne jama
 
 **P6. Contrôles après mise en ligne**
 - Pages : `V=$(curl -s https://deviens-marrant.fr/sitemap.xml | grep -o 'https://deviens-marrant.fr/videos/[a-z0-9-]*' | head -1 | sed 's#https://deviens-marrant.fr##')` puis `for p in / /abonnement /lettre /confidentialite /cgu /register /blog/se-presenter-avec-humour /quiz-humour /parcours /carnet /vannes "$V" /api/health; do printf '%s ' "$p"; curl -s -o /dev/null -w '%{http_code}\n' "https://deviens-marrant.fr$p?ne-pas-compter=1"; done`. Réussite : 200 partout (`$V` = une fiche vidéo réelle, prise dans le sitemap ; vide = sitemap à vérifier avant de conclure). Si une page en 5xx : P8.
-- Blocs d'appel et concision : contrôles 1 à 14 de l'entrée « Blocs d'appel s21 et concision du tunnel » en tête de ce fichier (SEULE liste valable). Contrôle 6 jusqu'au 31/10, contrôle 7 le 01/11 après 01:00 Paris, contrôle 12 le lendemain puis le lundi, contrôle 13 le 01/12. Réussite : valeurs attendues partout. Si écart : @fullstack (pas de P8 pour un texte, sauf page cassée).
+- Blocs d'appel et concision : contrôles 1 à 15 de l'entrée « Blocs d'appel s21 et concision du tunnel » en tête de ce fichier (SEULE liste valable). Contrôle 6 jusqu'au 31/10, contrôle 7 le 01/11 après 01:00 Paris, contrôle 12 le lendemain puis le lundi, contrôle 13 le 01/12. Réussite : valeurs attendues partout. Si écart : @fullstack (pas de P8 pour un texte, sauf page cassée).
 - Étape 3 ouverte par un abonné (décision du 18/10) : vrai navigateur, compte Premium de l'équipe, `https://deviens-marrant.fr/parcours/confiance?ne-pas-compter=1` sur un parcours où les étapes 1 et 2 ne sont **pas** validées. Clic sur l'en-tête « Étape 3 » : l'étape se déplie avec son conseil et son bouton « Valider cette étape », aucun « Termine l'étape … pour débloquer ». Ne pas valider (l'XP et la progression seraient réelles) ; si on valide pour l'essai : réponse 200 (onglet Réseau, `POST /api/parcours/<id>/progress`), jamais 409. Réussite : étape ouverte. Si l'étape reste fermée ou si un 409 `ordre` revient : le commit déployé n'est pas le bon (`git show HEAD:apps/web/src/app/api/parcours/[id]/progress/route.ts | grep -c ordre` → `0` attendu sur le code ; voir la règle P0 s8), @fullstack.
 - En-têtes : `curl -sI "https://deviens-marrant.fr/lettre?ne-pas-compter=1" | grep -i '^referrer-policy'` → `same-origin` (sans lui, le bouton « Confirmer » est refusé, B1 de la QA) ; `diff <(grep -iE '^(strict-transport-security|content-security-policy|x-frame-options|x-content-type-options|permissions-policy)' entetes-avant.txt | sort) <(curl -sI "https://deviens-marrant.fr/?ne-pas-compter=1" | grep -iE '^(strict-transport-security|content-security-policy|x-frame-options|x-content-type-options|permissions-policy)' | sort)` → aucune différence. Si écart : @fullstack ; `Referrer-Policy` absente sur `/lettre` = P8 avant toute inscription.
-- Textes : `for p in / /abonnement /register; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -c "remboursé sous 14 jours"; done` → `0` trois fois (les autres textes : contrôles 1 à 14 de l'entrée « Blocs d'appel s21 et concision du tunnel »).
+- Textes : `for p in / /abonnement /register; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -c "remboursé sous 14 jours"; done` → `0` trois fois (les autres textes : contrôles 1 à 15 de l'entrée « Blocs d'appel s21 et concision du tunnel »).
 - Formulaire de la lettre visible : `for p in /lettre /blog/se-presenter-avec-humour /; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -cE 'confidentialite#lettre|La lettre du mois'; done` → au moins 1 partout (formulaire sur `/lettre` et sous l'article, lien de pied de page). Puis à l'œil : formulaire sous le résultat du quiz, onglet « La lettre » dans le menu. Si absent : vérifier `LETTRE_INSCRIPTIONS_OUVERTES` dans le commit déployé (`git show HEAD:apps/web/src/config/lettre.ts`), @fullstack.
 - Tâches planifiées : garder `npx wrangler tail --format pretty` ouvert jusqu'au quart d'heure suivant. Réussite : un événement planifié `*/15 * * * *` en `Ok`, aucune ligne `[scheduler:lettre-mensuelle] Échec` ni `ALERTE`. Avant le 05/11, la tâche d'envoi ne journalise rien (normal). Le lendemain, Workers Logs (tableau de bord Cloudflare), recherche `lettre-entretien` : une ligne `[scheduler:lettre-entretien] … effacé(s) …` vers 4 h Paris. Si `Échec` : @fullstack ; envoi menacé avant le 05/11 → P8.
 - Contrôles datés : lundi 02/11 après 06:00 Paris, `/blog/soiree-de-noel-entreprise-humour` en 200 et `isPublished = true` (lecture de P5) ; jeudi 05/11 après 08:15 Paris, journal `[scheduler:lettre-mensuelle] 2026-11 : N envoyé(s)…` sans « reporté » ni « bloqué », et `SELECT status, count(*) FROM "NewsletterSend" GROUP BY 1;` = nombre de confirmés hors exclus.
