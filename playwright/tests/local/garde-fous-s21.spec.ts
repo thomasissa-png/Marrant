@@ -103,7 +103,7 @@ test.describe("Garde-fous de forme s21 @s21", () => {
     expect(bas, "bas du plein d'accueil à 375 x 667").toBeLessThanOrEqual(600);
   });
 
-  test("accueil à 320 px : un seul appel dans le haut (plus de lien payant B3), payant dans l'en-tête", async ({ page }) => {
+  test("accueil à 320 px : un seul appel dans le haut (plus de lien payant B3), payant porté par l'en-tête", async ({ page }) => {
     // s21 concision (18/10) : le lien payant souligné sous le plein est retiré.
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto("/");
@@ -111,6 +111,7 @@ test.describe("Garde-fous de forme s21 @s21", () => {
     await expect(haut.locator("a[data-accueil-cta='etape-1']")).toBeVisible();
     await expect(haut.locator("a[href^='/abonnement']")).toHaveCount(0);
     await expect(haut.locator("a[data-accueil-cta='abonnement']")).toHaveCount(0);
-    await expect(page.locator('header a[href^="/abonnement?src=header"]').first()).toBeVisible();
+    // Le payant reste dans l'en-tête ; sous 360 px il passe dans le menu (header-budget.spec.ts).
+    await expect(page.locator('header a[href^="/abonnement?src=header"]').first()).toBeAttached();
   });
 });
