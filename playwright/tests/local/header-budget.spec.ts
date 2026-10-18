@@ -250,6 +250,27 @@ test.describe("En-tête : budget de largeur", () => {
     await expect(panneau).toHaveCount(0);
   });
 
+  // Fusion s21 (parties A et B) : B a réécrit /abonnement et /register, le masquage de A tient.
+  // /register n'a pas l'en-tête du site (mise en page d'authentification) : contrôle sur toute la page.
+  for (const chemin of ["/abonnement", "/register"]) {
+    test(`page chaude ${chemin} : aucun bouton prix, ni dans l'en-tête ni dans le menu mobile (375 et 1280 px)`, async ({ page }) => {
+      for (const largeur of [375, 1280]) {
+        await page.setViewportSize({ width: largeur, height: 800 });
+        await page.goto(chemin);
+        await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+        await expect(page.getByRole("link", { name: PRIX })).toHaveCount(0);
+        await expect(page.locator('a[href^="/abonnement?src=header"]')).toHaveCount(0);
+        const menu = page.getByRole("banner").getByRole("button", { name: "Menu" });
+        if (largeur < 768 && (await menu.count()) > 0) {
+          await menu.click();
+          const nav = page.getByRole("navigation", { name: "Navigation mobile" });
+          await expect(nav).toBeVisible();
+          await expect(nav.locator('a[href^="/abonnement?src=header"]')).toHaveCount(0);
+        }
+      }
+    });
+  }
+
   test("menu mobile à 375 x 550 : hauteur bornée, défilement jusqu'à « Connexion »", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 550 });
     await page.goto("/conseils");
