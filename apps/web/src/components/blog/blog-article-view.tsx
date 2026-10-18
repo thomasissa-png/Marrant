@@ -25,6 +25,7 @@ import { frTypo } from "@/lib/fr-typo";
 import { blogCategoryLabel } from "@/lib/blog-labels";
 import { formatIsoDateFr } from "@/lib/utils";
 import type { BlogArticleData, BlogArticleNavigation } from "@/lib/blog-article-page";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 interface BlogArticleViewProps {
   article: BlogArticleData;
@@ -89,7 +90,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
-          { name: "Blog", url: "https://deviens-marrant.fr/blog" },
+          { name: LIBELLE_SECTION_ARTICLES, url: "https://deviens-marrant.fr/blog" },
           { name: article.title, url: `https://deviens-marrant.fr/blog/${article.slug}` },
         ])}
       />
@@ -101,7 +102,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         </Link>
         <span className="mx-2">/</span>
         <Link href="/blog" className="hover:text-text-primary max-md:py-3.5">
-          Blog
+          {LIBELLE_SECTION_ARTICLES}
         </Link>
         <span className="mx-2">/</span>
         <span className="inline-block max-w-[55vw] truncate align-bottom text-text-secondary sm:max-w-none">

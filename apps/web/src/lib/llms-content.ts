@@ -17,6 +17,7 @@ import {
   PREMIUM_ANNUAL_SAVINGS_LABEL,
   PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
 
@@ -117,7 +118,7 @@ Extraits de stand-up français annotés avec la technique d'humour utilisée (ti
 - **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) : savoir quoi répondre quand on se fait chambrer
 - **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) : retrouver son humour et sa légèreté après une période difficile
 
-### Blog (${LLMS_BASE_URL}/blog)
+### ${LIBELLE_SECTION_ARTICLES} (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [

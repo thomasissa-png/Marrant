@@ -12,6 +12,7 @@ import {
 import { BlogListClient, BlogListView } from "./blog-list-client";
 import { PageHeader } from "@/components/layout/page-header";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 export const metadata: Metadata = {
   title: "Blog humour : guides et techniques",
@@ -106,7 +107,7 @@ export default async function BlogPage() {
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
-          { name: "Blog", url: "https://deviens-marrant.fr/blog" },
+          { name: LIBELLE_SECTION_ARTICLES, url: "https://deviens-marrant.fr/blog" },
         ])}
       />
       <JsonLd
@@ -121,7 +122,7 @@ export default async function BlogPage() {
       <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
-        <span className="text-text-secondary">Blog</span>
+        <span className="text-text-secondary">{LIBELLE_SECTION_ARTICLES}</span>
       </nav>
       <PageHeader
         title={<>Comment devenir drôle&nbsp;: guides et techniques d&apos;humour</>}

@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export type NavItem = { href: string; label: string };
 
-/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
+/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Articles » actif). */
 export function isActivePath(pathname: string | null, href: string): boolean {
   if (!pathname) return false;
   return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));

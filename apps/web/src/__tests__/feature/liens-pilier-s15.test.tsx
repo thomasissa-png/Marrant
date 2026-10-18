@@ -50,11 +50,11 @@ function article(slug: string) {
 }
 
 describe("L1 : footer (lien sitewide)", () => {
-  it("rend « Comment devenir drôle » vers le pilier, juste avant Blog", () => {
+  it("rend « Comment devenir drôle » vers le pilier, juste avant Articles", () => {
     render(<Footer />);
     const lien = screen.getByRole("link", { name: "Comment devenir drôle" });
     expect(lien).toHaveAttribute("href", PILIER);
-    const blog = screen.getByRole("link", { name: "Blog" });
+    const blog = screen.getByRole("link", { name: "Articles" });
     expect(lien.closest("li")?.nextElementSibling).toBe(blog.closest("li"));
   });
 });

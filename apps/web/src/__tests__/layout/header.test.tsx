@@ -41,7 +41,7 @@ describe("Header", () => {
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
     expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
   it("shows Commencer CTA when unauthenticated", () => {
@@ -209,7 +209,7 @@ describe("Header", () => {
   it("keeps the section tab active on sub-pages (s12 design)", () => {
     usePathname.mockReturnValue("/blog/comment-devenir-drole");
     render(<Header />);
-    expect(screen.getAllByText("Blog")[0]).toHaveClass("text-accent-link");
+    expect(screen.getAllByText("Articles")[0]).toHaveClass("text-accent-link");
     expect(screen.getAllByText("Accueil")[0]).not.toHaveClass("text-accent-link");
   });
 

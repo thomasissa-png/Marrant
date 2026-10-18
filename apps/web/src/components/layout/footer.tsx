@@ -3,6 +3,7 @@ import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 const footerLinks = {
   produit: [
@@ -12,7 +13,7 @@ const footerLinks = {
     { href: "/parcours", label: "Parcours" },
     // Pilier SEO non indexé (docs/seo/pilier-non-indexe-s15.md, L1) : lien sitewide.
     { href: "/blog/comment-devenir-drole", label: "Comment devenir drôle" },
-    { href: "/blog", label: "Blog" },
+    { href: "/blog", label: LIBELLE_SECTION_ARTICLES },
     { href: "/glossaire", label: "Glossaire" },
     { href: "/quiz-humour", label: "Quiz humour" },
     { href: "/anatomie-vanne", label: "Anatomie d'une vanne" },

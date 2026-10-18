@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
 /**
  * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
@@ -39,7 +40,7 @@ const navItems: NavItem[] = [
   { href: "/conseils", label: "Conseils" },
   { href: "/videos", label: "Vidéos" },
   { href: "/parcours", label: "Parcours" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: LIBELLE_SECTION_ARTICLES },
 ];
 
 /** Abonnés Premium : le carnet mensuel juste après les parcours. */
@@ -50,7 +51,7 @@ const premiumNavItems: NavItem[] = [
 ];
 
 /**
- * s21 : la lettre gratuite, dernier onglet après « Blog » (interrupteur des
+ * s21 : la lettre gratuite, dernier onglet après « Articles » (interrupteur des
  * inscriptions ouvert, visiteurs non Premium comme le formulaire de la lettre),
  * onglet comme les autres à toutes les largeurs (budget ci-dessus).
  */

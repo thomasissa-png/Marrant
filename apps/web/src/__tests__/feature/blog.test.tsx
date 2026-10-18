@@ -174,6 +174,9 @@ describe("BlogPage — listing", () => {
     const breadcrumb = screen.getByLabelText("Fil d'Ariane");
     expect(breadcrumb).toBeInTheDocument();
     expect(screen.getByText("Accueil")).toBeInTheDocument();
+    // s21 [CHOIX UTILISATEUR] : la section s'appelle « Articles » (adresse /blog inchangée).
+    expect(breadcrumb).toHaveTextContent("Articles");
+    expect(breadcrumb).not.toHaveTextContent("Blog");
   });
 
   it("renders JSON-LD structured data", () => {
@@ -246,6 +249,10 @@ describe("BlogArticlePage — article detail", () => {
     render(Page);
     const breadcrumb = screen.getByLabelText("Fil d'Ariane");
     expect(breadcrumb).toBeInTheDocument();
+    // s21 : lien « Articles » vers /blog, et BreadcrumbList au même libellé.
+    expect(screen.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");
+    const jsonLd = Array.from(document.querySelectorAll('[data-testid="json-ld"]')).map((el) => el.textContent ?? "");
+    expect(jsonLd.some((t) => t.includes('"BreadcrumbList"') && t.includes('"name":"Articles"'))).toBe(true);
   });
 
   it("renders related articles section", async () => {
