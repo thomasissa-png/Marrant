@@ -392,13 +392,17 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       {/* Premium Modal */}
       <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="vanne" />
 
-      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
-      <ListPagination
-        basePath="/vannes"
-        page={page}
-        totalPages={totalPages}
-        onNavigate={goToPage}
-      />
+      {/* Pagination : vrais liens ?page=N (crawlables, présents dans le HTML du serveur), navigation
+          sans rechargement avec JS. QA v4 m-5 : visiteur ou compte sans abonnement (liste limitée),
+          plus de pagination, les pages suivantes sont vides : le mur fait office de fin. L'abonné la garde. */}
+      {!limited && (
+        <ListPagination
+          basePath="/vannes"
+          page={page}
+          totalPages={totalPages}
+          onNavigate={goToPage}
+        />
+      )}
     </>
   );
 }

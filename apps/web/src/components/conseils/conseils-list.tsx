@@ -376,13 +376,17 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       {/* Premium Modal */}
       <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="conseil" />
 
-      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
-      <ListPagination
-        basePath="/conseils"
-        page={page}
-        totalPages={totalPages}
-        onNavigate={goToPage}
-      />
+      {/* Pagination : vrais liens ?page=N (crawlables, présents dans le HTML du serveur), navigation
+          sans rechargement avec JS. QA v4 m-5 : visiteur ou compte sans abonnement (liste limitée),
+          plus de pagination, les pages suivantes sont vides : le mur fait office de fin. L'abonné la garde. */}
+      {!limited && (
+        <ListPagination
+          basePath="/conseils"
+          page={page}
+          totalPages={totalPages}
+          onNavigate={goToPage}
+        />
+      )}
     </>
   );
 }

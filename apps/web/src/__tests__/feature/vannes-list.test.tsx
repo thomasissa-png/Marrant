@@ -403,8 +403,9 @@ describe("VannesList", () => {
       });
       expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
-      // La pagination du catalogue public reste disponible (retour en page 1).
-      expect(screen.getByRole("link", { name: "Page précédente (page 1)" })).toHaveAttribute("href", "/vannes");
+      // QA v4 m-5 : liste limitée, plus de pagination (le mur fait office de fin).
+      expect(screen.queryByRole("link", { name: "Page précédente (page 1)" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("link", { name: /^Page \d+$/ })).not.toBeInTheDocument();
     });
   });
 });
