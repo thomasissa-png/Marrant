@@ -165,6 +165,17 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
     expect(container.textContent).toContain(REASS);
     expect(container.textContent).not.toMatch(/lettre/i);
   });
+
+  it("revue v3 m6 : quiz en cours, même destination que le plein principal (visiteur : /register, src=parcours-etape)", () => {
+    const inscription = "/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Frepartie&src=parcours-etape";
+    const { unmount } = render(
+      <ValidationWall slug="repartie" href="/abonnement?x" finEtape1Href={inscription} quizPending etapeSuivante={etape2} />,
+    );
+    expect(screen.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toHaveAttribute("href", inscription);
+    unmount();
+    render(<ValidationWall slug="repartie" href="/abonnement?x" finEtape1Href={inscription} etapeSuivante={etape2} />);
+    expect(screen.getByRole("link", { name: FIN_ETAPE_1.bouton })).toHaveAttribute("href", inscription);
+  });
 });
 
 // ─── B17 : /register ────────────────────────────────────────────────────────

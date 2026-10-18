@@ -74,9 +74,9 @@ export function ValidationWall({
   etapeSuivante = null,
 }: {
   slug: string;
-  /** /abonnement (variante quiz en cours, et compte connecté sans abonnement). */
+  /** /abonnement (compte connecté sans abonnement ; repli si `finEtape1Href` est absent). */
   href: string;
-  /** Plein de fin d'étape 1 d'un visiteur : /register avec la source et le retour vers le paiement. Absent : `href`. */
+  /** Plein de fin d'étape 1 (quiz fini ou en cours) : visiteur, /register avec la source et le retour vers le paiement. Absent : `href`. */
   finEtape1Href?: string;
   /** Quiz pas encore fini : variante courte, sans carte ni lettre. */
   quizPending?: boolean;
@@ -94,7 +94,8 @@ export function ValidationWall({
     return (
       <div className="mt-2 border-t border-border pt-4 text-center">
         <p className="text-sm text-text-secondary">{frTypo(VALIDATION_ETAPE.texte)}</p>
-        <Link href={href} className={plein}>
+        {/* Revue v3 m6 : même destination que le plein principal (visiteur : /register, src=parcours-etape). */}
+        <Link href={finEtape1Href ?? href} className={plein}>
           {VALIDATION_ETAPE.bouton}
         </Link>
         <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
