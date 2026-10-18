@@ -2,7 +2,6 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-fiche-card";
 import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
@@ -117,7 +116,7 @@ function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: st
     <div className="rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-6 sm:p-8">
       <h3 className="mb-2 font-display text-xl font-bold">{frTypo(CARNET_PAYWALL.titre(restantes))}</h3>
       <p className="mb-4 text-sm text-text-secondary">{frTypo(CARNET_PAYWALL.paragraphe)}</p>
-      <PremiumBenefits className="mb-5 space-y-3" />
+      {/* s21 concision (18/10, étalon 4) : plus de liste d'avantages ici, elle vit sur /abonnement. */}
       <Link
         href={buildAbonnementUrl(returnTo, "monthly", src)}
         data-testid="carnet-paywall-bouton"

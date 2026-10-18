@@ -15,7 +15,7 @@ import { normalise } from "../helpers/texte-normalise";
 jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
 jest.mock("@/components/home/faq-section", () => ({ FaqSection: () => null }));
-jest.mock("@/components/premium/premium-benefits", () => ({ PremiumBenefits: () => <ul data-testid="avantages" /> }));
+jest.mock("@/components/premium/avantages-premium", () => ({ AvantagesPremium: () => <ul data-testid="avantages" /> }));
 
 describe("carte Premium de l'accueil (B4 + B5)", () => {
   it("titre et [S11] du tour 16 : paragraphe, intro + liste <ul> des parcours publiés, paragraphe", () => {

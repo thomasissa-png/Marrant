@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { cn } from "@/lib/utils";
-import { PremiumBenefits } from "@/components/premium/premium-benefits";
+import { AvantagesPremium } from "@/components/premium/avantages-premium";
 import { FaqSection } from "@/components/home/faq-section";
 import { CartePremiumAchat } from "@/components/home/carte-premium-achat";
 import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
@@ -68,7 +68,7 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
               </div>
               <p className="mt-1 text-xs text-text-muted">{frTypo(CARTE_PREMIUM.ligneTarif(annuelDisponible))}</p>
 
-              <PremiumBenefits className="mt-6 space-y-3" />
+              <AvantagesPremium className="mt-6 space-y-3" />
 
               <CartePremiumAchat
                 boutonVisiteur={frTypo(CARTE_PREMIUM.bouton)}

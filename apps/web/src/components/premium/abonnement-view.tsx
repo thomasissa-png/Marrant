@@ -8,7 +8,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/components/ui/toast";
-import { PremiumBenefits } from "@/components/premium/premium-benefits";
+import { AvantagesPremium } from "@/components/premium/avantages-premium";
 import {
   AUTO_CHECKOUT_PARAM,
   AUTO_CHECKOUT_VALUE,
@@ -351,7 +351,7 @@ export function AbonnementView({
 
           {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
               d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}
-          <PremiumBenefits className="mt-6 space-y-3" />
+          <AvantagesPremium className="mt-6 space-y-3" />
         </CardContent>
       </Card>
 

@@ -11,7 +11,7 @@ jest.mock("@/stores/user-store", () => ({
   useUserStore: (selector: (s: { user: null }) => unknown) => selector({ user: null }),
 }));
 jest.mock("@/components/home/faq-section", () => ({ FaqSection: () => null }));
-jest.mock("@/components/premium/premium-benefits", () => ({ PremiumBenefits: () => null }));
+jest.mock("@/components/premium/avantages-premium", () => ({ AvantagesPremium: () => null }));
 
 describe("PremiumCta, abonné reconnu par la session", () => {
   it("abonné PREMIUM, store vide : aucune carte Premium (ni bouton de paiement)", () => {

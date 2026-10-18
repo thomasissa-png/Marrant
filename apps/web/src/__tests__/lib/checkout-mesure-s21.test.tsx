@@ -14,7 +14,7 @@ import { PremiumCta } from "@/components/home/premium-cta";
 jest.mock("next-auth/react", () => ({ useSession: () => ({ data: { user: { plan: "FREE" } }, status: "authenticated" }) }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
 jest.mock("@/components/home/faq-section", () => ({ FaqSection: () => null }));
-jest.mock("@/components/premium/premium-benefits", () => ({ PremiumBenefits: () => null }));
+jest.mock("@/components/premium/avantages-premium", () => ({ AvantagesPremium: () => null }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
 
 const track = jest.fn();
