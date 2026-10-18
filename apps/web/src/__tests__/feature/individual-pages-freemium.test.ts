@@ -52,20 +52,18 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/Pourquoi ça marche/);
     });
 
-    it("gate 'À toi de jouer' (howToApply) derrière la session — côté client, page restée en ISR", () => {
-      expect(src).toMatch(/howToApply/);
-      expect(src).toMatch(/<HowToApplyGate howToApply=\{joke\.howToApply\}/);
+    it("s21 B8 : bloc d'exercice (client, page restée en ISR), seulement si howToApply existe", () => {
+      expect(src).toMatch(/\{joke\.howToApply \? \(\s*<BlocExercice\s+type="vanne"/);
+      expect(src).toMatch(/exercice=\{joke\.howToApply\}/);
       // Lire la session côté serveur dans une page ISR = DYNAMIC_SERVER_USAGE (erreur 500)
       expect(src).not.toMatch(/getServerSession/);
       expect(src).not.toMatch(/cookies\(\)|headers\(\)/);
-      const gate = fs.readFileSync(
-        path.join(process.cwd(), "src/components/vannes/how-to-apply-gate.tsx"),
-        "utf8",
-      );
-      expect(gate).toMatch(/useSession\(\)/);
-      expect(gate).toMatch(/isPremiumPlan\(/);
-      expect(gate).toMatch(/fait partie de Premium/);
-      expect(gate).not.toMatch(/compte gratuit/i);
+      const bloc = fs.readFileSync(path.join(process.cwd(), "src/components/premium/bloc-exercice.tsx"), "utf8");
+      expect(bloc).toMatch(/useSession\(\)/);
+      expect(bloc).toMatch(/isPremiumPlan\(/);
+      expect(bloc).not.toMatch(/compte gratuit/i);
+      // « Comment la ressortir » garde son texte, sans bouton (spec §3.3).
+      expect(src).not.toMatch(/MUR_PREMIUM_BOUTON|buttonVariants/);
     });
 
     it("ne mentionne pas l'IA dans les metadata ni le JSON-LD (règle fondateur)", () => {
@@ -94,10 +92,8 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/tip\.example/);
     });
 
-    it("exercice complet : « fait partie de Premium » vers /abonnement avec retour fiche (s15, étalon 4.1)", () => {
-      expect(src).toMatch(/À toi de jouer/);
-      expect(src).toMatch(/L&apos;exercice pour appliquer cette technique fait partie de Premium\./);
-      expect(src).toMatch(/buildAbonnementUrl\(`\/conseils\/\$\{canonicalSlug\}`, "monthly", "fiche-conseil"\)/);
+    it("s21 B9 : bloc d'exercice (plein Premium, retour fiche, contour étape 1)", () => {
+      expect(src).toMatch(/<BlocExercice\s+type="conseil"\s+returnTo=\{`\/conseils\/\$\{canonicalSlug\}`\}/);
       expect(src).not.toMatch(/compte gratuit/i);
     });
 
@@ -122,10 +118,8 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
       expect(src).toMatch(/youtube-nocookie\.com\/embed/);
     });
 
-    it("learnings + exercice : « font partie de Premium » vers /abonnement (s15, étalon 4.1)", () => {
-      expect(src).toMatch(/Analyse pédagogique complète/);
-      expect(src).toMatch(/Les points clés et l&apos;exercice de cette vidéo font partie de Premium\./);
-      expect(src).toMatch(/buildAbonnementUrl\(`\/videos\/\$\{canonicalSlug\}`, "monthly", "fiche-video"\)/);
+    it("s21 B10 : bloc d'exercice (points clés et exercice dans Premium, retour fiche)", () => {
+      expect(src).toMatch(/<BlocExercice\s+type="video"\s+returnTo=\{`\/videos\/\$\{canonicalSlug\}`\}/);
       // Plus de promesse du contenu du jour (déjà public).
       expect(src).not.toMatch(/compte gratuit|contenu quotidien/i);
     });

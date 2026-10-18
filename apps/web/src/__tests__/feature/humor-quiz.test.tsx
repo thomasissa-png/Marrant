@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { HumorQuiz } from "@/components/onboarding/humor-quiz";
+import { QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
 
 const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -9,6 +10,10 @@ jest.mock("next/navigation", () => ({
 
 const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
+
+// s21 B13 : la session décide du plein (abonné : « Voir par où commencer » ; sinon le paiement).
+const mockSession = jest.fn(() => ({ status: "authenticated", data: { user: { plan: "PREMIUM" } } }));
+jest.mock("next-auth/react", () => ({ useSession: () => mockSession() }));
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -275,5 +280,44 @@ describe("HumorQuiz", () => {
   it("hides the exit link without exitHref", () => {
     render(<HumorQuiz />);
     expect(screen.queryByText("Plus tard, laisse-moi explorer")).not.toBeInTheDocument();
+  });
+
+  describe("s21 B13 : compte sans abonnement", () => {
+    const finir = async () => {
+      await userEvent.click(screen.getByText("Avoir de la répartie"));
+      await userEvent.click(screen.getByText("Entre potes / en soirée étudiante"));
+      await userEvent.click(screen.getByText("Mes vannes tombent à plat"));
+    };
+    afterEach(() => mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } }));
+
+    it("le plein prolonge le geste : « Suivre Répartie en entier · prix », phrase du parcours, garantie", async () => {
+      mockSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
+      const fetchMock = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) });
+      global.fetch = fetchMock as unknown as typeof fetch;
+      render(<HumorQuiz />);
+      await finir();
+      expect(document.body.textContent).toContain(QUIZ_ORIENTATION_CTA.phrase("repartie"));
+      expect(QUIZ_ORIENTATION_CTA.phrase("repartie")).toContain("étapes 2 à 4, une par semaine, 20 minutes");
+      expect(screen.getByText(QUIZ_ORIENTATION_CTA.garantie)).toBeInTheDocument();
+      const plein = screen.getByRole("button", { name: QUIZ_ORIENTATION_CTA.bouton("repartie") });
+      expect(document.body.textContent).not.toContain("Tout débloquer");
+      await userEvent.click(plein);
+      expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ returnTo: "/parcours/repartie" });
+      expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", expect.objectContaining({ src: "onboarding" }));
+    });
+
+    it("abonné : aucun bouton de paiement", async () => {
+      render(<HumorQuiz />);
+      await finir();
+      expect(screen.queryByText(QUIZ_ORIENTATION_CTA.bouton("repartie"))).not.toBeInTheDocument();
+    });
+
+    it("une phrase par parcours ; repli sans ligne pour Storytelling et Boulot", () => {
+      expect(QUIZ_ORIENTATION_CTA.phrase("machine-a-cafe")).toContain("étapes 2 et 3, une par semaine, 15 minutes");
+      expect(QUIZ_ORIENTATION_CTA.phrase("confiance")).toContain("si tu sors d'une période compliquée");
+      expect(QUIZ_ORIENTATION_CTA.phrase("boulot")).toBe(
+        "Ton compte est prêt. Plus qu'un pas pour suivre Boulot en entier : étapes 2 à 6, une par semaine, 15 minutes.",
+      );
+    });
   });
 });

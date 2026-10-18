@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import {
   QUIZ_QUESTIONS,
@@ -117,8 +118,8 @@ describe("ViralQuiz", () => {
     expect(name).toBe("quiz-termine");
     expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
     // s15 : plus de compte gratuit, CTA vers Premium avec retour au parcours conseillé.
-    const cta = screen.getByText("Accéder aux parcours complets").closest("a");
-    expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance)&src=quiz$/);
+    const cta = screen.getByText(QUIZ_HUMOUR_CTA.lien).closest("a");
+    expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance|storytelling|boulot)&src=quiz$/);
   });
 
   it("shows share button on result screen", async () => {
@@ -138,10 +139,22 @@ describe("ViralQuiz", () => {
         screen.getByText(optionLabel(i)),
       );
     }
-    expect(screen.getByText("Lire la première étape gratuite")).toBeInTheDocument();
-    expect(
-      screen.getByText("Accéder aux parcours complets"),
-    ).toBeInTheDocument();
+    // s21 B12 : le plein mène à l'étape 1 nommée du parcours conseillé (froid), Premium en lien fort.
+    const plein = screen.getByText(/^Essayer gratuitement l'étape 1 de /).closest("a");
+    expect(plein?.getAttribute("href")).toMatch(/^\/parcours\/[a-z-]+\?src=quiz#etape-1$/);
+    expect(plein?.className).toContain("bg-accent-secondary-hover");
+    expect(screen.getByText(QUIZ_HUMOUR_CTA.lien)).toBeInTheDocument();
+    expect(screen.getByText(/^Ton humour, tu viens de le découvrir\. Ça se travaille : /)).toBeInTheDocument();
+    // Sans offre annuelle disponible : mensuel seul.
+    expect(document.body.textContent).toContain(QUIZ_HUMOUR_CTA.premium(false));
+  });
+
+  it("offre annuelle disponible : la ligne Premium la mentionne", async () => {
+    render(<ViralQuiz annualAvailable />);
+    for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
+      await userEvent.click(screen.getByText(optionLabel(i)));
+    }
+    expect(document.body.textContent).toContain(QUIZ_HUMOUR_CTA.premium(true));
   });
 
   it("saves result to localStorage", async () => {

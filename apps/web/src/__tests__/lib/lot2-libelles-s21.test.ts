@@ -28,12 +28,6 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
   });
 
   it.each([
-    "app/(dashboard)/vannes/[slug]/page.tsx",
-    "app/(dashboard)/conseils/[slug]/page.tsx",
-    "app/(dashboard)/videos/[slug]/page.tsx",
-    "components/vannes/vannes-list.tsx",
-    "components/conseils/conseils-list.tsx",
-    "components/videos/videos-grid.tsx",
     "components/favoris/favoris-list.tsx",
   ])("%s : bouton du mur au libellé E4, plus d'ancien libellé", (rel) => {
     const src = lire(rel);
@@ -44,12 +38,26 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
     expect(src).not.toContain(">Débloquer<");
   });
 
-  it("fiches conseil et vidéo : vrai bouton primaire de 44 px, plus de classes faites à la main", () => {
+  // s21 B7 : les listes passent au bloc de bas de liste (textes dans config/textes/cta-pages.ts).
+  it.each([
+    "components/vannes/vannes-list.tsx",
+    "components/conseils/conseils-list.tsx",
+    "components/videos/videos-grid.tsx",
+  ])("%s : bloc MurListe et lien court des cartes verrouillées", (rel) => {
+    const src = lire(rel);
+    expect(src).toContain("<MurListe ");
+    expect(src).toContain("{MUR_CARTE_LIEN}");
+    expect(src).not.toMatch(/>\s*Voir Premium\s*</);
+    expect(src).not.toContain(">Débloquer<");
+  });
+
+  it("fiches conseil et vidéo : vrai bouton primaire (s21 : bloc BlocExercice), plus de classes faites à la main", () => {
     for (const rel of ["app/(dashboard)/conseils/[slug]/page.tsx", "app/(dashboard)/videos/[slug]/page.tsx"]) {
       const src = lire(rel);
-      expect(src).toContain('buttonVariants({ variant: "primary" }), "h-auto min-h-11');
+      expect(src).toContain("<BlocExercice");
       expect(src).not.toContain("rounded-lg bg-accent-secondary-hover px-4 py-2");
     }
+    expect(lire("components/premium/bloc-exercice.tsx")).toContain('buttonVariants({ variant: "primary", size: "lg" })');
   });
 });
 
@@ -100,7 +108,8 @@ describe("Libellés existants réutilisés (E2, E3) et corrections du §6.7", ()
 
   it("« pour 2,99 €/mois », jamais « dès » (l'annuel revient à 2,08 €/mois)", () => {
     for (const rel of ["components/vannes/vannes-list.tsx", "components/conseils/conseils-list.tsx", "components/videos/videos-grid.tsx"]) {
-      expect(lire(rel)).toContain("Accède à tout le catalogue pour {PREMIUM_PRICE_LABEL}");
+      // s21 B7 : le bas de liste est le bloc MurListe (textes dans config/textes/cta-pages.ts).
+      expect(lire(rel)).toContain("<MurListe ");
       expect(lire(rel)).not.toContain("dès {PREMIUM_PRICE_LABEL}");
     }
     expect(lire("app/(auth)/register/layout.tsx")).toContain("carnet, pour ${PREMIUM_PRICE_LABEL}");

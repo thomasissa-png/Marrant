@@ -12,6 +12,7 @@ import {
 import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { PageHeader } from "@/components/layout/page-header";
 import { getVideosPage } from "@/lib/catalogue-pages";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 
 // Stratégie de rendu : SSR (lecture de `?page=N`, lot S1 s14 P0-1). Les données de
@@ -112,7 +113,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
       />
 
       <Suspense fallback={null}>
-        <VideosGrid initialData={listPage} initialPage={page} />
+        <VideosGrid initialData={listPage} initialPage={page} annualAvailable={isAnnualPlanAvailable()} />
       </Suspense>
 
       {/* FAQ SEO */}

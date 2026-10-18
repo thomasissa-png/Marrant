@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+
+// Stratégie de rendu : ISR (1 h). Page statique pour les moteurs ; la revalidation
+// relit côté serveur la disponibilité de l'offre annuelle (ligne Premium du
+// résultat, s21 B12), comme llms.txt.
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Quiz : quel type d'humour es-tu ?",
@@ -83,7 +89,7 @@ export default function QuizHumourPage() {
           </p>
         </div>
 
-        <ViralQuiz />
+        <ViralQuiz annualAvailable={isAnnualPlanAvailable()} />
 
         {/* SEO content below quiz */}
         <section className="mt-16 space-y-8">

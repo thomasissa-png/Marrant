@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { PremiumPaywall } from "@/components/marketing/premium-paywall";
+import { FENETRE_GARANTIE } from "@/config/textes/cta-pages";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 
 jest.mock("next/navigation", () => ({
@@ -79,14 +80,10 @@ describe("PremiumPaywall (mode web)", () => {
     });
   });
 
-  it("affiche un mention Sans engagement", () => {
+  // s21 B11 (choix de Thomas du 18/10) : une seule ligne de garantie, plus de mentions juridiques en doublon.
+  it("une seule ligne de garantie, sans « rétractation » ni « Sans engagement »", () => {
     render(<PremiumPaywall />);
-    expect(screen.getByText(/Sans engagement/i)).toBeInTheDocument();
-  });
-
-  it("contient lien rétractation conformité L221-28", () => {
-    render(<PremiumPaywall />);
-    const link = screen.getByText(/conditions de rétractation/i);
-    expect(link.closest("a")).toHaveAttribute("href", "/retractation");
+    expect(screen.getByText(FENETRE_GARANTIE)).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/rétractation|Sans engagement/i);
   });
 });

@@ -2,14 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { trackUmami } from "@/lib/umami";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { useSession } from "next-auth/react";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
+import { LIEN_L2 } from "@/components/premium/mur-liste";
+import { FENETRE_CHARGEMENT, QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -102,18 +108,27 @@ function saveProfile(profile: HumorProfile): void {
 function RecommendedParcours({
   recommendation,
   onStart,
+  plein,
 }: {
   recommendation: ParcoursRecommendation;
   onStart: () => void;
+  /** Abonné : plein ; sinon lien discret (le plein du bloc est le paiement, s21 B13). */
+  plein: boolean;
 }) {
   return (
     <div className="mt-6 rounded-lg border border-border bg-background-elevated p-4 text-left">
       <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
       <h3 className="mt-1 font-display text-lg font-bold text-text-primary">{recommendation.title}</h3>
       <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
-      <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
-        Voir par où commencer
-      </Button>
+      {plein ? (
+        <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
+          {QUIZ_ORIENTATION_CTA.commencer}
+        </Button>
+      ) : (
+        <button type="button" onClick={onStart} className={cn(LIEN_L2, "mt-2")}>
+          {QUIZ_ORIENTATION_CTA.commencer}
+        </button>
+      )}
     </div>
   );
 }
@@ -130,6 +145,10 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
   const [existingProfile, setExistingProfile] = useState<HumorProfile | null>(null);
   const [showExistingProfile, setShowExistingProfile] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const isPremium =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
+  const { startCheckout, isLoading: isCheckoutLoading, conflict } = usePremiumCheckout("onboarding");
 
   useEffect(() => {
     const stored = getStoredProfile();
@@ -202,21 +221,44 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 Quiz complété le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
               </p>
             )}
-            <RecommendedParcours recommendation={recommendation} onStart={() => goToParcours(recommendation)} />
-            <div className="mt-4 flex flex-col items-center gap-2">
-              {isExisting && (
-                <Button variant="ghost" size="sm" onClick={handleRetakeQuiz}>
-                  Refaire le quiz
-                </Button>
-              )}
-              <button
-                type="button"
-                onClick={() => router.push("/abonnement")}
-                className="min-h-[44px] text-xs text-text-muted underline hover:text-text-secondary"
-              >
-                Tout débloquer à {PREMIUM_PRICE_LABEL}
-              </button>
-            </div>
+            <RecommendedParcours
+              recommendation={recommendation}
+              onStart={() => goToParcours(recommendation)}
+              plein={isPremium}
+            />
+            {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct). */}
+            {!isPremium && (
+              <div className="mt-4 text-left" data-quiz-orientation-cta>
+                <p className="text-sm text-text-secondary">{QUIZ_ORIENTATION_CTA.phrase(recommendation.slug)}</p>
+                {status === "authenticated" ? (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className="mt-3 h-auto min-h-12 w-full whitespace-normal py-2"
+                    onClick={() => startCheckout(`/parcours/${recommendation.slug}`)}
+                    disabled={isCheckoutLoading}
+                  >
+                    {isCheckoutLoading ? FENETRE_CHARGEMENT : QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
+                  </Button>
+                ) : (
+                  <Link
+                    href={buildAbonnementUrl(`/parcours/${recommendation.slug}`, "monthly", "onboarding")}
+                    className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center")}
+                  >
+                    {QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
+                  </Link>
+                )}
+                <p className="mt-2 text-xs text-text-muted">{QUIZ_ORIENTATION_CTA.garantie}</p>
+                {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
+              </div>
+            )}
+            {isExisting && (
+              <div className="mt-2 flex justify-center">
+                <button type="button" onClick={handleRetakeQuiz} className={LIEN_L2}>
+                  {QUIZ_ORIENTATION_CTA.refaire}
+                </button>
+              </div>
+            )}
           </CardContent>
         </Card>
         {exitLink}

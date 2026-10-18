@@ -20,6 +20,8 @@ import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
 import { CGU_ACCEPTATION, OFFRE_NOM, prixTtcLabel, REMBOURSEMENT_PREMIER_PAIEMENT } from "@/config/textes/offre";
+import { MUR_PARCOURS, REGISTER_CTA } from "@/config/textes/cta-pages";
+import { parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 const OAUTH_ERRORS: Record<string, string> = {
   OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
@@ -91,6 +93,19 @@ interface RegisterFormProps {
   plan: PremiumPlan;
 }
 
+/** Parcours d'origine lu dans le retour (`/abonnement?returnTo=/parcours/x` ou `/parcours/x`). */
+function parcoursOrigineDepuisCallback(callbackUrl: string | null): ParcoursSlug | null {
+  if (!callbackUrl) return null;
+  const direct = parcoursSlugFromHref(callbackUrl);
+  if (direct) return direct;
+  try {
+    const retour = new URL(callbackUrl, "https://deviens-marrant.fr").searchParams.get("returnTo");
+    return parcoursSlugFromHref(retour ?? undefined);
+  } catch {
+    return null;
+  }
+}
+
 function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -116,6 +131,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // `etape: "abonnement"` : le compte est créé pour s'abonner (rupture de série s15).
   const srcData = { src: src ?? "direct", etape: "abonnement" };
   const loginHref = buildLoginUrl({ callbackUrl, src });
+  const etape1Slug = parcoursOrigineDepuisCallback(callbackUrl) ?? MUR_PARCOURS;
 
   // Retour de Google en erreur (`?error=OAuthCallback`…) : mesuré une seule fois.
   const oauthFailureTracked = useRef(false);
@@ -237,25 +253,6 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               </p>
             )}
             <div>
-              <label htmlFor="name" className="mb-1 block text-sm text-text-secondary">
-                Prénom
-              </label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Ton prénom"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                autoComplete="given-name"
-                aria-describedby={fieldErrors.name ? "name-error" : undefined}
-                aria-invalid={!!fieldErrors.name}
-              />
-              {fieldErrors.name && (
-                <p id="name-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.name}</p>
-              )}
-            </div>
-            <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
                 Email
               </label>
@@ -314,8 +311,32 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 <p id="password-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.password}</p>
               )}
             </div>
-            <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-              {isLoading ? "On prépare ton compte…" : "Créer mon compte"}
+            {/* s21 B17 : prénom en dernier et facultatif. */}
+            <div>
+              <label htmlFor="name" className="mb-1 block text-sm text-text-secondary">
+                {REGISTER_CTA.prenomLabel}
+              </label>
+              <Input
+                id="name"
+                type="text"
+                placeholder={REGISTER_CTA.prenomPlaceholder}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                autoComplete="given-name"
+                aria-describedby={fieldErrors.name ? "name-error" : undefined}
+                aria-invalid={!!fieldErrors.name}
+              />
+              {fieldErrors.name && (
+                <p id="name-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.name}</p>
+              )}
+            </div>
+            <Button
+              type="submit"
+              variant="primary"
+              className="h-auto min-h-11 w-full whitespace-normal py-2 text-center"
+              disabled={isLoading}
+            >
+              {isLoading ? "On prépare ton compte…" : REGISTER_CTA.bouton}
             </Button>
             {/* E-mail avant Google pour tous (v5 §2.4) : aucun saut d'ordre au montage. */}
             <Button
@@ -350,6 +371,15 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             {/* Souligné en permanence : lien repérable sans la couleur (axe link-in-text-block, s16). */}
             <Link href={loginHref} className="text-accent-link underline underline-offset-2">
               Connecte-toi
+            </Link>
+          </div>
+          {/* s21 B17 : sortie douce vers l'étape gratuite du parcours d'origine, plutôt qu'un abandon. */}
+          <div className="mt-1 text-center">
+            <Link
+              href={parcoursEtape1Href(etape1Slug, "abonnement")}
+              className="inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2"
+            >
+              {REGISTER_CTA.lienEtape1(etape1Slug)}
             </Link>
           </div>
         </CardContent>

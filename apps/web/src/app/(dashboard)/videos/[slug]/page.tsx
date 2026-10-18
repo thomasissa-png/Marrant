@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { buildVideoMetaDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
@@ -15,9 +14,9 @@ import {
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 import { getRelatedVideos, type RelatedVideo } from "@/lib/related-catalogue";
-import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -155,6 +154,8 @@ export default async function VideoPage({
     duration: video.duration,
   });
 
+  const parcoursRefs = findParcoursForVideo(video.youtubeId);
+
   return (
     <>
       <JsonLd
@@ -211,32 +212,17 @@ export default async function VideoPage({
           </div>
         </section>
 
-        {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="video" refs={findParcoursForVideo(video.youtubeId)} />
+        {/* s21 B10 : les points clés et l'exercice font partie de Premium (s15 §1.1) ; un plein,
+            un contour étape 1, le reste en lien. Rien du contenu de l'analyse n'est dévoilé. */}
+        <BlocExercice
+          type="video"
+          returnTo={`/videos/${canonicalSlug}`}
+          parcours={parcoursPourFiche(parcoursRefs, video.category)}
+          annuel={isAnnualPlanAvailable()}
+        />
 
-        {/* Les learnings + exercice font partie de Premium (s15 §1.1).
-            Le titre, la vidéo (déjà publique sur YouTube) et la description restent
-            visibles pour SEO et VideoObject schema. */}
-        <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">Analyse pédagogique complète</div>
-          <p className="text-sm text-text-primary">
-            Les points clés et l&apos;exercice de cette vidéo font partie de Premium.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href={buildAbonnementUrl(`/videos/${canonicalSlug}`, "monthly", "fiche-video")}
-              className={cn(buttonVariants({ variant: "primary" }), "h-auto min-h-11 whitespace-normal py-2 text-center")}
-            >
-              {MUR_PREMIUM_BOUTON}
-            </Link>
-            <Link
-              href="/videos"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary/40"
-            >
-              Voir toutes les vidéos
-            </Link>
-          </div>
-        </section>
+        {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="video" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">

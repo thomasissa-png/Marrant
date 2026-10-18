@@ -3,6 +3,7 @@
  * quiz d'humour, /abonnement, confidentialité). Cas visiteur systématique.
  */
 import { act, render, screen, waitFor } from "@testing-library/react";
+import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 import { ArticleCta } from "@/components/blog/article-cta";
@@ -203,7 +204,8 @@ describe("Quiz d'humour et /abonnement", () => {
     window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "TAQUIN", completedAt: "2026-10-07" }));
     render(<ViralQuiz />);
     expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Lire la première étape gratuite" })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
+    // s21 B12 : libellé qui nomme le parcours (config/textes/cta-pages.ts).
+    expect(screen.getByRole("link", { name: QUIZ_HUMOUR_CTA.bouton("repartie") })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
     window.localStorage.clear();
   });
   it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", () => {

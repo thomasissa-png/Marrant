@@ -78,7 +78,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=modale-defaut");
     render(<AbonnementView annualAvailable={false} />);
-    const link = screen.getByText("Commencer à 2,99 €/mois");
+    const link = screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois");
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {

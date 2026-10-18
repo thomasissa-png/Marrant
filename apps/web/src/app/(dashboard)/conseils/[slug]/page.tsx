@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { DEFAULT_OG_IMAGE, fitDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
@@ -21,9 +20,9 @@ import {
 } from "@/components/seo/json-ld";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
-import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -211,29 +210,15 @@ export default async function ConseilPage({
           <p className="mt-2 whitespace-pre-wrap text-sm text-text-secondary">{tipProse(tip.example)}</p>
         </section>
 
-        <FicheParcoursLien type="conseil" refs={parcoursRefs} />
+        {/* s21 B9 : l'exercice fait partie de Premium (s15 §1.1) ; un plein, un contour étape 1, le reste en lien. */}
+        <BlocExercice
+          type="conseil"
+          returnTo={`/conseils/${canonicalSlug}`}
+          parcours={parcoursPourFiche(parcoursRefs, tip.category)}
+          annuel={isAnnualPlanAvailable()}
+        />
 
-        {/* L'exercice (application) fait partie de Premium (s15 §1.1). */}
-        <section className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">À toi de jouer</div>
-          <p className="text-sm text-text-primary">
-            L&apos;exercice pour appliquer cette technique fait partie de Premium.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href={buildAbonnementUrl(`/conseils/${canonicalSlug}`, "monthly", "fiche-conseil")}
-              className={cn(buttonVariants({ variant: "primary" }), "h-auto min-h-11 whitespace-normal py-2 text-center")}
-            >
-              {MUR_PREMIUM_BOUTON}
-            </Link>
-            <Link
-              href="/conseils"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary/40"
-            >
-              Voir tous les conseils
-            </Link>
-          </div>
-        </section>
+        <FicheParcoursLien type="conseil" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Conseils liés" className="mt-12 border-t border-border pt-8">

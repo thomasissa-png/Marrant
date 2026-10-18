@@ -191,6 +191,10 @@ export interface ParcoursStepCardProps {
   resultat?: { xp: string | null; rythme: string | null } | null;
   /** s17 tour 1 (UXV-1-06) : repère « Parcours Répartie · 4 semaines » au-dessus du titre. */
   contexte?: string | null;
+  /** s21 B14 : étape suivante (aperçu public), carte de la fin d'étape 1. */
+  etapeSuivante?: Step | null;
+  /** s21 B14 : offre annuelle disponible (lue côté serveur). */
+  annuel?: boolean;
 }
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
@@ -554,7 +558,15 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </p>
       )}
 
-      {!isPremium && !isCompleted && step.order === 1 && <ValidationWall slug={slug} href={props.abonnementHref} quizPending={hasQuiz && !isQuizDone} />}
+      {!isPremium && !isCompleted && step.order === 1 && (
+        <ValidationWall
+          slug={slug}
+          href={props.abonnementHref}
+          quizPending={hasQuiz && !isQuizDone}
+          etapeSuivante={props.etapeSuivante ?? null}
+          annuel={props.annuel ?? false}
+        />
+      )}
     </div>
   );
 }

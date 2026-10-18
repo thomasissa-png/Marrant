@@ -8,6 +8,9 @@ import { toast } from "@/components/ui/toast";
 import { cn } from "@/lib/utils";
 import { PremiumModal } from "@/components/premium/premium-modal";
 
+/** Objet du favori, pour accorder la fenêtre Premium (s21 B11). */
+const CONTENU = { JOKE: "vanne", TIP: "conseil", VIDEO: "video" } as const;
+
 interface FavoriteButtonProps {
   contentType: "JOKE" | "TIP" | "VIDEO";
   contentId: string;
@@ -84,7 +87,7 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
         </span>
       </button>
       {/* Modale contextualisée : dit clairement que les favoris font partie de Premium. */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="favoris" />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="favoris" contenu={CONTENU[contentType]} />
     </>
   );
 }

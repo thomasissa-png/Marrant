@@ -14,6 +14,7 @@ import type { Metadata } from "next";
 import { fitDescription, fitTitle, NOT_FOUND_ROBOTS, websiteOpenGraph, websiteTwitter } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { prisma } from "@/lib/prisma";
 import { redactParcoursForPlan, type ParcoursStepPayload } from "@/lib/parcours-preview";
 import {
@@ -201,6 +202,7 @@ export default async function ParcoursDetailPage({
       )}
       <ParcoursDetail
         slug={params.slug}
+        annualAvailable={isAnnualPlanAvailable()}
         initialPath={
           initialData?.path
             ? (initialData.path as unknown as React.ComponentProps<typeof ParcoursDetail>["initialPath"])

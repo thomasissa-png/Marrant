@@ -77,8 +77,11 @@ export function ParcoursDetail({
   slug,
   initialPath = null,
   initialProgress = null,
+  annualAvailable = false,
 }: {
   slug: string;
+  /** Offre annuelle disponible (lue côté serveur) : ligne de prix de la fin d'étape 1 (s21 B14). */
+  annualAvailable?: boolean;
   /** Contenu pré-rendu côté serveur (ISR) : étape 1 complète, aperçu des étapes 2+. */
   initialPath?: PathData | null;
   /** Progression pré-chargée (null : chargée côté navigateur après la session). */
@@ -717,6 +720,8 @@ export function ParcoursDetail({
               isSequentiallyLocked={etapeVerrouillee(stepIndex)}
               isPremiumLocked={!etapeAccessible(step.order)}
               previousOrder={path.steps[stepIndex - 1]?.order ?? null}
+              etapeSuivante={path.steps[stepIndex + 1] ?? null}
+              annuel={annualAvailable}
               isQuizDone={quizDone.has(step.order)}
               isSeedFallback={isSeedFallback}
               completing={completing === step.order}

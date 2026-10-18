@@ -73,12 +73,14 @@ export async function nettoyerStripe(emails: string[]): Promise<void> {
 /** Création de compte depuis /abonnement (mensuel ou annuel), jusqu'au Checkout Stripe. */
 export async function inscriptionJusquAuCheckout(page: Page, email: string, plan: "monthly" | "annual") {
   await page.goto(plan === "annual" ? "/abonnement?plan=annual" : "/abonnement");
-  await page.getByRole("link", { name: /^Commencer à/ }).click();
+  // s21 B16 : « Ouvrir les N parcours · prix » (avant : « Commencer à prix »).
+  await page.getByRole("link", { name: /^(Commencer à|Ouvrir les \d+ parcours ·)/ }).click();
   await expect(page).toHaveURL(/\/register\?/);
   await page.locator("#name").fill("Testeur E2E");
   await page.locator("#email").fill(email);
   await page.locator("#password").fill(MOT_DE_PASSE);
-  await page.getByRole("button", { name: "Créer mon compte" }).click();
+  // s21 B17 : « Créer mon compte et passer au paiement » (avant : « Créer mon compte »).
+  await page.getByRole("button", { name: /^Créer mon compte/ }).click();
   // Retour sur /abonnement?auto=1 qui ouvre le paiement tout seul.
   await page.waitForURL(/checkout\.stripe\.com/, { timeout: 45_000 });
 }

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
@@ -13,12 +12,11 @@ import {
   buildBreadcrumbJsonLd,
 } from "@/components/seo/json-ld";
 import { VanneShareRow } from "@/components/vannes/vanne-share-row";
-import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
-import { buttonVariants } from "@/components/ui/button";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
-import { MUR_PREMIUM_BOUTON } from "@/config/textes/offre";
-import { cn } from "@/lib/utils";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -144,7 +142,7 @@ export default async function VannePage({
 
   // "Pourquoi ça marche" public (valeur SEO) ; "À toi de jouer" fait partie de
   // Premium (abonnés, s15 §1.1) : géré côté client par
-  // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
+  // <BlocExercice> (client) pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
   // Ancien slug (vanne réécrite) : 308 vers l'URL canonique (lot S3d s14).
@@ -181,6 +179,8 @@ export default async function VannePage({
       url: "https://deviens-marrant.fr/vannes",
     },
   };
+
+  const parcoursRefs = findParcoursForJoke(joke.content);
 
   return (
     <>
@@ -241,7 +241,6 @@ export default async function VannePage({
                 {joke.techniqueExplanation}
               </p>
             )}
-            {joke.howToApply ? <HowToApplyGate howToApply={joke.howToApply} /> : null}
             <p className="mt-3 text-xs text-text-muted">
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link
@@ -254,37 +253,28 @@ export default async function VannePage({
           </section>
         )}
 
-        {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="vanne" refs={findParcoursForJoke(joke.content)} />
-
-        {/* Passerelle parcours — même approche que sur le catalogue, sans
-            re-monter un mur : c'est une invitation, pas un blocage. */}
+        {/* Comment la ressortir : le texte reste, en prose, sans bouton (s21 B8). */}
         <section className="mt-6 rounded-xl border border-border bg-background-card p-5">
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
             Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
-            Les variantes et le parcours complet sont dans les{" "}
-            <Link href="/parcours" className="text-accent-link underline underline-offset-2">
-              parcours Premium
-            </Link>
-            .
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href={buildAbonnementUrl(`/vannes/${canonicalSlug}`, "monthly", "fiche-vanne")}
-              className={cn(buttonVariants({ variant: "primary" }), "h-auto min-h-11 whitespace-normal py-2 text-center")}
-            >
-              {MUR_PREMIUM_BOUTON}
-            </Link>
-            <Link
-              href="/vannes"
-              className={buttonVariants({ variant: "outline" })}
-            >
-              Voir toutes les vannes
-            </Link>
-          </div>
         </section>
+
+        {/* s21 B8 : un plein Premium, un contour étape 1, le reste en lien. Seulement si l'exercice existe. */}
+        {joke.howToApply ? (
+          <BlocExercice
+            type="vanne"
+            returnTo={`/vannes/${canonicalSlug}`}
+            parcours={parcoursPourFiche(parcoursRefs, joke.category)}
+            annuel={isAnnualPlanAvailable()}
+            exercice={joke.howToApply}
+          />
+        ) : null}
+
+        {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="vanne" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vannes liées" className="mt-12 border-t border-border pt-8">

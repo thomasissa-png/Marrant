@@ -114,7 +114,7 @@ describe("visiteur : un seul chemin vers /register (étape 1 sur 2)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} />);
     await waitFor(() => {
-      const href = screen.getByText("Commencer à 2,99 €/mois").closest("a")?.getAttribute("href") ?? "";
+      const href = screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois").closest("a")?.getAttribute("href") ?? "";
       const params = new URL(href, "https://deviens-marrant.fr").searchParams;
       expect(params.get("src")).toBe("fiche-vanne");
       expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%2Fma-vanne");

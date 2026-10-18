@@ -11,6 +11,8 @@ interface ModalProps {
   className?: string;
   /** id(s) du titre visible de la modale, pour `aria-labelledby`. */
   labelledBy?: string;
+  /** Panneau qui monte du bas sur mobile (bottom sheet), centré dès `sm`. */
+  sheet?: boolean;
 }
 
 const FOCUSABLE =
@@ -20,7 +22,7 @@ function focusables(root: HTMLElement): HTMLElement[] {
   return Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE));
 }
 
-export function Modal({ isOpen, onClose, children, className, labelledBy }: ModalProps) {
+export function Modal({ isOpen, onClose, children, className, labelledBy, sheet = false }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -92,12 +94,18 @@ export function Modal({ isOpen, onClose, children, className, labelledBy }: Moda
       aria-labelledby={labelledBy}
     >
       {/* Wrapper flex avec padding vertical pour garantir une zone tappable autour de la modal */}
-      <div className="flex min-h-full items-center justify-center px-4 py-8">
+      <div
+        className={cn(
+          "flex min-h-full justify-center",
+          sheet ? "items-end sm:items-center sm:px-4 sm:py-8" : "items-center px-4 py-8",
+        )}
+      >
         <div
           ref={contentRef}
           tabIndex={-1}
           className={cn(
-            "relative w-full max-w-md animate-scale-in",
+            "relative w-full",
+            sheet ? "animate-slide-up sm:animate-scale-in" : "max-w-md animate-scale-in",
             className
           )}
         >
@@ -105,7 +113,12 @@ export function Modal({ isOpen, onClose, children, className, labelledBy }: Moda
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
-            className="absolute -top-3 -right-3 z-20 flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/20 bg-black/70 text-white shadow-xl backdrop-blur-sm transition-all hover:bg-black/90 hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary md:-top-4 md:-right-4 md:h-11 md:w-11"
+            className={cn(
+              "absolute z-20 flex items-center justify-center rounded-full text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+              sheet
+                ? "right-3 top-3 h-11 w-11 bg-black/40 hover:bg-black/70"
+                : "-top-3 -right-3 h-10 w-10 border-2 border-white/20 bg-black/70 shadow-xl backdrop-blur-sm hover:bg-black/90 hover:scale-110 md:-top-4 md:-right-4 md:h-11 md:w-11",
+            )}
             aria-label="Fermer"
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>

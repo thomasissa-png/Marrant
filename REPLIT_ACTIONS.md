@@ -26,6 +26,22 @@ Part avec la mise en ligne s21 (procédure P0 à P8 ci-dessous), jamais seule. *
 
 Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
 
+### Blocs d'appel s21, partie B : murs, fiches, fenêtre Premium, quiz, fin d'étape 1, /parcours, /abonnement, /register (@fullstack, 18/10/2026)
+
+Branche `claude/marrant-s21-cta-b`, à fusionner dans `claude/marrant-s21-integration` avec la partie A, puis mise en ligne avec la procédure P0 à P8 ci-dessous (aucune étape propre). **Rien à faire seul sur Replit ou Cloudflare.**
+
+- **Base** : aucune migration. Le prénom devient facultatif à l'inscription ; la colonne `User.name` est déjà nullable (`String?`), un prénom vide est enregistré `NULL` et les e-mails disent « Salut, ».
+- **Secrets / variables** : aucun nouveau. L'annuel des nouvelles lignes de prix suit `STRIPE_PREMIUM_ANNUAL_PRICE_ID` (`isAnnualPlanAvailable()`), comme /abonnement.
+- **Rendu** : `/quiz-humour` passe de statique à ISR 1 h (`revalidate = 3600`), pour lire l'annuel côté serveur. `/abonnement` lit `returnTo` côté serveur (déjà dynamique).
+- **Textes** : tous dans `apps/web/src/config/textes/cta-pages.ts` (gagnants du tour 4). Le remplacement par les textes finaux du tour 5 se fait dans ce seul fichier.
+- **Contrôles après mise en ligne** (en plus de P6) :
+  - `curl -s "https://deviens-marrant.fr/abonnement?returnTo=%2Fparcours%2Fconfiance&ne-pas-compter=1" | grep -c "Le rire, à ton rythme, sans te forcer"` → 1 ou plus ; `curl -s "https://deviens-marrant.fr/abonnement?ne-pas-compter=1" | grep -c "Deux étapes : ton compte, puis le paiement sécurisé par Stripe."` → 1 ou plus.
+  - `curl -s "https://deviens-marrant.fr/register?ne-pas-compter=1" | grep -c "Créer mon compte et passer au paiement"` → 1 ou plus.
+  - `curl -s "https://deviens-marrant.fr/parcours?ne-pas-compter=1" | grep -c "gratuite"` → 1 ou plus (bouton « Commencer l'étape 1 de … , gratuite »).
+  - À l'œil, 375 px : bas de /vannes (bloc « Voir la suite des vannes avec Premium »), une fiche vanne (bloc d'exercice), le cœur d'une vanne (fenêtre qui monte du bas), fin de l'étape 1 de Répartie (carte « Étape 2 »). Captures de référence : `docs/qa/captures-s21/cta-partie-b/`.
+  - Smoke de production : `npm run test:e2e:smoke:deploye` exclut `@s21` ; après la mise en ligne, lancer aussi `E2E_BASE_URL=https://deviens-marrant.fr npm run test:e2e:smoke -- --grep @s21` (lecture seule).
+- **Retour arrière** : P8 (version N-1), aucune donnée à défaire.
+
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026)
 
 #### Procédure de mise en ligne s21, P0 à P8 (@infrastructure, 17/10/2026 ; remplace toutes les consignes de procédure plus bas)

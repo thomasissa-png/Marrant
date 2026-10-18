@@ -2,10 +2,9 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
@@ -13,19 +12,17 @@ import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { PremiumModal } from "@/components/premium/premium-modal";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 // Limite gratuite : même constante que celle appliquée par /api/jokes.
-import { FREE_JOKE_LIMIT, PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { CARTE_VERROUILLEE_LABEL, OFFRE_NOM } from "@/config/textes/offre";
+import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
-import { MUR_PREMIUM_BOUTON, MUR_PREMIUM_LIEN } from "@/config/textes/offre";
+import { MUR_CARTE_LIEN } from "@/config/textes/cta-pages";
 
 interface Joke {
   id: string;
@@ -111,13 +108,13 @@ interface VannesListProps {
   /** Page rendue par le serveur (HTML crawlable, lot S1 s14). Null : chargement client seul. */
   initialData?: CataloguePage<Joke> | null;
   initialPage?: number;
+  /** Offre annuelle disponible (lue côté serveur) : demi-ligne de prix du mur. */
+  annualAvailable?: boolean;
 }
 
-export function VannesList({ initialData = null, initialPage = 1 }: VannesListProps = {}) {
+export function VannesList({ initialData = null, initialPage = 1, annualAvailable = false }: VannesListProps = {}) {
   const searchParams = useSearchParams();
   const searchQuery = searchParams.get("q") ?? "";
-  const { status: sessionStatus } = useSession();
-  const isAnonymous = sessionStatus === "unauthenticated";
   const { page, goToPage, resetPage, listRef, announce } = useListPage(initialPage);
   const [jokes, setJokes] = useState<Joke[]>(initialData?.items ?? []);
   const [pagination, setPagination] = useState<Pagination | null>(initialData ? toPagination(initialData) : null);
@@ -127,7 +124,6 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
   const [error, setError] = useState(false);
   const [revealedIds, setRevealedIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
-  const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
@@ -167,7 +163,6 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         setJokes(data.jokes);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
-        setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
         fallBackToServer();
@@ -207,40 +202,9 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
 
   return (
     <>
-      {/* Bandeau limite gratuite pour anonymes — clair et posé avant l'inscription */}
-      {isAnonymous && (
-        <div className="mb-6 flex flex-col gap-3 rounded-lg border border-accent-primary/30 bg-accent-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold text-text-primary">
-              Aperçu gratuit : {FREE_JOKE_LIMIT} vannes accessibles sans abonnement.
-            </p>
-            <p className="text-xs text-text-secondary">
-              Passe à {OFFRE_NOM} à {PREMIUM_PRICE_LABEL} : tout le catalogue, les filtres et les favoris.
-            </p>
-          </div>
-          <div className="flex flex-shrink-0 flex-col items-center gap-1 sm:flex-row sm:gap-4">
-            <Link
-              href={buildAbonnementUrl("/vannes", "monthly", "vannes")}
-              className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full sm:w-auto")}
-            >
-              Tout débloquer
-            </Link>
-          </div>
-        </div>
-      )}
-
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
-      {limited ? (
-        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
-          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <p className="text-sm text-text-secondary">
-            Filtres par catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
-          </p>
-        </div>
-      ) : (
+      {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
+      {limited ? null : (
         <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
           {CATEGORIES.map((cat) => (
             <button
@@ -393,6 +357,14 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       )}
       </ListResults>
 
+      {/* s21 B7 : limite annoncée après la dernière carte, bloc de bas de liste, puis cartes floutées. */}
+      {limited && (jokes.length > 0 || page > 1) && (
+        <>
+          <MurListeLimite liste="vannes" />
+          <MurListe liste="vannes" annuel={annualAvailable} />
+        </>
+      )}
+
       {/* Cartes verrouillées pour FREE users */}
       {limited && (jokes.length > 0 || page > 1) && (
         <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -420,7 +392,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
-                    <span className="text-xs font-medium text-accent-link">{MUR_PREMIUM_LIEN}</span>
+                    <span className="text-xs font-medium text-accent-link">{MUR_CARTE_LIEN}</span>
                   </div>
                 </div>
               </CardContent>
@@ -429,21 +401,8 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         </div>
       )}
 
-      {/* Bannière upgrade FREE */}
-      {limited && upgradeMessage && (
-        <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="font-semibold text-text-primary">{upgradeMessage}</p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue pour {PREMIUM_PRICE_LABEL}
-          </p>
-          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
-            {MUR_PREMIUM_BOUTON}
-          </Button>
-        </div>
-      )}
-
       {/* Premium Modal */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="vanne" />
 
       {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
       <ListPagination

@@ -1,4 +1,5 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { useUserStore } from "@/stores/user-store";
@@ -389,8 +390,9 @@ describe("ParcoursDetail — quiz gate", () => {
 describe("ParcoursDetail — tunnel s15", () => {
   it("anonyme : étape 1 lisible, valider = Premium, lien /abonnement qui ramène au parcours (s15, étalon 4.1)", async () => {
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
-    const link = screen.getByRole("link", { name: "Voir ce que contient Premium" });
+    // s21 B14 : sans quiz dans l'étape, la fin d'étape 1 (phrase du tour 4 et un seul plein).
+    expect(await screen.findByText(FIN_ETAPE_1.phrase("machine-a-cafe"))).toBeInTheDocument();
+    const link = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
     expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-etape");
     expect(screen.queryByText(/compte gratuit/i)).not.toBeInTheDocument();
   });
@@ -405,7 +407,7 @@ describe("ParcoursDetail — tunnel s15", () => {
       json: async () => ({ path: { ...mockPathData.path, id: "db-path-123" }, userProgress: null }),
     });
     render(<ParcoursDetail slug="machine-a-cafe" />);
-    expect(await screen.findByText("Valider l'étape fait partie de Premium.")).toBeInTheDocument();
+    expect(await screen.findByText(FIN_ETAPE_1.phrase("machine-a-cafe"))).toBeInTheDocument();
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
     expect(screen.queryByText("Termine le quiz pour valider cette étape")).not.toBeInTheDocument();
   });

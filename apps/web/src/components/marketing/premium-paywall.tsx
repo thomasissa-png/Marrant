@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
+import { FENETRE_GARANTIE } from "@/config/textes/cta-pages";
 import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 
 /**
@@ -173,13 +174,8 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         {loading ? "On t'emmène au paiement…" : `S'abonner · ${PREMIUM_PRICE_LABEL}`}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
-      <p className="mt-3 text-xs text-gray-400">
-        Sans engagement. Voir{" "}
-        <a href="/retractation" className="underline">
-          conditions de rétractation
-        </a>
-        .
-      </p>
+      {/* s21 B11 (choix de Thomas du 18/10) : une seule ligne de garantie, pas de mentions juridiques. */}
+      <p className="mt-3 text-xs text-gray-400">{FENETRE_GARANTIE}</p>
     </div>
   );
 }

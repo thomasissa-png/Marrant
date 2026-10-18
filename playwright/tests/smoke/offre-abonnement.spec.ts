@@ -19,9 +19,10 @@ async function choisirAnnuel(page: Page) {
 const REASSURANCE = texteValide(REASSURANCE_PAIEMENT);
 
 test.describe("Offre /abonnement @smoke", () => {
-  test("CTA mensuel « Commencer à 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement", async ({ page }) => {
+  // s21 B16 : libellé du tour 4, qui suit la formule choisie.
+  test("CTA mensuel « Ouvrir les N parcours · 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
     await page.goto("/abonnement");
-    const cta = page.getByRole("link", { name: /^Commencer à 2,99/ });
+    const cta = page.getByRole("link", { name: /^Ouvrir les \d+ parcours · 2,99/ });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -30,13 +31,13 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    await expect(page.getByLabel(/e-?mail/i)).toBeVisible();
+    await expect(page.getByRole("textbox", { name: /^e-?mail$/i })).toBeVisible();
   });
 
-  test("CTA annuel « Commencer à 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel", async ({ page }) => {
+  test("CTA annuel « Ouvrir les N parcours · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
     await page.goto("/abonnement");
     await choisirAnnuel(page);
-    const cta = page.getByRole("link", { name: /^Commencer à 24,99/ });
+    const cta = page.getByRole("link", { name: /^Ouvrir les \d+ parcours · 24,99/ });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");

@@ -1,6 +1,7 @@
 import { test, expect, lireUrl, texteValide } from "../support/fixtures";
 import { REASSURANCE_PAIEMENT, VALIDATION_ETAPE } from "@/config/textes/offre";
 import { APERCU_INTRO, progressionVisiteurTexte } from "@/config/textes/parcours";
+import { contourEtape1, FENETRE_PREMIUM, MUR_LISTE, MUR_PARCOURS } from "@/config/textes/cta-pages";
 
 /**
  * J1 : pages des parcours et murs Premium (lecture seule).
@@ -42,7 +43,8 @@ test.describe("Pages des parcours @smoke", () => {
 });
 
 test.describe("Murs Premium @smoke", () => {
-  test("/vannes : 10 vannes libres puis « Tout débloquer » vers /abonnement", async ({ page }) => {
+  // s21 B7 : plus de bandeau en haut ; bloc de bas de liste (MurListe) après la 10e vanne.
+  test("/vannes : 10 vannes libres puis le bloc de bas de liste vers /abonnement @s21", async ({ page }) => {
     await page.goto("/vannes");
     // Le rendu serveur liste plus de fiches ; le mur s'applique à l'hydratation.
     await expect(page.getByLabel(/^Contenu premium/i).first()).toBeVisible();
@@ -50,12 +52,15 @@ test.describe("Murs Premium @smoke", () => {
     const slugs = new Set(await fiches.evaluateAll((liens) => liens.map((a) => a.getAttribute("href"))));
     expect(slugs.size).toBe(10);
 
-    const cta = page.getByRole("link", { name: "Tout débloquer" });
+    await expect(page.getByText(MUR_LISTE.vannes.limite)).toBeVisible();
+    const cta = page.getByRole("link", { name: MUR_LISTE.vannes.bouton });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/abonnement");
     expect(url.searchParams.get("returnTo")).toBe("/vannes");
-    expect(url.searchParams.get("src")).toBe("vannes");
+    expect(url.searchParams.get("src")).toBe("mur-vannes");
+    // Contour vers l'étape 1 gratuite, sous le plein.
+    await expect(page.getByRole("link", { name: contourEtape1(MUR_PARCOURS) })).toBeVisible();
 
     await cta.click();
     await expect(page).toHaveURL(/\/abonnement\?/);
@@ -63,7 +68,7 @@ test.describe("Murs Premium @smoke", () => {
   });
 
   for (const rubrique of ["conseils", "videos"] as const) {
-    test(`/${rubrique} : 3 fiches libres, carte verrouillée → modale → inscription puis /abonnement`, async ({ page }) => {
+    test(`/${rubrique} : 3 fiches libres, carte verrouillée → modale → inscription puis /abonnement @s21`, async ({ page }) => {
       await page.goto(`/${rubrique}`);
       // Le rendu serveur liste plus de fiches ; le mur s'applique à l'hydratation.
       await expect(page.getByLabel(/^Contenu premium/i).first()).toBeVisible();
@@ -78,7 +83,8 @@ test.describe("Murs Premium @smoke", () => {
       const modale = page.getByRole("dialog");
       await expect(modale).toBeVisible();
 
-      const cta = modale.getByRole("link", { name: /m'abonner|commencer|accès/i }).first();
+      // s21 B11 : bouton par geste (« Je m'abonne et j'ouvre toute la liste »).
+      const cta = modale.getByRole("link", { name: FENETRE_PREMIUM.carte[rubrique === "conseils" ? "conseil" : "video"].bouton });
       const url = lireUrl(await cta.getAttribute("href"));
       expect(url.pathname).toBe("/register");
       const retour = lireUrl(url.searchParams.get("callbackUrl"));
