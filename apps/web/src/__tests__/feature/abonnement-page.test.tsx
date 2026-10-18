@@ -98,7 +98,7 @@ describe("AbonnementPage (s12 T45)", () => {
     );
     expect(
       screen.getByText(
-        "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+        "5 parcours pour t'entraîner, une étape par semaine conseillée, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
       ),
     ).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans carte/i);
@@ -117,7 +117,7 @@ describe("AbonnementPage (s12 T45)", () => {
     const lignes = [
       "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
       "Ta réplique pendant la soirée, pas dans le bus du retour",
-      "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      "5 parcours pour t'entraîner, une étape par semaine conseillée, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
       "Premium",
       "Mensuel",
       "Annuel",

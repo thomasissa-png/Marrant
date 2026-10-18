@@ -40,7 +40,7 @@ export const faqs = [
   {
     question: PRICE_FAQ_QUESTION,
     answer:
-      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
+      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu résilies depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
   },
   {
     question:
@@ -57,7 +57,7 @@ export const faqs = [
 ];
 
 /** Réponse prix quand la formule annuelle est disponible (prix Stripe annuel configuré). */
-const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Tu préfères payer à l’année ? C’est ${PREMIUM_ANNUAL_PRICE_LABEL} en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL}). Pas de frais cachés. L’abonnement se renouvelle à la fin de chaque période (mois ou année) tant que tu ne l’annules pas, et tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.`;
+const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Tu préfères payer à l’année ? C’est ${PREMIUM_ANNUAL_PRICE_LABEL} en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL}). Pas de frais cachés. L’abonnement se renouvelle à la fin de chaque période (mois ou année) tant que tu ne l’annules pas, et tu résilies depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.`;
 
 /**
  * FAQ Premium selon la disponibilité de l'annuel, lue côté serveur

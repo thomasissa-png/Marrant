@@ -85,7 +85,7 @@ describe("Haut de /abonnement (tour 3, 3/3 au niveau)", () => {
     expect(ABONNEMENT_HAUT_VISITEUR.titre).toBe("Ta réplique pendant la soirée, pas dans le bus du retour");
     expect(ABONNEMENT_HAUT_VISITEUR.surtitre).toBe("C'est pour toi si tu restes muet quand on te chambre.");
     expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe(
-      "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
+      "5 parcours pour t'entraîner, une étape par semaine conseillée, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
     );
   });
 

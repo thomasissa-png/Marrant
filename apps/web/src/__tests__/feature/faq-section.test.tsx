@@ -49,7 +49,9 @@ describe("FaqSection", () => {
   });
 
   it("mentions trust reassurances in answers", () => {
-    expect(screen.getByText(/annules en 1 clic/)).toBeInTheDocument();
+    // s21 concision (fait faux corrigé) : on résilie depuis le profil, jamais « en 1 clic ».
+    expect(screen.getByText(/Tu résilies depuis ton profil/)).toBeInTheDocument();
+    expect(screen.queryByText(/1 clic/)).toBeNull();
     expect(screen.getByText(/Paiement sécurisé par Stripe/)).toBeInTheDocument();
   });
 
