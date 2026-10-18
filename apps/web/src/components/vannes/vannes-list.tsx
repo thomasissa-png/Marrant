@@ -6,7 +6,8 @@ import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { chipClass } from "@/components/ui/chip";
+import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
@@ -19,9 +20,8 @@ import Link from "next/link";
 import { FLECHE_CARTE_LIEN, FLECHE_CARTE_PASTILLE } from "@/components/ui/liens";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
-// Limite gratuite : même constante que celle appliquée par /api/jokes.
-import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
 import { MurListe } from "@/components/premium/mur-liste";
+import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 
@@ -192,7 +192,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {limited ? null : (
-        <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vannes">
+        <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Catégories de vannes">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
@@ -350,38 +350,12 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
       {limited && (jokes.length > 0 || page > 1) && <MurListe liste="vannes" />}
 
-      {/* Cartes verrouillées pour FREE users */}
-      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur. */}
+      {/* Carte floutée (une seule, concision v5) : même cadre sur les trois murs (revue visuelle s21, R10),
+          sur toute la colonne de la liste, comme le mur au-dessus. */}
       {limited && (jokes.length > 0 || page > 1) && (
-        <div className="mt-4 grid gap-4">
+        <div className="mt-4 grid">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - jokes.length)) }).map((_, i) => (
-            <Card
-              key={`locked-${i}`}
-              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
-              onClick={() => setPremiumOpen(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label={CARTE_VERROUILLEE_LABEL}
-            >
-              <CardContent className="pt-0">
-                <div className="mb-3 flex items-center gap-2">
-                  {/* Gabarit décoratif sans texte : plus de texte à 50 % d'opacité (contraste axe, s16). */}
-                  <div className="h-5 w-20 rounded-full bg-text-muted/10" aria-hidden="true" />
-                </div>
-                <div className="space-y-2">
-                  <div className="h-4 w-4/5 rounded bg-text-muted/10" />
-                  <div className="h-4 w-3/5 rounded bg-text-muted/10" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <CarteFloutee key={`locked-${i}`} onOuvrir={() => setPremiumOpen(true)} />
           ))}
         </div>
       )}

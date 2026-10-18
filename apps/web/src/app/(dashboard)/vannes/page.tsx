@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
 import { VannesThemeNav } from "@/components/vannes/vannes-theme-nav";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
@@ -120,8 +121,12 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           </>
         }
       />
-      {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. */}
-      <VannesThemeNav />
+      {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21
+          (R04) : masquées pour l'abonné, qui a déjà la rangée de filtres de la liste (une seule rangée
+          visible) ; le HTML du serveur (sans session) les garde pour les moteurs. */}
+      <MasqueSiPremium>
+        <VannesThemeNav />
+      </MasqueSiPremium>
 
       <Suspense fallback={null}>
         <VannesList initialData={listPage} initialPage={page} />

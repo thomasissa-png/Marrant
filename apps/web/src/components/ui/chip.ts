@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 const BASE =
-  "inline-flex min-h-[44px] items-center rounded-full border px-4 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
+  "inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full border px-4 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 const IDLE =
   "border-border bg-background-elevated text-text-secondary hover:border-accent-primary hover:text-text-primary";
 const ACTIVE = "border-accent-secondary-hover bg-accent-secondary-hover font-semibold text-white";
@@ -10,3 +10,11 @@ const ACTIVE = "border-accent-secondary-hover bg-accent-secondary-hover font-sem
 export function chipClass(state: "idle" | "active" = "idle", className?: string): string {
   return cn(BASE, state === "active" ? ACTIVE : IDLE, className);
 }
+
+/**
+ * Rangée de pastilles (revue visuelle s21, R03) : une seule ligne qui défile sous 768 px (plus de
+ * pastille orpheline sur une 3e ligne), fondu de 24 px à droite comme repère de défilement ;
+ * passage à la ligne dès 768 px. Même rangée pour /vannes, /conseils, /videos et le glossaire.
+ */
+export const RANGEE_CHIPS =
+  "-mx-4 flex snap-x flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0 md:[mask-image:none] [&::-webkit-scrollbar]:hidden";

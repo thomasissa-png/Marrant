@@ -84,8 +84,9 @@ export default function GlossairePage() {
         aria-label="Glossaire"
         className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
       >
-        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »). */}
-        <ul className="flex snap-x gap-0 overflow-x-auto py-1 lg:flex-wrap lg:overflow-visible">
+        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »).
+            Revue visuelle s21 (R30) : en dessous, fondu de 24 px à droite comme repère de défilement. */}
+        <ul className="flex snap-x gap-0 overflow-x-auto py-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible lg:[mask-image:none] [&::-webkit-scrollbar]:hidden">
           {glossary.map((item) => (
             <li key={item.term} className="shrink-0 snap-start">
               <a
@@ -99,13 +100,14 @@ export default function GlossairePage() {
         </ul>
       </nav>
 
-      {/* Revue visuelle s21 : définitions sur la pleine colonne, comme l'index et « Passe de la théorie à la pratique ». */}
-      <div className="space-y-6">
+      {/* Revue visuelle s21 : définitions sur la pleine colonne, comme l'index et « Passe de la théorie à la pratique » ;
+          R31 : 2 colonnes dès 1 024 px comme /conseils (pages sœurs), cartes de même hauteur par rangée. */}
+      <div className="grid gap-6 lg:grid-cols-2 lg:[&>*:last-child:nth-child(odd)]:col-span-2">
         {glossary.map((item) => (
           <section
             key={item.term}
             id={termAnchor(item.term)}
-            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
+            className="flex h-full scroll-mt-32 flex-col rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
               {item.term}
@@ -115,7 +117,7 @@ export default function GlossairePage() {
             </p>
             <Link
               href={item.related}
-              className="mt-1 inline-flex min-h-11 items-center text-sm font-medium text-accent-link hover:underline"
+              className="mt-auto inline-flex min-h-11 items-center self-start pt-1 text-sm font-medium text-accent-link hover:underline"
             >
               {item.relatedLabel} →
             </Link>
@@ -155,7 +157,7 @@ export default function GlossairePage() {
           </Link>
         </div>
         <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
-        <div className="mt-1">
+        <div className="-mb-3 mt-1">
           <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
             {frTypo(GLOSSAIRE_FIN.lienEtape1)}
           </Link>

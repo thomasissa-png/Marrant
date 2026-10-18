@@ -1,10 +1,12 @@
 "use client";
 
+import { contenuAffiche } from "@/lib/tip-prose";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
@@ -18,11 +20,10 @@ import { ListResults } from "@/components/ui/list-results";
 import { buildVideoSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 import { MurListe } from "@/components/premium/mur-liste";
-import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
-import { frTypo } from "@/lib/fr-typo";
 
 interface Video {
   id: string;
@@ -66,11 +67,12 @@ const CATEGORY_LABELS: Record<string, string> = {
 function renderLearning(raw: string) {
   const learning = fixInvertedCase(raw);
   const parts = splitLearning(learning);
-  if (!parts) return learning;
+  // Revue visuelle s21 (décision 4) : décryptages au rendu typographique (donnée intacte).
+  if (!parts) return contenuAffiche(learning);
   return (
     <>
-      <strong className="font-semibold text-text-primary">{parts.title}</strong>
-      {frTypo(parts.rest)}
+      <strong className="font-semibold text-text-primary">{contenuAffiche(parts.title)}</strong>
+      {contenuAffiche(parts.rest)}
     </>
   );
 }
@@ -195,33 +197,34 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {limited ? null : (
         <>
-          <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+          {/* Revue visuelle s21 (R03) : mêmes pastilles que /vannes, une ligne qui défile sous 768 px. */}
+          <div className={cn("mb-3", RANGEE_CHIPS)} role="tablist" aria-label="Niveaux de difficulté">
             {DIFFICULTIES.map((d) => (
-              <Button
+              <button
                 key={d.value}
-                variant={difficulty === d.value ? "secondary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={difficulty === d.value}
                 onClick={() => { setDifficulty(d.value); resetPage(); }}
+                className={chipClass(difficulty === d.value ? "active" : "idle")}
               >
                 {d.label}
-              </Button>
+              </button>
             ))}
           </div>
 
-          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de vidéos">
+          <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Catégories de vidéos">
             {CATEGORIES.map((cat) => (
-              <Button
+              <button
                 key={cat.value}
-                variant={category === cat.value ? "primary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={category === cat.value}
                 onClick={() => { setCategory(cat.value); resetPage(); }}
+                className={chipClass(category === cat.value ? "active" : "idle")}
               >
                 {cat.label}
-              </Button>
+              </button>
             ))}
           </div>
         </>
@@ -265,9 +268,10 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="min-h-[3rem] font-display text-base font-bold text-text-primary line-clamp-2">
-                    {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »). */}
-                    <Link href={`/videos/${buildVideoSlug(video)}`} className={TITRE_CARTE_LIEN}>
+                  <h3 className="font-display text-base font-bold text-text-primary">
+                    {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »).
+                        Revue visuelle s21 (décision 2) : le lien occupe les 48 px du titre (cible de 44 px). */}
+                    <Link href={`/videos/${buildVideoSlug(video)}`} className={cn(TITRE_CARTE_LIEN, "line-clamp-2 min-h-12")}>
                       {video.title}
                     </Link>
                   </h3>
@@ -283,7 +287,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                     <Badge variant="default">{video.technique}</Badge>
                   )}
                 </div>
-                <p className="mt-2 text-sm text-text-muted line-clamp-2">{fixInvertedCase(video.description)}</p>
+                <p className="mt-2 text-sm text-text-muted line-clamp-2">{contenuAffiche(fixInvertedCase(video.description))}</p>
                 {video.learnings && video.learnings.length > 0 && (
                   <details key={`l-${isDesktop}`} open={isDesktop} className="group/d mt-3 rounded-lg bg-background-elevated">
                     <summary className={`${DETAILS_SUMMARY} text-text-primary`}>
@@ -301,12 +305,13 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                   </details>
                 )}
                 {video.exercise && (
-                  <details key={`e-${isDesktop}`} open={isDesktop} className="group/d mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5">
+                  // Revue visuelle s21 (R05) : le dernier encadré s'étire, bas des encadrés alignés d'une carte à l'autre.
+                  <details key={`e-${isDesktop}`} open={isDesktop} className="group/d mt-2 flex-1 rounded-lg border border-accent-primary/20 bg-accent-primary/5">
                     <summary className={`${DETAILS_SUMMARY} text-accent-link`}>
                       Exercice pratique
                       <Chevron />
                     </summary>
-                    <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{fixInvertedCase(video.exercise)}</p>
+                    <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{contenuAffiche(fixInvertedCase(video.exercise))}</p>
                   </details>
                 )}
               </CardContent>
@@ -319,36 +324,12 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
       {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
       {limited && (videos.length > 0 || page > 1) && <MurListe liste="videos" />}
 
-      {/* Cartes verrouillées pour FREE users */}
-      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur ;
-          vignette à gauche dès 768 px pour garder la proportion d'une carte vidéo. */}
+      {/* Carte floutée (une seule, concision v5) : même cadre sur les trois murs (revue visuelle s21, R10),
+          sur toute la colonne de la liste, comme le mur au-dessus. */}
       {limited && (videos.length > 0 || page > 1) && (
-        <div className="mt-6 grid gap-6">
+        <div className="mt-4 grid">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - videos.length)) }).map((_, i) => (
-            <Card
-              key={`locked-${i}`}
-              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
-              onClick={() => setPremiumOpen(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label={CARTE_VERROUILLEE_LABEL}
-            >
-              <CardContent className="pt-0 md:flex md:items-center md:gap-6">
-                <div className="mb-3 aspect-video rounded-lg bg-text-muted/10 md:mb-0 md:w-1/3 md:shrink-0" />
-                <div className="md:flex-1">
-                  <div className="h-4 w-3/4 rounded bg-text-muted/10" />
-                  <div className="mt-2 h-3 w-1/2 rounded bg-text-muted/10" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <CarteFloutee key={`locked-${i}`} onOuvrir={() => setPremiumOpen(true)} />
           ))}
         </div>
       )}

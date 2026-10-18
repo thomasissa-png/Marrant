@@ -14,6 +14,7 @@ export const LIEN_L2 = "inline-flex min-h-11 items-center text-sm text-accent-li
 /**
  * Titre de carte cliquable des murs de liste (/conseils, /videos) : seul lien de la carte vers sa
  * fiche, explorable par Google, atteignable au clavier (anneau de focus visible).
+ * Cible de 44 px : voir l'usage (revue visuelle s21, décision 2 du verdict @design).
  */
 export const TITRE_CARTE_LIEN =
   "rounded-sm text-inherit decoration-accent-link decoration-2 underline-offset-4 hover:underline focus-visible:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2";

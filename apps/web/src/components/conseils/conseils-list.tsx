@@ -5,7 +5,8 @@ import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
@@ -22,10 +23,10 @@ import { ListResults } from "@/components/ui/list-results";
 import { buildTipSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
 import { MurListe } from "@/components/premium/mur-liste";
-import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
-import { tipProse } from "@/lib/tip-prose";
+import { contenuAffiche } from "@/lib/tip-prose";
 
 interface Tip {
   id: string;
@@ -193,33 +194,34 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {limited ? null : (
         <>
-          <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+          {/* Revue visuelle s21 (R03) : mêmes pastilles que /vannes, une ligne qui défile sous 768 px. */}
+          <div className={cn("mb-3", RANGEE_CHIPS)} role="tablist" aria-label="Niveaux de difficulté">
             {DIFFICULTIES.map((d) => (
-              <Button
+              <button
                 key={d.value}
-                variant={difficulty === d.value ? "secondary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={difficulty === d.value}
                 onClick={() => { setDifficulty(d.value); resetPage(); }}
+                className={chipClass(difficulty === d.value ? "active" : "idle")}
               >
                 {d.label}
-              </Button>
+              </button>
             ))}
           </div>
 
-          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
+          <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Catégories de conseils">
             {CATEGORIES.map((cat) => (
-              <Button
+              <button
                 key={cat.value}
-                variant={category === cat.value ? "primary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={category === cat.value}
                 onClick={() => { setCategory(cat.value); resetPage(); }}
+                className={chipClass(category === cat.value ? "active" : "idle")}
               >
                 {cat.label}
-              </Button>
+              </button>
             ))}
           </div>
         </>
@@ -232,7 +234,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           onRetry={fetchTips}
         />
       ) : showSkeleton ? (
-        <div className="grid gap-4">
+        <div className="grid gap-4 lg:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="py-6">
@@ -253,12 +255,13 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           ctaHref="/conseils"
         />
       ) : (
-        // Revue visuelle s21 : une colonne pleine largeur (3 conseils gratuits : pas de rangée à moitié vide).
-        <div className="grid gap-4" role="tabpanel">
+        // Revue visuelle s21 (R01) : 2 colonnes dès 1 024 px comme /vannes et /blog, cartes de même hauteur
+        // par rangée ; une dernière carte seule prend la rangée (3 conseils gratuits : 2 + 1 pleine largeur).
+        <div className="grid gap-4 lg:grid-cols-2 lg:[&>*:last-child:nth-child(odd)]:col-span-2" role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className="flex h-full cursor-pointer flex-col p-5 transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               style={{ animationDelay: `${index * 60}ms` }}
               tabIndex={0}
               onClick={() => toggleExpanded(tip.id)}
@@ -286,37 +289,39 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     href={`/conseils/${buildTipSlug(tip)}`}
                     onClick={(e) => e.stopPropagation()}
                     onKeyDown={(e) => e.stopPropagation()}
-                    className={TITRE_CARTE_LIEN}
+                    // Revue visuelle s21 (décision 2) : cible de 44 px, marges négatives pour ne pas déplacer le
+                    // titre ; le reste de la carte garde son geste (déplier le conseil, XP de lecture).
+                    className={cn(TITRE_CARTE_LIEN, "-my-2.5 inline-flex min-h-11 items-center py-2.5")}
                   >
                     {frTypo(tip.title)}
                   </Link>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex flex-1 flex-col">
                 {/* T20 : conseil replié à 4 lignes, affiché en entier au dépliage (clic sur la carte). */}
                 <p
-                  className={`max-w-[72ch] text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
+                  className={`max-w-3xl text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
                 >
-                  {tipProse(tip.content)}
+                  {contenuAffiche(tip.content)}
                 </p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
                       <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
-                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tipProse(tip.example)}</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.example)}</p>
                     </div>
                     {tip.exercise && (
                       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                        <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tipProse(tip.exercise)}</p>
+                        <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.exercise)}</p>
                       </div>
                     )}
                   </div>
                 )}
 
                 {!expandedIds.has(tip.id) && (
-                  <p className="mt-2 text-xs text-text-muted">
+                  <p className="mt-auto pt-2 text-xs text-text-muted">
                     {TIP_TEASERS[index % TIP_TEASERS.length]}
                   </p>
                 )}
@@ -330,43 +335,12 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
       {limited && (tips.length > 0 || page > 1) && <MurListe liste="conseils" />}
 
-      {/* Cartes verrouillées pour FREE users */}
-      {/* Revue visuelle s21 : la carte floutée (une seule, concision v5) prend la colonne de la liste, comme le mur. */}
+      {/* Carte floutée (une seule, concision v5) : même cadre sur les trois murs (revue visuelle s21, R10),
+          sur toute la colonne de la liste, comme le mur au-dessus. */}
       {limited && (tips.length > 0 || page > 1) && (
-        <div className="mt-4 grid gap-4">
+        <div className="mt-4 grid">
           {Array.from({ length: Math.min(1, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
-            <Card
-              key={`locked-${i}`}
-              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
-              onClick={() => setPremiumOpen(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label={CARTE_VERROUILLEE_LABEL}
-            >
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  {/* Gabarits décoratifs sans texte : plus de texte à 50 % d'opacité (contraste axe, s16). */}
-                  <div className="h-5 w-16 rounded-full bg-text-muted/10" aria-hidden="true" />
-                  <div className="h-5 w-20 rounded-full bg-text-muted/10" aria-hidden="true" />
-                </div>
-                <div className="mt-2 h-5 w-3/5 rounded bg-text-muted/10" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="h-4 w-full rounded bg-text-muted/10" />
-                  <div className="h-4 w-4/5 rounded bg-text-muted/10" />
-                  <div className="h-4 w-2/3 rounded bg-text-muted/10" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-link" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <CarteFloutee key={`locked-${i}`} onOuvrir={() => setPremiumOpen(true)} />
           ))}
         </div>
       )}
