@@ -188,11 +188,10 @@ export function noteAccueilHaut(slug: ParcoursSlug = "repartie"): string {
   return `Sans compte : l'étape 1 du parcours ${PARCOURS_NOMS[slug]} (conseil, défi, 5 vannes, 2 vidéos, quiz). Les ${n - 1} suivantes${dont} c'est Premium, résiliable depuis ton profil.`;
 }
 
-/** B3 : le plein mène à l'étape 1 de Répartie, le lien `OUVRIR_ACCUEIL` à /abonnement. */
+/** B3 : le plein mène à l'étape 1 de Répartie (s21 concision : plus de lien payant sous le plein). */
 export const ACCUEIL_HAUT = {
   /** [S19] */
   bouton: "Tester mes premières répliques, gratuit",
-  lien: libelleOuvrirAccueil(),
   /** [S20] */
   note: noteAccueilHaut(),
 } as const;

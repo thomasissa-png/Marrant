@@ -6,9 +6,6 @@ import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { LIEN_L1 } from "@/components/ui/liens";
-import { trackUmami } from "@/lib/umami";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
@@ -24,15 +21,12 @@ const HERO_PARCOURS_LINKS = [
 
 /** s21 (B3) : le plein visiteur ouvre l'étape 1 de Répartie, en lecture libre (froid). */
 const HERO_ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
-/** Lien payant (L1) sous le plein : /abonnement, source attribuable. */
-const HERO_ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-hero");
 
 const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
 
 /** Textes validés du haut d'accueil ([S19], OUVRIR_ACCUEIL, [S20]), passés par la page serveur. */
 export interface TextesAccueilHaut {
   bouton: string;
-  lien: string;
   note: string;
 }
 
@@ -92,7 +86,7 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
           {/* s21 (B3, spec cta-forme-place §4) : visiteur froid. Plein = étape 1 de Répartie ;
-              lien fort (L1) payant dessous ; note en petit. Textes : cta-articles-accueil.ts. */}
+              note en petit. Textes : cta-articles-accueil.ts. */}
           <Link
             href={HERO_ETAPE_1_HREF}
             data-accueil-cta="etape-1"
@@ -103,16 +97,9 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
           >
             {frTypo(textes.bouton)}
           </Link>
-          <Link
-            href={HERO_ABONNEMENT_HREF}
-            data-accueil-cta="abonnement"
-            // s21 (revue design P2-5) : L1 commun, centré et équilibré sur deux lignes à 320-375 px.
-            className={cn(LIEN_L1, "mt-2 px-3 py-2 text-center [text-wrap:balance]")}
-            onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
-          >
-            {frTypo(textes.lien)}
-          </Link>
-          <p className="max-w-md text-balance text-xs text-text-muted">{frTypo(textes.note)}</p>
+          {/* s21 concision (18/10) : plus de lien payant souligné ici, le bouton de prix de l'en-tête
+              porte le payant (source `header`). Source `accueil-hero` retirée avec le lien. */}
+          <p className="mt-2 max-w-md text-balance text-xs text-text-muted">{frTypo(textes.note)}</p>
         </div>
       )}
 

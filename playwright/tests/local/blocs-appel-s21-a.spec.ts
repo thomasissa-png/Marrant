@@ -103,7 +103,9 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       await page.goto("/");
       const plein = page.locator("main a[data-accueil-cta='etape-1']").first();
       await expect(plein).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
-      await expect(page.locator("main a[data-accueil-cta='abonnement']").first()).toHaveAttribute("href", "/abonnement?src=accueil-hero");
+      // s21 concision (18/10) : plus de lien payant sous le plein du haut ; le payant est dans l'en-tête.
+      await expect(page.locator("main section:has(h1) a[href^='/abonnement']")).toHaveCount(0);
+      await expect(page.locator('header a[href^="/abonnement?src=header"]').first()).toBeAttached();
       await capture(page, `accueil-haut-${largeur}`, testInfo);
 
       const carte = page.locator("#offres");

@@ -103,23 +103,14 @@ test.describe("Garde-fous de forme s21 @s21", () => {
     expect(bas, "bas du plein d'accueil à 375 x 667").toBeLessThanOrEqual(600);
   });
 
-  test("accueil à 320 px : lien payant B3 entier, centré, 2 lignes au plus", async ({ page }) => {
+  test("accueil à 320 px : un seul appel dans le haut (plus de lien payant B3), payant dans l'en-tête", async ({ page }) => {
+    // s21 concision (18/10) : le lien payant souligné sous le plein est retiré.
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto("/");
-    const lien = page.locator("main a[data-accueil-cta='abonnement']").first();
-    await expect(lien).toBeVisible();
-    const m = await lien.evaluate((el) => {
-      const r = el.getBoundingClientRect();
-      const cs = getComputedStyle(el);
-      const lignes = Math.round((r.height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom)) / parseFloat(cs.lineHeight));
-      return { gauche: r.left, droite: r.right, hauteur: r.height, lignes, deborde: el.scrollWidth > el.clientWidth, align: cs.textAlign };
-    });
-    mesures.push({ bloc: "accueil-lien-b3", ecran: "320x640", ...m });
-    expect(m.gauche).toBeGreaterThanOrEqual(0);
-    expect(m.droite).toBeLessThanOrEqual(320);
-    expect(m.deborde, "texte coupé").toBe(false);
-    expect(m.align).toBe("center");
-    expect(m.lignes).toBeLessThanOrEqual(2);
-    expect(m.hauteur).toBeGreaterThanOrEqual(44);
+    const haut = page.locator("main section:has(h1)");
+    await expect(haut.locator("a[data-accueil-cta='etape-1']")).toBeVisible();
+    await expect(haut.locator("a[href^='/abonnement']")).toHaveCount(0);
+    await expect(haut.locator("a[data-accueil-cta='abonnement']")).toHaveCount(0);
+    await expect(page.locator('header a[href^="/abonnement?src=header"]').first()).toBeVisible();
   });
 });

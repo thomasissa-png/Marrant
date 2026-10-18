@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { HeroSection } from "@/components/home/hero-section";
 import { ACCUEIL_HAUT } from "@/config/textes/cta-articles-accueil";
-import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -76,18 +75,17 @@ describe("HeroSection", () => {
     expect(h1.textContent).toBe("Tu parles et personne rit.On va arranger ça.");
   });
 
-  it("s21 (B3) visiteur : plein vers l'étape 1 de Répartie, lien payant vers /abonnement, note", () => {
+  it("s21 (B3) visiteur : plein vers l'étape 1 de Répartie, note ; s21 concision : aucun lien payant dessous", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<HeroSection textes={ACCUEIL_HAUT} />);
+    const { container } = render(<HeroSection textes={ACCUEIL_HAUT} />);
     const plein = screen.getByText(ACCUEIL_HAUT.bouton).closest("a")!;
     expect(plein).toHaveAttribute("href", "/parcours/repartie?src=accueil#etape-1");
     expect(plein.className).toContain("bg-accent-secondary-hover");
-    const lien = screen.getByText(normalise(ACCUEIL_HAUT.lien)).closest("a")!;
-    expect(lien).toHaveAttribute("href", "/abonnement?src=accueil-hero");
-    expect(lien.className).toContain("underline");
-    expect(lien.className).not.toContain("bg-accent-secondary-hover");
+    // Le payant est porté par le bouton de prix de l'en-tête (src=header), plus par le haut d'accueil.
+    expect(container.querySelector('a[href^="/abonnement"]')).toBeNull();
+    expect(container.querySelector('a[data-accueil-cta="abonnement"]')).toBeNull();
+    expect(screen.queryByText(/^Ouvrir les \d parcours/)).toBeNull();
     expect(screen.getByText(/^Sans compte : l'étape 1 du parcours Répartie \(conseil, défi, 5 vannes, 2 vidéos, quiz\)\. Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil\.$/)).toBeInTheDocument();
-    expect(lien).toHaveTextContent(/^Ouvrir les \d parcours, de la coloc à l'afterwork\s·\s2,99\s€\/mois$/);
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans engagement|Accéder aux parcours complets/i);
     expect(screen.getByText("1 500+ membres bossent leur humour. Rejoins-les.")).toBeInTheDocument();
     expect(screen.queryByText("Voir les vannes gratuites")).toBeNull();
