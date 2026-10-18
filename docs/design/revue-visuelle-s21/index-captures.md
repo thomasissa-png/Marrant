@@ -37,3 +37,11 @@ Pages absentes pour un profil = redirection du site (ex. `/profil` en visiteur �
 | `fenetre-premium` | /vannes, cœur cliqué en visiteur | 375, 768, 1280, 1440 | redirigé / sans objet | redirigé / sans objet |
 
 Total : 270 captures « avant », 270 « après » (mêmes noms). PNG 256 couleurs pour alléger le dépôt.
+
+## Tour 2 : `apres-v2/` (verdict @design du 18/10, 31 défauts)
+
+- `apres-v2/<page>-<profil>-<largeur>.png` : mêmes noms et même matrice que `avant/` et `apres/`, prises sur la branche `claude/marrant-s21-visuel` après le tour 2. Pleine page prise depuis le haut, en-tête collant neutralisé pendant la capture seulement (R20 : plus d'en-tête figé au milieu de `parcours-repartie-fin-etape1-*`).
+- `apres-v2/admin-{semaine,abonnes-premium,abonnes-lettre}-{375,1280}.png` : pages d'administration visées par R14, R15, R24, R25 (mêmes noms que `docs/admin/captures/`).
+- `apres-v2/sections/<nom>-section-NN.png` : une capture par écran (375 x 812, défilement par pas de 812 px, en-tête collant réel) pour toute page de plus de 5 000 px à 375 px : accueil, articles, liste des articles, parcours (liste, orientation, page Répartie, fin d'étape 1), carnet abonné, vidéos abonné, vannes, conseils abonné, glossaire, favoris, abonnement abonné.
+
+Total tour 2 : 276 captures pleine page ou écran, 289 découpes. PNG 256 couleurs.

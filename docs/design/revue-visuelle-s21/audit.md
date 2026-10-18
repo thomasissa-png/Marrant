@@ -86,3 +86,49 @@ Cibles tactiles sous 44 px de haut relevées à 375 px (toutes pages, 3 profils)
 - `npx tsc --noEmit -p tsconfig.build.json`, `npx tsc --noEmit`, `npx next lint`, `npm run build`, Jest complet (5 246 tests) : verts, en `env -i` avec les variables factices de `.github/workflows/tests.yml`.
 - Playwright contre le build : projet `local` 60/60 (dont `mur-alignement-s21.spec.ts`, 6 cas : bord gauche et largeur du mur = liste, limite dans le mur, carte floutée alignée, à 375 et 1 280 px) ; smoke desktop + iPhone 13 : 128 passés, 2 sautés (prévus).
 - Textes : diff relu ligne à ligne, aucun libellé modifié (seules classes, structure de mise en page et insécables de `frTypo`).
+
+## 7. Tour 2 : verdict @design (7,5/10, 31 défauts), corrections
+
+Verdict : `verdict-design.md`. Captures : `apres-v2/` (mêmes noms) et `apres-v2/sections/` (découpes par écran à 375 px). Aucun mot de texte modifié ; seuls changent la mise en page et l'affichage typographique (décision 4).
+
+**Bilan : 31 défauts, 26 corrigés, 1 déjà conforme (vérifié à la mesure), 4 corrigés en partie (raison ci-dessous).**
+
+| # | Grav. | Statut | Correction (fichiers) |
+|---|---|---|---|
+| R01 | B | corrigé | /conseils en 2 colonnes dès 1 024 px, cartes `h-full flex-col`, pied en `mt-auto`, dernière carte seule sur toute la rangée (texte borné à 768 px) ; 1 colonne dessous (`conseils-list.tsx`). Test `local/grilles-s21.spec.ts`. |
+| R02 | B | corrigé | /favoris : vidéo sur toute la rangée, vignette à gauche bornée à 420 px, texte `max-w-prose` ; vannes et conseils en 2 colonnes, dernier seul sur la rangée (`favoris-list.tsx`). Test `local/grilles-s21.spec.ts`. |
+| R03 | M | corrigé | Une seule pastille (`chipClass`) pour vannes, conseils, vidéos ; sous 768 px une ligne qui défile avec fondu à droite, au-delà retour à la ligne (`ui/chip.ts` : `RANGEE_CHIPS`). |
+| R04 | M | corrigé | /vannes abonné : pages thème masquées (une seule rangée, celle des filtres) ; le HTML serveur les garde pour les moteurs (`vannes/page.tsx`). |
+| R05 | M | corrigé | /videos : dernier encadré étiré, bas alignés ; fiches « même thématique » `auto-rows-fr` + `h-full` ; accueil (R11). Mesure : 0 rangée de blocs de hauteurs inégales sur les 276 captures. |
+| R06 | M | corrigé | Marge interne unique `p-5 md:p-6` (blocs d'appel et encadrés des fiches) ; le lien gratuit final ne double plus la marge basse (`gabarit.ts`, fiches, `fiche-parcours-lien.tsx`). |
+| R07 | M | corrigé | Bouton à prix sur une ligne à 375 px (15 px, marges de 12 px sous 400 px : `BOUTON_PRIX_UNE_LIGNE`) sur /abonnement, accueil, résultat d'onboarding ; /register : `min-h-12 py-3 leading-5` équilibré. Libellés inchangés. |
+| R08 | M | déjà conforme | Étoile et partage : bouton de 44 px, pastille de 32 px (déjà) ; boutons de profil et pagination : 44 px sous 768 px (taille `sm`). Mesuré : plus aucune cible sous 44 px sur les pages publiques à 375 px, hors réactions (zone de 44 px par pseudo-élément) et case de la lettre (dans un libellé de 44 px). |
+| R09 | M | corrigé | Décision 3 : ligne « Lettre gratuite… » centrée, formulaire en colonne centrée de 448 px, envoi en bouton contour pleine largeur (`lettre-inscription.tsx`, `lettre-repliee-style.ts`). |
+| R10 | M | corrigé | Carte floutée commune aux trois murs : bordure pleine, 96 px, dégradé, deux barres, cadenas centré, plus de grand carré de vignette (`premium/carte-floutee.tsx`). |
+| R11 | M | corrigé | Décision 1 : cartes du jour étirées, même haut et même bas, pied d'actions commun (filet, `mt-auto`), amorce en 20 px, « Révéler la chute » en bouton contour pleine largeur (`daily-content.tsx`). |
+| R12 | M | corrigé | Partage des fiches vanne en 2 x 2 sous 640 px (`vanne-share-row.tsx`). |
+| R13 | M | corrigé | Exemple concret : une ligne par paragraphe, 16 px, ligne « Total » sous un filet (`conseils/[slug]/page.tsx`). |
+| R14 | M | corrigé | Admin : onglets en 2 x 2 sous 640 px, 4 colonnes au-delà, 44 px (`app/admin/page.tsx`, sous-onglets `abonnes-tab.tsx`). |
+| R15 | M | corrigé | Admin « Semaine » : libellé puis valeur à gauche, segments « a \| b » chacun d'un tenant (`admin-ui.tsx` : `LignesEmpilees`). |
+| R16 | M | corrigé | Résultat d'onboarding : « Ton parcours » à gauche, groupe d'action centré, marge basse = haute (`humor-quiz.tsx`). |
+| R17 | f | corrigé | /abonnement : écart de section unique `mt-12 md:mt-16` (carte, carnet, FAQ) ; pastille « mois offerts » à droite de « Annuel » dès 640 px, dessous en mobile pour garder Mensuel et Annuel sur une ligne (`plan-selector.tsx`). |
+| R18 | f | corrigé | Pied de page à 768 px : colonne marque plus large, Produit sur 2 colonnes (`footer.tsx`). |
+| R19 | f | corrigé | Connexion, inscription, mots de passe : logo centré, même gabarit vertical (haut à 32 px sur mobile, centré dès 640 px). L'ordre de « Continuer avec Google » reste un choix de parcours (@ux). |
+| R20 | f | corrigé | Captures sans en-tête figé (pleine page depuis le haut, en-tête collant neutralisé pour la capture seulement). |
+| R21 | f | en partie | Marge basse de la feuille Premium `max(1,5rem, safe-area)`. Le bouton fermer est déjà à `top-3 right-3` dans la feuille : rien à déplacer. |
+| R22 | f | en partie | Voile `bg-black/60` sous le menu mobile ouvert (un toucher ferme), un seul bouton prix (celui de l'en-tête est masqué, sa place gardée). Panneau à hauteur de son contenu (le voile couvre le reste) plutôt que sur 100 dvh. |
+| R23 | f | corrigé | Profil : appel du bloc Abonnement pleine largeur sur mobile ; pastille de série en coins de 16 px. |
+| R24 | f | corrigé | Admin lettre : fiches en `dl` 2 colonnes, libellé au-dessus de la valeur. |
+| R25 | f | corrigé | Admin comptes : « Sync Stripe » en bouton de 44 px ; colonne « Dernière activité » masquée tant qu'aucun compte n'en a. |
+| R26 | f | en partie | Marges de 32 px dès 1 280 px pour l'en-tête, le contenu et le pied (contenu de 1 216 px). Pas de `sm:px-6 lg:px-8` : le budget de l'en-tête de 640 à 1 279 px n'a pas la place (« Premium · 2,99 €/mois » + « Connexion » + loupe mesurés à 590 px à 640). `header-budget` vert. |
+| R27 | f | en partie | Décision 4 : `frTypo` étendu (apostrophe typographique, guillemets droits en « », tiret cadratin en virgule, insécables), test `lib/fr-typo-affichage-s21.test.ts` ; appliqué aux contenus de la base (vannes, « Pourquoi ça marche », décryptages des vidéos, conseils, FAQ, vanne du jour, favoris). Reste en apostrophes droites : le texte écrit en dur dans les pages (à propos, accroches des parcours, « Comment la ressortir »…), à passer à la source dans un lot texte dédié. |
+| R28 | f | corrigé | Carnet : cadenas centré sur la carte. |
+| R29 | f | corrigé | Accueil : deux niveaux de titre (sections en 3xl/4xl ; « Derniers articles », FAQ, lettre en xl/2xl). |
+| R30 | f | corrigé | Index du glossaire : fondu de 24 px à droite et défilement par crans sous 1 024 px. |
+| R31 | f | corrigé | Glossaire : définitions en 2 colonnes dès 1 024 px, cartes de même hauteur, lien en pied, comme /conseils. |
+
+**Écart à une décision, avec raison.** Décision 2 sur /conseils (lien étendu à toute la carte) : appliquée en cible de 44 px sur le titre seulement, comme sur /videos. Le clic sur la carte déplie le conseil sur place et compte la lecture (10 XP pour un compte) ; un lien étendu supprimerait ce dépliage et cet XP, ce qui sort d'une passe de mise en page. À trancher par @ux si le dépliage doit disparaître.
+
+**Section 5 du verdict (texte).** Le tiret cadratin de « Pourquoi ça marche » est retiré à l'affichage (règle 12, `stripEmDashes` puis `frTypo`) ; la passe @copywriter par phrase reste recommandée. Le tiret demi-cadratin des titres vidéo et les extraits tronqués ne sont pas touchés (texte).
+
+**Vérifications (tour 2).** `env -i` + variables factices de `tests.yml` : `tsc` x2, `next lint`, `next build`, Jest complet (5 277 tests, dont 69 attentes ajustées à l'apostrophe typographique et le nouveau test `frTypo`). Playwright contre le build : `local` 62/62 (dont `grilles-s21` R01/R02 et `mur-alignement-s21`), smoke desktop + iPhone 13 : 128 passés, 2 sautés prévus. Mesures sur les 276 captures : aucun débordement horizontal, aucune rangée de blocs de hauteurs inégales.
