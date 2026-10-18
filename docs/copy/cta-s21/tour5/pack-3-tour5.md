@@ -369,4 +369,140 @@ Pour B17 (texte unique) : `Envie de payer : /10 | Écriture : /10 | Manque pour 
 
 ---
 
-<!--SUITE-->
+## Duel B14 : la fin de l'étape 1 d'un parcours
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur anonyme qui vient de lire en entier l'étape 1 de Répartie (sans compte) et de répondre au petit quiz de l'étape. C'est le moment où il sait le mieux ce que le site propose.
+- **Ce qu'il voit juste au-dessus** : le résultat du quiz, « Sans faute. » ou « 3 sur 4. Les explications sont là pour ça. ».
+- **Ce qu'il cherche** : savoir si c'est fini, ce qu'il y a après, et ce que ça lui coûte pour continuer. Il ne peut pas valider l'étape sans Premium.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement). Une alternative discrète existe pour qui n'est pas prêt.
+- **Composition du bloc** : une carte « Étape 2 » (`[S17]` surtitre, titre de l'étape et `[S18]` texte, qui sont des données publiques ; rien de payant n'est dévoilé), puis une phrase sur la validation de l'étape, le bouton plein, la ligne `[S16]`, et un lien discret `[S30]` vers la lettre. Les libellés de la phrase et du bouton font partie du texte à juger.
+- **Données d'exemple (réelles, étape 2 de Répartie, 4 étapes, 20 minutes par semaine)** : titre « Le rythme et les silences » ; format « Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. » ; aperçu « Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. »
+
+### Texte 1
+
+> `[S17]` Étape 2 sur 4, 20 minutes
+> **Le rythme et les silences**
+> `[S18]` Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.
+>
+> Bien joué, l'étape 1 est faite. La valider et ouvrir l'étape 2, c'est dans Premium, comme toute la suite : 20 minutes par semaine.
+> [ Passer à l'étape 2 avec Premium ]
+> `[S16]` 2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois, si tu vois loin). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
+> `[S30]` Lien : Ou la lettre gratuite, sans compte : une vanne décryptée et un exercice, une fois par mois par e-mail
+
+### Texte 2
+
+> `[S17]` Étape 2 sur 4, 20 minutes
+> **Le rythme et les silences**
+> `[S18]` Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.
+>
+> Bien joué pour l'étape 1. Avec Premium, tu la valides, tu ouvres l'étape 2, puis toute la suite, à 20 minutes par semaine.
+> [ Passer à l'étape 2 avec Premium ]
+> `[S16]` 2,99 € TTC par mois, ou 24,99 € TTC par an (soit 2,08 € par mois, si tu vois loin). Résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
+> `[S30]` Lien : Ou la lettre gratuite, sans compte : une vanne décryptée et un exercice, une fois par mois
+
+*Au clic (deux textes) : le bouton ouvre la page d'abonnement et ramène ensuite sur ce parcours ; le lien ouvre le formulaire de la lettre.*
+
+---
+
+## Duel B15 : la page qui liste les 5 parcours
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur anonyme qui choisit un parcours : il vient de l'accueil, du menu ou d'un article. Il compare cinq cartes (Machine à Café, Répartie, Confiance, Storytelling, Boulot).
+- **Ce qu'il voit sur une carte** (ici, Répartie) : difficulté, durée, rythme (4 semaines, 20 minutes par semaine), titre, une ligne « Pour toi si on te chambre en soirée, en coloc ou en TD et que tu cherches encore quoi répondre », une description, un exemple de membre fictif présenté comme tel, le programme replié, puis le bloc ci-dessous.
+- **Ce qu'il cherche** : le parcours qui lui correspond, et ce qu'il peut en voir avant de payer. Rien sur la page ne dit où est la frontière entre le gratuit et le payant.
+- **Ce que le bloc peut obtenir** : un clic vers l'étape 1 gratuite. Il n'y a aucune offre Premium sur la carte : un seul bouton par carte, jamais deux.
+- **Composition du bloc** : un bouton plein (son libellé fait partie du texte à juger) et une ligne `[S31]` sous le bouton. Pour les autres cartes, les étapes payantes se disent « 2 et 3 » (Machine à Café) ou « 2 à 6 » (les trois parcours de 6 semaines), dans les deux textes.
+
+### Texte 1
+
+> [ Commencer l'étape 1 de Répartie, gratuite ]
+> `[S31]` Sans compte, sans abonnement, quiz compris. Les étapes 2 à 4 sont dans Premium.
+
+### Texte 2
+
+> [ Commencer Répartie, étape 1 gratuite ]
+> `[S31]` Sans compte ni abonnement, quiz compris. La suite, étapes 2 à 4, est dans Premium.
+
+*Au clic (deux textes) : l'étape 1 du parcours, en lecture libre.*
+
+---
+
+## Duel B16 : la page d'abonnement
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur anonyme qui a décidé de regarder l'offre : il est arrivé par le bouton d'en-tête, par un bouton « … avec Premium » ou par une adresse directe. Il vient souvent d'un parcours précis (la page s'adapte).
+- **Ce qu'il voit** : un surtitre, un titre, le sous-titre « 5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre. », la carte Premium (mensuel 2,99 € TTC ou annuel 24,99 € TTC, au choix du visiteur), le bouton plein, puis la garantie, l'extrait du carnet, des liens vers les étapes gratuites et une FAQ. Le surtitre, le titre, le libellé du bouton et la ligne sous le bouton peuvent changer d'un texte à l'autre.
+- **Ce qui se passe au clic sur le bouton** : un formulaire de création de compte (« Étape 1 sur 2 »), puis le paiement sécurisé (« Étape 2 »). Rien près du bouton ne le dit.
+- **Ce qu'il cherche** : savoir si c'est pour lui, combien ça coûte, ce qui se passe s'il clique.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein.
+- **Contraintes de forme** : le surtitre tient sur 2 lignes au maximum sur mobile (environ 80 caractères) ; la ligne `[S32]` s'affiche juste sous le bouton, en petit. Le surtitre et le titre dépendent du parcours d'origine (Répartie, Machine à Café, Boulot, Confiance, Storytelling) ; chaque texte dit quels parcours il traite à part, les autres (et l'arrivée par une adresse directe) recevant le surtitre et le titre « par défaut ». Le bouton affiche le prix de la formule choisie sur la carte : les deux libellés sont donnés.
+- **Rappel** : Confiance dure 6 semaines à 20 minutes par semaine ; Storytelling parle de raconter une anecdote (voir sa carte et sa description dans les faits).
+
+### Texte 1
+
+> Par défaut (Répartie, Storytelling, adresse directe) :
+> `[S33a]` Pour toi si tu trouves la bonne réponse, mais avec un temps de retard
+> Titre : **Ta réplique pendant la soirée, pas dans le bus du retour**
+>
+> Machine à Café et Boulot :
+> `[S33b]` Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force
+> Titre : **Ta réplique pendant la réunion, pas dans l'ascenseur d'après**
+>
+> Confiance :
+> `[S33c]` Pour toi si tu sors d'une période compliquée et que le rire te manque
+> Titre : **Le rire, à ton rythme, sans te forcer**
+>
+> *(sous-titre et carte : inchangés)*
+> [ Ouvrir les 5 parcours · 2,99 €/mois ]  *(formule annuelle choisie : [ Ouvrir les 5 parcours · 24,99 €/an ])*
+> `[S32]` Deux étapes : ton compte, puis le paiement sécurisé par Stripe.
+
+### Texte 2
+
+> Par défaut (Répartie, adresse directe) :
+> `[S33a]` Pour toi si tu trouves la bonne réponse, mais avec un temps de retard
+> Titre : **Ta réplique pendant la soirée, pas dans le bus du retour**
+>
+> Machine à Café et Boulot :
+> `[S33b]` Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force
+> Titre : **Ta réplique pendant la réunion, pas dans l'ascenseur d'après**
+>
+> Confiance :
+> `[S33c]` Pour toi si tu sors d'une période compliquée et que le rire te manque
+> Titre : **Le rire, 20 minutes par semaine, sans te forcer**
+>
+> Storytelling :
+> `[S33d]` Pour toi si ta chute arrive quand tout le monde est passé au dessert
+> Titre : **Ton anecdote, coupée au plus court, jusqu'à la chute**
+>
+> *(sous-titre et carte : inchangés)*
+> [ Ouvrir les 5 parcours · 2,99 €/mois ]  *(formule annuelle choisie : [ Ouvrir les 5 parcours · 24,99 €/an ])*
+> `[S32]` Deux étapes : ton compte, puis le paiement sécurisé par Stripe.
+
+*Pour la relecture : lis chaque surtitre avec le titre qui s'affiche juste dessous.*
+
+---
+
+## Bloc B17 : la page de création de compte (texte unique, pas de duel)
+
+> Ce bloc se note seul : un texte, pas deux. Réponds au format `Envie de payer : /10 | Écriture : /10 | Manque pour 10 : ... | Alertes : ...`.
+
+### Fiche de situation (neutre)
+
+- **Qui** : un visiteur qui vient de cliquer sur le bouton de la page d'abonnement. Il est décidé, ou presque. Anonyme jusqu'ici.
+- **Ce qu'il voit** : « Étape 1 sur 2 », « Ton compte », un rappel du plan Premium choisi, les champs (e-mail, mot de passe d'au moins 8 caractères, prénom en dernier et facultatif), le bouton plein `[S36]`, un bouton « S'inscrire avec Google », la phrase « Étape 2 : le paiement sécurisé, juste après. », « Tu as 14 jours pour te faire rembourser ton premier paiement. », « Déjà un compte ? Connecte-toi ».
+- **Ce qu'il cherche** : en finir vite. Mais il peut hésiter devant le mot de passe.
+- **Ce que le bloc peut obtenir** : le compte créé (pas encore le paiement) ; sinon, une sortie douce vers l'étape gratuite plutôt qu'un abandon.
+- **Composition du bloc** : un libellé de champ `[S34]` (le prénom), le libellé du bouton plein `[S36]` et un lien discret `[S35]` sous « Déjà un compte ? ». Le lien nomme le parcours d'où le visiteur vient (ici, Répartie).
+
+### Texte
+
+> `[S34]` Prénom (facultatif, pour te saluer dans nos e-mails)
+> `[S36]` [ Créer mon compte et passer au paiement ]
+> `[S35]` Lien : Tu préfères lire d'abord ? L'étape 1 du parcours Répartie, gratuite et sans compte
+
+*Au clic sur le lien : l'étape 1 du parcours, en lecture libre.*
+
