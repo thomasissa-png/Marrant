@@ -120,31 +120,90 @@ On te dit : « Il n'en reste que deux, hein. »
 Situation : Lundi matin, il pleut, tu arrives au bureau avec vingt minutes de retard et un collègue lève les yeux de son écran.
 On te dit : « Encore en retard ? C'est le métro, j'imagine ? »
 
-(L3-7 à remplir)
+313. Aujourd'hui, j'ai une vraie excuse : il pleut. Ça faisait deux mois que je la gardais.
+314. Le métro est passé à l'heure. C'est moi qui regardais ailleurs.
+315. Ma réputation arrive toujours à l'heure. C'est moi qui la suis.
+316. Il pleuvait, alors j'ai attendu une éclaircie. Elle est arrivée à 9 h 20.
+317. J'ai cherché mon parapluie vingt minutes. Il était sous mon bureau, ici, depuis hier.
+318. Le métro n'y est pour rien. Mon réveil a sonné. J'ai répondu « d'accord » et je n'ai rien fait.
+319. Merci de tenir les comptes. Moi, j'ai arrêté de compter mardi.
+320. Oui, le métro. Je l'accuse depuis six ans, il ne s'est jamais défendu.
+321. Regarde-moi : trempé. Je compte sur la pluie pour qu'on ne remarque pas le retard.
+322. J'avais promis d'arriver à l'heure. J'ai demandé un coup de main au ciel. Il a envoyé de la pluie.
+323. J'ai pris la bonne ligne dans le mauvais sens. Je suis allé jusqu'au bout, pour voir.
+324. Je suis en retard sur le travail. Sur le sommeil, je suis à jour.
 
 ## L3-8 : Transports, le contrôleur
 
 Situation : Dans le train de 18 h 12, le contrôleur arrive dans ta voiture pendant que tu fouilles ta troisième poche à la recherche de ton billet.
 On te dit : « Vos titres de transport, s'il vous plaît. »
 
-(L3-8 à remplir)
+325. Je l'ai. Il me manque juste la partie où je le retrouve.
+326. Vous êtes la première personne à me parler depuis ce matin. Laissez-moi trouver quelque chose à vous donner.
+327. Je suis à la troisième poche sur quatre. Je vous tiens au courant.
+328. Il est dans mon autre manteau. Celui que je porte quand je suis organisé.
+329. Je traverse une période où je perds ce qui est petit et indispensable.
+330. Je l'ai. Il est passé en machine hier, il a beaucoup changé.
+331. Je recommence par la première poche, avec plus d'attention. Elle a l'air de cacher quelque chose.
+332. Regardez comme je cherche. Un fraudeur chercherait moins sérieusement.
+333. Il est sur mon téléphone, qui est à 4 %. On y croit tous les deux.
+334. Dans mon souvenir, je l'ai composté. Mon souvenir n'est pas un témoin très fiable.
+335. J'ai payé. Mais devant vous, je me sens coupable quand même. Je cherche de quoi.
+336. À défaut de billet, j'ai une anecdote. Elle dure jusqu'à la prochaine gare.
 
 ## L3-9 : Sport, la salle depuis septembre [CHAMBRAGE]
 
 Situation : Début novembre, un ami te croise au pied de ton immeuble, il sait que tu t'es inscrit à la salle de sport en septembre.
 On te dit : « Alors, ta salle de sport, tu y es allé, depuis septembre ? »
 
-(L3-9 à remplir)
+337. Mon prélèvement est le seul de nous deux qui y va tous les mois.
+338. J'y pense tous les lundis à 18 h. À 18 h 05, je pense à autre chose.
+339. J'y suis allé une fois, pour voir les vestiaires. Ils sont très bien.
+340. J'ai les baskets. Elles sont dans le placard, elles s'acclimatent.
+341. J'ai fait dix minutes de vélo. On n'a avancé ni lui ni moi.
+342. Je passe devant tous les jours, en bus. On se connaît de vue.
+343. Je n'y vais pas, mais je suis inscrit avec beaucoup de conviction.
+344. On s'est vus trois fois en septembre. Depuis, elle ne m'écrit plus que pour me demander de l'argent.
+345. À l'accueil, on m'a reconnu. On m'a dit « Ah, vous existez ! ».
+346. La coach m'a écrit « Tout va bien ? ». J'ai répondu « oui ». On en est restés là.
+347. Leurs cours ont lieu à des heures où j'ai déjà des projets : dormir, manger, rentrer.
+348. Pour résilier, il faut venir sur place. J'attends d'avoir la force.
 
 ## L3-10 : Sport, le foot du dimanche
 
 Situation : Dimanche matin, six degrés sur le terrain, le capitaine forme les équipes avec des plots et son regard s'arrête sur toi.
 On te dit : « Toi, tu joues où, d'habitude ? »
 
-(L3-10 à remplir)
+349. D'habitude, je joue sur console. Il fait vingt degrés et personne ne me tacle.
+350. Je joue plutôt là où il y a du soleil. Ce matin, on va improviser.
+351. Dans les buts. Je regarde tout, je n'interviens que par politesse.
+352. Je joue là où il y a le moins de vent. Je cherche encore.
+353. D'habitude, je joue à la buvette. Je peux être muté pour un café.
+354. En défense. Je suis très fort pour reculer en gardant l'air concentré.
+355. Là où on ne m'attend pas. Ça laisse beaucoup de terrain.
+356. J'occupe l'espace. Je ne dis pas que je le travaille.
+357. Je suis ce qui fait onze. On ne m'a jamais demandé de faire plus.
+358. Ça dépend de qui est venu. À douze, remplaçant. À neuf, indispensable.
+359. Je suis celui qui arrive en dernier en disant « c'est bon, je suis là ».
+360. Le plus près possible du banc. Je préfère avoir l'option.
 
 ---
 
 ## Table de correspondance : numéro global vers situation
 
-(table à remplir)
+| Numéros globaux | Situation du lot | Thème | Chambrage |
+|---|---|---|---|
+| 241 à 252 | L3-1 : Couple, Black Friday, le carton | Couple | oui |
+| 253 à 264 | L3-2 : Couple, le « oui » sans écouter | Couple | oui |
+| 265 à 276 | L3-3 : Rencontres, le premier rendez-vous | Rencontres | non |
+| 277 à 288 | L3-4 : Voisins, le chauffage collectif | Voisins | non |
+| 289 à 300 | L3-5 : Commerçants, le pain au chocolat | Commerçants | oui |
+| 301 à 312 | L3-6 : Commerçants, « il n'en reste que deux » | Commerçants | non |
+| 313 à 324 | L3-7 : Transports, le retard sous la pluie | Transports | oui |
+| 325 à 336 | L3-8 : Transports, le contrôleur | Transports | non |
+| 337 à 348 | L3-9 : Sport, la salle depuis septembre | Sport | oui |
+| 349 à 360 | L3-10 : Sport, le foot du dimanche | Sport | non |
+
+Numérotation locale (1 à 12 dans chaque situation) = numéro global moins le premier numéro de la plage plus 1. Exemple : 262 = 10e réplique de L3-2.
+
+Rappel de lot : le lot 3 couvre les situations 21 à 30 du carnet de novembre (30 situations en 3 lots de 10).
