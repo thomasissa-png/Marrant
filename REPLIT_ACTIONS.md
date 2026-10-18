@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+### Revue visuelle s21 (ordinateur et mobile) : branche `claude/marrant-s21-visuel`, à fusionner dans `claude/marrant-s21-integration` avant la mise en ligne
+
+Mise en page seulement : **aucun texte modifié, aucune migration, aucun secret, aucune variable, aucune écriture en base**. Gabarit de colonne unique (`apps/web/src/components/layout/gabarit.ts`) : pages catalogue sur la pleine colonne, pages de lecture sur une colonne centrée de 768 px, un seul style de bloc d'appel ; mur des listes aligné sur la liste, phrase de limite dans le mur ; FAQ en accordéon commun ; cibles tactiles de 44 px sur mobile. Audit, avant/après et 540 captures : `docs/design/revue-visuelle-s21/`. Nouveau test Playwright `local` : `mur-alignement-s21.spec.ts`. Après déploiement : ouvrir `/conseils` en visiteur à 1 280 et 375 px, le bloc « Pour la prochaine fois qu'on te chambre » doit avoir les bords de la liste.
+
 ### Blocs d'appel s21 et concision du tunnel : UNE SEULE ENTRÉE, branche `claude/marrant-s21-integration` (consolidée par @reviewer le 18/10/2026, revue `docs/reviews/revue-cta-s21-v3.md`, HEAD relu `712d6ae`)
 
 Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de propre à cette entrée au déploiement : aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base** (migration 14 et P5 = celles de la lettre, dans P0 à P8). Une seule donnée change : la clé `intro` du carnet de novembre (`apps/web/src/data/carnet/2026-11.json`, sha256 `e2b15d0f…5b270a`, épinglé par le test `carnet-novembre-2026`). **Textes : `docs/copy/cta-s21/concision/VALIDE.md` + `textes-v5-a/b/c.md`, seule référence** (remplacent `textes-finaux-valides.md` et `textes-valides-boutons.md`) ; code : `apps/web/src/config/textes/*.ts`, `lib/faqs.ts`. L'historique des tours (QA v1 à v3, revues v1 à v3, E1 à E6, structure puis textes de la concision) est dans le journal git de la branche, `docs/qa/` et `docs/reviews/` : il ne contient plus aucune consigne à exécuter.
