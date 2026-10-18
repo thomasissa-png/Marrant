@@ -10,6 +10,9 @@ import { ArticleCta } from "@/components/blog/article-cta";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 
@@ -223,10 +226,10 @@ describe("Quiz d'humour et /abonnement", () => {
     expect(screen.getByRole("link", { name: QUIZ_HUMOUR_CTA.bouton("repartie") })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
     window.localStorage.clear();
   });
-  it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", () => {
+  it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", async () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     for (const [slug, nom] of [["machine-a-cafe", "Machine à Café"], ["repartie", "Répartie"], ["confiance", "Confiance"]]) {
       expect(screen.getByRole("link", { name: `Étape 1 du parcours ${nom}` })).toHaveAttribute("href", `/parcours/${slug}?src=abonnement#etape-1`);
     }

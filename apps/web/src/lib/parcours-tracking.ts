@@ -22,6 +22,9 @@ export const PARCOURS_SRC = [
   "mur-vannes",
   "mur-conseils",
   "mur-videos",
+  // s21 (E5, E6) : petit lien vers l'étape 1 en fin de /glossaire et /a-propos.
+  "glossaire-etape1",
+  "a-propos-etape1",
   // Lien de l'e-mail de rappel (lot A, D7).
   "rappel",
   "direct",

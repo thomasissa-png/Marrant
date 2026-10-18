@@ -9,7 +9,9 @@ import { PageHeader } from "@/components/layout/page-header";
 import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { FIN_DE_PAGE_PARCOURS_ETAPE_1, GLOSSAIRE_FIN } from "@/config/textes/cta-pages";
+import { LIEN_L2 } from "@/components/ui/liens";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 
@@ -130,20 +132,20 @@ export default function GlossairePage() {
       </nav>
 
       {/* CTA. s21 (revue v2) : masqué pour un abonné Premium ; source `glossaire` suivie
-          jusqu'à `checkout-ouvert` (m-1). */}
+          jusqu'à `checkout-ouvert` (m-1). Textes : E5 validé (config/textes/cta-pages.ts). */}
       <MasqueSiPremium>
-      <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
-        <p className="font-display text-xl font-bold text-text-primary">
-          Le vocabulaire, c&apos;est fait. Place aux rires.
-        </p>
-        <p className="mt-2 text-text-secondary">
-          Des exercices concrets, des parcours étape par étape et tes XP pour
-          voir le chemin parcouru. Connaître le mot « callback », c&apos;est
-          bien ; en placer un au dîner de samedi, c&apos;est mieux.
-        </p>
-        <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
-          Commencer à {PREMIUM_PRICE_LABEL}
-        </Link>
+      <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center" data-testid="glossaire-fin">
+        <p className="font-display text-xl font-bold text-text-primary">{frTypo(GLOSSAIRE_FIN.titre)}</p>
+        <p className="mt-2 text-text-secondary">{frTypo(GLOSSAIRE_FIN.paragraphe)}</p>
+        <div className="mt-4 flex flex-col items-center gap-1">
+          <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={buttonVariants({ variant: "primary", size: "lg", className: "h-auto min-h-12 whitespace-normal py-2 [text-wrap:balance]" })}>
+            {frTypo(GLOSSAIRE_FIN.bouton)}
+          </Link>
+          <p className="max-w-md text-balance text-sm text-text-muted">{frTypo(GLOSSAIRE_FIN.ligneDiscrete)}</p>
+          <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
+            {frTypo(GLOSSAIRE_FIN.lienEtape1)}
+          </Link>
+        </div>
       </div>
       </MasqueSiPremium>
     </>

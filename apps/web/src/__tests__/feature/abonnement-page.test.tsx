@@ -3,6 +3,9 @@ import { frTypo } from "@/lib/fr-typo";
 import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { AbonnementView } from "@/components/premium/abonnement-view";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { envNeutre } from "../helpers/env-neutre";
@@ -77,9 +80,9 @@ describe("s21 B16 : /abonnement visiteur", () => {
 });
 
 describe("AbonnementPage (s12 T45)", () => {
-  it("visiteur : un seul bloc Premium, plus de bloc « Compte gratuit » (s15)", () => {
+  it("visiteur : un seul bloc Premium, plus de bloc « Compte gratuit » (s15)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText(/Crée ton compte gratuit/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
@@ -157,24 +160,24 @@ describe("AbonnementPage (s12 T45)", () => {
     expect(document.body.textContent).not.toContain("Sans engagement, annulable");
   });
 
-  it("paid CTA keeps /abonnement as the destination", () => {
+  it("paid CTA keeps /abonnement as the destination", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     const params = registerParams("Ouvrir les 5 parcours · 2,99 €/mois");
     expect(params.get("callbackUrl")).toBe("/abonnement");
     expect(params.get("src")).toBe("abonnement");
   });
 
-  it("shows only the paid card with the checkout button to signed-in users", () => {
+  it("shows only the paid card with the checkout button to signed-in users", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
     expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
   });
 
-  it("E3 (textes validés du 18/10) : pastille, titre, paragraphe et bouton du compte connecté, mot pour mot", () => {
+  it("E3 (textes validés du 18/10) : pastille, titre, paragraphe et bouton du compte connecté, mot pour mot", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     expect(screen.getByText("Un abonnement, tout ouvert")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
       "Les 5 parcours en entier, et un nouveau carnet de répartie chaque mois.",
@@ -191,9 +194,9 @@ describe("AbonnementPage (s12 T45)", () => {
   describe("offre Premium vraie (décision Thomas 03/10)", () => {
     afterEach(() => window.history.pushState({}, "", "/"));
 
-    it("met les 3 parcours en avant et ne vend plus le gratuit ni l'inexistant", () => {
+    it("met les 3 parcours en avant et ne vend plus le gratuit ni l'inexistant", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(screen.getByText(`Les ${3 + (STORYTELLING_PUBLIE ? 1 : 0) + (BOULOT_PUBLIE ? 1 : 0)} parcours en entier`)).toBeInTheDocument();
       const text = document.body.textContent ?? "";
       expect(text).toContain("Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine)");
@@ -207,7 +210,7 @@ describe("AbonnementPage (s12 T45)", () => {
     it("anonyme : le CTA payant garde l'intention d'origine (returnTo)", async () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
       useSession.mockReturnValue({ status: "unauthenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(registerParams("Ouvrir les 5 parcours · 2,99 €/mois").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fparcours%2Frepartie",
       );
@@ -219,13 +222,13 @@ describe("AbonnementPage (s12 T45)", () => {
       global.fetch = fetchMock as unknown as typeof fetch;
 
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
-      const { unmount } = render(<AbonnementPage />);
+      const { unmount } = render(await AbonnementPage({}));
       await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
       unmount();
 
       window.history.pushState({}, "", "/abonnement?returnTo=https%3A%2F%2Fevil.example");
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[1][1].body)).toEqual({});
     });
@@ -247,11 +250,11 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
   });
 
   describe("sans STRIPE_PREMIUM_ANNUAL_PRICE_ID : mensuel seul, comme avant", () => {
-    it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX"])("valeur %p : aucune trace de l'annuel", (value) => {
+    it.each([undefined, "", "price_XXXXXXXXXXXXXXXXXXXX"])("valeur %p : aucune trace de l'annuel", async (value) => {
       if (value === undefined) delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
       else process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = value;
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(screen.queryByRole("radio")).not.toBeInTheDocument();
       expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/24,99|annuel|par an|\/an/i);
@@ -261,7 +264,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
       window.history.pushState({}, "", "/abonnement?plan=annual");
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
@@ -272,9 +275,9 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = "price_test_annual_1";
     });
 
-    it("sélecteur de formule, mensuel coché par défaut", () => {
+    it("sélecteur de formule, mensuel coché par défaut", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(screen.getByRole("radio", { name: "Mensuel" })).toBeChecked();
       expect(screen.getByRole("radio", { name: "Annuel" })).not.toBeChecked();
       expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
@@ -282,7 +285,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
 
     it("annuel : 24,99 €/an, soit 2,08 € par mois, plus de 3 mois offerts et 10,89 € économisés (D5 s16), envoi plan=annual", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
       expect(screen.getByText("24,99 €")).toBeInTheDocument();
       expect(
@@ -299,7 +302,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
 
     it("lot 2 s21 : dès l'état mensuel, l'annuel est montré et « plus de 3 mois offerts » n'est dit qu'une fois", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(screen.getByTestId("annuel-mois-offerts")).toHaveTextContent("plus de 3 mois offerts");
       expect(screen.getByTestId("annuel-ligne-mensuel")).toHaveTextContent(
         "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
@@ -345,7 +348,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
 
     it("mensuel choisi : corps historique, sans plan", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
@@ -353,17 +356,17 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
     it("anonyme : le choix annuel survit à l'inscription (callback plan=annual + returnTo)", async () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fcarnet");
       useSession.mockReturnValue({ status: "unauthenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
       expect(registerParams("Ouvrir les 5 parcours · 24,99 €/an").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fcarnet&plan=annual",
       );
     });
 
-    it("?plan=annual préselectionne l'annuel", () => {
+    it("?plan=annual préselectionne l'annuel", async () => {
       window.history.pushState({}, "", "/abonnement?plan=annual");
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(screen.getByRole("radio", { name: "Annuel" })).toBeChecked();
     });
   });
@@ -372,23 +375,23 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
     beforeEach(() => mockTrack.mockClear());
     afterEach(() => window.history.pushState({}, "", "/"));
 
-    it("retour Stripe sans paiement (upgrade=cancel) : abonnement-annule", () => {
+    it("retour Stripe sans paiement (upgrade=cancel) : abonnement-annule", async () => {
       window.history.pushState({}, "", "/abonnement?upgrade=cancel");
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
     });
 
-    it("visite normale : aucun abonnement-annule", () => {
+    it("visite normale : aucun abonnement-annule", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       expect(mockTrack).not.toHaveBeenCalledWith("abonnement-annule");
     });
 
     it("clic paiement : abonnement-clic avec formule et source", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
       global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
-      render(<AbonnementPage />);
+      render(await AbonnementPage({}));
       await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {
         formule: "mensuel",

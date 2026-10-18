@@ -104,8 +104,14 @@ export function AbonnementView({
   carnetExtrait = null,
   parcoursOrigine = null,
   etapeSuivante = null,
+  connecteServeur = false,
 }: {
   annualAvailable: boolean;
+  /**
+   * s21 (CLS) : session lue par le serveur au rendu (page déjà dynamique). Tant que la session
+   * client charge, la vue rend directement la version connectée ou visiteur, sans bascule.
+   */
+  connecteServeur?: boolean;
   /** Extrait du carnet du mois (lot 2 s21), rendu par le serveur ; null si le carnet du mois manque. */
   carnetExtrait?: ReactNode;
   /** s21 B16 : parcours d'origine (`returnTo`), lu par le serveur : surtitre et titre. */
@@ -156,7 +162,8 @@ export function AbonnementView({
     src: entrySrc ?? "abonnement",
   });
 
-  const isAuthenticated = status === "authenticated";
+  // s21 (CLS 0,16 à 320 px) : pendant le chargement de la session, la version lue par le serveur.
+  const isAuthenticated = status === "authenticated" || (status === "loading" && connecteServeur);
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
   // Compte connecté : pastille, titre et paragraphe E3 validés (`ABONNEMENT_CONNECTE`, cta-pages.ts).

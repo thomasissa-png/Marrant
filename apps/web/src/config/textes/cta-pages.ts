@@ -35,6 +35,7 @@ import {
 } from "@/config/premium";
 import { ligneCarte, minusculeInitiale, PARCOURS_ETAPES, titreEtape } from "@/config/parcours-etapes";
 import {
+  CARTE_PREMIUM,
   colocAfterworkVrai,
   DUREE_ETAPES,
   libelleOuvrirParcours,
@@ -537,4 +538,56 @@ export const PROFIL_ABONNEMENT_OFFRE = {
   ligneXp: (xp: number) => `Tu as déjà ${xp} XP.`,
   ligneDiscrete: "Résiliable quand tu veux depuis ce profil. Tu as 14 jours pour te faire rembourser ce paiement.",
   bouton: `Tout ouvrir${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
+} as const;
+
+// ─── E5 (/glossaire) et E6 (/a-propos) : fin de page, visiteur et compte sans abonnement ─
+//
+// Validés à l'aveugle le 18/10, tour 7 (`docs/copy/cta-s21/complements/textes-valides-boutons.md`).
+// Masqués pour un abonné (`MasqueSiPremium`). Rendu du jour, mot pour mot.
+
+/**
+ * « de la répartie au storytelling » n'est vrai que si les deux parcours sont publiés : sinon
+ * le segment est retiré (rien n'est inventé à sa place), même règle que `colocAfterworkVrai`.
+ */
+export function repartieStorytellingVrai(parcours: readonly { slug: string }[] = PREMIUM_PARCOURS): boolean {
+  const publies = new Set(parcours.map((p) => p.slug));
+  return publies.has("repartie") && publies.has("storytelling");
+}
+
+/** « , de la répartie au storytelling, 15 à 20 minutes par semaine » (après « les 5 parcours »). */
+const PROGRAMME_SUITE = `${repartieStorytellingVrai() ? ", de la répartie au storytelling" : ""}, ${DUREE_ETAPES} par semaine`;
+
+/** « des 5 parcours » ; repli « de tous les parcours » (même seuil que `LES_PARCOURS`). */
+const DES_PARCOURS = PARCOURS_COUNT >= 2 ? `des ${PARCOURS_COUNT} parcours` : "de tous les parcours";
+
+/** Phrases communes à E5 et E6, après le programme. */
+const ETAPE_ET_ESSAI =
+  "Chaque étape : un conseil, un défi, 5 vannes, 2 vidéos, un quiz. La première étape de chaque parcours se lit sans compte, pour juger sur pièce, et le reste s'ouvre d'un coup quand tu t'abonnes.";
+
+/** Ligne discrète sous le bouton et petit lien texte, identiques en E5 et E6. */
+const FIN_DE_PAGE_COMMUN = {
+  bouton: libelleOuvrirParcours(),
+  ligneDiscrete: "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.",
+  lienEtape1: "Lis d'abord une étape, elle est offerte",
+} as const;
+
+/** Parcours du petit lien « Lis d'abord une étape » (E5, E6) : Répartie, comme le contour de l'accueil. */
+export const FIN_DE_PAGE_PARCOURS_ETAPE_1: ParcoursSlug = "repartie";
+
+/** E5 : fin de page /glossaire (bouton vers /abonnement, `src=glossaire`). */
+export const GLOSSAIRE_FIN = {
+  titre: "Le vocabulaire, c'est fait. Reste à s'en servir.",
+  paragraphe: `Tu sais ce qu'est un callback. Le placer au dîner de samedi, c'est autre chose : faire rire à table, ça s'entraîne. C'est à ça que servent ${LES_PARCOURS}${PROGRAMME_SUITE}. ${ETAPE_ET_ESSAI}`,
+  ...FIN_DE_PAGE_COMMUN,
+} as const;
+
+/**
+ * E6 : fin de page /a-propos (titre inchangé, celui de l'accueil). `inscrits` (« Déjà 1 500+
+ * inscrits, et toi ? ») : dernière phrase du paragraphe, retirée pour un compte connecté.
+ */
+export const A_PROPOS_FIN = {
+  titre: ["Tu parles et personne rit.", "On va arranger ça."],
+  paragraphe: `Observer, s'entraîner, roder : c'est le programme ${DES_PARCOURS}${PROGRAMME_SUITE}. ${ETAPE_ET_ESSAI}`,
+  inscrits: CARTE_PREMIUM.inscrits,
+  ...FIN_DE_PAGE_COMMUN,
 } as const;

@@ -140,6 +140,9 @@ describe("prix et « 1 500+ » intacts", () => {
     expect(read("components/home/hero-section.tsx")).toContain("1&nbsp;500+ membres bossent leur humour. Rejoins-les.");
     // s21 : texte de la carte Premium déplacé dans config/textes/cta-articles-accueil.ts.
     expect(read("config/textes/cta-articles-accueil.ts")).toContain("inscrits: `Déjà 1${ESPACE_INSECABLE}500+ inscrits, et toi ?`");
-    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.");
+    // s21 (E6 validé le 18/10, tour 7) : fin de /a-propos, même phrase que la carte de l'accueil.
+    expect(read("config/textes/cta-pages.ts")).toContain("inscrits: CARTE_PREMIUM.inscrits,");
+    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("frTypo(A_PROPOS_FIN.inscrits)");
+    expect(read("app/(dashboard)/a-propos/page.tsx")).toContain("1&nbsp;500+ membres mettent en pratique.");
   });
 });

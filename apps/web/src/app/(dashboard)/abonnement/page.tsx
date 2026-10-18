@@ -8,15 +8,17 @@ import { sanitizeReturnTo } from "@/lib/premium-return";
 import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { frTypoParcours } from "@/lib/fr-typo";
 import { MUR_PARCOURS } from "@/config/textes/cta-pages";
+import { lireConnecteServeur } from "@/lib/session-serveur";
 
 // Rendu : SSR dynamique (`dynamic = "force-dynamic"` dans layout.tsx). La
 // disponibilité de l'annuel est lue au rendu dans le secret serveur
 // STRIPE_PREMIUM_ANNUAL_PRICE_ID : posé ou retiré sans redéploiement de code.
-// Session et paiement restent côté client (AbonnementView). L'extrait du carnet
+// Paiement côté client (AbonnementView) ; session lue aussi au rendu (CLS, s21). L'extrait du carnet
 // (lot 2 s21) est rendu ici, côté serveur : lib/carnet ne part jamais au client.
 // s21 B16 : le parcours d'origine (`returnTo`) est lu ici aussi, pour que le
 // surtitre, le titre et la carte « Étape 2 » soient dans le HTML (aucun saut).
-export default function AbonnementPage({
+// s21 (CLS) : la session est lue ici aussi, pour rendre directement la version connectée.
+export default async function AbonnementPage({
   searchParams = {},
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -26,9 +28,11 @@ export default function AbonnementPage({
   const origine = parcoursSlugFromHref(sanitizeReturnTo(brut) ?? undefined);
   const parcoursCarte = origine ?? MUR_PARCOURS;
   const etape2 = getSeedForSlug(parcoursCarte)?.steps[1];
+  const connecteServeur = await lireConnecteServeur();
   return (
     <AbonnementView
       annualAvailable={isAnnualPlanAvailable()}
+      connecteServeur={connecteServeur}
       parcoursOrigine={origine}
       etapeSuivante={
         etape2 ? (

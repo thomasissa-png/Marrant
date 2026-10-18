@@ -11,6 +11,9 @@ import path from "node:path";
 import { render, screen, waitFor } from "@testing-library/react";
 import ResetPasswordPage from "@/app/(auth)/reset-password/page";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { DailyContent } from "@/components/home/daily-content";
 import { lireResiliationProgrammee } from "@/hooks/use-resiliation-programmee";
 
@@ -83,7 +86,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     const fetchMock = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: true, currentPeriodEnd: FIN }));
     global.fetch = fetchMock as unknown as typeof fetch;
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     const notice = await screen.findByTestId("resiliation-programmee");
     expect(notice).toHaveTextContent("Ton Premium court jusqu'au 12 novembre 2099. Pour le garder, réactive-le depuis ton profil.");
     expect(screen.getByRole("link", { name: "Aller à mon profil" })).toHaveAttribute("href", "/profil");
@@ -95,7 +98,7 @@ describe("5. /abonnement : résiliation programmée", () => {
   it("abonné sans résiliation, ou visiteur : offre habituelle", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
     global.fetch = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: false, currentPeriodEnd: FIN })) as unknown as typeof fetch;
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
     expect(screen.queryByTestId("resiliation-programmee")).toBeNull();
@@ -112,7 +115,7 @@ describe("5. /abonnement : résiliation programmée", () => {
   it("date inconnue : fin de la période déjà payée", async () => {
     useSession.mockReturnValue({ status: "authenticated" });
     global.fetch = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: true, currentPeriodEnd: null })) as unknown as typeof fetch;
-    render(<AbonnementPage />);
+    render(await AbonnementPage({}));
     expect(await screen.findByTestId("resiliation-programmee")).toHaveTextContent(
       "Ton Premium court jusqu'à la fin de la période déjà payée. Pour le garder, réactive-le depuis ton profil.",
     );

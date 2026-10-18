@@ -6,6 +6,9 @@
 import { render, screen } from "@testing-library/react";
 import { ArticleCta } from "@/components/blog/article-cta";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { LLMS_FAQ_FULL, LLMS_TARIFS } from "@/lib/llms-content";
 
 jest.mock("@/config/premium", () => ({
@@ -31,8 +34,8 @@ describe("limites gratuites affichées = constantes de config", () => {
     expect(container.textContent).not.toMatch(/compte gratuit|sans carte/i);
   });
 
-  it("page /abonnement (avantages Premium)", () => {
-    const { container } = render(<AbonnementPage />);
+  it("page /abonnement (avantages Premium)", async () => {
+    const { container } = render(await AbonnementPage({}));
     const text = container.textContent ?? "";
     // Plus de bloc « Compte gratuit » (s15) : les limites ne restent que dans les avantages Premium.
     expect(text).not.toMatch(/compte gratuit/i);

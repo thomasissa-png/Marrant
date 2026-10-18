@@ -3,8 +3,12 @@ import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
 import { AuthCta } from "@/components/auth/auth-cta";
-import { MasqueSiPremium } from "@/components/home/masque-si-premium";
-import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { LIEN_L2 } from "@/components/ui/liens";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
+import { A_PROPOS_FIN, FIN_DE_PAGE_PARCOURS_ETAPE_1 } from "@/config/textes/cta-pages";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { frTypo } from "@/lib/fr-typo";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -199,25 +203,33 @@ export default function AProposPage() {
           </p>
         </section>
 
-        {/* s21 (revue v2) : bloc payant masqué pour un abonné Premium. */}
+        {/* s21 (revue v2) : bloc payant masqué pour un abonné Premium. Textes : E6 validé
+            (config/textes/cta-pages.ts) ; titre inchangé, celui de l'accueil. */}
         <MasqueSiPremium>
-        <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
+        <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center" data-testid="a-propos-fin">
           {/* Une phrase par ligne, même découpe que le H1 de l'accueil (hero-section.tsx). */}
           <p className="font-display text-xl font-bold text-text-primary">
-            <span className="block">Tu parles et personne rit.</span>
-            <span className="block">On va arranger ça.</span>
+            {A_PROPOS_FIN.titre.map((phrase) => (
+              <span key={phrase} className="block">{phrase}</span>
+            ))}
           </p>
-          <p className="mt-2 text-text-secondary">
-            Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.
-            La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
+          <p className="mt-2 text-text-secondary" data-testid="a-propos-fin-paragraphe">
+            {frTypo(A_PROPOS_FIN.paragraphe)}
+            {/* Dernière phrase : visiteur seulement (même règle que l'accueil, QA v2 m-c). */}
+            <MasqueSiConnecte>{` ${frTypo(A_PROPOS_FIN.inscrits)}`}</MasqueSiConnecte>
           </p>
           {/* Étalon 1.2 validé par Thomas (s15), aligné sur l'accueil : inscription (étape 1
               sur 2) puis paiement ouvert tout seul ; connecté : /abonnement. */}
-          <div className="mt-4 inline-flex flex-col items-center gap-1">
-            <AuthCta label="Accéder aux parcours complets" src="a-propos" />
-            <p className="max-w-md text-balance text-sm text-text-muted">
-              {PREMIUM_PRICE_LABEL}, résiliable en ligne. La première étape de chaque parcours reste en lecture libre.
-            </p>
+          <div className="mt-4 flex flex-col items-center gap-1">
+            <AuthCta
+              label={frTypo(A_PROPOS_FIN.bouton)}
+              src="a-propos"
+              className="h-auto min-h-12 whitespace-normal py-2 [text-wrap:balance]"
+            />
+            <p className="max-w-md text-balance text-sm text-text-muted">{frTypo(A_PROPOS_FIN.ligneDiscrete)}</p>
+            <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "a-propos-etape1")} className={LIEN_L2}>
+              {frTypo(A_PROPOS_FIN.lienEtape1)}
+            </Link>
           </div>
         </div>
         </MasqueSiPremium>

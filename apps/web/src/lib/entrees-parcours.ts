@@ -55,7 +55,10 @@ export type ParcoursEntreeSrc =
   // s21 (QA m5) : contour sous les murs de liste, distinct d'un clic de fiche.
   | "mur-vannes"
   | "mur-conseils"
-  | "mur-videos";
+  | "mur-videos"
+  // s21 (E5, E6) : petit lien « Lis d'abord une étape » en fin de /glossaire et /a-propos.
+  | "glossaire-etape1"
+  | "a-propos-etape1";
 
 export function isParcoursSlug(value: unknown): value is ParcoursSlug {
   return typeof value === "string" && (PARCOURS_SLUGS as readonly string[]).includes(value);

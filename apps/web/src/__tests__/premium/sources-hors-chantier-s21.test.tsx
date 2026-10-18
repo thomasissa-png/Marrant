@@ -52,8 +52,9 @@ describe("Glossaire et à-propos : bloc payant masqué pour un abonné", () => {
   beforeEach(() => useSession.mockReturnValue({ status: "authenticated" }));
 
   it.each([
-    ["glossaire", () => <GlossairePage />, /^Commencer à/],
-    ["à-propos", () => <AProposPage />, "Accéder aux parcours complets"],
+    // s21 (E5, E6) : libellé validé « Ouvrir les 5 parcours · 2,99 €/mois ».
+    ["glossaire", () => <GlossairePage />, /^Ouvrir les\s5\sparcours/],
+    ["à-propos", () => <AProposPage />, /^Ouvrir les\s5\sparcours/],
   ] as const)("%s", (_nom, page, bouton) => {
     useEstPremium.mockReturnValue(false);
     const { unmount } = render(page());
