@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
@@ -259,7 +260,7 @@ export function DailyContent() {
               <>
                 <div className="space-y-4">
                   <h3 className="font-display text-lg font-bold text-text-primary">
-                    {data.tip.title}
+                    {frTypo(data.tip.title)}
                   </h3>
                   <p className="text-sm leading-relaxed text-text-primary">{tipProse(data.tip.content)}</p>
                   {data.tip.example && (

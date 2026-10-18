@@ -126,7 +126,7 @@ export function Header() {
           {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px ;
               concision v5 : encore un cran sous 360 px, avec des marges de 12 px, pour que le
               bouton prix tienne à côté du menu dès 320 px) */}
-          <Link href="/" className="flex shrink-0 items-center gap-2">
+          <Link href="/" className="flex min-h-11 shrink-0 items-center gap-2">
             <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
             </span>

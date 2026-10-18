@@ -92,10 +92,11 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
                 {feature.description}
               </p>
               {examples?.[i]?.length ? (
-                <ul className="mt-4 space-y-1">
+                <ul className="mt-3">
+                  {/* Revue visuelle s21 : liens d'exemple de 44 px de haut (cible tactile), sans interligne ajouté. */}
                   {examples[i].map((example) => (
                     <li key={example.href}>
-                      <Link href={example.href} className="line-clamp-2 py-1 text-sm text-accent-link hover:underline">
+                      <Link href={example.href} className="line-clamp-2 py-3 text-sm text-accent-link hover:underline">
                         {example.label}
                       </Link>
                     </li>

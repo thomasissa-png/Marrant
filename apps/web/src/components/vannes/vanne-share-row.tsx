@@ -77,7 +77,7 @@ export function VanneShareRow({ jokeId, slug, content, punchline }: VanneShareRo
         onClick={handleNativeShare}
         // s21 (QA m7) : action secondaire en contour (niveau 2, `outline-accent`) : le seul plein
         // de l'écran reste celui du bloc d'exercice (B8), à 768 et 1280 px aussi.
-        className="inline-flex items-center gap-2 rounded-lg border border-accent-primary/80 px-3 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-accent-primary/80 px-3 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         aria-label="Partager"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
@@ -89,7 +89,7 @@ export function VanneShareRow({ jokeId, slug, content, punchline }: VanneShareRo
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         aria-label={copied ? "Lien copié" : "Copier le lien"}
       >
         {copied ? "Lien copié" : "Copier le lien"}
@@ -100,7 +100,7 @@ export function VanneShareRow({ jokeId, slug, content, punchline }: VanneShareRo
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackShare("twitter")}
-        className="inline-flex items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         aria-label="Partager sur X"
       >
         X / Twitter
@@ -111,7 +111,7 @@ export function VanneShareRow({ jokeId, slug, content, punchline }: VanneShareRo
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => trackShare("whatsapp")}
-        className="inline-flex items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-border bg-background-elevated px-3 py-2 text-sm font-medium text-text-primary transition hover:border-accent-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         aria-label="Partager sur WhatsApp"
       >
         WhatsApp
