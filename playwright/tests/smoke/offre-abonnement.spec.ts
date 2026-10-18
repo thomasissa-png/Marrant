@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, estMobile, lireUrl, texteValide } from "../support/fixtures";
-import { ANNUEL_AVANTAGE_LABEL, prixTtcLabel, REASSURANCE_PAIEMENT, REMBOURSEMENT_PREMIER_PAIEMENT } from "@/config/textes/offre";
+import { ANNUEL_LIGNE_ANNUEL, prixTtcLabel, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 /**
@@ -14,9 +14,8 @@ async function choisirAnnuel(page: Page) {
   await expect(page.getByRole("radio", { name: "Annuel" })).toBeChecked();
 }
 
-// Réassurance validée à l'aveugle s21 (remboursement du premier paiement, formule @legal A) :
-// même texte en mensuel et en annuel, le prix TTC est affiché juste au-dessus.
-const REASSURANCE = texteValide(REASSURANCE_PAIEMENT);
+// REASS unique (concision v5) : même texte en mensuel et en annuel, le prix TTC est affiché juste au-dessus.
+const REASSURANCE = texteValide(REASSURANCE_UNIQUE);
 
 test.describe("Offre /abonnement @smoke", () => {
   // s21 B16 : libellé du tour 4, qui suit la formule choisie.
@@ -48,7 +47,7 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    // /register rappelle la formule choisie : « Premium, 24,99 € TTC par an, annulable à tout moment. »
+    // /register rappelle la formule choisie : « Premium, 24,99 € TTC par an. »
     await expect(page.getByText(texteValide(prixTtcLabel("annual"))).first()).toBeVisible();
   });
 
@@ -62,14 +61,14 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
     await choisirAnnuel(page);
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
-    await expect(page.getByText(texteValide(ANNUEL_AVANTAGE_LABEL))).toBeVisible();
+    await expect(page.getByText(texteValide(ANNUEL_LIGNE_ANNUEL))).toBeVisible();
   });
 
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
     await page.goto("/register?callbackUrl=%2Fabonnement&src=abonnement");
-    // s21 : le prix TTC est rappelé en haut de /register, la réassurance ne parle que du remboursement.
+    // Le prix TTC est rappelé en haut de /register, la REASS unique est collée sous le plein.
     await expect(page.getByText(texteValide(prixTtcLabel("monthly"))).first()).toBeVisible();
-    await expect(page.getByText(texteValide(REMBOURSEMENT_PREMIER_PAIEMENT)).first()).toBeVisible();
+    await expect(page.getByText(texteValide(REASSURANCE_UNIQUE)).first()).toBeVisible();
     await expect(page.getByText(/En créant ton compte, tu acceptes les/)).toBeVisible();
     const cgu = page.getByRole("link", { name: "CGU", exact: true });
     await expect(cgu).toHaveAttribute("href", "/cgu");

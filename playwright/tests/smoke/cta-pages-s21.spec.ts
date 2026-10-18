@@ -12,7 +12,7 @@ import {
  * Textes : constantes de `apps/web/src/config/textes/cta-pages.ts`, jamais recopiés.
  */
 test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
-  test("/abonnement 375 x 700 : bouton d'achat entier au premier écran, [S32] dessous, titre par parcours", async ({ page }) => {
+  test("/abonnement 375 x 700 : bouton d'achat entier au premier écran, suite dessous, titre par parcours", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 700 });
     for (const [chemin, slug] of [
       ["/abonnement", "defaut"],
@@ -22,8 +22,8 @@ test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
       await page.goto(chemin);
       await expect(page.locator("h1")).toHaveText(texteValide(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre));
       const bouton = page.getByTestId("abonnement-bouton-achat");
-      // Textes validés : le bouton nomme le parcours d'origine (« Ouvrir {P} et les 4 autres · prix »).
-      await expect(bouton).toHaveText(texteValide(ABONNEMENT_CTA.bouton("monthly", slug === "defaut" ? null : slug)));
+      // Concision v5 : un seul libellé (OUVRIR) pour tous les parcours d'origine.
+      await expect(bouton).toHaveText(texteValide(ABONNEMENT_CTA.bouton("monthly")));
       const box = await bouton.boundingBox();
       expect(box, `bouton d'achat de ${chemin}`).not.toBeNull();
       // Bas du bouton dans le premier écran (y mesuré : 431,8 en mensuel seul, 602,1 avec l'annuel).
@@ -44,6 +44,7 @@ test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
   test("/parcours : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous", async ({ page }) => {
     await page.goto("/parcours");
     await expect(page.getByRole("button", { name: LISTE_PARCOURS_CTA.bouton("repartie") })).toBeVisible();
-    await expect(page.getByText(LISTE_PARCOURS_CTA.frontiere("repartie"))).toBeVisible();
+    // Concision v5 : même ligne frontière sur chaque carte (« Sans compte. La suite : Premium. »).
+    await expect(page.getByText(LISTE_PARCOURS_CTA.frontiere("repartie")).first()).toBeVisible();
   });
 });

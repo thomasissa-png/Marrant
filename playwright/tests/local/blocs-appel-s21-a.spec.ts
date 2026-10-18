@@ -106,6 +106,11 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       // s21 concision (18/10) : plus de lien payant sous le plein du haut ; le payant est dans l'en-tête.
       await expect(page.locator("main section:has(h1) a[href^='/abonnement']")).toHaveCount(0);
       await expect(page.locator('header a[href^="/abonnement?src=header"]').first()).toBeAttached();
+      // Concision v5 : un appel payant visible au premier écran à toutes les largeurs (bouton de l'en-tête).
+      const prixEnTete = page.locator('header a[href="/abonnement?src=header"]').filter({ visible: true });
+      await expect(prixEnTete).toHaveCount(1);
+      const boite = await prixEnTete.boundingBox();
+      expect((boite?.x ?? 0) + (boite?.width ?? 0), "bouton prix dans l'écran").toBeLessThanOrEqual(largeur);
       await capture(page, `accueil-haut-${largeur}`, testInfo);
 
       const carte = page.locator("#offres");

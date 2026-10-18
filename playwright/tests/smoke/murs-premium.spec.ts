@@ -1,6 +1,6 @@
 import { test, expect, lireUrl, texteValide } from "../support/fixtures";
-import { REASSURANCE_PAIEMENT, VALIDATION_ETAPE } from "@/config/textes/offre";
-import { APERCU_INTRO, progressionVisiteurTexte } from "@/config/textes/parcours";
+import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { progressionVisiteurTexte } from "@/config/textes/parcours";
 import { FENETRE_PREMIUM, MUR_LISTE, MUR_PARCOURS } from "@/config/textes/cta-pages";
 
 /**
@@ -59,7 +59,7 @@ test.describe("Murs Premium @smoke", () => {
     expect(url.pathname).toBe("/abonnement");
     expect(url.searchParams.get("returnTo")).toBe("/vannes");
     expect(url.searchParams.get("src")).toBe("mur-vannes");
-    // Contour vers l'étape 1 gratuite, sous le plein.
+    // Lien vers l'étape 1 gratuite (GRATUIT_P), sous le plein et la REASS.
     await expect(page.getByRole("link", { name: texteValide(MUR_LISTE.vannes.contour(MUR_PARCOURS)) })).toBeVisible();
 
     await cta.click();
@@ -100,8 +100,8 @@ test.describe("Murs Premium @smoke", () => {
       await carte.focus();
       await page.keyboard.press("Enter");
       await expect(page.getByRole("dialog")).toBeVisible();
-      // Réassurance validée s21 (remboursement du premier paiement), sous le bouton de la modale.
-      await expect(page.getByRole("dialog")).toContainText(texteValide(REASSURANCE_PAIEMENT));
+      // REASS unique (concision v5), sous le bouton de la modale.
+      await expect(page.getByRole("dialog")).toContainText(texteValide(REASSURANCE_UNIQUE));
     });
   }
 
@@ -111,15 +111,13 @@ test.describe("Murs Premium @smoke", () => {
     // ordre conseillé) ; la progression annonce l'étape 1 offerte et les suivantes avec Premium.
     const etapes = await page.getByRole("button", { name: /^Étape \d+ :/ }).count();
     expect(etapes).toBeGreaterThan(1);
-    await expect(page.getByText(progressionVisiteurTexte(etapes))).toBeVisible();
-    await expect(page.getByText(APERCU_INTRO)).toBeVisible();
-    await expect(
-      page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : .*Fait partie de Premium$/ }),
-    ).toHaveCount(1);
+    // Concision v5 : « Étape 1 gratuite, la suite avec Premium », plus d'intro ni de badge « Fait partie de Premium ».
+    await expect(page.getByText(progressionVisiteurTexte())).toBeVisible();
+    await expect(page.getByText("Fait partie de Premium")).toHaveCount(0);
 
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    // Libellé du mur validé à l'aveugle (lot 2 s21, duel 1).
+    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois » (quiz en cours : vers /abonnement).
     const cta = page.getByRole("link", { name: VALIDATION_ETAPE.bouton });
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
@@ -128,18 +126,16 @@ test.describe("Murs Premium @smoke", () => {
     expect(url.searchParams.get("src")).toBe("parcours-etape");
   });
 
-  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu Premium) @s16 @s21", async ({ page }) => {
+  test("/parcours/machine-a-cafe : textes s16 (« Lecture libre », étape 2 en aperçu) @s16 @s21", async ({ page }) => {
     await page.goto("/parcours/machine-a-cafe");
     await expect(page.getByText("Lecture libre").first()).toBeVisible();
     await expect(page.getByText("Essai gratuit")).toHaveCount(0);
-    // s17 (QA-05) : plus d'aria-label « verrouillée » ; le nom vocal = le texte visible, badge « Fait partie de Premium » compris.
-    await expect(
-      page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : .*Fait partie de Premium$/ }),
-    ).toHaveCount(1);
+    // Concision v5 : badge « Fait partie de Premium » retiré ; le nom vocal = le texte visible.
+    await expect(page.getByRole("listitem").nth(1).getByRole("button", { name: /^Étape 2 : / })).toHaveCount(1);
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
     await expect(page.getByText(VALIDATION_ETAPE.texte)).toBeVisible();
-    // s21 : « Voir ce que contient Premium » (lot 2, duel 1) au lieu de « Voir l'offre Premium ».
+    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
     // Nom exact : le bouton d'en-tête s'appelle « 2,99 € par mois : voir l'offre Premium » (B6, textes validés).
     await expect(page.getByRole("link", { name: "Voir l'offre Premium", exact: true })).toHaveCount(0);

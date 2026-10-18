@@ -66,12 +66,47 @@ test.describe("Concision du tunnel (structure) @s21", () => {
   test("avantages : 4 lignes sur /abonnement, aucune sur le mur du carnet ; faits corrigés", async ({ page }) => {
     await page.goto("/abonnement");
     await expect(page.getByTestId("avantages-premium").locator("li")).toHaveCount(4);
-    await expect(page.getByText(/une étape par semaine conseillée,/)).toBeVisible();
-    await expect(page.getByText(/[Tt]u résilies depuis ton profil/).first()).toBeAttached();
+    // Concision v5 : sous-titre « Pas d'attente entre les étapes… », REASS unique sous le plein.
+    await expect(page.getByText(/^Pas d.attente entre les étapes, de\s15\sà\s20\sminutes chacune\.$/)).toBeVisible();
+    await expect(page.getByTestId("reassurance-paiement")).toHaveText(/^Premium\s:\spremier\spaiement\sremboursable\ssous\s14\sjours\.\sRésiliable\sdepuis\ston\sprofil\.$/);
     expect(await page.locator("main").textContent()).not.toMatch(/1 clic/);
 
     await page.goto("/carnet");
     await expect(page.getByTestId("carnet-paywall-bouton")).toBeVisible();
     await expect(page.getByTestId("avantages-premium")).toHaveCount(0);
+  });
+
+  test("fin de l'étape 1 (visiteur) : une seule source dans l'URL, lettre en ligne repliée qui déplie son champ au clic", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.goto("/parcours/repartie");
+    // Quiz de l'étape 1 : première réponse à chaque question, jusqu'au résultat.
+    for (let i = 0; i < 10; i++) {
+      const suite = page.getByRole("button", { name: /^(Question suivante|Voir le résultat)$/ });
+      const options = page.locator('[role="group"][aria-labelledby^="quiz-q-"] button');
+      if ((await options.count()) === 0) break;
+      await options.first().click();
+      await suite.click();
+    }
+    const fin = page.locator("[data-fin-etape-1]");
+    await expect(fin).toBeVisible();
+    await expect(fin.getByText("Bien joué !")).toBeVisible();
+    const plein = fin.locator('a[data-fin-etape-1-cta="premium"]');
+    await expect(plein).toHaveText(/^Passer à l'étape 2\s·\s2,99\s€\/mois$/);
+    const href = (await plein.getAttribute("href")) ?? "";
+    expect(href.match(/parcours-etape/g), href).toHaveLength(1);
+    const url = new URL(href, "http://localhost");
+    expect(url.pathname).toBe("/register");
+    expect(url.searchParams.get("src")).toBe("parcours-etape");
+    expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie");
+    // Lettre : ligne discrète sous la REASS, fermée au chargement (aucun champ), dépliée au clic.
+    const ligne = fin.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
+    await expect(ligne).toHaveAttribute("aria-expanded", "false");
+    await expect(fin.locator('input[type="email"]')).toHaveCount(0);
+    const avant = await plein.boundingBox();
+    await ligne.click();
+    await expect(fin.locator('input[type="email"]')).toBeFocused();
+    await expect(fin.getByRole("checkbox")).toBeVisible();
+    // Le plein ne bouge pas quand la lettre se déplie (elle est dessous).
+    expect((await plein.boundingBox())?.y).toBe(avant?.y);
   });
 });
