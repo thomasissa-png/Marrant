@@ -11,7 +11,18 @@ Type : chambrage · Ancrage : novembre, sport à la télé
 Situation : Dimanche, tu retrouves au bar un ami qui supporte l'équipe adverse, il pose son demi sur la table et te regarde avec un grand sourire.
 On te dit : « Alors, ton équipe a trouvé un nouveau moyen de perdre hier soir ? »
 
-[À REMPLIR : 121 à 132]
+121. Mon père m'a transmis cette équipe. J'aurais préféré sa montre.
+122. Elle avait un plan sur dix ans. On en est à l'année quatorze.
+123. Chez nous, on perd en famille. C'est le seul moment où tout le monde est au salon.
+124. Elle n'a pas perdu, elle explore. Hier, elle a trouvé une possibilité de plus.
+125. J'ai regardé le match en repassant. Sur toute la soirée, mes chemises ont fait mieux.
+126. J'ai éteint la télé à la 70e minute. Ils ont encaissé à la 71e. Je me sens coupable, et un peu puissant.
+127. Vingt ans de supporter. Je suis devenu excellent dans un seul domaine : l'après-match.
+128. À la 80e minute, ma voisine a tapé au mur. J'ai cru qu'elle me consolait.
+129. J'ai crié sur la télé. Le chat est resté vingt secondes, par politesse.
+130. Ce n'est pas un nouveau moyen. C'est le même, et elle commence à le maîtriser.
+131. Ce matin, j'ai regardé le replay, au cas où la fin aurait changé. Elle ne change pas.
+132. J'ai déjà tout commenté cette nuit, à voix haute, devant mon frigo.
 
 ---
 

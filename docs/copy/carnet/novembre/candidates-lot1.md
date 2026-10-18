@@ -171,7 +171,18 @@ Type : question
 Situation : Visioconférence à huit, ton manager vient de dire « on regarde ça ensemble », et tous les carrés noirs attendent.
 On te dit : « Tu peux partager ton écran ? »
 
-[À REMPLIR : 97 à 108]
+97. Donne-moi une minute. J'ai trois onglets qui ne sont pas du travail, et un qui l'est à peu près.
+98. Je préfère te le décrire. À l'oral, mon écran est bien mieux rangé.
+99. Je partage. Si vous voyez écrit « comment refuser poliment une réunion », c'est pour un autre sujet.
+100. Vous ne voyez rien ? On passe au théâtre : je décris, vous imaginez.
+101. Je partage l'écran entier ou juste une fenêtre ? J'ai un doute sur ce que je suis prêt à assumer.
+102. Ma barre des tâches raconte ma matinée mieux que moi. Je préfère ne pas la laisser parler.
+103. Je partage. Prévenez-moi si vous voyez quelque chose qui ressemble à du travail.
+104. Vous entendez le ventilateur ? C'est mon ordinateur qui comprend ce qu'on lui demande.
+105. Bien sûr. Moi, pendant ce temps, je regarde ma petite vignette en train de paniquer.
+106. Je cherche la bonne fenêtre. C'est celle qui s'appelle « Sans titre 14 ».
+107. On va tous apprendre où je range mes fichiers. Moi aussi, d'ailleurs.
+108. Je partage mon écran, vous partagez votre indulgence.
 
 ---
 
@@ -180,10 +191,34 @@ Type : chambrage · Ancrage : chauffage
 Situation : Premier vrai froid de l'année, l'open space est devenu un sauna, et une collègue pose la main sur le radiateur en te regardant.
 On te dit : « C'est encore toi qui as touché au chauffage ? »
 
-[À REMPLIR : 109 à 120]
+109. Non. J'ai juste dit « il fait un peu frais ». Le chauffage a pris ça très au sérieux.
+110. J'ai demandé dix-neuf degrés. Il a compris vingt-huit.
+111. J'ai appuyé une fois, rien. Alors j'ai appuyé dix fois. Il avait juste du retard.
+112. Il fait chaud ? Je ne l'ai pas remarqué. J'ai encore mon manteau.
+113. C'est possible. C'est la seule chose que j'ai réussi à changer dans cette boîte.
+114. Je le monte quand j'ai froid, tu le descends quand tu as chaud. C'est notre seul projet commun.
+115. C'est le seul collègue qui fait ce qu'on lui demande. Avec deux heures de retard.
+116. Pour ma défense, j'ai demandé la permission. À voix basse, mais j'ai demandé.
+117. Je n'ai rien touché. Je l'ai juste regardé avec insistance. Il l'a pris pour un ordre.
+118. Je confirme. Ce matin, je gelais. D'ici ce soir, on pourra faire pousser des orchidées.
+119. Regarde le bon côté : à cette température, la réunion de 16 h passera vite. On dormira tous.
+120. J'ai hésité vingt minutes devant le thermostat. C'est ma plus grosse décision de la semaine.
 
 ---
 
 ## Table de correspondance : numéro global → situation
 
-[À REMPLIR en fin de travail]
+| Numéros globaux | Situation | Thème | Type |
+|---|---|---|---|
+| 1 à 12 | L1-S1 Le revenant (« Tiens, un revenant ! On te croyait en hibernation. ») | Soirée | Chambrage |
+| 13 à 24 | L1-S2 Les chips (« Des chips ? Encore ? Tu as de l'imagination, toi. ») | Soirée | Chambrage |
+| 25 à 36 | L1-S3 Le jeu de société (« Toi, tu perds à tous les jeux de société. ») | Soirée | Chambrage |
+| 37 à 48 | L1-S4 La playlist (« Allez, mets quelque chose, c'est toi qui as le meilleur goût. ») | Soirée | Question |
+| 49 à 60 | L1-S5 La raclette (« C'est ta quatrième, là, non ? ») | Soirée | Chambrage |
+| 61 à 72 | L1-S6 L'heure d'été (« Tu es encore à l'heure d'été, toi ? ») | Boulot | Chambrage |
+| 73 à 84 | L1-S7 Les pots (« On ne te voit qu'aux pots, toi. ») | Boulot | Chambrage |
+| 85 à 96 | L1-S8 Le bureau (« Ton bureau, il est rangé selon quel système ? ») | Boulot | Chambrage |
+| 97 à 108 | L1-S9 Le partage d'écran (« Tu peux partager ton écran ? ») | Boulot | Question |
+| 109 à 120 | L1-S10 Le chauffage (« C'est encore toi qui as touché au chauffage ? ») | Boulot | Chambrage |
+
+Contrôles faits : 10 situations x 12 = 120 candidates numérotées de 1 à 120 ; aucune situation d'octobre reprise ; aucune situation du brouillon rejeté reprise (ni l'écharpe, ni le thermostat de couple, ni le Beaujolais, ni le mail sans réponse, ni les objectifs) ; recherche par mot-clé dans le catalogue des vannes validées (hibernation, chips, jeu de société, playlist, raclette, heure d'été, pot, bureau, écran, chauffage) : aucune redite de vanne (seules trouvailles : le portique de bureau et le canapé de l'espace détente, sans rapport avec les situations choisies).
