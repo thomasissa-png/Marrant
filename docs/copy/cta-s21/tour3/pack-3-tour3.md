@@ -12,6 +12,7 @@ Tu relis des blocs d'appel à l'action de deviens-marrant.fr, un site d'humour e
 4. **Note chaque texte sur 10 pour la conversion** (donne-t-il envie de cliquer, puis de s'abonner ? clair, crédible, sans friction ?) **et sur 10 pour la qualité d'écriture** (voix, justesse, fluidité, zéro cliché ni ton de publicité ou de coach). 10 = rien à changer.
 5. Dis **ce qui manque pour atteindre 10** dans chacun.
 6. Signale toute phrase qui **promet plus que les faits vrais**, qui sonne comme un texte écrit par une IA, ou qui met mal à l'aise.
+7. Les **libellés des boutons et des liens font partie du texte** : juge-les aussi (disent-ils où ils mènent, donnent-ils envie de cliquer, puis de payer, sans rien de faux ?).
 
 Format de réponse, par duel :
 `Choix : 1 ou 2 | Conversion : T1 /10, T2 /10 | Écriture : T1 /10, T2 /10 | Manque pour 10 : T1 ..., T2 ... | Alertes : ...`
@@ -44,7 +45,7 @@ Format de réponse, par duel :
 - **Où il est** : il vient de parcourir les 10 premières vannes (ou les 3 premiers conseils, ou les 3 premières vidéos). Sous la dernière carte s'affiche le bloc ci-dessous, puis des cartes floutées (« Voir Premium »). Il n'y a pas de bandeau d'annonce en haut de la liste.
 - **Ce qu'il cherche** : la suite de la liste. Il a peut-être remarqué que chaque fiche a sa propre page, lisible sans compte.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement) ou sur le bouton contour (étape 1 gratuite de Répartie).
-- **Composition du bloc** : une ligne `[S21]` sous la dernière carte ; une ligne `[S22]` sur les filtres (lien discret) ; puis une carte : titre `[S23]`, texte `[S24]`, bouton plein « Tout débloquer » (identique dans les deux textes), ligne `[S26]` juste dessous, bouton contour `[S25]` (identique dans les deux textes).
+- **Composition du bloc** : une ligne `[S21]` sous la dernière carte ; une ligne `[S22]` sur les filtres (lien discret) ; puis une carte : titre `[S23]`, texte `[S24]`, bouton plein (son libellé fait partie du texte à juger), ligne `[S26]` juste dessous, bouton contour `[S25]` (son libellé aussi).
 - **Les trois listes ont chacune leur version, écrite en entier** : lis-les toutes les trois pour chaque texte.
 
 ### Texte 1
@@ -53,31 +54,31 @@ Format de réponse, par duel :
 > `[S21]` Voilà les 10 premières vannes.
 > `[S22]` Le filtre par catégorie est dans Premium.
 >
-> `[S23]` **Toute la liste, avec l'exercice de chaque vanne**
-> `[S24]` Avec Premium, tes favoris au même endroit, et 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Ouvrir toute la liste avec Premium ]
+> `[S23]` **Et si la prochaine vanne qui fait rire la table était la tienne ?**
+> `[S24]` Ça se prépare. Avec Premium : toute la liste, l'exercice « À toi de jouer » sous chaque vanne, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).
+> [ Je veux toute la liste avec Premium ]
 > `[S26]` 2,99 € TTC par mois ou 24,99 € TTC par an, résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire gratuitement l'étape 1 de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 
 **Sur /conseils**
 > `[S21]` Voilà les 3 premiers conseils.
 > `[S22]` Les filtres par niveau et par catégorie sont dans Premium.
 >
-> `[S23]` **Toute la liste, avec l'exercice de chaque conseil**
-> `[S24]` Avec Premium, tes favoris au même endroit, et 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Ouvrir toute la liste avec Premium ]
+> `[S23]` **Et si la bonne réplique arrivait avant la fin de la soirée ?**
+> `[S24]` Chaque conseil a son exercice « À toi de jouer », pour le tester sur toi. Avec Premium : toute la liste, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).
+> [ Je veux toute la liste avec Premium ]
 > `[S26]` 2,99 € TTC par mois ou 24,99 € TTC par an, résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire gratuitement l'étape 1 de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 
 **Sur /videos**
 > `[S21]` Voilà les 3 premières vidéos.
 > `[S22]` Les filtres par niveau et par catégorie sont dans Premium.
 >
-> `[S23]` **Toute la liste, avec les points clés de chaque vidéo**
-> `[S24]` Avec Premium, l'exercice de chaque vidéo, tes favoris au même endroit, et 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Tout débloquer ]
+> `[S23]` **Tu les regardes pour rire. Et si tu les regardais pour faire rire ?**
+> `[S24]` Avec Premium : toute la liste, les points clés et l'exercice de chaque vidéo, tes favoris, et 5 parcours pour t'entraîner, une étape par semaine (de 15 à 20 minutes).
+> [ Je veux toute la liste avec Premium ]
 > `[S26]` 2,99 € TTC par mois ou 24,99 € TTC par an, résiliable en ligne quand tu veux. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 
 ### Texte 2
 
@@ -123,15 +124,15 @@ Format de réponse, par duel :
 - **Ce qu'il vient de lire** : la vanne, puis « Pourquoi ça marche : {technique} », une explication de deux ou trois phrases. Juste en dessous, une courte section « Comment la ressortir » en prose : « Le meilleur moment ? Quand personne ne s'y attend. Retiens la structure (setup court + chute qui décale) et applique-la à ta propre situation. » Le bloc ci-dessous vient ensuite.
 - **Ce qu'il cherche** : comprendre et peut-être la ressortir. Le décryptage lui a donné de la valeur gratuitement.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement) ou sur le bouton contour (étape 1 gratuite du parcours qui colle à la catégorie de la vanne ; ici, Répartie). Les textes ne disent de l'exercice que ce que disent les faits : une consigne et un exemple à réutiliser.
-- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein « Voir ce que contient Premium » (identique dans les deux textes), ligne `[S16]`, bouton contour `[S25]` (identique dans les deux textes), lien discret « Voir toutes les vannes ».
+- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein, ligne `[S16]`, bouton contour `[S25]`, lien discret « Voir toutes les vannes ». Les libellés des boutons font partie du texte à juger.
 
 ### Texte 1
 
-> `[S14]` **Et ta version ?**
-> `[S15]` La mécanique, tu l'as. L'exercice « À toi de jouer » y ajoute une consigne pour écrire ta version, et un exemple à réutiliser. Il est dans Premium.
-> [ Voir ce que contient Premium ]
+> `[S14]` **Et si c'était ta version qu'on se répétait demain ?**
+> `[S15]` La mécanique, tu l'as. L'exercice « À toi de jouer » y ajoute une consigne et un exemple à réutiliser, pour écrire la tienne, celle que tu auras envie de sortir à la prochaine soirée. C'est dans Premium.
+> [ Écrire la mienne avec Premium ]
 > `[S16]` 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 > Lien : Voir toutes les vannes
 
 ### Texte 2
@@ -155,7 +156,7 @@ Format de réponse, par duel :
 - **Ce qu'il vient de lire** : le conseil et son exemple concret, en entier, gratuitement.
 - **Ce qu'il cherche** : comprendre la technique, éventuellement l'appliquer.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement) ou sur le bouton contour (étape 1 gratuite du parcours le plus proche du sujet du conseil ; ici, Répartie).
-- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein « Voir ce que contient Premium » (identique dans les deux textes), ligne `[S16]`, bouton contour `[S25]` (identique dans les deux textes), lien discret « Voir tous les conseils ».
+- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein, ligne `[S16]`, bouton contour `[S25]`, lien discret « Voir tous les conseils ». Les libellés des boutons font partie du texte à juger.
 
 ### Texte 1
 
@@ -168,11 +169,11 @@ Format de réponse, par duel :
 
 ### Texte 2
 
-> `[S14]` **À essayer chez toi**
-> `[S15]` L'exercice te donne une consigne et un exemple à réutiliser pour tester cette technique dans ta situation. Il est dans Premium, avec 5 parcours d'une étape par semaine : conseil, vannes, vidéos et quiz à chaque étape.
-> [ Voir ce que contient Premium ]
+> `[S14]` **Ce conseil, version toi**
+> `[S15]` L'exercice te donne une consigne et un exemple à réutiliser pour tester ce conseil sur toi, avant d'en avoir besoin. Il est dans Premium, avec 5 parcours d'une étape par semaine : conseil, vannes, vidéos et quiz à chaque étape.
+> [ Tester ce conseil avec Premium ]
 > `[S16]` 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 > Lien : Voir tous les conseils
 
 *Au clic (deux textes) : le bouton plein ouvre la page d'abonnement et ramène ensuite sur cette fiche ; le bouton contour ouvre l'étape 1 de Répartie.*
@@ -188,7 +189,7 @@ Format de réponse, par duel :
 - **Ce qu'il cherche** : regarder, peut-être comprendre pourquoi ça marche.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein (page d'abonnement) ou sur le bouton contour (étape 1 gratuite ; ici, Répartie).
 - **Fait précis** : les points clés et l'exercice de cette vidéo font partie de Premium. Aucun teaser du contenu de l'analyse n'est disponible : `[S15]` ne doit rien en dévoiler ni en inventer.
-- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein « Voir ce que contient Premium » (identique dans les deux textes), ligne `[S16]`, bouton contour `[S25]` (identique dans les deux textes), lien discret « Voir toutes les vidéos ».
+- **Composition du bloc** : titre `[S14]`, texte `[S15]`, bouton plein, ligne `[S16]`, bouton contour `[S25]`, lien discret « Voir toutes les vidéos ». Les libellés des boutons font partie du texte à juger.
 
 ### Texte 1
 
@@ -202,10 +203,10 @@ Format de réponse, par duel :
 ### Texte 2
 
 > `[S14]` **Après le rire, l'analyse**
-> `[S15]` Cette vidéo a ses points clés et son exercice, dans Premium. Tu y trouves aussi 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
-> [ Voir ce que contient Premium ]
+> `[S15]` Eux font rire une salle. Toi, une table te suffit. Cette vidéo a ses points clés et son exercice, dans Premium, avec 5 parcours pour t'entraîner : une étape par semaine, de 15 à 20 minutes.
+> [ Décrypter cette vidéo avec Premium ]
 > `[S16]` 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
-> `[S25]` [ Lire la première étape gratuite de Répartie ]
+> `[S25]` [ Essayer gratuitement l'étape 1 de Répartie ]
 > Lien : Voir toutes les vidéos
 
 *Au clic (deux textes) : le bouton plein ouvre la page d'abonnement et ramène ensuite sur cette fiche ; le bouton contour ouvre l'étape 1 de Répartie.*
@@ -220,7 +221,7 @@ Format de réponse, par duel :
 - **Où il est** : une fenêtre s'ouvre par-dessus la page (sur mobile, un panneau qui monte du bas). Le visiteur est interrompu au milieu d'un geste qu'il croyait gratuit.
 - **Ce qu'il cherche** : garder le contenu. Il n'a pas décidé de s'abonner. Il peut fermer la fenêtre, le contenu reste là.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein (création du compte, puis paiement). Un lien discret propose l'étape 1 gratuite.
-- **Composition du bloc, dans cet ordre** : titre (selon le geste), phrase d'intro, ligne de prix « 2,99 € TTC / mois », ligne `[S27]` (deux lignes au plus), bouton plein « Créer mon compte et m'abonner », lien discret `[S28]`, puis une seule ligne de garantie (premier paiement remboursable sous 14 jours, résiliation en ligne). Prix, bouton et ligne de garantie sont identiques dans les deux textes.
+- **Composition du bloc, dans cet ordre** : titre (selon le geste), phrase d'intro, ligne de prix « 2,99 € TTC / mois », ligne `[S27]` (deux lignes au plus), bouton plein (son libellé fait partie du texte à juger), lien discret `[S28]`, puis une seule ligne de garantie (premier paiement remboursable sous 14 jours, résiliation en ligne). Prix et ligne de garantie sont identiques dans les deux textes.
 - **Trois gestes, trois versions écrites en entier** : favori, vote, carte floutée (pour la carte, la version dépend de la liste). Lis les trois gestes pour chaque texte.
 
 ### Texte 1
@@ -260,11 +261,11 @@ Format de réponse, par duel :
 ### Texte 2
 
 **Geste : favori**
-> Titre : **Garder ça sous la main, c'est dans Premium**
+> Titre : **Garde-la pour le soir où tu en auras besoin**
 > Intro : Tu peux fermer cette fenêtre, ta page reste là. S'abonner, c'est deux étapes : ton compte, puis le paiement sécurisé.
 > 2,99 € TTC / mois
-> `[S27]` Tes favoris au même endroit, et 5 parcours pour t'entraîner, une étape par semaine.
-> [ Créer mon compte et m'abonner ]
+> `[S27]` Avec Premium : tes favoris prêts pour le bon moment, et 5 parcours pour t'entraîner, une étape par semaine.
+> [ Je m'abonne et je garde mes favoris ]
 > `[S28]` Lien : Ou lire d'abord l'étape 1 de Répartie (gratuite, sans compte)
 
 **Geste : vote**
@@ -272,23 +273,23 @@ Format de réponse, par duel :
 > Intro : Tu peux fermer cette fenêtre, ta page reste là. S'abonner, c'est deux étapes : ton compte, puis le paiement sécurisé.
 > 2,99 € TTC / mois
 > `[S27]` Ton vote sur les nouveautés, et 5 parcours pour t'entraîner, une étape par semaine.
-> [ Créer mon compte et m'abonner ]
+> [ Je m'abonne et je vote ]
 > `[S28]` Lien : Ou lire d'abord l'étape 1 de Répartie (gratuite, sans compte)
 
 **Geste : carte floutée, sur /vannes**
-> Titre : **Le reste de la liste est dans Premium**
+> Titre : **Le reste de la liste est juste derrière**
 > Intro : Tu peux fermer cette fenêtre, ta page reste là. S'abonner, c'est deux étapes : ton compte, puis le paiement sécurisé.
 > 2,99 € TTC / mois
-> `[S27]` Toute la liste, le filtre par catégorie, tes favoris, et 5 parcours pour t'entraîner.
-> [ Créer mon compte et m'abonner ]
+> `[S27]` Avec Premium : toute la liste, le filtre par catégorie, tes favoris, et 5 parcours pour t'entraîner.
+> [ Je m'abonne et j'ouvre toute la liste ]
 > `[S28]` Lien : Ou lire d'abord l'étape 1 de Répartie (gratuite, sans compte)
 
 **Geste : carte floutée, sur /conseils et /videos**
-> Titre : **Le reste de la liste est dans Premium**
+> Titre : **Le reste de la liste est juste derrière**
 > Intro : Tu peux fermer cette fenêtre, ta page reste là. S'abonner, c'est deux étapes : ton compte, puis le paiement sécurisé.
 > 2,99 € TTC / mois
-> `[S27]` Toute la liste, les filtres par niveau et par catégorie, tes favoris, et 5 parcours pour t'entraîner.
-> [ Créer mon compte et m'abonner ]
+> `[S27]` Avec Premium : toute la liste, les filtres par niveau et par catégorie, tes favoris, et 5 parcours pour t'entraîner.
+> [ Je m'abonne et j'ouvre toute la liste ]
 > `[S28]` Lien : Ou lire d'abord l'étape 1 de Répartie (gratuite, sans compte)
 
 *Au clic (deux textes) : le bouton plein ouvre la création de compte (étape 1 sur 2), puis le paiement ; le lien ouvre l'étape 1 de Répartie.*
@@ -303,14 +304,14 @@ Format de réponse, par duel :
 - **Ce qu'il vient de voir** : son profil (ici, « L'Observateur »), « Ta force », « Le conseil pour progresser », un bouton de partage, puis la carte « Ton point de départ : Parcours Confiance » avec une raison (« Tu vois ce que les autres ne remarquent pas : ce parcours commence justement par regarder ton quotidien avec un œil comique. »). Ces éléments sont identiques dans les deux textes. Le parcours conseillé change selon le profil ; Confiance dure 6 semaines, 20 minutes par semaine.
 - **Ce qu'il cherche** : un résultat sur lui-même, à partager ou à garder. Il n'a rien demandé d'autre.
 - **Ce que le bloc peut obtenir** : un clic vers l'étape 1 gratuite du parcours conseillé, ou vers la page d'abonnement.
-- **Composition du bloc** : sous la carte du parcours, une phrase, un bouton plein vers l'étape 1 gratuite (identique dans les deux textes), un lien, une ligne sur Premium. Le lien « Accéder aux parcours complets » est identique dans les deux textes (il ouvre la page d'abonnement). Plus bas, la lettre par e-mail (autre duel).
+- **Composition du bloc** : sous la carte du parcours, une phrase, un bouton plein vers l'étape 1 gratuite, un lien (il ouvre la page d'abonnement), une ligne sur Premium. Les libellés du bouton et du lien font partie du texte à juger. Plus bas, la lettre par e-mail (autre duel).
 
 ### Texte 1
 
-> Confiance, c'est 6 étapes de 20 minutes, une par semaine. La première se lit tout de suite, sans compte, quiz compris.
-> [ Lire la première étape gratuite de Confiance ]  *(bouton plein)*
-> Lien : Accéder aux parcours complets
-> Avec Premium : les 5 parcours en entier, dont Confiance (une étape par semaine, de 15 à 20 minutes selon le parcours). 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
+> Un humour, ça se travaille. Confiance, c'est 6 étapes de 20 minutes, une par semaine. La première se lit tout de suite, sans compte, quiz compris.
+> [ Essayer gratuitement l'étape 1 de Confiance ]  *(bouton plein)*
+> Lien : Voir les 5 parcours avec Premium
+> Les 5 parcours en entier, dont Confiance : une étape par semaine, de 15 à 20 minutes selon le parcours. 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
 
 ### Texte 2
 
@@ -330,7 +331,7 @@ Format de réponse, par duel :
 - **Qui** : une personne qui a créé son compte (mot de passe, e-mail) mais n'a pas fini le paiement : elle n'est donc pas abonnée. Elle est connectée. Peu de monde est dans ce cas.
 - **Ce qu'elle vient de faire** : un quiz d'orientation de 3 questions. Le résultat est affiché au-dessus du bloc : « Ton point de départ » et le parcours conseillé (ici, Répartie, 4 étapes). Un lien « Refaire le quiz » existe à côté.
 - **Ce qu'elle cherche** : son résultat. Elle a déjà fait une partie du chemin vers l'abonnement.
-- **Ce que le bloc peut obtenir** : un clic sur le bouton plein « Active mon accès · 2,99 €/mois » (paiement directement, le compte existe déjà). Le bouton est identique dans les deux textes.
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein (paiement directement, le compte existe déjà). Le libellé du bouton fait partie du texte à juger.
 - **Composition du bloc** : une phrase, le bouton plein, une ligne de garantie, le lien discret « Refaire le quiz ». Le nom du parcours est celui du résultat affiché.
 
 ### Texte 1
@@ -341,8 +342,8 @@ Format de réponse, par duel :
 
 ### Texte 2
 
-> Ton compte est prêt. Pour suivre Répartie en entier (4 étapes, une par semaine), il ne reste que le paiement.
-> [ Active mon accès · 2,99 €/mois ]
+> Ton compte est prêt : plus qu'un pas avant la suite de Répartie, le parcours pour répondre du tac au tac (étapes 2 à 4, une par semaine).
+> [ Suivre Répartie en entier · 2,99 €/mois ]
 > Prix TTC. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.
 
 *Au clic (deux textes) : le bouton ouvre directement le paiement sécurisé.*
@@ -357,7 +358,7 @@ Format de réponse, par duel :
 - **Ce qu'il voit juste au-dessus** : le résultat du quiz, « Sans faute. » ou « 3 sur 4. Les explications sont là pour ça. ».
 - **Ce qu'il cherche** : savoir si c'est fini, ce qu'il y a après, et ce que ça lui coûte pour continuer. Il ne peut pas valider l'étape sans Premium.
 - **Ce que le bloc peut obtenir** : un clic sur le bouton plein « Voir ce que contient Premium » (page d'abonnement). Une alternative discrète existe pour qui n'est pas prêt.
-- **Composition du bloc** : une carte « Étape 2 » (`[S17]` surtitre, titre de l'étape et `[S18]` texte, qui sont des données publiques ; rien de payant n'est dévoilé), puis la phrase « Valider l'étape fait partie de Premium. » (identique dans les deux textes), le bouton plein « Voir ce que contient Premium », la ligne `[S16]`, et un lien discret `[S30]` vers la lettre.
+- **Composition du bloc** : une carte « Étape 2 » (`[S17]` surtitre, titre de l'étape et `[S18]` texte, qui sont des données publiques ; rien de payant n'est dévoilé), puis une phrase sur la validation de l'étape, le bouton plein, la ligne `[S16]`, et un lien discret `[S30]` vers la lettre. Les libellés de la phrase et du bouton font partie du texte à juger.
 - **Données d'exemple (réelles, étape 2 de Répartie, 4 étapes, 20 minutes par semaine)** : titre « Le rythme et les silences » ; format « Un conseil, un défi, 5 vannes, 2 vidéos, un petit quiz. » ; aperçu « Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. »
 
 ### Texte 1
@@ -377,8 +378,8 @@ Format de réponse, par duel :
 > **Le rythme et les silences**
 > `[S18]` Certaines phrases ne demandent aucun talent, seulement un bon timing. Ici, tu apprends à repérer un instant que tout le monde ressent en même temps sans que personne le dise, et à t'en servir pour prendre la parole. Dans l'étape : un conseil, un défi, 5 vannes, 2 vidéos et un petit quiz.
 >
-> Valider l'étape fait partie de Premium.
-> [ Voir ce que contient Premium ]
+> Bien joué. Pour valider l'étape et ouvrir la suivante, c'est avec Premium.
+> [ Passer à l'étape 2 avec Premium ]
 > `[S16]` 2,99 € TTC par mois, résiliable en ligne. Tu as 14 jours pour te faire rembourser ton premier paiement.
 > `[S30]` Lien : Ou la lettre gratuite, sans compte : une vanne décryptée par e-mail, une fois par mois
 
@@ -394,7 +395,7 @@ Format de réponse, par duel :
 - **Ce qu'il voit sur une carte** (ici, Répartie) : difficulté, durée, rythme (4 semaines, 20 minutes par semaine), titre, une ligne « Pour toi si on te chambre en soirée, en coloc ou en TD et que tu cherches encore quoi répondre », une description, un exemple de membre fictif présenté comme tel, le programme replié, puis le bloc ci-dessous.
 - **Ce qu'il cherche** : le parcours qui lui correspond, et ce qu'il peut en voir avant de payer. Rien sur la page ne dit où est la frontière entre le gratuit et le payant.
 - **Ce que le bloc peut obtenir** : un clic vers l'étape 1 gratuite. Il n'y a aucune offre Premium sur la carte : un seul bouton par carte, jamais deux.
-- **Composition du bloc** : un bouton plein (identique dans les deux textes) et une ligne `[S31]` sous le bouton. Pour les autres cartes, les étapes payantes se disent « 2 et 3 » (Machine à Café) ou « 2 à 6 » (les trois parcours de 6 semaines), dans les deux textes.
+- **Composition du bloc** : un bouton plein (son libellé fait partie du texte à juger) et une ligne `[S31]` sous le bouton. Pour les autres cartes, les étapes payantes se disent « 2 et 3 » (Machine à Café) ou « 2 à 6 » (les trois parcours de 6 semaines), dans les deux textes.
 
 ### Texte 1
 
@@ -403,7 +404,7 @@ Format de réponse, par duel :
 
 ### Texte 2
 
-> [ Lire la première étape gratuite de Répartie ]
+> [ Essayer gratuitement l'étape 1 de Répartie ]
 > `[S31]` Sans compte, quiz compris. Les étapes 2 à 4 sont dans Premium.
 
 *Au clic (deux textes) : l'étape 1 du parcours, en lecture libre.*
@@ -415,10 +416,10 @@ Format de réponse, par duel :
 ### Fiche de situation (neutre)
 
 - **Qui** : un visiteur anonyme qui a décidé de regarder l'offre : il est arrivé par le bouton d'en-tête, par un bouton « Voir ce que contient Premium » ou par une adresse directe. Il vient souvent d'un parcours précis (la page s'adapte).
-- **Ce qu'il voit** : un surtitre, le titre « Ta réplique pendant la soirée, pas dans le bus du retour », le sous-titre « 5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre. », la carte Premium (mensuel 2,99 € TTC ou annuel 24,99 € TTC), le bouton plein « Commencer à 2,99 €/mois », puis la garantie, l'extrait du carnet, des liens vers les étapes gratuites et une FAQ. Seuls le surtitre et la ligne sous le bouton changent d'un texte à l'autre.
+- **Ce qu'il voit** : un surtitre, un titre, le sous-titre « 5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre. », la carte Premium (mensuel 2,99 € TTC ou annuel 24,99 € TTC), le bouton plein, puis la garantie, l'extrait du carnet, des liens vers les étapes gratuites et une FAQ. Le surtitre, le titre, le libellé du bouton et la ligne sous le bouton changent d'un texte à l'autre.
 - **Ce qui se passe au clic sur le bouton** : un formulaire de création de compte (« Étape 1 sur 2 »), puis le paiement sécurisé (« Étape 2 »). Rien près du bouton ne le dit.
 - **Ce qu'il cherche** : savoir si c'est pour lui, combien ça coûte, ce qui se passe s'il clique.
-- **Ce que le bloc peut obtenir** : un clic sur le bouton « Commencer à 2,99 €/mois ».
+- **Ce que le bloc peut obtenir** : un clic sur le bouton plein.
 - **Contraintes de forme** : le surtitre tient sur 2 lignes au maximum sur mobile (environ 80 caractères) ; la ligne `[S32]` s'affiche juste sous le bouton, en petit. Trois surtitres, selon le parcours d'origine : `[S33a]` Répartie (et par défaut, donc aussi Storytelling), `[S33b]` Machine à Café et Boulot, `[S33c]` Confiance.
 
 ### Texte 1
@@ -427,7 +428,9 @@ Format de réponse, par duel :
 > `[S33b]` Pour toi si tu veux faire rire à la pause, en réunion ou à l'afterwork
 > `[S33c]` Pour toi si tu sors d'une période compliquée et que le rire te manque
 >
-> *(titre, sous-titre, carte, bouton : inchangés)*
+> Titre : **Ta réplique pendant la soirée, pas dans le bus du retour**
+> *(sous-titre et carte : inchangés)*
+> [ Commencer à 2,99 €/mois ]
 > `[S32]` Deux étapes : ton compte (1 sur 2), puis le paiement sécurisé par Stripe (2 sur 2).
 
 ### Texte 2
@@ -436,10 +439,12 @@ Format de réponse, par duel :
 > `[S33b]` Pour toi si tu veux faire rire au boulot, sans devenir le collègue qui force
 > `[S33c]` Pour toi si tu sors d'une période compliquée et que le rire te manque
 >
-> *(titre, sous-titre, carte, bouton : inchangés)*
+> Titre : **Ta réplique, tu la veux pendant la soirée, pas dans le bus du retour**
+> *(sous-titre et carte : inchangés)*
+> [ Ouvrir les 5 parcours · 2,99 €/mois ]
 > `[S32]` Deux étapes : ton compte, puis le paiement sécurisé par Stripe.
 
-*Pour la relecture : lis chaque surtitre avec le titre « Ta réplique pendant la soirée, pas dans le bus du retour » juste dessous.*
+*Pour la relecture : lis chaque surtitre avec le titre de son texte juste dessous.*
 
 ---
 
@@ -448,19 +453,21 @@ Format de réponse, par duel :
 ### Fiche de situation (neutre)
 
 - **Qui** : un visiteur qui vient de cliquer sur « Commencer à 2,99 €/mois » depuis la page d'abonnement. Il est décidé, ou presque. Anonyme jusqu'ici.
-- **Ce qu'il voit** : « Étape 1 sur 2 », « Ton compte », un rappel du plan Premium choisi, les champs (e-mail, mot de passe d'au moins 8 caractères, prénom en dernier et facultatif), le bouton plein « Créer mon compte », un bouton « S'inscrire avec Google », la phrase « Étape 2 : le paiement sécurisé, juste après. », « Tu as 14 jours pour te faire rembourser ton premier paiement. », « Déjà un compte ? Connecte-toi ».
+- **Ce qu'il voit** : « Étape 1 sur 2 », « Ton compte », un rappel du plan Premium choisi, les champs (e-mail, mot de passe d'au moins 8 caractères, prénom en dernier et facultatif), le bouton plein `[S36]`, un bouton « S'inscrire avec Google », la phrase « Étape 2 : le paiement sécurisé, juste après. », « Tu as 14 jours pour te faire rembourser ton premier paiement. », « Déjà un compte ? Connecte-toi ».
 - **Ce qu'il cherche** : en finir vite. Mais il peut hésiter devant le mot de passe.
 - **Ce que le bloc peut obtenir** : le compte créé (pas encore le paiement) ; sinon, une sortie douce vers l'étape gratuite plutôt qu'un abandon.
-- **Composition du bloc** : un libellé de champ `[S34]` (le prénom) et un lien discret `[S35]` sous « Déjà un compte ? ». Le lien nomme le parcours d'où le visiteur vient (ici, Répartie).
+- **Composition du bloc** : un libellé de champ `[S34]` (le prénom), le libellé du bouton plein `[S36]` et un lien discret `[S35]` sous « Déjà un compte ? ». Le lien nomme le parcours d'où le visiteur vient (ici, Répartie).
 
 ### Texte 1
 
 > `[S34]` Prénom (facultatif, pour te saluer dans nos e-mails)
+> `[S36]` [ Créer mon compte, plus qu'une étape ]
 > `[S35]` Lien : Tu préfères lire d'abord ? L'étape 1 de Répartie, gratuite et sans compte
 
 ### Texte 2
 
 > `[S34]` Prénom (facultatif, pour nos e-mails)
+> `[S36]` [ Créer mon compte ]
 > `[S35]` Lien : Tu préfères lire avant ? Étape 1 de Répartie, gratuite, sans compte
 
 *Au clic sur le lien (deux textes) : l'étape 1 du parcours, en lecture libre.*
