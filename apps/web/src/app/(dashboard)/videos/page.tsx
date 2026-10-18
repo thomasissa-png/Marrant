@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -27,9 +28,12 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
+  const title = "Stand-up analysé : les techniques des pros";
+  const description = `${videos} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`;
+  const url = listCanonical("/videos", page);
   return {
-    title: "Stand-up analysé : les techniques des pros",
-    description: `${videos} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+    title,
+    description,
     keywords: [
       "stand-up français",
       "vidéos humour analysées",
@@ -37,7 +41,9 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "analyse stand-up",
       "apprendre humour vidéo",
     ],
-    alternates: { canonical: listCanonical("/videos", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 

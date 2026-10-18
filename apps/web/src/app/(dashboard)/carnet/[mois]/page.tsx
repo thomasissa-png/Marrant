@@ -10,7 +10,7 @@ import {
   getCarnetByMonth,
   listCarnetMonths,
 } from "@/lib/carnet";
-import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { NOINDEX_ROBOTS, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { readSessionPlan } from "@/lib/session-plan";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +20,7 @@ export function generateMetadata({ params }: { params: { mois: string } }): Meta
   if (!getCarnetByMonth(params.mois)) return { title: "Carnet introuvable", ...NOT_FOUND_ROBOTS };
   return {
     title: `Carnet de répartie ${deCarnetMonth(params.mois)}`,
-    robots: { index: false, follow: false },
+    ...NOINDEX_ROBOTS,
   };
 }
 

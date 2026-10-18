@@ -16,6 +16,7 @@ import {
 import { FAQ_VENTE, faqs, getPremiumFaqs } from "@/lib/faqs";
 import { buildProductJsonLd } from "@/components/seo/json-ld";
 import { getLlmsFaqFull, getLlmsTarifs, LLMS_FAQ_FULL, LLMS_TARIFS } from "@/lib/llms-content";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { monthlyRevenueCents } from "@/lib/stripe-subscription";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 
@@ -39,7 +40,8 @@ describe("affichage conditionné", () => {
     // Concision v5 : la FAQ de /abonnement est la FAQ de vente (4 questions), réponse prix mensuelle.
     expect(getPremiumFaqs(false)).toBe(FAQ_VENTE);
     expect(FAQ_VENTE.every((f) => faqs.includes(f))).toBe(true);
-    expect(getLlmsTarifs(false)).toBe(LLMS_TARIFS);
+    // GEO s21 (C1) : la réassurance du site, mot pour mot, ferme la liste.
+    expect(getLlmsTarifs(false)).toEqual([...LLMS_TARIFS, REASSURANCE_UNIQUE]);
     expect(getLlmsFaqFull(false)).toBe(LLMS_FAQ_FULL);
     const product = buildProductJsonLd();
     expect(product.offers).toMatchObject({ "@type": "Offer", price: "2.99" });
@@ -63,9 +65,10 @@ describe("affichage conditionné", () => {
     expect(texts).toContain("10,89\u00A0€");
     expect(texts).not.toMatch(/4 mois/);
     expect(texts).not.toContain("—");
-    expect(getLlmsTarifs(true)).toHaveLength(LLMS_TARIFS.length + 1);
-    // Coaching à 99 € retiré (13/10/2026) : la formule annuelle ferme la liste.
-    expect(getLlmsTarifs(true).at(-1)).toMatch(/^Premium en formule annuelle/);
+    expect(getLlmsTarifs(true)).toHaveLength(LLMS_TARIFS.length + 2);
+    // Coaching à 99 € retiré (13/10/2026) : la formule annuelle, puis la réassurance (GEO s21, C1).
+    expect(getLlmsTarifs(true).at(-2)).toMatch(/^Premium en formule annuelle/);
+    expect(getLlmsTarifs(true).at(-1)).toBe(REASSURANCE_UNIQUE);
     expect(getPremiumFaqs(true)).toHaveLength(FAQ_VENTE.length);
   });
 });

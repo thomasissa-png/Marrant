@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import { redirect } from "next/navigation";
 import { LettreBoutonAction } from "@/components/lettre/lettre-bouton-action";
 import { TEXTES_LETTRE, TITRES_META_LETTRE } from "@/config/textes/lettre-s21";
@@ -14,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: TITRES_META_LETTRE.desinscrire,
-  robots: { index: false, follow: false },
+  ...NOINDEX_ROBOTS,
   referrer: "same-origin",
 };
 

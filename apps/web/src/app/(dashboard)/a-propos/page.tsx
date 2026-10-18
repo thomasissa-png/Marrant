@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
 import { Button } from "@/components/ui/button";
@@ -17,17 +18,23 @@ import {
   authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 
+const PAGE_URL = "https://deviens-marrant.fr/a-propos";
+const PAGE_TITLE = "L'humour s'apprend : notre mission";
+const PAGE_DESCRIPTION =
+  "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.";
+
 export const metadata: Metadata = {
-  title: "L'humour s'apprend : notre mission",
-  description:
-    "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",
     "apprendre humour en ligne",
     "formation stand-up français",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/a-propos" },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 const aboutFaqs = [

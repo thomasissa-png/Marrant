@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import {
   JsonLd,
@@ -19,10 +20,14 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 /** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
 const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
 
+const PAGE_URL = "https://deviens-marrant.fr/glossaire";
+const PAGE_TITLE = `Glossaire humour : ${glossary.length} termes clés`;
+const PAGE_DESCRIPTION =
+  `Punchline, timing, callback, one-liner : le dico de l'humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`;
+
 export const metadata: Metadata = {
-  title: `Glossaire humour : ${glossary.length} termes clés`,
-  description:
-    `Punchline, timing, callback, one-liner : le dico de l'humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`,
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   keywords: [
     "définition répartie",
     "qu'est-ce que la répartie",
@@ -31,7 +36,9 @@ export const metadata: Metadata = {
     "glossaire humour",
     "vocabulaire humour",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/glossaire" },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 export default function GlossairePage() {

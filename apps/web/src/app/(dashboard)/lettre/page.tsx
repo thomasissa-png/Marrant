@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { LettrePageInscription } from "@/components/lettre/lettre-page-inscription";
@@ -24,7 +25,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: TEXTES_LETTRE.page.metaTitre,
   description: TEXTES_LETTRE.page.metaDescription,
-  robots: { index: false, follow: false },
+  ...NOINDEX_ROBOTS,
   referrer: "same-origin",
 };
 

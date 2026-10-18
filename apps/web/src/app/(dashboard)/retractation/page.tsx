@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { RetractationForm } from "@/components/retractation/retractation-form";
 import { formulaireTypeRetractation } from "@/config/textes/paiement";
 import { MODELE_FORMULAIRE_TITRE, RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
+const PAGE_URL = "https://deviens-marrant.fr/retractation";
+const PAGE_TITLE = "Droit de rétractation";
+const PAGE_DESCRIPTION =
+  "Exerce ton droit de rétractation sous 14 jours conformément à la directive 2011/83/UE. Formulaire de demande de remboursement deviens-marrant.fr.";
+
 export const metadata: Metadata = {
-  title: "Droit de rétractation",
-  description: "Exerce ton droit de rétractation sous 14 jours conformément à la directive 2011/83/UE. Formulaire de demande de remboursement deviens-marrant.fr.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   robots: { index: true, follow: true },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 // Audit parcours s16 : tutoiement (D6), point de départ du délai aligné sur les

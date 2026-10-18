@@ -14,8 +14,13 @@ import { isAnnualPlanAvailable } from "@/lib/premium-plan-availability";
 import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
-import { parcoursWeeks } from "@/config/premium";
+import { PREMIUM_PARCOURS, parcoursWeeks } from "@/config/premium";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { renderLlmsParcoursProgramme } from "@/lib/llms-parcours";
+import { stripEmDashes } from "@/lib/em-dash";
+
+/** Durée d'un parcours publié hors des 3 historiques (Storytelling, Boulot), lue dans l'offre. */
+const semainesPubliees = (slug: string) => PREMIUM_PARCOURS.find((p) => p.slug === slug)?.weeks ?? 6;
 
 /**
  * llms-full.txt — version étendue de llms.txt pour les crawlers LLM (GEO).
@@ -46,6 +51,13 @@ const RESOURCE_PAGES = [
   { path: "/parcours/machine-a-cafe", label: "Parcours Machine à Café", summary: `Parcours débutant de ${parcoursWeeks("machine-a-cafe")} semaines (15 min par semaine) pour avoir des vannes et anecdotes à ressortir au bureau et en afterwork.` },
   { path: "/parcours/repartie", label: "Parcours Répartie", summary: `Parcours intermédiaire de ${parcoursWeeks("repartie")} semaines (20 min par semaine) pour développer sa répartie avec des exercices concrets et ne plus rester muet.` },
   { path: "/parcours/confiance", label: "Parcours Confiance", summary: `Parcours de ${parcoursWeeks("confiance")} semaines (20 min par semaine) pour retrouver confiance en soi grâce à l'humour, bienveillant et progressif.` },
+  // GEO s21 (C2) : Storytelling et Boulot n'entrent ici qu'une fois publiés, comme dans llms.txt et l'offre.
+  ...(STORYTELLING_PUBLIE
+    ? [{ path: "/parcours/storytelling", label: "Parcours Storytelling", summary: `Parcours de ${semainesPubliees("storytelling")} semaines (20 min par semaine) pour raconter ses histoires jusqu'au bout : coupe, voix, chute, détour et détail qui revient.` }]
+    : []),
+  ...(BOULOT_PUBLIE
+    ? [{ path: "/parcours/boulot", label: "Parcours Boulot", summary: `Parcours de ${semainesPubliees("boulot")} semaines (15 min par semaine) pour oser une vanne au travail sans se griller, du silence en réunion au toast.` }]
+    : []),
 ];
 
 interface CatalogueSample {
@@ -239,7 +251,8 @@ export async function GET() {
   try {
     const articles = await collectFullArticles();
     const catalogue = await collectCatalogueSample();
-    const body = renderLlmsFullTxt(articles, catalogue);
+    // GEO s21 (C5) : garde-fou tiret cadratin sur tout le texte servi (articles, seeds, base).
+    const body = stripEmDashes(renderLlmsFullTxt(articles, catalogue));
     return new NextResponse(body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",

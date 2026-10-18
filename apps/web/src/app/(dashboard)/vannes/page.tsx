@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -28,9 +29,12 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
+  const title = "Vannes et blagues drôles à ressortir";
+  const description = `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`;
+  const url = listCanonical("/vannes", page);
   return {
-    title: "Vannes et blagues drôles à ressortir",
-    description: `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`,
+    title,
+    description,
     keywords: [
       "blague drôle",
       "blagues courtes",
@@ -41,7 +45,9 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "blague courte drôle",
       "phrase drôle",
     ],
-    alternates: { canonical: listCanonical("/vannes", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 

@@ -331,6 +331,15 @@ function toEducationalLevel(difficulty?: string): string {
   }
 }
 
+/**
+ * GEO s21 (C4) : fin de validité des prix calculée (31/12 de l'année suivante),
+ * jamais en dur : une date passée ferait lire l'offre comme expirée. Calculée à
+ * chaque rendu (/abonnement est dynamique).
+ */
+export function priceValidUntil(now: Date = new Date()): string {
+  return `${now.getUTCFullYear() + 1}-12-31`;
+}
+
 /** Offre Premium schema.org (priceSpecification + durée de facturation ISO 8601). */
 function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: string) {
   return {
@@ -346,7 +355,7 @@ function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: strin
     },
     availability: "https://schema.org/InStock",
     url: `${BASE_URL}/abonnement`,
-    priceValidUntil: "2026-12-31",
+    priceValidUntil: priceValidUntil(),
     category: "Subscription",
     seller: {
       "@type": "Organization",
@@ -392,7 +401,7 @@ export function buildProductJsonLd({ annualAvailable = false }: { annualAvailabl
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
           url: `${BASE_URL}/abonnement`,
-          priceValidUntil: "2026-12-31",
+          priceValidUntil: priceValidUntil(),
           category: "Subscription",
           seller: {
             "@type": "Organization",

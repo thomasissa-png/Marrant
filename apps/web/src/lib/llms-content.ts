@@ -15,9 +15,12 @@ import {
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_LABEL,
+  PREMIUM_PARCOURS,
   PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { ANNUEL_AVANTAGE_LABEL, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 export const LLMS_BASE_URL = "https://deviens-marrant.fr";
 
@@ -50,12 +53,18 @@ export const LLMS_FAQ_SHORT: LlmsFaqEntry[] = [
   },
 ];
 
+/**
+ * Offre gratuite de la réponse « Combien ça coûte ? » (GEO s21, C1) : la même
+ * que les tarifs (étape 1 de chaque parcours, situation offerte du carnet).
+ */
+const GRATUIT_FAQ_PRIX = `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la situation offerte du carnet du mois et le contenu du jour.`;
+
 /** FAQ détaillée (llms-full.txt). */
 export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Peut-on vraiment apprendre à être drôle ?",
     answer:
-      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Des chercheurs de l'Université du Nouveau-Mexique ont montré que l'humour repose sur des mécanismes cognitifs précis (détection d'incongruité, résolution de tension, calibrage social) que le cerveau peut apprendre. Une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) a montré qu'un programme d'humour de 8 semaines améliorait significativement le bien-être émotionnel des participants.",
+      "Oui. L'humour n'est pas un talent inné, c'est une compétence qui se travaille. Une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) a montré qu'un programme d'humour de 8 semaines améliorait significativement le bien-être émotionnel des participants.",
   },
   ...LLMS_FAQ_SHORT.slice(1),
   {
@@ -76,7 +85,7 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
   {
     question: "Combien ça coûte ?",
     answer:
-      `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable depuis le profil, à tout moment.`,
+      `${GRATUIT_FAQ_PRIX} Premium est à ${PREMIUM_PRICE_LABEL}. ${REASSURANCE_UNIQUE}`,
   },
   {
     question: "Je suis timide, c'est pour moi ?",
@@ -84,6 +93,22 @@ export const LLMS_FAQ_FULL: LlmsFaqEntry[] = [
       "Surtout pour les timides. La majorité des membres se décrivent comme introvertis au départ. Les parcours sont conçus pour progresser à son rythme, sans pression, avec des exercices réalisables seul avant de les tester en groupe.",
   },
 ];
+
+/** Durée d'un parcours publié hors des 3 historiques, lue dans l'offre (comme llms.txt). */
+const semainesParcours = (slug: string) => PREMIUM_PARCOURS.find((p) => p.slug === slug)?.weeks ?? 6;
+
+/** GEO s21 (C2) : les parcours publiés, selon les mêmes drapeaux que l'offre et llms.txt. */
+const LIGNES_PARCOURS = [
+  `- **Machine à Café** (${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine) : avoir des vannes et anecdotes à ressortir au bureau et en afterwork`,
+  `- **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) : savoir quoi répondre quand on se fait chambrer`,
+  `- **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) : retrouver son humour et sa légèreté après une période difficile`,
+  ...(STORYTELLING_PUBLIE
+    ? [`- **Storytelling** (${semainesParcours("storytelling")} semaines, 20 min par semaine) : raconter ses histoires jusqu'au bout (coupe, voix, chute, détour, détail qui revient)`]
+    : []),
+  ...(BOULOT_PUBLIE
+    ? [`- **Boulot** (${semainesParcours("boulot")} semaines, 15 min par semaine) : oser une vanne au travail sans se griller, du silence en réunion au toast`]
+    : []),
+].join("\n");
 
 /** Présentation + sections détaillées (llms-full.txt), en Markdown. */
 export const LLMS_FULL_INTRO = `## Présentation détaillée
@@ -114,16 +139,20 @@ Des techniques concrètes avec exemples et exercices :
 Extraits de stand-up français annotés avec la technique d'humour utilisée (timing, autodérision, observation, absurde, jeux de mots, storytelling).
 
 ### Parcours structurés (${LLMS_BASE_URL}/parcours)
-- **Machine à Café** (${parcoursWeeks("machine-a-cafe")} semaines, 15 min par semaine) : avoir des vannes et anecdotes à ressortir au bureau et en afterwork
-- **Répartie** (${parcoursWeeks("repartie")} semaines, 20 min par semaine) : savoir quoi répondre quand on se fait chambrer
-- **Confiance** (${parcoursWeeks("confiance")} semaines, 20 min par semaine) : retrouver son humour et sa légèreté après une période difficile
+${LIGNES_PARCOURS}
+
+### Carnet de répartie du mois (${LLMS_BASE_URL}/carnet)
+Chaque mois, des situations du quotidien et la réplique qui va avec : ce qu'on te dit, quoi répondre, pourquoi ça marche, quoi faire si ça se tend, et un exercice. Une situation est offerte à tous ; le carnet complet, renouvelé chaque mois, fait partie de Premium.
+
+### La lettre du mois (${LLMS_BASE_URL}/lettre)
+Une vanne décryptée par mois, avec un exercice pour s'entraîner, envoyée par e-mail. Gratuite, sans compte. L'adresse est confirmée par un e-mail, et la désinscription se fait en un clic. La lettre mentionne parfois Premium.
 
 ### ${LIBELLE_SECTION_ARTICLES} (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;
 
 export const LLMS_TARIFS: string[] = [
-  `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la situation offerte du carnet mensuel + contenu du jour renouvelé quotidiennement.`,
-  `Premium : ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris, résiliable en ligne.`,
+  `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL}, la première étape de chaque parcours, la situation offerte du carnet mensuel et le contenu du jour, renouvelé quotidiennement.`,
+  `Premium à ${PREMIUM_PRICE_LABEL} : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos dans les listes, et les favoris.`,
 ];
 
 export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
@@ -138,12 +167,13 @@ export const LLMS_LEGAL_PAGES: { label: string; path: string }[] = [
  * llms.txt et llms-full.txt seulement si `isAnnualPlanAvailable()` (prix Stripe
  * annuel configuré côté serveur). Sans annuel : constantes ci-dessus inchangées.
  */
-const ANNUAL_TARIF = `Premium en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL} par rapport au mensuel), renouvelé chaque année, résiliable depuis le profil.`;
+const ANNUAL_TARIF = `Premium en formule annuelle : ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${ANNUEL_AVANTAGE_LABEL}), renouvelé chaque année.`;
 
 export function getLlmsTarifs(annualAvailable: boolean): string[] {
-  if (!annualAvailable) return LLMS_TARIFS;
-  // Offre coaching à 99 € retirée (13/10/2026) : la formule annuelle ferme la liste.
-  return [...LLMS_TARIFS, ANNUAL_TARIF];
+  // Offre coaching à 99 € retirée (13/10/2026). GEO s21 (C1) : la réassurance du site,
+  // mot pour mot (premier paiement remboursable, résiliation depuis le profil), ferme la liste.
+  const base = annualAvailable ? [...LLMS_TARIFS, ANNUAL_TARIF] : LLMS_TARIFS;
+  return [...base, REASSURANCE_UNIQUE];
 }
 
 export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
@@ -152,7 +182,7 @@ export function getLlmsFaqFull(annualAvailable: boolean): LlmsFaqEntry[] {
     entry.question === "Combien ça coûte ?"
       ? {
           ...entry,
-          answer: `Sans abonnement et sans compte : ${FREE_CATALOGUE_LIMITS_LABEL} et le contenu du jour. Premium est à ${PREMIUM_PRICE_LABEL}, résiliable en ligne, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement et se résilient depuis le profil, à tout moment.`,
+          answer: `${GRATUIT_FAQ_PRIX} Premium est à ${PREMIUM_PRICE_LABEL}, ou ${PREMIUM_ANNUAL_PRICE_LABEL} payé en une fois (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}, ${PREMIUM_ANNUAL_SAVINGS_LABEL}). Les deux formules se renouvellent automatiquement. ${REASSURANCE_UNIQUE}`,
         }
       : entry,
   );

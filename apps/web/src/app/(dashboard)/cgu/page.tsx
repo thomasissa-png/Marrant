@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 // Libellé du bouton de résiliation lu à la source (profil, lot B) : la CGU suit le bouton réel.
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
+const PAGE_URL = "https://deviens-marrant.fr/cgu";
+const PAGE_TITLE = "Conditions Générales d'Utilisation";
+const PAGE_DESCRIPTION =
+  "Conditions générales d'utilisation de deviens-marrant.fr : compte, offres et tarifs, rétractation, résiliation, propriété intellectuelle et responsabilité.";
+
 export const metadata: Metadata = {
-  title: "Conditions Générales d'Utilisation",
-  description: "Conditions générales d'utilisation de deviens-marrant.fr : compte, offres et tarifs, rétractation, résiliation, propriété intellectuelle et responsabilité.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 export default function CGUPage() {

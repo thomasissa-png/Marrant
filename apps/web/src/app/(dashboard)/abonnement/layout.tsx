@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { JsonLd, buildFaqJsonLd, buildProductJsonLd } from "@/components/seo/json-ld";
 import { getPremiumFaqs } from "@/lib/faqs";
 import { getContentStatsRounded } from "@/lib/content-stats-server";
@@ -26,12 +27,17 @@ export async function generateMetadata(): Promise<Metadata> {
   const full = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte)${catalogueText}. Premium à ${PREMIUM_PRICE_LABEL}${annual}, résiliable en ligne.`;
   // Repli sans compteurs si un compteur fait déborder la limite.
   const short = `Les ${PARCOURS_COUNT} parcours en entier (première étape offerte) et toutes les listes, à ${PREMIUM_PRICE_LABEL}${annual}, résiliable en ligne.`;
+  const title = `Abonnement Premium : ${PREMIUM_PRICE_LABEL}`;
+  const description = full.length <= META_DESCRIPTION_MAX ? full : short;
+  const url = "https://deviens-marrant.fr/abonnement";
   return {
-    title: `Abonnement Premium : ${PREMIUM_PRICE_LABEL}`,
-    description: full.length <= META_DESCRIPTION_MAX ? full : short,
+    title,
+    description,
     alternates: {
-      canonical: "https://deviens-marrant.fr/abonnement",
+      canonical: url,
     },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 

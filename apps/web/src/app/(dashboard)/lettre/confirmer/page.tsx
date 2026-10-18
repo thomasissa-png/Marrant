@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import { notFound, redirect } from "next/navigation";
 import { LettreBoutonAction } from "@/components/lettre/lettre-bouton-action";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
@@ -16,7 +17,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: TITRES_META_LETTRE.confirmer,
-  robots: { index: false, follow: false },
+  ...NOINDEX_ROBOTS,
   referrer: "same-origin",
 };
 

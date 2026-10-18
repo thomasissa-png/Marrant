@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
+
+const PAGE_URL = "https://deviens-marrant.fr/mentions-legales";
+const PAGE_TITLE = "Mentions légales";
+const PAGE_DESCRIPTION =
+  "Mentions légales du site deviens-marrant.fr : éditeur du site, hébergement, propriété intellectuelle, crédits et moyens de contact pour toute question.";
 
 export const metadata: Metadata = {
-  title: "Mentions légales",
-  description: "Mentions légales du site deviens-marrant.fr : éditeur du site, hébergement, propriété intellectuelle, crédits et moyens de contact pour toute question.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 export default function MentionsLegalesPage() {

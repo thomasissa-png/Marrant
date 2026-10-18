@@ -50,7 +50,7 @@ describe("limites gratuites affichées = constantes de config", () => {
   it("llms.txt / llms-full.txt (tarifs et FAQ)", () => {
     expect(LLMS_TARIFS[0]).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos,");
     const cout = LLMS_FAQ_FULL.find((f) => f.question === "Combien ça coûte ?");
-    expect(cout?.answer).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos et le contenu du jour.");
+    expect(cout?.answer).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos, la première étape de chaque parcours, la situation offerte du carnet du mois et le contenu du jour.");
     expect(cout?.answer).not.toMatch(/accès gratuit/i);
   });
 });

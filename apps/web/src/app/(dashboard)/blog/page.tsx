@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { Suspense } from "react";
 import { blogArticles } from "@/lib/blog-articles";
@@ -14,10 +15,14 @@ import { PageHeader } from "@/components/layout/page-header";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
+const PAGE_URL = "https://deviens-marrant.fr/blog";
+const PAGE_TITLE = "Blog humour : guides et techniques";
+const PAGE_DESCRIPTION =
+  "Le blog qui t'apprend l'humour en te faisant rire : techniques de stand-up, répartie, analyses d'humoristes et exercices à tester. Si tu souris pas, on a raté.";
+
 export const metadata: Metadata = {
-  title: "Blog humour : guides et techniques",
-  description:
-    "Le blog qui t'apprend l'humour en te faisant rire : techniques de stand-up, répartie, analyses d'humoristes et exercices à tester. Si tu souris pas, on a raté.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   keywords: [
     "blog humour",
     "guide répartie",
@@ -26,7 +31,9 @@ export const metadata: Metadata = {
     "apprendre à être drôle",
     "exercices humour",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/blog" },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 export const revalidate = 3600; // Revalider toutes les heures

@@ -4,6 +4,7 @@
 // Le filtrage se fait ICI, côté serveur : rien d'autre n'est dans le HTML ni
 // dans le JS client. Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";
+import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import Link from "next/link";
 import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import { carnetViewForPlan, getCurrentCarnet, listCarnetMonths } from "@/lib/carnet";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
   title: "Le carnet de répartie du mois",
   description:
     "Chaque mois, des situations du quotidien et la réplique qui va avec : ce qu'on te dit, quoi répondre, pourquoi ça marche et quoi faire si ça se tend.",
-  robots: { index: false, follow: false },
+  ...NOINDEX_ROBOTS,
 };
 
 export default async function CarnetCurrentPage({ searchParams }: { searchParams?: { src?: string | string[] } }) {

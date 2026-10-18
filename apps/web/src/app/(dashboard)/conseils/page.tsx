@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
@@ -28,9 +29,12 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
+  const title = `${tipsLabel} techniques de répartie + exercices`;
+  const description = `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`;
+  const url = listCanonical("/conseils", page);
   return {
-    title: `${tipsLabel} techniques de répartie + exercices`,
-    description: `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
+    title,
+    description,
     keywords: [
       "avoir de la répartie",
       "comment avoir de la répartie",
@@ -41,7 +45,9 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "storytelling humour",
       "répartie au travail",
     ],
-    alternates: { canonical: listCanonical("/conseils", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 

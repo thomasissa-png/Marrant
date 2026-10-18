@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { LETTRE_CONFIDENTIALITE_ANCRE } from "@/config/lettre";
 
+const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
+const PAGE_TITLE = "Politique de confidentialité";
+const PAGE_DESCRIPTION =
+  "Politique de confidentialité : quelles données on collecte, pourquoi, et comment exercer tes droits RGPD. Mesure d'audience sans cookie ni bandeau.";
+
 export const metadata: Metadata = {
-  title: "Politique de confidentialité",
-  description: "Politique de confidentialité : quelles données on collecte, pourquoi, et comment exercer tes droits RGPD. Mesure d'audience sans cookie ni bandeau.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 /**
