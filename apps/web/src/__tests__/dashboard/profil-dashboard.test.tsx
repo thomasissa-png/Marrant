@@ -130,20 +130,19 @@ describe("ProfilDashboard", () => {
       expect(screen.getByText("Prochaine étape")).toBeInTheDocument();
     });
 
-    it("XP gagnés > 0 : message « conservés » (étalon 5.2), sinon rien", () => {
+    it("XP gagnés > 0 : ligne XP E4 (« Tu as déjà {xp} XP. »), sinon rien", () => {
       const { unmount } = render(<ProfilDashboard />);
-      expect(
-        screen.getByText("Les 750 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés."),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Tu as déjà 750 XP.")).toBeInTheDocument();
+      expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
       unmount();
       useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE", xp: 0 }, isLoading: false, fetchUser: mockFetchUser });
       render(<ProfilDashboard />);
-      expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/^Tu as déjà \d+ XP\.$/)).not.toBeInTheDocument();
     });
 
     it("bouton d'abonnement, sans « filtres avancés »", () => {
       render(<ProfilDashboard />);
-      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+      expect(screen.getByText("Tout ouvrir · 2,99 €/mois")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/filtres avancés/);
     });
   });
@@ -151,10 +150,17 @@ describe("ProfilDashboard", () => {
   it("shows subscribe button with engagement copy for FREE plan", () => {
     useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
-    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
-    expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
-    // s21 : « Sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel).
-    expect(screen.getByText("Résiliable en ligne quand tu veux")).toBeInTheDocument();
+    // E4 (textes validés du 18/10) : phrase d'offre, ligne discrète et bouton, mot pour mot.
+    expect(screen.getByText("Tout ouvrir · 2,99 €/mois")).toBeInTheDocument();
+    expect(
+      screen.getByText(
+        "Avec Premium, tout est ouvert : les 5 parcours en entier, un nouveau carnet de répartie chaque mois, toutes les vannes, tous les conseils et toutes les vidéos. Et tu gardes en favori ce que tu veux ressortir.",
+      ),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Résiliable quand tu veux depuis ce profil. Tu as 14 jours pour te faire rembourser ce paiement."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Passe Premium pour débloquer|Résiliable en ligne quand tu veux|Active mon accès/)).toBeNull();
     expect(screen.queryByText(/Sans engagement/)).toBeNull();
   });
 

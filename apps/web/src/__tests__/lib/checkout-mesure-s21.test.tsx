@@ -62,9 +62,20 @@ describe("checkout-ouvert / checkout-echec", () => {
     global.fetch = jest.fn(async () => ({ ok: false, status: 500, json: async () => ({ error: "x" }) })) as unknown as typeof fetch;
     render(<PremiumCta />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
+      await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "accueil-premium", raison: "erreur" }]);
+  });
+});
+
+describe("E2, carte Premium de l'accueil, compte connecté sans abonnement (textes validés du 18/10)", () => {
+  it("ligne avant le bouton puis bouton, mot pour mot ; plus de « Active mon accès »", () => {
+    render(<PremiumCta />);
+    const ligne = screen.getByTestId("carte-premium-ligne-connecte");
+    expect(ligne).toHaveTextContent("Tu as déjà ton compte : ce bouton t'emmène direct au paiement, sécurisé par Stripe.");
+    const bouton = screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ });
+    expect(ligne.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.queryByText(/Active mon accès/)).toBeNull();
   });
 });

@@ -6,7 +6,8 @@ import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { CarnetFicheCard, CarnetFicheLocked } from "@/components/carnet/carnet-fiche-card";
 import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { frTypo } from "@/lib/fr-typo";
+import { CARNET_PAYWALL } from "@/config/textes/cta-pages";
 
 /**
  * Rendu d'un carnet (Server Component). Reçoit une vue DÉJÀ filtrée par
@@ -64,7 +65,7 @@ export function CarnetPage({
               <CarnetFicheLocked key={fiche.id} fiche={fiche} numero={firstLocked + i} />
             ))}
           </ol>
-          <CarnetPaywall returnTo={returnTo} />
+          <CarnetPaywall returnTo={returnTo} restantes={view.apercus.length} />
         </section>
       )}
 
@@ -91,22 +92,27 @@ export function CarnetPage({
   );
 }
 
-/** Appel à l'abonnement : même destination que les étapes verrouillées des parcours. */
-function CarnetPaywall({ returnTo }: { returnTo: string }) {
+/**
+ * Appel à l'abonnement : même destination que les étapes verrouillées des parcours.
+ * Textes E1 validés (`CARNET_PAYWALL`, config/textes/cta-pages.ts) ; `restantes` = `view.apercus.length`.
+ */
+function CarnetPaywall({ returnTo, restantes }: { returnTo: string; restantes: number }) {
   return (
     <div className="rounded-2xl border border-accent-primary/20 bg-accent-primary/5 p-6 sm:p-8">
-      <h3 className="mb-2 font-display text-xl font-bold">Débloque tout le carnet</h3>
-      <p className="mb-4 text-sm text-text-secondary">
-        La première situation est offerte. Les autres, et un nouveau carnet chaque mois, se
-        débloquent avec l&apos;abonnement à {PREMIUM_PRICE_LABEL}, résiliable en ligne.
-      </p>
+      <h3 className="mb-2 font-display text-xl font-bold">{frTypo(CARNET_PAYWALL.titre(restantes))}</h3>
+      <p className="mb-4 text-sm text-text-secondary">{frTypo(CARNET_PAYWALL.paragraphe)}</p>
       <PremiumBenefits className="mb-5 space-y-3" />
       <Link
         href={buildAbonnementUrl(returnTo)}
-        className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full")}
+        data-testid="carnet-paywall-bouton"
+        className={cn(
+          buttonVariants({ variant: "primary", size: "lg" }),
+          "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]",
+        )}
       >
-        Commencer à {PREMIUM_PRICE_LABEL}
+        {frTypo(CARNET_PAYWALL.bouton(restantes))}
       </Link>
+      <p className="mt-2 text-center text-xs text-text-secondary">{frTypo(CARNET_PAYWALL.suite)}</p>
     </div>
   );
 }

@@ -59,7 +59,7 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement?src=header");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "header", raison: "erreur", formule: "mensuel" }]);
@@ -73,7 +73,7 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
     });
     expect(appels("checkout-echec")).toEqual([{ src: "abonnement", raison: "reseau", formule: "mensuel" }]);
   });

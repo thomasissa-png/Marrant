@@ -14,7 +14,7 @@ jest.mock("@/components/home/faq-section", () => ({ FaqSection: () => null }));
 jest.mock("@/components/premium/premium-benefits", () => ({ PremiumBenefits: () => null }));
 
 describe("PremiumCta, abonné reconnu par la session", () => {
-  it("abonné PREMIUM, store vide : aucune carte « Active mon accès »", () => {
+  it("abonné PREMIUM, store vide : aucune carte Premium (ni bouton de paiement)", () => {
     session = { data: { user: { id: "u1", plan: "PREMIUM" } }, status: "authenticated" };
     const { container } = render(<PremiumCta />);
     expect(container).toBeEmptyDOMElement();

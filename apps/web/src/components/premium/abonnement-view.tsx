@@ -23,13 +23,10 @@ import { cn } from "@/lib/utils";
 import { PlanSelector } from "@/components/premium/plan-selector";
 import { PARCOURS_SLUGS, parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { ABONNEMENT_ETAPE_1 } from "@/config/textes/entrees-parcours";
-import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
+import { ABONNEMENT_CONNECTE, ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
 import {
   formatEuros,
-  PARCOURS_COUNT,
   PREMIUM_MONTHLY_PRICE_CENTS,
-  PREMIUM_ANNUAL_PRICE_LABEL,
-  PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
 import {
@@ -147,7 +144,6 @@ export function AbonnementView({
   }, []);
   const plan: PremiumPlan = annualAvailable ? selectedPlan : "monthly";
   const isAnnual = plan === "annual";
-  const priceLabel = isAnnual ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
   const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
@@ -163,14 +159,15 @@ export function AbonnementView({
   const isAuthenticated = status === "authenticated";
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
-  const pageBadge = "Plus qu'une étape";
+  // Compte connecté : pastille, titre et paragraphe E3 validés (`ABONNEMENT_CONNECTE`, cta-pages.ts).
+  const pageBadge = ABONNEMENT_CONNECTE.pastille;
   // s21 B16 : surtitre et H1 visiteur selon le parcours d'origine (tour 4), sous-titre du lot 2.
   const hautVisiteur = ABONNEMENT_HAUT_PAR_PARCOURS[parcoursOrigine ?? "defaut"];
   const pageTitle = isAuthenticated
-    ? "Active ton accès pour commencer"
+    ? ABONNEMENT_CONNECTE.titre
     : hautVisiteur.titre;
   const pageSubtitle = isAuthenticated
-    ? `Ton compte est prêt. Encore un clic et les ${PARCOURS_COUNT} parcours sont à toi en entier, de la première à la dernière étape.`
+    ? frTypo(ABONNEMENT_CONNECTE.paragraphe)
     : ABONNEMENT_HAUT_VISITEUR.sousTitre;
 
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
@@ -301,7 +298,7 @@ export function AbonnementView({
             >
               {isCheckoutLoading
                 ? "On t'emmène au paiement…"
-                : `Active mon accès · ${priceLabel}`}
+                : frTypo(ABONNEMENT_CONNECTE.bouton(plan))}
             </Button>
           ) : (
             <Link

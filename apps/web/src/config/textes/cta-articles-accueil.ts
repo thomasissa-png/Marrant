@@ -234,6 +234,15 @@ export const CARTE_PREMIUM = {
       : "Prix TTC.",
   /** Bouton plein (visiteur) : `OUVRIR`. */
   bouton: libelleOuvrirParcours(),
+  /**
+   * E2 (compte connecté sans abonnement, paiement direct), validé à l'aveugle le 18/10
+   * (`docs/copy/cta-s21/complements/textes-valides-boutons.md`, tour 3) : ligne avant le
+   * bouton, puis `OUVRIR`.
+   */
+  connecte: {
+    ligne: "Tu as déjà ton compte : ce bouton t'emmène direct au paiement, sécurisé par Stripe.",
+    bouton: libelleOuvrirParcours(),
+  },
   /** Bouton contour : étape 1 de Répartie. */
   contour: "Tester mes premières répliques, gratuit",
   /** [S13] */

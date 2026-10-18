@@ -51,9 +51,28 @@ describe("/carnet non Premium", () => {
     }
     expect(html).not.toContain("2026-11");
 
-    const cta = screen.getByRole("link", { name: /Commencer à 2,99\s€\/mois/ });
+    const n = october.fiches.length - 1;
+    const cta = screen.getByRole("link", { name: new RegExp(`^Voir les ${n}\\sautres répliques\\s·\\s2,99\\s€/mois$`) });
     expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet");
     expect(html).not.toContain("—");
+  });
+
+  it("E1 (textes validés du 18/10) : titre, paragraphe, bouton et ligne sous le bouton, mot pour mot", async () => {
+    planMock.mockResolvedValue(null);
+    await renderCurrent();
+    const n = october.fiches.length - 1;
+    const t = (el: HTMLElement) => (el.textContent ?? "").replace(/\u00a0/g, " ").replace(/\u2060/g, "");
+    expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(`Ça, c'était la réplique offerte. Il en reste ${n}.`);
+    expect(
+      screen.getByText(/^Elles vont de la moins tendue/),
+    ).toHaveTextContent(
+      "Elles vont de la moins tendue à la plus tendue, alors tu commences tranquille et tu montes d'un cran. Avec Premium, elles s'ouvrent toutes d'un coup, et un nouveau carnet arrive chaque mois.",
+    );
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe(`Voir les ${n} autres répliques · 2,99 €/mois`);
+    expect(t(screen.getByText(/^2,99\s€ TTC par mois\./))).toBe(
+      "2,99 € TTC par mois. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.",
+    );
+    expect(screen.queryByText(/Débloque tout le carnet|Commencer à/)).toBeNull();
   });
 });
 
@@ -66,7 +85,7 @@ describe("/carnet Premium", () => {
     for (const fiche of october.fiches) {
       for (const field of SECRET_FIELDS) expect(html).toContain(fiche[field]);
     }
-    expect(screen.queryByRole("link", { name: /Commencer à/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Voir les \d+\sautres répliques/ })).toBeNull();
     expect(screen.getByRole("link", { name: "septembre 2026" })).toHaveAttribute("href", "/carnet/2026-09");
     expect(html).not.toContain("novembre 2026");
   });
@@ -88,7 +107,7 @@ describe("/carnet/[mois]", () => {
     planMock.mockResolvedValue(null);
     const { container } = await render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
     expect(container.innerHTML).not.toContain("REPONSE_SECRETE_2026-09-F2");
-    expect(screen.getByRole("link", { name: /Commencer à/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Voir les \d+\sautres répliques/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fcarnet%2F2026-09",
     );

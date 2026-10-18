@@ -55,14 +55,14 @@ describe("409 au checkout : message + lien /profil", () => {
   it("/abonnement : impayé", async () => {
     mockCheckout(409, IMPAYE);
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
     await expectConflict(TEXTES_CHECKOUT.impaye, "paiement-en-retard");
   });
 
   it("/abonnement : autre erreur = toast habituel, pas d'avis", async () => {
     mockCheckout(500, { error: "x" });
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
     expect(mockToast).toHaveBeenCalledWith("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     expect(screen.queryByTestId("checkout-conflit")).not.toBeInTheDocument();
   });

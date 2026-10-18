@@ -23,6 +23,8 @@ import {
   FREE_TIP_LIMIT,
   FREE_VIDEO_LIMIT,
   PARCOURS_COUNT,
+  PARCOURS_MAX_WEEKS,
+  PARCOURS_MIN_WEEKS,
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
   PREMIUM_ANNUAL_PRICE_LABEL,
@@ -40,6 +42,7 @@ import {
 } from "@/config/textes/cta-articles-accueil";
 import type { HumorProfileType } from "@/components/quiz/quiz-data";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
+import { listeFr } from "@/lib/liste-fr";
 
 // ─── Briques communes (nombres lus à la source) ─────────────────────────────
 
@@ -491,4 +494,47 @@ export const REGISTER_CTA = {
   /** [S35] lien discret sous « Déjà un compte ? ». */
   lienEtape1: (slug: ParcoursSlug) =>
     `Tu préfères lire d'abord ? L'étape 1 du parcours ${PARCOURS_NOMS[slug]}, gratuite et sans compte`,
+} as const;
+
+// ─── Boutons restés hors chantier : E1 (carnet), E3 (/abonnement), E4 (profil) ─
+//
+// Validés à l'aveugle le 18/10 (`docs/copy/cta-s21/complements/textes-valides-boutons.md`) ;
+// E2 (accueil) : `CARTE_PREMIUM.connecte` (cta-articles-accueil.ts). Rendu du jour, mot pour mot.
+
+/** « les 5 parcours » ; repli « tous les parcours » si le compte tombe à 1 ou 0 (comme `OUVRIR`). */
+const LES_PARCOURS = PARCOURS_COUNT >= 2 ? `les ${PARCOURS_COUNT} parcours` : "tous les parcours";
+
+/** « de 3 à 6 semaines » : parcours le plus court et le plus long (config/premium.ts). */
+const SEMAINES_PARCOURS =
+  PARCOURS_MIN_WEEKS === PARCOURS_MAX_WEEKS
+    ? `${PARCOURS_MIN_WEEKS} semaines`
+    : `de ${PARCOURS_MIN_WEEKS} à ${PARCOURS_MAX_WEEKS} semaines`;
+
+/** E1 : appel du carnet, non abonné, après la fiche offerte (tour 3). `n` = `view.apercus.length`. */
+export const CARNET_PAYWALL = {
+  titre: (n: number) => `Ça, c'était la réplique offerte. Il en reste ${n}.`,
+  paragraphe:
+    "Elles vont de la moins tendue à la plus tendue, alors tu commences tranquille et tu montes d'un cran. Avec Premium, elles s'ouvrent toutes d'un coup, et un nouveau carnet arrive chaque mois.",
+  bouton: (n: number) => `Voir les ${n} autres répliques${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
+  /** Sous le bouton. */
+  suite: `${MENSUEL_TTC}. Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies depuis ton profil quand tu veux.`,
+} as const;
+
+/** E3 : /abonnement, compte connecté sans abonnement (tour 11, variante R2). */
+export const ABONNEMENT_CONNECTE = {
+  pastille: "Un abonnement, tout ouvert",
+  titre: `${LES_PARCOURS.charAt(0).toUpperCase()}${LES_PARCOURS.slice(1)} en entier, et un nouveau carnet de répartie chaque mois.`,
+  paragraphe: `${listeFr(PREMIUM_PARCOURS.map((p) => p.name))}, ${SEMAINES_PARCOURS} chacun, et tout s'ouvre d'un coup. Chaque étape tient en ${DUREE_ETAPES} : un conseil, un défi à tenter, 5 vannes, 2 vidéos et un petit quiz. En plus des parcours : toutes les vannes, tous les conseils et toutes les vidéos du site.`,
+  /** « · 24,99 €/an » si l'annuel est choisi. */
+  bouton: (plan: PremiumPlan) =>
+    libelleOuvrirParcours(PARCOURS_COUNT, plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL),
+} as const;
+
+/** E4 : carte « Abonnement » du profil, compte connecté sans abonnement (tour 14, O1 ; ligne discrète D6). */
+export const PROFIL_ABONNEMENT_OFFRE = {
+  phrase: `Avec Premium, tout est ouvert : ${LES_PARCOURS} en entier, un nouveau carnet de répartie chaque mois, toutes les vannes, tous les conseils et toutes les vidéos. Et tu gardes en favori ce que tu veux ressortir.`,
+  /** Si XP > 0. */
+  ligneXp: (xp: number) => `Tu as déjà ${xp} XP.`,
+  ligneDiscrete: "Résiliable quand tu veux depuis ce profil. Tu as 14 jours pour te faire rembourser ce paiement.",
+  bouton: `Tout ouvrir${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`,
 } as const;

@@ -101,10 +101,12 @@ describe("Haut de /abonnement (tour 3, 3/3 au niveau)", () => {
 });
 
 describe("Libellés existants réutilisés (E2, E3) et corrections du §6.7", () => {
-  it("carnet : « Commencer à {prix} » ; profil : « Active mon accès · {prix} »", () => {
-    expect(lire("components/carnet/carnet-page.tsx")).toContain("Commencer à {PREMIUM_PRICE_LABEL}");
+  it("carnet et profil : libellés E1 et E4 du 18/10 lus dans config/textes (plus de « Commencer à », ni « Active mon accès »)", () => {
+    expect(lire("components/carnet/carnet-page.tsx")).toContain("CARNET_PAYWALL.bouton(restantes)");
+    expect(lire("components/carnet/carnet-page.tsx")).not.toContain("Commencer à");
     expect(lire("components/carnet/carnet-page.tsx")).not.toContain("S&apos;abonner ·");
-    expect(lire("components/profil/abonnement-card.tsx")).toContain("`Active mon accès · ${PREMIUM_PRICE_LABEL}`");
+    expect(lire("components/profil/abonnement-card.tsx")).toContain("frTypo(OFFRE.bouton)");
+    expect(lire("components/profil/abonnement-card.tsx")).not.toContain("Active mon accès");
   });
 
   it("« pour 2,99 €/mois », jamais « dès » (l'annuel revient à 2,08 €/mois)", () => {

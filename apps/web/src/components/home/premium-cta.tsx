@@ -70,7 +70,10 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
 
               <PremiumBenefits className="mt-6 space-y-3" />
 
-              <CartePremiumAchat boutonVisiteur={frTypo(CARTE_PREMIUM.bouton)} />
+              <CartePremiumAchat
+                boutonVisiteur={frTypo(CARTE_PREMIUM.bouton)}
+                connecte={{ ligne: frTypo(CARTE_PREMIUM.connecte.ligne), bouton: frTypo(CARTE_PREMIUM.connecte.bouton) }}
+              />
               <Link
                 href={ETAPE_1_HREF}
                 data-accueil-cta="etape-1"

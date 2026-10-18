@@ -6,9 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
 import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
-import { formatEuros, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { formatEuros } from "@/config/premium";
 import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
+import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
+import { frTypo } from "@/lib/fr-typo";
 
 export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
 
@@ -134,17 +136,12 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonne
 
         {etat === "aucun" && (
           <>
-            <p className="mb-2 text-sm text-text-primary">
-              Passe Premium pour débloquer tout le catalogue, les filtres et les parcours complets.
-            </p>
-            {xp > 0 && (
-              <p className="mb-2 text-sm text-text-secondary">
-                Les {xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés.
-              </p>
-            )}
-            <p className="mb-4 text-xs text-text-muted">Résiliable en ligne quand tu veux</p>
+            {/* Textes E4 validés (`PROFIL_ABONNEMENT_OFFRE`, config/textes/cta-pages.ts). */}
+            <p className="mb-2 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
+            {xp > 0 && <p className="mb-2 text-sm text-text-secondary">{OFFRE.ligneXp(xp)}</p>}
+            <p className="mb-4 text-xs text-text-muted">{frTypo(OFFRE.ligneDiscrete)}</p>
             <Button variant="secondary" size="sm" onClick={onCheckout} disabled={isCheckoutLoading}>
-              {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
+              {isCheckoutLoading ? "On t'emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
           </>
         )}

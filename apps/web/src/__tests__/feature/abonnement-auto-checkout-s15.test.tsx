@@ -81,7 +81,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
     await new Promise((r) => setTimeout(r, 20));
     expect(checkoutCalls()).toHaveLength(0);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
-    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
   });
 
   it("visiteur sans session : jamais de lancement, auto retiré", async () => {
@@ -104,7 +104,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
         "error",
       ),
     );
-    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeEnabled();
+    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeEnabled();
   });
 });
 

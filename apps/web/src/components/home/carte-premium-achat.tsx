@@ -9,7 +9,6 @@ import { toast } from "@/components/ui/toast";
 import { trackUmami } from "@/lib/umami";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 
@@ -21,8 +20,16 @@ const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", "accueil-premium");
  * bouton dépend de la session ; le reste de la carte est rendu par le serveur, sans JS.
  * Visiteur : lien vers /abonnement. Compte connecté sans abonnement : paiement direct.
  * `boutonVisiteur` : libellé validé (`CARTE_PREMIUM.bouton`), passé tel quel par le serveur.
+ * `connecte` : ligne et bouton E2 validés (`CARTE_PREMIUM.connecte`), passés par le serveur
+ * (aucun fichier de textes dans le JS client de l'accueil, budget QA m3).
  */
-export function CartePremiumAchat({ boutonVisiteur }: { boutonVisiteur: string }) {
+export function CartePremiumAchat({
+  boutonVisiteur,
+  connecte,
+}: {
+  boutonVisiteur: string;
+  connecte: { ligne: string; bouton: string };
+}) {
   const { status } = useSession();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
@@ -55,9 +62,14 @@ export function CartePremiumAchat({ boutonVisiteur }: { boutonVisiteur: string }
   return (
     <>
       {status === "authenticated" ? (
-        <Button variant="primary" size="lg" className="mt-8 w-full" onClick={handleCheckout} disabled={isCheckoutLoading}>
-          {isCheckoutLoading ? "On t'emmène au paiement…" : `Active mon accès · ${PREMIUM_PRICE_LABEL}`}
-        </Button>
+        <>
+          <p className="mt-8 text-center text-sm text-text-secondary" data-testid="carte-premium-ligne-connecte">
+            {connecte.ligne}
+          </p>
+          <Button variant="primary" size="lg" className="mt-3 w-full" onClick={handleCheckout} disabled={isCheckoutLoading}>
+            {isCheckoutLoading ? "On t'emmène au paiement…" : connecte.bouton}
+          </Button>
+        </>
       ) : (
         // s21 : plein payant vers /abonnement (prix, carnet, garantie), puis compte et paiement.
         <Link

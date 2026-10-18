@@ -169,7 +169,23 @@ describe("AbonnementPage (s12 T45)", () => {
     useSession.mockReturnValue({ status: "authenticated" });
     render(<AbonnementPage />);
     expect(screen.queryByText("Compte gratuit")).not.toBeInTheDocument();
-    expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+  });
+
+  it("E3 (textes validés du 18/10) : pastille, titre, paragraphe et bouton du compte connecté, mot pour mot", () => {
+    useSession.mockReturnValue({ status: "authenticated" });
+    render(<AbonnementPage />);
+    expect(screen.getByText("Un abonnement, tout ouvert")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "Les 5 parcours en entier, et un nouveau carnet de répartie chaque mois.",
+    );
+    expect(
+      screen.getByText(
+        "Machine à Café, Répartie, Confiance, Storytelling et Boulot, de 3 à 6 semaines chacun, et tout s'ouvre d'un coup. Chaque étape tient en 15 à 20 minutes : un conseil, un défi à tenter, 5 vannes, 2 vidéos et un petit quiz. En plus des parcours : toutes les vannes, tous les conseils et toutes les vidéos du site.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ })).toBeInTheDocument();
+    expect(screen.queryByText(/Plus qu'une étape|Active ton accès|Active mon accès|Ton compte est prêt/)).toBeNull();
   });
 
   describe("offre Premium vraie (décision Thomas 03/10)", () => {
@@ -204,13 +220,13 @@ describe("AbonnementPage (s12 T45)", () => {
 
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
       const { unmount } = render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ returnTo: "/parcours/confiance" });
       unmount();
 
       window.history.pushState({}, "", "/abonnement?returnTo=https%3A%2F%2Fevil.example");
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[1][1].body)).toEqual({});
     });
   });
@@ -237,7 +253,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
       expect(screen.queryByRole("radio")).not.toBeInTheDocument();
-      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+      expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/24,99|annuel|par an|\/an/i);
     });
 
@@ -246,7 +262,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       window.history.pushState({}, "", "/abonnement?plan=annual");
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
   });
@@ -261,7 +277,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       render(<AbonnementPage />);
       expect(screen.getByRole("radio", { name: "Mensuel" })).toBeChecked();
       expect(screen.getByRole("radio", { name: "Annuel" })).not.toBeChecked();
-      expect(screen.getByText("Active mon accès · 2,99 €/mois")).toBeInTheDocument();
+      expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
     });
 
     it("annuel : 24,99 €/an, soit 2,08 € par mois, plus de 3 mois offerts et 10,89 € économisés (D5 s16), envoi plan=annual", async () => {
@@ -276,7 +292,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       const text = document.body.textContent ?? "";
       expect(text).not.toMatch(/4 mois/);
       expect(text).not.toContain("—");
-      await userEvent.click(screen.getByText("Active mon accès · 24,99 €/an"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 24,99 €/an"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({ plan: "annual" });
     });
 
@@ -326,7 +342,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
     it("mensuel choisi : corps historique, sans plan", async () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(JSON.parse(checkoutCalls(fetchMock)[0][1].body)).toEqual({});
     });
 
@@ -369,7 +385,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500, json: async () => ({}) }) as unknown as typeof fetch;
       render(<AbonnementPage />);
-      await userEvent.click(screen.getByText("Active mon accès · 2,99 €/mois"));
+      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
       expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {
         formule: "mensuel",
         src: "abonnement",
