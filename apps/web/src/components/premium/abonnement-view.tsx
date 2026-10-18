@@ -38,6 +38,7 @@ import {
   REASSURANCE_PAIEMENT,
 } from "@/config/textes/offre";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { trackCheckoutEchec, trackCheckoutOuvert, type CheckoutFormule } from "@/lib/checkout-tracking";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
 import { useResiliationProgrammee } from "@/hooks/use-resiliation-programmee";
@@ -165,6 +166,9 @@ export function AbonnementView({
 
   const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
     const annual = chosenPlan === "annual";
+    const formule: CheckoutFormule = annual ? "annuel" : "mensuel";
+    // Source de mesure : le bloc d'entrée (`?src=`, ex. `header`), sinon la page elle-même.
+    const srcMesure = readSrcFromUrl() ?? "abonnement";
     setIsCheckoutLoading(true);
     setConflict(null);
     trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur, statut: "membre" });
@@ -179,14 +183,18 @@ export function AbonnementView({
       const data = await res.json();
       const conflit = readCheckoutConflict(res.status, data);
       if (res.ok && data.url) {
+        trackCheckoutOuvert(srcMesure, formule);
         window.location.href = data.url;
       } else if (conflit) {
+        trackCheckoutEchec(srcMesure, "conflit", formule);
         setConflict(conflit);
       } else {
+        trackCheckoutEchec(srcMesure, "erreur", formule);
         console.error("[Checkout]", data.error);
         toast(checkoutErrorMessage(res.status), "error");
       }
     } catch {
+      trackCheckoutEchec(srcMesure, "reseau", formule);
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);
@@ -315,16 +323,14 @@ export function AbonnementView({
           <p className="mt-3 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
             {REASSURANCE_PAIEMENT}
           </p>
-          <p className="mt-1 text-center text-xs text-text-muted">
-            Droit de{" "}
-            <Link
-              href="/retractation"
-              className="underline hover:text-text-secondary"
-            >
-              r&eacute;tractation
-            </Link>{" "}
-            &middot; Paiement s&eacute;curis&eacute; par Stripe
-          </p>
+          {/* Fusion s21 (choix de Thomas du 18/10 : pas de juridique dans les blocs d'appel) :
+              une seule mention de Stripe. Visiteur : [S32] la porte déjà ; compte connecté
+              (pas de [S32]) : cette ligne. /retractation reste dans le pied de page et la FAQ. */}
+          {isAuthenticated && (
+            <p className="mt-1 text-center text-xs text-text-muted" data-testid="paiement-stripe">
+              Paiement sécurisé par Stripe
+            </p>
+          )}
 
           {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
               d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}

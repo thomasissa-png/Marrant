@@ -120,7 +120,6 @@ describe("AbonnementPage (s12 T45)", () => {
       // s21 B16 : [S32] juste sous le bouton, avant la garantie.
       "Deux étapes : ton compte, puis le paiement sécurisé par Stripe.",
       "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
-      "Droit de rétractation · Paiement sécurisé par Stripe",
       // §5.2 / §7 point 3 (choix de Thomas) : les avantages viennent APRÈS le bouton d'achat.
       "Les 5 parcours en entier",
       "Le carnet mensuel de situations de répartie",
