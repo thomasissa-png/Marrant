@@ -41,6 +41,10 @@ import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 import { normalise } from "../helpers/texte-normalise";
+import { envNeutre } from "../helpers/env-neutre";
+
+// s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
+envNeutre("STRIPE_PREMIUM_ANNUAL_PRICE_ID", "NEXTAUTH_URL");
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 

@@ -16,6 +16,10 @@ import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 import { TEXTES_SUPPRESSION } from "@/config/textes/compte";
 import { renderAnnualRenewalReminder, veilleParis } from "@/lib/emails/annual-renewal-reminder";
 import { assertRenduPropre } from "@/lib/emails/garde-fou-rendu";
+import { envNeutre } from "../helpers/env-neutre";
+
+// s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
+envNeutre("STRIPE_PREMIUM_ANNUAL_PRICE_ID", "NEXTAUTH_URL");
 
 const RECUE = new Date("2026-10-21T15:00:00Z"); // 21 octobre, 17:00 à Paris
 const base = { email: "camille@example.invalid", dateAchat: null, motif: null, recueLe: RECUE, reference: "R-TEST0001" };

@@ -5,6 +5,10 @@ import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 import { AbonnementView } from "@/components/premium/abonnement-view";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { envNeutre } from "../helpers/env-neutre";
+
+// s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
+envNeutre("STRIPE_PREMIUM_ANNUAL_PRICE_ID", "NEXTAUTH_URL");
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
