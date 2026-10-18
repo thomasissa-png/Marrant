@@ -61,7 +61,7 @@ Format de réponse, par duel :
 
 ### Texte 2
 
-> `[S19]` [ Lire l'étape 1 gratuite de Répartie ]  *(bouton plein)*
+> `[S19]` [ Lire la première étape gratuite de Répartie ]  *(bouton plein)*
 > Lien : Accéder aux parcours complets
 > `[S20]` L'étape 1 se lit sans compte, quiz compris. Les parcours complets sont dans Premium : 2,99 € TTC par mois, résiliable en ligne, premier paiement remboursable sous 14 jours.
 
