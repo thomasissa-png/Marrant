@@ -75,7 +75,7 @@ Cible /abonnement : ≈ 120 mots (titre, 1 phrase, prix et bouton, 1 réassuranc
 2. **Titre ≤ 10 mots** (Thomas proposait 8 : trop serré pour les titres en image).
 3. **Texte : 1 phrase ≤ 15 mots, ou rien.** Le titre peut suffire.
 4. **Bouton = action + prix, ≤ 7 mots**, sans « de la coloc à l'afterwork » dans le libellé.
-5. **Une seule formule de réassurance, ≤ 12 mots, collée au bouton qui déclenche le paiement.** Rien sous un bouton gratuit ni sous un lien vers /abonnement. Formule unique, partout : « Premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » (10 mots, vraie d'après `offre.ts`).
+5. **Une seule formule de réassurance, ≤ 12 mots, collée au bouton qui déclenche le paiement.** Rien sous un bouton gratuit ni sous un lien vers /abonnement. Formule unique, partout : « Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. » (11 mots, vraie d'après `offre.ts` ; le mot « Premium » y reste, le nom de l'offre ne disparaît pas des petits blocs).
 6. **Pas de liste de contenu, de nom d'étape ni de durée dans les petits blocs.** Le détail vit sur /abonnement, une fois.
 7. **Lien secondaire : 4 à 6 mots.**
 8. **Prix : une fois par bloc, dans le bouton.** Le prix annuel (24,99 €/an) vit sur /abonnement ; à Thomas de dire s'il veut le garder sur la carte d'accueil.
@@ -85,3 +85,93 @@ Cible /abonnement : ≈ 120 mots (titre, 1 phrase, prix et bouton, 1 réassuranc
 12. **Le test : lisible en 5 secondes sur un téléphone, sans défiler.** Si une phrase peut sauter sans que le bloc perde l'envie, elle saute.
 
 **Correction du processus (la vraie cause).** (a) Tout duel oppose la version à sa version raccourcie ; (b) les relecteurs notent « envie » ET « temps de lecture » ; (c) un fait entre dans un bloc seulement si le bloc sans lui perd à l'aveugle.
+
+## 5. Les 6 étalons, avant / après
+
+Tous les « après » : rien de faux (étape 1 gratuite sans compte, prix, 14 jours sur le premier paiement, résiliation depuis le profil), aucune promesse de résultat, « 1 500+ » et prix intacts, zéro tiret cadratin.
+
+### Étalon 1 : B3, haut de l'accueil (la capture) · 45 mots → 12
+
+**Avant** (45)
+> [Tester mes premières répliques, gratuit]
+> Ouvrir les 5 parcours, de la coloc à l'afterwork · 2,99 €/mois
+> Sans compte : l'étape 1 du parcours Répartie (conseil, défi, 5 vannes, 2 vidéos, quiz). Les 3 suivantes, dont « Retourner les piques avec le sourire », c'est Premium, résiliable depuis ton profil.
+
+**Après** (12)
+> [Tester mes premières répliques, gratuit]
+> Sans compte.
+> Ouvrir les 5 parcours · 2,99 €/mois
+
+Enlevé : la liste de l'étape, le nom d'une étape payante, la résiliation, « de la coloc à l'afterwork » (il vit dans la carte plus bas). Pourquoi ça donne plus envie : un bouton, une promesse de 2 mots, un lien à 5 mots. On a envie de cliquer, plus de lire.
+
+### Étalon 2 : B2, fin d'article · 145 mots → 32
+
+**Avant** (145) : surtitre « Parcours Répartie · 4 semaines » ; titre « La vanne qui sort de ta bouche, pas de ton téléphone » ; paragraphe de 85 mots (« Tu viens de lire cinquante vannes… une étape par semaine, 20 minutes : tes premières répliques, le rythme et les silences, les piques qu'on retourne avec le sourire, et la vanne tombée à plat… ») ; bouton ; lien `Ouvrir les 5 parcours · 2,99 €/mois` ; note de 35 mots (prix mensuel et annuel TTC, 14 jours, résiliation).
+
+**Après** (32)
+> La vanne dans ta bouche, pas dans ton téléphone
+> Quand on te chambre, tu as une seconde, et ça s'entraîne.
+> [Tester mes premières répliques, gratuit]
+> Sans compte.
+> Ouvrir les 5 parcours · 2,99 €/mois
+
+Enlevé : le surtitre, les 4 titres d'étapes, le défi, les deux prix TTC et la garantie (le lien mène à /abonnement, qui les dit). Pourquoi ça donne plus envie : il reste l'image (la seconde où il faut répondre) et le geste. Le lecteur sort d'un article de vannes : il veut essayer, pas lire un programme.
+
+### Étalon 3 : E3, haut de /abonnement (compte connecté) · 79 mots → 26
+
+**Avant** (79) : pastille « Un abonnement, tout ouvert » ; titre « Les 5 parcours en entier, et un nouveau carnet de répartie chaque mois. » ; paragraphe de 57 mots (les 5 noms, « de 3 à 6 semaines chacun », « 15 à 20 minutes », « un conseil, un défi à tenter, 5 vannes, 2 vidéos et un petit quiz », toutes les vannes, conseils, vidéos) ; bouton `Ouvrir les 5 parcours · 2,99 €/mois`.
+
+**Après** (26)
+> Les 5 parcours, et un carnet de répartie chaque mois
+> Tout s'ouvre d'un coup, vannes, conseils et vidéos du site compris.
+> [Ouvrir les 5 parcours · 2,99 €/mois]
+
+Enlevé : la pastille, les noms, les semaines, les minutes, le contenu d'une étape (il est dans la liste d'avantages juste dessous, dite une fois). Pourquoi ça donne plus envie : on lit « tout s'ouvre d'un coup » avant d'avoir compris quoi que ce soit d'autre, et le bouton est déjà sous les yeux.
+
+### Étalon 4 : E1, paywall du carnet · 182 mots → 38
+
+**Avant** (182) : titre « Ça, c'était la réplique offerte. Il en reste 14. » ; paragraphe de 33 mots (« Elles vont de la moins tendue à la plus tendue, alors tu commences tranquille et tu montes d'un cran… ») ; **les 4 avantages (110 mots)** ; bouton `Voir les 14 autres répliques · 2,99 €/mois` ; ligne de 24 mots sous le bouton (prix TTC, 14 jours, résiliation).
+
+**Après** (38)
+> Ça, c'était la réplique offerte. Il en reste 14.
+> Du plus tranquille au plus tendu, et un nouveau carnet chaque mois.
+> [Voir les 14 autres répliques · 2,99 €/mois]
+> Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.
+
+Enlevé : les 4 avantages (ceux d'un carnet, 3 sur 4 parlent d'autre chose), le « s'ouvrent toutes d'un coup » (le bouton le dit), le prix répété. Pourquoi ça donne plus envie : le titre est déjà la meilleure phrase du bloc ; on le laisse faire son travail au lieu de le noyer.
+
+### Étalon 5 : carte Premium de l'accueil (B4+B5) · 260 mots → 51
+
+**Avant** (260) : titre ; scène « La table qui rit, et c'est ta réplique qui l'a lancée. » ; intro et liste de 5 parcours (45 mots) ; paragraphe « 15 à 20 minutes par étape… » ; en-tête « Premium · 2,99 €/mois » ; ligne annuelle ; **les 4 avantages (110 mots)** ; deux boutons ; réassurance de 20 mots ; « Déjà 1 500+ inscrits, et toi ? ».
+
+**Après** (51)
+> Et si ton « j'aurais dû dire » devenait un « j'ai dit » ?
+> Premium : 5 parcours, de la coloc à l'afterwork, et l'étape 1 de chacun est gratuite.
+> [Ouvrir les 5 parcours · 2,99 €/mois]
+> [Tester mes premières répliques, gratuit]
+> Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.
+> Déjà 1 500+ inscrits, et toi ?
+
+Enlevé : la scène (le titre la contient), la liste de 5 lignes, la durée, l'en-tête de prix (le bouton le porte), le prix annuel (à décider, règle 8), les avantages. Pourquoi ça donne plus envie : le titre reste, la phrase dit ce qu'on vend en 15 mots, les deux boutons se lisent sans défiler. « 1 500+ » est intact.
+
+### Étalon 6 : les 4 avantages, composant partagé · 110 mots → 30
+
+Pire pavé hors blocs B/E : le même paragraphe sur /abonnement, l'accueil et /carnet.
+
+**Avant** (110) : « Les 5 parcours en entier : Machine à Café (15 min/semaine), Répartie (20 min/semaine), Confiance (20 min/semaine), Storytelling (20 min/semaine), Boulot (15 min/semaine). Chaque étape avec son conseil, ses vannes, ses vidéos et son quiz. La première étape de chaque parcours est offerte. » + « Le carnet mensuel de situations de répartie (nouveau chaque mois) : ce qu'on te dit, quoi répondre, pourquoi ça marche et quoi faire si ça se tend. » + « Tes favoris : garde sous la main les vannes, conseils et vidéos à ressortir. » + « Les listes complètes (compteurs dynamiques : X+ vannes, X+ conseils, X+ vidéos analysées ; comptés ici comme 3 mots chiffrés), au lieu de 10 vannes, 3 conseils et 3 vidéos sans abonnement, avec le filtre par catégorie des vannes. »
+
+**Après** (30)
+> Les 5 parcours en entier
+> Un nouveau carnet de répartie chaque mois
+> Tes favoris : vannes, conseils et vidéos sous la main
+> Toutes les vannes, tous les conseils, toutes les vidéos
+
+Enlevé : les noms et durées des parcours (déjà sur /parcours), le contenu d'une étape, le détail du carnet, la comparaison « au lieu de 10 vannes… » (les murs la montrent déjà). Pourquoi ça donne plus envie : quatre lignes qu'on lit en trois secondes, au lieu d'un contrat. Les chiffres du catalogue (dynamiques) restent possibles sur une seule ligne si Thomas y tient.
+
+## 6. Questions pour Thomas (5 réponses suffisent)
+
+1. La formule unique de réassurance (règle 5) te va ?
+2. Prix annuel (24,99 €/an) : sur /abonnement seulement, ou aussi sur la carte d'accueil ?
+3. On corrige « 1 clic » dans les deux FAQ prix (c'est faux) ?
+4. Les noms de parcours, durées et contenu d'une étape ne vivent plus que sur /abonnement et /parcours : d'accord ?
+5. Les 6 étalons te donnent envie de cliquer ? Si oui, on les applique aux autres blocs par gabarit, chaque bloc en duel à l'aveugle contre sa version raccourcie, avec le critère « envie + temps de lecture ».
