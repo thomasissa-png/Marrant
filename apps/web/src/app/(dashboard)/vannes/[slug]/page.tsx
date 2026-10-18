@@ -274,7 +274,7 @@ export default async function VannePage({
         ) : null}
 
         {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="vanne" refs={parcoursRefs} />
+        <FicheParcoursLien type="vanne" refs={parcoursRefs} parcoursBloc={joke.howToApply ? parcoursPourFiche(parcoursRefs, joke.category) : null} />
 
         {related.length > 0 && (
           <nav aria-label="Vannes liées" className="mt-12 border-t border-border pt-8">

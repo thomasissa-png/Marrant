@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
+import { LIEN_L1 } from "@/components/premium/mur-liste";
 import { frTypo } from "@/lib/fr-typo";
 import { PREMIUM_PARCOURS } from "@/config/premium";
 import {
@@ -31,9 +32,6 @@ interface ArticleCtaProps {
   annuelDisponible?: boolean;
 }
 
-/** Lien fort (L1, spec cta-forme-place §1.3) : le payant en niveau 3 sous le plein. */
-const LIEN_FORT =
-  "inline-flex min-h-11 items-center text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link";
 
 /**
  * Bloc de fin unique d'un article (s20, revu s21 : spec `cta-forme-place-s21.md` §2.5
@@ -105,7 +103,7 @@ export function ArticleCta({ parcours = "repartie", src, title, text, note, annu
             <Link
               href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
               data-blog-cta="abonnement"
-              className={cn(LIEN_FORT, "self-start sm:self-auto")}
+              className={cn(LIEN_L1, "self-start sm:self-auto")}
             >
               {frTypo(BLOC_FIN.lienAbonnement)}
             </Link>

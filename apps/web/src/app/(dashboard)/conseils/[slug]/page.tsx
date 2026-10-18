@@ -218,7 +218,7 @@ export default async function ConseilPage({
           annuel={isAnnualPlanAvailable()}
         />
 
-        <FicheParcoursLien type="conseil" refs={parcoursRefs} />
+        <FicheParcoursLien type="conseil" refs={parcoursRefs} parcoursBloc={parcoursPourFiche(parcoursRefs, tip.category)} />
 
         {related.length > 0 && (
           <nav aria-label="Conseils liés" className="mt-12 border-t border-border pt-8">

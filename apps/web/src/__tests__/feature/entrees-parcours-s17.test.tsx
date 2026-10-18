@@ -129,6 +129,17 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
     expect(screen.getByText("Ce conseil est l'étape 3 du parcours Répartie.")).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute("href", "/parcours/repartie?src=fiche#etape-1");
   });
+  it("s21 (revue design P1-1) : même parcours que le bloc d'exercice → lien L2, sinon contour", () => {
+    const { rerender } = render(
+      <FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} parcoursBloc="repartie" />,
+    );
+    const lien = screen.getByRole("link");
+    expect(lien).toHaveAttribute("data-niveau", "l2");
+    expect(lien).toHaveAttribute("href", "/parcours/repartie?src=fiche#etape-1");
+    expect(lien.className).not.toMatch(/border/);
+    rerender(<FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} parcoursBloc="boulot" />);
+    expect(screen.getByRole("link")).toHaveAttribute("data-niveau", "contour");
+  });
 });
 
 describe("règle thématique des articles (encart et CTA)", () => {

@@ -55,11 +55,12 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
         {frTypo(t.titre)}
       </h2>
       <p className="mt-2 text-sm text-text-secondary">{frTypo(t.texte)}</p>
+      {/* s21 (revue design P2-4) : les deux boutons ont la même largeur (max-w-lg), bords alignés à 1280. */}
       <Link
         href={buildAbonnementUrl(returnTo, "monthly", `exercice-${type}`)}
         className={cn(
           buttonVariants({ variant: "primary", size: "lg" }),
-          "mt-4 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:w-auto",
+          "mt-4 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:max-w-lg",
         )}
         data-fiche-cta="premium"
       >
@@ -70,7 +71,7 @@ export function BlocExercice({ type, returnTo, parcours, annuel, exercice }: Blo
         href={parcoursEtape1Href(parcours, "fiche")}
         className={cn(
           buttonVariants({ variant: "outline-accent", size: "lg" }),
-          "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:w-auto",
+          "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:max-w-lg",
         )}
         data-fiche-cta="etape-1"
       >

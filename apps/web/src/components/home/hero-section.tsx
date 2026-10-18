@@ -6,6 +6,7 @@ import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
+import { LIEN_L1 } from "@/components/premium/mur-liste";
 import { trackUmami } from "@/lib/umami";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
@@ -98,7 +99,8 @@ export function HeroSection() {
           <Link
             href={HERO_ABONNEMENT_HREF}
             data-accueil-cta="abonnement"
-            className="mt-2 inline-flex min-h-11 items-center px-3 py-2 text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link"
+            // s21 (revue design P2-5) : L1 commun, centré et équilibré sur deux lignes à 320-375 px.
+            className={cn(LIEN_L1, "mt-2 px-3 py-2 text-center [text-wrap:balance]")}
             onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
           >
             {frTypo(ACCUEIL_HAUT.lien)}

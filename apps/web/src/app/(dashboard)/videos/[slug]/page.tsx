@@ -222,7 +222,7 @@ export default async function VideoPage({
         />
 
         {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="video" refs={parcoursRefs} />
+        <FicheParcoursLien type="video" refs={parcoursRefs} parcoursBloc={parcoursPourFiche(parcoursRefs, video.category)} />
 
         {related.length > 0 && (
           <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">

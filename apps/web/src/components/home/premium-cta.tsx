@@ -82,9 +82,12 @@ export function PremiumCta({ annuelDisponible = false }: PremiumCtaProps) {
           <p>{frTypo(CARTE_PREMIUM.intro.scene)}</p>
           <div>
             <p>{frTypo(CARTE_PREMIUM.intro.listeIntro)}</p>
-            <ul className="mt-2 space-y-1 text-base">
-              {CARTE_PREMIUM.intro.liste.map((ligne) => (
-                <li key={ligne}>{frTypo(ligne)}</li>
+            {/* s21 (revue design P2-7) : liste alignée à gauche dans une colonne centrée, nom du parcours en gras. */}
+            <ul className="mx-auto mt-2 max-w-md space-y-1 text-left text-base">
+              {CARTE_PREMIUM.intro.listeParties.map(({ nom, suite }) => (
+                <li key={nom}>
+                  <strong className="font-semibold text-text-primary">{nom}</strong> {frTypo(suite)}
+                </li>
               ))}
             </ul>
           </div>

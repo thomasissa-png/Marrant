@@ -64,7 +64,7 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
 
   const handleCheckout = () => startCheckout(resolveReturnTo());
 
-  const plein = cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal py-2 text-center");
+  const plein = cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg" labelledBy="premium-modal-title" sheet>
@@ -102,7 +102,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
               {t.bouton}
             </Link>
           )}
-          <div className="text-center">
+          {/* s21 (revue design P3-9) : 4 px entre le plein et le lien L2. */}
+          <div className="mt-1 text-center">
             <Link
               href={parcoursEtape1Href(parcours, "abonnement")}
               className="inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2"

@@ -219,6 +219,10 @@ export const CARTE_PREMIUM = {
     liste: LIGNES_PARCOURS.filter(({ slug }) => PREMIUM_PARCOURS.some((p) => p.slug === slug)).map(
       ({ slug, ligne }) => `${PARCOURS_NOMS[slug]} ${ligne}`,
     ),
+    /** Mêmes lignes, nom et suite séparés pour le balisage (nom en gras, revue design P2-7) : texte identique. */
+    listeParties: LIGNES_PARCOURS.filter(({ slug }) => PREMIUM_PARCOURS.some((p) => p.slug === slug)).map(
+      ({ slug, ligne }) => ({ nom: PARCOURS_NOMS[slug], suite: ligne }),
+    ),
     fin: `Une fois abonné, tout est ouvert d'un coup : ${DUREE_ETAPES} par étape, avec un défi à tenter, dans la vie ou à l'écrit.`,
   },
   /** En-tête de carte « Premium · 2,99 €/mois » : unité sous le montant en gros. */

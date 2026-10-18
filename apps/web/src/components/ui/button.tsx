@@ -8,7 +8,8 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-accent-secondary-hover text-white hover:bg-accent-secondary focus-visible:ring-accent-secondary-hover",
+          // s21 (revue design P2-6) : anneau #A78BFA (≈ 7:1 sur carte), l'ancien #7C3AED faisait 2,9:1 (WCAG 1.4.11).
+          "bg-accent-secondary-hover text-white hover:bg-accent-secondary focus-visible:ring-accent-link",
         /** @deprecated Violet plein, lu comme un niveau 1 : utiliser `primary` (Premium) ou `outline-accent` (niveau 2). */
         secondary:
           "bg-accent-secondary text-white hover:bg-accent-secondary-hover focus-visible:ring-accent-secondary",

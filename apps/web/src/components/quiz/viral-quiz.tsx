@@ -7,6 +7,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
+import { LIEN_L1 } from "@/components/premium/mur-liste";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
@@ -117,7 +118,7 @@ function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: 
           </Link>
           <Link
             href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className="inline-flex min-h-11 items-center justify-center text-center font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4"
+            className={cn(LIEN_L1, "justify-center text-center")}
           >
             {QUIZ_HUMOUR_CTA.lien(profile.recommendedParcours)}
           </Link>
