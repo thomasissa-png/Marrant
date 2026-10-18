@@ -63,17 +63,15 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
           <Link
             href="/vannes"
             // s17 tour 2 (DES-2-08) : un seul bouton plein ; avec « Reprendre » affiché, celui-ci passe en contour.
-            className={cn(
-              buttonVariants({ variant: aReprendre ? "outline" : "primary", size: "lg" }),
-              aReprendre && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
-              "w-full sm:w-auto",
-            )}
+            // Revue visuelle s21 : variante niveau 2 du design system (`outline-accent`), plus de bordure surchargée.
+            className={cn(buttonVariants({ variant: aReprendre ? "outline-accent" : "primary", size: "lg" }), "w-full sm:w-auto")}
           >
             Explorer les vannes
           </Link>
           <Link
             href="/conseils"
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}
+            // Revue visuelle s21 : même rôle (entrée gratuite dans le produit) = même variante que son voisin.
+            className={cn(buttonVariants({ variant: "outline-accent", size: "lg" }), "w-full sm:w-auto")}
           >
             Voir les conseils
           </Link>

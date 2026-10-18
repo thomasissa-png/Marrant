@@ -9,6 +9,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, type FicheType } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
@@ -36,8 +37,8 @@ export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExercic
   if (isPremium) {
     if (!exercice) return null;
     return (
-      <section className="mt-8 rounded-lg border border-border bg-background-card p-5" data-bloc-exercice={type}>
-        <h2 className="font-display text-lg font-bold text-text-primary">{BLOC_EXERCICE_ABONNE_TITRE}</h2>
+      <section className={cn("mt-8", BLOC_APPEL)} data-bloc-exercice={type}>
+        <h2 className={TITRE_BLOC_APPEL}>{BLOC_EXERCICE_ABONNE_TITRE}</h2>
         <p className="mt-2 text-sm text-text-secondary">{exercice}</p>
       </section>
     );
@@ -46,24 +47,23 @@ export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExercic
   return (
     <section
       aria-labelledby={`bloc-exercice-${type}`}
-      className="mt-8 rounded-lg border border-border bg-background-card p-5"
+      className={cn("mt-8", BLOC_APPEL)}
       data-bloc-exercice={type}
     >
-      <h2 id={`bloc-exercice-${type}`} className="font-display text-lg font-bold text-text-primary">
+      <h2 id={`bloc-exercice-${type}`} className={TITRE_BLOC_APPEL}>
         {frTypo(t.titre)}
       </h2>
       <p className="mt-2 text-sm text-text-secondary">{frTypo(t.texte)}</p>
-      {/* s21 (revue design P2-4) : les deux boutons ont la même largeur (max-w-lg), bords alignés à 1280. */}
-      <Link
-        href={buildAbonnementUrl(returnTo, "monthly", `exercice-${type}`)}
-        className={cn(
-          buttonVariants({ variant: "primary", size: "lg" }),
-          "mt-4 h-auto min-h-12 w-full whitespace-normal py-2 text-center sm:max-w-lg",
-        )}
-        data-fiche-cta="premium"
-      >
-        {t.bouton}
-      </Link>
+      {/* Revue visuelle s21 : même bloc d'appel que les murs des listes (bouton à la largeur de son texte dès 640 px). */}
+      <div className="mt-4">
+        <Link
+          href={buildAbonnementUrl(returnTo, "monthly", `exercice-${type}`)}
+          className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+          data-fiche-cta="premium"
+        >
+          {t.bouton}
+        </Link>
+      </div>
       <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="mt-1">

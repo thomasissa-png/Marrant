@@ -71,7 +71,8 @@ export function BlogListView({
         ))}
       </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      {/* Revue visuelle s21 : nombre impair d'articles, la dernière carte prend la rangée (plus de demi-rangée vide). */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:[&>*:last-child:nth-child(odd)]:col-span-2">
         {filteredArticles.map((article) => (
           <Link key={article.slug} href={`/blog/${article.slug}`} className="block">
             <Card className="h-full p-5 transition-shadow hover:shadow-md">
