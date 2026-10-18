@@ -206,6 +206,146 @@ Captures dans `docs/design/revue-visuelle-s21/apres/`. Corrections en Tailwind (
 4. Aucun contenu sous la barre n'est remis en ligne : ces corrections sont de la mise en page, elles repassent la relecture à l'aveugle avant mise en ligne (règle d'or s18).
 
 ---
+
+# Tour 2 : relecture des captures `apres-v2/` (et découpes `apres-v2/sections/`)
+
+> Méthode : même couverture qu'au tour 1 (chaque page en visiteur à 375 et 1 280 ; accueil, abonnement, vannes, conseils, vidéos, parcours, carnet, profil, favoris, onboarding en gratuit/premium à 375 ; fenêtre Premium, menu, fin d'étape 1, 6 captures admin ; 768 sur 7 pages : accueil, vannes, conseils, vidéos, profil, favoris, plus abonnement et vannes en 1 440 ; 1 440 sur accueil, conseils, profil). Notes posées avant la lecture de la section 7 de `audit.md`.
+> Rappel : la décision 2 du tour 1 (lien étendu sur /conseils) est retirée : le dépliage sur place avec comptage XP prime. Le titre à 44 px de cible est accepté, le rendu n'a aucun défaut visible (cartes /conseils propres à 375, 768, 1 280, 1 440).
+
+## T2.1 Verdict
+
+**Note globale : 8,7 / 10. Pas encore 10/10 : 4 défauts majeurs visibles restent, 0 bloquant.**
+Gros progrès : les 2 bloquants (/conseils et /favoris à 1 280) sont réglés, 14 majeurs sur 14 du tour 1 sont soit corrigés soit réduits au rang de mineur. La page de Thomas (/conseils) est enfin une vraie page de produit. Ce qui reste est étroit et précis : une grille qui laisse un orphelin, un décalage de 12 px dans les cartes vannes, un orphelin de 3e vidéo à 768 px, et la typographie (apostrophes) qui se voit.
+
+**Décompte tour 2 : 4 majeurs, 12 mineurs, 0 bloquant.**
+
+## T2.2 Statut des 31 défauts du tour 1
+
+| # | Statut | Preuve visuelle (captures `apres-v2/`) |
+|---|---|---|
+| R01 | Corrigé, mais effet de bord (voir T2-01) | `conseils-premium-1440` : 10 cartes en 2 colonnes, égales, propres. `conseils-visiteur-1280` : 2 + 1 carte pleine largeur. |
+| R02 | Corrigé | `favoris-premium-1280` : vignette 420 px à gauche, contenu à droite. Reste un vide en bas à gauche (T2-12). |
+| R03 | Corrigé à 375 et 1 280, reste 1 orphelin à 768 (T2-09) | `vannes-premium-375` : ligne défilante avec fondu ; `vannes-visiteur-768` : « Autodérision » seul. |
+| R04 | Corrigé | `vannes-premium-375` : une seule rangée visible. |
+| R05 | Corrigé | `videos-visiteur-1280` : 3 cartes de même hauteur ; accueil 1 280 : 3 cartes et 3 rangées d'actions alignées (y identique). |
+| R06 | Corrigé | `vanne-fiche-visiteur-1280` : bords de texte à 278 px sur les 4 boîtes ; `conseil-fiche-visiteur-1280` : 262 sur 3 boîtes ; `video-fiche-visiteur-1280` : 258. |
+| R07 | Corrigé | `abonnement-visiteur-375` : bouton sur 1 ligne ; `onboarding-resultat-gratuit-375` : 1 ligne. `register-visiteur-375` : 2 lignes équilibrées, acceptable. |
+| R08 | Non vérifiable à l'écran pour les boutons de /profil (T2-13) ; chips, pastilles, pagination OK à l'œil | `profil-premium-375` : « Gérer mon abonnement » semble faire environ 28 px de haut. Mesure Playwright demandée. |
+| R09 | Corrigé | `parcours-repartie-fin-etape1-gratuit-375` : ligne centrée, formulaire en colonne centrée, bouton outline. |
+| R10 | Corrigé, reste un détail (T2-10) | Trois murs au même cadre plein, plus de pointillés. |
+| R11 | Corrigé | `accueil-premium-1280` : 3 cartes à la même hauteur, réactions sur la même ligne. Le vide dans la carte vanne (150 px) est cadré et acceptable. |
+| R12 | Corrigé | `vanne-fiche-visiteur-375` : grille 2 x 2. |
+| R13 | Corrigé | `conseil-fiche-visiteur-1280` et `-375` : paragraphes séparés, total en pied. |
+| R14 | Corrigé | `admin-semaine-375` : onglets 2 x 2. |
+| R15 | Corrigé à 1 280, réduit à 375 (T2-14) | `admin-semaine-1280` : valeurs sous le libellé. |
+| R16 | Corrigé | `onboarding-resultat-gratuit-375`. |
+| R17 | Corrigé | `abonnement-visiteur-1280` : badge « plus de 3 mois offerts » en ligne avec le sélecteur ; espacements réguliers. |
+| R18 | Réduit (T2-08) | Footer 1 280 propre ; 768 : libellés sur 2 lignes. |
+| R19 | Corrigé | `login-visiteur-375`, `register-visiteur-375` : logo centré, carte à la même position. |
+| R20 | Corrigé | Plus d'en-tête figé ; `parcours-repartie-fin-etape1-*` jugeables. |
+| R21 | Corrigé | `fenetre-premium-visiteur-375` : fermer dans la feuille ; `-1280` : carte centrée. |
+| R22 | Corrigé | `menu-mobile-visiteur-375` : un seul bouton Premium, panneau plein écran. |
+| R23 | Corrigé | `profil-premium-375`, `-768`. |
+| R24 | Corrigé | `admin-abonnes-lettre-375` : grille 2 colonnes. |
+| R25 | Corrigé, reste un détail (T2-14) | `admin-abonnes-premium-1280` : colonne remplie ; « Sync » en 12 px. |
+| R26 | Corrigé dès 1 280 (marges 32 px) | `vannes-visiteur-1280` : respiration correcte ; 768 reste à 16 px (T2-11, accepté sous réserve). |
+| R27 | **Non corrigé : majeur** (voir T2.3 et T2-04) | Voir ci-dessous. |
+| R28 | Corrigé | `carnet-visiteur-1280`. |
+| R29 | Corrigé | `accueil-premium-1280` : deux niveaux de titres. |
+| R30 | Non vérifiable (capture 375 trop réduite) ; sans défaut visible | `glossaire-visiteur-375` |
+| R31 | Corrigé | `glossaire-visiteur-1280` : 2 colonnes, cartes égales, liens alignés en pied. |
+
+## T2.3 Décision R27 : MAJEUR
+
+Les apostrophes droites restantes sont **visibles et gênantes**, car elles cohabitent avec des apostrophes courbes sur le même écran, parfois dans le même bloc :
+- `vanne-fiche-visiteur-1280` : « Mon manager me dit que j'ai beaucoup… » (carte « même catégorie », droite) à 25 px d'un titre « Demain, c’est peut-être… » (courbe).
+- `carnet-visiteur-1280` et `carnet-premium-375` : titre « Carnet d'octobre » (H1 40 px, droite) à côté de « Ça, c’était la réplique offerte » (courbe) ; tout le contenu des situations (« Tu viens d'arriver », « l'heure précise », « d'un ») est en droite alors que les articles du blog sont en courbe : le carnet est un contenu en base qui n'est pas passé par `frTypo`.
+- `quiz-humour-visiteur-1280` : H1 « Quel type d'humour es-tu ? » (droite) ; `a-propos-visiteur-1280` : tout le texte en droite, puis le bloc d'appel du bas (« Observer d’abord, roder ensuite ») en courbe ; `videos-visiteur-1280` : FAQ « l’humour » (courbe) au-dessus de « Notre méthode » (« l'analyse », droite) ; `glossaire-visiteur-1280` : définitions courbes, titre de page et liens d'index droits.
+- Pied de page, sur toutes les pages : « Anatomie d'une vanne » en droite.
+- Guillemets ouvrants isolés en fin de ligne (orphelins) : `accueil-visiteur-375` (carte « 90+ vannes », « Mon père m'a demandé ce que c'était un « / meme ». ») et `accueil-premium-1280` (même phrase). C'est un défaut d'espace insécable manquante après « (aucun mot changé).
+
+Passe typographique à la source, sans changer un mot :
+1. Étendre `frTypo` : `(\p{L})'(\p{L})` devient `$1’$2` ; après « et avant » une espace insécable (U+00A0) ; espace insécable fine (U+202F) avant `: ; ? !` (les deux-points ne sont pas à fine en usage courant : garder U+00A0). Idempotent.
+2. Appliquer `frTypo` à tout texte issu de la base encore non filtré : carnet (liste, fiche, « Au programme »), cartes « même catégorie / même thématique » (vannes, conseils, vidéos), exemples de la carte « Trois outils » de l'accueil, favoris, titres vidéo (le tiret « - » entre nom et titre reste tel quel : c'est une donnée).
+3. Textes en dur : codemod `ts-morph` sur `apps/web/src/**/*.tsx` limité aux `JsxText`, aux attributs `alt`, `title`, `aria-label`, `placeholder` et aux littéraux des fichiers de contenu (FAQ, `metadata` titres et descriptions compris) ; remplacer `(\p{L})'(\p{L})` par `$1’$2`, ne jamais toucher `import`, `className`, `href`, clés d'objet, `data-*`, regex, JSON-LD. Lancer `npx tsc --noEmit` et Jest ; mettre à jour les tests qui cherchent un texte avec apostrophe droite (`getByText`), en normalisant `'` et `’` dans les helpers de test.
+4. Pied de page et titres de la coque : mêmes règles (« Anatomie d’une vanne »).
+5. Test de clôture Playwright, 27 pages x 3 profils : `body.innerText` ne contient aucun `/\p{L}'\p{L}/u` hors iframe YouTube (le titre « L'intelligence » dans la lecture embarquée vient de YouTube, pas de nous) ; aucun nœud texte ne se termine par `«` sans insécable.
+- Critère de sortie : zéro apostrophe droite visible entre deux lettres sur les captures v3, zéro `«` ou `»` isolé en bord de ligne.
+
+## T2.4 Défauts restants
+
+### Majeurs (4)
+
+**T2-01 : /conseils à 1 280 (visiteur, gratuit), dernière carte pleine largeur à moitié vide**
+- Capture : `conseils-visiteur-1280` (3 cartes : 2 puis 1 carte de 1 248 px dont le texte s'arrête à 640 px), `conseils-gratuit-1280`.
+- Zone : liste de 3 cartes gratuites. La règle « carte impaire seule = rangée entière » (D15) s'applique ici et recrée le défaut R01 sur la page de Thomas, avec étoile et partage seuls à l'extrême droite.
+- Correction : ne pas étendre la carte impaire sur /conseils. Retirer `lg:[&>*:last-child:nth-child(odd)]:col-span-2` de la liste conseils (le mur d'appel qui suit est pleine largeur, donc la rangée de 1 carte ne se lit pas comme un trou). Alternative si on veut un bord plein : sur le mur uniquement (visiteur/gratuit, 3 cartes), `xl:grid-cols-3` au lieu de 2. Garder la règle de la dernière carte uniquement sur /blog (cartes courtes, texte pleine carte).
+
+**T2-02 : cartes vannes, étiquette « Révéler la chute » décalée de 12 px et rangée d'action instable**
+- Captures : `vannes-premium-375` (section 01 : « Révéler la chute » à x=45, texte de la vanne et « Clique pour la chute » à x=33), `vannes-visiteur-768`, `vannes-visiteur-1280` (x=39 contre 31), `vannes-gratuit-375`.
+- Zone : pied de chaque carte vanne. Deux défauts : (1) l'étiquette « Révéler la chute » est en retrait de 12 px par rapport au texte de la carte (le padding horizontal du bouton ghost se voit). (2) La rangée n'est pas à la même place d'une carte à l'autre : à 1 280 elle suit directement le texte (carte « Mon casier » : y=467, voisine « Jeudi, en visio » : y=500, 33 px d'écart sur la même rangée), et à 768 elle est tantôt sur une ligne (« Les murs sont fins. »), tantôt sur deux (« Clique pour la chute » en dessous). C'est exactement le « texte qui flotte ».
+- Correction :
+  - Carte : `flex h-full flex-col`; zone texte `flex-1`; rangée d'action `mt-auto pt-4`.
+  - Bouton « Révéler la chute » : `-ml-3` (compense `px-3`) pour aligner le texte sur le bord gauche du contenu de la carte, hauteur `min-h-11`, zone tactile inchangée.
+  - Rangée : `flex-col items-start gap-1` en dessous de `xl` (375 et 768 : toujours 2 lignes, jamais 1) ; `xl:flex-row xl:items-center xl:gap-3` dès 1 280 (toujours 1 ligne). Flèche ronde en `ml-auto self-end xl:self-center`.
+
+**T2-03 : /videos à 768 px, 3e carte seule dans une moitié de rangée**
+- Capture : `videos-visiteur-768` (2 cartes en haut, la 3e à gauche, toute la moitié droite vide jusqu'à la carte d'appel).
+- Correction : `grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3` ; carte impaire seule en `md:max-xl:[&:last-child:nth-child(odd)]:col-span-2` avec disposition `md:grid md:grid-cols-[minmax(0,320px)_1fr] md:gap-5` (vignette à gauche, accordéons à droite) comme la carte vidéo des favoris. À 1 280 la grille 3 colonnes reste.
+
+**T2-04 : typographie : apostrophes droites et guillemets orphelins** : voir T2.3 (R27, majeur).
+
+### Mineurs (12)
+
+| # | Capture(s) | Défaut | Correction |
+|---|---|---|---|
+| T2-05 | `accueil-visiteur-375`, `accueil-premium-375` (sections 03) | Dans « Trois outils », les liens d'exemple (« En cours, j'ai levé la main pour aller / aux toilettes. ») cassent à 275 px alors que la carte offre 300 px : fin de ligne trop courte, orphelin « aux toilettes. » | Retirer le `max-w-*` des liens d'exemple (`w-full`) et ajouter `text-pretty`. |
+| T2-06 | `accueil-visiteur-768`, `accueil-premium-1440` | À 768 px, « Ton contenu du jour » défile à l'horizontale, 2e et 3e cartes coupées à droite (une seule carte lisible) ; sur la vanne du jour, 150 px de vide entre le setup et le bouton. | `md:grid md:grid-cols-3 md:gap-4 md:overflow-visible` dès 768 avec padding de carte `p-4` (3 x 230 px : le texte du conseil passe en `line-clamp-6`), carrousel seulement sous 768. Le vide de la vanne est accepté. |
+| T2-07 | `favoris-premium-375` | Onglets « Tout / Vannes / Conseils » sur une ligne, « Vidéos » seule sur la 2e. | Même ligne défilante que les chips (R03) : `flex-nowrap overflow-x-auto snap-x`, fondu à droite. |
+| T2-08 | `vannes-visiteur-768`, `conseils-visiteur-768`, `videos-visiteur-768`, `profil-premium-768` (pied de page) | « Anatomie d'une vanne » et « Comment devenir drôle » passent sur 2 lignes dans le pied de page à 768 px ; colonne marque sur 4 lignes. | À `md` : `grid-cols-[1.2fr_2fr_1fr]`, liens `whitespace-nowrap`, ou liste Produit en 1 colonne à 768 et 2 colonnes dès `lg`. |
+| T2-09 | `vannes-visiteur-768` | Chip « Autodérision » seule sur la 2e ligne. | Ligne défilante jusqu'à `lg` : `md:flex-nowrap lg:flex-wrap`. |
+| T2-10 | `vannes-visiteur-1280`, `conseils-visiteur-1280`, `videos-visiteur-1280` | Carte floutée : le cadenas se pose par-dessus les deux barres floues au lieu de les compléter. | Cadenas à droite : `flex items-center justify-between`, barres `w-2/3`, cadenas `shrink-0 ml-4`. |
+| T2-11 | `vannes-visiteur-768`, `conseils-visiteur-768` | Marges latérales de 16 px à 768 px (iPad), cartes près du bord. | Accepté tant que l'en-tête manque de place ; envisager `md:px-6` sur la coque en passant le menu en burger jusqu'à 1 024 px (l'en-tête à 768 l'est déjà). |
+| T2-12 | `favoris-premium-1280`, `favoris-premium-768` | Dans les cartes vidéo, 250 px de vide sous la vignette (colonne gauche). | Les deux accordéons (« Ce que tu vas apprendre », « Exercice pratique ») en `lg:col-span-2` sous la rangée vignette + texte. |
+| T2-13 | `profil-premium-375` | « Gérer mon abonnement », « Changer de formule », « Résilier ton contrat » à environ 28 px de haut. À mesurer, à ne pas supposer : `audit.md` section 7 annonce 44 px mesurés, le rendu de la capture dit moins ; réconcilier par une mesure sur la capture elle-même (hauteur de la boîte du bouton, pas du texte). Si 44 px confirmés, fermer. | `min-h-11 px-4` sous 768 ; mesure Playwright des cibles de /profil. |
+| T2-14 | `admin-semaine-375`, `admin-abonnes-premium-1280` | Valeurs longues multi-lignes encore alignées à droite (« repartie (étape 1 : 1 ; 1→2 : 1 sur 1 … ») ; lien « Sync » à 12 px. | Valeurs longues `text-left` en pile sous le libellé comme à 1 280 ; « Sync » `min-h-11 px-3` sous 768. |
+| T2-15 | `vanne-fiche-visiteur-1280`, `conseil-fiche-visiteur-1280` | Cartes « même catégorie / thématique » : texte collé en haut, vide en bas quand le titre tient sur 1 ligne. | `flex flex-col justify-center` (ou `items-start justify-center`) sur ces cartes `h-full`. |
+| T2-16 | `register-visiteur-375` | Libellé « Créer mon compte et passer au paiement » sur 2 lignes. | `text-balance` ; accepté, pas de changement de largeur nécessaire. |
+
+## T2.5 Notes par page (tour 2)
+
+| Page | Note | Ce qui retient la note |
+|---|---|---|
+| Accueil | 8,5 | R27 (« orphelin), T2-05, T2-06 |
+| /abonnement | 9,5 | RAS visible |
+| /register | 9 | T2-16 |
+| /login | 9,5 | RAS |
+| /onboarding et résultat | 9 | RAS bloquant |
+| /vannes | 8 | T2-02, T2-09 |
+| Fiche vanne | 8,5 | R27, T2-15 |
+| /conseils | 8,5 | T2-01 |
+| Fiche conseil | 9 | R27, T2-15 |
+| /videos | 8,5 | T2-03 |
+| Fiche vidéo | 9,5 | RAS (titre dans l'iframe : YouTube) |
+| /parcours et orientation | 9 | RAS |
+| Étape 1 et fin d'étape 1 | 9 | RAS |
+| /carnet | 8,5 | R27 (carnet entier en apostrophes droites) |
+| /glossaire | 9,5 | R27 (index) |
+| /a-propos | 9 | R27 |
+| /lettre | 9,5 | R27 mineur |
+| /blog et article | 9,5 | RAS (article propre sur les découpes 375) |
+| /profil | 9 | T2-13 |
+| /favoris | 8,5 | T2-07, T2-12 |
+| /quiz-humour | 9 | R27 (H1) |
+| Menu mobile, fenêtre Premium | 9,5 | RAS |
+| Admin : Semaine | 8,5 | T2-14 |
+| Admin : Abonnés (lettre, premium) | 9 | T2-14 |
+
+## T2.6 Critère de passage à 10/10
+
+Les 4 majeurs (T2-01 à T2-04) corrigés, plus T2-05, T2-07, T2-09 et T2-13 (rapides, visibles), puis recapture v3 des pages touchées : /conseils, /vannes, /videos (768 et 1 280), /carnet, accueil (375 et 768), /favoris, quiz, à propos. Les autres mineurs peuvent partir avec une date. Sans défaut visible à cette relecture, la note est 10.
+
+---
 **Handoff → @orchestrator (puis @fullstack)**
 - Fichier : `/home/user/Marrant/.claude/worktrees/agent-a6072b0ac19da7774/docs/design/revue-visuelle-s21/verdict-design.md`
 - Décisions : accueil étiré avec pied commun ; lien étendu sur /conseils, zone 44 px sur /videos ; ligne « Lettre gratuite » centrée et bouton outline ; filtre `frTypo` étendu aux apostrophes (tiret : filet de sécurité + passe copy).
