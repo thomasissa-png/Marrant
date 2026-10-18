@@ -28,9 +28,6 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
   });
 
   it.each([
-    "app/(dashboard)/vannes/[slug]/page.tsx",
-    "app/(dashboard)/conseils/[slug]/page.tsx",
-    "app/(dashboard)/videos/[slug]/page.tsx",
     "components/favoris/favoris-list.tsx",
   ])("%s : bouton du mur au libellé E4, plus d'ancien libellé", (rel) => {
     const src = lire(rel);
@@ -54,12 +51,13 @@ describe("E4, le mur (duel 1, tour 1, 3/3)", () => {
     expect(src).not.toContain(">Débloquer<");
   });
 
-  it("fiches conseil et vidéo : vrai bouton primaire de 44 px, plus de classes faites à la main", () => {
+  it("fiches conseil et vidéo : vrai bouton primaire (s21 : bloc BlocExercice), plus de classes faites à la main", () => {
     for (const rel of ["app/(dashboard)/conseils/[slug]/page.tsx", "app/(dashboard)/videos/[slug]/page.tsx"]) {
       const src = lire(rel);
-      expect(src).toContain('buttonVariants({ variant: "primary" }), "h-auto min-h-11');
+      expect(src).toContain("<BlocExercice");
       expect(src).not.toContain("rounded-lg bg-accent-secondary-hover px-4 py-2");
     }
+    expect(lire("components/premium/bloc-exercice.tsx")).toContain('buttonVariants({ variant: "primary", size: "lg" })');
   });
 });
 

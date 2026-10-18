@@ -162,6 +162,9 @@ export const BLOC_EXERCICE: Readonly<
   },
 };
 
+/** Titre du bloc pour un abonné (l'exercice s'affiche, aucun bouton). */
+export const BLOC_EXERCICE_ABONNE_TITRE = "À toi de jouer";
+
 // ─── B11. Fenêtre Premium (tour 4, B, 3-0) ──────────────────────────────────
 
 /** Geste qui ouvre la fenêtre. `carte` = carte floutée d'une liste. */

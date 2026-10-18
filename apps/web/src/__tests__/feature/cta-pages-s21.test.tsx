@@ -4,12 +4,17 @@
  * hiérarchie des boutons (un plein, un contour, le reste en lien).
  */
 import { render, screen } from "@testing-library/react";
+import { useSession } from "next-auth/react";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
 import {
+  BLOC_EXERCICE,
   contourEtape1,
   lignePrixGarantie,
   MUR_LISTE,
   MUR_PARCOURS,
+  type FicheType,
   type ListeMur,
 } from "@/config/textes/cta-pages";
 import { FREE_JOKE_LIMIT, FREE_TIP_LIMIT, FREE_VIDEO_LIMIT, PARCOURS_COUNT } from "@/config/premium";
@@ -69,5 +74,53 @@ describe("B7 : murs des listes", () => {
     render(<MurListeLimite liste={liste} />);
     expect(screen.getByText(MUR_LISTE[liste].limite)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: MUR_LISTE[liste].filtres })).toBeInTheDocument();
+  });
+});
+
+// ─── B8 à B10 : fiches ──────────────────────────────────────────────────────
+const nextAuth = { useSession: useSession as unknown as jest.Mock };
+jest.mock("next-auth/react", () => ({ useSession: jest.fn(() => ({ status: "unauthenticated", data: null })) }));
+
+describe("B8 à B10 : bloc d'exercice des fiches", () => {
+  const TYPES: FicheType[] = ["vanne", "conseil", "video"];
+
+  it.each(TYPES)("%s : un plein Premium (retour fiche), un contour étape 1, « Voir toutes » en lien", (type) => {
+    const { container } = render(
+      <BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" annuel exercice="Consigne" />,
+    );
+    const t = BLOC_EXERCICE[type];
+    expect(screen.getByRole("heading", { name: t.titre })).toBeInTheDocument();
+    const plein = screen.getByRole("link", { name: t.bouton });
+    const href = new URL(plein.getAttribute("href") ?? "", "https://x.fr");
+    expect(href.pathname).toBe("/abonnement");
+    expect(href.searchParams.get("returnTo")).toBe(`/x/${type}`);
+    expect(href.searchParams.get("src")).toBe(`exercice-${type}`);
+    expect(plein.getAttribute("data-fiche-cta")).toBe("premium");
+    expect(screen.getByRole("link", { name: contourEtape1("confiance") }).getAttribute("href")).toMatch(
+      /^\/parcours\/confiance\?src=fiche/,
+    );
+    expect(screen.getByRole("link", { name: t.toutVoir }).getAttribute("href")).toBe(t.toutVoirHref);
+    expect(container.textContent).toContain(lignePrixGarantie(true));
+    // L'exercice n'est jamais montré à un non-abonné.
+    expect(container.textContent).not.toContain("Consigne");
+  });
+
+  it("abonné : l'exercice s'affiche, aucun bouton ; sans exercice, rien", () => {
+    nextAuth.useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
+    const { container, rerender } = render(
+      <BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" annuel={false} exercice="Consigne" />,
+    );
+    expect(screen.getByText("Consigne")).toBeInTheDocument();
+    expect(screen.queryAllByRole("link")).toHaveLength(0);
+    rerender(<BlocExercice type="conseil" returnTo="/conseils/a" parcours="repartie" annuel={false} />);
+    expect(container.innerHTML).toBe("");
+    nextAuth.useSession.mockReturnValue({ status: "unauthenticated", data: null });
+  });
+
+  it("parcours du contour : étape de la fiche d'abord, puis catégorie, sinon Répartie", () => {
+    expect(parcoursPourFiche([{ slug: "confiance", etape: 3 }, { slug: "boulot", etape: 1 }], "COUPLE")).toBe("boulot");
+    expect(parcoursPourFiche([], "BOULOT")).toBe("boulot");
+    expect(parcoursPourFiche([], "COUPLE")).toBe("repartie");
+    expect(parcoursPourFiche([], null)).toBe("repartie");
   });
 });
