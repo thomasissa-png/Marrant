@@ -13,6 +13,7 @@ import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
+import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -47,7 +48,7 @@ function saveResult(profile: HumorProfileType): void {
   );
 }
 
-function ResultCard({ profile }: { profile: HumorProfileResult }) {
+function ResultCard({ profile, annuel }: { profile: HumorProfileResult; annuel: boolean }) {
   const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
@@ -99,33 +100,33 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
             <p className="mt-1 text-sm text-text-secondary">{QUIZ_HUMOUR_PARCOURS.raison[profile.type]}</p>
           </div>
 
-          {/* Lien stylé en bouton : plus de <button> imbriqué dans un <a> (T44). */}
+          {/* s21 B12 (froid) : phrase de pont, plein vers l'étape 1 du parcours conseillé,
+              lien fort vers Premium (retour au parcours conseillé), ligne Premium. */}
+          <p className="w-full text-left text-sm text-text-secondary">{QUIZ_HUMOUR_CTA.phrase(profile.recommendedParcours)}</p>
           <Link
             href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
             className={buttonVariants({
-              variant: "outline-accent",
+              variant: "primary",
               size: "lg",
-              className: "w-full",
+              className: "h-auto min-h-12 w-full whitespace-normal py-2 text-center",
             })}
           >
-            {QUIZ_HUMOUR_PARCOURS.bouton}
+            {QUIZ_HUMOUR_CTA.bouton(profile.recommendedParcours)}
           </Link>
-
-          {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé.
-              Lot 2 s21 (deux niveaux) : Premium en plein, l'étape 1 gratuite en contour. */}
           <Link
             href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
+            className="inline-flex min-h-11 items-center font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4"
           >
-            Accéder aux parcours complets
+            {QUIZ_HUMOUR_CTA.lien}
           </Link>
+          <p className="text-center text-xs text-text-muted">{QUIZ_HUMOUR_CTA.premium(annuel)}</p>
         </div>
       </CardContent>
     </Card>
   );
 }
 
-export function ViralQuiz() {
+export function ViralQuiz({ annualAvailable = false }: { annualAvailable?: boolean } = {}) {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<
     Partial<Record<HumorProfileType, number>>[]
@@ -172,7 +173,7 @@ export function ViralQuiz() {
     return (
       // Revue design s21 m8 : marges explicites (un `space-y-4` écrasait le `mt-6` de la lettre).
       <div>
-        <ResultCard profile={result} />
+        <ResultCard profile={result} annuel={annualAvailable} />
         {lettre(result)}
         <div className="mt-4 text-center">
           <Button variant="ghost" size="sm" onClick={handleRetake}>
@@ -186,7 +187,7 @@ export function ViralQuiz() {
   if (result) {
     return (
       <>
-        <ResultCard profile={result} />
+        <ResultCard profile={result} annuel={annualAvailable} />
         {lettre(result)}
       </>
     );

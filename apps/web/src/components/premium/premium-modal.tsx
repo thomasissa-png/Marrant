@@ -1,17 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Modal } from "@/components/ui/modal";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { toast } from "@/components/ui/toast";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
-import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import {
   FENETRE_CHARGEMENT,
@@ -55,40 +54,14 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
   const { status } = useSession();
   const t = FENETRE_PREMIUM[GESTE[reason]][contenu];
   const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
-  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
-  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
+  const { startCheckout, isLoading: isCheckoutLoading, conflict } = usePremiumCheckout(`modale-${reason}`);
 
   // Mur vu (audit s16 reco 17) : une fois par ouverture, avec le geste qui l'a ouvert.
   useEffect(() => {
     if (isOpen) trackUmami("mur-vu", { type: `modale-${reason}`, src: "modale" });
   }, [isOpen, reason]);
 
-  const handleCheckout = async () => {
-    setIsCheckoutLoading(true);
-    setConflict(null);
-    trackUmami("abonnement-clic", { formule: "mensuel", src: `modale-${reason}`, declencheur: "manuel", statut: "membre" });
-    try {
-      const target = resolveReturnTo();
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(target ? { returnTo: target } : {}),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        window.location.href = data.url;
-        return;
-      }
-      const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
-      if (conflit) setConflict(conflit);
-      else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
-    } catch {
-      toast("Connexion perdue, réessaie", "error");
-    } finally {
-      setIsCheckoutLoading(false);
-    }
-  };
+  const handleCheckout = () => startCheckout(resolveReturnTo());
 
   const plein = cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal py-2 text-center");
 

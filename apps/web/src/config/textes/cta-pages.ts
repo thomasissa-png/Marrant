@@ -268,6 +268,10 @@ export const QUIZ_ORIENTATION_CTA = {
   bouton: (slug: ParcoursSlug) => `Suivre ${PARCOURS_NOMS[slug]} en entier · ${PREMIUM_PRICE_LABEL}`,
   garantie:
     "Prix TTC. Tu résilies en ligne quand tu veux, et tu as 14 jours pour te faire rembourser ton premier paiement.",
+  /** Lien discret (existant) vers l'étape 1 du parcours conseillé ; plein pour un abonné. */
+  commencer: "Voir par où commencer",
+  /** Lien discret (existant). */
+  refaire: "Refaire le quiz",
 } as const;
 
 // ─── B14. Fin d'étape 1 et carte « Étape 2 » (tour 4, A, 3-0) ───────────────
