@@ -366,7 +366,7 @@ export function VideosGrid({ initialData = null, initialPage = 1, annualAvailabl
       )}
 
       {/* Premium Modal */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="video" />
 
       {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
       <ListPagination

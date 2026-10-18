@@ -217,8 +217,11 @@ export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<Fich
   },
 };
 
-/** Ligne de prix de la fenêtre (« 2,99 € TTC / mois »). */
-export const FENETRE_PRIX = `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC / mois`;
+/** Ligne de prix de la fenêtre (« 2,99 € TTC / mois ») : montant en gros, suffixe en petit. */
+export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS), suffixe: "TTC / mois" } as const;
+
+/** Bouton pendant l'ouverture du paiement (compte connecté). */
+export const FENETRE_CHARGEMENT = "On t'emmène au paiement…";
 
 /** Unique ligne de garantie de la fenêtre (plus de mentions juridiques en doublon, choix du 18/10). */
 export const FENETRE_GARANTIE =

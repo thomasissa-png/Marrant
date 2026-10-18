@@ -402,7 +402,7 @@ export function VannesList({ initialData = null, initialPage = 1, annualAvailabl
       )}
 
       {/* Premium Modal */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="vanne" />
 
       {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
       <ListPagination

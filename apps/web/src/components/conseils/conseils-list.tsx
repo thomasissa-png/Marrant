@@ -377,7 +377,7 @@ export function ConseilsList({ initialData = null, initialPage = 1, annualAvaila
       )}
 
       {/* Premium Modal */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="conseil" />
 
       {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
       <ListPagination
