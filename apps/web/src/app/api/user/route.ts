@@ -6,7 +6,7 @@ import { z } from "zod";
 import { deleteAccount, StripeCancelError } from "@/lib/account";
 import { refuserSiAutreSite } from "@/lib/same-site";
 import { effectiveStreak } from "@/lib/progression";
-import { MOT_CONFIRMATION_SUPPRESSION, TEXTES_API, TEXTES_SUPPRESSION } from "@/config/textes/compte";
+import { MOT_CONFIRMATION_SUPPRESSION, PRENOM_MAX, TEXTES_API, TEXTES_PRENOM, TEXTES_SUPPRESSION } from "@/config/textes/compte";
 
 export async function GET() {
   try {
@@ -76,6 +76,51 @@ export async function GET() {
     });
   } catch (error) {
     console.error("[API /user]", error);
+    return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
+  }
+}
+
+/**
+ * Prénom (s21 concision, 18/10) : plus demandé à l'inscription, renseigné ensuite dans
+ * /profil. Vide → null (les e-mails disent alors « Salut, »). Colonne `User.name` déjà
+ * nullable : aucune migration.
+ */
+const prenomSchema = z.object({
+  name: z
+    .string()
+    .transform((v) => v.trim().replace(/\s+/g, " "))
+    .refine((v) => v === "" || v.length >= 2, TEXTES_PRENOM.tropCourt)
+    .refine((v) => v.length <= PRENOM_MAX, TEXTES_API.donneesInvalides),
+});
+
+/** PATCH /api/user : enregistre (ou efface) le prénom du compte connecté. */
+export async function PATCH(request: Request) {
+  const refus = refuserSiAutreSite(request, "PATCH /api/user");
+  if (refus) return refus;
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as { id?: string } | undefined)?.id;
+  if (!userId) {
+    return NextResponse.json({ error: TEXTES_API.nonConnecte }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => null);
+  const parsed = prenomSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: parsed.error.errors[0]?.message ?? TEXTES_API.donneesInvalides },
+      { status: 400 },
+    );
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: { name: parsed.data.name || null },
+      select: { name: true },
+    });
+    return NextResponse.json({ name: user.name });
+  } catch (error) {
+    console.error("[API /user PATCH]", error);
     return NextResponse.json({ error: TEXTES_API.erreurServeur }, { status: 500 });
   }
 }

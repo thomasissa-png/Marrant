@@ -3,6 +3,7 @@
  * config/textes/cta-pages.ts (source unique), nombres lus à la source,
  * hiérarchie des boutons (un plein, un contour, le reste en lien).
  */
+import { TEXTES_PRENOM } from "@/config/textes/compte";
 import { render, screen } from "@testing-library/react";
 import { useSession } from "next-auth/react";
 import { MurListe, MurListeLimite } from "@/components/premium/mur-liste";
@@ -189,7 +190,8 @@ describe("B17 : prénom facultatif (validation client)", () => {
 
   it("textes validés (tour 16) : bouton, libellé du prénom, lien d'étape gratuite nommé", () => {
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
-    expect(REGISTER_CTA.prenomLabel).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
+    // s21 concision : libellé du prénom déplacé dans /profil (TEXTES_PRENOM), texte inchangé.
+    expect(TEXTES_PRENOM.label).toBe("Prénom (facultatif, pour te saluer dans nos e-mails)");
     expect(REGISTER_CTA.lienEtape1("confiance")).toBe(
       "Tu préfères lire d'abord ? L'étape 1 du parcours Confiance, gratuite et sans compte",
     );

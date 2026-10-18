@@ -32,11 +32,10 @@ test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
     }
   });
 
-  test("/register : prénom facultatif et en dernier, bouton du tour 4, lien d'étape gratuite", async ({ page }) => {
+  test("/register : sans prénom (s21 concision), bouton du tour 4, lien d'étape gratuite", async ({ page }) => {
     await page.goto("/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance");
     const ids = await page.locator("form input").evaluateAll((els) => els.map((e) => e.id));
-    expect(ids.indexOf("password")).toBeLessThan(ids.indexOf("name"));
-    expect(await page.getByLabel(REGISTER_CTA.prenomLabel).getAttribute("required")).toBeNull();
+    expect(ids).toEqual(["email", "password"]);
     await expect(page.getByRole("button", { name: REGISTER_CTA.bouton })).toBeVisible();
     const lien = page.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
     expect(lireUrl(await lien.getAttribute("href")).pathname).toBe("/parcours/confiance");

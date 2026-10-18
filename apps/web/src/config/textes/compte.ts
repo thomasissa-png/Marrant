@@ -136,3 +136,23 @@ export const TEXTES_SUPPRESSION = {
   echec: "La suppression n'a pas abouti, rien n'a été effacé. Réessaie dans un instant.",
   succes: "Ton compte est supprimé. Merci d'être passé par ici.",
 } as const;
+
+// ---------------------------------------------------------------------------
+// Profil : prénom (s21 concision, choix de Thomas du 18/10 : le prénom n'est plus
+// demandé à l'inscription, il se renseigne après coup dans /profil)
+// ---------------------------------------------------------------------------
+
+// Libellé et indication : textes existants de /register (s21 B17), déplacés tels quels.
+// [PROVISOIRE] titre, bouton et messages : microtextes minimaux, à remplacer par @copywriter.
+export const TEXTES_PRENOM = {
+  titre: "Ton prénom",
+  label: "Prénom (facultatif, pour te saluer dans nos e-mails)",
+  placeholder: "Ton prénom",
+  bouton: "Enregistrer",
+  enCours: "On enregistre…",
+  succes: "C'est noté.",
+  tropCourt: "Ton prénom doit faire au moins 2 caractères.",
+} as const;
+
+/** Longueur maximale du prénom enregistré (au-delà, `firstNameFrom` ne l'utilise pas dans les e-mails). */
+export const PRENOM_MAX = 40;

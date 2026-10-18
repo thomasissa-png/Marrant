@@ -23,7 +23,6 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
   await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
@@ -42,18 +41,25 @@ describe("RegisterPage", () => {
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
     expect(screen.getByText("Premium, 2,99 € TTC par mois, annulable à tout moment.")).toBeInTheDocument();
     expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
-    expect(screen.getByLabelText(/^Prénom/)).toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Prénom/)).not.toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
   });
 
-  it("s21 B17 : prénom facultatif et en dernier, lien d'étape gratuite sous « Déjà un compte ? »", () => {
+  it("s21 concision : plus de champ prénom, Google en premier, lien d'étape gratuite sous « Déjà un compte ? »", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
     const { container } = render(<RegisterPage />);
     const ids = Array.from(container.querySelectorAll("input")).map((i) => i.id);
-    expect(ids.indexOf("email")).toBeLessThan(ids.indexOf("password"));
-    expect(ids.indexOf("password")).toBeLessThan(ids.indexOf("name"));
-    expect(screen.getByLabelText(REGISTER_CTA.prenomLabel)).not.toBeRequired();
+    expect(ids).toEqual(["email", "password"]);
+    expect(container.querySelector("#name")).toBeNull();
+    // Google avant le premier champ et avant le bouton d'envoi.
+    const form = container.querySelector("form")!;
+    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
+    const email = screen.getByLabelText("Email");
+    const envoi = screen.getByRole("button", { name: REGISTER_CTA.bouton });
+    expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(google.compareDocumentPosition(envoi) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(form.contains(google)).toBe(true);
     const lien = screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
     expect(lien).toHaveAttribute("href", "/parcours/confiance?src=abonnement#etape-1");
     const html = container.innerHTML;
@@ -66,7 +72,7 @@ describe("RegisterPage", () => {
     expect(screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("repartie") })).toBeInTheDocument();
   });
 
-  it("s21 B17 : inscription sans prénom envoyée telle quelle", async () => {
+  it("s21 concision : inscription envoyée sans prénom (e-mail et mot de passe seuls)", async () => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "u" } }) });
     mockSignIn.mockResolvedValue({ ok: true });
     render(<RegisterPage />);
@@ -75,7 +81,6 @@ describe("RegisterPage", () => {
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
     expect(JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)).toEqual({
-      name: "",
       email: "jean@test.fr",
       password: "password1234545",
     });
@@ -119,8 +124,7 @@ describe("RegisterPage", () => {
 
     render(<RegisterPage />);
 
-    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -128,7 +132,7 @@ describe("RegisterPage", () => {
       expect(global.fetch).toHaveBeenCalledWith("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password1234545" }),
+        body: JSON.stringify({ email: "jean@test.fr", password: "password1234545" }),
       });
     });
 
@@ -149,8 +153,7 @@ describe("RegisterPage", () => {
     mockSignIn.mockResolvedValue({ error: null });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -167,8 +170,7 @@ describe("RegisterPage", () => {
     });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
@@ -181,8 +183,7 @@ describe("RegisterPage", () => {
   it("shows loading state", async () => {
     (global.fetch as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
     await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 

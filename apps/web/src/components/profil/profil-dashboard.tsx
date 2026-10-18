@@ -16,6 +16,7 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { AbonnementCard } from "@/components/profil/abonnement-card";
 import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
+import { PrenomCard } from "@/components/profil/prenom-card";
 import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
@@ -366,6 +367,9 @@ export function ProfilDashboard() {
         isCheckoutLoading={isCheckoutLoading}
         abonnement={abonnement}
       />
+
+      {/* s21 concision (18/10) : prénom renseigné après coup (plus demandé à l'inscription). */}
+      <PrenomCard key={user.id} prenom={user.name} />
 
       {/* s16 reco 5 : suppression du compte en libre-service */}
       <SupprimerCompteCard

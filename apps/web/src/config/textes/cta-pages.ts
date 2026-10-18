@@ -490,10 +490,8 @@ export const ABONNEMENT_CTA = {
 // ─── B17. Page /register (validé) ───────────────────────────────────────────
 
 export const REGISTER_CTA = {
-  /** [S34] libellé du champ prénom (facultatif, en dernier). */
-  prenomLabel: "Prénom (facultatif, pour te saluer dans nos e-mails)",
-  /** Indication dans le champ prénom (existante). */
-  prenomPlaceholder: "Ton prénom",
+  // s21 concision (18/10) : champ prénom retiré de /register ; libellé et indication
+  // déplacés dans TEXTES_PRENOM (config/textes/compte.ts, carte « Ton prénom » de /profil).
   /** [S36] plein du formulaire. */
   bouton: "Créer mon compte et passer au paiement",
   /** [S35] lien discret sous « Déjà un compte ? ». */

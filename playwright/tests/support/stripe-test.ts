@@ -76,7 +76,7 @@ export async function inscriptionJusquAuCheckout(page: Page, email: string, plan
   // s21 B16 : « Ouvrir les N parcours · prix », ou « Ouvrir {P} et les N autres · prix » depuis un parcours.
   await page.getByRole("link", { name: /^(Commencer à|Ouvrir (les \d+ parcours|.+ et les \d+ autres)\s·)/ }).click();
   await expect(page).toHaveURL(/\/register\?/);
-  await page.locator("#name").fill("Testeur E2E");
+  // s21 concision : plus de champ prénom sur /register (renseigné ensuite dans /profil).
   await page.locator("#email").fill(email);
   await page.locator("#password").fill(MOT_DE_PASSE);
   // s21 B17 : « Créer mon compte et passer au paiement » (avant : « Créer mon compte »).

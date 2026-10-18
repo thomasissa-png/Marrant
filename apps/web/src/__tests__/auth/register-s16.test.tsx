@@ -19,7 +19,6 @@ const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText(/^Prénom/), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
   await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
