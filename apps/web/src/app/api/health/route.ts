@@ -41,9 +41,9 @@ import { prisma } from "@/lib/prisma";
 import { SONNET_MODEL, OPUS_MODEL, DEFAULT_EFFORT } from "@/lib/ai/client";
 import { todayUTC } from "@/lib/ai/date-utils";
 import {
+  getStockCoverage,
   isContentGenerationEnabled,
-  NEVER_USED_ACTIVE_WHERE,
-  NEVER_USED_JOKE_WHERE,
+  type StockCoverage,
 } from "@/lib/scheduler/prepared-content";
 
 export const dynamic = "force-dynamic";
@@ -66,11 +66,8 @@ const VIDEO_FRESHNESS_THRESHOLD_MS = 35 * 24 * 60 * 60 * 1000;
 // jour doit exister. Avant 7 h UTC, celui de la veille suffit.
 const DAILY_CONTENT_DEADLINE_HOUR_UTC = 7;
 
-// Mode stock : moins de 14 jours de vannes ou de conseils jamais servis =
-// "stale". À 0, le site ne casse pas : ensureDailyContentFromStock recycle
-// d'anciennes vannes / anciens conseils (il se répète). Les vidéos sont
-// recyclées par conception : compte exposé, sans seuil.
-const STOCK_MIN_DAYS = 14;
+// Mode stock : seuil du stock neuf (STOCK_MIN_DAYS = 14 j) et calcul dans
+// getStockCoverage (prepared-content), partagés avec le rapport du lundi.
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -92,20 +89,7 @@ interface DailyTodayCheck {
   status: "ok" | "stale";
 }
 
-interface StockCheck {
-  /** Vannes validées jamais servies (même filtre que pickJoke(true)). */
-  jokesNeverUsed: number | null;
-  /** Conseils actifs jamais servis (même filtre que pickActive("tip", true)). */
-  tipsNeverUsed: number | null;
-  /** Vidéos actives jamais servies : information, recyclées par conception. */
-  videosNeverUsed: number | null;
-  /** DailyContent déjà datés après aujourd'hui (calendrier préparé). */
-  plannedDaysAhead: number | null;
-  /** Jours couverts = plannedDaysAhead + jamais servis ; "stale" sous minDays. */
-  jokeDaysLeft: number | null;
-  tipDaysLeft: number | null;
-  minDays: number;
-  status: "ok" | "stale";
+interface StockCheck extends StockCoverage {
   /** Comportement à 0 : le site se répète, il ne casse pas. */
   note: string;
 }
@@ -234,32 +218,10 @@ async function checkDailyToday(now: number): Promise<DailyTodayCheck> {
   };
 }
 
-/**
- * Mode stock : vannes et conseils jamais servis, mêmes filtres que le cron.
- * Les jours déjà planifiés (DailyContent daté après aujourd'hui) comptent
- * aussi : leurs vannes ne sont plus « jamais servies » mais couvrent ces jours.
- */
+/** Mode stock : calcul partagé avec le rapport du lundi (prepared-content). */
 async function checkStock(): Promise<StockCheck> {
-  const [jokesNeverUsed, tipsNeverUsed, videosNeverUsed, plannedDaysAhead] = await Promise.all([
-    prisma.joke.count({ where: NEVER_USED_JOKE_WHERE }).catch(() => null),
-    prisma.tip.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
-    prisma.video.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
-    prisma.dailyContent.count({ where: { date: { gt: todayUTC() } } }).catch(() => null),
-  ]);
-  // 1 vanne + 1 conseil par jour : jours couverts = planifiés + jamais servis.
-  const days = (n: number | null) => (n === null || plannedDaysAhead === null ? null : plannedDaysAhead + n);
-  const jokeDaysLeft = days(jokesNeverUsed);
-  const tipDaysLeft = days(tipsNeverUsed);
-  const enough = (d: number | null) => d !== null && d >= STOCK_MIN_DAYS;
   return {
-    jokesNeverUsed,
-    tipsNeverUsed,
-    videosNeverUsed,
-    plannedDaysAhead,
-    jokeDaysLeft,
-    tipDaysLeft,
-    minDays: STOCK_MIN_DAYS,
-    status: enough(jokeDaysLeft) && enough(tipDaysLeft) ? "ok" : "stale",
+    ...(await getStockCoverage(todayUTC())),
     note: "À 0, le cron recycle d'anciennes vannes et d'anciens conseils : le site se répète, il ne casse pas. Vidéos recyclées par conception (sans seuil).",
   };
 }

@@ -14,8 +14,17 @@ jest.mock("@/lib/job-lock", () => ({
 const userCount = jest.fn();
 const subscriptionCount = jest.fn();
 const blogFindMany = jest.fn();
+// s21 : stock du contenu du jour (getStockCoverage, partagé avec /api/health).
+const jokeCount = jest.fn();
+const tipCount = jest.fn();
+const videoCount = jest.fn();
+const dailyContentCount = jest.fn();
 jest.mock("@/lib/prisma", () => ({
   prisma: {
+    joke: { count: (...a: unknown[]) => jokeCount(...a) },
+    tip: { count: (...a: unknown[]) => tipCount(...a) },
+    video: { count: (...a: unknown[]) => videoCount(...a) },
+    dailyContent: { count: (...a: unknown[]) => dailyContentCount(...a) },
     user: { count: (...a: unknown[]) => userCount(...a) },
     subscription: { count: (...a: unknown[]) => subscriptionCount(...a) },
     blogArticle: { findMany: (...a: unknown[]) => blogFindMany(...a) },
@@ -63,6 +72,11 @@ beforeEach(() => {
     { slug: "blagues-poisson-d-avril-adultes", isPublished: false, publishedAt: new Date("2027-03-31T22:30:00Z") },
   ]);
   sendAdminHtmlEmail.mockResolvedValue(undefined);
+  jokeCount.mockResolvedValue(40);
+  tipCount.mockResolvedValue(40);
+  videoCount.mockResolvedValue(0);
+  dailyContentCount.mockResolvedValue(0);
+  delete process.env.CONTENT_GENERATION_ENABLED;
   warn = jest.spyOn(console, "warn").mockImplementation(() => {});
   error = jest.spyOn(console, "error").mockImplementation(() => {});
   jest.spyOn(console, "log").mockImplementation(() => {});
@@ -107,6 +121,40 @@ describe("runWeeklyVisitsReport", () => {
     // Audit s16 (reco 17) : funnel dans le même e-mail, sans nouvel envoi.
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Funnel de la semaine"));
     expect(sendAdminHtmlEmail).toHaveBeenCalledTimes(1);
+  });
+
+  describe("s21 : ligne « Stock du contenu du jour » (décision Thomas 18/10)", () => {
+    const html = () => sendAdminHtmlEmail.mock.calls[0][1] as string;
+
+    it("14 jours ou plus : ligne discrète, pas d'alerte", async () => {
+      jokeCount.mockResolvedValue(10);
+      dailyContentCount.mockResolvedValue(4); // 10 neuves + 4 jours planifiés = 14
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).toContain("Stock du contenu du jour : 14 jours de vannes et 44 jours de conseils jamais utilisés.");
+      expect(html()).not.toContain("Nouveau lot à préparer");
+    });
+
+    it("moins de 14 jours : « Nouveau lot à préparer », même calcul que /api/health", async () => {
+      tipCount.mockResolvedValue(9);
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).toContain("Nouveau lot à préparer : il reste 40 jours de vannes et 9 jours de conseils jamais utilisés (seuil 14 jours).");
+      expect(html()).toContain("le site recycle");
+    });
+
+    it("base illisible : ligne d'avertissement, le rapport part quand même", async () => {
+      jokeCount.mockRejectedValue(new Error("db"));
+      const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(res.status).toBe("sent");
+      expect(html()).toContain("Stock du contenu du jour : illisible");
+    });
+
+    it("génération IA activée : aucune ligne de stock", async () => {
+      process.env.CONTENT_GENERATION_ENABLED = "true";
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).not.toContain("Stock du contenu du jour");
+      expect(jokeCount).not.toHaveBeenCalled();
+      delete process.env.CONTENT_GENERATION_ENABLED;
+    });
   });
 
   it("section réseaux sociaux « prévu contre publié » sur la semaine du rapport (s15)", async () => {

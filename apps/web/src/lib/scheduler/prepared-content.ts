@@ -42,6 +42,56 @@ export const NEVER_USED_ACTIVE_WHERE = {
   dailyContents: { none: {} },
 } satisfies Prisma.TipWhereInput & Prisma.VideoWhereInput;
 
+/** Moins de jours de stock neuf que ce seuil = nouveau lot à préparer. */
+export const STOCK_MIN_DAYS = 14;
+
+export interface StockCoverage {
+  /** Vannes validées jamais servies (NEVER_USED_JOKE_WHERE). */
+  jokesNeverUsed: number | null;
+  /** Conseils actifs jamais servis (NEVER_USED_ACTIVE_WHERE). */
+  tipsNeverUsed: number | null;
+  /** Vidéos actives jamais servies : information, recyclées par conception. */
+  videosNeverUsed: number | null;
+  /** DailyContent déjà datés après `today` (calendrier préparé). */
+  plannedDaysAhead: number | null;
+  /** Jours couverts = plannedDaysAhead + jamais servis (null si illisible). */
+  jokeDaysLeft: number | null;
+  tipDaysLeft: number | null;
+  minDays: number;
+  /** "stale" sous STOCK_MIN_DAYS (vannes OU conseils) ou si illisible. */
+  status: "ok" | "stale";
+}
+
+/**
+ * Jours de contenu du jour encore neufs, partagé par /api/health et le
+ * rapport du lundi. 1 vanne + 1 conseil par jour ; les jours déjà planifiés
+ * comptent (leurs vannes ne sont plus « jamais servies » mais couvrent ces
+ * jours). À 0, ensureDailyContentFromStock recycle : le site se répète, il ne
+ * casse pas. Ne lève jamais (compte illisible = null).
+ */
+export async function getStockCoverage(today: Date): Promise<StockCoverage> {
+  const [jokesNeverUsed, tipsNeverUsed, videosNeverUsed, plannedDaysAhead] = await Promise.all([
+    prisma.joke.count({ where: NEVER_USED_JOKE_WHERE }).catch(() => null),
+    prisma.tip.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
+    prisma.video.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
+    prisma.dailyContent.count({ where: { date: { gt: today } } }).catch(() => null),
+  ]);
+  const days = (n: number | null) => (n === null || plannedDaysAhead === null ? null : plannedDaysAhead + n);
+  const jokeDaysLeft = days(jokesNeverUsed);
+  const tipDaysLeft = days(tipsNeverUsed);
+  const enough = (d: number | null) => d !== null && d >= STOCK_MIN_DAYS;
+  return {
+    jokesNeverUsed,
+    tipsNeverUsed,
+    videosNeverUsed,
+    plannedDaysAhead,
+    jokeDaysLeft,
+    tipDaysLeft,
+    minDays: STOCK_MIN_DAYS,
+    status: enough(jokeDaysLeft) && enough(tipDaysLeft) ? "ok" : "stale",
+  };
+}
+
 type StockResult =
   | { status: "exists" }
   | { status: "created"; jokeId: string; tipId: string; videoId: string | null }

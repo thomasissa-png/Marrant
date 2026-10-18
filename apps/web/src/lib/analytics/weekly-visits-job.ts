@@ -7,6 +7,9 @@
  * Aucun LLM. Lecture Umami + 2 comptages et 1 lecture d'articles en base + 1 email interne.
  * Audit s16 (reco 17) : section « Funnel de la semaine » dans le MÊME e-mail
  * (vues /abonnement, comptes, paiements, résiliations, abonnés, MRR).
+ * s21 (18/10) : ligne « Stock du contenu du jour » en tête des sections
+ * (weekly-stock.ts, même calcul que /api/health) ; « Nouveau lot à préparer »
+ * sous 14 jours.
  */
 import { getUmamiConfig } from "./umami";
 import { buildWeeklyVisitsHtml, buildWeeklyVisitsSubject } from "./weekly-visits-email";
@@ -15,6 +18,7 @@ import type { BlogArticleLookup } from "./weekly-blog-report";
 import { buildWeeklyVisitsReport, type ConversionCounter, type WeeklyVisitsReport } from "./weekly-visits-report";
 import { buildFunnelSectionHtml, buildWeeklyFunnel, type FunnelDbCounter } from "./weekly-funnel";
 import { buildParcoursSectionHtml, buildWeeklyParcours, type ParcoursDbCounter } from "./weekly-parcours";
+import { loadStockLineHtml, type StockReader } from "./weekly-stock";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
 /** Verrou conservé après succès : un seul envoi par semaine, même si un tick rejoue. */
@@ -70,6 +74,8 @@ export async function runWeeklyVisitsReport(
     countFunnel?: FunnelDbCounter;
     /** Comptages du bloc « Parcours » (s17), injectables pour les tests. */
     countParcours?: ParcoursDbCounter;
+    /** Lecture du stock de contenu du jour (s21), injectable pour les tests. */
+    readStock?: StockReader;
     /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
     digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
@@ -88,7 +94,7 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
-  const [social, funnel, parcours] = await Promise.all([
+  const [social, funnel, parcours, stockLine] = await Promise.all([
     (opts.socialSection ?? prismaSocialSection)(
       new Date(report.current.startAt),
       new Date(report.current.endAt),
@@ -98,13 +104,15 @@ export async function runWeeklyVisitsReport(
     buildWeeklyFunnel(config, report.current, opts.countFunnel),
     // s17 : bloc « Parcours » (data-analyst §6), ne lève jamais non plus.
     buildWeeklyParcours(config, report.current, opts.countParcours),
+    // s21 : ligne de stock, ne lève jamais.
+    loadStockLineHtml(opts.readStock),
   ]);
   const digest = opts.digest;
   const finalSubject = digest
     ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
     : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${social}${digest?.html ?? ""}`));
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${stockLine}${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${social}${digest?.html ?? ""}`));
   return { status: "sent", subject: finalSubject, report };
 }
 
