@@ -28,7 +28,7 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
     >
       <header className="space-y-1 text-center">
         <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-          {carnetExtraitSurtitre(deMois)}
+          {carnetExtraitSurtitre(deMois, extrait.numero)}
         </p>
         <h2 id="abonnement-carnet-titre" className="font-display text-2xl font-bold text-text-primary">
           {CARNET_EXTRAIT_TITRE}
@@ -36,7 +36,7 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
         {intro && <p className="text-sm text-text-secondary">{intro}</p>}
       </header>
 
-      <CarnetFicheCard fiche={extrait.fiche} numero={1} extrait />
+      <CarnetFicheCard fiche={extrait.fiche} numero={extrait.numero} extrait />
 
       <div className="text-center">
         <Link

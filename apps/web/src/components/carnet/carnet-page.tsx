@@ -24,7 +24,6 @@ export function CarnetPage({
   returnTo: string;
 }) {
   const autresMois = months.filter((m) => m !== view.mois);
-  const firstLocked = view.fiches.length + 1;
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -45,11 +44,11 @@ export function CarnetPage({
       </header>
 
       <div className="space-y-6">
-        {view.fiches.map((fiche, i) => (
+        {view.fiches.map((fiche) => (
           <CarnetFicheCard
             key={fiche.id}
             fiche={fiche}
-            numero={i + 1}
+            numero={view.numeros[fiche.id]}
             offerte={!view.premium}
           />
         ))}
@@ -61,8 +60,8 @@ export function CarnetPage({
             Les {view.apercus.length} autres situations du mois
           </h2>
           <ol className="space-y-3">
-            {view.apercus.map((fiche, i) => (
-              <CarnetFicheLocked key={fiche.id} fiche={fiche} numero={firstLocked + i} />
+            {view.apercus.map((fiche) => (
+              <CarnetFicheLocked key={fiche.id} fiche={fiche} numero={view.numeros[fiche.id]} />
             ))}
           </ol>
           <CarnetPaywall returnTo={returnTo} restantes={view.apercus.length} />

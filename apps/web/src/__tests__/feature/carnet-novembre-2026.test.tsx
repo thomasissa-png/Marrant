@@ -97,6 +97,8 @@ describe("bascule à minuit, heure de Paris (31/10 → 01/11, heure d'hiver)", (
     expect(vue.apercus).toHaveLength(29);
     expect(getCarnetExtrait(carnets, MINUIT)?.fiche.id).toBe("2026-11-10");
     expect(getCarnetExtrait(carnets, MINUIT)?.totalFiches).toBe(30);
+    expect(getCarnetExtrait(carnets, AVANT_MINUIT)?.numero).toBe(15);
+    expect(getCarnetExtrait(carnets, MINUIT)?.numero).toBe(10);
     expect(getCarnetDemo(carnets, MINUIT)?.fiche.id).toBe("2026-11-10");
   });
 });
@@ -113,6 +115,10 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     expect(html).not.toContain("2026-11");
     for (const f of novembre.fiches) expect(html).not.toContain(f.reponse);
     expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir les 14 autres répliques · 2,99 €/mois");
+    // Numéro = position réelle dans le carnet : offerte 15e, les 14 autres de 1 à 14.
+    expect(html).toContain(">Situation 15 · offerte<");
+    expect(html).toContain(">Situation 14<");
+    expect(html).not.toContain(">Situation 1 · offerte<");
   });
 
   it("01/11 00:00:00 Paris : carnet de novembre, fiche 2026-11-10 en entier, « Il en reste 29 »", async () => {
@@ -121,6 +127,8 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     const html = container.innerHTML;
     const offerte = novembre.fiches.find((f) => f.id === "2026-11-10")!;
     expect(html).toContain('id="fiche-2026-11-10"');
+    expect(html).toContain(">Situation 10 · offerte<");
+    expect(html).toContain(">Situation 30<");
     for (const champ of ["situation", "onTeDit", "reponse", "pourquoi", "siTendu", "exercice"] as const) {
       expect(html).toContain(offerte[champ]);
     }

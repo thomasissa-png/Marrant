@@ -86,6 +86,8 @@ export interface CarnetView {
   /** Fiches réservées, réduites au titre et au contexte (vide pour un Premium). */
   apercus: CarnetFicheApercu[];
   totalFiches: number;
+  /** Position réelle de chaque fiche dans le carnet (id → index + 1), offerte comprise. */
+  numeros: Record<string, number>;
 }
 
 /** Nombre de fiches offertes en entier aux non-abonnés. */
@@ -182,6 +184,7 @@ export function carnetViewForPlan(carnet: Carnet, plan: string | null | undefine
     fiches: offertes.map((f) => ({ ...f })),
     apercus: reservees.map((f) => ({ id: f.id, titre: f.titre, contexte: f.contexte })),
     totalFiches: carnet.fiches.length,
+    numeros: Object.fromEntries(carnet.fiches.map((f, i) => [f.id, i + 1])),
   };
 }
 
@@ -221,6 +224,8 @@ export interface CarnetExtrait {
   mois: string;
   fiche: CarnetFiche;
   totalFiches: number;
+  /** Position réelle de la fiche offerte dans le carnet (index + 1). */
+  numero: number;
 }
 
 /**
@@ -234,7 +239,12 @@ export function getCarnetExtrait(carnets?: Carnet[], now: Date = new Date()): Ca
   if (!carnet || carnet.mois !== currentParisMonth(now)) return null;
   const fiche = ficheOfferte(carnet);
   if (!fiche) return null;
-  return { mois: carnet.mois, fiche: { ...fiche }, totalFiches: carnet.fiches.length };
+  return {
+    mois: carnet.mois,
+    fiche: { ...fiche },
+    totalFiches: carnet.fiches.length,
+    numero: carnet.fiches.indexOf(fiche) + 1,
+  };
 }
 
 /** Encart des articles (s21, B1) : le strict nécessaire de la fiche offerte, rien de plus. */

@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 
 /**
  * Fiche complète (Server Component : aucune donnée ne part dans le JS client).
- * `extrait` (lot 2 s21, /abonnement) : le bloc qui l'entoure porte déjà « Situation 1,
+ * `extrait` (lot 2 s21, /abonnement) : le bloc qui l'entoure porte déjà « Situation N,
  * offerte » ; la carte ne montre que le titre, la situation, la réplique et
  * « Pourquoi ça marche » (sans contexte, « Si ça se tend » ni « À toi de jouer »).
  */
