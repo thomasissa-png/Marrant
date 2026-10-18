@@ -50,6 +50,16 @@ describe("m-1 : une source distincte par bouton payant", () => {
   });
 });
 
+describe("QA v4 m-6 : /parcours, encart « Abonnement » masqué pour l'abonné", () => {
+  it("l'encart payant de « Explore aussi » est enveloppé par MasqueSiPremium", () => {
+    const source = lire("app/(dashboard)/parcours/(liste)/page.tsx");
+    const encart = source.match(/<MasqueSiPremium>([\s\S]*?)<\/MasqueSiPremium>/);
+    expect(encart?.[1]).toContain('buildAbonnementUrl(null, "monthly", "parcours-liste")');
+    expect(encart?.[1]).toContain("PREMIUM_PRICE_LABEL");
+    expect(source.match(/PREMIUM_PRICE_LABEL/g)).toHaveLength(2); // import + encart masqué
+  });
+});
+
 describe("Glossaire et à-propos : bloc payant masqué pour un abonné", () => {
   beforeEach(() => useSession.mockReturnValue({ status: "authenticated" }));
 

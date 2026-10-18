@@ -15,6 +15,7 @@ import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
 import { PARCOURS_COUNT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { listeFr } from "@/lib/liste-fr";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
 // D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
@@ -107,11 +108,14 @@ export default async function ParcoursPage() {
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
-          {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`. */}
-          <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
-            <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
-          </Link>
+          {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`.
+              QA v4 m-6 : masqué pour l'abonné (aucun prix pour lui). */}
+          <MasqueSiPremium>
+            <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+              <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
+              <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
+            </Link>
+          </MasqueSiPremium>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>
