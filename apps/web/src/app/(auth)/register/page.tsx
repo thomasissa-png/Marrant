@@ -266,6 +266,15 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             {googleBloque && inApp && (
               <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
             )}
+            {/* Revue v3 m2 : les CGU sous Google (premier geste possible), avant le formulaire e-mail ;
+                une seule mention, valable pour les deux façons de créer le compte. */}
+            <p className="-mt-2 text-center text-xs text-text-muted" data-testid="register-cgu">
+              {CGU_ACCEPTATION.avant}
+              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
+                {CGU_ACCEPTATION.lien}
+              </Link>
+              {CGU_ACCEPTATION.apres}
+            </p>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
                 Email
@@ -333,16 +342,9 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             >
               {isLoading ? "On prépare ton compte…" : REGISTER_CTA.bouton}
             </Button>
-            {/* Concision v5 : la REASS collée sous le plein, puis les CGU (qui portent le contrat). */}
+            {/* Concision v5 : la REASS collée sous le plein (CGU : sous Google, revue v3 m2). */}
             <p className="-mt-2 text-center text-xs text-text-muted" data-testid="register-reassurance">
               {REASSURANCE_UNIQUE}
-            </p>
-            <p className="text-center text-xs text-text-muted">
-              {CGU_ACCEPTATION.avant}
-              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
-                {CGU_ACCEPTATION.lien}
-              </Link>
-              {CGU_ACCEPTATION.apres}
             </p>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
@@ -357,7 +359,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
           {src !== FIN_ETAPE_1_SRC && (
             <div className="mt-1 text-center">
               <Link
-                href={parcoursEtape1Href(etape1Slug, "abonnement")}
+                href={parcoursEtape1Href(etape1Slug, "register-etape1")}
                 className="inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2"
               >
                 {REGISTER_CTA.lienEtape1(etape1Slug)}

@@ -25,6 +25,8 @@ export const PARCOURS_SRC = [
   // s21 (E5, E6) : petit lien vers l'étape 1 en fin de /glossaire et /a-propos.
   "glossaire-etape1",
   "a-propos-etape1",
+  // s21 (revue v3 m3) : lien vers l'étape 1 sous le formulaire de /register.
+  "register-etape1",
   // Lien de l'e-mail de rappel (lot A, D7).
   "rappel",
   "direct",

@@ -62,7 +62,8 @@ describe("RegisterPage", () => {
     expect(google.compareDocumentPosition(envoi) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(form.contains(google)).toBe(true);
     const lien = screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
-    expect(lien).toHaveAttribute("href", "/parcours/confiance?src=abonnement#etape-1");
+    // Revue v3 m3 : source propre à /register (n'est plus comptée `abonnement`).
+    expect(lien).toHaveAttribute("href", "/parcours/confiance?src=register-etape1#etape-1");
     const html = container.innerHTML;
     expect(html.indexOf("Déjà un compte")).toBeLessThan(html.indexOf('href="/parcours/confiance'));
     mockSearchParams.delete("callbackUrl");

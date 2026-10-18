@@ -6,6 +6,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
+import { normalizeParcoursSrc } from "@/lib/parcours-tracking";
 
 const mockPush = jest.fn();
 const mockSignIn = jest.fn();
@@ -39,6 +40,21 @@ describe("RegisterPage, audit s16", () => {
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");
     expect(cgu.closest("p")).toHaveTextContent("En créant ton compte, tu acceptes les CGU.");
+  });
+
+  it("revue v3 m2 : une seule mention CGU, juste sous Google, avant le formulaire e-mail", () => {
+    render(<RegisterPage />);
+    const mention = screen.getByTestId("register-cgu");
+    expect(screen.getAllByText(/En créant ton compte, tu acceptes les/)).toHaveLength(1);
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
+    const suit = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(google.nextElementSibling).toBe(mention);
+    expect(suit(mention, screen.getByLabelText("Email"))).toBe(true);
+    expect(suit(mention, screen.getByRole("button", { name: REGISTER_CTA.bouton }))).toBe(true);
+  });
+
+  it("revue v3 m3 : `register-etape1`, source connue de parcours-ouvert", () => {
+    expect(normalizeParcoursSrc("register-etape1")).toBe("register-etape1");
   });
 
   it("rappel de formule avec le nom Premium (D4) et le prix TTC (s21)", () => {
