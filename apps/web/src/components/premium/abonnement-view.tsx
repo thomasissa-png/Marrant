@@ -20,8 +20,9 @@ import { buildRegisterUrl, sanitizeSignupSrc } from "@/lib/auth-links";
 import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { PlanSelector } from "@/components/premium/plan-selector";
-import { PARCOURS_SLUGS, parcoursEtape1Href, parcoursSlugFromHref } from "@/lib/entrees-parcours";
+import { PARCOURS_SLUGS, parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { ABONNEMENT_ETAPE_1 } from "@/config/textes/entrees-parcours";
+import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
 import {
   formatEuros,
   PARCOURS_COUNT,
@@ -102,10 +103,16 @@ function checkoutErrorMessage(status: number): string {
 export function AbonnementView({
   annualAvailable,
   carnetExtrait = null,
+  parcoursOrigine = null,
+  etapeSuivante = null,
 }: {
   annualAvailable: boolean;
   /** Extrait du carnet du mois (lot 2 s21), rendu par le serveur ; null si le carnet du mois manque. */
   carnetExtrait?: ReactNode;
+  /** s21 B16 : parcours d'origine (`returnTo`), lu par le serveur : surtitre et titre. */
+  parcoursOrigine?: ParcoursSlug | null;
+  /** s21 B16 : carte « Étape 2 » du parcours d'origine, rendue par le serveur, avant l'extrait du carnet. */
+  etapeSuivante?: ReactNode;
 }) {
   const { status } = useSession();
   // Mensuel par défaut ; ?plan=annual préselectionne l'annuel (si disponible).
@@ -147,10 +154,11 @@ export function AbonnementView({
   // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
   const resiliation = useResiliationProgrammee(status);
   const pageBadge = "Plus qu'une étape";
-  // Lot 2 s21 (haut de /abonnement validé à l'aveugle, tour 3) : surtitre, H1 et sous-titre visiteur.
+  // s21 B16 : surtitre et H1 visiteur selon le parcours d'origine (tour 4), sous-titre du lot 2.
+  const hautVisiteur = ABONNEMENT_HAUT_PAR_PARCOURS[parcoursOrigine ?? "defaut"];
   const pageTitle = isAuthenticated
     ? "Active ton accès pour commencer"
-    : ABONNEMENT_HAUT_VISITEUR.titre;
+    : hautVisiteur.titre;
   const pageSubtitle = isAuthenticated
     ? `Ton compte est prêt. Encore un clic et les ${PARCOURS_COUNT} parcours sont à toi en entier, de la première à la dernière étape.`
     : ABONNEMENT_HAUT_VISITEUR.sousTitre;
@@ -217,11 +225,19 @@ export function AbonnementView({
           </Badge>
         )}
         {!isAuthenticated && (
-          <p className="mb-2 text-[0.8125rem] font-semibold text-accent-link sm:mb-3 sm:text-sm" data-testid="abonnement-surtitre">
-            {ABONNEMENT_HAUT_VISITEUR.surtitre}
+          // s21 B16 : surtitre sur deux lignes à 375 (hauteur fixe), compensée sous le titre :
+          // le bouton d'achat garde sa position (mesurée à 375 x 700 avant et après).
+          <p className="min-h-8 text-[0.8125rem] font-semibold leading-4 text-accent-link sm:mb-3 sm:min-h-0 sm:text-sm sm:leading-5" data-testid="abonnement-surtitre">
+            {hautVisiteur.surtitre}
           </p>
         )}
-        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary sm:text-3xl md:text-4xl">
+        {/* s21 B16 : trois lignes réservées à 375 (titre le plus long), titre court centré dedans. */}
+        <h1
+          className={cn(
+            "font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary sm:text-3xl md:text-4xl",
+            !isAuthenticated && "flex min-h-[3.45em] items-center justify-center sm:block sm:min-h-0",
+          )}
+        >
           {pageTitle}
         </h1>
         <p className="mx-auto mt-2 max-w-xl text-balance text-[0.9375rem] leading-snug text-text-secondary sm:mt-3 sm:text-lg">
@@ -234,7 +250,7 @@ export function AbonnementView({
           pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
           iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
           formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
-      <Card className={`mt-5 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
+      <Card className={`${isAuthenticated ? "mt-5" : "mt-[17px]"} border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10`}>
         <CardContent className="p-4 sm:p-8">
           <div className="flex flex-wrap items-center gap-2">
             <h2 className="font-display text-lg font-bold text-text-primary">
@@ -273,7 +289,8 @@ export function AbonnementView({
           ) : (
             <Link
               href={paidSignupHref}
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 w-full sm:mt-8")}
+              data-testid="abonnement-bouton-achat"
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 h-auto min-h-12 w-full whitespace-normal py-2 text-center [text-wrap:balance] sm:mt-8")}
               onClick={() =>
                 trackUmami("abonnement-clic", {
                   formule: isAnnual ? "annuel" : "mensuel",
@@ -283,8 +300,14 @@ export function AbonnementView({
                 })
               }
             >
-              Commencer à {priceLabel}
+              {ABONNEMENT_CTA.bouton(plan)}
             </Link>
+          )}
+          {/* s21 B16 : [S32] ce qui suit le clic, juste sous le bouton (visiteur). */}
+          {!isAuthenticated && (
+            <p className="mt-2 text-center text-xs text-text-secondary" data-testid="abonnement-suite">
+              {ABONNEMENT_CTA.suite}
+            </p>
           )}
 
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
@@ -308,6 +331,9 @@ export function AbonnementView({
           <PremiumBenefits className="mt-6 space-y-3" />
         </CardContent>
       </Card>
+
+      {/* s21 B16 : aperçu public de l'étape 2 du parcours d'origine, avant l'extrait du carnet. */}
+      {!isAuthenticated && etapeSuivante}
 
       {/* Lot 2 s21 : la fiche offerte du carnet du mois, avant « Pas encore sûr ? ». */}
       {carnetExtrait}

@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 import { AbonnementView } from "@/components/premium/abonnement-view";
@@ -38,6 +39,36 @@ function checkoutCalls(mock: jest.Mock) {
   return mock.mock.calls.filter(([url]) => url === "/api/stripe/checkout");
 }
 
+describe("s21 B16 : /abonnement visiteur", () => {
+  it.each([
+    ["machine-a-cafe", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
+    ["boulot", "Ta réplique pendant la réunion, pas dans l'ascenseur d'après"],
+    ["confiance", "Le rire, à ton rythme, sans te forcer"],
+    ["storytelling", "Ta réplique pendant la soirée, pas dans le bus du retour"],
+  ] as const)("parcours d'origine %s : surtitre et titre dédiés", (slug, titre) => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable={false} parcoursOrigine={slug} />);
+    expect(screen.getByRole("heading", { level: 1, name: titre })).toBeInTheDocument();
+    expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(ABONNEMENT_HAUT_PAR_PARCOURS[slug].surtitre);
+  });
+
+  it("[S32] sous le bouton, carte « Étape 2 » avant l'extrait du carnet", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    const { container } = render(
+      <AbonnementView
+        annualAvailable={false}
+        etapeSuivante={<div data-testid="carte-etape-2" />}
+        carnetExtrait={<div data-testid="carnet" />}
+      />,
+    );
+    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent(ABONNEMENT_CTA.suite);
+    const html = container.innerHTML;
+    expect(html.indexOf("abonnement-bouton-achat")).toBeLessThan(html.indexOf("abonnement-suite"));
+    expect(html.indexOf("abonnement-suite")).toBeLessThan(html.indexOf("reassurance-paiement"));
+    expect(html.indexOf("carte-etape-2")).toBeLessThan(html.indexOf('data-testid="carnet"'));
+  });
+});
+
 describe("AbonnementPage (s12 T45)", () => {
   it("visiteur : un seul bloc Premium, plus de bloc « Compte gratuit » (s15)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
@@ -51,8 +82,9 @@ describe("AbonnementPage (s12 T45)", () => {
       screen.getByRole("heading", { level: 1, name: "Ta réplique pendant la soirée, pas dans le bus du retour" }),
     ).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "Accéder aux parcours complets" })).not.toBeInTheDocument();
+    // s21 B16 : surtitre par parcours d'origine, défaut = Répartie (tour 4).
     expect(screen.getByTestId("abonnement-surtitre")).toHaveTextContent(
-      "C'est pour toi si tu restes muet quand on te chambre.",
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
     );
     expect(
       screen.getByText(
@@ -73,7 +105,7 @@ describe("AbonnementPage (s12 T45)", () => {
     perceptible.querySelectorAll("[aria-hidden='true']").forEach((el) => el.remove());
     const texte = (perceptible.textContent ?? "").replace(/\s+/g, " ");
     const lignes = [
-      "C'est pour toi si tu restes muet quand on te chambre.",
+      "Pour toi si tu trouves la bonne réponse, mais avec un temps de retard",
       "Ta réplique pendant la soirée, pas dans le bus du retour",
       "5 parcours pour t'entraîner, une étape par semaine, 15 à 20 minutes selon le parcours. La première étape de chacun reste en lecture libre.",
       "Premium",
@@ -84,7 +116,9 @@ describe("AbonnementPage (s12 T45)", () => {
       "2,99 €",
       "TTC / mois",
       "Ou 24,99 €/an, soit 2,08 € par mois et 10,89 € économisés par an.",
-      "Commencer à 2,99 €/mois",
+      "Ouvrir les 5 parcours · 2,99 €/mois",
+      // s21 B16 : [S32] juste sous le bouton, avant la garantie.
+      "Deux étapes : ton compte, puis le paiement sécurisé par Stripe.",
       "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
       "Droit de rétractation · Paiement sécurisé par Stripe",
       // §5.2 / §7 point 3 (choix de Thomas) : les avantages viennent APRÈS le bouton d'achat.
@@ -110,7 +144,7 @@ describe("AbonnementPage (s12 T45)", () => {
     render(<AbonnementView annualAvailable={false} carnetExtrait={<section data-testid="extrait-carnet" />} />);
     const extrait = screen.getByTestId("extrait-carnet");
     const etape1 = screen.getByTestId("abonnement-etape-1");
-    const bouton = screen.getByText("Commencer à 2,99 €/mois");
+    const bouton = screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois");
     expect(bouton.compareDocumentPosition(extrait) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(extrait.compareDocumentPosition(etape1) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     // Mensuel seul : pas de ligne « Sans engagement, annulable… » non plus.
@@ -120,7 +154,7 @@ describe("AbonnementPage (s12 T45)", () => {
   it("paid CTA keeps /abonnement as the destination", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementPage />);
-    const params = registerParams("Commencer à 2,99 €/mois");
+    const params = registerParams("Ouvrir les 5 parcours · 2,99 €/mois");
     expect(params.get("callbackUrl")).toBe("/abonnement");
     expect(params.get("src")).toBe("abonnement");
   });
@@ -152,7 +186,7 @@ describe("AbonnementPage (s12 T45)", () => {
       window.history.pushState({}, "", "/abonnement?returnTo=%2Fparcours%2Frepartie");
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
-      expect(registerParams("Commencer à 2,99 €/mois").get("callbackUrl")).toBe(
+      expect(registerParams("Ouvrir les 5 parcours · 2,99 €/mois").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fparcours%2Frepartie",
       );
     });
@@ -295,7 +329,7 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(<AbonnementPage />);
       await userEvent.click(screen.getByRole("radio", { name: "Annuel" }));
-      expect(registerParams("Commencer à 24,99 €/an").get("callbackUrl")).toBe(
+      expect(registerParams("Ouvrir les 5 parcours · 24,99 €/an").get("callbackUrl")).toBe(
         "/abonnement?returnTo=%2Fcarnet&plan=annual",
       );
     });
