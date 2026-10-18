@@ -90,10 +90,48 @@ Relecteur : visiteur pressé, sur mobile, qui ne connaît pas le site. Question 
 
 
 ### B4 + B5 : carte Premium d'accueil
-[en cours]
+
+`Choix : 1 | Conversion : T1 7/10, T2 6/10 | Écriture : T1 6/10, T2 6/10 | Manque pour 10 : T1 redit son titre et ignore le défi, T2 « c'est un début » condescendant et rien sur l'essai gratuit | Alertes : [S12] commun « Droit de rétractation » = jargon juridique absent des faits vrais et redondant avec [S13] ; tic « X, c'est un début » (T2) ; tournure « est pour quand » (les deux) ; « à raison d'une étape » administratif (T1) ; pas de tiret cadratin`
+
+**Pourquoi T1.** J'ai tout fait défiler et j'hésite. Le titre de T1 désamorce le risque d'entrée : j'essaie gratuitement, je paie seulement si ça me plaît. « Si elle te parle » est juste, sans pression. T2 ouvre sur « Lire des vannes, c'est un début. », ce qui me renvoie l'impression que ce que je viens de faire ne suffit pas : ton de coach, léger mais réel. T2 a pourtant un atout que T1 n'a pas : le défi à tenter, seul élément qui ne figure pas dans les 4 avantages et qui distingue un parcours d'une liste de vannes.
+
+**T1, manque pour 10.**
+- Le titre dit « la suite est dans Premium » et la phrase [S11] le redit. L'essai gratuit est en plus repris dans l'avantage (1) et dans le bouton contour : trois fois la même information.
+- « à raison d'une étape par semaine » fait formulaire.
+- « Répartie est pour quand on te chambre » est une tournure orale maladroite, et la liste en une phrase est difficile à parcourir sur mobile.
+- Le défi n'est pas mentionné.
+- Version proposée :
+  - [S10] « La première étape est gratuite, la suite est dans Premium » (inchangé)
+  - [S11] « Chaque parcours commence par une étape à lire sans compte, quiz compris. Si elle te parle, tu continues au rythme d'une étape par semaine (15 à 20 minutes), avec un défi à tenter à chaque fois. Quand on te chambre : Répartie. Pour le travail : Machine à Café ou Boulot. Pour retrouver ta légèreté : Confiance. Pour raconter une anecdote : Storytelling. »
+
+**T2, manque pour 10.**
+- Supprimer « Lire des vannes, c'est un début. »
+- Le titre « Après les vannes, les parcours » reprend la mécanique de B2 T2 (« Après les blagues… ») : en voyant les deux sur le site, on sent le procédé.
+- Rien dans [S10] ni dans [S11] ne dit qu'on peut essayer gratuitement. Pour un visiteur qui hésite, c'est l'argument qui manque.
+
+**Lignes communes.**
+- [S12] « Droit de rétractation » : terme juridique, pas dans les faits vrais, et il double [S13] en plus flou. À retirer. Proposé : « Ou 24,99 € TTC par an, soit 2,08 € par mois ».
+- [S13] est clair et conforme aux faits, rien à changer.
+- Le bouton plein « Commencer à 2,99 €/mois » ouvre une page d'abonnement, pas un paiement immédiat. C'est acceptable, mais « Voir l'abonnement à 2,99 €/mois » serait plus exact. Je le note comme point mineur.
+
 
 ### B6 : bouton d'en-tête
-[en cours]
+
+`Choix : 2 | Conversion : T1 6/10, T2 8/10 | Écriture : T1 6/10, T2 9/10 | Manque pour 10 : T1 « offre » vague et connoté promo, T2 largeur (13 caractères pour environ 12 tolérés) | Alertes : T1 bouton qui ne dit pas où il mène (une offre de quoi ?) ; pas de tiret cadratin`
+
+**Pourquoi T2.** Je lis un article et je vois un bouton violet en haut. « Voir l'offre », je ne sais pas ce que c'est : une promo, une newsletter, une appli ? Je ne tape pas. Et si je tape, je tombe sur un prix sans m'y attendre. « Voir les prix » me dit en deux mots qu'il y a quelque chose de payant ici, et la page qui s'ouvre commence justement par le prix. J'arrive là où je m'y attendais : pas de surprise, pas de manipulation.
+
+**T1, manque pour 10.** « offre » est un mot de vitrine, flou pour qui ne sait pas que le site vend un abonnement. Pas de version à proposer : la bonne, c'est T2.
+
+**T2, manque pour 10.**
+- Sur le texte, je ne vois rien à changer : 10 sur l'écriture si le libellé tient.
+- Le seul risque est la largeur : 13 caractères, alors que la contrainte en tolère « une douzaine, moins si les lettres sont larges ». À vérifier au rendu à 360 px.
+- Repli si ça déborde : « Les prix » (8 caractères), ou « Tarifs » (6), un peu plus froid.
+- Côté conversion, 8 et pas plus : un libellé honnête attire moins de clics à froid. C'est le bon choix pour la phase « payer plus tard », et je ne le compte pas comme un défaut d'écriture.
+
 
 ## Synthèse
-[en cours]
+
+Choix : B1 T1, B2 T1, B18 T1, B3 T2, B4+B5 T1, B6 T2. Aucun texte à 10 : le seul proche est « Voir les prix » (9 en écriture, 10 s'il tient en largeur). Ailleurs, les vainqueurs sont entre 6 et 8.
+Défauts transversaux à corriger avant le tour 3 : le lien « Accéder aux parcours complets » (B2, B3), qui ouvre une page de vente ; « Droit de rétractation » dans [S12], absent des faits ; « remboursable sous 14 jours », ambigu ; les libellés de bouton trop longs pour 375 px ; les titres « Après les X, les Y », répétés d'un bloc à l'autre.
+

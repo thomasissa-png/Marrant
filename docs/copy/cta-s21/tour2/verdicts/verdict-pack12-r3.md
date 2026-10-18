@@ -70,13 +70,77 @@ Proposition, sous-titre du formulaire : « Un e-mail par mois : la vanne, un exe
 ## Pack 2
 
 ### B3 : haut de l'accueil
-[À REMPLIR]
+
+`Choix : 2 | Conversion : T1 5/10, T2 8/10 | Écriture : T1 7/10, T2 7/10 | Manque pour 10 : T1 bouton payant en premier face à un visiteur froid + libellé trompeur, T2 bouton trop long pour une ligne + lien mal nommé + « étape 1 » / « première étape » | Alertes : « Accéder aux parcours complets » mène à une page de prix (les deux, en bouton dans T1) ; T2 bouton de 43 caractères probablement sur deux lignes à 375 px ; T1 ordre bouton / note / lien différent de la contrainte`
+
+**Dans la peau du visiteur.** J'arrive, je ne sais pas ce qu'est ce site, et le premier gros bouton de T1 m'emmène vers un abonnement. Même avec le prix juste dessous, c'est la sensation « on veut me vendre quelque chose avant que je comprenne ». Je ne clique pas, et je vais peut-être même repartir. Le libellé aggrave les choses : « Accéder » me promet un accès, et j'atterris sur une page de prix. T2 me propose d'abord de lire quelque chose de gratuit, sans compte. Ça ne m'engage à rien, et c'est le premier pas le plus probable. L'abonnement reste visible et chiffré dans la note : rien n'est caché, donc je ne me sens pas manipulé.
+
+**T1, manque pour 10.** Il faut inverser la hiérarchie : la gratuité dans le bouton plein, l'abonnement dans le lien. Autrement dit, il faut devenir T2. Le lien « Lire l'étape 1 de Répartie, gratuite et sans compte » est d'ailleurs le meilleur libellé du duel. [S20] est clair et exact.
+
+**T2, manque pour 10.**
+- Le bouton : « Lire la première étape gratuite de Répartie » fait 43 caractères, et la contrainte impose une seule ligne à 375 px. Avec les marges, ça casse très probablement en deux lignes.
+- Le lien a le même défaut qu'en B2.
+- La note parle de « l'étape 1 » et le bouton de « la première étape » : il faut choisir une seule formule.
+- « Premium » arrive sans explication pour un visiteur qui ne connaît rien au site.
+Propositions :
+- Bouton : [ Lire l'étape 1 gratuite de Répartie ] (35 caractères, à vérifier au rendu).
+- Lien : « Voir Premium et ses prix ».
+- Note : « L'étape 1 se lit sans compte, quiz compris. La suite des parcours est dans Premium, l'abonnement du site : 2,99 € TTC par mois, résiliable en ligne, premier paiement remboursable sous 14 jours. »
+
+**Alertes.**
+- Faits : RAS (prix, résiliation, remboursement du premier paiement : conformes).
+- Tiret cadratin : aucun.
+- Jargon : aucun. Seul « Premium » n'est pas expliqué au premier écran.
+- Promesse : aucune promesse de résultat dans la zone d'action.
+- Bouton : T1, le bouton plein « Accéder aux parcours complets » ne dit pas qu'il mène à une page d'abonnement. C'est le défaut le plus coûteux du duel.
+- Tic : aucun.
 
 ### B4 + B5 : carte Premium d'accueil
-[À REMPLIR]
+
+`Choix : 1 | Conversion : T1 8/10, T2 6/10 | Écriture : T1 7/10, T2 6/10 | Manque pour 10 : T1 « la suite est dans Premium » répété du titre à [S11] + liste des 5 parcours lourde, T2 « c'est un début » condescendant + titre à formule + gratuité absente du texte | Alertes : [S12] « Droit de rétractation » (jargon, absent des faits vrais, doublon de [S13]) dans les deux ; T2 tic « Après X, les Y » ; T1 « à raison de »`
+
+**Dans la peau du visiteur.** J'ai tout fait défiler, je veux savoir ce qu'on me vend et si ça vaut le coup. Le titre de T1 me dit le contrat en une phrase : la première étape est gratuite, je paie seulement si je veux la suite. Pour un sceptique, c'est la phrase qui baisse la garde. Et « Si elle te parle » ne me pousse pas, il me laisse juger. Je clique sur le bouton contour aujourd'hui, et si l'étape me plaît, je reviens payer. T2 ouvre sur « Lire des vannes, c'est un début. » J'entends : « ce que tu fais ne suffit pas, il faut payer ». C'est le réflexe du coach, et il me braque. « Avec à chaque fois un défi à tenter » est concret et bien vu, mais il ne compense pas.
+
+**T1, manque pour 10.**
+- « La suite est dans Premium » apparaît mot pour mot dans [S10] et dans [S11].
+- « À raison d'une étape par semaine » fait administratif.
+- La liste « Répartie est pour quand on te chambre, Machine à Café et Boulot pour le travail… » est longue et répète « pour ».
+Proposition [S11] : « Chaque parcours commence par une étape à lire sans compte, quiz compris. Si elle te parle, tu continues avec Premium, une étape par semaine (15 à 20 minutes). Répartie quand on te chambre, Machine à Café et Boulot au travail, Confiance pour retrouver ta légèreté, Storytelling pour raconter une anecdote. »
+
+**T2, manque pour 10.** Il faudrait supprimer « Lire des vannes, c'est un début. » et remplacer le titre « Après les vannes, les parcours » (même construction symétrique qu'en B2 T2, une formule qui sent le gabarit). Il faudrait aussi dire dans le texte que la première étape est gratuite : aujourd'hui, seul le bouton contour le dit. Garder « un défi à tenter », c'est le meilleur détail des deux textes.
+
+**Lignes communes, à corriger dans les deux textes.**
+- [S12] « · Droit de rétractation » est du jargon juridique, ce n'est pas une formulation des faits vrais, et ça fait doublon (en plus flou) avec [S13]. Le visiteur se demande s'il s'agit d'une deuxième garantie. Proposition [S12] : « Ou 24,99 € TTC par an, soit 2,08 € par mois ».
+- [S13] est parfait.
+- Bouton plein imposé « Commencer à 2,99 €/mois » : il ouvre la page d'abonnement, pas un paiement. Le verbe « Commencer » en promet un peu plus que la destination. Ce n'est pas noté, mais c'est à surveiller.
+
+**Alertes.**
+- Faits : [S12] « Droit de rétractation » n'est pas dans les faits vrais (seul le remboursement du premier paiement sous 14 jours l'est). Le reste est conforme.
+- Tiret cadratin : aucun.
+- Jargon : « Droit de rétractation ».
+- Promesse : T2 « c'est un début » sous-entend une progression sans la promettre. Ce n'est pas une promesse de résultat, mais c'est la limite.
+- Bouton : les boutons sont imposés, voir la remarque sur « Commencer ».
+- Tics : T2 « Après X, les Y » ; T1 « à raison de ».
 
 ### B6 : bouton d'en-tête
-[À REMPLIR]
+
+`Choix : 2 | Conversion : T1 6/10, T2 9/10 | Écriture : T1 6/10, T2 10/10 | Manque pour 10 : T1 « offre » vague et commercial, T2 seule réserve, la largeur (13 caractères pour « une douzaine ») | Alertes : T1 « offre » ne dit pas où il mène (promo ? abonnement ?) ; T2 largeur à vérifier à 360 px`
+
+**Dans la peau du visiteur.** Je lis un article, et un petit bouton violet me dit « Voir l'offre ». Une offre de quoi ? Ça sonne promo et vendeur, le mot que j'associe aux bandeaux que je ferme. Si je clique, c'est par curiosité vague, et j'arrive sur une page d'abonnement que je n'attendais pas forcément. « Voir les prix » me dit honnêtement deux choses : c'est payant, et je vais voir combien, sans m'engager. C'est exactement ce que montre la page d'arrivée. Je clique moins par curiosité, mais je clique en sachant pourquoi, et c'est ce clic-là qui finit en paiement.
+
+**T1, manque pour 10.** Le mot « offre » est à remplacer : vague, commercial, et il ne prépare pas à la page d'arrivée. Ma proposition est T2.
+
+**T2, manque pour 10.** Je ne vois rien à changer dans les mots. La seule inconnue est physique : « Voir les prix » fait 13 caractères, pour une limite d'« une douzaine ». S'il tient à 360 px, c'est 10/10 en conversion. S'il déborde, le repli est « Les prix » (8 caractères), qui garde la même honnêteté.
+
+**Alertes.**
+- Faits : RAS.
+- Tiret cadratin : aucun.
+- Jargon : aucun.
+- Promesse : aucune.
+- Bouton : T1 « Voir l'offre » ne dit pas clairement où il mène ; T2 dit exactement où il mène.
+- Tic : T1 « offre » (vocabulaire de vente).
 
 ## Synthèse
-[À REMPLIR]
+
+Choix : B1 T1, B2 T1, B18 T1, B3 T2, B4+B5 T1, B6 T2. Aucun texte n'est à 10 partout ; seul « Voir les prix » (B6) y est, sous réserve que les 13 caractères tiennent à 360 px. Le fil commun gagnant pour un sceptique : la gratuité d'abord, un libellé qui dit où il mène, et le prix affiché sans fard.
+Défauts transversaux à corriger avant tout tour 3 : le lien « Accéder aux parcours complets » mène à une page de prix (B2, B3), « Droit de rétractation » en [S12] (B4+B5), et la formule « Après X, la/les Y » (B2 T2, B4+B5 T2).
