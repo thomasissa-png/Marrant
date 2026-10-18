@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { FENETRE_GARANTIE } from "@/config/textes/cta-pages";
 import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 
@@ -66,11 +67,14 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
       });
       const data = await res.json();
       if (data.url) {
+        trackCheckoutOuvert("paywall");
         window.location.href = data.url;
       } else {
+        trackCheckoutEchec("paywall", res.status === 409 ? "conflit" : "erreur");
         setError("Le paiement n'a pas pu démarrer. Réessaie dans un instant.");
       }
     } catch {
+      trackCheckoutEchec("paywall", "reseau");
       setError("La connexion a lâché en route. Réessaie.");
     } finally {
       setLoading(false);

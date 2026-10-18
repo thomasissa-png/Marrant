@@ -33,7 +33,8 @@ describe("PremiumPaywall (mode web)", () => {
     });
     // @ts-ignore : mock window.location
     delete (window as any).location;
-    (window as any).location = { href: "" };
+    // pathname/search : lus par la mesure Umami (checkout-ouvert, fusion s21).
+    (window as any).location = { href: "", pathname: "/parcours/repartie", search: "" };
   });
 
   it("affiche le CTA Stripe en mode web", () => {

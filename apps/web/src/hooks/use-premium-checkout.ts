@@ -4,11 +4,13 @@ import { useState } from "react";
 import { toast } from "@/components/ui/toast";
 import { trackUmami } from "@/lib/umami";
 import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 
 /**
  * Paiement mensuel direct pour un compte connecté (fenêtre Premium, quiz
  * d'orientation) : mesure du clic, POST /api/stripe/checkout avec la page à
  * retrouver, refus 409 affiché par `CheckoutConflictNotice`, sinon toast.
+ * `checkout-ouvert` juste avant le départ vers Stripe, `checkout-echec` à chaque échec.
  */
 export function usePremiumCheckout(src: string) {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,13 +30,16 @@ export function usePremiumCheckout(src: string) {
       });
       if (res.ok) {
         const data = await res.json();
+        trackCheckoutOuvert(src);
         window.location.href = data.url;
         return;
       }
       const conflit = readCheckoutConflict(res.status, await res.json().catch(() => null));
+      trackCheckoutEchec(src, conflit ? "conflit" : "erreur");
       if (conflit) setConflict(conflit);
       else toast("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
     } catch {
+      trackCheckoutEchec(src, "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsLoading(false);
