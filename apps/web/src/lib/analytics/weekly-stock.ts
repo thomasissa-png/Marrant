@@ -13,7 +13,8 @@ import type { StockCoverage } from "@/lib/scheduler/prepared-content";
 /** Lecture du stock, injectable pour les tests ; null = génération activée. */
 export type StockReader = () => Promise<StockCoverage | null>;
 
-const prismaStock: StockReader = async () => {
+/** Lecture par défaut (rapport du lundi et page admin, s21). */
+export const prismaStock: StockReader = async () => {
   const { getStockCoverage, isContentGenerationEnabled } = await import("@/lib/scheduler/prepared-content");
   if (isContentGenerationEnabled()) return null;
   const { todayUTC } = await import("@/lib/ai/date-utils");

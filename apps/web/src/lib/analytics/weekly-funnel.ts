@@ -40,6 +40,8 @@ export type FunnelDbCounts = {
   /** Abonnements actifs dont la fin est programmée (instantané). */
   resiliationsProgrammees: number;
   abonnesActifs: number;
+  /** s21 (page admin) : abonnés actifs par formule (`billingInterval` « month » / « year »). */
+  parFormule?: { mensuel: number; annuel: number; inconnu: number };
   mrrCents: number;
 };
 
@@ -102,9 +104,25 @@ export const prismaFunnelCounter: FunnelDbCounter = async (startAt, endAt) => {
     resiliations,
     resiliationsProgrammees,
     abonnesActifs: actifs.length,
+    parFormule: compterParFormule(actifs),
     mrrCents,
   };
 };
+
+/** Abonnés actifs par formule ; intervalle absent (pas encore resynchronisé) : « inconnu ». */
+export function compterParFormule(actifs: Array<{ billingInterval: string | null }>): {
+  mensuel: number;
+  annuel: number;
+  inconnu: number;
+} {
+  const r = { mensuel: 0, annuel: 0, inconnu: 0 };
+  for (const a of actifs) {
+    if (a.billingInterval === "month") r.mensuel += 1;
+    else if (a.billingInterval === "year") r.annuel += 1;
+    else r.inconnu += 1;
+  }
+  return r;
+}
 
 function viewsOf(points: UmamiPoint[], path: string): number {
   return points.filter((p) => p.x.replace(/\/$/, "") === path).reduce((sum, p) => sum + p.y, 0);
@@ -139,34 +157,36 @@ export function fusionnerCheckoutParSource(
 
 const reason = (err: unknown) => (err instanceof Error ? err.message : "erreur inconnue");
 
+/** s21 (page admin) : sans configuration Umami, seules les données de la base sont lues. */
+export const UMAMI_ABSENT = "Umami non configuré (UMAMI_API_KEY, UMAMI_WEBSITE_ID)";
+
 export async function buildWeeklyFunnel(
-  config: UmamiConfig,
+  config: UmamiConfig | null,
   window: { startAt: number; endAt: number },
   countDb: FunnelDbCounter = prismaFunnelCounter,
 ): Promise<WeeklyFunnel> {
-  const warnings: string[] = [];
+  const warnings: string[] = config ? [] : [UMAMI_ABSENT];
+  const umami = <T>(label: string, call: (c: UmamiConfig) => Promise<T>): Promise<T | null> =>
+    config
+      ? call(config).catch((err) => {
+          warnings.push(`${label} : ${reason(err)}`);
+          return null;
+        })
+      : Promise.resolve(null);
   const [paths, events, db, srcOuverts, srcEchecs] = await Promise.all([
-    fetchUmamiPathMetrics(config, window.startAt, window.endAt, 10, "/abonnement").catch((err) => {
-      warnings.push(`vues /abonnement : ${reason(err)}`);
-      return null;
-    }),
-    fetchUmamiMetrics(config, window.startAt, window.endAt, "event", 100).catch((err) => {
-      warnings.push(`événements Umami : ${reason(err)}`);
-      return null;
-    }),
+    umami("vues /abonnement", (c) => fetchUmamiPathMetrics(c, window.startAt, window.endAt, 10, "/abonnement")),
+    umami("événements Umami", (c) => fetchUmamiMetrics(c, window.startAt, window.endAt, "event", 100)),
     countDb(new Date(window.startAt), new Date(window.endAt)).catch((err) => {
       warnings.push(`base : ${reason(err)}`);
       return null;
     }),
     // s21 (revue v2 m-2) : même filtre d'hôte que le reste (appliqué par `umamiGet`).
-    fetchUmamiEventDataValues(config, window.startAt, window.endAt, "checkout-ouvert", "src").catch((err) => {
-      warnings.push(`checkout-ouvert par source : ${reason(err)}`);
-      return null;
-    }),
-    fetchUmamiEventDataValues(config, window.startAt, window.endAt, "checkout-echec", "src").catch((err) => {
-      warnings.push(`checkout-echec par source : ${reason(err)}`);
-      return null;
-    }),
+    umami("checkout-ouvert par source", (c) =>
+      fetchUmamiEventDataValues(c, window.startAt, window.endAt, "checkout-ouvert", "src"),
+    ),
+    umami("checkout-echec par source", (c) =>
+      fetchUmamiEventDataValues(c, window.startAt, window.endAt, "checkout-echec", "src"),
+    ),
   ]);
   return {
     encartsBlogVus: events ? eventCount(events, "blog-cta-vu") : null,
@@ -199,9 +219,19 @@ const n = (v: number | null | undefined) => (v === null || v === undefined ? NA 
 const euros = (cents: number | null | undefined) =>
   cents === null || cents === undefined ? NA : `${nf.format(Math.round(cents) / 100)} €`;
 
-/** Section HTML « Funnel de la semaine » (même e-mail du lundi, aucun nouvel envoi). */
-export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
-  const rows: [string, string][] = [
+/** « 3 (2 mensuels, 1 annuel) » ; sans ventilation, le nombre seul. */
+export function abonnesParFormule(db: FunnelDbCounts | null | undefined): string {
+  if (!db) return NA;
+  const f = db.parFormule;
+  if (!f) return n(db.abonnesActifs);
+  const parts = [`${n(f.mensuel)} mensuel${f.mensuel > 1 ? "s" : ""}`, `${n(f.annuel)} annuel${f.annuel > 1 ? "s" : ""}`];
+  if (f.inconnu > 0) parts.push(`${n(f.inconnu)} à resynchroniser`);
+  return `${n(db.abonnesActifs)} (${parts.join(", ")})`;
+}
+
+/** Lignes « libellé, valeur » de l'entonnoir : e-mail du lundi ET page admin (s21). */
+export function lignesFunnel(f: WeeklyFunnel): [string, string][] {
+  return [
     ["Encarts d'article vus (blog-cta-vu)", n(f.encartsBlogVus)],
     ["Clics sur ces encarts (blog-cta-clic)", n(f.clicsEncartsBlog)],
     ["Murs Premium vus (mur-vu)", n(f.mursVus)],
@@ -216,9 +246,14 @@ export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
     ["Paiements reçus au total (Stripe)", n(f.db?.paiements)],
     ["Résiliations effectives", n(f.db?.resiliations)],
     ["Résiliations programmées en cours", n(f.db?.resiliationsProgrammees)],
-    ["Abonnés actifs (aujourd'hui)", n(f.db?.abonnesActifs)],
+    ["Abonnés actifs (aujourd'hui)", abonnesParFormule(f.db)],
     ["Revenu mensuel récurrent (aujourd'hui)", euros(f.db?.mrrCents)],
   ];
+}
+
+/** Section HTML « Funnel de la semaine » (même e-mail du lundi, aucun nouvel envoi). */
+export function buildFunnelSectionHtml(f: WeeklyFunnel): string {
+  const rows = lignesFunnel(f);
   const body = rows
     .map(([label, value]) => `<tr><td style="${TD}">${label}</td><td style="${TD_NUM}font-weight:600;">${value}</td></tr>`)
     .join("");

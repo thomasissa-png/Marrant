@@ -148,21 +148,23 @@ export function sommeVuesParcours(points: UmamiPoint[]): number {
 }
 
 export async function buildWeeklyParcours(
-  config: UmamiConfig,
+  config: UmamiConfig | null,
   window: { startAt: number; endAt: number },
   countDb: ParcoursDbCounter = prismaParcoursCounter,
   exclus: string[] = emailsExclus(),
 ): Promise<WeeklyParcours> {
-  const warnings: string[] = [];
+  // s21 (page admin) : sans configuration Umami, seules les données de la base sont lues.
+  const warnings: string[] = config ? [] : ["Umami non configuré (UMAMI_API_KEY, UMAMI_WEBSITE_ID)"];
+  const umami = <T>(label: string, call: (c: UmamiConfig) => Promise<T>): Promise<T | null> =>
+    config
+      ? call(config).catch((err) => {
+          warnings.push(`${label} : ${reason(err)}`);
+          return null;
+        })
+      : Promise.resolve(null);
   const [paths, events, db] = await Promise.all([
-    fetchUmamiPathMetrics(config, window.startAt, window.endAt, 500).catch((err) => {
-      warnings.push(`pages parcours : ${reason(err)}`);
-      return null;
-    }),
-    fetchUmamiMetrics(config, window.startAt, window.endAt, "event", 100).catch((err) => {
-      warnings.push(`événements Umami : ${reason(err)}`);
-      return null;
-    }),
+    umami("pages parcours", (c) => fetchUmamiPathMetrics(c, window.startAt, window.endAt, 500)),
+    umami("événements Umami", (c) => fetchUmamiMetrics(c, window.startAt, window.endAt, "event", 100)),
     countDb(new Date(window.startAt), new Date(window.endAt), exclus).catch((err) => {
       warnings.push(`base : ${reason(err)}`);
       return null;
@@ -183,38 +185,39 @@ const n = (v: number | null | undefined) => (v === null || v === undefined ? NA 
 const surDe = (a: number | undefined, b: number | undefined) =>
   a === undefined || b === undefined ? NA : `${nf.format(a)} sur ${nf.format(b)}`;
 
-/** Passage d'une étape à la suivante, par parcours : « 1 → 2 : 1 sur 2 ». */
-function lignesPassage(passage: ParcoursDbCounts["passage"]): string {
+/** Passage d'une étape à la suivante, par parcours : « 1 → 2 : 1 sur 2 » (une ligne par parcours, texte brut). */
+function lignesPassage(passage: ParcoursDbCounts["passage"]): string[] {
   const parSlug = new Map<string, Map<number, number>>();
   for (const r of passage) {
     if (!parSlug.has(r.slug)) parSlug.set(r.slug, new Map());
     parSlug.get(r.slug)?.set(r.etape, r.ontValide);
   }
-  if (parSlug.size === 0) return "aucune progression";
-  return Array.from(parSlug.entries())
-    .map(([slug, m]) => {
-      const etapes = Array.from(m.keys()).sort((a, b) => a - b);
-      const sauts = etapes.slice(1).map((k) => `${k - 1}→${k} : ${surDe(m.get(k), m.get(k - 1))}`);
-      return `${escapeHtml(slug)} (étape 1 : ${n(m.get(1))}${sauts.length ? ` ; ${sauts.join(" ; ")}` : ""})`;
-    })
-    .join("<br>");
+  if (parSlug.size === 0) return ["aucune progression"];
+  return Array.from(parSlug.entries()).map(([slug, m]) => {
+    const etapes = Array.from(m.keys()).sort((a, b) => a - b);
+    const sauts = etapes.slice(1).map((k) => `${k - 1}→${k} : ${surDe(m.get(k), m.get(k - 1))}`);
+    return `${slug} (étape 1 : ${n(m.get(1))}${sauts.length ? ` ; ${sauts.join(" ; ")}` : ""})`;
+  });
 }
 
-/** Section HTML « Parcours de la semaine » (même e-mail du lundi). */
-export function buildParcoursSectionHtml(w: WeeklyParcours): string {
+/**
+ * Lignes « libellé, valeurs » du bloc Parcours (texte brut, une valeur par ligne
+ * affichée) : e-mail du lundi ET page admin (s21).
+ */
+export function lignesParcours(w: WeeklyParcours): [string, string[]][] {
   const e = w.events;
   const d = w.db;
-  const ev = (k: string) => n(e ? e[k] : null);
+  const ev = (k: string) => [n(e ? e[k] : null)];
   const completion = d
     ? d.completion.length
-      ? d.completion
-          .map((c) => `${escapeHtml(c.slug)} : ${surDe(c.termines, c.commences)}${c.medianeJours !== null ? `, médiane ${nf.format(c.medianeJours)} j` : ""}`)
-          .join("<br>")
-      : "aucun parcours commencé"
-    : NA;
+      ? d.completion.map(
+          (c) => `${c.slug} : ${surDe(c.termines, c.commences)}${c.medianeJours !== null ? `, médiane ${nf.format(c.medianeJours)} j` : ""}`,
+        )
+      : ["aucun parcours commencé"]
+    : [NA];
   const ecart = d && e ? d.validationsSemaine - (e["parcours-etape"] ?? 0) : null;
-  const rows: [string, string][] = [
-    ["Pages vues des parcours (/parcours*)", n(w.pagesVues)],
+  return [
+    ["Pages vues des parcours (/parcours*)", [n(w.pagesVues)]],
     ["Parcours ouverts (parcours-ouvert)", ev("parcours-ouvert")],
     ["Étapes ouvertes (etape-ouverte)", ev("etape-ouverte")],
     ["Quiz d'étape terminés (quiz-etape-termine)", ev("quiz-etape-termine")],
@@ -222,15 +225,20 @@ export function buildParcoursSectionHtml(w: WeeklyParcours): string {
     ["Orientation terminée (orientation-resultat)", ev("orientation-resultat")],
     ["Lien vers l'étape à faire cliqué (lien-etape-clic)", ev("lien-etape-clic")],
     ["« Aller au défi » cliqué (defi-lien-clic)", ev("defi-lien-clic")],
-    ["Activation : étape 1 validée dans les 48 h", d ? surDe(d.activation.actives48h, d.activation.eligibles) : NA],
-    ["Passage d'étape en étape (abonnés)", d ? lignesPassage(d.passage) : NA],
+    ["Activation : étape 1 validée dans les 48 h", [d ? surDe(d.activation.actives48h, d.activation.eligibles) : NA]],
+    ["Passage d'étape en étape (abonnés)", d ? lignesPassage(d.passage) : [NA]],
     ["Parcours terminés sur commencés", completion],
-    ["Parcours suivant démarré dans les 7 j", d ? surDe(d.suivant.autreDemarre, d.suivant.finis) : NA],
-    ["Rythme : semaines actives sur semaines écoulées", d ? `${surDe(d.rythme.semainesActives, d.rythme.semainesEcoulees)} (${n(d.rythme.abonnes)} abonné(s))` : NA],
-    ["Retour à J7", d ? surDe(d.retourJ7.revenus, d.retourJ7.eligibles) : NA],
+    ["Parcours suivant démarré dans les 7 j", [d ? surDe(d.suivant.autreDemarre, d.suivant.finis) : NA]],
+    ["Rythme : semaines actives sur semaines écoulées", [d ? `${surDe(d.rythme.semainesActives, d.rythme.semainesEcoulees)} (${n(d.rythme.abonnes)} abonné(s))` : NA]],
+    ["Retour à J7", [d ? surDe(d.retourJ7.revenus, d.retourJ7.eligibles) : NA]],
     ["Erreurs vues (parcours-erreur)", ev("parcours-erreur")],
-    ["Étapes validées : base / Umami (parcours-etape)", d ? `${n(d.validationsSemaine)} / ${ev("parcours-etape")}${ecart ? ` (écart ${nf.format(ecart)})` : ""}` : NA],
+    ["Étapes validées : base / Umami (parcours-etape)", [d ? `${n(d.validationsSemaine)} / ${ev("parcours-etape")[0]}${ecart ? ` (écart ${nf.format(ecart)})` : ""}` : NA]],
   ];
+}
+
+/** Section HTML « Parcours de la semaine » (même e-mail du lundi). */
+export function buildParcoursSectionHtml(w: WeeklyParcours): string {
+  const rows = lignesParcours(w).map(([label, valeurs]): [string, string] => [label, valeurs.map(escapeHtml).join("<br>")]);
   const body = rows
     .map(([label, value]) => `<tr><td style="${TD}">${label}</td><td style="${TD_NUM}font-weight:600;">${value}</td></tr>`)
     .join("");

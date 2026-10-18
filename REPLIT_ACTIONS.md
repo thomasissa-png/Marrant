@@ -2,6 +2,15 @@
 
 ## À DÉPLOYER
 
+### Page admin s21 (18/10/2026) : refonte + inscrits à la lettre, branche `claude/marrant-s21-admin` (depuis `claude/marrant-s21-integration`)
+
+**Rien au déploiement : aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base.** Lecture seule. Sans la migration 14, la page tourne (numéros de la lettre affichés « migration 14 non jouée »).
+- `/admin` : onglets Semaine (défaut : semaine du dernier rapport du lundi, ou 7 derniers jours), Abonnés (Premium et comptes ; Lettre), Réseaux sociaux, Planning. Connexion inchangée.
+- Nouvelles routes, même protection Bearer `ADMIN_PASSWORD` : `GET /api/admin/semaine`, `GET /api/admin/lettre` (jamais l'empreinte IP ni les jetons).
+- Rapport du lundi : section « Lettre mensuelle » ajoutée ; ligne « Abonnés actifs » ventilée mensuel / annuel. Mêmes fonctions que la page admin.
+- Audit et captures : `docs/admin/audit-admin-s21.md`, `docs/admin/captures/`.
+- Après mise en ligne : ouvrir `/admin`, vérifier l'onglet Semaine contre l'e-mail du lundi 19/10.
+
 ### Blocs d'appel s21 et concision du tunnel : UNE SEULE ENTRÉE, branche `claude/marrant-s21-integration` (consolidée par @reviewer le 18/10/2026, revue `docs/reviews/revue-cta-s21-v3.md`, HEAD relu `712d6ae`)
 
 Part avec la mise en ligne s21 (P0 à P8 ci-dessous), jamais seule. **Rien de propre à cette entrée au déploiement : aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base** (migration 14 et P5 = celles de la lettre, dans P0 à P8). Une seule donnée change : la clé `intro` du carnet de novembre (`apps/web/src/data/carnet/2026-11.json`, sha256 `e2b15d0f…5b270a`, épinglé par le test `carnet-novembre-2026`). **Textes : `docs/copy/cta-s21/concision/VALIDE.md` + `textes-v5-a/b/c.md`, seule référence** (remplacent `textes-finaux-valides.md` et `textes-valides-boutons.md`) ; code : `apps/web/src/config/textes/*.ts`, `lib/faqs.ts`. L'historique des tours (QA v1 à v3, revues v1 à v3, E1 à E6, structure puis textes de la concision) est dans le journal git de la branche, `docs/qa/` et `docs/reviews/` : il ne contient plus aucune consigne à exécuter.
