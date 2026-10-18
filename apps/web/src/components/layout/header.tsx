@@ -128,7 +128,7 @@ export function Header() {
       )}
       {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 xl:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
           {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px ;
               concision v5 : encore un cran sous 360 px, avec des marges de 12 px, pour que le
               bouton prix tienne à côté du menu dès 320 px) */}

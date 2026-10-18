@@ -1,6 +1,6 @@
 "use client";
 
-import { frTypo } from "@/lib/fr-typo";
+import { contenuAffiche } from "@/lib/tip-prose";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
@@ -89,7 +89,7 @@ const PUNCHLINE_TEASERS = [
   "Tu la sens venir ?",
   "La chute est juste derrière",
   "À toi de jouer",
-  "Devine d'abord, clique ensuite",
+  "Devine d’abord, clique ensuite",
 ];
 
 
@@ -231,7 +231,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
         limited && page > 1 ? null : <EmptyState
           emoji="😅"
           emojiLabel="pas de vannes"
-          title="Rien dans cette catégorie pour l'instant, même pas un jeu de mots"
+          title="Rien dans cette catégorie pour l’instant, même pas un jeu de mots"
           description="Essaie une autre catégorie, on a forcément un truc pour toi."
           ctaLabel="Voir toutes les vannes"
           ctaHref="/vannes"
@@ -241,11 +241,15 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in"
+              // Revue visuelle s21 (T2-02) : carte en colonne, rangée d'action en pied à la même place d'une carte à l'autre.
+              // Règle commune aux trois murs : une dernière carte seule prend la rangée (vanne : texte court).
+              className={`flex h-full cursor-pointer flex-col transition-colors hover:bg-background-light animate-stagger-in${
+                jokes.length % 2 === 1 && index === jokes.length - 1 ? " md:col-span-2" : ""
+              }`}
               style={{ animationDelay: `${index * 50}ms` }}
               onClick={() => togglePunchline(joke.id)}
             >
-              <CardContent className="pt-0">
+              <CardContent className="flex flex-1 flex-col pt-0">
                 {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
                 <div className="mb-3 flex items-center justify-between gap-2">
                   <div className="flex min-w-0 flex-wrap items-center gap-2">
@@ -259,14 +263,14 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                   </div>
                 </div>
                 {/* Toucher l'amorce (ou la carte) révèle la chute : c'est le geste de la page. */}
-                <p className="text-text-primary">{frTypo(joke.content)}</p>
+                <p className="text-text-primary">{contenuAffiche(joke.content)}</p>
                 {revealedIds.has(joke.id) && (
                   <p
                     id={`punchline-${joke.id}`}
                     tabIndex={-1}
                     className="mt-3 font-semibold text-accent-link animate-fade-in focus:outline-none"
                   >
-                    {joke.punchline}
+                    {contenuAffiche(joke.punchline)}
                   </p>
                 )}
                 {revealedIds.has(joke.id) && (
@@ -278,17 +282,17 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     onClick={(e) => e.stopPropagation()}
                   >
                     <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-                      Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+                      Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
                     </p>
                     {joke.techniqueExplanation && (
                       <p className="mt-2 text-sm text-text-secondary">
-                        {joke.techniqueExplanation}
+                        {contenuAffiche(joke.techniqueExplanation)}
                       </p>
                     )}
                     {joke.howToApply && (
                       <div className="mt-3 rounded-md border border-border bg-background-card p-3">
                         <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
-                        <p className="mt-1 text-sm text-text-secondary">{joke.howToApply}</p>
+                        <p className="mt-1 text-sm text-text-secondary">{contenuAffiche(joke.howToApply)}</p>
                       </div>
                     )}
                     <p className="mt-3 text-xs text-text-muted">
@@ -297,7 +301,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                         href="/anatomie-vanne"
                         className="font-medium text-accent-link underline underline-offset-2"
                       >
-                        L&apos;anatomie d&apos;une vanne
+                        L’anatomie d’une vanne
                       </Link>
                     </p>
                   </div>
@@ -305,13 +309,15 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                 {/* s21 : pied de carte. Le seul lien vers la fiche (explorable, même URL) est une flèche
                     discrète au coin inférieur droit, pour ne pas voler le geste de révélation ; elle ne
                     révèle pas la chute. Présente avant comme après la révélation. */}
-                <div className="mt-3 flex items-end gap-2">
+                {/* T2-02 : en pied (mt-auto) ; sous 1 280 px toujours sur 2 lignes, dès 1 280 px sur une ;
+                    « Révéler la chute » aligné sur le texte de la carte (-ml-3 compense son padding). */}
+                <div className="mt-auto flex items-end gap-2 pt-4">
                   {!revealedIds.has(joke.id) && (
-                    <div className="flex min-w-0 flex-1 flex-wrap items-center gap-x-3 gap-y-1">
+                    <div className="flex min-w-0 flex-1 flex-col items-start gap-1 xl:flex-row xl:items-center xl:gap-3">
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="min-h-[44px]"
+                        className="-ml-3 min-h-11"
                         aria-expanded={false}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -330,7 +336,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                   <Link
                     href={`/vannes/${buildJokeSlug(joke)}`}
                     onClick={(e) => e.stopPropagation()}
-                    className={`ml-auto shrink-0 ${FLECHE_CARTE_LIEN}`}
+                    className={`ml-auto shrink-0 self-end xl:self-center ${FLECHE_CARTE_LIEN}`}
                     aria-label="Voir la fiche de cette vanne"
                   >
                     <span aria-hidden="true" className={FLECHE_CARTE_PASTILLE}>

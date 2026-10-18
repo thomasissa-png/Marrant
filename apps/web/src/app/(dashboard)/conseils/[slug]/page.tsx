@@ -181,7 +181,7 @@ export default async function ConseilPage({
       />
       <JsonLd data={howToJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/conseils" className="hover:text-text-primary max-md:py-3.5">Conseils</Link>
@@ -240,7 +240,7 @@ export default async function ConseilPage({
                 <li key={r.id}>
                   <Link
                     href={`/conseils/${buildTipSlug(r)}`}
-                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="flex h-full flex-col justify-center rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
                     <p className="text-sm font-semibold text-text-primary">{frTypo(r.title)}</p>
                   </Link>

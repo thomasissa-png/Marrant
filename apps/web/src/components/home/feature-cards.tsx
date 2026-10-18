@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { contenuAffiche } from "@/lib/tip-prose";
 import { useContentStats } from "@/hooks/use-content-stats";
 
 const features = [
@@ -42,7 +43,7 @@ const features = [
         </>
       ),
     description:
-      "Les meilleurs extraits d'humoristes francophones, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
+      "Les meilleurs extraits d’humoristes francophones, démontés technique par technique pour que tu repartes avec leur mécanique, pas seulement avec le fou rire.",
     cta: "Regarder les vidéos",
     href: "/videos",
     variant: "outline" as const,
@@ -96,8 +97,9 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
                   {/* Revue visuelle s21 : liens d'exemple de 44 px de haut (cible tactile), sans interligne ajouté. */}
                   {examples[i].map((example) => (
                     <li key={example.href}>
-                      <Link href={example.href} className="line-clamp-2 py-3 text-sm text-accent-link hover:underline">
-                        {example.label}
+                      {/* T2-05 : toute la largeur de la carte, fins de ligne équilibrées ; contenu de la base au rendu typographique (R27). */}
+                      <Link href={example.href} className="line-clamp-2 w-full py-3 text-sm text-accent-link [text-wrap:pretty] hover:underline">
+                        {contenuAffiche(example.label)}
                       </Link>
                     </li>
                   ))}

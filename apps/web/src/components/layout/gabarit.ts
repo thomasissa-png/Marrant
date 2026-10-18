@@ -1,7 +1,7 @@
 /**
  * Gabarit de mise en page unique (revue visuelle s21, docs/design/revue-visuelle-s21/audit.md).
  *
- * - Coque : `max-w-7xl px-4 xl:px-8` (en-tête, contenu, pied). Pages catalogue (listes, blog,
+ * - Coque : `max-w-7xl px-4 md:px-6 xl:px-8` (en-tête, contenu, pied). Pages catalogue (listes, blog,
  *   glossaire, profil, favoris) : tout bloc prend la pleine colonne ; seul le texte courant garde
  *   `MESURE_TEXTE`.
  * - Pages de lecture (fiches, article, parcours, carnet, à propos, lettre, abonnement,

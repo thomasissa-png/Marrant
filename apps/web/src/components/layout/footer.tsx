@@ -16,7 +16,7 @@ const footerLinks = {
     { href: "/blog", label: LIBELLE_SECTION_ARTICLES },
     { href: "/glossaire", label: "Glossaire" },
     { href: "/quiz-humour", label: "Quiz humour" },
-    { href: "/anatomie-vanne", label: "Anatomie d'une vanne" },
+    { href: "/anatomie-vanne", label: "Anatomie d’une vanne" },
     { href: "/abonnement", label: "Nos offres" },
   ],
   legal: [
@@ -74,14 +74,15 @@ export function Footer() {
   const produit = liensProduit();
   return (
     <footer className="border-t border-border bg-background-light">
-      <div className="mx-auto max-w-7xl px-4 py-12 xl:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 xl:px-8">
         {/* 375 : une colonne ; 640-1023 : 3 colonnes (Produit sur une seule liste) ;
             ≥ 1024 : 4 pistes égales, Produit sur 2 pistes (sous-colonnes au même
             écart que la grille, donc alignées sur elle) : plus de 4e colonne vide (s17). */}
-        {/* Revue visuelle s21 (R18) : dès 768 px, colonne marque plus large et liste Produit sur 2 colonnes (comme à 1 280). */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-[1.3fr_1.7fr_1fr] lg:grid-cols-4">
+        {/* Revue visuelle s21 (R18, T2-08) : de 768 à 1 023 px, la marque sur toute la rangée du haut, puis
+            Produit (2 colonnes) et Légal : plus aucun libellé sur 2 lignes ; dès 1 024 px, 4 pistes. */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-[2fr_1fr] lg:grid-cols-4">
           {/* Marque + Réseaux sociaux */}
-          <div>
+          <div className="md:col-span-2 lg:col-span-1">
             <span className="font-display text-xl font-bold text-gradient">
               deviens-marrant.fr
             </span>

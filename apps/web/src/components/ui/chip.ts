@@ -12,9 +12,9 @@ export function chipClass(state: "idle" | "active" = "idle", className?: string)
 }
 
 /**
- * Rangée de pastilles (revue visuelle s21, R03) : une seule ligne qui défile sous 768 px (plus de
- * pastille orpheline sur une 3e ligne), fondu de 24 px à droite comme repère de défilement ;
- * passage à la ligne dès 768 px. Même rangée pour /vannes, /conseils, /videos et le glossaire.
+ * Rangée de pastilles (revue visuelle s21, R03, T2-09) : une seule ligne qui défile sous 1 024 px
+ * (plus de pastille orpheline sur une ligne à elle seule, à 375 comme à 768), fondu de 24 px à
+ * droite comme repère de défilement ; passage à la ligne dès 1 024 px. Même rangée pour /vannes, /conseils, /videos et le glossaire.
  */
 export const RANGEE_CHIPS =
-  "-mx-4 flex snap-x flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0 md:[mask-image:none] [&::-webkit-scrollbar]:hidden";
+  "-mx-4 flex snap-x flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] md:-mx-6 md:px-6 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0 lg:[mask-image:none] [&::-webkit-scrollbar]:hidden";

@@ -251,28 +251,33 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
           emoji="🎬"
           emojiLabel="pas de vidéos"
           title="Pas de vidéo ici… même les humoristes font des pauses"
-          description="Essaie un autre niveau, y'a du lourd qui t'attend."
+          description="Essaie un autre niveau, y’a du lourd qui t’attend."
           ctaLabel="Voir toutes les vidéos"
           ctaHref="/videos"
         />
       ) : (
+        // Revue visuelle s21 (T2-03) : règle commune aux trois murs, une dernière carte seule (2 colonnes, de
+        // 768 à 1 023 px) prend la rangée en disposition horizontale : vignette à gauche, contenu à droite.
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="tabpanel">
-          {videos.map((video, index) => (
+          {videos.map((video, index) => {
+            const seule = videos.length % 2 === 1 && index === videos.length - 1;
+            return (
             <Card
               key={video.id}
-              className="flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in"
+              className={`flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in${seule ? " md:max-lg:col-span-2" : ""}`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="flex flex-1 flex-col pt-0">
-                <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+              <CardContent className={`flex flex-1 flex-col pt-0${seule ? " md:max-lg:grid md:max-lg:grid-cols-[minmax(0,320px)_1fr] md:max-lg:items-start md:max-lg:gap-5" : ""}`}>
+                <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated${seule ? " md:max-lg:mb-0" : ""}`}>
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
+                <div className="flex flex-1 flex-col">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-display text-base font-bold text-text-primary">
                     {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »).
                         Revue visuelle s21 (décision 2) : le lien occupe les 48 px du titre (cible de 44 px). */}
                     <Link href={`/videos/${buildVideoSlug(video)}`} className={cn(TITRE_CARTE_LIEN, "line-clamp-2 min-h-12")}>
-                      {video.title}
+                      {contenuAffiche(video.title)}
                     </Link>
                   </h3>
                   <div className="flex shrink-0 items-center">
@@ -314,9 +319,11 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                     <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{contenuAffiche(fixInvertedCase(video.exercise))}</p>
                   </details>
                 )}
+                </div>
               </CardContent>
             </Card>
-          ))}
+            );
+          })}
         </div>
       )}
       </ListResults>

@@ -102,7 +102,7 @@ export async function generateMetadata({
   const descSuffix =
     otherJokes > 1
       ? ` La chute est sur la page, avec ${otherJokes} autres vannes par situation.`
-      : " La chute est sur la page, avec d'autres vannes par situation.";
+      : " La chute est sur la page, avec d’autres vannes par situation.";
   const descPrefix = `Vanne ${label.toLowerCase()} à ressortir : `;
   const description = `${descPrefix}${truncateAtWord(setup, 160 - descPrefix.length - descSuffix.length)}${descSuffix}`;
 
@@ -193,7 +193,7 @@ export default async function VannePage({
       />
       <JsonLd data={creativeWorkJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/vannes" className="hover:text-text-primary max-md:py-3.5">Vannes</Link>
@@ -231,10 +231,10 @@ export default async function VannePage({
             className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5 md:p-6"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+              Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
             </p>
             <h2 id="pourquoi-ca-marche" className="sr-only">
-              Pourquoi ça marche : {joke.comedyTechnique}
+              Pourquoi ça marche : {contenuAffiche(joke.comedyTechnique)}
             </h2>
             {joke.techniqueExplanation && (
               <p className="mt-2 text-sm text-text-secondary">
@@ -248,7 +248,7 @@ export default async function VannePage({
                 href="/anatomie-vanne"
                 className="font-medium text-accent-link underline underline-offset-2"
               >
-                L&apos;anatomie d&apos;une vanne
+                L’anatomie d’une vanne
               </Link>
             </p>
           </section>
@@ -258,7 +258,7 @@ export default async function VannePage({
         <section className="mt-6 rounded-xl border border-border bg-background-card p-5 md:p-6">
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
+            Le meilleur moment ? Quand personne ne s’y attend. Retiens la structure
             (setup court + chute qui décale) et applique-la à ta propre situation.
           </p>
         </section>
@@ -284,9 +284,9 @@ export default async function VannePage({
                 <li key={r.id}>
                   <Link
                     href={`/vannes/${buildJokeSlug(r)}`}
-                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="flex h-full flex-col justify-center rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
-                    <p className="text-sm text-text-primary line-clamp-2">{r.content}</p>
+                    <p className="text-sm text-text-primary line-clamp-2">{contenuAffiche(r.content)}</p>
                   </Link>
                 </li>
               ))}

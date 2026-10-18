@@ -6,6 +6,8 @@ import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
@@ -25,7 +27,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     value: "ALL",
     label: "Tout",
     emptyEmoji: "⭐",
-    emptyTitle: "Aucun favori pour l'instant",
+    emptyTitle: "Aucun favori pour l’instant",
     emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
     ctaLabel: "Explorer les vannes",
     ctaHref: "/vannes",
@@ -53,7 +55,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     label: "Vidéos",
     emptyEmoji: "🎬",
     emptyTitle: "Pas encore de vidéo en favoris",
-    emptyDesc: "Garde tes vidéos préférées ici pour les revoir et t'en inspirer.",
+    emptyDesc: "Garde tes vidéos préférées ici pour les revoir et t’en inspirer.",
     ctaLabel: "Explorer les vidéos",
     ctaHref: "/videos",
   },
@@ -194,7 +196,7 @@ export function FavorisList() {
             Les favoris sont r&#233;serv&#233;s aux membres Premium
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Passe &#224; l&apos;offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
+            Passe &#224; l’offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
           </p>
           {/* s21 (revue v2 m-1) : source `favoris`, suivie jusqu'à `checkout-ouvert` ; retour ici après paiement. */}
           <Link href={buildAbonnementUrl("/favoris", "monthly", "favoris")} className="mt-4">
@@ -228,12 +230,14 @@ export function FavorisList() {
   return (
     <>
       {/* Tabs with counts */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Type de favoris">
+      {/* Revue visuelle s21 (T2-07) : une ligne qui défile sous 1 024 px (plus d'onglet seul sur la 2e ligne). */}
+      <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Type de favoris">
         {TABS.map((tab) => (
           <Button
             key={tab.value}
             variant={activeTab === tab.value ? "primary" : "ghost"}
             size="sm"
+            className="shrink-0 snap-start whitespace-nowrap"
             role="tab"
             aria-selected={activeTab === tab.value}
             onClick={() => setActiveTab(tab.value)}
@@ -333,7 +337,7 @@ export function FavorisList() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-                              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+                              Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
                             </p>
                             {joke.techniqueExplanation && (
                               <p className="mt-2 text-sm text-text-secondary">
@@ -352,7 +356,7 @@ export function FavorisList() {
                                 href="/anatomie-vanne"
                                 className="font-medium text-accent-link underline underline-offset-2"
                               >
-                                L&apos;anatomie d&apos;une vanne
+                                L’anatomie d’une vanne
                               </Link>
                             </p>
                           </div>
@@ -425,7 +429,7 @@ export function FavorisList() {
                       </div>
                     ) : (
                       <p className="mt-2 text-xs text-text-muted">
-                        Ouvre pour l&apos;exemple et le d&#233;fi
+                        Ouvre pour l’exemple et le d&#233;fi
                       </p>
                     )}
                   </CardContent>
@@ -474,6 +478,10 @@ export function FavorisList() {
                     </h3>
                     <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>
                     <p className="mt-2 text-sm text-text-muted line-clamp-2">{contenuAffiche(video.description)}</p>
+                    </div>
+                    {/* Revue visuelle s21 (T2-12) : encadrés sous la rangée vignette + texte, sur toute la carte
+                        (plus de vide sous la vignette). */}
+                    <div className="lg:col-span-2">
                     {video.learnings && video.learnings.length > 0 && (
                       <div className="mt-3 rounded-lg bg-background-elevated p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>

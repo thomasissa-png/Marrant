@@ -250,18 +250,23 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           emoji="🎓"
           emojiLabel="pas de conseils"
           title="Aucun conseil ne colle à ces filtres, et pourtant on a cherché sous le canapé"
-          description="Change tes filtres, y'a plein de techniques qui t'attendent."
+          description="Change tes filtres, y’a plein de techniques qui t’attendent."
           ctaLabel="Voir tous les conseils"
           ctaHref="/conseils"
         />
       ) : (
-        // Revue visuelle s21 (R01) : 2 colonnes dès 1 024 px comme /vannes et /blog, cartes de même hauteur
-        // par rangée ; une dernière carte seule prend la rangée (3 conseils gratuits : 2 + 1 pleine largeur).
-        <div className="grid gap-4 lg:grid-cols-2 lg:[&>*:last-child:nth-child(odd)]:col-span-2" role="tabpanel">
+        // Revue visuelle s21 (R01, T2-01) : 2 colonnes dès 1 024 px, cartes de même hauteur par rangée.
+        // Règle commune aux trois murs : une dernière carte seule prend la rangée EN DISPOSITION
+        // HORIZONTALE (en-tête à gauche, texte à droite), jamais une carte étirée à moitié vide.
+        <div className="grid gap-4 lg:grid-cols-2" role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="flex h-full cursor-pointer flex-col p-5 transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className={`flex h-full cursor-pointer flex-col p-5 transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${
+                tips.length % 2 === 1 && index === tips.length - 1
+                  ? " lg:col-span-2 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start lg:gap-x-8"
+                  : ""
+              }`}
               style={{ animationDelay: `${index * 60}ms` }}
               tabIndex={0}
               onClick={() => toggleExpanded(tip.id)}
@@ -300,7 +305,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
               <CardContent className="flex flex-1 flex-col">
                 {/* T20 : conseil replié à 4 lignes, affiché en entier au dépliage (clic sur la carte). */}
                 <p
-                  className={`max-w-3xl text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
+                  className={`text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
                 >
                   {contenuAffiche(tip.content)}
                 </p>

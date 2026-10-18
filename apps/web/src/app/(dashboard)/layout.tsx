@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </a>
       <Header />
       {/* Revue visuelle s21 (R26) : marges de 32 px dès 1 280 px (mêmes que l'en-tête et le pied). */}
-      <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 xl:px-8">
+      <main id="main-content" className="mx-auto max-w-7xl px-4 py-8 md:px-6 xl:px-8">
         {/* Bienvenue après paiement (?premium=bienvenue) ; Suspense requis par useSearchParams en rendu statique. */}
         <Suspense fallback={null}>
           <PremiumWelcome />

@@ -134,11 +134,11 @@ export function DailyContent() {
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0">
+        <div className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-[86%] shrink-0 snap-center animate-pulse rounded-xl border border-border bg-background-card p-6 lg:w-auto"
+              className="w-[86%] shrink-0 snap-center animate-pulse rounded-xl border border-border bg-background-card p-6 md:w-auto md:p-4 lg:p-6"
             >
               <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
@@ -156,7 +156,7 @@ export function DailyContent() {
       <h2 id="contenu-du-jour-titre" className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      {/* Mobile et tablette (< 1024 px) : carrousel horizontal (spec UX §2.8, T04) ; desktop : grille. Revue visuelle s21
+      {/* Mobile (< 768 px) : carrousel horizontal (spec UX §2.8, T04) ; dès 768 px : grille de 3 (T2-06). Revue visuelle s21
           (verdict @design, décision 1) : cartes étirées, même haut et même bas, pied d'actions commun aligné.
           Zone défilante focusable et nommée (axe scrollable-region-focusable) : sans contenu
           du jour (/api/daily en échec), aucune carte n'a d'élément focusable. */}
@@ -164,12 +164,12 @@ export function DailyContent() {
         role="region"
         aria-labelledby="contenu-du-jour-titre"
         tabIndex={0}
-        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:px-0 lg:pb-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
       >
         {/* Vanne du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
-          <div className="flex flex-1 flex-col gap-4 p-6">
+          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">😂</span>
               <Badge variant="primary">Vanne du jour</Badge>
@@ -201,7 +201,7 @@ export function DailyContent() {
                 {showPunchline && data.joke.comedyTechnique && (
                   <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
                     <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-                      Pourquoi ça marche&nbsp;: {data.joke.comedyTechnique}
+                      Pourquoi ça marche&nbsp;: {contenuAffiche(data.joke.comedyTechnique)}
                     </p>
                     {data.joke.techniqueExplanation && (
                       <p className="mt-2 text-sm text-text-secondary">
@@ -220,7 +220,7 @@ export function DailyContent() {
                         href="/anatomie-vanne"
                         className="font-medium text-accent-link underline underline-offset-2"
                       >
-                        L&apos;anatomie d&apos;une vanne
+                        L’anatomie d’une vanne
                       </Link>
                     </p>
                   </div>
@@ -235,15 +235,15 @@ export function DailyContent() {
                 </div>
               </>
             ) : (
-              <p className="text-text-secondary">Même l&apos;humour prend un jour off. Reviens demain pour ta dose !</p>
+              <p className="text-text-secondary">Même l’humour prend un jour off. Reviens demain pour ta dose !</p>
             )}
           </div>
         </div>
 
         {/* Conseil du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-          <div className="flex flex-1 flex-col gap-4 p-6">
+          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">💡</span>
               <Badge variant="primary">Conseil du jour</Badge>
@@ -264,7 +264,7 @@ export function DailyContent() {
                   <h3 className="font-display text-lg font-bold text-text-primary">
                     {frTypo(data.tip.title)}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-primary">{contenuAffiche(data.tip.content)}</p>
+                  <p className="text-sm leading-relaxed text-text-primary md:max-lg:line-clamp-6">{contenuAffiche(data.tip.content)}</p>
                   {data.tip.example && (
                     <details className="group/d rounded-lg bg-background-elevated">
                       <summary className={DETAILS_SUMMARY}>
@@ -293,15 +293,15 @@ export function DailyContent() {
                 </div>
               </>
             ) : (
-              <p className="text-text-secondary">Le conseil du jour s&apos;est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
+              <p className="text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
             )}
           </div>
         </div>
 
         {/* Vidéo du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card lg:w-auto">
+        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
-          <div className="flex flex-1 flex-col gap-4 p-6">
+          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
             <div className="flex flex-wrap items-center gap-2">
               <span className="text-2xl" aria-hidden="true">🎬</span>
               <Badge variant="primary">Vidéo du jour</Badge>
@@ -324,7 +324,7 @@ export function DailyContent() {
                     <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
                   </div>
                   <div>
-                    <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">{data.video.title}</h3>
+                    <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">{contenuAffiche(data.video.title)}</h3>
                     <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
@@ -362,7 +362,7 @@ export function DailyContent() {
                 </div>
               </>
             ) : (
-              <p className="text-text-secondary">L&apos;humoriste du jour est en coulisses. À demain !</p>
+              <p className="text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>
             )}
           </div>
         </div>

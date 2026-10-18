@@ -167,7 +167,7 @@ export default async function VideoPage({
       />
       <JsonLd data={videoJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/videos" className="hover:text-text-primary max-md:py-3.5">Vidéos</Link>
@@ -202,7 +202,7 @@ export default async function VideoPage({
         </div>
 
         <section className="mt-8">
-          <h2 className="font-display mb-2 text-lg font-bold">Ce qu&apos;elle montre</h2>
+          <h2 className="font-display mb-2 text-lg font-bold">Ce qu’elle montre</h2>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
             {contenuAffiche(fixInvertedCase(video.description))}
           </p>
@@ -231,9 +231,9 @@ export default async function VideoPage({
                 <li key={r.id}>
                   <Link
                     href={`/videos/${buildVideoSlug(r)}`}
-                    className="block h-full rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="flex h-full flex-col justify-center rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
-                    <p className="text-sm font-semibold text-text-primary line-clamp-2">{r.title}</p>
+                    <p className="text-sm font-semibold text-text-primary line-clamp-2">{contenuAffiche(r.title)}</p>
                     <p className="mt-1 text-xs text-text-muted">{r.channelName}</p>
                   </Link>
                 </li>
