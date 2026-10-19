@@ -267,11 +267,13 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
               className={`flex flex-col overflow-hidden transition-colors hover:bg-background-light animate-stagger-in${seule ? " md:max-lg:col-span-2" : ""}`}
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className={`flex flex-1 flex-col pt-0${seule ? " md:max-lg:grid md:max-lg:grid-cols-[minmax(0,320px)_1fr] md:max-lg:items-start md:max-lg:gap-5" : ""}`}>
+              <CardContent className={`flex flex-1 flex-col pt-0${seule ? " md:max-lg:grid md:max-lg:grid-cols-[minmax(0,320px)_1fr] md:max-lg:items-start md:max-lg:gap-x-5 md:max-lg:gap-y-0" : ""}`}>
                 <div className={`relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated${seule ? " md:max-lg:mb-0" : ""}`}>
                   <YouTubePlayer youtubeId={video.youtubeId} title={video.title} priority={index === 0} />
                 </div>
-                <div className="flex flex-1 flex-col">
+                {/* Texte à côté de la vignette ; les encadrés passent dessous sur toute la rangée quand la carte est seule
+                    (sinon, vide sous la vignette, comme T2-12 sur /favoris). */}
+                <div className="flex flex-col">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-display text-base font-bold text-text-primary">
                     {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »).
@@ -293,6 +295,8 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                   )}
                 </div>
                 <p className="mt-2 text-sm text-text-muted line-clamp-2">{contenuAffiche(fixInvertedCase(video.description))}</p>
+                </div>
+                <div className={`flex flex-1 flex-col${seule ? " md:max-lg:col-span-2" : ""}`}>
                 {video.learnings && video.learnings.length > 0 && (
                   <details key={`l-${isDesktop}`} open={isDesktop} className="group/d mt-3 rounded-lg bg-background-elevated">
                     <summary className={`${DETAILS_SUMMARY} text-text-primary`}>

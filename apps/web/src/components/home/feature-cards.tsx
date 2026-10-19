@@ -98,22 +98,25 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
                   {examples[i].map((example) => (
                     <li key={example.href}>
                       {/* T2-05 : toute la largeur de la carte, fins de ligne équilibrées ; contenu de la base au rendu typographique (R27). */}
-                      <Link href={example.href} className="line-clamp-2 w-full py-3 text-sm text-accent-link [text-wrap:pretty] hover:underline">
-                        {contenuAffiche(example.label)}
+                      {/* Coupe à 2 lignes sur un span intérieur : sur le lien lui-même, la 3e ligne déborderait dans son padding. */}
+                      <Link href={example.href} className="block w-full py-3 text-sm text-accent-link [text-wrap:pretty] hover:underline">
+                        <span className="line-clamp-2">{contenuAffiche(example.label)}</span>
                       </Link>
                     </li>
                   ))}
                 </ul>
               ) : null}
-              <div className="mt-auto self-start pt-5">
+              {/* Revue visuelle s21, tour 3 : de 768 à 1 023 px (3 cartes étroites), boutons pleine largeur et de même
+                  hauteur (2 lignes), bas alignés d'une carte à l'autre ; la flèche reste liée au dernier mot. */}
+              <div className="mt-auto self-start pt-5 md:max-lg:self-stretch">
                 <Link
                   href={feature.href}
                   className={cn(
                     buttonVariants({ variant: feature.variant, size: "sm" }),
-                    "h-auto min-h-8 whitespace-normal py-1.5 text-left leading-snug max-md:h-auto max-md:min-h-11",
+                    "h-auto min-h-8 whitespace-normal py-1.5 text-left leading-snug max-md:h-auto max-md:min-h-11 md:max-lg:flex md:max-lg:min-h-14 md:max-lg:w-full md:max-lg:justify-start",
                   )}
                 >
-                  {feature.cta} →
+                  {feature.cta}&nbsp;→
                 </Link>
               </div>
             </div>
