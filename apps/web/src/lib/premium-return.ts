@@ -25,6 +25,17 @@ export function sanitizeReturnTo(raw: string | null | undefined): string | null 
   return safe;
 }
 
+/**
+ * Chemin de retour de Stripe (`success_url` sans l'origine) : `/abonnement/success?session_id=…`,
+ * l'intention d'origine validée, et `formule=annuel` pour l'annuel (mesure `abonnement-reussi`).
+ * Source unique : `lib/stripe.ts` et le faux Stripe des tests E2E (QA conversion s21, m4).
+ */
+export function cheminRetourPaiement(rawReturnTo: string | null | undefined, plan: PremiumPlan, sessionId = "{CHECKOUT_SESSION_ID}"): string {
+  const returnTo = sanitizeReturnTo(rawReturnTo);
+  const returnQuery = returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : "";
+  return `/abonnement/success?session_id=${sessionId}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`;
+}
+
 /** Destination après paiement : l'intention d'origine, sinon /parcours, avec le message de bienvenue. */
 export function getPostPaymentDestination(rawReturnTo: string | null | undefined): string {
   const target = sanitizeReturnTo(rawReturnTo) ?? PREMIUM_DEFAULT_RETURN;

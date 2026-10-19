@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import path from "node:path";
 import type { Locator, Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule } from "../support/base-locale";
 
 /**
  * Captures du TRAJET ENCHAÎNÉ, tour 3 (grille docs/ux/trajet-conversion-s21.md §11 : 375 × 700 ET
@@ -15,7 +15,8 @@ import { test, expect, localSeulement, requete, creerCompte, connecter } from ".
  * Sur demande seulement : `CAPTURES_TRAJETS=1` (jamais en CI). Sortie :
  * docs/design/conversion-s21/trajets-v3/<trajet>/<taille>/.
  */
-const SORTIE = path.join(__dirname, "..", "..", "..", "docs", "design", "conversion-s21", "trajets-v3");
+// `CAPTURES_SORTIE` : autre dossier (vérification du script sans toucher aux captures livrées).
+const SORTIE = process.env.CAPTURES_SORTIE ?? path.join(__dirname, "..", "..", "..", "docs", "design", "conversion-s21", "trajets-v3");
 const MDP = "MotDePasse-e2e-42";
 const comptes: string[] = [];
 const TAILLES = [
@@ -55,8 +56,7 @@ async function preparer(page: Page, trajet: string, taille: Taille, fin: Fin = "
     await retenu;
     if (fin === "bienvenue") {
       await requete(`UPDATE "User" SET plan = 'PREMIUM'::"Plan", "updatedAt" = now() WHERE email = $1`, [email]);
-      const retour = corps.returnTo ? `&returnTo=${encodeURIComponent(corps.returnTo)}` : "";
-      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: `/abonnement/success?session_id=cs_test_e2e_local${retour}` }) });
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: urlRetourStripeSimule(corps) }) });
     } else {
       await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: "/?stripe-simule=1" }) });
     }
@@ -174,18 +174,19 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
     });
 
     test(`T2 mur de liste /vannes (visiteur), ${taille.nom}`, async ({ page }) => {
-      const c = await preparer(page, "T2-mur-vannes", taille);
+      const c = await preparer(page, "T2-mur-vannes", taille, "bienvenue");
       await page.goto("/vannes");
       const bouton = page.getByRole("link", { name: /^Ouvrir la suite des vannes/ }).first();
       await captureClic(c, "01-entree-clic", bouton);
       await bouton.click();
       await abonnement(c);
       await page.getByTestId("abonnement-bouton-achat").click();
-      await inscription(c, "mur-vannes");
+      // QA conversion s21 (m4) : jusqu'au retour de paiement (success_url exacte de lib/stripe.ts).
+      await inscription(c, "mur-vannes", "bienvenue");
     });
 
     test(`T3 fin d'étape 1 (visiteur), ${taille.nom}`, async ({ page }) => {
-      const c = await preparer(page, "T3-fin-etape-1", taille);
+      const c = await preparer(page, "T3-fin-etape-1", taille, "bienvenue");
       await page.goto("/parcours/repartie");
       // Fin d'étape 1 réelle : le quiz de l'étape 1 est fait (sinon variante courte, sans carte).
       for (let i = 0; i < 10; i++) {
@@ -207,12 +208,14 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
       await captureClic(c, "01-entree-clic", bouton);
       await bouton.click();
       await expect(page.getByTestId("register-rappel-offre")).toContainText("l’étape 2 de Répartie s’ouvre");
-      await inscription(c, "parcours-etape");
+      await inscription(c, "parcours-etape", "bienvenue");
     });
 
     test(`T4 fenêtre Premium (visiteur, étoile d'une vanne), jusqu'au favori ajouté, ${taille.nom}`, async ({ page }) => {
       const c = await preparer(page, "T4-fenetre-premium", taille, "bienvenue");
       await page.goto("/vannes");
+      // La liste se recharge après l'hydratation (API) : attendre qu'elle soit stable avant de viser l'étoile.
+      await page.waitForLoadState("networkidle");
       const etoile = page.getByRole("button", { name: /Ajouter aux favoris/ }).first();
       await captureClic(c, "01-entree-clic", etoile);
       await etoile.click();
@@ -227,7 +230,7 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
     });
 
     test(`T5 fin d'article (visiteur), ${taille.nom}`, async ({ page }) => {
-      const c = await preparer(page, "T5-fin-article", taille);
+      const c = await preparer(page, "T5-fin-article", taille, "bienvenue");
       await page.goto("/blog/meilleures-blagues-droles-2026");
       const lien = page.locator("a[data-blog-cta='abonnement']").first();
       const src = new URL(`http://x${(await lien.getAttribute("href")) ?? ""}`).searchParams.get("src") ?? "";
@@ -235,7 +238,7 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
       await lien.click();
       await abonnement(c);
       await page.getByTestId("abonnement-bouton-achat").click();
-      await inscription(c, src);
+      await inscription(c, src, "bienvenue");
     });
 
     for (const [trajet, depart, cible, src] of [
@@ -275,7 +278,13 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
         const r = el.getBoundingClientRect();
         window.scrollTo({ top: r.bottom + window.scrollY - window.innerHeight + 110, behavior: "instant" as ScrollBehavior });
       });
-      await expect(page.getByTestId("abonnement-barre-collante")).toHaveAttribute("data-visible", "oui");
+      // Barre visible, ou bouton final à l'écran (un seul plein à la fois : la barre s'efface alors).
+      await expect
+        .poll(async () =>
+          (await page.getByTestId("abonnement-barre-collante").getAttribute("data-visible")) === "oui" ||
+          (await page.getByTestId("abonnement-bouton-bas").isVisible()),
+        )
+        .toBe(true);
       await capture(c, "faq-prix-ouverte-barre-visible");
       c.liberer();
     });

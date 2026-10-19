@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import type { Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule } from "../support/base-locale";
 
 /**
  * Trajet de conversion s21, tour 2 (docs/copy/conversion-s21/textes-trajet-v2.md, arbitrages) :
@@ -8,7 +8,7 @@ import { test, expect, localSeulement, requete, creerCompte, connecter } from ".
  *    fenêtre, /register, compte, paiement, retour : la vanne est dans les favoris (base ET étoile pleine).
  *    Paiement simulé comme dans les autres tests locaux (aucune clé Stripe) : `/api/stripe/checkout`
  *    est intercepté ; il fait ce que fait le webhook `checkout.session.completed` (plan PREMIUM en base)
- *    et renvoie la `success_url` que construit `lib/stripe.ts` (`/abonnement/success?session_id=…&returnTo=…`).
+ *    et renvoie la `success_url` exacte de `lib/stripe.ts` (`urlRetourStripeSimule`, même fonction que le serveur).
  *    La page de retour vérifie le plan par `/api/stripe/status` (vrai serveur, vraie base).
  * 2. Premier écran à 320 × 640 : « S'abonner · 2,99 €/mois » visible sans défiler (visiteur, connecté).
  * 3. « Annuel » choisi jusqu'à l'attente : ligne de renouvellement, /register, attente dans le bouton,
@@ -37,11 +37,10 @@ async function paiementReussi(page: Page, email: () => string): Promise<{ corps:
   await page.route("**/api/stripe/checkout", async (route: Route) => {
     corps = JSON.parse(route.request().postData() ?? "{}");
     await requete(`UPDATE "User" SET plan = 'PREMIUM'::"Plan", "updatedAt" = now() WHERE email = $1`, [email()]);
-    const retour = corps.returnTo ? `&returnTo=${encodeURIComponent(corps.returnTo)}` : "";
     await route.fulfill({
       status: 200,
       contentType: "application/json",
-      body: JSON.stringify({ url: `/abonnement/success?session_id=cs_test_e2e_local${retour}` }),
+      body: JSON.stringify({ url: urlRetourStripeSimule(corps) }),
     });
   });
   return { corps: () => corps };
@@ -146,7 +145,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     });
   }
 
-  test("« Annuel » jusqu'à l'attente : renouvellement, /register, attente dans le bouton, plan=annual, mesure", async ({ page }) => {
+  test("« Annuel » jusqu'au retour : renouvellement, /register, attente dans le bouton, plan=annual, abonnement-reussi annuel", async ({ page }) => {
     const email = `e2e-annuel-${randomBytes(4).toString("hex")}@example.com`;
     comptes.push(email);
     await visiteurSimule(page);
@@ -156,7 +155,9 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.route("**/api/stripe/checkout", async (route) => {
       corps = JSON.parse(route.request().postData() ?? "{}");
       await retenu;
-      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: "/?stripe-simule=1" }) });
+      // Effet du webhook, puis la success_url exacte de lib/stripe.ts (`formule=annuel` compris, QA m4).
+      await requete(`UPDATE "User" SET plan = 'PREMIUM'::"Plan" WHERE email = $1`, [email]);
+      await route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ url: urlRetourStripeSimule(corps) }) });
     });
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto("/abonnement?src=header");
@@ -175,10 +176,15 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await expect(page.getByTestId("register-bouton")).toHaveText("On t’emmène au paiement…", { timeout: 30_000 });
     await expect(page.getByTestId("abonnement-attente")).toHaveCount(0);
     expect(corps).toMatchObject({ plan: "annual" });
+    expect(urlRetourStripeSimule(corps)).toMatch(/&formule=annuel$/);
     liberer();
-    await page.waitForURL(/stripe-simule=1/, { timeout: 30_000 });
+    await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
+    await expect(page.getByText("Bienvenue dans Premium")).toBeVisible();
     const liste = (await page.evaluate(() => JSON.parse(sessionStorage.getItem("e2e-umami") ?? "[]"))) as { nom: string; donnees: Record<string, unknown> }[];
     expect(liste.filter((e) => e.nom === "checkout-ouvert").map((e) => e.donnees)).toEqual([{ src: "header", formule: "annuel" }]);
+    await expect
+      .poll(async () => ((await page.evaluate(() => JSON.parse(sessionStorage.getItem("e2e-umami") ?? "[]"))) as { nom: string; donnees: Record<string, unknown> }[]).filter((e) => e.nom === "abonnement-reussi").map((e) => e.donnees))
+      .toEqual([{ formule: "annuel" }]);
   });
 
   test("page d'attente brève (connexion, annuel) : formule annuelle, sans pied de page visible", async ({ page }) => {

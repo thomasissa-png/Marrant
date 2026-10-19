@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { sanitizeReturnTo } from "@/lib/premium-return";
+import { cheminRetourPaiement, sanitizeReturnTo } from "@/lib/premium-return";
 import type { PremiumPlan } from "@/config/premium";
 import { getPremiumPriceId, PREMIUM_PRICE_ENV } from "@/lib/premium-plan-availability";
 import { texteStripeSubmit } from "@/config/textes/paiement";
@@ -183,7 +183,7 @@ export async function createCheckoutSession(
     submit_type: "subscribe",
     custom_text: { submit: { message: texteStripeSubmit(plan) } },
     // `formule=annuel` (annuel seulement) : mesure Umami abonnement-reussi sur la page de retour.
-    success_url: `${process.env.NEXTAUTH_URL}/abonnement/success?session_id={CHECKOUT_SESSION_ID}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`,
+    success_url: `${process.env.NEXTAUTH_URL}${cheminRetourPaiement(returnTo, plan)}`,
     // `paiement=annule` : message de retour (lot C) ; `upgrade=cancel` conservé pour l'événement Umami abonnement-annule.
     cancel_url: `${process.env.NEXTAUTH_URL}/abonnement?paiement=annule&upgrade=cancel${returnQuery}`,
     metadata: {

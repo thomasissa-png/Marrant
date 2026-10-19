@@ -1,5 +1,6 @@
 import { test, expect, type Page } from "@playwright/test";
 import { randomBytes, scryptSync } from "node:crypto";
+import { cheminRetourPaiement } from "@/lib/premium-return";
 
 /**
  * Socle des tests de bout en bout LOCAUX (projet `local`) : ils écrivent en base
@@ -66,3 +67,12 @@ export async function connecter(page: Page, email: string, motDePasse: string): 
 }
 
 export { test, expect };
+
+/**
+ * Faux Stripe des tests locaux (QA conversion s21, m4) : la `success_url` EXACTE de `lib/stripe.ts`
+ * (même fonction `cheminRetourPaiement` : intention validée, `formule=annuel` pour l'annuel), à partir
+ * du corps envoyé à `/api/stripe/checkout`.
+ */
+export function urlRetourStripeSimule(corps: { returnTo?: string; plan?: string }): string {
+  return cheminRetourPaiement(corps.returnTo ?? null, corps.plan === "annual" ? "annual" : "monthly", "cs_test_e2e_local");
+}

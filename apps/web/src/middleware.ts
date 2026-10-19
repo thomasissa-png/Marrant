@@ -40,8 +40,11 @@ const authMiddleware = withAuth(
       return NextResponse.redirect(new URL(ABONNEMENT_DEPUIS_ONBOARDING, req.url));
     }
 
-    // Utilisateur PREMIUM qui visite /abonnement → rediriger vers le contenu
-    if (path.startsWith("/abonnement") && token?.plan === "PREMIUM") {
+    // Utilisateur PREMIUM qui visite /abonnement → rediriger vers le contenu. Sauf /abonnement/success
+    // (QA conversion s21, m2) : après une session perdue au retour de Stripe puis une connexion, la page
+    // de retour doit pouvoir ajouter le favori mémorisé, poser la bienvenue et ramener à la page d'origine
+    // (elle redirige d'elle-même vers une destination interdite de /abonnement : pas de boucle).
+    if (path.startsWith("/abonnement") && path !== "/abonnement/success" && token?.plan === "PREMIUM") {
       return NextResponse.redirect(new URL("/vannes", req.url));
     }
 

@@ -112,7 +112,9 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     await expect(page.locator('main input[type="email"]')).toHaveCount(0);
     // Positions dans la page (et non dans l'écran) : le champ prend le focus au dépliage, le
     // navigateur peut faire défiler pour le montrer (ligne en bas d'écran à 375 x 812).
-    const yPage = async (l: typeof plein) => ((await l.boundingBox())?.y ?? NaN) + (await page.evaluate(() => window.scrollY));
+    // FLAKY: mesure non atomique pendant le défilement du focus (boundingBox puis scrollY en deux appels),
+    // corrigé le 19/10/2026 (QA conversion s21, m3) : position dans la page lue en un seul appel.
+    const yPage = (l: typeof plein) => l.evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
     const avant = await yPage(plein);
     const ligneAvant = await yPage(ligne);
     // QA v4 m-7 : le formulaire n'est pas dans le JS de la page, il arrive au dépliage.
