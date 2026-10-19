@@ -177,6 +177,9 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
             <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-xs">
               <div><dt className="text-text-muted">Consentement</dt><dd className="text-text-secondary">{dateCourte(i.consentAt)}</dd></div>
               <div><dt className="text-text-muted">Confirmé</dt><dd className="text-text-secondary">{dateCourte(i.confirmedAt)}</dd></div>
+              {i.statut === "UNSUBSCRIBED" && (
+                <div className="col-span-2"><dt className="text-text-muted">Désinscrit</dt><dd className="text-text-secondary">{dateCourte(i.unsubscribedAt)}</dd></div>
+              )}
               <div><dt className="text-text-muted">Compte</dt><dd className="text-text-secondary"><OuiNon oui={i.compteSite} /></dd></div>
               <div><dt className="text-text-muted">Premium</dt><dd className="text-text-secondary"><OuiNon oui={i.premium} /></dd></div>
             </dl>
@@ -193,6 +196,7 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
               <th className="px-3 py-2 font-medium">Source</th>
               <th className="px-3 py-2 font-medium">Consentement</th>
               <th className="px-3 py-2 font-medium">Confirmation</th>
+              <th className="px-3 py-2 font-medium">Désinscription</th>
               <th className="px-3 py-2 font-medium">Compte</th>
               <th className="px-3 py-2 font-medium">Premium</th>
             </tr>
@@ -207,6 +211,7 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
                 <td className="max-w-[220px] truncate px-3 py-2 text-xs text-text-muted" title={i.source ?? undefined}>{i.source ?? "inconnue"}</td>
                 <td className="px-3 py-2 text-xs text-text-muted">{dateCourte(i.consentAt)}</td>
                 <td className="px-3 py-2 text-xs text-text-muted">{dateCourte(i.confirmedAt)}</td>
+                <td className="px-3 py-2 text-xs text-text-muted">{i.statut === "UNSUBSCRIBED" ? dateCourte(i.unsubscribedAt) : "–"}</td>
                 <td className="px-3 py-2 text-xs"><OuiNon oui={i.compteSite} /></td>
                 <td className="px-3 py-2 text-xs"><OuiNon oui={i.premium} /></td>
               </tr>
