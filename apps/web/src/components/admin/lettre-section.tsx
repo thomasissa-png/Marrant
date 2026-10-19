@@ -83,12 +83,12 @@ function Resume({ r }: { r: LettreResume }) {
         <KpiCard label="En attente" value={fmt(r.statuts.enAttente)} color="warning" subtitle="confirmation" />
         <KpiCard label="Désinscrits" value={fmt(r.statuts.desinscrits)} />
       </div>
-      {r.comptesTestExclus > 0 && <Note>{r.comptesTestExclus} compte(s) de test exclu(s) des compteurs (marqués « test » dans la liste).</Note>}
+      {r.comptesTestExclus > 0 && <Note>{r.comptesTestExclus} compte(s) de test exclu(s) des compteurs (marqués «&nbsp;test&nbsp;» dans la liste).</Note>}
       <div className="grid gap-3 md:grid-cols-2">
         <div className="rounded-lg border border-border bg-background-card p-3">
-          <h3 className="mb-2 text-sm font-semibold text-text-primary">Par emplacement d&apos;inscription</h3>
+          <h3 className="mb-2 text-sm font-semibold text-text-primary">Par emplacement d’inscription</h3>
           {r.parEmplacement.length === 0 ? (
-            <Note>Aucun inscrit pour l&apos;instant.</Note>
+            <Note>Aucun inscrit pour l’instant.</Note>
           ) : (
             <table className="w-full text-sm">
               <thead>
@@ -141,7 +141,7 @@ function Numeros({ r }: { r: Extract<LettreResume, { etat: "ok" }> }) {
           <p className="mt-1 text-xs text-text-muted">{n.aVenir} numéro(s) préparé(s) à venir.</p>
           {n.prochain && <p className="mt-1 break-words text-xs text-text-muted">Objet : {n.prochain.subject}</p>}
           <ul className="mt-3 space-y-1">
-            {n.envoyes.length === 0 && <li className="text-xs text-text-muted">Aucun numéro envoyé pour l&apos;instant.</li>}
+            {n.envoyes.length === 0 && <li className="text-xs text-text-muted">Aucun numéro envoyé pour l’instant.</li>}
             {n.envoyes.map((e) => (
               <li key={e.periodKey} className="flex flex-wrap justify-between gap-2 border-t border-border/60 pt-1">
                 <span className="text-text-secondary">{e.periodKey} ({dateCourte(e.envoyeLe ?? e.envoiPrevu)})</span>
@@ -166,9 +166,11 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
       <ul className="space-y-2 md:hidden">
         {inscrits.map((i) => (
           <li key={i.id} className="rounded-lg border border-border bg-background-card p-3 text-sm">
-            <div className="flex items-start justify-between gap-2">
-              <p className="min-w-0 break-all font-medium text-text-primary">{i.email}</p>
+            {/* Revue visuelle s21, tour 4 (T3-08) : pastille au-dessus de l'adresse, qui garde toute la largeur
+                (coupée seulement si elle dépasse la carte, jamais au milieu par manque de place). */}
+            <div className="flex flex-col items-start gap-1.5">
               <Pastille ton={STATUTS[i.statut].ton}>{STATUTS[i.statut].label}</Pastille>
+              <p className="w-full font-medium text-text-primary [overflow-wrap:anywhere]">{i.email}</p>
             </div>
             <p className="mt-1 break-all text-xs text-text-muted">{i.source ?? "source inconnue"}</p>
             {/* Revue visuelle s21 (R24) : libellé au-dessus de la valeur, 2 colonnes régulières. */}

@@ -113,13 +113,13 @@ export function ComptesSection({ onUnauthorized }: { onUnauthorized: () => void 
           <ul className="space-y-2 md:hidden">
             {data.users.map((u) => (
               <li key={u.id} className="rounded-lg border border-border bg-background-card p-3 text-sm">
+                {/* Revue visuelle s21, tour 4 (T3-08) : la pastille partage la ligne du nom, l'adresse a toute la
+                    largeur de la carte dessous (coupée seulement si elle dépasse la carte). */}
                 <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <p className="truncate font-medium text-text-primary">{u.name || "Sans nom"}</p>
-                    <p className="break-all text-xs text-text-muted">{u.email}</p>
-                  </div>
+                  <p className="min-w-0 truncate font-medium text-text-primary">{u.name || "Sans nom"}</p>
                   <Pastille ton={u.plan === "PREMIUM" ? "accent" : "neutre"}>{u.plan === "PREMIUM" ? "Premium" : "Gratuit"}</Pastille>
                 </div>
+                <p className="text-xs text-text-muted [overflow-wrap:anywhere]">{u.email}</p>
                 <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-text-muted">
                   <Abonnement u={u} />
                   <span>Créé le {dateCourte(u.createdAt)}</span>

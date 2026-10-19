@@ -35,7 +35,7 @@ export function CeoTasksList({ tasks, onChange, getAuthHeader }: CeoTasksListPro
   );
 
   const forceRun = async (taskId: string) => {
-    if (!window.confirm("Forcer l'exécution de cette tâche au prochain tick ?")) return;
+    if (!window.confirm("Forcer l’exécution de cette tâche au prochain tick ?")) return;
     setBusyId(taskId);
     try {
       const res = await fetch("/api/admin/ceo/run-task", {

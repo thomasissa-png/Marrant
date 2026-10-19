@@ -59,7 +59,7 @@ export function CeoDraftsList({ drafts, onChange, getAuthHeader }: CeoDraftsList
   if (drafts.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-background-card p-12 text-center text-text-muted">
-        Rien à valider — l&apos;agent gère seul ou les drafts ont déjà été traités.
+        Rien à valider — l’agent gère seul ou les drafts ont déjà été traités.
       </div>
     );
   }
@@ -150,7 +150,7 @@ export function CeoDraftsList({ drafts, onChange, getAuthHeader }: CeoDraftsList
                 onClick={() => action("contest", d.id)}
                 disabled={busyId === d.id}
                 className="rounded-md border border-border px-3 py-1.5 text-xs text-text-secondary transition-colors hover:bg-background-elevated disabled:opacity-50"
-                title="Contester (art. 22 RGPD) — bloque l'envoi et trace l'opposition"
+                title="Contester (art. 22 RGPD) — bloque l’envoi et trace l’opposition"
               >
                 Contester
               </button>

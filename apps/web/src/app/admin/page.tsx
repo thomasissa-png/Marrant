@@ -65,7 +65,7 @@ export default function AdminPage() {
         setIsAuthenticated(true);
       } else {
         const data = (await res.json().catch(() => ({}))) as { error?: string };
-        setError(data.error || "Erreur d'authentification");
+        setError(data.error || "Erreur d’authentification");
       }
     } catch {
       setError("Erreur réseau");

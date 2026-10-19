@@ -100,7 +100,7 @@ export function CeoKpiPanel({ snapshot, history }: CeoKpiPanelProps) {
               label="North Star 30j"
             />
             <p className="mt-1 text-[10px] text-text-muted">
-              {sorted.length} jour{sorted.length > 1 ? "s" : ""} d&apos;historique
+              {sorted.length} jour{sorted.length > 1 ? "s" : ""} d’historique
             </p>
           </div>
         </div>

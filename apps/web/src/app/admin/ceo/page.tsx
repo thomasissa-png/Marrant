@@ -69,7 +69,7 @@ export default function CeoDashboardPage() {
         setAuthed(true);
       } else {
         const err = await res.json();
-        setAuthError(err.error || "Erreur d'authentification");
+        setAuthError(err.error || "Erreur d’authentification");
       }
     } catch {
       setAuthError("Erreur réseau");
@@ -92,7 +92,7 @@ export default function CeoDashboardPage() {
             CEO — pilotage
           </h1>
           <p className="mb-6 text-center text-xs text-text-muted">
-            Tableau de bord de l&apos;agent autonome
+            Tableau de bord de l’agent autonome
           </p>
           <form onSubmit={handleLogin} className="space-y-4">
             <input

@@ -3,8 +3,13 @@
  * (background-card, border, text-*, accent-*), lisibles dès 320 px.
  */
 import type { ReactNode } from "react";
+import { frTypo } from "@/lib/fr-typo";
 
 const nf = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
+
+// Revue visuelle s21, tour 4 (T3-08) : libellés et valeurs texte de l'admin au rendu typographique
+// (apostrophe courbe, insécables), comme le site public. Aucun mot changé, la donnée reste intacte.
+const typo = <T,>(x: T): T | string => (typeof x === "string" ? frTypo(x) : x);
 
 /** Nombre formaté, « n.d. » si la donnée manque. */
 export function fmt(n: number | null | undefined): string {
@@ -50,9 +55,9 @@ const COULEURS: Record<Couleur, string> = {
 export function KpiCard({ label, value, subtitle, color }: { label: string; value: string; subtitle?: string; color?: Couleur }) {
   return (
     <div className="min-w-0 rounded-lg border border-border bg-background-card p-3 md:p-4">
-      <p className="text-[11px] font-medium uppercase tracking-wider text-text-muted md:text-xs">{label}</p>
+      <p className="text-[11px] font-medium uppercase tracking-wider text-text-muted md:text-xs">{typo(label)}</p>
       <p className={`mt-1 text-xl font-bold md:text-2xl ${color ? COULEURS[color] : "text-text-primary"}`}>{value}</p>
-      {subtitle && <p className="mt-1 text-xs text-text-muted">{subtitle}</p>}
+      {subtitle && <p className="mt-1 text-xs text-text-muted">{typo(subtitle)}</p>}
     </div>
   );
 }
@@ -62,8 +67,8 @@ export function Section({ titre, sousTitre, children, action }: { titre: string;
     <section className="space-y-3" aria-label={titre}>
       <div className="flex flex-wrap items-end justify-between gap-2">
         <div>
-          <h2 className="font-display text-lg font-bold text-text-primary">{titre}</h2>
-          {sousTitre && <p className="text-xs text-text-muted">{sousTitre}</p>}
+          <h2 className="font-display text-lg font-bold text-text-primary">{typo(titre)}</h2>
+          {sousTitre && <p className="text-xs text-text-muted">{typo(sousTitre)}</p>}
         </div>
         {action}
       </div>
@@ -86,13 +91,13 @@ export function LignesChiffres({ lignes }: { lignes: Array<[string, ReactNode]> 
             <tr key={label} className="border-b border-border/60 last:border-0">
               {typeof value === "string" && value.length > VALEUR_LONGUE ? (
                 <td colSpan={2} className="px-3 py-2">
-                  <span className="block text-text-secondary">{label}</span>
-                  <span className="mt-1 block font-semibold tabular-nums text-text-primary">{value}</span>
+                  <span className="block text-text-secondary">{typo(label)}</span>
+                  <span className="mt-1 block font-semibold tabular-nums text-text-primary">{typo(value)}</span>
                 </td>
               ) : (
                 <>
-                  <td className="px-3 py-2 text-text-secondary">{label}</td>
-                  <td className="whitespace-nowrap px-3 py-2 text-right font-semibold tabular-nums text-text-primary">{value}</td>
+                  <td className="px-3 py-2 text-text-secondary">{typo(label)}</td>
+                  <td className="whitespace-nowrap px-3 py-2 text-right font-semibold tabular-nums text-text-primary">{typo(value)}</td>
                 </>
               )}
             </tr>
@@ -113,12 +118,12 @@ export function LignesEmpilees({ lignes }: { lignes: Array<[string, string[]]> }
     <ul className="divide-y divide-border/60 overflow-hidden rounded-lg border border-border bg-background-card text-sm">
       {lignes.map(([label, valeurs]) => (
         <li key={label} className="grid gap-1 px-3 py-2">
-          <span className="text-text-secondary">{label}</span>
+          <span className="text-text-secondary">{typo(label)}</span>
           <span className="min-w-0 space-y-1">
             {valeurs.map((v) => (
               <span key={v} className="flex flex-wrap gap-x-3 text-xs font-semibold leading-5 tabular-nums text-text-primary">
                 {v.split(" | ").map((segment, i) => (
-                  <span key={i} className="whitespace-nowrap">{segment}</span>
+                  <span key={i} className="whitespace-nowrap">{typo(segment)}</span>
                 ))}
               </span>
             ))}
@@ -130,11 +135,11 @@ export function LignesEmpilees({ lignes }: { lignes: Array<[string, string[]]> }
 }
 
 export function Avertissement({ children }: { children: ReactNode }) {
-  return <p className="rounded-md border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-xs text-yellow-600">{children}</p>;
+  return <p className="rounded-md border border-yellow-500/30 bg-yellow-500/10 px-3 py-2 text-xs text-yellow-600">{typo(children)}</p>;
 }
 
 export function Note({ children }: { children: ReactNode }) {
-  return <p className="text-xs text-text-muted">{children}</p>;
+  return <p className="text-xs text-text-muted">{typo(children)}</p>;
 }
 
 export function Chargement() {

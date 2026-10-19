@@ -14,7 +14,7 @@ export function SemaineFunnel({ s }: { s: SemaineAdmin }) {
       <LignesChiffres lignes={s.lignes.funnel} />
       {comptesTestExclus(s.funnel.db?.comptesTestExclus) && <Note>{comptesTestExclus(s.funnel.db?.comptesTestExclus)}</Note>}
       <div className="rounded-lg border border-border bg-background-card p-3">
-        <h3 className="mb-2 text-sm font-semibold text-text-primary">Paiement ouvert par bloc d&apos;entrée (src)</h3>
+        <h3 className="mb-2 text-sm font-semibold text-text-primary">Paiement ouvert par bloc d’entrée (src)</h3>
         {parSrc === null ? (
           <Note>n.d. (Umami)</Note>
         ) : parSrc.length === 0 ? (

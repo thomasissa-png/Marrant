@@ -22,7 +22,7 @@ export function AbonnesTab({
 }) {
   return (
     <div className="space-y-6">
-      <div className="flex w-full rounded-lg border border-border bg-background-elevated p-1 sm:w-auto sm:max-w-sm" role="group" aria-label="Type d'abonnés">
+      <div className="flex w-full rounded-lg border border-border bg-background-elevated p-1 sm:w-auto sm:max-w-sm" role="group" aria-label="Type d’abonnés">
         {VUES.map((v) => (
           <button
             key={v.id}

@@ -71,8 +71,8 @@ export function CeoFunnel({ funnel, snapshot }: CeoFunnelProps) {
 
       {funnel.sent === 0 && (
         <div className="rounded-lg border border-warning/30 bg-warning/10 p-4 text-sm text-warning">
-          Aucun message envoyé sur les 30 derniers jours — l&apos;agent est récent ou en
-          mode dry-run. Reviens d&apos;ici quelques jours pour des données significatives.
+          Aucun message envoyé sur les 30 derniers jours — l’agent est récent ou en
+          mode dry-run. Reviens d’ici quelques jours pour des données significatives.
         </div>
       )}
     </div>

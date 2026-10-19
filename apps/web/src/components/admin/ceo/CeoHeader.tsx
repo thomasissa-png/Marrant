@@ -26,7 +26,7 @@ export function CeoHeader({ config, onChange, getAuthHeader }: CeoHeaderProps) {
       ? window.prompt("Raison de la coupure (audit RGPD) :")
       : null;
     if (willDisable && !reason) return;
-    if (!window.confirm(willDisable ? "Couper l'agent CEO maintenant ?" : "Réactiver l'agent CEO ?")) return;
+    if (!window.confirm(willDisable ? "Couper l’agent CEO maintenant ?" : "Réactiver l’agent CEO ?")) return;
 
     setBusy(true);
     try {
@@ -87,7 +87,7 @@ export function CeoHeader({ config, onChange, getAuthHeader }: CeoHeaderProps) {
               : "bg-success/20 text-success hover:bg-success/30"
           }`}
         >
-          {busy ? "..." : enabled ? "Couper l'agent" : "Réactiver"}
+          {busy ? "..." : enabled ? "Couper l’agent" : "Réactiver"}
         </button>
 
         <button

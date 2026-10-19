@@ -185,7 +185,7 @@ export default function AdminSocialPage() {
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold">Social Media</h1>
         <p className="mt-2 text-text-secondary">
-          Valide les posts avant publication. 1 clic, c&apos;est tout.
+          Valide les posts avant publication. 1 clic, c’est tout.
         </p>
       </div>
 

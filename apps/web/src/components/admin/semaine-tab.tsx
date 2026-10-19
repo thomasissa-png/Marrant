@@ -8,6 +8,7 @@ import { useState } from "react";
 import type { ModeSemaine, SemaineAdmin } from "@/lib/admin/semaine";
 import { useAdminFetch } from "@/hooks/use-admin-fetch";
 import { formatChange } from "@/lib/analytics/weekly-visits-email";
+import { frTypo } from "@/lib/fr-typo";
 import {
   BoutonActualiser,
   Chargement,
@@ -91,7 +92,7 @@ export function SemaineTab({
           <SemaineLettre s={data} onVoir={onVoirLettre} />
           <SemaineSocial s={data} />
           <Note>
-            Mêmes fonctions que l&apos;e-mail du lundi. Abonnés actifs et revenu
+            Mêmes fonctions que l’e-mail du lundi. Abonnés actifs et revenu
             mensuel : instantané au moment du chargement. n.d. : donnée non
             disponible.
           </Note>
@@ -123,7 +124,7 @@ function Alertes({ s }: { s: SemaineAdmin }) {
               : "border-yellow-500/30 bg-yellow-500/10 text-yellow-600"
           }`}
         >
-          {a.texte}
+          {frTypo(a.texte)}
         </li>
       ))}
     </ul>
