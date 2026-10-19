@@ -4,7 +4,7 @@
  * sont dans l'URL) : l'accroche est dans le HTML, aucun saut au chargement.
  *
  * Priorité : `src` pour les murs, fiches, favoris, recherche, quiz d'orientation et aperçu d'étape ;
- * sinon `returnTo` exact `/carnet` ; sinon la règle générique ; sinon rien.
+ * sinon `returnTo` exact `/carnet` ; sinon rien (portes génériques, v2 A02).
  */
 import { ACCROCHES, type LigneTableauCle } from "@/config/textes/abonnement-vente";
 import { PARCOURS_NOMS, parcoursSlugFromHref } from "@/lib/entrees-parcours";
@@ -27,9 +27,6 @@ const PAR_SRC: Readonly<Record<string, OrigineAbonnement>> = {
   recherche: { accroche: ACCROCHES.recherche, ligneMiseEnAvant: null },
 };
 
-/** Portes génériques « Tout ouvrir · 2,99 €/mois ». */
-const SRC_GENERIQUES = new Set(["accueil-premium", "glossaire", "a-propos", "quiz"]);
-
 const AUCUNE: OrigineAbonnement = { accroche: null, ligneMiseEnAvant: null };
 
 export function origineAbonnement(rawSrc: string | null | undefined, rawReturnTo: string | null | undefined): OrigineAbonnement {
@@ -41,8 +38,8 @@ export function origineAbonnement(rawSrc: string | null | undefined, rawReturnTo
   if (src === "onboarding" && parcours) return { accroche: ACCROCHES.tonParcours(PARCOURS_NOMS[parcours]), ligneMiseEnAvant: null };
   if (src === "parcours-apercu" && parcours) return { accroche: ACCROCHES.suiteParcours(PARCOURS_NOMS[parcours]), ligneMiseEnAvant: "parcours" };
   if ((returnTo && returnTo.split(/[?#]/)[0] === "/carnet") || src === "carnet") return { accroche: ACCROCHES.carnet, ligneMiseEnAvant: "carnet" };
-  if (src && (SRC_GENERIQUES.has(src) || src.startsWith("blog-") || src === "onboarding" || src === "parcours-apercu")) {
-    return { accroche: ACCROCHES.generique, ligneMiseEnAvant: null };
-  }
+  // Portes génériques « Tout ouvrir · 2,99 €/mois » (accueil, glossaire, a-propos, quiz, articles,
+  // quiz d'orientation ou aperçu d'étape sans parcours) : aucune accroche, le titre « Premium ouvre
+  // tout » fait l'écho (textes-trajet-v2 A02).
   return AUCUNE;
 }

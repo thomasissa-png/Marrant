@@ -7,7 +7,7 @@ import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from
 import { sanitizeReturnTo } from "@/lib/premium-return";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 import { PAYWALL_PREMIUM } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 
 type Props = {
   userId?: string;
@@ -172,7 +172,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
       {/* Concision v5 : la REASS unique sous le plein qui porte un prix (web seulement). */}
-      <p className="mt-3 text-xs text-gray-400">{REASSURANCE_UNIQUE}</p>
+      <Reassurance className="mt-3" />
     </div>
   );
 }

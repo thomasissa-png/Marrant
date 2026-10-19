@@ -10,7 +10,7 @@ import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/la
 import { cn } from "@/lib/utils";
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { A_PROPOS_FIN, FIN_DE_PAGE_PARCOURS_ETAPE_1 } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { frTypo } from "@/lib/fr-typo";
 import {
@@ -243,7 +243,7 @@ export default function AProposPage() {
               {frTypo(A_PROPOS_FIN.bouton)}
             </Link>
           </div>
-          <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+          <Reassurance />
           <div className="-mb-3 mt-1">
             <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "a-propos-etape1")} className={LIEN_L2}>
               {frTypo(A_PROPOS_FIN.lienEtape1)}

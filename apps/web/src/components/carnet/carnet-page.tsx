@@ -8,7 +8,7 @@ import { deCarnetMonth, formatCarnetMonth, type CarnetView } from "@/lib/carnet"
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { frTypo } from "@/lib/fr-typo";
 import { CARNET_LISTE_VISIBLES, CARNET_PAYWALL } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { sanitizeSignupSrc } from "@/lib/auth-links";
 
 /** Source de mesure du bouton E1 quand on arrive sur le carnet sans `?src=` (QA v2 MJ-1). */
@@ -140,7 +140,7 @@ function CarnetPaywall({ returnTo, src, restantes }: { returnTo: string; src: st
           {frTypo(CARNET_PAYWALL.bouton)}
         </Link>
       </div>
-      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+      <Reassurance />
     </div>
   );
 }

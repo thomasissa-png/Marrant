@@ -6,6 +6,7 @@ import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
 import { ABONNEMENT_ACHAT } from "@/config/textes/abonnement-vente";
 import type { PremiumPlan } from "@/config/premium";
 import { frTypo } from "@/lib/fr-typo";
+import { Chargement } from "@/components/ui/chargement";
 import { cn } from "@/lib/utils";
 
 /** Où le bouton est posé sur /abonnement (mesure `abonnement-clic`). */
@@ -44,12 +45,12 @@ export function BoutonAchatAbonnement({
         id={id}
         variant="primary"
         size="lg"
-        className={classes}
+        className={cn(classes, chargement && "disabled:opacity-100")}
         onClick={() => onCheckout(emplacement)}
         disabled={chargement}
         data-testid={`abonnement-bouton-${emplacement}`}
       >
-        {chargement ? ABONNEMENT_ACHAT.chargement : frTypo(ABONNEMENT_ACHAT.bouton(plan))}
+        {chargement ? <Chargement texte={ABONNEMENT_ACHAT.chargement} /> : frTypo(ABONNEMENT_ACHAT.bouton(plan))}
       </Button>
     );
   }

@@ -132,17 +132,20 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
         {shareMode && <BlogVanneShare slug={article.slug} mode={shareMode} />}
 
         {/* s21 (spec cta-forme-place §3.1) : ordre identique pour tous les articles. Corps,
-            partage, bloc de fin, lettre, cluster et « À lire ensuite », puis la FAQ en
+            partage, bloc de fin, cluster et « À lire ensuite », lettre (v2 F05), puis la FAQ en
             dernier (le JSON-LD FAQPage ne dépend pas de l'ordre du DOM). */}
         <ArticleCta
           parcours={parcours}
           src={`blog-${article.slug}`}
           title={s21Copy?.titre ?? finCopy?.titre ?? ctaCopy?.title}
-          text={s21Copy?.texte ?? finCopy?.texte ?? ctaCopy?.text}
           boutonEtape1={boutonEtape1}
         />
-        {/* Lettre mensuelle juste APRÈS le bloc de fin (spec lettre §1.2, B18 rang 4), sans
-            attribut data-blog-cta* (mesure du lot 1 isolée). Textes B18 du tour 4. */}
+        {/* Cluster (précédent / suivant) puis « À lire ensuite ». */}
+        <BlogArticleRelated navigation={navigation} />
+
+        {/* Lettre mensuelle APRÈS les articles liés (textes-trajet-v2 F05 : au moins un écran sous le
+            bouton payant, plus trois demandes empilées), sans attribut data-blog-cta* (mesure du
+            lot 1 isolée). Textes B18 du tour 4, inchangés. */}
         {LETTRE_INSCRIPTIONS_OUVERTES && (
           <LettreInscription
             emplacement="article"
@@ -151,9 +154,6 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
             className="mt-8 border-t border-border pt-6"
           />
         )}
-
-        {/* Cluster (précédent / suivant) puis « À lire ensuite ». */}
-        <BlogArticleRelated navigation={navigation} />
 
         {faqs.length > 0 && (
           <section className="mt-10 border-t border-border pt-8">

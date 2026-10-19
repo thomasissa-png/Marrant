@@ -7,7 +7,7 @@ import { CartePremiumAchat } from "@/components/home/carte-premium-achat";
 import { MasqueSiConnecte, MasqueSiPremium, SeulementSiConnecte } from "@/components/home/masque-si-premium";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { frTypo } from "@/lib/fr-typo";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
 
 /** Lien gratuit (L2) : étape 1 de Répartie, en lecture libre. */
@@ -46,7 +46,7 @@ export function PremiumCta() {
             <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
             <div className="relative">
               <CartePremiumAchat bouton={frTypo(CARTE_PREMIUM.bouton)} boutonConnecte={frTypo(CARTE_PREMIUM.boutonConnecte)} />
-              <p className="mt-2 text-center text-xs text-text-muted" data-testid="reass">{frTypo(REASSURANCE_UNIQUE)}</p>
+              <Reassurance testId="reass" />
               <div className="mt-3 text-center">
                 <Link
                   href={ETAPE_1_HREF}

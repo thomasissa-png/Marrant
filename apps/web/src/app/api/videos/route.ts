@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { FREE_VIDEO_LIMIT } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
+import { sansExerciceVideo } from "@/lib/champs-premium";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -109,7 +110,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({
-      videos,
+      // Points clés et exercice réservés à Premium : vidés pour tout autre compte.
+      videos: isPremium ? videos : videos.map(sansExerciceVideo),
       pagination: {
         page: query.page,
         limit: query.limit,

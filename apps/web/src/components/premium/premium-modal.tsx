@@ -12,6 +12,9 @@ import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
+import { avecFavori, type FavoriEnAttente } from "@/lib/favori-apres-paiement";
+import { LigneCompte } from "@/components/ui/ligne-compte";
+import { ESPACE_INSECABLE } from "@/config/premium";
 import {
   FENETRE_CHARGEMENT,
   FENETRE_PREMIUM,
@@ -19,7 +22,8 @@ import {
   type FicheType,
   type GesteFenetre,
 } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
+import { Chargement } from "@/components/ui/chargement";
 import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 /** Geste qui a ouvert la fenêtre : le titre, l'intro et le bouton en dépendent (B11). */
@@ -35,6 +39,23 @@ interface PremiumModalProps {
   contenu?: FicheType;
   /** Page à retrouver après paiement (chemin interne) ; par défaut la page courante. */
   returnTo?: string;
+  /** Début de la vanne, titre du conseil ou de la vidéo (v2 W02) ; absent : rien n'est rendu. */
+  apercu?: string;
+  /** Élément cliqué (étoile) : mémorisé dans `returnTo`, ajouté aux favoris après le paiement. */
+  favori?: FavoriEnAttente;
+}
+
+/** W02 : 70 caractères au plus, coupé à un mot, « … », guillemets français à espaces insécables. */
+export function apercuFenetre(texte: string | undefined, max = 70): string | null {
+  const net = (texte ?? "").replace(/\s+/g, " ").trim();
+  if (!net) return null;
+  let court = net;
+  if (net.length > max) {
+    const coupe = net.slice(0, max + 1);
+    const espace = coupe.lastIndexOf(" ");
+    court = `${(espace > 0 ? coupe.slice(0, espace) : net.slice(0, max)).replace(/[\s,;:.!?…-]+$/, "")}…`;
+  }
+  return `«${ESPACE_INSECABLE}${court}${ESPACE_INSECABLE}»`;
 }
 
 function currentPath(): string | null {
@@ -43,14 +64,18 @@ function currentPath(): string | null {
 }
 
 /**
- * Fenêtre Premium (chaud, concision v5 textes-v5-b §3) : 4 éléments visibles, titre, prix en
- * gros, plein, REASS. Panneau qui monte du bas sur mobile, plein toujours visible dans le pied
+ * Fenêtre Premium (textes-trajet-v2 §2.4) : titre, rappel de l'objet cliqué, ligne Premium
+ * (favori), prix en gros, plein, ligne compte (visiteur), REASS. Panneau qui monte du bas sur mobile, plein toujours visible dans le pied
  * collant. Visiteur et compte connecté voient la même fenêtre (seul le geste du plein change).
  */
-export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", returnTo }: PremiumModalProps) {
+export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", returnTo, apercu, favori }: PremiumModalProps) {
   const { status } = useSession();
   const t = FENETRE_PREMIUM[GESTE[reason]][contenu];
-  const resolveReturnTo = () => sanitizeReturnTo(returnTo ?? currentPath());
+  const rappel = apercuFenetre(apercu);
+  const resolveReturnTo = () => {
+    const page = sanitizeReturnTo(returnTo ?? currentPath());
+    return page && favori ? avecFavori(page, favori) : page;
+  };
   const { startCheckout, isLoading: isCheckoutLoading, conflict } = usePremiumCheckout(`modale-${reason}`);
 
   // Mur vu (audit s16 reco 17) : une fois par ouverture, avec le geste qui l'a ouvert.
@@ -68,7 +93,13 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
         <h3 id="premium-modal-title" className="pr-10 font-display text-xl font-bold text-text-primary">
           {frTypo(t.titre)}
         </h3>
-        <div className="mt-3 flex items-baseline gap-2">
+        {rappel && (
+          <p className="mt-2 line-clamp-2 italic text-text-secondary" data-testid="fenetre-rappel">
+            {frTypo(rappel)}
+          </p>
+        )}
+        {t.ligne && <p className="mt-2 text-text-primary">{frTypo(t.ligne)}</p>}
+        <div className="mt-3 flex items-baseline gap-1">
           <span className="text-4xl font-bold text-text-primary">{FENETRE_PRIX.montant}</span>
           <span className="text-text-muted">{FENETRE_PRIX.suffixe}</span>
         </div>
@@ -78,8 +109,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
         {/* Pied collant : le plein est toujours visible sans défiler (spec B11). */}
         <div className="sticky bottom-0 -mx-6 mt-5 bg-background-card px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-3">
           {status === "authenticated" ? (
-            <Button variant="primary" size="lg" className={plein} onClick={handleCheckout} disabled={isCheckoutLoading}>
-              {isCheckoutLoading ? FENETRE_CHARGEMENT : t.bouton}
+            <Button variant="primary" size="lg" className={cn(plein, "disabled:opacity-100")} onClick={handleCheckout} disabled={isCheckoutLoading}>
+              {isCheckoutLoading ? <Chargement texte={FENETRE_CHARGEMENT} /> : t.bouton}
             </Button>
           ) : (
             <Link
@@ -97,7 +128,8 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
               {t.bouton}
             </Link>
           )}
-          <p className="mt-2 text-center text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+          {status !== "authenticated" && <LigneCompte />}
+          <Reassurance />
         </div>
       </div>
     </Modal>

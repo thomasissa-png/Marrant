@@ -16,11 +16,12 @@ export function TableauGratuitPremium({
   ligneMiseEnAvant?: LigneTableauCle | null;
 }) {
   return (
-    <section aria-labelledby="abonnement-tableau-titre" className="mt-12 md:mt-16" data-testid="abonnement-tableau">
-      <h2 id="abonnement-tableau-titre" className="text-center font-display text-2xl font-bold text-text-primary [text-wrap:balance]">
+    <section aria-labelledby="abonnement-tableau-titre" className="mt-10 md:mt-14" data-testid="abonnement-tableau">
+      {/* v2 A10 : titre gardé pour les lecteurs d'écran, masqué à l'écran. */}
+      <h2 id="abonnement-tableau-titre" className="sr-only">
         {frTypo(TABLEAU.titre)}
       </h2>
-      <table className="mt-5 w-full table-fixed border-collapse text-sm">
+      <table className="w-full table-fixed border-collapse text-sm">
         <caption className="sr-only">{frTypo(TABLEAU.titre)}</caption>
         <colgroup>
           <col className="w-[44%]" />

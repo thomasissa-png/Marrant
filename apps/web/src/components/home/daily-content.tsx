@@ -231,7 +231,7 @@ export function DailyContent() {
                     title="Vanne du jour · deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
                   />
-                  <FavoriteButton contentType="JOKE" contentId={data.joke.id} />
+                  <FavoriteButton contentType="JOKE" contentId={data.joke.id} apercu={data.joke.content} />
                 </div>
               </>
             ) : (
@@ -289,7 +289,7 @@ export function DailyContent() {
                     title="Conseil du jour · deviens-marrant.fr"
                     text={`${data.tip.title}\n${data.tip.content}`}
                   />
-                  <FavoriteButton contentType="TIP" contentId={data.tip.id} />
+                  <FavoriteButton contentType="TIP" contentId={data.tip.id} apercu={data.tip.title} />
                 </div>
               </>
             ) : (
@@ -358,7 +358,7 @@ export function DailyContent() {
                     title="Vidéo du jour · deviens-marrant.fr"
                     text={`${data.video.title} · ${data.video.channelName}`}
                   />
-                  <FavoriteButton contentType="VIDEO" contentId={data.video.id} />
+                  <FavoriteButton contentType="VIDEO" contentId={data.video.id} apercu={data.video.title} />
                 </div>
               </>
             ) : (

@@ -36,7 +36,8 @@ export const faqs = [
     answer:
       // Concision v5 (textes-v5-c §3) : réponse mensuelle (accueil, et /abonnement sans annuel).
       // Trajet de conversion s21 (textes-trajet-v1 §1.5, GO Thomas du 19/10) : + la réassurance unique, mot pour mot.
-      `C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE}`,
+      // textes-trajet-v2 A14 : deux phrases après la réassurance (qui reste mot pour mot).
+      `C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement. Un renouvellement n’ouvre pas de nouveau délai.`,
   },
   {
     question:
@@ -53,7 +54,8 @@ export const faqs = [
 ];
 
 /** Réponse prix quand la formule annuelle est disponible (concision v5, textes-v5-c §3). */
-const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE}`;
+/** textes-trajet-v2 A15 : « annuel compris ». */
+const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement, annuel compris. Un renouvellement n’ouvre pas de nouveau délai.`;
 
 /**
  * FAQ de vente (concision v5) : les 4 questions qui lèvent le plus de freins à l'achat, seules

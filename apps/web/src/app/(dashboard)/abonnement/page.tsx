@@ -45,6 +45,7 @@ export default async function AbonnementPage({
       parcoursOrigine={origine}
       accroche={accroche}
       retourInscription={retourInscription}
+      planInitial={lire("plan") === "annual" ? "annual" : "monthly"}
       tableau={<TableauGratuitPremium lignes={lignes} ligneMiseEnAvant={ligneMiseEnAvant} />}
       carnetExtrait={extrait ? <CarnetExtraitBloc extrait={extrait} /> : null}
     />

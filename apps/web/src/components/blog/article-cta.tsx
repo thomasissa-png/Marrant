@@ -13,6 +13,7 @@ import { parcoursEtape1Href, parcoursEtapeHref, type ParcoursSlug } from "@/lib/
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
 import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { Reassurance } from "@/components/ui/reassurance";
 
 interface ArticleCtaProps {
   /** Parcours de l'article (lib/blog-parcours) : étape 1 et retour après paiement. */
@@ -21,7 +22,6 @@ interface ArticleCtaProps {
   src?: string;
   /** Surcharges par article (cta-articles-accueil, encarts-blog-s20 puis blog-cta). */
   title?: string;
-  text?: string;
   /** Libellé du plein gratuit imposé par l'article (config/blog-cta.ts), sinon celui du parcours. */
   boutonEtape1?: string;
 }
@@ -36,11 +36,11 @@ export function titreBlocFin(titre: string): string {
 
 
 /**
- * Bloc de fin unique d'un article (s20, revu s21 puis concision v5, textes-v5-a §3) :
- * titre, une phrase, puis
- * 1. étape 1 gratuite du parcours, bouton PLEIN (`data-blog-cta="etape-1"`), seul plein ;
- * 2. « Sans compte. » juste dessous ;
- * 3. lien payant `OUVRIR` vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`).
+ * Bloc de fin unique d'un article (s20, revu s21, concision v5, puis textes-trajet-v2 F01 à F04) :
+ * titre, la phrase d'argument (`BLOC_FIN.phrase`, elle remplace le texte de l'article), puis
+ * 1. plein payant « Tout ouvrir · 2,99 €/mois » vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`) ;
+ * 2. la réassurance unique dessous ;
+ * 3. lien gratuit vers l'étape 1 du parcours (`data-blog-cta="etape-1"`), « Sans compte. » dessous.
  * Plus de puces. Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),
  * vers l'étape à reprendre, sinon l'étape 1 du parcours de l'article.
  *
@@ -48,7 +48,7 @@ export function titreBlocFin(titre: string): string {
  * (blog-cta-vu / blog-cta-clic, components/blog/blog-article-tracking).
  * Textes : config/textes/cta-articles-accueil.ts (BLOC_FIN) et encarts-blog-s20.ts.
  */
-export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtape1 }: ArticleCtaProps) {
+export function ArticleCta({ parcours = "repartie", src, title, boutonEtape1 }: ArticleCtaProps) {
   const { data: session, status } = useSession();
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
@@ -56,7 +56,6 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
   const textes = TEXTES_PARCOURS_BLOG[parcours];
   const etape1Href = parcoursEtape1Href(parcours, "blog");
   const continuerHref = aReprendre ? parcoursEtapeHref(aReprendre.slug, aReprendre.etape, "blog") : etape1Href;
-  const paragraphe = text ?? textes.finTexte;
 
   return (
     <aside
@@ -70,9 +69,8 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
       <p className={TITRE_BLOC_APPEL}>
         {frTypo(titreBlocFin(title ?? textes.finTitre))}
       </p>
-      {/* s21 : texte en 14/20 sous 640 px (spec §2.1 Z3) pour tenir 560 px à 375 (mesuré).
-          s21 (QA v2 m-d) : corps du visiteur (« sans compte », étape par semaine) masqué pour l'abonné. */}
-      {paragraphe && !isPremium && <p className="mt-2 text-sm leading-5 text-text-secondary sm:text-base sm:leading-6">{frTypo(paragraphe)}</p>}
+      {/* v2 F02 : une phrase par bloc, la phrase d'argument (masquée pour l'abonné). */}
+      {!isPremium && <p className="mt-2 text-sm leading-5 text-text-secondary sm:text-base sm:leading-6">{frTypo(BLOC_FIN.phrase)}</p>}
 
       {isPremium ? (
         <div className="mt-6">
@@ -88,22 +86,20 @@ export function ArticleCta({ parcours = "repartie", src, title, text, boutonEtap
         <>
           <div className="mt-4 sm:mt-6">
             <Link
-              href={etape1Href}
-              data-blog-cta="etape-1"
-              // Correctif s21 (QA 375 px) : lignes équilibrées, le nom du parcours n'est jamais seul en 2e ligne.
+              href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
+              data-blog-cta="abonnement"
               className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
             >
+              {frTypo(BLOC_FIN.bouton)}
+            </Link>
+            <Reassurance />
+          </div>
+          <div className="mt-2 text-center">
+            <Link href={etape1Href} data-blog-cta="etape-1" className={LIEN_L1}>
               {frTypo(boutonEtape1 ?? textes.finBoutonEtape1)}
             </Link>
-            <p className="mt-2 text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>
+            <p className="text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>
           </div>
-          <Link
-            href={buildAbonnementUrl(`/parcours/${parcours}`, "monthly", src)}
-            data-blog-cta="abonnement"
-            className={cn(LIEN_L1, "mt-3")}
-          >
-            {frTypo(BLOC_FIN.lienAbonnement)}
-          </Link>
         </>
       )}
     </aside>

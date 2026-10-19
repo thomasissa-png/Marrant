@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
 import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { formatEuros } from "@/config/premium";
-import { ANNUEL_AVANTAGE_LABEL, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
@@ -141,7 +142,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
             <Button variant="primary" size="sm" className="h-auto min-h-11 w-full whitespace-normal py-2 sm:w-auto" onClick={onCheckout} disabled={isCheckoutLoading}>
               {isCheckoutLoading ? "On t’emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
-            <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+            <Reassurance />
           </>
         )}
       </CardContent>

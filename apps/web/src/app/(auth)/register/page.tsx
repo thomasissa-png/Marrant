@@ -19,8 +19,12 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
-import { CGU_ACCEPTATION, REASSURANCE_UNIQUE } from "@/config/textes/offre";
-import { MUR_PARCOURS, REGISTER_CTA } from "@/config/textes/cta-pages";
+import { CGU_ACCEPTATION } from "@/config/textes/offre";
+import { contexteRegister, MUR_PARCOURS, REGISTER_CTA, SRC_SANS_ACHAT } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
+import { Chargement } from "@/components/ui/chargement";
+import { favoriDepuisCallback } from "@/lib/favori-apres-paiement";
+import { ouvrirPaiementApresInscription } from "@/lib/checkout-apres-inscription";
 import { frTypo } from "@/lib/fr-typo";
 import { parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 
@@ -57,8 +61,16 @@ function registerErrorMessage(status: number): string {
   return "L’inscription n’a pas abouti. Réessaie.";
 }
 
-/** Source du plein de fin d'étape 1 (parcours-detail.tsx) : pas de lien vers l'étape 1 qu'on vient de lire. */
-const FIN_ETAPE_1_SRC = "parcours-etape";
+/** Retour vers /carnet dans le callback (`/abonnement?returnTo=/carnet…`) : phrase « tout le carnet ». */
+function retourCarnetDepuisCallback(callbackUrl: string | null): boolean {
+  if (!callbackUrl) return false;
+  try {
+    const retour = new URL(callbackUrl, "https://deviens-marrant.fr").searchParams.get("returnTo") ?? "";
+    return retour.split(/[?#]/)[0] === "/carnet";
+  } catch {
+    return false;
+  }
+}
 
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
 // paramètres : le HTML serveur contient déjà le formulaire et ses liens (s15).
@@ -115,6 +127,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // E-mail déjà inscrit (409) : message + lien de connexion (spec s15 §2.3).
   const [emailTaken, setEmailTaken] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // Compte créé, paiement en cours d'ouverture : l'attente se fait dans le bouton (plus de page).
+  const [versPaiement, setVersPaiement] = useState(false);
   const router = useRouter();
   // Navigateur intégré détecté au montage : Google désactivé seulement là où il est refusé (v5 §2.4).
   const inApp = useInAppBrowser();
@@ -130,7 +144,17 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // `etape: "abonnement"` : le compte est créé pour s'abonner (rupture de série s15).
   const srcData = { src: src ?? "direct", etape: "abonnement" };
   const loginHref = buildLoginUrl({ callbackUrl, src });
-  const etape1Slug = parcoursOrigineDepuisCallback(callbackUrl) ?? MUR_PARCOURS;
+  const parcoursOrigine = parcoursOrigineDepuisCallback(callbackUrl);
+  const etape1Slug = parcoursOrigine ?? MUR_PARCOURS;
+  // v2 G03, G04 (§3) : ce qui s'ouvre après le paiement, selon le clic d'entrée.
+  const contexte = contexteRegister({
+    src,
+    parcours: parcoursOrigine,
+    carnet: retourCarnetDepuisCallback(callbackUrl),
+    favoriVanne: favoriDepuisCallback(callbackUrl)?.contentType === "JOKE",
+  });
+  // v2 G05 : le lien gratuit seulement sans clic d'achat (aucune source, ou /login).
+  const lienGratuit = !src || SRC_SANS_ACHAT.has(src);
 
   // Retour de Google en erreur (`?error=OAuthCallback`…) : mesuré une seule fois.
   const oauthFailureTracked = useRef(false);
@@ -200,6 +224,13 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
         router.push(loginHref);
       } else {
         trackUmami("inscription-reussie", { methode: "email", ...srcData });
+        setVersPaiement(true);
+        const url = await ouvrirPaiementApresInscription(postAuthTarget);
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+        // Échec : /abonnement (`auto=1`) relance et affiche les messages habituels.
         router.push(postAuthTarget);
         router.refresh();
       }
@@ -228,7 +259,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
           </Link>
           <h1 className="font-display text-xl font-bold text-text-primary">{REGISTER_CTA.titre}</h1>
           <p className="text-sm text-text-secondary" data-testid="register-rappel-offre">
-            {frTypo(REGISTER_CTA.planReminder(plan, src === FIN_ETAPE_1_SRC ? parcoursOrigineDepuisCallback(callbackUrl) : null))}
+            {frTypo(REGISTER_CTA.planReminder(plan))}
+            {contexte && <> {frTypo(contexte)}</>}
           </p>
         </CardHeader>
         <CardContent>
@@ -340,15 +372,25 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             <Button
               type="submit"
               variant="primary"
-              className="h-auto min-h-12 w-full whitespace-normal py-3 text-center leading-5 [text-wrap:balance]"
-              disabled={isLoading}
+              className="h-auto min-h-12 w-full whitespace-normal py-3 text-center leading-5 [text-wrap:balance] disabled:opacity-100"
+              disabled={isLoading || versPaiement}
+              data-testid="register-bouton"
             >
-              {isLoading ? "On prépare ton compte…" : REGISTER_CTA.bouton}
+              {versPaiement ? (
+                <Chargement texte={REGISTER_CTA.chargementPaiement} />
+              ) : isLoading ? (
+                <Chargement texte="On prépare ton compte…" />
+              ) : (
+                REGISTER_CTA.bouton
+              )}
             </Button>
-            {/* Concision v5 : la REASS collée sous le plein (CGU : sous Google, revue v3 m2). */}
-            <p className="-mt-2 text-center text-xs text-text-muted" data-testid="register-reassurance">
-              {REASSURANCE_UNIQUE}
-            </p>
+            {/* Concision v5 : la REASS collée sous le plein (CGU : sous Google, revue v3 m2) ; v2 G06 : Stripe dessous. */}
+            <div className="-mt-2">
+              <Reassurance className="mt-0" testId="register-reassurance" />
+              <p className="mt-1 text-center text-sm text-text-secondary" data-testid="register-stripe">
+                {REGISTER_CTA.stripe}
+              </p>
+            </div>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
             {REGISTER_CTA.dejaCompte}{" "}
@@ -357,9 +399,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
               {REGISTER_CTA.connecteToi}
             </Link>
           </div>
-          {/* Sortie douce vers l'étape gratuite du parcours d'origine ; absente quand on arrive
-              de la fin de l'étape 1 (elle vient d'être lue). */}
-          {src !== FIN_ETAPE_1_SRC && (
+          {/* Sortie douce vers l'étape gratuite : seulement sans clic d'achat (v2 G05). */}
+          {lienGratuit && (
             <div className="mt-1 text-center">
               <Link
                 href={parcoursEtape1Href(etape1Slug, "register-etape1")}

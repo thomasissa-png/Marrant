@@ -283,7 +283,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
                     </Link>
                   </h3>
                   <div className="flex shrink-0 items-center">
-                    <FavoriteButton contentType="VIDEO" contentId={video.id} />
+                    <FavoriteButton contentType="VIDEO" contentId={video.id} apercu={video.title} />
                     <ShareButton title={`${video.title} - deviens-marrant.fr`} text={`${video.title} par ${video.channelName}`} />
                   </div>
                 </div>

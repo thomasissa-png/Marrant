@@ -259,7 +259,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                     </Badge>
                   </div>
                   <div className="flex shrink-0 items-center">
-                    <FavoriteButton contentType="JOKE" contentId={joke.id} />
+                    <FavoriteButton contentType="JOKE" contentId={joke.id} apercu={joke.content} />
                     <ShareButton title="Vanne - deviens-marrant.fr" text={`${joke.content}\n\n${joke.punchline}`} />
                   </div>
                 </div>

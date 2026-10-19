@@ -18,7 +18,7 @@ import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { FENETRE_CHARGEMENT, QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -251,7 +251,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                   </Link>
                 )}
                 {/* Revue visuelle s21 (R16) : groupe d'action centré (bouton pleine largeur, REASS, lien gratuit). */}
-                <p className="mt-2 text-center text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+                <Reassurance />
                 {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
               </div>
             )}

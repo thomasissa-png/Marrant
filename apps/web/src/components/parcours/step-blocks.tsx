@@ -10,7 +10,9 @@ import { stripEmDashes } from "@/lib/em-dash";
 import { frTypo, frTypoParcours } from "@/lib/fr-typo";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { VALIDATION_ETAPE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
+import { LigneCompte } from "@/components/ui/ligne-compte";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
 import { LettreRepliee } from "@/components/lettre/lettre-repliee";
@@ -100,7 +102,8 @@ export function ValidationWall({
         <Link href={finEtape1Href ?? href} className={plein}>
           {VALIDATION_ETAPE.bouton}
         </Link>
-        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+        {finEtape1Href && <LigneCompte />}
+        <Reassurance />
       </div>
     );
   }
@@ -120,7 +123,8 @@ export function ValidationWall({
         <Link href={finEtape1Href ?? href} data-fin-etape-1-cta="premium" className={plein}>
           {FIN_ETAPE_1.bouton}
         </Link>
-        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+        {finEtape1Href && <LigneCompte />}
+        <Reassurance />
       </div>
       {/* QA v4 m-7 : formulaire chargé au dépliage (budget JS de /parcours/[slug]). */}
       <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="text-center" />

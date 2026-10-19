@@ -14,10 +14,12 @@ const CONTENU = { JOKE: "vanne", TIP: "conseil", VIDEO: "video" } as const;
 interface FavoriteButtonProps {
   contentType: "JOKE" | "TIP" | "VIDEO";
   contentId: string;
+  /** Début de la vanne, titre du conseil ou de la vidéo : rappelé dans la fenêtre Premium (v2 W02). */
+  apercu?: string;
   className?: string;
 }
 
-export function FavoriteButton({ contentType, contentId, className }: FavoriteButtonProps) {
+export function FavoriteButton({ contentType, contentId, apercu, className }: FavoriteButtonProps) {
   const { status } = useSession();
   const { isFavorite, addFavorite, removeFavorite, getFavoriteId } = useFavoritesStore();
   const [premiumOpen, setPremiumOpen] = useState(false);
@@ -85,8 +87,15 @@ export function FavoriteButton({ contentType, contentId, className }: FavoriteBu
         </svg>
         </span>
       </button>
-      {/* Modale contextualisée : dit clairement que les favoris font partie de Premium. */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="favoris" contenu={CONTENU[contentType]} />
+      {/* Le clic mémorise l'élément : ajouté aux favoris au retour d'un paiement réussi (lib/favori-apres-paiement). */}
+      <PremiumModal
+        isOpen={premiumOpen}
+        onClose={() => setPremiumOpen(false)}
+        reason="favoris"
+        contenu={CONTENU[contentType]}
+        apercu={apercu}
+        favori={{ contentType, contentId }}
+      />
     </>
   );
 }

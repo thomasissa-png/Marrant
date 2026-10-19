@@ -14,6 +14,7 @@
  */
 import {
   ESPACE_INSECABLE,
+  PARCOURS_COUNT,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PRICE_LABEL,
   formatEuros,
@@ -86,19 +87,21 @@ export const DEMO_VANNE = {
 // ─── Bloc de fin d'article ──────────────────────────────────────────────────
 
 /**
- * `ArticleCta` (variante « fin ») : titre, une phrase, un plein gratuit, « Sans compte. », puis
- * le lien `OUVRIR`. Rien sous le lien (le prix et la garantie vivent sur /abonnement).
+ * `ArticleCta` (variante « fin », textes-trajet-v2 F01 à F05) : titre, la phrase d'argument (elle
+ * remplace le texte propre à l'article), le plein payant « Tout ouvrir · 2,99 €/mois », la REASS,
+ * puis le lien gratuit (même libellé qu'avant) et « Sans compte. ».
  */
 export const BLOC_FIN = {
+  /** v2 F01 : plein payant, porte générique « Tout ouvrir » (libellé inchangé). */
+  bouton: libelleToutOuvrir(),
+  /** v2 F02 : phrase d'argument, au-dessus du plein ; remplace le texte de l'article (arbitrage 3). */
+  phrase: `${OFFRE_NOM} ouvre tout : le catalogue et les ${PARCOURS_COUNT} parcours.`,
   /**
-   * Plein gratuit quand le parcours de l'article n'est pas connu (ni table par slug, ni cluster) :
-   * `GRATUIT_ACCUEIL`. Parcours connu : `GRATUIT_P` (`TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1`),
-   * Répartie compris (QA v4 m-2, règle du libellé unique §0). L'article n°1 garde le sien (`parArticle`).
+   * v2 F04 : lien gratuit (ancien plein). Parcours inconnu : `GRATUIT_ACCUEIL`. Parcours connu :
+   * `GRATUIT_P` (`TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1`). L'article n°1 garde le sien (`parArticle`).
    */
   boutonSansParcours: GRATUIT_ACCUEIL,
   noteSansCompte: SANS_COMPTE,
-  /** Lien payant sous le plein : porte générique « Tout ouvrir ». */
-  lienAbonnement: libelleToutOuvrir(),
   /** Surcharges par article (prioritaires sur config/blog-cta.ts et encarts-blog-s20.ts). */
   parArticle: {
     "meilleures-blagues-droles-2026": {

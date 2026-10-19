@@ -11,7 +11,7 @@ import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
 import { FIN_DE_PAGE_PARCOURS_ETAPE_1, GLOSSAIRE_FIN } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { cn } from "@/lib/utils";
@@ -156,7 +156,7 @@ export default function GlossairePage() {
             {frTypo(GLOSSAIRE_FIN.bouton)}
           </Link>
         </div>
-        <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+        <Reassurance />
         <div className="-mb-3 mt-1">
           <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
             {frTypo(GLOSSAIRE_FIN.lienEtape1)}

@@ -10,6 +10,7 @@ import {
   ESPACE_INSECABLE,
   formatEuros,
   PREMIUM_ANNUAL_PRICE_CENTS,
+  PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PRICE_LABEL,
@@ -24,6 +25,27 @@ export function prixTtcLabel(plan: PremiumPlan): string {
   return plan === "annual"
     ? `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)} TTC par an`
     : `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
+}
+
+/**
+ * « 2,99 €/mois » / « 24,99 €/an » : graphie du prix hors cartes de formule (/register, page
+ * d'attente ; textes-trajet-v2 G02, A18, W04). `prixTtcLabel` reste pour la carte d'offre et Stripe.
+ */
+export function prixLabel(plan: PremiumPlan): string {
+  return plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
+}
+
+/**
+ * Ajouté au prix annuel sur /register et la page d'attente (v2 G02, A18 ; correction @legal du
+ * tour 2, `docs/legal/avis-conversion-tour2-s21.md` : « sauf résiliation », jamais « au même prix »).
+ */
+export const RENOUVELE_CHAQUE_ANNEE = "renouvelé chaque année, sauf résiliation";
+
+/** « Premium, 2,99 €/mois. » / « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. » */
+export function rappelFormule(plan: PremiumPlan): string {
+  return plan === "annual"
+    ? `${OFFRE_NOM}, ${prixLabel("annual")}, ${RENOUVELE_CHAQUE_ANNEE}.`
+    : `${OFFRE_NOM}, ${prixLabel("monthly")}.`;
 }
 
 // VALIDÉ à l'aveugle s21, concision v5 (18/10, docs/copy/cta-s21/concision/textes-v5-a.md §0)
@@ -78,9 +100,12 @@ export const ETAPE_LIBRE_BADGE = "Lecture libre";
 /** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */
 export const PASSER_ETAPE_2 = `Passer à l’étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
 
+/** Phrase de la fin d'étape 1 (`FIN_ETAPE_1.phrase`), reprise par la variante quiz en cours (v2 T02). */
+export const PHRASE_SUITE_PARCOURS = `${OFFRE_NOM} ouvre la suite et les autres parcours d’un coup.`;
+
 /** Fin d'étape 1, variante quiz en cours (`ValidationWall`, `quizPending`) : texte, plein, REASS dessous. */
 export const VALIDATION_ETAPE = {
-  texte: `Les étapes suivantes s’ouvrent avec ${OFFRE_NOM}.`,
+  texte: PHRASE_SUITE_PARCOURS,
   bouton: PASSER_ETAPE_2,
 } as const;
 

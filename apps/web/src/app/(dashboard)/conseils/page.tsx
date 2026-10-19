@@ -115,7 +115,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
           <>
             Répartie, timing, storytelling : les techniques des meilleurs
             humoristes français, expliquées comme si on était à la même table.
-            Chaque conseil vient avec un exemple concret et un défi à tester
+            Chaque conseil vient avec un exemple concret, à tester
             aujourd’hui. Pas de théorie creuse&nbsp;: tu lis, tu testes, tu
             progresses.
           </>

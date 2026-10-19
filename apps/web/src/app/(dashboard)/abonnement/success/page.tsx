@@ -8,7 +8,7 @@
 // cette page (session_id conservé). Paiement non vérifiable : message honnête
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
 
-import { Suspense, useEffect, useRef, useState, useCallback } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -17,6 +17,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { trackUmamiWhenReady } from "@/lib/umami";
 import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
+import { extraireFavori } from "@/lib/favori-apres-paiement";
+import { useFavoritesStore } from "@/stores/favorites-store";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -41,8 +43,12 @@ function SubscriptionSuccessContent() {
   const sessionId = searchParams.get("session_id");
   // Retour à l'intention d'origine, validée chemin interne ; sinon /parcours.
   const rawReturnTo = searchParams.get("returnTo");
-  const destination = getPostPaymentDestination(rawReturnTo);
-  const fallbackTarget = sanitizeReturnTo(rawReturnTo) ?? "/parcours";
+  // Favori mémorisé au clic sur l'étoile (lib/favori-apres-paiement) : ajouté une fois le plan
+  // vérifié, puis retiré de la destination.
+  const { favori, chemin: destination } = useMemo(() => extraireFavori(getPostPaymentDestination(rawReturnTo)), [rawReturnTo]);
+  const addFavorite = useFavoritesStore((s) => s.addFavorite);
+  const fetchFavorites = useFavoritesStore((s) => s.fetchFavorites);
+  const fallbackTarget = extraireFavori(sanitizeReturnTo(rawReturnTo) ?? "/parcours").chemin;
   const fallbackLabel = fallbackTarget.startsWith("/parcours/")
     ? "Reprendre mon parcours"
     : fallbackTarget === "/parcours"
@@ -104,8 +110,23 @@ function SubscriptionSuccessContent() {
       tracked.current = true;
       trackUmamiWhenReady("abonnement-reussi", { formule });
     }
-    router.push(destination);
-  }, [etat, router, destination, formule]);
+    let annule = false;
+    void (async () => {
+      if (favori) {
+        // Attendu avant la redirection (la page d'arrivée montre l'étoile pleine), 5 s au plus.
+        // Échec ou doublon (409) : la redirection a lieu quand même.
+        await Promise.race([
+          addFavorite(favori.contentType, favori.contentId),
+          new Promise((r) => setTimeout(r, 5_000)),
+        ]);
+        await Promise.race([fetchFavorites(), new Promise((r) => setTimeout(r, 5_000))]);
+      }
+      if (!annule) router.push(destination);
+    })();
+    return () => {
+      annule = true;
+    };
+  }, [etat, router, destination, formule, favori, addFavorite, fetchFavorites]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">

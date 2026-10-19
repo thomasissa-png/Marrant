@@ -4,34 +4,27 @@ import { Card } from "@/components/ui/card";
 
 /**
  * Fiche complète (Server Component : aucune donnée ne part dans le JS client).
- * `extrait` (lot 2 s21, /abonnement) : le bloc qui l'entoure porte déjà « Situation N,
- * offerte » ; la carte ne montre que le titre, la situation, la réplique et
- * « Pourquoi ça marche » (sans contexte, « Si ça se tend » ni « À toi de jouer »).
+ * L'extrait de /abonnement (deux bulles) vit dans `carnet-extrait.tsx` (textes-trajet-v2 A08).
  */
 export function CarnetFicheCard({
   fiche,
   numero,
   offerte = false,
-  extrait = false,
 }: {
   fiche: CarnetFiche;
   numero: number;
   offerte?: boolean;
-  extrait?: boolean;
 }) {
-  const Titre = extrait ? "h3" : "h2";
-  const blocTitre = extrait ? "h4" : "h3";
+  const blocTitre = "h3";
   return (
-    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={extrait ? undefined : `fiche-${fiche.id}`}>
+    <Card className="space-y-4 p-4 hover:border-border sm:p-6" id={`fiche-${fiche.id}`}>
       <header className="space-y-1">
-        {!extrait && (
-          <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-            Situation {numero}
-            {offerte ? " · offerte" : ""}
-          </p>
-        )}
-        <Titre className="font-display text-xl font-bold text-text-primary">{frTypo(fiche.titre)}</Titre>
-        {!extrait && <p className="text-sm text-text-muted">{frTypo(fiche.contexte)}</p>}
+        <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
+          Situation {numero}
+          {offerte ? " · offerte" : ""}
+        </p>
+        <h2 className="font-display text-xl font-bold text-text-primary">{frTypo(fiche.titre)}</h2>
+        <p className="text-sm text-text-muted">{frTypo(fiche.contexte)}</p>
       </header>
 
       <p className="text-sm text-text-secondary">{frTypo(fiche.situation)}</p>
@@ -47,12 +40,8 @@ export function CarnetFicheCard({
       </div>
 
       <FicheBloc titre="Pourquoi ça marche" as={blocTitre}>{frTypo(fiche.pourquoi)}</FicheBloc>
-      {!extrait && (
-        <>
-          <FicheBloc titre="Si ça se tend" as={blocTitre}>{frTypo(fiche.siTendu)}</FicheBloc>
-          <FicheBloc titre="À toi de jouer" as={blocTitre}>{frTypo(fiche.exercice)}</FicheBloc>
-        </>
-      )}
+      <FicheBloc titre="Si ça se tend" as={blocTitre}>{frTypo(fiche.siTendu)}</FicheBloc>
+      <FicheBloc titre="À toi de jouer" as={blocTitre}>{frTypo(fiche.exercice)}</FicheBloc>
     </Card>
   );
 }

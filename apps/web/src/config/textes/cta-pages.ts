@@ -23,6 +23,7 @@ import {
   FREE_TIP_LIMIT,
   FREE_VIDEO_LIMIT,
   PREMIUM_MONTHLY_PRICE_CENTS,
+  PARCOURS_COUNT,
   PREMIUM_PARCOURS,
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
@@ -31,7 +32,7 @@ import { PARCOURS_ETAPES } from "@/config/parcours-etapes";
 import { libelleGratuitParcours, libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { libelleSabonner, PHRASE_OBJET_CONNECTE } from "@/config/textes/abonnement-vente";
 import { LAST_FREE_PARCOURS_STEP } from "@/lib/parcours-access";
-import { OFFRE_NOM, PASSER_ETAPE_2, prixTtcLabel } from "@/config/textes/offre";
+import { OFFRE_NOM, PASSER_ETAPE_2, PHRASE_SUITE_PARCOURS, rappelFormule } from "@/config/textes/offre";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 /** « Libellé · 2,99 €/mois » (espace insécable avant le point médian). */
@@ -55,20 +56,20 @@ export const MUR_LISTE: Readonly<
 > = {
   vannes: {
     titre: "Encore des vannes à ressortir",
-    limite: `Les ${FREE_JOKE_LIMIT} gratuites, c’est fait.`,
-    bouton: avecPrix("Voir la suite des vannes"),
+    limite: `Les ${FREE_JOKE_LIMIT} vannes gratuites, c’est fait.`,
+    bouton: avecPrix("Ouvrir la suite des vannes"),
     contour: libelleGratuitParcours,
   },
   conseils: {
     titre: "Pour la prochaine fois qu’on te chambre",
     limite: `${FREE_TIP_LIMIT} conseils gratuits, c’est fait.`,
-    bouton: avecPrix("Voir la suite des conseils"),
+    bouton: avecPrix("Ouvrir la suite des conseils"),
     contour: libelleGratuitParcours,
   },
   videos: {
     titre: "Tu regardes pour rire. Et pour faire rire ?",
     limite: `${FREE_VIDEO_LIMIT} vidéos gratuites, c’est fait.`,
-    bouton: avecPrix("Voir la suite des vidéos"),
+    bouton: avecPrix("Ouvrir la suite des vidéos"),
     contour: libelleGratuitParcours,
   },
 };
@@ -109,31 +110,54 @@ export const BLOC_EXERCICE_ABONNE_TITRE = "À toi de jouer";
 /** Geste qui ouvre la fenêtre. `carte` = carte floutée d'une liste. */
 export type GesteFenetre = "favori" | "vote" | "carte";
 
-/** 4 éléments visibles : titre, prix en gros (`FENETRE_PRIX`), plein, REASS. */
+/**
+ * Ordre à l'écran (textes-trajet-v2 §2.4) : titre, rappel de l'objet cliqué (donnée), `ligne`
+ * (W03, favori seulement), prix en gros (`FENETRE_PRIX`), plein, `FENETRE_COMPTE` (W06, visiteur),
+ * REASS.
+ */
 export interface TexteFenetre {
   titre: string;
   bouton: string;
+  ligne?: string;
 }
 
-const VOTE_FENETRE: TexteFenetre = { titre: `Voter, et tout le reste : ${OFFRE_NOM}`, bouton: "Je m’abonne et je vote" };
+/** W07 (v2) : même personne grammaticale que le plein du favori. */
+const VOTE_FENETRE: TexteFenetre = { titre: `Voter, et tout le reste : ${OFFRE_NOM}`, bouton: "S’abonner et voter" };
 const CARTE_FENETRE: TexteFenetre = {
   titre: "Le reste de la liste est juste derrière",
-  bouton: "Je m’abonne et j’ouvre toute la liste",
+  bouton: "S’abonner et ouvrir la liste",
+};
+
+/** W01, W03, W05 (v2) : une seule phrase pour la vanne, le conseil et la vidéo. */
+const FAVORI_FENETRE: TexteFenetre = {
+  titre: `Les favoris, c’est ${OFFRE_NOM}`,
+  ligne: `Il ouvre aussi tout le catalogue et les ${PARCOURS_COUNT} parcours.`,
+  bouton: "S’abonner et tout ouvrir",
+};
+
+/**
+ * Variante du §6 point 8 (arbitrage 1 du tour 2), appliquée parce que l'ajout automatique du
+ * favori après paiement est codé et prouvé de bout en bout (Playwright local, favori-apres-paiement).
+ * Texte écrit pour la vanne seulement : le conseil et la vidéo gardent W01/W05.
+ */
+const FAVORI_FENETRE_VANNE: TexteFenetre = {
+  titre: `Garde-la avec ${OFFRE_NOM}`,
+  ligne: FAVORI_FENETRE.ligne,
+  bouton: "S’abonner et la garder",
 };
 
 /** Visiteur et compte connecté voient la même fenêtre. */
 export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<FicheType, TexteFenetre>>>> = {
-  favori: {
-    vanne: { titre: "Mets-la de côté", bouton: "Je m’abonne et je la garde" },
-    conseil: { titre: "Garde-le sous le coude", bouton: "Je m’abonne et je le garde" },
-    video: { titre: "Garde-la pour la revoir", bouton: "Je m’abonne et je la garde" },
-  },
+  favori: { vanne: FAVORI_FENETRE_VANNE, conseil: FAVORI_FENETRE, video: FAVORI_FENETRE },
   vote: { vanne: VOTE_FENETRE, conseil: VOTE_FENETRE, video: VOTE_FENETRE },
   carte: { vanne: CARTE_FENETRE, conseil: CARTE_FENETRE, video: CARTE_FENETRE },
 };
 
-/** Ligne de prix de la fenêtre (« 2,99 € TTC / mois ») : montant en gros, suffixe en petit. */
-export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS), suffixe: "TTC / mois" } as const;
+/** W06 (v2) : ligne compte sous le plein, avant la REASS (visiteur seulement). Même phrase en T3 (T01). */
+export const FENETRE_COMPTE = "D’abord ton compte, puis le paiement.";
+
+/** Ligne de prix de la fenêtre (« 2,99 € /mois », W04) : montant en gros, suffixe en petit. */
+export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS), suffixe: "/mois" } as const;
 
 /** Bouton pendant l'ouverture du paiement (compte connecté). */
 export const FENETRE_CHARGEMENT = "On t’emmène au paiement…";
@@ -197,7 +221,7 @@ export const FIN_ETAPE_1 = {
   /** Surtitre de la carte `CarteEtapeSuivante` : « Étape 2 sur {N} », {N} lu dans la donnée. */
   carteSurtitre: (slug: ParcoursSlug, numero = 2) => `Étape ${numero} sur ${etapesParcours(slug)}`,
   titre: "Bien joué !",
-  phrase: `${OFFRE_NOM} ouvre la suite et les autres parcours d’un coup.`,
+  phrase: PHRASE_SUITE_PARCOURS,
   /** Plein vers /register (puis paiement). REASS dessous. */
   bouton: PASSER_ETAPE_2,
   /**
@@ -227,23 +251,80 @@ export const ABONNEMENT_CTA = {
 // ─── Page /register ─────────────────────────────────────────────────────────
 
 export const REGISTER_CTA = {
-  titre: "Ton compte",
-  /**
-   * « Premium, 2,99 € TTC par mois. » (annuel : « Premium, 24,99 € TTC par an. »). Depuis la fin
-   * d'étape 1 (`src=parcours-etape`, parcours connu) : + « Après le paiement, l'étape 2 de {Parcours}
-   * s'ouvre. » (trajet de conversion s21 §4 : le bouton cliqué promettait l'étape 2).
-   */
-  planReminder: (plan: PremiumPlan, parcoursEtape?: ParcoursSlug | null) =>
-    `${OFFRE_NOM}, ${prixTtcLabel(plan)}.${
-      parcoursEtape ? ` Après le paiement, l’étape ${LAST_FREE_PARCOURS_STEP + 1} de ${PARCOURS_NOMS[parcoursEtape]} s’ouvre.` : ""
-    }`,
+  /** v2 G01 : écho exact de « D'abord ton compte, puis le paiement. » (W06, T01). */
+  titre: "Ton compte, puis le paiement",
+  /** v2 G02 : « Premium, 2,99 €/mois. » ; annuel « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. » */
+  planReminder: (plan: PremiumPlan) => rappelFormule(plan),
   bouton: "Créer mon compte et passer au paiement",
+  /** Bouton pendant l'ouverture du paiement, après la création du compte (attente dans le bouton). */
+  chargementPaiement: "On t’emmène au paiement…",
   google: "Continuer avec Google",
   dejaCompte: "Déjà un compte ?",
   connecteToi: "Connecte-toi",
-  /** Parcours d'origine, Répartie par défaut ; absent quand on arrive de la fin de l'étape 1. */
+  /** v2 G06 : sous la réassurance, même style petit. */
+  stripe: "Paiement sécurisé par Stripe.",
+  /** v2 G05 : seulement sans source ou depuis /login (aucun clic d'achat). Parcours d'origine, Répartie par défaut. */
   lienEtape1: libelleGratuitParcours,
 } as const;
+
+/** Sources sans clic d'achat : /register ouvert tel quel ou depuis /login (v2 G05, §3). */
+export const SRC_SANS_ACHAT: ReadonlySet<string> = new Set(["login"]);
+
+const apresPaiement = (x: string) => `Après le paiement, ${x}.`;
+const TOUT_S_OUVRE = apresPaiement("tout s’ouvre");
+
+/** v2 §3 : phrase de /register par entrée (`src`), clé = source. Les autres sources : `TOUT_S_OUVRE`. */
+export const CONTEXTE_REGISTER: Readonly<Record<string, string>> = {
+  "mur-vannes": apresPaiement("la suite des vannes s’ouvre"),
+  "mur-conseils": apresPaiement("la suite des conseils s’ouvre"),
+  "mur-videos": apresPaiement("la suite des vidéos s’ouvre"),
+  "modale-carte": apresPaiement("toute la liste s’ouvre"),
+  favoris: apresPaiement("les favoris s’ouvrent"),
+  "modale-favoris": apresPaiement("les favoris s’ouvrent"),
+  "exercice-vanne": apresPaiement("les exercices des fiches s’ouvrent"),
+  "exercice-conseil": apresPaiement("les exercices des fiches s’ouvrent"),
+  "exercice-video": apresPaiement("les exercices des fiches s’ouvrent"),
+  carnet: apresPaiement("tout le carnet s’ouvre"),
+  recherche: apresPaiement("tous les résultats s’ouvrent"),
+};
+
+/**
+ * Variante du §6 point 8 (arbitrage 1 du tour 2) : la vanne cliquée (étoile) est ajoutée aux
+ * favoris après le paiement, prouvé de bout en bout. Texte écrit pour la vanne seulement.
+ */
+export const CONTEXTE_REGISTER_FAVORI_VANNE = "Après le paiement, ta vanne est dans tes favoris.";
+
+/**
+ * Phrase de contexte de /register (v2 G03, G04, §3), ou `null` sans clic d'achat. `parcours` : lu
+ * dans le `returnTo` du callback ; `carnet` : retour vers /carnet ; `favoriVanne` : étoile d'une vanne.
+ */
+export function contexteRegister({
+  src,
+  parcours = null,
+  carnet = false,
+  favoriVanne = false,
+}: {
+  src: string | null;
+  parcours?: ParcoursSlug | null;
+  carnet?: boolean;
+  favoriVanne?: boolean;
+}): string | null {
+  if (!src || SRC_SANS_ACHAT.has(src)) return null;
+  if (src === "modale-favoris" && favoriVanne) return CONTEXTE_REGISTER_FAVORI_VANNE;
+  if (CONTEXTE_REGISTER[src]) return CONTEXTE_REGISTER[src];
+  if (carnet) return CONTEXTE_REGISTER.carnet;
+  if (parcours) {
+    const nom = PARCOURS_NOMS[parcours];
+    if (src === "parcours-etape") {
+      const titre = PARCOURS_ETAPES[parcours].titres[LAST_FREE_PARCOURS_STEP];
+      const etape = `l’étape ${LAST_FREE_PARCOURS_STEP + 1} de ${nom} s’ouvre`;
+      return apresPaiement(titre ? `${etape} : ${titre}` : etape);
+    }
+    if (src === "parcours-apercu") return apresPaiement(`la suite de ${nom} s’ouvre`);
+    if (src === "onboarding") return apresPaiement(`${nom} s’ouvre en entier`);
+  }
+  return TOUT_S_OUVRE;
+}
 
 // ─── /carnet, visiteur : paywall après la fiche offerte ─────────────────────
 
@@ -251,7 +332,7 @@ export const REGISTER_CTA = {
 export const CARNET_PAYWALL = {
   titre: (n: number) => `Ça, c’était la réplique offerte. Il en reste ${n}.`,
   paragraphe: "Un nouveau carnet arrive chaque mois.",
-  bouton: avecPrix("Voir tout le carnet"),
+  bouton: avecPrix("Ouvrir tout le carnet"),
   listeTitre: "Au programme",
   /** Après les 3 premiers titres de la liste verrouillée : `reste` = n - 3. */
   listeReste: (reste: number) => `Et ${reste} autres répliques`,

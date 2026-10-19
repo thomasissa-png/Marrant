@@ -73,14 +73,15 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
 );
 
+/** textes-trajet-v2 K02 : plus de « défi » promis à tous (l'exercice est réservé à Premium). */
 const TIP_TEASERS = [
-  "Clique pour l’exemple et le défi",
-  "Un exercice t’attend là-dessous",
-  "Le défi est juste en dessous",
-  "Ouvre, y’a un défi pour toi",
+  "Clique pour l’exemple",
+  "Un exemple t’attend là-dessous",
+  "L’exemple est juste en dessous",
+  "Ouvre, y’a un exemple pour toi",
   "L’exemple concret est caché ici",
-  "Teste-toi avec le défi",
-  "Vas-y, le défi t’attend",
+  "Vois-le en situation",
+  "Vas-y, l’exemple t’attend",
   "Un truc à tester aujourd’hui",
 ];
 
@@ -287,7 +288,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                     </Badge>
                   </div>
                   <div className="flex shrink-0 items-center">
-                    <FavoriteButton contentType="TIP" contentId={tip.id} />
+                    <FavoriteButton contentType="TIP" contentId={tip.id} apercu={tip.title} />
                     <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>
                 </div>

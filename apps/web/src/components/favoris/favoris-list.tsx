@@ -18,7 +18,7 @@ import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -204,7 +204,7 @@ export function FavorisList() {
               {libelleToutOuvrir()}
             </Button>
           </Link>
-          <p className="mt-2 text-xs text-text-muted">{REASSURANCE_UNIQUE}</p>
+          <Reassurance />
         </CardContent>
       </Card>
     );

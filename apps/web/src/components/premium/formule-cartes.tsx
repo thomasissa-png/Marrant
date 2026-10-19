@@ -57,6 +57,12 @@ export function FormuleCartes({
           lignes={[PREMIUM_ANNUAL_EQUIVALENT_LABEL, ANNUEL_MOIS_OFFERTS_LABEL]}
         />
       </div>
+      {/* v2 A04 : renouvellement de l'annuel, seulement quand « Annuel » est choisi. */}
+      {value === "annual" && (
+        <p className="mt-2 text-center text-sm text-text-secondary" data-testid="renouvellement-annuel">
+          {FORMULES.renouvelAnnuel}
+        </p>
+      )}
     </fieldset>
   );
 }
@@ -82,7 +88,7 @@ function Carte({
     <label
       data-testid={`formule-${plan}`}
       className={cn(
-        "flex min-h-11 cursor-pointer flex-col rounded-lg border-2 px-3 py-2 text-left transition-colors",
+        "flex min-h-11 cursor-pointer flex-col justify-center rounded-lg border-2 px-3 py-2 text-left transition-colors",
         "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-primary has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card",
         actif ? "border-accent-primary bg-accent-primary/15" : "border-border bg-background-card hover:border-text-muted",
       )}

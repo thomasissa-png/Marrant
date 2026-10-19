@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { MUR_LISTE, MUR_PARCOURS, type ListeMur } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 
 interface MurListeProps {
   liste: ListeMur;
@@ -57,7 +57,7 @@ export function MurListe({ liste }: MurListeProps) {
           {t.bouton}
         </Link>
       </div>
-      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+      <Reassurance />
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="-mb-3 mt-1">
         <Link

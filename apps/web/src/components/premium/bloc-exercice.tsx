@@ -11,7 +11,7 @@ import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, type FicheType } from "@/config/textes/cta-pages";
-import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { contenuAffiche } from "@/lib/tip-prose";
 
 interface BlocExerciceProps {
@@ -65,7 +65,7 @@ export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExercic
           {t.bouton}
         </Link>
       </div>
-      <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
+      <Reassurance />
       {/* s21 concision (18/10) : un seul bouton plein par bloc, le gratuit devient un lien texte (L2). */}
       <div className="-mb-3 mt-1">
         <Link href={parcoursEtape1Href(parcours, "fiche")} className={LIEN_L2} data-fiche-cta="etape-1">
