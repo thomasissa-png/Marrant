@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { trackUmami } from "@/lib/umami";
 import { dateLongue, MOT_CONFIRMATION_SUPPRESSION, TEXTES_SUPPRESSION as T } from "@/config/textes/compte";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LETTRE_HEBDO_SUPPRESSION } from "@/config/textes/lettre-hebdo-s21";
+import { frTypo } from "@/lib/fr-typo";
 
 /** Mot retapé conforme (casse et espaces ignorés, comme côté serveur). */
 export function confirmationValide(saisie: string): boolean {
@@ -86,6 +89,8 @@ export function SupprimerCompteCard({
       </CardHeader>
       <CardContent>
         <p className="text-sm text-text-secondary">{T.intro}</p>
+        {/* s21, avis @legal lettre hebdo §6.3 : texte exact, publié avec l'ouverture des inscriptions. */}
+        {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2 text-sm text-text-secondary">{frTypo(LETTRE_HEBDO_SUPPRESSION)}</p>}
         {abonne && <AvertissementAbonne fin={finPeriode ? dateLongue(finPeriode) : null} resilie={resilie} />}
         {!ouvert ? (
           <Button variant="ghost" size="sm" className="-ml-3 mt-4 text-error-text" onClick={ouvrir}>

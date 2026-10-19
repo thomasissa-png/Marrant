@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
-import { LETTRE_CONFIDENTIALITE_ANCRE } from "@/config/lettre";
+import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_HEBDO_DATE_TEXTES, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { CONFIDENTIALITE_LETTRE_HEBDO as HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
@@ -44,7 +45,7 @@ export default function ConfidentialitePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Politique <span className="whitespace-nowrap">de confidentialité</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 17 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && LETTRE_HEBDO_DATE_TEXTES ? LETTRE_HEBDO_DATE_TEXTES : "17 octobre 2026"}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className={SECTION_TITLE}>1. Responsable du traitement</h2>
@@ -133,6 +134,8 @@ export default function ConfidentialitePage() {
           <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l’arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, @legal « Textes publiés à l'ouverture, 17/10 », texte 1 : lettre seule (rien sur les questions). */}
           <p className="mt-2">Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
+          {/* s21, avis @legal lettre hebdo §4.2 (droits) : publié avec l'ouverture des inscriptions. */}
+          {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.droits)}</p>}
         </section>
         {/* s21, bloquant @legal B7 : section lettre, mot pour mot (docs/legal/lettre-et-questions-s21.md,
             parties 1, 2, 3 et 6 ; seules les phrases sur la lettre mensuelle). Ancre visée par le lien
@@ -143,12 +146,17 @@ export default function ConfidentialitePage() {
           <p>La lettre et le site s’adressent aux personnes de 15 ans et plus.</p>
           <ul className={LIST}>
             <li>Lettre par e-⁠mail, si tu t’y inscris : ton adresse e-⁠mail, la page où tu t’es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n’est créé.</li>
+            {/* s21, avis @legal lettre hebdo §4.2 : ajouts mot pour mot, publiés avec l'ouverture des inscriptions. */}
+            {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.donnees)}</li>}
           </ul>
           <ul className={LIST}>
             <li>T’envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-⁠mail), que tu peux retirer en un clic</li>
+            {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.finalite)}</li>}
             <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
           </ul>
+          {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.destinataires)}</p>}
           <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
+          {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.duree)}</p>}
         </section>
       </div>
     </div>

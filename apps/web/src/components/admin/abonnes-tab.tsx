@@ -3,6 +3,7 @@
 /** Onglet « Abonnés » : abonnés Premium (comptes) et inscrits à la lettre (s21). */
 import { ComptesSection } from "./comptes-section";
 import { LettreSection } from "./lettre-section";
+import { LettreHebdoSection } from "./lettre-hebdo-section";
 
 export type VueAbonnes = "premium" | "lettre";
 
@@ -37,7 +38,15 @@ export function AbonnesTab({
           </button>
         ))}
       </div>
-      {vue === "premium" ? <ComptesSection onUnauthorized={onUnauthorized} /> : <LettreSection onUnauthorized={onUnauthorized} />}
+      {vue === "premium" ? (
+        <ComptesSection onUnauthorized={onUnauthorized} />
+      ) : (
+        <>
+          <LettreSection onUnauthorized={onUnauthorized} />
+          {/* s21 : lettre de la semaine (Premium), sous la mensuelle (spec US-H7). */}
+          <LettreHebdoSection onUnauthorized={onUnauthorized} />
+        </>
+      )}
     </div>
   );
 }

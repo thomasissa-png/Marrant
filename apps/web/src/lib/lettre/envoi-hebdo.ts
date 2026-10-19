@@ -28,13 +28,13 @@ const base = (baseUrl: string) => baseUrl.replace(/\/$/, "");
 
 /** Lien d'arrêt du CORPS : page avec bouton (GET sans effet, @legal L5). */
 export function lienArretHebdo(baseUrl: string, token: string): string {
-  return `${base(baseUrl)}${LETTRE_HEBDO_ARRET_CHEMIN}?t=${encodeURIComponent(token)}`;
+  return `${base(baseUrl)}${LETTRE_HEBDO_ARRET_CHEMIN}?token=${encodeURIComponent(token)}`;
 }
 
 /** En-têtes RFC 2369 + RFC 8058 : arrêt immédiat de l'HEBDO seule par le client de messagerie. */
 export function enTetesArretHebdo(baseUrl: string, token: string): Record<string, string> {
   return {
-    "List-Unsubscribe": `<${base(baseUrl)}/api/lettre-premium/arret-un-clic?t=${encodeURIComponent(token)}>`,
+    "List-Unsubscribe": `<${base(baseUrl)}/api/lettre-premium/arret-un-clic?token=${encodeURIComponent(token)}>`,
     "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
   };
 }

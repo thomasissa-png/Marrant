@@ -41,8 +41,8 @@ export const LETTRE_HEBDO_UI = {
   erreurPaiement:
     "L'enregistrement n'a pas abouti, et c'est de notre côté. La case est décochée : réessaie dans un instant, ou règle-le depuis ton profil.",
   erreurProfil: "L'enregistrement n'a pas abouti, et c'est de notre côté. La case est restée dans son état précédent.",
-  sessionExpiree: "Ta session a expiré. Reconnecte-toi pour régler la lettre.",
-  sessionLien: "Me reconnecter",
+  /** « Ta session a expiré. Reconnecte-toi pour régler la lettre. », « Reconnecte-toi » en lien. */
+  sessionExpiree: { avant: "Ta session a expiré. ", lien: "Reconnecte-toi", apres: " pour régler la lettre." },
   pasActivee: "Pas activée",
   activeeDepuis: (date: string) => `Activée depuis le ${date}`,
   adresseNonVerifiee: "Confirme ton adresse e-mail pour recevoir la lettre",
@@ -129,3 +129,35 @@ export const CONFIDENTIALITE_LETTRE_HEBDO = {
 export const LETTRE_HEBDO_FIN_PREMIUM = "La lettre de la semaine s'arrête avec ton accès Premium. Si tu es inscrit à la lettre du mois, elle reprend.";
 export const LETTRE_HEBDO_SUPPRESSION =
   "Sont aussi effacés : ton choix pour la lettre de la semaine, le journal de ses envois, et ton inscription à la lettre du mois faite avec l'adresse de ton compte.";
+
+/**
+ * (L §6.5) Proposition unique aux abonnés existants : BROUILLON de l'avis @legal, à
+ * passer à l'aveugle puis à faire valider par Thomas (règle commune 10). Envoyée
+ * seulement par l'action admin, avec aperçu, inscriptions ouvertes (après la
+ * publication des textes CGU et confidentialité), une fois par compte.
+ */
+export const PROPOSITION_LETTRE_HEBDO = {
+  sujet: "La lettre de la semaine est dans ton abonnement",
+  corps: (baseUrl: string) => {
+    const base = sansBarre(baseUrl);
+    return [
+      "Salut,",
+      "",
+      "La lettre de la semaine est maintenant comprise dans ton abonnement Premium : une scène du carnet, la réplique et l'exercice. Tu la reçois par e-mail, chaque jeudi, une fois que tu l'as activée.",
+      "",
+      `Elle est facultative. Tant que tu ne coches pas la case, rien ne change pour toi. Pour la recevoir : ${base}/profil#lettre`,
+      "",
+      `Tu peux l'arrêter en un clic, sans toucher à ton abonnement. Si tu reçois déjà la lettre du mois, elle est mise en pause tant que tu reçois celle de la semaine. Les conditions sont dans l'article 10 des CGU : ${base}/cgu#lettre`,
+      "",
+      "Tu ne recevras pas d'autre message à ce sujet.",
+      "",
+      "L'Équipe Deviens Marrant",
+      "",
+      "--",
+      "Tu reçois ce message parce que tu es abonné Premium : il t'informe d'une fonction de ton abonnement.",
+      `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
+      `Tu ne veux plus recevoir d'e-mails autres que ceux de ton compte et de ton abonnement ? Écris-nous à ${LETTRE_CONTACT}.`,
+      `Confidentialité : ${base}/confidentialite#lettre`,
+    ].join("\n");
+  },
+};

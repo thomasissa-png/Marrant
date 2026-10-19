@@ -184,6 +184,7 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
               <div><dt className="text-text-muted">Premium</dt><dd className="text-text-secondary"><OuiNon oui={i.premium} /></dd></div>
             </dl>
             {i.compteTest && <p className="mt-1"><Pastille ton="accent">test</Pastille></p>}
+            {i.hebdo && <p className="mt-1"><Pastille>reçoit l’hebdo, mensuelle suspendue</Pastille></p>}
           </li>
         ))}
       </ul>
@@ -205,7 +206,7 @@ function Liste({ inscrits }: { inscrits: InscritLettre[] }) {
             {inscrits.map((i) => (
               <tr key={i.id} className="border-b border-border/60 last:border-0">
                 <td className="px-3 py-2 text-text-primary">
-                  {i.email} {i.compteTest && <Pastille ton="accent">test</Pastille>}
+                  {i.email} {i.compteTest && <Pastille ton="accent">test</Pastille>} {i.hebdo && <Pastille>reçoit l’hebdo, mensuelle suspendue</Pastille>}
                 </td>
                 <td className="px-3 py-2"><Pastille ton={STATUTS[i.statut].ton}>{STATUTS[i.statut].label}</Pastille></td>
                 <td className="max-w-[220px] truncate px-3 py-2 text-xs text-text-muted" title={i.source ?? undefined}>{i.source ?? "inconnue"}</td>

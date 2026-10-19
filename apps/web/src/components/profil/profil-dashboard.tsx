@@ -20,6 +20,7 @@ import { PrenomCard } from "@/components/profil/prenom-card";
 import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
+import { LettreHebdoCase } from "@/components/lettre/lettre-hebdo-case";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
@@ -366,6 +367,9 @@ export function ProfilDashboard() {
         isCheckoutLoading={isCheckoutLoading}
         abonnement={abonnement}
       />
+
+      {/* s21 : lettre de la semaine (Premium), sous la carte abonnement (spec US-H2). Absente interrupteur fermé. */}
+      <LettreHebdoCase emplacement="profil" className="md:col-span-2" />
 
       {/* s21 concision (18/10) : prénom renseigné après coup (plus demandé à l'inscription). */}
       <PrenomCard key={user.id} prenom={user.name} />

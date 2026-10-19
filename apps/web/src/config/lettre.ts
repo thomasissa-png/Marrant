@@ -177,3 +177,10 @@ export const LETTRE_HEBDO_JOURNAL_MOIS = 12;
 export const LETTRE_HEBDO_ARRET_CHEMIN = "/lettre/premium/arreter";
 /** Ancre de la section du profil (lien de l'e-mail de proposition). */
 export const LETTRE_HEBDO_PROFIL_ANCRE = "lettre";
+/**
+ * Date de « Dernière mise à jour » des CGU et de la confidentialité le jour où les
+ * textes de la lettre de la semaine sont publiés (avis @legal §4 : même déploiement
+ * que l'ouverture des inscriptions). À remplir en ouvrant l'interrupteur (« 9 novembre 2026 ») ;
+ * le test `lettre-hebdo-interrupteurs-s21` refuse une ouverture sans date.
+ */
+export const LETTRE_HEBDO_DATE_TEXTES: string = "";

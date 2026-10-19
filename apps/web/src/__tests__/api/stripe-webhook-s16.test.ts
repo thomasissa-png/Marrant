@@ -34,6 +34,8 @@ const prisma = {
   webhookEvent: { findUnique: jest.fn(), create: jest.fn() },
   user: { update: jest.fn(), findFirst: jest.fn() },
   subscription: { upsert: jest.fn(), update: jest.fn(), findUnique: jest.fn() },
+  // s21 hebdo : la lettre de la semaine s'arrête avec le passage à FREE (avis @legal §6.2).
+  premiumLetterPreference: { updateMany: jest.fn() },
   $transaction: jest.fn(),
 };
 jest.mock("@/lib/prisma", () => ({
@@ -198,6 +200,26 @@ describe("reco 3 : impayé", () => {
   it("subscription.deleted : rétrogradation FREE", async () => {
     await deliver("customer.subscription.deleted", stripeSub({ status: "canceled" }));
     expect(prisma.user.update).toHaveBeenCalledWith({ where: { id: "user-1" }, data: { plan: "FREE" } });
+  });
+
+  // s21 hebdo (avis @legal §6.2) : `fin-premium` posé dans la MÊME transaction que le passage à FREE.
+  const finPremium = expect.objectContaining({
+    where: { userId: "user-1", enabled: true },
+    data: expect.objectContaining({ enabled: false, stopOrigin: "fin-premium" }),
+  });
+
+  it.each([
+    ["customer.subscription.deleted", () => stripeSub({ status: "canceled" })],
+    ["customer.subscription.updated", () => stripeSub({ status: "unpaid" })],
+    ["charge.refunded", () => ({ id: "ch_1", customer: "cus_1", refunded: true })],
+  ])("s21 hebdo : %s arrête la lettre de la semaine (fin-premium)", async (type, objet) => {
+    await deliver(type, objet());
+    expect(prisma.premiumLetterPreference.updateMany).toHaveBeenCalledWith(finPremium);
+  });
+
+  it("s21 hebdo : past_due (Premium gardé pendant les relances) ne touche pas à la lettre", async () => {
+    await deliver("customer.subscription.updated", stripeSub({ status: "past_due" }));
+    expect(prisma.premiumLetterPreference.updateMany).not.toHaveBeenCalled();
   });
 });
 

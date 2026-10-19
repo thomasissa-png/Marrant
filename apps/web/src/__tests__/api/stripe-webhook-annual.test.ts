@@ -23,6 +23,8 @@ const prisma = {
   webhookEvent: { findUnique: jest.fn(), create: jest.fn() },
   user: { update: jest.fn() },
   subscription: { upsert: jest.fn(), update: jest.fn(), findUnique: jest.fn(), findFirst: jest.fn() },
+  // s21 hebdo : la lettre de la semaine s'arrête avec le passage à FREE (avis @legal §6.2).
+  premiumLetterPreference: { updateMany: jest.fn() },
   $transaction: jest.fn(),
 };
 jest.mock("@/lib/prisma", () => ({

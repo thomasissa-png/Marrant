@@ -7,6 +7,13 @@
 // boucle s'arrête tout de suite, invitation à se connecter avec retour sur
 // cette page (session_id conservé). Paiement non vérifiable : message honnête
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
+//
+// s21 (lettre de la semaine, spec US-H1) : la case de la lettre se coche ICI, au
+// retour de paiement, et nulle part dans le tunnel (Stripe Checkout hébergé n'accepte
+// pas de case libre ; /abonnement est figée pour la mesure du lot 2). Inscriptions
+// ouvertes seulement : Premium confirmé, la page ne redirige plus d'elle-même, elle
+// montre la case (jamais cochée) et le bouton vers la destination. Fermées : trajet
+// strictement inchangé (redirection immédiate).
 
 import { Suspense, useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
@@ -17,6 +24,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { trackUmamiWhenReady } from "@/lib/umami";
 import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LettreHebdoCase } from "@/components/lettre/lettre-hebdo-case";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -104,8 +113,10 @@ function SubscriptionSuccessContent() {
       tracked.current = true;
       trackUmamiWhenReady("abonnement-reussi", { formule });
     }
-    router.push(destination);
+    if (!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) router.push(destination);
   }, [etat, router, destination, formule]);
+  const destinationLabel =
+    destination === "/parcours" ? TEXTES_SUCCESS.pretBouton : destination.startsWith("/parcours/") ? "Reprendre mon parcours" : "Continuer";
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -115,9 +126,18 @@ function SubscriptionSuccessContent() {
             <>
               <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
-              <Link href="/parcours" className={buttonVariants({ variant: "primary", className: "mt-4" })}>
-                {TEXTES_SUCCESS.pretBouton}
-              </Link>
+              {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
+                <>
+                  <LettreHebdoCase emplacement="paiement" className="mt-6" />
+                  <Link href={destination} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
+                    {destinationLabel}
+                  </Link>
+                </>
+              ) : (
+                <Link href="/parcours" className={buttonVariants({ variant: "primary", className: "mt-4" })}>
+                  {TEXTES_SUCCESS.pretBouton}
+                </Link>
+              )}
             </>
           )}
           {etat === "verification" && (
