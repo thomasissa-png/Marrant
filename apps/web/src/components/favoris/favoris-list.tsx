@@ -283,12 +283,12 @@ export function FavorisList() {
           </CardContent>
         </Card>
       ) : (
-        // Revue visuelle s21 (R02) : dès 1 024 px, vannes et conseils sur 2 colonnes (rangées remplies
-        // dans l'ordre, trous comblés), la vidéo sur toute la rangée avec sa vignette à gauche.
-        <div className="grid gap-4 lg:grid-flow-row-dense lg:grid-cols-2">
+        // Revue visuelle s21 (R02, T3-06) : dès 768 px, vannes et conseils sur 2 colonnes (rangées remplies
+        // dans l'ordre, trous comblés), la vidéo sur toute la rangée avec sa vignette bornée à gauche.
+        <div className="grid gap-4 md:grid-flow-row-dense md:grid-cols-2">
           {filtered.map((fav) => {
             // Nombre impair de vannes et conseils : le dernier prend la rangée (plus de demi-rangée vide).
-            const seulSurSaRangee = fav.id === dernierCourtSeul ? " lg:col-span-2" : "";
+            const seulSurSaRangee = fav.id === dernierCourtSeul ? " md:col-span-2" : "";
             if (fav.contentType === "JOKE" && fav.joke) {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);
@@ -440,7 +440,7 @@ export function FavorisList() {
             if (fav.contentType === "VIDEO" && fav.video) {
               const video = fav.video as unknown as VideoData;
               return (
-                <Card key={fav.id} className="overflow-hidden lg:col-span-2">
+                <Card key={fav.id} className="overflow-hidden md:col-span-2">
                   <CardContent className="pt-4">
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -468,8 +468,8 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <div className="lg:grid lg:grid-cols-[minmax(0,420px)_1fr] lg:items-start lg:gap-6">
-                    <div className="relative mb-3 aspect-video w-full overflow-hidden rounded-lg bg-background-elevated lg:mb-0">
+                    <div className="md:grid md:grid-cols-[minmax(0,300px)_1fr] md:items-start md:gap-5 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-6">
+                    <div className="relative mb-3 aspect-video w-full overflow-hidden rounded-lg bg-background-elevated md:mb-0">
                       <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                     </div>
                     <div className="max-w-prose">
@@ -481,7 +481,7 @@ export function FavorisList() {
                     </div>
                     {/* Revue visuelle s21 (T2-12) : encadrés sous la rangée vignette + texte, sur toute la carte
                         (plus de vide sous la vignette). */}
-                    <div className="lg:col-span-2">
+                    <div className="md:col-span-2">
                     {video.learnings && video.learnings.length > 0 && (
                       <div className="mt-3 rounded-lg bg-background-elevated p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>

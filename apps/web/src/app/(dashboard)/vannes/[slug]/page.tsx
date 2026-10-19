@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { contenuAffiche } from "@/lib/tip-prose";
+import { NBSP } from "@/lib/fr-typo";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
@@ -17,6 +18,7 @@ import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -205,10 +207,12 @@ export default async function VannePage({
         <div className="mb-2 text-xs uppercase tracking-wider text-accent-link">
           {categoryLabel}
         </div>
-        <h1 className="font-display text-2xl font-bold md:text-3xl">
-          {contenuAffiche(joke.content)}
+        {/* Revue visuelle s21, tour 4 (T3-05) : titre sur toute la colonne (aucune borne), lignes équilibrées,
+            et un mot d'une lettre (« chacun a cotisé ») lié au mot suivant par une insécable. */}
+        <h1 className="font-display text-2xl font-bold [text-wrap:balance] md:text-3xl">
+          {contenuAffiche(joke.content).replace(/(^|\s)(\p{L}) /gu, `$1$2${NBSP}`)}
         </h1>
-        <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5 md:p-6">
+        <div className={`mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 ${MARGE_ENCADRE}`}>
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">La chute</div>
           <p className="text-lg font-semibold text-text-primary">{contenuAffiche(joke.punchline)}</p>
         </div>
@@ -228,7 +232,7 @@ export default async function VannePage({
         {joke.comedyTechnique && (
           <section
             aria-labelledby="pourquoi-ca-marche"
-            className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5 md:p-6"
+            className={`mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 ${MARGE_ENCADRE}`}
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
               Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
@@ -255,11 +259,11 @@ export default async function VannePage({
         )}
 
         {/* Comment la ressortir : le texte reste, en prose, sans bouton (s21 B8). */}
-        <section className="mt-6 rounded-xl border border-border bg-background-card p-5 md:p-6">
+        <section className={`mt-6 rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
             Le meilleur moment ? Quand personne ne s’y attend. Retiens la structure
-            (setup court + chute qui décale) et applique-la à ta propre situation.
+            (setup court + chute qui décale) et applique-⁠la à ta propre situation.
           </p>
         </section>
 

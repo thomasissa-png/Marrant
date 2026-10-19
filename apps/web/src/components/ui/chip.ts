@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 const BASE =
-  "inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full border px-4 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
+  "inline-flex min-h-[44px] shrink-0 snap-start items-center whitespace-nowrap rounded-full border px-4 text-sm transition-colors lg:px-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary";
 const IDLE =
   "border-border bg-background-elevated text-text-secondary hover:border-accent-primary hover:text-text-primary";
 const ACTIVE = "border-accent-secondary-hover bg-accent-secondary-hover font-semibold text-white";

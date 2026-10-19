@@ -255,16 +255,19 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           ctaHref="/conseils"
         />
       ) : (
-        // Revue visuelle s21 (R01, T2-01) : 2 colonnes dès 1 024 px, cartes de même hauteur par rangée.
-        // Règle commune aux trois murs : une dernière carte seule prend la rangée EN DISPOSITION
-        // HORIZONTALE (en-tête à gauche, texte à droite), jamais une carte étirée à moitié vide.
-        <div className="grid gap-4 lg:grid-cols-2" role="tabpanel">
+        // Revue visuelle s21 (R01, T2-01, T3-04) : 2 colonnes dès 1 024 px, cartes de même hauteur par rangée.
+        // Règle commune aux trois murs : un mur de 3 cartes passe en 3 colonnes dès que la largeur le permet
+        // (conseils dès 1 280 px, vidéos dès 1 024 px), même anatomie pour les trois ; en deçà, une dernière
+        // carte seule prend la rangée EN DISPOSITION HORIZONTALE, jamais une carte étirée à moitié vide.
+        <div className={cn("grid gap-4 lg:grid-cols-2", tips.length === 3 && "xl:grid-cols-3")} role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
               className={`flex h-full cursor-pointer flex-col p-5 transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${
                 tips.length % 2 === 1 && index === tips.length - 1
-                  ? " lg:col-span-2 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start lg:gap-x-8"
+                  ? tips.length === 3
+                    ? " lg:max-xl:col-span-2 lg:max-xl:grid lg:max-xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:max-xl:items-start lg:max-xl:gap-x-8"
+                    : " lg:col-span-2 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start lg:gap-x-8"
                   : ""
               }`}
               style={{ animationDelay: `${index * 60}ms` }}
@@ -327,7 +330,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
 
                 {!expandedIds.has(tip.id) && (
                   <p className="mt-auto pt-2 text-xs text-text-muted">
-                    {TIP_TEASERS[index % TIP_TEASERS.length]}
+                    {frTypo(TIP_TEASERS[index % TIP_TEASERS.length])}
                   </p>
                 )}
               </CardContent>
