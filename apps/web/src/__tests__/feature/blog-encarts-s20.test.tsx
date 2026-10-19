@@ -137,7 +137,7 @@ describe("bloc de fin unique (s21, B2)", () => {
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc).toHaveTextContent("La vanne dans ta bouche, pas dans ton téléphone");
     expect(bloc).toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
-    expect(bloc).toHaveTextContent(/Ouvrir les \d parcours\s·\s2,99\s€\/mois/);
+    expect(bloc).toHaveTextContent(/Tout ouvrir\s·\s2,99\s€\/mois/);
     expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
     expect(bloc).toHaveTextContent("Sans compte.");
     expect(bloc).not.toHaveTextContent(/24,99|TTC|14 jours|Une étape par semaine|Parcours Répartie ·/);

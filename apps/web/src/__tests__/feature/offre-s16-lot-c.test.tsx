@@ -56,9 +56,12 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=vannes");
     render(<AbonnementView annualAvailable={false} />);
-    expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
+    // Trajet de conversion s21 : le nom de la carte reste pour les lecteurs d'écran (le titre dit déjà Premium).
+    expect(screen.getByRole("heading", { name: "Offre Premium" })).toBeInTheDocument();
     expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
-    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument(); // REASS unique (concision v5)
+    // REASS unique (concision v5) sous le bouton du haut, et sous le bouton final.
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
@@ -104,7 +107,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
   it("annuel choisi : « TTC / an » près du montant, même réassurance (V3 s21)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable />);
-    await userEvent.click(screen.getByLabelText("Annuel"));
+    await userEvent.click(screen.getByRole("radio", { name: /^Annuel/ }));
     expect(screen.getByText("TTC / an")).toBeInTheDocument();
     expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
@@ -113,7 +116,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=modale-defaut");
     render(<AbonnementView annualAvailable={false} />);
-    const link = screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois");
+    const link = screen.getAllByText("S’abonner · 2,99 €/mois")[0];
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {
@@ -121,6 +124,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
       src: "abonnement",
       entree: "modale-defaut",
       statut: "visiteur",
+      emplacement: "haut",
     });
   });
 

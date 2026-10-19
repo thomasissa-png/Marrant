@@ -139,7 +139,7 @@ describe("ProfilDashboard", () => {
 
     it("bouton d'abonnement, sans « filtres avancés »", () => {
       render(<ProfilDashboard />);
-      expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+      expect(screen.getByText("S’abonner · 2,99 €/mois")).toBeInTheDocument();
       expect(document.body.textContent).not.toMatch(/filtres avancés|Tout ouvrir/);
     });
   });
@@ -148,8 +148,9 @@ describe("ProfilDashboard", () => {
     useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
     // Concision v5 (textes-v5-c §7) : phrase, plein OUVRIR, REASS, mot pour mot.
-    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
-    expect(screen.getByText(courbe("Chaque mois, un nouveau carnet de répartie s'ajoute aux parcours."))).toBeInTheDocument();
+    expect(screen.getByText("S’abonner · 2,99 €/mois")).toBeInTheDocument();
+    // Trajet de conversion s21 §2 : phrase d'objet commune (accueil et profil connectés).
+    expect(screen.getByText("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.")).toBeInTheDocument();
     expect(
       screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
     ).toBeInTheDocument();

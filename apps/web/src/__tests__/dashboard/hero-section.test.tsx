@@ -78,7 +78,7 @@ describe("HeroSection", () => {
     // Le payant est porté par le bouton de prix de l'en-tête (src=header), plus par le haut d'accueil.
     expect(container.querySelector('a[href^="/abonnement"]')).toBeNull();
     expect(container.querySelector('a[data-accueil-cta="abonnement"]')).toBeNull();
-    expect(screen.queryByText(/^Ouvrir les \d parcours/)).toBeNull();
+    expect(screen.queryByText(/^Tout ouvrir/)).toBeNull();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/compte gratuit|sans engagement|Accéder aux parcours complets/i);
     expect(screen.getByText("1 500+ inscrits bossent leur humour.")).toBeInTheDocument();

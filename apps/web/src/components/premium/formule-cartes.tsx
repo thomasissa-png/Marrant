@@ -30,7 +30,7 @@ export function FormuleCartes({
   if (!annualAvailable) {
     return (
       <p className="mt-4 flex items-baseline justify-center gap-2" data-testid="formule-mensuel-seul">
-        <span className="font-display text-3xl font-bold text-text-primary">{formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}</span>
+        <span className="font-display text-3xl font-bold text-text-primary">{formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}</span>{" "}
         <span className="text-sm text-text-secondary">{FORMULES.suffixeMensuel}</span>
       </p>
     );
@@ -106,13 +106,15 @@ function Carte({
           {actif && <span className="h-1.5 w-1.5 rounded-full bg-accent-primary" />}
         </span>
         {nom}
-      </span>
+      </span>{" "}
       <span className="mt-0.5 whitespace-nowrap">
         <span className="font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
         <span className="text-xs text-text-secondary">{suffixe}</span>
       </span>
       {lignes.map((ligne, i) => (
+        // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 2,08 € … »).
         <span key={ligne} className={cn("text-xs leading-snug", i === lignes.length - 1 ? "font-semibold text-accent-link" : "text-text-secondary")}>
+          {" "}
           {ligne}
         </span>
       ))}

@@ -49,7 +49,12 @@ describe("FaqSection", () => {
   });
 
   it("réponse prix de la concision v5 : renouvellement dit, sans « 1 clic » ni Stripe (dit une fois sur la page)", () => {
-    expect(screen.getByText("C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas.")).toBeInTheDocument();
+    // Trajet de conversion s21 §1.5 : + la réassurance unique, mot pour mot.
+    expect(
+      screen.getByText(
+        "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+      ),
+    ).toBeInTheDocument();
     expect(screen.queryByText(/1 clic|reconduction surprise/)).toBeNull();
     expect(screen.queryByText(/Paiement sécurisé par Stripe/)).toBeNull();
   });

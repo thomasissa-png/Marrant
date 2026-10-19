@@ -59,7 +59,7 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement?src=header");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
+      await userEvent.click(screen.getAllByText("S’abonner · 2,99 €/mois")[0]);
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "header", raison: "erreur", formule: "mensuel" }]);
@@ -73,15 +73,15 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois"));
+      await userEvent.click(screen.getAllByText("S’abonner · 2,99 €/mois")[0]);
     });
     expect(appels("checkout-echec")).toEqual([{ src: "abonnement", raison: "reseau", formule: "mensuel" }]);
   });
 
-  it("une seule mention de Stripe sous le bouton, pas de « Droit de rétractation »", () => {
+  it("une mention de Stripe sous chaque bouton d'achat (haut et final, textes-trajet-v1 §1.7), pas de « Droit de rétractation »", () => {
     checkoutVers(500);
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
-    expect(screen.getAllByText(/Stripe/)).toHaveLength(1);
+    expect(screen.getAllByText(/Stripe/).map((el) => el.getAttribute("data-testid"))).toEqual(["paiement-stripe", "paiement-stripe-final"]);
     expect(screen.queryByText(/Droit de/)).toBeNull();
   });
 });
@@ -91,7 +91,7 @@ describe("PremiumPaywall (web)", () => {
     checkoutVers(500, { error: "x" });
     render(<PremiumPaywall />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /^Ouvrir les \d\sparcours/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^S’abonner/ }));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "paywall", raison: "erreur" }]);

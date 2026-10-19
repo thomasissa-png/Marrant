@@ -45,7 +45,7 @@ describe("bloc de fin (concision v5, textes-v5-a §3)", () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(normalise(bloc.textContent ?? "")).toBe(
-      normalise("La vanne dans ta bouche, pas dans ton téléphoneLa placer à voix haute, ça s'entraîne.Tester mes premières répliques, gratuitSans compte.Ouvrir les 5 parcours · 2,99 €/mois"),
+      normalise("La vanne dans ta bouche, pas dans ton téléphoneLa placer à voix haute, ça s'entraîne.Tester mes premières répliques, gratuitSans compte.Tout ouvrir · 2,99 €/mois"),
     );
     expect(bloc).not.toHaveTextContent(/24,99|TTC|14 jours|sans engagement/i);
   });

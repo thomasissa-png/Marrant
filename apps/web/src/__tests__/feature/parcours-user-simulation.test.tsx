@@ -790,8 +790,8 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     const header = screen.getByText("L’art de l’observation comique").closest("[role='button']");
     expect(header).not.toBeNull();
     await userEvent.click(header as HTMLElement);
-    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
-    const cta = screen.getByText(/^Ouvrir les \d\sparcours\s·/).closest("a");
+    expect(screen.getByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
+    const cta = screen.getByText(/^Tout ouvrir\s·/).closest("a");
     expect(cta?.getAttribute("href")).toContain("src=parcours-apercu");
   });
 

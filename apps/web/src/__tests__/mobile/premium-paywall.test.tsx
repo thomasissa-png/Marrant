@@ -10,7 +10,7 @@ import { PAYWALL_PREMIUM } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 /** Concision v5 (textes-v5-c §9) : le plein web est `OUVRIR`. */
-const BOUTON = /Ouvrir les \d parcours/;
+const BOUTON = /S’abonner/;
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),

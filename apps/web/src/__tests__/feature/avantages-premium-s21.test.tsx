@@ -1,6 +1,6 @@
 /**
- * Concision v5 (textes-v5-c §2, validé à l'aveugle le 18/10) : un composant unique
- * `AvantagesPremium` (4 lignes, 22 mots), alimenté par une seule constante de texte
+ * Concision v5 puis trajet de conversion s21 (étalon A, 19/10) : un composant unique
+ * `AvantagesPremium` (3 lignes, 4 avec la promesse de la lettre), alimenté par une seule constante de texte
  * (`AVANTAGES_PREMIUM`), utilisé sur /abonnement seulement (retiré de l'accueil, du carnet
  * et de la fenêtre Premium).
  */
@@ -14,16 +14,19 @@ const SRC = path.join(__dirname, "..", "..");
 const lire = (f: string) => fs.readFileSync(path.join(SRC, f), "utf8");
 
 describe("AvantagesPremium", () => {
-  it("les 4 lignes de la v5, mot pour mot, dans l'ordre", () => {
-    render(<AvantagesPremium />);
-    const lignes = screen.getAllByRole("listitem").map((li) => (li.textContent ?? "").replace(/ /g, " "));
+  it("les 3 lignes de l'étalon A, mot pour mot, dans l'ordre ; la 4e (lettre) seulement si la promesse est vraie", () => {
+    const { unmount } = render(<AvantagesPremium />);
+    const lignes = screen.getAllByRole("listitem").map((li) => (li.textContent ?? "").replace(/\s/g, " "));
     expect(lignes).toEqual([
-      "✓Chaque parcours en entier",
-      "✓Un nouveau carnet de répartie chaque mois",
       "✓Tout le catalogue : vannes, conseils, vidéos",
-      "✓Tes favoris sous la main",
+      "✓Les 5 parcours, de la première à la dernière étape",
+      "✓Un nouveau carnet de répartie chaque mois",
     ]);
-    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(22);
+    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(23);
+    unmount();
+    render(<AvantagesPremium lettre />);
+    expect(screen.getAllByRole("listitem")).toHaveLength(4);
+    expect(screen.getAllByRole("listitem")[3]).toHaveTextContent(/^✓Une lettre par e-\u2060?mail chaque semaine, si tu la veux\.$/);
   });
 
   it("une seule source de texte : le composant n'écrit rien en dur", () => {

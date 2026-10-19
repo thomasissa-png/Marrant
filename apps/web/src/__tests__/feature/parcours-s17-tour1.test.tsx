@@ -132,6 +132,6 @@ describe("UXV-1-06 et UXV-1-07 : repères du visiteur", () => {
     // Prix lu dans config/premium.ts (espaces insécables de formatEuros : comparaison sur textContent).
     // Concision v5 : l'aperçu finit par le lien OUVRIR, plus de ligne de prix dessous.
     expect(screen.queryByText(/résiliable en ligne\.$/)).toBeNull();
-    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
+    expect(screen.getByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
   });
 });

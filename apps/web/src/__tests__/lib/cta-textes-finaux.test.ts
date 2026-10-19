@@ -45,7 +45,9 @@ describe("Grep de fin : anciennes chaînes absentes de src/ (hors tests)", () =>
     "Avec le même abonnement, tes favoris te gardent cette vidéo sous la main",
     "l'abonnement du site : de quoi la revoir pour faire rire",
     // Concision v5 (18/10) : libellés uniques et lignes « Disparaît » (textes-v5-a, b, c).
-    "Voir ce que contient Premium", "Ouvrir toutes les étapes", "Tout ouvrir", "Commencer mon parcours",
+    // « Tout ouvrir » revient le 19/10 comme porte générique (trajet de conversion s21, arbitrage de
+    // Thomas) : il n'est plus interdit ; « Ouvrir les 5 parcours » l'est à sa place (ci-dessous).
+    "Voir ce que contient Premium", "Ouvrir toutes les étapes", "Ouvrir les 5 parcours", "Commencer mon parcours",
     "Lire la première étape gratuite de", "Lire la première étape gratuite du parcours", "Voir par où commencer ?",
     "Tu préfères lire d'abord", "Étape 1 sur 2", "Étape 2 : le paiement sécurisé", "S'inscrire avec Google",
     "Tu as 14 jours pour te faire rembourser ton premier paiement", "Tu as 14 jours pour te faire rembourser ce paiement", "Résiliable en ligne quand tu veux", "Rejoins-les",

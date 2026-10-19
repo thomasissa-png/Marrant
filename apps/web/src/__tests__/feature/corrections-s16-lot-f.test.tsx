@@ -90,7 +90,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     const notice = await screen.findByTestId("resiliation-programmee");
     expect(notice).toHaveTextContent("Ton Premium court jusqu’au 12 novembre 2099. Pour le garder, réactive-le depuis ton profil.");
     expect(screen.getByRole("link", { name: "Aller à mon profil" })).toHaveAttribute("href", "/profil");
-    expect(screen.queryByText(/Ouvrir les 5 parcours/)).toBeNull();
+    expect(screen.queryByText(/S’abonner/)).toBeNull();
     expect(fetchMock.mock.calls.map(([url]) => url)).toEqual(["/api/stripe/status"]);
     expect(notice.textContent).not.toContain("—");
   });
@@ -100,7 +100,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     global.fetch = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: false, currentPeriodEnd: FIN })) as unknown as typeof fetch;
     render(await AbonnementPage({}));
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getAllByText("S’abonner · 2,99 €/mois")[0]).toBeInTheDocument();
     expect(screen.queryByTestId("resiliation-programmee")).toBeNull();
   });
 

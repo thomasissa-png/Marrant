@@ -254,7 +254,7 @@ describe("ParcoursDetail — enriched content", () => {
     expect(screen.queryByText(/Termine l'étape 1 pour débloquer/)).not.toBeInTheDocument();
     const header = screen.getByRole("button", { name: /Étape 2 : L’art du timing social/ });
     await userEvent.click(header);
-    expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
+    expect(screen.getByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
   });
 
@@ -515,14 +515,14 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     render(<ParcoursDetail slug="machine-a-cafe" />);
 
     await waitFor(() => {
-      expect(screen.getByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
+      expect(screen.getByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
     });
     // Audit s16 (reco 17) : le mur de l'étape 2 est mesuré.
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-etape", src: "machine-a-cafe", etape: 2 });
     // s17 QA-13 : pas de barre immobile pour un non-abonné.
     expect(screen.queryByTestId("progress-bar")).not.toBeInTheDocument();
     // Retour au parcours après paiement (returnTo interne, encodé), provenance « aperçu » (D1 s17).
-    expect(screen.getByRole("link", { name: /^Ouvrir les \d\sparcours\s·/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /^Tout ouvrir\s·/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe&src=parcours-apercu",
     );
@@ -558,7 +558,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText("Quand placer ta blague.")).toBeInTheDocument();
     });
-    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Tout ouvrir\s·/)).not.toBeInTheDocument();
   });
 
   it("compte gratuit : l'étape 1 reste entièrement accessible", async () => {
@@ -579,7 +579,7 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/Le terrain de jeu de Sophie/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Tout ouvrir\s·/)).not.toBeInTheDocument();
   });
 
   it("abonné dont le jwt n'est pas encore rafraîchi : le store utilisateur suffit", async () => {
@@ -597,6 +597,6 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
     await waitFor(() => {
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
-    expect(screen.queryByText(/^Ouvrir les \d\sparcours\s·/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/^Tout ouvrir\s·/)).not.toBeInTheDocument();
   });
 });

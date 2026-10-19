@@ -23,7 +23,7 @@ import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { origineAbonnement } from "@/lib/abonnement-accroche";
 
-const t = (s: string) => s.replace(/[  ]/g, " ");
+const t = (s: string) => s.replace(/\s/g, " ");
 const mots = (...textes: string[]) =>
   textes
     .join(" ")

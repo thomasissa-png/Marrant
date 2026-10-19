@@ -30,7 +30,7 @@ const ATTENDU = {
   e5: {
     titre: "Le vocabulaire, c'est fait. Reste à s'en servir.",
     paragraphe: "Placer un callback au dîner de samedi, c'est autre chose : ça se travaille.",
-    bouton: "Ouvrir les 5 parcours · 2,99 €/mois",
+    bouton: "Tout ouvrir · 2,99 €/mois",
     ligne: REASS,
     lien: "Tester l'étape 1 de Répartie, gratuite",
   },
@@ -38,7 +38,7 @@ const ATTENDU = {
     titre: ["Tu parles et personne rit.", "On va arranger ça."].join(""),
     paragraphe: "Observer d'abord, roder ensuite : voilà le programme.",
     preuve: "Déjà 1 500+ inscrits.",
-    bouton: "Ouvrir les 5 parcours · 2,99 €/mois",
+    bouton: "Tout ouvrir · 2,99 €/mois",
   },
 };
 
@@ -85,7 +85,7 @@ describe.each([
 describe("E6 /a-propos", () => {
   beforeEach(() => useEstPremium.mockReturnValue(false));
 
-  it("visiteur : titre, phrase, preuve, bouton vers l'inscription (src=a-propos), REASS, lien", () => {
+  it("visiteur : titre, phrase, preuve, bouton vers /abonnement (src=a-propos), REASS, lien", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AProposPage />);
     const b = bloc("a-propos-fin");
@@ -93,7 +93,8 @@ describe("E6 /a-propos", () => {
     expect(b.paragraphe).toBe(ATTENDU.e6.paragraphe);
     expect(norm(screen.getByTestId("a-propos-fin-preuve").textContent)).toBe(ATTENDU.e6.preuve);
     expect(norm(b.bouton.textContent)).toBe(ATTENDU.e6.bouton);
-    expect(b.bouton.getAttribute("href")).toMatch(/^\/register\?.*src=a-propos/);
+    // Trajet de conversion s21 (arbitrage du 19/10) : /a-propos visiteur passe par /abonnement.
+    expect(b.bouton).toHaveAttribute("href", "/abonnement?src=a-propos");
     expect(b.ligne).toBe(REASS);
     expect(norm(b.lien.textContent)).toBe(ATTENDU.e5.lien);
     expect(b.lien).toHaveAttribute("href", "/parcours/repartie?src=a-propos-etape1#etape-1");

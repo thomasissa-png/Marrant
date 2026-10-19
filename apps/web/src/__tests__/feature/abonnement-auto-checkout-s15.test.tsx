@@ -81,7 +81,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
     await new Promise((r) => setTimeout(r, 20));
     expect(checkoutCalls()).toHaveLength(0);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
-    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getAllByText("S’abonner · 2,99 €/mois")[0]).toBeInTheDocument();
   });
 
   it("visiteur sans session : jamais de lancement, auto retiré", async () => {
@@ -104,7 +104,7 @@ describe("auto=1 : paiement ouvert sans clic intermédiaire", () => {
         "error",
       ),
     );
-    expect(screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois")).toBeEnabled();
+    expect(screen.getAllByText("S’abonner · 2,99 €/mois")[0]).toBeEnabled();
   });
 });
 
@@ -114,7 +114,7 @@ describe("visiteur : un seul chemin vers /register (étape 1 sur 2)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<AbonnementView annualAvailable={false} />);
     await waitFor(() => {
-      const href = screen.getByText("Ouvrir les 5 parcours · 2,99 €/mois").closest("a")?.getAttribute("href") ?? "";
+      const href = screen.getAllByText("S’abonner · 2,99 €/mois")[0].closest("a")?.getAttribute("href") ?? "";
       const params = new URL(href, "https://deviens-marrant.fr").searchParams;
       expect(params.get("src")).toBe("fiche-vanne");
       expect(params.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fvannes%2Fma-vanne&src=fiche-vanne");

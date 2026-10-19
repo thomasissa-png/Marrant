@@ -26,7 +26,8 @@ describe("m-1 : une source distincte par bouton payant", () => {
     ["app/(dashboard)/parcours/(liste)/page.tsx", 'buildAbonnementUrl(null, "monthly", "parcours-liste")'],
     ["components/favoris/favoris-list.tsx", 'buildAbonnementUrl("/favoris", "monthly", "favoris")'],
     ["components/ui/search-bar.tsx", 'buildAbonnementUrl(null, "monthly", "recherche")'],
-    ["app/(dashboard)/a-propos/page.tsx", 'src="a-propos"'],
+    // Trajet de conversion s21 (arbitrage du 19/10) : le visiteur passe par /abonnement, comme au glossaire.
+    ["app/(dashboard)/a-propos/page.tsx", 'buildAbonnementUrl(null, "monthly", "a-propos")'],
   ])("%s", (fichier, attendu) => {
     const source = lire(fichier);
     expect(source).toContain(attendu);
@@ -64,9 +65,9 @@ describe("Glossaire et à-propos : bloc payant masqué pour un abonné", () => {
   beforeEach(() => useSession.mockReturnValue({ status: "authenticated" }));
 
   it.each([
-    // s21 (E5, E6) : libellé validé « Ouvrir les 5 parcours · 2,99 €/mois ».
-    ["glossaire", () => <GlossairePage />, /^Ouvrir les\s5\sparcours/],
-    ["à-propos", () => <AProposPage />, /^Ouvrir les\s5\sparcours/],
+    // s21 (E5, E6) : libellé validé « Tout ouvrir · 2,99 €/mois ».
+    ["glossaire", () => <GlossairePage />, /^Tout ouvrir/],
+    ["à-propos", () => <AProposPage />, /^Tout ouvrir/],
   ] as const)("%s", (_nom, page, bouton) => {
     useEstPremium.mockReturnValue(false);
     const { unmount } = render(page());

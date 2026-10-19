@@ -36,7 +36,7 @@ const POINT_MEDIAN = `${ESPACE_INSECABLE}· `;
 
 /**
  * Porte générique vers /abonnement : « Tout ouvrir · 2,99 €/mois » (arbitrage du 19/10,
- * textes-trajet-v1 : Premium n'est pas que les parcours ; remplace « Ouvrir les 5 parcours »).
+ * textes-trajet-v1 : Premium n'est pas que les parcours ; remplace l'ancien libellé qui ne nommait que les parcours).
  * Les portes contextuelles (« Voir la suite des vannes »…) gardent leur libellé. Un clic qui mène
  * au compte ou à Stripe dit l'acte : `libelleSabonner` (abonnement-vente.ts).
  */

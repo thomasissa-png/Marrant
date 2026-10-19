@@ -98,7 +98,7 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     render(<AbonnementView annualAvailable />);
     const carte = screen.getByTestId("abonnement-offre");
     expect(within(carte).getByRole("heading", { level: 2 })).toHaveTextContent("Offre Premium");
-    expect(within(screen.getByTestId("avantages-premium")).getAllByRole("listitem").map((li) => li.textContent)).toEqual([
+    expect(within(screen.getByTestId("avantages-premium")).getAllByRole("listitem").map((li) => texteDe(li))).toEqual([
       "✓Tout le catalogue : vannes, conseils, vidéos",
       "✓Les 5 parcours, de la première à la dernière étape",
       "✓Un nouveau carnet de répartie chaque mois",

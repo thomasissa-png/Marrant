@@ -155,7 +155,7 @@ describe("ViralQuiz", () => {
     expect(plein?.className).toContain("bg-accent-secondary-hover");
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).toBeInTheDocument();
-    expect(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).toBe("Ouvrir les 5 parcours · 2,99 €/mois");
+    expect(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).toBe("Tout ouvrir · 2,99 €/mois");
     expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/Ta force, tu viens de la lire|24,99|TTC|14 jours|en entier/);
   });

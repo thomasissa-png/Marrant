@@ -354,7 +354,7 @@ describe("Ancres #etape-N des liens d'entrée (demande du lot C)", () => {
     const { container } = render(<ParcoursDetail slug="confiance" initialPath={isr} />);
     expect(container.querySelector("#etape-1")).not.toBeNull();
     expect(container.querySelector("#etape-3")).not.toBeNull();
-    expect(await screen.findByText(/^Ouvrir les \d\sparcours\s·/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
     await waitFor(() =>
       expect(mockTrack).toHaveBeenCalledWith("parcours-ouvert", { parcours: "confiance", statut: "visiteur", src: "fiche" }),
     );

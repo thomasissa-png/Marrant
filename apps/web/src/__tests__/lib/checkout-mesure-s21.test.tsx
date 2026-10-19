@@ -63,7 +63,7 @@ describe("checkout-ouvert / checkout-echec", () => {
     global.fetch = jest.fn(async () => ({ ok: false, status: 500, json: async () => ({ error: "x" }) })) as unknown as typeof fetch;
     render(<PremiumCta />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s2,99/ }));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "accueil-premium", raison: "erreur" }]);
@@ -73,7 +73,7 @@ describe("checkout-ouvert / checkout-echec", () => {
     global.fetch = jest.fn(async () => ({ ok: true, status: 200, json: async () => ({ url: "#stripe-simule" }) })) as unknown as typeof fetch;
     render(<PremiumCta />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /Ouvrir les 5\sparcours/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s2,99/ }));
     });
     expect(appels("abonnement-clic")).toEqual([
       { formule: "mensuel", src: "accueil-premium", declencheur: "manuel", statut: "membre" },
@@ -83,11 +83,13 @@ describe("checkout-ouvert / checkout-echec", () => {
 });
 
 describe("carte Premium de l'accueil, compte connecté sans abonnement (concision v5, textes-v5-a §5)", () => {
-  it("même phrase que le visiteur avant le bouton, puis OUVRIR (paiement direct) ; plus de « Tu as déjà ton compte »", () => {
+  it("phrase d'objet avant le bouton, puis « S'abonner » (paiement direct, trajet de conversion s21 §2) ; plus de « Tu as déjà ton compte »", () => {
     render(<PremiumCta />);
-    const phrase = screen.getByTestId("carte-premium-intro");
-    expect(phrase).toHaveTextContent(courbe("De la coloc à l'afterwork, de quoi répondre partout."));
-    const bouton = screen.getByRole("button", { name: /^Ouvrir les 5\sparcours\s·\s2,99\s€\/mois$/ });
+    // Le compte paie sans avoir lu l'offre : la phrase dit ce qu'il achète ; la phrase du visiteur disparaît.
+    expect(screen.queryByTestId("carte-premium-intro")).toBeNull();
+    const phrase = screen.getByTestId("carte-premium-intro-connecte");
+    expect(phrase).toHaveTextContent("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.");
+    const bouton = screen.getByRole("button", { name: /^S’abonner\s·\s2,99\s€\/mois$/ });
     expect(phrase.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.queryByTestId("carte-premium-ligne-connecte")).toBeNull();
     expect(screen.queryByText(/Active mon accès|Tu as déjà ton compte|sécurisé par Stripe/)).toBeNull();
