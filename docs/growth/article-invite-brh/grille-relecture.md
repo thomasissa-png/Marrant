@@ -24,3 +24,8 @@ Toute note sous 10 doit citer le passage exact et proposer la correction précis
 - Un seul lien : `https://deviens-marrant.fr/blog/autoderision-interactions`.
 - Zéro tiret cadratin ou demi-cadratin en incise, zéro émoji, guillemets « », zéro faute d'orthographe, zéro concurrent nommé.
 - Hall 2017 et Gottman absents (déjà cités par l'hôte).
+
+## Résultat (19/10/2026)
+- Article : 5 tours. Final `article-final.md` (= v5) : hôte 10/10, lectrice 10/10, vérificateur 10/10.
+- E-mail : `email-reponse-christophe-v2.md` : vérificateur 10/10 après correction, hôte 9/10 (il voulait « les failles sont d'origine » : refusé, affirmation sur la façon d'écrire l'article).
+- Brouillon Gmail créé en réponse au fil « Re: Proposition d'article invité : taquiner sans blesser » (non envoyé).
