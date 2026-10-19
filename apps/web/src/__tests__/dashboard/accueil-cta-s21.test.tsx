@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import { render, screen } from "@testing-library/react";
 import { PremiumCta } from "@/components/home/premium-cta";
-import { CARTE_PREMIUM, libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { CARTE_PREMIUM, libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { PARCOURS_COUNT } from "@/config/premium";
 import { normalise } from "../helpers/texte-normalise";
@@ -58,11 +58,10 @@ describe("carte Premium de l'accueil (B4 + B5)", () => {
   });
 });
 
-describe("libellé d'ouverture OUVRIR (unique depuis la concision v5)", () => {
-  it("OUVRIR : nombre de parcours depuis PARCOURS_COUNT, repli « tous les parcours »", () => {
-    expect(normalise(libelleOuvrirParcours())).toBe(`Ouvrir les ${PARCOURS_COUNT} parcours · 2,99 €/mois`);
-    expect(normalise(libelleOuvrirParcours(1))).toBe("Ouvrir tous les parcours · 2,99 €/mois");
-    expect(normalise(libelleOuvrirParcours(0))).toBe("Ouvrir tous les parcours · 2,99 €/mois");
+describe("porte générique « Tout ouvrir » (trajet de conversion s21, arbitrage du 19/10)", () => {
+  it("« Tout ouvrir · 2,99 €/mois », prix lu dans la config ; plus aucun « Ouvrir les N parcours »", () => {
+    expect(normalise(libelleToutOuvrir())).toBe("Tout ouvrir · 2,99 €/mois");
+    expect(normalise(libelleToutOuvrir())).not.toContain(`${PARCOURS_COUNT} parcours`);
   });
 
 });

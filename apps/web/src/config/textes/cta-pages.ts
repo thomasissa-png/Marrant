@@ -22,14 +22,15 @@ import {
   FREE_JOKE_LIMIT,
   FREE_TIP_LIMIT,
   FREE_VIDEO_LIMIT,
-  PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PARCOURS,
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
 import { PARCOURS_ETAPES } from "@/config/parcours-etapes";
-import { libelleGratuitParcours, libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { libelleGratuitParcours, libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
+import { libelleSabonner, PHRASE_OBJET_CONNECTE } from "@/config/textes/abonnement-vente";
+import { LAST_FREE_PARCOURS_STEP } from "@/lib/parcours-access";
 import { OFFRE_NOM, PASSER_ETAPE_2, prixTtcLabel } from "@/config/textes/offre";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
@@ -139,20 +140,23 @@ export const FENETRE_CHARGEMENT = "On t’emmène au paiement…";
 
 // ─── Paywall `premium-paywall.tsx` ──────────────────────────────────────────
 
-/** Web : titre, texte de valeur, plein `OUVRIR`, REASS. Mobile natif (Apple 3.1.1) : seul `valeur` s'affiche, sans prix ni lien web. */
+/**
+ * Web : titre, texte de valeur, plein vers Stripe (« S'abonner », trajet de conversion s21 §2.1 :
+ * paiement direct), REASS. Mobile natif (Apple 3.1.1) : seul `valeur` s'affiche, sans prix ni lien web.
+ */
 export const PAYWALL_PREMIUM = {
   titre: `Le reste, avec ${OFFRE_NOM}`,
   valeur: "Le carnet du mois, tes favoris, tout le catalogue.",
-  bouton: libelleOuvrirParcours(),
+  bouton: libelleSabonner(),
 } as const;
 
 // ─── Résultat du quiz d'humour ──────────────────────────────────────────────
 
-/** Le résultat (entrees-parcours.ts), puis un plein gratuit, « Sans compte. », un lien `OUVRIR`. */
+/** Le résultat (entrees-parcours.ts), puis un plein gratuit, « Sans compte. », la porte « Tout ouvrir ». */
 export const QUIZ_HUMOUR_CTA = {
   sansCompte: "Sans compte.",
   bouton: libelleGratuitParcours,
-  lien: (_slug: ParcoursSlug) => libelleOuvrirParcours(),
+  lien: (_slug: ParcoursSlug) => libelleToutOuvrir(),
 } as const;
 
 // ─── Résultat du quiz d'orientation (compte sans abonnement) ────────────────
@@ -166,11 +170,20 @@ const LIGNE_QUIZ: Readonly<Record<ParcoursSlug, string>> = {
   boulot: "Pour toi si, le lundi à 9 h, tu prends un ton de compte rendu.",
 };
 
-/** Titre, une phrase, plein `OUVRIR` (paiement direct), REASS ; liens « Refaire le quiz » et `GRATUIT_P`. */
+/**
+ * Titre, une phrase, un plein, REASS ; liens « Refaire le quiz » et `GRATUIT_P`. Deux destinations,
+ * deux libellés (trajet de conversion s21 §2) : le compte connecté va à Stripe (« S'abonner », avec
+ * la ligne d'objet), le visiteur va à /abonnement (porte « Tout ouvrir »).
+ */
 export const QUIZ_ORIENTATION_CTA = {
   titre: (slug: ParcoursSlug) => `Ton parcours : ${PARCOURS_NOMS[slug]}`,
   phrase: (slug: ParcoursSlug) => LIGNE_QUIZ[slug],
-  bouton: (_slug: ParcoursSlug) => libelleOuvrirParcours(),
+  /** Compte sans abonnement : paiement direct. */
+  bouton: (_slug: ParcoursSlug) => libelleSabonner(),
+  /** Compte sans abonnement : ligne d'objet après « Pour toi si… ». */
+  objetConnecte: `${OFFRE_NOM} ouvre ce parcours et tout le reste.`,
+  /** Visiteur : porte vers /abonnement. */
+  boutonVisiteur: (_slug: ParcoursSlug) => libelleToutOuvrir(),
   /** Lien discret vers l'étape 1 du parcours conseillé (compte sans abonnement). */
   commencer: libelleGratuitParcours,
   /** Abonné : plein vers l'étape 1 (hors concision v5, libellé existant gardé). */
@@ -203,29 +216,9 @@ export const LISTE_PARCOURS_CTA = {
 } as const;
 
 // ─── Page /abonnement ───────────────────────────────────────────────────────
-
-const TITRE_REPARTIE = "Ta réplique en soirée, pas dans le bus du retour";
-const TITRE_BUREAU = "Faire rire au bureau, au bon moment";
-
-/** Titre selon le parcours d'origine (`returnTo`), repli Répartie. Visiteur et compte connecté. */
-export const ABONNEMENT_HAUT_PAR_PARCOURS: Readonly<Record<ParcoursSlug | "defaut", { titre: string }>> = {
-  defaut: { titre: TITRE_REPARTIE },
-  repartie: { titre: TITRE_REPARTIE },
-  "machine-a-cafe": { titre: TITRE_BUREAU },
-  boulot: { titre: TITRE_BUREAU },
-  confiance: { titre: "Rire à table, sans monter sur scène" },
-  storytelling: { titre: "Ton histoire jusqu’à la chute, avant le « et donc ? »" },
-};
+// Trajet de conversion s21 : titre unique, bouton, tableau, etc. dans `abonnement-vente.ts`.
 
 export const ABONNEMENT_CTA = {
-  /** `OUVRIR`, un seul libellé pour tous les parcours d'origine ; suit la formule choisie. */
-  bouton: (plan: PremiumPlan) => libelleOuvrirParcours(undefined, plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL),
-  /** Sous le bouton, visiteur seulement. */
-  suite: "Ton compte, puis le paiement sécurisé.",
-  /** Sous le bouton, compte connecté seulement. */
-  ligneConnecte: "Paiement sécurisé par Stripe",
-  /** Carte : nom de l'offre et puces de formule. */
-  carteNom: OFFRE_NOM,
   /** « Pas encore sûr ? » puis le lien `GRATUIT_P` (parcours d'origine, sinon Répartie). Visiteur seulement. */
   pasEncoreSur: "Pas encore sûr ?",
   lienEtape1: libelleGratuitParcours,
@@ -235,8 +228,15 @@ export const ABONNEMENT_CTA = {
 
 export const REGISTER_CTA = {
   titre: "Ton compte",
-  /** « Premium, 2,99 € TTC par mois. » (annuel : « Premium, 24,99 € TTC par an. »). */
-  planReminder: (plan: PremiumPlan) => `${OFFRE_NOM}, ${prixTtcLabel(plan)}.`,
+  /**
+   * « Premium, 2,99 € TTC par mois. » (annuel : « Premium, 24,99 € TTC par an. »). Depuis la fin
+   * d'étape 1 (`src=parcours-etape`, parcours connu) : + « Après le paiement, l'étape 2 de {Parcours}
+   * s'ouvre. » (trajet de conversion s21 §4 : le bouton cliqué promettait l'étape 2).
+   */
+  planReminder: (plan: PremiumPlan, parcoursEtape?: ParcoursSlug | null) =>
+    `${OFFRE_NOM}, ${prixTtcLabel(plan)}.${
+      parcoursEtape ? ` Après le paiement, l’étape ${LAST_FREE_PARCOURS_STEP + 1} de ${PARCOURS_NOMS[parcoursEtape]} s’ouvre.` : ""
+    }`,
   bouton: "Créer mon compte et passer au paiement",
   google: "Continuer avec Google",
   dejaCompte: "Déjà un compte ?",
@@ -262,9 +262,10 @@ export const CARNET_LISTE_VISIBLES = 3;
 
 // ─── /profil, compte sans abonnement ────────────────────────────────────────
 
+/** Paiement direct (trajet de conversion s21 §2) : « S'abonner » et la phrase d'objet commune. */
 export const PROFIL_ABONNEMENT_OFFRE = {
-  phrase: "Chaque mois, un nouveau carnet de répartie s’ajoute aux parcours.",
-  bouton: libelleOuvrirParcours(),
+  phrase: PHRASE_OBJET_CONNECTE,
+  bouton: libelleSabonner(),
 } as const;
 
 // ─── Fins de page /glossaire et /a-propos (visiteur et compte sans abonnement) ─
@@ -273,7 +274,7 @@ export const PROFIL_ABONNEMENT_OFFRE = {
 export const FIN_DE_PAGE_PARCOURS_ETAPE_1: ParcoursSlug = "repartie";
 
 const FIN_DE_PAGE_COMMUN = {
-  bouton: libelleOuvrirParcours(),
+  bouton: libelleToutOuvrir(),
   lienEtape1: libelleGratuitParcours(FIN_DE_PAGE_PARCOURS_ETAPE_1),
 } as const;
 

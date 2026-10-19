@@ -19,3 +19,8 @@ export function MasqueSiPremium({ children }: { children: ReactNode }) {
 export function MasqueSiConnecte({ children }: { children: ReactNode }) {
   return useSession().status === "authenticated" ? null : <>{children}</>;
 }
+
+/** Inverse de `MasqueSiConnecte` : contenu réservé à un compte connecté (trajet de conversion s21). */
+export function SeulementSiConnecte({ children }: { children: ReactNode }) {
+  return useSession().status === "authenticated" ? <>{children}</> : null;
+}

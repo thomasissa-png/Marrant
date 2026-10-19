@@ -1,125 +1,74 @@
 "use client";
 
 import { frTypo } from "@/lib/fr-typo";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { toast } from "@/components/ui/toast";
 import { AvantagesPremium } from "@/components/premium/avantages-premium";
-import {
-  AUTO_CHECKOUT_PARAM,
-  AUTO_CHECKOUT_VALUE,
-  buildAbonnementUrl,
-  sanitizeReturnTo,
-} from "@/lib/premium-return";
+import { buildAbonnementUrl, getPostSignupRedirect } from "@/lib/premium-return";
 import { FaqSection } from "@/components/home/faq-section";
 import { getPremiumFaqs } from "@/lib/faqs";
-import { buildRegisterUrl, sanitizeSignupSrc } from "@/lib/auth-links";
+import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami, trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
-import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
-import { PlanSelector } from "@/components/premium/plan-selector";
+import { COLONNE_LECTURE } from "@/components/layout/gabarit";
+import { FormuleCartes } from "@/components/premium/formule-cartes";
+import { BarreAchatMobile, ID_ACHAT_FINAL, ID_ACHAT_PRINCIPAL } from "@/components/premium/barre-achat-mobile";
+import { BoutonAchatAbonnement, type EmplacementAchat } from "@/components/premium/bouton-achat-abonnement";
 import { parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
-import { ABONNEMENT_CTA, ABONNEMENT_HAUT_PAR_PARCOURS, MUR_PARCOURS } from "@/config/textes/cta-pages";
-import {
-  formatEuros,
-  PREMIUM_MONTHLY_PRICE_CENTS,
-  type PremiumPlan,
-} from "@/config/premium";
-import { ABONNEMENT_HAUT_VISITEUR, PAIEMENT_ANNULE, REASSURANCE_UNIQUE } from "@/config/textes/offre";
-import { readCheckoutConflict, type CheckoutConflict } from "@/lib/checkout-conflict";
-import { trackCheckoutEchec, trackCheckoutOuvert, type CheckoutFormule } from "@/lib/checkout-tracking";
+import { ABONNEMENT_CTA, MUR_PARCOURS } from "@/config/textes/cta-pages";
+import { ABONNEMENT_ACHAT, ABONNEMENT_HAUT, ATTENTE_PAIEMENT, PAS_ENCORE_SUR_SANS_COMPTE } from "@/config/textes/abonnement-vente";
+import type { PremiumPlan } from "@/config/premium";
+import { PAIEMENT_ANNULE, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { estRetourSansPaiement } from "@/lib/checkout-tracking";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { ResiliationProgrammeeNotice } from "@/components/premium/resiliation-programmee-notice";
 import { useResiliationProgrammee } from "@/hooks/use-resiliation-programmee";
+import { readPlanFromUrl, readReturnTo, readSrcFromUrl, useAbonnementCheckout } from "@/hooks/use-abonnement-checkout";
+
+/** Retour de Stripe sans paiement : `?paiement=annule` ou l'ancien `?upgrade=cancel`. */
+export const isCheckoutCancelReturn = estRetourSansPaiement;
+
+const LIEN_DISCRET = "inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-4 hover:text-text-primary";
+const LIGNE_PETITE = "text-center text-[13px] leading-snug text-text-secondary";
 
 /**
- * Intention d'origine (ex. étape 2 d'un parcours) : relayée au paiement puis au
- * retour (/abonnement/success). Lue au clic dans l'URL (pas de useSearchParams :
- * la page garde son HTML statique), chemin interne uniquement.
- */
-function readReturnTo(): string | null {
-  if (typeof window === "undefined") return null;
-  return sanitizeReturnTo(new URLSearchParams(window.location.search).get("returnTo"));
-}
-
-/** Choix annuel conservé après inscription (`/abonnement?plan=annual`). */
-function readPlanFromUrl(): PremiumPlan {
-  if (typeof window === "undefined") return "monthly";
-  return new URLSearchParams(window.location.search).get("plan") === "annual" ? "annual" : "monthly";
-}
-
-/**
- * Retour de Stripe sans paiement : `?paiement=annule` (cancel_url posée par le
- * lot A de l'audit s16) ou l'ancien `?upgrade=cancel` (sessions ouvertes avant
- * le déploiement, gardé pour ne rien perdre).
- */
-export function isCheckoutCancelReturn(params: URLSearchParams): boolean {
-  return params.get("paiement") === "annule" || params.get("upgrade") === "cancel";
-}
-
-/** Source du clic d'entrée (`?src=`, ex. `fiche-vanne`), relayée à /register. */
-function readSrcFromUrl(): string | null {
-  if (typeof window === "undefined") return null;
-  return sanitizeSignupSrc(new URLSearchParams(window.location.search).get("src"));
-}
-
-/**
- * `auto=1` (retour d'inscription) : lu puis retiré de l'URL AVANT l'appel au
- * paiement, pour qu'un rechargement ou un retour arrière ne relance rien.
- * Jamais après un retour de Stripe sans paiement (`paiement=annule`).
- */
-function consumeAutoCheckout(): boolean {
-  if (typeof window === "undefined") return false;
-  const url = new URL(window.location.href);
-  if (url.searchParams.get(AUTO_CHECKOUT_PARAM) !== AUTO_CHECKOUT_VALUE) return false;
-  url.searchParams.delete(AUTO_CHECKOUT_PARAM);
-  window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
-  return !isCheckoutCancelReturn(url.searchParams);
-}
-
-/** Messages humains : jamais l'erreur brute de l'API (audit tunnel F14). */
-function checkoutErrorMessage(status: number): string {
-  if (status === 401) return "Ta session a expiré. Reconnecte-toi pour reprendre le paiement.";
-  if (status === 429) return "Trop d’essais pour l’instant. Réessaie un peu plus tard.";
-  if (status === 503) return "Cette formule n’est pas disponible pour le moment. Choisis le mensuel ou réessaie plus tard.";
-  return "Le paiement n’a pas pu démarrer. Réessaie dans un instant.";
-}
-
-/**
- * Vue client de /abonnement (session + paiement). `annualAvailable` est lu
- * côté serveur au rendu (page dynamique) : faux tant que le prix Stripe
- * annuel n'est pas configuré, et la vue reste alors strictement mensuelle.
+ * Page de vente /abonnement (trajet de conversion s21, @ux §5, textes-trajet-v1 §1). Ordre :
+ * accroche d'origine, titre, sous-titre, preuve, carte d'offre (avantages, formules, bouton, suite,
+ * réassurance, « Déjà un compte ? »), tableau, carnet, « Pas encore sûr ? », bouton final, FAQ,
+ * barre collante mobile. Le bouton d'achat tient dans le premier écran à 375 × 812.
+ * Les blocs sans état (tableau, carnet, accroche) sont rendus par le serveur (page.tsx).
  */
 export function AbonnementView({
   annualAvailable,
   carnetExtrait = null,
+  tableau = null,
+  accroche = null,
   parcoursOrigine = null,
   connecteServeur = false,
+  retourInscription = false,
 }: {
   annualAvailable: boolean;
-  /**
-   * s21 (CLS) : session lue par le serveur au rendu (page déjà dynamique). Tant que la session
-   * client charge, la vue rend directement la version connectée ou visiteur, sans bascule.
-   */
+  /** Session lue par le serveur au rendu : pas de bascule visiteur / connecté pendant le chargement. */
   connecteServeur?: boolean;
-  /** Extrait du carnet du mois (lot 2 s21), rendu par le serveur ; null si le carnet du mois manque. */
+  /** B4 : fiche offerte du carnet du mois (serveur) ; null si le carnet du mois manque. */
   carnetExtrait?: ReactNode;
-  /** Parcours d'origine (`returnTo`), lu par le serveur : titre et lien « Pas encore sûr ? ». */
+  /** B3 : tableau Gratuit / Premium (serveur). */
+  tableau?: ReactNode;
+  /** Accroche selon l'origine du clic (serveur, `lib/abonnement-accroche`). */
+  accroche?: string | null;
+  /** Parcours d'origine (`returnTo`) : lien « Pas encore sûr ? ». */
   parcoursOrigine?: ParcoursSlug | null;
+  /** `auto=1` avec une session : page d'attente au lieu de la page de vente (plus de flash). */
+  retourInscription?: boolean;
 }) {
   const { status } = useSession();
-  // Mensuel par défaut ; ?plan=annual préselectionne l'annuel (si disponible).
   const [selectedPlan, setSelectedPlan] = useState<PremiumPlan>("monthly");
-  // Intention d'origine lue après montage (le HTML serveur garde le lien sans returnTo).
   const [returnTo, setReturnTo] = useState<string | null>(null);
   const [entrySrc, setEntrySrc] = useState<string | null>(null);
-  // s21 (QA M1) : source lue au montage. Au retour d'une inscription Google, le traceur du
-  // layout retire `src` de l'URL (effet parent, après celui-ci) avant le paiement automatique.
+  // Source lue au montage : au retour de Google, le traceur du layout retire `src` de l'URL.
   const srcEntree = useRef<string | null>(null);
-  // Retour de Stripe sans paiement : message clair au-dessus de l'offre (reco 12).
   const [paymentCanceled, setPaymentCanceled] = useState(false);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -128,214 +77,171 @@ export function AbonnementView({
     setSelectedPlan(readPlanFromUrl());
     setReturnTo(readReturnTo());
     setEntrySrc(src);
-    // Vue de l'offre (audit s16 reco 17) : une fois par chargement, avec la porte d'entrée.
-    // s21 (QA M1) : le retour d'inscription (`auto=1`) porte maintenant la source d'entrée ;
-    // compté à part (`retour-inscription`) pour ne pas doubler la vue de cette source.
-    const retourInscription = params.get(AUTO_CHECKOUT_PARAM) === AUTO_CHECKOUT_VALUE;
-    trackUmamiWhenReady("abonnement-vu", { src: retourInscription ? "retour-inscription" : (src ?? "direct") });
-    // Retour de Stripe sans paiement (cancel_url) : mesuré une fois au chargement.
-    if (isCheckoutCancelReturn(params)) {
+    // Vue de l'offre, une fois par chargement ; le retour d'inscription (`auto=1`) est compté à part.
+    const retour = params.get("auto") === "1";
+    trackUmamiWhenReady("abonnement-vu", { src: retour ? "retour-inscription" : (src ?? "direct") });
+    if (estRetourSansPaiement(params)) {
       setPaymentCanceled(true);
       trackUmamiWhenReady("abonnement-annule");
     }
   }, []);
   const plan: PremiumPlan = annualAvailable ? selectedPlan : "monthly";
-  const isAnnual = plan === "annual";
-  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  // Refus 409 (déjà abonné, impayé) : message + lien /profil au lieu d'un toast.
-  const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
-  // Plus de compte gratuit (s15) : un seul chemin, /register (étape 1 sur 2)
-  // puis retour ici avec `auto=1` (paiement ouvert tout seul), formule et
-  // intention conservées (voir getPostSignupRedirect et buildAbonnementUrl).
-  const paidSignupHref = buildRegisterUrl({
-    // s21 (QA M1) : la source d'entrée revient avec le callback (mesure du paiement).
-    callbackUrl: buildAbonnementUrl(returnTo, plan, entrySrc),
+
+  const isAuthenticated = status === "authenticated" || (status === "loading" && connecteServeur);
+  const resiliation = useResiliationProgrammee(status);
+  const { handleCheckout, isCheckoutLoading, conflict, attente } = useAbonnementCheckout({
+    status,
+    annualAvailable,
+    attenteInitiale: retourInscription,
+    srcEntree,
+  });
+
+  // Visiteur : /register (étape 1 sur 2), puis retour ici avec `auto=1` ; formule, intention et
+  // source conservées jusqu'au paiement (mesure `checkout-ouvert`).
+  const retourAbonnement = buildAbonnementUrl(returnTo, plan, entrySrc);
+  const inscriptionHref = buildRegisterUrl({ callbackUrl: retourAbonnement, src: entrySrc ?? "abonnement" });
+  // « Déjà un compte ? » : après connexion, même page d'attente puis paiement (`auto=1`).
+  const connexionHref = buildLoginUrl({
+    callbackUrl: getPostSignupRedirect(retourAbonnement, plan, entrySrc),
     src: entrySrc ?? "abonnement",
   });
 
-  // s21 (CLS 0,16 à 320 px) : pendant le chargement de la session, la version lue par le serveur.
-  const isAuthenticated = status === "authenticated" || (status === "loading" && connecteServeur);
-  // Résiliation programmée (lien de l'e-mail de résiliation, lot F) : pas de paiement, renvoi au profil.
-  const resiliation = useResiliationProgrammee(status);
-  // Concision v5 (textes-v5-c §1) : titre du parcours d'origine (visiteur et compte connecté),
-  // un sous-titre commun, plus de surtitre ni de pastille.
-  const pageTitle = ABONNEMENT_HAUT_PAR_PARCOURS[parcoursOrigine ?? "defaut"].titre;
-  const pageSubtitle = ABONNEMENT_HAUT_VISITEUR.sousTitre;
+  const clicVisiteur = (emplacement: EmplacementAchat) =>
+    trackUmami("abonnement-clic", {
+      formule: plan === "annual" ? "annuel" : "mensuel",
+      src: "abonnement",
+      entree: entrySrc ?? "direct",
+      statut: "visiteur",
+      emplacement,
+    });
+  const bouton = (emplacement: EmplacementAchat, id?: string, className?: string) => (
+    <BoutonAchatAbonnement
+      id={id}
+      plan={plan}
+      connecte={isAuthenticated}
+      inscriptionHref={inscriptionHref}
+      chargement={isCheckoutLoading}
+      onCheckout={(e) => void handleCheckout("manuel", plan, e)}
+      onClicVisiteur={clicVisiteur}
+      emplacement={emplacement}
+      className={className}
+    />
+  );
+  const suiteEtReassurance = (testId: string) => (
+    <>
+      <p className={cn("mt-2", LIGNE_PETITE)} data-testid={isAuthenticated ? `paiement-stripe${testId}` : `abonnement-suite${testId}`}>
+        {frTypo(isAuthenticated ? ABONNEMENT_ACHAT.suiteConnecte : ABONNEMENT_ACHAT.suiteVisiteur)}
+      </p>
+      <p className={cn("mt-1", LIGNE_PETITE)} data-testid={`reassurance-paiement${testId}`}>
+        {frTypo(REASSURANCE_UNIQUE)}
+      </p>
+    </>
+  );
 
-  const handleCheckout = useCallback(async (declencheur: "auto" | "manuel", chosenPlan: PremiumPlan) => {
-    const annual = chosenPlan === "annual";
-    const formule: CheckoutFormule = annual ? "annuel" : "mensuel";
-    // Source de mesure : le bloc d'entrée (`?src=`, ex. `header`), sinon la page elle-même.
-    const srcMesure = srcEntree.current ?? readSrcFromUrl() ?? "abonnement";
-    setIsCheckoutLoading(true);
-    setConflict(null);
-    trackUmami("abonnement-clic", { formule: annual ? "annuel" : "mensuel", src: "abonnement", declencheur, statut: "membre" });
-    try {
-      const origin = readReturnTo();
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // Mensuel : corps historique inchangé (le serveur applique le mensuel par défaut).
-        body: JSON.stringify({ ...(origin ? { returnTo: origin } : {}), ...(annual ? { plan: chosenPlan } : {}) }),
-      });
-      const data = await res.json();
-      const conflit = readCheckoutConflict(res.status, data);
-      if (res.ok && data.url) {
-        trackCheckoutOuvert(srcMesure, formule);
-        window.location.href = data.url;
-      } else if (conflit) {
-        trackCheckoutEchec(srcMesure, "conflit", formule);
-        setConflict(conflit);
-      } else {
-        trackCheckoutEchec(srcMesure, "erreur", formule);
-        console.error("[Checkout]", data.error);
-        toast(checkoutErrorMessage(res.status), "error");
-      }
-    } catch {
-      trackCheckoutEchec(srcMesure, "reseau", formule);
-      toast("Connexion perdue, réessaie", "error");
-    } finally {
-      setIsCheckoutLoading(false);
-    }
-  }, []);
-
-  // Retour d'inscription (`auto=1`) : paiement lancé une seule fois, dès que la
-  // session est confirmée. Échec : bouton manuel et messages habituels.
-  const autoChecked = useRef(false);
-  useEffect(() => {
-    if (autoChecked.current || status === "loading") return;
-    autoChecked.current = true;
-    // Formule relue dans l'URL (l'état `selectedPlan` peut ne pas être encore à jour).
-    const autoPlan: PremiumPlan = annualAvailable && readPlanFromUrl() === "annual" ? "annual" : "monthly";
-    if (consumeAutoCheckout() && status === "authenticated") void handleCheckout("auto", autoPlan);
-  }, [status, handleCheckout, annualAvailable]);
+  if (attente) {
+    return (
+      <div className={cn(COLONNE_LECTURE, "py-16 text-center")} role="status" data-testid="abonnement-attente">
+        <h1 className="font-display text-2xl font-bold text-text-primary">{frTypo(ATTENTE_PAIEMENT.titre)}</h1>
+        <p className="mt-3 text-text-secondary">{frTypo(ATTENTE_PAIEMENT.texte)}</p>
+        <span aria-hidden="true" className="mx-auto mt-6 block h-6 w-6 animate-spin rounded-full border-2 border-accent-primary border-t-transparent motion-reduce:animate-none" />
+      </div>
+    );
+  }
 
   return (
-    <div className="mx-auto max-w-3xl">
-      {paymentCanceled && (
-        <div
-          role="status"
-          className="mb-6 rounded-xl border border-border bg-background-elevated p-4 text-center"
-          data-testid="paiement-annule"
-        >
-          <p className="font-semibold text-text-primary">{PAIEMENT_ANNULE.titre}</p>
-          <p className="mt-1 text-sm text-text-secondary">{PAIEMENT_ANNULE.texte}</p>
-        </div>
-      )}
+    <div className={cn(COLONNE_LECTURE, "pb-24 md:pb-0")}>
+      {paymentCanceled && <BandeauAnnule onClose={() => setPaymentCanceled(false)} />}
 
-      <div className="text-center">
-        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary [text-wrap:balance] sm:text-3xl md:text-4xl">
-          {frTypo(pageTitle)}
-        </h1>
-        <p className="mx-auto mt-2 max-w-xl text-balance text-[0.9375rem] leading-snug text-text-secondary sm:mt-3 sm:text-lg">
-          {frTypo(pageSubtitle)}
-        </p>
-      </div>
-
-      {/* Offre principale */}
-      {/* Revue design s21 M2 : sous 640 px, marges et tailles resserrées (aucun texte touché)
-          pour que le bouton d'achat tienne entier, avec de la marge, au premier écran d'un
-          iPhone barres de Safari comprises (mesuré à 375 x 700). Le bouton suit des lignes de
-          formule à hauteur fixe (m2) : un écart de 16 px suffit au-dessus de lui. */}
-      <Card data-testid="abonnement-offre" className="mt-4 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-10">
-        <CardContent className="p-4 sm:p-8">
-          <div className="flex flex-wrap items-center gap-2">
-            <h2 className="font-display text-lg font-bold text-text-primary">
-              {ABONNEMENT_CTA.carteNom}
-            </h2>
-          </div>
-          {annualAvailable ? (
-            <PlanSelector value={plan} onChange={setSelectedPlan} />
-          ) : (
-            <>
-              <div className="mt-3 flex items-baseline gap-2">
-                <span className="font-display text-4xl font-bold text-text-primary">
-                  {formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}
-                </span>
-                <span className="text-text-muted">TTC / mois</span>
-              </div>
-              {/* Lot 2 s21 : plus de « Sans engagement, annulable à tout moment » ici ;
-                  la seule mention est la réassurance sous le bouton. */}
-            </>
-          )}
-
-          {isAuthenticated && resiliation ? (
-            <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-8" />
-          ) : isAuthenticated ? (
-            <Button
-              variant="primary"
-              size="lg"
-              className={cn("mt-4 w-full whitespace-normal text-center sm:mt-8 sm:px-6", BOUTON_PRIX_UNE_LIGNE)}
-              onClick={() => void handleCheckout("manuel", plan)}
-              disabled={isCheckoutLoading}
-            >
-              {isCheckoutLoading
-                ? "On t’emmène au paiement…"
-                : frTypo(ABONNEMENT_CTA.bouton(plan))}
-            </Button>
-          ) : (
-            <Link
-              href={paidSignupHref}
-              data-testid="abonnement-bouton-achat"
-              className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-5 w-full whitespace-normal text-center [text-wrap:balance] sm:mt-8 sm:px-6", BOUTON_PRIX_UNE_LIGNE)}
-              onClick={() =>
-                trackUmami("abonnement-clic", {
-                  formule: isAnnual ? "annuel" : "mensuel",
-                  src: "abonnement",
-                  entree: entrySrc ?? "direct",
-                  statut: "visiteur",
-                })
-              }
-            >
-              {frTypo(ABONNEMENT_CTA.bouton(plan))}
-            </Link>
-          )}
-          {/* Ce qui suit le clic, juste sous le bouton (visiteur). */}
-          {!isAuthenticated && (
-            <p className="mt-2 text-center text-xs text-text-secondary" data-testid="abonnement-suite">
-              {frTypo(ABONNEMENT_CTA.suite)}
-            </p>
-          )}
-
-          {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
-
-          {/* Une seule mention de Stripe : compte connecté seulement (le visiteur lit `suite`). */}
-          {isAuthenticated && (
-            <p className="mt-2 text-center text-xs text-text-secondary" data-testid="paiement-stripe">
-              {ABONNEMENT_CTA.ligneConnecte}
-            </p>
-          )}
-          <p className="mt-2 text-center text-xs text-text-muted" data-testid="reassurance-paiement">
-            {frTypo(REASSURANCE_UNIQUE)}
+      <header className="text-center">
+        {accroche && (
+          <p className="mb-1 text-xs font-semibold text-accent-link" data-testid="abonnement-accroche">
+            {frTypo(accroche)}
           </p>
+        )}
+        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary [text-wrap:balance] sm:text-4xl">
+          {frTypo(ABONNEMENT_HAUT.titre)}
+        </h1>
+        <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary sm:text-lg">
+          {frTypo(ABONNEMENT_HAUT.sousTitre)}
+        </p>
+        <p className="mt-2 text-sm text-text-secondary" data-testid="abonnement-preuve">
+          {frTypo(ABONNEMENT_HAUT.preuve)}
+        </p>
+      </header>
 
-          {/* Lot 2 s21 (§5.2, §7 point 3, choix de Thomas) : avantages SOUS le bouton
-              d'achat, pour que le bouton soit visible sans défiler à 375 × 812. */}
-          <AvantagesPremium className="mt-6 space-y-3" />
+      <Card data-testid="abonnement-offre" className="mt-4 border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
+        <CardContent className="p-4 sm:p-8">
+          <h2 className="sr-only">{ABONNEMENT_ACHAT.nomCarte}</h2>
+          <AvantagesPremium />
+          <FormuleCartes value={plan} onChange={setSelectedPlan} annualAvailable={annualAvailable} />
+          {isAuthenticated && resiliation ? (
+            <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-4" />
+          ) : (
+            bouton("haut", ID_ACHAT_PRINCIPAL, "mt-4")
+          )}
+          {suiteEtReassurance("")}
+          {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
+          {!isAuthenticated && (
+            <p className={cn("mt-1", LIGNE_PETITE)} data-testid="abonnement-deja-compte">
+              {ABONNEMENT_ACHAT.dejaCompte}{" "}
+              <Link href={connexionHref} className={LIEN_DISCRET}>
+                {ABONNEMENT_ACHAT.connecteToi}
+              </Link>
+            </p>
+          )}
         </CardContent>
       </Card>
 
-      {/* Lot 2 s21 : la fiche offerte du carnet du mois, avant « Pas encore sûr ? ». */}
+      {tableau}
       {carnetExtrait}
 
-      {/* Concision v5 : « Pas encore sûr ? » et un seul lien, l'étape 1 du parcours d'origine
-          (Répartie par défaut). Visiteur seulement. */}
       {!isAuthenticated && (
-        <p className="mt-6 text-center text-sm text-text-secondary" data-testid="abonnement-etape-1">
-          {frTypo(ABONNEMENT_CTA.pasEncoreSur)}{" "}
-          <Link
-            href={parcoursEtape1Href(parcoursOrigine ?? MUR_PARCOURS, "abonnement")}
-            className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-4 hover:text-text-primary"
-          >
+        <section aria-labelledby="abonnement-pas-encore-sur" className="mt-12 text-center md:mt-16" data-testid="abonnement-etape-1">
+          <h2 id="abonnement-pas-encore-sur" className="font-display text-2xl font-bold text-text-primary">
+            {frTypo(ABONNEMENT_CTA.pasEncoreSur)}
+          </h2>
+          <Link href={parcoursEtape1Href(parcoursOrigine ?? MUR_PARCOURS, "abonnement")} className={cn("mt-2", LIEN_DISCRET)}>
             {frTypo(ABONNEMENT_CTA.lienEtape1(parcoursOrigine ?? MUR_PARCOURS))}
           </Link>
-        </p>
+          <p className="text-sm text-text-secondary">{PAS_ENCORE_SUR_SANS_COMPTE}</p>
+        </section>
       )}
 
-      {/* FAQ */}
+      {!(isAuthenticated && resiliation) && (
+        <div className="mt-10" data-testid="abonnement-final">
+          {bouton("bas", ID_ACHAT_FINAL)}
+          {suiteEtReassurance("-final")}
+        </div>
+      )}
+
       <div className="mt-12 md:mt-16">
         <FaqSection items={getPremiumFaqs(annualAvailable)} />
       </div>
+
+      {!(isAuthenticated && resiliation) && <BarreAchatMobile>{bouton("barre")}</BarreAchatMobile>}
+    </div>
+  );
+}
+
+/** B0 : retour de Stripe sans paiement, une ligne, fermable (ne pousse pas le bouton hors du premier écran). */
+function BandeauAnnule({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      role="status"
+      className="mb-4 flex items-center gap-2 rounded-xl border border-border bg-background-elevated py-1 pl-4 pr-1"
+      data-testid="paiement-annule"
+    >
+      <p className="flex-1 text-sm text-text-primary">
+        {frTypo(PAIEMENT_ANNULE.titre)} {frTypo(PAIEMENT_ANNULE.texte)}
+      </p>
+      <button
+        type="button"
+        onClick={onClose}
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-text-muted hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        aria-label="Fermer"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
     </div>
   );
 }

@@ -1,4 +1,7 @@
-import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
+import { PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
+import { ABONNEMENT_HAUT } from "@/config/textes/abonnement-vente";
+import { avantagesPremium } from "@/config/textes/avantages-premium";
+import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { isIsoVideoDuration } from "@/lib/video-duration-format";
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
@@ -379,8 +382,11 @@ export function buildProductJsonLd({ annualAvailable = false }: { annualAvailabl
     "@context": "https://schema.org",
     "@type": "Product",
     name: "deviens-marrant.fr Premium",
-    description:
-      `Premium : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.`,
+    // Trajet de conversion s21 : la description reprend le texte visible de /abonnement (titre et
+    // avantages, lettre comprise seulement si sa promesse est active), rien d'autre.
+    description: `${ABONNEMENT_HAUT.titre}. ${avantagesPremium(LETTRE_HEBDO_PROMESSE)
+      .map((a) => a.replace(/\.$/, ""))
+      .join(". ")}.`,
     // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
       `${BASE_URL}/opengraph-image`,

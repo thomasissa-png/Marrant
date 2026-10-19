@@ -22,10 +22,11 @@ const ABONNEMENT_HREF = buildAbonnementUrl(null, "monthly", ACCUEIL_PREMIUM_SRC)
  * Plein de la carte Premium de l'accueil (îlot client de `PremiumCta`, s21 QA m3) : seul ce
  * bouton dépend de la session ; le reste de la carte est rendu par le serveur, sans JS.
  * Visiteur : lien vers /abonnement. Compte connecté sans abonnement : paiement direct.
- * `bouton` : libellé `OUVRIR` (`CARTE_PREMIUM.bouton`), le même pour le visiteur et le compte
- * connecté, passé par le serveur (aucun fichier de textes dans le JS client de l'accueil, budget QA m3).
+ * `bouton` : porte visiteur « Tout ouvrir » ; `boutonConnecte` : « S'abonner » (paiement direct,
+ * trajet de conversion s21). Passés par le serveur (aucun fichier de textes dans le JS client de
+ * l'accueil, budget QA m3).
  */
-export function CartePremiumAchat({ bouton }: { bouton: string }) {
+export function CartePremiumAchat({ bouton, boutonConnecte }: { bouton: string; boutonConnecte: string }) {
   const { status } = useSession();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [conflict, setConflict] = useState<CheckoutConflict | null>(null);
@@ -60,7 +61,7 @@ export function CartePremiumAchat({ bouton }: { bouton: string }) {
     <>
       {status === "authenticated" ? (
         <Button variant="primary" size="lg" className={cn("w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)} onClick={handleCheckout} disabled={isCheckoutLoading}>
-          {isCheckoutLoading ? "On t’emmène au paiement…" : bouton}
+          {isCheckoutLoading ? "On t’emmène au paiement…" : boutonConnecte}
         </Button>
       ) : (
         // s21 : plein payant vers /abonnement (prix, carnet, garantie), puis compte et paiement.

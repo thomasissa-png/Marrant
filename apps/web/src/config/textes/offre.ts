@@ -9,12 +9,9 @@
 import {
   ESPACE_INSECABLE,
   formatEuros,
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
-  PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
-  PREMIUM_PARCOURS,
   PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
@@ -76,30 +73,6 @@ export const PAIEMENT_ANNULE = {
 // PROVISOIRE s16, étalon à valider
 /** Badge de la première étape d'un parcours (remplace « Essai gratuit », reco 16). */
 export const ETAPE_LIBRE_BADGE = "Lecture libre";
-
-// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-c.md §1)
-/** Ligne annuelle de /abonnement, état mensuel : « Ou 24,99 €/an, soit 2,08 € par mois. » */
-export const ANNUEL_LIGNE_MENSUEL = `Ou ${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL}.`;
-
-/** Ligne annuelle, état annuel (remplace la pastille et la ligne mensuelle) : « Soit 2,08 € par mois, plus de 3 mois offerts. » */
-export const ANNUEL_LIGNE_ANNUEL = `${PREMIUM_ANNUAL_EQUIVALENT_LABEL.charAt(0).toUpperCase()}${PREMIUM_ANNUAL_EQUIVALENT_LABEL.slice(1)}, ${ANNUEL_MOIS_OFFERTS_LABEL}.`;
-
-const MINUTES_ETAPE = PREMIUM_PARCOURS.map((p) => Number.parseInt(p.timePerWeek, 10)).filter((m) => m > 0);
-const MINUTES_MIN = Math.min(...MINUTES_ETAPE);
-const MINUTES_MAX = Math.max(...MINUTES_ETAPE);
-
-/** `{D}` : « 15 à 20 minutes », min et max des rythmes des parcours publiés (config/premium.ts). */
-export const DUREE_ETAPES = MINUTES_MIN === MINUTES_MAX ? `${MINUTES_MIN} minutes` : `${MINUTES_MIN} à ${MINUTES_MAX} minutes`;
-
-// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-c.md §1, retouche du tour 4)
-/**
- * Sous-titre de /abonnement (visiteur et compte connecté) : « Pas d'attente entre les étapes,
- * de 15 à 20 minutes chacune. » Plus de surtitre. Le titre vient du parcours d'origine
- * (`ABONNEMENT_HAUT_PAR_PARCOURS`, cta-pages.ts).
- */
-export const ABONNEMENT_HAUT_VISITEUR = {
-  sousTitre: `Pas d’attente entre les étapes, ${MINUTES_MIN === MINUTES_MAX ? "" : "de "}${DUREE_ETAPES} chacune.`,
-} as const;
 
 // VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §6)
 /** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */

@@ -141,8 +141,8 @@ export const TEXTES_SUCCESS = {
   // Concision v5 (textes-v5-c §5) : paiement vérifié, juste avant le retour automatique.
   pretTitre: "Paiement reçu !",
   pretTexte: "Merci. Ton accès s’active…",
-  /** Plein vers /parcours. */
-  pretBouton: "Choisir mon parcours",
+  /** Plein vers la destination d'origine (`returnTo`, sinon /parcours) : trajet de conversion s21 §4. */
+  pretBouton: "Continuer",
   verificationTitre: "On vérifie ton paiement",
   verificationTexte: "Quelques secondes, le temps de confirmer avec notre service de paiement.",
   // VALIDÉ s16 (étalon 5a.2) : client non connecté.

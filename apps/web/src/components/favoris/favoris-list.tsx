@@ -17,7 +17,7 @@ import { useEstPremium } from "@/hooks/use-est-premium";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
-import { libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
@@ -201,7 +201,7 @@ export function FavorisList() {
           {/* s21 (revue v2 m-1) : source `favoris`, suivie jusqu'à `checkout-ouvert` ; retour ici après paiement. */}
           <Link href={buildAbonnementUrl("/favoris", "monthly", "favoris")} className="mt-4">
             <Button variant="primary" size="sm" className="h-auto min-h-11 whitespace-normal py-2">
-              {libelleOuvrirParcours()}
+              {libelleToutOuvrir()}
             </Button>
           </Link>
           <p className="mt-2 text-xs text-text-muted">{REASSURANCE_UNIQUE}</p>

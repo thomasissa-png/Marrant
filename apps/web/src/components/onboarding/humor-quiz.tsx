@@ -220,11 +220,18 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                 tient dans le premier écran à 375 x 812. */}
             {!isPremium && (
               <div className="mt-6 text-left" data-quiz-orientation-cta>
-                {/* Concision v5 (textes-v5-b §5) : titre, une phrase, plein `OUVRIR`, REASS. */}
+                {/* Concision v5 (textes-v5-b §5) : titre, une phrase, un plein, REASS. */}
                 <p className="font-display text-base font-bold text-text-primary">
                   {frTypo(QUIZ_ORIENTATION_CTA.titre(recommendation.slug))}
                 </p>
                 <p className="mt-1 text-sm text-text-secondary">{frTypo(QUIZ_ORIENTATION_CTA.phrase(recommendation.slug))}</p>
+                {/* Trajet de conversion s21 (§2) : le compte connecté paie ici sans avoir lu l'offre,
+                    une ligne dit l'objet ; le visiteur passe par /abonnement (porte « Tout ouvrir »). */}
+                {status === "authenticated" && (
+                  <p className="mt-1 text-sm text-text-secondary" data-testid="quiz-orientation-objet">
+                    {frTypo(QUIZ_ORIENTATION_CTA.objetConnecte)}
+                  </p>
+                )}
                 {status === "authenticated" ? (
                   <Button
                     variant="primary"
@@ -240,7 +247,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
                     href={buildAbonnementUrl(`/parcours/${recommendation.slug}`, "monthly", "onboarding")}
                     className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-3 w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)}
                   >
-                    {QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
+                    {QUIZ_ORIENTATION_CTA.boutonVisiteur(recommendation.slug)}
                   </Link>
                 )}
                 {/* Revue visuelle s21 (R16) : groupe d'action centré (bouton pleine largeur, REASS, lien gratuit). */}

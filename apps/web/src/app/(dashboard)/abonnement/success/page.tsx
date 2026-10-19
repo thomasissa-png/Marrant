@@ -115,7 +115,7 @@ function SubscriptionSuccessContent() {
             <>
               <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
-              <Link href="/parcours" className={buttonVariants({ variant: "primary", className: "mt-4" })}>
+              <Link href={destination} className={buttonVariants({ variant: "primary", className: "mt-4" })}>
                 {TEXTES_SUCCESS.pretBouton}
               </Link>
             </>

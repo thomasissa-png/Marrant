@@ -1,5 +1,6 @@
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
 
 const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
 
@@ -34,7 +35,8 @@ export const faqs = [
     question: PRICE_FAQ_QUESTION,
     answer:
       // Concision v5 (textes-v5-c §3) : réponse mensuelle (accueil, et /abonnement sans annuel).
-      "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas.",
+      // Trajet de conversion s21 (textes-trajet-v1 §1.5, GO Thomas du 19/10) : + la réassurance unique, mot pour mot.
+      `C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE}`,
   },
   {
     question:
@@ -51,7 +53,7 @@ export const faqs = [
 ];
 
 /** Réponse prix quand la formule annuelle est disponible (concision v5, textes-v5-c §3). */
-const ANNUAL_PRICE_FAQ_ANSWER = "C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.";
+const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE}`;
 
 /**
  * FAQ de vente (concision v5) : les 4 questions qui lèvent le plus de freins à l'achat, seules

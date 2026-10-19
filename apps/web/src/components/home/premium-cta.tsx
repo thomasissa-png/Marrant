@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { FaqSection } from "@/components/home/faq-section";
 import { FAQ_VENTE } from "@/lib/faqs";
 import { CartePremiumAchat } from "@/components/home/carte-premium-achat";
-import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { MasqueSiConnecte, MasqueSiPremium, SeulementSiConnecte } from "@/components/home/masque-si-premium";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { frTypo } from "@/lib/fr-typo";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
@@ -15,9 +15,10 @@ const ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
 
 /**
  * Carte Premium de l'accueil (s21 concision v5, textes-v5-a §4 et §5) : titre, une phrase,
- * un plein payant (`OUVRIR`), la REASS dessous, puis le lien gratuit. Plus d'en-tête de prix,
- * de liste des parcours ni d'avantages (ils vivent sur /abonnement). Visiteur et compte
- * connecté voient la même phrase ; seul le plein change de geste (`CartePremiumAchat`).
+ * un plein payant, la REASS dessous, puis le lien gratuit. Plus d'en-tête de prix, de liste des
+ * parcours ni d'avantages (ils vivent sur /abonnement). Trajet de conversion s21 : le visiteur lit
+ * la phrase validée et la porte « Tout ouvrir » ; le compte connecté sans abonnement (paiement
+ * direct) lit la phrase d'objet et « S'abonner » (`CartePremiumAchat`).
  * Composant serveur ; îlots client : le masque abonné et le plein.
  */
 export function PremiumCta() {
@@ -28,16 +29,23 @@ export function PremiumCta() {
           <h2 className="font-display text-3xl font-bold text-text-primary md:text-4xl [text-wrap:balance]">
             {frTypo(CARTE_PREMIUM.titre)}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary" data-testid="carte-premium-intro">
-            {frTypo(CARTE_PREMIUM.phrase)}
-          </p>
+          <MasqueSiConnecte>
+            <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary" data-testid="carte-premium-intro">
+              {frTypo(CARTE_PREMIUM.phrase)}
+            </p>
+          </MasqueSiConnecte>
+          <SeulementSiConnecte>
+            <p className="mx-auto mt-3 max-w-xl text-lg text-text-secondary" data-testid="carte-premium-intro-connecte">
+              {frTypo(CARTE_PREMIUM.phraseConnecte)}
+            </p>
+          </SeulementSiConnecte>
         </div>
 
         <div className="mx-auto mt-8 flex max-w-3xl flex-col gap-6">
           <div className="relative overflow-hidden rounded-2xl border-2 border-accent-primary bg-background-card p-6 shadow-lg shadow-accent-primary/10 max-[399px]:p-5 sm:p-8">
             <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent-primary/5 blur-3xl" />
             <div className="relative">
-              <CartePremiumAchat bouton={frTypo(CARTE_PREMIUM.bouton)} />
+              <CartePremiumAchat bouton={frTypo(CARTE_PREMIUM.bouton)} boutonConnecte={frTypo(CARTE_PREMIUM.boutonConnecte)} />
               <p className="mt-2 text-center text-xs text-text-muted" data-testid="reass">{frTypo(REASSURANCE_UNIQUE)}</p>
               <div className="mt-3 text-center">
                 <Link

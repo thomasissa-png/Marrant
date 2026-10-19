@@ -4,6 +4,11 @@
  * les valeurs du jour (5 parcours, 2,99 €, 24,99 €, limites gratuites 10 / 3 / 3, 15 à 20 minutes)
  * est le texte v5 mot pour mot ; puis le budget de mots hors bouton (règles de comptage de
  * textes-v5-a §0) tient pour les surfaces principales.
+ *
+ * Trajet de conversion s21 (19/10, `docs/copy/conversion-s21/textes-trajet-v1.md` et ses arbitrages) :
+ * les textes qu'il remplace sont figés ici à leur nouvelle valeur (porte générique « Tout ouvrir »,
+ * verbe d'achat « S'abonner », en-tête court, FAQ prix, profil, retour de paiement). La page
+ * /abonnement elle-même est figée dans `conversion-s21-textes.test.ts`.
  */
 import { AVANTAGES_PREMIUM } from "@/config/textes/avantages-premium";
 import { carnetExtraitSurtitre, CARNET_EXTRAIT_LIEN, CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
@@ -16,12 +21,11 @@ import {
   GRATUIT_ACCUEIL,
   LETTRE_ARTICLE,
   libelleGratuitParcours,
-  libelleOuvrirParcours,
+  libelleToutOuvrir,
 } from "@/config/textes/cta-articles-accueil";
 import {
   A_PROPOS_FIN,
   ABONNEMENT_CTA,
-  ABONNEMENT_HAUT_PAR_PARCOURS,
   BLOC_EXERCICE,
   CARNET_PAYWALL,
   FENETRE_PREMIUM,
@@ -39,14 +43,7 @@ import {
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
-import {
-  ABONNEMENT_HAUT_VISITEUR,
-  ANNUEL_LIGNE_ANNUEL,
-  ANNUEL_LIGNE_MENSUEL,
-  ANNUEL_MOIS_OFFERTS_LABEL,
-  REASSURANCE_UNIQUE,
-  VALIDATION_ETAPE,
-} from "@/config/textes/offre";
+import { ANNUEL_MOIS_OFFERTS_LABEL, REASSURANCE_UNIQUE, VALIDATION_ETAPE } from "@/config/textes/offre";
 import { APERCU_LIEN, progressionVisiteurTexte, QUIZ_FIN_BOUTON, VANNES_ETAPE } from "@/config/textes/parcours";
 import { TEXTES_SUCCESS } from "@/config/textes/paiement";
 import { TEXTES_PRENOM } from "@/config/textes/compte";
@@ -68,13 +65,17 @@ const mots = (...textes: string[]) =>
     .filter((m) => /[\p{L}\p{N}]/u.test(m)).length;
 
 const REASS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
-const OUVRIR = "Ouvrir les 5 parcours · 2,99 €/mois";
+/** Porte générique (arbitrage du 19/10) et verbe d'achat (étalon A), trajet de conversion s21. */
+const OUVRIR = "Tout ouvrir · 2,99 €/mois";
+const SABONNER = "S’abonner · 2,99 €/mois";
+const OBJET = "Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.";
 
 describe("§0 conventions : REASS, OUVRIR, GRATUIT_ACCUEIL, GRATUIT_P", () => {
   it("libellés uniques et réassurance unique, mot pour mot", () => {
     expect(t(REASSURANCE_UNIQUE)).toBe(REASS);
     expect(mots(REASSURANCE_UNIQUE)).toBe(11);
-    expect(t(libelleOuvrirParcours())).toBe(OUVRIR);
+    expect(t(libelleToutOuvrir())).toBe(OUVRIR);
+    expect(t(libelleToutOuvrir("24,99 €/an"))).toBe("Tout ouvrir · 24,99 €/an");
     expect(GRATUIT_ACCUEIL).toBe("Tester mes premières répliques, gratuit");
     expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
   });
@@ -92,7 +93,10 @@ describe("partie A : accueil, en-tête, articles", () => {
   it("§2 en-tête", () => {
     expect(t(EN_TETE.bouton)).toBe("Premium · 2,99 €/mois");
     expect(mots(EN_TETE.bouton)).toBe(2);
-    expect(t(EN_TETE.nomAccessible)).toBe("2,99 € par mois : voir l’offre Premium");
+    // Trajet de conversion s21 §2 : un prix sans objet n'est pas un libellé ; le nom accessible
+    // commence par le texte visible (WCAG 2.5.3).
+    expect(t(EN_TETE.boutonCourt)).toBe("Premium · 2,99 €");
+    expect(t(EN_TETE.nomAccessible)).toBe("Premium, 2,99 € par mois : voir l’offre");
   });
 
   it("§3 fin d’article n°1 et déclinaisons par parcours", () => {
@@ -122,6 +126,9 @@ describe("partie A : accueil, en-tête, articles", () => {
     expect(CARTE_PREMIUM.titre).toBe("Et si ton « j’aurais dû dire » devenait un « j’ai dit » ?");
     expect(CARTE_PREMIUM.phrase).toBe("De la coloc à l’afterwork, de quoi répondre partout.");
     expect(t(CARTE_PREMIUM.bouton)).toBe(OUVRIR);
+    // Compte connecté sans abonnement : paiement direct, il paie sans avoir lu l'offre.
+    expect(t(CARTE_PREMIUM.boutonConnecte)).toBe(SABONNER);
+    expect(t(CARTE_PREMIUM.phraseConnecte)).toBe(OBJET);
     expect(CARTE_PREMIUM.contour).toBe(GRATUIT_ACCUEIL);
     expect([mots(CARTE_PREMIUM.titre), mots(CARTE_PREMIUM.phrase)]).toEqual([10, 9]);
   });
@@ -232,7 +239,10 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
       expect([QUIZ_ORIENTATION_CTA.titre(s), QUIZ_ORIENTATION_CTA.phrase(s)]).toEqual([titre, phrase]);
       expect(mots(titre, phrase)).toBe(total);
     }
-    expect(t(QUIZ_ORIENTATION_CTA.bouton("confiance"))).toBe(OUVRIR);
+    // Deux destinations, deux libellés : compte connecté vers Stripe, visiteur vers /abonnement.
+    expect(t(QUIZ_ORIENTATION_CTA.bouton("confiance"))).toBe(SABONNER);
+    expect(QUIZ_ORIENTATION_CTA.objetConnecte).toBe("Premium ouvre ce parcours et tout le reste.");
+    expect(t(QUIZ_ORIENTATION_CTA.boutonVisiteur("confiance"))).toBe(OUVRIR);
     expect(QUIZ_ORIENTATION_CTA.refaire).toBe("Refaire le quiz");
     expect(QUIZ_ORIENTATION_CTA.commencer("confiance")).toBe("Tester l’étape 1 de Confiance, gratuite");
   });
@@ -264,23 +274,8 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
 });
 
 describe("partie C : /abonnement, /register, carnet, profil, fins de page", () => {
-  it("§1 /abonnement : titres, sous-titre, carte, bouton, suite, lignes", () => {
-    expect(ABONNEMENT_HAUT_PAR_PARCOURS).toEqual({
-      defaut: { titre: "Ta réplique en soirée, pas dans le bus du retour" },
-      repartie: { titre: "Ta réplique en soirée, pas dans le bus du retour" },
-      "machine-a-cafe": { titre: "Faire rire au bureau, au bon moment" },
-      boulot: { titre: "Faire rire au bureau, au bon moment" },
-      confiance: { titre: "Rire à table, sans monter sur scène" },
-      storytelling: { titre: "Ton histoire jusqu’à la chute, avant le « et donc ? »" },
-    });
-    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d’attente entre les étapes, de 15 à 20 minutes chacune.");
+  it("§1 /abonnement : ce qui reste de la v5 (le reste : conversion-s21-textes.test.ts)", () => {
     expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
-    expect(t(ANNUEL_LIGNE_MENSUEL)).toBe("Ou 24,99 €/an, soit 2,08 € par mois.");
-    expect(t(ANNUEL_LIGNE_ANNUEL)).toBe("Soit 2,08 € par mois, plus de 3 mois offerts.");
-    expect(t(ABONNEMENT_CTA.bouton("monthly"))).toBe(OUVRIR);
-    expect(t(ABONNEMENT_CTA.bouton("annual"))).toBe("Ouvrir les 5 parcours · 24,99 €/an");
-    expect(ABONNEMENT_CTA.suite).toBe("Ton compte, puis le paiement sécurisé.");
-    expect(ABONNEMENT_CTA.ligneConnecte).toBe("Paiement sécurisé par Stripe");
     expect(`${ABONNEMENT_CTA.pasEncoreSur} ${ABONNEMENT_CTA.lienEtape1("repartie")}`).toBe(
       "Pas encore sûr ? Tester l’étape 1 de Répartie, gratuite",
     );
@@ -288,14 +283,13 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect([CARNET_EXTRAIT_TITRE, CARNET_EXTRAIT_LIEN]).toEqual(["Le carnet, en vrai", "Lire la fiche en entier"]);
   });
 
-  it("§2 les 4 avantages (22 mots)", () => {
+  it("§2 les avantages : étalon A, 3 lignes sans la lettre (trajet de conversion s21)", () => {
     expect(AVANTAGES_PREMIUM).toEqual([
-      "Chaque parcours en entier",
-      "Un nouveau carnet de répartie chaque mois",
       "Tout le catalogue : vannes, conseils, vidéos",
-      "Tes favoris sous la main",
+      "Les 5 parcours, de la première à la dernière étape",
+      "Un nouveau carnet de répartie chaque mois",
     ]);
-    expect(mots(...AVANTAGES_PREMIUM)).toBe(22);
+    expect(mots(...AVANTAGES_PREMIUM)).toBe(23);
   });
 
   it("§3 FAQ de vente : 4 questions, réponse prix mensuelle et annuelle", () => {
@@ -305,15 +299,21 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
       "2,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
       "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
     ]);
-    expect(FAQ_VENTE[2].answer).toBe("C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas.");
-    expect(getPremiumFaqs(true)[2].answer).toBe("C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.");
-    expect([mots(FAQ_VENTE[2].answer), mots(getPremiumFaqs(true)[2].answer)]).toEqual([15, 18]);
+    // Trajet de conversion s21 §1.5 (GO de Thomas du 19/10) : + la réassurance unique, mot pour mot.
+    expect(FAQ_VENTE[2].answer).toBe(`C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASS}`);
+    expect(getPremiumFaqs(true)[2].answer).toBe(`C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASS}`);
+    expect([mots(FAQ_VENTE[2].answer), mots(getPremiumFaqs(true)[2].answer)]).toEqual([26, 29]);
   });
 
   it("§4 /register", () => {
     expect(REGISTER_CTA.titre).toBe("Ton compte");
     expect(t(REGISTER_CTA.planReminder("monthly"))).toBe("Premium, 2,99 € TTC par mois.");
     expect(t(REGISTER_CTA.planReminder("annual"))).toBe("Premium, 24,99 € TTC par an.");
+    // Trajet de conversion s21 §4 : depuis la fin d'étape 1, l'étape 2 promise est redite.
+    expect(t(REGISTER_CTA.planReminder("monthly", "repartie"))).toBe(
+      "Premium, 2,99 € TTC par mois. Après le paiement, l’étape 2 de Répartie s’ouvre.",
+    );
+    expect(t(REGISTER_CTA.planReminder("monthly", null))).toBe("Premium, 2,99 € TTC par mois.");
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     expect(REGISTER_CTA.google).toBe("Continuer avec Google");
     expect(`${REGISTER_CTA.dejaCompte} ${REGISTER_CTA.connecteToi}`).toBe("Déjà un compte ? Connecte-toi");
@@ -324,7 +324,7 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect([TEXTES_SUCCESS.pretTitre, TEXTES_SUCCESS.pretTexte, TEXTES_SUCCESS.pretBouton]).toEqual([
       "Paiement reçu !",
       "Merci. Ton accès s’active…",
-      "Choisir mon parcours",
+      "Continuer",
     ]);
   });
 
@@ -338,9 +338,9 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
   });
 
   it("§7 /profil, compte sans abonnement ; carte « Ton prénom »", () => {
-    expect(PROFIL_ABONNEMENT_OFFRE.phrase).toBe("Chaque mois, un nouveau carnet de répartie s’ajoute aux parcours.");
-    expect(t(PROFIL_ABONNEMENT_OFFRE.bouton)).toBe(OUVRIR);
-    expect(mots(PROFIL_ABONNEMENT_OFFRE.phrase)).toBe(10);
+    expect(PROFIL_ABONNEMENT_OFFRE.phrase).toBe(OBJET);
+    expect(t(PROFIL_ABONNEMENT_OFFRE.bouton)).toBe(SABONNER);
+    expect(mots(PROFIL_ABONNEMENT_OFFRE.phrase)).toBe(14);
     expect([TEXTES_PRENOM.titre, TEXTES_PRENOM.bouton, TEXTES_PRENOM.succes, TEXTES_PRENOM.erreur]).toEqual([
       "Ton prénom",
       "Enregistrer",
@@ -366,7 +366,8 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
   it("§9 paywall : titre, texte de valeur, plein", () => {
     expect(PAYWALL_PREMIUM.titre).toBe("Le reste, avec Premium");
     expect(PAYWALL_PREMIUM.valeur).toBe("Le carnet du mois, tes favoris, tout le catalogue.");
-    expect(t(PAYWALL_PREMIUM.bouton)).toBe(OUVRIR);
+    // Paiement direct (trajet de conversion s21 §2.1) : verbe d'achat.
+    expect(t(PAYWALL_PREMIUM.bouton)).toBe(SABONNER);
   });
 });
 
@@ -395,25 +396,5 @@ describe("budget de mots hors bouton (≤ budget de la v5), surfaces principales
     expect(n).toBeLessThanOrEqual(budget);
   });
 
-  it.each(["repartie", "machine-a-cafe", "boulot", "confiance", "storytelling"] as const)(
-    "/abonnement visiteur, parcours d’origine %s : ≤ 120 mots (REASS et liens compris, hors FAQ et fiche)",
-    (slug) => {
-      const commun = [
-        ABONNEMENT_HAUT_VISITEUR.sousTitre,
-        `${ABONNEMENT_CTA.carteNom} Mensuel Annuel`,
-        ABONNEMENT_CTA.suite,
-        REASSURANCE_UNIQUE,
-        ...AVANTAGES_PREMIUM,
-        carnetExtraitSurtitre("de novembre", 15),
-        CARNET_EXTRAIT_TITRE,
-        CARNET_EXTRAIT_LIEN,
-        ABONNEMENT_CTA.pasEncoreSur,
-        ABONNEMENT_CTA.lienEtape1(slug),
-      ];
-      const mensuel = mots(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre, ...commun, ANNUEL_MOIS_OFFERTS_LABEL, "2,99 € TTC / mois", ANNUEL_LIGNE_MENSUEL);
-      const annuel = mots(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre, ...commun, "24,99 € TTC / an", ANNUEL_LIGNE_ANNUEL);
-      expect(mensuel).toBeLessThanOrEqual(120);
-      expect(annuel).toBeLessThanOrEqual(120);
-    },
-  );
+  // Budget de /abonnement : trajet de conversion s21, plafond 230 mots (conversion-s21-textes.test.ts).
 });

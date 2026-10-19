@@ -4,13 +4,10 @@
  */
 import fs from "fs";
 import path from "path";
-import {
-  ABONNEMENT_HAUT_VISITEUR,
-  ANNUEL_LIGNE_ANNUEL,
-  ANNUEL_LIGNE_MENSUEL,
-  VALIDATION_ETAPE,
-} from "@/config/textes/offre";
-import { libelleGratuitParcours, libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { ANNUEL_MOIS_OFFERTS_LABEL, VALIDATION_ETAPE } from "@/config/textes/offre";
+import { libelleGratuitParcours, libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
+import { ABONNEMENT_HAUT } from "@/config/textes/abonnement-vente";
+import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { PARCOURS_SLUGS } from "@/lib/entrees-parcours";
 
@@ -20,10 +17,10 @@ const lire = (rel: string) => fs.readFileSync(path.join(SRC, rel), "utf8");
 const texte = (s: string) => s.replace(/ /g, " ");
 
 describe("Libellés uniques (concision v5, textes-v5-a §0)", () => {
-  it("OUVRIR partout pour l'action payante générique (mur des favoris compris), GRATUIT_P pour l'étape 1", () => {
-    expect(texte(libelleOuvrirParcours())).toBe("Ouvrir les 5 parcours · 2,99 €/mois");
+  it("« Tout ouvrir » partout pour la porte générique (mur des favoris compris), GRATUIT_P pour l'étape 1", () => {
+    expect(texte(libelleToutOuvrir())).toBe("Tout ouvrir · 2,99 €/mois");
     expect(texte(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 2,99 €/mois");
-    expect(lire("components/favoris/favoris-list.tsx")).toContain("{libelleOuvrirParcours()}");
+    expect(lire("components/favoris/favoris-list.tsx")).toContain("{libelleToutOuvrir()}");
     expect(libelleGratuitParcours("repartie")).toBe("Tester l’étape 1 de Répartie, gratuite");
     expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
   });
@@ -61,20 +58,20 @@ describe("Libellés uniques (concision v5, textes-v5-a §0)", () => {
   });
 });
 
-describe("Haut de /abonnement (concision v5)", () => {
-  it("sous-titre mot pour mot, plus de surtitre", () => {
-    expect(ABONNEMENT_HAUT_VISITEUR.sousTitre).toBe("Pas d’attente entre les étapes, de 15 à 20 minutes chacune.");
-    expect(ABONNEMENT_HAUT_VISITEUR).not.toHaveProperty("surtitre");
-    expect(ABONNEMENT_HAUT_VISITEUR).not.toHaveProperty("titre");
+describe("Haut de /abonnement (trajet de conversion s21, étalon A)", () => {
+  it("titre unique et sous-titre mot pour mot", () => {
+    expect(ABONNEMENT_HAUT.titre).toBe("Premium ouvre tout Deviens Marrant");
+    expect(ABONNEMENT_HAUT.sousTitre).toBe("Les listes ne s’arrêtent plus à la dixième vanne, les parcours vont au bout.");
   });
 
-  it("lignes annuelles calculées, sans « économisés »", () => {
-    expect(texte(ANNUEL_LIGNE_MENSUEL)).toBe("Ou 24,99 €/an, soit 2,08 € par mois.");
-    expect(texte(ANNUEL_LIGNE_ANNUEL)).toBe("Soit 2,08 € par mois, plus de 3 mois offerts.");
+  it("carte annuelle calculée : « soit 2,08 € par mois » (arbitrage du 19/10), sans « économisés »", () => {
+    expect(texte(PREMIUM_ANNUAL_EQUIVALENT_LABEL)).toBe("soit 2,08 € par mois");
+    expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
+    expect(lire("components/premium/formule-cartes.tsx")).not.toContain("ANNUEL_ECONOMIE_LABEL");
   });
 
   it("plus de « Sans engagement, annulable à tout moment » dans la carte", () => {
-    expect(lire("components/premium/plan-selector.tsx")).not.toMatch(/>\s*Sans engagement, annulable/);
+    expect(lire("components/premium/formule-cartes.tsx")).not.toMatch(/>\s*Sans engagement, annulable/);
     expect(lire("components/premium/abonnement-view.tsx")).not.toContain("Sans engagement, annulable &agrave;");
   });
 });

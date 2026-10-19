@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { cn } from "@/lib/utils";
 
 interface AuthCtaProps {
-  /** Par défaut : « Ouvrir les 5 parcours · 2,99 €/mois » (E6, aligné s21 ; header.tsx tire déjà ce module). */
+  /** Par défaut : porte générique « Tout ouvrir · 2,99 €/mois » (trajet de conversion s21). */
   label?: string;
   callbackUrl?: string;
   /** Source du clic pour la mesure du tunnel (kebab-case, ex. `blog-<slug>`, `quiz`). */
@@ -46,7 +46,7 @@ export function avecSourceAbonnement(callbackUrl: string, src?: string): string 
  * Connecté : action fournie, sinon lien direct vers la destination.
  */
 export function AuthCta({
-  label = libelleOuvrirParcours(),
+  label = libelleToutOuvrir(),
   callbackUrl = "/abonnement",
   src,
   size = "lg",

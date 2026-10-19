@@ -21,6 +21,7 @@ import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-b
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
 import { CGU_ACCEPTATION, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { MUR_PARCOURS, REGISTER_CTA } from "@/config/textes/cta-pages";
+import { frTypo } from "@/lib/fr-typo";
 import { parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 const OAUTH_ERRORS: Record<string, string> = {
@@ -226,7 +227,9 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             </span>
           </Link>
           <h1 className="font-display text-xl font-bold text-text-primary">{REGISTER_CTA.titre}</h1>
-          <p className="text-sm text-text-secondary">{REGISTER_CTA.planReminder(plan)}</p>
+          <p className="text-sm text-text-secondary" data-testid="register-rappel-offre">
+            {frTypo(REGISTER_CTA.planReminder(plan, src === FIN_ETAPE_1_SRC ? parcoursOrigineDepuisCallback(callbackUrl) : null))}
+          </p>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

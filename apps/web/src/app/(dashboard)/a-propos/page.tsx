@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
-import { Button } from "@/components/ui/button";
-import { AuthCta } from "@/components/auth/auth-cta";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
@@ -233,10 +233,15 @@ export default function AProposPage() {
               {frTypo(A_PROPOS_FIN.preuve)}
             </p>
           </MasqueSiConnecte>
-          {/* Étalon 1.2 validé par Thomas (s15), aligné sur l'accueil : inscription (étape 1
-              sur 2) puis paiement ouvert tout seul ; connecté : /abonnement. */}
+          {/* Trajet de conversion s21 (arbitrage du 19/10) : le visiteur passe par /abonnement, comme
+              au glossaire (écho du clic, une seule page d'offre) ; source `a-propos` suivie jusqu'au paiement. */}
           <div className="mt-4">
-            <AuthCta label={frTypo(A_PROPOS_FIN.bouton)} src="a-propos" className={BOUTON_BLOC_APPEL} />
+            <Link
+              href={buildAbonnementUrl(null, "monthly", "a-propos")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+            >
+              {frTypo(A_PROPOS_FIN.bouton)}
+            </Link>
           </div>
           <p className="mt-2 text-xs text-text-muted">{frTypo(REASSURANCE_UNIQUE)}</p>
           <div className="-mb-3 mt-1">

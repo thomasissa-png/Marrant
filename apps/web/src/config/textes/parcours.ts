@@ -4,7 +4,7 @@
  * validés par Thomas : ne rien y écrire de pédagogique (D5), seulement l'interface.
  */
 import { OFFRE_NOM } from "@/config/textes/offre";
-import { libelleOuvrirParcours } from "@/config/textes/cta-articles-accueil";
+import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 
 // VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §8)
 /** Barre de progression remplacée pour un non-abonné : « Étape 1 gratuite, la suite avec Premium ». */
@@ -12,8 +12,8 @@ export function progressionVisiteurTexte(): string {
   return `Étape 1 gratuite, la suite avec ${OFFRE_NOM}`;
 }
 
-/** Lien sous l'aperçu ouvert d'une étape 2+ : `OUVRIR`. */
-export const APERCU_LIEN = libelleOuvrirParcours();
+/** Lien sous l'aperçu ouvert d'une étape 2+ : porte générique « Tout ouvrir ». */
+export const APERCU_LIEN = libelleToutOuvrir();
 
 // s17, aligné sur les étalons (« Durée estimée » sonnait fiche de cours ; le rythme « 15 à 20 min/semaine » ne change pas)
 /**

@@ -14,12 +14,12 @@
  */
 import {
   ESPACE_INSECABLE,
-  PARCOURS_COUNT,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PRICE_LABEL,
   formatEuros,
 } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
+import { libelleSabonner, PHRASE_OBJET_CONNECTE } from "@/config/textes/abonnement-vente";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 /**
@@ -35,13 +35,13 @@ export const LIBELLE_SECTION_ARTICLES = "Articles";
 const POINT_MEDIAN = `${ESPACE_INSECABLE}· `;
 
 /**
- * `OUVRIR` : « Ouvrir les 5 parcours · 2,99 €/mois », libellé unique de l'action payante
- * générique (le libellé ne change jamais, c'est le texte voisin qu'on ajuste). Repli « tous les
- * parcours » si le compte tombe à 1 ou 0. `prix` : libellé de la formule (annuel sur /abonnement).
+ * Porte générique vers /abonnement : « Tout ouvrir · 2,99 €/mois » (arbitrage du 19/10,
+ * textes-trajet-v1 : Premium n'est pas que les parcours ; remplace « Ouvrir les 5 parcours »).
+ * Les portes contextuelles (« Voir la suite des vannes »…) gardent leur libellé. Un clic qui mène
+ * au compte ou à Stripe dit l'acte : `libelleSabonner` (abonnement-vente.ts).
  */
-export function libelleOuvrirParcours(count: number = PARCOURS_COUNT, prix: string = PREMIUM_PRICE_LABEL): string {
-  const quoi = count >= 2 ? `les ${count} parcours` : "tous les parcours";
-  return `Ouvrir ${quoi}${POINT_MEDIAN}${prix}`;
+export function libelleToutOuvrir(prix: string = PREMIUM_PRICE_LABEL): string {
+  return `Tout ouvrir${POINT_MEDIAN}${prix}`;
 }
 
 /** `GRATUIT_ACCUEIL` : haut d'accueil, carte d'accueil, fin d'article générique (Répartie). */
@@ -56,14 +56,15 @@ export const SANS_COMPTE = "Sans compte.";
 // ─── En-tête ────────────────────────────────────────────────────────────────
 
 /**
- * « Premium · 2,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` (« 2,99 €/mois ») :
- * sous le seuil de largeur où le libellé complet ne tient pas à côté du logo et du menu
- * (header.tsx). Nom accessible : ce que fait le lien, prix d'abord.
+ * « Premium · 2,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` (« Premium · 2,99 € »,
+ * trajet de conversion s21 : un prix sans objet n'est pas un libellé) : sous le seuil de largeur où
+ * le libellé complet ne tient pas à côté du logo et du menu (header.tsx). Nom accessible : commence
+ * par le texte visible (WCAG 2.5.3).
  */
 export const EN_TETE = {
   bouton: `${OFFRE_NOM}${POINT_MEDIAN}${PREMIUM_PRICE_LABEL}`,
-  boutonCourt: PREMIUM_PRICE_LABEL,
-  nomAccessible: `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre ${OFFRE_NOM}`,
+  boutonCourt: `${OFFRE_NOM}${POINT_MEDIAN}${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}`,
+  nomAccessible: `${OFFRE_NOM}, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre`,
 } as const;
 
 // ─── Encart du milieu des articles ──────────────────────────────────────────
@@ -95,8 +96,8 @@ export const BLOC_FIN = {
    */
   boutonSansParcours: GRATUIT_ACCUEIL,
   noteSansCompte: SANS_COMPTE,
-  /** Lien payant sous le plein : `OUVRIR`. */
-  lienAbonnement: libelleOuvrirParcours(),
+  /** Lien payant sous le plein : porte générique « Tout ouvrir ». */
+  lienAbonnement: libelleToutOuvrir(),
   /** Surcharges par article (prioritaires sur config/blog-cta.ts et encarts-blog-s20.ts). */
   parArticle: {
     "meilleures-blagues-droles-2026": {
@@ -130,14 +131,17 @@ export const ACCUEIL_HAUT = {
 // ─── Carte Premium de l'accueil ─────────────────────────────────────────────
 
 /**
- * Visiteur : plein `OUVRIR` vers /abonnement?src=accueil-premium. Compte connecté sans
- * abonnement : même phrase, même plein (paiement direct). REASS sous le plein, puis le lien
- * gratuit (étape 1 de Répartie).
+ * Visiteur : porte « Tout ouvrir » vers /abonnement?src=accueil-premium. Compte connecté sans
+ * abonnement (paiement direct, trajet de conversion s21) : « S'abonner » et la phrase d'objet,
+ * car il paie sans avoir lu l'offre. REASS sous le plein, puis le lien gratuit (étape 1 de Répartie).
  */
 export const CARTE_PREMIUM = {
   titre: "Et si ton « j’aurais dû dire » devenait un « j’ai dit » ?",
-  /** Phrase unique avant le bouton (visiteur et compte connecté). */
+  /** Phrase avant le bouton, visiteur. */
   phrase: "De la coloc à l’afterwork, de quoi répondre partout.",
-  bouton: libelleOuvrirParcours(),
+  /** Phrase avant le bouton, compte connecté sans abonnement. */
+  phraseConnecte: PHRASE_OBJET_CONNECTE,
+  bouton: libelleToutOuvrir(),
+  boutonConnecte: libelleSabonner(),
   contour: GRATUIT_ACCUEIL,
 } as const;
