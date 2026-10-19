@@ -68,6 +68,14 @@ export function motifsInterdits(texte: string): string[] {
   return motifs;
 }
 
+/** L'objet ne donne jamais la réplique (spec §3.3) : ni la réplique entière, ni un morceau de 12 caractères ou plus. */
+function donneLaReplique(objet: string, reponse: string): boolean {
+  const norme = (t: string) => t.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, " ").trim();
+  const o = norme(objet);
+  const r = norme(reponse);
+  return o.includes(r) || (o.length >= 12 && r.includes(o));
+}
+
 /** Fiche du carnet par identifiant (« 2026-11-01 » → carnet « 2026-11 »). */
 export function trouverFiche(ficheId: string, carnets: readonly Carnet[] = getAllCarnets()): { carnet: Carnet; fiche: CarnetFiche } | null {
   const carnet = carnets.find((c) => c.mois === ficheId.slice(0, 7));
@@ -156,7 +164,7 @@ export function preparerNumerosHebdo(
       continue;
     }
     const objet = n.objet ?? trouvee.fiche.titre;
-    if (objet.length > OBJET_HEBDO_MAX || objet.includes(trouvee.fiche.reponse)) {
+    if (objet.length > OBJET_HEBDO_MAX || donneLaReplique(objet, trouvee.fiche.reponse)) {
       ignores.push(`${n.semaine} : objet trop long ou contenant la réplique`);
       continue;
     }
