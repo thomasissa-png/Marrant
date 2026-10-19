@@ -599,7 +599,7 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     // Suivi de progression = Premium (s15 §1.1) : aucun bouton de validation
     await waitFor(() => {
-      expect(screen.getByText(courbe("Les étapes suivantes s'ouvrent avec Premium."))).toBeInTheDocument();
+      expect(screen.getByText(courbe("Premium ouvre la suite et les autres parcours d'un coup."))).toBeInTheDocument();
     });
     expect(screen.queryByText("Valider cette étape")).not.toBeInTheDocument();
   });
@@ -770,7 +770,7 @@ describe("Marc (unauthenticated) — Parcours Confiance", () => {
     expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
 
     // Valider = Premium (s15, étalon 4.1)
-    expect(screen.getByText(courbe("Les étapes suivantes s'ouvrent avec Premium."))).toBeInTheDocument();
+    expect(screen.getByText(courbe("Premium ouvre la suite et les autres parcours d'un coup."))).toBeInTheDocument();
   });
 
   it("D1 s17 : visiteur, étapes 2 à 6 marquées « Fait partie de Premium », sans « Termine l'étape »", async () => {

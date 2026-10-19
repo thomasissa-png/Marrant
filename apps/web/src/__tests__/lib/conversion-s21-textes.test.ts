@@ -1,6 +1,7 @@
 /**
  * Trajet de conversion s21 : textes de /abonnement et des surfaces voisines, mot pour mot
- * (`docs/copy/conversion-s21/textes-trajet-v1.md` et ses « Arbitrages de l'orchestrateur » du 19/10),
+ * (`docs/copy/conversion-s21/textes-trajet-v1.md` et ses « Arbitrages de l'orchestrateur » du 19/10,
+ * puis `textes-trajet-v2.md` et ses arbitrages du tour 2, correction @legal comprise),
  * choix de l'accroche selon l'origine du clic, lignes du tableau Gratuit / Premium, plafond de mots.
  */
 import {
@@ -17,8 +18,8 @@ import {
 } from "@/config/textes/abonnement-vente";
 import { AVANTAGE_LETTRE, avantagesPremium } from "@/config/textes/avantages-premium";
 import { ABONNEMENT_CTA } from "@/config/textes/cta-pages";
-import { carnetExtraitSurtitre, CARNET_EXTRAIT_LIEN, CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
-import { ANNUEL_MOIS_OFFERTS_LABEL, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
+import { ANNUEL_MOIS_OFFERTS_LABEL, prixLabel, rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { origineAbonnement } from "@/lib/abonnement-accroche";
@@ -30,9 +31,10 @@ const mots = (...textes: string[]) =>
     .split(/[ \n]+/)
     .filter((m) => /[\p{L}\p{N}]/u.test(m)).length;
 
-describe("/abonnement : textes v1 mot pour mot (étalon A)", () => {
-  it("haut de page", () => {
+describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
+  it("haut de page (v2 A01 : « Deviens Marrant » rendu comme le logo, texte inchangé)", () => {
     expect(ABONNEMENT_HAUT.titre).toBe("Premium ouvre tout Deviens Marrant");
+    expect(`${ABONNEMENT_HAUT.titreAvantNom} ${ABONNEMENT_HAUT.titreNom}`).toBe(ABONNEMENT_HAUT.titre);
     expect(ABONNEMENT_HAUT.sousTitre).toBe("Les listes ne s’arrêtent plus à la dixième vanne, les parcours vont au bout.");
     expect(t(ABONNEMENT_HAUT.preuve)).toBe("1 500+ inscrits bossent leur humour.");
   });
@@ -54,13 +56,15 @@ describe("/abonnement : textes v1 mot pour mot (étalon A)", () => {
     expect(t(ABONNEMENT_ACHAT.bouton("monthly"))).toBe("S’abonner · 2,99 €/mois");
     expect(t(ABONNEMENT_ACHAT.bouton("annual"))).toBe("S’abonner · 24,99 €/an");
     expect(ABONNEMENT_ACHAT.chargement).toBe("On t’emmène au paiement…");
-    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("Tu crées ton compte, puis tu paies par carte.");
+    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("Tu crées ton compte, puis tu paies par carte sur Stripe.");
+    // v2 A04 : renouvellement de l'annuel (affiché seulement en annuel).
+    expect(FORMULES.renouvelAnnuel).toBe("Renouvelé chaque année, sauf résiliation.");
     expect(ABONNEMENT_ACHAT.suiteConnecte).toBe("Paiement sécurisé par Stripe");
     expect(`${ABONNEMENT_ACHAT.dejaCompte} ${ABONNEMENT_ACHAT.connecteToi}`).toBe("Déjà un compte ? Connecte-toi");
     expect(REASSURANCE_UNIQUE).toBe("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
 
-  it("tableau : 7 lignes sans la lettre, 8 avec, faits lus à la source", () => {
+  it("tableau : 7 lignes sans la lettre, 8 avec, faits lus à la source (v2 A10 à A13)", () => {
     expect([TABLEAU.titre, TABLEAU.colonneGratuit, TABLEAU.colonnePremium, TABLEAU.colonneLibelle, TABLEAU.inclus, TABLEAU.non]).toEqual([
       "Gratuit et Premium, côte à côte",
       "Gratuit",
@@ -71,9 +75,9 @@ describe("/abonnement : textes v1 mot pour mot (étalon A)", () => {
     ]);
     const v0 = lignesTableau({ carnet: true, carnetGratuit: 1, lettre: false });
     expect(v0.map((l) => [l.libelle, l.gratuit, l.premium])).toEqual([
-      ["Listes : vannes, conseils, vidéos", "10, 3 et 3", "Sans limite"],
+      ["Tout le catalogue", "10 vannes, 3 conseils, 3 vidéos dans les listes", "Sans limite"],
       ["Parcours", "Étape 1 de chacun", "Les 5, en entier"],
-      ["Carnet de répartie", "1 situation", "Toutes les situations"],
+      ["Carnet de répartie", "1 situation par carnet", "Toutes les situations"],
       ["Exercices des fiches", false, true],
       ["Progression et série", false, true],
       ["Favoris", false, true],
@@ -86,11 +90,20 @@ describe("/abonnement : textes v1 mot pour mot (étalon A)", () => {
     expect(lignesTableau({ carnet: false, carnetGratuit: 1, lettre: false }).map((l) => l.cle)).not.toContain("carnet");
   });
 
-  it("carnet, « Pas encore sûr ? », attente, bienvenue", () => {
-    expect(CARNET_VENTE.amorce).toBe("Un exemple de ce qui s’ajoute chaque mois.");
+  it("carnet, « Pas encore sûr ? », attente (v2 A06, A16 à A18 + correction @legal), bienvenue", () => {
+    expect(CARNET_EXTRAIT_TITRE).toBe("Le carnet, en vrai");
+    expect(CARNET_VENTE.chapeau("d’octobre")).toBe("La situation offerte d’octobre, et la réplique qui va avec.");
+    expect(CARNET_VENTE.chapeau("de novembre")).toBe("La situation offerte de novembre, et la réplique qui va avec.");
     expect(CARNET_VENTE.reste(14)).toBe("Il en reste 14, toutes ouvertes avec Premium.");
     expect(PAS_ENCORE_SUR_SANS_COMPTE).toBe("Sans compte.");
-    expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Te voilà connecté.", "On t’emmène au paiement…"]);
+    expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Ton compte est prêt.", "On t’emmène au paiement sécurisé par Stripe…"]);
+    expect(t(ATTENTE_PAIEMENT.formule("monthly"))).toBe("Premium, 2,99 €/mois.");
+    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    // @legal (tour 2) : jamais « au même prix ».
+    expect(ATTENTE_PAIEMENT.formule("annual")).not.toMatch(/même prix/);
+    expect(ATTENTE_PAIEMENT.formule).toBe(rappelFormule);
+    // Prix hors cartes de formule : sans « TTC » (v2 W04, G02, A18).
+    expect([t(prixLabel("monthly")), t(prixLabel("annual"))]).toEqual(["2,99 €/mois", "24,99 €/an"]);
     expect(BIENVENUE_PREMIUM.texte).toBe("Tout est ouvert : les listes, les parcours, le carnet du mois. Reprends là où tu t’étais arrêté.");
     expect(BIENVENUE_PREMIUM.lettre).toBe("Ta lettre de chaque semaine s’active depuis ton profil.");
     expect(PHRASE_OBJET_CONNECTE).toBe("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.");
@@ -101,7 +114,7 @@ describe("/abonnement : textes v1 mot pour mot (étalon A)", () => {
   });
 });
 
-describe("accroche selon l'origine du clic (textes-trajet-v1 §1.1)", () => {
+describe("accroche selon l'origine du clic (textes-trajet-v1 §1.1, v2 A02 : portes génériques sans accroche)", () => {
   it.each([
     ["mur-vannes", null, "Pour la suite des vannes", "listes"],
     ["mur-conseils", null, "Pour la suite des conseils", "listes"],
@@ -115,11 +128,13 @@ describe("accroche selon l'origine du clic (textes-trajet-v1 §1.1)", () => {
     ["carnet", "/carnet", "Pour tout le carnet", "carnet"],
     ["parcours-apercu", "/parcours/repartie", "Pour la suite de Répartie", "parcours"],
     ["onboarding", "/parcours/confiance", "Pour ton parcours : Confiance", null],
-    ["accueil-premium", null, "Pour tout ouvrir", null],
-    ["blog-comment-avoir-de-la-repartie", null, "Pour tout ouvrir", null],
-    ["glossaire", null, "Pour tout ouvrir", null],
-    ["a-propos", null, "Pour tout ouvrir", null],
-    ["quiz", null, "Pour tout ouvrir", null],
+    ["accueil-premium", null, null, null],
+    ["blog-comment-avoir-de-la-repartie", null, null, null],
+    ["glossaire", null, null, null],
+    ["a-propos", null, null, null],
+    ["quiz", null, null, null],
+    ["onboarding", null, null, null],
+    ["parcours-apercu", null, null, null],
     ["header", null, null, null],
     ["parcours-liste", null, null, null],
     ["onboarding-visiteur", null, null, null],
@@ -130,18 +145,20 @@ describe("accroche selon l'origine du clic (textes-trajet-v1 §1.1)", () => {
   });
 });
 
-describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10)", () => {
-  const carnet = [CARNET_VENTE.amorce, carnetExtraitSurtitre("d’octobre", 15), CARNET_EXTRAIT_TITRE, CARNET_VENTE.reste(14), CARNET_EXTRAIT_LIEN];
+describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 §4.1)", () => {
+  // v2 : chapeau, titre, ligne du reste ; plus d'amorce, de surtitre ni de lien (le texte des deux bulles est hors compte).
+  const carnet = [CARNET_EXTRAIT_TITRE, CARNET_VENTE.chapeau("d’octobre"), CARNET_VENTE.reste(14)];
+  // v2 A10 : le titre du tableau est `sr-only`, il ne compte plus.
   const tableau = (lettre: boolean) => [
-    TABLEAU.titre,
     TABLEAU.colonneGratuit,
     TABLEAU.colonnePremium,
     ...lignesTableau({ carnet: true, carnetGratuit: 1, lettre }).flatMap((l) =>
       [l.libelle, l.gratuit, l.premium].map((c) => (c === true ? "" : c === false ? TABLEAU.non : c)),
     ),
   ];
-  const page = (lettre: boolean) =>
+  const page = (lettre: boolean, annuel = false) =>
     mots(
+      ...(annuel ? [FORMULES.renouvelAnnuel] : []),
       ABONNEMENT_HAUT.titre,
       ABONNEMENT_HAUT.sousTitre,
       ABONNEMENT_HAUT.preuve,
@@ -166,9 +183,11 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10)", ()
       ABONNEMENT_ACHAT.suiteVisiteur,
       REASSURANCE_UNIQUE,
     );
-  it("sans la lettre et avec : ≤ 230 mots hors FAQ, hors accroche et hors texte de la fiche", () => {
+  it("sans la lettre et avec, mensuel et annuel : ≤ 230 mots hors FAQ, hors accroche et hors texte de la fiche", () => {
     const [v0, v1] = [page(false), page(true)];
     expect(v0).toBeLessThan(v1);
     expect(v1).toBeLessThanOrEqual(230);
+    expect(page(true, true)).toBe(v1 + 5);
+    expect(page(true, true)).toBeLessThanOrEqual(230);
   });
 });

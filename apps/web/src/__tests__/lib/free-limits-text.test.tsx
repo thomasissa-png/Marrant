@@ -39,10 +39,13 @@ describe("limites gratuites affichées = constantes de config", () => {
     const text = container.textContent ?? "";
     expect(text).not.toMatch(/compte gratuit/i);
     expect(text).not.toMatch(/au lieu de|\b10 vannes\b/);
+    // textes-trajet-v2 A12 : le tableau dit les limites avec leurs unités, lues dans la config.
+    expect(text.replace(/\s/g, " ")).toContain("12 vannes, 6 conseils, 2 vidéos dans les listes");
   });
 
   it("murs des listes : limites lues dans les constantes de config", () => {
-    expect(MUR_LISTE.vannes.limite).toBe("Les 12 gratuites, c’est fait.");
+    // textes-trajet-v2 M04 : l'unité est écrite, le nombre reste lu dans la config.
+    expect(MUR_LISTE.vannes.limite).toBe("Les 12 vannes gratuites, c’est fait.");
     expect(MUR_LISTE.conseils.limite).toBe("6 conseils gratuits, c’est fait.");
     expect(MUR_LISTE.videos.limite).toBe("2 vidéos gratuites, c’est fait.");
   });

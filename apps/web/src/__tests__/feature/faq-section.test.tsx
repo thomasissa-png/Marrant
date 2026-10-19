@@ -49,10 +49,10 @@ describe("FaqSection", () => {
   });
 
   it("réponse prix de la concision v5 : renouvellement dit, sans « 1 clic » ni Stripe (dit une fois sur la page)", () => {
-    // Trajet de conversion s21 §1.5 : + la réassurance unique, mot pour mot.
+    // Trajet de conversion s21 §1.5 : + la réassurance unique, mot pour mot ; v2 A14 : + le départ des 14 jours.
     expect(
       screen.getByText(
-        "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+        "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. Les 14 jours courent dès ton abonnement. Un renouvellement n’ouvre pas de nouveau délai.",
       ),
     ).toBeInTheDocument();
     expect(screen.queryByText(/1 clic|reconduction surprise/)).toBeNull();

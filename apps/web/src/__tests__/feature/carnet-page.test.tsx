@@ -59,7 +59,7 @@ describe("/carnet non Premium", () => {
     const n = october.fiches.length - 1;
     expect(screen.getByRole("heading", { name: "Au programme" })).toBeInTheDocument();
     expect(screen.getByText(`Et ${n - 3} autres répliques`)).toBeInTheDocument();
-    const cta = screen.getByRole("link", { name: /^Voir tout le carnet\s·\s2,99\s€\/mois$/ });
+    const cta = screen.getByRole("link", { name: /^Ouvrir tout le carnet\s·\s2,99\s€\/mois$/ });
     expect(cta).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
     expect(html).not.toContain("—");
   });
@@ -71,7 +71,7 @@ describe("/carnet non Premium", () => {
     const t = (el: HTMLElement) => (el.textContent ?? "").replace(/\u00a0/g, " ").replace(/\u2060/g, "").replace(/’/g, "'");
     expect(t(screen.getByRole("heading", { name: /^Ça, c.était la réplique offerte/ }))).toBe(`Ça, c'était la réplique offerte. Il en reste ${n}.`);
     expect(screen.getByText("Un nouveau carnet arrive chaque mois.")).toBeInTheDocument();
-    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir tout le carnet · 2,99 €/mois");
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Ouvrir tout le carnet · 2,99 €/mois");
     expect(t(screen.getByText(/^Premium\s:\spremier paiement/))).toBe(
       "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
     );
@@ -93,7 +93,7 @@ describe("/carnet Premium", () => {
     for (const fiche of october.fiches) {
       for (const field of SECRET_FIELDS) expect(html).toContain(fiche[field]);
     }
-    expect(screen.queryByRole("link", { name: /Voir tout le carnet/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /Ouvrir tout le carnet/ })).toBeNull();
     expect(screen.getByRole("link", { name: "septembre 2026" })).toHaveAttribute("href", "/carnet/2026-09");
     expect(html).not.toContain("novembre 2026");
   });
@@ -115,7 +115,7 @@ describe("/carnet/[mois]", () => {
     planMock.mockResolvedValue(null);
     const { container } = await render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
     expect(container.innerHTML).not.toContain("REPONSE_SECRETE_2026-09-F2");
-    expect(screen.getByRole("link", { name: /Voir tout le carnet/ })).toHaveAttribute(
+    expect(screen.getByRole("link", { name: /Ouvrir tout le carnet/ })).toHaveAttribute(
       "href",
       "/abonnement?returnTo=%2Fcarnet%2F2026-09&src=carnet",
     );

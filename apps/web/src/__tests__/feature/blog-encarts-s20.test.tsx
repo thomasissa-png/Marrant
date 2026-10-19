@@ -109,38 +109,44 @@ describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
 
 describe("bloc de fin unique (s21, B2)", () => {
   it.each(["meilleures-blagues-droles-2026", "comment-devenir-drole", "phrases-droles-conversations"])(
-    "%s : étape 1 en PLEIN (seul plein) puis lien payant, lettre, articles liés, FAQ en dernier",
+    "%s : payant en PLEIN (seul plein), réassurance, lien étape 1 ; articles liés, lettre (v2 F05), FAQ en dernier",
     async (slug) => {
       const { container } = await renderArticle(slug);
       const blocs = container.querySelectorAll<HTMLElement>("[data-blog-bloc-fin]");
       expect(blocs).toHaveLength(1);
       const links = [...blocs[0].querySelectorAll<HTMLAnchorElement>("a[data-blog-cta]")];
-      expect(links.map((a) => a.dataset.blogCta)).toEqual(["etape-1", "abonnement"]);
+      // textes-trajet-v2 F01 à F04 : le payant devient le plein, le gratuit un lien.
+      expect(links.map((a) => a.dataset.blogCta)).toEqual(["abonnement", "etape-1"]);
       expect(links[0].className).toContain("bg-accent-secondary-hover");
       expect(links[1].className).not.toContain("bg-accent-secondary-hover");
       expect(links[1].className).toContain("underline");
-      expect(links[1]).toHaveTextContent(normalise(BLOC_FIN.lienAbonnement));
-      expect(links[1].getAttribute("href")).toContain(`src=blog-${slug}`);
+      expect(links[0]).toHaveTextContent(normalise(BLOC_FIN.bouton));
+      expect(links[0].getAttribute("href")).toContain(`src=blog-${slug}`);
+      expect(blocs[0].querySelector("[data-reassurance]")).not.toBeNull();
+      expect(follows(links[0], blocs[0].querySelector("[data-reassurance]")!)).toBe(true);
+      expect(follows(blocs[0].querySelector("[data-reassurance]")!, links[1])).toBe(true);
       expect(blocs[0].querySelector("ul")).toBeNull();
-      // Ordre de la spec §3.1 : bloc de fin, lettre, cluster / « À lire ensuite », FAQ.
+      // v2 F05 : bloc de fin, cluster / « À lire ensuite », lettre (éloignée du bouton payant), FAQ.
       const lettre = container.querySelector('[data-blog-zone="lettre"]')!;
       const related = container.querySelector('[data-blog-zone="related"]')!;
-      expect(follows(blocs[0], lettre) && follows(lettre, related)).toBe(true);
+      expect(follows(blocs[0], related) && follows(related, lettre)).toBe(true);
       const faq = screen.queryByText("Questions fréquentes");
-      if (faq) expect(follows(related, faq)).toBe(true);
+      if (faq) expect(follows(lettre, faq)).toBe(true);
       expect(container.querySelector('[data-blog-zone="parcours"]')).toBeNull();
     },
   );
 
-  it("article n°1 : textes de la concision v5 (titre, une phrase, « Sans compte. », lien OUVRIR, sans note de prix)", async () => {
+  it("article n°1 : textes v2 (titre, phrase d'argument, plein OUVRIR, réassurance, lien gratuit, « Sans compte. »)", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc).toHaveTextContent("La vanne dans ta bouche, pas dans ton téléphone");
-    expect(bloc).toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
+    expect(bloc).toHaveTextContent("Premium ouvre tout : le catalogue et les 5 parcours.");
+    expect(bloc).not.toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
     expect(bloc).toHaveTextContent(/Tout ouvrir\s·\s2,99\s€\/mois/);
+    expect(bloc).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
     expect(bloc).toHaveTextContent("Sans compte.");
-    expect(bloc).not.toHaveTextContent(/24,99|TTC|14 jours|Une étape par semaine|Parcours Répartie ·/);
+    expect(bloc).not.toHaveTextContent(/24,99|TTC|Une étape par semaine|Parcours Répartie ·/);
   });
 
   it("phrases-droles-conversations : la FAQ vient après le bloc de fin (Répartie)", async () => {

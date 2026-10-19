@@ -36,7 +36,7 @@ describe("cta-pages.ts : textes et nombres", () => {
   });
 
   it("limites gratuites lues à la source", () => {
-    expect(MUR_LISTE.vannes.limite).toBe(`Les ${FREE_JOKE_LIMIT} gratuites, c’est fait.`);
+    expect(MUR_LISTE.vannes.limite).toBe(`Les ${FREE_JOKE_LIMIT} vannes gratuites, c’est fait.`);
     expect(MUR_LISTE.conseils.limite).toBe(`${FREE_TIP_LIMIT} conseils gratuits, c’est fait.`);
     expect(MUR_LISTE.videos.limite).toBe(`${FREE_VIDEO_LIMIT} vidéos gratuites, c’est fait.`);
   });

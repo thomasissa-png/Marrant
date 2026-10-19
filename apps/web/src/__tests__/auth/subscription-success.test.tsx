@@ -63,6 +63,41 @@ describe("SubscriptionSuccessPage", () => {
     });
   });
 
+  it("favori mémorisé (étoile avant paiement) : ajouté une fois le plan vérifié, puis retiré de la destination (s21 tour 2)", async () => {
+    mockSearchParams.set("returnTo", "/vannes?favori=JOKE.j1");
+    mockFetch.mockImplementation((url: string, init?: { method?: string; body?: string }) => {
+      if (url === "/api/stripe/status") return Promise.resolve({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      if (url === "/api/favorites" && init?.method === "POST")
+        return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorite: { id: "f1", contentType: "JOKE", jokeId: "j1" } }) });
+      if (url === "/api/favorites") return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorites: [{ id: "f1", contentType: "JOKE", jokeId: "j1" }] }) });
+      return Promise.resolve({ ok: false, json: () => Promise.resolve({}) });
+    });
+    render(<SubscriptionSuccessPage />);
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/vannes?premium=bienvenue"));
+    const post = mockFetch.mock.calls.find((c) => c[0] === "/api/favorites" && c[1]?.method === "POST");
+    expect(JSON.parse(post![1].body)).toEqual({ contentType: "JOKE", contentId: "j1" });
+    // Ajouté AVANT la redirection : la page d'arrivée montre l'étoile pleine.
+    const ordrePost = mockFetch.mock.invocationCallOrder[mockFetch.mock.calls.indexOf(post!)];
+    expect(ordrePost).toBeLessThan(mockPush.mock.invocationCallOrder[0]);
+    expect(mockPush).toHaveBeenCalledTimes(1);
+    mockSearchParams.delete("returnTo");
+  });
+
+  it("favori : jamais ajouté sans plan Premium vérifié", async () => {
+    mockSearchParams.set("returnTo", "/vannes?favori=JOKE.j1");
+    mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "FREE" }) });
+    render(<SubscriptionSuccessPage />);
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+    expect(mockFetch.mock.calls.some((c) => c[0] === "/api/favorites")).toBe(false);
+    expect(mockPush).not.toHaveBeenCalled();
+    mockSearchParams.delete("returnTo");
+  });
+
   it("calls verify-session when status returns FREE (webhook not yet processed)", async () => {
     // First call: /api/stripe/status returns FREE
     mockFetch.mockResolvedValueOnce({

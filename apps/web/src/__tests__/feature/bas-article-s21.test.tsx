@@ -39,20 +39,22 @@ afterEach(() => {
   delete process.env[ANNUEL];
 });
 
-describe("bloc de fin (concision v5, textes-v5-a §3)", () => {
-  it.each(["price_test_annuel_123", "price_XXXXXXXX"])("annuel %s : aucune note de prix sous le bloc, « Sans compte. » sous le plein", async (valeur) => {
+describe("bloc de fin (textes-trajet-v2 F01 à F04)", () => {
+  it.each(["price_test_annuel_123", "price_XXXXXXXX"])("annuel %s : plein payant mensuel, réassurance unique, lien gratuit, « Sans compte. »", async (valeur) => {
     process.env[ANNUEL] = valeur;
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(normalise(bloc.textContent ?? "")).toBe(
-      normalise("La vanne dans ta bouche, pas dans ton téléphoneLa placer à voix haute, ça s'entraîne.Tester mes premières répliques, gratuitSans compte.Tout ouvrir · 2,99 €/mois"),
+      normalise(
+        "La vanne dans ta bouche, pas dans ton téléphonePremium ouvre tout : le catalogue et les 5 parcours.Tout ouvrir · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.Tester mes premières répliques, gratuitSans compte.",
+      ),
     );
-    expect(bloc).not.toHaveTextContent(/24,99|TTC|14 jours|sans engagement/i);
+    expect(bloc).not.toHaveTextContent(/24,99|TTC|sans engagement/i);
   });
 });
 
 describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
-  it("titre et phrase v5, sans réassurance ni vanne d'exemple, après le bloc de fin", async () => {
+  it("titre et phrase v5, sans réassurance ni vanne d'exemple, après le bloc de fin et les articles liés (v2 F05)", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const lettre = container.querySelector<HTMLElement>('[data-blog-zone="lettre"]')!;
     expect(lettre).toHaveTextContent(LETTRE_ARTICLE.titre);
@@ -61,6 +63,8 @@ describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
     expect(lettre).not.toHaveTextContent(/J'ai pris un chien|La lettre est gratuite, sans compte|pour t'entraîner/);
     const bloc = container.querySelector("[data-blog-bloc-fin]")!;
     expect(bloc.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const related = container.querySelector('[data-blog-zone="related"]')!;
+    expect(related.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
   it("autre emplacement (quiz) : textes communs inchangés", () => {
     render(<LettreInscription emplacement="quiz" />);

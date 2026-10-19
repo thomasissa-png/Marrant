@@ -118,7 +118,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     expect(html).toContain('id="fiche-2026-10-15"');
     expect(html).not.toContain("2026-11");
     for (const f of novembre.fiches) expect(html).not.toContain(f.reponse);
-    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Voir tout le carnet · 2,99 €/mois");
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Ouvrir tout le carnet · 2,99 €/mois");
     // Numéro = position réelle dans le carnet : offerte 15e ; liste verrouillée réduite à 3 titres (v5).
     expect(html).toContain(">Situation 15 · offerte<");
     expect(html).toContain(">Situation 3<");
@@ -150,7 +150,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
       "Ça, c'était la réplique offerte. Il en reste 29.",
     );
     const bouton = screen.getByTestId("carnet-paywall-bouton");
-    expect(t(bouton)).toBe("Voir tout le carnet · 2,99 €/mois");
+    expect(t(bouton)).toBe("Ouvrir tout le carnet · 2,99 €/mois");
     expect(bouton.closest("a") ?? bouton).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
   });
 });
@@ -171,11 +171,17 @@ describe("consommateurs de la fiche offerte au 01/11 (encart des articles, extra
     expect(aside.innerHTML).not.toMatch(/\.\s*,\s*et on te lance|,,/);
   });
 
-  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10 (plus d'intro « autres situations »)", () => {
+  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10 en deux bulles (textes-trajet-v2 A06 à A09)", () => {
     const extrait = getCarnetExtrait(carnets, MINUIT)!;
+    const offerte = novembre.fiches.find((f) => f.id === "2026-11-10")!;
+    expect(extrait.fiche.id).toBe("2026-11-10");
     render(<CarnetExtraitBloc extrait={extrait} />);
-    expect(screen.getByRole("heading", { level: 3, name: /^Le gratin «\s+intéressant\s+»$/ })).toBeInTheDocument();
+    expect(screen.getByTestId("abonnement-carnet-chapeau")).toHaveTextContent("La situation offerte de novembre, et la réplique qui va avec.");
+    const html = norm((document.body.textContent ?? "").replace(/\s/g, " "));
+    expect(html).toContain(norm(offerte.onTeDit));
+    expect(html).toContain(norm(offerte.reponse));
+    expect(html).not.toContain(norm(offerte.titre));
     expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Lire la fiche en entier" })).toHaveAttribute("href", "/carnet#fiche-2026-11-10");
+    expect(screen.queryByRole("link")).toBeNull();
   });
 });

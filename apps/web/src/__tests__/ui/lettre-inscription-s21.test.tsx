@@ -132,13 +132,17 @@ describe("Interrupteur ouvert", () => {
     mockOuvert = true;
   });
 
-  it("article : bloc juste après le bloc de fin, sans data-blog-cta*, zone « lettre », bouton neutre", async () => {
+  it("article : bloc après les articles liés (textes-trajet-v2 F05), sans data-blog-cta*, zone « lettre », bouton neutre", async () => {
     const Page = await BlogArticlePage({ params: { slug: SLUG } });
     const { container } = render(Page);
     const blocs = container.querySelectorAll("[data-lettre]");
     expect(blocs).toHaveLength(1);
     const bloc = blocs[0] as HTMLElement;
-    expect(container.querySelector("[data-blog-bloc-fin]")?.nextElementSibling).toBe(bloc);
+    // v2 F05 : éloigné du bouton payant, juste après les articles liés.
+    const related = container.querySelector('[data-blog-zone="related"]')!;
+    expect(related.nextElementSibling).toBe(bloc);
+    const fin = container.querySelector("[data-blog-bloc-fin]")!;
+    expect(fin.compareDocumentPosition(related) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(bloc.dataset.blogZone).toBe("lettre");
     expect(bloc.hasAttribute("data-blog-cta")).toBe(false);
     expect(bloc.hasAttribute("data-blog-cta-position")).toBe(false);

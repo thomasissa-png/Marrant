@@ -14,7 +14,6 @@ import {
   type Carnet,
   type CarnetFiche,
 } from "@/lib/carnet";
-import { carnetExtraitSurtitre } from "@/config/textes/carnet-extrait";
 import { CarnetExtraitBloc } from "@/components/carnet/carnet-extrait";
 
 function fiche(n: number): CarnetFiche {
@@ -54,13 +53,6 @@ describe("deMoisSeul : nom du mois sans l'année, avec élision", () => {
   });
 });
 
-describe("surtitre de l'extrait (concision v5 : plus de phrase d'intro)", () => {
-  it("surtitre calculé, jamais « octobre » ni « Situation 1 » en dur", () => {
-    expect(carnetExtraitSurtitre("d'octobre", 15)).toBe("Carnet d'octobre · Situation 15, offerte");
-    expect(carnetExtraitSurtitre("de novembre", 10)).toBe("Carnet de novembre · Situation 10, offerte");
-  });
-});
-
 describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
   it("renvoie la fiche 1 et le total du carnet du mois", () => {
     const extrait = getCarnetExtrait([carnet("2026-10", 15)], OCT_17);
@@ -84,7 +76,12 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
     expect(extrait?.totalFiches).toBe(15);
     expect(extrait?.numero).toBe(15);
     render(<CarnetExtraitBloc extrait={extrait!} />);
-    expect(screen.getByText("Carnet d’octobre · Situation 15, offerte")).toBeInTheDocument();
+    // textes-trajet-v2 A06 à A08 : chapeau calculé, deux bulles, plus de numéro de situation.
+    expect(screen.getByText("La situation offerte d’octobre, et la réplique qui va avec.")).toBeInTheDocument();
+    expect(screen.getByText("Tu parles toujours aussi peu ?")).toBeInTheDocument();
+    // frTypo : trait d’union insécable (U+2060) après « Donne- ».
+    expect(document.body.textContent?.replace(/\u2060/g, "").replace(/\s/g, " ")).toContain("Donne-moi la nuit. Demain, je t’envoie un message magnifique.");
+    expect(document.body.textContent).not.toMatch(/Situation 15/);
   });
 
   it("carnet réel de novembre 2026 après bascule : « Situation 10, offerte »", () => {
@@ -94,7 +91,8 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
     expect(extrait?.fiche.id).toBe("2026-11-10");
     expect(extrait?.numero).toBe(10);
     render(<CarnetExtraitBloc extrait={extrait!} />);
-    expect(screen.getByText("Carnet de novembre · Situation 10, offerte")).toBeInTheDocument();
+    expect(screen.getByText("La situation offerte de novembre, et la réplique qui va avec.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/Situation 10/);
   });
 
   it("prend le nouveau mois dès qu'il est ouvert", () => {
@@ -105,25 +103,26 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
 });
 
 describe("CarnetExtraitBloc", () => {
-  it("rend le surtitre, le titre, la fiche sans « Si ça se tend » ni « À toi de jouer », et le lien (plus d'intro)", () => {
+  it("v2 A06 à A09 : titre, chapeau, deux bulles seulement, aucun surtitre ni lien qui sort de la page", () => {
     render(<CarnetExtraitBloc extrait={{ mois: "2026-10", fiche: fiche(1), totalFiches: 15, numero: 1 }} />);
-    expect(screen.getByText("Carnet d’octobre · Situation 1, offerte")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Le carnet, en vrai" })).toBeInTheDocument();
+    expect(screen.getByTestId("abonnement-carnet-chapeau")).toHaveTextContent("La situation offerte d’octobre, et la réplique qui va avec.");
     expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 3, name: "Titre 1" })).toBeInTheDocument();
-    for (const t of ["Situation 1", "On te dit 1", "Réponse 1", "Pourquoi 1"]) {
+    for (const t of ["On te dit", "Tu réponds", "On te dit 1", "Réponse 1"]) {
       expect(screen.getByText(t)).toBeInTheDocument();
     }
+    expect(screen.getByText("Il en reste 14, toutes ouvertes avec Premium.")).toBeInTheDocument();
     const html = document.body.innerHTML;
-    for (const absent of ["SI_TENDU_1", "EXERCICE_1", "Si ça se tend", "À toi de jouer", "Contexte 1", "· offerte<"]) {
+    for (const absent of ["Titre 1", "Situation 1", "Pourquoi 1", "Pourquoi ça marche", "SI_TENDU_1", "EXERCICE_1", "Si ça se tend", "À toi de jouer", "Contexte 1", "offerte<"]) {
       expect(html).not.toContain(absent);
     }
-    expect(screen.getByRole("link", { name: "Lire la fiche en entier" })).toHaveAttribute("href", "/carnet#fiche-f1");
+    expect(screen.queryByRole("heading", { level: 3 })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
   it("aucune intro, quel que soit le nombre de fiches", () => {
     const { unmount } = render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 2, numero: 1 }} />);
-    expect(screen.getByText("Carnet de novembre · Situation 1, offerte")).toBeInTheDocument();
+    expect(screen.getByText("La situation offerte de novembre, et la réplique qui va avec.")).toBeInTheDocument();
     expect(screen.queryByText(/situations? du mois/)).not.toBeInTheDocument();
     unmount();
     render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 1, numero: 1 }} />);

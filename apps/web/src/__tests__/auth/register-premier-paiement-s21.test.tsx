@@ -1,6 +1,7 @@
 /**
  * s21, correctif « premier paiement » sur /register (duel à l'aveugle, 3/3) :
- * - ligne du haut : prix TTC de la formule choisie (mensuel ou annuel) ;
+ * - ligne du haut : prix de la formule choisie (textes-trajet-v2 G02 : « 2,99 €/mois », annuel avec
+ *   son renouvellement, correction @legal du tour 2 ; TTC reste sur la carte d'offre et chez Stripe) ;
  * - ligne du bas : seul le premier paiement est remboursable (REASS unique depuis la concision v5) ;
  * - plus aucune trace de « remboursé sous 14 jours » dans le code du site.
  */
@@ -27,7 +28,7 @@ function textePage(): string {
 }
 
 function lignes(): { haut: string; bas: string } {
-  const haut = screen.getByRole("heading", { level: 1, name: "Ton compte" }).nextElementSibling;
+  const haut = screen.getByRole("heading", { level: 1, name: "Ton compte, puis le paiement" }).nextElementSibling;
   const bas = screen.getByTestId("register-reassurance");
   return {
     haut: (haut?.textContent ?? "").replace(/ /g, " "),
@@ -44,28 +45,31 @@ describe("/register, lignes prix et remboursement (s21)", () => {
   it("mensuel (par défaut) : les deux lignes validées, sans l'ancienne phrase", () => {
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 2,99 € TTC par mois.",
+      haut: "Premium, 2,99 €/mois.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
-    expect(textePage()).not.toContain("€/mois");
+    expect(textePage()).not.toContain("TTC");
+    expect(textePage()).not.toContain("par mois");
   });
 
   it("annuel depuis l'offre (callbackUrl /abonnement?plan=annual) : seul le prix change", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 24,99 € TTC par an.",
+      haut: "Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
     expect(textePage()).not.toContain("par mois");
+    expect(textePage()).not.toContain("€/mois");
+    expect(textePage()).not.toContain("même prix");
   });
 
   it("annuel par ?plan=annual : même ligne du haut", () => {
     mockSearchParams.set("plan", "annual");
     render(<RegisterPage />);
-    expect(lignes().haut).toBe("Premium, 24,99 € TTC par an.");
+    expect(lignes().haut).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
   });
 
   it("aucun fichier de apps/web/src (hors tests) ne contient encore « remboursé sous 14 jours »", () => {

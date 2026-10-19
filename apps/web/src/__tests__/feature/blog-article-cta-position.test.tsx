@@ -68,7 +68,7 @@ describe("Page article : position du CTA et partage", () => {
     // Concision v5 : « Sans compte. » sous le plein, plus de note de prix.
     expect(screen.queryByText(/l'abonnement du site/)).toBeNull();
     expect(screen.getAllByText("Sans compte.").length).toBeGreaterThan(0);
-    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
     // s20 : Répartie (parcours de Yanis), plus Machine à Café.
     expect(signupHref(container)).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie&src=blog-meilleures-blagues-droles-2026");
   });
@@ -156,7 +156,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     // Concision v5 : plus de note de prix sous le bloc de fin, « Sans compte. » sous le plein.
     expect(screen.queryByText(/résiliable en ligne\. Les messages de cette page/)).toBeNull();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.lienAbonnement) })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.bouton) })).toBeInTheDocument();
     expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveTextContent("Tester mes premières répliques, gratuit");
   });
 });

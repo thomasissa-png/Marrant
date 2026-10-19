@@ -63,7 +63,7 @@ describe("blog-sortie-clic", () => {
 describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText(normalise(BLOC_FIN.lienAbonnement)));
+    fireEvent.click(screen.getByText(normalise(BLOC_FIN.bouton)));
     fireEvent.click(screen.getByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)));
     expect(track).toHaveBeenCalledTimes(2);
     // s20 : position et parcours du bloc qui contient le bouton.
@@ -76,7 +76,7 @@ describe("blog-cta-clic", () => {
     render(<ArticleCta />);
     expect(screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre))).toBeInTheDocument();
     // Concision v5 : lien payant OUVRIR, « Sans compte. » sous le plein, plus de note de prix.
-    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/TTC|14 jours/);
     expect(screen.getByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)).closest("a")).toHaveAttribute(

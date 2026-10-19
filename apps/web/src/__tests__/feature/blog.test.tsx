@@ -241,7 +241,7 @@ describe("BlogArticlePage — article detail", () => {
     // s21 (B2) : étape 1 gratuite en plein. Clusters simulés ici (aucun) : parcours non connu,
     // donc « Tester mes premières répliques, gratuit » (QA v4 m-2, libellé unique)
     // puis le lien payant « Débloquer les N parcours, 2,99 €/mois ».
-    expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
+    expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
     expect(screen.getAllByText(BLOC_FIN.boutonSansParcours).length).toBeGreaterThan(0);
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });

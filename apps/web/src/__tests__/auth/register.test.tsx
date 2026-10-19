@@ -37,10 +37,11 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    // Concision v5 (textes-v5-c §4) : titre, rappel formule et prix TTC, plus d'« Étape 1 sur 2 ».
+    // textes-trajet-v2 G01, G02, G06 : titre, rappel de formule, Stripe nommé ; plus d'« Étape 1 sur 2 ».
     expect(screen.queryByText("Étape 1 sur 2")).not.toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
-    expect(screen.getByText("Premium, 2,99 € TTC par mois.")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Ton compte, puis le paiement" })).toBeInTheDocument();
+    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 2,99 €/mois.");
+    expect(screen.getByTestId("register-stripe")).toHaveTextContent("Paiement sécurisé par Stripe.");
     expect(screen.queryByText(/Étape 2 : le paiement/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Retour à l/)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(/^Prénom/)).not.toBeInTheDocument();
@@ -243,8 +244,10 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await fillAndSubmit();
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
-      // Rappel de la formule annuelle choisie (validé à l'aveugle s21 : seul le prix change).
-      expect(screen.getByText("Premium, 24,99 € TTC par an.")).toBeInTheDocument();
+      // Rappel de la formule annuelle choisie (v2 G02, correction @legal).
+      expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe(
+        "Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.",
+      );
     });
 
     it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {

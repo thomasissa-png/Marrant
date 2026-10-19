@@ -58,7 +58,7 @@ const texteDe = (el: HTMLElement) => (el.textContent ?? "").replace(/[\s  ]+/g, 
 beforeEach(() => mockConnecteServeur.mockResolvedValue(false));
 
 describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () => {
-  it("ordre de la structure cible : accroche, titre, sous-titre, preuve, carte, tableau, carnet, « Pas encore sûr ? », bouton final, FAQ", () => {
+  it("ordre de la structure cible (v2 A05) : accroche, titre, sous-titre, preuve, carte, carnet, tableau, « Pas encore sûr ? », bouton final, FAQ", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(
       <AbonnementView
@@ -77,8 +77,8 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       "abonnement-suite",
       "reassurance-paiement",
       "abonnement-deja-compte",
-      "tableau",
       "carnet",
+      "tableau",
       "abonnement-etape-1",
       "abonnement-bouton-bas",
       "faq-section",
@@ -88,7 +88,13 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       expect(ordre[i - 1].compareDocumentPosition(ordre[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     }
     expect(screen.getByTestId("abonnement-accroche")).toHaveTextContent("Pour la suite des vannes");
+    // v2 A02b : accroche en taille du corps (16 px), couleur de texte pleine.
+    expect(screen.getByTestId("abonnement-accroche").className).toMatch(/\btext-base\b/);
+    expect(screen.getByTestId("abonnement-accroche").className).toMatch(/\btext-text-primary\b/);
+    expect(screen.getByTestId("abonnement-accroche").className).not.toMatch(/\btext-xs\b/);
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent("Premium ouvre tout Deviens Marrant");
+    // v2 A01 : « Deviens Marrant » rendu comme le logo.
+    expect(screen.getByRole("heading", { level: 1 }).querySelector(".text-gradient")).toHaveTextContent("Deviens Marrant");
     expect(texteDe(document.body)).toContain("Les listes ne s’arrêtent plus à la dixième vanne, les parcours vont au bout.");
     expect(texteDe(screen.getByTestId("abonnement-preuve"))).toBe("1 500+ inscrits bossent leur humour.");
   });
@@ -107,7 +113,12 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     expect(texteDe(screen.getByTestId("formule-monthly"))).toBe("Mensuel 2,99 € TTC / mois");
     expect(texteDe(screen.getByTestId("formule-annual"))).toBe("Annuel 24,99 € TTC / an soit 2,08 € par mois plus de 3 mois offerts");
     expect(texteDe(boutonHaut())).toBe(MENSUEL);
-    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte.");
+    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte sur Stripe.");
+    // v2 A04 : ligne de renouvellement absente en mensuel.
+    expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
+    // Réassurance lisible (revue visuelle tour 1) : blanc cassé, 14 px, même composant partout.
+    expect(screen.getByTestId("reassurance-paiement").className).toMatch(/text-text-primary/);
+    expect(screen.getByTestId("reassurance-paiement").className).not.toMatch(/text-text-muted|text-xs/);
     expect(texteDe(screen.getByTestId("reassurance-paiement"))).toBe(
       "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
     );
@@ -139,16 +150,23 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       expect(texteDe(screen.getByTestId(id))).toBe(MENSUEL);
       expect(screen.getByTestId(id)).toHaveAttribute("href", href);
     }
-    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte.");
+    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte sur Stripe.");
     expect(screen.getByTestId("reassurance-paiement-final")).toBeInTheDocument();
     // La barre n'a ni suite ni réassurance (textes-trajet-v1 §1.4).
     expect(within(screen.getByTestId("abonnement-barre-collante")).queryByText(/remboursable|Tu crées/)).toBeNull();
   });
 
-  it("retour d'inscription (`auto=1`, session) : page d'attente, pas la page de vente", () => {
+  it("retour d'inscription (`auto=1`, session) : page d'attente v2 (A16 à A18), pas la page de vente", () => {
     useSession.mockReturnValue({ status: "loading" });
-    render(<AbonnementView annualAvailable={false} connecteServeur retourInscription />);
-    expect(screen.getByTestId("abonnement-attente")).toHaveTextContent("Te voilà connecté.On t’emmène au paiement…");
+    const { unmount } = render(<AbonnementView annualAvailable={false} connecteServeur retourInscription />);
+    expect(texteDe(screen.getByTestId("abonnement-attente"))).toBe(
+      "Ton compte est prêt.Premium, 2,99 €/mois.On t’emmène au paiement sécurisé par Stripe…",
+    );
+    // Attente brève, sans pied de page : panneau fixe sous l'en-tête.
+    expect(screen.getByTestId("abonnement-attente").className).toMatch(/\bfixed\b/);
+    unmount();
+    render(<AbonnementView annualAvailable connecteServeur retourInscription planInitial="annual" />);
+    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
     expect(screen.queryByRole("heading", { name: "Premium ouvre tout Deviens Marrant" })).toBeNull();
     expect(screen.queryByTestId("abonnement-offre")).toBeNull();
   });
@@ -172,6 +190,16 @@ describe("AbonnementPage (serveur)", () => {
     expect(text).not.toMatch(/compte gratuit|sans carte|Prix de lancement|Contenu quotidien|Filtres avancés/i);
     expect(text).not.toContain("—");
   });
+
+  it.each(["accueil-premium", "glossaire", "a-propos", "quiz", "blog-meilleures-blagues-droles-2026"])(
+    "v2 A02 : porte générique %s, aucune accroche (le titre fait l'écho)",
+    async (src) => {
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(await AbonnementPage({ searchParams: { src } }));
+      expect(screen.queryByTestId("abonnement-accroche")).toBeNull();
+      expect(document.body.textContent).not.toContain("Pour tout ouvrir");
+    },
+  );
 
   it("en-tête : aucune accroche ; `auto=1` sans session côté serveur : page de vente", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
@@ -310,11 +338,22 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(registerParams().get("callbackUrl")).toBe("/abonnement?returnTo=%2Fcarnet&plan=annual");
     });
 
-    it("?plan=annual préselectionne l’annuel", async () => {
+    it("?plan=annual préselectionne l’annuel (dès le HTML serveur), avec la ligne de renouvellement", async () => {
       window.history.pushState({}, "", "/abonnement?plan=annual");
       useSession.mockReturnValue({ status: "authenticated" });
-      render(await AbonnementPage({}));
+      render(await AbonnementPage({ searchParams: { plan: "annual" } }));
       expect(screen.getByRole("radio", { name: /Annuel/ })).toBeChecked();
+      expect(screen.getByTestId("renouvellement-annuel")).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
+    });
+
+    it("v2 A04 : la ligne de renouvellement suit le choix (annuel oui, mensuel non)", async () => {
+      useSession.mockReturnValue({ status: "unauthenticated" });
+      render(await AbonnementPage({}));
+      expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
+      await userEvent.click(screen.getByRole("radio", { name: /Annuel/ }));
+      expect(screen.getByTestId("renouvellement-annuel")).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
+      await userEvent.click(screen.getByRole("radio", { name: /Mensuel/ }));
+      expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
     });
   });
 

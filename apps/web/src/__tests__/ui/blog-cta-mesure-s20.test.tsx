@@ -86,7 +86,7 @@ describe("blog-cta-clic", () => {
     );
     expect(finEtape1).toBeDefined();
     fireEvent.click(finEtape1!);
-    fireEvent.click(getByText(normalise(BLOC_FIN.lienAbonnement)));
+    fireEvent.click(getByText(normalise(BLOC_FIN.bouton)));
     expect(track.mock.calls).toEqual([
       ["blog-cta-clic", { slug: SLUG, bouton: "demo-fiche", position: "milieu-1", parcours: "repartie", fiche: "2026-10-15" }],
       ["blog-cta-clic", { slug: SLUG, bouton: "etape-1", position: "fin", parcours: "repartie" }],

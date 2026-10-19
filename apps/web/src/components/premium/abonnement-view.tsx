@@ -78,7 +78,8 @@ export function AbonnementView({
     const params = new URLSearchParams(window.location.search);
     const src = readSrcFromUrl();
     srcEntree.current = src;
-    setSelectedPlan(readPlanFromUrl());
+    // `planInitial` (serveur) fait déjà foi ; l'URL ne peut qu'ajouter le choix de l'annuel.
+    if (readPlanFromUrl() === "annual") setSelectedPlan("annual");
     setReturnTo(readReturnTo());
     setEntrySrc(src);
     // Vue de l'offre, une fois par chargement ; le retour d'inscription (`auto=1`) est compté à part.
