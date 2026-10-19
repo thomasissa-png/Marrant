@@ -186,8 +186,12 @@ test.describe("Captures des trajets de conversion s21, tour 2 (375 × 700 et 320
       }
       const carte = page.locator("[data-fin-etape-1]");
       await expect(carte).toContainText(/Étape 2 sur \d/);
-      await carte.evaluate((el) => el.scrollIntoView({ block: "start" }));
-      await page.evaluate(() => window.scrollBy(0, -72));
+      await page.waitForTimeout(600);
+      await carte.evaluate((el) => {
+        const haut = el.getBoundingClientRect().top + window.scrollY - 72;
+        document.documentElement.style.scrollBehavior = "auto";
+        window.scrollTo({ top: haut, behavior: "instant" as ScrollBehavior });
+      });
       await capture(c, "01a-carte-etape-2");
       const bouton = page.getByRole("link", { name: /^Passer à l’étape 2/ }).first();
       await captureClic(c, "01-entree-clic", bouton);

@@ -94,7 +94,7 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
           {frTypo(t.titre)}
         </h3>
         {rappel && (
-          <p className="mt-2 line-clamp-2 italic text-text-secondary" data-testid="fenetre-rappel">
+          <p className="mt-2 italic text-text-secondary" data-testid="fenetre-rappel">
             {frTypo(rappel)}
           </p>
         )}

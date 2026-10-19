@@ -52,7 +52,7 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page).toHaveURL(/\/register\?/);
     // /register rappelle la formule choisie (textes-trajet-v2 G02, correction @legal) :
     // « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. »
-    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("annual")));
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("annual", { saufResiliation: true })));
   });
 
   test("?plan=annual préselectionne l'annuel", async ({ page }) => {
@@ -72,7 +72,7 @@ test.describe("Offre /abonnement @smoke", () => {
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
     await page.goto("/register?callbackUrl=%2Fabonnement&src=abonnement");
     // Le prix est rappelé en haut de /register (v2 G02), la REASS unique est collée sous le plein.
-    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("monthly")));
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("monthly", { saufResiliation: true })));
     await expect(page.getByText(texteValide(REASSURANCE_UNIQUE)).first()).toBeVisible();
     await expect(page.getByText(/En créant ton compte, tu acceptes les/)).toBeVisible();
     const cgu = page.getByRole("link", { name: "CGU", exact: true });
