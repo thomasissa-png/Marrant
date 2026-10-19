@@ -63,9 +63,11 @@ const GUILLEMETS_DROITS = /"([^"\n]+)"/g;
 // Tiret cadratin entre deux espaces (règle 12 du projet) : virgule, en filet de sécurité.
 const CADRATIN_ESPACE = / — /g;
 
-// Revue visuelle s21, tour 5 (T4-01) : tiret demi-cadratin ou cadratin précédé d'une espace (« Roman Frayssinet
-// – L’intelligence des animaux ») : insécable avant le tiret, il ne commence jamais une ligne.
-const ESPACE_AVANT_TIRET = / (?=[–—])/g;
+// Revue visuelle s21, tour 5 (T4-01) : tiret d'incise précédé d'une espace (« Roman Frayssinet - L’intelligence
+// des animaux », titres en base avec un trait d'union entre deux espaces, ou « – », « — ») : insécable avant le
+// tiret, il ne commence jamais une ligne. Seule l'espace change. Jamais en début de ligne ni après une autre
+// espace (puces de liste « - » ou «   - » intactes).
+const ESPACE_AVANT_TIRET = /(?<=\S) (?=[–—]|-(?= ))/g;
 
 // Revue visuelle s21, tour 4 (T3-02) : mot composé court (« stand-up », « start-up », « rendez-vous »)
 // jamais coupé après son trait d'union (« stand- / up »). Gluon (U+2060) après le trait d'union, comme
