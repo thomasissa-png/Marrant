@@ -17,8 +17,11 @@ type Etat = "defaut" | "en-cours" | "succes" | "deja" | "inconnu" | "erreur";
 export function ArretLettreHebdo({ token }: { token: string | null }) {
   const [etat, setEtat] = useState<Etat>(token ? "defaut" : "inconnu");
   const envoi = useRef(false);
+  // Bouton actif une fois la page interactive : jamais de clic perdu avant l'hydratation.
+  const [pret, setPret] = useState(false);
 
   useEffect(() => {
+    setPret(true);
     trackUmamiWhenReady("lettre-hebdo-arret-vu");
   }, []);
 
@@ -73,7 +76,7 @@ export function ArretLettreHebdo({ token }: { token: string | null }) {
         <button
           type="button"
           onClick={arreter}
-          disabled={etat === "en-cours"}
+          disabled={!pret || etat === "en-cours"}
           className={cn(buttonVariants({ variant: "outline-accent", size: "lg" }), "mt-6 w-full sm:w-auto")}
         >
           {etat === "en-cours" ? T.enCours : T.bouton}
