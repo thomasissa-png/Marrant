@@ -3,17 +3,24 @@
  *
  * Variable d'environnement `ANALYTICS_EMAILS_EXCLUS` : liste d'e-mails
  * séparés par des virgules, espaces ou retours à la ligne (casse ignorée).
- * Absente ou vide : aucune exclusion. Utilisée par le bloc « Parcours » du
- * rapport du lundi et par les alertes des parcours, jamais affichée.
+ * Utilisée par le bloc « Parcours » du rapport du lundi et par les alertes des
+ * parcours, jamais affichée.
+ *
+ * s21 (19/10, feu vert de Thomas) : les adresses internes de
+ * `EMAILS_INTERNES_EXCLUS` sont TOUJOURS exclues, fusionnées avec la variable
+ * (jamais à sa place). La variable est un secret Cloudflare illisible : un
+ * `secret put` l'écraserait, d'où cette liste dans le code.
  */
 export const ENV_EMAILS_EXCLUS = "ANALYTICS_EMAILS_EXCLUS";
+
+/** Adresses de l'équipe exclues des chiffres quelle que soit la variable. */
+export const EMAILS_INTERNES_EXCLUS: readonly string[] = ["alex@deviens-marrant.fr"];
 
 export function emailsExclus(env: Record<string, string | undefined> = process.env): string[] {
   const raw = env[ENV_EMAILS_EXCLUS] ?? "";
   return Array.from(
     new Set(
-      raw
-        .split(/[\s,;]+/)
+      [...raw.split(/[\s,;]+/), ...EMAILS_INTERNES_EXCLUS]
         .map((e) => e.trim().toLowerCase())
         .filter((e) => e.includes("@")),
     ),

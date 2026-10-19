@@ -155,7 +155,8 @@ describe("GET /api/admin/semaine", () => {
     const texte = await (await GET(req())).text();
     const s = JSON.parse(texte);
     const valeurs = queryRaw.mock.calls.flatMap((c) => (c[0] as { values: unknown[] }).values);
-    expect(valeurs).toContainEqual(["test@marrant.fr"]);
+    // s21 (19/10) : adresse interne d'Alex toujours fusionnée avec la variable.
+    expect(valeurs).toContainEqual(["test@marrant.fr", "alex@deviens-marrant.fr"]);
     expect(s.lettre).toMatchObject({ etat: "ok", statuts: { confirmes: 4 }, comptesTestExclus: 1 });
     expect(texte).not.toMatch(/ipAddress|empreinte|Token/);
   });

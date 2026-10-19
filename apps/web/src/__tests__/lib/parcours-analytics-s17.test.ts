@@ -48,8 +48,9 @@ beforeEach(() => {
 
 describe("comptes de test (ANALYTICS_EMAILS_EXCLUS)", () => {
   it("liste séparée par virgules ou espaces, casse ignorée, doublons retirés", () => {
-    expect(emailsExclus({ ANALYTICS_EMAILS_EXCLUS: "A@x.fr, b@y.fr\nA@X.fr pasunmail" })).toEqual(["a@x.fr", "b@y.fr"]);
-    expect(emailsExclus({})).toEqual([]);
+    // s21 (19/10) : l'adresse interne d'Alex est toujours ajoutée (voir exclusion-alex-s21.test.ts).
+    expect(emailsExclus({ ANALYTICS_EMAILS_EXCLUS: "A@x.fr, b@y.fr\nA@X.fr pasunmail" })).toEqual(["a@x.fr", "b@y.fr", "alex@deviens-marrant.fr"]);
+    expect(emailsExclus({})).toEqual(["alex@deviens-marrant.fr"]);
   });
 });
 

@@ -25,7 +25,8 @@ jest.mock("@/lib/prisma", () => ({
     tip: { count: (...a: unknown[]) => tipCount(...a) },
     video: { count: (...a: unknown[]) => videoCount(...a) },
     dailyContent: { count: (...a: unknown[]) => dailyContentCount(...a) },
-    user: { count: (...a: unknown[]) => userCount(...a) },
+    // s21 (19/10) : liste d'exclusion jamais vide (alex@), lecture des comptes de test.
+    user: { count: (...a: unknown[]) => userCount(...a), findMany: () => Promise.resolve([]) },
     subscription: { count: (...a: unknown[]) => subscriptionCount(...a) },
     blogArticle: { findMany: (...a: unknown[]) => blogFindMany(...a) },
   },
