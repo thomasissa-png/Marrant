@@ -13,7 +13,7 @@
 - **Comptes de test (`ANALYTICS_EMAILS_EXCLUS`) exclus** des comptes créés, abonnés actifs, revenu mensuel, nouveaux abonnés et résiliations, dans l'admin ET l'e-mail du lundi (même fonction `prismaFunnelCounter`), ligne « N compte(s) de test exclu(s) ». **Rupture de série datée de la mise en ligne** : ces chiffres baissent du nombre de comptes de test (à transmettre à @data-analyst).
 - `/admin` et `/admin/ceo` : coquille dédiée (barre « Backoffice », « Voir le site », Déconnexion), sans l'en-tête ni le pied de page publics. `/admin/social` inchangé.
 - Audit et captures : `docs/admin/audit-admin-s21.md`, `docs/admin/captures/`.
-- Après mise en ligne : ouvrir `/admin`, vérifier l'onglet Semaine (« Semaine du rapport ») contre l'e-mail du **lundi 26/10**. Celui du 19/10 est parti de `43c222f`, sans exclusion des comptes de test ni section lettre (QA m-1, `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`).
+- Après mise en ligne : ouvrir `/admin` après 07:00 Paris, vérifier l'onglet Semaine (« Semaine du rapport » = 12/10 au 18/10) contre l'e-mail du **lundi 19/10**, premier parti de `bb470f3` (déployé le 19/10 à 05:22 Paris, avant le rapport de 7 h) : comptes de test exclus et section lettre. Le 19/10 ouvre une nouvelle série (rupture), voir `docs/data/mesure-apres-s21.md`. (QA m-1 révisé.)
 
 ### Revue visuelle s21 (ordinateur et mobile) : branche `claude/marrant-s21-visuel`, à fusionner dans `claude/marrant-s21-integration` avant la mise en ligne
 
