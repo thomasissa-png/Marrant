@@ -65,8 +65,19 @@ describe("Assemblage depuis la fiche du carnet", () => {
     expect(numeros[0].corps.startsWith(MARQUEUR_A_COMPLETER)).toBe(true);
   });
 
-  it("le fichier réel des numéros est vide tant que la rédaction n'a rien livré (aucun numéro factice en production)", () => {
-    expect(numerosReels).toEqual([]);
+  it("le fichier réel : 8 numéros d'avance (2026-W46 à 2026-W53), tous acceptés, aucune fiche offerte, jamais d'offre, 230 mots au plus hors pied", () => {
+    const { numeros, ignores } = preparerNumerosHebdo(numerosReels, carnets, VALIDE);
+    expect(ignores).toEqual([]);
+    expect(numeros.map((n) => n.semaine)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W49", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    expect(numeros.map((n) => n.envoiPrevu.toISOString().slice(0, 10))).toEqual([
+      "2026-11-12", "2026-11-19", "2026-11-26", "2026-12-03", "2026-12-10", "2026-12-17", "2026-12-24", "2026-12-31",
+    ]);
+    const offertes = carnets.flatMap((c) => c.fiches.filter((f) => f.offerte === true).map((f) => f.id));
+    for (const n of numeros) {
+      expect(offertes).not.toContain(n.ficheId);
+      expect(motifsInterdits([n.objet, n.preEntete, n.corps].join("\n"))).toEqual([]);
+      expect(n.corps.split(/\s+/).filter(Boolean).length).toBeLessThanOrEqual(230);
+    }
   });
 });
 

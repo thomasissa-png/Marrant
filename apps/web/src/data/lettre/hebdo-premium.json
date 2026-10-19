@@ -1,1 +1,58 @@
-[]
+[
+  {
+    "semaine": "2026-W46",
+    "ficheId": "2026-11-02",
+    "accroche": "Le froid s'installe, et avec lui les conversations de voisinage. Cette semaine, on s'entraîne à y répondre.",
+    "pont": {
+      "texte": "La pause se travaille à l'étape 2 du parcours Répartie, « Le rythme et les silences ».",
+      "lien": "https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w46-etape2#etape-2"
+    },
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W47",
+    "ficheId": "2026-11-19",
+    "accroche": "Matin de pluie en novembre : tout le monde a sa théorie sur le coupable du retard.",
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W48",
+    "ficheId": "2026-11-28",
+    "accroche": "On se dit toujours qu'on va juste regarder. Voici la scène de ceux qui ont regardé d'un peu trop près.",
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W49",
+    "ficheId": "2026-11-15",
+    "accroche": "Décembre commence, et les cartons de décorations sortent des placards. Il y en a toujours un qui contient plus de nœuds que prévu.",
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W50",
+    "ficheId": "2026-11-11",
+    "accroche": "Décembre, des mains gelées et un ballon qui pique : les matchs du dimanche matin continuent quand même.",
+    "pont": {
+      "texte": "Rire de toi sans te rabaisser, c'est l'étape 2 du parcours Confiance.",
+      "lien": "https://deviens-marrant.fr/parcours/confiance?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w50-etape2#etape-2"
+    },
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W51",
+    "ficheId": "2026-11-25",
+    "accroche": "Il y a ceux qui ont fini leurs cadeaux en novembre, et les autres. Cette scène est pour les autres.",
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W52",
+    "ficheId": "2026-11-14",
+    "accroche": "Joyeux Noël d'avance, et bon courage pour l'après-midi qui traîne entre deux repas.",
+    "statut": "BROUILLON"
+  },
+  {
+    "semaine": "2026-W53",
+    "ficheId": "2026-11-06",
+    "accroche": "Dernier numéro de l'année. Bon réveillon, et que la musique ne s'arrête pas au mauvais moment.",
+    "statut": "BROUILLON"
+  }
+]
