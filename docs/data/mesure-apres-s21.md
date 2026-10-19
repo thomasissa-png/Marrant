@@ -100,3 +100,32 @@ Lire **`checkout-ouvert` par `src`** (tableau « Paiement ouvert par bloc d'entr
 | Mar 01/12 | Un carnet de décembre est en ligne | RA:141 |
 
 Le contrôle du n°1 ne tient que si `alex@` est exclue (§ 3) ou si les événements `lettre-*` de ce jour sont triés à la main.
+
+## 6. Mise en ligne du trajet de conversion (19/10, 20:44 UTC)
+
+Version `b5e645dd`, commit `e8b431c` (N-1 `3b52c0c2`), journal RA:40-64. Nouvelle page /abonnement, boutons « S'abonner · prix » (`bouton-achat-abonnement.tsx:18`) et porte visiteur « Tout ouvrir · 2,99 €/mois » (`cta-articles-accueil.ts:38`). Le libellé n'est enregistré dans aucun événement : seule l'heure sépare l'avant de l'après (couper à 20:44 UTC, pas au jour).
+
+**Ce qui change dans les événements (vérifié dans `apps/web/src`)**
+- `abonnement-clic` : nouvelle propriété `emplacement` = `haut`, `bas`, `barre` (`bouton-achat-abonnement.tsx:13`), posée à deux endroits seulement : visiteur (`abonnement-view.tsx:114-121`) et membre sur clic manuel (`use-abonnement-checkout.ts:90-96`). Sans `emplacement` : carte Premium de l'accueil (`carte-premium-achat.tsx:38,76`), fenêtre Premium (`premium-modal.tsx:122`), `use-premium-checkout.ts:22`, et le clic automatique `declencheur: auto` émis depuis /register (`checkout-apres-inscription.ts:21`). Sur /abonnement, `src` vaut toujours `abonnement` : la porte d'entrée est dans `entree` (visiteur) ou dans `checkout-ouvert.src`.
+- `retour-inscription` n'est pas supprimé du code : c'est le `src` d'`abonnement-vu` quand /abonnement s'ouvre avec `auto=1` (`abonnement-view.tsx:86-87`). Il disparaît pour l'inscription par e-mail (paiement ouvert depuis /register, RA:52), reste pour Google et la connexion (RA:49). Le paiement garde la source d'entrée.
+- T3 (fin d'étape 1) : la lettre gratuite (`emplacement` `parcours` inchangé) passe de « sous le bouton payant » (`docs/copy/conversion-s21/textes-trajet-v3.md:85`) à « sous la liste des étapes » (`parcours-detail.tsx:765-768`) ; l'étape 2 n'est plus répétée dans la liste (`:723`). `lettre-vu` (une fois par emplacement, visible à 50 %, `use-lettre-inscription.ts:56`) et les inscriptions `parcours` changent de base.
+- FAQPage : nouvelle question « Et si j’arrête ? » (`faqs.ts:9,14`), dans le JSON-LD de l'accueil et de /abonnement (RA:59) ; 5 questions attendues sur /abonnement (RA:28). Aucun événement Umami : à lire en Search Console (affichages), pas dans Umami.
+- Après paiement : les visiteurs venus de l'en-tête reviennent sur leur page d'origine, plus sur /parcours (RA:59) ; le favori est ajouté au retour (RA:50).
+- Inchangés : `checkout-ouvert {src, formule}` et `checkout-echec` (nés avec s21, aucune série avant, § 2), `inscription-*`, `abonnement-reussi`.
+
+**Comparaisons à ne pas faire**
+1. `abonnement-vu` et `abonnement-clic`, avant / après 19/10 20:44 UTC : autre page, autres libellés. L'avant ne compte que 3 vues de /abonnement en 4,2 jours et 22 en 28 jours (`docs/ux/trajet-conversion-s21.md:136`) : rupture de série, pas tendance.
+2. Le ratio `abonnement-clic` / `abonnement-vu` : le clic automatique de /register n'a plus d'`abonnement-vu` en face pour l'inscription par e-mail.
+3. `abonnement-clic` par `emplacement` contre l'avant (propriété inexistante avant), ou sommé avec les clics sans `emplacement`.
+4. `abonnement-vu` `src=retour-inscription`, avant / après : baisse mécanique, pas moins d'inscrits.
+5. `lettre-vu` et inscriptions `parcours`, avant / après : la lettre a changé de place.
+6. Pages vues après `abonnement-reussi` : la destination a changé.
+7. Clics des portes dont le libellé change : dire « avant / après », jamais « le libellé a gagné ».
+8. Le rapport du 26/10 (19/10 au 25/10) mêle les deux trajets, l'e-mail ne coupe pas à 20:44 UTC. Corrige la dernière puce du § 4 : la première semaine pleine est le 26/10 au 01/11 (rapport du 02/11).
+9. Lot 1 (mesure à J+28 le 10/11, project-context) et trajet s21 : au 10/11, leurs effets ne se séparent pas.
+
+**À lire au bilan (~10/11)**
+- `checkout-ouvert` par `src` : tableau « Paiement ouvert par bloc d'entrée » des rapports du 02/11 et du 09/11 (`weekly-funnel.ts:205,297-302`). Pour le 19/10 20:44 UTC au 25/10 : Umami, bornes en UTC. Chiffres absolus, pas de pourcentage.
+- Croiser avec Stripe : nouveaux abonnés et renouvellements, totaux de la semaine (Stripe ne porte pas la source). Abandon = `checkout-echec` / `checkout-ouvert` par source ; `raison = retour-sans-paiement` = retour de Stripe sans payer.
+- En complément seulement : `abonnement-clic` par `emplacement` et `declencheur` dans Umami (le rapport ne lit que son total, `weekly-funnel.ts:217`).
+- Trafic de Thomas non retiré de ces événements (§ 4, `ne-pas-compter=1`). Aucune cible chiffrée (volume trop bas, `trajet-conversion-s21.md:396`) : lecture absolue, aucun gain promis.
