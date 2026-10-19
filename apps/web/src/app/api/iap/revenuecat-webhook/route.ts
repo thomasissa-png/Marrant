@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { finPremiumLettreHebdo } from "@/lib/lettre/hebdo";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -88,10 +89,11 @@ export async function POST(req: NextRequest) {
         break;
       }
       case "EXPIRATION": {
-        await prisma.user.update({
-          where: { id: appUserId },
-          data: { plan: "FREE" },
-        });
+        // s21 : la lettre de la semaine s'arrête avec l'accès Premium (avis @legal hebdo §6.2).
+        await prisma.$transaction([
+          prisma.user.update({ where: { id: appUserId }, data: { plan: "FREE" } }),
+          finPremiumLettreHebdo(appUserId, new Date()),
+        ]);
         break;
       }
       case "CANCELLATION": {

@@ -1,5 +1,6 @@
 import { periodEndData } from "@/lib/stripe-subscription";
 import { NextRequest, NextResponse } from "next/server";
+import { finPremiumLettreHebdo } from "@/lib/lettre/hebdo";
 import { prisma } from "@/lib/prisma";
 import { stripe } from "@/lib/stripe";
 
@@ -145,7 +146,10 @@ export async function PATCH(request: NextRequest) {
     if (subscriptions.data.length === 0) {
       // Pas d'abonnement actif — s'assurer que le plan est FREE
       if (user.plan === "PREMIUM") {
-        await prisma.user.update({ where: { id: userId }, data: { plan: "FREE" } });
+        await prisma.$transaction([
+          prisma.user.update({ where: { id: userId }, data: { plan: "FREE" } }),
+          finPremiumLettreHebdo(userId, new Date()),
+        ]);
         return NextResponse.json({ plan: "FREE", synced: true, message: "Aucun abonnement actif — plan corrigé à FREE" });
       }
       return NextResponse.json({ plan: "FREE", synced: false, message: "Aucun abonnement actif Stripe" });

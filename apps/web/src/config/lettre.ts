@@ -120,3 +120,60 @@ export function emplacementDeSource(source: string | null | undefined): LettreEm
   const tete = source.split(":")[0];
   return (LETTRE_EMPLACEMENTS as readonly string[]).includes(tete) ? (tete as LettreEmplacement) : null;
 }
+
+/*
+ * ==========================================
+ * Lettre de la semaine (hebdomadaire Premium, s21, 19/10)
+ * ==========================================
+ * Spec `docs/product/lettre-hebdo-premium-s21.md` §6.1 ; avis `docs/legal/lettre-hebdo-premium-s21.md`.
+ * Trois interrupteurs, TOUS FERMÉS au déploiement. Les ouvrir = décision de Thomas
+ * (porte G-H de la spec §9.3), consignée dans REPLIT_ACTIONS.md.
+ *
+ * `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES` (ce qui se voit) : case au retour de paiement
+ * et au profil, route de préférence, textes CGU et confidentialité de l'avis @legal §4
+ * (publiés dans le même déploiement que la case, jamais avant). Fermé : case absente,
+ * `PUT /api/lettre-premium/preference` en 404. L'ARRÊT marche toujours.
+ *
+ * `LETTRE_HEBDO_ENVOIS_OUVERTS` (ce qui part) : la tâche du jeudi ET la mise en pause
+ * de la mensuelle (`destinatairesHebdo`). Fermé : rien ne part, la mensuelle reprend
+ * pour tous (arrêt d'urgence sans fermer les inscriptions).
+ *
+ * `LETTRE_HEBDO_PROMESSE` : toute mention publique de la lettre (ligne de /abonnement,
+ * FAQ, llms.txt). Ne s'affiche que via `promesseLettreHebdoVisible()`, qui exige
+ * aussi les deux autres interrupteurs : la promesse n'avance jamais sur la réalité.
+ */
+export const LETTRE_HEBDO_INSCRIPTIONS_OUVERTES: boolean = false;
+export const LETTRE_HEBDO_ENVOIS_OUVERTS: boolean = false;
+export const LETTRE_HEBDO_PROMESSE: boolean = false;
+
+/** Invariant H8-2 : promesse visible seulement si inscriptions ET envois sont ouverts. */
+export function promesseLettreHebdoVisible(
+  interrupteurs: { promesse: boolean; inscriptions: boolean; envois: boolean } = {
+    promesse: LETTRE_HEBDO_PROMESSE,
+    inscriptions: LETTRE_HEBDO_INSCRIPTIONS_OUVERTES,
+    envois: LETTRE_HEBDO_ENVOIS_OUVERTS,
+  },
+): boolean {
+  return interrupteurs.promesse && interrupteurs.inscriptions && interrupteurs.envois;
+}
+
+/**
+ * Version du texte de la case (avis @legal §2.1, identique au paiement et au profil).
+ * Changer le texte de la case = nouvelle version, l'ancien texte archivé.
+ */
+export const LETTRE_HEBDO_CONSENT_VERSION = "lettre-hebdo-premium-v1";
+
+/** Origines d'activation et d'arrêt (valeurs de `PremiumLetterPreference`). */
+export const LETTRE_HEBDO_ORIGINES_ACTIVATION = ["paiement", "profil"] as const;
+export type LettreHebdoOrigineActivation = (typeof LETTRE_HEBDO_ORIGINES_ACTIVATION)[number];
+export type LettreHebdoOrigineArret = "profil" | "paiement" | "lien-email" | "fin-premium" | "suppression" | "admin";
+
+/** Stock : alerte sous 4 numéros VALIDE à venir, cible 8 (spec §3.2). */
+export const LETTRE_HEBDO_STOCK_ALERTE = 4;
+export const LETTRE_HEBDO_STOCK_CIBLE = 8;
+/** Journal des envois de l'hebdo gardé 12 mois (avis @legal §4.2, hypothèse A3). */
+export const LETTRE_HEBDO_JOURNAL_MOIS = 12;
+/** Page d'arrêt en un clic (GET sans effet, bouton = POST). */
+export const LETTRE_HEBDO_ARRET_CHEMIN = "/lettre/premium/arreter";
+/** Ancre de la section du profil (lien de l'e-mail de proposition). */
+export const LETTRE_HEBDO_PROFIL_ANCRE = "lettre";

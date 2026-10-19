@@ -39,7 +39,9 @@ export type TransactionalEmailKind =
   | "rappel-parcours"
   // s21 : lettre mensuelle (confirmation ou « déjà inscrit », puis numéro du mois).
   | "lettre-confirmation"
-  | "lettre-numero";
+  | "lettre-numero"
+  // s21 : lettre de la semaine (Premium) et proposition unique aux abonnés existants.
+  | "lettre-hebdo";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";
