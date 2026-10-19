@@ -116,7 +116,8 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     await page.goto("/conseils");
     const barre = page.getByRole("banner");
     const commencer = barre.getByRole("link", { name: /^Premium, 2,99\s€ par mois : voir l['’]offre$/ }).filter({ visible: true }).first();
-    await expect(commencer).toHaveAttribute("href", "/abonnement?src=header");
+    // textes-trajet-v3 §5 point 3 : retour sur la page courante après le paiement.
+    await expect(commencer).toHaveAttribute("href", "/abonnement?returnTo=%2Fconseils&src=header");
     await expect(commencer).toBeVisible();
     expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
 

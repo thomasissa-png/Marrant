@@ -88,6 +88,17 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     });
   }
 
+  test("375 × 700 : bouton et garantie au premier écran, mensuel et annuel, depuis le mur (accroche)", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 700 });
+    await page.goto("/abonnement?src=mur-vannes");
+    for (const formule of ["monthly", "annual"]) {
+      await page.getByTestId(`formule-${formule}`).click();
+      const bas = await basDe(page, "reassurance-paiement");
+      console.log(`[375x700] mur, ${formule} : garantie finit à ${bas} px`);
+      expect(bas).toBeLessThanOrEqual(700);
+    }
+  });
+
   test("M1 à 320 × 640, compte connecté : garantie au-dessus de la flottaison", async ({ page }) => {
     const email = `e2e-m1-${randomBytes(4).toString("hex")}@example.com`;
     comptes.push(email);

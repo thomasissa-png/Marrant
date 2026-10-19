@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
  * B2 de /abonnement (trajet de conversion s21, @ux §5) : deux cartes radio côte à côte, chaque fait
  * dit une seule fois. Mensuel : « 2,99 € TTC / mois ». Annuel : « 24,99 € TTC / an », « soit 2,08 €
  * par mois » (arbitrage du 19/10) et « plus de 3 mois offerts ». Groupe radio natif (flèches au
- * clavier, lecteurs d'écran) ; sous 340 px, les cartes passent en pile (mensuel au-dessus).
+ * clavier, lecteurs d’écran) ; sous 400 px, une carte par ligne (nom et prix sur la même ligne).
  * Annuel indisponible : prix mensuel seul, comme avant.
  */
 export function FormuleCartes({
@@ -36,10 +36,10 @@ export function FormuleCartes({
     );
   }
   return (
-    <fieldset className="mt-4 max-[359px]:mt-2.5" data-testid="plan-selector">
+    <fieldset className="mt-4 max-[399px]:mt-2.5" data-testid="plan-selector">
       <legend className="sr-only">{FORMULES.legende}</legend>
-      {/* Sous 360 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
-      <div className="grid grid-cols-2 gap-2 max-[359px]:grid-cols-1 max-[359px]:gap-1.5">
+      {/* Sous 400 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
+      <div className="grid grid-cols-2 gap-2 max-[399px]:grid-cols-1 max-[399px]:gap-1.5">
         <Carte
           plan="monthly"
           actif={value === "monthly"}
@@ -87,9 +87,9 @@ function Carte({
     <label
       data-testid={`formule-${plan}`}
       className={cn(
-        // v3 M7 : contenu calé en haut (prix alignés d'une carte à l'autre) ; sous 360 px, une ligne par carte.
+        // v3 M7 : contenu calé en haut (prix alignés d'une carte à l'autre) ; sous 400 px, une ligne par carte.
         "flex min-h-11 cursor-pointer flex-col justify-start rounded-lg border-2 px-3 py-2 text-left transition-colors",
-        "max-[359px]:flex-row max-[359px]:flex-wrap max-[359px]:items-center max-[359px]:gap-x-1.5 max-[359px]:px-2 max-[359px]:py-1.5 max-[359px]:tracking-tight",
+        "max-[399px]:flex-row max-[399px]:flex-wrap max-[399px]:items-center max-[399px]:gap-x-1.5 max-[399px]:px-2 max-[399px]:py-1.5 max-[399px]:tracking-tight",
         "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-primary has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card",
         actif ? "border-accent-primary bg-accent-primary/15" : "border-border bg-background-card hover:border-text-muted",
       )}
@@ -115,7 +115,7 @@ function Carte({
         {nom}
       </span>{" "}
       {/* Montant et suffixe sur une ligne quand ils tiennent ; sinon le suffixe passe dessous (375 px). */}
-      <span className="mt-0.5 flex flex-wrap items-baseline gap-x-1 max-[359px]:ml-auto max-[359px]:mt-0">
+      <span className="mt-0.5 flex flex-wrap items-baseline gap-x-1 max-[399px]:ml-auto max-[399px]:mt-0">
         <span className="whitespace-nowrap font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
         <span className="whitespace-nowrap text-xs text-text-secondary">{suffixe}</span>
       </span>
@@ -127,7 +127,7 @@ function Carte({
         </span>
       ))}
       {mention && (
-        <span className="text-xs leading-snug text-text-secondary max-[359px]:basis-full" data-testid="renouvellement-annuel">
+        <span className="text-xs leading-snug text-text-secondary max-[399px]:basis-full" data-testid="renouvellement-annuel">
           {" "}
           {mention}
         </span>

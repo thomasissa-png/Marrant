@@ -3,6 +3,9 @@ import type { Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, type PlanCompte } from "../support/base-locale";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
+/** Bouton prix de l'en-tête : /abonnement?src=header, avec le retour sur la page courante (textes-trajet-v3 §5 point 3). */
+const HREF_PRIX = /^\/abonnement\?(returnTo=%2F[^&]*&)?src=header$/;
+
 /**
  * Garde-fou de l'en-tête (revue design s21, bloquant) : 6 largeurs x 3 états, plus
  * 320 à 768 px pour le bouton prix du visiteur et du compte sans abonnement (s21 B6,
@@ -159,7 +162,7 @@ test.describe("En-tête : budget de largeur", () => {
             // QA v4 m-3 : même bouton pour le compte sans abonnement (plus de « Activer mon accès »).
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toBeVisible();
-            await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+            await expect(prix).toHaveAttribute("href", HREF_PRIX);
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
             // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 2,99 € » débordait).
             expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^Premium$/);
@@ -189,7 +192,7 @@ test.describe("En-tête : budget de largeur", () => {
             const ici = `compte FREE à ${largeur} px`;
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toHaveCount(1);
-            await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+            await expect(prix).toHaveAttribute("href", HREF_PRIX);
             expect(await prix.innerText()).toMatch(libelleMobile(largeur));
             const m = await mesurer(page);
             expect(m.scroll, `défilement horizontal, ${ici}`).toBeLessThanOrEqual(m.fenetre);
@@ -250,7 +253,7 @@ test.describe("En-tête : budget de largeur", () => {
         if (i > 0) expect(c.gauche, `« ${c.nom} » chevauche « ${tries[i - 1].nom} », ${ici}`).toBeGreaterThanOrEqual(tries[i - 1].droite - 0.5);
       }
       await expect(prix).toHaveCount(1);
-      await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
+      await expect(prix).toHaveAttribute("href", HREF_PRIX);
       // Texte affiché (innerText : l'autre libellé est masqué en CSS, il reste dans le DOM).
       expect(await prix.innerText()).toMatch(libelleMobile(largeur));
       const mesure = await prix.evaluate((el, compare) => {
@@ -302,13 +305,13 @@ test.describe("En-tête : budget de largeur", () => {
         await page.goto(chemin);
         await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
         await expect(page.getByRole("link", { name: PRIX })).toHaveCount(0);
-        await expect(page.locator('a[href^="/abonnement?src=header"]')).toHaveCount(0);
+        await expect(page.locator('a[href^="/abonnement"][href*="src=header"]')).toHaveCount(0);
         const menu = page.getByRole("banner").getByRole("button", { name: "Menu" });
         if (largeur < 768 && (await menu.count()) > 0) {
           await menu.click();
           const nav = page.getByRole("navigation", { name: "Navigation mobile" });
           await expect(nav).toBeVisible();
-          await expect(nav.locator('a[href^="/abonnement?src=header"]')).toHaveCount(0);
+          await expect(nav.locator('a[href^="/abonnement"][href*="src=header"]')).toHaveCount(0);
         }
       }
     });

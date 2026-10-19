@@ -82,7 +82,7 @@ test.describe("@s21 /abonnement, page de vente (trajet de conversion)", () => {
 
     const html = await (await page.request.get("/abonnement?src=header&auto=1")).text();
     // textes-trajet-v2 A16 à A18 : titre, formule, texte.
-    expect(html).toContain(">Ton compte est prêt.<");
+    expect(html).toContain(">Dernière étape.<");
     expect(html).toContain("On t’emmène au paiement sécurisé par Stripe…");
     // Le titre de la page de vente n'est pas rendu (il reste dans le JSON-LD Product, hors écran).
     expect(html).not.toMatch(/>Premium ouvre tout Deviens Marrant</);

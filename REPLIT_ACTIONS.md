@@ -19,6 +19,13 @@
   - **Fuite corrigée** : `/api/jokes`, `/api/tips`, `/api/videos` vident `howToApply`, `exercise`, `learnings` pour un compte non Premium (comme le HTML public).
   - **Mesure** (à transmettre à @data-analyst) : `checkout-ouvert {src, formule}` toujours émis, désormais depuis /register pour une inscription par e-mail ; `abonnement-vu {src: "retour-inscription"}` disparaît pour ces inscriptions (rupture datée de la mise en ligne) ; `abonnement-clic {declencheur: "auto"}` émis depuis /register. M05 (carnet) et W07 (vote, carte) gardent leur `src` (`carnet`, `modale-vote`, `modale-carte`) jusqu'à `checkout-ouvert`.
   - Contrôles : tsc ×3, `next lint`, build, Jest complet, Playwright `local` (115) et smoke (128) contre le build, en `env -i` avec les variables factices de la CI.
+- **Tour 3 (19/10/2026, textes `docs/copy/conversion-s21/textes-trajet-v3.md` et arbitrages du tour 3, commit `1bdaef3` et suivants)** : toujours PAS À DÉPLOYER avant la relecture à l'aveugle (captures `docs/design/conversion-s21/trajets-v3/`). Rien au déploiement : aucune migration, aucun secret, aucune variable.
+  - Textes v3 (avantage 1, carnet, tableau, attente « Dernière étape. », bienvenue BV1 à BV3, FAQ « Et si j'arrête ? », fin d'article F02b et lien gratuit unique S01). « TTC » non remis, titre de /abonnement inchangé.
+  - **Retour sur la page d'origine** : le bouton « Premium » de l'en-tête (et le menu mobile) et la recherche passent le `returnTo` de la page courante (sauf l'accueil, qui garde /parcours).
+  - **Drapeau « favori ajouté »** : /abonnement/success ajoute `favori=JOKE|TIP|VIDEO` (le type, jamais l'id) à la destination seulement si l'ajout a réussi ou 409 ; la bienvenue le lit (liste blanche).
+  - La FAQ « Et si j'arrête ? » garde sa dernière phrase (favoris et progression conservés) grâce au test `__tests__/api/resiliation-conserve-favoris-progression-s21.test.ts` ; s'il tombe, retirer la phrase.
+  - **Mesure** (à transmettre à @data-analyst) : après paiement, les visiteurs venus de l'en-tête reviennent sur leur page d'origine au lieu de /parcours (rupture datée sur les pages vues après `abonnement-reussi`) ; nouvelle question dans le JSON-LD FAQPage (accueil, /abonnement).
+  - Contrôles : tsc ×3, `next lint`, build, Jest complet, Playwright `local` et smoke contre le build, en `env -i` avec les variables factices de la CI.
 
 ### Exclusion d'alex@deviens-marrant.fr des statistiques (19/10/2026, feu vert de Thomas), branche `claude/marrant-exclusion-alex` (depuis `7cce384` de `claude/marrant-s21-integration`, avance rapide possible)
 

@@ -167,8 +167,8 @@ export function AbonnementView({
     <div className={cn(COLONNE_LECTURE, "pb-[var(--abonnement-barre-h,6rem)] md:pb-0")}>
       {paymentCanceled && <BandeauAnnule onClose={() => setPaymentCanceled(false)} />}
 
-      {/* v3 M1 : sous 360 px, en-tête resserré pour que la garantie tienne dans le premier écran à 320 × 640. */}
-      <header className="text-center max-[359px]:-mt-5">
+      {/* v3 M1 : sous 400 px, en-tête resserré pour que la garantie tienne dans le premier écran à 320 × 640. */}
+      <header className="text-center max-[399px]:-mt-5">
         {/* v2 A02b : taille du corps, couleur de texte pleine. */}
         {accroche && (
           <p className="mb-1 text-base font-semibold text-text-primary" data-testid="abonnement-accroche">
@@ -182,12 +182,12 @@ export function AbonnementView({
         <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary max-[359px]:mt-1 max-[359px]:text-sm sm:text-lg">
           {frTypo(ABONNEMENT_HAUT.sousTitre)}
         </p>
-        <p className="mt-2 text-sm text-text-secondary max-[359px]:mt-1" data-testid="abonnement-preuve">
+        <p className="mt-2 text-sm text-text-secondary max-[399px]:mt-1" data-testid="abonnement-preuve">
           {frTypo(ABONNEMENT_HAUT.preuve)}
         </p>
       </header>
 
-      <Card data-testid="abonnement-offre" className="mx-auto mt-3 max-w-[560px] border-2 max-[359px]:mt-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
+      <Card data-testid="abonnement-offre" className="mx-auto mt-3 max-w-[560px] border-2 max-[399px]:mt-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
         {/* Revue visuelle tour 1 : à 320 × 640, le bouton d'achat doit tenir dans le premier écran. */}
         <CardContent className="p-3 min-[360px]:p-4 sm:p-8">
           <h2 className="sr-only">{ABONNEMENT_ACHAT.nomCarte}</h2>
@@ -196,7 +196,7 @@ export function AbonnementView({
           {isAuthenticated && resiliation ? (
             <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-4" />
           ) : (
-            bouton("haut", ID_ACHAT_PRINCIPAL, "mt-4 max-[359px]:mt-3")
+            bouton("haut", ID_ACHAT_PRINCIPAL, "mt-4 max-[399px]:mt-3")
           )}
           {suiteEtReassurance("")}
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}

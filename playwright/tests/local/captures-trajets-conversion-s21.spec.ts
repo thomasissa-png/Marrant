@@ -4,8 +4,8 @@ import type { Locator, Page, Route } from "@playwright/test";
 import { test, expect, localSeulement, requete, creerCompte, connecter } from "../support/base-locale";
 
 /**
- * Captures du TRAJET ENCHAÎNÉ, tour 2 (grille docs/ux/trajet-conversion-s21.md §11 : 375 × 700 ET
- * 320 × 640, notées sur le plus étroit ; textes docs/copy/conversion-s21/textes-trajet-v2.md).
+ * Captures du TRAJET ENCHAÎNÉ, tour 3 (grille docs/ux/trajet-conversion-s21.md §11 : 375 × 700 ET
+ * 320 × 640, notées sur le plus étroit ; textes docs/copy/conversion-s21/textes-trajet-v3.md).
  * Stripe n'est pas capturable : `/api/stripe/checkout` est intercepté. Inscription par e-mail :
  * l'attente se fait dans le bouton de /register (capture « 05-avant-stripe »), le paiement est retenu
  * le temps de la capture. Retour de paiement (T1, T4) : paiement simulé comme dans
@@ -13,9 +13,9 @@ import { test, expect, localSeulement, requete, creerCompte, connecter } from ".
  * Chaque trajet vérifie aussi que la source du clic arrive jusqu'à `checkout-ouvert`.
  *
  * Sur demande seulement : `CAPTURES_TRAJETS=1` (jamais en CI). Sortie :
- * docs/design/conversion-s21/trajets-v2/<trajet>/<taille>/.
+ * docs/design/conversion-s21/trajets-v3/<trajet>/<taille>/.
  */
-const SORTIE = path.join(__dirname, "..", "..", "..", "docs", "design", "conversion-s21", "trajets-v2");
+const SORTIE = path.join(__dirname, "..", "..", "..", "docs", "design", "conversion-s21", "trajets-v3");
 const MDP = "MotDePasse-e2e-42";
 const comptes: string[] = [];
 const TAILLES = [
@@ -114,9 +114,9 @@ async function inscription(c: Contexte, srcAttendue: string, fin: Fin = "stripe"
   expect(ouvert[0].donnees).toMatchObject({ src: srcAttendue, formule });
 }
 
-const enTete = (page: Page) => page.getByRole("banner").locator("a[href='/abonnement?src=header']").filter({ visible: true }).first();
+const enTete = (page: Page) => page.getByRole("banner").locator("a[href^='/abonnement'][href*='src=header']").filter({ visible: true }).first();
 
-test.describe("Captures des trajets de conversion s21, tour 2 (375 × 700 et 320 × 640)", () => {
+test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320 × 640)", () => {
   localSeulement();
   test.skip(process.env.CAPTURES_TRAJETS !== "1", "captures sur demande : CAPTURES_TRAJETS=1");
   test.setTimeout(150_000);
@@ -146,6 +146,16 @@ test.describe("Captures des trajets de conversion s21, tour 2 (375 × 700 et 320
       await page.getByTestId("formule-annual").click();
       await expect(page.getByTestId("renouvellement-annuel")).toBeVisible();
       await capture(c, "02-abonnement-annuel-premier-ecran");
+      // v3 M4 : la barre fixe suit la formule annuelle.
+      await page.evaluate(() => {
+        document.documentElement.style.scrollBehavior = "auto";
+        const principal = document.getElementById("abonnement-achat-principal")!;
+        window.scrollTo({ top: principal.getBoundingClientRect().bottom + window.scrollY + 40, behavior: "instant" as ScrollBehavior });
+      });
+      await expect(page.getByTestId("abonnement-barre-collante")).toHaveAttribute("data-visible", "oui");
+      await expect(page.getByTestId("abonnement-barre-collante")).toContainText("24,99");
+      await capture(c, "02b-barre-fixe-annuel");
+      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior }));
       await capture(c, "03-abonnement-annuel-complete", true);
       await page.getByTestId("abonnement-bouton-achat").click();
       await expect(page.getByTestId("register-rappel-offre")).toContainText("24,99");
@@ -258,9 +268,15 @@ test.describe("Captures des trajets de conversion s21, tour 2 (375 × 700 et 320
       await question.scrollIntoViewIfNeeded();
       await question.click();
       await expect(page.locator("details[open]")).toContainText("Les 14 jours courent dès ton abonnement");
-      await question.evaluate((el) => el.scrollIntoView({ block: "start" }));
-      await page.evaluate(() => window.scrollBy(0, -80));
-      await capture(c, "faq-prix-ouverte");
+      // Barre fixe visible : la fin de la réponse juste au-dessus de la barre (v3 M3).
+      const reponse = page.locator("details[open]").filter({ hasText: "nouveau délai" });
+      await reponse.evaluate((el) => {
+        document.documentElement.style.scrollBehavior = "auto";
+        const r = el.getBoundingClientRect();
+        window.scrollTo({ top: r.bottom + window.scrollY - window.innerHeight + 110, behavior: "instant" as ScrollBehavior });
+      });
+      await expect(page.getByTestId("abonnement-barre-collante")).toHaveAttribute("data-visible", "oui");
+      await capture(c, "faq-prix-ouverte-barre-visible");
       c.liberer();
     });
   }

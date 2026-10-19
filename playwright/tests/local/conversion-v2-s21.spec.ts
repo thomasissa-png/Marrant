@@ -89,10 +89,15 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     const favori = new URLSearchParams(paiement.corps().returnTo.split("?")[1]).get("favori") ?? "";
     expect(favori).toMatch(/^JOKE\./);
     const jokeId = favori.slice("JOKE.".length);
-    expect(page.url()).not.toContain("favori=");
+    // L'identifiant ne reste jamais dans l'URL (seul le type, drapeau v3 de la bienvenue).
+    expect(page.url()).not.toContain(`favori=${favori}`);
+    expect(page.url()).not.toContain(jokeId);
     expect(new URL(page.url()).pathname).toBe("/vannes");
     expect(await favorisEnBase(email)).toEqual([jokeId]);
     await expect(page.getByText("Bienvenue dans Premium")).toBeVisible();
+    // v3 BV3 : drapeau `favori=JOKE` posé seulement après un ajout réussi.
+    expect(new URL(page.url()).searchParams.get("favori")).toBe("JOKE");
+    await expect(page.getByTestId("bienvenue-texte")).toHaveText(/^Ta vanne est dans tes favoris\. Le reste est ouvert aussi\s:\sles listes, les parcours, les carnets\.$/);
     await expect(page.getByRole("button", { name: "Retirer des favoris" }).first()).toBeVisible({ timeout: 20_000 });
   });
 
@@ -155,7 +160,8 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     });
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto("/abonnement?src=header");
-    await expect(page.getByTestId("renouvellement-annuel")).toHaveCount(0);
+    // v3 M2 : le renouvellement est dans la carte Annuel, en permanence.
+    await expect(page.getByTestId("formule-annual").getByTestId("renouvellement-annuel")).toBeVisible();
     await page.getByTestId("formule-annual").click();
     await expect(page.getByTestId("renouvellement-annuel")).toHaveText("Renouvelé chaque année, sauf résiliation.");
     await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/^S’abonner\s·\s24,99\s€\/an$/);
@@ -186,8 +192,8 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.goto("/abonnement?plan=annual&src=header&auto=1");
     const attente = page.getByTestId("abonnement-attente");
     await expect(attente).toBeVisible();
-    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 24,99\s€\/an, renouvelé chaque année\.$/);
-    await expect(attente).toContainText("Ton compte est prêt.");
+    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 24,99\s€\/an, renouvelé chaque année, sauf résiliation\.$/);
+    await expect(attente).toContainText("Dernière étape.");
     await expect(attente).toContainText("On t’emmène au paiement sécurisé par Stripe…");
     // Le panneau couvre tout sous l'en-tête : le pied de page n'est pas visible.
     const box = (await attente.boundingBox())!;

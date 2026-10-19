@@ -8,7 +8,7 @@ import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire
  * rien en dur ici. Utilisé sur /abonnement seulement. Sans état : serveur ou client indifféremment.
  */
 export function AvantagesPremium({
-  className = "space-y-1 min-[360px]:space-y-2",
+  className = "space-y-1 min-[400px]:space-y-2",
   lettre = LETTRE_HEBDO_PROMESSE,
 }: {
   className?: string;
