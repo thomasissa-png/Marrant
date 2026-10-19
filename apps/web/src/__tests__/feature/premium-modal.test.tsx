@@ -79,7 +79,7 @@ describe("PremiumModal (textes-trajet-v2 §2.4 : titre, rappel, ligne Premium, p
     expect(lire()).toBe(`« ${vanne} »`);
     // Ordre : titre, rappel, ligne Premium.
     const html = document.body.innerHTML;
-    expect(html.indexOf("fenetre-rappel")).toBeLessThan(html.indexOf("Il ouvre aussi"));
+    expect(html.indexOf("fenetre-rappel")).toBeLessThan(html.indexOf("Premium ouvre aussi"));
     unmount();
     // Première phrase trop longue : coupe au mot, jamais au milieu d'un mot, « … ».
     const long = `${"Une phrase vraiment très longue ".repeat(5)}qui dépasse largement la limite fixée.`;

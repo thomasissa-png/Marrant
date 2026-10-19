@@ -1,6 +1,7 @@
 import { deMoisSeul, type CarnetExtrait } from "@/lib/carnet";
 import { CARNET_EXTRAIT_TITRE } from "@/config/textes/carnet-extrait";
 import { CARNET_VENTE } from "@/config/textes/abonnement-vente";
+import { ANCRE_CARNET_VENTE } from "@/config/textes/avantages-premium";
 import { frTypo } from "@/lib/fr-typo";
 
 /**
@@ -14,7 +15,13 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
   if (!deMois || extrait.totalFiches < 1) return null;
 
   return (
-    <section aria-labelledby="abonnement-carnet-titre" data-testid="abonnement-carnet-extrait" className="mx-auto mt-8 max-w-[560px] space-y-3 md:mt-12">
+    <section
+      id={ANCRE_CARNET_VENTE}
+      aria-labelledby="abonnement-carnet-titre"
+      data-testid="abonnement-carnet-extrait"
+      // Cible de l'avantage 3 : arrivée sous l'en-tête collant.
+      className="mx-auto mt-8 max-w-[560px] scroll-mt-20 space-y-3 md:mt-12"
+    >
       <header className="space-y-1 text-center">
         <h2 id="abonnement-carnet-titre" className="font-display text-2xl font-bold text-text-primary">
           {CARNET_EXTRAIT_TITRE}
@@ -25,9 +32,10 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
       </header>
 
       <div className="mx-auto max-w-[560px] space-y-2">
-        {/* v3 E02 : la scène (titre de la fiche affichée, donnée) avant l'échange ; rien si vide. */}
+        {/* v3 E02 : la scène (titre de la fiche affichée, donnée) avant l'échange ; rien si vide. Centrée comme
+            le titre et le chapeau du bloc (finition du tour 3). */}
         {extrait.fiche.titre?.trim() && (
-          <h3 className="text-sm font-semibold text-text-primary" data-testid="abonnement-carnet-scene">
+          <h3 className="text-center text-sm font-semibold text-text-primary" data-testid="abonnement-carnet-scene">
             {frTypo(extrait.fiche.titre)}
           </h3>
         )}

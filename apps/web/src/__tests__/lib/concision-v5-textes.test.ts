@@ -195,7 +195,7 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
     // v2 W04 : « /mois », TTC reste sur la carte d'offre et chez Stripe.
     expect(t(`${FENETRE_PRIX.montant} ${FENETRE_PRIX.suffixe}`)).toBe("2,99 € /mois");
     expect(FENETRE_COMPTE).toBe("D’abord ton compte, puis le paiement.");
-    const LIGNE = "Il ouvre aussi tout le catalogue et les 5 parcours.";
+    const LIGNE = "Premium ouvre aussi tout le catalogue et les 5 parcours.";
     const attendu: [string, string, string, string, string | undefined, number][] = [
       // Variante B (§6 point 8) : favori ajouté après paiement, prouvé de bout en bout (E2E local).
       ["favori", "vanne", "Garde-la avec Premium", "S’abonner et la garder", LIGNE, 15],
@@ -300,9 +300,9 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect(AVANTAGES_PREMIUM).toEqual([
       "Tout le catalogue, du boulot au rencard",
       "Les 5 parcours, de la première à la dernière étape",
-      "Un nouveau carnet de répartie chaque mois",
+      "Chaque mois, un carnet de situations et leurs répliques",
     ]);
-    expect(mots(...AVANTAGES_PREMIUM)).toBe(24);
+    expect(mots(...AVANTAGES_PREMIUM)).toBe(26);
   });
 
   it("§3 FAQ de vente : 5 questions (v3 Q01 après le prix), réponse prix mensuelle et annuelle", () => {

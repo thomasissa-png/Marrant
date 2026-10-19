@@ -85,6 +85,17 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       const yGarantie = (await page.getByTestId("reassurance-paiement").boundingBox())!.y;
       const ySuite = (await page.getByTestId("abonnement-suite").boundingBox())!.y;
       expect(yGarantie).toBeLessThan(ySuite);
+      // Finition du tour 3 : la ligne compte tient sur UNE ligne et dans le premier écran (T2 compris).
+      const suite = page.getByTestId("abonnement-suite");
+      const lignes = await suite.evaluate((el) => {
+        const r = document.createRange();
+        r.selectNodeContents(el);
+        return new Set(Array.from(r.getClientRects()).map((x) => Math.round(x.top))).size;
+      });
+      expect(lignes, "ligne compte sur une ligne").toBe(1);
+      expect(await basDe(page, "abonnement-suite"), "ligne compte au premier écran").toBeLessThanOrEqual(640);
+      // Carte Annuel : équivalent et mois offerts sur une ligne, séparés par « · ».
+      await expect(annuel).toContainText(/soit 2,08\s€ par mois\s·\splus de 3 mois offerts/);
     });
   }
 
@@ -150,6 +161,11 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     for (const id of ["abonnement-carnet-extrait", "abonnement-tableau", "abonnement-final"]) expect(await largeur(id), id).toBe(carte);
     const yPrix = async (plan: string) => (await page.getByTestId(`formule-${plan}`).locator("span.font-display").boundingBox())!.y;
     expect(Math.round(await yPrix("monthly"))).toBe(Math.round(await yPrix("annual")));
+    // Finition du tour 3 : FAQ à la même largeur ; plus de vide sous le prix de la case Mensuel.
+    expect(await largeur("abonnement-faq")).toBe(carte);
+    const mensuel = (await page.getByTestId("formule-monthly").boundingBox())!;
+    const prixMensuel = (await page.getByTestId("formule-monthly").locator("span.font-display").boundingBox())!;
+    expect(mensuel.y + mensuel.height - (prixMensuel.y + prixMensuel.height), "vide sous le prix Mensuel").toBeLessThanOrEqual(16);
   });
 
   test("M6 : « Parcours humour : … », espace insécable avant « : »", async ({ page }) => {

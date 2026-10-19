@@ -21,9 +21,9 @@ describe("AvantagesPremium", () => {
       // textes-trajet-v3 E01 : une scène dès le premier écran (catégories Boulot & Collègues, Couple & Dating).
       "✓Tout le catalogue, du boulot au rencard",
       "✓Les 5 parcours, de la première à la dernière étape",
-      "✓Un nouveau carnet de répartie chaque mois",
+      "✓Chaque mois, un carnet de situations et leurs répliques",
     ]);
-    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(24);
+    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(26);
     unmount();
     render(<AvantagesPremium lettre />);
     expect(screen.getAllByRole("listitem")).toHaveLength(4);

@@ -131,7 +131,8 @@ const CARTE_FENETRE: TexteFenetre = {
 /** W01, W03, W05 (v2) : une seule phrase pour la vanne, le conseil et la vidéo. */
 const FAVORI_FENETRE: TexteFenetre = {
   titre: `Les favoris, c’est ${OFFRE_NOM}`,
-  ligne: `Il ouvre aussi tout le catalogue et les ${PARCOURS_COUNT} parcours.`,
+  /** Finition du tour 3 (arbitrage de l'orchestrateur) : « Premium » nommé, plus de « Il ». */
+  ligne: `${OFFRE_NOM} ouvre aussi tout le catalogue et les ${PARCOURS_COUNT} parcours.`,
   bouton: "S’abonner et tout ouvrir",
 };
 

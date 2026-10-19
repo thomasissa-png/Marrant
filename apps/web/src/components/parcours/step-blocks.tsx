@@ -16,7 +16,6 @@ import { LigneCompte } from "@/components/ui/ligne-compte";
 import { phrasesEntieres } from "@/lib/texte-court";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
-import { LettreRepliee } from "@/components/lettre/lettre-repliee";
 import { LIEN_L2 } from "@/components/ui/liens";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import {
@@ -127,8 +126,7 @@ export function ValidationWall({
         {finEtape1Href && <LigneCompte />}
         <Reassurance />
       </div>
-      {/* QA v4 m-7 : formulaire chargé au dépliage (budget JS de /parcours/[slug]). */}
-      <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="text-center" />
+      {/* Finition du tour 3 : la lettre gratuite est rendue sous la liste des étapes (parcours-detail.tsx). */}
     </div>
   );
 }

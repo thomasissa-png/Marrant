@@ -128,6 +128,10 @@ describe("UXV-1-06 et UXV-1-07 : repères du visiteur", () => {
     expect(await screen.findByText("Parcours Répartie · 4 semaines")).toBeInTheDocument();
     // Le nom vocal de l'en-tête reste « Étape 1 : … » (repère masqué au lecteur d'écran, il répète le H1).
     expect(screen.getByRole("button", { name: /^Étape 1 : Module 1/ })).toBeInTheDocument();
+    // Finition du tour 3 (T3) : tant que la carte de fin d'étape 1 est affichée, l'étape 2 n'est pas
+    // répétée dans la liste ; on referme l'étape 1, l'étape 2 revient.
+    expect(screen.queryByRole("button", { name: /^Étape 2 : Module 2/ })).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: /^Étape 1 : Module 1/ }));
     await userEvent.click(screen.getByRole("button", { name: /^Étape 2 : Module 2/ }));
     // Prix lu dans config/premium.ts (espaces insécables de formatEuros : comparaison sur textContent).
     // Concision v5 : l'aperçu finit par le lien OUVRIR, plus de ligne de prix dessous.

@@ -108,16 +108,28 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     expect(within(screen.getByTestId("avantages-premium")).getAllByRole("listitem").map((li) => texteDe(li))).toEqual([
       "✓Tout le catalogue, du boulot au rencard",
       "✓Les 5 parcours, de la première à la dernière étape",
-      "✓Un nouveau carnet de répartie chaque mois",
+      "✓Chaque mois, un carnet de situations et leurs répliques",
     ]);
     expect(texteDe(document.body)).not.toMatch(/lettre|chaque semaine/i);
     expect(texteDe(screen.getByTestId("formule-monthly"))).toBe("Mensuel 2,99 € TTC / mois");
     // v3 M2 : renouvellement dans la carte Annuel, affiché en permanence.
     expect(texteDe(screen.getByTestId("formule-annual"))).toBe(
-      "Annuel 24,99 € TTC / an soit 2,08 € par mois plus de 3 mois offerts Renouvelé chaque année, sauf résiliation.",
+      // Finition du tour 3 : « · » entre les deux lignes sous 400 px (masqué au lecteur d'écran).
+      "Annuel 24,99 € TTC / an soit 2,08 € par mois · plus de 3 mois offerts Renouvelé chaque année, sauf résiliation.",
     );
+    expect(screen.getByRole("radio", { name: /Annuel/ })).toHaveAccessibleName(
+      /^Annuel 24,99\s€ TTC \/ an soit 2,08\s€ par mois plus de 3 mois offerts Renouvelé chaque année, sauf résiliation\.$/,
+    );
+    // Même corps et même couleur pour l'équivalent mensuel et le renouvellement (finition du tour 3).
+    const equivalent = screen.getByText(/soit 2,08/);
+    expect(screen.getByTestId("renouvellement-annuel").className).toContain("text-xs");
+    expect(equivalent.className).toContain("text-xs");
+    expect(screen.getByTestId("renouvellement-annuel").className).toContain("text-text-secondary");
+    expect(equivalent.className).toContain("text-text-secondary");
+    // Sans carnet sur la page : l'avantage 3 n'est pas un lien (ancre absente).
+    expect(screen.queryByTestId("avantage-carnet-lien")).toBeNull();
     expect(texteDe(boutonHaut())).toBe(MENSUEL);
-    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte sur Stripe.");
+    expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("D’abord ton compte, puis le paiement sur Stripe.");
     // v3 M2 : le renouvellement est dans la carte Annuel, plus jamais entre les cartes et le bouton.
     expect(within(screen.getByTestId("formule-annual")).getByTestId("renouvellement-annuel")).toBeInTheDocument();
     // Réassurance lisible (revue visuelle tour 1) : blanc cassé, 14 px, même composant partout.
@@ -134,6 +146,22 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     expect(login.searchParams.get("callbackUrl")).toBe("/abonnement?auto=1");
     expect(texteDe(document.body).split("plus de 3 mois offerts")).toHaveLength(2);
     expect(texteDe(document.body)).not.toContain("Sans engagement, annulable");
+  });
+
+  it("finition du tour 3 : avantage 3 vers « Le carnet, en vrai », preuve aussi sous la garantie (sous 360 px), FAQ à 560 px", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable carnetExtrait={<section id="le-carnet-en-vrai" data-testid="carnet" />} />);
+    const lien = screen.getByTestId("avantage-carnet-lien");
+    expect(lien).toHaveAttribute("href", "#le-carnet-en-vrai");
+    expect(lien).toHaveTextContent("Chaque mois, un carnet de situations et leurs répliques");
+    expect(lien.className).toMatch(/decoration-dotted/);
+    const haut = screen.getByTestId("abonnement-preuve");
+    const bas = screen.getByTestId("abonnement-preuve-bas");
+    expect(texteDe(bas)).toBe(texteDe(haut));
+    expect(haut.className).toContain("max-[359px]:hidden");
+    expect(bas.className).toContain("max-[359px]:block");
+    expect(screen.getByTestId("reassurance-paiement").compareDocumentPosition(bas) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(screen.getByTestId("faq-section").parentElement!.className).toContain("max-w-[560px]");
   });
 
   it("« Pas encore sûr ? » : lien vers l'étape 1 du parcours d'origine, puis « Sans compte. »", () => {
@@ -154,7 +182,7 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       expect(texteDe(screen.getByTestId(id))).toBe(MENSUEL);
       expect(screen.getByTestId(id)).toHaveAttribute("href", href);
     }
-    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte sur Stripe.");
+    expect(screen.getByTestId("abonnement-suite-final")).toHaveTextContent("D’abord ton compte, puis le paiement sur Stripe.");
     expect(screen.getByTestId("reassurance-paiement-final")).toBeInTheDocument();
     // La barre n'a ni suite ni réassurance (textes-trajet-v1 §1.4).
     expect(within(screen.getByTestId("abonnement-barre-collante")).queryByText(/remboursable|Tu crées/)).toBeNull();

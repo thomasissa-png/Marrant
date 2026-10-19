@@ -44,7 +44,7 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
       // textes-trajet-v3 E01.
       "Tout le catalogue, du boulot au rencard",
       "Les 5 parcours, de la première à la dernière étape",
-      "Un nouveau carnet de répartie chaque mois",
+      "Chaque mois, un carnet de situations et leurs répliques",
     ]);
     expect(avantagesPremium(true)).toHaveLength(4);
     expect(AVANTAGE_LETTRE).toBe("Une lettre par e-mail chaque semaine, si tu la veux.");
@@ -57,7 +57,7 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(t(ABONNEMENT_ACHAT.bouton("monthly"))).toBe("S’abonner · 2,99 €/mois");
     expect(t(ABONNEMENT_ACHAT.bouton("annual"))).toBe("S’abonner · 24,99 €/an");
     expect(ABONNEMENT_ACHAT.chargement).toBe("On t’emmène au paiement…");
-    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("Tu crées ton compte, puis tu paies par carte sur Stripe.");
+    expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("D’abord ton compte, puis le paiement sur Stripe.");
     // v2 A04 : renouvellement de l'annuel (affiché seulement en annuel).
     expect(FORMULES.renouvelAnnuel).toBe("Renouvelé chaque année, sauf résiliation.");
     expect(ABONNEMENT_ACHAT.suiteConnecte).toBe("Paiement sécurisé par Stripe");

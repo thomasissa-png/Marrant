@@ -14,8 +14,14 @@ import { PARCOURS_COUNT } from "@/config/premium";
 export const AVANTAGES_PREMIUM: readonly [string, string, string] = [
   "Tout le catalogue, du boulot au rencard",
   `Les ${PARCOURS_COUNT} parcours, de la première à la dernière étape`,
-  "Un nouveau carnet de répartie chaque mois",
+  // Finition du tour 3 : dit ce qu'est un carnet ; lien vers « Le carnet, en vrai » (`ANCRE_CARNET_VENTE`).
+  "Chaque mois, un carnet de situations et leurs répliques",
 ];
+
+/** Ancre du bloc « Le carnet, en vrai » de /abonnement, cible de l'avantage 3. */
+export const ANCRE_CARNET_VENTE = "le-carnet-en-vrai";
+/** Rang de l'avantage du carnet (lien vers `ANCRE_CARNET_VENTE`). */
+export const RANG_AVANTAGE_CARNET = 2;
 
 /** 4e avantage, seulement avec l'envoi hebdomadaire réel. */
 export const AVANTAGE_LETTRE = "Une lettre par e-mail chaque semaine, si tu la veux.";

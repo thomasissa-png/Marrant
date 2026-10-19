@@ -90,7 +90,8 @@ export const FORMULES = {
 export const ABONNEMENT_ACHAT = {
   bouton: libelleSabonner,
   chargement: "On t’emmène au paiement…",
-  suiteVisiteur: "Tu crées ton compte, puis tu paies par carte sur Stripe.",
+  /** Finition du tour 3 : même formule que la fenêtre et la fin d'étape 1 (« D'abord ton compte, puis le paiement. »). */
+  suiteVisiteur: "D’abord ton compte, puis le paiement sur Stripe.",
   suiteConnecte: "Paiement sécurisé par Stripe",
   dejaCompte: "Déjà un compte ?",
   connecteToi: "Connecte-toi",

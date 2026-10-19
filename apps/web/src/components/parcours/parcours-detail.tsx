@@ -40,6 +40,9 @@ import {
   XP_GAIN,
 } from "@/config/textes/parcours";
 import { etapeAfficheEchec, ParcoursStepCard } from "@/components/parcours/parcours-step-card";
+import { LettreRepliee } from "@/components/lettre/lettre-repliee";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 
@@ -486,6 +489,17 @@ export function ParcoursDetail({
   }
 
   const completedSteps = progress?.completedSteps ?? [];
+  // Finition du tour 3 (T3) : quand la carte de fin d'étape 1 est affichée (visiteur ou compte sans
+  // abonnement, étape 1 ouverte, quiz fait), elle porte déjà l'étape 2 (« Étape 2 sur N », titre,
+  // aperçu) : l'étape 2 n'est pas répétée dans la liste, et la lettre gratuite passe sous la liste.
+  const etape1 = path?.steps.find((s) => s.order === 1);
+  const carteFinEtape1 =
+    !isPremium &&
+    !!etape1 &&
+    isParcoursSlug(slug) &&
+    expandedStep === 1 &&
+    !completedSteps.includes(1) &&
+    (!etape1.quiz?.length || quizDone.has(1));
   const totalSteps = path.steps.length;
   const isPathCompleted = !!progress?.completedAt;
   const totalXp = serverXpTotal ?? totalParcoursXp(path.steps);
@@ -706,6 +720,7 @@ export function ParcoursDetail({
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
+          if (carteFinEtape1 && step.order === 2) return null;
           const isCompleted = completedSteps.includes(step.order);
           return (
             <ParcoursStepCard
@@ -746,6 +761,11 @@ export function ParcoursDetail({
           );
         })}
       </div>
+
+      {/* Finition du tour 3 (T3) : la lettre gratuite sous la liste des étapes, loin du bouton payant. */}
+      {carteFinEtape1 && (
+        <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="mt-6 text-center" />
+      )}
 
       {argumentaireApresProgramme && <div className="mt-8">{argumentaire}</div>}
 

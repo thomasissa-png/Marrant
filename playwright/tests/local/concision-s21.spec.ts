@@ -102,10 +102,14 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     expect(url.pathname).toBe("/register");
     expect(url.searchParams.get("src")).toBe("parcours-etape");
     expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie");
-    // Lettre : ligne discrète sous la REASS, fermée au chargement (aucun champ), dépliée au clic.
-    const ligne = fin.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
+    // Lettre : ligne discrète, fermée au chargement (aucun champ), dépliée au clic. Finition du tour 3 :
+    // sous la liste des étapes, plus collée au plein payant.
+    const ligne = page.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
     await expect(ligne).toHaveAttribute("aria-expanded", "false");
-    await expect(fin.locator('input[type="email"]')).toHaveCount(0);
+    await expect(fin.getByRole("button", { name: /Lettre gratuite/ })).toHaveCount(0);
+    const liste = page.getByRole("list", { name: "Étapes du parcours" });
+    expect(await liste.evaluate((l, b) => !!(l.compareDocumentPosition(b!) & Node.DOCUMENT_POSITION_FOLLOWING), await ligne.elementHandle())).toBe(true);
+    await expect(page.locator('main input[type="email"]')).toHaveCount(0);
     // Positions dans la page (et non dans l'écran) : le champ prend le focus au dépliage, le
     // navigateur peut faire défiler pour le montrer (ligne en bas d'écran à 375 x 812).
     const yPage = async (l: typeof plein) => ((await l.boundingBox())?.y ?? NaN) + (await page.evaluate(() => window.scrollY));
@@ -115,8 +119,8 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     const morceau = page.waitForResponse((r) => r.url().includes("/_next/static/chunks/") && r.request().resourceType() === "script");
     await ligne.click();
     await morceau;
-    await expect(fin.locator('input[type="email"]')).toBeFocused();
-    await expect(fin.getByRole("checkbox")).toBeVisible();
+    await expect(page.locator('main input[type="email"]')).toBeFocused();
+    await expect(page.locator("main").getByRole("checkbox")).toBeVisible();
     // Le plein ne bouge pas quand la lettre se déplie (elle est dessous), la ligne non plus.
     expect(Math.abs((await yPage(plein)) - avant)).toBeLessThanOrEqual(0.5);
     expect(Math.abs((await yPage(ligne)) - ligneAvant)).toBeLessThanOrEqual(0.5);

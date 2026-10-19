@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  ESPACE_INSECABLE,
   formatEuros,
   PREMIUM_ANNUAL_EQUIVALENT_LABEL,
   PREMIUM_ANNUAL_PRICE_CENTS,
@@ -18,6 +19,9 @@ import { cn } from "@/lib/utils";
  * clavier, lecteurs d’écran) ; sous 400 px, une carte par ligne (nom et prix sur la même ligne).
  * Annuel indisponible : prix mensuel seul, comme avant.
  */
+/** Lignes secondaires d'une carte (équivalent mensuel, mois offerts, renouvellement) : même corps. */
+const LIGNE_CARTE = "text-xs leading-snug";
+
 export function FormuleCartes({
   value,
   onChange,
@@ -36,10 +40,12 @@ export function FormuleCartes({
     );
   }
   return (
-    <fieldset className="mt-4 max-[399px]:mt-2.5" data-testid="plan-selector">
+    <fieldset className="mt-4 max-[399px]:mt-2.5 max-[359px]:mt-2" data-testid="plan-selector">
       <legend className="sr-only">{FORMULES.legende}</legend>
       {/* Sous 400 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
-      <div className="grid grid-cols-2 gap-2 max-[399px]:grid-cols-1 max-[399px]:gap-1.5">
+      {/* Finition du tour 3 : cartes à la hauteur de leur contenu (`items-start`) : prix alignés en haut,
+          plus de vide sous le prix de la case Mensuel. */}
+      <div className="grid grid-cols-2 items-start gap-2 max-[399px]:grid-cols-1 max-[399px]:gap-1.5">
         <Carte
           plan="monthly"
           actif={value === "monthly"}
@@ -119,15 +125,26 @@ function Carte({
         <span className="whitespace-nowrap font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
         <span className="whitespace-nowrap text-xs text-text-secondary">{suffixe}</span>
       </span>
-      {lignes.map((ligne, i) => (
-        // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 2,08 € … »).
-        <span key={ligne} className={cn("text-xs leading-snug", i === lignes.length - 1 ? "font-semibold text-accent-link" : "text-text-secondary")}>
-          {" "}
-          {ligne}
+      {/* Finition du tour 3 : sous 400 px, les lignes de la carte forment un paragraphe, séparées par
+          « · » (insécable avant : jamais en début de ligne) ; au-dessus, une ligne chacune. */}
+      {lignes.length > 0 && (
+        <span className="flex flex-col max-[399px]:block max-[399px]:basis-full">
+          {lignes.map((ligne, i) => (
+            // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 2,08 € … »).
+            <span key={ligne} className={cn(LIGNE_CARTE, "max-[399px]:inline", i === lignes.length - 1 ? "font-semibold text-accent-link" : "text-text-secondary")}>
+              {i > 0 && (
+                <span aria-hidden="true" className="hidden font-normal text-text-secondary max-[399px]:inline">
+                  {`${ESPACE_INSECABLE}·`}
+                </span>
+              )}{" "}
+              {ligne}
+            </span>
+          ))}
         </span>
-      ))}
+      )}
+      {/* Même taille et même couleur que « soit 2,08 € par mois » (finition du tour 3). */}
       {mention && (
-        <span className="text-xs leading-snug text-text-secondary max-[399px]:basis-full" data-testid="renouvellement-annuel">
+        <span className={cn(LIGNE_CARTE, "text-text-secondary max-[399px]:basis-full")} data-testid="renouvellement-annuel">
           {" "}
           {mention}
         </span>

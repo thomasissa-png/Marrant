@@ -26,6 +26,10 @@
   - La FAQ « Et si j'arrête ? » garde sa dernière phrase (favoris et progression conservés) grâce au test `__tests__/api/resiliation-conserve-favoris-progression-s21.test.ts` ; s'il tombe, retirer la phrase.
   - **Mesure** (à transmettre à @data-analyst) : après paiement, les visiteurs venus de l'en-tête reviennent sur leur page d'origine au lieu de /parcours (rupture datée sur les pages vues après `abonnement-reussi`) ; nouvelle question dans le JSON-LD FAQPage (accueil, /abonnement).
   - Contrôles : tsc ×3, `next lint`, build, Jest complet, Playwright `local` et smoke contre le build, en `env -i` avec les variables factices de la CI.
+- **Finition du tour 3 (19/10/2026, arbitrages de l'orchestrateur après la relecture v3 : 9,5 / 9,8 / 10)** : PAS À DÉPLOYER tant que l'orchestrateur ne l'a pas validé (captures `docs/design/conversion-s21/trajets-v3-1/`). Rien au déploiement.
+  - Textes : fenêtre « Premium ouvre aussi… », avantage 3 « Chaque mois, un carnet de situations et leurs répliques » (lien vers `#le-carnet-en-vrai`), ligne compte « D'abord ton compte, puis le paiement sur Stripe. ».
+  - Mise en page : carte Annuel (séparateur sous 400 px), « 1 500+ inscrits » sous la garantie sous 360 px, FAQ à 560 px, cartes de formule à la hauteur de leur contenu, titre de la fiche centré ; T3 : étape 2 non répétée dans la liste quand la carte est affichée, lettre gratuite sous la liste.
+  - Mesure : la lettre gratuite de fin d'étape 1 change de place (emplacement `parcours` inchangé) : rupture possible du taux d'inscription depuis cette ligne, à transmettre à @data-analyst.
 
 ### Exclusion d'alex@deviens-marrant.fr des statistiques (19/10/2026, feu vert de Thomas), branche `claude/marrant-exclusion-alex` (depuis `7cce384` de `claude/marrant-s21-integration`, avance rapide possible)
 

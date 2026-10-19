@@ -114,6 +114,8 @@ describe("CarnetExtraitBloc", () => {
     expect(screen.getByText("Les 14 autres s’ouvrent avec Premium.")).toBeInTheDocument();
     // v3 E02 : la scène, entre le chapeau et « On te dit ».
     const scene = screen.getByRole("heading", { level: 3, name: "Titre 1" });
+    // Finition du tour 3 : centrée comme le titre et le chapeau du bloc.
+    expect(scene.className).toContain("text-center");
     const chapeau = screen.getByTestId("abonnement-carnet-chapeau");
     expect(chapeau.compareDocumentPosition(scene) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(scene.compareDocumentPosition(screen.getByText("On te dit")) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();

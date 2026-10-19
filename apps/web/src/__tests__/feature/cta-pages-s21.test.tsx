@@ -3,6 +3,7 @@
  * config/textes/cta-pages.ts (source unique), nombres lus à la source, hiérarchie des boutons
  * (un plein, la REASS dessous, le gratuit en lien).
  */
+import { LettreRepliee } from "@/components/lettre/lettre-repliee";
 import { TEXTES_PRENOM } from "@/config/textes/compte";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -128,7 +129,7 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
     tip: { id: "t", title: "x", content: "", category: "", difficulty: "", example: "", exercise: "" },
   };
 
-  it("quiz fini : titre, carte, phrase, plein, REASS puis la ligne de la lettre (repliée)", () => {
+  it("quiz fini : titre, carte, phrase, plein, REASS ; la lettre n'est plus collée au plein (finition du tour 3)", () => {
     const { container } = render(<ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} />);
     const html = container.innerHTML;
     expect(html.indexOf("Bien joué")).toBeLessThan(html.indexOf("Le rythme et les silences"));
@@ -140,15 +141,15 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
     expect(plein).toHaveAttribute("href", "/abonnement?x");
     expect(screen.getAllByRole("link")).toHaveLength(1);
     expect(container.textContent).toContain(REASS);
-    // Lettre : une ligne discrète (bouton replié), aucun champ au chargement.
-    const ligne = screen.getByRole("button", { name: /Lettre gratuite\s:\sune vanne décryptée par mois\./ });
-    expect(ligne).toHaveAttribute("aria-expanded", "false");
-    expect(container.querySelector('input[type="email"]')).toBeNull();
-    expect(html.indexOf("Résiliable")).toBeLessThan(html.indexOf("Lettre gratuite"));
+    // Finition du tour 3 : la lettre gratuite est rendue sous la liste des étapes (parcours-detail).
+    expect(screen.queryByRole("button", { name: /Lettre gratuite/ })).toBeNull();
   });
 
   it("la ligne de la lettre déplie le champ au clic (focus dans le champ), case et mention avec lui", async () => {
-    render(<ValidationWall slug="repartie" href="/abonnement?x" etapeSuivante={etape2} />);
+    render(<LettreRepliee emplacement="parcours" slug="repartie" ligne={FIN_ETAPE_1.lettre.ligne} />);
+    const ligne = screen.getByRole("button", { name: /Lettre gratuite\s:\sune vanne décryptée par mois\./ });
+    expect(ligne).toHaveAttribute("aria-expanded", "false");
+    expect(document.querySelector('input[type="email"]')).toBeNull();
     await userEvent.click(screen.getByRole("button", { name: /Lettre gratuite/ }));
     // QA v4 m-7 : formulaire importé au dépliage (morceau séparé), puis affiché déplié.
     const champ = await screen.findByPlaceholderText("toi@exemple.fr");

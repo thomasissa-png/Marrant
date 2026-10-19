@@ -135,8 +135,12 @@ export function AbonnementView({
   // v3 M1 : la garantie juste sous le bouton (au-dessus de la flottaison à 320 × 640), puis la suite.
   const suiteEtReassurance = (testId: string) => (
     <>
-      <Reassurance className="mt-2" testId={`reassurance-paiement${testId}`} />
-      <p className={cn("mt-1", LIGNE_PETITE)} data-testid={isAuthenticated ? `paiement-stripe${testId}` : `abonnement-suite${testId}`}>
+      <Reassurance className="mt-2 max-[359px]:mt-1.5" testId={`reassurance-paiement${testId}`} />
+      {/* Finition du tour 3 : ligne compte sur UNE ligne à 320 px (12 px, approche serrée, déborde sur la marge de la carte). */}
+      <p
+        className={cn("mt-1", LIGNE_PETITE, "max-[359px]:-mx-2 max-[359px]:mt-0.5 max-[359px]:whitespace-nowrap max-[359px]:text-xs max-[359px]:tracking-tight")}
+        data-testid={isAuthenticated ? `paiement-stripe${testId}` : `abonnement-suite${testId}`}
+      >
         {frTypo(isAuthenticated ? ABONNEMENT_ACHAT.suiteConnecte : ABONNEMENT_ACHAT.suiteVisiteur)}
       </p>
     </>
@@ -168,7 +172,7 @@ export function AbonnementView({
       {paymentCanceled && <BandeauAnnule onClose={() => setPaymentCanceled(false)} />}
 
       {/* v3 M1 : sous 400 px, en-tête resserré pour que la garantie tienne dans le premier écran à 320 × 640. */}
-      <header className="text-center max-[399px]:-mt-5">
+      <header className="text-center max-[399px]:-mt-5 max-[359px]:-mt-6">
         {/* v2 A02b : taille du corps, couleur de texte pleine. */}
         {accroche && (
           <p className="mb-1 text-base font-semibold text-text-primary" data-testid="abonnement-accroche">
@@ -182,23 +186,28 @@ export function AbonnementView({
         <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary max-[359px]:mt-1 max-[359px]:text-sm sm:text-lg">
           {frTypo(ABONNEMENT_HAUT.sousTitre)}
         </p>
-        <p className="mt-2 text-sm text-text-secondary max-[399px]:mt-1" data-testid="abonnement-preuve">
+        <p className="mt-2 text-sm text-text-secondary max-[399px]:mt-1 max-[359px]:hidden" data-testid="abonnement-preuve">
           {frTypo(ABONNEMENT_HAUT.preuve)}
         </p>
       </header>
 
-      <Card data-testid="abonnement-offre" className="mx-auto mt-3 max-w-[560px] border-2 max-[399px]:mt-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
+      <Card data-testid="abonnement-offre" className="mx-auto mt-3 max-w-[560px] border-2 max-[399px]:mt-2 max-[359px]:mt-1.5 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
         {/* Revue visuelle tour 1 : à 320 × 640, le bouton d'achat doit tenir dans le premier écran. */}
-        <CardContent className="p-3 min-[360px]:p-4 sm:p-8">
+        <CardContent className="p-3 max-[359px]:px-2 min-[360px]:p-4 sm:p-8">
           <h2 className="sr-only">{ABONNEMENT_ACHAT.nomCarte}</h2>
-          <AvantagesPremium />
+          <AvantagesPremium ancreCarnet={carnetExtrait !== null} />
           <FormuleCartes value={plan} onChange={setSelectedPlan} annualAvailable={annualAvailable} />
           {isAuthenticated && resiliation ? (
             <ResiliationProgrammeeNotice finIso={resiliation.finIso} className="mt-4" />
           ) : (
-            bouton("haut", ID_ACHAT_PRINCIPAL, "mt-4 max-[399px]:mt-3")
+            bouton("haut", ID_ACHAT_PRINCIPAL, "mt-4 max-[399px]:mt-3 max-[359px]:mt-2.5")
           )}
           {suiteEtReassurance("")}
+          {/* Finition du tour 3 (T2 à 320 × 640) : sous 360 px, « 1 500+ inscrits… » passe sous la garantie et
+              la ligne compte (texte inchangé), pour que la ligne compte tienne dans le premier écran. */}
+          <p className={cn("mt-1 hidden max-[359px]:block", LIGNE_PETITE)} data-testid="abonnement-preuve-bas">
+            {frTypo(ABONNEMENT_HAUT.preuve)}
+          </p>
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
           {!isAuthenticated && (
             <p className={cn("mt-1", LIGNE_PETITE)} data-testid="abonnement-deja-compte">
@@ -234,7 +243,8 @@ export function AbonnementView({
         </div>
       )}
 
-      <div className="mt-12 md:mt-16">
+      {/* Finition du tour 3 : FAQ à la largeur de la carte (560 px), comme le carnet et le tableau. */}
+      <div className="mx-auto mt-12 max-w-[560px] md:mt-16" data-testid="abonnement-faq">
         <FaqSection items={getPremiumFaqs(annualAvailable)} />
       </div>
 

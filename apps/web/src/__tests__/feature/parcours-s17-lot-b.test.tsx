@@ -287,11 +287,27 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     );
     expect(mockTrack).toHaveBeenCalledWith("etape-ouverte", { parcours: "confiance", etape: 1, statut: "visiteur", declencheur: "auto" });
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-validation", src: "confiance", etape: 1 });
+    // Finition du tour 3 (T3) : tant que la carte de fin d'étape 1 est affichée, l'étape 2 n'est pas
+    // répétée dans la liste ; on referme l'étape 1, l'étape 2 revient.
+    expect(screen.queryByRole("button", { name: /^Étape 2 : Module 2/ })).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: /^Étape 1 : Module 1/ }));
     await userEvent.click(screen.getByRole("button", { name: /Étape 2 : Module 2/ }));
     expect(mockTrack).toHaveBeenCalledWith("etape-ouverte", { parcours: "confiance", etape: 2, statut: "visiteur", declencheur: "manuel" });
     // Aperçu D1 : ce qu'on apprend, durée estimée, jamais le conseil.
     expect(screen.getByText(courbe("Ce qu'on apprend 2"))).toBeInTheDocument();
     // Étalon 3.1 : l'aperçu montre titre, ce qu'on apprend, format, rien d'autre.
+  });
+
+  it("finition du tour 3 (T3) : carte de fin d'étape 1 affichée → étape 2 non répétée, lettre sous la liste", async () => {
+    render(<ParcoursDetail slug="confiance" initialPath={buildPath([50, 75, 100])} />);
+    const carte = await screen.findByText(/^Étape 2 sur \d/);
+    expect(screen.queryByRole("button", { name: /^Étape 2 : Module 2/ })).toBeNull();
+    expect(screen.getByRole("button", { name: /^Étape 3 : Module 3/ })).toBeInTheDocument();
+    const lettre = screen.getByRole("button", { name: /Lettre gratuite/ });
+    const liste = screen.getByRole("list", { name: "Étapes du parcours" });
+    expect(liste.contains(lettre)).toBe(false);
+    expect(liste.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(carte.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("src inconnu ramené à direct (liste fermée)", async () => {
