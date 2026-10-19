@@ -2,6 +2,13 @@
 
 ## À DÉPLOYER
 
+### Exclusion d'alex@deviens-marrant.fr des statistiques (19/10/2026, feu vert de Thomas), branche `claude/marrant-exclusion-alex` (depuis `7cce384` de `claude/marrant-s21-integration`, avance rapide possible)
+
+**Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.** `ANALYTICS_EMAILS_EXCLUS` est un secret illisible : ne PAS le reposer (un `secret put` écraserait les 3 adresses de Thomas). Le code ajoute `EMAILS_INTERNES_EXCLUS` (`apps/web/src/lib/analytics/comptes-test.ts`), fusionné avec le secret dans `emailsExclus()`.
+- Effets : plus de `mesure=1` à la confirmation de la lettre pour cette adresse ; exclue du rapport du lundi, de l'admin et des alertes. La liste n'est plus jamais vide : une lecture `user.findMany` de plus par rapport (lecture seule).
+- **Mesure** : rupture datée de la mise en ligne si alex@ a un compte ou une inscription à la lettre (−1, ligne « compte(s) de test exclu(s) » +1). À transmettre à @data-analyst.
+- **Procédure courte** : P0 bis (HEAD = `origin`, CI verte sur le commit déployé, `git diff --stat bb470f3 HEAD -- apps/web .github` = `comptes-test.ts` + 4 fichiers de test), P1 bis, P4 bis, P6 bis réduit (étapes 1, 2 et 4 : pages en 200, admin en 401 ×4, santé et en-têtes), P8 bis avec N-1 = `20be1a8b-c30d-4085-87d4-e381b754fae7` (`npx wrangler rollback 20be1a8b-c30d-4085-87d4-e381b754fae7`). Aucun essai d'inscription en production (écriture en base) : la preuve est le test `exclusion-alex-s21.test.ts`.
+
 **Deuxième mise en ligne s21 (admin et revue visuelle, branche `claude/marrant-s21-integration`)** : **DÉPLOYÉ le 19/10/2026 à 03:22 UTC, version `20be1a8b-c30d-4085-87d4-e381b754fae7`, N-1 `586c4adc`, commit `bb470f3`** (résultats dans l'entrée plus bas). suivre la variante « DEUXIÈME MISE EN LIGNE s21 » en tête de l'entrée « s21 Intégration » plus bas (P0, P1, P4, P6 adapté, P8, N-1 `586c4adc`). P2, P3, P5 et P7 sont déjà faits en production : ne pas les rejouer. Contre-épreuve : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`.
 
 ### Page admin s21 (18/10/2026) : refonte + inscrits à la lettre, branche `claude/marrant-s21-admin` (depuis `claude/marrant-s21-integration`)
