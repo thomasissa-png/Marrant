@@ -58,7 +58,11 @@ test.describe("@s21 /abonnement, page de vente (trajet de conversion)", () => {
     await page.goto("/abonnement");
     const barre = page.getByTestId("abonnement-barre-collante");
     await expect(barre).toHaveAttribute("data-visible", "non");
-    await page.getByTestId("abonnement-tableau").scrollIntoViewIfNeeded();
+    // Défilement juste sous le bouton principal (écran 2) : la barre prend le relais.
+    await page.evaluate(() => {
+      const principal = document.getElementById("abonnement-achat-principal")!;
+      window.scrollTo(0, principal.getBoundingClientRect().bottom + window.scrollY + 40);
+    });
     await expect(barre).toHaveAttribute("data-visible", "oui");
     await expect(barre.getByRole("link", { name: BOUTON })).toBeVisible();
     await page.getByTestId("abonnement-final").scrollIntoViewIfNeeded();
@@ -68,6 +72,8 @@ test.describe("@s21 /abonnement, page de vente (trajet de conversion)", () => {
   test("compte connecté, 375 × 812 : bouton au premier écran ; `auto=1` rend la page d'attente côté serveur", async ({ page }) => {
     const email = `e2e-vente-${randomBytes(4).toString("hex")}@example.com`;
     await creerCompte(email, "motdepasse-e2e", "FREE");
+    // Visiteur simulé distinct (comme Cloudflare) : ne partage pas la limite de connexion des autres specs.
+    await page.setExtraHTTPHeaders({ "cf-connecting-ip": `10.${[1, 2, 3].map(() => randomBytes(1)[0]).join(".")}` });
     await connecter(page, email, "motdepasse-e2e");
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/abonnement");
@@ -75,8 +81,10 @@ test.describe("@s21 /abonnement, page de vente (trajet de conversion)", () => {
     await expect(page.getByTestId("abonnement-deja-compte")).toHaveCount(0);
 
     const html = await (await page.request.get("/abonnement?src=header&auto=1")).text();
-    expect(html).toContain("Te voilà connecté.");
-    expect(html).not.toContain("Premium ouvre tout Deviens Marrant");
+    expect(html).toContain(">Te voilà connecté.<");
+    // Le titre de la page de vente n'est pas rendu (il reste dans le JSON-LD Product, hors écran).
+    expect(html).not.toMatch(/>Premium ouvre tout Deviens Marrant</);
+    expect(html).not.toContain('data-testid="abonnement-offre"');
   });
 });
 

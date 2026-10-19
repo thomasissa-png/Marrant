@@ -95,7 +95,8 @@ describe("partie A : accueil, en-tête, articles", () => {
     expect(mots(EN_TETE.bouton)).toBe(2);
     // Trajet de conversion s21 §2 : un prix sans objet n'est pas un libellé ; le nom accessible
     // commence par le texte visible (WCAG 2.5.3).
-    expect(t(EN_TETE.boutonCourt)).toBe("Premium · 2,99 €");
+    // Repli « Premium » (textes-trajet-v1 §2) : « Premium · 2,99 € » ne tenait pas à 320, 360 et 375 px.
+    expect(EN_TETE.boutonCourt).toBe("Premium");
     expect(t(EN_TETE.nomAccessible)).toBe("Premium, 2,99 € par mois : voir l’offre");
   });
 

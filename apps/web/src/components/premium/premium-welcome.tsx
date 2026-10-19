@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { PREMIUM_WELCOME_PARAM, PREMIUM_WELCOME_VALUE } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { BIENVENUE_PREMIUM } from "@/config/textes/abonnement-vente";
+import { frTypo } from "@/lib/fr-typo";
 import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 
 /**
@@ -28,8 +29,8 @@ export function PremiumWelcome() {
       <div>
         <p className="font-semibold text-text-primary">Bienvenue dans {OFFRE_NOM}</p>
         {/* Trajet de conversion s21 (textes-trajet-v1 §4) : Premium n'est plus que les parcours. */}
-        <p className="mt-1 text-sm text-text-secondary">{BIENVENUE_PREMIUM.texte}</p>
-        {LETTRE_HEBDO_PROMESSE && <p className="mt-1 text-sm text-text-secondary">{BIENVENUE_PREMIUM.lettre}</p>}
+        <p className="mt-1 text-sm text-text-secondary">{frTypo(BIENVENUE_PREMIUM.texte)}</p>
+        {LETTRE_HEBDO_PROMESSE && <p className="mt-1 text-sm text-text-secondary">{frTypo(BIENVENUE_PREMIUM.lettre)}</p>}
       </div>
       <button
         type="button"

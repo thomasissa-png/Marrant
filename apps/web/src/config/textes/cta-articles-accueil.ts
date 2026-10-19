@@ -56,14 +56,15 @@ export const SANS_COMPTE = "Sans compte.";
 // ─── En-tête ────────────────────────────────────────────────────────────────
 
 /**
- * « Premium · 2,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` (« Premium · 2,99 € »,
- * trajet de conversion s21 : un prix sans objet n'est pas un libellé) : sous le seuil de largeur où
- * le libellé complet ne tient pas à côté du logo et du menu (header.tsx). Nom accessible : commence
- * par le texte visible (WCAG 2.5.3).
+ * « Premium · 2,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` : repli « Premium » de
+ * textes-trajet-v1 §2 (trajet de conversion s21), car « Premium · 2,99 € » ne tient pas à côté du logo
+ * et du menu (mesuré sur /conseils : page de 330 px à 320 px de large, 377 px à 360 et à 375 ; ordinateur
+ * de 1 024 à 1 279 px : 1 055 px pour 1 024). Un prix sans objet n'est pas un libellé ; le prix est dans
+ * le premier écran de /abonnement. Nom accessible : commence par le texte visible (WCAG 2.5.3).
  */
 export const EN_TETE = {
   bouton: `${OFFRE_NOM}${POINT_MEDIAN}${PREMIUM_PRICE_LABEL}`,
-  boutonCourt: `${OFFRE_NOM}${POINT_MEDIAN}${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}`,
+  boutonCourt: OFFRE_NOM,
   nomAccessible: `${OFFRE_NOM}, ${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} par mois : voir l’offre`,
 } as const;
 

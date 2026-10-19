@@ -5,6 +5,14 @@
 **DÉPLOYÉ le 19/10/2026 à 09:37 UTC (11:37 Paris) : exclusion d'alex@ des statistiques, version `3b52c0c2-a626-4be3-8471-85723c70e69e` à 100 %, commit `7314477`, N-1 `20be1a8b-c30d-4085-87d4-e381b754fae7`.** P0 bis et P1 bis OK (CI verte run 39216914492, diff limité aux 5 fichiers). P4 bis : build:cf et deploy:cf en code 0 (lancés depuis la session principale, mode Accept edits, après feu vert explicite de Thomas). P6 bis réduit : 10 pages en 200, `/api/admin/{semaine,lettre,users,stats}` en 401, `/api/health` ok (mode stock, dailyToday ok), `Referrer-Policy: same-origin` sur `/lettre`, en-têtes de sécurité identiques. Retour arrière : `npx wrangler rollback 20be1a8b-c30d-4085-87d4-e381b754fae7`.
 
 
+### Trajet de conversion s21 (19/10/2026) : /abonnement en page de vente, branche `claude/marrant-conversion` (depuis `29598ff`, enfant de `d01635b` de `claude/marrant-s21-integration`)
+
+**PAS ENCORE À DÉPLOYER : relecture du trajet à l'aveugle d'abord (grille `docs/ux/trajet-conversion-s21.md` §11, captures `docs/design/conversion-s21/trajets-v1/`).** Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.
+- /abonnement refaite (textes `docs/copy/conversion-s21/textes-trajet-v1.md` et arbitrages du 19/10) ; « S'abonner » sur les 5 surfaces d'achat ; porte générique « Tout ouvrir · 2,99 €/mois » ; /a-propos visiteur vers /abonnement ; en-tête « Premium » sous 640 px et de 1 024 à 1 279 px ; /register depuis la fin d'étape 1, retour de paiement « Continuer », bienvenue, FAQ prix et JSON-LD Product alignés.
+- Page d'attente « Te voilà connecté. » rendue par le serveur au retour d'inscription (`auto=1` avec session) : plus de flash de la page de vente avant Stripe ; tout échec rend la page complète.
+- **Fusion avec `claude/marrant-lettre-hebdo`** : `apps/web/src/config/lettre-hebdo-promesse-temporaire.ts` (`LETTRE_HEBDO_PROMESSE = false`) est temporaire ; garder la constante de la branche lettre, supprimer ce fichier et repointer les imports (`grep -rn lettre-hebdo-promesse-temporaire apps/web/src` : 4 composants et 1 test).
+- **Mesure** : `checkout-ouvert {src}` inchangé ; nouvelle propriété `emplacement` (`haut`, `bas`, `barre`) sur `abonnement-clic` de /abonnement. À transmettre à @data-analyst : rupture de série de `abonnement-vu` et `abonnement-clic` le jour de la mise en ligne (nouvelle page).
+
 ### Exclusion d'alex@deviens-marrant.fr des statistiques (19/10/2026, feu vert de Thomas), branche `claude/marrant-exclusion-alex` (depuis `7cce384` de `claude/marrant-s21-integration`, avance rapide possible)
 
 **Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.** `ANALYTICS_EMAILS_EXCLUS` est un secret illisible : ne PAS le reposer (un `secret put` écraserait les 3 adresses de Thomas). Le code ajoute `EMAILS_INTERNES_EXCLUS` (`apps/web/src/lib/analytics/comptes-test.ts`), fusionné avec le secret dans `emailsExclus()`.

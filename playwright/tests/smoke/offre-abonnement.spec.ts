@@ -1,6 +1,7 @@
 import type { Page } from "@playwright/test";
 import { test, expect, estMobile, lireUrl, texteValide } from "../support/fixtures";
-import { ANNUEL_LIGNE_ANNUEL, prixTtcLabel, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { prixTtcLabel, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
 /**
@@ -18,10 +19,11 @@ async function choisirAnnuel(page: Page) {
 const REASSURANCE = texteValide(REASSURANCE_UNIQUE);
 
 test.describe("Offre /abonnement @smoke", () => {
-  // s21 B16 : libellé du tour 4, qui suit la formule choisie.
-  test("CTA mensuel « Ouvrir les N parcours · 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
+  // Trajet de conversion s21 : « S'abonner », qui suit la formule choisie (bouton du premier écran).
+  test("CTA mensuel « S'abonner · 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
     await page.goto("/abonnement");
-    const cta = page.getByRole("link", { name: /^Ouvrir les \d+ parcours · 2,99/ });
+    const cta = page.getByTestId("abonnement-bouton-achat");
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s2,99\s€\/mois$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -33,10 +35,11 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByRole("textbox", { name: /^e-?mail$/i })).toBeVisible();
   });
 
-  test("CTA annuel « Ouvrir les N parcours · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
+  test("CTA annuel « S'abonner · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
     await page.goto("/abonnement");
     await choisirAnnuel(page);
-    const cta = page.getByRole("link", { name: /^Ouvrir les \d+ parcours · 24,99/ });
+    const cta = page.getByTestId("abonnement-bouton-achat");
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s24,99\s€\/an$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -61,7 +64,8 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
     await choisirAnnuel(page);
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
-    await expect(page.getByText(texteValide(ANNUEL_LIGNE_ANNUEL))).toBeVisible();
+    // Carte annuelle (arbitrage du 19/10) : « soit 2,08 € par mois ».
+    await expect(page.getByText(texteValide(PREMIUM_ANNUAL_EQUIVALENT_LABEL))).toBeVisible();
   });
 
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
@@ -110,7 +114,7 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
     await page.goto("/conseils");
     const barre = page.getByRole("banner");
-    const commencer = barre.getByRole("link", { name: /^2,99\s€ par mois : voir l['’]offre Premium$/ }).filter({ visible: true }).first();
+    const commencer = barre.getByRole("link", { name: /^Premium, 2,99\s€ par mois : voir l['’]offre$/ }).filter({ visible: true }).first();
     await expect(commencer).toHaveAttribute("href", "/abonnement?src=header");
     await expect(commencer).toBeVisible();
     expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);

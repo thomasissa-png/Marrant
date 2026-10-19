@@ -189,6 +189,7 @@ export function Header() {
                 aria-label={EN_TETE.nomAccessible}
                 className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
               >
+                {/* Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (mesuré). */}
                 <span className="xl:hidden">{EN_TETE.boutonCourt}</span>
                 <span className="hidden xl:inline">{EN_TETE.bouton}</span>
               </Link>
@@ -213,7 +214,7 @@ export function Header() {
                 mobile à toutes les largeurs (même lien que sur ordinateur, prixHref, src=header),
                 cible de 44 px. « Premium · 2,99 €/mois » dès 640 px, où il tient à côté du logo,
                 de « Connexion », de la loupe et du menu (il lui faut 447 px seul, 590 px avec
-                « Connexion » et la loupe) ; en dessous, libellé court « 2,99 €/mois » (largeurs
+                « Connexion » et la loupe) ; en dessous, repli « Premium » (trajet de conversion s21 ; largeurs
                 mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes.
                 QA v4 m-3 : aussi pour le compte sans abonnement (sans « Connexion », il a plus de place). */}
             {!isPremium && !pageChaude && (
@@ -228,6 +229,7 @@ export function Header() {
                   isMenuOpen && "invisible",
                 )}
               >
+                {/* Trajet de conversion s21 : repli « Premium » sous 640 px (« Premium · 2,99 € » débordait à 320, 360 et 375 px). */}
                 <span className="sm:hidden">{EN_TETE.boutonCourt}</span>
                 <span className="hidden sm:inline">{EN_TETE.bouton}</span>
               </Link>

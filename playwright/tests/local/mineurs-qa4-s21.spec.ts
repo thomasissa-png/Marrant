@@ -18,7 +18,8 @@ const comptes: Record<PlanCompte, string> = {
   PREMIUM: `e2e-qa4-premium-${randomBytes(4).toString("hex")}@example.com`,
 };
 const cookies: Partial<Record<PlanCompte, Cookie[]>> = {};
-const OUVRIR = /^Ouvrir les\s5\sparcours\s·\s2,99\s€\/mois$/;
+// Trajet de conversion s21 : compte connecté sans abonnement, paiement direct, « S'abonner ».
+const OUVRIR = /^S’abonner\s·\s2,99\s€\/mois$/;
 
 test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
   localSeulement();

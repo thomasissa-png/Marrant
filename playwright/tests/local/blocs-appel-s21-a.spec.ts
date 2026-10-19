@@ -73,7 +73,7 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       const fin = page.locator("[data-blog-bloc-fin]");
       await fin.scrollIntoViewIfNeeded();
       await expect(fin.locator("a[data-blog-cta='etape-1']")).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
-      await expect(fin.locator("a[data-blog-cta='abonnement']")).toContainText(/Ouvrir les\s\d\sparcours\s·\s2,99/);
+      await expect(fin.locator("a[data-blog-cta='abonnement']")).toContainText(/Tout ouvrir\s·\s2,99/);
       await expect(fin.locator("ul")).toHaveCount(0);
       const hFin = (await fin.boundingBox())?.height ?? 0;
       // Budget @design (spec §2.1 Z3) : 560 px pour les textes du tour 4. Les textes validés du

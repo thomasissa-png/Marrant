@@ -141,7 +141,7 @@ test.describe("Murs Premium @smoke", () => {
     await expect(page.getByText(texteValide(VALIDATION_ETAPE.texte))).toBeVisible();
     // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
-    // Nom exact : le bouton d'en-tête s'appelle « 2,99 € par mois : voir l'offre Premium » (B6, textes validés).
+    // Nom exact : le bouton d'en-tête s'appelle « Premium, 2,99 € par mois : voir l'offre » (trajet de conversion s21).
     await expect(page.getByRole("link", { name: /^Voir l['’]offre Premium$/ })).toHaveCount(0);
   });
 });

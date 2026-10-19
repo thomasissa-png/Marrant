@@ -6,7 +6,7 @@ import { test, expect, localSeulement, requete, connecter } from "../support/bas
  * 1. /register sans prénom, Google en premier ; prénom renseigné ensuite dans /profil ;
  * 2. haut d'accueil sans lien payant (garde-fous-s21 et blocs-appel-s21-a) ;
  * 4. un seul plein par bloc : le gratuit du mur de liste est un lien texte ;
- * 5. avantages : 4 lignes sur /abonnement, plus de liste sur le mur du carnet ;
+ * 5. avantages : 3 lignes sur /abonnement (trajet de conversion s21), plus de liste sur le mur du carnet ;
  * 6. faits faux : « Tu résilies depuis ton profil », « une étape par semaine conseillée ».
  * Base jetable, compte de test supprimé à la fin, aucun e-mail ni paiement.
  */
@@ -63,11 +63,11 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     expect(await gratuit.getAttribute("class")).not.toMatch(/\bborder\b/);
   });
 
-  test("avantages : 4 lignes sur /abonnement, aucune sur le mur du carnet ; faits corrigés", async ({ page }) => {
+  test("avantages : 3 lignes sur /abonnement (lettre absente), aucune sur le mur du carnet ; faits corrigés", async ({ page }) => {
     await page.goto("/abonnement");
-    await expect(page.getByTestId("avantages-premium").locator("li")).toHaveCount(4);
-    // Concision v5 : sous-titre « Pas d'attente entre les étapes… », REASS unique sous le plein.
-    await expect(page.getByText(/^Pas d.attente entre les étapes, de\s15\sà\s20\sminutes chacune\.$/)).toBeVisible();
+    // Trajet de conversion s21 (étalon A) : 3 avantages tant que la promesse de la lettre est fermée.
+    await expect(page.getByTestId("avantages-premium").locator("li")).toHaveCount(3);
+    await expect(page.getByText(/^Les listes ne s.arrêtent plus à la dixième vanne, les parcours vont au bout\.$/)).toBeVisible();
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(/^Premium\s:\spremier\spaiement\sremboursable\ssous\s14\sjours\.\sRésiliable\sdepuis\ston\sprofil\.$/);
     expect(await page.locator("main").textContent()).not.toMatch(/1 clic/);
 

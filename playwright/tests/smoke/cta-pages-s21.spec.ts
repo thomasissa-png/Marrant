@@ -1,10 +1,6 @@
 import { test, expect, lireUrl, texteValide } from "../support/fixtures";
-import {
-  ABONNEMENT_CTA,
-  ABONNEMENT_HAUT_PAR_PARCOURS,
-  LISTE_PARCOURS_CTA,
-  REGISTER_CTA,
-} from "@/config/textes/cta-pages";
+import { LISTE_PARCOURS_CTA, REGISTER_CTA } from "@/config/textes/cta-pages";
+import { ABONNEMENT_ACHAT, ABONNEMENT_HAUT } from "@/config/textes/abonnement-vente";
 
 /**
  * Blocs d'appel s21, partie B (lecture seule). Tag @s21 : dépend de ce chantier,
@@ -12,23 +8,18 @@ import {
  * Textes : constantes de `apps/web/src/config/textes/cta-pages.ts`, jamais recopiés.
  */
 test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
-  test("/abonnement 375 x 700 : bouton d'achat entier au premier écran, suite dessous, titre par parcours", async ({ page }) => {
+  test("/abonnement 375 x 700 : bouton d'achat entier au premier écran, suite dessous, titre unique (trajet de conversion)", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 700 });
-    for (const [chemin, slug] of [
-      ["/abonnement", "defaut"],
-      ["/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe", "machine-a-cafe"],
-      ["/abonnement?returnTo=%2Fparcours%2Fconfiance", "confiance"],
-    ] as const) {
+    for (const chemin of ["/abonnement", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe", "/abonnement?src=mur-vannes"]) {
       await page.goto(chemin);
-      await expect(page.locator("h1")).toHaveText(texteValide(ABONNEMENT_HAUT_PAR_PARCOURS[slug].titre));
+      // Trajet de conversion s21 (étalon A) : un seul titre, quelle que soit l'origine.
+      await expect(page.locator("h1")).toHaveText(texteValide(ABONNEMENT_HAUT.titre));
       const bouton = page.getByTestId("abonnement-bouton-achat");
-      // Concision v5 : un seul libellé (OUVRIR) pour tous les parcours d'origine.
-      await expect(bouton).toHaveText(texteValide(ABONNEMENT_CTA.bouton("monthly")));
+      await expect(bouton).toHaveText(texteValide(ABONNEMENT_ACHAT.bouton("monthly")));
       const box = await bouton.boundingBox();
       expect(box, `bouton d'achat de ${chemin}`).not.toBeNull();
-      // Bas du bouton dans le premier écran (y mesuré : 431,8 en mensuel seul, 602,1 avec l'annuel).
       expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(700);
-      await expect(page.getByTestId("abonnement-suite")).toHaveText(texteValide(ABONNEMENT_CTA.suite));
+      await expect(page.getByTestId("abonnement-suite")).toHaveText(texteValide(ABONNEMENT_ACHAT.suiteVisiteur));
     }
   });
 

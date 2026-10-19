@@ -48,21 +48,21 @@ describe("Header", () => {
     expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("concision v5 puis trajet de conversion s21 : « Premium · 2,99 €/mois » dès 640 px, « Premium · 2,99 € » en dessous et de 1 024 à 1 279 px", () => {
+  it("trajet de conversion s21 : « Premium · 2,99 €/mois » dès 640 px (ordinateur : dès 1 280 px), repli « Premium » en dessous et de 1 024 à 1 279 px", () => {
     render(<Header />);
     const liens = screen.getAllByRole("link", { name: PRIX });
     expect(liens.length).toBe(2);
-    // Ordinateur : libellé court de 1 024 à 1 279 px (mesuré), complet dès 1 280 px (revue v3 m4).
+    // Ordinateur : repli « Premium » de 1 024 à 1 279 px (« Premium · 2,99 € » y débordait, mesuré), complet dès 1 280 px.
     const [courtOrdi, completOrdi] = Array.from(liens[0].querySelectorAll("span"));
-    expect(courtOrdi.textContent).toBe("Premium\u00A0· 2,99\u00A0€");
+    expect(courtOrdi.textContent).toBe("Premium");
     expect(courtOrdi.className).toBe("xl:hidden");
     expect(completOrdi.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
     expect(completOrdi.className).toBe("hidden xl:inline");
-    // Téléphone : toujours rendu (plus de « hidden » sous 360 px), libellé court sous 640 px, complet au-delà.
+    // Téléphone : toujours rendu ; repli « Premium » sous 640 px, complet au-delà.
     const mobile = liens[1];
     expect(mobile.className).not.toMatch(/(^| )hidden( |$)/);
     const [court, complet] = Array.from(mobile.querySelectorAll("span"));
-    expect(court.textContent).toBe("Premium\u00A0· 2,99\u00A0€");
+    expect(court.textContent).toBe("Premium");
     expect(court.className).toBe("sm:hidden");
     expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
     expect(complet.className).toBe("hidden sm:inline");
@@ -176,7 +176,7 @@ describe("Header", () => {
     expect(liens).toHaveLength(2);
     for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?src=header");
     const [court, complet] = Array.from(liens[0].querySelectorAll("span"));
-    expect(court.textContent).toBe("Premium\u00A0· 2,99\u00A0€");
+    expect(court.textContent).toBe("Premium");
     expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);

@@ -107,9 +107,10 @@ function Carte({
         </span>
         {nom}
       </span>{" "}
-      <span className="mt-0.5 whitespace-nowrap">
-        <span className="font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
-        <span className="text-xs text-text-secondary">{suffixe}</span>
+      {/* Montant et suffixe sur une ligne quand ils tiennent ; sinon le suffixe passe dessous (375 px). */}
+      <span className="mt-0.5 flex flex-wrap items-baseline gap-x-1">
+        <span className="whitespace-nowrap font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
+        <span className="whitespace-nowrap text-xs text-text-secondary">{suffixe}</span>
       </span>
       {lignes.map((ligne, i) => (
         // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 2,08 € … »).

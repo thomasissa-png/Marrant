@@ -18,8 +18,16 @@ const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
-/** s21 (B6) : bouton prix de l'en-tête, nom accessible « 2,99 € par mois : voir l'offre Premium » (textes validés). */
-const PRIX = /^2,99\s€ par mois : voir l['’]offre Premium$/;
+/** Bouton prix de l'en-tête, nom accessible « Premium, 2,99 € par mois : voir l'offre » (trajet de conversion s21 §2). */
+const PRIX = /^Premium, 2,99\s€ par mois : voir l['’]offre$/;
+
+/**
+ * Libellé visible du bouton prix sur téléphone (trajet de conversion s21, textes-trajet-v1 §2) :
+ * repli « Premium » sous 640 px (« Premium · 2,99 € » débordait : page de 330 px à 320, 377 px à 360
+ * et à 375), « Premium · 2,99 €/mois » au-delà.
+ */
+const libelleMobile = (largeur: number): RegExp =>
+  largeur < 640 ? /^Premium$/ : /^Premium\s·\s2,99\s€\/mois$/;
 /**
  * Largeurs de téléphone (concision v5) : bouton prix visible à toutes les largeurs, libellé court
  * « 2,99 €/mois » sous 640 px, « Premium · 2,99 €/mois » au-delà (mesuré : il lui faut 590 px avec
@@ -153,7 +161,8 @@ test.describe("En-tête : budget de largeur", () => {
             await expect(prix).toBeVisible();
             await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
-            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^2,99\s€\/mois$/);
+            // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 2,99 € » débordait).
+            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^Premium$/);
           } else {
             await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
           }
@@ -181,7 +190,7 @@ test.describe("En-tête : budget de largeur", () => {
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toHaveCount(1);
             await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
-            expect(await prix.innerText()).toMatch(largeur < 640 ? /^2,99\s€\/mois$/ : /^Premium\s·\s2,99\s€\/mois$/);
+            expect(await prix.innerText()).toMatch(libelleMobile(largeur));
             const m = await mesurer(page);
             expect(m.scroll, `défilement horizontal, ${ici}`).toBeLessThanOrEqual(m.fenetre);
             for (const c of m.controles) {
@@ -243,7 +252,7 @@ test.describe("En-tête : budget de largeur", () => {
       await expect(prix).toHaveCount(1);
       await expect(prix).toHaveAttribute("href", "/abonnement?src=header");
       // Texte affiché (innerText : l'autre libellé est masqué en CSS, il reste dans le DOM).
-      expect(await prix.innerText()).toMatch(largeur < 640 ? /^2,99\s€\/mois$/ : /^Premium\s·\s2,99\s€\/mois$/);
+      expect(await prix.innerText()).toMatch(libelleMobile(largeur));
       const mesure = await prix.evaluate((el, compare) => {
         const s = getComputedStyle(el);
         const ctx = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;

@@ -140,7 +140,7 @@ export function AbonnementView({
 
   if (attente) {
     return (
-      <div className={cn(COLONNE_LECTURE, "py-16 text-center")} role="status" data-testid="abonnement-attente">
+      <div className={cn(COLONNE_LECTURE, "flex min-h-[60vh] flex-col items-center justify-center py-16 text-center")} role="status" data-testid="abonnement-attente">
         <h1 className="font-display text-2xl font-bold text-text-primary">{frTypo(ATTENTE_PAIEMENT.titre)}</h1>
         <p className="mt-3 text-text-secondary">{frTypo(ATTENTE_PAIEMENT.texte)}</p>
         <span aria-hidden="true" className="mx-auto mt-6 block h-6 w-6 animate-spin rounded-full border-2 border-accent-primary border-t-transparent motion-reduce:animate-none" />
@@ -183,7 +183,7 @@ export function AbonnementView({
           {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" />}
           {!isAuthenticated && (
             <p className={cn("mt-1", LIGNE_PETITE)} data-testid="abonnement-deja-compte">
-              {ABONNEMENT_ACHAT.dejaCompte}{" "}
+              {frTypo(ABONNEMENT_ACHAT.dejaCompte)}{" "}
               <Link href={connexionHref} className={LIEN_DISCRET}>
                 {ABONNEMENT_ACHAT.connecteToi}
               </Link>

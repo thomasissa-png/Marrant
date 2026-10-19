@@ -97,7 +97,8 @@ test.describe("Mesure : source du bouton E1 du carnet jusqu'au paiement @s21", (
     await e1.click();
     await expect(page).toHaveURL(/\/abonnement\?.*src=blog-demo-milieu-1/);
 
-    await page.getByRole("button", { name: /^Ouvrir les \d\sparcours/ }).first().click();
+    // Trajet de conversion s21 : « S'abonner » (bouton du premier écran).
+    await page.getByTestId("abonnement-bouton-haut").click();
     await page.waitForURL(/stripe-simule=1/, { timeout: 30_000 });
     const liste = await evenements(page);
     const ouvert = liste.filter((e) => e.nom === "checkout-ouvert");

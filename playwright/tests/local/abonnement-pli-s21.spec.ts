@@ -23,9 +23,11 @@ const LARGEURS: [number, number][] = [
 ];
 
 async function mesurer(page: Page) {
-  const bouton = page.getByRole("button", { name: /^Ouvrir les/ });
+  // Trajet de conversion s21 : bouton du premier écran (« S'abonner », compte connecté) et
+  // cartes de formule juste au-dessus.
+  const bouton = page.getByTestId("abonnement-bouton-haut");
   await expect(bouton).toBeVisible();
-  const prix = page.locator("[aria-live='polite']").first();
+  const prix = page.getByTestId("plan-selector");
   // Positions dans le document (indépendantes du défilement).
   const haut = (l: typeof bouton) => l.evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
   const bas = (l: typeof bouton) => l.evaluate((el) => el.getBoundingClientRect().bottom + window.scrollY);
@@ -145,7 +147,7 @@ test.describe("/abonnement : bouton du compte connecté remonté, sans saut @s21
       await poserObservateur(mobile);
       await mobile.goto("/abonnement");
       await mobile.waitForLoadState("networkidle");
-      const bouton = mobile.getByRole("button", { name: /^Ouvrir les/ });
+      const bouton = mobile.getByTestId("abonnement-bouton-haut");
       await expect(bouton).toBeVisible();
       // Position dans l'écran au chargement (sans défilement).
       const { haut, bas } = await bouton.evaluate((el) => {
