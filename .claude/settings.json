@@ -25,7 +25,14 @@
       "Bash(playwright *)",
       "Bash(eslint *)",
       "Bash(prettier *)",
-      "Bash(diff *)"
+      "Bash(diff *)",
+      "Bash(rm -rf .open-next)",
+      "Bash(CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run build:cf)",
+      "Bash(CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npm run deploy:cf)",
+      "Bash(CLOUDFLARE_HYPERDRIVE_LOCAL_CONNECTION_STRING_HYPERDRIVE=postgres://factice:factice@localhost:5432/factice npx opennextjs-cloudflare upload *)",
+      "Bash(npx wrangler deployments list*)",
+      "Bash(npx wrangler versions list*)",
+      "Bash(npx wrangler rollback *)"
     ]
   }
 }
