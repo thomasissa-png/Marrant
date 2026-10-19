@@ -2,7 +2,7 @@
 
 ## À DÉPLOYER
 
-**Deuxième mise en ligne s21 (admin et revue visuelle, branche `claude/marrant-s21-integration`)** : suivre la variante « DEUXIÈME MISE EN LIGNE s21 » en tête de l'entrée « s21 Intégration » plus bas (P0, P1, P4, P6 adapté, P8, N-1 `586c4adc`). P2, P3, P5 et P7 sont déjà faits en production : ne pas les rejouer. Contre-épreuve : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`.
+**Deuxième mise en ligne s21 (admin et revue visuelle, branche `claude/marrant-s21-integration`)** : **DÉPLOYÉ le 19/10/2026 à 03:22 UTC, version `20be1a8b-c30d-4085-87d4-e381b754fae7`, N-1 `586c4adc`, commit `bb470f3`** (résultats dans l'entrée plus bas). suivre la variante « DEUXIÈME MISE EN LIGNE s21 » en tête de l'entrée « s21 Intégration » plus bas (P0, P1, P4, P6 adapté, P8, N-1 `586c4adc`). P2, P3, P5 et P7 sont déjà faits en production : ne pas les rejouer. Contre-épreuve : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`.
 
 ### Page admin s21 (18/10/2026) : refonte + inscrits à la lettre, branche `claude/marrant-s21-admin` (depuis `claude/marrant-s21-integration`)
 
@@ -162,6 +162,22 @@ Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026), **DÉPLOYÉ le 18/10/2026 à 20:11 UTC, version `586c4adc-12cd-41e5-ab09-d3064819baaf`, commit `43c222f`** (code identique à `f9b49bd`) ; N-1 `5ea46dd8-1e31-4175-bc99-3d0873925901` (retour arrière : `npx wrangler rollback 5ea46dd8-1e31-4175-bc99-3d0873925901`)
 
 #### DEUXIÈME MISE EN LIGNE s21 (admin et revue visuelle) : P0, P1, P4, P6 adapté, P8 (@qa, 19/10/2026). **P2, P3, P5 et P7 ne se rejouent pas.**
+
+**DÉPLOYÉ le 19/10/2026 à 03:22:58 UTC (05:22 Paris), version `20be1a8b-c30d-4085-87d4-e381b754fae7` (100 %), N-1 `586c4adc-12cd-41e5-ab09-d3064819baaf`, commit `bb470f3`** (@infrastructure ; retour arrière : `npx wrangler rollback 586c4adc-12cd-41e5-ab09-d3064819baaf`). Aucune écriture en base, aucun secret, aucune variable ; `startup-tasks` non appelé. Résultats :
+- **P0 bis OK, un écart attendu** : arbre propre, HEAD = `origin` = `bb470f3` ; « Tests CI » run `39193566445` `success` sur `bb470f3` (`test`, `lint`, `e2e-local` à `success`) ; boucle `for` vide. Écart : `git diff --stat ffb2ad7 HEAD -- apps/web .github` n'est pas vide, il contient le correctif QA m-3 (`bb470f3`, `components/admin/lettre-section.tsx`, +5 lignes d'affichage de la date de désinscription), voulu par la coordination et couvert par cette CI.
+- **P1 bis OK** : N-1 `586c4adc` à 100 % ; `entetes-avant.txt` relevé (25 lignes). Avant : `/api/admin/semaine` et `/api/admin/lettre` en 404, `users` et `stats` en 401 ; murs 12 / 10 / 12.
+- **P4 bis OK** : `df -h /` 20 Go libres ; `rm -rf .open-next`, `build:cf` et `deploy:cf` en code 0 (16 messages Prisma « URL must start with postgresql:// » au build, replis attendus, identiques au 18/10) ; déclencheurs `*/15 * * * *` et `0 1 * * *` reposés.
+- **P6 bis** :
+  1. Pages : 16 en 200 (`/`, `/abonnement`, `/lettre`, `/confidentialite`, `/cgu`, `/register`, l'article, `/quiz-humour`, `/parcours`, `/carnet`, `/vannes`, `/conseils`, `/videos`, une fiche vidéo du sitemap, `/admin`, `/api/health`).
+  2. Admin sans authentification : `semaine`, `lettre`, `users`, `stats` en `401`. En plus, les 22 routes `/api/admin/*` du code sondées en GET et en POST : 401 ou 405, aucun 200.
+  3. Admin avec Bearer : `semaine` 200, `lettre` 200 ; `ipAddress|userAgent|token` dans `/api/admin/lettre` : `0` (clés `disponible`, `liste`, `resume`) ; `noindex` sur `/admin` : 1 ; aucun chiffre sur `/admin` sans connexion.
+  4. `/api/health` : `status` `ok`, `mode` `stock`, `dailyToday` `ok`, stock `ok` (123 j de vannes, 100 j de conseils ; `jokesNeverUsed` 50, `tipsNeverUsed` 27) ; `Referrer-Policy: same-origin` sur `/lettre` ; en-têtes de sécurité : aucune différence.
+  5. `/lettre` 0 `bingbot` ; réassurance dans `/llms.txt` : 1 ; U+2060 dans liens et métadonnées : 0 sur les 5 pages. En plus : « remboursé sous 14 jours » 0 / 0 / 0 ; formulaire de la lettre 1 / 1 / 1 ; murs 12 / 10 / 12, 0 « Page dédiée », 12 flèches (identiques à N-1).
+  6. Visuel (Chromium, 375 et 1 280 px) : `/conseils`, bloc « Pour la prochaine fois qu’on te chambre » encadré, clic sur une carte = carte dépliée, carte floutée = fenêtre Premium ; `/vannes`, « Révéler la chute » révèle sans quitter la page ; menu mobile, « La lettre » présent, voile présent, un toucher dessus ferme le menu ; `/quiz-humour`, formulaire de la lettre juste sous la carte de résultat ; `/admin` connecté, barre « Backoffice » sans l'en-tête public, onglet Semaine chargé (« Rien à signaler », « 3 comptes de test exclus. »), Abonnés › Lettre : compteurs 0 / 0 / 0, numéro 2026-11 validé, aucune IP ni aucun jeton. **Non fait** : étape 2 ou 3 d'un parcours avec un compte Premium (pas d'identifiants Premium dans la session), à faire à l'œil.
+  7. Tâche `*/15` de 03:30:05 UTC `Ok` (`Tick terminé en 2592 ms`), aucun `Échec` ni `ALERTE`, aucune requête en erreur.
+  8. et 9. Smoke `@s21` contre la production : 31 réussis, 1 ignoré, 0 échec.
+- **Écart de calendrier (à transmettre à @data-analyst)** : mise en ligne **avant** le lundi 19/10 7 h Paris. L'onglet Semaine affiche encore « Semaine du 05/10 au 11/10 » (normal avant 7 h) : contrôle « Semaine du 12/10 au 18/10 » à refaire après 07:00 Paris. Surtout, **l'e-mail du lundi 19/10 partira de `bb470f3`** (comptes de test exclus, section lettre), pas de `43c222f` : la rupture de série des chiffres date du **19/10**, pas du 26/10. Le contrôle du 26/10 garde ses critères ; la phrase « ne pas comparer à l'e-mail du 19/10 » ne s'applique plus.
+- **P8 non déclenché** : aucune page en 5xx, aucune route admin ouverte.
 
 - **Contenu** (`43c222f..HEAD`) : les entrées « Page admin s21 » et « Revue visuelle s21 », en tête de ce fichier, déjà fusionnées dans cette branche. Les noms `claude/marrant-s21-admin` et `claude/marrant-s21-visuel` sont historiques. Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.
 - **Contre-épreuve** : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`, GO 9,5/10, commit relu `ffb2ad7`.
