@@ -56,4 +56,15 @@ describe("frTypo, filtre d'affichage (revue visuelle s21)", () => {
     expect(frTypo(lie)).toBe(lie);
     expect(lie.replace(new RegExp(WJ, "g"), "")).toBe("Vidéos stand-up analysées");
   });
+
+  // Revue visuelle s21, tour 5 (T4-01) : un tiret précédé d'une espace ne commence jamais une ligne.
+  it("tiret demi-cadratin : insécable avant, espace après inchangée, aucun mot changé, idempotent", () => {
+    const NB = String.fromCharCode(0xa0);
+    const titre = frTypo("Roman Frayssinet – L’intelligence des animaux");
+    expect(titre).toBe(`Roman Frayssinet${NB}– L’intelligence des animaux`);
+    expect(frTypo(titre)).toBe(titre);
+    expect(frTypo("Roman Frayssinet — L’intelligence")).toBe("Roman Frayssinet, L’intelligence");
+    expect(frTypo("de 2–3 minutes")).toBe(`de 2–3${NB}minutes`);
+    expect(frTypo("Fary - Neymar")).toBe("Fary - Neymar");
+  });
 });

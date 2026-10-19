@@ -63,6 +63,10 @@ const GUILLEMETS_DROITS = /"([^"\n]+)"/g;
 // Tiret cadratin entre deux espaces (règle 12 du projet) : virgule, en filet de sécurité.
 const CADRATIN_ESPACE = / — /g;
 
+// Revue visuelle s21, tour 5 (T4-01) : tiret demi-cadratin ou cadratin précédé d'une espace (« Roman Frayssinet
+// – L’intelligence des animaux ») : insécable avant le tiret, il ne commence jamais une ligne.
+const ESPACE_AVANT_TIRET = / (?=[–—])/g;
+
 // Revue visuelle s21, tour 4 (T3-02) : mot composé court (« stand-up », « start-up », « rendez-vous »)
 // jamais coupé après son trait d'union (« stand- / up »). Gluon (U+2060) après le trait d'union, comme
 // pour l'impératif : le trait d'union insécable U+2011 n'est pas dans les polices du site (sous-ensembles
@@ -93,5 +97,6 @@ export function frTypo(text: string): string {
       // « 4 812 » et « 23 h 40 » ne se coupent jamais (notation B2 iter2)
       .replace(/(\d) (?=\d{3}(?!\d))/g, `$1${NBSP}`)
       .replace(new RegExp(`(\\d${NBSP}h) (?=\\d)`, "g"), `$1${NBSP}`)
+      .replace(ESPACE_AVANT_TIRET, NBSP)
   );
 }

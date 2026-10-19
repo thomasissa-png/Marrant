@@ -39,14 +39,17 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
   return (
     <button
       type="button"
-      className="group/play absolute inset-0 flex items-center justify-center bg-background-elevated"
+      className="group/play absolute inset-0 flex items-center justify-center bg-background-elevated [container-type:inline-size]"
       onClick={handlePlay}
       aria-label={`Lire la vidéo : ${title}`}
     >
-      {/* Thumbnail YouTube ; si elle échoue (T22) : fond dégradé + titre de la vidéo */}
+      {/* Thumbnail YouTube ; si elle échoue (T22) : fond dégradé + titre de la vidéo.
+          Revue visuelle s21, tour 5 (T4-02) : titre incrusté seulement si la vignette fait 360 px de large ou plus
+          (16 px au moins entre le bouton de lecture et 2 lignes de titre) ; plus étroite (carte de 230 px de
+          l'accueil à 768 px, grilles), le titre est déjà affiché dans la carte, sous la vignette. */}
       {thumbFailed ? (
         <span className="absolute inset-0 flex items-end bg-gradient-to-br from-accent-primary/30 to-background-elevated p-4 text-left">
-          <span className="line-clamp-2 text-sm font-semibold text-text-primary">{frTypo(title)}</span>
+          <span className="hidden text-sm font-semibold text-text-primary [@container(min-width:360px)]:line-clamp-2">{frTypo(title)}</span>
         </span>
       ) : (
         <Image
