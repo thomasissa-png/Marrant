@@ -78,6 +78,10 @@ test.describe("Concision du tunnel (structure) @s21", () => {
 
   test("fin de l'étape 1 (visiteur) : une seule source dans l'URL, lettre en ligne repliée qui déplie son champ au clic", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 812 });
+    // Préchargements de routes coupés : le pied de page (« La lettre du mois ») précharge /lettre, qui embarque
+    // le formulaire ; selon le défilement du quiz, il arrivait avant le clic et le test devenait aléatoire.
+    // On mesure ici le JS de la page elle-même : le formulaire doit arriver au dépliage.
+    await page.route("**/*", (route) => (route.request().headers()["next-router-prefetch"] ? route.abort() : route.continue()));
     await page.goto("/parcours/repartie");
     // Quiz de l'étape 1 : première réponse à chaque question, jusqu'au résultat.
     for (let i = 0; i < 10; i++) {
