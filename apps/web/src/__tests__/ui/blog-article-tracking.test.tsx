@@ -10,7 +10,7 @@ import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
-import { normalise } from "../helpers/texte-normalise";
+import { normalise, lie } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 
@@ -74,7 +74,7 @@ describe("blog-cta-clic", () => {
 
   it("textes par défaut (s20) : ceux du parcours et du bloc de fin, config/textes/encarts-blog-s20", () => {
     render(<ArticleCta />);
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
+    expect(screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre))).toBeInTheDocument();
     // Concision v5 : lien payant OUVRIR, « Sans compte. » sous le plein, plus de note de prix.
     expect(screen.getByText(normalise(BLOC_FIN.lienAbonnement))).toBeInTheDocument();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();

@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import AnatomieVannePage from "@/app/(dashboard)/anatomie-vanne/page";
+import { lie } from "../helpers/texte-normalise";
 
 describe("AnatomieVannePage", () => {
   it("renders the main heading", () => {
@@ -32,7 +33,7 @@ describe("AnatomieVannePage", () => {
     expect(screen.getByText("Exagération")).toBeInTheDocument();
     expect(screen.getByText("Décalage")).toBeInTheDocument();
     expect(screen.getByText("Sous-entendu")).toBeInTheDocument();
-    expect(screen.getByText("Anti-chute")).toBeInTheDocument();
+    expect(screen.getByText(lie("Anti-chute"))).toBeInTheDocument();
   });
 
   it("renders the 5 common errors section", () => {

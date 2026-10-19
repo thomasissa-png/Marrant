@@ -92,7 +92,7 @@ export function InAppBrowserNotice({ page, callbackUrl, src, ios, android }: InA
       </div>
       {copie === "ok" && (
         <p className="mt-2 text-text-secondary" role="status">
-          Lien copié. Colle-le dans ton navigateur.
+          Lien copié. Colle-⁠le dans ton navigateur.
         </p>
       )}
       {copie === "echec" && (

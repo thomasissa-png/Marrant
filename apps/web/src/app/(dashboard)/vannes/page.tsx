@@ -143,7 +143,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : «&nbsp;est-ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
+            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
             Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirées, famille, gaming</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
@@ -163,12 +163,12 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-up analysées</h3>
+            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-⁠up analysées</h3>
             <p className="mt-1 text-sm text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Timing : bide ou carton, même vanne</h3>
-            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-il savoir combien de temps le tenir.</p>
+            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-⁠il savoir combien de temps le tenir.</p>
           </Link>
         </div>
       </nav>

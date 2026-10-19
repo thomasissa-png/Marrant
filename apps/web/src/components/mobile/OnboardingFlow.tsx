@@ -182,7 +182,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
             onClick={() => handlePushOptIn(true)}
             className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 px-6 py-4 font-semibold text-lg mb-3 transition"
           >
-            Oui, envoie-moi la vanne du jour
+            Oui, envoie-⁠moi la vanne du jour
           </button>
           <button
             onClick={() => handlePushOptIn(false)}
@@ -228,7 +228,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
             onClick={handleSkipLogin}
             className="w-full rounded-xl border border-gray-700 px-6 py-3 text-gray-300 hover:bg-gray-900 transition"
           >
-            Plus tard, laisse-moi explorer
+            Plus tard, laisse-⁠moi explorer
           </button>
         </div>
       )}

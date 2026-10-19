@@ -9,7 +9,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { useLettreInscription, useLettreVu } from "@/hooks/use-lettre-inscription";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { cn } from "@/lib/utils";
-import { NBSP, frPonctuation } from "@/lib/fr-typo";
+import { NBSP, frPonctuation, lierComposes } from "@/lib/fr-typo";
 import { LettreSucces } from "@/components/lettre/lettre-succes";
 import { LIGNE_REPLIEE_CLASSES } from "@/components/lettre/lettre-repliee-style";
 
@@ -147,7 +147,7 @@ export function LettreInscription({
             <p id={`${id}-titre`} className="text-base font-semibold text-text-primary">
               {textes ? frPonctuation(textes.titre) : TEXTES_LETTRE.titre}
             </p>
-            {(textes ? textes.phrase.map(frPonctuation) : [TEXTES_LETTRE.phrase]).map((phrase) => (
+            {(textes ? textes.phrase.map(frPonctuation) : [TEXTES_LETTRE.phrase]).map(lierComposes).map((phrase) => (
               <p key={phrase} className="mt-1 text-sm text-text-secondary">
                 {phrase}
               </p>

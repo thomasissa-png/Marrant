@@ -56,14 +56,14 @@ export default function RetractationPage() {
             Comment exercer ce droit
           </h2>
           <p>
-            Remplis le formulaire ci-dessous ou envoie un e-mail à{" "}
+            Remplis le formulaire ci-⁠dessous ou envoie un e-⁠mail à{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
               className="text-accent-link underline"
             >
               contact@deviens-marrant.fr
             </a>{" "}
-            en précisant l’adresse e-mail de ton compte et la date d’achat.
+            en précisant l’adresse e-⁠mail de ton compte et la date d’achat.
           </p>
         </section>
 

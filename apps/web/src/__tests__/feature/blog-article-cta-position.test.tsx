@@ -40,7 +40,7 @@ import { prisma } from "@/lib/prisma";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
-import { normalise } from "../helpers/texte-normalise";
+import { normalise, lie } from "../helpers/texte-normalise";
 import { envNeutre } from "../helpers/env-neutre";
 
 // s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
@@ -82,7 +82,7 @@ describe("Page article : position du CTA et partage", () => {
 
   it("autre article : même ordre (s21 : FAQ en dernier pour tous), sans bouton Partager", async () => {
     const { container } = await renderArticle("comment-devenir-drole");
-    const title = screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre);
+    const title = screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre));
     expect(follows(title, screen.getByText("Questions fréquentes"))).toBe(true);
     expect(follows(title, container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
     expect(follows(container.querySelector('[data-blog-zone="related"]')!, screen.getByText("Questions fréquentes"))).toBe(true);

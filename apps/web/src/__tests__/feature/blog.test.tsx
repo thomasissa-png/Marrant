@@ -118,7 +118,7 @@ import BlogArticlePage, {
   generateMetadata,
 } from "@/app/(dashboard)/blog/[slug]/page";
 import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
-import { normalise } from "../helpers/texte-normalise";
+import { normalise, lie } from "../helpers/texte-normalise";
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
@@ -237,7 +237,7 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
+    expect(screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre))).toBeInTheDocument();
     // s21 (B2) : étape 1 gratuite en plein. Clusters simulés ici (aucun) : parcours non connu,
     // donc « Tester mes premières répliques, gratuit » (QA v4 m-2, libellé unique)
     // puis le lien payant « Débloquer les N parcours, 2,99 €/mois ».

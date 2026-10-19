@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { MUR_LISTE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
 import { VannesList } from "@/components/vannes/vannes-list";
+import { avecOuSansGluon } from "../helpers/texte-normalise";
 
 const mockPush = jest.fn();
 let mockSearch = "";
@@ -149,7 +150,7 @@ describe("VannesList", () => {
     });
     expect(screen.queryByText("DIALOGUE")).not.toBeInTheDocument();
     expect(screen.queryByText("Dialogue")).not.toBeInTheDocument();
-    expect(screen.queryByText("One-liner")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("One-liner"))).not.toBeInTheDocument();
     // Type inconnu (ONESHOT dans la fixture) : aucun badge brut.
     expect(screen.queryByText("ONESHOT")).not.toBeInTheDocument();
   });

@@ -9,8 +9,9 @@ import { render } from "@testing-library/react";
 import CGUPage from "@/app/(dashboard)/cgu/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_CONFIDENTIALITE_HREF } from "@/config/lettre";
+import { sansGluon } from "../helpers/texte-normalise";
 
-const texte = (el: Element | null) => (el?.textContent ?? "").replace(/\s+/g, " ").trim();
+const texte = (el: Element | null) => sansGluon(el?.textContent ?? "").replace(/\s+/g, " ").trim();
 
 describe("Confidentialité : section « La lettre »", () => {
   it("porte l’id visé par le lien du formulaire", () => {

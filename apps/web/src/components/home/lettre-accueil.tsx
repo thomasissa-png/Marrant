@@ -6,6 +6,7 @@ import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { TitreDisplay } from "@/components/ui/titre-display";
+import { lierComposes } from "@/lib/fr-typo";
 
 /**
  * Accueil : la lettre en lien discret (intégration s21, `docs/copy/lettre-mensuelle-s21/place-sur-le-site.md`
@@ -26,7 +27,7 @@ export function LettreAccueil() {
     <section aria-labelledby="lettre-accueil" className="border-t border-border pb-4 pt-10 md:pb-6 md:pt-12">
       <div className="mx-auto max-w-xl text-center">
         <TitreDisplay as="h2" id="lettre-accueil" texte={t.titre} className="font-display text-xl font-bold md:text-2xl" />
-        <p className="mt-2 text-sm text-text-secondary">{t.phrase}</p>
+        <p className="mt-2 text-sm text-text-secondary">{lierComposes(t.phrase)}</p>
         <Link
           href="/lettre"
           className="mt-2 inline-flex min-h-[44px] items-center rounded-lg text-sm font-medium text-accent-link underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"

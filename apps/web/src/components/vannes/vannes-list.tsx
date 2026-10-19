@@ -24,6 +24,7 @@ import { MurListe } from "@/components/premium/mur-liste";
 import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
+import { frTypo } from "@/lib/fr-typo";
 
 interface Joke {
   id: string;
@@ -329,7 +330,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
                         Révéler la chute
                       </Button>
                       <p className="text-sm text-text-muted">
-                        {PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length]}
+                        {frTypo(PUNCHLINE_TEASERS[index % PUNCHLINE_TEASERS.length])}
                       </p>
                     </div>
                   )}

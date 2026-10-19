@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { HumorQuiz } from "@/components/onboarding/humor-quiz";
 import { QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
+import { avecOuSansGluon, lie } from "../helpers/texte-normalise";
 
 const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({
@@ -82,7 +83,7 @@ describe("HumorQuiz", () => {
     await userEvent.click(screen.getByText("Avoir de la répartie"));
     expect(screen.getByText("Entre potes / en soirée étudiante")).toBeInTheDocument();
     expect(screen.getByText("Au boulot / machine à café")).toBeInTheDocument();
-    expect(screen.getByText("En soirée / rendez-vous")).toBeInTheDocument();
+    expect(screen.getByText(lie("En soirée / rendez-vous"))).toBeInTheDocument();
     expect(screen.getByText("Partout")).toBeInTheDocument();
   });
 
@@ -274,12 +275,12 @@ describe("HumorQuiz", () => {
 
   it("shows the exit link when exitHref is provided", () => {
     render(<HumorQuiz exitHref="/vannes" />);
-    expect(screen.getByText("Plus tard, laisse-moi explorer").closest("a")).toHaveAttribute("href", "/vannes");
+    expect(screen.getByText(lie("Plus tard, laisse-moi explorer")).closest("a")).toHaveAttribute("href", "/vannes");
   });
 
   it("hides the exit link without exitHref", () => {
     render(<HumorQuiz />);
-    expect(screen.queryByText("Plus tard, laisse-moi explorer")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Plus tard, laisse-moi explorer"))).not.toBeInTheDocument();
   });
 
   describe("s21 B13 : compte sans abonnement", () => {

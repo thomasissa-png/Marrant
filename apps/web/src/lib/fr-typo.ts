@@ -63,6 +63,21 @@ const GUILLEMETS_DROITS = /"([^"\n]+)"/g;
 // Tiret cadratin entre deux espaces (règle 12 du projet) : virgule, en filet de sécurité.
 const CADRATIN_ESPACE = / — /g;
 
+// Revue visuelle s21, tour 4 (T3-02) : mot composé court (« stand-up », « start-up », « rendez-vous »)
+// jamais coupé après son trait d'union (« stand- / up »). Gluon (U+2060) après le trait d'union, comme
+// pour l'impératif : le trait d'union insécable U+2011 n'est pas dans les polices du site (sous-ensembles
+// Inter et Plus Jakarta Sans), il s'afficherait dans une police de secours. Hors URL, ancres, adresses et
+// slugs (ni point, barre, arobase, dièse ni paramètre autour du mot).
+const MOT_COMPOSE = /(?<![\p{L}\p{N}\-./@_#?=&])(\p{L}+)-(\p{L}+)(?![\p{L}\p{N}\-/@_#?=&]|\.[\p{L}\p{N}])/gu;
+const COMPOSES_LONGS = new Set(["auto-dérision", "e-mail", "e-mails"]);
+const lierCompose = (mot: string, a: string, b: string): string =>
+  (a.length >= 2 && b.length >= 2 && mot.length < 12) || COMPOSES_LONGS.has(mot.toLowerCase()) ? `${a}-${GLUON}${b}` : mot;
+
+/** Seulement la liaison des mots composés courts (T3-02), sans le reste de `frTypo`. */
+export function lierComposes(text: string): string {
+  return text.replace(MOT_COMPOSE, lierCompose);
+}
+
 export function frTypo(text: string): string {
   return (
     // « mot : » ne se coupe plus avant la ponctuation haute ; « mot » ne se coupe plus après le guillemet ouvrant
@@ -70,7 +85,8 @@ export function frTypo(text: string): string {
       text
         .replace(APOSTROPHE_DROITE, "$1’")
         .replace(GUILLEMETS_DROITS, "« $1 »")
-        .replace(CADRATIN_ESPACE, ", "),
+        .replace(CADRATIN_ESPACE, ", ")
+        .replace(MOT_COMPOSE, lierCompose),
     )
       // « 7 techniques », « 5 min » restent liés
       .replace(/(\d) (?=[A-Za-zÀ-ÿ€%°])/g, `$1${NBSP}`)

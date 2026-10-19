@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
-import { courbe } from "../helpers/texte-normalise";
+import { courbe, lie } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -198,7 +198,7 @@ describe("ProfilDashboard", () => {
   it("shows 'Lance-toi dans un parcours' when advanced user with no parcours", () => {
     render(<ProfilDashboard />);
     // mockUser has tipsCompleted=15 and jokesRead=42, parcoursProgress=[]
-    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
+    expect(screen.getByText(lie("Lance-toi dans un parcours"))).toBeInTheDocument();
   });
 
   it("shows 'Approfondis tes techniques' when advanced user with parcours started", async () => {
@@ -212,7 +212,7 @@ describe("ProfilDashboard", () => {
     // Since parcoursProgress.length > 0, it should show "Approfondis"
     // But the fetch is async, so initially parcoursProgress=[] → shows "Lance-toi"
     // After fetch resolves, it shows "Approfondis"
-    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
+    expect(screen.getByText(lie("Lance-toi dans un parcours"))).toBeInTheDocument();
   });
 
   it("shows 'Apprends les bases' for new users with few tips", () => {

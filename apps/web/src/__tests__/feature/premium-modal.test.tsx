@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { PremiumModal } from "@/components/premium/premium-modal";
 import { FENETRE_PREMIUM } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { lie, sansGluon } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({
@@ -26,7 +27,7 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
   ] as const)("favori sur un(e) %s : titre et bouton v5", (contenu, titre, bouton) => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu={contenu} />);
-    expect(screen.getByRole("heading", { name: titre })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: lie(titre) })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: bouton })).toBeInTheDocument();
   });
 
@@ -55,7 +56,7 @@ describe("PremiumModal (concision v5 : titre, prix, plein, REASS par geste)", ()
       useSession.mockReturnValue({ status, data: status === "authenticated" ? { user: { plan: "FREE" } } : undefined });
       const { unmount } = render(<PremiumModal isOpen onClose={jest.fn()} reason={reason} contenu={contenu} />);
       const t = T[reason === "favoris" ? "favori" : reason][contenu];
-      const texte = (document.body.textContent ?? "").replace(/\u00a0/g, " ");
+      const texte = sansGluon(document.body.textContent ?? "").replace(/\u00a0/g, " ");
       expect(texte).toBe(`${t.titre}2,99 €TTC / mois${t.bouton}${REASSURANCE_UNIQUE}`.replace(/\u00a0/g, " "));
       expect(texte).not.toMatch(/Deux étapes|reste là|Avec Premium|étape 1|rétractation|Sans engagement/i);
       unmount();

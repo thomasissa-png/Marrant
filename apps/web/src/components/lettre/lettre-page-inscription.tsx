@@ -5,6 +5,7 @@ import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { TitreDisplay } from "@/components/ui/titre-display";
+import { lierComposes } from "@/lib/fr-typo";
 
 /**
  * En-tête et formulaire de `/lettre`. Revue s21 m4 : un abonné Premium connecté ne
@@ -27,7 +28,7 @@ export function LettrePageInscription({ ignorerDrapeau = false }: { ignorerDrape
           texte={TEXTES_LETTRE.titre}
           className="text-balance font-display text-2xl font-bold text-text-primary sm:text-3xl"
         />
-        <p className="mt-2 text-text-secondary">{TEXTES_LETTRE.phrase}</p>
+        <p className="mt-2 text-text-secondary">{lierComposes(TEXTES_LETTRE.phrase)}</p>
       </header>
       <LettreInscription emplacement="page" titreId="lettre-titre-page" ignorerDrapeau={ignorerDrapeau} />
     </>

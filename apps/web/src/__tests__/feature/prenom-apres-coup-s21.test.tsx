@@ -12,6 +12,7 @@ jest.mock("@/components/ui/toast", () => ({ toast: (...a: unknown[]) => mockToas
 
 import { PrenomCard } from "@/components/profil/prenom-card";
 import { TEXTES_API, TEXTES_PRENOM } from "@/config/textes/compte";
+import { lie } from "../helpers/texte-normalise";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -21,7 +22,7 @@ describe("Carte « Ton prénom » de /profil", () => {
   it("vide au départ, enregistre puis confirme", async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => ({ name: "Jean" }) });
     render(<PrenomCard prenom={null} />);
-    const champ = screen.getByLabelText(TEXTES_PRENOM.label);
+    const champ = screen.getByLabelText(lie(TEXTES_PRENOM.label));
     expect(champ).toHaveValue("");
     expect(champ).not.toBeRequired();
     await userEvent.type(champ, "Jean");
@@ -33,7 +34,7 @@ describe("Carte « Ton prénom » de /profil", () => {
   it("un caractère : erreur reliée au champ, aucun appel", async () => {
     global.fetch = jest.fn();
     render(<PrenomCard prenom="Jean" />);
-    const champ = screen.getByLabelText(TEXTES_PRENOM.label);
+    const champ = screen.getByLabelText(lie(TEXTES_PRENOM.label));
     await userEvent.clear(champ);
     await userEvent.type(champ, "J");
     await userEvent.click(screen.getByRole("button", { name: TEXTES_PRENOM.bouton }));

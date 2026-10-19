@@ -6,6 +6,7 @@ import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+import { frTypo } from "@/lib/fr-typo";
 
 /** Aperçu de partage (og ET twitter, sinon twitter reprend celui de l'accueil). */
 const SHARE = {
@@ -159,7 +160,7 @@ export default function AnatomieVannePage() {
                 <p className="text-xs font-semibold text-text-muted">Types de pivots</p>
                 <p className="mt-1 text-sm text-text-primary">
                   Double sens, retournement, exagération, décalage,
-                  sous-entendu, anti-chute.
+                  sous-entendu, anti-⁠chute.
                 </p>
               </div>
             </div>
@@ -178,7 +179,7 @@ export default function AnatomieVannePage() {
               <p className="mt-3 text-sm text-text-secondary">
                 La <strong>chute</strong> : la phrase qui déclenche le rire. Elle doit
                 surprendre et rester courte, et une fois entendue, elle doit paraître
-                évidente, comme si tu avais pu la trouver toi-même.
+                évidente, comme si tu avais pu la trouver toi-⁠même.
               </p>
               <div className="mt-4 rounded-lg bg-background-elevated p-3">
                 <p className="text-xs font-semibold text-text-muted">Règle d’or</p>
@@ -304,7 +305,7 @@ export default function AnatomieVannePage() {
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{pivot.emoji}</span>
                   <h3 className="font-semibold text-text-primary">
-                    {pivot.name}
+                    {frTypo(pivot.name)}
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-text-secondary">{pivot.desc}</p>
@@ -355,7 +356,7 @@ export default function AnatomieVannePage() {
                       {item.error}
                     </p>
                     <p className="mt-1 text-sm text-text-secondary">
-                      <span className="text-success">→</span> {item.fix}
+                      <span className="text-success">→</span> {frTypo(item.fix)}
                     </p>
                   </div>
                 </div>
@@ -403,10 +404,10 @@ export default function AnatomieVannePage() {
             {anatomyFaqs.map((faq) => (
               <details key={faq.question} className="group">
                 <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
-                  {faq.question}
+                  {frTypo(faq.question)}
                 </summary>
                 <p className="mt-2 text-sm text-text-secondary pl-4">
-                  {faq.answer}
+                  {frTypo(faq.answer)}
                 </p>
               </details>
             ))}

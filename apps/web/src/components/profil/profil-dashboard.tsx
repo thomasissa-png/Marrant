@@ -329,7 +329,7 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
               <Link href="/parcours" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Lance-toi dans un parcours</p>
+                  <p className="font-semibold text-accent-link">Lance-⁠toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
                     Tu as les bases. Un parcours te donne un fil à suivre, une étape après l’autre.
                   </p>
@@ -350,7 +350,7 @@ export function ProfilDashboard() {
               <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                 <p className="font-semibold text-accent-link">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
-                  Décortique les techniques des meilleurs humoristes, puis pique-leur ce qui te va.
+                  Décortique les techniques des meilleurs humoristes, puis pique-⁠leur ce qui te va.
                 </p>
               </div>
             </Link>

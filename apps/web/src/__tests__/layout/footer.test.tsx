@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { Footer } from "@/components/layout/footer";
+import { lie } from "../helpers/texte-normalise";
 
 // Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
 jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
@@ -21,7 +22,7 @@ describe("Footer", () => {
     render(<Footer />);
     expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
-    expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
+    expect(screen.getByText(lie("Vidéos stand-up"))).toBeInTheDocument();
     expect(screen.getByText("Parcours")).toBeInTheDocument();
     expect(screen.getByText("Articles")).toBeInTheDocument();
     expect(screen.getByText("Articles").closest("a")).toHaveAttribute("href", "/blog");

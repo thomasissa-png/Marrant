@@ -237,7 +237,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             )}
             {emailTaken && (
               <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
-                Cet e-mail a déjà un compte.{" "}
+                Cet e-⁠mail a déjà un compte.{" "}
                 <Link href={loginHref} className="font-medium underline underline-offset-2">
                   Connecte-toi
                 </Link>{" "}

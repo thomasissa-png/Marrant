@@ -132,7 +132,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l’analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
+            Entre regarder du stand-⁠up sur YouTube et apprendre le stand-⁠up, il y a une étape : <strong className="text-text-primary">l’analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
             Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C’est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">tu deviens drôle</Link> : pas en regardant, en faisant.

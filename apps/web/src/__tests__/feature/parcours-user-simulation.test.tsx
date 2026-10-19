@@ -12,7 +12,7 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
-import { apostropheSouple, courbe } from "../helpers/texte-normalise";
+import { apostropheSouple, courbe, lie } from "../helpers/texte-normalise";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -523,10 +523,10 @@ describe("Sophie (FREE) — Parcours Machine à Café", () => {
 
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
-    expect(screen.getByText(/retenir et placer des one-liners/)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(lie("retenir et placer des one-liners")))).toBeInTheDocument();
     expect(screen.getByText(/Format :/)).toBeInTheDocument();
     expect(screen.getByText("Le conseil")).toBeInTheDocument();
-    expect(screen.getByText(/Apprends les one-liners/)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(lie("Apprends les one-liners")))).toBeInTheDocument();
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
     expect(screen.getByText(apostropheSouple(/patron m'a dit/))).toBeInTheDocument();
     expect(screen.getByText("Exercice pratique")).toBeInTheDocument();

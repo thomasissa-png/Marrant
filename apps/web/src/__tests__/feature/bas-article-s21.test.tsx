@@ -27,7 +27,7 @@ import BlogArticlePage from "@/app/(dashboard)/blog/[slug]/page";
 import { LettreInscription } from "@/components/lettre/lettre-inscription";
 import { BLOC_FIN, LETTRE_ARTICLE } from "@/config/textes/cta-articles-accueil";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
-import { normalise } from "../helpers/texte-normalise";
+import { avecOuSansGluon, lie, normalise } from "../helpers/texte-normalise";
 
 const ANNUEL = "STRIPE_PREMIUM_ANNUAL_PRICE_ID";
 
@@ -57,7 +57,7 @@ describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
     const lettre = container.querySelector<HTMLElement>('[data-blog-zone="lettre"]')!;
     expect(lettre).toHaveTextContent(LETTRE_ARTICLE.titre);
     expect(LETTRE_ARTICLE.titre).toBe("Une vanne décryptée, chaque mois");
-    expect(lettre).toHaveTextContent("Gratuite, par e-mail, avec un exercice.");
+    expect(lettre).toHaveTextContent(lie("Gratuite, par e-mail, avec un exercice."));
     expect(lettre).not.toHaveTextContent(/J'ai pris un chien|La lettre est gratuite, sans compte|pour t'entraîner/);
     const bloc = container.querySelector("[data-blog-bloc-fin]")!;
     expect(bloc.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
@@ -65,8 +65,8 @@ describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
   it("autre emplacement (quiz) : textes communs inchangés", () => {
     render(<LettreInscription emplacement="quiz" />);
     expect(screen.getByText(TEXTES_LETTRE.titre)).toBeInTheDocument();
-    expect(screen.getByText(TEXTES_LETTRE.phrase)).toBeInTheDocument();
-    expect(screen.queryByText("Gratuite, par e-mail, avec un exercice.")).not.toBeInTheDocument();
+    expect(screen.getByText(lie(TEXTES_LETTRE.phrase))).toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Gratuite, par e-mail, avec un exercice."))).not.toBeInTheDocument();
   });
   it("zéro tiret cadratin", () => {
     expect(JSON.stringify(LETTRE_ARTICLE) + JSON.stringify(BLOC_FIN)).not.toContain("—");

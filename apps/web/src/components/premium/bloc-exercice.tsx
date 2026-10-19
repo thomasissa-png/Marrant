@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
 import { BLOC_EXERCICE, BLOC_EXERCICE_ABONNE_TITRE, type FicheType } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { contenuAffiche } from "@/lib/tip-prose";
 
 interface BlocExerciceProps {
   type: FicheType;
@@ -39,7 +40,7 @@ export function BlocExercice({ type, returnTo, parcours, exercice }: BlocExercic
     return (
       <section className={cn("mt-8", BLOC_APPEL)} data-bloc-exercice={type}>
         <h2 className={TITRE_BLOC_APPEL}>{BLOC_EXERCICE_ABONNE_TITRE}</h2>
-        <p className="mt-2 text-sm text-text-secondary">{exercice}</p>
+        <p className="mt-2 text-sm text-text-secondary">{contenuAffiche(exercice)}</p>
       </section>
     );
   }

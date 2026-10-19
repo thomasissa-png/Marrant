@@ -190,7 +190,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
       href={exitHref}
       className="mt-6 inline-flex min-h-[44px] items-center justify-center text-sm text-text-muted underline hover:text-text-secondary"
     >
-      Plus tard, laisse-moi explorer
+      Plus tard, laisse-⁠moi explorer
     </Link>
   ) : null;
 
@@ -327,7 +327,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
             className="flex flex-col items-center gap-2 rounded-lg border border-border bg-background-card p-4 text-center transition-all hover:border-accent-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary active:scale-95"
           >
             <span className="text-3xl" aria-hidden="true">{option.emoji}</span>
-            <span className="text-sm font-medium text-text-primary">{option.label}</span>
+            <span className="text-sm font-medium text-text-primary">{frTypo(option.label)}</span>
           </button>
         ))}
       </div>

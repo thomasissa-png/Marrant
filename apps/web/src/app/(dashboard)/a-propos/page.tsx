@@ -124,7 +124,7 @@ export default function AProposPage() {
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
-                <strong>Des vidéos de stand-up analysées</strong>&nbsp;: chaque
+                <strong>Des vidéos de stand-⁠up analysées</strong>&nbsp;: chaque
                 technique décryptée pour que tu puisses l’appliquer
               </span>
             </li>
@@ -149,7 +149,7 @@ export default function AProposPage() {
           <h2 className="font-display text-2xl font-bold">Notre approche</h2>
           <p className="mt-3 text-text-secondary">
             Tout repose sur 3 principes issus de la pédagogie du
-            stand-up et de la psychologie positive :
+            stand-⁠up et de la psychologie positive :
           </p>
           <ol className="mt-4 list-outside list-decimal space-y-3 pl-6 text-text-secondary">
             <li>
@@ -174,16 +174,16 @@ export default function AProposPage() {
           <h2 className="font-display text-2xl font-bold">L’équipe</h2>
           <p className="mt-3 text-text-secondary">
             deviens-marrant.fr est fondé par <strong>Alex Durand</strong>,
-            passionné de stand-up et de pédagogie. Après des années à
+            passionné de stand-⁠up et de pédagogie. Après des années à
             décortiquer les techniques des meilleurs humoristes français, il a
             créé cette plateforme pour rendre l’humour accessible à tous,
             pas juste à ceux qui sont «&nbsp;nés drôles&nbsp;».
           </p>
           <p className="mt-3 text-text-secondary">
-            L’équipe mélange culture stand-up et pédagogie, avec une
+            L’équipe mélange culture stand-⁠up et pédagogie, avec une
             obsession : que ce que tu lis ici te serve dès ce soir. Chaque
             vanne, chaque conseil, chaque vidéo
-            passe un test simple avant d’être publié : «&nbsp;est-ce que
+            passe un test simple avant d’être publié : «&nbsp;est-⁠ce que
             je peux la sortir ce soir et faire rire ?&nbsp;»
           </p>
         </section>
@@ -193,8 +193,8 @@ export default function AProposPage() {
           <dl className="mt-4 space-y-4">
             {aboutFaqs.map((faq, i) => (
               <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-                <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-                <dd className="mt-2 text-sm text-text-secondary">{stripEmDashes(faq.answer)}</dd>
+                <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
+                <dd className="mt-2 text-sm text-text-secondary">{frTypo(stripEmDashes(faq.answer))}</dd>
               </div>
             ))}
           </dl>
@@ -203,7 +203,7 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">Contact</h2>
           <p className="mt-3 text-text-secondary">
-            Une question, une suggestion, un partenariat ? Écris-nous à{" "}
+            Une question, une suggestion, un partenariat ? Écris-⁠nous à{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
               className="font-medium text-accent-link underline underline-offset-2"

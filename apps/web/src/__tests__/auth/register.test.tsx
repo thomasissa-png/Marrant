@@ -2,6 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
+import { lie } from "../helpers/texte-normalise";
 
 const mockPush = jest.fn();
 const mockRefresh = jest.fn();
@@ -251,7 +252,7 @@ describe("RegisterPage", () => {
       (global.fetch as jest.Mock).mockResolvedValue({ ok: false, status: 409, json: async () => ({ error: "Un compte avec cet email existe déjà" }) });
       render(<RegisterPage />);
       await fillAndSubmit();
-      await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Cet e-mail a déjà un compte. Connecte-toi pour reprendre ton abonnement."));
+      await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(lie("Cet e-mail a déjà un compte. Connecte-toi pour reprendre ton abonnement.")));
       const links = screen.getAllByRole("link", { name: "Connecte-toi" });
       expect(links[0]).toHaveAttribute("href", "/login?callbackUrl=%2Fabonnement%3Fplan%3Dannual");
       expect(mockPush).not.toHaveBeenCalled();

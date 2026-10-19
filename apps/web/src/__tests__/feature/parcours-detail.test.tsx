@@ -3,7 +3,7 @@ import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail } from "@/components/parcours/parcours-detail";
 import { useUserStore } from "@/stores/user-store";
-import { courbe } from "../helpers/texte-normalise";
+import { avecOuSansGluon, courbe, lie } from "../helpers/texte-normalise";
 
 // Mock progress bar
 jest.mock("@/components/ui/progress-bar", () => ({
@@ -185,7 +185,7 @@ describe("ParcoursDetail — enriched content", () => {
     });
     expect(screen.getByText(/terrain de jeu de Sophie/)).toBeInTheDocument();
     expect(screen.getByText("Ce que tu vas apprendre")).toBeInTheDocument();
-    expect(screen.getByText(/retenir et placer des one-liners/)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(lie("retenir et placer des one-liners")))).toBeInTheDocument();
     expect(screen.getByText(/Format :/)).toBeInTheDocument();
     expect(screen.getByText("Le conseil")).toBeInTheDocument();
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
@@ -200,7 +200,7 @@ describe("ParcoursDetail — enriched content", () => {
       expect(screen.getByText("Vannes à pratiquer")).toBeInTheDocument();
     });
     expect(screen.getByText(/^3 vannes dans cette étape\.$/)).toBeInTheDocument();
-    expect(screen.queryByText("Découvre-les dans le catalogue")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Découvre-les dans le catalogue"))).not.toBeInTheDocument();
   });
 
   it("shows video cards with thumbnails", async () => {
@@ -212,7 +212,7 @@ describe("ParcoursDetail — enriched content", () => {
     });
     expect(screen.getByText("Paul Séré")).toBeInTheDocument();
     expect(screen.getByText("Les relations amoureuses")).toBeInTheDocument();
-    expect(screen.getByText("One-liners enchaînés.")).toBeInTheDocument();
+    expect(screen.getByText(lie("One-liners enchaînés."))).toBeInTheDocument();
   });
 
   it("shows quiz and allows answering", async () => {

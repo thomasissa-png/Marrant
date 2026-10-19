@@ -34,7 +34,7 @@ export default function MentionsLegalesPage() {
           {/* Audit s16 (reco 18) : production sur Cloudflare Workers depuis le 30/09/2026.
               Adresse : siège de Cloudflare, Inc. (rapport annuel 10-K, SEC). */}
           <p>Ce site est hébergé par Cloudflare, Inc.</p>
-          <p>101 Townsend St, San Francisco, CA 94107, États-Unis</p>
+          <p>101 Townsend St, San Francisco, CA 94107, États-⁠Unis</p>
           <p>Site web : cloudflare.com</p>
         </section>
         <section>
@@ -49,7 +49,7 @@ export default function MentionsLegalesPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">Contact</h2>
-          <p>Pour toute question ou réclamation, écris-nous : contact@deviens-marrant.fr</p>
+          <p>Pour toute question ou réclamation, écris-⁠nous : contact@deviens-marrant.fr</p>
         </section>
       </div>
     </div>

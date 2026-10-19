@@ -40,7 +40,7 @@ describe("CeoHeader", () => {
       />
     );
     expect(screen.getByText("ACTIF")).toBeInTheDocument();
-    expect(screen.getByText(/Couper l'agent/i)).toBeInTheDocument();
+    expect(screen.getByText(/Couper l['’]agent/i)).toBeInTheDocument();
   });
 
   it("affiche COUPÉ + raison quand enabled=false", () => {
@@ -70,7 +70,7 @@ describe("CeoHeader", () => {
       />
     );
 
-    await user.click(screen.getByText(/Couper l'agent/i));
+    await user.click(screen.getByText(/Couper l['’]agent/i));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(

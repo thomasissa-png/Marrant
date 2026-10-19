@@ -1,4 +1,5 @@
 import { frTypo, NBSP } from "@/lib/fr-typo";
+import { lie } from "../helpers/texte-normalise";
 
 /**
  * Revue visuelle s21, décision 4 du verdict @design : `frTypo` est un filtre d'affichage.
@@ -25,7 +26,7 @@ describe("frTypo, filtre d'affichage (revue visuelle s21)", () => {
   });
 
   it("texte déjà typographié : ressort identique (idempotent)", () => {
-    const deja = `C’est l’heure${NBSP}: «${NBSP}vas-y${NBSP}», dit-il, 7${NBSP}techniques.`;
+    const deja = lie(`C’est l’heure${NBSP}: «${NBSP}vas-y${NBSP}», dit-il, 7${NBSP}techniques.`);
     expect(frTypo(deja)).toBe(deja);
     const brut = `Ma banque m'a écrit : "Merci" — même ma banque, 4 812 fois.`;
     expect(frTypo(frTypo(brut))).toBe(frTypo(brut));
@@ -38,5 +39,21 @@ describe("frTypo, filtre d'affichage (revue visuelle s21)", () => {
 
   it("apostrophe hors mot (citation entre apostrophes) : laissée telle quelle", () => {
     expect(frTypo("'On a tous les deux regretté.'")).toBe("'On a tous les deux regretté.'");
+  });
+
+  // Revue visuelle s21, tour 4 (T3-02) : mot composé court jamais coupé après son trait d'union.
+  it("mots composés courts liés par un gluon, longs, adresses, liens et slugs intacts", () => {
+    const WJ = String.fromCharCode(0x2060);
+    expect(frTypo("de stand-up pour briller")).toBe(`de stand-${WJ}up pour briller`);
+    expect(frTypo("en mode start-up")).toBe(`en mode start-${WJ}up`);
+    expect(frTypo("L’auto-dérision sociale")).toBe(`L’auto-${WJ}dérision sociale`);
+    expect(frTypo("par e-mail")).toBe(`par e-${WJ}mail`);
+    expect(frTypo("un porte-monnaie")).toBe("un porte-monnaie");
+    for (const intact of ["contact@deviens-marrant.fr", "deviens-marrant.fr", "/blog/comment-devenir-drole", "/vannes?q=stand-up", "#stand-up"]) {
+      expect(frTypo(intact)).toBe(intact);
+    }
+    const lie = frTypo("Vidéos stand-up analysées");
+    expect(frTypo(lie)).toBe(lie);
+    expect(lie.replace(new RegExp(WJ, "g"), "")).toBe("Vidéos stand-up analysées");
   });
 });

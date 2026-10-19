@@ -9,6 +9,22 @@
  */
 export const courbe = (texte: string): string => texte.replace(/(\p{L})'(?=\p{L})/gu, "$1’");
 
+/**
+ * Revue visuelle s21, tour 4 (T3-02) : « stand-up », « e-mail », « laisse-moi »… sont rendus avec un gluon
+ * (U+2060, invisible) après le trait d'union, pour ne jamais être coupés en fin de ligne. `lie` pose le
+ * gluon sur l'attendu comme le rendu ; `sansGluon` le retire d'un texte rendu pour une comparaison brute.
+ */
+export { lierComposes as lie } from "@/lib/fr-typo";
+const GLUON = new RegExp(String.fromCharCode(0x2060), "g");
+export const sansGluon = (texte: string): string => texte.replace(GLUON, "");
+
+/**
+ * Texte exact, avec ou sans gluon après chaque trait d'union : pour les absences (`queryByText(…)` +
+ * `not.toBeInTheDocument()`), qui passeraient à vide si l'attendu n'avait plus la forme du rendu.
+ */
+export const avecOuSansGluon = (texte: string): RegExp =>
+  new RegExp(`^${texte.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/-/g, `-${String.fromCharCode(0x2060)}?`)}$`);
+
 export const normalise = (texte: string): string => courbe(texte.replace(/\s+/g, " ").trim());
 
 /** Expression régulière qui accepte l'apostrophe droite ou typographique là où l'attendu en a une. */

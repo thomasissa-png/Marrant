@@ -93,7 +93,7 @@ export default function GlossairePage() {
                 href={`#${termAnchor(item.term)}`}
                 className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-2 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
               >
-                {item.term}
+                {frTypo(item.term)}
               </a>
             </li>
           ))}
@@ -110,7 +110,7 @@ export default function GlossairePage() {
             className="flex h-full scroll-mt-32 flex-col rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
-              {item.term}
+              {frTypo(item.term)}
             </h2>
             <p className="mt-3 max-w-3xl leading-relaxed text-text-secondary">
               {frTypo(item.definition)}
@@ -119,7 +119,7 @@ export default function GlossairePage() {
               href={item.related}
               className="mt-auto inline-flex min-h-11 items-center self-start pt-1 text-sm font-medium text-accent-link hover:underline"
             >
-              {item.relatedLabel} →
+              {frTypo(item.relatedLabel)} →
             </Link>
           </section>
         ))}

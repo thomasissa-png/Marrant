@@ -105,7 +105,7 @@ describe("DemoVanne (B1)", () => {
     const { container } = render(<DemoVanne demo={demo} position="milieu-1" parcours="repartie" />);
     expect(container.innerHTML).not.toContain("Donne-moi la nuit");
     const encart = screen.getByRole("complementary", { name: DEMO_VANNE.surtitre });
-    expect(encart).toHaveTextContent(/Premier rendez-vous, au dessert\. Tu viens de dire ta troisième phrase de la soirée, et on te lance\s?:\s«\sTu parles toujours aussi peu\s\?\s»/);
+    expect(encart).toHaveTextContent(/Premier rendez-\u2060?vous, au dessert\. Tu viens de dire ta troisième phrase de la soirée, et on te lance\s?:\s«\sTu parles toujours aussi peu\s\?\s»/);
     expect(encart).toHaveTextContent("Tu réponds quoi");
     const liens = screen.getAllByRole("link");
     expect(liens).toHaveLength(1);

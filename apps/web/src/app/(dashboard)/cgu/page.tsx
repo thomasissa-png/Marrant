@@ -74,7 +74,7 @@ export default function CGUPage() {
           {/* Audit s16 (reco 18, D11 @legal) : plus de « compétence exclusive des tribunaux de Paris »,
               inopposable à un consommateur (art. R.631-3 du Code de la consommation). */}
           <p>Les présentes CGU sont soumises au droit français, sans te priver de la protection que t’accordent les règles impératives du pays où tu résides.</p>
-          <p className="mt-2">En cas de litige, écris-nous d’abord à contact@deviens-marrant.fr : on cherche une solution amiable avec toi. Tu peux aussi recourir gratuitement à un médiateur de la consommation.</p>
+          <p className="mt-2">En cas de litige, écris-⁠nous d’abord à contact@deviens-marrant.fr : on cherche une solution amiable avec toi. Tu peux aussi recourir gratuitement à un médiateur de la consommation.</p>
           <p className="mt-2">À défaut d’accord, tu peux saisir, à ton choix, l’une des juridictions territorialement compétentes selon le Code de procédure civile ou la juridiction du lieu où tu demeurais au moment de la conclusion du contrat ou de la survenance du fait dommageable (article R.631-3 du Code de la consommation).</p>
         </section>
         {/* s21, @legal B7 : phrase de la lettre mensuelle, mot pour mot (dernière phrase de l'article
@@ -83,7 +83,7 @@ export default function CGUPage() {
             Premium) attend l'ouverture de ces services : jamais de promesse non tenue. */}
         <section id="lettre" className="scroll-mt-24">
           <h2 className="mb-2 text-lg font-semibold text-text-primary">10. La lettre</h2>
-          <p>La lettre mensuelle gratuite est indépendante de l’abonnement : elle se fait sur inscription, confirmée par e-mail.</p>
+          <p>La lettre mensuelle gratuite est indépendante de l’abonnement : elle se fait sur inscription, confirmée par e-⁠mail.</p>
         </section>
       </div>
     </div>

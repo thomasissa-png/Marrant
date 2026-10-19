@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/toast";
 import { useUserStore } from "@/stores/user-store";
 import { PRENOM_MAX, TEXTES_PRENOM as T } from "@/config/textes/compte";
+import { lierComposes } from "@/lib/fr-typo";
 
 /**
  * Prénom du compte (s21 concision, choix de Thomas du 18/10) : il n'est plus demandé à
@@ -59,7 +60,7 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
         <form className="flex flex-col gap-3 sm:flex-row sm:items-end" onSubmit={enregistrer} noValidate>
           <div className="flex-1">
             <label htmlFor="profil-prenom" className="mb-1 block text-sm text-text-secondary">
-              {T.label}
+              {lierComposes(T.label)}
             </label>
             <Input
               id="profil-prenom"

@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
 import LoginPage from "@/app/(auth)/login/page";
 import { UA } from "@/__tests__/helpers/user-agents";
+import { lie } from "../helpers/texte-normalise";
 
 const mockSignIn = jest.fn();
 let mockSearchParams = new URLSearchParams();
@@ -82,7 +83,7 @@ describe("/register", () => {
 
     await userEvent.click(copy);
     expect(writeText).toHaveBeenCalledWith(expected);
-    expect(await screen.findByText("Lien copié. Colle-le dans ton navigateur.")).toBeInTheDocument();
+    expect(await screen.findByText(lie("Lien copié. Colle-le dans ton navigateur."))).toBeInTheDocument();
 
     await userEvent.click(google);
     expect(mockSignIn).not.toHaveBeenCalled();

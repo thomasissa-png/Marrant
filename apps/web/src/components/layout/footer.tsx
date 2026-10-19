@@ -4,6 +4,7 @@ import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
 import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { frTypo } from "@/lib/fr-typo";
 
 const footerLinks = {
   produit: [
@@ -88,7 +89,7 @@ export function Footer() {
             </span>
             <p className="mt-2 text-sm text-text-secondary">
               Deviens drôle, un exercice à la fois. Vannes, répartie et techniques
-              de stand-up pour briller en société.
+              de stand-⁠up pour briller en société.
             </p>
             <p className="mt-2 text-sm text-text-muted">
               <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center text-text-secondary transition-colors hover:text-text-primary">contact@deviens-marrant.fr</a>
@@ -129,7 +130,7 @@ export function Footer() {
                 ) : (
                   <li key={link.href}>
                     <Link href={link.href} className={LIEN_PIED}>
-                      {link.label}
+                      {frTypo(link.label)}
                     </Link>
                   </li>
                 ),
@@ -149,7 +150,7 @@ export function Footer() {
                     href={link.href}
                     className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
-                    {link.label}
+                    {frTypo(link.label)}
                   </Link>
                 </li>
               ))}

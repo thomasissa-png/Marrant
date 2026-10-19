@@ -15,7 +15,7 @@ import AbonnementPage from "@/app/(dashboard)/abonnement/page";
 jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
-import { apostropheSouple } from "../helpers/texte-normalise";
+import { apostropheSouple, lie, sansGluon } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({ useContentStats: () => ({ jokes: 600, tips: 400, videos: 80 }) }));
@@ -126,7 +126,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: 3, eligible: true } });
     render(<RappelParcoursToggle />);
     const box = await screen.findByRole("switch", {
-      name: "Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l’arrêter à tout moment.",
+      name: lie("Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l’arrêter à tout moment."),
     });
     expect(box).not.toBeChecked();
     expect(screen.getByLabelText("Jour du rappel")).toBeDisabled();
@@ -253,7 +253,7 @@ describe("Confidentialité (legal s17 §4)", () => {
       "Ton rappel de parcours s’arrête dès que tu le désactives",
       "avec le lien au bas de chaque e-mail : ce que tu as reçu avant reste valable.",
     ]) {
-      expect(text).toContain(extrait);
+      expect(sansGluon(text)).toContain(extrait);
     }
     expect(text).not.toContain("25 mois");
   });

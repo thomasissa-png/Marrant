@@ -7,6 +7,7 @@ import { test, expect, localSeulement, requete, creerCompte, connecter } from ".
  * - aucune apostrophe droite entre deux lettres (`/\p{L}'\p{L}/u`) : « l’étape », jamais « l'étape » ;
  * - aucun guillemet « ou » séparé de son mot par une espace ordinaire ou un retour à la ligne
  *   (il serait orphelin en bout de ligne) : une insécable les lie.
+ * - tour 4 (T3-02) : « stand-up », « start-up », « auto-dérision »… jamais coupés après le trait d'union.
  * Le texte des lecteurs YouTube (iframes) n'est pas dans `innerText` : il vient de YouTube.
  */
 const PAGES = [
@@ -16,6 +17,8 @@ const PAGES = [
 ];
 const APOSTROPHE_DROITE = /\p{L}'\p{L}/u;
 const GUILLEMET_ISOLE = /«[ \n\t]|[ \n\t]»/;
+// Tour 4 (T3-02) : mot composé courant jamais coupé après son trait d'union (gluon U+2060 après le trait).
+const COMPOSE_SECABLE = /(?<![\p{L}-])(stand|start|auto|one|rendez|peut)-(up|dérision|liner|vous|être)(?!\p{L})/iu;
 
 async function defauts(page: import("@playwright/test").Page): Promise<string[]> {
   // Laisse les listes se charger (contenu de la base rendu côté client).
@@ -25,6 +28,7 @@ async function defauts(page: import("@playwright/test").Page): Promise<string[]>
   for (const ligne of texte.split("\n")) {
     if (APOSTROPHE_DROITE.test(ligne)) fautes.push(`apostrophe droite : ${ligne.trim().slice(0, 90)}`);
     if (GUILLEMET_ISOLE.test(ligne)) fautes.push(`guillemet isolé : ${ligne.trim().slice(0, 90)}`);
+    if (COMPOSE_SECABLE.test(ligne)) fautes.push(`mot composé sécable : ${ligne.trim().slice(0, 90)}`);
   }
   return fautes;
 }

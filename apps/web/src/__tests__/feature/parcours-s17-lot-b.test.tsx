@@ -8,7 +8,7 @@ import { act, render, screen, waitFor, within } from "@testing-library/react";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
-import { courbe } from "../helpers/texte-normalise";
+import { avecOuSansGluon, courbe, lie } from "../helpers/texte-normalise";
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -210,7 +210,7 @@ describe("D2 rythme doux et rappel (lien vers le profil)", () => {
     render(<ParcoursDetail slug="confiance" />);
     expect(await screen.findByText(/Prochaine étape conseillée le .+\. Tu peux y aller dès maintenant si tu veux/)).toBeInTheDocument();
     expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
-    expect((await screen.findByText("Règle-le dans ton profil")).closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
+    expect((await screen.findByText(lie("Règle-le dans ton profil"))).closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
   });
 
   it("s17 tour 1 (UXV-1-02) : abonné sans droit au rappel (e-mail non vérifié) : aucune invitation", async () => {
@@ -224,14 +224,14 @@ describe("D2 rythme doux et rappel (lien vers le profil)", () => {
     render(<ParcoursDetail slug="confiance" />);
     await screen.findByText("Valider cette étape");
     await waitFor(() => expect(global.fetch).toHaveBeenCalledWith("/api/user/rappel-parcours", expect.anything()));
-    expect(screen.queryByText("Règle-le dans ton profil")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Règle-le dans ton profil"))).not.toBeInTheDocument();
   });
 
   it("visiteur : ni date conseillée ni lien de rappel", async () => {
     render(<ParcoursDetail slug="confiance" initialPath={buildPath([50, 75])} />);
     await screen.findByText("Pourquoi 1.");
     expect(screen.queryByText(/Prochaine étape conseillée/)).not.toBeInTheDocument();
-    expect(screen.queryByText("Règle-le dans ton profil")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Règle-le dans ton profil"))).not.toBeInTheDocument();
   });
 });
 

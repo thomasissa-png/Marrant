@@ -24,6 +24,7 @@ import { Footer } from "@/components/layout/footer";
 import { LettreAccueil } from "@/components/home/lettre-accueil";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { NBSP } from "@/lib/fr-typo";
+import { lie } from "../helpers/texte-normalise";
 import { TitreDisplay } from "@/components/ui/titre-display";
 
 const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
@@ -98,7 +99,7 @@ describe("Accueil", () => {
     const { container } = render(<LettreAccueil />);
     const section = container.querySelector("section[aria-labelledby='lettre-accueil']");
     expect(sansInsecables(section?.querySelector("h2#lettre-accueil")?.textContent)).toBe("Une vanne décryptée, chaque mois");
-    expect(sansInsecables(section?.textContent)).toContain("Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte.");
+    expect(sansInsecables(section?.textContent)).toContain(lie("Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte."));
     const lien = screen.getByRole("link", { name: "Voir la lettre" });
     expect(lien).toHaveAttribute("href", "/lettre");
     expect(sansInsecables(lien.textContent)).toBe("Voir la lettre →");

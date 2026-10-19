@@ -663,12 +663,12 @@ export function ParcoursDetail({
               {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}
               {!isPathCompleted && rappelInvite && (
                 <p className="-mb-3 mt-2 text-xs text-text-muted sm:mb-0">
-                  {RAPPEL_LIEN.texte}{" "}
+                  {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
                   <Link
                     href="/profil#rappel-parcours"
                     className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2 sm:min-h-0"
                   >
-                    {RAPPEL_LIEN.lien}
+                    {frTypoTexte(RAPPEL_LIEN.lien)}
                   </Link>
                 </p>
               )}

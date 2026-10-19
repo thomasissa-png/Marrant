@@ -83,7 +83,7 @@ export default function QuizHumourPage() {
       <div className="mx-auto max-w-3xl">
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-            Quel type d’humour es-tu ?
+            Quel type d’humour es-⁠tu ?
           </h1>
           <p className="mx-auto mt-3 max-w-xl text-balance text-text-secondary">
             {QUIZ_QUESTIONS.length} questions sur tes réflexes en soirée, au boulot et par message. Compte 2 minutes, moins que pour choisir un film.
@@ -96,7 +96,7 @@ export default function QuizHumourPage() {
         <section className="mt-16 space-y-8">
           <div className="rounded-xl border border-border bg-background-card p-6">
             <h2 className="font-display text-xl font-bold text-text-primary">
-              5 profils, 5 styles de stand-up
+              5 profils, 5 styles de stand-⁠up
             </h2>
             <p className="mt-3 text-text-secondary">
               Chaque profil correspond à un style d’humour qu’on retrouve chez les
@@ -131,7 +131,7 @@ export default function QuizHumourPage() {
               Et le jour où tu veux aller plus loin, nos{" "}
               <a href="/parcours" className="text-accent-link underline underline-offset-2">parcours structurés</a>{" "}
               et nos{" "}
-              <a href="/videos" className="text-accent-link underline underline-offset-2">analyses de vidéos stand-up</a>{" "}
+              <a href="/videos" className="text-accent-link underline underline-offset-2">analyses de vidéos stand-⁠up</a>{" "}
               prennent le relais, une semaine à la fois.
             </p>
           </div>
