@@ -476,6 +476,17 @@ Toutes les pages revues : 10, sauf accueil 9,7 (T4-02) et fiche vidéo 9,8 (T4-0
 Corriger T4-01 et T4-02, recapturer `accueil-visiteur-768` et `video-fiche-visiteur-320`. Sans autre défaut, la note est 10.
 
 ---
+
+# Tour 5 : contrôle final (`apres-v5/`, commit 20ed232)
+
+**Note globale finale : 10 / 10. Aucun défaut visible sur les 6 captures ; GO design pour la mise en ligne.**
+
+- **T4-01 corrigé** (`video-fiche-visiteur-320`) : le tiret reste en fin de ligne 1 (« Roman Frayssinet – / L’intelligence / des animaux »), plus aucun tiret orphelin en début de ligne. Les autres titres de la page (« Verino - Le distributeur… », « Ahmed Sparrow - Piétons vs / Automobilistes ») ne cassent pas sur le tiret.
+- **T4-02 corrigé** (`accueil-visiteur-768`, gros plans `-video-du-jour-vignette` et `-video-du-jour-secours`) : plus de légende incrustée sous le bouton de lecture ; le bouton est seul et centré dans la vignette, titre et chaîne dessous, lisibles.
+- **Contrôle** (`accueil-visiteur-375`, `-1280`) : aucune régression, trois cartes du jour alignées à 1 280, une colonne propre à 375.
+- Limite : jugement posé sur les 6 captures fournies ; le reste de la matrice garde le verdict des tours 3 et 4.
+
+---
 **Handoff → @orchestrator (puis @fullstack)**
 - Fichier : `/home/user/Marrant/.claude/worktrees/agent-a6072b0ac19da7774/docs/design/revue-visuelle-s21/verdict-design.md`
 - Décisions : accueil étiré avec pied commun ; lien étendu sur /conseils, zone 44 px sur /videos ; ligne « Lettre gratuite » centrée et bouton outline ; filtre `frTypo` étendu aux apostrophes (tiret : filet de sécurité + passe copy).
