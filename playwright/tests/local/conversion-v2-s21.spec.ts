@@ -186,7 +186,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.goto("/abonnement?plan=annual&src=header&auto=1");
     const attente = page.getByTestId("abonnement-attente");
     await expect(attente).toBeVisible();
-    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 24,99\s€\/an, renouvelé chaque année, sauf résiliation\.$/);
+    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 24,99\s€\/an, renouvelé chaque année\.$/);
     await expect(attente).toContainText("Ton compte est prêt.");
     await expect(attente).toContainText("On t’emmène au paiement sécurisé par Stripe…");
     // Le panneau couvre tout sous l'en-tête : le pied de page n'est pas visible.

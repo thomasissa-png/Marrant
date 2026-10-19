@@ -254,7 +254,7 @@ export const REGISTER_CTA = {
   /** v2 G01 : écho exact de « D'abord ton compte, puis le paiement. » (W06, T01). */
   titre: "Ton compte, puis le paiement",
   /** v2 G02 : « Premium, 2,99 €/mois. » ; annuel « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. » */
-  planReminder: (plan: PremiumPlan) => rappelFormule(plan),
+  planReminder: (plan: PremiumPlan) => rappelFormule(plan, { saufResiliation: true }),
   bouton: "Créer mon compte et passer au paiement",
   /** Bouton pendant l'ouverture du paiement, après la création du compte (attente dans le bouton). */
   chargementPaiement: "On t’emmène au paiement…",

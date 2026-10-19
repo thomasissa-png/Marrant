@@ -35,16 +35,18 @@ export function prixLabel(plan: PremiumPlan): string {
   return plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
 }
 
-/**
- * Ajouté au prix annuel sur /register et la page d'attente (v2 G02, A18 ; correction @legal du
- * tour 2, `docs/legal/avis-conversion-tour2-s21.md` : « sauf résiliation », jamais « au même prix »).
- */
-export const RENOUVELE_CHAQUE_ANNEE = "renouvelé chaque année, sauf résiliation";
+/** Ajouté au prix annuel sur /register et la page d'attente (v2 G02, A18). */
+export const RENOUVELE_CHAQUE_ANNEE = "renouvelé chaque année";
 
-/** « Premium, 2,99 €/mois. » / « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. » */
-export function rappelFormule(plan: PremiumPlan): string {
+/**
+ * « Premium, 2,99 €/mois. » / annuel « Premium, 24,99 €/an, renouvelé chaque année. » (v2 A18, page
+ * d'attente). `sansResiliation: false` (/register, v2 G02) : correction @legal du tour 2, seule mention
+ * ajoutée (consigne de Thomas du 19/10 : rien de plus) : « …, renouvelé chaque année, sauf résiliation. »,
+ * jamais « au même prix ».
+ */
+export function rappelFormule(plan: PremiumPlan, { saufResiliation = false }: { saufResiliation?: boolean } = {}): string {
   return plan === "annual"
-    ? `${OFFRE_NOM}, ${prixLabel("annual")}, ${RENOUVELE_CHAQUE_ANNEE}.`
+    ? `${OFFRE_NOM}, ${prixLabel("annual")}, ${RENOUVELE_CHAQUE_ANNEE}${saufResiliation ? ", sauf résiliation" : ""}.`
     : `${OFFRE_NOM}, ${prixLabel("monthly")}.`;
 }
 

@@ -166,7 +166,7 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     expect(screen.getByTestId("abonnement-attente").className).toMatch(/\bfixed\b/);
     unmount();
     render(<AbonnementView annualAvailable connecteServeur retourInscription planInitial="annual" />);
-    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année.");
     expect(screen.queryByRole("heading", { name: "Premium ouvre tout Deviens Marrant" })).toBeNull();
     expect(screen.queryByTestId("abonnement-offre")).toBeNull();
   });

@@ -145,13 +145,13 @@ export const PAS_ENCORE_SUR_SANS_COMPTE = "Sans compte.";
 
 /**
  * Page d'attente après inscription Google ou connexion (`auto=1`), à la place de la page de vente
- * (v2 A16 à A18 ; correction @legal du tour 2 sur la ligne annuelle). Inscription par e-mail :
+ * (v2 A16 à A18, mot pour mot ; la correction @legal ne vaut que pour /register). Inscription par e-mail :
  * l'attente se fait dans le bouton de /register, comme pour un compte connecté.
  */
 export const ATTENTE_PAIEMENT = {
   titre: "Ton compte est prêt.",
   texte: "On t’emmène au paiement sécurisé par Stripe…",
-  formule: rappelFormule,
+  formule: (plan: PremiumPlan) => rappelFormule(plan),
 } as const;
 
 /** Retour après paiement (`PremiumWelcome`) ; `lettre` seulement si la promesse est active. */

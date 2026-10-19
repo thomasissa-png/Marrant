@@ -90,7 +90,7 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(lignesTableau({ carnet: false, carnetGratuit: 1, lettre: false }).map((l) => l.cle)).not.toContain("carnet");
   });
 
-  it("carnet, « Pas encore sûr ? », attente (v2 A06, A16 à A18 + correction @legal), bienvenue", () => {
+  it("carnet, « Pas encore sûr ? », attente (v2 A06, A16 à A18 mot pour mot), bienvenue", () => {
     expect(CARNET_EXTRAIT_TITRE).toBe("Le carnet, en vrai");
     expect(CARNET_VENTE.chapeau("d’octobre")).toBe("La situation offerte d’octobre, et la réplique qui va avec.");
     expect(CARNET_VENTE.chapeau("de novembre")).toBe("La situation offerte de novembre, et la réplique qui va avec.");
@@ -98,10 +98,13 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(PAS_ENCORE_SUR_SANS_COMPTE).toBe("Sans compte.");
     expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Ton compte est prêt.", "On t’emmène au paiement sécurisé par Stripe…"]);
     expect(t(ATTENTE_PAIEMENT.formule("monthly"))).toBe("Premium, 2,99 €/mois.");
-    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    // Consigne de Thomas (19/10) : la correction @legal « sauf résiliation » ne vaut que pour /register.
+    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année.");
+    expect(t(rappelFormule("annual", { saufResiliation: true }))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
     // @legal (tour 2) : jamais « au même prix ».
-    expect(ATTENTE_PAIEMENT.formule("annual")).not.toMatch(/même prix/);
-    expect(ATTENTE_PAIEMENT.formule).toBe(rappelFormule);
+    expect(rappelFormule("annual", { saufResiliation: true })).not.toMatch(/même prix/);
+    // Prix TTC partout, « TTC » écrit seulement sur les cartes de formule (consigne de Thomas).
+    expect(ATTENTE_PAIEMENT.formule("annual")).not.toMatch(/TTC/);
     // Prix hors cartes de formule : sans « TTC » (v2 W04, G02, A18).
     expect([t(prixLabel("monthly")), t(prixLabel("annual"))]).toEqual(["2,99 €/mois", "24,99 €/an"]);
     expect(BIENVENUE_PREMIUM.texte).toBe("Tout est ouvert : les listes, les parcours, le carnet du mois. Reprends là où tu t’étais arrêté.");
