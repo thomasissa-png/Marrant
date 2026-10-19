@@ -2,6 +2,9 @@
 
 ## À DÉPLOYER
 
+**DÉPLOYÉ le 19/10/2026 à 09:37 UTC (11:37 Paris) : exclusion d'alex@ des statistiques, version `3b52c0c2-a626-4be3-8471-85723c70e69e` à 100 %, commit `7314477`, N-1 `20be1a8b-c30d-4085-87d4-e381b754fae7`.** P0 bis et P1 bis OK (CI verte run 39216914492, diff limité aux 5 fichiers). P4 bis : build:cf et deploy:cf en code 0 (lancés depuis la session principale, mode Accept edits, après feu vert explicite de Thomas). P6 bis réduit : 10 pages en 200, `/api/admin/{semaine,lettre,users,stats}` en 401, `/api/health` ok (mode stock, dailyToday ok), `Referrer-Policy: same-origin` sur `/lettre`, en-têtes de sécurité identiques. Retour arrière : `npx wrangler rollback 20be1a8b-c30d-4085-87d4-e381b754fae7`.
+
+
 ### Exclusion d'alex@deviens-marrant.fr des statistiques (19/10/2026, feu vert de Thomas), branche `claude/marrant-exclusion-alex` (depuis `7cce384` de `claude/marrant-s21-integration`, avance rapide possible)
 
 **Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.** `ANALYTICS_EMAILS_EXCLUS` est un secret illisible : ne PAS le reposer (un `secret put` écraserait les 3 adresses de Thomas). Le code ajoute `EMAILS_INTERNES_EXCLUS` (`apps/web/src/lib/analytics/comptes-test.ts`), fusionné avec le secret dans `emailsExclus()`.
