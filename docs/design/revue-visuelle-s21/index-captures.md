@@ -53,3 +53,11 @@ Total tour 2 : 276 captures pleine page ou écran, 289 découpes. PNG 256 couleu
 - `apres-v3/sections/<nom>-section-NN.png` : découpes écran par écran (375 x 812) des pages de plus de 5 000 px à 375 px.
 
 Total tour 3 : 276 captures pleine page ou écran, 289 découpes. PNG 256 couleurs.
+
+## Tour 4 : `apres-v4/` (verdict @design du tour 3, 9,3/10, 1 majeur et 7 mineurs)
+
+- Liste ciblée (T3.6 du verdict), mêmes noms que `apres-v3/` : `conseils-{visiteur,gratuit,premium}-{375,1280}`, `video-fiche-*-375`, `vanne-fiche-*-1280`, `accueil-visiteur-{375,768,1280}` (pied de page compris), `vannes-visiteur-{375,768,1280}`, `vannes-premium-{375,1280}` (T3-07), `favoris-premium-{375,768,1280}` (T3-06), fiches vanne, conseil et vidéo, /abonnement, /carnet, /glossaire, /a-propos à 375 et 1 280 (T3-01), `fenetre-premium-visiteur-375`.
+- 320 px : `*-visiteur-320` des pages à bouton prix (accueil, abonnement, vannes, conseils, vidéos, 3 fiches, carnet, glossaire, à propos).
+- `admin-{semaine,abonnes-premium,abonnes-lettre}-{375,1280}` : T3-08.
+
+Total tour 4 : 55 captures pleine page ou écran, sans découpes. PNG 256 couleurs.
