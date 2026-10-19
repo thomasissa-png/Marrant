@@ -346,6 +346,98 @@ Passe typographique à la source, sans changer un mot :
 Les 4 majeurs (T2-01 à T2-04) corrigés, plus T2-05, T2-07, T2-09 et T2-13 (rapides, visibles), puis recapture v3 des pages touchées : /conseils, /vannes, /videos (768 et 1 280), /carnet, accueil (375 et 768), /favoris, quiz, à propos. Les autres mineurs peuvent partir avec une date. Sans défaut visible à cette relecture, la note est 10.
 
 ---
+
+# Tour 3 : relecture des captures `apres-v3/` (et découpes `apres-v3/sections/`)
+
+> Méthode : captures relues avant `audit.md` §8. Couverture : chaque page en visiteur à 375 et 1 280 ; profils gratuit/premium à 375 (accueil, abonnement, vannes, conseils, vidéos, parcours, carnet, profil, favoris, résultat d'onboarding) ; 768 sur 12 pages (accueil, abonnement, parcours, glossaire, blog, vannes, conseils, vidéos, vanne-fiche, profil, favoris, carnet) ; 1 440 sur accueil, vannes, conseils ; fenêtre Premium, menu mobile, fin d'étape 1 (sections), 6 captures admin.
+> Limites : (1) les vignettes YouTube sont en fond de secours (ytimg bloqué), je ne les juge pas ; (2) le titre à l'intérieur du lecteur YouTube (`video-fiche-*`, « "L'intelligence" des animaux ») est la donnée de YouTube, pas de nous ; (3) `blog-article-*` jugé sur la structure et les découpes (encart, lettre, FAQ alignés sur la colonne), les pages de 7 000 à 12 000 px (`carnet-premium-*`, `blog-article-*`) ne sont pas lisibles ligne à ligne à l'affichage réduit.
+
+## T3.1 Verdict
+
+**Note globale : 9,3 / 10. Pas encore 10 : 1 majeur et 7 mineurs visibles, 0 bloquant.** Le site tient : colonnes, bords, cartes de même hauteur, murs, fiches, blocs d'appel et pied de page sont propres à 375, 768, 1 280 et 1 440. Les 4 majeurs du tour 2 sont réglés (T2-01 par une autre mise en page, voir T3-04). La typographie est enfin homogène : plus aucune apostrophe droite visible sur le public (carnet, quiz, à propos, glossaire, fiches, pied de page, formulaires : toutes courbes), les « » sont sans orphelin. Il reste un bouton d'appel sur 2 lignes à 375 sur quelques pages, et des finitions.
+
+## T3.2 Statut des 16 défauts du tour 2
+
+| # | Statut | Preuve |
+|---|---|---|
+| T2-01 | Corrigé, effet de bord (T3-04) | `conseils-visiteur-1280` : la 3e carte n'est plus à moitié vide mais n'a plus la même anatomie que ses voisines. |
+| T2-02 | Corrigé | `vannes-visiteur-1280`, `vannes-premium-1280` : « Révéler la chute » aligné sur le texte, pied de carte sur la même ligne ; `vannes-visiteur-768` : toujours 2 lignes, cartes égales. |
+| T2-03 | Corrigé | `videos-visiteur-768` : 3e carte pleine rangée, vignette à gauche, accordéons dessous. |
+| T2-04 / R27 | Corrigé sur le public | Voir T3.3. |
+| T2-05 | **Partiel** (T3-03) | `accueil-visiteur-375` section 03 : « Le toast de soixante secondes qui / tient debout » casse à 265 px sur 335 disponibles. L'exemple « aux toilettes » est réglé. |
+| T2-06 | Corrigé | `accueil-visiteur-768` : trois cartes visibles, plus de défilement. Dense mais lisible (note T3-09). |
+| T2-07 | Corrigé | `favoris-premium-375` : onglets sur une ligne qui défile, « Vidéos » rogné par le fondu. |
+| T2-08 | Corrigé | `vannes-visiteur-768` : pied de page propre, libellés sur 1 ligne. |
+| T2-09 | Accepté | `vannes-visiteur-768` : rangée défilante, dernier chip rogné avec fondu. |
+| T2-10 | Corrigé | Trois murs : cadre plein, deux barres à gauche, cadenas à droite. |
+| T2-11 | Accepté | 768 : marges 16 px, sans défaut visible. |
+| T2-12 | Corrigé | `favoris-premium-1280` : vignette à gauche, accordéons pleine largeur dessous. |
+| T2-13 | Fermé | Mesure de l'intégrateur acceptée (44 px). |
+| T2-14 | Corrigé, un reste (T3-08) | `admin-semaine-375` valeurs en pile. |
+| T2-15 | Corrigé | `vanne-fiche-visiteur-1280`, `conseil-fiche-visiteur-1280`, `video-fiche-visiteur-1280` : cartes « même thématique » de même hauteur, texte centré. |
+| T2-16 | Accepté | `register-visiteur-375`. |
+
+## T3.3 Décision R27 : CLOS sur le public
+
+Vérifié sur 30 captures publiques à 375 et 1 280 : titres (« Carnet d’octobre », « Quel type d’humour es-tu ? », « L’équipe »), corps, formulaires (« T’as le potentiel », « m’abonner »), pied de page (« Anatomie d’une vanne »), FAQ, cartes « même catégorie » : apostrophes courbes partout, même dans le carnet. Plus de « isolé en fin de ligne. Restent hors périmètre : le titre du lecteur YouTube (donnée YouTube) et l'admin (T3-08, mineur).
+
+## T3.4 Défauts restants
+
+### Majeur (1)
+
+**T3-01 : bouton d'appel Premium sur 2 lignes à 375, sur quelques pages seulement**
+- Captures : `video-fiche-visiteur-375` (« Décrypter cette / vidéo · 2,99 €/mois », bouton de 66 px), `conseils-gratuit-375` et `conseils-visiteur-375` (« Voir la suite des / conseils · 2,99 €/mois »). Les mêmes blocs sur `vanne-fiche-visiteur-375` (« Écrire la mienne · 2,99 €/mois »), `conseil-fiche-visiteur-375` (« Essayer ce conseil · 2,99 €/mois »), `carnet-gratuit-375`, `abonnement-*-375` sont sur 1 ligne : un même rôle (bouton plein du bloc d'appel) prend deux hauteurs selon la page.
+- Zone : `BOUTON_BLOC_APPEL` dans les blocs d'appel des fiches vidéo et des murs conseils/vidéos.
+- Correction : appliquer `BOUTON_PRIX_UNE_LIGNE` (15 px, `px-3`, `whitespace-nowrap`) à `BOUTON_BLOC_APPEL`, donc à tous les boutons à prix des blocs d'appel sous 400 px. « Décrypter cette vidéo · 2,99 €/mois » mesure environ 250 px à 15 px pour 303 px utiles (carte `p-5`) : ça tient. Garantie de clôture : test Playwright à 375 qui vérifie `boundingBox().height <= 52` sur tout bouton `[data-appel]`.
+
+### Mineurs (9)
+
+| # | Capture(s) | Défaut | Correction |
+|---|---|---|---|
+| T3-02 | Pied de page de toutes les pages (« stand-/up pour briller »), `vannes-visiteur-768` (« Vidéos stand-/up analysées »), `video-fiche-visiteur-375` (« en mode start-/up »), `accueil-visiteur-768` (« L’auto-/dérision sociale ») | Césure sur le trait d'union laisse « stand- » ou « auto- » en fin de ligne. | `frTypo` : remplacer le trait d'union par U+2011 dans `stand-up`, `start-up`, `auto-dérision`, `one-liner`, `rendez-vous`, `e-mail`, `peut-être`, et dans tout mot de la forme `\p{L}{2,}-\p{L}{2,}` de moins de 12 caractères. Ou `hyphens: none` plus `whitespace-nowrap` sur ces mots. |
+| T3-03 | `accueil-visiteur-375` section 03 (liens d'exemple « Le toast… », « Ce que raconte… » des cartes « Trois outils ») | Le lien casse à 265 px dans une carte qui offre 335 px : la ligne se coupe trop tôt. | Supprimer le `max-w-*` du lien (`w-full`) et ajouter `text-pretty`. |
+| T3-04 | `conseils-visiteur-1280`, `conseils-gratuit-1280` | 3e carte en pleine rangée avec une autre anatomie (titre à gauche, extrait à droite) que ses deux voisines (extrait sous le titre). Propre, mais pas pareille. | Pour une liste de 3 cartes (murs visiteur et gratuit) : `xl:grid-cols-3`, aucune carte en `col-span-2`. Garder la règle « dernière carte pleine rangée » seulement sur /blog et sur /favoris. |
+| T3-05 | `vanne-fiche-visiteur-1280`, `-768` | Titre H1 borné à environ 580 px dans une colonne de 760 px, avec une césure « …chacun a / cotisé… ». | `text-balance` et retirer le `max-w` du titre (ou le porter à la colonne). |
+| T3-06 | `favoris-premium-768` | Vignette vidéo à 700 px de large (environ 330 px de haut) et cartes vannes en pleine largeur pour une phrase : le tablette se lit comme un mobile étiré. | Dès `md` : carte vidéo `md:grid md:grid-cols-[minmax(0,300px)_1fr] md:gap-5` ; vannes et conseils en `md:grid-cols-2`. |
+| T3-07 | `vannes-premium-1280` | Deux chips (« Absurde », « Jeux de mots ») isolées sur une 2e rangée. | `lg:px-3` sur les chips à partir de 1 024 px (12 chips tiennent sur une ligne de 1 216 px) ; sinon laisser. |
+| T3-08 | `admin-abonnes-lettre-375` ; `admin-semaine-375`, `-1280` | Fiches d'inscrits : l'adresse se coupe en pleine ligne (« …@exam / ple.com ») car la pastille de statut lui prend la place. Libellés d'admin en apostrophes droites (« aujourd'hui », « d'étape »). | Pastille de statut au-dessus de l'adresse (`flex-col items-start`) ou en `shrink-0` avec `[overflow-wrap:anywhere]` sur l'adresse seulement. Apostrophes : même passe `frTypo` appliquée à `app/admin/**`. Usage interne, non bloquant. |
+| T3-09 | `accueil-visiteur-768` | Trois colonnes de 230 px : titres des cartes coupés sur 3 lignes, « Tu te reconnais ? » avec des extraits de 8 lignes. Lisible, dense. | Accepté tel quel. Si on veut l'alléger : `md:grid-cols-3` seulement dès `lg`, et à `md` une rangée de cartes `snap-x` de 70 % de largeur. Non compté dans les notes. |
+
+Décompte tour 3 : **1 majeur, 7 mineurs (T3-02 à T3-08), 0 bloquant** ; T3-09 est une observation acceptée, non comptée.
+
+## T3.5 Notes par page (tour 3)
+
+| Page | Note |
+|---|---|
+| Accueil | 9,3 (T3-02, T3-03) |
+| /abonnement | 10 |
+| /register | 9,5 |
+| /login | 10 |
+| /onboarding et résultat | 10 |
+| /vannes | 9,5 (T3-07) |
+| Fiche vanne | 9,3 (T3-05, T3-02) |
+| /conseils | 9 (T3-01, T3-04) |
+| Fiche conseil | 10 |
+| /videos | 9,5 |
+| Fiche vidéo | 9 (T3-01, T3-02) |
+| /parcours, étape 1, fin d'étape 1 | 9,7 |
+| /carnet | 10 |
+| /glossaire | 9,7 |
+| /a-propos | 10 |
+| /lettre | 10 |
+| /blog et article | 9,7 |
+| /profil | 9,7 |
+| /favoris | 9,3 (T3-06) |
+| /quiz-humour | 10 |
+| Menu mobile, fenêtre Premium | 10 |
+| Admin : Semaine | 9,3 (T3-08) |
+| Admin : Abonnés (lettre, premium) | 9,3 (T3-08) |
+
+## T3.6 Pour passer à 10
+
+T3-01 (obligatoire), puis T3-02, T3-03, T3-04, T3-05 (rapides, visibles, 1 ligne de CSS chacun). T3-06 à T3-08 peuvent partir avec date. Recapturer : `conseils-*-1280`, `video-fiche-*-375`, `conseils-*-375`, `accueil-visiteur-375`, `vanne-fiche-*-1280`, pied de page (1 page suffit pour T3-02). Si ces 5 pages sont propres, la note est 10.
+
+---
 **Handoff → @orchestrator (puis @fullstack)**
 - Fichier : `/home/user/Marrant/.claude/worktrees/agent-a6072b0ac19da7774/docs/design/revue-visuelle-s21/verdict-design.md`
 - Décisions : accueil étiré avec pied commun ; lien étendu sur /conseils, zone 44 px sur /videos ; ligne « Lettre gratuite » centrée et bouton outline ; filtre `frTypo` étendu aux apostrophes (tiret : filet de sécurité + passe copy).
