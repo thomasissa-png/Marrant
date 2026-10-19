@@ -46,7 +46,7 @@ describe("bloc de fin (textes-trajet-v2 F01 à F04)", () => {
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(normalise(bloc.textContent ?? "")).toBe(
       normalise(
-        "La vanne dans ta bouche, pas dans ton téléphonePremium ouvre tout : le catalogue et les 5 parcours.Tout ouvrir · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.Tester mes premières répliques, gratuitSans compte.",
+        "La vanne dans ta bouche, pas dans ton téléphonePremium ouvre le catalogue, les parcours et leurs exercices.Tout ouvrir · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.Tester l'étape 1 de Répartie, gratuiteSans compte.",
       ),
     );
     expect(bloc).not.toHaveTextContent(/24,99|TTC|sans engagement/i);

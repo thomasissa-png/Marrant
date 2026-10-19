@@ -103,15 +103,16 @@ describe("partie A : accueil, en-tête, articles", () => {
 
   it("§3 fin d’article n°1 et déclinaisons par parcours", () => {
     const a1 = BLOC_FIN.parArticle["meilleures-blagues-droles-2026"]!;
-    expect(a1).toEqual({ titre: "La vanne dans ta bouche, pas dans ton téléphone", texte: "La placer à voix haute, ça s’entraîne.", bouton: GRATUIT_ACCUEIL });
-    // QA v4 m-2 : GRATUIT_ACCUEIL = article n°1 et fin d'article sans parcours connu ; Répartie connu = GRATUIT_P.
-    expect(BLOC_FIN.boutonSansParcours).toBe(GRATUIT_ACCUEIL);
+    // textes-trajet-v3 S01 : plus de libellé propre à l'article n°1 (GRATUIT_ACCUEIL reste à l'accueil).
+    expect(a1).toEqual({ titre: "La vanne dans ta bouche, pas dans ton téléphone", texte: "La placer à voix haute, ça s’entraîne." });
+    // textes-trajet-v3 S01 : plus de libellé générique en fin d'article.
+    expect(BLOC_FIN).not.toHaveProperty("boutonSansParcours");
     expect(BLOC_FIN).not.toHaveProperty("boutonEtape1");
     expect(BLOC_FIN.noteSansCompte).toBe("Sans compte.");
     // textes-trajet-v2 F01, F02 : le payant devient le plein, la phrase d'argument remplace le texte de l'article.
     expect(t(BLOC_FIN.bouton)).toBe(OUVRIR);
     expect(BLOC_FIN).not.toHaveProperty("lienAbonnement");
-    expect(BLOC_FIN.phrase).toBe("Premium ouvre tout : le catalogue et les 5 parcours.");
+    expect(BLOC_FIN.phrase).toBe("Premium ouvre le catalogue, les parcours et leurs exercices.");
     expect(mots(BLOC_FIN.phrase)).toBe(9);
     expect(mots(a1.titre!, a1.texte!, BLOC_FIN.noteSansCompte)).toBe(18);
     const attendu = {
@@ -297,20 +298,26 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
 
   it("§2 les avantages : étalon A, 3 lignes sans la lettre (trajet de conversion s21)", () => {
     expect(AVANTAGES_PREMIUM).toEqual([
-      "Tout le catalogue : vannes, conseils, vidéos",
+      "Tout le catalogue, du boulot au rencard",
       "Les 5 parcours, de la première à la dernière étape",
       "Un nouveau carnet de répartie chaque mois",
     ]);
-    expect(mots(...AVANTAGES_PREMIUM)).toBe(23);
+    expect(mots(...AVANTAGES_PREMIUM)).toBe(24);
   });
 
-  it("§3 FAQ de vente : 4 questions, réponse prix mensuelle et annuelle", () => {
+  it("§3 FAQ de vente : 5 questions (v3 Q01 après le prix), réponse prix mensuelle et annuelle", () => {
     expect(FAQ_VENTE.map((f) => t(f.question))).toEqual([
       "Est-ce que je peux vraiment apprendre à être drôle ?",
       "Comment devenir drôle quand on est timide ou introverti ?",
       "2,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
+      "Et si j’arrête ?",
       "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
     ]);
+    // v3 Q01 : 1re phrase = texte déjà validé de /profil ; dernière phrase couverte par le test de résiliation.
+    expect(FAQ_VENTE[3].answer).toBe(
+      "Si tu résilies, tu gardes Premium jusqu’à la fin de la période déjà payée. Ensuite, ton compte continue avec l’accès gratuit. Tes favoris et ta progression restent enregistrés.",
+    );
+    expect(getPremiumFaqs(true)[3].answer).toBe(FAQ_VENTE[3].answer);
     // Trajet de conversion s21 §1.5 (GO de Thomas du 19/10) : + la réassurance unique, mot pour mot.
     // textes-trajet-v2 A14, A15 : deux phrases après la réassurance, qui reste mot pour mot.
     expect(FAQ_VENTE[2].answer).toBe(

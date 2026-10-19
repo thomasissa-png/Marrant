@@ -43,9 +43,7 @@ export function BlogArticleView({ article, navigation, banner }: BlogArticleView
   const ctaCopy = BLOG_CTA_BY_SLUG[article.slug];
   const finCopy = BLOC_FIN_PAR_ARTICLE[article.slug];
   const s21Copy = BLOC_FIN.parArticle[article.slug];
-  // Articles à forte frappe (config/blog-cta.ts, fins-articles-v3) : parcours nommé = GRATUIT_P, sinon GRATUIT_ACCUEIL.
-  // Puis l'article n°1 (GRATUIT_ACCUEIL validé) ; ailleurs, GRATUIT_P du parcours s'il est connu,
-  // GRATUIT_ACCUEIL sinon (QA v4 m-2 : libellé unique).
+  // textes-trajet-v3 S01 : lien gratuit unique, « Tester l'étape 1 de {Parcours}, gratuite ».
   const boutonEtape1 = boutonFinArticle(article.slug, parcours, article.category);
   // Bouton Partager sur chaque ligne numérotée des articles à forte frappe,
   // statiques ou en base (config/blog-forte-frappe.ts : liste et mode de partage).

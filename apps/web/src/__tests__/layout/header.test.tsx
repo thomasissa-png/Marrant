@@ -85,12 +85,23 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
   });
 
+  it("v3 §5 point 3 : depuis l'accueil, aucun retour (après paiement : /parcours) ; ailleurs, la page courante", () => {
+    usePathname.mockReturnValue("/");
+    const { unmount } = render(<Header />);
+    for (const link of screen.getAllByRole("link", { name: PRIX })) expect(link).toHaveAttribute("href", "/abonnement?src=header");
+    unmount();
+    usePathname.mockReturnValue("/conseils");
+    render(<Header />);
+    for (const link of screen.getAllByRole("link", { name: PRIX })) expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fconseils&src=header");
+  });
+
   it("s15 puis s21 : bouton prix et « Connexion » sont de vrais liens (HTML serveur)", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     render(<Header />);
-    // Desktop + en-tête mobile (s20) : même destination, /abonnement?src=header (s21, B6).
+    // Desktop + en-tête mobile (s20) : même destination, /abonnement?src=header (s21, B6), avec le
+    // retour sur la page courante après le paiement (textes-trajet-v3 §5 point 3).
     for (const link of screen.getAllByRole("link", { name: PRIX })) {
-      expect(link).toHaveAttribute("href", "/abonnement?src=header");
+      expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
     }
     // Desktop + en-tête mobile (s16) : même destination.
     for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
@@ -131,7 +142,7 @@ describe("Header", () => {
     const { unmount } = render(<Header />);
     const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
     const lien = within(mobile).getByRole("link", { name: PRIX });
-    expect(lien).toHaveAttribute("href", "/abonnement?src=header");
+    expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
     expect(lien.className).toContain("h-11");
     expect(lien.className).toContain("whitespace-nowrap");
     expect(mobile.className).toContain("lg:hidden");
@@ -174,7 +185,7 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
     const liens = screen.getAllByRole("link", { name: PRIX });
     expect(liens).toHaveLength(2);
-    for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?src=header");
+    for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fvannes&src=header");
     const [court, complet] = Array.from(liens[0].querySelectorAll("span"));
     expect(court.textContent).toBe("Premium");
     expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");

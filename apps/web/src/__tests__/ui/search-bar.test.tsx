@@ -5,6 +5,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 const mockPush = jest.fn();
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush }),
+  usePathname: () => "/vannes",
 }));
 
 const mockResults = [

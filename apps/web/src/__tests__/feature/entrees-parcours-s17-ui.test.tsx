@@ -91,7 +91,7 @@ describe("CTA d’article", () => {
     );
   });
   it("QA v2 m-d : la phrase du visiteur (v2 F02) n’est pas montrée à l’abonné (titre et bouton gardés)", async () => {
-    const texte = "Premium ouvre tout : le catalogue et les 5 parcours.";
+    const texte = "Premium ouvre le catalogue, les parcours et leurs exercices.";
     useSession.mockReturnValue(visiteur);
     mockFetch({});
     const { unmount } = render(<ArticleCta parcours="repartie" src="blog-x" title="Titre" />);

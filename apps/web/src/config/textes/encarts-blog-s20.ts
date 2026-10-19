@@ -11,7 +11,7 @@
  *
  * s21 concision v5 (textes-v5-a §3, mot pour mot) : même gabarit pour chaque parcours (titre,
  * une phrase, plein gratuit `GRATUIT_P`, « Sans compte. », lien `OUVRIR`). Répartie compris (QA v4
- * m-2) ; `GRATUIT_ACCUEIL` reste à l'article n°1 et aux articles sans parcours connu.
+ * m-2). Textes-trajet-v3 S01 : plus de `GRATUIT_ACCUEIL` en fin d’article, le libellé du parcours partout.
  */
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";

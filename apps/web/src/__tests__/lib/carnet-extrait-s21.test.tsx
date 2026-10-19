@@ -103,7 +103,7 @@ describe("getCarnetExtrait : carnet du mois en cours seulement", () => {
 });
 
 describe("CarnetExtraitBloc", () => {
-  it("v2 A06 à A09 : titre, chapeau, deux bulles seulement, aucun surtitre ni lien qui sort de la page", () => {
+  it("v2 A06 à A09, v3 E02 et E04 : titre, chapeau, scène (titre de la fiche), deux bulles, aucun surtitre ni lien", () => {
     render(<CarnetExtraitBloc extrait={{ mois: "2026-10", fiche: fiche(1), totalFiches: 15, numero: 1 }} />);
     expect(screen.getByRole("heading", { level: 2, name: "Le carnet, en vrai" })).toBeInTheDocument();
     expect(screen.getByTestId("abonnement-carnet-chapeau")).toHaveTextContent("La situation offerte d’octobre, et la réplique qui va avec.");
@@ -111,12 +111,17 @@ describe("CarnetExtraitBloc", () => {
     for (const t of ["On te dit", "Tu réponds", "On te dit 1", "Réponse 1"]) {
       expect(screen.getByText(t)).toBeInTheDocument();
     }
-    expect(screen.getByText("Il en reste 14, toutes ouvertes avec Premium.")).toBeInTheDocument();
+    expect(screen.getByText("Les 14 autres s’ouvrent avec Premium.")).toBeInTheDocument();
+    // v3 E02 : la scène, entre le chapeau et « On te dit ».
+    const scene = screen.getByRole("heading", { level: 3, name: "Titre 1" });
+    const chapeau = screen.getByTestId("abonnement-carnet-chapeau");
+    expect(chapeau.compareDocumentPosition(scene) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(scene.compareDocumentPosition(screen.getByText("On te dit")) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     const html = document.body.innerHTML;
-    for (const absent of ["Titre 1", "Situation 1", "Pourquoi 1", "Pourquoi ça marche", "SI_TENDU_1", "EXERCICE_1", "Si ça se tend", "À toi de jouer", "Contexte 1", "offerte<"]) {
+    for (const absent of ["Situation 1", "Pourquoi 1", "Pourquoi ça marche", "SI_TENDU_1", "EXERCICE_1", "Si ça se tend", "À toi de jouer", "Contexte 1", "offerte<"]) {
       expect(html).not.toContain(absent);
     }
-    expect(screen.queryByRole("heading", { level: 3 })).not.toBeInTheDocument();
+    expect(screen.getAllByRole("heading", { level: 3 })).toHaveLength(1);
     expect(screen.queryByRole("link")).not.toBeInTheDocument();
   });
 
@@ -124,9 +129,11 @@ describe("CarnetExtraitBloc", () => {
     const { unmount } = render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 2, numero: 1 }} />);
     expect(screen.getByText("La situation offerte de novembre, et la réplique qui va avec.")).toBeInTheDocument();
     expect(screen.queryByText(/situations? du mois/)).not.toBeInTheDocument();
+    expect(screen.getByText("L’autre s’ouvre avec Premium.")).toBeInTheDocument();
     unmount();
     render(<CarnetExtraitBloc extrait={{ mois: "2026-11", fiche: fiche(1), totalFiches: 1, numero: 1 }} />);
     expect(screen.queryByText(/situations? du mois/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/s’ouvrent? avec Premium/)).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 2, name: "Le carnet, en vrai" })).toBeInTheDocument();
   });
 

@@ -76,13 +76,35 @@ describe("SubscriptionSuccessPage", () => {
     await act(async () => {
       jest.advanceTimersByTime(2000);
     });
-    await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/vannes?premium=bienvenue"));
+    // v3 §5 point 4 : ajout réussi → drapeau `favori=JOKE` (le type, jamais l'id) pour la bienvenue.
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/vannes?premium=bienvenue&favori=JOKE"));
     const post = mockFetch.mock.calls.find((c) => c[0] === "/api/favorites" && c[1]?.method === "POST");
     expect(JSON.parse(post![1].body)).toEqual({ contentType: "JOKE", contentId: "j1" });
     // Ajouté AVANT la redirection : la page d'arrivée montre l'étoile pleine.
     const ordrePost = mockFetch.mock.invocationCallOrder[mockFetch.mock.calls.indexOf(post!)];
     expect(ordrePost).toBeLessThan(mockPush.mock.invocationCallOrder[0]);
     expect(mockPush).toHaveBeenCalledTimes(1);
+    mockSearchParams.delete("returnTo");
+  });
+
+  it.each([
+    ["TIP.t9", 201, "/conseils?premium=bienvenue&favori=TIP"],
+    ["VIDEO.v3", 409, "/conseils?premium=bienvenue&favori=VIDEO"],
+    ["JOKE.j1", 500, "/conseils?premium=bienvenue"],
+  ])("v3 drapeau : %s, réponse %s → %s (échec : pas de drapeau, jamais « dans tes favoris » sans ajout)", async (memo, statut, attendu) => {
+    mockSearchParams.set("returnTo", `/conseils?favori=${memo}`);
+    mockFetch.mockImplementation((url: string, init?: { method?: string }) => {
+      if (url === "/api/stripe/status") return Promise.resolve({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      if (url === "/api/favorites" && init?.method === "POST")
+        return Promise.resolve({ ok: statut < 300, status: statut, json: () => Promise.resolve({}) });
+      return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorites: [] }) });
+    });
+    render(<SubscriptionSuccessPage />);
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+    await waitFor(() => expect(mockPush).toHaveBeenCalledWith(attendu));
+    expect(mockPush.mock.calls[0][0]).not.toMatch(/\.(t9|v3|j1)/);
     mockSearchParams.delete("returnTo");
   });
 

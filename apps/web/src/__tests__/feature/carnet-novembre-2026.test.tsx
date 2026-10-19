@@ -171,7 +171,7 @@ describe("consommateurs de la fiche offerte au 01/11 (encart des articles, extra
     expect(aside.innerHTML).not.toMatch(/\.\s*,\s*et on te lance|,,/);
   });
 
-  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10 en deux bulles (textes-trajet-v2 A06 à A09)", () => {
+  it("extrait de /abonnement : carnet de novembre, fiche 2026-11-10, scène et deux bulles (v2 A06 à A09, v3 E02)", () => {
     const extrait = getCarnetExtrait(carnets, MINUIT)!;
     const offerte = novembre.fiches.find((f) => f.id === "2026-11-10")!;
     expect(extrait.fiche.id).toBe("2026-11-10");
@@ -180,7 +180,8 @@ describe("consommateurs de la fiche offerte au 01/11 (encart des articles, extra
     const html = norm((document.body.textContent ?? "").replace(/\s/g, " "));
     expect(html).toContain(norm(offerte.onTeDit));
     expect(html).toContain(norm(offerte.reponse));
-    expect(html).not.toContain(norm(offerte.titre));
+    expect(html).toContain(norm(offerte.titre));
+    expect(html).toContain("Les 29 autres s'ouvrent avec Premium.");
     expect(screen.queryByText(/autres situations du mois/)).not.toBeInTheDocument();
     expect(screen.queryByRole("link")).toBeNull();
   });

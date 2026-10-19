@@ -13,6 +13,7 @@ import { buildAbonnementUrl } from "@/lib/premium-return";
 import { VALIDATION_ETAPE } from "@/config/textes/offre";
 import { Reassurance } from "@/components/ui/reassurance";
 import { LigneCompte } from "@/components/ui/ligne-compte";
+import { phrasesEntieres } from "@/lib/texte-court";
 import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { CarteEtapeSuivante } from "@/components/premium/carte-etape-suivante";
 import { LettreRepliee } from "@/components/lettre/lettre-repliee";
@@ -115,7 +116,7 @@ export function ValidationWall({
           parcours={slug}
           numero={etapeSuivante.order}
           titre={frTypoParcours(etapeSuivante.moduleTitle ?? etapeSuivante.tip.title)}
-          apercu={etapeSuivante.moduleDetail || etapeSuivante.why ? frTypoParcours(etapeSuivante.moduleDetail || etapeSuivante.why || "") : null}
+          apercu={etapeSuivante.moduleDetail || etapeSuivante.why ? frTypoParcours(phrasesEntieres(etapeSuivante.moduleDetail || etapeSuivante.why)) : null}
         />
       )}
       <div className="text-center">

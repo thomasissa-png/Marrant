@@ -74,8 +74,9 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       "avantages-premium",
       "plan-selector",
       "abonnement-bouton-achat",
-      "abonnement-suite",
+      // v3 M1 : la garantie juste sous le bouton, puis la suite.
       "reassurance-paiement",
+      "abonnement-suite",
       "abonnement-deja-compte",
       "carnet",
       "tableau",
@@ -105,17 +106,20 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     const carte = screen.getByTestId("abonnement-offre");
     expect(within(carte).getByRole("heading", { level: 2 })).toHaveTextContent("Offre Premium");
     expect(within(screen.getByTestId("avantages-premium")).getAllByRole("listitem").map((li) => texteDe(li))).toEqual([
-      "✓Tout le catalogue : vannes, conseils, vidéos",
+      "✓Tout le catalogue, du boulot au rencard",
       "✓Les 5 parcours, de la première à la dernière étape",
       "✓Un nouveau carnet de répartie chaque mois",
     ]);
     expect(texteDe(document.body)).not.toMatch(/lettre|chaque semaine/i);
     expect(texteDe(screen.getByTestId("formule-monthly"))).toBe("Mensuel 2,99 € TTC / mois");
-    expect(texteDe(screen.getByTestId("formule-annual"))).toBe("Annuel 24,99 € TTC / an soit 2,08 € par mois plus de 3 mois offerts");
+    // v3 M2 : renouvellement dans la carte Annuel, affiché en permanence.
+    expect(texteDe(screen.getByTestId("formule-annual"))).toBe(
+      "Annuel 24,99 € TTC / an soit 2,08 € par mois plus de 3 mois offerts Renouvelé chaque année, sauf résiliation.",
+    );
     expect(texteDe(boutonHaut())).toBe(MENSUEL);
     expect(screen.getByTestId("abonnement-suite")).toHaveTextContent("Tu crées ton compte, puis tu paies par carte sur Stripe.");
-    // v2 A04 : ligne de renouvellement absente en mensuel.
-    expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
+    // v3 M2 : le renouvellement est dans la carte Annuel, plus jamais entre les cartes et le bouton.
+    expect(within(screen.getByTestId("formule-annual")).getByTestId("renouvellement-annuel")).toBeInTheDocument();
     // Réassurance lisible (revue visuelle tour 1) : blanc cassé, 14 px, même composant partout.
     expect(screen.getByTestId("reassurance-paiement").className).toMatch(/text-text-primary/);
     expect(screen.getByTestId("reassurance-paiement").className).not.toMatch(/text-text-muted|text-xs/);
@@ -160,13 +164,13 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     useSession.mockReturnValue({ status: "loading" });
     const { unmount } = render(<AbonnementView annualAvailable={false} connecteServeur retourInscription />);
     expect(texteDe(screen.getByTestId("abonnement-attente"))).toBe(
-      "Ton compte est prêt.Premium, 2,99 €/mois.On t’emmène au paiement sécurisé par Stripe…",
+      "Dernière étape.Premium, 2,99 €/mois.On t’emmène au paiement sécurisé par Stripe…",
     );
     // Attente brève, sans pied de page : panneau fixe sous l'en-tête.
     expect(screen.getByTestId("abonnement-attente").className).toMatch(/\bfixed\b/);
     unmount();
     render(<AbonnementView annualAvailable connecteServeur retourInscription planInitial="annual" />);
-    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année.");
+    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
     expect(screen.queryByRole("heading", { name: "Premium ouvre tout Deviens Marrant" })).toBeNull();
     expect(screen.queryByTestId("abonnement-offre")).toBeNull();
   });
@@ -346,14 +350,14 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       expect(screen.getByTestId("renouvellement-annuel")).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
     });
 
-    it("v2 A04 : la ligne de renouvellement suit le choix (annuel oui, mensuel non)", async () => {
+    it("v3 M2 : renouvellement dans la carte Annuel, affiché en mensuel comme en annuel (aucun saut à la bascule)", async () => {
       useSession.mockReturnValue({ status: "unauthenticated" });
       render(await AbonnementPage({}));
-      expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
+      const ligne = () => within(screen.getByTestId("formule-annual")).getByTestId("renouvellement-annuel");
+      expect(ligne()).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
       await userEvent.click(screen.getByRole("radio", { name: /Annuel/ }));
-      expect(screen.getByTestId("renouvellement-annuel")).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
-      await userEvent.click(screen.getByRole("radio", { name: /Mensuel/ }));
-      expect(screen.queryByTestId("renouvellement-annuel")).toBeNull();
+      expect(ligne()).toHaveTextContent("Renouvelé chaque année, sauf résiliation.");
+      expect(screen.getAllByTestId("renouvellement-annuel")).toHaveLength(1);
     });
   });
 

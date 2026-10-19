@@ -8,6 +8,8 @@ import { avecFavori, encoderFavori, extraireFavori, favoriDepuisCallback, lireFa
 import { sansExerciceConseil, sansExerciceVanne, sansExerciceVideo } from "@/lib/champs-premium";
 import { getPostPaymentDestination, getPostSignupRedirect } from "@/lib/premium-return";
 import { readFileSync } from "fs";
+import { phrasesEntieres, TEXTE_COURT_MAX } from "@/lib/texte-court";
+import parcoursSeed from "../../../../../docs/content/parcours-seed.json";
 import { join } from "path";
 
 describe("/register : une phrase par entrée (v2 §3), mot pour mot", () => {
@@ -126,5 +128,30 @@ describe("/conseils sans « défi » (v2 K01, K02)", () => {
     ]) {
       expect(amorces).toContain(`"${a}"`);
     }
+  });
+});
+
+describe("v3 CT1, CT2 : règle de coupe unique (phrases entières jusqu'à ≈ 110 caractères)", () => {
+  const seed = parcoursSeed as Array<{ slug: string; steps: Array<{ week: number; moduleDetail?: string }> }>;
+
+  it("CT1 : carte « Étape 2 sur 4 » de Répartie, la première phrase entière, jamais un mot coupé", () => {
+    const detail = seed.find((p) => p.slug === "repartie")!.steps.find((s) => s.week === 2)!.moduleDetail!;
+    expect(detail.length).toBeGreaterThan(TEXTE_COURT_MAX);
+    expect(phrasesEntieres(detail)).toBe("Certaines phrases ne demandent aucun talent, seulement un bon timing.");
+  });
+
+  it("CT2 : la vanne de T4 (75 caractères) reste entière", () => {
+    const vanne = "Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros.";
+    expect(phrasesEntieres(vanne)).toBe(vanne);
+  });
+
+  it("plusieurs phrases tant que le total tient ; sinon coupe au mot avec « … »", () => {
+    expect(phrasesEntieres("Un. Deux ! Trois ?", 12)).toBe("Un. Deux !");
+    const longue = "mot ".repeat(40).trim();
+    const coupe = phrasesEntieres(longue);
+    expect(coupe.endsWith("mot…")).toBe(true);
+    expect(coupe.length).toBeLessThanOrEqual(TEXTE_COURT_MAX + 1);
+    expect(phrasesEntieres("")).toBe("");
+    expect(phrasesEntieres(null)).toBe("");
   });
 });

@@ -16,7 +16,7 @@ export function TableauGratuitPremium({
   ligneMiseEnAvant?: LigneTableauCle | null;
 }) {
   return (
-    <section aria-labelledby="abonnement-tableau-titre" className="mt-10 md:mt-14" data-testid="abonnement-tableau">
+    <section aria-labelledby="abonnement-tableau-titre" className="mx-auto mt-10 max-w-[560px] md:mt-14" data-testid="abonnement-tableau">
       {/* v2 A10 : titre gardé pour les lecteurs d'écran, masqué à l'écran. */}
       <h2 id="abonnement-tableau-titre" className="sr-only">
         {frTypo(TABLEAU.titre)}

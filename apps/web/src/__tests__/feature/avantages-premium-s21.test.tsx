@@ -18,11 +18,12 @@ describe("AvantagesPremium", () => {
     const { unmount } = render(<AvantagesPremium />);
     const lignes = screen.getAllByRole("listitem").map((li) => (li.textContent ?? "").replace(/\s/g, " "));
     expect(lignes).toEqual([
-      "✓Tout le catalogue : vannes, conseils, vidéos",
+      // textes-trajet-v3 E01 : une scène dès le premier écran (catégories Boulot & Collègues, Couple & Dating).
+      "✓Tout le catalogue, du boulot au rencard",
       "✓Les 5 parcours, de la première à la dernière étape",
       "✓Un nouveau carnet de répartie chaque mois",
     ]);
-    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(23);
+    expect(AVANTAGES_PREMIUM.join(" ").split(/\s+/).filter((m) => /[\p{L}\d]/u.test(m))).toHaveLength(24);
     unmount();
     render(<AvantagesPremium lettre />);
     expect(screen.getAllByRole("listitem")).toHaveLength(4);

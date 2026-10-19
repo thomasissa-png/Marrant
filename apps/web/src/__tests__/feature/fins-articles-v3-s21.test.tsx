@@ -8,7 +8,7 @@
  * - la phrase d'argument F02 remplace le texte propre à l'article (arbitrage 3 du tour 2) ;
  * - aucun ancien libellé ;
  * - titre sans point final, sauf « ? » et « » » (règle unique du composant, tous les blocs) ;
- * - budget : titre + phrase + réassurance + lien gratuit + « Sans compte. » ≤ 36 mots (dérogation
+ * - budget : titre + phrase + réassurance + lien gratuit + « Sans compte. » ≤ 37 mots (dérogation 36 à 37, v3 F02c ;
  *   acceptée, arbitrage 2 du tour 2 ; comptage textes-v5-a §0). Les totaux v3 (texte d'article) restent
  *   vérifiés sur la donnée : ils servent encore aux encarts.
  */
@@ -52,17 +52,18 @@ const TOTAUX_V3: Record<string, number> = {
   "blagues-vacances-ete-entre-amis": 19,
 };
 
-/** Blocs au-delà de la dérogation de 36 mots (titre d'article long + lien du parcours) : à arbitrer, aucun texte inventé. */
-const DEPASSEMENTS_V2: Record<string, number> = { "blagues-vacances-ete-entre-amis": 37 };
+/** Blocs au-delà de la dérogation de 37 mots (titre d'article long + lien du parcours) : signalés, aucun texte inventé. */
+const DEPASSEMENTS: Record<string, number> = { "voeux-drole-nouvelle-annee": 38 };
 
 const ANCIENS = /Passer à Premium|Commencer le parcours|Lire l'étape 1|parcours complets/i;
 
 describe("fins d'articles v3 : 11 blocs rendus", () => {
-  it.each(Object.keys(TOTAUX_V3))("%s : textes v2, plein payant unique, budget ≤ 36 mots", (slug) => {
+  it.each(Object.keys(TOTAUX_V3))("%s : textes v2, plein payant unique, budget ≤ 37 mots", (slug) => {
     const copy = BLOG_CTA_BY_SLUG[slug];
     const parcours = resolveArticleParcours(slug);
     if (copy.parcoursHref) expect(copy.parcoursHref).toBe(`/parcours/${parcours}`);
-    const attendu = copy.parcoursHref ? libelleGratuitParcours(parcours) : GRATUIT_ACCUEIL;
+    // v3 S01 : libellé du parcours de l'article, toujours (plus de GRATUIT_ACCUEIL).
+    const attendu = libelleGratuitParcours(parcours);
     expect(boutonEtape1Article(slug, parcours)).toBe(attendu);
 
     const { container } = render(
@@ -78,6 +79,7 @@ describe("fins d'articles v3 : 11 blocs rendus", () => {
     expect(titre).toBe(normalise(titreBlocFin(copy.title)));
     expect(titre).not.toMatch(/\.$/);
     expect(phrase).toBe(normalise(BLOC_FIN.phrase));
+    expect(BLOC_FIN.phrase).toBe("Premium ouvre le catalogue, les parcours et leurs exercices.");
     expect(bloc.textContent).not.toContain(copy.text);
     expect(reass).toBe(normalise(REASSURANCE_UNIQUE));
     expect(note).toBe("Sans compte.");
@@ -95,25 +97,26 @@ describe("fins d'articles v3 : 11 blocs rendus", () => {
     expect(mots(copy.title, copy.text, BLOC_FIN.noteSansCompte)).toBe(TOTAUX_V3[slug]);
     const total = mots(copy.title, BLOC_FIN.phrase, REASSURANCE_UNIQUE, attendu, BLOC_FIN.noteSansCompte);
     // Écart signalé à l'orchestrateur (tour 2) : un seul bloc dépasse la dérogation de 36, valeur figée.
-    if (slug in DEPASSEMENTS_V2) expect(total).toBe(DEPASSEMENTS_V2[slug]);
-    else expect(total).toBeLessThanOrEqual(36);
+    if (slug in DEPASSEMENTS) expect(total).toBe(DEPASSEMENTS[slug]);
+    else expect(total).toBeLessThanOrEqual(37);
   });
 });
 
-describe("QA v4 m-2 : libellé unique du plein gratuit de fin d'article", () => {
-  it("parcours connu (Répartie compris) = GRATUIT_P ; article n°1 et parcours inconnu = GRATUIT_ACCUEIL", () => {
+describe("textes-trajet-v3 S01 : libellé unique du lien gratuit de fin d'article", () => {
+  it("toujours « Tester l'étape 1 de {Parcours}, gratuite » ; Répartie si le parcours n'est pas connu ; plus de GRATUIT_ACCUEIL", () => {
     const repartie = resolveArticleParcours("jamais-quoi-repondre-techniques", "TECHNIQUE");
     expect(repartie).toBe("repartie");
-    // undefined : le composant prend « Tester l'étape 1 de Répartie, gratuite » (TEXTES_PARCOURS_BLOG).
-    expect(boutonFinArticle("jamais-quoi-repondre-techniques", repartie, "TECHNIQUE")).toBeUndefined();
+    expect(boutonFinArticle("jamais-quoi-repondre-techniques", repartie, "TECHNIQUE")).toBe(libelleGratuitParcours("repartie"));
     const { container } = render(<ArticleCta parcours={repartie} />);
     expect(normalise(container.querySelector('a[data-blog-cta="etape-1"]')!.textContent ?? "")).toBe(
       normalise("Tester l'étape 1 de Répartie, gratuite"),
     );
-    expect(boutonFinArticle("meilleures-blagues-droles-2026", resolveArticleParcours("meilleures-blagues-droles-2026"))).toBe(
-      GRATUIT_ACCUEIL,
+    const n1 = resolveArticleParcours("meilleures-blagues-droles-2026");
+    expect(boutonFinArticle("meilleures-blagues-droles-2026", n1)).toBe(libelleGratuitParcours(n1));
+    expect(boutonFinArticle("article-sans-cluster-connu", resolveArticleParcours("article-sans-cluster-connu"))).toBe(
+      "Tester l’étape 1 de Répartie, gratuite",
     );
-    expect(boutonFinArticle("article-sans-cluster-connu", "repartie")).toBe(GRATUIT_ACCUEIL);
+    for (const p of ["confiance", "boulot", "machine-a-cafe"] as const) expect(boutonFinArticle("x", p)).not.toBe(GRATUIT_ACCUEIL);
   });
 });
 

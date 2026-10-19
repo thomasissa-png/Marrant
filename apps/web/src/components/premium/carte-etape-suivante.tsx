@@ -5,7 +5,7 @@ interface CarteEtapeSuivanteProps {
   parcours: ParcoursSlug;
   numero: number;
   titre: string;
-  /** « Ce que tu vas apprendre » : texte déjà public de l'aperçu. */
+  /** « Ce que tu vas apprendre » : texte déjà public de l'aperçu, déjà coupé (`phrasesEntieres`, v3 CT1). */
   apercu?: string | null;
   className?: string;
 }
@@ -24,7 +24,8 @@ export function CarteEtapeSuivante({ parcours, numero, titre, apercu, className 
         {FIN_ETAPE_1.carteSurtitre(parcours, numero)}
       </p>
       <p className="mt-1 font-display text-lg font-bold text-text-primary">{titre}</p>
-      {apercu && <p className="mt-2 line-clamp-3 text-sm text-text-secondary">{apercu}</p>}
+      {/* v3 CT1 : la coupe est faite au texte (phrases entières) ; `line-clamp-4` reste en sécurité. */}
+      {apercu && <p className="mt-2 line-clamp-4 text-sm text-text-secondary" data-testid="carte-etape-apercu">{apercu}</p>}
     </div>
   );
 }

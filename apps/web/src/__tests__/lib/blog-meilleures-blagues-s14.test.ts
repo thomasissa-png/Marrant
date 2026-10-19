@@ -121,9 +121,9 @@ describe("meilleures-blagues-droles-2026 : audit s14", () => {
     expect(BLOC_FIN.parArticle[SLUG]).toEqual({
       titre: "La vanne dans ta bouche, pas dans ton téléphone",
       texte: "La placer à voix haute, ça s’entraîne.",
-      // QA v4 m-2 : libellé générique validé de l'article n°1, porté par l'article lui-même.
-      bouton: "Tester mes premières répliques, gratuit",
     });
+    // textes-trajet-v3 S01 : plus de libellé propre à l'article n°1 (lien gratuit du parcours, partout).
+    expect(BLOC_FIN.parArticle[SLUG]).not.toHaveProperty("bouton");
   });
 });
 

@@ -12,8 +12,7 @@
  * (P = parcours de l'article, même valeur que `parcoursHref`, vérifié par un test) ; absent =
  * « Tester mes premières répliques, gratuit ».
  */
-import { BLOC_FIN, GRATUIT_ACCUEIL, libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
-import { articleParcoursConnu } from "@/lib/blog-parcours";
+import { libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 
 export interface BlogCtaCopy {
@@ -75,22 +74,17 @@ export const BLOG_CTA_BY_SLUG: Record<string, BlogCtaCopy> = {
   },
 };
 
-/** Plein gratuit d'un article de la table (undefined hors table : libellé du parcours). */
-export function boutonEtape1Article(slug: string, parcours: ParcoursSlug): string | undefined {
-  const copy = BLOG_CTA_BY_SLUG[slug];
-  if (!copy) return undefined;
-  return copy.parcoursHref ? libelleGratuitParcours(parcours) : GRATUIT_ACCUEIL;
+/**
+ * Lien gratuit du bloc de fin, tous articles (textes-trajet-v3 S01, libellé unique) : toujours
+ * « Tester l'étape 1 de {Parcours}, gratuite », {Parcours} = parcours de l'article (Répartie s'il
+ * n'est pas connu, `resolveArticleParcours`), comme sur /abonnement, le mur et /register.
+ * `slug` et `category` restent dans la signature des appelants (aucune exception par article).
+ */
+export function boutonFinArticle(_slug: string, parcours: ParcoursSlug, _category?: string): string {
+  return libelleGratuitParcours(parcours);
 }
 
-/**
- * Plein gratuit du bloc de fin, tous articles (QA v4 m-2, libellé unique) : table ci-dessus, puis
- * article n°1 (`GRATUIT_ACCUEIL` validé), puis `GRATUIT_ACCUEIL` si le parcours n'est pas connu.
- * undefined = « Tester l'étape 1 de {P}, gratuite » du parcours (`TEXTES_PARCOURS_BLOG`).
- */
-export function boutonFinArticle(slug: string, parcours: ParcoursSlug, category?: string): string | undefined {
-  return (
-    boutonEtape1Article(slug, parcours) ??
-    BLOC_FIN.parArticle[slug]?.bouton ??
-    (articleParcoursConnu(slug, category) ? undefined : BLOC_FIN.boutonSansParcours)
-  );
+/** Alias historique (articles à forte frappe) : même règle que `boutonFinArticle`. */
+export function boutonEtape1Article(slug: string, parcours: ParcoursSlug): string {
+  return boutonFinArticle(slug, parcours);
 }

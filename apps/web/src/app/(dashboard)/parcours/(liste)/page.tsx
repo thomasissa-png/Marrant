@@ -70,7 +70,8 @@ export default async function ParcoursPage() {
       </nav>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Parcours humour : deviens drôle pas à pas
+          {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}
+          Parcours humour&nbsp;: deviens drôle pas à pas
         </h1>
         <p className="mt-2 text-text-secondary">
           {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une

@@ -6,11 +6,13 @@
  * (`docs/copy/conversion-s21/textes-trajet-v1.md` §1.2). 3 lignes au lancement ; la 4e (lettre,
  * formulation @legal avec l'opt-in) seulement quand `LETTRE_HEBDO_PROMESSE` est vrai.
  * Les favoris sortent de la liste : ils vivent dans le tableau Gratuit / Premium.
+ * Tour 3 (textes-trajet-v3 E01) : l'avantage 1 porte une scène (« du boulot au rencard » : catégories
+ * Boulot & Collègues, Couple & Dating) ; les unités restent dites par le tableau.
  */
 import { PARCOURS_COUNT } from "@/config/premium";
 
 export const AVANTAGES_PREMIUM: readonly [string, string, string] = [
-  "Tout le catalogue : vannes, conseils, vidéos",
+  "Tout le catalogue, du boulot au rencard",
   `Les ${PARCOURS_COUNT} parcours, de la première à la dernière étape`,
   "Un nouveau carnet de répartie chaque mois",
 ];

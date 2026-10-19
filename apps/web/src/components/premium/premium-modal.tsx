@@ -14,6 +14,7 @@ import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
 import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
 import { avecFavori, type FavoriEnAttente } from "@/lib/favori-apres-paiement";
 import { LigneCompte } from "@/components/ui/ligne-compte";
+import { phrasesEntieres, TEXTE_COURT_MAX } from "@/lib/texte-court";
 import { ESPACE_INSECABLE } from "@/config/premium";
 import {
   FENETRE_CHARGEMENT,
@@ -45,17 +46,14 @@ interface PremiumModalProps {
   favori?: FavoriEnAttente;
 }
 
-/** W02 : 70 caractères au plus, coupé à un mot, « … », guillemets français à espaces insécables. */
-export function apercuFenetre(texte: string | undefined, max = 70): string | null {
-  const net = (texte ?? "").replace(/\s+/g, " ").trim();
-  if (!net) return null;
-  let court = net;
-  if (net.length > max) {
-    const coupe = net.slice(0, max + 1);
-    const espace = coupe.lastIndexOf(" ");
-    court = `${(espace > 0 ? coupe.slice(0, espace) : net.slice(0, max)).replace(/[\s,;:.!?…-]+$/, "")}…`;
-  }
-  return `«${ESPACE_INSECABLE}${court}${ESPACE_INSECABLE}»`;
+/**
+ * W02 : amorce de la vanne (jamais la chute), titre du conseil ou de la vidéo, coupée par la règle
+ * unique (`phrasesEntieres`, v3 CT2 : phrases entières jusqu'à ≈ 110 caractères), entre guillemets
+ * français à espaces insécables. Vide : rien n'est rendu.
+ */
+export function apercuFenetre(texte: string | undefined, max = TEXTE_COURT_MAX): string | null {
+  const court = phrasesEntieres(texte, max);
+  return court ? `«${ESPACE_INSECABLE}${court}${ESPACE_INSECABLE}»` : null;
 }
 
 function currentPath(): string | null {

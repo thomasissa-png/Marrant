@@ -123,7 +123,7 @@ export function lignesTableau({ carnet, carnetGratuit, lettre }: { carnet: boole
     { cle: "listes", libelle: "Tout le catalogue", gratuit: `${FREE_CATALOGUE_LIMITS_LABEL} dans les listes`, premium: "Sans limite" },
     { cle: "parcours", libelle: "Parcours", gratuit: `Étape ${LAST_FREE_PARCOURS_STEP} de chacun`, premium: `Les ${PARCOURS_COUNT}, en entier` },
     ...(carnet
-      ? [{ cle: "carnet" as const, libelle: "Carnet de répartie", gratuit: `${carnetGratuit} situation${carnetGratuit > 1 ? "s" : ""} par carnet`, premium: "Toutes les situations" }]
+      ? [{ cle: "carnet" as const, libelle: "Carnet de répartie", gratuit: `${carnetGratuit} situation${carnetGratuit > 1 ? "s" : ""} par carnet`, premium: "Toutes, carnets passés compris" }]
       : []),
     ...(lettre ? [{ cle: "lettre" as const, libelle: "Lettre par e-mail", gratuit: "1 par mois", premium: "Chaque semaine, si tu la veux" }] : []),
     { cle: "exercices", libelle: "Exercices des fiches", gratuit: false, premium: true },
@@ -137,7 +137,8 @@ export function lignesTableau({ carnet, carnetGratuit, lettre }: { carnet: boole
 export const CARNET_VENTE = {
   /** `deMois` = « d'octobre » (`deMoisSeul`, lib/carnet : mois du carnet affiché, donnée). */
   chapeau: (deMois: string) => `La situation offerte ${deMois}, et la réplique qui va avec.`,
-  reste: (n: number) => `Il en reste ${n}, toutes ouvertes avec ${OFFRE_NOM}.`,
+  /** v3 E04 : `n` = fiches du carnet affiché moins la fiche offerte. */
+  reste: (n: number) => (n === 1 ? `L’autre s’ouvre avec ${OFFRE_NOM}.` : `Les ${n} autres s’ouvrent avec ${OFFRE_NOM}.`),
 } as const;
 
 /** B5 : ligne sous le lien de l'étape 1 gratuite. */
@@ -145,17 +146,30 @@ export const PAS_ENCORE_SUR_SANS_COMPTE = "Sans compte.";
 
 /**
  * Page d'attente après inscription Google ou connexion (`auto=1`), à la place de la page de vente
- * (v2 A16 à A18, mot pour mot ; la correction @legal ne vaut que pour /register). Inscription par e-mail :
- * l'attente se fait dans le bouton de /register, comme pour un compte connecté.
+ * (v3 AT1 à AT3 : titre vrai après une création comme après une connexion ; ligne annuelle exacte de
+ * /register). Inscription par e-mail : l'attente se fait dans le bouton de /register.
  */
 export const ATTENTE_PAIEMENT = {
-  titre: "Ton compte est prêt.",
+  titre: "Dernière étape.",
   texte: "On t’emmène au paiement sécurisé par Stripe…",
-  formule: (plan: PremiumPlan) => rappelFormule(plan),
+  formule: (plan: PremiumPlan) => rappelFormule(plan, { saufResiliation: true }),
 } as const;
 
-/** Retour après paiement (`PremiumWelcome`) ; `lettre` seulement si la promesse est active. */
+/**
+ * Retour après paiement (`PremiumWelcome`, v3 BV1 à BV3) : un seul texte, par priorité : favori
+ * ajouté (drapeau `favori=JOKE|TIP|VIDEO` posé par /abonnement/success seulement si l'ajout a réussi),
+ * sinon progression à reprendre, sinon défaut. `lettre` seulement si la promesse est active.
+ */
 export const BIENVENUE_PREMIUM = {
-  texte: "Tout est ouvert : les listes, les parcours, le carnet du mois. Reprends là où tu t’étais arrêté.",
+  /** BV1 : compte sans progression. */
+  texte: "Tout est ouvert : les listes, les parcours, les carnets. Sers-toi.",
+  /** BV2 : compte avec une progression à reprendre. */
+  reprise: "Tout est ouvert : les listes, les parcours, les carnets. Reprends là où tu t’étais arrêté.",
+  /** BV3 : favori ajouté au retour, par type de contenu. */
+  favori: {
+    JOKE: "Ta vanne est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+    TIP: "Ton conseil est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+    VIDEO: "Ta vidéo est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+  },
   lettre: "Ta lettre de chaque semaine s’active depuis ton profil.",
 } as const;

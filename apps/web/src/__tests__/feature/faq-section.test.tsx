@@ -23,9 +23,9 @@ describe("FaqSection", () => {
     expect(screen.getByText("Questions fréquentes")).toBeInTheDocument();
   });
 
-  it("renders all 8 FAQ questions", () => {
+  it("renders all 9 FAQ questions (v3 Q01 « Et si j'arrête ? » compris)", () => {
     const summaries = document.querySelectorAll("summary");
-    expect(summaries).toHaveLength(8);
+    expect(summaries).toHaveLength(9);
     const texts = Array.from(summaries).map((s) => s.textContent);
     expect(texts.some((t) => t?.includes("apprendre à être drôle"))).toBe(true);
     expect(texts.some((t) => t?.includes("frais cachés"))).toBe(true);
@@ -61,7 +61,7 @@ describe("FaqSection", () => {
 
   it("renders details elements for each FAQ", () => {
     const details = document.querySelectorAll("details");
-    expect(details).toHaveLength(8);
+    expect(details).toHaveLength(9);
   });
 
   it("does not render JSON-LD (handled at page level to avoid duplicates)", () => {

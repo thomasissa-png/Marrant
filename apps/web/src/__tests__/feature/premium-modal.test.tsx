@@ -70,18 +70,26 @@ describe("PremiumModal (textes-trajet-v2 §2.4 : titre, rappel, ligne Premium, p
     }
   });
 
-  it("W02 : rappel de l'objet cliqué, 70 caractères au plus, coupé à un mot, guillemets français", () => {
+  it("W02, v3 CT2 : rappel = phrases entières jusqu'à ≈ 110 caractères, guillemets français", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
-    const long = "Pour ta valise de départ, chacun a cotisé : on t’a acheté un aller simple pour très loin, sans retour.";
-    render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu="vanne" apercu={long} />);
-    const rappel = sansGluon(screen.getByTestId("fenetre-rappel").textContent ?? "").replace(/[\u00a0\u202f]/g, " ");
-    expect(rappel).toMatch(/^« Pour ta valise de départ, chacun a cotisé.*… »$/);
-    const coeur = rappel.slice(2, -3);
-    expect(coeur.length).toBeLessThanOrEqual(70);
-    expect(long.startsWith(coeur.replace(/\u2019/g, "’"))).toBe(true);
+    // La vanne réelle de T4 (75 caractères) : entière, sans « … ».
+    const vanne = "Pour ta valise de départ, chacun a cotisé selon ses moyens. Moi, dix euros.";
+    const { unmount } = render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu="vanne" apercu={vanne} />);
+    const lire = () => sansGluon(screen.getByTestId("fenetre-rappel").textContent ?? "").replace(/[\u00a0\u202f]/g, " ");
+    expect(lire()).toBe(`« ${vanne} »`);
     // Ordre : titre, rappel, ligne Premium.
     const html = document.body.innerHTML;
     expect(html.indexOf("fenetre-rappel")).toBeLessThan(html.indexOf("Il ouvre aussi"));
+    unmount();
+    // Première phrase trop longue : coupe au mot, jamais au milieu d'un mot, « … ».
+    const long = `${"Une phrase vraiment très longue ".repeat(5)}qui dépasse largement la limite fixée.`;
+    render(<PremiumModal isOpen onClose={jest.fn()} reason="favoris" contenu="vanne" apercu={long} />);
+    const rappel = lire();
+    expect(rappel).toMatch(/^« Une phrase .*\w… »$/);
+    const coeur = rappel.slice(2, -3);
+    expect(coeur.length).toBeLessThanOrEqual(110);
+    expect(long.startsWith(coeur)).toBe(true);
+    expect(long[coeur.length]).toBe(" ");
   });
 
   it("favori : l'élément cliqué est mémorisé dans returnTo, jusqu'au paiement (visiteur et compte gratuit)", async () => {

@@ -111,7 +111,9 @@ export function Header() {
   // Liens réels (présents dans le HTML serveur) : retour sur la page courante après coup.
   // s21 (B6) : le bouton visiteur mène à /abonnement?src=header (prix, carnet, garantie
   // avant le formulaire), plus à /register.
-  const prixHref = buildAbonnementUrl(null, "monthly", "header");
+  // textes-trajet-v3 §5 point 3 : après le paiement, retour sur la page d'où l'on vient (pas /parcours).
+  // Accueil : pas de retour (même règle que la carte d'achat de l'accueil, retour /parcours).
+  const prixHref = buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
   // s21 (B6, spec §1.3 a) : bouton plein masqué sur /abonnement et /register (même
   // destination ou boucle : un seul plein par page chaude).

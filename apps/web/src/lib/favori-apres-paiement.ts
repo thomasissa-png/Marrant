@@ -67,3 +67,39 @@ export function favoriDepuisCallback(callback: string | null | undefined): Favor
   const returnTo = params.get("returnTo");
   return returnTo ? extraireFavori(returnTo).favori : lireFavori(params.get(FAVORI_PARAM));
 }
+
+/**
+ * Ajout du favori mémorisé, au retour d'un paiement vérifié (/abonnement/success). Vrai si le favori
+ * est en place : créé (2xx) ou déjà là (409). Faux sur toute autre réponse, une erreur réseau ou
+ * après 5 s (timeout explicite, la redirection a lieu quand même).
+ */
+export async function ajouterFavoriApresPaiement(f: FavoriEnAttente): Promise<boolean> {
+  try {
+    const res = await fetch("/api/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contentType: f.contentType, contentId: f.contentId }),
+      signal: typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(5_000) : undefined,
+    });
+    return res.ok || res.status === 409;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Drapeau « favori ajouté » sur la destination (textes-trajet-v3 §5 point 4) : `favori=JOKE|TIP|VIDEO`,
+ * le TYPE seulement, jamais l'identifiant. Posé uniquement après un ajout réussi ; lu par
+ * `PremiumWelcome` (liste blanche) pour dire « Ta vanne est dans tes favoris. ».
+ */
+export function avecDrapeauFavori(chemin: string, type: ContenuFavori): string {
+  const { path, params, hash } = separer(chemin);
+  params.set(FAVORI_PARAM, type);
+  return recoller(path, params, hash);
+}
+
+const TYPES: readonly ContenuFavori[] = ["JOKE", "TIP", "VIDEO"];
+
+export function lireDrapeauFavori(raw: string | null | undefined): ContenuFavori | null {
+  return TYPES.find((t) => t === raw) ?? null;
+}

@@ -7,7 +7,7 @@ import { isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
-import { LIEN_L1 } from "@/components/ui/liens";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { frTypo } from "@/lib/fr-typo";
 import { parcoursEtape1Href, parcoursEtapeHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
@@ -95,7 +95,8 @@ export function ArticleCta({ parcours = "repartie", src, title, boutonEtape1 }: 
             <Reassurance />
           </div>
           <div className="mt-2 text-center">
-            <Link href={etape1Href} data-blog-cta="etape-1" className={LIEN_L1}>
+            {/* v3 M5 : graisse normale, comme le lien gratuit du mur (il n'attire pas plus l'œil que la réassurance). */}
+            <Link href={etape1Href} data-blog-cta="etape-1" className={LIEN_L2}>
               {frTypo(boutonEtape1 ?? textes.finBoutonEtape1)}
             </Link>
             <p className="text-xs text-text-muted">{frTypo(BLOC_FIN.noteSansCompte)}</p>

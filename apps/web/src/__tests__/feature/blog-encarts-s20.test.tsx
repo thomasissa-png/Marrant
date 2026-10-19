@@ -140,11 +140,13 @@ describe("bloc de fin unique (s21, B2)", () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc).toHaveTextContent("La vanne dans ta bouche, pas dans ton téléphone");
-    expect(bloc).toHaveTextContent("Premium ouvre tout : le catalogue et les 5 parcours.");
+    expect(bloc).toHaveTextContent("Premium ouvre le catalogue, les parcours et leurs exercices.");
     expect(bloc).not.toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
     expect(bloc).toHaveTextContent(/Tout ouvrir\s·\s2,99\s€\/mois/);
     expect(bloc).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
-    expect(bloc).toHaveTextContent("Tester mes premières répliques, gratuit");
+    // v3 S01 : libellé unique du parcours (Répartie pour l'article n°1).
+    expect(bloc).toHaveTextContent(/Tester l’étape\s1\sde Répartie, gratuite/);
+    expect(bloc).not.toHaveTextContent("Tester mes premières répliques, gratuit");
     expect(bloc).toHaveTextContent("Sans compte.");
     expect(bloc).not.toHaveTextContent(/24,99|TTC|Une étape par semaine|Parcours Répartie ·/);
   });

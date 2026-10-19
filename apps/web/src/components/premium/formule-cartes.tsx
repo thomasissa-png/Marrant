@@ -36,7 +36,7 @@ export function FormuleCartes({
     );
   }
   return (
-    <fieldset className="mt-4" data-testid="plan-selector">
+    <fieldset className="mt-4 max-[359px]:mt-2.5" data-testid="plan-selector">
       <legend className="sr-only">{FORMULES.legende}</legend>
       {/* Sous 360 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
       <div className="grid grid-cols-2 gap-2 max-[359px]:grid-cols-1 max-[359px]:gap-1.5">
@@ -56,14 +56,9 @@ export function FormuleCartes({
           montant={formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)}
           suffixe={FORMULES.suffixeAnnuel}
           lignes={[PREMIUM_ANNUAL_EQUIVALENT_LABEL, ANNUEL_MOIS_OFFERTS_LABEL]}
+          mention={FORMULES.renouvelAnnuel}
         />
       </div>
-      {/* v2 A04 : renouvellement de l'annuel, seulement quand « Annuel » est choisi. */}
-      {value === "annual" && (
-        <p className="mt-2 text-center text-sm text-text-secondary" data-testid="renouvellement-annuel">
-          {FORMULES.renouvelAnnuel}
-        </p>
-      )}
     </fieldset>
   );
 }
@@ -76,6 +71,7 @@ function Carte({
   montant,
   suffixe,
   lignes = [],
+  mention,
 }: {
   plan: PremiumPlan;
   actif: boolean;
@@ -84,13 +80,16 @@ function Carte({
   montant: string;
   suffixe: string;
   lignes?: string[];
+  /** v3 M2 : « Renouvelé chaque année, sauf résiliation. », dans la carte, affichée en permanence. */
+  mention?: string;
 }) {
   return (
     <label
       data-testid={`formule-${plan}`}
       className={cn(
-        "flex min-h-11 cursor-pointer flex-col justify-center rounded-lg border-2 px-3 py-2 text-left transition-colors",
-        "max-[359px]:flex-row max-[359px]:flex-wrap max-[359px]:items-center max-[359px]:gap-x-2 max-[359px]:py-1.5",
+        // v3 M7 : contenu calé en haut (prix alignés d'une carte à l'autre) ; sous 360 px, une ligne par carte.
+        "flex min-h-11 cursor-pointer flex-col justify-start rounded-lg border-2 px-3 py-2 text-left transition-colors",
+        "max-[359px]:flex-row max-[359px]:flex-wrap max-[359px]:items-center max-[359px]:gap-x-1.5 max-[359px]:px-2 max-[359px]:py-1.5 max-[359px]:tracking-tight",
         "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-primary has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card",
         actif ? "border-accent-primary bg-accent-primary/15" : "border-border bg-background-card hover:border-text-muted",
       )}
@@ -127,6 +126,12 @@ function Carte({
           {ligne}
         </span>
       ))}
+      {mention && (
+        <span className="text-xs leading-snug text-text-secondary max-[359px]:basis-full" data-testid="renouvellement-annuel">
+          {" "}
+          {mention}
+        </span>
+      )}
     </label>
   );
 }

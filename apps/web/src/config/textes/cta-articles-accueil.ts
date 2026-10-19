@@ -14,7 +14,6 @@
  */
 import {
   ESPACE_INSECABLE,
-  PARCOURS_COUNT,
   PREMIUM_MONTHLY_PRICE_CENTS,
   PREMIUM_PRICE_LABEL,
   formatEuros,
@@ -45,7 +44,7 @@ export function libelleToutOuvrir(prix: string = PREMIUM_PRICE_LABEL): string {
   return `Tout ouvrir${POINT_MEDIAN}${prix}`;
 }
 
-/** `GRATUIT_ACCUEIL` : haut d'accueil, carte d'accueil, fin d'article générique (Répartie). */
+/** `GRATUIT_ACCUEIL` : haut d'accueil et carte d'accueil (Répartie). Plus en fin d'article (v3 S01). */
 export const GRATUIT_ACCUEIL = "Tester mes premières répliques, gratuit";
 
 /** `GRATUIT_P` : « Tester l'étape 1 de {P}, gratuite », partout où le parcours est connu. */
@@ -87,30 +86,25 @@ export const DEMO_VANNE = {
 // ─── Bloc de fin d'article ──────────────────────────────────────────────────
 
 /**
- * `ArticleCta` (variante « fin », textes-trajet-v2 F01 à F05) : titre, la phrase d'argument (elle
- * remplace le texte propre à l'article), le plein payant « Tout ouvrir · 2,99 €/mois », la REASS,
- * puis le lien gratuit (même libellé qu'avant) et « Sans compte. ».
+ * `ArticleCta` (variante « fin », textes-trajet-v2 F01 à F05, v3 F02b et S01) : titre, la phrase
+ * d'argument (elle remplace le texte propre à l'article), le plein payant « Tout ouvrir · 2,99 €/mois »,
+ * la REASS, puis le lien gratuit, TOUJOURS « Tester l'étape 1 de {Parcours}, gratuite » (même libellé
+ * et même destination que /abonnement, le mur et /register ; Répartie si le parcours n'est pas connu),
+ * et « Sans compte. ».
  */
 export const BLOC_FIN = {
   /** v2 F01 : plein payant, porte générique « Tout ouvrir » (libellé inchangé). */
   bouton: libelleToutOuvrir(),
-  /** v2 F02 : phrase d'argument, au-dessus du plein ; remplace le texte de l'article (arbitrage 3). */
-  phrase: `${OFFRE_NOM} ouvre tout : le catalogue et les ${PARCOURS_COUNT} parcours.`,
-  /**
-   * v2 F04 : lien gratuit (ancien plein). Parcours inconnu : `GRATUIT_ACCUEIL`. Parcours connu :
-   * `GRATUIT_P` (`TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1`). L'article n°1 garde le sien (`parArticle`).
-   */
-  boutonSansParcours: GRATUIT_ACCUEIL,
+  /** v3 F02b : phrase d'argument, au-dessus du plein ; remplace le texte de l'article (arbitrage 3 du tour 2). */
+  phrase: `${OFFRE_NOM} ouvre le catalogue, les parcours et leurs exercices.`,
   noteSansCompte: SANS_COMPTE,
   /** Surcharges par article (prioritaires sur config/blog-cta.ts et encarts-blog-s20.ts). */
   parArticle: {
     "meilleures-blagues-droles-2026": {
       titre: "La vanne dans ta bouche, pas dans ton téléphone",
       texte: "La placer à voix haute, ça s’entraîne.",
-      /** Article n°1 validé (textes-v5-a §3) : libellé générique. */
-      bouton: GRATUIT_ACCUEIL,
     },
-  } as Readonly<Partial<Record<string, { titre?: string; texte?: string; bouton?: string }>>>,
+  } as Readonly<Partial<Record<string, { titre?: string; texte?: string }>>>,
 } as const;
 
 // ─── La lettre par e-mail en bas d'article ──────────────────────────────────

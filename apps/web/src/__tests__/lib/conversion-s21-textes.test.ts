@@ -41,7 +41,8 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
 
   it("avantages : 3 sans la lettre, 4 avec (formulation @legal)", () => {
     expect(avantagesPremium(false)).toEqual([
-      "Tout le catalogue : vannes, conseils, vidéos",
+      // textes-trajet-v3 E01.
+      "Tout le catalogue, du boulot au rencard",
       "Les 5 parcours, de la première à la dernière étape",
       "Un nouveau carnet de répartie chaque mois",
     ]);
@@ -77,7 +78,7 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(v0.map((l) => [l.libelle, l.gratuit, l.premium])).toEqual([
       ["Tout le catalogue", "10 vannes, 3 conseils, 3 vidéos dans les listes", "Sans limite"],
       ["Parcours", "Étape 1 de chacun", "Les 5, en entier"],
-      ["Carnet de répartie", "1 situation par carnet", "Toutes les situations"],
+      ["Carnet de répartie", "1 situation par carnet", "Toutes, carnets passés compris"],
       ["Exercices des fiches", false, true],
       ["Progression et série", false, true],
       ["Favoris", false, true],
@@ -94,12 +95,15 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(CARNET_EXTRAIT_TITRE).toBe("Le carnet, en vrai");
     expect(CARNET_VENTE.chapeau("d’octobre")).toBe("La situation offerte d’octobre, et la réplique qui va avec.");
     expect(CARNET_VENTE.chapeau("de novembre")).toBe("La situation offerte de novembre, et la réplique qui va avec.");
-    expect(CARNET_VENTE.reste(14)).toBe("Il en reste 14, toutes ouvertes avec Premium.");
+    // v3 E04 (un seul reste : « L'autre s'ouvre avec Premium. »).
+    expect(CARNET_VENTE.reste(14)).toBe("Les 14 autres s’ouvrent avec Premium.");
+    expect(CARNET_VENTE.reste(1)).toBe("L’autre s’ouvre avec Premium.");
     expect(PAS_ENCORE_SUR_SANS_COMPTE).toBe("Sans compte.");
-    expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Ton compte est prêt.", "On t’emmène au paiement sécurisé par Stripe…"]);
+    // v3 AT1 à AT3.
+    expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Dernière étape.", "On t’emmène au paiement sécurisé par Stripe…"]);
     expect(t(ATTENTE_PAIEMENT.formule("monthly"))).toBe("Premium, 2,99 €/mois.");
-    // Consigne de Thomas (19/10) : la correction @legal « sauf résiliation » ne vaut que pour /register.
-    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année.");
+    // v3 AT3 : ligne exacte de /register (deux écritures du même fait corrigées).
+    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
     expect(t(rappelFormule("annual", { saufResiliation: true }))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
     // @legal (tour 2) : jamais « au même prix ».
     expect(rappelFormule("annual", { saufResiliation: true })).not.toMatch(/même prix/);
@@ -107,7 +111,14 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(ATTENTE_PAIEMENT.formule("annual")).not.toMatch(/TTC/);
     // Prix hors cartes de formule : sans « TTC » (v2 W04, G02, A18).
     expect([t(prixLabel("monthly")), t(prixLabel("annual"))]).toEqual(["2,99 €/mois", "24,99 €/an"]);
-    expect(BIENVENUE_PREMIUM.texte).toBe("Tout est ouvert : les listes, les parcours, le carnet du mois. Reprends là où tu t’étais arrêté.");
+    // v3 BV1 à BV3.
+    expect(BIENVENUE_PREMIUM.texte).toBe("Tout est ouvert : les listes, les parcours, les carnets. Sers-toi.");
+    expect(BIENVENUE_PREMIUM.reprise).toBe("Tout est ouvert : les listes, les parcours, les carnets. Reprends là où tu t’étais arrêté.");
+    expect(BIENVENUE_PREMIUM.favori).toEqual({
+      JOKE: "Ta vanne est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+      TIP: "Ton conseil est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+      VIDEO: "Ta vidéo est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.",
+    });
     expect(BIENVENUE_PREMIUM.lettre).toBe("Ta lettre de chaque semaine s’active depuis ton profil.");
     expect(PHRASE_OBJET_CONNECTE).toBe("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.");
   });
@@ -148,7 +159,7 @@ describe("accroche selon l'origine du clic (textes-trajet-v1 §1.1, v2 A02 : por
   });
 });
 
-describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 §4.1)", () => {
+describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 §4.1, v3 §3.1)", () => {
   // v2 : chapeau, titre, ligne du reste ; plus d'amorce, de surtitre ni de lien (le texte des deux bulles est hors compte).
   const carnet = [CARNET_EXTRAIT_TITRE, CARNET_VENTE.chapeau("d’octobre"), CARNET_VENTE.reste(14)];
   // v2 A10 : le titre du tableau est `sr-only`, il ne compte plus.
@@ -159,9 +170,10 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 
       [l.libelle, l.gratuit, l.premium].map((c) => (c === true ? "" : c === false ? TABLEAU.non : c)),
     ),
   ];
-  const page = (lettre: boolean, annuel = false) =>
+  // v3 M2 : le renouvellement est dans la carte Annuel, affiché en permanence (mensuel compris).
+  const page = (lettre: boolean) =>
     mots(
-      ...(annuel ? [FORMULES.renouvelAnnuel] : []),
+      FORMULES.renouvelAnnuel,
       ABONNEMENT_HAUT.titre,
       ABONNEMENT_HAUT.sousTitre,
       ABONNEMENT_HAUT.preuve,
@@ -186,11 +198,12 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 
       ABONNEMENT_ACHAT.suiteVisiteur,
       REASSURANCE_UNIQUE,
     );
-  it("sans la lettre et avec, mensuel et annuel : ≤ 230 mots hors FAQ, hors accroche et hors texte de la fiche", () => {
+  it("sans la lettre et avec (renouvellement toujours affiché) : ≤ 230 mots hors FAQ, accroche et texte de la fiche", () => {
     const [v0, v1] = [page(false), page(true)];
     expect(v0).toBeLessThan(v1);
     expect(v1).toBeLessThanOrEqual(230);
-    expect(page(true, true)).toBe(v1 + 5);
-    expect(page(true, true)).toBeLessThanOrEqual(230);
+    // Arbitrage 3 du tour 3 : le titre de la fiche (E02) est une donnée, hors budget comme les bulles ;
+    // la coupe de réserve du chapeau n'est donc pas appliquée.
+    expect(CARNET_VENTE.chapeau("d’octobre")).toBe("La situation offerte d’octobre, et la réplique qui va avec.");
   });
 });

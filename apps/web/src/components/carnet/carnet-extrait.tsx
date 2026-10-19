@@ -5,8 +5,8 @@ import { frTypo } from "@/lib/fr-typo";
 
 /**
  * « Le carnet, en vrai » sur /abonnement, juste sous la carte d'offre (textes-trajet-v2 A05 à A09) :
- * titre, chapeau (mois du carnet affiché), puis l'échange en deux bulles de la fiche offerte du
- * mois (« On te dit », « Tu réponds »), sans surtitre, sans « Pourquoi ça marche », sans lien qui
+ * titre, chapeau (mois du carnet affiché), titre de la fiche (v3 E02), puis l'échange en deux bulles
+ * de la fiche offerte du mois (« On te dit », « Tu réponds »), sans surtitre, sans « Pourquoi ça marche », sans lien qui
  * sort de la page. Server Component : la fiche est déjà publique sur /carnet (`CARNET_FREE_FICHES`).
  */
 export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
@@ -14,7 +14,7 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
   if (!deMois || extrait.totalFiches < 1) return null;
 
   return (
-    <section aria-labelledby="abonnement-carnet-titre" data-testid="abonnement-carnet-extrait" className="mt-8 space-y-3 md:mt-12">
+    <section aria-labelledby="abonnement-carnet-titre" data-testid="abonnement-carnet-extrait" className="mx-auto mt-8 max-w-[560px] space-y-3 md:mt-12">
       <header className="space-y-1 text-center">
         <h2 id="abonnement-carnet-titre" className="font-display text-2xl font-bold text-text-primary">
           {CARNET_EXTRAIT_TITRE}
@@ -25,6 +25,12 @@ export function CarnetExtraitBloc({ extrait }: { extrait: CarnetExtrait }) {
       </header>
 
       <div className="mx-auto max-w-[560px] space-y-2">
+        {/* v3 E02 : la scène (titre de la fiche affichée, donnée) avant l'échange ; rien si vide. */}
+        {extrait.fiche.titre?.trim() && (
+          <h3 className="text-sm font-semibold text-text-primary" data-testid="abonnement-carnet-scene">
+            {frTypo(extrait.fiche.titre)}
+          </h3>
+        )}
         <div className="mr-8 rounded-2xl rounded-bl-sm bg-background-elevated p-3">
           <p className="text-xs font-medium text-text-secondary">On te dit</p>
           <p className="mt-1 text-sm italic text-text-primary">{frTypo(extrait.fiche.onTeDit)}</p>

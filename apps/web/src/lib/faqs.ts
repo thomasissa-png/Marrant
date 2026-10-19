@@ -1,8 +1,18 @@
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 
 const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
+
+/**
+ * textes-trajet-v3 Q01 : « Et si j'arrête ? ». 1re phrase = `TEXTES_ABONNEMENT.resilierDetailSansDate`
+ * (validée). Dernière phrase gardée (arbitrage 4 du tour 3) parce que vraie dans le code ET couverte
+ * par `__tests__/api/resiliation-conserve-favoris-progression-s21.test.ts` : la fin d'abonnement ne
+ * supprime ni les favoris ni la progression. Si ce test tombe, retirer la dernière phrase.
+ */
+const ARRET_FAQ_QUESTION = "Et si j’arrête ?";
+export const ARRET_FAQ_REPONSE = `${TEXTES_ABONNEMENT.resilierDetailSansDate} Ensuite, ton compte continue avec l’accès gratuit. Tes favoris et ta progression restent enregistrés.`;
 
 export const faqs = [
   {
@@ -40,6 +50,10 @@ export const faqs = [
       `C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement. Un renouvellement n’ouvre pas de nouveau délai.`,
   },
   {
+    question: ARRET_FAQ_QUESTION,
+    answer: ARRET_FAQ_REPONSE,
+  },
+  {
     question:
       "C\u2019est quoi la différence avec juste regarder des vidéos YouTube ?",
     // s17 (PM-12, UX-04) : série et XP décrites telles qu'elles fonctionnent (texte provisoire).
@@ -58,14 +72,16 @@ export const faqs = [
 const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement, annuel compris. Un renouvellement n’ouvre pas de nouveau délai.`;
 
 /**
- * FAQ de vente (concision v5) : les 4 questions qui lèvent le plus de freins à l'achat, seules
- * affichées sur l'accueil et /abonnement (JSON-LD identique) : apprendre, timide, prix, YouTube.
+ * FAQ de vente (concision v5, + v3 Q01) : les 5 questions qui lèvent le plus de freins à l'achat,
+ * seules affichées sur l'accueil et /abonnement (JSON-LD identique) : apprendre, timide, prix,
+ * « Et si j'arrête ? » (juste après le prix), YouTube.
  * Les 4 autres restent dans `faqs` (/parcours, SEO).
  */
 const QUESTIONS_VENTE: readonly string[] = [
   "Est-ce que je peux vraiment apprendre à être drôle ?",
   "Comment devenir drôle quand on est timide ou introverti ?",
   PRICE_FAQ_QUESTION,
+  ARRET_FAQ_QUESTION,
   "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
 ];
 export const FAQ_VENTE: typeof faqs = QUESTIONS_VENTE.map((q) => {

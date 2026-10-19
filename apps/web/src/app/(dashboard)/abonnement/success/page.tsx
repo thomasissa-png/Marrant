@@ -17,7 +17,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { trackUmamiWhenReady } from "@/lib/umami";
 import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
-import { extraireFavori } from "@/lib/favori-apres-paiement";
+import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
 import { useFavoritesStore } from "@/stores/favorites-store";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
@@ -44,9 +44,9 @@ function SubscriptionSuccessContent() {
   // Retour à l'intention d'origine, validée chemin interne ; sinon /parcours.
   const rawReturnTo = searchParams.get("returnTo");
   // Favori mémorisé au clic sur l'étoile (lib/favori-apres-paiement) : ajouté une fois le plan
-  // vérifié, puis retiré de la destination.
+  // vérifié, puis retiré de la destination ; si l'ajout a réussi (ou 409), la destination reçoit
+  // le drapeau `favori=<TYPE>` (jamais l'id) pour la bienvenue « Ta vanne est dans tes favoris. ».
   const { favori, chemin: destination } = useMemo(() => extraireFavori(getPostPaymentDestination(rawReturnTo)), [rawReturnTo]);
-  const addFavorite = useFavoritesStore((s) => s.addFavorite);
   const fetchFavorites = useFavoritesStore((s) => s.fetchFavorites);
   const fallbackTarget = extraireFavori(sanitizeReturnTo(rawReturnTo) ?? "/parcours").chemin;
   const fallbackLabel = fallbackTarget.startsWith("/parcours/")
@@ -112,21 +112,20 @@ function SubscriptionSuccessContent() {
     }
     let annule = false;
     void (async () => {
+      let cible = destination;
       if (favori) {
         // Attendu avant la redirection (la page d'arrivée montre l'étoile pleine), 5 s au plus.
-        // Échec ou doublon (409) : la redirection a lieu quand même.
-        await Promise.race([
-          addFavorite(favori.contentType, favori.contentId),
-          new Promise((r) => setTimeout(r, 5_000)),
-        ]);
+        // Échec ou délai dépassé : redirection quand même, sans drapeau.
+        const ajoute = await ajouterFavoriApresPaiement(favori);
+        if (ajoute) cible = avecDrapeauFavori(destination, favori.contentType);
         await Promise.race([fetchFavorites(), new Promise((r) => setTimeout(r, 5_000))]);
       }
-      if (!annule) router.push(destination);
+      if (!annule) router.push(cible);
     })();
     return () => {
       annule = true;
     };
-  }, [etat, router, destination, formule, favori, addFavorite, fetchFavorites]);
+  }, [etat, router, destination, formule, favori, fetchFavorites]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">

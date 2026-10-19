@@ -148,7 +148,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
 
   it("A1 en base : CTA dédié juste après le corps, avant les articles liés", async () => {
     const { container } = await renderDb("message-anniversaire-drole-par-situation");
-    // Bloc de fin v3 (fins-articles-v3) : parcours non nommé = « Tester mes premières répliques, gratuit ».
+    // textes-trajet-v3 S01 : lien gratuit du parcours de l'article (jamais « Tester mes premières répliques »).
     const titles = screen.getAllByText(normalise("Au moment du gâteau, tout le monde t'écoute"));
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);
@@ -157,7 +157,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
     expect(screen.queryByText(/résiliable en ligne\. Les messages de cette page/)).toBeNull();
     expect(screen.getByText("Sans compte.")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: (nom) => normalise(nom) === normalise(BLOC_FIN.bouton) })).toBeInTheDocument();
-    expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveTextContent("Tester mes premières répliques, gratuit");
+    expect(container.querySelector('a[data-blog-cta="etape-1"]')!.textContent).toMatch(/^Tester l’étape\s1\sde .+, gratuite$/);
   });
 });
 

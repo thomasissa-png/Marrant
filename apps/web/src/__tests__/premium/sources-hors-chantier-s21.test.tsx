@@ -25,7 +25,8 @@ describe("m-1 : une source distincte par bouton payant", () => {
     ["app/(dashboard)/glossaire/page.tsx", 'buildAbonnementUrl(null, "monthly", "glossaire")'],
     ["app/(dashboard)/parcours/(liste)/page.tsx", 'buildAbonnementUrl(null, "monthly", "parcours-liste")'],
     ["components/favoris/favoris-list.tsx", 'buildAbonnementUrl("/favoris", "monthly", "favoris")'],
-    ["components/ui/search-bar.tsx", 'buildAbonnementUrl(null, "monthly", "recherche")'],
+    // textes-trajet-v3 §5 point 3 : retour sur la page courante après le paiement (accueil exclu).
+    ["components/ui/search-bar.tsx", 'buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "recherche")'],
     // Trajet de conversion s21 (arbitrage du 19/10) : le visiteur passe par /abonnement, comme au glossaire.
     ["app/(dashboard)/a-propos/page.tsx", 'buildAbonnementUrl(null, "monthly", "a-propos")'],
   ])("%s", (fichier, attendu) => {

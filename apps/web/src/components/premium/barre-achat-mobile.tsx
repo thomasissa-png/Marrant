@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /** Identifiants des deux boutons d'achat observés (B2 et B6 de /abonnement). */
@@ -18,6 +18,23 @@ export function BarreAchatMobile({ children }: { children: ReactNode }) {
   const [principalVisible, setPrincipalVisible] = useState(true);
   const [principalDessous, setPrincipalDessous] = useState(false);
   const [finalVisible, setFinalVisible] = useState(false);
+  const barre = useRef<HTMLDivElement>(null);
+
+  // v3 M3 : hauteur réelle de la barre (le libellé peut passer sur 2 lignes à 320 px), publiée en
+  // variable CSS pour la marge basse de la page : la fin de la FAQ se lit en entier au-dessus de la barre.
+  useEffect(() => {
+    const el = barre.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const racine = document.documentElement;
+    const publier = () => racine.style.setProperty("--abonnement-barre-h", `${Math.ceil(el.getBoundingClientRect().height) + 16}px`);
+    publier();
+    const ro = new ResizeObserver(publier);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      racine.style.removeProperty("--abonnement-barre-h");
+    };
+  }, []);
 
   useEffect(() => {
     const principal = document.getElementById(ID_ACHAT_PRINCIPAL);
@@ -43,11 +60,13 @@ export function BarreAchatMobile({ children }: { children: ReactNode }) {
 
   return (
     <div
+      ref={barre}
       data-testid="abonnement-barre-collante"
       data-visible={visible ? "oui" : "non"}
       className={cn(
         "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 backdrop-blur md:hidden",
-        !visible && "hidden",
+        // Cachée mais mesurable (`invisible` : ni vue, ni focus, ni lecteur d'écran).
+        !visible && "invisible",
       )}
     >
       {children}
