@@ -23,6 +23,7 @@ import {
   VANNES_ETAPE,
 } from "@/config/textes/parcours";
 import type { Step, VideoRef } from "@/components/parcours/parcours-types";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 /**
  * Aperçu d'une étape 2+ pour un non-abonné (D1, étalon 3.1 validé) : titre
@@ -89,6 +90,7 @@ export function ValidationWall({
   const plein = cn(
     buttonVariants({ variant: "primary", size: "lg" }),
     "mt-3 h-auto min-h-12 w-full whitespace-normal py-2 text-center leading-snug sm:w-auto",
+    CORPS_APPEL_MOBILE,
   );
   if (quizPending || !isParcoursSlug(slug)) {
     return (

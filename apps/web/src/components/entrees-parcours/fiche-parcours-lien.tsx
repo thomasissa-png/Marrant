@@ -1,5 +1,6 @@
 import type { FicheParcoursRef } from "@/lib/entrees-parcours-fiches";
 import { FICHE_PARCOURS } from "@/config/textes/entrees-parcours";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 type FicheType = "vanne" | "conseil" | "video";
 
@@ -18,7 +19,7 @@ export function FicheParcoursLien({ type, refs }: { type: FicheType; refs: reado
     <aside
       aria-label={FICHE_PARCOURS.titre}
       data-testid="fiche-parcours-lien"
-      className="mt-6 rounded-xl border border-border bg-background-card p-5 md:p-6"
+      className={`mt-6 rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}
     >
       <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">{FICHE_PARCOURS.titre}</p>
       <p className="mt-2 text-sm text-text-secondary">{FICHE_PARCOURS[type](ref.etape, ref.slug)}</p>

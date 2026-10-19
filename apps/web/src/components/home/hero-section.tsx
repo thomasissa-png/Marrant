@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
 import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 /** Pastilles du hero : libellés existants, chacune mène à l'étape 1 du parcours qu'elle nomme
  *  (T02 ; s17 : `?src=accueil`, data-analyst §5.3).
@@ -87,6 +88,7 @@ export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
             className={cn(
               buttonVariants({ variant: "primary", size: "lg" }),
               "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
+              CORPS_APPEL_MOBILE,
             )}
           >
             {frTypo(textes.bouton)}

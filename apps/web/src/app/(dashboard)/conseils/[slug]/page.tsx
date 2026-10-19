@@ -23,6 +23,7 @@ import { refsFromDbSteps, type FicheParcoursRef } from "@/lib/entrees-parcours-f
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
 import { frTypo } from "@/lib/fr-typo";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // ISR — page individuelle conseil : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -205,7 +206,7 @@ export default async function ConseilPage({
           <p className="whitespace-pre-wrap text-base leading-relaxed">{contenuAffiche(tip.content)}</p>
         </div>
 
-        <section className="mt-8 rounded-xl border border-border bg-background-card p-5 md:p-6">
+        <section className={`mt-8 rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
           <h2 className="font-display text-base font-bold text-text-primary">Exemple concret</h2>
           {/* Revue visuelle s21 (R13) : une ligne de l'exemple par paragraphe, lisible (rendu seul, aucun mot
               changé) ; la ligne de total, quand il y en a une, séparée par un filet. */}

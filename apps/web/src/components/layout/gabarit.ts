@@ -19,21 +19,35 @@ export const COLONNE_LECTURE = "mx-auto w-full max-w-3xl";
 export const MESURE_TEXTE = "max-w-3xl";
 
 /**
- * Carte d'appel : même cadre partout, contenu aligné à gauche. Marge interne `p-5 md:p-6`, la même
- * que les encadrés des fiches (chute, « Pourquoi ça marche », exemple, technique, « Dans un
- * parcours ») : bords de texte alignés d'un encadré à l'autre (revue visuelle s21, R06).
+ * Marge interne des encadrés (chute, « Pourquoi ça marche », exemple, technique, « Dans un parcours »)
+ * et des blocs d'appel : la même partout, bords de texte alignés d'un encadré à l'autre (revue visuelle
+ * s21, R06). Tour 4 (T3-01) : 16 px de marge latérale sous 400 px, pour que le bouton à prix le plus long
+ * tienne sur une ligne à 375 px (voir `CORPS_APPEL_MOBILE`).
  */
-export const BLOC_APPEL = "rounded-lg border border-border bg-background-card p-5 md:p-6";
+export const MARGE_ENCADRE = "p-5 max-[399px]:px-4 md:p-6";
+
+/** Carte d'appel : même cadre partout, contenu aligné à gauche, marge `MARGE_ENCADRE`. */
+export const BLOC_APPEL = `rounded-lg border border-border bg-background-card ${MARGE_ENCADRE}`;
 
 /** Titre d'un bloc d'appel. */
 export const TITRE_BLOC_APPEL = "font-display text-lg font-bold leading-snug text-text-primary [text-wrap:balance] sm:text-xl";
 
 /**
- * Bouton plein qui porte le prix (« Ouvrir les 5 parcours · 2,99 €/mois ») : une seule ligne à
- * 375 px (revue visuelle s21, R07), corps de 15 px et marges de 12 px sous 400 px, sans toucher
- * au libellé. À combiner avec `buttonVariants({ variant: "primary", size: "lg" })`.
+ * Revue visuelle s21, tour 4 (T3-01) : sous 400 px, tout bouton plein d'appel (avec ou sans prix) passe en
+ * 15 px avec 6 px de marge interne (bouton pleine largeur, texte centré : l'air visible reste de part et
+ * d'autre du texte). Le plus long libellé prix (« Voir la suite des conseils · 2,99 €/mois », 292 px en
+ * 15 px) tient dans les 297 px utiles d'un bloc d'appel à 375 px : une ligne partout, figée par
+ * `playwright/tests/local/bouton-appel-s21.spec.ts`. Pas de `whitespace-nowrap` : à 320 px, un libellé
+ * trop long revient à la ligne, équilibré, au lieu de sortir de son bouton (libellés inchangés).
  */
-export const BOUTON_PRIX_UNE_LIGNE = "h-auto min-h-12 px-3 py-2 max-[399px]:whitespace-nowrap max-[399px]:text-[15px]";
+export const CORPS_APPEL_MOBILE = "max-[399px]:px-1.5 max-[399px]:text-[15px]";
+
+/**
+ * Bouton plein qui porte le prix hors bloc d'appel (/abonnement, accueil, résultat d'onboarding) : une
+ * seule ligne à 375 px (R07, T3-01), sans toucher au libellé. À combiner avec
+ * `buttonVariants({ variant: "primary", size: "lg" })`.
+ */
+export const BOUTON_PRIX_UNE_LIGNE = `h-auto min-h-12 px-3 py-2 [text-wrap:balance] ${CORPS_APPEL_MOBILE}`;
 
 /** Bouton plein d'un bloc d'appel (à combiner avec `buttonVariants({ variant: "primary", size: "lg" })`). */
-export const BOUTON_BLOC_APPEL = "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto";
+export const BOUTON_BLOC_APPEL = `h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto ${CORPS_APPEL_MOBILE}`;

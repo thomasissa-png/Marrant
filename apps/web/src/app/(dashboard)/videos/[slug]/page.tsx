@@ -17,6 +17,7 @@ import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 import { getRelatedVideos, type RelatedVideo } from "@/lib/related-catalogue";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -206,7 +207,7 @@ export default async function VideoPage({
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
             {contenuAffiche(fixInvertedCase(video.description))}
           </p>
-          <div className="mt-4 rounded-lg border border-border bg-background-card p-5 md:p-6">
+          <div className={`mt-4 rounded-lg border border-border bg-background-card ${MARGE_ENCADRE}`}>
             <div className="text-xs uppercase tracking-wider text-text-muted">Technique principale</div>
             <div className="mt-1 text-sm font-semibold text-text-primary">{video.technique}</div>
           </div>

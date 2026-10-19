@@ -17,6 +17,7 @@ import { AutresParcours } from "@/components/home/autres-parcours";
 import { DerniersArticles } from "@/components/home/derniers-articles";
 import { getDerniersArticles } from "@/lib/derniers-articles";
 import Link from "next/link";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // FAQPage = UNIQUEMENT les questions visibles sur la page (règle Google :
 // un balisage FAQ doit refléter du contenu affiché). La FAQ visible de la home
@@ -70,14 +71,14 @@ export default async function HomePage() {
       {/* Sections principales — blagues, conseils, vidéos */}
       <FeatureCards examples={featureExamples} />
 
-      {/* Section "Tu te reconnais ?" — les 3 personas avec lien parcours */}
+      {/* Section "Tu te reconnais ?" — les 3 personas avec lien parcours ; marge des cartes = « Trois outils » (T3-03) */}
       <section className="py-12 md:py-16">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Tu te reconnais ?
         </h2>
         <div className="grid gap-6 md:grid-cols-3">
           {/* Sophie — parcours le plus court en premier */}
-          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
+          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
             <p className="text-3xl" aria-hidden="true">☕️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;Je n’ai jamais rien de drôle à dire&nbsp;»
@@ -93,7 +94,7 @@ export default async function HomePage() {
           </div>
 
           {/* Yanis */}
-          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
+          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
             <p className="text-3xl" aria-hidden="true">⚡️</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;Je reste muet quand on me chambre&nbsp;»
@@ -110,7 +111,7 @@ export default async function HomePage() {
           </div>
 
           {/* Marc */}
-          <div className="flex flex-col rounded-xl border border-border bg-background-card p-6">
+          <div className={`flex flex-col rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
             <p className="text-3xl" aria-hidden="true">🌱</p>
             <h3 className="mt-3 font-display text-lg font-bold text-text-primary">
               «&nbsp;J’ai perdu ma légèreté&nbsp;»

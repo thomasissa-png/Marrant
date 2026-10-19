@@ -20,6 +20,8 @@ import Link from "next/link";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import { totalParcoursXp } from "@/lib/parcours-xp";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
@@ -364,7 +366,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                   <Button
                     variant="primary"
                     size="lg"
-                    className="h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto"
+                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE)}
                     onClick={() => handleCta(p.slug)}
                   >
                     {etape1Slug

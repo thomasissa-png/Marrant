@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { contenuAffiche } from "@/lib/tip-prose";
 import { useContentStats } from "@/hooks/use-content-stats";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 const features = [
   {
@@ -35,11 +36,11 @@ const features = [
     getTitle: (count: number): ReactNode =>
       count > 0 ? (
         <>
-          {count}+ vidéos de <span className="whitespace-nowrap">stand-up</span> décryptées
+          {count}+ vidéos de <span className="whitespace-nowrap">stand-⁠up</span> décryptées
         </>
       ) : (
         <>
-          Vidéos <span className="whitespace-nowrap">stand-up</span> décryptées
+          Vidéos <span className="whitespace-nowrap">stand-⁠up</span> décryptées
         </>
       ),
     description:
@@ -82,7 +83,9 @@ export function FeatureCards({ examples }: FeatureCardsProps = {}) {
             className="relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card"
           >
             <div className={`h-1 bg-gradient-to-r ${feature.gradient}`} />
-            <div className="flex flex-1 flex-col p-6">
+            {/* Revue visuelle s21, tour 4 (T3-03) : même marge que les encadrés (16 px sous 400 px), les liens
+                d'exemple gagnent 8 px de ligne à 375 px. */}
+            <div className={`flex flex-1 flex-col ${MARGE_ENCADRE}`}>
               <span className="text-3xl" aria-hidden="true">
                 {feature.emoji}
               </span>

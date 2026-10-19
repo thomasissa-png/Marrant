@@ -21,6 +21,7 @@ import {
   type HumorProfileType,
   type HumorProfileResult,
 } from "./quiz-data";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 const QUIZ_STORAGE_KEY = "humor-quiz-viral";
 
@@ -110,7 +111,7 @@ function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResul
               className={buttonVariants({
                 variant: "primary",
                 size: "lg",
-                className: "h-auto min-h-12 w-full whitespace-normal py-2 text-center",
+                className: cn("h-auto min-h-12 w-full whitespace-normal py-2 text-center", CORPS_APPEL_MOBILE),
               })}
             >
               {t.bouton}

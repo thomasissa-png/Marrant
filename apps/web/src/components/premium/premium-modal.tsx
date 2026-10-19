@@ -20,6 +20,7 @@ import {
   type GesteFenetre,
 } from "@/config/textes/cta-pages";
 import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 /** Geste qui a ouvert la fenêtre : le titre, l'intro et le bouton en dépendent (B11). */
 export type PremiumModalReason = "favoris" | "vote" | "carte";
@@ -59,7 +60,7 @@ export function PremiumModal({ isOpen, onClose, reason, contenu = "vanne", retur
 
   const handleCheckout = () => startCheckout(resolveReturnTo());
 
-  const plein = cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]");
+  const plein = cn(buttonVariants({ variant: "primary", size: "lg" }), "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance]", CORPS_APPEL_MOBILE);
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="sm:max-w-lg" labelledBy="premium-modal-title" sheet>
