@@ -2,6 +2,8 @@
 
 ## À DÉPLOYER
 
+**Deuxième mise en ligne s21 (admin et revue visuelle, branche `claude/marrant-s21-integration`)** : suivre la variante « DEUXIÈME MISE EN LIGNE s21 » en tête de l'entrée « s21 Intégration » plus bas (P0, P1, P4, P6 adapté, P8, N-1 `586c4adc`). P2, P3, P5 et P7 sont déjà faits en production : ne pas les rejouer. Contre-épreuve : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`.
+
 ### Page admin s21 (18/10/2026) : refonte + inscrits à la lettre, branche `claude/marrant-s21-admin` (depuis `claude/marrant-s21-integration`)
 
 **Rien au déploiement : aucune migration, aucun secret, aucune variable nouvelle, aucune écriture en base.** Lecture seule. Sans la migration 14, la page tourne (numéros de la lettre affichés « migration 14 non jouée »).
@@ -11,7 +13,7 @@
 - **Comptes de test (`ANALYTICS_EMAILS_EXCLUS`) exclus** des comptes créés, abonnés actifs, revenu mensuel, nouveaux abonnés et résiliations, dans l'admin ET l'e-mail du lundi (même fonction `prismaFunnelCounter`), ligne « N compte(s) de test exclu(s) ». **Rupture de série datée de la mise en ligne** : ces chiffres baissent du nombre de comptes de test (à transmettre à @data-analyst).
 - `/admin` et `/admin/ceo` : coquille dédiée (barre « Backoffice », « Voir le site », Déconnexion), sans l'en-tête ni le pied de page publics. `/admin/social` inchangé.
 - Audit et captures : `docs/admin/audit-admin-s21.md`, `docs/admin/captures/`.
-- Après mise en ligne : ouvrir `/admin`, vérifier l'onglet Semaine contre l'e-mail du lundi 19/10.
+- Après mise en ligne : ouvrir `/admin`, vérifier l'onglet Semaine (« Semaine du rapport ») contre l'e-mail du **lundi 26/10**. Celui du 19/10 est parti de `43c222f`, sans exclusion des comptes de test ni section lettre (QA m-1, `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`).
 
 ### Revue visuelle s21 (ordinateur et mobile) : branche `claude/marrant-s21-visuel`, à fusionner dans `claude/marrant-s21-integration` avant la mise en ligne
 
@@ -158,6 +160,68 @@ Contrôles :
 Retour arrière : celui de la mise en ligne s21 (P8). Aucune donnée à défaire.
 
 ### s21 Intégration (lot 2 boutons + lettre + mentions) : UNE SEULE MISE À JOUR, branche `claude/marrant-s21-integration`, sur feu vert de Thomas (@fullstack, 17/10/2026), **DÉPLOYÉ le 18/10/2026 à 20:11 UTC, version `586c4adc-12cd-41e5-ab09-d3064819baaf`, commit `43c222f`** (code identique à `f9b49bd`) ; N-1 `5ea46dd8-1e31-4175-bc99-3d0873925901` (retour arrière : `npx wrangler rollback 5ea46dd8-1e31-4175-bc99-3d0873925901`)
+
+#### DEUXIÈME MISE EN LIGNE s21 (admin et revue visuelle) : P0, P1, P4, P6 adapté, P8 (@qa, 19/10/2026). **P2, P3, P5 et P7 ne se rejouent pas.**
+
+- **Contenu** (`43c222f..HEAD`) : les entrées « Page admin s21 » et « Revue visuelle s21 », en tête de ce fichier, déjà fusionnées dans cette branche. Les noms `claude/marrant-s21-admin` et `claude/marrant-s21-visuel` sont historiques. Rien au déploiement : aucune migration, aucun secret, aucune variable, aucune écriture en base.
+- **Contre-épreuve** : `docs/qa/qa-contre-epreuve-s21-deuxieme-mise-en-ligne.md`, GO 9,5/10, commit relu `ffb2ad7`.
+- **Feu vert de Thomas** (19/10) : « quand c'est vérifié et que tout est propre, avec la zone admin propre, déploie ».
+- **NE PAS REJOUER** (fait le 18/10, en production) :
+  - **P3**, migration 14 ;
+  - **P5**, « Soirée de Noël » au 02/11, ni ses tâches de démarrage (les 6 numéros existent ; le cron `0 1 * * *` les resynchronise) ;
+  - **P2 (a)** : de vrais inscrits peuvent exister désormais, ce n'est plus un critère d'arrêt ;
+  - **P7**, essai de la lettre : le code de la lettre n'a pas changé.
+
+**P0 bis**. Mêmes commandes que P0.
+- Réussite : arbre propre ; `git diff --stat ffb2ad7 HEAD -- apps/web .github` vide (seuls des commits de doc après `ffb2ad7`) ; dernier run « Tests CI » sur `git rev-parse HEAD` à `success`, avec `test`, `lint` et `e2e-local` ; boucle `for` vide.
+- Si échec : comme P0.
+
+**P1 bis**. Même commande que P1.
+- N-1 attendu : `586c4adc-12cd-41e5-ab09-d3064819baaf` (100 %), noté ici.
+- `entetes-avant.txt` relevé.
+
+**P4 bis**. Même commande que P4.
+- Nouvelle version et commit notés ici, au format « DÉPLOYÉ le …, version …, N-1 586c4adc ».
+- Ne pas appeler `startup-tasks`.
+
+**P6 bis. Contrôles après mise en ligne** (une étape en échec = P8 si une page est cassée ou si l'admin est ouverte, sinon @fullstack)
+1. **Pages** : boucle de P6, avec en plus `/conseils`, `/videos` et `/admin`. Réussite : 200 partout. `/admin` en 200 est normal : c'est le formulaire de connexion, sans aucun chiffre.
+2. **Admin fermée sans authentification** : `for r in semaine lettre users stats; do curl -s -o /dev/null -w "$r %{http_code}\n" "https://deviens-marrant.fr/api/admin/$r"; done`. Réussite : `401` quatre fois. **Un 200 = P8 immédiat.**
+3. **Admin avec authentification**, sans jamais afficher le secret :
+   - `curl -s -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $ADMIN_PASSWORD" https://deviens-marrant.fr/api/admin/semaine` → `200` ;
+   - `curl -s -H "Authorization: Bearer $ADMIN_PASSWORD" https://deviens-marrant.fr/api/admin/lettre | grep -cE 'ipAddress|userAgent|[Tt]oken'` → `0` ;
+   - `curl -s https://deviens-marrant.fr/admin | grep -c noindex` → au moins `1`.
+4. **Santé et en-têtes** : `jq` de santé de P6 (mêmes critères) ; `Referrer-Policy: same-origin` sur `/lettre` ; `diff` des en-têtes de sécurité contre `entetes-avant.txt` → aucune différence.
+5. **SEO, GEO et gluon** :
+   - les deux `curl` SEO/GEO de P6 (`bingbot` → `0` ; réassurance dans `llms.txt` → `1`) ;
+   - `for p in / /a-propos /vannes /quiz-humour /cgu; do curl -s "https://deviens-marrant.fr$p?ne-pas-compter=1" | grep -oE '(href|src|content)="[^"]*"' | grep -c $'\xe2\x81\xa0'; done` → `0` cinq fois. Le U+2060 est permis dans le texte affiché, jamais dans un lien ni une métadonnée.
+   - Si écart : @fullstack (pas de P8).
+6. **Contrôles visuels clés**, vrai navigateur à 375 et 1 280 px, en visiteur sauf mention. Référence : `docs/qa/captures-s21-mel2/` et `docs/design/revue-visuelle-s21/`.
+   - `/conseils` : le bloc « Pour la prochaine fois qu’on te chambre » a les bords de la liste ; un clic sur une carte la déplie ; la carte floutée ouvre la fenêtre Premium.
+   - `/vannes` : « Révéler la chute » fonctionne.
+   - Menu mobile : onglet « La lettre » présent ; un toucher sur le voile ferme le menu.
+   - `/quiz-humour` : le formulaire de la lettre est sous le résultat.
+   - Compte Premium : une étape 2 ou 3 de `/parcours/confiance?ne-pas-compter=1` se déplie (ne pas valider, voir P6).
+   - `/admin` connecté :
+     - onglet Semaine : « Semaine du 12/10 au 18/10 » après le lundi 19/10 7 h ;
+     - onglet Abonnés › Lettre : compteurs, aucune IP ni aucun jeton ;
+     - barre « Backoffice », sans l'en-tête public.
+7. **Tâches planifiées** : `wrangler tail` jusqu'au quart d'heure suivant. Réussite : `*/15` en `Ok`, aucun `Échec` ni `ALERTE`.
+8. **Contrôles datés** :
+   - **Lundi 26/10 après 07:00 Paris**, l'e-mail du lundi contient :
+     - la section « Lettre mensuelle » ;
+     - la ligne « Abonnés actifs (aujourd'hui) » au format « N (x mensuels, y annuels) » ;
+     - la mention « N compte(s) de test exclu(s). » s'il y en a.
+
+     Avec « Semaine du rapport », l'onglet Semaine de `/admin` montre les mêmes chiffres. **Ne pas comparer à l'e-mail du 19/10** : il est parti de `43c222f`, sans exclusion des comptes de test ni section lettre. Rupture de série datée de cette mise en ligne, à transmettre à @data-analyst.
+   - Les contrôles datés de la première mise en ligne (02/11, 05/11) restent valables.
+9. **Trace** : heure, version et N-1 notées ici ; date de rupture des chiffres (comptes de test) transmise à @data-analyst.
+
+**P8 bis. Retour arrière** : `npx wrangler rollback 586c4adc-12cd-41e5-ab09-d3064819baaf`, puis `npx wrangler deployments list | tail -8`.
+- Réussite : `586c4adc` à 100 % ; `/` et `/api/health` en 200 ; **`/lettre` en 200** (N-1 contient déjà la lettre : pas de 404 attendu, contrairement au P8 de la première mise en ligne) ; `/api/admin/semaine` en 404 (route absente sur N-1).
+- Ce qu'il laisse : rien en base. La lettre, ses tâches et ses liens de désinscription restent servis par N-1, sans effet sur l'envoi du 05/11. On retrouve l'ancienne page admin et l'ancienne mise en page.
+- Quand : une page en 5xx, une page cassée, ou une route `/api/admin/*` en 200 sans Bearer.
+- Qui prévenir : Thomas, @fullstack, @qa.
 
 #### `/api/health` aligné sur le contenu préparé (@fullstack, 18/10/2026), inclus dans cette mise à jour
 
