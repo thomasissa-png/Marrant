@@ -9,7 +9,7 @@ import { toast } from "@/components/ui/toast";
 import { PremiumBenefits } from "@/components/premium/premium-benefits";
 import { buildAbonnementUrl, sanitizeReturnTo } from "@/lib/premium-return";
 import { formatEuros, PARCOURS_COUNT, PREMIUM_MONTHLY_PRICE_CENTS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
+import { OFFRE_NOM, REASSURANCE_PAIEMENT } from "@/config/textes/offre";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
@@ -92,7 +92,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
         )}
         <div className="mt-3 flex items-baseline gap-2">
           <span className="text-4xl font-bold text-text-primary">{formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}</span>
-          <span className="text-text-muted">/ mois</span>
+          <span className="text-text-muted">TTC / mois</span>
         </div>
         <p className="mt-1 text-sm text-accent-link font-medium">
           Sans engagement, annulable à tout moment
@@ -128,7 +128,7 @@ export function PremiumModal({ isOpen, onClose, reason = "defaut", returnTo }: P
 
         {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-4" onNavigate={onClose} />}
 
-        <p className="mt-3 text-center text-xs text-text-muted">{reassurancePaiement("monthly")}</p>
+        <p className="mt-3 text-center text-xs text-text-muted">{REASSURANCE_PAIEMENT}</p>
         <p className="mt-1 text-center text-xs text-text-muted">
           Droit de{" "}
           <Link

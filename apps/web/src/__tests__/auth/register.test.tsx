@@ -36,10 +36,10 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix.
+    // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix (TTC depuis s21).
     expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
-    expect(screen.getByText("Premium, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
+    expect(screen.getByText("Premium, 2,99 € TTC par mois, annulable à tout moment.")).toBeInTheDocument();
     expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
     expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
@@ -203,8 +203,8 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await fillAndSubmit();
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
-      // Rappel de la formule annuelle choisie (étalon 2.1, gabarit annuel).
-      expect(screen.getByText("Premium, 24,99 €/an (soit 2,08 € par mois), annulable à tout moment.")).toBeInTheDocument();
+      // Rappel de la formule annuelle choisie (validé à l'aveugle s21 : seul le prix change).
+      expect(screen.getByText("Premium, 24,99 € TTC par an, annulable à tout moment.")).toBeInTheDocument();
     });
 
     it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {

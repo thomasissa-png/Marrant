@@ -29,7 +29,7 @@ import {
   texteStripeSubmit,
   TEXTES_SUCCESS,
 } from "@/config/textes/paiement";
-import { PAIEMENT_ANNULE, reassurancePaiement } from "@/config/textes/offre";
+import { PAIEMENT_ANNULE, REASSURANCE_PAIEMENT, REMBOURSEMENT_PREMIER_PAIEMENT } from "@/config/textes/offre";
 import { formatEuros } from "@/config/premium";
 import { firstNameFrom, renderAnnualRenewalReminder, salutation } from "@/lib/emails/annual-renewal-reminder";
 import { renderPasswordResetEmail } from "@/lib/email";
@@ -262,13 +262,14 @@ describe("dates, montants, textes d'écran validés", () => {
     expect(formatEuros(2499)).toBe(`24,99${NBSP}€`);
   });
 
-  it("étalon 1.1 (réassurance) et texte Stripe : seule la formule choisie", () => {
-    expect(lisible(reassurancePaiement("monthly"))).toBe(
-      "2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.",
+  it("réassurance V3 s21 (premier paiement, sans prix), ligne /register s21 et texte Stripe : seule la formule choisie", () => {
+    expect(REASSURANCE_PAIEMENT).toBe(
+      "Tu as 14 jours pour te faire rembourser ton premier paiement, et tu résilies en ligne quand tu veux.",
     );
-    expect(lisible(reassurancePaiement("annual"))).toBe(
-      "24,99 € TTC par an, remboursé sous 14 jours, résiliable en ligne quand tu veux.",
-    );
+    expect(REASSURANCE_PAIEMENT).not.toMatch(/€|remboursé sous|—/);
+    // /register (duel à l'aveugle s21, 3/3) : le prix TTC est rappelé en haut de la page.
+    expect(REMBOURSEMENT_PREMIER_PAIEMENT).toBe("Tu as 14 jours pour te faire rembourser ton premier paiement.");
+    expect(REMBOURSEMENT_PREMIER_PAIEMENT).not.toMatch(/€|remboursé sous|—/);
     const annuel = lisible(texteStripeSubmit("annual")).replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
     expect(annuel).toBe(
       // Lot G : ouverture « obligation de paiement » (@legal point 13, validée par Thomas).

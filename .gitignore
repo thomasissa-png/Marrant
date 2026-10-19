@@ -52,3 +52,4 @@ prisma/migrations/
 .claude/agents/.backup/
 .claude/gradient-backup/
 .claude/settings.gradient.json
+.claude/worktrees/
