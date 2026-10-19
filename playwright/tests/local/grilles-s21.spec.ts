@@ -106,6 +106,9 @@ test.describe("Grilles des listes et des favoris @s21", () => {
       const hauts = await pastilles.evaluateAll((els) => els.map((el) => Math.round(el.getBoundingClientRect().top)));
       expect(hauts.length, "toutes les catégories").toBeGreaterThanOrEqual(10);
       expect(new Set(hauts).size, "une seule rangée").toBe(1);
+      // La dernière pastille reste atteignable (rangée défilante).
+      await pastilles.last().scrollIntoViewIfNeeded();
+      await expect(pastilles.last()).toBeInViewport();
     });
   });
 });

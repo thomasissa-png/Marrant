@@ -18,3 +18,11 @@ export function chipClass(state: "idle" | "active" = "idle", className?: string)
  */
 export const RANGEE_CHIPS =
   "-mx-4 flex snap-x flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] md:-mx-6 md:px-6 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0 lg:pb-0 lg:[mask-image:none] [&::-webkit-scrollbar]:hidden";
+
+/**
+ * Revue visuelle s21, tour 4 (T3-07) : rangée qui reste sur UNE ligne à toutes les largeurs (défilement et
+ * fondu de 24 px à droite, comme sous 1 024 px). Pour les 11 catégories de /vannes (abonné), qui demandent
+ * environ 1 350 px quand la page en offre 1 216 à 1 280 px : jamais deux pastilles seules sur une 2e rangée.
+ */
+export const RANGEE_CHIPS_UNE_LIGNE =
+  "-mx-4 flex snap-x flex-nowrap gap-2 overflow-x-auto px-4 pb-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] md:-mx-6 md:px-6 lg:mx-0 lg:px-0 [&::-webkit-scrollbar]:hidden";

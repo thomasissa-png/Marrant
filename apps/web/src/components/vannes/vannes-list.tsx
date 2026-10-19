@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
+import { chipClass, RANGEE_CHIPS_UNE_LIGNE } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
@@ -193,7 +193,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
       {/* Filtres catégories avec ARIA — PREMIUM uniquement */}
       {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
       {limited ? null : (
-        <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Catégories de vannes">
+        <div className={cn("mb-6", RANGEE_CHIPS_UNE_LIGNE)} role="tablist" aria-label="Catégories de vannes">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.value}
