@@ -8,7 +8,7 @@ import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire
  * rien en dur ici. Utilisé sur /abonnement seulement. Sans état : serveur ou client indifféremment.
  */
 export function AvantagesPremium({
-  className = "space-y-2",
+  className = "space-y-1.5 min-[360px]:space-y-2",
   lettre = LETTRE_HEBDO_PROMESSE,
 }: {
   className?: string;
@@ -16,7 +16,7 @@ export function AvantagesPremium({
   lettre?: boolean;
 }) {
   return (
-    <ul className={`${className} text-[15px] font-semibold leading-snug text-text-primary`} data-testid="avantages-premium">
+    <ul className={`${className} text-sm font-semibold min-[360px]:text-[15px] leading-snug text-text-primary`} data-testid="avantages-premium">
       {avantagesPremium(lettre).map((ligne) => (
         <li key={ligne} className="flex items-start gap-2">
           <span className="w-5 shrink-0 text-center text-success" aria-hidden="true">✓</span>

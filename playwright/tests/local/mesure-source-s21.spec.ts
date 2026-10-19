@@ -3,10 +3,10 @@ import { test, expect, localSeulement, requete } from "../support/base-locale";
 
 /**
  * s21 (QA M1) : la source d'entrée suit le visiteur jusqu'au paiement.
- * Chemin : /vannes, cœur d'une vanne (fenêtre Premium « favoris »), « Je m'abonne… »,
- * /register, compte créé, retour automatique sur /abonnement, paiement lancé seul.
- * Attendu : `checkout-ouvert {src: "modale-favoris"}` (avant le correctif : « abonnement »),
- * et `abonnement-vu` du retour compté à part (`retour-inscription`), sans doubler une source.
+ * Chemin : /vannes, cœur d'une vanne (fenêtre Premium « favoris »), « S'abonner et la garder »,
+ * /register, compte créé, paiement lancé depuis /register (tour 2 : attente dans le bouton, plus de
+ * page d'attente). Attendu : `checkout-ouvert {src: "modale-favoris"}` (avant le correctif :
+ * « abonnement »), une seule fois, et aucun `abonnement-vu` (on ne repasse plus par /abonnement).
  *
  * Aucun paiement : l'appel `/api/stripe/checkout` est intercepté et renvoie une page locale.
  * Événements Umami relevés par un faux traceur (`window.umami.track`), gardé en sessionStorage
@@ -67,6 +67,8 @@ test.describe("Mesure : source d'entrée jusqu'au paiement @s21", () => {
     expect(ouvert[0].donnees).toMatchObject({ src: "modale-favoris", formule: "mensuel" });
 
     const vues = evenements.filter((e) => e.nom === "abonnement-vu");
-    expect(vues.map((v) => v.donnees.src)).toEqual(["retour-inscription"]);
+    expect(vues.map((v) => v.donnees.src)).toEqual([]);
+    // L'attente s'est faite dans le bouton de /register.
+    expect(evenements.filter((e) => e.nom === "abonnement-clic").map((e) => e.donnees.declencheur)).toContain("auto");
   });
 });

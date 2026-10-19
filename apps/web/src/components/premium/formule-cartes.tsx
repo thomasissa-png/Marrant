@@ -38,7 +38,8 @@ export function FormuleCartes({
   return (
     <fieldset className="mt-4" data-testid="plan-selector">
       <legend className="sr-only">{FORMULES.legende}</legend>
-      <div className="grid grid-cols-2 gap-2 max-[339px]:grid-cols-1">
+      {/* Sous 360 px : une carte par ligne, nom et prix sur la même ligne (premier écran à 320 × 640). */}
+      <div className="grid grid-cols-2 gap-2 max-[359px]:grid-cols-1 max-[359px]:gap-1.5">
         <Carte
           plan="monthly"
           actif={value === "monthly"}
@@ -89,6 +90,7 @@ function Carte({
       data-testid={`formule-${plan}`}
       className={cn(
         "flex min-h-11 cursor-pointer flex-col justify-center rounded-lg border-2 px-3 py-2 text-left transition-colors",
+        "max-[359px]:flex-row max-[359px]:flex-wrap max-[359px]:items-center max-[359px]:gap-x-2 max-[359px]:py-1.5",
         "has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-primary has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card",
         actif ? "border-accent-primary bg-accent-primary/15" : "border-border bg-background-card hover:border-text-muted",
       )}
@@ -114,7 +116,7 @@ function Carte({
         {nom}
       </span>{" "}
       {/* Montant et suffixe sur une ligne quand ils tiennent ; sinon le suffixe passe dessous (375 px). */}
-      <span className="mt-0.5 flex flex-wrap items-baseline gap-x-1">
+      <span className="mt-0.5 flex flex-wrap items-baseline gap-x-1 max-[359px]:ml-auto max-[359px]:mt-0">
         <span className="whitespace-nowrap font-display text-xl font-bold text-text-primary">{montant}</span>{" "}
         <span className="whitespace-nowrap text-xs text-text-secondary">{suffixe}</span>
       </span>

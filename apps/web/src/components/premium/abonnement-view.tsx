@@ -172,11 +172,11 @@ export function AbonnementView({
             {frTypo(accroche)}
           </p>
         )}
-        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary [text-wrap:balance] sm:text-4xl">
+        <h1 className="font-display text-[1.75rem] font-bold leading-[1.15] text-text-primary [text-wrap:balance] max-[359px]:text-[1.5rem] sm:text-4xl">
           {/* v2 A01 : « Deviens Marrant » écrit comme le logo (le site, pas un ordre). Texte inchangé. */}
           {frTypo(ABONNEMENT_HAUT.titreAvantNom)} <span className="whitespace-nowrap text-gradient">{ABONNEMENT_HAUT.titreNom}</span>
         </h1>
-        <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary sm:text-lg">
+        <p className="mx-auto mt-2 max-w-xl text-balance text-base leading-snug text-text-secondary max-[359px]:mt-1 max-[359px]:text-sm sm:text-lg">
           {frTypo(ABONNEMENT_HAUT.sousTitre)}
         </p>
         <p className="mt-2 text-sm text-text-secondary" data-testid="abonnement-preuve">
@@ -184,8 +184,9 @@ export function AbonnementView({
         </p>
       </header>
 
-      <Card data-testid="abonnement-offre" className="mx-auto mt-4 max-w-[560px] border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
-        <CardContent className="p-4 sm:p-8">
+      <Card data-testid="abonnement-offre" className="mx-auto mt-3 max-w-[560px] border-2 border-accent-primary p-0 shadow-lg shadow-accent-primary/10 hover:border-accent-primary sm:mt-8">
+        {/* Revue visuelle tour 1 : à 320 × 640, le bouton d'achat doit tenir dans le premier écran. */}
+        <CardContent className="p-3 min-[360px]:p-4 sm:p-8">
           <h2 className="sr-only">{ABONNEMENT_ACHAT.nomCarte}</h2>
           <AvantagesPremium />
           <FormuleCartes value={plan} onChange={setSelectedPlan} annualAvailable={annualAvailable} />

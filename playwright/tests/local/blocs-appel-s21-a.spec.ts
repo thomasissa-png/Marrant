@@ -69,7 +69,7 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       if (largeur < 400) expect(hDemo, "DemoVanne : 400 px au plus à 375").toBeLessThanOrEqual(400);
       await capture(page, `article-demo-${largeur}`, testInfo);
 
-      // B2 : bloc de fin, un seul plein, lien payant.
+      // B2 (v2 F01 à F04) : bloc de fin, un seul plein (le payant), réassurance, lien gratuit.
       const fin = page.locator("[data-blog-bloc-fin]");
       await fin.scrollIntoViewIfNeeded();
       await expect(fin.locator("a[data-blog-cta='etape-1']")).toHaveAttribute("href", "/parcours/repartie?src=blog#etape-1");
@@ -81,7 +81,7 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
       if (largeur < 400) expect(hFin, "bloc de fin : 600 px au plus à 375").toBeLessThanOrEqual(600);
       await capture(page, `article-fin-${largeur}`, testInfo);
 
-      // Ordre §3.1 : bloc de fin, lettre, articles liés, FAQ.
+      // Ordre v2 F05 : bloc de fin, articles liés, lettre (éloignée du bouton payant), FAQ.
       const y = async (sel: string) => (await page.locator(sel).first().boundingBox())?.y ?? -1;
       const [yFin, yLettre, yLies, yFaq] = [
         await y("[data-blog-bloc-fin]"),
@@ -89,9 +89,13 @@ test.describe("Blocs d'appel s21, partie A @s21", () => {
         await y("[data-blog-zone='related']"),
         await y("section:has(> h2:text('Questions fréquentes'))"),
       ];
-      expect(yFin).toBeLessThan(yLettre);
-      expect(yLettre).toBeLessThan(yLies);
-      expect(yLies).toBeLessThan(yFaq);
+      expect(yFin).toBeLessThan(yLies);
+      expect(yLies).toBeLessThan(yLettre);
+      expect(yLettre).toBeLessThan(yFaq);
+      // « Au moins un écran » entre le bouton payant et la lettre (v2 F05, défaut relevé sur téléphone).
+      // Sur ordinateur, les articles liés tiennent sur moins d'un écran : écart mesuré et signalé, pas d'espace vide ajouté.
+      if (largeur < 400) expect(yLettre - yFin, "lettre à un écran au moins du bloc de fin").toBeGreaterThanOrEqual(812);
+      else console.log(`[blocs-appel] ${largeur} px : lettre à ${Math.round(yLettre - yFin)} px du haut du bloc de fin`);
 
       // Cible du bouton de la démonstration : la fiche est celle du carnet en cours, ouverte.
       await page.goto(hrefDemo);

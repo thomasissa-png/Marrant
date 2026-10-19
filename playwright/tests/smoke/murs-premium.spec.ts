@@ -83,7 +83,7 @@ test.describe("Murs Premium @smoke", () => {
       const modale = page.getByRole("dialog");
       await expect(modale).toBeVisible();
 
-      // s21 B11 : bouton par geste (« Je m'abonne et j'ouvre toute la liste »).
+      // s21 B11, textes-trajet-v2 W07 : bouton par geste (« S'abonner et ouvrir la liste »).
       const cta = modale.getByRole("link", { name: FENETRE_PREMIUM.carte[rubrique === "conseils" ? "conseil" : "video"].bouton });
       const url = lireUrl(await cta.getAttribute("href"));
       expect(url.pathname).toBe("/register");

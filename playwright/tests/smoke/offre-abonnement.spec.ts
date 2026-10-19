@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test";
 import { test, expect, estMobile, lireUrl, texteValide } from "../support/fixtures";
-import { prixTtcLabel, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
 import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
@@ -50,8 +50,9 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    // /register rappelle la formule choisie : « Premium, 24,99 € TTC par an. »
-    await expect(page.getByText(texteValide(prixTtcLabel("annual"))).first()).toBeVisible();
+    // /register rappelle la formule choisie (textes-trajet-v2 G02, correction @legal) :
+    // « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. »
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("annual")));
   });
 
   test("?plan=annual préselectionne l'annuel", async ({ page }) => {
@@ -70,8 +71,8 @@ test.describe("Offre /abonnement @smoke", () => {
 
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
     await page.goto("/register?callbackUrl=%2Fabonnement&src=abonnement");
-    // Le prix TTC est rappelé en haut de /register, la REASS unique est collée sous le plein.
-    await expect(page.getByText(texteValide(prixTtcLabel("monthly"))).first()).toBeVisible();
+    // Le prix est rappelé en haut de /register (v2 G02), la REASS unique est collée sous le plein.
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("monthly")));
     await expect(page.getByText(texteValide(REASSURANCE_UNIQUE)).first()).toBeVisible();
     await expect(page.getByText(/En créant ton compte, tu acceptes les/)).toBeVisible();
     const cgu = page.getByRole("link", { name: "CGU", exact: true });

@@ -35,12 +35,13 @@ export const TITRE_BLOC_APPEL = "font-display text-lg font-bold leading-snug tex
 /**
  * Revue visuelle s21, tour 4 (T3-01) : sous 400 px, tout bouton plein d'appel (avec ou sans prix) passe en
  * 15 px avec 6 px de marge interne (bouton pleine largeur, texte centré : l'air visible reste de part et
- * d'autre du texte). Le plus long libellé prix (« Voir la suite des conseils · 2,99 €/mois », 292 px en
- * 15 px) tient dans les 297 px utiles d'un bloc d'appel à 375 px : une ligne partout, figée par
+ * d'autre du texte). Trajet de conversion s21, tour 2 : « Ouvrir la suite des conseils · 2,99 €/mois »
+ * (v2 M02, ≈ 309 px en 15 px) ; approche resserrée (`tracking-tight`, -0,025 em) pour tenir dans les
+ * 297 px utiles d'un bloc d'appel à 375 px : une ligne partout, figée par
  * `playwright/tests/local/bouton-appel-s21.spec.ts`. Pas de `whitespace-nowrap` : à 320 px, un libellé
  * trop long revient à la ligne, équilibré, au lieu de sortir de son bouton (libellés inchangés).
  */
-export const CORPS_APPEL_MOBILE = "max-[399px]:px-1.5 max-[399px]:text-[15px]";
+export const CORPS_APPEL_MOBILE = "max-[399px]:px-1.5 max-[399px]:text-[15px] max-[399px]:tracking-tight";
 
 /**
  * Bouton plein qui porte le prix hors bloc d'appel (/abonnement, accueil, résultat d'onboarding) : une
