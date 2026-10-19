@@ -438,6 +438,44 @@ Décompte tour 3 : **1 majeur, 7 mineurs (T3-02 à T3-08), 0 bloquant** ; T3-09 
 T3-01 (obligatoire), puis T3-02, T3-03, T3-04, T3-05 (rapides, visibles, 1 ligne de CSS chacun). T3-06 à T3-08 peuvent partir avec date. Recapturer : `conseils-*-1280`, `video-fiche-*-375`, `conseils-*-375`, `accueil-visiteur-375`, `vanne-fiche-*-1280`, pied de page (1 page suffit pour T3-02). Si ces 5 pages sont propres, la note est 10.
 
 ---
+
+# Tour 4 : relecture des captures `apres-v4/` (55 PNG, commit 5638d05)
+
+> Couverture : conseils (320, 375, 1 280), vannes (320, 375, 768, 1 280, premium 1 280), fiches vanne, vidéo (320, 375, 1 280), accueil (375, 768, 1 280), favoris premium 768, abonnement 320, admin lettre 375. Les autres pages de `apres-v4/` n'ont pas été rouvertes une à une : elles n'étaient pas dans les correctifs, la matrice v3 reste la référence. Notes posées avant la lecture de `audit.md` §9.
+
+## T4.1 Verdict
+
+**Note globale : 9,8 / 10. 0 bloquant, 0 majeur, 2 mineurs.** Les 8 défauts du tour 3 sont réglés et je n'ai trouvé aucune régression de mise en page. Il reste deux finitions typographiques/visuelles, rapides.
+
+## T4.2 Les 8 défauts du tour 3
+
+| # | Statut | Preuve |
+|---|---|---|
+| T3-01 | Corrigé | `video-fiche-visiteur-375` : « Décrypter cette vidéo · 2,99 €/mois » sur 1 ligne ; `conseils-visiteur-375` : « Voir la suite des conseils · 2,99 €/mois » sur 1 ligne. À 320 px (`*-320`) 2 lignes équilibrées, sans débordement : **accepté**, rendu propre, pas un défaut. |
+| T3-02 | Corrigé | Aucun mot composé coupé : « stand-up » entier dans le pied de page à 375, 768, 1 280 ; « mode start-up » entier (`video-fiche-visiteur-375`, `-320`) ; « peut-être » entier. Vérifié aussi à 320 (pied de page : « Anatomie d’une / vanne » casse entre les mots, c'est correct). U+2060 ne crée aucun caractère visible. |
+| T3-03 | Corrigé | Accueil 375 et 1 280 : liens d'exemple de « Trois outils » sur la largeur de la carte, sans coupe prématurée. |
+| T3-04 | Corrigé | `conseils-visiteur-1280` : 3 cartes de même anatomie, même hauteur ; mur d'appel et carte floutée pleine colonne dessous. |
+| T3-05 | Corrigé | `vanne-fiche-visiteur-1280` : H1 « …chacun a cotisé / selon ses moyens. Moi, dix euros. », lignes équilibrées. |
+| T3-06 | Corrigé | `favoris-premium-768` : vignette à gauche, vannes et conseils en 2 colonnes. |
+| T3-07 | Accepté | `vannes-premium-1280` : rangée défilante, dernier chip rogné par le fondu (même motif que T2-09). `vannes-visiteur-1280` : 7 chips, une ligne. |
+| T3-08 | Corrigé | `admin-abonnes-lettre-375` : adresse e-mail entière sur une ligne, pastille de statut au-dessus ; apostrophes courbes (« d’empreinte »). |
+
+## T4.3 Défauts restants (2 mineurs)
+
+| # | Capture | Zone | Description | Correction |
+|---|---|---|---|---|
+| T4-01 | `video-fiche-visiteur-320` (et tout titre « Nom – Titre » à 320 px) | H1 de la fiche vidéo | Le tiret demi-cadratin du titre en base passe en début de ligne (« – L’intelligence / des animaux »), orphelin typographique. À 375 et 1 280 le titre tient en 2 lignes propres. | `frTypo` : remplacer ` – ` par ` – ` (espace insécable avant le tiret). Aucun mot changé. |
+| T4-02 | `accueil-visiteur-768` (carte « Vidéo du jour », 3e colonne) | Vignette de la vidéo du jour | À 3 colonnes de 230 px, la légende incrustée dans la vignette (« Roman Frayssinet – L’intelligence des animaux », tronquée) passe sous le bouton de lecture rouge et se superpose à lui. Visible sur la capture réduite ; à confirmer à 100 % car la vignette est en fond de secours. | Légende de vignette : `absolute inset-x-3 bottom-3 line-clamp-2 text-sm`, bouton de lecture `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[70%]` pour garder l'écart minimal de 16 px avec la légende ; ou masquer la légende incrustée sous `lg` (le titre est déjà au-dessus, dans la carte). |
+
+## T4.4 Notes par page
+
+Toutes les pages revues : 10, sauf accueil 9,7 (T4-02) et fiche vidéo 9,8 (T4-01 à 320 uniquement). Admin : 10 sur les captures vues (la lettre) ; Semaine et Premium n'ont pas été rouvertes, leur note du tour 3 (9,3) ne portait que sur T3-08, corrigé.
+
+## T4.5 Pour passer à 10
+
+Corriger T4-01 et T4-02, recapturer `accueil-visiteur-768` et `video-fiche-visiteur-320`. Sans autre défaut, la note est 10.
+
+---
 **Handoff → @orchestrator (puis @fullstack)**
 - Fichier : `/home/user/Marrant/.claude/worktrees/agent-a6072b0ac19da7774/docs/design/revue-visuelle-s21/verdict-design.md`
 - Décisions : accueil étiré avec pied commun ; lien étendu sur /conseils, zone 44 px sur /videos ; ligne « Lettre gratuite » centrée et bouton outline ; filtre `frTypo` étendu aux apostrophes (tiret : filet de sécurité + passe copy).
