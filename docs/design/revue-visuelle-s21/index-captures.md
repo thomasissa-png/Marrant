@@ -45,3 +45,11 @@ Total : 270 captures « avant », 270 « après » (mêmes noms). PNG 256 couleu
 - `apres-v2/sections/<nom>-section-NN.png` : une capture par écran (375 x 812, défilement par pas de 812 px, en-tête collant réel) pour toute page de plus de 5 000 px à 375 px : accueil, articles, liste des articles, parcours (liste, orientation, page Répartie, fin d'étape 1), carnet abonné, vidéos abonné, vannes, conseils abonné, glossaire, favoris, abonnement abonné.
 
 Total tour 2 : 276 captures pleine page ou écran, 289 découpes. PNG 256 couleurs.
+
+## Tour 3 : `apres-v3/` (verdict @design du 18/10, 8,7/10, 4 majeurs et 12 mineurs)
+
+- `apres-v3/<page>-<profil>-<largeur>.png` : même matrice et mêmes noms que `apres-v2/`, prises sur la branche `claude/marrant-s21-visuel` après le tour 3 (toutes les pages à 375, 768, 1 280 et 1 440 px : la passe typographique touche tout le site). À regarder en premier : `conseils-*`, `vannes-*`, `videos-*` (768 et 1 280), `accueil-*` (375 et 768), `carnet-*`, `favoris-premium-*`, `quiz-*`, `a-propos-*`, `profil-premium-375`.
+- `apres-v3/admin-{semaine,abonnes-premium,abonnes-lettre}-{375,1280}.png` : T2-14.
+- `apres-v3/sections/<nom>-section-NN.png` : découpes écran par écran (375 x 812) des pages de plus de 5 000 px à 375 px.
+
+Total tour 3 : 276 captures pleine page ou écran, 289 découpes. PNG 256 couleurs.
