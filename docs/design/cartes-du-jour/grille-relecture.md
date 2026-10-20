@@ -17,3 +17,6 @@ Note chaque critère sur 10 ; toute note sous 10 cite la capture exacte (nom de 
 5. **Espacements et alignements** : pas de vide inexpliqué, rythme régulier, alignements nets, équilibre de la rangée sur PC.
 6. **Mobile et tablette** : 320, 375, 768, 1024 propres, rien de coupé, cibles confortables.
 7. **Finition** : bordures visibles, contrastes suffisants, aucun détail « pas pro ».
+
+## Principe retenu à partir du tour 3 (arbitrage, à ne pas rouvrir)
+Les cartes ne sont plus étirées à la même hauteur : chacune a sa hauteur naturelle, et ouvrir un contenu n'agrandit que sa carte. Les bas de cartes peuvent donc différer sur PC. Ce qui est jugé : l'absence de vide intérieur (rien de plus de 24 px de vide inexpliqué dans une carte), l'équilibre global de la rangée, et le fait que les voisines ne bougent pas quand on ouvre quelque chose. « Révéler la chute » reste collé à la vanne (demande du fondateur).
