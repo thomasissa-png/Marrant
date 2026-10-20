@@ -40,9 +40,23 @@ export function guillemetsImbriques(texte: string): string {
   return sortie;
 }
 
-/** Texte d'une donnée de la section : rendu typographique commun, puis guillemets imbriqués. */
+const INSECABLE = String.fromCharCode(0xa0);
+const CITATION_RE = /([«“])([^«»“”]+)([»”])/g;
+
+/**
+ * Citation courte (4 mots au plus) entre guillemets : espaces ordinaires rendues insécables, pour qu'une réplique
+ * comme “Non non, repose-toi.” ne soit jamais coupée en fin de ligne (tour 4.2). Affichage seul.
+ */
+export function citationsCourtesInsecables(texte: string): string {
+  return texte.replace(CITATION_RE, (tout, ouvre: string, dedans: string, ferme: string) => {
+    const mots = dedans.trim().split(/\s+/).filter(Boolean);
+    return mots.length > 0 && mots.length <= 4 ? `${ouvre}${dedans.replace(/ /g, INSECABLE)}${ferme}` : tout;
+  });
+}
+
+/** Texte d'une donnée de la section : rendu typographique commun, guillemets imbriqués, citations courtes. */
 export function affiche(texte: string): string {
-  return guillemetsImbriques(contenuAffiche(texte));
+  return citationsCourtesInsecables(guillemetsImbriques(contenuAffiche(texte)));
 }
 
 /**

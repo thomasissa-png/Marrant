@@ -196,9 +196,9 @@ describe("DailyContent", () => {
       const texte = screen.getByText("Fais une pause avant la chute.");
       expect(bouton).toHaveAttribute("aria-expanded", "false");
       expect(bouton).toHaveAttribute("aria-controls", texte.id);
-      // V3.4, tour 4.1 : extrait de 4 lignes entières (96 px) à toutes les largeurs, dernière en fondu, sans line-clamp.
+      // V3.4, tour 4.2 : extrait de 3 lignes entières (72 px) sous 768 px (jsdom), demi-ligne en fondu, sans line-clamp.
       expect(texte).toHaveClass("overflow-hidden");
-      expect(texte.style.maxHeight).toBe("96px");
+      expect(texte.style.maxHeight).toBe("72px");
       expect(texte.className).toContain("mask-image");
       expect(texte.className).not.toContain("line-clamp");
 

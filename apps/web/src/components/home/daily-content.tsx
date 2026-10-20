@@ -124,11 +124,11 @@ const ESPACE_MOTS = "[word-spacing:0.08em]";
  * de `button.tsx`, c'est un contrôle de révélation, pas une action d'entrée dans le produit.
  */
 const CHUTE_EMPLACEMENT =
-  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-2 border-dashed border-accent-primary bg-accent-primary/[0.12] px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary-hover hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-[1.5px] border-dashed border-accent-primary bg-accent-primary/[0.12] px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary-hover hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
 
 /** Chute révélée : même gabarit et même épaisseur de bordure que l'emplacement, à sa place (V3.1). */
 const CHUTE_REVELEE =
-  "min-h-14 rounded-lg border-2 border-solid border-accent-primary/60 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "min-h-14 rounded-lg border-[1.5px] border-solid border-accent-primary/60 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 
 /** Accordéons : un seul style et un seul format d'en-tête pour les 6 (§2.7, V2.6), cible 44 px (T04). */
 const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-elevated open:border-border-hover";
@@ -140,9 +140,9 @@ const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary";
 
 const TITRE_CARTE = `font-display text-lg font-bold leading-6 text-text-primary [text-wrap:balance] ${ESPACE_MOTS}`;
 
-/** Extrait du conseil : la dernière ligne entière en fondu (V3.4). */
+/** Extrait du conseil : fondu sur la dernière demi-ligne seulement (12 px, tour 4.2). */
 const FONDU =
-  "[mask-image:linear-gradient(to_bottom,#000_55%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_55%,transparent)]";
+  "[mask-image:linear-gradient(to_bottom,#000_calc(100%-12px),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-12px),transparent)]";
 
 /** Pastilles d'en-tête (V3.6) : 12/16, blanc sur fond élevé. */
 const PASTILLE = "py-1 text-text-primary";
@@ -206,11 +206,19 @@ function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children:
 const LIGNE = 24;
 /** Encombrement de « Lire la suite » sous l'extrait : 8 px d'écart + 20 px (V3.4). */
 const LIEN_SUITE = 28;
-/** Extrait du Conseil par défaut, à toutes les largeurs (tour 4.1) ; ajusté seulement si la miniature ne suffit pas. */
+/** Extrait du Conseil : 3 lignes sous 768 px, 4 ensuite ; jamais moins de 3 dans la rangée (tour 4.2). */
+const LIGNES_MOBILE = 3;
 const LIGNES_EXTRAIT = 4;
-/** Largeur minimale du bloc titre à côté de la miniature, et largeur minimale de la miniature (px). */
+const LIGNES_MIN = 3;
+/** Largeur minimale du bloc titre à côté de la miniature (px). */
 const TITRE_MIN = 200;
+/** Plancher de la miniature : 220 px dès 1280 px, 160 px de 1024 à 1279 px (tour 4.2). */
+const MINIATURE_MIN_XL = 220;
 const MINIATURE_MIN = 160;
+/** Écart entre les blocs d'une carte et entre ses accordéons (gap-4, gap-2), et écart maximal admis (px). */
+const ECART_BLOCS = 16;
+const ECART_ACCORDEONS = 8;
+const ECART_MAX = 24;
 
 /**
  * Largeur minimale pour que le titre vidéo tienne sur 2 lignes (tour 4.1) : meilleure coupure en deux, mesurée
@@ -231,16 +239,57 @@ function largeurTitreDeuxLignes(titre: HTMLElement): number {
   return Math.ceil(meilleure) + 2;
 }
 
-/** Hauteur naturelle d'un corps de carte (marges, blocs, écarts), avec des hauteurs imposées pour certains blocs. */
+/** Blocs visibles d'un conteneur. */
+function blocsVisibles(conteneur: Element): HTMLElement[] {
+  return Array.from(conteneur.children).filter((e) => (e as HTMLElement).offsetHeight > 0) as HTMLElement[];
+}
+
+/**
+ * Hauteur naturelle d'un corps de carte avec ses écarts de base (16 px entre blocs, 8 px entre accordéons), quel
+ * que soit l'écart réparti appliqué ; des hauteurs peuvent être imposées pour certains blocs.
+ */
 function hauteurNaturelle(corps: HTMLElement, imposees: Map<Element, number>): number {
   const style = getComputedStyle(corps);
   const blocs = Array.from(corps.children).filter((e) => imposees.has(e) || (e as HTMLElement).offsetHeight > 0);
+  const hauteur = (e: Element) => {
+    const imposee = imposees.get(e);
+    if (imposee !== undefined) return imposee;
+    if (!(e as HTMLElement).dataset.pile) return (e as HTMLElement).offsetHeight;
+    const enfants = blocsVisibles(e);
+    return enfants.reduce((somme, c) => somme + c.offsetHeight, 0) + ECART_ACCORDEONS * Math.max(0, enfants.length - 1);
+  };
   return (
     parseFloat(style.paddingTop) +
     parseFloat(style.paddingBottom) +
-    blocs.reduce((somme, e) => somme + (imposees.get(e) ?? (e as HTMLElement).offsetHeight), 0) +
-    (parseFloat(style.rowGap) || 0) * Math.max(0, blocs.length - 1)
+    blocs.reduce((somme, e) => somme + hauteur(e), 0) +
+    ECART_BLOCS * Math.max(0, blocs.length - 1)
   );
+}
+
+interface Repartition {
+  /** px ajoutés à chaque écart entre blocs (16 → 24 au plus). */
+  blocs: number;
+  /** px ajoutés à chaque écart entre accordéons (8 → 24 au plus). */
+  pile: number;
+}
+
+const SANS_REPARTITION: Repartition = { blocs: 0, pile: 0 };
+
+/**
+ * Répartit un reste de hauteur dans les écarts d'une carte (tour 4.2) : à parts égales tant que les écarts entre
+ * blocs restent sous 24 px, puis le surplus va aux écarts entre accordéons (24 px au plus aussi).
+ */
+function repartir(corps: HTMLElement, reste: number): Repartition {
+  const blocs = blocsVisibles(corps);
+  const kBlocs = Math.max(0, blocs.length - 1);
+  const kPile = blocs.filter((b) => b.dataset.pile).reduce((somme, b) => somme + Math.max(0, blocsVisibles(b).length - 1), 0);
+  if (kBlocs + kPile === 0 || reste <= 0) return SANS_REPARTITION;
+  const arrondi = (v: number) => Math.round(v * 2) / 2;
+  const egal = reste / (kBlocs + kPile);
+  if (egal <= ECART_MAX - ECART_BLOCS) return { blocs: arrondi(egal), pile: arrondi(egal) };
+  const blocsPlein = ECART_MAX - ECART_BLOCS;
+  const pile = kPile ? Math.min(ECART_MAX - ECART_ACCORDEONS, (reste - blocsPlein * kBlocs) / kPile) : 0;
+  return { blocs: blocsPlein, pile: arrondi(pile) };
 }
 
 export function DailyContent() {
@@ -249,8 +298,13 @@ export function DailyContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [conseilTronque, setConseilTronque] = useState(false);
   const [conseilDeplie, setConseilDeplie] = useState(false);
-  const [lignes, setLignes] = useState(LIGNES_EXTRAIT);
+  const [lignes, setLignes] = useState(LIGNES_MOBILE);
   const [largeurMiniature, setLargeurMiniature] = useState<number | null>(null);
+  /** Reste d'égalisation réparti dans les écarts de la carte la plus courte (px par écart, tour 4.2). */
+  const [ecarts, setEcarts] = useState<{ conseil: Repartition; video: Repartition }>({
+    conseil: SANS_REPARTITION,
+    video: SANS_REPARTITION,
+  });
   const [rangeeOuverte, setRangeeOuverte] = useState(false);
   const chuteRef = useRef<HTMLDivElement>(null);
   const conseilRef = useRef<HTMLParagraphElement>(null);
@@ -288,55 +342,62 @@ export function DailyContent() {
   }, [isLoading]);
 
   /*
-   * Rangée Conseil + Vidéo dès 1024 px (tour 4.1) : l'extrait du Conseil garde 4 lignes et c'est la miniature
-   * vidéo qui prend exactement la hauteur manquante, pour deux cartes égales sans écart gonflé. Si la miniature
-   * sort de ses bornes, l'extrait perd ou gagne des lignes entières. Sous 1024 px : 4 lignes, miniature en CSS.
+   * Rangée Conseil + Vidéo dès 1024 px (tours 4.1 et 4.2). Priorités : titre vidéo sur 2 lignes, extrait du
+   * Conseil d'au moins 3 lignes (4 si la place le permet), miniature la plus grande possible (plancher 220 px dès
+   * 1280). La miniature prend la hauteur manquante pour égaler les deux cartes ; le reste éventuel (colonne de
+   * 428 px à 1024) est réparti dans les écarts de la carte la plus courte, sans qu'aucun ne dépasse 24 px.
+   * Sous 1024 px : 3 lignes sous 768 px, 4 ensuite, miniature en CSS.
    */
   useEffect(() => {
     const texte = conseilRef.current;
     const extrait = extraitRef.current;
     const corpsC = corpsConseilRef.current;
     if (!texte || !extrait || !corpsC || conseilDeplie) return;
+    const media = (requete: string) => typeof window.matchMedia === "function" && window.matchMedia(requete).matches;
     const mesurer = () => {
       const entier = texte.scrollHeight;
-      const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
       const corpsV = corpsVideoRef.current;
       const bloc = blocVideoRef.current;
       const titre = titreVideoRef.current;
-      if (!large || !corpsV || !bloc || !titre) {
-        setLignes(LIGNES_EXTRAIT);
+      if (!media("(min-width: 1024px)") || !corpsV || !bloc || !titre) {
+        const n = media("(min-width: 768px)") ? LIGNES_EXTRAIT : LIGNES_MOBILE;
+        setLignes(n);
         setLargeurMiniature(null);
-        setConseilTronque(entier > LIGNES_EXTRAIT * LIGNE + 1);
+        setEcarts((avant) =>
+          avant.conseil === SANS_REPARTITION && avant.video === SANS_REPARTITION
+            ? avant
+            : { conseil: SANS_REPARTITION, video: SANS_REPARTITION },
+        );
+        setConseilTronque(entier > n * LIGNE + 1);
         return;
       }
-      // Lignes et miniature figées tant qu'un accordéon de la rangée est ouvert. Lecture directe du DOM : l'événement
-      // `toggle` arrive après le ResizeObserver, l'état React seul laisserait passer une mesure avec l'accordéon ouvert.
+      // Lignes, miniature et écarts figés tant qu'un accordéon de la rangée est ouvert. Lecture directe du DOM :
+      // l'événement `toggle` arrive après le ResizeObserver.
       if (rangeeOuverte || rangeeRef.current?.querySelector("details[open]")) return;
+      const miniatureMin = media("(min-width: 1280px)") ? MINIATURE_MIN_XL : MINIATURE_MIN;
       const hauteurExtrait = (n: number) => (entier <= n * LIGNE + 1 ? entier : n * LIGNE + LIEN_SUITE);
+      const hauteurConseil = (n: number) => hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]]));
       const autresVideo = hauteurNaturelle(corpsV, new Map([[bloc, 0]]));
       const ecart = parseFloat(getComputedStyle(bloc).columnGap) || 0;
-      // Priorités : rangée égale sans écart gonflé, puis titre sur 2 lignes, puis extrait de 4 lignes.
       const h3 = titre.querySelector("h3") as HTMLElement | null;
       const titreDeuxLignes = h3 ? Math.max(TITRE_MIN, largeurTitreDeuxLignes(h3)) : TITRE_MIN;
-      let largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - titreDeuxLignes);
-      const hauteurMin = Math.max(titre.offsetHeight, (MINIATURE_MIN * 9) / 16);
-      let hauteurMax = (largeurMax * 9) / 16;
+      const largeurMax = Math.max(miniatureMin, bloc.clientWidth - ecart - titreDeuxLignes);
+      const hauteurTitre = titre.offsetHeight;
+      // Plus grand extrait (4 lignes, puis 3) que la miniature permet d'égaler ; jamais sous 3 lignes.
       let n = LIGNES_EXTRAIT;
-      let cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
-      for (let essai = 0; essai < 10; essai++) {
-        if (cible > hauteurMax && n > 2) n--;
-        else if (cible < hauteurMin && entier > n * LIGNE + 1) n++;
-        else break;
-        cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
-      }
-      if (cible > hauteurMax) {
-        // Dernier recours (colonne étroite) : le titre reprend une 3e ligne plutôt qu'un écart gonflé.
-        largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - TITRE_MIN);
-        hauteurMax = (largeurMax * 9) / 16;
-      }
-      const largeur = Math.round(Math.min(largeurMax, Math.max(MINIATURE_MIN, (Math.max(cible, hauteurMin) * 16) / 9)) * 2) / 2;
+      while (n > LIGNES_MIN && hauteurConseil(n) - autresVideo > (largeurMax * 9) / 16) n--;
+      const cible = hauteurConseil(n) - autresVideo;
+      const largeur = Math.round(Math.min(largeurMax, Math.max(miniatureMin, (cible * 16) / 9)) * 2) / 2;
+      // Reste : différence entre les deux cartes une fois la miniature posée, réparti dans la plus courte.
+      const reste = hauteurConseil(n) - (autresVideo + Math.max((largeur * 9) / 16, hauteurTitre));
+      const suivants = {
+        conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
+        video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
+      };
+      const memes = (a: Repartition, b: Repartition) => a.blocs === b.blocs && a.pile === b.pile;
       setLignes(n);
       setLargeurMiniature((avant) => (avant !== null && Math.abs(avant - largeur) < 0.5 ? avant : largeur));
+      setEcarts((avant) => (memes(avant.conseil, suivants.conseil) && memes(avant.video, suivants.video) ? avant : suivants));
       setConseilTronque(entier > n * LIGNE + 1);
     };
     mesurer();
@@ -473,8 +534,12 @@ export function DailyContent() {
           {/* Conseil du jour : extrait de 4 lignes, même hauteur que la Vidéo dès 1024 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1`}>
-              <EnTete icone={<Lightbulb {...ICONE} size={22} />} type="Conseil du jour">
+            <div
+              ref={corpsConseilRef}
+              className={`${CORPS_CARTE} lg:flex-1`}
+              style={ecarts.conseil.blocs ? { rowGap: ECART_BLOCS + ecarts.conseil.blocs } : undefined}
+            >
+              <EnTete icone={<Lightbulb {...ICONE} size={24} />} type="Conseil du jour">
                 {data.tip && (
                   <>
                     <Badge variant="default" className={PASTILLE}>
@@ -517,7 +582,11 @@ export function DailyContent() {
                     )}
                   </div>
                   {(data.tip.example || data.tip.exercise) && (
-                    <div className="flex flex-col gap-2">
+                    <div
+                      data-pile="accordeons"
+                      className="flex flex-col gap-2"
+                      style={ecarts.conseil.pile ? { rowGap: ECART_ACCORDEONS + ecarts.conseil.pile } : undefined}
+                    >
                       {data.tip.example && (
                         <Accordeon titre="Exemple concret">
                           <Exemple texte={data.tip.example} />
@@ -547,7 +616,11 @@ export function DailyContent() {
           {/* Vidéo du jour : sa miniature s'ajuste pour égaler le Conseil dès 1024 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
-            <div ref={corpsVideoRef} className={`${CORPS_CARTE} lg:flex-1`}>
+            <div
+              ref={corpsVideoRef}
+              className={`${CORPS_CARTE} lg:flex-1`}
+              style={ecarts.video.blocs ? { rowGap: ECART_BLOCS + ecarts.video.blocs } : undefined}
+            >
               <EnTete icone={<Clapperboard {...ICONE} />} type="Vidéo du jour">
                 {data.video && (
                   <>
@@ -560,9 +633,10 @@ export function DailyContent() {
               </EnTete>
               {data.video ? (
                 <>
-                  {/* Un seul modèle dès 768 px (tour 4.1) : miniature et titre côte à côte, accordéons pleine largeur
-                      dessous ; empilé sous 768 px. Anneau de focus clavier sur toute la miniature. */}
-                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
+                  {/* Un seul modèle dès 768 px (tour 4.1) : miniature et titre côte à côte, bloc titre centré
+                      verticalement (tour 4.2), accordéons pleine largeur dessous ; empilé sous 768 px. Anneau de
+                      focus clavier sur toute la miniature. */}
+                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-4">
                     <div
                       className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
                       style={largeurMiniature ? { width: largeurMiniature } : undefined}
@@ -570,7 +644,8 @@ export function DailyContent() {
                       <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
                     </div>
                     <div ref={titreVideoRef} className="md:min-w-0 md:flex-1">
-                      <h3 className={`${TITRE_CARTE} line-clamp-3`}>{affiche(data.video.title)}</h3>
+                      {/* 1024 à 1279 px (colonne de 428 px) : titre en 16 px pour tenir sur 2 lignes à côté de la miniature (tour 4.2). */}
+                      <h3 className={`${TITRE_CARTE} line-clamp-3 lg:max-xl:text-base`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
                         <p className="mt-1 text-sm text-text-secondary">
                           {chaine && <span>{chaine}</span>}
@@ -581,7 +656,11 @@ export function DailyContent() {
                     </div>
                   </div>
                   {aDesAccordeonsVideo && (
-                    <div className="flex flex-col gap-2">
+                    <div
+                      data-pile="accordeons"
+                      className="flex flex-col gap-2"
+                      style={ecarts.video.pile ? { rowGap: ECART_ACCORDEONS + ecarts.video.pile } : undefined}
+                    >
                       {data.video.learnings && data.video.learnings.length > 0 && (
                         <Accordeon titre="Ce que tu vas apprendre">
                           <Apprentissages items={data.video.learnings.slice(0, 2)} />

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import {
   Apprentissages,
+  citationsCourtesInsecables,
   citationsEnBloc,
   decouperDefi,
   Exemple,
@@ -36,6 +37,14 @@ describe("daily-content-format", () => {
     const { container: c2 } = render(<p>{citationsEnBloc(long)}</p>);
     expect(c2.querySelector("span.inline-block")).toBeNull();
     expect(citationsEnBloc("Sans citation.")).toBe("Sans citation.");
+  });
+
+  it("makes short quotes (4 words or fewer) non-breaking, longer ones untouched (tour 4.2)", () => {
+    const nbsp = String.fromCharCode(0xa0);
+    expect(citationsCourtesInsecables("tous : “Non non, repose-toi.” »")).toBe(`tous : “Non${nbsp}non,${nbsp}repose-toi.” »`);
+    expect(citationsCourtesInsecables("« Pour pas que tu te fatigues. »")).toBe("« Pour pas que tu te fatigues. »");
+    expect(citationsCourtesInsecables("« Pas moi. »")).toBe(`«${nbsp}Pas${nbsp}moi.${nbsp}»`);
+    expect(citationsCourtesInsecables("Sans citation, rien ne change.")).toBe("Sans citation, rien ne change.");
   });
 
   it("turns a « DÉFI … : » prefix into a sentence-case subtitle, text unchanged", () => {

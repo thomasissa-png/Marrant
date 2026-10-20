@@ -161,17 +161,26 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
           const l = lecteur.getBoundingClientRect();
           const t = titre.getBoundingClientRect();
           const h3 = titre.querySelector("h3") as HTMLElement;
+          // Bloc titre centré à côté de la miniature, sans vide interne de plus de 24 px (tour 4.2).
+          const enfants = Array.from(titre.children).map((e) => e.getBoundingClientRect());
+          const videsTitre = enfants.slice(1).map((b, i) => b.top - enfants[i].bottom);
+          const texte = document.getElementById("conseil-du-jour-texte") as HTMLElement;
+          const lienSuite = Array.from(document.querySelectorAll("button")).some((b) => b.textContent === "Lire la suite");
           return {
+            centre: Math.abs((t.top - l.top) - (l.bottom - t.bottom)),
+            videTitre: Math.max(0, ...videsTitre),
+            lignesExtrait: lienSuite ? Math.round(parseFloat(texte.style.maxHeight) / 24) : Infinity,
             cote: t.left >= l.right,
-            memeHaut: Math.abs(t.top - l.top),
             accordeons: accordeons.getBoundingClientRect().width - interieur,
             lignesTitre: Math.round(h3.getBoundingClientRect().height / parseFloat(getComputedStyle(h3).lineHeight)),
           };
         });
-        // Titre vidéo sur 2 lignes au plus ; à 1024 px, dernier recours documenté (colonne de 428 px) : 3 lignes.
-        expect(modele.lignesTitre, "lignes du titre vidéo").toBeLessThanOrEqual(largeur === 1024 ? 3 : 2);
+        // Titre vidéo sur 2 lignes au plus, de 768 à 1440 px (tour 4.2).
+        expect(modele.lignesTitre, "lignes du titre vidéo").toBeLessThanOrEqual(2);
         expect(modele.cote, "titre à droite de la miniature").toBe(true);
-        expect(modele.memeHaut, "titre aligné sur le haut de la miniature").toBeLessThanOrEqual(0.5);
+        expect(modele.centre, "bloc titre centré verticalement sur la miniature").toBeLessThanOrEqual(1);
+        expect(modele.videTitre, "vide dans le bloc titre vidéo").toBeLessThanOrEqual(24);
+        expect(modele.lignesExtrait, "extrait du Conseil d'au moins 3 lignes").toBeGreaterThanOrEqual(3);
         expect(Math.abs(modele.accordeons), "accordéons vidéo pleine largeur").toBeLessThanOrEqual(0.5);
       }
       if (largeur >= 1024) {
