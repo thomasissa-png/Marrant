@@ -21,7 +21,7 @@ Toute note sous 10 doit citer le passage exact et proposer la correction précis
 ## Contraintes vérifiables (le vérificateur coche)
 - 1 400 à 1 600 mots dans le corps ; chapô en gras ; 5 ou 6 H2 ; « En résumé » ; signature « Alex Durand, Deviens Marrant ».
 - Vouvoiement du lecteur partout.
-- Un seul lien : `https://deviens-marrant.fr/blog/autoderision-interactions`.
+- Liens : `https://deviens-marrant.fr/blog/autoderision-interactions` (le seul vers nous) + le lien vers l'article de l'hôte dans le chapô ([CHOIX UTILISATEUR] du 20/10, Thomas : « avec un lien vers son article, il appréciera »).
 - Zéro tiret cadratin ou demi-cadratin en incise, zéro émoji, guillemets « », zéro faute d'orthographe, zéro concurrent nommé.
 - Hall 2017 et Gottman absents (déjà cités par l'hôte).
 
