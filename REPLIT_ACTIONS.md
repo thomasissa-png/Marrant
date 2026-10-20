@@ -2,6 +2,10 @@
 
 ## À DÉPLOYER
 
+#### CARTES DU JOUR (branche `claude/marrant-cartes-du-jour`) : PAS ENCORE DÉPLOYÉ
+
+Refonte de la section « Ton contenu du jour » de l'accueil selon `docs/design/cartes-du-jour/diagnostic-et-spec.md` (D1 : « Pourquoi ça marche » fermé par défaut). Commit de code `5b7b245`, qui descend de la version en production. Fichiers touchés : `apps/web/src/components/home/daily-content.tsx`, `apps/web/src/__tests__/dashboard/daily-content.test.tsx`, `apps/web/src/__tests__/feature/corrections-s16-lot-f.test.tsx` ; captures `docs/design/cartes-du-jour/apres-v1/`. **Aucune migration, aucun secret, aucune variable.** Aucun texte, donnée, route ni composant partagé modifié. Attend la relecture à l'aveugle des captures, puis le feu vert écrit de Thomas.
+
 #### MISE EN LIGNE DU TRAJET DE CONVERSION s21 (branche `claude/marrant-conversion`) : P0, P1, P4, P6 adapté, P8 (@qa, 19/10/2026). **P2, P3, P5 et P7 ne se rejouent pas.**
 
 **DÉPLOYÉ le 19/10/2026 à 20:44 UTC** (feu vert écrit de Thomas « go mise en ligne! ») : version `b5e645dd-f3b3-4d80-92dc-14c71354780d`, commit `e8b431c` (code `acddd1d`), N-1 `3b52c0c2` à 100 % vérifié en P1. P6 conforme : pages 200, /abonnement porte « Premium ouvre tout », « S’abonner · 2,99 €/mois », la FAQ « Et si j’arrête ? » et le lien `#le-carnet-en-vrai`, zéro « Ouvrir les 5 parcours » sur /, /parcours et /abonnement ; `/api/tips` en visiteur sans exercice ; `/api/health` ok (base up, Stripe live) ; routes admin 401 ; six en-têtes de sécurité identiques à l'avant. Rollback si besoin : `npx wrangler rollback 3b52c0c2-a626-4be3-8471-85723c70e69e`.
