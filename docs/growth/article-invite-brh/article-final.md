@@ -1,6 +1,6 @@
 # Taquiner sans blesser : quand l'humour rapproche, et quand il éloigne
 
-**Une blague lancée en passant, tout le monde sourit, et pourtant quelque chose a piqué : vous l'avez déjà vécu, en la lançant ou en la recevant. Voici à quoi on reconnaît qu'une taquinerie ne passe plus, et comment se rattraper quand elle a blessé. C'est le revers de l'article de Christophe, « Pourquoi l'humour est (vraiment) le ciment des couples qui durent ».**
+**Une blague lancée en passant, tout le monde sourit, et pourtant quelque chose a piqué : vous l'avez déjà vécu, en la lançant ou en la recevant. Voici à quoi on reconnaît qu'une taquinerie ne passe plus, et comment se rattraper quand elle a blessé. C'est le revers de l'article de Christophe, « [Pourquoi l'humour est (vraiment) le ciment des couples qui durent](https://www.leblogdesrapportshumains.fr/humour-dans-le-couple/) ».**
 
 ## Deux répliques à la même table
 
@@ -16,13 +16,13 @@ Et ça déborde largement du couple. Vous connaissez l'oncle qui ressort à chaq
 
 ## Celui qui lance, celui qui reçoit
 
-Tout part de là : celui qui taquine et celui qui est taquiné ne vivent pas la même scène. Chez des membres d'une fraternité étudiante comme chez des couples (Keltner et ses collègues, 1998), les personnes taquinées rapportaient plus d'émotions négatives que celles qui taquinaient. Même écart chez des colocataires, puis chez des couples (Kruger et ses collègues, 2006) : celui qui taquine voit souvent sa remarque comme innocente et joueuse, celui qui la reçoit a tendance à la juger nettement plus malveillante, et ne tient pas toujours compte des bonnes intentions.
+Tout part de là : celui qui taquine et celui qui est taquiné ne vivent pas la même scène. Dans une étude de Keltner et de ses collègues, les personnes taquinées rapportaient plus d'émotions négatives que celles qui taquinaient. Une autre équipe, auprès de colocataires puis de couples, va dans le même sens : celui qui taquine voit souvent sa remarque comme innocente et joueuse, celui qui la reçoit a tendance à la juger nettement plus malveillante, et ne tient pas toujours compte des bonnes intentions.
 
 Le fameux « je plaisante », j'ai remarqué qu'on le dit souvent juste après avoir vu la tête de l'autre. Quant au rire de l'autre, il ne prouve pas grand-chose : on rit parfois pour ne pas gâcher la soirée, ou parce que tout le monde regarde.
 
-D'après la synthèse de Keltner, la taquinerie est plus fréquente et plus dure quand elle vient de personnes qu'on connaît bien ou qui ont un certain statut. Un parent, un chef. Et le vieux copain, à qui l'on n'ose pas dire que celle-là ne passe plus.
+L'équipe de Keltner note aussi que la taquinerie est plus fréquente et plus dure quand elle vient de personnes qu'on connaît bien ou qui ont un certain statut. Un parent, un chef. Et le vieux copain, à qui l'on n'ose pas dire que celle-là ne passe plus.
 
-Comment l'autre sait-il que c'est pour rire ? Selon Keltner, taquiner, c'est provoquer quelqu'un en y ajoutant des signaux de jeu : un sourire, un ton qui change, une exagération. Quand ils manquent, la pique a plus de chances d'être prise au premier degré. Dans une étude sur des couples, à hostilité égale, les taquineries pauvres en signaux de jeu allaient de pair avec plus de colère et de mépris, et moins d'amusement, de désir et d'amour.
+Comment l'autre sait-il que c'est pour rire ? Pour ces chercheurs, taquiner, c'est provoquer quelqu'un en y ajoutant des signaux de jeu : un sourire, un ton qui change, une exagération. Quand ils manquent, la pique a plus de chances d'être prise au premier degré. Dans une étude sur des couples, à hostilité égale, les taquineries pauvres en signaux de jeu allaient de pair avec plus de colère et de mépris, et moins d'amusement, de désir et d'amour.
 
 Le signal de jeu ne suffit pas non plus : la provocation elle-même compte. Une exagération sur votre talent pour égarer les clés passe en général. Sur ce qui vous complexe, même avec le sourire, bien moins.
 
@@ -38,7 +38,7 @@ Une étude sur des couples d'étudiants (Campbell, Martin et Ward, 2008) a film�
 
 ## Rire de soi, le point de départ le plus sûr
 
-« La légèreté, ça se propose, ça ne s'impose pas », écrit Christophe. Rire de soi est le cas le plus simple : on est à la fois celui qui lance et celui qui reçoit, et l'écart dont on parlait plus haut se réduit beaucoup. Sa liste de cinq façons de remettre de l'humour dans son couple commence d'ailleurs par là : « Oser rire de ses propres maladresses ». Il y a pourtant une limite, que Martin appelle l'humour « autodépréciatif » (toujours ma traduction) : se rabaisser soi-même à l'excès, pour plaire ou pour se protéger. On connaît tous quelqu'un qui a fini, à force, par devenir la cible de toutes les blagues de la table.
+« La légèreté, ça se propose, ça ne s'impose pas », écrit Christophe. Rire de soi est le cas le plus simple : on est à la fois celui qui lance et celui qui reçoit, et l'écart dont on parlait plus haut se réduit beaucoup. Il y a pourtant une limite, que Martin appelle l'humour « autodépréciatif » : se rabaisser soi-même à l'excès, pour plaire ou pour se protéger. On connaît tous quelqu'un qui a fini, à force, par devenir la cible de toutes les blagues de la table.
 
 D'après la même synthèse, il va plutôt de pair avec plus d'anxiété et moins d'estime de soi. Se moquer gentiment de ses défauts tout en s'acceptant relève, en revanche, de l'humour affiliatif, celui qui rapproche.
 
@@ -61,7 +61,7 @@ Quelques signes à repérer :
 
 Et si c'est vous qui encaissez ? Inutile de répondre à chaud. Plus tard, en tête à tête, une phrase simple peut suffire : « Celle-là, je ne la trouve plus drôle. » C'est court, sans procès. Et bien des fois, l'autre n'avait vraiment pas vu.
 
-Bon. Supposons maintenant que la remarque soit déjà partie et que vous voyiez l'autre encaisser. Quand la tension est légère, un geste complice (une main sur le bras, un « pardon, celle-là était de trop » en souriant) suffit parfois à la faire retomber : c'est le principe des tentatives de réparation dont parle Christophe.
+Bon. Supposons maintenant que la remarque soit déjà partie et que vous voyiez l'autre encaisser. Quand la tension est légère, un geste complice (une main sur le bras, un « pardon, celle-là était de trop » en souriant) suffit parfois à la faire retomber.
 
 Quand la remarque a vraiment blessé, commencez par les mots, la plaisanterie viendra après. Arrêtez-vous et dites simplement ce qui s'est passé : « Je crois que ma remarque t'a fait mal. Pardon. » Évitez le « désolé si tu l'as mal pris », qui renvoie le problème à celui qui l'a reçu. Laissez aussi l'intention de côté : « c'était pour rire » est sans doute sincère, mais le taquiné n'en tient pas forcément compte sur le moment. Puis un silence. Si vous voulez rire ensuite, que ce soit de vous, et plus tard.
 
