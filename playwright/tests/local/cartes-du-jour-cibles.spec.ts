@@ -95,38 +95,68 @@ test.describe("Accueil, cartes du jour : emplacement de la chute", () => {
 });
 
 /**
- * Spec v3 (V3.1) : cartes à hauteur naturelle, alignées en haut. Aucun vide intérieur de plus de 24 px
- * (entre deux blocs d'une carte, ou sous le pied) ; ouvrir la chute, « Pourquoi ça marche », « Lire la
- * suite » ou un accordéon n'agrandit que sa carte, les voisines ne bougent pas d'un pixel.
+ * Spec v4 (V4.1 à V4.4) : bandeau Vanne, puis rangée Conseil + Vidéo de même hauteur dès 1024 px. Aucun vide
+ * intérieur de plus de 24 px (entre deux blocs, dans une pile interne, ou sous le pied) ; à l'état fermé, les
+ * deux cartes de la rangée ont la même hauteur et le même filet de pied ; ouvrir quelque chose ne déplace
+ * aucune voisine et n'en étire aucune de plus de 24 px.
  */
-test.describe("Accueil, cartes du jour : hauteurs naturelles", () => {
+test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
   localSeulement();
 
   const cotes = (page: import("@playwright/test").Page) =>
     page.evaluate(() => {
       const grille = document.querySelector("section[aria-labelledby='contenu-du-jour-titre'] > div") as HTMLElement;
-      return Array.from(grille.children).map((carte) => {
+      const cartes = [grille.children[0], ...Array.from(grille.children[1].children)];
+      return cartes.map((carte) => {
         const r = carte.getBoundingClientRect();
         const corps = carte.lastElementChild as HTMLElement;
         const blocs = Array.from(corps.children).filter((b) => (b as HTMLElement).offsetHeight > 0).map((b) => b.getBoundingClientRect());
         const vides = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
         vides.push(r.bottom - blocs[blocs.length - 1].bottom);
-        // Tour 3.1 : aussi entre les blocs empilés à l'intérieur (colonne de droite de la Vidéo de 768 à 1279 px).
         for (const pile of Array.from(corps.querySelectorAll(".flex-col"))) {
           const enfants = Array.from(pile.children).filter((b) => (b as HTMLElement).offsetHeight > 0).map((b) => b.getBoundingClientRect());
           vides.push(...enfants.slice(1).map((b, i) => b.top - enfants[i].bottom));
         }
-        return { haut: r.top + window.scrollY, bas: r.bottom + window.scrollY, videMax: Math.max(...vides) };
+        const pied = corps.querySelector(":scope > .border-t") as HTMLElement | null;
+        // Conseil court (V4.3) : espace réparti en parts égales entre les blocs (justify-between), vide accepté.
+        const reparti = getComputedStyle(corps).justifyContent === "space-between";
+        const ecarts = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
+        return {
+          reparti,
+          ecartsEgaux: Math.max(...ecarts) - Math.min(...ecarts) <= 1,
+          gauche: r.left,
+          droite: r.right,
+          haut: r.top + window.scrollY,
+          bas: r.bottom + window.scrollY,
+          filet: pied ? pied.getBoundingClientRect().top + window.scrollY : null,
+          videMax: Math.max(...vides),
+        };
       });
     });
 
   for (const largeur of [375, 768, 1024, 1280, 1440]) {
-    test(`aucun vide intérieur > 24 px, voisines immobiles à ${largeur} px`, async ({ page }) => {
+    test(`vides, rangée et voisines à ${largeur} px`, async ({ page }) => {
       await page.setViewportSize({ width: largeur, height: 900 });
       await page.goto("/");
       const section = page.locator("section[aria-labelledby='contenu-du-jour-titre']");
       await expect(section.getByRole("button", { name: "Révéler la chute" })).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(300);
+
+      let avant = await cotes(page);
+      for (const [i, c] of avant.entries()) {
+        if (c.reparti) expect(c.ecartsEgaux, `carte ${i + 1} : espace réparti en parts égales`).toBe(true);
+        else expect(c.videMax, `vide intérieur, carte ${i + 1}, fermé`).toBeLessThanOrEqual(25);
+      }
+      if (largeur >= 1024) {
+        const [bandeau, conseil, video] = avant;
+        expect(Math.abs(conseil.gauche - bandeau.gauche), "bord gauche commun").toBeLessThanOrEqual(0.5);
+        expect(Math.abs(video.droite - bandeau.droite), "bord droit commun").toBeLessThanOrEqual(0.5);
+        expect(Math.round(conseil.haut - bandeau.bas), "gouttière bandeau / rangée").toBe(24);
+        expect(Math.round(video.gauche - conseil.droite), "gouttière entre les cartes").toBe(24);
+        expect(Math.abs(conseil.bas - video.bas), "rangée de même hauteur").toBeLessThanOrEqual(0.5);
+        expect(Math.abs((conseil.filet ?? 0) - (video.filet ?? 0)), "filets de pied alignés").toBeLessThanOrEqual(0.5);
+      }
 
       const ouvertures: { nom: string; carte: number; agir: () => Promise<void> }[] = [
         { nom: "chute", carte: 0, agir: () => section.getByRole("button", { name: "Révéler la chute" }).click() },
@@ -137,18 +167,15 @@ test.describe("Accueil, cartes du jour : hauteurs naturelles", () => {
       if (await section.getByRole("button", { name: "Lire la suite" }).count()) {
         ouvertures.splice(2, 0, { nom: "Lire la suite", carte: 1, agir: () => section.getByRole("button", { name: "Lire la suite" }).click() });
       }
-
-      let avant = await cotes(page);
-      for (const [i, c] of avant.entries()) expect(c.videMax, `vide intérieur, carte ${i + 1}, fermé`).toBeLessThanOrEqual(25);
       for (const o of ouvertures) {
         await o.agir();
         await page.waitForTimeout(400);
         const apres = await cotes(page);
         for (const [i, c] of apres.entries()) {
-          expect(c.videMax, `vide intérieur, carte ${i + 1}, après « ${o.nom} »`).toBeLessThanOrEqual(25);
+          if (!c.reparti) expect(c.videMax, `vide intérieur, carte ${i + 1}, après « ${o.nom} »`).toBeLessThanOrEqual(25);
           if (i === o.carte || apres[i].haut > avant[o.carte].bas) continue; // la carte ouverte, ou une carte placée dessous
           expect(Math.abs(c.haut - avant[i].haut), `carte ${i + 1} déplacée par « ${o.nom} »`).toBeLessThanOrEqual(0.5);
-          expect(Math.abs(c.bas - avant[i].bas), `carte ${i + 1} étirée par « ${o.nom} »`).toBeLessThanOrEqual(0.5);
+          expect(Math.abs(c.bas - avant[i].bas), `carte ${i + 1} étirée par « ${o.nom} »`).toBeLessThanOrEqual(24.5);
         }
         avant = apres;
       }

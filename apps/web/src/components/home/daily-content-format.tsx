@@ -45,17 +45,22 @@ export function affiche(texte: string): string {
   return guillemetsImbriques(contenuAffiche(texte));
 }
 
-/** Taille de l'énoncé selon sa longueur affichée (V3.2) ; classes complètes écrites en dur pour le JIT. */
+/**
+ * Taille de l'énoncé selon sa longueur affichée ; classes complètes écrites en dur pour le JIT.
+ * Sous 1024 px : 20 puis 24 px dès 768 (v3). Dès 1024 px, bandeau (V4.2) : 48, 36 ou 30 px.
+ */
 export function tailleEnonce(texte: string): string {
-  if (texte.length <= 70) return "text-xl leading-7 md:text-2xl md:leading-8 lg:text-4xl lg:leading-10";
-  if (texte.length <= 100) return "text-xl leading-7 md:text-2xl md:leading-8 lg:text-3xl lg:leading-9";
-  return "text-xl leading-7 md:text-2xl md:leading-8";
+  const base = "text-xl leading-7 md:text-2xl md:leading-8";
+  if (texte.length <= 50) return `${base} lg:text-5xl lg:leading-[3.5rem]`;
+  if (texte.length <= 100) return `${base} lg:text-4xl lg:leading-10`;
+  return `${base} lg:text-3xl lg:leading-9`;
 }
 
-/** Taille de la chute, indépendante de l'énoncé (V3.2). */
+/** Taille de la chute, indépendante de l'énoncé : v3 sous 1024 px, boîte de 576 px du bandeau ensuite (V4.2). */
 export function tailleChute(texte: string): string {
   if (texte.length <= 60) return "text-xl leading-7 md:text-2xl md:leading-8 lg:text-3xl lg:leading-9";
   if (texte.length <= 100) return "text-xl leading-7 md:text-2xl md:leading-8";
+  if (texte.length <= 110) return "text-xl leading-7 lg:text-2xl lg:leading-8";
   return "text-xl leading-7";
 }
 

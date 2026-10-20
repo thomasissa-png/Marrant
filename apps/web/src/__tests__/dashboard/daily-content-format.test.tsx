@@ -11,18 +11,19 @@ import {
 
 /** Mise en forme d'affichage des cartes du jour, spec v3 (V3.2, V3.5) : aucun mot changé. */
 describe("daily-content-format", () => {
-  it("chooses the setup size by displayed length (V3.2)", () => {
-    expect(tailleEnonce("a".repeat(70))).toContain("lg:text-4xl");
-    expect(tailleEnonce("a".repeat(71))).toContain("lg:text-3xl");
-    expect(tailleEnonce("a".repeat(100))).toContain("lg:text-3xl");
-    expect(tailleEnonce("a".repeat(101))).not.toMatch(/lg:/);
-    expect(tailleEnonce("a".repeat(101))).toContain("md:text-2xl");
+  it("chooses the setup size by displayed length (V4.2)", () => {
+    expect(tailleEnonce("a".repeat(50))).toContain("lg:text-5xl");
+    expect(tailleEnonce("a".repeat(51))).toContain("lg:text-4xl");
+    expect(tailleEnonce("a".repeat(100))).toContain("lg:text-4xl");
+    expect(tailleEnonce("a".repeat(101))).toContain("lg:text-3xl");
+    for (const n of [10, 80, 300]) expect(tailleEnonce("a".repeat(n))).toMatch(/^text-xl leading-7 md:text-2xl md:leading-8 /);
   });
 
-  it("chooses the punchline size independently (V3.2)", () => {
+  it("chooses the punchline size independently (V4.2)", () => {
     expect(tailleChute("a".repeat(60))).toContain("lg:text-3xl");
     expect(tailleChute("a".repeat(61))).toBe("text-xl leading-7 md:text-2xl md:leading-8");
-    expect(tailleChute("a".repeat(101))).toBe("text-xl leading-7");
+    expect(tailleChute("a".repeat(105))).toBe("text-xl leading-7 lg:text-2xl lg:leading-8");
+    expect(tailleChute("a".repeat(111))).toBe("text-xl leading-7");
   });
 
   it("keeps short top-level quotes in one block, long ones in the flow", () => {

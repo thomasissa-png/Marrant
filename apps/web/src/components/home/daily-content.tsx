@@ -98,13 +98,19 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 };
 
 /*
- * Cartes du jour (docs/design/cartes-du-jour/diagnostic-et-spec.md, spec v3) : même squelette sur les
- * 3 cartes (barre dégradée, en-tête, corps, pied). Cartes alignées en haut, chacune à sa hauteur naturelle :
- * ouvrir quelque chose n'agrandit que sa carte, les voisines ne bougent pas (V3.1). Pile sous 1024 px,
- * 2 + 1 de 1024 à 1279 px, 3 colonnes ensuite (V3.3).
+ * Cartes du jour (docs/design/cartes-du-jour/diagnostic-et-spec.md, spec v4) : même squelette sur les
+ * 3 cartes (barre dégradée, en-tête, corps, pied). Dès 1024 px, la Vanne est un bandeau pleine largeur
+ * centré, Conseil et Vidéo forment dessous une rangée de deux cartes égales (V4.1) ; pile de 576 px avant.
  */
 
-const GRILLE = "mx-auto grid max-w-xl items-start gap-4 md:gap-6 lg:max-w-none lg:grid-cols-2 xl:grid-cols-3";
+const GRILLE = "mx-auto grid max-w-xl gap-4 md:gap-6 lg:max-w-none";
+
+/**
+ * Rangée Conseil + Vidéo (V4.1, V4.3) : fondue dans la pile sous 1024 px ; ensuite 2 colonnes de même
+ * hauteur, qui reprennent leur hauteur naturelle tant qu'un accordéon est ouvert ou le conseil déplié.
+ */
+const RANGEE =
+  "contents lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:[&:has(details[open],[data-deplie=true])]:items-start";
 
 const CARTE = "relative flex flex-col overflow-hidden rounded-xl border border-border-hover bg-background-card";
 
@@ -160,9 +166,9 @@ function Chevron() {
   );
 }
 
-function Accordeon({ titre, children }: { titre: string; children: ReactNode }) {
+function Accordeon({ titre, children, className = "" }: { titre: string; children: ReactNode; className?: string }) {
   return (
-    <details className={ACCORDEON}>
+    <details className={`${ACCORDEON} ${className}`}>
       <summary className={ACCORDEON_TITRE}>
         {titre}
         <Chevron />
@@ -185,15 +191,29 @@ function EnTete({ icone, type, children }: { icone: ReactNode; type: string; chi
   );
 }
 
-/** Pied identique sur les 3 cartes (§2.6) : suit le contenu à 16 px (V3.1) ; réactions à gauche (Vanne seulement). */
-function Pied({ gauche, children }: { gauche?: ReactNode; children: ReactNode }) {
+/**
+ * Pied identique sur les 3 cartes (§2.6) : réactions à gauche (Vanne seulement), partage puis favori à droite.
+ * `bas` : calé en bas de la carte étirée de la rangée, filets alignés (V4.3).
+ */
+function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children: ReactNode; bas?: boolean }) {
   return (
-    <div className="flex min-h-[44px] items-center justify-between gap-2 border-t border-border-hover pt-3">
+    <div className={`flex min-h-[44px] items-center justify-between gap-2 border-t border-border-hover pt-3 ${bas ? "lg:mt-auto" : ""}`}>
       {gauche}
       <div className="ml-auto flex items-center gap-1">{children}</div>
     </div>
   );
 }
+
+/** Extrait du Conseil dès 1024 px (V4.3) : lignes affichées (`null` = texte entier), conseil court, hauteur fermée. */
+interface ExtraitLarge {
+  lignes: number | null;
+  court: boolean;
+  hauteur: number;
+}
+
+const LIGNE = 24;
+/** Encombrement de « Lire la suite » sous l'extrait : 8 px d'écart + 20 px (V3.4). */
+const LIEN_SUITE = 28;
 
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
@@ -201,8 +221,13 @@ export function DailyContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [conseilTronque, setConseilTronque] = useState(false);
   const [conseilDeplie, setConseilDeplie] = useState(false);
+  const [extraitLarge, setExtraitLarge] = useState<ExtraitLarge | null>(null);
+  const [rangeeOuverte, setRangeeOuverte] = useState(false);
   const chuteRef = useRef<HTMLDivElement>(null);
   const conseilRef = useRef<HTMLParagraphElement>(null);
+  const extraitRef = useRef<HTMLDivElement>(null);
+  const corpsConseilRef = useRef<HTMLDivElement>(null);
+  const rangeeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/daily")
@@ -221,18 +246,56 @@ export function DailyContent() {
     if (showPunchline) chuteRef.current?.focus();
   }, [showPunchline]);
 
-  // « Lire la suite » seulement si le texte du conseil est réellement tronqué (V2.3).
+  // Un accordéon ouvert dans la rangée : hauteurs naturelles, extrait du Conseil figé (V4.3).
   useEffect(() => {
-    const el = conseilRef.current;
-    if (!el || conseilDeplie) return;
-    const mesurer = () => setConseilTronque(el.scrollHeight > el.clientHeight + 1);
+    const rangee = rangeeRef.current;
+    if (!rangee) return;
+    const suivre = () => setRangeeOuverte(!!rangee.querySelector("details[open]"));
+    rangee.addEventListener("toggle", suivre, true);
+    return () => rangee.removeEventListener("toggle", suivre, true);
+  }, [isLoading]);
+
+  // Extrait du Conseil : 4 lignes sous 1024 px (V3.4) ; dès 1024 px, la place laissée par la Vidéo (V4.3).
+  useEffect(() => {
+    const texte = conseilRef.current;
+    const extrait = extraitRef.current;
+    const corps = corpsConseilRef.current;
+    if (!texte || !extrait || !corps || conseilDeplie) return;
+    const mesurer = () => {
+      const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
+      if (!large) {
+        setExtraitLarge(null);
+        setConseilTronque(texte.scrollHeight > texte.clientHeight + 1);
+        return;
+      }
+      if (rangeeOuverte) return; // hauteur fermée mémorisée tant que l'ouverture dure
+      const style = getComputedStyle(corps);
+      const autres = Array.from(corps.children).filter((e) => e !== extrait && (e as HTMLElement).offsetHeight > 0);
+      const dispo =
+        corps.clientHeight -
+        parseFloat(style.paddingTop) -
+        parseFloat(style.paddingBottom) -
+        autres.reduce((somme, e) => somme + (e as HTMLElement).offsetHeight, 0) -
+        (parseFloat(style.rowGap) || 0) * autres.length;
+      const entier = texte.scrollHeight;
+      const suivant: ExtraitLarge =
+        entier <= dispo + 1
+          ? { lignes: null, court: dispo - entier > LIGNE, hauteur: dispo }
+          : { lignes: Math.max(2, Math.floor((dispo - LIEN_SUITE) / LIGNE)), court: false, hauteur: dispo };
+      setExtraitLarge((avant) =>
+        avant && avant.lignes === suivant.lignes && avant.court === suivant.court && Math.abs(avant.hauteur - suivant.hauteur) < 1
+          ? avant
+          : suivant,
+      );
+    };
     mesurer();
     document.fonts?.ready.then(mesurer).catch(() => {});
     if (typeof ResizeObserver === "undefined") return;
     const observateur = new ResizeObserver(mesurer);
-    observateur.observe(el);
+    observateur.observe(corps);
+    observateur.observe(texte);
     return () => observateur.disconnect();
-  }, [data.tip, isLoading, conseilDeplie]);
+  }, [data.tip, isLoading, conseilDeplie, rangeeOuverte]);
 
   if (isLoading) {
     return (
@@ -241,17 +304,20 @@ export function DailyContent() {
           Ton contenu du jour
         </h2>
         <div className={GRILLE}>
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className={`min-h-[360px] animate-pulse rounded-xl border border-border-hover bg-background-card ${MARGE_ENCADRE} ${i === 2 ? "lg:col-span-2 xl:col-span-1" : ""}`}
-            >
-              <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
-              <div className="h-4 w-3/4 rounded bg-background-elevated" />
-              <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
-              <div className="mt-4 h-10 w-full rounded bg-background-elevated" />
-            </div>
-          ))}
+          <div className={`min-h-[360px] animate-pulse rounded-xl border border-border-hover bg-background-card ${MARGE_ENCADRE}`} />
+          <div className={RANGEE}>
+            {[0, 1].map((i) => (
+              <div
+                key={i}
+                className={`min-h-[360px] animate-pulse rounded-xl border border-border-hover bg-background-card ${MARGE_ENCADRE}`}
+              >
+                <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
+                <div className="h-4 w-3/4 rounded bg-background-elevated" />
+                <div className="mt-2 h-4 w-1/2 rounded bg-background-elevated" />
+                <div className="mt-4 h-10 w-full rounded bg-background-elevated" />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -263,6 +329,20 @@ export function DailyContent() {
   const duree = data.video ? dureeAffichee(data.video.duration) : null;
   const chaine = data.video && !chaineRedondante(data.video.title, data.video.channelName) ? data.video.channelName : "";
   const aDesAccordeonsVideo = !!data.video && ((data.video.learnings?.length ?? 0) > 0 || !!data.video.exercise);
+  // Extrait du Conseil : sous 1024 px, 4 lignes (V3.4) ; dès 1024 px, n lignes mesurées ou texte entier (V4.3).
+  const conseilCourt = !!extraitLarge?.court && !conseilDeplie;
+  const lienSuite = conseilDeplie || (extraitLarge ? extraitLarge.lignes !== null : conseilTronque);
+  const extraitClasses = conseilDeplie
+    ? ""
+    : extraitLarge
+      ? `overflow-hidden ${extraitLarge.lignes !== null ? FONDU : ""}`
+      : `${EXTRAIT} ${conseilTronque ? FONDU : ""}`;
+  const extraitStyle =
+    !conseilDeplie && extraitLarge?.lignes ? { maxHeight: extraitLarge.lignes * LIGNE } : undefined;
+  const conteneurExtrait =
+    conseilDeplie || conseilCourt ? "" : "lg:min-h-12 lg:flex-1 lg:basis-0 lg:overflow-hidden";
+  const conteneurStyle =
+    rangeeOuverte && extraitLarge && !conseilDeplie && !conseilCourt ? { height: extraitLarge.hauteur, flex: "none" } : undefined;
 
   return (
     <section aria-labelledby="contenu-du-jour-titre" className="pb-12 pt-8 md:py-16">
@@ -273,7 +353,7 @@ export function DailyContent() {
         Ton contenu du jour
       </h2>
       <div className={GRILLE}>
-        {/* Vanne du jour */}
+        {/* Vanne du jour : bandeau pleine largeur, corps centré dès 1024 px (V4.2). */}
         <div className={CARTE}>
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className={CORPS_CARTE}>
@@ -287,11 +367,11 @@ export function DailyContent() {
             {data.joke ? (
               <>
                 {/* Énoncé, puis la chute à la place du bouton, 12 px dessous : l'énoncé ne bouge pas au clic. */}
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-3xl lg:items-center lg:py-4 lg:text-center">
                   <p className={`font-medium text-text-primary [text-wrap:balance] ${tailleEnonce(enonce)}`}>
                     {citationsEnBloc(enonce)}
                   </p>
-                  <div id="chute-du-jour" aria-live="polite">
+                  <div id="chute-du-jour" aria-live="polite" className="w-full lg:max-w-xl">
                     {showPunchline ? (
                       <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
                         <p className={`font-semibold text-text-primary [text-wrap:balance] ${tailleChute(chute)}`}>
@@ -311,26 +391,26 @@ export function DailyContent() {
                       </button>
                     )}
                   </div>
-                </div>
-                {/* Décision D1 : décryptage fermé par défaut, sous la chute une fois révélée. */}
-                {showPunchline && data.joke.comedyTechnique && (
-                  <Accordeon titre="Pourquoi ça marche">
-                    <Section titre={affiche(data.joke.comedyTechnique)}>
-                      {data.joke.techniqueExplanation && <p>{affiche(data.joke.techniqueExplanation)}</p>}
-                    </Section>
-                    {data.joke.howToApply && (
-                      <Section separee titre="À toi de jouer">
-                        <p>{affiche(data.joke.howToApply)}</p>
+                  {/* Décision D1 : décryptage fermé par défaut, sous la chute une fois révélée. */}
+                  {showPunchline && data.joke.comedyTechnique && (
+                    <Accordeon titre="Pourquoi ça marche" className="mt-1 w-full text-left lg:max-w-xl">
+                      <Section titre={affiche(data.joke.comedyTechnique)}>
+                        {data.joke.techniqueExplanation && <p>{affiche(data.joke.techniqueExplanation)}</p>}
                       </Section>
-                    )}
-                    <p className="mt-4 border-t border-border-hover pt-4 text-text-secondary">
-                      Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
-                      <Link href="/anatomie-vanne" className="font-medium text-accent-link underline underline-offset-2">
-                        L’anatomie d’une vanne
-                      </Link>
-                    </p>
-                  </Accordeon>
-                )}
+                      {data.joke.howToApply && (
+                        <Section separee titre="À toi de jouer">
+                          <p>{affiche(data.joke.howToApply)}</p>
+                        </Section>
+                      )}
+                      <p className="mt-4 border-t border-border-hover pt-4 text-text-secondary">
+                        Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
+                        <Link href="/anatomie-vanne" className="font-medium text-accent-link underline underline-offset-2">
+                          L’anatomie d’une vanne
+                        </Link>
+                      </p>
+                    </Accordeon>
+                  )}
+                </div>
                 <Pied gauche={<ReactionButtons jokeId={data.joke.id} />}>
                   <ShareButton
                     title="Vanne du jour · deviens-marrant.fr"
@@ -345,97 +425,100 @@ export function DailyContent() {
           </div>
         </div>
 
-        {/* Conseil du jour */}
-        <div className={CARTE}>
-          <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-          <div className={CORPS_CARTE}>
-            <EnTete icone={<Lightbulb {...ICONE} size={22} />} type="Conseil du jour">
-              {data.tip && (
-                <>
-                  <Badge variant="default" className={PASTILLE}>
-                    {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
-                  </Badge>
-                  <Badge variant="default" className={PASTILLE}>
-                    {TIP_VIDEO_CATEGORY_LABELS[data.tip.category] ?? data.tip.category}
-                  </Badge>
-                </>
-              )}
-            </EnTete>
-            {data.tip ? (
-              <>
-                <h3 className={TITRE_CARTE}>{frTypo(data.tip.title)}</h3>
-                {/* Extrait de 4 lignes entières en fondu, texte complet dans le DOM (V3.4). */}
-                <div className="flex flex-col items-start gap-2">
-                  <p
-                    id="conseil-du-jour-texte"
-                    ref={conseilRef}
-                    className={`text-sm leading-6 text-text-primary ${conseilDeplie ? "" : EXTRAIT} ${!conseilDeplie && conseilTronque ? FONDU : ""}`}
-                  >
-                    {affiche(data.tip.content)}
-                  </p>
-                  {(conseilTronque || conseilDeplie) && (
-                    <button
-                      type="button"
-                      aria-expanded={conseilDeplie}
-                      aria-controls="conseil-du-jour-texte"
-                      onClick={() => setConseilDeplie((d) => !d)}
-                      className="-my-3 inline-flex min-h-[44px] items-center rounded-md py-3 text-sm font-semibold text-accent-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
-                    >
-                      {conseilDeplie ? "Réduire" : "Lire la suite"}
-                    </button>
-                  )}
-                </div>
-                {(data.tip.example || data.tip.exercise) && (
-                  <div className="flex flex-col gap-2">
-                    {data.tip.example && (
-                      <Accordeon titre="Exemple concret">
-                        <Exemple texte={data.tip.example} />
-                      </Accordeon>
-                    )}
-                    {data.tip.exercise && (
-                      <Accordeon titre="Exercice du jour">
-                        <Exercice texte={data.tip.exercise} />
-                      </Accordeon>
-                    )}
-                  </div>
+        <div ref={rangeeRef} className={RANGEE}>
+          {/* Conseil du jour : l'extrait prend la place laissée par la Vidéo dès 1024 px (V4.3). */}
+          <div className={CARTE}>
+            <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
+            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1 ${conseilCourt ? "lg:justify-between" : ""}`}>
+              <EnTete icone={<Lightbulb {...ICONE} size={22} />} type="Conseil du jour">
+                {data.tip && (
+                  <>
+                    <Badge variant="default" className={PASTILLE}>
+                      {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
+                    </Badge>
+                    <Badge variant="default" className={PASTILLE}>
+                      {TIP_VIDEO_CATEGORY_LABELS[data.tip.category] ?? data.tip.category}
+                    </Badge>
+                  </>
                 )}
-                <Pied>
-                  <ShareButton
-                    title="Conseil du jour · deviens-marrant.fr"
-                    text={`${data.tip.title}\n${data.tip.content}`}
-                  />
-                  <FavoriteButton contentType="TIP" contentId={data.tip.id} apercu={data.tip.title} />
-                </Pied>
-              </>
-            ) : (
-              <p className="text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
-            )}
-          </div>
-        </div>
-
-        {/* Vidéo du jour : pleine largeur sous les deux autres de 1024 à 1279 px (V3.3). */}
-        <div className={`${CARTE} lg:col-span-2 xl:col-span-1`}>
-          <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
-          <div className={CORPS_CARTE}>
-            <EnTete icone={<Clapperboard {...ICONE} />} type="Vidéo du jour">
-              {data.video && (
+              </EnTete>
+              {data.tip ? (
                 <>
-                  <Badge variant="default" className={PASTILLE}>{videoCategory}</Badge>
-                  {data.video.technique && data.video.technique.toLowerCase() !== videoCategory.toLowerCase() && (
-                    <Badge variant="default" className={PASTILLE}>{data.video.technique}</Badge>
-                  )}
-                </>
-              )}
-            </EnTete>
-            {data.video ? (
-              <>
-                {/* De 768 à 1279 px : lecteur à gauche ; à droite, titre, chaîne et durée, puis accordéons 16 px
-                    dessous, empilés en haut (tour 3.1 : plus de justify-between, aucun vide intérieur). */}
-                <div className="grid gap-4 md:max-xl:grid-cols-2 md:max-xl:gap-6">
-                  <div className="relative aspect-video self-start overflow-hidden rounded-lg bg-background-elevated">
-                    <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
+                  <h3 className={TITRE_CARTE}>{frTypo(data.tip.title)}</h3>
+                  {/* Lignes entières, dernière en fondu, texte complet dans le DOM (V3.4, V4.3). */}
+                  <div ref={extraitRef} className={`flex flex-col items-start gap-2 ${conteneurExtrait}`} style={conteneurStyle}>
+                    <p
+                      id="conseil-du-jour-texte"
+                      ref={conseilRef}
+                      data-deplie={conseilDeplie}
+                      className={`text-sm leading-6 text-text-primary ${extraitClasses}`}
+                      style={extraitStyle}
+                    >
+                      {affiche(data.tip.content)}
+                    </p>
+                    {lienSuite && (
+                      <button
+                        type="button"
+                        aria-expanded={conseilDeplie}
+                        aria-controls="conseil-du-jour-texte"
+                        onClick={() => setConseilDeplie((d) => !d)}
+                        className="-my-3 inline-flex min-h-[44px] shrink-0 items-center rounded-md py-3 text-sm font-semibold text-accent-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                      >
+                        {conseilDeplie ? "Réduire" : "Lire la suite"}
+                      </button>
+                    )}
                   </div>
-                  <div className="flex flex-col gap-4">
+                  {(data.tip.example || data.tip.exercise) && (
+                    <div className="flex flex-col gap-2">
+                      {data.tip.example && (
+                        <Accordeon titre="Exemple concret">
+                          <Exemple texte={data.tip.example} />
+                        </Accordeon>
+                      )}
+                      {data.tip.exercise && (
+                        <Accordeon titre="Exercice du jour">
+                          <Exercice texte={data.tip.exercise} />
+                        </Accordeon>
+                      )}
+                    </div>
+                  )}
+                  <Pied bas={!conseilCourt}>
+                    <ShareButton
+                      title="Conseil du jour · deviens-marrant.fr"
+                      text={`${data.tip.title}\n${data.tip.content}`}
+                    />
+                    <FavoriteButton contentType="TIP" contentId={data.tip.id} apercu={data.tip.title} />
+                  </Pied>
+                </>
+              ) : (
+                <p className="text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Vidéo du jour : fixe la hauteur de la rangée dès 1024 px (V4.3). */}
+          <div className={CARTE}>
+            <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
+            <div className={`${CORPS_CARTE} lg:flex-1`}>
+              <EnTete icone={<Clapperboard {...ICONE} />} type="Vidéo du jour">
+                {data.video && (
+                  <>
+                    <Badge variant="default" className={PASTILLE}>{videoCategory}</Badge>
+                    {data.video.technique && data.video.technique.toLowerCase() !== videoCategory.toLowerCase() && (
+                      <Badge variant="default" className={PASTILLE}>{data.video.technique}</Badge>
+                    )}
+                  </>
+                )}
+              </EnTete>
+              {data.video ? (
+                <>
+                  {/* Empilé sous 768 px et de 1024 à 1279 px ; 768 à 1023 : lecteur à gauche, titre puis accordéons
+                      à droite, empilés en haut (tour 3.1) ; dès 1280 : lecteur et titre côte à côte, accordéons
+                      pleine largeur dessous (V4.3). */}
+                  <div className="grid gap-4 md:max-lg:grid-cols-2 md:max-lg:grid-rows-[auto_1fr] md:max-lg:gap-x-6 xl:grid-cols-[1.25fr_1fr] xl:items-center xl:gap-x-6">
+                    <div className="relative aspect-video self-start overflow-hidden rounded-lg bg-background-elevated md:max-lg:row-span-2 xl:self-center">
+                      <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
+                    </div>
                     <div>
                       <h3 className={`${TITRE_CARTE} line-clamp-3`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
@@ -447,7 +530,7 @@ export function DailyContent() {
                       )}
                     </div>
                     {aDesAccordeonsVideo && (
-                      <div className="flex flex-col gap-2">
+                      <div className="flex flex-col gap-2 self-start xl:col-span-2">
                         {data.video.learnings && data.video.learnings.length > 0 && (
                           <Accordeon titre="Ce que tu vas apprendre">
                             <Apprentissages items={data.video.learnings.slice(0, 2)} />
@@ -461,18 +544,18 @@ export function DailyContent() {
                       </div>
                     )}
                   </div>
-                </div>
-                <Pied>
-                  <ShareButton
-                    title="Vidéo du jour · deviens-marrant.fr"
-                    text={`${data.video.title} · ${data.video.channelName}`}
-                  />
-                  <FavoriteButton contentType="VIDEO" contentId={data.video.id} apercu={data.video.title} />
-                </Pied>
-              </>
-            ) : (
-              <p className="text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>
-            )}
+                  <Pied bas>
+                    <ShareButton
+                      title="Vidéo du jour · deviens-marrant.fr"
+                      text={`${data.video.title} · ${data.video.channelName}`}
+                    />
+                    <FavoriteButton contentType="VIDEO" contentId={data.video.id} apercu={data.video.title} />
+                  </Pied>
+                </>
+              ) : (
+                <p className="text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>
+              )}
+            </div>
           </div>
         </div>
       </div>
