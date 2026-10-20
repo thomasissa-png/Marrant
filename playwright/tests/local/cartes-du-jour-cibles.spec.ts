@@ -93,3 +93,60 @@ test.describe("Accueil, cartes du jour : emplacement de la chute", () => {
     });
   }
 });
+
+/**
+ * Spec v3 (V3.1) : cartes à hauteur naturelle, alignées en haut. Aucun vide intérieur de plus de 24 px
+ * (entre deux blocs d'une carte, ou sous le pied) ; ouvrir la chute, « Pourquoi ça marche », « Lire la
+ * suite » ou un accordéon n'agrandit que sa carte, les voisines ne bougent pas d'un pixel.
+ */
+test.describe("Accueil, cartes du jour : hauteurs naturelles", () => {
+  localSeulement();
+
+  const cotes = (page: import("@playwright/test").Page) =>
+    page.evaluate(() => {
+      const grille = document.querySelector("section[aria-labelledby='contenu-du-jour-titre'] > div") as HTMLElement;
+      return Array.from(grille.children).map((carte) => {
+        const r = carte.getBoundingClientRect();
+        const corps = carte.lastElementChild as HTMLElement;
+        const blocs = Array.from(corps.children).filter((b) => (b as HTMLElement).offsetHeight > 0).map((b) => b.getBoundingClientRect());
+        const vides = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
+        vides.push(r.bottom - blocs[blocs.length - 1].bottom);
+        return { haut: r.top + window.scrollY, bas: r.bottom + window.scrollY, videMax: Math.max(...vides) };
+      });
+    });
+
+  for (const largeur of [375, 1024, 1280, 1440]) {
+    test(`aucun vide intérieur > 24 px, voisines immobiles à ${largeur} px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/");
+      const section = page.locator("section[aria-labelledby='contenu-du-jour-titre']");
+      await expect(section.getByRole("button", { name: "Révéler la chute" })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+
+      const ouvertures: { nom: string; carte: number; agir: () => Promise<void> }[] = [
+        { nom: "chute", carte: 0, agir: () => section.getByRole("button", { name: "Révéler la chute" }).click() },
+        { nom: "Pourquoi ça marche", carte: 0, agir: () => section.locator("summary", { hasText: "Pourquoi ça marche" }).click() },
+        { nom: "Exemple concret", carte: 1, agir: () => section.locator("summary", { hasText: "Exemple concret" }).click() },
+        { nom: "Ce que tu vas apprendre", carte: 2, agir: () => section.locator("summary", { hasText: "Ce que tu vas apprendre" }).click() },
+      ];
+      if (await section.getByRole("button", { name: "Lire la suite" }).count()) {
+        ouvertures.splice(2, 0, { nom: "Lire la suite", carte: 1, agir: () => section.getByRole("button", { name: "Lire la suite" }).click() });
+      }
+
+      let avant = await cotes(page);
+      for (const [i, c] of avant.entries()) expect(c.videMax, `vide intérieur, carte ${i + 1}, fermé`).toBeLessThanOrEqual(25);
+      for (const o of ouvertures) {
+        await o.agir();
+        await page.waitForTimeout(400);
+        const apres = await cotes(page);
+        for (const [i, c] of apres.entries()) {
+          expect(c.videMax, `vide intérieur, carte ${i + 1}, après « ${o.nom} »`).toBeLessThanOrEqual(25);
+          if (i === o.carte || apres[i].haut > avant[o.carte].bas) continue; // la carte ouverte, ou une carte placée dessous
+          expect(Math.abs(c.haut - avant[i].haut), `carte ${i + 1} déplacée par « ${o.nom} »`).toBeLessThanOrEqual(0.5);
+          expect(Math.abs(c.bas - avant[i].bas), `carte ${i + 1} étirée par « ${o.nom} »`).toBeLessThanOrEqual(0.5);
+        }
+        avant = apres;
+      }
+    });
+  }
+});

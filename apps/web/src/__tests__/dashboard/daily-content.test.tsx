@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { DailyContent, dureeAffichee, guillemetsImbriques } from "@/components/home/daily-content";
+import { DailyContent } from "@/components/home/daily-content";
+import { dureeAffichee, guillemetsImbriques } from "@/components/home/daily-content-format";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn().mockReturnValue({ status: "authenticated" }),
@@ -165,7 +166,11 @@ describe("DailyContent", () => {
     expect(accordeon).not.toHaveAttribute("open");
     // Un seul format d'en-tête (V2.6) : « Pourquoi ça marche » seul, la technique ouvre le corps.
     expect(titre).toHaveTextContent(/^Pourquoi ça marche$/);
-    expect(accordeon?.querySelector("summary + div > p")).toHaveTextContent("La logique absurde");
+    // V3.5 : la technique est l'intertitre de la 1re section, sur sa propre ligne.
+    const technique = screen.getByText("La logique absurde");
+    expect(accordeon).toContainElement(technique);
+    expect(technique.tagName).toBe("P");
+    expect(technique.nextElementSibling).toHaveTextContent(/^On applique une rigueur logique/);
 
     await userEvent.click(titre);
     expect(accordeon).toHaveAttribute("open");
@@ -191,11 +196,15 @@ describe("DailyContent", () => {
       const texte = screen.getByText("Fais une pause avant la chute.");
       expect(bouton).toHaveAttribute("aria-expanded", "false");
       expect(bouton).toHaveAttribute("aria-controls", texte.id);
-      expect(texte).toHaveClass("line-clamp-4", "md:line-clamp-6");
+      // V3.4 : extrait de 4 lignes entières (96 px), dernière ligne en fondu, plus de line-clamp.
+      expect(texte).toHaveClass("max-h-24", "overflow-hidden");
+      expect(texte.className).toContain("mask-image");
+      expect(texte.className).not.toContain("line-clamp");
 
       await userEvent.click(bouton);
       expect(screen.getByRole("button", { name: "Réduire" })).toHaveAttribute("aria-expanded", "true");
-      expect(texte).not.toHaveClass("line-clamp-4");
+      expect(texte).not.toHaveClass("max-h-24");
+      expect(texte.className).not.toContain("mask-image");
     } finally {
       hauteurs.mockRestore();
       visibles.mockRestore();
@@ -230,10 +239,25 @@ describe("DailyContent", () => {
     expect(dureeAffichee(null)).toBeNull();
   });
 
-  it("shows the video duration on the thumbnail", async () => {
+  it("shows the video duration next to the channel, nothing on the thumbnail (V3.6)", async () => {
     render(<DailyContent />);
     await waitFor(() => {
-      expect(screen.getByLabelText("Lire la vidéo : Les secrets du timing comique")).toHaveTextContent("13 min");
+      expect(screen.getByText("Humour Academy").closest("p")).toHaveTextContent(/^Humour Academy · 13 min$/);
+    });
+    expect(screen.getByLabelText("Lire la vidéo : Les secrets du timing comique")).not.toHaveTextContent("13 min");
+  });
+
+  it("keeps the duration alone when the channel line is redundant", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockDailyData,
+        video: { ...mockDailyData.video, title: "Humour Academy - Les secrets du timing", channelName: "Humour Academy" },
+      }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("13 min").closest("p")).toHaveTextContent(/^13 min$/);
     });
   });
 

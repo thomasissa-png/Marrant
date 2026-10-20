@@ -14,8 +14,6 @@ interface YouTubePlayerProps {
    * plus de bande résiduelle de la source). Sans la prop, rendu inchangé (/videos, fiches).
    */
   recadrage?: "serre";
-  /** Durée déjà formatée (« 8 min »), en pastille sur la vignette ; absente = rien (cartes du jour, tour 2.1). */
-  duree?: string;
 }
 
 /**
@@ -23,7 +21,7 @@ interface YouTubePlayerProps {
  * charge l'iframe uniquement quand l'utilisateur appuie sur play.
  * Beaucoup plus léger et fiable sur mobile.
  */
-export function YouTubePlayer({ youtubeId, title, priority = false, recadrage, duree }: YouTubePlayerProps) {
+export function YouTubePlayer({ youtubeId, title, priority = false, recadrage }: YouTubePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [thumbFailed, setThumbFailed] = useState(false);
 
@@ -46,7 +44,7 @@ export function YouTubePlayer({ youtubeId, title, priority = false, recadrage, d
   return (
     <button
       type="button"
-      className="group/play absolute inset-0 flex items-center justify-center bg-background-elevated [container-type:inline-size]"
+      className="group/play absolute inset-0 flex items-center justify-center bg-background-elevated [container-type:inline-size] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link"
       onClick={handlePlay}
       aria-label={`Lire la vidéo : ${title}`}
     >
@@ -70,13 +68,8 @@ export function YouTubePlayer({ youtubeId, title, priority = false, recadrage, d
           onError={() => setThumbFailed(true)}
         />
       )}
-      {duree && (
-        <span className="pointer-events-none absolute bottom-2 right-2 z-10 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">
-          {duree}
-        </span>
-      )}
       {/* Bouton play */}
-      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110">
+      <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110 group-focus-visible/play:scale-110">
         <svg viewBox="0 0 24 24" fill="white" className="ml-1 h-6 w-6" aria-hidden="true">
           <path d="M8 5v14l11-7z" />
         </svg>
