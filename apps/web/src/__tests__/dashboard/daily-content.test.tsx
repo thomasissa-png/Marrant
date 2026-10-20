@@ -196,14 +196,15 @@ describe("DailyContent", () => {
       const texte = screen.getByText("Fais une pause avant la chute.");
       expect(bouton).toHaveAttribute("aria-expanded", "false");
       expect(bouton).toHaveAttribute("aria-controls", texte.id);
-      // V3.4 : extrait de 4 lignes entières (96 px), dernière ligne en fondu, plus de line-clamp.
-      expect(texte).toHaveClass("max-h-24", "overflow-hidden");
+      // V3.4, tour 4.1 : extrait de 4 lignes entières (96 px) à toutes les largeurs, dernière en fondu, sans line-clamp.
+      expect(texte).toHaveClass("overflow-hidden");
+      expect(texte.style.maxHeight).toBe("96px");
       expect(texte.className).toContain("mask-image");
       expect(texte.className).not.toContain("line-clamp");
 
       await userEvent.click(bouton);
       expect(screen.getByRole("button", { name: "Réduire" })).toHaveAttribute("aria-expanded", "true");
-      expect(texte).not.toHaveClass("max-h-24");
+      expect(texte.style.maxHeight).toBe("");
       expect(texte.className).not.toContain("mask-image");
     } finally {
       hauteurs.mockRestore();

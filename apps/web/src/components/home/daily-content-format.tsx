@@ -47,21 +47,25 @@ export function affiche(texte: string): string {
 
 /**
  * Taille de l'énoncé selon sa longueur affichée ; classes complètes écrites en dur pour le JIT.
- * Sous 1024 px : 20 puis 24 px dès 768 (v3). Dès 1024 px, bandeau (V4.2) : 48, 36 ou 30 px.
+ * Sous 1024 px : 20 puis 24 px dès 768 (v3). Dès 1024 px, bandeau plafonné à 40/48, paliers pour les
+ * vannes longues (tour 4.1).
  */
 export function tailleEnonce(texte: string): string {
   const base = "text-xl leading-7 md:text-2xl md:leading-8";
-  if (texte.length <= 50) return `${base} lg:text-5xl lg:leading-[3.5rem]`;
-  if (texte.length <= 100) return `${base} lg:text-4xl lg:leading-10`;
-  return `${base} lg:text-3xl lg:leading-9`;
+  if (texte.length <= 50) return `${base} lg:text-[2.5rem] lg:leading-[3rem]`;
+  if (texte.length <= 120) return `${base} lg:text-[2rem] lg:leading-10`;
+  return `${base} lg:text-[1.75rem] lg:leading-9`;
 }
 
-/** Taille de la chute, indépendante de l'énoncé : v3 sous 1024 px, boîte de 576 px du bandeau ensuite (V4.2). */
+/**
+ * Taille de la chute, indépendante de l'énoncé : v3 sous 1024 px ; dès 1024 px, 32/40 puis paliers pour les
+ * chutes longues, de sorte qu'elle ne retombe jamais sous les trois quarts de l'énoncé sur le catalogue (tour 4.1).
+ */
 export function tailleChute(texte: string): string {
-  if (texte.length <= 60) return "text-xl leading-7 md:text-2xl md:leading-8 lg:text-3xl lg:leading-9";
-  if (texte.length <= 100) return "text-xl leading-7 md:text-2xl md:leading-8";
-  if (texte.length <= 110) return "text-xl leading-7 lg:text-2xl lg:leading-8";
-  return "text-xl leading-7";
+  const base = texte.length <= 100 ? "text-xl leading-7 md:text-2xl md:leading-8" : "text-xl leading-7";
+  if (texte.length <= 110) return `${base} lg:text-[2rem] lg:leading-10`;
+  if (texte.length <= 180) return `${base} lg:text-[1.75rem] lg:leading-9`;
+  return `${base} lg:text-2xl lg:leading-8`;
 }
 
 /** Citation « … » de premier niveau de 60 caractères ou moins : jamais coupée en fin de ligne (V3.2). */

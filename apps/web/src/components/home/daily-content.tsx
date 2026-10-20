@@ -140,8 +140,7 @@ const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary";
 
 const TITRE_CARTE = `font-display text-lg font-bold leading-6 text-text-primary [text-wrap:balance] ${ESPACE_MOTS}`;
 
-/** Extrait du conseil : 4 lignes entières, la dernière en fondu (V3.4). */
-const EXTRAIT = "max-h-24 overflow-hidden";
+/** Extrait du conseil : la dernière ligne entière en fondu (V3.4). */
 const FONDU =
   "[mask-image:linear-gradient(to_bottom,#000_55%,transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_55%,transparent)]";
 
@@ -204,21 +203,26 @@ function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children:
   );
 }
 
-/**
- * Extrait du Conseil dès 1024 px (V4.3) : lignes affichées (`null` = texte entier) et conseil court (reste
- * supérieur à une ligne). Le reste est réparti en parts égales entre les blocs de la carte (justify-between) :
- * moins de 6 px de plus par écart pour un extrait tronqué, au lieu d'un vide sous « Lire la suite ».
- */
-interface ExtraitLarge {
-  lignes: number | null;
-  court: boolean;
-  /** Hauteur donnée au bloc de l'extrait : lignes retenues + « Lire la suite », ou texte entier. */
-  hauteur: number;
-}
-
 const LIGNE = 24;
 /** Encombrement de « Lire la suite » sous l'extrait : 8 px d'écart + 20 px (V3.4). */
 const LIEN_SUITE = 28;
+/** Extrait du Conseil par défaut, à toutes les largeurs (tour 4.1) ; ajusté seulement si la miniature ne suffit pas. */
+const LIGNES_EXTRAIT = 4;
+/** Largeur minimale du bloc titre à côté de la miniature, et largeur minimale de la miniature (px). */
+const TITRE_MIN = 200;
+const MINIATURE_MIN = 160;
+
+/** Hauteur naturelle d'un corps de carte (marges, blocs, écarts), avec des hauteurs imposées pour certains blocs. */
+function hauteurNaturelle(corps: HTMLElement, imposees: Map<Element, number>): number {
+  const style = getComputedStyle(corps);
+  const blocs = Array.from(corps.children).filter((e) => imposees.has(e) || (e as HTMLElement).offsetHeight > 0);
+  return (
+    parseFloat(style.paddingTop) +
+    parseFloat(style.paddingBottom) +
+    blocs.reduce((somme, e) => somme + (imposees.get(e) ?? (e as HTMLElement).offsetHeight), 0) +
+    (parseFloat(style.rowGap) || 0) * Math.max(0, blocs.length - 1)
+  );
+}
 
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
@@ -226,12 +230,16 @@ export function DailyContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [conseilTronque, setConseilTronque] = useState(false);
   const [conseilDeplie, setConseilDeplie] = useState(false);
-  const [extraitLarge, setExtraitLarge] = useState<ExtraitLarge | null>(null);
+  const [lignes, setLignes] = useState(LIGNES_EXTRAIT);
+  const [largeurMiniature, setLargeurMiniature] = useState<number | null>(null);
   const [rangeeOuverte, setRangeeOuverte] = useState(false);
   const chuteRef = useRef<HTMLDivElement>(null);
   const conseilRef = useRef<HTMLParagraphElement>(null);
   const extraitRef = useRef<HTMLDivElement>(null);
   const corpsConseilRef = useRef<HTMLDivElement>(null);
+  const corpsVideoRef = useRef<HTMLDivElement>(null);
+  const blocVideoRef = useRef<HTMLDivElement>(null);
+  const titreVideoRef = useRef<HTMLDivElement>(null);
   const rangeeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -260,50 +268,57 @@ export function DailyContent() {
     return () => rangee.removeEventListener("toggle", suivre, true);
   }, [isLoading]);
 
-  // Extrait du Conseil : 4 lignes sous 1024 px (V3.4) ; dès 1024 px, la place laissée par la Vidéo (V4.3).
+  /*
+   * Rangée Conseil + Vidéo dès 1024 px (tour 4.1) : l'extrait du Conseil garde 4 lignes et c'est la miniature
+   * vidéo qui prend exactement la hauteur manquante, pour deux cartes égales sans écart gonflé. Si la miniature
+   * sort de ses bornes, l'extrait perd ou gagne des lignes entières. Sous 1024 px : 4 lignes, miniature en CSS.
+   */
   useEffect(() => {
     const texte = conseilRef.current;
     const extrait = extraitRef.current;
-    const corps = corpsConseilRef.current;
-    if (!texte || !extrait || !corps || conseilDeplie) return;
+    const corpsC = corpsConseilRef.current;
+    if (!texte || !extrait || !corpsC || conseilDeplie) return;
     const mesurer = () => {
+      const entier = texte.scrollHeight;
       const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
-      if (!large) {
-        setExtraitLarge(null);
-        setConseilTronque(texte.scrollHeight > texte.clientHeight + 1);
+      const corpsV = corpsVideoRef.current;
+      const bloc = blocVideoRef.current;
+      const titre = titreVideoRef.current;
+      if (!large || !corpsV || !bloc || !titre) {
+        setLignes(LIGNES_EXTRAIT);
+        setLargeurMiniature(null);
+        setConseilTronque(entier > LIGNES_EXTRAIT * LIGNE + 1);
         return;
       }
-      if (rangeeOuverte) return; // lignes figées tant qu'un accordéon de la rangée est ouvert
-      const style = getComputedStyle(corps);
-      const autres = Array.from(corps.children).filter((e) => e !== extrait && (e as HTMLElement).offsetHeight > 0);
-      const dispo =
-        corps.clientHeight -
-        parseFloat(style.paddingTop) -
-        parseFloat(style.paddingBottom) -
-        autres.reduce((somme, e) => somme + (e as HTMLElement).offsetHeight, 0) -
-        (parseFloat(style.rowGap) || 0) * autres.length;
-      const entier = texte.scrollHeight;
-      const suivant: ExtraitLarge =
-        entier <= dispo + 1
-          ? { lignes: null, court: dispo - entier > LIGNE, hauteur: entier }
-          : (() => {
-              const lignes = Math.max(2, Math.floor((dispo - LIEN_SUITE) / LIGNE));
-              return { lignes, court: false, hauteur: lignes * LIGNE + LIEN_SUITE };
-            })();
-      setExtraitLarge((avant) =>
-        avant && avant.lignes === suivant.lignes && avant.court === suivant.court && Math.abs(avant.hauteur - suivant.hauteur) < 1
-          ? avant
-          : suivant,
-      );
+      if (rangeeOuverte) return; // lignes et miniature figées tant qu'un accordéon de la rangée est ouvert
+      const hauteurExtrait = (n: number) => (entier <= n * LIGNE + 1 ? entier : n * LIGNE + LIEN_SUITE);
+      const autresVideo = hauteurNaturelle(corpsV, new Map([[bloc, 0]]));
+      const ecart = parseFloat(getComputedStyle(bloc).columnGap) || 0;
+      const largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - TITRE_MIN);
+      const hauteurMin = Math.max(titre.offsetHeight, (MINIATURE_MIN * 9) / 16);
+      const hauteurMax = (largeurMax * 9) / 16;
+      let n = LIGNES_EXTRAIT;
+      let cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
+      for (let essai = 0; essai < 10; essai++) {
+        if (cible > hauteurMax && n > 2) n--;
+        else if (cible < hauteurMin && entier > n * LIGNE + 1) n++;
+        else break;
+        cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
+      }
+      const largeur = Math.round(Math.min(largeurMax, Math.max(MINIATURE_MIN, (Math.max(cible, hauteurMin) * 16) / 9)) * 2) / 2;
+      setLignes(n);
+      setLargeurMiniature((avant) => (avant !== null && Math.abs(avant - largeur) < 0.5 ? avant : largeur));
+      setConseilTronque(entier > n * LIGNE + 1);
     };
     mesurer();
     document.fonts?.ready.then(mesurer).catch(() => {});
     if (typeof ResizeObserver === "undefined") return;
     const observateur = new ResizeObserver(mesurer);
-    observateur.observe(corps);
+    observateur.observe(corpsC);
     observateur.observe(texte);
+    if (titreVideoRef.current) observateur.observe(titreVideoRef.current);
     return () => observateur.disconnect();
-  }, [data.tip, isLoading, conseilDeplie, rangeeOuverte]);
+  }, [data.tip, data.video, isLoading, conseilDeplie, rangeeOuverte]);
 
   if (isLoading) {
     return (
@@ -337,23 +352,11 @@ export function DailyContent() {
   const duree = data.video ? dureeAffichee(data.video.duration) : null;
   const chaine = data.video && !chaineRedondante(data.video.title, data.video.channelName) ? data.video.channelName : "";
   const aDesAccordeonsVideo = !!data.video && ((data.video.learnings?.length ?? 0) > 0 || !!data.video.exercise);
-  // Extrait du Conseil : sous 1024 px, 4 lignes (V3.4) ; dès 1024 px, n lignes mesurées ou texte entier (V4.3).
-  const lienSuite = conseilDeplie || (extraitLarge ? extraitLarge.lignes !== null : conseilTronque);
-  const extraitClasses = conseilDeplie
-    ? ""
-    : extraitLarge
-      ? `overflow-hidden ${extraitLarge.lignes !== null ? FONDU : ""}`
-      : `${EXTRAIT} ${conseilTronque ? FONDU : ""}`;
-  const extraitStyle =
-    !conseilDeplie && extraitLarge?.lignes ? { maxHeight: extraitLarge.lignes * LIGNE } : undefined;
-  // Dès 1024 px, le bloc de l'extrait ne compte pour rien dans la hauteur de la rangée tant qu'il n'est pas
-  // mesuré (flex-1, base 0), puis reçoit exactement la hauteur retenue : jamais plus haut que la place laissée.
-  const conteneurExtrait = conseilDeplie ? "" : "lg:min-h-12 lg:flex-1 lg:basis-0 lg:overflow-hidden";
-  // Débordement visible une fois la hauteur fixée : la zone de 44 px de « Lire la suite » dépasse de 12 px, et
-  // un conteneur `overflow-hidden` défilerait au focus clavier en coupant la 1re ligne du conseil.
-  const conteneurStyle =
-    !conseilDeplie && extraitLarge ? { height: extraitLarge.hauteur, flex: "none", overflow: "visible" } : undefined;
-  const etatExtrait = conseilDeplie ? "deplie" : !extraitLarge ? "pile" : extraitLarge.court ? "court" : extraitLarge.lignes ? "tronque" : "entier";
+  // Extrait du Conseil : lignes entières, dernière en fondu, « Lire la suite » dès que le texte dépasse (V3.4).
+  const lienSuite = conseilDeplie || conseilTronque;
+  const extraitClasses = conseilDeplie ? "" : `overflow-hidden ${conseilTronque ? FONDU : ""}`;
+  const extraitStyle = conseilDeplie ? undefined : { maxHeight: lignes * LIGNE };
+  const etatExtrait = conseilDeplie ? "deplie" : conseilTronque ? "tronque" : "entier";
 
   return (
     <section aria-labelledby="contenu-du-jour-titre" className="pb-12 pt-8 md:py-16">
@@ -378,14 +381,15 @@ export function DailyContent() {
             {data.joke ? (
               <>
                 {/* Énoncé, puis la chute à la place du bouton, 12 px dessous : l'énoncé ne bouge pas au clic. */}
-                <div className="flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-3xl lg:items-center lg:py-4 lg:text-center">
+                {/* Un seul axe dès 1024 px : énoncé, bouton, chute et décryptage dans la même largeur (tour 4.1). */}
+                <div className="flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-2xl lg:items-center lg:text-center">
                   <p className={`font-medium text-text-primary [text-wrap:balance] ${tailleEnonce(enonce)}`}>
                     {citationsEnBloc(enonce)}
                   </p>
-                  <div id="chute-du-jour" aria-live="polite" className="w-full lg:max-w-xl">
+                  <div id="chute-du-jour" aria-live="polite" className="w-full">
                     {showPunchline ? (
                       <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
-                        <p className={`font-semibold text-text-primary [text-wrap:balance] ${tailleChute(chute)}`}>
+                        <p className={`font-semibold text-text-primary [text-wrap:balance] lg:font-bold ${tailleChute(chute)}`}>
                           {citationsEnBloc(chute)}
                         </p>
                       </div>
@@ -404,7 +408,7 @@ export function DailyContent() {
                   </div>
                   {/* Décision D1 : décryptage fermé par défaut, sous la chute une fois révélée. */}
                   {showPunchline && data.joke.comedyTechnique && (
-                    <Accordeon titre="Pourquoi ça marche" className="mt-1 w-full text-left lg:max-w-xl">
+                    <Accordeon titre="Pourquoi ça marche" className="mt-1 w-full text-left">
                       <Section titre={affiche(data.joke.comedyTechnique)}>
                         {data.joke.techniqueExplanation && <p>{affiche(data.joke.techniqueExplanation)}</p>}
                       </Section>
@@ -415,7 +419,7 @@ export function DailyContent() {
                       )}
                       <p className="mt-4 border-t border-border-hover pt-4 text-text-secondary">
                         Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
-                        <Link href="/anatomie-vanne" className="font-medium text-accent-link underline underline-offset-2">
+                        <Link href="/anatomie-vanne" className="whitespace-nowrap font-medium text-accent-link underline underline-offset-2">
                           L’anatomie d’une vanne
                         </Link>
                       </p>
@@ -437,10 +441,10 @@ export function DailyContent() {
         </div>
 
         <div ref={rangeeRef} className={RANGEE}>
-          {/* Conseil du jour : l'extrait prend la place laissée par la Vidéo dès 1024 px (V4.3). */}
+          {/* Conseil du jour : extrait de 4 lignes, même hauteur que la Vidéo dès 1024 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1 lg:justify-between`}>
+            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1`}>
               <EnTete icone={<Lightbulb {...ICONE} size={22} />} type="Conseil du jour">
                 {data.tip && (
                   <>
@@ -460,8 +464,7 @@ export function DailyContent() {
                   <div
                     ref={extraitRef}
                     data-extrait={etatExtrait}
-                    className={`flex flex-col items-start gap-2 ${conteneurExtrait}`}
-                    style={conteneurStyle}
+                    className="flex flex-col items-start gap-2"
                   >
                     <p
                       id="conseil-du-jour-texte"
@@ -498,7 +501,7 @@ export function DailyContent() {
                       )}
                     </div>
                   )}
-                  <Pied>
+                  <Pied bas>
                     <ShareButton
                       title="Conseil du jour · deviens-marrant.fr"
                       text={`${data.tip.title}\n${data.tip.content}`}
@@ -512,10 +515,10 @@ export function DailyContent() {
             </div>
           </div>
 
-          {/* Vidéo du jour : fixe la hauteur de la rangée dès 1024 px (V4.3). */}
+          {/* Vidéo du jour : sa miniature s'ajuste pour égaler le Conseil dès 1024 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
-            <div className={`${CORPS_CARTE} lg:flex-1`}>
+            <div ref={corpsVideoRef} className={`${CORPS_CARTE} lg:flex-1`}>
               <EnTete icone={<Clapperboard {...ICONE} />} type="Vidéo du jour">
                 {data.video && (
                   <>
@@ -528,14 +531,16 @@ export function DailyContent() {
               </EnTete>
               {data.video ? (
                 <>
-                  {/* Empilé sous 768 px et de 1024 à 1279 px ; 768 à 1023 : lecteur à gauche, titre puis accordéons
-                      à droite, empilés en haut (tour 3.1) ; dès 1280 : lecteur et titre côte à côte, accordéons
-                      pleine largeur dessous (V4.3). */}
-                  <div className="grid gap-4 md:max-lg:grid-cols-2 md:max-lg:grid-rows-[auto_1fr] md:max-lg:gap-x-6 xl:grid-cols-[1.25fr_1fr] xl:items-center xl:gap-x-6">
-                    <div className="relative aspect-video self-start overflow-hidden rounded-lg bg-background-elevated md:max-lg:row-span-2 xl:self-center">
+                  {/* Un seul modèle dès 768 px (tour 4.1) : miniature et titre côte à côte, accordéons pleine largeur
+                      dessous ; empilé sous 768 px. Anneau de focus clavier sur toute la miniature. */}
+                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
+                    <div
+                      className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
+                      style={largeurMiniature ? { width: largeurMiniature } : undefined}
+                    >
                       <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
                     </div>
-                    <div>
+                    <div ref={titreVideoRef} className="md:min-w-0 md:flex-1">
                       <h3 className={`${TITRE_CARTE} line-clamp-3`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
                         <p className="mt-1 text-sm text-text-secondary">
@@ -545,21 +550,21 @@ export function DailyContent() {
                         </p>
                       )}
                     </div>
-                    {aDesAccordeonsVideo && (
-                      <div className="flex flex-col gap-2 self-start xl:col-span-2">
-                        {data.video.learnings && data.video.learnings.length > 0 && (
-                          <Accordeon titre="Ce que tu vas apprendre">
-                            <Apprentissages items={data.video.learnings.slice(0, 2)} />
-                          </Accordeon>
-                        )}
-                        {data.video.exercise && (
-                          <Accordeon titre="Exercice pratique">
-                            <Exercice texte={fixInvertedCase(data.video.exercise)} />
-                          </Accordeon>
-                        )}
-                      </div>
-                    )}
                   </div>
+                  {aDesAccordeonsVideo && (
+                    <div className="flex flex-col gap-2">
+                      {data.video.learnings && data.video.learnings.length > 0 && (
+                        <Accordeon titre="Ce que tu vas apprendre">
+                          <Apprentissages items={data.video.learnings.slice(0, 2)} />
+                        </Accordeon>
+                      )}
+                      {data.video.exercise && (
+                        <Accordeon titre="Exercice pratique">
+                          <Exercice texte={fixInvertedCase(data.video.exercise)} />
+                        </Accordeon>
+                      )}
+                    </div>
+                  )}
                   <Pied bas>
                     <ShareButton
                       title="Vidéo du jour · deviens-marrant.fr"

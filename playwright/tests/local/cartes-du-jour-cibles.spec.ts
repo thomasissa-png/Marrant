@@ -118,9 +118,6 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
           vides.push(...enfants.slice(1).map((b, i) => b.top - enfants[i].bottom));
         }
         const pied = corps.querySelector(":scope > .border-t") as HTMLElement | null;
-        // Conseil court (V4.3) : reste de plus d'une ligne réparti en parts égales entre les blocs, vide accepté.
-        const reparti = !!corps.querySelector("[data-extrait='court']");
-        const ecarts = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
         const lien = Array.from(corps.querySelectorAll("button")).find((b) => b.textContent === "Lire la suite");
         // « Lire la suite » : encombrement visuel de 20 px (zone de 44 px en marges négatives, V3.4).
         if (lien) {
@@ -129,8 +126,6 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
           if (suivant) vides.push(suivant.top - (r2.bottom - 12));
         }
         return {
-          reparti,
-          ecartsEgaux: Math.max(...ecarts) - Math.min(...ecarts) <= 1,
           gauche: r.left,
           droite: r.right,
           haut: r.top + window.scrollY,
@@ -151,9 +146,25 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
       await page.waitForTimeout(300);
 
       let avant = await cotes(page);
-      for (const [i, c] of avant.entries()) {
-        if (c.reparti) expect(c.ecartsEgaux, `carte ${i + 1} : espace réparti en parts égales`).toBe(true);
-        else expect(c.videMax, `vide intérieur, carte ${i + 1}, fermé`).toBeLessThanOrEqual(25);
+      for (const [i, c] of avant.entries()) expect(c.videMax, `vide intérieur, carte ${i + 1}, fermé`).toBeLessThanOrEqual(25);
+
+      // Tour 4.1 : un seul modèle Vidéo dès 768 px (miniature et titre côte à côte, accordéons pleine largeur).
+      if (largeur >= 768) {
+        const modele = await page.evaluate(() => {
+          const lecteur = document.querySelector("button[aria-label^='Lire la vidéo']")?.parentElement as HTMLElement;
+          const bloc = lecteur.parentElement as HTMLElement;
+          const titre = bloc.lastElementChild as HTMLElement;
+          const corps = bloc.parentElement as HTMLElement;
+          const accordeons = bloc.nextElementSibling as HTMLElement;
+          const style = getComputedStyle(corps);
+          const interieur = corps.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+          const l = lecteur.getBoundingClientRect();
+          const t = titre.getBoundingClientRect();
+          return { cote: t.left >= l.right, memeHaut: Math.abs(t.top - l.top), accordeons: accordeons.getBoundingClientRect().width - interieur };
+        });
+        expect(modele.cote, "titre à droite de la miniature").toBe(true);
+        expect(modele.memeHaut, "titre aligné sur le haut de la miniature").toBeLessThanOrEqual(0.5);
+        expect(Math.abs(modele.accordeons), "accordéons vidéo pleine largeur").toBeLessThanOrEqual(0.5);
       }
       if (largeur >= 1024) {
         const [bandeau, conseil, video] = avant;
@@ -177,9 +188,19 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
       for (const o of ouvertures) {
         await o.agir();
         await page.waitForTimeout(400);
+        if (o.nom === "chute") {
+          // Tour 4.1 : la chute ne retombe pas sous les trois quarts de l'énoncé.
+          const tailles = await page.evaluate(() => {
+            const place = document.getElementById("chute-du-jour") as HTMLElement;
+            const enonce = place.previousElementSibling as HTMLElement;
+            const chute = place.querySelector("p") as HTMLElement;
+            return [parseFloat(getComputedStyle(enonce).fontSize), parseFloat(getComputedStyle(chute).fontSize)];
+          });
+          expect(tailles[1], `chute ${tailles[1]} px pour un énoncé de ${tailles[0]} px`).toBeGreaterThanOrEqual(0.75 * tailles[0]);
+        }
         const apres = await cotes(page);
         for (const [i, c] of apres.entries()) {
-          if (!c.reparti) expect(c.videMax, `vide intérieur, carte ${i + 1}, après « ${o.nom} »`).toBeLessThanOrEqual(25);
+          expect(c.videMax, `vide intérieur, carte ${i + 1}, après « ${o.nom} »`).toBeLessThanOrEqual(25);
           if (i === o.carte || apres[i].haut > avant[o.carte].bas) continue; // la carte ouverte, ou une carte placée dessous
           expect(Math.abs(c.haut - avant[i].haut), `carte ${i + 1} déplacée par « ${o.nom} »`).toBeLessThanOrEqual(0.5);
           expect(Math.abs(c.bas - avant[i].bas), `carte ${i + 1} étirée par « ${o.nom} »`).toBeLessThanOrEqual(24.5);
