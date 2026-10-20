@@ -8,7 +8,7 @@ Bonjour Christophe,
 
 Merci pour votre retour. Comme annoncé, l'article prend votre scène des vacances à revers : la blague y vise l'autre au lieu de la situation. Il s'ouvre sur un restaurant « terrasse avec vue sur le port », où le port est un parking, et sur deux répliques qui commencent par la même phrase, dont l'une peut piquer.
 
-Il fait environ 1 500 mots, vouvoie le lecteur et suit votre format (chapô en gras, intertitres). Il cite « La légèreté, ça se propose, ça ne s'impose pas » et « Oser rire de ses propres maladresses ».
+Il fait environ 1 500 mots, vouvoie le lecteur et suit votre format (chapô en gras, intertitres). Il renvoie à votre article dès le chapô et cite « La légèreté, ça se propose, ça ne s'impose pas ».
 
 Sources : Rod Martin et ses collègues (dont l'étude de Campbell, Martin et Ward sur l'humour pendant les désaccords de couple), et des études sur la taquinerie (Keltner, Kruger), volontairement pas Hall ni Gottman, que vous citez déjà. Un seul lien, là où il sert au lecteur : rire de soi sans se rabaisser.
 
