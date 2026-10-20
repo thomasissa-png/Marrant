@@ -20,3 +20,6 @@ Note chaque critère sur 10 ; toute note sous 10 cite la capture exacte (nom de 
 
 ## Principe retenu à partir du tour 3 (arbitrage, à ne pas rouvrir)
 Les cartes ne sont plus étirées à la même hauteur : chacune a sa hauteur naturelle, et ouvrir un contenu n'agrandit que sa carte. Les bas de cartes peuvent donc différer sur PC. Ce qui est jugé : l'absence de vide intérieur (rien de plus de 24 px de vide inexpliqué dans une carte), l'équilibre global de la rangée, et le fait que les voisines ne bougent pas quand on ouvre quelque chose. « Révéler la chute » reste collé à la vanne (demande du fondateur).
+
+## Principe retenu à partir du tour 4 (remplace celui du tour 3, choix du fondateur)
+Thomas a jugé la v3 « sans harmonie ». Composition retenue dès 1024 px : la Vanne en bandeau pleine largeur en haut, puis Conseil et Vidéo côte à côte, de même hauteur, pieds alignés. Sous 1024 px : pile Vanne, Conseil, Vidéo. Ce qui est jugé : l'harmonie de l'ensemble, l'absence de vide intérieur (> 24 px), « Révéler la chute » collé à la vanne.
