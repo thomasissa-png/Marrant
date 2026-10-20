@@ -136,7 +136,11 @@ const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-el
 const ACCORDEON_TITRE =
   "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
 
-const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary [text-wrap:pretty]";
+/**
+ * Corps d'accordéon : paragraphes en `wrap` (tour 4.3). Mesuré sur « À toi de jouer » à 1440 : `pretty` (règle
+ * globale des `p`) arrêtait les lignes 91 et 98 px avant le bord, `wrap` 41 et 78 px ; `balance` n'est plus utilisé.
+ */
+const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary [&_p]:[text-wrap:wrap]";
 
 const TITRE_CARTE = `font-display text-lg font-bold leading-6 text-text-primary [text-wrap:balance] ${ESPACE_MOTS}`;
 
