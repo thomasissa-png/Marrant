@@ -290,7 +290,9 @@ export function DailyContent() {
         setConseilTronque(entier > LIGNES_EXTRAIT * LIGNE + 1);
         return;
       }
-      if (rangeeOuverte) return; // lignes et miniature figées tant qu'un accordéon de la rangée est ouvert
+      // Lignes et miniature figées tant qu'un accordéon de la rangée est ouvert. Lecture directe du DOM : l'événement
+      // `toggle` arrive après le ResizeObserver, l'état React seul laisserait passer une mesure avec l'accordéon ouvert.
+      if (rangeeOuverte || rangeeRef.current?.querySelector("details[open]")) return;
       const hauteurExtrait = (n: number) => (entier <= n * LIGNE + 1 ? entier : n * LIGNE + LIEN_SUITE);
       const autresVideo = hauteurNaturelle(corpsV, new Map([[bloc, 0]]));
       const ecart = parseFloat(getComputedStyle(bloc).columnGap) || 0;

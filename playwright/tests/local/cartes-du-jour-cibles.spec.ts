@@ -234,3 +234,27 @@ test.describe("Accueil, cartes du jour : focus sur « Lire la suite »", () => {
     });
   }
 });
+
+/** Tour 4.1 : ouvrir tous les accordéons d'un coup ne relance pas l'ajustement (miniature et extrait figés). */
+test.describe("Accueil, cartes du jour : rangée figée à l'ouverture", () => {
+  localSeulement();
+
+  for (const largeur of [1024, 1440]) {
+    test(`miniature et extrait inchangés à ${largeur} px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/");
+      await expect(page.getByRole("button", { name: "Révéler la chute" })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(300);
+      const lire = () =>
+        page.evaluate(() => [
+          (document.querySelector("button[aria-label^='Lire la vidéo']")?.parentElement as HTMLElement).getBoundingClientRect().width,
+          (document.getElementById("conseil-du-jour-texte") as HTMLElement).style.maxHeight,
+        ]);
+      const avant = await lire();
+      await page.evaluate(() => document.querySelectorAll("section[aria-labelledby='contenu-du-jour-titre'] details").forEach((d) => ((d as HTMLDetailsElement).open = true)));
+      await page.waitForTimeout(400);
+      expect(await lire()).toEqual(avant);
+    });
+  }
+});
