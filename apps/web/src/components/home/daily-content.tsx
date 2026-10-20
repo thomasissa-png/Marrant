@@ -429,12 +429,13 @@ export function DailyContent() {
             </EnTete>
             {data.video ? (
               <>
-                {/* De 768 à 1279 px : lecteur à gauche ; titre en haut et accordéons en bas à droite (V3.3). */}
+                {/* De 768 à 1279 px : lecteur à gauche ; à droite, titre, chaîne et durée, puis accordéons 16 px
+                    dessous, empilés en haut (tour 3.1 : plus de justify-between, aucun vide intérieur). */}
                 <div className="grid gap-4 md:max-xl:grid-cols-2 md:max-xl:gap-6">
                   <div className="relative aspect-video self-start overflow-hidden rounded-lg bg-background-elevated">
                     <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
                   </div>
-                  <div className="flex flex-col gap-4 md:max-xl:justify-between">
+                  <div className="flex flex-col gap-4">
                     <div>
                       <h3 className={`${TITRE_CARTE} line-clamp-3`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (

@@ -111,11 +111,16 @@ test.describe("Accueil, cartes du jour : hauteurs naturelles", () => {
         const blocs = Array.from(corps.children).filter((b) => (b as HTMLElement).offsetHeight > 0).map((b) => b.getBoundingClientRect());
         const vides = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
         vides.push(r.bottom - blocs[blocs.length - 1].bottom);
+        // Tour 3.1 : aussi entre les blocs empilés à l'intérieur (colonne de droite de la Vidéo de 768 à 1279 px).
+        for (const pile of Array.from(corps.querySelectorAll(".flex-col"))) {
+          const enfants = Array.from(pile.children).filter((b) => (b as HTMLElement).offsetHeight > 0).map((b) => b.getBoundingClientRect());
+          vides.push(...enfants.slice(1).map((b, i) => b.top - enfants[i].bottom));
+        }
         return { haut: r.top + window.scrollY, bas: r.bottom + window.scrollY, videMax: Math.max(...vides) };
       });
     });
 
-  for (const largeur of [375, 1024, 1280, 1440]) {
+  for (const largeur of [375, 768, 1024, 1280, 1440]) {
     test(`aucun vide intérieur > 24 px, voisines immobiles à ${largeur} px`, async ({ page }) => {
       await page.setViewportSize({ width: largeur, height: 900 });
       await page.goto("/");
