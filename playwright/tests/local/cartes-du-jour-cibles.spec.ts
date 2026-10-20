@@ -118,9 +118,16 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
           vides.push(...enfants.slice(1).map((b, i) => b.top - enfants[i].bottom));
         }
         const pied = corps.querySelector(":scope > .border-t") as HTMLElement | null;
-        // Conseil court (V4.3) : espace réparti en parts égales entre les blocs (justify-between), vide accepté.
-        const reparti = getComputedStyle(corps).justifyContent === "space-between";
+        // Conseil court (V4.3) : reste de plus d'une ligne réparti en parts égales entre les blocs, vide accepté.
+        const reparti = !!corps.querySelector("[data-extrait='court']");
         const ecarts = blocs.slice(1).map((b, i) => b.top - blocs[i].bottom);
+        const lien = Array.from(corps.querySelectorAll("button")).find((b) => b.textContent === "Lire la suite");
+        // « Lire la suite » : encombrement visuel de 20 px (zone de 44 px en marges négatives, V3.4).
+        if (lien) {
+          const r2 = lien.getBoundingClientRect();
+          const suivant = (lien.parentElement as HTMLElement).nextElementSibling?.getBoundingClientRect();
+          if (suivant) vides.push(suivant.top - (r2.bottom - 12));
+        }
         return {
           reparti,
           ecartsEgaux: Math.max(...ecarts) - Math.min(...ecarts) <= 1,
@@ -179,6 +186,30 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
         }
         avant = apres;
       }
+    });
+  }
+});
+
+/** Focus clavier sur « Lire la suite » dès 1024 px : l'extrait ne défile pas (1re ligne jamais coupée). */
+test.describe("Accueil, cartes du jour : focus sur « Lire la suite »", () => {
+  localSeulement();
+
+  for (const largeur of [1280, 1440]) {
+    test(`extrait immobile au focus à ${largeur} px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/");
+      await expect(page.getByRole("button", { name: "Révéler la chute" })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(300);
+      const lien = page.getByRole("button", { name: "Lire la suite" });
+      test.skip((await lien.count()) === 0, "conseil du jour entier à cette largeur");
+      await page.keyboard.press("Tab");
+      await lien.focus();
+      const decalages = await page.evaluate(() => {
+        const texte = document.getElementById("conseil-du-jour-texte") as HTMLElement;
+        return [texte.scrollTop, (texte.parentElement as HTMLElement).scrollTop];
+      });
+      expect(decalages, "défilement interne de l'extrait").toEqual([0, 0]);
     });
   }
 });

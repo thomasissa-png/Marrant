@@ -204,10 +204,15 @@ function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children:
   );
 }
 
-/** Extrait du Conseil dès 1024 px (V4.3) : lignes affichées (`null` = texte entier), conseil court, hauteur fermée. */
+/**
+ * Extrait du Conseil dès 1024 px (V4.3) : lignes affichées (`null` = texte entier) et conseil court (reste
+ * supérieur à une ligne). Le reste est réparti en parts égales entre les blocs de la carte (justify-between) :
+ * moins de 6 px de plus par écart pour un extrait tronqué, au lieu d'un vide sous « Lire la suite ».
+ */
 interface ExtraitLarge {
   lignes: number | null;
   court: boolean;
+  /** Hauteur donnée au bloc de l'extrait : lignes retenues + « Lire la suite », ou texte entier. */
   hauteur: number;
 }
 
@@ -268,7 +273,7 @@ export function DailyContent() {
         setConseilTronque(texte.scrollHeight > texte.clientHeight + 1);
         return;
       }
-      if (rangeeOuverte) return; // hauteur fermée mémorisée tant que l'ouverture dure
+      if (rangeeOuverte) return; // lignes figées tant qu'un accordéon de la rangée est ouvert
       const style = getComputedStyle(corps);
       const autres = Array.from(corps.children).filter((e) => e !== extrait && (e as HTMLElement).offsetHeight > 0);
       const dispo =
@@ -280,8 +285,11 @@ export function DailyContent() {
       const entier = texte.scrollHeight;
       const suivant: ExtraitLarge =
         entier <= dispo + 1
-          ? { lignes: null, court: dispo - entier > LIGNE, hauteur: dispo }
-          : { lignes: Math.max(2, Math.floor((dispo - LIEN_SUITE) / LIGNE)), court: false, hauteur: dispo };
+          ? { lignes: null, court: dispo - entier > LIGNE, hauteur: entier }
+          : (() => {
+              const lignes = Math.max(2, Math.floor((dispo - LIEN_SUITE) / LIGNE));
+              return { lignes, court: false, hauteur: lignes * LIGNE + LIEN_SUITE };
+            })();
       setExtraitLarge((avant) =>
         avant && avant.lignes === suivant.lignes && avant.court === suivant.court && Math.abs(avant.hauteur - suivant.hauteur) < 1
           ? avant
@@ -330,7 +338,6 @@ export function DailyContent() {
   const chaine = data.video && !chaineRedondante(data.video.title, data.video.channelName) ? data.video.channelName : "";
   const aDesAccordeonsVideo = !!data.video && ((data.video.learnings?.length ?? 0) > 0 || !!data.video.exercise);
   // Extrait du Conseil : sous 1024 px, 4 lignes (V3.4) ; dès 1024 px, n lignes mesurées ou texte entier (V4.3).
-  const conseilCourt = !!extraitLarge?.court && !conseilDeplie;
   const lienSuite = conseilDeplie || (extraitLarge ? extraitLarge.lignes !== null : conseilTronque);
   const extraitClasses = conseilDeplie
     ? ""
@@ -339,10 +346,14 @@ export function DailyContent() {
       : `${EXTRAIT} ${conseilTronque ? FONDU : ""}`;
   const extraitStyle =
     !conseilDeplie && extraitLarge?.lignes ? { maxHeight: extraitLarge.lignes * LIGNE } : undefined;
-  const conteneurExtrait =
-    conseilDeplie || conseilCourt ? "" : "lg:min-h-12 lg:flex-1 lg:basis-0 lg:overflow-hidden";
+  // Dès 1024 px, le bloc de l'extrait ne compte pour rien dans la hauteur de la rangée tant qu'il n'est pas
+  // mesuré (flex-1, base 0), puis reçoit exactement la hauteur retenue : jamais plus haut que la place laissée.
+  const conteneurExtrait = conseilDeplie ? "" : "lg:min-h-12 lg:flex-1 lg:basis-0 lg:overflow-hidden";
+  // Débordement visible une fois la hauteur fixée : la zone de 44 px de « Lire la suite » dépasse de 12 px, et
+  // un conteneur `overflow-hidden` défilerait au focus clavier en coupant la 1re ligne du conseil.
   const conteneurStyle =
-    rangeeOuverte && extraitLarge && !conseilDeplie && !conseilCourt ? { height: extraitLarge.hauteur, flex: "none" } : undefined;
+    !conseilDeplie && extraitLarge ? { height: extraitLarge.hauteur, flex: "none", overflow: "visible" } : undefined;
+  const etatExtrait = conseilDeplie ? "deplie" : !extraitLarge ? "pile" : extraitLarge.court ? "court" : extraitLarge.lignes ? "tronque" : "entier";
 
   return (
     <section aria-labelledby="contenu-du-jour-titre" className="pb-12 pt-8 md:py-16">
@@ -429,7 +440,7 @@ export function DailyContent() {
           {/* Conseil du jour : l'extrait prend la place laissée par la Vidéo dès 1024 px (V4.3). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1 ${conseilCourt ? "lg:justify-between" : ""}`}>
+            <div ref={corpsConseilRef} className={`${CORPS_CARTE} lg:flex-1 lg:justify-between`}>
               <EnTete icone={<Lightbulb {...ICONE} size={22} />} type="Conseil du jour">
                 {data.tip && (
                   <>
@@ -446,7 +457,12 @@ export function DailyContent() {
                 <>
                   <h3 className={TITRE_CARTE}>{frTypo(data.tip.title)}</h3>
                   {/* Lignes entières, dernière en fondu, texte complet dans le DOM (V3.4, V4.3). */}
-                  <div ref={extraitRef} className={`flex flex-col items-start gap-2 ${conteneurExtrait}`} style={conteneurStyle}>
+                  <div
+                    ref={extraitRef}
+                    data-extrait={etatExtrait}
+                    className={`flex flex-col items-start gap-2 ${conteneurExtrait}`}
+                    style={conteneurStyle}
+                  >
                     <p
                       id="conseil-du-jour-texte"
                       ref={conseilRef}
@@ -482,7 +498,7 @@ export function DailyContent() {
                       )}
                     </div>
                   )}
-                  <Pied bas={!conseilCourt}>
+                  <Pied>
                     <ShareButton
                       title="Conseil du jour · deviens-marrant.fr"
                       text={`${data.tip.title}\n${data.tip.content}`}
