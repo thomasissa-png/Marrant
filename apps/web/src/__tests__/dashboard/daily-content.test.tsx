@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { DailyContent } from "@/components/home/daily-content";
+import { DailyContent, guillemetsImbriques } from "@/components/home/daily-content";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn().mockReturnValue({ status: "authenticated" }),
@@ -134,6 +134,10 @@ describe("DailyContent", () => {
     const emplacement = container.querySelector("#chute-du-jour");
     expect(emplacement).toHaveAttribute("aria-live", "polite");
     expect(emplacement).toContainElement(screen.getByRole("button", { name: "Révéler la chute" }));
+    // Avant le clic, la chute n'existe que dans le clone invisible qui réserve sa hauteur (V2.2 a).
+    const clone = screen.getByText("Parce que sinon ils tomberaient dans le bateau.").closest("[aria-hidden='true']");
+    expect(clone).not.toBeNull();
+    expect(clone).toHaveClass("invisible");
 
     await userEvent.click(screen.getByRole("button", { name: "Révéler la chute" }));
 
@@ -142,6 +146,8 @@ describe("DailyContent", () => {
     expect(screen.queryByRole("button", { name: "Révéler la chute" })).not.toBeInTheDocument();
     const chute = screen.getByText("Parce que sinon ils tomberaient dans le bateau.");
     expect(emplacement).toContainElement(chute);
+    expect(screen.getAllByText("Parce que sinon ils tomberaient dans le bateau.")).toHaveLength(1);
+    expect(chute.closest("[aria-hidden='true']")).toBeNull();
     // Focus clavier déplacé sur la chute (conteneur focusable par script uniquement).
     const cible = chute.closest("[tabindex='-1']");
     expect(cible).not.toBeNull();
@@ -159,8 +165,10 @@ describe("DailyContent", () => {
     const accordeon = titre.closest("details");
     expect(accordeon).not.toBeNull();
     expect(accordeon).not.toHaveAttribute("open");
-    // Nom de la technique sur la 2e ligne du titre, sans « : ».
-    expect(titre.closest("summary")).toHaveTextContent(/^Pourquoi ça marcheLa logique absurde$/);
+    expect(accordeon).not.toHaveAttribute("aria-hidden");
+    // Un seul format d'en-tête (V2.6) : « Pourquoi ça marche » seul, la technique ouvre le corps.
+    expect(titre).toHaveTextContent(/^Pourquoi ça marche$/);
+    expect(accordeon?.querySelector("summary + div > p")).toHaveTextContent("La logique absurde");
 
     await userEvent.click(titre);
     expect(accordeon).toHaveAttribute("open");
@@ -175,6 +183,43 @@ describe("DailyContent", () => {
       expect(screen.getByText(type).tagName).toBe("P");
     }
     expect(container.querySelector(".bg-accent-primary\\/20, .bg-accent-secondary\\/30")).toBeNull();
+  });
+
+  it("shows « Lire la suite » only when the tip text is truncated, and unfolds it in place (V2.3)", async () => {
+    const hauteurs = jest.spyOn(HTMLElement.prototype, "scrollHeight", "get").mockReturnValue(240);
+    const visibles = jest.spyOn(HTMLElement.prototype, "clientHeight", "get").mockReturnValue(144);
+    try {
+      render(<DailyContent />);
+      const bouton = await screen.findByRole("button", { name: "Lire la suite" });
+      const texte = screen.getByText("Fais une pause avant la chute.");
+      expect(bouton).toHaveAttribute("aria-expanded", "false");
+      expect(bouton).toHaveAttribute("aria-controls", texte.id);
+      expect(texte).toHaveClass("line-clamp-4", "md:line-clamp-6");
+
+      await userEvent.click(bouton);
+      expect(screen.getByRole("button", { name: "Réduire" })).toHaveAttribute("aria-expanded", "true");
+      expect(texte).not.toHaveClass("line-clamp-4");
+    } finally {
+      hauteurs.mockRestore();
+      visibles.mockRestore();
+    }
+  });
+
+  it("hides « Lire la suite » when the tip text fits", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Fais une pause avant la chute.")).toBeInTheDocument();
+    });
+    expect(screen.queryByRole("button", { name: "Lire la suite" })).not.toBeInTheDocument();
+  });
+
+  it("renders nested quotes as “…” inside « … » (display only, V2.5)", () => {
+    const nbsp = String.fromCharCode(0xa0);
+    expect(guillemetsImbriques(`Ex${nbsp}: «${nbsp}Ils disent${nbsp}: «${nbsp}Non non.${nbsp}»${nbsp}»`)).toBe(
+      `Ex${nbsp}: «${nbsp}Ils disent${nbsp}: “Non non.”${nbsp}»`,
+    );
+    expect(guillemetsImbriques(`«${nbsp}Un${nbsp}» et «${nbsp}deux${nbsp}»`)).toBe(`«${nbsp}Un${nbsp}» et «${nbsp}deux${nbsp}»`);
+    expect(guillemetsImbriques("» orphelin puis « ouvert »")).toBe("» orphelin puis « ouvert »");
   });
 
   it("is a labelled section, not a focusable scroll region (cartes du jour §2.2)", async () => {
@@ -382,10 +427,14 @@ describe("DailyContent", () => {
       expect(screen.getByText("Révéler la chute")).toBeInTheDocument();
     });
 
-    // Avant révélation : pas de décryptage visible
-    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
+    // Avant révélation : décryptage seulement réservé, masqué et hors de l'arbre d'accessibilité (V2.2 b).
+    const reserve = screen.getByText(/Pourquoi ça marche/).closest("details");
+    expect(reserve).toHaveAttribute("aria-hidden", "true");
+    expect(reserve).toHaveClass("invisible");
 
     await userEvent.click(screen.getByText("Révéler la chute"));
+    expect(screen.getByText(/Pourquoi ça marche/).closest("details")).not.toHaveAttribute("aria-hidden");
+    expect(screen.getByText(/Pourquoi ça marche/).closest("details")).not.toHaveClass("invisible");
 
     expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
     expect(screen.getByText("À toi de jouer")).toBeInTheDocument();

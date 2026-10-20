@@ -36,8 +36,9 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
  * mêmes marges que le contenu et le pied ; identique à 1440, 1536 et 1920). Tout est
  * `shrink-0` : rien ne s'écrase en silence.
  *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-1.5 depuis s21 :
- *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~478 dès
- *    1280 (px-2 depuis la revue v3 m4, pour le libellé complet du bouton prix) ;
+ *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), px-1.5 aussi
+ *    dès 1280 (cartes du jour v2 : en px-2, le bouton prix finissait 21 px dans la marge de
+ *    droite, hors du bord de la grille ; 28 px regagnés) ;
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
  *  - actions : visiteur « Connexion » + « 2,99 €/mois » de 1024 à 1279, « Premium · 2,99 €/mois »
@@ -147,7 +148,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
+                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -182,7 +183,8 @@ export function Header() {
             {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
                 (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
                 Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
-                29 manquants) et libellé complet. QA v4 m-3 : même bouton pour le compte sans
+                29 manquants) et libellé complet ; cartes du jour v2 : px-1.5 (bouton aligné sur
+                le bord droit de la grille). QA v4 m-3 : même bouton pour le compte sans
                 abonnement (plus de « Activer mon accès »), suivi du menu de compte (44 px,
                 plus étroit que « Connexion »). */}
             {!isPremium && !pageChaude && (

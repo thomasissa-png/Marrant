@@ -9,6 +9,11 @@ interface YouTubePlayerProps {
   title: string;
   /** Première vignette visible : chargée en priorité (T22). */
   priority?: boolean;
+  /**
+   * Cartes du jour v2 (V2.6) : « serre » agrandit la vignette de 5 % depuis le haut (≈ 9 px coupés en bas,
+   * plus de bande résiduelle de la source). Sans la prop, rendu inchangé (/videos, fiches).
+   */
+  recadrage?: "serre";
 }
 
 /**
@@ -16,7 +21,7 @@ interface YouTubePlayerProps {
  * charge l'iframe uniquement quand l'utilisateur appuie sur play.
  * Beaucoup plus léger et fiable sur mobile.
  */
-export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePlayerProps) {
+export function YouTubePlayer({ youtubeId, title, priority = false, recadrage }: YouTubePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [thumbFailed, setThumbFailed] = useState(false);
 
@@ -57,7 +62,7 @@ export function YouTubePlayer({ youtubeId, title, priority = false }: YouTubePla
           alt={title}
           width={480}
           height={360}
-          className="absolute inset-0 h-full w-full object-cover"
+          className={`absolute inset-0 h-full w-full object-cover${recadrage === "serre" ? " origin-top scale-[1.05]" : ""}`}
           priority={priority}
           loading={priority ? undefined : "lazy"}
           onError={() => setThumbFailed(true)}

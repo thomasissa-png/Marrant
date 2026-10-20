@@ -73,7 +73,9 @@ async function mesurer(page: Page) {
       const place = champ.clientWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight);
       recherche = { largeur: champ.getBoundingClientRect().width, aideEntiere: ctx.measureText(champ.placeholder).width <= place };
     }
-    return { fenetre: window.innerWidth, scroll: document.documentElement.scrollWidth, barre: { scroll: barre.scrollWidth, client: barre.clientWidth }, enfants, controles, recherche };
+    // Bord droit du contenu de la barre (hors marge interne) = bord droit de la grille des pages.
+    const bordContenu = barre.getBoundingClientRect().right - parseFloat(getComputedStyle(barre).paddingRight);
+    return { fenetre: window.innerWidth, scroll: document.documentElement.scrollWidth, barre: { scroll: barre.scrollWidth, client: barre.clientWidth }, bordContenu, enfants, controles, recherche };
   });
 }
 
@@ -125,6 +127,9 @@ test.describe("En-tête : budget de largeur", () => {
 
           expect(m.scroll, `défilement horizontal de la page, ${ici}`).toBeLessThanOrEqual(m.fenetre);
           expect(m.barre.scroll, `barre plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
+          // Cartes du jour v2 : rien ne déborde dans la marge interne de la barre (le bouton prix
+          // finissait 21 px à droite du bord de la grille à 1280 et 1440 px, sans défilement).
+          expect(plusADroite, `la barre déborde dans sa marge de droite, ${ici}`).toBeLessThanOrEqual(m.bordContenu + 0.5);
           for (const c of m.controles) {
             expect(c.droite, `« ${c.nom} » sort à droite, ${ici}`).toBeLessThanOrEqual(m.fenetre + 0.5);
             expect(c.gauche, `« ${c.nom} » sort à gauche, ${ici}`).toBeGreaterThanOrEqual(-0.5);
