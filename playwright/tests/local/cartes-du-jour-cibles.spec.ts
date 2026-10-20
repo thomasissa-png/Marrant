@@ -160,8 +160,16 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
           const interieur = corps.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
           const l = lecteur.getBoundingClientRect();
           const t = titre.getBoundingClientRect();
-          return { cote: t.left >= l.right, memeHaut: Math.abs(t.top - l.top), accordeons: accordeons.getBoundingClientRect().width - interieur };
+          const h3 = titre.querySelector("h3") as HTMLElement;
+          return {
+            cote: t.left >= l.right,
+            memeHaut: Math.abs(t.top - l.top),
+            accordeons: accordeons.getBoundingClientRect().width - interieur,
+            lignesTitre: Math.round(h3.getBoundingClientRect().height / parseFloat(getComputedStyle(h3).lineHeight)),
+          };
         });
+        // Titre vidéo sur 2 lignes au plus ; à 1024 px, dernier recours documenté (colonne de 428 px) : 3 lignes.
+        expect(modele.lignesTitre, "lignes du titre vidéo").toBeLessThanOrEqual(largeur === 1024 ? 3 : 2);
         expect(modele.cote, "titre à droite de la miniature").toBe(true);
         expect(modele.memeHaut, "titre aligné sur le haut de la miniature").toBeLessThanOrEqual(0.5);
         expect(Math.abs(modele.accordeons), "accordéons vidéo pleine largeur").toBeLessThanOrEqual(0.5);

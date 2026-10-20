@@ -212,6 +212,25 @@ const LIGNES_EXTRAIT = 4;
 const TITRE_MIN = 200;
 const MINIATURE_MIN = 160;
 
+/**
+ * Largeur minimale pour que le titre vidéo tienne sur 2 lignes (tour 4.1) : meilleure coupure en deux, mesurée
+ * au canvas avec la police et l'espacement des mots du titre. Coupures seulement sur les espaces ordinaires.
+ */
+function largeurTitreDeuxLignes(titre: HTMLElement): number {
+  const contexte = document.createElement("canvas").getContext("2d");
+  if (!contexte) return TITRE_MIN;
+  const style = getComputedStyle(titre);
+  contexte.font = `${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+  const espace = contexte.measureText(" ").width + (parseFloat(style.wordSpacing) || 0);
+  const mots = (titre.textContent ?? "").split(/[ \t\n]+/).filter(Boolean).map((m) => contexte.measureText(m).width);
+  const ligne = (debut: number, fin: number) =>
+    mots.slice(debut, fin).reduce((somme, l) => somme + l, 0) + espace * Math.max(0, fin - debut - 1);
+  if (mots.length < 2) return Math.ceil(ligne(0, mots.length));
+  let meilleure = Infinity;
+  for (let k = 1; k < mots.length; k++) meilleure = Math.min(meilleure, Math.max(ligne(0, k), ligne(k, mots.length)));
+  return Math.ceil(meilleure) + 2;
+}
+
 /** Hauteur naturelle d'un corps de carte (marges, blocs, écarts), avec des hauteurs imposées pour certains blocs. */
 function hauteurNaturelle(corps: HTMLElement, imposees: Map<Element, number>): number {
   const style = getComputedStyle(corps);
@@ -296,9 +315,12 @@ export function DailyContent() {
       const hauteurExtrait = (n: number) => (entier <= n * LIGNE + 1 ? entier : n * LIGNE + LIEN_SUITE);
       const autresVideo = hauteurNaturelle(corpsV, new Map([[bloc, 0]]));
       const ecart = parseFloat(getComputedStyle(bloc).columnGap) || 0;
-      const largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - TITRE_MIN);
+      // Priorités : rangée égale sans écart gonflé, puis titre sur 2 lignes, puis extrait de 4 lignes.
+      const h3 = titre.querySelector("h3") as HTMLElement | null;
+      const titreDeuxLignes = h3 ? Math.max(TITRE_MIN, largeurTitreDeuxLignes(h3)) : TITRE_MIN;
+      let largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - titreDeuxLignes);
       const hauteurMin = Math.max(titre.offsetHeight, (MINIATURE_MIN * 9) / 16);
-      const hauteurMax = (largeurMax * 9) / 16;
+      let hauteurMax = (largeurMax * 9) / 16;
       let n = LIGNES_EXTRAIT;
       let cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
       for (let essai = 0; essai < 10; essai++) {
@@ -306,6 +328,11 @@ export function DailyContent() {
         else if (cible < hauteurMin && entier > n * LIGNE + 1) n++;
         else break;
         cible = hauteurNaturelle(corpsC, new Map([[extrait, hauteurExtrait(n)]])) - autresVideo;
+      }
+      if (cible > hauteurMax) {
+        // Dernier recours (colonne étroite) : le titre reprend une 3e ligne plutôt qu'un écart gonflé.
+        largeurMax = Math.max(MINIATURE_MIN, bloc.clientWidth - ecart - TITRE_MIN);
+        hauteurMax = (largeurMax * 9) / 16;
       }
       const largeur = Math.round(Math.min(largeurMax, Math.max(MINIATURE_MIN, (Math.max(cible, hauteurMin) * 16) / 9)) * 2) / 2;
       setLignes(n);
