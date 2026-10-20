@@ -1,6 +1,6 @@
 # Cartes du jour : captures « après » v4.4
 
-Branche `claude/marrant-cartes-du-jour`, code `87abc26` (v4.3 + tour 4.4 + échelle typographique demandée par Thomas). Build de production local, un seul serveur standalone, PostgreSQL 16 jetable (`scripts/seed.sh`), Chromium, DPR 1, contenu du jour du 20/10/2026. Viewport complet, header inclus, section 24 px sous le header sticky. Profil visiteur seul.
+Branche `claude/marrant-cartes-du-jour`, code `87abc26` (v4.3 + tour 4.4 + échelle typographique demandée par Thomas). Captures 768 et 1024 reprises sur `30b50f9` (arbitrage 1024 : pile d'une colonne jusqu'à 1279 px). Build de production local, un seul serveur standalone, PostgreSQL 16 jetable (`scripts/seed.sh`), Chromium, DPR 1, contenu du jour du 20/10/2026. Viewport complet, header inclus, section 24 px sous le header sticky. Profil visiteur seul.
 
 Même liste que `apres-v4-3/` (65 fichiers), nommés `<largeur>-visiteur-<etat>.png`. Les jeux réels et les 3 autres miniatures sont injectés dans le navigateur de capture seulement.
 
@@ -14,7 +14,7 @@ Même liste que `apres-v4-3/` (65 fichiers), nommés `<largeur>-visiteur-<etat>.
 | En-têtes de carte, chaîne · durée | 14 | 14 | 14 |
 | Pastilles | 12 | 12 | 12 |
 
-Taille du titre de 1024 à 1279 px : 20 px ne tient pas sur 2 lignes à côté de la miniature, donc 18 px dans les deux cartes (règle « 20 si ça tient, sinon 18 »).
+Titres en 18/26 sous 1280 px, comme le veut l'échelle.
 
 Hors échelle, non modifiés :
 - le H2 « Ton contenu du jour » (taille commune à toutes les sections de l'accueil) ;
@@ -27,7 +27,7 @@ Hors échelle, non modifiés :
 - **« Lire la suite ».** Le lien est à 12 px de l'extrait : sa zone de 44 px ne recouvre plus la dernière ligne.
 - **Courtes répliques.** Deux premiers mots et deux derniers mots liés : pas de coupure « “Non / non », pas de veuve « repose-toi.” » ».
 - **Titre vidéo.** Au moins 16 px de marge à droite (18 à 22 px mesurés).
-- **1024 px.** Gouttières de rangée à 16 px et écart miniature/titre de 8 px. Les gouttières de page ne sont pas modifiées : elles sont communes au site.
+- **Arbitrage 1024 (`30b50f9`).** De 768 à 1279 px : pile d'une colonne, de 720 px centrée (Vanne, Conseil, Vidéo). La Vidéo garde le modèle de la pile : miniature et titre côte à côte, accordéons dessous. Bandeau Vanne et rangée égalisée seulement dès 1280 px. Le repli en hauteurs naturelles est retiré, et les gouttières de 16 px à 1024 avec lui.
 
 ## Cotes relevées (px)
 
@@ -35,8 +35,8 @@ Hors échelle, non modifiés :
 |---|---|---|---|---|---|
 | 320 | 319 / 511 | 483 / 542 (pile) | 254 | 2 lignes | 3 lignes |
 | 375 | 319 / 511 | 483 / 573 (pile) | 309 | 2 lignes | 3 lignes |
-| 768 | 297 / 399 | 489 / 448 (pile) | 237 | 2 lignes, 18 px | 4 lignes |
-| 1024 | 303 / 417 | **465 / 406 (hauteurs naturelles)** | **161** | 2 lignes, 18 px | 3 lignes |
+| 768 | 297 / 399 | 489 / 485 (pile de 720 px) | 302 | 2 lignes, 18 px | 4 lignes |
+| 1024 | 303 / 417 | 489 / 485 (pile de 720 px) | 302 | 2 lignes, 18 px | 4 lignes |
 | 1280 | 303 / 417 | 467 / 467 | 235 | 2 lignes, 20 px | 3 lignes |
 | 1440 | 303 / 417 | 467 / 467 | 235 | 2 lignes, 20 px | 3 lignes |
 
@@ -50,12 +50,7 @@ Tests Playwright `cartes-du-jour-cibles` et `header-budget` : 31 verts. Ajoutés
 - gouttières de 16 px à 1024 ;
 - rangée égalisée dès 1280.
 
-## Écart à arbitrer : 1024 px
-Avec un titre vidéo d'au moins 18 px sur 2 lignes et 16 px de marge, la miniature est limitée à 161 px. Il manque alors 59 px à la Vidéo pour égaler le Conseil. Les écarts entre blocs n'en absorbent que 24 sans dépasser 24 px, et même un extrait de 2 lignes en laisserait 11.
+## Arbitrage 1024 px (appliqué)
+En v4.4 initiale, la rangée à 2 colonnes ne tenait pas à 1024 px. Un titre vidéo de 18 px sur 2 lignes avec 16 px de marge limitait la miniature à 161 px, et il manquait 59 px à la Vidéo. La variante « miniature pleine largeur » laissait 70 px, car le conseil du jour tient en entier en 8 lignes.
 
-Repli appliqué : à 1024 seulement, la rangée passe en hauteurs naturelles (`data-libre`, cartes alignées en haut, écarts de 16 px), sans aucun vide gonflé. Les bas de cartes diffèrent de 59 px.
-
-Autres issues possibles, au choix de l'orchestrateur :
-- titre vidéo en 15 ou 16 px à 1024 (v4.3) ;
-- pile d'une colonne de 1024 à 1279 px ;
-- titre sous la miniature à 1024.
+Arbitrage retenu : pile d'une colonne de 720 px jusqu'à 1279 px. À 768 et 1024 : 3 cartes de 720 px alignées, miniature de 302 px à côté du titre (18 px, 2 lignes), extrait de 4 lignes, aucun vide intérieur au-delà de 24 px + bordure, aucun défilement horizontal.
