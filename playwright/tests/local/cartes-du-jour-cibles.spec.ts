@@ -57,3 +57,39 @@ test.describe("Accueil, cartes du jour : cibles tactiles", () => {
     });
   }
 });
+
+/**
+ * Tour 2.1 (arbitrage orchestrateur) : « Révéler la chute » compact (44 à 72 px de haut) à 12 px sous
+ * l'énoncé ; au clic, la chute prend sa place et le haut de l'énoncé ne bouge pas.
+ */
+test.describe("Accueil, cartes du jour : emplacement de la chute", () => {
+  localSeulement();
+
+  for (const largeur of [320, 768, 1280, 1440]) {
+    test(`bouton compact, énoncé immobile au clic à ${largeur} px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/");
+      const section = page.locator("section[aria-labelledby='contenu-du-jour-titre']");
+      const bouton = section.getByRole("button", { name: "Révéler la chute" });
+      await expect(bouton).toBeVisible();
+      await bouton.scrollIntoViewIfNeeded();
+      const mesure = () =>
+        page.evaluate(() => {
+          const place = document.getElementById("chute-du-jour") as HTMLElement;
+          const enonce = (place.parentElement?.firstElementChild as HTMLElement).getBoundingClientRect();
+          const p = place.getBoundingClientRect();
+          return { haut: enonce.top + window.scrollY, ecart: p.top - enonce.bottom, hauteur: p.height };
+        });
+      const avant = await mesure();
+      expect(avant.hauteur, "hauteur du bouton").toBeGreaterThanOrEqual(44);
+      expect(avant.hauteur, "hauteur du bouton").toBeLessThanOrEqual(72);
+      expect(Math.round(avant.ecart), "écart énoncé / bouton").toBe(12);
+
+      await bouton.click();
+      await expect(section.locator("#chute-du-jour [tabindex='-1']")).toBeFocused();
+      const apres = await mesure();
+      expect(Math.abs(apres.haut - avant.haut), "l'énoncé a bougé au clic").toBeLessThanOrEqual(0.5);
+      expect(Math.round(apres.ecart), "écart énoncé / chute").toBe(12);
+    });
+  }
+});

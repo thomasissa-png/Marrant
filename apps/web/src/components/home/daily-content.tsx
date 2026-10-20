@@ -89,7 +89,8 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 /*
  * Cartes du jour (docs/design/cartes-du-jour/diagnostic-et-spec.md, spec v2) : même squelette sur les
  * 3 cartes (barre dégradée, en-tête, corps, pied). Pile d'une colonne sous 1280 px ; dès 1280 px, 3 cartes
- * de même hauteur, pieds alignés, groupe de la Vanne centré verticalement et immobile au clic (V2.2).
+ * de même hauteur, pieds alignés. Tour 2.1 (arbitrage orchestrateur) : groupe de la Vanne aligné en haut,
+ * sans réserve de hauteur ; l'énoncé ne bouge pas au clic, le vide résiduel tombe au-dessus du pied.
  */
 
 /** Grille : pile de 576 px centrée sous 1280 px, 3 colonnes de même hauteur ensuite (V2.1). */
@@ -107,14 +108,15 @@ const ESPACE_MOTS = "[word-spacing:0.08em]";
  * de `button.tsx`, c'est un contrôle de révélation, pas une action d'entrée dans le produit.
  */
 const CHUTE_EMPLACEMENT =
-  "col-start-1 row-start-1 flex min-h-[72px] w-full items-center justify-center gap-3 rounded-lg border-[1.5px] border-dashed border-accent-primary/90 bg-accent-primary/10 px-4 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary hover:bg-accent-primary/15 active:bg-accent-primary/20 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-[1.5px] border-dashed border-accent-primary/90 bg-accent-primary/10 px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary hover:bg-accent-primary/15 active:bg-accent-primary/20 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
 
-/** Boîte de la chute, partagée par la chute révélée et son clone invisible (même hauteur, V2.2 a). */
-const CHUTE_BOITE = "col-start-1 row-start-1 min-h-[72px] rounded-lg border-[1.5px] border-solid border-accent-primary/60 bg-accent-primary/10 p-4";
+/** Chute révélée : même gabarit que l'emplacement, à sa place (§2.4, V2.6). */
+const CHUTE_REVELEE = `min-h-14 rounded-lg border-[1.5px] border-solid border-accent-primary/60 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link`;
 
-const CHUTE_REVELEE = `${CHUTE_BOITE} animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link`;
+/** Énoncé et chute à la même taille ; un cran au-dessus dès 1280 px pour remplir la carte Vanne (tour 2.1). */
+const TAILLE_VANNE = "text-xl leading-7 [text-wrap:balance] md:text-2xl md:leading-8 xl:text-3xl xl:leading-9";
 
-const CHUTE_TEXTE = "text-xl font-semibold leading-7 text-text-primary [text-wrap:balance] md:text-2xl md:leading-8";
+const CHUTE_TEXTE = `font-semibold text-text-primary ${TAILLE_VANNE}`;
 
 /** Accordéons : un seul style et un seul format d'en-tête pour les 6 (§2.7, V2.6), cible 44 px (T04). */
 const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-elevated open:border-border-hover";
@@ -182,9 +184,9 @@ function Chevron() {
   );
 }
 
-function Accordeon({ titre, children, className = "", masque = false }: { titre: string; children: ReactNode; className?: string; masque?: boolean }) {
+function Accordeon({ titre, children }: { titre: string; children: ReactNode }) {
   return (
-    <details className={`${ACCORDEON} ${className}`} aria-hidden={masque || undefined}>
+    <details className={ACCORDEON}>
       <summary className={ACCORDEON_TITRE}>
         {titre}
         <Chevron />
@@ -229,6 +231,21 @@ function formatLearning(raw: string) {
       {affiche(parts.rest)}
     </>
   );
+}
+
+/**
+ * Durée ISO 8601 (« PT8M12S ») en libellé court (« 8 min », « 1 h 05 », « 45 s »), affichage seul (tour 2.1).
+ * Toute autre forme rend `null` : rien n'est affiché plutôt qu'une durée devinée.
+ */
+export function dureeAffichee(iso: string | null | undefined): string | null {
+  const m = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(iso ?? "");
+  if (!m || (!m[1] && !m[2] && !m[3])) return null;
+  const total = Number(m[1] ?? 0) * 3600 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0);
+  if (total <= 0) return null;
+  if (total < 60) return `${total} s`;
+  const minutes = Math.round(total / 60);
+  if (minutes < 60) return `${minutes} min`;
+  return `${Math.floor(minutes / 60)} h ${String(minutes % 60).padStart(2, "0")}`;
 }
 
 /** Nom de chaîne masqué (affichage seul) quand le titre commence déjà par lui (§2.5, m11). */
@@ -323,22 +340,18 @@ export function DailyContent() {
             </EnTete>
             {data.joke ? (
               <>
-                {/* Groupe centré verticalement dès 1280 px ; sa hauteur ne change pas au clic (V2.2). */}
-                <div className="flex flex-col gap-4 xl:flex-1 xl:justify-center">
-                  <p className="text-xl font-medium leading-7 text-text-primary [text-wrap:balance] md:text-2xl md:leading-8">
-                    {affiche(data.joke.content)}
-                  </p>
-                  <div id="chute-du-jour" aria-live="polite" className="grid">
-                    {showPunchline ? (
-                      <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
-                        <p className={CHUTE_TEXTE}>{affiche(data.joke.punchline)}</p>
-                      </div>
-                    ) : (
-                      <>
-                        {/* Clone invisible : l'emplacement a dès le départ la hauteur de la chute. */}
-                        <div aria-hidden="true" className={`${CHUTE_BOITE} pointer-events-none invisible select-none`}>
+                {/* Groupe aligné en haut : l'énoncé ne bouge pas au clic, la chute prend la place du bouton. */}
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-3">
+                    <p className={`font-medium text-text-primary ${TAILLE_VANNE}`}>
+                      {affiche(data.joke.content)}
+                    </p>
+                    <div id="chute-du-jour" aria-live="polite">
+                      {showPunchline ? (
+                        <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
                           <p className={CHUTE_TEXTE}>{affiche(data.joke.punchline)}</p>
                         </div>
+                      ) : (
                         <button
                           type="button"
                           aria-expanded="false"
@@ -349,16 +362,12 @@ export function DailyContent() {
                           <Eye {...ICONE} />
                           Révéler la chute
                         </button>
-                      </>
-                    )}
+                      )}
+                    </div>
                   </div>
-                  {/* Décision D1 : décryptage fermé par défaut. Réservé (invisible) dès 1280 px avant la chute. */}
-                  {data.joke.comedyTechnique && (
-                    <Accordeon
-                      titre="Pourquoi ça marche"
-                      masque={!showPunchline}
-                      className={showPunchline ? "" : "invisible max-xl:hidden"}
-                    >
+                  {/* Décision D1 : décryptage fermé par défaut, sous la chute une fois révélée. */}
+                  {showPunchline && data.joke.comedyTechnique && (
+                    <Accordeon titre="Pourquoi ça marche">
                       <div className={ACCORDEON_CORPS}>
                         <p className="text-sm font-semibold text-accent-link">{affiche(data.joke.comedyTechnique)}</p>
                         {data.joke.techniqueExplanation && <p>{affiche(data.joke.techniqueExplanation)}</p>}
@@ -484,7 +493,12 @@ export function DailyContent() {
                 {/* De 768 à 1279 px : lecteur et titre côte à côte (V2.1). */}
                 <div className="grid gap-4 md:max-xl:grid-cols-2 md:max-xl:items-start">
                   <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                    <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
+                    <YouTubePlayer
+                      youtubeId={data.video.youtubeId}
+                      title={data.video.title}
+                      recadrage="serre"
+                      duree={dureeAffichee(data.video.duration) ?? undefined}
+                    />
                   </div>
                   <div>
                     <h3 className={`${TITRE_CARTE} line-clamp-3`}>{affiche(data.video.title)}</h3>

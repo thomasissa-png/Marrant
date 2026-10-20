@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { DailyContent, guillemetsImbriques } from "@/components/home/daily-content";
+import { DailyContent, dureeAffichee, guillemetsImbriques } from "@/components/home/daily-content";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn().mockReturnValue({ status: "authenticated" }),
@@ -134,10 +134,8 @@ describe("DailyContent", () => {
     const emplacement = container.querySelector("#chute-du-jour");
     expect(emplacement).toHaveAttribute("aria-live", "polite");
     expect(emplacement).toContainElement(screen.getByRole("button", { name: "Révéler la chute" }));
-    // Avant le clic, la chute n'existe que dans le clone invisible qui réserve sa hauteur (V2.2 a).
-    const clone = screen.getByText("Parce que sinon ils tomberaient dans le bateau.").closest("[aria-hidden='true']");
-    expect(clone).not.toBeNull();
-    expect(clone).toHaveClass("invisible");
+    // Avant le clic, la chute n'est nulle part dans le DOM (tour 2.1 : plus de réserve invisible).
+    expect(screen.queryByText("Parce que sinon ils tomberaient dans le bateau.")).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("button", { name: "Révéler la chute" }));
 
@@ -165,7 +163,6 @@ describe("DailyContent", () => {
     const accordeon = titre.closest("details");
     expect(accordeon).not.toBeNull();
     expect(accordeon).not.toHaveAttribute("open");
-    expect(accordeon).not.toHaveAttribute("aria-hidden");
     // Un seul format d'en-tête (V2.6) : « Pourquoi ça marche » seul, la technique ouvre le corps.
     expect(titre).toHaveTextContent(/^Pourquoi ça marche$/);
     expect(accordeon?.querySelector("summary + div > p")).toHaveTextContent("La logique absurde");
@@ -220,6 +217,24 @@ describe("DailyContent", () => {
     );
     expect(guillemetsImbriques(`«${nbsp}Un${nbsp}» et «${nbsp}deux${nbsp}»`)).toBe(`«${nbsp}Un${nbsp}» et «${nbsp}deux${nbsp}»`);
     expect(guillemetsImbriques("» orphelin puis « ouvert »")).toBe("» orphelin puis « ouvert »");
+  });
+
+  it("formats the ISO 8601 video duration for display only, or nothing (tour 2.1)", () => {
+    expect(dureeAffichee("PT8M12S")).toBe("8 min");
+    expect(dureeAffichee("PT5M51S")).toBe("6 min");
+    expect(dureeAffichee("PT1H4M40S")).toBe("1 h 05");
+    expect(dureeAffichee("PT45S")).toBe("45 s");
+    expect(dureeAffichee("12:30")).toBeNull();
+    expect(dureeAffichee("PT")).toBeNull();
+    expect(dureeAffichee("")).toBeNull();
+    expect(dureeAffichee(null)).toBeNull();
+  });
+
+  it("shows the video duration on the thumbnail", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByLabelText("Lire la vidéo : Les secrets du timing comique")).toHaveTextContent("13 min");
+    });
   });
 
   it("is a labelled section, not a focusable scroll region (cartes du jour §2.2)", async () => {
@@ -427,14 +442,10 @@ describe("DailyContent", () => {
       expect(screen.getByText("Révéler la chute")).toBeInTheDocument();
     });
 
-    // Avant révélation : décryptage seulement réservé, masqué et hors de l'arbre d'accessibilité (V2.2 b).
-    const reserve = screen.getByText(/Pourquoi ça marche/).closest("details");
-    expect(reserve).toHaveAttribute("aria-hidden", "true");
-    expect(reserve).toHaveClass("invisible");
+    // Avant révélation : pas de décryptage (tour 2.1 : plus d'accordéon réservé).
+    expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByText("Révéler la chute"));
-    expect(screen.getByText(/Pourquoi ça marche/).closest("details")).not.toHaveAttribute("aria-hidden");
-    expect(screen.getByText(/Pourquoi ça marche/).closest("details")).not.toHaveClass("invisible");
 
     expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
     expect(screen.getByText("À toi de jouer")).toBeInTheDocument();

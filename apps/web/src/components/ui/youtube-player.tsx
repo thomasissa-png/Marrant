@@ -14,6 +14,8 @@ interface YouTubePlayerProps {
    * plus de bande résiduelle de la source). Sans la prop, rendu inchangé (/videos, fiches).
    */
   recadrage?: "serre";
+  /** Durée déjà formatée (« 8 min »), en pastille sur la vignette ; absente = rien (cartes du jour, tour 2.1). */
+  duree?: string;
 }
 
 /**
@@ -21,7 +23,7 @@ interface YouTubePlayerProps {
  * charge l'iframe uniquement quand l'utilisateur appuie sur play.
  * Beaucoup plus léger et fiable sur mobile.
  */
-export function YouTubePlayer({ youtubeId, title, priority = false, recadrage }: YouTubePlayerProps) {
+export function YouTubePlayer({ youtubeId, title, priority = false, recadrage, duree }: YouTubePlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [thumbFailed, setThumbFailed] = useState(false);
 
@@ -67,6 +69,11 @@ export function YouTubePlayer({ youtubeId, title, priority = false, recadrage }:
           loading={priority ? undefined : "lazy"}
           onError={() => setThumbFailed(true)}
         />
+      )}
+      {duree && (
+        <span className="pointer-events-none absolute bottom-2 right-2 z-10 rounded bg-black/70 px-1.5 py-0.5 text-xs font-medium text-white">
+          {duree}
+        </span>
       )}
       {/* Bouton play */}
       <div className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-red-600 shadow-lg transition-transform group-hover/play:scale-110">
