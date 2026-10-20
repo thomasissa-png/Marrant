@@ -95,7 +95,7 @@ test.describe("Accueil, cartes du jour : emplacement de la chute", () => {
 });
 
 /**
- * Spec v4 (V4.1 à V4.4) : bandeau Vanne, puis rangée Conseil + Vidéo de même hauteur dès 1024 px. Aucun vide
+ * Spec v4 (V4.1 à V4.4) : bandeau Vanne, puis rangée Conseil + Vidéo de même hauteur dès 1280 px. Aucun vide
  * intérieur de plus de 24 px (entre deux blocs, dans une pile interne, ou sous le pied) ; à l'état fermé, les
  * deux cartes de la rangée ont la même hauteur et le même filet de pied ; ouvrir quelque chose ne déplace
  * aucune voisine et n'en étire aucune de plus de 24 px.
@@ -193,21 +193,23 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
         expect(modele.lignesExtrait, "extrait du Conseil d'au moins 3 lignes").toBeGreaterThanOrEqual(3);
         expect(Math.abs(modele.accordeons), "accordéons vidéo pleine largeur").toBeLessThanOrEqual(0.5);
       }
-      if (largeur >= 1024) {
-        const [bandeau, conseil, video] = avant;
+      const [bandeau, conseil, video] = avant;
+      if (largeur >= 1280) {
         expect(Math.abs(conseil.gauche - bandeau.gauche), "bord gauche commun").toBeLessThanOrEqual(0.5);
         expect(Math.abs(video.droite - bandeau.droite), "bord droit commun").toBeLessThanOrEqual(0.5);
-        // Gouttières de 24 px, 16 px de 1024 à 1279 px (tour 4.4 : largeur utile pour la miniature et le titre).
-        const gouttiere = largeur < 1280 ? 16 : 24;
-        expect(Math.round(conseil.haut - bandeau.bas), "gouttière bandeau / rangée").toBe(gouttiere);
-        expect(Math.round(video.gauche - conseil.droite), "gouttière entre les cartes").toBe(gouttiere);
-        // Tour 4.4 : si l'égalisation demanderait un écart > 24 px (1024 px), la rangée passe en hauteurs naturelles.
-        const libre = await page.evaluate(() => (document.querySelector("[data-libre]") as HTMLElement).dataset.libre === "true");
-        if (!libre) {
-          expect(Math.abs(conseil.bas - video.bas), "rangée de même hauteur").toBeLessThanOrEqual(0.5);
-          expect(Math.abs((conseil.filet ?? 0) - (video.filet ?? 0)), "filets de pied alignés").toBeLessThanOrEqual(0.5);
+        expect(Math.round(conseil.haut - bandeau.bas), "gouttière bandeau / rangée").toBe(24);
+        expect(Math.round(video.gauche - conseil.droite), "gouttière entre les cartes").toBe(24);
+        expect(Math.abs(conseil.bas - video.bas), "rangée de même hauteur").toBeLessThanOrEqual(0.5);
+        expect(Math.abs((conseil.filet ?? 0) - (video.filet ?? 0)), "filets de pied alignés").toBeLessThanOrEqual(0.5);
+      } else {
+        // Arbitrage du tour 4.4 : pile d'une colonne jusqu'à 1279 px (Vanne, Conseil, Vidéo), 720 px au plus dès 768.
+        for (const c of [bandeau, conseil, video]) {
+          expect(Math.abs(c.gauche - bandeau.gauche), "pile : bords gauches communs").toBeLessThanOrEqual(0.5);
+          expect(Math.abs(c.droite - bandeau.droite), "pile : bords droits communs").toBeLessThanOrEqual(0.5);
         }
-        if (largeur >= 1280) expect(libre, "rangée égalisée dès 1280 px").toBe(false);
+        expect(conseil.haut, "pile : Conseil sous la Vanne").toBeGreaterThan(bandeau.bas);
+        expect(video.haut, "pile : Vidéo sous le Conseil").toBeGreaterThan(conseil.bas);
+        if (largeur >= 768) expect(Math.round(bandeau.droite - bandeau.gauche), "pile de 720 px").toBe(720);
       }
 
       const ouvertures: { nom: string; carte: number; agir: () => Promise<void> }[] = [
@@ -245,7 +247,7 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
   }
 });
 
-/** Focus clavier sur « Lire la suite » dès 1024 px : l'extrait ne défile pas (1re ligne jamais coupée). */
+/** Focus clavier sur « Lire la suite » dès 1280 px : l'extrait ne défile pas (1re ligne jamais coupée). */
 test.describe("Accueil, cartes du jour : focus sur « Lire la suite »", () => {
   localSeulement();
 

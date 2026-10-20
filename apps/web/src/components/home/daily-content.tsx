@@ -98,18 +98,19 @@ const DIFFICULTY_LABELS: Record<string, string> = {
 
 /*
  * Cartes du jour (docs/design/cartes-du-jour/diagnostic-et-spec.md, spec v4) : même squelette sur les
- * 3 cartes (barre dégradée, en-tête, corps, pied). Dès 1024 px, la Vanne est un bandeau pleine largeur
+ * 3 cartes (barre dégradée, en-tête, corps, pied). Dès 1280 px, la Vanne est un bandeau pleine largeur
  * centré, Conseil et Vidéo forment dessous une rangée de deux cartes égales (V4.1) ; pile de 576 px avant.
  */
 
-const GRILLE = "mx-auto grid max-w-xl gap-4 md:gap-6 lg:max-w-none lg:max-xl:gap-4";
+/** Pile d'une colonne jusqu'à 1279 px (576 px, puis 720 px dès 768), bandeau et rangée dès 1280 px (arbitrage du tour 4.4). */
+const GRILLE = "mx-auto grid max-w-xl gap-4 md:max-w-[45rem] md:gap-6 xl:max-w-none";
 
 /**
- * Rangée Conseil + Vidéo (V4.1, V4.3) : fondue dans la pile sous 1024 px ; ensuite 2 colonnes de même
+ * Rangée Conseil + Vidéo (V4.1, V4.3) : fondue dans la pile sous 1280 px ; ensuite 2 colonnes de même
  * hauteur, qui reprennent leur hauteur naturelle tant qu'un accordéon est ouvert ou le conseil déplié.
  */
 const RANGEE =
-  "contents lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:max-xl:gap-4 lg:data-[libre=true]:items-start lg:[&:has(details[open],[data-deplie=true])]:items-start";
+  "contents xl:grid xl:grid-cols-2 xl:items-stretch xl:gap-6 xl:[&:has(details[open],[data-deplie=true])]:items-start";
 
 const CARTE = "relative flex flex-col overflow-hidden rounded-xl border border-border-hover bg-background-card";
 
@@ -142,8 +143,7 @@ const ACCORDEON_TITRE =
 const ACCORDEON_CORPS = "px-4 pb-4 text-[15px] leading-6 text-text-primary [&_p]:[text-wrap:wrap]";
 
 /**
- * Titres de carte (Conseil et Vidéo, identiques) : 18/26, 20/28 dès 1280 px. De 1024 à 1279 px, colonne de 440 px :
- * 18/26 pour que le titre vidéo tienne sur 2 lignes à côté de la miniature (tour 4.4, « 20 si ça tient, sinon 18 »).
+ * Titres de carte (Conseil et Vidéo, identiques) : 18/26, 20/28 dès 1280 px (échelle du tour 4.4).
  */
 const TITRE_CARTE = `font-display text-lg font-bold leading-[26px] text-text-primary [text-wrap:balance] xl:text-xl xl:leading-7 ${ESPACE_MOTS}`;
 
@@ -204,7 +204,7 @@ function EnTete({ icone, type, children }: { icone: ReactNode; type: string; chi
  */
 function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children: ReactNode; bas?: boolean }) {
   return (
-    <div className={`flex min-h-[44px] items-center justify-between gap-2 border-t border-border-hover pt-3 ${bas ? "lg:mt-auto" : ""}`}>
+    <div className={`flex min-h-[44px] items-center justify-between gap-2 border-t border-border-hover pt-3 ${bas ? "xl:mt-auto" : ""}`}>
       {gauche}
       <div className="ml-auto flex items-center gap-1">{children}</div>
     </div>
@@ -222,7 +222,7 @@ const LIGNES_MIN = 3;
 const TITRE_MIN = 200;
 /** Marge minimale entre la fin du titre vidéo et le bord intérieur de la carte (px). */
 const MARGE_TITRE = 16;
-/** Plancher de la miniature : 220 px dès 1280 px, 160 px de 1024 à 1279 px (tour 4.2). */
+/** Plancher de la miniature dans la rangée (dès 1280 px) : 220 px ; 160 px en repli si la largeur manquait (tour 4.2). */
 const MINIATURE_MIN_XL = 220;
 const MINIATURE_MIN = 160;
 /** Écart entre les blocs d'une carte et entre ses accordéons (gap-4, gap-2), et écart maximal admis (px). */
@@ -290,10 +290,6 @@ function repartir(corps: HTMLElement, reste: number): Repartition {
   return { blocs: Math.min(ECART_MAX - ECART_BLOCS, Math.round((reste / kBlocs) * 2) / 2) };
 }
 
-/** Reste qu'une carte peut absorber dans ses écarts entre blocs sans qu'aucun ne dépasse 24 px. */
-function capacite(corps: HTMLElement): number {
-  return Math.max(0, blocsVisibles(corps).length - 1) * (ECART_MAX - ECART_BLOCS);
-}
 
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
@@ -309,8 +305,6 @@ export function DailyContent() {
     video: SANS_REPARTITION,
   });
   const [rangeeOuverte, setRangeeOuverte] = useState(false);
-  /** Égalisation impossible sans écart > 24 px (1024 px, tour 4.4) : cartes à hauteur naturelle, alignées en haut. */
-  const [rangeeLibre, setRangeeLibre] = useState(false);
   const chuteRef = useRef<HTMLDivElement>(null);
   const enonceRef = useRef<HTMLParagraphElement>(null);
   const [enonceLong, setEnonceLong] = useState(false);
@@ -344,7 +338,7 @@ export function DailyContent() {
     const el = enonceRef.current;
     if (!el) return;
     const mesurer = () => {
-      const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
+      const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1280px)").matches;
       const ligne = parseFloat(getComputedStyle(el).lineHeight) || 1;
       setEnonceLong(large && Math.round(el.getBoundingClientRect().height / ligne) > 3);
     };
@@ -365,11 +359,11 @@ export function DailyContent() {
   }, [isLoading]);
 
   /*
-   * Rangée Conseil + Vidéo dès 1024 px (tours 4.1 et 4.2). Priorités : titre vidéo sur 2 lignes, extrait du
+   * Rangée Conseil + Vidéo dès 1280 px (tours 4.1, 4.2, arbitrage 4.4). Priorités : titre vidéo sur 2 lignes, extrait du
    * Conseil d'au moins 3 lignes (4 si la place le permet), miniature la plus grande possible (plancher 220 px dès
    * 1280). La miniature prend la hauteur manquante pour égaler les deux cartes ; le reste éventuel (colonne de
-   * 428 px à 1024) est réparti dans les écarts de la carte la plus courte, sans qu'aucun ne dépasse 24 px.
-   * Sous 1024 px : 3 lignes sous 768 px, 4 ensuite, miniature en CSS.
+   * colonne étroite) est réparti dans les écarts de la carte la plus courte, sans qu'aucun ne dépasse 24 px.
+   * Sous 1280 px (pile) : 3 lignes sous 768 px, 4 ensuite, miniature en CSS.
    */
   useEffect(() => {
     const texte = conseilRef.current;
@@ -382,11 +376,10 @@ export function DailyContent() {
       const corpsV = corpsVideoRef.current;
       const bloc = blocVideoRef.current;
       const titre = titreVideoRef.current;
-      if (!media("(min-width: 1024px)") || !corpsV || !bloc || !titre) {
+      if (!media("(min-width: 1280px)") || !corpsV || !bloc || !titre) {
         const n = media("(min-width: 768px)") ? LIGNES_EXTRAIT : LIGNES_MOBILE;
         setLignes(n);
         setLargeurMiniature(null);
-        setRangeeLibre(false);
         setEcarts((avant) =>
           avant.conseil === SANS_REPARTITION && avant.video === SANS_REPARTITION
             ? avant
@@ -415,14 +408,10 @@ export function DailyContent() {
       const largeur = Math.round(Math.min(largeurMax, Math.max(miniatureMin, (cible * 16) / 9)) * 2) / 2;
       // Reste : différence entre les deux cartes une fois la miniature posée, réparti dans la plus courte.
       const reste = hauteurConseil(n) - (autresVideo + Math.max((largeur * 9) / 16, hauteurTitre));
-      const libre = reste > capacite(corpsV) + 0.5 || -reste > capacite(corpsC) + 0.5;
-      const suivants = libre
-        ? { conseil: SANS_REPARTITION, video: SANS_REPARTITION }
-        : {
-            conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
-            video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
-          };
-      setRangeeLibre(libre);
+      const suivants = {
+        conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
+        video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
+      };
       const memes = (a: Repartition, b: Repartition) => a.blocs === b.blocs;
       setLignes(n);
       setLargeurMiniature((avant) => (avant !== null && Math.abs(avant - largeur) < 0.5 ? avant : largeur));
@@ -487,7 +476,7 @@ export function DailyContent() {
         Ton contenu du jour
       </h2>
       <div className={GRILLE}>
-        {/* Vanne du jour : bandeau pleine largeur, corps centré dès 1024 px (V4.2). */}
+        {/* Vanne du jour : bandeau pleine largeur, corps centré dès 1280 px (V4.2, arbitrage 4.4). */}
         <div className={CARTE}>
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
           <div className={CORPS_CARTE}>
@@ -501,9 +490,9 @@ export function DailyContent() {
             {data.joke ? (
               <>
                 {/* Énoncé, puis la chute à la place du bouton, 12 px dessous : l'énoncé ne bouge pas au clic. */}
-                {/* Un seul axe dès 1024 px : énoncé, bouton, chute et décryptage dans la même largeur (tour 4.1). */}
+                {/* Un seul axe dès 1280 px : énoncé, bouton, chute et décryptage dans la même largeur (tour 4.1). */}
                 <div
-                  className={`flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-2xl ${enonceLong ? "" : "lg:items-center lg:text-center"}`}
+                  className={`flex flex-col gap-3 xl:mx-auto xl:w-full xl:max-w-2xl ${enonceLong ? "" : "xl:items-center xl:text-center"}`}
                 >
                   <p ref={enonceRef} className={`font-medium text-text-primary [text-wrap:balance] ${tailleVanne(longueurVanne)}`}>
                     {citationsEnBloc(enonce)}
@@ -562,13 +551,13 @@ export function DailyContent() {
           </div>
         </div>
 
-        <div ref={rangeeRef} className={RANGEE} data-libre={rangeeLibre}>
-          {/* Conseil du jour : extrait de 4 lignes, même hauteur que la Vidéo dès 1024 px (tour 4.1). */}
+        <div ref={rangeeRef} className={RANGEE}>
+          {/* Conseil du jour : extrait de 4 lignes, même hauteur que la Vidéo dès 1280 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
             <div
               ref={corpsConseilRef}
-              className={`${CORPS_CARTE} lg:flex-1`}
+              className={`${CORPS_CARTE} xl:flex-1`}
               style={ecarts.conseil.blocs ? { rowGap: ECART_BLOCS + ecarts.conseil.blocs } : undefined}
             >
               <EnTete icone={<Lightbulb {...ICONE} size={24} className="-m-0.5 shrink-0 text-accent-link" />} type="Conseil du jour">
@@ -644,12 +633,12 @@ export function DailyContent() {
             </div>
           </div>
 
-          {/* Vidéo du jour : sa miniature s'ajuste pour égaler le Conseil dès 1024 px (tour 4.1). */}
+          {/* Vidéo du jour : sa miniature s'ajuste pour égaler le Conseil dès 1280 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
             <div
               ref={corpsVideoRef}
-              className={`${CORPS_CARTE} lg:flex-1`}
+              className={`${CORPS_CARTE} xl:flex-1`}
               style={ecarts.video.blocs ? { rowGap: ECART_BLOCS + ecarts.video.blocs } : undefined}
             >
               <EnTete icone={<Clapperboard {...ICONE} />} type="Vidéo du jour">
@@ -668,7 +657,7 @@ export function DailyContent() {
                       verticalement (tour 4.2), accordéons pleine largeur dessous ; empilé sous 768 px. Anneau de
                       focus clavier sur toute la miniature ; liseré blanc à 10 % par-dessus l'image pour les
                       miniatures sombres (tour 4.3). */}
-                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-2">
+                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
                     <div
                       className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:content-[''] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
                       style={largeurMiniature ? { width: largeurMiniature } : undefined}
@@ -676,8 +665,7 @@ export function DailyContent() {
                       <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
                     </div>
                     <div ref={titreVideoRef} className="md:min-w-0 md:flex-1">
-                      {/* 1024 à 1279 px (colonne de 428 px) : titre en 15 px et 12 px d'écart, seule combinaison mesurée qui
-                          tient titre sur 2 lignes, miniature ≥ 200 px et écarts ≤ 24 px (tour 4.3). */}
+                      {/* Titre sur 2 lignes au plus, à 16 px au moins du bord intérieur (tour 4.4). */}
                       <h3 className={`${TITRE_CARTE} line-clamp-3 md:line-clamp-2`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
                         <p className="mt-1 text-sm text-text-secondary">
