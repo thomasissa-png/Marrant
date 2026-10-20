@@ -275,3 +275,39 @@ test.describe("Accueil, cartes du jour : rangée figée à l'ouverture", () => {
     });
   }
 });
+
+/** Tour 4.3 : 8 px entre les accordéons dans les deux cartes de la rangée, en-têtes alignés au pixel. */
+test.describe("Accueil, cartes du jour : rythme des accordéons et en-têtes", () => {
+  localSeulement();
+
+  for (const largeur of [375, 1024, 1280, 1440]) {
+    test(`accordéons à 8 px et en-têtes alignés à ${largeur} px`, async ({ page }) => {
+      await page.setViewportSize({ width: largeur, height: 900 });
+      await page.goto("/");
+      await expect(page.getByRole("button", { name: "Révéler la chute" })).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      await page.waitForTimeout(300);
+      const m = await page.evaluate(() => {
+        const piles = Array.from(document.querySelectorAll("section[aria-labelledby='contenu-du-jour-titre'] [data-pile]"));
+        const ecarts = piles.flatMap((p) => {
+          const r = Array.from(p.children).map((e) => e.getBoundingClientRect());
+          return r.slice(1).map((b, i) => b.top - r[i].bottom);
+        });
+        const libelles = ["Vanne du jour", "Conseil du jour", "Vidéo du jour"].map((t) => {
+          const el = Array.from(document.querySelectorAll("section[aria-labelledby='contenu-du-jour-titre'] p")).find((p) => p.textContent === t) as HTMLElement;
+          const carte = el.closest(".rounded-xl") as HTMLElement;
+          const r = el.getBoundingClientRect();
+          const c = carte.getBoundingClientRect();
+          return { x: r.left - c.left, y: r.top - c.top };
+        });
+        return { ecarts, libelles };
+      });
+      for (const e of m.ecarts) expect(Math.round(e), "écart entre accordéons").toBe(8);
+      const [vanne, ...autres] = m.libelles;
+      for (const l of autres) {
+        expect(Math.abs(l.x - vanne.x), "libellé d'en-tête aligné en x").toBeLessThanOrEqual(0.5);
+        expect(Math.abs(l.y - vanne.y), "libellé d'en-tête aligné en y").toBeLessThanOrEqual(0.5);
+      }
+    });
+  }
+});

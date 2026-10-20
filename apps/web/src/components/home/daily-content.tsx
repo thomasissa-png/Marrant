@@ -124,11 +124,11 @@ const ESPACE_MOTS = "[word-spacing:0.08em]";
  * de `button.tsx`, c'est un contrôle de révélation, pas une action d'entrée dans le produit.
  */
 const CHUTE_EMPLACEMENT =
-  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-[1.5px] border-dashed border-accent-primary bg-accent-primary/[0.12] px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary-hover hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-2 border-dashed border-accent-link bg-accent-primary/[0.12] px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-text-primary hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
 
 /** Chute révélée : même gabarit et même épaisseur de bordure que l'emplacement, à sa place (V3.1). */
 const CHUTE_REVELEE =
-  "min-h-14 rounded-lg border-[1.5px] border-solid border-accent-primary/60 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+  "min-h-14 rounded-lg border-2 border-solid border-accent-primary/60 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
 
 /** Accordéons : un seul style et un seul format d'en-tête pour les 6 (§2.7, V2.6), cible 44 px (T04). */
 const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-elevated open:border-border-hover";
@@ -136,13 +136,13 @@ const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-el
 const ACCORDEON_TITRE =
   "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
 
-const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary";
+const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary [text-wrap:pretty]";
 
 const TITRE_CARTE = `font-display text-lg font-bold leading-6 text-text-primary [text-wrap:balance] ${ESPACE_MOTS}`;
 
-/** Extrait du conseil : fondu sur la dernière demi-ligne seulement (12 px, tour 4.2). */
+/** Extrait du conseil : fondu sur toute la dernière ligne visible (24 px, tour 4.3), jamais coupée net. */
 const FONDU =
-  "[mask-image:linear-gradient(to_bottom,#000_calc(100%-12px),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-12px),transparent)]";
+  "[mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)]";
 
 /** Pastilles d'en-tête (V3.6) : 12/16, blanc sur fond élevé. */
 const PASTILLE = "py-1 text-text-primary";
@@ -181,8 +181,9 @@ function Accordeon({ titre, children, className = "" }: { titre: string; childre
 function EnTete({ icone, type, children }: { icone: ReactNode; type: string; children?: ReactNode }) {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2">
-        {icone}
+      {/* Emplacement fixe de 20 px : libellés alignés au pixel sur les 3 cartes, quelle que soit l'icône (tour 4.3). */}
+      <div className="flex h-6 items-center gap-2">
+        <span className="flex size-5 shrink-0 items-center justify-center">{icone}</span>
         <p className="text-sm font-semibold leading-5 text-text-primary">{type}</p>
       </div>
       {children && <div className="flex flex-wrap gap-2">{children}</div>}
@@ -266,30 +267,18 @@ function hauteurNaturelle(corps: HTMLElement, imposees: Map<Element, number>): n
   );
 }
 
+/** px ajoutés à chaque écart entre blocs d'une carte (16 → 24 au plus) ; l'écart entre accordéons reste à 8 px. */
 interface Repartition {
-  /** px ajoutés à chaque écart entre blocs (16 → 24 au plus). */
   blocs: number;
-  /** px ajoutés à chaque écart entre accordéons (8 → 24 au plus). */
-  pile: number;
 }
 
-const SANS_REPARTITION: Repartition = { blocs: 0, pile: 0 };
+const SANS_REPARTITION: Repartition = { blocs: 0 };
 
-/**
- * Répartit un reste de hauteur dans les écarts d'une carte (tour 4.2) : à parts égales tant que les écarts entre
- * blocs restent sous 24 px, puis le surplus va aux écarts entre accordéons (24 px au plus aussi).
- */
+/** Répartit un reste de hauteur dans les écarts entre blocs d'une carte, 24 px au plus chacun (tour 4.3). */
 function repartir(corps: HTMLElement, reste: number): Repartition {
-  const blocs = blocsVisibles(corps);
-  const kBlocs = Math.max(0, blocs.length - 1);
-  const kPile = blocs.filter((b) => b.dataset.pile).reduce((somme, b) => somme + Math.max(0, blocsVisibles(b).length - 1), 0);
-  if (kBlocs + kPile === 0 || reste <= 0) return SANS_REPARTITION;
-  const arrondi = (v: number) => Math.round(v * 2) / 2;
-  const egal = reste / (kBlocs + kPile);
-  if (egal <= ECART_MAX - ECART_BLOCS) return { blocs: arrondi(egal), pile: arrondi(egal) };
-  const blocsPlein = ECART_MAX - ECART_BLOCS;
-  const pile = kPile ? Math.min(ECART_MAX - ECART_ACCORDEONS, (reste - blocsPlein * kBlocs) / kPile) : 0;
-  return { blocs: blocsPlein, pile: arrondi(pile) };
+  const kBlocs = Math.max(0, blocsVisibles(corps).length - 1);
+  if (kBlocs === 0 || reste <= 0) return SANS_REPARTITION;
+  return { blocs: Math.min(ECART_MAX - ECART_BLOCS, Math.round((reste / kBlocs) * 2) / 2) };
 }
 
 export function DailyContent() {
@@ -394,7 +383,7 @@ export function DailyContent() {
         conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
         video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
       };
-      const memes = (a: Repartition, b: Repartition) => a.blocs === b.blocs && a.pile === b.pile;
+      const memes = (a: Repartition, b: Repartition) => a.blocs === b.blocs;
       setLignes(n);
       setLargeurMiniature((avant) => (avant !== null && Math.abs(avant - largeur) < 0.5 ? avant : largeur));
       setEcarts((avant) => (memes(avant.conseil, suivants.conseil) && memes(avant.video, suivants.video) ? avant : suivants));
@@ -539,7 +528,7 @@ export function DailyContent() {
               className={`${CORPS_CARTE} lg:flex-1`}
               style={ecarts.conseil.blocs ? { rowGap: ECART_BLOCS + ecarts.conseil.blocs } : undefined}
             >
-              <EnTete icone={<Lightbulb {...ICONE} size={24} />} type="Conseil du jour">
+              <EnTete icone={<Lightbulb {...ICONE} size={24} className="-m-0.5 shrink-0 text-accent-link" />} type="Conseil du jour">
                 {data.tip && (
                   <>
                     <Badge variant="default" className={PASTILLE}>
@@ -585,7 +574,6 @@ export function DailyContent() {
                     <div
                       data-pile="accordeons"
                       className="flex flex-col gap-2"
-                      style={ecarts.conseil.pile ? { rowGap: ECART_ACCORDEONS + ecarts.conseil.pile } : undefined}
                     >
                       {data.tip.example && (
                         <Accordeon titre="Exemple concret">
@@ -635,17 +623,19 @@ export function DailyContent() {
                 <>
                   {/* Un seul modèle dès 768 px (tour 4.1) : miniature et titre côte à côte, bloc titre centré
                       verticalement (tour 4.2), accordéons pleine largeur dessous ; empilé sous 768 px. Anneau de
-                      focus clavier sur toute la miniature. */}
-                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-4">
+                      focus clavier sur toute la miniature ; liseré blanc à 10 % par-dessus l'image pour les
+                      miniatures sombres (tour 4.3). */}
+                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-3">
                     <div
-                      className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
+                      className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:content-[''] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
                       style={largeurMiniature ? { width: largeurMiniature } : undefined}
                     >
                       <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} recadrage="serre" />
                     </div>
                     <div ref={titreVideoRef} className="md:min-w-0 md:flex-1">
-                      {/* 1024 à 1279 px (colonne de 428 px) : titre en 16 px pour tenir sur 2 lignes à côté de la miniature (tour 4.2). */}
-                      <h3 className={`${TITRE_CARTE} line-clamp-3 lg:max-xl:text-base`}>{affiche(data.video.title)}</h3>
+                      {/* 1024 à 1279 px (colonne de 428 px) : titre en 15 px et 12 px d'écart, seule combinaison mesurée qui
+                          tient titre sur 2 lignes, miniature ≥ 200 px et écarts ≤ 24 px (tour 4.3). */}
+                      <h3 className={`${TITRE_CARTE} line-clamp-3 lg:max-xl:text-[15px]`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
                         <p className="mt-1 text-sm text-text-secondary">
                           {chaine && <span>{chaine}</span>}
@@ -659,7 +649,6 @@ export function DailyContent() {
                     <div
                       data-pile="accordeons"
                       className="flex flex-col gap-2"
-                      style={ecarts.video.pile ? { rowGap: ECART_ACCORDEONS + ecarts.video.pile } : undefined}
                     >
                       {data.video.learnings && data.video.learnings.length > 0 && (
                         <Accordeon titre="Ce que tu vas apprendre">

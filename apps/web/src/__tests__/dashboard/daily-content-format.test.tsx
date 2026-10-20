@@ -39,11 +39,12 @@ describe("daily-content-format", () => {
     expect(citationsEnBloc("Sans citation.")).toBe("Sans citation.");
   });
 
-  it("makes short quotes (4 words or fewer) non-breaking, longer ones untouched (tour 4.2)", () => {
+  it("ties the first two words of a short quote (4 words or fewer), nothing else (tour 4.3)", () => {
     const nbsp = String.fromCharCode(0xa0);
-    expect(citationsCourtesInsecables("tous : “Non non, repose-toi.” »")).toBe(`tous : “Non${nbsp}non,${nbsp}repose-toi.” »`);
+    expect(citationsCourtesInsecables("tous : “Non non, repose-toi.” »")).toBe(`tous : “Non${nbsp}non, repose-toi.” »`);
     expect(citationsCourtesInsecables("« Pour pas que tu te fatigues. »")).toBe("« Pour pas que tu te fatigues. »");
-    expect(citationsCourtesInsecables("« Pas moi. »")).toBe(`«${nbsp}Pas${nbsp}moi.${nbsp}»`);
+    expect(citationsCourtesInsecables(`«${nbsp}Pas moi.${nbsp}»`)).toBe(`«${nbsp}Pas${nbsp}moi.${nbsp}»`);
+    expect(citationsCourtesInsecables("“Bonjour.”")).toBe("“Bonjour.”");
     expect(citationsCourtesInsecables("Sans citation, rien ne change.")).toBe("Sans citation, rien ne change.");
   });
 

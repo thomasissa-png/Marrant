@@ -44,13 +44,14 @@ const INSECABLE = String.fromCharCode(0xa0);
 const CITATION_RE = /([«“])([^«»“”]+)([»”])/g;
 
 /**
- * Citation courte (4 mots au plus) entre guillemets : espaces ordinaires rendues insécables, pour qu'une réplique
- * comme “Non non, repose-toi.” ne soit jamais coupée en fin de ligne (tour 4.2). Affichage seul.
+ * Citation courte (4 mots au plus) entre guillemets : ses deux premiers mots sont liés par une espace insécable,
+ * pour qu'une réplique comme “Non non, repose-toi.” ne soit jamais coupée après son premier mot ; le reste
+ * peut passer à la ligne, sans renvoyer toute la réplique en bloc (tours 4.2 et 4.3). Affichage seul.
  */
 export function citationsCourtesInsecables(texte: string): string {
   return texte.replace(CITATION_RE, (tout, ouvre: string, dedans: string, ferme: string) => {
     const mots = dedans.trim().split(/\s+/).filter(Boolean);
-    return mots.length > 0 && mots.length <= 4 ? `${ouvre}${dedans.replace(/ /g, INSECABLE)}${ferme}` : tout;
+    return mots.length >= 2 && mots.length <= 4 ? `${ouvre}${dedans.replace(/(\S) (\S)/, `$1${INSECABLE}$2`)}${ferme}` : tout;
   });
 }
 
