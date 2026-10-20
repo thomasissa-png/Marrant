@@ -10,7 +10,7 @@ Merci pour votre retour. Comme annoncé, l'article prend votre scène des vacanc
 
 Il fait environ 1 500 mots, vouvoie le lecteur et suit votre format (chapô en gras, intertitres). Il renvoie à votre article dès le chapô et cite « La légèreté, ça se propose, ça ne s'impose pas ».
 
-Sources : Rod Martin et ses collègues (dont l'étude de Campbell, Martin et Ward sur l'humour pendant les désaccords de couple), et des études sur la taquinerie (Keltner, Kruger), volontairement pas Hall ni Gottman, que vous citez déjà. Un seul lien, là où il sert au lecteur : rire de soi sans se rabaisser.
+Sources : Rod Martin et ses collègues (dont l'étude de Campbell, Martin et Ward sur l'humour pendant les désaccords de couple), et des études sur la taquinerie (dont celles de Keltner et de ses collègues), volontairement pas Hall ni Gottman, que vous citez déjà. Un seul lien vers Deviens Marrant, là où il sert au lecteur : rire de soi sans se rabaisser.
 
 Pour le style, je vous laisse juge. Vous êtes libre de retoucher le titre, les intertitres ou une phrase. Si quelque chose ne colle pas, je reprends volontiers.
 
