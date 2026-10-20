@@ -19,8 +19,7 @@ import {
   Exemple,
   Exercice,
   Section,
-  tailleChute,
-  tailleEnonce,
+  tailleVanne,
 } from "@/components/home/daily-content-format";
 import { Clapperboard, Eye, Laugh, Lightbulb } from "lucide-react";
 
@@ -103,14 +102,14 @@ const DIFFICULTY_LABELS: Record<string, string> = {
  * centré, Conseil et Vidéo forment dessous une rangée de deux cartes égales (V4.1) ; pile de 576 px avant.
  */
 
-const GRILLE = "mx-auto grid max-w-xl gap-4 md:gap-6 lg:max-w-none";
+const GRILLE = "mx-auto grid max-w-xl gap-4 md:gap-6 lg:max-w-none lg:max-xl:gap-4";
 
 /**
  * Rangée Conseil + Vidéo (V4.1, V4.3) : fondue dans la pile sous 1024 px ; ensuite 2 colonnes de même
  * hauteur, qui reprennent leur hauteur naturelle tant qu'un accordéon est ouvert ou le conseil déplié.
  */
 const RANGEE =
-  "contents lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:[&:has(details[open],[data-deplie=true])]:items-start";
+  "contents lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6 lg:max-xl:gap-4 lg:data-[libre=true]:items-start lg:[&:has(details[open],[data-deplie=true])]:items-start";
 
 const CARTE = "relative flex flex-col overflow-hidden rounded-xl border border-border-hover bg-background-card";
 
@@ -124,7 +123,7 @@ const ESPACE_MOTS = "[word-spacing:0.08em]";
  * de `button.tsx`, c'est un contrôle de révélation, pas une action d'entrée dans le produit.
  */
 const CHUTE_EMPLACEMENT =
-  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-2 border-dashed border-accent-link bg-accent-primary/[0.12] px-4 py-3 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-text-primary hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+  "flex min-h-14 w-full items-center justify-center gap-3 rounded-lg border-2 border-dashed border-accent-link bg-accent-primary/[0.12] px-4 py-3 text-[15px] font-semibold text-text-primary transition-colors duration-150 hover:border-text-primary hover:bg-accent-primary/20 active:bg-accent-primary/25 focus-visible:border-solid focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
 
 /** Chute révélée : même gabarit et même épaisseur de bordure que l'emplacement, à sa place (V3.1). */
 const CHUTE_REVELEE =
@@ -134,19 +133,23 @@ const CHUTE_REVELEE =
 const ACCORDEON = "group/d rounded-lg border border-transparent bg-background-elevated open:border-border-hover";
 
 const ACCORDEON_TITRE =
-  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2 text-[15px] font-semibold text-text-primary [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
 
 /**
  * Corps d'accordéon : paragraphes en `wrap` (tour 4.3). Mesuré sur « À toi de jouer » à 1440 : `pretty` (règle
  * globale des `p`) arrêtait les lignes 91 et 98 px avant le bord, `wrap` 41 et 78 px ; `balance` n'est plus utilisé.
  */
-const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-primary [&_p]:[text-wrap:wrap]";
+const ACCORDEON_CORPS = "px-4 pb-4 text-[15px] leading-6 text-text-primary [&_p]:[text-wrap:wrap]";
 
-const TITRE_CARTE = `font-display text-lg font-bold leading-6 text-text-primary [text-wrap:balance] ${ESPACE_MOTS}`;
+/**
+ * Titres de carte (Conseil et Vidéo, identiques) : 18/26, 20/28 dès 1280 px. De 1024 à 1279 px, colonne de 440 px :
+ * 18/26 pour que le titre vidéo tienne sur 2 lignes à côté de la miniature (tour 4.4, « 20 si ça tient, sinon 18 »).
+ */
+const TITRE_CARTE = `font-display text-lg font-bold leading-[26px] text-text-primary [text-wrap:balance] xl:text-xl xl:leading-7 ${ESPACE_MOTS}`;
 
-/** Extrait du conseil : fondu sur toute la dernière ligne visible (24 px, tour 4.3), jamais coupée net. */
+/** Extrait du conseil : fondu doux sur toute la dernière ligne, jusqu'à 45 % d'opacité, encore lisible (tour 4.4). */
 const FONDU =
-  "[mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),transparent)]";
+  "[mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),rgb(0_0_0/0.45))] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-24px),rgb(0_0_0/0.45))]";
 
 /** Pastilles d'en-tête (V3.6) : 12/16, blanc sur fond élevé. */
 const PASTILLE = "py-1 text-text-primary";
@@ -209,14 +212,16 @@ function Pied({ gauche, children, bas = false }: { gauche?: ReactNode; children:
 }
 
 const LIGNE = 24;
-/** Encombrement de « Lire la suite » sous l'extrait : 8 px d'écart + 20 px (V3.4). */
-const LIEN_SUITE = 28;
+/** Encombrement de « Lire la suite » sous l'extrait : 12 px d'écart (sa zone de 44 px ne recouvre plus l'extrait) + 20 px. */
+const LIEN_SUITE = 32;
 /** Extrait du Conseil : 3 lignes sous 768 px, 4 ensuite ; jamais moins de 3 dans la rangée (tour 4.2). */
 const LIGNES_MOBILE = 3;
 const LIGNES_EXTRAIT = 4;
 const LIGNES_MIN = 3;
 /** Largeur minimale du bloc titre à côté de la miniature (px). */
 const TITRE_MIN = 200;
+/** Marge minimale entre la fin du titre vidéo et le bord intérieur de la carte (px). */
+const MARGE_TITRE = 16;
 /** Plancher de la miniature : 220 px dès 1280 px, 160 px de 1024 à 1279 px (tour 4.2). */
 const MINIATURE_MIN_XL = 220;
 const MINIATURE_MIN = 160;
@@ -285,6 +290,11 @@ function repartir(corps: HTMLElement, reste: number): Repartition {
   return { blocs: Math.min(ECART_MAX - ECART_BLOCS, Math.round((reste / kBlocs) * 2) / 2) };
 }
 
+/** Reste qu'une carte peut absorber dans ses écarts entre blocs sans qu'aucun ne dépasse 24 px. */
+function capacite(corps: HTMLElement): number {
+  return Math.max(0, blocsVisibles(corps).length - 1) * (ECART_MAX - ECART_BLOCS);
+}
+
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
   const [showPunchline, setShowPunchline] = useState(false);
@@ -299,7 +309,11 @@ export function DailyContent() {
     video: SANS_REPARTITION,
   });
   const [rangeeOuverte, setRangeeOuverte] = useState(false);
+  /** Égalisation impossible sans écart > 24 px (1024 px, tour 4.4) : cartes à hauteur naturelle, alignées en haut. */
+  const [rangeeLibre, setRangeeLibre] = useState(false);
   const chuteRef = useRef<HTMLDivElement>(null);
+  const enonceRef = useRef<HTMLParagraphElement>(null);
+  const [enonceLong, setEnonceLong] = useState(false);
   const conseilRef = useRef<HTMLParagraphElement>(null);
   const extraitRef = useRef<HTMLDivElement>(null);
   const corpsConseilRef = useRef<HTMLDivElement>(null);
@@ -324,6 +338,22 @@ export function DailyContent() {
   useEffect(() => {
     if (showPunchline) chuteRef.current?.focus();
   }, [showPunchline]);
+
+  // Énoncé centré jusqu'à 3 lignes ; au-delà, aligné à gauche dans l'axe de 672 px, chute comprise (tour 4.4).
+  useEffect(() => {
+    const el = enonceRef.current;
+    if (!el) return;
+    const mesurer = () => {
+      const large = typeof window.matchMedia === "function" && window.matchMedia("(min-width: 1024px)").matches;
+      const ligne = parseFloat(getComputedStyle(el).lineHeight) || 1;
+      setEnonceLong(large && Math.round(el.getBoundingClientRect().height / ligne) > 3);
+    };
+    mesurer();
+    if (typeof ResizeObserver === "undefined") return;
+    const observateur = new ResizeObserver(mesurer);
+    observateur.observe(el);
+    return () => observateur.disconnect();
+  }, [data.joke, isLoading]);
 
   // Un accordéon ouvert dans la rangée : hauteurs naturelles, extrait du Conseil figé (V4.3).
   useEffect(() => {
@@ -356,6 +386,7 @@ export function DailyContent() {
         const n = media("(min-width: 768px)") ? LIGNES_EXTRAIT : LIGNES_MOBILE;
         setLignes(n);
         setLargeurMiniature(null);
+        setRangeeLibre(false);
         setEcarts((avant) =>
           avant.conseil === SANS_REPARTITION && avant.video === SANS_REPARTITION
             ? avant
@@ -373,7 +404,8 @@ export function DailyContent() {
       const autresVideo = hauteurNaturelle(corpsV, new Map([[bloc, 0]]));
       const ecart = parseFloat(getComputedStyle(bloc).columnGap) || 0;
       const h3 = titre.querySelector("h3") as HTMLElement | null;
-      const titreDeuxLignes = h3 ? Math.max(TITRE_MIN, largeurTitreDeuxLignes(h3)) : TITRE_MIN;
+      // Titre sur 2 lignes avec une vraie marge à droite (16 px du bord intérieur, tour 4.4).
+      const titreDeuxLignes = (h3 ? Math.max(TITRE_MIN, largeurTitreDeuxLignes(h3)) : TITRE_MIN) + MARGE_TITRE;
       const largeurMax = Math.max(miniatureMin, bloc.clientWidth - ecart - titreDeuxLignes);
       const hauteurTitre = titre.offsetHeight;
       // Plus grand extrait (4 lignes, puis 3) que la miniature permet d'égaler ; jamais sous 3 lignes.
@@ -383,10 +415,14 @@ export function DailyContent() {
       const largeur = Math.round(Math.min(largeurMax, Math.max(miniatureMin, (cible * 16) / 9)) * 2) / 2;
       // Reste : différence entre les deux cartes une fois la miniature posée, réparti dans la plus courte.
       const reste = hauteurConseil(n) - (autresVideo + Math.max((largeur * 9) / 16, hauteurTitre));
-      const suivants = {
-        conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
-        video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
-      };
+      const libre = reste > capacite(corpsV) + 0.5 || -reste > capacite(corpsC) + 0.5;
+      const suivants = libre
+        ? { conseil: SANS_REPARTITION, video: SANS_REPARTITION }
+        : {
+            conseil: reste < -0.5 ? repartir(corpsC, -reste) : SANS_REPARTITION,
+            video: reste > 0.5 ? repartir(corpsV, reste) : SANS_REPARTITION,
+          };
+      setRangeeLibre(libre);
       const memes = (a: Repartition, b: Repartition) => a.blocs === b.blocs;
       setLignes(n);
       setLargeurMiniature((avant) => (avant !== null && Math.abs(avant - largeur) < 0.5 ? avant : largeur));
@@ -432,6 +468,7 @@ export function DailyContent() {
   const videoCategory = data.video ? (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category) : "";
   const enonce = data.joke ? affiche(data.joke.content) : "";
   const chute = data.joke ? affiche(data.joke.punchline) : "";
+  const longueurVanne = Math.max(enonce.length, chute.length);
   const duree = data.video ? dureeAffichee(data.video.duration) : null;
   const chaine = data.video && !chaineRedondante(data.video.title, data.video.channelName) ? data.video.channelName : "";
   const aDesAccordeonsVideo = !!data.video && ((data.video.learnings?.length ?? 0) > 0 || !!data.video.exercise);
@@ -465,14 +502,16 @@ export function DailyContent() {
               <>
                 {/* Énoncé, puis la chute à la place du bouton, 12 px dessous : l'énoncé ne bouge pas au clic. */}
                 {/* Un seul axe dès 1024 px : énoncé, bouton, chute et décryptage dans la même largeur (tour 4.1). */}
-                <div className="flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-2xl lg:items-center lg:text-center">
-                  <p className={`font-medium text-text-primary [text-wrap:balance] ${tailleEnonce(enonce)}`}>
+                <div
+                  className={`flex flex-col gap-3 lg:mx-auto lg:w-full lg:max-w-2xl ${enonceLong ? "" : "lg:items-center lg:text-center"}`}
+                >
+                  <p ref={enonceRef} className={`font-medium text-text-primary [text-wrap:balance] ${tailleVanne(longueurVanne)}`}>
                     {citationsEnBloc(enonce)}
                   </p>
                   <div id="chute-du-jour" aria-live="polite" className="w-full">
                     {showPunchline ? (
                       <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
-                        <p className={`font-semibold text-text-primary [text-wrap:balance] lg:font-bold ${tailleChute(chute)}`}>
+                        <p className={`font-bold text-text-primary [text-wrap:balance] ${tailleVanne(longueurVanne)}`}>
                           {citationsEnBloc(chute)}
                         </p>
                       </div>
@@ -518,12 +557,12 @@ export function DailyContent() {
                 </Pied>
               </>
             ) : (
-              <p className="text-text-secondary">Même l’humour prend un jour off. Reviens demain pour ta dose !</p>
+              <p className="text-[15px] leading-6 text-text-secondary">Même l’humour prend un jour off. Reviens demain pour ta dose !</p>
             )}
           </div>
         </div>
 
-        <div ref={rangeeRef} className={RANGEE}>
+        <div ref={rangeeRef} className={RANGEE} data-libre={rangeeLibre}>
           {/* Conseil du jour : extrait de 4 lignes, même hauteur que la Vidéo dès 1024 px (tour 4.1). */}
           <div className={CARTE}>
             <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
@@ -551,13 +590,13 @@ export function DailyContent() {
                   <div
                     ref={extraitRef}
                     data-extrait={etatExtrait}
-                    className="flex flex-col items-start gap-2"
+                    className="flex flex-col items-start gap-3"
                   >
                     <p
                       id="conseil-du-jour-texte"
                       ref={conseilRef}
                       data-deplie={conseilDeplie}
-                      className={`text-sm leading-6 text-text-primary ${extraitClasses}`}
+                      className={`text-[15px] leading-6 text-text-primary ${extraitClasses}`}
                       style={extraitStyle}
                     >
                       {affiche(data.tip.content)}
@@ -568,7 +607,7 @@ export function DailyContent() {
                         aria-expanded={conseilDeplie}
                         aria-controls="conseil-du-jour-texte"
                         onClick={() => setConseilDeplie((d) => !d)}
-                        className="-my-3 inline-flex min-h-[44px] shrink-0 items-center rounded-md py-3 text-sm font-semibold text-accent-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+                        className="-my-3 inline-flex min-h-[44px] shrink-0 items-center rounded-md py-3 text-[15px] font-semibold text-accent-link hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
                       >
                         {conseilDeplie ? "Réduire" : "Lire la suite"}
                       </button>
@@ -600,7 +639,7 @@ export function DailyContent() {
                   </Pied>
                 </>
               ) : (
-                <p className="text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
+                <p className="text-[15px] leading-6 text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
               )}
             </div>
           </div>
@@ -629,7 +668,7 @@ export function DailyContent() {
                       verticalement (tour 4.2), accordéons pleine largeur dessous ; empilé sous 768 px. Anneau de
                       focus clavier sur toute la miniature ; liseré blanc à 10 % par-dessus l'image pour les
                       miniatures sombres (tour 4.3). */}
-                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-3">
+                  <div ref={blocVideoRef} className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6 lg:max-xl:gap-2">
                     <div
                       className="relative aspect-video w-full shrink-0 overflow-hidden rounded-lg bg-background-elevated after:pointer-events-none after:absolute after:inset-0 after:rounded-lg after:ring-1 after:ring-inset after:ring-white/10 after:content-[''] has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background-card md:w-[45%]"
                       style={largeurMiniature ? { width: largeurMiniature } : undefined}
@@ -639,7 +678,7 @@ export function DailyContent() {
                     <div ref={titreVideoRef} className="md:min-w-0 md:flex-1">
                       {/* 1024 à 1279 px (colonne de 428 px) : titre en 15 px et 12 px d'écart, seule combinaison mesurée qui
                           tient titre sur 2 lignes, miniature ≥ 200 px et écarts ≤ 24 px (tour 4.3). */}
-                      <h3 className={`${TITRE_CARTE} line-clamp-3 lg:max-xl:text-[15px]`}>{affiche(data.video.title)}</h3>
+                      <h3 className={`${TITRE_CARTE} line-clamp-3 md:line-clamp-2`}>{affiche(data.video.title)}</h3>
                       {(chaine || duree) && (
                         <p className="mt-1 text-sm text-text-secondary">
                           {chaine && <span>{chaine}</span>}
@@ -675,7 +714,7 @@ export function DailyContent() {
                   </Pied>
                 </>
               ) : (
-                <p className="text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>
+                <p className="text-[15px] leading-6 text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>
               )}
             </div>
           </div>

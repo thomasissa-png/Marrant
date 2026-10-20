@@ -44,14 +44,16 @@ const INSECABLE = String.fromCharCode(0xa0);
 const CITATION_RE = /([«“])([^«»“”]+)([»”])/g;
 
 /**
- * Citation courte (4 mots au plus) entre guillemets : ses deux premiers mots sont liés par une espace insécable,
- * pour qu'une réplique comme “Non non, repose-toi.” ne soit jamais coupée après son premier mot ; le reste
- * peut passer à la ligne, sans renvoyer toute la réplique en bloc (tours 4.2 et 4.3). Affichage seul.
+ * Citation courte (4 mots au plus) entre guillemets : ses deux premiers mots et ses deux derniers sont liés par
+ * une espace insécable. La réplique n'est jamais coupée après son premier mot (« “Non non, ») et ne laisse pas
+ * de veuve en fin de paragraphe (« repose-toi.” » seul), tours 4.2 à 4.4. Affichage seul.
  */
 export function citationsCourtesInsecables(texte: string): string {
   return texte.replace(CITATION_RE, (tout, ouvre: string, dedans: string, ferme: string) => {
     const mots = dedans.trim().split(/\s+/).filter(Boolean);
-    return mots.length >= 2 && mots.length <= 4 ? `${ouvre}${dedans.replace(/(\S) (\S)/, `$1${INSECABLE}$2`)}${ferme}` : tout;
+    if (mots.length < 2 || mots.length > 4) return tout;
+    const lie = dedans.replace(/(\S) (\S)/, `$1${INSECABLE}$2`).replace(/(\S) (\S+\s*)$/, `$1${INSECABLE}$2`);
+    return `${ouvre}${lie}${ferme}`;
   });
 }
 
@@ -61,26 +63,15 @@ export function affiche(texte: string): string {
 }
 
 /**
- * Taille de l'énoncé selon sa longueur affichée ; classes complètes écrites en dur pour le JIT.
- * Sous 1024 px : 20 puis 24 px dès 768 (v3). Dès 1024 px, bandeau plafonné à 40/48, paliers pour les
- * vannes longues (tour 4.1).
+ * Échelle typographique de la section (tour 4.4, demande du fondeur) : énoncé et chute de la Vanne à la même
+ * taille, choisie sur le plus long des deux textes affichés. 22/30 sous 1024 px ; dès 1024 px, 28/36, puis 24/32
+ * et 22/30 pour les vannes longues. Classes complètes écrites en dur pour le JIT.
  */
-export function tailleEnonce(texte: string): string {
-  const base = "text-xl leading-7 md:text-2xl md:leading-8";
-  if (texte.length <= 50) return `${base} lg:text-[2.5rem] lg:leading-[3rem]`;
-  if (texte.length <= 120) return `${base} lg:text-[2rem] lg:leading-10`;
-  return `${base} lg:text-[1.75rem] lg:leading-9`;
-}
-
-/**
- * Taille de la chute, indépendante de l'énoncé : v3 sous 1024 px ; dès 1024 px, 32/40 puis paliers pour les
- * chutes longues, de sorte qu'elle ne retombe jamais sous les trois quarts de l'énoncé sur le catalogue (tour 4.1).
- */
-export function tailleChute(texte: string): string {
-  const base = texte.length <= 100 ? "text-xl leading-7 md:text-2xl md:leading-8" : "text-xl leading-7";
-  if (texte.length <= 110) return `${base} lg:text-[2rem] lg:leading-10`;
-  if (texte.length <= 180) return `${base} lg:text-[1.75rem] lg:leading-9`;
-  return `${base} lg:text-2xl lg:leading-8`;
+export function tailleVanne(longueur: number): string {
+  const base = "text-[22px] leading-[30px]";
+  if (longueur <= 120) return `${base} lg:text-[28px] lg:leading-9`;
+  if (longueur <= 200) return `${base} lg:text-2xl lg:leading-8`;
+  return base;
 }
 
 /** Citation « … » de premier niveau de 60 caractères ou moins : jamais coupée en fin de ligne (V3.2). */
@@ -132,7 +123,7 @@ export function chaineRedondante(title: string, channelName: string): boolean {
 export function Section({ titre, separee = false, children }: { titre?: ReactNode; separee?: boolean; children?: ReactNode }) {
   return (
     <div className={separee ? "mt-4 border-t border-border-hover pt-4" : undefined}>
-      {titre && <p className="mb-1 text-sm font-semibold text-accent-link">{titre}</p>}
+      {titre && <p className="mb-1 font-semibold text-accent-link">{titre}</p>}
       {children}
     </div>
   );

@@ -6,25 +6,16 @@ import {
   decouperDefi,
   Exemple,
   Exercice,
-  tailleChute,
-  tailleEnonce,
+  tailleVanne,
 } from "@/components/home/daily-content-format";
 
 /** Mise en forme d'affichage des cartes du jour, spec v3 (V3.2, V3.5) : aucun mot changé. */
 describe("daily-content-format", () => {
-  it("chooses the setup size by displayed length, capped at 40/48 (tour 4.1)", () => {
-    expect(tailleEnonce("a".repeat(50))).toContain("lg:text-[2.5rem] lg:leading-[3rem]");
-    expect(tailleEnonce("a".repeat(51))).toContain("lg:text-[2rem]");
-    expect(tailleEnonce("a".repeat(120))).toContain("lg:text-[2rem]");
-    expect(tailleEnonce("a".repeat(121))).toContain("lg:text-[1.75rem]");
-    for (const n of [10, 80, 300]) expect(tailleEnonce("a".repeat(n))).toMatch(/^text-xl leading-7 md:text-2xl md:leading-8 /);
-  });
-
-  it("keeps the punchline at 32/40 up to 110 characters, then steps down (tour 4.1)", () => {
-    expect(tailleChute("a".repeat(60))).toBe("text-xl leading-7 md:text-2xl md:leading-8 lg:text-[2rem] lg:leading-10");
-    expect(tailleChute("a".repeat(105))).toBe("text-xl leading-7 lg:text-[2rem] lg:leading-10");
-    expect(tailleChute("a".repeat(150))).toBe("text-xl leading-7 lg:text-[1.75rem] lg:leading-9");
-    expect(tailleChute("a".repeat(181))).toBe("text-xl leading-7 lg:text-2xl lg:leading-8");
+  it("uses one size for setup and punchline: 22/30, then 28/36 from 1024 px with steps (tour 4.4)", () => {
+    expect(tailleVanne(80)).toBe("text-[22px] leading-[30px] lg:text-[28px] lg:leading-9");
+    expect(tailleVanne(120)).toBe("text-[22px] leading-[30px] lg:text-[28px] lg:leading-9");
+    expect(tailleVanne(150)).toBe("text-[22px] leading-[30px] lg:text-2xl lg:leading-8");
+    expect(tailleVanne(271)).toBe("text-[22px] leading-[30px]");
   });
 
   it("keeps short top-level quotes in one block, long ones in the flow", () => {
@@ -39,11 +30,11 @@ describe("daily-content-format", () => {
     expect(citationsEnBloc("Sans citation.")).toBe("Sans citation.");
   });
 
-  it("ties the first two words of a short quote (4 words or fewer), nothing else (tour 4.3)", () => {
+  it("ties the first two and the last two words of a short quote, nothing else (tour 4.4)", () => {
     const nbsp = String.fromCharCode(0xa0);
-    expect(citationsCourtesInsecables("tous : “Non non, repose-toi.” »")).toBe(`tous : “Non${nbsp}non, repose-toi.” »`);
+    expect(citationsCourtesInsecables("tous : “Non non, repose-toi.” »")).toBe(`tous : “Non${nbsp}non,${nbsp}repose-toi.” »`);
+    expect(citationsCourtesInsecables("« un deux trois quatre »")).toBe(`« un${nbsp}deux trois${nbsp}quatre »`);
     expect(citationsCourtesInsecables("« Pour pas que tu te fatigues. »")).toBe("« Pour pas que tu te fatigues. »");
-    expect(citationsCourtesInsecables(`«${nbsp}Pas moi.${nbsp}»`)).toBe(`«${nbsp}Pas${nbsp}moi.${nbsp}»`);
     expect(citationsCourtesInsecables("“Bonjour.”")).toBe("“Bonjour.”");
     expect(citationsCourtesInsecables("Sans citation, rien ne change.")).toBe("Sans citation, rien ne change.");
   });

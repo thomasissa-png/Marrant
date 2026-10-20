@@ -173,10 +173,20 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
             cote: t.left >= l.right,
             accordeons: accordeons.getBoundingClientRect().width - interieur,
             lignesTitre: Math.round(h3.getBoundingClientRect().height / parseFloat(getComputedStyle(h3).lineHeight)),
+            tailleTitre: parseFloat(getComputedStyle(h3).fontSize),
+            margeTitre: (() => {
+              const r = document.createRange();
+              r.selectNodeContents(h3);
+              const fin = Math.max(...Array.from(r.getClientRects()).map((q) => q.right));
+              return corps.getBoundingClientRect().right - parseFloat(style.paddingRight) - fin;
+            })(),
           };
         });
         // Titre vidéo sur 2 lignes au plus, de 768 à 1440 px (tour 4.2).
         expect(modele.lignesTitre, "lignes du titre vidéo").toBeLessThanOrEqual(2);
+        // Tour 4.4 : titre vidéo en 18 px au moins (20 dès 1280), à 16 px au moins du bord intérieur de la carte.
+        expect(modele.tailleTitre, "taille du titre vidéo").toBeGreaterThanOrEqual(largeur >= 1280 ? 20 : 18);
+        expect(modele.margeTitre, "marge à droite du titre vidéo").toBeGreaterThanOrEqual(16);
         expect(modele.cote, "titre à droite de la miniature").toBe(true);
         expect(modele.centre, "bloc titre centré verticalement sur la miniature").toBeLessThanOrEqual(1);
         expect(modele.videTitre, "vide dans le bloc titre vidéo").toBeLessThanOrEqual(24);
@@ -187,10 +197,17 @@ test.describe("Accueil, cartes du jour : bandeau et rangée", () => {
         const [bandeau, conseil, video] = avant;
         expect(Math.abs(conseil.gauche - bandeau.gauche), "bord gauche commun").toBeLessThanOrEqual(0.5);
         expect(Math.abs(video.droite - bandeau.droite), "bord droit commun").toBeLessThanOrEqual(0.5);
-        expect(Math.round(conseil.haut - bandeau.bas), "gouttière bandeau / rangée").toBe(24);
-        expect(Math.round(video.gauche - conseil.droite), "gouttière entre les cartes").toBe(24);
-        expect(Math.abs(conseil.bas - video.bas), "rangée de même hauteur").toBeLessThanOrEqual(0.5);
-        expect(Math.abs((conseil.filet ?? 0) - (video.filet ?? 0)), "filets de pied alignés").toBeLessThanOrEqual(0.5);
+        // Gouttières de 24 px, 16 px de 1024 à 1279 px (tour 4.4 : largeur utile pour la miniature et le titre).
+        const gouttiere = largeur < 1280 ? 16 : 24;
+        expect(Math.round(conseil.haut - bandeau.bas), "gouttière bandeau / rangée").toBe(gouttiere);
+        expect(Math.round(video.gauche - conseil.droite), "gouttière entre les cartes").toBe(gouttiere);
+        // Tour 4.4 : si l'égalisation demanderait un écart > 24 px (1024 px), la rangée passe en hauteurs naturelles.
+        const libre = await page.evaluate(() => (document.querySelector("[data-libre]") as HTMLElement).dataset.libre === "true");
+        if (!libre) {
+          expect(Math.abs(conseil.bas - video.bas), "rangée de même hauteur").toBeLessThanOrEqual(0.5);
+          expect(Math.abs((conseil.filet ?? 0) - (video.filet ?? 0)), "filets de pied alignés").toBeLessThanOrEqual(0.5);
+        }
+        if (largeur >= 1280) expect(libre, "rangée égalisée dès 1280 px").toBe(false);
       }
 
       const ouvertures: { nom: string; carte: number; agir: () => Promise<void> }[] = [
