@@ -2,14 +2,14 @@
 
 import { contenuAffiche } from "@/lib/tip-prose";
 import { frTypo } from "@/lib/fr-typo";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 import { fixInvertedCase, splitLearning } from "@/lib/learning-format";
 
 interface Joke {
@@ -85,15 +85,98 @@ const DIFFICULTY_LABELS: Record<string, string> = {
   EXPERT: "Expert",
 };
 
-/** En-tête d'un bloc repliable (exemple, exercice, apprentissages) : cible 44 px (T04). */
-const DETAILS_SUMMARY =
-  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-2 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-accent-link [&::-webkit-details-marker]:hidden";
+/*
+ * Cartes du jour (docs/design/cartes-du-jour/diagnostic-et-spec.md) : même squelette sur les 3 cartes
+ * (barre dégradée, en-tête, corps, pied), hauteur naturelle, aucune carte étirée par ses voisines (§2.8).
+ */
+
+/** Grille : pile d'une colonne sous 1024 px (576 px centrée dès 768 px), 3 colonnes alignées en haut ensuite (§2.2). */
+const GRILLE = "grid gap-4 md:mx-auto md:max-w-xl md:gap-6 lg:max-w-none lg:grid-cols-3 lg:items-start";
+
+const CARTE = "relative flex flex-col overflow-hidden rounded-xl border border-border bg-background-card";
+
+const CORPS_CARTE = `flex flex-col gap-4 ${MARGE_ENCADRE}`;
+
+/**
+ * Emplacement pointillé de la chute (§2.4) : exception assumée à la règle « outline-accent unique » de
+ * `button.tsx`, c'est un contrôle de révélation, pas une action d'entrée dans le produit.
+ */
+const CHUTE_EMPLACEMENT =
+  "flex min-h-[72px] w-full items-center justify-center gap-3 rounded-lg border border-dashed border-accent-primary/80 bg-accent-primary/5 px-4 text-base font-semibold text-text-primary transition-colors duration-150 hover:border-accent-primary hover:bg-accent-primary/10 active:bg-accent-primary/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link focus-visible:ring-offset-2 focus-visible:ring-offset-background-card";
+
+const CHUTE_REVELEE =
+  "min-h-[72px] rounded-lg border border-accent-primary/40 bg-accent-primary/10 p-4 animate-slide-up motion-reduce:animate-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link";
+
+/** Accordéons : un seul style pour les 6 (§2.7), cible 44 px (T04). */
+const ACCORDEON = "group/d rounded-lg border border-border bg-background-elevated open:border-border-hover";
+
+const ACCORDEON_TITRE =
+  "flex min-h-[44px] cursor-pointer list-none items-center justify-between gap-3 rounded-lg px-4 py-2 text-sm font-semibold text-text-primary [&::-webkit-details-marker]:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-link";
+
+const ACCORDEON_CORPS = "px-4 pb-4 text-sm leading-6 text-text-secondary";
+
+const TITRE_CARTE = "font-display text-lg font-bold leading-7 text-text-primary [text-wrap:pretty]";
 
 function Chevron() {
   return (
-    <svg className="h-4 w-4 shrink-0 transition-transform group-open/d:rotate-180" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+    <svg
+      className="h-4 w-4 shrink-0 text-accent-link transition-transform duration-150 motion-reduce:transition-none group-open/d:rotate-180"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+    >
       <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
     </svg>
+  );
+}
+
+function Oeil() {
+  return (
+    <svg className="h-5 w-5 shrink-0 text-accent-link" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  );
+}
+
+function Accordeon({ titre, children }: { titre: ReactNode; children: ReactNode }) {
+  return (
+    <details className={ACCORDEON}>
+      <summary className={ACCORDEON_TITRE}>
+        {titre}
+        <Chevron />
+      </summary>
+      {children}
+    </details>
+  );
+}
+
+/** En-tête identique sur les 3 cartes (§2.3) : emoji + type, puis pastilles neutres s'il y en a. */
+function EnTete({ emoji, type, children }: { emoji: string; type: string; children?: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-2">
+        <span className="text-xl leading-7" aria-hidden="true">{emoji}</span>
+        <p className="text-sm font-semibold leading-5 text-text-primary">{type}</p>
+      </div>
+      {children && <div className="flex flex-wrap gap-2">{children}</div>}
+    </div>
+  );
+}
+
+/** Pied identique sur les 3 cartes (§2.6) : réactions à gauche (Vanne seulement), partage puis favori à droite. */
+function Pied({ gauche, children }: { gauche?: ReactNode; children: ReactNode }) {
+  return (
+    <div className="flex min-h-[44px] items-center justify-between gap-2 border-t border-border pt-3">
+      {gauche}
+      <div className="ml-auto flex items-center gap-1">{children}</div>
+    </div>
   );
 }
 
@@ -111,10 +194,16 @@ function formatLearning(raw: string) {
   );
 }
 
+/** Nom de chaîne masqué (affichage seul) quand le titre commence déjà par lui (§2.5, m11). */
+function chaineRedondante(title: string, channelName: string) {
+  return title.trim().toLowerCase().startsWith(channelName.trim().toLowerCase());
+}
+
 export function DailyContent() {
   const [data, setData] = useState<DailyData>({ joke: null, tip: null, video: null });
   const [showPunchline, setShowPunchline] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const chuteRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/daily")
@@ -128,17 +217,22 @@ export function DailyContent() {
       .finally(() => setIsLoading(false));
   }, []);
 
+  // La chute remplace le bouton au même endroit : le focus clavier la suit (§2.4, M17).
+  useEffect(() => {
+    if (showPunchline) chuteRef.current?.focus();
+  }, [showPunchline]);
+
   if (isLoading) {
     return (
       <section className="py-12 md:py-16">
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6">
+        <div className={GRILLE}>
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-[86%] shrink-0 snap-center animate-pulse rounded-xl border border-border bg-background-card p-6 md:w-auto md:p-4 lg:p-6"
+              className={`min-h-[360px] animate-pulse rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}
             >
               <div className="mb-3 h-5 w-24 rounded bg-background-elevated" />
               <div className="h-4 w-3/4 rounded bg-background-elevated" />
@@ -151,88 +245,93 @@ export function DailyContent() {
     );
   }
 
+  const videoCategory = data.video ? (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category) : "";
+
   return (
-    <section className="py-12 md:py-16">
+    <section aria-labelledby="contenu-du-jour-titre" className="py-12 md:py-16">
       <h2 id="contenu-du-jour-titre" className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
         Ton contenu du jour
       </h2>
-      {/* Mobile (< 768 px) : carrousel horizontal (spec UX §2.8, T04) ; dès 768 px : grille de 3 (T2-06). Revue visuelle s21
-          (verdict @design, décision 1) : cartes étirées, même haut et même bas, pied d'actions commun aligné.
-          Zone défilante focusable et nommée (axe scrollable-region-focusable) : sans contenu
-          du jour (/api/daily en échec), aucune carte n'a d'élément focusable. */}
-      <div
-        role="region"
-        aria-labelledby="contenu-du-jour-titre"
-        tabIndex={0}
-        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
-      >
+      <div className={GRILLE}>
         {/* Vanne du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
+        <div className={CARTE}>
           <div className="h-1 bg-gradient-to-r from-accent-primary to-accent-secondary" />
-          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">😂</span>
-              <Badge variant="primary">Vanne du jour</Badge>
+          <div className={CORPS_CARTE}>
+            <EnTete emoji="😂" type="Vanne du jour">
               {data.joke && (
                 <Badge variant="default">
                   {JOKE_CATEGORY_LABELS[data.joke.category] ?? data.joke.category}
                 </Badge>
               )}
-            </div>
+            </EnTete>
             {data.joke ? (
               <>
-                <div className="flex flex-1 flex-col gap-4">
-                  <p className="text-xl font-medium leading-7 text-text-primary">{contenuAffiche(data.joke.content)}</p>
-                  {showPunchline ? (
-                    <p className="rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-link animate-fade-in">
-                      {contenuAffiche(data.joke.punchline)}
-                    </p>
-                  ) : (
-                    <Button
-                      variant="outline-accent"
-                      size="lg"
-                      className="mt-auto min-h-12 w-full"
-                      onClick={() => setShowPunchline(true)}
-                    >
-                      Révéler la chute
-                    </Button>
-                  )}
-                </div>
-                {showPunchline && data.joke.comedyTechnique && (
-                  <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 animate-fade-in">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-accent-link">
-                      Pourquoi ça marche&nbsp;: {contenuAffiche(data.joke.comedyTechnique)}
-                    </p>
-                    {data.joke.techniqueExplanation && (
-                      <p className="mt-2 text-sm text-text-secondary">
-                        {contenuAffiche(data.joke.techniqueExplanation)}
-                      </p>
-                    )}
-                    {data.joke.howToApply && (
-                      <div className="mt-3 rounded-md border border-border bg-background-card p-3">
-                        <p className="text-xs font-semibold text-text-primary">À toi de jouer</p>
-                        <p className="mt-1 text-sm text-text-secondary">{contenuAffiche(data.joke.howToApply)}</p>
+                <div className="flex flex-col gap-3">
+                  <p className="text-xl font-medium leading-7 text-text-primary [text-wrap:pretty] xl:text-2xl xl:leading-8">
+                    {contenuAffiche(data.joke.content)}
+                  </p>
+                  <div id="chute-du-jour" aria-live="polite">
+                    {showPunchline ? (
+                      <div ref={chuteRef} tabIndex={-1} className={CHUTE_REVELEE}>
+                        <p className="text-xl font-semibold leading-7 text-text-primary xl:text-2xl xl:leading-8">
+                          {contenuAffiche(data.joke.punchline)}
+                        </p>
                       </div>
-                    )}
-                    <p className="mt-3 text-xs text-text-muted">
-                      Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
-                      <Link
-                        href="/anatomie-vanne"
-                        className="font-medium text-accent-link underline underline-offset-2"
+                    ) : (
+                      <button
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="chute-du-jour"
+                        className={CHUTE_EMPLACEMENT}
+                        onClick={() => setShowPunchline(true)}
                       >
-                        L’anatomie d’une vanne
-                      </Link>
-                    </p>
+                        <Oeil />
+                        Révéler la chute
+                      </button>
+                    )}
                   </div>
+                </div>
+                {/* Décision D1 : décryptage fermé par défaut, à un tap sous la chute. */}
+                {showPunchline && data.joke.comedyTechnique && (
+                  <Accordeon
+                    titre={
+                      <span className="flex flex-col">
+                        <span>Pourquoi ça marche</span>
+                        <span className="text-sm font-normal text-text-secondary">
+                          {contenuAffiche(data.joke.comedyTechnique)}
+                        </span>
+                      </span>
+                    }
+                  >
+                    <div className={ACCORDEON_CORPS}>
+                      {data.joke.techniqueExplanation && <p>{contenuAffiche(data.joke.techniqueExplanation)}</p>}
+                      <div className="mt-3 border-t border-border pt-3">
+                        {data.joke.howToApply && (
+                          <>
+                            <p className="text-sm font-semibold text-text-primary">À toi de jouer</p>
+                            <p>{contenuAffiche(data.joke.howToApply)}</p>
+                          </>
+                        )}
+                        <p className={data.joke.howToApply ? "mt-3" : undefined}>
+                          Tu veux voir comment une vanne se construit, pièce par pièce ?{" "}
+                          <Link
+                            href="/anatomie-vanne"
+                            className="font-medium text-accent-link underline underline-offset-2"
+                          >
+                            L’anatomie d’une vanne
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
+                  </Accordeon>
                 )}
-                <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
-                  <ReactionButtons jokeId={data.joke.id} />
+                <Pied gauche={<ReactionButtons jokeId={data.joke.id} />}>
                   <ShareButton
                     title="Vanne du jour · deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
                   />
                   <FavoriteButton contentType="JOKE" contentId={data.joke.id} apercu={data.joke.content} />
-                </div>
+                </Pied>
               </>
             ) : (
               <p className="text-text-secondary">Même l’humour prend un jour off. Reviens demain pour ta dose !</p>
@@ -241,15 +340,13 @@ export function DailyContent() {
         </div>
 
         {/* Conseil du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
+        <div className={CARTE}>
           <div className="h-1 bg-gradient-to-r from-accent-secondary to-accent-primary" />
-          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">💡</span>
-              <Badge variant="primary">Conseil du jour</Badge>
+          <div className={CORPS_CARTE}>
+            <EnTete emoji="💡" type="Conseil du jour">
               {data.tip && (
                 <>
-                  <Badge variant="secondary">
+                  <Badge variant="default">
                     {DIFFICULTY_LABELS[data.tip.difficulty] ?? data.tip.difficulty}
                   </Badge>
                   <Badge variant="default">
@@ -257,40 +354,32 @@ export function DailyContent() {
                   </Badge>
                 </>
               )}
-            </div>
+            </EnTete>
             {data.tip ? (
               <>
-                <div className="space-y-4">
-                  <h3 className="font-display text-lg font-bold text-text-primary">
-                    {frTypo(data.tip.title)}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-text-primary md:max-lg:line-clamp-6">{contenuAffiche(data.tip.content)}</p>
-                  {data.tip.example && (
-                    <details className="group/d rounded-lg bg-background-elevated">
-                      <summary className={DETAILS_SUMMARY}>
-                        Exemple concret
-                        <Chevron />
-                      </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{contenuAffiche(data.tip.example)}</p>
-                    </details>
-                  )}
-                  {data.tip.exercise && (
-                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
-                      <summary className={DETAILS_SUMMARY}>
-                        Exercice du jour
-                        <Chevron />
-                      </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{contenuAffiche(data.tip.exercise)}</p>
-                    </details>
-                  )}
-                </div>
-                <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
+                <h3 className={TITRE_CARTE}>{frTypo(data.tip.title)}</h3>
+                <p className="text-sm leading-6 text-text-primary">{contenuAffiche(data.tip.content)}</p>
+                {(data.tip.example || data.tip.exercise) && (
+                  <div className="flex flex-col gap-2">
+                    {data.tip.example && (
+                      <Accordeon titre="Exemple concret">
+                        <p className={ACCORDEON_CORPS}>{contenuAffiche(data.tip.example)}</p>
+                      </Accordeon>
+                    )}
+                    {data.tip.exercise && (
+                      <Accordeon titre="Exercice du jour">
+                        <p className={ACCORDEON_CORPS}>{contenuAffiche(data.tip.exercise)}</p>
+                      </Accordeon>
+                    )}
+                  </div>
+                )}
+                <Pied>
                   <ShareButton
                     title="Conseil du jour · deviens-marrant.fr"
                     text={`${data.tip.title}\n${data.tip.content}`}
                   />
                   <FavoriteButton contentType="TIP" contentId={data.tip.id} apercu={data.tip.title} />
-                </div>
+                </Pied>
               </>
             ) : (
               <p className="text-text-secondary">Le conseil du jour s’est attardé à la machine à café. Il revient demain, avec des anecdotes.</p>
@@ -299,67 +388,58 @@ export function DailyContent() {
         </div>
 
         {/* Vidéo du jour */}
-        <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
+        <div className={CARTE}>
           <div className="h-1 bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary" />
-          <div className="flex flex-1 flex-col gap-4 p-6 md:p-4 lg:p-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-2xl" aria-hidden="true">🎬</span>
-              <Badge variant="primary">Vidéo du jour</Badge>
+          <div className={CORPS_CARTE}>
+            <EnTete emoji="🎬" type="Vidéo du jour">
               {data.video && (
                 <>
-                  <Badge variant="default">
-                    {TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category}
-                  </Badge>
-                  {data.video.technique &&
-                    data.video.technique.toLowerCase() !== (TIP_VIDEO_CATEGORY_LABELS[data.video.category] ?? data.video.category).toLowerCase() && (
+                  <Badge variant="default">{videoCategory}</Badge>
+                  {data.video.technique && data.video.technique.toLowerCase() !== videoCategory.toLowerCase() && (
                     <Badge variant="default">{data.video.technique}</Badge>
                   )}
                 </>
               )}
-            </div>
+            </EnTete>
             {data.video ? (
               <>
-                <div className="space-y-4">
-                  <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
-                    <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">{contenuAffiche(data.video.title)}</h3>
-                    <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
-                  </div>
-                  {data.video.learnings && data.video.learnings.length > 0 && (
-                    <details className="group/d rounded-lg bg-background-elevated">
-                      <summary className={DETAILS_SUMMARY}>
-                        Ce que tu vas apprendre
-                        <Chevron />
-                      </summary>
-                      <ul className="space-y-1.5 px-4 pb-4">
-                        {data.video.learnings.slice(0, 2).map((learning, i) => (
-                          <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
-                            <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
-                            <span>{formatLearning(learning)}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  )}
-                  {data.video.exercise && (
-                    <details className="group/d rounded-lg border border-accent-primary/20 bg-accent-primary/5">
-                      <summary className={DETAILS_SUMMARY}>
-                        Exercice pratique
-                        <Chevron />
-                      </summary>
-                      <p className="px-4 pb-4 text-sm leading-relaxed text-text-secondary">{contenuAffiche(fixInvertedCase(data.video.exercise))}</p>
-                    </details>
+                <div className="relative aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                  <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
+                </div>
+                <div>
+                  <h3 className={`${TITRE_CARTE} line-clamp-3`}>{contenuAffiche(data.video.title)}</h3>
+                  {!chaineRedondante(data.video.title, data.video.channelName) && (
+                    <p className="mt-1 text-sm text-text-secondary">{data.video.channelName}</p>
                   )}
                 </div>
-                <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
+                {((data.video.learnings && data.video.learnings.length > 0) || data.video.exercise) && (
+                  <div className="flex flex-col gap-2">
+                    {data.video.learnings && data.video.learnings.length > 0 && (
+                      <Accordeon titre="Ce que tu vas apprendre">
+                        <ul className={`space-y-1.5 ${ACCORDEON_CORPS}`}>
+                          {data.video.learnings.slice(0, 2).map((learning, i) => (
+                            <li key={i} className="flex items-start gap-1.5">
+                              <span className="shrink-0 text-accent-link" aria-hidden="true">•</span>
+                              <span>{formatLearning(learning)}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </Accordeon>
+                    )}
+                    {data.video.exercise && (
+                      <Accordeon titre="Exercice pratique">
+                        <p className={ACCORDEON_CORPS}>{contenuAffiche(fixInvertedCase(data.video.exercise))}</p>
+                      </Accordeon>
+                    )}
+                  </div>
+                )}
+                <Pied>
                   <ShareButton
                     title="Vidéo du jour · deviens-marrant.fr"
                     text={`${data.video.title} · ${data.video.channelName}`}
                   />
                   <FavoriteButton contentType="VIDEO" contentId={data.video.id} apercu={data.video.title} />
-                </div>
+                </Pied>
               </>
             ) : (
               <p className="text-text-secondary">L’humoriste du jour est en coulisses. À demain !</p>

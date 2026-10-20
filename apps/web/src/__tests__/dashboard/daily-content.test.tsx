@@ -112,6 +112,9 @@ describe("DailyContent", () => {
     await waitFor(() => {
       expect(screen.getByText("Révéler la chute")).toBeInTheDocument();
     });
+    const bouton = screen.getByRole("button", { name: "Révéler la chute" });
+    expect(bouton).toHaveAttribute("aria-expanded", "false");
+    expect(bouton).toHaveAttribute("aria-controls", "chute-du-jour");
   });
 
   it("reveals punchline on button click", async () => {
@@ -121,6 +124,81 @@ describe("DailyContent", () => {
     });
     await userEvent.click(screen.getByText("Révéler la chute"));
     expect(screen.getByText("Parce que sinon ils tomberaient dans le bateau.")).toBeInTheDocument();
+  });
+
+  it("replaces the button with the punchline in place, moves focus and announces it (cartes du jour §2.4)", async () => {
+    const { container } = render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Révéler la chute" })).toBeInTheDocument();
+    });
+    const emplacement = container.querySelector("#chute-du-jour");
+    expect(emplacement).toHaveAttribute("aria-live", "polite");
+    expect(emplacement).toContainElement(screen.getByRole("button", { name: "Révéler la chute" }));
+
+    await userEvent.click(screen.getByRole("button", { name: "Révéler la chute" }));
+
+    // Même emplacement : la chute prend la place du bouton, qui disparaît.
+    expect(container.querySelector("#chute-du-jour")).toBe(emplacement);
+    expect(screen.queryByRole("button", { name: "Révéler la chute" })).not.toBeInTheDocument();
+    const chute = screen.getByText("Parce que sinon ils tomberaient dans le bateau.");
+    expect(emplacement).toContainElement(chute);
+    // Focus clavier déplacé sur la chute (conteneur focusable par script uniquement).
+    const cible = chute.closest("[tabindex='-1']");
+    expect(cible).not.toBeNull();
+    expect(cible).toHaveFocus();
+  });
+
+  it("keeps « Pourquoi ça marche » closed by default after the reveal (décision D1)", async () => {
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByRole("button", { name: "Révéler la chute" })).toBeInTheDocument();
+    });
+    await userEvent.click(screen.getByRole("button", { name: "Révéler la chute" }));
+
+    const titre = screen.getByText("Pourquoi ça marche");
+    const accordeon = titre.closest("details");
+    expect(accordeon).not.toBeNull();
+    expect(accordeon).not.toHaveAttribute("open");
+    // Nom de la technique sur la 2e ligne du titre, sans « : ».
+    expect(titre.closest("summary")).toHaveTextContent(/^Pourquoi ça marcheLa logique absurde$/);
+
+    await userEvent.click(titre);
+    expect(accordeon).toHaveAttribute("open");
+  });
+
+  it("uses one neutral header per card: type label, no primary/secondary badge (cartes du jour §2.3)", async () => {
+    const { container } = render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Le timing parfait")).toBeInTheDocument();
+    });
+    for (const type of ["Vanne du jour", "Conseil du jour", "Vidéo du jour"]) {
+      expect(screen.getByText(type).tagName).toBe("P");
+    }
+    expect(container.querySelector(".bg-accent-primary\\/20, .bg-accent-secondary\\/30")).toBeNull();
+  });
+
+  it("is a labelled section, not a focusable scroll region (cartes du jour §2.2)", async () => {
+    const { container } = render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByRole("region", { name: "Ton contenu du jour" }).tagName).toBe("SECTION");
+    });
+    expect(container.querySelector("[tabindex='0']")).toBeNull();
+    expect(container.querySelector(".overflow-x-auto")).toBeNull();
+  });
+
+  it("hides the channel line when the video title already starts with it (display only)", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockDailyData,
+        video: { ...mockDailyData.video, title: "Humour Academy - Les secrets du timing", channelName: "humour academy" },
+      }),
+    });
+    render(<DailyContent />);
+    await waitFor(() => {
+      expect(screen.getByText("Humour Academy - Les secrets du timing")).toBeInTheDocument();
+    });
+    expect(screen.queryByText("humour academy")).not.toBeInTheDocument();
   });
 
   it("shows category badge", async () => {

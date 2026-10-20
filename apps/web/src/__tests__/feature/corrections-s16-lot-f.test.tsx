@@ -71,11 +71,14 @@ describe("2. liens dans le texte soulignés en permanence", () => {
 });
 
 describe("3. accueil : contenu du jour vide (/api/daily en échec)", () => {
-  it("zone défilante focusable et nommée par son titre", async () => {
+  // Cartes du jour (§2.2) : plus de carrousel, donc plus de zone défilante à rendre focusable
+  // (axe scrollable-region-focusable sans objet) ; la section reste nommée par son titre.
+  it("section nommée par son titre, sans zone défilante horizontale", async () => {
     global.fetch = jest.fn().mockResolvedValue(reponse(500, {})) as unknown as typeof fetch;
-    render(<DailyContent />);
+    const { container } = render(<DailyContent />);
     const zone = await screen.findByRole("region", { name: "Ton contenu du jour" });
-    expect(zone).toHaveAttribute("tabindex", "0");
+    expect(zone.tagName).toBe("SECTION");
+    expect(container.querySelector(".overflow-x-auto, .overflow-auto, .overflow-scroll")).toBeNull();
   });
 });
 
