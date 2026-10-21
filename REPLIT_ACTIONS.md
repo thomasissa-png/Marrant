@@ -2,6 +2,13 @@
 
 ## À DÉPLOYER
 
+#### BOUTON « RÉVÉLER LA CHUTE » COLLÉ À LA VANNE (branche `claude/marrant-vanne-bouton`, commit `a90e52c`) : P0, P1, P4, P6, P8 du trajet de conversion s21.
+
+**PAS ENCORE DÉPLOYÉ.** Une seule ligne : `apps/web/src/components/home/daily-content.tsx` l. 194, retrait de `mt-auto` sur le bouton. Branche partie de `claude/marrant-conversion` (`ffd2903`, code en production `acddd1d`). Aucune migration, aucun secret. N-1 attendu : `b5e645dd-f3b3-4d80-92dc-14c71354780d`. Vérifs : tsc build, next lint, npm run build, Jest daily-content 29/29 (env factice). Captures avant/après : `docs/design/vanne-bouton/`. Remplace la refonte abandonnée de `claude/marrant-cartes-du-jour` (ne pas déployer celle-ci). Feu vert de Thomas écrit requis avant P4.
+- P6 : accueil 200, /api/health ok, en-têtes identiques, routes admin 401 ; bouton « Révéler la chute » sous la vanne.
+- P8 : `npx wrangler rollback b5e645dd-f3b3-4d80-92dc-14c71354780d`.
+
+
 #### MISE EN LIGNE DU TRAJET DE CONVERSION s21 (branche `claude/marrant-conversion`) : P0, P1, P4, P6 adapté, P8 (@qa, 19/10/2026). **P2, P3, P5 et P7 ne se rejouent pas.**
 
 **DÉPLOYÉ le 19/10/2026 à 20:44 UTC** (feu vert écrit de Thomas « go mise en ligne! ») : version `b5e645dd-f3b3-4d80-92dc-14c71354780d`, commit `e8b431c` (code `acddd1d`), N-1 `3b52c0c2` à 100 % vérifié en P1. P6 conforme : pages 200, /abonnement porte « Premium ouvre tout », « S’abonner · 2,99 €/mois », la FAQ « Et si j’arrête ? » et le lien `#le-carnet-en-vrai`, zéro « Ouvrir les 5 parcours » sur /, /parcours et /abonnement ; `/api/tips` en visiteur sans exercice ; `/api/health` ok (base up, Stripe live) ; routes admin 401 ; six en-têtes de sécurité identiques à l'avant. Rollback si besoin : `npx wrangler rollback 3b52c0c2-a626-4be3-8471-85723c70e69e`.
