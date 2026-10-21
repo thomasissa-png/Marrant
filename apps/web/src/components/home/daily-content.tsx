@@ -134,7 +134,7 @@ export function DailyContent() {
         <h2 className="font-display mb-8 text-center text-3xl font-bold md:text-4xl">
           Ton contenu du jour
         </h2>
-        <div className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6">
+        <div className="-mx-4 flex snap-x snap-mandatory items-start gap-3 md:items-stretch overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6">
           {[0, 1, 2].map((i) => (
             <div
               key={i}
@@ -164,7 +164,7 @@ export function DailyContent() {
         role="region"
         aria-labelledby="contenu-du-jour-titre"
         tabIndex={0}
-        className="-mx-4 flex snap-x snap-mandatory items-stretch gap-3 overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+        className="-mx-4 flex snap-x snap-mandatory items-start gap-3 md:items-stretch overflow-x-auto px-4 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:pb-0 lg:gap-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
       >
         {/* Vanne du jour */}
         <div className="relative w-[86%] shrink-0 snap-center flex flex-col overflow-hidden rounded-xl border border-border bg-background-card md:w-auto">
@@ -184,7 +184,7 @@ export function DailyContent() {
                 <div className="flex flex-1 flex-col gap-4">
                   <p className="text-xl font-medium leading-7 text-text-primary">{contenuAffiche(data.joke.content)}</p>
                   {showPunchline ? (
-                    <p className="rounded-lg bg-accent-primary/10 p-3 text-base font-semibold text-accent-link animate-fade-in">
+                    <p className="rounded-lg bg-accent-primary/10 p-3 text-lg font-semibold text-accent-link animate-fade-in">
                       {contenuAffiche(data.joke.punchline)}
                     </p>
                   ) : (
@@ -227,6 +227,7 @@ export function DailyContent() {
                 )}
                 <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
                   <ReactionButtons jokeId={data.joke.id} />
+                  <span className="flex-1" aria-hidden="true" />
                   <ShareButton
                     title="Vanne du jour · deviens-marrant.fr"
                     text={`${data.joke.content}\n${data.joke.punchline}`}
@@ -264,7 +265,7 @@ export function DailyContent() {
                   <h3 className="font-display text-lg font-bold text-text-primary">
                     {frTypo(data.tip.title)}
                   </h3>
-                  <p className="text-sm leading-relaxed text-text-primary md:max-lg:line-clamp-6">{contenuAffiche(data.tip.content)}</p>
+                  <p className="text-sm leading-relaxed text-text-primary">{contenuAffiche(data.tip.content)}</p>
                   {data.tip.example && (
                     <details className="group/d rounded-lg bg-background-elevated">
                       <summary className={DETAILS_SUMMARY}>
@@ -284,7 +285,7 @@ export function DailyContent() {
                     </details>
                   )}
                 </div>
-                <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
+                <div className="mt-auto flex items-center justify-end gap-2 border-t border-border pt-4">
                   <ShareButton
                     title="Conseil du jour · deviens-marrant.fr"
                     text={`${data.tip.title}\n${data.tip.content}`}
@@ -324,7 +325,7 @@ export function DailyContent() {
                     <YouTubePlayer youtubeId={data.video.youtubeId} title={data.video.title} />
                   </div>
                   <div>
-                    <h3 className="font-display text-base font-bold text-text-primary line-clamp-2">{contenuAffiche(data.video.title)}</h3>
+                    <h3 className="font-display text-lg font-bold text-text-primary line-clamp-2">{contenuAffiche(data.video.title)}</h3>
                     <p className="mt-0.5 text-sm text-text-secondary">{data.video.channelName}</p>
                   </div>
                   {data.video.learnings && data.video.learnings.length > 0 && (
@@ -353,7 +354,7 @@ export function DailyContent() {
                     </details>
                   )}
                 </div>
-                <div className="mt-auto flex items-center gap-2 border-t border-border pt-4">
+                <div className="mt-auto flex items-center justify-end gap-2 border-t border-border pt-4">
                   <ShareButton
                     title="Vidéo du jour · deviens-marrant.fr"
                     text={`${data.video.title} · ${data.video.channelName}`}
