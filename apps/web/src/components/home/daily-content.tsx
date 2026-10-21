@@ -191,7 +191,7 @@ export function DailyContent() {
                     <Button
                       variant="outline-accent"
                       size="lg"
-                      className="mt-auto min-h-12 w-full"
+                      className="min-h-12 w-full"
                       onClick={() => setShowPunchline(true)}
                     >
                       Révéler la chute
