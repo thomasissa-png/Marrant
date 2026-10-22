@@ -184,7 +184,7 @@ Tu préfères choisir ton terrain ?
 - [Famille](/vannes/theme/famille)
 - [Autodérision](/vannes/theme/autoderision)
 
-Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription. Pour progresser sur la durée, il y a les [3 parcours](/parcours), les [conseils](/conseils) et les [vidéos](/videos).
+Pas sûr de ton style ? [Le quiz « quel type d'humour es-tu ? »](/quiz-humour) prend environ 2 minutes, sans inscription. Pour progresser sur la durée, il y a les [parcours](/parcours), les [conseils](/conseils) et les [vidéos](/videos).
 
 → **[La blague du jour](/blague-du-jour)** : celle d'aujourd'hui, et demain une autre.
 
