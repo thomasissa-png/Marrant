@@ -2,7 +2,12 @@
 
 ## À DÉPLOYER
 
-## s22 Widget La vanne du jour, NON DÉPLOYÉ (attend le go de Thomas)
+## s22 Widget La vanne du jour, **DÉPLOYÉ le 24/10/2026 vers 17:45 UTC** (go écrit de Thomas « 4. Go », puis « C'est fait ») : version `7e686f72-fe04-43cf-bb88-b0c59ed25a1a`, commit `73e0c81e` (interrupteur ouvert), CI verte (run 40116304828), N-1 `643ed7c7-3ddb-4454-a7fe-5c6c8f78afd3`. Retour arrière : `cd apps/web && npx wrangler rollback 643ed7c7-3ddb-4454-a7fe-5c6c8f78afd3`.
+
+- **P6 en ligne** : 10 pages en 200 (/, /vannes, /abonnement, /blog, /parcours, /confidentialite, /integrer-la-vanne-du-jour, /widget.js, /embed/vanne-du-jour, API) ; `/embed/vanne-du-jour` sans X-Frame-Options, CSP de l'embed, `X-Robots-Tag: noindex` ; `/embed/autre` 404 + `X-Frame-Options: DENY` ; API = `amorce,attribution,chute,date,license,type,url`, vanne servie dans `WIDGET_JOKE_IDS` ; en-têtes de sécurité de l'accueil identiques à N-1 ; page du programme dans le sitemap ; santé `ok`, base `up` ; Premium fermé (tips, jokes, videos : 0) ; admin 401 ×4 ; lien de pied de page et puce de confidentialité en ligne ; affichage depuis un domaine tiers 200 avec le lien de marque ; liaison Analytics Engine `WIDGET_AFFICHAGES` active, requête SQL lisible avec le jeton de la session.
+- **Reste** : règle Cloudflare de limite (le jeton de la session reçoit 403 sur les règles WAF : droit Zone > WAF > Modifier à ajouter par Thomas) ; IndexNow par le cron `weekly-seo` du lundi ; baseline des recherches de marque relevée après coup (Search Console garde l'historique) ; alerte de stock N4 avant J+30.
+
+### Entrée d'origine (procédure, fichiers, mesure)
 
 Branche `claude/ouverture-session-nzwj0w`, itération 4 (revues @design v3, QA v3, @reviewer v3). **Ne rien mettre en ligne sans go écrit de Thomas.** Même déployé, le code est inerte : `WIDGET_VANNE_DU_JOUR_PUBLIE = false` (page du programme en 404 et hors sitemap, API en 503, iframe en repli neutre en 200 sans vanne ni phrase). Liste blanche : les 93 identifiants de `docs/growth/widget-relecture-s22/selection-finale.md`. Aucune migration, aucun secret nouveau, aucune écriture en base.
 
