@@ -6,6 +6,15 @@ import { frTypo } from "@/lib/fr-typo";
 import { JsonLd, buildBreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { BlocCode } from "@/components/widget/bloc-code";
 import {
+  PAGE_TITLE,
+  PAGE_DESCRIPTION,
+  TEXTE_CHAPEAU,
+  TEXTE_OPTION_IFRAME,
+  TEXTE_WORDPRESS,
+  TEXTE_OPTION_SCRIPT,
+  TEXTE_AFFICHAGE,
+} from "@/config/textes/widget-programme";
+import {
   WIDGET_API_PATH,
   WIDGET_EMBED_PATH,
   WIDGET_IFRAME_HEIGHT,
@@ -24,13 +33,9 @@ import {
 // Tant que WIDGET_VANNE_DU_JOUR_PUBLIE vaut false : 404 et absente du sitemap.
 
 const PAGE_URL = `${WIDGET_ORIGIN}${WIDGET_PROGRAMME_PATH}`;
-// BROUILLON s22 : title, description, H1 et textes de la page (étalons Thomas, puis @copywriter).
-const PAGE_TITLE = "Intègre la vanne du jour sur ton site";
-const PAGE_DESCRIPTION =
-  "La vanne du jour sur ton site, gratuitement : un widget à coller en une ligne, sans cookie et sans pub. Une nouvelle vanne chaque jour.";
-
 export const metadata: Metadata = {
-  title: PAGE_TITLE,
+  // Sans le suffixe « | deviens-marrant.fr » du layout : <title> de 54 caractères (60 au plus).
+  title: { absolute: PAGE_TITLE },
   description: PAGE_DESCRIPTION,
   alternates: { canonical: PAGE_URL },
   robots: WIDGET_VANNE_DU_JOUR_PUBLIE ? undefined : { index: false, follow: false },
@@ -67,11 +72,13 @@ const IFRAME_STYLE = {
   height: WIDGET_IFRAME_HEIGHT_CSS,
 } as const;
 const APERCUS = [
-  // BROUILLON s22 : titres des aperçus.
+  // Bloc 4 : titres des aperçus.
   { theme: "clair", titre: "Sur fond clair", cadre: "bg-[#FAF7F2]" },
   { theme: "sombre", titre: "Sur fond sombre", cadre: "bg-background-light" },
 ] as const;
 const P = "mt-3 text-text-secondary";
+/** Champs de la réponse de l'API, dans l'ordre du texte R10. */
+const CHAMPS_API = ["type", "date", "amorce", "chute", "url", "attribution", "license"] as const;
 const CODE = "rounded bg-background-elevated px-1.5 py-0.5 text-sm text-text-primary";
 
 export default function IntegrerLaVanneDuJourPage() {
@@ -94,12 +101,7 @@ export default function IntegrerLaVanneDuJourPage() {
         </nav>
 
         <h1 className="font-display text-3xl font-bold md:text-4xl">{PAGE_TITLE}</h1>
-        {/* BROUILLON s22 */}
-        <p className="mt-4 text-lg text-text-secondary">
-          {frTypo(
-            "La vanne du jour, c'est un widget gratuit : chaque jour, une nouvelle vanne s'affiche sur ton site. Tu colles une ligne de code, on s'occupe du reste.",
-          )}
-        </p>
+        <p className="mt-4 text-lg text-text-secondary">{frTypo(TEXTE_CHAPEAU)}</p>
 
         <h2 className={H2}>Aperçu</h2>
         {/* Revue @design M4 : deux aperçus réels, dans un cadre qui simule le site hôte.
@@ -107,7 +109,6 @@ export default function IntegrerLaVanneDuJourPage() {
         <div className="mt-4 grid gap-6">
           {APERCUS.map((a) => (
             <div key={a.theme}>
-              {/* BROUILLON s22 */}
               <h3 className="text-base font-semibold text-text-primary">{a.titre}</h3>
               {/* Revue @design N5 : carte centrée dans son cadre. */}
               <div className={`mt-2 flex justify-center rounded-xl p-4 ${a.cadre}`}>
@@ -127,54 +128,48 @@ export default function IntegrerLaVanneDuJourPage() {
         </div>
 
         <h2 className={H2}>Le code à copier</h2>
-        {/* BROUILLON s22 */}
-        <p className={P}>
-          {frTypo(
-            "Option 1 : l'iframe. Rien ne s'exécute sur ton site. Sa hauteur s'adapte à la largeur de l'écran : sur petit écran, la carte est plus haute.",
-          )}
-        </p>
+        <p className={P}>{frTypo(TEXTE_OPTION_IFRAME)}</p>
         <BlocCode id="code-iframe" label="Iframe" code={widgetIframeSnippet()} />
-        {/* BROUILLON s22 */}
-        <p className={`${P} mt-6`}>
-          {frTypo(
-            "Option 2 : le script. Il crée la même iframe à l'endroit où tu le colles, et l'agrandit si la chute en a besoin. Pour une colonne étroite (barre latérale), choisis cette option.",
-          )}
-        </p>
+        <p className={P}>{frTypo(TEXTE_WORDPRESS)}</p>
+        <p className={`${P} mt-6`}>{frTypo(TEXTE_OPTION_SCRIPT)}</p>
         <BlocCode id="code-script" label="Script" code={widgetScriptSnippet()} />
-        {/* BROUILLON s22 */}
+        {/* Bloc 7 */}
         <p className={P}>
-          {frTypo("Ton site a une politique de sécurité (CSP) ? Ajoute ")}
+          {frTypo("Si ton site limite ce qu'il peut charger (une CSP), ajoute ")}
           <code className={`${CODE} [overflow-wrap:anywhere] min-[360px]:whitespace-nowrap`}>frame-src {WIDGET_ORIGIN}</code>
-          {frTypo(", et pour l'option 2 ")}
-          <code className={`${CODE} [overflow-wrap:anywhere] min-[360px]:whitespace-nowrap`}>script-src {WIDGET_ORIGIN}</code>.
+          {frTypo(" et, si tu as pris le script, ")}
+          <code className={`${CODE} [overflow-wrap:anywhere] min-[360px]:whitespace-nowrap`}>script-src {WIDGET_ORIGIN}</code>
+          {frTypo(". Sinon le navigateur bloquera la vanne. Tu ne sais pas ce qu'est une CSP ? Tu n'as sans doute rien à faire.")}
         </p>
 
         <h2 className={H2}>Thème</h2>
-        {/* BROUILLON s22 */}
+        {/* R8 */}
         <p className={P}>
-          {frTypo("Par défaut, le widget suit le mode clair ou sombre de ton visiteur. Pour le fixer, ajoute ")}
+          {frTypo("Rien à faire : le widget s'adapte au mode clair ou sombre de ton visiteur. Ton site garde toujours le même fond ? Impose le thème en ajoutant ")}
           <code className={CODE}>?theme=clair</code> ou <code className={CODE}>?theme=sombre</code>
-          {frTypo(" à l'adresse de l'iframe, ou ")}
-          <code className={CODE}>data-theme=&quot;sombre&quot;</code>
+          {frTypo(" à la fin de l'adresse qui suit src= dans le code de l'iframe, ou avec ")}
+          <code className={CODE}>data-theme=&quot;clair&quot;</code> ou <code className={CODE}>data-theme=&quot;sombre&quot;</code>
           {frTypo(" sur le script.")}
         </p>
         <BlocCode id="code-theme-iframe" label="Iframe, fond sombre" code={widgetIframeSnippet(WIDGET_ORIGIN, "sombre")} />
         <BlocCode id="code-theme-script" label="Script, fond sombre" code={widgetScriptSnippet(WIDGET_ORIGIN, "sombre")} />
 
         <h2 className={H2}>Ce que le widget affiche</h2>
-        {/* BROUILLON s22 */}
-        <p className={P}>
-          {frTypo(
-            "Une vanne par jour, la même sur tous les sites : l'amorce, un bouton pour révéler la chute, un lien pour comprendre pourquoi elle marche, et notre nom. Pas de pub, pas de cookie.",
-          )}
-        </p>
+        <p className={P}>{frTypo(TEXTE_AFFICHAGE)}</p>
 
         <h2 className={H2}>Pour les développeurs</h2>
-        {/* BROUILLON s22 */}
+        {/* R10 */}
         <p className={P}>
-          {frTypo("Une API en lecture seule renvoie la vanne du jour en JSON : ")}
+          {frTypo("Tu préfères afficher la vanne avec ton propre code ? Une API en lecture seule renvoie la vanne du jour en JSON : ")}
           <code className={`${CODE} break-all`}>GET {WIDGET_ORIGIN}{WIDGET_API_PATH}</code>
-          {frTypo(". Champs : type, date, amorce, chute, url, attribution, license.")}
+          {frTypo(". Champs : ")}
+          {CHAMPS_API.map((champ, i) => (
+            <span key={champ}>
+              <code className={CODE}>{champ}</code>
+              {i < CHAMPS_API.length - 2 ? ", " : i === CHAMPS_API.length - 2 ? " et " : ""}
+            </span>
+          ))}
+          {frTypo(". Les règles d'usage sont dans la licence juste en dessous.")}
         </p>
         <p className={P}>{frTypo(LICENCE_API)}</p>
 

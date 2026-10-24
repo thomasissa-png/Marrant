@@ -32,8 +32,8 @@ export function BlocCode({ id, label, code }: { id: string; label: string; code:
           aria-describedby={`${id}-label`}
           className="min-h-11 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-3 text-sm font-semibold text-accent-link hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         >
-          {/* BROUILLON s22 */}
-          {etat === "copie" ? "Copié" : etat === "echec" ? "Sélectionne le code" : "Copier"}
+          {/* Bloc 11 (textes finaux s22) */}
+          {etat === "copie" ? "Copié" : etat === "echec" ? "Sélectionne puis copie" : "Copier"}
         </button>
       </div>
       <pre
