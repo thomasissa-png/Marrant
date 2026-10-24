@@ -6,6 +6,11 @@
 
 - ~~**s15 (14/10/2026) pool strict 49 → 48** (`apps/web/src/config/social-pool.ts`, V1-1-05 retirée) : voir section ci-dessous. Déploiement normal, rien à lancer après. Sans déploiement, l'alerte « stock < 14 » compte encore V1-1-05 (aucun effet sur les posts déjà en base).~~ **DÉPLOYÉ le 14/10/2026** (voir section ci-dessous)
 
+## Article anniversaire publié le 22/10 : « 3 parcours » corrigé (24/10/2026), **RIEN À DÉPLOYER** (base uniquement)
+
+- A1 `message-anniversaire-drole-par-situation` publié automatiquement le 22/10 05:00 UTC ; contrôlé en ligne avec JS (21 boutons « Envoyer le message n°N », CTA, encart Répartie, « À lire ensuite », 0 erreur JS).
+- « il y a les [3 parcours](/parcours) » → « il y a les [parcours](/parcours) » (5 parcours actifs) : A1 en base sur GO de Thomas (UPDATE ciblé, vérifié en ligne), B1, B3, B4, B5 réimportés (`--update`), brouillons au commit `331b6430`.
+
 ## Pause réseaux sociaux (15/10/2026, 09:50 Paris), **RIEN À DÉPLOYER** (base uniquement)
 
 - **X, Instagram, LinkedIn EN PAUSE** via `POST /api/admin/social/platforms` (`action: pause`, raison « Pause d'une semaine demandée par Thomas le 15/10 (test) »). Vérifié par `GET` : `paused: true` sur les 3, canaux Buffer `ok`. Les posts APPROVED restent en base (X 21, Instagram 21, LinkedIn 8) ; rien n'est envoyé à Buffer à l'avance. LinkedIn du 15/10 06:15 UTC parti avant la pause.
