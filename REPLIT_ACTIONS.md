@@ -2,7 +2,14 @@
 
 ## À DÉPLOYER
 
-## s22 Widget, ligne de backlink, **NON DÉPLOYÉ** (@fullstack, 24/10/2026 ; décision Thomas, dernière ligne de `docs/founder-preferences.md` ; visa @legal, dernière section de `docs/legal/widget-vanne-du-jour-s22.md`)
+## s22 Widget, ligne de backlink, **DÉPLOYÉ le 24/10/2026 vers 19:10 UTC** (go écrit de Thomas « Go ! Mais vérifie bien stp ») : version `c8c822e5-b5e0-4da4-935e-1ec049633869`, commit `c2e84084` (CI verte, run 40123016263), N-1 `825272ba-e6e5-4b08-96d0-c042fca807ca` (prix 1,99 €). Retour arrière : `cd apps/web && npx wrangler rollback 825272ba-e6e5-4b08-96d0-c042fca807ca` (secrets inchangés : aucun effet sur le prix).
+
+- **P6 en ligne** : 12 adresses en 200 ; page du programme : ligne de backlink dans les 4 codes affichés, aucun `rel`, phrase validée à l'aveugle visible une fois, phrase @legal présente, aucun brouillon ; prix toujours 1,99 € (0 « 2,99 ») ; en-têtes de l'iframe et de l'accueil identiques à N-1 ; API inchangée ; santé `ok`, Stripe live ; Premium fermé ; admin 401 ×4.
+- **Test réel** (code copié depuis la page en ligne, collé dans une page hôte, Chromium) : lien hôte « Deviens Marrant » → `https://deviens-marrant.fr/`, sans `rel`, visible 7 px sous le cadre ; lien de marque dans le cadre présent ; « Révéler la chute » fonctionne ; CLS 0,000 (iframe 1280 et script 375). Captures `docs/qa/captures-widget-s22/backlink-prod-*.png`. Ces affichages de test sont comptés sous `hote-test.example`.
+- **Suivi @seo** : rapport « Actions manuelles » de Search Console à surveiller (lien suivi distribué par un widget, risque réduit par l'ancre de marque et la ligne facultative).
+
+### Entrée d'origine (avant déploiement)
+#### s22 Widget, ligne de backlink, **NON DÉPLOYÉ** (@fullstack, 24/10/2026 ; décision Thomas, dernière ligne de `docs/founder-preferences.md` ; visa @legal, dernière section de `docs/legal/widget-vanne-du-jour-s22.md`)
 
 Branche `claude/ouverture-session-nzwj0w`, rien commité, rien écrit en base, aucune autre page touchée.
 
