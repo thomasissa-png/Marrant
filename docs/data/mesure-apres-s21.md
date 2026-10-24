@@ -129,3 +129,8 @@ Version `b5e645dd`, commit `e8b431c` (N-1 `3b52c0c2`), journal RA:40-64. Nouvell
 - Croiser avec Stripe : nouveaux abonnés et renouvellements, totaux de la semaine (Stripe ne porte pas la source). Abandon = `checkout-echec` / `checkout-ouvert` par source ; `raison = retour-sans-paiement` = retour de Stripe sans payer.
 - En complément seulement : `abonnement-clic` par `emplacement` et `declencheur` dans Umami (le rapport ne lit que son total, `weekly-funnel.ts:217`).
 - Trafic de Thomas non retiré de ces événements (§ 4, `ne-pas-compter=1`). Aucune cible chiffrée (volume trop bas, `trajet-conversion-s21.md:396`) : lecture absolue, aucun gain promis.
+
+
+## Rupture du 24/10/2026 (s22) : prix Premium passé à 1,99 €/mois et 16,99 €/an
+
+Déployé le 24/10 vers 18:55 UTC (version `825272ba`). Le rapport du lundi 02/11 et le bilan conversion du ~10/11 lisent donc deux périodes : 19/10 au 24/10 (2,99 € / 24,99 €) et à partir du 25/10 (1,99 € / 16,99 €). Ne pas les additionner sans le dire. Le bilan du 10/11 tranche aussi l'ajout éventuel d'un accès « à vie » (décision Thomas, option A du 24/10) : si les checkouts ouverts ne se transforment pas, l'option est à tester ; si peu de checkouts s'ouvrent, le frein est ailleurs (exposition).

@@ -2,7 +2,16 @@
 
 ## À DÉPLOYER
 
-## s22 Prix 1,99 €, NON DÉPLOYÉ
+## s22 Prix 1,99 €, **DÉPLOYÉ le 24/10/2026 vers 18:55 UTC** (Thomas : « on passe 1.99 », option A : abonnement, accès à vie décidé au bilan du 10/11)
+
+- **Bascule** : secrets `STRIPE_PREMIUM_PRICE_ID` = `price_1UU9MGRqTNSm2ji509NaUQB8` (1,99 €/mois) et `STRIPE_PREMIUM_ANNUAL_PRICE_ID` = `price_1UU9MGRqTNSm2ji5sxkVttM7` (16,99 €/an, TTC inclus), version intermédiaire `4161eec2` ; puis code `dcf0c709` (même code que `b74fd0c0`, dont la CI avait échoué sur un téléchargement Google Fonts, CI verte sur `dcf0c709`) déployé : **version `825272ba-e6e5-4b08-96d0-c042fca807ca`**, N-1 `7e686f72-fe04-43cf-bb88-b0c59ed25a1a` (widget).
+- **P6 en ligne** : 9 pages en 200 ; 0 « 2,99 » ou « 24,99 » sur /, /abonnement, /register, /cgu, llms.txt ; JSON-LD `price` 1.99 et 16.99 ; santé `ok`, Stripe live, deux prix configurés ; en-têtes de l'accueil identiques ; admin 401 ×4.
+- **Base** (go de Thomas « Vas-y fini ») : `BlogArticle` `cmmsvw1o9002ws60y7rtqjm8g` (`comment-raconter-une-blague-sans-la-rater`), `content` : `**2,99 €/mois**` → `**1,99 €/mois**`, seul changement (longueur 12 193 inchangée), UPDATE ciblé `WHERE id AND content = <ancien texte exact>`, 1 ligne ; page en ligne vérifiée. Retour : même UPDATE en sens inverse (`1,99` → `2,99` sur cette seule chaîne).
+- **Abonnés** : 2 actifs, tous à 0,99 €/mois (ancien tarif), non touchés ; aucun abonné à 2,99 € ou 24,99 € (lecture Stripe du 24/10).
+- **Retour arrière** (ordre imposé : le client ne doit jamais être facturé plus que le prix affiché) : (1) `cd apps/web && npx wrangler rollback 7e686f72-fe04-43cf-bb88-b0c59ed25a1a` (le site réaffiche 2,99 €, les secrets restent à 1,99 € : sans risque) ; (2) remettre les anciens secrets `price_1UMUmURqTNSm2ji544PLYGuZ` (2,99 €) et `price_1UN4pdRqTNSm2ji5hM2fWxbY` (24,99 €) avec `wrangler secret put` ; (3) remettre l'article.
+- **Mesure** : rupture le 24/10 au soir (nouveau prix), à signaler dans le rapport du 02/11 et le bilan du 10/11 (`docs/data/mesure-apres-s21.md`).
+
+### Entrée d'origine (avant déploiement)
 
 Décision Thomas du 24/10/2026 (`docs/founder-preferences.md`, dernière ligne) : Premium passe de 2,99 € à **1,99 € par mois** et de 24,99 € à **16,99 € par an**, partout. Abonnés existants : baisse au prochain renouvellement (aucun abonné actif ne paie 2,99 € ni 24,99 € : 2 actifs à 0,99 €, inchangés, vérifié par la session). Branche `claude/ouverture-session-nzwj0w`, rien commité par @fullstack, rien écrit en base.
 
