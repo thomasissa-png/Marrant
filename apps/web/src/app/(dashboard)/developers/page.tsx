@@ -79,8 +79,7 @@ const webApiJsonLd = {
   description: PAGE_DESCRIPTION,
   documentation: PAGE_URL,
   termsOfService: WIDGET_LICENCE_URL,
-  isAccessibleForFree: true,
-  offers: { "@type": "Offer", price: 0, priceCurrency: "EUR" },
+  offers: { "@type": "Offer", price: 0, priceCurrency: "EUR", isAccessibleForFree: true },
   provider: PROVIDER,
 };
 
