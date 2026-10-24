@@ -82,9 +82,10 @@ describe("ligne de backlink sous le cadre (décision Thomas s22, 24/10)", () => 
   const PHRASE = frTypo(
     "Le code ajoute sous le cadre une petite ligne « La vanne du jour par Deviens Marrant », avec un lien vers notre site. Elle est facultative : pour l'enlever, efface la fin du code, à partir de « <p ». Si tu la gardes, c'est un coup de pouce pour nous, merci !",
   );
-  // Visa @legal du 24/10 (docs/legal/widget-vanne-du-jour-s22.md, dernière section), paragraphe complet mot pour mot.
+  // Visa @legal du 24/10 (docs/legal/widget-vanne-du-jour-s22.md, section « Visa licence élargie » : appli, bot,
+  // newsletter permis avec le lien visible), paragraphe complet mot pour mot.
   const CONDITIONS = frTypo(
-    "La vanne du jour est gratuite : tu peux l'installer sur ton site sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou un autre produit. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.",
+    "La vanne du jour est gratuite : tu peux l'afficher sur ton site, dans une appli, un bot (Discord, Slack, Telegram…), une extension ou une newsletter, sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Si tu l'affiches sans le widget (appli, bot, newsletter…), mets le lien « Deviens Marrant » bien visible à côté de la vanne. Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site ou dans une appli qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou une base de vannes. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.",
   );
 
   it("phrase présente juste après le code du script, avant le bloc 7", () => {
