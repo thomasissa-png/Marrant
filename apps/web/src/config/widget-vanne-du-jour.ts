@@ -15,7 +15,7 @@
  * et l'iframe affiche le repli neutre sans vanne. Une modification = build et
  * déploiement (c'est une constante du code).
  */
-export const WIDGET_VANNE_DU_JOUR_PUBLIE = false;
+export const WIDGET_VANNE_DU_JOUR_PUBLIE = true;
 
 /**
  * Liste blanche des vannes servies par le widget (identifiants `Joke.id`) :
