@@ -12,6 +12,30 @@ const isCloudflareBuild = process.env.MARRANT_BUILD_TARGET === "cloudflare";
 // Côté TS/tests, passer par src/lib/seo-redirects.ts qui re-exporte typé.
 const { SEO_REDIRECTS } = require("./src/lib/seo-redirects.data.cjs");
 
+// Widget « La vanne du jour » (s22) : empreinte du script en ligne de /embed/*
+// (même source que la route, voir src/lib/widget/embed-script.data.cjs).
+const { EMBED_INLINE_SCRIPT } = require("./src/lib/widget/embed-script.data.cjs");
+const EMBED_SCRIPT_HASH = require("crypto").createHash("sha256").update(EMBED_INLINE_SCRIPT, "utf8").digest("base64");
+
+// CSP du site (s11, s16). Si un nouveau tiers est ajouté (Sentry, Datadog RUM…),
+// mettre à jour connect-src ET script-src en même temps.
+const SITE_FRAME_SRC = "https://www.youtube-nocookie.com https://checkout.stripe.com https://js.stripe.com";
+const siteCsp = (frameSrc) =>
+  `default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src ${frameSrc}; object-src 'none'; base-uri 'self'`;
+// s22 : page d'iframe encadrable partout, rien d'autre ne se charge (un script par empreinte).
+const EMBED_CSP = `default-src 'none'; script-src 'sha256-${EMBED_SCRIPT_HASH}'; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors *`;
+// En-têtes communs à toutes les routes, hors X-Frame-Options et CSP.
+const COMMON_SECURITY_HEADERS = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-XSS-Protection", value: "1; mode=block" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  // HSTS réactivé à la bascule Cloudflare (s14) : Replit / Google Frontend
+  // l'injectait en amont, Cloudflare Workers non. 6 mois, volontairement
+  // SANS includeSubDomains ni preload (choix Thomas, réversible).
+  { key: "Strict-Transport-Security", value: "max-age=15552000" },
+];
+
 const nextConfig = {
   output: isMobileBuild ? "export" : "standalone",
   trailingSlash: isMobileBuild ? true : false,
@@ -105,25 +129,35 @@ const nextConfig = {
         async headers() {
           return [
             {
-              source: "/(.*)",
+              // s22 : toutes les routes SAUF /embed/* (page d'iframe du widget, règle
+              // dédiée plus bas, sans X-Frame-Options DENY). Ordre et valeurs inchangés.
+              source: "/((?!embed/).*)",
               headers: [
-                { key: "X-Content-Type-Options", value: "nosniff" },
+                COMMON_SECURITY_HEADERS[0],
                 { key: "X-Frame-Options", value: "DENY" },
-                { key: "X-XSS-Protection", value: "1; mode=block" },
-                { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-                { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
-                // HSTS réactivé à la bascule Cloudflare (s14) : Replit / Google Frontend
-                // l'injectait en amont, Cloudflare Workers non. 6 mois, volontairement
-                // SANS includeSubDomains ni preload (choix Thomas, réversible).
-                { key: "Strict-Transport-Security", value: "max-age=15552000" },
+                ...COMMON_SECURITY_HEADERS.slice(1),
                 // CSP prod — s11 : retrait de 'unsafe-eval' (Next 14 prod n'en
                 // a pas besoin ; Umami et Stripe.js n'utilisent pas eval).
                 // 'unsafe-inline' reste requis pour les scripts d'hydratation
                 // Next et pour Stripe.js. Ajouté explicitement js.stripe.com.
-                // Si un nouveau tiers est ajouté (Sentry, Datadog RUM…), mettre
-                // à jour connect-src ET script-src en même temps.
-                { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube-nocookie.com https://checkout.stripe.com https://js.stripe.com; object-src 'none'; base-uri 'self'" },
+                { key: "Content-Security-Policy", value: siteCsp(SITE_FRAME_SRC) },
               ],
+            },
+            // s22 : page d'iframe du widget, encadrable par n'importe quel site
+            // (`frame-ancestors *`, pas de X-Frame-Options), jamais indexée.
+            {
+              source: "/embed/:path*",
+              headers: [
+                ...COMMON_SECURITY_HEADERS,
+                { key: "Content-Security-Policy", value: EMBED_CSP },
+                { key: "X-Robots-Tag", value: "noindex" },
+              ],
+            },
+            // s22 : page du programme, aperçu réel du widget en iframe (même origine).
+            // Seule différence avec la CSP du site : 'self' en frame-src.
+            {
+              source: "/integrer-la-vanne-du-jour",
+              headers: [{ key: "Content-Security-Policy", value: siteCsp(`'self' ${SITE_FRAME_SRC}`) }],
             },
             // s21 (@legal L5) : pages de la lettre portant un jeton dans l'URL, jamais
             // transmis en Referer à un autre site (entrée placée après la règle

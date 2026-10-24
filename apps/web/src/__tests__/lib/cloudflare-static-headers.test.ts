@@ -87,9 +87,12 @@ describe("Worker : chunks servis via run_worker_first", () => {
 describe("HSTS (next.config.js headers())", () => {
   it("max-age=15552000 sans includeSubDomains ni preload, sur toutes les routes", async () => {
     const rules = await nextConfig.headers();
-    const all = rules.find((r: { source: string }) => r.source === "/(.*)");
-    const hsts = all.headers.find((h: { key: string }) => h.key === "Strict-Transport-Security");
-    expect(hsts.value).toBe("max-age=15552000");
+    // s22 : règle générale (rules[0], toutes les routes hors /embed/*) et règle /embed/*.
+    for (const source of [rules[0].source, "/embed/:path*"]) {
+      const rule = rules.find((r: { source: string }) => r.source === source);
+      const hsts = rule.headers.find((h: { key: string }) => h.key === "Strict-Transport-Security");
+      expect(hsts.value).toBe("max-age=15552000");
+    }
   });
 });
 

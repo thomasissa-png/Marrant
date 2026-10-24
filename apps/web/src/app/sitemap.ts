@@ -6,6 +6,7 @@ import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redir
 import { getCatalogueSitemapEntries } from "@/lib/sitemap-catalogue";
 import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
 import { publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { WIDGET_PROGRAMME_LASTMOD, WIDGET_PROGRAMME_PATH, WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
 import { blogIndexLastMod, capLastModToToday, startOfTomorrowUtc, type BlogDateCandidate } from "@/lib/sitemap-lastmod";
 
 export const revalidate = 3600;
@@ -77,6 +78,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/anatomie-vanne`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },
     // Landings s14 (lots S3a et S3b).
     { url: `${baseUrl}/blague-du-jour`, lastModified: lastContentDate, changeFrequency: "daily", priority: 0.8 },
+    // s22 : page du programme du widget, seulement une fois publiée (go de Thomas).
+    ...(WIDGET_VANNE_DU_JOUR_PUBLIE
+      ? [{ url: `${baseUrl}${WIDGET_PROGRAMME_PATH}`, lastModified: new Date(WIDGET_PROGRAMME_LASTMOD), changeFrequency: "monthly" as const, priority: 0.6 }]
+      : []),
     ...VANNES_THEMES.map((theme) => ({
       url: `${baseUrl}${vannesThemePath(theme.slug)}`,
       lastModified: new Date(THEME_PAGES_LASTMOD),
