@@ -26,7 +26,7 @@ jest.mock("next/navigation", () => ({
 
 import Page, { metadata } from "@/app/(dashboard)/developers/page";
 import Programme from "@/app/(dashboard)/integrer-la-vanne-du-jour/page";
-import { CHAMPS, H1, PAGE_TITLE, TEXTE_LICENCE_CONDITIONS, TEXTE_LICENCE_USAGE } from "@/config/textes/developers";
+import { CHAMPS, ERREURS, H1, PAGE_TITLE, TEXTE_LICENCE_CONDITIONS, TEXTE_LICENCE_USAGE } from "@/config/textes/developers";
 
 const ENDPOINT = "https://deviens-marrant.fr/api/widget/v1/vanne-du-jour";
 
@@ -34,21 +34,47 @@ beforeEach(() => {
   setPublie(true);
 });
 
+/** Codes (<dt><code>) de la <dl> qui suit le H2 donné. */
+function codesDl(container: HTMLElement, h2: string): (string | null)[] {
+  const titre = [...container.querySelectorAll("h2")].find((h) => h.textContent === h2);
+  const dl = titre?.nextElementSibling;
+  expect(dl?.tagName).toBe("DL");
+  return [...dl!.querySelectorAll("dt code")].map((c) => c.textContent);
+}
+
 describe("page /developers", () => {
-  it("H1, URL de l'endpoint, contenu en anglais (lang=en)", () => {
+  it("H1 « French Joke of the Day API », repris par le JSON-LD WebAPI, contenu en anglais (lang=en)", () => {
     const { container } = render(<Page />);
+    expect(H1).toBe("French Joke of the Day API");
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(H1);
-    const codes = [...container.querySelectorAll("pre code")].map((c) => c.textContent);
-    expect(codes).toContain(`GET ${ENDPOINT}`);
-    expect(codes).toContain(`curl ${ENDPOINT}`);
     expect(container.querySelector('div[lang="en"] h1')).toBeTruthy();
+    const jsonLd = [...container.querySelectorAll('script[type="application/ld+json"]')].map((s) => JSON.parse(s.innerHTML));
+    expect(jsonLd.find((d) => d["@type"] === "WebAPI")?.name).toBe(H1);
+  });
+
+  it("endpoint, curl -i, fetch en module avec contrôle de res.ok", () => {
+    const { container } = render(<Page />);
+    const codes = [...container.querySelectorAll("pre code")].map((c) => c.textContent ?? "");
+    expect(codes).toContain(`GET ${ENDPOINT}`);
+    expect(codes).toContain(`curl -i ${ENDPOINT}`);
+    const fetchJs = codes.find((c) => c.includes("fetch("))!;
+    expect(fetchJs.split("\n")[0]).toBe('// <div id="joke"></div> then, in a <script type="module">:');
+    expect(fetchJs).toContain(`await fetch("${ENDPOINT}")`);
+    expect(fetchJs).toContain("if (res.ok) {");
+    expect(fetchJs).not.toContain("innerHTML");
   });
 
   it("les 7 champs, nom en <code>, dans l'ordre", () => {
     const { container } = render(<Page />);
-    const noms = [...container.querySelectorAll("dt code")].map((c) => c.textContent);
-    expect(noms).toEqual(["type", "date", "amorce", "chute", "url", "attribution", "license"]);
+    expect(codesDl(container, "Fields")).toEqual(["type", "date", "amorce", "chute", "url", "attribution", "license"]);
     expect(CHAMPS).toHaveLength(7);
+  });
+
+  it("erreurs en liste <dl> : 503, 403, 429 (429 venu du CDN, sans CORS ni JSON)", () => {
+    const { container } = render(<Page />);
+    expect(codesDl(container, "Errors")).toEqual(["503", "403", "429"]);
+    expect(ERREURS.find((e) => e.code === "429")?.description).toContain("no CORS header");
+    expect(ERREURS.find((e) => e.code === "503")?.description).toContain("Retry-After: 3600");
   });
 
   it("exemple de réponse indenté, JSON valide", () => {
@@ -71,9 +97,13 @@ describe("page /developers", () => {
 
   it("lien interne vers le programme, aucune typo française, aucun tiret cadratin", () => {
     const { container } = render(<Page />);
-    expect(container.querySelector('a[href="/integrer-la-vanne-du-jour"]')?.textContent).toBe("/integrer-la-vanne-du-jour");
+    const widget = container.querySelector('a[href="/integrer-la-vanne-du-jour"]');
+    expect(widget?.textContent).toBe("/integrer-la-vanne-du-jour");
+    expect(widget?.closest("p")?.textContent).toBe(
+      "A copy-and-paste widget (iframe or script tag) is available at /integrer-la-vanne-du-jour. That page is in French.",
+    );
     expect(container.textContent).not.toMatch(/[  ]/);
-    expect(container.textContent).not.toContain("—");
+    expect(container.textContent).not.toMatch(/[—–]/);
   });
 
   it("metadata : titre absolu, canonical /developers (liens ?ref= d'annuaire), og en_US", () => {

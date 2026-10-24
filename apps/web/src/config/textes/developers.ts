@@ -9,9 +9,10 @@
 export const PAGE_TITLE = "Free Joke of the Day API in French | Deviens Marrant";
 /** Meta description (≤ 155 caractères). */
 export const PAGE_DESCRIPTION =
-  "Free JSON API for a French joke of the day: no key, no sign-up, CORS enabled. A new joke every day, read-only. The jokes are in French.";
+  "Free JSON API for a French joke of the day: no key, no sign-up, CORS enabled. A different joke every day, read-only. The jokes are in French.";
 
-export const H1 = "Joke of the Day API";
+/** H1, repris comme `name` du JSON-LD WebAPI. */
+export const H1 = "French Joke of the Day API";
 export const H2_ENDPOINT = "Endpoint";
 export const H2_EXEMPLE = "Example response";
 export const H2_CHAMPS = "Fields";
@@ -24,11 +25,11 @@ export const H2_WIDGET = "Prefer not to code?";
 
 /** Chapeau sous le H1. */
 export const TEXTE_INTRO =
-  "This API returns one French joke per day as JSON: a setup, a punchline, and a link to the page that explains why it is funny. It is free, needs no key and is read-only. The jokes are in French, and everyone gets the same one until midnight UTC.";
+  "This API returns one French joke per day as JSON: a setup (amorce), a punchline (chute) and a link to a page that explains why it is funny. It is free, needs no key, works over HTTPS and is read-only. The jokes are in French, and everyone gets the same one until midnight UTC. Every joke in the rotation was picked by hand and is suitable for all audiences.";
 
 /** Phrase avant l'exemple d'appel (GET https://deviens-marrant.fr/api/widget/v1/vanne-du-jour). */
 export const TEXTE_ENDPOINT =
-  "Send a GET request to the endpoint below. There is no key, no sign-up and no parameter. The endpoint answers GET and OPTIONS requests.";
+  "Send a GET request to the endpoint below, over HTTPS. There is no key, no sign-up and no parameter. The endpoint responds to GET and OPTIONS (CORS preflight) requests and returns application/json.";
 
 /** Phrase avant l'exemple de réponse. */
 export const TEXTE_EXEMPLE = "A real response, returned on 24 October 2026:";
@@ -41,7 +42,7 @@ export const CHAMPS: { nom: string; description: string }[] = [
   {
     nom: "type",
     description:
-      `Always "vanne" (French for a joke) today. A value "replique" is planned for later, with no date yet.`,
+      `Currently always "vanne" (French for "joke"). Other values, such as "replique", may be added later: do not reject unknown values.`,
   },
   {
     nom: "date",
@@ -49,7 +50,9 @@ export const CHAMPS: { nom: string; description: string }[] = [
   },
   {
     nom: "amorce",
-    description: "The setup of the joke.",
+    // amorce et chute passent par frTypo côté API (lib/widget/vanne-du-jour.ts).
+    description:
+      "The setup of the joke. Plain UTF-8 text with French typography (curly apostrophes, non-breaking spaces before some punctuation). No HTML.",
   },
   {
     nom: "chute",
@@ -58,34 +61,52 @@ export const CHAMPS: { nom: string; description: string }[] = [
   {
     nom: "url",
     description:
-      "The public page of the joke on deviens-marrant.fr, which explains why it is funny. The link already carries UTM parameters. Its utm_content value is the domain of the calling site, taken from the Origin or Referer header, or inconnu (French for unknown) when neither gives it.",
+      `The public page of the joke on deviens-marrant.fr (in French), which explains why it is funny. The link already carries UTM parameters. Its utm_content value is the domain of the calling site, taken from the Origin header, then the Referer header (lowercase, without "www."), or inconnu (French for "unknown") when neither header is usable, as with a server-side call or curl.`,
   },
   {
     nom: "attribution",
     description:
-      `An object {name, url, required}. “required” is true: the visible “Deviens Marrant” attribution link, pointing to that url, is mandatory wherever you display the joke (see the License section below).`,
+      `An object {name, url, required}. required is always true: a visible "Deviens Marrant" link pointing to that url is mandatory wherever you display the joke (see the License section below).`,
   },
   {
     nom: "license",
-    description: "The URL of the terms of use (see the License section below).",
+    description:
+      "The URL of the terms of use, in French (an English translation is in the License section below).",
   },
 ];
 
 /** CORS, cache, moment du changement de vanne. */
 export const TEXTE_CORS_CACHE =
-  "CORS is open: responses carry Access-Control-Allow-Origin: *, so you can call the API straight from the browser. They also carry Cache-Control: public, max-age=300. Browsers keep a response for 5 minutes at most, and shared caches for up to 1 hour, never past midnight UTC. The joke changes every day at midnight UTC, the same one for everybody. Every joke in the rotation was picked by hand and is suitable for all audiences.";
+  "CORS is enabled for every origin: responses carry Access-Control-Allow-Origin: *, so you can call the API straight from the browser. They also carry Cache-Control: public, max-age=300, s-maxage=3600. Browsers keep a response for 5 minutes at most and shared caches for 1 hour at most. Both values shrink as midnight UTC approaches, so no cache keeps a joke past midnight UTC. The joke changes every day at midnight UTC, the same one for everybody. If we withdraw a joke, the joke of the day can change before midnight UTC.";
 
 /** Limite de requêtes et conseil de cache. */
 export const TEXTE_LIMITE =
-  "The limit is 10 requests per 10 seconds per IP address. Beyond that, the address is blocked for 10 seconds and gets an HTTP 429 response. One call a day is enough, since the joke only changes at midnight UTC: cache it on your side.";
+  "The limit is 10 requests per 10 seconds per IP address. Beyond that, the address is blocked for 10 seconds and gets an HTTP 429 response. When you call the API from the browser, each visitor counts against their own IP. The joke only changes at midnight UTC, so one call a day is enough: cache the response on your side (the license allows up to 24 hours) and refresh it after midnight UTC.";
 
-/** Codes d'erreur. */
-export const TEXTE_ERREURS =
-  `503 with {"type":"vanne","error":"indisponible"}: the service is unavailable. The response includes a Retry-After: 3600 header, so try again in an hour. 403 with {"type":"vanne","error":"acces-refuse"}: the calling site is blocked (abuse). 429: you went over the rate limit, wait 10 seconds before the next call.`;
+/**
+ * Codes d'erreur, rendus en <dl> comme CHAMPS. 429 : mesuré en production, la règle
+ * Cloudflare bloque sans réponse personnalisée (ni CORS ni JSON).
+ */
+export const ERREURS: { code: string; description: string }[] = [
+  {
+    code: "503",
+    description:
+      `{"type":"vanne","error":"indisponible"} ("unavailable"): the service is temporarily unavailable. The response carries Retry-After: 3600, so try again in an hour.`,
+  },
+  {
+    code: "403",
+    description: `{"type":"vanne","error":"acces-refuse"} ("access denied"): the calling site has been blocked for abuse.`,
+  },
+  {
+    code: "429",
+    description:
+      "Rate limit exceeded. Wait 10 seconds before the next call. This response comes from our CDN: its body is not JSON and it has no CORS header, so a browser may report it as a network or CORS error.",
+  },
+];
 
-/** Vie privée : seul le domaine appelant est compté. */
+/** Vie privée : usages du domaine appelant et des données de la requête. */
 export const TEXTE_VIE_PRIVEE =
-  "The API sets no cookies and does not track your visitors. Only the technical data of the request is processed to serve the response. The domain of the calling site only goes into the utm_content parameter of the link, so we can see which sites send clicks (nothing about your visitors).";
+  "The API sets no cookies and does not track your visitors. Request data is used only to serve the response and to enforce the rate limit. The domain of the calling site, read from the Origin or Referer header, is used for two things only: checking it against our list of blocked sites, and filling the utm_content parameter of the link, so we can see which sites send clicks. It says nothing about your visitors.";
 
 /**
  * Traduction de la ligne « Licence d'usage » et des « Conditions » (@legal), adaptée à l'API.
@@ -101,6 +122,6 @@ export const TEXTE_LICENCE_FOI =
   "This text is a courtesy translation. If it differs from the French original, the French version prevails: https://deviens-marrant.fr/integrer-la-vanne-du-jour#licence";
 export const TEXTE_LICENCE = `${TEXTE_LICENCE_USAGE}\n\n${TEXTE_LICENCE_CONDITIONS}\n\n${TEXTE_LICENCE_FOI}`;
 
-/** Renvoi vers le widget prêt à copier (page en français). */
+/** Renvoi vers le widget prêt à copier (page en français). Le chemin n'y figure qu'une fois (split dans page.tsx). */
 export const TEXTE_WIDGET =
-  "Not in the mood to code? A ready-to-copy widget is on the page /integrer-la-vanne-du-jour. That page is in French.";
+  "A copy-and-paste widget (iframe or script tag) is available at /integrer-la-vanne-du-jour. That page is in French.";

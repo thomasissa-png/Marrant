@@ -23,7 +23,7 @@ import {
   CHAMPS,
   TEXTE_CORS_CACHE,
   TEXTE_LIMITE,
-  TEXTE_ERREURS,
+  ERREURS,
   TEXTE_VIE_PRIVEE,
   TEXTE_LICENCE_USAGE,
   TEXTE_LICENCE_CONDITIONS,
@@ -80,14 +80,19 @@ const webApiJsonLd = {
 };
 
 const EXEMPLE_JSON = JSON.stringify(JSON.parse(EXEMPLE_REPONSE), null, 2);
-const EXEMPLE_CURL = `curl ${API_URL}`;
+// -i : le dev voit tout de suite les en-têtes CORS et cache documentés.
+const EXEMPLE_CURL = `curl -i ${API_URL}`;
+// await de premier niveau : valide seulement dans un <script type="module"> (dit en commentaire).
 const EXEMPLE_FETCH = [
+  '// <div id="joke"></div> then, in a <script type="module">:',
   `const res = await fetch("${API_URL}");`,
-  "const joke = await res.json();",
-  'const link = document.createElement("a");',
-  "link.href = joke.attribution.url;",
-  "link.textContent = joke.attribution.name;",
-  'document.getElementById("joke").append(joke.amorce, " ", joke.chute, " ", link);',
+  "if (res.ok) {",
+  "  const joke = await res.json();",
+  '  const link = document.createElement("a");',
+  "  link.href = joke.attribution.url;",
+  "  link.textContent = joke.attribution.name;",
+  '  document.getElementById("joke").append(joke.amorce, " ", joke.chute, " ", link);',
+  "}",
 ].join("\n");
 
 const URL_FOI = TEXTE_LICENCE_FOI.slice(TEXTE_LICENCE_FOI.indexOf("https://"));
@@ -149,7 +154,16 @@ export default function DevelopersPage() {
         <p className={P}>{TEXTE_LIMITE}</p>
 
         <h2 className={H2}>{H2_ERREURS}</h2>
-        <p className={`${P} [overflow-wrap:anywhere]`}>{TEXTE_ERREURS}</p>
+        <dl className="mt-3 space-y-3">
+          {ERREURS.map((erreur) => (
+            <div key={erreur.code}>
+              <dt>
+                <code className={CODE}>{erreur.code}</code>
+              </dt>
+              <dd className="mt-1 text-text-secondary [overflow-wrap:anywhere]">{erreur.description}</dd>
+            </div>
+          ))}
+        </dl>
 
         <h2 className={H2}>{H2_VIE_PRIVEE}</h2>
         <p className={P}>{TEXTE_VIE_PRIVEE}</p>
