@@ -12,6 +12,9 @@ import type { Frame, Page } from "@playwright/test";
  * widgets, message de hauteur usurpé ignoré, hôte à CSP stricte.
  */
 const HOTE = "/__qa-hote-widget-s22";
+// Itération 3 : hauteur selon la largeur, clamp(340px, 340px + (672px - 100vw) * .6, 560px).
+// Projet « local » à 1 280 px de large : 340 px ; attribut `height` de repli : 420.
+const HAUTEUR_1280 = 340;
 
 async function hote(page: Page, corps: string, csp?: string) {
   await page.route(`${BASE_URL}${HOTE}*`, (route) =>
@@ -47,7 +50,7 @@ test("le script crée l'iframe à sa place, encadrable, noindex, sans cookie", a
   const iframe = page.locator("iframe");
   await expect(iframe).toHaveAttribute("title", "La vanne du jour, Deviens Marrant");
   await expect(iframe).toHaveAttribute("sandbox", "allow-scripts allow-popups allow-popups-to-escape-sandbox");
-  await expect(iframe).toHaveAttribute("height", "504");
+  await expect(iframe).toHaveAttribute("height", "420");
   expect(await iframe.evaluate((n) => n.previousElementSibling?.tagName)).toBe("H1");
 
   const f = await cadre(page);
@@ -72,7 +75,7 @@ test("trois widgets indépendants ; un message de hauteur usurpé est ignoré", 
   await cadre(page, 2);
   await page.evaluate(() => window.postMessage({ type: "dm-vanne-hauteur", h: 800 }, "*"));
   await page.waitForTimeout(300);
-  for (const h of await page.locator("iframe").evaluateAll((l) => l.map((n) => (n as HTMLElement).offsetHeight))) expect(h).toBe(504);
+  for (const h of await page.locator("iframe").evaluateAll((l) => l.map((n) => (n as HTMLElement).offsetHeight))) expect(h).toBe(HAUTEUR_1280);
 });
 
 test("hôte à CSP stricte (style-src 'self') : widget rendu sans violation", async ({ page }) => {
@@ -83,6 +86,6 @@ test("hôte à CSP stricte (style-src 'self') : widget rendu sans violation", as
   await page.goto(HOTE);
   const f = await cadre(page);
   await expect(f.getByRole("link", { name: /^Deviens Marrant/ })).toBeVisible();
-  expect(await page.locator("iframe").evaluate((n) => [(n as HTMLElement).offsetHeight, getComputedStyle(n).borderTopWidth])).toEqual([504, "0px"]);
+  expect(await page.locator("iframe").evaluate((n) => [(n as HTMLElement).offsetHeight, getComputedStyle(n).borderTopWidth])).toEqual([HAUTEUR_1280, "0px"]);
   expect(violations).toEqual([]);
 });

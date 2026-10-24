@@ -90,7 +90,9 @@ import {
   widgetListFingerprint,
   widgetSharedMaxAge,
 } from "@/lib/widget/vanne-du-jour";
-import { corpsAffichage, doitCompterAffichage, umamiWebsiteId } from "@/lib/widget/mesure";
+import { doitCompterAffichage, pointAffichage } from "@/lib/widget/mesure";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 const api = (headers: Record<string, string> = {}) =>
   GET(new Request("https://deviens-marrant.fr/api/widget/v1/vanne-du-jour", { headers }));
@@ -295,7 +297,7 @@ describe("liste blanche réelle (selection-finale.md)", () => {
   });
 });
 
-describe("mesure des affichages (Umami côté serveur)", () => {
+describe("mesure des affichages (Analytics Engine)", () => {
   const UA = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/130 Safari/537.36";
   it("compte les hôtes tiers, jamais le site (aperçu), le local ni les robots", () => {
     expect(doitCompterAffichage("blog-hote.fr", UA)).toBe(true);
@@ -306,33 +308,30 @@ describe("mesure des affichages (Umami côté serveur)", () => {
     expect(doitCompterAffichage("blog-hote.fr", null)).toBe(false);
   });
 
-  it("événement : le domaine hôte seulement, aucune donnée du visiteur", () => {
-    const corps = corpsAffichage("11111111-2222-3333-4444-555555555555", "blog-hote.fr", "auto");
-    expect(corps).toEqual({
-      type: "event",
-      payload: {
-        website: "11111111-2222-3333-4444-555555555555",
-        hostname: "blog-hote.fr",
-        url: "/embed/vanne-du-jour",
-        language: "fr",
-        name: "widget-affichage",
-        data: { domaine: "blog-hote.fr", theme: "auto" },
-      },
-    });
-    expect(corpsAffichage("11111111-2222-3333-4444-555555555555", null, "auto").payload.hostname).toBe("inconnu");
+  it("point de données : le domaine hôte seulement", () => {
+    expect(pointAffichage("blog-hote.fr")).toEqual({ blobs: ["blog-hote.fr"], indexes: ["blog-hote.fr"] });
+    expect(pointAffichage(null)).toEqual({ blobs: ["inconnu"], indexes: ["inconnu"] });
+    expect(pointAffichage("a".repeat(200)).indexes[0]).toHaveLength(96);
   });
 
-  it("identifiant Umami : UUID réel seulement, jamais la valeur d'exemple", () => {
-    expect(umamiWebsiteId({ UMAMI_WEBSITE_ID: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" })).toBeNull();
-    expect(umamiWebsiteId({})).toBeNull();
-    expect(umamiWebsiteId({ NEXT_PUBLIC_UMAMI_WEBSITE_ID: "0a1b2c3d-1111-2222-3333-444455556666" })).toBe("0a1b2c3d-1111-2222-3333-444455556666");
-  });
-
-  it("hors Workers (tests, Node) : aucun envoi, la réponse ne dépend pas de la mesure", async () => {
+  it("hors Workers (tests, Node) : aucun appel réseau, la réponse ne dépend pas de la mesure", async () => {
     const fetchSpy = jest.spyOn(globalThis, "fetch");
     const res = await embed({ referer: "https://blog-hote.fr/", "user-agent": UA });
     expect(res.status).toBe(200);
     expect(fetchSpy).not.toHaveBeenCalled();
     fetchSpy.mockRestore();
+  });
+});
+
+describe("hauteur selon la largeur (revue @design v2, N1)", () => {
+  const cfg = jest.requireActual("@/config/widget-vanne-du-jour");
+  it("même courbe dans les deux gabarits et widget.js, repli 420 px avant la courbe", () => {
+    const courbe = cfg.WIDGET_IFRAME_HEIGHT_CSS as string;
+    expect(courbe).toBe("clamp(340px,calc(340px + (672px - 100vw) * .6),560px)");
+    expect(cfg.widgetIframeSnippet()).toContain(`height:420px;height:${courbe}`);
+    expect(cfg.widgetScriptSnippet()).toContain(`min-height:420px;min-height:${courbe}`);
+    const js = readFileSync(join(__dirname, "../../../public/widget.js"), "utf8");
+    expect(js).toContain(`height:420px;height:${courbe}`);
+    expect(js).toContain('"height", "420"');
   });
 });

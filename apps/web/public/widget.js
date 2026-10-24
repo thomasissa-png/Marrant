@@ -8,9 +8,10 @@
   f.title = "La vanne du jour, Deviens Marrant";
   f.setAttribute("loading", "lazy");
   f.setAttribute("width", "100%");
-  f.setAttribute("height", "504");
+  f.setAttribute("height", "420");
   f.setAttribute("sandbox", "allow-scripts allow-popups allow-popups-to-escape-sandbox");
-  f.style.cssText = "border:0;border-radius:12px;color-scheme:light dark;display:block;width:100%;max-width:640px;height:504px";
+  // Hauteur selon la largeur de la fenêtre (même courbe que le code iframe), 420 px sans clamp.
+  f.style.cssText = "border:0;border-radius:12px;color-scheme:light dark;display:block;width:100%;max-width:640px;height:420px;height:clamp(340px,calc(340px + (672px - 100vw) * .6),560px)";
   s.parentNode.insertBefore(f, s);
   // Message envoyé seulement après le clic sur « Révéler la chute », si la chute dépasse
   // (texte agrandi) : agrandit seulement, jamais au chargement, plafonné à 900 px.

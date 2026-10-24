@@ -9,6 +9,7 @@ import {
   WIDGET_API_PATH,
   WIDGET_EMBED_PATH,
   WIDGET_IFRAME_HEIGHT,
+  WIDGET_IFRAME_HEIGHT_CSS,
   WIDGET_IFRAME_SANDBOX,
   WIDGET_IFRAME_TITLE,
   WIDGET_ORIGIN,
@@ -56,7 +57,15 @@ const webPageJsonLd = {
 
 const H2 = "font-display mt-10 text-2xl font-bold";
 /** Même style que les gabarits (revue @design B1) : rayon de la carte, schéma de couleurs déclaré. */
-const IFRAME_STYLE = { border: 0, borderRadius: 12, colorScheme: "light dark", display: "block", width: "100%", maxWidth: 640 } as const;
+const IFRAME_STYLE = {
+  border: 0,
+  borderRadius: 12,
+  colorScheme: "light dark",
+  display: "block",
+  width: "100%",
+  maxWidth: 640,
+  height: WIDGET_IFRAME_HEIGHT_CSS,
+} as const;
 const APERCUS = [
   // BROUILLON s22 : titres des aperçus.
   { theme: "clair", titre: "Sur fond clair", cadre: "bg-[#FAF7F2]" },
@@ -100,7 +109,8 @@ export default function IntegrerLaVanneDuJourPage() {
             <div key={a.theme}>
               {/* BROUILLON s22 */}
               <h3 className="text-base font-semibold text-text-primary">{a.titre}</h3>
-              <div className={`mt-2 rounded-xl p-4 ${a.cadre}`}>
+              {/* Revue @design N5 : carte centrée dans son cadre. */}
+              <div className={`mt-2 flex justify-center rounded-xl p-4 ${a.cadre}`}>
                 <iframe
                   src={`${WIDGET_EMBED_PATH}?theme=${a.theme}`}
                   title={`${WIDGET_IFRAME_TITLE} (${a.titre.toLowerCase()})`}
@@ -119,14 +129,14 @@ export default function IntegrerLaVanneDuJourPage() {
         {/* BROUILLON s22 */}
         <p className={P}>
           {frTypo(
-            `Option 1 : l'iframe. Rien ne s'exécute sur ton site. Sa hauteur est fixe (${WIDGET_IFRAME_HEIGHT} px), prévue pour la vanne la plus longue.`,
+            "Option 1 : l'iframe. Rien ne s'exécute sur ton site. Sa hauteur s'adapte à la largeur de l'écran : sur petit écran, la carte est plus haute.",
           )}
         </p>
         <BlocCode id="code-iframe" label="Iframe" code={widgetIframeSnippet()} />
         {/* BROUILLON s22 */}
         <p className={`${P} mt-6`}>
           {frTypo(
-            "Option 2 : le script. Il crée la même iframe à l'endroit où tu le colles, et l'agrandit si la chute en a besoin.",
+            "Option 2 : le script. Il crée la même iframe à l'endroit où tu le colles, et l'agrandit si la chute en a besoin. Pour une colonne étroite (barre latérale), choisis cette option.",
           )}
         </p>
         <BlocCode id="code-script" label="Script" code={widgetScriptSnippet()} />

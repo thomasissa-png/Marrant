@@ -58,6 +58,14 @@
 		// Optimisation /_next/image via Cloudflare Images (sinon l'image d'origine est servie).
 		"binding": "IMAGES"
 	},
+	"analytics_engine_datasets": [
+		{
+			// s22 : comptage des affichages du widget « La vanne du jour » (domaine hôte
+			// seul, src/lib/widget/mesure.ts). Jeu de données créé à la première écriture.
+			"binding": "WIDGET_AFFICHAGES",
+			"dataset": "widget_vanne_du_jour"
+		}
+	],
 	"vars": {
 		// Interrupteur des Cron Triggers (cloudflare/worker.ts). "true" depuis la bascule
 		// DNS (étape D, s14, 30/09/2026) : Cloudflare est la prod, Replit ne tourne plus.

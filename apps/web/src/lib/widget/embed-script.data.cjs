@@ -10,6 +10,8 @@
  * - compléter `utm_content` avec le domaine hôte (document.referrer, origine
  *   seule) ; sur le site lui-même (aperçu de la page du programme), retirer les
  *   UTM : un lien interne ne doit pas compter comme un clic de widget ;
+ * - au clic, focus sur la chute sans faire défiler, puis défilement minimal
+ *   seulement si elle dépasse (revue @design N2 : le haut de la vanne restait rogné) ;
  * - APRÈS le clic seulement, si la chute ne tient pas dans la hauteur réservée
  *   (texte agrandi), envoyer la hauteur nécessaire au script chargeur (un
  *   entier). Jamais au chargement : aucun décalage de la page hôte sans action.
@@ -20,7 +22,8 @@ const EMBED_INLINE_SCRIPT =
   'try{h=new URL(d.referrer).hostname.toLowerCase().replace(/^www\\./,"").replace(/\\.$/,"")}catch(e){}' +
   'var l=d.querySelectorAll("a[data-utm]");for(var i=0;i<l.length;i++){var u=new URL(l[i].href);' +
   'if(h==="deviens-marrant.fr")u.search="";else if(h)u.searchParams.set("utm_content",h);l[i].href=u.toString()}' +
-  'if(b&&c&&k&&m){b.addEventListener("click",function(){r.className+=" ouvert";b.setAttribute("aria-expanded","true");c.focus();' +
+  'if(b&&c&&k&&m){b.addEventListener("click",function(){r.className+=" ouvert";b.setAttribute("aria-expanded","true");c.focus({preventScroll:true});' +
+  'if(k.scrollHeight>k.clientHeight)c.scrollIntoView({block:"nearest"});' +
   'var n=Math.ceil(m.offsetHeight-k.clientHeight+k.scrollHeight);' +
   'if(n>m.offsetHeight){try{parent.postMessage({type:"dm-vanne-hauteur",h:n},"*")}catch(e){}}})}})();';
 

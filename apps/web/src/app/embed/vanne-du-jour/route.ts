@@ -5,7 +5,7 @@ import { compterAffichage } from "@/lib/widget/mesure";
 
 /**
  * Page d'iframe du widget « La vanne du jour » (s22). Route handler et non
- * page React : document autonome (ni gabarit, ni Umami côté visiteur, ni
+ * page React : document autonome (ni gabarit, ni Umami, ni
  * cookie, ni JS Next), quelques Ko. Rendu dynamique (jour UTC, contrôle du
  * Referer) ; la base n'est lue qu'une fois par jour et par point de présence.
  * En-têtes de sécurité (encadrable, noindex, CSP) : next.config.js.
@@ -35,7 +35,7 @@ export async function GET(request: Request) {
   try {
     const vanne = await getWidgetVanneDuJour();
     if (!vanne) return html(renderEmbedRepli(theme), "private, max-age=60");
-    compterAffichage(host, request.headers.get("user-agent"), theme);
+    compterAffichage(host, request.headers.get("user-agent"));
     return html(renderEmbedVanne(vanne, theme), "private, max-age=300");
   } catch {
     return html(renderEmbedRepli(theme), "private, max-age=60");

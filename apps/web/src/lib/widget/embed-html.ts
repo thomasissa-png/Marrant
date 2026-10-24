@@ -1,6 +1,6 @@
 /**
  * HTML de la page d'iframe /embed/vanne-du-jour (s22) : document autonome,
- * sans gabarit du site, sans cookie, sans Umami côté visiteur, sans police à
+ * sans gabarit du site, sans cookie, sans Umami, sans police à
  * charger, sans JSON-LD ni canonical (document noindex). Un seul script en
  * ligne, autorisé par empreinte dans la CSP (next.config.js).
  *
@@ -50,7 +50,9 @@ const CSS =
   'main::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#8B5CF6,#6D28D9)}' +
   "@media (min-width:480px){main{padding:24px 24px 8px}}" +
   // Zone de la vanne : en haut de la carte, le vide éventuel va entre le bouton et le pied (carte du site).
-  ".k{flex:1 1 auto;min-height:0;overflow-y:auto}figure,blockquote{margin:0}" +
+  // 4 px de marge intérieure compensés par une marge négative (revue @design N3) : l'anneau de
+  // focus (2 px + 2 px de décalage) du bouton et de la chute n'est plus rogné par le défilement.
+  ".k{flex:1 1 auto;min-height:0;overflow-y:auto;margin:-4px -4px 0;padding:4px 4px 0}figure,blockquote{margin:0}" +
   ".titre{font-size:12px;line-height:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--li);margin:0 0 8px}" +
   ".amorce{font-size:18px;line-height:28px;font-weight:500;margin:0 0 16px}" +
   ".chute{font-size:18px;line-height:28px;font-weight:600;margin:0 0 16px;padding:8px 12px;border-radius:8px;background:var(--ch);color:var(--tx)}" +
@@ -62,8 +64,13 @@ const CSS =
   ".pied{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;border-top:1px solid var(--bd)}" +
   ".pied a{display:inline-flex;align-items:center;min-height:44px}" +
   ".marque{margin-left:auto;font-size:14px;line-height:20px;font-weight:700;color:var(--tx)!important;text-underline-offset:3px}" +
-  "main.repli{justify-content:center;align-items:center;text-align:center}main.repli .pied{border:0}main.repli .marque{margin:0}" +
+  // Repli : petite carte en haut, le reste de l'iframe reste transparent (revue @design N6).
+  "main.repli{height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:0 16px;padding:16px}" +
+  "main.repli .titre{margin:0}main.repli .pied{border:0}" +
   ".sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}" +
+  // Iframe étroite (moins de 360 px) : pied sur une seule ligne (revue @design N1, N7).
+  // Mesuré à 288 px : 14 px laissaient 269 px de liens pour 262 px de place ; à 13 px, 15 px de marge.
+  "@media (max-width:359px){main:not(.repli){padding-left:12px;padding-right:12px}.pied{gap:0 8px}.pied a{font-size:13px}}" +
   "@media (prefers-reduced-motion:no-preference){.js.ouvert .chute{animation:f .3s ease-out}@keyframes f{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}}";
 
 const NOUVEL_ONGLET = '<span class="sr"> (s’ouvre dans un nouvel onglet)</span>';

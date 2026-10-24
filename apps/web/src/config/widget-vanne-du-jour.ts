@@ -89,18 +89,22 @@ export const WIDGET_PROGRAMME_LASTMOD = "2026-10-24";
 /** Titre accessible de l'iframe (attribut `title`). */
 export const WIDGET_IFRAME_TITLE = "La vanne du jour, Deviens Marrant";
 /**
- * Hauteur fixe réservée (px), la même dans les deux formats : pas de décalage
- * de mise en page chez l'hôte. Calibrée sur la plus longue vanne de la liste
- * blanche (cs18jkstory5v4), chute révélée, dans une iframe de 320 px de large :
- * 495 px mesurés sous Chromium + 8 px de marge (revue @design B2). Plus étroit
- * (288 px : 551 px), la zone de la vanne défile et le pied reste visible ; le
- * format script agrandit l'iframe après le clic. À 640 px : 207 à 319 px
- * utilisés (le reste de la carte reste vide au-dessus du pied).
+ * Hauteur réservée selon la LARGEUR de la fenêtre de l'hôte (revue @design v2,
+ * N1) : expression CSS posée dans le `style` de l'iframe et le `min-height` du
+ * conteneur du script, connue avant tout chargement, donc aucun décalage et
+ * aucun JavaScript au chargement. 340 px dès 672 px de large (ordinateur),
+ * 518 px à 375 px, 551 px à 320 px, 560 px au plus. Vérifiée sur les 93 vannes
+ * de la liste (aucune rognée à 1280, 768, 375 et 320 px) : mesures dans
+ * REPLIT_ACTIONS.md, entrée s22.
  */
-export const WIDGET_IFRAME_HEIGHT = 504;
+export const WIDGET_IFRAME_HEIGHT_CSS = "clamp(340px,calc(340px + (672px - 100vw) * .6),560px)";
+/** Hauteur de repli (attribut `height`, navigateurs sans `clamp`, hôtes qui retirent le `style`). */
+export const WIDGET_IFRAME_HEIGHT = 420;
 export const WIDGET_IFRAME_SANDBOX = "allow-scripts allow-popups allow-popups-to-escape-sandbox";
 /** Style de l'iframe : rayon identique à la carte, schéma de couleurs déclaré (pas de fond opaque en coins carrés). */
-export const WIDGET_IFRAME_STYLE = "border:0;border-radius:12px;color-scheme:light dark;display:block;width:100%;max-width:640px";
+export const WIDGET_IFRAME_STYLE =
+  "border:0;border-radius:12px;color-scheme:light dark;display:block;width:100%;max-width:640px;" +
+  `height:${WIDGET_IFRAME_HEIGHT}px;height:${WIDGET_IFRAME_HEIGHT_CSS}`;
 
 /** Paramètres UTM des liens sortant du widget (mesure Umami, pas SEO). */
 export const WIDGET_UTM = {
@@ -131,12 +135,14 @@ export function widgetIframeSnippet(origin: string = WIDGET_ORIGIN, theme?: "cla
 
 /**
  * Code à copier, format B : conteneur qui réserve la hauteur AVANT l'exécution
- * du script (aucun décalage), script chargeur qui y crée la même iframe.
+ * du script (même courbe que l'iframe, aucun décalage), script chargeur qui y
+ * crée la même iframe. Le `min-height:420px` précède la courbe : repli des
+ * navigateurs sans `clamp`.
  */
 export function widgetScriptSnippet(origin: string = WIDGET_ORIGIN, theme?: "clair" | "sombre"): string {
   const dataTheme = theme ? ` data-theme="${theme}"` : "";
   return (
-    `<div style="min-height:${WIDGET_IFRAME_HEIGHT}px;max-width:640px">` +
+    `<div style="min-height:${WIDGET_IFRAME_HEIGHT}px;min-height:${WIDGET_IFRAME_HEIGHT_CSS};max-width:640px">` +
     `<script async src="${origin}${WIDGET_SCRIPT_PATH}"${dataTheme}></script></div>`
   );
 }
