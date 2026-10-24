@@ -144,9 +144,9 @@ export default function IntegrerLaVanneDuJourPage() {
         {/* BROUILLON s22 */}
         <p className={P}>
           {frTypo("Ton site a une politique de sécurité (CSP) ? Ajoute ")}
-          <code className={`${CODE} whitespace-nowrap`}>frame-src {WIDGET_ORIGIN}</code>
+          <code className={`${CODE} [overflow-wrap:anywhere] min-[360px]:whitespace-nowrap`}>frame-src {WIDGET_ORIGIN}</code>
           {frTypo(", et pour l'option 2 ")}
-          <code className={`${CODE} whitespace-nowrap`}>script-src {WIDGET_ORIGIN}</code>.
+          <code className={`${CODE} [overflow-wrap:anywhere] min-[360px]:whitespace-nowrap`}>script-src {WIDGET_ORIGIN}</code>.
         </p>
 
         <h2 className={H2}>Thème</h2>

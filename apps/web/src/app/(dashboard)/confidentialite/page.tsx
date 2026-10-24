@@ -98,7 +98,7 @@ export default function ConfidentialitePage() {
             <li><strong>Provenance de ta visite</strong> (réseau social, campagne) : gardée dans le stockage de session de ton navigateur, effacé à la fermeture de l’onglet.</li>
             {/* s22 (go Thomas 24/10, visa @legal N8) : affichée seulement quand le widget est ouvert. */}
             {WIDGET_VANNE_DU_JOUR_PUBLIE && (
-              <li><strong>Widget La vanne du jour</strong> : il ne dépose aucun cookie. Seules les données techniques de la requête sont traitées pour l’afficher, et chaque affichage est compté avec le seul domaine du site qui l’affiche (rien sur le visiteur), conservé 3 mois chez Cloudflare.</li>
+              <li><strong>Widget La vanne du jour</strong> : il ne dépose aucun cookie. Seules les données techniques de la requête sont traitées pour l’afficher, et chaque affichage est compté avec le seul domaine du site qui l’affiche (rien sur le visiteur), conservé 3&nbsp;mois chez Cloudflare.</li>
             )}
           </ul>
           <p className="mt-2">Comme aucun cookie de mesure ni de publicité n’est déposé, le site n’affiche pas de bandeau cookies.</p>
