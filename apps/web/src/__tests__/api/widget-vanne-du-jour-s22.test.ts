@@ -335,3 +335,14 @@ describe("hauteur selon la largeur (revue @design v2, N1)", () => {
     expect(js).toContain('"height", "420"');
   });
 });
+
+describe("répartition du vide et révélation sans mouvement (revue @design v3)", () => {
+  it("entretoises 2:3 dans la zone de la vanne, chute et bouton dans la même cellule", async () => {
+    const html = await (await embed()).text();
+    expect(html).toContain('.k::before{content:"";flex:2 1 0}.k::after{content:"";flex:3 1 0}');
+    expect(html).toMatch(/<div class="cellule"><p id="c" class="chute" tabindex="-1">[^<]*<\/p><button id="b"/);
+    // La chute est cachée mais en place avant le clic (visibility), jamais retirée du flux.
+    expect(html).toContain(".js .chute{visibility:hidden}");
+    expect(html).not.toContain(".js .chute,.js .pourquoi{display:none}");
+  });
+});

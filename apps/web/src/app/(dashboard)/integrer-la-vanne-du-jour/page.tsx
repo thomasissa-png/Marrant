@@ -114,7 +114,8 @@ export default function IntegrerLaVanneDuJourPage() {
                 <iframe
                   src={`${WIDGET_EMBED_PATH}?theme=${a.theme}`}
                   title={`${WIDGET_IFRAME_TITLE} (${a.titre.toLowerCase()})`}
-                  loading="lazy"
+                  /* Revue @design v3 (M1) : chargement immédiat, page de documentation à deux iframes légères. */
+                  loading="eager"
                   width="100%"
                   height={WIDGET_IFRAME_HEIGHT}
                   style={IFRAME_STYLE}
@@ -143,9 +144,9 @@ export default function IntegrerLaVanneDuJourPage() {
         {/* BROUILLON s22 */}
         <p className={P}>
           {frTypo("Ton site a une politique de sécurité (CSP) ? Ajoute ")}
-          <code className={CODE}>frame-src {WIDGET_ORIGIN}</code>
+          <code className={`${CODE} whitespace-nowrap`}>frame-src {WIDGET_ORIGIN}</code>
           {frTypo(", et pour l'option 2 ")}
-          <code className={CODE}>script-src {WIDGET_ORIGIN}</code>.
+          <code className={`${CODE} whitespace-nowrap`}>script-src {WIDGET_ORIGIN}</code>.
         </p>
 
         <h2 className={H2}>Thème</h2>

@@ -49,10 +49,12 @@ const CSS =
   // Bande dégradée du site (h-1 from-accent-primary to-accent-secondary), sans croissant aux coins.
   'main::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#8B5CF6,#6D28D9)}' +
   "@media (min-width:480px){main{padding:24px 24px 8px}}" +
-  // Zone de la vanne : en haut de la carte, le vide éventuel va entre le bouton et le pied (carte du site).
   // 4 px de marge intérieure compensés par une marge négative (revue @design N3) : l'anneau de
   // focus (2 px + 2 px de décalage) du bouton et de la chute n'est plus rogné par le défilement.
-  ".k{flex:1 1 auto;min-height:0;overflow-y:auto;margin:-4px -4px 0;padding:4px 4px 0}figure,blockquote{margin:0}" +
+  ".k{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;margin:-4px -4px 0;padding:4px 4px 0}figure,blockquote{margin:0}" +
+  // Revue @design v3 (V1 bis) : le vide se répartit au-dessus (2) et en dessous (3) de la vanne,
+  // centrage optique. Entretoises de base 0 : elles tombent à 0 si la vanne dépasse (défilement depuis le haut).
+  '.k::before{content:"";flex:2 1 0}.k::after{content:"";flex:3 1 0}' +
   ".titre{font-size:12px;line-height:16px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--li);margin:0 0 8px}" +
   ".amorce{font-size:18px;line-height:28px;font-weight:500;margin:0 0 16px}" +
   ".chute{font-size:18px;line-height:28px;font-weight:600;margin:0 0 16px;padding:8px 12px;border-radius:8px;background:var(--ch);color:var(--tx)}" +
@@ -60,7 +62,10 @@ const CSS =
   "#b:hover{background:#7C3AED}#b:active{background:#5B21B6}" +
   "a{color:var(--li)}a:focus-visible,#b:focus-visible,.chute:focus-visible{outline:2px solid var(--li);outline-offset:2px}" +
   ".chute:focus:not(:focus-visible){outline:none}" +
-  ".js #b{display:block}.js .chute,.js .pourquoi{display:none}.js.ouvert .chute{display:block}.js.ouvert .pourquoi{display:inline-flex}.js.ouvert #b{display:none}" +
+  // Chute et bouton dans la même cellule de grille (revue @design v3) : la chute, cachée mais en
+  // place avant le clic, réserve sa hauteur ; à la révélation rien ne bouge (amorce immobile).
+  ".cellule{display:grid}.cellule>*{grid-area:1/1}#b{align-self:start}" +
+  ".js #b{display:block}.js .chute{visibility:hidden}.js .pourquoi{display:none}.js.ouvert .chute{visibility:visible}.js.ouvert .pourquoi{display:inline-flex}.js.ouvert #b{display:none}" +
   ".pied{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:0 16px;border-top:1px solid var(--bd)}" +
   ".pied a{display:inline-flex;align-items:center;min-height:44px}" +
   ".marque{margin-left:auto;font-size:14px;line-height:20px;font-weight:700;color:var(--tx)!important;text-underline-offset:3px}" +
@@ -99,8 +104,8 @@ export function renderEmbedVanne(vanne: WidgetVanne, theme: WidgetTheme = "auto"
     "",
     '<div class="k" id="k"><figure><figcaption class="titre">La vanne du jour</figcaption><blockquote>' +
       `<p class="amorce">${escapeHtml(vanne.amorce)}</p>` +
-      `<p id="c" class="chute" tabindex="-1">${escapeHtml(vanne.chute)}</p></blockquote></figure>` +
-      '<button id="b" type="button" aria-expanded="false" aria-controls="c">Révéler la chute</button></div>' +
+      `<div class="cellule"><p id="c" class="chute" tabindex="-1">${escapeHtml(vanne.chute)}</p>` +
+      '<button id="b" type="button" aria-expanded="false" aria-controls="c">Révéler la chute</button></div></blockquote></figure></div>' +
       `<footer class="pied">${lien(withWidgetUtm(vanne.fichePath, null), "Pourquoi ça marche&nbsp;?", "pourquoi")}${MARQUE()}</footer>`,
   );
 }
