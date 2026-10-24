@@ -125,13 +125,32 @@ export const WIDGET_ATTRIBUTION = {
 } as const;
 export const WIDGET_LICENCE_URL = `${WIDGET_ORIGIN}${WIDGET_PROGRAMME_PATH}#licence`;
 
-/** Code à copier, format A (iframe seule, aucun JavaScript chez l'hôte). */
+/** Ancre de la ligne de backlink : la marque seule, aucun mot-clé (décision Thomas s22). */
+export const WIDGET_BACKLINK_ANCRE = "Deviens Marrant";
+
+/**
+ * Ligne de backlink posée APRÈS le cadre dans les deux codes à copier (décision
+ * Thomas s22, docs/founder-preferences.md) : HTML normal dans la page de l'hôte,
+ * donc un vrai lien (celui de l'iframe n'en est pas un). Lien suivi (aucun
+ * `rel`), vers l'accueil, sans UTM ; facultative pour l'hôte (seul le lien dans
+ * le cadre est obligatoire). Hors du conteneur du script : présente même sans
+ * JavaScript, et après la hauteur réservée, donc aucun décalage.
+ */
+export function widgetLigneBacklink(origin: string = WIDGET_ORIGIN): string {
+  return (
+    `<p style="margin:6px 0 0;font:13px/1.4 system-ui,sans-serif">La vanne du jour par ` +
+    `<a href="${origin}/">${WIDGET_BACKLINK_ANCRE}</a></p>`
+  );
+}
+
+/** Code à copier, format A (iframe seule, aucun JavaScript chez l'hôte), suivi de la ligne de backlink. */
 export function widgetIframeSnippet(origin: string = WIDGET_ORIGIN, theme?: "clair" | "sombre"): string {
   const query = theme ? `?theme=${theme}` : "";
   return (
     `<iframe src="${origin}${WIDGET_EMBED_PATH}${query}" title="${WIDGET_IFRAME_TITLE}" loading="lazy" ` +
     `width="100%" height="${WIDGET_IFRAME_HEIGHT}" style="${WIDGET_IFRAME_STYLE}" ` +
-    `sandbox="${WIDGET_IFRAME_SANDBOX}"></iframe>`
+    `sandbox="${WIDGET_IFRAME_SANDBOX}"></iframe>\n` +
+    widgetLigneBacklink(origin)
   );
 }
 
@@ -139,12 +158,13 @@ export function widgetIframeSnippet(origin: string = WIDGET_ORIGIN, theme?: "cla
  * Code à copier, format B : conteneur qui réserve la hauteur AVANT l'exécution
  * du script (même courbe que l'iframe, aucun décalage), script chargeur qui y
  * crée la même iframe. Le `min-height:420px` précède la courbe : repli des
- * navigateurs sans `clamp`.
+ * navigateurs sans `clamp`. La ligne de backlink suit le conteneur (pas dedans).
  */
 export function widgetScriptSnippet(origin: string = WIDGET_ORIGIN, theme?: "clair" | "sombre"): string {
   const dataTheme = theme ? ` data-theme="${theme}"` : "";
   return (
     `<div style="min-height:${WIDGET_IFRAME_HEIGHT}px;min-height:${WIDGET_IFRAME_HEIGHT_CSS};max-width:640px">` +
-    `<script async src="${origin}${WIDGET_SCRIPT_PATH}"${dataTheme}></script></div>`
+    `<script async src="${origin}${WIDGET_SCRIPT_PATH}"${dataTheme}></script></div>\n` +
+    widgetLigneBacklink(origin)
   );
 }

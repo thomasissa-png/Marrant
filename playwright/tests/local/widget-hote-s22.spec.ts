@@ -1,5 +1,6 @@
 import { test, expect, BASE_URL } from "../support/fixtures";
 import type { Frame, Page } from "@playwright/test";
+import { widgetIframeSnippet, widgetScriptSnippet } from "@/config/widget-vanne-du-jour";
 
 /**
  * QA s22 (docs/qa/qa-widget-s22-v1.md) : widget « La vanne du jour » chez un hôte.
@@ -77,6 +78,42 @@ test("trois widgets indépendants ; un message de hauteur usurpé est ignoré", 
   await page.waitForTimeout(300);
   for (const h of await page.locator("iframe").evaluateAll((l) => l.map((n) => (n as HTMLElement).offsetHeight))) expect(h).toBe(HAUTEUR_1280);
 });
+
+// s22 (24/10, décision Thomas) : ligne de backlink en HTML normal APRÈS le cadre,
+// collée telle que la page du programme la donne (gabarits du dépôt, origine testée).
+for (const [nom, gabarit, cadreTag] of [
+  ["iframe seule", widgetIframeSnippet, "IFRAME"],
+  ["script", widgetScriptSnippet, "DIV"],
+] as const) {
+  test(`ligne de backlink sous le cadre (${nom}) : dans le DOM de l'hôte, lien suivi, CLS 0`, async ({ page }) => {
+    const o = new URL(BASE_URL).origin;
+    await page.addInitScript(() => {
+      const w = window as unknown as { __cls: number };
+      w.__cls = 0;
+      new PerformanceObserver((l) => {
+        for (const e of l.getEntries() as unknown as { value: number; hadRecentInput: boolean }[]) if (!e.hadRecentInput) w.__cls += e.value;
+      }).observe({ type: "layout-shift", buffered: true });
+    });
+    await hote(page, gabarit(o));
+    await page.goto(HOTE);
+    const ligne = page.locator("body > p", { hasText: "La vanne du jour par" });
+    await expect(ligne).toHaveCount(1);
+    // Juste après le cadre (pour le script : après le conteneur, pas dedans), avant la suite de l'hôte.
+    expect(await ligne.evaluate((n) => [n.previousElementSibling?.tagName, n.nextElementSibling?.id])).toEqual([cadreTag, "apres"]);
+    const lien = ligne.getByRole("link", { name: "Deviens Marrant", exact: true });
+    await expect(lien).toBeVisible();
+    expect(await lien.evaluate((a) => [a.getAttribute("rel"), a.getAttribute("target"), a.getAttribute("href")])).toEqual([null, null, `${o}/`]);
+    const avant = await ligne.evaluate((n) => n.getBoundingClientRect().top);
+    await cadre(page);
+    await page.waitForTimeout(800);
+    // Sous le cadre, 6 px plus bas, sans bouger quand l'iframe arrive.
+    const [haut, basCadre] = await ligne.evaluate((n) => [n.getBoundingClientRect().top, n.previousElementSibling!.getBoundingClientRect().bottom]);
+    expect(haut).toBe(avant);
+    expect(Math.round(haut - basCadre)).toBe(6);
+    expect(await page.locator("iframe").evaluate((n) => (n as HTMLElement).offsetHeight)).toBe(HAUTEUR_1280);
+    expect(await page.evaluate(() => (window as unknown as { __cls: number }).__cls)).toBe(0);
+  });
+}
 
 test("hôte à CSP stricte (style-src 'self') : widget rendu sans violation", async ({ page }) => {
   const violations: string[] = [];

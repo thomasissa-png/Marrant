@@ -21,6 +21,11 @@ export const TEXTE_WORDPRESS =
 /** R6 : option 2, le script. */
 export const TEXTE_OPTION_SCRIPT =
   "Option 2, le script : à choisir pour une barre latérale ou une colonne étroite. Il crée le même cadre à l'endroit où tu le colles, puis l'agrandit après le clic si la chute en a besoin. Contrairement à l'iframe seule, c'est un script de notre site qui s'exécute dans ta page.";
+// BROUILLON s22 : phrase posée après les deux blocs de code (ligne de backlink sous le cadre,
+// décision Thomas 24/10), À FAIRE VALIDER par la session avant mise en ligne.
+/** Ligne de backlink : facultative pour l'hôte. */
+export const TEXTE_LIGNE_BACKLINK =
+  "La ligne « La vanne du jour par Deviens Marrant », sous le cadre, est facultative : tu peux la retirer, mais si tu la laisses, ça nous aide beaucoup.";
 /** R9 : ce que le widget affiche. */
 export const TEXTE_AFFICHAGE =
   "Tes visiteurs voient l'amorce d'une vanne, un bouton « Révéler la chute », un lien « Pourquoi ça marche ? » et le lien « Deviens Marrant », toujours présent. La vanne change chaque jour, la même sur tous les sites. Pas de pub, pas de cookie, et le widget ne suit pas tes visiteurs : on compte seulement chaque affichage, avec le seul nom de domaine de ton site.";

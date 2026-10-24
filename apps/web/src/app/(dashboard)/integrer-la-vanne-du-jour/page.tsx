@@ -13,6 +13,7 @@ import {
   TEXTE_WORDPRESS,
   TEXTE_OPTION_SCRIPT,
   TEXTE_AFFICHAGE,
+  TEXTE_LIGNE_BACKLINK,
 } from "@/config/textes/widget-programme";
 import {
   WIDGET_API_PATH,
@@ -42,9 +43,12 @@ export const metadata: Metadata = {
   ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
-/** Paragraphe de @legal (docs/legal/widget-vanne-du-jour-s22.md, section 1), mot pour mot. */
+/**
+ * Paragraphe de @legal (docs/legal/widget-vanne-du-jour-s22.md, section 1), mot pour mot,
+ * avec la demi-phrase du visa « ligne de backlink » du 24/10 (dernière section du même fichier).
+ */
 const CONDITIONS_UTILISATION =
-  "La vanne du jour est gratuite : tu peux l'installer sur ton site sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » fait partie du widget : laisse-le en place et visible. Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou un autre produit. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.";
+  "La vanne du jour est gratuite : tu peux l'installer sur ton site sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou un autre produit. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.";
 
 /** Ligne de licence de l'API (@legal s22, section 2), mot pour mot. */
 const LICENCE_API =
@@ -133,6 +137,8 @@ export default function IntegrerLaVanneDuJourPage() {
         <p className={P}>{frTypo(TEXTE_WORDPRESS)}</p>
         <p className={`${P} mt-6`}>{frTypo(TEXTE_OPTION_SCRIPT)}</p>
         <BlocCode id="code-script" label="Script" code={widgetScriptSnippet()} />
+        {/* BROUILLON s22 : ligne de backlink facultative (à faire valider). */}
+        <p className={P}>{frTypo(TEXTE_LIGNE_BACKLINK)}</p>
         {/* Bloc 7 */}
         <p className={P}>
           {frTypo("Si ton site limite ce qu'il peut charger (une CSP), ajoute ")}

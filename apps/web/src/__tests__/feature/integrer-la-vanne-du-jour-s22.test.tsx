@@ -77,6 +77,43 @@ describe("page du programme : textes validés, mot pour mot", () => {
   });
 });
 
+describe("ligne de backlink sous le cadre (décision Thomas s22, 24/10)", () => {
+  // BROUILLON s22 (à faire valider) : recopié ici, pas importé.
+  const PHRASE = frTypo(
+    "La ligne « La vanne du jour par Deviens Marrant », sous le cadre, est facultative : tu peux la retirer, mais si tu la laisses, ça nous aide beaucoup.",
+  );
+  // Visa @legal du 24/10 (docs/legal/widget-vanne-du-jour-s22.md, dernière section), paragraphe complet mot pour mot.
+  const CONDITIONS = frTypo(
+    "La vanne du jour est gratuite : tu peux l'installer sur ton site sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou un autre produit. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.",
+  );
+
+  it("phrase présente juste après le code du script, avant le bloc 7", () => {
+    const { container } = render(<Page />);
+    const textes = [...container.querySelectorAll("p")].map((p) => p.textContent);
+    const i = textes.indexOf(PHRASE);
+    expect(i).toBeGreaterThan(textes.indexOf(PARAGRAPHES[3]));
+    expect(textes[i + 1]).toBe(MIXTES[0]);
+    const scriptPre = container.querySelector('pre[aria-labelledby="code-script-label"]')!;
+    const p = [...container.querySelectorAll("p")][i];
+    expect(scriptPre.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+
+  it("conditions d'utilisation : nouvelle demi-phrase du visa @legal, ancienne phrase absente", () => {
+    const { container } = render(<Page />);
+    const textes = [...container.querySelectorAll("p")].map((p) => p.textContent);
+    expect(textes).toContain(CONDITIONS);
+    expect(container.textContent).not.toContain(frTypo("Le lien « Deviens Marrant » fait partie du widget"));
+  });
+
+  it("les quatre blocs de code affichés contiennent la ligne après le cadre", () => {
+    const { container } = render(<Page />);
+    const codes = [...container.querySelectorAll("pre code")].map((c) => c.textContent ?? "");
+    expect(codes).toHaveLength(4);
+    const ligne = '<p style="margin:6px 0 0;font:13px/1.4 system-ui,sans-serif">La vanne du jour par <a href="https://deviens-marrant.fr/">Deviens Marrant</a></p>';
+    for (const c of codes) expect(c.endsWith(ligne)).toBe(true);
+  });
+});
+
 describe("bouton « Copier » (bloc 11)", () => {
   it("Copier, puis Copié ; sans presse-papiers : « Sélectionne puis copie »", async () => {
     const { BlocCode } = jest.requireActual("@/components/widget/bloc-code");
