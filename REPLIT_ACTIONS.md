@@ -2,6 +2,13 @@
 
 ## À DÉPLOYER
 
+## s22 (24/10/2026) Fusion vers main, correctif CI du changement d'heure, e2e stabilisés, **RIEN À DÉPLOYER**
+
+- **Fusion** (go écrit de Thomas, 24/10) : `main` = `claude/marrant-vanne-bouton` (code en ligne `643ed7c7`) + `claude/ouverture-session-nzwj0w` (docs). 2 conflits de docs seulement (PS lettre n°1 : « résiliable en ligne » ; plan d'intégration : deux formulations réunies). `main` et `master` avancés en avance rapide sur `27caee2e` (CI verte), sans push forcé. `claude/marrant-cartes-du-jour` et `claude/marrant-lettre-hebdo` hors fusion.
+- **Code** : identique à la production (`6e14bf2`) sauf `lib/ai/agents/social-media-agent.ts` (+3 lignes : décalage de Paris recalculé sur le jour retenu dans `getOptimalScheduleTime`, appelée par les tests seulement ; 7 tests rouges le 24/10 veille du changement d'heure) et 2 specs e2e (`conversion-v2-s21`, `mesure-source-s21` : attente `networkidle` avant l'étoile des favoris, comme `captures-trajets-conversion-s21`). Aucun effet sur le site : rien à déployer.
+- **Contrôles** (sous `env -i`, variables factices de la CI) : `tsc -p tsconfig.build.json`, `tsc` complet, lint, Jest 354 suites / 5 388 tests, build, `tsc` e2e : OK. CI GitHub verte sur `27caee2e` (unitaires, build, 125 e2e).
+
+
 #### BOUTON « RÉVÉLER LA CHUTE » COLLÉ À LA VANNE (branche `claude/marrant-vanne-bouton`, commit `6e14bf2`) : P0, P1, P4, P6, P8 du trajet de conversion s21.
 
 **DÉPLOYÉ le 21/10/2026 à 07:15 UTC** (feu vert écrit de Thomas « Go mise en ligne ») : version `643ed7c7-3ddb-4454-a7fe-5c6c8f78afd3`, commit `2eebbcb` (code `6e14bf2`), N-1 `b5e645dd` à 100 % vérifié en P1, CI verte (run 39547768287). P6 conforme : 9 pages en 200, /api/health ok, admin 401, en-têtes de sécurité identiques, bouton « Révéler la chute » à 16 px sous la vanne en production (1440 et 375). Rollback : `npx wrangler rollback b5e645dd-f3b3-4d80-92dc-14c71354780d`.
