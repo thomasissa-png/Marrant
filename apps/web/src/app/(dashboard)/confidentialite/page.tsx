@@ -3,6 +3,7 @@ import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { LETTRE_CONFIDENTIALITE_ANCRE } from "@/config/lettre";
 import { frTypo } from "@/lib/fr-typo";
+import { WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
 const PAGE_TITLE = "Politique de confidentialité";
@@ -95,6 +96,10 @@ export default function ConfidentialitePage() {
             <li><strong>Cookies essentiels</strong> : ta session de connexion. Ils sont nécessaires au fonctionnement du site.</li>
             <li><strong>Mesure d’audience</strong> : Umami Cloud, sans cookie. On compte les pages vues et quelques actions (par exemple un clic sur un bouton d’abonnement, l’ouverture d’une étape de parcours ou le score d’un quiz), sans y associer ton nom, ton e-⁠mail ni ton compte, et on ne lit que des statistiques globales. Ces mesures ne sont ni croisées avec les données de ton compte, ni utilisées pour de la publicité.</li>
             <li><strong>Provenance de ta visite</strong> (réseau social, campagne) : gardée dans le stockage de session de ton navigateur, effacé à la fermeture de l’onglet.</li>
+            {/* s22 (go Thomas 24/10, visa @legal N8) : affichée seulement quand le widget est ouvert. */}
+            {WIDGET_VANNE_DU_JOUR_PUBLIE && (
+              <li><strong>Widget La vanne du jour</strong> : il ne dépose aucun cookie. Seules les données techniques de la requête sont traitées pour l’afficher, et chaque affichage est compté avec le seul domaine du site qui l’affiche (rien sur le visiteur), conservé 3 mois chez Cloudflare.</li>
+            )}
           </ul>
           <p className="mt-2">Comme aucun cookie de mesure ni de publicité n’est déposé, le site n’affiche pas de bandeau cookies.</p>
           <p className="mt-2">Deux services tiers peuvent déposer leurs propres traceurs quand tu les utilises : Stripe sur sa page de paiement (sécurité du paiement), et YouTube (Google) quand tu lances une vidéo. Le lecteur YouTube n’est chargé qu’à ce moment-⁠là, en mode de confidentialité renforcée (youtube-nocookie.com). Leurs politiques de confidentialité s’appliquent alors.</p>
