@@ -1,11 +1,11 @@
-# Faits vérifiés : article invité L'Épopée Ludique (aligné sur la v3)
+# Faits vérifiés : article invité L'Épopée Ludique (aligné sur la v4)
 
 **Aucun chiffre cité.**
 
 L'article ne rapporte aucune étude, aucune statistique et aucun résultat de recherche. Les seuls nombres du texte sont :
 - l'heure de la scène d'ouverture (« Il est 18 h 40 ») et sa durée (« dix minutes avant de passer à table »), purement narratifs ;
 - les tranches d'âge du plan validé par Helena (3-5 ans, 6-8 ans, 9 ans et plus) et l'âge minimal conseillé, « Dès : 3 ans » pour les six jeux, qui est une recommandation d'usage de l'auteur et non une donnée ;
-- le décompte des jeux (« six jeux »), la règle des « trois indices » du jeu 2, et les durées ou fréquences d'illustration : « deux fois par jour » (indice de la brosse à dents), « dix minutes » (exemple de la scotchimère), « cinq minutes » (conclusion), « trois fois de suite » (« Le frigo ? »), « au moins trois » (arbitre du jeu 4) ;
+- le décompte des jeux (« six jeux »), la règle des « trois indices » du jeu 2 (« deux vrais indices » plus un farfelu en 6-8 ans), et les durées ou fréquences d'illustration : « deux fois par jour » (indice de la brosse à dents), « dix minutes » (exemple de la scotchimère), « une heure » (phrase d'exemple du dictionnaire), « cinq minutes » (conclusion), « trois fois de suite » (« Le frigo ? »), « au moins trois » (juge du jeu 2 et arbitre du jeu 4), « une fois » (la question du jeu 6 en 6-8 ans), « deux mots à coller » (jeu 5) ;
 - « le journal de 20 heures » (jeu 4), simple référence culturelle pour le ton d'un présentateur, sans donnée.
 
 Aucun de ces nombres n'est une statistique ni une affirmation sur l'enfant.
