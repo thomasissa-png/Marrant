@@ -42,6 +42,8 @@ test.describe("Mesure : source d'entrée jusqu'au paiement @s21", () => {
 
     await page.setViewportSize({ width: 375, height: 812 });
     await page.goto("/vannes");
+    // La liste se recharge après l'hydratation (API) : attendre qu'elle soit stable avant de viser l'étoile.
+    await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: "Ajouter aux favoris (réservé Premium)" }).first().click();
     const fenetre = page.getByRole("dialog");
     await expect(fenetre).toBeVisible();

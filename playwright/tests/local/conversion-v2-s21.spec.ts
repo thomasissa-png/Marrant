@@ -71,6 +71,8 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     const paiement = await paiementReussi(page, () => email);
     await page.setViewportSize({ width: 375, height: 700 });
     await page.goto("/vannes");
+    // La liste se recharge après l'hydratation (API) : attendre qu'elle soit stable avant de viser l'étoile.
+    await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: "Ajouter aux favoris (réservé Premium)" }).first().click();
     const fenetre = page.getByRole("dialog");
     await expect(fenetre.getByRole("heading", { name: /^Garde-.?la avec Premium$/ })).toBeVisible();
@@ -108,6 +110,8 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await paiementReussi(page, () => email);
     await connecter(page, email, MDP);
     await page.goto("/vannes");
+    // La liste se recharge après l'hydratation (API) : attendre qu'elle soit stable avant de viser l'étoile.
+    await page.waitForLoadState("networkidle");
     await page.getByRole("button", { name: "Ajouter aux favoris (réservé Premium)" }).first().click();
     const fenetre = page.getByRole("dialog");
     await expect(fenetre).not.toContainText("D’abord ton compte");
