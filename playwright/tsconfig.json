@@ -11,7 +11,10 @@
     "baseUrl": ".",
     "typeRoots": ["../apps/web/node_modules/@types"],
     "types": ["node"],
-    "paths": { "*": ["../apps/web/node_modules/*", "../apps/web/node_modules/@types/*"] }
+    "paths": {
+      "@/*": ["../apps/web/src/*"],
+      "*": ["../apps/web/node_modules/*", "../apps/web/node_modules/@types/*"]
+    }
   },
   "include": ["playwright.config.ts", "tests/**/*.ts"]
 }

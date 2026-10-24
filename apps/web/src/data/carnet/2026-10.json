@@ -160,6 +160,8 @@
     {
       "id": "2026-10-15",
       "titre": "Le premier rendez-vous silencieux",
+      "offerte": true,
+      "accroche": "Premier rendez-vous, au dessert. Tu viens de dire ta troisième phrase de la soirée",
       "contexte": "couple",
       "situation": "Premier rendez-vous dans un restaurant, au dessert, tu viens de prononcer ta troisième phrase de la soirée.",
       "onTeDit": "Tu parles toujours aussi peu ?",

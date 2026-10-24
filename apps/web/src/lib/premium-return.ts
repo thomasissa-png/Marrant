@@ -25,6 +25,17 @@ export function sanitizeReturnTo(raw: string | null | undefined): string | null 
   return safe;
 }
 
+/**
+ * Chemin de retour de Stripe (`success_url` sans l'origine) : `/abonnement/success?session_id=…`,
+ * l'intention d'origine validée, et `formule=annuel` pour l'annuel (mesure `abonnement-reussi`).
+ * Source unique : `lib/stripe.ts` et le faux Stripe des tests E2E (QA conversion s21, m4).
+ */
+export function cheminRetourPaiement(rawReturnTo: string | null | undefined, plan: PremiumPlan, sessionId = "{CHECKOUT_SESSION_ID}"): string {
+  const returnTo = sanitizeReturnTo(rawReturnTo);
+  const returnQuery = returnTo ? `&returnTo=${encodeURIComponent(returnTo)}` : "";
+  return `/abonnement/success?session_id=${sessionId}${returnQuery}${plan === "annual" ? "&formule=annuel" : ""}`;
+}
+
 /** Destination après paiement : l'intention d'origine, sinon /parcours, avec le message de bienvenue. */
 export function getPostPaymentDestination(rawReturnTo: string | null | undefined): string {
   const target = sanitizeReturnTo(rawReturnTo) ?? PREMIUM_DEFAULT_RETURN;
@@ -86,6 +97,11 @@ export function readSignupPlan(
 export function getPostSignupRedirect(
   rawCallback: string | null | undefined,
   plan: PremiumPlan = readSignupPlan(null, rawCallback),
+  /**
+   * s21 (QA M1) : source d'entrée de /register, reprise sur /abonnement si le callback
+   * n'en porte pas, pour que `checkout-ouvert` / `checkout-echec` gardent la porte d'entrée.
+   */
+  signupSrc?: string | null,
 ): string {
   const safe = sanitizeCallbackUrl(rawCallback);
   const [path, query = ""] = (safe ?? "").split("#")[0].split("?");
@@ -104,6 +120,10 @@ export function getPostSignupRedirect(
   }
   params.delete("plan");
   if (plan === "annual") params.set("plan", "annual");
+  const srcCallback = params.get("src");
+  params.delete("src");
+  const src = [srcCallback, signupSrc].find((v) => typeof v === "string" && /^[a-z0-9][a-z0-9-]{0,119}$/.test(v));
+  if (src) params.set("src", src);
   params.set(AUTO_CHECKOUT_PARAM, AUTO_CHECKOUT_VALUE);
   return `/abonnement?${params.toString()}`;
 }

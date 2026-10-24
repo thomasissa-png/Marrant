@@ -64,7 +64,7 @@ const PARCOURS_META: Record<
     name: "Parcours Confiance",
     title: `Parcours Confiance : retrouver ta légèreté en ${parcoursWeeks("confiance")} semaines`,
     description:
-      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l'humour, à ton rythme et sans pression, une étape à la fois. ${PREMIERE_ETAPE}`,
+      `${parcoursWeeks("confiance")} semaines pour retrouver confiance en soi grâce à l’humour, à ton rythme et sans pression, une étape à la fois. ${PREMIERE_ETAPE}`,
     duration: `${parcoursWeeks("confiance")} semaines`,
     stepsCount: parcoursWeeks("confiance"),
   },

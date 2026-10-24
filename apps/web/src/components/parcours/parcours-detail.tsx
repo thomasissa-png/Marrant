@@ -13,6 +13,7 @@ import { stripEmDashes } from "@/lib/em-dash";
 import { frTypoTexte } from "@/lib/fr-typo";
 import { canAccessParcoursStep, isPremiumPlan } from "@/lib/parcours-access";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { buildRegisterUrl } from "@/lib/auth-links";
 import { estRepliSeed } from "@/lib/parcours-preview";
 import {
   derniereValidation,
@@ -31,7 +32,6 @@ import {
   etapeLienTexte,
   progressionVisiteurTexte,
   prochaineEtapeTexte,
-  APERCU_INTRO,
   CHARGEMENT_PREMIUM,
   PROCHAINE_ETAPE_DISPONIBLE,
   RAPPEL_LIEN,
@@ -40,6 +40,9 @@ import {
   XP_GAIN,
 } from "@/config/textes/parcours";
 import { etapeAfficheEchec, ParcoursStepCard } from "@/components/parcours/parcours-step-card";
+import { LettreRepliee } from "@/components/lettre/lettre-repliee";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
 
@@ -131,6 +134,15 @@ export function ParcoursDetail({
   // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
   const userId = (session?.user as { id?: string } | undefined)?.id;
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
+  // s21 concision (18/10) : le plein de fin d'étape 1 mène droit à l'inscription (même tunnel que
+  // les autres boutons d'achat : /register, puis paiement ouvert seul, retour au parcours), sans
+  // passer par /abonnement. Compte déjà connecté : /abonnement, comme AuthCta.
+  // Concision v5 : la source n'est portée qu'une fois, par /register (`src=parcours-etape`) ;
+  // `getPostSignupRedirect` la reporte sur /abonnement après l'inscription (checkout-ouvert).
+  const finEtape1Href =
+    statut === "visiteur"
+      ? buildRegisterUrl({ callbackUrl: buildAbonnementUrl(`/parcours/${slug}`, "monthly"), src: "parcours-etape" })
+      : abonnementHref;
 
   // T29 : quiz réussis gardés pendant l'onglet (détour par l'inscription).
   useEffect(() => {
@@ -412,7 +424,10 @@ export function ParcoursDetail({
             : PROCHAINE_ETAPE_DISPONIBLE;
         setStepResults((prev) => ({ ...prev, [stepOrder]: { xp: xpTexte, rythme } }));
         setAnnonce([xpTexte, rythme].filter(Boolean).join(" "));
-        const nextStep = path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order));
+        // s21 : étapes validables dans n'importe quel ordre ; après la dernière, on revient à la première non validée.
+        const nextStep =
+          path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order)) ??
+          path.steps.find((s) => !completed.includes(s.order));
         if (pathCompleted || !nextStep) {
           focusAfterValidation.current = "fin";
           setExpandedStep(null);
@@ -421,19 +436,16 @@ export function ParcoursDetail({
           setExpandedStep(nextStep.order);
         }
       } else {
-        const err = (await res.json().catch(() => null)) as { error?: string; code?: string } | null;
-        // Codes du lot A → motifs fermés de data-analyst §5.1 (« ordre » = refus d'ordre conseillé).
+        // Codes du lot A → motifs fermés de data-analyst §5.1.
         const motif =
-          res.status === 429 ? "limite" : res.status === 403 || res.status === 409 ? "refus" : "serveur";
+          res.status === 429 ? "limite" : res.status === 403 ? "refus" : "serveur";
         trackUmami("parcours-erreur", { parcours: slug, etape: stepOrder, motif });
         setCompletionError({
           order: stepOrder,
           message:
             res.status === 429
               ? "Doucement, tu cliques plus vite que ton ombre. Attends un instant et réessaie."
-              : err?.code === "ordre" && err.error
-                ? err.error
-                : "L'étape n'a pas voulu se valider. Réessaie.",
+              : "L’étape n’a pas voulu se valider. Réessaie.",
         });
       }
     } catch {
@@ -465,8 +477,8 @@ export function ParcoursDetail({
         <CardContent className="py-12 text-center">
           <p className="text-text-secondary">
             {fetchError
-              ? "Ce parcours ne veut pas se charger pour l'instant. Réessaie un peu plus tard."
-              : "Ce parcours n'existe pas, ou plus."}{" "}
+              ? "Ce parcours ne veut pas se charger pour l’instant. Réessaie un peu plus tard."
+              : "Ce parcours n’existe pas, ou plus."}{" "}
             <Link href="/parcours" className="text-accent-link underline underline-offset-2">
               Voir tous les parcours
             </Link>
@@ -477,6 +489,17 @@ export function ParcoursDetail({
   }
 
   const completedSteps = progress?.completedSteps ?? [];
+  // Finition du tour 3 (T3) : quand la carte de fin d'étape 1 est affichée (visiteur ou compte sans
+  // abonnement, étape 1 ouverte, quiz fait), elle porte déjà l'étape 2 (« Étape 2 sur N », titre,
+  // aperçu) : l'étape 2 n'est pas répétée dans la liste, et la lettre gratuite passe sous la liste.
+  const etape1 = path?.steps.find((s) => s.order === 1);
+  const carteFinEtape1 =
+    !isPremium &&
+    !!etape1 &&
+    isParcoursSlug(slug) &&
+    expandedStep === 1 &&
+    !completedSteps.includes(1) &&
+    (!etape1.quiz?.length || quizDone.has(1));
   const totalSteps = path.steps.length;
   const isPathCompleted = !!progress?.completedAt;
   const totalXp = serverXpTotal ?? totalParcoursXp(path.steps);
@@ -486,19 +509,14 @@ export function ParcoursDetail({
   const chargementPremium = isPremium && attendApi && enrich === "attente";
   const echecPremium = isPremium && attendApi && enrich === "echec";
   const progressionConnue = progress !== null || !attendApi || enrich === "ok";
-  // D1 : ordre conseillé pour l'abonné seulement. s17 tour 2 : pas de verrou tant que la progression est inconnue.
-  const etapeVerrouillee = (stepIndex: number) =>
-    isPremium &&
-    progressionConnue &&
-    !completedSteps.includes(path.steps[stepIndex].order) &&
-    !path.steps.slice(0, stepIndex).every((s) => completedSteps.includes(s.order));
+  // s21 (décision de Thomas du 18/10) : avec Premium, toutes les étapes sont ouvertes d'un coup ;
+  // l'ordre et « une étape par semaine » restent des conseils (date conseillée, prochaine étape), jamais un verrou.
   const etapeAccessible = (order: number) => canAccessParcoursStep(order, isPremium ? "PREMIUM" : null);
   // s17 tour 3 (UXV-3-01) : étape dépliée qui affiche l'échec = elle porte l'alerte et le seul « Réessayer ».
-  const etapeEnEchec = path.steps.findIndex((step, i) =>
+  const etapeEnEchec = path.steps.findIndex((step) =>
     etapeAfficheEchec({
       step,
       isExpanded: expandedStep === step.order,
-      isSequentiallyLocked: etapeVerrouillee(i),
       isPremiumLocked: !etapeAccessible(step.order),
       loadFailed: enrich === "echec",
     }),
@@ -540,18 +558,18 @@ export function ParcoursDetail({
   return (
     <>
       <div className="mb-8">
-        <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
           <Link href="/parcours" className="hover:text-text-primary max-md:py-3.5">Parcours</Link>
           <span className="mx-2">/</span>
-          <span className="text-text-secondary">{path.title}</span>
+          <span className="text-text-secondary">{frTypoTexte(path.title)}</span>
         </nav>
 
         <div className="flex items-center gap-3">
           <span className="text-4xl" aria-hidden="true">{withEmojiPresentation(path.icon)}</span>
           <div>
-            <h1 className="font-display text-3xl font-bold">{path.title}</h1>
+            <h1 className="font-display text-3xl font-bold">{frTypoTexte(path.title)}</h1>
             <div className="mt-1 flex flex-wrap items-center gap-2">
               <Badge variant="primary">{formatDifficulty(path.difficultyLabel ?? path.difficulty)}</Badge>
               {/* s19 (N1 @ux rendu) : le rythme promis par le hub et la meta, repris dans l'en-tête ;
@@ -659,19 +677,19 @@ export function ParcoursDetail({
               {/* s19 iter 4 (C @design) : -mb-3 sous 640 px, le lien de 44 px ne creuse plus 40 px sous la carte. */}
               {!isPathCompleted && rappelInvite && (
                 <p className="-mb-3 mt-2 text-xs text-text-muted sm:mb-0">
-                  {RAPPEL_LIEN.texte}{" "}
+                  {frTypoTexte(RAPPEL_LIEN.texte)}{" "}
                   <Link
                     href="/profil#rappel-parcours"
                     className="inline-flex min-h-[44px] items-center text-accent-link underline underline-offset-2 sm:min-h-0"
                   >
-                    {RAPPEL_LIEN.lien}
+                    {frTypoTexte(RAPPEL_LIEN.lien)}
                   </Link>
                 </p>
               )}
             </>
           ) : (
             // QA-13 : pas de barre immobile pour un non-abonné.
-            <p className="text-sm text-text-secondary">{progressionVisiteurTexte(totalSteps)}</p>
+            <p className="text-sm text-text-secondary">{progressionVisiteurTexte()}</p>
           )}
         </CardContent>
       </Card>
@@ -700,9 +718,9 @@ export function ParcoursDetail({
       {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
 
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
-      {!isPremium && <p className="mb-4 text-sm text-text-secondary">{APERCU_INTRO}</p>}
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
+          if (carteFinEtape1 && step.order === 2) return null;
           const isCompleted = completedSteps.includes(step.order);
           return (
             <ParcoursStepCard
@@ -713,14 +731,14 @@ export function ParcoursDetail({
               isPremium={isPremium}
               isCompleted={isCompleted}
               isExpanded={expandedStep === step.order}
-              // D1 : le visiteur ouvre l'aperçu ; règle de l'abonné dans etapeVerrouillee.
-              isSequentiallyLocked={etapeVerrouillee(stepIndex)}
+              // D1 : le visiteur ouvre l'aperçu ; l'abonné ouvre toutes les étapes (décision du 18/10).
               isPremiumLocked={!etapeAccessible(step.order)}
-              previousOrder={path.steps[stepIndex - 1]?.order ?? null}
+              etapeSuivante={path.steps[stepIndex + 1] ?? null}
               isQuizDone={quizDone.has(step.order)}
               isSeedFallback={isSeedFallback}
               completing={completing === step.order}
               abonnementHref={abonnementHref}
+              finEtape1Href={finEtape1Href}
               loadFailed={enrich === "echec"}
               onRetryLoad={() => setReloadKey((k) => k + 1)}
               reessayerRef={stepIndex === etapeEnEchec ? reessayerRef : undefined}
@@ -743,6 +761,11 @@ export function ParcoursDetail({
           );
         })}
       </div>
+
+      {/* Finition du tour 3 (T3) : la lettre gratuite sous la liste des étapes, loin du bouton payant. */}
+      {carteFinEtape1 && (
+        <LettreRepliee emplacement="parcours" slug={slug} ligne={FIN_ETAPE_1.lettre.ligne} className="mt-6 text-center" />
+      )}
 
       {argumentaireApresProgramme && <div className="mt-8">{argumentaire}</div>}
 

@@ -21,7 +21,7 @@ const baseLog: CeoAuditLogDto = {
 describe("CeoAuditLog", () => {
   it("affiche message vide si pas de logs", () => {
     render(<CeoAuditLog logs={[]} />);
-    expect(screen.getByText(/Pas d'entrées d'audit/i)).toBeInTheDocument();
+    expect(screen.getByText(/Pas d['’]entrées d['’]audit/i)).toBeInTheDocument();
   });
 
   it("affiche un log avec action, targetType, channel, outcome", () => {

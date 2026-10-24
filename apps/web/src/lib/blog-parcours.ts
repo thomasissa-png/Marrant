@@ -31,3 +31,10 @@ export function resolveArticleParcours(articleSlug: string, articleCategory?: st
   const cluster = resolveCluster(articleSlug, articleCategory);
   return (cluster && PARCOURS_PAR_CLUSTER[cluster.id]) || PARCOURS_PAR_DEFAUT;
 }
+
+/** Parcours connu (table par slug ou cluster), et non Répartie par défaut (QA v4 m-2 : libellé du plein). */
+export function articleParcoursConnu(articleSlug: string, articleCategory?: string): boolean {
+  if (PARCOURS_PAR_ARTICLE[articleSlug]) return true;
+  const cluster = resolveCluster(articleSlug, articleCategory);
+  return Boolean(cluster && PARCOURS_PAR_CLUSTER[cluster.id]);
+}

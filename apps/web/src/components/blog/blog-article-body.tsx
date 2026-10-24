@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { renderMarkdownSections } from "@/components/ui/markdown-renderer";
-import { BlogEncartMilieu } from "@/components/blog/blog-encart-milieu";
+import { DemoVanne } from "@/components/blog/demo-vanne";
 import { computeEncartPlacements, visibleTextLength } from "@/lib/blog-encarts";
-import { ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { getCarnetDemo } from "@/lib/carnet";
 
 interface BlogArticleBodyProps {
   slug: string;
@@ -12,13 +12,16 @@ interface BlogArticleBodyProps {
 }
 
 /**
- * Corps d'un article (statique ou en base) avec ses encarts au fil du texte (s20).
+ * Corps d'un article (statique ou en base) avec son encart au fil du texte (s20 ;
+ * s21 : `DemoVanne`, la fiche offerte du carnet du mois, absente s'il n'y en a pas).
  * Rendu identique à MarkdownRenderer, découpé en sections pour glisser un encart
  * entre deux H2 (placement : lib/blog-encarts.ts). Chaque section est un
  * `data-blog-section` : la mesure des liens (linkZone) s'arrête à ce niveau.
  */
 export function BlogArticleBody({ slug, category, content, shareJokes = false }: BlogArticleBodyProps) {
   const sections = renderMarkdownSections(content, { shareJokes });
+  // Fiche offerte du mois (ISR 1 h : le changement de mois suit à l'heure près).
+  const demo = getCarnetDemo();
   const placements = computeEncartPlacements(
     slug,
     category,
@@ -38,13 +41,7 @@ export function BlogArticleBody({ slug, category, content, shareJokes = false }:
                 dangerouslySetInnerHTML={{ __html: section.html }}
               />
             )}
-            {encart && (
-              <BlogEncartMilieu
-                position={encart.position}
-                parcours={encart.parcours}
-                textes={encart.texte ? ENCARTS_ARTICLE_1[encart.texte] : TEXTES_PARCOURS_BLOG[encart.parcours].encartMilieu}
-              />
-            )}
+            {encart && demo && <DemoVanne demo={demo} position={encart.position} parcours={encart.parcours} />}
           </Fragment>
         );
       })}

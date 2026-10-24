@@ -16,9 +16,11 @@ import { buildLoginUrl } from "@/lib/auth-links";
 import { PARCOURS_MIN_WEEKS } from "@/config/premium";
 import { AbonnementCard } from "@/components/profil/abonnement-card";
 import { SupprimerCompteCard } from "@/components/profil/supprimer-compte-card";
+import { PrenomCard } from "@/components/profil/prenom-card";
 import { useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { PROGRESSION_NIVEAU, SERIE } from "@/config/textes/parcours";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -71,13 +73,16 @@ export function ProfilDashboard() {
       const res = await fetch("/api/stripe/checkout", { method: "POST" });
       if (res.ok) {
         const data = await res.json();
+        trackCheckoutOuvert("profil");
         window.location.href = data.url;
       } else {
         // s16 : message du serveur s'il existe (ex. abonnement déjà en cours, 409).
         const data = (await res.json().catch(() => ({}))) as { error?: string };
-        toast(data.error ?? "Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+        trackCheckoutEchec("profil", res.status === 409 ? "conflit" : "erreur");
+        toast(data.error ?? "Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
       }
     } catch {
+      trackCheckoutEchec("profil", "reseau");
       toast("Connexion perdue, réessaie", "error");
     } finally {
       setIsCheckoutLoading(false);
@@ -240,7 +245,7 @@ export function ProfilDashboard() {
           {parcoursProgress.length === 0 ? (
             <div className="rounded-lg border border-dashed border-border p-6 text-center">
               <p className="text-sm text-text-secondary">
-                Tu n&apos;as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t&apos;y habituer.
+                Tu n’as pas encore commencé de parcours. Le plus court dure {PARCOURS_MIN_WEEKS} semaines, à peine le temps de t’y habituer.
               </p>
               <Link href="/parcours">
                 <Button variant="primary" size="sm" className="mt-3">
@@ -324,9 +329,9 @@ export function ProfilDashboard() {
             {user.stats.tipsCompleted >= 3 && user.stats.jokesRead >= 10 && parcoursProgress.length === 0 && (
               <Link href="/parcours" className="group">
                 <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
-                  <p className="font-semibold text-accent-link">Lance-toi dans un parcours</p>
+                  <p className="font-semibold text-accent-link">Lance-⁠toi dans un parcours</p>
                   <p className="mt-1 text-sm text-text-secondary">
-                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l&apos;autre.
+                    Tu as les bases. Un parcours te donne un fil à suivre, une étape après l’autre.
                   </p>
                 </div>
               </Link>
@@ -345,7 +350,7 @@ export function ProfilDashboard() {
               <div className="rounded-lg border border-border p-4 transition-colors group-hover:border-accent-primary">
                 <p className="font-semibold text-accent-link">Regarde les pros</p>
                 <p className="mt-1 text-sm text-text-secondary">
-                  Décortique les techniques des meilleurs humoristes, puis pique-leur ce qui te va.
+                  Décortique les techniques des meilleurs humoristes, puis pique-⁠leur ce qui te va.
                 </p>
               </div>
             </Link>
@@ -357,11 +362,13 @@ export function ProfilDashboard() {
       {/* Abonnement (s16 reco 11 : formule, échéance, impayé, changer de formule) */}
       <AbonnementCard
         plan={user.plan}
-        xp={user.xp}
         onCheckout={handleCheckout}
         isCheckoutLoading={isCheckoutLoading}
         abonnement={abonnement}
       />
+
+      {/* s21 concision (18/10) : prénom renseigné après coup (plus demandé à l'inscription). */}
+      <PrenomCard key={user.id} prenom={user.name} />
 
       {/* s16 reco 5 : suppression du compte en libre-service */}
       <SupprimerCompteCard

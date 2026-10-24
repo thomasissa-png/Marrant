@@ -88,6 +88,8 @@ model User {
   pathStepCompletions UserPathStepCompletion[]
   pathStepFeedbacks   UserPathStepFeedback[]
   parcoursReminder    ParcoursReminderPreference?
+  // s21 : lettre hebdomadaire Premium (préférence seulement ; envoi hors lot lettre mensuelle)
+  premiumLetter       PremiumLetterPreference?
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1092,6 +1094,12 @@ model NewsletterSubscriber {
   unsubscribedAt      DateTime?
   ipAddress           String?
   userAgent           String?                    @db.Text
+  /// s21 : dernier e-mail de confirmation ou « déjà inscrit » envoyé (délai minimal de renvoi).
+  confirmationSentAt  DateTime?
+  /// s21 (@legal L4) : e-mails de confirmation envoyés pour l'inscription en cours (2 au plus).
+  confirmationSendCount Int                        @default(0)
+  /// s21 (@legal L4) : demande de reconfirmation envoyée (24 mois) ; sans clic sous 30 jours, désinscription.
+  reconfirmRequestedAt DateTime?
   createdAt           DateTime                   @default(now())
   updatedAt           DateTime                   @updatedAt
 
@@ -1104,6 +1112,86 @@ enum NewsletterSubscriberStatus {
   PENDING       // inscription enregistrée, en attente de confirmation double opt-in
   CONFIRMED     // a cliqué sur le lien de confirmation
   UNSUBSCRIBED  // s'est désabonné
+}
+
+/// Numéro de lettre PRÉPARÉ à l'avance (s21, règle du 01/10 : aucune IA ne génère au fil de l'eau).
+/// Source : `src/data/lettre/numeros.json`, synchronisé au démarrage (jamais un numéro ENVOYE).
+/// Un seul numéro par audience et par période (`periodKey` : « 2026-11 » mensuelle, « 2026-W46 » hebdo).
+model NewsletterIssue {
+  id           String                @id @default(cuid())
+  audience     NewsletterAudience    @default(MENSUELLE)
+  periodKey    String
+  subject      String
+  preheader    String?
+  bodyText     String                @db.Text
+  /// Date et heure d'envoi prévues (UTC). La tâche n'envoie qu'à partir de cette date.
+  scheduledFor DateTime
+  status       NewsletterIssueStatus @default(BROUILLON)
+  validatedAt  DateTime?
+  sentAt       DateTime?
+  createdAt    DateTime              @default(now())
+  updatedAt    DateTime              @updatedAt
+
+  sends NewsletterSend[]
+
+  @@unique([audience, periodKey])
+  @@index([status, scheduledFor])
+}
+
+enum NewsletterAudience {
+  MENSUELLE      // lettre gratuite, NewsletterSubscriber CONFIRMED
+  HEBDO_PREMIUM  // lettre hebdomadaire Premium (hors lot s21 mensuelle)
+}
+
+enum NewsletterIssueStatus {
+  BROUILLON  // préparé, pas encore validé par Thomas : jamais envoyé
+  VALIDE     // relu à l'aveugle et validé : envoyé à partir de scheduledFor
+  ENVOYE     // tous les destinataires traités
+}
+
+/// Journal d'envoi : une ligne par numéro et destinataire, réservée AVANT l'envoi
+/// (un passage relancé ou concurrent ne renvoie jamais : « pas plus d'un par mois »).
+model NewsletterSend {
+  id        String               @id @default(cuid())
+  issueId   String
+  email     String
+  status    NewsletterSendStatus @default(RESERVE)
+  attempts  Int                  @default(0)
+  /// Message d'erreur court (jamais l'adresse).
+  error     String?
+  sentAt    DateTime?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  issue NewsletterIssue @relation(fields: [issueId], references: [id], onDelete: Cascade)
+
+  @@unique([issueId, email])
+  @@index([issueId, status])
+}
+
+enum NewsletterSendStatus {
+  RESERVE  // ligne prise, envoi en cours
+  ENVOYE   // accepté par Resend
+  ECHEC    // refusé ; retenté jusqu'à LETTRE_ESSAIS_MAX
+}
+
+/// Lettre hebdomadaire Premium : préférence (s21, champ prévu pour l'exclusion de la
+/// mensuelle ; l'hebdo elle-même est un lot séparé). Calque de ParcoursReminderPreference.
+model PremiumLetterPreference {
+  id             String    @id @default(cuid())
+  userId         String    @unique
+  enabled        Boolean   @default(false)
+  activatedAt    DateTime?
+  consentVersion String?
+  stoppedAt      DateTime?
+  /// `profil` | `lien-email` | `fin-premium` | `suppression`
+  stopOrigin     String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([enabled])
 }
 
 // ==========================================

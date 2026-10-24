@@ -1,5 +1,10 @@
 import Link from "next/link";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { frTypo } from "@/lib/fr-typo";
 
 const footerLinks = {
   produit: [
@@ -9,10 +14,10 @@ const footerLinks = {
     { href: "/parcours", label: "Parcours" },
     // Pilier SEO non indexé (docs/seo/pilier-non-indexe-s15.md, L1) : lien sitewide.
     { href: "/blog/comment-devenir-drole", label: "Comment devenir drôle" },
-    { href: "/blog", label: "Blog" },
+    { href: "/blog", label: LIBELLE_SECTION_ARTICLES },
     { href: "/glossaire", label: "Glossaire" },
     { href: "/quiz-humour", label: "Quiz humour" },
-    { href: "/anatomie-vanne", label: "Anatomie d'une vanne" },
+    { href: "/anatomie-vanne", label: "Anatomie d’une vanne" },
     { href: "/abonnement", label: "Nos offres" },
   ],
   legal: [
@@ -57,22 +62,34 @@ const socialLinks = [
   },
 ];
 
+/** s21 : lien « La lettre du mois » après « Quiz humour » (spec lettre §1.4), interrupteur ouvert seulement. */
+function liensProduit() {
+  if (!LETTRE_INSCRIPTIONS_OUVERTES) return footerLinks.produit;
+  const i = footerLinks.produit.findIndex((l) => l.href === "/quiz-humour") + 1;
+  return [...footerLinks.produit.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...footerLinks.produit.slice(i)];
+}
+
+const LIEN_PIED = "inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary";
+
 export function Footer() {
+  const produit = liensProduit();
   return (
     <footer className="border-t border-border bg-background-light">
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-12 md:px-6 xl:px-8">
         {/* 375 : une colonne ; 640-1023 : 3 colonnes (Produit sur une seule liste) ;
             ≥ 1024 : 4 pistes égales, Produit sur 2 pistes (sous-colonnes au même
             écart que la grille, donc alignées sur elle) : plus de 4e colonne vide (s17). */}
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+        {/* Revue visuelle s21 (R18, T2-08) : de 768 à 1 023 px, la marque sur toute la rangée du haut, puis
+            Produit (2 colonnes) et Légal : plus aucun libellé sur 2 lignes ; dès 1 024 px, 4 pistes. */}
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-[2fr_1fr] lg:grid-cols-4">
           {/* Marque + Réseaux sociaux */}
-          <div>
+          <div className="md:col-span-2 lg:col-span-1">
             <span className="font-display text-xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
             <p className="mt-2 text-sm text-text-secondary">
               Deviens drôle, un exercice à la fois. Vannes, répartie et techniques
-              de stand-up pour briller en société.
+              de stand-⁠up pour briller en société.
             </p>
             <p className="mt-2 text-sm text-text-muted">
               <a href="mailto:contact@deviens-marrant.fr" className="inline-flex min-h-[44px] items-center text-text-secondary transition-colors hover:text-text-primary">contact@deviens-marrant.fr</a>
@@ -100,17 +117,24 @@ export function Footer() {
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
               Produit
             </h3>
-            <ul className="grid grid-cols-2 gap-x-6 sm:grid-cols-1 lg:grid-cols-2 lg:gap-x-8">
-              {footerLinks.produit.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+            {/* Revue design s21 m4 : 2 colonnes lues de haut en bas (gauche puis droite),
+                plus en zigzag ; nombre de rangées = moitié des liens arrondie au-dessus,
+                recalculé si un lien est ajouté. */}
+            <ul
+              style={{ ["--rangs-produit" as string]: Math.ceil(produit.length / 2) }}
+              className="grid grid-flow-col grid-cols-2 grid-rows-[repeat(var(--rangs-produit),auto)] gap-x-6 sm:grid-flow-row sm:grid-cols-1 sm:grid-rows-none md:grid-flow-col md:grid-cols-2 md:grid-rows-[repeat(var(--rangs-produit),auto)] lg:gap-x-8"
+            >
+              {produit.map((link) =>
+                link.href === "/lettre" ? (
+                  <LienLettrePied key={link.href} href={link.href} label={link.label} className={LIEN_PIED} />
+                ) : (
+                  <li key={link.href}>
+                    <Link href={link.href} className={LIEN_PIED}>
+                      {frTypo(link.label)}
+                    </Link>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
@@ -126,7 +150,7 @@ export function Footer() {
                     href={link.href}
                     className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary"
                   >
-                    {link.label}
+                    {frTypo(link.label)}
                   </Link>
                 </li>
               ))}

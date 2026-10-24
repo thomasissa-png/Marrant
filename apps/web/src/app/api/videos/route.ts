@@ -4,6 +4,8 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { FREE_VIDEO_LIMIT } from "@/config/premium";
+import { OFFRE_NOM } from "@/config/textes/offre";
+import { sansExerciceVideo } from "@/lib/champs-premium";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -108,7 +110,8 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json({
-      videos,
+      // Points clés et exercice réservés à Premium : vidés pour tout autre compte.
+      videos: isPremium ? videos : videos.map(sansExerciceVideo),
       pagination: {
         page: query.page,
         limit: query.limit,
@@ -117,7 +120,7 @@ export async function GET(request: NextRequest) {
       },
       limited: !isPremium,
       totalReal: total,
-      ...((!isPremium && total > FREE_VIDEO_LIMIT) ? { upgradeMessage: `${total - FREE_VIDEO_LIMIT} vidéos supplémentaires avec l'abonnement` } : {}),
+      ...((!isPremium && total > FREE_VIDEO_LIMIT) ? { upgradeMessage: `${total - FREE_VIDEO_LIMIT} vidéos supplémentaires avec ${OFFRE_NOM}` } : {}),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

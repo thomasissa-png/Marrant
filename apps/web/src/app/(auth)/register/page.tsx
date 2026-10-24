@@ -8,12 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getPostSignupRedirect, readSignupPlan } from "@/lib/premium-return";
-import {
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
-  PREMIUM_ANNUAL_PRICE_LABEL,
-  PREMIUM_PRICE_LABEL,
-  type PremiumPlan,
-} from "@/config/premium";
+import type { PremiumPlan } from "@/config/premium";
 import {
   AUTH_RETURN_SIGNUP_GOOGLE,
   buildLoginUrl,
@@ -24,26 +19,29 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
-import { CGU_ACCEPTATION, OFFRE_NOM, reassurancePaiement } from "@/config/textes/offre";
+import { CGU_ACCEPTATION } from "@/config/textes/offre";
+import { contexteRegister, MUR_PARCOURS, REGISTER_CTA, SRC_SANS_ACHAT } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
+import { Chargement } from "@/components/ui/chargement";
+import { favoriDepuisCallback } from "@/lib/favori-apres-paiement";
+import { ouvrirPaiementApresInscription } from "@/lib/checkout-apres-inscription";
+import { frTypo } from "@/lib/fr-typo";
+import { parcoursEtape1Href, parcoursSlugFromHref, type ParcoursSlug } from "@/lib/entrees-parcours";
 
 const OAUTH_ERRORS: Record<string, string> = {
-  OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
+  OAuthAccountNotLinked: "Tu as déjà un compte. Passe par « Continuer avec Google » sur la page de connexion.",
   OAuthCallback:
-    "L'inscription avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
-  OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
+    "L’inscription avec Google n’a pas abouti. Si tu viens d’une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou crée ton compte avec ton email juste en dessous.",
+  OAuthSignin: "Google ne répond pas pour l’instant. Réessaie.",
   Default: "Quelque chose a coincé de notre côté. Réessaie.",
 };
 
 /**
- * Rappel de la formule choisie (étalon 2.1 validé par Thomas, s15), avec le
- * nom unique de l'offre (« Premium », décision D4 de l'audit s16).
+ * Rappel de la formule choisie, avec le nom unique de l'offre (« Premium »,
+ * D4 s16) et le prix TTC (validé à l'aveugle s21, duel /register, 3/3) :
+ * « Premium, 2,99 € TTC par mois, annulable à tout moment. » ; en annuel,
+ * seul le prix change (« 24,99 € TTC par an »).
  */
-function planReminder(plan: PremiumPlan): string {
-  return plan === "annual"
-    ? `${OFFRE_NOM}, ${PREMIUM_ANNUAL_PRICE_LABEL} (${PREMIUM_ANNUAL_EQUIVALENT_LABEL}), annulable à tout moment.`
-    : `${OFFRE_NOM}, ${PREMIUM_PRICE_LABEL}, annulable à tout moment.`;
-}
-
 /**
  * Motif d'échec mesuré (`inscription-echec`, audit s16 reco 17) : statut HTTP
  * ramené à un mot court, jamais de donnée personnelle.
@@ -58,9 +56,20 @@ function registerFailureReason(status: number): string {
 
 /** Message humain affiché : jamais l'erreur brute de l'API (audit s16, reco 16). */
 function registerErrorMessage(status: number): string {
-  if (status === 429) return "Trop d'essais pour l'instant. Réessaie un peu plus tard.";
+  if (status === 429) return "Trop d’essais pour l’instant. Réessaie un peu plus tard.";
   if (status >= 500) return "Quelque chose a coincé de notre côté. Réessaie.";
-  return "L'inscription n'a pas abouti. Réessaie.";
+  return "L’inscription n’a pas abouti. Réessaie.";
+}
+
+/** Retour vers /carnet dans le callback (`/abonnement?returnTo=/carnet…`) : phrase « tout le carnet ». */
+function retourCarnetDepuisCallback(callbackUrl: string | null): boolean {
+  if (!callbackUrl) return false;
+  try {
+    const retour = new URL(callbackUrl, "https://deviens-marrant.fr").searchParams.get("returnTo") ?? "";
+    return retour.split(/[?#]/)[0] === "/carnet";
+  } catch {
+    return false;
+  }
 }
 
 // Rendu : Client Component. Le fallback de Suspense rend le formulaire sans
@@ -96,8 +105,20 @@ interface RegisterFormProps {
   plan: PremiumPlan;
 }
 
+/** Parcours d'origine lu dans le retour (`/abonnement?returnTo=/parcours/x` ou `/parcours/x`). */
+function parcoursOrigineDepuisCallback(callbackUrl: string | null): ParcoursSlug | null {
+  if (!callbackUrl) return null;
+  const direct = parcoursSlugFromHref(callbackUrl);
+  if (direct) return direct;
+  try {
+    const retour = new URL(callbackUrl, "https://deviens-marrant.fr").searchParams.get("returnTo");
+    return parcoursSlugFromHref(retour ?? undefined);
+  } catch {
+    return null;
+  }
+}
+
 function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps) {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -106,6 +127,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // E-mail déjà inscrit (409) : message + lien de connexion (spec s15 §2.3).
   const [emailTaken, setEmailTaken] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // Compte créé, paiement en cours d'ouverture : l'attente se fait dans le bouton (plus de page).
+  const [versPaiement, setVersPaiement] = useState(false);
   const router = useRouter();
   // Navigateur intégré détecté au montage : Google désactivé seulement là où il est refusé (v5 §2.4).
   const inApp = useInAppBrowser();
@@ -114,13 +137,24 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   // Règle unique d'après-inscription (lib/premium-return) : /abonnement avec
   // `auto=1` (paiement ouvert tout seul), intention d'origine gardée en
   // `returnTo`, formule conservée. Google suit la même règle.
-  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan);
+  const postAuthTarget = getPostSignupRedirect(callbackUrl, plan, src);
   // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
   const oauthCallbackUrl = withAuthReturnMarker(postAuthTarget, AUTH_RETURN_SIGNUP_GOOGLE, src);
   // Source toujours renseignée (« direct » si la page est ouverte sans lien suivi).
   // `etape: "abonnement"` : le compte est créé pour s'abonner (rupture de série s15).
   const srcData = { src: src ?? "direct", etape: "abonnement" };
   const loginHref = buildLoginUrl({ callbackUrl, src });
+  const parcoursOrigine = parcoursOrigineDepuisCallback(callbackUrl);
+  const etape1Slug = parcoursOrigine ?? MUR_PARCOURS;
+  // v2 G03, G04 (§3) : ce qui s'ouvre après le paiement, selon le clic d'entrée.
+  const contexte = contexteRegister({
+    src,
+    parcours: parcoursOrigine,
+    carnet: retourCarnetDepuisCallback(callbackUrl),
+    favoriVanne: favoriDepuisCallback(callbackUrl)?.contentType === "JOKE",
+  });
+  // v2 G05 : le lien gratuit seulement sans clic d'achat (aucune source, ou /login).
+  const lienGratuit = !src || SRC_SANS_ACHAT.has(src);
 
   // Retour de Google en erreur (`?error=OAuthCallback`…) : mesuré une seule fois.
   const oauthFailureTracked = useRef(false);
@@ -136,7 +170,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   }, [oauthError, src]);
 
   const validateForm = (): boolean => {
-    const errors = validateRegisterFields({ name, email, password });
+    const errors = validateRegisterFields({ email, password });
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -158,7 +192,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       if (!res.ok) {
@@ -190,6 +224,13 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
         router.push(loginHref);
       } else {
         trackUmami("inscription-reussie", { methode: "email", ...srcData });
+        setVersPaiement(true);
+        const url = await ouvrirPaiementApresInscription(postAuthTarget);
+        if (url) {
+          window.location.href = url;
+          return;
+        }
+        // Échec : /abonnement (`auto=1`) relance et affiche les messages habituels.
         router.push(postAuthTarget);
         router.refresh();
       }
@@ -208,17 +249,19 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
           </Link>
-          <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">Étape 1 sur 2</p>
-          <h1 className="font-display text-xl font-bold text-text-primary">Ton compte</h1>
-          <p className="text-sm text-text-secondary">{planReminder(plan)}</p>
+          <h1 className="font-display text-xl font-bold text-text-primary">{REGISTER_CTA.titre}</h1>
+          <p className="text-sm text-text-secondary" data-testid="register-rappel-offre">
+            {frTypo(REGISTER_CTA.planReminder(plan))}
+            {contexte && <> {frTypo(contexte)}</>}
+          </p>
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -229,7 +272,7 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             )}
             {emailTaken && (
               <p id="register-error" className="order-first rounded-lg bg-error/10 px-3 py-2 text-sm text-error sm:order-none" role="alert">
-                Cet e-mail a déjà un compte.{" "}
+                Cet e-⁠mail a déjà un compte.{" "}
                 <Link href={loginHref} className="font-medium underline underline-offset-2">
                   Connecte-toi
                 </Link>{" "}
@@ -241,25 +284,32 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 {error}
               </p>
             )}
-            <div>
-              <label htmlFor="name" className="mb-1 block text-sm text-text-secondary">
-                Prénom
-              </label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Ton prénom"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                autoComplete="given-name"
-                aria-describedby={fieldErrors.name ? "name-error" : undefined}
-                aria-invalid={!!fieldErrors.name}
-              />
-              {fieldErrors.name && (
-                <p id="name-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.name}</p>
-              )}
-            </div>
+            {/* s21 concision (18/10) : Google en premier, toujours rendu (désactivé seulement dans un
+                navigateur intégré) : aucun saut d'ordre au montage (v5 §2.4). */}
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full"
+              onClick={handleGoogle}
+              disabled={googleBloque}
+              aria-describedby={googleBloque ? IN_APP_NOTICE_ID : undefined}
+            >
+              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              {REGISTER_CTA.google}
+            </Button>
+            {/* Navigateur intégré : l'explication et la copie du lien juste sous Google désactivé. */}
+            {googleBloque && inApp && (
+              <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
+            )}
+            {/* Revue v3 m2 : les CGU sous Google (premier geste possible), avant le formulaire e-mail ;
+                une seule mention, valable pour les deux façons de créer le compte. */}
+            <p className="-mt-2 text-center text-xs text-text-muted" data-testid="register-cgu">
+              {CGU_ACCEPTATION.avant}
+              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
+                {CGU_ACCEPTATION.lien}
+              </Link>
+              {CGU_ACCEPTATION.apres}
+            </p>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
                 Email
@@ -319,53 +369,49 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 <p id="password-error" className="mt-1 text-xs text-error" role="alert">{fieldErrors.password}</p>
               )}
             </div>
-            <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-              {isLoading ? "On prépare ton compte…" : "Créer mon compte"}
-            </Button>
-            {/* E-mail avant Google pour tous (v5 §2.4) : aucun saut d'ordre au montage. */}
             <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={handleGoogle}
-              disabled={googleBloque}
-              aria-describedby={googleBloque ? IN_APP_NOTICE_ID : undefined}
+              type="submit"
+              variant="primary"
+              className="h-auto min-h-12 w-full whitespace-normal py-3 text-center leading-5 [text-wrap:balance] disabled:opacity-100"
+              disabled={isLoading || versPaiement}
+              data-testid="register-bouton"
             >
-              <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-              S&apos;inscrire avec Google
+              {versPaiement ? (
+                <Chargement texte={REGISTER_CTA.chargementPaiement} />
+              ) : isLoading ? (
+                <Chargement texte="On prépare ton compte…" />
+              ) : (
+                REGISTER_CTA.bouton
+              )}
             </Button>
-            <p className="text-center text-xs text-text-muted">Étape 2 : le paiement sécurisé, juste après.</p>
-            {/* Réassurance et CGU (audit s16, reco 9) : étalon 1.1 validé, config/textes/offre.ts. */}
-            <p className="text-center text-xs text-text-muted" data-testid="register-reassurance">
-              {reassurancePaiement(plan)}
-            </p>
-            <p className="text-center text-xs text-text-muted">
-              {CGU_ACCEPTATION.avant}
-              <Link href="/cgu" className="underline underline-offset-2 hover:text-text-secondary">
-                {CGU_ACCEPTATION.lien}
-              </Link>
-              {CGU_ACCEPTATION.apres}
-            </p>
-            {googleBloque && inApp && (
-              <InAppBrowserNotice page="register" callbackUrl={callbackUrl} src={src} ios={inApp.ios} android={inApp.android} />
-            )}
+            {/* Concision v5 : la REASS collée sous le plein (CGU : sous Google, revue v3 m2) ; v2 G06 : Stripe dessous. */}
+            <div className="-mt-2">
+              <Reassurance className="mt-0" testId="register-reassurance" />
+              <p className="mt-1 text-center text-sm text-text-secondary" data-testid="register-stripe">
+                {REGISTER_CTA.stripe}
+              </p>
+            </div>
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            Déjà un compte ?{" "}
+            {REGISTER_CTA.dejaCompte}{" "}
             {/* Souligné en permanence : lien repérable sans la couleur (axe link-in-text-block, s16). */}
             <Link href={loginHref} className="text-accent-link underline underline-offset-2">
-              Connecte-toi
+              {REGISTER_CTA.connecteToi}
             </Link>
           </div>
+          {/* Sortie douce vers l'étape gratuite : seulement sans clic d'achat (v2 G05). */}
+          {lienGratuit && (
+            <div className="mt-1 text-center">
+              <Link
+                href={parcoursEtape1Href(etape1Slug, "register-etape1")}
+                className="inline-flex min-h-11 items-center text-sm text-accent-link underline underline-offset-2"
+              >
+                {REGISTER_CTA.lienEtape1(etape1Slug)}
+              </Link>
+            </div>
+          )}
         </CardContent>
       </Card>
-      {/* T38 : repère de retour visible (pages plein écran sans header) */}
-      <Link
-        href="/"
-        className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
-      >
-        Retour à l&apos;accueil
-      </Link>
     </main>
   );
 }

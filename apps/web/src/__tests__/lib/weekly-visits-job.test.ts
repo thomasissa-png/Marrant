@@ -14,9 +14,19 @@ jest.mock("@/lib/job-lock", () => ({
 const userCount = jest.fn();
 const subscriptionCount = jest.fn();
 const blogFindMany = jest.fn();
+// s21 : stock du contenu du jour (getStockCoverage, partagé avec /api/health).
+const jokeCount = jest.fn();
+const tipCount = jest.fn();
+const videoCount = jest.fn();
+const dailyContentCount = jest.fn();
 jest.mock("@/lib/prisma", () => ({
   prisma: {
-    user: { count: (...a: unknown[]) => userCount(...a) },
+    joke: { count: (...a: unknown[]) => jokeCount(...a) },
+    tip: { count: (...a: unknown[]) => tipCount(...a) },
+    video: { count: (...a: unknown[]) => videoCount(...a) },
+    dailyContent: { count: (...a: unknown[]) => dailyContentCount(...a) },
+    // s21 (19/10) : liste d'exclusion jamais vide (alex@), lecture des comptes de test.
+    user: { count: (...a: unknown[]) => userCount(...a), findMany: () => Promise.resolve([]) },
     subscription: { count: (...a: unknown[]) => subscriptionCount(...a) },
     blogArticle: { findMany: (...a: unknown[]) => blogFindMany(...a) },
   },
@@ -63,6 +73,11 @@ beforeEach(() => {
     { slug: "blagues-poisson-d-avril-adultes", isPublished: false, publishedAt: new Date("2027-03-31T22:30:00Z") },
   ]);
   sendAdminHtmlEmail.mockResolvedValue(undefined);
+  jokeCount.mockResolvedValue(40);
+  tipCount.mockResolvedValue(40);
+  videoCount.mockResolvedValue(0);
+  dailyContentCount.mockResolvedValue(0);
+  delete process.env.CONTENT_GENERATION_ENABLED;
   warn = jest.spyOn(console, "warn").mockImplementation(() => {});
   error = jest.spyOn(console, "error").mockImplementation(() => {});
   jest.spyOn(console, "log").mockImplementation(() => {});
@@ -107,6 +122,77 @@ describe("runWeeklyVisitsReport", () => {
     // Audit s16 (reco 17) : funnel dans le même e-mail, sans nouvel envoi.
     expect(sendAdminHtmlEmail).toHaveBeenCalledWith(SUBJECT, expect.stringContaining("Funnel de la semaine"));
     expect(sendAdminHtmlEmail).toHaveBeenCalledTimes(1);
+  });
+
+  describe("s21 : ligne « Stock du contenu du jour » (décision Thomas 18/10)", () => {
+    const html = () => sendAdminHtmlEmail.mock.calls[0][1] as string;
+
+    it("14 jours ou plus : ligne discrète, pas d'alerte", async () => {
+      jokeCount.mockResolvedValue(10);
+      dailyContentCount.mockResolvedValue(4); // 10 neuves + 4 jours planifiés = 14
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).toContain("Stock du contenu du jour : 14 jours de vannes et 44 jours de conseils jamais utilisés.");
+      expect(html()).not.toContain("Nouveau lot à préparer");
+    });
+
+    it("moins de 14 jours : « Nouveau lot à préparer », même calcul que /api/health", async () => {
+      tipCount.mockResolvedValue(9);
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).toContain("Nouveau lot à préparer : il reste 40 jours de vannes et 9 jours de conseils jamais utilisés (seuil 14 jours).");
+      expect(html()).toContain("le site recycle");
+    });
+
+    it("base illisible : ligne d'avertissement, le rapport part quand même", async () => {
+      jokeCount.mockRejectedValue(new Error("db"));
+      const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(res.status).toBe("sent");
+      expect(html()).toContain("Stock du contenu du jour : illisible");
+    });
+
+    it("génération IA activée : aucune ligne de stock", async () => {
+      process.env.CONTENT_GENERATION_ENABLED = "true";
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(html()).not.toContain("Stock du contenu du jour");
+      expect(jokeCount).not.toHaveBeenCalled();
+      delete process.env.CONTENT_GENERATION_ENABLED;
+    });
+  });
+
+  describe("s21 : section « Lettre mensuelle » (même fonction que la page admin)", () => {
+    const html = () => sendAdminHtmlEmail.mock.calls[0][1] as string;
+
+    it("inscrits, semaine, prochain numéro et dernier envoi dans le même e-mail", async () => {
+      const readLettre = jest.fn().mockResolvedValue({
+        etat: "ok",
+        statuts: { confirmes: 12, enAttente: 3, desinscrits: 1 },
+        comptesTestExclus: 1,
+        semaine: { inscriptions: 4, confirmations: 3, desinscriptions: 0 },
+        parEmplacement: [],
+        numeros: {
+          prochain: { periodKey: "2026-11", subject: "Novembre", statut: "BROUILLON", envoiPrevu: "2026-11-05T07:00:00.000Z", envoyeLe: null },
+          aVenir: 1,
+          envoyes: [{ periodKey: "2026-10", subject: "Octobre", statut: "ENVOYE", envoiPrevu: "2026-10-01T06:00:00.000Z", envoyeLe: null, envoyes: 10, echecs: 1, enCours: 0 }],
+        },
+      });
+      await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS, readLettre });
+      expect(readLettre).toHaveBeenCalledWith(expect.objectContaining({ startAt: WEEK_START_2809 }), MONDAY_7H_PARIS);
+      expect(sendAdminHtmlEmail).toHaveBeenCalledTimes(1);
+      expect(html()).toContain("Lettre mensuelle");
+      expect(html()).toMatch(/Inscrits confirmés \(reçoivent la lettre\)<\/td><td[^>]*>12</);
+      expect(html()).toMatch(/Inscriptions de la semaine<\/td><td[^>]*>4</);
+      expect(html()).toContain("2026-11, jeudi 5 novembre");
+      expect(html()).toContain("brouillon, à valider");
+      expect(html()).toContain("10 envoyés, 1 échecs");
+      expect(html()).toContain("1 compte(s) de test exclu(s)");
+    });
+
+    it("lettre illisible : ligne d'avertissement, le rapport part quand même", async () => {
+      // Base de test sans table des inscrits : la lecture par défaut échoue sans lever.
+      const res = await runWeeklyVisitsReport({ now: MONDAY_7H_PARIS });
+      expect(res.status).toBe("sent");
+      expect(html()).toContain("Lettre mensuelle</h3><p");
+      expect(html()).toContain("Section indisponible : base illisible.");
+    });
   });
 
   it("section réseaux sociaux « prévu contre publié » sur la semaine du rapport (s15)", async () => {

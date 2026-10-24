@@ -6,6 +6,7 @@ import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { OnboardingFlow } from "@/components/mobile/OnboardingFlow";
+import { lie } from "../helpers/texte-normalise";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
@@ -34,7 +35,7 @@ describe("OnboardingFlow", () => {
     const onComplete = jest.fn();
     render(<OnboardingFlow onComplete={onComplete} />);
     fireEvent.click(screen.getByText("On y va"));
-    expect(screen.getByText(/T'as quel âge en gros/i)).toBeInTheDocument();
+    expect(screen.getByText(/T['’]as quel âge en gros/i)).toBeInTheDocument();
   });
 
   it("détecte persona YANIS pour age u22 + goal repartie", async () => {
@@ -76,7 +77,7 @@ describe("OnboardingFlow", () => {
     await waitFor(() => {
       expect(window.localStorage.getItem("detectedPersona")).toBe("MARC");
     });
-    expect(screen.getByText(/Ta légèreté n'est pas partie loin/i)).toBeInTheDocument();
+    expect(screen.getByText(/Ta légèreté n['’]est pas partie loin/i)).toBeInTheDocument();
   });
 
   it("propose Plus tard sur l'écran push", async () => {
@@ -106,6 +107,6 @@ describe("OnboardingFlow", () => {
 
     expect(await screen.findByText(/Garde tes XP et ton parcours/i)).toBeInTheDocument();
     expect(screen.getByText(/Créer mon compte/)).toBeInTheDocument();
-    expect(screen.getByText(/Plus tard, laisse-moi explorer/)).toBeInTheDocument();
+    expect(screen.getByText(new RegExp(lie("Plus tard, laisse-moi explorer")))).toBeInTheDocument();
   });
 });

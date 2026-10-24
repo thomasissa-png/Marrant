@@ -1,6 +1,9 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MUR_LISTE } from "@/config/textes/cta-pages";
+import { frTypo } from "@/lib/fr-typo";
 import { VannesList } from "@/components/vannes/vannes-list";
+import { avecOuSansGluon } from "../helpers/texte-normalise";
 
 const mockPush = jest.fn();
 let mockSearch = "";
@@ -103,8 +106,31 @@ describe("VannesList", () => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
 
+    // Toucher l'amorce elle-même révèle la chute (geste de la page, rétabli après 5cecb79).
     await userEvent.click(screen.getByText("Setup vanne 1"));
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
+  });
+
+  it("s21 : la flèche de coin est le seul lien vers la fiche, sans texte visible, et ne révèle pas la chute", async () => {
+    render(<VannesList />);
+    await waitFor(() => {
+      expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
+    });
+    // L'amorce n'est plus un lien.
+    expect(screen.queryByRole("link", { name: "Setup vanne 1" })).not.toBeInTheDocument();
+    const fleche = screen.getAllByRole("link", { name: "Voir la fiche de cette vanne" })[0];
+    expect(fleche.getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
+    expect(fleche.textContent?.trim()).toBe("");
+    expect(fleche.className).toContain("h-11 w-11");
+    const carte = fleche.closest(".cursor-pointer")!;
+    expect([...carte.querySelectorAll('a[href^="/vannes/"]')]).toEqual([fleche]);
+    expect(screen.queryByText(/Page dédiée/)).not.toBeInTheDocument();
+    fleche.focus();
+    expect(fleche).toHaveFocus();
+    // Le clic sur la flèche mène à la fiche : il ne révèle pas la chute dans la liste.
+    fleche.addEventListener("click", (e) => e.preventDefault());
+    await userEvent.click(fleche);
+    expect(screen.queryByText("Chute 1")).not.toBeInTheDocument();
   });
 
   it("reveals punchline with the « Révéler la chute » button (s12 T16)", async () => {
@@ -117,13 +143,14 @@ describe("VannesList", () => {
     expect(screen.getByText("Chute 1")).toBeInTheDocument();
   });
 
-  it("shows readable joke type labels, never raw enums (s12 T13)", async () => {
+  it("concision v5 : plus d'étiquette de type sur les cartes, jamais d'enum brut", async () => {
     render(<VannesList />);
     await waitFor(() => {
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
     });
     expect(screen.queryByText("DIALOGUE")).not.toBeInTheDocument();
-    expect(screen.getByText("Dialogue")).toBeInTheDocument();
+    expect(screen.queryByText("Dialogue")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("One-liner"))).not.toBeInTheDocument();
     // Type inconnu (ONESHOT dans la fixture) : aucun badge brut.
     expect(screen.queryByText("ONESHOT")).not.toBeInTheDocument();
   });
@@ -137,7 +164,7 @@ describe("VannesList", () => {
     // Avant révélation : pas de décryptage visible
     expect(screen.queryByText(/Pourquoi ça marche/)).not.toBeInTheDocument();
 
-    await userEvent.click(screen.getByText("Setup vanne 1"));
+    await userEvent.click(screen.getAllByRole("button", { name: "Révéler la chute" })[0]);
 
     expect(screen.getByText(/Pourquoi ça marche/)).toBeInTheDocument();
     expect(screen.getByText("À toi de jouer")).toBeInTheDocument();
@@ -153,7 +180,7 @@ describe("VannesList", () => {
       expect(screen.getByText("Setup vanne 2")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByText("Setup vanne 2"));
+    await userEvent.click(screen.getAllByRole("button", { name: "Révéler la chute" })[1]);
 
     // Vanne 2 révélée (chute visible) mais SANS décryptage (champs null)
     expect(screen.getByText("Chute 2")).toBeInTheDocument();
@@ -185,7 +212,7 @@ describe("VannesList", () => {
     });
     render(<VannesList />);
     await waitFor(() => {
-      expect(screen.getByText("Rien dans cette catégorie pour l'instant, même pas un jeu de mots")).toBeInTheDocument();
+      expect(screen.getByText("Rien dans cette catégorie pour l’instant, même pas un jeu de mots")).toBeInTheDocument();
     });
   });
 
@@ -267,8 +294,10 @@ describe("VannesList", () => {
       global.fetch = jest.fn(() => new Promise(() => {})) as jest.Mock; // fetch jamais résolu
       render(<VannesList initialData={serverPage(1)} initialPage={1} />);
       expect(screen.getByText("Setup vanne 1")).toBeInTheDocument();
-      const ficheLinks = screen.getAllByRole("link", { name: "Ouvrir la page dédiée de cette vanne" });
+      // s21 : un seul lien par carte vers la fiche, la flèche de coin ; même maillage qu'avant.
+      const ficheLinks = screen.getAllByRole("link").filter((a) => /^\/vannes\/[^?]/.test(a.getAttribute("href") ?? ""));
       expect(ficheLinks).toHaveLength(2);
+      expect(ficheLinks[0]).toHaveAccessibleName("Voir la fiche de cette vanne");
       expect(ficheLinks[0].getAttribute("href")).toMatch(/^\/vannes\/setup-vanne-1-/);
     });
 
@@ -370,12 +399,14 @@ describe("VannesList", () => {
       }) as jest.Mock;
       render(<VannesList initialData={serverPage(2)} initialPage={2} />);
       await waitFor(() => {
-        expect(screen.getByText("Abonne-toi pour accéder à toutes les vannes")).toBeInTheDocument();
+        // s21 B7 : bloc de bas de liste (le message de l'API n'est plus affiché).
+        expect(screen.getByRole("heading", { name: frTypo(MUR_LISTE.vannes.titre) })).toBeInTheDocument();
       });
-      expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l'offre" }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole("button", { name: "Contenu Premium : voir l’offre" }).length).toBeGreaterThan(0);
       expect(screen.queryByText(/Rien dans cette catégorie/)).not.toBeInTheDocument();
-      // La pagination du catalogue public reste disponible (retour en page 1).
-      expect(screen.getByRole("link", { name: "Page précédente (page 1)" })).toHaveAttribute("href", "/vannes");
+      // QA v4 m-5 : liste limitée, plus de pagination (le mur fait office de fin).
+      expect(screen.queryByRole("link", { name: "Page précédente (page 1)" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("link", { name: /^Page \d+$/ })).not.toBeInTheDocument();
     });
   });
 });

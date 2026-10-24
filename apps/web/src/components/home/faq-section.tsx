@@ -1,8 +1,7 @@
-"use client";
-
 import { faqs } from "@/lib/faqs";
 import { frTypo } from "@/lib/fr-typo";
 import { cn } from "@/lib/utils";
+import { COLONNE_LECTURE, MESURE_TEXTE } from "@/components/layout/gabarit";
 export { faqs };
 
 export interface FaqItem {
@@ -14,22 +13,27 @@ interface FaqSectionProps {
   /** Questions à afficher (par défaut : FAQ générale du site). */
   items?: readonly FaqItem[];
   title?: string;
-  /** "left" : pages catalogue (titre aligné à gauche, même largeur que les blocs voisins). */
+  /**
+   * "left" : pages catalogue et de lecture, pleine largeur de la colonne (mêmes bords que les blocs
+   * voisins, revue visuelle s21). "center" : colonne de lecture centrée (accueil, abonnement).
+   */
   align?: "center" | "left";
 }
 
 /**
- * FAQ en accordéon fermé : un seul composant pour toutes les pages
+ * FAQ en accordéon fermé (`<details>` natif, aucun état) : un seul composant pour toutes les pages.
+ * s21 (QA m3) : plus de « use client » ; rendue par le serveur (accueil, listes), sans JS.
  * (passe s12 : UX T19/T46, design T11).
  */
 export function FaqSection({ items = faqs, title = "Questions fréquentes", align = "center" }: FaqSectionProps = {}) {
   const left = align === "left";
   return (
-    <div className={left ? "max-w-3xl" : "mx-auto max-w-2xl"}>
+    <div className={left ? undefined : COLONNE_LECTURE}>
       <h2
         className={cn(
           "font-display font-bold text-text-primary",
-          left ? "mb-4 text-xl" : "mb-8 text-center text-2xl",
+          // Revue visuelle s21 (R29) : titre secondaire, même taille que « Derniers articles » et la lettre.
+          left ? "mb-4 text-xl" : "mb-8 text-center text-xl md:text-2xl",
         )}
       >
         {title}
@@ -53,7 +57,7 @@ export function FaqSection({ items = faqs, title = "Questions fréquentes", alig
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </summary>
-            <p className="px-4 pb-4 text-sm text-text-secondary">{faq.answer}</p>
+            <p className={cn("px-4 pb-4 text-sm text-text-secondary", MESURE_TEXTE)}>{frTypo(faq.answer)}</p>
           </details>
         ))}
       </div>

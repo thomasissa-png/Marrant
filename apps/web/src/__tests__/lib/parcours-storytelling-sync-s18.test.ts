@@ -89,7 +89,7 @@ beforeEach(() => {
   it("quiz : le profil Storyteller garde Machine à Café et sa phrase actuelle", () => {
     expect(QUIZ_PROFILES.STORYTELLER.recommendedParcours).toBe("machine-a-cafe");
     expect(QUIZ_HUMOUR_PARCOURS.raison.STORYTELLER).toBe(
-      "Tu sais tenir une table avec une histoire : ce parcours t'apprend à la raconter au bon moment et jusqu'au bout.",
+      "Tu tiens une table avec une histoire : ce parcours t'apprend à la raconter jusqu'au bout.",
     );
   });
 
@@ -109,7 +109,7 @@ describe("interrupteur de publication (état publié simulé)", () => {
       expect(premium.PARCOURS_COUNT).toBe(4);
       expect(quiz.QUIZ_PROFILES.STORYTELLER.recommendedParcours).toBe("storytelling");
       expect(textes.QUIZ_HUMOUR_PARCOURS.raison.STORYTELLER).toBe(
-        "Tu sais tenir une table avec tes histoires : ce parcours commence par en écrire une comme elle vient, puis par couper ce qui traîne.",
+        "Tu tiens une table avec tes histoires : ce parcours t’apprend à couper ce qui traîne.",
       );
       expect(entrees.parcoursEtape1Href("storytelling", "quiz")).toBe("/parcours/storytelling?src=quiz#etape-1");
       expect(data.buildPathFromSeed("storytelling")?.steps).toHaveLength(6);

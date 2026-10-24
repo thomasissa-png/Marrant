@@ -6,18 +6,19 @@ import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
 } from "@/components/seo/json-ld";
+import { frTypo } from "@/lib/fr-typo";
 
 /** Aperçu de partage (og ET twitter, sinon twitter reprend celui de l'accueil). */
 const SHARE = {
-  title: "Anatomie d'une vanne : la science du rire en 3 parties",
+  title: "Anatomie d’une vanne : la science du rire en 3 parties",
   description:
-    "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d'autres tombent à plat.",
+    "Setup, pivot, punchline : comprends pourquoi certaines vannes tuent et d’autres tombent à plat.",
 };
 
 export const metadata: Metadata = {
-  title: { absolute: "Anatomie d'une vanne : setup, pivot et punchline" },
+  title: { absolute: "Anatomie d’une vanne : setup, pivot et punchline" },
   description:
-    "Setup, pivot et punchline : décortique les 3 composants d'une blague qui fait rire, avec des exemples concrets pour t'entraîner.",
+    "Setup, pivot et punchline : décortique les 3 composants d’une blague qui fait rire, avec des exemples concrets pour t’entraîner.",
   keywords: [
     "anatomie blague",
     "structure blague",
@@ -36,51 +37,51 @@ export const metadata: Metadata = {
 
 const anatomyFaqs = [
   {
-    question: "C'est quoi le setup d'une blague ?",
+    question: "C’est quoi le setup d’une blague ?",
     answer:
-      "Le setup, c'est la mise en place : la première partie de la vanne, celle qui installe le contexte et crée une attente chez ceux qui écoutent. Un bon setup est court, clair, et il emmène tout le monde dans une direction, pour que la chute puisse les envoyer dans une autre.",
+      "Le setup, c’est la mise en place : la première partie de la vanne, celle qui installe le contexte et crée une attente chez ceux qui écoutent. Un bon setup est court, clair, et il emmène tout le monde dans une direction, pour que la chute puisse les envoyer dans une autre.",
   },
   {
     question: "Comment écrire une bonne punchline ?",
     answer:
-      "Une bonne punchline est plus courte que le setup, inattendue, et elle crée un décalage. La règle d'or : enlève tous les mots qui ne servent pas la chute. Les meilleures punchlines tiennent en moins de 10 mots. Teste-la à voix haute devant quelqu'un : si tu dois expliquer pourquoi c'est drôle, c'est qu'elle n'est pas encore prête.",
+      "Une bonne punchline est plus courte que le setup, inattendue, et elle crée un décalage. La règle d’or : enlève tous les mots qui ne servent pas la chute. Les meilleures punchlines tiennent en moins de 10 mots. Teste-la à voix haute devant quelqu’un : si tu dois expliquer pourquoi c’est drôle, c’est qu’elle n’est pas encore prête.",
   },
   {
-    question: "C'est quoi le pivot dans une vanne ?",
+    question: "C’est quoi le pivot dans une vanne ?",
     answer:
-      "Le pivot, c'est le moment exact où la blague change de direction, le mécanisme qui crée la surprise : un mot à double sens, une situation qui se retourne, une association inattendue. Sans pivot, pas de surprise, et sans surprise, pas de rire.",
+      "Le pivot, c’est le moment exact où la blague change de direction, le mécanisme qui crée la surprise : un mot à double sens, une situation qui se retourne, une association inattendue. Sans pivot, pas de surprise, et sans surprise, pas de rire.",
   },
   {
     question: "Quelle est la différence entre une blague et un one-liner ?",
     answer:
-      "Un one-liner fait tenir setup, pivot et punchline dans une seule phrase. La structure est la même, en version compressée. C'est plus court à dire, mais plus long à écrire : chaque mot doit mériter sa place, parce qu'il n'y a nulle part où cacher un mot en trop.",
+      "Un one-liner fait tenir setup, pivot et punchline dans une seule phrase. La structure est la même, en version compressée. C’est plus court à dire, mais plus long à écrire : chaque mot doit mériter sa place, parce qu’il n’y a nulle part où cacher un mot en trop.",
   },
 ];
 
 const vanneExamples = [
   {
     category: "Observation",
-    setup: "Chaque matin, mon père m'envoie une fleur qui scintille avec « Bonne journée ».",
+    setup: "Chaque matin, mon père m’envoie une fleur qui scintille avec « Bonne journée ».",
     pivot: "Le bonjour du matin est en fait un contrôle de présence",
     punchline: "Un matin sans réponse, il a appelé ma voisine.",
     analysis:
-      "Setup de 12 mots : un détail précis (la fleur qui scintille) plutôt qu'un portrait de père dépassé par la technologie, et un geste d'affection qui n'éveille aucun soupçon. Le pivot est le sens du message : ce qu'on lisait comme un bonjour fonctionne comme un contrôle de présence, et c'est son absence qui le révèle. La punchline tient en 9 mots, et la voisine fait l'escalade : le père ne se demande pas si tu es occupé, il passe directement au plan B.",
+      "Setup de 12 mots : un détail précis (la fleur qui scintille) plutôt qu’un portrait de père dépassé par la technologie, et un geste d’affection qui n’éveille aucun soupçon. Le pivot est le sens du message : ce qu’on lisait comme un bonjour fonctionne comme un contrôle de présence, et c’est son absence qui le révèle. La punchline tient en 9 mots, et la voisine fait l’escalade : le père ne se demande pas si tu es occupé, il passe directement au plan B.",
   },
   {
     category: "Autodérision",
-    setup: "Chez le coiffeur, on m'a demandé ce que je voulais comme coupe.",
+    setup: "Chez le coiffeur, on m’a demandé ce que je voulais comme coupe.",
     pivot: "On attend une coupe, tu demandes une personnalité",
-    punchline: "J'ai montré la photo d'un mec sûr de lui.",
+    punchline: "J’ai montré la photo d’un mec sûr de lui.",
     analysis:
-      "Setup universel (tout le monde a déjà séché devant cette question). Le pivot déplace la demande : ce qu'on veut vraiment chez le coiffeur, ce n'est pas une coupe, c'est l'assurance qui va avec. La punchline tient en 9 mots, et comme la cible, c'est toi, personne n'est vexé.",
+      "Setup universel (tout le monde a déjà séché devant cette question). Le pivot déplace la demande : ce qu’on veut vraiment chez le coiffeur, ce n’est pas une coupe, c’est l’assurance qui va avec. La punchline tient en 9 mots, et comme la cible, c’est toi, personne n’est vexé.",
   },
   {
     category: "Absurde",
     setup: "Mon voisin met la musique à fond tous les soirs.",
-    pivot: "La politesse poussée jusqu'à s'excuser d'être la victime",
-    punchline: "Hier, je suis allé m'excuser de dormir.",
+    pivot: "La politesse poussée jusqu’à s’excuser d’être la victime",
+    punchline: "Hier, je suis allé m’excuser de dormir.",
     analysis:
-      "Setup de 10 mots que tout le monde a vécu. Le pivot inverse les rôles : au lieu de te plaindre, tu t'excuses, comme si c'était toi qui dérangeais. La punchline tient en 7 mots et l'image reste : toi, en pyjama, sur son palier, désolé d'avoir sommeil.",
+      "Setup de 10 mots que tout le monde a vécu. Le pivot inverse les rôles : au lieu de te plaindre, tu t’excuses, comme si c’était toi qui dérangeais. La punchline tient en 7 mots et l’image reste : toi, en pyjama, sur son palier, désolé d’avoir sommeil.",
   },
 ];
 
@@ -91,21 +92,21 @@ export default function AnatomieVannePage() {
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
           {
-            name: "Anatomie d'une vanne",
+            name: "Anatomie d’une vanne",
             url: "https://deviens-marrant.fr/anatomie-vanne",
           },
         ])}
       />
       <JsonLd data={buildFaqJsonLd(anatomyFaqs)} />
 
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-3xl">
         {/* Hero */}
         <div className="mb-12 text-center">
           <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl">
-            Anatomie d&apos;une vanne
+            Anatomie d’une vanne
           </h1>
           <p className="mt-3 text-lg text-text-secondary">
-            Pourquoi la même vanne fait un carton chez l&apos;un et un blanc chez l&apos;autre&nbsp;?{" "}
+            Pourquoi la même vanne fait un carton chez l’un et un blanc chez l’autre&nbsp;?{" "}
             <br className="hidden sm:block" />
             Réponse en 3 parties, sans la moindre équation.
           </p>
@@ -127,11 +128,11 @@ export default function AnatomieVannePage() {
               </h2>
               <p className="mt-3 text-sm text-text-secondary">
                 La <strong>mise en place</strong>. Tu installes le contexte et tu emmènes
-                les gens dans une direction, en leur laissant croire qu&apos;ils savent où
-                tu vas. Plus c&apos;est court et clair, mieux ça marche.
+                les gens dans une direction, en leur laissant croire qu’ils savent où
+                tu vas. Plus c’est court et clair, mieux ça marche.
               </p>
               <div className="mt-4 rounded-lg bg-background-elevated p-3">
-                <p className="text-xs font-semibold text-text-muted">Règle d&apos;or</p>
+                <p className="text-xs font-semibold text-text-muted">Règle d’or</p>
                 <p className="mt-1 text-sm text-text-primary">
                   Le setup doit être <strong>plus long</strong> que la punchline.
                   Il pose le décor, la chute le renverse.
@@ -152,14 +153,14 @@ export default function AnatomieVannePage() {
               </h2>
               <p className="mt-3 text-sm text-text-secondary">
                 Le <strong>point de bascule</strong> : le moment exact où la blague change de
-                direction. Personne ne le voit passer, et c&apos;est précisément pour ça que
+                direction. Personne ne le voit passer, et c’est précisément pour ça que
                 la surprise fonctionne.
               </p>
               <div className="mt-4 rounded-lg bg-background-elevated p-3">
                 <p className="text-xs font-semibold text-text-muted">Types de pivots</p>
                 <p className="mt-1 text-sm text-text-primary">
                   Double sens, retournement, exagération, décalage,
-                  sous-entendu, anti-chute.
+                  sous-entendu, anti-⁠chute.
                 </p>
               </div>
             </div>
@@ -178,12 +179,12 @@ export default function AnatomieVannePage() {
               <p className="mt-3 text-sm text-text-secondary">
                 La <strong>chute</strong> : la phrase qui déclenche le rire. Elle doit
                 surprendre et rester courte, et une fois entendue, elle doit paraître
-                évidente, comme si tu avais pu la trouver toi-même.
+                évidente, comme si tu avais pu la trouver toi-⁠même.
               </p>
               <div className="mt-4 rounded-lg bg-background-elevated p-3">
-                <p className="text-xs font-semibold text-text-muted">Règle d&apos;or</p>
+                <p className="text-xs font-semibold text-text-muted">Règle d’or</p>
                 <p className="mt-1 text-sm text-text-primary">
-                  Plus c&apos;est court, plus ça claque. Les meilleures punchlines
+                  Plus c’est court, plus ça claque. Les meilleures punchlines
                   tiennent en <strong>moins de 10 mots</strong>.
                 </p>
               </div>
@@ -236,7 +237,7 @@ export default function AnatomieVannePage() {
                       Punchline
                     </p>
                     <p className="mt-1 text-lg font-semibold text-text-primary">
-                      &laquo; {ex.punchline} &raquo;
+                      &laquo;&nbsp;{ex.punchline}&nbsp;&raquo;
                     </p>
                   </div>
                   <div className="rounded-lg bg-background-elevated p-3">
@@ -263,38 +264,38 @@ export default function AnatomieVannePage() {
               {
                 name: "Double sens",
                 emoji: "🔀",
-                desc: "Un mot a deux sens : tu en installes un, et la chute révèle l'autre.",
-                example: "« Il paraît qu'il faut savoir poser ses limites. » → « J'ai planté un panneau 30 devant chez moi. Personne n'a ralenti. »",
+                desc: "Un mot a deux sens : tu en installes un, et la chute révèle l’autre.",
+                example: "« Il paraît qu’il faut savoir poser ses limites. » → « J’ai planté un panneau 30 devant chez moi. Personne n’a ralenti. »",
               },
               {
                 name: "Retournement",
                 emoji: "🪃",
-                desc: "La situation part dans le sens exactement opposé à celui qu'on attendait.",
-                example: "« Mon psy m'a dit que j'étais normal. » → « J'ai changé de psy. »",
+                desc: "La situation part dans le sens exactement opposé à celui qu’on attendait.",
+                example: "« Mon psy m’a dit que j’étais normal. » → « J’ai changé de psy. »",
               },
               {
                 name: "Exagération",
                 emoji: "📈",
-                desc: "Tu pousses un détail tellement loin qu'il devient absurde.",
-                example: "« J'ai tellement de mails non lus que les plus anciens m'écrivent pour prendre de mes nouvelles. »",
+                desc: "Tu pousses un détail tellement loin qu’il devient absurde.",
+                example: "« J’ai tellement de mails non lus que les plus anciens m’écrivent pour prendre de mes nouvelles. »",
               },
               {
                 name: "Décalage",
                 emoji: "🎭",
-                desc: "Tu mélanges deux univers qui n'ont rien à voir.",
-                example: "« J'ai présenté mon nouveau canapé à mes parents. Mon père lui a demandé ce qu'il faisait dans la vie. »",
+                desc: "Tu mélanges deux univers qui n’ont rien à voir.",
+                example: "« J’ai présenté mon nouveau canapé à mes parents. Mon père lui a demandé ce qu’il faisait dans la vie. »",
               },
               {
                 name: "Sous-entendu",
                 emoji: "😏",
-                desc: "Tu ne dis pas tout : le public complète tout seul, et c'est en complétant qu'il rit.",
-                example: "« Ma mère m'a demandé comment était le repas chez mes beaux-parents. J'ai dit que la nappe était très jolie. »",
+                desc: "Tu ne dis pas tout : le public complète tout seul, et c’est en complétant qu’il rit.",
+                example: "« Ma mère m’a demandé comment était le repas chez mes beaux-parents. J’ai dit que la nappe était très jolie. »",
               },
               {
                 name: "Anti-chute",
                 emoji: "🙃",
-                desc: "Tu installes une attente énorme, et la chute est d'une banalité totale. C'est l'écart qui fait rire.",
-                example: "« Mon père m'a pris à part, l'air grave, pour me transmettre le secret de famille. » → « On met le lait après les céréales. »",
+                desc: "Tu installes une attente énorme, et la chute est d’une banalité totale. C’est l’écart qui fait rire.",
+                example: "« Mon père m’a pris à part, l’air grave, pour me transmettre le secret de famille. » → « On met le lait après les céréales. »",
               },
             ].map((pivot) => (
               <div
@@ -304,7 +305,7 @@ export default function AnatomieVannePage() {
                 <div className="flex items-center gap-2">
                   <span className="text-xl">{pivot.emoji}</span>
                   <h3 className="font-semibold text-text-primary">
-                    {pivot.name}
+                    {frTypo(pivot.name)}
                   </h3>
                 </div>
                 <p className="mt-2 text-sm text-text-secondary">{pivot.desc}</p>
@@ -329,19 +330,19 @@ export default function AnatomieVannePage() {
               },
               {
                 error: "Le pivot est prévisible",
-                fix: "Si toi, tu vois la chute arriver, les autres l'ont vue avant toi. Écarte la première idée qui vient et cherche celle d'après.",
+                fix: "Si toi, tu vois la chute arriver, les autres l’ont vue avant toi. Écarte la première idée qui vient et cherche celle d’après.",
               },
               {
                 error: "Le setup est trop long",
-                fix: "Si tu mets plus de 20 secondes à planter le décor, les gens ont déjà commencé à regarder leur verre. Coupe tout ce dont la chute n'a pas besoin.",
+                fix: "Si tu mets plus de 20 secondes à planter le décor, les gens ont déjà commencé à regarder leur verre. Coupe tout ce dont la chute n’a pas besoin.",
               },
               {
                 error: "Pas de vrai pivot : juste un jeu de mots forcé",
-                fix: "Un calembour qui ne marche que parce que « ça sonne pareil », c'est un jeu de mots, pas une vanne. Cherche un retournement d'idée plutôt qu'un retournement de syllabes.",
+                fix: "Un calembour qui ne marche que parce que « ça sonne pareil », c’est un jeu de mots, pas une vanne. Cherche un retournement d’idée plutôt qu’un retournement de syllabes.",
               },
               {
-                error: "Tu expliques pourquoi c'est drôle après la chute",
-                fix: "Si tu dois expliquer, c'est que la vanne n'est pas encore claire. Réécris-la, et garde l'explication pour toi.",
+                error: "Tu expliques pourquoi c’est drôle après la chute",
+                fix: "Si tu dois expliquer, c’est que la vanne n’est pas encore claire. Réécris-la, et garde l’explication pour toi.",
               },
             ].map((item, i) => (
               <div
@@ -355,7 +356,7 @@ export default function AnatomieVannePage() {
                       {item.error}
                     </p>
                     <p className="mt-1 text-sm text-text-secondary">
-                      <span className="text-success">→</span> {item.fix}
+                      <span className="text-success">→</span> {frTypo(item.fix)}
                     </p>
                   </div>
                 </div>
@@ -403,10 +404,10 @@ export default function AnatomieVannePage() {
             {anatomyFaqs.map((faq) => (
               <details key={faq.question} className="group">
                 <summary className="cursor-pointer font-medium text-text-primary hover:text-accent-link">
-                  {faq.question}
+                  {frTypo(faq.question)}
                 </summary>
                 <p className="mt-2 text-sm text-text-secondary pl-4">
-                  {faq.answer}
+                  {frTypo(faq.answer)}
                 </p>
               </details>
             ))}

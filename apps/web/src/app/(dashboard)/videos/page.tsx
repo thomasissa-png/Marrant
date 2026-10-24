@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { FaqSection } from "@/components/home/faq-section";
 import { VideosGrid } from "@/components/videos/videos-grid";
 import {
   JsonLd,
@@ -21,15 +23,17 @@ import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 interface ListPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
-import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const videos = stats.videos > 0 ? `${stats.videos}+ vidéos` : "Des dizaines de vidéos";
+  const title = "Stand-up analysé : les techniques des pros";
+  const description = `${videos} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`;
+  const url = listCanonical("/videos", page);
   return {
-    title: "Stand-up analysé : les techniques des pros",
-    description: `${videos} de stand-up en français décortiquées technique par technique, avec un défi concret pour réutiliser le procédé.`,
+    title,
+    description,
     keywords: [
       "stand-up français",
       "vidéos humour analysées",
@@ -37,25 +41,27 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "analyse stand-up",
       "apprendre humour vidéo",
     ],
-    alternates: { canonical: listCanonical("/videos", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 
 const videosFaqs = [
   {
-    question: "Comment apprendre l'humour en regardant des vidéos de stand-up ?",
+    question: "Comment apprendre l’humour en regardant des vidéos de stand-up ?",
     answer:
-      "Chaque vidéo est annotée avec la technique utilisée par l'humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu repères le mécanisme comique, puis tu fais l'exercice proposé pour le tester dans ta vie. À la fin, tu ne sais plus seulement que c'était drôle : tu sais pourquoi.",
+      "Chaque vidéo est annotée avec la technique utilisée par l’humoriste : timing, autodérision, observation, storytelling, absurde. Tu regardes le passage, tu repères le mécanisme comique, puis tu fais l’exercice proposé pour le tester dans ta vie. À la fin, tu ne sais plus seulement que c’était drôle : tu sais pourquoi.",
   },
   {
     question: "Quels styles de stand-up sont analysés sur deviens-marrant.fr ?",
     answer:
-      "On décortique les meilleurs passages de pros de la scène francophone, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu'elle est drôle.",
+      "On décortique les meilleurs passages de pros de la scène francophone, avec des styles très différents : observation, storytelling, absurde, autodérision. Chaque vidéo est sélectionnée pour sa valeur pédagogique, pas juste parce qu’elle est drôle.",
   },
   {
-    question: "C'est quoi la différence avec juste regarder YouTube ?",
+    question: "C’est quoi la différence avec juste regarder YouTube ?",
     answer:
-      "YouTube te montre des humoristes ; ici, on te montre comment ils s'y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd'hui. Et avec ta série et tes XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
+      "YouTube te montre des humoristes ; ici, on te montre comment ils s’y prennent. Chaque vidéo arrive avec les points clés à retenir et un défi concret à tester aujourd’hui. Et avec ta série et tes XP, tu tiens sur la durée, y compris les semaines où tu as moins envie.",
   },
 ];
 
@@ -94,7 +100,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Vidéos</span>
@@ -116,16 +122,9 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
       </Suspense>
 
       {/* FAQ SEO */}
+      {/* Revue visuelle s21 : même FAQ que /vannes (accordéon, pleine colonne ; contenu dans le DOM pour le SEO). */}
       <section className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="max-w-3xl space-y-4">
-          {videosFaqs.map((faq, i) => (
-            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
-              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
+        <FaqSection items={videosFaqs} align="left" />
       </section>
 
       {/* Contenu SEO — methode pedagogique */}
@@ -133,10 +132,10 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Notre méthode : regarder, comprendre, reproduire</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            Entre regarder du stand-up sur YouTube et apprendre le stand-up, il y a une étape : <strong className="text-text-primary">l&apos;analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
+            Entre regarder du stand-⁠up sur YouTube et apprendre le stand-⁠up, il y a une étape : <strong className="text-text-primary">l’analyse technique</strong>. Chaque vidéo est annotée avec la technique utilisée : timing, escalade comique, callback, fausse piste. Tu comprends le <em>pourquoi</em> du rire.
           </p>
           <p>
-            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C&apos;est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">tu deviens drôle</Link> : pas en regardant, en faisant.
+            Après chaque vidéo, un <strong className="text-text-primary">défi concret</strong> te fait pratiquer la technique dans ta vie. C’est comme ça que <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">tu deviens drôle</Link> : pas en regardant, en faisant.
           </p>
           <p>
             Tu veux comprendre comment <strong className="text-text-primary">les pros de la scène</strong> maîtrisent leurs silences ? Lis notre décryptage du <Link href="/blog/timing-humour" className="text-accent-link underline underline-offset-2">timing en humour</Link>. Et pour les techniques de <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">répartie</Link>, nos 10 techniques expliquées sont un bon complément.
@@ -154,7 +153,7 @@ export default async function VideosPage({ searchParams }: ListPageProps) {
           </Link>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques de répartie</h3>
-            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, ramenées à la taille d&apos;une pause café.</p>
+            <p className="mt-1 text-xs text-text-secondary">Les techniques des pros, ramenées à la taille d’une pause café.</p>
           </Link>
           <Link href="/blog/erreurs-blagues" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">5 erreurs qui tuent tes blagues</h3>

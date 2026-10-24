@@ -1,6 +1,8 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
+import { lie } from "../helpers/texte-normalise";
 
 const mockPush = jest.fn();
 const mockRefresh = jest.fn();
@@ -22,10 +24,9 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-  await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+  await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
 
 describe("RegisterPage", () => {
@@ -36,24 +37,67 @@ describe("RegisterPage", () => {
 
   it("renders registration form", () => {
     render(<RegisterPage />);
-    // Étalon 2.1 validé par Thomas (s15) : étape 1 sur 2, rappel formule et prix.
-    expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { level: 1, name: "Ton compte" })).toBeInTheDocument();
-    expect(screen.getByText("Premium, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
-    expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
-    expect(screen.getByLabelText("Prénom")).toBeInTheDocument();
+    // textes-trajet-v2 G01, G02, G06 : titre, rappel de formule, Stripe nommé ; plus d'« Étape 1 sur 2 ».
+    expect(screen.queryByText("Étape 1 sur 2")).not.toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Ton compte, puis le paiement" })).toBeInTheDocument();
+    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 2,99 €/mois.");
+    expect(screen.getByTestId("register-stripe")).toHaveTextContent("Paiement sécurisé par Stripe.");
+    expect(screen.queryByText(/Étape 2 : le paiement/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Retour à l/)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(/^Prénom/)).not.toBeInTheDocument();
     expect(screen.getByLabelText("Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Mot de passe")).toBeInTheDocument();
   });
 
+  it("s21 concision : plus de champ prénom, Google en premier, lien d'étape gratuite sous « Déjà un compte ? »", () => {
+    mockSearchParams.set("callbackUrl", "/abonnement?returnTo=%2Fparcours%2Fconfiance");
+    const { container } = render(<RegisterPage />);
+    const ids = Array.from(container.querySelectorAll("input")).map((i) => i.id);
+    expect(ids).toEqual(["email", "password"]);
+    expect(container.querySelector("#name")).toBeNull();
+    // Google avant le premier champ et avant le bouton d'envoi.
+    const form = container.querySelector("form")!;
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
+    const email = screen.getByLabelText("Email");
+    const envoi = screen.getByRole("button", { name: REGISTER_CTA.bouton });
+    expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(google.compareDocumentPosition(envoi) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(form.contains(google)).toBe(true);
+    const lien = screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
+    // Revue v3 m3 : source propre à /register (n'est plus comptée `abonnement`).
+    expect(lien).toHaveAttribute("href", "/parcours/confiance?src=register-etape1#etape-1");
+    const html = container.innerHTML;
+    expect(html.indexOf("Déjà un compte")).toBeLessThan(html.indexOf('href="/parcours/confiance'));
+    mockSearchParams.delete("callbackUrl");
+  });
+
+  it("s21 B17 : sans parcours d'origine, l'étape 1 de Répartie", () => {
+    render(<RegisterPage />);
+    expect(screen.getByRole("link", { name: REGISTER_CTA.lienEtape1("repartie") })).toBeInTheDocument();
+  });
+
+  it("s21 concision : inscription envoyée sans prénom (e-mail et mot de passe seuls)", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => ({ user: { id: "u" } }) });
+    mockSignIn.mockResolvedValue({ ok: true });
+    render(<RegisterPage />);
+    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+    await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    expect(JSON.parse((global.fetch as jest.Mock).mock.calls[0][1].body)).toEqual({
+      email: "jean@test.fr",
+      password: "password1234545",
+    });
+  });
+
   it("has submit button", () => {
     render(<RegisterPage />);
-    expect(screen.getByRole("button", { name: "Créer mon compte" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: REGISTER_CTA.bouton })).toBeInTheDocument();
   });
 
   it("has Google sign-up button", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("S'inscrire avec Google")).toBeInTheDocument();
+    expect(screen.getByText("Continuer avec Google")).toBeInTheDocument();
   });
 
   it("has login link", () => {
@@ -84,16 +128,15 @@ describe("RegisterPage", () => {
 
     render(<RegisterPage />);
 
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "Jean", email: "jean@test.fr", password: "password1234545" }),
+        body: JSON.stringify({ email: "jean@test.fr", password: "password1234545" }),
       });
     });
 
@@ -114,10 +157,9 @@ describe("RegisterPage", () => {
     mockSignIn.mockResolvedValue({ error: null });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
@@ -132,10 +174,9 @@ describe("RegisterPage", () => {
     });
 
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "exists@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent("Quelque chose a coincé de notre côté. Réessaie.");
@@ -146,17 +187,16 @@ describe("RegisterPage", () => {
   it("shows loading state", async () => {
     (global.fetch as jest.Mock).mockImplementation(() => new Promise(() => {}));
     render(<RegisterPage />);
-    await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
-    await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
+      await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
     await userEvent.type(screen.getByLabelText("Mot de passe"), "password12345");
-    await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+    await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 
     expect(screen.getByText("On prépare ton compte…")).toBeInTheDocument();
   });
 
   it("calls Google signIn with /abonnement?auto=1 callback when no callbackUrl", async () => {
     render(<RegisterPage />);
-    await userEvent.click(screen.getByText("S'inscrire avec Google"));
+    await userEvent.click(screen.getByText("Continuer avec Google"));
     // Marqueur de retour pour la mesure (AuthReturnTracker), s15.
     expect(mockSignIn).toHaveBeenCalledWith("google", { callbackUrl: "/abonnement?auto=1&auth=inscription-google" });
     expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
@@ -178,7 +218,8 @@ describe("RegisterPage", () => {
       const data = { methode: "email", src: "blog-meilleures-blagues-droles-2026", etape: "abonnement" };
       await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("inscription-reussie", data));
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", data);
-      expect(mockPush).toHaveBeenCalledWith("/abonnement?auto=1");
+      // s21 (QA M1) : la source suit jusqu'au paiement (checkout-ouvert).
+      expect(mockPush).toHaveBeenCalledWith("/abonnement?src=blog-meilleures-blagues-droles-2026&auto=1");
     });
 
     it("échec API : envoi mesuré, pas de réussite", async () => {
@@ -203,8 +244,10 @@ describe("RegisterPage", () => {
       render(<RegisterPage />);
       await fillAndSubmit();
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
-      // Rappel de la formule annuelle choisie (étalon 2.1, gabarit annuel).
-      expect(screen.getByText("Premium, 24,99 €/an (soit 2,08 € par mois), annulable à tout moment.")).toBeInTheDocument();
+      // Rappel de la formule annuelle choisie (v2 G02, correction @legal).
+      expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe(
+        "Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.",
+      );
     });
 
     it("e-mail déjà inscrit (409) : message et lien « Connecte-toi » qui garde la destination", async () => {
@@ -212,7 +255,7 @@ describe("RegisterPage", () => {
       (global.fetch as jest.Mock).mockResolvedValue({ ok: false, status: 409, json: async () => ({ error: "Un compte avec cet email existe déjà" }) });
       render(<RegisterPage />);
       await fillAndSubmit();
-      await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("Cet e-mail a déjà un compte. Connecte-toi pour reprendre ton abonnement."));
+      await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent(lie("Cet e-mail a déjà un compte. Connecte-toi pour reprendre ton abonnement.")));
       const links = screen.getAllByRole("link", { name: "Connecte-toi" });
       expect(links[0]).toHaveAttribute("href", "/login?callbackUrl=%2Fabonnement%3Fplan%3Dannual");
       expect(mockPush).not.toHaveBeenCalled();
@@ -222,16 +265,17 @@ describe("RegisterPage", () => {
       mockSearchParams.set("callbackUrl", "/parcours/repartie");
       mockSearchParams.set("src", "parcours");
       render(<RegisterPage />);
-      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      await userEvent.click(screen.getByText("Continuer avec Google"));
       expect(mockSignIn).toHaveBeenCalledWith("google", {
-        callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&auto=1&auth=inscription-google&src=parcours",
+        // s21 (QA M1) : source déjà dans la cible, jamais en double.
+        callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie&src=parcours&auto=1&auth=inscription-google",
       });
     });
 
     it("source invalide ignorée (jamais de donnée libre envoyée)", async () => {
       mockSearchParams.set("src", "jean@test.fr");
       render(<RegisterPage />);
-      await userEvent.click(screen.getByText("S'inscrire avec Google"));
+      await userEvent.click(screen.getByText("Continuer avec Google"));
       expect(mockTrack).toHaveBeenCalledWith("inscription-envoi", { methode: "google", src: "direct", etape: "abonnement" });
     });
 
@@ -247,7 +291,7 @@ describe("RegisterPage", () => {
     it("OAuthCallback : message compréhensible", () => {
       mockSearchParams.set("error", "OAuthCallback");
       render(<RegisterPage />);
-      expect(screen.getByRole("alert")).toHaveTextContent("L'inscription avec Google n'a pas abouti");
+      expect(screen.getByRole("alert")).toHaveTextContent("L’inscription avec Google n’a pas abouti");
     });
   });
 

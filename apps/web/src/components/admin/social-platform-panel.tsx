@@ -62,7 +62,7 @@ export function SocialPlatformPanel({ adminPassword }: { adminPassword: string }
       setRapport(await r.json());
       setErreur(null);
     } catch {
-      setErreur("Impossible de lire l'état des réseaux. Réessaie dans une minute.");
+      setErreur("Impossible de lire l’état des réseaux. Réessaie dans une minute.");
     }
   }, [adminPassword]);
 

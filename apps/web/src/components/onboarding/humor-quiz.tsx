@@ -1,15 +1,24 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { BOUTON_PRIX_UNE_LIGNE } from "@/components/layout/gabarit";
 import { trackUmami } from "@/lib/umami";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { useSession } from "next-auth/react";
+import { isPremiumPlan } from "@/lib/parcours-access";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { usePremiumCheckout } from "@/hooks/use-premium-checkout";
+import { CheckoutConflictNotice } from "@/components/premium/checkout-conflict-notice";
+import { LIEN_L2 } from "@/components/ui/liens";
+import { FENETRE_CHARGEMENT, QUIZ_ORIENTATION_CTA } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
 import { recommendParcoursFromOnboarding, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 
 interface QuizQuestion {
@@ -31,11 +40,11 @@ const HUMOR_PROFILE_KEY = "humor-profile";
 
 const QUESTIONS: QuizQuestion[] = [
   {
-    question: "C'est quoi ton objectif principal ?",
+    question: "C’est quoi ton objectif principal ?",
     options: [
       { label: "Avoir de la répartie", value: "REPARTIE", emoji: "⚡" },
       { label: "Faire rire les gens", value: "VANNES", emoji: "😂" },
-      { label: "Être plus à l'aise socialement", value: "CONFIANCE", emoji: "💪" },
+      { label: "Être plus à l’aise socialement", value: "CONFIANCE", emoji: "💪" },
       { label: "Tout ça à la fois", value: "GLOBAL", emoji: "🎯" },
     ],
   },
@@ -62,17 +71,17 @@ const QUESTIONS: QuizQuestion[] = [
 const RESULTS: Record<string, { title: string; description: string; emoji: string }> = {
   DEBUTANT: {
     title: "En route vers la répartie",
-    description: "T'as le potentiel, il te manque juste les techniques ! On va t'apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
+    description: "T’as le potentiel, il te manque juste les techniques ! On va t’apprendre à rebondir, à placer tes vannes et à gagner en confiance, étape par étape.",
     emoji: "🌱",
   },
   INTERMEDIAIRE: {
     title: "Le blagueur affûté",
-    description: "T'as déjà le sens de l'humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu'on écoute quand il prend la parole.",
+    description: "T’as déjà le sens de l’humour, il lui manque juste du réglage. Répartie, timing, anecdotes : de quoi devenir celui qu’on écoute quand il prend la parole.",
     emoji: "🌿",
   },
   AVANCE: {
     title: "Le comique naturel",
-    description: "T'es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
+    description: "T’es déjà bon, alors on passe aux réglages fins : les techniques qui font la différence entre une salle qui sourit et une salle qui rit.",
     emoji: "🔥",
   },
   EXPERT: {
@@ -98,21 +107,15 @@ function saveProfile(profile: HumorProfile): void {
   localStorage.setItem(HUMOR_PROFILE_KEY, JSON.stringify(profile));
 }
 
-/** Encart « Ton point de départ » : le parcours recommandé à partir de Q1 + Q2. */
-function RecommendedParcours({
-  recommendation,
-  onStart,
-}: {
-  recommendation: ParcoursRecommendation;
-  onStart: () => void;
-}) {
+/** Encart « Ton point de départ » (abonné) : le parcours recommandé à partir de Q1 + Q2. */
+function RecommendedParcours({ recommendation, onStart }: { recommendation: ParcoursRecommendation; onStart: () => void }) {
   return (
     <div className="mt-6 rounded-lg border border-border bg-background-elevated p-4 text-left">
       <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
       <h3 className="mt-1 font-display text-lg font-bold text-text-primary">{recommendation.title}</h3>
-      <p className="mt-1 text-sm text-text-secondary">{recommendation.reason}</p>
+      <p className="mt-1 text-sm text-text-secondary">{frTypo(recommendation.reason)}</p>
       <Button variant="primary" size="lg" className="mt-4 w-full" onClick={onStart}>
-        Voir par où commencer
+        {QUIZ_ORIENTATION_CTA.commencerAbonne}
       </Button>
     </div>
   );
@@ -130,6 +133,10 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
   const [existingProfile, setExistingProfile] = useState<HumorProfile | null>(null);
   const [showExistingProfile, setShowExistingProfile] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
+  const isPremium =
+    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
+  const { startCheckout, isLoading: isCheckoutLoading, conflict } = usePremiumCheckout("onboarding");
 
   useEffect(() => {
     const stored = getStoredProfile();
@@ -183,7 +190,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
       href={exitHref}
       className="mt-6 inline-flex min-h-[44px] items-center justify-center text-sm text-text-muted underline hover:text-text-secondary"
     >
-      Plus tard, laisse-moi explorer
+      Plus tard, laisse-⁠moi explorer
     </Link>
   ) : null;
 
@@ -193,30 +200,75 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
     return (
       <div className="mx-auto max-w-lg text-center">
         <Card className="animate-scale-in">
-          <CardContent className="py-8 text-center">
+          {/* Revue visuelle s21 (R16) : le dernier lien a sa zone tactile de 44 px, marge basse réduite d'autant. */}
+          <CardContent className="pb-5 pt-8 text-center">
             <span className="text-6xl" aria-hidden="true">{levelResult.emoji}</span>
             <h2 className="mt-4 font-display text-2xl font-bold text-text-primary">{profile.title}</h2>
-            <p className="mt-2 text-text-secondary">{levelResult.description}</p>
+            <p className="mt-2 text-text-secondary">{frTypo(levelResult.description)}</p>
             {isExisting && existingProfile && (
               <p className="mt-2 text-sm text-text-muted">
                 Quiz complété le {new Date(existingProfile.completedAt).toLocaleDateString("fr-FR")}
               </p>
             )}
-            <RecommendedParcours recommendation={recommendation} onStart={() => goToParcours(recommendation)} />
-            <div className="mt-4 flex flex-col items-center gap-2">
-              {isExisting && (
-                <Button variant="ghost" size="sm" onClick={handleRetakeQuiz}>
-                  Refaire le quiz
-                </Button>
-              )}
-              <button
-                type="button"
-                onClick={() => router.push("/abonnement")}
-                className="min-h-[44px] text-xs text-text-muted underline hover:text-text-secondary"
-              >
-                Tout débloquer à {PREMIUM_PRICE_LABEL}
-              </button>
-            </div>
+            {/* Abonné : encart « Ton point de départ » et son plein vers l'étape 1. */}
+            {isPremium && (
+              <RecommendedParcours recommendation={recommendation} onStart={() => goToParcours(recommendation)} />
+            )}
+            {/* s21 B13 (chaud) : sans abonnement, le plein prolonge le geste (paiement direct).
+                QA v4 m-4 : bloc v5 seul (textes-v5-b §5), le parcours n'y est nommé qu'une fois
+                (« Ton parcours : P ») ; plein payant puis REASS, lien gratuit dessous ; le plein
+                tient dans le premier écran à 375 x 812. */}
+            {!isPremium && (
+              <div className="mt-6 text-left" data-quiz-orientation-cta>
+                {/* Concision v5 (textes-v5-b §5) : titre, une phrase, un plein, REASS. */}
+                <p className="font-display text-base font-bold text-text-primary">
+                  {frTypo(QUIZ_ORIENTATION_CTA.titre(recommendation.slug))}
+                </p>
+                <p className="mt-1 text-sm text-text-secondary">{frTypo(QUIZ_ORIENTATION_CTA.phrase(recommendation.slug))}</p>
+                {/* Trajet de conversion s21 (§2) : le compte connecté paie ici sans avoir lu l'offre,
+                    une ligne dit l'objet ; le visiteur passe par /abonnement (porte « Tout ouvrir »). */}
+                {status === "authenticated" && (
+                  <p className="mt-1 text-sm text-text-secondary" data-testid="quiz-orientation-objet">
+                    {frTypo(QUIZ_ORIENTATION_CTA.objetConnecte)}
+                  </p>
+                )}
+                {status === "authenticated" ? (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    className={cn("mt-3 w-full whitespace-normal", BOUTON_PRIX_UNE_LIGNE)}
+                    onClick={() => startCheckout(`/parcours/${recommendation.slug}`)}
+                    disabled={isCheckoutLoading}
+                  >
+                    {isCheckoutLoading ? FENETRE_CHARGEMENT : QUIZ_ORIENTATION_CTA.bouton(recommendation.slug)}
+                  </Button>
+                ) : (
+                  <Link
+                    href={buildAbonnementUrl(`/parcours/${recommendation.slug}`, "monthly", "onboarding")}
+                    className={cn(buttonVariants({ variant: "primary", size: "lg" }), "mt-3 w-full whitespace-normal text-center", BOUTON_PRIX_UNE_LIGNE)}
+                  >
+                    {QUIZ_ORIENTATION_CTA.boutonVisiteur(recommendation.slug)}
+                  </Link>
+                )}
+                {/* Revue visuelle s21 (R16) : groupe d'action centré (bouton pleine largeur, REASS, lien gratuit). */}
+                <Reassurance />
+                {conflict && <CheckoutConflictNotice conflict={conflict} className="mt-3" />}
+              </div>
+            )}
+            {!isPremium && (
+              <div className="mt-3 flex justify-center">
+                <button type="button" onClick={() => goToParcours(recommendation)} className={LIEN_L2}>
+                  {QUIZ_ORIENTATION_CTA.commencer(recommendation.slug)}
+                </button>
+              </div>
+            )}
+            {isExisting && (
+              <div className="mt-2 flex justify-center">
+                <button type="button" onClick={handleRetakeQuiz} className={LIEN_L2}>
+                  {QUIZ_ORIENTATION_CTA.refaire}
+                </button>
+              </div>
+            )}
           </CardContent>
         </Card>
         {exitLink}
@@ -282,7 +334,7 @@ export function HumorQuiz({ exitHref }: HumorQuizProps = {}) {
             className="flex flex-col items-center gap-2 rounded-lg border border-border bg-background-card p-4 text-center transition-all hover:border-accent-primary hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary active:scale-95"
           >
             <span className="text-3xl" aria-hidden="true">{option.emoji}</span>
-            <span className="text-sm font-medium text-text-primary">{option.label}</span>
+            <span className="text-sm font-medium text-text-primary">{frTypo(option.label)}</span>
           </button>
         ))}
       </div>

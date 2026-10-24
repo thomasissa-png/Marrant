@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { stripEmDashes } from "@/lib/em-dash";
-import { Button } from "@/components/ui/button";
-import { AuthCta } from "@/components/auth/auth-cta";
-import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { MasqueSiConnecte, MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { LIEN_L2 } from "@/components/ui/liens";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS } from "@/config/premium";
+import { A_PROPOS_FIN, FIN_DE_PAGE_PARCOURS_ETAPE_1 } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { frTypo } from "@/lib/fr-typo";
 import {
   JsonLd,
   buildBreadcrumbJsonLd,
@@ -11,34 +20,40 @@ import {
   authorPersonJsonLd,
 } from "@/components/seo/json-ld";
 
+const PAGE_URL = "https://deviens-marrant.fr/a-propos";
+const PAGE_TITLE = "L’humour s’apprend : notre mission";
+const PAGE_DESCRIPTION =
+  "L’humour, ça s’apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.";
+
 export const metadata: Metadata = {
-  title: "L'humour s'apprend : notre mission",
-  description:
-    "L'humour, ça s'apprend : on a créé deviens-marrant.fr pour le prouver, avec des vannes, des techniques de répartie et du stand-up décortiqué pour faire rire.",
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   keywords: [
     "deviens-marrant.fr",
     "plateforme humour francophone",
     "apprendre humour en ligne",
     "formation stand-up français",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/a-propos" },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 const aboutFaqs = [
   {
     question: "Est-ce que deviens-marrant.fr est fait pour les débutants ?",
     answer:
-      "Oui, c'est même pour eux qu'on l'a construit. La majorité de nos membres n'avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Les parcours partent du niveau zéro et avancent étape par étape, sans jamais te pousser sur scène.",
+      "Oui, c’est même pour eux qu’on l’a construit. La majorité de nos membres n’avaient aucune expérience en humour ou en répartie avant de rejoindre la plateforme. Les parcours partent du niveau zéro et avancent étape par étape, sans jamais te pousser sur scène.",
   },
   {
-    question: "Quelles techniques d'humour sont enseignées ?",
+    question: "Quelles techniques d’humour sont enseignées ?",
     answer:
-      "On enseigne l'observation, le timing, l'autodérision, la répartie, le storytelling et les jeux de mots : les mêmes techniques utilisées par les pros de la scène.",
+      "On enseigne l’observation, le timing, l’autodérision, la répartie, le storytelling et les jeux de mots : les mêmes techniques utilisées par les pros de la scène.",
   },
   {
     question: "Combien de temps faut-il pour progresser en humour ?",
     answer:
-      `Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent ${PARCOURS_MIN_WEEKS} semaines, les plus complets ${PARCOURS_MAX_WEEKS} semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu'un programme d'humour de 8 semaines améliore significativement le bien-être émotionnel.`,
+      `Les premiers résultats arrivent vite : en 2 à 4 semaines de pratique régulière, tu verras une différence dans tes conversations. Nos parcours les plus courts durent ${PARCOURS_MIN_WEEKS} semaines, les plus complets ${PARCOURS_MAX_WEEKS} semaines. Côté recherche, une étude de Crawford et Caltabiano (2011, Journal of Positive Psychology) montre qu’un programme d’humour de 8 semaines améliore significativement le bien-être émotionnel.`,
   },
 ];
 
@@ -54,7 +69,7 @@ export default function AProposPage() {
       <JsonLd data={buildFaqJsonLd(aboutFaqs)} />
       <JsonLd data={authorPersonJsonLd} />
       <div className="mx-auto max-w-3xl">
-        <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+        <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
           <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
           <span className="mx-2">/</span>
           <span className="text-text-secondary">À propos</span>
@@ -65,8 +80,8 @@ export default function AProposPage() {
         </h1>
         <p className="mt-4 text-lg text-text-secondary">
           deviens-marrant.fr est la première plateforme francophone dédiée à
-          l&apos;apprentissage de l&apos;humour, de la répartie et du
-          storytelling. Notre mission : prouver que l&apos;humour n&apos;est pas
+          l’apprentissage de l’humour, de la répartie et du
+          storytelling. Notre mission : prouver que l’humour n’est pas
           un don tombé du ciel sur quelques chanceux, mais un muscle que tout
           le monde peut entraîner, toi compris.
         </p>
@@ -74,16 +89,16 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">Notre mission</h2>
           <p className="mt-3 text-text-secondary">
-            Tout le monde a le droit d&apos;être drôle, y compris ceux qui
+            Tout le monde a le droit d’être drôle, y compris ceux qui
             répètent leur blague trois fois dans leur tête avant de renoncer à
             la dire. Étudiant timide qui veut de la répartie, jeune actif qui
             sèche à la machine à café, ou en train de tourner une page et à la
-            recherche d&apos;un peu de légèreté : il y a un parcours pensé pour toi.
+            recherche d’un peu de légèreté : il y a un parcours pensé pour toi.
           </p>
           <p className="mt-3 text-text-secondary">
-            On s&apos;appuie sur les techniques des meilleurs humoristes
+            On s’appuie sur les techniques des meilleurs humoristes
             français, les principes de la psychologie positive et des exercices
-            concrets que 1&nbsp;500+ membres mettent en pratique.
+            à mettre en pratique.
           </p>
         </section>
 
@@ -103,14 +118,14 @@ export default function AProposPage() {
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Des techniques de répartie</strong> concrètes avec
-                exemples et exercices à tester dès aujourd&apos;hui
+                exemples et exercices à tester dès aujourd’hui
               </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-success">✓</span>
               <span>
-                <strong>Des vidéos de stand-up analysées</strong>&nbsp;: chaque
-                technique décryptée pour que tu puisses l&apos;appliquer
+                <strong>Des vidéos de stand-⁠up analysées</strong>&nbsp;: chaque
+                technique décryptée pour que tu puisses l’appliquer
               </span>
             </li>
             <li className="flex items-start gap-2">
@@ -124,7 +139,7 @@ export default function AProposPage() {
               <span className="mt-0.5 text-success">✓</span>
               <span>
                 <strong>Un blog</strong> avec des guides complets sur
-                l&apos;humour, la répartie et le storytelling
+                l’humour, la répartie et le storytelling
               </span>
             </li>
           </ul>
@@ -134,17 +149,17 @@ export default function AProposPage() {
           <h2 className="font-display text-2xl font-bold">Notre approche</h2>
           <p className="mt-3 text-text-secondary">
             Tout repose sur 3 principes issus de la pédagogie du
-            stand-up et de la psychologie positive :
+            stand-⁠up et de la psychologie positive :
           </p>
           <ol className="mt-4 list-outside list-decimal space-y-3 pl-6 text-text-secondary">
             <li>
               <strong>Observer avant de produire</strong>&nbsp;: on entraîne
-              d&apos;abord le regard (repérer l&apos;absurde du quotidien)
+              d’abord le regard (repérer l’absurde du quotidien)
               avant de passer à la création de vannes.
             </li>
             <li>
               <strong>Pratiquer dans des situations réelles</strong>&nbsp;: chaque
-              conseil inclut un défi concret à tester aujourd&apos;hui, pas
+              conseil inclut un défi concret à tester aujourd’hui, pas
               dans 3 mois.
             </li>
             <li>
@@ -156,19 +171,19 @@ export default function AProposPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="font-display text-2xl font-bold">L&apos;équipe</h2>
+          <h2 className="font-display text-2xl font-bold">L’équipe</h2>
           <p className="mt-3 text-text-secondary">
             deviens-marrant.fr est fondé par <strong>Alex Durand</strong>,
-            passionné de stand-up et de pédagogie. Après des années à
+            passionné de stand-⁠up et de pédagogie. Après des années à
             décortiquer les techniques des meilleurs humoristes français, il a
-            créé cette plateforme pour rendre l&apos;humour accessible à tous,
+            créé cette plateforme pour rendre l’humour accessible à tous,
             pas juste à ceux qui sont «&nbsp;nés drôles&nbsp;».
           </p>
           <p className="mt-3 text-text-secondary">
-            L&apos;équipe mélange culture stand-up et pédagogie, avec une
+            L’équipe mélange culture stand-⁠up et pédagogie, avec une
             obsession : que ce que tu lis ici te serve dès ce soir. Chaque
             vanne, chaque conseil, chaque vidéo
-            passe un test simple avant d&apos;être publié : «&nbsp;est-ce que
+            passe un test simple avant d’être publié : «&nbsp;est-⁠ce que
             je peux la sortir ce soir et faire rire ?&nbsp;»
           </p>
         </section>
@@ -178,8 +193,8 @@ export default function AProposPage() {
           <dl className="mt-4 space-y-4">
             {aboutFaqs.map((faq, i) => (
               <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-                <dt className="text-sm font-semibold text-text-primary">{faq.question}</dt>
-                <dd className="mt-2 text-sm text-text-secondary">{stripEmDashes(faq.answer)}</dd>
+                <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
+                <dd className="mt-2 text-sm text-text-secondary">{frTypo(stripEmDashes(faq.answer))}</dd>
               </div>
             ))}
           </dl>
@@ -188,7 +203,7 @@ export default function AProposPage() {
         <section className="mt-10">
           <h2 className="font-display text-2xl font-bold">Contact</h2>
           <p className="mt-3 text-text-secondary">
-            Une question, une suggestion, un partenariat ? Écris-nous à{" "}
+            Une question, une suggestion, un partenariat ? Écris-⁠nous à{" "}
             <a
               href="mailto:contact@deviens-marrant.fr"
               className="font-medium text-accent-link underline underline-offset-2"
@@ -198,25 +213,44 @@ export default function AProposPage() {
           </p>
         </section>
 
-        <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
+        {/* s21 (revue v2) : bloc payant masqué pour un abonné Premium. Textes : concision v5
+            (config/textes/cta-pages.ts) ; titre inchangé, celui de l'accueil. */}
+        <MasqueSiPremium>
+        {/* Revue visuelle s21 : même bloc d'appel que les murs et les fins d'article (contenu à gauche). */}
+        <div className={cn("mt-12", BLOC_APPEL)} data-testid="a-propos-fin">
           {/* Une phrase par ligne, même découpe que le H1 de l'accueil (hero-section.tsx). */}
-          <p className="font-display text-xl font-bold text-text-primary">
-            <span className="block">Tu parles et personne rit.</span>
-            <span className="block">On va arranger ça.</span>
+          <p className={TITRE_BLOC_APPEL}>
+            {A_PROPOS_FIN.titre.map((phrase) => (
+              <span key={phrase} className="block">{phrase}</span>
+            ))}
           </p>
-          <p className="mt-2 text-text-secondary">
-            Rejoins les 1&nbsp;500+ membres qui s&apos;entraînent un peu chaque jour.
-            La prochaine vanne qui fait rire la pièce ? Elle peut être la tienne.
+          <p className="mt-2 text-text-secondary" data-testid="a-propos-fin-paragraphe">
+            {frTypo(A_PROPOS_FIN.paragraphe)}
           </p>
-          {/* Étalon 1.2 validé par Thomas (s15), aligné sur l'accueil : inscription (étape 1
-              sur 2) puis paiement ouvert tout seul ; connecté : /abonnement. */}
-          <div className="mt-4 inline-flex flex-col items-center gap-1">
-            <AuthCta label="Accéder aux parcours complets" src="a-propos" />
-            <p className="max-w-md text-balance text-sm text-text-muted">
-              {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
+          {/* Preuve : visiteur seulement (même règle que l'accueil, QA v2 m-c). */}
+          <MasqueSiConnecte>
+            <p className="mt-1 text-sm text-text-secondary" data-testid="a-propos-fin-preuve">
+              {frTypo(A_PROPOS_FIN.preuve)}
             </p>
+          </MasqueSiConnecte>
+          {/* Trajet de conversion s21 (arbitrage du 19/10) : le visiteur passe par /abonnement, comme
+              au glossaire (écho du clic, une seule page d'offre) ; source `a-propos` suivie jusqu'au paiement. */}
+          <div className="mt-4">
+            <Link
+              href={buildAbonnementUrl(null, "monthly", "a-propos")}
+              className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}
+            >
+              {frTypo(A_PROPOS_FIN.bouton)}
+            </Link>
+          </div>
+          <Reassurance />
+          <div className="-mb-3 mt-1">
+            <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "a-propos-etape1")} className={LIEN_L2}>
+              {frTypo(A_PROPOS_FIN.lienEtape1)}
+            </Link>
           </div>
         </div>
+        </MasqueSiPremium>
       </div>
     </>
   );

@@ -51,7 +51,16 @@ export type ParcoursEntreeSrc =
   | "quiz"
   | "fiche"
   | "abonnement"
-  | "profil";
+  | "profil"
+  // s21 (QA m5) : contour sous les murs de liste, distinct d'un clic de fiche.
+  | "mur-vannes"
+  | "mur-conseils"
+  | "mur-videos"
+  // s21 (E5, E6) : petit lien « Lis d'abord une étape » en fin de /glossaire et /a-propos.
+  | "glossaire-etape1"
+  | "a-propos-etape1"
+  // s21 (revue v3 m3) : sortie douce de /register vers l'étape 1 (plus comptée `abonnement`).
+  | "register-etape1";
 
 export function isParcoursSlug(value: unknown): value is ParcoursSlug {
   return typeof value === "string" && (PARCOURS_SLUGS as readonly string[]).includes(value);

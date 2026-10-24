@@ -2,7 +2,7 @@
  * Audit parcours s16, lot C : offre (D4, D5, reco 9, 12), mesure (reco 17),
  * pages légales (reco 18), accessibilité (reco 19).
  */
-import { render, renderHook, screen } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AbonnementView, isCheckoutCancelReturn } from "@/components/premium/abonnement-view";
 import { PremiumCta } from "@/components/home/premium-cta";
@@ -18,6 +18,8 @@ import {
   ANNUEL_ECONOMIE_LABEL,
   ANNUEL_MOIS_OFFERTS_LABEL,
 } from "@/config/textes/offre";
+import { CARTE_PREMIUM } from "@/config/textes/cta-articles-accueil";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/stores/user-store", () => ({ useUserStore: () => null }));
@@ -54,17 +56,67 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=vannes");
     render(<AbonnementView annualAvailable={false} />);
-    expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
+    // Trajet de conversion s21 : le nom de la carte reste pour les lecteurs d'écran (le titre dit déjà Premium).
+    expect(screen.getByRole("heading", { name: "Offre Premium" })).toBeInTheDocument();
+    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
+    // REASS unique (concision v5) sous le bouton du haut, et sous le bouton final.
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
     expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "vannes" });
     expect(screen.queryByTestId("paiement-annule")).not.toBeInTheDocument();
+  });
+
+  it("s21 (QA M1) : visiteur, le lien d'inscription ramène la source d'entrée sur /abonnement", () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    window.history.pushState({}, "", "/abonnement?returnTo=%2Fvannes&src=header");
+    render(<AbonnementView annualAvailable={false} />);
+    const lien = screen
+      .getAllByRole("link")
+      .map((a) => a.getAttribute("href") ?? "")
+      .find((h) => h.startsWith("/register?"));
+    expect(lien).toBeDefined();
+    const callback = new URL(`https://x${lien}`).searchParams.get("callbackUrl") ?? "";
+    expect(callback).toBe("/abonnement?returnTo=%2Fvannes&src=header");
+  });
+
+  it("s21 (QA M1) : retour d'inscription (auto=1) compté à part, la source d'entrée n'est pas doublée", () => {
+    useSession.mockReturnValue({ status: "loading" });
+    window.history.pushState({}, "", "/abonnement?returnTo=%2Fvannes&src=header&auto=1");
+    render(<AbonnementView annualAvailable={false} />);
+    expect(mockTrack).toHaveBeenCalledWith("abonnement-vu", { src: "retour-inscription" });
+    expect(mockTrack).not.toHaveBeenCalledWith("abonnement-vu", { src: "header" });
+  });
+
+  it("s21 (QA M1) : retour Google, `src` retiré de l'URL avant le paiement auto : la source lue au montage reste", async () => {
+    const fetchAvant = global.fetch;
+    global.fetch = jest.fn(async () => ({ ok: true, status: 200, json: async () => ({ url: "/?stripe=1" }) })) as unknown as typeof fetch;
+    useSession.mockReturnValue({ status: "loading" });
+    window.history.pushState({}, "", "/abonnement?src=header&auto=1&auth=inscription-google");
+    const { rerender } = render(<AbonnementView annualAvailable={false} />);
+    // Le traceur du layout (AuthReturnTracker) retire `auth` et `src` après coup.
+    window.history.replaceState({}, "", "/abonnement?auto=1");
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "FREE" } } });
+    rerender(<AbonnementView annualAvailable={false} />);
+    await waitFor(() =>
+      expect(mockTrack).toHaveBeenCalledWith("checkout-ouvert", expect.objectContaining({ src: "header", formule: "mensuel" })),
+    );
+    global.fetch = fetchAvant;
+  });
+
+  it("annuel choisi : « TTC / an » près du montant, même réassurance (V3 s21)", async () => {
+    useSession.mockReturnValue({ status: "unauthenticated" });
+    render(<AbonnementView annualAvailable />);
+    await userEvent.click(screen.getByRole("radio", { name: /^Annuel/ }));
+    expect(screen.getByText("TTC / an")).toBeInTheDocument();
+    expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
   });
 
   it("visiteur : clic vers l'inscription mesuré (abonnement-clic, statut visiteur)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=modale-defaut");
     render(<AbonnementView annualAvailable={false} />);
-    const link = screen.getByText("Commencer à 2,99 €/mois");
+    const link = screen.getAllByText("S’abonner · 2,99 €/mois")[0];
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {
@@ -72,6 +124,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
       src: "abonnement",
       entree: "modale-defaut",
       statut: "visiteur",
+      emplacement: "haut",
     });
   });
 
@@ -82,7 +135,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
       window.history.pushState({}, "", url);
       render(<AbonnementView annualAvailable={false} />);
       // Étalon 5b.2 validé : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
-      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n'a été prélevé.");
+      expect(screen.getByRole("status")).toHaveTextContent("Paiement annulé, rien n’a été prélevé.");
       expect(screen.getByRole("status")).toHaveTextContent("Tu peux réessayer quand tu veux.");
       expect(mockTrack).toHaveBeenCalledWith("abonnement-annule");
     },
@@ -96,13 +149,16 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
 });
 
 describe("accueil : bloc Premium", () => {
-  it("visiteur : nom Premium, réassurance, clic mesuré ; 1 500+ intact", async () => {
+  it("visiteur : REASS sous le plein, clic mesuré (concision v5 : plus d'en-tête de prix ni d'« inscrits »)", async () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     render(<PremiumCta />);
-    expect(screen.getByRole("heading", { name: "Premium" })).toBeInTheDocument();
-    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument(); // étalon 1.1 validé
-    expect(document.body.textContent).toContain("Déjà 1 500+ inscrits");
-    const link = screen.getByText("Commencer à 2,99 €/mois");
+    expect(screen.queryByRole("heading", { name: "Premium" })).toBeNull();
+    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toContain("remboursé sous 14 jours");
+    expect(document.body.textContent).not.toContain("inscrits");
+    // s21 (B4 + B5) : plein vers /abonnement?src=accueil-premium, libellé du tour 4.
+    const link = screen.getByText(normalise(CARTE_PREMIUM.bouton));
+    expect(link.closest("a")).toHaveAttribute("href", "/abonnement?src=accueil-premium");
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", { formule: "mensuel", src: "accueil-premium", statut: "visiteur" });

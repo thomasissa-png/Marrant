@@ -16,6 +16,8 @@ jest.mock("next/navigation", () => ({
   useSearchParams: () => new URLSearchParams(),
   usePathname: () => "/blog",
 }));
+// s21 : l'encart du milieu montre la fiche offerte du carnet du mois (DemoVanne).
+jest.mock("@/lib/carnet", () => jest.requireActual("../helpers/carnet-octobre").mockCarnetOctobre());
 jest.mock("@/lib/prisma", () => ({
   prisma: { blogArticle: { findMany: jest.fn().mockResolvedValue([]), findUnique: jest.fn().mockResolvedValue(null) } },
 }));
@@ -25,8 +27,14 @@ import { renderMarkdownSections } from "@/components/ui/markdown-renderer";
 import { computeEncartPlacements, visibleTextLength, type BlogSection } from "@/lib/blog-encarts";
 import { resolveArticleParcours } from "@/lib/blog-parcours";
 import { PARCOURS_SLUGS, parcoursEtape1Href, type ParcoursSlug } from "@/lib/entrees-parcours";
-import { ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
 import { PARCOURS_SEED_JSON } from "@/lib/parcours-seed";
+import { normalise } from "../helpers/texte-normalise";
+import { envNeutre } from "../helpers/env-neutre";
+
+// s21 (QA m4) : indépendant de l'annuel et de NEXTAUTH_URL posés par le job e2e-local.
+envNeutre("STRIPE_PREMIUM_ANNUAL_PRICE_ID", "NEXTAUTH_URL");
 
 const follows = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
 const h2 = (container: HTMLElement, startsWith: string) =>
@@ -81,44 +89,69 @@ async function renderArticle(slug: string) {
   return render(await BlogArticlePage({ params: { slug } }));
 }
 
-describe("article n°1 : 2 encarts imposés", () => {
-  it("Répartie après la section soirée, Boulot après la section bureau", async () => {
+describe("article n°1 : un seul encart, la démonstration (s21, B1)", () => {
+  it("après la section soirée, plus de milieu-2 ; bouton plein vers la fiche offerte du carnet", async () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const encarts = [...container.querySelectorAll<HTMLElement>("[data-blog-body] [data-blog-cta-position]")];
-    expect(encarts.map((e) => [e.dataset.blogCtaPosition, e.dataset.blogCtaParcours])).toEqual([
-      ["milieu-1", "repartie"],
-      ["milieu-2", "boulot"],
+    expect(encarts.map((e) => [e.dataset.blogCtaPosition, e.dataset.blogCtaParcours, e.dataset.blogCtaFiche])).toEqual([
+      ["milieu-1", "repartie", "2026-10-15"],
     ]);
     const soiree = h2(container, "Quelles blagues sortir en soirée");
     const bureau = h2(container, "Quelles blagues au bureau");
-    const date = h2(container, "Comment faire rire en date");
     expect(follows(soiree, encarts[0]) && follows(encarts[0], bureau)).toBe(true);
-    expect(follows(bureau, encarts[1]) && follows(encarts[1], date)).toBe(true);
-    expect(encarts[0].querySelector("a")).toHaveAttribute("href", "/parcours/repartie?src=blog-milieu#etape-1");
-    expect(encarts[1].querySelector("a")).toHaveAttribute("href", "/parcours/boulot?src=blog-milieu#etape-1");
-    expect(encarts[0]).toHaveTextContent(ENCARTS_ARTICLE_1.repartie.bouton);
-    expect(encarts[1]).toHaveTextContent(ENCARTS_ARTICLE_1.boulot.bouton);
+    const liens = encarts[0].querySelectorAll("a");
+    expect(liens).toHaveLength(1);
+    expect(liens[0]).toHaveAttribute("href", "/carnet?src=blog-demo-milieu-1#fiche-2026-10-15");
+    expect(liens[0]).toHaveAttribute("data-blog-cta", "demo-fiche");
+    expect(encarts[0]).toHaveTextContent("Tu parles toujours aussi peu ?");
   });
 });
 
-describe("bloc de fin unique", () => {
+describe("bloc de fin unique (s21, B2)", () => {
   it.each(["meilleures-blagues-droles-2026", "comment-devenir-drole", "phrases-droles-conversations"])(
-    "%s : étape 1 en contour PUIS Premium en principal, articles liés après",
+    "%s : payant en PLEIN (seul plein), réassurance, lien étape 1 ; articles liés, lettre (v2 F05), FAQ en dernier",
     async (slug) => {
       const { container } = await renderArticle(slug);
       const blocs = container.querySelectorAll<HTMLElement>("[data-blog-bloc-fin]");
       expect(blocs).toHaveLength(1);
       const links = [...blocs[0].querySelectorAll<HTMLAnchorElement>("a[data-blog-cta]")];
-      expect(links.map((a) => a.dataset.blogCta)).toEqual(["etape-1", "abonnement"]);
-      expect(links[0].className).toContain("border");
-      expect(links[1].className).toContain("bg-accent-secondary-hover");
-      expect(links[1].getAttribute("href")).toContain(`src=blog-${slug}`);
-      expect(follows(blocs[0], container.querySelector('[data-blog-zone="related"]')!)).toBe(true);
+      // textes-trajet-v2 F01 à F04 : le payant devient le plein, le gratuit un lien.
+      expect(links.map((a) => a.dataset.blogCta)).toEqual(["abonnement", "etape-1"]);
+      expect(links[0].className).toContain("bg-accent-secondary-hover");
+      expect(links[1].className).not.toContain("bg-accent-secondary-hover");
+      expect(links[1].className).toContain("underline");
+      expect(links[0]).toHaveTextContent(normalise(BLOC_FIN.bouton));
+      expect(links[0].getAttribute("href")).toContain(`src=blog-${slug}`);
+      expect(blocs[0].querySelector("[data-reassurance]")).not.toBeNull();
+      expect(follows(links[0], blocs[0].querySelector("[data-reassurance]")!)).toBe(true);
+      expect(follows(blocs[0].querySelector("[data-reassurance]")!, links[1])).toBe(true);
+      expect(blocs[0].querySelector("ul")).toBeNull();
+      // v2 F05 : bloc de fin, cluster / « À lire ensuite », lettre (éloignée du bouton payant), FAQ.
+      const lettre = container.querySelector('[data-blog-zone="lettre"]')!;
+      const related = container.querySelector('[data-blog-zone="related"]')!;
+      expect(follows(blocs[0], related) && follows(related, lettre)).toBe(true);
+      const faq = screen.queryByText("Questions fréquentes");
+      if (faq) expect(follows(lettre, faq)).toBe(true);
       expect(container.querySelector('[data-blog-zone="parcours"]')).toBeNull();
     },
   );
 
-  it("phrases-droles-conversations : la carte parcours (Répartie) remonte avant la FAQ", async () => {
+  it("article n°1 : textes v2 (titre, phrase d'argument, plein OUVRIR, réassurance, lien gratuit, « Sans compte. »)", async () => {
+    const { container } = await renderArticle("meilleures-blagues-droles-2026");
+    const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
+    expect(bloc).toHaveTextContent("La vanne dans ta bouche, pas dans ton téléphone");
+    expect(bloc).toHaveTextContent("Premium ouvre le catalogue, les parcours et leurs exercices.");
+    expect(bloc).not.toHaveTextContent(normalise("La placer à voix haute, ça s'entraîne."));
+    expect(bloc).toHaveTextContent(/Tout ouvrir\s·\s2,99\s€\/mois/);
+    expect(bloc).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
+    // v3 S01 : libellé unique du parcours (Répartie pour l'article n°1).
+    expect(bloc).toHaveTextContent(/Tester l’étape\s1\sde Répartie, gratuite/);
+    expect(bloc).not.toHaveTextContent("Tester mes premières répliques, gratuit");
+    expect(bloc).toHaveTextContent("Sans compte.");
+    expect(bloc).not.toHaveTextContent(/24,99|TTC|Une étape par semaine|Parcours Répartie ·/);
+  });
+
+  it("phrases-droles-conversations : la FAQ vient après le bloc de fin (Répartie)", async () => {
     const { container } = await renderArticle("phrases-droles-conversations");
     const bloc = container.querySelector<HTMLElement>("[data-blog-bloc-fin]")!;
     expect(bloc.dataset.blogCtaParcours).toBe("repartie");
@@ -129,13 +162,13 @@ describe("bloc de fin unique", () => {
 describe("les 5 parcours", () => {
   const CINQ: ParcoursSlug[] = ["repartie", "machine-a-cafe", "confiance", "storytelling", "boulot"];
 
-  it("publiés, avec une route d'étape 1 (seed) et des textes d'encart", () => {
+  it("publiés, avec une route d'étape 1 (seed) et des textes de bloc de fin", () => {
     expect([...PARCOURS_SLUGS].sort()).toEqual([...CINQ].sort());
     const seedSlugs = PARCOURS_SEED_JSON.map((p) => p.slug);
     for (const slug of CINQ) {
       expect(seedSlugs).toContain(slug);
       expect(parcoursEtape1Href(slug, "blog-milieu")).toBe(`/parcours/${slug}?src=blog-milieu#etape-1`);
-      expect(TEXTES_PARCOURS_BLOG[slug].encartMilieu.bouton).toBeTruthy();
+      expect(TEXTES_PARCOURS_BLOG[slug].finBoutonEtape1).toBeTruthy();
     }
   });
 
@@ -160,7 +193,7 @@ describe("les 5 parcours", () => {
 
 describe("textes provisoires (config/textes/encarts-blog-s20)", () => {
   it("zéro tiret cadratin, aucune mention d'IA", () => {
-    const tout = JSON.stringify({ ENCARTS_ARTICLE_1, TEXTES_PARCOURS_BLOG });
+    const tout = JSON.stringify({ TEXTES_PARCOURS_BLOG });
     expect(tout).not.toContain("—");
     expect(tout.toLowerCase()).not.toMatch(/\bia\b|intelligence artificielle|gpt/);
   });

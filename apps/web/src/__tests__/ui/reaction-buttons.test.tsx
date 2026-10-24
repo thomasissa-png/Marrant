@@ -160,7 +160,7 @@ describe("ReactionButtons", () => {
     await userEvent.click(screen.getByLabelText("0 hilarant"));
 
     await waitFor(() => {
-      expect(toast).toHaveBeenCalledWith("Ta réaction s'est perdue en route, réessaie.", "error");
+      expect(toast).toHaveBeenCalledWith("Ta réaction s’est perdue en route, réessaie.", "error");
     });
   });
 

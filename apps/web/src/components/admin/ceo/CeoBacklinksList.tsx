@@ -95,7 +95,7 @@ export function CeoBacklinksList({ backlinks }: CeoBacklinksListProps) {
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-4 py-12 text-center text-text-muted">
-                  Aucun backlink — l&apos;agent n&apos;a pas encore prospecté ou les filtres masquent tout.
+                  Aucun backlink — l’agent n’a pas encore prospecté ou les filtres masquent tout.
                 </td>
               </tr>
             ) : (

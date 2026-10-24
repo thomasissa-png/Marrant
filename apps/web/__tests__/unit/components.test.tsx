@@ -66,14 +66,14 @@ describe("StreakCounter", () => {
   it("affiche le compteur de streak", () => {
     // Étalon 3.8 A (s17 tour 1) : jours de pratique d'affilée + aide, nom vocal en français.
     render(<StreakCounter count={7} />);
-    expect(screen.getByText("7 jours de pratique d'affilée")).toBeInTheDocument();
-    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.")).toBeInTheDocument();
+    expect(screen.getByText("7 jours de pratique d’affilée")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.")).toBeInTheDocument();
     expect(screen.getByRole("img", { name: "série" })).toBeInTheDocument();
   });
 
   it("gère le singulier", () => {
     render(<StreakCounter count={1} />);
-    expect(screen.getByText("1 jour de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("1 jour de pratique d’affilée")).toBeInTheDocument();
   });
 
   it("à zéro : invitation, jamais de culpabilité", () => {

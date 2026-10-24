@@ -56,7 +56,7 @@ export async function LiensPageContent({ origine, now = new Date() }: LiensPageC
           Le quiz
         </h2>
         <Link href={href("/quiz-humour", "quiz")} className={CARD}>
-          <span className="font-display text-lg font-bold text-text-primary">{frTypo("Quel type d'humour es-tu ?")}</span>
+          <span className="font-display text-lg font-bold text-text-primary">{frTypo("Quel type d’humour es-tu ?")}</span>
           <span className="mt-2 block text-sm text-text-secondary">Environ 2 minutes, sans inscription.</span>
           <span className="mt-3 block text-sm font-medium text-accent-link">Faire le quiz</span>
         </Link>

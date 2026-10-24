@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
 import LoginPage from "@/app/(auth)/login/page";
 import { UA } from "@/__tests__/helpers/user-agents";
+import { lie } from "../helpers/texte-normalise";
 
 const mockSignIn = jest.fn();
 let mockSearchParams = new URLSearchParams();
@@ -25,7 +26,7 @@ jest.mock("@/lib/umami", () => ({
 }));
 
 const REGISTER_MESSAGE =
-  "Google n'accepte pas l'inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.";
+  "Google n’accepte pas l’inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.";
 
 function setUserAgent(ua: string) {
   jest.spyOn(window.navigator, "userAgent", "get").mockReturnValue(ua);
@@ -40,12 +41,12 @@ beforeEach(() => {
 });
 
 describe("/register", () => {
-  it("e-mail avant Google pour tous, sans order-first (Safari : Google actif, aucun message)", async () => {
+  it("s21 concision : Google avant l'e-mail pour tous, sans order-first (Safari : Google actif, aucun message)", async () => {
     setUserAgent(UA.safariIos);
     render(<RegisterPage />);
-    const submit = screen.getByRole("button", { name: "Créer mon compte" });
-    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
-    expect(submit.compareDocumentPosition(google) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const email = screen.getByLabelText("Email");
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
+    expect(google.compareDocumentPosition(email) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(google.className).not.toMatch(/order-first/);
     await waitFor(() => expect(google).toBeEnabled());
     expect(screen.queryByText(REGISTER_MESSAGE)).not.toBeInTheDocument();
@@ -54,7 +55,7 @@ describe("/register", () => {
   it.each(["chromeAndroid", "xAndroid"] as const)("%s : Google actif", async (key) => {
     setUserAgent(UA[key]);
     render(<RegisterPage />);
-    await userEvent.click(screen.getByRole("button", { name: /S'inscrire avec Google/ }));
+    await userEvent.click(screen.getByRole("button", { name: /Continuer avec Google/ }));
     expect(mockSignIn).toHaveBeenCalledWith("google", expect.any(Object));
     expect(screen.queryByTestId("in-app-notice")).not.toBeInTheDocument();
   });
@@ -68,7 +69,7 @@ describe("/register", () => {
     Object.defineProperty(window.navigator, "clipboard", { value: { writeText }, configurable: true });
 
     render(<RegisterPage />);
-    const google = screen.getByRole("button", { name: /S'inscrire avec Google/ });
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
     await waitFor(() => expect(google).toBeDisabled());
     expect(screen.getByText(REGISTER_MESSAGE)).toBeInTheDocument();
     expect(google).toHaveAttribute("aria-describedby", "google-in-app-notice");
@@ -82,7 +83,7 @@ describe("/register", () => {
 
     await userEvent.click(copy);
     expect(writeText).toHaveBeenCalledWith(expected);
-    expect(await screen.findByText("Lien copié. Colle-le dans ton navigateur.")).toBeInTheDocument();
+    expect(await screen.findByText(lie("Lien copié. Colle-le dans ton navigateur."))).toBeInTheDocument();
 
     await userEvent.click(google);
     expect(mockSignIn).not.toHaveBeenCalled();
@@ -122,7 +123,7 @@ describe("/login", () => {
     await waitFor(() => expect(google).toBeDisabled());
     expect(
       screen.getByText(
-        "Google n'accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
+        "Google n’accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
       ),
     ).toBeInTheDocument();
     const open = screen.getByRole("link", { name: "Ouvrir dans mon navigateur" });

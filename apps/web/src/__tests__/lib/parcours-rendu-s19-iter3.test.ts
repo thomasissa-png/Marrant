@@ -39,7 +39,7 @@ describe("Version sans risque : coupe au début de la dernière phrase interroga
     for (const texte of [DEFIS[etape - 1], prose(DEFIS[etape - 1])]) {
       const parts = decouperRepli(texte);
       expect(parts).not.toBeNull();
-      expect(parts![1].replaceAll(NBSP, " ").startsWith(debut)).toBe(true);
+      expect(parts![1].replaceAll(NBSP, " ").replace(/’/g, "'").startsWith(debut)).toBe(true);
       // Concaténation = texte d'origine, au caractère près.
       expect(parts!.join("")).toBe(texte);
       // Le libellé « DÉFI X » reste dans la première partie.
@@ -65,8 +65,8 @@ describe("Version sans risque : coupe au début de la dernière phrase interroga
       if (debut === null) {
         expect(parts[2]).toBe("");
       } else {
-        expect(parts[2].startsWith("C'est")).toBe(true);
-        expect(parts[2].replaceAll(NBSP, " ").startsWith(debut)).toBe(true);
+        expect(parts[2].replace(/’/g, "'").startsWith("C'est")).toBe(true);
+        expect(parts[2].replaceAll(NBSP, " ").replace(/’/g, "'").startsWith(debut)).toBe(true);
         expect(parts[1]).not.toMatch(/C'est (réussi|gagné)/);
       }
     }
@@ -96,14 +96,16 @@ describe("typographie : gluon après le trait d'union des impératifs à pronom 
     expect(frTypoParcours("relis-les, dis-le-moi, vas-y")).toBe(`relis-${WJ}les, dis-${WJ}le-${WJ}moi, vas-${WJ}y`);
   });
 
-  it("aucun autre trait d'union touché, idempotent", () => {
-    expect(frTypoParcours("Peut-être, Jean-Yves, après-midi, entre-temps")).toBe("Peut-être, Jean-Yves, après-midi, entre-temps");
-    expect(frTypoParcours("anti-leurre, porte-monnaie, sous-entendu")).toBe("anti-leurre, porte-monnaie, sous-entendu");
+  // Revue visuelle s21, tour 4 (T3-02, @design) : les mots composés courts (moins de 12 caractères) sont
+  // désormais liés eux aussi ; les longs (« porte-monnaie », « sous-entendu ») restent sécables.
+  it("mots composés courts liés comme les impératifs, longs intacts, idempotent", () => {
+    expect(frTypoParcours("Peut-être, Jean-Yves, après-midi, entre-temps")).toBe(`Peut-${WJ}être, Jean-${WJ}Yves, après-${WJ}midi, entre-${WJ}temps`);
+    expect(frTypoParcours("anti-leurre, porte-monnaie, sous-entendu")).toBe(`anti-${WJ}leurre, porte-monnaie, sous-entendu`);
     expect(frTypoParcours(frTypoParcours("Choisis-en une"))).toBe(frTypoParcours("Choisis-en une"));
   });
 
   it("texte copié intact : seuls des gluons invisibles s'ajoutent à frTypo", () => {
-    for (const d of DEFIS) expect(sansGluon(frTypoParcours(d))).toBe(frTypo(d));
+    for (const d of DEFIS) expect(sansGluon(frTypoParcours(d))).toBe(sansGluon(frTypo(d)));
     expect(prose(DEFIS[0])).toContain(`Choisis-${WJ}en`);
     expect(prose(DEFIS[0])).toContain(`relis-${WJ}les`);
   });
@@ -113,7 +115,7 @@ describe("typographie : gluon après le trait d'union des impératifs à pronom 
     // « Entre » n'est pas « En » : seule la règle de frTypo (chiffre + mot) s'applique.
     expect(frTypoTexte("Entre 6 et 8")).toBe(`Entre 6${NBSP}et 8`);
     const d = boulot.parcours.description;
-    expect(sansGluon(frTypoTexte(d)).replaceAll(NBSP, " ")).toBe(d);
+    expect(sansGluon(frTypoTexte(d)).replaceAll(NBSP, " ").replace(/’/g, "'")).toBe(d);
   });
 });
 

@@ -47,6 +47,6 @@ describe("accroche : typographie française (N1 @design)", () => {
 
   it("aucun mot ajouté ni retiré : seules des espaces deviennent insécables (et des gluons invisibles)", () => {
     const textes = [boulot.parcours.description, boulot.parcours.personaTagline, boulot.parcours.testimonial];
-    for (const t of textes) expect(frTypoTexte(t).replaceAll(NBSP, " ").replaceAll(WJ, "")).toBe(t);
+    for (const t of textes) expect(frTypoTexte(t).replaceAll(NBSP, " ").replaceAll(WJ, "").replace(/’/g, "'")).toBe(t);
   });
 });

@@ -1,7 +1,13 @@
 import type { Page } from "@playwright/test";
-import { test, expect, estMobile, lireUrl } from "../support/fixtures";
+import { test, expect, estMobile, lireUrl, texteValide } from "../support/fixtures";
+import { rappelFormule, REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { PREMIUM_ANNUAL_EQUIVALENT_LABEL } from "@/config/premium";
+import { TEXTES_CONNEXION } from "@/config/textes/compte";
 
-/** J2 : page /abonnement, CTA mensuel et annuel, réassurance, retour annulé, en-tête. */
+/**
+ * J2 : page /abonnement, CTA mensuel et annuel, réassurance, retour annulé, en-tête.
+ * Textes : constantes du dépôt (`apps/web/src/config/textes`), jamais recopiés.
+ */
 
 /** Radio natif masqué (sr-only) : on clique son libellé, comme un humain. */
 async function choisirAnnuel(page: Page) {
@@ -9,14 +15,15 @@ async function choisirAnnuel(page: Page) {
   await expect(page.getByRole("radio", { name: "Annuel" })).toBeChecked();
 }
 
-// Étalon 1.1 validé (lot E). Espace insécable avant « € » depuis s16 : `\s` accepte les deux.
-const REASSURANCE = /2,99\s€ TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux\./;
-const REASSURANCE_ANNUEL = /24,99\s€ TTC par an, remboursé sous 14 jours, résiliable en ligne quand tu veux\./;
+// REASS unique (concision v5) : même texte en mensuel et en annuel, le prix TTC est affiché juste au-dessus.
+const REASSURANCE = texteValide(REASSURANCE_UNIQUE);
 
 test.describe("Offre /abonnement @smoke", () => {
-  test("CTA mensuel « Commencer à 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement", async ({ page }) => {
+  // Trajet de conversion s21 : « S'abonner », qui suit la formule choisie (bouton du premier écran).
+  test("CTA mensuel « S'abonner · 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
     await page.goto("/abonnement");
-    const cta = page.getByRole("link", { name: /^Commencer à 2,99/ });
+    const cta = page.getByTestId("abonnement-bouton-achat");
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s2,99\s€\/mois$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -25,13 +32,14 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    await expect(page.getByLabel(/e-?mail/i)).toBeVisible();
+    await expect(page.getByRole("textbox", { name: /^e-?mail$/i })).toBeVisible();
   });
 
-  test("CTA annuel « Commencer à 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel", async ({ page }) => {
+  test("CTA annuel « S'abonner · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
     await page.goto("/abonnement");
     await choisirAnnuel(page);
-    const cta = page.getByRole("link", { name: /^Commencer à 24,99/ });
+    const cta = page.getByTestId("abonnement-bouton-achat");
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s24,99\s€\/an$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -42,7 +50,9 @@ test.describe("Offre /abonnement @smoke", () => {
 
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
-    await expect(page.getByText(/24,99\s€\/an/).first()).toBeVisible();
+    // /register rappelle la formule choisie (textes-trajet-v2 G02, correction @legal) :
+    // « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. »
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("annual", { saufResiliation: true })));
   });
 
   test("?plan=annual préselectionne l'annuel", async ({ page }) => {
@@ -50,17 +60,20 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByRole("radio", { name: "Annuel" })).toBeChecked();
   });
 
-  test("ligne « 2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux. » sous le CTA @s16", async ({ page }) => {
+  test("réassurance « premier paiement » sous le CTA, en mensuel comme en annuel @s16", async ({ page }) => {
     await page.goto("/abonnement");
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
     await choisirAnnuel(page);
-    await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE_ANNUEL);
-    await expect(page.getByText(/plus de 3 mois offerts, 10,89\s€ économisés par an/)).toBeVisible();
+    await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
+    // Carte annuelle (arbitrage du 19/10) : « soit 2,08 € par mois ».
+    await expect(page.getByText(texteValide(PREMIUM_ANNUAL_EQUIVALENT_LABEL))).toBeVisible();
   });
 
   test("/register : réassurance et acceptation des CGU avec lien @s16", async ({ page }) => {
     await page.goto("/register?callbackUrl=%2Fabonnement&src=abonnement");
-    await expect(page.getByText(REASSURANCE).first()).toBeVisible();
+    // Le prix est rappelé en haut de /register (v2 G02), la REASS unique est collée sous le plein.
+    await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("monthly", { saufResiliation: true })));
+    await expect(page.getByText(texteValide(REASSURANCE_UNIQUE)).first()).toBeVisible();
     await expect(page.getByText(/En créant ton compte, tu acceptes les/)).toBeVisible();
     const cgu = page.getByRole("link", { name: "CGU", exact: true });
     await expect(cgu).toHaveAttribute("href", "/cgu");
@@ -68,7 +81,7 @@ test.describe("Offre /abonnement @smoke", () => {
 
   test("retour Stripe annulé ?paiement=annule → « Paiement annulé, rien n'a été prélevé. » (étalon 5b.2) @s16", async ({ page }) => {
     await page.goto("/abonnement?paiement=annule&upgrade=cancel");
-    const bandeau = page.getByRole("status").filter({ hasText: "Paiement annulé, rien n'a été prélevé." });
+    const bandeau = page.getByRole("status").filter({ hasText: /Paiement annulé, rien n['’]a été prélevé\./ });
     await expect(bandeau).toBeVisible();
     await expect(bandeau).toContainText("Tu peux réessayer quand tu veux.");
     // Le retour annulé ne relance jamais le paiement : on reste sur la page.
@@ -94,13 +107,34 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
     await expect(page.getByRole("link", { name: "Connexion" }).filter({ visible: true }).first()).toBeVisible();
   });
 
-  test("mobile : « Connexion » visible sans ouvrir le menu @s16", async ({ page }) => {
+  // s20 (audit conversion, lot 1) : sous 520 px, la barre mobile donne la place au bouton d'appel
+  // et « Connexion » passe dans le menu ; dès 520 px, « Connexion » revient dans la barre.
+  // s21 (B6) : le bouton devient « 2,99 €/mois » vers /abonnement?src=header, masqué sur
+  // /abonnement et /register : contrôle sur /conseils.
+  test("mobile : bouton prix dans la barre ; « Connexion » dans la barre dès 520 px, sinon dans le menu @s16 @s21", async ({ page }) => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
-    await page.goto("/abonnement");
-    const lien = page.getByRole("banner").getByRole("link", { name: "Connexion" }).filter({ visible: true }).first();
+    await page.goto("/conseils");
+    const barre = page.getByRole("banner");
+    const commencer = barre.getByRole("link", { name: /^Premium, 2,99\s€ par mois : voir l['’]offre$/ }).filter({ visible: true }).first();
+    // textes-trajet-v3 §5 point 3 : retour sur la page courante après le paiement.
+    await expect(commencer).toHaveAttribute("href", "/abonnement?returnTo=%2Fconseils&src=header");
+    await expect(commencer).toBeVisible();
+    expect((await commencer.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
+
+    const largeur = page.viewportSize()?.width ?? 390;
+    const connexionBarre = barre.getByRole("link", { name: TEXTES_CONNEXION.lienConnexionMobile }).filter({ visible: true });
+    if (largeur < 520) {
+      await expect(connexionBarre).toHaveCount(0);
+      await barre.getByRole("button", { name: "Menu" }).click();
+      const dansMenu = page.getByRole("navigation", { name: "Navigation mobile" }).getByRole("link", { name: "Connexion" });
+      await expect(dansMenu).toBeVisible();
+      expect((await dansMenu.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
+      await barre.getByRole("button", { name: "Menu" }).click();
+      await page.setViewportSize({ width: 520, height: page.viewportSize()?.height ?? 844 });
+    }
+    const lien = connexionBarre.first();
     await expect(lien).toBeVisible();
-    const boite = await lien.boundingBox();
-    expect(boite?.height ?? 0).toBeGreaterThanOrEqual(44);
+    expect((await lien.boundingBox())?.height ?? 0).toBeGreaterThanOrEqual(44);
     await lien.click();
     await expect(page).toHaveURL(/\/login/);
   });

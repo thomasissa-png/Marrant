@@ -1,7 +1,7 @@
 /**
  * s17 tour 2 (défaut QA iter-2) : contenu Premium lent ou en échec sur la page d'un
  * parcours, pour un abonné qui a déjà validé l'étape 1. Jamais de « 0/N » par défaut,
- * jamais de faux verrou « Termine l'étape 1 », message et « Réessayer » au niveau de la page.
+ * jamais de verrou d'ordre (supprimé en s21), message et « Réessayer » au niveau de la page.
  */
 import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
@@ -93,13 +93,15 @@ describe("s17 tour 2 : chargement Premium lent", () => {
     // Carte ouverte : squelette de 3 lignes, aria-busy (DES-2-01).
     const etape2 = document.getElementById("etape-2") as HTMLElement;
     expect(within(etape2).getByTestId("etape-squelette").children).toHaveLength(3);
-    expect(within(etape2).getByText("Chargement du contenu de l'étape…").parentElement).toHaveAttribute("aria-busy", "true");
+    expect(within(etape2).getByText("Chargement du contenu de l’étape…").parentElement).toHaveAttribute("aria-busy", "true");
 
     await act(async () => lente.resoudre(ok({ path: buildPath(false), userProgress: ETAPE_1_FAITE })));
     await waitFor(() => expect(screen.queryByText(CHARGEMENT_PREMIUM.enCours)).toBeNull());
     expect(screen.getByRole("list", { name: "Étapes du parcours" })).not.toHaveAttribute("aria-busy");
     expect(screen.getByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
-    expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
+    // s21 (décision du 18/10) : plus de verrou d'ordre, l'étape 3 se déplie sans attendre l'étape 2.
+    expect(screen.queryByText(/pour débloquer/)).toBeNull();
+    expect(screen.getByRole("button", { name: /^Étape 3 :/ })).toHaveAttribute("aria-expanded", "false");
   });
 
   it("progression encore inconnue (premier passage) : squelette, jamais « 0/4 » ni verrou", async () => {
@@ -148,7 +150,9 @@ describe("s17 tour 2 : échec du chargement Premium puis « Réessayer »", () =
     await waitFor(() => expect(screen.queryAllByText(CHARGEMENT_PREMIUM.echec)).toHaveLength(0));
     expect(fetchMock.mock.calls.filter(([url]) => String(url).includes("by-slug"))).toHaveLength(2);
     expect(screen.getByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
-    expect(screen.getByText(/Termine l'étape 2 pour débloquer/)).toBeInTheDocument();
+    // s21 (décision du 18/10) : plus de verrou d'ordre, l'étape 3 se déplie sans attendre l'étape 2.
+    expect(screen.queryByText(/pour débloquer/)).toBeNull();
+    expect(screen.getByRole("button", { name: /^Étape 3 :/ })).toHaveAttribute("aria-expanded", "false");
   });
 
   it("nouvel échec après « Réessayer » : focus rendu au bouton de la page", async () => {
@@ -304,7 +308,7 @@ describe("s17 tour 3 (QA) : échec de la validation d'une étape", () => {
 
     // Nouvel échec (serveur) : message remplacé, toujours une seule alerte, focus de nouveau sur « Valider ».
     await user.click(valider);
-    expect(await within(etape2).findByText("L'étape n'a pas voulu se valider. Réessaie.")).toHaveAttribute("role", "alert");
+    expect(await within(etape2).findByText("L’étape n’a pas voulu se valider. Réessaie.")).toHaveAttribute("role", "alert");
     expect(screen.getAllByRole("alert")).toHaveLength(1);
     await waitFor(() => expect(within(etape2).getByRole("button", { name: "Valider cette étape" })).toHaveFocus());
   });

@@ -125,3 +125,29 @@ describe("FavoriteButton", () => {
     expect(screen.queryByTestId("premium-modal")).not.toBeInTheDocument();
   });
 });
+
+describe("FavoriteButton, s21 (QA M2) : plan lu dans la session", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    // Store vide (accueil, /vannes : jamais rempli hors /profil), plan PREMIUM dans la session.
+    useUserStore.mockImplementation((selector: (s: Record<string, unknown>) => unknown) => selector({ user: null }));
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { id: "u1", plan: "PREMIUM" } } });
+    mockIsFavorite.mockReturnValue(false);
+    mockGetFavoriteId.mockReturnValue(null);
+  });
+
+  it("abonné, store vide : le cœur ajoute le favori, aucune fenêtre Premium", async () => {
+    render(<FavoriteButton contentType="JOKE" contentId="j1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris"));
+    expect(mockAddFavorite).toHaveBeenCalledWith("JOKE", "j1");
+    expect(screen.queryByTestId("premium-modal")).not.toBeInTheDocument();
+  });
+
+  it("compte sans abonnement, store vide : fenêtre Premium, aucun ajout", async () => {
+    useSession.mockReturnValue({ status: "authenticated", data: { user: { id: "u2", plan: "FREE" } } });
+    render(<FavoriteButton contentType="JOKE" contentId="j1" />);
+    await userEvent.click(screen.getByLabelText("Ajouter aux favoris (réservé Premium)"));
+    expect(mockAddFavorite).not.toHaveBeenCalled();
+    expect(screen.getByTestId("premium-modal")).toHaveAttribute("data-reason", "favoris");
+  });
+});

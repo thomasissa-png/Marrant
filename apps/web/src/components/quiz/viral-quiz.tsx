@@ -1,16 +1,19 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ShareButton } from "@/components/ui/share-button";
 import { cn } from "@/lib/utils";
+import { LIEN_L1 } from "@/components/ui/liens";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import { trackUmami } from "@/lib/umami";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
-import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { QUIZ_HUMOUR_PARCOURS } from "@/config/textes/entrees-parcours";
+import { LettreInscription } from "@/components/lettre/lettre-inscription";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import type { TextesResultatQuiz, TexteResultatQuiz } from "@/lib/quiz-resultat-textes";
 import {
   QUIZ_QUESTIONS,
   QUIZ_PROFILES,
@@ -18,6 +21,7 @@ import {
   type HumorProfileType,
   type HumorProfileResult,
 } from "./quiz-data";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 const QUIZ_STORAGE_KEY = "humor-quiz-viral";
 
@@ -45,11 +49,13 @@ function saveResult(profile: HumorProfileType): void {
   );
 }
 
-function ResultCard({ profile }: { profile: HumorProfileResult }) {
-  const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t'es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
+function ResultCard({ profile, t }: { profile: HumorProfileResult; t: TexteResultatQuiz }) {
+  // s21 (QA m6) : l'abonné n'a ni lien payant ni ligne de prix (il a déjà tout).
+  const estPremium = useEstPremium();
+  const shareText = `Mon profil humour : ${profile.title}, style ${profile.humoriste}. Et toi, t’es drôle comment ? Fais le quiz sur deviens-marrant.fr/quiz-humour`;
 
   return (
-    <Card className="mx-auto max-w-lg animate-scale-in">
+    <Card className="animate-scale-in">
       <CardContent className="py-8">
         <div className="text-center">
           <span className="text-6xl">{profile.emoji}</span>
@@ -90,35 +96,44 @@ function ResultCard({ profile }: { profile: HumorProfileResult }) {
 
           {/* s17 (QA-13) : un des 3 parcours selon le profil, ouvert sur son étape 1. */}
           <div className="w-full rounded-lg border border-border bg-background-elevated p-4 text-left" data-testid="quiz-parcours-conseille">
-            <p className="text-sm font-medium text-accent-link">{QUIZ_HUMOUR_PARCOURS.intro}</p>
+            <p className="text-sm font-medium text-accent-link">{t.intro}</p>
             <h3 className="mt-1 font-display text-lg font-bold text-text-primary">
-              {QUIZ_HUMOUR_PARCOURS.titre(profile.recommendedParcours)}
+              {t.titre}
             </h3>
-            <p className="mt-1 text-sm text-text-secondary">{QUIZ_HUMOUR_PARCOURS.raison[profile.type]}</p>
+            <p className="mt-1 text-sm text-text-secondary">{t.raison}</p>
           </div>
 
-          {/* Lien stylé en bouton : plus de <button> imbriqué dans un <a> (T44). */}
-          <Link
-            href={parcoursEtape1Href(profile.recommendedParcours, "quiz")}
-            className={buttonVariants({ variant: "primary", size: "lg", className: "w-full" })}
-          >
-            {QUIZ_HUMOUR_PARCOURS.bouton}
-          </Link>
-
-          {/* Plus de compte gratuit (s15) : vers Premium, retour au parcours conseillé. */}
-          <Link
-            href={buildAbonnementUrl(`/parcours/${profile.recommendedParcours}`, "monthly", "quiz")}
-            className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}
-          >
-            Accéder aux parcours complets
-          </Link>
+          {/* Concision v5 (froid) : plein gratuit vers l'étape 1 du parcours conseillé, « Sans compte. »,
+              puis le lien payant `OUVRIR` (retour au parcours conseillé). */}
+          <div className="w-full">
+            <Link
+              href={t.boutonHref}
+              className={buttonVariants({
+                variant: "primary",
+                size: "lg",
+                className: cn("h-auto min-h-12 w-full whitespace-normal py-2 text-center", CORPS_APPEL_MOBILE),
+              })}
+            >
+              {t.bouton}
+            </Link>
+            <p className="mt-2 text-center text-xs text-text-muted">{t.sansCompte}</p>
+          </div>
+          {!estPremium && (
+            <Link href={t.lienHref} className={cn(LIEN_L1, "justify-center text-center")}>
+              {t.lien}
+            </Link>
+          )}
         </div>
       </CardContent>
     </Card>
   );
 }
 
-export function ViralQuiz() {
+/**
+ * `textes` : textes du résultat pour les 5 profils, calculés par la page serveur
+ * (`textesResultatQuiz()`, s21 QA m3 : rien de ces modules dans le JS client).
+ */
+export function ViralQuiz({ textes }: { textes: TextesResultatQuiz }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [answers, setAnswers] = useState<
     Partial<Record<HumorProfileType, number>>[]
@@ -157,11 +172,17 @@ export function ViralQuiz() {
     setAnswers([]);
   };
 
+  // s21 : lettre mensuelle SOUS la carte du résultat, hors carte (spec lettre §1.3).
+  const lettre = (profile: HumorProfileResult) =>
+    LETTRE_INSCRIPTIONS_OUVERTES ? <LettreInscription emplacement="quiz" profil={profile.type} className="mt-6" /> : null;
+
   if (showRetake && result) {
     return (
-      <div className="space-y-4">
-        <ResultCard profile={result} />
-        <div className="text-center">
+      // Revue design s21 m8 : marges explicites (un `space-y-4` écrasait le `mt-6` de la lettre).
+      <div>
+        <ResultCard profile={result} t={textes[result.type]} />
+        {lettre(result)}
+        <div className="mt-4 text-center">
           <Button variant="ghost" size="sm" onClick={handleRetake}>
             Refaire le quiz
           </Button>
@@ -171,14 +192,19 @@ export function ViralQuiz() {
   }
 
   if (result) {
-    return <ResultCard profile={result} />;
+    return (
+      <>
+        <ResultCard profile={result} t={textes[result.type]} />
+        {lettre(result)}
+      </>
+    );
   }
 
   const question = QUIZ_QUESTIONS[currentQ];
   const progress = ((currentQ + 1) / QUIZ_QUESTIONS.length) * 100;
 
   return (
-    <div className="mx-auto max-w-lg">
+    <div>
       <div className="mb-6 flex items-center justify-between">
         <Badge variant="primary">
           {currentQ + 1}/{QUIZ_QUESTIONS.length}

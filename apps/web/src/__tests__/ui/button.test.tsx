@@ -28,6 +28,29 @@ describe("Button", () => {
     expect(screen.getByRole("button")).toHaveClass("border");
   });
 
+  it("niveau 2 : une seule variante, `outline-accent` (bordure violette à 80 %)", () => {
+    render(<Button variant="outline-accent">Niveau 2</Button>);
+    expect(screen.getByRole("button")).toHaveClass("border", "border-accent-primary/80");
+  });
+
+  it("aucune surcharge locale de bordure violette sur un bouton (revue design s21 M3)", () => {
+    const fs = jest.requireActual<typeof import("fs")>("fs");
+    const path = jest.requireActual<typeof import("path")>("path");
+    const fautifs: string[] = [];
+    const parcourir = (dossier: string) => {
+      for (const nom of fs.readdirSync(dossier)) {
+        const chemin = path.join(dossier, nom);
+        if (fs.statSync(chemin).isDirectory()) parcourir(chemin);
+        else if (chemin.endsWith(".tsx")) {
+          const source = fs.readFileSync(chemin, "utf8");
+          if (/variant:\s*"outline"[^)]*\)?,?[\s\S]{0,300}?border-accent-primary(?!\/[0-3]0)/.test(source)) fautifs.push(chemin);
+        }
+      }
+    };
+    parcourir(path.join(process.cwd(), "src", "components"));
+    expect(fautifs).toEqual([]);
+  });
+
   it("applies danger variant", () => {
     render(<Button variant="danger">Danger</Button>);
     expect(screen.getByRole("button")).toHaveClass("bg-error");

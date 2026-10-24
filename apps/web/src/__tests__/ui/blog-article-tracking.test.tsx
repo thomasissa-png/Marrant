@@ -8,7 +8,9 @@ import { BlogArticleTracking } from "@/components/blog/blog-article-tracking";
 import { BlogVanneShare } from "@/components/blog/blog-vanne-share";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { MarkdownRenderer } from "@/components/ui/markdown-renderer";
-import { TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise, lie } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
 
@@ -61,8 +63,8 @@ describe("blog-sortie-clic", () => {
 describe("blog-cta-clic", () => {
   it("abonnement et étape 1, sans doublon en sortie (s15 : « inscription » devient « abonnement »)", () => {
     setup();
-    fireEvent.click(screen.getByText(TEXTES_BLOC_FIN.boutonPremium));
-    fireEvent.click(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
+    fireEvent.click(screen.getByText(normalise(BLOC_FIN.bouton)));
+    fireEvent.click(screen.getByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)));
     expect(track).toHaveBeenCalledTimes(2);
     // s20 : position et parcours du bloc qui contient le bouton.
     const props = { slug: SLUG, position: "fin", parcours: "repartie" };
@@ -72,10 +74,12 @@ describe("blog-cta-clic", () => {
 
   it("textes par défaut (s20) : ceux du parcours et du bloc de fin, config/textes/encarts-blog-s20", () => {
     render(<ArticleCta />);
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).closest("a")).toHaveAttribute(
+    expect(screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre))).toBeInTheDocument();
+    // Concision v5 : lien payant OUVRIR, « Sans compte. » sous le plein, plus de note de prix.
+    expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/TTC|14 jours/);
+    expect(screen.getByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)).closest("a")).toHaveAttribute(
       "href",
       "/parcours/repartie?src=blog#etape-1",
     );
@@ -215,13 +219,13 @@ describe("blog-vanne-partage", () => {
   });
 });
 
-describe("CTA d'article : note et inscription attribuable", () => {
-  it("note surchargeable, défaut : prix et lecture libre", () => {
-    const { unmount } = render(<ArticleCta note="Note de l'article." />);
-    expect(screen.getByText("Note de l'article.")).toBeInTheDocument();
-    unmount();
+describe("CTA d'article : « Sans compte. » et inscription attribuable", () => {
+  it("concision v5 : plus de note sous le bloc, « Sans compte. » sous le plein gratuit", () => {
     render(<ArticleCta />);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
+    const plein = screen.getByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)).closest("a")!;
+    const note = screen.getByText("Sans compte.");
+    expect(plein.compareDocumentPosition(note) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(document.body.textContent).not.toMatch(/l'abonnement du site|TTC/);
   });
 
   it("le bouton principal mène à /abonnement avec retour au parcours et source de l'article (s15)", () => {

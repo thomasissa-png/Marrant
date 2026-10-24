@@ -5,8 +5,10 @@
  * Parcours de 4 et 6 étapes (cas cités par l'audit).
  */
 import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ParcoursDetail, type PathData } from "@/components/parcours/parcours-detail";
+import { avecOuSansGluon, courbe, lie } from "../helpers/texte-normalise";
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => (
@@ -148,19 +150,19 @@ describe("A2 : « Parcours terminé ! » et carte de fin pilotés par le serveur
 });
 
 describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
-  it("409 ordre : le message du serveur, événement parcours-erreur motif refus", async () => {
+  it("403 refus : message générique, événement parcours-erreur motif refus", async () => {
     session = PREMIUM;
     const path = buildPath([50, 75]);
     mockFetch((url, init) =>
       init?.method === "POST"
-        ? { status: 409, body: { code: "ordre", error: "Valide d'abord l'étape 1." } }
+        ? { status: 403, body: { code: "refus", error: "Réservé" } }
         : url.includes("by-slug")
           ? { body: { path, userProgress: { completedSteps: [], currentStep: 0, completedAt: null } } }
           : { body: {} },
     );
     render(<ParcoursDetail slug="confiance" />);
     await userEvent.click(await screen.findByText("Valider cette étape"));
-    expect(await screen.findByRole("alert")).toHaveTextContent("Valide d'abord l'étape 1.");
+    expect(await screen.findByRole("alert")).toHaveTextContent("L’étape n’a pas voulu se valider. Réessaie.");
     expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 1, motif: "refus" });
   });
 
@@ -185,7 +187,7 @@ describe("Erreurs de validation et chargement (FS-09, lot A)", () => {
     );
     await waitFor(() => expect(mockTrack).toHaveBeenCalledWith("parcours-erreur", { parcours: "confiance", etape: 0, motif: "chargement" }));
     // Étape 2 ouverte d'office (étape à reprendre) : plus d'attente sans fin.
-    expect(await screen.findByText("Le contenu de l'étape n'a pas voulu se charger.")).toBeInTheDocument();
+    expect(await screen.findByText("Le contenu de l’étape n’a pas voulu se charger.")).toBeInTheDocument();
     // s17 tour 3 (UXV-3-01) : un seul « Réessayer », celui de l'étape dépliée.
     expect(screen.getAllByRole("button", { name: "Réessayer" })).toHaveLength(1);
     await userEvent.click(within(document.getElementById("etape-2") as HTMLElement).getByText("Réessayer"));
@@ -208,7 +210,7 @@ describe("D2 rythme doux et rappel (lien vers le profil)", () => {
     render(<ParcoursDetail slug="confiance" />);
     expect(await screen.findByText(/Prochaine étape conseillée le .+\. Tu peux y aller dès maintenant si tu veux/)).toBeInTheDocument();
     expect(screen.getByText("Valider cette étape")).toBeInTheDocument();
-    expect((await screen.findByText("Règle-le dans ton profil")).closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
+    expect((await screen.findByText(lie("Règle-le dans ton profil"))).closest("a")).toHaveAttribute("href", "/profil#rappel-parcours");
   });
 
   it("s17 tour 1 (UXV-1-02) : abonné sans droit au rappel (e-mail non vérifié) : aucune invitation", async () => {
@@ -222,14 +224,14 @@ describe("D2 rythme doux et rappel (lien vers le profil)", () => {
     render(<ParcoursDetail slug="confiance" />);
     await screen.findByText("Valider cette étape");
     await waitFor(() => expect(global.fetch).toHaveBeenCalledWith("/api/user/rappel-parcours", expect.anything()));
-    expect(screen.queryByText("Règle-le dans ton profil")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Règle-le dans ton profil"))).not.toBeInTheDocument();
   });
 
   it("visiteur : ni date conseillée ni lien de rappel", async () => {
     render(<ParcoursDetail slug="confiance" initialPath={buildPath([50, 75])} />);
     await screen.findByText("Pourquoi 1.");
     expect(screen.queryByText(/Prochaine étape conseillée/)).not.toBeInTheDocument();
-    expect(screen.queryByText("Règle-le dans ton profil")).not.toBeInTheDocument();
+    expect(screen.queryByText(avecOuSansGluon("Règle-le dans ton profil"))).not.toBeInTheDocument();
   });
 });
 
@@ -258,11 +260,21 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     expect(screen.queryByText(/Tu peux valider/)).not.toBeInTheDocument();
     // s17 tour 1 (UXV-1-04) : quiz compté dès la fin, plus de « Continuer » ; titre sans « valider ».
     expect(screen.queryByText("Continuer")).not.toBeInTheDocument();
-    expect(screen.getByText("Petit quiz pour t'entraîner")).toBeInTheDocument();
+    expect(screen.getByText("Petit quiz pour t’entraîner")).toBeInTheDocument();
     expect(mockTrack).toHaveBeenCalledWith("quiz-etape-termine", { parcours: "confiance", etape: 1, score: 1, total: 2, statut: "visiteur" });
-    // Un seul bouton plein : « Voir l'offre Premium » passe en plein une fois le quiz fini.
-    expect(screen.getByRole("link", { name: "Voir l'offre Premium" }).className).toContain("bg-accent-secondary-hover");
-    await userEvent.click(screen.getByText("Refaire le quiz"));
+    // Un seul bouton plein (s21 B14) : « Passer à l'étape 2 avec Premium » une fois le quiz fini.
+    const plein = screen.getByRole("link", { name: FIN_ETAPE_1.bouton });
+    expect(plein.className).toContain("bg-accent-secondary-hover");
+    // s21 concision (18/10) : le plein mène à l'inscription (plus à /abonnement), « Refaire le quiz »
+    // est un lien texte (L2), sans fond ni contour : un seul bouton à l'écran.
+    expect(plein.getAttribute("href")).toMatch(/^\/register\?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance/);
+    expect(plein.getAttribute("href")).toContain("&src=parcours-etape");
+    expect(plein.getAttribute("href")!.match(/parcours-etape/g)).toHaveLength(1);
+    const refaire = screen.getByRole("button", { name: "Refaire le quiz" });
+    expect(refaire.className).toContain("underline");
+    expect(refaire.className).not.toMatch(/\bborder\b|bg-/);
+    expect(document.querySelectorAll("[data-fin-etape-1] a.bg-accent-secondary-hover")).toHaveLength(1);
+    await userEvent.click(refaire);
     expect(screen.getByText("Q1 ?")).toBeInTheDocument();
     expect(screen.queryByText(/tu peux valider l'étape/)).not.toBeInTheDocument();
   });
@@ -275,11 +287,27 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
     );
     expect(mockTrack).toHaveBeenCalledWith("etape-ouverte", { parcours: "confiance", etape: 1, statut: "visiteur", declencheur: "auto" });
     expect(mockTrack).toHaveBeenCalledWith("mur-vu", { type: "parcours-validation", src: "confiance", etape: 1 });
+    // Finition du tour 3 (T3) : tant que la carte de fin d'étape 1 est affichée, l'étape 2 n'est pas
+    // répétée dans la liste ; on referme l'étape 1, l'étape 2 revient.
+    expect(screen.queryByRole("button", { name: /^Étape 2 : Module 2/ })).toBeNull();
+    await userEvent.click(screen.getByRole("button", { name: /^Étape 1 : Module 1/ }));
     await userEvent.click(screen.getByRole("button", { name: /Étape 2 : Module 2/ }));
     expect(mockTrack).toHaveBeenCalledWith("etape-ouverte", { parcours: "confiance", etape: 2, statut: "visiteur", declencheur: "manuel" });
     // Aperçu D1 : ce qu'on apprend, durée estimée, jamais le conseil.
-    expect(screen.getByText("Ce qu'on apprend 2")).toBeInTheDocument();
+    expect(screen.getByText(courbe("Ce qu'on apprend 2"))).toBeInTheDocument();
     // Étalon 3.1 : l'aperçu montre titre, ce qu'on apprend, format, rien d'autre.
+  });
+
+  it("finition du tour 3 (T3) : carte de fin d'étape 1 affichée → étape 2 non répétée, lettre sous la liste", async () => {
+    render(<ParcoursDetail slug="confiance" initialPath={buildPath([50, 75, 100])} />);
+    const carte = await screen.findByText(/^Étape 2 sur \d/);
+    expect(screen.queryByRole("button", { name: /^Étape 2 : Module 2/ })).toBeNull();
+    expect(screen.getByRole("button", { name: /^Étape 3 : Module 3/ })).toBeInTheDocument();
+    const lettre = screen.getByRole("button", { name: /Lettre gratuite/ });
+    const liste = screen.getByRole("list", { name: "Étapes du parcours" });
+    expect(liste.contains(lettre)).toBe(false);
+    expect(liste.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(carte.compareDocumentPosition(lettre) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it("src inconnu ramené à direct (liste fermée)", async () => {
@@ -329,7 +357,7 @@ describe("Visiteur (D1), quiz accessible (F17), retour d'exercice, événements"
       "/api/parcours/db-path/quiz",
       expect.objectContaining({ method: "POST", body: JSON.stringify({ stepOrder: 1 }) }),
     );
-    expect(screen.getByText("Quiz bouclé, tu peux valider l'étape")).toBeInTheDocument();
+    expect(screen.getByText("Quiz bouclé, tu peux valider l’étape")).toBeInTheDocument();
   });
 });
 
@@ -342,7 +370,7 @@ describe("Ancres #etape-N des liens d'entrée (demande du lot C)", () => {
     const { container } = render(<ParcoursDetail slug="confiance" initialPath={isr} />);
     expect(container.querySelector("#etape-1")).not.toBeNull();
     expect(container.querySelector("#etape-3")).not.toBeNull();
-    expect(await screen.findByText(/Le conseil, les vannes, les vidéos et le quiz de cette étape font partie de Premium/)).toBeInTheDocument();
+    expect(await screen.findByText(/^Tout ouvrir\s·/)).toBeInTheDocument();
     await waitFor(() =>
       expect(mockTrack).toHaveBeenCalledWith("parcours-ouvert", { parcours: "confiance", statut: "visiteur", src: "fiche" }),
     );
@@ -356,5 +384,44 @@ describe("Ancres #etape-N des liens d'entrée (demande du lot C)", () => {
     render(<ParcoursDetail slug="confiance" />);
     expect(await screen.findByText("Conseil complet 2")).toBeInTheDocument();
     expect(screen.queryByText("Conseil complet 3")).not.toBeInTheDocument();
+  });
+});
+
+describe("s21 (décision de Thomas du 18/10) : Premium ouvre toutes les étapes d'un coup", () => {
+  it("abonné sans étape validée : ouvre l'étape 3 et la valide, sans verrou d'ordre", async () => {
+    session = PREMIUM;
+    const path = buildPath([50, 75, 100, 125]);
+    const posts: unknown[] = [];
+    mockFetch((url, init) => {
+      if (init?.method === "POST" && url.includes("/progress")) {
+        posts.push(JSON.parse(String(init.body)));
+        return { body: { progress: { completedSteps: [3], currentStep: 3, completedAt: null }, xpGained: 100, pathCompleted: false } };
+      }
+      return url.includes("by-slug")
+        ? { body: { path, userProgress: { completedSteps: [], currentStep: 0, completedAt: null } } }
+        : { body: {} };
+    });
+    const user = userEvent.setup();
+    render(<ParcoursDetail slug="confiance" />);
+
+    const entete3 = await screen.findByRole("button", { name: /^Étape 3 : Module 3/ });
+    expect(screen.queryByText(/pour débloquer/)).toBeNull();
+    await user.click(entete3);
+    expect(entete3).toHaveAttribute("aria-expanded", "true");
+    const etape3 = document.getElementById("etape-3") as HTMLElement;
+    expect(within(etape3).getByText("Conseil complet 3")).toBeInTheDocument();
+    await user.click(within(etape3).getByText("Valider cette étape"));
+    await waitFor(() => expect(posts).toEqual([{ stepOrder: 3 }]));
+    expect(await screen.findByTestId("progress-bar")).toHaveTextContent("1/4 étapes complétées");
+    // La date conseillée reste affichée (conseil, pas contrainte).
+    expect(within(etape3).getByTestId("etape-resultat")).toHaveTextContent(/\+100 XP/);
+  });
+
+  it("visiteur : inchangé, étape 1 libre, étapes 2 et suivantes en aperçu", async () => {
+    const path = buildPath([50, 75, 100]);
+    mockFetch((url) => (url.includes("by-slug") ? { body: { path, userProgress: null } } : { body: {} }));
+    render(<ParcoursDetail slug="confiance" />);
+    await screen.findByRole("button", { name: /^Étape 3 : Module 3/ });
+    expect(screen.queryAllByText("Fait partie de Premium")).toHaveLength(0); // concision v5 : badge retiré
   });
 });

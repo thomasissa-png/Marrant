@@ -3,13 +3,19 @@
  * quiz d'humour, /abonnement, confidentialité). Cas visiteur systématique.
  */
 import { act, render, screen, waitFor } from "@testing-library/react";
+import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import { ReprendreParcours } from "@/components/home/reprendre-parcours";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-toggle";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
+import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
+import { apostropheSouple, lie, sansGluon } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn() }));
 jest.mock("@/hooks/use-content-stats", () => ({ useContentStats: () => ({ jokes: 600, tips: 400, videos: 80 }) }));
@@ -45,16 +51,16 @@ describe("Reprendre ton parcours", () => {
     expect(container).toBeEmptyDOMElement();
     expect(fetchMock).not.toHaveBeenCalled();
   });
-  it("abonné, parcours de 6 étapes en cours : bouton vers l'étape 3", async () => {
+  it("abonné, parcours de 6 étapes en cours : bouton vers l’étape 3", async () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/progress": progress });
     render(<ReprendreParcours src="profil" />);
-    const link = await screen.findByRole("link", { name: "Reprendre l'étape 3" });
+    const link = await screen.findByRole("link", { name: "Reprendre l’étape 3" });
     expect(link).toHaveAttribute("href", "/parcours/confiance?src=profil#etape-3");
     // Étalon 3.4 A, même format que la liste /parcours (lot E).
     expect(screen.getByText("Parcours Confiance, étape 3 sur 6 : Ton personnage")).toBeInTheDocument();
   });
-  it("titre d'étape absent : ligne sans deux-points final", async () => {
+  it("titre d’étape absent : ligne sans deux-points final", async () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/progress": { parcours: [{ ...progress.parcours[0], nextStepTitle: null }] } });
     render(<ReprendreParcours src="accueil" />);
@@ -69,20 +75,35 @@ describe("Reprendre ton parcours", () => {
   });
 });
 
-describe("CTA d'article", () => {
-  it("visiteur : le lien « étape 1 » ouvre l'étape 1 du parcours de l'article", () => {
+describe("CTA d’article", () => {
+  it("visiteur : le lien « étape 1 » ouvre l’étape 1 du parcours de l’article", () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
     const { container } = render(<ArticleCta parcours="machine-a-cafe" src="blog-x" />);
     expect(container.querySelector('a[data-blog-cta="etape-1"]')).toHaveAttribute("href", "/parcours/machine-a-cafe?src=blog#etape-1");
   });
-  it("abonné avec parcours en cours : « Continuer mon parcours » mène à l'étape à reprendre", async () => {
+  it("abonné avec parcours en cours : « Continuer mon parcours » mène à l’étape à reprendre", async () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/progress": progress });
     const { container } = render(<ArticleCta parcours="repartie" src="blog-x" />);
     await waitFor(() =>
       expect(container.querySelector('a[data-blog-cta="parcours"]')).toHaveAttribute("href", "/parcours/confiance?src=blog#etape-3"),
     );
+  });
+  it("QA v2 m-d : la phrase du visiteur (v2 F02) n’est pas montrée à l’abonné (titre et bouton gardés)", async () => {
+    const texte = "Premium ouvre le catalogue, les parcours et leurs exercices.";
+    useSession.mockReturnValue(visiteur);
+    mockFetch({});
+    const { unmount } = render(<ArticleCta parcours="repartie" src="blog-x" title="Titre" />);
+    expect(screen.getByText(texte)).toBeInTheDocument();
+    unmount();
+    useSession.mockReturnValue(premium);
+    mockFetch({ "/api/user/progress": progress });
+    const { container } = render(<ArticleCta parcours="repartie" src="blog-x" title="Titre" />);
+    await waitFor(() => expect(container.querySelector('a[data-blog-cta="parcours"]')).not.toBeNull());
+    expect(screen.queryByText(texte)).toBeNull();
+    expect(screen.queryByText(/remboursable/)).toBeNull();
+    expect(screen.getByText("Titre")).toBeInTheDocument();
   });
 });
 
@@ -106,16 +127,16 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: 3, eligible: true } });
     render(<RappelParcoursToggle />);
     const box = await screen.findByRole("switch", {
-      name: "Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l'arrêter à tout moment.",
+      name: lie("Reçois chaque semaine un e-mail pour reprendre ton parcours. Tu peux l’arrêter à tout moment."),
     });
     expect(box).not.toBeChecked();
     expect(screen.getByLabelText("Jour du rappel")).toBeDisabled();
     await userEvent.click(box);
     const post = fetchMock.mock.calls.find((c) => ((c as unknown[])[1] as RequestInit | undefined)?.method === "POST") as unknown as [string, RequestInit];
     expect(JSON.parse(post[1].body as string)).toEqual({ enabled: true, weekday: 3 });
-    expect(await screen.findByText("C'est noté.")).toBeInTheDocument();
+    expect(await screen.findByText("C’est noté.")).toBeInTheDocument();
   });
-  it("aucun jour présélectionné (étalon 3.7) ; case cochée sans jour : rien n'est envoyé, le choix du jour active", async () => {
+  it("aucun jour présélectionné (étalon 3.7) ; case cochée sans jour : rien n’est envoyé, le choix du jour active", async () => {
     useSession.mockReturnValue(premium);
     const fetchMock = mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: null, eligible: true } });
     render(<RappelParcoursToggle />);
@@ -128,7 +149,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     await userEvent.click(box);
     expect(posts()).toHaveLength(0);
     expect(box).not.toBeChecked();
-    expect(screen.getByText("Choisis d'abord le jour du rappel, il s'activera aussitôt.")).toBeInTheDocument();
+    expect(screen.getByText("Choisis d’abord le jour du rappel, il s’activera aussitôt.")).toBeInTheDocument();
     expect(select).toBeEnabled();
     expect(select).toHaveFocus();
     await userEvent.selectOptions(select, "5");
@@ -142,7 +163,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     expect((screen.getByLabelText("Jour du rappel") as HTMLSelectElement).value).toBe("4");
     expect(screen.queryByRole("option", { name: "Choisis un jour" })).not.toBeInTheDocument();
   });
-  it("s17 tour 1 (UXV-1-02, DES-1-08) : vrai interrupteur, ancre #rappel-parcours, focus à l'arrivée", async () => {
+  it("s17 tour 1 (UXV-1-02, DES-1-08) : vrai interrupteur, ancre #rappel-parcours, focus à l’arrivée", async () => {
     useSession.mockReturnValue(premium);
     mockFetch({ "/api/user/rappel-parcours": { enabled: false, weekday: 2, eligible: true } });
     window.history.replaceState(null, "", "/profil#rappel-parcours");
@@ -152,7 +173,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     await waitFor(() => expect(box).toHaveFocus());
     window.history.replaceState(null, "", "/");
   });
-  it("s17 tour 3 : bascule au clavier, focus gardé sur l'interrupteur et une seule requête par bascule", async () => {
+  it("s17 tour 3 : bascule au clavier, focus gardé sur l’interrupteur et une seule requête par bascule", async () => {
     useSession.mockReturnValue(premium);
     let terminer: () => void = () => undefined;
     const fetchMock = jest.fn((url: string, init?: RequestInit) => {
@@ -184,7 +205,7 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
     expect(box).toBeChecked();
 
     await act(async () => terminer());
-    expect(await screen.findByText("C'est noté.")).toBeInTheDocument();
+    expect(await screen.findByText("C’est noté.")).toBeInTheDocument();
     expect(box).not.toHaveAttribute("aria-disabled");
     expect(box).toHaveFocus();
 
@@ -197,22 +218,25 @@ describe("Rappel e-mail de parcours (profil, legal C1)", () => {
   });
 });
 
-describe("Quiz d'humour et /abonnement", () => {
+describe("Quiz d’humour et /abonnement", () => {
   it("résultat : parcours conseillé, lien vers son étape 1 (src=quiz)", () => {
     useSession.mockReturnValue(visiteur);
     window.localStorage.setItem("humor-quiz-viral", JSON.stringify({ profile: "TAQUIN", completedAt: "2026-10-07" }));
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText("Parcours Répartie")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Lire la première étape gratuite" })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
+    // s21 B12 : libellé qui nomme le parcours (config/textes/cta-pages.ts).
+    expect(screen.getByRole("link", { name: QUIZ_HUMOUR_CTA.bouton("repartie") })).toHaveAttribute("href", "/parcours/repartie?src=quiz#etape-1");
     window.localStorage.clear();
   });
-  it("/abonnement visiteur : un lien vers l'étape 1 de chacun des 3 parcours", () => {
+  it("/abonnement visiteur (concision v5) : un seul lien d’étape 1, Répartie sans parcours d’origine", async () => {
     useSession.mockReturnValue(visiteur);
     mockFetch({});
-    render(<AbonnementPage />);
-    for (const [slug, nom] of [["machine-a-cafe", "Machine à Café"], ["repartie", "Répartie"], ["confiance", "Confiance"]]) {
-      expect(screen.getByRole("link", { name: `Étape 1 du parcours ${nom}` })).toHaveAttribute("href", `/parcours/${slug}?src=abonnement#etape-1`);
-    }
+    render(await AbonnementPage({}));
+    expect(screen.getByRole("link", { name: apostropheSouple(/^Tester l'étape\s1\sde Répartie, gratuite$/) })).toHaveAttribute(
+      "href",
+      "/parcours/repartie?src=abonnement#etape-1",
+    );
+    expect(screen.queryByRole("link", { name: /Étape 1 du parcours/ })).toBeNull();
   });
 });
 
@@ -222,15 +246,15 @@ describe("Confidentialité (legal s17 §4)", () => {
     const text = container.textContent ?? "";
     for (const extrait of [
       "étapes de parcours validées avec la date de chaque validation",
-      "Rappel de parcours, si tu l'actives : le jour de la semaine que tu as choisi",
+      "Rappel de parcours, si tu l’actives : le jour de la semaine que tu as choisi",
       "calculer ta série et ta prochaine étape conseillée",
       "où les membres avancent ou bloquent dans les parcours",
-      "uniquement si tu l'as demandé : ton consentement",
-      "l'ouverture d'une étape de parcours ou le score d'un quiz",
-      "Ton rappel de parcours s'arrête dès que tu le désactives",
+      "uniquement si tu l’as demandé : ton consentement",
+      "l’ouverture d’une étape de parcours ou le score d’un quiz",
+      "Ton rappel de parcours s’arrête dès que tu le désactives",
       "avec le lien au bas de chaque e-mail : ce que tu as reçu avant reste valable.",
     ]) {
-      expect(text).toContain(extrait);
+      expect(sansGluon(text)).toContain(extrait);
     }
     expect(text).not.toContain("25 mois");
   });

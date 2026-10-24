@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { LIEN_L2 } from "@/components/ui/liens";
 import { frenchQuizQuotes } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypoParcours } from "@/lib/fr-typo";
@@ -22,8 +23,8 @@ import type { QuizQuestion } from "@/components/parcours/parcours-types";
  * par une zone vocale toujours présente ; le focus passe sur « Question
  * suivante ». Fin de quiz : « Tu peux valider » seulement pour un abonné (D1).
  * s17 tour 1 (UXV-1-04, DES-1-05) : le visiteur n'a plus de « Continuer » qui
- * fait disparaître le quiz ; le quiz est compté à la fin, un bouton discret
- * « Refaire le quiz » le relance. Un seul bouton plein à l'écran (l'offre).
+ * fait disparaître le quiz ; le quiz est compté à la fin, un lien texte
+ * « Refaire le quiz » le relance (s21 concision). Un seul bouton plein à l'écran (l'offre).
  */
 export function StepQuiz({
   quiz,
@@ -78,14 +79,13 @@ export function StepQuiz({
     return (
       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4 text-center" role="status">
         <p className="font-display text-lg font-bold">{quizFinVisiteur(score, quiz.length)}</p>
-        {/* s17 tour 2 (DES-2-02) : contour lisible (≈ 5,9:1), survol visible. */}
-        <Button
-          variant="outline"
-          className="mt-3 min-h-[44px] w-full border-text-muted hover:border-text-primary sm:w-auto"
-          onClick={restart}
-        >
-          {QUIZ_FIN_BOUTON.visiteur}
-        </Button>
+        {/* s21 concision (18/10) : « Refaire le quiz » devient un lien texte (L2) ; le seul plein
+            de la fin d'étape 1 reste celui de Premium. Action sur place : un <button> stylé en lien. */}
+        <div className="mt-2">
+          <button type="button" className={LIEN_L2} onClick={restart} data-quiz-refaire>
+            {QUIZ_FIN_BOUTON.visiteur}
+          </button>
+        </div>
       </div>
     );
   }
@@ -99,8 +99,8 @@ export function StepQuiz({
         </p>
         <p className="mt-1 text-sm text-text-secondary">
           {allCorrect
-            ? "Tu as tout compris. Tu peux valider l'étape."
-            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c'est ta prochaine conversation. Tu peux valider l'étape."}
+            ? "Tu as tout compris. Tu peux valider l’étape."
+            : "Pas de souci, ce quiz ne compte pas : la vraie épreuve, c’est ta prochaine conversation. Tu peux valider l’étape."}
         </p>
         <Button
           variant="outline"

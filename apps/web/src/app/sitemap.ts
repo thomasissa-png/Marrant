@@ -10,12 +10,14 @@ import { blogIndexLastMod, capLastModToToday, startOfTomorrowUtc, type BlogDateC
 
 export const revalidate = 3600;
 
-/** Refonte copy + metadata s11 des pages éditoriales (home, catalogues, parcours, ressources). */
-const STRUCTURAL_PAGES_LASTMOD = "2026-09-29";
+/** Pages éditoriales (home, catalogues, ressources) : textes s21 (abonnement, glossaire, à propos, quiz). */
+const STRUCTURAL_PAGES_LASTMOD = "2026-10-18";
 /** Dernière modification du texte des pages légales. */
 const LEGAL_PAGES_LASTMOD = "2026-05-06";
-/** Politique de confidentialité : phrases P1 à P8 de l'avis @legal s17 (parcours). */
-const CONFIDENTIALITE_LASTMOD = "2026-10-07";
+/** Politique de confidentialité : section 8 « La lettre » (s21). */
+const CONFIDENTIALITE_LASTMOD = "2026-10-17";
+/** CGU : version du 17/10/2026 (s21), date affichée sur la page. */
+const CGU_LASTMOD = "2026-10-17";
 /** Mise en ligne des pages thème /vannes/theme/<slug> (lot S3b s14). */
 const THEME_PAGES_LASTMOD = "2026-09-30";
 
@@ -68,7 +70,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/glossaire`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/a-propos`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.5 },
     { url: `${baseUrl}/mentions-legales`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
-    { url: `${baseUrl}/cgu`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
+    { url: `${baseUrl}/cgu`, lastModified: new Date(CGU_LASTMOD), changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/confidentialite`, lastModified: new Date(CONFIDENTIALITE_LASTMOD), changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/retractation`, lastModified: legalLastMod, changeFrequency: "yearly", priority: 0.1 },
     { url: `${baseUrl}/quiz-humour`, lastModified: lastDeploy, changeFrequency: "monthly", priority: 0.7 },

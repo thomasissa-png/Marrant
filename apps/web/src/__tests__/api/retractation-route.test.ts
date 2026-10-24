@@ -77,7 +77,7 @@ describe("POST /api/retractation", () => {
     expect(client[0]).toBe("client@exemple.fr");
     expect(client[3]).toBe("retractation-accuse");
     expect(client[2]).toContain("R-12345678");
-    expect(client[2]).toContain("L'Équipe Deviens Marrant");
+    expect(client[2]).toContain("L’Équipe Deviens Marrant");
     expect(client[2]).not.toMatch(/—/);
     // Enregistrement AVANT les envois
     expect(prisma.retractationRequest.create.mock.invocationCallOrder[0]).toBeLessThan(trySend.mock.invocationCallOrder[0]);
@@ -158,7 +158,7 @@ describe("POST /api/retractation", () => {
     );
     const [admin, client] = trySend.mock.calls;
     expect(admin[2]).toContain("Date limite de remboursement : 21 octobre 2026");
-    expect(admin[2]).toContain("DÉPASSÉ d'après la première souscription (le 5 janvier 2026)");
+    expect(admin[2]).toContain("DÉPASSÉ d’après la première souscription (le 5 janvier 2026)");
     expect(client[2]).toContain("Si ta demande est faite dans les 14 jours qui suivent ta souscription");
     expect(client[2]).not.toMatch(/^On te rembourse/m);
   });

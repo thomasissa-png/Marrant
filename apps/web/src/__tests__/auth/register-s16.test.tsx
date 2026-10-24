@@ -3,8 +3,10 @@
  * `inscription-echec`, reco 19 liens soulignés, D4 « Premium »).
  */
 import { render, screen, waitFor } from "@testing-library/react";
+import { REGISTER_CTA } from "@/config/textes/cta-pages";
 import userEvent from "@testing-library/user-event";
 import RegisterPage from "@/app/(auth)/register/page";
+import { normalizeParcoursSrc } from "@/lib/parcours-tracking";
 
 const mockPush = jest.fn();
 const mockSignIn = jest.fn();
@@ -18,10 +20,9 @@ const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
 
 async function fillAndSubmit() {
-  await userEvent.type(screen.getByLabelText("Prénom"), "Jean");
   await userEvent.type(screen.getByLabelText("Email"), "jean@test.fr");
   await userEvent.type(screen.getByLabelText("Mot de passe"), "password1234545");
-  await userEvent.click(screen.getByRole("button", { name: "Créer mon compte" }));
+  await userEvent.click(screen.getByRole("button", { name: REGISTER_CTA.bouton }));
 }
 
 describe("RegisterPage, audit s16", () => {
@@ -31,19 +32,34 @@ describe("RegisterPage, audit s16", () => {
     global.fetch = jest.fn();
   });
 
-  it("réassurance TTC / 14 jours / résiliable en ligne et acceptation des CGU avec lien", () => {
+  it("réassurance premier paiement (s21) et acceptation des CGU avec lien", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("2,99 € TTC par mois, remboursé sous 14 jours, résiliable en ligne quand tu veux.")).toBeInTheDocument();
+    expect(screen.getByTestId("register-reassurance")).toHaveTextContent(
+      /^Premium : premier paiement remboursable sous 14 jours\. Résiliable depuis ton profil\.$/,
+    );
     const cgu = screen.getByRole("link", { name: "CGU" });
     expect(cgu).toHaveAttribute("href", "/cgu");
     expect(cgu.closest("p")).toHaveTextContent("En créant ton compte, tu acceptes les CGU.");
   });
 
-  it("rappel de formule avec le nom Premium (D4), étalon 2.1 sinon inchangé", () => {
+  it("revue v3 m2 : une seule mention CGU, juste sous Google, avant le formulaire e-mail", () => {
     render(<RegisterPage />);
-    expect(screen.getByText("Premium, 2,99 €/mois, annulable à tout moment.")).toBeInTheDocument();
-    expect(screen.getByText("Étape 1 sur 2")).toBeInTheDocument();
-    expect(screen.getByText("Étape 2 : le paiement sécurisé, juste après.")).toBeInTheDocument();
+    const mention = screen.getByTestId("register-cgu");
+    expect(screen.getAllByText(/En créant ton compte, tu acceptes les/)).toHaveLength(1);
+    const google = screen.getByRole("button", { name: /Continuer avec Google/ });
+    const suit = (a: Node, b: Node) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(google.nextElementSibling).toBe(mention);
+    expect(suit(mention, screen.getByLabelText("Email"))).toBe(true);
+    expect(suit(mention, screen.getByRole("button", { name: REGISTER_CTA.bouton }))).toBe(true);
+  });
+
+  it("revue v3 m3 : `register-etape1`, source connue de parcours-ouvert", () => {
+    expect(normalizeParcoursSrc("register-etape1")).toBe("register-etape1");
+  });
+
+  it("rappel de formule avec le nom Premium (D4) et le prix (textes-trajet-v2 G02)", () => {
+    render(<RegisterPage />);
+    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 2,99 €/mois.");
   });
 
   it("liens dans le texte soulignés en permanence (axe link-in-text-block)", () => {

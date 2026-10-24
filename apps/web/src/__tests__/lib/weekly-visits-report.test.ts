@@ -101,7 +101,8 @@ describe("client Umami", () => {
     expect(stats).toEqual({ pageviews: 400, visitors: 121, visits: 150, bounces: 60, totaltime: 15000 });
     const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toBe(
-      `https://api.umami.is/v1/websites/${TEST_WEBSITE_ID}/stats?startAt=${WEEK_START_2809}&endAt=${WEEK_START_2809 + 1000}`,
+      // s21 : filtre d'hôte (deviens-marrant.fr seulement) sur chaque appel.
+      `https://api.umami.is/v1/websites/${TEST_WEBSITE_ID}/stats?hostname=deviens-marrant.fr&startAt=${WEEK_START_2809}&endAt=${WEEK_START_2809 + 1000}`,
     );
     expect(url).not.toContain(TEST_UMAMI_KEY);
     expect((init.headers as Record<string, string>)["x-umami-api-key"]).toBe(TEST_UMAMI_KEY);

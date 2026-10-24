@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import { contenuAffiche } from "@/lib/tip-prose";
+import { NBSP } from "@/lib/fr-typo";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { getContentStatsCached } from "@/lib/content-stats-server";
@@ -13,10 +14,11 @@ import {
   buildBreadcrumbJsonLd,
 } from "@/components/seo/json-ld";
 import { VanneShareRow } from "@/components/vannes/vanne-share-row";
-import { HowToApplyGate } from "@/components/vannes/how-to-apply-gate";
-import { buttonVariants } from "@/components/ui/button";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForJoke } from "@/lib/entrees-parcours-fiches";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // Stratégie de rendu : ISR — revalidation quotidienne des pages individuelles.
 // Pas de build DB requise (generateStaticParams vide + fallback dynamic).
@@ -102,7 +104,7 @@ export async function generateMetadata({
   const descSuffix =
     otherJokes > 1
       ? ` La chute est sur la page, avec ${otherJokes} autres vannes par situation.`
-      : " La chute est sur la page, avec d'autres vannes par situation.";
+      : " La chute est sur la page, avec d’autres vannes par situation.";
   const descPrefix = `Vanne ${label.toLowerCase()} à ressortir : `;
   const description = `${descPrefix}${truncateAtWord(setup, 160 - descPrefix.length - descSuffix.length)}${descSuffix}`;
 
@@ -142,7 +144,7 @@ export default async function VannePage({
 
   // "Pourquoi ça marche" public (valeur SEO) ; "À toi de jouer" fait partie de
   // Premium (abonnés, s15 §1.1) : géré côté client par
-  // <HowToApplyGate> pour garder la page en ISR (pas de lecture de cookies ici).
+  // <BlocExercice> (client) pour garder la page en ISR (pas de lecture de cookies ici).
 
   const canonicalSlug = buildJokeSlug(joke);
   // Ancien slug (vanne réécrite) : 308 vers l'URL canonique (lot S3d s14).
@@ -180,6 +182,8 @@ export default async function VannePage({
     },
   };
 
+  const parcoursRefs = findParcoursForJoke(joke.content);
+
   return (
     <>
       <JsonLd
@@ -191,7 +195,7 @@ export default async function VannePage({
       />
       <JsonLd data={creativeWorkJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-2xl text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/vannes" className="hover:text-text-primary max-md:py-3.5">Vannes</Link>
@@ -199,16 +203,18 @@ export default async function VannePage({
         <span className="text-text-secondary">{categoryLabel}</span>
       </nav>
 
-      <article className="mx-auto max-w-2xl">
+      <article className="mx-auto max-w-3xl">
         <div className="mb-2 text-xs uppercase tracking-wider text-accent-link">
           {categoryLabel}
         </div>
-        <h1 className="font-display text-2xl font-bold md:text-3xl">
-          {joke.content}
+        {/* Revue visuelle s21, tour 4 (T3-05) : titre sur toute la colonne (aucune borne), lignes équilibrées,
+            et un mot d'une lettre (« chacun a cotisé ») lié au mot suivant par une insécable. */}
+        <h1 className="font-display text-2xl font-bold [text-wrap:balance] md:text-3xl">
+          {contenuAffiche(joke.content).replace(/(^|\s)(\p{L}) /gu, `$1$2${NBSP}`)}
         </h1>
-        <div className="mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
+        <div className={`mt-6 rounded-xl border border-accent-primary/30 bg-accent-primary/10 ${MARGE_ENCADRE}`}>
           <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">La chute</div>
-          <p className="text-lg font-semibold text-text-primary">{joke.punchline}</p>
+          <p className="text-lg font-semibold text-text-primary">{contenuAffiche(joke.punchline)}</p>
         </div>
 
         <VanneShareRow
@@ -226,75 +232,65 @@ export default async function VannePage({
         {joke.comedyTechnique && (
           <section
             aria-labelledby="pourquoi-ca-marche"
-            className="mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 p-5"
+            className={`mt-10 rounded-xl border border-accent-primary/20 bg-accent-primary/5 ${MARGE_ENCADRE}`}
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+              Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
             </p>
             <h2 id="pourquoi-ca-marche" className="sr-only">
-              Pourquoi ça marche : {joke.comedyTechnique}
+              Pourquoi ça marche : {contenuAffiche(joke.comedyTechnique)}
             </h2>
             {joke.techniqueExplanation && (
               <p className="mt-2 text-sm text-text-secondary">
-                {joke.techniqueExplanation}
+                {/* Revue visuelle s21 (décision 4) : apostrophes, guillemets et tirets au rendu, donnée intacte. */}
+                {contenuAffiche(joke.techniqueExplanation)}
               </p>
             )}
-            {joke.howToApply ? <HowToApplyGate howToApply={joke.howToApply} /> : null}
             <p className="mt-3 text-xs text-text-muted">
               Envie de comprendre la mécanique en profondeur ?{" "}
               <Link
                 href="/anatomie-vanne"
                 className="font-medium text-accent-link underline underline-offset-2"
               >
-                L&apos;anatomie d&apos;une vanne
+                L’anatomie d’une vanne
               </Link>
             </p>
           </section>
         )}
 
-        {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="vanne" refs={findParcoursForJoke(joke.content)} />
-
-        {/* Passerelle parcours — même approche que sur le catalogue, sans
-            re-monter un mur : c'est une invitation, pas un blocage. */}
-        <section className="mt-6 rounded-xl border border-border bg-background-card p-5">
+        {/* Comment la ressortir : le texte reste, en prose, sans bouton (s21 B8). */}
+        <section className={`mt-6 rounded-xl border border-border bg-background-card ${MARGE_ENCADRE}`}>
           <h2 className="font-display text-lg font-bold">Comment la ressortir</h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Le meilleur moment ? Quand personne ne s&apos;y attend. Retiens la structure
-            (setup court + chute qui décale) et applique-la à ta propre situation.
-            Les variantes et le parcours complet sont dans les{" "}
-            <Link href="/parcours" className="text-accent-link underline underline-offset-2">
-              parcours Premium
-            </Link>
-            .
+            Le meilleur moment ? Quand personne ne s’y attend. Retiens la structure
+            (setup court + chute qui décale) et applique-⁠la à ta propre situation.
           </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href={buildAbonnementUrl(`/vannes/${canonicalSlug}`, "monthly", "fiche-vanne")}
-              className={buttonVariants({ variant: "primary" })}
-            >
-              Voir Premium
-            </Link>
-            <Link
-              href="/vannes"
-              className={buttonVariants({ variant: "outline" })}
-            >
-              Voir toutes les vannes
-            </Link>
-          </div>
         </section>
+
+        {/* s21 B8 : un plein Premium, un contour étape 1, le reste en lien. Seulement si l'exercice existe. */}
+        {joke.howToApply ? (
+          <BlocExercice
+            type="vanne"
+            returnTo={`/vannes/${canonicalSlug}`}
+            parcours={parcoursPourFiche(parcoursRefs, joke.category)}
+            exercice={joke.howToApply}
+          />
+        ) : null}
+
+        {/* Étape de parcours qui utilise cette vanne (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="vanne" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vannes liées" className="mt-12 border-t border-border pt-8">
             <h2 className="font-display mb-4 text-xl font-bold">Dans la même catégorie</h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:auto-rows-fr sm:grid-cols-2">
               {related.slice(0, 4).map((r) => (
                 <li key={r.id}>
                   <Link
                     href={`/vannes/${buildJokeSlug(r)}`}
-                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="flex h-full flex-col justify-center rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
-                    <p className="text-sm text-text-primary line-clamp-2">{r.content}</p>
+                    <p className="text-sm text-text-primary line-clamp-2">{contenuAffiche(r.content)}</p>
                   </Link>
                 </li>
               ))}
@@ -303,7 +299,7 @@ export default async function VannePage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="text-accent-link underline underline-offset-2">
+          <Link href={`/vannes?category=${encodeURIComponent(joke.category)}`} className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
             &larr; Toutes les vannes {categoryLabel.toLowerCase()}
           </Link>
         </nav>

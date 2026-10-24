@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { FREE_TIP_LIMIT } from "@/config/premium";
+import { OFFRE_NOM } from "@/config/textes/offre";
+import { sansExerciceConseil } from "@/lib/champs-premium";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -87,7 +89,8 @@ export async function GET(request: NextRequest) {
       : [];
 
     return NextResponse.json({
-      tips,
+      // Exercice réservé à Premium (arbitrage 5 du tour 2) : vidé pour tout autre compte.
+      tips: isPremium ? tips : tips.map(sansExerciceConseil),
       pagination: {
         page: query.page,
         limit: query.limit,
@@ -96,7 +99,7 @@ export async function GET(request: NextRequest) {
       },
       limited: !isPremium,
       totalReal: total,
-      ...((!isPremium && total > FREE_TIP_LIMIT) ? { upgradeMessage: `${total - FREE_TIP_LIMIT} conseils supplémentaires avec l'abonnement` } : {}),
+      ...((!isPremium && total > FREE_TIP_LIMIT) ? { upgradeMessage: `${total - FREE_TIP_LIMIT} conseils supplémentaires avec ${OFFRE_NOM}` } : {}),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

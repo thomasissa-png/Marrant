@@ -1,52 +1,106 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { useSession } from "next-auth/react";
+import { buttonVariants } from "@/components/ui/button";
 import { SearchBar } from "@/components/ui/search-bar";
-import { buildLoginUrl, buildRegisterUrl } from "@/lib/auth-links";
+import dynamic from "next/dynamic";
+import { IconeProfil, IconeRecherche } from "@/components/layout/header-icons";
+import { MobileNav, isActivePath, type NavItem } from "@/components/layout/mobile-nav";
+import { buildLoginUrl } from "@/lib/auth-links";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { cn } from "@/lib/utils";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
+import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
+import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { EN_TETE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 
-/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Blog » actif). */
-function isActivePath(pathname: string | null, href: string): boolean {
-  if (!pathname) return false;
-  return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
-}
+/**
+ * s21 (QA m3, budget JS) : menu de compte (Radix, ~25 Ko compressés) chargé seulement pour un
+ * compte connecté, jamais pour un visiteur. Repère de même taille pendant le chargement (pas de saut).
+ */
+const AccountMenu = dynamic(() => import("@/components/layout/account-menu").then((m) => m.AccountMenu), {
+  ssr: false,
+  loading: () => (
+    <span aria-hidden="true" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-11 shrink-0 px-0")}>
+      <IconeProfil />
+    </span>
+  ),
+});
 
-const navItems = [
+/**
+ * Budget de la barre ordinateur (revue design s21, en-tête). Largeur utile : 992 px à
+ * 1024, 1216 px dès 1280 (max-w-7xl et marges de 32 px dès 1280, revue visuelle s21 R26 :
+ * mêmes marges que le contenu et le pied ; identique à 1440, 1536 et 1920). Tout est
+ * `shrink-0` : rien ne s'écrase en silence.
+ *  - logo ~188 ; 7 onglets (6 + « La lettre » ou « Carnet ») ~480 à 1024 (px-1.5 depuis s21 :
+ *    « Articles » est plus long que « Blog », mesuré à 1024 par header-budget), ~478 dès
+ *    1280 (px-2 depuis la revue v3 m4, pour le libellé complet du bouton prix) ;
+ *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
+ *    champ de 176 px (`w-44`) dès 1280 ;
+ *  - actions : visiteur « Connexion » + « 2,99 €/mois » de 1024 à 1279, « Premium · 2,99 €/mois »
+ *    dès 1280 (s21, vers /abonnement) ; compte sans abonnement : le même bouton (QA v4 m-3)
+ *    + menu de compte 44 px (« Favoris », « Mon profil », « Déconnexion » regroupés,
+ *    `account-menu.tsx`) ; abonné : menu de compte seul.
+ * Garde-fou : `playwright/tests/local/header-budget.spec.ts` (6 largeurs x 3 états,
+ * aucun débordement, aucun libellé coupé, recherche >= 160 px). Un onglet ou un
+ * bouton de plus doit d'abord trouver sa place dans ce budget, sinon aller dans le
+ * menu de compte ou le menu déroulant.
+ */
+
+const navItems: NavItem[] = [
   { href: "/", label: "Accueil" },
   { href: "/vannes", label: "Vannes" },
   { href: "/conseils", label: "Conseils" },
   { href: "/videos", label: "Vidéos" },
   { href: "/parcours", label: "Parcours" },
-  { href: "/blog", label: "Blog" },
+  { href: "/blog", label: LIBELLE_SECTION_ARTICLES },
 ];
 
 /** Abonnés Premium : le carnet mensuel juste après les parcours. */
-const premiumNavItems = [
+const premiumNavItems: NavItem[] = [
   ...navItems.slice(0, 5),
   { href: "/carnet", label: "Carnet" },
   ...navItems.slice(5),
 ];
 
+/**
+ * s21 : la lettre gratuite, dernier onglet après « Articles » (interrupteur des
+ * inscriptions ouvert, visiteurs non Premium comme le formulaire de la lettre),
+ * onglet comme les autres à toutes les largeurs (budget ci-dessus).
+ */
+const lettreNavItem: NavItem = { href: "/lettre", label: TEXTES_LETTRE.menu };
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const boutonMenu = useRef<HTMLButtonElement>(null);
   const pathname = usePathname();
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const isPremium = (session?.user as { plan?: string } | undefined)?.plan === "PREMIUM";
-  const items = isPremium ? premiumNavItems : navItems;
+  const items = isPremium ? premiumNavItems : LETTRE_INSCRIPTIONS_OUVERTES ? [...navItems, lettreNavItem] : navItems;
 
   // T47 : à l'ouverture de la recherche mobile, le champ reçoit le focus (1 tap au lieu de 2)
   useEffect(() => {
     if (!isMobileSearchOpen) return;
     document.querySelector<HTMLInputElement>("#mobile-search input")?.focus();
   }, [isMobileSearchOpen]);
+
+  // QA s21 tour 2 n1 : Échap ferme le menu mobile et rend le focus au bouton « Menu ».
+  // Une touche déjà traitée (suggestions de la recherche du menu) ne ferme rien.
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const surTouche = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || e.defaultPrevented) return;
+      setIsMenuOpen(false);
+      boutonMenu.current?.focus();
+    };
+    document.addEventListener("keydown", surTouche);
+    return () => document.removeEventListener("keydown", surTouche);
+  }, [isMenuOpen]);
 
   // Close mobile search/menu on route change
   useEffect(() => {
@@ -55,22 +109,33 @@ export function Header() {
   }, [pathname]);
 
   // Liens réels (présents dans le HTML serveur) : retour sur la page courante après coup.
-  const registerHref = buildRegisterUrl({ callbackUrl: pathname, src: "header" });
+  // s21 (B6) : le bouton visiteur mène à /abonnement?src=header (prix, carnet, garantie
+  // avant le formulaire), plus à /register.
+  // textes-trajet-v3 §5 point 3 : après le paiement, retour sur la page d'où l'on vient (pas /parcours).
+  // Accueil : pas de retour (même règle que la carte d'achat de l'accueil, retour /parcours).
+  const prixHref = buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "header");
   const loginHref = buildLoginUrl({ callbackUrl: pathname });
-  // Compte connecté sans abonnement (s15 §2.4) : un accès direct au paiement.
-  const activateHref = buildAbonnementUrl(pathname, "monthly", "header");
+  // s21 (B6, spec §1.3 a) : bouton plein masqué sur /abonnement et /register (même
+  // destination ou boucle : un seul plein par page chaude).
+  const pageChaude = isActivePath(pathname, "/abonnement") || isActivePath(pathname, "/register");
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
 
   return (
     <>
+      {/* Revue visuelle s21 (R22) : voile sous le menu mobile ouvert (la page ne reste plus lumineuse dessous) ;
+          un toucher dessus ferme le menu. L'en-tête (z-50) et son panneau restent au-dessus. */}
+      {isMenuOpen && (
+        <div aria-hidden="true" className="fixed inset-0 z-40 bg-black/60 lg:hidden" onClick={() => setIsMenuOpen(false)} />
+      )}
       {/* s17 tour 1 (DES-1-17) : fond plus opaque, le texte de la page ne transparaît plus. */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:gap-4">
-          {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px
-              pour loger « Commencer » à côté du menu dès 360 px) */}
-          <Link href="/" className="flex shrink-0 items-center gap-2">
-            <span className="whitespace-nowrap font-display text-base font-bold text-gradient min-[400px]:text-lg sm:text-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8">
+          {/* Logo (s16 : un cran plus petit sous 640 px ; s20 : encore un cran sous 400 px ;
+              concision v5 : encore un cran sous 360 px, avec des marges de 12 px, pour que le
+              bouton prix tienne à côté du menu dès 320 px) */}
+          <Link href="/" className="flex min-h-11 shrink-0 items-center gap-2">
+            <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
               deviens-marrant.fr
             </span>
           </Link>
@@ -82,7 +147,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "rounded-lg px-2 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-3",
+                  "rounded-lg px-1.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary xl:px-2",
                   isActivePath(pathname, item.href)
                     ? "bg-background-elevated text-accent-link"
                     : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
@@ -93,55 +158,45 @@ export function Header() {
             ))}
           </nav>
 
-          <SearchBar className="hidden w-36 lg:block xl:w-48 2xl:w-64" onNavigate={closeMobileSearch} />
+          {/* Recherche : champ dès 1280 px ; de 1024 à 1279, une loupe qui ouvre le panneau
+              de recherche (même geste qu'au téléphone). */}
+          <SearchBar className="hidden w-44 shrink-0 xl:block" onNavigate={closeMobileSearch} />
+          <button
+            type="button"
+            className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary lg:flex xl:hidden"
+            onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
+            aria-label="Rechercher"
+            aria-expanded={isMobileSearchOpen}
+            aria-controls="mobile-search"
+          >
+            <IconeRecherche />
+          </button>
 
           {/* Actions desktop */}
           <div className="hidden shrink-0 items-center gap-1 lg:flex xl:gap-3">
-            {isAuthenticated ? (
-              <>
-                {!isPremium && (
-                  <Link href={activateHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
-                    Activer mon accès
-                  </Link>
-                )}
-                <Link
-                  href="/favoris"
-                  aria-label="Favoris"
-                  title="Favoris"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-                >
-                  <svg className="h-5 w-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                  </svg>
-                </Link>
-                <Link
-                  href="/profil"
-                  aria-label="Mon profil"
-                  title="Mon profil"
-                  className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-                >
-                  <svg className="h-5 w-5" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </Link>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                >
-                  Déconnexion
-                </Button>
-              </>
-            ) : (
-              <>
-                <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
-                  Connexion
-                </Link>
-                <Link href={registerHref} className={cn(buttonVariants({ variant: "primary", size: "sm" }))}>
-                  Commencer
-                </Link>
-              </>
+            {!isAuthenticated && (
+              <Link href={loginHref} className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}>
+                Connexion
+              </Link>
             )}
+            {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
+                (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
+                Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
+                29 manquants) et libellé complet. QA v4 m-3 : même bouton pour le compte sans
+                abonnement (plus de « Activer mon accès »), suivi du menu de compte (44 px,
+                plus étroit que « Connexion »). */}
+            {!isPremium && !pageChaude && (
+              <Link
+                href={prixHref}
+                aria-label={EN_TETE.nomAccessible}
+                className={cn(buttonVariants({ variant: "primary", size: "sm" }), "whitespace-nowrap")}
+              >
+                {/* Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (mesuré). */}
+                <span className="xl:hidden">{EN_TETE.boutonCourt}</span>
+                <span className="hidden xl:inline">{EN_TETE.bouton}</span>
+              </Link>
+            )}
+            {isAuthenticated && <AccountMenu />}
           </div>
 
           {/* Actions mobile */}
@@ -157,34 +212,46 @@ export function Header() {
                 {TEXTES_CONNEXION.lienConnexionMobile}
               </Link>
             )}
-            {/* s20 (audit conversion, lot 1) : « Commencer » visible sur mobile dès 360 px,
-                même lien que sur ordinateur (registerHref, src=header). Cible de 44 px.
-                Sous 360 px, place insuffisante : il reste dans le menu. */}
-            {!isAuthenticated && (
+            {/* s20 (audit conversion, lot 1), s21 (B6) puis concision v5 : bouton prix visible sur
+                mobile à toutes les largeurs (même lien que sur ordinateur, prixHref, src=header),
+                cible de 44 px. « Premium · 2,99 €/mois » dès 640 px, où il tient à côté du logo,
+                de « Connexion », de la loupe et du menu (il lui faut 447 px seul, 590 px avec
+                « Connexion » et la loupe) ; en dessous, repli « Premium » (trajet de conversion s21 ; largeurs
+                mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes.
+                QA v4 m-3 : aussi pour le compte sans abonnement (sans « Connexion », il a plus de place). */}
+            {!isPremium && !pageChaude && (
               <Link
-                href={registerHref}
+                href={prixHref}
+                aria-label={EN_TETE.nomAccessible}
+                data-en-tete-prix
                 className={cn(
                   buttonVariants({ variant: "primary", size: "sm" }),
-                  "hidden h-11 shrink-0 px-3 min-[360px]:inline-flex",
+                  "inline-flex h-11 shrink-0 whitespace-nowrap px-2 text-xs min-[360px]:px-3 min-[360px]:text-sm",
+                  // Revue visuelle s21 (R22) : menu ouvert, un seul bouton prix (celui du panneau) ; la place est gardée.
+                  isMenuOpen && "invisible",
                 )}
               >
-                Commencer
+                {/* Trajet de conversion s21 : repli « Premium » sous 640 px (« Premium · 2,99 € » débordait à 320, 360 et 375 px). */}
+                <span className="sm:hidden">{EN_TETE.boutonCourt}</span>
+                <span className="hidden sm:inline">{EN_TETE.bouton}</span>
               </Link>
             )}
             {/* Bouton recherche mobile (s20 : à partir de 440 px ; en dessous, la recherche
-                est en tête du menu, pour laisser la place à « Commencer »). */}
+                est en tête du menu, pour laisser la place au bouton prix). */}
             <button
+              type="button"
               className="hidden h-11 w-11 min-[440px]:flex items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMobileSearchOpen(!isMobileSearchOpen); setIsMenuOpen(false); }}
               aria-label="Rechercher"
+              aria-expanded={isMobileSearchOpen}
+              aria-controls="mobile-search"
             >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <IconeRecherche />
             </button>
 
             {/* Menu burger mobile */}
             <button
+              ref={boutonMenu}
               className="flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors hover:bg-background-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
               onClick={() => { setIsMenuOpen(!isMenuOpen); setIsMobileSearchOpen(false); }}
               aria-label="Menu"
@@ -208,93 +275,22 @@ export function Header() {
 
         {/* Overlay recherche mobile */}
         {isMobileSearchOpen && (
-          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 lg:hidden animate-slide-up">
+          <div id="mobile-search" className="border-t border-border bg-background px-4 py-3 xl:hidden animate-slide-up">
             <SearchBar className="w-full" onNavigate={closeMobileSearch} />
           </div>
         )}
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <nav
-            className="border-t border-border bg-background px-4 py-4 lg:hidden animate-slide-up"
-            aria-label="Navigation mobile"
-          >
-            <div className="flex flex-col gap-2">
-              {/* s20 : recherche dans le menu sous 440 px (plus d'icône dans la barre). */}
-              <div className="mb-2 min-[440px]:hidden">
-                <SearchBar className="w-full" onNavigate={() => setIsMenuOpen(false)} />
-              </div>
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "rounded-lg px-3 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
-                    isActivePath(pathname, item.href)
-                      ? "bg-background-elevated text-accent-link"
-                      : "text-text-secondary hover:bg-background-elevated hover:text-text-primary"
-                  )}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <hr className="my-2 border-border" />
-              {isAuthenticated ? (
-                <>
-                  {!isPremium && (
-                    <Link
-                      href={activateHref}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
-                    >
-                      Activer mon accès
-                    </Link>
-                  )}
-                  <Link
-                    href="/favoris"
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2")}
-                  >
-                    <svg className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                    </svg>
-                    Favoris
-                  </Link>
-                  <Link
-                    href="/profil"
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2")}
-                  >
-                    <svg className="h-4 w-4" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Mon profil
-                  </Link>
-                  <Button variant="ghost" size="sm" className="w-full" onClick={() => { setIsMenuOpen(false); signOut({ callbackUrl: "/" }); }}>
-                    Déconnexion
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href={registerHref}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
-                  >
-                    Commencer
-                  </Link>
-                  <Link
-                    href={loginHref}
-                    onClick={() => setIsMenuOpen(false)}
-                    className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}
-                  >
-                    Connexion
-                  </Link>
-                </>
-              )}
-            </div>
-          </nav>
+          <MobileNav
+            items={items}
+            pathname={pathname}
+            isAuthenticated={isAuthenticated}
+            isPremium={isPremium}
+            hrefs={{ prix: prixHref, login: loginHref }}
+            masquerPlein={pageChaude}
+            onClose={() => setIsMenuOpen(false)}
+          />
         )}
       </header>
     </>

@@ -16,7 +16,8 @@ interface StreakCounterProps {
 export function StreakCounter({ count, className }: StreakCounterProps) {
   return (
     <div className={cn("flex flex-col items-center gap-2 text-center", className)}>
-      <div className="inline-flex items-center gap-2 rounded-full bg-accent-secondary/10 px-4 py-2">
+      {/* Revue visuelle s21 (R23) : coins de 16 px, la pastille reste propre quand le texte passe sur 2 lignes. */}
+      <div className="inline-flex items-center gap-2 rounded-2xl bg-accent-secondary/10 px-4 py-2">
         <span
           className={cn("text-2xl", count > 0 && "animate-streak-pulse motion-reduce:animate-none")}
           role="img"

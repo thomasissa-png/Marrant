@@ -82,6 +82,13 @@ describe("isSameSiteRequest", () => {
     expect(isSameSiteRequest(req("/x", "POST", { origin: "https://evil.example" }))).toBe(false);
     expect(isSameSiteRequest(req("/x", "POST", { origin: "https://deviens-marrant.fr.evil.example" }))).toBe(false);
     expect(isSameSiteRequest(req("/x", "POST", { origin: "null" }))).toBe(false);
+    expect(isSameSiteRequest(req("/x", "POST", { origin: "null", "sec-fetch-site": "cross-site" }))).toBe(false);
+    expect(isSameSiteRequest(req("/x", "POST", { origin: "null", "sec-fetch-site": "same-site" }))).toBe(false);
+    expect(isSameSiteRequest(req("/x", "POST", { origin: "null", "sec-fetch-site": "none" }))).toBe(false);
+  });
+
+  it("Origin: null d'une page du même site (politique no-referrer, QA s21 B1) : acceptée", () => {
+    expect(isSameSiteRequest(req("/x", "POST", { origin: "null", "sec-fetch-site": "same-origin" }))).toBe(true);
   });
 
   it("sans Origin : refus seulement si Sec-Fetch-Site = cross-site", () => {

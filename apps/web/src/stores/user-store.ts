@@ -25,6 +25,8 @@ interface UserState {
   isLoading: boolean;
   fetchUser: () => Promise<void>;
   addXp: (amount: number, action: string) => Promise<void>;
+  /** Prénom enregistré depuis /profil (s21 concision). */
+  setName: (name: string | null) => void;
   reset: () => void;
 }
 
@@ -64,6 +66,11 @@ export const useUserStore = create<UserState>((set, get) => ({
     } catch {
       // Silencieux en cas d'erreur réseau
     }
+  },
+
+  setName: (name) => {
+    const { user } = get();
+    if (user) set({ user: { ...user, name } });
   },
 
   reset: () => set({ user: null, isLoading: false }),

@@ -1,6 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FavorisList } from "@/components/favoris/favoris-list";
+import { lie } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -98,7 +99,9 @@ describe("FavorisList", () => {
     );
     render(<FavorisList />);
     expect(screen.getByText(/réservés aux membres Premium/)).toBeInTheDocument();
-    expect(screen.getByText(/Découvrir l'offre Premium/)).toBeInTheDocument();
+    // Concision v5 : libellé payant générique unique `OUVRIR`, REASS dessous.
+    expect(screen.getByText("Tout ouvrir · 2,99 €/mois")).toBeInTheDocument();
+    expect(screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.")).toBeInTheDocument();
   });
 
   it("renders tab filters with ARIA", () => {
@@ -114,7 +117,7 @@ describe("FavorisList", () => {
     render(<FavorisList />);
     expect(screen.getByText("Une vanne drôle")).toBeInTheDocument();
     expect(screen.getByText("Un super conseil")).toBeInTheDocument();
-    expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
+    expect(screen.getByText(lie("Vidéo stand-up"))).toBeInTheDocument();
   });
 
   it("shows content type badges", () => {
@@ -142,7 +145,7 @@ describe("FavorisList", () => {
   it("filters by VIDEO tab", async () => {
     render(<FavorisList />);
     await userEvent.click(screen.getByRole("tab", { name: /Vidéos/ }));
-    expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
+    expect(screen.getByText(lie("Vidéo stand-up"))).toBeInTheDocument();
     expect(screen.queryByText("Une vanne drôle")).not.toBeInTheDocument();
   });
 
@@ -207,7 +210,7 @@ describe("FavorisList", () => {
       removeFavorite: mockRemoveFavorite,
     });
     render(<FavorisList />);
-    expect(screen.getByText("Aucun favori pour l'instant")).toBeInTheDocument();
+    expect(screen.getByText("Aucun favori pour l’instant")).toBeInTheDocument();
   });
 
   // Bug fix: joke punchline reveal
@@ -235,7 +238,7 @@ describe("FavorisList", () => {
   // Bug fix: video player and details
   it("shows video player and details", () => {
     render(<FavorisList />);
-    expect(screen.getByText("Vidéo stand-up")).toBeInTheDocument();
+    expect(screen.getByText(lie("Vidéo stand-up"))).toBeInTheDocument();
     expect(screen.getByText("ComedyFR")).toBeInTheDocument();
     expect(screen.getByText("Observer le timing")).toBeInTheDocument();
     expect(screen.getByText("Regarde et note")).toBeInTheDocument();

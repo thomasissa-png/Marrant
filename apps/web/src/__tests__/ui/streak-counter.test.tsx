@@ -15,17 +15,17 @@ describe("StreakCounter", () => {
 
   it("uses singular when count is 1", () => {
     render(<StreakCounter count={1} />);
-    expect(screen.getByText("1 jour de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("1 jour de pratique d’affilée")).toBeInTheDocument();
   });
 
   it("uses plural when count > 1", () => {
     render(<StreakCounter count={3} />);
-    expect(screen.getByText("3 jours de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("3 jours de pratique d’affilée")).toBeInTheDocument();
   });
 
   it("shows the rule of the streak (étalon 3.8 A)", () => {
     render(<StreakCounter count={2} />);
-    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.")).toBeInTheDocument();
+    expect(screen.getByText("Un jour compte quand tu valides une étape ou que tu termines un quiz d’étape.")).toBeInTheDocument();
   });
 
   it("applies pulse animation when count > 0", () => {

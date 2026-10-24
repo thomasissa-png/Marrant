@@ -11,14 +11,14 @@ export default function CarnetError({
   reset: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto max-w-3xl py-12">
       <Card>
         <CardContent className="py-12 text-center">
           <h2 className="font-display text-xl font-bold text-text-primary">
             Le carnet a raté son entrée en scène
           </h2>
           <p className="mt-2 text-sm text-text-secondary">
-            Le souci vient de chez nous, pas de toi. Réessaie, ou va t&apos;entraîner sur les parcours.
+            Le souci vient de chez nous, pas de toi. Réessaie, ou va t’entraîner sur les parcours.
           </p>
           <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
             <Button variant="primary" size="sm" onClick={reset}>

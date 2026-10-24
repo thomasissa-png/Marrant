@@ -1,0 +1,88 @@
+[
+  {
+    "bloc": "article-encart-milieu",
+    "ecran": "375x812",
+    "selecteur": "[data-demo-vanne='milieu']",
+    "hauteur": 394
+  },
+  {
+    "bloc": "article-bloc-fin",
+    "ecran": "375x812",
+    "selecteur": "[data-blog-bloc-fin]",
+    "hauteur": 548
+  },
+  {
+    "bloc": "accueil-haut",
+    "ecran": "375x812",
+    "mesure": "bas du bouton plein (px depuis le haut)",
+    "valeur": 531
+  },
+  {
+    "bloc": "accueil-carte-premium",
+    "ecran": "375x812",
+    "selecteur": "#offres .rounded-2xl",
+    "hauteur": 896
+  },
+  {
+    "bloc": "fiche-vanne",
+    "ecran": "375x812",
+    "adresse": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdk4zw00"
+  },
+  {
+    "bloc": "fiche-vanne-bloc-exercice",
+    "ecran": "375x812",
+    "selecteur": "[data-bloc-exercice='vanne']",
+    "hauteur": 536
+  },
+  {
+    "bloc": "article-encart-milieu",
+    "ecran": "360x740",
+    "selecteur": "[data-demo-vanne='milieu']",
+    "hauteur": 394
+  },
+  {
+    "bloc": "article-bloc-fin",
+    "ecran": "360x740",
+    "selecteur": "[data-blog-bloc-fin]",
+    "hauteur": 584
+  },
+  {
+    "bloc": "accueil-haut",
+    "ecran": "360x740",
+    "mesure": "bas du bouton plein (px depuis le haut)",
+    "valeur": 594
+  },
+  {
+    "bloc": "accueil-carte-premium",
+    "ecran": "360x740",
+    "selecteur": "#offres .rounded-2xl",
+    "hauteur": 896
+  },
+  {
+    "bloc": "fiche-vanne",
+    "ecran": "360x740",
+    "adresse": "/vannes/mes-amis-adorent-venir-diner-chez-moi-cmvdk4zw00"
+  },
+  {
+    "bloc": "fiche-vanne-bloc-exercice",
+    "ecran": "360x740",
+    "selecteur": "[data-bloc-exercice='vanne']",
+    "hauteur": 572
+  },
+  {
+    "bloc": "accueil-haut",
+    "ecran": "375x667",
+    "mesure": "bas du bouton plein",
+    "valeur": 531
+  },
+  {
+    "bloc": "accueil-lien-b3",
+    "ecran": "320x640",
+    "gauche": 16,
+    "droite": 304,
+    "hauteur": 64,
+    "lignes": 2,
+    "deborde": false,
+    "align": "center"
+  }
+]

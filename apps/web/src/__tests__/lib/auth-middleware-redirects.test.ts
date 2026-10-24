@@ -31,7 +31,8 @@ describe("middleware : anonyme sur une page réservée", () => {
     expect([302, 307]).toContain(res.status);
     const target = location(res);
     expect(target.pathname).toBe("/abonnement");
-    expect(target.search).toBe("");
+    // s21 (QA v3 m-1) : source fixe de la redirection, la `src` d'arrivée n'est pas relayée.
+    expect(target.search).toBe("?src=onboarding-visiteur");
   });
 
   it("/onboarding sans paramètre → /abonnement, jamais /register", async () => {
@@ -50,5 +51,25 @@ describe("middleware : anonyme sur une page réservée", () => {
   it("/abonnement reste public pour un anonyme", async () => {
     const res = await middleware(request("/abonnement?plan=annual"));
     expect(res.headers.get("location")).toBeNull();
+  });
+});
+
+describe("middleware : compte Premium sur /abonnement* (QA conversion s21, m2)", () => {
+  async function requetePremium(path: string) {
+    const { encode } = await import("next-auth/jwt");
+    const jeton = await encode({ token: { sub: "user-1", plan: "PREMIUM" }, secret: process.env.NEXTAUTH_SECRET! });
+    return new NextRequest(new URL(path, "https://deviens-marrant.fr"), {
+      headers: { host: "deviens-marrant.fr", cookie: `next-auth.session-token=${jeton}` },
+    });
+  }
+
+  it("/abonnement/success n'est PAS renvoyé vers /vannes (favori, bienvenue et retour d'origine gardés)", async () => {
+    const res = await middleware(await requetePremium("/abonnement/success?session_id=cs_1&returnTo=%2Fvannes%3Ffavori%3DJOKE.j1"));
+    expect(res.headers.get("location")).toBeNull();
+  });
+
+  it.each(["/abonnement", "/abonnement?src=header", "/abonnement/autre"])("%s → /vannes, comme avant", async (path) => {
+    const res = await middleware(await requetePremium(path));
+    expect(location(res).pathname).toBe("/vannes");
   });
 });

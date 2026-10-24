@@ -1,29 +1,32 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { isPremiumPlan } from "@/lib/parcours-access";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import { useUserStore } from "@/stores/user-store";
 import { showXpGain } from "@/components/ui/xp-notification";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
 import { ListPagination } from "@/components/ui/list-pagination";
 import { ListResults } from "@/components/ui/list-results";
 import { buildTipSlug } from "@/lib/catalogue-slug";
 import { useListPage } from "@/hooks/use-list-page";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
-import { CARTE_VERROUILLEE_LABEL } from "@/config/textes/offre";
+import { MurListe } from "@/components/premium/mur-liste";
+import { CarteFloutee } from "@/components/premium/carte-floutee";
 import { useMurVu } from "@/components/premium/use-mur-vu";
 import type { CataloguePage } from "@/lib/list-pagination";
-import { tipProse } from "@/lib/tip-prose";
+import { contenuAffiche } from "@/lib/tip-prose";
 
 interface Tip {
   id: string;
@@ -70,14 +73,15 @@ const CATEGORY_LABELS: Record<string, string> = Object.fromEntries(
   CATEGORIES.filter((c) => c.value).map((c) => [c.value, c.label])
 );
 
+/** textes-trajet-v2 K02 : plus de « défi » promis à tous (l'exercice est réservé à Premium). */
 const TIP_TEASERS = [
-  "Clique pour l’exemple et le défi",
-  "Un exercice t’attend là-dessous",
-  "Le défi est juste en dessous",
-  "Ouvre, y’a un défi pour toi",
+  "Clique pour l’exemple",
+  "Un exemple t’attend là-dessous",
+  "L’exemple est juste en dessous",
+  "Ouvre, y’a un exemple pour toi",
   "L’exemple concret est caché ici",
-  "Teste-toi avec le défi",
-  "Vas-y, le défi t’attend",
+  "Vois-le en situation",
+  "Vas-y, l’exemple t’attend",
   "Un truc à tester aujourd’hui",
 ];
 
@@ -106,7 +110,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const addXp = useUserStore((s) => s.addXp);
   const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
-  const [upgradeMessage, setUpgradeMessage] = useState("");
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
@@ -147,7 +150,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         setTips(data.tips);
         setPagination(data.pagination);
         setLimited(data.limited ?? false);
-        setUpgradeMessage(data.upgradeMessage ?? "");
         setTotalReal(data.totalReal ?? 0);
       } else {
         fallBackToServer();
@@ -190,46 +192,37 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   return (
     <>
       {/* Filtres niveaux + catégories — PREMIUM uniquement */}
-      {limited ? (
-        // Même traitement que /vannes (T14) : une ligne cadenas + texte existant, sans chips fantômes.
-        <div className="mb-6 flex items-center gap-2 rounded-lg border border-border bg-background-elevated/50 px-3 py-2">
-          <svg className="h-4 w-4 shrink-0 text-text-muted" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-          </svg>
-          <p className="text-sm text-text-secondary">
-            Filtres par niveau et catégorie disponibles avec l&apos;abonnement&nbsp;
-            <Link href="/abonnement" className="inline-flex min-h-[44px] items-center font-medium text-accent-link underline underline-offset-2">Premium</Link>
-          </p>
-        </div>
-      ) : (
+      {/* s21 B7 : plus de bandeau en haut ; la limite et les filtres Premium s'annoncent sous la liste (MurListeLimite). */}
+      {limited ? null : (
         <>
-          <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Niveaux de difficulté">
+          {/* Revue visuelle s21 (R03) : mêmes pastilles que /vannes, une ligne qui défile sous 768 px. */}
+          <div className={cn("mb-3", RANGEE_CHIPS)} role="tablist" aria-label="Niveaux de difficulté">
             {DIFFICULTIES.map((d) => (
-              <Button
+              <button
                 key={d.value}
-                variant={difficulty === d.value ? "secondary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={difficulty === d.value}
                 onClick={() => { setDifficulty(d.value); resetPage(); }}
+                className={chipClass(difficulty === d.value ? "active" : "idle")}
               >
                 {d.label}
-              </Button>
+              </button>
             ))}
           </div>
 
-          <div className="mb-8 flex flex-wrap gap-2" role="tablist" aria-label="Catégories de conseils">
+          <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Catégories de conseils">
             {CATEGORIES.map((cat) => (
-              <Button
+              <button
                 key={cat.value}
-                variant={category === cat.value ? "primary" : "ghost"}
-                size="sm"
+                type="button"
                 role="tab"
                 aria-selected={category === cat.value}
                 onClick={() => { setCategory(cat.value); resetPage(); }}
+                className={chipClass(category === cat.value ? "active" : "idle")}
               >
                 {cat.label}
-              </Button>
+              </button>
             ))}
           </div>
         </>
@@ -242,7 +235,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           onRetry={fetchTips}
         />
       ) : showSkeleton ? (
-        <div className="grid max-w-4xl gap-4">
+        <div className="grid gap-4 lg:grid-cols-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i} className="animate-pulse">
               <CardContent className="py-6">
@@ -258,24 +251,35 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
           emoji="🎓"
           emojiLabel="pas de conseils"
           title="Aucun conseil ne colle à ces filtres, et pourtant on a cherché sous le canapé"
-          description="Change tes filtres, y'a plein de techniques qui t'attendent."
+          description="Change tes filtres, y’a plein de techniques qui t’attendent."
           ctaLabel="Voir tous les conseils"
           ctaHref="/conseils"
         />
       ) : (
-        <div className="grid max-w-4xl gap-4" role="tabpanel">
+        // Revue visuelle s21 (R01, T2-01, T3-04) : 2 colonnes dès 1 024 px, cartes de même hauteur par rangée.
+        // Règle commune aux trois murs : un mur de 3 cartes passe en 3 colonnes dès que la largeur le permet
+        // (conseils dès 1 280 px, vidéos dès 1 024 px), même anatomie pour les trois ; en deçà, une dernière
+        // carte seule prend la rangée EN DISPOSITION HORIZONTALE, jamais une carte étirée à moitié vide.
+        <div className={cn("grid gap-4 lg:grid-cols-2", tips.length === 3 && "xl:grid-cols-3")} role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}
-              className="cursor-pointer transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+              className={`flex h-full cursor-pointer flex-col p-5 transition-colors hover:bg-background-light animate-stagger-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${
+                tips.length % 2 === 1 && index === tips.length - 1
+                  ? tips.length === 3
+                    ? " lg:max-xl:col-span-2 lg:max-xl:grid lg:max-xl:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:max-xl:items-start lg:max-xl:gap-x-8"
+                    : " lg:col-span-2 lg:grid lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start lg:gap-x-8"
+                  : ""
+              }`}
               style={{ animationDelay: `${index * 60}ms` }}
               tabIndex={0}
               onClick={() => toggleExpanded(tip.id)}
               onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpanded(tip.id); } }}
             >
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
                       {DIFFICULTIES.find((d) => d.value === tip.difficulty)?.label ?? tip.difficulty}
                     </Badge>
@@ -283,51 +287,53 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
                       {CATEGORY_LABELS[tip.category] ?? tip.category}
                     </Badge>
                   </div>
-                  <div className="flex items-center">
-                    <FavoriteButton contentType="TIP" contentId={tip.id} />
+                  <div className="flex shrink-0 items-center">
+                    <FavoriteButton contentType="TIP" contentId={tip.id} apercu={tip.title} />
                     <ShareButton title={`${tip.title} - deviens-marrant.fr`} text={tip.content} />
                   </div>
                 </div>
-                <CardTitle>{tip.title}</CardTitle>
+                {/* s21 : titre cliquable vers la fiche, seul lien de la carte (plus de « Page dédiée »). */}
+                <CardTitle>
+                  <Link
+                    href={`/conseils/${buildTipSlug(tip)}`}
+                    onClick={(e) => e.stopPropagation()}
+                    onKeyDown={(e) => e.stopPropagation()}
+                    // Revue visuelle s21 (décision 2) : cible de 44 px, marges négatives pour ne pas déplacer le
+                    // titre ; le reste de la carte garde son geste (déplier le conseil, XP de lecture).
+                    className={cn(TITRE_CARTE_LIEN, "-my-2.5 inline-flex min-h-11 items-center py-2.5")}
+                  >
+                    {frTypo(tip.title)}
+                  </Link>
+                </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex flex-1 flex-col">
                 {/* T20 : conseil replié à 4 lignes, affiché en entier au dépliage (clic sur la carte). */}
                 <p
-                  className={`max-w-[72ch] text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
+                  className={`text-sm leading-relaxed text-text-primary${expandedIds.has(tip.id) ? "" : " line-clamp-4"}`}
                 >
-                  {tipProse(tip.content)}
+                  {contenuAffiche(tip.content)}
                 </p>
 
                 {expandedIds.has(tip.id) && (
                   <div className="mt-4 space-y-4 animate-fade-in">
                     <div className="rounded-lg bg-background-elevated p-4">
                       <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
-                      <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tipProse(tip.example)}</p>
+                      <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.example)}</p>
                     </div>
                     {tip.exercise && (
                       <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                        <p className="max-w-[72ch] text-sm leading-relaxed text-text-secondary">{tipProse(tip.exercise)}</p>
+                        <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.exercise)}</p>
                       </div>
                     )}
                   </div>
                 )}
 
                 {!expandedIds.has(tip.id) && (
-                  <p className="mt-2 text-xs text-text-muted">
-                    {TIP_TEASERS[index % TIP_TEASERS.length]}
+                  <p className="mt-auto pt-2 text-xs text-text-muted">
+                    {frTypo(TIP_TEASERS[index % TIP_TEASERS.length])}
                   </p>
                 )}
-                <div className="mt-3 border-t border-border pt-2">
-                  <Link
-                    href={`/conseils/${buildTipSlug(tip)}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="inline-flex min-h-[44px] items-center py-3 text-sm text-text-muted hover:text-accent-link hover:underline"
-                    aria-label="Ouvrir la page dédiée de ce conseil"
-                  >
-                    Page dédiée &rarr;
-                  </Link>
-                </div>
               </CardContent>
             </Card>
           ))}
@@ -335,71 +341,33 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       )}
       </ListResults>
 
-      {/* Cartes verrouillées pour FREE users */}
+      {/* s21 B7 : bloc de bas de liste (la limite en tête, revue visuelle s21), puis cartes floutées. */}
+      {limited && (tips.length > 0 || page > 1) && <MurListe liste="conseils" />}
+
+      {/* Carte floutée (une seule, concision v5) : même cadre sur les trois murs (revue visuelle s21, R10),
+          sur toute la colonne de la liste, comme le mur au-dessus. */}
       {limited && (tips.length > 0 || page > 1) && (
-        <div className="mt-4 grid max-w-4xl gap-4">
-          {Array.from({ length: Math.min(3, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
-            <Card
-              key={`locked-${i}`}
-              className="group relative cursor-pointer overflow-hidden border-dashed border-accent-primary/30 transition-all hover:border-accent-primary/60 hover:shadow-md"
-              onClick={() => setPremiumOpen(true)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setPremiumOpen(true); } }}
-              aria-label={CARTE_VERROUILLEE_LABEL}
-            >
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  {/* Gabarits décoratifs sans texte : plus de texte à 50 % d'opacité (contraste axe, s16). */}
-                  <div className="h-5 w-16 rounded-full bg-text-muted/10" aria-hidden="true" />
-                  <div className="h-5 w-20 rounded-full bg-text-muted/10" aria-hidden="true" />
-                </div>
-                <div className="mt-2 h-5 w-3/5 rounded bg-text-muted/10" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <div className="h-4 w-full rounded bg-text-muted/10" />
-                  <div className="h-4 w-4/5 rounded bg-text-muted/10" />
-                  <div className="h-4 w-2/3 rounded bg-text-muted/10" />
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center bg-background-card/60 backdrop-blur-[2px] transition-colors group-hover:bg-background-card/40">
-                  <div className="flex flex-col items-center gap-1.5">
-                    <svg className="h-6 w-6 text-accent-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    <span className="text-xs font-medium text-accent-link">Débloquer</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        <div className="mt-4 grid">
+          {Array.from({ length: Math.min(1, Math.max(0, totalReal - tips.length)) }).map((_, i) => (
+            <CarteFloutee key={`locked-${i}`} onOuvrir={() => setPremiumOpen(true)} />
           ))}
         </div>
       )}
 
-      {/* Bannière upgrade FREE */}
-      {limited && upgradeMessage && (
-        <div className="mt-8 rounded-xl border-2 border-accent-primary/30 bg-accent-primary/5 p-6 text-center">
-          <p className="font-semibold text-text-primary">{upgradeMessage}</p>
-          <p className="mt-1 text-sm text-text-secondary">
-            Accède à tout le catalogue dès {PREMIUM_PRICE_LABEL}
-          </p>
-          {/* T18 : même comportement que les cartes verrouillées (modale, qui mène à l'offre). */}
-          <Button variant="primary" size="sm" className="mt-3" onClick={() => setPremiumOpen(true)}>
-            Voir l&apos;offre
-          </Button>
-        </div>
-      )}
-
       {/* Premium Modal */}
-      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} />
+      <PremiumModal isOpen={premiumOpen} onClose={() => setPremiumOpen(false)} reason="carte" contenu="conseil" />
 
-      {/* Pagination : vrais liens ?page=N (crawlables), navigation sans rechargement avec JS */}
-      <ListPagination
-        basePath="/conseils"
-        page={page}
-        totalPages={totalPages}
-        onNavigate={goToPage}
-      />
+      {/* Pagination : vrais liens ?page=N (crawlables, présents dans le HTML du serveur), navigation
+          sans rechargement avec JS. QA v4 m-5 : visiteur ou compte sans abonnement (liste limitée),
+          plus de pagination, les pages suivantes sont vides : le mur fait office de fin. L'abonné la garde. */}
+      {!limited && (
+        <ListPagination
+          basePath="/conseils"
+          page={page}
+          totalPages={totalPages}
+          onNavigate={goToPage}
+        />
+      )}
     </>
   );
 }

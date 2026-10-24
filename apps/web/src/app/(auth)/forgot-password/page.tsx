@@ -38,10 +38,10 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           <CardDescription>
             {success
               ? "Jette un œil à ta boîte mail, le lien est en route."
-              : "Donne-nous ton email, on t'envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
+              : "Donne-nous ton email, on t’envoie un lien pour en choisir un nouveau. Ça arrive aux meilleurs."}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -83,7 +83,7 @@ export default function ForgotPasswordPage() {
                   <p className="text-sm text-error">{error}</p>
                 )}
                 <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-                  {isLoading ? "On t'envoie ça…" : "Envoyer le lien"}
+                  {isLoading ? "On t’envoie ça…" : "Envoyer le lien"}
                 </Button>
               </form>
               <div className="mt-4 text-center text-sm text-text-secondary">
@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
         href="/"
         className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
       >
-        Retour à l&apos;accueil
+        Retour à l’accueil
       </Link>
     </main>
   );

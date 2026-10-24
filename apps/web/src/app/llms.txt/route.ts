@@ -10,6 +10,8 @@ import { glossary } from "@/lib/glossary";
 import { QUIZ_QUESTIONS } from "@/components/quiz/quiz-data";
 import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PARCOURS, parcoursWeeks } from "@/config/premium";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { stripEmDashes } from "@/lib/em-dash";
 
 /** Durée d'un parcours publié hors des 3 historiques (Storytelling, Boulot), lue dans l'offre. */
 const semainesPubliees = (slug: string) => PREMIUM_PARCOURS.find((p) => p.slug === slug)?.weeks ?? 6;
@@ -163,7 +165,11 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
   lines.push(`- [Conseils humour et répartie](${BASE_URL}/conseils): techniques de répartie, timing, storytelling, autodérision avec exercices.`);
   lines.push(`- [Vidéos stand-up](${BASE_URL}/videos): extraits d'humoristes français analysés technique par technique.`);
   lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de ${PARCOURS_MIN_WEEKS} à ${PARCOURS_MAX_WEEKS} semaines (15 à 20 min par semaine selon le parcours).`);
-  lines.push(`- [Blog](${BASE_URL}/blog): articles de fond sur l'humour, la répartie et le développement personnel.`);
+  // GEO s21 (C3) : carnet et lettre, sans date ni mois nommé.
+  lines.push(`- [Carnet de répartie du mois](${BASE_URL}/carnet): des situations du quotidien avec ce qu'on te dit et la réplique qui va avec ; une situation offerte, le carnet complet dans Premium.`);
+  lines.push(`- [La lettre](${BASE_URL}/lettre): une vanne décryptée par mois et un exercice, par e-mail. Gratuit, sans compte.`);
+  // GEO s21 (C6) : même libellé que le site ; l'URL /blog ne change pas.
+  lines.push(`- [${LIBELLE_SECTION_ARTICLES}](${BASE_URL}/blog): articles de fond sur l'humour, la répartie et le développement personnel.`);
   lines.push("");
   lines.push("## Questions fréquentes");
   lines.push("");
@@ -174,7 +180,7 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
     lines.push(`- [${resource.label}](${BASE_URL}${resource.path}): ${resource.summary}`);
   }
   lines.push("");
-  lines.push(`## Articles de blog (${articles.length})`);
+  lines.push(`## ${LIBELLE_SECTION_ARTICLES} (${articles.length})`);
   lines.push("");
   for (const article of articles) {
     lines.push(`- [${article.title}](${BASE_URL}/blog/${article.slug}): ${article.summary}`);
@@ -194,7 +200,8 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
 export async function GET() {
   try {
     const [articles, stats] = await Promise.all([collectArticles(), getContentStatsRounded()]);
-    const body = renderLlmsTxt(articles, stats.jokes);
+    // GEO s21 (C5) : garde-fou tiret cadratin sur tout le texte servi (articles, seeds, base).
+    const body = stripEmDashes(renderLlmsTxt(articles, stats.jokes));
     return new NextResponse(body, {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",

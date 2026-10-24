@@ -10,7 +10,7 @@ describe("frTypo", () => {
     expect(frTypo("Comment devenir drôle : le guide ?")).toBe(
       `Comment devenir drôle${NBSP}: le guide${NBSP}?`
     );
-    expect(frTypo("le « sens de l'humour »")).toBe(`le «${NBSP}sens de l'humour${NBSP}»`);
+    expect(frTypo("le « sens de l'humour »")).toBe(`le «${NBSP}sens de l’humour${NBSP}»`);
     expect(frTypo("5 méthodes en 7 min")).toBe(`5${NBSP}méthodes en 7${NBSP}min`);
   });
 

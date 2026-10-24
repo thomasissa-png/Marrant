@@ -5,14 +5,9 @@ import { useRouter } from "next/navigation";
 import { isMobileNative, api } from "@/lib/api-base";
 import { getOfferings, purchasePackage, restorePurchases, type IAPProduct } from "@/lib/iap";
 import { sanitizeReturnTo } from "@/lib/premium-return";
-import { PARCOURS_COUNT, PREMIUM_CARNET_BENEFIT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
-
-/**
- * Valeur Premium (décision Thomas, 03/10/2026) : uniquement ce qui est vrai.
- * Parcours complets en tête ; pas de « contenu quotidien » (gratuit), pas de
- * filtres avancés (inexistants). Carnet mensuel ajouté le 03/10/2026.
- */
-const PREMIUM_VALUE_TEXT = `Les ${PARCOURS_COUNT} parcours en entier (${PREMIUM_PARCOURS.map((p) => p.name).join(", ")}), la première étape de chaque parcours restant offerte, ${PREMIUM_CARNET_BENEFIT}, plus tes favoris et les listes complètes de vannes, conseils et vidéos.`;
+import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
+import { PAYWALL_PREMIUM } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
 
 type Props = {
   userId?: string;
@@ -45,7 +40,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         const offerings = await getOfferings();
         if (!cancelled) setProducts(offerings);
       } catch (err) {
-        if (!cancelled) setError("La boutique ne répond pas pour l'instant. Réessaie un peu plus tard.");
+        if (!cancelled) setError("La boutique ne répond pas pour l’instant. Réessaie un peu plus tard.");
       }
     })();
     return () => {
@@ -65,11 +60,14 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
       });
       const data = await res.json();
       if (data.url) {
+        trackCheckoutOuvert("paywall");
         window.location.href = data.url;
       } else {
-        setError("Le paiement n'a pas pu démarrer. Réessaie dans un instant.");
+        trackCheckoutEchec("paywall", res.status === 409 ? "conflit" : "erreur");
+        setError("Le paiement n’a pas pu démarrer. Réessaie dans un instant.");
       }
     } catch {
+      trackCheckoutEchec("paywall", "reseau");
       setError("La connexion a lâché en route. Réessaie.");
     } finally {
       setLoading(false);
@@ -85,7 +83,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         onSuccess?.();
         router.refresh();
       } else {
-        setError("L'achat n'a pas été confirmé de notre côté. Écris-nous et on règle ça ensemble.");
+        setError("L’achat n’a pas été confirmé de notre côté. Écris-nous et on règle ça ensemble.");
       }
     } catch (err: any) {
       // RevenueCat retourne userCancelled = true si annulé : pas d'erreur affichée
@@ -93,7 +91,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         setLoading(false);
         return;
       }
-      setError("L'achat n'est pas passé. Réessaie.");
+      setError("L’achat n’est pas passé. Réessaie.");
     } finally {
       setLoading(false);
     }
@@ -108,10 +106,10 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
         onSuccess?.();
         router.refresh();
       } else {
-        setError("On n'a trouvé aucun achat à restaurer sur ce compte.");
+        setError("On n’a trouvé aucun achat à restaurer sur ce compte.");
       }
     } catch {
-      setError("La restauration n'a pas abouti. Réessaie.");
+      setError("La restauration n’a pas abouti. Réessaie.");
     } finally {
       setLoading(false);
     }
@@ -121,7 +119,7 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
     return (
       <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
         <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-        <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
+        <p className="text-gray-300 mb-4">{PAYWALL_PREMIUM.valeur}</p>
 
         {products.length === 0 ? (
           <p className="text-gray-400 text-sm">Chargement des offres…</p>
@@ -163,23 +161,18 @@ export function PremiumPaywall({ userId, onSuccess }: Props) {
   // Mode web → Stripe
   return (
     <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
-      <h3 className="text-2xl font-bold mb-2">Passe Premium</h3>
-      <p className="text-gray-300 mb-4">{PREMIUM_VALUE_TEXT}</p>
+      <h3 className="text-2xl font-bold mb-2">{PAYWALL_PREMIUM.titre}</h3>
+      <p className="text-gray-300 mb-4">{PAYWALL_PREMIUM.valeur}</p>
       <button
         onClick={handleStripeCheckout}
         disabled={loading}
         className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 disabled:opacity-50 px-4 py-3 font-semibold transition"
       >
-        {loading ? "On t'emmène au paiement…" : `S'abonner · ${PREMIUM_PRICE_LABEL}`}
+        {loading ? "On t’emmène au paiement…" : PAYWALL_PREMIUM.bouton}
       </button>
       {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
-      <p className="mt-3 text-xs text-gray-400">
-        Sans engagement. Voir{" "}
-        <a href="/retractation" className="underline">
-          conditions de rétractation
-        </a>
-        .
-      </p>
+      {/* Concision v5 : la REASS unique sous le plein qui porte un prix (web seulement). */}
+      <Reassurance className="mt-3" />
     </div>
   );
 }

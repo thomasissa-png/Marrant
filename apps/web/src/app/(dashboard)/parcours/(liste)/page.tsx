@@ -14,23 +14,26 @@ import { getContentStatsRounded } from "@/lib/content-stats-server";
 import { getParcoursCatalogue } from "@/lib/parcours-catalogue";
 import { PARCOURS_COUNT, PREMIUM_PARCOURS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { listeFr } from "@/lib/liste-fr";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { frTypoTexte } from "@/lib/fr-typo";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
 // D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
 // s19 : noms des parcours lus dans PREMIUM_PARCOURS (déjà filtré par les interrupteurs de publication).
 const NOMS_PARCOURS = PREMIUM_PARCOURS.map((p) => p.name);
-const TITLE = `Cours d'humour en ligne : ${PARCOURS_COUNT} parcours pour devenir drôle`;
+const TITLE = `Cours d’humour en ligne : ${PARCOURS_COUNT} parcours pour devenir drôle`;
 const DESCRIPTION =
   // s19 : « première étape gratuite » remonte en tête, la liste des noms grandit avec les parcours publiés
   // (150 caractères à 4 parcours, 158 à 5) : une coupure éventuelle ne mange que la fin.
-  `${PARCOURS_COUNT} parcours pour devenir drôle (première étape gratuite) : ${NOMS_PARCOURS.join(", ")}. 15 à 20 min/semaine d'exercices concrets.`;
+  `${PARCOURS_COUNT} parcours pour devenir drôle (première étape gratuite) : ${NOMS_PARCOURS.join(", ")}. 15 à 20 min/semaine d’exercices concrets.`;
 const PAGE_URL = "https://deviens-marrant.fr/parcours";
 
 export const metadata: Metadata = {
   title: fitTitle(TITLE),
   description: DESCRIPTION,
   keywords: [
-    "cours d'humour en ligne",
+    "cours d’humour en ligne",
     "parcours répartie",
     "formation humour",
     "exercices humour débutant",
@@ -47,7 +50,7 @@ export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
   const catalogue = getParcoursCatalogue();
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="mx-auto max-w-3xl">
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", url: "https://deviens-marrant.fr" },
@@ -60,19 +63,20 @@ export default async function ParcoursPage() {
           PREMIUM_PARCOURS.map((p) => ({ slug: p.slug, name: `Parcours ${p.name}` })),
         )}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Parcours</span>
       </nav>
       <div className="mb-8">
         <h1 className="font-display text-3xl font-bold md:text-4xl">
-          Parcours humour : deviens drôle pas à pas
+          {/* v3 M6 : espace insécable avant « : » (jamais en début de ligne). */}
+          Parcours humour&nbsp;: deviens drôle pas à pas
         </h1>
         <p className="mt-2 text-text-secondary">
           {PARCOURS_COUNT} parcours pour progresser en humour, chacun taillé pour une
           situation : {listeFr(NOMS_PARCOURS)}. Compte
-          15 à 20 min/semaine selon le parcours, soit moins qu&apos;un épisode de
+          15 à 20 min/semaine selon le parcours, soit moins qu’un épisode de
           série, avec des exercices concrets et des XP à gagner.
         </p>
       </div>
@@ -91,7 +95,7 @@ export default async function ParcoursPage() {
                 className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
               >
                 <h2 className="font-display text-base font-bold text-text-primary">{offre.name}</h2>
-                <p className="mt-1 text-sm text-text-secondary">{p.description}</p>
+                <p className="mt-1 text-sm text-text-secondary">{frTypoTexte(p.description)}</p>
               </Link>
             </li>,
           ];
@@ -106,10 +110,14 @@ export default async function ParcoursPage() {
       <nav className="mt-12 border-t border-border pt-8">
         <h2 className="font-display mb-4 text-xl font-bold">Explore aussi</h2>
         <div className="grid gap-4 sm:grid-cols-3">
-          <Link href="/abonnement" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
-            <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
-          </Link>
+          {/* s21 (revue v2 m-1) : source `parcours-liste`, suivie jusqu'à `checkout-ouvert`.
+              QA v4 m-6 : masqué pour l'abonné (aucun prix pour lui). */}
+          <MasqueSiPremium>
+            <Link href={buildAbonnementUrl(null, "monthly", "parcours-liste")} className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
+              <h3 className="font-display text-base font-bold text-text-primary">Abonnement {PREMIUM_PRICE_LABEL}</h3>
+              <p className="mt-1 text-sm text-text-secondary">Premium : tous les parcours, vannes, conseils et vidéos.</p>
+            </Link>
+          </MasqueSiPremium>
           <Link href="/conseils" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Conseils de répartie</h3>
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes avec exemples et exercices.</p>

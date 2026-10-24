@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { chipClass } from "@/components/ui/chip";
+import { chipClass, RANGEE_CHIPS } from "@/components/ui/chip";
 import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
 
 /**
@@ -10,7 +10,7 @@ import { VANNES_THEMES, vannesThemePath } from "@/lib/vannes-themes";
 export function VannesThemeNav({ current, className = "mb-6" }: { current?: string; className?: string }) {
   return (
     <nav aria-label="Vannes par thème" className={className}>
-      <ul className="flex flex-wrap gap-2">
+      <ul className={RANGEE_CHIPS}>
         {VANNES_THEMES.map((theme) => {
           const isCurrent = theme.slug === current;
           return (

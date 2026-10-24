@@ -7,7 +7,7 @@ import { CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/components/ui/toast";
-import { PremiumModal } from "@/components/premium/premium-modal";
+import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
 import { isPremiumPlan } from "@/lib/parcours-access";
 
 interface Feature {
@@ -39,7 +39,7 @@ const FEATURES: Feature[] = [
     slug: "nouveaux-parcours",
     title: "De nouveaux parcours",
     description:
-      "D'autres parcours plus poussés sont à venir, pour le jour où les bases ne te suffiront plus.",
+      "D’autres parcours plus poussés sont à venir, pour le jour où les bases ne te suffiront plus.",
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5" aria-hidden="true">
         <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20" />
@@ -149,7 +149,7 @@ export function UpcomingFeatures() {
           ...prev,
           [slug]: (prev[slug] ?? 0) + (hadVote ? 1 : -1),
         }));
-        toast("Ton vote s'est perdu en route, réessaie.", "error");
+        toast("Ton vote s’est perdu en route, réessaie.", "error");
       } finally {
         setVotingSlug(null);
       }
@@ -158,7 +158,9 @@ export function UpcomingFeatures() {
   );
 
   return (
-    <section className="py-12 md:py-16">
+    // Revue design s21 m5 : haut resserré, l'écart sous le bloc de la lettre (qui précède)
+    // ne dépasse plus de beaucoup l'écart au-dessus de lui.
+    <section className="pb-12 pt-6 md:pb-16 md:pt-6">
       <div className="mb-4 flex items-center justify-center gap-3">
         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-accent-primary/30" />
         <Badge variant="premium">Abonnés</Badge>

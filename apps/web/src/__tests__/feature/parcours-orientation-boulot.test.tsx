@@ -3,6 +3,7 @@
  * Boulot sur « Au boulot, en réunion, à la pause » une fois le parcours publié.
  * Les deux états de l'interrupteur sont simulés ici (le fichier de config n'est pas modifié).
  */
+import { courbe } from "../helpers/texte-normalise";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ParcoursPage from "@/app/(dashboard)/parcours/(liste)/page";
@@ -73,7 +74,7 @@ describe("Quiz d'orientation : « Au boulot » et l'interrupteur Boulot", () => 
   it("interrupteur à false : « Au boulot » + « quoi répondre » → Répartie (inchangé)", async () => {
     simulerBoulotPublie(false);
     await repondre(/quoi répondre sur le moment/);
-    expect(screen.getByText(/la bonne réplique pendant qu'elle sert encore/)).toBeInTheDocument();
+    expect(screen.getByText(/la bonne réplique pendant qu['’]elle sert encore/)).toBeInTheDocument();
   });
 
   it.each([/rien de drôle à raconter/, /quoi répondre sur le moment/, /perdu confiance en moi/])(
@@ -81,7 +82,7 @@ describe("Quiz d'orientation : « Au boulot » et l'interrupteur Boulot", () => 
     async (q2) => {
       simulerBoulotPublie(true);
       await repondre(q2);
-      expect(screen.getByText(RAISON_BOULOT)).toBeInTheDocument();
+      expect(screen.getByText(courbe(RAISON_BOULOT))).toBeInTheDocument();
       expect(screen.queryByText(ANCIENNE_RAISON)).not.toBeInTheDocument();
       expect(screen.getByRole("heading", { name: "Parcours Boulot", level: 3 })).toBeInTheDocument();
     },

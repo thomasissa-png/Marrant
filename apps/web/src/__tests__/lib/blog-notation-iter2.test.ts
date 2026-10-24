@@ -69,7 +69,7 @@ describe("D2 : citation dans une vanne en “…” (rendu seul)", () => {
     const start = html.indexOf(`<div id="vanne-${n}"`);
     const p = html.slice(html.indexOf("<p", start));
     const line = p.slice(0, Math.min(...["<br/>", "</p>"].map((t) => p.indexOf(t)).filter((i) => i >= 0)));
-    return line.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"');
+    return line.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/’/g, "'");
   };
   const words = (s: string) => s.match(/[\p{L}\p{N}]+/gu) ?? [];
 
@@ -106,7 +106,7 @@ describe("D3 : libellés de cluster lisibles par un visiteur", () => {
     const name = (id: string) => BLOG_CLUSTERS.find((c) => c.id === id)?.name;
     expect(name("fort-volume")).toBe("Blagues et vannes à ressortir");
     expect(name("saisonnier")).toBe("Humour de saison");
-    expect(name("douleurs-personas")).toBe("Quand l'humour coince");
+    expect(name("douleurs-personas")).toBe("Quand l’humour coince");
     expect(getClusterForSlug("meilleures-blagues-droles-2026")?.name).toBe("Blagues et vannes à ressortir");
   });
 

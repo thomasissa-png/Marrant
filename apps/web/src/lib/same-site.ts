@@ -7,7 +7,14 @@
  *     NEXTAUTH_URL, ou une origine de l'appli mobile Capacitor
  *     (`capacitor://localhost` iOS, `https://localhost` Android, D8 : l'appli
  *     appelle l'API de prod via `lib/api-base.ts`) ; sinon refus.
- *  2. Sans `Origin` : `Sec-Fetch-Site` = `cross-site` → refus ; autre valeur
+ *  2. `Origin: null` (origine opaque) : accepté SEULEMENT si `Sec-Fetch-Site`
+ *     vaut `same-origin`. Un navigateur envoie `Origin: null` sur un POST de
+ *     formulaire du même site quand la page a une politique `no-referrer` (QA
+ *     s21 B1, /lettre/confirmer) ; `Sec-Fetch-Site` est posé par le navigateur
+ *     lui-même (en-tête interdit au script d'une page) et vaut `cross-site`
+ *     pour une page d'un autre site ou une iframe isolée (sandbox) : un autre
+ *     site ne peut donc pas passer par cette porte.
+ *  3. Sans `Origin` : `Sec-Fetch-Site` = `cross-site` → refus ; autre valeur
  *     ou en-tête absent (client hors navigateur, sans cookie du visiteur) → accepté.
  */
 import { NextResponse } from "next/server";
@@ -30,7 +37,7 @@ export function isSameSiteRequest(request: Request): boolean {
     const autorisees = [origineDe(request.url), origineDe(process.env.NEXTAUTH_URL), ...ORIGINES_APPLI_MOBILE];
     return autorisees.includes(origin);
   }
-  if (origin === "null") return false;
+  if (origin === "null") return request.headers.get("sec-fetch-site") === "same-origin";
   return request.headers.get("sec-fetch-site") !== "cross-site";
 }
 

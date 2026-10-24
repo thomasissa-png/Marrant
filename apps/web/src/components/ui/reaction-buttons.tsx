@@ -116,7 +116,7 @@ export function ReactionButtons({
           }
         } else {
           triggerShake();
-          toast("Ta réaction s'est perdue en route, réessaie.", "error");
+          toast("Ta réaction s’est perdue en route, réessaie.", "error");
         }
       } catch {
         triggerShake();
@@ -158,7 +158,7 @@ export function ReactionButtons({
       <button
         onClick={(e) => handleReaction(e, true)}
         className={cn(
-          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+          "relative flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
           userReaction === true
             ? "bg-accent-primary/20 text-accent-link"
             : "bg-background-elevated text-text-muted hover:text-accent-link"
@@ -171,7 +171,7 @@ export function ReactionButtons({
       <button
         onClick={(e) => handleReaction(e, false)}
         className={cn(
-          "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+          "relative flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-all after:absolute after:inset-x-0 after:-inset-y-2.5 after:content-[''] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
           userReaction === false
             ? "bg-error/20 text-error"
             : "bg-background-elevated text-text-muted hover:text-text-secondary"

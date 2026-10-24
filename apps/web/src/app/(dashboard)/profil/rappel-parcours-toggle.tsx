@@ -1,5 +1,6 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useId, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { isPremiumPlan } from "@/lib/parcours-access";
@@ -149,7 +150,7 @@ export function RappelParcoursToggle({ className }: { className?: string } = {})
             className="absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5 motion-reduce:transition-none"
           />
         </span>
-        <span className="text-sm text-text-secondary">{RAPPEL_PARCOURS_CONSENTEMENT.texte}</span>
+        <span className="text-sm text-text-secondary">{frTypo(RAPPEL_PARCOURS_CONSENTEMENT.texte)}</span>
       </label>
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <label htmlFor={selectId} className="text-sm text-text-secondary">

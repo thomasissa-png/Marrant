@@ -1,14 +1,18 @@
-import {
-  PARCOURS_MAX_WEEKS,
-  PARCOURS_MIN_WEEKS,
-  PREMIUM_ANNUAL_EQUIVALENT_LABEL,
-  PREMIUM_ANNUAL_PRICE_LABEL,
-  PREMIUM_ANNUAL_SAVINGS_LABEL,
-  PREMIUM_PRICE_LABEL,
-} from "@/config/premium";
+import { PARCOURS_MAX_WEEKS, PARCOURS_MIN_WEEKS, PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { FAQ_REGULARITE, FAQ_SERIE_XP } from "@/config/textes/entrees-parcours";
+import { REASSURANCE_UNIQUE } from "@/config/textes/offre";
+import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
 
 const PRICE_FAQ_QUESTION = `${PREMIUM_PRICE_LABEL}, c’est vraiment tout ? Pas de frais cachés ?`;
+
+/**
+ * textes-trajet-v3 Q01 : « Et si j'arrête ? ». 1re phrase = `TEXTES_ABONNEMENT.resilierDetailSansDate`
+ * (validée). Dernière phrase gardée (arbitrage 4 du tour 3) parce que vraie dans le code ET couverte
+ * par `__tests__/api/resiliation-conserve-favoris-progression-s21.test.ts` : la fin d'abonnement ne
+ * supprime ni les favoris ni la progression. Si ce test tombe, retirer la dernière phrase.
+ */
+const ARRET_FAQ_QUESTION = "Et si j’arrête ?";
+export const ARRET_FAQ_REPONSE = `${TEXTES_ABONNEMENT.resilierDetailSansDate} Ensuite, ton compte continue avec l’accès gratuit. Tes favoris et ta progression restent enregistrés.`;
 
 export const faqs = [
   {
@@ -40,7 +44,14 @@ export const faqs = [
   {
     question: PRICE_FAQ_QUESTION,
     answer:
-      "C’est le prix, point. Pas de frais cachés, pas de reconduction surprise. Tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.",
+      // Concision v5 (textes-v5-c §3) : réponse mensuelle (accueil, et /abonnement sans annuel).
+      // Trajet de conversion s21 (textes-trajet-v1 §1.5, GO Thomas du 19/10) : + la réassurance unique, mot pour mot.
+      // textes-trajet-v2 A14 : deux phrases après la réassurance (qui reste mot pour mot).
+      `C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement. Un renouvellement n’ouvre pas de nouveau délai.`,
+  },
+  {
+    question: ARRET_FAQ_QUESTION,
+    answer: ARRET_FAQ_REPONSE,
   },
   {
     question:
@@ -56,16 +67,36 @@ export const faqs = [
   },
 ];
 
-/** Réponse prix quand la formule annuelle est disponible (prix Stripe annuel configuré). */
-const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Tu préfères payer à l’année ? C’est ${PREMIUM_ANNUAL_PRICE_LABEL} en une fois, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL}). Pas de frais cachés. L’abonnement se renouvelle à la fin de chaque période (mois ou année) tant que tu ne l’annules pas, et tu annules en 1 clic depuis ton profil, sans avoir à envoyer un email ou appeler un numéro. Paiement sécurisé par Stripe.`;
+/** Réponse prix quand la formule annuelle est disponible (concision v5, textes-v5-c §3). */
+/** textes-trajet-v2 A15 : « annuel compris ». */
+const ANNUAL_PRICE_FAQ_ANSWER = `C’est le prix, point. Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas. ${REASSURANCE_UNIQUE} Les 14 jours courent dès ton abonnement, annuel compris. Un renouvellement n’ouvre pas de nouveau délai.`;
 
 /**
- * FAQ Premium selon la disponibilité de l'annuel, lue côté serveur
- * (`isAnnualPlanAvailable()`). Sans annuel : `faqs` à l'identique.
+ * FAQ de vente (concision v5, + v3 Q01) : les 5 questions qui lèvent le plus de freins à l'achat,
+ * seules affichées sur l'accueil et /abonnement (JSON-LD identique) : apprendre, timide, prix,
+ * « Et si j'arrête ? » (juste après le prix), YouTube.
+ * Les 4 autres restent dans `faqs` (/parcours, SEO).
+ */
+const QUESTIONS_VENTE: readonly string[] = [
+  "Est-ce que je peux vraiment apprendre à être drôle ?",
+  "Comment devenir drôle quand on est timide ou introverti ?",
+  PRICE_FAQ_QUESTION,
+  ARRET_FAQ_QUESTION,
+  "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
+];
+export const FAQ_VENTE: typeof faqs = QUESTIONS_VENTE.map((q) => {
+  const faq = faqs.find((f) => f.question === q);
+  if (!faq) throw new Error(`FAQ de vente : question introuvable (${q})`);
+  return faq;
+});
+
+/**
+ * FAQ de vente de /abonnement selon la disponibilité de l'annuel, lue côté serveur
+ * (`isAnnualPlanAvailable()`). Sans annuel : `FAQ_VENTE` à l'identique.
  */
 export function getPremiumFaqs(annualAvailable: boolean): typeof faqs {
-  if (!annualAvailable) return faqs;
-  return faqs.map((faq) =>
+  if (!annualAvailable) return FAQ_VENTE;
+  return FAQ_VENTE.map((faq) =>
     faq.question === PRICE_FAQ_QUESTION ? { ...faq, answer: ANNUAL_PRICE_FAQ_ANSWER } : faq,
   );
 }

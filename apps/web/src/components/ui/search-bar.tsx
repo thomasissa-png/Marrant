@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 
 interface SearchResult {
   id: string;
@@ -34,6 +35,8 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  // textes-trajet-v3 §5 point 3 : retour sur la page courante après le paiement.
+  const pathname = usePathname();
 
   // All selectable items: grouped results + "voir tout" links
   const grouped = groupByType(results);
@@ -252,7 +255,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           {searchLimited && (
             <div className="border-t border-border px-4 py-2.5">
               <p className="text-center text-xs text-text-muted">
-                Résultats limités&nbsp;: <a href="/abonnement" className="font-medium text-accent-link underline underline-offset-2">passe en Premium</a> pour tout voir
+                Résultats limités&nbsp;: <a href={buildAbonnementUrl(pathname && pathname !== "/" ? pathname : null, "monthly", "recherche")} className="font-medium text-accent-link underline underline-offset-2">passe en Premium</a> pour tout voir
               </p>
             </div>
           )}
@@ -268,7 +271,7 @@ export function SearchBar({ className, onNavigate }: { className?: string; onNav
           className="absolute top-full z-50 mt-2 w-full rounded-lg border border-border bg-background-card p-4 shadow-xl animate-fade-in"
         >
           <p className="text-center text-sm text-text-muted">
-            Rien trouvé pour &laquo; {query} &raquo;. Essaie une de ces pistes :
+            Rien trouvé pour &laquo;&nbsp;{query}&nbsp;&raquo;. Essaie une de ces pistes&nbsp;:
           </p>
           <div className="mt-3 flex flex-wrap justify-center gap-1.5">
             {SUGGESTIONS.slice(0, 4).map((s) => (

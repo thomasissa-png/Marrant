@@ -23,9 +23,9 @@ describe("FaqSection", () => {
     expect(screen.getByText("Questions fréquentes")).toBeInTheDocument();
   });
 
-  it("renders all 8 FAQ questions", () => {
+  it("renders all 9 FAQ questions (v3 Q01 « Et si j'arrête ? » compris)", () => {
     const summaries = document.querySelectorAll("summary");
-    expect(summaries).toHaveLength(8);
+    expect(summaries).toHaveLength(9);
     const texts = Array.from(summaries).map((s) => s.textContent);
     expect(texts.some((t) => t?.includes("apprendre à être drôle"))).toBe(true);
     expect(texts.some((t) => t?.includes("frais cachés"))).toBe(true);
@@ -48,14 +48,20 @@ describe("FaqSection", () => {
     expect(screen.queryByText(/5 minutes chaque jour valent mieux/)).toBeNull();
   });
 
-  it("mentions trust reassurances in answers", () => {
-    expect(screen.getByText(/annules en 1 clic/)).toBeInTheDocument();
-    expect(screen.getByText(/Paiement sécurisé par Stripe/)).toBeInTheDocument();
+  it("réponse prix de la concision v5 : renouvellement dit, sans « 1 clic » ni Stripe (dit une fois sur la page)", () => {
+    // Trajet de conversion s21 §1.5 : + la réassurance unique, mot pour mot ; v2 A14 : + le départ des 14 jours.
+    expect(
+      screen.getByText(
+        "C’est le prix, point. Ça se renouvelle chaque mois, tant que tu ne résilies pas. Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil. Les 14 jours courent dès ton abonnement. Un renouvellement n’ouvre pas de nouveau délai.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/1 clic|reconduction surprise/)).toBeNull();
+    expect(screen.queryByText(/Paiement sécurisé par Stripe/)).toBeNull();
   });
 
   it("renders details elements for each FAQ", () => {
     const details = document.querySelectorAll("details");
-    expect(details).toHaveLength(8);
+    expect(details).toHaveLength(9);
   });
 
   it("does not render JSON-LD (handled at page level to avoid duplicates)", () => {

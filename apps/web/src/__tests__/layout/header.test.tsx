@@ -2,6 +2,10 @@ import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Header } from "@/components/layout/header";
 
+/** s21 (B6) : nom accessible du bouton prix de l'en-tête (libellé visible d'abord). */
+// Trajet de conversion s21 §2 : le nom accessible commence par le texte visible (WCAG 2.5.3).
+const PRIX = /^Premium, 2,99\s€ par mois : voir l['’]offre$/;
+
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),
   useRouter: () => ({ push: jest.fn() }),
@@ -41,20 +45,63 @@ describe("Header", () => {
     expect(screen.getByText("Conseils")).toBeInTheDocument();
     expect(screen.getByText("Vidéos")).toBeInTheDocument();
     expect(screen.getAllByText("Parcours").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Blog").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("shows Commencer CTA when unauthenticated", () => {
+  it("trajet de conversion s21 : « Premium · 2,99 €/mois » dès 640 px (ordinateur : dès 1 280 px), repli « Premium » en dessous et de 1 024 à 1 279 px", () => {
     render(<Header />);
-    expect(screen.getAllByText("Commencer").length).toBeGreaterThan(0);
+    const liens = screen.getAllByRole("link", { name: PRIX });
+    expect(liens.length).toBe(2);
+    // Ordinateur : repli « Premium » de 1 024 à 1 279 px (« Premium · 2,99 € » y débordait, mesuré), complet dès 1 280 px.
+    const [courtOrdi, completOrdi] = Array.from(liens[0].querySelectorAll("span"));
+    expect(courtOrdi.textContent).toBe("Premium");
+    expect(courtOrdi.className).toBe("xl:hidden");
+    expect(completOrdi.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(completOrdi.className).toBe("hidden xl:inline");
+    // Téléphone : toujours rendu ; repli « Premium » sous 640 px, complet au-delà.
+    const mobile = liens[1];
+    expect(mobile.className).not.toMatch(/(^| )hidden( |$)/);
+    const [court, complet] = Array.from(mobile.querySelectorAll("span"));
+    expect(court.textContent).toBe("Premium");
+    expect(court.className).toBe("sm:hidden");
+    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(complet.className).toBe("hidden sm:inline");
+    for (const lien of liens) expect(lien).toHaveAccessibleName(PRIX);
+    expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
   });
 
-  it("s15 : « Commencer » et « Connexion » sont de vrais liens (HTML serveur), retour sur la page", () => {
+  it("s21 (B6) : bouton prix masqué sur /abonnement et /register, visiteur comme compte", async () => {
+    for (const page of ["/abonnement", "/register", "/abonnement/success"]) {
+      usePathname.mockReturnValue(page);
+      const { unmount } = render(<Header />);
+      await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+      expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
+      unmount();
+    }
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "FREE" } }, status: "authenticated" });
+    usePathname.mockReturnValue("/abonnement");
+    render(<Header />);
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
+  });
+
+  it("v3 §5 point 3 : depuis l'accueil, aucun retour (après paiement : /parcours) ; ailleurs, la page courante", () => {
+    usePathname.mockReturnValue("/");
+    const { unmount } = render(<Header />);
+    for (const link of screen.getAllByRole("link", { name: PRIX })) expect(link).toHaveAttribute("href", "/abonnement?src=header");
+    unmount();
+    usePathname.mockReturnValue("/conseils");
+    render(<Header />);
+    for (const link of screen.getAllByRole("link", { name: PRIX })) expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fconseils&src=header");
+  });
+
+  it("s15 puis s21 : bouton prix et « Connexion » sont de vrais liens (HTML serveur)", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     render(<Header />);
-    // Desktop + en-tête mobile (s20) : même destination.
-    for (const link of screen.getAllByRole("link", { name: "Commencer" })) {
-      expect(link).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    // Desktop + en-tête mobile (s20) : même destination, /abonnement?src=header (s21, B6), avec le
+    // retour sur la page courante après le paiement (textes-trajet-v3 §5 point 3).
+    for (const link of screen.getAllByRole("link", { name: PRIX })) {
+      expect(link).toHaveAttribute("href", "/abonnement?returnTo=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
     }
     // Desktop + en-tête mobile (s16) : même destination.
     for (const link of screen.getAllByRole("link", { name: "Connexion" })) {
@@ -65,7 +112,7 @@ describe("Header", () => {
   it("s15 : session en cours de chargement (rendu serveur) = liens anonymes présents", () => {
     useSession.mockReturnValue({ data: null, status: "loading" });
     render(<Header />);
-    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(2);
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(2);
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(2);
   });
 
@@ -73,7 +120,7 @@ describe("Header", () => {
     render(<Header />);
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     // Desktop + en-tête mobile (s20) + menu.
-    expect(screen.getAllByRole("link", { name: "Commencer" })).toHaveLength(3);
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);
     // Desktop + en-tête mobile (s16) + menu.
     expect(screen.getAllByRole("link", { name: "Connexion" })).toHaveLength(3);
   });
@@ -90,29 +137,67 @@ describe("Header", () => {
     expect(screen.queryByRole("link", { name: "Connexion" })).not.toBeInTheDocument();
   });
 
-  it("s20 : « Commencer » dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent si connecté", () => {
+  it("s20 puis s21 : bouton prix dans l'en-tête mobile sans ouvrir le menu, cible de 44 px, absent pour l'abonné", () => {
     usePathname.mockReturnValue("/blog/meilleures-blagues-droles-2026");
     const { unmount } = render(<Header />);
     const mobile = screen.getByRole("button", { name: "Menu" }).parentElement as HTMLElement;
-    const lien = within(mobile).getByRole("link", { name: "Commencer" });
-    expect(lien).toHaveAttribute("href", "/register?callbackUrl=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
+    const lien = within(mobile).getByRole("link", { name: PRIX });
+    expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fblog%2Fmeilleures-blagues-droles-2026&src=header");
     expect(lien.className).toContain("h-11");
+    expect(lien.className).toContain("whitespace-nowrap");
     expect(mobile.className).toContain("lg:hidden");
     unmount();
-    useSession.mockReturnValue({ data: { user: { name: "Jean" } }, status: "authenticated" });
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "PREMIUM" } }, status: "authenticated" });
     render(<Header />);
-    expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
   });
 
-  it("shows Favoris icon, Profil icon, Déconnexion when authenticated", () => {
+  it("connecté : un seul bouton « Mon compte » (menu Radix) regroupe Favoris, Mon profil et Déconnexion", async () => {
     useSession.mockReturnValue({
       data: { user: { name: "Jean" } },
       status: "authenticated",
     });
     render(<Header />);
-    expect(screen.getAllByLabelText("Favoris").length).toBeGreaterThan(0);
-    expect(screen.getAllByLabelText("Mon profil").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("Déconnexion").length).toBeGreaterThan(0);
+    // Barre ordinateur : plus d'étoile, de profil ni de « Déconnexion » permanents.
+    expect(screen.queryByLabelText("Favoris")).not.toBeInTheDocument();
+    expect(screen.queryByText("Déconnexion")).not.toBeInTheDocument();
+    const compte = screen.getByRole("button", { name: "Mon compte" });
+    expect(compte).toHaveAttribute("aria-haspopup", "menu");
+    // Revue s21 N3 : « Mon compte » reste un nom vocal, jamais une infobulle affichée.
+    expect(compte).not.toHaveAttribute("title");
+    expect(compte.className).toContain("h-11");
+    // Radix ouvre le menu au clavier (Entrée), focus dans le menu.
+    compte.focus();
+    await userEvent.keyboard("{Enter}");
+    const menu = await screen.findByRole("menu");
+    const entrees = within(menu).getAllByRole("menuitem");
+    expect(entrees.map((e) => e.textContent)).toEqual(["Favoris", "Mon profil", "Déconnexion"]);
+    expect(entrees[0]).toHaveAttribute("href", "/favoris");
+    expect(entrees[1]).toHaveAttribute("href", "/profil");
+    await userEvent.click(entrees[2]);
+    expect(mockSignOut).toHaveBeenCalledWith({ callbackUrl: "/" });
+  });
+
+  it("QA v4 m-3 : compte sans abonnement = même bouton prix que le visiteur (barre, en-tête mobile, menu), pas pour un Premium", async () => {
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "FREE" } }, status: "authenticated" });
+    usePathname.mockReturnValue("/vannes");
+    const { unmount } = render(<Header />);
+    expect(screen.queryByRole("link", { name: "Activer mon accès" })).not.toBeInTheDocument();
+    const liens = screen.getAllByRole("link", { name: PRIX });
+    expect(liens).toHaveLength(2);
+    for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fvannes&src=header");
+    const [court, complet] = Array.from(liens[0].querySelectorAll("span"));
+    expect(court.textContent).toBe("Premium");
+    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);
+    expect(screen.queryByText("Activer mon accès")).not.toBeInTheDocument();
+    unmount();
+    useSession.mockReturnValue({ data: { user: { name: "Jean", plan: "PREMIUM" } }, status: "authenticated" });
+    render(<Header />);
+    await userEvent.click(screen.getByRole("button", { name: "Menu" }));
+    expect(screen.queryByRole("link", { name: PRIX })).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Mon compte" })).toBeInTheDocument();
   });
 
   it("has navigation principale aria-label", () => {
@@ -134,9 +219,42 @@ describe("Header", () => {
     expect(screen.getByLabelText("Navigation mobile")).toBeInTheDocument();
   });
 
-  it("has search button on mobile", () => {
+  it("menu mobile : Échap le ferme et rend le focus au bouton « Menu » (QA s21 tour 2 n1)", async () => {
     render(<Header />);
-    expect(screen.getByLabelText("Rechercher")).toBeInTheDocument();
+    const menuBtn = screen.getByLabelText("Menu");
+    await userEvent.click(menuBtn);
+    // Focus dans le menu (premier onglet), puis Échap.
+    screen.getByLabelText("Navigation mobile").querySelector("a")?.focus();
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByLabelText("Navigation mobile")).not.toBeInTheDocument();
+    expect(menuBtn).toHaveAttribute("aria-expanded", "false");
+    expect(menuBtn).toHaveFocus();
+  });
+
+  it("recherche : champ dès 1280 px (xl, largeur fixe), loupe de 1024 à 1279 px et sur mobile", async () => {
+    render(<Header />);
+    const champ = screen.getByTestId("search-bar");
+    expect(champ.className.split(" ")).toEqual(expect.arrayContaining(["hidden", "xl:block", "w-44", "shrink-0"]));
+    expect(champ.className).not.toMatch(/(^| )lg:block|2xl:/);
+    const loupes = screen.getAllByRole("button", { name: "Rechercher" });
+    expect(loupes).toHaveLength(2);
+    expect(loupes[0].className.split(" ")).toEqual(expect.arrayContaining(["hidden", "lg:flex", "xl:hidden"]));
+    for (const loupe of loupes) {
+      expect(loupe).toHaveAttribute("aria-controls", "mobile-search");
+      expect(loupe).toHaveAttribute("aria-expanded", "false");
+    }
+    await userEvent.click(loupes[0]);
+    expect(loupes[0]).toHaveAttribute("aria-expanded", "true");
+    expect(document.getElementById("mobile-search")?.className).toContain("xl:hidden");
+  });
+
+  it("menu mobile : hauteur maximale, défilement interne et marge de zone sûre (revue design s21 M1)", async () => {
+    render(<Header />);
+    await userEvent.click(screen.getByLabelText("Menu"));
+    const nav = screen.getByLabelText("Navigation mobile");
+    expect(nav.className.split(" ")).toEqual(
+      expect.arrayContaining(["max-h-[calc(100dvh-4rem-1px)]", "overflow-y-auto", "overscroll-contain", "pb-[max(1rem,env(safe-area-inset-bottom))]"]),
+    );
   });
 
   it("highlights current path in navigation", () => {
@@ -150,7 +268,7 @@ describe("Header", () => {
   it("keeps the section tab active on sub-pages (s12 design)", () => {
     usePathname.mockReturnValue("/blog/comment-devenir-drole");
     render(<Header />);
-    expect(screen.getAllByText("Blog")[0]).toHaveClass("text-accent-link");
+    expect(screen.getAllByText("Articles")[0]).toHaveClass("text-accent-link");
     expect(screen.getAllByText("Accueil")[0]).not.toHaveClass("text-accent-link");
   });
 

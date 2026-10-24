@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
 import { FREE_JOKE_LIMIT } from "@/config/premium";
+import { OFFRE_NOM } from "@/config/textes/offre";
+import { sansExerciceVanne } from "@/lib/champs-premium";
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -96,7 +98,8 @@ export async function GET(request: NextRequest) {
       : [];
 
     return NextResponse.json({
-      jokes,
+      // « À toi de jouer » réservé à Premium : vidé pour tout autre compte (même règle que le HTML).
+      jokes: isPremium ? jokes : jokes.map(sansExerciceVanne),
       pagination: {
         page: query.page,
         limit: query.limit,
@@ -105,7 +108,7 @@ export async function GET(request: NextRequest) {
       },
       limited: !isPremium,
       totalReal: total,
-      ...((!isPremium && total > FREE_JOKE_LIMIT) ? { upgradeMessage: `${total - FREE_JOKE_LIMIT} vannes supplémentaires avec l'abonnement` } : {}),
+      ...((!isPremium && total > FREE_JOKE_LIMIT) ? { upgradeMessage: `${total - FREE_JOKE_LIMIT} vannes supplémentaires avec ${OFFRE_NOM}` } : {}),
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

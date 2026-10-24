@@ -13,6 +13,7 @@ import type { Step } from "@/components/parcours/parcours-types";
 import { xpProgressionTexte } from "@/config/textes/parcours";
 import { xpGagnesParcours } from "@/lib/parcours-xp";
 import { trackUmami } from "@/lib/umami";
+import { courbe } from "../helpers/texte-normalise";
 
 jest.mock("@/components/ui/progress-bar", () => ({
   ProgressBar: (props: Record<string, unknown>) => <div data-testid="progress-bar">{props.label as string}</div>,
@@ -24,7 +25,7 @@ jest.mock("next-auth/react", () => ({
 jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 
 const NBSP = String.fromCharCode(0xa0);
-const plain = (t: string | null) => (t ?? "").replaceAll(NBSP, " ").replaceAll(String.fromCharCode(0x2060), "");
+const plain = (t: string | null) => (t ?? "").replaceAll(NBSP, " ").replaceAll(String.fromCharCode(0x2060), "").replace(/’/g, "'");
 const DEFI_REPARTIE = "DÉFI IRONIE DOUCE : la prochaine fois qu'un proche fait un truc raté, commente-le.";
 
 function step(order: number, exercise = "", example = ""): Step {
@@ -47,9 +48,7 @@ function carte(slug: string, over: Partial<ParcoursStepCardProps> = {}) {
     isPremium: true,
     isCompleted: false,
     isExpanded: true,
-    isSequentiallyLocked: false,
     isPremiumLocked: false,
-    previousOrder: null,
     isQuizDone: false,
     isSeedFallback: false,
     completing: false,
@@ -95,7 +94,7 @@ describe("point 4 : défi en gras et exemple en paragraphes, tous les parcours",
 
   it("sans libellé « DÉFI X : », le texte est rendu tel quel, sans gras", () => {
     const { container } = carte("repartie", { step: step(1, "Aujourd'hui, note une phrase.") });
-    expect(screen.getByText("Aujourd'hui, note une phrase.").tagName).toBe("P");
+    expect(screen.getByText(courbe("Aujourd'hui, note une phrase.")).tagName).toBe("P");
     expect(container.querySelector("strong")).toBeNull();
   });
 });

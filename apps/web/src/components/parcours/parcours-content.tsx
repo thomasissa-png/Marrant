@@ -10,14 +10,18 @@ import { useRouter } from "next/navigation";
 import { emojiReponseBoulot, recommendParcours, type ParcoursRecommendation } from "@/lib/parcours-orientation";
 import { withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
-import { frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
+import { frTypo, frTypoParcours, frTypoTexte } from "@/lib/fr-typo";
 import type { ParcoursCatalogueItem } from "@/lib/parcours-catalogue";
 import { ETAPE_LIBRE_BADGE } from "@/config/textes/offre";
 import { LISTE_PARCOURS } from "@/config/textes/parcours";
 import { trackUmami } from "@/lib/umami";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import Link from "next/link";
+import { isParcoursSlug } from "@/lib/entrees-parcours";
+import { LISTE_PARCOURS_CTA } from "@/config/textes/cta-pages";
 import { totalParcoursXp } from "@/lib/parcours-xp";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
 
 // Les données arrivent du Server Component (app/(dashboard)/parcours/(liste)/page.tsx) :
 // le seed complet (quiz, vidéos, vannes) ne doit plus être embarqué côté client.
@@ -39,11 +43,11 @@ const ORIENTATION_QUESTIONS = [
     ],
   },
   {
-    question: "Qu'est-ce qui coince le plus ?",
+    question: "Qu’est-ce qui coince le plus ?",
     options: [
-      { label: "Je n'ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
+      { label: "Je n’ai jamais rien de drôle à raconter", value: "content", emoji: "📝" },
       { label: "Je ne sais pas quoi répondre sur le moment", value: "repartie", emoji: "⚡" },
-      { label: "J'ai perdu confiance en moi", value: "confiance", emoji: "💪" },
+      { label: "J’ai perdu confiance en moi", value: "confiance", emoji: "💪" },
     ],
   },
 ];
@@ -85,7 +89,7 @@ function OrientationQuiz({
         <CardContent>
           <p className="text-sm font-medium text-accent-link">Ton point de départ :</p>
           <h3 className="mt-2 font-display text-xl font-bold">{result.title}</h3>
-          <p className="mt-2 text-sm text-text-secondary">{result.reason}</p>
+          <p className="mt-2 text-sm text-text-secondary">{frTypo(result.reason)}</p>
           <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:justify-center">
             <Button variant="primary" size="sm" onClick={() => onShowParcours(result.slug)}>
               Voir ce parcours
@@ -265,6 +269,8 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
           const prog = userProgress[p.slug];
           const progressValue = prog ? prog.completed : 0;
           const isDone = !!prog?.done;
+          // s21 B15 (froid) : visiteur ou membre qui n'a pas commencé ce parcours.
+          const etape1Slug = statut !== "premium" && !isDone && progressValue === 0 && isParcoursSlug(p.slug) ? p.slug : null;
           const progressMax = prog ? prog.total : p.modules.length;
           return (
             <Card key={p.title} className="p-4 sm:p-6" id={`parcours-${p.slug}`}>
@@ -332,7 +338,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-2">
                             <span className="font-medium text-text-primary">
-                              {m.title}
+                              {frTypo(m.title)}
                             </span>
                             {m.free && (
                               <Badge variant="success">{ETAPE_LIBRE_BADGE}</Badge>
@@ -356,14 +362,22 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
                 </details>
 
                 <div className="flex flex-col gap-2">
+                  {/* s21 B15 (froid) : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous. */}
                   <Button
                     variant="primary"
                     size="lg"
-                    className="w-full sm:w-auto"
+                    className={cn("h-auto min-h-12 w-full whitespace-normal py-2 sm:w-auto", CORPS_APPEL_MOBILE)}
                     onClick={() => handleCta(p.slug)}
                   >
-                    {isDone ? LISTE_PARCOURS.revoir : progressValue > 0 ? "Continuer ce parcours" : "Commencer ce parcours"}
+                    {etape1Slug
+                      ? LISTE_PARCOURS_CTA.bouton(etape1Slug)
+                      : isDone
+                        ? LISTE_PARCOURS.revoir
+                        : progressValue > 0
+                          ? "Continuer ce parcours"
+                          : "Commencer ce parcours"}
                   </Button>
+                  {etape1Slug && <p className="text-xs text-text-muted">{LISTE_PARCOURS_CTA.frontiere(etape1Slug)}</p>}
                 </div>
               </CardContent>
             </Card>

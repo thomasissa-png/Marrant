@@ -64,7 +64,9 @@ export function withAuthReturnMarker(target: string, marker: string, src?: strin
   const params = new URLSearchParams();
   params.set(AUTH_RETURN_PARAM, marker);
   const safeSrc = sanitizeSignupSrc(src);
-  if (safeSrc) params.set("src", safeSrc);
+  // s21 (QA M1) : la cible porte déjà la source d'entrée (/abonnement?…&src=…) : pas de doublon.
+  const dejaSource = new URLSearchParams(beforeHash.split("?")[1] ?? "").has("src");
+  if (safeSrc && !dejaSource) params.set("src", safeSrc);
   const separator = beforeHash.includes("?") ? "&" : "?";
   const withParams = `${beforeHash}${separator}${params.toString()}`;
   return hash !== undefined ? `${withParams}#${hash}` : withParams;

@@ -11,7 +11,7 @@ export const TEXTES_API = {
   donneesInvalides: "Certaines informations ne sont pas valides. Vérifie le formulaire puis réessaie.",
   emailRequis: "Indique ton adresse email.",
   /** Étalon 4 « trop d'essais » b, sans la seconde sortie (inscription, mot de passe oublié : pas de réinitialisation à proposer). */
-  tropDeTentatives: "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu.",
+  tropDeTentatives: "Trop d’essais pour l’instant, c’est une sécurité. Attends un peu.",
   nonConnecte: "Ta session a expiré. Reconnecte-toi puis réessaie.",
 } as const;
 
@@ -29,7 +29,7 @@ export const TEXTES_CONNEXION = {
   /** Étalon 4, identifiants incorrects, variante c. */
   identifiants: "E-mail ou mot de passe incorrect. Réessaie, ou réinitialise ton mot de passe.",
   /** Étalon 4, trop d'essais, variante b (aucune durée écrite tant qu'elle n'est pas confirmée). */
-  tropDEssais: "Trop d'essais pour l'instant, c'est une sécurité. Attends un peu, ou réinitialise ton mot de passe.",
+  tropDEssais: "Trop d’essais pour l’instant, c’est une sécurité. Attends un peu, ou réinitialise ton mot de passe.",
   /**
    * Étalon 4, compte créé avec Google, variante b : aide affichée sous l'erreur
    * générique (`identifiants`), pour TOUT échec d'identifiants. L'écran est donc
@@ -40,9 +40,13 @@ export const TEXTES_CONNEXION = {
   serveur: "Quelque chose a coincé de notre côté. Réessaie dans un instant.",
   /** Étalon 4, adresse déjà liée à un compte avec mot de passe (inscription Google), variante b. */
   oauthCompteExistant:
-    "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l'as oublié.",
+    "Cette adresse a déjà un compte avec mot de passe : connecte-toi avec, ou demande-en un nouveau si tu l’as oublié.",
   // PROVISOIRE s16, hors étalons
   lienConnexionMobile: "Connexion",
+  // PROVISOIRE s21 (revue design, en-tête) : nom vocal du bouton du menu de compte
+  // (`aria-label` seul, sans `title` : jamais affiché, ni en infobulle, revue s21 N3) ;
+  // les entrées du menu reprennent les libellés existants.
+  menuCompte: "Mon compte",
 } as const;
 
 // PROVISOIRE s16, étalon à valider
@@ -68,28 +72,28 @@ export const TEXTES_ABONNEMENT = {
   badgePremium: "Premium",
   badgeAucun: "Aucun abonnement",
   badgeImpaye: "Paiement refusé",
-  badgeResilie: "Premium jusqu'au terme",
+  badgeResilie: "Premium jusqu’au terme",
   formuleMensuelle: "Formule mensuelle",
   formuleAnnuelle: "Formule annuelle",
   prochainPrelevement: (date: string) => `Prochain prélèvement le ${date}.`,
-  premiumJusquau: (date: string) => `Premium jusqu'au ${date}.`,
-  resilieDetail: "Tu as résilié : aucun nouveau prélèvement. Tu peux changer d'avis depuis « Gérer mon abonnement ».",
+  premiumJusquau: (date: string) => `Premium jusqu’au ${date}.`,
+  resilieDetail: "Tu as résilié : aucun nouveau prélèvement. Tu peux changer d’avis depuis « Gérer mon abonnement ».",
   impaye:
     "Ton dernier paiement a été refusé. Mets à jour ta carte pour garder Premium : on réessaie automatiquement dans les prochains jours.",
   majCarte: "Mettre à jour ma carte",
   gerer: "Gérer mon abonnement",
   changerFormule: "Changer de formule",
-  versAnnuel: (avantage: string) => `Passe à l'annuel : ${avantage}.`,
+  versAnnuel: (avantage: string) => `Passe à l’annuel : ${avantage}.`,
   versMensuel: "Tu peux repasser au mensuel à tout moment, le changement se fait à la fin de ta période.",
   /** Libellé unique de résiliation (D6 + formule analogue au décret 2023-417), repris par les e-mails et la CGU. */
   resilier: "Résilier ton contrat",
-  resilierDetail: (date: string) => `Si tu résilies, tu gardes Premium jusqu'au ${date}, sans nouveau prélèvement.`,
-  resilierDetailSansDate: "Si tu résilies, tu gardes Premium jusqu'à la fin de la période déjà payée.",
+  resilierDetail: (date: string) => `Si tu résilies, tu gardes Premium jusqu’au ${date}, sans nouveau prélèvement.`,
+  resilierDetailSansDate: "Si tu résilies, tu gardes Premium jusqu’à la fin de la période déjà payée.",
   chargement: "On redirige…",
   portailIndisponible: "La gestion de ton abonnement ne répond pas. Réessaie dans un instant.",
   // PROVISOIRE lot G : bouton de résiliation affiché sans client Stripe connu (portail en 404).
   aucunAbonnementCarte:
-    "On ne trouve pas d'abonnement par carte sur ton compte. Écris-nous à contact@deviens-marrant.fr si tu penses que c'est une erreur.",
+    "On ne trouve pas d’abonnement par carte sur ton compte. Écris-nous à contact@deviens-marrant.fr si tu penses que c’est une erreur.",
   connexionPerdue: "Connexion perdue, réessaie.",
 } as const;
 
@@ -104,7 +108,7 @@ export const MOT_CONFIRMATION_SUPPRESSION = "SUPPRIMER";
 export const TEXTES_SUPPRESSION = {
   titre: "Supprimer mon compte",
   intro:
-    "Tu peux supprimer ton compte quand tu veux. On efface ton profil, tes favoris, ta progression et ton inscription à la newsletter. C'est définitif.",
+    "Tu peux supprimer ton compte quand tu veux. On efface ton profil, tes favoris, ta progression et ton inscription à la lettre. C’est définitif.",
   /**
    * Avertissement avant suppression d'un compte abonné (lot G, relecture @legal
    * point 8). Avec date : texte exact @legal. Sans date (résumé illisible) :
@@ -112,11 +116,11 @@ export const TEXTES_SUPPRESSION = {
    */
   avecAbonnement: (fin: string | null) =>
     fin
-      ? `Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si tu as payé jusqu'au ${fin}. La période déjà payée n'est pas remboursée. Pour garder Premium jusqu'au ${fin}, résilie d'abord ton abonnement, puis supprime ton compte après cette date.`
-      : "Ton abonnement Premium sera résilié tout de suite et tu perdras l'accès immédiatement, même si ta période payée n'est pas terminée. La période déjà payée n'est pas remboursée. Pour garder Premium jusqu'à la fin de cette période, résilie d'abord ton abonnement, puis supprime ton compte après cette date.",
+      ? `Ton abonnement Premium sera résilié tout de suite et tu perdras l’accès immédiatement, même si tu as payé jusqu’au ${fin}. La période déjà payée n’est pas remboursée. Pour garder Premium jusqu’au ${fin}, résilie d’abord ton abonnement, puis supprime ton compte après cette date.`
+      : "Ton abonnement Premium sera résilié tout de suite et tu perdras l’accès immédiatement, même si ta période payée n’est pas terminée. La période déjà payée n’est pas remboursée. Pour garder Premium jusqu’à la fin de cette période, résilie d’abord ton abonnement, puis supprime ton compte après cette date.",
   /** PROVISOIRE lot G : abonnement déjà résilié (fin de période programmée). */
   avecAbonnementResilie: (fin: string) =>
-    `Tu as déjà résilié ton abonnement. Si tu supprimes ton compte maintenant, tu perds tout de suite l'accès Premium payé jusqu'au ${fin}, et la période déjà payée n'est pas remboursée. Pour en profiter jusqu'au bout, supprime ton compte après cette date.`,
+    `Tu as déjà résilié ton abonnement. Si tu supprimes ton compte maintenant, tu perds tout de suite l’accès Premium payé jusqu’au ${fin}, et la période déjà payée n’est pas remboursée. Pour en profiter jusqu’au bout, supprime ton compte après cette date.`,
   /** Texte exact @legal (point 8), coupé autour du lien vers /retractation. */
   retractationAvant: "Tu as souscrit il y a moins de 14 jours ? Demande ton remboursement avec le ",
   retractationLien: "formulaire de rétractation",
@@ -128,7 +132,30 @@ export const TEXTES_SUPPRESSION = {
   enCours: "Suppression…",
   motIncorrect: `Tape exactement ${MOT_CONFIRMATION_SUPPRESSION} pour confirmer.`,
   echecStripe:
-    "On n'a pas réussi à résilier ton abonnement, donc rien n'a été supprimé. Réessaie dans un instant ou écris-nous.",
-  echec: "La suppression n'a pas abouti, rien n'a été effacé. Réessaie dans un instant.",
-  succes: "Ton compte est supprimé. Merci d'être passé par ici.",
+    "On n’a pas réussi à résilier ton abonnement, donc rien n’a été supprimé. Réessaie dans un instant ou écris-nous.",
+  echec: "La suppression n’a pas abouti, rien n’a été effacé. Réessaie dans un instant.",
+  succes: "Ton compte est supprimé. Merci d’être passé par ici.",
 } as const;
+
+// ---------------------------------------------------------------------------
+// Profil : prénom (s21 concision, choix de Thomas du 18/10 : le prénom n'est plus
+// demandé à l'inscription, il se renseigne après coup dans /profil)
+// ---------------------------------------------------------------------------
+
+// Libellé et indication : textes existants de /register (s21 B17), déplacés tels quels.
+// Titre, bouton, succès et erreur : textes demandés pour la carte (s21, intégration de la
+// concision v5, 18/10), encore provisoires tant que @copywriter ne les a pas relus à l'aveugle.
+export const TEXTES_PRENOM = {
+  titre: "Ton prénom",
+  label: "Prénom (facultatif, pour te saluer dans nos e-mails)",
+  placeholder: "Ton prénom",
+  bouton: "Enregistrer",
+  enCours: "On enregistre…",
+  succes: "C’est noté.",
+  /** Échec réseau ou serveur (les erreurs de saisie gardent leur message propre). */
+  erreur: "Ça n’a pas marché, réessaie.",
+  tropCourt: "Ton prénom doit faire au moins 2 caractères.",
+} as const;
+
+/** Longueur maximale du prénom enregistré (au-delà, `firstNameFrom` ne l'utilise pas dans les e-mails). */
+export const PRENOM_MAX = 40;

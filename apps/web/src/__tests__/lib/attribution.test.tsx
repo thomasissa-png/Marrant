@@ -20,9 +20,9 @@ import { AttributionCapture } from "@/components/analytics/attribution-capture";
 jest.mock("next/navigation", () => ({ usePathname: () => "/blog/mon-article" }));
 
 describe("listes blanches", () => {
-  it.each(["x", "instagram", "linkedin"])("origine %s acceptée", (v) => expect(sanitizeOrigine(v)).toBe(v));
+  it.each(["x", "instagram", "linkedin", "lettre"])("origine %s acceptée", (v) => expect(sanitizeOrigine(v)).toBe(v));
 
-  it.each(["facebook", "X", "Instagram", "twitter", "", "x ", "jean@test.fr", null, undefined])(
+  it.each(["facebook", "X", "Instagram", "twitter", "Lettre", "newsletter", "", "x ", "jean@test.fr", null, undefined])(
     "origine %p refusée",
     (v) => expect(sanitizeOrigine(v)).toBeNull(),
   );
@@ -128,6 +128,14 @@ describe("trackUmami : origine et contenu sur les événements du tunnel", () =>
         "parcours-ouvert",
         "parcours-termine",
         "quiz-termine",
+        // s21 : lettre mensuelle (spec lettre §4 règle 1) : vu, soumis, échec, confirmé.
+        "lettre-vu",
+        "lettre-envoi",
+        "lettre-echec",
+        "lettre-confirmee",
+        // s21 (blocs d'appel A) : ouverture et échec de Stripe Checkout.
+        "checkout-ouvert",
+        "checkout-echec",
       ].sort(),
     );
   });

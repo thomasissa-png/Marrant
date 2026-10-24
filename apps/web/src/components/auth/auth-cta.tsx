@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
 import { buildRegisterUrl } from "@/lib/auth-links";
 import { cn } from "@/lib/utils";
 
 interface AuthCtaProps {
+  /** Par défaut : porte générique « Tout ouvrir · 2,99 €/mois » (trajet de conversion s21). */
   label?: string;
   callbackUrl?: string;
   /** Source du clic pour la mesure du tunnel (kebab-case, ex. `blog-<slug>`, `quiz`). */
@@ -18,6 +20,25 @@ interface AuthCtaProps {
   onAuthenticatedClick?: () => void;
 }
 
+/** Même règle que les autres `src` du tunnel (lib/premium-return, lib/checkout-tracking). */
+const SRC_VALIDE = /^[a-z0-9][a-z0-9-]{0,119}$/;
+
+/**
+ * s21 (revue v2 m-1) : compte connecté envoyé sur `/abonnement` : la source du clic y est
+ * ajoutée (si la destination n'en porte pas déjà une), pour qu'elle suive jusqu'à
+ * `checkout-ouvert`. Toute autre destination est rendue telle quelle.
+ */
+export function avecSourceAbonnement(callbackUrl: string, src?: string): string {
+  if (!src || !SRC_VALIDE.test(src)) return callbackUrl;
+  const [avantHash, hash] = callbackUrl.split("#");
+  const [chemin, query = ""] = avantHash.split("?");
+  if (chemin !== "/abonnement") return callbackUrl;
+  const params = new URLSearchParams(query);
+  if (params.has("src")) return callbackUrl;
+  params.set("src", src);
+  return `${chemin}?${params.toString()}${hash !== undefined ? `#${hash}` : ""}`;
+}
+
 /**
  * CTA d'abonnement (plus de compte gratuit, s15). Visiteur anonyme (et pendant le chargement de la
  * session, donc dans le HTML serveur) : vrai lien vers
@@ -25,7 +46,7 @@ interface AuthCtaProps {
  * Connecté : action fournie, sinon lien direct vers la destination.
  */
 export function AuthCta({
-  label = "Accéder aux parcours complets",
+  label = libelleToutOuvrir(),
   callbackUrl = "/abonnement",
   src,
   size = "lg",
@@ -43,7 +64,7 @@ export function AuthCta({
     );
   }
 
-  const href = status === "authenticated" ? callbackUrl : buildRegisterUrl({ callbackUrl, src });
+  const href = status === "authenticated" ? avecSourceAbonnement(callbackUrl, src) : buildRegisterUrl({ callbackUrl, src });
   return (
     <Link href={href} className={cn(buttonVariants({ variant, size }), className)}>
       {label}

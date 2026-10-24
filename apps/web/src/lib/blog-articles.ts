@@ -110,7 +110,7 @@ Que tu sois étudiant et que tu galères à prendre ta place en soirée, commenc
 
 Tu ne sais pas encore quel humour est le tien ? Fais le [quiz humour](/quiz-humour).
 
-Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 2,99 €/mois**, sans engagement.`,
+Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 2,99 €/mois**, résiliable en ligne.`,
     date: "2026-03-13",
     // s15 (L7) : date réelle de la modification (liens L6). Si le déploiement glisse, la reporter au jour du déploiement.
     updatedAt: "2026-10-12",
@@ -2494,7 +2494,7 @@ Tu n'as pas besoin de changer de personnalité. Tu as besoin de 5 clés, d'un pl
 
 Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers universels (observation, surprise, timing, autodérision, pratique). Les [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent des réflexes verbaux pour ne plus rester muet. Et si tu pars vraiment de zéro, le guide [Répartie débutant : 5 étapes simples](/blog/repartie-debutant-5-etapes) est fait pour toi.
 
-Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme : palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. Le tout pour 2,99 €/mois, sans engagement.`,
+Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme : palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. Le tout pour 2,99 €/mois, résiliable en ligne.`,
     date: "2026-03-25",
     updatedAt: "2026-10-12",
     readingTime: "7 min",
@@ -2702,7 +2702,7 @@ Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle
 
 Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Le [Parcours Storytelling](/parcours/storytelling) te fait pratiquer en 6 semaines, avec des exercices progressifs. Et pour voir ces structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques des pros. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
 
-Le tout pour 2,99 €/mois, sans engagement.`,
+Le tout pour 2,99 €/mois, résiliable en ligne.`,
     date: "2026-03-25",
     updatedAt: "2026-10-12",
     readingTime: "8 min",
@@ -3603,7 +3603,7 @@ Tu kiffes raconter des histoires longues, donc tu en places partout. Mauvaise st
 
 Que tu cherches à placer plus de vannes en soirée et que tu te sentes mieux à l'aise avec les phrases courtes, bonne nouvelle, c'est le format qui domine en groupe. Que tu veuilles devenir mémorable au boulot ou en famille avec des anecdotes qui marquent, investis sur le storytelling, mais réserve-le aux bons contextes. Ou que tu sois en train de retrouver ton humour après une période sèche, commence par les courtes, c'est moins risqué et ça remet la machine en route.
 
-Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : le secret de la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 2,99 €/mois**, sans engagement.`,
+Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : le secret de la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 2,99 €/mois**, résiliable en ligne.`,
     date: "2026-05-05",
     readingTime: "8 min",
     category: "ANALYSE",
@@ -3799,7 +3799,7 @@ Ces micro-retours alimentent la confiance. La confiance alimente la prise de par
 
 Que tu sois étudiant et que tu galères en soirée alors que tu sais être drôle en tête-à-tête, les techniques 1, 2 et 6 sont tes meilleures alliées. Que tu commences un nouveau job et que les conversations entre collègues te paraissent fermées, la technique du piggyback (5) et de la question idiote (4) ouvrent les portes. Ou que tu reprennes le fil social après une période difficile, le niveau 1 d'entraînement (micro-interactions) te remet en route sans pression.
 
-Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) : une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 2,99 €/mois, sans engagement.`,
+Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) : une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 2,99 €/mois, résiliable en ligne.`,
     date: "2026-05-05",
     updatedAt: "2026-10-12",
     readingTime: "10 min",

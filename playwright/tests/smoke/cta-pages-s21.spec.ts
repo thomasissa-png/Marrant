@@ -1,0 +1,41 @@
+import { test, expect, lireUrl, texteValide } from "../support/fixtures";
+import { LISTE_PARCOURS_CTA, REGISTER_CTA } from "@/config/textes/cta-pages";
+import { ABONNEMENT_ACHAT, ABONNEMENT_HAUT } from "@/config/textes/abonnement-vente";
+
+/**
+ * Blocs d'appel s21, partie B (lecture seule). Tag @s21 : dépend de ce chantier,
+ * sauté par le smoke de production tant qu'il n'est pas déployé.
+ * Textes : constantes de `apps/web/src/config/textes/cta-pages.ts`, jamais recopiés.
+ */
+test.describe("Blocs d'appel s21, partie B @smoke @s21", () => {
+  test("/abonnement 375 x 700 : bouton d'achat entier au premier écran, suite dessous, titre unique (trajet de conversion)", async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 700 });
+    for (const chemin of ["/abonnement", "/abonnement?returnTo=%2Fparcours%2Fmachine-a-cafe", "/abonnement?src=mur-vannes"]) {
+      await page.goto(chemin);
+      // Trajet de conversion s21 (étalon A) : un seul titre, quelle que soit l'origine.
+      await expect(page.locator("h1")).toHaveText(texteValide(ABONNEMENT_HAUT.titre));
+      const bouton = page.getByTestId("abonnement-bouton-achat");
+      await expect(bouton).toHaveText(texteValide(ABONNEMENT_ACHAT.bouton("monthly")));
+      const box = await bouton.boundingBox();
+      expect(box, `bouton d'achat de ${chemin}`).not.toBeNull();
+      expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(700);
+      await expect(page.getByTestId("abonnement-suite")).toHaveText(texteValide(ABONNEMENT_ACHAT.suiteVisiteur));
+    }
+  });
+
+  test("/register : sans prénom (s21 concision), bouton du tour 4, lien d'étape gratuite", async ({ page }) => {
+    await page.goto("/register?callbackUrl=%2Fabonnement%3FreturnTo%3D%252Fparcours%252Fconfiance");
+    const ids = await page.locator("form input").evaluateAll((els) => els.map((e) => e.id));
+    expect(ids).toEqual(["email", "password"]);
+    await expect(page.getByRole("button", { name: REGISTER_CTA.bouton })).toBeVisible();
+    const lien = page.getByRole("link", { name: REGISTER_CTA.lienEtape1("confiance") });
+    expect(lireUrl(await lien.getAttribute("href")).pathname).toBe("/parcours/confiance");
+  });
+
+  test("/parcours : un plein par carte vers l'étape 1 gratuite, ligne frontière dessous", async ({ page }) => {
+    await page.goto("/parcours");
+    await expect(page.getByRole("button", { name: LISTE_PARCOURS_CTA.bouton("repartie") })).toBeVisible();
+    // Concision v5 : même ligne frontière sur chaque carte (« Sans compte. La suite : Premium. »).
+    await expect(page.getByText(LISTE_PARCOURS_CTA.frontiere("repartie")).first()).toBeVisible();
+  });
+});

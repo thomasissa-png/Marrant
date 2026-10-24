@@ -151,3 +151,24 @@ export const NOT_FOUND_ROBOTS = {
   robots: null,
   other: { bingbot: "" },
 } satisfies Metadata;
+
+/**
+ * Consignes robots d'une page valide hors index (lettre, carnet, inscription).
+ * SEO s21 : `other.bingbot: ""` neutralise le `bingbot: index, follow` du layout
+ * racine, sinon la page émet `robots: noindex` ET `bingbot: index` (contradictoire).
+ */
+export const NOINDEX_ROBOTS = {
+  robots: { index: false, follow: false },
+  other: { bingbot: "" },
+} satisfies Metadata;
+
+/**
+ * Aperçu de partage propre à une page (SEO s21) : `og:url` et titres de la page,
+ * sinon Facebook et LinkedIn rattachent le partage à l'accueil (layout racine).
+ */
+export function pageShareMeta(meta: { title: string; description: string; url: string }) {
+  return {
+    openGraph: websiteOpenGraph(meta),
+    twitter: websiteTwitter({ title: meta.title, description: meta.description }),
+  } satisfies Metadata;
+}

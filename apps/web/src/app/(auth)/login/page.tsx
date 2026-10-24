@@ -23,8 +23,8 @@ const OAUTH_ERRORS: Record<string, string> = {
   // s16 reco 13 : plus de liaison automatique, on renvoie vers le mot de passe.
   OAuthAccountNotLinked: TEXTES_CONNEXION.oauthCompteExistant,
   OAuthCallback:
-    "La connexion avec Google n'a pas abouti. Si tu viens d'une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
-  OAuthSignin: "Google ne répond pas pour l'instant. Réessaie.",
+    "La connexion avec Google n’a pas abouti. Si tu viens d’une appli (Instagram, TikTok, Messenger…), ouvre le site dans ton navigateur puis réessaie, ou connecte-toi avec ton email.",
+  OAuthSignin: "Google ne répond pas pour l’instant. Réessaie.",
   // Lot E : erreur inconnue = erreur de notre côté, étalon 4 b.
   Default: TEXTES_CONNEXION.serveur,
 };
@@ -163,10 +163,10 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
@@ -245,7 +245,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               </div>
             </div>
             <Button type="submit" variant="primary" className="w-full" disabled={isLoading}>
-              {isLoading ? "On t'ouvre…" : "Se connecter"}
+              {isLoading ? "On t’ouvre…" : "Se connecter"}
             </Button>
             <Button
               ref={googleRef}
@@ -264,7 +264,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
             )}
           </form>
           <div className="mt-4 text-center text-sm text-text-secondary">
-            <Link href="/forgot-password" className="text-accent-link underline underline-offset-2">
+            <Link href="/forgot-password" className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
               Mot de passe oublié ?
             </Link>
           </div>
@@ -275,7 +275,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               href={registerHref}
               className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
             >
-              Créer mon compte et m&apos;abonner
+              Créer mon compte et m’abonner
             </Link>
           </div>
         </CardContent>
@@ -285,7 +285,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
         href="/"
         className="mt-4 inline-flex min-h-[44px] items-center text-sm text-text-muted hover:text-text-primary hover:underline"
       >
-        Retour à l&apos;accueil
+        Retour à l’accueil
       </Link>
     </main>
   );

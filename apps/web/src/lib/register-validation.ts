@@ -4,7 +4,8 @@
  * Le serveur (/api/auth/register, zod) reste la source de vérité.
  */
 export interface RegisterFields {
-  name: string;
+  /** s21 concision (18/10) : plus demandé par /register (renseigné ensuite dans /profil). */
+  name?: string;
   email: string;
   password: string;
 }
@@ -13,17 +14,16 @@ export type RegisterFieldErrors = Partial<Record<keyof RegisterFields, string>>;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export function validateRegisterFields({ name, email, password }: RegisterFields): RegisterFieldErrors {
+export function validateRegisterFields({ name = "", email, password }: RegisterFields): RegisterFieldErrors {
   const errors: RegisterFieldErrors = {};
 
-  if (!name.trim()) {
-    errors.name = "Il nous manque ton prénom.";
-  } else if (name.trim().length < 2) {
+  // s21 B17 : prénom facultatif ; s'il est donné, au moins 2 caractères.
+  if (name.trim() && name.trim().length < 2) {
     errors.name = "Ton prénom doit faire au moins 2 caractères.";
   }
 
   if (!EMAIL_REGEX.test(email)) {
-    errors.email = "Cette adresse email a l'air bizarre. Tu peux vérifier ?";
+    errors.email = "Cette adresse email a l’air bizarre. Tu peux vérifier ?";
   }
 
   if (password.length < 8) {

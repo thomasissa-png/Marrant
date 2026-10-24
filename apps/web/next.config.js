@@ -125,6 +125,15 @@ const nextConfig = {
                 { key: "Content-Security-Policy", value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cloud.umami.is https://js.stripe.com; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; font-src 'self' data:; connect-src 'self' https:; frame-src https://www.youtube-nocookie.com https://checkout.stripe.com https://js.stripe.com; object-src 'none'; base-uri 'self'" },
               ],
             },
+            // s21 (@legal L5) : pages de la lettre portant un jeton dans l'URL, jamais
+            // transmis en Referer à un autre site (entrée placée après la règle
+            // générale : elle l'emporte). `same-origin` et non `no-referrer` (QA s21
+            // B1) : sous `no-referrer`, le navigateur envoie `Origin: null` sur le POST
+            // du bouton « Confirmer mon adresse », que le contrôle d'origine refusait.
+            {
+              source: "/lettre/:path*",
+              headers: [{ key: "Referrer-Policy", value: "same-origin" }],
+            },
           ];
         },
       }),

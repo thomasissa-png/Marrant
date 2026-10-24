@@ -94,7 +94,7 @@ export function RetractationForm() {
 
       <div>
         <label htmlFor="date-achat" className="mb-1 block text-sm font-medium text-text-primary">
-          Date d&apos;achat *
+          Date d’achat *
         </label>
         <input
           type="date"

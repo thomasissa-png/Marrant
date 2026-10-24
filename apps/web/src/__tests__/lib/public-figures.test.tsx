@@ -55,7 +55,8 @@ describe("limites gratuites : une seule constante (texte : voir free-limits-text
   it("aucun texte public ne réécrit les limites gratuites en dur", () => {
     for (const file of [
       "components/blog/article-cta.tsx",
-      "components/premium/premium-benefits.tsx",
+      "components/premium/avantages-premium.tsx",
+      "config/textes/avantages-premium.ts",
       "components/vannes/vannes-list.tsx",
       "app/(dashboard)/abonnement/page.tsx",
       "lib/llms-content.ts",

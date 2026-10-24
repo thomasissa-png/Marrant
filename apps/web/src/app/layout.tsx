@@ -10,6 +10,7 @@ import {
 import { WebVitalsReporter } from "@/components/seo/web-vitals-reporter";
 import { AuthReturnTracker } from "@/components/auth/auth-return-tracker";
 import { AttributionCapture } from "@/components/analytics/attribution-capture";
+import { CheckoutRetourTracker } from "@/components/analytics/checkout-retour-tracker";
 import { BLOG_PREVIEW_PATH } from "@/config/blog-preview";
 import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
 import "@/styles/globals.css";
@@ -141,6 +142,7 @@ export default function RootLayout({
         <WebVitalsReporter />
         <AttributionCapture />
         <AuthReturnTracker />
+        <CheckoutRetourTracker />
         {process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID && (
           <>
             {/* Filtre Umami (data-before-send) : rien ne part sous l'aperçu admin

@@ -7,10 +7,13 @@
  * jamais en dur : changer un prix change le texte.
  */
 import {
+  ESPACE_INSECABLE,
   formatEuros,
   PREMIUM_ANNUAL_PRICE_CENTS,
+  PREMIUM_ANNUAL_PRICE_LABEL,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
+  PREMIUM_PRICE_LABEL,
   type PremiumPlan,
 } from "@/config/premium";
 
@@ -24,15 +27,37 @@ export function prixTtcLabel(plan: PremiumPlan): string {
     : `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)} TTC par mois`;
 }
 
-// VALIDÉ s16 (étalon 1.1)
 /**
- * Ligne de réassurance posée sous chaque bouton de paiement (reco 9), selon la
- * formule affichée : « 2,99 € TTC par mois, remboursé sous 14 jours,
- * résiliable en ligne quand tu veux. »
+ * « 2,99 €/mois » / « 24,99 €/an » : graphie du prix hors cartes de formule (/register, page
+ * d'attente ; textes-trajet-v2 G02, A18, W04). `prixTtcLabel` reste pour la carte d'offre et Stripe.
  */
-export function reassurancePaiement(plan: PremiumPlan): string {
-  return `${prixTtcLabel(plan)}, remboursé sous 14 jours, résiliable en ligne quand tu veux.`;
+export function prixLabel(plan: PremiumPlan): string {
+  return plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL;
 }
+
+/** Ajouté au prix annuel sur /register et la page d'attente (v2 G02, A18). */
+export const RENOUVELE_CHAQUE_ANNEE = "renouvelé chaque année";
+
+/**
+ * « Premium, 2,99 €/mois. » / annuel « Premium, 24,99 €/an, renouvelé chaque année. » (v2 A18, page
+ * d'attente). `sansResiliation: false` (/register, v2 G02) : correction @legal du tour 2, seule mention
+ * ajoutée (consigne de Thomas du 19/10 : rien de plus) : « …, renouvelé chaque année, sauf résiliation. »,
+ * jamais « au même prix ».
+ */
+export function rappelFormule(plan: PremiumPlan, { saufResiliation = false }: { saufResiliation?: boolean } = {}): string {
+  return plan === "annual"
+    ? `${OFFRE_NOM}, ${prixLabel("annual")}, ${RENOUVELE_CHAQUE_ANNEE}${saufResiliation ? ", sauf résiliation" : ""}.`
+    : `${OFFRE_NOM}, ${prixLabel("monthly")}.`;
+}
+
+// VALIDÉ à l'aveugle s21, concision v5 (18/10, docs/copy/cta-s21/concision/textes-v5-a.md §0)
+/**
+ * REASS : réassurance fixe, unique, sous tout bouton plein qui porte un prix (jamais sous un
+ * lien ni sous un bouton gratuit). Remplace toutes les anciennes variantes (« Tu as 14 jours
+ * pour te faire rembourser… », `lignePrixGarantie`, `FENETRE_GARANTIE`, etc.). Ne promet le
+ * remboursement que du premier paiement (docs/legal/remboursement-abonnement-s21.md).
+ */
+export const REASSURANCE_UNIQUE = `${OFFRE_NOM} : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.`;
 
 // PROVISOIRE s16, étalon à valider
 /** Acceptation des CGU sous le bouton de création de compte (reco 9). */
@@ -55,17 +80,17 @@ const MOIS_OFFERTS_EXACT = PREMIUM_ANNUAL_SAVINGS_CENTS % PREMIUM_MONTHLY_PRICE_
 export const ANNUEL_MOIS_OFFERTS_LABEL = `${MOIS_OFFERTS_EXACT ? "" : "plus de "}${ANNUEL_MOIS_OFFERTS} mois offerts`;
 
 // PROVISOIRE s16, étalon à valider
-/** « 10,89 € économisés » */
+/** « 10,89 € économisés » (profil d'un abonné mensuel, passage à l'annuel ; hors /abonnement depuis la concision v5). */
 export const ANNUEL_ECONOMIE_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés`;
 
 // PROVISOIRE s16, étalon à valider
-/** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux). */
+/** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux), profil d'un abonné mensuel. */
 export const ANNUEL_AVANTAGE_LABEL = `${ANNUEL_MOIS_OFFERTS_LABEL}, ${ANNUEL_ECONOMIE_LABEL} par an`;
 
 // VALIDÉ s16 (étalon 5b.2) : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
 /** Retour de Stripe sans paiement (reco 12), affiché sur /abonnement. */
 export const PAIEMENT_ANNULE = {
-  titre: "Paiement annulé, rien n'a été prélevé.",
+  titre: "Paiement annulé, rien n’a été prélevé.",
   texte: "Tu peux réessayer quand tu veux.",
 } as const;
 
@@ -73,22 +98,22 @@ export const PAIEMENT_ANNULE = {
 /** Badge de la première étape d'un parcours (remplace « Essai gratuit », reco 16). */
 export const ETAPE_LIBRE_BADGE = "Lecture libre";
 
-// PROVISOIRE s16, étalon à valider
-/** Mur de l'étape 2 et suivantes d'un parcours (D4 : « Premium »). */
-export function etapeVerrouilleeTexte(prixLabel: string): string {
-  return `Cette étape fait partie de ${OFFRE_NOM}. La première étape est offerte, les suivantes viennent avec l'abonnement à ${prixLabel}, sans engagement.`;
-}
+// VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §6)
+/** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */
+export const PASSER_ETAPE_2 = `Passer à l’étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
 
-// PROVISOIRE s16, étalon à valider
-/** Étape 1 vue par un non-abonné (déclinaison de l'étalon 4.1 avec « Premium », D4). */
+/** Phrase de la fin d'étape 1 (`FIN_ETAPE_1.phrase`), reprise par la variante quiz en cours (v2 T02). */
+export const PHRASE_SUITE_PARCOURS = `${OFFRE_NOM} ouvre la suite et les autres parcours d’un coup.`;
+
+/** Fin d'étape 1, variante quiz en cours (`ValidationWall`, `quizPending`) : texte, plein, REASS dessous. */
 export const VALIDATION_ETAPE = {
-  texte: `Valider l'étape fait partie de ${OFFRE_NOM}.`,
-  bouton: `Voir l'offre ${OFFRE_NOM}`,
+  texte: PHRASE_SUITE_PARCOURS,
+  bouton: PASSER_ETAPE_2,
 } as const;
 
 // PROVISOIRE s16, étalon à valider
 /** Nom accessible des cartes verrouillées des listes (lecteur d'écran, D4). */
-export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l'offre`;
+export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l’offre`;
 
 // PROVISOIRE s16 (lot F), hors étalons, étalon à valider
 /**
@@ -98,5 +123,5 @@ export const CARTE_VERROUILLEE_LABEL = `Contenu ${OFFRE_NOM} : voir l'offre`;
  */
 export const RESILIATION_PROGRAMMEE = {
   texte: (date: string | null) =>
-    `${date ? `Ton Premium court jusqu'au ${date}.` : "Ton Premium court jusqu'à la fin de la période déjà payée."} Pour le garder, réactive-le depuis ton profil.`,
+    `${date ? `Ton Premium court jusqu’au ${date}.` : "Ton Premium court jusqu’à la fin de la période déjà payée."} Pour le garder, réactive-le depuis ton profil.`,
 } as const;

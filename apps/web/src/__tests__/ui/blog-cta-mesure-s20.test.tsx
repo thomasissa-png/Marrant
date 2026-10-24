@@ -9,9 +9,13 @@ import { BlogArticleTracking, linkZone } from "@/components/blog/blog-article-tr
 import { BlogArticleBody } from "@/components/blog/blog-article-body";
 import { ArticleCta } from "@/components/blog/article-cta";
 import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
-import { ENCARTS_ARTICLE_1, TEXTES_BLOC_FIN, TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { BLOC_FIN, DEMO_VANNE } from "@/config/textes/cta-articles-accueil";
+import { TEXTES_PARCOURS_BLOG } from "@/config/textes/encarts-blog-s20";
+import { normalise } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthenticated" }) }));
+// s21 : l'encart du milieu montre la fiche offerte du carnet du mois (DemoVanne).
+jest.mock("@/lib/carnet", () => jest.requireActual("../helpers/carnet-octobre").mockCarnetOctobre());
 
 const SLUG = "meilleures-blagues-droles-2026";
 const CONTENT = [
@@ -55,18 +59,17 @@ function setup() {
 }
 
 describe("blog-cta-vu", () => {
-  it("observe les 3 encarts ; un envoi par position, seulement à 50 % visible", () => {
+  it("observe les 2 encarts (s21 : plus de milieu-2) ; un envoi par position, seulement à 50 % visible", () => {
     setup();
-    expect(observed.map((el) => (el as HTMLElement).dataset.blogCtaPosition)).toEqual(["milieu-1", "milieu-2", "fin"]);
-    const [m1, m2, fin] = observed;
+    expect(observed.map((el) => (el as HTMLElement).dataset.blogCtaPosition)).toEqual(["milieu-1", "fin"]);
+    const [m1, fin] = observed;
     act(() => observerCallback([{ target: m1, isIntersecting: true, intersectionRatio: 0.3 }]));
     expect(track).not.toHaveBeenCalled();
     act(() => observerCallback([{ target: m1, isIntersecting: true, intersectionRatio: 0.6 }]));
     act(() => observerCallback([{ target: m1, isIntersecting: true, intersectionRatio: 1 }]));
-    act(() => observerCallback([{ target: m2, isIntersecting: true, intersectionRatio: 0.5 }, { target: fin, isIntersecting: true, intersectionRatio: 0.9 }]));
+    act(() => observerCallback([{ target: fin, isIntersecting: true, intersectionRatio: 0.9 }]));
     expect(track.mock.calls).toEqual([
-      ["blog-cta-vu", { slug: SLUG, position: "milieu-1", parcours: "repartie" }],
-      ["blog-cta-vu", { slug: SLUG, position: "milieu-2", parcours: "boulot" }],
+      ["blog-cta-vu", { slug: SLUG, position: "milieu-1", parcours: "repartie", fiche: "2026-10-15" }],
       ["blog-cta-vu", { slug: SLUG, position: "fin", parcours: "repartie" }],
     ]);
   });
@@ -74,12 +77,18 @@ describe("blog-cta-vu", () => {
 
 describe("blog-cta-clic", () => {
   it("position et parcours de l'encart cliqué", () => {
-    const { getByText } = setup();
-    fireEvent.click(getByText(ENCARTS_ARTICLE_1.boulot.bouton));
-    fireEvent.click(getByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1));
-    fireEvent.click(getByText(TEXTES_BLOC_FIN.boutonPremium));
+    const { getByText, getAllByText } = setup();
+    // s21 (B1) : `blog-cta="demo-fiche"` sur le bouton de la démonstration.
+    fireEvent.click(getByText(DEMO_VANNE.bouton));
+    // s21 (B2) : plein de l'étape 1 puis lien payant du bloc de fin.
+    const finEtape1 = getAllByText(normalise(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1)).find((el) =>
+      el.closest("a")?.getAttribute("href")?.includes("?src=blog#"),
+    );
+    expect(finEtape1).toBeDefined();
+    fireEvent.click(finEtape1!);
+    fireEvent.click(getByText(normalise(BLOC_FIN.bouton)));
     expect(track.mock.calls).toEqual([
-      ["blog-cta-clic", { slug: SLUG, bouton: "etape-1", position: "milieu-2", parcours: "boulot" }],
+      ["blog-cta-clic", { slug: SLUG, bouton: "demo-fiche", position: "milieu-1", parcours: "repartie", fiche: "2026-10-15" }],
       ["blog-cta-clic", { slug: SLUG, bouton: "etape-1", position: "fin", parcours: "repartie" }],
       ["blog-cta-clic", { slug: SLUG, bouton: "abonnement", position: "fin", parcours: "repartie" }],
     ]);

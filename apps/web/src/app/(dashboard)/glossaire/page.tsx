@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import {
   JsonLd,
@@ -9,24 +10,37 @@ import { PageHeader } from "@/components/layout/page-header";
 import { frTypo } from "@/lib/fr-typo";
 import { buttonVariants } from "@/components/ui/button";
 import { glossary } from "@/lib/glossary";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { FIN_DE_PAGE_PARCOURS_ETAPE_1, GLOSSAIRE_FIN } from "@/config/textes/cta-pages";
+import { Reassurance } from "@/components/ui/reassurance";
+import { LIEN_L2 } from "@/components/ui/liens";
+import { BLOC_APPEL, BOUTON_BLOC_APPEL, TITRE_BLOC_APPEL } from "@/components/layout/gabarit";
+import { cn } from "@/lib/utils";
+import { parcoursEtape1Href } from "@/lib/entrees-parcours";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
+import { buildAbonnementUrl } from "@/lib/premium-return";
 
 /** Ancre d'un terme : même règle que l'URL du JSON-LD DefinedTerm. */
 const termAnchor = (term: string) => term.toLowerCase().replace(/\s+/g, "-");
 
+const PAGE_URL = "https://deviens-marrant.fr/glossaire";
+const PAGE_TITLE = `Glossaire humour : ${glossary.length} termes clés`;
+const PAGE_DESCRIPTION =
+  `Punchline, timing, callback, one-liner : le dico de l’humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`;
+
 export const metadata: Metadata = {
-  title: `Glossaire humour : ${glossary.length} termes clés`,
-  description:
-    `Punchline, timing, callback, one-liner : le dico de l'humour qui explique ${glossary.length} termes clés des pros, chacun avec un exemple concret pour bien le replacer.`,
+  title: PAGE_TITLE,
+  description: PAGE_DESCRIPTION,
   keywords: [
     "définition répartie",
-    "qu'est-ce que la répartie",
+    "qu’est-ce que la répartie",
     "timing humour définition",
     "autodérision définition",
     "glossaire humour",
     "vocabulaire humour",
   ],
-  alternates: { canonical: "https://deviens-marrant.fr/glossaire" },
+  alternates: { canonical: PAGE_URL },
+  // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+  ...pageShareMeta({ title: PAGE_TITLE, description: PAGE_DESCRIPTION, url: PAGE_URL }),
 };
 
 export default function GlossairePage() {
@@ -47,7 +61,7 @@ export default function GlossairePage() {
           })),
         )}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Glossaire</span>
@@ -59,8 +73,8 @@ export default function GlossairePage() {
           <>
             Répartie, timing, autodérision, punchline… Les mots que les
             humoristes utilisent entre eux, expliqués simplement et avec des
-            exemples concrets. Parce que savoir comment s&apos;appelle une
-            technique, c&apos;est déjà un peu savoir s&apos;en servir.
+            exemples concrets. Parce que savoir comment s’appelle une
+            technique, c’est déjà un peu savoir s’en servir.
           </>
         }
       />
@@ -70,39 +84,42 @@ export default function GlossairePage() {
         aria-label="Glossaire"
         className="sticky top-16 z-30 mb-6 border-b border-border bg-background/90 backdrop-blur-md"
       >
-        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »). */}
-        <ul className="flex snap-x gap-0 overflow-x-auto py-1 lg:flex-wrap lg:overflow-visible">
+        {/* À partir de 1024 px, l'index passe à la ligne au lieu de couper un terme (« Accusé de réception »).
+            Revue visuelle s21 (R30) : en dessous, fondu de 24 px à droite comme repère de défilement. */}
+        <ul className="flex snap-x gap-0 overflow-x-auto py-1 [mask-image:linear-gradient(to_right,#000_calc(100%-24px),transparent)] [scrollbar-width:none] lg:flex-wrap lg:overflow-visible lg:[mask-image:none] [&::-webkit-scrollbar]:hidden">
           {glossary.map((item) => (
             <li key={item.term} className="shrink-0 snap-start">
               <a
                 href={`#${termAnchor(item.term)}`}
                 className="inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-2 text-sm text-text-secondary transition-colors hover:bg-background-elevated hover:text-text-primary"
               >
-                {item.term}
+                {frTypo(item.term)}
               </a>
             </li>
           ))}
         </ul>
       </nav>
 
-      <div className="max-w-4xl space-y-6">
+      {/* Revue visuelle s21 : définitions sur la pleine colonne, comme l'index et « Passe de la théorie à la pratique » ;
+          R31 : 2 colonnes dès 1 024 px comme /conseils (pages sœurs), cartes de même hauteur par rangée. */}
+      <div className="grid gap-6 lg:grid-cols-2 lg:[&>*:last-child:nth-child(odd)]:col-span-2">
         {glossary.map((item) => (
           <section
             key={item.term}
             id={termAnchor(item.term)}
-            className="scroll-mt-32 rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
+            className="flex h-full scroll-mt-32 flex-col rounded-xl border border-border bg-background-card p-6 lg:scroll-mt-44"
           >
             <h2 className="font-display text-xl font-bold text-text-primary">
-              {item.term}
+              {frTypo(item.term)}
             </h2>
             <p className="mt-3 max-w-3xl leading-relaxed text-text-secondary">
               {frTypo(item.definition)}
             </p>
             <Link
               href={item.related}
-              className="mt-3 inline-block text-sm font-medium text-accent-link hover:underline"
+              className="mt-auto inline-flex min-h-11 items-center self-start pt-1 text-sm font-medium text-accent-link hover:underline"
             >
-              {item.relatedLabel} →
+              {frTypo(item.relatedLabel)} →
             </Link>
           </section>
         ))}
@@ -122,25 +139,31 @@ export default function GlossairePage() {
           </Link>
           <Link href="/a-propos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="text-sm font-semibold text-text-primary">À propos</h3>
-            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l&apos;humour s&apos;apprend.</p>
+            <p className="mt-1 text-xs text-text-secondary">Qui est derrière deviens-marrant.fr, et pourquoi on pense que l’humour s’apprend.</p>
           </Link>
         </div>
       </nav>
 
-      {/* CTA */}
-      <div className="mt-12 rounded-lg border border-border bg-background-card p-6 text-center">
-        <p className="font-display text-xl font-bold text-text-primary">
-          Le vocabulaire, c&apos;est fait. Place aux rires.
-        </p>
-        <p className="mt-2 text-text-secondary">
-          Des exercices concrets, des parcours étape par étape et tes XP pour
-          voir le chemin parcouru. Connaître le mot « callback », c&apos;est
-          bien ; en placer un au dîner de samedi, c&apos;est mieux.
-        </p>
-        <Link href="/abonnement" className={buttonVariants({ variant: "primary", size: "lg", className: "mt-4" })}>
-          Commencer à {PREMIUM_PRICE_LABEL}
-        </Link>
+      {/* CTA. s21 (revue v2) : masqué pour un abonné Premium ; source `glossaire` suivie
+          jusqu'à `checkout-ouvert` (m-1). Textes : concision v5 (config/textes/cta-pages.ts). */}
+      <MasqueSiPremium>
+      {/* Revue visuelle s21 : même bloc d'appel que les murs et les fins d'article (contenu à gauche). */}
+      <div className={cn("mt-12", BLOC_APPEL)} data-testid="glossaire-fin">
+        <p className={TITRE_BLOC_APPEL}>{frTypo(GLOSSAIRE_FIN.titre)}</p>
+        <p className="mt-2 text-text-secondary">{frTypo(GLOSSAIRE_FIN.paragraphe)}</p>
+        <div className="mt-4">
+          <Link href={buildAbonnementUrl(null, "monthly", "glossaire")} className={cn(buttonVariants({ variant: "primary", size: "lg" }), BOUTON_BLOC_APPEL)}>
+            {frTypo(GLOSSAIRE_FIN.bouton)}
+          </Link>
+        </div>
+        <Reassurance />
+        <div className="-mb-3 mt-1">
+          <Link href={parcoursEtape1Href(FIN_DE_PAGE_PARCOURS_ETAPE_1, "glossaire-etape1")} className={LIEN_L2}>
+            {frTypo(GLOSSAIRE_FIN.lienEtape1)}
+          </Link>
+        </div>
       </div>
+      </MasqueSiPremium>
     </>
   );
 }

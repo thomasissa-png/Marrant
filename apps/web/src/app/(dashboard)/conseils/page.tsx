@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
+import { FaqSection } from "@/components/home/faq-section";
 import { ConseilsList } from "@/components/conseils/conseils-list";
 import {
   JsonLd,
@@ -22,15 +24,17 @@ import { listCanonical, parsePageParam } from "@/lib/list-pagination";
 interface ListPageProps {
   searchParams: { [key: string]: string | string[] | undefined };
 }
-import { frTypo } from "@/lib/fr-typo";
 
 export async function generateMetadata({ searchParams }: ListPageProps): Promise<Metadata> {
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const tipsLabel = stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de";
+  const title = `${tipsLabel} techniques de répartie + exercices`;
+  const description = `${tipsLabel} techniques de répartie et d’humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`;
+  const url = listCanonical("/conseils", page);
   return {
-    title: `${tipsLabel} techniques de répartie + exercices`,
-    description: `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
+    title,
+    description,
     keywords: [
       "avoir de la répartie",
       "comment avoir de la répartie",
@@ -41,25 +45,27 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "storytelling humour",
       "répartie au travail",
     ],
-    alternates: { canonical: listCanonical("/conseils", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 
 const conseilsFaqs = [
   {
-    question: "C'est quoi la répartie exactement ?",
+    question: "C’est quoi la répartie exactement ?",
     answer:
-      "La répartie, c'est trouver la bonne réponse pendant que la conversation est encore là, pas le soir en te brossant les dents. Souvent drôle, toujours rapide, elle repose sur des techniques précises : l'accusé de réception, le rebond sur un mot-clé, le retournement. Et comme toute technique, ça s'apprend et ça s'affûte en pratiquant.",
+      "La répartie, c’est trouver la bonne réponse pendant que la conversation est encore là, pas le soir en te brossant les dents. Souvent drôle, toujours rapide, elle repose sur des techniques précises : l’accusé de réception, le rebond sur un mot-clé, le retournement. Et comme toute technique, ça s’apprend et ça s’affûte en pratiquant.",
   },
   {
     question: "Combien de temps faut-il pour avoir de la répartie ?",
     answer:
-      `Avec une pratique quotidienne, même courte, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure ${parcoursWeeks("repartie")} semaines et te donne un défi concret à chaque étape, à raison d'une par semaine. Le vrai secret, c'est la régularité : 5 minutes par jour valent mieux qu'une heure une fois par semaine, la veille d'un repas de famille.`,
+      `Avec une pratique quotidienne, même courte, tu peux voir une vraie différence en 2 à 4 semaines. Le Parcours Répartie dure ${parcoursWeeks("repartie")} semaines et te donne un défi concret à chaque étape, à raison d’une par semaine. Le vrai secret, c’est la régularité : 5 minutes par jour valent mieux qu’une heure une fois par semaine, la veille d’un repas de famille.`,
   },
   {
     question: "Comment avoir de la répartie sans être méchant ?",
     answer:
-      "La vraie répartie, ce n'est pas écraser l'autre : c'est transformer une pique en moment drôle pour tout le monde, y compris pour celui qui l'a lancée. L'autodérision ou le détour par l'absurde permettent de désamorcer sans blesser. Tu gagnes l'échange, et personne n'a besoin de le perdre.",
+      "La vraie répartie, ce n’est pas écraser l’autre : c’est transformer une pique en moment drôle pour tout le monde, y compris pour celui qui l’a lancée. L’autodérision ou le détour par l’absurde permettent de désamorcer sans blesser. Tu gagnes l’échange, et personne n’a besoin de le perdre.",
   },
 ];
 
@@ -89,7 +95,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
       <JsonLd
         data={buildCollectionPageJsonLd({
           name: `${tipsLabel} techniques de répartie + exercices`,
-          description: `${tipsLabel} techniques de répartie et d'humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
+          description: `${tipsLabel} techniques de répartie et d’humour (timing, autodérision, storytelling), chacune avec un exemple, un dialogue et un défi à tester dès ce soir.`,
           url: "https://deviens-marrant.fr/conseils",
           numberOfItems: tipCount,
           relatedArticles: [
@@ -98,7 +104,7 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Conseils</span>
@@ -109,8 +115,8 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
           <>
             Répartie, timing, storytelling : les techniques des meilleurs
             humoristes français, expliquées comme si on était à la même table.
-            Chaque conseil vient avec un exemple concret et un défi à tester
-            aujourd&apos;hui. Pas de théorie creuse&nbsp;: tu lis, tu testes, tu
+            Chaque conseil vient avec un exemple concret, à tester
+            aujourd’hui. Pas de théorie creuse&nbsp;: tu lis, tu testes, tu
             progresses.
           </>
         }
@@ -121,16 +127,9 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
       </Suspense>
 
       {/* FAQ SEO */}
+      {/* Revue visuelle s21 : même FAQ que /vannes (accordéon, pleine colonne ; contenu dans le DOM pour le SEO). */}
       <section className="mt-12 border-t border-border pt-8">
-        <h2 className="font-display mb-4 text-xl font-bold">Questions fréquentes</h2>
-        <dl className="max-w-3xl space-y-4">
-          {conseilsFaqs.map((faq, i) => (
-            <div key={i} className="rounded-lg border border-border bg-background-card p-4">
-              <dt className="text-sm font-semibold text-text-primary">{frTypo(faq.question)}</dt>
-              <dd className="mt-2 text-sm text-text-secondary">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
+        <FaqSection items={conseilsFaqs} align="left" />
       </section>
 
       {/* Contenu SEO — approfondir avec le blog */}
@@ -138,10 +137,10 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Approfondir les techniques</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c&apos;est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques que les pros de la scène utilisent tous les soirs.
+            La répartie ne se reçoit pas à la naissance avec la couleur des yeux : c’est un <strong className="text-text-primary">muscle qui se travaille</strong>. Nos {stats.tips > 0 ? `${stats.tips}+ conseils` : "dizaines de conseils"} couvrent les techniques que les pros de la scène utilisent tous les soirs.
           </p>
           <p>
-            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">Avoir de la répartie : 10 techniques</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link>, le guide complet avec plan d&apos;action sur 30 jours.
+            Tu débutes ? Notre guide <Link href="/blog/comment-avoir-de-la-repartie" className="text-accent-link underline underline-offset-2">Avoir de la répartie : 10 techniques</Link> te donne les bases. Tu veux comprendre le mécanisme du rire ? Lis <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link>, le guide complet avec plan d’action sur 30 jours.
           </p>
           <p>
             Et pour savoir combien de temps tenir le silence avant la chute, lis notre article sur le <Link href="/blog/timing-humour" className="text-accent-link underline underline-offset-2">timing en humour</Link>.
@@ -162,8 +161,8 @@ export default async function ConseilsPage({ searchParams }: ListPageProps) {
             <p className="mt-1 text-xs text-text-secondary">Progresse semaine après semaine avec des exercices concrets et des XP.</p>
           </Link>
           <Link href="/blog/autoderision-interactions" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="text-sm font-semibold text-text-primary">L&apos;autodérision qui marche</h3>
-            <p className="mt-1 text-xs text-text-secondary">Rire de toi sans te démolir : ce qui fait sourire les autres, et ce qui les met mal à l&apos;aise.</p>
+            <h3 className="text-sm font-semibold text-text-primary">L’autodérision qui marche</h3>
+            <p className="mt-1 text-xs text-text-secondary">Rire de toi sans te démolir : ce qui fait sourire les autres, et ce qui les met mal à l’aise.</p>
           </Link>
         </div>
       </nav>

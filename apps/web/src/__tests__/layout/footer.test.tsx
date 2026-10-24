@@ -1,5 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Footer } from "@/components/layout/footer";
+import { lie } from "../helpers/texte-normalise";
+
+// Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
+jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
 
 describe("Footer", () => {
   it("renders brand name", () => {
@@ -18,10 +22,10 @@ describe("Footer", () => {
     render(<Footer />);
     expect(screen.getByText("Vannes")).toBeInTheDocument();
     expect(screen.getByText("Conseils")).toBeInTheDocument();
-    expect(screen.getByText("Vidéos stand-up")).toBeInTheDocument();
+    expect(screen.getByText(lie("Vidéos stand-up"))).toBeInTheDocument();
     expect(screen.getByText("Parcours")).toBeInTheDocument();
-    expect(screen.getByText("Blog")).toBeInTheDocument();
-    expect(screen.getByText("Blog").closest("a")).toHaveAttribute("href", "/blog");
+    expect(screen.getByText("Articles")).toBeInTheDocument();
+    expect(screen.getByText("Articles").closest("a")).toHaveAttribute("href", "/blog");
   });
 
   it("renders legal links", () => {
@@ -93,6 +97,6 @@ describe("Footer", () => {
     expect(grille).toHaveClass("grid-cols-1", "sm:grid-cols-3", "lg:grid-cols-4", "gap-8");
     expect(produit).toHaveClass("lg:col-span-2");
     // Sous-colonnes au même écart que la grille (gap-8) : alignées sur les pistes.
-    expect(produit.querySelector("ul")).toHaveClass("grid-cols-2", "sm:grid-cols-1", "lg:grid-cols-2", "lg:gap-x-8");
+    expect(produit.querySelector("ul")).toHaveClass("grid-cols-2", "sm:grid-cols-1", "md:grid-cols-2", "lg:gap-x-8");
   });
 });

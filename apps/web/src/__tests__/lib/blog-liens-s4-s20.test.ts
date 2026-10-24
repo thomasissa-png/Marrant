@@ -11,6 +11,7 @@ import { renderMarkdown } from "@/components/ui/markdown-renderer";
 import { REDIRECTED_BLOG_SLUGS, UNPUBLISHED_STATIC_SLUGS } from "@/lib/seo-redirects";
 import { BLOG_LIENS_S4_S20_PATCHES } from "@/lib/blog-liens-s4-s20";
 import rewrites from "@/data/blog-article-rewrites.json";
+import { sansGluon } from "../helpers/texte-normalise";
 
 const STATIC_LINKS = [
   {
@@ -54,7 +55,8 @@ const visibleText = (html: string): string =>
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;|&#x27;/g, "'")
-    .replace(/[  ]/g, " ");
+    .replace(/[  ]/g, " ")
+    .replace(/’/g, "'");
 const unlink = (md: string) => md.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
 const paragraphs = (content: string) => content.split("\n\n").filter((p) => p.trim());
 
@@ -70,7 +72,7 @@ describe("liens S4 s20 : articles statiques", () => {
     it("le rendu contient le lien et la phrase visible", () => {
       const html = renderMarkdown(article!.content);
       expect(html).toContain(`<a href="/blog/${link.target}" class="text-accent-link underline underline-offset-2">${link.anchor}</a>`);
-      expect(visibleText(html)).toContain(unlink(link.phrase));
+      expect(sansGluon(visibleText(html))).toContain(unlink(link.phrase));
     });
 
     it("ni en FAQ ni dans le dernier paragraphe", () => {

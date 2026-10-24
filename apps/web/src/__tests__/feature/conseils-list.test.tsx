@@ -99,11 +99,30 @@ describe("ConseilsList", () => {
       expect(screen.getByText("Conseil timing")).toBeInTheDocument();
     });
 
-    await userEvent.click(screen.getByText("Conseil timing"));
+    // s21 : le titre est le lien vers la fiche ; un clic ailleurs sur la carte la déplie.
+    await userEvent.click(screen.getByText("Conseil timing").closest(".cursor-pointer")!);
     expect(screen.getByText("Exemple")).toBeInTheDocument();
     expect(screen.getByText("Exemple timing")).toBeInTheDocument();
     expect(screen.getByText("Exercice")).toBeInTheDocument();
     expect(screen.getByText("Exercice timing")).toBeInTheDocument();
+  });
+
+  it("s21 : titre cliquable vers la fiche, seul lien de la carte, au clavier, sans « Page dédiée »", async () => {
+    render(<ConseilsList />);
+    await waitFor(() => {
+      expect(screen.getByText("Conseil timing")).toBeInTheDocument();
+    });
+    const titre = screen.getByRole("link", { name: "Conseil timing" });
+    expect(titre.closest("h3")).not.toBeNull();
+    expect(titre.getAttribute("href")).toMatch(/^\/conseils\/./);
+    const carte = titre.closest(".cursor-pointer")!;
+    expect([...carte.querySelectorAll('a[href^="/conseils/"]')]).toEqual([titre]);
+    expect(screen.queryByText(/Page dédiée/)).not.toBeInTheDocument();
+    // Entrée sur le titre : la touche n'est pas captée par la carte (pas de dépliage, le lien s'ouvre).
+    titre.focus();
+    expect(titre).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    expect(screen.queryByText("Exemple timing")).not.toBeInTheDocument();
   });
 
   it("shows hint before expanding", async () => {

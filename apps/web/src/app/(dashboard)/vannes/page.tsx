@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { pageShareMeta } from "@/lib/seo-meta";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import Link from "next/link";
 import { VannesList } from "@/components/vannes/vannes-list";
 import { VannesThemeNav } from "@/components/vannes/vannes-theme-nav";
+import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { FaqSection } from "@/components/home/faq-section";
 import {
   JsonLd,
@@ -28,9 +30,12 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
   const page = parsePageParam(searchParams.page);
   const stats = await getContentStatsRounded();
   const prefix = stats.jokes > 0 ? `${stats.jokes}+ vannes` : "Des vannes";
+  const title = "Vannes et blagues drôles à ressortir";
+  const description = `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`;
+  const url = listCanonical("/vannes", page);
   return {
-    title: "Vannes et blagues drôles à ressortir",
-    description: `${prefix} (ou blagues) rangées par situation : boulot, couple, soirées, famille, gaming. Chacune a sa chute et son décryptage pour la replacer au bon moment.`,
+    title,
+    description,
     keywords: [
       "blague drôle",
       "blagues courtes",
@@ -41,7 +46,9 @@ export async function generateMetadata({ searchParams }: ListPageProps): Promise
       "blague courte drôle",
       "phrase drôle",
     ],
-    alternates: { canonical: listCanonical("/vannes", page) },
+    alternates: { canonical: url },
+    // SEO s21 : aperçu de partage propre à la page (og:url), au lieu de celui de l'accueil.
+    ...pageShareMeta({ title, description, url }),
   };
 }
 
@@ -54,12 +61,12 @@ const vannesFaqs = [
   {
     question: "Comment retenir une blague pour la ressortir au bon moment ?",
     answer:
-      "Le truc, c'est la répétition espacée : tu lis une vanne le matin et tu essaies de la ressortir dans la journée. Avec Premium, tes favoris te servent de carnet à relire de temps en temps. À force de la répéter, elle sort toute seule, et de préférence au bon moment.",
+      "Le truc, c’est la répétition espacée : tu lis une vanne le matin et tu essaies de la ressortir dans la journée. Avec Premium, tes favoris te servent de carnet à relire de temps en temps. À force de la répéter, elle sort toute seule, et de préférence au bon moment.",
   },
   {
     question: "Est-ce que les vannes sont adaptées à toutes les situations ?",
     answer:
-      "Chaque vanne est rangée par catégorie et passe le Test Stand-Up : « est-ce que je peux la sortir ce soir et faire rire ? ». Rien de vulgaire, pas de grille-pain qui parle tout seul, pas de jeux de mots forcés : seulement des vannes qu'on peut sortir entre potes ou au boulot sans que la pièce se refroidisse.",
+      "Chaque vanne est rangée par catégorie et passe le Test Stand-Up : « est-ce que je peux la sortir ce soir et faire rire ? ». Rien de vulgaire, pas de grille-pain qui parle tout seul, pas de jeux de mots forcés : seulement des vannes qu’on peut sortir entre potes ou au boulot sans que la pièce se refroidisse.",
   },
 ];
 
@@ -98,7 +105,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           ],
         })}
       />
-      <nav aria-label="Fil d'Ariane" className="mb-4 text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <span className="text-text-secondary">Vannes</span>
@@ -109,13 +116,17 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
           <>
             Boulot, couple, soirées, famille, gaming&nbsp;: choisis ta situation, clique
             pour révéler la chute. Avec Premium, tu gardes tes préférées sous le coude. La
-            théorie, c&apos;est bien. Avoir une vanne prête au moment où tout le
-            monde te regarde, c&apos;est mieux.
+            théorie, c’est bien. Avoir une vanne prête au moment où tout le
+            monde te regarde, c’est mieux.
           </>
         }
       />
-      {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. */}
-      <VannesThemeNav />
+      {/* Pages thème (lot S3b s14) : liens serveur, visibles aussi sans abonnement. Revue visuelle s21
+          (R04) : masquées pour l'abonné, qui a déjà la rangée de filtres de la liste (une seule rangée
+          visible) ; le HTML du serveur (sans session) les garde pour les moteurs. */}
+      <MasqueSiPremium>
+        <VannesThemeNav />
+      </MasqueSiPremium>
 
       <Suspense fallback={null}>
         <VannesList initialData={listPage} initialPage={page} />
@@ -132,7 +143,7 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
         <h2 className="font-display mb-4 text-xl font-bold">Pourquoi ces vannes sont différentes</h2>
         <div className="max-w-3xl space-y-3 text-sm text-text-secondary">
           <p>
-            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-Up</strong> : « est-ce que je peux la sortir ce soir et faire rire ? » Si la réponse est non, elle n&apos;est pas sur le site. Pas de blagues Carambar, pas de grille-pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
+            Chaque vanne de notre catalogue passe le <strong className="text-text-primary">Test Stand-⁠Up</strong> : «&nbsp;est-⁠ce que je peux la sortir ce soir et faire rire ?&nbsp;» Si la réponse est non, elle n’est pas sur le site. Pas de blagues Carambar, pas de grille-⁠pain qui parle tout seul, pas de jeux de mots qui nécessitent un doctorat en linguistique.
           </p>
           <p>
             Nos vannes sont classées par situation (<strong className="text-text-primary">boulot, couple, soirées, famille, gaming</strong>) pour que tu trouves en 3 secondes celle qui colle à ton contexte. Tu veux comprendre <Link href="/blog/comment-devenir-drole" className="text-accent-link underline underline-offset-2">comment devenir drôle</Link> ? Commence par avoir 5 vannes prêtes à dégainer.
@@ -152,12 +163,12 @@ export default async function VannesPage({ searchParams }: ListPageProps) {
             <p className="mt-1 text-sm text-text-secondary">{stats.tips > 0 ? `${stats.tips}+` : "Des dizaines de"} techniques concrètes pour avoir de la répartie et placer tes vannes au bon moment.</p>
           </Link>
           <Link href="/videos" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
-            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-up analysées</h3>
+            <h3 className="font-display text-base font-bold text-text-primary">Vidéos stand-⁠up analysées</h3>
             <p className="mt-1 text-sm text-text-secondary">Regarde comment les pros de la scène construisent leurs blagues.</p>
           </Link>
           <Link href="/blog/timing-humour" className="rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40">
             <h3 className="font-display text-base font-bold text-text-primary">Timing : bide ou carton, même vanne</h3>
-            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-il savoir combien de temps le tenir.</p>
+            <p className="mt-1 text-sm text-text-secondary">Le silence juste avant la chute fait la moitié du travail. Encore faut-⁠il savoir combien de temps le tenir.</p>
           </Link>
         </div>
       </nav>

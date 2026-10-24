@@ -87,6 +87,8 @@ export interface RenderOptions {
 
 // Espace insécable (U+00A0), écrite par son code pour rester visible dans le source.
 const NBSP = String.fromCharCode(0xa0);
+// Trait d'union suivi du gluon (U+2060) posé par frTypo sur les mots composés courts.
+const GLUON_COMPOSE = new RegExp(`-${String.fromCharCode(0x2060)}`, "g");
 // Mot composé de 2 parties courtes (8 lettres max chacune) : Post-it, week-end, petit-déj.
 // Classe de lettres explicite, sans \p{L} : tsconfig.build.json cible ES2017
 // (même convention que lib/learning-format.ts). Préfixe capturé au lieu d'un lookbehind.
@@ -164,7 +166,9 @@ export function frenchQuotes(text: string): string {
 }
 
 function inlineMarkdown(text: string): string {
-  let result = escapeHtml(frTypo(nestedGuillemets(frenchQuotes(text))));
+  // Tour 4 (T3-02) : frTypo lie les mots composés courts par un gluon ; ici, `keepCompoundsTogether` les
+  // protège déjà par un span insécable (règle E2) : gluon retiré pour garder une seule méthode dans le blog.
+  let result = escapeHtml(frTypo(nestedGuillemets(frenchQuotes(text))).replace(GLUON_COMPOSE, "-"));
   // Bold: **text**
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   // Italic: *text*

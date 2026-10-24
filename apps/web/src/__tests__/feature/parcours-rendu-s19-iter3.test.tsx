@@ -41,9 +41,7 @@ function carte(slug: string, over: Partial<ParcoursStepCardProps> = {}) {
     isPremium: true,
     isCompleted: false,
     isExpanded: true,
-    isSequentiallyLocked: false,
     isPremiumLocked: false,
-    previousOrder: null,
     isQuizDone: false,
     isSeedFallback: false,
     completing: false,
@@ -91,9 +89,11 @@ describe("S5 : « Lire la fiche du conseil » sans saut de page", () => {
 });
 
 describe("cadenas : un seul indicateur par étape verrouillée", () => {
-  it("ordre conseillé : le rond à gauche seulement", () => {
-    const { container } = carte("boulot", { step: step(2), isSequentiallyLocked: true, isExpanded: false, previousOrder: 1 });
-    expect(container.querySelectorAll("svg")).toHaveLength(1);
+  it("s21 (décision du 18/10) : abonné, étape 2 non précédée d'une étape validée → aucun cadenas, en-tête dépliable", () => {
+    const { container } = carte("boulot", { step: step(2), isExpanded: false });
+    expect(container.querySelector('path[d^="M12 15v2"]')).toBeNull();
+    expect(container.querySelector('[role="button"][aria-expanded="false"]')).not.toBeNull();
+    expect(container.textContent).not.toMatch(/pour débloquer/);
   });
 
   it("visiteur : cadenas à gauche et chevron d'ouverture", () => {
@@ -142,7 +142,7 @@ describe("carte de progression", () => {
     const lien = await screen.findByTestId("lien-prochaine-etape");
     expect(lien).toHaveAttribute("href", "#etape-3");
     expect(lien.className).toContain("min-h-[44px]");
-    expect(plain(lien.textContent)).toBe("La prochaine étape t'attend.Étape 3 · Module 3");
+    expect(plain(lien.textContent)).toBe("La prochaine étape t’attend.Étape 3 · Module 3");
     expect(lien.textContent).not.toMatch(/aujourd'hui/i);
     await userEvent.click(lien);
     await waitFor(() => expect(Element.prototype.scrollIntoView).toHaveBeenCalled());

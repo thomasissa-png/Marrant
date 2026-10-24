@@ -117,6 +117,8 @@ import BlogArticlePage, {
   generateStaticParams,
   generateMetadata,
 } from "@/app/(dashboard)/blog/[slug]/page";
+import { BLOC_FIN } from "@/config/textes/cta-articles-accueil";
+import { normalise, lie } from "../helpers/texte-normalise";
 
 describe("BlogPage — listing", () => {
   beforeEach(async () => {
@@ -127,7 +129,7 @@ describe("BlogPage — listing", () => {
   it("renders the page title", () => {
     expect(
       screen.getByText(
-        "Comment devenir drôle : guides et techniques d'humour"
+        "Comment devenir drôle : guides et techniques d’humour"
       )
     ).toBeInTheDocument();
   });
@@ -171,9 +173,12 @@ describe("BlogPage — listing", () => {
   });
 
   it("renders breadcrumb navigation", () => {
-    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    const breadcrumb = screen.getByLabelText("Fil d’Ariane");
     expect(breadcrumb).toBeInTheDocument();
     expect(screen.getByText("Accueil")).toBeInTheDocument();
+    // s21 [CHOIX UTILISATEUR] : la section s'appelle « Articles » (adresse /blog inchangée).
+    expect(breadcrumb).toHaveTextContent("Articles");
+    expect(breadcrumb).not.toHaveTextContent("Blog");
   });
 
   it("renders JSON-LD structured data", () => {
@@ -232,10 +237,12 @@ describe("BlogArticlePage — article detail", () => {
     });
     render(Page);
     // s20 : bloc de fin unique, textes du parcours de l'article (config/textes/encarts-blog-s20).
-    expect(screen.getByText(TEXTES_PARCOURS_BLOG.repartie.finTitre)).toBeInTheDocument();
-    // s15 (plus de compte gratuit) : Premium + étape 1 en lecture libre.
-    expect(screen.getByText("Accéder aux parcours complets")).toBeInTheDocument();
-    expect(screen.getAllByText(TEXTES_PARCOURS_BLOG.repartie.finBoutonEtape1).length).toBeGreaterThan(0);
+    expect(screen.getByText(lie(TEXTES_PARCOURS_BLOG.repartie.finTitre))).toBeInTheDocument();
+    // v2 F01 : le payant en plein ; v3 S01 : clusters simulés ici (aucun), parcours non connu, donc
+    // Répartie : « Tester l'étape 1 de Répartie, gratuite » (libellé unique, comme /abonnement).
+    expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
+    expect(screen.getAllByText(normalise("Tester l'étape 1 de Répartie, gratuite")).length).toBeGreaterThan(0);
+    expect(screen.queryByText("Tester mes premières répliques, gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 
@@ -244,8 +251,12 @@ describe("BlogArticlePage — article detail", () => {
       params: { slug: "comment-devenir-drole" },
     });
     render(Page);
-    const breadcrumb = screen.getByLabelText("Fil d'Ariane");
+    const breadcrumb = screen.getByLabelText("Fil d’Ariane");
     expect(breadcrumb).toBeInTheDocument();
+    // s21 : lien « Articles » vers /blog, et BreadcrumbList au même libellé.
+    expect(screen.getByRole("link", { name: "Articles" })).toHaveAttribute("href", "/blog");
+    const jsonLd = Array.from(document.querySelectorAll('[data-testid="json-ld"]')).map((el) => el.textContent ?? "");
+    expect(jsonLd.some((t) => t.includes('"BreadcrumbList"') && t.includes('"name":"Articles"'))).toBe(true);
   });
 
   it("renders related articles section", async () => {

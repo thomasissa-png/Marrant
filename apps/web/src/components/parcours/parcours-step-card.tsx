@@ -14,8 +14,6 @@ import {
   DEFI_BOULOT,
   dureeEtapeTexte,
   VIDEOS_ETAPE,
-  ETAPE_APERCU_LIBELLE,
-  etapeOrdreTexte,
   LIENS_FICHES,
   QUIZ_TITRE,
 } from "@/config/textes/parcours";
@@ -38,11 +36,10 @@ import type { Step } from "@/components/parcours/parcours-types";
 export function etapeAfficheEchec(p: {
   step: Pick<Step, "locked">;
   isExpanded: boolean;
-  isSequentiallyLocked: boolean;
   isPremiumLocked: boolean;
   loadFailed: boolean;
 }): boolean {
-  return p.isExpanded && !p.isSequentiallyLocked && !p.isPremiumLocked && !!p.step.locked && p.loadFailed;
+  return p.isExpanded && !p.isPremiumLocked && !!p.step.locked && p.loadFailed;
 }
 
 const LOCK_PATH =
@@ -163,15 +160,14 @@ export interface ParcoursStepCardProps {
   isPremium: boolean;
   isCompleted: boolean;
   isExpanded: boolean;
-  /** Abonné : étape après une étape non validée (ordre conseillé). */
-  isSequentiallyLocked: boolean;
   /** Non-abonné : étape 2+ ouverte en aperçu (D1). */
   isPremiumLocked: boolean;
-  previousOrder: number | null;
   isQuizDone: boolean;
   isSeedFallback: boolean;
   completing: boolean;
   abonnementHref: string;
+  /** s21 concision : plein de fin d'étape 1 (visiteur : /register ; compte : /abonnement). */
+  finEtape1Href?: string;
   loadFailed: boolean;
   onRetryLoad: () => void;
   /** s17 tour 3 : focus rendu au « Réessayer » de l'étape après un nouvel échec. */
@@ -191,15 +187,17 @@ export interface ParcoursStepCardProps {
   resultat?: { xp: string | null; rythme: string | null } | null;
   /** s17 tour 1 (UXV-1-06) : repère « Parcours Répartie · 4 semaines » au-dessus du titre. */
   contexte?: string | null;
+  /** s21 B14 : étape suivante (aperçu public), carte de la fin d'étape 1. */
+  etapeSuivante?: Step | null;
 }
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
-  const { step, slug, isPremium, isCompleted, isExpanded, isSequentiallyLocked, isPremiumLocked } = props;
-  const canExpand = !isSequentiallyLocked;
+  // s21 (décision du 18/10) : toute étape se déplie ; l'abonné les ouvre toutes, le visiteur voit l'aperçu des étapes 2+.
+  const { step, slug, isPremium, isCompleted, isExpanded, isPremiumLocked } = props;
   const stepXp = step.moduleXp ?? PARCOURS_ETAPE_XP_DEFAUT;
   const hasQuiz = !!step.quiz && step.quiz.length > 0;
   const title = step.moduleTitle ?? step.tip.title;
-  const muted = isSequentiallyLocked || isPremiumLocked;
+  const muted = isPremiumLocked;
 
   return (
     <Card
@@ -211,17 +209,16 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
     >
       <CardHeader
         id={`etape-${step.order}-entete`}
-        role={canExpand ? "button" : undefined}
-        tabIndex={canExpand ? 0 : undefined}
-        aria-expanded={canExpand ? isExpanded : undefined}
+        role="button"
+        tabIndex={0}
+        aria-expanded={isExpanded}
         // Pas d'aria-label : le nom vocal = le texte visible (QA-05) ; focus visible (UX-09 a).
         // DES-1-04 : pas de marge basse sous un en-tête replié (16 px dessus, 0 dessous + padding de la carte).
         // s17 tour 3 (DES-3-05) : déplié, 8 px sous l'en-tête pour que l'anneau de focus (2 + 2 px) ne touche pas le bloc suivant.
         // s17 tour 4 (QA) : survol = titre souligné et chevron éclairci (en-tête dépliable seulement).
-        className={`rounded-t-xl ${isExpanded && canExpand ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary ${canExpand ? "group cursor-pointer" : "cursor-default"}`}
-        onClick={() => canExpand && props.onToggle()}
+        className={`rounded-t-xl ${isExpanded ? "mb-2" : "pb-0"} focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary group cursor-pointer`}
+        onClick={() => props.onToggle()}
         onKeyDown={(e) => {
-          if (!canExpand) return;
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             props.onToggle();
@@ -258,7 +255,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 className={`text-base decoration-text-muted underline-offset-4 group-hover:underline ${muted ? "text-text-secondary" : ""}`}
               >
                 <span className="sr-only">Étape {step.order} : </span>
-                {title}
+                {frTypoParcours(title)}
                 {isCompleted && <span className="sr-only"> (validée)</span>}
               </CardTitle>
               <div className="mt-1 flex flex-wrap items-center gap-2">
@@ -268,26 +265,20 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
                 )}
                 {/* s19 (N3 @ux rendu) : « Lecture libre » ne parle qu'au visiteur. */}
                 {!isPremium && (step.free || step.order === 1) && <Badge variant="primary">{ETAPE_LIBRE_BADGE}</Badge>}
-                {isPremiumLocked && !isCompleted && <Badge variant="premium">{ETAPE_APERCU_LIBELLE}</Badge>}
-                {isSequentiallyLocked && props.previousOrder !== null && (
-                  <span className="text-xs text-text-muted">{etapeOrdreTexte(props.previousOrder)}</span>
-                )}
               </div>
             </div>
           </div>
-          {/* s19 (S2 @design, S4 @ux rendu iter 2) : étape verrouillée par l'ordre, un seul cadenas (le rond à gauche). */}
-          {canExpand && (
-            <svg
-              className={`h-5 w-5 shrink-0 text-text-muted transition-transform group-hover:text-text-primary ${isExpanded ? "rotate-180" : ""}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-            </svg>
-          )}
+          {/* s19 (S2 @design, S4 @ux rendu iter 2) : un seul cadenas (le rond à gauche) ; chevron sur toute étape dépliable. */}
+          <svg
+            className={`h-5 w-5 shrink-0 text-text-muted transition-transform group-hover:text-text-primary ${isExpanded ? "rotate-180" : ""}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
       </CardHeader>
 
@@ -301,7 +292,7 @@ export function ParcoursStepCard(props: ParcoursStepCardProps) {
         </div>
       )}
 
-      {isExpanded && canExpand && (
+      {isExpanded && (
         <CardContent className="pt-0">
           {isPremiumLocked ? (
             <LockedStepPreview step={step} slug={slug} />
@@ -497,7 +488,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
       )}
 
       {hasQuiz && isQuizDone && !isCompleted && isPremium && (
-        <p className="text-center text-sm font-medium text-accent-link">Quiz bouclé, tu peux valider l&apos;étape</p>
+        <p className="text-center text-sm font-medium text-accent-link">Quiz bouclé, tu peux valider l’étape</p>
       )}
 
       {!isCompleted && isPremium && !isSeedFallback && hasQuiz && !isQuizDone && (
@@ -554,7 +545,15 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </p>
       )}
 
-      {!isPremium && !isCompleted && step.order === 1 && <ValidationWall slug={slug} href={props.abonnementHref} quizPending={hasQuiz && !isQuizDone} />}
+      {!isPremium && !isCompleted && step.order === 1 && (
+        <ValidationWall
+          slug={slug}
+          href={props.abonnementHref}
+          finEtape1Href={props.finEtape1Href}
+          quizPending={hasQuiz && !isQuizDone}
+          etapeSuivante={props.etapeSuivante ?? null}
+        />
+      )}
     </div>
   );
 }

@@ -7,6 +7,7 @@
  * articles planifiés) est rempli en base à l'avance ; ce module ne fait que
  * combler un trou, de façon déterministe et sans IA.
  */
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { getDayOfYear } from "@/lib/ai/date-utils";
 import { buildJobLockKey, releaseLock, tryAcquireLock } from "@/lib/job-lock";
@@ -15,6 +16,80 @@ import { submitToIndexNow } from "@/lib/indexnow";
 
 export function isContentGenerationEnabled(): boolean {
   return process.env.CONTENT_GENERATION_ENABLED?.trim() === "true";
+}
+
+/**
+ * Filtres du stock, partagés avec /api/health (contrôle « stock restant ») :
+ * le compte affiché par la sonde est exactement celui que pioche le cron.
+ * Vanne validée = active + verdict GARDER + décryptage complet.
+ */
+export const VALIDATED_JOKE_WHERE = {
+  isActive: true,
+  copyVerdict: "GARDER",
+  comedyTechnique: { not: null },
+  howToApply: { not: null },
+} satisfies Prisma.JokeWhereInput;
+/** Vanne validée jamais servie en DailyContent (`pickJoke(true)`). */
+export const NEVER_USED_JOKE_WHERE = {
+  ...VALIDATED_JOKE_WHERE,
+  dailyContents: { none: {} },
+} satisfies Prisma.JokeWhereInput;
+/** Conseil ou vidéo actif (`pickActive(model, false)`). */
+export const ACTIVE_WHERE = { isActive: true } satisfies Prisma.TipWhereInput & Prisma.VideoWhereInput;
+/** Conseil ou vidéo actif jamais servi en DailyContent (`pickActive(model, true)`). */
+export const NEVER_USED_ACTIVE_WHERE = {
+  isActive: true,
+  dailyContents: { none: {} },
+} satisfies Prisma.TipWhereInput & Prisma.VideoWhereInput;
+
+/** Moins de jours de stock neuf que ce seuil = nouveau lot à préparer. */
+export const STOCK_MIN_DAYS = 14;
+
+export interface StockCoverage {
+  /** Vannes validées jamais servies (NEVER_USED_JOKE_WHERE). */
+  jokesNeverUsed: number | null;
+  /** Conseils actifs jamais servis (NEVER_USED_ACTIVE_WHERE). */
+  tipsNeverUsed: number | null;
+  /** Vidéos actives jamais servies : information, recyclées par conception. */
+  videosNeverUsed: number | null;
+  /** DailyContent déjà datés après `today` (calendrier préparé). */
+  plannedDaysAhead: number | null;
+  /** Jours couverts = plannedDaysAhead + jamais servis (null si illisible). */
+  jokeDaysLeft: number | null;
+  tipDaysLeft: number | null;
+  minDays: number;
+  /** "stale" sous STOCK_MIN_DAYS (vannes OU conseils) ou si illisible. */
+  status: "ok" | "stale";
+}
+
+/**
+ * Jours de contenu du jour encore neufs, partagé par /api/health et le
+ * rapport du lundi. 1 vanne + 1 conseil par jour ; les jours déjà planifiés
+ * comptent (leurs vannes ne sont plus « jamais servies » mais couvrent ces
+ * jours). À 0, ensureDailyContentFromStock recycle : le site se répète, il ne
+ * casse pas. Ne lève jamais (compte illisible = null).
+ */
+export async function getStockCoverage(today: Date): Promise<StockCoverage> {
+  const [jokesNeverUsed, tipsNeverUsed, videosNeverUsed, plannedDaysAhead] = await Promise.all([
+    prisma.joke.count({ where: NEVER_USED_JOKE_WHERE }).catch(() => null),
+    prisma.tip.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
+    prisma.video.count({ where: NEVER_USED_ACTIVE_WHERE }).catch(() => null),
+    prisma.dailyContent.count({ where: { date: { gt: today } } }).catch(() => null),
+  ]);
+  const days = (n: number | null) => (n === null || plannedDaysAhead === null ? null : plannedDaysAhead + n);
+  const jokeDaysLeft = days(jokesNeverUsed);
+  const tipDaysLeft = days(tipsNeverUsed);
+  const enough = (d: number | null) => d !== null && d >= STOCK_MIN_DAYS;
+  return {
+    jokesNeverUsed,
+    tipsNeverUsed,
+    videosNeverUsed,
+    plannedDaysAhead,
+    jokeDaysLeft,
+    tipDaysLeft,
+    minDays: STOCK_MIN_DAYS,
+    status: enough(jokeDaysLeft) && enough(tipDaysLeft) ? "ok" : "stale",
+  };
 }
 
 type StockResult =
@@ -38,14 +113,8 @@ export async function ensureDailyContentFromStock(today: Date): Promise<StockRes
 
   const day = getDayOfYear(today);
 
-  const validatedJoke = {
-    isActive: true,
-    copyVerdict: "GARDER",
-    comedyTechnique: { not: null },
-    howToApply: { not: null },
-  };
   const pickJoke = async (neverUsed: boolean) => {
-    const where = neverUsed ? { ...validatedJoke, dailyContents: { none: {} } } : validatedJoke;
+    const where = neverUsed ? NEVER_USED_JOKE_WHERE : VALIDATED_JOKE_WHERE;
     const count = await prisma.joke.count({ where });
     if (count === 0) return null;
     return prisma.joke.findFirst({ where, orderBy: { id: "asc" }, skip: pickSkip(count, day), select: { id: true } });
@@ -53,7 +122,7 @@ export async function ensureDailyContentFromStock(today: Date): Promise<StockRes
   const joke = (await pickJoke(true)) ?? (await pickJoke(false));
 
   const pickActive = async (model: "tip" | "video", neverUsed: boolean) => {
-    const where = neverUsed ? { isActive: true, dailyContents: { none: {} } } : { isActive: true };
+    const where = neverUsed ? NEVER_USED_ACTIVE_WHERE : ACTIVE_WHERE;
     const delegate = prisma[model] as unknown as {
       count(args: { where: object }): Promise<number>;
       findFirst(args: object): Promise<{ id: string } | null>;

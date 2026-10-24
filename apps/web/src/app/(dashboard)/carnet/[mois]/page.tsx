@@ -3,14 +3,14 @@
 // Contenu payant : noindex, absent du sitemap.
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CarnetPage } from "@/components/carnet/carnet-page";
+import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import {
   carnetViewForPlan,
   deCarnetMonth,
   getCarnetByMonth,
   listCarnetMonths,
 } from "@/lib/carnet";
-import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { NOINDEX_ROBOTS, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
 import { readSessionPlan } from "@/lib/session-plan";
 
 export const dynamic = "force-dynamic";
@@ -20,11 +20,17 @@ export function generateMetadata({ params }: { params: { mois: string } }): Meta
   if (!getCarnetByMonth(params.mois)) return { title: "Carnet introuvable", ...NOT_FOUND_ROBOTS };
   return {
     title: `Carnet de répartie ${deCarnetMonth(params.mois)}`,
-    robots: { index: false, follow: false },
+    ...NOINDEX_ROBOTS,
   };
 }
 
-export default async function CarnetMonthPage({ params }: { params: { mois: string } }) {
+export default async function CarnetMonthPage({
+  params,
+  searchParams,
+}: {
+  params: { mois: string };
+  searchParams?: { src?: string | string[] };
+}) {
   const carnet = getCarnetByMonth(params.mois);
   if (!carnet) notFound();
 
@@ -34,6 +40,7 @@ export default async function CarnetMonthPage({ params }: { params: { mois: stri
       view={carnetViewForPlan(carnet, plan)}
       months={listCarnetMonths()}
       returnTo={`/carnet/${carnet.mois}`}
+      src={carnetSrc(searchParams?.src)}
     />
   );
 }

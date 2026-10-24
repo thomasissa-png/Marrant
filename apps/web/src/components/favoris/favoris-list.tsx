@@ -1,18 +1,24 @@
 "use client";
 
+import { frTypo } from "@/lib/fr-typo";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { RANGEE_CHIPS } from "@/components/ui/chip";
+import { cn } from "@/lib/utils";
 import { ShareButton } from "@/components/ui/share-button";
 import { ReactionButtons } from "@/components/ui/reaction-buttons";
 import { YouTubePlayer } from "@/components/ui/youtube-player";
 import { useFavoritesStore } from "@/stores/favorites-store";
-import { tipProse } from "@/lib/tip-prose";
-import { useUserStore } from "@/stores/user-store";
+import { contenuAffiche } from "@/lib/tip-prose";
+import { useEstPremium } from "@/hooks/use-est-premium";
 import Link from "next/link";
 import { buildLoginUrl } from "@/lib/auth-links";
+import { buildAbonnementUrl } from "@/lib/premium-return";
+import { libelleToutOuvrir } from "@/config/textes/cta-articles-accueil";
+import { Reassurance } from "@/components/ui/reassurance";
 
 type TabFilter = "ALL" | "JOKE" | "TIP" | "VIDEO";
 
@@ -21,7 +27,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     value: "ALL",
     label: "Tout",
     emptyEmoji: "⭐",
-    emptyTitle: "Aucun favori pour l'instant",
+    emptyTitle: "Aucun favori pour l’instant",
     emptyDesc: "Mets des vannes, conseils ou vidéos de côté : tu nous remercieras en soirée.",
     ctaLabel: "Explorer les vannes",
     ctaHref: "/vannes",
@@ -49,7 +55,7 @@ const TABS: { value: TabFilter; label: string; emptyEmoji: string; emptyTitle: s
     label: "Vidéos",
     emptyEmoji: "🎬",
     emptyTitle: "Pas encore de vidéo en favoris",
-    emptyDesc: "Garde tes vidéos préférées ici pour les revoir et t'en inspirer.",
+    emptyDesc: "Garde tes vidéos préférées ici pour les revoir et t’en inspirer.",
     ctaLabel: "Explorer les vidéos",
     ctaHref: "/videos",
   },
@@ -129,7 +135,7 @@ interface VideoData {
 export function FavorisList() {
   const { status } = useSession();
   const { favorites, isLoading, fetchFavorites, removeFavorite } = useFavoritesStore();
-  const user = useUserStore((s) => s.user);
+  const estPremium = useEstPremium();
   const [activeTab, setActiveTab] = useState<TabFilter>("ALL");
   const [revealedJokes, setRevealedJokes] = useState<Set<string>>(new Set());
   const [expandedTips, setExpandedTips] = useState<Set<string>>(new Set());
@@ -178,7 +184,8 @@ export function FavorisList() {
     );
   }
 
-  if (user?.plan !== "PREMIUM") {
+  // s21 (QA M2) : plan lu dans la session, pas seulement dans le store (vide hors /profil).
+  if (!estPremium) {
     return (
       <Card>
         <CardContent className="flex flex-col items-center py-12 text-center">
@@ -189,13 +196,15 @@ export function FavorisList() {
             Les favoris sont r&#233;serv&#233;s aux membres Premium
           </p>
           <p className="mt-1 text-sm text-text-secondary">
-            Passe &#224; l&apos;offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
+            Passe &#224; l’offre compl&#232;te pour sauvegarder tes vannes, conseils et vid&#233;os pr&#233;f&#233;r&#233;s.
           </p>
-          <Link href="/abonnement" className="mt-4">
-            <Button variant="primary" size="sm">
-              D&#233;couvrir l&apos;offre Premium
+          {/* s21 (revue v2 m-1) : source `favoris`, suivie jusqu'à `checkout-ouvert` ; retour ici après paiement. */}
+          <Link href={buildAbonnementUrl("/favoris", "monthly", "favoris")} className="mt-4">
+            <Button variant="primary" size="sm" className="h-auto min-h-11 whitespace-normal py-2">
+              {libelleToutOuvrir()}
             </Button>
           </Link>
+          <Reassurance />
         </CardContent>
       </Card>
     );
@@ -205,6 +214,8 @@ export function FavorisList() {
     activeTab === "ALL"
       ? favorites
       : favorites.filter((f) => f.contentType === activeTab);
+  const courts = filtered.filter((f) => f.contentType !== "VIDEO");
+  const dernierCourtSeul = courts.length % 2 === 1 ? courts[courts.length - 1].id : null;
 
   // Count per type for tab badges
   const counts = {
@@ -219,12 +230,14 @@ export function FavorisList() {
   return (
     <>
       {/* Tabs with counts */}
-      <div className="mb-6 flex flex-wrap gap-2" role="tablist" aria-label="Type de favoris">
+      {/* Revue visuelle s21 (T2-07) : une ligne qui défile sous 1 024 px (plus d'onglet seul sur la 2e ligne). */}
+      <div className={cn("mb-6", RANGEE_CHIPS)} role="tablist" aria-label="Type de favoris">
         {TABS.map((tab) => (
           <Button
             key={tab.value}
             variant={activeTab === tab.value ? "primary" : "ghost"}
             size="sm"
+            className="shrink-0 snap-start whitespace-nowrap"
             role="tab"
             aria-selected={activeTab === tab.value}
             onClick={() => setActiveTab(tab.value)}
@@ -270,15 +283,19 @@ export function FavorisList() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-4">
+        // Revue visuelle s21 (R02, T3-06) : dès 768 px, vannes et conseils sur 2 colonnes (rangées remplies
+        // dans l'ordre, trous comblés), la vidéo sur toute la rangée avec sa vignette bornée à gauche.
+        <div className="grid gap-4 md:grid-flow-row-dense md:grid-cols-2">
           {filtered.map((fav) => {
+            // Nombre impair de vannes et conseils : le dernier prend la rangée (plus de demi-rangée vide).
+            const seulSurSaRangee = fav.id === dernierCourtSeul ? " md:col-span-2" : "";
             if (fav.contentType === "JOKE" && fav.joke) {
               const joke = fav.joke as unknown as JokeData;
               const isRevealed = revealedJokes.has(fav.id);
               return (
                 <Card
                   key={fav.id}
-                  className="cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
                   tabIndex={0}
                   onClick={() => toggleJokePunchline(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleJokePunchline(fav.id); } }}
@@ -307,7 +324,7 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <p className="text-text-primary">{joke.content}</p>
+                    <p className="text-text-primary">{frTypo(joke.content)}</p>
                     {isRevealed ? (
                       <>
                         <p className="mt-3 font-semibold text-accent-link animate-fade-in">
@@ -320,7 +337,7 @@ export function FavorisList() {
                             onClick={(e) => e.stopPropagation()}
                           >
                             <p className="text-xs font-semibold uppercase tracking-wide text-accent-link">
-                              Pourquoi ça marche&nbsp;: {joke.comedyTechnique}
+                              Pourquoi ça marche&nbsp;: {contenuAffiche(joke.comedyTechnique)}
                             </p>
                             {joke.techniqueExplanation && (
                               <p className="mt-2 text-sm text-text-secondary">
@@ -339,7 +356,7 @@ export function FavorisList() {
                                 href="/anatomie-vanne"
                                 className="font-medium text-accent-link underline underline-offset-2"
                               >
-                                L&apos;anatomie d&apos;une vanne
+                                L’anatomie d’une vanne
                               </Link>
                             </p>
                           </div>
@@ -361,14 +378,15 @@ export function FavorisList() {
               return (
                 <Card
                   key={fav.id}
-                  className="cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+                  className={`cursor-pointer transition-colors hover:bg-background-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary${seulSurSaRangee}`}
                   tabIndex={0}
                   onClick={() => toggleTipExpanded(fav.id)}
                   onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleTipExpanded(fav.id); } }}
                 >
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                    {/* QA s21 tour 2 n2 : les pastilles passent à la ligne, les boutons ne rétrécissent pas ; plus de débordement à 320 px. */}
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex min-w-0 flex-wrap items-center gap-2">
                         <Badge variant="secondary">Conseil</Badge>
                         <Badge variant={DIFFICULTY_VARIANT[tip.difficulty] ?? "default"}>
                           {DIFFICULTY_LABELS[tip.difficulty] ?? tip.difficulty}
@@ -377,7 +395,7 @@ export function FavorisList() {
                           {TIP_CATEGORY_LABELS[tip.category] ?? tip.category}
                         </Badge>
                       </div>
-                      <div className="flex items-center gap-1">
+                      <div className="flex shrink-0 items-center gap-1">
                         <ShareButton
                           title={`${tip.title} - deviens-marrant.fr`}
                           text={tip.content}
@@ -393,25 +411,25 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <CardTitle>{tip.title}</CardTitle>
+                    <CardTitle>{frTypo(tip.title)}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm leading-relaxed text-text-primary">{tipProse(tip.content)}</p>
+                    <p className="text-sm leading-relaxed text-text-primary">{contenuAffiche(tip.content)}</p>
 
                     {isExpanded ? (
                       <div className="mt-4 space-y-4 animate-fade-in">
                         <div className="rounded-lg bg-background-elevated p-4">
                           <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.example)}</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.example)}</p>
                         </div>
                         <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                           <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{tipProse(tip.exercise)}</p>
+                          <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.exercise)}</p>
                         </div>
                       </div>
                     ) : (
                       <p className="mt-2 text-xs text-text-muted">
-                        Ouvre pour l&apos;exemple et le d&#233;fi
+                        Ouvre pour l’exemple et le d&#233;fi
                       </p>
                     )}
                   </CardContent>
@@ -422,7 +440,7 @@ export function FavorisList() {
             if (fav.contentType === "VIDEO" && fav.video) {
               const video = fav.video as unknown as VideoData;
               return (
-                <Card key={fav.id} className="overflow-hidden">
+                <Card key={fav.id} className="overflow-hidden md:col-span-2">
                   <CardContent className="pt-4">
                     <div className="mb-3 flex items-center justify-between">
                       <div className="flex items-center gap-2">
@@ -450,14 +468,20 @@ export function FavorisList() {
                         </Button>
                       </div>
                     </div>
-                    <div className="relative mb-3 aspect-video overflow-hidden rounded-lg bg-background-elevated">
+                    <div className="md:grid md:grid-cols-[minmax(0,300px)_1fr] md:items-start md:gap-5 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-6">
+                    <div className="relative mb-3 aspect-video w-full overflow-hidden rounded-lg bg-background-elevated md:mb-0">
                       <YouTubePlayer youtubeId={video.youtubeId} title={video.title} />
                     </div>
+                    <div className="max-w-prose">
                     <h3 className="font-display text-base font-bold text-text-primary">
-                      {video.title}
+                      {contenuAffiche(video.title)}
                     </h3>
                     <p className="mt-1 text-sm text-text-secondary">{video.channelName}</p>
-                    <p className="mt-2 text-sm text-text-muted line-clamp-2">{video.description}</p>
+                    <p className="mt-2 text-sm text-text-muted line-clamp-2">{contenuAffiche(video.description)}</p>
+                    </div>
+                    {/* Revue visuelle s21 (T2-12) : encadrés sous la rangée vignette + texte, sur toute la carte
+                        (plus de vide sous la vignette). */}
+                    <div className="md:col-span-2">
                     {video.learnings && video.learnings.length > 0 && (
                       <div className="mt-3 rounded-lg bg-background-elevated p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-text-primary">Ce que tu vas apprendre</p>
@@ -465,7 +489,7 @@ export function FavorisList() {
                           {video.learnings.map((learning, i) => (
                             <li key={i} className="flex items-start gap-1.5 text-sm text-text-secondary">
                               <span className="mt-0.5 shrink-0 text-accent-link" aria-hidden="true">•</span>
-                              {learning}
+                              {contenuAffiche(learning)}
                             </li>
                           ))}
                         </ul>
@@ -474,9 +498,11 @@ export function FavorisList() {
                     {video.exercise && (
                       <div className="mt-2 rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
                         <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice pratique</p>
-                        <p className="text-sm leading-relaxed text-text-secondary">{video.exercise}</p>
+                        <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(video.exercise)}</p>
                       </div>
                     )}
+                    </div>
+                    </div>
                   </CardContent>
                 </Card>
               );

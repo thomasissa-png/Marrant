@@ -36,7 +36,7 @@ function mockSummary(subscription: SubscriptionSummary | null) {
 /** Le profil lit le résumé une fois et le passe à la carte (lot G) : même câblage ici. */
 function CarteAvecResume({ plan }: { plan: string }) {
   const abonnement = useSubscriptionSummary(true);
-  return <AbonnementCard plan={plan} xp={0} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
+  return <AbonnementCard plan={plan} onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={abonnement} />;
 }
 const card = (plan = "PREMIUM") => <CarteAvecResume plan={plan} />;
 
@@ -63,15 +63,15 @@ describe("AbonnementCard (reco 11)", () => {
     expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.changerFormule })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /Résilier/ })).toHaveLength(1);
     expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
-    expect(screen.getByText(/tu gardes Premium jusqu'au 12 novembre 2026/)).toBeInTheDocument();
-    expect(screen.getByText(/Passe à l'annuel : plus de 3 mois offerts, 10,89 € économisés/)).toBeInTheDocument();
+    expect(screen.getByText(/tu gardes Premium jusqu['’]au 12 novembre 2026/)).toBeInTheDocument();
+    expect(screen.getByText(/Passe à l['’]annuel : plus de 3 mois offerts, 10,89 € économisés/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/votre|—/);
   });
 
   it("résilié : « Premium jusqu'au … », plus de bouton de résiliation", async () => {
     mockSummary({ ...actif, formule: "annual", priceCents: 2499, cancelAtPeriodEnd: true });
     render(card());
-    expect(await screen.findByText("Premium jusqu'au 12 novembre 2026.")).toBeInTheDocument();
+    expect(await screen.findByText("Premium jusqu’au 12 novembre 2026.")).toBeInTheDocument();
     expect(screen.getByText("Formule annuelle, 24,99 €/an")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Résilier/ })).not.toBeInTheDocument();
   });

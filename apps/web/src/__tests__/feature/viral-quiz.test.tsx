@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { QUIZ_HUMOUR_CTA } from "@/config/textes/cta-pages";
 import { ViralQuiz } from "@/components/quiz/viral-quiz";
 import {
   QUIZ_QUESTIONS,
@@ -8,6 +9,7 @@ import {
   type HumorProfileType,
 } from "@/components/quiz/quiz-data";
 import { STORYTELLING_PUBLIE } from "@/config/parcours-publication";
+import { textesResultatQuiz } from "@/lib/quiz-resultat-textes";
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({ push: jest.fn() }),
@@ -42,6 +44,11 @@ Object.defineProperty(window, "localStorage", { value: localStorageMock });
 // Les devises du quiz ont des guillemets « » avec espaces insécables (s20) : getByText
 // normalise le texte rendu (espaces fusionnés) mais pas la chaîne cherchée.
 const optionLabel = (i: number) => QUIZ_QUESTIONS[i].options[0].label.replace(/\s+/g, " ");
+/** Profil du dernier quiz terminé (événement quiz-termine). */
+const resultat = (): keyof typeof QUIZ_PROFILES => {
+  const appels = mockTrack.mock.calls.filter((c) => c[0] === "quiz-termine");
+  return appels[appels.length - 1][1].profil;
+};
 
 describe("ViralQuiz", () => {
   beforeEach(() => {
@@ -51,26 +58,26 @@ describe("ViralQuiz", () => {
   });
 
   it("renders first question", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
     ).toBeInTheDocument();
   });
 
   it("shows question counter badge", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     expect(screen.getByText(`1/${QUIZ_QUESTIONS.length}`)).toBeInTheDocument();
   });
 
   it("shows 4 answer options for Q1", () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     QUIZ_QUESTIONS[0].options.forEach((opt) => {
       expect(screen.getByText(opt.label)).toBeInTheDocument();
     });
   });
 
   it("advances to Q2 after answering Q1", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     await userEvent.click(
       screen.getByText(optionLabel(0)),
     );
@@ -81,7 +88,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows progress bar that grows", async () => {
-    const { container } = render(<ViralQuiz />);
+    const { container } = render(<ViralQuiz textes={textesResultatQuiz()} />);
     const progressBar = container.querySelector(
       ".bg-accent-primary.transition-all",
     );
@@ -89,7 +96,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows a result after completing all 12 questions", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
 
     // Answer all 12 questions with first option
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
@@ -108,7 +115,7 @@ describe("ViralQuiz", () => {
 
   it("quiz terminé : événement quiz-termine avec le profil (s15), CTA vers /register", async () => {
     mockTrack.mockClear();
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(screen.getByText(optionLabel(i)));
     }
@@ -117,12 +124,13 @@ describe("ViralQuiz", () => {
     expect(name).toBe("quiz-termine");
     expect(Object.keys(QUIZ_PROFILES)).toContain(data.profil);
     // s15 : plus de compte gratuit, CTA vers Premium avec retour au parcours conseillé.
-    const cta = screen.getByText("Accéder aux parcours complets").closest("a");
-    expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance)&src=quiz$/);
+    const conseille = QUIZ_PROFILES[data.profil as keyof typeof QUIZ_PROFILES].recommendedParcours;
+    const cta = screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).closest("a");
+    expect(cta?.getAttribute("href")).toMatch(/^\/abonnement\?returnTo=%2Fparcours%2F(machine-a-cafe|repartie|confiance|storytelling|boulot)&src=quiz$/);
   });
 
   it("shows share button on result screen", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -132,20 +140,46 @@ describe("ViralQuiz", () => {
   });
 
   it("shows CTA buttons on result screen", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
       );
     }
-    expect(screen.getByText("Lire la première étape gratuite")).toBeInTheDocument();
-    expect(
-      screen.getByText("Accéder aux parcours complets"),
-    ).toBeInTheDocument();
+    // Concision v5 (textes-v5-b §4) : plein GRATUIT_P vers l'étape 1, « Sans compte. », lien OUVRIR.
+    const profil = resultat();
+    const conseille = QUIZ_PROFILES[profil].recommendedParcours;
+    const plein = screen.getByText(QUIZ_HUMOUR_CTA.bouton(conseille)).closest("a");
+    expect(QUIZ_HUMOUR_CTA.bouton(conseille)).toMatch(/^Tester l['’]étape 1 de .+, gratuite$/);
+    expect(plein?.getAttribute("href")).toMatch(/^\/parcours\/[a-z-]+\?src=quiz#etape-1$/);
+    expect(plein?.className).toContain("bg-accent-secondary-hover");
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
+    expect(screen.getByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).toBeInTheDocument();
+    expect(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " ")).toBe("Tout ouvrir · 2,99 €/mois");
+    expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/Ta force, tu viens de la lire|24,99|TTC|14 jours|en entier/);
+  });
+
+  it("s21 (QA m6) : abonné, ni lien payant ni ligne de prix ; le plein vers l'étape 1 reste", async () => {
+    const { useSession } = jest.requireMock("next-auth/react") as { useSession: jest.Mock };
+    useSession.mockReturnValue({ data: { user: { id: "u1", plan: "PREMIUM" } }, status: "authenticated" });
+    try {
+      render(<ViralQuiz textes={textesResultatQuiz()} />);
+      for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
+        await userEvent.click(screen.getByText(optionLabel(i)));
+      }
+      const conseille = QUIZ_PROFILES[resultat()].recommendedParcours;
+      expect(screen.getByText(QUIZ_HUMOUR_CTA.bouton(conseille))).toBeInTheDocument();
+      expect(screen.queryByText(QUIZ_HUMOUR_CTA.lien(conseille).replace(/\s/g, " "))).not.toBeInTheDocument();
+      expect(screen.queryByTestId("quiz-ligne-premium")).not.toBeInTheDocument();
+      expect(document.querySelector("a[href^='/abonnement']")).toBeNull();
+    } finally {
+      useSession.mockReturnValue({ data: null, status: "unauthenticated" });
+    }
   });
 
   it("saves result to localStorage", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -164,8 +198,8 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz />);
-    expect(screen.getByText("L'Observateur")).toBeInTheDocument();
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
+    expect(screen.getByText("L’Observateur")).toBeInTheDocument();
     expect(screen.getByText("Refaire le quiz")).toBeInTheDocument();
   });
 
@@ -176,7 +210,7 @@ describe("ViralQuiz", () => {
         completedAt: "2026-03-19T00:00:00.000Z",
       }),
     );
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     await userEvent.click(screen.getByText("Refaire le quiz"));
     expect(
       screen.getByText(QUIZ_QUESTIONS[0].question),
@@ -184,7 +218,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows humoriste name in result", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),
@@ -200,7 +234,7 @@ describe("ViralQuiz", () => {
   });
 
   it("shows strength and tip on result", async () => {
-    render(<ViralQuiz />);
+    render(<ViralQuiz textes={textesResultatQuiz()} />);
     for (let i = 0; i < QUIZ_QUESTIONS.length; i++) {
       await userEvent.click(
         screen.getByText(optionLabel(i)),

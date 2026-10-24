@@ -11,10 +11,10 @@ export const IN_APP_NOTICE_ID = "google-in-app-notice";
 
 const MESSAGES = {
   register:
-    "Google n'accepte pas l'inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.",
+    "Google n’accepte pas l’inscription depuis cette application. Inscris-toi par e-mail, ou ouvre le site dans ton navigateur.",
   // [PROVISOIRE @copywriter] variante connexion du message v5 §2.4.
   login:
-    "Google n'accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
+    "Google n’accepte pas la connexion depuis cette application. Connecte-toi par e-mail, ou ouvre le site dans ton navigateur.",
 } as const;
 
 interface InAppBrowserNoticeProps {
@@ -92,7 +92,7 @@ export function InAppBrowserNotice({ page, callbackUrl, src, ios, android }: InA
       </div>
       {copie === "ok" && (
         <p className="mt-2 text-text-secondary" role="status">
-          Lien copié. Colle-le dans ton navigateur.
+          Lien copié. Colle-⁠le dans ton navigateur.
         </p>
       )}
       {copie === "echec" && (

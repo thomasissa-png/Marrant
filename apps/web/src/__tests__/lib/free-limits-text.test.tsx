@@ -6,7 +6,11 @@
 import { render, screen } from "@testing-library/react";
 import { ArticleCta } from "@/components/blog/article-cta";
 import AbonnementPage from "@/app/(dashboard)/abonnement/page";
+
+// s21 (CLS) : la page lit la session au rendu ; ici, visiteur côté serveur (session client mockée).
+jest.mock("@/lib/session-serveur", () => ({ lireConnecteServeur: async () => false }));
 import { LLMS_FAQ_FULL, LLMS_TARIFS } from "@/lib/llms-content";
+import { MUR_LISTE } from "@/config/textes/cta-pages";
 
 jest.mock("@/config/premium", () => ({
   ...jest.requireActual("@/config/premium"),
@@ -24,25 +28,32 @@ jest.mock("@/hooks/use-content-stats", () => ({
 }));
 
 describe("limites gratuites affichées = constantes de config", () => {
-  it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), prix seul", () => {
+  it("CTA de fin d'article : plus aucune limite gratuite vendue (s15), « Sans compte. » seul", () => {
     const { container } = render(<ArticleCta />);
-    expect(screen.getByText("2,99 €/mois, sans engagement. Cet article reste en lecture libre.")).toBeInTheDocument();
-    expect(container.textContent).not.toMatch(/compte gratuit|sans carte/i);
+    expect(screen.getByText("Sans compte.")).toBeInTheDocument();
+    expect(container.textContent).not.toMatch(/compte gratuit|sans carte|TTC/i);
   });
 
-  it("page /abonnement (avantages Premium)", () => {
-    const { container } = render(<AbonnementPage />);
+  it("page /abonnement : concision v5, plus de limites gratuites dans les avantages", async () => {
+    const { container } = render(await AbonnementPage({}));
     const text = container.textContent ?? "";
-    // Plus de bloc « Compte gratuit » (s15) : les limites ne restent que dans les avantages Premium.
     expect(text).not.toMatch(/compte gratuit/i);
-    expect(text).toContain("au lieu de 12 vannes, 6 conseils et 2 vidéos sans abonnement");
-    expect(text).not.toMatch(/\b10 vannes\b/);
+    expect(text).not.toMatch(/au lieu de|\b10 vannes\b/);
+    // textes-trajet-v2 A12 : le tableau dit les limites avec leurs unités, lues dans la config.
+    expect(text.replace(/\s/g, " ")).toContain("12 vannes, 6 conseils, 2 vidéos dans les listes");
+  });
+
+  it("murs des listes : limites lues dans les constantes de config", () => {
+    // textes-trajet-v2 M04 : l'unité est écrite, le nombre reste lu dans la config.
+    expect(MUR_LISTE.vannes.limite).toBe("Les 12 vannes gratuites, c’est fait.");
+    expect(MUR_LISTE.conseils.limite).toBe("6 conseils gratuits, c’est fait.");
+    expect(MUR_LISTE.videos.limite).toBe("2 vidéos gratuites, c’est fait.");
   });
 
   it("llms.txt / llms-full.txt (tarifs et FAQ)", () => {
     expect(LLMS_TARIFS[0]).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos,");
     const cout = LLMS_FAQ_FULL.find((f) => f.question === "Combien ça coûte ?");
-    expect(cout?.answer).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos et le contenu du jour.");
+    expect(cout?.answer).toContain("Sans abonnement et sans compte : 12 vannes, 6 conseils, 2 vidéos, la première étape de chaque parcours, la situation offerte du carnet du mois et le contenu du jour.");
     expect(cout?.answer).not.toMatch(/accès gratuit/i);
   });
 });

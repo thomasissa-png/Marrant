@@ -73,7 +73,7 @@ export function CeoAuditLog({ logs }: CeoAuditLogProps) {
       <div className="rounded-lg border border-border bg-background-card">
         {filtered.length === 0 ? (
           <p className="px-4 py-12 text-center text-text-muted">
-            Pas d&apos;entrées d&apos;audit pour ces filtres.
+            Pas d’entrées d’audit pour ces filtres.
           </p>
         ) : (
           <ul className="divide-y divide-border">

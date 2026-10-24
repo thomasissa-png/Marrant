@@ -66,11 +66,11 @@ function ResetPasswordContent() {
 
   if (!token || !email) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-4">
+      <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
         <Card className="w-full max-w-md">
           <CardContent className="py-8 text-center">
             <h1 className="mb-3 font-display text-lg font-bold text-text-primary">Nouveau mot de passe</h1>
-            <p className="text-text-secondary">Ce lien est cassé ou incomplet. Pas de panique, on t&apos;en renvoie un.</p>
+            <p className="text-text-secondary">Ce lien est cassé ou incomplet. Pas de panique, on t’en renvoie un.</p>
             <Link href="/forgot-password" className="mt-4 inline-block text-accent-link hover:underline text-sm">
               Demander un nouveau lien
             </Link>
@@ -81,10 +81,10 @@ function ResetPasswordContent() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-4">
+    <main className="flex min-h-dvh flex-col items-center px-4 py-8 sm:justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <Link href="/" className="mb-4 inline-block">
+          <Link href="/" className="mb-4 inline-flex min-h-11 items-center self-center">
             <span className="whitespace-nowrap font-display text-2xl font-bold text-gradient">
               deviens-marrant.fr
             </span>
@@ -92,7 +92,7 @@ function ResetPasswordContent() {
           <h1 className="font-display text-lg font-bold text-text-primary">Nouveau mot de passe</h1>
           <CardDescription>
             {success
-              ? "C'est bon, ton nouveau mot de passe est en place."
+              ? "C’est bon, ton nouveau mot de passe est en place."
               : "Choisis un nouveau mot de passe."}
           </CardDescription>
         </CardHeader>
@@ -100,7 +100,7 @@ function ResetPasswordContent() {
           {success ? (
             <div className="text-center">
               <p className="mb-4 text-sm text-success">
-                Tu peux te connecter avec. Essaie de t&apos;en souvenir plus longtemps que le précédent.
+                Tu peux te connecter avec. Essaie de t’en souvenir plus longtemps que le précédent.
               </p>
               <Link href="/login">
                 <Button variant="primary" size="sm">

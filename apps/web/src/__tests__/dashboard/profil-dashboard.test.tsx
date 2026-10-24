@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { ProfilDashboard } from "@/components/profil/profil-dashboard";
+import { courbe, lie } from "../helpers/texte-normalise";
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
@@ -83,12 +84,12 @@ describe("ProfilDashboard", () => {
 
   it("displays motivational message under progress bar", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("Ça avance, et ça commence à s'entendre.")).toBeInTheDocument();
+    expect(screen.getByText("Ça avance, et ça commence à s’entendre.")).toBeInTheDocument();
   });
 
   it("displays streak counter", () => {
     render(<ProfilDashboard />);
-    expect(screen.getByText("5 jours de pratique d'affilée")).toBeInTheDocument();
+    expect(screen.getByText("5 jours de pratique d’affilée")).toBeInTheDocument();
     // s17 tour 1 (DES-1-03) : titre en français.
     expect(screen.getByText("Série")).toBeInTheDocument();
     expect(screen.queryByText("Streak")).not.toBeInTheDocument();
@@ -130,30 +131,31 @@ describe("ProfilDashboard", () => {
       expect(screen.getByText("Prochaine étape")).toBeInTheDocument();
     });
 
-    it("XP gagnés > 0 : message « conservés » (étalon 5.2), sinon rien", () => {
-      const { unmount } = render(<ProfilDashboard />);
-      expect(
-        screen.getByText("Les 750 XP que tu as gagnés sont conservés et reprennent là où tu les as laissés."),
-      ).toBeInTheDocument();
-      unmount();
-      useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE", xp: 0 }, isLoading: false, fetchUser: mockFetchUser });
+    it("concision v5 : plus de ligne XP (« Tu as déjà {xp} XP. ») dans la carte d'offre", () => {
       render(<ProfilDashboard />);
+      expect(screen.queryByText(/^Tu as déjà \d+ XP\.$/)).not.toBeInTheDocument();
       expect(screen.queryByText(/sont conservés/)).not.toBeInTheDocument();
     });
 
     it("bouton d'abonnement, sans « filtres avancés »", () => {
       render(<ProfilDashboard />);
-      expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
-      expect(document.body.textContent).not.toMatch(/filtres avancés/);
+      expect(screen.getByText("S’abonner · 2,99 €/mois")).toBeInTheDocument();
+      expect(document.body.textContent).not.toMatch(/filtres avancés|Tout ouvrir/);
     });
   });
 
   it("shows subscribe button with engagement copy for FREE plan", () => {
     useUserStore.mockReturnValue({ user: { ...mockUser, plan: "FREE" }, isLoading: false, fetchUser: mockFetchUser });
     render(<ProfilDashboard />);
-    expect(screen.getByText("S'abonner à 2,99 €/mois")).toBeInTheDocument();
-    expect(screen.getByText(/Passe Premium pour débloquer/)).toBeInTheDocument();
-    expect(screen.getByText(/Sans engagement/)).toBeInTheDocument();
+    // Concision v5 (textes-v5-c §7) : phrase, plein OUVRIR, REASS, mot pour mot.
+    expect(screen.getByText("S’abonner · 2,99 €/mois")).toBeInTheDocument();
+    // Trajet de conversion s21 §2 : phrase d'objet commune (accueil et profil connectés).
+    expect(screen.getByText("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil."),
+    ).toBeInTheDocument();
+    expect(screen.queryByText(/Passe Premium pour débloquer|Résiliable en ligne quand tu veux|Active mon accès/)).toBeNull();
+    expect(screen.queryByText(/Sans engagement/)).toBeNull();
   });
 
   it("shows Premium badge for PREMIUM plan", () => {
@@ -197,7 +199,7 @@ describe("ProfilDashboard", () => {
   it("shows 'Lance-toi dans un parcours' when advanced user with no parcours", () => {
     render(<ProfilDashboard />);
     // mockUser has tipsCompleted=15 and jokesRead=42, parcoursProgress=[]
-    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
+    expect(screen.getByText(lie("Lance-toi dans un parcours"))).toBeInTheDocument();
   });
 
   it("shows 'Approfondis tes techniques' when advanced user with parcours started", async () => {
@@ -211,7 +213,7 @@ describe("ProfilDashboard", () => {
     // Since parcoursProgress.length > 0, it should show "Approfondis"
     // But the fetch is async, so initially parcoursProgress=[] → shows "Lance-toi"
     // After fetch resolves, it shows "Approfondis"
-    expect(screen.getByText("Lance-toi dans un parcours")).toBeInTheDocument();
+    expect(screen.getByText(lie("Lance-toi dans un parcours"))).toBeInTheDocument();
   });
 
   it("shows 'Apprends les bases' for new users with few tips", () => {

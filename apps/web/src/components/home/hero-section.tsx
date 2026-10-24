@@ -6,13 +6,10 @@ import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { chipClass } from "@/components/ui/chip";
 import { cn } from "@/lib/utils";
-import { buildRegisterUrl } from "@/lib/auth-links";
-import { trackUmami } from "@/lib/umami";
-import { PREMIUM_PRICE_LABEL } from "@/config/premium";
 import { parcoursEtape1Href } from "@/lib/entrees-parcours";
-import { ACCUEIL_LIEN_ETAPE_1 } from "@/config/textes/entrees-parcours";
 import { ReprendreParcoursBloc } from "@/components/home/reprendre-parcours";
 import { useParcoursAReprendre } from "@/hooks/use-parcours-a-reprendre";
+import { CORPS_APPEL_MOBILE } from "@/components/layout/gabarit";
 
 /** Pastilles du hero : libellés existants, chacune mène à l'étape 1 du parcours qu'elle nomme
  *  (T02 ; s17 : `?src=accueil`, data-analyst §5.3).
@@ -23,12 +20,19 @@ const HERO_PARCOURS_LINKS = [
   { label: "Reprendre confiance en toi", href: parcoursEtape1Href("confiance", "accueil") },
 ] as const;
 
-/** Lien secondaire visiteur (UX-08, s17) : l'étape 1 du parcours le plus court, en lecture libre. */
-const HERO_ETAPE_1_HREF = parcoursEtape1Href("machine-a-cafe", "accueil");
+/** s21 (B3) : le plein visiteur ouvre l'étape 1 de Répartie, en lecture libre (froid). */
+const HERO_ETAPE_1_HREF = parcoursEtape1Href("repartie", "accueil");
 
-const HERO_EXTRA_TAGS = ["Un petit exercice par jour", "Vannes prêtes à ressortir"] as const;
+/** Textes validés du haut d'accueil (concision v5 : phrase, preuve, plein, note), passés par la page serveur. */
+export interface TextesAccueilHaut {
+  intro: string;
+  preuve: string;
+  bouton: string;
+  note: string;
+}
 
-export function HeroSection() {
+/** s21 (QA m3, budget JS) : `textes` = `ACCUEIL_HAUT`, lu côté serveur (le module n'est plus dans le JS client). */
+export function HeroSection({ textes }: { textes: TextesAccueilHaut }) {
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
   const aReprendre = useParcoursAReprendre();
@@ -44,15 +48,11 @@ export function HeroSection() {
         <span className="block">On va arranger ça.</span>
       </h1>
       <p className="mx-auto mt-4 max-w-2xl text-lg text-text-secondary md:text-xl">
-        {frTypo(
-          "Tu restes muet quand on te chambre ? Tu galères à faire rire à la machine à café ? Tu voudrais retrouver ta légèreté ? On a les vannes, les techniques et les exercices. Toi, tu ramènes ta motivation.",
-        )}
+        {frTypo(textes.intro)}
       </p>
 
-      {/* Social proof — chiffre fixe validé fondateur 29/09/2026 */}
-      <p className="mt-6 text-sm font-medium text-accent-link">
-        1&nbsp;500+ membres bossent leur humour. Rejoins-les.
-      </p>
+      {/* Preuve sociale : chiffre fixe validé fondateur 29/09/2026 (texte : ACCUEIL_HAUT.preuve). */}
+      <p className="mt-6 text-sm font-medium text-accent-link">{frTypo(textes.preuve)}</p>
 
       {/* CTA : connectés vers le catalogue ; anonymes vers l'abonnement (étape 1
           sur 2 : le compte, puis le paiement), lecture libre visible dessous (T03) */}
@@ -64,17 +64,15 @@ export function HeroSection() {
           <Link
             href="/vannes"
             // s17 tour 2 (DES-2-08) : un seul bouton plein ; avec « Reprendre » affiché, celui-ci passe en contour.
-            className={cn(
-              buttonVariants({ variant: aReprendre ? "outline" : "primary", size: "lg" }),
-              aReprendre && "border-accent-primary hover:border-accent-primary hover:bg-accent-primary/10",
-              "w-full sm:w-auto",
-            )}
+            // Revue visuelle s21 : variante niveau 2 du design system (`outline-accent`), plus de bordure surchargée.
+            className={cn(buttonVariants({ variant: aReprendre ? "outline-accent" : "primary", size: "lg" }), "w-full sm:w-auto")}
           >
             Explorer les vannes
           </Link>
           <Link
             href="/conseils"
-            className={cn(buttonVariants({ variant: "outline", size: "lg" }), "w-full sm:w-auto")}
+            // Revue visuelle s21 : même rôle (entrée gratuite dans le produit) = même variante que son voisin.
+            className={cn(buttonVariants({ variant: "outline-accent", size: "lg" }), "w-full sm:w-auto")}
           >
             Voir les conseils
           </Link>
@@ -82,25 +80,22 @@ export function HeroSection() {
         </>
       ) : (
         <div className="mt-8 flex flex-col items-center gap-1">
-          {/* Étalon 1.2 validé par Thomas (s15) : le parcours d'abord, le prix en note */}
-          <Link
-            href={buildRegisterUrl({ src: "accueil-hero" })}
-            className={cn(buttonVariants({ variant: "primary", size: "lg" }), "w-full sm:w-auto")}
-            onClick={() => trackUmami("abonnement-clic", { formule: "mensuel", src: "accueil-hero", statut: "visiteur" })}
-          >
-            Accéder aux parcours complets
-          </Link>
-          <p className="max-w-md text-balance text-sm text-text-muted">
-            {PREMIUM_PRICE_LABEL}, sans engagement. La première étape de chaque parcours reste en lecture libre.
-          </p>
-          {/* Seul ce lien secondaire change en s17 (UX-08) ; l'étalon 1.2 au-dessus reste intact.
-              s17 tour 1 (UXV-1-08, DES-1-13) : texte principal, soulignement violet, cible 44 px. */}
+          {/* s21 (B3, spec cta-forme-place §4) : visiteur froid. Plein = étape 1 de Répartie ;
+              note en petit. Textes : cta-articles-accueil.ts. */}
           <Link
             href={HERO_ETAPE_1_HREF}
-            className="inline-flex min-h-[44px] items-center px-3 py-2 text-base font-semibold text-text-primary underline decoration-accent-link decoration-2 underline-offset-4 hover:text-accent-link"
+            data-accueil-cta="etape-1"
+            className={cn(
+              buttonVariants({ variant: "primary", size: "lg" }),
+              "h-auto min-h-12 w-full whitespace-normal px-4 py-2 text-center [text-wrap:balance] sm:w-auto",
+              CORPS_APPEL_MOBILE,
+            )}
           >
-            {ACCUEIL_LIEN_ETAPE_1}
+            {frTypo(textes.bouton)}
           </Link>
+          {/* s21 concision (18/10) : plus de lien payant souligné ici, le bouton de prix de l'en-tête
+              porte le payant (source `header`). Source `accueil-hero` retirée avec le lien. */}
+          <p className="mt-2 max-w-md text-balance text-xs text-text-muted">{frTypo(textes.note)}</p>
         </div>
       )}
 
@@ -111,16 +106,6 @@ export function HeroSection() {
             <Link href={item.href} className={chipClass()}>
               {item.label}
             </Link>
-          </li>
-        ))}
-      </ul>
-
-      {/* Atouts : texte informatif, NON cliquable (ni fond ni bordure), masqué en mobile : arbitrage Thomas s12, forme audit s14 P0-1 */}
-      <ul className="mx-auto mt-4 hidden flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-text-muted sm:flex">
-        {HERO_EXTRA_TAGS.map((label) => (
-          <li key={label} className="flex items-center gap-2">
-            <span className="text-success" aria-hidden="true">✓</span>
-            {label}
           </li>
         ))}
       </ul>

@@ -1,4 +1,7 @@
-import { PARCOURS_COUNT, PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
+import { PREMIUM_ANNUAL_PRICE_CENTS, PREMIUM_MONTHLY_PRICE_CENTS } from "@/config/premium";
+import { ABONNEMENT_HAUT } from "@/config/textes/abonnement-vente";
+import { avantagesPremium } from "@/config/textes/avantages-premium";
+import { LETTRE_HEBDO_PROMESSE } from "@/config/lettre-hebdo-promesse-temporaire";
 import { isIsoVideoDuration } from "@/lib/video-duration-format";
 
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
@@ -51,9 +54,9 @@ export const authorPersonJsonLd = {
     "Stand-up comedy",
     "Écriture comique",
     "Techniques de répartie",
-    "Psychologie de l'humour",
+    "Psychologie de l’humour",
     "Humour français contemporain",
-    "Formation à l'humour",
+    "Formation à l’humour",
   ],
   worksFor: {
     "@type": "Organization",
@@ -331,6 +334,15 @@ function toEducationalLevel(difficulty?: string): string {
   }
 }
 
+/**
+ * GEO s21 (C4) : fin de validité des prix calculée (31/12 de l'année suivante),
+ * jamais en dur : une date passée ferait lire l'offre comme expirée. Calculée à
+ * chaque rendu (/abonnement est dynamique).
+ */
+export function priceValidUntil(now: Date = new Date()): string {
+  return `${now.getUTCFullYear() + 1}-12-31`;
+}
+
 /** Offre Premium schema.org (priceSpecification + durée de facturation ISO 8601). */
 function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: string) {
   return {
@@ -346,7 +358,7 @@ function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: strin
     },
     availability: "https://schema.org/InStock",
     url: `${BASE_URL}/abonnement`,
-    priceValidUntil: "2026-12-31",
+    priceValidUntil: priceValidUntil(),
     category: "Subscription",
     seller: {
       "@type": "Organization",
@@ -370,8 +382,11 @@ export function buildProductJsonLd({ annualAvailable = false }: { annualAvailabl
     "@context": "https://schema.org",
     "@type": "Product",
     name: "deviens-marrant.fr Premium",
-    description:
-      `Premium : les ${PARCOURS_COUNT} parcours en entier (première étape offerte), le carnet mensuel de situations de répartie (nouveau chaque mois), toutes les vannes, conseils et vidéos stand-up analysées, et tes favoris, pour devenir drôle.`,
+    // Trajet de conversion s21 : la description reprend le texte visible de /abonnement (titre et
+    // avantages, lettre comprise seulement si sa promesse est active), rien d'autre.
+    description: `${ABONNEMENT_HAUT.titre}. ${avantagesPremium(LETTRE_HEBDO_PROMESSE)
+      .map((a) => a.replace(/\.$/, ""))
+      .join(". ")}.`,
     // /og-image.png retournait 404 → OG dynamique Next.js (opengraph-image.tsx)
     image: [
       `${BASE_URL}/opengraph-image`,
@@ -392,7 +407,7 @@ export function buildProductJsonLd({ annualAvailable = false }: { annualAvailabl
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
           url: `${BASE_URL}/abonnement`,
-          priceValidUntil: "2026-12-31",
+          priceValidUntil: priceValidUntil(),
           category: "Subscription",
           seller: {
             "@type": "Organization",
@@ -432,7 +447,7 @@ export function buildDefinedTermListJsonLd(
     "@type": "DefinedTermSet",
     name: "Glossaire humour",
     description:
-      `Les ${terms.length} termes clés de l'humour expliqués : répartie, timing, punchline, callback et plus.`,
+      `Les ${terms.length} termes clés de l’humour expliqués : répartie, timing, punchline, callback et plus.`,
     url: `${BASE_URL}/glossaire`,
     hasDefinedTerm: terms.map((t) => ({
       "@type": "DefinedTerm",

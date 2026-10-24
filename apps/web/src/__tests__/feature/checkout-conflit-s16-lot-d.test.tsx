@@ -55,15 +55,15 @@ describe("409 au checkout : message + lien /profil", () => {
   it("/abonnement : impayé", async () => {
     mockCheckout(409, IMPAYE);
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
+    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s2,99/ })[0]);
     await expectConflict(TEXTES_CHECKOUT.impaye, "paiement-en-retard");
   });
 
   it("/abonnement : autre erreur = toast habituel, pas d'avis", async () => {
     mockCheckout(500, { error: "x" });
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
-    expect(mockToast).toHaveBeenCalledWith("Le paiement n'a pas pu démarrer. Réessaie dans un instant.", "error");
+    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s2,99/ })[0]);
+    expect(mockToast).toHaveBeenCalledWith("Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
     expect(screen.queryByTestId("checkout-conflit")).not.toBeInTheDocument();
   });
 
@@ -71,7 +71,7 @@ describe("409 au checkout : message + lien /profil", () => {
     mockCheckout(409, DEJA);
     const onClose = jest.fn();
     render(<PremiumModal isOpen onClose={onClose} reason="favoris" />);
-    await userEvent.click(screen.getByRole("button", { name: /Active mon accès/ }));
+    await userEvent.click(screen.getByRole("button", { name: /S['’]abonner/ }));
     await expectConflict(TEXTES_CHECKOUT.dejaAbonne, "deja-abonne");
     jest.spyOn(console, "error").mockImplementation(() => {}); // navigation jsdom non implémentée
     await userEvent.click(screen.getByRole("link", { name: TEXTES_CHECKOUT.lienProfil }));

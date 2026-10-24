@@ -9,6 +9,14 @@
  *      (vanne, conseil, vidéo, article blog, log LLM succès). Seuils
  *      configurables — un contenu vieux de plus de 3 jours passe en
  *      `degraded`. C'est LE signal qui aurait détecté l'incident sonnet-4.
+ *      s21 (18/10/2026) : depuis le 01/10 ([CHOIX UTILISATEUR], génération
+ *      coupée, `CONTENT_GENERATION_ENABLED` ≠ "true"), le contenu du jour vient
+ *      d'un stock préparé ; dater la dernière création n'a plus de sens. En
+ *      mode stock, le statut repose sur : DailyContent du jour présent
+ *      (`dailyToday`), stock jamais servi ≥ 14 jours (`stock`) et dernier
+ *      article (`blogArticle`). Les fraîcheurs joke/tip/video/llmSuccess
+ *      restent affichées, à titre d'information (`countedInStatus` liste ce
+ *      qui compte). Génération activée : comportement d'avant, inchangé.
  *   3. **Configuration IA** : modèles Sonnet/Haiku résolus (env override
  *      compris). Aucun secret n'est retourné.
  *
@@ -31,6 +39,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { SONNET_MODEL, OPUS_MODEL, DEFAULT_EFFORT } from "@/lib/ai/client";
+import { todayUTC } from "@/lib/ai/date-utils";
+import {
+  getStockCoverage,
+  isContentGenerationEnabled,
+  type StockCoverage,
+} from "@/lib/scheduler/prepared-content";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -47,6 +61,16 @@ const LLM_FRESHNESS_THRESHOLD_MS = 2 * 24 * 60 * 60 * 1000;
 // le seuil de 3 j marquait la santé "degraded" en permanence (relecture s11).
 const VIDEO_FRESHNESS_THRESHOLD_MS = 35 * 24 * 60 * 60 * 1000;
 
+// Mode stock : le cron daily-content tourne à 5 h UTC (et le scheduler comble
+// un trou à chaque quart d'heure) ; passé 7 h UTC (marge), le DailyContent du
+// jour doit exister. Avant 7 h UTC, celui de la veille suffit.
+const DAILY_CONTENT_DEADLINE_HOUR_UTC = 7;
+
+// Mode stock : seuil du stock neuf (STOCK_MIN_DAYS = 14 j) et calcul dans
+// getStockCoverage (prepared-content), partagés avec le rapport du lundi.
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
 // Timeout du check DB. Si la requête met > 2s, on considère que la DB est
 // dégradée (Neon cold start pathologique).
 const DB_TIMEOUT_MS = 2_000;
@@ -55,6 +79,33 @@ interface FreshnessCheck {
   lastSeenAt: string | null;
   ageMs: number | null;
   status: "ok" | "stale" | "empty";
+}
+
+interface DailyTodayCheck {
+  /** Date UTC du jour (todayUTC). */
+  date: string;
+  /** Date effectivement trouvée (jour, ou veille avant 7 h UTC), null si aucune. */
+  foundDate: string | null;
+  status: "ok" | "stale";
+}
+
+interface StockCheck extends StockCoverage {
+  /** Comportement à 0 : le site se répète, il ne casse pas. */
+  note: string;
+}
+
+interface ContentChecks {
+  /** "stock" = génération coupée (contenu préparé), "generation" = IA au fil de l'eau. */
+  mode: "stock" | "generation";
+  /** Clés qui comptent dans contentStatus ; les autres sont informatives. */
+  countedInStatus: string[];
+  joke: FreshnessCheck;
+  tip: FreshnessCheck;
+  video: FreshnessCheck;
+  blogArticle: FreshnessCheck;
+  llmSuccess: FreshnessCheck;
+  dailyToday?: DailyTodayCheck;
+  stock?: StockCheck;
 }
 
 interface CriticalChecks {
@@ -84,13 +135,7 @@ interface HealthPayload {
       latencyMs: number | null;
       error?: string;
     };
-    content: {
-      joke: FreshnessCheck;
-      tip: FreshnessCheck;
-      video: FreshnessCheck;
-      blogArticle: FreshnessCheck;
-      llmSuccess: FreshnessCheck;
-    } | null;
+    content: ContentChecks | null;
     ai: {
       sonnetModel: string;
       opusModel: string;
@@ -154,6 +199,31 @@ function criticalChecks(database: "up" | "down"): CriticalChecks {
     resend.apiKey ? null : "RESEND_API_KEY",
   ].filter((f): f is string => f !== null);
   return { status: failures.length ? "down" : "ok", database, stripe, resend, failures };
+}
+
+/** Mode stock : DailyContent du jour (ou de la veille avant 7 h UTC). */
+async function checkDailyToday(now: number): Promise<DailyTodayCheck> {
+  const today = todayUTC();
+  const yesterday = new Date(today.getTime() - DAY_MS);
+  const beforeDeadline = new Date(now).getUTCHours() < DAILY_CONTENT_DEADLINE_HOUR_UTC;
+  const rows = await prisma.dailyContent
+    .findMany({ where: { date: { in: [today, yesterday] } }, select: { date: true } })
+    .catch(() => null);
+  const has = (d: Date) => rows?.some((r) => r.date.getTime() === d.getTime()) ?? false;
+  const found = has(today) ? today : beforeDeadline && has(yesterday) ? yesterday : null;
+  return {
+    date: today.toISOString().slice(0, 10),
+    foundDate: found ? found.toISOString().slice(0, 10) : null,
+    status: found ? "ok" : "stale",
+  };
+}
+
+/** Mode stock : calcul partagé avec le rapport du lundi (prepared-content). */
+async function checkStock(): Promise<StockCheck> {
+  return {
+    ...(await getStockCoverage(todayUTC())),
+    note: "À 0, le cron recycle d'anciennes vannes et d'anciens conseils : le site se répète, il ne casse pas. Vidéos recyclées par conception (sans seuil).",
+  };
 }
 
 export async function GET() {
@@ -228,7 +298,10 @@ export async function GET() {
       select: { createdAt: true },
     }).catch(() => null),
     prisma.blogArticle.findFirst({
-      where: { isPublished: true },
+      // publishedAt <= now : un article programmé (même publié trop tôt par
+      // erreur) ne masque pas une semaine sans article ; nulls exclus (Postgres
+      // les trie en tête d'un ORDER BY DESC).
+      where: { isPublished: true, publishedAt: { lte: new Date(now) } },
       orderBy: { publishedAt: "desc" },
       select: { publishedAt: true },
     }).catch(() => null),
@@ -239,14 +312,19 @@ export async function GET() {
     }).catch(() => null),
   ]);
 
-  const content = {
+  const generationEnabled = isContentGenerationEnabled();
+  const content: ContentChecks = {
+    mode: generationEnabled ? "generation" : "stock",
+    countedInStatus: generationEnabled
+      ? ["joke", "tip", "video", "blogArticle", "llmSuccess"]
+      : ["dailyToday", "stock", "blogArticle"],
     joke: buildFreshness(lastJoke?.createdAt, CONTENT_FRESHNESS_THRESHOLD_MS, now),
     tip: buildFreshness(lastTip?.createdAt, CONTENT_FRESHNESS_THRESHOLD_MS, now),
     video: buildFreshness(lastVideo?.createdAt, VIDEO_FRESHNESS_THRESHOLD_MS, now),
     blogArticle: buildFreshness(
       lastArticle?.publishedAt,
       // Blog = 1 article/semaine, seuil plus large
-      7 * 24 * 60 * 60 * 1000,
+      7 * DAY_MS,
       now,
     ),
     llmSuccess: buildFreshness(
@@ -255,11 +333,16 @@ export async function GET() {
       now,
     ),
   };
+  const stockChecks = generationEnabled
+    ? null
+    : await Promise.all([checkDailyToday(now), checkStock()]);
+  if (stockChecks) [content.dailyToday, content.stock] = stockChecks;
 
-  // Statut global : degraded si au moins un check content stale / empty
-  const anyStale = Object.values(content).some(
-    (c) => c.status === "stale" || c.status === "empty",
-  );
+  // Statut contenu : degraded si au moins un check COMPTÉ est stale / empty.
+  const countedChecks: { status: string }[] = stockChecks
+    ? [...stockChecks, content.blogArticle]
+    : [content.joke, content.tip, content.video, content.blogArticle, content.llmSuccess];
+  const anyStale = countedChecks.some((c) => c.status === "stale" || c.status === "empty");
   const contentStatus: HealthPayload["contentStatus"] = anyStale ? "degraded" : "ok";
   const critical = criticalChecks("up");
   const globalStatus: HealthPayload["status"] =

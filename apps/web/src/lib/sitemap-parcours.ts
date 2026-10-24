@@ -8,7 +8,7 @@
  * - la base : `LearningPath.updatedAt` et `Tip.updatedAt` des conseils de ses étapes.
  * `/parcours` prend la plus récente des 3. Base indisponible : la constante seule.
  */
-export const PARCOURS_PAGES_LASTMOD = "2026-10-07";
+export const PARCOURS_PAGES_LASTMOD = "2026-10-18";
 
 export interface ParcoursSitemapDates {
   hub: Date;

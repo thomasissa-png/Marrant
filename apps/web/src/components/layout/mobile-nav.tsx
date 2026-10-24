@@ -1,0 +1,106 @@
+"use client";
+
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { SearchBar } from "@/components/ui/search-bar";
+import { IconeFavoris, IconeProfil } from "@/components/layout/header-icons";
+import { cn } from "@/lib/utils";
+import { EN_TETE } from "@/config/textes/cta-articles-accueil";
+
+export type NavItem = { href: string; label: string };
+
+/** Onglet actif : page exacte, ou sous-page (ex. /blog/<slug> garde « Articles » actif). */
+export function isActivePath(pathname: string | null, href: string): boolean {
+  if (!pathname) return false;
+  return pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+}
+
+interface MobileNavProps {
+  items: NavItem[];
+  pathname: string | null;
+  isAuthenticated: boolean;
+  isPremium: boolean;
+  /** `prix` : bouton visiteur et compte sans abonnement (s21 B6, QA v4 m-3) vers /abonnement?src=header. */
+  hrefs: { prix: string; login: string };
+  /** s21 (B6) : pas de bouton plein sur /abonnement et /register. */
+  masquerPlein?: boolean;
+  onClose: () => void;
+}
+
+/**
+ * Menu déroulant sous 1024 px : liste à plat (onglets, puis actions de compte).
+ * Revue design s21 M1 : hauteur maximale = écran moins la barre (4rem et sa bordure), défilement
+ * interne (l'en-tête est `sticky`, la page ne défile pas pour lui), marge basse
+ * au-dessus de la barre d'accueil de l'iPhone. Testé à 375 x 550.
+ */
+export function MobileNav({ items, pathname, isAuthenticated, isPremium, hrefs, masquerPlein = false, onClose }: MobileNavProps) {
+  const secondaire = cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full justify-start gap-2");
+  return (
+    <nav
+      className="max-h-[calc(100dvh-4rem-1px)] overflow-y-auto overscroll-contain border-t border-border bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4 lg:hidden animate-slide-up"
+      aria-label="Navigation mobile"
+    >
+      <div className="flex flex-col gap-2">
+        {/* s20 : recherche dans le menu sous 440 px (plus d'icône dans la barre). */}
+        <div className="mb-2 min-[440px]:hidden">
+          <SearchBar className="w-full" onNavigate={onClose} />
+        </div>
+        {items.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={cn(
+              "rounded-lg px-3 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary",
+              isActivePath(pathname, item.href)
+                ? "bg-background-elevated text-accent-link"
+                : "text-text-secondary hover:bg-background-elevated hover:text-text-primary",
+            )}
+            onClick={onClose}
+          >
+            {item.label}
+          </Link>
+        ))}
+        <hr className="my-2 border-border" />
+        {/* QA v4 m-3 : même bouton prix pour le visiteur et le compte sans abonnement. */}
+        {!isPremium && !masquerPlein && (
+          <Link
+            href={hrefs.prix}
+            onClick={onClose}
+            aria-label={EN_TETE.nomAccessible}
+            className={cn(buttonVariants({ variant: "primary", size: "sm" }), "w-full")}
+          >
+            {EN_TETE.bouton}
+          </Link>
+        )}
+        {isAuthenticated ? (
+          <>
+            <Link href="/favoris" onClick={onClose} className={secondaire}>
+              <IconeFavoris className="h-4 w-4" />
+              Favoris
+            </Link>
+            <Link href="/profil" onClick={onClose} className={secondaire}>
+              <IconeProfil className="h-4 w-4" />
+              Mon profil
+            </Link>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full"
+              onClick={() => {
+                onClose();
+                signOut({ callbackUrl: "/" });
+              }}
+            >
+              Déconnexion
+            </Button>
+          </>
+        ) : (
+          <Link href={hrefs.login} onClick={onClose} className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "w-full")}>
+            Connexion
+          </Link>
+        )}
+      </div>
+    </nav>
+  );
+}

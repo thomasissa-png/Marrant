@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { contenuAffiche } from "@/lib/tip-prose";
 import { notFound, permanentRedirect } from "next/navigation";
 import Link from "next/link";
-import { buildAbonnementUrl } from "@/lib/premium-return";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { buildVideoMetaDescription, fitTitle, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
@@ -15,6 +15,9 @@ import {
 import { FicheParcoursLien } from "@/components/entrees-parcours/fiche-parcours-lien";
 import { findParcoursForVideo } from "@/lib/entrees-parcours-fiches";
 import { getRelatedVideos, type RelatedVideo } from "@/lib/related-catalogue";
+import { BlocExercice } from "@/components/premium/bloc-exercice";
+import { parcoursPourFiche } from "@/lib/cta-fiches";
+import { MARGE_ENCADRE } from "@/components/layout/gabarit";
 
 // ISR — page individuelle vidéo : revalidation quotidienne, pas de DB au build.
 export const revalidate = 86400;
@@ -152,6 +155,8 @@ export default async function VideoPage({
     duration: video.duration,
   });
 
+  const parcoursRefs = findParcoursForVideo(video.youtubeId);
+
   return (
     <>
       <JsonLd
@@ -163,7 +168,7 @@ export default async function VideoPage({
       />
       <JsonLd data={videoJsonLd} />
 
-      <nav aria-label="Fil d'Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
+      <nav aria-label="Fil d’Ariane" className="mx-auto mb-4 max-w-3xl text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
         <Link href="/videos" className="hover:text-text-primary max-md:py-3.5">Vidéos</Link>
@@ -184,7 +189,7 @@ export default async function VideoPage({
           </span>
         </div>
 
-        <h1 className="font-display text-2xl font-bold md:text-3xl">{video.title}</h1>
+        <h1 className="font-display text-2xl font-bold md:text-3xl">{contenuAffiche(video.title)}</h1>
 
         <div className="mt-6 aspect-video overflow-hidden rounded-xl border border-border bg-black">
           <iframe
@@ -198,54 +203,38 @@ export default async function VideoPage({
         </div>
 
         <section className="mt-8">
-          <h2 className="font-display mb-2 text-lg font-bold">Ce qu&apos;elle montre</h2>
+          <h2 className="font-display mb-2 text-lg font-bold">Ce qu’elle montre</h2>
           <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">
-            {fixInvertedCase(video.description)}
+            {contenuAffiche(fixInvertedCase(video.description))}
           </p>
-          <div className="mt-4 rounded-lg border border-border bg-background-card p-4">
+          <div className={`mt-4 rounded-lg border border-border bg-background-card ${MARGE_ENCADRE}`}>
             <div className="text-xs uppercase tracking-wider text-text-muted">Technique principale</div>
             <div className="mt-1 text-sm font-semibold text-text-primary">{video.technique}</div>
           </div>
         </section>
 
-        {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
-        <FicheParcoursLien type="video" refs={findParcoursForVideo(video.youtubeId)} />
+        {/* s21 B10 : les points clés et l'exercice font partie de Premium (s15 §1.1) ; un plein,
+            un contour étape 1, le reste en lien. Rien du contenu de l'analyse n'est dévoilé. */}
+        <BlocExercice
+          type="video"
+          returnTo={`/videos/${canonicalSlug}`}
+          parcours={parcoursPourFiche(parcoursRefs, video.category)}
+        />
 
-        {/* Les learnings + exercice font partie de Premium (s15 §1.1).
-            Le titre, la vidéo (déjà publique sur YouTube) et la description restent
-            visibles pour SEO et VideoObject schema. */}
-        <section className="mt-8 rounded-xl border border-accent-primary/30 bg-accent-primary/10 p-5">
-          <div className="mb-1 text-xs uppercase tracking-wider text-accent-link">Analyse pédagogique complète</div>
-          <p className="text-sm text-text-primary">
-            Les points clés et l&apos;exercice de cette vidéo font partie de Premium.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href={buildAbonnementUrl(`/videos/${canonicalSlug}`, "monthly", "fiche-video")}
-              className="rounded-lg bg-accent-secondary-hover px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-secondary"
-            >
-              Voir Premium
-            </Link>
-            <Link
-              href="/videos"
-              className="rounded-lg border border-border px-4 py-2 text-sm font-semibold text-text-primary transition hover:border-accent-primary/40"
-            >
-              Voir toutes les vidéos
-            </Link>
-          </div>
-        </section>
+        {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}
+        <FicheParcoursLien type="video" refs={parcoursRefs} />
 
         {related.length > 0 && (
           <nav aria-label="Vidéos liées" className="mt-12 border-t border-border pt-8">
             <h2 className="font-display mb-4 text-xl font-bold">Dans la même thématique</h2>
-            <ul className="grid gap-4 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:auto-rows-fr sm:grid-cols-2">
               {related.slice(0, 4).map((r) => (
                 <li key={r.id}>
                   <Link
                     href={`/videos/${buildVideoSlug(r)}`}
-                    className="block rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
+                    className="flex h-full flex-col justify-center rounded-lg border border-border bg-background-card p-4 transition-colors hover:border-accent-primary/40"
                   >
-                    <p className="text-sm font-semibold text-text-primary line-clamp-2">{r.title}</p>
+                    <p className="text-sm font-semibold text-text-primary line-clamp-2">{contenuAffiche(r.title)}</p>
                     <p className="mt-1 text-xs text-text-muted">{r.channelName}</p>
                   </Link>
                 </li>
@@ -255,7 +244,7 @@ export default async function VideoPage({
         )}
 
         <nav className="mt-8 text-sm">
-          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="text-accent-link underline underline-offset-2">
+          <Link href={`/videos?category=${encodeURIComponent(video.category)}`} className="inline-flex min-h-11 items-center text-accent-link underline underline-offset-2">
             &larr; Toutes les vidéos {categoryLabel.toLowerCase()}
           </Link>
         </nav>

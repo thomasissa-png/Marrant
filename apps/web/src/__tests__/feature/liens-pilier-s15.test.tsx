@@ -23,6 +23,8 @@ jest.mock("@/lib/prisma", () => ({
 
 // Accueil : on isole la section personas (les autres blocs ont leurs propres tests).
 jest.mock("next/dynamic", () => () => function DynamicStub() { return null; });
+// s21 (QA m3) : PremiumCta importé directement (composant serveur), plus via next/dynamic.
+jest.mock("@/components/home/premium-cta", () => ({ PremiumCta: () => null }));
 jest.mock("@/components/home/hero-section", () => ({ HeroSection: () => null }));
 jest.mock("@/components/home/daily-content", () => ({ DailyContent: () => null }));
 jest.mock("@/components/home/feature-cards", () => ({ FeatureCards: () => null }));
@@ -40,6 +42,9 @@ jest.mock("@/components/seo/json-ld", () => ({
 import HomePage from "@/app/(dashboard)/page";
 import BlogPage from "@/app/(dashboard)/blog/page";
 
+// Pied de page : lien de la lettre masqué pour un Premium (session lue côté client).
+jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }) }));
+
 function article(slug: string) {
   const found = blogArticles.find((a) => a.slug === slug);
   if (!found) throw new Error(`article absent : ${slug}`);
@@ -47,11 +52,11 @@ function article(slug: string) {
 }
 
 describe("L1 : footer (lien sitewide)", () => {
-  it("rend « Comment devenir drôle » vers le pilier, juste avant Blog", () => {
+  it("rend « Comment devenir drôle » vers le pilier, juste avant Articles", () => {
     render(<Footer />);
     const lien = screen.getByRole("link", { name: "Comment devenir drôle" });
     expect(lien).toHaveAttribute("href", PILIER);
-    const blog = screen.getByRole("link", { name: "Blog" });
+    const blog = screen.getByRole("link", { name: "Articles" });
     expect(lien.closest("li")?.nextElementSibling).toBe(blog.closest("li"));
   });
 });
@@ -62,7 +67,7 @@ describe("L2 : accueil, sous les cartes « Tu te reconnais ? »", () => {
     const section = screen.getByText("Tu te reconnais ?").closest("section") as HTMLElement;
     const lien = within(section).getByRole("link", { name: "comment devenir drôle" });
     expect(lien).toHaveAttribute("href", PILIER);
-    expect(lien.closest("p")).toHaveTextContent("Tu veux d'abord comprendre le mécanisme ? Lis notre guide comment devenir drôle.");
+    expect(lien.closest("p")).toHaveTextContent("Tu veux d’abord comprendre le mécanisme ? Lis notre guide comment devenir drôle.");
   });
 });
 

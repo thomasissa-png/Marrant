@@ -6,9 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
 import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
-import { formatEuros, PREMIUM_PRICE_LABEL } from "@/config/premium";
+import { formatEuros } from "@/config/premium";
 import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
+import { Reassurance } from "@/components/ui/reassurance";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
+import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
+import { frTypo } from "@/lib/fr-typo";
 
 export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
 
@@ -43,14 +46,13 @@ function formuleLigne(s: SubscriptionSummary): string | null {
 
 interface AbonnementCardProps {
   plan: string;
-  xp: number;
   onCheckout: () => void;
   isCheckoutLoading: boolean;
   /** Résumé et portail, lus une seule fois par le profil (partagés avec la suppression du compte). */
   abonnement: ReturnType<typeof useSubscriptionSummary>;
 }
 
-export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonnement }: AbonnementCardProps) {
+export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement }: AbonnementCardProps) {
   const { summary, openPortal, portalLoading } = abonnement;
   const etat = etatAbonnement(plan, summary);
   const carteRef = useRef<HTMLDivElement>(null);
@@ -134,18 +136,13 @@ export function AbonnementCard({ plan, xp, onCheckout, isCheckoutLoading, abonne
 
         {etat === "aucun" && (
           <>
-            <p className="mb-2 text-sm text-text-primary">
-              Passe Premium pour débloquer tout le catalogue, les filtres et les parcours complets.
-            </p>
-            {xp > 0 && (
-              <p className="mb-2 text-sm text-text-secondary">
-                Les {xp} XP que tu as gagnés sont conservés et reprennent là où tu les as laissés.
-              </p>
-            )}
-            <p className="mb-4 text-xs text-text-muted">Sans engagement &middot; Annulable à tout moment</p>
-            <Button variant="secondary" size="sm" onClick={onCheckout} disabled={isCheckoutLoading}>
-              {isCheckoutLoading ? "On t'emmène au paiement…" : `S'abonner à ${PREMIUM_PRICE_LABEL}`}
+            {/* Concision v5 (`PROFIL_ABONNEMENT_OFFRE`, config/textes/cta-pages.ts) : une phrase, le
+                plein `OUVRIR`, la REASS dessous. */}
+            <p className="mb-4 text-sm text-text-primary">{frTypo(OFFRE.phrase)}</p>
+            <Button variant="primary" size="sm" className="h-auto min-h-11 w-full whitespace-normal py-2 sm:w-auto" onClick={onCheckout} disabled={isCheckoutLoading}>
+              {isCheckoutLoading ? "On t’emmène au paiement…" : frTypo(OFFRE.bouton)}
             </Button>
+            <Reassurance />
           </>
         )}
       </CardContent>

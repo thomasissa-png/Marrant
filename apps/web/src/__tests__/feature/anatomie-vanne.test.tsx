@@ -1,11 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import AnatomieVannePage from "@/app/(dashboard)/anatomie-vanne/page";
+import { lie } from "../helpers/texte-normalise";
 
 describe("AnatomieVannePage", () => {
   it("renders the main heading", () => {
     render(<AnatomieVannePage />);
     expect(
-      screen.getByText("Anatomie d'une vanne"),
+      screen.getByText("Anatomie d’une vanne"),
     ).toBeInTheDocument();
   });
 
@@ -32,7 +33,7 @@ describe("AnatomieVannePage", () => {
     expect(screen.getByText("Exagération")).toBeInTheDocument();
     expect(screen.getByText("Décalage")).toBeInTheDocument();
     expect(screen.getByText("Sous-entendu")).toBeInTheDocument();
-    expect(screen.getByText("Anti-chute")).toBeInTheDocument();
+    expect(screen.getByText(lie("Anti-chute"))).toBeInTheDocument();
   });
 
   it("renders the 5 common errors section", () => {
@@ -57,7 +58,7 @@ describe("AnatomieVannePage", () => {
     render(<AnatomieVannePage />);
     expect(screen.getByText("Questions fréquentes")).toBeInTheDocument();
     expect(
-      screen.getByText("C'est quoi le setup d'une blague ?"),
+      screen.getByText("C’est quoi le setup d’une blague ?"),
     ).toBeInTheDocument();
     expect(
       screen.getByText("Comment écrire une bonne punchline ?"),

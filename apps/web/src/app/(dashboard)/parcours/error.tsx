@@ -8,7 +8,7 @@ import { PAGES_ETAT } from "@/config/textes/parcours";
 /** Erreur de la liste /parcours (FS-13 a) : plus l'écran générique de Next. */
 export default function ParcoursListError({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="mx-auto max-w-3xl px-4 py-12">
+    <div className="mx-auto max-w-3xl py-12">
       <Card>
         <CardContent className="py-12 text-center">
           <h1 className="font-display text-xl font-bold text-text-primary">{PAGES_ETAT.erreurListeTitre}</h1>
@@ -18,7 +18,7 @@ export default function ParcoursListError({ reset }: { error: Error; reset: () =
               Réessayer
             </Button>
             <Link href="/" className={buttonVariants({ variant: "outline", size: "sm" })}>
-              Retour à l&apos;accueil
+              Retour à l’accueil
             </Link>
           </div>
         </CardContent>

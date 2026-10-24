@@ -20,9 +20,9 @@ type Persona = "YANIS" | "SOPHIE" | "MARC";
 type Step = 1 | 2 | 3 | 4 | 5;
 
 const PERSONA_MESSAGES: Record<Persona, string> = {
-  YANIS: "La prochaine réplique en soirée, c'est toi qui la sors 🍻",
+  YANIS: "La prochaine réplique en soirée, c’est toi qui la sors 🍻",
   SOPHIE: "De quoi raconter pendant toute la pause café ☕",
-  MARC: "Ta légèreté n'est pas partie loin, on va la chercher 😌",
+  MARC: "Ta légèreté n’est pas partie loin, on va la chercher 😌",
 };
 
 export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
@@ -97,7 +97,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <h1 className="text-4xl font-bold mb-3">Tu vas devenir le pote drôle.</h1>
           <p className="text-lg text-gray-300 mb-8">
             Chaque jour, une vanne, un conseil et une vidéo pour muscler ta répartie. Bref,
-            t&apos;es bien tombé, et c&apos;est la seule chute qu&apos;on te souhaite.
+            t’es bien tombé, et c’est la seule chute qu’on te souhaite.
           </p>
           <button
             onClick={() => setStep(2)}
@@ -111,7 +111,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
       {step === 2 && (
         <div className="max-w-md w-full">
           <div className="text-sm text-violet-300 mb-2">Question 1/2</div>
-          <h2 className="text-2xl font-bold mb-6">T&apos;as quel âge en gros ?</h2>
+          <h2 className="text-2xl font-bold mb-6">T’as quel âge en gros ?</h2>
           <div className="space-y-3 mb-8">
             {[
               { v: "u22", label: "Moins de 22 ans", emoji: "🎓" },
@@ -175,14 +175,14 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">🔔</div>
           <h2 className="text-3xl font-bold mb-3">{PERSONA_MESSAGES[persona]}</h2>
           <p className="text-gray-300 mb-8">
-            On t&apos;envoie une vanne chaque matin, le temps de la relire avant de la sortir au
+            On t’envoie une vanne chaque matin, le temps de la relire avant de la sortir au
             boulot, en cours ou à la machine à café.
           </p>
           <button
             onClick={() => handlePushOptIn(true)}
             className="w-full rounded-xl bg-violet-600 hover:bg-violet-500 px-6 py-4 font-semibold text-lg mb-3 transition"
           >
-            Oui, envoie-moi la vanne du jour
+            Oui, envoie-⁠moi la vanne du jour
           </button>
           <button
             onClick={() => handlePushOptIn(false)}
@@ -198,7 +198,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <div className="text-5xl mb-4">🎁</div>
           <h2 className="text-3xl font-bold mb-3">Première vanne offerte</h2>
           <p className="text-gray-300 mb-8">
-            La vanne du jour t&apos;attend sur l&apos;accueil. Pas besoin de compte pour la lire, ni
+            La vanne du jour t’attend sur l’accueil. Pas besoin de compte pour la lire, ni
             pour la ressortir ce soir.
           </p>
           <button
@@ -216,7 +216,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
           <h2 className="text-3xl font-bold mb-3">Garde tes XP et ton parcours</h2>
           <p className="text-gray-300 mb-8">
             Le suivi de tes XP et de ton parcours, sur tous tes appareils, fait partie de
-            l&apos;accès complet.
+            l’accès complet.
           </p>
           <button
             onClick={handleGoToLogin}
@@ -228,7 +228,7 @@ export function OnboardingFlow({ onComplete }: { onComplete: () => void }) {
             onClick={handleSkipLogin}
             className="w-full rounded-xl border border-gray-700 px-6 py-3 text-gray-300 hover:bg-gray-900 transition"
           >
-            Plus tard, laisse-moi explorer
+            Plus tard, laisse-⁠moi explorer
           </button>
         </div>
       )}

@@ -99,9 +99,23 @@ describe("app/sitemap.ts", () => {
   });
 
   it("base indisponible : repli sur la date des pages structurelles", async () => {
+    // s21 : pages structurelles au 18/10 ; on se place après cette date (sinon bornée à aujourd'hui).
+    jest.setSystemTime(new Date("2026-10-20T15:00:00.000Z"));
     mockDailyFindFirst.mockRejectedValue(new Error("DB indisponible"));
     mockBlogFindMany.mockRejectedValue(new Error("DB indisponible"));
     const entries = await load();
-    expect(byUrl(entries, "/vannes")?.lastModified).toEqual(new Date("2026-09-29"));
+    expect(byUrl(entries, "/vannes")?.lastModified).toEqual(new Date("2026-10-18"));
+  });
+
+  it("s21 : lastmod des pages modifiées par la branche (CGU et confidentialité au 17/10, à propos au 18/10)", async () => {
+    jest.setSystemTime(new Date("2026-10-20T15:00:00.000Z"));
+    mockDailyFindFirst.mockRejectedValue(new Error("DB indisponible"));
+    mockBlogFindMany.mockRejectedValue(new Error("DB indisponible"));
+    const entries = await load();
+    expect(byUrl(entries, "/cgu")?.lastModified).toEqual(new Date("2026-10-17"));
+    expect(byUrl(entries, "/confidentialite")?.lastModified).toEqual(new Date("2026-10-17"));
+    expect(byUrl(entries, "/a-propos")?.lastModified).toEqual(new Date("2026-10-18"));
+    expect(byUrl(entries, "/abonnement")?.lastModified).toEqual(new Date("2026-10-18"));
+    expect(byUrl(entries, "/mentions-legales")?.lastModified).toEqual(new Date("2026-05-06"));
   });
 });

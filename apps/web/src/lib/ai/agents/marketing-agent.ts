@@ -148,7 +148,7 @@ PRODUIT
 - Contenu quotidien personnalisé (vanne + conseil + vidéo du jour)
 - Quiz d'humour pour profil personnalisé
 - Système de progression (XP, streaks)
-- Prix : 2,99 €/mois, sans engagement
+- Prix : 2,99 €/mois, résiliable en ligne. N'écris JAMAIS « sans engagement » (faux pour la formule annuelle) : dis « résiliable en ligne »
 
 POSITIONNEMENT & MARCHÉ
 - Positionnement : la seule plateforme francophone qui combine vannes, techniques de répartie,

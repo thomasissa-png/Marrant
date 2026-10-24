@@ -122,12 +122,13 @@ describe("fiches vannes, conseils, vidéos → parcours", () => {
       ...(BOULOT_PUBLIE ? [{ slug: "boulot", etape: 4 }] : []),
     ]);
   });
-  it("bloc de fiche : rien sans parcours, sinon lien vers l'étape 1 avec src=fiche", () => {
+  it("bloc de fiche : rien sans parcours, sinon titre et phrase, sans lien (concision v5, textes-v5-b §2)", () => {
     const { container, rerender } = render(<FicheParcoursLien type="video" refs={[]} />);
     expect(container).toBeEmptyDOMElement();
     rerender(<FicheParcoursLien type="conseil" refs={[{ slug: "repartie", etape: 3 }]} />);
-    expect(screen.getByText("Ce conseil est l'étape 3 du parcours Répartie.")).toBeInTheDocument();
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/parcours/repartie?src=fiche#etape-1");
+    expect(screen.getByText("Dans un parcours")).toBeInTheDocument();
+    expect(screen.getByText("Ce conseil est l’étape 3 du parcours Répartie.")).toBeInTheDocument();
+    expect(screen.queryByRole("link")).toBeNull();
   });
 });
 

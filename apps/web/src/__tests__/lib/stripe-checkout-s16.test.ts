@@ -85,7 +85,7 @@ describe("paramètres de la session Checkout", () => {
     const message = params.custom_text.submit.message as string;
     expect(message).toBe(texteStripeSubmit("monthly"));
     expect(message.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/\u00A0/g, " ")).toBe(
-      "En cliquant sur « S'abonner », tu passes une commande avec obligation de paiement : Premium, 2,99 € TTC par mois, prélevé chaque mois jusqu'à ta résiliation. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu'à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
+      "En cliquant sur « S’abonner », tu passes une commande avec obligation de paiement : Premium, 2,99 € TTC par mois, prélevé chaque mois jusqu’à ta résiliation. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu’à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
     );
     expect(message).toContain("(https://deviens-marrant.fr/retractation)");
     expect(message).toContain("(https://deviens-marrant.fr/cgu)");

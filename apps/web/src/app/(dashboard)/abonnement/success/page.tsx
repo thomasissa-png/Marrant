@@ -8,7 +8,7 @@
 // cette page (session_id conservé). Paiement non vérifiable : message honnête
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
 
-import { Suspense, useEffect, useRef, useState, useCallback } from "react";
+import { Suspense, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -17,6 +17,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { trackUmamiWhenReady } from "@/lib/umami";
 import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
+import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
+import { useFavoritesStore } from "@/stores/favorites-store";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -41,8 +43,12 @@ function SubscriptionSuccessContent() {
   const sessionId = searchParams.get("session_id");
   // Retour à l'intention d'origine, validée chemin interne ; sinon /parcours.
   const rawReturnTo = searchParams.get("returnTo");
-  const destination = getPostPaymentDestination(rawReturnTo);
-  const fallbackTarget = sanitizeReturnTo(rawReturnTo) ?? "/parcours";
+  // Favori mémorisé au clic sur l'étoile (lib/favori-apres-paiement) : ajouté une fois le plan
+  // vérifié, puis retiré de la destination ; si l'ajout a réussi (ou 409), la destination reçoit
+  // le drapeau `favori=<TYPE>` (jamais l'id) pour la bienvenue « Ta vanne est dans tes favoris. ».
+  const { favori, chemin: destination } = useMemo(() => extraireFavori(getPostPaymentDestination(rawReturnTo)), [rawReturnTo]);
+  const fetchFavorites = useFavoritesStore((s) => s.fetchFavorites);
+  const fallbackTarget = extraireFavori(sanitizeReturnTo(rawReturnTo) ?? "/parcours").chemin;
   const fallbackLabel = fallbackTarget.startsWith("/parcours/")
     ? "Reprendre mon parcours"
     : fallbackTarget === "/parcours"
@@ -104,8 +110,22 @@ function SubscriptionSuccessContent() {
       tracked.current = true;
       trackUmamiWhenReady("abonnement-reussi", { formule });
     }
-    router.push(destination);
-  }, [etat, router, destination, formule]);
+    let annule = false;
+    void (async () => {
+      let cible = destination;
+      if (favori) {
+        // Attendu avant la redirection (la page d'arrivée montre l'étoile pleine), 5 s au plus.
+        // Échec ou délai dépassé : redirection quand même, sans drapeau.
+        const ajoute = await ajouterFavoriApresPaiement(favori);
+        if (ajoute) cible = avecDrapeauFavori(destination, favori.contentType);
+        await Promise.race([fetchFavorites(), new Promise((r) => setTimeout(r, 5_000))]);
+      }
+      if (!annule) router.push(cible);
+    })();
+    return () => {
+      annule = true;
+    };
+  }, [etat, router, destination, formule, favori, fetchFavorites]);
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -113,9 +133,11 @@ function SubscriptionSuccessContent() {
         <CardContent className="p-8" aria-live="polite">
           {etat === "pret" && (
             <>
-              <div className="mb-4 text-4xl" aria-hidden="true">🎉</div>
-              <h1 className="font-display text-2xl font-bold text-text-primary">Paiement reçu !</h1>
-              <p className="mt-2 text-text-secondary">On déroule le tapis rouge, ton accès s&apos;active…</p>
+              <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
+              <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
+              <Link href={destination} className={buttonVariants({ variant: "primary", className: "mt-4" })}>
+                {TEXTES_SUCCESS.pretBouton}
+              </Link>
             </>
           )}
           {etat === "verification" && (
