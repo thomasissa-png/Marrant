@@ -22,6 +22,7 @@ import {
   EXEMPLE_REPONSE,
   CHAMPS,
   TEXTE_CORS_CACHE,
+  TEXTE_ROTATION,
   TEXTE_LIMITE,
   ERREURS,
   TEXTE_VIE_PRIVEE,
@@ -176,6 +177,7 @@ export default function DevelopersPage() {
 
         <h2 className={H2}>{H2_CORS_CACHE}</h2>
         <p className={P}>{TEXTE_CORS_CACHE}</p>
+        <p className={P}>{TEXTE_ROTATION}</p>
 
         <h2 className={H2}>{H2_LIMITE}</h2>
         <p className={P}>{TEXTE_LIMITE}</p>
