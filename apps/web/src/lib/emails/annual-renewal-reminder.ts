@@ -22,7 +22,7 @@ export interface AnnualRenewalReminderVars {
   prenom: string | null;
   /** Date de reconduction (current_period_end de l'abonnement Stripe). */
   renewalDate: Date;
-  /** Montant réel du prix annuel de l'abonnement, en centimes (ex. 2499). */
+  /** Montant réel du prix annuel de l'abonnement, en centimes (ex. 1699). */
   amountCents: number;
   /** URL de gestion de l'abonnement (profil, d'où part le portail Stripe). */
   manageUrl: string;

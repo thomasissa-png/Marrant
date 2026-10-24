@@ -20,10 +20,10 @@ const REASSURANCE = texteValide(REASSURANCE_UNIQUE);
 
 test.describe("Offre /abonnement @smoke", () => {
   // Trajet de conversion s21 : « S'abonner », qui suit la formule choisie (bouton du premier écran).
-  test("CTA mensuel « S'abonner · 2,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
+  test("CTA mensuel « S'abonner · 1,99 €/mois » → /register?callbackUrl=/abonnement&src=abonnement @s21", async ({ page }) => {
     await page.goto("/abonnement");
     const cta = page.getByTestId("abonnement-bouton-achat");
-    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s2,99\s€\/mois$/);
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s1,99\s€\/mois$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -35,11 +35,11 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByRole("textbox", { name: /^e-?mail$/i })).toBeVisible();
   });
 
-  test("CTA annuel « S'abonner · 24,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
+  test("CTA annuel « S'abonner · 16,99 €/an » → callbackUrl /abonnement?plan=annual, /register affiche l'annuel @s21", async ({ page }) => {
     await page.goto("/abonnement");
     await choisirAnnuel(page);
     const cta = page.getByTestId("abonnement-bouton-achat");
-    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s24,99\s€\/an$/);
+    await expect(cta).toHaveAccessibleName(/^S’abonner\s·\s16,99\s€\/an$/);
     await expect(cta).toBeVisible();
     const url = lireUrl(await cta.getAttribute("href"));
     expect(url.pathname).toBe("/register");
@@ -51,7 +51,7 @@ test.describe("Offre /abonnement @smoke", () => {
     await cta.click();
     await expect(page).toHaveURL(/\/register\?/);
     // /register rappelle la formule choisie (textes-trajet-v2 G02, correction @legal) :
-    // « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. »
+    // « Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation. »
     await expect(page.getByTestId("register-rappel-offre")).toContainText(texteValide(rappelFormule("annual", { saufResiliation: true })));
   });
 
@@ -65,7 +65,7 @@ test.describe("Offre /abonnement @smoke", () => {
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
     await choisirAnnuel(page);
     await expect(page.getByTestId("reassurance-paiement")).toHaveText(REASSURANCE);
-    // Carte annuelle (arbitrage du 19/10) : « soit 2,08 € par mois ».
+    // Carte annuelle (arbitrage du 19/10) : « soit 1,42 € par mois ».
     await expect(page.getByText(texteValide(PREMIUM_ANNUAL_EQUIVALENT_LABEL))).toBeVisible();
   });
 
@@ -109,13 +109,13 @@ test.describe("En-tête : accès à la connexion @smoke", () => {
 
   // s20 (audit conversion, lot 1) : sous 520 px, la barre mobile donne la place au bouton d'appel
   // et « Connexion » passe dans le menu ; dès 520 px, « Connexion » revient dans la barre.
-  // s21 (B6) : le bouton devient « 2,99 €/mois » vers /abonnement?src=header, masqué sur
+  // s21 (B6) : le bouton devient « 1,99 €/mois » vers /abonnement?src=header, masqué sur
   // /abonnement et /register : contrôle sur /conseils.
   test("mobile : bouton prix dans la barre ; « Connexion » dans la barre dès 520 px, sinon dans le menu @s16 @s21", async ({ page }) => {
     test.skip(!estMobile(page), "contrôle réservé au gabarit mobile");
     await page.goto("/conseils");
     const barre = page.getByRole("banner");
-    const commencer = barre.getByRole("link", { name: /^Premium, 2,99\s€ par mois : voir l['’]offre$/ }).filter({ visible: true }).first();
+    const commencer = barre.getByRole("link", { name: /^Premium, 1,99\s€ par mois : voir l['’]offre$/ }).filter({ visible: true }).first();
     // textes-trajet-v3 §5 point 3 : retour sur la page courante après le paiement.
     await expect(commencer).toHaveAttribute("href", "/abonnement?returnTo=%2Fconseils&src=header");
     await expect(commencer).toBeVisible();

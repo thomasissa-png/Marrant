@@ -348,124 +348,219 @@
         "slug": "timidite-et-humour",
         "session": "s21 blocs d'appel A",
         "raison": "« sans engagement » remplacé par « résiliable en ligne » (faux pour l'annuel, choix de Thomas du 18/10) : seul changement de mots ; titres, liens, chiffres et métadonnées identiques"
+      },
+      {
+        "slug": "comment-devenir-drole",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "comment-avoir-de-la-repartie",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "timing-humour",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "erreurs-blagues",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "autoderision-interactions",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "repartie-debutant-5-etapes",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "humour-quotidien-8-habitudes",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "5-types-humour-lequel-pour-toi",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "humour-noir-utiliser-sans-blesser",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "jeux-de-mots-technique-3-etapes",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "exercices-developper-humour",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "timing-humour-ralentir",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "raconter-blague-sans-massacrer",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "timidite-et-humour",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "storytelling-drole-5-structures",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "conversation-machine-a-cafe",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "pourquoi-blagues-marchent-pas",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "blagues-courtes-vs-longues",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
+      },
+      {
+        "slug": "rester-muet-en-groupe",
+        "session": "s22",
+        "raison": "prix Premium « 2,99 €/mois » → « 1,99 €/mois » (décision Thomas 24/10/2026) : seul le montant change, nombre de mots, titres, liens et meta inchangés"
       }
     ]
   },
   "articles": {
     "comment-devenir-drole": {
-      "words": "13e5acf46a62fa87e94d960cb5f2e4384e7afc88053b9430b47eba16245b36b3",
+      "words": "f84c429a4167b484a037853a69bc788af1b21c68122f864fdf019401b038c4b4",
       "wordCount": 1822,
       "headings": "ee87c953cda3bc02526b3ff1738f4629022c4b0e3b9617892f8b608093e4d521",
       "links": "a68c99adcea46ebcc723ccc12448d2af31e8fd4a1e21c780fa2d110eeb9f1238",
-      "numbers": "2f59fc0424ae8d71718ec72cfabaa222d462f1f059885b5ff76e70de8c5feb47",
+      "numbers": "66840f292ac1c3afead05657344d950665b1047368bd6a4f9fa413b853fbacd5",
       "meta": "8f87327334ee3eb3fd1abea6f85bfef8fa0083df31c12484f40082509e61b8d7",
       "emDashesBefore": 18
     },
     "comment-avoir-de-la-repartie": {
-      "words": "868f0f8d94a858ee55507e92a0c2f057da1515e8863d2f41c82d53cecb50c6f9",
+      "words": "b292c34a53478950e906e9ab97d4ee24c63eb221cd0bbc886cb01eb571f6d4db",
       "wordCount": 1618,
       "headings": "99bd06f194f18d4696582ae9c53fdcd918d0c8bd7311129d88863e3735ea4539",
       "links": "7a2203b3dd9ea9488bf95b38930d3a1665f4686ce18096f47a3c72da8a0eb0c3",
-      "numbers": "11a377c24c365dd5570a03ab2d5e795968b6ef99f2d89cfc8d3a0544e39570b9",
+      "numbers": "c9ae818061b775b61cd6722e67c147eb7c8713b1461a1f88caa11f42432bca70",
       "meta": "a4642779164f2a410653e2286cfc80ce3eb27e0031a4740050b3a2bb6580a479",
       "emDashesBefore": 23
     },
     "timing-humour": {
-      "words": "70ecc07aea2c62ad529c6e4e20ca809ce63798c664647c68c7012f9ea725e835",
+      "words": "e37640a39f267c5db98c67b35d08d4ce96b68bbce94b197dcff76800bb865e4a",
       "wordCount": 1400,
       "headings": "0ec476513593b64f2947e67b46962ff61c12cfbfaba72175bb454579422d06f2",
       "links": "253cb6b3fb24beb4da957834947e7b8da1268c4787fa4d066d6cb63b9ede0f4e",
-      "numbers": "0d30cfa74ec378697058a128a4043d2aabc42e901b6f96dea7c182596c4b4710",
+      "numbers": "b0702670b9b18ebbbc452554d9340e311e1e0cabb6c3448a9246cc1894750285",
       "meta": "7fc6359944688d03003f5413bb20c963f1df738518c9dfb357ee69e3cd3a55a8",
       "emDashesBefore": 8
     },
     "erreurs-blagues": {
-      "words": "823833ce8e54653e969473eb05af416f81f927447291b78038db5d3e57b1dd84",
+      "words": "6faa1c781124609aa5cb2128093dba41d072ec09e205603cb3de3b8482870609",
       "wordCount": 1006,
       "headings": "cff073fffbfd811103fadae8772c86b7170e75808f80dccca4ae0238cf4f6d5f",
       "links": "314bbe727d4f19e509ea12a373e64a6e9d1c9f1337aa6525e5558789f6cdb8c0",
-      "numbers": "1845fc43bf7c60021d5c7fca66232242f613ba05db003c47a5f6bab4ccc300dc",
+      "numbers": "7db5a9ae2ebd349d3a346a9b77ad6992e988b213cbbb265d07b975aab282869b",
       "meta": "deba9091aca83c4e131569e89a2a77af10af275a59153c437e98dccba97ac985",
       "emDashesBefore": 11
     },
     "autoderision-interactions": {
-      "words": "6ea09e70a7c755cc829596a0567187f58b48aacac4d081160a3208da4efd5116",
+      "words": "b1ec6a942150df5875c69f583021762df4ae7450bf82622e2c1404dab099c10b",
       "wordCount": 1211,
       "headings": "e25a3ba7acfdd7f3af2bd97c9b933198ea4e202c547570942eba4d1d67d7cca0",
       "links": "44692a91380be91bbb8d27cc98b6aa431554bf8570caeb9d53ec2003298d2e5b",
-      "numbers": "e84d215af5d3c46a28b302c4ec06940fd983124e1b1809c9d34363322811269e",
+      "numbers": "b3770d995cf49b9c9b9eb20be1af0d4cb90d031a7db1ba1e7ee3dc6e4ff304c6",
       "meta": "6bb4ab64b343c4c5ec205ca8b95c3a12e08f9cbd17a3fadbcd47450ba38d2c82",
       "emDashesBefore": 8
     },
     "repartie-debutant-5-etapes": {
-      "words": "a909e8a1294606437a054b2a33df2e377a17c75e3bdef19de0f1d2e51ff134dd",
+      "words": "f1946e2096fbb6a7c2e24426b6426f7e5b490170a9afa06898da50d03a9d10b6",
       "wordCount": 1099,
       "headings": "4ab8b356b33bf3e8f23c0dd78d5288252922029e4310e652285a996e86ee0f93",
       "links": "a3c5c2c5519d6593becb999580f158b2d09d10bbc2a775009e74ae7ea2215a33",
-      "numbers": "c21b8fc34947a3f575a54dcb10e8a0efbb7b5e15fc96388701cbf6862e258d70",
+      "numbers": "8f9b1c0c1baa01503b78f5f803574ce51200f677be9bd74b41ec76c3e7921094",
       "meta": "53ac83fcbaafe6e8481a4286405913824e6f4ad4e4cd73c9693b8fe7335a53ee",
       "emDashesBefore": 10
     },
     "humour-quotidien-8-habitudes": {
-      "words": "c018ff78fa95534b16311a788052a665dc8c4b4edc979506d9e20212630065f3",
+      "words": "5a2e1d940fbb2610f5ff394ce600cce5f6a72fd0b4d19143f1b82419dcbcdc05",
       "wordCount": 1209,
       "headings": "93e94facac19f5aac4bae3a4a09ccb360b79681b109cee3b16f7a5d858f7193a",
       "links": "af0711a8070021c1d52ab2940afab1d75f9ce06551e0c993c90bcb2878ac984b",
-      "numbers": "f62139e80b799ee966c3b1ea6e4901d3321aea2fed4c422fb8371fa4aefdaa6e",
+      "numbers": "2d582d99858b85f2da77acabb0617e068a7eabed07f9f0cf344ba94f71e10ae0",
       "meta": "f8b0224380fe1310d1dc7992a78a3ebd17e505a4b23c085b6ec254014aa83ae7",
       "emDashesBefore": 11
     },
     "5-types-humour-lequel-pour-toi": {
-      "words": "0c3891e47856a35207cac3237495bfdf15ff69bfb277db9d10098522d7a024f6",
+      "words": "63cb5fdb2acdc5b0b160cdd2cf97b33de0ec5fd4a36b019671789e88266c93fc",
       "wordCount": 1529,
       "headings": "26ba22d4e94ff0067ad09105503150fd85a45368923facd7b843d79056701cf7",
       "links": "9e8a1330cd302240811a7a9b94b82ec7c5ba00b3b430addbf4a9a35c032099e7",
-      "numbers": "cfe16e2a74c41abd9e88fbb5ca2b08b585c14cd0993624a453ffb6af2f155082",
+      "numbers": "d259cad2eb0348a1f77ce20b3c6d1166c4f3aa409c06d52a1b80ecc5bdfe1f89",
       "meta": "2a0cacacc0c8a28ef5174a8599f903508619ab68987330a162df692239cefa82",
       "emDashesBefore": 15
     },
     "humour-noir-utiliser-sans-blesser": {
-      "words": "e0b61603bc581c79e67b6b30508b2cc05e0e5ee125a0421d99d059c9df8de924",
+      "words": "d05854fe103671d397e09cd47ebe803c80f232e45c877150ab599c234be93a9f",
       "wordCount": 1205,
       "headings": "5bf4cd1dab368f75973918bfa1b4e931148a531530f44c7ff9d16e687837363e",
       "links": "4fe0710315f288370cbb6cd75cdc1dea3015dd8a15f52c16bb171d3005c0cf6d",
-      "numbers": "07ef0152832f97621e5d73b7c12551e1f13b504068fd04d1ca6985614d1068c1",
+      "numbers": "6434569e764136930761af736d8540bc5ca4d9667ed8d2904c0f0bf5e3fca954",
       "meta": "c19c61f29cd69453f3c5c4a5029469dc1c65b96ca0a0cd7e7e4c2317f3a48834",
       "emDashesBefore": 13
     },
     "jeux-de-mots-technique-3-etapes": {
-      "words": "7c7dfdf4e13962bda53c59a2e859a93dd7c65468979998dfaae112a496518962",
+      "words": "860b741f1f7973319c003bf31e6d04664a7dff8a34fae973528f55651f4d70cf",
       "wordCount": 1003,
       "headings": "404907be83d3bb673cb6de2b422aa37f94bbb396473e0d9331d016303eaea9ca",
       "links": "ea4cfb26b5d472276eda192a669bc53498ad4015bc93367b88fddeedbf4fa87e",
-      "numbers": "8679e55ed4c7489ec103eb3abd074941f0371df7017d50b7030e7d2d8ccc95fc",
+      "numbers": "2780fca39a9b404a90638a83dfc656df9726e7114109c1bb80bd21a57fd6dc6c",
       "meta": "8e5f4c68bcab7580f534db9284c87b8c5c345bf73dc6c6177da0595c254c00bd",
       "emDashesBefore": 3
     },
     "exercices-developper-humour": {
-      "words": "9f2a7ee2565af81b796178489cb1a910fe23feeee4c86078073e05b112d978af",
+      "words": "9ed8804224391714131c0c272c0442996b73df8769ae1906b8b37e7bcd22e5ee",
       "wordCount": 1271,
       "headings": "f0c80dc5265625ffd4f82328b92f997eb5775d02caeeb79632f6d03286ed5579",
       "links": "5d19f602705ab52e9bf7540f889dd20180ec583f246b061ba75b844404ecbd32",
-      "numbers": "0d94360828718673c89363a6bbf572b927ea45ffa69da40e27aaab46c5b6375b",
+      "numbers": "e2194f9494f087e32b5f1fc2affc6ec8dd38758b4cf1b1cc84bf7f79178ebc53",
       "meta": "179aedde05f9239e5b4cb6ddc73120af2f319db6c987daca763511ecb9b2183f",
       "emDashesBefore": 13
     },
     "timing-humour-ralentir": {
-      "words": "bdad857a5a1d1b2e000fda7c38893c030d387ee43b1657c069cc3f8c7cc19560",
+      "words": "466fe4d97cc5ab7d900ccc339e872a116d31624fcae7cd37fc24bc59f3cd27d6",
       "wordCount": 922,
       "headings": "ab6b0547b55c3e8dced74831d73dbc65eef71ba97f4d7820144714bfafede0d8",
       "links": "61d71aa16e6792f089fd3590b828d3f6f30346a6bac837422fe5f1232de444b2",
-      "numbers": "c3e25f4dce6d0a7a48d4c48291d296ec16ec5dd8a50f99a47e807893308c661a",
+      "numbers": "2c8200c77c9c66b081a84748e361acaa3b23922490308c328861fd253548ce8b",
       "meta": "761d7cf423b83ff2accc8df01332a53c75b9a7bd3a1276726699f1b9e5495a3c",
       "emDashesBefore": 5
     },
     "raconter-blague-sans-massacrer": {
-      "words": "0c5129e8fcd4a7aeb40e863d6c77741e4f8b2c9a67350a1abe8ba89c25be3406",
+      "words": "05cfcd5bbc356004c2bff7a498b604732de212634af3db872e9bfe1c49779cde",
       "wordCount": 1050,
       "headings": "a6f5204c9834a12401e5995c41f5337bbf6633982ff460dd9f14358958566400",
       "links": "141944969d83d7f74d036c0cc562c921a94968eca135cac206f199ecdce382bd",
-      "numbers": "0e4b5e99bcf64d1e4eb30c14525c92924e21d722edb0c1f5473d8fb9b443ae96",
+      "numbers": "9043d739d1248cdeb34d94ce88eb0a1a800c6bd01dd588ae87a66224db74f465",
       "meta": "6c25b6dc7ab2004d69d90fdee6818805532d3ec6caa449e06dbcfa3cd693228d",
       "emDashesBefore": 6
     },
@@ -542,29 +637,29 @@
       "emDashesBefore": 19
     },
     "timidite-et-humour": {
-      "words": "f9487643f96cca12893665aa72341a04eb7fc7bcecc60817405036581fa99208",
+      "words": "6a54d4cb1cf69119fc5e0fc1897e9668271dc169e82b769176dc67d00c0707eb",
       "wordCount": 2200,
       "headings": "70c5e8be1175760c8738d22f17d54a6145259f80f98b0679fe3a7973aa1cd0f1",
       "links": "814f55619940924883b783b8f5f162eb76128a0096daec9672867a8b73e0c08d",
-      "numbers": "6a1d15e4747dd99c64ef6d382d76f2b16d816dc6c9812a09589a279964ac15e9",
+      "numbers": "de4d8726cdd8ecf2a55fe3d55b3ce28b582fa5c6fa16dab9e786c00daa6c459e",
       "meta": "18a204f61d3e9828d7a9a6eabcfcd819d8bb5fe4968496fb16f101f83e825c89",
       "emDashesBefore": 32
     },
     "storytelling-drole-5-structures": {
-      "words": "014bf54de0bce955da3dbde314f53203826e5d167b12ab72fb6f2a41c898a97d",
+      "words": "07818c854db45dd357ae661b99cfce0cdf20de589832db1084bca71609c81a7d",
       "wordCount": 2513,
       "headings": "07bd12458ad6c200c90a2bfba86b177698d332fccd9ec39a29a3f81095bd4adc",
       "links": "4d73505d8998b7e597d1f1e5d9f79c4106f23ebeaf3b503086526398da12ccf5",
-      "numbers": "53776cf6f77be0e2a02d41a64d78b39bb60ea415d13477558e112fe0d494f62c",
+      "numbers": "5cfe04969e1eba34b43eb270b0866b8eda993edbe6c83a310a74b8e3bbb98d18",
       "meta": "32c329038c3537638f8bbd39d7ecfe952affe3e2655054d41ebb6d3062d1f88f",
       "emDashesBefore": 37
     },
     "conversation-machine-a-cafe": {
-      "words": "0bb9f124c156b183282ae98b8997531492563acd27b4cec171708b48749978fa",
+      "words": "b9454e300304115db9657e24ddcc1d4639fa2bddd30ca4acef1058c055d55df1",
       "wordCount": 1821,
       "headings": "3e5da04c99bbe7394e46ab5a19b6123c6e335836c7f6cf545d04b5dc19d51cf6",
       "links": "e8d638df9004168f9bb10c80e302f94830c188efa4d2d1d10745e869beae5eb4",
-      "numbers": "b4e69306ff018017bbf867e5cac9c174cc0d5302f1ea3f278241689262851229",
+      "numbers": "4040315ed1348913bb8c21b55234f5b2ced9a61433f335321c213014236ffe4f",
       "meta": "ea949dea42ee1d47fd68292c705e4a2a9edd6b370e5ac74113707a0f58abb6e0",
       "emDashesBefore": 18
     },
@@ -596,29 +691,29 @@
       "emDashesBefore": 36
     },
     "pourquoi-blagues-marchent-pas": {
-      "words": "65e0210f84ab9239dc01e209c373bc5e603f818c5366e92b8f9273d7cc94794b",
+      "words": "9cee81d4200f17b9dceefcd712e4e5b5df8a351f924d997780afa8ff8475f700",
       "wordCount": 2065,
       "headings": "7fde899802dea357c756e4b91bfb40ed8aa179d1d751a4c06f60707f7cccf5ef",
       "links": "c5601e71aba3e326a764517170fa69945b3e6171147a995be7db7046d7a58a0d",
-      "numbers": "505d146e6308a78a662be00d4a9496cdf7d06b5d29f4c652c301d2fb9f4b5e1f",
+      "numbers": "e4bbd0c59e922c22c2065b669ec8e62630ae7f561dceaced448a48fe782c7054",
       "meta": "b1ea98909c22c724a9a0fe17c1c68375629f70601aaa7db78c05466e8ecdc584",
       "emDashesBefore": 21
     },
     "blagues-courtes-vs-longues": {
-      "words": "b63ffaa6a4d456058523051e928b2e79e6e994cd3629532f0ae03146227c2131",
+      "words": "6a2c891e72ad2034c6ceef8abf6e67e57f835f2c5b26cd8965416f3553197069",
       "wordCount": 1857,
       "headings": "6e2830e79238b6ce1b011e119fbf6b25c4ca0ec422e5319d0a1dd489a5fca24d",
       "links": "cf42e65f4c36a9dfb93cfda06e7e5220146912b0017addd317494e1b4ae2a9ad",
-      "numbers": "5f8921b80234ce8f825fac7b80bd2a2a077e07c101f7cc0155b3a2d925738159",
+      "numbers": "d9420a5e74dfcd44e7bb5e3c0c041a3ef63b47cda044f83e668908ced4a90ece",
       "meta": "c36c6279a5b03dbf6af75065d995a4006c29ae651518330aae6c0c622058adf2",
       "emDashesBefore": 11
     },
     "rester-muet-en-groupe": {
-      "words": "7b8171e6d051767d80c0d0dc0dbb5bd8cc4b11eb65dbe279917a019207ba5393",
+      "words": "f10add891689f6011096a6dfc06feaf425425b3430195133864e7399bc846d76",
       "wordCount": 2772,
       "headings": "a21362807497094d1d517576712f2a7136ba6b527d75a204d9cff052db6cd26d",
       "links": "31f4ba876cde104942f029bedf728c9724ad25877ac88ab3eff88cc3f30b79ce",
-      "numbers": "8736700e897623a0856b64d903c396e3a6a2c6138d15f8cfb68c6f71a079160d",
+      "numbers": "f08d02c574ea554b140e4aae3a6c6c3bf2fe106e93f8c736bfcdd57f78fd9a7e",
       "meta": "963412c763a3632275566b790c361c020b1c02058d3c0c7c43f82752b79b8b4a",
       "emDashesBefore": 24
     }

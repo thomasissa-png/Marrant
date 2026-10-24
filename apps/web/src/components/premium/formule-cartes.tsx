@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * B2 de /abonnement (trajet de conversion s21, @ux §5) : deux cartes radio côte à côte, chaque fait
- * dit une seule fois. Mensuel : « 2,99 € TTC / mois ». Annuel : « 24,99 € TTC / an », « soit 2,08 €
+ * dit une seule fois. Mensuel : « 1,99 € TTC / mois ». Annuel : « 16,99 € TTC / an », « soit 1,42 €
  * par mois » (arbitrage du 19/10) et « plus de 3 mois offerts ». Groupe radio natif (flèches au
  * clavier, lecteurs d’écran) ; sous 400 px, une carte par ligne (nom et prix sur la même ligne).
  * Annuel indisponible : prix mensuel seul, comme avant.
@@ -130,7 +130,7 @@ function Carte({
       {lignes.length > 0 && (
         <span className="flex flex-col max-[399px]:block max-[399px]:basis-full">
           {lignes.map((ligne, i) => (
-            // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 2,08 € … »).
+            // Espace avant chaque ligne : nom accessible de la carte lisible (« … TTC / an soit 1,42 € … »).
             <span key={ligne} className={cn(LIGNE_CARTE, "max-[399px]:inline", i === lignes.length - 1 ? "font-semibold text-accent-link" : "text-text-secondary")}>
               {i > 0 && (
                 <span aria-hidden="true" className="hidden font-normal text-text-secondary max-[399px]:inline">
@@ -142,7 +142,7 @@ function Carte({
           ))}
         </span>
       )}
-      {/* Même taille et même couleur que « soit 2,08 € par mois » (finition du tour 3). */}
+      {/* Même taille et même couleur que « soit 1,42 € par mois » (finition du tour 3). */}
       {mention && (
         <span className={cn(LIGNE_CARTE, "text-text-secondary max-[399px]:basis-full")} data-testid="renouvellement-annuel">
           {" "}

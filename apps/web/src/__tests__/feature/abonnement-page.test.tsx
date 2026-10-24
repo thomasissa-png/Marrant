@@ -34,8 +34,8 @@ jest.mock("@/lib/umami", () => ({
 
 const { useSession } = require("next-auth/react");
 
-const MENSUEL = "S’abonner · 2,99 €/mois";
-const ANNUEL = "S’abonner · 24,99 €/an";
+const MENSUEL = "S’abonner · 1,99 €/mois";
+const ANNUEL = "S’abonner · 16,99 €/an";
 
 /** Bouton d'achat du premier écran (visiteur : lien ; connecté : bouton). */
 const boutonHaut = () => screen.queryByTestId("abonnement-bouton-achat") ?? screen.getByTestId("abonnement-bouton-haut");
@@ -111,17 +111,17 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
       "✓Chaque mois, un carnet de situations et leurs répliques",
     ]);
     expect(texteDe(document.body)).not.toMatch(/lettre|chaque semaine/i);
-    expect(texteDe(screen.getByTestId("formule-monthly"))).toBe("Mensuel 2,99 € TTC / mois");
+    expect(texteDe(screen.getByTestId("formule-monthly"))).toBe("Mensuel 1,99 € TTC / mois");
     // v3 M2 : renouvellement dans la carte Annuel, affiché en permanence.
     expect(texteDe(screen.getByTestId("formule-annual"))).toBe(
       // Finition du tour 3 : « · » entre les deux lignes sous 400 px (masqué au lecteur d'écran).
-      "Annuel 24,99 € TTC / an soit 2,08 € par mois · plus de 3 mois offerts Renouvelé chaque année, sauf résiliation.",
+      "Annuel 16,99 € TTC / an soit 1,42 € par mois · plus de 3 mois offerts Renouvelé chaque année, sauf résiliation.",
     );
     expect(screen.getByRole("radio", { name: /Annuel/ })).toHaveAccessibleName(
-      /^Annuel 24,99\s€ TTC \/ an soit 2,08\s€ par mois plus de 3 mois offerts Renouvelé chaque année, sauf résiliation\.$/,
+      /^Annuel 16,99\s€ TTC \/ an soit 1,42\s€ par mois plus de 3 mois offerts Renouvelé chaque année, sauf résiliation\.$/,
     );
     // Même corps et même couleur pour l'équivalent mensuel et le renouvellement (finition du tour 3).
-    const equivalent = screen.getByText(/soit 2,08/);
+    const equivalent = screen.getByText(/soit 1,42/);
     expect(screen.getByTestId("renouvellement-annuel").className).toContain("text-xs");
     expect(equivalent.className).toContain("text-xs");
     expect(screen.getByTestId("renouvellement-annuel").className).toContain("text-text-secondary");
@@ -192,13 +192,13 @@ describe("/abonnement visiteur, page de vente (trajet de conversion s21)", () =>
     useSession.mockReturnValue({ status: "loading" });
     const { unmount } = render(<AbonnementView annualAvailable={false} connecteServeur retourInscription />);
     expect(texteDe(screen.getByTestId("abonnement-attente"))).toBe(
-      "Dernière étape.Premium, 2,99 €/mois.On t’emmène au paiement sécurisé par Stripe…",
+      "Dernière étape.Premium, 1,99 €/mois.On t’emmène au paiement sécurisé par Stripe…",
     );
     // Attente brève, sans pied de page : panneau fixe sous l'en-tête.
     expect(screen.getByTestId("abonnement-attente").className).toMatch(/\bfixed\b/);
     unmount();
     render(<AbonnementView annualAvailable connecteServeur retourInscription planInitial="annual" />);
-    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(texteDe(screen.getByTestId("abonnement-attente-formule"))).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
     expect(screen.queryByRole("heading", { name: "Premium ouvre tout Deviens Marrant" })).toBeNull();
     expect(screen.queryByTestId("abonnement-offre")).toBeNull();
   });
@@ -297,7 +297,7 @@ describe("AbonnementPage (serveur)", () => {
   });
 });
 
-describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
+describe("AbonnementPage : formule annuelle 16,99 €/an (04/10/2026)", () => {
   const saved = process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
   const fetchMock = jest.fn();
   beforeEach(() => {
@@ -318,9 +318,9 @@ describe("AbonnementPage : formule annuelle 24,99 €/an (04/10/2026)", () => {
       useSession.mockReturnValue({ status: "authenticated" });
       render(await AbonnementPage({}));
       expect(screen.queryByRole("radio")).not.toBeInTheDocument();
-      expect(texteDe(screen.getByTestId("formule-mensuel-seul"))).toBe("2,99 € TTC / mois");
+      expect(texteDe(screen.getByTestId("formule-mensuel-seul"))).toBe("1,99 € TTC / mois");
       expect(screen.getByTestId("abonnement-bouton-haut")).toHaveTextContent(MENSUEL);
-      expect(document.body.textContent).not.toMatch(/24,99|annuel|par an|\/an/i);
+      expect(document.body.textContent).not.toMatch(/16,99|annuel|par an|\/an/i);
     });
 
     it("?plan=annual ignoré : le checkout reste mensuel (corps historique)", async () => {

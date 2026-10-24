@@ -41,7 +41,7 @@ test.describe("Achat Premium de bout en bout @achat", () => {
     test("création de compte puis Checkout Stripe test, carte 4242", async () => {
       await inscriptionJusquAuCheckout(page, email, "monthly");
       await expect(page.locator("#email")).toHaveValue(email);
-      await expect(page.getByText(/2,99/).first()).toBeVisible();
+      await expect(page.getByText(/1,99/).first()).toBeVisible();
       await payerSurCheckout(page, CARTES.ok);
       await page.waitForURL(/\/abonnement\/success\?session_id=cs_test_/, { timeout: 60_000 });
       await expect(page.getByRole("heading", { name: "Paiement reçu !" })).toBeVisible({ timeout: 45_000 });
@@ -50,7 +50,7 @@ test.describe("Achat Premium de bout en bout @achat", () => {
     test("Premium effectif : statut, étape 2 servie en entier et ouverte", async () => {
       await attendrePlan(page, "PREMIUM");
       const statut = await (await page.request.get("/api/stripe/status")).json();
-      expect(statut).toMatchObject({ subscriptionStatus: "ACTIVE", billingInterval: "month", priceAmountCents: 299 });
+      expect(statut).toMatchObject({ subscriptionStatus: "ACTIVE", billingInterval: "month", priceAmountCents: 199 });
 
       const api = await (await page.request.get("/api/parcours/by-slug/machine-a-cafe")).json();
       const etape2 = api.path.steps.find((s: { order: number }) => s.order === 2);
@@ -69,7 +69,7 @@ test.describe("Achat Premium de bout en bout @achat", () => {
     test("profil : formule, prix et date du prochain prélèvement", async () => {
       await page.goto("/profil");
       await expect(page.getByText("Formule mensuelle")).toBeVisible();
-      await expect(page.getByText(/2,99/).first()).toBeVisible();
+      await expect(page.getByText(/1,99/).first()).toBeVisible();
       await expect(page.getByText(/Prochain prélèvement le \d{1,2} \S+ \d{4}/)).toBeVisible();
     });
 
@@ -77,7 +77,7 @@ test.describe("Achat Premium de bout en bout @achat", () => {
       await page.goto("/profil");
       await page.getByRole("button", { name: "Gérer mon abonnement" }).click();
       await page.waitForURL(/billing\.stripe\.com/, { timeout: 30_000 });
-      await expect(page.getByText(/2,99/).first()).toBeVisible();
+      await expect(page.getByText(/1,99/).first()).toBeVisible();
       await page.goto("/profil");
     });
 
@@ -133,14 +133,14 @@ test.describe("Achat Premium de bout en bout @achat", () => {
     const email = adresseUnique("annuel-3ds");
     adressesCreees.push(email);
     await inscriptionJusquAuCheckout(page, email, "annual");
-    await expect(page.getByText(/24,99/).first()).toBeVisible();
+    await expect(page.getByText(/16,99/).first()).toBeVisible();
     await payerSurCheckout(page, CARTES.troisDS);
     await validerTroisDS(page);
     await page.waitForURL(/\/abonnement\/success\?session_id=cs_test_/, { timeout: 60_000 });
     await expect(page.getByRole("heading", { name: "Paiement reçu !" })).toBeVisible({ timeout: 45_000 });
     await attendrePlan(page, "PREMIUM");
     const statut = await (await page.request.get("/api/stripe/status")).json();
-    expect(statut).toMatchObject({ billingInterval: "year", priceAmountCents: 2499 });
+    expect(statut).toMatchObject({ billingInterval: "year", priceAmountCents: 1699 });
 
     // Déjà abonné : un second checkout est refusé (409), jamais de double abonnement.
     const doublon = await page.request.post("/api/stripe/checkout", { data: { plan: "annual" } });

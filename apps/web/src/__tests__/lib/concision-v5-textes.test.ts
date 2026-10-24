@@ -1,7 +1,7 @@
 /**
  * Concision du tunnel, textes v5 VALIDÉS à l'aveugle le 18/10/2026 (`docs/copy/cta-s21/concision/`
  * textes-v5-a.md, textes-v5-b.md, textes-v5-c.md) : pour chaque surface, le rendu des gabarits avec
- * les valeurs du jour (5 parcours, 2,99 €, 24,99 €, limites gratuites 10 / 3 / 3, 15 à 20 minutes)
+ * les valeurs du jour (5 parcours, 1,99 €, 16,99 €, limites gratuites 10 / 3 / 3, 15 à 20 minutes)
  * est le texte v5 mot pour mot ; puis le budget de mots hors bouton (règles de comptage de
  * textes-v5-a §0) tient pour les surfaces principales.
  *
@@ -56,7 +56,7 @@ const t = (s: string) => s.replace(/[  ]/g, " ");
 
 /**
  * Comptage de textes-v5-a §0 : mots séparés par une espace ; les signes seuls (« » : ? · ! / ;)
- * ne comptent pas ; un montant (« 2,99 € », « 2,99 €/mois ») et « 1 500+ » = 1 mot (espace
+ * ne comptent pas ; un montant (« 1,99 € », « 1,99 €/mois ») et « 1 500+ » = 1 mot (espace
  * insécable dans la config, donc pas de coupure).
  */
 const mots = (...textes: string[]) =>
@@ -67,8 +67,8 @@ const mots = (...textes: string[]) =>
 
 const REASS = "Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.";
 /** Porte générique (arbitrage du 19/10) et verbe d'achat (étalon A), trajet de conversion s21. */
-const OUVRIR = "Tout ouvrir · 2,99 €/mois";
-const SABONNER = "S’abonner · 2,99 €/mois";
+const OUVRIR = "Tout ouvrir · 1,99 €/mois";
+const SABONNER = "S’abonner · 1,99 €/mois";
 const OBJET = "Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.";
 
 describe("§0 conventions : REASS, OUVRIR, GRATUIT_ACCUEIL, GRATUIT_P", () => {
@@ -76,7 +76,7 @@ describe("§0 conventions : REASS, OUVRIR, GRATUIT_ACCUEIL, GRATUIT_P", () => {
     expect(t(REASSURANCE_UNIQUE)).toBe(REASS);
     expect(mots(REASSURANCE_UNIQUE)).toBe(11);
     expect(t(libelleToutOuvrir())).toBe(OUVRIR);
-    expect(t(libelleToutOuvrir("24,99 €/an"))).toBe("Tout ouvrir · 24,99 €/an");
+    expect(t(libelleToutOuvrir("16,99 €/an"))).toBe("Tout ouvrir · 16,99 €/an");
     expect(GRATUIT_ACCUEIL).toBe("Tester mes premières répliques, gratuit");
     expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
   });
@@ -92,13 +92,13 @@ describe("partie A : accueil, en-tête, articles", () => {
   });
 
   it("§2 en-tête", () => {
-    expect(t(EN_TETE.bouton)).toBe("Premium · 2,99 €/mois");
+    expect(t(EN_TETE.bouton)).toBe("Premium · 1,99 €/mois");
     expect(mots(EN_TETE.bouton)).toBe(2);
     // Trajet de conversion s21 §2 : un prix sans objet n'est pas un libellé ; le nom accessible
     // commence par le texte visible (WCAG 2.5.3).
-    // Repli « Premium » (textes-trajet-v1 §2) : « Premium · 2,99 € » ne tenait pas à 320, 360 et 375 px.
+    // Repli « Premium » (textes-trajet-v1 §2) : « Premium · 1,99 € » ne tenait pas à 320, 360 et 375 px.
     expect(EN_TETE.boutonCourt).toBe("Premium");
-    expect(t(EN_TETE.nomAccessible)).toBe("Premium, 2,99 € par mois : voir l’offre");
+    expect(t(EN_TETE.nomAccessible)).toBe("Premium, 1,99 € par mois : voir l’offre");
   });
 
   it("§3 fin d’article n°1 et déclinaisons par parcours", () => {
@@ -161,17 +161,17 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
       "Encore des vannes à ressortir",
       // textes-trajet-v2 M01, M04 : verbe « Ouvrir », limite avec son unité.
       "Les 10 vannes gratuites, c’est fait.",
-      "Ouvrir la suite des vannes · 2,99 €/mois",
+      "Ouvrir la suite des vannes · 1,99 €/mois",
     ]);
     expect([MUR_LISTE.conseils.titre, MUR_LISTE.conseils.limite, t(MUR_LISTE.conseils.bouton)]).toEqual([
       "Pour la prochaine fois qu’on te chambre",
       "3 conseils gratuits, c’est fait.",
-      "Ouvrir la suite des conseils · 2,99 €/mois",
+      "Ouvrir la suite des conseils · 1,99 €/mois",
     ]);
     expect([MUR_LISTE.videos.titre, MUR_LISTE.videos.limite, t(MUR_LISTE.videos.bouton)]).toEqual([
       "Tu regardes pour rire. Et pour faire rire ?",
       "3 vidéos gratuites, c’est fait.",
-      "Ouvrir la suite des vidéos · 2,99 €/mois",
+      "Ouvrir la suite des vidéos · 1,99 €/mois",
     ]);
     for (const l of ["vannes", "conseils", "videos"] as const) expect(MUR_LISTE[l].contour("repartie")).toBe("Tester l’étape 1 de Répartie, gratuite");
     expect([mots(MUR_LISTE.vannes.titre, MUR_LISTE.vannes.limite), mots(MUR_LISTE.conseils.titre, MUR_LISTE.conseils.limite), mots(MUR_LISTE.videos.titre, MUR_LISTE.videos.limite)]).toEqual([11, 12, 13]);
@@ -180,9 +180,9 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
 
   it("§2 fiches vanne, conseil, vidéo", () => {
     const attendu = {
-      vanne: ["Demain, c’est peut-être la tienne qu’on répète", "Une consigne, un exemple, et c’est à toi.", "Écrire la mienne · 2,99 €/mois", 15],
-      conseil: ["Essaie-le avant le soir où il te servira", "À froid, rater est sans risque : l’exercice sert à ça.", "Essayer ce conseil · 2,99 €/mois", 18],
-      video: ["L’humoriste a sa salle. Toi, une table suffit", "Les points clés, et un exercice pour t’en servir.", "Décrypter cette vidéo · 2,99 €/mois", 17],
+      vanne: ["Demain, c’est peut-être la tienne qu’on répète", "Une consigne, un exemple, et c’est à toi.", "Écrire la mienne · 1,99 €/mois", 15],
+      conseil: ["Essaie-le avant le soir où il te servira", "À froid, rater est sans risque : l’exercice sert à ça.", "Essayer ce conseil · 1,99 €/mois", 18],
+      video: ["L’humoriste a sa salle. Toi, une table suffit", "Les points clés, et un exercice pour t’en servir.", "Décrypter cette vidéo · 1,99 €/mois", 17],
     } as const;
     for (const [type, [titre, texte, bouton, total]] of Object.entries(attendu)) {
       const b = BLOC_EXERCICE[type as keyof typeof BLOC_EXERCICE];
@@ -193,7 +193,7 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
 
   it("§3 fenêtre Premium, chaque geste (textes-trajet-v2 W01 à W07, variante favori du §6 point 8)", () => {
     // v2 W04 : « /mois », TTC reste sur la carte d'offre et chez Stripe.
-    expect(t(`${FENETRE_PRIX.montant} ${FENETRE_PRIX.suffixe}`)).toBe("2,99 € /mois");
+    expect(t(`${FENETRE_PRIX.montant} ${FENETRE_PRIX.suffixe}`)).toBe("1,99 € /mois");
     expect(FENETRE_COMPTE).toBe("D’abord ton compte, puis le paiement.");
     const LIGNE = "Premium ouvre aussi tout le catalogue et les 5 parcours.";
     const attendu: [string, string, string, string, string | undefined, number][] = [
@@ -262,14 +262,14 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
   it("§6 fin de l’étape 1 (visiteur) et variante quiz en cours", () => {
     expect(FIN_ETAPE_1.titre).toBe("Bien joué !");
     expect(FIN_ETAPE_1.phrase).toBe("Premium ouvre la suite et les autres parcours d’un coup.");
-    expect(t(FIN_ETAPE_1.bouton)).toBe("Passer à l’étape 2 · 2,99 €/mois");
+    expect(t(FIN_ETAPE_1.bouton)).toBe("Passer à l’étape 2 · 1,99 €/mois");
     expect(FIN_ETAPE_1.lettre.ligne).toBe("Lettre gratuite : une vanne décryptée par mois.");
     expect(TEXTES_LETTRE.formulaire.placeholder).toBe("toi@exemple.fr");
     expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4");
     expect(FIN_ETAPE_1.carteSurtitre("storytelling")).toBe("Étape 2 sur 6");
     // textes-trajet-v2 T02 : la phrase de la carte classique.
     expect(VALIDATION_ETAPE.texte).toBe(FIN_ETAPE_1.phrase);
-    expect(t(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 2,99 €/mois");
+    expect(t(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 1,99 €/mois");
     expect(mots(FIN_ETAPE_1.titre, FIN_ETAPE_1.phrase, FIN_ETAPE_1.lettre.ligne)).toBe(19);
     expect(mots(VALIDATION_ETAPE.texte)).toBe(10);
   });
@@ -309,7 +309,7 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect(FAQ_VENTE.map((f) => t(f.question))).toEqual([
       "Est-ce que je peux vraiment apprendre à être drôle ?",
       "Comment devenir drôle quand on est timide ou introverti ?",
-      "2,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
+      "1,99 €/mois, c’est vraiment tout ? Pas de frais cachés ?",
       "Et si j’arrête ?",
       "C’est quoi la différence avec juste regarder des vidéos YouTube ?",
     ]);
@@ -332,8 +332,8 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
   it("§4 /register", () => {
     // textes-trajet-v2 G01, G02 (+ correction @legal) ; phrases par entrée : conversion-s21-v2.test.ts.
     expect(REGISTER_CTA.titre).toBe("Ton compte, puis le paiement");
-    expect(t(REGISTER_CTA.planReminder("monthly"))).toBe("Premium, 2,99 €/mois.");
-    expect(t(REGISTER_CTA.planReminder("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(t(REGISTER_CTA.planReminder("monthly"))).toBe("Premium, 1,99 €/mois.");
+    expect(t(REGISTER_CTA.planReminder("annual"))).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
     expect(REGISTER_CTA.stripe).toBe("Paiement sécurisé par Stripe.");
     expect(REGISTER_CTA.bouton).toBe("Créer mon compte et passer au paiement");
     expect(REGISTER_CTA.google).toBe("Continuer avec Google");
@@ -353,7 +353,7 @@ describe("partie C : /abonnement, /register, carnet, profil, fins de page", () =
     expect(t(CARNET_PAYWALL.titre(14))).toBe("Ça, c’était la réplique offerte. Il en reste 14.");
     expect(CARNET_PAYWALL.paragraphe).toBe("Un nouveau carnet arrive chaque mois.");
     // textes-trajet-v2 M05.
-    expect(t(CARNET_PAYWALL.bouton)).toBe("Ouvrir tout le carnet · 2,99 €/mois");
+    expect(t(CARNET_PAYWALL.bouton)).toBe("Ouvrir tout le carnet · 1,99 €/mois");
     expect(CARNET_PAYWALL.listeTitre).toBe("Au programme");
     expect(CARNET_PAYWALL.listeReste(11)).toBe("Et 11 autres répliques");
     expect(mots(CARNET_PAYWALL.titre(14), CARNET_PAYWALL.paragraphe, CARNET_PAYWALL.listeTitre, CARNET_PAYWALL.listeReste(11))).toBe(21);

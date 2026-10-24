@@ -8,7 +8,7 @@ import { test, expect, localSeulement, requete, creerCompte, connecter, type Pla
  *  - m-4 : résultat du quiz d'orientation (compte sans abonnement, 375 x 812) : parcours nommé
  *    une seule fois, plein payant au-dessus du lien gratuit et dans le premier écran ;
  *  - m-5 : sous les murs, plus de pagination pour une liste limitée ; l'abonné la garde ;
- *  - m-6 : /parcours, encart « Abonnement 2,99 €/mois » absent pour l'abonné ;
+ *  - m-6 : /parcours, encart « Abonnement 1,99 €/mois » absent pour l'abonné ;
  *  - m-2 : fin d'article Répartie = « Tester l'étape 1 de Répartie, gratuite », article n°1 inchangé.
  * Mesures jointes au rapport (`mesures-qa4`).
  */
@@ -19,7 +19,7 @@ const comptes: Record<PlanCompte, string> = {
 };
 const cookies: Partial<Record<PlanCompte, Cookie[]>> = {};
 // Trajet de conversion s21 : compte connecté sans abonnement, paiement direct, « S'abonner ».
-const OUVRIR = /^S’abonner\s·\s2,99\s€\/mois$/;
+const OUVRIR = /^S’abonner\s·\s1,99\s€\/mois$/;
 
 test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
   localSeulement();
@@ -84,7 +84,7 @@ test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
     });
   }
 
-  test("m-6 : /parcours, encart « Abonnement 2,99 €/mois » pour le visiteur seulement", async ({ browser }) => {
+  test("m-6 : /parcours, encart « Abonnement 1,99 €/mois » pour le visiteur seulement", async ({ browser }) => {
     for (const etat of ["visiteur", "PREMIUM"] as const) {
       const contexte = await browser.newContext();
       if (etat === "PREMIUM") await contexte.addCookies(cookies.PREMIUM ?? []);
@@ -92,7 +92,7 @@ test.describe("QA v4 s21 : mineurs m-2, m-4, m-5, m-6 @s21", () => {
       await page.goto("/parcours");
       const encart = page.locator('a[href="/abonnement?src=parcours-liste"]');
       await expect(page.getByRole("heading", { name: "Explore aussi" })).toBeVisible();
-      if (etat === "visiteur") await expect(encart).toContainText(/Abonnement 2,99\s€\/mois/);
+      if (etat === "visiteur") await expect(encart).toContainText(/Abonnement 1,99\s€\/mois/);
       else await expect(encart).toHaveCount(0);
       await contexte.close();
     }

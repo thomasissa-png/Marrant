@@ -60,7 +60,7 @@ describe("PremiumModal (textes-trajet-v2 §2.4 : titre, rappel, ligne Premium, p
       const texte = sansGluon(document.body.textContent ?? "").replace(/\u00a0/g, " ");
       const compte = status === "unauthenticated" ? FENETRE_COMPTE : "";
       // Sans aperçu fourni : aucun rappel rendu (vide propre, W02).
-      expect(texte).toBe(`${t.titre}${t.ligne ?? ""}2,99 €/mois${t.bouton}${compte}${REASSURANCE_UNIQUE}`.replace(/\u00a0/g, " "));
+      expect(texte).toBe(`${t.titre}${t.ligne ?? ""}1,99 €/mois${t.bouton}${compte}${REASSURANCE_UNIQUE}`.replace(/\u00a0/g, " "));
       expect(texte).not.toContain("TTC");
       expect(screen.queryByTestId("fenetre-rappel")).not.toBeInTheDocument();
       expect(texte).not.toMatch(/Deux étapes|reste là|étape 1|rétractation|Sans engagement/i);

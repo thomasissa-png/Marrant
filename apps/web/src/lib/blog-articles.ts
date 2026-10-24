@@ -110,7 +110,7 @@ Que tu sois étudiant et que tu galères à prendre ta place en soirée, commenc
 
 Tu ne sais pas encore quel humour est le tien ? Fais le [quiz humour](/quiz-humour).
 
-Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 2,99 €/mois**, résiliable en ligne.`,
+Sur deviens-marrant.fr, on a conçu des [parcours](/parcours) progressifs qui te guident pas à pas dans ce processus. Des [vannes](/vannes) à ressortir, des [conseils](/conseils) de timing et de répartie, des [vidéos](/videos) de pros à décortiquer, et un système de progression pour voir le chemin parcouru. **C'est 1,99 €/mois**, résiliable en ligne.`,
     date: "2026-03-13",
     // s15 (L7) : date réelle de la modification (liens L6). Si le déploiement glisse, la reporter au jour du déploiement.
     updatedAt: "2026-10-12",
@@ -218,7 +218,7 @@ Si tu es introverti, les techniques 1 (accusé de réception), 4 (fausse naïvet
 
 La répartie, ce n'est pas "écraser l'autre". C'est créer un moment drôle et léger. L'objectif, c'est que tout le monde rie, y compris celui qui t'a lancé la remarque. Si ta réponse blesse, c'est pas de la répartie, c'est de la méchanceté. Et ça, ça ne rend personne drôle. Si tu veux travailler ton humour au-delà de la répartie, lis le guide pour [devenir plus drôle](/blog/comment-devenir-drole).
 
-Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours/repartie) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **2,99 €/mois** : de quoi arrêter de répondre sous la douche.`,
+Tu veux aller plus loin ? Sur deviens-marrant.fr, on a un [parcours Répartie](/parcours/repartie) de 4 semaines avec des mises en situation et des exercices progressifs. Complète avec nos [conseils](/conseils) de timing et nos [vannes](/vannes) à ressortir. **1,99 €/mois** : de quoi arrêter de répondre sous la douche.`,
     date: "2026-03-12",
     updatedAt: "2026-10-12",
     readingTime: "8 min",
@@ -306,7 +306,7 @@ Se tromper de moment fait partie des [5 erreurs qui tuent tes blagues](/blog/err
 
 **Exercice 3 : Le silence volontaire.** Quand tu racontes une histoire, marque une pause avant la chute : regarde ton interlocuteur, laisse le silence s'installer, puis lâche la punchline. C'est contre-intuitif, mais essaie une fois : la différence se voit sur les visages.
 
-Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. Nos [parcours](/parcours) progressifs intègrent des exercices de timing dès la première semaine, et notre catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner. **2,99 €/mois**, 5 minutes par jour, et tes blagues arriveront enfin à l'heure.`,
+Le timing, c'est un truc que tu peux pratiquer chaque jour, dans chaque conversation. Sur deviens-marrant.fr, chaque [conseil](/conseils) vient avec des mises en situation pour bosser ton timing. Et nos [vidéos](/videos) de pros sont analysées technique par technique. Nos [parcours](/parcours) progressifs intègrent des exercices de timing dès la première semaine, et notre catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner. **1,99 €/mois**, 5 minutes par jour, et tes blagues arriveront enfin à l'heure.`,
     date: "2026-02-28",
     updatedAt: "2026-10-12",
     readingTime: "5 min",
@@ -369,7 +369,7 @@ Les signaux rouges (pas maintenant) : voix basses, sujet sérieux, quelqu'un qui
 
 Choisis une erreur que tu fais souvent. **Une seule.** Pendant une semaine, concentre-toi uniquement sur celle-là. La semaine suivante, passe à la suivante. En un mois, tu auras corrigé tes erreurs de livraison les plus courantes, et tes blagues auront beaucoup plus d'impact. Si tu veux une méthode complète pour progresser, notre guide [Comment devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers de l'humour.
 
-Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [parcours](/parcours) progressifs t'accompagnent semaine par semaine pour corriger ces erreurs. Nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **2,99 €/mois**, et le prochain silence après ta chute sera celui de gens qui reprennent leur souffle.`,
+Tu veux des exercices pour travailler chaque point ? Sur deviens-marrant.fr, nos [parcours](/parcours) progressifs t'accompagnent semaine par semaine pour corriger ces erreurs. Nos [conseils](/conseils) couvrent chaque aspect de la livraison avec des mises en situation concrètes. Combine avec nos [vannes](/vannes) pour avoir du matériel testé à livrer. **1,99 €/mois**, et le prochain silence après ta chute sera celui de gens qui reprennent leur souffle.`,
     date: "2026-02-20",
     updatedAt: "2026-10-12",
     readingTime: "5 min",
@@ -441,7 +441,7 @@ Option B : "Salut, je suis celui qui connaît personne et qui hésite entre le b
 
 **Étape 3 :** Teste la meilleure avec des proches. Si tu souris en la disant et qu'ils rient, c'est validé. Si tu as l'air triste en la disant, retravaille le ton. C'est d'ailleurs un des piliers pour [devenir drôle](/blog/comment-devenir-drole).
 
-L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours/confiance) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **2,99 €/mois**, et tes défauts deviennent enfin rentables.`,
+L'autodérision, ça se travaille comme le reste. Sur deviens-marrant.fr, le [parcours Confiance](/parcours/confiance) consacre une semaine entière à maîtriser cette compétence, avec des exercices progressifs et des exemples adaptés. Nos [conseils](/conseils) sur l'autodérision te guident pas à pas. Pioche dans nos [vannes](/vannes) pour trouver du matériel autodérisoire prêt à l'emploi, et regarde nos [vidéos](/videos) de pros pour voir comment Blanche Gardin ou Panayotis Pascot dosent leur autodérision sur scène. **1,99 €/mois**, et tes défauts deviennent enfin rentables.`,
     date: "2026-02-15",
     updatedAt: "2026-10-12",
     readingTime: "5 min",
@@ -521,7 +521,7 @@ C'est exactement ce que font les pros. Imagine **Panayotis Pascot** après un so
 
 Lucas, notre cas d'école, n'est pas devenu humoriste. Mais il n'est plus "celui qui dit rien" : il intervient plus souvent, ses interventions sont mieux calibrées, et surtout, il ne flippe plus quand quelqu'un le chambre. Pas de talent caché là-dedans : juste de la méthode.
 
-Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semaine après semaine avec des exercices comme ceux de Lucas. Et le catalogue de [vannes](/vannes) te donne du matériel concret pour t'entraîner. **2,99 €/mois**, et ça t'évite le "euh... toi-même".`,
+Si tu veux structurer ta progression, nos [parcours](/parcours) te guident semaine après semaine avec des exercices comme ceux de Lucas. Et le catalogue de [vannes](/vannes) te donne du matériel concret pour t'entraîner. **1,99 €/mois**, et ça t'évite le "euh... toi-même".`,
     date: "2026-03-15",
     updatedAt: "2026-10-12",
     readingTime: "6 min",
@@ -609,7 +609,7 @@ Au bout de 30 jours, tu ne "chercheras" plus l'humour : il viendra tout seul, co
 
 Pas besoin d'adopter les 8 habitudes d'un coup. Commence par les habitudes 1 (carnet) et 2 (reformulation). Après une semaine, ajoute la 3 (compliment absurde) et la 7 (callback). En un mois, ton cerveau a pris le pli.
 
-Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **2,99 €/mois** : pour devenir la personne qu'on veut à sa table.`,
+Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **1,99 €/mois** : pour devenir la personne qu'on veut à sa table.`,
     date: "2026-03-14",
     updatedAt: "2026-10-12",
     readingTime: "6 min",
@@ -701,7 +701,7 @@ Le conseil : identifie ton type dominant, puis enrichis-le avec des éléments d
 2. **Demande à tes proches.** "Quand je te fais rire, c'est comment ?" La réponse révèle ton type naturel.
 3. **Teste.** Pendant une semaine, essaie un type par jour. Note celui qui te vient le plus naturellement.
 
-Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t'accompagnent avec des exercices adaptés. Et notre catalogue de [vannes](/vannes) te permet de voir chaque type en action. Nos [conseils](/conseils) de pros t'aident à affiner ton style. **2,99 €/mois**, et ton style arrête d'être un secret, même pour toi.`,
+Pour explorer chaque type en profondeur, nos [parcours](/parcours) structurés t'accompagnent avec des exercices adaptés. Et notre catalogue de [vannes](/vannes) te permet de voir chaque type en action. Nos [conseils](/conseils) de pros t'aident à affiner ton style. **1,99 €/mois**, et ton style arrête d'être un secret, même pour toi.`,
     date: "2026-03-17",
     updatedAt: "2026-10-12",
     readingTime: "8 min",
@@ -780,7 +780,7 @@ Avant chaque blague noire, pose-toi 3 questions :
 2. **Le contexte ?** Les gens présents partagent mes codes ? (Oui = go. Inconnus ou hiérarchie = version très légère uniquement.)
 3. **La punchline ?** Elle est assez forte pour justifier le setup ? (Oui = go. Bof = réécris.)
 
-Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant : nos [parcours](/parcours) t'entraînent à sentir le bon moment pour sortir une vanne, et nos [vannes](/vannes) rangées par thème te donnent du matériel pour t'exercer. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **2,99 €/mois** : c'est pas cher payé pour éviter les silences de mort.`,
+Si les 3 réponses sont positives, lance-toi. Sinon, garde-la pour le bon moment. L'humour noir est un outil puissant : nos [parcours](/parcours) t'entraînent à sentir le bon moment pour sortir une vanne, et nos [vannes](/vannes) rangées par thème te donnent du matériel pour t'exercer. Nos [vidéos](/videos) décortiquent les meilleurs moments de second degré des pros. **1,99 €/mois** : c'est pas cher payé pour éviter les silences de mort.`,
     date: "2026-03-16",
     updatedAt: "2026-10-12",
     readingTime: "6 min",
@@ -858,7 +858,7 @@ C'est pas un chef-d'œuvre, mais c'est la mécanique. Et avec de la pratique, te
 
 **Blanche Gardin** évite les jeux de mots classiques mais utilise les double sens sémantiques : elle dit des phrases qui ont un sens littéral innocent et un sous-texte dévastateur. C'est du jeu de mots évolué.
 
-Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédiée aux jeux de mots. Les [parcours](/parcours) incluent des exercices de créativité verbale. Et nos [vidéos](/videos) analysent les techniques de double sens des pros. **2,99 €/mois** : pour passer du calembour de tonton au jeu de mots qui fait mouche.`,
+Pour t'entraîner, notre catalogue de [vannes](/vannes) a une catégorie dédiée aux jeux de mots. Les [parcours](/parcours) incluent des exercices de créativité verbale. Et nos [vidéos](/videos) analysent les techniques de double sens des pros. **1,99 €/mois** : pour passer du calembour de tonton au jeu de mots qui fait mouche.`,
     date: "2026-03-11",
     readingTime: "5 min",
     category: "PRATIQUE",
@@ -981,7 +981,7 @@ Sujet : les messages vocaux
 - **Pour monter en niveau :** Ajoute 7-8 (analyse de sketch, écriture de bit), la compréhension des mécanismes
 - **En continu :** Exercices 9-10 (callback en conversation, anecdotes), la vraie vie comme terrain
 
-Pour structurer ta progression, nos [parcours](/parcours) te guident étape par étape avec des exercices calibrés pour chaque profil. **2,99 €/mois**, et cette fois, personne te dit "débrouille-toi".`,
+Pour structurer ta progression, nos [parcours](/parcours) te guident étape par étape avec des exercices calibrés pour chaque profil. **1,99 €/mois**, et cette fois, personne te dit "débrouille-toi".`,
     date: "2026-03-10",
     updatedAt: "2026-10-12",
     readingTime: "7 min",
@@ -1064,7 +1064,7 @@ Sur scène, les silences peuvent durer 5 secondes. En conversation, c'est trop. 
 
 **Waly Dia** est un excellent modèle de timing conversationnel : ses interviews sont pleines de micro-pauses naturelles qui donnent du poids à ses répliques. **Fary** utilise le contraste : débit rapide dans le setup, freinage brutal avant la chute.
 
-Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercices de timing dès la première semaine. Le catalogue de [vannes](/vannes) te donne du matériel testé sur lequel pratiquer. **2,99 €/mois** : pour que tes blagues atterrissent toujours au bon moment.`,
+Pour t'entraîner au quotidien, nos [parcours](/parcours) intègrent des exercices de timing dès la première semaine. Le catalogue de [vannes](/vannes) te donne du matériel testé sur lequel pratiquer. **1,99 €/mois** : pour que tes blagues atterrissent toujours au bon moment.`,
     date: "2026-03-09",
     readingTime: "5 min",
     category: "TIMING",
@@ -1160,7 +1160,7 @@ Prends une blague que tu connais (ou une anecdote). Applique :
 
 Teste-la ce soir. Note les réactions. Ajuste. C'est exactement le processus des pros.
 
-Nos [parcours](/parcours) incluent des exercices de structure comique avec feedback. Le catalogue de [vannes](/vannes) te donne des modèles de setup/punchline bien construits. **2,99 €/mois** : pour ne plus jamais massacrer une blague.`,
+Nos [parcours](/parcours) incluent des exercices de structure comique avec feedback. Le catalogue de [vannes](/vannes) te donne des modèles de setup/punchline bien construits. **1,99 €/mois** : pour ne plus jamais massacrer une blague.`,
     date: "2026-03-08",
     readingTime: "6 min",
     category: "STORYTELLING",
@@ -2494,7 +2494,7 @@ Tu n'as pas besoin de changer de personnalité. Tu as besoin de 5 clés, d'un pl
 
 Pour aller plus loin : notre [guide complet pour devenir drôle](/blog/comment-devenir-drole) détaille les 5 piliers universels (observation, surprise, timing, autodérision, pratique). Les [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) te donnent des réflexes verbaux pour ne plus rester muet. Et si tu pars vraiment de zéro, le guide [Répartie débutant : 5 étapes simples](/blog/repartie-debutant-5-etapes) est fait pour toi.
 
-Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme : palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. Le tout pour 2,99 €/mois, résiliable en ligne.`,
+Sur deviens-marrant.fr, les [parcours structurés](/parcours) sont conçus pour progresser à ton rythme : palier par palier, sans avoir à jouer un rôle qui n'est pas toi. Les [conseils](/conseils) de pros te donnent des techniques concrètes applicables aujourd'hui. Et le catalogue de [vannes](/vannes) te donne du matériel testé pour t'entraîner sans repartir de zéro. Le tout pour 1,99 €/mois, résiliable en ligne.`,
     date: "2026-03-25",
     updatedAt: "2026-10-12",
     readingTime: "7 min",
@@ -2702,7 +2702,7 @@ Le storytelling humour qui marche, c'est une histoire qui aurait l'air naturelle
 
 Pour te constituer une base de structures testées, le catalogue de [vannes](/vannes) classe les exemples par type de construction comique. Le [Parcours Storytelling](/parcours/storytelling) te fait pratiquer en 6 semaines, avec des exercices progressifs. Et pour voir ces structures en action sur des scènes réelles, nos [vidéos](/videos) analysées décortiquent les techniques des pros. Si tu veux aussi progresser sur la manière d'apprendre à être drôle plus globalement, le guide [Comment devenir drôle](/blog/comment-devenir-drole) couvre tous les piliers.
 
-Le tout pour 2,99 €/mois, résiliable en ligne.`,
+Le tout pour 1,99 €/mois, résiliable en ligne.`,
     date: "2026-03-25",
     updatedAt: "2026-10-12",
     readingTime: "8 min",
@@ -2875,7 +2875,7 @@ Pour développer ton humour au quotidien, notre article [8 habitudes pour un hum
 
 En 5 jours, tu sais ce qui marche avec tes collègues. Et la semaine d'après, c'est automatique.
 
-Notre [Parcours Machine à Café](/parcours/machine-a-cafe) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. 2,99 €/mois : le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
+Notre [Parcours Machine à Café](/parcours/machine-a-cafe) sur deviens-marrant.fr est construit sur ce principe : des situations concrètes, des phrases testées, une progression mesurable. Et le catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pour chaque situation. 1,99 €/mois : le prix de devenir la personne que tout le monde cherche à croiser à la cuisine.`,
     date: "2026-03-25",
     updatedAt: "2026-10-12",
     readingTime: "7 min",
@@ -3474,7 +3474,7 @@ Ensuite, choisis **une seule erreur à corriger par semaine**, pas les sept d'un
 
 Que tu sois en train de redécouvrir l'humour entre potes après une période où tu n'avais plus le cœur, la raison 6 (l'énergie) est ta priorité, le ton revient avec la pratique. Que tu cherches à placer plus de vannes au boulot, les raisons 3 (public) et 7 (contexte) sont les plus importantes : un open space n'est pas une scène. Ou que tu galères en soirée à faire rire alors que tu en es capable en privé, la raison 1 (annoncer la blague) et la raison 2 (timing) sont l'essentiel de ton problème.
 
-Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blague-courte-arme-secrete-humour). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. Le tout pour 2,99 €/mois : moins cher qu'une vanne ratée, qui elle peut te coûter la soirée.`,
+Sur deviens-marrant.fr, on a des [conseils](/conseils) ciblés sur chaque erreur, un catalogue de [vannes](/vannes) déjà calibrées par contexte (pour éviter le mauvais public), et des [vidéos](/videos) de pros à analyser au ralenti. Si tu veux la base sur la structure d'une blague qui marche, lis [raconter une blague sans la massacrer](/blog/comment-raconter-une-blague-sans-la-rater). Si tu veux choisir le bon format avant même de raconter, on a [blagues courtes ou longues : que choisir ?](/blog/blague-courte-arme-secrete-humour). Et le pillar [comment devenir drôle](/blog/comment-devenir-drole) couvre toute la méthode. Le tout pour 1,99 €/mois : moins cher qu'une vanne ratée, qui elle peut te coûter la soirée.`,
     date: "2026-05-05",
     updatedAt: "2026-10-12",
     readingTime: "8 min",
@@ -3603,7 +3603,7 @@ Tu kiffes raconter des histoires longues, donc tu en places partout. Mauvaise st
 
 Que tu cherches à placer plus de vannes en soirée et que tu te sentes mieux à l'aise avec les phrases courtes, bonne nouvelle, c'est le format qui domine en groupe. Que tu veuilles devenir mémorable au boulot ou en famille avec des anecdotes qui marquent, investis sur le storytelling, mais réserve-le aux bons contextes. Ou que tu sois en train de retrouver ton humour après une période sèche, commence par les courtes, c'est moins risqué et ça remet la machine en route.
 
-Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : le secret de la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 2,99 €/mois**, résiliable en ligne.`,
+Sur deviens-marrant.fr, le catalogue [vannes](/vannes) regroupe les meilleures one-liners filtrées par contexte, et nos [conseils](/conseils) couvrent les techniques de timing pour les deux formats. Pour creuser le timing exact d'une chute (le silence avant la punchline), va voir [timing humour : le secret de la blague](/blog/timing-humour). Pour comprendre comment construire une histoire drôle bien charpentée, lis [storytelling drôle : 5 structures efficaces](/blog/storytelling-drole-5-structures). Et si tu galères encore à savoir quoi placer dans tes conversations, le pillar [comment devenir drôle](/blog/comment-devenir-drole) reprend toute la méthode. **C'est 1,99 €/mois**, résiliable en ligne.`,
     date: "2026-05-05",
     readingTime: "8 min",
     category: "ANALYSE",
@@ -3799,7 +3799,7 @@ Ces micro-retours alimentent la confiance. La confiance alimente la prise de par
 
 Que tu sois étudiant et que tu galères en soirée alors que tu sais être drôle en tête-à-tête, les techniques 1, 2 et 6 sont tes meilleures alliées. Que tu commences un nouveau job et que les conversations entre collègues te paraissent fermées, la technique du piggyback (5) et de la question idiote (4) ouvrent les portes. Ou que tu reprennes le fil social après une période difficile, le niveau 1 d'entraînement (micro-interactions) te remet en route sans pression.
 
-Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) : une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 2,99 €/mois, résiliable en ligne.`,
+Sur deviens-marrant.fr, on a structuré tout ça dans le [parcours Répartie](/parcours/repartie) : une progression en 4 semaines pour transformer le réflexe du silence en réflexe de présence. Avec des [conseils](/conseils) ciblés, des [vannes](/vannes) à ressortir, et des [vidéos](/videos) de pros à décortiquer. Si tu veux comprendre la racine du blocage avant les techniques, lis [je suis pas drôle : 7 pistes pour changer ça](/blog/je-suis-pas-drole-comment-changer). Si tu veux la version "réponse rapide" aux moqueries qui te paralysent, va voir [comment répondre aux moqueries avec humour](/blog/repondre-moqueries-avec-humour). Et pour aller plus loin sur l'art de la répartie, le guide [10 techniques de répartie](/blog/comment-avoir-de-la-repartie) couvre tout. L'abonnement, c'est 1,99 €/mois, résiliable en ligne.`,
     date: "2026-05-05",
     updatedAt: "2026-10-12",
     readingTime: "10 min",

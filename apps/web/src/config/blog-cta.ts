@@ -5,7 +5,7 @@
  *
  * Source : `docs/copy/cta-s21/concision/fins-articles-v3.md`, v3 VALIDÉE (correction C1 de la
  * revue v3), mot pour mot. Gabarit v5 : titre, une phrase, plein gratuit, « Sans compte. »,
- * lien « Tout ouvrir · 2,99 €/mois » (porte générique, trajet de conversion s21). Ponctuation du titre : règle unique du composant
+ * lien « Tout ouvrir · 1,99 €/mois » (porte générique, trajet de conversion s21). Ponctuation du titre : règle unique du composant
  * (pas de point final, sauf « ? » et « » »).
  *
  * Plein gratuit (blog-article-view) : `parcoursHref` présent = « Tester l'étape 1 de {P}, gratuite »

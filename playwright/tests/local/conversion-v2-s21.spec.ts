@@ -10,7 +10,7 @@ import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetou
  *    est intercepté ; il fait ce que fait le webhook `checkout.session.completed` (plan PREMIUM en base)
  *    et renvoie la `success_url` exacte de `lib/stripe.ts` (`urlRetourStripeSimule`, même fonction que le serveur).
  *    La page de retour vérifie le plan par `/api/stripe/status` (vrai serveur, vraie base).
- * 2. Premier écran à 320 × 640 : « S'abonner · 2,99 €/mois » visible sans défiler (visiteur, connecté).
+ * 2. Premier écran à 320 × 640 : « S'abonner · 1,99 €/mois » visible sans défiler (visiteur, connecté).
  * 3. « Annuel » choisi jusqu'à l'attente : ligne de renouvellement, /register, attente dans le bouton,
  *    corps du paiement, mesure ; page d'attente brève (connexion) avec la formule annuelle.
  */
@@ -169,10 +169,10 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await expect(page.getByTestId("formule-annual").getByTestId("renouvellement-annuel")).toBeVisible();
     await page.getByTestId("formule-annual").click();
     await expect(page.getByTestId("renouvellement-annuel")).toHaveText("Renouvelé chaque année, sauf résiliation.");
-    await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/^S’abonner\s·\s24,99\s€\/an$/);
+    await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/^S’abonner\s·\s16,99\s€\/an$/);
     await page.getByTestId("abonnement-bouton-achat").click();
     await expect(page.getByTestId("register-rappel-offre")).toHaveText(
-      /^Premium, 24,99\s€\/an, renouvelé chaque année, sauf résiliation\. Après le paiement, tout s’ouvre\.$/,
+      /^Premium, 16,99\s€\/an, renouvelé chaque année, sauf résiliation\. Après le paiement, tout s’ouvre\.$/,
     );
     await page.locator("#email").fill(email);
     await page.locator("#password").fill(MDP);
@@ -202,7 +202,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.goto("/abonnement?plan=annual&src=header&auto=1");
     const attente = page.getByTestId("abonnement-attente");
     await expect(attente).toBeVisible();
-    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 24,99\s€\/an, renouvelé chaque année, sauf résiliation\.$/);
+    await expect(page.getByTestId("abonnement-attente-formule")).toHaveText(/^Premium, 16,99\s€\/an, renouvelé chaque année, sauf résiliation\.$/);
     await expect(attente).toContainText("Dernière étape.");
     await expect(attente).toContainText("On t’emmène au paiement sécurisé par Stripe…");
     // Le panneau couvre tout sous l'en-tête : le pied de page n'est pas visible.

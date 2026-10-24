@@ -61,7 +61,7 @@ describe("GET /api/stripe/status", () => {
       status: "PAST_DUE",
       stripeCustomerId: "cus_1",
       billingInterval: "month",
-      priceAmountCents: 299,
+      priceAmountCents: 199,
       currentPeriodEnd: new Date("2026-11-07T00:00:00Z"),
       cancelAtPeriodEnd: false,
     });
@@ -72,7 +72,7 @@ describe("GET /api/stripe/status", () => {
       paymentIssue: true,
       portalAvailable: true,
       billingInterval: "month",
-      priceAmountCents: 299,
+      priceAmountCents: 199,
       currentPeriodEnd: "2026-11-07T00:00:00.000Z",
       cancelAtPeriodEnd: false,
     });

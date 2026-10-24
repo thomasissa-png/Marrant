@@ -63,7 +63,7 @@ describe("checkout-ouvert / checkout-echec", () => {
     global.fetch = jest.fn(async () => ({ ok: false, status: 500, json: async () => ({ error: "x" }) })) as unknown as typeof fetch;
     render(<PremiumCta />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s2,99/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s1,99/ }));
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "accueil-premium", raison: "erreur" }]);
@@ -73,7 +73,7 @@ describe("checkout-ouvert / checkout-echec", () => {
     global.fetch = jest.fn(async () => ({ ok: true, status: 200, json: async () => ({ url: "#stripe-simule" }) })) as unknown as typeof fetch;
     render(<PremiumCta />);
     await act(async () => {
-      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s2,99/ }));
+      await userEvent.click(screen.getByRole("button", { name: /^S’abonner\s·\s1,99/ }));
     });
     expect(appels("abonnement-clic")).toEqual([
       { formule: "mensuel", src: "accueil-premium", declencheur: "manuel", statut: "membre" },
@@ -89,7 +89,7 @@ describe("carte Premium de l'accueil, compte connecté sans abonnement (concisio
     expect(screen.queryByTestId("carte-premium-intro")).toBeNull();
     const phrase = screen.getByTestId("carte-premium-intro-connecte");
     expect(phrase).toHaveTextContent("Premium ouvre tout : le catalogue, les 5 parcours, un carnet de répartie par mois.");
-    const bouton = screen.getByRole("button", { name: /^S’abonner\s·\s2,99\s€\/mois$/ });
+    const bouton = screen.getByRole("button", { name: /^S’abonner\s·\s1,99\s€\/mois$/ });
     expect(phrase.compareDocumentPosition(bouton) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(screen.queryByTestId("carte-premium-ligne-connecte")).toBeNull();
     expect(screen.queryByText(/Active mon accès|Tu as déjà ton compte|sécurisé par Stripe/)).toBeNull();

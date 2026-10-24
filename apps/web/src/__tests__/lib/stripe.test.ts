@@ -52,8 +52,8 @@ afterAll(() => {
 });
 
 describe("Stripe constants", () => {
-  it("PREMIUM_PRICE_CENTS is 299 (2,99 €)", () => {
-    expect(PREMIUM_PRICE_CENTS).toBe(299);
+  it("PREMIUM_PRICE_CENTS is 199 (1,99 €)", () => {
+    expect(PREMIUM_PRICE_CENTS).toBe(199);
   });
 
   it("PREMIUM_PRICE_ID is defined", () => {

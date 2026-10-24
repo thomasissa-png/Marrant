@@ -72,7 +72,7 @@ describe("Repli sans prénom des e-mails", () => {
     const confirmation = emailConfirmationAbonnement({
       prenom: null,
       interval: "month",
-      montantCents: 299,
+      montantCents: 199,
       dateSouscription: new Date("2026-10-18T10:00:00Z"),
       prochainRenouvellement: null,
     });

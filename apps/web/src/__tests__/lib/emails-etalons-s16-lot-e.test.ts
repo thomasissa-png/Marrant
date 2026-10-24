@@ -68,9 +68,9 @@ Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance.
 
 Voici ta confirmation :
 - Formule : Premium mensuel
-- Prix : 2,99 € TTC par mois
+- Prix : 1,99 € TTC par mois
 - Souscrit le : 7 octobre 2026
-- Prochain prélèvement : 7 novembre 2026, 2,99 € TTC. L’abonnement se reconduit automatiquement à cette date, jusqu’à ce que tu le résilies.
+- Prochain prélèvement : 7 novembre 2026, 1,99 € TTC. L’abonnement se reconduit automatiquement à cette date, jusqu’à ce que tu le résilies.
 
 Résilier : en ligne, à tout moment, depuis ton profil, bouton « Résilier ton contrat » : https://deviens-marrant.fr/profil. Ton accès reste ouvert jusqu’à la fin de la période payée.
 
@@ -88,30 +88,30 @@ L’Équipe Deviens Marrant
     const r = emailConfirmationAbonnement({
       prenom: "Camille",
       interval: "month",
-      montantCents: 299,
+      montantCents: 199,
       dateSouscription: SOUSCRIT,
       prochainRenouvellement: new Date("2026-11-07T10:00:00Z"),
     });
     expect(r.subject).toBe("Bienvenue dans Premium, ton abonnement est confirmé");
     expect(lisible(r.text).startsWith(MENSUEL_A)).toBe(true);
-    expect(r.text).toContain(`2,99${NBSP}€ TTC par mois`);
+    expect(r.text).toContain(`1,99${NBSP}€ TTC par mois`);
     expect(r.text).toContain("MODÈLE DE FORMULAIRE DE RÉTRACTATION");
     expect(r.text).not.toContain("Avec l’annuel");
   });
 
-  it("annuel : prix annuel, ligne « plus de 3 mois offerts : 10,89 € économisés »", () => {
+  it("annuel : prix annuel, ligne « plus de 3 mois offerts : 6,89 € économisés »", () => {
     const r = emailConfirmationAbonnement({
       prenom: "Camille",
       interval: "year",
-      montantCents: 2499,
+      montantCents: 1699,
       dateSouscription: SOUSCRIT,
       prochainRenouvellement: new Date("2027-10-07T10:00:00Z"),
     });
     const t = lisible(r.text);
-    expect(t).toContain("- Formule : Premium annuel\n- Prix : 24,99 € TTC par an\n- Souscrit le : 7 octobre 2026\n");
-    expect(t).toContain("- Prochain prélèvement : 7 octobre 2027, 24,99 € TTC.");
+    expect(t).toContain("- Formule : Premium annuel\n- Prix : 16,99 € TTC par an\n- Souscrit le : 7 octobre 2026\n");
+    expect(t).toContain("- Prochain prélèvement : 7 octobre 2027, 16,99 € TTC.");
     expect(t).toContain(
-      "jusqu’à ce que tu le résilies.\n\nAvec l’annuel, tu as plus de 3 mois offerts : 10,89 € économisés par rapport au mensuel.\n\nRésilier :",
+      "jusqu’à ce que tu le résilies.\n\nAvec l’annuel, tu as plus de 3 mois offerts : 6,89 € économisés par rapport au mensuel.\n\nRésilier :",
     );
   });
 
@@ -120,13 +120,13 @@ L’Équipe Deviens Marrant
       const r = emailConfirmationAbonnement({
         prenom,
         interval,
-        montantCents: interval === "year" ? 2499 : 299,
+        montantCents: interval === "year" ? 1699 : 199,
         dateSouscription: SOUSCRIT,
         prochainRenouvellement: null, // date absente : calculée, jamais vide
       });
       verifier(r, salut);
       expect(lisible(r.text)).toContain(
-        interval === "year" ? "Prochain prélèvement : 7 octobre 2027, 24,99 € TTC." : "Prochain prélèvement : 7 novembre 2026, 2,99 € TTC.",
+        interval === "year" ? "Prochain prélèvement : 7 octobre 2027, 16,99 € TTC." : "Prochain prélèvement : 7 novembre 2026, 1,99 € TTC.",
       );
     });
   });
@@ -140,18 +140,18 @@ L’Équipe Deviens Marrant
       prochainRenouvellement: new Date(Number.NaN),
     });
     verifier(r, "Salut,");
-    expect(lisible(r.text)).toContain("- Formule : Premium mensuel\n- Prix : 2,99 € TTC par mois\n");
+    expect(lisible(r.text)).toContain("- Formule : Premium mensuel\n- Prix : 1,99 € TTC par mois\n");
   });
 });
 
 describe("étalon 3 : paiement refusé (corps A + objet 3.2)", () => {
   it.each(PRENOMS)("%s : texte validé mot pour mot", (_cas, prenom, salut) => {
-    const r = emailPaiementRefuse({ prenom, montantCents: 299, datePrevue: new Date("2026-11-07T06:00:00Z") });
+    const r = emailPaiementRefuse({ prenom, montantCents: 199, datePrevue: new Date("2026-11-07T06:00:00Z") });
     verifier(r, salut);
     expect(r.subject).toBe("Ton paiement n’est pas passé, ton Premium reste actif");
     expect(lisible(r.text)).toBe(`${salut}
 
-Le prélèvement de ton abonnement Premium (2,99 € TTC, prévu le 7 novembre 2026) n’est pas passé. Ça arrive : carte expirée, plafond atteint, vérification de la banque.
+Le prélèvement de ton abonnement Premium (1,99 € TTC, prévu le 7 novembre 2026) n’est pas passé. Ça arrive : carte expirée, plafond atteint, vérification de la banque.
 
 Rien n’est coupé pour l’instant : ton accès Premium reste ouvert pendant que le prélèvement est retenté automatiquement dans les prochains jours.
 
@@ -167,8 +167,8 @@ L’Équipe Deviens Marrant
     const sans = emailPaiementRefuse({ prenom: null, montantCents: null, datePrevue: null });
     verifier(sans, "Salut,");
     expect(sans.text).toContain("Le prélèvement de ton abonnement Premium n’est pas passé.");
-    const montantSeul = emailPaiementRefuse({ prenom: null, montantCents: 2499, datePrevue: null });
-    expect(lisible(montantSeul.text)).toContain("Premium (24,99 € TTC) n’est pas passé.");
+    const montantSeul = emailPaiementRefuse({ prenom: null, montantCents: 1699, datePrevue: null });
+    expect(lisible(montantSeul.text)).toContain("Premium (16,99 € TTC) n’est pas passé.");
   });
 });
 
@@ -202,7 +202,7 @@ describe("e-mails hors étalons : prénom, dates, montants", () => {
     const r = renderAnnualRenewalReminder({
       prenom,
       renewalDate: new Date("2026-11-12T00:00:00Z"),
-      amountCents: 2499,
+      amountCents: 1699,
       manageUrl: "https://deviens-marrant.fr/profil",
     });
     verifier(r, salut);
@@ -258,8 +258,8 @@ describe("dates, montants, textes d’écran validés", () => {
   });
 
   it("montants : virgule et espace insécable", () => {
-    expect(formatEuros(299)).toBe(`2,99${NBSP}€`);
-    expect(formatEuros(2499)).toBe(`24,99${NBSP}€`);
+    expect(formatEuros(199)).toBe(`1,99${NBSP}€`);
+    expect(formatEuros(1699)).toBe(`16,99${NBSP}€`);
   });
 
   it("REASS unique (concision v5 : premier paiement, sans prix) et texte Stripe : seule la formule choisie", () => {
@@ -268,7 +268,7 @@ describe("dates, montants, textes d’écran validés", () => {
     const annuel = lisible(texteStripeSubmit("annual")).replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
     expect(annuel).toBe(
       // Lot G : ouverture « obligation de paiement » (@legal point 13, validée par Thomas).
-      "En cliquant sur « S’abonner », tu passes une commande avec obligation de paiement : Premium, 24,99 € TTC par an, renouvelé chaque année. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu’à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
+      "En cliquant sur « S’abonner », tu passes une commande avec obligation de paiement : Premium, 16,99 € TTC par an, renouvelé chaque année. Tu as 14 jours pour te faire rembourser (formulaire : deviens-marrant.fr/retractation). Tu résilies en ligne depuis ton profil, quand tu veux : ton accès reste ouvert jusqu’à la fin de la période payée. En payant, tu acceptes les CGU : deviens-marrant.fr/cgu",
     );
     expect(annuel).not.toContain("par mois");
   });
@@ -293,8 +293,8 @@ describe("liens des e-mails : absolus et vers des pages qui existent", () => {
       (existsSync(dir) && readdirSync(dir).some((d) => d.startsWith("(") && existsSync(join(dir, d, "page.tsx"))));
     const existe = (chemin: string) => [app, ...groupes.map((g) => join(app, g))].some((base) => pageDans(join(base, chemin)));
     const textes = [
-      emailConfirmationAbonnement({ prenom: null, interval: "year", montantCents: 2499, dateSouscription: SOUSCRIT, prochainRenouvellement: null }).text,
-      emailPaiementRefuse({ prenom: null, montantCents: 299, datePrevue: SOUSCRIT }).text,
+      emailConfirmationAbonnement({ prenom: null, interval: "year", montantCents: 1699, dateSouscription: SOUSCRIT, prochainRenouvellement: null }).text,
+      emailPaiementRefuse({ prenom: null, montantCents: 199, datePrevue: SOUSCRIT }).text,
       emailConfirmationResiliation({ prenom: null, finAcces: SOUSCRIT }).text,
       renderPasswordResetEmail("https://deviens-marrant.fr/reset-password?token=t", null).html,
       texteStripeSubmit("monthly"),
@@ -316,7 +316,7 @@ describe("garde-fou des champs variables", () => {
     ["Salut [prénom],", "champ entre crochets"],
     ["jusqu’au October 21, 2026", "mois en anglais"],
     ["Invalid Date", "date invalide"],
-    ["Prix : 2.99 €", "montant au format anglais"],
+    ["Prix : 1.99 €", "montant au format anglais"],
     ["Salut ,", "salutation mal remplie"],
     ["Salut camille@example.invalid,", "salutation mal remplie"],
   ])("%j → %s", (texte, probleme) => {
@@ -325,7 +325,7 @@ describe("garde-fou des champs variables", () => {
   });
 
   it("un rendu propre passe", () => {
-    expect(problemesDeRendu("Salut Marie-Hélène,\nLe 7 octobre 2026, 2,99 € TTC.")).toEqual([]);
+    expect(problemesDeRendu("Salut Marie-Hélène,\nLe 7 octobre 2026, 1,99 € TTC.")).toEqual([]);
   });
 });
 
@@ -353,7 +353,7 @@ describe("garde-fou à l’envoi (lib/emails/paiement-notifications)", () => {
       }));
       notify = require("@/lib/emails/paiement-notifications").notifyPaymentFailed;
     });
-    await expect(notify("u1", { montantCents: 299, datePrevue: null })).resolves.toBe(true);
+    await expect(notify("u1", { montantCents: 199, datePrevue: null })).resolves.toBe(true);
     expect(recordAdminAlert).toHaveBeenCalledWith(expect.objectContaining({ cle: "email-rendu-paiement-refuse" }));
     expect(recordAdminAlert.mock.calls[0][0].html).toContain("« undefined »");
     expect(recordAdminAlert.mock.calls[0][0].html).toContain("mois en anglais");

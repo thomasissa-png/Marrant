@@ -18,8 +18,8 @@ const texte = (s: string) => s.replace(/ /g, " ");
 
 describe("Libellés uniques (concision v5, textes-v5-a §0)", () => {
   it("« Tout ouvrir » partout pour la porte générique (mur des favoris compris), GRATUIT_P pour l'étape 1", () => {
-    expect(texte(libelleToutOuvrir())).toBe("Tout ouvrir · 2,99 €/mois");
-    expect(texte(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 2,99 €/mois");
+    expect(texte(libelleToutOuvrir())).toBe("Tout ouvrir · 1,99 €/mois");
+    expect(texte(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 1,99 €/mois");
     expect(lire("components/favoris/favoris-list.tsx")).toContain("{libelleToutOuvrir()}");
     expect(libelleGratuitParcours("repartie")).toBe("Tester l’étape 1 de Répartie, gratuite");
     expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
@@ -64,8 +64,8 @@ describe("Haut de /abonnement (trajet de conversion s21, étalon A)", () => {
     expect(ABONNEMENT_HAUT.sousTitre).toBe("Les listes ne s’arrêtent plus à la dixième vanne, les parcours vont au bout.");
   });
 
-  it("carte annuelle calculée : « soit 2,08 € par mois » (arbitrage du 19/10), sans « économisés »", () => {
-    expect(texte(PREMIUM_ANNUAL_EQUIVALENT_LABEL)).toBe("soit 2,08 € par mois");
+  it("carte annuelle calculée : « soit 1,42 € par mois » (arbitrage du 19/10), sans « économisés »", () => {
+    expect(texte(PREMIUM_ANNUAL_EQUIVALENT_LABEL)).toBe("soit 1,42 € par mois");
     expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
     expect(lire("components/premium/formule-cartes.tsx")).not.toContain("ANNUEL_ECONOMIE_LABEL");
   });
@@ -85,7 +85,7 @@ describe("Libellés existants réutilisés (E2, E3) et corrections du §6.7", ()
     expect(lire("components/profil/abonnement-card.tsx")).not.toContain("Active mon accès");
   });
 
-  it("« pour 2,99 €/mois », jamais « dès » (l'annuel revient à 2,08 €/mois)", () => {
+  it("« pour 1,99 €/mois », jamais « dès » (l'annuel revient à 1,42 €/mois)", () => {
     for (const rel of ["components/vannes/vannes-list.tsx", "components/conseils/conseils-list.tsx", "components/videos/videos-grid.tsx"]) {
       // s21 B7 : le bas de liste est le bloc MurListe (textes dans config/textes/cta-pages.ts).
       expect(lire(rel)).toContain("<MurListe ");

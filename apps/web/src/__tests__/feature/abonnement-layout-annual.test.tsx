@@ -29,18 +29,18 @@ describe("AbonnementLayout et formule annuelle", () => {
   it("sans secret : mensuel seul (JSON-LD, FAQ, metadata)", async () => {
     delete process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID;
     const out = html();
-    expect(out).toContain('"price":"2.99"');
-    expect(out).not.toMatch(/24\.99|24,99|P1Y/);
-    expect((await generateMetadata()).description).not.toContain("24,99");
+    expect(out).toContain('"price":"1.99"');
+    expect(out).not.toMatch(/24\.99|16,99|P1Y/);
+    expect((await generateMetadata()).description).not.toContain("16,99");
   });
 
   it("secret posé (sans redéploiement) : offres P1M + P1Y, FAQ et metadata avec l'annuel", async () => {
     process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID = "price_test_annual_1";
     const out = html();
     expect(out).toContain('"billingDuration":"P1Y"');
-    expect(out).toContain('"price":"24.99"');
+    expect(out).toContain('"price":"16.99"');
     // Concision v5 : la réponse prix de la FAQ dit le renouvellement mensuel ou annuel, sans prix.
     expect(out).toContain("Ça se renouvelle chaque mois ou chaque année, tant que tu ne résilies pas.");
-    expect((await generateMetadata()).description).toContain("à 2,99\u00A0€/mois ou 24,99\u00A0€/an");
+    expect((await generateMetadata()).description).toContain("à 1,99\u00A0€/mois ou 16,99\u00A0€/an");
   });
 });

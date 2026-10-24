@@ -15,7 +15,7 @@ export type EmplacementAchat = "haut" | "bas" | "barre";
 /**
  * Bouton d'achat de /abonnement, le même aux trois endroits (B2, B6, barre collante) : même
  * libellé, même formule. Visiteur : vrai lien vers /register (HTML serveur, marche sans JS).
- * Compte connecté : bouton qui ouvre Stripe. « S'abonner · 2,99 €/mois » tient sur une ligne à 375 px.
+ * Compte connecté : bouton qui ouvre Stripe. « S'abonner · 1,99 €/mois » tient sur une ligne à 375 px.
  */
 export function BoutonAchatAbonnement({
   id,

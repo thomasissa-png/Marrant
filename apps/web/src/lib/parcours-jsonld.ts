@@ -20,7 +20,7 @@ export function parcoursCourseId(slug: string): string {
   return `${parcoursUrl(slug)}#course`;
 }
 
-/** « 2.99 » : format schema.org, depuis le prix affiché du mensuel. */
+/** « 1.99 » : format schema.org, depuis le prix affiché du mensuel. */
 export function premiumMonthlyPriceSchema(): string {
   return (PREMIUM_MONTHLY_PRICE_CENTS / 100).toFixed(2);
 }

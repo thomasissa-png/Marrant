@@ -100,7 +100,7 @@ describe("5. /abonnement : résiliation programmée", () => {
     global.fetch = jest.fn().mockResolvedValue(reponse(200, { plan: "PREMIUM", cancelAtPeriodEnd: false, currentPeriodEnd: FIN })) as unknown as typeof fetch;
     render(await AbonnementPage({}));
     await waitFor(() => expect(global.fetch).toHaveBeenCalled());
-    expect(screen.getAllByText("S’abonner · 2,99 €/mois")[0]).toBeInTheDocument();
+    expect(screen.getAllByText("S’abonner · 1,99 €/mois")[0]).toBeInTheDocument();
     expect(screen.queryByTestId("resiliation-programmee")).toBeNull();
   });
 

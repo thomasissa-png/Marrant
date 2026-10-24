@@ -3,6 +3,12 @@ import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 // Libellé du bouton de résiliation lu à la source (profil, lot B) : la CGU suit le bouton réel.
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import {
+  formatEuros,
+  PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS,
+  PREMIUM_ANNUAL_PRICE_LABEL,
+  PREMIUM_PRICE_LABEL,
+} from "@/config/premium";
 import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
 const PAGE_URL = "https://deviens-marrant.fr/cgu";
@@ -36,7 +42,7 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">3. Offres et tarifs</h2>
-          <p>L’abonnement Premium donne accès à l’ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien. Il est proposé en deux formules, prix toutes taxes comprises : mensuelle à 2,99 €/mois, ou annuelle à 24,99 €/an (soit 2,08 €/mois), payable en une seule fois.</p>
+          <p>L’abonnement Premium donne accès à l’ensemble du catalogue : vannes, conseils, vidéos, parcours et contenu quotidien. Il est proposé en deux formules, prix toutes taxes comprises : mensuelle à {PREMIUM_PRICE_LABEL}, ou annuelle à {PREMIUM_ANNUAL_PRICE_LABEL} (soit {formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)}/mois), payable en une seule fois.</p>
           {/* Lot G (@legal point 9, à valider par un avocat) : plus de « reconduite tacitement chaque mois » (L.215-1). */}
           <p className="mt-2">La formule mensuelle est conclue pour une durée indéterminée, sans engagement : elle est prélevée chaque mois jusqu’à ta résiliation. La formule annuelle est conclue pour une durée d’un an à compter du paiement, puis reconduite tacitement par périodes successives d’un an, au tarif annuel en vigueur indiqué dans l’email de rappel. Chaque formule peut être résiliée à tout moment depuis l’espace profil (article 7).</p>
           <p className="mt-2">Avant chaque reconduction de la formule annuelle, l’éditeur informe l’utilisateur par email dédié, au plus tôt trois mois et au plus tard un mois avant la date limite de non-reconduction, de la possibilité de ne pas reconduire le contrat, de cette date limite, du montant et de la date du prélèvement. À défaut, l’utilisateur peut résilier à tout moment à compter de la reconduction et être remboursé des sommes versées pour la période postérieure à la résiliation (article L.215-1 du Code de la consommation).</p>

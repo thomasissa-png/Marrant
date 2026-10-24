@@ -59,7 +59,7 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement?src=header");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getAllByText("S’abonner · 2,99 €/mois")[0]);
+      await userEvent.click(screen.getAllByText("S’abonner · 1,99 €/mois")[0]);
     });
     expect(appels("checkout-ouvert")).toEqual([]);
     expect(appels("checkout-echec")).toEqual([{ src: "header", raison: "erreur", formule: "mensuel" }]);
@@ -73,7 +73,7 @@ describe("/abonnement (compte connecté)", () => {
     window.history.replaceState(null, "", "/abonnement");
     render(<AbonnementView annualAvailable={false} carnetExtrait={null} />);
     await act(async () => {
-      await userEvent.click(screen.getAllByText("S’abonner · 2,99 €/mois")[0]);
+      await userEvent.click(screen.getAllByText("S’abonner · 1,99 €/mois")[0]);
     });
     expect(appels("checkout-echec")).toEqual([{ src: "abonnement", raison: "reseau", formule: "mensuel" }]);
   });

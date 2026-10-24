@@ -30,7 +30,7 @@ jest.mock("@/lib/prisma", () => ({
     blogArticle: { findFirst: () => none() },
   },
 }));
-jest.mock("@/lib/stripe", () => ({ PREMIUM_PRICE_CENTS: 299 }));
+jest.mock("@/lib/stripe", () => ({ PREMIUM_PRICE_CENTS: 199 }));
 
 import { NextRequest } from "next/server";
 import { GET } from "@/app/api/admin/stats/route";

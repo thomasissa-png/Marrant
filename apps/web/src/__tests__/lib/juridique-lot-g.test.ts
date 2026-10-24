@@ -76,7 +76,7 @@ describe("e-mail de confirmation : paragraphe rétractation @legal (validé par 
     const { text } = emailConfirmationAbonnement({
       prenom: null,
       interval: "year",
-      montantCents: 2499,
+      montantCents: 1699,
       dateSouscription: new Date("2026-10-07T10:00:00Z"),
       prochainRenouvellement: null,
     });
@@ -103,7 +103,7 @@ describe("rappel annuel : « au plus tard la veille » (@legal point 14)", () =>
     const { text } = renderAnnualRenewalReminder({
       prenom: null,
       renewalDate: new Date("2026-12-01T10:00:00Z"),
-      amountCents: 2499,
+      amountCents: 1699,
       manageUrl: "https://deviens-marrant.fr/profil",
     });
     expect(text).toContain("Pour ne pas renouveler : résilie au plus tard la veille, le 30 novembre 2026");

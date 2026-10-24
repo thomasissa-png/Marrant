@@ -36,7 +36,7 @@ const ORDINAUX: Readonly<Record<number, string>> = {
 };
 export const ordinal = (n: number): string => ORDINAUX[n] ?? `${n}e`;
 
-/** « S'abonner · 2,99 €/mois » / « S'abonner · 24,99 €/an » : verbe d'achat (le clic mène au compte ou à Stripe). */
+/** « S'abonner · 1,99 €/mois » / « S'abonner · 16,99 €/an » : verbe d'achat (le clic mène au compte ou à Stripe). */
 export const libelleSabonner = (plan: PremiumPlan = "monthly"): string =>
   `S’abonner${ESPACE_INSECABLE}· ${plan === "annual" ? PREMIUM_ANNUAL_PRICE_LABEL : PREMIUM_PRICE_LABEL}`;
 

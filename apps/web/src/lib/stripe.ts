@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { cheminRetourPaiement, sanitizeReturnTo } from "@/lib/premium-return";
-import type { PremiumPlan } from "@/config/premium";
+import { PREMIUM_MONTHLY_PRICE_CENTS, type PremiumPlan } from "@/config/premium";
 import { getPremiumPriceId, PREMIUM_PRICE_ENV } from "@/lib/premium-plan-availability";
 import { texteStripeSubmit } from "@/config/textes/paiement";
 
@@ -45,8 +45,8 @@ export class PremiumPriceNotConfiguredError extends Error {
 // le checkout lit désormais le prix au runtime via getPremiumPriceId)
 export const PREMIUM_PRICE_ID = process.env.STRIPE_PREMIUM_PRICE_ID ?? "";
 
-// Montant de l'abonnement premium en centimes (2,99 €)
-export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CENTS ?? "299", 10);
+// Montant de l'abonnement premium en centimes (1,99 €) : par défaut le prix affiché (config/premium.ts)
+export const PREMIUM_PRICE_CENTS = parseInt(process.env.STRIPE_PREMIUM_PRICE_CENTS ?? String(PREMIUM_MONTHLY_PRICE_CENTS), 10);
 
 /**
  * s16 (07/10/2026) : refus d'un second abonnement. Un utilisateur dont

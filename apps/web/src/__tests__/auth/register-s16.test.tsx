@@ -59,7 +59,7 @@ describe("RegisterPage, audit s16", () => {
 
   it("rappel de formule avec le nom Premium (D4) et le prix (textes-trajet-v2 G02)", () => {
     render(<RegisterPage />);
-    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 2,99 €/mois.");
+    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 1,99 €/mois.");
   });
 
   it("liens dans le texte soulignés en permanence (axe link-in-text-block)", () => {

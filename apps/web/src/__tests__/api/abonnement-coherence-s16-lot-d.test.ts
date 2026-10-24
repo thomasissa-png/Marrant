@@ -42,7 +42,7 @@ const BASE = {
   stripeCustomerId: "cus_1",
   stripeSubscriptionId: "sub_1",
   billingInterval: "month",
-  priceAmountCents: 299,
+  priceAmountCents: 199,
   currentPeriodEnd: new Date("2026-11-12T10:00:00.000Z"),
 };
 

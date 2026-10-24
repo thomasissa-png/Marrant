@@ -1,7 +1,7 @@
 /**
  * Testing Library normalise le texte du DOM (`\s+` → espace) : une espace insécable
  * rendue devient une espace ordinaire. Pour chercher un texte de config qui en contient
- * (prix « 2,99 €/mois »), normaliser l'attendu de la même façon.
+ * (prix « 1,99 €/mois »), normaliser l'attendu de la même façon.
  *
  * Revue visuelle s21 (décision 4 du verdict @design) : `frTypo` affiche l'apostrophe entre deux
  * lettres en apostrophe typographique (« l’étape »), sans changer un mot. `normalise` fait de même,

@@ -367,7 +367,7 @@ function premiumOffer(price: string, billingDuration: "P1M" | "P1Y", name: strin
   };
 }
 
-/** Prix schema.org depuis les centimes : 2499 → "24.99". */
+/** Prix schema.org depuis les centimes : 1699 → "16.99". */
 function schemaPrice(cents: number): string {
   return (cents / 100).toFixed(2);
 }
@@ -403,7 +403,7 @@ export function buildProductJsonLd({ annualAvailable = false }: { annualAvailabl
         ]
       : {
           "@type": "Offer",
-          price: "2.99",
+          price: schemaPrice(PREMIUM_MONTHLY_PRICE_CENTS),
           priceCurrency: "EUR",
           availability: "https://schema.org/InStock",
           url: `${BASE_URL}/abonnement`,
@@ -491,7 +491,7 @@ export function buildCourseJsonLd(course: {
     isAccessibleForFree: false,
     offers: {
       "@type": "Offer",
-      price: "2.99",
+      price: schemaPrice(PREMIUM_MONTHLY_PRICE_CENTS),
       priceCurrency: "EUR",
       availability: "https://schema.org/InStock",
       url: `${BASE_URL}/abonnement`,

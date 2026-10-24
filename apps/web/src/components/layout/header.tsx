@@ -40,7 +40,7 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
  *    1280 (px-2 depuis la revue v3 m4, pour le libellé complet du bouton prix) ;
  *  - recherche : bouton loupe de 44 px de 1024 à 1279 (ouvre le panneau `#mobile-search`),
  *    champ de 176 px (`w-44`) dès 1280 ;
- *  - actions : visiteur « Connexion » + « 2,99 €/mois » de 1024 à 1279, « Premium · 2,99 €/mois »
+ *  - actions : visiteur « Connexion » + « 1,99 €/mois » de 1024 à 1279, « Premium · 1,99 €/mois »
  *    dès 1280 (s21, vers /abonnement) ; compte sans abonnement : le même bouton (QA v4 m-3)
  *    + menu de compte 44 px (« Favoris », « Mon profil », « Déconnexion » regroupés,
  *    `account-menu.tsx`) ; abonné : menu de compte seul.
@@ -179,7 +179,7 @@ export function Header() {
                 Connexion
               </Link>
             )}
-            {/* Concision v5 : « Premium · 2,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
+            {/* Concision v5 : « Premium · 1,99 €/mois » (182 px) ne tient pas de 1 024 à 1 279 px
                 (61 px de trop à 1 024, mesuré) : libellé court, même lien et même nom accessible.
                 Revue v3 m4 : dès 1 280 px, onglets en px-2 au lieu de px-3 (56 px regagnés pour
                 29 manquants) et libellé complet. QA v4 m-3 : même bouton pour le compte sans
@@ -214,7 +214,7 @@ export function Header() {
             )}
             {/* s20 (audit conversion, lot 1), s21 (B6) puis concision v5 : bouton prix visible sur
                 mobile à toutes les largeurs (même lien que sur ordinateur, prixHref, src=header),
-                cible de 44 px. « Premium · 2,99 €/mois » dès 640 px, où il tient à côté du logo,
+                cible de 44 px. « Premium · 1,99 €/mois » dès 640 px, où il tient à côté du logo,
                 de « Connexion », de la loupe et du menu (il lui faut 447 px seul, 590 px avec
                 « Connexion » et la loupe) ; en dessous, repli « Premium » (trajet de conversion s21 ; largeurs
                 mesurées : REPLIT_ACTIONS.md, « Concision du tunnel (textes) »). Masqué sur les pages chaudes.
@@ -231,7 +231,7 @@ export function Header() {
                   isMenuOpen && "invisible",
                 )}
               >
-                {/* Trajet de conversion s21 : repli « Premium » sous 640 px (« Premium · 2,99 € » débordait à 320, 360 et 375 px). */}
+                {/* Trajet de conversion s21 : repli « Premium » sous 640 px (« Premium · 1,99 € » débordait à 320, 360 et 375 px). */}
                 <span className="sm:hidden">{EN_TETE.boutonCourt}</span>
                 <span className="hidden sm:inline">{EN_TETE.bouton}</span>
               </Link>

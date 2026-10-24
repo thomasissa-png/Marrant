@@ -52,10 +52,10 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
 
   it("formules, bouton, suite, « Déjà un compte ? »", () => {
     expect([FORMULES.mensuel, FORMULES.suffixeMensuel, FORMULES.annuel, FORMULES.suffixeAnnuel]).toEqual(["Mensuel", "TTC / mois", "Annuel", "TTC / an"]);
-    expect(t(PREMIUM_ANNUAL_EQUIVALENT_LABEL)).toBe("soit 2,08 € par mois");
+    expect(t(PREMIUM_ANNUAL_EQUIVALENT_LABEL)).toBe("soit 1,42 € par mois");
     expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
-    expect(t(ABONNEMENT_ACHAT.bouton("monthly"))).toBe("S’abonner · 2,99 €/mois");
-    expect(t(ABONNEMENT_ACHAT.bouton("annual"))).toBe("S’abonner · 24,99 €/an");
+    expect(t(ABONNEMENT_ACHAT.bouton("monthly"))).toBe("S’abonner · 1,99 €/mois");
+    expect(t(ABONNEMENT_ACHAT.bouton("annual"))).toBe("S’abonner · 16,99 €/an");
     expect(ABONNEMENT_ACHAT.chargement).toBe("On t’emmène au paiement…");
     expect(ABONNEMENT_ACHAT.suiteVisiteur).toBe("D’abord ton compte, puis le paiement sur Stripe.");
     // v2 A04 : renouvellement de l'annuel (affiché seulement en annuel).
@@ -101,16 +101,16 @@ describe("/abonnement : textes v2 mot pour mot (étalon A inchangé)", () => {
     expect(PAS_ENCORE_SUR_SANS_COMPTE).toBe("Sans compte.");
     // v3 AT1 à AT3.
     expect([ATTENTE_PAIEMENT.titre, ATTENTE_PAIEMENT.texte]).toEqual(["Dernière étape.", "On t’emmène au paiement sécurisé par Stripe…"]);
-    expect(t(ATTENTE_PAIEMENT.formule("monthly"))).toBe("Premium, 2,99 €/mois.");
+    expect(t(ATTENTE_PAIEMENT.formule("monthly"))).toBe("Premium, 1,99 €/mois.");
     // v3 AT3 : ligne exacte de /register (deux écritures du même fait corrigées).
-    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
-    expect(t(rappelFormule("annual", { saufResiliation: true }))).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(t(ATTENTE_PAIEMENT.formule("annual"))).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(t(rappelFormule("annual", { saufResiliation: true }))).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
     // @legal (tour 2) : jamais « au même prix ».
     expect(rappelFormule("annual", { saufResiliation: true })).not.toMatch(/même prix/);
     // Prix TTC partout, « TTC » écrit seulement sur les cartes de formule (consigne de Thomas).
     expect(ATTENTE_PAIEMENT.formule("annual")).not.toMatch(/TTC/);
     // Prix hors cartes de formule : sans « TTC » (v2 W04, G02, A18).
-    expect([t(prixLabel("monthly")), t(prixLabel("annual"))]).toEqual(["2,99 €/mois", "24,99 €/an"]);
+    expect([t(prixLabel("monthly")), t(prixLabel("annual"))]).toEqual(["1,99 €/mois", "16,99 €/an"]);
     // v3 BV1 à BV3.
     expect(BIENVENUE_PREMIUM.texte).toBe("Tout est ouvert : les listes, les parcours, les carnets. Sers-toi.");
     expect(BIENVENUE_PREMIUM.reprise).toBe("Tout est ouvert : les listes, les parcours, les carnets. Reprends là où tu t’étais arrêté.");
@@ -179,9 +179,9 @@ describe("plafond de mots de /abonnement (230, validé par Thomas le 19/10 ; v2 
       ABONNEMENT_HAUT.preuve,
       ...avantagesPremium(lettre),
       FORMULES.mensuel,
-      "2,99 € TTC / mois",
+      "1,99 € TTC / mois",
       FORMULES.annuel,
-      "24,99 € TTC / an",
+      "16,99 € TTC / an",
       PREMIUM_ANNUAL_EQUIVALENT_LABEL,
       ANNUEL_MOIS_OFFERTS_LABEL,
       ABONNEMENT_ACHAT.bouton("monthly"),

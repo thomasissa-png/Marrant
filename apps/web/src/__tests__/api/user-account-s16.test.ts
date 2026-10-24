@@ -65,7 +65,7 @@ describe("getSubscriptionSummary (reco 11)", () => {
   const base = {
     status: "ACTIVE",
     billingInterval: "year",
-    priceAmountCents: 2499,
+    priceAmountCents: 1699,
     currentPeriodEnd: end,
     cancelAtPeriodEnd: false,
     stripeCustomerId: "cus_1",
@@ -77,7 +77,7 @@ describe("getSubscriptionSummary (reco 11)", () => {
     await expect(getSubscriptionSummary("u1")).resolves.toEqual({
       status: "ACTIVE",
       formule: "annual",
-      priceCents: 2499,
+      priceCents: 1699,
       currentPeriodEnd: end.toISOString(),
       cancelAtPeriodEnd: false,
       hasPortal: true,
@@ -91,16 +91,16 @@ describe("getSubscriptionSummary (reco 11)", () => {
     stripeApi.subscriptions.retrieve.mockResolvedValue({
       cancel_at_period_end: true,
       current_period_end: end.getTime() / 1000,
-      items: { data: [{ price: { unit_amount: 299, recurring: { interval: "month" } } }] },
+      items: { data: [{ price: { unit_amount: 199, recurring: { interval: "month" } } }] },
     });
     const s = await getSubscriptionSummary("u1");
-    expect(s).toMatchObject({ formule: "monthly", priceCents: 299, currentPeriodEnd: end.toISOString(), cancelAtPeriodEnd: true });
+    expect(s).toMatchObject({ formule: "monthly", priceCents: 199, currentPeriodEnd: end.toISOString(), cancelAtPeriodEnd: true });
   });
 
   it("Stripe indisponible : résumé partiel, pas d'erreur ; jamais abonné : null", async () => {
     mockDb.subscription.findUnique.mockResolvedValue({ ...base, billingInterval: null });
     stripeApi.subscriptions.retrieve.mockRejectedValue(new Error("timeout"));
-    await expect(getSubscriptionSummary("u1")).resolves.toMatchObject({ formule: null, priceCents: 2499 });
+    await expect(getSubscriptionSummary("u1")).resolves.toMatchObject({ formule: null, priceCents: 1699 });
     mockDb.subscription.findUnique.mockResolvedValue(null);
     await expect(getSubscriptionSummary("u1")).resolves.toBeNull();
   });

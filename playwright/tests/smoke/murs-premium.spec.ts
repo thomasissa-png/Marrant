@@ -117,7 +117,7 @@ test.describe("Murs Premium @smoke", () => {
 
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
-    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ». Revue v3 m6 (9a03c41) : quiz fini ou en
+    // Concision v5 : « Passer à l'étape 2 · 1,99 €/mois ». Revue v3 m6 (9a03c41) : quiz fini ou en
     // cours, le visiteur passe par /register (src=parcours-etape), le paiement s'ouvre ensuite
     // (callbackUrl vers /abonnement, retour au parcours). Même attendu que concision-s21.spec.ts.
     const cta = page.getByRole("link", { name: VALIDATION_ETAPE.bouton });
@@ -139,9 +139,9 @@ test.describe("Murs Premium @smoke", () => {
     const etape1 = page.getByRole("button", { name: /^Étape 1 :/ });
     if ((await etape1.getAttribute("aria-expanded")) !== "true") await etape1.click();
     await expect(page.getByText(texteValide(VALIDATION_ETAPE.texte))).toBeVisible();
-    // Concision v5 : « Passer à l'étape 2 · 2,99 €/mois ».
+    // Concision v5 : « Passer à l'étape 2 · 1,99 €/mois ».
     await expect(page.getByRole("link", { name: VALIDATION_ETAPE.bouton })).toBeVisible();
-    // Nom exact : le bouton d'en-tête s'appelle « Premium, 2,99 € par mois : voir l'offre » (trajet de conversion s21).
+    // Nom exact : le bouton d'en-tête s'appelle « Premium, 1,99 € par mois : voir l'offre » (trajet de conversion s21).
     await expect(page.getByRole("link", { name: /^Voir l['’]offre Premium$/ })).toHaveCount(0);
   });
 });

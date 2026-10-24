@@ -40,7 +40,7 @@ describe("RegisterPage", () => {
     // textes-trajet-v2 G01, G02, G06 : titre, rappel de formule, Stripe nommé ; plus d'« Étape 1 sur 2 ».
     expect(screen.queryByText("Étape 1 sur 2")).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { level: 1, name: "Ton compte, puis le paiement" })).toBeInTheDocument();
-    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 2,99 €/mois.");
+    expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe("Premium, 1,99 €/mois.");
     expect(screen.getByTestId("register-stripe")).toHaveTextContent("Paiement sécurisé par Stripe.");
     expect(screen.queryByText(/Étape 2 : le paiement/)).not.toBeInTheDocument();
     expect(screen.queryByText(/Retour à l/)).not.toBeInTheDocument();
@@ -246,7 +246,7 @@ describe("RegisterPage", () => {
       await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/abonnement?plan=annual&auto=1"));
       // Rappel de la formule annuelle choisie (v2 G02, correction @legal).
       expect(screen.getByTestId("register-rappel-offre").textContent?.replace(/\s/g, " ")).toBe(
-        "Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.",
+        "Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.",
       );
     });
 

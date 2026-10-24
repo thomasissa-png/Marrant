@@ -153,12 +153,12 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
         window.scrollTo({ top: principal.getBoundingClientRect().bottom + window.scrollY + 40, behavior: "instant" as ScrollBehavior });
       });
       await expect(page.getByTestId("abonnement-barre-collante")).toHaveAttribute("data-visible", "oui");
-      await expect(page.getByTestId("abonnement-barre-collante")).toContainText("24,99");
+      await expect(page.getByTestId("abonnement-barre-collante")).toContainText("16,99");
       await capture(c, "02b-barre-fixe-annuel");
       await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior }));
       await capture(c, "03-abonnement-annuel-complete", true);
       await page.getByTestId("abonnement-bouton-achat").click();
-      await expect(page.getByTestId("register-rappel-offre")).toContainText("24,99");
+      await expect(page.getByTestId("register-rappel-offre")).toContainText("16,99");
       await inscription(c, "header", "stripe", "annuel");
     });
 
@@ -267,7 +267,7 @@ test.describe("Captures des trajets de conversion s21, tour 3 (375 × 700 et 320
     test(`FAQ ouverte, question prix, ${taille.nom}`, async ({ page }) => {
       const c = await preparer(page, "FAQ-prix", taille);
       await page.goto("/abonnement?src=header");
-      const question = page.locator("details summary").filter({ hasText: /2,99\s€\/mois, c’est vraiment tout/ });
+      const question = page.locator("details summary").filter({ hasText: /1,99\s€\/mois, c’est vraiment tout/ });
       await question.scrollIntoViewIfNeeded();
       await question.click();
       await expect(page.locator("details[open]")).toContainText("Les 14 jours courent dès ton abonnement");

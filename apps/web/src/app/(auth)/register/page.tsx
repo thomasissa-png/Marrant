@@ -39,8 +39,8 @@ const OAUTH_ERRORS: Record<string, string> = {
 /**
  * Rappel de la formule choisie, avec le nom unique de l'offre (« Premium »,
  * D4 s16) et le prix TTC (validé à l'aveugle s21, duel /register, 3/3) :
- * « Premium, 2,99 € TTC par mois, annulable à tout moment. » ; en annuel,
- * seul le prix change (« 24,99 € TTC par an »).
+ * « Premium, 1,99 € TTC par mois, annulable à tout moment. » ; en annuel,
+ * seul le prix change (« 16,99 € TTC par an »).
  */
 /**
  * Motif d'échec mesuré (`inscription-echec`, audit s16 reco 17) : statut HTTP

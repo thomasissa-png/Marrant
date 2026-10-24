@@ -146,7 +146,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       const avant = await basDe(page, "abonnement-bouton-achat");
       const garantieMensuel = await basDe(page, "reassurance-paiement");
       await annuel.click();
-      await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/24,99/);
+      await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/16,99/);
       // Plus de saut à la bascule.
       expect(await basDe(page, "abonnement-bouton-achat")).toBe(avant);
       const garantieAnnuel = await basDe(page, "reassurance-paiement");
@@ -168,7 +168,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       expect(lignes, "ligne compte sur une ligne").toBe(1);
       expect(await basDe(page, "abonnement-suite"), "ligne compte au premier écran").toBeLessThanOrEqual(640);
       // Carte Annuel : équivalent et mois offerts sur une ligne, séparés par « · ».
-      await expect(annuel).toContainText(/soit 2,08\s€ par mois\s·\splus de 3 mois offerts/);
+      await expect(annuel).toContainText(/soit 1,42\s€ par mois\s·\splus de 3 mois offerts/);
     });
   }
 
@@ -204,7 +204,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       window.scrollTo(0, principal.getBoundingClientRect().bottom + window.scrollY + 40);
     });
     await expect(barre).toHaveAttribute("data-visible", "oui");
-    await expect(barre.getByRole("link")).toHaveText(/^S’abonner\s·\s24,99\s€\/an$/);
+    await expect(barre.getByRole("link")).toHaveText(/^S’abonner\s·\s16,99\s€\/an$/);
     const hBarre = (await barre.boundingBox())!.height;
     const marge = await page.evaluate(() => {
       const offre = document.querySelector("[data-testid='abonnement-offre']")!;

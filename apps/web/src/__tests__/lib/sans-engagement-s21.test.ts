@@ -46,6 +46,6 @@ describe("« sans engagement » retiré (partie A)", () => {
   it("agent marketing : la consigne interdit « sans engagement »", () => {
     const consigne = lire("lib/ai/agents/marketing-agent.ts");
     expect(consigne).toContain("résiliable en ligne. N'écris JAMAIS « sans engagement »");
-    expect(consigne).not.toContain("2,99 €/mois, sans engagement");
+    expect(consigne).not.toContain("1,99 €/mois, sans engagement");
   });
 });

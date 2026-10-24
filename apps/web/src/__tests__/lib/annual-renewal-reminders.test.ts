@@ -94,7 +94,7 @@ function sub(over: Partial<FakeSub> = {}): FakeSub {
     billingInterval: "year",
     cancelAtPeriodEnd: false,
     currentPeriodEnd: inDays(40, 3600_000),
-    priceAmountCents: 2499,
+    priceAmountCents: 1699,
     user: { email: "lea@example.fr", name: "Léa Martin" },
     ...over,
   };
@@ -138,7 +138,7 @@ describe("fenêtre d'envoi", () => {
 describe("cibles", () => {
   it("ignore le mensuel, l'annulation programmée et les abonnements non actifs", async () => {
     const { deps, sendEmail, prisma } = makeDb([
-      sub({ id: "monthly", billingInterval: "month", priceAmountCents: 299, user: { email: "m@x.fr", name: null } }),
+      sub({ id: "monthly", billingInterval: "month", priceAmountCents: 199, user: { email: "m@x.fr", name: null } }),
       sub({ id: "launch", billingInterval: "month", priceAmountCents: 99, user: { email: "l@x.fr", name: null } }),
       sub({ id: "legacy", billingInterval: null, priceAmountCents: null, user: { email: "n@x.fr", name: null } }),
       sub({ id: "canceling", cancelAtPeriodEnd: true, user: { email: "c@x.fr", name: null } }),
@@ -212,13 +212,13 @@ describe("anti-doublon (subscriptionId, periodEnd)", () => {
 
 describe("contenu de l'email (texte @legal)", () => {
   it("objet et variables : date française Europe/Paris, montant réel, lien de gestion", async () => {
-    const { deps, sendEmail } = makeDb([sub({ currentPeriodEnd: new Date("2026-11-12T10:00:00Z"), priceAmountCents: 2499 })]);
+    const { deps, sendEmail } = makeDb([sub({ currentPeriodEnd: new Date("2026-11-12T10:00:00Z"), priceAmountCents: 1699 })]);
     await runAnnualRenewalReminders(new Date("2026-10-03T08:00:00Z"), deps);
     const [, subject, text] = sendEmail.mock.calls[0] as unknown as [string, string, string];
     expect(subject).toBe("Ton abonnement annuel Deviens Marrant se renouvelle le 12 novembre 2026");
     expect(text.startsWith("Salut Léa,\n")).toBe(true);
     expect(text).toContain("Date de renouvellement : 12 novembre 2026");
-    expect(text).toContain("Montant : 24,99\u00A0€ TTC pour 12 mois");
+    expect(text).toContain("Montant : 16,99\u00A0€ TTC pour 12 mois");
     // Lot G (@legal point 14) : « au plus tard la veille », plus « avant le ».
     expect(text).toContain("Pour ne pas renouveler : résilie au plus tard la veille, le 11 novembre 2026");
     expect(text).not.toContain("résilie avant le");
@@ -231,7 +231,7 @@ describe("contenu de l'email (texte @legal)", () => {
     const email = renderAnnualRenewalReminder({
       prenom: null,
       renewalDate: new Date("2026-11-30T23:30:00Z"), // 1er décembre 00h30 à Paris
-      amountCents: 2499,
+      amountCents: 1699,
       manageUrl: "https://x/profil",
     });
     expect(email.text.startsWith("Salut,\n")).toBe(true);

@@ -66,7 +66,7 @@ describe("Glossaire et à-propos : bloc payant masqué pour un abonné", () => {
   beforeEach(() => useSession.mockReturnValue({ status: "authenticated" }));
 
   it.each([
-    // s21 (E5, E6) : libellé validé « Tout ouvrir · 2,99 €/mois ».
+    // s21 (E5, E6) : libellé validé « Tout ouvrir · 1,99 €/mois ».
     ["glossaire", () => <GlossairePage />, /^Tout ouvrir/],
     ["à-propos", () => <AProposPage />, /^Tout ouvrir/],
   ] as const)("%s", (_nom, page, bouton) => {

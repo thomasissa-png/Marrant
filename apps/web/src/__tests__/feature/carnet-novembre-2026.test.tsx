@@ -118,7 +118,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
     expect(html).toContain('id="fiche-2026-10-15"');
     expect(html).not.toContain("2026-11");
     for (const f of novembre.fiches) expect(html).not.toContain(f.reponse);
-    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Ouvrir tout le carnet · 2,99 €/mois");
+    expect(t(screen.getByTestId("carnet-paywall-bouton"))).toBe("Ouvrir tout le carnet · 1,99 €/mois");
     // Numéro = position réelle dans le carnet : offerte 15e ; liste verrouillée réduite à 3 titres (v5).
     expect(html).toContain(">Situation 15 · offerte<");
     expect(html).toContain(">Situation 3<");
@@ -150,7 +150,7 @@ describe("/carnet non abonné, de part et d'autre de minuit", () => {
       "Ça, c'était la réplique offerte. Il en reste 29.",
     );
     const bouton = screen.getByTestId("carnet-paywall-bouton");
-    expect(t(bouton)).toBe("Ouvrir tout le carnet · 2,99 €/mois");
+    expect(t(bouton)).toBe("Ouvrir tout le carnet · 1,99 €/mois");
     expect(bouton.closest("a") ?? bouton).toHaveAttribute("href", "/abonnement?returnTo=%2Fcarnet&src=carnet");
   });
 });

@@ -41,7 +41,7 @@ test.describe("Recaptures de la finition du tour 3", () => {
         await expect(page.getByTestId("abonnement-suite")).toBeVisible();
         await capture(page, `${trajet}/${t.nom}`, "02-abonnement-premier-ecran-mensuel");
         await page.getByTestId("formule-annual").click();
-        await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/24,99/);
+        await expect(page.getByTestId("abonnement-bouton-achat")).toHaveText(/16,99/);
         await capture(page, `${trajet}/${t.nom}`, "02-abonnement-premier-ecran-annuel");
       });
     }

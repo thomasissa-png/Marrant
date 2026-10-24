@@ -297,7 +297,7 @@ describe("HumorQuiz", () => {
       await finir();
       const bloc = document.querySelector<HTMLElement>("[data-quiz-orientation-cta]")!;
       const lien = bloc.querySelector("a")!;
-      expect((lien.textContent ?? "").replace(/\s/g, " ")).toBe("Tout ouvrir · 2,99 €/mois");
+      expect((lien.textContent ?? "").replace(/\s/g, " ")).toBe("Tout ouvrir · 1,99 €/mois");
       expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fparcours%2Frepartie&src=onboarding");
       expect(bloc.textContent).not.toContain("Premium ouvre ce parcours");
     });
@@ -312,7 +312,7 @@ describe("HumorQuiz", () => {
       const texte = (bloc.textContent ?? "").replace(/\u00a0/g, " ");
       expect(texte).toBe(
         // Trajet de conversion s21 §2 : ligne d'objet avant « S'abonner » (le compte paie sans avoir lu l'offre).
-        "Ton parcours : RépartiePour toi si on te chambre et que tu cherches encore quoi répondre.Premium ouvre ce parcours et tout le reste.S’abonner · 2,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
+        "Ton parcours : RépartiePour toi si on te chambre et que tu cherches encore quoi répondre.Premium ouvre ce parcours et tout le reste.S’abonner · 1,99 €/moisPremium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.",
       );
       const gratuit = screen.getByRole("button", { name: /^Tester l['’]étape\s1\sde Répartie, gratuite$/ });
       expect(document.body.textContent).not.toMatch(/Ton quiz te conseille|Ton compte est prêt|Voir par où commencer|Tout débloquer/);

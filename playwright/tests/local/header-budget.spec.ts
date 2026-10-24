@@ -21,19 +21,19 @@ const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
-/** Bouton prix de l'en-tête, nom accessible « Premium, 2,99 € par mois : voir l'offre » (trajet de conversion s21 §2). */
-const PRIX = /^Premium, 2,99\s€ par mois : voir l['’]offre$/;
+/** Bouton prix de l'en-tête, nom accessible « Premium, 1,99 € par mois : voir l'offre » (trajet de conversion s21 §2). */
+const PRIX = /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
 
 /**
  * Libellé visible du bouton prix sur téléphone (trajet de conversion s21, textes-trajet-v1 §2) :
- * repli « Premium » sous 640 px (« Premium · 2,99 € » débordait : page de 330 px à 320, 377 px à 360
- * et à 375), « Premium · 2,99 €/mois » au-delà.
+ * repli « Premium » sous 640 px (« Premium · 1,99 € » débordait : page de 330 px à 320, 377 px à 360
+ * et à 375), « Premium · 1,99 €/mois » au-delà.
  */
 const libelleMobile = (largeur: number): RegExp =>
-  largeur < 640 ? /^Premium$/ : /^Premium\s·\s2,99\s€\/mois$/;
+  largeur < 640 ? /^Premium$/ : /^Premium\s·\s1,99\s€\/mois$/;
 /**
  * Largeurs de téléphone (concision v5) : bouton prix visible à toutes les largeurs, libellé court
- * « 2,99 €/mois » sous 640 px, « Premium · 2,99 €/mois » au-delà (mesuré : il lui faut 590 px avec
+ * « 1,99 €/mois » sous 640 px, « Premium · 1,99 €/mois » au-delà (mesuré : il lui faut 590 px avec
  * « Connexion » et la loupe).
  */
 const LARGEURS_MOBILES = [320, 360, 375, 414, 640, 768];
@@ -158,14 +158,14 @@ test.describe("En-tête : budget de largeur", () => {
           const compte = barre.getByRole("button", { name: TEXTES_CONNEXION.menuCompte });
           if (etat === "visiteur") await expect(barre.getByRole("link", { name: "Connexion" })).toBeVisible();
           if (etat !== "PREMIUM") {
-            // s21 (B6) : « 2,99 €/mois » vers /abonnement?src=header (nom accessible : libellé d'abord).
+            // s21 (B6) : « 1,99 €/mois » vers /abonnement?src=header (nom accessible : libellé d'abord).
             // QA v4 m-3 : même bouton pour le compte sans abonnement (plus de « Activer mon accès »).
             const prix = barre.getByRole("link", { name: PRIX }).filter({ visible: true });
             await expect(prix).toBeVisible();
             await expect(prix).toHaveAttribute("href", HREF_PRIX);
             // Revue v3 m4 : libellé complet dès 1280 px, court de 1024 à 1279.
-            // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 2,99 € » débordait).
-            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s2,99\s€\/mois$/ : /^Premium$/);
+            // Trajet de conversion s21 : de 1 024 à 1 279 px, repli « Premium » (« Premium · 1,99 € » débordait).
+            expect(await prix.innerText()).toMatch(largeur >= 1280 ? /^Premium\s·\s1,99\s€\/mois$/ : /^Premium$/);
           } else {
             await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
           }

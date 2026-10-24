@@ -108,7 +108,7 @@ const abonnementStripe = (status: string) => ({
   status,
   current_period_end: 1_791_072_000,
   cancel_at_period_end: false,
-  items: { data: [{ price: { unit_amount: 299, recurring: { interval: "month" } } }] },
+  items: { data: [{ price: { unit_amount: 199, recurring: { interval: "month" } } }] },
 });
 
 beforeEach(() => {

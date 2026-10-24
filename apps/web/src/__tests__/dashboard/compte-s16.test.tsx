@@ -22,7 +22,7 @@ jest.mock("next/navigation", () => ({ useSearchParams: () => mockSearchParams })
 const actif: SubscriptionSummary = {
   status: "ACTIVE",
   formule: "monthly",
-  priceCents: 299,
+  priceCents: 199,
   currentPeriodEnd: "2026-11-12T10:00:00.000Z",
   cancelAtPeriodEnd: false,
   hasPortal: true,
@@ -58,21 +58,21 @@ describe("AbonnementCard (reco 11)", () => {
   it("actif mensuel : formule, prix, prochain prélèvement, changer de formule, un seul bouton de résiliation tutoyé", async () => {
     mockSummary(actif);
     render(card());
-    expect(await screen.findByText("Formule mensuelle, 2,99 €/mois")).toBeInTheDocument();
+    expect(await screen.findByText("Formule mensuelle, 1,99 €/mois")).toBeInTheDocument();
     expect(screen.getByText("Prochain prélèvement le 12 novembre 2026.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: TEXTES_ABONNEMENT.changerFormule })).toBeInTheDocument();
     expect(screen.getAllByRole("button", { name: /Résilier/ })).toHaveLength(1);
     expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
     expect(screen.getByText(/tu gardes Premium jusqu['’]au 12 novembre 2026/)).toBeInTheDocument();
-    expect(screen.getByText(/Passe à l['’]annuel : plus de 3 mois offerts, 10,89 € économisés/)).toBeInTheDocument();
+    expect(screen.getByText(/Passe à l['’]annuel : plus de 3 mois offerts, 6,89 € économisés/)).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/votre|—/);
   });
 
   it("résilié : « Premium jusqu'au … », plus de bouton de résiliation", async () => {
-    mockSummary({ ...actif, formule: "annual", priceCents: 2499, cancelAtPeriodEnd: true });
+    mockSummary({ ...actif, formule: "annual", priceCents: 1699, cancelAtPeriodEnd: true });
     render(card());
     expect(await screen.findByText("Premium jusqu’au 12 novembre 2026.")).toBeInTheDocument();
-    expect(screen.getByText("Formule annuelle, 24,99 €/an")).toBeInTheDocument();
+    expect(screen.getByText("Formule annuelle, 16,99 €/an")).toBeInTheDocument();
     expect(screen.queryByRole("button", { name: /Résilier/ })).not.toBeInTheDocument();
   });
 

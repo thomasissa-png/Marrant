@@ -4,7 +4,7 @@ import { Header } from "@/components/layout/header";
 
 /** s21 (B6) : nom accessible du bouton prix de l'en-tête (libellé visible d'abord). */
 // Trajet de conversion s21 §2 : le nom accessible commence par le texte visible (WCAG 2.5.3).
-const PRIX = /^Premium, 2,99\s€ par mois : voir l['’]offre$/;
+const PRIX = /^Premium, 1,99\s€ par mois : voir l['’]offre$/;
 
 jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),
@@ -48,15 +48,15 @@ describe("Header", () => {
     expect(screen.getAllByText("Articles").length).toBeGreaterThan(0);
   });
 
-  it("trajet de conversion s21 : « Premium · 2,99 €/mois » dès 640 px (ordinateur : dès 1 280 px), repli « Premium » en dessous et de 1 024 à 1 279 px", () => {
+  it("trajet de conversion s21 : « Premium · 1,99 €/mois » dès 640 px (ordinateur : dès 1 280 px), repli « Premium » en dessous et de 1 024 à 1 279 px", () => {
     render(<Header />);
     const liens = screen.getAllByRole("link", { name: PRIX });
     expect(liens.length).toBe(2);
-    // Ordinateur : repli « Premium » de 1 024 à 1 279 px (« Premium · 2,99 € » y débordait, mesuré), complet dès 1 280 px.
+    // Ordinateur : repli « Premium » de 1 024 à 1 279 px (« Premium · 1,99 € » y débordait, mesuré), complet dès 1 280 px.
     const [courtOrdi, completOrdi] = Array.from(liens[0].querySelectorAll("span"));
     expect(courtOrdi.textContent).toBe("Premium");
     expect(courtOrdi.className).toBe("xl:hidden");
-    expect(completOrdi.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(completOrdi.textContent).toBe("Premium\u00A0· 1,99\u00A0€/mois");
     expect(completOrdi.className).toBe("hidden xl:inline");
     // Téléphone : toujours rendu ; repli « Premium » sous 640 px, complet au-delà.
     const mobile = liens[1];
@@ -64,7 +64,7 @@ describe("Header", () => {
     const [court, complet] = Array.from(mobile.querySelectorAll("span"));
     expect(court.textContent).toBe("Premium");
     expect(court.className).toBe("sm:hidden");
-    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(complet.textContent).toBe("Premium\u00A0· 1,99\u00A0€/mois");
     expect(complet.className).toBe("hidden sm:inline");
     for (const lien of liens) expect(lien).toHaveAccessibleName(PRIX);
     expect(screen.queryByRole("link", { name: "Commencer" })).not.toBeInTheDocument();
@@ -188,7 +188,7 @@ describe("Header", () => {
     for (const lien of liens) expect(lien).toHaveAttribute("href", "/abonnement?returnTo=%2Fvannes&src=header");
     const [court, complet] = Array.from(liens[0].querySelectorAll("span"));
     expect(court.textContent).toBe("Premium");
-    expect(complet.textContent).toBe("Premium\u00A0· 2,99\u00A0€/mois");
+    expect(complet.textContent).toBe("Premium\u00A0· 1,99\u00A0€/mois");
     await userEvent.click(screen.getByRole("button", { name: "Menu" }));
     expect(screen.getAllByRole("link", { name: PRIX })).toHaveLength(3);
     expect(screen.queryByText("Activer mon accès")).not.toBeInTheDocument();

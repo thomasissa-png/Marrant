@@ -1,6 +1,6 @@
 /**
  * s21, correctif « premier paiement » sur /register (duel à l'aveugle, 3/3) :
- * - ligne du haut : prix de la formule choisie (textes-trajet-v2 G02 : « 2,99 €/mois », annuel avec
+ * - ligne du haut : prix de la formule choisie (textes-trajet-v2 G02 : « 1,99 €/mois », annuel avec
  *   son renouvellement, correction @legal du tour 2 ; TTC reste sur la carte d'offre et chez Stripe) ;
  * - ligne du bas : seul le premier paiement est remboursable (REASS unique depuis la concision v5) ;
  * - plus aucune trace de « remboursé sous 14 jours » dans le code du site.
@@ -45,7 +45,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
   it("mensuel (par défaut) : les deux lignes validées, sans l'ancienne phrase", () => {
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 2,99 €/mois.",
+      haut: "Premium, 1,99 €/mois.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
@@ -57,7 +57,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
     mockSearchParams.set("callbackUrl", "/abonnement?plan=annual");
     render(<RegisterPage />);
     expect(lignes()).toEqual({
-      haut: "Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.",
+      haut: "Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.",
       bas: LIGNE_BAS,
     });
     expect(textePage()).not.toContain(ANCIENNE_PHRASE);
@@ -69,7 +69,7 @@ describe("/register, lignes prix et remboursement (s21)", () => {
   it("annuel par ?plan=annual : même ligne du haut", () => {
     mockSearchParams.set("plan", "annual");
     render(<RegisterPage />);
-    expect(lignes().haut).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation.");
+    expect(lignes().haut).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation.");
   });
 
   it("aucun fichier de apps/web/src (hors tests) ne contient encore « remboursé sous 14 jours »", () => {

@@ -32,7 +32,7 @@ const db: FunnelDbCounts = {
   resiliations: 1,
   resiliationsProgrammees: 1,
   abonnesActifs: 2,
-  mrrCents: 299 + 2499 / 12,
+  mrrCents: 199 + 1699 / 12,
 };
 
 beforeEach(() => {
@@ -119,7 +119,7 @@ describe("buildFunnelSectionHtml", () => {
     ]) {
       expect(html).toContain(label);
     }
-    expect(html).toContain("5,07 €");
+    expect(html).toContain("3,41 €");
     expect(html).not.toContain("Section partielle");
     expect(html).not.toContain("—");
   });

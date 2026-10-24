@@ -55,14 +55,14 @@ describe("409 au checkout : message + lien /profil", () => {
   it("/abonnement : impayé", async () => {
     mockCheckout(409, IMPAYE);
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s2,99/ })[0]);
+    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s1,99/ })[0]);
     await expectConflict(TEXTES_CHECKOUT.impaye, "paiement-en-retard");
   });
 
   it("/abonnement : autre erreur = toast habituel, pas d'avis", async () => {
     mockCheckout(500, { error: "x" });
     render(<AbonnementView annualAvailable={false} />);
-    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s2,99/ })[0]);
+    await userEvent.click(screen.getAllByRole("button", { name: /^S’abonner\s·\s1,99/ })[0]);
     expect(mockToast).toHaveBeenCalledWith("Le paiement n’a pas pu démarrer. Réessaie dans un instant.", "error");
     expect(screen.queryByTestId("checkout-conflit")).not.toBeInTheDocument();
   });
@@ -81,7 +81,7 @@ describe("409 au checkout : message + lien /profil", () => {
   it("accueil (bloc Premium) : déjà abonné", async () => {
     mockCheckout(409, DEJA);
     render(<PremiumCta />);
-    await userEvent.click(screen.getByRole("button", { name: /2,99/ }));
+    await userEvent.click(screen.getByRole("button", { name: /1,99/ }));
     await expectConflict(TEXTES_CHECKOUT.dejaAbonne, "deja-abonne");
   });
 });

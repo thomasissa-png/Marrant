@@ -3,7 +3,7 @@ import type { Page } from "@playwright/test";
 
 /**
  * Revue visuelle s21, tour 4 (verdict @design, majeur T3-01) : à 375 px, tout bouton d'appel qui porte
- * un prix (« Voir la suite des conseils · 2,99 €/mois », « Décrypter cette vidéo · 2,99 €/mois »…)
+ * un prix (« Voir la suite des conseils · 1,99 €/mois », « Décrypter cette vidéo · 1,99 €/mois »…)
  * tient sur UNE ligne, sur toutes les pages qui en ont un : même rôle, même hauteur partout.
  * Bouton de 48 px de haut (min-h-12) : une ligne = 52 px au plus ; deux lignes = 60 px et plus.
  * Le bouton prix de l'en-tête est hors `main` (figé par `header-budget`).
@@ -89,7 +89,7 @@ test.describe("Boutons prix sur une ligne à 375 px @s21", () => {
 
 /**
  * À 320 px, certains libellés validés ne tiennent pas sur une ligne même en 15 px (« Voir la suite des
- * conseils · 2,99 €/mois ») : ils reviennent à la ligne, mais leur texte ne sort jamais du bouton.
+ * conseils · 1,99 €/mois ») : ils reviennent à la ligne, mais leur texte ne sort jamais du bouton.
  */
 test.describe("Boutons prix à 320 px : texte dans le bouton @s21", () => {
   localSeulement();

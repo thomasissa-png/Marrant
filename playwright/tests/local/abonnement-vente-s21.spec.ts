@@ -6,13 +6,13 @@ import { test, expect, localSeulement, creerCompte, connecter } from "../support
  * Trajet de conversion s21 : page de vente /abonnement (docs/ux/trajet-conversion-s21.md §5,
  * docs/copy/conversion-s21/textes-trajet-v1.md).
  * - Premier écran à 375 × 812 (bureau et émulation mobile tactile) : le bouton d'achat
- *   « S'abonner · 2,99 €/mois » est visible sans défiler, sur UNE ligne.
+ *   « S'abonner · 1,99 €/mois » est visible sans défiler, sur UNE ligne.
  * - Promesse de la lettre à `false` : 3 avantages, aucune ligne « Lettre par e-mail ».
  * - Retour d'inscription (`auto=1`, session) : le HTML du serveur est la page d'attente, pas la
  *   page de vente (plus de flash entre /register et Stripe).
  * - Barre collante : absente au premier écran, présente plus bas, absente devant le bouton final.
  */
-const BOUTON = /^S’abonner · 2,99 €\/mois$/;
+const BOUTON = /^S’abonner · 1,99 €\/mois$/;
 
 async function lignesDeTexte(bouton: Locator): Promise<number> {
   return bouton.evaluate((el) => {

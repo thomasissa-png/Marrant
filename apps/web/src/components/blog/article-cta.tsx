@@ -38,7 +38,7 @@ export function titreBlocFin(titre: string): string {
 /**
  * Bloc de fin unique d'un article (s20, revu s21, concision v5, puis textes-trajet-v2 F01 à F04) :
  * titre, la phrase d'argument (`BLOC_FIN.phrase`, elle remplace le texte de l'article), puis
- * 1. plein payant « Tout ouvrir · 2,99 €/mois » vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`) ;
+ * 1. plein payant « Tout ouvrir · 1,99 €/mois » vers /abonnement?src=blog-<slug> (`data-blog-cta="abonnement"`) ;
  * 2. la réassurance unique dessous ;
  * 3. lien gratuit vers l'étape 1 du parcours (`data-blog-cta="etape-1"`), « Sans compte. » dessous.
  * Plus de puces. Abonné : un seul bouton « Continuer mon parcours » (`data-blog-cta="parcours"`),

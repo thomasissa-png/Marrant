@@ -38,7 +38,7 @@ export function origineAbonnement(rawSrc: string | null | undefined, rawReturnTo
   if (src === "onboarding" && parcours) return { accroche: ACCROCHES.tonParcours(PARCOURS_NOMS[parcours]), ligneMiseEnAvant: null };
   if (src === "parcours-apercu" && parcours) return { accroche: ACCROCHES.suiteParcours(PARCOURS_NOMS[parcours]), ligneMiseEnAvant: "parcours" };
   if ((returnTo && returnTo.split(/[?#]/)[0] === "/carnet") || src === "carnet") return { accroche: ACCROCHES.carnet, ligneMiseEnAvant: "carnet" };
-  // Portes génériques « Tout ouvrir · 2,99 €/mois » (accueil, glossaire, a-propos, quiz, articles,
+  // Portes génériques « Tout ouvrir · 1,99 €/mois » (accueil, glossaire, a-propos, quiz, articles,
   // quiz d'orientation ou aperçu d'étape sans parcours) : aucune accroche, le titre « Premium ouvre
   // tout » fait l'écho (textes-trajet-v2 A02).
   return AUCUNE;

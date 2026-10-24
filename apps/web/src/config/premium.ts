@@ -1,7 +1,8 @@
 /**
  * Offre Premium : valeurs business centralisées (décisions Thomas, 03/10/2026).
  *
- * - Mensuel 2,99 €/mois ; annuel 24,99 €/an (décision Thomas 04/10/2026),
+ * - Mensuel 1,99 €/mois ; annuel 16,99 €/an (décision Thomas 24/10/2026, baisse des
+ *   prix du 04/10/2026),
  *   affiché seulement quand le prix Stripe annuel est configuré côté serveur
  *   (`isAnnualPlanAvailable()`, src/lib/premium-plan-availability.ts).
  * - Valeur principale : tous les parcours en entier, première étape offerte.
@@ -20,7 +21,7 @@ import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publicatio
 
 export const ESPACE_INSECABLE = " ";
 
-/** Format français : 299 → « 2,99 € » (virgule, espace insécable). */
+/** Format français : 199 → « 1,99 € » (virgule, espace insécable). */
 export function formatEuros(cents: number): string {
   const euros = Math.floor(cents / 100);
   const rest = String(cents % 100).padStart(2, "0");
@@ -28,25 +29,28 @@ export function formatEuros(cents: number): string {
 }
 
 /** Prix affiché du mensuel (le prix facturé est celui de STRIPE_PREMIUM_PRICE_ID). */
-export const PREMIUM_MONTHLY_PRICE_CENTS = 299;
+export const PREMIUM_MONTHLY_PRICE_CENTS = 199;
 /** Prix affiché de l'annuel (le prix facturé est celui de STRIPE_PREMIUM_ANNUAL_PRICE_ID). */
-export const PREMIUM_ANNUAL_PRICE_CENTS = 2499;
+export const PREMIUM_ANNUAL_PRICE_CENTS = 1699;
 
-/** 24,99 / 12 = 2,0825 € : « 2,08 € par mois » (centime inférieur, pas de surpromesse). */
-export const PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS = Math.floor(PREMIUM_ANNUAL_PRICE_CENTS / 12);
+/**
+ * 16,99 / 12 = 1,4158 € : « 1,42 € par mois ». Centime supérieur : le coût mensuel annoncé
+ * n'est jamais plus bas que le vrai (s22 ; l'arrondi inférieur aurait affiché 1,41 €).
+ */
+export const PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS = Math.ceil(PREMIUM_ANNUAL_PRICE_CENTS / 12);
 
-/** 2,99 × 12 = 35,88 € ; 35,88 − 24,99 = 10,89 € économisés par an. */
+/** 1,99 × 12 = 23,88 € ; 23,88 − 16,99 = 6,89 € économisés par an. */
 export const PREMIUM_ANNUAL_SAVINGS_CENTS = PREMIUM_MONTHLY_PRICE_CENTS * 12 - PREMIUM_ANNUAL_PRICE_CENTS;
 
-/** « 2,99 €/mois » */
+/** « 1,99 €/mois » */
 export const PREMIUM_PRICE_LABEL = `${formatEuros(PREMIUM_MONTHLY_PRICE_CENTS)}/mois`;
-/** « 24,99 €/an » */
+/** « 16,99 €/an » */
 export const PREMIUM_ANNUAL_PRICE_LABEL = `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)}/an`;
-/** « soit 2,08 € par mois » */
+/** « soit 1,42 € par mois » */
 export const PREMIUM_ANNUAL_EQUIVALENT_LABEL = `soit ${formatEuros(PREMIUM_ANNUAL_MONTHLY_EQUIVALENT_CENTS)} par mois`;
-/** « 10,89 € économisés par an » */
+/** « 6,89 € économisés par an » */
 export const PREMIUM_ANNUAL_SAVINGS_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par an`;
-/** « 24,99 €/an, soit 2,08 € par mois (10,89 € économisés par an) » */
+/** « 16,99 €/an, soit 1,42 € par mois (6,89 € économisés par an) » */
 export const PREMIUM_ANNUAL_SUMMARY = `${PREMIUM_ANNUAL_PRICE_LABEL}, ${PREMIUM_ANNUAL_EQUIVALENT_LABEL} (${PREMIUM_ANNUAL_SAVINGS_LABEL})`;
 
 /** Formules Premium. Mensuel par défaut partout (checkout sans paramètre compris). */

@@ -35,7 +35,7 @@ import { LAST_FREE_PARCOURS_STEP } from "@/lib/parcours-access";
 import { OFFRE_NOM, PASSER_ETAPE_2, PHRASE_SUITE_PARCOURS, rappelFormule } from "@/config/textes/offre";
 import { PARCOURS_NOMS, type ParcoursSlug } from "@/lib/entrees-parcours";
 
-/** « Libellé · 2,99 €/mois » (espace insécable avant le point médian). */
+/** « Libellé · 1,99 €/mois » (espace insécable avant le point médian). */
 const avecPrix = (libelle: string, prix: string = PREMIUM_PRICE_LABEL): string => `${libelle}${ESPACE_INSECABLE}· ${prix}`;
 
 /** `{N}` : nombre d'étapes d'un parcours, lu dans la donnée. */
@@ -157,7 +157,7 @@ export const FENETRE_PREMIUM: Readonly<Record<GesteFenetre, Readonly<Record<Fich
 /** W06 (v2) : ligne compte sous le plein, avant la REASS (visiteur seulement). Même phrase en T3 (T01). */
 export const FENETRE_COMPTE = "D’abord ton compte, puis le paiement.";
 
-/** Ligne de prix de la fenêtre (« 2,99 € /mois », W04) : montant en gros, suffixe en petit. */
+/** Ligne de prix de la fenêtre (« 1,99 € /mois », W04) : montant en gros, suffixe en petit. */
 export const FENETRE_PRIX = { montant: formatEuros(PREMIUM_MONTHLY_PRICE_CENTS), suffixe: "/mois" } as const;
 
 /** Bouton pendant l'ouverture du paiement (compte connecté). */
@@ -254,7 +254,7 @@ export const ABONNEMENT_CTA = {
 export const REGISTER_CTA = {
   /** v2 G01 : écho exact de « D'abord ton compte, puis le paiement. » (W06, T01). */
   titre: "Ton compte, puis le paiement",
-  /** v2 G02 : « Premium, 2,99 €/mois. » ; annuel « Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. » */
+  /** v2 G02 : « Premium, 1,99 €/mois. » ; annuel « Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation. » */
   planReminder: (plan: PremiumPlan) => rappelFormule(plan, { saufResiliation: true }),
   bouton: "Créer mon compte et passer au paiement",
   /** Bouton pendant l'ouverture du paiement, après la création du compte (attente dans le bouton). */

@@ -59,8 +59,8 @@ describe("carte Premium de l'accueil (B4 + B5)", () => {
 });
 
 describe("porte générique « Tout ouvrir » (trajet de conversion s21, arbitrage du 19/10)", () => {
-  it("« Tout ouvrir · 2,99 €/mois », prix lu dans la config ; plus aucun « Ouvrir les N parcours »", () => {
-    expect(normalise(libelleToutOuvrir())).toBe("Tout ouvrir · 2,99 €/mois");
+  it("« Tout ouvrir · 1,99 €/mois », prix lu dans la config ; plus aucun « Ouvrir les N parcours »", () => {
+    expect(normalise(libelleToutOuvrir())).toBe("Tout ouvrir · 1,99 €/mois");
     expect(normalise(libelleToutOuvrir())).not.toContain(`${PARCOURS_COUNT} parcours`);
   });
 

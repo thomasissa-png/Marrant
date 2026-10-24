@@ -8,7 +8,7 @@ import { buildRegisterUrl } from "@/lib/auth-links";
 import { cn } from "@/lib/utils";
 
 interface AuthCtaProps {
-  /** Par défaut : porte générique « Tout ouvrir · 2,99 €/mois » (trajet de conversion s21). */
+  /** Par défaut : porte générique « Tout ouvrir · 1,99 €/mois » (trajet de conversion s21). */
   label?: string;
   callbackUrl?: string;
   /** Source du clic pour la mesure du tunnel (kebab-case, ex. `blog-<slug>`, `quiz`). */

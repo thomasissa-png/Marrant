@@ -42,7 +42,7 @@ function stripeSubscription(over: Record<string, unknown> = {}) {
     status: "active",
     current_period_end: PERIOD_END,
     cancel_at_period_end: false,
-    items: { data: [{ price: { id: "price_annual_live", unit_amount: 2499, recurring: { interval: "year" } } }] },
+    items: { data: [{ price: { id: "price_annual_live", unit_amount: 1699, recurring: { interval: "year" } } }] },
     ...over,
   };
 }
@@ -79,7 +79,7 @@ describe("webhook Stripe : abonnement annuel", () => {
       stripeSubscriptionId: "sub_annual_1",
       currentPeriodEnd: new Date(PERIOD_END * 1000),
       billingInterval: "year",
-      priceAmountCents: 2499,
+      priceAmountCents: 1699,
       cancelAtPeriodEnd: false,
     };
     expect(upsert.create).toMatchObject(expected);

@@ -20,7 +20,7 @@ import {
 /** Nom unique de l'offre (décision D4, s16) : « Premium » partout. */
 export const OFFRE_NOM = "Premium";
 
-/** « 2,99 € TTC par mois » / « 24,99 € TTC par an » (prix de config/premium.ts). */
+/** « 1,99 € TTC par mois » / « 16,99 € TTC par an » (prix de config/premium.ts). */
 export function prixTtcLabel(plan: PremiumPlan): string {
   return plan === "annual"
     ? `${formatEuros(PREMIUM_ANNUAL_PRICE_CENTS)} TTC par an`
@@ -28,7 +28,7 @@ export function prixTtcLabel(plan: PremiumPlan): string {
 }
 
 /**
- * « 2,99 €/mois » / « 24,99 €/an » : graphie du prix hors cartes de formule (/register, page
+ * « 1,99 €/mois » / « 16,99 €/an » : graphie du prix hors cartes de formule (/register, page
  * d'attente ; textes-trajet-v2 G02, A18, W04). `prixTtcLabel` reste pour la carte d'offre et Stripe.
  */
 export function prixLabel(plan: PremiumPlan): string {
@@ -39,7 +39,7 @@ export function prixLabel(plan: PremiumPlan): string {
 export const RENOUVELE_CHAQUE_ANNEE = "renouvelé chaque année";
 
 /**
- * « Premium, 2,99 €/mois. » / annuel « Premium, 24,99 €/an, renouvelé chaque année. » (v2 A18, page
+ * « Premium, 1,99 €/mois. » / annuel « Premium, 16,99 €/an, renouvelé chaque année. » (v2 A18, page
  * d'attente). `sansResiliation: false` (/register, v2 G02) : correction @legal du tour 2, seule mention
  * ajoutée (consigne de Thomas du 19/10 : rien de plus) : « …, renouvelé chaque année, sauf résiliation. »,
  * jamais « au même prix ».
@@ -68,7 +68,7 @@ export const CGU_ACCEPTATION = {
 } as const;
 
 /**
- * Mois offerts par l'annuel, calculés : 10,89 € / 2,99 € = 3,6 mois, donc
+ * Mois offerts par l'annuel, calculés : 6,89 € / 1,99 € = 3,46 mois, donc
  * « plus de 3 mois offerts » (jamais « 4 mois », décision D5). Si l'économie
  * tombait pile sur un nombre entier de mois, on n'écrirait pas « plus de ».
  */
@@ -80,11 +80,11 @@ const MOIS_OFFERTS_EXACT = PREMIUM_ANNUAL_SAVINGS_CENTS % PREMIUM_MONTHLY_PRICE_
 export const ANNUEL_MOIS_OFFERTS_LABEL = `${MOIS_OFFERTS_EXACT ? "" : "plus de "}${ANNUEL_MOIS_OFFERTS} mois offerts`;
 
 // PROVISOIRE s16, étalon à valider
-/** « 10,89 € économisés » (profil d'un abonné mensuel, passage à l'annuel ; hors /abonnement depuis la concision v5). */
+/** « 6,89 € économisés » (profil d'un abonné mensuel, passage à l'annuel ; hors /abonnement depuis la concision v5). */
 export const ANNUEL_ECONOMIE_LABEL = `${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés`;
 
 // PROVISOIRE s16, étalon à valider
-/** « plus de 3 mois offerts, 10,89 € économisés par an » (D5 : les deux), profil d'un abonné mensuel. */
+/** « plus de 3 mois offerts, 6,89 € économisés par an » (D5 : les deux), profil d'un abonné mensuel. */
 export const ANNUEL_AVANTAGE_LABEL = `${ANNUEL_MOIS_OFFERTS_LABEL}, ${ANNUEL_ECONOMIE_LABEL} par an`;
 
 // VALIDÉ s16 (étalon 5b.2) : « Paiement annulé, rien n'a été prélevé. Tu peux réessayer quand tu veux. »
@@ -99,7 +99,7 @@ export const PAIEMENT_ANNULE = {
 export const ETAPE_LIBRE_BADGE = "Lecture libre";
 
 // VALIDÉ à l'aveugle s21, concision v5 (textes-v5-b.md §6)
-/** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 2,99 €/mois ». */
+/** Libellé du plein de fin d'étape 1 : « Passer à l'étape 2 · 1,99 €/mois ». */
 export const PASSER_ETAPE_2 = `Passer à l’étape 2${ESPACE_INSECABLE}· ${PREMIUM_PRICE_LABEL}`;
 
 /** Phrase de la fin d'étape 1 (`FIN_ETAPE_1.phrase`), reprise par la variante quiz en cours (v2 T02). */

@@ -67,7 +67,7 @@ function stripeSub(over: Record<string, unknown> = {}) {
     status: "active",
     current_period_end: PERIOD_END,
     cancel_at_period_end: false,
-    items: { data: [{ price: { unit_amount: 299, recurring: { interval: "month" } } }] },
+    items: { data: [{ price: { unit_amount: 199, recurring: { interval: "month" } } }] },
     ...over,
   };
 }
@@ -155,13 +155,13 @@ describe("reco 3 : impayé", () => {
   });
 
   it("1er échec : PAST_DUE, Premium CONSERVÉ, e-mail avec montant et date prévue (étalon 3)", async () => {
-    const res = await deliver("invoice.payment_failed", invoice({ amount_due: 299, created: 1_791_331_200 }));
+    const res = await deliver("invoice.payment_failed", invoice({ amount_due: 199, created: 1_791_331_200 }));
     expect(res.status).toBe(200);
     expect(prisma.subscription.findUnique).toHaveBeenCalledWith({ where: { stripeSubscriptionId: "sub_1" } });
     expect(prisma.subscription.update).toHaveBeenCalledWith({ where: { id: "db_sub_1" }, data: { status: "PAST_DUE" } });
     expect(prisma.user.update).not.toHaveBeenCalled();
     expect(notifyPaymentFailed).toHaveBeenCalledWith("user-1", {
-      montantCents: 299,
+      montantCents: 199,
       datePrevue: new Date(1_791_331_200 * 1000),
     });
   });
@@ -215,10 +215,10 @@ describe("reco 6 : activation après paiement", () => {
   it("succès : Premium, intervalle et montant, e-mail de confirmation, événement enregistré", async () => {
     const res = await deliver("checkout.session.completed", session());
     expect(res.status).toBe(200);
-    expect(prisma.subscription.upsert.mock.calls[0][0].create).toMatchObject({ billingInterval: "month", priceAmountCents: 299 });
+    expect(prisma.subscription.upsert.mock.calls[0][0].create).toMatchObject({ billingInterval: "month", priceAmountCents: 199 });
     expect(notifySubscriptionConfirmed).toHaveBeenCalledWith(
       "user-1",
-      expect.objectContaining({ interval: "month", montantCents: 299, prochainRenouvellement: new Date(PERIOD_END * 1000) }),
+      expect.objectContaining({ interval: "month", montantCents: 199, prochainRenouvellement: new Date(PERIOD_END * 1000) }),
     );
     expect(prisma.webhookEvent.create).toHaveBeenCalled();
   });

@@ -40,40 +40,40 @@ describe("phrase de contexte et lien gratuit (G03 à G05)", () => {
   it("mur des vannes : la suite des vannes, plus de lien gratuit", () => {
     poser({ src: "mur-vannes", callbackUrl: "/abonnement?returnTo=%2Fvannes&src=mur-vannes" });
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 2,99 €/mois. Après le paiement, la suite des vannes s’ouvre.");
+    expect(rappel()).toBe("Premium, 1,99 €/mois. Après le paiement, la suite des vannes s’ouvre.");
     expect(lienGratuit()).toBeNull();
   });
 
   it("fin d'étape 1 : étape 2 avec son titre", () => {
     poser({ src: "parcours-etape", callbackUrl: "/abonnement?returnTo=%2Fparcours%2Frepartie" });
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 2,99 €/mois. Après le paiement, l’étape 2 de Répartie s’ouvre : Le rythme et les silences.");
+    expect(rappel()).toBe("Premium, 1,99 €/mois. Après le paiement, l’étape 2 de Répartie s’ouvre : Le rythme et les silences.");
     expect(lienGratuit()).toBeNull();
   });
 
   it("en-tête, annuel : formule annuelle (correction @legal) puis « tout s'ouvre »", () => {
     poser({ src: "header", callbackUrl: "/abonnement?plan=annual&src=header" });
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 24,99 €/an, renouvelé chaque année, sauf résiliation. Après le paiement, tout s’ouvre.");
+    expect(rappel()).toBe("Premium, 16,99 €/an, renouvelé chaque année, sauf résiliation. Après le paiement, tout s’ouvre.");
     expect(lienGratuit()).toBeNull();
   });
 
   it("étoile d'une vanne (favori mémorisé) : variante « ta vanne est dans tes favoris »", () => {
     poser({ src: "modale-favoris", callbackUrl: "/abonnement?returnTo=%2Fvannes%3Ffavori%3DJOKE.j1&src=modale-favoris" });
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 2,99 €/mois. Après le paiement, ta vanne est dans tes favoris.");
+    expect(rappel()).toBe("Premium, 1,99 €/mois. Après le paiement, ta vanne est dans tes favoris.");
   });
 
   it("étoile d'un conseil : phrase de base (variante écrite pour la vanne seulement)", () => {
     poser({ src: "modale-favoris", callbackUrl: "/abonnement?returnTo=%2Fconseils%3Ffavori%3DTIP.t1&src=modale-favoris" });
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 2,99 €/mois. Après le paiement, les favoris s’ouvrent.");
+    expect(rappel()).toBe("Premium, 1,99 €/mois. Après le paiement, les favoris s’ouvrent.");
   });
 
   it.each([[{}], [{ src: "login" }]])("sans clic d'achat (%p) : aucune phrase, lien gratuit gardé", (params) => {
     poser(params);
     render(<RegisterPage />);
-    expect(rappel()).toBe("Premium, 2,99 €/mois.");
+    expect(rappel()).toBe("Premium, 1,99 €/mois.");
     expect(lienGratuit()).toBeInTheDocument();
   });
 

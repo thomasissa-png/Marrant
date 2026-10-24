@@ -43,10 +43,10 @@ beforeEach(() => {
 });
 
 describe("offre : textes calculés (D5)", () => {
-  it("annuel : plus de 3 mois offerts ET 10,89 € économisés, jamais 4 mois", () => {
+  it("annuel : plus de 3 mois offerts ET 6,89 € économisés, jamais 4 mois", () => {
     expect(ANNUEL_MOIS_OFFERTS_LABEL).toBe("plus de 3 mois offerts");
-    expect(ANNUEL_ECONOMIE_LABEL).toBe("10,89\u00A0€ économisés");
-    expect(ANNUEL_AVANTAGE_LABEL).toBe("plus de 3 mois offerts, 10,89\u00A0€ économisés par an");
+    expect(ANNUEL_ECONOMIE_LABEL).toBe("6,89\u00A0€ économisés");
+    expect(ANNUEL_AVANTAGE_LABEL).toBe("plus de 3 mois offerts, 6,89\u00A0€ économisés par an");
     expect(ANNUEL_AVANTAGE_LABEL).not.toMatch(/4 mois|—/);
   });
 });
@@ -58,7 +58,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     render(<AbonnementView annualAvailable={false} />);
     // Trajet de conversion s21 : le nom de la carte reste pour les lecteurs d'écran (le titre dit déjà Premium).
     expect(screen.getByRole("heading", { name: "Offre Premium" })).toBeInTheDocument();
-    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 2,99 € TTC / mois »
+    expect(screen.getByText("TTC / mois")).toBeInTheDocument(); // V3 s21 : « 1,99 € TTC / mois »
     // REASS unique (concision v5) sous le bouton du haut, et sous le bouton final.
     expect(screen.getByTestId("reassurance-paiement")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
     expect(screen.getByTestId("reassurance-paiement-final")).toHaveTextContent("Premium : premier paiement remboursable sous 14 jours. Résiliable depuis ton profil.");
@@ -116,7 +116,7 @@ describe("/abonnement (reco 9, 12, 17, D4)", () => {
     useSession.mockReturnValue({ status: "unauthenticated" });
     window.history.pushState({}, "", "/abonnement?src=modale-defaut");
     render(<AbonnementView annualAvailable={false} />);
-    const link = screen.getAllByText("S’abonner · 2,99 €/mois")[0];
+    const link = screen.getAllByText("S’abonner · 1,99 €/mois")[0];
     link.addEventListener("click", (e) => e.preventDefault());
     await userEvent.click(link);
     expect(mockTrack).toHaveBeenCalledWith("abonnement-clic", {

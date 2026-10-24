@@ -121,9 +121,9 @@ describe("11 blocs de fin d’article (config/blog-cta.ts) : v3 validée (correc
 });
 
 describe("prix et « 1 500+ » intacts", () => {
-  it("2,99 €/mois et 24,99 €/an", () => {
-    expect(PREMIUM_PRICE_LABEL).toBe("2,99\u00A0€/mois");
-    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("24,99\u00A0€/an");
+  it("1,99 €/mois et 16,99 €/an", () => {
+    expect(PREMIUM_PRICE_LABEL).toBe("1,99\u00A0€/mois");
+    expect(PREMIUM_ANNUAL_PRICE_LABEL).toBe("16,99\u00A0€/an");
   });
 
   it("formulations 1 500+ validées par Thomas", () => {

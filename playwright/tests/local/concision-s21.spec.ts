@@ -95,7 +95,7 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     await expect(fin).toBeVisible();
     await expect(fin.getByText("Bien joué !")).toBeVisible();
     const plein = fin.locator('a[data-fin-etape-1-cta="premium"]');
-    await expect(plein).toHaveText(/^Passer à l['’]étape 2\s·\s2,99\s€\/mois$/);
+    await expect(plein).toHaveText(/^Passer à l['’]étape 2\s·\s1,99\s€\/mois$/);
     const href = (await plein.getAttribute("href")) ?? "";
     expect(href.match(/parcours-etape/g), href).toHaveLength(1);
     const url = new URL(href, "http://localhost");

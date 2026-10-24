@@ -30,7 +30,7 @@ const ATTENDU = {
   e5: {
     titre: "Le vocabulaire, c'est fait. Reste à s'en servir.",
     paragraphe: "Placer un callback au dîner de samedi, c'est autre chose : ça se travaille.",
-    bouton: "Tout ouvrir · 2,99 €/mois",
+    bouton: "Tout ouvrir · 1,99 €/mois",
     ligne: REASS,
     lien: "Tester l'étape 1 de Répartie, gratuite",
   },
@@ -38,7 +38,7 @@ const ATTENDU = {
     titre: ["Tu parles et personne rit.", "On va arranger ça."].join(""),
     paragraphe: "Observer d'abord, roder ensuite : voilà le programme.",
     preuve: "Déjà 1 500+ inscrits.",
-    bouton: "Tout ouvrir · 2,99 €/mois",
+    bouton: "Tout ouvrir · 1,99 €/mois",
   },
 };
 
@@ -133,7 +133,7 @@ describe("sources et libellés", () => {
     expect(norm(screen.getByRole("link").textContent)).toBe(ATTENDU.e6.bouton);
   });
 
-  it("plus aucun « Commencer à 2,99 » ni « Accéder aux parcours complets » dans src/ (hors tests)", () => {
+  it("plus aucun « Commencer à 1,99 » ni « Accéder aux parcours complets » dans src/ (hors tests)", () => {
     const trouves: string[] = [];
     const parcourir = (dossier: string) => {
       for (const e of fs.readdirSync(dossier, { withFileTypes: true })) {
@@ -142,7 +142,7 @@ describe("sources et libellés", () => {
           if (e.name !== "__tests__") parcourir(chemin);
         } else if (/\.(tsx?|md|json)$/.test(e.name)) {
           const t = fs.readFileSync(chemin, "utf8");
-          if (/Commencer à (2,99|\{PREMIUM_PRICE_LABEL\}|\$\{PREMIUM_PRICE_LABEL\})|Accéder aux parcours complets/.test(t)) {
+          if (/Commencer à (1,99|\{PREMIUM_PRICE_LABEL\}|\$\{PREMIUM_PRICE_LABEL\})|Accéder aux parcours complets/.test(t)) {
             trouves.push(path.relative(SRC, chemin));
           }
         }

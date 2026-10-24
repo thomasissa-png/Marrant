@@ -93,7 +93,7 @@ describe("gabarits hors étalons (s16)", () => {
     const { text } = renderAnnualRenewalReminder({
       prenom: null,
       renewalDate: new Date("2026-11-12T00:00:00Z"),
-      amountCents: 2499,
+      amountCents: 1699,
       manageUrl: "https://deviens-marrant.fr/profil",
     });
     expect(text).not.toMatch(/gratuit/);

@@ -35,7 +35,7 @@ export const LIBELLE_SECTION_ARTICLES = "Articles";
 const POINT_MEDIAN = `${ESPACE_INSECABLE}· `;
 
 /**
- * Porte générique vers /abonnement : « Tout ouvrir · 2,99 €/mois » (arbitrage du 19/10,
+ * Porte générique vers /abonnement : « Tout ouvrir · 1,99 €/mois » (arbitrage du 19/10,
  * textes-trajet-v1 : Premium n'est pas que les parcours ; remplace l'ancien libellé qui ne nommait que les parcours).
  * Les portes contextuelles (« Voir la suite des vannes »…) gardent leur libellé. Un clic qui mène
  * au compte ou à Stripe dit l'acte : `libelleSabonner` (abonnement-vente.ts).
@@ -56,8 +56,8 @@ export const SANS_COMPTE = "Sans compte.";
 // ─── En-tête ────────────────────────────────────────────────────────────────
 
 /**
- * « Premium · 2,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` : repli « Premium » de
- * textes-trajet-v1 §2 (trajet de conversion s21), car « Premium · 2,99 € » ne tient pas à côté du logo
+ * « Premium · 1,99 €/mois » vers `/abonnement?src=header`. `boutonCourt` : repli « Premium » de
+ * textes-trajet-v1 §2 (trajet de conversion s21), car « Premium · 1,99 € » ne tient pas à côté du logo
  * et du menu (mesuré sur /conseils : page de 330 px à 320 px de large, 377 px à 360 et à 375 ; ordinateur
  * de 1 024 à 1 279 px : 1 055 px pour 1 024). Un prix sans objet n'est pas un libellé ; le prix est dans
  * le premier écran de /abonnement. Nom accessible : commence par le texte visible (WCAG 2.5.3).
@@ -87,7 +87,7 @@ export const DEMO_VANNE = {
 
 /**
  * `ArticleCta` (variante « fin », textes-trajet-v2 F01 à F05, v3 F02b et S01) : titre, la phrase
- * d'argument (elle remplace le texte propre à l'article), le plein payant « Tout ouvrir · 2,99 €/mois »,
+ * d'argument (elle remplace le texte propre à l'article), le plein payant « Tout ouvrir · 1,99 €/mois »,
  * la REASS, puis le lien gratuit, TOUJOURS « Tester l'étape 1 de {Parcours}, gratuite » (même libellé
  * et même destination que /abonnement, le mur et /register ; Répartie si le parcours n'est pas connu),
  * et « Sans compte. ».

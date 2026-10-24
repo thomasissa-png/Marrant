@@ -42,7 +42,7 @@ beforeEach(() => {
   subsRetrieve.mockResolvedValue({
     id: "sub_1",
     status: "active",
-    items: { data: [{ current_period_end: 1_791_072_000, price: { unit_amount: 2499, recurring: { interval: "year" } } }] },
+    items: { data: [{ current_period_end: 1_791_072_000, price: { unit_amount: 1699, recurring: { interval: "year" } } }] },
   });
 });
 
@@ -55,7 +55,7 @@ it("paiement confirmé : Premium avec intervalle, montant et fin de période (fo
     stripeCustomerId: "cus_1",
     stripeSubscriptionId: "sub_1",
     billingInterval: "year",
-    priceAmountCents: 2499,
+    priceAmountCents: 1699,
     cancelAtPeriodEnd: false,
     currentPeriodEnd: new Date(1_791_072_000 * 1000),
   };

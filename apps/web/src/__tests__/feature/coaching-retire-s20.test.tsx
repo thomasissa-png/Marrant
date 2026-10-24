@@ -20,7 +20,7 @@ jest.mock("@/stores/user-store", () => ({
   useUserStore: (sel: (s: { user: null }) => unknown) => sel({ user: null }),
 }));
 
-/** « 99 € » sous toutes ses graphies (espace, insécable, entité), hors 2,99 / 0,99 / 24,99. */
+/** « 99 € » sous toutes ses graphies (espace, insécable, entité), hors 1,99 / 0,99 / 16,99. */
 const PRIX_COACHING = /(^|[^0-9,])99(\s|&nbsp;)*(€|&euro;)/;
 const MOTS_COACHING = /coaching individuel|calendly|réserver un appel|\/\s*séance/i;
 
