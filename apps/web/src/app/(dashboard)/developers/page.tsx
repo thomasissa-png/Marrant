@@ -18,6 +18,7 @@ import {
   H2_WIDGET,
   TEXTE_INTRO,
   TEXTE_ENDPOINT,
+  TEXTE_ENDPOINT_NAVIGATEUR,
   TEXTE_EXEMPLE,
   EXEMPLE_REPONSE,
   CHAMPS,
@@ -79,7 +80,7 @@ const webApiJsonLd = {
   description: PAGE_DESCRIPTION,
   documentation: PAGE_URL,
   termsOfService: WIDGET_LICENCE_URL,
-  offers: { "@type": "Offer", price: 0, priceCurrency: "EUR", isAccessibleForFree: true },
+  offers: { "@type": "Offer", price: 0, priceCurrency: "EUR" },
   provider: PROVIDER,
 };
 
@@ -154,6 +155,7 @@ export default function DevelopersPage() {
         <p className={P}>{TEXTE_ENDPOINT}</p>
         <Bloc label="Endpoint" code={`GET ${API_URL}`} />
         <Bloc label="curl" code={EXEMPLE_CURL} />
+        <p className={P}>{TEXTE_ENDPOINT_NAVIGATEUR}</p>
         <Bloc label="JavaScript" code={EXEMPLE_FETCH} />
 
         <h2 className={H2}>{H2_EXEMPLE}</h2>
