@@ -12,7 +12,7 @@ const isCloudflareBuild = process.env.MARRANT_BUILD_TARGET === "cloudflare";
 // Côté TS/tests, passer par src/lib/seo-redirects.ts qui re-exporte typé.
 const { SEO_REDIRECTS } = require("./src/lib/seo-redirects.data.cjs");
 
-// Widget « La vanne du jour » (s22) : empreinte du script en ligne de /embed/*
+// Widget « La vanne du jour » (s22) : empreinte du script en ligne de /embed/vanne-du-jour
 // (même source que la route, voir src/lib/widget/embed-script.data.cjs).
 const { EMBED_INLINE_SCRIPT } = require("./src/lib/widget/embed-script.data.cjs");
 const EMBED_SCRIPT_HASH = require("crypto").createHash("sha256").update(EMBED_INLINE_SCRIPT, "utf8").digest("base64");
@@ -129,9 +129,9 @@ const nextConfig = {
         async headers() {
           return [
             {
-              // s22 : toutes les routes SAUF /embed/* (page d'iframe du widget, règle
+              // s22 : toutes les routes SAUF /embed/vanne-du-jour (page d'iframe du widget, règle
               // dédiée plus bas, sans X-Frame-Options DENY). Ordre et valeurs inchangés.
-              source: "/((?!embed/).*)",
+              source: "/((?!embed/vanne-du-jour$).*)",
               headers: [
                 COMMON_SECURITY_HEADERS[0],
                 { key: "X-Frame-Options", value: "DENY" },
@@ -146,7 +146,7 @@ const nextConfig = {
             // s22 : page d'iframe du widget, encadrable par n'importe quel site
             // (`frame-ancestors *`, pas de X-Frame-Options), jamais indexée.
             {
-              source: "/embed/:path*",
+              source: "/embed/vanne-du-jour",
               headers: [
                 ...COMMON_SECURITY_HEADERS,
                 { key: "Content-Security-Policy", value: EMBED_CSP },

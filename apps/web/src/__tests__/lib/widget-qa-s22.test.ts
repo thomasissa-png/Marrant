@@ -5,8 +5,8 @@
  * données toxiques (XSS dans la vanne, le Referer, le thème), domaines bloqués aux
  * bornes, double garde des catégories exclues, champs publics, cohérence de
  * public/widget.js avec la configuration, cache edge.
- * Les `it.failing` décrivent un défaut ouvert : ils passent tant que le défaut
- * existe et cassent quand il est corrigé (retirer alors `.failing`).
+ * Les 3 tests marqués « DÉFAUT QA s22 » étaient des `it.failing` (défauts
+ * ouverts B1, M1, m2) ; corrigés en v2, ce sont des tests normaux.
  */
 import { readFileSync } from "fs";
 import path from "path";
@@ -103,8 +103,8 @@ describe("domaines bloqués aux bornes", () => {
     expect(isDomaineBloque("a.b.exemple.fr", liste)).toBe(true);
     expect(isDomaineBloque(hostFromHeader("https://WWW.EXEMPLE.fr/x"), liste)).toBe(true);
   });
-  // DÉFAUT QA s22 (mineur) : le point final du FQDN contourne le blocage.
-  it.failing("« exemple.fr. » (FQDN avec point final) est bloqué", () => {
+  // DÉFAUT QA s22 (mineur, corrigé v2) : le point final du FQDN contourne le blocage.
+  it("« exemple.fr. » (FQDN avec point final) est bloqué", () => {
     expect(isDomaineBloque(hostFromHeader("https://exemple.fr./"), liste)).toBe(true);
   });
 });
@@ -143,10 +143,10 @@ describe("cache edge (Cache API)", () => {
     };
   }
 
-  // DÉFAUT QA s22 (majeur) : clé = jour seulement. Une vanne retirée en urgence de
+  // DÉFAUT QA s22 (majeur, corrigé v2) : clé = jour seulement. Une vanne retirée en urgence de
   // WIDGET_JOKE_IDS (redéploiement) reste servie jusqu'à minuit Paris par chaque
   // point de présence qui l'a déjà en cache (caches.default survit aux déploiements).
-  it.failing("une vanne retirée de la liste blanche n'est plus servie le jour même", async () => {
+  it("une vanne retirée de la liste blanche n'est plus servie le jour même", async () => {
     fauxCache();
     const now = new Date("2026-10-24T10:00:00Z");
     mockRows = [{ id: "a1", content: "Vanne retirée", punchline: "Chute", category: "BOULOT" }];
@@ -176,10 +176,10 @@ describe("public/widget.js", () => {
     expect(WIDGET_IFRAME_SANDBOX).not.toContain("allow-same-origin");
   });
 
-  // DÉFAUT QA s22 (majeur) : le format B insère 240 px sans place réservée. Mesuré
+  // DÉFAUT QA s22 (majeur, corrigé v2) : le format B insère 240 px sans place réservée. Mesuré
   // sous Chromium (banc QA, hôte simple) : décalage de mise en page 0,094 à 1 280 px
   // et 0,309 à 375 px, sans interaction (CLS « mauvais » au-delà de 0,25).
-  it.failing("le code à copier du format B réserve la hauteur avant l'exécution du script", () => {
+  it("le code à copier du format B réserve la hauteur avant l'exécution du script", () => {
     expect(widgetScriptSnippet()).toMatch(new RegExp(`(min-)?height:\\s*${WIDGET_IFRAME_HEIGHT}px`));
   });
 

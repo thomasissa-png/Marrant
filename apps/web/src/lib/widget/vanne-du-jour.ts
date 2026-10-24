@@ -23,10 +23,13 @@ import {
   WIDGET_UTM_CONTENT_INCONNU,
 } from "@/config/widget-vanne-du-jour";
 
+/** Type de contenu : `replique` réservé à la V1.1 (synthèse s22, point 1). */
+export type WidgetType = "vanne" | "replique";
+
 /** Vanne du jour du widget, déjà réduite aux seuls champs publiables. */
 export interface WidgetVanne {
-  type: "vanne";
-  /** Jour de Paris, AAAA-MM-JJ. */
+  type: WidgetType;
+  /** Jour UTC, AAAA-MM-JJ (convention du site : todayUTC, /api/daily). */
   date: string;
   amorce: string;
   chute: string;
@@ -36,7 +39,7 @@ export interface WidgetVanne {
 
 /** Réponse JSON publique : liste blanche de champs, texte brut. */
 export interface WidgetApiPayload {
-  type: "vanne";
+  type: WidgetType;
   date: string;
   amorce: string;
   chute: string;
@@ -51,28 +54,46 @@ const PARIS_DATE = new Intl.DateTimeFormat("en-CA", {
   month: "2-digit",
   day: "2-digit",
 });
-const PARIS_TIME = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Europe/Paris",
-  hour: "2-digit",
-  minute: "2-digit",
-  second: "2-digit",
-  hourCycle: "h23",
-});
 
-/** Jour de Paris (AAAA-MM-JJ) : même vanne pour tous les hôtes. */
+/**
+ * Jour de Paris (AAAA-MM-JJ). Depuis la v2 (QA m3), la rotation suit le jour
+ * UTC du site ; fonction conservée pour les tests QA et les rapports.
+ */
 export function parisDateKey(now: Date = new Date()): string {
   return PARIS_DATE.format(now);
 }
 
-/** Secondes restantes avant minuit, heure de Paris (au moins 1). */
-export function secondsUntilParisMidnight(now: Date = new Date()): number {
-  const [h, m, s] = PARIS_TIME.format(now).split(":").map(Number);
-  return Math.max(1, 86400 - (h * 3600 + m * 60 + s));
+/** Jour UTC (AAAA-MM-JJ), même convention que la vanne du jour du site (todayUTC). */
+export function widgetDateKey(now: Date = new Date()): string {
+  return now.toISOString().slice(0, 10);
 }
 
-/** Durée de cache partagé : jusqu'à minuit Paris, 1 h au plus. */
+/** Secondes restantes avant minuit UTC (au moins 1). */
+export function secondsUntilUtcMidnight(now: Date = new Date()): number {
+  const fin = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1);
+  return Math.max(1, Math.ceil((fin - now.getTime()) / 1000));
+}
+
+/** Durée de cache partagé : jusqu'à minuit UTC (changement de vanne), 1 h au plus. */
 export function widgetSharedMaxAge(now: Date = new Date()): number {
-  return Math.min(3600, secondsUntilParisMidnight(now));
+  return Math.min(3600, secondsUntilUtcMidnight(now));
+}
+
+/**
+ * Empreinte (FNV-1a 32 bits, 8 caractères hexadécimaux) de la liste blanche et
+ * des catégories exclues : toute liste modifiée change la clé du cache edge,
+ * donc une vanne retirée disparaît au déploiement suivant (QA M1, revue M2).
+ */
+export function widgetListFingerprint(
+  ids: readonly string[] = WIDGET_JOKE_IDS,
+  exclues: readonly string[] = WIDGET_CATEGORIES_EXCLUES,
+): string {
+  let h = 0x811c9dc5;
+  for (const ch of `${ids.join(",")}|${exclues.join(",")}`) {
+    h ^= ch.codePointAt(0) ?? 0;
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h.toString(16).padStart(8, "0");
 }
 
 /** Rang du jour (jours depuis le 01/01/1970) : rotation continue, sans saut au 1er janvier. */
@@ -121,15 +142,19 @@ export async function pickWidgetVanne(
 
 /**
  * Cache edge (Cache API de Cloudflare, `caches.default`) de la vanne du jour,
- * clé = jour de Paris : une requête base par jour et par point de présence.
+ * clé = jour UTC + empreinte de la liste blanche : une requête base par jour
+ * et par point de présence, et une liste corrigée prend effet au déploiement.
  * Hors Workers (Node, tests) : appel direct. Seul un résultat non nul est mis
  * en cache (une liste corrigée prend effet au déploiement suivant).
  */
 export async function getWidgetVanneDuJour(now: Date = new Date()): Promise<WidgetVanne | null> {
-  const dateKey = parisDateKey(now);
+  const dateKey = widgetDateKey(now);
   const cache = (globalThis as { caches?: { default?: Cache } }).caches?.default;
   if (!cache) return pickWidgetVanne(dateKey);
-  const key = new Request(`${WIDGET_ORIGIN}/__cache/widget/v1/vanne-du-jour/${dateKey}`);
+  // Clé = jour UTC + empreinte de la liste : WIDGET_JOKE_IDS est lu à chaque appel.
+  const key = new Request(
+    `${WIDGET_ORIGIN}/__cache/widget/v1/vanne-du-jour/${dateKey}/${widgetListFingerprint(WIDGET_JOKE_IDS)}`,
+  );
   try {
     const hit = await cache.match(key);
     if (hit) return (await hit.json()) as WidgetVanne;
@@ -144,7 +169,7 @@ export async function getWidgetVanneDuJour(now: Date = new Date()): Promise<Widg
         new Response(JSON.stringify(vanne), {
           headers: {
             "Content-Type": "application/json",
-            "Cache-Control": `public, max-age=${secondsUntilParisMidnight(now)}`,
+            "Cache-Control": `public, max-age=${secondsUntilUtcMidnight(now)}`,
           },
         }),
       );
@@ -159,20 +184,33 @@ export async function getWidgetVanneDuJour(now: Date = new Date()): Promise<Widg
 export function hostFromHeader(value: string | null | undefined): string | null {
   if (!value || value === "null") return null;
   try {
-    const host = new URL(value).hostname.toLowerCase();
+    // Point final du nom complet (« exemple.fr. ») retiré : il contournait le blocage (QA m2).
+    const host = new URL(value).hostname.toLowerCase().replace(/\.+$/, "");
     return host ? host.replace(/^www\./, "") : null;
   } catch {
     return null;
   }
 }
 
-/** Domaine bloqué : égal à une entrée de la liste ou sous-domaine de celle-ci. */
-export function isDomaineBloque(host: string | null, liste: readonly string[] = DOMAINES_BLOQUES): boolean {
+/** Domaine égal à une entrée de la liste ou sous-domaine de celle-ci (point final ignoré). */
+export function matchesDomaine(host: string | null, liste: readonly string[]): boolean {
   if (!host) return false;
+  const h = host.toLowerCase().replace(/\.+$/, "");
   return liste.some((d) => {
-    const domaine = d.trim().toLowerCase().replace(/^www\./, "");
-    return domaine !== "" && (host === domaine || host.endsWith(`.${domaine}`));
+    const domaine = d.trim().toLowerCase().replace(/^www\./, "").replace(/\.+$/, "");
+    return domaine !== "" && (h === domaine || h.endsWith(`.${domaine}`));
   });
+}
+
+/** Domaine bloqué : égal à une entrée de DOMAINES_BLOQUES ou sous-domaine de celle-ci. */
+export function isDomaineBloque(host: string | null, liste: readonly string[] = DOMAINES_BLOQUES): boolean {
+  return matchesDomaine(host, liste);
+}
+
+/** Nombre de vannes réellement servables (stock du widget, alerte sous 90 : revue m7). */
+export async function countWidgetVannesEligibles(ids: readonly string[] = WIDGET_JOKE_IDS): Promise<number> {
+  if (ids.length === 0) return 0;
+  return prisma.joke.count({ where: widgetJokeWhere(ids) });
 }
 
 /** URL absolue avec les UTM du widget (`utm_content` = domaine hôte ou « inconnu »). */

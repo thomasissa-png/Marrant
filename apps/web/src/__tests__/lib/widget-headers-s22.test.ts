@@ -1,11 +1,15 @@
 /**
  * @jest-environment node
  *
- * s22, widget « La vanne du jour » : /embed/* est encadrable (pas de
- * X-Frame-Options DENY, `frame-ancestors *`, noindex) et TOUTES les autres
- * routes gardent exactement leurs en-têtes d'avant s22.
+ * s22, widget « La vanne du jour » : /embed/vanne-du-jour SEULEMENT est
+ * encadrable (pas de X-Frame-Options DENY, `frame-ancestors *`, noindex) et
+ * TOUTES les autres routes, y compris /embed/<autre>, gardent exactement leurs
+ * en-têtes d'avant s22 (QA m1). /widget.js est un fichier de la couche assets :
+ * ses en-têtes viennent de public/_headers, pas de next.config (QA m7).
  */
 import { createHash } from "crypto";
+import { readFileSync } from "fs";
+import { join } from "path";
 import { getPathMatch } from "next/dist/shared/lib/router/utils/path-match";
 
 const nextConfig = require("../../../next.config.js");
@@ -39,7 +43,7 @@ const AVANT_S22: Record<string, string> = {
 };
 
 describe("en-têtes hors /embed/* : inchangés", () => {
-  it.each(["/", "/vannes", "/vannes/une-vanne-abc123", "/api/daily", "/api/widget/v1/vanne-du-jour", "/blog/un-article", "/embedded", "/widget.js"])(
+  it.each(["/", "/vannes", "/vannes/une-vanne-abc123", "/api/daily", "/api/widget/v1/vanne-du-jour", "/blog/un-article", "/embedded", "/embed", "/embed/", "/embed/inconnu", "/embed/vanne-du-jour/x", "/embed/vanne-du-jour-bis"])(
     "%s garde exactement les en-têtes d'avant s22",
     async (path) => {
       expect(await headersFor(path)).toEqual(AVANT_S22);
@@ -62,7 +66,14 @@ describe("en-têtes hors /embed/* : inchangés", () => {
   });
 });
 
-describe("/embed/* : encadrable, noindex, reste de la sécurité intact", () => {
+describe("/widget.js (couche assets Cloudflare, public/_headers)", () => {
+  it("cache 1 h et nosniff", () => {
+    const h = readFileSync(join(__dirname, "../../../public/_headers"), "utf8");
+    expect(h).toMatch(/\/widget\.js\n  Cache-Control: public, max-age=3600, stale-while-revalidate=86400\n  X-Content-Type-Options: nosniff/);
+  });
+});
+
+describe("/embed/vanne-du-jour : encadrable, noindex, reste de la sécurité intact", () => {
   it("pas de X-Frame-Options, frame-ancestors *, noindex", async () => {
     const h = await headersFor("/embed/vanne-du-jour");
     expect(h["X-Frame-Options"]).toBeUndefined();

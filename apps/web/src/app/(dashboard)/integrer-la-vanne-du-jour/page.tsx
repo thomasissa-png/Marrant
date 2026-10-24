@@ -55,6 +55,13 @@ const webPageJsonLd = {
 };
 
 const H2 = "font-display mt-10 text-2xl font-bold";
+/** Même style que les gabarits (revue @design B1) : rayon de la carte, schéma de couleurs déclaré. */
+const IFRAME_STYLE = { border: 0, borderRadius: 12, colorScheme: "light dark", display: "block", width: "100%", maxWidth: 640 } as const;
+const APERCUS = [
+  // BROUILLON s22 : titres des aperçus.
+  { theme: "clair", titre: "Sur fond clair", cadre: "bg-[#FAF7F2]" },
+  { theme: "sombre", titre: "Sur fond sombre", cadre: "bg-background-light" },
+] as const;
 const P = "mt-3 text-text-secondary";
 const CODE = "rounded bg-background-elevated px-1.5 py-0.5 text-sm text-text-primary";
 
@@ -86,25 +93,42 @@ export default function IntegrerLaVanneDuJourPage() {
         </p>
 
         <h2 className={H2}>Aperçu</h2>
-        <div className="mt-4">
-          <iframe
-            src={WIDGET_EMBED_PATH}
-            title={WIDGET_IFRAME_TITLE}
-            loading="lazy"
-            width="100%"
-            height={WIDGET_IFRAME_HEIGHT}
-            style={{ border: 0, maxWidth: 640 }}
-            sandbox={WIDGET_IFRAME_SANDBOX}
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
+        {/* Revue @design M4 : deux aperçus réels, dans un cadre qui simule le site hôte.
+            Le site lui-même n'est jamais compté (WIDGET_DOMAINES_NON_COMPTES). */}
+        <div className="mt-4 grid gap-6">
+          {APERCUS.map((a) => (
+            <div key={a.theme}>
+              {/* BROUILLON s22 */}
+              <h3 className="text-base font-semibold text-text-primary">{a.titre}</h3>
+              <div className={`mt-2 rounded-xl p-4 ${a.cadre}`}>
+                <iframe
+                  src={`${WIDGET_EMBED_PATH}?theme=${a.theme}`}
+                  title={`${WIDGET_IFRAME_TITLE} (${a.titre.toLowerCase()})`}
+                  loading="lazy"
+                  width="100%"
+                  height={WIDGET_IFRAME_HEIGHT}
+                  style={IFRAME_STYLE}
+                  sandbox={WIDGET_IFRAME_SANDBOX}
+                />
+              </div>
+            </div>
+          ))}
         </div>
 
         <h2 className={H2}>Le code à copier</h2>
         {/* BROUILLON s22 */}
-        <p className={P}>{frTypo("Option 1 : l'iframe. Rien ne s'exécute sur ton site.")}</p>
+        <p className={P}>
+          {frTypo(
+            `Option 1 : l'iframe. Rien ne s'exécute sur ton site. Sa hauteur est fixe (${WIDGET_IFRAME_HEIGHT} px), prévue pour la vanne la plus longue.`,
+          )}
+        </p>
         <BlocCode id="code-iframe" label="Iframe" code={widgetIframeSnippet()} />
         {/* BROUILLON s22 */}
-        <p className={`${P} mt-6`}>{frTypo("Option 2 : le script. Il crée la même iframe à l'endroit où tu le colles.")}</p>
+        <p className={`${P} mt-6`}>
+          {frTypo(
+            "Option 2 : le script. Il crée la même iframe à l'endroit où tu le colles, et l'agrandit si la chute en a besoin.",
+          )}
+        </p>
         <BlocCode id="code-script" label="Script" code={widgetScriptSnippet()} />
         {/* BROUILLON s22 */}
         <p className={P}>
@@ -113,6 +137,18 @@ export default function IntegrerLaVanneDuJourPage() {
           {frTypo(", et pour l'option 2 ")}
           <code className={CODE}>script-src {WIDGET_ORIGIN}</code>.
         </p>
+
+        <h2 className={H2}>Thème</h2>
+        {/* BROUILLON s22 */}
+        <p className={P}>
+          {frTypo("Par défaut, le widget suit le mode clair ou sombre de ton visiteur. Pour le fixer, ajoute ")}
+          <code className={CODE}>?theme=clair</code> ou <code className={CODE}>?theme=sombre</code>
+          {frTypo(" à l'adresse de l'iframe, ou ")}
+          <code className={CODE}>data-theme=&quot;sombre&quot;</code>
+          {frTypo(" sur le script.")}
+        </p>
+        <BlocCode id="code-theme-iframe" label="Iframe, fond sombre" code={widgetIframeSnippet(WIDGET_ORIGIN, "sombre")} />
+        <BlocCode id="code-theme-script" label="Script, fond sombre" code={widgetScriptSnippet(WIDGET_ORIGIN, "sombre")} />
 
         <h2 className={H2}>Ce que le widget affiche</h2>
         {/* BROUILLON s22 */}
@@ -126,7 +162,7 @@ export default function IntegrerLaVanneDuJourPage() {
         {/* BROUILLON s22 */}
         <p className={P}>
           {frTypo("Une API en lecture seule renvoie la vanne du jour en JSON : ")}
-          <code className={CODE}>GET {WIDGET_ORIGIN}{WIDGET_API_PATH}</code>
+          <code className={`${CODE} break-all`}>GET {WIDGET_ORIGIN}{WIDGET_API_PATH}</code>
           {frTypo(". Champs : type, date, amorce, chute, url, attribution, license.")}
         </p>
         <p className={P}>{frTypo(LICENCE_API)}</p>

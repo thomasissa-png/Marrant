@@ -10,7 +10,7 @@ import {
 
 /**
  * API publique du widget « La vanne du jour » (s22), lecture seule.
- * Rendu dynamique : la vanne dépend du jour de Paris et `utm_content` de
+ * Rendu dynamique : la vanne dépend du jour UTC et `utm_content` de
  * l'origine appelante ; la base n'est lue qu'une fois par jour et par point de
  * présence (Cache API, voir getWidgetVanneDuJour).
  * Limite de requêtes : règle Cloudflare (WAF) par IP, voir REPLIT_ACTIONS.md
@@ -37,7 +37,8 @@ function indisponible(status: 403 | 503, error: string): NextResponse {
       status,
       headers: {
         ...BASE_HEADERS,
-        "Cache-Control": "public, max-age=60, s-maxage=60",
+        // 403 jamais en cache partagé (blocage par domaine) ; 503 court, navigateur seulement.
+        "Cache-Control": status === 403 ? "private, no-store" : "public, max-age=60",
         ...(status === 503 ? { "Retry-After": "3600" } : {}),
       },
     },

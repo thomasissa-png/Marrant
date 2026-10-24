@@ -4,7 +4,8 @@
  * s22, widget « La vanne du jour » : sélection (liste blanche ∩ pool validé,
  * DATING/SOIREES/COUPLE refusées, choix déterministe), API (503 sans vanne,
  * 403 domaine bloqué, aucun champ interdit, CORS, cache) et page d'iframe
- * (noindex, sans cookie ni Umami, repli neutre).
+ * (noindex, sans cookie ni Umami côté visiteur, repli neutre en 200).
+ * v2 : jour UTC (convention du site), clé de cache liée à la liste, mesure.
  */
 type Row = {
   id: string;
@@ -80,7 +81,16 @@ jest.mock("@/config/widget-vanne-du-jour", () => {
 
 import { GET, OPTIONS } from "@/app/api/widget/v1/vanne-du-jour/route";
 import { GET as GET_EMBED } from "@/app/embed/vanne-du-jour/route";
-import { dayNumber, isDomaineBloque, parisDateKey, pickWidgetVanne, secondsUntilParisMidnight } from "@/lib/widget/vanne-du-jour";
+import {
+  dayNumber,
+  isDomaineBloque,
+  pickWidgetVanne,
+  secondsUntilUtcMidnight,
+  widgetDateKey,
+  widgetListFingerprint,
+  widgetSharedMaxAge,
+} from "@/lib/widget/vanne-du-jour";
+import { corpsAffichage, doitCompterAffichage, umamiWebsiteId } from "@/lib/widget/mesure";
 
 const api = (headers: Record<string, string> = {}) =>
   GET(new Request("https://deviens-marrant.fr/api/widget/v1/vanne-du-jour", { headers }));
@@ -124,10 +134,19 @@ describe("sélection de la vanne du jour du widget", () => {
     expect(await pickWidgetVanne("2026-11-03", ["d4", "e5", "f6", "g7"])).toBeNull();
   });
 
-  it("jour et minuit de Paris (heure d'hiver et d'été)", () => {
-    expect(parisDateKey(new Date("2026-11-03T23:30:00Z"))).toBe("2026-11-04");
-    expect(secondsUntilParisMidnight(new Date("2026-11-03T22:00:00Z"))).toBe(3600);
-    expect(secondsUntilParisMidnight(new Date("2026-07-01T21:30:00Z"))).toBe(1800);
+  it("jour UTC comme la vanne du jour du site (todayUTC), cache partagé borné à minuit UTC et 1 h", () => {
+    expect(widgetDateKey(new Date("2026-10-24T23:30:00Z"))).toBe("2026-10-24");
+    expect(widgetDateKey(new Date("2026-10-25T00:00:00Z"))).toBe("2026-10-25");
+    expect(secondsUntilUtcMidnight(new Date("2026-11-03T23:30:00Z"))).toBe(1800);
+    expect(widgetSharedMaxAge(new Date("2026-11-03T23:30:00Z"))).toBe(1800);
+    expect(widgetSharedMaxAge(new Date("2026-11-03T08:00:00Z"))).toBe(3600);
+  });
+
+  it("empreinte de la liste : stable, change au moindre retrait ou ajout", () => {
+    expect(widgetListFingerprint(["a1", "b2"])).toMatch(/^[0-9a-f]{8}$/);
+    expect(widgetListFingerprint(["a1", "b2"])).toBe(widgetListFingerprint(["a1", "b2"]));
+    expect(widgetListFingerprint(["a1"])).not.toBe(widgetListFingerprint(["a1", "b2"]));
+    expect(widgetListFingerprint(["a1"], ["DATING"])).not.toBe(widgetListFingerprint(["a1"], ["SOIREES"]));
   });
 
   it("domaines bloqués : domaine et sous-domaines, rien d'autre", () => {
@@ -217,8 +236,11 @@ describe("GET /embed/vanne-du-jour", () => {
     expect(html).not.toMatch(/umami|_next|application\/ld\+json/i);
     expect(html).toContain('lang="fr"');
     expect(html).toContain(">Révéler la chute</button>");
-    expect(html).toMatch(/<a data-utm href="https:\/\/deviens-marrant\.fr\/\?utm_source=widget[^"]*" target="_blank" rel="noopener">Deviens Marrant/);
+    expect(html).toMatch(/<a class="marque" data-utm href="https:\/\/deviens-marrant\.fr\/\?utm_source=widget[^"]*" target="_blank" rel="noopener">Deviens Marrant/);
     expect(html).toMatch(/href="https:\/\/deviens-marrant\.fr\/vannes\/[^"]+" target="_blank" rel="noopener">Pourquoi ça marche/);
+    // Lien de marque dans le pied ancré (jamais hors du cadre), schéma de couleurs déclaré.
+    expect(html).toMatch(/<footer class="pied">.*Deviens Marrant.*<\/footer><\/main>/);
+    expect(html).toContain('<meta name="color-scheme" content="light dark">');
     expect(html).not.toContain("Technique secrète");
     expect(html).not.toContain("—");
     expect(Buffer.byteLength(html)).toBeLessThan(8000);
@@ -237,22 +259,80 @@ describe("GET /embed/vanne-du-jour", () => {
     expect(html).toContain("&lt;img");
   });
 
-  it("liste vide → repli neutre sans vanne (503)", async () => {
-    mockIds = [];
-    const res = await embed();
-    expect(res.status).toBe(503);
-    const html = await res.text();
-    expect(html).not.toContain("Amorce");
-    expect(html).not.toContain("Révéler la chute");
-    expect(html).toContain("Deviens Marrant");
+  it("liste vide ou non publié → repli neutre sans vanne ni phrase non validée, en 200 (aucune erreur chez l'hôte)", async () => {
+    for (const regler of [() => (mockIds = []), () => (mockPublie = false)]) {
+      regler();
+      const res = await embed();
+      expect(res.status).toBe(200);
+      const html = await res.text();
+      expect(html).not.toContain("Amorce");
+      expect(html).not.toContain("Révéler la chute");
+      expect(html).not.toMatch(/revient/);
+      expect(html).toContain('class="repli"');
+      expect(html).toContain("Deviens Marrant");
+    }
   });
 
-  it("domaine bloqué (Referer) → page neutre sans vanne (403), jamais en cache partagé", async () => {
+  it("domaine bloqué (Referer, point final, sous-domaine) → page neutre sans vanne, jamais en cache partagé", async () => {
     mockBloques = ["site-bloque.fr"];
+    for (const referer of ["https://blog.site-bloque.fr/", "https://site-bloque.fr./page"]) {
+      const r = await embed({ referer });
+      expect(r.status).toBe(200);
+      expect(await r.text()).not.toContain("Amorce");
+    }
     const res = await embed({ referer: "https://blog.site-bloque.fr/" });
-    expect(res.status).toBe(403);
     expect(res.headers.get("cache-control")).toBe("private, no-store");
     expect(await res.text()).not.toContain("Amorce");
     expect((await embed({ referer: "https://autre-site.fr/" })).status).toBe(200);
+  });
+});
+
+describe("liste blanche réelle (selection-finale.md)", () => {
+  const IDS_REELS: readonly string[] = jest.requireActual("@/config/widget-vanne-du-jour").WIDGET_JOKE_IDS;
+  it("93 identifiants distincts, au-dessus du plancher de 90", () => {
+    expect(IDS_REELS).toHaveLength(93);
+    expect(new Set(IDS_REELS).size).toBe(93);
+  });
+});
+
+describe("mesure des affichages (Umami côté serveur)", () => {
+  const UA = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 Chrome/130 Safari/537.36";
+  it("compte les hôtes tiers, jamais le site (aperçu), le local ni les robots", () => {
+    expect(doitCompterAffichage("blog-hote.fr", UA)).toBe(true);
+    expect(doitCompterAffichage(null, UA)).toBe(true);
+    for (const h of ["deviens-marrant.fr", "localhost", "127.0.0.1", "marrant.thomas.workers.dev"]) expect(doitCompterAffichage(h, UA)).toBe(false);
+    expect(doitCompterAffichage("blog-hote.fr", "Googlebot/2.1")).toBe(false);
+    expect(doitCompterAffichage("blog-hote.fr", "Mozilla/5.0 HeadlessChrome/130")).toBe(false);
+    expect(doitCompterAffichage("blog-hote.fr", null)).toBe(false);
+  });
+
+  it("événement : le domaine hôte seulement, aucune donnée du visiteur", () => {
+    const corps = corpsAffichage("11111111-2222-3333-4444-555555555555", "blog-hote.fr", "auto");
+    expect(corps).toEqual({
+      type: "event",
+      payload: {
+        website: "11111111-2222-3333-4444-555555555555",
+        hostname: "blog-hote.fr",
+        url: "/embed/vanne-du-jour",
+        language: "fr",
+        name: "widget-affichage",
+        data: { domaine: "blog-hote.fr", theme: "auto" },
+      },
+    });
+    expect(corpsAffichage("11111111-2222-3333-4444-555555555555", null, "auto").payload.hostname).toBe("inconnu");
+  });
+
+  it("identifiant Umami : UUID réel seulement, jamais la valeur d'exemple", () => {
+    expect(umamiWebsiteId({ UMAMI_WEBSITE_ID: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" })).toBeNull();
+    expect(umamiWebsiteId({})).toBeNull();
+    expect(umamiWebsiteId({ NEXT_PUBLIC_UMAMI_WEBSITE_ID: "0a1b2c3d-1111-2222-3333-444455556666" })).toBe("0a1b2c3d-1111-2222-3333-444455556666");
+  });
+
+  it("hors Workers (tests, Node) : aucun envoi, la réponse ne dépend pas de la mesure", async () => {
+    const fetchSpy = jest.spyOn(globalThis, "fetch");
+    const res = await embed({ referer: "https://blog-hote.fr/", "user-agent": UA });
+    expect(res.status).toBe(200);
+    expect(fetchSpy).not.toHaveBeenCalled();
+    fetchSpy.mockRestore();
   });
 });

@@ -30,7 +30,7 @@ export function BlocCode({ id, label, code }: { id: string; label: string; code:
           type="button"
           onClick={copier}
           aria-describedby={`${id}-label`}
-          className="min-h-11 rounded-md px-3 text-sm font-semibold text-accent-link hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
+          className="min-h-11 rounded-md border border-accent-primary/40 bg-accent-primary/10 px-3 text-sm font-semibold text-accent-link hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
         >
           {/* BROUILLON s22 */}
           {etat === "copie" ? "Copié" : etat === "echec" ? "Sélectionne le code" : "Copier"}
@@ -39,7 +39,7 @@ export function BlocCode({ id, label, code }: { id: string; label: string; code:
       <pre
         tabIndex={0}
         aria-labelledby={`${id}-label`}
-        className="overflow-x-auto whitespace-pre-wrap break-all p-4 text-sm leading-6 text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary"
+        className="overflow-x-auto whitespace-pre-wrap p-4 [overflow-wrap:anywhere] text-sm leading-6 text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary"
       >
         <code>{code}</code>
       </pre>
