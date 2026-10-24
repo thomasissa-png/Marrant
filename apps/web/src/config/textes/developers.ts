@@ -25,7 +25,7 @@ export const H2_WIDGET = "Prefer not to code?";
 
 /** Chapeau sous le H1. */
 export const TEXTE_INTRO =
-  "Free JSON API, no key, HTTPS, CORS enabled. It returns one French joke per day: a setup (amorce), a punchline (chute) and a link to a page that explains why it is funny. The jokes are in French, and everyone gets the same one on a given UTC day. Every joke in the rotation was picked by hand and is suitable for all audiences.";
+  "Free JSON API, no key, HTTPS, CORS enabled. It returns one French joke per day: a setup (amorce), a punchline (chute) and a link to a page that explains why it is funny. The jokes are in French, and everyone normally gets the same one on a given UTC day. Every joke in the rotation was picked by hand and is suitable for all audiences.";
 
 /** Phrase avant l'exemple d'appel (GET https://deviens-marrant.fr/api/widget/v1/vanne-du-jour). */
 export const TEXTE_ENDPOINT =
@@ -69,7 +69,7 @@ export const CHAMPS: { nom: string; description: string }[] = [
   {
     nom: "url",
     description:
-      `The public page of the joke on deviens-marrant.fr (in French), which explains why it is funny. The link already carries UTM parameters. Its utm_content value is the domain of the calling site, taken from the Origin header, or from the Referer header when there is no Origin (lowercase, without "www."), or inconnu (French for "unknown") when neither header is usable, as with a server-side call or curl.`,
+      `The public page of the joke on deviens-marrant.fr (in French), which explains why it is funny. The link already carries UTM parameters. Its utm_content value is the domain of the calling site, taken from the Origin header, or from the Referer header when there is no usable Origin (lowercase, without "www."), or inconnu (French for "unknown") when neither header is usable, as with a server-side call or curl.`,
   },
   {
     nom: "attribution",
