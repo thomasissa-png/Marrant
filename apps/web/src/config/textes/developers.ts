@@ -93,7 +93,7 @@ export const TEXTE_CACHE =
 
 /** Rotation : changement de vanne, retrait, retour des vannes (paragraphe à part, revue v3 C3). */
 export const TEXTE_ROTATION =
-  "The joke changes every day at midnight UTC and is the same for everybody. The rotation draws from a limited set of hand-picked jokes, so jokes come back over time. If we withdraw a joke, the joke of the day can change before midnight UTC.";
+  "The joke changes every day at midnight UTC and is normally the same for everybody. The rotation draws from a limited set of hand-picked jokes, so jokes come back over time. If we withdraw a joke, the joke of the day can change before midnight UTC.";
 
 /** Limite de requêtes et conseil de cache. */
 export const TEXTE_LIMITE =
