@@ -137,7 +137,7 @@ export default function IntegrerLaVanneDuJourPage() {
         <p className={P}>{frTypo(TEXTE_WORDPRESS)}</p>
         <p className={`${P} mt-6`}>{frTypo(TEXTE_OPTION_SCRIPT)}</p>
         <BlocCode id="code-script" label="Script" code={widgetScriptSnippet()} />
-        {/* BROUILLON s22 : ligne de backlink facultative (à faire valider). */}
+        {/* s22 : ligne de backlink facultative (validée à l'aveugle). */}
         <p className={P}>{frTypo(TEXTE_LIGNE_BACKLINK)}</p>
         {/* Bloc 7 */}
         <p className={P}>

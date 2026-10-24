@@ -78,9 +78,9 @@ describe("page du programme : textes validés, mot pour mot", () => {
 });
 
 describe("ligne de backlink sous le cadre (décision Thomas s22, 24/10)", () => {
-  // BROUILLON s22 (à faire valider) : recopié ici, pas importé.
+  // s22, validée à l'aveugle : recopiée ici, pas importée.
   const PHRASE = frTypo(
-    "La ligne « La vanne du jour par Deviens Marrant », sous le cadre, est facultative : tu peux la retirer, mais si tu la laisses, ça nous aide beaucoup.",
+    "Le code ajoute sous le cadre une petite ligne « La vanne du jour par Deviens Marrant », avec un lien vers notre site. Elle est facultative : pour l'enlever, efface la fin du code, à partir de « <p ». Si tu la gardes, c'est un coup de pouce pour nous, merci !",
   );
   // Visa @legal du 24/10 (docs/legal/widget-vanne-du-jour-s22.md, dernière section), paragraphe complet mot pour mot.
   const CONDITIONS = frTypo(
