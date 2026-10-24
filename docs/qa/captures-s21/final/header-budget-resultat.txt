@@ -1,0 +1,25 @@
+# header-budget.spec.ts : résultat chiffré (revue design s21 tour 2, T2.4 point 5)
+# Build de production local (worktree claude/marrant-s21-integration, au-dessus de 46d455f), base jetable, 17/10/2026.
+# Verdict : 3 tests « 6 largeurs » VERTS (18 combinaisons : 6 largeurs x 3 états), + menu de compte au clavier (FREE, PREMIUM), loupe 1100, menu mobile 375x550 : tous verts.
+# Suite Playwright complète : 137 réussis, 0 échec, 10 ignorés (8 achat sans clé Stripe de test, 2 réservés à un gabarit).
+# Colonnes : défilement = largeur de défilement de la page / largeur d'écran ; barre = scrollWidth / clientWidth de la barre ;
+#   marge-droite = écran moins le bord droit du contrôle le plus à droite ; écart-min-entre-blocs = plus petit espace entre logo, onglets, recherche, actions.
+
+état=FREE ; largeur=1024 ; défilement=1024/1024 ; barre=1024/1024 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=26.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=FREE ; largeur=1100 ; défilement=1100/1100 ; barre=1100/1100 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=51.7px ; libellés-coupés=0 ; hauteur-max=44px
+état=FREE ; largeur=1280 ; défilement=1280/1280 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=16.0px ; écart-min-entre-blocs=46.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=FREE ; largeur=1440 ; défilement=1440/1440 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=96.0px ; écart-min-entre-blocs=46.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=FREE ; largeur=1536 ; défilement=1536/1536 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=144.0px ; écart-min-entre-blocs=46.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=FREE ; largeur=1920 ; défilement=1920/1920 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=336.0px ; écart-min-entre-blocs=46.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1024 ; défilement=1024/1024 ; barre=1024/1024 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=80.5px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1100 ; défilement=1100/1100 ; barre=1100/1100 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=105.9px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1280 ; défilement=1280/1280 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=16.0px ; écart-min-entre-blocs=103.2px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1440 ; défilement=1440/1440 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=96.0px ; écart-min-entre-blocs=103.2px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1536 ; défilement=1536/1536 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=144.0px ; écart-min-entre-blocs=103.2px ; libellés-coupés=0 ; hauteur-max=44px
+état=PREMIUM ; largeur=1920 ; défilement=1920/1920 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=336.0px ; écart-min-entre-blocs=103.2px ; libellés-coupés=0 ; hauteur-max=44px
+état=visiteur ; largeur=1024 ; défilement=1024/1024 ; barre=1024/1024 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=23.0px ; libellés-coupés=0 ; hauteur-max=44px
+état=visiteur ; largeur=1100 ; défilement=1100/1100 ; barre=1100/1100 ; recherche=loupe ; marge-droite=16.0px ; écart-min-entre-blocs=48.3px ; libellés-coupés=0 ; hauteur-max=44px
+état=visiteur ; largeur=1280 ; défilement=1280/1280 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=16.0px ; écart-min-entre-blocs=43.0px ; libellés-coupés=0 ; hauteur-max=36px
+état=visiteur ; largeur=1440 ; défilement=1440/1440 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=96.0px ; écart-min-entre-blocs=43.0px ; libellés-coupés=0 ; hauteur-max=36px
+état=visiteur ; largeur=1536 ; défilement=1536/1536 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=144.0px ; écart-min-entre-blocs=43.0px ; libellés-coupés=0 ; hauteur-max=36px
+état=visiteur ; largeur=1920 ; défilement=1920/1920 ; barre=1280/1280 ; recherche=176px, aide entière ; marge-droite=336.0px ; écart-min-entre-blocs=43.0px ; libellés-coupés=0 ; hauteur-max=36px
