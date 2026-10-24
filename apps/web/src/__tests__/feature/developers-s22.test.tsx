@@ -32,6 +32,7 @@ import {
   H1,
   PAGE_TITLE,
   TEXTE_CORS_CACHE,
+  TEXTE_CACHE,
   TEXTE_ROTATION,
   TEXTE_ENDPOINT,
   TEXTE_ENDPOINT_NAVIGATEUR,
@@ -77,7 +78,7 @@ describe("page /developers", () => {
     expect(TEXTE_ROTATION).toMatch(/so jokes come back over time\.$/);
     expect(TEXTE_VIE_PRIVEE).toContain("may appear in our hosting provider's technical logs.");
     expect(TEXTE_VIE_PRIVEE).not.toContain("used only to serve");
-    for (const t of [TEXTE_INTRO, TEXTE_ENDPOINT, TEXTE_ENDPOINT_NAVIGATEUR, TEXTE_CORS_CACHE, TEXTE_ROTATION, TEXTE_VIE_PRIVEE]) expect(textes).toContain(t);
+    for (const t of [TEXTE_INTRO, TEXTE_ENDPOINT, TEXTE_ENDPOINT_NAVIGATEUR, TEXTE_CORS_CACHE, TEXTE_CACHE, TEXTE_ROTATION, TEXTE_VIE_PRIVEE]) expect(textes).toContain(t);
   });
 
   it("endpoint, curl -i, fetch en module avec contrôle de res.ok", () => {
