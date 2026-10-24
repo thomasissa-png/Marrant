@@ -47,3 +47,27 @@ Phrase corrigée, à la place, mot pour mot :
 > Le widget La vanne du jour ne dépose aucun cookie. Seules les données techniques de la requête sont traitées pour l'afficher, et chaque affichage est compté avec le seul domaine du site qui l'affiche (rien sur le visiteur), conservé 3 mois chez Cloudflare.
 
 **Page de confidentialité (`confidentialite/page.tsx`) : oui, ajouter cette seule phrase.** La page ne mentionne pas encore le widget (la phrase du §4.3 n'y est pas posée) : la mettre en puce dans la partie 5 « Cookies et mesure d'audience ». Cloudflare est déjà listé en partie 4 (aucun nouveau prestataire) ; rien d'autre à changer (base légale : intérêt légitime, déjà citée pour la mesure d'audience ; le domaine d'un site n'identifie pas un visiteur). Reprendre la même phrase dans le `readme.txt` WordPress. Pas d'avocat.
+
+## Visa ligne de backlink (24/10)
+
+> @legal. Contexte : décision du fondateur du 24/10 (dernière ligne de `founder-preferences.md`). Sous le cadre, dans les deux codes à copier, une ligne HTML « La vanne du jour par Deviens Marrant » avec lien suivi vers l'accueil, facultative pour l'hôte. Le lien « Deviens Marrant » dans le cadre reste obligatoire.
+
+**Section 1 (paragraphe publié) : un seul changement, une demi-phrase.** Le texte dit que le lien « fait partie du widget » et qu'il faut le laisser « en place et visible ». Avec la ligne sous le cadre, qui est copiée avec le code mais n'est pas dans l'iframe, deux lectures deviennent possibles : l'hôte croit que la ligne est obligatoire (plus strict que voulu), ou croit qu'on lui interdit de retirer quoi que ce soit. Il faut dire une fois que seule la ligne du cadre est obligatoire.
+
+Phrase à remplacer, citée mot pour mot (page `/integrer-la-vanne-du-jour`, constante `CONDITIONS_UTILISATION` dans `page.tsx`, et section 1 ci-dessus) :
+
+> Le lien « Deviens Marrant » fait partie du widget : laisse-le en place et visible.
+
+Nouvelle phrase :
+
+> Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative).
+
+Le reste du paragraphe ne bouge pas : « Ne modifie pas le texte de la vanne » ne couvre pas la ligne (ce n'est pas le texte de la vanne), et « ne suit pas tes visiteurs » reste exact (le lien « suivi » est un lien sans `nofollow`, pas un traceur ; un paramètre UTM éventuel ne collecte rien sur la page de l'hôte).
+
+**Section 2 (ligne de licence de l'API) : aucun changement.** Elle impose l'attribution « Deviens Marrant » visible à qui construit son propre affichage ; la ligne facultative n'existe que dans les codes à copier, pas dans l'API (le champ `attribution` suffit). Rien à ajouter.
+
+**Aussi sans changement** : page de confidentialité et `readme.txt` (un lien HTML vers notre accueil ne traite aucune donnée de l'hôte ou de ses visiteurs) ; `TEXTE_CHAPEAU` et `TEXTE_AFFICHAGE` (« lien toujours présent dans le widget » reste vrai, c'est le lien du cadre). Pas d'avocat.
+
+**Hors juridique, pour mémoire** : un lien suivi posé par des tiers en échange d'un widget gratuit peut être jugé « schéma de liens » par Google. Risque réduit ici par l'ancre de marque seule et le caractère facultatif ; le choix reste celui du fondateur (déjà tranché), à surveiller côté @seo.
+
+**Handoff -> @copywriter puis @fullstack.** La phrase corrigée repasse le filtre ton-alex (relecture à l'aveugle, règle P0 du 05/10) avant d'être posée dans `page.tsx` ; @fullstack la remplace mot pour mot dans `CONDITIONS_UTILISATION` et note le changement dans `REPLIT_ACTIONS.md`.
