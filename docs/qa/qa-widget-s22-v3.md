@@ -1,18 +1,75 @@
 # QA indépendante : widget « La vanne du jour », tour 3 (s22)
 
-Commit audité : `b5e6e52c` (branche `claude/ouverture-session-nzwj0w`), non déployé, `WIDGET_VANNE_DU_JOUR_PUBLIE = false`.
-24/10/2026, @qa. Aucun déploiement, aucune écriture en base, aucun commit. Le rapport @fullstack (`REPLIT_ACTIONS.md`, entrée s22 Widget) n'est pas pris pour preuve : tout est rejoué.
-Légende : `[LIVE]` = sortie observée ; `[STATIQUE]` = Jest, tsc, lecture de code, calcul.
+Commit audité : `b5e6e52c` (branche `claude/ouverture-session-nzwj0w`), non déployé, `WIDGET_VANNE_DU_JOUR_PUBLIE = false`. Les commits suivants (`eb77a677`, `e9ef3c63`) ne touchent que des docs : `git diff --stat b5e6e52c HEAD -- apps/web` vide.
+24/10/2026, @qa. Aucun déploiement ni publication, aucune écriture en base, aucun commit, code de production non modifié (4 mutations temporaires du test de mesure, annulées par `git checkout`). Le rapport @fullstack (`REPLIT_ACTIONS.md`, entrée s22 Widget) n'est pas pris pour preuve : tout est rejoué.
+Légende : `[LIVE]` = sortie observée (Chromium réel, `wrangler dev --local`, workerd) ; `[STATIQUE]` = Jest, tsc, lecture de code ou du bundle.
 
 ## Verdict
 
-[EN COURS]
+**NO-GO à la publication, pour un seul point bloquant : V1 n'est corrigé que sur ordinateur, le vide est passé sur téléphone.** Sur ordinateur et tablette, la carte de 340 px est bien remplie (vide médian 31 %, 39 % au plus). Sur téléphone, la carte grandit (518 px à 375, 551 px à 320) pour la vanne la plus longue. Résultat : avant le clic (premier regard), **la moitié de la carte est vide pour la vanne médiane** (51 % à 375, 54 % à 320), et le vide dépasse 40 % pour 89 vannes sur 93. C'est le symptôme bloquant du tour 2 (53 % sur ordinateur), sur l'écran principal du persona. @design (revue tour 3, NO-GO 8,8/10) arrive au même constat de son côté et propose une correction CSS d'une ligne (deux entretoises dans `.k`). Celle-ci repasse ensuite les mesures ci-dessous.
+**V2 est levé** : plus aucun tiers, `writeDataPoint` ne reçoit que le domaine hôte, aucune donnée du visiteur, jamais bloquant, no-op sans liaison, exclusions justes, forme conforme à la doc Cloudflare.
+Le reste est au niveau : aucune vanne rognée à 8 largeurs, CLS 0 dans les 2 976 scénarios, sécurité PASS, en-têtes identiques à `27caee2e`, `build:cf` OK avec la nouvelle liaison, Worker sain avec et sans la liaison. Déployé inerte (`false`), le code ne change rien au site.
 
 ## Contrôles
 
 | # | Contrôle | Statut | Preuve |
 |---|---|---|---|
+| 1 | Rognage, 93 vannes, 1280 / 768 / 375 / 320 px, iframe seule et script, hôte clair et sombre (1 488 scénarios) | PASS | `[LIVE]` Chromium, gabarits officiels (`widgetIframeSnippet`, `widgetScriptSnippet`), `widget.js` réel, en-têtes réels de `next.config.js` sur `/embed/vanne-du-jour`, hôte et widget sur deux origines (`hote.test`, `widget.test`), marges de l'hôte 16 px. Iframes de 640, 640, 343 et 288 px de large, hauteurs 340, 340, 518 et 551 px. **0 zone rognée avant et après la révélation**, marque visible partout, pied sur une ligne partout, titre jamais masqué |
+| 2 | Rognage aux largeurs intermédiaires, 414 / 480 / 600 / 700 px (1 488 scénarios) | PASS | `[LIVE]` même banc : hauteurs 495, 455, 383, 340 px ; 0 rognée, 0 débordement, marque visible, pied sur une ligne |
+| 3 | Vide entre la vanne et le pied | **FAIL (téléphone)** | voir V1. Ordinateur et tablette : médiane 105 px (31 %), max 133 px (39 %), avant comme après le clic. 375 : avant le clic médiane 263 px (51 %), max 319 px (62 %) ; après le clic médiane 235 px (45 %). 320 : avant médiane 296 px (54 %), max 324 px ; après médiane 268 px (49 %). 414 : 48 % ; 480 : 50 % ; 600 : 39 %. Mêmes chiffres en hôte clair et sombre, iframe et script |
+| 4 | CLS | PASS | `[LIVE]` `PerformanceObserver` `layout-shift` posé avant chargement : **somme 0 dans les 2 976 scénarios**, avant et après le clic, y compris les décalages marqués « après action » (aucun) ; 0 violation CSP |
+| 5 | Lecture des captures | voir V1 | `[LIVE]` captures lues (`v3shots/`, scratchpad) : 1280 clair, vanne médiane `cv1105a3e91c7d42b8f06d5e1`, après clic : carte équilibrée, critères Thomas tenus. 375 clair, même vanne, avant clic : amorce et bouton en haut, puis environ 260 px de blanc jusqu'au pied, lu comme un chargement inachevé (PRO et AÉRÉ en échec). 375 sombre, vanne la plus longue (`cs18jkstory5v4`), script, après clic : remplie, sans coupure |
+| 6 | Aucun appel réseau vers un tiers depuis `/embed` | PASS | `[LIVE]` navigateur : toutes les requêtes de la page hôte et de l'iframe enregistrées = `hote.test/`, `widget.test/widget.js`, `widget.test/embed/vanne-du-jour`, rien d'autre (vanne normale, vanne piégée, repli). `[LIVE]` serveur (workerd) : `fetch` global espionné pendant `compterAffichage`, 0 appel. `[STATIQUE]` route compilée `.open-next/.../embed/vanne-du-jour/route.js` : 0 `fetch(`, 0 « umami », 0 URL ; « Umami » ne reste que dans 3 commentaires |
+| 7 | `writeDataPoint` ne reçoit que le domaine hôte | PASS | `[LIVE]` banc workerd (`wrangler dev --local`, le vrai `src/lib/widget/mesure.ts` et `hostFromHeader`, contexte OpenNext posé comme en production, `navigator.userAgent` = `Cloudflare-Workers`). Referer `https://www.blog-hote.fr/articles/privee?email=a@b.fr#x` avec User-Agent iPhone, `X-Forwarded-For`, `CF-Connecting-IP` et cookie : point écrit exactement `{"blobs":["blog-hote.fr"],"indexes":["blog-hote.fr"]}`. Sans Referer, Referer `javascript:` ou piégé (`https://"><script>…`) : `inconnu`. Hôte de 200 caractères : tronqué à 96 (limite de l'index). IDN : forme punycode (ASCII, donc 96 caractères = 96 octets) |
+| 8 | Pas d'écriture : aperçu, local, workers.dev, robots | PASS | `[LIVE]` même banc, 0 point pour `deviens-marrant.fr/integrer-la-vanne-du-jour`, `www.deviens-marrant.fr.`, `localhost:3000`, `127.0.0.1:8787`, `marrant.thomas.workers.dev`, Googlebot, `facebookexternalhit`, requête sans User-Agent |
+| 9 | Liaison absente, écriture en erreur, liaison réelle | PASS | `[LIVE]` liaison absente : no-op, aucune exception ; `writeDataPoint` qui lève (quota) : avalé, 0 ms ; liaison locale réelle de wrangler : écriture acceptée, 0 ms. Appel synchrone, non attendu. `[LIVE]` Worker du site lancé SANS la liaison : démarre, `/embed/vanne-du-jour` (deux thèmes) 200, `/`, `/vannes` 200, aucune exception au journal |
+| 10 | Tests de la mesure | PASS | `[STATIQUE]` `widget-mesure-qa-s22` réécrit pour Analytics Engine : 8 tests, mêmes garanties que mon test du tour 2. Mutations manuelles, toutes tuées : exclusions supprimées (2 échecs), blob supplémentaire écrit (3), `try/catch` retiré (1), garde « hors Workers » retirée (1). Une 5e mutation (exception dans le `try`) est équivalente |
+| 11 | Forme de l'appel et déclaration, doc Cloudflare | PASS | `[STATIQUE]` doc lue le 24/10 : déclaration `analytics_engine_datasets: [{ binding, dataset }]`, jeu créé à la première écriture (https://developers.cloudflare.com/analytics/analytics-engine/get-started) ; `writeDataPoint({ blobs, doubles, indexes })` avec **un seul index**, sinon le point n'est pas enregistré, sans `await` ni `waitUntil` (https://developers.cloudflare.com/workers/examples/analytics-engine/) ; index de 96 octets au plus, blobs 16 Ko, 250 points par requête, conservation 3 mois (https://developers.cloudflare.com/analytics/analytics-engine/limits). Le code écrit 1 blob et 1 index tronqué à 96 : conforme. `[LIVE]` `wrangler types` (4.143.1) sur `wrangler.jsonc` : `WIDGET_AFFICHAGES: AnalyticsEngineDataset` ; `wrangler dev` affiche la liaison « Analytics Engine Dataset, local » |
+| 12 | En-têtes contre `27caee2e`, statique | PASS | `[STATIQUE]` compilateur de règles de Next (`buildCustomRoute`), 130 routes + 20 chemins limites : 146 identiques en correspondance sensible à la casse (OpenNext), 4 écarts attendus (`/embed/vanne-du-jour`, `/integrer-la-vanne-du-jour` et leurs variantes à barre finale). `_headers` : seul ajout, `/widget.js` |
+| 13 | En-têtes contre `27caee2e`, Worker local | PASS | `[LIVE]` `wrangler dev --local`, contournement scratchpad (entrée qui réexporte le handler et les classes DO, config = `wrangler.jsonc` de `b5e6e52c` sans `routes`). 137 routes : 128 identiques, 9 écarts, exactement ceux du tour 2, tous préexistants ou attendus (5 redirections 307 du middleware sans en-têtes ; `X-Robots-Tag` posé par la route : API du widget, `/blog/apercu/x` ; couche assets : `/widget.js`, `/favicon.ico`) |
+| 14 | CSP de l'embed, XSS | PASS | `[LIVE]` CSP servie `default-src 'none'; script-src 'sha256-NVlj…tPc='; style-src 'unsafe-inline'; img-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors *` ; un seul `<script>` dans le HTML, son sha256 = celui de la CSP (le script en ligne a changé, l'empreinte suit). Vanne piégée (`<img onerror>`, `<svg onload>`, `&#x3C;script&#x3E;`, `</script><script>`, `<math><mtext>`, `"onmouseover="`) en iframe et script : 0 dialogue, 0 `img/svg/math`, attribut injecté absent, 0 violation. Worker : Referer `"><script>` + `?theme="><svg onload>` : 0 écho ; `theme=sombre'` : `t-auto` |
+| 15 | noindex, cookies, cadre | PASS | `[LIVE]` `x-robots-tag: noindex` (embed, API) ; 0 `Set-Cookie` (embed, API, `widget.js`) ; dans l'iframe, `document.cookie` et `localStorage` inaccessibles (bac à sable sans `allow-same-origin`) ; `/embed/inconnu` 404 + `X-Frame-Options: DENY` ; embed sans XFO |
+| 16 | Interrupteur `false`, méthodes | PASS | `[LIVE]` programme 404, absent du sitemap, API 503 + `Retry-After: 3600`, iframe en repli 200 ; POST, PUT, DELETE : 405 (embed et API) ; OPTIONS API : 204 ; `widget.js` : `nosniff`, `max-age=3600`, 1 403 octets (822 gzip) |
+| 17 | Accessibilité de l'iframe | PASS | `[LIVE]` axe-core WCAG 2.2 AA, 3 vannes (courte, médiane, longue) × clair et sombre × 640 et 288 px, avant et après clic : 0 violation ; clavier : bouton, Entrée, `aria-expanded=true`, focus sur la chute, puis « Pourquoi ça marche ? », marque, sortie |
+| 18 | Chaîne sous `env -i` | PASS | voir « Chaîne » |
 
 ## Défauts restants
 
-[EN COURS]
+### Bloquant (publication)
+
+- **V1 bis. Carte à moitié vide sur téléphone.** `apps/web/src/lib/widget/embed-html.ts` l. 55 (`.k` : contenu collé en haut, pied ancré en bas) avec la courbe `WIDGET_IFRAME_HEIGHT_CSS` (`src/config/widget-vanne-du-jour.ts`). La courbe est juste (la vanne la plus longue tient au pixel près) et ne doit pas descendre ; c'est la répartition du vide dans la carte qui pèche. Mesures `[LIVE]`, avant le clic : 375 px, médiane 263 px de blanc sur 518 (51 %), 89 vannes sur 93 au-delà de 40 % ; 320 px, médiane 296 sur 551 (54 %). Correction : celle de @design (`docs/design/revue-widget-s22-v3.md`, deux entretoises flexibles 2:3 dans `.k`, CSS seule, hauteur de l'iframe inchangée, donc ni décalage ni empreinte CSP à recalculer). @fullstack l'applique, puis QA rejoue : `v3-mesure.js` (93 vannes, 8 largeurs, rognage et CLS à 0 attendus), déplacement de l'amorce au clic (chute de 2 ou 3 lignes), texte agrandi 200 % à 375 sur la plus longue (le haut reste accessible au défilement), captures lues.
+
+### Mineurs
+
+- **m-a (tour 2, non corrigé).** `docs/seo/widget-replique-du-jour-s22-seo.md` §4 annonce toujours `punchline` et un `ETag` (2 occurrences) : la page publique est juste, la spec interne trompe le prochain agent.
+- **m-f. Colonne étroite sur ordinateur** (limite documentée dans `REPLIT_ACTIONS.md`, chiffrée ici `[LIVE]`) : iframe de 300 px de large dans une page de 1280 (hauteur 340), le bouton « Révéler la chute » est sous le pli de la zone pour 2 vannes sur 93 avant le clic (il faut faire défiler l'intérieur de la carte pour le trouver), la zone défile après le clic pour 3 sur 93 ; à 360 px : 1 et 3 ; à 420 px : 0 et 1. Acceptable vu la rareté ; la page du programme conseille déjà le format script.
+- **m-g. Domaines falsifiables dans la mesure.** Le domaine vient du Referer : un script avec un User-Agent de navigateur peut inscrire de faux domaines ou consommer le quota d'écriture (100 000 points par jour en Workers Free). Sans effet sur le site (écriture avalée) ; la règle WAF par IP prévue limite le volume. À dire à @data-analyst : `inconnu` regroupe aussi les Referer invalides ou piégés, et un domaine inconnu à fort volume se vérifie avant d'être cité.
+- Points de @design non rejoués ici (page du programme) : M1 aperçu sombre en `loading="lazy"` (capture pleine page vide à 375), M2 code en ligne coupé au tiret de « deviens-marrant.fr ».
+
+### Hors périmètre widget (préexistants, déjà signalés)
+
+- `wrangler dev` avec l'entrée du dépôt : `cloudflare/worker.ts` exporte des valeurs qui ne sont pas des handlers (`IMMUTABLE_CACHE_CONTROL`…), workerd local refuse. Contourné par une entrée dans le scratchpad.
+- Redirections 307 du middleware sans en-têtes de sécurité sous Worker (identique à `27caee2e`).
+
+## V2 du tour 2 : levé
+
+L'envoi Umami est supprimé (code et bundle). La mesure écrit un point Analytics Engine dans le Worker, chez Cloudflare, déjà prestataire du site : aucune IP, aucun User-Agent, aucun chemin, aucun cookie ne sort ni n'est écrit. Phrase de confidentialité proposée (« Chaque affichage est compté par site, sans donnée sur le visiteur. ») : exacte au regard du code mesuré, à faire valider par @legal et Thomas.
+
+## Chaîne
+
+Sous `env -i PATH HOME DATABASE_URL=…deviens_marrant_test ANTHROPIC_API_KEY=dummy NEXTAUTH_SECRET=test-secret RESEND_API_KEY=re_dummy` (proxy et CA ajoutés seulement pour `build` et `build:cf`, chaîne Hyperdrive factice pour `build:cf` et `wrangler dev`), interrupteur à `false`, aucune variable affichée :
+- `tsc --noEmit -p tsconfig.build.json` : 0 erreur ; `tsc --noEmit` (config complète, celle de la CI) : 0 ; `tsc --noEmit -p ../../playwright/tsconfig.json` : 0 ; `next lint` : « No ESLint warnings or errors ».
+- Jest complet, sans secret Stripe : 359 suites PASS (1 ignorée), 5 459 tests PASS, 5 ignorés (préexistants).
+- `npm run build` : code 0. `npm run build:cf` : code 0 avec `wrangler.jsonc` modifié.
+- e2e `playwright/tests/local/widget-hote-s22.spec.ts` contre le Worker local SANS la liaison (`E2E_BASE_URL=http://127.0.0.1:8787`, `E2E_CHROMIUM_PATH` vers le Chromium installé) : 3/3 PASS `[LIVE]`.
+- Aucune commande de publication lancée (ni `deploy:cf`, ni `wrangler deploy`). État final : `git status` propre hormis ce rapport, `git diff -- apps/web/src/config` vide, `WIDGET_VANNE_DU_JOUR_PUBLIE = false`, serveurs locaux arrêtés.
+
+## Bancs (hors dépôt)
+
+Scratchpad de session `/tmp/claude-0/-home-user-Marrant/5d6d1c1e-57ce-52c7-8f39-4aea23f0efcf/scratchpad/` : `v3-mesure.js` (rognage, vide, CLS, 93 vannes, résultats `v3-mesure-1280_768_375_320.json` et `v3-mesure-414_480_600_700.json`), `v3-xss-net.js` (XSS et requêtes réseau), `v3-axe.js`, `v3-colonne.js`, `ae/ae-worker.ts` + `ae/wrangler.json` (mesure dans workerd), `wrangler.qa3.json` et `wrangler.qa3-sans-ae.json` (Worker du site avec et sans liaison), `hdr3/compare.js`, `hdr/live.js` ; captures dans `v3shots/`.
+
+## Limites
+
+- Aucune vanne servie par le vrai Worker (pas de base locale, aucune écriture en base autorisée) : l'appel de `compterAffichage` par la route est prouvé par lecture du bundle compilé, son comportement par le vrai module dans workerd ; le rendu avec vanne, sur banc (HTML de `renderEmbedVanne`, en-têtes exacts de `next.config.js`).
+- Écriture réelle dans Analytics Engine en production, délai de lecture SQL, règle WAF et `Retry-After` du 429 : non vérifiables hors Cloudflare.
+- Chromium seul (ni WebKit ni Firefox).
