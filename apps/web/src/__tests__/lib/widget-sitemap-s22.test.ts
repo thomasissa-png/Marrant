@@ -28,6 +28,7 @@ jest.mock("@/lib/sitemap-catalogue", () => ({ getCatalogueSitemapEntries: async 
 import sitemap from "@/app/sitemap";
 
 const URL_PROGRAMME = "https://deviens-marrant.fr/integrer-la-vanne-du-jour";
+const URL_DEVELOPERS = "https://deviens-marrant.fr/developers";
 
 describe("sitemap : page du programme du widget", () => {
   it("publié → présente une fois, lastModified réel", async () => {
@@ -40,6 +41,18 @@ describe("sitemap : page du programme du widget", () => {
   it("non publié → absente", async () => {
     mockPublie = false;
     expect((await sitemap()).some((e) => e.url === URL_PROGRAMME)).toBe(false);
+  });
+
+  it("publié → /developers présente une fois, mensuelle, priorité 0.5, lastModified réel", async () => {
+    mockPublie = true;
+    const entries = (await sitemap()).filter((e) => e.url === URL_DEVELOPERS);
+    expect(entries).toHaveLength(1);
+    expect(entries[0]).toMatchObject({ changeFrequency: "monthly", priority: 0.5, lastModified: new Date("2026-10-24") });
+  });
+
+  it("non publié → /developers absente", async () => {
+    mockPublie = false;
+    expect((await sitemap()).some((e) => e.url === URL_DEVELOPERS)).toBe(false);
   });
 
   it("aucune URL /embed/ au sitemap (document noindex)", async () => {

@@ -177,6 +177,13 @@ export default function IntegrerLaVanneDuJourPage() {
           ))}
           {frTypo(". Les règles d'usage sont dans la licence juste en dessous.")}
         </p>
+        <p className={P}>
+          {frTypo("Toute la documentation est sur la page ")}
+          <a href="/developers" hrefLang="en" className="text-accent-link underline hover:text-text-primary">
+            {frTypo("Documentation de l'API (en anglais)")}
+          </a>
+          .
+        </p>
         <p className={P}>{frTypo(LICENCE_API)}</p>
 
         <h2 id="licence" className={`${H2} scroll-mt-24`}>Conditions d’utilisation</h2>

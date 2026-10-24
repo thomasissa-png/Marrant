@@ -87,6 +87,10 @@ export const WIDGET_PROGRAMME_PATH = "/integrer-la-vanne-du-jour";
 export const WIDGET_LIBELLE_PIED = "Intègre la vanne du jour";
 /** Date réelle de dernière modification du texte de la page du programme (sitemap) : à remettre au jour de la validation des textes. */
 export const WIDGET_PROGRAMME_LASTMOD = "2026-10-24";
+/** Page de documentation de l'API, en anglais (annuaires d'API publiques), publiée avec le widget. */
+export const DEVELOPERS_PATH = "/developers";
+/** Date réelle de dernière modification du texte de /developers (sitemap). */
+export const DEVELOPERS_LASTMOD = "2026-10-24";
 
 /** Titre accessible de l'iframe (attribut `title`). */
 export const WIDGET_IFRAME_TITLE = "La vanne du jour, Deviens Marrant";
