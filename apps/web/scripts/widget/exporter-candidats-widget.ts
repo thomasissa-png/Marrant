@@ -6,16 +6,20 @@
  * src/config/widget-vanne-du-jour.ts (WIDGET_JOKE_IDS).
  *
  * Aucune écriture en base : la requête tourne dans une transaction
- * `READ ONLY` (Postgres refuse toute écriture), puis la connexion est fermée.
- * L'URL de base n'est jamais affichée.
+ * `READ ONLY` (Postgres refuse toute écriture). L'URL de base n'est jamais affichée.
+ *
+ * Pilote Neon serverless (HTTPS) plutôt que Prisma (TCP 5432) : passe par un
+ * proxy HTTPS, comme dans les sessions cloud (s22). Même filtre que
+ * `VALIDATED_JOKE_WHERE` (src/lib/ai/daily-joke-pool.ts), écrit en SQL.
  *
  * Lancement (depuis apps/web) :
- *   DATABASE_URL=<url> npx tsx scripts/widget/exporter-candidats-widget.ts
+ *   NEON_DATABASE_URL=<url> npx tsx scripts/widget/exporter-candidats-widget.ts
+ * Derrière un proxy : ajouter HTTPS_PROXY et NODE_EXTRA_CA_CERTS.
  */
 import { writeFileSync } from "fs";
 import { join } from "path";
-import { prisma } from "@/lib/prisma";
-import { VALIDATED_JOKE_WHERE } from "@/lib/ai/daily-joke-pool";
+import { neon } from "@neondatabase/serverless";
+import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import { buildJokeSlug } from "@/lib/catalogue-slug";
 import { WIDGET_CATEGORIES_EXCLUES, WIDGET_ORIGIN } from "@/config/widget-vanne-du-jour";
 
@@ -55,25 +59,29 @@ function markdown(candidats: Candidat[], date: string): string {
 }
 
 async function main() {
-  if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL absente : export non lancé.");
-  const candidats = await prisma.$transaction(async (tx) => {
-    await tx.$executeRawUnsafe("SET TRANSACTION READ ONLY");
-    return tx.joke.findMany({
-      where: { ...VALIDATED_JOKE_WHERE, category: { notIn: [...WIDGET_CATEGORIES_EXCLUES] } },
-      select: { id: true, category: true, maturityLevel: true, content: true, punchline: true },
-      orderBy: [{ category: "asc" }, { id: "asc" }],
-    });
-  });
+  const url = process.env.NEON_DATABASE_URL ?? process.env.DATABASE_URL;
+  if (!url) throw new Error("NEON_DATABASE_URL absente : export non lancé.");
+  if (process.env.HTTPS_PROXY) setGlobalDispatcher(new EnvHttpProxyAgent());
+  const sql = neon(url);
+  const [candidats] = (await sql.transaction(
+    [
+      sql`SELECT id, category::text AS category, "maturityLevel", content, punchline
+          FROM "Joke"
+          WHERE "isActive" = true AND "copyVerdict" = 'GARDER' AND "comedyTechnique" IS NOT NULL
+            AND NOT (category::text = ANY(${[...WIDGET_CATEGORIES_EXCLUES]}))
+          ORDER BY category::text, id`,
+    ],
+    { readOnly: true },
+  )) as unknown as [Candidat[]];
   writeFileSync(SORTIE, markdown(candidats, new Date().toISOString().slice(0, 10)), "utf-8");
   console.log(`${candidats.length} candidates écrites dans docs/growth/widget-candidats-s22.md`);
 }
 
 main()
   .catch((e: unknown) => {
-    // Code d'erreur seul : le message Prisma peut citer l'hôte de la base, jamais affiché.
-    const err = (typeof e === "object" && e !== null ? e : {}) as { code?: unknown; errorCode?: unknown };
-    const code = String(err.code ?? err.errorCode ?? "sans code");
+    // Code d'erreur seul : le message du pilote peut citer l'hôte de la base, jamais affiché.
+    const err = (typeof e === "object" && e !== null ? e : {}) as { code?: unknown; name?: unknown };
+    const code = String(err.code ?? err.name ?? "sans code");
     console.error(`Export interrompu (${code}) : connexion ou lecture impossible.`);
     process.exitCode = 1;
-  })
-  .finally(() => prisma.$disconnect());
+  });
