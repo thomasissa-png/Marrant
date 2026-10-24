@@ -25,11 +25,11 @@ export const H2_WIDGET = "Prefer not to code?";
 
 /** Chapeau sous le H1. */
 export const TEXTE_INTRO =
-  "This API returns one French joke per day as JSON: a setup (amorce), a punchline (chute) and a link to a page that explains why it is funny. It is free, needs no key, works over HTTPS and is read-only. The jokes are in French, and everyone gets the same one until midnight UTC. Every joke in the rotation was picked by hand and is suitable for all audiences.";
+  "Free JSON API, no key, HTTPS, CORS enabled. It returns one French joke per day: a setup (amorce), a punchline (chute) and a link to a page that explains why it is funny. The jokes are in French, and everyone gets the same one until midnight UTC. Every joke in the rotation was picked by hand and is suitable for all audiences.";
 
 /** Phrase avant l'exemple d'appel (GET https://deviens-marrant.fr/api/widget/v1/vanne-du-jour). */
 export const TEXTE_ENDPOINT =
-  "Send a GET request to the endpoint below, over HTTPS. There is no key, no sign-up and no parameter. The endpoint responds to GET and OPTIONS (CORS preflight) requests and returns application/json.";
+  "Send a GET request to the endpoint below, over HTTPS. There is no key, no sign-up and no parameters. The endpoint responds to GET (JSON) and OPTIONS (CORS preflight, 204 with no body).";
 
 /** Phrase avant l'exemple de réponse. */
 export const TEXTE_EXEMPLE = "A real response, returned on 24 October 2026:";
@@ -37,12 +37,15 @@ export const TEXTE_EXEMPLE = "A real response, returned on 24 October 2026:";
 /** Réponse réelle du 24/10/2026, à placer telle quelle dans un bloc de code. */
 export const EXEMPLE_REPONSE = `{"type":"vanne","date":"2026-10-24","amorce":"Mon père m’envoie ses messages en MAJUSCULES.","chute":"Je réponds en minuscules. Il m’a demandé pourquoi je boudais.","url":"https://deviens-marrant.fr/vannes/mon-pere-menvoie-ses-messages-en-majuscules-cmmnsqn160?utm_source=widget&utm_medium=embed&utm_campaign=vanne-du-jour&utm_content=inconnu","attribution":{"name":"Deviens Marrant","url":"https://deviens-marrant.fr/","required":true},"license":"https://deviens-marrant.fr/integrer-la-vanne-du-jour#licence"}`;
 
+/** Renvoi vers la section #license : rendu en lien dans page.tsx (attribution, license). */
+export const RENVOI_LICENCE = "License section";
+
 /** Les 7 champs de la réponse, dans l'ordre de la réponse. */
 export const CHAMPS: { nom: string; description: string }[] = [
   {
     nom: "type",
     description:
-      `Currently always "vanne" (French for "joke"). Other values, such as "replique", may be added later: do not reject unknown values.`,
+      `Always "vanne" (French for "joke") in this version. If you get another value, do not reject the response.`,
   },
   {
     nom: "date",
@@ -50,13 +53,14 @@ export const CHAMPS: { nom: string; description: string }[] = [
   },
   {
     nom: "amorce",
-    // amorce et chute passent par frTypo côté API (lib/widget/vanne-du-jour.ts).
+    // amorce et chute passent par frTypo côté API (lib/widget/vanne-du-jour.ts) : insécables
+    // U+00A0 et gluon U+2060 (lib/fr-typo.ts), d'où la mise en garde.
     description:
-      "The setup of the joke. Plain UTF-8 text with French typography (curly apostrophes, non-breaking spaces before some punctuation). No HTML.",
+      "The setup of the joke. Plain UTF-8 text, no HTML, with French typography: it may contain curly apostrophes (’), French quotation marks (« ») and no-break spaces (U+00A0), for example before : ; ! ?, plus an invisible word joiner (U+2060) after the hyphen of some compound words. Strip U+2060 if you search, compare or read the text aloud.",
   },
   {
     nom: "chute",
-    description: "The punchline.",
+    description: "The punchline. Same format as amorce.",
   },
   {
     nom: "url",
@@ -77,7 +81,7 @@ export const CHAMPS: { nom: string; description: string }[] = [
 
 /** CORS, cache, moment du changement de vanne. */
 export const TEXTE_CORS_CACHE =
-  "CORS is enabled for every origin: responses carry Access-Control-Allow-Origin: *, so you can call the API straight from the browser. They also carry Cache-Control: public, max-age=300, s-maxage=3600. Browsers keep a response for 5 minutes at most and shared caches for 1 hour at most. Both values shrink as midnight UTC approaches, so no cache keeps a joke past midnight UTC. The joke changes every day at midnight UTC, the same one for everybody. If we withdraw a joke, the joke of the day can change before midnight UTC.";
+  "CORS is enabled for every origin: our responses carry Access-Control-Allow-Origin: *, so you can call the API straight from the browser (the 429 below is the only exception). A successful response carries Cache-Control: public, max-age=300, s-maxage=3600, so browsers may keep it for 5 minutes and shared caches for 1 hour. Near midnight UTC, both values shrink to the time left before midnight: a cache that follows these headers never serves yesterday's joke. The joke changes every day at midnight UTC and is the same for everybody. If we withdraw a joke, the joke of the day can change before midnight UTC. The rotation is a fixed set of hand-picked jokes, so jokes come back over time.";
 
 /** Limite de requêtes et conseil de cache. */
 export const TEXTE_LIMITE =
@@ -91,11 +95,11 @@ export const ERREURS: { code: string; description: string }[] = [
   {
     code: "503",
     description:
-      `{"type":"vanne","error":"indisponible"} ("unavailable"): the service is temporarily unavailable. The response carries Retry-After: 3600, so try again in an hour.`,
+      `{"type":"vanne","error":"indisponible"} ("unavailable"): no joke can be served right now. The response carries Retry-After: 3600, so wait at least an hour before trying again.`,
   },
   {
     code: "403",
-    description: `{"type":"vanne","error":"acces-refuse"} ("access denied"): the calling site has been blocked for abuse.`,
+    description: `{"type":"vanne","error":"acces-refuse"} ("access denied"): the calling site, read from the Origin or Referer header, has been blocked (abuse or inappropriate content, see License and terms).`,
   },
   {
     code: "429",
@@ -106,7 +110,7 @@ export const ERREURS: { code: string; description: string }[] = [
 
 /** Vie privée : usages du domaine appelant et des données de la requête. */
 export const TEXTE_VIE_PRIVEE =
-  "The API sets no cookies and does not track your visitors. Request data is used only to serve the response and to enforce the rate limit. The domain of the calling site, read from the Origin or Referer header, is used for two things only: checking it against our list of blocked sites, and filling the utm_content parameter of the link, so we can see which sites send clicks. It says nothing about your visitors.";
+  "The API sets no cookies and does not track your visitors. Request data, such as your IP address, is used to serve the response and enforce the rate limit, and may appear in our hosting provider's technical logs. The domain of the calling site, read from the Origin or Referer header, is used for two things only: checking it against our list of blocked sites, and filling the utm_content parameter of the link, so we can see which sites send clicks. It says nothing about your visitors.";
 
 /**
  * Traduction de la ligne « Licence d'usage » et des « Conditions » (@legal), adaptée à l'API.
@@ -125,3 +129,7 @@ export const TEXTE_LICENCE = `${TEXTE_LICENCE_USAGE}\n\n${TEXTE_LICENCE_CONDITIO
 /** Renvoi vers le widget prêt à copier (page en français). Le chemin n'y figure qu'une fois (split dans page.tsx). */
 export const TEXTE_WIDGET =
   "A copy-and-paste widget (iframe or script tag) is available at /integrer-la-vanne-du-jour. That page is in French.";
+
+/** Contact, ligne à part sous TEXTE_WIDGET. L'adresse n'y figure qu'une fois (split + mailto dans page.tsx). */
+export const CONTACT_API = "contact@deviens-marrant.fr";
+export const TEXTE_CONTACT = `Questions or problems with the API: ${CONTACT_API}.`;

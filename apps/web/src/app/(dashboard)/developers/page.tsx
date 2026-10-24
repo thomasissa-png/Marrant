@@ -29,6 +29,9 @@ import {
   TEXTE_LICENCE_CONDITIONS,
   TEXTE_LICENCE_FOI,
   TEXTE_WIDGET,
+  RENVOI_LICENCE,
+  CONTACT_API,
+  TEXTE_CONTACT,
 } from "@/config/textes/developers";
 import {
   DEVELOPERS_PATH,
@@ -76,6 +79,7 @@ const webApiJsonLd = {
   documentation: PAGE_URL,
   termsOfService: WIDGET_LICENCE_URL,
   isAccessibleForFree: true,
+  offers: { "@type": "Offer", price: 0, priceCurrency: "EUR" },
   provider: PROVIDER,
 };
 
@@ -83,21 +87,27 @@ const EXEMPLE_JSON = JSON.stringify(JSON.parse(EXEMPLE_REPONSE), null, 2);
 // -i : le dev voit tout de suite les en-têtes CORS et cache documentés.
 const EXEMPLE_CURL = `curl -i ${API_URL}`;
 // await de premier niveau : valide seulement dans un <script type="module"> (dit en commentaire).
+// try/catch : le 429 sans CORS arrive côté navigateur comme une erreur réseau.
 const EXEMPLE_FETCH = [
-  '// <div id="joke"></div> then, in a <script type="module">:',
-  `const res = await fetch("${API_URL}");`,
-  "if (res.ok) {",
-  "  const joke = await res.json();",
-  '  const link = document.createElement("a");',
-  "  link.href = joke.attribution.url;",
-  "  link.textContent = joke.attribution.name;",
-  '  document.getElementById("joke").append(joke.amorce, " ", joke.chute, " ", link);',
+  '// <div id="joke" lang="fr"></div> then, in a <script type="module">:',
+  "try {",
+  `  const res = await fetch("${API_URL}");`,
+  "  if (res.ok) {",
+  "    const joke = await res.json();",
+  '    const link = document.createElement("a");',
+  "    link.href = joke.attribution.url;",
+  "    link.textContent = joke.attribution.name;",
+  '    document.getElementById("joke").append(joke.amorce, " ", joke.chute, " ", link);',
+  "  }",
+  "} catch {",
+  "  // Network error or rate limit (the 429 has no CORS header): show nothing.",
   "}",
 ].join("\n");
 
 const URL_FOI = TEXTE_LICENCE_FOI.slice(TEXTE_LICENCE_FOI.indexOf("https://"));
 const AVANT_URL_FOI = TEXTE_LICENCE_FOI.slice(0, TEXTE_LICENCE_FOI.length - URL_FOI.length);
 const [AVANT_LIEN_WIDGET, APRES_LIEN_WIDGET] = TEXTE_WIDGET.split(WIDGET_PROGRAMME_PATH);
+const [AVANT_CONTACT, APRES_CONTACT] = TEXTE_CONTACT.split(CONTACT_API);
 
 const H2 = "font-display mt-10 text-2xl font-bold";
 const P = "mt-3 text-text-secondary";
@@ -105,6 +115,21 @@ const CODE = "rounded bg-background-elevated px-1.5 py-0.5 text-sm text-text-pri
 const PRE =
   "mt-3 overflow-x-auto whitespace-pre-wrap rounded-lg border border-border bg-background-card p-4 [overflow-wrap:anywhere] text-sm leading-6 text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary";
 const LIEN = "text-accent-link underline hover:text-text-primary";
+
+/** Description de champ : le renvoi « License section » devient un lien vers #license. */
+function AvecRenvoiLicence({ texte }: { texte: string }) {
+  const [avant, apres] = texte.split(RENVOI_LICENCE);
+  if (apres === undefined) return <>{texte}</>;
+  return (
+    <>
+      {avant}
+      <a href="#license" className={LIEN}>
+        {RENVOI_LICENCE}
+      </a>
+      {apres}
+    </>
+  );
+}
 
 function Bloc({ label, code }: { label: string; code: string }) {
   return (
@@ -142,7 +167,9 @@ export default function DevelopersPage() {
               <dt>
                 <code className={CODE}>{champ.nom}</code>
               </dt>
-              <dd className="mt-1 text-text-secondary">{champ.description}</dd>
+              <dd className="mt-1 text-text-secondary">
+                <AvecRenvoiLicence texte={champ.description} />
+              </dd>
             </div>
           ))}
         </dl>
@@ -185,6 +212,13 @@ export default function DevelopersPage() {
             {WIDGET_PROGRAMME_PATH}
           </Link>
           {APRES_LIEN_WIDGET}
+        </p>
+        <p className={P}>
+          {AVANT_CONTACT}
+          <a href={`mailto:${CONTACT_API}`} className={LIEN}>
+            {CONTACT_API}
+          </a>
+          {APRES_CONTACT}
         </p>
       </div>
     </>

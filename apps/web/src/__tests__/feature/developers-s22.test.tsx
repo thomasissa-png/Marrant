@@ -26,7 +26,18 @@ jest.mock("next/navigation", () => ({
 
 import Page, { metadata } from "@/app/(dashboard)/developers/page";
 import Programme from "@/app/(dashboard)/integrer-la-vanne-du-jour/page";
-import { CHAMPS, ERREURS, H1, PAGE_TITLE, TEXTE_LICENCE_CONDITIONS, TEXTE_LICENCE_USAGE } from "@/config/textes/developers";
+import {
+  CHAMPS,
+  ERREURS,
+  H1,
+  PAGE_TITLE,
+  TEXTE_CORS_CACHE,
+  TEXTE_ENDPOINT,
+  TEXTE_INTRO,
+  TEXTE_LICENCE_CONDITIONS,
+  TEXTE_LICENCE_USAGE,
+  TEXTE_VIE_PRIVEE,
+} from "@/config/textes/developers";
 
 const ENDPOINT = "https://deviens-marrant.fr/api/widget/v1/vanne-du-jour";
 
@@ -49,7 +60,22 @@ describe("page /developers", () => {
     expect(screen.getByRole("heading", { level: 1 }).textContent).toBe(H1);
     expect(container.querySelector('div[lang="en"] h1')).toBeTruthy();
     const jsonLd = [...container.querySelectorAll('script[type="application/ld+json"]')].map((s) => JSON.parse(s.innerHTML));
-    expect(jsonLd.find((d) => d["@type"] === "WebAPI")?.name).toBe(H1);
+    const api = jsonLd.find((d) => d["@type"] === "WebAPI");
+    expect(api?.name).toBe(H1);
+    expect(api?.isAccessibleForFree).toBe(true);
+    expect(api?.offers).toEqual({ "@type": "Offer", price: 0, priceCurrency: "EUR" });
+  });
+
+  it("intro, endpoint, CORS et cache, vie privée : textes s22 v2", () => {
+    const { container } = render(<Page />);
+    const textes = [...container.querySelectorAll("p")].map((p) => p.textContent);
+    expect(TEXTE_INTRO).toMatch(/^Free JSON API, no key, HTTPS, CORS enabled\. /);
+    expect(TEXTE_ENDPOINT).toContain("no parameters. The endpoint responds to GET (JSON) and OPTIONS (CORS preflight, 204 with no body).");
+    expect(TEXTE_CORS_CACHE).toContain("(the 429 below is the only exception)");
+    expect(TEXTE_CORS_CACHE).toMatch(/so jokes come back over time\.$/);
+    expect(TEXTE_VIE_PRIVEE).toContain("may appear in our hosting provider's technical logs.");
+    expect(TEXTE_VIE_PRIVEE).not.toContain("used only to serve");
+    for (const t of [TEXTE_INTRO, TEXTE_ENDPOINT, TEXTE_CORS_CACHE, TEXTE_VIE_PRIVEE]) expect(textes).toContain(t);
   });
 
   it("endpoint, curl -i, fetch en module avec contrôle de res.ok", () => {
@@ -58,9 +84,11 @@ describe("page /developers", () => {
     expect(codes).toContain(`GET ${ENDPOINT}`);
     expect(codes).toContain(`curl -i ${ENDPOINT}`);
     const fetchJs = codes.find((c) => c.includes("fetch("))!;
-    expect(fetchJs.split("\n")[0]).toBe('// <div id="joke"></div> then, in a <script type="module">:');
+    expect(fetchJs.split("\n")[0]).toBe('// <div id="joke" lang="fr"></div> then, in a <script type="module">:');
+    expect(fetchJs.split("\n")[1]).toBe("try {");
     expect(fetchJs).toContain(`await fetch("${ENDPOINT}")`);
-    expect(fetchJs).toContain("if (res.ok) {");
+    expect(fetchJs).toContain("  if (res.ok) {");
+    expect(fetchJs).toContain("} catch {\n  // Network error or rate limit (the 429 has no CORS header): show nothing.\n}");
     expect(fetchJs).not.toContain("innerHTML");
   });
 
@@ -68,13 +96,35 @@ describe("page /developers", () => {
     const { container } = render(<Page />);
     expect(codesDl(container, "Fields")).toEqual(["type", "date", "amorce", "chute", "url", "attribution", "license"]);
     expect(CHAMPS).toHaveLength(7);
+    const desc = (nom: string) => CHAMPS.find((c) => c.nom === nom)?.description;
+    expect(desc("type")).toBe('Always "vanne" (French for "joke") in this version. If you get another value, do not reject the response.');
+    expect(desc("amorce")).toBe(
+      "The setup of the joke. Plain UTF-8 text, no HTML, with French typography: it may contain curly apostrophes (’), French quotation marks (« ») and no-break spaces (U+00A0), for example before : ; ! ?, plus an invisible word joiner (U+2060) after the hyphen of some compound words. Strip U+2060 if you search, compare or read the text aloud.",
+    );
+    expect(desc("chute")).toBe("The punchline. Same format as amorce.");
+  });
+
+  it("renvois « License section below » : liens vers #license, texte inchangé", () => {
+    const { container } = render(<Page />);
+    const liens = [...container.querySelectorAll('dd a[href="#license"]')];
+    expect(liens.map((a) => a.textContent)).toEqual(["License section", "License section"]);
+    expect(liens.map((a) => a.closest("dd")?.textContent)).toEqual([
+      CHAMPS.find((c) => c.nom === "attribution")?.description,
+      CHAMPS.find((c) => c.nom === "license")?.description,
+    ]);
+    expect(container.querySelector("#license")).toBeTruthy();
   });
 
   it("erreurs en liste <dl> : 503, 403, 429 (429 venu du CDN, sans CORS ni JSON)", () => {
     const { container } = render(<Page />);
     expect(codesDl(container, "Errors")).toEqual(["503", "403", "429"]);
     expect(ERREURS.find((e) => e.code === "429")?.description).toContain("no CORS header");
-    expect(ERREURS.find((e) => e.code === "503")?.description).toContain("Retry-After: 3600");
+    expect(ERREURS.find((e) => e.code === "503")?.description).toContain(
+      '("unavailable"): no joke can be served right now. The response carries Retry-After: 3600, so wait at least an hour before trying again.',
+    );
+    expect(ERREURS.find((e) => e.code === "403")?.description).toContain(
+      '("access denied"): the calling site, read from the Origin or Referer header, has been blocked (abuse or inappropriate content, see License and terms).',
+    );
   });
 
   it("exemple de réponse indenté, JSON valide", () => {
@@ -95,13 +145,17 @@ describe("page /developers", () => {
     expect(foi?.textContent).toBe("https://deviens-marrant.fr/integrer-la-vanne-du-jour#licence");
   });
 
-  it("lien interne vers le programme, aucune typo française, aucun tiret cadratin", () => {
+  it("lien interne vers le programme, contact mailto, aucune typo française, aucun tiret cadratin", () => {
     const { container } = render(<Page />);
     const widget = container.querySelector('a[href="/integrer-la-vanne-du-jour"]');
     expect(widget?.textContent).toBe("/integrer-la-vanne-du-jour");
     expect(widget?.closest("p")?.textContent).toBe(
       "A copy-and-paste widget (iframe or script tag) is available at /integrer-la-vanne-du-jour. That page is in French.",
     );
+    const contact = container.querySelector('a[href="mailto:contact@deviens-marrant.fr"]');
+    expect(contact?.textContent).toBe("contact@deviens-marrant.fr");
+    expect(contact?.closest("p")?.textContent).toBe("Questions or problems with the API: contact@deviens-marrant.fr.");
+    expect(contact?.closest("p")?.previousElementSibling).toBe(widget?.closest("p"));
     expect(container.textContent).not.toMatch(/[  ]/);
     expect(container.textContent).not.toMatch(/[—–]/);
   });
