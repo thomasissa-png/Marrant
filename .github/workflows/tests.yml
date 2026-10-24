@@ -166,7 +166,7 @@ jobs:
       - name: Build de production
         run: |
           npm run build
-          cp -r public .next/standalone/public
+          cp -r public/. .next/standalone/public/
           cp -r .next/static .next/standalone/.next/static
 
       - name: Install Chromium
