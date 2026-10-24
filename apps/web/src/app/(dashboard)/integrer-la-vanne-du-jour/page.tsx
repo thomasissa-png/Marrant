@@ -45,15 +45,16 @@ export const metadata: Metadata = {
 
 /**
  * Paragraphe de @legal (docs/legal/widget-vanne-du-jour-s22.md, section 1), mot pour mot,
- * avec la demi-phrase du visa « ligne de backlink » du 24/10 et les retouches du visa « appli, bot,
- * newsletter » du 24/10 (deux dernières sections du même fichier).
+ * avec la demi-phrase du visa « ligne de backlink » du 24/10 et les retouches des visas « appli, bot,
+ * newsletter » puis « corrections de la revue à l'aveugle » du 24/10 (deux dernières sections du même fichier).
+ * Cette section (ancre #licence) porte toutes les règles, car c'est elle que cite le champ `license` de l'API.
  */
 const CONDITIONS_UTILISATION =
-  "La vanne du jour est gratuite : tu peux l'afficher sur ton site, dans une appli, un bot (Discord, Slack, Telegram…), une extension ou une newsletter, sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Si tu l'affiches sans le widget (appli, bot, newsletter…), mets le lien « Deviens Marrant » bien visible à côté de la vanne. Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux l'afficher sur un site ou dans une appli qui a de la publicité, mais pas la revendre, ni la copier en masse, ni la reprendre dans un recueil ou une base de vannes. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et couper l'accès à un site (contenu inapproprié, abus), à tout moment.";
+  "La vanne du jour est gratuite : tu peux l'afficher sur ton site, dans une appli, un bot (Discord, Slack, Telegram…), une extension ou une newsletter, sans nous demander. Elle est fournie telle quelle, sans garantie de disponibilité, et elle peut évoluer. Le lien « Deviens Marrant » dans le cadre fait partie du widget : laisse-le en place et visible (la ligne sous le cadre, elle, est facultative). Si tu affiches la vanne sans le widget (avec l'API sur ton propre site, dans une appli, un bot, une newsletter…), mets le lien « Deviens Marrant » bien visible à côté. Ne modifie pas le texte de la vanne et ne la présente pas comme la tienne. Tu peux afficher la vanne même si ton site, ton appli, ton bot, ton extension ou ta newsletter a de la publicité. En revanche, tu ne peux ni revendre la vanne, ni la copier en masse, ni l'archiver, ni la reprendre dans un recueil ou une base de vannes, ni t'en servir pour entraîner une IA. Les messages de bot et les newsletters déjà envoyés peuvent rester où ils sont : ce qui est interdit, c'est de garder les vannes de côté pour les ressortir ou les rassembler. Si tu passes par l'API, tu peux garder la vanne en cache de ton côté (serveur ou navigateur) 24 h au plus. Le widget ne pose aucun cookie et ne suit pas tes visiteurs. On peut changer ou arrêter le service, et te couper l'accès (contenu inapproprié, abus), à tout moment.";
 
-/** Ligne de licence de l'API (@legal s22, section 2, retouchée par le visa « appli, bot, newsletter » du 24/10). */
+/** Ligne de licence de l'API (@legal s22, section 2, reprise par les visas du 24/10 : appli/bot/newsletter, puis revue à l'aveugle). */
 const LICENCE_API =
-  "Licence d'usage : affichage gratuit et non modifié de la vanne, sur un site, dans une appli, un bot, une extension ou une newsletter, avec le lien d'attribution « Deviens Marrant » visible à côté ; cache côté client 24 h maximum ; interdit d'archiver, republier en masse, revendre, reprendre dans un recueil ou une base de vannes, ou entraîner un modèle avec ces textes ; service fourni sans garantie, accès révocable.";
+  "Licence d'usage : tu peux afficher la vanne gratuitement, sans la modifier, sur un site, dans une appli, un bot, une extension ou une newsletter, avec le lien d'attribution « Deviens Marrant » bien visible à côté. Tu peux la garder en cache de ton côté (serveur ou navigateur) 24 h au plus. Tu ne peux pas l'archiver, la copier en masse, la revendre, la mettre dans un recueil ou une base de vannes, ni t'en servir pour entraîner une IA. Les messages de bot et les newsletters déjà envoyés peuvent rester où ils sont. Le service est fourni sans garantie, et on peut te couper l'accès.";
 
 const webPageJsonLd = {
   "@context": "https://schema.org",
