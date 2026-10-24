@@ -29,3 +29,8 @@ Toute note sous 10 doit citer le passage exact et proposer la correction précis
 - Article : 5 tours. Final `article-final.md` (= v5) : hôte 10/10, lectrice 10/10, vérificateur 10/10.
 - E-mail : `email-reponse-christophe-v2.md` : vérificateur 10/10 après correction, hôte 9/10 (il voulait « les failles sont d'origine » : refusé, affirmation sur la façon d'écrire l'article).
 - Brouillon Gmail créé en réponse au fil « Re: Proposition d'article invité : taquiner sans blesser » (non envoyé).
+
+## Résultat final (20/10/2026, remplace le précédent)
+- Article : `article-final.md` = v7 (retours de Thomas : Christophe nommé 3 fois, lien vers son article dans le chapô, partie « Celui qui lance, celui qui reçoit » allégée, « toujours ma traduction » retiré, attribution des tentatives de réparation supprimée). Lectrice 10/10, vérificateur 10/10 (v7), hôte 9/10 sur la v6 pour une attribution corrigée en v7.
+- E-mail : `email-reponse-christophe-v2.md` (« Un seul lien vers Deviens Marrant », sources sans Kruger nommé), vérificateur 10/10.
+- Brouillon Gmail mis à jour dans le fil (non envoyé) : expéditeur à vérifier (alex@deviens-marrant.fr) avant envoi par Thomas.
