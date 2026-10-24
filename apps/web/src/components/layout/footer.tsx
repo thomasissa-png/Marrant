@@ -5,6 +5,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
 import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 import { frTypo } from "@/lib/fr-typo";
+import { WIDGET_VANNE_DU_JOUR_PUBLIE, WIDGET_PROGRAMME_PATH, WIDGET_LIBELLE_PIED } from "@/config/widget-vanne-du-jour";
 
 const footerLinks = {
   produit: [
@@ -62,11 +63,19 @@ const socialLinks = [
   },
 ];
 
-/** s21 : lien « La lettre du mois » après « Quiz humour » (spec lettre §1.4), interrupteur ouvert seulement. */
+/** s21 : lien « La lettre du mois » après « Quiz humour » (spec lettre §1.4), interrupteur ouvert seulement.
+ *  s22 : lien vers la page du widget avant « Nos offres », widget ouvert seulement (go Thomas 24/10). */
 function liensProduit() {
-  if (!LETTRE_INSCRIPTIONS_OUVERTES) return footerLinks.produit;
-  const i = footerLinks.produit.findIndex((l) => l.href === "/quiz-humour") + 1;
-  return [...footerLinks.produit.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...footerLinks.produit.slice(i)];
+  let liens = footerLinks.produit;
+  if (LETTRE_INSCRIPTIONS_OUVERTES) {
+    const i = liens.findIndex((l) => l.href === "/quiz-humour") + 1;
+    liens = [...liens.slice(0, i), { href: "/lettre", label: TEXTES_LETTRE.piedDePage }, ...liens.slice(i)];
+  }
+  if (WIDGET_VANNE_DU_JOUR_PUBLIE) {
+    const j = liens.findIndex((l) => l.href === "/abonnement");
+    liens = [...liens.slice(0, j), { href: WIDGET_PROGRAMME_PATH, label: WIDGET_LIBELLE_PIED }, ...liens.slice(j)];
+  }
+  return liens;
 }
 
 const LIEN_PIED = "inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary";

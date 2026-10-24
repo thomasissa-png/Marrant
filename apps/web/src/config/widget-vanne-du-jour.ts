@@ -83,6 +83,8 @@ export const WIDGET_EMBED_PATH = "/embed/vanne-du-jour";
 export const WIDGET_SCRIPT_PATH = "/widget.js";
 export const WIDGET_API_PATH = "/api/widget/v1/vanne-du-jour";
 export const WIDGET_PROGRAMME_PATH = "/integrer-la-vanne-du-jour";
+/** Libellé du lien de pied de page (s22, go Thomas 24/10), affiché seulement widget ouvert. */
+export const WIDGET_LIBELLE_PIED = "Intègre la vanne du jour";
 /** Date réelle de dernière modification du texte de la page du programme (sitemap) : à remettre au jour de la validation des textes. */
 export const WIDGET_PROGRAMME_LASTMOD = "2026-10-24";
 
