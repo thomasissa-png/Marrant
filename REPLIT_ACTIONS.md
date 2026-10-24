@@ -2,7 +2,11 @@
 
 ## À DÉPLOYER
 
-## À DÉPLOYER (s22) : licence élargie (appli, bot, extension, newsletter ; choix Thomas 24/10), **NON DÉPLOYÉ**, en relecture à l'aveugle. Part sous le go « Go pour déployer » du 24/10 une fois au niveau. Même procédure sûre que ci-dessous (build dans le dépôt principal, `upload`, test de l'aperçu, `versions deploy`).
+## s22 Licence élargie (appli, bot, extension, newsletter, pub comprise ; choix Thomas 24/10), **DÉPLOYÉ le 24/10/2026 vers 22:02 UTC** (go écrit de Thomas « Go pour déployer ») : version `3d3bade1-41aa-4391-bed7-6acf4e97d551`, commit `e3564cdd` (CI verte, run 40135987788), N-1 `b48f119d-4150-475b-8b74-7c1f01c950fd`. Retour arrière : `cd apps/web && npx wrangler rollback b48f119d-4150-475b-8b74-7c1f01c950fd`.
+
+- Textes : `CONDITIONS_UTILISATION` et `LICENCE_API` (`integrer-la-vanne-du-jour/page.tsx`), `TEXTE_LICENCE_*` (`config/textes/developers.ts`) ; @legal (visa « licence élargie », `docs/legal/widget-vanne-du-jour-s22.md`), relectures à l'aveugle `docs/reviews/review-licence-elargie-s22*.md` (v3 GO 9/10). Captures avant/après : `docs/qa/captures-developers-s22/licence-*`.
+- Procédure sûre appliquée : build dans le dépôt principal, `upload` sans trafic, aperçu testé (10 adresses en 200, textes FR/EN présents), bascule après CI verte.
+- **P6 conforme** : 13 adresses en 200 ; textes FR et EN en ligne ; 18 `Allow: /api/widget/` ; canonical `/developers` ; santé `ok` ; en-têtes de sécurité identiques à N-1 ; admin 401 ×4 ; 0 « 2,99 » ; embed tiers 200.
 
 ## s22 robots.txt Allow /api/widget/ + page /developers (doc API EN) + lien depuis le programme, **DÉPLOYÉ le 24/10/2026 vers 21:45 UTC** (go écrit de Thomas « Go pour déployer ») : version `b48f119d-4150-475b-8b74-7c1f01c950fd`, commit `1a69162d` (CI verte, run 40133647901), N-1 `c8c822e5-b5e0-4da4-935e-1ec049633869`. Retour arrière : `cd apps/web && npx wrangler rollback c8c822e5-b5e0-4da4-935e-1ec049633869`.
 
