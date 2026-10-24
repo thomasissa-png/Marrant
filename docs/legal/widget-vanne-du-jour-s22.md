@@ -71,3 +71,12 @@ Le reste du paragraphe ne bouge pas : « Ne modifie pas le texte de la vanne » 
 **Hors juridique, pour mémoire** : un lien suivi posé par des tiers en échange d'un widget gratuit peut être jugé « schéma de liens » par Google. Risque réduit ici par l'ancre de marque seule et le caractère facultatif ; le choix reste celui du fondateur (déjà tranché), à surveiller côté @seo.
 
 **Handoff -> @copywriter puis @fullstack.** La phrase corrigée repasse le filtre ton-alex (relecture à l'aveugle, règle P0 du 05/10) avant d'être posée dans `page.tsx` ; @fullstack la remplace mot pour mot dans `CONDITIONS_UTILISATION` et note le changement dans `REPLIT_ACTIONS.md`.
+
+## Visa licence élargie : appli, bot, newsletter (24/10, décision du fondateur)
+
+> @legal. Les §1 et §2 ci-dessus sont remplacés par les versions de `CONDITIONS_UTILISATION` et `LICENCE_API` (`page.tsx`) et de `TEXTE_LICENCE_USAGE` / `TEXTE_LICENCE_CONDITIONS` (`developers.ts`, EN). La phrase de la ligne facultative sous le cadre est inchangée.
+
+- **Permis** : afficher la vanne du jour (widget ou API) sur un site, dans une appli, un bot (Discord, Slack, Telegram…), une extension ou une newsletter, y compris dans un produit avec publicité, à condition que le lien « Deviens Marrant » soit bien visible à côté de la vanne. Le lien dans le cadre reste obligatoire pour le widget ; sans le widget, c'est au porteur de l'affichage de le poser.
+- **Toujours interdit** : modifier le texte, se l'attribuer, revendre, copier en masse, reprendre dans un recueil ou une base de vannes, archiver, entraîner un modèle. « Ou un autre produit » est retiré de la phrase du recueil, car il contredisait l'appli et le bot ; la frontière devient : on affiche la vanne du jour au fil des jours (permis), on la collectionne ou on la revend (interdit).
+- **Risques (faible à moyen)** : (1) un bot qui poste chaque jour dans un salon crée de fait un historique public ; toléré tant que ce n'est pas une base ou une page d'archive proposée comme telle ; (2) l'attribution « visible » ne se contrôle pas hors iframe ; la révocation d'accès par domaine ou IP reste le seul levier ; (3) le cache de 24 h maximum vaut aussi pour les applis. Pas d'avocat. Sans changement : confidentialité, `readme.txt`.
+- **Handoff -> @fullstack** : noter le changement dans `REPLIT_ACTIONS.md` ; vérifier qu'aucun test ni autre texte de la page (chapeau, FAQ, « sur ton site ») ne reprend l'ancienne formulation.
