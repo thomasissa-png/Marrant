@@ -1390,5 +1390,8 @@ export function getOptimalScheduleTime(
     today.setUTCDate(today.getUTCDate() + 1);
   }
 
+  // Décalage recalculé sur le jour retenu (changement d'heure entre aujourd'hui et demain)
+  today.setUTCHours(parisHour - getParisUtcOffset(today));
+
   return today;
 }
