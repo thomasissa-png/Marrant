@@ -33,3 +33,17 @@ Licence d'usage : affichage gratuit et non modifié de la vanne avec le lien d'a
 
 ## Handoff -> @copywriter puis @fullstack
 Fichier : `/home/user/Marrant/docs/legal/widget-vanne-du-jour-s22.md`. Texte §1 à passer au filtre étalons (ton-alex) sans rien ajouter ; §2 dans la doc API et le champ `license`. @fullstack : liste de blocage par domaine, ancre `#licence`, phrase de confidentialité.
+
+## Visa N8 (24/10) : comptage des affichages par domaine hôte
+
+**Constat.** Le paragraphe publié sur `/integrer-la-vanne-du-jour` (section 1, constante `CONDITIONS_UTILISATION`) ne contient ni « domaine » ni « pour l'afficher » : il dit seulement « Le widget ne pose aucun cookie et ne suit pas tes visiteurs. », ce qui reste exact (un domaine hôte par affichage, rien sur le visiteur). **Section 1 : aucun changement, rien à remplacer.**
+
+La formule « pour l'afficher » est celle du §4.3 ci-dessus, destinée à la page de confidentialité et au `readme.txt` WordPress. Elle n'est plus exacte avec le comptage. Ancienne phrase, exacte :
+
+> Le widget La vanne du jour ne dépose aucun cookie ; seules les données techniques de la requête sont traitées pour l'afficher.
+
+Phrase corrigée, à la place, mot pour mot :
+
+> Le widget La vanne du jour ne dépose aucun cookie. Seules les données techniques de la requête sont traitées pour l'afficher, et chaque affichage est compté avec le seul domaine du site qui l'affiche (rien sur le visiteur), conservé 3 mois chez Cloudflare.
+
+**Page de confidentialité (`confidentialite/page.tsx`) : oui, ajouter cette seule phrase.** La page ne mentionne pas encore le widget (la phrase du §4.3 n'y est pas posée) : la mettre en puce dans la partie 5 « Cookies et mesure d'audience ». Cloudflare est déjà listé en partie 4 (aucun nouveau prestataire) ; rien d'autre à changer (base légale : intérêt légitime, déjà citée pour la mesure d'audience ; le domaine d'un site n'identifie pas un visiteur). Reprendre la même phrase dans le `readme.txt` WordPress. Pas d'avocat.
