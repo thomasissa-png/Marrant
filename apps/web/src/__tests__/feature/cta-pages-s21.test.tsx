@@ -147,7 +147,7 @@ describe("fin d'étape 1 (concision v5) : « Bien joué ! », carte « Étape 2 
 
   it("la ligne de la lettre déplie le champ au clic (focus dans le champ), case et mention avec lui", async () => {
     render(<LettreRepliee emplacement="parcours" slug="repartie" ligne={FIN_ETAPE_1.lettre.ligne} />);
-    const ligne = screen.getByRole("button", { name: /Lettre gratuite\s:\sune vanne décryptée par mois\./ });
+    const ligne = screen.getByRole("button", { name: /Lettre gratuite\s:\sune situation, trois répliques, chaque mois\./ });
     expect(ligne).toHaveAttribute("aria-expanded", "false");
     expect(document.querySelector('input[type="email"]')).toBeNull();
     await userEvent.click(screen.getByRole("button", { name: /Lettre gratuite/ }));

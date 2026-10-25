@@ -2,7 +2,15 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s22 (25/10) Description publique de la lettre du mois au nouveau format (« une situation, trois répliques »), go de Thomas du 25/10 (« Ok go », description publique comprise)
+
+Branche `claude/ouverture-session-nzwj0w`, commit de ce lot (hash dans le journal git, message « feat(lettre-s22): description de la lettre du mois… »). N-1 = version en ligne `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`. Retour arrière : `cd apps/web && npx wrangler rollback f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`.
+
+- **Aucune migration, aucune variable, aucune écriture en base.** Textes seuls (`config/textes/lettre-s21.ts`, `cta-articles-accueil.ts`, `cta-pages.ts`), version finale de `docs/copy/description-lettre-du-mois-s22.md` (relue, `docs/reviews/review-description-lettre-s22.md`).
+- **Consentement** : la case change, donc `LETTRE_CONSENT_VERSION` passe à `lettre-mensuelle-v3` ; le texte v2 est archivé mot pour mot dans `CONSENTEMENTS_LETTRE_ARCHIVES` (avec sa mention), la v1 n'est pas touchée. Les nouvelles inscriptions stockent `lettre-mensuelle-v3 : <texte de la case>` ; les inscrits existants gardent leur version en base.
+- **Visible** : `/lettre` (titre, onglet, meta description, case), accueil (titre du bloc), page « C'est confirmé » (texte et lien), e-mail de confirmation, formulaire en bas d'article, ligne de fin d'étape 1.
+- **Contrôles après déploiement** : `/lettre` (`<title>` « La lettre : trois répliques, chaque mois | deviens-marrant.fr », H1, case v3), `/lettre?statut=confirmee`, un article (bloc du bas), l'accueil ; une inscription de test seulement si Thomas le demande (aucune adresse réelle).
+- Vérifié le 25/10 : `env -i` + variables factices CI, tsc build et complet, tsc Playwright, `next lint`, Jest complet, `npm run build`, captures `docs/qa/captures-question-equipe-s22/v13-*.png` (6 fichiers : `/lettre`, confirmation, bas d'article ; 390 et 1440) sur build de production et base jetable.
 
 ## s22 (25/10) Les 22 lettres relues (6 lettres du mois, 16 lettres réservées), **DÉPLOYÉ le 25/10/2026 vers 22:30 UTC** (go écrit de Thomas « Ok go ») : version `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`, build sur `6a472b11` (CI verte, run 40238723204), N-1 `851443ee-8f1a-44ca-a987-75de96213e15`. Retour arrière : `cd apps/web && npx wrangler rollback 851443ee-8f1a-44ca-a987-75de96213e15` (sa synchronisation remettrait les anciens textes, sans approbation). Aucune migration.
 - **Avant** : articles liés vérifiés en base (lecture seule) : `repas-de-famille-questions-genantes-humour` 23/11, `resolution-nouvelle-annee-etre-plus-drole` 28/12, `blagues-de-couple-drole` 05/11, `se-presenter-avec-humour` 12/10 (publié), `blagues-poisson-d-avril-adultes` 25/02 ; `rester-muet-en-groupe` dans le code. Préversion testée : 11 adresses en 200, santé `ok`, llms.txt sans « vanne décryptée », webhook 401, en-têtes identiques à N-1.

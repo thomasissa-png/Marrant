@@ -113,7 +113,7 @@ export const BLOC_FIN = {
 
 /** Formulaire en bas d'article, après le bloc de fin (bouton discret : `lettre-s21.ts`). */
 export const LETTRE_ARTICLE = {
-  titre: "Une vanne décryptée, chaque mois",
+  titre: "Une situation, trois répliques, chaque mois",
   phrase: ["Gratuite, par e-mail, avec un exercice."],
 } as const;
 

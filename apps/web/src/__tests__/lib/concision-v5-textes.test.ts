@@ -149,9 +149,9 @@ describe("partie A : accueil, en-tête, articles", () => {
   });
 
   it("§7 lettre en bas d’article", () => {
-    expect(LETTRE_ARTICLE).toEqual({ titre: "Une vanne décryptée, chaque mois", phrase: ["Gratuite, par e-mail, avec un exercice."] });
+    expect(LETTRE_ARTICLE).toEqual({ titre: "Une situation, trois répliques, chaque mois", phrase: ["Gratuite, par e-mail, avec un exercice."] });
     expect(TEXTES_LETTRE.formulaire.bouton).toBe("Envoie-moi la lettre");
-    expect(mots(LETTRE_ARTICLE.titre, ...LETTRE_ARTICLE.phrase)).toBe(11);
+    expect(mots(LETTRE_ARTICLE.titre, ...LETTRE_ARTICLE.phrase)).toBe(12); // s22 : nouveau format de la lettre (+1 mot)
   });
 });
 
@@ -263,14 +263,14 @@ describe("partie B : murs, fiches, fenêtre, quiz, parcours", () => {
     expect(FIN_ETAPE_1.titre).toBe("Bien joué !");
     expect(FIN_ETAPE_1.phrase).toBe("Premium ouvre la suite et les autres parcours d’un coup.");
     expect(t(FIN_ETAPE_1.bouton)).toBe("Passer à l’étape 2 · 1,99 €/mois");
-    expect(FIN_ETAPE_1.lettre.ligne).toBe("Lettre gratuite : une vanne décryptée par mois.");
+    expect(FIN_ETAPE_1.lettre.ligne).toBe("Lettre gratuite : une situation, trois répliques, chaque mois.");
     expect(TEXTES_LETTRE.formulaire.placeholder).toBe("toi@exemple.fr");
     expect(FIN_ETAPE_1.carteSurtitre("repartie")).toBe("Étape 2 sur 4");
     expect(FIN_ETAPE_1.carteSurtitre("storytelling")).toBe("Étape 2 sur 6");
     // textes-trajet-v2 T02 : la phrase de la carte classique.
     expect(VALIDATION_ETAPE.texte).toBe(FIN_ETAPE_1.phrase);
     expect(t(VALIDATION_ETAPE.bouton)).toBe("Passer à l’étape 2 · 1,99 €/mois");
-    expect(mots(FIN_ETAPE_1.titre, FIN_ETAPE_1.phrase, FIN_ETAPE_1.lettre.ligne)).toBe(19);
+    expect(mots(FIN_ETAPE_1.titre, FIN_ETAPE_1.phrase, FIN_ETAPE_1.lettre.ligne)).toBe(20); // s22 : nouveau format de la lettre (+1 mot)
     expect(mots(VALIDATION_ETAPE.texte)).toBe(10);
   });
 

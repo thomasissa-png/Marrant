@@ -39,7 +39,7 @@ const rendre = () => render(<LettreRepliee emplacement="parcours" slug="repartie
 
 it("ligne seule au chargement, lettre-vu une fois, formulaire déplié et focus au clic", async () => {
   const { container } = rendre();
-  const ligne = screen.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
+  const ligne = screen.getByRole("button", { name: /^Lettre gratuite\s:\sune situation, trois répliques, chaque mois\.$/ });
   expect(ligne).toHaveAttribute("aria-expanded", "false");
   expect(container.querySelector("input")).toBeNull();
   act(() => observes.forEach((cb) => cb([{ isIntersecting: true, intersectionRatio: 1 }])));

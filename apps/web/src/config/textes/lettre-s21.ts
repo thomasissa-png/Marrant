@@ -53,7 +53,7 @@ function insecables<T>(valeur: T, garder: readonly string[] = [], chemin = ""): 
 
 const TEXTES_SOURCE = {
   /** Bloc 1 (tour 2, duel 1, A). Repris dans `page.metaTitre`. */
-  titre: "Une vanne décryptée, chaque mois",
+  titre: "Une situation, trois répliques, chaque mois",
   phrase: "Tu la reçois par e-mail, avec un exercice pour t’entraîner.",
   formulaire: {
     /** Bloc 2 (tour 2, duel 2, B). */
@@ -63,8 +63,9 @@ const TEXTES_SOURCE = {
      * Bloc 3 (tour 1, duel 3, B). Texte EXACT de la case (@legal L1).
      * Le modifier = changer LETTRE_CONSENT_VERSION et archiver l'ancien texte
      * dans `CONSENTEMENTS_LETTRE_ARCHIVES`.
+     * s22 (25/10, nouveau format, go de Thomas) : v3 ; le texte v2 est archivé.
      */
-    case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
+    case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une situation, trois répliques, un exercice et une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     bouton: "Envoie-moi la lettre",
     /** Bloc 5 (tour 1, duel 5, B). */
     boutonEnvoi: "Envoi de l’e-mail",
@@ -105,14 +106,14 @@ const TEXTES_SOURCE = {
    */
   menu: "La lettre",
   accueil: {
-    titre: "Une vanne décryptée, chaque mois",
+    titre: "Une situation, trois répliques, chaque mois",
     phrase: "Tu la reçois par e-mail, avec un exercice pour t’entraîner. Gratuit, sans compte.",
     lien: "Voir la lettre",
   },
   page: {
     /** Bloc 6 (tour 2, duel 6, B). */
-    metaTitre: "La lettre : une vanne décryptée, chaque mois",
-    metaDescription: "Une vanne, ce qui la fait marcher et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
+    metaTitre: "La lettre : trois répliques, chaque mois",
+    metaDescription: "Une situation, trois répliques, comment choisir et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
     dernierNumero: "À quoi ça ressemble : le dernier numéro",
     /** Bloc 7 (tour 1, duel 7, A). */
     confirmer: {
@@ -132,9 +133,9 @@ const TEXTES_SOURCE = {
     /** Bloc 7 (tour 1, duel 7, A ; titre neutre validé à l'aveugle, relecture neutre tour 2, duel 1). */
     confirmee: {
       titre: "C’est bon, c’est confirmé.",
-      texte: "Une lettre par mois, avec une vanne décryptée.",
+      texte: "Une lettre par mois, avec une situation et trois répliques.",
       /* Pas de ligne « Le prochain numéro arrive le… » : date jamais affichée (Thomas, 17/10). */
-      lien: "Voir la vanne du jour et son décryptage",
+      lien: "En attendant le prochain numéro, la vanne du jour",
       lienHref: "/blague-du-jour",
     },
     /** Bloc 8 (tour 2, duel 8, A). */
@@ -175,6 +176,11 @@ export const CONSENTEMENTS_LETTRE_ARCHIVES = {
     case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois : une vanne décryptée, parfois avec une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     mention: "Ton e-mail sert à t’envoyer la lettre, rien d’autre. deviens-marrant SAS en est responsable. Détails et droits :",
   },
+  /** Texte présenté du 17/10 au 25/10/2026 (s21, duel 3 B) ; remplacé par la v3 (nouveau format, s22). */
+  "lettre-mensuelle-v2": {
+    case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
+    mention: "Ton adresse ne sert qu’à t’envoyer la lettre. deviens-marrant SAS, l’éditeur du site, en est responsable. Détails et droits :",
+  },
 } as const;
 
 /** Pied légal commun (@legal L3) : identité, contact, confidentialité. */
@@ -195,7 +201,7 @@ const EMAILS_SOURCE = {
       [
         "Salut,",
         "",
-        "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
+        "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une situation, trois répliques et un exercice, une fois par mois.",
         "",
         `Pour confirmer, ouvre ce lien et touche le bouton « ${TEXTES_LETTRE.page.confirmer.bouton} ». Il est valable ${LETTRE_PENDING_JOURS} jours.`,
         lienConfirmer,

@@ -104,7 +104,7 @@ test.describe("Concision du tunnel (structure) @s21", () => {
     expect(url.searchParams.get("callbackUrl")).toBe("/abonnement?returnTo=%2Fparcours%2Frepartie");
     // Lettre : ligne discrète, fermée au chargement (aucun champ), dépliée au clic. Finition du tour 3 :
     // sous la liste des étapes, plus collée au plein payant.
-    const ligne = page.getByRole("button", { name: /^Lettre gratuite\s:\sune vanne décryptée par mois\.$/ });
+    const ligne = page.getByRole("button", { name: /^Lettre gratuite\s:\sune situation, trois répliques, chaque mois\.$/ });
     await expect(ligne).toHaveAttribute("aria-expanded", "false");
     await expect(fin.getByRole("button", { name: /Lettre gratuite/ })).toHaveCount(0);
     const liste = page.getByRole("list", { name: "Étapes du parcours" });

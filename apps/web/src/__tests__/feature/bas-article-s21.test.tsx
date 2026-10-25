@@ -58,7 +58,7 @@ describe("lettre en bas d'article (concision v5, textes-v5-a §7)", () => {
     const { container } = await renderArticle("meilleures-blagues-droles-2026");
     const lettre = container.querySelector<HTMLElement>('[data-blog-zone="lettre"]')!;
     expect(lettre).toHaveTextContent(LETTRE_ARTICLE.titre);
-    expect(LETTRE_ARTICLE.titre).toBe("Une vanne décryptée, chaque mois");
+    expect(LETTRE_ARTICLE.titre).toBe("Une situation, trois répliques, chaque mois");
     expect(lettre).toHaveTextContent(lie("Gratuite, par e-mail, avec un exercice."));
     expect(lettre).not.toHaveTextContent(/J'ai pris un chien|La lettre est gratuite, sans compte|pour t'entraîner/);
     const bloc = container.querySelector("[data-blog-bloc-fin]")!;

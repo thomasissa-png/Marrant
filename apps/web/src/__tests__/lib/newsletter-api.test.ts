@@ -114,7 +114,7 @@ describe("POST /api/newsletter, interrupteur ouvert", () => {
     expect(data.status).toBe("PENDING");
     expect(data.source).toBe("article:meilleures-blagues-droles-2026");
     expect(data.consentText).toBe(LETTRE_CONSENT_TEXT);
-    expect(data.consentText).toBe(`lettre-mensuelle-v2 : ${TEXTES_LETTRE.formulaire.case}`);
+    expect(data.consentText).toBe(`lettre-mensuelle-v3 : ${TEXTES_LETTRE.formulaire.case}`);
     expect(data.consentText).toContain("Premium");
     expect(data.ipAddress).toMatch(/^[0-9a-f]{32}$/);
     expect(data.ipAddress).not.toContain("203.0.113.9");

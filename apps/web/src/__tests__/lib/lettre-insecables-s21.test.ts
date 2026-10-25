@@ -67,7 +67,7 @@ describe("Insécables avant « : ; ? ! » (lettre s21)", () => {
   });
 
   it("métadonnées de /lettre inchangées (pas de typographie de rendu dans metadata)", () => {
-    expect(TEXTES_LETTRE.page.metaTitre).toBe("La lettre : une vanne décryptée, chaque mois");
+    expect(TEXTES_LETTRE.page.metaTitre).toBe("La lettre : trois répliques, chaque mois");
   });
 
   it("revue s21 m6 : <title> de /lettre/confirmer et /lettre/desinscrire sans insécable de rendu", async () => {

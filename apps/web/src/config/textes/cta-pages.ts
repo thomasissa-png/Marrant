@@ -229,7 +229,7 @@ export const FIN_ETAPE_1 = {
    * Lettre sous la REASS : ligne discrète qui déplie le champ au clic. Champ, bouton discret,
    * case et mention : `TEXTES_LETTRE.formulaire` (lettre-s21.ts), textes légaux inchangés.
    */
-  lettre: { ligne: "Lettre gratuite : une vanne décryptée par mois." },
+  lettre: { ligne: "Lettre gratuite : une situation, trois répliques, chaque mois." },
 } as const;
 
 // ─── Page /parcours ─────────────────────────────────────────────────────────

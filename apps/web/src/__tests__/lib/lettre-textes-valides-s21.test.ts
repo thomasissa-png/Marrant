@@ -41,7 +41,7 @@ const EMAILS = sansInsecables(EMAILS_LETTRE);
 
 describe("Textes validés à l'aveugle (mot pour mot)", () => {
   it("bloc 1 : en-tête du formulaire (tour 2, A)", () => {
-    expect([T.titre, T.phrase]).toEqual(["Une vanne décryptée, chaque mois", "Tu la reçois par e-mail, avec un exercice pour t’entraîner."]);
+    expect([T.titre, T.phrase]).toEqual(["Une situation, trois répliques, chaque mois", "Tu la reçois par e-mail, avec un exercice pour t’entraîner."]);
   });
 
   it("bloc 2 : champ, bouton et réassurance (tour 2, B)", () => {
@@ -56,7 +56,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
 
   it("bloc 3 : case de consentement et mention sous le bouton (tour 1, B)", () => {
     expect(T.formulaire.case).toBe(
-      "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
+      "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une situation, trois répliques, un exercice et une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     );
     expect(T.formulaire.mention).toBe(
       "Ton adresse ne sert qu’à t’envoyer la lettre. deviens-marrant SAS, l’éditeur du site, en est responsable. Détails et droits :",
@@ -91,11 +91,12 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
 
   it("bloc 6 : titre de l'onglet, description, intitulé de l'aperçu (tour 2, B)", () => {
     expect([T.page.metaTitre, T.page.metaDescription, T.page.dernierNumero]).toEqual([
-      "La lettre : une vanne décryptée, chaque mois",
-      "Une vanne, ce qui la fait marcher et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
+      "La lettre : trois répliques, chaque mois",
+      "Une situation, trois répliques, comment choisir et un exercice pour t’entraîner, dans ta boîte mail. Gratuit, sans compte.",
       "À quoi ça ressemble : le dernier numéro",
     ]);
-    expect(T.page.metaTitre).toBe(`La lettre : ${T.titre.charAt(0).toLowerCase()}${T.titre.slice(1)}`);
+    // s22 : titre de l'onglet volontairement plus court que le H1 (61 caractères avec le suffixe du gabarit).
+    expect(T.page.metaTitre).toBe("La lettre : trois répliques, chaque mois");
   });
 
   it("bloc 7 : confirmation de l'adresse (tour 1, A)", () => {
@@ -107,8 +108,8 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     const c = T.statuts.confirmee;
     expect([c.titre, c.texte, c.lien]).toEqual([
       "C’est bon, c’est confirmé.",
-      "Une lettre par mois, avec une vanne décryptée.",
-      "Voir la vanne du jour et son décryptage",
+      "Une lettre par mois, avec une situation et trois répliques.",
+      "En attendant le prochain numéro, la vanne du jour",
     ]);
     // Date du prochain numéro jamais affichée (Thomas, 17/10) : plus de texte prévu.
     expect("prochain" in c).toBe(false);
@@ -138,7 +139,7 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
     expect(EMAILS.confirmation.corps("LIEN", BASE).split("\n")).toEqual([
       "Salut,",
       "",
-      "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une vanne décryptée, une fois par mois.",
+      "Quelqu’un (sûrement toi) a demandé à recevoir la lettre de Deviens Marrant avec cette adresse : une situation, trois répliques et un exercice, une fois par mois.",
       "",
       "Pour confirmer, ouvre ce lien et touche le bouton « Confirmer mon adresse ». Il est valable 7 jours.",
       "LIEN",
@@ -200,8 +201,8 @@ describe("Textes validés à l'aveugle (mot pour mot)", () => {
 
 describe("Version du consentement (réserve @legal R1)", () => {
   it("nouvelle étiquette, texte stocké = texte affiché de la case, mot pour mot", () => {
-    expect(LETTRE_CONSENT_VERSION).toBe("lettre-mensuelle-v2");
-    expect(LETTRE_CONSENT_TEXT).toBe(`lettre-mensuelle-v2 : ${TEXTES_LETTRE.formulaire.case}`);
+    expect(LETTRE_CONSENT_VERSION).toBe("lettre-mensuelle-v3");
+    expect(LETTRE_CONSENT_TEXT).toBe(`lettre-mensuelle-v3 : ${TEXTES_LETTRE.formulaire.case}`);
   });
 
   it("l'ancien texte reste archivé sous son étiquette, jamais sous la nouvelle", () => {
@@ -210,6 +211,12 @@ describe("Version du consentement (réserve @legal R1)", () => {
       "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois : une vanne décryptée, parfois avec une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
     );
     expect(CONSENTEMENTS_LETTRE_ARCHIVES["lettre-mensuelle-v1"].case).not.toBe(TEXTES_LETTRE.formulaire.case);
+    // s22 (nouveau format de la lettre) : le texte v2, présenté du 17/10 au 25/10, archivé mot pour mot.
+    expect(CONSENTEMENTS_LETTRE_ARCHIVES["lettre-mensuelle-v2"]).toEqual({
+      case: "Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une vanne décryptée et parfois une mention de Premium. Je peux me désinscrire en un clic, à tout moment.",
+      mention: "Ton adresse ne sert qu’à t’envoyer la lettre. deviens-marrant SAS, l’éditeur du site, en est responsable. Détails et droits :",
+    });
+    expect(Object.keys(CONSENTEMENTS_LETTRE_ARCHIVES)).toEqual(["lettre-mensuelle-v1", "lettre-mensuelle-v2"]);
   });
 });
 

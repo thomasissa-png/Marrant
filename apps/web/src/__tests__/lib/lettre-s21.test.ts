@@ -58,7 +58,7 @@ describe("Textes de la lettre", () => {
   });
 
   it("case @legal L1 : Premium et désinscription en un clic (texte exact : lettre-textes-valides-s21.test.ts)", () => {
-    expect(TEXTES_LETTRE.formulaire.case).toContain("parfois une mention de Premium");
+    expect(TEXTES_LETTRE.formulaire.case).toContain("et une mention de Premium"); // s22 : v3, « parfois » retiré (arbitrage du 25/10)
     expect(TEXTES_LETTRE.formulaire.case).toContain("me désinscrire en un clic");
   });
 

@@ -58,9 +58,11 @@ export type LettreEmplacement = (typeof LETTRE_EMPLACEMENTS)[number];
  *    public : interrupteur resté fermé).
  *  - `lettre-mensuelle-v2` : texte validé à l'aveugle le 17/10 (s21, duel 3 B),
  *    réserve @legal R1.
+ *  - `lettre-mensuelle-v3` : nouveau format de la lettre (s22, 25/10, go de Thomas) : « une
+ *    situation, trois répliques, un exercice et une mention de Premium ».
  * Le serveur stocke `<version> : <texte exact>`, jamais le texte du navigateur.
  */
-export const LETTRE_CONSENT_VERSION = "lettre-mensuelle-v2";
+export const LETTRE_CONSENT_VERSION = "lettre-mensuelle-v3";
 
 /**
  * Lien « Confidentialité » sous le bouton : section lettre de la page

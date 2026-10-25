@@ -334,7 +334,9 @@ describe("Corrections s21 (textes validés, drapeau, réserves @legal)", () => {
     try {
       render(await LettrePage({ searchParams: { statut: "confirmee" } }));
       expect(screen.getByText(TEXTES_LETTRE.statuts.confirmee.titre)).toBeInTheDocument();
-      expect(screen.queryByText(/prochain numéro/i)).toBeNull();
+      // s22 : le lien validé « En attendant le prochain numéro, la vanne du jour » ne donne aucune date.
+      expect(screen.queryAllByText(/prochain numéro/i).map((e) => e.textContent)).toEqual([TEXTES_LETTRE.statuts.confirmee.lien]);
+      expect(document.body.textContent).not.toMatch(/\d{1,2}\s+(janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre)|\d{2}\/\d{2}/i);
       expect(prisma.newsletterIssue.findFirst).not.toHaveBeenCalledWith(expect.objectContaining({ where: expect.objectContaining({ status: "VALIDE" }) }));
     } finally {
       prisma.newsletterIssue.findFirst.mockResolvedValue(null);
