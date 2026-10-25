@@ -69,7 +69,7 @@ Conservée pour mémoire : elle décrit des textes dont certains ont été modif
 >
 > La sûre
 > « Non. C'est vous que je ne voulais pas retenir. »
-> Tu écartes le train et tu renvoies la politesse à la salle : ta brièveté devient une attention pour elle. Rien n'est dirigé contre Mathis, et le chargé de TD entend un étudiant qui respecte le temps de tout le monde. À choisir quand tu ne connais pas encore l'humour de la salle, ou quand l'exposé t'a déjà coûté beaucoup.
+> Tu écartes le train et tu renvoies la politesse à la salle : ta brièveté devient une attention pour elle. Rien n'est dirigé contre Mathis, et le chargé de TD n'entend rien d'insolent : ton exposé reste court, ta réponse reste polie. À choisir quand tu ne connais pas encore l'humour de la salle, ou quand l'exposé t'a déjà coûté beaucoup.
 >
 > La joueuse
 > « Dix minutes prévues, quatre utilisées. Je rends la monnaie. »
@@ -80,13 +80,13 @@ Conservée pour mémoire : elle décrit des textes dont certains ont été modif
 > Tu acceptes le train et tu le fais attendre pour lui : la pique devient une invitation, devant le chargé de TD. S'il trouve une vraie question, tu dois savoir y répondre ; s'il n'en trouve pas, c'est lui que la salle regarde. À garder pour un sujet que tu maîtrises. Si ton exposé s'est mal passé, elle sonne comme une provocation.
 >
 > Comment choisir
-> Dans une salle de TD, la pique tombe juste après ton passage, donc ta réponse devient la fin de ton exposé pour les dix-huit personnes. Demande-toi quelle dernière phrase tu veux leur laisser. La sûre laisse l'image d'un étudiant courtois qui a tenu son temps. La joueuse ajoute que tu sais compter et que tu sais en rire. La risquée fait retenir l'échange avec Mathis, sa question ou son silence, plus du tout l'exposé. Si ton passage a été difficile, prends la fin la plus calme.
+> Dans une salle de TD, la pique tombe juste après ton passage, donc ta réponse devient la fin de ton exposé pour les dix-huit personnes. Demande-toi quelle dernière phrase tu veux leur laisser. La sûre laisse l'image d'un étudiant bref, mais courtois. La joueuse ajoute que tu sais compter et que tu sais en rire. La risquée fait retenir l'échange avec Mathis, sa question ou son silence, plus du tout l'exposé. Si ton passage a été difficile, prends la fin la plus calme.
 >
 > L'erreur que tout le monde fait
 > Répondre à tes fiches. La phrase est bonne, mais tu la dis la tête baissée, en rangeant tes feuilles, et elle s'arrête au bord du bureau. Mathis l'entend à moitié, la salle voit surtout que tu ramasses tes affaires, et ta meilleure réplique devient un murmure. Pose tes fiches sur la table dès que Mathis commence sa phrase : tes mains ont autre chose à faire que ranger, tu lèves la tête, et tout le monde comprend que tu as fini.
 >
 > À essayer cette semaine
-> Prends la sûre ci-dessus, ou une phrase courte de ton choix, et enregistre-la deux fois sur ton téléphone : une fois assis, la tête vers ton bureau, une fois debout, la tête levée vers le mur. Réécoute les deux. Celle qui se comprend de plus loin est celle que tu peux dire devant dix-huit personnes.
+> Prends la sûre ci-dessus, ou une phrase courte de ton choix. Pose ton téléphone à l'autre bout de la pièce et enregistre-la deux fois : une fois assis, la tête vers ton bureau, une fois debout, la tête levée vers le téléphone. Réécoute les deux. Celle que tu comprends du premier coup est celle que tu peux dire devant dix-huit personnes.
 >
 > Répondre à une pique sans en lancer une plus grosse, c'est le sujet de l'étape 1 du parcours Répartie, « Tes premières répliques ».
 > Aller à l'étape 1 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w46-etape1#etape-1
@@ -195,7 +195,7 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 >
 > La risquée
 > « Moi, je montre mon linge, Romain. Toi, tu caches quoi ? »
-> Elle s'adresse à Romain : tu retournes la curiosité contre lui, et elle appelle une réponse. Romain doit rouvrir son micro devant tout le monde, avouer ce qu'il cache ou s'en sortir, pendant que la réunion attend. À deux ou trois, c'est un échange. À douze, c'est une minute où tout le monde vous regarde, et Romain ne l'a pas choisie.
+> Elle s'adresse à Romain : tu retournes la curiosité contre lui, et elle appelle une réponse. Romain doit répondre devant tout le monde, avouer ce qu'il cache ou s'en sortir, pendant que la réunion attend, et cette minute, il ne l'a pas choisie.
 >
 > Comment choisir
 > Compte les questions que ta phrase laisse ouvertes. La sûre et la joueuse se ferment toutes seules : la réunion reprend dans la seconde, sans que personne ait à répondre. La risquée pose une question à Romain, et pendant qu'il répond, tous les autres attendent avec vous deux. À deux ou trois, c'est une conversation. À douze, c'est un temps d'antenne que tu prends sans l'avoir demandé : garde-la pour les petites visios, et prends la sûre quand la réunion est grande.
@@ -358,7 +358,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 > Tu respectes la question en la mettant au menu. Une enfant de dix ans la comprend, et Gérard peut rire sans se sentir visé. À choisir quand l'ambiance est tendue, ou quand tu ne veux pas lancer un sujet que toute la table reprendrait.
 >
 > La joueuse
-> « La même que l'an dernier. Je la laisse vieillir, comme ton vin. »
+> « Même réponse que l'an dernier. Je la laisse vieillir, comme ton vin. »
 > Tu compares ta réponse à un vin qui se bonifie, et Gérard, bouteille à la main, entend surtout que son vin est bon : presque un compliment, donc peu de risque de dispute. Dis-la lentement, comme on goûte. À sortir quand la famille connaît déjà cette question rituelle et en rit chaque année.
 >
 > La risquée
