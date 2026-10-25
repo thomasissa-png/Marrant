@@ -2,6 +2,8 @@
 
 ## À DÉPLOYER
 
+## s22 (25/10) Données lettre hebdo : n°1 (W45) et n°2 (W46) passés à VALIDE, **DÉPLOYÉ le 25/10/2026 vers 13:40 UTC** (même go) : version `c6357ac0-6bda-4cef-bf3c-9e530fb1c9d0`, commit `4f6c3271` (CI verte, run 40197967401), N-1 `063cfbe3-b376-4324-865b-d6e956a73cfd`. Retour arrière : `cd apps/web && npx wrangler rollback 063cfbe3-b376-4324-865b-d6e956a73cfd`. Contrôles : pages 200, en-têtes identiques, admin 401, santé ok. Les deux numéros restent bloqués à l'envoi tant que Thomas ne les a pas approuvés.
+
 ## s22 (25/10) Lettre de la semaine + verrous d'approbation + « Ta question à l'équipe » + délivrabilité, **DÉPLOYÉ le 25/10/2026 vers 13:28 UTC** (go écrit de Thomas « Si on est bon go! ») : version `063cfbe3-b376-4324-865b-d6e956a73cfd`, commit `a979f03f` (CI verte, run 40197020853), N-1 `688edbb4-5108-42a4-ab45-ae867624d801`. Retour arrière : `cd apps/web && npx wrangler rollback 688edbb4-5108-42a4-ab45-ae867624d801` (migration 15 sans retour nécessaire, colonnes ignorées par N-1).
 
 - **Migration 15 jouée en production** le 25/10 vers 13:20 UTC, 2 passes (pilote Neon HTTPS, 7 instructions en transaction), contrôle : 6 colonnes nullables + index unique présents, 6 lignes `NewsletterIssue` intactes. Sauvegarde avant : export JSON des 2 tables (6 + 0 lignes) dans le scratchpad de la session.
