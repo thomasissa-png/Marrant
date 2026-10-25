@@ -2,6 +2,17 @@
 
 ## À DÉPLOYER
 
+(rien)
+
+## s22 (25/10) Lettre du mois pour tous (Premium sans invitation, comptes sans abonnement d'office), lettres réservées en texte libre (7 lettres relues), **DÉPLOYÉ le 25/10/2026** (Thomas : « Je suis tes recos, ça paraît OK comme ça », en réponse à la demande de go) : version `851443ee-8f1a-44ca-a987-75de96213e15`, build sur `3e7b342b` (CI verte, run 40217009413), N-1 `d61b334d-cd56-47de-97b3-dacb2adc85cb`. Retour arrière : `cd apps/web && npx wrangler rollback d61b334d-cd56-47de-97b3-dacb2adc85cb` (la table de la migration 16 est ignorée par N-1 ; sa synchronisation remettrait W45, W49 et les anciens textes, sans approbation).
+- **Migration 16 jouée en production avant le déploiement**, 2 passes sans erreur (pilote Neon HTTPS, 9 instructions en transaction dont le bloc DO) : table `AccountLetterPreference`, 6 colonnes, 3 index, clé étrangère, 0 ligne.
+- **Préversion testée** (`851443ee-marrant.thomas-issa.workers.dev`) : 12 adresses en 200, santé `ok`, ligne de `/register` présente, CGU sans « scène du carnet », confidentialité « compte sans abonnement » et plus de « lettre mensuelle », webhook non signé 401, en-têtes de sécurité identiques à N-1.
+- **P6** : 14 adresses en 200, santé `ok` (`eventsWebhookSecret: true`), ligne de `/register` en ligne.
+- **`/api/cron/startup-tasks` appelé après bascule** (200, 9,3 s). Contrôle en base (lecture seule) : 7 lettres réservées W46, W47, W48, W50 à W53 en `VALIDE`, non approuvées, textes relus ; W45 et W49 retirés ; 6 lettres du mois `VALIDE` non approuvées, intactes ; 0 envoi journalisé.
+- **Reste à faire (Thomas)** : approuver dans l'admin la lettre du mois n°1 avant le jeudi 05/11 8 h, puis chaque lettre réservée avant son jeudi (W46 avant le 12/11 8 h).
+
+Entrées d'origine (avant déploiement) :
+
 ### s22 (25/10) La lettre du mois fait partie des lettres Premium, plus de pause (décision de Thomas du 25/10, [CHOIX UTILISATEUR])
 
 Branche `claude/ouverture-session-nzwj0w`, commits `2cdcba0e` (code), `97e57f2c` (tests) et le commit de clôture qui suit (captures v8, aperçu, docs). N-1 = version en ligne `d61b334d-cd56-47de-97b3-dacb2adc85cb`. Retour arrière : `cd apps/web && npx wrangler rollback d61b334d-cd56-47de-97b3-dacb2adc85cb` (attention : N-1 remet la pause de la mensuelle et W45/W46 restent alors BROUILLON en base, la synchro de N-1 les repasserait VALIDE sans approbation).
