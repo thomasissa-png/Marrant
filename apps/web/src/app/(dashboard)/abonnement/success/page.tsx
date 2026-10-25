@@ -155,7 +155,8 @@ function SubscriptionSuccessContent() {
               {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
                 <>
                   <LettreHebdoCase emplacement="paiement" className="mt-6" />
-                  <Link href={cibleBouton ?? destination} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
+                  {/* `data-pret` : cible finale posée (favori ajouté, drapeau compris), repère des tests de bout en bout. */}
+                  <Link href={cibleBouton ?? destination} data-testid="retour-paiement-continuer" data-pret={cibleBouton ? "oui" : "non"} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
                     {destinationLabel}
                   </Link>
                 </>

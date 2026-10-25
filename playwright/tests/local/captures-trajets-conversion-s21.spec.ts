@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import path from "node:path";
 import type { Locator, Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule, quitterRetourPaiement } from "../support/base-locale";
 
 /**
  * Captures du TRAJET ENCHAÎNÉ, tour 3 (grille docs/ux/trajet-conversion-s21.md §11 : 375 × 700 ET
@@ -102,6 +102,7 @@ async function inscription(c: Contexte, srcAttendue: string, fin: Fin = "stripe"
   await capture(c, "05-avant-stripe");
   c.liberer();
   if (fin === "bienvenue") {
+    await quitterRetourPaiement(c.page);
     await c.page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     await expect(c.page.getByText("Bienvenue dans Premium")).toBeVisible();
     await c.page.waitForTimeout(800);

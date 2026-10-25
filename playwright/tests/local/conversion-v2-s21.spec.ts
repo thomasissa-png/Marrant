@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import type { Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule, quitterRetourPaiement } from "../support/base-locale";
 
 /**
  * Trajet de conversion s21, tour 2 (docs/copy/conversion-s21/textes-trajet-v2.md, arbitrages) :
@@ -86,6 +86,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     await page.locator("#password").fill(MDP);
     await page.getByRole("button", { name: /Créer mon compte/ }).click();
 
+    await quitterRetourPaiement(page);
     await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     const favori = new URLSearchParams(paiement.corps().returnTo.split("?")[1]).get("favori") ?? "";
     expect(favori).toMatch(/^JOKE\./);
@@ -116,6 +117,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     const fenetre = page.getByRole("dialog");
     await expect(fenetre).not.toContainText("D’abord ton compte");
     await fenetre.getByRole("button", { name: "S’abonner et la garder" }).click();
+    await quitterRetourPaiement(page);
     await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     expect(await favorisEnBase(email)).toHaveLength(1);
     await expect(page.getByRole("button", { name: "Retirer des favoris" }).first()).toBeVisible({ timeout: 20_000 });
@@ -182,6 +184,7 @@ test.describe("@s21 trajet de conversion, tour 2", () => {
     expect(corps).toMatchObject({ plan: "annual" });
     expect(urlRetourStripeSimule(corps)).toMatch(/&formule=annuel$/);
     liberer();
+    await quitterRetourPaiement(page);
     await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     await expect(page.getByText("Bienvenue dans Premium")).toBeVisible();
     const liste = (await page.evaluate(() => JSON.parse(sessionStorage.getItem("e2e-umami") ?? "[]"))) as { nom: string; donnees: Record<string, unknown> }[];

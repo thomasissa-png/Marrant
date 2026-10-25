@@ -1,6 +1,6 @@
 import { randomBytes } from "node:crypto";
 import type { Page, Route } from "@playwright/test";
-import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule } from "../support/base-locale";
+import { test, expect, localSeulement, requete, creerCompte, connecter, urlRetourStripeSimule, quitterRetourPaiement } from "../support/base-locale";
 
 /**
  * Trajet de conversion s21, tour 3 (docs/copy/conversion-s21/textes-trajet-v3.md §5) :
@@ -54,6 +54,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     await page.locator("#email").fill(email);
     await page.locator("#password").fill(MDP);
     await page.getByRole("button", { name: /Créer mon compte/ }).click();
+    await quitterRetourPaiement(page);
     await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     expect(new URL(page.url()).pathname).toBe("/conseils");
     // frTypo : gluon (U+2060) après le trait d'union de « Sers-toi ».
@@ -76,6 +77,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
     await page.locator("#password").fill(MDP);
     await page.getByRole("button", { name: "Se connecter" }).click();
     // Avant le correctif : le middleware renvoyait le compte Premium de /abonnement/success vers /vannes.
+    await quitterRetourPaiement(page);
     await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
     const arrivee = new URL(page.url());
     expect(arrivee.pathname).toBe("/vannes");
@@ -127,6 +129,7 @@ test.describe("@s21 trajet de conversion, tour 3", () => {
       await page.locator("#email").fill(email);
       await page.locator("#password").fill(MDP);
       await page.getByRole("button", { name: /Créer mon compte/ }).click();
+      await quitterRetourPaiement(page);
       await page.waitForURL(/premium=bienvenue/, { timeout: 60_000 });
       expect(new URL(page.url()).pathname).toBe(retourAttendu);
       await expect(page.getByTestId("bienvenue-texte")).toBeVisible();

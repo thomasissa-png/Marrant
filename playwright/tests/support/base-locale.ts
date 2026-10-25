@@ -1,6 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 import { randomBytes, scryptSync } from "node:crypto";
 import { cheminRetourPaiement } from "@/lib/premium-return";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 
 /**
  * Socle des tests de bout en bout LOCAUX (projet `local`) : ils écrivent en base
@@ -75,4 +76,18 @@ export { test, expect };
  */
 export function urlRetourStripeSimule(corps: { returnTo?: string; plan?: string }): string {
   return cheminRetourPaiement(corps.returnTo ?? null, corps.plan === "annual" ? "annual" : "monthly", "cs_test_e2e_local");
+}
+
+/**
+ * Retour de paiement (s22) : inscriptions à la lettre de la semaine ouvertes = la page montre la
+ * case et un bouton vers la page d'origine, sans redirection automatique. On clique ce bouton une
+ * fois sa cible finale posée (favori ajouté, `data-pret="oui"`). Fermées : redirection, rien à faire.
+ */
+export async function quitterRetourPaiement(page: Page): Promise<void> {
+  if (!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) return;
+  const bouton = page.locator('[data-testid="retour-paiement-continuer"][data-pret="oui"]');
+  await expect(bouton).toBeVisible({ timeout: 60_000 });
+  // Encadré présent ; la case elle-même n'apparaît qu'avec une adresse confirmée (compte neuf : « Confirme ton adresse e-mail »).
+  await expect(page.getByTestId("lettre-hebdo-paiement")).toBeVisible();
+  await bouton.click();
 }
