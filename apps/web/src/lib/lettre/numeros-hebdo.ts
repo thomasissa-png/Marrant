@@ -2,51 +2,55 @@
  * Numéros PRÉPARÉS de la lettre de la semaine (hebdo Premium, s21 ; spec §2, §3, US-H5).
  * Règle du 01/10 : contenu préparé par lot, aucune IA au fil de l'eau.
  *
- * Source : `src/data/lettre/hebdo-premium.json` (contenu : @copywriter, relu à l'aveugle,
- * `VALIDE`). Depuis s22 (décision de Thomas du 25/10), `VALIDE` ne suffit plus pour partir :
- * chaque numéro doit AUSSI être approuvé par Thomas dans l'admin (`approbation-hebdo.ts`),
- * et toute modification ultérieure annule cette approbation. Une entrée :
+ * s22 (décision de Thomas du 25/10) : plus jamais une fiche du carnet recopiée. Chaque lettre
+ * réservée est un texte libre écrit par l'équipe (une situation et trois répliques, ou le
+ * décryptage d'un passage d'humoriste), de « Salut, » à la signature. Le code n'ajoute que la
+ * ligne « Ta question à l'équipe » et le pied hebdo, à l'envoi (`rendu-hebdo.ts`).
+ *
+ * Source : `src/data/lettre/hebdo-premium.json`. `VALIDE` ne suffit pas pour partir : chaque
+ * numéro doit AUSSI être approuvé par Thomas dans l'admin (`approbation-hebdo.ts`), et toute
+ * modification ultérieure annule cette approbation. Une entrée :
  * {
- *   "semaine": "2026-W46",              // semaine ISO (année du jeudi) ; envoi = son jeudi 8 h Paris, calculé
- *   "ficheId": "2026-11-01",            // fiche du carnet, recopiée telle quelle (jamais retapée)
- *   "accroche": "…",                    // facultative, 1 à 2 phrases, jamais la réplique
- *   "pont": { "texte": "…", "lien": "https://deviens-marrant.fr/parcours/…#etape-2" }, // facultatif
- *   "objet": "…",                       // facultatif, 45 caractères au plus ; défaut : titre de la fiche
- *   "preEntete": "…",                   // facultatif ; défaut : constante du gabarit
- *   "statut": "BROUILLON" | "VALIDE"
+ *   "semaine": "2026-W46",                       // semaine ISO (année du jeudi)
+ *   "statut": "BROUILLON" | "VALIDE",
+ *   "envoiPrevu": "2026-11-13T08:00:00+01:00",   // facultatif ; défaut : jeudi 8 h Paris de la semaine
+ *   "objet": "…",                                // 45 caractères au plus
+ *   "preEntete": "…",
+ *   "corps": "Salut,\n\n…\n\nL'Équipe Deviens Marrant"   // texte complet, signature comprise
  * }
- * Synchronisé au démarrage dans `NewsletterIssue` (audience HEBDO_PREMIUM, periodKey =
- * semaine). Un numéro ENVOYE n'est JAMAIS modifié ; une entrée invalide est ignorée
- * avec un message (fiche inconnue, fiche déjà utilisée, semaine inexistante, offre).
+ * Synchronisé au démarrage dans `NewsletterIssue` (audience HEBDO_PREMIUM, periodKey = semaine).
+ * Le fichier fait foi : un numéro pas encore envoyé qui n'y figure plus (ou n'y est plus valide)
+ * est retiré de la base (`neutraliserAnciensNumeros`). Un numéro ENVOYE n'est JAMAIS modifié.
  */
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import numerosJson from "@/data/lettre/hebdo-premium.json";
+import numerosMensuelsJson from "@/data/lettre/numeros.json";
 import { MARQUEUR_A_COMPLETER, LETTRE_HEBDO_STOCK_ALERTE } from "@/config/lettre";
-import { GABARIT_HEBDO, type GabaritHebdo } from "@/config/textes/lettre-hebdo-s21";
-import { envoiSemaine, moisDeSemaine, semaineValide } from "@/lib/lettre/calendrier";
-import { getAllCarnets, type Carnet, type CarnetFiche } from "@/lib/carnet";
+import { envoiSemaine, semaineIsoParis, semaineValide } from "@/lib/lettre/calendrier";
 import { SANS_APPROBATION } from "@/lib/lettre/approbation-hebdo";
 
 const TIRET_CADRATIN = "—";
 const sansTiret = (champ: string) => z.string().refine((v) => !v.includes(TIRET_CADRATIN), { message: `${champ} : tiret cadratin interdit` });
 
 export const OBJET_HEBDO_MAX = 45;
+export const SALUT_HEBDO = "Salut,";
+export const SIGNATURE_HEBDO = "L'Équipe Deviens Marrant";
 
-export const numeroHebdoSchema = z.object({
-  semaine: z.string().refine(semaineValide, { message: "semaine ISO mal formée ou inexistante (AAAA-Www)" }),
-  ficheId: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-  accroche: sansTiret("accroche").pipe(z.string().trim().min(1).max(400)).optional(),
-  pont: z
-    .object({
-      texte: sansTiret("pont").pipe(z.string().trim().min(1).max(200)),
-      lien: z.string().url().regex(/^https:\/\/deviens-marrant\.fr\/parcours\//, { message: "pont : lien vers une étape de parcours uniquement" }),
-    })
-    .optional(),
-  objet: sansTiret("objet").pipe(z.string().trim().min(3).max(OBJET_HEBDO_MAX)).optional(),
-  preEntete: sansTiret("preEntete").pipe(z.string().trim().max(200)).optional(),
-  statut: z.enum(["BROUILLON", "VALIDE"]),
-});
+export const numeroHebdoSchema = z
+  .object({
+    semaine: z.string().refine(semaineValide, { message: "semaine ISO mal formée ou inexistante (AAAA-Www)" }),
+    statut: z.enum(["BROUILLON", "VALIDE"]),
+    envoiPrevu: z.string().datetime({ offset: true }).optional(),
+    objet: sansTiret("objet").pipe(z.string().trim().min(3).max(OBJET_HEBDO_MAX, { message: `objet : ${OBJET_HEBDO_MAX} caractères au plus` })),
+    preEntete: sansTiret("preEntete").pipe(z.string().trim().min(1).max(200)),
+    corps: sansTiret("corps")
+      .pipe(z.string().trim().min(50).max(20_000))
+      .refine((c) => c.startsWith(SALUT_HEBDO), { message: `corps : doit commencer par « ${SALUT_HEBDO} »` })
+      .refine((c) => c.includes(SIGNATURE_HEBDO), { message: `corps : signature « ${SIGNATURE_HEBDO} » absente` }),
+  })
+  // Ancien format (ficheId, accroche, pont) refusé en clair plutôt qu'ignoré en silence.
+  .strict();
 export type NumeroHebdo = z.infer<typeof numeroHebdoSchema>;
 
 /**
@@ -71,53 +75,18 @@ export function motifsInterdits(texte: string): string[] {
   return motifs;
 }
 
-/** L'objet ne donne jamais la réplique (spec §3.3) : ni la réplique entière, ni un morceau de 12 caractères ou plus. */
-function donneLaReplique(objet: string, reponse: string): boolean {
-  const norme = (t: string) => t.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, " ").trim();
-  const o = norme(objet);
-  const r = norme(reponse);
-  return o.includes(r) || (o.length >= 12 && r.includes(o));
+/** Semaines ISO des lettres du mois programmées (`numeros.json`, `envoiPrevu` renseigné). */
+export function semainesLettreDuMois(source: unknown = numerosMensuelsJson): Set<string> {
+  const semaines = new Set<string>();
+  for (const e of Array.isArray(source) ? source : []) {
+    const envoi = (e as { envoiPrevu?: unknown } | null)?.envoiPrevu;
+    if (typeof envoi === "string" && !Number.isNaN(Date.parse(envoi))) semaines.add(semaineIsoParis(new Date(envoi)));
+  }
+  return semaines;
 }
 
-/** Fiche du carnet par identifiant (« 2026-11-01 » → carnet « 2026-11 »). */
-export function trouverFiche(ficheId: string, carnets: readonly Carnet[] = getAllCarnets()): { carnet: Carnet; fiche: CarnetFiche } | null {
-  const carnet = carnets.find((c) => c.mois === ficheId.slice(0, 7));
-  const fiche = carnet?.fiches.find((f) => f.id === ficheId);
-  return carnet && fiche ? { carnet, fiche } : null;
-}
-
-/** Lien vers le carnet en bas du numéro (première partie, aucun suivi d'ouverture ni de clic). */
-export function lienCarnetHebdo(semaine: string, baseUrl = "https://deviens-marrant.fr"): string {
-  return `${baseUrl.replace(/\/$/, "")}/carnet?utm_source=lettre-premium&utm_medium=email&utm_content=${semaine.toLowerCase()}-carnet`;
-}
-
-/**
- * Corps d'un numéro (sans pied), assemblé depuis la fiche : ses champs sont recopiés
- * caractère pour caractère (test H5-6). Gabarit non validé : marqueur en tête, le
- * numéro est bloqué à l'envoi.
- */
-export function assemblerCorpsHebdo(n: NumeroHebdo, fiche: CarnetFiche, gabarit: GabaritHebdo = GABARIT_HEBDO): string {
-  const blocs: string[] = [];
-  if (!gabarit.valide) blocs.push(`${MARQUEUR_A_COMPLETER} : gabarit de la lettre de la semaine à valider à l'aveugle (P3)]`);
-  blocs.push(gabarit.salut);
-  if (n.accroche) blocs.push(n.accroche);
-  blocs.push(fiche.situation);
-  blocs.push(`${gabarit.onTeDit} : « ${fiche.onTeDit} »`);
-  blocs.push(`${gabarit.reponse}\n« ${fiche.reponse} »`);
-  blocs.push(`${gabarit.pourquoi}\n${fiche.pourquoi}`);
-  blocs.push(`${gabarit.siTendu}\n« ${fiche.siTendu} »`);
-  blocs.push(`${gabarit.exercice}\n${fiche.exercice}`);
-  const fin: string[] = [];
-  if (n.pont) fin.push(`${gabarit.pont} : ${n.pont.texte} ${n.pont.lien}`);
-  fin.push(`${gabarit.carnet} : ${lienCarnetHebdo(n.semaine)}`);
-  blocs.push(fin.join("\n"));
-  blocs.push(`${gabarit.fin}\n${gabarit.signature}`);
-  return blocs.join("\n\n");
-}
-
-export interface NumeroHebdoAssemble {
+export interface NumeroHebdoPrepare {
   semaine: string;
-  ficheId: string;
   objet: string;
   preEntete: string;
   corps: string;
@@ -128,72 +97,82 @@ export interface NumeroHebdoAssemble {
 export interface SyncHebdoResultat {
   crees: number;
   misAJour: number;
+  /** Numéros pas encore envoyés absents du fichier (ou refusés) : supprimés de la base. */
+  retires: string[];
   ignores: string[];
 }
 
-/** Valide et assemble les entrées (sans base) ; les fautives vont dans `ignores`. */
+/** Valide les entrées (sans base) ; les fautives vont dans `ignores`, avec le motif. */
 export function preparerNumerosHebdo(
   source: unknown,
-  carnets: readonly Carnet[] = getAllCarnets(),
-  gabarit: GabaritHebdo = GABARIT_HEBDO,
-): { numeros: NumeroHebdoAssemble[]; ignores: string[] } {
-  const numeros: NumeroHebdoAssemble[] = [];
+  mensuelles: ReadonlySet<string> = semainesLettreDuMois(),
+): { numeros: NumeroHebdoPrepare[]; ignores: string[] } {
+  const numeros: NumeroHebdoPrepare[] = [];
   const ignores: string[] = [];
-  const fichesVues = new Map<string, string>();
   const semainesVues = new Set<string>();
   for (const [i, brut] of (Array.isArray(source) ? source : []).entries()) {
     const parsed = numeroHebdoSchema.safeParse(brut);
     if (!parsed.success) {
-      ignores.push(`#${i} : ${parsed.error.issues.map((e) => e.message).join(", ")}`);
+      const semaine = (brut as { semaine?: unknown } | null)?.semaine;
+      ignores.push(`${typeof semaine === "string" ? semaine : `#${i}`} : ${parsed.error.issues.map((e) => e.message).join(", ")}`);
       continue;
     }
     const n = parsed.data;
-    const trouvee = trouverFiche(n.ficheId, carnets);
-    if (!trouvee) {
-      ignores.push(`${n.semaine} : fiche « ${n.ficheId} » inconnue (carnet absent ou id faux)`);
-      continue;
-    }
-    if (fichesVues.has(n.ficheId)) {
-      ignores.push(`${n.semaine} : fiche « ${n.ficheId} » déjà utilisée par ${fichesVues.get(n.ficheId)}`);
-      continue;
-    }
     if (semainesVues.has(n.semaine)) {
       ignores.push(`${n.semaine} : deux numéros pour la même semaine`);
       continue;
     }
-    const mois = moisDeSemaine(n.semaine);
-    if (!mois || trouvee.carnet.mois > mois) {
-      ignores.push(`${n.semaine} : la fiche « ${n.ficheId} » vient d'un carnet pas encore en ligne cette semaine`);
+    if (mensuelles.has(n.semaine)) {
+      ignores.push(`${n.semaine} : semaine de la lettre du mois (numeros.json), pas de lettre réservée`);
       continue;
     }
-    const objet = n.objet ?? trouvee.fiche.titre;
-    if (objet.length > OBJET_HEBDO_MAX || donneLaReplique(objet, trouvee.fiche.reponse)) {
-      ignores.push(`${n.semaine} : objet trop long ou contenant la réplique`);
+    const jeudi = envoiSemaine(n.semaine) as Date;
+    const envoiPrevu = n.envoiPrevu ? new Date(n.envoiPrevu) : jeudi;
+    if (semaineIsoParis(envoiPrevu) !== n.semaine || envoiPrevu.getTime() < jeudi.getTime()) {
+      ignores.push(`${n.semaine} : envoiPrevu hors de la semaine (du jeudi 8 h au dimanche, heure de Paris)`);
       continue;
     }
-    const preEntete = n.preEntete ?? gabarit.preEntete;
-    const corps = assemblerCorpsHebdo(n, trouvee.fiche, gabarit);
-    // Le marqueur du gabarit non validé est attendu : il bloque à l'envoi, pas à la synchronisation.
-    const motifs = motifsInterdits([objet, preEntete, corps].join("\n")).filter((m) => m !== "marqueur [À COMPLÉTER");
+    const motifs = motifsInterdits([n.objet, n.preEntete, n.corps].join("\n"));
     if (motifs.length > 0) {
       ignores.push(`${n.semaine} : ${motifs.join(", ")}`);
       continue;
     }
-    fichesVues.set(n.ficheId, n.semaine);
     semainesVues.add(n.semaine);
-    numeros.push({ semaine: n.semaine, ficheId: n.ficheId, objet, preEntete, corps, envoiPrevu: envoiSemaine(n.semaine) as Date, statut: n.statut });
+    numeros.push({ semaine: n.semaine, objet: n.objet, preEntete: n.preEntete, corps: n.corps, envoiPrevu, statut: n.statut });
   }
   return { numeros, ignores };
+}
+
+/**
+ * Le fichier fait foi pour les numéros pas encore envoyés : une ligne HEBDO_PREMIUM non ENVOYE
+ * dont la semaine n'est pas (ou plus) un numéro accepté du fichier est SUPPRIMÉE si elle n'a
+ * aucun journal d'envoi (rien n'est perdu : rien n'est parti). Avec un journal (envoi commencé
+ * puis numéro retiré du fichier, cas limite) : gardée pour l'historique, remise en BROUILLON et
+ * sans approbation, donc elle ne part plus.
+ */
+async function neutraliserAnciensNumeros(semaines: string[], r: SyncHebdoResultat): Promise<void> {
+  const where = { audience: "HEBDO_PREMIUM" as const, status: { not: "ENVOYE" as const }, periodKey: { notIn: semaines } };
+  const anciens = await prisma.newsletterIssue.findMany({ where, select: { periodKey: true }, orderBy: { periodKey: "asc" } });
+  if (anciens.length === 0) return;
+  await prisma.newsletterIssue.deleteMany({ where: { ...where, sends: { none: {} } } });
+  const gardes = await prisma.newsletterIssue.findMany({ where, select: { periodKey: true } });
+  if (gardes.length > 0) {
+    await prisma.newsletterIssue.updateMany({ where, data: { status: "BROUILLON", validatedAt: null, ...SANS_APPROBATION } });
+    for (const g of gardes) r.ignores.push(`${g.periodKey} : absent du fichier, envoi déjà commencé : gardé en brouillon, ne part plus`);
+  }
+  const gardees = new Set(gardes.map((g) => g.periodKey));
+  r.retires.push(...anciens.map((a) => a.periodKey).filter((s) => !gardees.has(s)));
 }
 
 export async function synchroniserNumerosHebdo(
   source: unknown = numerosJson,
   now: Date = new Date(),
-  carnets: readonly Carnet[] = getAllCarnets(),
-  gabarit: GabaritHebdo = GABARIT_HEBDO,
+  mensuelles: ReadonlySet<string> = semainesLettreDuMois(),
 ): Promise<SyncHebdoResultat> {
-  const { numeros, ignores } = preparerNumerosHebdo(source, carnets, gabarit);
-  const r: SyncHebdoResultat = { crees: 0, misAJour: 0, ignores };
+  const { numeros, ignores } = preparerNumerosHebdo(source, mensuelles);
+  const r: SyncHebdoResultat = { crees: 0, misAJour: 0, retires: [], ignores };
+  // Fichier illisible (pas un tableau) : on ne touche à rien plutôt que tout retirer.
+  if (!Array.isArray(source)) return r;
   for (const n of numeros) {
     const donnees = {
       subject: n.objet,
@@ -230,6 +209,7 @@ export async function synchroniserNumerosHebdo(
     });
     r.misAJour++;
   }
+  await neutraliserAnciensNumeros(numeros.map((n) => n.semaine), r);
   return r;
 }
 
@@ -248,8 +228,10 @@ export async function stockHebdo(now: Date): Promise<{ aVenir: number; alerte: b
 export async function applyLettreHebdoNumerosTask(): Promise<void> {
   try {
     const r = await synchroniserNumerosHebdo();
-    if (r.crees + r.misAJour + r.ignores.length > 0) {
-      console.log(`[startup] lettre hebdo : ${r.crees} numéro(s) créé(s), ${r.misAJour} mis à jour, ${r.ignores.length} ignoré(s).`);
+    if (r.crees + r.misAJour + r.retires.length + r.ignores.length > 0) {
+      console.log(
+        `[startup] lettre hebdo : ${r.crees} numéro(s) créé(s), ${r.misAJour} mis à jour, ${r.retires.length} retiré(s)${r.retires.length ? ` (${r.retires.join(", ")})` : ""}, ${r.ignores.length} ignoré(s).`,
+      );
       for (const m of r.ignores) console.warn(`[startup] lettre hebdo : ignoré ${m}`);
     }
   } catch (err) {

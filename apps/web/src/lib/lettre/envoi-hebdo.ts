@@ -9,7 +9,7 @@
  *  3 bis. (s22) Approuvé par Thomas dans l'admin, pour ce contenu exact (`approbationValide`) ;
  *     sinon alerte « en attente d'approbation », rien n'est envoyé. Approuvé plus tard dans la
  *     semaine : part au passage suivant (jusqu'au dimanche soir).
- *  4. Marqueur `[À COMPLÉTER` (gabarit non validé, pied) ou offre commerciale
+ *  4. Marqueur `[À COMPLÉTER` (texte ou pied) ou offre commerciale
  *     (`motifsInterdits`, avis @legal C1) dans le rendu : bloqué.
  *  5. Article du blog cité hors ligne, ou étape de parcours d'un parcours inactif : reporté.
  *  2 bis. (s22, décision de Thomas du 25/10) Semaine de la lettre du mois (`semaineDeLaMensuelle`) :

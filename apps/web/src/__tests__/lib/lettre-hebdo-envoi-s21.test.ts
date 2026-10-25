@@ -104,10 +104,10 @@ jest.mock("@/lib/prisma", () => ({
   },
 }));
 
-import carnetNovembre from "@/data/carnet/2026-11.json";
 import factice from "../helpers/lettre-hebdo-numero-factice.json";
-import { parseCarnets } from "@/lib/carnet";
-import { GABARIT_HEBDO, LIGNE_QUESTION_EQUIPE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
+import numerosReservesReels from "@/data/lettre/hebdo-premium.json";
+import { LIGNE_QUESTION_EQUIPE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
+import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
 import { preparerNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
 import { corpsNumeroHebdo, envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
 import { frPonctuation, NBSP } from "@/lib/fr-typo";
@@ -118,7 +118,7 @@ import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
 const BASE = "https://deviens-marrant.fr";
 const JEUDI_8H05 = new Date("2026-11-12T07:05:00Z"); // jeudi 12/11, 8 h 05 Paris
 const avant = new Date("2026-11-01T10:00:00Z");
-const corpsValide = preparerNumerosHebdo(factice, parseCarnets([carnetNovembre]), { ...GABARIT_HEBDO, valide: true }).numeros[0];
+const corpsValide = preparerNumerosHebdo(factice).numeros[0];
 
 function premium(email: string, p: Record<string, unknown> = {}, pref: Record<string, unknown> = {}) {
   return {
@@ -181,7 +181,7 @@ describe("Quand ça part", () => {
     expect(mockDb.issues[0].status).toBe("ENVOYE");
     const [to, subject, text, headers] = e.mock.calls[0];
     expect(to).toBe("yanis@x.fr");
-    expect(subject).toBe("Le vendeur dans ton dos");
+    expect(subject).toBe("Numéro factice des tests");
     const jeton = "jeton-yanis@x.fr".padEnd(43, "x");
     expect(text).toContain(`${BASE}/lettre/premium/arreter?token=${encodeURIComponent(jeton)}`);
     expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
@@ -244,8 +244,8 @@ describe("Garde-fous : rien ne part", () => {
     expect(e).not.toHaveBeenCalled();
   });
 
-  it("H4-6 : marqueur [À COMPLÉTER (gabarit non validé) : bloqué", async () => {
-    mockDb.issues = [numero({ bodyText: preparerNumerosHebdo(factice, parseCarnets([carnetNovembre]), { ...GABARIT_HEBDO, valide: false }).numeros[0].corps })];
+  it("H4-6 : marqueur [À COMPLÉTER glissé dans le texte en base : bloqué", async () => {
+    mockDb.issues = [numero({ bodyText: `${MARQUEUR_A_COMPLETER} : exemple à remplacer]\n\n${corpsValide.corps}` })];
     const e = envoyer();
     const r = await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(r.bloque).toBe(true);
@@ -474,5 +474,25 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
     expect(r).toMatchObject({ canalPremium: 0, dedoublonnes: 0 });
     expect(mois.mock.calls.map((c) => c[0])).toContain("actif@x.fr");
     expect(mois.mock.calls.find((c) => c[0] === "actif@x.fr")![2]).not.toContain(PS_N1);
+  });
+});
+
+describe("s22 : lettre réservée W46 réelle (texte libre de l'équipe), pied et ligne question ajoutés par le code", () => {
+  it("jeudi 12/11 8 h 05, approuvée : objet et texte tels qu'écrits, puis la ligne « Ta question à l'équipe », puis le pied hebdo", async () => {
+    const reel = preparerNumerosHebdo(numerosReservesReels).numeros[0];
+    expect(reel).toMatchObject({ semaine: "2026-W46", statut: "BROUILLON" });
+    mockDb.issues = [numero({ subject: reel.objet, preheader: reel.preEntete, bodyText: reel.corps, scheduledFor: reel.envoiPrevu })];
+    mockDb.parcoursActifs = ["repartie"];
+    const e = envoyer();
+    const r = await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
+    expect(r).toMatchObject({ numero: "2026-W46", bloque: false, reporte: false, envoyes: 2, termine: true });
+    const [, subject, text] = e.mock.calls[0];
+    expect(subject).toBe(frPonctuation("T'as perdu ta langue ? Trois réponses"));
+    expect(text.startsWith(frPonctuation(reel.corps))).toBe(true);
+    const ligne = frPonctuation(LIGNE_QUESTION_EQUIPE_HEBDO);
+    expect(text).toContain(`À jeudi prochain,\nL'Équipe Deviens Marrant\n\n${ligne}\n\n--\n`);
+    expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
+    expect(text).toContain("utm_content=2026-w46-etape3#etape-3");
+    expect(text).not.toContain("Toutes les fiches du mois");
   });
 });

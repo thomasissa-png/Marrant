@@ -1,8 +1,9 @@
 [
   {
     "semaine": "2026-W46",
-    "ficheId": "2026-11-01",
-    "accroche": "Numéro FACTICE pour les tests, jamais envoyé : le contenu réel est écrit par la rédaction.",
-    "statut": "VALIDE"
+    "statut": "VALIDE",
+    "objet": "Numéro factice des tests",
+    "preEntete": "Jamais envoyé : le contenu réel est écrit par l'équipe.",
+    "corps": "Salut,\n\nNuméro FACTICE pour les tests, jamais envoyé : le contenu réel est écrit par l'équipe.\n\nUne situation, trois répliques, et comment choisir.\n\nÀ jeudi prochain,\nL'Équipe Deviens Marrant"
   }
 ]

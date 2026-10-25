@@ -10,7 +10,7 @@
  *  - Toute modification du contenu après approbation (synchronisation du fichier ou
  *    écriture directe en base) l'annule ; un retrait explicite aussi.
  */
-// s22 (25/10) : interrupteurs et gabarit RÉELS (ouverts et validé), plus aucun forçage par mock :
+// s22 (25/10) : interrupteurs RÉELS (ouverts), plus aucun forçage par mock :
 // la preuve porte sur la configuration qui sera déployée.
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
@@ -40,7 +40,17 @@ jest.mock("@/lib/prisma", () => ({
   prisma: {
     newsletterIssue: {
       findUnique: jest.fn(async ({ where }: { where: Parameters<typeof trouve>[0] }) => (trouve(where) ? { ...trouve(where)! } : null)),
-      findMany: jest.fn(async () => mockDb.issues.filter((i) => i.audience === "HEBDO_PREMIUM" && i.status !== "ENVOYE").map((i) => ({ ...i }))),
+      // Liste admin (sans `periodKey`) ; synchronisation : numéros absents du fichier (`periodKey.notIn`).
+      findMany: jest.fn(async ({ where }: { where: { periodKey?: { notIn: string[] } } }) =>
+        mockDb.issues.filter((i) => i.audience === "HEBDO_PREMIUM" && i.status !== "ENVOYE" && !where.periodKey?.notIn.includes(i.periodKey)).map((i) => ({ ...i })),
+      ),
+      deleteMany: jest.fn(async ({ where }: { where: { periodKey: { notIn: string[] } } }) => {
+        const avant = mockDb.issues.length;
+        mockDb.issues = mockDb.issues.filter(
+          (i) => !(i.audience === "HEBDO_PREMIUM" && i.status !== "ENVOYE" && !where.periodKey.notIn.includes(i.periodKey) && !mockDb.journal.some((l) => l.issueId === i.id)),
+        );
+        return { count: avant - mockDb.issues.length };
+      }),
       create: jest.fn(async ({ data }: { data: Omit<Issue, "id" | "approvedAt" | "approvedBy" | "approvedHash"> }) => {
         const i = { id: `i${mockDb.issues.length + 1}`, approvedAt: null, approvedBy: null, approvedHash: null, ...data };
         mockDb.issues.push(i);
@@ -76,12 +86,9 @@ jest.mock("@/lib/prisma", () => ({
 }));
 
 import { NextRequest } from "next/server";
-import carnetNovembre from "@/data/carnet/2026-11.json";
 import factice from "../helpers/lettre-hebdo-numero-factice.json";
 import numerosReels from "@/data/lettre/hebdo-premium.json";
 import { LETTRE_HEBDO_ENVOIS_OUVERTS, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { parseCarnets } from "@/lib/carnet";
-import { GABARIT_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { synchroniserNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
 import { envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
 import { approbationValide, empreinteNumero } from "@/lib/lettre/approbation-hebdo";
@@ -89,8 +96,6 @@ import { GET as getNumeros } from "@/app/api/admin/lettre-premium/numeros/route"
 import { POST as approuver, DELETE as retirer } from "@/app/api/admin/lettre-premium/approbation/route";
 
 const BASE = "https://deviens-marrant.fr";
-const CARNETS = parseCarnets([carnetNovembre]);
-const GABARIT = GABARIT_HEBDO;
 const avant = new Date("2026-11-01T10:00:00Z");
 const JEUDI_8H05 = new Date("2026-11-12T07:05:00Z");
 const DIMANCHE_22H = new Date("2026-11-15T21:00:00Z");
@@ -124,20 +129,19 @@ beforeEach(async () => {
     },
   ];
   // Le numéro arrive en base comme en production : synchronisation du fichier, statut VALIDE.
-  await synchroniserNumerosHebdo(factice, avant, CARNETS, GABARIT);
+  await synchroniserNumerosHebdo(factice, avant);
 });
 
 describe("Sans approbation de Thomas, rien ne part", () => {
-  it("configuration déployée : inscriptions et envois ouverts, gabarit validé (aucun forçage)", () => {
+  it("configuration déployée : inscriptions et envois ouverts (aucun forçage)", () => {
     expect(LETTRE_HEBDO_INSCRIPTIONS_OUVERTES).toBe(true);
     expect(LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(true);
-    expect(GABARIT_HEBDO.valide).toBe(true);
   });
 
-  it("fichier réel synchronisé : aucun numéro approuvé par défaut, le jeudi 05/11 8 h 05 rien ne part", async () => {
+  it("fichier réel synchronisé (W46, lettre A) : aucun numéro approuvé par défaut, le jeudi 12/11 8 h 05 rien ne part", async () => {
     mockDb.issues = [];
-    await synchroniserNumerosHebdo(numerosReels, avant, CARNETS);
-    expect(mockDb.issues).toHaveLength(9);
+    await synchroniserNumerosHebdo(numerosReels, avant);
+    expect(mockDb.issues).toHaveLength(1);
     for (const i of mockDb.issues) {
       expect(i).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
       expect(approbationValide(i)).toBe(false);
@@ -145,8 +149,8 @@ describe("Sans approbation de Thomas, rien ne part", () => {
     // Même passé à VALIDE (commit de Thomas), un numéro sans approbation ne part pas.
     for (const i of mockDb.issues) i.status = "VALIDE";
     const e = envoyer();
-    const r = await tache(new Date("2026-11-05T07:05:00Z"), e);
-    expect(r).toMatchObject({ ferme: false, numero: "2026-W45", nonApprouve: true, envoyes: 0 });
+    const r = await tache(JEUDI_8H05, e);
+    expect(r).toMatchObject({ ferme: false, numero: "2026-W46", nonApprouve: true, envoyes: 0 });
     expect(e).not.toHaveBeenCalled();
     expect(mockDb.journal).toHaveLength(0);
   });
@@ -215,10 +219,10 @@ describe("Ce qui annule l'approbation", () => {
     expect((await approuver(requete("POST", { semaine: "2026-W46", empreinte: numeros[0].empreinte }))).status).toBe(200);
   }
 
-  it("fichier modifié puis synchronisé (accroche changée) : approbation effacée, rien ne part", async () => {
+  it("fichier modifié puis synchronisé (corps changé) : approbation effacée, rien ne part", async () => {
     await approuve();
-    const modifie = [{ ...factice[0], accroche: "Accroche changée après l'approbation." }];
-    await synchroniserNumerosHebdo(modifie, avant, CARNETS, GABARIT);
+    const modifie = [{ ...factice[0], corps: factice[0].corps.replace("trois répliques", "trois réponses") }];
+    await synchroniserNumerosHebdo(modifie, avant);
     expect(mockDb.issues[0]).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
     const e = envoyer();
     expect((await tache(JEUDI_8H05, e)).nonApprouve).toBe(true);
@@ -227,7 +231,7 @@ describe("Ce qui annule l'approbation", () => {
 
   it("synchronisation sans changement : l'approbation reste", async () => {
     await approuve();
-    await synchroniserNumerosHebdo(factice, avant, CARNETS, GABARIT);
+    await synchroniserNumerosHebdo(factice, avant);
     expect(approbationValide(mockDb.issues[0])).toBe(true);
   });
 
