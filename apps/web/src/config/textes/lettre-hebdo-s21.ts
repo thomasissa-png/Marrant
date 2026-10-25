@@ -75,7 +75,8 @@ export const LETTRE_HEBDO_ARRET = {
  * seulement si `QUESTION_EQUIPE_OUVERTE` (jamais de promesse d'une fonction absente).
  */
 export const LIGNE_QUESTION_EQUIPE_HEBDO =
-  "Une situation te laisse sans réplique ? Pose ta question à l'équipe depuis ton profil : en général, réponse sous 1 à 2 jours ouvrés.";
+  // Relecture finale s22 P3-4 : URL du profil en fin de ligne (e-mail en texte seul, lien cliquable, comme les liens des numéros).
+  "Une situation te laisse sans réplique ? Pose ta question à l'équipe depuis ton profil : en général, réponse sous 1 à 2 jours ouvrés. https://deviens-marrant.fr/profil";
 
 /** Bloc de la ligne « Ta question à l'équipe » (ligne vide + ligne), ou rien si le service est fermé. */
 export function ligneQuestionEquipeHebdo(ouverte: boolean = QUESTION_EQUIPE_OUVERTE): string {

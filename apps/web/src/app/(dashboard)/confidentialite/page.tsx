@@ -134,7 +134,8 @@ export default function ConfidentialitePage() {
           {/* [À FIXER PAR THOMAS] durée de conservation des comptes inactifs (11 anciens comptes FREE compris) :
               aucune purge automatique n'existe ; texte neutre sans durée chiffrée en attendant (@legal point 11 c). */}
           <p className="mt-2">Un compte inactif n’est pas supprimé automatiquement : il reste en place jusqu’à ce que tu le supprimes depuis ton profil.</p>
-          <p className="mt-2">Tes factures restent chez Stripe, notre prestataire de paiement, pendant 10 ans : la loi nous oblige à conserver les pièces comptables.</p>
+          {/* Relecture s22 P3-5 : frTypo (« 10 ans » insécable). */}
+          <p className="mt-2">{frTypo("Tes factures restent chez Stripe, notre prestataire de paiement, pendant 10 ans : la loi nous oblige à conserver les pièces comptables.")}</p>
           {/* [À FIXER PAR THOMAS] durée de conservation des demandes de rétractation (prescription, avis d'avocat,
               @legal point 11 a) : texte neutre sans durée chiffrée en attendant. */}
           {/* P7, legal s17 §4. Phrase « Les statistiques de mesure d'audience sont conservées 25 mois au plus. »

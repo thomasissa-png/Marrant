@@ -137,6 +137,13 @@ describe("Formulaire : états et accessibilité", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
+  it("relecture P3-3 : compteur sur le texte nettoyé, comme la validation (1 000 + espaces de bord = pas d'erreur)", () => {
+    render(<QuestionEquipeCard />);
+    fireEvent.change(champ(), { target: { value: `  ${"a".repeat(1000)} \n` } });
+    expect(texte(screen.getByTestId("question-equipe"))).toContain("1 000 / 1 000 caractères");
+    expect(champ()).toHaveAttribute("aria-invalid", "false");
+  });
+
   it("succès : « Envoi en cours » puis message de succès (aria-live), champ vidé, Umami sans contenu", async () => {
     let finir: (v: unknown) => void = () => {};
     fetchMock.mockReturnValueOnce(new Promise((r) => (finir = r)));
@@ -161,7 +168,7 @@ describe("Formulaire : états et accessibilité", () => {
   it.each([
     ["session expirée (401)", 401, "session", "Reconnecte-toi"],
     ["trop d'envois (429, limite du jour)", 429, "trop", "Trop d’envois pour le moment. Réessaie plus tard"],
-    ["envoi impossible (503)", 503, "envoi", "Ton message n’est pas parti"],
+    ["envoi impossible (503)", 503, "envoi", "On n’a pas pu confirmer l’envoi"],
     ["plus Premium côté serveur (403)", 403, "non-premium", "ton abonnement n’est plus actif"],
   ])("%s : message d'erreur, texte conservé dans le champ", async (_, status, code, extrait) => {
     fetchMock.mockResolvedValueOnce(reponse(status, { error: code }, status === 429 ? { "Retry-After": "7200" } : {}));
@@ -214,7 +221,7 @@ describe("Formulaire : états et accessibilité", () => {
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
     fireEvent.click(screen.getByRole("button", { name: BOUTON }));
-    await waitFor(() => expect(texte(screen.getByRole("alert"))).toContain("Ton message n’est pas parti"));
+    await waitFor(() => expect(texte(screen.getByRole("alert"))).toContain("On n’a pas pu confirmer l’envoi"));
     expect(champ().value).toBe(QUESTION);
   });
 });
@@ -253,6 +260,8 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     const art10 = cgu.querySelector("section#lettre");
     expect(art10?.querySelector("h2")?.textContent).toBe(attendu(CGU_QUESTION_EQUIPE.titre));
     expect(texte(art10)).toContain(attendu(CGU_QUESTION_EQUIPE.texte));
+    // Relecture P3-1 : amorce en gras (titre en ligne).
+    expect(texte(art10?.querySelector("[data-testid=cgu-question-equipe] strong") ?? null)).toBe(attendu(CGU_QUESTION_EQUIPE.amorce));
     expect(texte(art10)).toContain("au plus tard sous 3 jours ouvrés");
     expect(texte(cgu)).not.toMatch(/7 jours/);
     expect(texte(cgu)).toContain("Dernière mise à jour : 12 novembre 2026");

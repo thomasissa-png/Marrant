@@ -50,7 +50,8 @@ export const QUESTION_EQUIPE_UI = {
     vide: "Le champ est vide. Décris ta situation en quelques lignes, puis envoie.",
     /** `max` = `QUESTION_EQUIPE_MAX` formaté (« 1 000 »). */
     tropLong: (max: string) => `Ton message dépasse ${max} caractères. Garde l'essentiel, puis envoie.`,
-    envoi: ECRIS_NOUS("Ton message n'est pas parti. Réessaie dans un instant, ou écris-nous à ", "."),
+    /** Relecture finale B1 : vrai même si Resend a fini par envoyer (délai de 5 s, réponse perdue). */
+    envoi: ECRIS_NOUS("On n'a pas pu confirmer l'envoi. Réessaie dans un instant, ou écris-nous à ", "."),
     /** Défaut, vrai pour la limite de 10 minutes comme pour celle de 24 heures. */
     trop: ECRIS_NOUS("Trop d'envois pour le moment. Réessaie plus tard, ou écris-nous à ", ". Ton texte reste dans le champ."),
     /** Seulement si `Retry-After` ≤ 15 minutes. */
@@ -84,7 +85,7 @@ export const QUESTION_EQUIPE_TROP_COURT_MAX_S = 15 * 60;
  */
 export const QUESTION_EQUIPE_EMAIL = {
   objet: (quand: string) => `Ta question à l'équipe · ${quand} (Paris)`,
-  corps: (question: string, le: string, a: string) => [question, "", `Question envoyée depuis ton espace Premium le ${le} à ${a}.`].join("\n"),
+  corps: (question: string, le: string, a: string) => [question, "", `Question envoyée depuis ton profil Premium le ${le} à ${a}.`].join("\n"),
 } as const;
 
 /** Confidentialité, section 9 (avis @legal point 2 ; boîte alex@ chez IONOS depuis le 25/10). */
@@ -93,8 +94,8 @@ export const CONFIDENTIALITE_QUESTION_EQUIPE = {
   puces: [
     "Ce qu'on reçoit : le texte de ta question (1 000 caractères au plus) et l'adresse e-mail de ton compte, pour te répondre. Le site ne les garde pas dans sa base de données : ton message est envoyé par e-mail à l'équipe.",
     "Pourquoi : lire ta question et y répondre, un service compris dans ton abonnement Premium. Base : exécution du contrat.",
-    "Qui y accède : l'équipe, dans sa boîte alex@deviens-marrant.fr, hébergée chez IONOS. Ton message passe par Resend (envoi), et l'équipe peut se servir d'outils de rédaction pour préparer sa réponse (voir la partie 4). Rien n'est publié ni repris ailleurs sans ton accord.",
-    "Combien de temps : ta question et notre réponse restent dans la boîte e-mail de l'équipe 6 mois après notre dernier échange, puis sont effacées. Tu peux demander leur effacement plus tôt.",
+    "Qui y accède : l'équipe, dans sa boîte alex@deviens-marrant.fr, hébergée chez IONOS et transférée vers sa messagerie Gmail (Google). Ton message passe par Resend (envoi), et l'équipe peut se servir d'outils de rédaction pour préparer sa réponse (voir la partie 4). Rien n'est publié sans ton accord.",
+    "Combien de temps : ta question et notre réponse restent dans les boîtes e-mail de l'équipe au plus 6 mois après notre dernier échange, même si tu supprimes ton compte avant, puis sont effacées. Tu peux demander leur effacement plus tôt.",
     "Tes droits : pour une copie de tes échanges ou pour les faire effacer, écris à contact@deviens-marrant.fr (voir la partie 7).",
   ],
 } as const;
@@ -117,8 +118,11 @@ export const PRESTATAIRES_QUESTION_EQUIPE = {
 /** CGU, article 10 (avis @legal point 3, délai adapté : au plus tard 3 jours ouvrés). */
 export const CGU_QUESTION_EQUIPE = {
   titre: "10. La lettre et ta question à l'équipe",
+  /** Relecture finale P3-1 : titre en ligne, rendu en gras. */
+  amorce: "Ta question à l'équipe.",
+  /** P3-2 : tutoiement d'un bout à l'autre ; P2-2 : « rien n'est publié » (plus de « ni repris ailleurs », lu contre les outils de rédaction). */
   texte:
-    "Ta question à l'équipe. Les abonnés Premium peuvent écrire à l'équipe depuis leur profil pour décrire une situation où la répartie leur a manqué. L'équipe répond par e-mail, en général sous 1 à 2 jours ouvrés, et au plus tard sous 3 jours ouvrés ; en cas de retard, on te prévient. La réponse est un conseil d'humour et de répartie : elle ne remplace ni un avis médical, ni un avis psychologique, ni un avis juridique, et ne garantit aucun résultat. Ne mets dans ta question ni information sensible sur toi, ni nom de personne. L'équipe peut écarter une question contraire à l'article 4 : dans ce cas, on te le dit. Tu restes titulaire de ce que tu écris, et rien n'est publié ni repris ailleurs sans ton accord. Ce service est réservé aux abonnés Premium : il s'arrête avec ton abonnement, et les e-mails déjà reçus restent dans ta boîte.",
+    "Avec un abonnement Premium, tu peux écrire à l'équipe depuis ton profil pour décrire une situation où la répartie t'a manqué. L'équipe répond par e-mail, en général sous 1 à 2 jours ouvrés, et au plus tard sous 3 jours ouvrés ; en cas de retard, on te prévient. La réponse est un conseil d'humour et de répartie : elle ne remplace ni un avis médical, ni un avis psychologique, ni un avis juridique, et ne garantit aucun résultat. Ne mets dans ta question ni information sensible sur toi, ni nom de personne. L'équipe peut écarter une question contraire à l'article 4 : dans ce cas, on te le dit. Tu restes titulaire de ce que tu écris, et rien n'est publié sans ton accord. Ce service est réservé aux abonnés Premium : il s'arrête avec ton abonnement, et les e-mails déjà reçus restent dans ta boîte.",
 } as const;
 
 /**

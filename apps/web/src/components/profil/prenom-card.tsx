@@ -72,6 +72,8 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
               autoComplete="given-name"
               aria-describedby={erreur ? "profil-prenom-erreur" : undefined}
               aria-invalid={!!erreur}
+              // s22 (revue design C1) : même bordure à 3:1 que le champ voisin « Ta question à l'équipe ».
+              className="border-border-input"
             />
           </div>
           <Button type="submit" variant="outline" className="min-h-11" disabled={enCours}>

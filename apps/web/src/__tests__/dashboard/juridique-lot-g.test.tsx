@@ -124,7 +124,7 @@ describe("pages légales", () => {
 
   it("confidentialité : 5 compléments @legal, aucune durée inventée", () => {
     render(<ConfidentialitePage />);
-    const text = document.body.textContent ?? "";
+    const text = (document.body.textContent ?? "").replace(/\u00a0/g, " ");
     expect(text).toContain("empreinte de ton adresse IP");
     expect(text).toContain("pendant 10 ans");
     expect(text).toContain("Un compte inactif n’est pas supprimé automatiquement");

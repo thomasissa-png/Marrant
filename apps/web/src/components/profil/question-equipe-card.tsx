@@ -53,7 +53,8 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
 
   if (!QUESTION_EQUIPE_OUVERTE) return null;
 
-  const n = longueur(question);
+  // Compté sur le texte nettoyé, comme la validation à l'envoi (relecture finale P3-3).
+  const n = longueur(question.trim());
   const depasse = n > QUESTION_EQUIPE_MAX;
   const erreur = etat.etat === "erreur" ? etat.erreur : null;
   const enCours = etat.etat === "envoi";
@@ -126,8 +127,9 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             }}
             aria-describedby={decrit}
             aria-invalid={erreur === "vide" || erreur === "trop-long" || depasse}
-            // 16 px sur téléphone (pas de zoom iOS au focus) ; en erreur, bordure et halo rouges (plus de dégradé rouge vers violet).
-            className="block w-full resize-y rounded-lg border border-border bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary aria-[invalid=true]:border-error aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error sm:text-sm"
+            // 16 px à toutes les largeurs (pas de zoom iOS au focus, paysage compris) ; bordure `border-input` à 3,3:1 (WCAG 1.4.11) ;
+            // en erreur, bordure et halo rouges.
+            className="block w-full resize-y rounded-lg border border-border-input bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary aria-[invalid=true]:border-error aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error"
           />
           {/* Téléphone : compteur collé au champ, aide dessous ; à partir de sm : aide à gauche, compteur à droite.
               Graisse et largeur du compteur constantes (la ligne d'aide ne se recoupe plus quand il passe en erreur). */}
@@ -140,11 +142,12 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             </p>
           </div>
           {erreur && (
-            <p id={`${id}-erreur`} role="alert" className="mt-2 text-sm text-error-text" data-testid="question-equipe-erreur" data-erreur={erreur}>
+            <p id={`${id}-erreur`} role="alert" className="mt-2 break-words text-sm text-error-text" data-testid="question-equipe-erreur" data-erreur={erreur}>
               <MessageErreur erreur={erreur} />
             </p>
           )}
-          <Button type="submit" variant="primary" className="mt-3 min-h-11 w-full sm:w-auto" disabled={bloque} aria-disabled={bloque}>
+          {/* Revue design C3 : désactivé à 80 % (au lieu de 50 % dans `ui/button.tsx`), « Envoi en cours » reste lisible. */}
+          <Button type="submit" variant="primary" className="mt-3 min-h-11 w-full disabled:opacity-80 sm:w-auto" disabled={bloque} aria-disabled={bloque}>
             {enCours ? T.envoiEnCours : typo(T.bouton)}
           </Button>
           {/* Statut toujours présent (annonce fiable) ; succès en bloc visible juste sous le bouton, avant la mention.
@@ -169,7 +172,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
               {enCours ? T.envoiEnCours : etat.etat === "succes" ? <span>{typo(T.succes)}</span> : null}
             </p>
           </div>
-          <p className="mt-2 text-xs text-text-muted" data-testid="question-equipe-mention">
+          <p className="mt-2 break-words text-xs text-text-muted" data-testid="question-equipe-mention">
             {typo(T.mention.avantLien)}
             <Link href={QUESTION_EQUIPE_CONFIDENTIALITE_HREF} className={cn(LIEN, "hover:text-text-secondary")}>
               {T.mention.lien}

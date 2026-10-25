@@ -10,14 +10,17 @@ Le format du code ne porte aucune date : `envoiPrevu` est calculé (jeudi 8 h Pa
 
 | N° | Semaine | Envoi (jeudi 8 h Paris) | Fiche (id, objet) | Contexte | Cadre de saison |
 |---|---|---|---|---|---|
-| 1 | 2026-W46 | 12/11/2026 | 2026-11-02, Le voisin en bonnet | quotidien | Premiers froids, le chauffage collectif |
-| 2 | 2026-W47 | 19/11/2026 | 2026-11-19, Le coupable idéal | boulot | Matins de pluie, retards |
-| 3 | 2026-W48 | 26/11/2026 | 2026-11-28, Le carton dans l'entrée | couple | Semaine du Black Friday (vendredi 27/11) |
-| 4 | 2026-W49 | 03/12/2026 | 2026-11-15, La guirlande en boule | famille | Les décorations sortent des cartons |
-| 5 | 2026-W50 | 10/12/2026 | 2026-11-11, Le capitaine et ses plots | sport | Le froid de décembre, le match du dimanche |
-| 6 | 2026-W51 | 17/12/2026 | 2026-11-25, Le rayon des retardataires | famille | Les cadeaux, une semaine avant le 24 |
-| 7 | 2026-W52 | 24/12/2026 | 2026-11-14, Le perdant officiel | amis | Après-midi de Noël, le jeu de société |
-| 8 | 2026-W53 | 31/12/2026 | 2026-11-06, DJ désigné d'office | soirée | Réveillon, la musique |
+| 1 | 2026-W45 | 05/11/2026 | 2026-11-02, Le voisin en bonnet | quotidien | Premiers froids, le chauffage collectif |
+| 2 | 2026-W46 | 12/11/2026 | 2026-11-09, Le renfort du samedi | amis | Le samedi qui approche (accroche B, relecture s22) |
+| 3 | 2026-W47 | 19/11/2026 | 2026-11-19, Le coupable idéal | boulot | Matins de pluie, retards |
+| 4 | 2026-W48 | 26/11/2026 | 2026-11-28, Le carton dans l'entrée | couple | Semaine du Black Friday (vendredi 27/11) |
+| 5 | 2026-W49 | 03/12/2026 | 2026-11-15, La guirlande en boule | famille | Les décorations sortent des cartons |
+| 6 | 2026-W50 | 10/12/2026 | 2026-11-11, Le capitaine et ses plots | sport | Le froid de décembre, le match du dimanche |
+| 7 | 2026-W51 | 17/12/2026 | 2026-11-25, Le rayon des retardataires | famille | Les cadeaux, une semaine avant le 24 |
+| 8 | 2026-W52 | 24/12/2026 | 2026-11-14, Le perdant officiel | amis | Après-midi de Noël, le jeu de société |
+| 9 | 2026-W53 | 31/12/2026 | 2026-11-06, DJ désigné d'office | soirée | Réveillon, la musique |
+
+> s22 (25/10) : 9 numéros d'avance (`data/lettre/hebdo-premium.json`). Le n°1 passe au jeudi 05/11 (W45, texte inchangé) et un numéro W46 est ajouté (relecture `docs/reviews/review-lettre-hebdo-w45-w46-s22.md`). Les tableaux des parties suivantes gardent la numérotation d'origine (1 à 8) : leur n°1 est le n°1 ci-dessus, leurs n°2 à 8 sont les n°3 à 9 ci-dessus. Le W46 n'y figure pas (décompte dans la relecture s22).
 
 Logique : une montée du froid de novembre au réveillon, un contexte différent à chaque numéro (jamais deux fois de suite le même), et les deux numéros de fêtes les plus tardifs (jeu de société, playlist) calés sur les deux soirées où ils servent vraiment. Aucune fiche n'est la fiche offerte d'un mois (2026-10-15 et 2026-11-10 restent intactes pour le gratuit et l'extrait de /abonnement).
 

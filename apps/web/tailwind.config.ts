@@ -32,6 +32,9 @@ const config: Config = {
         border: {
           DEFAULT: "#2A2A2A",
           hover: "#3A3A3A",
+          // s22 (revue design C1, WCAG 1.4.11) : bordure des champs de saisie, 3,33:1 sur carte #1F1F1F,
+          // 3,51:1 sur fond de champ #1A1A1A, 3,92:1 sur page #0D0D0D (luminance 0,162).
+          input: "#707070",
         },
         success: "#22C55E",
         error: "#EF4444",

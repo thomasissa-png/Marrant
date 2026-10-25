@@ -152,7 +152,7 @@ describe("E-mail envoyé", () => {
     // Tour 2 s22 : la question, puis la ligne d'envoi, et rien d'autre (aucun rappel interne).
     const [question, vide, ligne, ...reste] = texte.split("\n");
     expect([question, vide, reste]).toEqual([QUESTION, "", []]);
-    expect(ligne).toMatch(/^Question envoyée depuis ton espace Premium le \d{2}\/\d{2}\/2026 à 11:00\.$/);
+    expect(ligne).toMatch(/^Question envoyée depuis ton profil Premium le \d{2}\/\d{2}\/2026 à 11:00\.$/);
     expect(texte).not.toMatch(/Reply-To|@legal|3114|outil|Rappels/);
   });
 
