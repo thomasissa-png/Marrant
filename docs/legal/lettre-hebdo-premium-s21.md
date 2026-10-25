@@ -292,7 +292,7 @@ Mentions légales : https://deviens-marrant.fr/mentions-legales
 
 ### 9.3 CGU, article 10, premier ajout (remplace le 1er paragraphe du §4.1)
 
-La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, sauf si tu nous as demandé de ne plus recevoir nos e-mails, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.
+La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, sauf si tu nous as demandé de ne plus recevoir nos e-mails, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle propose des situations du quotidien, des façons d'y répondre et des exercices, et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.
 
 ### 9.4 Confidentialité (remplace les ajouts du §4.2)
 
