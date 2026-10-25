@@ -142,8 +142,11 @@ export function emplacementDeSource(source: string | null | undefined): LettreEm
  * FAQ, llms.txt). Ne s'affiche que via `promesseLettreHebdoVisible()`, qui exige
  * aussi les deux autres interrupteurs : la promesse n'avance jamais sur la réalité.
  */
-export const LETTRE_HEBDO_INSCRIPTIONS_OUVERTES: boolean = false;
-export const LETTRE_HEBDO_ENVOIS_OUVERTS: boolean = false;
+// s22 (25/10, décision de Thomas) : inscriptions et envois ouverts. Rien ne part sans approbation :
+// chaque numéro doit être VALIDE ET approuvé par Thomas pour son contenu exact (`approbationValide`,
+// empreinte du texte), sinon la tâche du jeudi s'arrête en `nonApprouve`. La promesse publique reste fermée.
+export const LETTRE_HEBDO_INSCRIPTIONS_OUVERTES: boolean = true;
+export const LETTRE_HEBDO_ENVOIS_OUVERTS: boolean = true;
 export const LETTRE_HEBDO_PROMESSE: boolean = false;
 
 /** Invariant H8-2 : promesse visible seulement si inscriptions ET envois sont ouverts. */
@@ -192,4 +195,5 @@ export const LETTRE_HEBDO_PROFIL_ANCRE = "lettre";
  * que l'ouverture des inscriptions). À remplir en ouvrant l'interrupteur (« 9 novembre 2026 ») ;
  * le test `lettre-hebdo-interrupteurs-s21` refuse une ouverture sans date.
  */
-export const LETTRE_HEBDO_DATE_TEXTES: string = "";
+// s22 : même déploiement que « Ta question à l'équipe » (`QUESTION_EQUIPE_DATE_TEXTES`). À reporter si la mise en ligne glisse.
+export const LETTRE_HEBDO_DATE_TEXTES: string = "26 octobre 2026";

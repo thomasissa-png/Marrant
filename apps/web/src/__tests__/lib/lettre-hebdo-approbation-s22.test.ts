@@ -10,9 +10,10 @@
  *  - Toute modification du contenu après approbation (synchronisation du fichier ou
  *    écriture directe en base) l'annule ; un retrait explicite aussi.
  */
+// s22 (25/10) : interrupteurs et gabarit RÉELS (ouverts et validé), plus aucun forçage par mock :
+// la preuve porte sur la configuration qui sera déployée.
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
-  LETTRE_HEBDO_ENVOIS_OUVERTS: true,
   LETTRE_MENTION_EDITEUR_NUMERO: "deviens-marrant SAS",
 }));
 
@@ -77,6 +78,8 @@ jest.mock("@/lib/prisma", () => ({
 import { NextRequest } from "next/server";
 import carnetNovembre from "@/data/carnet/2026-11.json";
 import factice from "../helpers/lettre-hebdo-numero-factice.json";
+import numerosReels from "@/data/lettre/hebdo-premium.json";
+import { LETTRE_HEBDO_ENVOIS_OUVERTS, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { parseCarnets } from "@/lib/carnet";
 import { GABARIT_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { synchroniserNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
@@ -87,7 +90,7 @@ import { POST as approuver, DELETE as retirer } from "@/app/api/admin/lettre-pre
 
 const BASE = "https://deviens-marrant.fr";
 const CARNETS = parseCarnets([carnetNovembre]);
-const GABARIT = { ...GABARIT_HEBDO, valide: true };
+const GABARIT = GABARIT_HEBDO;
 const avant = new Date("2026-11-01T10:00:00Z");
 const JEUDI_8H05 = new Date("2026-11-12T07:05:00Z");
 const DIMANCHE_22H = new Date("2026-11-15T21:00:00Z");
@@ -125,6 +128,29 @@ beforeEach(async () => {
 });
 
 describe("Sans approbation de Thomas, rien ne part", () => {
+  it("configuration déployée : inscriptions et envois ouverts, gabarit validé (aucun forçage)", () => {
+    expect(LETTRE_HEBDO_INSCRIPTIONS_OUVERTES).toBe(true);
+    expect(LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(true);
+    expect(GABARIT_HEBDO.valide).toBe(true);
+  });
+
+  it("fichier réel synchronisé : aucun numéro approuvé par défaut, le jeudi 05/11 8 h 05 rien ne part", async () => {
+    mockDb.issues = [];
+    await synchroniserNumerosHebdo(numerosReels, avant, CARNETS);
+    expect(mockDb.issues).toHaveLength(9);
+    for (const i of mockDb.issues) {
+      expect(i).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
+      expect(approbationValide(i)).toBe(false);
+    }
+    // Même passé à VALIDE (commit de Thomas), un numéro sans approbation ne part pas.
+    for (const i of mockDb.issues) i.status = "VALIDE";
+    const e = envoyer();
+    const r = await tache(new Date("2026-11-05T07:05:00Z"), e);
+    expect(r).toMatchObject({ ferme: false, numero: "2026-W45", nonApprouve: true, envoyes: 0 });
+    expect(e).not.toHaveBeenCalled();
+    expect(mockDb.journal).toHaveLength(0);
+  });
+
   it.each([
     ["jeudi 8 h 05", JEUDI_8H05],
     ["dimanche 22 h (fin de semaine)", DIMANCHE_22H],

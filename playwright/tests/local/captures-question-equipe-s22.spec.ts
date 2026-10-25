@@ -13,7 +13,7 @@ import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
  * débordement horizontal (scrollWidth de la page ET de l'encadré).
  *
  * États obtenus par le vrai serveur : vide, envoi en cours (faux Resend lent, 3 s), succès,
- * trop long, champ vide, envoi impossible (faux Resend en panne : 503, rien n'est parti),
+ * trop long, champ vide, envoi impossible (faux Resend en panne : 503),
  * trop d'envois court (vraie limite de 3 envois en 10 min), plus Premium (plan passé à FREE
  * en base après l'affichage : 403), session expirée (cookies effacés : 401), focus clavier.
  * Seule exception : « trop d'envois » au-delà de 15 min (limite du jour, 10 envois en 24 h),
@@ -162,7 +162,7 @@ test.describe("Captures « Ta question à l'équipe » (tour 2)", () => {
       expect(c.to).toBe("alex@deviens-marrant.fr");
       expect(c.replyTo).toBe(email);
       expect(c.subject).toMatch(/^Ta question à l'équipe · \d{2}\/\d{2} \d{2}:\d{2} \(Paris\)$/);
-      expect(c.text).toMatch(new RegExp(`^${QUESTION.replace(/[.*+?^()|[\]\\]/g, "\\$&")}\\n\\nQuestion envoyée depuis ton espace Premium le \\d{2}/\\d{2}/\\d{4} à \\d{2}:\\d{2}\\.$`));
+      expect(c.text).toMatch(new RegExp(`^${QUESTION.replace(/[.*+?^()|[\]\\]/g, "\\$&")}\\n\\nQuestion envoyée depuis ton profil Premium le \\d{2}/\\d{2}/\\d{4} à \\d{2}:\\d{2}\\.$`));
     });
 
     test(`${l} px : envoi impossible (rien n'est parti)`, async ({ page }) => {
@@ -170,7 +170,7 @@ test.describe("Captures « Ta question à l'équipe » (tour 2)", () => {
       mode = "panne";
       await envoyer(page);
       await expect(alerte(page)).toHaveAttribute("data-erreur", "envoi", { timeout: 15_000 });
-      await expect(alerte(page)).toContainText(/n.est pas parti/);
+      await expect(alerte(page)).toContainText(/pas pu confirmer l.envoi/);
       await expect(champ(page)).toHaveValue(QUESTION);
       await capturer(page, encadre(page), `envoi-impossible-${l}`);
     });

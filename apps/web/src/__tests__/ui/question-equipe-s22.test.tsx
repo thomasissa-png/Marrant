@@ -32,6 +32,7 @@ import { QuestionEquipeCard } from "@/components/profil/question-equipe-card";
 import { trackUmami } from "@/lib/umami";
 import { useUserStore } from "@/stores/user-store";
 import * as configReelle from "@/config/question-equipe";
+import { LETTRE_HEBDO_DATE_TEXTES, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import {
   CGU_QUESTION_EQUIPE,
   CONFIDENTIALITE_QUESTION_EQUIPE,
@@ -232,7 +233,8 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     const conf = render(<ConfidentialitePage />).container;
     expect(conf.querySelector("#question-equipe")).toBeNull();
     expect(texte(conf)).not.toMatch(/Ta question|IONOS|Gmail|Outils de rédaction|messages à l’équipe/);
-    expect(texte(conf)).toContain("Dernière mise à jour : 17 octobre 2026");
+    // Seule « Ta question » est fermée ici : la date reste celle des autres textes publiés (lettre de la semaine ouverte en s22).
+    expect(texte(conf)).toContain(`Dernière mise à jour : ${LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? LETTRE_HEBDO_DATE_TEXTES : "17 octobre 2026"}`);
     const cgu = render(<CGUPage />).container;
     expect(cgu.querySelector("section#lettre h2")?.textContent).toBe("10. La lettre");
     expect(texte(cgu)).not.toMatch(/Ta question/);

@@ -101,12 +101,12 @@ export function piedNumeroHebdo(lienArret: string, baseUrl: string): string {
  * (S §2.2) Gabarit d'un numéro. Libellés des blocs repris de la fiche du carnet
  * (`components/carnet/carnet-fiche-card.tsx` : « On te dit », « Tu réponds »,
  * « Pourquoi ça marche », « Si ça se tend », « À toi de jouer »). Salut, signature,
- * pré-en-tête et ligne du carnet : propositions de la spec, NON validées.
- * `valide: false` : tout numéro est bloqué (marqueur `[À COMPLÉTER`) jusqu'au gel
- * du gabarit après relecture à l'aveugle (P3), même interrupteur ouvert.
+ * pré-en-tête et ligne du carnet : gabarit figé le 25/10 (s22, décision de Thomas).
+ * `valide: true` : le marqueur `[À COMPLÉTER` du gabarit ne bloque plus ; chaque numéro reste
+ * soumis à l'approbation de Thomas pour son contenu exact (`approbation-hebdo.ts`).
  */
 export const GABARIT_HEBDO = {
-  valide: false,
+  valide: true,
   preEntete: "La scène de la semaine, la réplique et l'exercice.",
   salut: "Salut,",
   onTeDit: "On te dit",

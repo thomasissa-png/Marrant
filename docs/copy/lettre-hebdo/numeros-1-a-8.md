@@ -1,6 +1,6 @@
 # Lettre de la semaine : numéros 1 à 8 (document de travail pour la relecture à l'aveugle)
 
-> Statut : BROUILLON. Rien n'est validé. Les 8 entrées de `apps/web/src/data/lettre/hebdo-premium.json` portent `"statut": "BROUILLON"` et la préférée de chaque numéro. Thomas passe à `VALIDE` après la relecture à l'aveugle des accroches et des 2 ponts (règle d'or P0 s18), puis le commit vaut validation. `GABARIT_HEBDO.valide` reste `false` : aucun numéro ne part tant que le gabarit n'est pas figé.
+> Statut : BROUILLON. Rien n'est validé. Les 9 entrées de `apps/web/src/data/lettre/hebdo-premium.json` portent `"statut": "BROUILLON"` et la préférée de chaque numéro. Thomas passe à `VALIDE` après la relecture à l'aveugle des accroches et des 2 ponts (règle d'or P0 s18), puis approuve chaque numéro dans l'admin (verrou s22 : rien ne part sans approbation). `GABARIT_HEBDO.valide` est `true` depuis le 25/10 (gabarit figé, décision de Thomas).
 > `[Framework : value-first, la fiche du carnet est le contenu, l'accroche ne fait que cadrer la saison et le rendez-vous]` · `[Conscience : Most Aware, un abonné Premium qui a coché la case, il connaît le carnet et veut juste son jeudi]`
 > Sources : `docs/product/lettre-hebdo-premium-s21.md` (§2, §3), `docs/legal/lettre-hebdo-premium-s21.md` (C1 à C4), `apps/web/src/lib/lettre/numeros-hebdo.ts`, `config/textes/lettre-hebdo-s21.ts`, `data/carnet/2026-10.json` et `2026-11.json`, `docs/copy/carnet/novembre/departage-2026-11.md` (30 fiches à 10/10/10), `docs/copy/lettre-mensuelle-s21/numeros-1-a-6.md`.
 

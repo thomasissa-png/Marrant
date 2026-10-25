@@ -59,9 +59,10 @@ describe("Assemblage depuis la fiche du carnet", () => {
     expect(motifsInterdits(n.corps)).toEqual([]);
   });
 
-  it("gabarit pas encore validé à l'aveugle (P3) : marqueur [À COMPLÉTER en tête, le numéro sera bloqué à l'envoi", () => {
-    const { numeros } = preparerNumerosHebdo(factice, carnets);
-    expect(GABARIT_HEBDO.valide).toBe(false);
+  it("gabarit figé (s22) : plus de marqueur ; un gabarit non validé remettrait le marqueur [À COMPLÉTER en tête", () => {
+    expect(GABARIT_HEBDO.valide).toBe(true);
+    expect(preparerNumerosHebdo(factice, carnets).numeros[0].corps).not.toContain(MARQUEUR_A_COMPLETER);
+    const { numeros } = preparerNumerosHebdo(factice, carnets, { ...GABARIT_HEBDO, valide: false });
     expect(numeros[0].corps.startsWith(MARQUEUR_A_COMPLETER)).toBe(true);
   });
 

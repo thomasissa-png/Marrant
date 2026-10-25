@@ -212,7 +212,7 @@ describe("Garde-fous : rien ne part", () => {
   });
 
   it("H4-6 : marqueur [À COMPLÉTER (gabarit non validé) : bloqué", async () => {
-    mockDb.issues = [numero({ bodyText: preparerNumerosHebdo(factice, parseCarnets([carnetNovembre])).numeros[0].corps })];
+    mockDb.issues = [numero({ bodyText: preparerNumerosHebdo(factice, parseCarnets([carnetNovembre]), { ...GABARIT_HEBDO, valide: false }).numeros[0].corps })];
     const e = envoyer();
     const r = await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(r.bloque).toBe(true);

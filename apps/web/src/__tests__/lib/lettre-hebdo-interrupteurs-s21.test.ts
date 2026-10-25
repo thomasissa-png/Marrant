@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  *
- * Lettre de la semaine (s21) : interrupteurs fermés par défaut, invariant « la promesse
+ * Lettre de la semaine (s21) : interrupteurs (ouverts en s22, promesse fermée), invariant « la promesse
  * n'avance jamais sur la réalité » (spec H8-2), calendrier ISO du jeudi 8 h Paris
  * (changements d'heure, semaine 53, passage d'année), textes de l'avis @legal mot pour mot.
  */
@@ -15,9 +15,9 @@ const racine = join(__dirname, "..", "..", "..");
 const avisLegal = readFileSync(join(racine, "..", "..", "docs", "legal", "lettre-hebdo-premium-s21.md"), "utf8");
 
 describe("Interrupteurs de la lettre de la semaine", () => {
-  it("les trois sont FERMÉS au déploiement", () => {
-    expect(config.LETTRE_HEBDO_INSCRIPTIONS_OUVERTES).toBe(false);
-    expect(config.LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(false);
+  it("s22 (25/10, décision de Thomas) : inscriptions et envois OUVERTS, promesse publique FERMÉE", () => {
+    expect(config.LETTRE_HEBDO_INSCRIPTIONS_OUVERTES).toBe(true);
+    expect(config.LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(true);
     expect(config.LETTRE_HEBDO_PROMESSE).toBe(false);
     expect(config.promesseLettreHebdoVisible()).toBe(false);
   });
