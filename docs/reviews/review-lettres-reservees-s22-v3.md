@@ -115,3 +115,38 @@ Mineurs (recommandés, non bloquants) :
 - Décisions : 17/12 à 8,2, NO-GO ; 1 bloquant (B5c.1, cohérence geste 1 et exercice), retouche mot pour mot sur 4 lignes ; 3 mineurs.
 - Points d'attention : les deux couplets sont au niveau et ne sont pas à retoucher. Aucun autre fichier touché, rien de commité.
 ---
+
+## Vérification finale 17/12 : 8,6/10, GO
+
+> @reviewer, 25/10/2026. J'ai relu à l'aveugle la lettre 5 d'un bout à l'autre, comme un abonné (l. 244 à 287, avec les notes l. 289 et 290). Barre : 8,5/10.
+
+**B5c.1 est appliqué mot pour mot et levé.** Les quatre lignes sont conformes : l. 266, 267, 280 et 281. Les mineurs 1 et 2 sont appliqués aussi : « c'est le ton plat » (l. 268) et « il sert pour les piques qui reviennent » (l. 276). Le mineur 3 (phrase de lien) n'est pas appliqué. Il était facultatif.
+
+**Cohérence, vérifiée maillon par maillon** :
+- La pique (l. 255) contient « la noire » et « le chalet ». Le geste 1 (l. 266) cite ces deux mots. Le couplet 1 finit son premier vers sur « la noire », le couplet 2 sur « le chalet ».
+- Le geste 2 (l. 267) demande un second vers « qui retombe sur ce qui t'entoure » et qui rime. Le couplet 1 le fait avec un objet (la bouilloire), le couplet 2 avec la tenue et une boisson (chaussettes, café). Les longueurs sont voisines : 6 et 7 syllabes, puis 8 et 9.
+- Le geste 3 (« voix normale », « ton plat ») et l'exercice 3 (« ton de compte rendu ») décrivent la même diction. C'est celle qui convient à un lecteur introverti.
+- L'exercice (l. 279 à 281) reprend les gestes 1 à 3 dans l'ordre. L'astuce de la fin renvoie au geste 1 : on change de mot, pas de pique. En suivant l'exercice, l'abonné écrit bien une réponse à une pique, et pas un distique quelconque.
+- On ne trouve plus de contradiction entre « un geste que tu peux préparer chez toi » (l. 257), « ta réponse prête » (l. 263) et « il sert pour les piques qui reviennent » (l. 276). Les trois disent la même chose.
+
+**Drôle** : oui. « bouilloire » bat le « boire » qu'on attend. « Chaussettes, café : équipement complet » marche avec Jules en combinaison juste à côté. La phrase « Ces deux-là restent au chalet. Le geste, tu l'emportes » ferme bien la section. Aucune phrase ne fait la morale au lecteur.
+
+**Faits** : rien de plus que P1 à P5 et P7 (l. 260). La lettre n'affirme rien sur la façon dont les rimes du clip sont construites. Le lien vers l'étape 5 est juste : le titre est dans `parcours-etapes.ts:36` et le principe dans `parcours-seed.json:947` (« un ton solennel posé sur un sujet banal »).
+
+**Forme** : 0 tiret cadratin ou demi-cadratin dans tout le fichier (Grep `[—–]`). L'objet fait 41 caractères (recompté). Tutoiement, guillemets « », pas d'émoji, aucun concurrent. Le « jeudi prochain » existe : c'est la lettre 6 du 24/12.
+
+**Bloquants : aucun.**
+
+Trois mineurs facultatifs, qui ne bloquent pas l'envoi :
+1. l. 263, « tu peux avoir ta réponse prête avant qu'on te la lance » : le « la » renvoie, par la grammaire, à « ta réponse ». Le lecteur comprend « la pique », mais il accroche une demi-seconde. Retouche : « tu peux avoir ta réponse prête avant la prochaine. »
+2. l. 281, l'astuce « Si tu ne trouves pas de rime au bout de cinq minutes… » arrive à l'étape « dis-les à voix haute ». Or à ce moment-là, la rime est déjà trouvée. Retouche : couper la phrase de l. 281 et la placer telle quelle à la fin de l. 280. L. 281 devient : « 3. Dis-les à voix haute, d'un ton de compte rendu, et arrête-toi à la rime. »
+3. l. 283 : le mineur 3 de la contre-vérification reste valable (rien n'explique pourquoi la rime mène aux registres). Il garde son statut facultatif.
+
+**Verdict** : 8,6/10, **GO**. La lettre peut partir telle qu'elle est. Si on applique un de ces mineurs, il faudra relire à l'aveugle seulement la ligne touchée, dans la lettre entière (règle d'or s18).
+
+---
+**Handoff → @orchestrator**
+- Fichier modifié : `docs/reviews/review-lettres-reservees-s22-v3.md` (section « Vérification finale 17/12 » ajoutée à la fin).
+- Décisions : 17/12 à 8,6, GO. B5c.1 est levé. 0 bloquant, 3 mineurs facultatifs avec leur retouche mot pour mot.
+- Points d'attention : aucun autre fichier touché, rien de commité.
+---
