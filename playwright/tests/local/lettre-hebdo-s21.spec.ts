@@ -64,7 +64,8 @@ test.describe("Page d'arrêt de la lettre de la semaine", () => {
       expect((await preference(userId)).enabled).toBe(true);
 
       await page.getByRole("button", { name: LETTRE_HEBDO_ARRET.bouton }).click();
-      await expect(page.getByTestId("arret-lettre-hebdo")).toContainText("C’est arrêté.");
+      await expect(page.getByTestId("arret-lettre-hebdo")).toContainText("Cet arrêt ne change rien à ton abonnement.");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Lettre de la semaine arrêtée");
       expect(await preference(userId)).toMatchObject({ enabled: false, stopOrigin: "lien-email" });
 
       await page.goto(`/lettre/premium/arreter?token=${token}`);

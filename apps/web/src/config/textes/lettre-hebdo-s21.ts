@@ -50,7 +50,7 @@ export type EtatInfoPaiement = keyof typeof LETTRE_HEBDO_INFO_PAIEMENT;
  */
 export const LETTRE_HEBDO_LIGNE_REGLAGE = {
   avantLien: (email: string) =>
-    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
+    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
   lien: "Confidentialité",
   apresLien: ".",
 };
@@ -82,7 +82,7 @@ export const LETTRE_HEBDO_ARRET = {
   bouton: "Arrêter la lettre",
   enCours: "Arrêt en cours…",
   succes:
-    "C'est arrêté. Tu ne recevras plus la lettre de la semaine. Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
+    "Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
   dejaArretee: "La lettre de la semaine est déjà arrêtée. Si tu es abonné Premium, tu peux la reprendre depuis ton profil.",
   lienInconnu:
     "Ce lien ne fonctionne plus. Si tu es abonné Premium, tu peux régler la lettre depuis ton profil. Sinon, écris-nous à contact@deviens-marrant.fr.",

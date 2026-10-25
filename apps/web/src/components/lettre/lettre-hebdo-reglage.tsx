@@ -18,6 +18,21 @@ interface Preference {
   email: string;
 }
 
+/** Texte de la ligne, l'adresse e-mail rendue d'un bloc (jamais coupée sur un tiret), le reste avec frTypo. */
+function ligneAvecAdresse(texte: string, email: string) {
+  const i = texte.indexOf(email);
+  if (i < 0) return frTypo(texte);
+  return (
+    <>
+      {frTypo(texte.slice(0, i))}
+      <span className="whitespace-nowrap" data-testid="lettre-hebdo-adresse">
+        {email}
+      </span>
+      {frTypo(texte.slice(i + email.length))}
+    </>
+  );
+}
+
 const dateLongue = new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", day: "numeric", month: "long", year: "numeric" });
 const date = (iso: string) => dateLongue.format(new Date(iso));
 
@@ -137,7 +152,8 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
             <span className="text-sm text-text-secondary">{LETTRE_HEBDO_REGLAGE}</span>
           </label>
           <p id={`${id}-ligne`} className="mt-2 max-w-prose text-xs text-text-muted">
-            {frTypo(LIGNE.avantLien(pref.email))}
+            {/* Relecture finale v3 (m2) : adresse insécable (elle se coupait sur un tiret en 1440). */}
+            {ligneAvecAdresse(LIGNE.avantLien(pref.email), pref.email)}
             <Link href={LETTRE_CONFIDENTIALITE_HREF} className="underline underline-offset-2 hover:text-text-secondary">
               {LIGNE.lien}
             </Link>

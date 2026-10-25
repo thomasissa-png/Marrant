@@ -273,11 +273,11 @@ Décision fondateur (`docs/founder-preferences.md`, 25/10) : tous les abonnés P
 
 Règle appliquée par le code (`lib/lettre/hebdo.ts`, `recoitHebdo`, `arretExplicite`) : un Premium la reçoit sauf opposition globale à nos e-mails (`User.emailOptOut`, posée sur demande ou par le webhook des rebonds) ou arrêt explicite ; aucune condition d'adresse vérifiée. Un arrêt explicite (profil, lien de l'e-mail, demande à l'équipe, rebond, plainte) reste valable pour toujours, même après une fin de Premium et un réabonnement ; seul l'abonné le lève, depuis son profil. La fin de Premium seule n'est pas un arrêt choisi : un réabonné qui n'avait pas arrêté est inscrit d'office, comme tout nouvel abonné.
 
-Remplacent les textes correspondants des §2.2, §2.3, §3 (titre après l'arrêt), §4.1 et §4.2 (relectures à l'aveugle s22 `docs/reviews/review-inscription-office-s22.md` et contre-relecture `docs/reviews/review-inscription-office-s22-v2.md`). La case du §2.1 et la proposition du §6.5 sont supprimées : aucune ligne n'a été enregistrée sous le texte de la case en production (vérifié le 25/10), aucune proposition n'a été envoyée.
+Remplacent les textes correspondants des §2.2, §2.3, §3 (titre après l'arrêt), §4.1 et §4.2 (relectures à l'aveugle s22 `docs/reviews/review-inscription-office-s22.md` contre-relecture `docs/reviews/review-inscription-office-s22-v2.md` et relecture finale `docs/reviews/review-inscription-office-s22-v3.md`). La case du §2.1 et la proposition du §6.5 sont supprimées : aucune ligne n'a été enregistrée sous le texte de la case en production (vérifié le 25/10), aucune proposition n'a été envoyée.
 
 ### 9.1 Ligne sous le réglage du profil (remplace §2.2)
 
-Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.
+Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.
 
 ### 9.2 Pied de chaque numéro (remplace §2.3)
 
@@ -317,6 +317,10 @@ Partie lettre du mois, mise en cohérence (deux lettres coexistent) : « Lettre 
   - arrêtée par l'abonné : « Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil. »
   - opposition : « La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr. »
 
-### 9.6 Page d'arrêt, titre une fois l'arrêt fait (complète §3)
+### 9.6 Page d'arrêt, une fois l'arrêt fait (complète et remplace en partie §3)
 
-Lettre de la semaine arrêtée
+Titre : Lettre de la semaine arrêtée
+
+Message de succès (remplace celui du §3) :
+
+Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.

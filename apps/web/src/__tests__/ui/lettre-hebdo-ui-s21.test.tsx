@@ -92,6 +92,9 @@ describe("Réglage du profil (s22 : inscription d'office)", () => {
     expect(screen.queryByRole("checkbox")).toBeNull();
     expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("yanis.m@exemple.fr")).trim());
     expect(screen.getByRole("link", { name: "Confidentialité" })).toHaveAttribute("href", "/confidentialite#lettre");
+    // Relecture finale v3 (m2) : adresse insécable, rendue telle quelle (jamais coupée sur un tiret).
+    expect(screen.getByTestId("lettre-hebdo-adresse")).toHaveTextContent(/^yanis\.m@exemple\.fr$/);
+    expect(screen.getByTestId("lettre-hebdo-adresse")).toHaveClass("whitespace-nowrap");
   });
 
   it("désactiver = PUT { enabled: false, origine: profil } puis « C'est arrêté » ; réactiver = PUT { enabled: true } puis « C'est noté »", async () => {

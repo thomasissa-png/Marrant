@@ -133,13 +133,17 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
     });
     expect(T.LETTRE_HEBDO_UI.opposition).toBe(T.LETTRE_HEBDO_INFO_PAIEMENT.opposition);
     expect(`${T.LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("y@x.fr")}${T.LETTRE_HEBDO_LIGNE_REGLAGE.lien}${T.LETTRE_HEBDO_LIGNE_REGLAGE.apresLien}`).toBe(
-      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
+      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
     );
     expect(T.LETTRE_HEBDO_UI.succesActivation("y@x.fr")).toBe("C'est noté. Tu la recevras chaque jeudi, à y@x.fr. Tu peux l'arrêter ici ou depuis chaque lettre, en un clic.");
     expect(T.LETTRE_HEBDO_UI.succesArret).toBe("C'est arrêté. Ton abonnement continue.");
     expect(T.LETTRE_HEBDO_REGLAGE).toBe("Je reçois la lettre de la semaine");
     expect(T.LETTRE_HEBDO_ARRET.titre).toBe("Arrêter la lettre de la semaine ?");
     expect(T.LETTRE_HEBDO_ARRET.titreArretee).toBe("Lettre de la semaine arrêtée");
+    // Relecture finale v3 (m3) : le succès commence par « Cet arrêt ne change rien à ton abonnement. ».
+    expect(T.LETTRE_HEBDO_ARRET.succes).toBe(
+      "Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
+    );
     expect(T).not.toHaveProperty("PROPOSITION_LETTRE_HEBDO");
     expect(T.LETTRE_HEBDO_UI).not.toHaveProperty("adresseNonVerifiee");
     const pied = T.piedNumeroHebdo("x", "https://deviens-marrant.fr");
