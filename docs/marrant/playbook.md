@@ -609,3 +609,7 @@ Retirés de l'e-mail reçu par l'équipe (l'abonné revoit ce corps cité dans l
 - **Refonte social s7** : `docs/social/social-reform-s7.md`
 - **Stratégie GEO** : `docs/geo/geo-strategy.md`
 - **Stratégie backlinks** : `docs/seo/backlink-strategy.md`
+
+### Lettres e-mail : un mois de plus chaque mois, en session (Thomas, 25/10/2026)
+
+À l'ouverture de chaque session, vérifier l'avance des lettres (`apps/web/src/data/lettre/numeros.json` et `hebdo-premium.json`) : au moins 3 mois couverts, une lettre chaque jeudi pour les abonnés. Une fois par mois, ajouter EN SESSION, avec Thomas, le mois qui suit le dernier mois couvert (lettre du mois + lettres réservées), exactement comme le lot du 25/10 : plan vérifié (@creative-strategy), écriture (@copywriter), deux relectures à l'aveugle (barre 9/10), sources vérifiées, lecture de l'orchestrateur, lettres montrées en entier à Thomas, chargement et mise en ligne sur son go, approbation dans l'admin. Jamais de tâche planifiée ni de génération automatique pour ce travail. Règles des lettres : `docs/founder-preferences.md`, lignes du 25/10/2026.
