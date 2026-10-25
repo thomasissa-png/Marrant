@@ -4,48 +4,46 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 ## N°1, jeudi 05/11/2026
 
-**Objet :** Soirée de Noël : on te demande de chanter  
-**Pré-en-tête :** Trois réponses à « allez, une chanson ! », et le test à passer avant de choisir.
+**Objet :** Alors, t'as perdu ta langue ?  
+**Pré-en-tête :** Une pique devant tout le salon, trois réponses, et comment choisir la tienne.
 
 > Salut,
 >
-> Si c'est ta première lettre : bienvenue. Chaque mois, on prend une situation où tout le monde cherche ses mots, et on y répond de trois façons : la sûre, la joueuse, la risquée. Puis on te donne la règle pour choisir entre elles.
+> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo, qui raconte ses vacances depuis vingt minutes, a fini par le remarquer :
 >
-> Ce mois-ci, la soirée de Noël de la boîte. 20 h 30, la salle de réunion a des guirlandes, une enceinte, et un karaoké que personne n'avait demandé. Karim, de la compta, tend le micro dans ta direction :
+> « Alors, t'as perdu ta langue ? »
 >
-> « Allez, une chanson ! Ne fais pas ton timide. »
->
-> Tout le service te regarde. Le directeur est à deux mètres, un verre à la main. Voici trois réponses, de la plus prudente à la plus audacieuse. Elles ont un point commun : aucune ne fait semblant d'avoir une vraie raison.
+> Sept visages se tournent vers toi. Voici trois réponses, de la plus prudente à la plus audacieuse : la sûre, la joueuse et la risquée. Aucune ne dure plus de deux phrases, et aucune ne s'explique.
 >
 > La sûre
-> « Quelqu'un doit applaudir. Je prends le poste. »
-> Tu ne refuses pas, tu proposes un rôle qui existe vraiment : sans public, un karaoké ne sert à rien. Elle ne vise personne, elle passe devant Karim comme devant le directeur. À choisir quand tu ne connais pas encore l'humeur de la soirée.
+> « Non, je la garde au chaud. Il fait froid dehors. »
+> Elle ne vise personne et ne demande aucune audace. Ta langue fait comme tout le monde dans ce salon : elle reste au chaud. À sortir quand tu connais mal la moitié du salon, quand Hugo a le ton un peu sec, ou quand il te reste peu d'énergie sociale.
 >
 > La joueuse
-> « Ce soir, ma voix est en télétravail. Elle suit la soirée à distance. »
-> Tu donnes à ta voix le statut qu'a la moitié du service le vendredi : présente, mais pas dans la salle. Personne ne peut y croire, donc personne ne te demandera lundi si elle va mieux. Dis-la sur le ton d'un message d'absence. À sortir quand Karim a déjà ri d'une de tes phrases dans la soirée.
+> « J'ai essayé les objets trouvés, mais ils ferment à 18 h. Je repasse lundi. »
+> Tu traites ta langue comme un parapluie oublié dans le métro et tu déroules la suite avec le sérieux d'un guichet. L'heure de fermeture n'a rien à faire là, et c'est elle qui fait sourire. Elle demande une seconde de pause avant « Je repasse lundi » et un visage qui ne bouge pas. À réserver aux amis que tu connais depuis un moment, dans une ambiance déjà rieuse.
 >
 > La risquée
-> « Le directeur d'abord. Je ne passe jamais sans première partie. »
-> Celle-ci met le directeur dans le jeu : tu te poses en tête d'affiche, et lui devient ta première partie. La hiérarchie s'inverse le temps d'une chanson. Attention, ce n'est pas un refus : si le directeur prend le micro, tu chantes après lui. Elle ne marche que s'il rit de lui-même, que la soirée est détendue et que tu es prêt à tenir parole. Sinon, elle reste dans ta tête.
+> « Tu parlais déjà pour trois. J'ai pris ma journée. »
+> La seule des trois qui vise Hugo : ton silence devient un jour de congé, offert par son bavardage. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
 >
-> Comment choisir : le test du lundi
-> Avant de répondre, demande-toi : « Est-ce que je pourrai la redire lundi, à 9 h, devant la personne concernée, sans avoir envie de m'expliquer ? » Une soirée de boîte s'oublie en une nuit, pas ce qu'on a dit au directeur ni la tête qu'on faisait en le disant. La sûre passe le test devant tout le monde. La joueuse le passe presque toujours. La risquée seulement si le directeur a déjà plaisanté sur lui-même devant toi. Au moindre doute, descends d'un cran.
+> Comment choisir
+> Regarde où ta phrase pointe : la sûre reste sur toi, la joueuse part ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran. Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard.
 >
 > L'erreur que tout le monde fait
-> Inventer une excuse. « Non merci, j'ai une extinction de voix. » Ça marche dix secondes. Puis quelqu'un te propose une pastille, un autre te demande si ça va mieux, et il faut garder la voix cassée jusqu'au dessert, et jusqu'à lundi : « Alors, tu as retrouvé ta voix ? » Une excuse inventée oblige à la jouer. Une phrase vraie, même drôle, se retient toute seule.
+> S'expliquer. « Non mais j'écoutais, j'ai juste pas grand-chose à dire, je suis un peu fatigué. » Tout est vrai, et ça ne marche pas. Une pique de chambrage est une invitation à jouer, elle ne réclame aucune raison. Dès que tu t'expliques, tu réponds comme à un reproche, tu montres que ça a touché, et le salon garde cette image. Hugo n'attend pas ton alibi, juste que tu renvoies la balle, même mollement.
 >
 > À essayer cette semaine
-> Pense à ce qu'on te demande en soirée et que tu fuis : chanter, danser, faire un discours, jouer à un jeu. Écris trois réponses, une par niveau, et passe chacune au test du lundi en imaginant la personne en face de toi à 9 h. Garde celle qui ne te fait pas rougir, et dis-la une fois à voix haute, seul, pour entendre comment elle sonne.
+> Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une ou deux phrases chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
 >
-> Notre article suit la soirée de Noël au boulot de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Il est en lecture libre.
-> Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
+> Et pour placer un mot avant qu'un Hugo remarque ton silence, notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » propose, dès sa première technique, trois phrases d'entrée à garder en poche. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/rester-muet-en-groupe?utm_source=lettre&utm_medium=email&utm_content=n1-article
 >
-> Et pour le moment d'après, quand on te demande de raconter ta semaine en trente secondes, c'est l'étape 4 du parcours Boulot, « L'afterwork : ta semaine en trente secondes ».
-> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/boulot?utm_source=lettre&utm_medium=email&utm_content=n1-etape4#etape-4
+> Pour t'entraîner sur ce genre de pique : l'étape 3 du parcours Répartie, « Retourner les piques avec le sourire ».
+> Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n1-etape3#etape-3
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : tu viens de choisir entre trois réponses. Avec Premium, tu en reçois chaque jeudi : la lettre du mois, plus des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, étape après étape, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. Le tout pour 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : rester muet, ça arrive à tout le monde. Répondre en une phrase, ça s'apprend. Avec Premium, tu reçois une lettre de ce genre chaque jeudi, au lieu d'une par mois, et tu ouvres les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 > **[Fin de l'encart]**
 >
@@ -59,13 +57,11 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 > Salut,
 >
-> Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, le 25 au matin, chez tes parents. Le sapin clignote, le café coule, et tata Annie a gardé son paquet pour la fin. Dedans, un pull vert à renne, tricoté main, deux fois trop grand. Elle te regarde, les mains jointes :
+> Le matin du 25, chez tes parents. Le sapin clignote, le café coule, et tata Annie a gardé son paquet pour la fin. Dedans, un pull vert à renne, tricoté main, deux fois trop grand. Elle te regarde, les mains jointes :
 >
 > « Alors, il te plaît ? Je l'ai fait en trois semaines. »
 >
-> Tout le salon attend. Voici trois réponses, de la plus prudente à la plus audacieuse. Aucune ne ment sur le pull.
+> Tout le salon attend, et aucune de ces trois réponses ne ment sur le pull.
 >
 > La sûre
 > « Trois semaines pour moi ? Je ne l'enlève pas avant ce soir. »
@@ -77,7 +73,7 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 >
 > La risquée
 > « Dis-moi que tu n'as pas déjà commencé celui de l'an prochain. »
-> Celle-ci vise tata : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Sous l'effroi joué, tu lui dis que tu sais ce que trois semaines de tricot représentent. Elle ne marche qu'avec une tante qui a ri la première de la taille du pull. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
+> Ici, c'est tata que tu chambres : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Le doute est voulu, on peut y entendre de la tendresse autant que de l'effroi. Elle ne marche qu'avec une tante qui te chambre déjà, et depuis longtemps. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
 >
 > Comment choisir : combien de temps l'autre y a mis
 > Regarde le temps que la personne a mis dans ce cadeau, pas ce qu'il a coûté : acheté en ligne en cinq minutes, choisi pour toi pendant un après-midi, ou fait de ses mains pendant trois semaines. Plus l'autre y a mis de soi, moins tu joues sur l'objet. Pour un cadeau fait main, la sûre, puis la joueuse si tu vois un sourire. La risquée, seulement si la personne a déjà ri de son cadeau avant toi. Au moindre doute, remercie d'abord, plaisante ensuite.
@@ -86,7 +82,7 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 > Le « génial ! » de façade. « Waouh, trop beau, j'adore ! », dit trop fort, trop vite, sans un seul détail. Une tante entend ce genre de phrase depuis cinquante Noëls et elle sait la reconnaître. Un détail vrai sonne plus sincère que trois adjectifs : la couleur, le renne, la taille, les trois semaines. Dire ce que tu vois vaut mieux que dire que tu adores.
 >
 > À essayer cette semaine
-> Pense au dernier cadeau qui t'a laissé sans voix, ou à celui que tu redoutes cette année. Écris trois phrases, une par niveau, et souligne dans chacune le détail vrai. Note aussi le temps que la personne y a mis : c'est lui qui te dit laquelle garder. Puis dis la sûre à voix haute devant un miroir, un vêtement contre toi, pour entendre si tu as l'air touché ou l'air poli.
+> Pense au dernier cadeau qui t'a laissé sans voix, ou à celui que tu redoutes cette année. Écris trois phrases, une par niveau, et souligne dans chacune le détail vrai. Note aussi le temps que la personne y a mis : c'est lui qui te dit laquelle garder. Puis dis la sûre à voix haute devant un miroir, le cadeau (ou ce qui le remplace) contre toi, pour entendre si tu as l'air touché ou l'air poli.
 >
 > Noël, c'est aussi les questions qui piquent. Notre article « Repas de famille : répondre aux questions gênantes » passe en revue six questions de Noël, à commencer par « Alors, t'as quelqu'un ? ». Chacune a sa sortie si on insiste. Lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/repas-de-famille-questions-genantes-humour?utm_source=lettre&utm_medium=email&utm_content=n2-article
@@ -95,7 +91,7 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 > Aller à l'étape 4 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n2-etape4#etape-4
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : si cette lettre t'a donné envie d'être prêt avant le repas, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci, les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : si cette lettre t'a donné envie d'être prêt le 25 au matin, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n2-premium
 > **[Fin de l'encart]**
 >
@@ -109,13 +105,11 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 > Salut,
 >
-> Bonne année. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, le premier dîner de l'année, chez des amis. Axel a pris son verre et son ton des grands jours :
+> Bonne année. Premier dîner de l'année chez des amis, et Axel a pris son verre et son ton des grands jours :
 >
 > « Cette année, j'ai tout planifié : sport trois fois par semaine, lecture, méditation. Et toi, c'est quoi, tes résolutions ? »
 >
-> Tu n'as rien planifié du tout. Au lieu de répondre à sa place, voici trois réponses qui renvoient la balle sous forme de question, de la plus prudente à la plus audacieuse.
+> Tu n'as rien planifié du tout, et tu n'as pas envie d'inventer. Trois façons de lui renvoyer la balle sous forme de question, de la plus douce à la plus piquante.
 >
 > La sûre
 > « Comment tu fais tenir tout ça dans une semaine ? Il faut que je voie ce planning. »
@@ -123,26 +117,29 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 >
 > La joueuse
 > « Tu as prévu un créneau pour le jour où tu abandonnes ? »
-> Tu prends son plan au sérieux au point d'y inscrire la panne. La question porte sur le planning, pas sur Axel, et c'est ce qui la rend rieuse plutôt que méchante. À sortir quand il a déjà plaisanté sur ses propres bonnes intentions.
+> Tu prends son plan au sérieux au point d'y inscrire la panne. Tu parles d'un jour imaginaire, sans date : c'est ce qui la rend rieuse plutôt que méchante. À sortir quand il a déjà plaisanté sur ses propres bonnes intentions.
 >
 > La risquée
 > « On se reparle de tout ça en février ? Je note la date. »
-> Celle-ci vise Axel : tu lui fixes un rendez-vous pour faire le bilan. Elle ne marche que si vous êtes de ceux qui se chambrent et que son enthousiasme est assez solide pour encaisser. Devant quelqu'un qui doute déjà de lui, elle prend le ton d'un huissier.
+> Cette fois, c'est Axel que tu vises : tu lui fixes un rendez-vous pour faire le bilan. Il faut que vous soyez de ceux qui se chambrent et que son enthousiasme soit assez solide pour encaisser. Devant quelqu'un qui doute déjà de lui, elle prend le ton d'un huissier.
 >
 > Comment choisir : ce que ta question vérifie
-> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu » ou « et si », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique, quel que soit son premier mot : « comment tu vas tenir ? » commence bien, mais vérifie déjà. Au moindre doute, demande comment il fait, pas s'il va tenir.
+> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique. Commence par « comment » : ce mot n'a jamais fait d'ennemi.
 >
 > L'erreur que tout le monde fait
-> Poser la question, puis y répondre à sa place. « Tu as prévu un créneau pour le jour où tu abandonnes ? Moi, de toute façon, je ne prends jamais de résolutions, c'est nul. » Axel n'a pas eu le temps de respirer, et ta question est devenue un prétexte pour parler de toi. Après une question, bois une gorgée, regarde l'autre, et laisse le silence faire son travail.
+> Poser la question, puis parler de toi. « Tu as prévu un créneau pour le jour où tu abandonnes ? Moi, de toute façon, je ne prends jamais de résolutions. » Axel n'a pas eu le temps de répondre, et ta question est devenue un prétexte pour parler de toi. Une question renvoyée se joue en deux temps : tu la poses, puis tu rebondis sur sa réponse avec une deuxième question, sur un détail qu'il vient de dire. La méditation, par exemple : le matin ou le soir ?
 >
 > À essayer cette semaine
-> La prochaine fois que quelqu'un t'annonce un grand projet, pose une seule question qui commence par « comment », et écoute la réponse jusqu'au bout. Ensuite, écris trois questions pour la même annonce, une par mot de départ : « comment », « tu as prévu », « on se reparle ». Garde la première, c'est elle qui te servira le plus souvent.
+> La prochaine fois que quelqu'un t'annonce un grand projet, pose une question qui commence par « comment », écoute la réponse jusqu'au bout, puis rebondis avec une deuxième question, sur un détail de sa réponse. Ensuite, écris trois questions pour la même annonce, une par mot de départ : « comment », « tu as prévu », « on se reparle ». Garde la première, c'est elle qui te servira le plus souvent.
 >
-> Pour poser de meilleures questions, il faut d'abord regarder avant de parler : c'est le sujet de l'étape 3 du parcours Confiance, « L'œil de l'observateur ».
+> « Être plus drôle » fait partie des résolutions qu'on lâche avant la mi-janvier. Notre article « Résolution 2027 : être plus drôle sans pression » donne une règle en trois mots, petit, daté, suivi, et un suivi sur quatre semaines pour tenir au-delà de janvier. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/resolution-nouvelle-annee-etre-plus-drole?utm_source=lettre&utm_medium=email&utm_content=n3-article
+>
+> La deuxième question demande d'avoir remarqué un détail. Remarquer les petits gestes autour de toi, c'est le sujet de l'étape 3 du parcours Confiance, « L'œil de l'observateur ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n3-etape3#etape-3
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : savoir poser la bonne question, ça s'apprend. Avec Premium, tu t'entraînes toute l'année : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. Chaque parcours commence par une première étape qui se lit sans compte.
+> PS : savoir poser la bonne question, ça s'apprend. Avec Premium, tu t'entraînes toute l'année : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. Chaque parcours commence par une première étape qui se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n3-premium
 > **[Fin de l'encart]**
 >
@@ -156,34 +153,32 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 > Salut,
 >
-> Dans dix jours, c'est la Saint-Valentin. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, samedi 13 février, 17 h 40. Tu rentres, Sam range ses chaussures et demande à quelle heure vous dînez demain. Tu réalises que tu n'as rien réservé. Sam l'a compris avant toi, au silence :
+> Samedi 13 février, 17 h 40, la veille de la Saint-Valentin. Tu rentres, Sam range ses chaussures et demande à quelle heure vous dînez demain. Tu réalises que tu n'as rien réservé. Sam l'a compris à ton silence, avant que tu dises un mot :
 >
 > « Tu avais une chose à faire pour demain. Une seule. »
 >
-> Voici trois réponses, de la plus prudente à la plus audacieuse. Elles ne se disent pas au même moment, et c'est justement le sujet.
+> Trois réponses, et elles ne se disent pas au même moment : c'est justement le sujet.
 >
 > La sûre
 > « Tu as raison, c'est moi. Donne-moi vingt minutes, je téléphone partout. »
 > Pas de blague : tu reconnais, et tu agis. C'est la réponse qui désamorce le plus vite, parce qu'elle donne à Sam ce que Sam attendait derrière la pique : la preuve que tu as pris la mesure. À dire tout de suite, toujours.
 >
 > La joueuse
-> « Bonne nouvelle : j'ai une table. Mauvaise nouvelle : 18 h 15, avec les retraités. »
+> « Bonne nouvelle : j'ai une table. Mauvaise nouvelle : 18 h 15, on dînera au goûter. »
 > Elle se dit vingt minutes plus tard, une fois la réservation obtenue. La blague porte sur l'heure du dîner, pas sur l'oubli : tu ris de la solution, quand le problème est réglé. Dis-la avec le sourire de quelqu'un qui revient avec une victoire de justesse.
 >
 > La risquée
 > « Pour ma défense, la mission était secrète : même moi, je n'étais pas au courant. »
-> Celle-ci plaisante tout de suite, avant d'avoir réparé, et elle fait de l'oubli le sujet de la blague. Elle ne marche que si Sam rit déjà, que le ton n'est pas tendu, et que vous avez l'habitude de vous moquer de vos propres bourdes. Sinon, elle sonne comme une façon de ne pas dire pardon.
+> Elle plaisante tout de suite, avant d'avoir réparé, et elle fait de l'oubli le sujet de la blague. Compte sur elle seulement si Sam rit déjà, si le ton n'est pas tendu et si vous avez l'habitude de vous moquer de vos propres bourdes. Sinon, elle sonne comme une façon de ne pas dire pardon.
 >
 > Comment choisir : d'abord réparer, ensuite plaisanter
-> Écoute le ton de l'autre. Si la voix est tendue, la sûre, tout de suite, sans rien d'autre. Si elle sourit déjà, tu peux plaisanter, mais jamais avant d'avoir dit « tu as raison » ni avant d'avoir une solution. La blague se glisse après la réparation : plus tu plaisantes tôt, plus tu prends de risque. Au moindre doute, commence par la sûre et garde la joueuse pour le moment où la table est réservée.
+> Écoute le ton de l'autre. Si la voix est tendue, la sûre, tout de suite, sans rien d'autre. Si elle sourit déjà, tu peux plaisanter, mais le plus sûr reste d'attendre d'avoir dit « tu as raison » et trouvé une solution. La blague se glisse après la réparation : plus tu plaisantes tôt, plus tu prends de risque.
 >
 > L'erreur que tout le monde fait
-> En faire trop dans l'excuse. « Je suis vraiment nul, je gâche tout, tu mérites mieux. » Tu croyais t'excuser deux fois plus, et c'est Sam qui doit te consoler, la veille de la Saint-Valentin. Une excuse tient en une phrase : « tu as raison, c'est moi ». Au-delà, c'est l'autre qui répare à ta place.
+> Renvoyer la décision : « Bon, alors, on fait quoi ? » Tu as reconnu l'oubli, mais tu rends à Sam tout le travail de réparer : chercher un restaurant, comparer, décider. La bourde est à toi, la solution aussi. Arrive avec une seule proposition, même imparfaite : « J'appelle trois restaurants, et sinon je cuisine. »
 >
 > À essayer cette semaine
-> Pense à la dernière bourde que tu as faite devant quelqu'un que tu aimes bien, au travail ou à la maison. Écris trois phrases, dans l'ordre : celle qui reconnaît (« tu as raison, c'est moi »), celle qui répare (ce que tu fais dans les vingt minutes), celle qui plaisante (pour plus tard). Dis-les à voix haute dans cet ordre, et garde la dernière pour le moment où l'autre a souri le premier.
+> Pense à la dernière bourde que tu as faite devant quelqu'un que tu aimes bien, au travail ou à la maison. Écris trois phrases, dans l'ordre : celle qui reconnaît (« tu as raison, c'est moi »), celle qui répare (une seule proposition, pas un menu), celle qui plaisante (pour plus tard). Dis-les à voix haute dans cet ordre, et garde la dernière pour le moment où l'autre a souri le premier. Et si tu n'as pas encore réservé pour le 14, c'est cette semaine.
 >
 > Une fois la crise passée, il reste les blagues à se dire. Notre article « Blagues de couple : 30 vannes à se dire ou à s'envoyer » les range par moment du quotidien, du canapé aux messages de la journée. Lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/blagues-de-couple-drole?utm_source=lettre&utm_medium=email&utm_content=n4-article
@@ -192,7 +187,7 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 > Aller à l'étape 2 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n4-etape2#etape-2
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : le jour où la bourde est pour toi, mieux vaut avoir déjà la phrase. Avec Premium, tu la prépares à l'avance : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> PS : le jour où la bourde est la tienne, mieux vaut avoir déjà la phrase. Avec Premium, tu la prépares à l'avance : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n4-premium
 > **[Fin de l'encart]**
 >
@@ -201,48 +196,44 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 ## N°5, jeudi 04/03/2027
 
-**Objet :** Message du 1er avril : vrai ou canular ?  
-**Pré-en-tête :** Une annonce qui peut être un canular, trois réponses qui restent justes, et celle qui parie.
+**Objet :** Une fête où tu ne connais que l'hôte  
+**Pré-en-tête :** Comment ouvrir la conversation avec un inconnu : trois phrases, et la règle pour choisir.
 
 > Salut,
 >
-> Dans quatre semaines, c'est le 1er avril. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
+> Samedi 6 mars, 21 h, l'anniversaire de Nina. L'appartement est plein, les manteaux s'empilent sur le lit, et tu ne connais que Nina, qui est partie chercher des glaçons. Tu te retrouves devant la table des gâteaux apéritifs, à côté d'un inconnu qui fixe, comme toi, un petit bol auquel personne n'a touché. Un seul de vous deux va parler.
 >
-> Ce mois-ci, un message qui peut être vrai ou faux. Le 1er avril, 8 h 02, ton téléphone vibre dans le groupe de la coloc. Malik a écrit :
->
-> « Le propriétaire passe vendredi à 18 h avec des acheteurs. Il faut tout ranger. »
->
-> Malik est capable d'avoir inventé ça en pyjama, comme d'avoir reçu un vrai mail. Tu as trente secondes pour répondre dans le groupe sans te tromper dans aucun des deux cas. Voici trois réponses, de la plus prudente à la plus audacieuse.
+> Pas de pique ici : un silence à rompre, et c'est toi qui parles en premier. Trois phrases pour ouvrir, de la plus facile à la plus osée.
 >
 > La sûre
-> « Merci de prévenir. Tu peux transférer le mail du proprio dans le groupe ? »
-> Elle reste juste que le message soit vrai ou non : tu demandes la preuve sans accuser personne. Si c'est vrai, tu as la date et l'heure noir sur blanc ; si c'est un canular, Malik avoue de lui-même. À choisir quand tu ne sais pas à qui tu as affaire, ou quand le sujet touche quelque chose de sérieux, comme ton logement.
+> « Tu sais ce qu'il y a dans le petit bol ? Personne n'y touche. »
+> Tu parles de ce que vous avez sous les yeux, sans te dévoiler. L'autre peut répondre en dix secondes : « aucune idée » ou « du houmous, je crois ». Elle ne demande presque rien, elle donne un point d'entrée. À choisir quand tu ne sais rien de la personne et que tu veux que ça passe.
 >
 > La joueuse
-> « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. »
-> Tu joues sur l'état de l'appartement, pas sur Malik : si c'est vrai, tu as promis de ranger ; si c'est un canular, sa blague vient de vous rendre service. Elle survit au démenti dans les deux sens. Dis-la comme une bonne résolution. À sortir quand le groupe sait rire de sa propre coloc.
+> « Je cherche quelqu'un qui connaît Nina depuis plus longtemps que moi. Ça ne devrait pas être long. »
+> Tu t'appuies sur ce que vous avez en commun, la fête et l'hôte, et tu transformes la gêne en jeu. Elle demande une petite histoire en retour (« la fac », « l'ancienne coloc »), donc un peu plus d'effort à l'autre. À sortir quand le sourire est déjà venu, et que l'autre n'est pas pressé de repartir.
 >
 > La risquée
-> « 8 h 02 le 1er avril. Tu n'as même pas attendu que le café coule. »
-> Celle-ci vise Malik : tu l'accuses du canular avant la preuve. Si c'en est un, tu as gagné la manche. Si c'est vrai, tu viens de te moquer de quelqu'un qui te prévenait d'une visite et tu as l'air d'avoir pris un vrai problème pour une blague. C'est la seule qui parie sur une seule des deux issues.
+> « Tu es venu pour Nina ou pour le buffet ? Moi, je ne dis rien. »
+> Là, tu vises la personne en face : tu lui prêtes une intention et tu la mets au défi de se situer, mais tu avoues le premier que tu es peut-être là pour le buffet aussi, ce qui lui laisse une porte. Elle demande à l'autre de choisir un camp et de rire de lui-même avec un inconnu. Garde-la pour quand vous avez déjà échangé quelques mots, ou quand l'ambiance est très décontractée. Sinon, elle peut passer pour une accusation.
 >
-> Comment choisir : celle qui survit au démenti
-> Avant de répondre à une annonce qui peut être un canular, demande-toi : « Que devient ma phrase si c'est vrai ? Et si c'est faux ? » La sûre et la joueuse tiennent dans les deux cas. La risquée ne tient que dans l'un : elle est pour les gens qui n'ont rien à perdre, ou pour quand tu es certain. Au moindre doute, choisis la phrase qui ne dépend pas de la réponse.
+> Comment choisir : combien de travail tu donnes à l'autre
+> Une première phrase se juge à ce qu'elle demande à l'autre. La sûre se répond en un mot et dix secondes. La joueuse demande un petit récit. La risquée demande de prendre position. Plus tu connais peu la personne, moins ta phrase doit lui demander. Vise une réponse qui tient dans dix secondes, et monte d'un cran seulement quand l'autre a commencé à parler.
 >
 > L'erreur que tout le monde fait
-> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut tout défaire auprès de deux personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
+> Viser le groupe déjà lancé. Les quatre personnes qui rient près de la fenêtre ont l'air plus faciles : plus de monde, moins de risque. En vrai, une conversation en cours n'a pas de place pour une phrase d'ouverture : ta phrase arrive après le sujet, et tu finis par hocher la tête. Choisis quelqu'un de seul, devant le buffet ou près des manteaux, un verre à la main. Il attend souvent la même chose que toi.
 >
 > À essayer cette semaine
-> La prochaine fois qu'une annonce surprenante t'arrive (vraie ou pas), écris deux phrases qui restent justes dans les deux cas, puis une troisième qui parie. Pas pour l'envoyer : pour sentir la différence. Puis vérifie en deux minutes (une source, un coup de fil) avant de répondre à quiconque.
+> Écris trois premières phrases pour la prochaine fois que tu te retrouveras à côté d'un inconnu (une fête, une salle d'attente, la queue d'un guichet). Chacune doit s'appuyer sur ce que vous voyez tous les deux. Pour chacune, estime en combien de secondes l'autre peut répondre : si c'est plus de dix, raccourcis. Dis la première à voix haute, sans l'adresser à personne, pour sentir si elle est facile à dire.
 >
-> Et si c'est toi qui prépares le canular : notre article « Blague poisson d'avril pour adultes » réunit des idées de canulars classées par terrain. Aucune n'est dangereuse ni humiliante, et on y trouve quoi faire si quelqu'un le prend mal. Lecture libre.
-> Lire l'article : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n5-article
+> Quand l'inconnu te demandera qui tu es, il faudra une réponse. Notre article « Se présenter avec humour : 5 accroches qui passent » donne une formule en trois temps : ton prénom avec un peu de contexte, un détail vrai raconté avec sérieux, puis tu rends la parole. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/se-presenter-avec-humour?utm_source=lettre&utm_medium=email&utm_content=n5-article
 >
-> Et quand l'inattendu te tombe dessus sans prévenir, c'est le sujet de l'étape 4 du parcours Répartie, « Improviser sur l'inattendu ».
-> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n5-etape4#etape-4
+> Après la première phrase, il faut sentir le moment de la suivante : c'est le sujet de l'étape 2 du parcours Machine à Café, « Sentir le bon moment ».
+> Aller à l'étape 2 : https://deviens-marrant.fr/parcours/machine-a-cafe?utm_source=lettre&utm_medium=email&utm_content=n5-etape2#etape-2
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : le jour où l'inattendu arrive, mieux vaut avoir déjà une réponse en réserve. Avec Premium, tu la prépares : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> PS : entamer une conversation, ça se travaille. Avec Premium, tu t'y exerces à ton rythme : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n5-premium
 > **[Fin de l'encart]**
 >
@@ -251,43 +242,46 @@ L'encart Premium (entre crochets) n'est lu que par les inscrits par adresse. Abo
 
 ## N°6, jeudi 01/04/2027
 
-**Objet :** Une fête où tu ne connais que l'hôte  
-**Pré-en-tête :** Comment ouvrir la conversation avec un inconnu : trois phrases, et la règle pour choisir.
+**Objet :** Message du 1er avril : vrai ou canular ?  
+**Pré-en-tête :** Une annonce qui peut être un canular, trois réponses qui restent justes, et celle qui parie.
 
 > Salut,
 >
-> Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles. Cette fois, il n'y a pas de pique : il y a un silence à rompre, et c'est toi qui parles en premier.
+> Aujourd'hui, c'est le 1er avril. Imagine : 8 h 02, ton téléphone vibre dans le groupe de la coloc. Malik a écrit :
 >
-> Ce mois-ci, l'anniversaire de Nina, un samedi de printemps, 21 h. L'appartement est plein, la fenêtre est ouverte, et tu ne connais que Nina, qui est partie chercher des glaçons. Tu te retrouves devant la table des gâteaux apéritifs, à côté d'un inconnu qui regarde le même saladier que toi. Un seul de vous deux va parler.
+> « Le propriétaire passe vendredi à 18 h avec des acheteurs. Il faut tout ranger. »
 >
-> Voici trois phrases pour ouvrir, de la plus prudente à la plus audacieuse.
+> Malik est capable d'avoir inventé ça en pyjama, comme d'avoir reçu un vrai mail. Tout le groupe va lire ta réponse, et elle doit rester juste dans les deux cas. Trois réponses : deux qui y arrivent, une qui parie.
 >
 > La sûre
-> « Tu as goûté le truc dans le petit bol ? Je n'ose pas. »
-> Tu parles de ce que vous avez sous les yeux, et tu avoues une hésitation minuscule. L'autre peut répondre en dix secondes : « oui, c'est bon » ou « non, moi non plus ». Elle ne demande rien, elle donne un point d'entrée. À choisir quand tu ne sais rien de la personne et que tu veux que ça passe.
+> « Merci de prévenir. Tu peux transférer le mail du proprio ? Juste pour la date. »
+> Pas de blague dans celle-ci, et c'est voulu : elle reste juste que le message soit vrai ou non. « Juste pour la date » se lit dans les deux sens, noter le rendez-vous ou voir quand le mail est arrivé. Si c'est vrai, tu as tout noir sur blanc ; si c'est un canular, Malik voit que tu as compris, sans que tu l'aies accusé. À choisir quand tu ne sais pas à qui tu as affaire, ou quand le sujet touche quelque chose de sérieux, comme ton logement.
 >
 > La joueuse
-> « Je cherche quelqu'un qui connaît Nina depuis plus de dix ans. Je fais mon enquête. »
-> Tu t'appuies sur ce que vous avez en commun, la fête et l'hôte, et tu transformes la gêne en jeu. Elle demande une petite histoire en retour (« la fac », « la coloc de 2015 »), donc un peu plus d'effort à l'autre. À sortir quand le sourire est déjà venu, et que l'autre n'est pas pressé de repartir.
+> « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. »
+> Tu joues sur l'état de l'appartement, pas sur Malik : si c'est vrai, tu as promis de ranger ; si c'est un canular, sa blague vient de vous rendre service. Elle survit au démenti dans les deux sens. Dis-la comme une bonne résolution. À sortir quand le groupe sait rire de sa propre coloc.
 >
 > La risquée
-> « Tu es venu pour Nina ou pour le buffet ? Moi, je ne dis rien. »
-> Celle-ci vise la personne en face : tu lui prêtes une intention et tu la mets au défi de se situer, mais tu avoues le premier que tu es peut-être là pour le buffet aussi, ce qui lui laisse une porte. Elle demande à l'autre de choisir un camp et de rire de lui-même avec un inconnu. Elle ne marche que si vous avez déjà échangé quelques mots, ou si l'ambiance est très décontractée. Sinon, elle peut passer pour une accusation.
+> « 8 h 02 le 1er avril. Tu n'as même pas attendu que le café coule. »
+> Malik devient la cible : tu l'accuses du canular avant la preuve. Si c'en est un, tu as gagné la manche. Si c'est vrai, tu viens de te moquer de quelqu'un qui te prévenait d'une visite et tu as l'air d'avoir pris un vrai problème pour une blague. C'est la seule qui parie sur une seule des deux issues.
 >
-> Comment choisir : combien de travail tu donnes à l'autre
-> Une première phrase se juge à ce qu'elle demande à l'autre. La sûre se répond en un mot et dix secondes. La joueuse demande un petit récit. La risquée demande de prendre position. Plus tu connais peu la personne, moins ta phrase doit lui demander. Vise une réponse qui tient dans dix secondes, et monte d'un cran seulement quand l'autre a commencé à parler.
+> Comment choisir : celle qui survit au démenti
+> Avant de répondre à une annonce qui peut être un canular, demande-toi : « Que devient ma phrase si c'est vrai ? Et si c'est faux ? » La sûre et la joueuse tiennent dans les deux cas. La risquée ne tient que dans l'un : elle est pour les gens qui n'ont rien à perdre, ou pour quand tu es certain. Si tu hésites, choisis la phrase qui ne dépend pas de la réponse.
 >
 > L'erreur que tout le monde fait
-> S'excuser de déranger. « Excuse-moi, je te dérange ? » La question oblige l'autre à répondre « non, pas du tout », donc à te rassurer avant même de savoir pourquoi tu parles, et elle annonce que tu te sens de trop. Va directement au saladier : une phrase qui ressemble à la scène que vous avez sous les yeux dérange moins que n'importe quelle excuse.
+> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut démentir chez deux personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
 >
-> À essayer cette semaine
-> Écris trois premières phrases pour la prochaine fois que tu te retrouveras à côté d'un inconnu (une fête, une salle d'attente, la queue d'un guichet). Chacune doit s'appuyer sur ce que vous voyez tous les deux. Pour chacune, estime en combien de secondes l'autre peut répondre : si c'est plus de dix, raccourcis. Dis la première à voix haute, sans l'adresser à personne, pour sentir si elle est facile à dire.
+> À essayer aujourd'hui
+> La prochaine annonce surprenante qui t'arrive (vraie ou pas), écris deux phrases qui restent justes dans les deux cas, puis une troisième qui parie. Pas pour l'envoyer : pour sentir la différence. Puis vérifie en deux minutes (une source, un coup de fil) avant de répondre à quiconque.
 >
-> Après la première phrase, il faut sentir le moment de la suivante : c'est le sujet de l'étape 2 du parcours Machine à Café, « Sentir le bon moment ».
-> Aller à l'étape 2 : https://deviens-marrant.fr/parcours/machine-a-cafe?utm_source=lettre&utm_medium=email&utm_content=n6-etape2#etape-2
+> Et si c'est toi qui prépares ton canular, il est encore temps : notre article « Blague poisson d'avril pour adultes : 15 idées inoffensives » réunit quinze canulars classés par terrain. Aucun n'est dangereux ni humiliant, et on y trouve quoi faire si quelqu'un le prend mal. Lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n6-article
+>
+> Et quand l'inattendu te tombe dessus sans prévenir, c'est le sujet de l'étape 4 du parcours Répartie, « Improviser sur l'inattendu ».
+> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n6-etape4#etape-4
 >
 > **[Encart Premium, inscrits par adresse seulement]**
-> PS : entamer une conversation, ça se travaille. Avec Premium, tu t'y exerces à ton rythme : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> PS : le jour où l'inattendu arrive, mieux vaut avoir déjà une réponse en réserve. Avec Premium, tu la prépares : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n6-premium
 > **[Fin de l'encart]**
 >

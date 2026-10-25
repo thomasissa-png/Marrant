@@ -179,7 +179,7 @@
 > Poser la question, puis parler de toi. « Tu as prévu un créneau pour le jour où tu abandonnes ? Moi, de toute façon, je ne prends jamais de résolutions. » Axel n'a pas eu le temps de répondre, et ta question est devenue un prétexte pour parler de toi. Une question renvoyée se joue en deux temps : tu la poses, puis tu rebondis sur sa réponse avec une deuxième question, sur un détail qu'il vient de dire. La méditation, par exemple : le matin ou le soir ?
 >
 > À essayer cette semaine
-> La prochaine fois que quelqu'un t'annonce un grand projet, pose une question qui commence par « comment », écoute la réponse jusqu'au bout, puis pose-en une deuxième sur un détail qu'il vient de dire. Ensuite, écris trois questions pour la même annonce, une par mot de départ : « comment », « tu as prévu », « on se reparle ». Garde la première, c'est elle qui te servira le plus souvent.
+> La prochaine fois que quelqu'un t'annonce un grand projet, pose une question qui commence par « comment », écoute la réponse jusqu'au bout, puis rebondis avec une deuxième question, sur un détail de sa réponse. Ensuite, écris trois questions pour la même annonce, une par mot de départ : « comment », « tu as prévu », « on se reparle ». Garde la première, c'est elle qui te servira le plus souvent.
 >
 > « Être plus drôle » fait partie des résolutions qu'on lâche avant la mi-janvier. Notre article « Résolution 2027 : être plus drôle sans pression » donne une règle en trois mots, petit, daté, suivi, et un suivi sur quatre semaines pour tenir au-delà de janvier. Il est en lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/resolution-nouvelle-annee-etre-plus-drole?utm_source=lettre&utm_medium=email&utm_content=n3-article

@@ -119,3 +119,36 @@ Après ces retouches (et le vote pour le n°5), les trois lettres sont à 9 de m
 - Agents à relancer : @copywriter (B-n°3, B-n°4, B-n°5 et les mineurs retenus), puis un relecteur à l'aveugle sur la seule joueuse du n°5. Le n°3 et le n°4 n'ont besoin que d'une relecture du diff.
 ---
 
+## Vote des retouches (25/10/2026, @reviewer, à l'aveugle)
+
+**Périmètre** : les quatre retouches demandées en section 3, relues dans leur lettre (`docs/copy/lettres-du-mois-s22.md`, l. 182, 187, 237, 290). **Contrôles** : texte appliqué mot pour mot conforme aux « Après » (oui, les quatre) ; contenu de l'étape Confiance 3 relu (`docs/content/parcours-seed.json:791`) ; Grep « pas être long », « depuis plus longtemps que », « ne devrait pas », « dernier arrivé », « depuis combien », « « Je cherche » dans `docs/copy` (réservées comprises) et `apps/web/src` : seule autre occurrence, l'ancienne version du n°5 dans `lettres-du-mois-s22-a-lire.md:270` (« Je fais mon enquête », celle qu'on remplace) ; tirets cadratin et demi-cadratin dans le fichier : 0.
+
+| Lettre | Retouche | Juste ? | Cohérente avec la lettre ? | Défaut nouveau ? |
+|---|---|---|---|---|
+| n°3 | Exercice « …puis pose-en une deuxième sur un détail qu'il vient de dire. » | Oui | Oui : l'exercice applique enfin le remède de l'erreur (deux temps), la contradiction disparaît. | Mineur : « sur un détail qu'il vient de dire » répète mot pour mot la fin de l'erreur, trois lignes plus haut. |
+| n°3 | Pont « La deuxième question demande d'avoir remarqué un détail. Remarquer les petits gestes autour de toi, c'est le sujet de l'étape 3… » | Oui : l'étape apprend à remarquer les petits gestes autour de soi (`parcours-seed.json:791`). | Oui, par le verbe « remarquer ». Le détail de la lettre s'entend (dans ce que dit Axel), celui de l'étape se voit : le lien reste faible (décision à confirmer n°2, non rouverte). | Non. |
+| n°4 | Règle « …mais le plus sûr reste d'attendre d'avoir dit « tu as raison » et trouvé une solution. » | Oui | Oui : la risquée (« Compte sur elle seulement si Sam rit déjà ») n'est plus interdite par la règle, et la phrase suivante (« plus tu plaisantes tôt, plus tu prends de risque ») la prolonge. Le titre « d'abord réparer, ensuite plaisanter » reste vrai comme ordre conseillé. | Non. L'écho « la sûre » / « le plus sûr » dans deux phrases voisines sert le sens. |
+| n°5 | Joueuse « Je cherche quelqu'un qui connaît Nina depuis plus longtemps que moi. Ça ne devrait pas être long. » | Oui | Oui : la scène (« tu ne connais que Nina »), le commentaire (terrain commun, gêne changée en jeu, petite histoire en retour : « la fac », « l'ancienne coloc ») et la condition (« quand le sourire est déjà venu ») restent vrais tels quels. | Mineurs, voir plus bas. |
+
+**La joueuse du n°5, lue avec la scène et les deux autres répliques**
+- **Fait sourire** : oui, sourire net plutôt que léger. La première phrase a l'air d'une vraie question d'invité, la seconde la retourne contre celui qui parle : je suis le dernier arrivé dans la vie de Nina. L'écho « longtemps / long » ferme la chute sans calembour. C'est de l'autodérision sans rabaissement, dans la ligne de la marque.
+- **Se dit d'un trait** : oui, deux phrases courtes et parlées. Elle compte 17 mots, pas 15 comme l'écrivent la section 3 et les notes de la lettre (l. 321, l. 327) : sans effet sur l'oral.
+- **Sans mode d'emploi** : oui, elle marche seule, sans son explication.
+- **Gradation** : elle reste entre la sûre (le bol, une réponse en un mot) et la risquée (une intention prêtée à l'autre). Elle demande un petit récit, comme le dit la règle.
+- **Redite** : aucune. Le détective du 18/03 a disparu, et aucune réservée (nov-déc, jan-mars) ni aucune donnée du site n'a d'autodérision sur l'ancienneté auprès de l'hôte.
+
+**Mineurs (aucun ne bloque, à appliquer si @copywriter repasse)**
+1. n°3, exercice (l. 182) : pour éviter la répétition avec l'erreur et l'ambiguïté de « pose-en » (une deuxième question en « comment » ?), écrire « …écoute la réponse jusqu'au bout, puis rebondis avec une deuxième question, sur un détail de sa réponse. »
+2. n°5, joueuse : la chute suppose que tu connais Nina depuis peu, ce que la scène n'interdit pas mais ne dit pas. La joueuse et la risquée finissent toutes deux par une petite phrase sur toi (« Ça ne devrait pas être long. » / « Moi, je ne dis rien. »). C'est acceptable, parce que la fonction diffère : la chute dans un cas, la porte laissée à l'autre dans l'autre. Aucune retouche exigée.
+3. Notes internes (hors corps envoyé) : l. 205, point (6), cite encore l'ancien pont du n°3 ; l. 321 et l. 327 donnent 15 mots pour une joueuse qui en compte 17. À mettre à jour.
+
+**Notes et verdict**
+
+| Lettre | Note | Verdict | Bloquant |
+|---|---|---|---|
+| n°3, résolutions d'Axel | 9 | **GO** | Aucun |
+| n°4, réservation oubliée | 9 | **GO** | Aucun |
+| n°5, fête où tu ne connais que l'hôte | 9 | **GO** | Aucun (la joueuse passe le vote à l'aveugle exigé par la règle d'or s18) |
+
+Avec le n°2 (9) et le n°6 (9), les lettres n°2 à n°6 sont toutes à la barre. Les mineurs du vote et ceux de la section 4 ne conditionnent pas le GO. S'ils sont appliqués, seul un mineur qui toucherait une réplique devrait repasser le vote.
+

@@ -133,3 +133,37 @@ Les mineurs des deux rapports sur ces 7 lettres sont tous appliqués. Les bloqua
 - Points d'attention : B3 vient de la retouche proposée par l'éditeur (« ouvrir son micro »). B4 est un effet de bord de la nouvelle question. p1 est une proximité de règle avec le n°5, facultative. « S'expliquer » n'est l'erreur que du seul n°1 : conforme.
 - Agent à relancer : @copywriter (B1 à B4). Aucun autre fichier modifié, rien commité.
 ---
+
+## Vote des retouches (25/10/2026, vérification express à l'aveugle)
+
+**Lu** : les lettres du 12/11, du 26/11 et du 24/12 en entier, dans `docs/copy/lettres-reservees-nov-dec-s22.md` (l. 55-96, 170-213, 340-381), et `docs/copy/ton-alex.md`. Les quatre retouches sont appliquées mot pour mot (Grep des quatre nouveaux textes : présents ; Grep des anciens textes « tenu son temps », « rouvrir son micro », « sur ton téléphone : une fois », « La même que l'an dernier » : absents du fichier maître). Grep `—|–` sur tout le fichier : 0.
+
+| Retouche | Juste ? | Cohérente avec la scène et le reste de la lettre ? | Défaut nouveau ? | Verdict |
+|---|---|---|---|---|
+| B1, l. 72 (commentaire de la sûre) | Oui. « ton exposé reste court » dit vrai (4 minutes sur 10), et la réplique « C'est vous que je ne voulais pas retenir » est bien polie | Oui. Le chargé de TD qui « note quelque chose » n'a plus à approuver quoi que ce soit, il ne relève simplement rien d'insolent | Aucun. Le parallèle « reste court, reste polie » se lit d'un trait | **Passe** |
+| B1, l. 83 (« Comment choisir ») | Oui. « bref, mais courtois » est vrai, et le « mais » assume la brièveté au lieu de la maquiller | Oui. « La joueuse ajoute que tu sais compter » s'appuie toujours sur cette image | Aucun. « Un étudiant bref » est inhabituel pour une personne, mais correct, et ça colle à la lettre | **Passe** |
+| B2, l. 89 (exercice) | Oui. Le téléphone est loin, donc la prise tête baissée vers le bureau est la plus sourde, et la prise debout tournée vers le téléphone est la plus nette : l'exercice prouve bien ce qu'il enseigne | Oui. Il fait écho à l'erreur (« tu lèves la tête ») et garde les dix-huit personnes de la scène. Dans une chambre d'étudiant, « l'autre bout de la pièce » se fait aussi | Aucun. « levée vers le téléphone » reste vrai même si le téléphone est posé plus bas : c'est le visage qui se tourne vers lui | **Passe** |
+| B3, l. 198 (commentaire de la risquée) | Oui. Le micro de Romain est ouvert (l. 182), donc « Romain doit répondre » est juste | Oui. Le balancement « À deux ou trois… À douze… » ne reste que dans « Comment choisir » (l. 201) : plus de redite | Rien de bloquant. « cette minute » n'a plus d'antécédent écrit, mais « pendant que la réunion attend » le donne, et la phrase se lit naturellement. « elle appelle une réponse. Romain doit répondre » enchaîne le même mot, mais c'est le sujet de la phrase et ça ne gêne pas à l'oral | **Passe** |
+| B4, l. 361 (joueuse) | Oui. « la » ne peut plus renvoyer qu'à « réponse », et la blague est la même | Oui. Le commentaire (« Tu compares ta réponse à un vin qui se bonifie ») colle maintenant au mot dit. « Même réponse que l'an dernier » répond bien à « c'est pour cette année ? » : on comprend que l'an dernier non plus, ce n'était pas l'année | Aucun. Dite à voix haute, avec la bouteille de Gérard dans le champ, la chute « comme ton vin » arrive au bon moment | **Passe** (réplique retouchée : Thomas la regarde à l'approbation, règle d'or) |
+
+**Notes**
+
+| Lettre | Note | Verdict |
+|---|---|---|
+| 12/11, « Tu avais un train ? » | 9 | **GO** |
+| 26/11, visio et linge | 9 | **GO** |
+| 24/12, tonton | 9 | **GO** |
+
+**Bloquant** : aucun. Les 7 lettres du fichier sont donc à 9.
+
+**Mineurs encore ouverts, non exigés** : m1 (l. 86, « tes mains ont autre chose à faire que ranger »), m3 (l. 175, pré-en-tête du 26/11), m3 bis (l. 194, « sans sourire »), m5 (l. 377, « sans te rabaisser » en double) et m6 (l. 372, « la lui reprend ») ne sont pas appliqués. Ils ne bloquent pas la barre. Thomas les prend ou les laisse au moment de l'approbation.
+
+**À faire avant l'approbation** : `docs/copy/lettres-reservees-nov-dec-s22-a-lire.md` n'est pas régénérée. Sa l. 233 porte encore « La même que l'an dernier », et aucun des quatre nouveaux textes ne s'y trouve. C'est le seul fichier que Thomas lira : @copywriter doit le régénérer depuis le fichier maître avant de le lui envoyer, sinon il approuvera l'ancienne version.
+
+---
+**Handoff → @orchestrator**
+- Fichier modifié : `/home/user/Marrant/docs/reviews/review-reservees-nov-dec-s22-confirmation.md` (ajout de cette section seulement)
+- Décisions : 12/11, 26/11 et 24/12 à 9/10, GO. B1 à B4 sont justes, sans défaut nouveau. Aucun tiret cadratin.
+- Points d'attention : la version `-a-lire.md` n'est pas à jour (ancienne joueuse du 24/12 en l. 233) et doit être régénérée avant l'approbation. Thomas doit encore valider la question du permis et regarder la joueuse retouchée du 24/12.
+- Agent à relancer : @copywriter, pour régénérer seulement `-a-lire.md`. Rien commité.
+---
