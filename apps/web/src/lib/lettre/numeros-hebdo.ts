@@ -2,8 +2,10 @@
  * Numéros PRÉPARÉS de la lettre de la semaine (hebdo Premium, s21 ; spec §2, §3, US-H5).
  * Règle du 01/10 : contenu préparé par lot, aucune IA au fil de l'eau.
  *
- * Source : `src/data/lettre/hebdo-premium.json` (contenu : @copywriter, validé par
- * Thomas, « le commit vaut validation »). Une entrée :
+ * Source : `src/data/lettre/hebdo-premium.json` (contenu : @copywriter, relu à l'aveugle,
+ * `VALIDE`). Depuis s22 (décision de Thomas du 25/10), `VALIDE` ne suffit plus pour partir :
+ * chaque numéro doit AUSSI être approuvé par Thomas dans l'admin (`approbation-hebdo.ts`),
+ * et toute modification ultérieure annule cette approbation. Une entrée :
  * {
  *   "semaine": "2026-W46",              // semaine ISO (année du jeudi) ; envoi = son jeudi 8 h Paris, calculé
  *   "ficheId": "2026-11-01",            // fiche du carnet, recopiée telle quelle (jamais retapée)
@@ -24,6 +26,7 @@ import { MARQUEUR_A_COMPLETER, LETTRE_HEBDO_STOCK_ALERTE } from "@/config/lettre
 import { GABARIT_HEBDO, type GabaritHebdo } from "@/config/textes/lettre-hebdo-s21";
 import { envoiSemaine, moisDeSemaine, semaineValide } from "@/lib/lettre/calendrier";
 import { getAllCarnets, type Carnet, type CarnetFiche } from "@/lib/carnet";
+import { SANS_APPROBATION } from "@/lib/lettre/approbation-hebdo";
 
 const TIRET_CADRATIN = "—";
 const sansTiret = (champ: string) => z.string().refine((v) => !v.includes(TIRET_CADRATIN), { message: `${champ} : tiret cadratin interdit` });
@@ -219,9 +222,11 @@ export async function synchroniserNumerosHebdo(
       existant.scheduledFor.getTime() === donnees.scheduledFor.getTime() &&
       existant.status === donnees.status;
     if (inchange) continue;
+    // Toute modification (contenu, date, statut) annule l'approbation de Thomas (s22) : le
+    // numéro modifié doit être relu et réapprouvé dans l'admin avant de pouvoir partir.
     await prisma.newsletterIssue.update({
       where: { id: existant.id },
-      data: { ...donnees, validatedAt: n.statut === "VALIDE" ? existant.validatedAt ?? now : null },
+      data: { ...donnees, validatedAt: n.statut === "VALIDE" ? existant.validatedAt ?? now : null, ...SANS_APPROBATION },
     });
     r.misAJour++;
   }

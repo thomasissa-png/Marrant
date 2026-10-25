@@ -828,6 +828,10 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.semaine} : aucun numéro VALIDE pour la semaine. Rien n'est envoyé.`);
           await recordAdminAlert({ cle: "lettre-hebdo-sans-numero", sujet: `Lettre de la semaine ${res.semaine} : aucun numéro validé`, html: "<p>Rien n'est parti ce jeudi. Valider un numéro dans data/lettre/hebdo-premium.json.</p>", now });
         }
+        if (res.nonApprouve) {
+          console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.numero} validé mais pas approuvé par Thomas (ou modifié depuis l'approbation). Rien n'est envoyé.`);
+          await recordAdminAlert({ cle: "lettre-hebdo-non-approuve", sujet: `Lettre de la semaine ${res.numero} : en attente de ton approbation`, html: "<p>Rien n'est parti. Relire le numéro dans l'admin (Abonnés › Lettre) puis « Approuver ce numéro » : il partira au passage suivant, jusqu'à dimanche soir.</p>", now });
+        }
         if (res.bloque) {
           console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.numero} bloqué (${res.motifs.join(", ") || "marqueur [À COMPLÉTER"}). Rien n'est envoyé.`);
           await recordAdminAlert({ cle: "lettre-hebdo-bloque", sujet: `Lettre de la semaine ${res.numero} bloquée`, html: `<p>Motifs : ${res.motifs.join(", ") || "marqueur [À COMPLÉTER"}.</p>`, now });

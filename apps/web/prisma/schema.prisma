@@ -1128,6 +1128,11 @@ model NewsletterIssue {
   scheduledFor DateTime
   status       NewsletterIssueStatus @default(BROUILLON)
   validatedAt  DateTime?
+  /// Lettre de la semaine (s22) : approbation explicite de Thomas (action admin), migration 15.
+  /// Le numéro ne part que si `approvedHash` = empreinte du contenu actuel (lib/lettre/approbation-hebdo).
+  approvedAt   DateTime?
+  approvedBy   String?
+  approvedHash String?
   sentAt       DateTime?
   createdAt    DateTime              @default(now())
   updatedAt    DateTime              @updatedAt

@@ -18,7 +18,18 @@ jest.mock("@/config/lettre", () => ({
 }));
 
 type Ligne = { id: string; issueId: string; email: string; status: string; attempts: number; error?: string | null };
-type Issue = { id: string; audience: string; periodKey: string; subject: string; preheader: string | null; bodyText: string; scheduledFor: Date; status: string };
+type Issue = {
+  id: string;
+  audience: string;
+  periodKey: string;
+  subject: string;
+  preheader: string | null;
+  bodyText: string;
+  scheduledFor: Date;
+  status: string;
+  approvedAt?: Date | null;
+  approvedHash?: string | null;
+};
 const mockDb = {
   issues: [] as Issue[],
   users: [] as Array<Record<string, unknown>>,
@@ -71,6 +82,7 @@ import { GABARIT_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { preparerNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
 import { envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
 import { envoyerLettreDuMois } from "@/lib/lettre/envoi";
+import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
 
 const BASE = "https://deviens-marrant.fr";
 const JEUDI_8H05 = new Date("2026-11-12T07:05:00Z"); // jeudi 12/11, 8 h 05 Paris
@@ -91,8 +103,13 @@ function premium(email: string, p: Record<string, unknown> = {}, pref: Record<st
   };
 }
 
+// s22 : par défaut, numéro approuvé par Thomas pour son contenu exact (verrou testé à part,
+// `lettre-hebdo-approbation-s22.test.ts`). Empreinte calculée sur le contenu final : les garde-fous
+// suivants (marqueur, offre, lien mort) restent testés sur un numéro approuvé.
 function numero(p: Partial<Issue> = {}): Issue {
-  return { id: "h46", audience: "HEBDO_PREMIUM", periodKey: "2026-W46", subject: corpsValide.objet, preheader: corpsValide.preEntete, bodyText: corpsValide.corps, scheduledFor: corpsValide.envoiPrevu, status: "VALIDE", ...p };
+  const base = { id: "h46", audience: "HEBDO_PREMIUM", periodKey: "2026-W46", subject: corpsValide.objet, preheader: corpsValide.preEntete, bodyText: corpsValide.corps, scheduledFor: corpsValide.envoiPrevu, status: "VALIDE" };
+  const n: Issue = { ...base, ...p };
+  return { approvedAt: avant, approvedHash: empreinteNumero(n), ...n };
 }
 
 beforeEach(() => {

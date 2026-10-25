@@ -6,6 +6,9 @@
  *     soir : la semaine a changé, l'ancien numéro n'est plus lu (pas de rattrapage).
  *  3. Numéro PRÉPARÉ `HEBDO_PREMIUM` de la semaine, `VALIDE`, `scheduledFor` atteint ;
  *     absent : alerte, rien n'est envoyé (jamais de contenu au fil de l'eau).
+ *  3 bis. (s22) Approuvé par Thomas dans l'admin, pour ce contenu exact (`approbationValide`) ;
+ *     sinon alerte « en attente d'approbation », rien n'est envoyé. Approuvé plus tard dans la
+ *     semaine : part au passage suivant (jusqu'au dimanche soir).
  *  4. Marqueur `[À COMPLÉTER` (gabarit non validé, pied) ou offre commerciale
  *     (`motifsInterdits`, avis @legal C1) dans le rendu : bloqué.
  *  5. Article du blog cité hors ligne, ou étape de parcours d'un parcours inactif : reporté.
@@ -23,6 +26,7 @@ import { articlesCites, envoyerLot, etatArticlesCites, type CibleEnvoi } from "@
 import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import type { EnvoyerEmail } from "@/lib/lettre/inscription";
 import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
+import { approbationValide } from "@/lib/lettre/approbation-hebdo";
 
 const base = (baseUrl: string) => baseUrl.replace(/\/$/, "");
 
@@ -60,6 +64,8 @@ export interface EnvoiHebdoResultat {
   semaine: string;
   /** Jeudi 8 h atteint, mais aucun numéro VALIDE pour la semaine : alerte. */
   sansNumero: boolean;
+  /** (s22) Numéro VALIDE mais pas approuvé par Thomas pour son contenu actuel : rien ne part. */
+  nonApprouve: boolean;
   bloque: boolean;
   /** Motifs du blocage (marqueur, offre commerciale). */
   motifs: string[];
@@ -85,6 +91,7 @@ export async function envoyerLettreDeLaSemaine(
     ferme: !ouverts,
     semaine,
     sansNumero: false,
+    nonApprouve: false,
     bloque: false,
     motifs: [],
     reporte: false,
@@ -114,6 +121,10 @@ export async function envoyerLettreDeLaSemaine(
     return r;
   }
   r.numero = numero.periodKey;
+  if (!approbationValide(numero)) {
+    r.nonApprouve = true;
+    return r;
+  }
 
   const rendu = [numero.subject, numero.preheader ?? "", corpsNumeroHebdo(numero.bodyText, deps.baseUrl, "jeton")].join("\n");
   r.motifs = motifsInterdits(rendu);
