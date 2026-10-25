@@ -339,7 +339,7 @@ Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant q
 
 ### 10.2 Retour de paiement, compte qui reçoit la lettre (remplace §9.5, « reçoit »)
 
-Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.
+Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux arrêter la lettre de la semaine en un clic, depuis chaque lettre ou ton profil.
 
 ### 10.3 Page d'arrêt, texte avant l'arrêt (remplace le défaut du §3)
 
@@ -355,10 +355,16 @@ La semaine où part la lettre du mois, c'est elle que tu reçois, comme tout le 
 
 ### 10.6 Confidentialité, section 8, finalité (remplace la 2e phrase du §9.4)
 
-T'envoyer la lettre de la semaine, dont la lettre du mois une semaine par mois : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.
+T'envoyer la lettre de la semaine, dont la lettre du mois une semaine par mois : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé, sauf la lettre du mois si tu t'y es inscrit séparément.
 
 Partie 7 (droits) : texte du §9.4 inchangé, toujours exact (l'arrêt de la lettre de la semaine arrête les lettres Premium, lettre du mois comprise).
 
 ### 10.7 Fin d'abonnement, phrase facultative (remplace §6.1)
 
 La lettre de la semaine s'arrête avec ton accès Premium. Si tu t'es inscrit séparément à la lettre du mois, tu continues de la recevoir.
+
+### 10.8 Profil, message après désactivation du réglage (relecture à l'aveugle du rythme, mineur 2)
+
+C'est arrêté. Ton abonnement continue. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément.
+
+Relecture à l'aveugle `docs/reviews/review-rythme-mensuelle-s22.md` (NO-GO 7/10) : B1 (« Rendez-vous le mois prochain, » devient « À bientôt, » dans les numéros 1 et 3 à 6, vrai pour les deux versions ; le n°2 garde « Bonnes fêtes. Rendez-vous en janvier, »), B2 (§10.6), mineurs 1 (§10.2) et 2 (§10.8) appliqués.

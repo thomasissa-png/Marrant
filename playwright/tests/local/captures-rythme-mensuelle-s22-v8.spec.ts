@@ -13,7 +13,10 @@ import { LETTRE_HEBDO_ARRET } from "@/config/textes/lettre-hebdo-s21";
  * texte change, à 390 et 1440 : réglage du profil, retour de paiement, page d'arrêt (avant et après le
  * clic), CGU article 10, confidentialité section 8, admin Abonnés › Lettre. Sortie : v8-*.png ; aucune
  * capture plus ancienne n'est réécrite. Comptes à mot de passe jamais vérifiés.
+ * v8b (relecture à l'aveugle du rythme, B2 et mineurs) : `CAPTURES_PREFIXE=v8b` et `--grep` sur les
+ * écrans retouchés (retour de paiement, profil après désactivation, confidentialité partie 8).
  */
+const PREFIXE = process.env.CAPTURES_PREFIXE ?? "v8";
 const DOSSIER = path.join(__dirname, "..", "..", "..", "docs", "qa", "captures-question-equipe-s22");
 const MOT_DE_PASSE = "E2e-captures-rythme8-2026!";
 const PASSAGE = Date.now().toString(36);
@@ -57,7 +60,7 @@ async function capturer(page: Page, el: Locator, nom: string): Promise<void> {
   });
   const marge = 8;
   await page.screenshot({
-    path: path.join(DOSSIER, `v8-${nom}.png`),
+    path: path.join(DOSSIER, `${PREFIXE}-${nom}.png`),
     fullPage: true,
     animations: "disabled",
     clip: { x: Math.max(0, r.x - marge), y: Math.max(0, r.y - marge), width: Math.min(r.width + 2 * marge, p.vue), height: r.height + 2 * marge },
@@ -85,13 +88,27 @@ test.describe("Captures v8 : la lettre du mois fait partie des lettres Premium",
       await capturer(page, reglage, `reglage-active-${vue.width}`);
     });
 
+    test(`${vue.width} : profil, réglage désactivé (message après l'arrêt)`, async ({ page }) => {
+      const { email } = await compte("desactive", vue);
+      await connecter(page, vue, email);
+      await page.goto("/profil");
+      await page.waitForLoadState("networkidle");
+      const reglage = page.getByTestId("lettre-hebdo-profil");
+      const interrupteur = reglage.getByRole("switch", { name: "Je reçois la lettre de la semaine" });
+      await expect(interrupteur).toBeChecked();
+      await interrupteur.click();
+      await expect(interrupteur).not.toBeChecked();
+      await expect(reglage).toContainText("C’est arrêté. Ton abonnement continue. La lettre du mois s’arrête aussi, sauf si tu t’y es inscrit séparément.");
+      await capturer(page, reglage, `reglage-desactive-${vue.width}`);
+    });
+
     test(`${vue.width} : retour de paiement, compte qui reçoit la lettre`, async ({ page }) => {
       const { email } = await compte("paiement", vue);
       await connecter(page, vue, email);
       await page.goto("/abonnement/success?session_id=cs_test_factice_v8&formule=mensuel");
       const ligne = page.getByTestId("lettre-hebdo-paiement");
       await expect(ligne).toHaveAttribute("data-etat", "recoit", { timeout: 30_000 });
-      await expect(ligne).toContainText("Une semaine par mois, c’est la lettre du mois");
+      await expect(ligne).toContainText("Tu peux arrêter la lettre de la semaine en un clic");
       await page.waitForLoadState("networkidle");
       await capturer(page, page.locator("[aria-live=polite]").first(), `retour-paiement-office-${vue.width}`);
     });
@@ -114,15 +131,19 @@ test.describe("Captures v8 : la lettre du mois fait partie des lettres Premium",
       await capturer(page, page.locator("main"), `arret-succes-${vue.width}`);
     });
 
-    test(`${vue.width} : CGU article 10 et confidentialité section 8`, async ({ page }) => {
+    test(`${vue.width} : CGU article 10`, async ({ page }) => {
       await page.setViewportSize({ width: vue.width, height: 1600 });
       await page.goto("/cgu");
       const cgu = page.locator("section").filter({ has: page.getByTestId("cgu-lettre-hebdo") });
       await expect(cgu).toContainText("La semaine où part la lettre du mois");
       await capturer(page, cgu, `cgu-article-10-${vue.width}`);
+    });
+
+    test(`${vue.width} : confidentialité section 8`, async ({ page }) => {
+      await page.setViewportSize({ width: vue.width, height: 1600 });
       await page.goto("/confidentialite");
       const lettre = page.locator("section#lettre");
-      await expect(lettre).toContainText("dont la lettre du mois une semaine par mois");
+      await expect(lettre).toContainText("sauf la lettre du mois si tu t’y es inscrit séparément");
       await capturer(page, lettre, `confidentialite-section-8-lettre-${vue.width}`);
     });
 

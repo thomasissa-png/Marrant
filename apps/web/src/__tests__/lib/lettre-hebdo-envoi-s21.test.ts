@@ -375,7 +375,7 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
       expect(text).not.toContain("/abonnement");
       expect(text).not.toContain("[[");
       expect(text).toContain(`L'article est en lecture libre.\nLire l'article sur la soirée de Noël au boulot${NBSP}: https://deviens-marrant.fr/blog/${SLUG_N1}`);
-      expect(text).toContain(`n1-article\n\nRendez-vous le mois prochain,\nL'Équipe Deviens Marrant`);
+      expect(text).toContain(`n1-article\n\nÀ bientôt,\nL'Équipe Deviens Marrant`);
       expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
       expect(text).toContain(`${BASE}/lettre/premium/arreter?token=${encodeURIComponent(jeton)}`);
       expect(text).not.toContain("/lettre/desinscrire");

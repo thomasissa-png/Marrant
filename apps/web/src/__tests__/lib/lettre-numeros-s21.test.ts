@@ -165,7 +165,8 @@ describe("envoi des numéros", () => {
 
 describe("s22 : version Premium de la lettre du mois (décision de Thomas du 25/10)", () => {
   // Empreintes SHA-256 des corps relus et validés AVANT la pose des marqueurs (commit 52955b31) :
-  // la version gratuite reste mot pour mot le texte relu.
+  // la version gratuite reste mot pour mot le texte relu, à la seule retouche B1 près (relecture à
+  // l'aveugle du rythme : « Rendez-vous le mois prochain, » devient « À bientôt, », n°2 inchangé).
   const RELUS = [
     "17bf6d3317371c5df94a3edcb236c80a651da216f06a70c598dc1561707d942c",
     "1b371870289f39f3fee11169207b00140da04a6f0fa5ac3f9984fc8bd51a0a6e",
@@ -180,7 +181,10 @@ describe("s22 : version Premium de la lettre du mois (décision de Thomas du 25/
     numeros.forEach((n, i) => {
       const d = decouperInvitation(n.corps);
       expect(d?.invitation).toMatch(/^[^\n]+\nVoir l'offre Premium : https:\/\/deviens-marrant\.fr\/abonnement\?utm_source=lettre&utm_medium=email&utm_content=n\d-premium$/);
-      expect(sha(versionGratuite(n.corps) as string)).toBe(RELUS[i]);
+      const gratuite = versionGratuite(n.corps) as string;
+      expect(gratuite.split("À bientôt,").length - 1).toBe(n.numero === 2 ? 0 : 1);
+      expect(gratuite).not.toContain("Rendez-vous le mois prochain");
+      expect(sha(gratuite.replace("À bientôt,", "Rendez-vous le mois prochain,"))).toBe(RELUS[i]);
     });
   });
 

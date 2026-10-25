@@ -1,5 +1,7 @@
 # Aperçu : lettre du mois n°1 « On a comparé nos salaires », deux versions (s22, 25/10/2026)
 
+Régénéré après la relecture à l'aveugle du rythme (B1 : « À bientôt, » remplace « Rendez-vous le mois prochain, »).
+
 Rendu par les fonctions réelles de l'envoi (`corpsNumero`, `corpsNumeroPremium` dans `apps/web/src/lib/lettre/envoi.ts`), depuis le texte de `apps/web/src/data/lettre/numeros.json`, jetons factices. Espaces insécables posées au rendu (invisibles ici). Aucun e-mail envoyé.
 
 Décision de Thomas du 25/10 : la lettre du mois fait partie des lettres Premium. Le jeudi 05/11 (semaine 2026-W45), les abonnés Premium reçoivent cette lettre (version Premium), aucune lettre réservée cette semaine-là ; la première lettre réservée part le 12/11.
@@ -39,7 +41,7 @@ Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/b
 PS : si une vanne par mois ne te suffit pas, les parcours complets sont dans Premium, résiliable en ligne. La première étape de chacun se lit sans compte.
 Voir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 
-Rendez-vous le mois prochain,
+À bientôt,
 L'Équipe Deviens Marrant
 
 --
@@ -79,7 +81,7 @@ Exemple : « Mon coloc a fini par remarquer que sa chambre faisait le double d
 À la soirée de Noël au boulot, une vanne ratée dure jusqu'en janvier. L'article suit la soirée moment par moment, de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Celle de ce mois parle de salaires : il les range en zone rouge, donc elle reste pour la machine à café. L'article est en lecture libre.
 Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
 
-Rendez-vous le mois prochain,
+À bientôt,
 L'Équipe Deviens Marrant
 
 Une situation te laisse sans réplique ? Pose ta question à l'équipe depuis ton profil : en général, réponse sous 1 à 2 jours ouvrés. https://deviens-marrant.fr/profil
@@ -124,7 +126,7 @@ Exemple : « Mon coloc a fini par remarquer que sa chambre faisait le double d
 À la soirée de Noël au boulot, une vanne ratée dure jusqu'en janvier. L'article suit la soirée moment par moment, de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Celle de ce mois parle de salaires : il les range en zone rouge, donc elle reste pour la machine à café. L'article est en lecture libre.
 Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
 
-Rendez-vous le mois prochain,
+À bientôt,
 L'Équipe Deviens Marrant
 
 --
