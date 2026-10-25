@@ -29,7 +29,7 @@
 
 > Salut,
 >
-> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo, qui raconte son week-end depuis vingt minutes, a fini par le remarquer :
+> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo, qui raconte ses vacances depuis vingt minutes, a fini par le remarquer :
 >
 > « Alors, t'as perdu ta langue ? »
 >
@@ -48,22 +48,22 @@
 > La seule des trois qui vise Hugo : ton silence devient un jour de congé, offert par son bavardage. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
 >
 > Comment choisir
-> Regarde vers qui ta phrase pointe : la sûre reste sur toi, la joueuse t'emmène ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran. Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard.
+> Regarde où ta phrase pointe : la sûre reste sur toi, la joueuse part ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran. Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard.
 >
 > L'erreur que tout le monde fait
 > S'expliquer. « Non mais j'écoutais, j'ai juste pas grand-chose à dire, je suis un peu fatigué. » Tout est vrai, et ça ne marche pas. Une pique de chambrage est une invitation à jouer, elle ne réclame aucune raison. Dès que tu t'expliques, tu réponds comme à un reproche, tu montres que ça a touché, et le salon garde cette image. Hugo n'attend pas ton alibi, juste que tu renvoies la balle, même mollement.
 >
 > À essayer cette semaine
-> Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une phrase chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
+> Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une ou deux phrases chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
 >
-> Et pour placer un mot avant qu'un Hugo le remarque, notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » en donne sept, dont des phrases d'entrée à garder en poche. Il est en lecture libre.
+> Et pour placer un mot avant qu'un Hugo remarque ton silence, notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » propose, dès sa première technique, trois phrases d'entrée à garder en poche. Il est en lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/rester-muet-en-groupe?utm_source=lettre&utm_medium=email&utm_content=n1-article
 >
 > Pour t'entraîner sur ce genre de pique : l'étape 3 du parcours Répartie, « Retourner les piques avec le sourire ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n1-etape3#etape-3
 >
 > [[invitation-premium]]
-> PS : rester muet, ça arrive à tout le monde. Répondre en une phrase, ça s'apprend. Avec Premium, tu reçois une lettre comme celle-ci chaque jeudi, au lieu d'une par mois, et tu ouvres les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : rester muet, ça arrive à tout le monde. Répondre en une phrase, ça s'apprend. Avec Premium, tu reçois une lettre de ce genre chaque jeudi, au lieu d'une par mois, et tu ouvres les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 > [[/invitation-premium]]
 >
