@@ -32,7 +32,10 @@
  *        globales (`User.emailOptOut`, prospects `CeoLead` opposés), sauf confirmation de la lettre
  *        POSTÉRIEURE à l'opposition (L6 ; date d'opposition majorée par `updatedAt`, donc prudente).
  *        Un compte Premium (il a arrêté la lettre de la semaine) reçoit la version Premium avec le
- *        pied gratuit ; les autres, la version gratuite (texte relu, invitation comprise).
+ *        pied gratuit ; les autres, la version gratuite (texte relu, invitation comprise) ;
+ *    (3) canal compte (s22, décision de Thomas du 25/10 : comptes gratuits inscrits d'office) :
+ *        `destinatairesCompte` (fonction unique, `compte.ts`), hors canaux 1 et 2 et hors oppositions,
+ *        version sans invitation, pied « tu as un compte », désinscription en un clic (durable).
  *  - Jamais deux lettres dans la semaine : si une lettre réservée est déjà partie la semaine en
  *    cours (ou la précédente, rattrapée), la lettre du mois attend le jeudi suivant à 8 h.
  *  - Journal `NewsletterSend` réservé AVANT l'envoi (unique numéro + adresse) :
@@ -52,6 +55,7 @@ import { avecJetonsHebdo, destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { contientMarqueurInvitation, decouperInvitation, versionGratuite, versionPremium } from "@/lib/lettre/invitation-premium";
 import { corpsNumeroHebdo, enTetesArretHebdo } from "@/lib/lettre/rendu-hebdo";
 import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
+import { avecJetonsCompte, destinatairesCompte } from "@/lib/lettre/compte";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { approbationValide } from "@/lib/lettre/approbation-hebdo";
 
@@ -181,6 +185,8 @@ export interface EnvoiResultat {
   canalPremium: number;
   /** (s22) Inscrits gratuits déjà servis par le canal Premium : un seul e-mail par adresse. */
   dedoublonnes: number;
+  /** (s22) Comptes gratuits servis par le canal compte (version sans invitation, pied « tu as un compte »). */
+  canalCompte: number;
   exclusOpposition: number;
   dejaTraites: number;
   termine: boolean;
@@ -200,6 +206,12 @@ interface Opposition {
 export function corpsNumero(bodyText: string, baseUrl: string, unsubscribeToken: string, options: { premium?: boolean } = {}): string {
   const texte = (options.premium ? versionPremium(bodyText) : versionGratuite(bodyText)) ?? bodyText;
   return `${frPonctuation(texte.trimEnd())}\n${EMAILS_LETTRE.piedNumero(buildUnsubscribeUrl(baseUrl, unsubscribeToken), baseUrl)}`;
+}
+
+/** Corps complet d'un numéro, canal compte (s22) : version sans invitation + pied « tu as un compte ». */
+export function corpsNumeroCompte(bodyText: string, baseUrl: string, unsubscribeToken: string): string {
+  const texte = versionPremium(bodyText) ?? bodyText;
+  return `${frPonctuation(texte.trimEnd())}\n${EMAILS_LETTRE.piedNumeroCompte(buildUnsubscribeUrl(baseUrl, unsubscribeToken), baseUrl)}`;
 }
 
 /** Corps complet d'un numéro, canal Premium : version Premium + pied et lien d'arrêt de la lettre de la semaine. */
@@ -391,6 +403,7 @@ export async function envoyerLettreDuMois(
     echecs: 0,
     canalPremium: 0,
     dedoublonnes: 0,
+    canalCompte: 0,
     exclusOpposition: 0,
     dejaTraites: 0,
     termine: false,
@@ -415,7 +428,8 @@ export async function envoyerLettreDuMois(
   // s22 : version Premium (sans invitation, pied hebdo), dérivée du même texte approuvé ; elle respecte
   // les interdits commerciaux de la lettre de la semaine (avis @legal C1), sinon rien ne part.
   const renduPremium = [numero.subject, numero.preheader ?? "", corpsNumeroPremium(numero.bodyText, deps.baseUrl, "jeton")].join("\n");
-  if (decouperInvitation(numero.bodyText) === null || contientMarqueurInvitation(rendu) || contientMarqueurInvitation(renduPremium)) {
+  const renduCompte = corpsNumeroCompte(numero.bodyText, deps.baseUrl, "jeton");
+  if (decouperInvitation(numero.bodyText) === null || [rendu, renduPremium, renduCompte].some(contientMarqueurInvitation)) {
     r.motifs.push("marqueurs de l'invitation Premium mal posés");
   }
   r.motifs.push(...motifsInterdits(renduPremium).filter((m) => m !== "marqueur [À COMPLÉTER"));
@@ -498,6 +512,20 @@ export async function envoyerLettreDuMois(
         headers: enTetesDesinscription(deps.baseUrl, a.unsubscribeToken),
       }),
     });
+  }
+  // Canal compte (s22) : comptes gratuits inscrits d'office, une seule fois par adresse.
+  const servis = new Set(cibles.map((c) => c.email));
+  const comptes = (await destinatairesCompte()).filter((d) => !servis.has(d.email) && !oppositions.has(d.email));
+  for (const d of await avecJetonsCompte(comptes)) {
+    cibles.push({
+      email: d.email,
+      message: () => ({
+        subject: sujet,
+        text: corpsNumeroCompte(numero.bodyText, deps.baseUrl, d.unsubscribeToken),
+        headers: enTetesDesinscription(deps.baseUrl, d.unsubscribeToken),
+      }),
+    });
+    r.canalCompte++;
   }
   const restants = await envoyerLot(numero.id, journal, cibles, deps.envoyer, "Numéro de la lettre", r);
 

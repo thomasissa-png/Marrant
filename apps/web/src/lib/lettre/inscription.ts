@@ -22,6 +22,7 @@ import {
 } from "@/config/lettre";
 import { EMAILS_LETTRE, TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { buildConfirmUrl, buildOneClickUnsubscribeUrl, buildUnsubscribeUrl, generateOpaqueToken } from "@/lib/newsletter";
+import { desinscrireCompte } from "@/lib/lettre/compte";
 
 /** Texte stocké comme preuve : version + texte exact de la case. */
 export const LETTRE_CONSENT_TEXT = `${LETTRE_CONSENT_VERSION} : ${TEXTES_LETTRE.formulaire.case}`;
@@ -214,10 +215,12 @@ export async function confirmerLettre(token: string, ip: string | null, now: Dat
 /**
  * Désinscription (POST du bouton ou en un clic). Idempotente. Efface l'empreinte
  * d'IP ; garde adresse, dates et version du consentement (trace 3 ans, L4).
+ * s22 : même lien pour la lettre du mois envoyée d'office aux comptes gratuits (`compte.ts`) :
+ * jeton inconnu des inscrits par adresse → jeton du canal compte, désinscription durable.
  */
 export async function desinscrireLettre(token: string, now: Date = new Date()): Promise<"desinscrit" | "invalide"> {
   const abonne = await prisma.newsletterSubscriber.findUnique({ where: { unsubscribeToken: token } });
-  if (!abonne) return "invalide";
+  if (!abonne) return (await desinscrireCompte(token, now)) ? "desinscrit" : "invalide";
   if (abonne.status !== "UNSUBSCRIBED") {
     await prisma.newsletterSubscriber.update({
       where: { id: abonne.id },

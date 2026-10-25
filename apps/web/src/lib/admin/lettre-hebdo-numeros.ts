@@ -10,7 +10,8 @@
 import { z } from "zod";
 import { frPonctuation } from "@/lib/fr-typo";
 import { corpsNumeroHebdo } from "@/lib/lettre/envoi-hebdo";
-import { corpsNumero, corpsNumeroPremium, periodeMensuelle } from "@/lib/lettre/envoi";
+import { corpsNumero, corpsNumeroCompte, corpsNumeroPremium, periodeMensuelle } from "@/lib/lettre/envoi";
+import { destinatairesCompte } from "@/lib/lettre/compte";
 import { semaineIsoParis } from "@/lib/lettre/calendrier";
 import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { approbationValide, empreinteNumero, type AudienceApprobation } from "@/lib/lettre/approbation-hebdo";
@@ -50,6 +51,10 @@ export interface NumeroHebdoAdmin {
   textePremium: string | null;
   /** (s22) Lettre du mois : nombre d'abonnés Premium qui la reçoivent à la place de la lettre réservée. */
   abonnesPremium: number | null;
+  /** (s22) Lettre du mois : version des comptes gratuits (sans invitation, pied « tu as un compte »). */
+  texteCompte: string | null;
+  /** (s22) Lettre du mois : nombre de comptes gratuits qui la reçoivent d'office. */
+  comptesGratuits: number | null;
   /** (s22) Lettre de la semaine : semaine prévue de la lettre du mois, ce numéro ne part pas. */
   semaineMensuelle: boolean;
   empreinte: string;
@@ -76,7 +81,9 @@ export async function listerNumerosHebdoAdmin(now: Date, baseUrl: string): Promi
     take: 30,
   });
   const semainesMensuelle = new Set(numeros.filter((n) => n.audience === "MENSUELLE" && n.status === "VALIDE").map((n) => semaineIsoParis(n.scheduledFor)));
-  const abonnesPremium = numeros.some((n) => n.audience === "MENSUELLE") ? (await destinatairesHebdo()).length : 0;
+  const avecMensuelle = numeros.some((n) => n.audience === "MENSUELLE");
+  const abonnesPremium = avecMensuelle ? (await destinatairesHebdo()).length : 0;
+  const comptesGratuits = avecMensuelle ? (await destinatairesCompte()).length : 0;
   return numeros.map((n) => {
     const valide = approbationValide(n);
     const mensuelle = n.audience === "MENSUELLE";
@@ -90,6 +97,8 @@ export async function listerNumerosHebdoAdmin(now: Date, baseUrl: string): Promi
       texte: mensuelle ? corpsNumero(n.bodyText, baseUrl, "apercu-sans-effet") : corpsNumeroHebdo(n.bodyText, baseUrl, "apercu-sans-effet"),
       textePremium: mensuelle ? corpsNumeroPremium(n.bodyText, baseUrl, "apercu-sans-effet") : null,
       abonnesPremium: mensuelle ? abonnesPremium : null,
+      texteCompte: mensuelle ? corpsNumeroCompte(n.bodyText, baseUrl, "apercu-sans-effet") : null,
+      comptesGratuits: mensuelle ? comptesGratuits : null,
       semaineMensuelle: !mensuelle && semainesMensuelle.has(n.periodKey),
       empreinte: empreinteNumero(n),
       approuve: valide,

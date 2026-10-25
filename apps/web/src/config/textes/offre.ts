@@ -67,6 +67,9 @@ export const CGU_ACCEPTATION = {
   apres: ".",
 } as const;
 
+/** s22 (décision de Thomas du 25/10, mot pour mot) : sous la mention des CGU, valable pour l'e-mail et Google. */
+export const LETTRE_MOIS_INSCRIPTION_COMPTE = "Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.";
+
 /**
  * Mois offerts par l'annuel, calculés : 6,89 € / 1,99 € = 3,46 mois, donc
  * « plus de 3 mois offerts » (jamais « 4 mois », décision D5). Si l'économie

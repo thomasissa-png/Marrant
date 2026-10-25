@@ -257,6 +257,23 @@ const EMAILS_SOURCE = {
       `Se désinscrire : ${lienDesinscrire}`,
       ...piedLegal(baseUrl).slice(1),
     ].join("\n"),
+  /** s22 (décision de Thomas du 25/10) : pied de la lettre du mois envoyée d'office aux comptes gratuits. */
+  piedNumeroCompte: (lienDesinscrire: string, baseUrl: string) =>
+    [
+      "",
+      "--",
+      "Tu reçois cette lettre parce que tu as un compte sur deviens-marrant.fr.",
+      `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
+      `Se désinscrire en un clic : ${lienDesinscrire}`,
+      ...piedLegal(baseUrl).slice(1),
+    ].join("\n"),
 } as const;
 
 export const EMAILS_LETTRE = insecables(EMAILS_SOURCE);
+
+/**
+ * s22 (décision de Thomas du 25/10) : la seule phrase ajoutée à la confidentialité (section 8) pour la
+ * lettre du mois envoyée d'office aux comptes (« Stop. Too much juridique » : rien d'autre).
+ */
+export const CONFIDENTIALITE_LETTRE_COMPTE =
+  "T'envoyer la lettre du mois si tu as un compte, sans l'invitation à t'abonner : intérêt légitime, et tu peux te désinscrire en un clic à tout moment.";

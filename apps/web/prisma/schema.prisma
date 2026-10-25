@@ -90,6 +90,8 @@ model User {
   parcoursReminder    ParcoursReminderPreference?
   // s21 : lettre hebdomadaire Premium (préférence seulement ; envoi hors lot lettre mensuelle)
   premiumLetter       PremiumLetterPreference?
+  /// s22 : lettre du mois envoyée d'office aux comptes gratuits (désinscription durable), migration 16.
+  monthlyLetter       AccountLetterPreference?
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1226,4 +1228,19 @@ model DataPatch {
   note      String?  @db.Text
 
   @@index([appliedAt])
+}
+
+/// s22 (25/10, décision de Thomas) : lettre du mois envoyée d'office aux COMPTES GRATUITS (version sans
+/// invitation, pied « tu as un compte »). Ligne créée au premier envoi (jeton de désinscription), jamais
+/// au déploiement. `stoppedAt` posé = désinscrit pour toujours (jamais réinscrit d'office, même après un
+/// passage par Premium) ; effacée avec le compte. Migration 16 (`16_lettre_mois_comptes_s22`).
+model AccountLetterPreference {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  unsubscribeToken String    @unique
+  stoppedAt        DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

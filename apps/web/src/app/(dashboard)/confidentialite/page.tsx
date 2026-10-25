@@ -6,6 +6,7 @@ import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "
 import { CONFIDENTIALITE_QUESTION_EQUIPE as QUESTION, CONSERVATION_QUESTION_EQUIPE, PRESTATAIRES_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
 import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CONFIDENTIALITE_LETTRE_HEBDO as HEBDO } from "@/config/textes/lettre-hebdo-s21";
+import { CONFIDENTIALITE_LETTRE_COMPTE } from "@/config/textes/lettre-s21";
 import { frTypo } from "@/lib/fr-typo";
 import { WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
 
@@ -187,6 +188,8 @@ export default function ConfidentialitePage() {
           <ul className={LIST}>
             <li>T’envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-⁠mail), que tu peux retirer en un clic</li>
             {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.finalite)}</li>}
+            {/* s22 (décision de Thomas du 25/10) : lettre du mois envoyée d'office aux comptes, une phrase. */}
+            <li data-testid="confidentialite-lettre-compte">{frTypo(CONFIDENTIALITE_LETTRE_COMPTE)}</li>
             <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
           </ul>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.destinataires)}</p>}

@@ -19,7 +19,7 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { validateRegisterFields, fieldErrorsFromApiDetails, type RegisterFieldErrors } from "@/lib/register-validation";
-import { CGU_ACCEPTATION } from "@/config/textes/offre";
+import { CGU_ACCEPTATION, LETTRE_MOIS_INSCRIPTION_COMPTE } from "@/config/textes/offre";
 import { contexteRegister, MUR_PARCOURS, REGISTER_CTA, SRC_SANS_ACHAT } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { Chargement } from "@/components/ui/chargement";
@@ -309,6 +309,10 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
                 {CGU_ACCEPTATION.lien}
               </Link>
               {CGU_ACCEPTATION.apres}
+            </p>
+            {/* s22 : la lettre du mois part d'office aux comptes (décision de Thomas du 25/10), sans case. */}
+            <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-lettre-mois">
+              {frTypo(LETTRE_MOIS_INSCRIPTION_COMPTE)}
             </p>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">
