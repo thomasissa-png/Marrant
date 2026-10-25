@@ -2,6 +2,12 @@
 
 ## À DÉPLOYER
 
+(rien)
+
+## s22 (25/10) Description publique de la lettre du mois au nouveau format, consentement `lettre-mensuelle-v3`, **DÉPLOYÉ le 25/10/2026 vers 23:20 UTC** (go de Thomas « Ok go », description publique comprise) : version `204c426f-805b-4a21-b958-f147ce0a8bd6`, build sur `cf711c0e` (CI verte, run 40240322239), N-1 `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`. Retour arrière : `cd apps/web && npx wrangler rollback f83eb3c2-822a-4e96-9b6d-ad05ae42ce22` (les inscriptions faites entre-temps restent en v3, texte archivé). Préversion testée (pages 200, nouveau titre, case v3, plus de « vanne décryptée », santé `ok`, en-têtes identiques à N-1). P6 : 8 adresses en 200 (`/lettre/confirmer` 307 sans jeton, attendu), `/lettre` au nouveau titre, plus aucune « vanne décryptée », santé `ok`.
+
+Entrée d'origine (avant déploiement) :
+
 ### s22 (25/10) Description publique de la lettre du mois au nouveau format (« une situation, trois répliques »), go de Thomas du 25/10 (« Ok go », description publique comprise)
 
 Branche `claude/ouverture-session-nzwj0w`, commit de ce lot (hash dans le journal git, message « feat(lettre-s22): description de la lettre du mois… »). N-1 = version en ligne `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`. Retour arrière : `cd apps/web && npx wrangler rollback f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`.
