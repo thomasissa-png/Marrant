@@ -37,10 +37,19 @@ const mockDb = {
   journal: [] as Ligne[],
 };
 
+function mockApprouve(issue: null | Record<string, unknown>) {
+  if (!issue) return null;
+  const { empreinteNumero } = jest.requireActual("@/lib/lettre/approbation-hebdo") as typeof import("@/lib/lettre/approbation-hebdo");
+  const n = { preheader: null, scheduledFor: new Date("2026-11-05T07:00:00Z"), ...issue } as Record<string, unknown> & Parameters<typeof empreinteNumero>[0];
+  return { approvedAt: new Date("2026-10-25T00:00:00Z"), approvedHash: empreinteNumero(n), ...n };
+}
+
 jest.mock("@/lib/prisma", () => ({
   prisma: {
     newsletterIssue: {
-      findFirst: jest.fn(async () => mockDb.issue),
+      // s22 : numéro lu = approuvé par Thomas pour son contenu exact (verrou testé à part,
+      // `lettre-mensuelle-approbation-s22.test.ts`) ; les garde-fous s21 restent testés dessus.
+      findFirst: jest.fn(async () => mockApprouve(mockDb.issue)),
       update: jest.fn(async ({ data }: { data: Record<string, unknown> }) => Object.assign(mockDb.issue ?? {}, data)),
     },
     user: { findMany: jest.fn(async () => mockDb.users) },

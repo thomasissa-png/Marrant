@@ -4,15 +4,14 @@
  * Lettre de la semaine (hebdo Premium, s21, spec US-H7), sous les inscrits de la mensuelle
  * dans Abonnés › Lettre : interrupteurs, compteurs (comptes de test à part), numéros et
  * stock, liste des comptes, actions « Arrêter », « Envoyer la proposition » (aperçu du
- * texte avant envoi), « Envoyer un aperçu à mon adresse », et (s22) numéros à relire et
- * approuver un par un (`LettreHebdoNumeros`). Jamais de jeton ici.
+ * texte avant envoi), « Envoyer un aperçu à mon adresse ». Les numéros à approuver (s22,
+ * mensuelle et hebdo) sont en tête de la vue Lettre (`abonnes-tab.tsx`). Jamais de jeton ici.
  */
 import { useState } from "react";
 import { adminAuthHeader, useAdminFetch } from "@/hooks/use-admin-fetch";
 import { PROPOSITION_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import type { LettreHebdoResume } from "@/lib/analytics/weekly-lettre-hebdo";
 import type { CompteHebdo, ListeHebdo } from "@/lib/admin/lettre-hebdo-comptes";
-import { LettreHebdoNumeros } from "./lettre-hebdo-numeros";
 import { Avertissement, Chargement, Erreur, KpiCard, Note, Pagination, Pastille, Section, dateCourte, dateHeure, fmt } from "./admin-ui";
 
 type Reponse = { disponible: true; resume: LettreHebdoResume; liste: ListeHebdo } | { disponible: false; raison: string };
@@ -68,7 +67,6 @@ export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => v
       {data && data.disponible && (
         <>
           <Resume r={data.resume} />
-          <LettreHebdoNumeros onUnauthorized={onUnauthorized} />
           <div className="flex flex-wrap items-center gap-2">
             <label htmlFor="filtre-hebdo" className="text-sm text-text-muted">Comptes</label>
             <select

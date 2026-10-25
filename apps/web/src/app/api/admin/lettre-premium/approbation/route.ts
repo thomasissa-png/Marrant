@@ -1,17 +1,18 @@
 /**
- * Approbation d'un numéro de la lettre de la semaine par Thomas (s22, décision du 25/10).
+ * Approbation d'un numéro par Thomas (s22, décision du 25/10) : lettre de la semaine
+ * (`semaine`) ou lettre du mois (`mois`, chantier A s22).
  * Auth `Authorization: Bearer {ADMIN_PASSWORD}` (console admin, accès de Thomas seul).
  *
- * - POST { semaine, empreinte } : approuve le numéro pour le contenu exact affiché (empreinte
+ * - POST { semaine | mois, empreinte } : approuve le numéro pour le contenu exact affiché (empreinte
  *   de GET /api/admin/lettre-premium/numeros). 200 ; 400 corps invalide ; 404 inconnu ;
  *   409 brouillon, déjà envoyé, ou contenu modifié depuis l'affichage (recharger, relire).
- * - DELETE { semaine } : retire l'approbation (le numéro ne part plus). 200, 400, 404, 409.
- * Rien n'est envoyé ici : la tâche du jeudi reste seule à envoyer, interrupteur compris.
+ * - DELETE { semaine | mois } : retire l'approbation (le numéro ne part plus). 200, 400, 404, 409.
+ * Rien n'est envoyé ici : les tâches d'envoi restent seules à envoyer, interrupteur compris.
  */
 import { NextRequest, NextResponse } from "next/server";
 import { refusAdmin } from "@/lib/admin/auth";
 import { approbationBody, retraitBody } from "@/lib/admin/lettre-hebdo-numeros";
-import { approuverNumeroHebdo, retirerApprobationHebdo } from "@/lib/lettre/approbation-hebdo";
+import { approuverNumero, retirerApprobation } from "@/lib/lettre/approbation-hebdo";
 
 export const dynamic = "force-dynamic";
 
@@ -32,8 +33,8 @@ export async function POST(request: NextRequest) {
   const corps = approbationBody.safeParse(await lireCorps(request));
   if (!corps.success) return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   try {
-    const r = await approuverNumeroHebdo({ ...corps.data, now: new Date() });
-    if (r === "approuve") return NextResponse.json({ approuve: true, semaine: corps.data.semaine });
+    const r = await approuverNumero({ ...corps.data, now: new Date() });
+    if (r === "approuve") return NextResponse.json({ approuve: true, audience: corps.data.audience, periode: corps.data.periode });
     const e = ERREURS[r];
     return NextResponse.json({ error: e.error }, { status: e.status });
   } catch (err) {
@@ -48,8 +49,8 @@ export async function DELETE(request: NextRequest) {
   const corps = retraitBody.safeParse(await lireCorps(request));
   if (!corps.success) return NextResponse.json({ error: "Corps invalide" }, { status: 400 });
   try {
-    const r = await retirerApprobationHebdo(corps.data.semaine);
-    if (r === "retire") return NextResponse.json({ retire: true, semaine: corps.data.semaine });
+    const r = await retirerApprobation(corps.data.audience, corps.data.periode);
+    if (r === "retire") return NextResponse.json({ retire: true, audience: corps.data.audience, periode: corps.data.periode });
     const e = ERREURS[r];
     return NextResponse.json({ error: e.error }, { status: e.status });
   } catch (err) {

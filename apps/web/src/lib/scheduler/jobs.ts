@@ -750,8 +750,8 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
 
   /**
    * Job : Lettre mensuelle gratuite (s21). À chaque tick : rien si l'interrupteur
-   * `LETTRE_ENVOIS_OUVERTS` est fermé ; sinon envoie le numéro VALIDE du mois dès que sa
-   * date prévue est passée, par lots (`LETTRE_LOT_PAR_PASSAGE`), journal réservé
+   * `LETTRE_ENVOIS_OUVERTS` est fermé ; sinon envoie le numéro VALIDE ET approuvé par Thomas
+   * (s22) du mois dès que sa date prévue est passée, par lots (`LETTRE_LOT_PAR_PASSAGE`), journal réservé
    * avant chaque envoi (jamais deux fois la même adresse). Verrou par mois, relâché
    * à la fin du passage. Aucun LLM, contenu préparé en base uniquement.
    */
@@ -772,6 +772,11 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
           envoyer: (to, subject, text, headers) =>
             sendServiceTextEmail(to, subject, text, "lettre-numero", { headers, replyTo: LETTRE_CONTACT }),
         });
+        if (res.nonApprouve) {
+          const { recordAdminAlert } = await import("@/lib/admin-alerts");
+          console.warn(`[scheduler:lettre-mensuelle] ALERTE ${res.numero} validé mais pas approuvé par Thomas (ou modifié depuis l'approbation). Rien n'est envoyé.`);
+          await recordAdminAlert({ cle: "lettre-mensuelle-non-approuve", sujet: `Lettre du mois ${res.numero} : en attente de ton approbation`, html: "<p>Rien n'est parti. Relire le numéro dans l'admin (Abonnés › Lettre, « Numéros à approuver ») puis « Approuver ce numéro » : il partira au passage suivant (15 min au plus), jusqu'à la fin du mois.</p>", now });
+        }
         if (res.reporte && res.prochainEnvoi) {
           console.log(
             `[scheduler:lettre-mensuelle] ${res.numero} reporté : article(s) cité(s) en ligne, départ au créneau du ${res.prochainEnvoi.toISOString()} (jeudi 8 h, Paris).`,

@@ -1,11 +1,12 @@
 /**
- * Verrou d'approbation de la lettre de la semaine (s22, décision de Thomas du 25/10 :
- * « chaque numéro doit être approuvé par Thomas avant envoi »).
+ * Verrou d'approbation des lettres (s22, décision de Thomas du 25/10 : « chaque numéro doit
+ * être approuvé par Thomas avant envoi »). Vaut pour la lettre de la semaine (HEBDO_PREMIUM,
+ * `data/lettre/hebdo-premium.json`) ET, depuis le chantier A s22, pour la lettre mensuelle
+ * (MENSUELLE, `data/lettre/numeros.json`) : même empreinte, mêmes colonnes, même admin.
  *
- * `statut: "VALIDE"` (fichier `data/lettre/hebdo-premium.json`, relecture à l'aveugle) ne
- * suffit plus : un numéro ne part que s'il porte AUSSI une approbation posée par l'action
- * admin « Approuver ce numéro » (Abonnés › Lettre, derrière ADMIN_PASSWORD), et seulement
- * pour le contenu exact affiché à ce moment-là :
+ * `statut: "VALIDE"` (relecture à l'aveugle) ne suffit plus : un numéro ne part que s'il
+ * porte AUSSI une approbation posée par l'action admin « Approuver ce numéro » (Abonnés ›
+ * Lettre, derrière ADMIN_PASSWORD), et seulement pour le contenu exact affiché à ce moment :
  *  - l'admin renvoie l'empreinte du texte qu'il a lu ; le serveur refuse (409) si le numéro
  *    a changé entre-temps ;
  *  - l'empreinte approuvée est stockée (`approvedHash`) ; la tâche d'envoi la recalcule sur
@@ -41,7 +42,9 @@ export function empreinteNumero(n: ContenuNumero): string {
 
 /** Vrai seulement si une approbation existe ET porte sur le contenu actuel. */
 export function approbationValide(n: ApprobationNumero): boolean {
-  return n.approvedAt !== null && n.approvedHash !== null && n.approvedHash === empreinteNumero(n);
+  // `!x` et non `x !== null` : un champ absent (lecture partielle) ne vaut jamais approbation.
+  if (!n.approvedAt || !n.approvedHash) return false;
+  return n.approvedHash === empreinteNumero(n);
 }
 
 /** Champs à remettre à zéro quand le contenu d'un numéro change. */
@@ -49,14 +52,27 @@ export const SANS_APPROBATION = { approvedAt: null, approvedBy: null, approvedHa
 
 export type ResultatApprobation = "approuve" | "introuvable" | "non-valide" | "deja-envoye" | "contenu-modifie";
 
+export type AudienceApprobation = "HEBDO_PREMIUM" | "MENSUELLE";
+
+/** Clé de période valide pour l'audience : semaine ISO « AAAA-Www » ou mois « AAAA-MM ». */
+export function periodeApprobationValide(audience: AudienceApprobation, periode: string): boolean {
+  return audience === "HEBDO_PREMIUM" ? semaineValide(periode) : /^\d{4}-(0[1-9]|1[0-2])$/.test(periode);
+}
+
 /**
  * Action admin explicite. `empreinte` = celle du texte affiché à l'admin (GET des numéros) :
  * si le numéro a changé depuis, rien n'est approuvé.
  */
-export async function approuverNumeroHebdo(p: { semaine: string; empreinte: string; now: Date; par?: string }): Promise<ResultatApprobation> {
-  if (!semaineValide(p.semaine)) return "introuvable";
+export async function approuverNumero(p: {
+  audience: AudienceApprobation;
+  periode: string;
+  empreinte: string;
+  now: Date;
+  par?: string;
+}): Promise<ResultatApprobation> {
+  if (!periodeApprobationValide(p.audience, p.periode)) return "introuvable";
   const numero = await prisma.newsletterIssue.findUnique({
-    where: { audience_periodKey: { audience: "HEBDO_PREMIUM", periodKey: p.semaine } },
+    where: { audience_periodKey: { audience: p.audience, periodKey: p.periode } },
   });
   if (!numero) return "introuvable";
   if (numero.status === "ENVOYE") return "deja-envoye";
@@ -72,13 +88,22 @@ export async function approuverNumeroHebdo(p: { semaine: string; empreinte: stri
 }
 
 /** Retrait explicite (admin) : le numéro ne part plus tant qu'il n'est pas réapprouvé. */
-export async function retirerApprobationHebdo(semaine: string): Promise<"retire" | "introuvable" | "deja-envoye"> {
-  if (!semaineValide(semaine)) return "introuvable";
+export async function retirerApprobation(audience: AudienceApprobation, periode: string): Promise<"retire" | "introuvable" | "deja-envoye"> {
+  if (!periodeApprobationValide(audience, periode)) return "introuvable";
   const numero = await prisma.newsletterIssue.findUnique({
-    where: { audience_periodKey: { audience: "HEBDO_PREMIUM", periodKey: semaine } },
+    where: { audience_periodKey: { audience, periodKey: periode } },
   });
   if (!numero) return "introuvable";
   if (numero.status === "ENVOYE") return "deja-envoye";
   await prisma.newsletterIssue.update({ where: { id: numero.id }, data: { ...SANS_APPROBATION } });
   return "retire";
+}
+
+/** Lettre de la semaine (appel historique s22). */
+export function approuverNumeroHebdo(p: { semaine: string; empreinte: string; now: Date; par?: string }): Promise<ResultatApprobation> {
+  return approuverNumero({ audience: "HEBDO_PREMIUM", periode: p.semaine, empreinte: p.empreinte, now: p.now, par: p.par });
+}
+
+export function retirerApprobationHebdo(semaine: string): Promise<"retire" | "introuvable" | "deja-envoye"> {
+  return retirerApprobation("HEBDO_PREMIUM", semaine);
 }

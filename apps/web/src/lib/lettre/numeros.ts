@@ -4,8 +4,11 @@
  *
  * Source de vérité : `src/data/lettre/numeros.json`, rempli par le rédacteur,
  * relu à l'aveugle (règle d'or), puis passé en `"statut": "VALIDE"` sur feu vert
- * de Thomas (le commit vaut validation). Synchronisé au démarrage :
- *  - création ou mise à jour par (audience MENSUELLE, période) ;
+ * de Thomas. Depuis s22 (décision de Thomas du 25/10), `VALIDE` ne suffit plus pour
+ * partir : chaque numéro doit AUSSI être approuvé par Thomas dans l'admin
+ * (`approbation-hebdo.ts`, même verrou que la lettre de la semaine). Synchronisé au démarrage :
+ *  - création ou mise à jour par (audience MENSUELLE, période) ; toute modification
+ *    efface l'approbation (à réapprouver) ;
  *  - un numéro déjà ENVOYE n'est JAMAIS modifié ;
  *  - une entrée invalide (format, tiret cadratin, période et date d'envoi
  *    incohérentes) est ignorée avec un message, sans bloquer le démarrage.
@@ -32,6 +35,7 @@ import numerosJson from "@/data/lettre/numeros.json";
 import { articlesCites, corpsNumero, dateEnvoiLettre, periodeMensuelle } from "@/lib/lettre/envoi";
 import { getArticleBySlug } from "@/lib/blog-articles";
 import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
+import { SANS_APPROBATION } from "@/lib/lettre/approbation-hebdo";
 
 const TIRET_CADRATIN = "—";
 const sansTiret = (champ: string) => z.string().refine((v) => !v.includes(TIRET_CADRATIN), { message: `${champ} : tiret cadratin interdit` });
@@ -131,9 +135,11 @@ export async function synchroniserNumerosLettre(source: unknown = numerosJson, n
       existant.scheduledFor.getTime() === donnees.scheduledFor.getTime() &&
       existant.status === donnees.status;
     if (inchange) continue;
+    // Toute modification (contenu, date, statut) annule l'approbation de Thomas (s22) : le
+    // numéro modifié doit être relu et réapprouvé dans l'admin avant de pouvoir partir.
     await prisma.newsletterIssue.update({
       where: { id: existant.id },
-      data: { ...donnees, validatedAt: n.statut === "VALIDE" ? existant.validatedAt ?? now : null },
+      data: { ...donnees, validatedAt: n.statut === "VALIDE" ? existant.validatedAt ?? now : null, ...SANS_APPROBATION },
     });
     r.misAJour++;
   }

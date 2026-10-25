@@ -4,6 +4,8 @@
 import { ComptesSection } from "./comptes-section";
 import { LettreSection } from "./lettre-section";
 import { LettreHebdoSection } from "./lettre-hebdo-section";
+import { LettreHebdoNumeros } from "./lettre-hebdo-numeros";
+import { Section } from "./admin-ui";
 
 export type VueAbonnes = "premium" | "lettre";
 
@@ -42,6 +44,10 @@ export function AbonnesTab({
         <ComptesSection onUnauthorized={onUnauthorized} />
       ) : (
         <>
+          {/* s22 : numéros à approuver (lettre du mois ET de la semaine), en tête : rien ne part sans. */}
+          <Section titre="Numéros à approuver" sousTitre="Décision du 25/10 : chaque numéro est approuvé par Thomas avant envoi.">
+            <LettreHebdoNumeros onUnauthorized={onUnauthorized} />
+          </Section>
           <LettreSection onUnauthorized={onUnauthorized} />
           {/* s21 : lettre de la semaine (Premium), sous la mensuelle (spec US-H7). */}
           <LettreHebdoSection onUnauthorized={onUnauthorized} />

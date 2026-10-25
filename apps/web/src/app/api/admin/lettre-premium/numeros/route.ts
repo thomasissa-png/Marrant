@@ -1,6 +1,6 @@
 /**
- * GET /api/admin/lettre-premium/numeros (s22) : numéros de la lettre de la semaine pas encore
- * partis, rendus tels qu'ils partiront, avec leur empreinte et leur état d'approbation.
+ * GET /api/admin/lettre-premium/numeros (s22) : numéros de la lettre de la semaine et de la
+ * lettre du mois pas encore partis, rendus tels qu'ils partiront, avec leur empreinte et leur état d'approbation.
  * Auth `Authorization: Bearer {ADMIN_PASSWORD}`. Lisible interrupteurs fermés.
  * Sans la migration 15 : `disponible: false` (réponse 200).
  */

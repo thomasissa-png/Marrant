@@ -238,7 +238,8 @@ describe("Destinataires (fonction unique) et cohérence avec la mensuelle", () =
       premium("nonverifie@x.fr", { emailVerified: null }),
     ];
     mockDb.abonnes = mockDb.users.map((u) => ({ email: u.email as string, unsubscribeToken: `m-${u.email}`.padEnd(43, "m"), confirmedAt: avant }));
-    mockDb.issues.push({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: "Mensuelle", preheader: null, bodyText: "Corps du mois.", scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE" });
+    // s22 : mensuelle approuvée elle aussi (même verrou que l'hebdo).
+    mockDb.issues.push(numero({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: "Mensuelle", preheader: null, bodyText: "Corps du mois.", scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE" }));
   });
 
   it("H4-10 / H6 : seuls les Premium avec la case cochée, adresse vérifiée, sans opposition antérieure", async () => {

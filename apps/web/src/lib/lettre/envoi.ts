@@ -17,6 +17,11 @@
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
  *    `scheduledFor` atteint. Aucun numéro : rien n'est envoyé (jamais de contenu
  *    généré au fil de l'eau, règle du 01/10).
+ *  - (s22, décision de Thomas du 25/10) Numéro approuvé par Thomas dans l'admin pour son
+ *    contenu exact (`approbationValide`, même verrou que la lettre de la semaine) ; sinon
+ *    `nonApprouve = true`, alerte « en attente », rien n'est envoyé, même interrupteur
+ *    ouvert. Approuvé après l'heure prévue : part au passage suivant de la tâche (toutes
+ *    les 15 min), tant que le mois de Paris du numéro n'est pas fini ; au-delà, plus rien.
  *  - Destinataires : `CONFIRMED`, moins (1) les destinataires de la lettre de la
  *    semaine (`destinatairesHebdo`, fonction unique ; aucun tant que
  *    `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé ; un Premium sans hebdo garde la mensuelle), (2) les oppositions globales (`User.emailOptOut`,
@@ -37,6 +42,7 @@ import { getArticleBySlug } from "@/lib/blog-articles";
 import { aHeureParis, LETTRE_HEURE_ENVOI_PARIS, LETTRE_JOUR_ENVOI } from "@/lib/lettre/calendrier";
 import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
+import { approbationValide } from "@/lib/lettre/approbation-hebdo";
 
 const moisFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit" });
 
@@ -149,6 +155,8 @@ export interface EnvoiResultat {
   articlesNonPublies: string[];
   /** Numéro trouvé mais bloqué : un marqueur `[À COMPLÉTER` y figure (pied compris). */
   bloque: boolean;
+  /** (s22) Numéro VALIDE mais pas approuvé par Thomas pour son contenu actuel : rien ne part. */
+  nonApprouve: boolean;
   numero: string | null;
   candidats: number;
   envoyes: number;
@@ -295,6 +303,7 @@ export async function envoyerLettreDuMois(
     prochainEnvoi: null,
     articlesNonPublies: [],
     bloque: false,
+    nonApprouve: false,
     numero: null,
     candidats: 0,
     envoyes: 0,
@@ -314,6 +323,11 @@ export async function envoyerLettreDuMois(
   });
   if (!numero) return r;
   r.numero = numero.periodKey;
+  // Verrou d'approbation (s22) : avant tout autre contrôle, comme pour la lettre de la semaine.
+  if (!approbationValide(numero)) {
+    r.nonApprouve = true;
+    return r;
+  }
   // Aucun numéro ne part avec un trou (mention d'éditeur @legal, etc.).
   const rendu = [numero.subject, numero.preheader ?? "", corpsNumero(numero.bodyText, deps.baseUrl, "jeton")].join("\n");
   if (rendu.includes(MARQUEUR_A_COMPLETER)) {
