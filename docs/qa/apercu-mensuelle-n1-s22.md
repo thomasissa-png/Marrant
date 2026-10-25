@@ -1,4 +1,4 @@
-# Aperçu : lettre du mois n°1 « On a comparé nos salaires », deux versions (s22, 25/10/2026)
+# Aperçu : lettre du mois n°1 « On a comparé nos salaires », trois versions (s22, 25/10/2026)
 
 Régénéré après la relecture à l'aveugle du rythme (B1 : « À bientôt, » remplace « Rendez-vous le mois prochain, »).
 
@@ -134,4 +134,46 @@ Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.
 Éditeur : deviens-marrant SAS. Contact : contact@deviens-marrant.fr.
 Se désinscrire : https://deviens-marrant.fr/lettre/desinscrire?token=JETON-DESINSCRIPTION
 Confidentialité : https://deviens-marrant.fr/confidentialite
+```
+
+## Version des comptes sans abonnement (3e version, décision de Thomas du 25/10)
+
+Comptes sans abonnement Premium, inscrits d'office, actuels et futurs (sauf opposition, rebond, désinscription, ancien Premium qui avait arrêté la lettre de la semaine). Même texte que la version Premium (sans le bloc d'invitation), pied « tu as un compte », désinscription en un clic par le lien de la lettre du mois (durable). Un compte aussi inscrit par adresse (confirmé) reçoit la version gratuite ci-dessus, une seule fois.
+
+```
+Salut,
+
+Avec un collègue, on a enfin comparé nos salaires.
+Il a payé le café. Sans un mot.
+
+C'est la vanne du mois.
+
+Pourquoi ça marche
+Le geste remplace la conversation. Payer le café, c'est avouer que l'écart de salaire était réel, et injuste, sans jamais le dire. Plus la révélation reste sous-entendue, plus elle pèse : le rire vient de là.
+
+À toi de jouer
+1. Pense à une vérité gênante que chacun préfère ne pas dire tout haut.
+2. Au lieu d'en parler, fais réagir ton personnage par un geste petit et précis, qui avoue tout.
+3. Écris deux phrases, la seconde plus courte que la première.
+
+Exemple : « Mon coloc a fini par remarquer que sa chambre faisait le double de la mienne, pour le même loyer. Depuis, il descend les poubelles. »
+
+À la soirée de Noël au boulot, une vanne ratée dure jusqu'en janvier. L'article suit la soirée moment par moment, de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Celle de ce mois parle de salaires : il les range en zone rouge, donc elle reste pour la machine à café. L'article est en lecture libre.
+Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
+
+À bientôt,
+L'Équipe Deviens Marrant
+
+--
+Tu reçois cette lettre parce que tu as un compte sur deviens-marrant.fr.
+Éditeur : deviens-marrant SAS. Contact : contact@deviens-marrant.fr.
+Se désinscrire en un clic : https://deviens-marrant.fr/lettre/desinscrire?token=JETON-DESINSCRIPTION-COMPTE
+Confidentialité : https://deviens-marrant.fr/confidentialite
+```
+
+En-têtes :
+
+```
+List-Unsubscribe: <https://deviens-marrant.fr/api/newsletter/unsubscribe/JETON-DESINSCRIPTION-COMPTE>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
 ```
