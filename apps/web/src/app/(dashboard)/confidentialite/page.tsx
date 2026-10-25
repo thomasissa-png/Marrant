@@ -168,7 +168,7 @@ export default function ConfidentialitePage() {
           {/* P8, legal s17 §4 */}
           <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l’arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, @legal « Textes publiés à l'ouverture, 17/10 », texte 1 : lettre seule (rien sur les questions). */}
-          <p className="mt-2">Tu peux retirer ton consentement à la lettre du mois à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
+          <p className="mt-2">Tu peux te désinscrire de la lettre du mois à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, avis @legal lettre hebdo §4.2 (droits) : publié avec l'ouverture des inscriptions. */}
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.droits)}</p>}
         </section>
@@ -186,14 +186,14 @@ export default function ConfidentialitePage() {
             {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.donnees)}</li>}
           </ul>
           <ul className={LIST}>
-            <li>T’envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-⁠mail), que tu peux retirer en un clic</li>
+            <li>T’envoyer la lettre du mois si tu t’y inscris par e-⁠mail : ton consentement (case à cocher puis confirmation par e-⁠mail), que tu peux retirer en un clic</li>
             {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.finalite)}</li>}
             {/* s22 (décision de Thomas du 25/10) : lettre du mois envoyée d'office aux comptes, une phrase. */}
             <li data-testid="confidentialite-lettre-compte">{frTypo(CONFIDENTIALITE_LETTRE_COMPTE)}</li>
             <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
           </ul>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.destinataires)}</p>}
-          <p className="mt-2">Lettre du mois : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
+          <p className="mt-2">Lettre du mois par e-⁠mail : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.duree)}</p>}
         </section>
         {/* s22, avis @legal du 25/10 (point 2), mot pour mot : publiée avec l'ouverture de « Ta question

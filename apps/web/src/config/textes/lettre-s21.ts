@@ -276,4 +276,4 @@ export const EMAILS_LETTRE = insecables(EMAILS_SOURCE);
  * lettre du mois envoyée d'office aux comptes (« Stop. Too much juridique » : rien d'autre).
  */
 export const CONFIDENTIALITE_LETTRE_COMPTE =
-  "T'envoyer la lettre du mois si tu as un compte, sans l'invitation à t'abonner : intérêt légitime, et tu peux te désinscrire en un clic à tout moment.";
+  "T'envoyer la lettre du mois si tu as un compte sans abonnement, sans l'invitation à t'abonner : intérêt légitime, et tu peux te désinscrire en un clic à tout moment.";

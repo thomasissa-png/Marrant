@@ -312,7 +312,8 @@ function RegisterForm({ callbackUrl, oauthError, src, plan }: RegisterFormProps)
             </p>
             {/* s22 : la lettre du mois part d'office aux comptes (décision de Thomas du 25/10), sans case. */}
             <p className="-mt-3 text-center text-xs text-text-muted" data-testid="register-lettre-mois">
-              {frTypo(LETTRE_MOIS_INSCRIPTION_COMPTE)}
+              {/* Relecture s22 (mineur) : « en un clic » insécable, jamais « un clic. » seul en fin de ligne. */}
+              {frTypo(LETTRE_MOIS_INSCRIPTION_COMPTE).replace("en un clic", "en un clic")}
             </p>
             <div>
               <label htmlFor="email" className="mb-1 block text-sm text-text-secondary">

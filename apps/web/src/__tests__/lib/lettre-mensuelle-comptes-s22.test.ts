@@ -269,7 +269,7 @@ describe("Textes du canal compte, mot pour mot (décision de Thomas du 25/10)", 
     );
     expect(LETTRE_MOIS_INSCRIPTION_COMPTE).toBe("Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.");
     expect(CONFIDENTIALITE_LETTRE_COMPTE).toBe(
-      "T'envoyer la lettre du mois si tu as un compte, sans l'invitation à t'abonner : intérêt légitime, et tu peux te désinscrire en un clic à tout moment.",
+      "T'envoyer la lettre du mois si tu as un compte sans abonnement, sans l'invitation à t'abonner : intérêt légitime, et tu peux te désinscrire en un clic à tout moment.",
     );
     for (const t of [pied, LETTRE_MOIS_INSCRIPTION_COMPTE, CONFIDENTIALITE_LETTRE_COMPTE]) expect(t).not.toMatch(/[—–]/);
   });

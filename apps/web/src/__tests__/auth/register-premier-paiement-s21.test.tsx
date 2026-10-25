@@ -56,6 +56,8 @@ describe("/register, lignes prix et remboursement (s21)", () => {
     expect(textePage()).not.toContain("par mois");
     // s22 : ligne de la lettre du mois, mot pour mot, une seule fois (sous les CGU, valable e-mail et Google).
     expect(screen.getAllByTestId("register-lettre-mois")).toHaveLength(1);
+    // Relecture s22 (mineur) : « en un clic » insécable.
+    expect(screen.getByTestId("register-lettre-mois").textContent).toContain("en un clic.");
     expect(screen.getByTestId("register-lettre-mois").textContent?.replace(/[  ]/g, " ")).toBe("Tu recevras aussi la lettre du mois, une fois par mois. Désinscription en un clic.");
   });
 

@@ -10,7 +10,10 @@ import { test, expect, localSeulement } from "../support/base-locale";
  * serveur local). Écrans : /register (chemin Google et chemin e-mail, une seule ligne sous les CGU),
  * confidentialité section 8, admin Abonnés › Lettre (lettre du mois, 3 versions). 390 et 1440.
  * Sortie : v10-*.png ; aucune capture plus ancienne n'est réécrite.
+ * v10b (relecture à l'aveugle des comptes gratuits) : `CAPTURES_PREFIXE=v10b`, `--grep` sur
+ * l'inscription et la confidentialité (parties 7 et 8).
  */
+const PREFIXE = process.env.CAPTURES_PREFIXE ?? "v10";
 const DOSSIER = path.join(__dirname, "..", "..", "..", "docs", "qa", "captures-question-equipe-s22");
 const VUES = [
   { width: 390, height: 844 },
@@ -37,7 +40,7 @@ async function capturerZone(page: Page, haut: Locator, bas: Locator, nom: string
   const x = Math.max(0, Math.min(a.x, b.x) - marge);
   const droite = Math.min(p.vue, Math.max(a.x + a.w, b.x + b.w) + marge);
   await page.screenshot({
-    path: path.join(DOSSIER, `v10-${nom}.png`),
+    path: path.join(DOSSIER, `${PREFIXE}-${nom}.png`),
     fullPage: true,
     animations: "disabled",
     clip: { x, y: Math.max(0, a.y - marge), width: droite - x, height: b.y + b.h - a.y + 2 * marge },
@@ -66,12 +69,15 @@ test.describe("Captures v10 : lettre du mois d'office aux comptes", () => {
       await capturerZone(page, ligne, soumettre, `inscription-email-${vue.width}`);
     });
 
-    test(`${vue.width} : confidentialité section 8`, async ({ page }) => {
+    test(`${vue.width} : confidentialité sections 7 et 8`, async ({ page }) => {
       await page.setViewportSize({ width: vue.width, height: 1600 });
       await page.goto("/confidentialite");
       const lettre = page.locator("section#lettre");
-      await expect(lettre.getByTestId("confidentialite-lettre-compte")).toContainText("si tu as un compte, sans l’invitation à t’abonner");
+      await expect(lettre.getByTestId("confidentialite-lettre-compte")).toContainText("si tu as un compte sans abonnement, sans l’invitation à t’abonner");
       await capturerZone(page, lettre, lettre, `confidentialite-section-8-lettre-${vue.width}`);
+      const droits = page.locator("section").filter({ has: page.getByRole("heading", { name: "7. Tes droits (RGPD)" }) });
+      await expect(droits).toContainText("Tu peux te désinscrire de la lettre du mois à tout moment");
+      await capturerZone(page, droits, droits, `confidentialite-section-7-droits-${vue.width}`);
     });
 
     test(`${vue.width} : admin Abonnés › Lettre, lettre du mois et ses trois versions`, async ({ page }) => {
