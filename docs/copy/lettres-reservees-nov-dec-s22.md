@@ -2,10 +2,28 @@
 
 > Statut : brouillons pour l'approbation de Thomas, numéro par numéro (`[CHOIX UTILISATEUR]` du 25/10 : aucun numéro ne part sans son approbation). Rien n'est programmé, aucun fichier du site n'est touché, rien n'est commité.
 > Format A et format B : voir `docs/copy/lettre-premium-etalons-s22.md` (reco suivie par Thomas). Les jeudis 05/11 et 03/12 sont ceux de la lettre du mois (pas de lettre réservée). Plan de référence : `docs/strategy/plan-lettres-nov-2026-avril-2027.md` (§ 3, 4, 6).
-> **Les répliques neuves ou remplacées de cette révision n'ont pas encore passé la relecture à l'aveugle** (règle de `ton-alex.md` et règle d'or s18) : aucune ne part avant. Je n'ai pas d'outil de sous-agent dans cette session pour la faire ; la grille de l'orchestrateur a été appliquée par moi (section « Contrôles faits »).
+> **Les phrases marquées NEUVE dans la « Révision 2 » ci-dessous n'ont pas encore passé la relecture à l'aveugle** (règle de `ton-alex.md` et règle d'or s18) : relecture de confirmation avant tout envoi, sur ces seuls passages. Je n'ai pas d'outil de sous-agent dans cette session pour la faire ; la grille de l'orchestrateur a été appliquée par moi (section « Contrôles faits »).
 > La version propre `lettres-reservees-nov-dec-s22-a-lire.md` n'est pas touchée : elle sera régénérée depuis ce fichier.
+> **Le n°1 du 05/11 est validé : c'est « Alors, t'as perdu ta langue ? »** (candidate a de `docs/copy/n1-candidates-s22.md`, texte dans `docs/copy/lettres-du-mois-s22.md`). Elle ne figure plus dans ce fichier. Les relectures à l'aveugle : `docs/reviews/review-11-lettres-s22-lecteur.md` et `docs/reviews/review-11-lettres-s22-editeur.md`.
 
-## Changements de cette révision, lettre par lettre
+## Révision 2 du 25/10/2026 : bloquants des deux relectures levés, lettre par lettre
+
+Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune version relue : elles repassent l'aveugle. Tout le reste est inchangé depuis la révision 1, sauf mention.
+
+| Lettre | Bloquants levés et mineurs appliqués | NEUVE (à relire) |
+|---|---|---|
+| **12/11** | Éditeur B1 : risquée refaite (elle redisait le n°1 : même ressort, même phrase de condition). B2 : commentaire de la joueuse refait (il redisait « guichet / visage qui ne bouge pas » du n°1). « Comment choisir » ajusté à la nouvelle risquée. Mineurs : la narration ne dit plus « dix minutes prévues, quatre utilisées » (elle volait la chute de la joueuse) ; sûre refaite (la logique du « Oui » vacillait) ; « tu gagnes deux secondes » expliqué. Entrée lente supprimée. | Sûre « Non. C'est vous que je ne voulais pas retenir. » ; risquée « Le train attendra. Tu as une question, Mathis ? » ; les commentaires de la sûre, de la joueuse et de la risquée ; la phrase de « Comment choisir » sur la risquée ; la phrase de l'erreur sur les fiches. |
+| **19/11** | Éditeur B1 : scène passée à la cantine (le lundi à la machine à café était une fiche du carnet d'octobre). B2 : exemple de l'étagère remplacé (déjà dans Storytelling 3). B3 : « environ deux minutes » restreint à la saison 1 (intro et « Le passage »). Mineurs : « pas de réplique à apprendre par cœur » ; « sans le « Bref. » du début ». « Le passage » garde les mêmes faits (F1 à F9), seule la phrase des deux minutes change de place. | Scène de la cantine (les 3 phrases) ; exemple « Je suis allé au magasin de meubles pour une ampoule. Je suis ressorti avec un fauteuil. Sans l'ampoule. » et son commentaire ; les deux phrases de faits réordonnées ; l'intro. |
+| **26/11** | Éditeur B1 : règle « compter les micros » et erreur « combler le silence » étaient dans l'article « Humour en visio » : règle et erreur nouvelles. B2 : 12 carrés, le tien compris, 11 visages. Lecteur B5 : joueuse remplacée par « On a dit caméra allumée. Personne n'a parlé du salon. ». Mineurs : intertitre de la règle, pré-en-tête, entrée lente supprimée. Retour sur l'exercice gardé (3 lignes, après un B). | Joueuse et son commentaire ; commentaire de la risquée ; toute la section « Comment choisir » (règle neuve : compter les questions que ta phrase laisse ouvertes) ; toute l'erreur (couper ta caméra) ; l'exercice ; le pré-en-tête ; la scène à douze carrés. |
+| **10/12** | Éditeur B1 : lien d'étape remplacé par Storytelling 6, « Un détail qui revient à la fin » (titre vérifié dans `parcours-etapes.ts`, contenu du rappel dans `docs/content/parcours-storytelling-s18.json`). Lecteur : « cinquième reprise » corrigé (il n'y en a que trois). Mineurs : « D'accord, je commence » ; décor changé (« bar à jeux », la fiche « Le silence du premier verre » est dans un bar classique) ; entrée lente supprimée. | Le pont vers Storytelling 6 et son lien ; « bar à jeux » ; « D'accord, je commence ». |
+| **17/12** | Lecteur B6 : second couplet raccourci pour passer le test que la lettre du 24/12 donne : « À toi la noire et le froid. À moi le feu de bois. » (7 et 6 syllabes). Mineurs : « la bouilloire vient de siffler » (la bouilloire du premier couplet a maintenant une raison d'être) ; exercice 2 qui ne recopie plus les gestes. | Second couplet ; le pont qui le commente est inchangé ; « la bouilloire vient de siffler » ; l'exercice 2. |
+| **24/12** | Éditeur B1 : la question de tonton changée (l'ancienne était la question 2 de l'article « Repas de famille » que le n°2 recommande) : « Et ce permis, c'est pour cette année ? » (la question du permis est la proposition de l'éditeur, à valider par Thomas ; aucune des 6 questions de l'article ni aucune réplique du site). Sûre, erreur, exercice, étape liée ajustés ; l'erreur ne contredit plus la sortie conseillée par l'article (elle distingue la pique sur son passé de la question qui rend la parole). Lecteur : « La table se tait, et la bûche est encore loin » (« Treize têtes se tournent vers toi » redisait le n°1) ; « entre le plat et la bûche » (la scène est avant le plat). Entrée lente supprimée. Étape liée : Confiance 2 (voir « Contrôles »). | Question de la scène ; sûre « …puis le permis » ; erreur « Et toi, Gérard, tu l'as eu à combien de tentatives, le tien ? » et son commentaire ; exercice ; pont et lien vers Confiance 2 ; « La table se tait… ». |
+| **31/12** | GO aux deux relectures. Mineurs : l'exercice demande « quatre mots » (le chiffre de la règle dans le vacarme) ; commentaire de la risquée raccourci (la phrase sur le bruit était dans « Comment choisir »). | Aucune. |
+| **Corpus** | Annexe A retirée (le n°1 est validé). « Voici trois réponses, de la plus prudente… » et ses variantes supprimées dans toutes les lettres de ce fichier. « Celle-ci vise X » et « Au moindre doute » : plus aucun. « Sept visages se tournent vers toi » (n°1) n'est repris nulle part. | |
+
+## Révision 1 (historique, déjà relue) : changements de la première révision du 25/10/2026
+
+Conservée pour mémoire : elle décrit des textes dont certains ont été modifiés depuis (règle de choix du 26/11, joueuse du 26/11, annexe A, second couplet du 17/12, question du 24/12).
 
 | Lettre | Changements |
 |---|---|
@@ -24,13 +42,13 @@
 | Semaine | Jeudi | Format | Contexte | Règle de choix ou technique |
 |---|---|---|---|---|
 | 2026-W46 | 12/11 | A (neuve) | études, TD | la dernière phrase de ton exposé |
-| 2026-W47 | 19/11 | B (Bref, Kyan Khojandi) | machine à café | le titre-résumé |
-| 2026-W48 | 26/11 | A | appel vidéo | compter les micros ouverts (le silence de la visio) |
+| 2026-W47 | 19/11 | B (Bref, Kyan Khojandi) | cantine | le titre-résumé |
+| 2026-W48 | 26/11 | A | appel vidéo | compter les questions que ta phrase laisse ouvertes |
 | 2026-W50 | 10/12 | A | rendez-vous | la suite que ta réplique t'impose |
 | 2026-W51 | 17/12 | B (Palmashow, « Les monos de ski ») | chalet, sport | répondre à une pique par un couplet rimé |
 | 2026-W52 | 24/12 | A | repas de famille | le test de la table |
 | 2026-W53 | 31/12 | A | réveillon | la longueur selon le bruit |
-| (annexe A) | 05/11 ou rien | A | coloc, soirée | vers qui pointe la phrase |
+| (n°1 du mois) | 05/11 | A | coloc, soirée | vers qui pointe la phrase (« T'as perdu ta langue ? », validé, voir `lettres-du-mois-s22.md`) |
 
 ---
 
@@ -43,29 +61,29 @@
 
 > Salut,
 >
-> Mardi, 17 h 30, dernière heure de la journée. La nuit tombe derrière les fenêtres de la salle de TD. Tu viens de finir ton exposé : dix minutes prévues, quatre utilisées, la tête dans tes fiches. Le chargé de TD note quelque chose. Mathis, au deuxième rang, lance :
+> Mardi, 17 h 30, dernière heure de la journée. La nuit tombe derrière les fenêtres de la salle de TD. Tu viens de finir ton exposé : tu as tenu quatre minutes sur les dix prévues, la tête dans tes fiches. Le chargé de TD note quelque chose. Mathis, au deuxième rang, lance :
 >
 > « Tu avais un train ? »
 >
-> Dix-huit personnes sourient. Toi, tu as encore tes fiches à la main. Voici ce que tu peux répondre, du plus sage au plus osé, puis ce qui aide à choisir.
+> Dix-huit personnes sourient. Toi, tu as encore tes fiches à la main.
 >
 > La sûre
-> « Oui. Je ne voulais pas vous retenir. »
-> Tu confirmes sans te défendre et tu fais passer ta brièveté pour de la politesse. Rien n'est dirigé contre Mathis, et le chargé de TD entend un étudiant qui respecte le temps de tout le monde. À choisir quand tu ne connais pas encore l'humour de la salle, ou quand l'exposé t'a déjà coûté beaucoup.
+> « Non. C'est vous que je ne voulais pas retenir. »
+> Tu écartes le train et tu renvoies la politesse à la salle : ta brièveté devient une attention pour elle. Rien n'est dirigé contre Mathis, et le chargé de TD entend un étudiant qui respecte le temps de tout le monde. À choisir quand tu ne connais pas encore l'humour de la salle, ou quand l'exposé t'a déjà coûté beaucoup.
 >
 > La joueuse
 > « Dix minutes prévues, quatre utilisées. Je rends la monnaie. »
-> Tu changes le temps que tu n'as pas pris en monnaie, avec le chiffre juste et le ton d'un caissier qui compte. Elle demande un visage qui ne bouge pas et un groupe qui t'a déjà vu plaisanter, ne serait-ce qu'une fois depuis la rentrée.
+> Les six minutes que tu n'as pas prises, tu les rends à la salle comme on rend de la monnaie : la pique te reprochait d'avoir été court, tu en fais un cadeau. Dis-la en reposant tes fiches, d'une voix égale, devant un groupe qui t'a déjà vu plaisanter, ne serait-ce qu'une fois depuis la rentrée.
 >
 > La risquée
-> « Je voulais finir avant ton commentaire. Perdu. »
-> Elle renvoie la pique à Mathis : tu fais de ses commentaires une habitude, et tu avoues avoir perdu la course. Elle ne marche que si Mathis commente tout le monde, le sait, et en rit. Face à quelqu'un de susceptible, ou si ton exposé s'est mal passé, elle ressemble à une défense.
+> « Le train attendra. Tu as une question, Mathis ? »
+> Tu acceptes le train et tu le fais attendre pour lui : la pique devient une invitation, devant le chargé de TD. S'il trouve une vraie question, tu dois savoir y répondre ; s'il n'en trouve pas, c'est lui que la salle regarde. À garder pour un sujet que tu maîtrises. Si ton exposé s'est mal passé, elle sonne comme une provocation.
 >
 > Comment choisir
-> Dans une salle de TD, la pique tombe juste après ton passage, donc ta réponse devient la fin de ton exposé pour les dix-huit personnes. Demande-toi quelle dernière phrase tu veux leur laisser. La sûre laisse l'image d'un étudiant courtois qui a tenu son temps. La joueuse ajoute que tu sais compter et que tu sais en rire. La risquée fait retenir le duel avec Mathis, plus du tout l'exposé. Si ton passage a été difficile, prends la fin la plus calme.
+> Dans une salle de TD, la pique tombe juste après ton passage, donc ta réponse devient la fin de ton exposé pour les dix-huit personnes. Demande-toi quelle dernière phrase tu veux leur laisser. La sûre laisse l'image d'un étudiant courtois qui a tenu son temps. La joueuse ajoute que tu sais compter et que tu sais en rire. La risquée fait retenir l'échange avec Mathis, sa question ou son silence, plus du tout l'exposé. Si ton passage a été difficile, prends la fin la plus calme.
 >
 > L'erreur que tout le monde fait
-> Répondre à tes fiches. La phrase est bonne, mais tu la dis la tête baissée, en rangeant tes feuilles, et elle s'arrête au bord du bureau. Mathis l'entend à moitié, la salle voit surtout que tu ramasses tes affaires, et ta meilleure réplique devient un murmure. Pose tes fiches sur la table dès que Mathis commence sa phrase : tu gagnes deux secondes, tu lèves la tête, et tout le monde comprend que tu as fini.
+> Répondre à tes fiches. La phrase est bonne, mais tu la dis la tête baissée, en rangeant tes feuilles, et elle s'arrête au bord du bureau. Mathis l'entend à moitié, la salle voit surtout que tu ramasses tes affaires, et ta meilleure réplique devient un murmure. Pose tes fiches sur la table dès que Mathis commence sa phrase : tes mains ont autre chose à faire que ranger, tu lèves la tête, et tout le monde comprend que tu as fini.
 >
 > À essayer cette semaine
 > Prends la sûre ci-dessus, ou une phrase courte de ton choix, et enregistre-la deux fois sur ton téléphone : une fois assis, la tête vers ton bureau, une fois debout, la tête levée vers le mur. Réécoute les deux. Celle qui se comprend de plus loin est celle que tu peux dire devant dix-huit personnes.
@@ -77,6 +95,7 @@
 > L'Équipe Deviens Marrant
 
 **Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 500 mots). Pique « trop vite » (et non « tu parles jamais », réservée au 05/11) ; chute de la joueuse sur le double sens billet / monnaie rendue, sans sourire ; règle **neuve** (la réponse devient la dernière phrase de l'exposé), propre à un passage à l'oral devant un groupe qui se revoit ; erreur **neuve** (répondre à ses fiches), physique et vérifiable, sans excuse ni explication. Date de la scène : mardi 17/11 (lettre reçue le jeudi 12). Le calendrier universitaire n'est pas vérifié : la lettre dit « TD » et « exposé » sans prétendre qu'on est en période d'exposés [HYPOTHÈSE écartée du texte]. Titre d'étape vérifié dans `apps/web/src/config/parcours-etapes.ts` : repartie, étape 1, « Tes premières répliques » ; l'accroche « répondre à une pique sans en lancer une plus grosse » vient du `why` de l'étape dans `docs/content/parcours-seed.json:286`. Étape 1 : première étape de chaque parcours, ouverte à tous.
+**Révision 2 (relecture éditeur 7,5/10 NO-GO ; relecture lecteur 9/10 GO)** : la risquée « Je voulais finir avant ton commentaire. Perdu. » visait comme le n°1 l'habitude verbale de l'autre, avec une phrase de condition calquée (« Elle ne marche que si Hugo parle beaucoup, le sait, et rit… ») : remplacée par la proposition de l'éditeur, qui change de ressort (l'invitation à poser une question, et non plus la moquerie de l'habitude). Le commentaire de la joueuse reprenait « guichet » et « visage qui ne bouge pas » du n°1 : refait (proposition de l'éditeur, « cadeau » à la place de « politesse » pour ne pas redire la sûre). La sûre « Oui. Je ne voulais pas vous retenir. » confirmait un train puis retournait la politesse : le « Oui » devient « Non », et le « vous » garde son sens. Grep des phrases neuves (« train attendra », « une question, Mathis », « c'est vous que je ne voulais pas retenir », « rends la monnaie ») dans `apps/web/src` et les articles Q4 : 0. Redite avec les lettres de 2027 (`lettres-reservees-jan-mars-2027.md`) : aucune scène de TD ni d'exposé, aucune réplique commune ; Répartie 1 est aussi lié le 18/02/2027 (trois mois d'écart).
 
 ---
 
@@ -89,17 +108,17 @@
 
 > Salut,
 >
-> Lundi, 9 h 12, devant la machine à café. Clara te demande : « Alors, ce week-end ? » Tu commences par le début, vendredi soir, puis le train, puis la personne qui, et à la troisième précision tu vois son regard partir vers son gobelet.
+> Lundi midi, à la cantine. Clara pose son plateau en face du tien : « Tu as fait quoi, ce week-end ? » Tu commences par le début, vendredi soir, puis le bus, puis la personne qui, et à la troisième précision tu vois son regard partir vers son téléphone.
 >
-> Cette semaine, pas de réplique prête à l'emploi. On regarde comment une série d'épisodes de deux minutes annonce chacun en une phrase de quoi il parle, et on lui emprunte sa méthode.
+> Cette semaine, pas de réplique à apprendre par cœur. On regarde comment la première saison d'une série, en épisodes de deux minutes, annonce chacun en une phrase de quoi il parle, et on lui emprunte sa méthode.
 >
 > Le passage
-> Le 29 août 2011, Canal+ diffuse le premier épisode de Bref, dans Le Grand Journal. La série est créée par Kyan Khojandi et Bruno Muschio. Le héros n'a pas de prénom : il se désigne par « Je », raconte sa vie en voix off, celle d'un trentenaire célibataire, et chaque épisode dure environ deux minutes. Le premier s'intitule « Bref. J'ai dragué cette fille ». La saison 1 en compte 82, jusqu'en juillet 2012, et l'intégrale a été mise en ligne gratuitement sur YouTube en octobre 2017. Une saison 2, en six épisodes d'environ trente minutes, est sortie sur Disney+ en février 2025.
+> Le 29 août 2011, Canal+ diffuse le premier épisode de Bref, dans Le Grand Journal. La série est créée par Kyan Khojandi et Bruno Muschio. Le héros n'a pas de prénom : il se désigne par « Je » et raconte sa vie en voix off, celle d'un trentenaire célibataire. Le premier épisode s'intitule « Bref. J'ai dragué cette fille ». La saison 1 en compte 82, d'environ deux minutes chacun, jusqu'en juillet 2012, et l'intégrale a été mise en ligne gratuitement sur YouTube en octobre 2017. Une saison 2, en six épisodes d'environ trente minutes, est sortie sur Disney+ en février 2025.
 >
 > La technique : le titre-résumé
 > Regarde les titres de la saison 1 : « Bref. », puis une phrase à la première personne. Un sujet, un verbe, pas de décor, pas de préambule. Avant la première image, tu sais déjà de quoi l'épisode va parler. Et le mot « bref » fait ce qu'il dit : il coupe.
 >
-> C'est ce qui manque à la machine à café. Trois minutes de contexte n'ont jamais rendu un week-end plus drôle, et plus tu tardes à arriver au fait, plus Clara regarde l'heure.
+> C'est ce qui manque à ton récit du lundi. Trois minutes de contexte n'ont jamais rendu un week-end plus drôle, et plus tu tardes à arriver au fait, plus Clara regarde l'heure.
 >
 > Comment l'emprunter, en trois gestes
 > 1. Écris le titre de ton week-end : une phrase à la première personne, un verbe, un fait. Un seul détail en plus, si c'est lui qui fait sourire.
@@ -109,14 +128,14 @@
 > Deux exemples sur la scène de Clara
 > « C'était mon anniversaire. Ma mutuelle y a pensé la première. »
 > Le fait, puis le seul détail qui compte. Tu t'es fait souhaiter ton anniversaire par un contrat, et tu le dis sans te plaindre.
-> « J'ai monté une étagère. Elle est parfaitement droite. C'est l'immeuble qui penche. »
-> Le fait, puis un renversement de responsabilité, dit avec la même voix que le reste. Aucun rire d'avance : c'est le ton du compte rendu qui travaille.
+> « Je suis allé au magasin de meubles pour une ampoule. Je suis ressorti avec un fauteuil. Sans l'ampoule. »
+> Le fait, puis l'écart entre ce que tu venais chercher et ce que tu rapportes, dit avec la même voix que le reste. Aucun rire d'avance : c'est le ton du compte rendu qui travaille, et « Sans l'ampoule » arrive tout seul.
 >
-> Ces deux phrases ne valent que pour un week-end précis. La méthode, elle, resservira lundi prochain, à la même heure, devant la même machine.
+> Ces deux phrases ne valent que pour un week-end précis. La méthode, elle, resservira lundi prochain, à la même table.
 >
 > À toi de jouer
 > 1. Prends la semaine qui vient de passer et écris trois titres, chacun commençant par « Bref. » et suivi d'une phrase à la première personne. Un fait par titre, aucun « en fait », aucun « du coup ».
-> 2. Garde celui qui te fait le plus sourire quand tu le relis, et dis-le à voix haute sans le mot de tête, et sans rien ajouter.
+> 2. Garde celui qui te fait le plus sourire quand tu le relis, et dis-le à voix haute sans le « Bref. » du début, et sans rien ajouter.
 > 3. Compte jusqu'à trois dans ta tête avant de continuer. Ce silence est la partie la plus difficile, et c'est celle qui donne envie à l'autre de poser la question.
 >
 > Pour couper ton anecdote au plus court, c'est l'étape 1 du parcours Storytelling.
@@ -125,7 +144,8 @@
 > À jeudi prochain,
 > L'Équipe Deviens Marrant
 
-**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 520 mots). **Aucune phrase de la série n'est citée** : seuls le titre de la série et un titre d'épisode (« Bref. J'ai dragué cette fille ») figurent entre guillemets, avec les mots « Je » et « bref ». Les deux exemples (« mutuelle », « étagère ») sont écrits par l'équipe pour la scène de Clara et ne prétendent pas venir de la série. Pas de lien externe dans le corps. Lien du site : storytelling, étape 1, « Ton anecdote, coupée au plus court » (titre vérifié dans `parcours-etapes.ts`, `STORYTELLING_PUBLIE = true`). **Révision du 25/10 (barre 9/10)** : « Le passage » est identique mot pour mot à la version dont l'orchestrateur a vérifié les faits. Seuls changent : la phrase d'intro (« raconte une vie en une phrase » n'était pas sourcé), « pas d'excuse » devenu « pas de préambule » et « mots d'excuse » devenu « mots de remplissage » (le vocabulaire de l'excuse est réservé à l'erreur de l'annexe A). Cette lettre appelle le « retour sur l'exercice » en tête de la lettre W48.
+**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 520 mots). **Aucune phrase de la série n'est citée** : seuls le titre de la série et un titre d'épisode (« Bref. J'ai dragué cette fille ») figurent entre guillemets, avec les mots « Je » et « bref ». Les deux exemples (« mutuelle », « ampoule ») sont écrits par l'équipe pour la scène de Clara et ne prétendent pas venir de la série. Pas de lien externe dans le corps. Lien du site : storytelling, étape 1, « Ton anecdote, coupée au plus court » (titre vérifié dans `parcours-etapes.ts`, `STORYTELLING_PUBLIE = true`). **Révision du 25/10 (barre 9/10)** : « Le passage » est identique mot pour mot à la version dont l'orchestrateur a vérifié les faits. Seuls changent : la phrase d'intro (« raconte une vie en une phrase » n'était pas sourcé), « pas d'excuse » devenu « pas de préambule » et « mots d'excuse » devenu « mots de remplissage » (le vocabulaire de l'excuse est réservé à l'erreur de l'annexe A). Cette lettre appelle le « retour sur l'exercice » en tête de la lettre W48.
+**Révision 2 (relecture éditeur : 7,5/10 NO-GO)** : (1) la scène du lundi à la machine à café, avec « Tu as passé un bon week-end ? », était la fiche « Le lundi à la machine à café » du carnet d'octobre (`carnet/2026-10.json:30-37`) : la scène passe à la cantine, le lundi midi (un lieu que vit un étudiant, et que ni les fiches du carnet ni les vannes ne mettent en scène comme ici : Grep « cantine » dans `apps/web/src/data`, deux occurrences sans rapport, l'une dans un défi ethnologue, l'autre dans un exemple de vanne sur un reportage) ; le train de la scène devient un bus (le 12/11 joue sur « un train ») ; (2) l'exemple de l'étagère qui penche était dans Storytelling 3 (`docs/content/parcours-storytelling-s18.json:275`, « Hugo, dont l'étagère penche depuis samedi ») : remplacé par l'ampoule et le fauteuil (proposition de l'éditeur ; Grep « ampoule » : une seule occurrence, « ampoule du couloir », autre sujet) ; (3) « chaque épisode dure environ deux minutes » s'appliquait à toute la série alors que la lettre cite une saison 2 de trente minutes : « d'environ deux minutes chacun » est maintenant attaché à la saison 1 (F5 est une source de la seule saison 1), et l'intro dit « la première saison d'une série » ; (4) « pas de réplique prête à l'emploi » devient « pas de réplique à apprendre par cœur » (la lettre donne deux exemples) ; (5) « sans le mot de tête » devient « sans le « Bref. » du début ». Les faits F1 à F9 ne changent pas.
 
 ### Sources et faits de la lettre du 19/11 (à vérifier page par page)
 
@@ -152,39 +172,39 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 `[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Suit la lettre B du 19/11 : « retour sur l'exercice » en tête.
 
 **Objet** (41 car.) : Visio : que répondre au linge qui sèche ?
-**Pré-en-tête** : En visio, presque personne ne rit à voix haute. Comment choisir ta réplique quand même.
+**Pré-en-tête** : Une réplique de visio, trois réponses, et la seule question à te poser : combien elle laisse de questions ouvertes.
 
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
 > Tu devais écrire trois titres « Bref. » sur ta semaine. Pour tester le tien, lis-le à voix haute : si tu reprends ton souffle au milieu, il est trop long. Un bon titre se dit d'un seul trait, avec un verbe et un fait.
 >
-> Mardi, 10 h, réunion d'équipe en visio. Il pleut depuis une semaine, ton linge sèche dans le salon, et l'étendoir est pile derrière toi. Onze carrés à l'écran, tous les micros fermés sauf celui de la personne qui parle. Romain a vu l'étendoir :
+> Mardi, 10 h, réunion d'équipe en visio. Il pleut depuis une semaine, ton linge sèche dans le salon, et l'étendoir est pile derrière toi. Douze carrés à l'écran, le tien compris, tous les micros fermés sauf celui de Romain. Il a vu l'étendoir :
 >
 > « Tu as du linge qui sèche, derrière toi ? »
 >
-> Onze visages te regardent, et pas un seul son. Voici trois réponses, et la règle propre à la visio : presque personne n'y rit à voix haute.
+> Onze visages te regardent, et pas un seul son.
 >
 > La sûre
 > « Oui. Je l'ai mis là pour la profondeur de champ. »
 > Tu réponds sérieusement à une question qui ne l'était pas, et la phrase se tient seule : même si personne n'ouvre son micro, elle sonne comme une précision technique, et la réunion reprend. À choisir quand la visio est grande, ou quand tu ne sais pas comment ta responsable prend l'humour.
 >
 > La joueuse
-> « Merci à tous de le regarder. Ça sèche plus vite. »
-> Tu remercies l'équipe entière d'avoir les yeux sur ton étendoir, comme si leur regard faisait sécher le linge. Personne n'est visé, et chacun des onze peut se sentir remercié. Dis-la d'une voix reconnaissante, sans sourire. À sortir dans les équipes où l'on s'est déjà entendus rire.
+> « On a dit caméra allumée. Personne n'a parlé du salon. »
+> Tu appliques la règle de la visio à la lettre : la caméra, oui ; le salon rangé, personne ne l'avait demandé. Personne n'est visé, sauf la consigne. Dis-la du ton d'un élève en règle, sans sourire. À sortir dans les équipes où l'on s'est déjà entendus rire.
 >
 > La risquée
 > « Moi, je montre mon linge, Romain. Toi, tu caches quoi ? »
-> Elle s'adresse à Romain : tu retournes la curiosité contre lui, devant tout le monde. Elle suppose que tu voies son visage quand elle tombe, donc seulement à deux ou trois, quand chaque visage est assez grand pour que tu le lises. À onze, tu ne verras ni son sourire ni sa gêne, et une question restée sans réponse visible pèse longtemps.
+> Elle s'adresse à Romain : tu retournes la curiosité contre lui, et elle appelle une réponse. Romain doit rouvrir son micro devant tout le monde, avouer ce qu'il cache ou s'en sortir, pendant que la réunion attend. À deux ou trois, c'est un échange. À douze, c'est une minute où tout le monde vous regarde, et Romain ne l'a pas choisie.
 >
 > Comment choisir
-> Compte les micros ouverts. En visio, un rire demande d'ouvrir son micro, et presque personne ne le fait : plus la réunion est grande, moins tu entendras de réaction, même si tout le monde sourit. Choisis donc la réplique qui tient debout dans le silence : la sûre à onze, la joueuse quand l'ambiance est détendue, la risquée seulement à deux ou trois. Au moindre doute, la sûre.
+> Compte les questions que ta phrase laisse ouvertes. La sûre et la joueuse se ferment toutes seules : la réunion reprend dans la seconde, sans que personne ait à répondre. La risquée pose une question à Romain, et pendant qu'il répond, tous les autres attendent avec vous deux. À deux ou trois, c'est une conversation. À douze, c'est un temps d'antenne que tu prends sans l'avoir demandé : garde-la pour les petites visios, et prends la sûre quand la réunion est grande.
 >
 > L'erreur que tout le monde fait
-> Combler le silence. Ta phrase est passée, personne n'a ouvert son micro, alors tu enchaînes avec « Vous m'entendez ? » ou avec une deuxième vanne pour sauver la première. On t'a entendu : des micros fermés, c'est le bruit normal d'une visio. Laisse passer une respiration, puis reprends ton sujet : « Donc, sur le point suivant… ». Une réplique suivie droit du sujet passe pour voulue.
+> Couper ta caméra. Ta phrase est dite, puis ton carré devient noir le temps de pousser l'étendoir hors du cadre. Les onze autres ont vu le carré s'éteindre, et c'est ce noir qu'ils retiendront, pas ta réplique : il dit que la question t'a gêné. Le linge peut rester où il est jusqu'à la fin de la réunion. Il sèche, et toi, tu as répondu.
 >
 > À essayer cette semaine
-> À ta prochaine visio, ne dis rien de drôle. Note seulement, sur un coin de papier, combien de fois quelqu'un rit à voix haute pendant la réunion. Ensuite, écris ta sûre pour le prochain « Tu as quoi, derrière toi ? » (un étendoir, une pile de cartons, un chat sur l'étagère) et dis-la une fois à voix haute, au volume d'une réunion, sans chercher à être drôle.
+> À ta prochaine visio, regarde ce qu'on voit derrière toi avant de te connecter, et laisse-le en place. Écris ta sûre pour le prochain « Tu as quoi, derrière toi ? » (un étendoir, une pile de cartons, un chat sur l'étagère), dis-la une fois à voix haute, au volume d'une réunion, puis tais-toi : elle doit se terminer sans que personne ait à te répondre.
 >
 > La réunion se travaille à l'étape 1 du parcours Boulot, « La salle de réunion, sans un mot ».
 > Aller à l'étape 1 : https://deviens-marrant.fr/parcours/boulot?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w48-etape1#etape-1
@@ -192,7 +212,8 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 > À jeudi prochain,
 > L'Équipe Deviens Marrant
 
-**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 520 mots). Leçon : la règle de choix porte sur le **silence propre à la visio** (compter les micros ouverts), pas sur la cible de la phrase. Erreur : combler le silence. Scène volontairement différente de la vanne « J'ai parlé cinq minutes en visio, micro coupé » (`joke-decryptages.json:507`) et de la fiche du carnet « Les huit carrés noirs » (`carnet/2026-11.json:236`). **Révision du 25/10 (barre 9/10)** : (1) plausibilité E12 : la scène était « Jeudi, 10 h », c'est-à-dire le jour de l'envoi (lettre à 8 h) ; elle devient « Mardi, 10 h » (le 01/12), avec un ancrage de saison (pluie, linge au salon). (2) E4 : « C'est le collègue le plus assidu : il ne coupe jamais la parole » donnait un statut à un objet ; ma première idée de remplacement (« point d'avancement à la fin de la réunion ») faisait de même (le linge devient un dossier) et a été écartée ; la joueuse est maintenant « Merci à tous de le regarder. Ça sèche plus vite. » (remerciement et logique absurde, les humains reçoivent le rôle, pas l'objet). (3) la risquée « Le tien est juste hors champ, Romain. » rejouait « champ » après la sûre (« profondeur de champ ») ; remplacée par « Moi, je montre mon linge, Romain. Toi, tu caches quoi ? ». (4) mineurs de la relecture repris : « passe pour voulue » (et non « préparée »), « la risquée seulement à deux ou trois » (la scène montre onze visages). (5) l'exemple de l'erreur n'est plus « enfin, c'était pour rire » (une explication) mais « Vous m'entendez ? » ; « Compte jusqu'à trois dans ta tête » retiré (déjà dans l'exercice de la lettre du 19/11). Titre d'étape vérifié dans `parcours-etapes.ts` : boulot, étape 1, « La salle de réunion, sans un mot » (`BOULOT_PUBLIE = true`).
+**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 520 mots). Leçon : la règle de choix porte sur **les questions que la phrase laisse ouvertes** (révision 2). Erreur : couper sa caméra. Scène volontairement différente de la vanne « J'ai parlé cinq minutes en visio, micro coupé » (`joke-decryptages.json:507`) et de la fiche du carnet « Les huit carrés noirs » (`carnet/2026-11.json:236`). **Révision du 25/10 (barre 9/10)** : (1) plausibilité E12 : la scène était « Jeudi, 10 h », c'est-à-dire le jour de l'envoi (lettre à 8 h) ; elle devient « Mardi, 10 h » (le 01/12), avec un ancrage de saison (pluie, linge au salon). (2) E4 : « C'est le collègue le plus assidu : il ne coupe jamais la parole » donnait un statut à un objet ; ma première idée de remplacement (« point d'avancement à la fin de la réunion ») faisait de même (le linge devient un dossier) et a été écartée ; la joueuse est maintenant « Merci à tous de le regarder. Ça sèche plus vite. » (remerciement et logique absurde, les humains reçoivent le rôle, pas l'objet). (3) la risquée « Le tien est juste hors champ, Romain. » rejouait « champ » après la sûre (« profondeur de champ ») ; remplacée par « Moi, je montre mon linge, Romain. Toi, tu caches quoi ? ». (4) mineurs de la relecture repris : « passe pour voulue » (et non « préparée »), « la risquée seulement à deux ou trois » (la scène montre onze visages). (5) l'exemple de l'erreur n'est plus « enfin, c'était pour rire » (une explication) mais « Vous m'entendez ? » ; « Compte jusqu'à trois dans ta tête » retiré (déjà dans l'exercice de la lettre du 19/11). Titre d'étape vérifié dans `parcours-etapes.ts` : boulot, étape 1, « La salle de réunion, sans un mot » (`BOULOT_PUBLIE = true`). Le lien tient moins bien pour une réplique parlée (mineur de l'éditeur) ; je le garde parce que Boulot 1 est l'étape prévue par le plan pour cette lettre et que la lettre ne dit que son titre.
+**Révision 2 (éditeur 7,0/10 NO-GO ; lecteur 8/10 NO-GO)** : (1) la règle « compter les micros ouverts » et l'erreur « combler le silence » (avec l'exemple « Vous m'entendez ? ») redisaient l'article gratuit « Humour en visio » (`docs/copy/articles-q4/S5-humour-en-visio.md`, lignes 55, 83, 148 : le silence ambigu, « le piège est de le combler », « n'en lance pas une deuxième ») : règle et erreur nouvelles. La règle proposée par l'éditeur s'appuyait sur « une seule voix passe à la fois », que l'article dit lui-même (ligne 55) : je ne l'ai pas gardée telle quelle et la règle se fonde sur autre chose, la fermeture de la phrase (une phrase qui se ferme toute seule contre une phrase qui pose une question et fait attendre onze personnes). L'erreur « couper ta caméra » (proposition de l'éditeur) n'est pas dans l'article (sa FAQ « Caméra éteinte » parle de faire rire sans image) et répond à la joueuse (« On a dit caméra allumée »). (2) comptes : douze carrés, le tien compris, onze visages ; « à douze » dans la règle. (3) joueuse « Merci à tous de le regarder. Ça sèche plus vite. » : jugée sous la barre par le lecteur (il faut son explication pour la saisir) ; remplacée par sa proposition « On a dit caméra allumée. Personne n'a parlé du salon. » (fausse règle de procédure appliquée à la lettre ; pas d'objet promu). (4) pré-en-tête, entrée lente et exercice alignés sur la règle. Grep « caméra allumée », « parlé du salon », « tu caches quoi » dans `apps/web/src` : 0 reprise.
 
 ---
 
@@ -205,11 +226,11 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 
 > Salut,
 >
-> Samedi soir, un bar du centre-ville. Dehors, il gèle. Premier rendez-vous avec Inès, après deux semaines de messages. Elle a commandé un cocktail. Toi, une tisane. Elle regarde ta tasse, puis toi :
+> Samedi soir, un bar à jeux du centre-ville. Dehors, il gèle. Premier rendez-vous avec Inès, après deux semaines de messages. Elle a commandé un cocktail. Toi, une tisane. Elle regarde ta tasse, puis toi :
 >
 > « Une tisane ? À un premier rendez-vous ? »
 >
-> Tu as deux secondes. Voici trois réponses, de la plus prudente à la plus audacieuse, et la question à te poser avant de choisir. Dans les trois, la tisane reste commandée.
+> Tu as deux secondes. Dans les trois réponses qui suivent, la tisane reste commandée.
 >
 > La sûre
 > « J'ai pris la plus forte de la carte. Elle s'appelle Nuit paisible. »
@@ -221,24 +242,25 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 >
 > La risquée
 > « Quelqu'un doit rester lucide pour retenir toutes tes histoires. »
-> Elle s'adresse à Inès, et sous la pique, c'est un compliment : tu lui supposes tant d'histoires qu'il faut un témoin sobre pour les garder. Elle ne marche que si Inès aime raconter et rit facilement. Si la tension est encore là, la phrase peut sonner comme une surveillance.
+> Elle s'adresse à Inès, et sous la pique, c'est un compliment : tu lui supposes tant d'histoires qu'il faut un témoin sobre pour les garder. Il faut qu'Inès aime raconter et rie facilement. Si la tension est encore là, la phrase peut sonner comme une surveillance.
 >
 > Comment choisir
-> Avant de répondre, demande-toi ce que tu diras dans les trente secondes qui suivent. La sûre ne t'engage à rien : tu enchaînes sur la carte ou sur une question. La joueuse crée un personnage, le conducteur sans voiture, et il faudra le reprendre une fois pour qu'il vive : au moment de partir, propose de raccompagner Inès au métro, puisque c'est toi qui conduis. La risquée lance un défi : Inès peut répondre « Vas-y, je commence », et tu devras écouter pour de bon, puis citer l'une de ses histoires plus tard. Choisis la réponse dont tu sais déjà écrire la suite.
+> Avant de répondre, demande-toi ce que tu diras dans les trente secondes qui suivent. La sûre ne t'engage à rien : tu enchaînes sur la carte ou sur une question. La joueuse crée un personnage, le conducteur sans voiture, et il faudra le reprendre une fois pour qu'il vive : au moment de partir, propose de raccompagner Inès au métro, puisque c'est toi qui conduis. La risquée lance un défi : Inès peut répondre « D'accord, je commence », et tu devras écouter pour de bon, puis citer l'une de ses histoires plus tard. Choisis la réponse dont tu sais déjà écrire la suite.
 >
 > L'erreur que tout le monde fait
-> Tirer la réplique jusqu'à la corde. Elle a fait sourire, alors tu la reprends à la deuxième tasse, à la troisième, au moment de l'addition. Une reprise donne de la complicité, la cinquième donne l'impression que tu n'as rien d'autre. Une fois pour lancer, une fois pour clore, et passe à autre chose.
+> Tirer la réplique jusqu'à la corde. Elle a fait sourire, alors tu la reprends à la deuxième tasse, à la troisième, au moment de l'addition. Une reprise donne de la complicité, la troisième donne l'impression que tu n'as rien d'autre. Une fois pour lancer, une fois pour clore, et passe à autre chose.
 >
 > À essayer cette semaine
 > Prends un choix que tu fais souvent et qu'on t'a déjà commenté : ton thé, ton plat sans viande, ton vélo en hiver. Écris une version sûre, une joueuse et une risquée. Pour la joueuse, ajoute la phrase que tu dirais vingt minutes plus tard pour la reprendre, une seule. Si tu n'en trouves pas, ta joueuse n'est pas prête : garde la sûre.
 >
-> Improviser sur l'inattendu, c'est l'étape 4 du parcours Répartie.
-> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w50-etape4#etape-4
+> Faire revenir une réplique une seule fois, au bon moment, c'est l'étape 6 du parcours Storytelling, « Un détail qui revient à la fin ».
+> Aller à l'étape 6 : https://deviens-marrant.fr/parcours/storytelling?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w50-etape6#etape-6
 >
 > À jeudi prochain,
 > L'Équipe Deviens Marrant
 
 **Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 540 mots). Leçon : choisir selon **la suite que la réplique t'impose** (ce que tu diras dans les 30 secondes), et non selon la cible ou le silence. Erreur : la tirer jusqu'à la corde. **Révision du 25/10 (barre 9/10)** : (1) ancrage de saison « Dehors, il gèle » (le 12/12 ; il explique aussi la tisane) ; (2) « Aucune ne s'excuse d'avoir pris une tisane, et c'est voulu » remplacé par « Dans les trois, la tisane reste commandée » (le vocabulaire de l'excuse est réservé à l'annexe A) ; (3) la risquée « Quelqu'un doit rester lucide pour retenir ce que tu vas dire » pouvait s'entendre « tu vas dire n'importe quoi une fois ivre », ce que la relecture signalait pour un introverti au premier verre ; elle devient « …pour retenir toutes tes histoires », qui flatte au lieu de surveiller, et « Comment choisir » en tire un défi plus doux (« Vas-y, je commence ») ; (4) « au deuxième verre, au troisième » devient « à la deuxième tasse, à la troisième » (tu bois une tisane) ; (5) « Celle-ci vise Inès » devient « Elle s'adresse à Inès » (la formule revenait dans quatre lettres). Sûre et joueuse inchangées (joueuse validée au tour précédent : « Ce soir, c'est moi qui conduis. Je suis venu à pied. »). La formule « c'est moi qui conduis » existe dans le catalogue comme fin d'un exemple sans rapport (`joke-decryptages.json:156`, GPS du père) : pas une reprise. Titre d'étape vérifié dans `parcours-etapes.ts` : repartie, étape 4, « Improviser sur l'inattendu ».
+**Révision 2 (éditeur 8,5/10 NO-GO ; lecteur 9/10 GO)** : (1) le lien vers Répartie 4 contredisait la leçon (la lettre apprend à préparer et à reprendre une réplique, Répartie 4 apprend à rattraper une vanne ratée, `docs/content/parcours-seed.json:522`) : remplacé par Storytelling 6, « Un détail qui revient à la fin » (étape 6 de 6, titre vérifié dans `apps/web/src/config/parcours-etapes.ts`, `STORYTELLING_PUBLIE = true` ; son contenu travaille le détail glissé tôt et ressorti à la fin, `parcours-storytelling-s18.json`, `cle` storytelling-6) ; (2) « la cinquième » reprise corrigé en « la troisième » (le texte ne compte que trois reprises) ; (3) « Vas-y, je commence » devient « D'accord, je commence », que dirait vraiment Inès ; (4) le décor devient un bar à jeux : la fiche du carnet « Le silence du premier verre » (`carnet/2026-11.json`, vers la ligne 357) se passe dans un bar classique dix jours plus tôt ; (5) l'entrée « Voici trois réponses, de la plus prudente à la plus audacieuse » est supprimée ; « Elle ne marche que si » devient « Il faut qu'Inès… ». Mineur non traité : l'article `etre-drole-sans-alcool-soiree` (21/12) traite « tu bois pas ? » : à vérifier à sa publication qu'il ne reprend aucune réplique de la lettre.
 
 ---
 
@@ -251,7 +273,7 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 
 > Salut,
 >
-> Samedi, 8 h 40. Vous êtes neuf dans un chalet de location : les skis sont dans l'entrée, le café est passé, et tu es encore en chaussettes devant la cheminée. Jules enfile sa combinaison et te lance :
+> Samedi, 8 h 40. Vous êtes neuf dans un chalet de location : les skis sont dans l'entrée, la bouilloire vient de siffler, et tu es encore en chaussettes devant la cheminée. Jules enfile sa combinaison et te lance :
 >
 > « Alors, tu descends la noire, ou tu gardes le chalet ? »
 >
@@ -271,14 +293,14 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 > Deux exemples sur la scène du chalet
 > « Toi, tu descends la noire. Moi, je surveille la bouilloire. »
 > Tu reprends le mot de Jules pour lui laisser l'exploit, puis tu te confies une mission minuscule : la rime la met au même rang que sa descente.
-> « À toi la noire et le froid. À moi le chalet et le feu de bois. »
+> « À toi la noire et le froid. À moi le feu de bois. »
 > Tu partages la matinée en deux lots, et ta part est la plus modeste. Le froid pèse dans la balance, le feu de bois a le dernier mot : tu as l'air d'avoir choisi la bonne moitié.
 >
 > Ces deux-là restent au chalet. Le geste, tu l'emportes : il sert pour les piques qui reviennent.
 >
 > À toi de jouer
 > 1. Choisis une pique que tu reçois souvent, ou que tu redoutes.
-> 2. Prends un ou deux mots de cette pique et bâtis dessus un premier vers qui se prend au sérieux. Puis écris le second : une retombée sur du concret, qui rime avec le premier.
+> 2. Applique les gestes 1 et 2 : un vers sérieux bâti sur ses mots, puis un vers qui retombe sur du concret et rime avec le premier.
 > 3. Dis-les à voix haute, d'une voix égale, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, prends un autre mot de la pique, pas une autre pique.
 >
 > Jouer avec les registres, c'est l'étape 5 du parcours Confiance.
@@ -289,6 +311,7 @@ Ce que l'équipe ajoute sans source (analyse) : « Avant la première image, tu 
 
 **Notes de rédaction (hors lettre)** : lecture ≈ 2 min 30 (≈ 470 mots). **Aucune phrase du Palmashow n'est citée** : seul le titre du clip (« Les monos de ski ») apparaît entre guillemets. Les deux couplets (« noire / bouilloire », « froid / bois ») sont écrits par l'équipe pour la scène du chalet et ne prétendent pas venir du clip. Pas de lien externe dans le corps. Lien du site : confiance, étape 5, « Jouer avec les registres » (titre vérifié dans `parcours-etapes.ts`).
 **Révision du 25/10 (barre 9/10)** : « Le passage » est identique mot pour mot à la version dont l'orchestrateur a vérifié les faits (PureBreak du 12/02/2014, « viennent de mettre en ligne »). Changent : (1) « dans un chalet loué à neuf » s'entendait aussi « loué à neuf » (remis à neuf) ; il devient « Vous êtes neuf dans un chalet de location » ; (2) « ou une excuse » devient « ou une esquive » ; (3) le second couplet « Aujourd'hui, je garde le chalet. Chaussettes, café : équipement complet. » faisait passer des objets pour du matériel officiel, le ressort saturé de l'E4 : remplacé par « À toi la noire et le froid. À moi le chalet et le feu de bois. » (partage en deux lots, ressort différent du premier couplet, qui est la mission minuscule) ; (4) geste 1 (« bâtis dessus » au lieu de « finis dessus », puisque le second couplet ne finit plus sur un mot de la pique), geste 2 (« du concret ») et exercice alignés ; l'exercice dit « d'une voix égale » et non « d'un ton de compte rendu » (déjà dans la lettre du 19/11) ; l'étape et la lettre W52 (« un sérieux, un qui retombe sur du concret ») restent cohérentes.
+**Révision 2 (éditeur 9/10 GO ; lecteur 8,5/10 NO-GO sur le seul second couplet, B6)** : la lettre du 24/12 donne le test « si le second vers est nettement plus long que le premier, la chute traîne, coupe-le » ; le second couplet (« À toi la noire et le froid. À moi le chalet et le feu de bois. », 7 et 10 syllabes) échouait à ce test et sa chute était la plus faible des deux lettres B. NEUVE : « À toi la noire et le froid. À moi le feu de bois. » (7 et 6 syllabes ; la chute tombe plus tôt, sur le seul vers concret). Le commentaire du couplet est inchangé. La bouilloire du premier couplet vient maintenant de siffler dans la scène (l'éditeur se demandait « une bouilloire pour quoi ? » après « le café est passé »). L'exercice 2 renvoie aux gestes 1 et 2 au lieu de les recopier.
 **Pourquoi ce passage** (rappel de la révision précédente) : Paul Mirabel (fiche vidéo existante sur le même sketch, `video-content-s20.json:130`) et Marina Rollman (technique déjà présente, `:514` à `:519`) ont été écartés ; le Palmashow est décrit par plusieurs sources écrites et n'a aucune fiche vidéo ni technique de rime sur le site. **Limite** : les paroles n'ont pas été lues ; la lettre n'en dit rien et le geste « le couplet » est présenté comme tiré par l'équipe, pas comme la méthode du duo.
 
 ### Sources et faits de la lettre du 17/12 (à vérifier page par page)
@@ -326,12 +349,12 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > Ce soir, repas de Noël chez tes grands-parents. Quatorze à table, dont une cousine de dix ans et Mamie, quatre-vingt-quatre ans, qui entend tout ce qu'elle veut bien entendre. Tonton Gérard fait le tour avec la bouteille de vin, s'arrête derrière ta chaise, et pose la question qu'il pose tous les ans :
 >
-> « Et tu feras quoi, plus tard ? »
+> « Et ce permis, c'est pour cette année ? »
 >
-> Treize têtes se tournent vers toi, et la bûche est encore loin. Voici trois réponses, et le test à passer avant de choisir. Aucune ne répond vraiment à la question, et c'est le principe.
+> La table se tait, et la bûche est encore loin. Aucune des trois réponses ne répond vraiment à la question, et c'est le principe.
 >
 > La sûre
-> « Je prends les choses dans l'ordre : le plat, la bûche, puis mon avenir. »
+> « Je prends les choses dans l'ordre : le plat, la bûche, puis le permis. »
 > Tu respectes la question en la mettant au menu. Une enfant de dix ans la comprend, et Gérard peut rire sans se sentir visé. À choisir quand l'ambiance est tendue, ou quand tu ne veux pas lancer un sujet que toute la table reprendrait.
 >
 > La joueuse
@@ -340,24 +363,25 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > La risquée
 > « Tu me poses la question tous les ans, Gérard. Tu fais une collection ? »
-> Elle pointe Gérard et son rituel. Elle ne marche que s'il sait rire de ses habitudes et si la table n'y voit pas une dispute. Devant un oncle fatigué, ou quelqu'un qui vient de traverser une année difficile, elle sonne comme un reproche.
+> Elle pointe Gérard et son rituel. Il faut qu'il sache rire de ses habitudes et que la table n'y voie pas une dispute. Devant un oncle fatigué, ou quelqu'un qui vient de traverser une année difficile, elle sonne comme un reproche.
 >
 > Comment choisir
-> Passe le test de la table : regarde la plus jeune et la plus âgée, et demande-toi si chacune peut entendre ta phrase sans être perdue ni choquée. Ton public va de dix à quatre-vingt-quatre ans, et personne n'a envie d'une dispute entre le dessert et le café. Si l'un des deux bouts de la table risque de mal le prendre, descends d'un cran. La sûre passe partout, la joueuse chez ceux qui connaissent le rituel, la risquée seulement si tout le monde sait que vous vous chambrez depuis toujours.
+> Passe le test de la table : regarde la plus jeune et la plus âgée, et demande-toi si chacune peut entendre ta phrase sans être perdue ni choquée. Ton public va de dix à quatre-vingt-quatre ans, et personne n'a envie d'une dispute entre le plat et la bûche. Si l'un des deux bouts de la table risque de mal le prendre, descends d'un cran. La sûre passe partout, la joueuse chez ceux qui connaissent le rituel, la risquée seulement si tout le monde sait que vous vous chambrez depuis toujours.
 >
 > L'erreur que tout le monde fait
-> Contre-attaquer. « Et toi, Gérard, tu as fait quoi de ta vie ? » La phrase tente parce qu'elle est juste, et c'est ce qui la rend dangereuse : à Noël, la famille en sait trop sur trop de monde. Tu gagnes la réplique, tu perds la soirée, et la bûche arrive dans un silence que tout le monde a entendu.
+> Contre-attaquer. « Et toi, Gérard, tu l'as eu à combien de tentatives, le tien ? » La phrase tente parce qu'elle fait mouche, et c'est ce qui la rend dangereuse : à Noël, la famille en sait trop sur trop de monde. Une question sur son voyage de l'été rend la parole à Gérard ; une pique sur son passé la lui reprend, devant tout le monde. Tu gagnes la réplique, tu perds la soirée, et la bûche arrive dans un silence que tout le monde a entendu.
 >
 > À essayer avant ce soir
-> Note la question qu'on te pose chaque année à Noël : tes études, ton couple, ton travail, tes projets. Écris trois réponses : une sûre, une joueuse, une risquée. Garde celle qui passe le test de la table, et dis-la une fois à voix haute dans le couloir, avant d'entrer. Bon repas, et bonne bûche.
+> Note la question qu'on te pose chaque année à Noël, quelle qu'elle soit : ton appartement, tes vacances, ta coupe de cheveux, ton téléphone. Écris trois réponses : une sûre, une joueuse, une risquée. Garde celle qui passe le test de la table, et dis-la une fois à voix haute dans le couloir, avant d'entrer. Bon repas, et bonne bûche.
 >
-> Si la question porte sur ton métier, « Tu fais quoi dans la vie ? » en deux phrases, c'est l'étape 5 du parcours Boulot.
-> Aller à l'étape 5 : https://deviens-marrant.fr/parcours/boulot?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w52-etape5#etape-5
+> Rire d'un retard que toute la famille connaît, sans te rabaisser, c'est l'étape 2 du parcours Confiance, « Rire de toi sans te rabaisser ».
+> Aller à l'étape 2 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w52-etape2#etape-2
 >
 > À jeudi prochain,
 > L'Équipe Deviens Marrant
 
-**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 540 mots). Leçon : **le test de la table** (les deux bouts d'âge), pas la cible ni le silence ni la suite. Erreur : la contre-attaque. La pique n'est pas une mise à l'écart douloureuse (célibat, poids, argent) : « Et tu feras quoi, plus tard ? » est la plus répandue et reste légère, pour que les trois niveaux soient jouables. Différent de la fiche du carnet « Le plan de table de Noël » (`carnet/2026-11.json:284`, qui traite « Et toi, tu as quelqu'un ? »). Aucune réplique de l'article lié à la lettre du mois du 03/12 (« Et le boulot, ça avance ? », « plan sur dix ans ») n'est reprise (plan E6). **Révision du 25/10 (barre 9/10)** : (1) plausibilité : la lettre est lue le matin du dîner, « À essayer cette semaine » devient « À essayer avant ce soir » ; (2) l'explication de la joueuse ne dit plus « ton absence de réponse devient une bouteille qu'on laisse mûrir » (un objet promu) mais la comparaison au vin et le compliment à Gérard ; (3) « Voici trois réponses, de la plus prudente à la plus audacieuse » retiré (formule présente dans toutes les lettres), « Celle-ci vise Gérard » devient « Elle pointe Gérard » ; (4) retour sur l'exercice raccourci et rendu cohérent avec le nouveau second couplet de la lettre du 17/12 (« un sérieux, un qui retombe sur du concret »). Sûre, joueuse, risquée et erreur inchangées. Titre d'étape vérifié dans `parcours-etapes.ts` : boulot, étape 5, « « Tu fais quoi dans la vie ? » en deux phrases » (le titre contient lui-même des guillemets : la lettre écrit la phrase sans guillemets imbriqués).
+**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 540 mots). Leçon : **le test de la table** (les deux bouts d'âge), pas la cible ni le silence ni la suite. Erreur : la contre-attaque. La pique n'est pas une mise à l'écart douloureuse (célibat, poids, argent) : « Et ce permis, c'est pour cette année ? » (révision 2) reste légère, pour que les trois niveaux soient jouables. Différent de la fiche du carnet « Le plan de table de Noël » (`carnet/2026-11.json:284`, qui traite « Et toi, tu as quelqu'un ? »). Aucune réplique de l'article lié à la lettre du mois du 03/12 (« Et le boulot, ça avance ? », « plan sur dix ans ») n'est reprise (plan E6). **Révision du 25/10 (barre 9/10)** : (1) plausibilité : la lettre est lue le matin du dîner, « À essayer cette semaine » devient « À essayer avant ce soir » ; (2) l'explication de la joueuse ne dit plus « ton absence de réponse devient une bouteille qu'on laisse mûrir » (un objet promu) mais la comparaison au vin et le compliment à Gérard ; (3) « Voici trois réponses, de la plus prudente à la plus audacieuse » retiré (formule présente dans toutes les lettres), « Celle-ci vise Gérard » devient « Elle pointe Gérard » ; (4) retour sur l'exercice raccourci et rendu cohérent avec le nouveau second couplet de la lettre du 17/12 (« un sérieux, un qui retombe sur du concret »). Sûre, joueuse, risquée et erreur inchangées. Titre d'étape vérifié dans `parcours-etapes.ts` : confiance, étape 2, « Rire de toi sans te rabaisser ».
+**Révision 2 (éditeur 7,5/10 NO-GO ; lecteur 9/10 GO)** : (1) la question « Et tu feras quoi, plus tard ? » était la question 2 de l'article « Repas de famille » (`S8-repas-de-famille.md:67-77`, « Et le boulot (ou les études), ça avance ? », avec un oncle qui « te le redemande quand même chaque année »), que la lettre du mois du 03/12 recommande trois semaines plus tôt. Nouvelle question : **« Et ce permis, c'est pour cette année ? »**, proposition de l'éditeur. Je l'ai gardée après vérification : elle n'est dans aucune des six questions de l'article (quelqu'un, boulot ou études, mariage et enfants, physique, argent, avis), ni dans les carnets ; le site a des vannes sur le permis (`joke-decryptages.json:870`, `:1497`) mais aucune réplique ni aucun tonton qui pose la question, et aucune des trois répliques ne les reprend. Elle parle à un lecteur de 20 à 30 ans (la cousine de dix ans la comprend aussi), reste légère, et appelle une réponse sur un retard qu'on peut avouer sans souffrir. **À valider par Thomas.** Alternative si le permis ne convient pas : « Et ton appartement, c'est toujours la coloc ? » (non retenue : la coloc est déjà le décor du n°1 et revient dans plus de trente vannes du site). (2) La sûre dit « puis le permis ». (3) L'erreur « Contre-attaquer » contredisait la sortie conseillée par l'article (« Et toi, tu as fait quoi de beau cette année ? », une question qui rend la parole) : la lettre distingue maintenant la pique sur le passé (« tu l'as eu à combien de tentatives ») de la question sur son voyage de l'été, qui rend la parole. (4) L'exercice ne cite plus « tes études, ton couple, ton travail, tes projets » (quatre des questions de l'article) mais ton appartement, tes vacances, ta coupe de cheveux, ton téléphone. (5) Le lien Boulot 5 (« Tu fais quoi dans la vie ? » en deux phrases) ne tenait plus (le métier n'est plus le sujet) : remplacé par Confiance 2, « Rire de toi sans te rabaisser » ; l'éditeur proposait Répartie 3, mais le n°1 du 05/11 lie déjà Répartie 3, sept semaines plus tôt ; Confiance 2 est aussi lié par le n°4 du mois (04/02), dix semaines plus tard. (6) « Treize têtes se tournent vers toi » redisait « Sept visages se tournent vers toi » du n°1 : « La table se tait, et la bûche est encore loin ». (7) « entre le dessert et le café » devient « entre le plat et la bûche » (la scène est avant le plat). (8) L'entrée « Voici trois réponses, et le test à passer avant de choisir » est supprimée ; « Elle ne marche que si » devient « Il faut qu'il sache… ». Mineur non traité : la joueuse (« l'an dernier ») et la risquée (« tous les ans ») reposent toutes deux sur le rituel annuel ; je les laisse (les deux autres ressorts, vin et collection, diffèrent).
 
 ---
 
@@ -374,7 +398,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > « T'es resté dans la cuisine toute la soirée ! »
 >
-> Tu as à peine entendu, et la musique couvre déjà la moitié de ce que tu pourrais répondre. Voici trois réponses, de la plus courte à la plus longue, parce que ce soir, c'est le bruit qui choisit.
+> Tu as à peine entendu, et la musique couvre déjà la moitié de ce que tu pourrais répondre. Trois réponses, de la plus courte à la plus longue : ce soir, c'est le bruit qui choisit.
 >
 > La sûre (quatre mots)
 > « Le buffet m'a retenu. »
@@ -386,7 +410,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > La risquée (treize mots)
 > « Ah, tu as remarqué. Bravo, Lucas. Il ne t'a fallu que trois heures. »
-> Elle félicite Lucas d'avoir remarqué ton absence, et la fin retourne le compliment : il lui a fallu trois heures. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Dans le bruit, la moitié de la phrase se perd et il ne reste que « trois heures », qui ne veut plus rien dire. Et elle ne se dit qu'à un ami qui rit de ses oublis : devant un hôte débordé par sa propre soirée, elle sonne comme un reproche, alors que c'est toi qui avais choisi la cuisine.
+> Elle félicite Lucas d'avoir remarqué ton absence, et la fin retourne le compliment : il lui a fallu trois heures. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Et elle ne se dit qu'à un ami qui rit de ses oublis : devant un hôte débordé par sa propre soirée, elle sonne comme un reproche, alors que c'est toi qui avais choisi la cuisine.
 >
 > Comment choisir
 > Règle la longueur sur le bruit. Dans le vacarme, c'est souvent la fin de la phrase qui arrive, et une phrase de treize mots arrive en miettes. Quatre mots quand la musique couvre tout, sept ou huit dans le brouhaha, la phrase entière seulement dans un coin calme. Et mets toujours le mot qui fait rire en dernier : c'est celui qu'on entendra.
@@ -395,7 +419,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 > La trouver trois minutes trop tard, devant le frigo, en remplissant un bol, après avoir cherché la phrase parfaite pendant que la conversation avançait. Une réponse en retard devient un regret. Si elle arrive tard, annonce-le : « J'ai ma réponse, avec trois minutes de retard. » Un retard annoncé fait sourire.
 >
 > À essayer avant minuit
-> Choisis la remarque que tu redoutes le plus ce soir et prépare une réponse de cinq mots, pas plus, avec le mot qui fait rire à la fin. Puis dis-la à voix haute dans la salle de bain, la radio à fond, pour vérifier qu'elle se comprend à travers le bruit. Si tu dois te répéter, coupe un mot.
+> Choisis la remarque que tu redoutes le plus ce soir et prépare une réponse de quatre mots, pas plus, avec le mot qui fait rire à la fin. Puis dis-la à voix haute dans la salle de bain, la radio à fond, pour vérifier qu'elle se comprend à travers le bruit. Si tu dois te répéter, coupe un mot.
 >
 > Le rythme d'une phrase se travaille à l'étape 2 du parcours Répartie, « Le rythme et les silences ».
 > Aller à l'étape 2 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w53-etape2#etape-2
@@ -406,106 +430,67 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 > L'Équipe Deviens Marrant
 
 **Notes de rédaction (hors lettre)** : lecture ≈ 2 min 40 (≈ 520 mots). Leçon : **la longueur de la réplique se règle sur le bruit** (les trois répliques ont 4, 7 et 13 mots, et c'est le critère de choix). Erreur : attendre la réplique parfaite (l'esprit d'escalier) et la sauver en annonçant son retard. **Révision du 25/10 (barre 9/10)** : (1) E4 : la joueuse « Ce soir, quelqu'un devait représenter la cuisine » faisait d'un lieu un pays dont tu es l'ambassadeur (objet promu à un statut officiel) ; elle devient « Non. Il y a eu les toilettes. » : le plus petit détail sert de défense, 7 mots, le mot qui fait rire est le dernier (comme la règle de la lettre le demande). Comptage : Non, Il, y, a, eu, les, toilettes = 7. (2) le retour sur l'exercice du 24/12 est supprimé (le plan § 6 ne le prévoit qu'après un B) ; la lettre entre directement dans la scène. (3) plausibilité : la lettre est lue le matin, la scène de 23 h 40 est annoncée comme celle de ce soir (« Ce soir, chez Lucas, vers 23 h 40 : … Tu es resté longtemps dans la cuisine »). (4) « dans la file des toilettes » (erreur) devient « devant le frigo, en remplissant un bol » (le mot « toilettes » est pris par la joueuse, et le bol reprend le début de la scène). (5) « on n'entend le plus souvent que la fin de ce que tu dis » devient « c'est souvent la fin de la phrase qui arrive » (conseil d'usage, moins affirmatif, comme la note de la version précédente le demandait). (6) « Celle-ci vise Lucas » devient « Elle félicite Lucas » ; « puisqu'il lui a fallu toute la soirée » devient « il lui a fallu trois heures » (cohérent avec la réplique). (7) formule de fin : « Bonne soirée de réveillon. » puis le gabarit « À jeudi prochain, ». Titre d'étape vérifié dans `parcours-etapes.ts` : repartie, étape 2, « Le rythme et les silences ».
+**Révision 2 (éditeur 9/10 GO ; lecteur 9/10 GO)** : aucun bloquant. Mineurs repris : (1) l'exercice demande « quatre mots », le chiffre que la règle donne dans le vacarme (il disait cinq) ; (2) l'explication de la risquée perd la phrase sur le bruit que « Comment choisir » dit déjà ; (3) l'entrée « Voici trois réponses, de la plus courte à la plus longue, parce que… » devient « Trois réponses, de la plus courte à la plus longue : ce soir, c'est le bruit qui choisit ». Pour information : le n°1 validé garde « Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard » (`n1-candidates-s22.md:51`) ; l'erreur de cette lettre (la trouver trop tard) en est le développement, huit semaines plus tard, et son remède (annoncer le retard) est neuf. Le mot « buffet » (sûre) est aussi dans une réplique de la lettre du mois du 04/03 (autre blague, quatre mois d'écart).
 
 ---
 
-## Annexe A. CANDIDATE N°1, PEUT QUITTER LE 12/11 : « T'as perdu ta langue ? » (format A, coloc et soirée)
+## Renvoi : le n°1 du 05/11
 
-> **Statut** : le plan (`docs/strategy/plan-lettres-nov-2026-avril-2027.md` § 5, candidate 1 recommandée) propose de faire de cette lettre la lettre du mois du 05/11. Si Thomas la retient, elle **quitte le 12/11** (elle y est remplacée par la lettre 1 ci-dessus) et l'autre rédacteur l'adapte (accueil, article `rester-muet-en-groupe`, marqueurs `[[invitation-premium]]`, PS, signature « À bientôt, », utm `n1-`) ; il faut aussi retirer l'entrée W46 de `apps/web/src/data/lettre/hebdo-premium.json`, qui porte encore cette lettre, et y mettre la lettre 1. Si Thomas ne la retient pas, elle ne reste pas le 12/11 en plus de la lettre 1 : elle peut servir de réserve pour un jeudi de 2027. Texte ci-dessous = la version relue (GO 8,8) avec 3 retouches listées en tête du fichier. Elle porte l'unique joueuse « objet promu à un statut officiel » et l'unique erreur « s'expliquer » du corpus de ce fichier.
-
-`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · En lettre réservée, elle suivrait la lettre du mois du 05/11 (pas de retour sur l'exercice).
-
-**Objet** (37 car.) : T'as perdu ta langue ? Trois réponses
-**Pré-en-tête** : Une pique, trois réponses, et comment choisir selon la personne.
-
-> Salut,
->
-> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo a fini par le remarquer :
->
-> « Alors, t'as perdu ta langue ? »
->
-> Huit visages se tournent vers toi. Voici trois réponses possibles, de la plus prudente à la plus audacieuse, et comment choisir entre elles. Elles ont un point commun : aucune ne s'explique, et aucune ne dure plus de deux phrases.
->
-> La sûre
-> « Non, je la garde au chaud. Il fait froid dehors. »
-> Elle ne vise personne et ne demande aucune audace. Ta langue fait comme tout le monde dans ce salon : elle reste au chaud. À sortir quand tu connais mal ceux qui rient, quand Hugo a le ton un peu sec, ou quand il te reste peu d'énergie sociale.
->
-> La joueuse
-> « Je suis passé aux objets trouvés, mais ils ferment à 18 h. Je repasse demain. »
-> Tu traites ta langue comme un parapluie oublié dans le métro et tu déroules la suite avec le sérieux d'un guichet. L'heure de fermeture n'a rien à faire là, et c'est elle qui fait sourire. Elle demande une seconde de pause avant « Je repasse demain » et un visage qui ne bouge pas. À réserver aux amis que tu connais depuis un moment, dans une ambiance déjà rieuse.
->
-> La risquée
-> « Tu parlais déjà pour trois. J'ai pris ma journée. »
-> La seule des trois qui vise Hugo : ton silence devient un congé que son bavardage t'a permis de prendre. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
->
-> Comment choisir
-> Regarde vers qui ta phrase pointe : la sûre reste sur toi, la joueuse t'emmène ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran.
->
-> L'erreur que tout le monde fait
-> S'expliquer. « Non mais j'écoutais, j'ai juste pas grand-chose à dire, je suis un peu fatigué. » Tout est vrai, et ça ne marche pas. Une pique de chambrage est une invitation à jouer, elle ne réclame aucune raison. Dès que tu t'expliques, tu réponds comme à un reproche, tu montres que ça a touché, et le salon garde cette image. Hugo n'attend pas ton alibi, juste que tu renvoies la balle, même mollement.
->
-> À essayer cette semaine
-> Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une phrase chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
->
-> Retourner une pique avec le sourire, c'est l'étape 3 du parcours Répartie.
-> Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w46-etape3#etape-3
->
-> À jeudi prochain,
-> L'Équipe Deviens Marrant
-
-**Notes de rédaction (hors lettre)** : lecture ≈ 3 min (≈ 520 mots). Corrections antérieures conservées : « toutes reprennent le mot de Hugo » remplacé par « aucune ne s'explique, et aucune ne dure plus de deux phrases » (vrai des trois), « Samedi soir », doublon de fin de « L'erreur » supprimé. **Retouches de cette révision** : mineur 1 de la relecture (« elle reste au chaud » ; l'explication disait « parce qu'il pleut dehors » alors que la sûre dit « il fait froid dehors ») ; mineur 2 (« la sûre reste sur toi, la joueuse t'emmène ailleurs, la risquée vise l'autre », car la sûre et la joueuse parlent toutes deux de ta langue) ; retrait de « Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard » (mineur 3 : il annonçait la leçon du 31/12). Le corps reste à repasser à l'aveugle avant envoi (retouches). Titre d'étape vérifié : repartie, étape 3, « Retourner les piques avec le sourire ». L'utm `2026-w46-etape3` est celui de l'ancienne lettre du 12/11 ; il ne doit pas être gardé si la lettre devient le n°1 du mois (`n1-etape3`).
+« Alors, t'as perdu ta langue ? » est le n°1 validé de la lettre du mois (candidate a de `docs/copy/n1-candidates-s22.md`, texte dans `docs/copy/lettres-du-mois-s22.md`). Elle a quitté ce fichier (révision 2). C'est elle qui porte la seule joueuse du corpus fondée sur « un objet reçoit un statut officiel » (les objets trouvés) et la seule erreur « s'expliquer » : les lettres de ce fichier n'en reprennent aucune. À faire hors de ce fichier : retirer l'entrée W46 de `apps/web/src/data/lettre/hebdo-premium.json` (elle porte encore cette lettre) et y mettre la lettre du 12/11 ci-dessus.
 
 ---
 
 ## Contrôles faits
 
-**Contraintes de forme (sur les 8 corps : 7 lettres + annexe A)**
-- Objets, longueur vérifiée par Grep à longueur exacte (8 lignes sur 8 conformes) : 40, 38, 41, 35, 41, 38, 37 et 37 caractères (annexe A), maximum 45.
-- Chaque corps commence par « Salut, » et finit par « À jeudi prochain, » puis « L'Équipe Deviens Marrant » (24 lignes trouvées pour 8 corps). Le 31/12 ajoute « Bonne soirée de réveillon. » avant le gabarit.
-- Grep des tirets cadratin et demi-cadratin sur tout le fichier : 0. Grep émojis (`Extended_Pictographic`) : 0. Grep, sur les lignes de corps, de « offre, annuel, parrain, promo, remise, réduction, €, /abonnement, prix » : 0. Aucun lien externe dans les corps (les 8 liens sont `https://deviens-marrant.fr/parcours/...`). Aucun marqueur `[À COMPLÉTER` dans les corps.
-- `utm_content` : `2026-w46-etape1`, `2026-w47-etape1`, `2026-w48-etape1`, `2026-w50-etape4`, `2026-w51-etape5`, `2026-w52-etape5`, `2026-w53-etape2` (annexe A : `2026-w46-etape3`, à remplacer par `n1-etape3` si elle devient la lettre du mois). Aucun ne finit par `-premium`.
-- Étapes liées, titres vérifiés dans `apps/web/src/config/parcours-etapes.ts` : repartie 1 « Tes premières répliques » ; storytelling 1 « Ton anecdote, coupée au plus court » ; boulot 1 « La salle de réunion, sans un mot » ; repartie 4 « Improviser sur l'inattendu » ; confiance 5 « Jouer avec les registres » ; boulot 5 « « Tu fais quoi dans la vie ? » en deux phrases » ; repartie 2 « Le rythme et les silences » ; annexe A : repartie 3 « Retourner les piques avec le sourire ». Storytelling et Boulot sont publiés (`config/parcours-publication.ts`).
-- Pas de guillemets imbriqués dans les corps. Lecture estimée (≈ 200 mots par minute, à la main) : 500, 520, 520, 540, 470, 540, 520 mots (annexe A : 520), soit 2 min 30 à 3 min.
-- Formules d'annonce des réponses, une par lettre : 12/11 « du plus sage au plus osé » ; 26/11 « Voici trois réponses, et la règle propre à la visio » ; 10/12 « de la plus prudente à la plus audacieuse » ; 24/12 « Voici trois réponses, et le test à passer » ; 31/12 « de la plus courte à la plus longue » ; annexe A « de la plus prudente à la plus audacieuse » (même formule que le 10/12, à une semaine d'écart au plus si la candidate restait en lettre réservée ; sans objet si elle devient le n°1 du mois). « Celle-ci vise X » n'apparaît plus (annexe A : « La seule des trois qui vise Hugo », une fois).
+**Contraintes de forme (sur les 7 corps, après la révision 2)**
+- Objets, longueur vérifiée par Grep à longueur exacte (7 lignes sur 7 conformes) : 40, 38, 41, 35, 41, 38 et 37 caractères, maximum 45. Aucun objet n'a changé en révision 2.
+- Chaque corps commence par « Salut, » et finit par « À jeudi prochain, » puis « L'Équipe Deviens Marrant » (21 lignes trouvées pour 7 corps). Le 31/12 ajoute « Bonne soirée de réveillon. » avant le gabarit.
+- Grep des tirets cadratin et demi-cadratin sur tout le fichier : 0. Grep émojis (`Extended_Pictographic`) : 0. Grep, sur les lignes de corps, de « offre, annuel, parrain, promo, remise, réduction, €, /abonnement, prix » : 0. Aucun lien externe dans les corps (les 7 liens sont `https://deviens-marrant.fr/parcours/...`). Aucun marqueur `[À COMPLÉTER` dans les corps.
+- `utm_content` : `2026-w46-etape1`, `2026-w47-etape1`, `2026-w48-etape1`, `2026-w50-etape6`, `2026-w51-etape5`, `2026-w52-etape2`, `2026-w53-etape2`. Aucun ne finit par `-premium`.
+- Étapes liées, titres vérifiés dans `apps/web/src/config/parcours-etapes.ts` : repartie 1 « Tes premières répliques » ; storytelling 1 « Ton anecdote, coupée au plus court » ; boulot 1 « La salle de réunion, sans un mot » ; storytelling 6 « Un détail qui revient à la fin » ; confiance 5 « Jouer avec les registres » ; confiance 2 « Rire de toi sans te rabaisser » ; repartie 2 « Le rythme et les silences ». Storytelling et Boulot sont publiés (`config/parcours-publication.ts`). Doublons de liens avec les autres fichiers : Répartie 1 est aussi lié le 18/02/2027 (trois mois d'écart) ; Confiance 2 par le n°4 du mois, le 04/02/2027 (dix semaines) ; Répartie 3 (n°1 du 05/11) n'est plus lié par ce fichier.
+- Pas de guillemets imbriqués dans les corps. Lecture estimée (≈ 200 mots par minute, à la main) : 490, 520, 510, 530, 470, 540, 510 mots, soit 2 min 30 à 3 min.
+- Entrée « Voici trois réponses, de la plus prudente à la plus audacieuse » et ses variantes : supprimée dans les 7 lettres (les intertitres « La sûre », « La joueuse », « La risquée » font le travail). Seule reste, le 31/12, « Trois réponses, de la plus courte à la plus longue : ce soir, c'est le bruit qui choisit », qui porte la règle de la lettre. « Celle-ci vise X » : 0 (Grep). « Au moindre doute » : 0 (Grep). « Sept visages se tournent vers toi » (n°1) et « Huit visages » : repris nulle part.
 
 **Grille de l'orchestrateur, appliquée par moi (aucune relecture à l'aveugle faite ici)**
 
 | Lettre | Bonne saison le jour de l'envoi | Entrée directe | Répliques dites d'un trait, sans mode d'emploi | Situation que vit le lecteur type | Redites |
 |---|---|---|---|---|---|
-| 12/11 | Mi-novembre, nuit dès 17 h 30, TD en cours de semestre (aucune date d'exposé affirmée) | Oui : scène à la 2e ligne, pas de retour | 7, 9 et 7 mots, une ou deux phrases courtes, aucune pause exigée | Yanis étudiant, exposé trop court, camarade qui commente | Pique « trop vite » (pas « tu parles jamais ») ; ressort monnaie ≠ objet promu |
-| 19/11 | Lundi suivant, machine à café, évergreen | Oui | Deux exemples écrits pour la scène, dits sans mode d'emploi | Quiconque raconte son week-end le lundi | Aucune réplique de la série citée ; « Compte jusqu'à trois » encore ici seulement |
-| 26/11 | Mardi 01/12, pluie, linge au salon : saison exacte | Retour de 3 lignes (autorisé après un B) puis scène | 10, 10 et 10 mots | Alternance ou stage en télétravail, visio à onze | Joueuse ni objet promu ni « champ » ; erreur ≠ s'expliquer |
-| 10/12 | Samedi 12/12, il gèle, bar du centre | Oui | 12, 11 et 9 mots | Premier rendez-vous après messages | Reprise de la tisane assumée (rôle du conducteur, pas une redite de la sûre) |
-| 17/12 | Samedi 19/12, chalet, vacances de Noël (début des vacances non affirmé dans le texte) | Oui | Couplets de 10 et 16 mots, rimes dites à plat | Séjour entre amis à Noël ; le moins « Yanis » de la série (plan : GARDER) | Ressort « objet promu » retiré du 2e couplet |
-| 24/12 | Le soir même (« Ce soir »), exercice « avant ce soir » | Retour de 3 lignes (après le B) puis scène | 13, 12 et 13 mots | Repas de Noël, question de tonton | Aucune réplique de l'article « repas de famille » |
+| 12/11 | Mi-novembre, nuit dès 17 h 30, TD en cours de semestre (aucune date d'exposé affirmée) | Oui : scène à la 2e ligne, pas de retour | 9, 9 et 8 mots, une ou deux phrases courtes, aucune pause exigée | Yanis étudiant, exposé trop court, camarade qui commente | Ni la moquerie de l'habitude ni « guichet » du n°1 ; pique « trop vite » (pas « tu parles jamais ») ; ressort monnaie ≠ objet promu |
+| 19/11 | Lundi suivant (23/11), cantine, évergreen | Oui | Deux exemples écrits pour la scène, dits sans mode d'emploi | Étudiant ou salarié qui raconte son week-end le lundi midi | Plus de scène de la fiche du carnet ni d'exemple de Storytelling 3 ; « Compte jusqu'à trois » seulement ici |
+| 26/11 | Mardi 01/12, pluie, linge au salon : saison exacte | Retour de 3 lignes (autorisé après un B) puis scène | 10, 10 et 10 mots | Alternance ou stage en télétravail, visio à douze | Plus ni micros, ni silence, ni « Vous m'entendez ? » de l'article « Humour en visio » ; joueuse ni objet promu |
+| 10/12 | Samedi 12/12, il gèle, bar à jeux du centre | Oui | 12, 11 et 9 mots | Premier rendez-vous après messages | Reprise de la tisane assumée (rôle du conducteur, pas une redite de la sûre) ; lien Storytelling 6 |
+| 17/12 | Samedi 19/12, chalet, vacances de Noël (début des vacances non affirmé dans le texte) | Oui | Couplets de 10 et 13 mots, rimes dites à plat | Séjour entre amis à Noël ; le moins « Yanis » de la série (plan : GARDER) | Ressort « objet promu » retiré du 2e couplet ; second vers plus court que le premier, comme le test du 24/12 |
+| 24/12 | Le soir même (« Ce soir »), exercice « avant ce soir », scène avant le plat | Retour de 3 lignes (après le B) puis scène | 13, 12 et 13 mots | Repas de Noël, la question du permis | Aucune des 6 questions de l'article « Repas de famille » ; erreur compatible avec sa sortie conseillée |
 | 31/12 | Le soir même, 23 h 40 annoncé comme celui de ce soir | Oui, pas de retour | 4, 7 et 13 mots, comptés | Réveillon, cuisine | Joueuse ni cuisine promue ni toilettes reprises ailleurs dans le fichier |
 
 **Tableau du corpus (E4) : ressorts, erreurs, règles**
 
 | Lettre | Ressort de la joueuse | Erreur que tout le monde fait | Règle pour choisir |
 |---|---|---|---|
-| Annexe A (candidate) | **objet promu : la langue aux objets trouvés** (le seul du corpus) | **s'expliquer** (la seule du corpus) | vers qui pointe la phrase |
+| n°1 du 05/11 (validé, hors fichier) | **objet promu : la langue aux objets trouvés** (le seul du corpus) | **s'expliquer** (la seule du corpus) | vers qui pointe la phrase |
 | 12/11 | double sens billet / monnaie rendue | répondre à ses fiches | la dernière phrase de ton exposé |
 | 19/11 (B) | exemples : fait + détail ; renversement de responsabilité | (aucune) | le titre-résumé |
-| 26/11 | remerciement absurde (le regard fait sécher) | combler le silence | compter les micros ouverts |
+| 26/11 | fausse règle de procédure (« on a dit caméra allumée ») | couper sa caméra | compter les questions que ta phrase laisse ouvertes |
 | 10/12 | rôle de conducteur démoli par la 2e phrase | tirer la réplique jusqu'à la corde | la suite que ta réplique t'impose |
 | 17/12 (B) | partage en deux lots ; mission minuscule | (aucune) | le couplet |
 | 24/12 | comparaison au vin | contre-attaquer | le test de la table |
 | 31/12 | précision absurde (l'exception) | la trouver trois minutes trop tard | la longueur selon le bruit |
 
 **Anti-doublon (Grep dans `apps/web/src`, insensible à la casse)**
-- Répliques neuves de cette révision, 0 reprise : « tu avais un train », « ne voulais pas vous retenir », « rends la monnaie » / « rendre la monnaie », « avant ton commentaire », « quatre utilisées », « dix minutes prévues », « de le regarder », « sèche plus vite », « montre mon linge », « toutes tes histoires », « feu de bois », « à toi la noire ». Rapprochements notés, sans reprise : « tu caches » (`joke-decryptages.json:54`, « comment tu caches le problème », autre technique) ; « je commence » (`:180` et `numeros.json:60`, autres phrases) ; « les toilettes » (`joke-decryptages.json:903`, vanne du wifi devant les toilettes du deuxième, autre blague) ; « train » (`:597`, `:1050` et la fiche du carnet « Le train de 18 h 12 », `carnet/2026-11.json:153`, sans rapport avec un exposé).
-- Contrôlés dans la révision précédente et inchangés : « ma mutuelle », « elle est parfaitement droite », « immeuble qui penche », « profondeur de champ », « nuit paisible », « venu à pied », « moi qui conduis » (`joke-decryptages.json:156`, sans rapport), « dans l'ordre », « puis mon avenir », « comme ton vin », « laisse vieillir », « il ne t'a fallu », « buffet m'a », « Palmashow », « Ludig », « Marsais », « monos ».
-- Retirées par cette révision (donc plus à contrôler) : « collègue le plus assidu », « coupe jamais la parole », « hors champ », « représenter la cuisine », « équipement complet », « loué à neuf ».
-- Contre `docs/copy/lettres-du-mois-s22.md` (état du 25/10, en cours de réécriture par un autre rédacteur) : aucune scène, aucune réplique ni aucune règle de choix en commun. **À signaler à ce rédacteur** : (1) si l'annexe A devient le n°1 du mois, « s'expliquer » s'y trouve ; les n°4 (« en faire trop dans l'excuse ») et n°6 (« s'excuser de déranger ») de l'état actuel du fichier ajouteraient deux erreurs du même type, contre une seule autorisée dans tout le corpus ; (2) le n°1 actuel (karaoké) a une joueuse « ma voix est en télétravail » (organe promu) : elle disparaît avec lui, mais toute joueuse de ce type dans les lettres de 2027 ferait un deuxième cas ; (3) le n°6 actuel (fête) a une risquée sur « le buffet » et la sûre du 31/12 est « Le buffet m'a retenu » : deux mois d'écart, blagues différentes, mot en commun.
+- Répliques et phrases NEUVES de la révision 2 (Grep dans `apps/web/src`, les articles Q4 `docs/copy/articles-q4/` et `docs/content/`), 0 reprise : « tu avais un train », « c'est vous que je ne voulais pas retenir », « train attendra », « une question, Mathis », « rend la monnaie », « caméra allumée », « parlé du salon », « montre mon linge », « tu caches quoi », « toutes tes histoires », « feu de bois », « à toi la noire », « ce permis, c'est pour cette année », « puis le permis », « combien de tentatives ». Rapprochements notés, sans reprise : « tu caches » (`joke-decryptages.json:54`, « comment tu caches le problème », autre technique) ; « je commence » (`:180` et `numeros.json:60`, autres phrases) ; « les toilettes » (`joke-decryptages.json:903`, vanne du wifi devant les toilettes du deuxième, autre blague) ; « train » (`:597`, `:1050`, fiche du carnet « Le train de 18 h 12 », sans rapport avec un exposé) ; « permis » (`joke-decryptages.json:870` et `:1497`, vannes sur le passage du permis, pas sur la question d'un oncle) ; « ampoule » (une seule occurrence, « ampoule du couloir », autre sujet) ; « cantine » (deux occurrences sans rapport).
+- Contrôlés dans la révision précédente et inchangés : « ma mutuelle », « profondeur de champ », « nuit paisible », « venu à pied », « moi qui conduis » (`joke-decryptages.json:156`, sans rapport), « dans l'ordre », « comme ton vin », « laisse vieillir », « il ne t'a fallu », « buffet m'a », « Palmashow », « Ludig », « Marsais », « monos ».
+- Retirées par la révision 2 (donc plus à contrôler) : « étagère » / « immeuble qui penche », « Merci à tous de le regarder », « sèche plus vite », « Vous m'entendez ? », « Je ne voulais pas vous retenir », « Je voulais finir avant ton commentaire », « retenir ce que tu vas dire », « Et tu feras quoi, plus tard ? », « puis mon avenir », « tu as fait quoi de ta vie », « Treize têtes ».
+- Contre `docs/copy/lettres-reservees-jan-mars-2027.md` (autre rédacteur, état du 25/10) : aucune scène, réplique, règle ni erreur en commun (ses scènes : galette, Frayssinet en visio, Chandeleur, match, partiels, voisinage, entretien annuel, train, Pâques). Rapprochements : sa lettre du 21/01 est aussi une visio d'oral d'étudiant (micro qui lâche, « J'entre dans un tunnel ») : autre scène, autre ressort, deux mois d'écart avec la visio du linge. Étapes liées communes : Répartie 1 (18/02/2027).
+- Contre `docs/copy/lettres-du-mois-s22.md` (état du 25/10, en cours de réécriture par un autre rédacteur) : aucune scène, aucune réplique ni aucune règle de choix en commun. **À signaler à ce rédacteur** : (1) le n°1 validé porte « s'expliquer » ; les n°4 (« en faire trop dans l'excuse ») et n°6 (« s'excuser de déranger ») de l'état actuel du fichier ajouteraient deux erreurs du même type, contre une seule autorisée dans tout le corpus ; (2) « Au moindre doute » et « Elle ne marche que si » reviennent dans ses lettres (voir les relectures T3) ; (3) le n°6 actuel (fête) a une risquée sur « le buffet » et la sûre du 31/12 est « Le buffet m'a retenu » : quatre mois d'écart, blagues différentes, mot en commun ; (4) le n°2 (03/12) recommande l'article « Repas de famille » : la lettre du 24/12 ne reprend plus aucune de ses six questions.
 
 **Objections de la cible, traitées**
-- « Je reste muet quand on me chambre » : lettres du 12/11 (le silence qui suit un exposé, la sûre toujours disponible), 26/11, 31/12 (la sûre est la plus courte) et annexe A. « Je n'ai rien d'inventif à dire » : 19/11 et 17/12 (la matière est dans la situation, et le couplet se prépare à l'avance). « Ma réponse sera mal reçue » : 10/12 et 24/12 (le test de la suite, le test de la table), 12/11 (la dernière phrase de l'exposé). « Je ne sais pas si je progresse » : chaque lettre A et B se termine par un exercice avec un critère vérifiable seul (enregistrer deux prises et comparer, compter les rires, lire à voix haute, tapoter les syllabes), et le retour de la semaine suivante le rappelle en 3 lignes après un B.
+- « Je reste muet quand on me chambre » : lettres du 12/11 (le silence qui suit un exposé, la sûre toujours disponible), 26/11, 31/12 (la sûre est la plus courte) et le n°1 du 05/11. « Je n'ai rien d'inventif à dire » : 19/11 et 17/12 (la matière est dans la situation, et le couplet se prépare à l'avance). « Ma réponse sera mal reçue » : 10/12 et 24/12 (le test de la suite, le test de la table), 12/11 (la dernière phrase de l'exposé). « Je ne sais pas si je progresse » : chaque lettre A et B se termine par un exercice avec un critère vérifiable seul (enregistrer deux prises et comparer, compter les rires, lire à voix haute, tapoter les syllabes), et le retour de la semaine suivante le rappelle en 3 lignes après un B.
 - Aucun retour de lecteurs n'est collecté : les « retours sur l'exercice » (26/11 et 24/12) donnent un critère de vérification, jamais une réponse de lecteur, et ne promettent pas de lire les réponses.
 
 **Ce qui n'est pas fait, à décider ou à exécuter**
-1. **Relecture à l'aveugle (deux relectures indépendantes) : à faire.** Aucun sous-agent n'est disponible dans cette session. À repasser : lettre du 12/11 en entier (3 répliques, règle, erreur) ; 26/11 (joueuse, risquée) ; 10/12 (risquée et « Comment choisir ») ; 17/12 (second couplet et gestes) ; 31/12 (joueuse) ; annexe A (3 retouches). Passages les plus fragiles à mon avis : la joueuse du 26/11 (« Merci à tous de le regarder. Ça sèche plus vite. » : drôle si elle est dite plate, plate sinon) ; la sûre du 12/11 (« Je ne voulais pas vous retenir », douce, peut paraître légère face à « Tu avais un train ? ») ; le second couplet du 17/12 (rime facile, chute modeste).
-2. **Faits de Bref (19/11) et du Palmashow (17/12)** : inchangés, vérifiés par l'orchestrateur le 25/10 ; je n'ai rien rouvert.
-3. **`apps/web/src/data/lettre/hebdo-premium.json` contient la lettre du 12/11 (W46, `BROUILLON`) dans sa version d'étalon** : à remplacer par la lettre 1 de ce fichier (ou à retirer si la candidate devient le n°1 du mois, puis y ajouter la lettre 1). Je n'y ai pas touché (consigne : aucun autre fichier). Le corps de ce JSON ne porte ni « retour sur l'exercice » ni tags : à prévoir pour W48 et W52.
-4. **Calendrier universitaire** non vérifié : la lettre du 12/11 dit « TD » et « exposé » et rien de plus ; le plan marquait l'ancrage [HYPOTHÈSE] et recommandait cette prudence. Début des vacances de Noël (19/12) non affirmé dans la lettre du 17/12.
+1. **Relecture de confirmation à l'aveugle : à faire sur les seules phrases NEUVES** (liste en tête du fichier, colonne « NEUVE »). Aucun sous-agent n'est disponible dans cette session. Passages les plus fragiles à mon avis : la risquée du 12/11 (« Le train attendra. Tu as une question, Mathis ? » : elle peut sonner comme une provocation devant le chargé de TD, le commentaire le dit) ; la nouvelle sûre du 12/11 (« Non. C'est vous que je ne voulais pas retenir. », polie, un cran plus douce que la précédente) ; la règle neuve du 26/11 (« questions laissées ouvertes ») ; le second couplet du 17/12 (chute modeste mais courte) ; la question du permis du 24/12 (**à valider par Thomas**).
+2. **Faits de Bref (19/11) et du Palmashow (17/12)** : inchangés, vérifiés par l'orchestrateur le 25/10 ; je n'ai rien rouvert. Seule la place de « environ deux minutes » change le 19/11 (rattaché à la saison 1, comme F5).
+3. **`apps/web/src/data/lettre/hebdo-premium.json` contient la lettre du 12/11 (W46, `BROUILLON`) dans sa version d'étalon, c'est-à-dire « T'as perdu ta langue ? »**, devenue le n°1 du mois : retirer cette entrée et y mettre la lettre 1 de ce fichier. Je n'y ai pas touché (consigne : aucun autre fichier). Le corps de ce JSON ne porte ni « retour sur l'exercice » ni tags : à prévoir pour W48 et W52. Les `utm_content` de ce fichier (`2026-w50-etape6`, `2026-w52-etape2`) remplacent ceux du JSON s'il en porte d'autres.
+4. **Calendrier universitaire** non vérifié : la lettre du 12/11 dit « TD » et « exposé » et rien de plus. Début des vacances de Noël (19/12) non affirmé dans la lettre du 17/12.
 5. **Étape 1 de Répartie** (lettre du 12/11) : première étape du parcours, ouverte à tous, comme le prévoyait le plan § 4 (L1). Aucune étape réservée n'est liée dans cette lettre.
+6. **Articles liés par la lettre du mois du 03/12** : la lettre du 24/12 ne reprend aucune des six questions de l'article « Repas de famille » (S8) ; la publication de l'article au 23/11 n'a pas été vérifiée en base ici.
