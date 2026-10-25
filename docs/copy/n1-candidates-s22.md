@@ -25,27 +25,27 @@
 `[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A.
 
 **Objet** (29 car.) : Alors, t'as perdu ta langue ?
-**Pré-en-tête** : Une pique devant huit personnes, trois réponses, et comment choisir selon la personne.
+**Pré-en-tête** : Une pique devant tout le salon, trois réponses, et comment choisir la tienne.
 
 > Salut,
 >
-> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo a fini par le remarquer :
+> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo, qui raconte son week-end depuis vingt minutes, a fini par le remarquer :
 >
 > « Alors, t'as perdu ta langue ? »
 >
-> Huit visages se tournent vers toi. Voici trois réponses, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux, et comment choisir entre elles. Elles ont un point commun : aucune ne s'explique, et aucune ne dure plus de deux phrases.
+> Sept visages se tournent vers toi. Voici trois réponses, de la plus prudente à la plus audacieuse : la sûre, la joueuse et la risquée. Aucune ne dure plus de deux phrases, et aucune ne s'explique.
 >
 > La sûre
 > « Non, je la garde au chaud. Il fait froid dehors. »
-> Elle ne vise personne et ne demande aucune audace. Ta langue fait comme tout le monde dans ce salon : elle reste au chaud. À sortir quand tu connais mal ceux qui rient, quand Hugo a le ton un peu sec, ou quand il te reste peu d'énergie sociale.
+> Elle ne vise personne et ne demande aucune audace. Ta langue fait comme tout le monde dans ce salon : elle reste au chaud. À sortir quand tu connais mal la moitié du salon, quand Hugo a le ton un peu sec, ou quand il te reste peu d'énergie sociale.
 >
 > La joueuse
-> « Je suis passé aux objets trouvés, mais ils ferment à 18 h. Je repasse demain. »
-> Tu traites ta langue comme un parapluie oublié dans le métro et tu déroules la suite avec le sérieux d'un guichet. L'heure de fermeture n'a rien à faire là, et c'est elle qui fait sourire. Elle demande une seconde de pause avant « Je repasse demain » et un visage qui ne bouge pas. À réserver aux amis que tu connais depuis un moment, dans une ambiance déjà rieuse.
+> « J'ai essayé les objets trouvés, mais ils ferment à 18 h. Je repasse lundi. »
+> Tu traites ta langue comme un parapluie oublié dans le métro et tu déroules la suite avec le sérieux d'un guichet. L'heure de fermeture n'a rien à faire là, et c'est elle qui fait sourire. Elle demande une seconde de pause avant « Je repasse lundi » et un visage qui ne bouge pas. À réserver aux amis que tu connais depuis un moment, dans une ambiance déjà rieuse.
 >
 > La risquée
 > « Tu parlais déjà pour trois. J'ai pris ma journée. »
-> La seule des trois qui vise Hugo : ton silence devient un congé que son bavardage t'a permis de prendre. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
+> La seule des trois qui vise Hugo : ton silence devient un jour de congé, offert par son bavardage. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
 >
 > Comment choisir
 > Regarde vers qui ta phrase pointe : la sûre reste sur toi, la joueuse t'emmène ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran. Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard.
@@ -56,14 +56,14 @@
 > À essayer cette semaine
 > Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une phrase chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
 >
-> Rester muet en groupe n'a rien d'un défaut de caractère. Notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » donne sept techniques, dont des phrases d'entrée à garder en poche. Il est en lecture libre.
+> Et pour placer un mot avant qu'un Hugo le remarque, notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » en donne sept, dont des phrases d'entrée à garder en poche. Il est en lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/rester-muet-en-groupe?utm_source=lettre&utm_medium=email&utm_content=n1-article
 >
-> L'étape 3 du parcours Répartie s'appelle « Retourner les piques avec le sourire ».
+> Pour t'entraîner sur ce genre de pique : l'étape 3 du parcours Répartie, « Retourner les piques avec le sourire ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n1-etape3#etape-3
 >
 > [[invitation-premium]]
-> PS : si cette lettre te parle, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : rester muet, ça arrive à tout le monde. Répondre en une phrase, ça s'apprend. Avec Premium, tu reçois une lettre comme celle-ci chaque jeudi, au lieu d'une par mois, et tu ouvres les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 > [[/invitation-premium]]
 >
