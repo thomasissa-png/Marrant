@@ -28,7 +28,7 @@ import CGUPage from "@/app/(dashboard)/cgu/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
 import { LettreHebdoReglage } from "@/components/lettre/lettre-hebdo-reglage";
 import { ArretLettreHebdo } from "@/components/lettre/arret-lettre-hebdo";
-import { CGU_LETTRE_HEBDO, CONFIDENTIALITE_LETTRE_HEBDO, LETTRE_HEBDO_ARRET, LETTRE_HEBDO_CASE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI } from "@/config/textes/lettre-hebdo-s21";
+import { CGU_LETTRE_HEBDO, CONFIDENTIALITE_LETTRE_HEBDO, LETTRE_HEBDO_ARRET, LETTRE_HEBDO_LIGNE_REGLAGE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI } from "@/config/textes/lettre-hebdo-s21";
 import { courbe, lie, sansGluon } from "../helpers/texte-normalise";
 
 const texte = (el: Element | null) => sansGluon(el?.textContent ?? "").replace(/\s+/g, " ").trim();
@@ -89,8 +89,8 @@ describe("Réglage du profil (s22 : inscription d'office)", () => {
     render(<LettreHebdoReglage />);
     const reglage = await screen.findByRole("switch", { name: LETTRE_HEBDO_REGLAGE });
     expect(reglage).toBeChecked();
-    expect(texte(document.body)).not.toContain(attendu(LETTRE_HEBDO_CASE));
-    expect(texte(document.body)).toContain("La lettre de la semaine arrive à yanis.m@exemple.fr.");
+    expect(screen.queryByRole("checkbox")).toBeNull();
+    expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("yanis.m@exemple.fr")).trim());
     expect(screen.getByRole("link", { name: "Confidentialité" })).toHaveAttribute("href", "/confidentialite#lettre");
   });
 

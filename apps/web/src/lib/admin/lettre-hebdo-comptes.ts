@@ -1,19 +1,16 @@
 /**
  * Admin, Abonnés › Lettre : comptes de la lettre de la semaine (hebdo Premium, s21,
- * spec US-H7) et actions (arrêter, proposer, aperçu).
+ * spec US-H7) et actions (arrêter, aperçu). s22 : plus de proposition aux abonnés existants
+ * (inscription d'office, texte et fonction supprimés ; la route répond 410).
  * Jamais de jeton d'arrêt ni d'identifiant de session : `select` explicite.
  * Comptes de test marqués (`compteTest`), jamais masqués de la liste.
  * L'admin n'ACTIVE jamais la lettre pour quelqu'un (le consentement ne se donne pas pour autrui).
  */
 import { z } from "zod";
-import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { PROPOSITION_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { emailsExclus } from "@/lib/analytics/comptes-test";
 import { avecDelai, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { corpsNumeroHebdo } from "@/lib/lettre/envoi-hebdo";
 import { frPonctuation } from "@/lib/fr-typo";
-/** s22 : invitation des abonnés existants supprimée (inscription d'office). Jamais à rouvrir sans nouveau texte. */
-export const LETTRE_HEBDO_PROPOSITION_OUVERTE = false;
 
 export const FILTRES_HEBDO = ["actives", "arretees", "premium-sans"] as const;
 
@@ -85,54 +82,6 @@ export async function listerComptesHebdo(query: ListeHebdoQuery, exclus: string[
     })),
     pagination: { page: query.page, limit: query.limit, total, totalPages: Math.max(1, Math.ceil(total / query.limit)) },
   };
-}
-
-export type ResultatProposition = { statut: "envoyee" } | { statut: "fermee" | "inconnu" | "non-premium" | "opposition" | "deja-active" | "deja-proposee" | "echec" };
-
-/**
- * Proposition unique (avis @legal §6.5) : inscriptions ouvertes seulement, Premium,
- * sans opposition globale, lettre pas active, jamais proposée. `proposedAt` réservé
- * AVANT l'envoi (une seule fois même en double clic), remis à vide si l'envoi échoue.
- * Le silence ne vaut jamais activation : rien d'autre n'est écrit.
- */
-export async function proposerLettreHebdo(
-  userId: string,
-  deps: { envoyer: EnvoyerEmail; baseUrl: string; now: Date; inscriptionsOuvertes?: boolean; propositionOuverte?: boolean },
-): Promise<ResultatProposition> {
-  // s22 (25/10, décision de Thomas) : inscription d'office, plus d'invitation. Son texte (« tant que tu ne
-  // coches pas la case ») serait faux : la proposition ne part plus, quel que soit l'interrupteur.
-  if (!(deps.propositionOuverte ?? LETTRE_HEBDO_PROPOSITION_OUVERTE)) return { statut: "fermee" };
-  if (!(deps.inscriptionsOuvertes ?? LETTRE_HEBDO_INSCRIPTIONS_OUVERTES)) return { statut: "fermee" };
-  const { prisma } = await import("@/lib/prisma");
-  const u = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { email: true, plan: true, emailOptOut: true, premiumLetter: { select: { enabled: true, proposedAt: true } } },
-  });
-  if (!u) return { statut: "inconnu" };
-  if (u.plan !== "PREMIUM") return { statut: "non-premium" };
-  if (u.emailOptOut) return { statut: "opposition" };
-  if (u.premiumLetter?.enabled) return { statut: "deja-active" };
-  if (u.premiumLetter?.proposedAt) return { statut: "deja-proposee" };
-  let reservee: boolean;
-  if (!u.premiumLetter) {
-    try {
-      await prisma.premiumLetterPreference.create({ data: { userId, enabled: false, proposedAt: deps.now } });
-      reservee = true;
-    } catch {
-      reservee = false;
-    }
-  } else {
-    reservee = (await prisma.premiumLetterPreference.updateMany({ where: { userId, proposedAt: null }, data: { proposedAt: deps.now } })).count > 0;
-  }
-  if (!reservee) return { statut: "deja-proposee" };
-  try {
-    const { sujet, corps } = PROPOSITION_LETTRE_HEBDO;
-    await avecDelai(deps.envoyer(u.email, frPonctuation(sujet), frPonctuation(corps(deps.baseUrl))), LETTRE_EMAIL_TIMEOUT_MS, "Proposition de la lettre");
-    return { statut: "envoyee" };
-  } catch {
-    await prisma.premiumLetterPreference.updateMany({ where: { userId }, data: { proposedAt: null } });
-    return { statut: "echec" };
-  }
 }
 
 /** Aperçu (spec H7-5) : le prochain numéro non envoyé, à l'adresse de l'admin SEULEMENT, objet « [Aperçu] ». */

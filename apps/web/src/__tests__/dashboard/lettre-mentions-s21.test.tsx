@@ -34,10 +34,10 @@ describe("Confidentialité : section « La lettre »", () => {
     const section = texte(container.querySelector("section#lettre"));
     for (const phrase of [
       "La lettre et le site s’adressent aux personnes de 15 ans et plus.",
-      "Lettre par e-mail, si tu t’y inscris : ton adresse e-mail, la page où tu t’es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n’est créé.",
+      "Lettre du mois par e-mail, si tu t’y inscris : ton adresse e-mail, la page où tu t’es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n’est créé.",
       "T’envoyer la lettre mensuelle : ton consentement (case à cocher puis confirmation par e-mail), que tu peux retirer en un clic",
       "Respecter tes choix et prouver ton accord : intérêt légitime",
-      "Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau.",
+      "Lettre du mois : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau.",
     ]) {
       expect(section).toContain(phrase);
     }
@@ -59,7 +59,7 @@ describe("Textes @legal publiés à l’ouverture (17/10), mot pour mot", () => 
   it("section 7 : retrait du consentement à la lettre seule, rien sur les questions", () => {
     const { container } = render(<ConfidentialitePage />);
     const s7 = sectionN(container, 7);
-    expect(s7).toContain("Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-mail : ce que tu as reçu avant reste valable.");
+    expect(s7).toContain("Tu peux retirer ton consentement à la lettre du mois à tout moment, avec le lien en bas de chaque e-mail : ce que tu as reçu avant reste valable.");
     expect(s7).not.toMatch(/question/i);
   });
 

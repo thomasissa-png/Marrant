@@ -167,10 +167,11 @@ export default function ConfidentialitePage() {
           {/* P8, legal s17 §4 */}
           <p className="mt-2">Si tu as activé le rappel de parcours, tu peux l’arrêter à tout moment depuis ton profil ou avec le lien au bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, @legal « Textes publiés à l'ouverture, 17/10 », texte 1 : lettre seule (rien sur les questions). */}
-          <p className="mt-2">Tu peux retirer ton consentement à la lettre à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
+          <p className="mt-2">Tu peux retirer ton consentement à la lettre du mois à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, avis @legal lettre hebdo §4.2 (droits) : publié avec l'ouverture des inscriptions. */}
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.droits)}</p>}
         </section>
+        {/* s22 (relecture à l'aveugle M1) : « lettre du mois » précisé dans les phrases de la mensuelle, deux lettres coexistant. */}
         {/* s21, bloquant @legal B7 : section lettre, mot pour mot (docs/legal/lettre-et-questions-s21.md,
             parties 1, 2, 3 et 6 ; seules les phrases sur la lettre mensuelle). Ancre visée par le lien
             « Confidentialité » du formulaire (LETTRE_CONFIDENTIALITE_HREF). Les phrases sur « Ta question
@@ -179,7 +180,7 @@ export default function ConfidentialitePage() {
           <h2 className={SECTION_TITLE}>8. La lettre</h2>
           <p>La lettre et le site s’adressent aux personnes de 15 ans et plus.</p>
           <ul className={LIST}>
-            <li>Lettre par e-⁠mail, si tu t’y inscris : ton adresse e-⁠mail, la page où tu t’es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n’est créé.</li>
+            <li>Lettre du mois par e-⁠mail, si tu t’y inscris : ton adresse e-⁠mail, la page où tu t’es inscrit, la date et la version du texte que tu as accepté, la date de ta confirmation et une empreinte non réversible de ton adresse IP, pour prouver ton accord et limiter les abus. Aucun compte n’est créé.</li>
             {/* s21, avis @legal lettre hebdo §4.2 : ajouts mot pour mot, publiés avec l'ouverture des inscriptions. */}
             {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <li data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.donnees)}</li>}
           </ul>
@@ -189,7 +190,7 @@ export default function ConfidentialitePage() {
             <li>Respecter tes choix et prouver ton accord : intérêt légitime</li>
           </ul>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.destinataires)}</p>}
-          <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
+          <p className="mt-2">Lettre du mois : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.duree)}</p>}
         </section>
         {/* s22, avis @legal du 25/10 (point 2), mot pour mot : publiée avec l'ouverture de « Ta question

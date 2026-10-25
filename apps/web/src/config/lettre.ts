@@ -161,12 +161,6 @@ export function promesseLettreHebdoVisible(
 }
 
 /**
- * Version du texte de l'ancienne case (avis @legal §2.1), gardée pour lire les choix déjà
- * enregistrés. s22 (inscription d'office) : plus de case, plus rien n'est écrit sous cette version.
- */
-export const LETTRE_HEBDO_CONSENT_VERSION = "lettre-hebdo-premium-v1";
-
-/**
  * Origines d'activation et d'arrêt (valeurs de `PremiumLetterPreference`). s22 : la ligne d'un
  * inscrit d'office est créée au premier envoi avec l'origine `office` (écrite par le serveur).
  */

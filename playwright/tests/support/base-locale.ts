@@ -80,7 +80,7 @@ export function urlRetourStripeSimule(corps: { returnTo?: string; plan?: string 
 
 /**
  * Retour de paiement (s22, inscription d'office) : inscriptions à la lettre de la semaine ouvertes =
- * la page montre une ligne d'information (plus de case) et un bouton vers la page d'origine, sans
+ * la page montre une ligne selon l'état du compte (plus de case) et un bouton vers la page d'origine, sans
  * redirection automatique. On clique ce bouton une fois sa cible finale posée (favori ajouté,
  * `data-pret="oui"`). Fermées : redirection, rien à faire.
  */
@@ -88,7 +88,9 @@ export async function quitterRetourPaiement(page: Page): Promise<void> {
   if (!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) return;
   const bouton = page.locator('[data-testid="retour-paiement-continuer"][data-pret="oui"]');
   await expect(bouton).toBeVisible({ timeout: 60_000 });
-  await expect(page.getByTestId("lettre-hebdo-paiement")).toHaveText(/^Chaque jeudi, la lettre de la semaine arrive dans ta boîte\. Tu peux l.arrêter en un clic\.$/);
+  // Compte de test Premium sans arrêt ni opposition : variante « reçoit » de la ligne (selon l'état, relecture B1).
+  await expect(page.getByTestId("lettre-hebdo-paiement")).toHaveAttribute("data-etat", "recoit");
+  await expect(page.getByTestId("lettre-hebdo-paiement")).toHaveText(/^Chaque jeudi, la lettre de la semaine arrive dans ta boîte\s:\selle est incluse dans ton abonnement\./);
   await expect(page.getByRole("checkbox")).toHaveCount(0);
   await bouton.click();
 }

@@ -9,8 +9,9 @@
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
 //
 // s22 (lettre de la semaine, inscription d'office des Premium, décision de Thomas du 25/10) :
-// plus de case. Inscriptions ouvertes : Premium confirmé, la page montre une ligne d'information
-// (« Chaque jeudi, la lettre de la semaine arrive dans ta boîte… ») et le bouton vers la
+// plus de case. Inscriptions ouvertes : Premium confirmé, la page montre une ligne sur la lettre
+// SELON L'ÉTAT du compte (reçoit, arrêtée par l'abonné, opposition à nos e-mails ; relecture à
+// l'aveugle B1 : chaque variante vraie, état illisible = aucune ligne) et le bouton vers la
 // destination, sans redirection d'elle-même : c'est le seul endroit où le nouvel abonné apprend
 // que la lettre est incluse (la promesse publique est fermée). Fermées : redirection immédiate.
 
@@ -26,7 +27,8 @@ import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
 import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { LETTRE_HEBDO_INFO_PAIEMENT } from "@/config/textes/lettre-hebdo-s21";
+import { LETTRE_HEBDO_INFO_PAIEMENT, type EtatInfoPaiement } from "@/config/textes/lettre-hebdo-s21";
+import { etatInfoPaiement } from "@/lib/lettre/etat-info-paiement";
 import { frTypo } from "@/lib/fr-typo";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
@@ -50,6 +52,8 @@ function SubscriptionSuccessContent() {
   const [etat, setEtat] = useState<Etat>("verification");
   // Inscriptions à la lettre ouvertes seulement : cible du bouton une fois le favori traité.
   const [cibleBouton, setCibleBouton] = useState<string | null>(null);
+  // Ligne de la lettre de la semaine, selon l'état réel du compte (null = rien d'affiché).
+  const [infoLettre, setInfoLettre] = useState<EtatInfoPaiement | null>(null);
 
   const sessionId = searchParams.get("session_id");
   // Retour à l'intention d'origine, validée chemin interne ; sinon /parcours.
@@ -141,6 +145,20 @@ function SubscriptionSuccessContent() {
       annule = true;
     };
   }, [etat, router, destination, formule, favori, fetchFavorites]);
+  useEffect(() => {
+    if (etat !== "pret" || !LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) return;
+    const controller = new AbortController();
+    const delai = setTimeout(() => controller.abort(), 5_000);
+    fetch("/api/lettre-premium/preference", { signal: controller.signal, cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((d: unknown) => setInfoLettre(etatInfoPaiement(d)))
+      .catch(() => setInfoLettre(null))
+      .finally(() => clearTimeout(delai));
+    return () => {
+      clearTimeout(delai);
+      controller.abort();
+    };
+  }, [etat]);
   const destinationLabel =
     destination === "/parcours" ? TEXTES_SUCCESS.pretBouton : destination.startsWith("/parcours/") ? "Reprendre mon parcours" : "Continuer";
 
@@ -154,9 +172,11 @@ function SubscriptionSuccessContent() {
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
               {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
                 <>
-                  <p className="mt-4 text-sm text-text-secondary" data-testid="lettre-hebdo-paiement">
-                    {frTypo(LETTRE_HEBDO_INFO_PAIEMENT)}
-                  </p>
+                  {infoLettre && (
+                    <p className="mt-4 text-sm text-text-secondary" data-testid="lettre-hebdo-paiement" data-etat={infoLettre}>
+                      {frTypo(LETTRE_HEBDO_INFO_PAIEMENT[infoLettre])}
+                    </p>
+                  )}
                   {/* `data-pret` : cible finale posée (favori ajouté, drapeau compris), repère des tests de bout en bout. */}
                   <Link href={cibleBouton ?? destination} data-testid="retour-paiement-continuer" data-pret={cibleBouton ? "oui" : "non"} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
                     {destinationLabel}

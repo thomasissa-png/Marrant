@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { LETTRE_CONFIDENTIALITE_HREF, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, LETTRE_HEBDO_PROFIL_ANCRE } from "@/config/lettre";
-import { LETTRE_HEBDO_LIGNE_SOUS_CASE as LIGNE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI as UI } from "@/config/textes/lettre-hebdo-s21";
+import { LETTRE_HEBDO_LIGNE_REGLAGE as LIGNE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI as UI } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
 import { trackUmamiWhenReady } from "@/lib/umami";
 import { cn } from "@/lib/utils";
@@ -114,28 +114,29 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
         <p className="text-sm text-text-secondary">{frTypo(UI.opposition)}</p>
       ) : (
         <>
-          <label htmlFor={`${id}-reglage`} className="flex min-h-[44px] cursor-pointer items-center justify-between gap-4">
-            <span className="text-sm font-medium text-text-primary">{LETTRE_HEBDO_REGLAGE}</span>
-            {/* Interrupteur = la case elle-même (stylée), pour que le clic, le clavier et les tests visent le même élément. */}
-            <span className="relative inline-flex shrink-0 items-center">
+          {/* Même interrupteur que « Rappel de parcours » (taille, couleurs, à gauche du libellé ; relecture s22).
+              La case elle-même est l'interrupteur visible : le clic, le clavier et les tests visent le même élément.
+              Pas de `disabled` pendant l'envoi (Chromium retire le focus) : aria-disabled + garde dans `enregistrer`. */}
+          <label htmlFor={`${id}-reglage`} className="flex min-h-[44px] cursor-pointer items-center gap-3">
+            <span className="relative inline-flex h-6 w-11 shrink-0">
               <input
                 id={`${id}-reglage`}
                 type="checkbox"
                 role="switch"
-                className="peer h-7 w-12 cursor-pointer appearance-none rounded-full bg-background-elevated ring-1 ring-inset ring-border-input transition-colors checked:bg-accent-primary checked:ring-accent-primary disabled:cursor-wait disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary motion-reduce:transition-none"
+                className="peer h-6 w-11 cursor-pointer appearance-none rounded-full border border-border-hover bg-background-elevated transition-colors hover:border-text-muted checked:border-accent-primary checked:bg-accent-primary checked:hover:border-accent-primary-hover checked:hover:bg-accent-primary-hover aria-disabled:cursor-wait aria-disabled:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-primary motion-reduce:transition-none"
                 checked={pref.enabled}
-                aria-checked={pref.enabled}
-                disabled={saving}
+                aria-disabled={saving || undefined}
                 aria-describedby={`${id}-ligne ${id}-etat`}
                 onChange={(e) => void enregistrer(e.target.checked)}
               />
               <span
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1 h-5 w-5 rounded-full bg-white shadow transition-transform peer-checked:translate-x-5 motion-reduce:transition-none"
+                className="pointer-events-none absolute left-0.5 top-0.5 h-5 w-5 rounded-full bg-white transition-transform peer-checked:translate-x-5 motion-reduce:transition-none"
               />
             </span>
+            <span className="text-sm text-text-secondary">{LETTRE_HEBDO_REGLAGE}</span>
           </label>
-          <p id={`${id}-ligne`} className="mt-2 text-xs text-text-muted">
+          <p id={`${id}-ligne`} className="mt-2 max-w-prose text-xs text-text-muted">
             {frTypo(LIGNE.avantLien(pref.email))}
             <Link href={LETTRE_CONFIDENTIALITE_HREF} className="underline underline-offset-2 hover:text-text-secondary">
               {LIGNE.lien}

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import { render, screen, waitFor, act, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // Mock next-auth
@@ -407,20 +407,50 @@ describe("SubscriptionSuccessPage", () => {
       mockSearchParams.delete("returnTo");
     });
 
-    it("s22 sans favori : pas de redirection automatique, plus de case, ligne d'information exacte et bouton vers la destination", async () => {
-      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+    const avecPreference = (preference: unknown) => (url: string) => {
+      if (url === "/api/lettre-premium/preference") return Promise.resolve(preference ? { ok: true, json: () => Promise.resolve(preference) } : { ok: false, json: () => Promise.resolve({}) });
+      return Promise.resolve({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+    };
+
+    it.each([
+      ["reçoit (inscrit d'office)", { eligible: true, enabled: true, opposition: false }, "recoit", /^Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement\. Tu peux l.arrêter en un clic, depuis chaque lettre ou ton profil\.$/],
+      ["réabonné qui avait arrêté (arrêt explicite)", { eligible: true, enabled: false, opposition: false }, "arretee", /^Ta lettre de la semaine reste arrêtée, comme tu l.avais demandé\. Tu peux la reprendre depuis ton profil\.$/],
+      ["opposition à nos e-mails", { eligible: true, enabled: true, opposition: true }, "opposition", /^Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t.est donc pas envoyée\. Pour la recevoir, écris-nous à contact@deviens-marrant\.fr\.$/],
+    ])("s22 B1 : ligne selon l'état du compte, %s ; pas de redirection, plus de case, bouton vers la destination", async (_, preference, etat, texteAttendu) => {
+      mockFetch.mockImplementation(avecPreference(preference));
       render(<SubscriptionSuccessPage />);
       await act(async () => {
         jest.advanceTimersByTime(2000);
       });
       expect(await screen.findByText("Paiement reçu !")).toBeInTheDocument();
-      expect(screen.getByTestId("lettre-hebdo-paiement")).toHaveTextContent(/^Chaque jeudi, la lettre de la semaine arrive dans ta boîte\. Tu peux l.arrêter en un clic\.$/);
+      const ligne = await screen.findByTestId("lettre-hebdo-paiement");
+      expect(ligne).toHaveAttribute("data-etat", etat);
+      expect(ligne.textContent?.replace(/\u2060/g, "").replace(/\s+/g, " ")).toMatch(texteAttendu);
       expect(screen.queryByRole("checkbox")).toBeNull();
       await act(async () => {
         jest.advanceTimersByTime(10_000);
       });
       expect(mockPush).not.toHaveBeenCalled();
       expect(screen.getByRole("link", { name: TEXTES_SUCCESS.pretBouton })).toHaveAttribute("href", "/parcours?premium=bienvenue");
+    });
+
+    it("s22 B1 : état de la lettre illisible (erreur, compte pas encore Premium) : aucune ligne, jamais une phrase devinée", async () => {
+      mockFetch.mockImplementation(avecPreference(null));
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(await screen.findByText("Paiement reçu !")).toBeInTheDocument();
+      await waitFor(() => expect(mockFetch.mock.calls.some((c) => c[0] === "/api/lettre-premium/preference")).toBe(true));
+      expect(screen.queryByTestId("lettre-hebdo-paiement")).toBeNull();
+      cleanup();
+      mockFetch.mockImplementation(avecPreference({ eligible: false, enabled: true, opposition: false }));
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(await screen.findByText("Paiement reçu !")).toBeInTheDocument();
+      expect(screen.queryByTestId("lettre-hebdo-paiement")).toBeNull();
     });
 
     it("favori mémorisé : ajouté quand même (POST + fetchFavorites), pas de redirection, bouton avec le drapeau favori", async () => {
@@ -440,7 +470,8 @@ describe("SubscriptionSuccessPage", () => {
       const post = mockFetch.mock.calls.find((c) => c[0] === "/api/favorites" && c[1]?.method === "POST");
       expect(JSON.parse(post![1].body)).toEqual({ contentType: "JOKE", contentId: "j1" });
       expect(mockFetch.mock.calls.some((c) => c[0] === "/api/favorites" && !c[1]?.method)).toBe(true);
-      expect(screen.getByTestId("lettre-hebdo-paiement")).toBeInTheDocument();
+      // État de la lettre illisible dans ce faux réseau : aucune ligne (jamais une phrase devinée).
+      expect(screen.queryByTestId("lettre-hebdo-paiement")).toBeNull();
       await act(async () => {
         jest.advanceTimersByTime(10_000);
       });

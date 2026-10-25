@@ -54,7 +54,7 @@ import { NextRequest } from "next/server";
 import { GET as getAdmin } from "@/app/api/admin/lettre-premium/route";
 import { POST as postArretAdmin } from "@/app/api/admin/lettre-premium/arret/route";
 import { POST as postProposition } from "@/app/api/admin/lettre-premium/proposition/route";
-import { listerComptesHebdo, proposerLettreHebdo, envoyerApercuHebdo } from "@/lib/admin/lettre-hebdo-comptes";
+import { listerComptesHebdo, envoyerApercuHebdo } from "@/lib/admin/lettre-hebdo-comptes";
 import { buildLettreHebdoSectionHtml, chargerLettreHebdoResume } from "@/lib/analytics/weekly-lettre-hebdo";
 import { buildUmamiBeforeSendScript } from "@/lib/umami-before-send";
 
@@ -103,46 +103,7 @@ describe("Routes admin", () => {
   });
 });
 
-describe("Proposition unique aux abonnés existants (avis @legal §6.5)", () => {
-  // Mécanisme gardé (archive), testé interrupteur forcé : depuis s22 la proposition ne part plus (`LETTRE_HEBDO_PROPOSITION_OUVERTE`).
-  const deps = (envoyer: jest.Mock) => ({ envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, inscriptionsOuvertes: true, propositionOuverte: true });
-
-  it("s22 : par défaut, plus aucune proposition n'est envoyée ni réservée", async () => {
-    const envoyer = jest.fn();
-    expect(await proposerLettreHebdo("u1", { envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, inscriptionsOuvertes: true })).toEqual({ statut: "fermee" });
-    expect(envoyer).not.toHaveBeenCalled();
-    expect(mockPrefs).toHaveLength(0);
-  });
-
-  it("H6-9 : un seul e-mail, proposedAt posé ; la seconde est refusée ; le silence n'active rien", async () => {
-    const envoyer = jest.fn().mockResolvedValue(undefined);
-    expect(await proposerLettreHebdo("u1", deps(envoyer))).toEqual({ statut: "envoyee" });
-    expect(mockPrefs[0]).toMatchObject({ enabled: false, proposedAt: NOW });
-    expect(await proposerLettreHebdo("u1", deps(envoyer))).toEqual({ statut: "deja-proposee" });
-    expect(envoyer).toHaveBeenCalledTimes(1);
-    const [, sujet, texte] = envoyer.mock.calls[0];
-    expect(sujet).toBe("La lettre de la semaine est dans ton abonnement");
-    expect(texte).toContain("https://deviens-marrant.fr/profil#lettre");
-    expect(texte).not.toMatch(/€|\/abonnement/);
-  });
-
-  it("jamais à un compte en opposition globale, ni sans Premium ; inscriptions fermées : rien", async () => {
-    const envoyer = jest.fn();
-    mockUsers[0].emailOptOut = true;
-    expect(await proposerLettreHebdo("u1", deps(envoyer))).toEqual({ statut: "opposition" });
-    mockUsers[0].emailOptOut = false;
-    mockUsers[0].plan = "FREE";
-    expect(await proposerLettreHebdo("u1", deps(envoyer))).toEqual({ statut: "non-premium" });
-    expect(await proposerLettreHebdo("u1", { ...deps(envoyer), inscriptionsOuvertes: false })).toEqual({ statut: "fermee" });
-    expect(envoyer).not.toHaveBeenCalled();
-  });
-
-  it("envoi en échec : proposedAt remis à vide (la proposition reste possible)", async () => {
-    const envoyer = jest.fn().mockRejectedValue(new Error("Resend"));
-    expect(await proposerLettreHebdo("u1", deps(envoyer))).toEqual({ statut: "echec" });
-    expect(mockPrefs[0].proposedAt).toBeNull();
-  });
-
+describe("Aperçu (s22 : plus de proposition aux abonnés existants)", () => {
   it("H7-5 : aperçu sans numéro préparé = aucun ; jamais envoyé à un abonné", async () => {
     const envoyer = jest.fn();
     expect(await envoyerApercuHebdo({ envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, adresseAdmin: "alex@deviens-marrant.fr" })).toBe("aucun");
