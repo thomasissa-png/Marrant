@@ -1,5 +1,7 @@
 # Ta question à l'équipe : spécification fonctionnelle (s21, 17/10/2026)
 
+> **Mise à jour 25/10/2026 (décisions de Thomas, priment sur tout ce qui suit)** : délai de réponse « en général sous 1 à 2 jours ouvrés » (au plus tard 3 jours ouvrés dans les CGU), **jamais 7 jours** ; V1 = encadré dans le compte Premium, envoi par e-mail vers contact@, rien en base, pas de limite affichée ; conservation 6 mois. Voir `docs/founder-preferences.md` (25/10).
+
 > Statut : PRÉPARATION. Rien n'est codé ni déployé. Mise en ligne après le bilan du lot 1 (~10/11), déploiement séparé du lot 2. Destinataires : @fullstack, @copywriter, @legal, @data-analyst.
 > Décision de Thomas (17/10, après le premier jet) : la fonction s'appelle **« Ta question à l'équipe »** (« Alex, personne ne le connaît ») ; réponses et lettre hebdomadaire Premium signées **« L'Équipe Deviens Marrant »**. Le ton reste celui de `docs/copy/ton-alex.md` (tutoiement, pote drôle et bienveillant), mais en voix du site : « on » et « nous », pas de « je ». Les règles d'Alex du 14/10 (« je », signature Alex) ne s'appliquent pas à cette fonction.
 > Sources : `docs/founder-preferences.md` (01/10 aucune IA ne publie seule, 13/10 coaching 99 € retiré, 14/10, 17/10), `docs/copy/ton-alex.md`, `docs/ux/lettre-inscription-s21.md`, `docs/legal/remboursement-abonnement-s21.md`, `docs/copy/lot2-boutons-abonnement-s21.md`, `apps/web/prisma/schema.prisma`.
