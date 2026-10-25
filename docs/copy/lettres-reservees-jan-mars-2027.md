@@ -1,8 +1,27 @@
-# Lettres réservées Premium, janvier à mars 2027 (9 lettres, révision 3 du 25/10/2026)
+# Lettres réservées Premium, janvier à mars 2027 (9 lettres, révision 4 du 25/10/2026)
 
 > Statut : brouillons après quatre relectures à l'aveugle (deux premières : `docs/reviews/review-jan-mars-2027-lecteur.md`, `docs/reviews/review-jan-mars-2027-editeur.md` ; deux secondes : `…-lecteur-v2.md`, `…-editeur-v2.md`). Les bloquants des quatre rapports sont levés (union). **Les passages marqués NEUVE dans le tableau ci-dessous n'ont pas encore passé la relecture à l'aveugle** (règle d'or s18) : relecture de confirmation sur ces seuls passages, puis lecture de l'orchestrateur, puis approbation de Thomas dans l'admin. Je n'ai pas d'outil de sous-agent dans cette session : la grille a été appliquée par moi (section « Contrôles transverses »).
 > Cadre : `docs/strategy/plan-lettres-nov-2026-avril-2027.md` §6 et §7. Corpus de comparaison : versions finales de `docs/copy/lettres-reservees-nov-dec-s22.md`, `docs/copy/lettres-du-mois-s22.md` et du n°1 (`docs/copy/n1-candidates-s22.md`, bloc (a)). Règle du « retour sur l'exercice » : en tête de chaque réservée qui suit une réservée, jamais après une lettre du mois.
 > Les lettres des 18/02 et 18/03 sont au format A ; elles pourront devenir des décryptages si la recherche de sources aboutit. Corrigées quand même.
+
+## Révision 4 du 25/10/2026 : relecture de confirmation (`review-jan-mars-2027-confirmation.md`)
+
+Retouches appliquées mot pour mot ; le 11/03 est GO (deux mineurs appliqués). Toutes les phrases ci-dessous sont **NEUVE** et repassent l'aveugle (priorité : la risquée du 28/01 et l'ajout du 18/02). Les étiquettes fixes du format (« À choisir quand », « À sortir quand », « À éviter si », titres de section, nom de l'erreur, « à voix haute ») restent. Aucune incohérence créée par les retouches, sauf deux ajustements minimaux signalés en fin de tableau.
+
+| Lettre | Phrases changées (NEUVE) |
+|---|---|
+| **14/01** | Joueuse : « Prends l'air résigné, et laisse « avant 2028 » tomber seul. » Risquée : « Deux conditions : Nathalie accepte qu'on la chambre devant l'équipe, et vous avez déjà plaisanté ensemble. Dans une équipe où la hiérarchie ne se chambre pas, oublie-la. » |
+| **21/01** | Entrée : « Pas de réplique à apprendre cette fois : un geste, pris à un humoriste dont le micro s'est mis à grésiller devant le public. » Passage : « Mouloud Achour et le public éclatent de rire, puis le présentateur finit par lui reprendre le micro des mains : … » |
+| **28/01** | Retour : « Relis-les demain matin sans regarder la liste des accidents… ». Entrée : « Personne ne touche à la crêpe : c'est à toi de la commenter. » Risquée : « Mehdi, deuxième manche. Je mise ta pièce. » et son commentaire : « La poêle passe à Mehdi : sa pique devient un défi, et c'est sa prospérité que tu mets en jeu, pas la tienne. À tenter si Mehdi aime le jeu et que la cuisine suit. S'il réussit encore, tu as perdu deux fois : la crêpe, puis le pari. » Règle : « …il s'est passé une seconde, et ce que la cuisine en a fait décide pour toi. » Exercice : « Écris d'avance ta sûre comme celle de la pièce : … » |
+| **11/02** | Entrée : « Tu ne sais pas, et tu ne vas pas faire semblant : les trois réponses qui suivent non plus. » (« Toute la pièce attend de voir si tu sais. » supprimé.) Risquée, commentaire : « Le terrain idéal : un Maxime qui sait qu'on lit tout sur son visage et qui en rit, et un score confortable. À dix minutes de la fin d'un match serré, la même phrase te vaut un coussin dans la figure. » Règle : « …rien que la sûre, car la faute de l'arbitre est alors tout ce que la pièce a envie d'entendre. » Exercice : « …comme avec l'arbitre. » |
+| **18/02** | Retour : « Le test est dans la fin de chacune : … » Scène, ajout : « Résume-la en une phrase, et il restera sur sa faim : il veut l'histoire, et tu as trois arrêts pour la tenir. » Technique : « Il ne commence pas par sa petite enfance : … puis il gèle cet instant et remonte le temps. Ses souvenirs disent pourquoi ça coince, et la question du début reste en suspens : va-t-il l'embrasser ? Le nom et le geste viennent de nous, pas de lui. » Geste 2 : « Pas trois : tu n'as que trois arrêts de tram. » Fermeture : « Hors du tram, le même ordre marche pour un oral, … » Exercice : « Si tu dépasses, raccourcis la digression sans la supprimer : c'est elle qui fait sourire en route. » |
+| **25/02** | Joueuse, commentaire : « Tu restes le seul sujet de la phrase, et le « pour une fois » dit que ce n'est pas une habitude. Une pointe de surprise dans la voix, sans fanfaronner. » |
+| **11/03** | Sûre, commentaire : « Julie peut recopier tes deux phrases dans la case sans y changer un mot. » Erreur : « « Je dirais que je travaille trop » : elle l'a entendu… » |
+| **18/03** | Retour : « Essaie-la sur quelqu'un, en le regardant : … » Scène : « tu as gagné le tournoi de quiz du BDE. En finale, face à toi : Sofiane… » Entrée : « Une humoriste a connu la même gêne, avec un Molière, face à sa référence dans l'humour. » Passage : « persuadée que sa référence gagnerait ». Exemple 2 : « Le ton ne change pas, et la phrase s'arrête sur « facture ». » Fermeture : « Elles restent au BDE ; le geste vaut pour toute félicitation, … » (voir ajustement 1). |
+| **25/03** | Retour : « Glisse-les dans une conversation : … » Sûre, commentaire : « Ta mère comprend que tu es venu pour manger, et la pique d'Adrien se referme sans réponse. » Risquée, commentaire : « Elle suppose un frère qui rit de sa paresse, devant une mère qui lève déjà les yeux au ciel en le regardant. S'il a aidé en cuisine toute la matinée, elle tombe à faux, et l'ingrat, ce sera toi. » Règle : « Regarde la table. » supprimé ; fin : « Au premier signe de froid, Adrien sort de ta phrase. » Erreur : « Ta première phrase revient à celle qui a attendu : … Adrien attendra son tour. » Exercice : « …comme le dessert à rattraper. » |
+| **Annexes (repli)** | Mêmes formules retirées : « Le test est dans la fin de chacune » (repli 18/02), « Essaie-la sur quelqu'un, en le regardant » (repli 18/03), « En la regardant à peine, comme une information de service. » (joueuse du repli 18/03), « Elle exige un premier sourire de sa part et un wagon calme. » (repli 18/03). |
+
+Ajustements hors rapport (minimaux, signalés) : 1) la fermeture du 18/03 « Ces deux phrases restent au BDE » devient « Elles restent au BDE », parce que le corpus compte déjà « Ces deux phrases ne valent que… » (19/11) et « Ces deux-là restent au chalet » (17/12) : un troisième « Ces deux… » dépassait le plafond ; 2) dans les annexes, trois formules déplacées de la même façon (voir la ligne ci-dessus). Les notes sous les lettres (18/02, 11/03, 18/03) et le §2 et le §7 des contrôles décrivent maintenant le geste actuel du 18/02 (« une digression qui fait sourire pour elle-même et qui dit pourquoi ça coince »). Le §8 est refait.
 
 ## Révision 3 du 25/10/2026 : secondes relectures (`review-jan-mars-2027-lecteur-v2.md`, `review-jan-mars-2027-editeur-v2.md`)
 
@@ -59,11 +78,11 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La joueuse
 > « J'ai utilisé toute ma chance de l'année. Je ne joue pas au loto avant 2028. »
-> Tu traites la chance comme un stock : une fève, et la réserve de 2027 est vide dès janvier. Quelqu'un qui arrive au milieu comprend tout de suite, la couronne sur ta tête suffit. Dis-la avec une résignation sincère, et laisse « avant 2028 » tomber seul. À sortir quand l'équipe a déjà ri d'une de tes phrases.
+> Tu traites la chance comme un stock : une fève, et la réserve de 2027 est vide dès janvier. Quelqu'un qui arrive au milieu comprend tout de suite, la couronne sur ta tête suffit. Prends l'air résigné, et laisse « avant 2028 » tomber seul. À sortir quand l'équipe a déjà ri d'une de tes phrases.
 >
 > La risquée
 > « Nathalie, merci. Pour fêter ça, je vous fais cadeau de mes mails de l'après-midi. »
-> Ici, Nathalie est la cible : le jour où tu as la fève, c'est ta responsable qui hérite de ton travail. Tu inverses la hiérarchie devant tout l'open space, et c'est là qu'est le risque. Il faut que Nathalie accepte qu'on la chambre devant l'équipe et que tu aies déjà plaisanté avec elle. Dans une équipe où l'on ne plaisante pas avec la hiérarchie, garde-la pour toi.
+> Ici, Nathalie est la cible : le jour où tu as la fève, c'est ta responsable qui hérite de ton travail. Tu inverses la hiérarchie devant tout l'open space, et c'est là qu'est le risque. Deux conditions : Nathalie accepte qu'on la chambre devant l'équipe, et vous avez déjà plaisanté ensemble. Dans une équipe où la hiérarchie ne se chambre pas, oublie-la.
 >
 > Comment choisir : le test du fond de la salle
 > Dans une pièce de vingt personnes, la moitié n'a pas entendu la question, et ceux du fond n'entendront que ta phrase. Avant de la dire, imagine quelqu'un qui arrive au milieu : est-ce qu'il la comprend seule, sans la question de Nathalie ? Les trois réponses passent ce test. Une phrase sur qui a coupé les parts ou sur la place de la fève ne le passerait pas : drôle pour trois personnes, obscure pour les dix-sept autres. Une fois le test passé, choisis selon ce que la salle sait de toi : la sûre si tu es nouveau, la joueuse si on a déjà ri avec toi, la risquée si Nathalie a déjà ri d'une pique devant l'équipe. Si tu ne sais pas, la sûre.
@@ -102,10 +121,10 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > Mercredi, 10 h 40, ton oral de projet en visio. Un jury de trois personnes, caméras allumées, ta tutrice au milieu. Ton introduction dure depuis quarante secondes, tout va bien, et ton son se coupe : trois secondes où ta bouche bouge sans que rien ne passe. Puis ta voix revient. Un des jurés se penche vers son écran. Tu t'arrêtes net.
 >
-> Pas de réplique à apprendre cette fois : un geste. On regarde ce que fait un humoriste quand son micro lâche devant un public, et ce qu'on peut lui emprunter.
+> Pas de réplique à apprendre cette fois : un geste, pris à un humoriste dont le micro s'est mis à grésiller devant le public.
 >
 > Le passage
-> En octobre 2022, pour la première de la saison de Clique sur Canal+, Roman Frayssinet fait sa chronique devant le public du plateau et Mouloud Achour, qui présente l'émission. Au bout d'une trentaine de secondes, son micro se met à grésiller : des grésillements viennent couper sa voix à intervalles rapprochés. Une personne de l'équipe vient lui apporter un autre micro, et c'est à ce moment qu'il demande, avec humour, si c'est un spectacle de mime. Mouloud Achour et le public éclatent de rire. Mouloud Achour finit par lui reprendre le micro des mains : les grésillements cessent et Roman Frayssinet termine sa chronique.
+> En octobre 2022, pour la première de la saison de Clique sur Canal+, Roman Frayssinet fait sa chronique devant le public du plateau et Mouloud Achour, qui présente l'émission. Au bout d'une trentaine de secondes, son micro se met à grésiller : des grésillements viennent couper sa voix à intervalles rapprochés. Une personne de l'équipe vient lui apporter un autre micro, et c'est à ce moment qu'il demande, avec humour, si c'est un spectacle de mime. Mouloud Achour et le public éclatent de rire, puis le présentateur finit par lui reprendre le micro des mains : les grésillements cessent et Roman Frayssinet termine sa chronique.
 >
 > La technique : la phrase du spectateur
 > Retiens le geste, il est tout petit. Quand une personne de l'équipe arrive avec un autre micro, il pose à voix haute une question sur ce qui se passe sous les yeux de tout le monde, et il en fait un genre de spectacle. La salle éclate de rire. Ensuite le micro est réglé, et il va au bout de sa chronique.
@@ -161,13 +180,13 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> L'exercice : une phrase du spectateur pour chacun de tes trois pires accidents d'oral. Pour les tester, relis-les demain matin sans regarder la liste des accidents : si tu devines l'accident rien qu'à la phrase, l'image est la bonne. Si tu hésites, change d'image.
+> L'exercice : une phrase du spectateur pour chacun de tes trois pires accidents d'oral. Relis-les demain matin sans regarder la liste des accidents : si tu devines l'accident rien qu'à la phrase, l'image est la bonne. Si tu hésites, change d'image.
 >
 > Mardi, c'est la Chandeleur. Chez Pauline, six amis dans la cuisine, une pile de crêpes réussies et la tradition : une pièce dans la main, on fait sauter la crêpe, et si elle retombe dans la poêle, la prospérité de l'année est assurée. C'est ton tour. Tu lances, la crêpe monte plus haut que prévu et vient se coller sur la hotte, juste au-dessus de la poêle. Une seconde de silence. Mehdi, qui a réussi la sienne du premier coup, lance :
 >
 > « Pièce dans la main, crêpe sur la hotte : ça promet, ton année ! »
 >
-> Mehdi attend. Ta réponse, elle, ne doit pas s'attarder sur le raté.
+> Personne ne touche à la crêpe : c'est à toi de la commenter.
 >
 > La sûre
 > « Ma pièce n'a pas bougé : côté prospérité, j'ai gardé l'essentiel. »
@@ -178,17 +197,17 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > « Prendre de la hauteur » se dit d'une personne qui prend du recul, et ta crêpe le fait au sens propre ; puis tu lui prêtes une ambition que tu n'as jamais eue, toi qui restes en bas avec ta poêle. Regarde la hotte en la disant, avec l'admiration d'un parent un peu jaloux, pas la salle. À sortir quand les rires ont déjà commencé.
 >
 > La risquée
-> « Mehdi, deuxième manche. Je tiens les paris. »
-> La poêle passe à Mehdi : sa pique devient un défi, et c'est toi qui arbitres. Elle passe si Mehdi aime le jeu et que la cuisine suit. S'il réussit une deuxième fois, tu as perdu deux fois : en lançant, puis en le défiant.
+> « Mehdi, deuxième manche. Je mise ta pièce. »
+> La poêle passe à Mehdi : sa pique devient un défi, et c'est sa prospérité que tu mets en jeu, pas la tienne. À tenter si Mehdi aime le jeu et que la cuisine suit. S'il réussit encore, tu as perdu deux fois : la crêpe, puis le pari.
 >
 > Comment choisir : la première réaction
-> Entre la crêpe qui se colle et la phrase de Mehdi, il s'est passé une seconde. Regarde et écoute ce que la cuisine y a mis. Un rire : on t'a déjà donné la permission, la joueuse peut sortir. Un « oh non » compatissant ou un silence : on attend de voir si tu es gêné, rassure d'abord avec la sûre. Un rire plus un défi dans les yeux de Mehdi : la risquée devient possible. Dans tous les cas, parle tant que la crêpe est encore sur la hotte : une fois l'éponge sortie, même la meilleure joueuse arrive trop tard.
+> Entre la crêpe qui se colle et la phrase de Mehdi, il s'est passé une seconde, et ce que la cuisine en a fait décide pour toi. Un rire : on t'a déjà donné la permission, la joueuse peut sortir. Un « oh non » compatissant ou un silence : on attend de voir si tu es gêné, rassure d'abord avec la sûre. Un rire plus un défi dans les yeux de Mehdi : la risquée devient possible. Dans tous les cas, parle tant que la crêpe est encore sur la hotte : une fois l'éponge sortie, même la meilleure joueuse arrive trop tard.
 >
 > L'erreur que tout le monde fait
 > Faire comme si de rien n'était. Tu attrapes l'éponge, tu lances « bon, qui veut du Nutella ? » et tu changes de sujet le plus vite possible. Le raté n'a pas été commenté, donc il reste en suspens : la cuisine ne sait pas si tu es gêné, personne n'ose rire avec toi, et Mehdi rit à ta place. C'est le geste du micro de la semaine dernière, appliqué à la cuisine : une seule phrase, même la sûre, dit que tu as vu, que tu vas bien, et qu'on peut s'amuser.
 >
 > À essayer cette semaine
-> Tu vas forcément laisser tomber, renverser ou rater quelque chose : un verre, une porte tirée au lieu d'être poussée, un prénom. Écris d'avance ta sûre sur le modèle de la pièce : ce qui s'est perdu, puis ce que tu as gardé. Dix mots, pas plus. La première fois que ça t'arrive, devant quelqu'un ou seul dans ta cuisine, dis-la à voix haute avant de ramasser quoi que ce soit.
+> Tu vas forcément laisser tomber, renverser ou rater quelque chose : un verre, une porte tirée au lieu d'être poussée, un prénom. Écris d'avance ta sûre comme celle de la pièce : ce qui s'est perdu, puis ce que tu as gardé. Dix mots, pas plus. La première fois que ça t'arrive, devant quelqu'un ou seul dans ta cuisine, dis-la à voix haute avant de ramasser quoi que ce soit.
 >
 > Raconter ton raté après coup, c'est l'étape 3 du parcours Storytelling, « Faire le bilan de ton raté ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/storytelling?utm_source=lettre-premium&utm_medium=email&utm_content=2027-w04-etape3#etape-3
@@ -217,7 +236,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > « Tu as compris pourquoi il a sifflé, là ? »
 >
-> Toute la pièce attend de voir si tu sais. Tu ne sais pas, et tu ne vas pas faire semblant : les trois réponses qui suivent non plus.
+> Tu ne sais pas, et tu ne vas pas faire semblant : les trois réponses qui suivent non plus.
 >
 > La sûre
 > « Non, mais je suis sûr que c'est la faute de l'arbitre. »
@@ -229,16 +248,16 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La risquée
 > « Je ne regarde plus l'écran. Ton visage commente mieux que la télé. »
-> Tu fais de Maxime le meilleur commentateur du salon, ce qui est un compliment pour son sens du jeu et une pique pour son agitation. Elle demande un Maxime qui sait qu'on lit tout sur son visage et qui en rit, et un score confortable : à dix minutes de la fin d'un match serré, elle sonne comme une provocation.
+> Tu fais de Maxime le meilleur commentateur du salon, ce qui est un compliment pour son sens du jeu et une pique pour son agitation. Le terrain idéal : un Maxime qui sait qu'on lit tout sur son visage et qui en rit, et un score confortable. À dix minutes de la fin d'un match serré, la même phrase te vaut un coussin dans la figure.
 >
 > Comment choisir : le score
-> Un coup d'œil au score en haut de l'écran suffit : il te dit dans quel état est Maxime. La France mène largement : il est d'humeur à rire de lui-même, la risquée devient possible. Le match est serré : il a la tête au jeu et toute la pièce grogne avec lui, prends la joueuse, qui rit de toi, pas du match, et ne lui demande rien. La France est menée : la sûre seule, car la faute de l'arbitre est alors la seule chose que la pièce a envie d'entendre. Et quelle que soit la phrase, dis-la tout de suite, pendant l'arrêt de jeu : dès que le ballon repart, plus personne ne t'écoute.
+> Un coup d'œil au score en haut de l'écran suffit : il te dit dans quel état est Maxime. La France mène largement : il est d'humeur à rire de lui-même, la risquée devient possible. Le match est serré : il a la tête au jeu et toute la pièce grogne avec lui, prends la joueuse, qui rit de toi, pas du match, et ne lui demande rien. La France est menée : rien que la sûre, car la faute de l'arbitre est alors tout ce que la pièce a envie d'entendre. Et quelle que soit la phrase, dis-la tout de suite, pendant l'arrêt de jeu : dès que le ballon repart, plus personne ne t'écoute.
 >
 > L'erreur que tout le monde fait
 > Bluffer. Tu lances « Ah oui, l'en-avant ! » sur le mauvais coup de sifflet. Maxime te corrige devant tout le salon, et le rire change de cible : on ne rit plus de ce que tu ignores, on rit de ce que tu as inventé. Un « je n'y comprends rien » avoué avec le sourire coûte moins cher qu'un mot de vocabulaire mal placé.
 >
 > À essayer cette semaine
-> Choisis un domaine où tu débutes et où tes amis s'y connaissent : le rugby, un jeu vidéo, la cuisine, le vélo. Écris trois phrases qui commencent par « Non, mais » : tu avoues, puis tu te ranges du côté des fans, sur le modèle de l'arbitre. La seconde moitié compte plus que la première : sans le ralliement, « Non, mais » redevient une excuse. Garde la plus courte et dis-la une fois, à la première occasion où quelqu'un te demandera si tu t'y connais.
+> Choisis un domaine où tu débutes et où tes amis s'y connaissent : le rugby, un jeu vidéo, la cuisine, le vélo. Écris trois phrases qui commencent par « Non, mais » : tu avoues, puis tu te ranges du côté des fans, comme avec l'arbitre. La seconde moitié compte plus que la première : sans le ralliement, « Non, mais » redevient une excuse. Garde la plus courte et dis-la une fois, à la première occasion où quelqu'un te demandera si tu t'y connais.
 >
 > Une phrase courte à ressortir au bon moment, c'est l'étape 1 du parcours Machine à Café, « Des vannes courtes, faciles à ressortir ».
 > Aller à l'étape 1 : https://deviens-marrant.fr/parcours/machine-a-cafe?utm_source=lettre-premium&utm_medium=email&utm_content=2027-w06-etape1#etape-1
@@ -264,9 +283,9 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> Il fallait écrire trois phrases qui commencent par « Non, mais ». Pour les tester, regarde la fin de chacune : elle doit te ranger du côté des autres, comme « c'est la faute de l'arbitre ». Si ta phrase te laisse seul face au groupe, elle n'invite personne.
+> Il fallait écrire trois phrases qui commencent par « Non, mais ». Le test est dans la fin de chacune : elle doit te ranger du côté des autres, comme « c'est la faute de l'arbitre ». Si ta phrase te laisse seul face au groupe, elle n'invite personne.
 >
-> Mercredi, 8 h 15, le quai du tram. Maël te retrouve : « Alors, ce rendez-vous d'hier soir ? » Il descend dans trois arrêts. Ta soirée a duré quatre heures, et le moment qui compte, trois minutes : tout à la fin, devant sa porte, quand tu n'as pas osé monter. Raconte-la dans l'ordre, et Maël descendra avant que tu arrives à sa porte.
+> Mercredi, 8 h 15, le quai du tram. Maël te retrouve : « Alors, ce rendez-vous d'hier soir ? » Il descend dans trois arrêts. Ta soirée a duré quatre heures, et le moment qui compte, trois minutes : tout à la fin, devant sa porte, quand tu n'as pas osé monter. Raconte-la dans l'ordre, et Maël descendra avant que tu arrives à sa porte. Résume-la en une phrase, et il restera sur sa faim : il veut l'histoire, et tu as trois arrêts pour la tenir.
 >
 > Cette semaine, on regarde comment un humoriste commence un spectacle entier par un instant qui n'arrive pas, et ce que ça change à l'écoute.
 >
@@ -274,13 +293,13 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > « Presque » est un spectacle de Panayotis Pascot, ancien chroniqueur de « Quotidien ». Joué sur scène en 2019, il est sorti sur Netflix en novembre 2022. Il s'ouvre sur un troisième rendez-vous : ils sont chez lui, sur son canapé, et il compte l'embrasser dans trois minutes. Il confesse d'emblée qu'il ne sait pas comment s'y prendre. Le baiser n'a pas lieu, et ce baiser manqué lui sert de point de départ pour se raconter, de sa petite enfance à sa première scène. Au détour de ses souvenirs, on croise son père en slip dans la forêt, son colocataire de quarante ans à Amsterdam ou son grand-père sur une civière.
 >
 > La technique : le compte à rebours suspendu
-> Regarde l'ordre. Il ne commence pas par sa petite enfance : il commence par l'instant qui compte, avec son échéance (trois minutes), puis il gèle cet instant et remonte le temps pour expliquer pourquoi ça coince. Chaque souvenir explique pourquoi ça coince, pendant que la salle garde la même question : va-t-il l'embrasser ? Lui ne parle pas de méthode : le geste, c'est nous qui le tirons.
+> Il ne commence pas par sa petite enfance : il commence par l'instant qui compte, avec son échéance (trois minutes), puis il gèle cet instant et remonte le temps. Ses souvenirs disent pourquoi ça coince, et la question du début reste en suspens : va-t-il l'embrasser ? Le nom et le geste viennent de nous, pas de lui.
 >
 > Ton récit du tram a besoin de cet ordre-là. Dans l'ordre chronologique, la chute arrive après le troisième arrêt, quand Maël est déjà sur le quai ; ouvert sur l'instant, le récit lui donne une raison de rester jusqu'au bout.
 >
 > Comment l'emprunter, en trois gestes
 > 1. Ouvre sur l'instant, avec son échéance. Une phrase : où, quand, et ce qui allait arriver dans les minutes suivantes. L'auditeur sait ce qu'il attend.
-> 2. Gèle l'instant, puis remonte avec une seule digression : une qui fait sourire pour elle-même et qui dit pourquoi ça coince. Pas trois : tu as trois arrêts de tram.
+> 2. Gèle l'instant, puis remonte avec une seule digression : une qui fait sourire pour elle-même et qui dit pourquoi ça coince. Pas trois : tu n'as que trois arrêts de tram.
 > 3. Reviens à l'instant et donne la suite en quelques mots, même si la suite est « rien ». Un « presque » est une fin à part entière.
 >
 > Trois exemples sur la scène du tram
@@ -291,12 +310,12 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > « 23 h 43. J'ai regardé l'interphone un long moment. Il ne m'a pas aidé. »
 > Tu reviens à l'instant figé et tu donnes la fin en quelques phrases courtes. L'interphone qui ne t'aide pas fait la chute sans que tu aies à l'annoncer.
 >
-> Ces trois phrases restent dans le tram ; le geste vaut pour un oral, un coup de fil, une première rencontre : tout moment qui tient en quelques minutes.
+> Hors du tram, le même ordre marche pour un oral, un coup de fil, une première rencontre : tout moment qui tient en quelques minutes.
 >
 > À toi de jouer
 > 1. Choisis une anecdote de ta semaine dont le moment fort tient en quelques minutes : un rendez-vous, un oral, un coup de fil, une porte à pousser.
 > 2. Écris l'ouverture en une phrase (heure, lieu, ce qui allait arriver), puis une digression en une phrase, puis la phrase de retour.
-> 3. Dis les trois d'affilée à voix haute, en chronométrant : moins de trente secondes. Si tu dépasses, c'est la digression qu'il faut couper.
+> 3. Dis les trois d'affilée à voix haute, en chronométrant : moins de trente secondes. Si tu dépasses, raccourcis la digression sans la supprimer : c'est elle qui fait sourire en route.
 >
 > Faire un détour sans perdre ton auditeur, c'est l'étape 5 du parcours Storytelling, « Un détour qui ne perd personne ».
 > Aller à l'étape 5 : https://deviens-marrant.fr/parcours/storytelling?utm_source=lettre-premium&utm_medium=email&utm_content=2027-w07-etape5#etape-5
@@ -317,7 +336,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
   - Fait « ancien chroniqueur de Quotidien » : Time Out : « l’ancien chroniqueur de Quotidien digresse et creuse ».
   - Fait « sorti sur Netflix en novembre 2022 » (et non « disponible » : la disponibilité au jour de la lecture est à revérifier la semaine de l'envoi ; JustWatch la confirmait en octobre 2026) : Paris Match : « Salué par la critique et ovationné par le public, son spectacle est disponible en streaming sur Netflix. » ; TheTVDB : « Released Worldwide November 3, 2022 ». « Joué sur scène en 2019 » : VL Media du 14/05/2019 et dates de L'Européen les 21 et 22 mai 2019 (fiche de l'orchestrateur).
   - Non affirmé dans la lettre : les répliques sur scène, la durée de la scène, l'issue du rendez-vous, le contenu des conseils du colocataire, la mise en scène du spectacle. Aucune citation entre guillemets de l'humoriste ; les titres « Presque » et « Quotidien » sont les seuls guillemets.
-  - Ce que l'équipe ajoute (analyse, dite comme telle dans la lettre) : « le compte à rebours suspendu » est un nom de l'équipe ; « lui ne parle pas de méthode : le geste, c'est nous qui le tirons ». Les trois exemples sont écrits pour la scène du tram. « Chaque souvenir explique pourquoi ça coince » vient de Time Out (« les clés de compréhension d'un potentiel handicap émotionnel »).
+  - Ce que l'équipe ajoute (analyse, dite comme telle dans la lettre) : « le compte à rebours suspendu » est un nom de l'équipe ; « Le nom et le geste viennent de nous, pas de lui ». Les trois exemples sont écrits pour la scène du tram. « Ses souvenirs disent pourquoi ça coince » suit Time Out (« allant chercher dans ses souvenirs les clés de compréhension d'un potentiel handicap émotionnel »). Le texte ne prête plus d'état d'esprit à la salle : « la question du début reste en suspens » décrit la construction, pas le public.
   - Geste 2 aligné sur l'étape liée : Storytelling é5 (`parcours-storytelling-s18.json`) dit qu'un tiroir doit se raconter seul ; le geste demande donc une digression qui fait sourire pour elle-même et qui dit pourquoi ça coince, et l'exemple 2 est drôle sans le reste.
 - Anti-doublon : fiche vidéo seedId 62 (Pascot, anecdote du Kem's à Amsterdam, technique « naturel désarmant », défi sur le suspense et la chute gardée pour la fin) : même spectacle, **passage et geste différents** (ici on donne l'instant d'abord et on remonte, la chute n'est pas gardée pour la fin) ; l'anecdote d'Amsterdam n'est que citée comme souvenir. `joke-decryptages.json` : aucune technique « compte à rebours », « fil rouge », « digression ». Aucune lettre sur Pascot dans le corpus (Grep final : voir contrôles transverses). Scène du tram : refaite après la seconde relecture, car Maël et le lecteur descendaient à la même station et l'ouverture (lundi, un ami demande le week-end, « tu commences par le début ») calquait celle de W47 du 19/11. Désormais mercredi matin, rendez-vous « d'hier soir », Maël descend dans trois arrêts et le lecteur plus loin : la contrainte de temps tient, et la scène ne liste plus de détails. Durées : la soirée dure quatre heures, le moment qui compte trois minutes, le récit de trente secondes. Pas de controverse trouvée (recherche du 25/10/2026) ; ne rien écrire sur sa vie privée ni sur sa santé mentale.
 - Saison : la semaine qui suit la Saint-Valentin (scène un mercredi, rendez-vous « d'hier soir ») ; la scène ne cite ni le 14/02 ni la fête. Étape Storytelling é5 « Un détour qui ne perd personne » (la technique est une digression qui revient), jamais citée dans le corpus. Objet : 34 caractères.
@@ -346,7 +365,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La joueuse
 > « Oui. Pour une fois qu'on m'entend dans cet immeuble. »
-> Tu dis oui, puis tu retournes le reproche en rareté : le voisin le plus discret de l'escalier s'est fait entendre une fois. Elle parle de toi, jamais de Mme Roussel, et le « pour une fois » dit que ce n'est pas une habitude. Dis-la sans fanfaronner, avec une pointe de surprise. À sortir quand ses yeux sourient aussi.
+> Tu dis oui, puis tu retournes le reproche en rareté : le voisin le plus discret de l'escalier s'est fait entendre une fois. Tu restes le seul sujet de la phrase, et le « pour une fois » dit que ce n'est pas une habitude. Une pointe de surprise dans la voix, sans fanfaronner. À sortir quand ses yeux sourient aussi.
 >
 > La risquée
 > « Oui. Vos coups de balai, j'ai cru que vous en redemandiez. »
@@ -393,7 +412,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La sûre
 > « Demander de l'aide plus tôt. Je la demande le troisième jour, je vise le deuxième. »
-> Tu donnes un vrai axe de progrès, précis, avec un chiffre modeste et honnête : un objectif de deuxième jour, pas de première heure. Julie peut recopier ton début dans la case sans y changer un mot. À choisir par défaut, et quand tu ne sais pas encore comment ta responsable prend l'humour.
+> Tu donnes un vrai axe de progrès, précis, avec un chiffre modeste et honnête : un objectif de deuxième jour, pas de première heure. Julie peut recopier tes deux phrases dans la case sans y changer un mot. À choisir par défaut, et quand tu ne sais pas encore comment ta responsable prend l'humour.
 >
 > La joueuse
 > « La prise de parole en réunion. J'y travaille depuis un an, en silence. »
@@ -407,7 +426,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Julie ne retient pas ta phrase, elle l'écrit. Imagine-la dans la case « axes de progrès » que les ressources humaines ouvriront dans un an. La sûre passe telle quelle : « demander de l'aide plus tôt ». La joueuse devient « prise de parole en réunion » : un vrai axe, avec un sourire en prime. La risquée sera lue comme une « demande d'augmentation », à ne faire que si c'est bien ce que tu veux voir écrit. En cas de doute, la sûre : c'est la seule que Julie peut recopier sans y toucher.
 >
 > L'erreur que tout le monde fait
-> Le faux défaut. Julie sait qu'une qualité déguisée est un mensonge poli, et elle en conclut que tu ne lui dis pas la vérité sur le reste. « Je dirais que je travaille trop. » : elle l'a entendu à chaque entretien, de chaque collègue. Un vrai défaut, petit et précis, avec le début d'un remède, vaut mieux que le défaut le plus flatteur.
+> Le faux défaut. Julie sait qu'une qualité déguisée est un mensonge poli, et elle en conclut que tu ne lui dis pas la vérité sur le reste. « Je dirais que je travaille trop » : elle l'a entendu à chaque entretien, de chaque collègue. Un vrai défaut, petit et précis, avec le début d'un remède, vaut mieux que le défaut le plus flatteur.
 >
 > À essayer cette semaine
 > Avant ton prochain entretien (annuel, de stage ou d'alternance), écris ta vraie réponse en une phrase à « Quel est ton point faible ? », avec un chiffre modeste sur le modèle de « le troisième jour, je vise le deuxième ». Ajoute une seule touche d'humour, à la fin et jamais au début. Dis le tout à voix haute en regardant quelqu'un, pas ta feuille, et relis-le la veille de l'entretien.
@@ -437,16 +456,16 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> La consigne : ta vraie réponse à « Quel est ton point faible ? », avec un chiffre modeste et une touche d'humour à la fin. Pour la tester, dis-la à quelqu'un en le regardant : s'il rit avant d'avoir entendu le vrai défaut, ta touche d'humour arrive trop tôt, déplace-la à la fin. Si tes yeux tombent au moment de nommer le défaut, dis d'abord ce que tu vises.
+> La consigne : ta vraie réponse à « Quel est ton point faible ? », avec un chiffre modeste et une touche d'humour à la fin. Essaie-la sur quelqu'un, en le regardant : s'il rit avant d'avoir entendu le vrai défaut, ta touche d'humour arrive trop tôt, déplace-la à la fin. Si tes yeux tombent au moment de nommer le défaut, dis d'abord ce que tu vises.
 >
-> Lundi, 12 h 30, devant l'amphi. Vendredi, tu as gagné la finale du tournoi de quiz du BDE. En finale, face à toi : Sofiane, le meilleur de la promo, que tu avais supplié de s'inscrire parce que tu étais sûr qu'il gagnerait. Depuis, on te félicite, et tu ne sais pas où mettre les yeux. Camille, de ton TD, te barre le passage, Sofiane à deux mètres derrière elle :
+> Lundi, 12 h 30, devant l'amphi. Vendredi, tu as gagné le tournoi de quiz du BDE. En finale, face à toi : Sofiane, le meilleur de la promo, que tu avais supplié de s'inscrire parce que tu étais sûr qu'il gagnerait. Depuis, on te félicite, et tu ne sais pas où mettre les yeux. Camille, de ton TD, te barre le passage, Sofiane à deux mètres derrière elle :
 >
 > « Alors, champion ! Elle est où, la coupe ? »
 >
-> À la télé, une humoriste parle d'un prix gagné devant quelqu'un qu'elle admire. Regardons ce qu'on peut lui emprunter.
+> Une humoriste a connu la même gêne, avec un Molière, face à sa référence dans l'humour.
 >
 > Le passage
-> Le 10 juin 2024, Laura Felpin est invitée de « C à vous » sur France 5. En 2023, elle a remporté le Molière de l'humour pour son premier one-woman-show, « Ça passe ». Florence Foresti, qu'elle présente comme sa référence dans l'humour, était nommée dans la même catégorie. Laura Felpin raconte qu'elle avait beaucoup insisté pour que Florence Foresti vienne à la cérémonie, persuadée que Florence Foresti gagnerait, et qu'elle a vécu cette victoire de façon mitigée. Anne-Élisabeth Lemoine lui montre alors une photo du Molière posé aux toilettes. Laura Felpin confirme que c'est bien là qu'il est, et explique que cette récompense n'a rien changé à sa vie.
+> Le 10 juin 2024, Laura Felpin est invitée de « C à vous » sur France 5. En 2023, elle a remporté le Molière de l'humour pour son premier one-woman-show, « Ça passe ». Florence Foresti, qu'elle présente comme sa référence dans l'humour, était nommée dans la même catégorie. Laura Felpin raconte qu'elle avait beaucoup insisté pour que Florence Foresti vienne à la cérémonie, persuadée que sa référence gagnerait, et qu'elle a vécu cette victoire de façon mitigée. Anne-Élisabeth Lemoine lui montre alors une photo du Molière posé aux toilettes. Laura Felpin confirme que c'est bien là qu'il est, et explique que cette récompense n'a rien changé à sa vie.
 >
 > La technique : la victoire qu'on range
 > Deux temps, dans cet ordre. D'abord la gêne, dite par rapport à celle qui était dans la course : elle pensait que ce serait Florence Foresti. Ensuite la victoire descendue d'un étage par elle-même, rangée dans l'endroit le plus banal de la maison, avec une raison sèche et vraie : elle n'a rien changé. Pas de fausse modestie, pas d'étalage non plus. La méthode, c'est nous qui la tirons de son récit.
@@ -462,9 +481,9 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > « Sofiane, je t'ai supplié de t'inscrire pour te voir gagner. Raté. »
 > Tu dis ta gêne à Sofiane, devant Camille : tu l'avais poussé à s'inscrire, tu pensais qu'il gagnerait, et « raté » est le mot de celui qui a gagné par erreur. Camille et Sofiane sourient.
 > « La coupe ? Dans l'entrée, sur le compteur électrique. Elle n'a pas fait baisser la facture. »
-> Tu l'as rangée à l'endroit le moins glorieux de l'appartement et tu donnes la raison sèche : elle n'a rien changé à ton quotidien. Dis-la au même ton que le reste, et arrête-toi sur « facture ».
+> Tu l'as rangée à l'endroit le moins glorieux de l'appartement et tu donnes la raison sèche : elle n'a rien changé à ton quotidien. Le ton ne change pas, et la phrase s'arrête sur « facture ».
 >
-> Ces deux phrases restent au BDE ; le geste vaut pour toute félicitation, d'une note à une bonne nouvelle au boulot.
+> Elles restent au BDE ; le geste vaut pour toute félicitation, d'une note à une bonne nouvelle au boulot.
 >
 > À toi de jouer
 > 1. Pense à un petit succès récent où quelqu'un d'autre était dans la course : une note, une sélection, une place, un tournoi.
@@ -500,7 +519,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> Tu devais écrire la phrase de gêne et l'endroit où tu as rangé ton succès. Pour les tester, glisse-les dans une conversation : si on rit ou si on te répond « moi aussi », le rangement est le bon. Si on te répond « mais si, tu le méritais », ta gêne a sonné comme une demande de compliment : raccourcis-la.
+> Tu devais écrire la phrase de gêne et l'endroit où tu as rangé ton succès. Glisse-les dans une conversation : si on rit ou si on te répond « moi aussi », le rangement est le bon. Si on te répond « mais si, tu le méritais », ta gêne a sonné comme une demande de compliment : raccourcis-la.
 >
 > Dimanche de Pâques, 13 h 05. Le déjeuner était à midi, ton covoiturage est resté cinquante minutes dans un bouchon, et tu sonnes enfin chez tes parents. Ta mère a passé la matinée sur le gigot, qui trône au milieu de la table. Ton frère Adrien, vautré sur le canapé, un œuf en chocolat à la main, regarde l'horloge du salon, puis toi :
 >
@@ -510,7 +529,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La sûre
 > « Oui, une heure de retard. Je vais la rattraper au dessert. »
-> Tu reconnais le retard d'un chiffre et tu proposes d'y remédier avec la seule chose qui te rend utile à ce repas : l'appétit. Elle parle de toi, elle rassure ta mère : tu es venu pour manger. Elle clôt la pique d'Adrien sans lui répondre. À choisir quand le gigot a refroidi, ou quand la table te regarde sans sourire.
+> Tu reconnais le retard d'un chiffre et tu proposes d'y remédier avec la seule chose qui te rend utile à ce repas : l'appétit. Ta mère comprend que tu es venu pour manger, et la pique d'Adrien se referme sans réponse. À choisir quand le gigot a refroidi, ou quand la table te regarde sans sourire.
 >
 > La joueuse
 > « Je n'étais pas en retard : j'ai laissé reposer le gigot. »
@@ -518,16 +537,16 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La risquée
 > « Toi, tu es arrivé à l'heure. Pour t'allonger. »
-> Adrien était là à midi, et il a passé l'heure sur le canapé, un œuf en chocolat à la main. Tu gardes ton retard et tu fais remarquer que sa ponctualité n'a servi à personne. Garde-la pour un frère qui rit de sa paresse, devant une mère qui lève déjà les yeux au ciel en le regardant. S'il a aidé en cuisine toute la matinée, elle tombe à faux, et c'est toi qui passes pour l'ingrat.
+> Adrien était là à midi, et il a passé l'heure sur le canapé, un œuf en chocolat à la main. Tu gardes ton retard et tu fais remarquer que sa ponctualité n'a servi à personne. Elle suppose un frère qui rit de sa paresse, devant une mère qui lève déjà les yeux au ciel en le regardant. S'il a aidé en cuisine toute la matinée, elle tombe à faux, et l'ingrat, ce sera toi.
 >
 > Comment choisir : ce qui a refroidi
-> Regarde la table. Si le plat est déjà dans les assiettes et qu'il fume moins, ton retard a coûté quelque chose à quelqu'un : prends la sûre, qui promet de rattraper. Si la table en est encore à l'apéritif et aux œufs du jardin, personne n'a rien perdu : la joueuse devient possible. La risquée n'a sa place que si le retard n'a rien coûté du tout et que celui qui pique adore ça. Plus quelque chose a refroidi, moins ta phrase doit parler d'Adrien.
+> Si le plat est déjà dans les assiettes et qu'il fume moins, ton retard a coûté quelque chose à quelqu'un : prends la sûre, qui promet de rattraper. Si la table en est encore à l'apéritif et aux œufs du jardin, personne n'a rien perdu : la joueuse devient possible. La risquée n'a sa place que si le retard n'a rien coûté du tout et que celui qui pique adore ça. Au premier signe de froid, Adrien sort de ta phrase.
 >
 > L'erreur que tout le monde fait
-> Répondre à la mauvaise personne. Adrien lance sa pique depuis le canapé, tu réponds du tac au tac, le salon rit, et ta mère, qui a passé la matinée devant le four, n'a pas eu un mot de toi. Adrien a eu sa réponse ; ta mère attend encore la sienne. Avant de répondre à celui qui parle, dis une chose à celle qui a attendu : « ça sent bon », « il est magnifique, ce gigot ». Le reste vient ensuite.
+> Répondre à la mauvaise personne. Adrien lance sa pique depuis le canapé, tu réponds du tac au tac, le salon rit, et ta mère, qui a passé la matinée devant le four, n'a pas eu un mot de toi. Adrien a eu sa réponse ; ta mère attend encore la sienne. Ta première phrase revient à celle qui a attendu : « ça sent bon », « il est magnifique, ce gigot ». Adrien attendra son tour.
 >
 > À essayer cette semaine
-> Écris deux phrases pour le prochain repas où tu risques d'arriver après l'heure. La première pour celui ou celle qui a cuisiné (« ça sent bon », « le plat est magnifique »), la seconde pour celui qui te piquera, sur le modèle du dessert à rattraper. Dis-les à voix haute dans cet ordre : d'abord celui qui a attendu, ensuite celui qui parle. Et dans la nuit de samedi à dimanche, à 2 h, les horloges avancent d'une heure : si ton réveil ne se règle pas tout seul, avance-le avant de dormir. Bonnes fêtes de Pâques.
+> Écris deux phrases pour le prochain repas où tu risques d'arriver après l'heure. La première pour celui ou celle qui a cuisiné (« ça sent bon », « le plat est magnifique »), la seconde pour celui qui te piquera, comme le dessert à rattraper. Dis-les à voix haute dans cet ordre : d'abord celui qui a attendu, ensuite celui qui parle. Et dans la nuit de samedi à dimanche, à 2 h, les horloges avancent d'une heure : si ton réveil ne se règle pas tout seul, avance-le avant de dormir. Bonnes fêtes de Pâques.
 >
 > Retourner une pique sur ton retard sans te justifier, c'est l'étape 3 du parcours Répartie, « Retourner les piques avec le sourire ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2027-w12-etape3#etape-3
@@ -556,7 +575,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> Tu devais écrire trois phrases qui commencent par « Non, mais ». Pour les tester, regarde la fin de chacune : elle doit te ranger du côté des autres, comme « c'est la faute de l'arbitre ». Si ta phrase te laisse seul face au groupe, elle n'invite personne.
+> Tu devais écrire trois phrases qui commencent par « Non, mais ». Le test est dans la fin de chacune : elle doit te ranger du côté des autres, comme « c'est la faute de l'arbitre ». Si ta phrase te laisse seul face au groupe, elle n'invite personne.
 >
 > Lundi, 13 h, la cafétéria de la fac. Les notes des partiels sont tombées vendredi soir, et le groupe de ton TD est à la même table, plateaux devant eux. C'est Antoine qui a lancé le tour de table : Chloé a eu 16, lui 14, les deux autres ont suivi, et il t'a gardé pour la fin. Tu as eu 9. Antoine pose sa fourchette :
 >
@@ -602,7 +621,7 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> Tu devais écrire ta vraie réponse à « Quel est ton point faible ? », avec un chiffre modeste et une touche d'humour à la fin. Pour la tester, dis-la à quelqu'un en le regardant : s'il rit avant d'avoir entendu le vrai défaut, ta touche d'humour arrive trop tôt, déplace-la à la fin. Si tes yeux tombent au moment de nommer le défaut, dis d'abord ce que tu vises.
+> Tu devais écrire ta vraie réponse à « Quel est ton point faible ? », avec un chiffre modeste et une touche d'humour à la fin. Essaie-la sur quelqu'un, en le regardant : s'il rit avant d'avoir entendu le vrai défaut, ta touche d'humour arrive trop tôt, déplace-la à la fin. Si tes yeux tombent au moment de nommer le défaut, dis d'abord ce que tu vises.
 >
 > Vendredi, 18 h 47, un train bondé pour le week-end. Tu as trouvé une place côté fenêtre, ton livre ouvert devant toi, casque sur les oreilles même si rien ne joue. À côté de toi, une femme d'une cinquantaine d'années a posé son manteau sur ses genoux et une envie de parler sur son visage. Elle se penche :
 >
@@ -616,11 +635,11 @@ Les passages NEUVE sont des phrases ou répliques qui n'existaient dans aucune v
 >
 > La joueuse
 > « Un polar. Je soupçonne déjà tout le wagon. »
-> Tu fais de ton livre un prétexte pour jouer au détective. L'inconnue peut entrer dans le jeu (« Et moi, je suis suspecte ? ») ou sourire et te laisser lire. Dis-la en la regardant à peine, comme une information de service. À sortir quand ton livre s'y prête et qu'elle a déjà souri, ou quand tu as envie que la conversation dure.
+> Tu fais de ton livre un prétexte pour jouer au détective. L'inconnue peut entrer dans le jeu (« Et moi, je suis suspecte ? ») ou sourire et te laisser lire. En la regardant à peine, comme une information de service. À sortir quand ton livre s'y prête et qu'elle a déjà souri, ou quand tu as envie que la conversation dure.
 >
 > La risquée
 > « Je crois que vous lisez par-dessus mon épaule. Vous me direz si c'est bien. »
-> Tu fais semblant de l'avoir surprise en train de lire ton livre, et tu lui demandes son avis. Elle suppose un premier sourire de sa part et un wagon calme. Devant quelqu'un qui voulait seulement être aimable, elle sonne comme un reproche.
+> Tu fais semblant de l'avoir surprise en train de lire ton livre, et tu lui demandes son avis. Elle exige un premier sourire de sa part et un wagon calme. Devant quelqu'un qui voulait seulement être aimable, elle sonne comme un reproche.
 >
 > Comment choisir : le nombre de gares qui restent
 > Compte le trajet qu'il reste avant de choisir. À deux gares de l'arrivée, tu peux tout te permettre : la conversation s'arrêtera toute seule. À deux heures de trajet, chaque phrase qui fait rire ouvre peut-être deux heures de conversation. Plus il reste de trajet, plus ta réplique doit pouvoir se refermer : la sûre se referme d'un « je vais m'y mettre », la joueuse se referme si tu rouvres ton livre avec un sourire, la risquée ne se referme pas. Longue route : la sûre.
@@ -661,7 +680,7 @@ Mots cherchés dans `apps/web/src/data` : grogn, hauteur, podium, suspense, casq
 - **Aucune occurrence** : tunnel, podium, redemand, covoiturage, allonger, interphone, cambriol, compteur, quiz (hors BDE), tournoi de quiz, Felpin, tram, gigot, Angleterre, hauteur (sens « prendre de la hauteur »), mails de l'après-midi, chance de l'année, plus haut que moi.
 - **Occurrences sans rapport** : « grognonne » (`joke-decryptages.json` l.605, vanne de la poste) ; « BDE » (l.939, « soirée révisions », autre blague) ; « casque » (l.1017, casque gaming) ; « bouchons » (l.1146, excuse d'un ami, autre technique) ; « en silence » (l.1236, conseil d'écriture) ; « loto » (l.819, ticket à deux : le 14/01 parle de chance épuisée, autre blague) ; « Molière » (`blog-article-fixes.json` l.78, le dramaturge) ; « coupe », « reposer », « dessert », « presque » : mots courants. `hebdo-premium.json` contient encore l'ancien texte du 24/12 (« dessert ») : à remplacer par la version finale, sans lien avec ces lettres.
 - **Pascot** : fiche vidéo seedId 62 (anecdote du Kem's, technique « naturel désarmant », défi suspense/chute gardée) ; première étape du parcours Storytelling (`docs/content/parcours-storytelling-s18.json` l.131, même vidéo) ; deux conseils (`conseils-storytelling-base-s18.json` l.170 et l.377) qui le citent en passant (dates, retournements). Passage et geste de la lettre du 18/02 : différents (ouverture sur l'instant figé puis retour, l'anecdote d'Amsterdam n'est que citée).
-- **Voisinage de technique à signaler** : Storytelling é5 « La blague à tiroirs » (`parcours-storytelling-s18.json` l.430 à 477) apprend une digression drôle en soi qui se referme par « Bref » ; la lettre du 18/02 apprend l'inverse (ouvrir sur l'instant, une digression qui explique, revenir). Lien gardé car le titre de l'étape colle ; repli Storytelling é6 « Un détail qui revient à la fin ».
+- **Voisinage de technique à signaler** : Storytelling é5 « La blague à tiroirs » (`parcours-storytelling-s18.json` l.430 à 477) apprend une digression drôle en soi qui se referme par « Bref » ; la lettre du 18/02 apprend à ouvrir sur l'instant, à faire une seule digression qui fait sourire pour elle-même et qui dit pourquoi ça coince, puis à revenir : compatible avec l'étape (quiz 4 : on raccourcit le tiroir, on ne le supprime pas, d'où l'exercice « raccourcis la digression sans la supprimer »). Lien gardé car le titre de l'étape colle ; repli Storytelling é6 « Un détail qui revient à la fin ».
 - **Finals du corpus** (`lettres-reservees-nov-dec-s22.md` révision 2, `lettres-du-mois-s22.md`, `n1-candidates-s22.md`) : aucune scène, réplique, règle ni erreur en commun. Seuls rapprochements : « quiz » dans l'exercice d'une autre candidate du n°1 (l.177, « un jeu, un match, un quiz », non retenue) ; la visio d'oral du 21/01 face à la visio du linge du 26/11 (autres scènes, deux mois) ; « Non, mais » du 11/02, attaque de l'erreur du n°1 (traité par une mise en garde dans l'exercice) ; Répartie 1 liée par W46 (repli du 18/02 seulement).
 - **Articles** (`docs/copy/articles-q4/`, `blog-articles.ts`) et `docs/content/` : aucune reprise (Felpin 0, podium 0, tournoi de quiz 0 ; « casque bleu » de `S8` est une autre blague).
 
@@ -729,22 +748,41 @@ Doublons de liens : Confiance 2 est aussi lié le 24/12 (W52) et par la mensuell
 1. **Pages sources** : Frayssinet (deux articles, phrases sous la lettre, recherche de controverse non faite), Pascot (deux critiques concordantes), Felpin (une page). Refaire les recherches de controverse la semaine de l'envoi (Felpin et Pascot comme Frayssinet).
 2. **Angleterre-France le dimanche 14/02/2027** : plusieurs sources concordantes, page officielle du Tournoi non ouverte.
 3. **Calendrier des entretiens annuels** (11/03) : [HYPOTHÈSE], aucune date de campagne écrite.
-4. **Storytelling é5** (18/02) enseigne le « tiroir » drôle ; la lettre apprend l'ouverture sur l'instant et une digression qui explique. Lien gardé, repli Storytelling é6. **Confiance 2** (18/03) : troisième citation en trois mois ; repli Confiance é6. **Répartie 4** (21/01 et 01/04).
+4. **Storytelling é5** (18/02) enseigne le « tiroir » drôle ; la lettre apprend l'ouverture sur l'instant et une digression qui fait sourire seule et dit pourquoi ça coince. Lien gardé (compatible), repli Storytelling é6. **Confiance 2** (18/03) : troisième citation en trois mois ; repli Confiance é6. **Répartie 4** (21/01 et 01/04).
 5. **Les remplacements de répliques** sont de ma main quand ils sont meilleurs que les propositions des relectures : 25/02 sûre (casque pour tout le monde, version du lecteur), 11/03 joueuse (« en silence », version du lecteur, améliorée), 14/01 risquée (« je vous fais cadeau », version de l'éditeur), 18/02 repli (« Pour le suspense. 9. », à la place du dessert). À départager à l'aveugle si une relecture hésite.
 6. **Barre 9/10 non attestée** : aucune lettre n'a repassé l'aveugle. Risques par ordre : 18/02 (exemples du récit longs à dire), 14/01 (risquée « mails »), 28/01 (joueuse « visé plus haut »), 21/01 (« Je sors d'un tunnel » à tester sur de vrais lecteurs de 20 à 30 ans).
 7. **Fichiers du corpus en mouvement** : relancer le Grep anti-doublon sur les versions finales avant l'approbation. `hebdo-premium.json` porte encore d'anciens textes de novembre-décembre (hors périmètre).
 8. Si les deux décryptages de février et mars étaient refusés (une source seulement pour mars), les replis en annexe sont prêts, avec le retour de la lettre suivante.
 
-### 8. Grep des débuts de phrase (T1), fait après la révision 3
+### 8. Grep des débuts de phrase (T1 et T2), refait après la révision 4
 
-Méthode : Grep des débuts de ligne `^> ` du fichier (sûre, joueuse, risquée, « Comment choisir », erreur, retour), puis des formules relevées dans `docs/copy/*-a-lire.md` (anciens états de nov-dec et du mois, plus ceux que les relectures citent). Résultat sur le corps des lettres (hors notes et annexe) :
+Méthode : Grep des débuts de ligne `^> ` du fichier (sûre, joueuse, risquée, « Comment choisir », erreur, retour, entrées), puis des mêmes formules dans `docs/copy/lettres-du-mois-s22-a-lire.md` et `docs/copy/lettres-reservees-nov-dec-s22-a-lire.md`, formule par formule. Corpus = ce lot + mois + nov-déc. Règle : aucune formule au-delà de deux occurrences dans le corpus, hors étiquettes fixes du format (« À choisir quand / par défaut », « À sortir quand », « À éviter si », titres de section, nom de l'erreur en tête de section, « à voix haute » dans les exercices). La version de la révision 3 de ce paragraphe était fausse (elle ne comptait pas le corpus pour « Avant de répondre », « Il faut que » et « Dis-la ») ; voici le comptage refait. Résultat sur le corps des lettres (hors notes et annexe) :
 
-- « Ici, X est la cible » : 1 (14/01) ; avec « Ici, c'est tata » (mensuelle du 03/12) : 2 dans le corpus. « Là, tu… » : 0 dans les lettres principales ; « Là, tu vises la personne en face » reste dans la mensuelle du 04/03. « Il faut que » : 1 (14/01). « Compte sur elle » : 0 (supprimé car présent dans la mensuelle du 04/02). « Elle s'adresse à » : 0 (nov-déc en a 2). « Avant de répondre » : 0 (nov-déc et mois en ont 2). « Celle-ci vise », « Voici trois réponses », « Au moindre doute », « Elles ont un point commun », « Elle ne marche que si » : 0.
+| Formule | Lot | Mois / nov-déc | Total |
+|---|---|---|---|
+| « Pour le/les tester » (retour) | 2 (21/01, 25/02) | 0 | 2 |
+| « Elle parle de / à » | 2 (14/01, 28/01) | 0 | 2 |
+| « Avant de répondre » | 0 | 2 | 2 |
+| « Il faut que » (condition de risquée) | 0 | 4 | 4, tous dans le corpus figé : le lot n'en ajoute pas |
+| « Dis-la + manière de dire » | 0 | 7 | 7 : le lot n'en ajoute pas (les « Dis-la une fois à voix haute » d'exercice sont l'étiquette de format) |
+| « Regarde + objet » en tête de règle ou de technique | 0 | 4 | 4 : le lot n'en ajoute pas ; reste « Regarde la hotte en la disant » (consigne de diction, 28/01), seule |
+| « Plus X, plus/moins Y » (fin de règle) | 0 | 2 ou plus (mois) | le lot n'en ajoute pas |
+| Entrée « X attend. » | 1 (25/02, « Elle attend. ») | 1 | 2 |
+| « Elle demande », « Elle passe », « Garde-la / garde-la », « Compte sur elle » | 0 | 3 à 5 chacune | le lot n'en ajoute pas |
+| « Elle suppose » | 1 (25/03) | 1 | 2 |
+| « Elle tient si » | 1 (25/02) | 0 | 1 |
+| Entrée B « On regarde » ou « emprunter » | 1 (18/02 « Cette semaine, on regarde… ») | 1 (19/11) | 2 |
+| Fermeture B « Ces N phrases / Ces deux-là restent… » | 0 (21/01 « Elles ne valent que… », 18/02 « Hors du tram, le même ordre marche… », 18/03 « Elles restent au BDE ; le geste… ») | 2 (19/11, 17/12) | 2 |
+| « sonne comme une provocation » | 0 | 1 | 1 |
+| « Ici, X est la cible » | 1 (14/01) | 1 (« Ici, c'est tata ») | 2 |
+| « Tu devais écrire » (ouverture de retour) | 2 (21/01, 25/03) | 2 ou plus (26/11, 24/12) | variantes ailleurs (« L'exercice », « Au programme », « Il fallait écrire », « La consigne »). Ouverture du retour : étiquette de format, laissée telle quelle |
+
+Remarque : la fermeture du 18/03, qui disait « Ces deux phrases restent au BDE », devient « Elles restent au BDE » pour ne pas faire un troisième « Ces deux phrases… » avec le 19/11. Même chose pour « Elle exige » dans le repli du 18/03 (annexe).
 - Débuts de commentaire de risquée : Ici (14/01), « La poêle passe à Mehdi » (28/01), « Tu fais de Maxime » (11/02), « Les coups de balai deviennent » (25/02), « Tu glisses » (11/03), « Adrien était là » (25/03) : six débuts différents.
 - Débuts de commentaire de sûre : « Elle parle à l'équipe » (14/01), « Tu lis le présage » (28/01), « Tu avoues » (11/02), « Tu reconnais » (25/02), « Tu donnes » (11/03), « Tu reconnais » (25/03) : « Tu reconnais » deux fois, c'est le plafond.
 - Débuts de commentaire de joueuse : « Tu traites » (14/01), « Prendre de la hauteur » (28/01), « Aveu déguisé » (11/02), « Tu dis oui » (25/02), « Le vrai axe vient d'abord » (11/03), « Un gigot se laisse reposer » (25/03).
-- Fins de joueuse : « Dis-la + adverbe » deux fois (14/01, 25/02). « ne vise personne » : 1. « ferme le sujet » : 1 (28/01) dans le corps.
-- Retours : « Tu devais écrire » aux 21/01 et 25/03 seulement ; « L'exercice : », « Au programme : », « Il fallait écrire », « La consigne : » ailleurs. Une mécanique de test différente par lettre.
-- Lettres B : « Retiens » une fois (21/01), « Regarde l'ordre » (18/02), « Deux temps, dans cet ordre » (18/03) ; les fermetures « Elles ne valent que… », « Ces trois phrases restent dans le tram… », « Ces deux phrases restent au BDE… » sont trois tournures différentes.
+- Consignes de diction des joueuses : « Prends l'air résigné » (14/01), « Regarde la hotte en la disant » (28/01), « Avec fierté, une chips à la main » (11/02), « Une pointe de surprise dans la voix, sans fanfaronner » (25/02), « Sans appuyer, comme un point d'étape » (11/03), « Le regard sur le plat, le plus sérieusement du monde » (25/03) : six tournures, aucune ne répète « Dis-la ». « ne vise personne » : 1. « ferme le sujet » : 1 (28/01) dans le corps.
+- Retours : une mécanique de test différente par lettre (chronomètre et contexte, relecture le lendemain, fin de phrase, enregistrement, regard, conversation).
+- Lettres B : « Deux temps, dans cet ordre » (18/03), « Retiens » une fois (21/01), « Il ne commence pas par… » (18/02).
 - Entrées : plus aucune « Trois réponses, et… » dans le corps des lettres principales (restent les pré-en-têtes, format admis).
 - Contrôles de forme refaits : 0 tiret cadratin ou demi-cadratin, 0 émoji, 0 « merdeuse » hors de l'URL de la source.
