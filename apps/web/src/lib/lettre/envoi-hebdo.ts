@@ -19,7 +19,7 @@
  */
 import { prisma } from "@/lib/prisma";
 import { LETTRE_HEBDO_ARRET_CHEMIN, LETTRE_HEBDO_ENVOIS_OUVERTS, MARQUEUR_A_COMPLETER } from "@/config/lettre";
-import { piedNumeroHebdo } from "@/config/textes/lettre-hebdo-s21";
+import { ligneQuestionEquipeHebdo, piedNumeroHebdo } from "@/config/textes/lettre-hebdo-s21";
 import { frPonctuation } from "@/lib/fr-typo";
 import { envoiSemaine, semaineIsoParis } from "@/lib/lettre/calendrier";
 import { articlesCites, envoyerLot, etatArticlesCites, type CibleEnvoi } from "@/lib/lettre/envoi";
@@ -43,9 +43,14 @@ export function enTetesArretHebdo(baseUrl: string, token: string): Record<string
   };
 }
 
-/** Corps complet : texte préparé + pied hebdo (insécables posées au rendu, texte stocké intact). */
-export function corpsNumeroHebdo(bodyText: string, baseUrl: string, token: string): string {
-  return `${frPonctuation(bodyText.trimEnd())}\n${frPonctuation(piedNumeroHebdo(lienArretHebdo(baseUrl, token), baseUrl))}`;
+/**
+ * Corps complet : texte préparé (approuvé) + ligne « Ta question à l'équipe » si le service est
+ * ouvert (s22) + pied hebdo. Insécables posées au rendu, texte stocké intact. Le texte préparé
+ * seul entre dans l'empreinte d'approbation : la ligne et le pied n'y entrent pas.
+ */
+export function corpsNumeroHebdo(bodyText: string, baseUrl: string, token: string, questionOuverte?: boolean): string {
+  const ligne = ligneQuestionEquipeHebdo(questionOuverte);
+  return `${frPonctuation(bodyText.trimEnd())}${frPonctuation(ligne)}\n${frPonctuation(piedNumeroHebdo(lienArretHebdo(baseUrl, token), baseUrl))}`;
 }
 
 const LIEN_PARCOURS = /https:\/\/deviens-marrant\.fr\/parcours\/([a-z0-9]+(?:-[a-z0-9]+)*)/gi;

@@ -14,6 +14,7 @@
  * `LETTRE_HEBDO_*` sont fermés (`config/lettre.ts`).
  * Zéro tiret cadratin (test `lettre-hebdo-textes-s21.test.ts`). Insécables posées au rendu.
  */
+import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 import { LETTRE_MENTION_EDITEUR_NUMERO } from "@/config/lettre";
 import { LETTRE_CONTACT } from "@/config/textes/lettre-s21";
 
@@ -65,6 +66,21 @@ export const LETTRE_HEBDO_ARRET = {
     "Ce lien ne fonctionne plus. Si tu es abonné Premium, tu peux régler la lettre depuis ton profil. Sinon, écris-nous à contact@deviens-marrant.fr.",
   erreur: "L'arrêt n'a pas abouti, et c'est de notre côté. Réessaie dans un instant, ou écris-nous à contact@deviens-marrant.fr.",
 } as const;
+
+/**
+ * (s22) Ligne « Ta question à l'équipe » de chaque numéro, texte retouché validé par la
+ * relecture à l'aveugle (`docs/reviews/review-lettre-hebdo-w45-w46-s22.md`, T4). Posée par le
+ * code à l'envoi, entre le texte préparé et le pied légal : hors empreinte d'approbation (ouvrir
+ * ou fermer le service n'annule aucune approbation) et hors décompte de longueur. Affichée
+ * seulement si `QUESTION_EQUIPE_OUVERTE` (jamais de promesse d'une fonction absente).
+ */
+export const LIGNE_QUESTION_EQUIPE_HEBDO =
+  "Une situation te laisse sans réplique ? Pose ta question à l'équipe depuis ton profil : en général, réponse sous 1 à 2 jours ouvrés.";
+
+/** Bloc de la ligne « Ta question à l'équipe » (ligne vide + ligne), ou rien si le service est fermé. */
+export function ligneQuestionEquipeHebdo(ouverte: boolean = QUESTION_EQUIPE_OUVERTE): string {
+  return ouverte ? `\n\n${LIGNE_QUESTION_EQUIPE_HEBDO}` : "";
+}
 
 /** (L §2.3) Pied de chaque numéro, texte seul. */
 export function piedNumeroHebdo(lienArret: string, baseUrl: string): string {

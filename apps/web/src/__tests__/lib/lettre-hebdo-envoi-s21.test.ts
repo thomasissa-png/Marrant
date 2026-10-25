@@ -78,9 +78,10 @@ jest.mock("@/lib/prisma", () => ({
 import carnetNovembre from "@/data/carnet/2026-11.json";
 import factice from "../helpers/lettre-hebdo-numero-factice.json";
 import { parseCarnets } from "@/lib/carnet";
-import { GABARIT_HEBDO } from "@/config/textes/lettre-hebdo-s21";
+import { GABARIT_HEBDO, LIGNE_QUESTION_EQUIPE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { preparerNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
-import { envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
+import { corpsNumeroHebdo, envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
+import { frPonctuation } from "@/lib/fr-typo";
 import { envoyerLettreDuMois } from "@/lib/lettre/envoi";
 import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
 
@@ -158,6 +159,17 @@ describe("Quand ça part", () => {
       "List-Unsubscribe": `<${BASE}/api/lettre-premium/arret-un-clic?token=${encodeURIComponent(jeton)}>`,
       "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
     });
+  });
+
+  it("s22 : ligne « Ta question à l'équipe » posée par le code entre le texte approuvé et le pied, seulement service ouvert", () => {
+    const ouvert = corpsNumeroHebdo(corpsValide.corps, BASE, "jeton", true);
+    const ferme = corpsNumeroHebdo(corpsValide.corps, BASE, "jeton", false);
+    const ligne = frPonctuation(LIGNE_QUESTION_EQUIPE_HEBDO);
+    expect(ouvert).toContain(`\n\n${ligne}\n\n--\n`);
+    expect(ferme).not.toContain("Ta question");
+    expect(ouvert.replace(`\n\n${ligne}`, "")).toBe(ferme);
+    // Hors texte approuvé : l'empreinte d'approbation ne bouge pas quand le service s'ouvre.
+    expect(corpsValide.corps).not.toContain("Ta question");
   });
 
   it("H4-4 : tâche relancée ou concurrente, personne ne reçoit deux fois", async () => {
@@ -259,6 +271,31 @@ describe("Destinataires (fonction unique) et cohérence avec la mensuelle", () =
     for (const a of mockDb.abonnes) {
       if (a.email === "opposant@x.fr") continue; // opposition globale : ni l'une ni l'autre (L6)
       expect(recoiventHebdo.has(a.email) !== recoiventMensuelle.has(a.email)).toBe(true);
+    }
+  });
+
+  it.each([
+    ["l'hebdo puis la mensuelle", false],
+    ["la mensuelle puis l'hebdo", true],
+  ])("s22, jeudi 05/11 8 h (n°1 de l'hebdo ET n°1 de la mensuelle le même matin) : %s, jamais deux lettres pour un abonné", async (_, mensuelleDabord) => {
+    const JEUDI_05 = new Date("2026-11-05T07:05:00Z");
+    mockDb.issues = [
+      numero({ id: "h45", periodKey: "2026-W45", scheduledFor: new Date("2026-11-05T07:00:00Z") }),
+      ...mockDb.issues.filter((i) => i.audience === "MENSUELLE"),
+    ];
+    const hebdo = envoyer();
+    const mensuelle = envoyer();
+    if (mensuelleDabord) await envoyerLettreDuMois(JEUDI_05, { envoyer: mensuelle, baseUrl: BASE });
+    const r = await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE });
+    if (!mensuelleDabord) await envoyerLettreDuMois(JEUDI_05, { envoyer: mensuelle, baseUrl: BASE });
+    expect(r.numero).toBe("2026-W45");
+    const recoiventHebdo = hebdo.mock.calls.map((c) => c[0]);
+    const recoiventMensuelle = mensuelle.mock.calls.map((c) => c[0]);
+    expect(recoiventHebdo.length).toBeGreaterThan(0);
+    expect(recoiventMensuelle.length).toBeGreaterThan(0);
+    for (const a of mockDb.abonnes) {
+      const n = recoiventHebdo.filter((x) => x === a.email).length + recoiventMensuelle.filter((x) => x === a.email).length;
+      expect(n).toBeLessThanOrEqual(1);
     }
   });
 

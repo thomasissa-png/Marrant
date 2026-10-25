@@ -65,13 +65,21 @@ describe("Assemblage depuis la fiche du carnet", () => {
     expect(numeros[0].corps.startsWith(MARQUEUR_A_COMPLETER)).toBe(true);
   });
 
-  it("le fichier réel : 8 numéros d'avance (2026-W46 à 2026-W53), tous acceptés, aucune fiche offerte, jamais d'offre, 230 mots au plus hors pied", () => {
+  it("le fichier réel : 9 numéros d'avance (2026-W45 à 2026-W53), tous acceptés, aucune fiche offerte, jamais d'offre, 230 mots au plus hors pied", () => {
     const { numeros, ignores } = preparerNumerosHebdo(numerosReels, carnets, VALIDE);
     expect(ignores).toEqual([]);
-    expect(numeros.map((n) => n.semaine)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W49", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    // s22 : n°1 avancé au jeudi 05/11 (W45, décision du 25/10), nouveau numéro W46 (12/11).
+    expect(numeros.map((n) => n.semaine)).toEqual(["2026-W45", "2026-W46", "2026-W47", "2026-W48", "2026-W49", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
     expect(numeros.map((n) => n.envoiPrevu.toISOString().slice(0, 10))).toEqual([
-      "2026-11-12", "2026-11-19", "2026-11-26", "2026-12-03", "2026-12-10", "2026-12-17", "2026-12-24", "2026-12-31",
+      "2026-11-05", "2026-11-12", "2026-11-19", "2026-11-26", "2026-12-03", "2026-12-10", "2026-12-17", "2026-12-24", "2026-12-31",
     ]);
+    expect(numeros[0].envoiPrevu.toISOString()).toBe("2026-11-05T07:00:00.000Z"); // 8 h à Paris (heure d'hiver)
+    expect(numeros[0].corps).toContain("utm_content=2026-w45-etape2");
+    expect(numeros[0].corps).not.toContain("2026-w46");
+    // W46 : fiche « Le renfort du samedi », objet A (titre de la fiche) et accroche B de la relecture.
+    expect(numeros[1]).toMatchObject({ ficheId: "2026-11-09", objet: "Le renfort du samedi" });
+    expect(numeros[1].corps).toContain("Samedi approche, et il y a toujours un ami qui a une idée de ce que tu pourrais en faire.");
+    expect(new Set(numeros.map((n) => n.ficheId)).size).toBe(numeros.length);
     const offertes = carnets.flatMap((c) => c.fiches.filter((f) => f.offerte === true).map((f) => f.id));
     for (const n of numeros) {
       expect(offertes).not.toContain(n.ficheId);
