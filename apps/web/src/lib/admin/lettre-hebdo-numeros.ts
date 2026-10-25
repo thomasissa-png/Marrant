@@ -3,11 +3,16 @@
  * lettre du mois (mensuelle, chantier A s22). Chaque numéro est rendu tel qu'il partira (objet, pré-en-tête, corps et pied réel, lien
  * d'arrêt factice) avec son empreinte : « Approuver ce numéro » renvoie cette empreinte,
  * le serveur refuse si le numéro a changé depuis l'affichage.
+ * s22 (décision de Thomas du 25/10) : la lettre du mois part aussi aux abonnés Premium, en version
+ * Premium (sans l'invitation, pied de la lettre de la semaine), rendue ici avec la version gratuite :
+ * une seule approbation couvre les deux. Sa semaine n'a pas de lettre réservée.
  */
 import { z } from "zod";
 import { frPonctuation } from "@/lib/fr-typo";
 import { corpsNumeroHebdo } from "@/lib/lettre/envoi-hebdo";
-import { corpsNumero, periodeMensuelle } from "@/lib/lettre/envoi";
+import { corpsNumero, corpsNumeroPremium, periodeMensuelle } from "@/lib/lettre/envoi";
+import { semaineIsoParis } from "@/lib/lettre/calendrier";
+import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { approbationValide, empreinteNumero, type AudienceApprobation } from "@/lib/lettre/approbation-hebdo";
 
 /** Du jeudi 8 h au lundi 0 h : un numéro reste approuvable tant que sa semaine n'est pas finie. */
@@ -39,8 +44,14 @@ export interface NumeroHebdoAdmin {
   envoiPrevu: string;
   objet: string;
   preEntete: string | null;
-  /** Texte complet tel qu'il part (pied compris, lien d'arrêt factice). */
+  /** Texte complet tel qu'il part (pied compris, lien d'arrêt factice). Lettre du mois : version gratuite. */
   texte: string;
+  /** (s22) Lettre du mois : version Premium telle qu'elle part aux abonnés (sinon `null`). */
+  textePremium: string | null;
+  /** (s22) Lettre du mois : nombre d'abonnés Premium qui la reçoivent à la place de la lettre réservée. */
+  abonnesPremium: number | null;
+  /** (s22) Lettre de la semaine : semaine prévue de la lettre du mois, ce numéro ne part pas. */
+  semaineMensuelle: boolean;
   empreinte: string;
   /** Approbation en cours ET portant sur ce contenu exact. */
   approuve: boolean;
@@ -64,6 +75,8 @@ export async function listerNumerosHebdoAdmin(now: Date, baseUrl: string): Promi
     orderBy: { scheduledFor: "asc" },
     take: 30,
   });
+  const semainesMensuelle = new Set(numeros.filter((n) => n.audience === "MENSUELLE" && n.status === "VALIDE").map((n) => semaineIsoParis(n.scheduledFor)));
+  const abonnesPremium = numeros.some((n) => n.audience === "MENSUELLE") ? (await destinatairesHebdo()).length : 0;
   return numeros.map((n) => {
     const valide = approbationValide(n);
     const mensuelle = n.audience === "MENSUELLE";
@@ -75,6 +88,9 @@ export async function listerNumerosHebdoAdmin(now: Date, baseUrl: string): Promi
       objet: frPonctuation(n.subject),
       preEntete: n.preheader,
       texte: mensuelle ? corpsNumero(n.bodyText, baseUrl, "apercu-sans-effet") : corpsNumeroHebdo(n.bodyText, baseUrl, "apercu-sans-effet"),
+      textePremium: mensuelle ? corpsNumeroPremium(n.bodyText, baseUrl, "apercu-sans-effet") : null,
+      abonnesPremium: mensuelle ? abonnesPremium : null,
+      semaineMensuelle: !mensuelle && semainesMensuelle.has(n.periodKey),
       empreinte: empreinteNumero(n),
       approuve: valide,
       approuveLe: valide && n.approvedAt ? n.approvedAt.toISOString() : null,

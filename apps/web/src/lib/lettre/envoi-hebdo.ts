@@ -12,46 +12,29 @@
  *  4. Marqueur `[À COMPLÉTER` (gabarit non validé, pied) ou offre commerciale
  *     (`motifsInterdits`, avis @legal C1) dans le rendu : bloqué.
  *  5. Article du blog cité hors ligne, ou étape de parcours d'un parcours inactif : reporté.
- *  6. Destinataires = `destinatairesHebdo()` (fonction unique, aussi utilisée pour
- *     mettre la mensuelle en pause) ; jeton d'arrêt créé au premier envoi (`avecJetonsHebdo`).
+ *  2 bis. (s22, décision de Thomas du 25/10) Semaine de la lettre du mois (`semaineDeLaMensuelle`) :
+ *     aucune lettre réservée. Les abonnés reçoivent la lettre du mois, par le canal Premium (`envoi.ts`).
+ *     Lettre du mois due mais pas encore partie (pas approuvée, reportée) : rien non plus, jamais deux
+ *     lettres dans la même semaine.
+ *  6. Destinataires = `destinatairesHebdo()` (fonction unique, aussi utilisée par la lettre du mois
+ *     pour son canal Premium) ; jeton d'arrêt créé au premier envoi (`avecJetonsHebdo`).
  *  7. Texte seul, aucun pixel ni lien suivi, `List-Unsubscribe` + `List-Unsubscribe-Post`
  *     vers l'arrêt propre au destinataire, pied légal de l'avis @legal §2.3.
  */
 import { prisma } from "@/lib/prisma";
-import { LETTRE_HEBDO_ARRET_CHEMIN, LETTRE_HEBDO_ENVOIS_OUVERTS, MARQUEUR_A_COMPLETER } from "@/config/lettre";
-import { ligneQuestionEquipeHebdo, piedNumeroHebdo } from "@/config/textes/lettre-hebdo-s21";
+import { LETTRE_HEBDO_ENVOIS_OUVERTS, MARQUEUR_A_COMPLETER } from "@/config/lettre";
 import { frPonctuation } from "@/lib/fr-typo";
 import { envoiSemaine, semaineIsoParis } from "@/lib/lettre/calendrier";
-import { articlesCites, envoyerLot, etatArticlesCites, type CibleEnvoi } from "@/lib/lettre/envoi";
+import { articlesCites, envoyerLot, etatArticlesCites, semaineDeLaMensuelle, type CibleEnvoi } from "@/lib/lettre/envoi";
+import { corpsNumeroHebdo, enTetesArretHebdo } from "@/lib/lettre/rendu-hebdo";
 import { avecJetonsHebdo, destinatairesHebdo } from "@/lib/lettre/hebdo";
 import type { EnvoyerEmail } from "@/lib/lettre/inscription";
 import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
 import { approbationValide } from "@/lib/lettre/approbation-hebdo";
 
-const base = (baseUrl: string) => baseUrl.replace(/\/$/, "");
-
-/** Lien d'arrêt du CORPS : page avec bouton (GET sans effet, @legal L5). */
-export function lienArretHebdo(baseUrl: string, token: string): string {
-  return `${base(baseUrl)}${LETTRE_HEBDO_ARRET_CHEMIN}?token=${encodeURIComponent(token)}`;
-}
-
-/** En-têtes RFC 2369 + RFC 8058 : arrêt immédiat de l'HEBDO seule par le client de messagerie. */
-export function enTetesArretHebdo(baseUrl: string, token: string): Record<string, string> {
-  return {
-    "List-Unsubscribe": `<${base(baseUrl)}/api/lettre-premium/arret-un-clic?token=${encodeURIComponent(token)}>`,
-    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
-  };
-}
-
-/**
- * Corps complet : texte préparé (approuvé) + ligne « Ta question à l'équipe » si le service est
- * ouvert (s22) + pied hebdo. Insécables posées au rendu, texte stocké intact. Le texte préparé
- * seul entre dans l'empreinte d'approbation : la ligne et le pied n'y entrent pas.
- */
-export function corpsNumeroHebdo(bodyText: string, baseUrl: string, token: string, questionOuverte?: boolean): string {
-  const ligne = ligneQuestionEquipeHebdo(questionOuverte);
-  return `${frPonctuation(bodyText.trimEnd())}${frPonctuation(ligne)}\n${frPonctuation(piedNumeroHebdo(lienArretHebdo(baseUrl, token), baseUrl))}`;
-}
+// Rendu du canal Premium (corps, pied, lien et en-têtes d'arrêt) : `rendu-hebdo.ts`, partagé avec la
+// lettre du mois envoyée aux abonnés (s22).
+export { corpsNumeroHebdo, enTetesArretHebdo, lienArretHebdo } from "@/lib/lettre/rendu-hebdo";
 
 const LIEN_PARCOURS = /https:\/\/deviens-marrant\.fr\/parcours\/([a-z0-9]+(?:-[a-z0-9]+)*)/gi;
 
@@ -71,6 +54,8 @@ export interface EnvoiHebdoResultat {
   sansNumero: boolean;
   /** (s22) Numéro VALIDE mais pas approuvé par Thomas pour son contenu actuel : rien ne part. */
   nonApprouve: boolean;
+  /** (s22) Semaine de la lettre du mois : aucune lettre réservée (les abonnés reçoivent la lettre du mois). */
+  semaineMensuelle: boolean;
   bloque: boolean;
   /** Motifs du blocage (marqueur, offre commerciale). */
   motifs: string[];
@@ -97,6 +82,7 @@ export async function envoyerLettreDeLaSemaine(
     semaine,
     sansNumero: false,
     nonApprouve: false,
+    semaineMensuelle: false,
     bloque: false,
     motifs: [],
     reporte: false,
@@ -119,6 +105,11 @@ export async function envoyerLettreDeLaSemaine(
   if (numero?.status === "ENVOYE") {
     r.numero = numero.periodKey;
     r.termine = true;
+    return r;
+  }
+  // s22 : la semaine de la lettre du mois, pas de lettre réservée (ni alerte « aucun numéro »).
+  if (await semaineDeLaMensuelle(semaine, now)) {
+    r.semaineMensuelle = true;
     return r;
   }
   if (!numero || numero.status !== "VALIDE" || numero.scheduledFor.getTime() > now.getTime()) {

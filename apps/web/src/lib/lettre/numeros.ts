@@ -19,7 +19,12 @@
  *   "objet": "…",                                // objet de l'e-mail, sans tiret cadratin
  *   "preEntete": "…",                            // facultatif (aperçu de la boîte de réception)
  *   "corps": "…",                                // texte seul ; le pied (désinscription, éditeur,
- *                                                //   confidentialité) est ajouté à l'envoi
+ *                                                //   confidentialité) est ajouté à l'envoi. s22 : le bloc
+ *                                                //   d'invitation Premium (« PS », lien /abonnement) est
+ *                                                //   entre `[[invitation-premium]]` et `[[/invitation-premium]]`,
+ *                                                //   paragraphe à part : retiré dans la version Premium
+ *                                                //   (`invitation-premium.ts`), obligatoire si le corps
+ *                                                //   cite /abonnement
  *   "envoiPrevu": "2026-12-03T08:00:00+01:00",   // date et heure d'envoi = `dateEnvoiLettre(periode,
  *                                                //   datePlancher)` (premier jeudi du mois, 8 h Paris),
  *                                                //   ou null : le numéro n'est alors PAS chargé en base
@@ -36,6 +41,8 @@ import { articlesCites, corpsNumero, dateEnvoiLettre, periodeMensuelle } from "@
 import { getArticleBySlug } from "@/lib/blog-articles";
 import { MARQUEUR_A_COMPLETER } from "@/config/lettre";
 import { SANS_APPROBATION } from "@/lib/lettre/approbation-hebdo";
+import { contientMarqueurInvitation, decouperInvitation, versionGratuite, versionPremium } from "@/lib/lettre/invitation-premium";
+import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
 
 const TIRET_CADRATIN = "—";
 const sansTiret = (champ: string) => z.string().refine((v) => !v.includes(TIRET_CADRATIN), { message: `${champ} : tiret cadratin interdit` });
@@ -59,6 +66,16 @@ export const numeroSchema = z
   })
   .refine((n) => n.envoiPrevu === null || new Date(n.envoiPrevu).getTime() === dateEnvoiLettre(n.periode, n.datePlancher)?.getTime(), {
     message: "envoiPrevu hors règle : premier jeudi du mois à 8 h (Paris), ou premier jeudi après la date plancher",
+  })
+  // s22 : version Premium (abonnés) = corps sans le bloc d'invitation, marqueurs exacts, jamais devinés.
+  .refine((n) => decouperInvitation(n.corps) !== null, {
+    message: "corps : marqueurs [[invitation-premium]] / [[/invitation-premium]] mal posés (une fois chacun, paragraphe à part)",
+  })
+  .refine((n) => !contientMarqueurInvitation(versionGratuite(n.corps) ?? "") && !contientMarqueurInvitation(versionPremium(n.corps) ?? ""), {
+    message: "corps : reste de marqueur d'invitation dans une version",
+  })
+  .refine((n) => motifsInterdits([n.objet, n.preEntete ?? "", versionPremium(n.corps) ?? ""].join("\n")).every((m) => m === "marqueur [À COMPLÉTER"), {
+    message: "version Premium : offre commerciale (lien /abonnement, prix, etc.) hors du bloc d'invitation",
   });
 
 export type NumeroLettre = z.infer<typeof numeroSchema>;

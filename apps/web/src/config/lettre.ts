@@ -134,9 +134,9 @@ export function emplacementDeSource(source: string | null | undefined): LettreEm
  * et confidentialité. Fermé : réglage et ligne absents, reprise (`PUT` enabled true) en 404.
  * L'ARRÊT marche toujours.
  *
- * `LETTRE_HEBDO_ENVOIS_OUVERTS` (ce qui part) : la tâche du jeudi ET la mise en pause
- * de la mensuelle (`destinatairesHebdo`). Fermé : rien ne part, la mensuelle reprend
- * pour tous (arrêt d'urgence sans fermer les inscriptions).
+ * `LETTRE_HEBDO_ENVOIS_OUVERTS` (ce qui part) : la tâche du jeudi ET le canal Premium de
+ * la lettre du mois (`destinatairesHebdo`, s22). Fermé : rien ne part par le canal Premium ;
+ * la lettre du mois part à ses seuls inscrits (arrêt d'urgence sans fermer les inscriptions).
  *
  * `LETTRE_HEBDO_PROMESSE` : toute mention publique de la lettre (ligne de /abonnement,
  * FAQ, llms.txt). Ne s'affiche que via `promesseLettreHebdoVisible()`, qui exige

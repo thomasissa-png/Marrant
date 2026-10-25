@@ -14,6 +14,9 @@
  * Rien de ce fichier n'est visible ni envoyé tant que les interrupteurs
  * `LETTRE_HEBDO_*` sont fermés (`config/lettre.ts`).
  * Zéro tiret cadratin (test `lettre-hebdo-textes-s21.test.ts`). Insécables posées au rendu.
+ * s22 (décision de Thomas du 25/10, rythme) : la lettre du mois est l'une des lettres des abonnés ;
+ * plus de pause de la lettre du mois. Textes mis en cohérence au minimum (avis @legal §10) : ligne du
+ * profil, retour de paiement, page d'arrêt, CGU (2e ajout), confidentialité (finalité), fin de Premium.
  */
 import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 import { LETTRE_MENTION_EDITEUR_NUMERO } from "@/config/lettre";
@@ -36,7 +39,8 @@ export const LETTRE_HEBDO_REGLAGE = "Je reçois la lettre de la semaine";
  *  - `opposition` : `User.emailOptOut` (même texte que le profil).
  */
 export const LETTRE_HEBDO_INFO_PAIEMENT = {
-  recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
+  recoit:
+    "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
   arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
   // Contre-relecture v2 (B1) : une seule version, vraie que l'opposition vienne d'une demande ou d'un rebond.
   opposition:
@@ -50,7 +54,7 @@ export type EtatInfoPaiement = keyof typeof LETTRE_HEBDO_INFO_PAIEMENT;
  */
 export const LETTRE_HEBDO_LIGNE_REGLAGE = {
   avantLien: (email: string) =>
-    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
+    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde ; les autres jeudis, une lettre réservée aux abonnés. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
   lien: "Confidentialité",
   apresLien: ".",
 };
@@ -78,11 +82,11 @@ export const LETTRE_HEBDO_ARRET = {
   /** Contre-relecture v2 (M2) : titre une fois l'arrêt fait (succès ou déjà arrêtée). */
   titreArretee: "Lettre de la semaine arrêtée",
   defaut:
-    "Tu ne recevras plus la lettre de la semaine. Cet arrêt ne change rien à ton abonnement Premium. Les e-mails de ton compte et de ton abonnement (facture, sécurité, rappel avant un renouvellement annuel) continuent : ils sont obligatoires. Si tu es inscrit à la lettre du mois, elle reprend.",
+    "Tu ne recevras plus la lettre de la semaine. Cet arrêt ne change rien à ton abonnement Premium. Les e-mails de ton compte et de ton abonnement (facture, sécurité, rappel avant un renouvellement annuel) continuent : ils sont obligatoires. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément.",
   bouton: "Arrêter la lettre",
   enCours: "Arrêt en cours…",
   succes:
-    "Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
+    "Cet arrêt ne change rien à ton abonnement. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
   dejaArretee: "La lettre de la semaine est déjà arrêtée. Si tu es abonné Premium, tu peux la reprendre depuis ton profil.",
   lienInconnu:
     "Ce lien ne fonctionne plus. Si tu es abonné Premium, tu peux régler la lettre depuis ton profil. Sinon, écris-nous à contact@deviens-marrant.fr.",
@@ -151,7 +155,7 @@ export type GabaritHebdo = typeof GABARIT_HEBDO;
  */
 export const CGU_LETTRE_HEBDO = [
   "La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, sauf si tu nous as demandé de ne plus recevoir nos e-mails, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.",
-  "Tant que tu reçois la lettre de la semaine, la lettre du mois est mise en pause. Elle reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin, si tu y es toujours inscrit.",
+  "La semaine où part la lettre du mois, c'est elle que tu reçois, comme tout le monde ; les autres jeudis, tu reçois une lettre réservée aux abonnés. Arrêter la lettre de la semaine arrête aussi la lettre du mois, sauf si tu t'y es inscrit séparément.",
   "Un numéro peut être décalé ou sauté une semaine, par exemple après un incident technique. Pour un numéro isolé, aucun numéro de remplacement ni aucune compensation ne sont dus : la lettre est un plus de ton abonnement, et ton accès à Premium reste entier. Si la lettre devait s'arrêter durablement ou changer en profondeur, on te le dit par e-mail, et tu peux résilier quand tu veux. Cela ne te prive pas des droits que la loi te garantit.",
 ] as const;
 
@@ -163,7 +167,7 @@ export const CONFIDENTIALITE_LETTRE_HEBDO = {
   donnees:
     "Lettre de la semaine (abonnés Premium, incluse dans l'abonnement) : la date du premier envoi, puis, si tu l'arrêtes ou la reprends, la date et la façon dont tu l'as fait (lien dans l'e-mail, profil, ou demande à contact@deviens-marrant.fr). On garde aussi un code personnel qui sert au lien d'arrêt, et un journal des envois (quel numéro, à quelle adresse). La lettre est envoyée à l'adresse e-mail de ton compte. Aucune adresse IP n'est gardée pour cette lettre.",
   finalite:
-    "T'envoyer la lettre de la semaine : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.",
+    "T'envoyer la lettre de la semaine, dont la lettre du mois une semaine par mois : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.",
   destinataires:
     "Lettre de la semaine : l'envoi passe par notre prestataire Resend (voir la partie 4). L'équipe voit, dans son espace d'administration, si ta lettre est active ou arrêtée, et depuis quand.",
   duree:
@@ -173,6 +177,6 @@ export const CONFIDENTIALITE_LETTRE_HEBDO = {
 } as const;
 
 /** (L §6.1, §6.3) Phrases facultatives de fin d'abonnement et de suppression de compte. */
-export const LETTRE_HEBDO_FIN_PREMIUM = "La lettre de la semaine s'arrête avec ton accès Premium. Si tu es inscrit à la lettre du mois, elle reprend.";
+export const LETTRE_HEBDO_FIN_PREMIUM = "La lettre de la semaine s'arrête avec ton accès Premium. Si tu t'es inscrit séparément à la lettre du mois, tu continues de la recevoir.";
 export const LETTRE_HEBDO_SUPPRESSION =
   "Sont aussi effacés : ton choix pour la lettre de la semaine, le journal de ses envois, et ton inscription à la lettre du mois faite avec l'adresse de ton compte.";

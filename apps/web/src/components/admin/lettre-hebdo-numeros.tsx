@@ -14,6 +14,7 @@ import { Avertissement, Chargement, Erreur, Note, Pastille, dateHeure } from "./
 type Reponse = { disponible: true; numeros: NumeroHebdoAdmin[] } | { disponible: false; raison: string };
 
 function Etat({ n }: { n: NumeroHebdoAdmin }) {
+  if (n.semaineMensuelle) return <Pastille>Ne part pas : semaine de la lettre du mois</Pastille>;
   if (n.statut === "BROUILLON") return <Pastille>Brouillon, relecture à l’aveugle d’abord</Pastille>;
   if (n.approuve) return <Pastille ton="success">Approuvé le {dateHeure(n.approuveLe)}</Pastille>;
   if (n.approbationPerimee) return <Pastille ton="error">Modifié depuis ton approbation : à réapprouver</Pastille>;
@@ -70,6 +71,11 @@ export function LettreHebdoNumeros({ onUnauthorized }: { onUnauthorized: () => v
                 </p>
                 <Etat n={n} />
               </div>
+              {n.abonnesPremium !== null && (
+                <p className="mt-1 text-xs text-text-secondary" data-testid="mensuelle-abonnes-premium">
+                  Part aussi aux {n.abonnesPremium} abonné{n.abonnesPremium > 1 ? "s" : ""} Premium, en version Premium (sans l’invitation, pied de la lettre de la semaine). Cette semaine-là, pas de lettre réservée.
+                </p>
+              )}
               <button
                 type="button"
                 aria-expanded={ouvert === cleNumero(n)}
@@ -82,7 +88,14 @@ export function LettreHebdoNumeros({ onUnauthorized }: { onUnauthorized: () => v
                 <div className="mt-2 rounded-md border border-border/60 p-3">
                   <p className="text-text-secondary">Objet : {n.objet}</p>
                   {n.preEntete && <p className="text-xs text-text-muted">Pré-en-tête : {n.preEntete}</p>}
+                  {n.textePremium !== null && <p className="mt-2 text-xs font-semibold text-text-primary">Version des inscrits gratuits</p>}
                   <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-xs text-text-secondary">{n.texte}</pre>
+                  {n.textePremium !== null && (
+                    <>
+                      <p className="mt-3 text-xs font-semibold text-text-primary">Version des abonnés Premium (même approbation)</p>
+                      <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-xs text-text-secondary">{n.textePremium}</pre>
+                    </>
+                  )}
                   <div className="mt-3 flex flex-wrap gap-2">
                     {n.statut === "VALIDE" && !n.approuve && (
                       <button

@@ -4,7 +4,8 @@
  *
  * Règle d'or de cohérence (spec §4.2) : « reçoit l'hebdo » est UNE fonction
  * (`recoitHebdo`, appliquée par `destinatairesHebdo`), utilisée par la tâche du
- * jeudi ET par la mise en pause de la mensuelle (`envoi.ts`).
+ * jeudi ET par le canal Premium de la lettre du mois (`envoi.ts`, s22 : la semaine de la lettre du
+ * mois, les abonnés la reçoivent à la place d'une lettre réservée).
  *
  * s22 (25/10, décision de Thomas) : inscription d'office de tous les abonnés Premium, actuels et
  * futurs. Reçoit l'hebdo = interrupteur `LETTRE_HEBDO_ENVOIS_OUVERTS` ouvert, plan PREMIUM (l'accès :

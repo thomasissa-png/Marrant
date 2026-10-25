@@ -35,7 +35,7 @@ export type InscritLettre = {
   compteSite: boolean;
   premium: boolean;
   compteTest: boolean;
-  /** s21 hebdo (H7-9) : le compte reçoit la lettre de la semaine, la mensuelle est en pause. */
+  /** s21 hebdo (H7-9) ; s22 : le compte reçoit la lettre de la semaine, donc la lettre du mois par le canal Premium (version Premium, une seule fois). */
   hebdo: boolean;
 };
 
