@@ -16,7 +16,7 @@ export const QUESTION_EQUIPE_OUVERTE: boolean = true;
  * l'interrupteur ; le test `question-equipe-s22` refuse une ouverture sans date.
  * Date de mise en ligne PRÉVUE (26/10/2026) : à ajuster au jour réel du déploiement.
  */
-export const QUESTION_EQUIPE_DATE_TEXTES: string = "26 octobre 2026";
+export const QUESTION_EQUIPE_DATE_TEXTES: string = "25 octobre 2026";
 
 /** Boîte de l'équipe (IONOS), seule destinataire (décision de Thomas du 25/10 : « Tout va chez Alex »). */
 export const QUESTION_EQUIPE_DESTINATAIRE = "alex@deviens-marrant.fr";

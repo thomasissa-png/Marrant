@@ -196,4 +196,4 @@ export const LETTRE_HEBDO_PROFIL_ANCRE = "lettre";
  * le test `lettre-hebdo-interrupteurs-s21` refuse une ouverture sans date.
  */
 // s22 : même déploiement que « Ta question à l'équipe » (`QUESTION_EQUIPE_DATE_TEXTES`). À reporter si la mise en ligne glisse.
-export const LETTRE_HEBDO_DATE_TEXTES: string = "26 octobre 2026";
+export const LETTRE_HEBDO_DATE_TEXTES: string = "25 octobre 2026";
