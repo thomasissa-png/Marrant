@@ -324,3 +324,41 @@ Titre : Lettre de la semaine arrêtée
 Message de succès (remplace celui du §3) :
 
 Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.
+
+## 10. Mise en cohérence s22 : la lettre du mois fait partie des lettres Premium (décision de Thomas du 25/10/2026)
+
+Décision fondateur (`docs/founder-preferences.md`, 25/10, [CHOIX UTILISATEUR]) : la semaine où part la lettre du mois, tout le monde la reçoit, abonnés Premium compris ; les autres jeudis, les abonnés reçoivent une lettre réservée. La pause de la lettre du mois pour les abonnés (§6.4, §2.2, §3, §4.1 2e ajout, §6.1, §9.1, §9.6) est supprimée. Pas de nouvel avis (Thomas : « Stop. Too much juridique ») : cohérence minimale des textes déjà validés, à repasser en relecture à l'aveugle.
+
+Règle appliquée par le code (`lib/lettre/envoi.ts`, `envoi-hebdo.ts`) : les destinataires de la lettre de la semaine (`recoitHebdo`) reçoivent la lettre du mois par le canal Premium (pied du §9.2, lien d'arrêt et en-têtes de la lettre de la semaine), une seule fois, en version sans le bloc d'invitation Premium ; cette semaine-là, aucune lettre réservée ne part. Arrêter la lettre de la semaine arrête donc aussi la lettre du mois, sauf inscription séparée à la lettre du mois (consentement propre, pied et désinscription de la lettre du mois). La qualification du §1 (contenu inclus dans l'abonnement, aucune offre, C1) vaut pour la version Premium : elle passe le contrôle `motifsInterdits`.
+
+Remplacent les textes correspondants des §9.1, §9.4 (finalité), §9.5 (retour de paiement, « reçoit »), §9.6, §3 (défaut), §4.1 (2e ajout) et §6.1 (fin d'abonnement).
+
+### 10.1 Ligne sous le réglage du profil (remplace §9.1)
+
+Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant que ce réglage est activé. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde ; les autres jeudis, une lettre réservée aux abonnés. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.
+
+### 10.2 Retour de paiement, compte qui reçoit la lettre (remplace §9.5, « reçoit »)
+
+Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.
+
+### 10.3 Page d'arrêt, texte avant l'arrêt (remplace le défaut du §3)
+
+Tu ne recevras plus la lettre de la semaine. Cet arrêt ne change rien à ton abonnement Premium. Les e-mails de ton compte et de ton abonnement (facture, sécurité, rappel avant un renouvellement annuel) continuent : ils sont obligatoires. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément.
+
+### 10.4 Page d'arrêt, message de succès (remplace §9.6)
+
+Cet arrêt ne change rien à ton abonnement. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.
+
+### 10.5 CGU, article 10, deuxième ajout (remplace le 2e paragraphe du §4.1)
+
+La semaine où part la lettre du mois, c'est elle que tu reçois, comme tout le monde ; les autres jeudis, tu reçois une lettre réservée aux abonnés. Arrêter la lettre de la semaine arrête aussi la lettre du mois, sauf si tu t'y es inscrit séparément.
+
+### 10.6 Confidentialité, section 8, finalité (remplace la 2e phrase du §9.4)
+
+T'envoyer la lettre de la semaine, dont la lettre du mois une semaine par mois : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.
+
+Partie 7 (droits) : texte du §9.4 inchangé, toujours exact (l'arrêt de la lettre de la semaine arrête les lettres Premium, lettre du mois comprise).
+
+### 10.7 Fin d'abonnement, phrase facultative (remplace §6.1)
+
+La lettre de la semaine s'arrête avec ton accès Premium. Si tu t'es inscrit séparément à la lettre du mois, tu continues de la recevoir.

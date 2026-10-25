@@ -19,6 +19,10 @@ jest.mock("@/config/lettre", () => ({
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
 import numerosJson from "@/data/lettre/numeros.json";
+import { createHash } from "crypto";
+import { decouperInvitation, versionGratuite, versionPremium } from "@/lib/lettre/invitation-premium";
+import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
+import { corpsNumeroPremium } from "@/lib/lettre/envoi";
 import { jourParis, numeroEnvoyable, numeroSchema, type NumeroLettre } from "@/lib/lettre/numeros";
 import { PARCOURS_SLUGS } from "@/lib/entrees-parcours";
 import { blogArticles } from "@/lib/blog-articles";
@@ -156,5 +160,53 @@ describe("envoi des numéros", () => {
       // Le schéma refuse aussi un jour d'envoi fixé avant le plancher.
       expect(numeroSchema.safeParse({ ...n, periode: prepare.envoiPrevu.slice(0, 7), envoiPrevu: prepare.envoiPrevu }).success).toBe(false);
     }
+  });
+});
+
+describe("s22 : version Premium de la lettre du mois (décision de Thomas du 25/10)", () => {
+  // Empreintes SHA-256 des corps relus et validés AVANT la pose des marqueurs (commit 52955b31) :
+  // la version gratuite reste mot pour mot le texte relu.
+  const RELUS = [
+    "17bf6d3317371c5df94a3edcb236c80a651da216f06a70c598dc1561707d942c",
+    "1b371870289f39f3fee11169207b00140da04a6f0fa5ac3f9984fc8bd51a0a6e",
+    "e48728ec0ebf4272c450d59c9f03ad5793d0aee4f53188efe6b5af78df426be7",
+    "cfdd5e96267b1985f3c08d3cf8c464f729a601895baaf2b2e89909d09535d67e",
+    "76239cead4c3124c6c73d0e7ff2e7f41a370e09855a072ed7376c459aa687b81",
+    "1e3568df7916df6dcfa3203fab00d2479ed74b938c0e2ae7ca8abddc20031f61",
+  ];
+  const sha = (t: string) => createHash("sha256").update(t, "utf8").digest("hex");
+
+  it("les 6 numéros : bloc d'invitation entre marqueurs exacts ; version gratuite = texte relu, mot pour mot", () => {
+    numeros.forEach((n, i) => {
+      const d = decouperInvitation(n.corps);
+      expect(d?.invitation).toMatch(/^[^\n]+\nVoir l'offre Premium : https:\/\/deviens-marrant\.fr\/abonnement\?utm_source=lettre&utm_medium=email&utm_content=n\d-premium$/);
+      expect(sha(versionGratuite(n.corps) as string)).toBe(RELUS[i]);
+    });
+  });
+
+  it("version Premium = version gratuite sans le seul paragraphe d'invitation, et passe les interdits commerciaux de la lettre de la semaine", () => {
+    for (const n of numeros) {
+      const gratuite = versionGratuite(n.corps) as string;
+      const premium = versionPremium(n.corps) as string;
+      const paragraphes = gratuite.split("\n\n");
+      const retires = paragraphes.filter((p) => !premium.split("\n\n").includes(p));
+      expect(retires).toEqual([decouperInvitation(n.corps)?.invitation]);
+      expect(premium).toBe(paragraphes.filter((p) => p !== retires[0]).join("\n\n"));
+      expect(motifsInterdits([n.objet, n.preEntete ?? "", corpsNumeroPremium(n.corps, "https://deviens-marrant.fr", "jeton")].join("\n"))).toEqual([]);
+      expect(premium).not.toContain("[[");
+      expect(premium).toMatch(/L'Équipe Deviens Marrant$/);
+    }
+  });
+
+  it("marqueurs mal posés ou offre hors du bloc : le numéro est refusé par le schéma", () => {
+    const n1 = numerosJson[0];
+    const sansFin = n1.corps.replace("\n[[/invitation-premium]]", "");
+    const sansMarqueurs = n1.corps.replace("[[invitation-premium]]\n", "").replace("\n[[/invitation-premium]]", "");
+    const colle = n1.corps.replace("\n\n[[invitation-premium]]", "\n[[invitation-premium]]");
+    for (const corps of [sansFin, sansMarqueurs, colle, `${n1.corps}\n\n[[invitation-premium]]\nx\n[[/invitation-premium]]\n\nFin`]) {
+      expect(numeroSchema.safeParse({ ...n1, corps }).success).toBe(false);
+    }
+    expect(decouperInvitation("Sans invitation.")).toEqual({ avant: "Sans invitation.", invitation: null, apres: "" });
+    expect(versionPremium("Sans invitation.")).toBe("Sans invitation.");
   });
 });

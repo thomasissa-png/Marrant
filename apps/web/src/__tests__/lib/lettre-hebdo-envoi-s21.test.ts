@@ -4,10 +4,11 @@
  * Lettre de la semaine (s21, US-H4, H6) : tâche du jeudi. Base simulée en mémoire (journal
  * unique numéro + adresse). Vérifie : interrupteur, jeudi 8 h Paris, jamais deux fois,
  * reprises, garde-fous (marqueur, offre, lien mort), destinataires (fin de Premium, PAST_DUE,
- * opposition, adresse non vérifiée), en-têtes d'arrêt, texte seul, et la cohérence avec la
- * mensuelle : aucun Premium exclu de la mensuelle sans être destinataire de l'hebdo.
+ * opposition, adresse non vérifiée), en-têtes d'arrêt, texte seul.
  * s22 : inscription d'office (Premium sans ligne = destinataire, jeton créé à l'envoi), arrêt
- * explicite respecté après réabonnement, pause de la mensuelle seulement si l'hebdo part vraiment.
+ * explicite respecté après réabonnement. Rythme (décision de Thomas du 25/10) : la lettre du mois est
+ * l'une des lettres des abonnés ; sa semaine, ils la reçoivent (version Premium, canal Premium, une
+ * fois) et aucune lettre réservée ne part ; plus de pause de la lettre du mois.
  */
 let mockHebdoOuvert = true;
 jest.mock("@/config/lettre", () => ({
@@ -39,6 +40,8 @@ const mockDb = {
   journal: [] as Ligne[],
   parcoursActifs: ["confiance"],
   creations: [] as string[],
+  // s22 : articles du blog en ligne (slugs), pour la lettre du mois n°1 réelle.
+  articlesEnLigne: [] as string[],
 };
 
 jest.mock("@/lib/prisma", () => ({
@@ -73,7 +76,11 @@ jest.mock("@/lib/prisma", () => ({
       }),
     },
     ceoLead: { findMany: jest.fn(async () => []) },
-    blogArticle: { findMany: jest.fn(async () => []) },
+    blogArticle: {
+      findMany: jest.fn(async ({ where }: { where: { slug: { in: string[] } } }) =>
+        where.slug.in.filter((slug) => mockDb.articlesEnLigne.includes(slug)).map((slug) => ({ slug, publishedAt: new Date("2026-11-02T05:00:00Z") })),
+      ),
+    },
     learningPath: { findMany: jest.fn(async ({ where }: { where: { slug: { in: string[] } } }) => where.slug.in.filter((s) => mockDb.parcoursActifs.includes(s)).map((slug) => ({ slug }))) },
     newsletterSubscriber: { findMany: jest.fn(async () => mockDb.abonnes) },
     newsletterSend: {
@@ -103,8 +110,9 @@ import { parseCarnets } from "@/lib/carnet";
 import { GABARIT_HEBDO, LIGNE_QUESTION_EQUIPE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { preparerNumerosHebdo } from "@/lib/lettre/numeros-hebdo";
 import { corpsNumeroHebdo, envoyerLettreDeLaSemaine } from "@/lib/lettre/envoi-hebdo";
-import { frPonctuation } from "@/lib/fr-typo";
+import { frPonctuation, NBSP } from "@/lib/fr-typo";
 import { envoyerLettreDuMois } from "@/lib/lettre/envoi";
+import numerosMensuels from "@/data/lettre/numeros.json";
 import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
 
 const BASE = "https://deviens-marrant.fr";
@@ -143,6 +151,7 @@ beforeEach(() => {
   mockDb.journal = [];
   mockDb.parcoursActifs = ["confiance"];
   mockDb.creations = [];
+  mockDb.articlesEnLigne = [];
 });
 
 const envoyer = () => jest.fn().mockResolvedValue(undefined);
@@ -262,7 +271,14 @@ describe("Garde-fous : rien ne part", () => {
   });
 });
 
-describe("Destinataires (fonction unique) et cohérence avec la mensuelle", () => {
+describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)", () => {
+  // Vrai n°1 de la lettre du mois (« On a comparé nos salaires »), jeudi 05/11 8 h (semaine 45), approuvé.
+  const n1 = numerosMensuels[0];
+  const SLUG_N1 = "soiree-de-noel-entreprise-humour";
+  const PS_N1 = "PS : si une vanne par mois ne te suffit pas";
+  const mensuelle = (p: Partial<Issue> = {}) =>
+    numero({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: n1.objet, preheader: n1.preEntete, bodyText: n1.corps, scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE", ...p });
+
   beforeEach(() => {
     mockDb.users = [
       premium("actif@x.fr"),
@@ -278,113 +294,61 @@ describe("Destinataires (fonction unique) et cohérence avec la mensuelle", () =
       premium("nonverifie@x.fr", { emailVerified: null }), // cas 11 (s22, correction du 25/10) : destinataire, aucune vérification
     ];
     mockDb.abonnes = mockDb.users.map((u) => ({ email: u.email as string, unsubscribeToken: `m-${u.email}`.padEnd(43, "m"), confirmedAt: avant }));
-    // s22 : mensuelle approuvée elle aussi (même verrou que l'hebdo), jeudi 05/11 (semaine 45).
-    mockDb.issues = [
-      numero({ id: "h45", periodKey: "2026-W45", scheduledFor: new Date("2026-11-05T07:00:00Z") }),
-      numero({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: "Mensuelle", preheader: null, bodyText: "Corps du mois.", scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE" }),
-    ];
+    mockDb.articlesEnLigne = [SLUG_N1];
+    // Ancienne donnée : une lettre réservée W45 VALIDE et approuvée ne doit JAMAIS partir (semaine de la lettre du mois).
+    mockDb.issues = [numero({ id: "h45", periodKey: "2026-W45", scheduledFor: new Date("2026-11-05T07:00:00Z") }), numero(), mensuelle()];
   });
   const JEUDI_05 = new Date("2026-11-05T07:05:00Z");
   const ATTENDUS_HEBDO = ["actif@x.fr", "jamais@x.fr", "nonverifie@x.fr", "office@x.fr", "reabonne-fin@x.fr", "relance@x.fr"];
+  const mensuellePartie = () => Object.assign(mockDb.issues.find((i) => i.id === "m11")!, { status: "ENVOYE", sentAt: new Date("2026-11-05T07:05:00Z") });
 
   it("s22 : Premium d'office (sans ligne ou jamais coché), réabonné après une fin de Premium, adresse jamais vérifiée ; jamais : arrêté, réabonné après arrêt, opposition, non-Premium", async () => {
+    mensuellePartie();
     const e = envoyer();
-    await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: e, baseUrl: BASE });
+    await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(e.mock.calls.map((c) => c[0]).sort()).toEqual(ATTENDUS_HEBDO);
   });
 
   it("s22 : jeton d'arrêt créé au premier envoi pour l'inscrit d'office, lien d'arrêt dans sa lettre ; relance : rien de recréé", async () => {
+    mensuellePartie();
     const e = envoyer();
-    await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: e, baseUrl: BASE });
+    await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(mockDb.creations).toEqual(["u-office@x.fr"]);
     const jeton = (mockDb.users.find((u) => u.email === "office@x.fr")?.premiumLetter as { unsubscribeToken: string }).unsubscribeToken;
     expect(jeton).toMatch(/^[A-Za-z0-9_-]{43}$/);
     const [, , text, headers] = e.mock.calls.find((c) => c[0] === "office@x.fr")!;
     expect(text).toContain(`${BASE}/lettre/premium/arreter?token=${encodeURIComponent(jeton)}`);
     expect(headers["List-Unsubscribe"]).toContain(encodeURIComponent(jeton));
-    mockDb.issues[0].status = "VALIDE";
-    await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: e, baseUrl: BASE });
+    mockDb.issues.find((i) => i.id === "h46")!.status = "VALIDE";
+    await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(mockDb.creations).toEqual(["u-office@x.fr"]);
     expect(e).toHaveBeenCalledTimes(ATTENDUS_HEBDO.length);
   });
 
-  it("spec §4.2 : aucun Premium exclu de la mensuelle sans être destinataire de l'hebdo, et jamais les deux", async () => {
-    const hebdo = envoyer();
-    await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE });
-    const mensuelle = envoyer();
-    const r = await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    const recoiventHebdo = new Set(hebdo.mock.calls.map((c) => c[0]));
-    const recoiventMensuelle = new Set(mensuelle.mock.calls.map((c) => c[0]));
-    expect(r.exclusPremiumHebdo).toBe(recoiventHebdo.size);
-    expect(r).toMatchObject({ attenteHebdo: 0, termine: true });
-    for (const a of mockDb.abonnes) {
-      if (a.email === "opposant@x.fr") continue; // opposition globale : ni l'une ni l'autre (L6)
-      expect(recoiventHebdo.has(a.email) !== recoiventMensuelle.has(a.email)).toBe(true);
-    }
-    expect([...recoiventMensuelle]).toEqual(expect.arrayContaining(["arrete@x.fr", "reabonne-arret@x.fr", "revenu@x.fr"]));
-  });
-
   it.each([
-    ["l'hebdo puis la mensuelle", false],
-    ["la mensuelle puis l'hebdo", true],
-  ])("s22, jeudi 05/11 8 h (n°1 de l'hebdo ET n°1 de la mensuelle le même matin) : %s, jamais deux lettres pour un abonné", async (_, mensuelleDabord) => {
+    ["la lettre de la semaine puis la lettre du mois", false],
+    ["la lettre du mois puis la lettre de la semaine", true],
+  ])("s22, jeudi 05/11 8 h, semaine de la lettre du mois : %s, aucune lettre réservée, un seul e-mail par adresse", async (_, mensuelleDabord) => {
     const hebdo = envoyer();
-    const mensuelle = envoyer();
-    if (mensuelleDabord) {
-      const r1 = await envoyerLettreDuMois(JEUDI_05, { envoyer: mensuelle, baseUrl: BASE });
-      // Premium en attente de l'hebdo : la mensuelle ne leur part pas et reste ouverte.
-      expect(r1).toMatchObject({ attenteHebdo: ATTENDUS_HEBDO.length, termine: false });
-    }
-    const r = await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE });
-    // Passage suivant de la mensuelle (15 min plus tard) : l'hebdo est partie, pause confirmée.
-    const r2 = await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(r.numero).toBe("2026-W45");
-    expect(r2).toMatchObject({ attenteHebdo: 0, termine: true });
-    const recoiventHebdo = hebdo.mock.calls.map((c) => c[0]);
-    const recoiventMensuelle = mensuelle.mock.calls.map((c) => c[0]);
-    expect(recoiventHebdo.length).toBeGreaterThan(0);
-    expect(recoiventMensuelle.length).toBeGreaterThan(0);
-    for (const a of mockDb.abonnes) {
-      const n = recoiventHebdo.filter((x) => x === a.email).length + recoiventMensuelle.filter((x) => x === a.email).length;
-      expect(n).toBeLessThanOrEqual(1);
-    }
-  });
-
-  it("s22 : n°1 de l'hebdo PAS approuvé le 05/11 : rien ne part (verrou intact), la mensuelle attend la fin de la semaine puis part aux Premium le lundi (aucune perte)", async () => {
-    mockDb.issues[0].approvedHash = "autre-contenu";
-    const hebdo = envoyer();
-    const mensuelle = envoyer();
+    const mois = envoyer();
+    if (mensuelleDabord) await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE });
     const rh = await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE });
-    expect(rh.nonApprouve).toBe(true);
-    const jeudi = await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(jeudi).toMatchObject({ attenteHebdo: ATTENDUS_HEBDO.length, termine: false });
-    const dimanche = await envoyerLettreDuMois(new Date("2026-11-08T21:00:00Z"), { envoyer: mensuelle, baseUrl: BASE }); // 22 h Paris
-    expect(dimanche.attenteHebdo).toBe(ATTENDUS_HEBDO.length);
-    expect(await envoyerLettreDeLaSemaine(new Date("2026-11-08T21:00:00Z"), { envoyer: hebdo, baseUrl: BASE })).toMatchObject({ nonApprouve: true });
+    expect(rh).toMatchObject({ semaineMensuelle: true, sansNumero: false, envoyes: 0 });
+    await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mois, baseUrl: BASE });
+    expect(mockDb.issues.find((i) => i.id === "m11")!.status).toBe("ENVOYE");
     expect(hebdo).not.toHaveBeenCalled();
-    const lundi = await envoyerLettreDuMois(new Date("2026-11-09T07:00:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(lundi).toMatchObject({ attenteHebdo: 0, exclusPremiumHebdo: 0, termine: true });
-    const recoiventMensuelle = mensuelle.mock.calls.map((c) => c[0]);
-    expect(recoiventMensuelle).toEqual(expect.arrayContaining(ATTENDUS_HEBDO));
-    expect(new Set(recoiventMensuelle).size).toBe(recoiventMensuelle.length);
+    expect(mockDb.issues.find((i) => i.id === "h45")!.status).toBe("VALIDE");
+    const recus = mois.mock.calls.map((c) => c[0]);
+    expect(new Set(recus).size).toBe(recus.length);
+    // Destinataires de l'hebdo : canal Premium ; inscrits gratuits sans hebdo (dont fin@, plus Premium) : canal gratuit ; opposant : rien (L6).
+    expect([...recus].sort()).toEqual([...ATTENDUS_HEBDO, "arrete@x.fr", "fin@x.fr", "reabonne-arret@x.fr", "revenu@x.fr"].sort());
+    for (const [to, , text] of mois.mock.calls) {
+      if (ATTENDUS_HEBDO.includes(to)) expect(text).toContain("incluse dans ton abonnement Premium");
+      else expect(text).toContain("parce que tu l’as demandée");
+    }
   });
 
-  it("s22 : n°1 approuvé le samedi 07/11 : part le samedi, la mensuelle (en attente depuis jeudi) est mise en pause pour ses destinataires", async () => {
-    const hash = mockDb.issues[0].approvedHash;
-    mockDb.issues[0].approvedHash = null;
-    const hebdo = envoyer();
-    const mensuelle = envoyer();
-    await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    mockDb.issues[0].approvedHash = hash;
-    await envoyerLettreDeLaSemaine(new Date("2026-11-07T10:00:00Z"), { envoyer: hebdo, baseUrl: BASE });
-    const r = await envoyerLettreDuMois(new Date("2026-11-07T10:15:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(r).toMatchObject({ attenteHebdo: 0, exclusPremiumHebdo: ATTENDUS_HEBDO.length, termine: true });
-    const recoiventMensuelle = mensuelle.mock.calls.map((c) => c[0]);
-    for (const email of ATTENDUS_HEBDO) expect(recoiventMensuelle).not.toContain(email);
-    expect(hebdo.mock.calls.map((c) => c[0]).sort()).toEqual(ATTENDUS_HEBDO);
-  });
-
-  it("s22, 4 comptes calqués sur la production (3 à mot de passe jamais vérifiés + 1 Google, sans ligne), tous inscrits à la mensuelle : 4 reçoivent l'hebdo le 05/11, aucun ne reçoit les deux", async () => {
+  it("s22, 4 comptes calqués sur la production (3 à mot de passe jamais vérifiés + 1 Google, sans ligne, emailVerified vide), tous inscrits à la lettre du mois : W45 = 4 lettres du mois version Premium, 0 lettre réservée, 0 doublon ; W46 = lettre réservée seulement", async () => {
     mockDb.users = [
       { ...premium("abonne1@x.fr", { emailVerified: null }), premiumLetter: null },
       { ...premium("abonne2@x.fr", { emailVerified: null }), premiumLetter: null },
@@ -392,38 +356,123 @@ describe("Destinataires (fonction unique) et cohérence avec la mensuelle", () =
       { ...premium("google@x.fr", { emailVerified: null, accounts: [{ id: "g" }] }), premiumLetter: null },
     ];
     mockDb.abonnes = mockDb.users.map((u) => ({ email: u.email as string, unsubscribeToken: `m-${u.email}`.padEnd(43, "m"), confirmedAt: avant }));
+    const QUATRE = ["abonne1@x.fr", "abonne2@x.fr", "abonne3@x.fr", "google@x.fr"];
     const hebdo = envoyer();
-    const mensuelle = envoyer();
-    const r1 = await envoyerLettreDuMois(JEUDI_05, { envoyer: mensuelle, baseUrl: BASE });
-    expect(r1).toMatchObject({ attenteHebdo: 4, termine: false });
-    const rh = await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE });
-    expect(rh).toMatchObject({ destinataires: 4, envoyes: 4, termine: true });
-    expect(hebdo.mock.calls.map((c) => c[0]).sort()).toEqual(["abonne1@x.fr", "abonne2@x.fr", "abonne3@x.fr", "google@x.fr"]);
-    expect(mockDb.creations.sort()).toEqual(["u-abonne1@x.fr", "u-abonne2@x.fr", "u-abonne3@x.fr", "u-google@x.fr"]);
-    const r2 = await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(r2).toMatchObject({ exclusPremiumHebdo: 4, attenteHebdo: 0, termine: true });
-    expect(mensuelle).not.toHaveBeenCalled();
+    const mois = envoyer();
+    // Semaine 45 : les deux tâches passent toutes les 15 min, du jeudi 8 h au dimanche soir.
+    for (const t of ["2026-11-05T07:00:00Z", "2026-11-05T07:15:00Z", "2026-11-07T10:00:00Z", "2026-11-08T22:45:00Z"]) {
+      await envoyerLettreDeLaSemaine(new Date(t), { envoyer: hebdo, baseUrl: BASE });
+      await envoyerLettreDuMois(new Date(t), { envoyer: mois, baseUrl: BASE });
+    }
+    expect(hebdo).not.toHaveBeenCalled();
+    expect(mois.mock.calls.map((c) => c[0]).sort()).toEqual(QUATRE);
+    expect(mockDb.creations.sort()).toEqual(QUATRE.map((e) => `u-${e}`));
+    for (const [to, subject, text, headers] of mois.mock.calls) {
+      const jeton = (mockDb.users.find((u) => u.email === to)?.premiumLetter as { unsubscribeToken: string }).unsubscribeToken;
+      expect(subject).toBe("On a comparé nos salaires");
+      expect(text).toContain("Avec un collègue, on a enfin comparé nos salaires.");
+      expect(text).not.toContain(PS_N1);
+      expect(text).not.toContain("/abonnement");
+      expect(text).not.toContain("[[");
+      expect(text).toContain(`L'article est en lecture libre.\nLire l'article sur la soirée de Noël au boulot${NBSP}: https://deviens-marrant.fr/blog/${SLUG_N1}`);
+      expect(text).toContain(`n1-article\n\nRendez-vous le mois prochain,\nL'Équipe Deviens Marrant`);
+      expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
+      expect(text).toContain(`${BASE}/lettre/premium/arreter?token=${encodeURIComponent(jeton)}`);
+      expect(text).not.toContain("/lettre/desinscrire");
+      expect(headers).toEqual({ "List-Unsubscribe": `<${BASE}/api/lettre-premium/arret-un-clic?token=${encodeURIComponent(jeton)}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" });
+    }
+    // Semaine 46 : la lettre réservée seulement, la lettre du mois est terminée.
+    const hebdo46 = envoyer();
+    const mois46 = envoyer();
+    await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: hebdo46, baseUrl: BASE });
+    await envoyerLettreDuMois(new Date("2026-11-12T07:20:00Z"), { envoyer: mois46, baseUrl: BASE });
+    expect(hebdo46.mock.calls.map((c) => c[0]).sort()).toEqual(QUATRE);
+    expect(mois46).not.toHaveBeenCalled();
   });
 
-  it("s22 : la pause ne vaut que pour qui a VRAIMENT reçu l'hebdo ; un Premium dont l'envoi a échoué 3 fois garde la mensuelle", async () => {
-    mockDb.users = [premium("ok@x.fr", { emailVerified: null }), premium("ko@x.fr", { emailVerified: null })];
-    mockDb.abonnes = mockDb.users.map((u) => ({ email: u.email as string, unsubscribeToken: `m-${u.email}`.padEnd(43, "m"), confirmedAt: avant }));
-    const hebdo = jest.fn(async (to: string) => {
-      if (to === "ko@x.fr") throw new Error("Resend 500");
-    });
-    for (const minute of ["05", "20", "35"]) await envoyerLettreDeLaSemaine(new Date(`2026-11-05T07:${minute}:00Z`), { envoyer: hebdo, baseUrl: BASE });
-    expect(mockDb.issues[0].status).toBe("ENVOYE");
-    const mensuelle = envoyer();
-    const r = await envoyerLettreDuMois(new Date("2026-11-05T07:50:00Z"), { envoyer: mensuelle, baseUrl: BASE });
-    expect(mensuelle.mock.calls.map((c) => c[0])).toEqual(["ko@x.fr"]);
-    expect(r).toMatchObject({ exclusPremiumHebdo: 1, attenteHebdo: 0, termine: true });
+  it("s22 : inscrit gratuit non Premium = version avec l'invitation (texte relu mot pour mot, marqueurs retirés)", async () => {
+    mockDb.users = [premium("abonne@x.fr", { emailVerified: null })];
+    mockDb.abonnes = [{ email: "gratuit@x.fr", unsubscribeToken: "g".repeat(43), confirmedAt: avant }];
+    const mois = envoyer();
+    await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE });
+    const [, , text] = mois.mock.calls.find((c) => c[0] === "gratuit@x.fr")!;
+    const relu = n1.corps.replace("[[invitation-premium]]\n", "").replace("\n[[/invitation-premium]]", "");
+    expect(text.startsWith(frPonctuation(relu))).toBe(true);
+    expect(text).toContain(`PS${NBSP}: si une vanne par mois ne te suffit pas`);
+    expect(text).toContain("https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium");
+    expect(text).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
+    expect(mois.mock.calls.map((c) => c[0]).sort()).toEqual(["abonne@x.fr", "gratuit@x.fr"]);
   });
 
-  it("§4.2 cas limite : envois de l'hebdo fermés, la mensuelle part à tous ses inscrits (pas de pause, pas d'attente)", async () => {
+  it("s22 : Premium qui a arrêté la lettre de la semaine mais inscrit à la lettre du mois = version sans invitation, pied gratuit", async () => {
+    mockDb.users = [premium("arrete@x.fr", {}, { enabled: false, stoppedAt: avant, stopOrigin: "profil" })];
+    mockDb.abonnes = [{ email: "arrete@x.fr", unsubscribeToken: "a".repeat(43), confirmedAt: avant }];
+    const mois = envoyer();
+    const r = await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE });
+    expect(r).toMatchObject({ canalPremium: 0, envoyes: 1 });
+    const [, , text, headers] = mois.mock.calls[0];
+    expect(text).not.toContain(PS_N1);
+    expect(text).not.toContain("/abonnement");
+    expect(text).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
+    expect(text).toContain(`${BASE}/lettre/desinscrire?token=${"a".repeat(43)}`);
+    expect(headers["List-Unsubscribe"]).toContain("/api/newsletter/unsubscribe/");
+  });
+
+  it("s22 : lettre du mois PAS approuvée : zéro e-mail pour personne la semaine 45 (ni lettre du mois, ni lettre réservée) ; approuvée le mardi 10/11, elle part, et la semaine 46 n'a pas de lettre réservée ; la semaine 47 en a une", async () => {
+    const m = mockDb.issues.find((i) => i.id === "m11")!;
+    const hash = m.approvedHash;
+    m.approvedHash = null;
+    const hebdo = envoyer();
+    const mois = envoyer();
+    for (const t of ["2026-11-05T07:00:00Z", "2026-11-05T07:15:00Z", "2026-11-08T22:45:00Z"]) {
+      expect(await envoyerLettreDeLaSemaine(new Date(t), { envoyer: hebdo, baseUrl: BASE })).toMatchObject({ semaineMensuelle: true });
+      expect(await envoyerLettreDuMois(new Date(t), { envoyer: mois, baseUrl: BASE })).toMatchObject({ nonApprouve: true });
+    }
+    expect(hebdo).not.toHaveBeenCalled();
+    expect(mois).not.toHaveBeenCalled();
+    // Approuvée le mardi de la semaine 46 : part au passage suivant ; la lettre réservée de la semaine 46 ne part pas.
+    m.approvedHash = hash;
+    const rm = await envoyerLettreDuMois(new Date("2026-11-10T09:00:00Z"), { envoyer: mois, baseUrl: BASE });
+    expect(rm).toMatchObject({ termine: true, envoyes: 10 });
+    expect(await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: hebdo, baseUrl: BASE })).toMatchObject({ semaineMensuelle: true, envoyes: 0 });
+    expect(hebdo).not.toHaveBeenCalled();
+    // Semaine 47 : lettre réservée de nouveau (numéro de la semaine, approuvé).
+    mockDb.issues.push(numero({ id: "h47", periodKey: "2026-W47", scheduledFor: new Date("2026-11-19T07:00:00Z") }));
+    const r47 = await envoyerLettreDeLaSemaine(new Date("2026-11-19T07:05:00Z"), { envoyer: hebdo, baseUrl: BASE });
+    expect(r47).toMatchObject({ semaineMensuelle: false, envoyes: ATTENDUS_HEBDO.length });
+  });
+
+  it("s22 : lettre du mois approuvée le samedi 07/11 : part le samedi, toujours sans lettre réservée cette semaine-là", async () => {
+    const m = mockDb.issues.find((i) => i.id === "m11")!;
+    const hash = m.approvedHash;
+    m.approvedHash = null;
+    const hebdo = envoyer();
+    const mois = envoyer();
+    await envoyerLettreDuMois(new Date("2026-11-05T07:20:00Z"), { envoyer: mois, baseUrl: BASE });
+    m.approvedHash = hash;
+    await envoyerLettreDeLaSemaine(new Date("2026-11-07T10:00:00Z"), { envoyer: hebdo, baseUrl: BASE });
+    const r = await envoyerLettreDuMois(new Date("2026-11-07T10:15:00Z"), { envoyer: mois, baseUrl: BASE });
+    expect(r).toMatchObject({ termine: true, canalPremium: ATTENDUS_HEBDO.length, dedoublonnes: ATTENDUS_HEBDO.length });
+    expect(await envoyerLettreDeLaSemaine(new Date("2026-11-08T10:00:00Z"), { envoyer: hebdo, baseUrl: BASE })).toMatchObject({ semaineMensuelle: true });
+    expect(hebdo).not.toHaveBeenCalled();
+  });
+
+  it("s22 : lettre du mois reportée (article pas encore en ligne) : rien pour personne cette semaine-là", async () => {
+    mockDb.articlesEnLigne = [];
+    const hebdo = envoyer();
+    const mois = envoyer();
+    expect(await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE })).toMatchObject({ reporte: true });
+    expect(await envoyerLettreDeLaSemaine(JEUDI_05, { envoyer: hebdo, baseUrl: BASE })).toMatchObject({ semaineMensuelle: true });
+    expect(hebdo).not.toHaveBeenCalled();
+    expect(mois).not.toHaveBeenCalled();
+  });
+
+  it("§4.2 cas limite : envois de l'hebdo fermés, la lettre du mois part à ses seuls inscrits, par le canal gratuit", async () => {
     mockHebdoOuvert = false;
-    const mensuelle = envoyer();
-    const r = await envoyerLettreDuMois(JEUDI_05, { envoyer: mensuelle, baseUrl: BASE });
-    expect(r).toMatchObject({ exclusPremiumHebdo: 0, attenteHebdo: 0 });
-    expect(mensuelle.mock.calls.map((c) => c[0])).toContain("actif@x.fr");
+    const mois = envoyer();
+    const r = await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE });
+    expect(r).toMatchObject({ canalPremium: 0, dedoublonnes: 0 });
+    expect(mois.mock.calls.map((c) => c[0])).toContain("actif@x.fr");
+    expect(mois.mock.calls.find((c) => c[0] === "actif@x.fr")![2]).not.toContain(PS_N1);
   });
 });

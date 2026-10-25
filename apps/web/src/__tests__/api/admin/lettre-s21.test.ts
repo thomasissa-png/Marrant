@@ -75,7 +75,7 @@ jest.mock("@/lib/prisma", () => ({
         ]),
     },
     user: {
-      // s22 : Premium sans ligne de préférence = inscrit d'office à la lettre de la semaine (mensuelle marquée en pause).
+      // s22 : Premium sans ligne de préférence = inscrit d’office à la lettre de la semaine (lettre du mois par le canal Premium).
       findMany: () =>
         Promise.resolve([
           { id: "u-p", email: "Premium@Exemple.fr", plan: "PREMIUM", emailVerified: new Date("2026-10-01T00:00:00Z"), emailOptOut: false, accounts: [], premiumLetter: null },

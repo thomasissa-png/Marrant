@@ -119,7 +119,7 @@ describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle), i
     expect(recoitHebdo(candidat({}, { enabled: false }), true)).toBe(true);
   });
 
-  it("H4-1 / §6.4 : envois fermés, personne ne reçoit (la mensuelle reprend pour tous)", () => {
+  it("H4-1 / §6.4 : envois fermés, personne ne reçoit (la lettre du mois part à ses seuls inscrits)", () => {
     expect(recoitHebdo(candidat(), false)).toBe(false);
   });
 

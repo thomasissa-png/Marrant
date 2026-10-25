@@ -117,7 +117,7 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
       donnees:
         "Lettre de la semaine (abonnés Premium, incluse dans l'abonnement) : la date du premier envoi, puis, si tu l'arrêtes ou la reprends, la date et la façon dont tu l'as fait (lien dans l'e-mail, profil, ou demande à contact@deviens-marrant.fr). On garde aussi un code personnel qui sert au lien d'arrêt, et un journal des envois (quel numéro, à quelle adresse). La lettre est envoyée à l'adresse e-mail de ton compte. Aucune adresse IP n'est gardée pour cette lettre.",
       finalite:
-        "T'envoyer la lettre de la semaine : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.",
+        "T'envoyer la lettre de la semaine, dont la lettre du mois une semaine par mois : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : plus aucun numéro ne t'est envoyé.",
       destinataires:
         "Lettre de la semaine : l'envoi passe par notre prestataire Resend (voir la partie 4). L'équipe voit, dans son espace d'administration, si ta lettre est active ou arrêtée, et depuis quand.",
       duree:
@@ -126,14 +126,15 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
         "Tu peux arrêter la lettre de la semaine à tout moment, avec le lien en bas de chaque numéro ou depuis ton profil, sans toucher à ton abonnement. Les numéros déjà reçus restent dans ta boîte.",
     });
     expect(T.LETTRE_HEBDO_INFO_PAIEMENT).toEqual({
-      recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
+      recoit:
+        "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
       arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
       opposition:
         "La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr.",
     });
     expect(T.LETTRE_HEBDO_UI.opposition).toBe(T.LETTRE_HEBDO_INFO_PAIEMENT.opposition);
     expect(`${T.LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("y@x.fr")}${T.LETTRE_HEBDO_LIGNE_REGLAGE.lien}${T.LETTRE_HEBDO_LIGNE_REGLAGE.apresLien}`).toBe(
-      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
+      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde ; les autres jeudis, une lettre réservée aux abonnés. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
     );
     expect(T.LETTRE_HEBDO_UI.succesActivation("y@x.fr")).toBe("C'est noté. Tu la recevras chaque jeudi, à y@x.fr. Tu peux l'arrêter ici ou depuis chaque lettre, en un clic.");
     expect(T.LETTRE_HEBDO_UI.succesArret).toBe("C'est arrêté. Ton abonnement continue.");
@@ -142,7 +143,7 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
     expect(T.LETTRE_HEBDO_ARRET.titreArretee).toBe("Lettre de la semaine arrêtée");
     // Relecture finale v3 (m3) : le succès commence par « Cet arrêt ne change rien à ton abonnement. ».
     expect(T.LETTRE_HEBDO_ARRET.succes).toBe(
-      "Cet arrêt ne change rien à ton abonnement. Si tu es inscrit à la lettre du mois, elle reprend. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
+      "Cet arrêt ne change rien à ton abonnement. La lettre du mois s'arrête aussi, sauf si tu t'y es inscrit séparément. Tant que tu es abonné Premium, tu peux reprendre la lettre de la semaine depuis ton profil.",
     );
     expect(T).not.toHaveProperty("PROPOSITION_LETTRE_HEBDO");
     expect(T.LETTRE_HEBDO_UI).not.toHaveProperty("adresseNonVerifiee");
@@ -152,6 +153,12 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
     const publics = [JSON.stringify(T), pied];
     for (const t of publics) expect(t).not.toMatch(/\bcase\b|coche|choisi de la recevoir|tu l'actives toi-même|ancienne case|de nouveau, écris/);
     expect(config.LETTRE_HEBDO_DATE_TEXTES).toBe("25 octobre 2026");
+    // s22 (rythme, décision de Thomas du 25/10, avis §10) : plus aucune pause de la lettre du mois dans les textes publics.
+    expect(T.CGU_LETTRE_HEBDO[1]).toBe(
+      "La semaine où part la lettre du mois, c'est elle que tu reçois, comme tout le monde ; les autres jeudis, tu reçois une lettre réservée aux abonnés. Arrêter la lettre de la semaine arrête aussi la lettre du mois, sauf si tu t'y es inscrit séparément.",
+    );
+    expect(T.LETTRE_HEBDO_FIN_PREMIUM).toBe("La lettre de la semaine s'arrête avec ton accès Premium. Si tu t'es inscrit séparément à la lettre du mois, tu continues de la recevoir.");
+    for (const t of [...publics, T.LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("y@x.fr")]) expect(t).not.toMatch(/pause|elle reprend\./);
   });
 
   it("zéro tiret cadratin, zéro « newsletter », zéro prix dans tous les textes", () => {

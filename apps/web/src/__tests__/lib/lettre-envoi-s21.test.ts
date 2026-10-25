@@ -3,14 +3,16 @@
  *
  * Lettre s21 : tâche d'envoi mensuelle. Base simulée en mémoire (journal avec
  * contrainte unique numéro + adresse) pour vérifier « jamais deux fois », les
- * exclusions (Premium avec hebdo, oppositions) et les en-têtes de désinscription.
+ * exclusions (oppositions), les en-têtes de désinscription et, s22 (décision de Thomas du
+ * 25/10), le canal Premium : les destinataires de l'hebdo reçoivent la lettre du mois en version
+ * Premium (sans invitation, pied hebdo), une seule fois, plus de pause.
  */
 let mockOuvert = true;
 // Envois : null = suit `mockOuvert` (les deux interrupteurs ensemble), sinon valeur propre.
 let mockEnvoisOuverts: boolean | null = null;
 // Valeur d'essai : la vraie mention attend @legal (marqueur, voir lettre-numeros-s21.test.ts).
 let mockMention = "deviens-marrant SAS";
-// s21 hebdo : la pause de la mensuelle n'existe que si les envois de l'hebdo sont ouverts.
+// s22 : le canal Premium de la mensuelle n'existe que si les envois de l'hebdo sont ouverts.
 let mockHebdoOuvert = true;
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
@@ -35,7 +37,7 @@ const mockDb = {
   users: [] as Array<Record<string, unknown>>,
   leads: [] as Array<Record<string, unknown>>,
   journal: [] as Ligne[],
-  // s22 : numéro hebdo de la semaine de la mensuelle (2026-W45) et adresses qui l'ont reçu.
+  // s22 : lettre réservée de la semaine 2026-W45 (garde-fou « jamais deux lettres ») et adresses qui l'ont reçue.
   hebdo: null as null | { id: string; status: string },
   hebdoRecus: [] as string[],
 };
@@ -122,9 +124,14 @@ beforeEach(() => {
   ];
   mockDb.leads = [];
   mockDb.journal = [];
-  mockDb.hebdo = { id: "h45", status: "ENVOYE" };
-  mockDb.hebdoRecus = ["premium@x.fr"];
+  // s22 : semaine de la mensuelle, aucune lettre réservée partie.
+  mockDb.hebdo = null;
+  mockDb.hebdoRecus = [];
 });
+
+// s22 : corps avec le bloc d'invitation Premium entre ses marqueurs (comme `data/lettre/numeros.json`).
+const INVITATION = "PS : Premium, résiliable en ligne.\nVoir l'offre Premium : https://deviens-marrant.fr/abonnement?utm_content=n1-premium";
+const CORPS_INVITATION = `Corps préparé du numéro.\n\n[[invitation-premium]]\n${INVITATION}\n[[/invitation-premium]]\n\nRendez-vous le mois prochain,`;
 
 describe("periodeMensuelle", () => {
   it("suit le calendrier de Paris (31/10 23 h 30 UTC = 1er novembre à Paris)", () => {
@@ -194,24 +201,23 @@ describe("envoyerLettreDuMois", () => {
     expect(envoyer).not.toHaveBeenCalled();
   });
 
-  it("envoie aux confirmés, exclut Premium avec hebdo et opposition antérieure, journalise, termine le numéro", async () => {
+  it("s22 : envoie aux confirmés et au Premium par le canal Premium (une fois), exclut l'opposition antérieure, journalise, termine le numéro", async () => {
     const envoyer = jest.fn().mockResolvedValue(undefined);
     const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     const destinataires = envoyer.mock.calls.map((c) => c[0]).sort();
     // revenu@ : confirmation de la lettre POSTÉRIEURE à l'opposition (nouvel acte positif, @legal L6).
-    expect(destinataires).toEqual(["a@x.fr", "b@x.fr", "revenu@x.fr"]);
-    expect(r.exclusPremiumHebdo).toBe(1);
-    expect(r.exclusOpposition).toBe(1);
-    expect(r.envoyes).toBe(3);
+    // premium@ : destinataire de l'hebdo ET inscrit à la mensuelle : un seul e-mail, canal Premium.
+    expect(destinataires).toEqual(["a@x.fr", "b@x.fr", "premium@x.fr", "revenu@x.fr"]);
+    expect(r).toMatchObject({ canalPremium: 1, dedoublonnes: 1, exclusOpposition: 1, envoyes: 4, termine: true });
     expect(mockDb.journal.map((l) => [l.email, l.status])).toEqual([
+      ["premium@x.fr", "ENVOYE"],
       ["a@x.fr", "ENVOYE"],
       ["b@x.fr", "ENVOYE"],
       ["revenu@x.fr", "ENVOYE"],
     ]);
-    expect(r.termine).toBe(true);
     expect(mockDb.issue?.status).toBe("ENVOYE");
 
-    const [, sujet, texte, headers] = envoyer.mock.calls[0];
+    const [, sujet, texte, headers] = envoyer.mock.calls.find((c) => c[0] === "a@x.fr")!;
     expect(sujet).toBe("Objet du mois");
     expect(texte).toContain("Corps préparé du numéro.");
     expect(texte).toContain(`${BASE}/lettre/desinscrire?token=u-a%40x.fr`);
@@ -219,44 +225,98 @@ describe("envoyerLettreDuMois", () => {
     expect(texte).not.toMatch(/<img|pixel/i);
     expect(headers["List-Unsubscribe"]).toMatch(/^<https:\/\/deviens-marrant\.fr\/api\/newsletter\/unsubscribe\/u-a%40x\.fr/);
     expect(headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
+
+    // Canal Premium : pied et en-têtes de la lettre de la semaine (arrêt propre à l'abonné).
+    const jeton = encodeURIComponent("jeton-hebdo".padEnd(43, "x"));
+    const [, sujetP, texteP, headersP] = envoyer.mock.calls.find((c) => c[0] === "premium@x.fr")!;
+    expect(sujetP).toBe("Objet du mois");
+    expect(texteP).toContain("Corps préparé du numéro.");
+    expect(texteP).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
+    expect(texteP).toContain(`${BASE}/lettre/premium/arreter?token=${jeton}`);
+    expect(texteP).not.toContain("/lettre/desinscrire");
+    expect(headersP).toEqual({ "List-Unsubscribe": `<${BASE}/api/lettre-premium/arret-un-clic?token=${jeton}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" });
   });
 
-  it("un Premium qui a ARRÊTÉ la lettre hebdomadaire garde la mensuelle", async () => {
+  it("s22 : version gratuite (invitation comprise, marqueurs retirés) aux inscrits, version Premium (sans invitation) aux abonnés", async () => {
+    mockDb.issue = { ...mockDb.issue, bodyText: CORPS_INVITATION };
+    const envoyer = jest.fn().mockResolvedValue(undefined);
+    await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    const texteDe = (email: string) => envoyer.mock.calls.find((c) => c[0] === email)![2] as string;
+    expect(texteDe("a@x.fr")).toContain(`Corps préparé du numéro.\n\nPS${NBSP}: Premium, résiliable en ligne.\nVoir l'offre Premium${NBSP}: https://deviens-marrant.fr/abonnement?utm_content=n1-premium\n\nRendez-vous le mois prochain,`);
+    expect(texteDe("premium@x.fr")).toContain("Corps préparé du numéro.\n\nRendez-vous le mois prochain,");
+    for (const email of ["a@x.fr", "premium@x.fr"]) expect(texteDe(email)).not.toContain("[[");
+    expect(texteDe("premium@x.fr")).not.toContain("/abonnement");
+  });
+
+  it("s22 : un Premium qui a ARRÊTÉ la lettre de la semaine mais est inscrit à la mensuelle : canal gratuit, version sans invitation, pied gratuit", async () => {
+    mockDb.issue = { ...mockDb.issue, bodyText: CORPS_INVITATION };
     mockDb.users = [
       { id: "u-p", email: "premium@x.fr", plan: "PREMIUM", emailVerified: avant, accounts: [], emailOptOut: false, updatedAt: avant, premiumLetter: { enabled: false, stoppedAt: avant, stopOrigin: "profil", unsubscribeToken: null } },
     ];
     mockDb.abonnes = [abonne("premium@x.fr")];
-    mockDb.hebdoRecus = [];
     const envoyer = jest.fn().mockResolvedValue(undefined);
-    await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(envoyer).toHaveBeenCalledTimes(1);
+    expect(r).toMatchObject({ canalPremium: 0, dedoublonnes: 0, envoyes: 1 });
+    const [, , texte, headers] = envoyer.mock.calls[0];
+    expect(texte).toContain("Corps préparé du numéro.\n\nRendez-vous le mois prochain,");
+    expect(texte).not.toContain("/abonnement");
+    expect(texte).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
+    expect(texte).toContain(`${BASE}/lettre/desinscrire?token=u-premium%40x.fr`);
+    expect(headers["List-Unsubscribe"]).toContain("/api/newsletter/unsubscribe/");
   });
 
-  it("s22 : Premium inscrit d'office, l'hebdo de la semaine pas encore partie : la mensuelle attend (ni envoyée, ni terminée)", async () => {
+  it("s22 : une lettre réservée déjà partie cette semaine (numéro chargé après coup) : la lettre du mois attend le jeudi suivant à 8 h", async () => {
+    mockDb.hebdo = { id: "h45", status: "ENVOYE" };
+    mockDb.hebdoRecus = ["premium@x.fr"];
+    const envoyer = jest.fn();
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    expect(r).toMatchObject({ reporte: true, prochainEnvoi: new Date("2026-11-12T07:00:00Z"), envoyes: 0, termine: false });
+    expect(envoyer).not.toHaveBeenCalled();
+    expect(mockDb.journal).toHaveLength(0);
+    // Lundi suivant : la lettre réservée était de la semaine précédente, la lettre du mois attend encore le jeudi 8 h.
+    const lundi = await envoyerLettreDuMois(new Date("2026-11-09T10:00:00Z"), { envoyer, baseUrl: BASE });
+    expect(lundi).toMatchObject({ reporte: true, prochainEnvoi: new Date("2026-11-12T07:00:00Z") });
+    expect(envoyer).not.toHaveBeenCalled();
+    const jeudi = await envoyerLettreDuMois(new Date("2026-11-12T07:05:00Z"), { envoyer: jest.fn().mockResolvedValue(undefined), baseUrl: BASE });
+    expect(jeudi).toMatchObject({ reporte: false, envoyes: 4, termine: true });
+  });
+
+  it("s22 : lettre réservée de la semaine préparée mais jamais partie : la lettre du mois part, au Premium par le canal Premium", async () => {
     mockDb.hebdo = { id: "h45", status: "VALIDE" };
-    mockDb.hebdoRecus = [];
     mockDb.users[0].premiumLetter = null;
+    const { prisma } = jest.requireMock("@/lib/prisma") as { prisma: Record<string, unknown> };
+    prisma.premiumLetterPreference = {
+      findUnique: jest.fn(async () => ({ unsubscribeToken: "jeton-office".padEnd(43, "x") })),
+    };
     const envoyer = jest.fn().mockResolvedValue(undefined);
     const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
-    expect(envoyer.mock.calls.map((c) => c[0])).not.toContain("premium@x.fr");
-    expect(r).toMatchObject({ attenteHebdo: 1, exclusPremiumHebdo: 0, termine: false });
+    expect(envoyer.mock.calls.filter((c) => c[0] === "premium@x.fr")).toHaveLength(1);
+    expect(r).toMatchObject({ canalPremium: 1, dedoublonnes: 1, termine: true });
+    delete prisma.premiumLetterPreference;
   });
 
-  it("s22 : l'hebdo de la semaine est terminée sans lui (devenu Premium après l'envoi) : la mensuelle lui part", async () => {
-    mockDb.hebdoRecus = [];
-    const envoyer = jest.fn().mockResolvedValue(undefined);
-    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
-    expect(envoyer.mock.calls.map((c) => c[0])).toContain("premium@x.fr");
-    expect(r).toMatchObject({ attenteHebdo: 0, exclusPremiumHebdo: 0, termine: true });
-  });
-
-  it("s21 hebdo : envois de l'hebdo fermés, le Premium qui l'a activée reçoit encore la mensuelle (spec §4.2)", async () => {
+  it("s21 hebdo : envois de l'hebdo fermés, le Premium inscrit reçoit la mensuelle par le canal gratuit, sans invitation (spec §4.2)", async () => {
     mockHebdoOuvert = false;
+    mockDb.issue = { ...mockDb.issue, bodyText: CORPS_INVITATION };
     mockDb.abonnes = [abonne("premium@x.fr")];
     const envoyer = jest.fn().mockResolvedValue(undefined);
     const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(envoyer).toHaveBeenCalledTimes(1);
-    expect(r.exclusPremiumHebdo).toBe(0);
+    expect(r).toMatchObject({ canalPremium: 0, dedoublonnes: 0 });
+    expect(envoyer.mock.calls[0][2]).not.toContain("/abonnement");
+  });
+
+  it("s22 : version Premium non conforme (offre hors du bloc d'invitation) ou marqueurs mal posés : rien ne part pour personne", async () => {
+    const envoyer = jest.fn();
+    for (const bodyText of [`${CORPS_INVITATION}\nAnnuel à 24,99 €`, "Corps.\n\n[[invitation-premium]]\nPS sans fin", "Corps.\nVoir : https://deviens-marrant.fr/abonnement"]) {
+      mockDb.issue = { id: "n1", periodKey: "2026-11", subject: "Objet du mois", bodyText, status: "VALIDE" };
+      const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+      expect(r).toMatchObject({ bloque: true, envoyes: 0, termine: false });
+      expect(r.motifs.length).toBeGreaterThan(0);
+    }
+    expect(envoyer).not.toHaveBeenCalled();
+    expect(mockDb.journal).toHaveLength(0);
   });
 
   it("prospect opposé (CeoLead) : exclu", async () => {
@@ -276,7 +336,7 @@ describe("envoyerLettreDuMois", () => {
     envoyer.mockClear();
     const r2 = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(envoyer).not.toHaveBeenCalled();
-    expect(r2.dejaTraites).toBe(3);
+    expect(r2.dejaTraites).toBe(4);
   });
 
   it("ligne réservée par un passage concurrent (RESERVE) : jamais renvoyée", async () => {

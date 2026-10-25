@@ -35,6 +35,8 @@ jest.mock("@/lib/prisma", () => ({
       // `lettre-mensuelle-approbation-s22.test.ts`) ; les garde-fous s21 restent testés dessus.
       findFirst: jest.fn(async () => mockApprouve(mockDb.issue)),
       update: jest.fn(async ({ data }: { data: Record<string, unknown> }) => Object.assign(mockDb.issue ?? {}, data)),
+      // s22 : aucune lettre réservée cette semaine (garde-fou « jamais deux lettres dans la semaine »).
+      findUnique: jest.fn(async () => null),
     },
     // Applique réellement le filtre de visibilité reçu (`visibleBlogArticleWhere`).
     blogArticle: {
@@ -73,7 +75,8 @@ import { blogArticles } from "@/lib/blog-articles";
 const NOW = new Date("2026-11-05T07:30:00Z"); // jeudi 05/11/2026, 8 h 30 à Paris
 const BASE = "https://deviens-marrant.fr";
 const SLUG = "soiree-de-noel-entreprise-humour";
-const corps = `Lis l'article : https://deviens-marrant.fr/blog/${SLUG}?utm_source=lettre&utm_medium=email\nEt Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre`;
+// s22 : l'invitation Premium (lien /abonnement) est entre ses marqueurs, retirée de la version Premium.
+const corps = `Lis l'article : https://deviens-marrant.fr/blog/${SLUG}?utm_source=lettre&utm_medium=email\n\n[[invitation-premium]]\nEt Premium : https://deviens-marrant.fr/abonnement?utm_source=lettre\n[[/invitation-premium]]\n\nÀ bientôt`;
 
 beforeEach(() => {
   mockDb.issue = { id: "n1", periodKey: "2026-11", subject: "Objet du mois", bodyText: corps, status: "VALIDE" };
