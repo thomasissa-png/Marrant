@@ -44,8 +44,10 @@ export function libelleToutOuvrir(prix: string = PREMIUM_PRICE_LABEL): string {
   return `Tout ouvrir${POINT_MEDIAN}${prix}`;
 }
 
-/** `GRATUIT_ACCUEIL` : haut d'accueil et carte d'accueil (Répartie). Plus en fin d'article (v3 S01). */
-export const GRATUIT_ACCUEIL = "Tester mes premières répliques, gratuit";
+/** `GRATUIT_ACCUEIL` : haut d'accueil et carte d'accueil (Répartie). Plus en fin d'article (v3 S01).
+ * s22 (25/10, choix délégué par Thomas) : remplace « Tester mes premières répliques, gratuit », qui faisait
+ * croire qu'on teste ses propres répliques ; gagnant de la relecture à l'aveugle (docs/reviews/review-cta-accueil-s22.md). */
+export const GRATUIT_ACCUEIL = "Apprends à répondre à une pique, gratuit";
 
 /** `GRATUIT_P` : « Tester l'étape 1 de {P}, gratuite », partout où le parcours est connu. */
 export const libelleGratuitParcours = (slug: ParcoursSlug): string => `Tester l’étape 1 de ${PARCOURS_NOMS[slug]}, gratuite`;

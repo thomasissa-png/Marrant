@@ -77,7 +77,7 @@ describe("§0 conventions : REASS, OUVRIR, GRATUIT_ACCUEIL, GRATUIT_P", () => {
     expect(mots(REASSURANCE_UNIQUE)).toBe(11);
     expect(t(libelleToutOuvrir())).toBe(OUVRIR);
     expect(t(libelleToutOuvrir("16,99 €/an"))).toBe("Tout ouvrir · 16,99 €/an");
-    expect(GRATUIT_ACCUEIL).toBe("Tester mes premières répliques, gratuit");
+    expect(GRATUIT_ACCUEIL).toBe("Apprends à répondre à une pique, gratuit");
     expect(libelleGratuitParcours("machine-a-cafe")).toBe("Tester l’étape 1 de Machine à Café, gratuite");
   });
 });
@@ -86,7 +86,7 @@ describe("partie A : accueil, en-tête, articles", () => {
   it("§1 haut de l’accueil", () => {
     expect(ACCUEIL_HAUT.intro).toBe("Des vannes et des exercices pour répondre quand on te chambre.");
     expect(t(ACCUEIL_HAUT.preuve)).toBe("1 500+ inscrits bossent leur humour.");
-    expect(ACCUEIL_HAUT.bouton).toBe("Tester mes premières répliques, gratuit");
+    expect(ACCUEIL_HAUT.bouton).toBe("Apprends à répondre à une pique, gratuit");
     expect(ACCUEIL_HAUT.note).toBe("Sans compte.");
     expect([mots(ACCUEIL_HAUT.intro), mots(ACCUEIL_HAUT.preuve), mots(ACCUEIL_HAUT.note)]).toEqual([11, 5, 2]);
   });

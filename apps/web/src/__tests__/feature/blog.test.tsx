@@ -242,7 +242,7 @@ describe("BlogArticlePage — article detail", () => {
     // Répartie : « Tester l'étape 1 de Répartie, gratuite » (libellé unique, comme /abonnement).
     expect(screen.getByText(normalise(BLOC_FIN.bouton))).toBeInTheDocument();
     expect(screen.getAllByText(normalise("Tester l'étape 1 de Répartie, gratuite")).length).toBeGreaterThan(0);
-    expect(screen.queryByText("Tester mes premières répliques, gratuit")).not.toBeInTheDocument();
+    expect(screen.queryByText("Apprends à répondre à une pique, gratuit")).not.toBeInTheDocument();
     expect(screen.queryByText("Essaie gratuitement")).not.toBeInTheDocument();
   });
 

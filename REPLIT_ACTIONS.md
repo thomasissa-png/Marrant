@@ -2,6 +2,13 @@
 
 ## À DÉPLOYER
 
+## À DÉPLOYER (s22, 25/10) : bouton principal de l'accueil « Apprends à répondre à une pique, gratuit », **NON DÉPLOYÉ** (go écrit de Thomas requis)
+
+- Une constante : `GRATUIT_ACCUEIL` (`config/textes/cta-articles-accueil.ts`), utilisée en haut de l'accueil et en bouton contour sous la carte Premium. Remplace « Tester mes premières répliques, gratuit ». Sous-note « Sans compte. » inchangée. Choix délégué par Thomas (founder-preferences 25/10) ; variantes `docs/copy/cta-accueil-s22/variantes.md`, gagnant de la relecture à l'aveugle `docs/reviews/review-cta-accueil-s22.md` (l'ancien libellé finit dernier).
+- Tests : `concision-v5-textes`, `blog`, `blog-encarts-s20`, `fins-articles-v3-s21` (fins d'article : toujours sans ce libellé). Captures avant/après : `docs/qa/captures-cta-accueil-s22/` (une ligne à 1440, 390 et 360 px, aucun débordement).
+- Procédure sûre : build dans le dépôt principal, `npx opennextjs-cloudflare upload`, aperçu testé, `npx wrangler versions deploy <version>@100% -y`. N-1 attendu `3d3bade1-41aa-4391-bed7-6acf4e97d551`.
+- Contrôles : accueil 200, `curl -s https://deviens-marrant.fr/ | grep -c "Apprends à répondre à une pique, gratuit"` ≥ 2, 0 « Tester mes premières répliques », lien vers `/parcours/repartie?src=accueil#etape-1` inchangé, santé `ok`, en-têtes identiques.
+
 ## s22 Licence élargie (appli, bot, extension, newsletter, pub comprise ; choix Thomas 24/10), **DÉPLOYÉ le 24/10/2026 vers 22:02 UTC** (go écrit de Thomas « Go pour déployer ») : version `3d3bade1-41aa-4391-bed7-6acf4e97d551`, commit `e3564cdd` (CI verte, run 40135987788), N-1 `b48f119d-4150-475b-8b74-7c1f01c950fd`. Retour arrière : `cd apps/web && npx wrangler rollback b48f119d-4150-475b-8b74-7c1f01c950fd`.
 
 - Textes : `CONDITIONS_UTILISATION` et `LICENCE_API` (`integrer-la-vanne-du-jour/page.tsx`), `TEXTE_LICENCE_*` (`config/textes/developers.ts`) ; @legal (visa « licence élargie », `docs/legal/widget-vanne-du-jour-s22.md`), relectures à l'aveugle `docs/reviews/review-licence-elargie-s22*.md` (v3 GO 9/10). Captures avant/après : `docs/qa/captures-developers-s22/licence-*`.

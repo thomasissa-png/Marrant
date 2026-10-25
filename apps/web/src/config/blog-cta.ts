@@ -10,7 +10,7 @@
  *
  * Plein gratuit (blog-article-view) : `parcoursHref` présent = « Tester l'étape 1 de {P}, gratuite »
  * (P = parcours de l'article, même valeur que `parcoursHref`, vérifié par un test) ; absent =
- * « Tester mes premières répliques, gratuit ».
+ * « Apprends à répondre à une pique, gratuit ».
  */
 import { libelleGratuitParcours } from "@/config/textes/cta-articles-accueil";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";

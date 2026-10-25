@@ -148,7 +148,7 @@ describe("Page article en base : articles à forte frappe (config/blog-forte-fra
 
   it("A1 en base : CTA dédié juste après le corps, avant les articles liés", async () => {
     const { container } = await renderDb("message-anniversaire-drole-par-situation");
-    // textes-trajet-v3 S01 : lien gratuit du parcours de l'article (jamais « Tester mes premières répliques »).
+    // textes-trajet-v3 S01 : lien gratuit du parcours de l'article (jamais le libellé d’accueil « Apprends à répondre à une pique »).
     const titles = screen.getAllByText(normalise("Au moment du gâteau, tout le monde t'écoute"));
     expect(titles).toHaveLength(1);
     expect(follows(container.querySelector("[data-blog-body]")!, titles[0])).toBe(true);

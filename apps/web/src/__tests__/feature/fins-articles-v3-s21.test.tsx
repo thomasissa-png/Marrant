@@ -4,7 +4,7 @@
  * calcul que blog-article-view (parcours de l'article, libellé du plein, titre et phrase).
  * - textes-trajet-v2 F01 à F04 : plein unique payant OUVRIR, réassurance dessous, puis le lien
  *   gratuit « Tester l'étape 1 de {P}, gratuite » si l'entrée a un parcoursHref (P = ce parcours),
- *   sinon « Tester mes premières répliques, gratuit », et « Sans compte. » ;
+ *   sinon « Apprends à répondre à une pique, gratuit », et « Sans compte. » ;
  * - la phrase d'argument F02 remplace le texte propre à l'article (arbitrage 3 du tour 2) ;
  * - aucun ancien libellé ;
  * - titre sans point final, sauf « ? » et « » » (règle unique du composant, tous les blocs) ;
