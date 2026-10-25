@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
 import { stripe, cancelStripeSubscriptionNow } from "@/lib/stripe";
+import { finPremiumLettreHebdo } from "@/lib/lettre/hebdo";
 import { prisma } from "@/lib/prisma";
 import { extractSubscriptionBilling, periodEndData, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
 import {
@@ -199,6 +200,8 @@ async function handleSubscriptionUpdated(
       data: { status: newStatus, ...periodEndData(subscription), ...extractSubscriptionBilling(subscription) },
     }),
     ...(planUpdate ? [prisma.user.update({ where: { id: sub.userId }, data: planUpdate })] : []),
+    // s21 (avis @legal hebdo §6.2) : la lettre de la semaine s'arrête avec le passage à FREE.
+    ...(shouldDowngrade ? [finPremiumLettreHebdo(sub.userId, new Date())] : []),
   ]);
   if (planUpdate) console.log(`[Stripe] User ${sub.userId} → ${planUpdate.plan} (${subscription.status})`);
 
@@ -212,6 +215,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
   await prisma.$transaction([
     prisma.subscription.update({ where: { id: sub.id }, data: { status: "CANCELED" } }),
     prisma.user.update({ where: { id: sub.userId }, data: { plan: "FREE" } }),
+    finPremiumLettreHebdo(sub.userId, new Date()),
   ]);
   console.log(`[Stripe] Subscription deleted for user ${sub.userId}`);
 }
@@ -365,6 +369,7 @@ async function handleChargeRefunded(charge: Stripe.Charge): Promise<void> {
     await prisma.$transaction([
       prisma.subscription.update({ where: { id: dbSub.id }, data: { status: "CANCELED" } }),
       prisma.user.update({ where: { id: dbSub.userId }, data: { plan: "FREE" } }),
+      finPremiumLettreHebdo(dbSub.userId, new Date()),
     ]);
     console.log(`[Stripe] Full refund, user ${dbSub.userId} downgraded to FREE`);
   }

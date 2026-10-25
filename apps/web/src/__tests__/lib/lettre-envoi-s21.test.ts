@@ -10,6 +10,8 @@ let mockOuvert = true;
 let mockEnvoisOuverts: boolean | null = null;
 // Valeur d'essai : la vraie mention attend @legal (marqueur, voir lettre-numeros-s21.test.ts).
 let mockMention = "deviens-marrant SAS";
+// s21 hebdo : la pause de la mensuelle n'existe que si les envois de l'hebdo sont ouverts.
+let mockHebdoOuvert = true;
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
   get LETTRE_INSCRIPTIONS_OUVERTES() {
@@ -20,6 +22,9 @@ jest.mock("@/config/lettre", () => ({
   },
   get LETTRE_MENTION_EDITEUR_NUMERO() {
     return mockMention;
+  },
+  get LETTRE_HEBDO_ENVOIS_OUVERTS() {
+    return mockHebdoOuvert;
   },
 }));
 
@@ -81,10 +86,20 @@ beforeEach(() => {
   mockOuvert = true;
   mockEnvoisOuverts = null;
   mockMention = "deviens-marrant SAS";
+  mockHebdoOuvert = true;
   mockDb.issue = { id: "n1", periodKey: "2026-11", subject: "Objet du mois", bodyText: "Corps préparé du numéro.", status: "VALIDE" };
   mockDb.abonnes = [abonne("a@x.fr"), abonne("b@x.fr"), abonne("premium@x.fr"), abonne("stop@x.fr"), abonne("revenu@x.fr", new Date("2026-10-20T00:00:00Z"))];
   mockDb.users = [
-    { email: "premium@x.fr", plan: "PREMIUM", emailOptOut: false, updatedAt: avant, premiumLetter: { enabled: true } },
+    {
+      id: "u-premium",
+      email: "premium@x.fr",
+      plan: "PREMIUM",
+      emailVerified: avant,
+      accounts: [],
+      emailOptOut: false,
+      updatedAt: avant,
+      premiumLetter: { enabled: true, activatedAt: avant, consentVersion: "lettre-hebdo-premium-v1", unsubscribeToken: "jeton-hebdo".padEnd(43, "x") },
+    },
     { email: "stop@x.fr", plan: "FREE", emailOptOut: true, updatedAt: new Date("2026-10-10T00:00:00Z"), premiumLetter: null },
     { email: "revenu@x.fr", plan: "FREE", emailOptOut: true, updatedAt: new Date("2026-10-10T00:00:00Z"), premiumLetter: null },
   ];
@@ -193,6 +208,15 @@ describe("envoyerLettreDuMois", () => {
     const envoyer = jest.fn().mockResolvedValue(undefined);
     await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(envoyer).toHaveBeenCalledTimes(1);
+  });
+
+  it("s21 hebdo : envois de l'hebdo fermés, le Premium qui l'a activée reçoit encore la mensuelle (spec §4.2)", async () => {
+    mockHebdoOuvert = false;
+    mockDb.abonnes = [abonne("premium@x.fr")];
+    const envoyer = jest.fn().mockResolvedValue(undefined);
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    expect(envoyer).toHaveBeenCalledTimes(1);
+    expect(r.exclusPremiumHebdo).toBe(0);
   });
 
   it("prospect opposé (CeoLead) : exclu", async () => {

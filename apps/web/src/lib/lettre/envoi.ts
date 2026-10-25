@@ -17,9 +17,9 @@
  *  - Numéro PRÉPARÉ en base, statut VALIDE, période = mois de Paris en cours,
  *    `scheduledFor` atteint. Aucun numéro : rien n'est envoyé (jamais de contenu
  *    généré au fil de l'eau, règle du 01/10).
- *  - Destinataires : `CONFIRMED`, moins (1) les Premium qui reçoivent la lettre
- *    hebdomadaire (`PremiumLetterPreference.enabled`, avis produit §4 : un Premium
- *    sans hebdo garde la mensuelle), (2) les oppositions globales (`User.emailOptOut`,
+ *  - Destinataires : `CONFIRMED`, moins (1) les destinataires de la lettre de la
+ *    semaine (`destinatairesHebdo`, fonction unique ; aucun tant que
+ *    `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé ; un Premium sans hebdo garde la mensuelle), (2) les oppositions globales (`User.emailOptOut`,
  *    prospects `CeoLead` opposés), sauf confirmation de la lettre POSTÉRIEURE à
  *    l'opposition (L6 ; date d'opposition majorée par `updatedAt`, donc prudente).
  *  - Journal `NewsletterSend` réservé AVANT l'envoi (unique numéro + adresse) :
@@ -34,6 +34,8 @@ import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type Envoyer
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
 import { frPonctuation } from "@/lib/fr-typo";
 import { getArticleBySlug } from "@/lib/blog-articles";
+import { aHeureParis, LETTRE_HEURE_ENVOI_PARIS, LETTRE_JOUR_ENVOI } from "@/lib/lettre/calendrier";
+import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 
 const moisFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit" });
@@ -46,20 +48,8 @@ export function periodeMensuelle(now: Date): string {
   return `${an}-${mois}`;
 }
 
-/** Jour d'envoi : jeudi (`getUTCDay`), à 8 h heure de Paris (décision de Thomas, 17/10). */
-export const LETTRE_JOUR_ENVOI = 4;
-export const LETTRE_HEURE_ENVOI_PARIS = 8;
-
-const heureParisFormat = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hour: "2-digit", hourCycle: "h23" });
-
-/** Instant « jour à HH:00, heure de Paris » (heure d'hiver UTC+1 ou d'été UTC+2). */
-function aHeureParis(an: number, mois: number, jour: number, heure: number): Date {
-  for (const decalage of [1, 2]) {
-    const essai = new Date(Date.UTC(an, mois - 1, jour, heure - decalage));
-    if (Number(heureParisFormat.format(essai)) === heure) return essai;
-  }
-  throw new Error(`Heure de Paris introuvable pour ${an}-${mois}-${jour} ${heure} h`);
-}
+// Jour d'envoi (jeudi, 8 h Paris) et heure de Paris : `calendrier.ts`, partagé avec l'hebdo.
+export { LETTRE_JOUR_ENVOI, LETTRE_HEURE_ENVOI_PARIS } from "@/lib/lettre/calendrier";
 
 /**
  * Date d'envoi d'un numéro (règle unique, décision de Thomas du 17/10) :
@@ -182,15 +172,17 @@ export function corpsNumero(bodyText: string, baseUrl: string, unsubscribeToken:
 }
 
 async function listesExclusion(): Promise<{ hebdo: Set<string>; oppositions: Map<string, Opposition> }> {
+  // Mise en pause de la mensuelle : EXACTEMENT les destinataires de l'hebdo (fonction
+  // unique `recoitHebdo`, spec hebdo §4.2) ; vide tant que `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé.
+  const hebdo = new Set((await destinatairesHebdo()).map((d) => d.email));
   const users = await prisma.user.findMany({
-    where: { OR: [{ emailOptOut: true }, { plan: "PREMIUM", premiumLetter: { is: { enabled: true } } }] },
-    select: { email: true, emailOptOut: true, plan: true, updatedAt: true, premiumLetter: { select: { enabled: true } } },
+    where: { emailOptOut: true },
+    select: { email: true, emailOptOut: true, updatedAt: true },
   });
   const leads = await prisma.ceoLead.findMany({
     where: { email: { not: null }, OR: [{ optOut: true }, { status: "OPT_OUT" }] },
     select: { email: true, updatedAt: true },
   });
-  const hebdo = new Set<string>();
   const oppositions = new Map<string, Opposition>();
   const noterOpposition = (email: string, date: Date) => {
     const cle = email.toLowerCase();
@@ -198,12 +190,98 @@ async function listesExclusion(): Promise<{ hebdo: Set<string>; oppositions: Map
     if (!avant || avant.date < date) oppositions.set(cle, { date });
   };
   for (const u of users) {
-    if (!u.email) continue;
-    if (u.plan === "PREMIUM" && u.premiumLetter?.enabled) hebdo.add(u.email.toLowerCase());
-    if (u.emailOptOut) noterOpposition(u.email, u.updatedAt);
+    if (u.email && u.emailOptOut) noterOpposition(u.email, u.updatedAt);
   }
   for (const l of leads) if (l.email) noterOpposition(l.email, l.updatedAt);
   return { hebdo, oppositions };
+}
+
+/** Un destinataire d'un numéro : adresse (minuscules) et message rendu à la demande. */
+export interface CibleEnvoi {
+  email: string;
+  message: () => { subject: string; text: string; headers: Record<string, string> };
+}
+
+export interface CompteurEnvoi {
+  candidats: number;
+  envoyes: number;
+  echecs: number;
+  dejaTraites: number;
+}
+
+/**
+ * Boucle commune « réserver puis envoyer » (mensuelle et hebdo, une seule logique de
+ * verrou). Ligne `NewsletterSend` réservée AVANT l'envoi (unique numéro + adresse) :
+ * un passage relancé ou concurrent n'envoie jamais deux fois. Échec retenté jusqu'à
+ * `LETTRE_ESSAIS_MAX`, au plus `LETTRE_LOT_PAR_PASSAGE` envois par passage.
+ * Renvoie le nombre d'adresses qui restent à traiter (0 = numéro terminé).
+ */
+export async function envoyerLot(
+  issueId: string,
+  journal: ReadonlyArray<{ id: string; email: string; status: string; attempts: number }>,
+  cibles: readonly CibleEnvoi[],
+  envoyer: EnvoyerEmail,
+  libelle: string,
+  r: CompteurEnvoi,
+): Promise<number> {
+  const parEmail = new Map(journal.map((j) => [j.email, j]));
+  let restants = 0;
+  let traitesCePassage = 0;
+  for (const cible of cibles) {
+    const email = cible.email;
+    const ligne = parEmail.get(email);
+    if (ligne && (ligne.status !== "ECHEC" || ligne.attempts >= LETTRE_ESSAIS_MAX)) {
+      r.dejaTraites++;
+      continue;
+    }
+    r.candidats++;
+    if (traitesCePassage >= LETTRE_LOT_PAR_PASSAGE) {
+      restants++;
+      continue;
+    }
+
+    // Réservation AVANT l'envoi : 0 ligne prise = un autre passage s'en occupe.
+    let idLigne: string;
+    let essais: number;
+    if (!ligne) {
+      try {
+        const cree = await prisma.newsletterSend.create({
+          data: { issueId, email, status: "RESERVE", attempts: 1 },
+          select: { id: true },
+        });
+        idLigne = cree.id;
+        essais = 1;
+      } catch {
+        r.dejaTraites++;
+        continue;
+      }
+    } else {
+      const pris = await prisma.newsletterSend.updateMany({
+        where: { id: ligne.id, status: "ECHEC", attempts: ligne.attempts },
+        data: { status: "RESERVE", attempts: ligne.attempts + 1 },
+      });
+      if (pris.count === 0) {
+        r.dejaTraites++;
+        continue;
+      }
+      idLigne = ligne.id;
+      essais = ligne.attempts + 1;
+    }
+    traitesCePassage++;
+
+    try {
+      const m = cible.message();
+      await avecDelai(envoyer(email, m.subject, m.text, m.headers), LETTRE_EMAIL_TIMEOUT_MS, libelle);
+      await prisma.newsletterSend.update({ where: { id: idLigne }, data: { status: "ENVOYE", sentAt: new Date(), error: null } });
+      r.envoyes++;
+    } catch (err) {
+      const message = (err instanceof Error ? err.message : String(err)).replace(/[^\s@]+@[^\s@]+/g, "[adresse]").slice(0, 300);
+      await prisma.newsletterSend.update({ where: { id: idLigne }, data: { status: "ECHEC", error: message } });
+      r.echecs++;
+      if (essais < LETTRE_ESSAIS_MAX) restants++;
+    }
+  }
+  return restants;
 }
 
 /** Un passage de la tâche (le planificateur choisit l'heure). Ne lève que si la base est illisible. */
@@ -273,10 +351,7 @@ export async function envoyerLettreDuMois(
     select: { email: true, unsubscribeToken: true, confirmedAt: true },
     orderBy: { createdAt: "asc" },
   });
-  const parEmail = new Map(journal.map((j) => [j.email, j]));
-
-  let restants = 0;
-  let traitesCePassage = 0;
+  const cibles: CibleEnvoi[] = [];
   for (const a of abonnes) {
     const email = a.email.toLowerCase();
     if (hebdo.has(email)) {
@@ -288,61 +363,16 @@ export async function envoyerLettreDuMois(
       r.exclusOpposition++;
       continue;
     }
-    const ligne = parEmail.get(email);
-    if (ligne && (ligne.status !== "ECHEC" || ligne.attempts >= LETTRE_ESSAIS_MAX)) {
-      r.dejaTraites++;
-      continue;
-    }
-    r.candidats++;
-    if (traitesCePassage >= LETTRE_LOT_PAR_PASSAGE) {
-      restants++;
-      continue;
-    }
-
-    // Réservation AVANT l'envoi : 0 ligne prise = un autre passage s'en occupe.
-    let idLigne: string;
-    let essais: number;
-    if (!ligne) {
-      try {
-        const cree = await prisma.newsletterSend.create({
-          data: { issueId: numero.id, email, status: "RESERVE", attempts: 1 },
-          select: { id: true },
-        });
-        idLigne = cree.id;
-        essais = 1;
-      } catch {
-        r.dejaTraites++;
-        continue;
-      }
-    } else {
-      const pris = await prisma.newsletterSend.updateMany({
-        where: { id: ligne.id, status: "ECHEC", attempts: ligne.attempts },
-        data: { status: "RESERVE", attempts: ligne.attempts + 1 },
-      });
-      if (pris.count === 0) {
-        r.dejaTraites++;
-        continue;
-      }
-      idLigne = ligne.id;
-      essais = ligne.attempts + 1;
-    }
-    traitesCePassage++;
-
-    try {
-      await avecDelai(
-        deps.envoyer(email, frPonctuation(numero.subject), corpsNumero(numero.bodyText, deps.baseUrl, a.unsubscribeToken), enTetesDesinscription(deps.baseUrl, a.unsubscribeToken)),
-        LETTRE_EMAIL_TIMEOUT_MS,
-        "Numéro de la lettre",
-      );
-      await prisma.newsletterSend.update({ where: { id: idLigne }, data: { status: "ENVOYE", sentAt: new Date(), error: null } });
-      r.envoyes++;
-    } catch (err) {
-      const message = (err instanceof Error ? err.message : String(err)).replace(/[^\s@]+@[^\s@]+/g, "[adresse]").slice(0, 300);
-      await prisma.newsletterSend.update({ where: { id: idLigne }, data: { status: "ECHEC", error: message } });
-      r.echecs++;
-      if (essais < LETTRE_ESSAIS_MAX) restants++;
-    }
+    cibles.push({
+      email,
+      message: () => ({
+        subject: frPonctuation(numero.subject),
+        text: corpsNumero(numero.bodyText, deps.baseUrl, a.unsubscribeToken),
+        headers: enTetesDesinscription(deps.baseUrl, a.unsubscribeToken),
+      }),
+    });
   }
+  const restants = await envoyerLot(numero.id, journal, cibles, deps.envoyer, "Numéro de la lettre", r);
 
   if (restants === 0) {
     await prisma.newsletterIssue.update({ where: { id: numero.id }, data: { status: "ENVOYE", sentAt: now } });

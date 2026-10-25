@@ -1175,8 +1175,9 @@ enum NewsletterSendStatus {
   ECHEC    // refusé ; retenté jusqu'à LETTRE_ESSAIS_MAX
 }
 
-/// Lettre hebdomadaire Premium : préférence (s21, champ prévu pour l'exclusion de la
-/// mensuelle ; l'hebdo elle-même est un lot séparé). Calque de ParcoursReminderPreference.
+/// Lettre hebdomadaire Premium : préférence (s21, opt-in, case jamais cochée).
+/// Consentement valable = `enabled` ET `activatedAt` ET `consentVersion`. Aucune IP, aucun agent.
+/// Calque de ParcoursReminderPreference. Migrations 14 (table) et 15 (3 dernières colonnes).
 model PremiumLetterPreference {
   id             String    @id @default(cuid())
   userId         String    @unique
@@ -1184,8 +1185,14 @@ model PremiumLetterPreference {
   activatedAt    DateTime?
   consentVersion String?
   stoppedAt      DateTime?
-  /// `profil` | `lien-email` | `fin-premium` | `suppression`
+  /// `profil` | `paiement` | `lien-email` | `fin-premium` | `suppression` | `admin`
   stopOrigin     String?
+  /// s21 hebdo : jeton opaque du lien d'arrêt, créé à la première activation, stable ensuite.
+  unsubscribeToken String?  @unique
+  /// s21 hebdo : `paiement` | `profil` (écrit par le serveur).
+  activationOrigin String?
+  /// s21 hebdo : proposition unique aux abonnés existants (une seule).
+  proposedAt     DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

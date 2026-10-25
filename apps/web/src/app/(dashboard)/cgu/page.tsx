@@ -10,6 +10,9 @@ import {
   PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
 import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
+import { LETTRE_HEBDO_DATE_TEXTES, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { CGU_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
+import { frTypo } from "@/lib/fr-typo";
 
 const PAGE_URL = "https://deviens-marrant.fr/cgu";
 const PAGE_TITLE = "Conditions Générales d’Utilisation";
@@ -28,7 +31,7 @@ export default function CGUPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d’Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 17 octobre 2026</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && LETTRE_HEBDO_DATE_TEXTES ? LETTRE_HEBDO_DATE_TEXTES : "17 octobre 2026"}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
@@ -90,6 +93,14 @@ export default function CGUPage() {
         <section id="lettre" className="scroll-mt-24">
           <h2 className="mb-2 text-lg font-semibold text-text-primary">10. La lettre</h2>
           <p>La lettre mensuelle gratuite est indépendante de l’abonnement : elle se fait sur inscription, confirmée par e-⁠mail.</p>
+          {/* s21, avis @legal lettre hebdo §4.1 : trois ajouts mot pour mot, publiés avec l'ouverture
+              des inscriptions à la lettre de la semaine (jamais avant : aucune promesse non tenue). */}
+          {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES &&
+            CGU_LETTRE_HEBDO.map((texte) => (
+              <p key={texte.slice(0, 24)} className="mt-2" data-testid="cgu-lettre-hebdo">
+                {frTypo(texte)}
+              </p>
+            ))}
         </section>
       </div>
     </div>

@@ -6,6 +6,7 @@
  * immédiate et idempotente (`cancelStripeSubscriptionNow`, lot A).
  */
 import { prisma } from "@/lib/prisma";
+import { effacementLettreHebdo } from "@/lib/lettre/hebdo";
 import { cancelStripeSubscriptionNow, getStripe } from "@/lib/stripe";
 import { extractSubscriptionBilling, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
 import { isSubscriptionLive, subscriptionFlags } from "@/lib/subscription-state";
@@ -147,6 +148,9 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
     prisma.userPathStepCompletion.deleteMany({ where: { userId } }),
     prisma.userPathStepFeedback.deleteMany({ where: { userId } }),
     prisma.parcoursReminderPreference.deleteMany({ where: { userId } }),
+    // s21 (avis @legal hebdo §6.3) : préférence de la lettre de la semaine (en plus de la
+    // cascade) et journal de ses envois à cette adresse (sans clé vers User).
+    ...effacementLettreHebdo(userId, user.email),
     prisma.user.delete({ where: { id: userId } }),
   ]);
 

@@ -25,6 +25,19 @@ jest.mock("@/lib/umami", () => ({
   trackUmamiWhenReady: (...args: unknown[]) => mockTrack(...args),
 }));
 
+// Interrupteur des inscriptions à la lettre de la semaine (s21) : fermé par défaut, ouvert
+// seulement dans le bloc dédié en fin de fichier.
+let mockInscriptions = false;
+jest.mock("@/config/lettre", () => ({
+  ...jest.requireActual("@/config/lettre"),
+  get LETTRE_HEBDO_INSCRIPTIONS_OUVERTES() {
+    return mockInscriptions;
+  },
+}));
+jest.mock("@/components/lettre/lettre-hebdo-case", () => ({
+  LettreHebdoCase: ({ emplacement }: { emplacement: string }) => <div data-testid="case-lettre">{emplacement}</div>,
+}));
+
 import SubscriptionSuccessPage from "@/app/(dashboard)/abonnement/success/page";
 import { TEXTES_SUCCESS } from "@/config/textes/paiement";
 
@@ -386,6 +399,74 @@ describe("SubscriptionSuccessPage", () => {
       });
       await waitFor(() => expect(screen.getByText("Paiement reçu !")).toBeInTheDocument());
       expect(mockPush).toHaveBeenCalledWith("/parcours?premium=bienvenue");
+    });
+  });
+
+  describe("s22 fusion : inscriptions à la lettre de la semaine OUVERTES", () => {
+    beforeEach(() => {
+      mockInscriptions = true;
+    });
+    afterEach(() => {
+      mockInscriptions = false;
+      mockSearchParams.delete("returnTo");
+    });
+
+    it("sans favori : pas de redirection automatique, case affichée et bouton vers la destination", async () => {
+      mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      expect(await screen.findByText("Paiement reçu !")).toBeInTheDocument();
+      expect(screen.getByTestId("case-lettre")).toHaveTextContent("paiement");
+      await act(async () => {
+        jest.advanceTimersByTime(10_000);
+      });
+      expect(mockPush).not.toHaveBeenCalled();
+      expect(screen.getByRole("link", { name: TEXTES_SUCCESS.pretBouton })).toHaveAttribute("href", "/parcours?premium=bienvenue");
+    });
+
+    it("favori mémorisé : ajouté quand même (POST + fetchFavorites), pas de redirection, bouton avec le drapeau favori", async () => {
+      mockSearchParams.set("returnTo", "/vannes?favori=JOKE.j1");
+      mockFetch.mockImplementation((url: string, init?: { method?: string }) => {
+        if (url === "/api/stripe/status") return Promise.resolve({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+        if (url === "/api/favorites" && init?.method === "POST")
+          return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorite: { id: "f1", contentType: "JOKE", jokeId: "j1" } }) });
+        if (url === "/api/favorites") return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorites: [{ id: "f1", contentType: "JOKE", jokeId: "j1" }] }) });
+        return Promise.resolve({ ok: false, json: () => Promise.resolve({}) });
+      });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(screen.getByRole("link", { name: "Continuer" })).toHaveAttribute("href", "/vannes?premium=bienvenue&favori=JOKE"));
+      const post = mockFetch.mock.calls.find((c) => c[0] === "/api/favorites" && c[1]?.method === "POST");
+      expect(JSON.parse(post![1].body)).toEqual({ contentType: "JOKE", contentId: "j1" });
+      expect(mockFetch.mock.calls.some((c) => c[0] === "/api/favorites" && !c[1]?.method)).toBe(true);
+      expect(screen.getByTestId("case-lettre")).toBeInTheDocument();
+      await act(async () => {
+        jest.advanceTimersByTime(10_000);
+      });
+      expect(mockPush).not.toHaveBeenCalled();
+    });
+
+    it("favori dont l'ajout échoue : bouton sans drapeau, jamais « dans tes favoris » sans ajout", async () => {
+      mockSearchParams.set("returnTo", "/vannes?favori=JOKE.j1");
+      mockFetch.mockImplementation((url: string, init?: { method?: string }) => {
+        if (url === "/api/stripe/status") return Promise.resolve({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+        if (url === "/api/favorites" && init?.method === "POST") return Promise.resolve({ ok: false, status: 500, json: () => Promise.resolve({}) });
+        return Promise.resolve({ ok: true, json: () => Promise.resolve({ favorites: [] }) });
+      });
+      render(<SubscriptionSuccessPage />);
+      await act(async () => {
+        jest.advanceTimersByTime(2000);
+      });
+      await waitFor(() => expect(mockFetch.mock.calls.some((c) => c[0] === "/api/favorites" && c[1]?.method === "POST")).toBe(true));
+      await act(async () => {
+        jest.advanceTimersByTime(6000);
+      });
+      expect(screen.getByRole("link", { name: "Continuer" })).toHaveAttribute("href", "/vannes?premium=bienvenue");
+      expect(mockPush).not.toHaveBeenCalled();
     });
   });
 });

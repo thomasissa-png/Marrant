@@ -21,6 +21,7 @@ import { buildFunnelSectionHtml, buildWeeklyFunnel, type FunnelDbCounter } from 
 import { buildParcoursSectionHtml, buildWeeklyParcours, type ParcoursDbCounter } from "./weekly-parcours";
 import { loadStockLineHtml, type StockReader } from "./weekly-stock";
 import { buildLettreSectionHtml, chargerLettreResume, type LettreResume } from "./weekly-lettre";
+import { buildLettreHebdoSectionHtml, chargerLettreHebdoResume, type LettreHebdoResume } from "./weekly-lettre-hebdo";
 
 export const WEEKLY_VISITS_JOB = "weekly-visits-report";
 /** Verrou conservé après succès : un seul envoi par semaine, même si un tick rejoue. */
@@ -88,6 +89,8 @@ export async function runWeeklyVisitsReport(
     readStock?: StockReader;
     /** Résumé de la lettre mensuelle (s21, même fonction que la page admin), injectable. */
     readLettre?: (window: { startAt: number; endAt: number }, now: Date) => Promise<LettreResume>;
+    /** Résumé de la lettre de la semaine (s21 hebdo, même fonction que l'admin), injectable. */
+    readLettreHebdo?: (window: { startAt: number; endAt: number }, now: Date) => Promise<LettreHebdoResume>;
     /** Digest des alertes admin du jour (lundi : un seul e-mail, s15 06/10). */
     digest?: { sujet: string; html: string; actions: number; filet: boolean } | null;
   } = {},
@@ -106,7 +109,7 @@ export async function runWeeklyVisitsReport(
   const subject = buildWeeklyVisitsSubject(report);
   if (opts.dryRun) return { status: "dry-run", subject, report };
 
-  const [social, funnel, parcours, stockLine, lettre] = await Promise.all([
+  const [social, funnel, parcours, stockLine, lettre, lettreHebdo] = await Promise.all([
     (opts.socialSection ?? prismaSocialSection)(
       new Date(report.current.startAt),
       new Date(report.current.endAt),
@@ -120,13 +123,15 @@ export async function runWeeklyVisitsReport(
     loadStockLineHtml(opts.readStock),
     // s21 (18/10) : section « Lettre mensuelle », ne lève jamais.
     (opts.readLettre ?? chargerLettreResume)(report.current, opts.now ?? new Date()),
+    // s21 hebdo : section « Lettre de la semaine » (interrupteurs fermés : une ligne, sans base).
+    (opts.readLettreHebdo ?? chargerLettreHebdoResume)(report.current, opts.now ?? new Date()),
   ]);
   const digest = opts.digest;
   const finalSubject = digest
     ? `${subject}${digest.actions > 0 ? ` + ${digest.actions} action(s) pour toi` : " + alertes non relues"}`
     : subject;
   const { sendAdminHtmlEmail } = await import("@/lib/email");
-  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${stockLine}${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${buildLettreSectionHtml(lettre)}${social}${digest?.html ?? ""}`));
+  await sendAdminHtmlEmail(finalSubject, buildWeeklyVisitsHtml(report, `${stockLine}${buildFunnelSectionHtml(funnel)}${buildParcoursSectionHtml(parcours)}${buildLettreSectionHtml(lettre)}${buildLettreHebdoSectionHtml(lettreHebdo)}${social}${digest?.html ?? ""}`));
   return { status: "sent", subject: finalSubject, report };
 }
 

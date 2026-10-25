@@ -15,6 +15,9 @@ const mockDb = {
   userPathStepCompletion: { deleteMany: jest.fn((a: unknown) => ({ op: "userPathStepCompletion.deleteMany", a })) },
   userPathStepFeedback: { deleteMany: jest.fn((a: unknown) => ({ op: "userPathStepFeedback.deleteMany", a })) },
   parcoursReminderPreference: { deleteMany: jest.fn((a: unknown) => ({ op: "parcoursReminderPreference.deleteMany", a })) },
+  // s21 (avis @legal hebdo §6.3) : préférence de la lettre de la semaine et journal de ses envois
+  premiumLetterPreference: { deleteMany: jest.fn((a: unknown) => ({ op: "premiumLetterPreference.deleteMany", a })) },
+  newsletterSend: { deleteMany: jest.fn((a: unknown) => ({ op: "newsletterSend.deleteMany", a })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
 jest.mock("@/lib/prisma", () => ({
@@ -128,6 +131,8 @@ describe("deleteAccount (reco 5)", () => {
       "userPathStepCompletion.deleteMany",
       "userPathStepFeedback.deleteMany",
       "parcoursReminderPreference.deleteMany",
+      "premiumLetterPreference.deleteMany",
+      "newsletterSend.deleteMany",
       "user.delete",
     ]);
   });
@@ -141,6 +146,19 @@ describe("deleteAccount (reco 5)", () => {
       expect(ops.find((o) => o.op === `${table}.deleteMany`)?.a).toEqual({ where: { userId: "u9" } });
     }
     expect(ops[ops.length - 1].op).toBe("user.delete");
+  });
+
+  it("s21 hebdo (H6-7) : préférence de la lettre de la semaine et journal de l'hebdo à cette adresse effacés dans la même transaction", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "A@B.fr", subscription: null });
+    mockDb.$transaction.mockImplementation(async (ops: unknown[]) => ops);
+    await deleteAccount("u9");
+    const ops = mockDb.$transaction.mock.calls.at(-1)?.[0] as Array<{ op: string; a: unknown }>;
+    expect(ops.find((o) => o.op === "premiumLetterPreference.deleteMany")?.a).toEqual({ where: { userId: "u9" } });
+    expect(ops.find((o) => o.op === "newsletterSend.deleteMany")?.a).toEqual({
+      where: { email: "a@b.fr", issue: { is: { audience: "HEBDO_PREMIUM" } } },
+    });
+    // La lettre du mois faite avec l'adresse du compte est effacée aussi (avis @legal §6.3, code inchangé).
+    expect(ops.find((o) => o.op === "newsletterSubscriber.deleteMany")?.a).toEqual({ where: { email: "A@B.fr" } });
   });
 
   it("abonnement déjà résilié (remboursement) : idempotent, suppression faite", async () => {

@@ -10,6 +10,7 @@
 import { z } from "zod";
 import { emplacementDeSource } from "@/config/lettre";
 import { emailsExclus } from "@/lib/analytics/comptes-test";
+import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 
 export const LETTRE_STATUTS = ["PENDING", "CONFIRMED", "UNSUBSCRIBED"] as const;
 
@@ -34,6 +35,8 @@ export type InscritLettre = {
   compteSite: boolean;
   premium: boolean;
   compteTest: boolean;
+  /** s21 hebdo (H7-9) : le compte reçoit la lettre de la semaine, la mensuelle est en pause. */
+  hebdo: boolean;
 };
 
 export type ListeLettre = {
@@ -75,6 +78,8 @@ export async function listerInscritsLettre(
       })
     : [];
   const parEmail = new Map(comptes.map((c) => [c.email.toLowerCase(), c.plan]));
+  // Fonction unique « reçoit l'hebdo » : vide (sans lecture) tant que les envois de l'hebdo sont fermés.
+  const hebdo = new Set(rows.length ? (await destinatairesHebdo()).map((d) => d.email) : []);
   return {
     inscrits: rows.map((r) => {
       const plan = parEmail.get(r.email.toLowerCase());
@@ -90,6 +95,7 @@ export async function listerInscritsLettre(
         compteSite: plan !== undefined,
         premium: plan === "PREMIUM",
         compteTest: exclus.includes(r.email.toLowerCase()),
+        hebdo: hebdo.has(r.email.toLowerCase()),
       };
     }),
     pagination: { page: query.page, limit: query.limit, total, totalPages: Math.max(1, Math.ceil(total / query.limit)) },

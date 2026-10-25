@@ -798,6 +798,82 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Lettre de la semaine (hebdo Premium, s21, spec §6.4). À chaque tick : rien si
+   * `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé ; sinon, à partir du jeudi 8 h (Paris), envoie
+   * le numéro VALIDE de la semaine ISO par lots, journal réservé avant chaque envoi.
+   * Verrou par semaine relâché à la fin du passage. Alertes (au plus une par jour et par
+   * clé, digest admin) : aucun numéro, numéro bloqué ou reporté, stock sous 4.
+   */
+  const runLettreHebdoJob = async (now: Date = new Date()) => {
+    try {
+      const { LETTRE_HEBDO_ENVOIS_OUVERTS } = await import("@/config/lettre");
+      if (!LETTRE_HEBDO_ENVOIS_OUVERTS) return;
+      const { semaineIsoParis } = await import("@/lib/lettre/calendrier");
+      const { envoyerLettreDeLaSemaine } = await import("@/lib/lettre/envoi-hebdo");
+      const { tryAcquireLock, releaseLock } = await import("@/lib/job-lock");
+      const lockKey = `lettre-hebdo-${semaineIsoParis(now)}`;
+      if (!(await tryAcquireLock(lockKey, 20 * 60 * 1000))) return;
+      try {
+        const { sendServiceTextEmail } = await import("@/lib/email");
+        const { LETTRE_CONTACT } = await import("@/config/textes/lettre-s21");
+        const { siteBaseUrl } = await import("@/lib/newsletter");
+        const { recordAdminAlert } = await import("@/lib/admin-alerts");
+        const { stockHebdo } = await import("@/lib/lettre/numeros-hebdo");
+        const res = await envoyerLettreDeLaSemaine(now, {
+          baseUrl: siteBaseUrl(),
+          envoyer: (to, subject, text, headers) =>
+            sendServiceTextEmail(to, subject, text, "lettre-hebdo", { headers, replyTo: LETTRE_CONTACT }),
+        });
+        if (res.sansNumero) {
+          console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.semaine} : aucun numéro VALIDE pour la semaine. Rien n'est envoyé.`);
+          await recordAdminAlert({ cle: "lettre-hebdo-sans-numero", sujet: `Lettre de la semaine ${res.semaine} : aucun numéro validé`, html: "<p>Rien n'est parti ce jeudi. Valider un numéro dans data/lettre/hebdo-premium.json.</p>", now });
+        }
+        if (res.bloque) {
+          console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.numero} bloqué (${res.motifs.join(", ") || "marqueur [À COMPLÉTER"}). Rien n'est envoyé.`);
+          await recordAdminAlert({ cle: "lettre-hebdo-bloque", sujet: `Lettre de la semaine ${res.numero} bloquée`, html: `<p>Motifs : ${res.motifs.join(", ") || "marqueur [À COMPLÉTER"}.</p>`, now });
+        }
+        if (res.reporte) {
+          console.warn(`[scheduler:lettre-hebdo] ALERTE ${res.numero} reporté : lien(s) hors ligne (${res.liensMorts.join(", ")}).`);
+          await recordAdminAlert({ cle: "lettre-hebdo-reporte", sujet: `Lettre de la semaine ${res.numero} reportée`, html: `<p>Liens hors ligne : ${res.liensMorts.join(", ")}.</p>`, now });
+        }
+        if (res.numero && res.candidats + res.dejaTraites > 0) {
+          console.log(
+            `[scheduler:lettre-hebdo] ${res.numero} : ${res.envoyes} envoyé(s), ${res.echecs} échec(s), ${res.dejaTraites} déjà traité(s), ${res.destinataires} destinataire(s)${res.termine ? ", numéro terminé" : ""}.`,
+          );
+        }
+        const stock = await stockHebdo(now);
+        if (stock.alerte) {
+          await recordAdminAlert({ cle: "lettre-hebdo-stock", sujet: `Lettre de la semaine : stock sous le seuil (${stock.aVenir} à venir)`, html: "<p>Préparer le prochain lot de numéros.</p>", now });
+        }
+      } finally {
+        await releaseLock(lockKey);
+      }
+    } catch (err) {
+      console.error("[scheduler:lettre-hebdo] Échec :", err);
+    }
+  };
+
+  /**
+   * Job : Entretien de la lettre de la semaine (s21), une fois par jour à 4 h (Paris),
+   * interrupteurs ouverts ou non : filet `fin-premium` (la fermeture principale est
+   * posée avec le passage du plan à FREE) et effacement du journal après 12 mois.
+   */
+  const runLettreHebdoEntretienJob = async (now: Date = new Date()) => {
+    try {
+      const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
+      if (parisParts(now).hour !== 4) return;
+      const { tryAcquireLock, buildJobLockKey } = await import("@/lib/job-lock");
+      if (!(await tryAcquireLock(buildJobLockKey("lettre-hebdo-entretien", now), 2 * 3600 * 1000))) return;
+      const { rapprocherFinPremium, purgerJournalHebdo } = await import("@/lib/lettre/hebdo");
+      const fins = await rapprocherFinPremium(now);
+      const purges = await purgerJournalHebdo(now);
+      if (fins + purges > 0) console.log(`[scheduler:lettre-hebdo-entretien] ${fins} arrêt(s) fin-premium, ${purges} ligne(s) de journal effacée(s).`);
+    } catch (err) {
+      console.error("[scheduler:lettre-hebdo-entretien] Échec :", err);
+    }
+  };
+
+  /**
    * Job : Entretien de la liste de la lettre (s21, @legal L4), une fois par jour
    * à 4 h heure de Paris : purge des non confirmés (7 j), reconfirmation (24 mois),
    * effacement des traces de désinscription (3 ans). Inscriptions fermées et liste
@@ -888,7 +964,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runParcoursAlertesJob();
     await runParcoursReminderJob();
     await runLettreMensuelleJob();
+    await runLettreHebdoJob();
     await runLettreEntretienJob();
+    await runLettreHebdoEntretienJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -903,7 +981,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runParcoursAlertesJob,
     runParcoursReminderJob,
     runLettreMensuelleJob,
+    runLettreHebdoJob,
     runLettreEntretienJob,
+    runLettreHebdoEntretienJob,
     runWeeklyVisitsReportJob,
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,

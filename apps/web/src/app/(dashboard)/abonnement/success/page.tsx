@@ -7,6 +7,13 @@
 // boucle s'arrête tout de suite, invitation à se connecter avec retour sur
 // cette page (session_id conservé). Paiement non vérifiable : message honnête
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
+//
+// s21 (lettre de la semaine, spec US-H1) : la case de la lettre se coche ICI, au
+// retour de paiement, et nulle part dans le tunnel (Stripe Checkout hébergé n'accepte
+// pas de case libre ; /abonnement est figée pour la mesure du lot 2). Inscriptions
+// ouvertes seulement : Premium confirmé, la page ne redirige plus d'elle-même, elle
+// montre la case (jamais cochée) et le bouton vers la destination. Fermées : trajet
+// strictement inchangé (redirection immédiate).
 
 import { Suspense, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Link from "next/link";
@@ -19,6 +26,8 @@ import { trackUmamiWhenReady } from "@/lib/umami";
 import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
 import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
 import { useFavoritesStore } from "@/stores/favorites-store";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LettreHebdoCase } from "@/components/lettre/lettre-hebdo-case";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -39,6 +48,8 @@ function SubscriptionSuccessContent() {
   const { update } = useSession();
   const [attempts, setAttempts] = useState(0);
   const [etat, setEtat] = useState<Etat>("verification");
+  // Inscriptions à la lettre ouvertes seulement : cible du bouton une fois le favori traité.
+  const [cibleBouton, setCibleBouton] = useState<string | null>(null);
 
   const sessionId = searchParams.get("session_id");
   // Retour à l'intention d'origine, validée chemin interne ; sinon /parcours.
@@ -120,12 +131,18 @@ function SubscriptionSuccessContent() {
         if (ajoute) cible = avecDrapeauFavori(destination, favori.contentType);
         await Promise.race([fetchFavorites(), new Promise((r) => setTimeout(r, 5_000))]);
       }
-      if (!annule) router.push(cible);
+      if (annule) return;
+      // Inscriptions à la lettre ouvertes : pas de redirection, la page montre la case et le
+      // bouton vers la cible (favori ajouté quand même, drapeau compris). Fermées : inchangé.
+      if (LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) setCibleBouton(cible);
+      else router.push(cible);
     })();
     return () => {
       annule = true;
     };
   }, [etat, router, destination, formule, favori, fetchFavorites]);
+  const destinationLabel =
+    destination === "/parcours" ? TEXTES_SUCCESS.pretBouton : destination.startsWith("/parcours/") ? "Reprendre mon parcours" : "Continuer";
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -135,9 +152,18 @@ function SubscriptionSuccessContent() {
             <>
               <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
-              <Link href={destination} className={buttonVariants({ variant: "primary", className: "mt-4" })}>
-                {TEXTES_SUCCESS.pretBouton}
-              </Link>
+              {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
+                <>
+                  <LettreHebdoCase emplacement="paiement" className="mt-6" />
+                  <Link href={cibleBouton ?? destination} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
+                    {destinationLabel}
+                  </Link>
+                </>
+              ) : (
+                <Link href={destination} className={buttonVariants({ variant: "primary", className: "mt-4" })}>
+                  {TEXTES_SUCCESS.pretBouton}
+                </Link>
+              )}
             </>
           )}
           {etat === "verification" && (
