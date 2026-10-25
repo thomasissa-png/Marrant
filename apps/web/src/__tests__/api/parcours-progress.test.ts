@@ -221,7 +221,10 @@ describe("POST progress — validation (s17)", () => {
   });
 
   it("série de pratique : veille (Paris) → +1", async () => {
-    const hier = new Date(Date.now() - 24 * 3_600_000);
+    // Veille au calendrier de Paris, 10 h UTC (jamais « maintenant moins 24 h » : faux pendant
+    // l'heure qui suit le passage à l'heure d'hiver, CI du 25/10/2026 à 23 h 03 Paris).
+    const [an, mois, jour] = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris" }).format(new Date()).split("-").map(Number);
+    const hier = new Date(Date.UTC(an, mois - 1, jour - 1, 10));
     useTx(fakeTx({ streak: 4, lastPracticeAt: hier }));
     const body = await (await post(1)).json();
     expect(body.user.streak).toBe(5);
