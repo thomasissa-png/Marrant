@@ -2,6 +2,7 @@
  * Audit parcours s16, lot C : offre (D4, D5, reco 9, 12), mesure (reco 17),
  * pages légales (reco 18), accessibilité (reco 19).
  */
+import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AbonnementView, isCheckoutCancelReturn } from "@/components/premium/abonnement-view";
@@ -195,7 +196,7 @@ describe("pages légales (reco 18, D6)", () => {
     const text = document.body.textContent ?? "";
     for (const nom of ["Cloudflare", "Neon", "Stripe", "Resend", "Umami Cloud", "Google"]) expect(text).toContain(nom);
     expect(text).toContain("sans cookie");
-    expect(text).toContain("7 octobre 2026");
+    expect(text).toContain(`Dernière mise à jour : ${dateTextesJuridiques()}`);
     expect(text).not.toMatch(/Replit|soumis à votre consentement|intelligence artificielle|\bIA\b/);
     expect(screen.getByRole("link", { name: "profil" })).toHaveAttribute("href", "/profil");
   });

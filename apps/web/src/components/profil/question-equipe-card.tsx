@@ -4,7 +4,9 @@
  * « Ta question à l'équipe » (V1, s22) : encadré du profil, sous la carte abonnement, rendu
  * seulement pour un compte Premium (le serveur revérifie) et interrupteur ouvert.
  * États : vide, envoi, succès (champ vidé), erreurs (vide, trop long, envoi impossible,
- * trop d'envois, session expirée), le texte saisi restant dans le champ en cas d'erreur.
+ * trop d'envois, plus Premium, session expirée), le texte saisi restant dans le champ en
+ * cas d'erreur. Tour 2 s22 : textes v2, revue design (contraste `text-error-text`, halo
+ * rouge du champ invalide, champ en 16 px sur mobile, succès en bloc visible sous le bouton).
  * Le texte n'est jamais envoyé à Umami : événements sans contenu.
  * s22 : renvoi du MÊME texte dans les 10 minutes (Resend lent, réponse perdue) = même
  * `tentative`, donc même clé d'idempotence côté serveur : un seul e-mail part.
@@ -14,17 +16,13 @@ import { useId, useRef, useState, type FormEvent } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { QUESTION_EQUIPE_API, QUESTION_EQUIPE_CONFIDENTIALITE_HREF, QUESTION_EQUIPE_MAX, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
-import { QUESTION_EQUIPE_UI as T } from "@/config/textes/question-equipe-s22";
-import { frTypoTexte, NBSP } from "@/lib/fr-typo";
+import { QUESTION_EQUIPE_TROP_COURT_MAX_S, QUESTION_EQUIPE_UI as T } from "@/config/textes/question-equipe-s22";
+import { LIEN, MessageErreur, nombre, typo, type Erreur } from "@/components/profil/question-equipe-messages";
 import { trackUmami } from "@/lib/umami";
 import { cn } from "@/lib/utils";
 
-type Erreur = "vide" | "trop-long" | "envoi" | "trop" | "session";
 type Etat = { etat: "saisie" } | { etat: "envoi" } | { etat: "succes" } | { etat: "erreur"; erreur: Erreur };
 
-const nombre = (n: number) => n.toLocaleString("fr-FR");
-/** `frTypo` + impératif lié (« Reconnecte-toi ») + « 1 à 2 » jamais coupé (texte affiché seulement). */
-const typo = (t: string) => frTypoTexte(t).replace(/(\d) à(?: |\u00a0)(\d)/g, `$1${NBSP}à${NBSP}$2`);
 const longueur = (texte: string) => [...texte].length;
 
 /** Tentative `<ms>-<aléa>` : gardée pour le même texte pendant la fenêtre de 10 minutes du serveur. */
@@ -34,9 +32,13 @@ function nouvelleTentative(): string {
   return `${Date.now()}-${alea.slice(0, 24)}`;
 }
 
-function erreurDeReponse(status: number, code: unknown): Erreur {
+function erreurDeReponse(status: number, code: unknown, retryAfter: string | null): Erreur {
   if (status === 401) return "session";
-  if (status === 429) return "trop";
+  if (status === 429) {
+    const s = Number(retryAfter);
+    return retryAfter && Number.isFinite(s) && s > 0 && s <= QUESTION_EQUIPE_TROP_COURT_MAX_S ? "trop-court" : "trop";
+  }
+  if (status === 403 && code === "non-premium") return "non-premium";
   if (status === 400 && (code === "vide" || code === "trop-long")) return code;
   return "envoi";
 }
@@ -84,7 +86,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
       });
       if (!res.ok) {
         const corps = (await res.json().catch(() => null)) as { error?: unknown } | null;
-        return echouer(erreurDeReponse(res.status, corps?.error));
+        return echouer(erreurDeReponse(res.status, corps?.error, res.headers?.get?.("Retry-After") ?? null));
       }
       setQuestion("");
       tentative.current = null;
@@ -97,6 +99,8 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
   }
 
   const decrit = [`${id}-aide`, `${id}-compteur`, erreur ? `${id}-erreur` : null].filter(Boolean).join(" ");
+  // Premium arrêté : réessayer ne servira pas, le bouton reste grisé tant que l'état dure.
+  const bloque = enCours || erreur === "non-premium";
 
   return (
     <Card role="region" aria-labelledby={`${id}-titre`} data-testid="question-equipe" className={cn("text-left", className)}>
@@ -122,11 +126,13 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             }}
             aria-describedby={decrit}
             aria-invalid={erreur === "vide" || erreur === "trop-long" || depasse}
-            className="block w-full resize-y rounded-lg border border-border bg-background-light px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary aria-[invalid=true]:border-error"
+            // 16 px sur téléphone (pas de zoom iOS au focus) ; en erreur, bordure et halo rouges (plus de dégradé rouge vers violet).
+            className="block w-full resize-y rounded-lg border border-border bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary aria-[invalid=true]:border-error aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error sm:text-sm"
           />
-          {/* Téléphone : compteur collé au champ, aide dessous ; à partir de sm : aide à gauche, compteur à droite. */}
+          {/* Téléphone : compteur collé au champ, aide dessous ; à partir de sm : aide à gauche, compteur à droite.
+              Graisse constante (la ligne d'aide ne se recoupe plus quand le compteur passe en erreur). */}
           <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-            <p id={`${id}-compteur`} className={cn("self-end text-xs tabular-nums sm:order-2 sm:shrink-0", depasse ? "font-semibold text-error" : "text-text-muted")}>
+            <p id={`${id}-compteur`} className={cn("self-end text-xs font-medium tabular-nums sm:order-2 sm:shrink-0", depasse ? "text-error-text" : "text-text-muted")}>
               {T.compteur(nombre(n), nombre(QUESTION_EQUIPE_MAX))}
             </p>
             <p id={`${id}-aide`} className="min-w-0 text-xs text-text-muted sm:order-1 sm:flex-1">
@@ -134,41 +140,43 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             </p>
           </div>
           {erreur && (
-            <p id={`${id}-erreur`} role="alert" className="mt-2 text-sm text-error" data-testid="question-equipe-erreur">
-              {erreur === "session" ? (
-                <>
-                  {typo(T.erreurs.session.avant)}
-                  <Link href="/login?callbackUrl=/profil" className="underline underline-offset-2">
-                    {typo(T.erreurs.session.lien)}
-                  </Link>
-                  {typo(T.erreurs.session.apres)}
-                </>
-              ) : (
-                typo(T.erreurs[erreur === "trop-long" ? "tropLong" : erreur])
-              )}
+            <p id={`${id}-erreur`} role="alert" className="mt-2 text-sm text-error-text" data-testid="question-equipe-erreur" data-erreur={erreur}>
+              <MessageErreur erreur={erreur} />
             </p>
           )}
-          <Button type="submit" variant="primary" className="mt-3 min-h-11 w-full sm:w-auto" disabled={enCours} aria-disabled={enCours}>
+          <Button type="submit" variant="primary" className="mt-3 min-h-11 w-full sm:w-auto" disabled={bloque} aria-disabled={bloque}>
             {enCours ? T.envoiEnCours : T.bouton}
           </Button>
+          {/* Statut toujours présent (annonce fiable) ; succès en bloc visible juste sous le bouton, avant la mention.
+              Pendant l'envoi, le bouton affiche déjà « Envoi en cours » : le statut ne le dit qu'aux lecteurs d'écran. */}
+          <div role="status" aria-live="polite">
+            <p
+              ref={succes}
+              tabIndex={-1}
+              className={cn(
+                "outline-none",
+                enCours && "sr-only",
+                etat.etat === "succes" &&
+                  "mt-3 flex items-start gap-2 rounded-lg border border-success/40 bg-success/10 px-3 py-2 text-sm text-text-primary focus-visible:ring-2 focus-visible:ring-accent-link",
+              )}
+              data-testid="question-equipe-statut"
+            >
+              {etat.etat === "succes" && (
+                <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" className="mt-0.5 h-4 w-4 shrink-0 text-success">
+                  <path fillRule="evenodd" d="M16.7 5.3a1 1 0 0 1 0 1.4l-7.5 7.5a1 1 0 0 1-1.4 0L3.3 9.7a1 1 0 1 1 1.4-1.4l3.8 3.8 6.8-6.8a1 1 0 0 1 1.4 0Z" clipRule="evenodd" />
+                </svg>
+              )}
+              {enCours ? T.envoiEnCours : etat.etat === "succes" ? <span>{typo(T.succes)}</span> : null}
+            </p>
+          </div>
           <p className="mt-2 text-xs text-text-muted" data-testid="question-equipe-mention">
             {typo(T.mention.avantLien)}
-            <Link href={QUESTION_EQUIPE_CONFIDENTIALITE_HREF} className="underline underline-offset-2 hover:text-text-secondary">
+            <Link href={QUESTION_EQUIPE_CONFIDENTIALITE_HREF} className={cn(LIEN, "hover:text-text-secondary")}>
               {T.mention.lien}
             </Link>
             {T.mention.apresLien}
           </p>
         </form>
-        <p
-          ref={succes}
-          tabIndex={-1}
-          role="status"
-          aria-live="polite"
-          className="mt-3 max-w-2xl text-sm text-text-secondary outline-none empty:mt-0"
-          data-testid="question-equipe-statut"
-        >
-          {enCours ? T.envoiEnCours : etat.etat === "succes" ? typo(T.succes) : null}
-        </p>
       </CardContent>
     </Card>
   );

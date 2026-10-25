@@ -10,7 +10,9 @@
  *    compte dans les 10 minutes (Resend plus lent que 5 s, réponse perdue) ne crée pas de
  *    second e-mail ;
  *  - le texte de la question n'est jamais journalisé (console), ni envoyé à Umami, ni
- *    écrit en base : il ne vit que dans l'e-mail (Resend, puis boîte contact@ chez IONOS).
+ *    écrit en base : il ne vit que dans l'e-mail (Resend, puis boîte alex@ chez IONOS) ;
+ *  - corps = la question puis la ligne d'envoi (date et heure de Paris de la tentative, comme
+ *    l'objet : même tentative, même corps, donc même requête pour la clé d'idempotence).
  */
 import { createHash } from "node:crypto";
 import { z } from "zod";
@@ -87,15 +89,24 @@ const FORMAT_PARIS = new Intl.DateTimeFormat("fr-FR", {
   timeZone: "Europe/Paris",
   day: "2-digit",
   month: "2-digit",
+  year: "numeric",
   hour: "2-digit",
   minute: "2-digit",
   hourCycle: "h23",
 });
 
+const partiesParis = (ms: number) => Object.fromEntries(FORMAT_PARIS.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
+
 /** « 25/10 14:32 » (jour et heure de Paris). */
 export function horodatageParis(ms: number): string {
-  const p = Object.fromEntries(FORMAT_PARIS.formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
+  const p = partiesParis(ms);
   return `${p.day}/${p.month} ${p.hour}:${p.minute}`;
+}
+
+/** { le: « 25/10/2026 », a: « 14:32 » } (jour et heure de Paris), pour la ligne d'envoi du corps. */
+export function dateEnvoiParis(ms: number): { le: string; a: string } {
+  const p = partiesParis(ms);
+  return { le: `${p.day}/${p.month}/${p.year}`, a: `${p.hour}:${p.minute}` };
 }
 
 export type EnvoyerQuestion = (
@@ -119,8 +130,9 @@ export async function envoyerQuestionEquipe(p: {
   envoyer: EnvoyerQuestion;
 }): Promise<void> {
   const { debut, jeton } = debutTentative(p.tentative, p.now ?? Date.now());
+  const { le, a } = dateEnvoiParis(debut);
   await avecDelai(
-    p.envoyer(QUESTION_EQUIPE_DESTINATAIRE, nettoyerEnTete(QUESTION_EQUIPE_EMAIL.objet(horodatageParis(debut))), QUESTION_EQUIPE_EMAIL.corps(p.question), {
+    p.envoyer(QUESTION_EQUIPE_DESTINATAIRE, nettoyerEnTete(QUESTION_EQUIPE_EMAIL.objet(horodatageParis(debut))), QUESTION_EQUIPE_EMAIL.corps(p.question, le, a), {
       replyTo: nettoyerEnTete(p.replyTo),
       idempotencyKey: cleIdempotence(p.compte, p.question, jeton),
     }),

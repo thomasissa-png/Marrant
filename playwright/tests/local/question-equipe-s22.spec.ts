@@ -6,9 +6,9 @@ import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 /**
  * « Ta question à l'équipe » (s22) : encadré du profil, sur base jetable (projet `local`,
  * jamais en production). Même technique d'interrupteur que `lettre-hebdo-s21` : la spec lit
- * `QUESTION_EQUIPE_OUVERTE` ; fermé (état déployé) = encadré absent pour tous et API en 404 ;
- * ouvert (vérifié en local en basculant la constante, jamais commité ouvert) = Premium voit
- * l'encadré, non-Premium non (et l'API lui répond 403).
+ * `QUESTION_EQUIPE_OUVERTE` ; fermé = encadré absent pour tous et API en 404 ; ouvert (état
+ * commité depuis le 25/10, s22) = Premium voit l'encadré, non-Premium non (et l'API lui
+ * répond 403).
  *
  * Envoi Premium : vers un faux Resend local (`E2E_FAUX_RESEND_PORT`, serveur démarré ici ;
  * le serveur testé tourne avec `RESEND_BASE_URL=http://127.0.0.1:<port>` et une clé
@@ -118,7 +118,7 @@ test.describe("Ta question à l'équipe : envoi Premium vers le faux Resend", ()
     await new Promise<void>((ok) => (fauxResend ? fauxResend.close(() => ok()) : ok()));
   });
 
-  test("envoi : succès affiché, un e-mail vers contact@, objet horodaté, Reply-To du compte, Idempotency-Key", async ({ page }) => {
+  test("envoi : succès affiché, un e-mail vers alex@, objet horodaté, Reply-To du compte, Idempotency-Key", async ({ page }) => {
     await profil(page, PREMIUM, "PREMIUM");
     const encadre = page.getByTestId("question-equipe");
     await encadre.getByRole("textbox").fill("Mon collègue me chambre sur mes chaussettes, je réponds quoi ?");
@@ -128,7 +128,7 @@ test.describe("Ta question à l'équipe : envoi Premium vers le faux Resend", ()
     await expect(page.getByTestId("question-equipe-statut")).not.toBeEmpty();
     await expect.poll(() => courriels.length, { timeout: 15_000 }).toBe(1);
     const [c] = courriels;
-    expect(c.to).toBe("contact@deviens-marrant.fr");
+    expect(c.to).toBe("alex@deviens-marrant.fr");
     expect(c.subject).toMatch(/^Ta question à l'équipe · \d{2}\/\d{2} \d{2}:\d{2} \(Paris\)$/);
     expect(c.replyTo).toBe(PREMIUM);
     expect(c.cle).toMatch(/^question-equipe\/[0-9a-f]{64}$/);

@@ -1,6 +1,6 @@
 /**
  * POST /api/question-equipe (s22, « Ta question à l'équipe », V1) : envoie la question d'un
- * abonné Premium par e-mail à contact@deviens-marrant.fr. Rien en base.
+ * abonné Premium par e-mail à alex@deviens-marrant.fr. Rien en base.
  *
  * Corps : { question: string, tentative?: string } (1 000 caractères au plus). Tout autre
  * champ est ignoré. Même texte + même `tentative` (renvoi après un délai dépassé) = même

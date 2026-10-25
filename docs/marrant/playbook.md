@@ -587,6 +587,17 @@ await prisma.$transaction(async (tx) => { ... });
 
 ---
 
+## « Ta question à l'équipe » : rappels de réponse (s22)
+
+Retirés de l'e-mail reçu par l'équipe (l'abonné revoit ce corps cité dans la réponse), déplacés ici tels quels. Les questions arrivent dans la boîte alex@deviens-marrant.fr (IONOS), objet « Ta question à l'équipe · JJ/MM HH:MM (Paris) ».
+- Relire et envoyer chaque réponse à la main, jamais d'envoi automatique.
+- Dans un outil de rédaction, coller seulement le texte de la question, jamais l'adresse ni le prénom.
+- Situation sensible : réponse sérieuse et personnelle, sans humour, orienter vers l'aide officielle (3114 en cas de détresse).
+- Signature : « L'Équipe Deviens Marrant ».
+- Délai : en général sous 1 à 2 jours ouvrés, au plus tard 3 jours ouvrés, sinon prévenir l'abonné.
+- Effacement 6 mois après le dernier échange, dans la boîte IONOS et dans la messagerie Gmail qui reçoit le transfert.
+- Répondre avec « Répondre » : la réponse part à l'adresse du compte (Reply-To). Avant d'envoyer, vérifier que la citation du message d'origine ne contient que la question.
+
 ## Références croisées
 
 - **Historique des audits** : `docs/marrant/audits-history.md`

@@ -12,7 +12,7 @@ import {
 import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
-import { CGU_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
+import { CGU_QUESTION_EQUIPE, CONSERVATION_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
 import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CGU_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
@@ -72,7 +72,9 @@ export default function CGUPage() {
         </section>
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">7. Résiliation</h2>
-          <p>Tu peux supprimer ton compte à tout moment depuis ton profil. La suppression est immédiate : tes données personnelles sont effacées et ton abonnement Premium est résilié tout de suite, sans nouveau prélèvement et sans remboursement de la période déjà payée, sauf rétractation (article 6). Pour garder Premium jusqu’à la fin de cette période, résilie d’abord ton abonnement, puis supprime ton compte après cette date. Tes factures restent conservées chez Stripe pour nos obligations comptables (voir la politique de confidentialité).</p>
+          <p>Tu peux supprimer ton compte à tout moment depuis ton profil. La suppression est immédiate : les données de ton compte sont effacées et ton abonnement Premium est résilié tout de suite, sans nouveau prélèvement et sans remboursement de la période déjà payée, sauf rétractation (article 6). Pour garder Premium jusqu’à la fin de cette période, résilie d’abord ton abonnement, puis supprime ton compte après cette date. Tes factures restent conservées chez Stripe pour nos obligations comptables (voir la politique de confidentialité).
+            {/* s22, avis @legal §4.3 (B1) : durée propre des échanges avec l'équipe, publiée avec le service. */}
+            {QUESTION_EQUIPE_OUVERTE && <span data-testid="cgu-conservation-question-equipe"> {frTypo(CONSERVATION_QUESTION_EQUIPE.cgu)}</span>}</p>
           <p className="mt-2">Tu peux résilier l’abonnement Premium (mensuel ou annuel) à tout moment, gratuitement, en ligne depuis ton profil, via le bouton «&nbsp;{TEXTES_ABONNEMENT.resilier}&nbsp;», puis en confirmant la résiliation sur la page qui s’ouvre. La résiliation prend effet à la fin de la période en cours (mois ou année) : l’accès Premium reste actif jusqu’à cette date et aucun nouveau prélèvement n’est effectué. La période déjà payée n’est pas remboursée, sous réserve de l’article 6. Un email confirme la résiliation et sa date d’effet.</p>
         </section>
         <section>

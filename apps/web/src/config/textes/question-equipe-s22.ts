@@ -15,75 +15,101 @@
 /** Délai affiché (décision de Thomas du 25/10, formulation @legal point 5). */
 export const QUESTION_EQUIPE_DELAI = "En général, réponse par e-mail sous 1 à 2 jours ouvrés.";
 
+/** Texte avec un lien en ligne (`mailto:` ou page du site). */
+export type TexteAvecLien = { avant: string; lien: string; href: string; apres: string };
+
+/** Adresse générale de l'équipe, proposée quand l'encadré ne peut pas envoyer. */
+const CONTACT = "contact@deviens-marrant.fr";
+const ECRIS_NOUS = (avant: string, apres: string): TexteAvecLien => ({ avant, lien: CONTACT, href: `mailto:${CONTACT}`, apres });
+
+/**
+ * Encadré, textes v2 de @copywriter (tour 2, s22, après la relecture à l'aveugle NO-GO 8/10) :
+ * accroche neutre en genre (O1), bouton « Envoyer à l'équipe » (O2), mention alignée sur
+ * l'exemple et les CGU (B2), succès variante A (C1), erreurs sans « renvoie » quand rien
+ * n'est parti (C2, C3), « trop d'envois » vrai quelle que soit la durée (B3), état 403
+ * « plus Premium » (B5), adresse en lien `mailto:` (O3).
+ */
 export const QUESTION_EQUIPE_UI = {
   titre: "Ta question à l'équipe",
-  accroche: "On t'a chambré, tu es resté sans voix, un message te bloque ? Raconte, l'équipe te répond.",
+  accroche: "Une vanne qui t'a cloué le bec, un silence gênant, un message que tu n'arrives pas à écrire ? Raconte, l'équipe te répond.",
   delai: QUESTION_EQUIPE_DELAI,
   libelle: "Ta situation",
   aide: "Par exemple : un collègue te chambre devant tout le monde et tu n'as rien trouvé à répondre.",
   compteur: (n: string, max: string) => `${n} / ${max} caractères`,
-  bouton: "Envoyer ma question",
+  bouton: "Envoyer à l'équipe",
   envoiEnCours: "Envoi en cours",
-  /** Mention @legal (point 1) : « Confidentialité » est le lien vers la section 9. */
+  /** « Confidentialité » est le lien vers la section 9. */
   mention: {
-    avantLien: "Ton message est lu par l'équipe pour te répondre. Évite les infos sur ta santé ou sur des tiers. Détails et droits : ",
+    avantLien: "Ton message est lu par l'équipe pour te répondre. Évite les noms et les infos sur ta santé. Détails et droits : ",
     lien: "Confidentialité",
     apresLien: ".",
   },
-  succes: `Bien reçu. On regarde ta situation. ${QUESTION_EQUIPE_DELAI}`,
+  /** Variante A (le composant ne connaît pas l'adresse du compte). */
+  succes: "Bien reçu. On te répond à l'adresse e-mail de ton compte, en général sous 1 à 2 jours ouvrés.",
   erreurs: {
-    vide: "Ton champ est vide. Décris ta situation en quelques lignes, puis envoie.",
-    tropLong: "Ta situation dépasse 1 000 caractères. Raccourcis-la pour garder l'essentiel, puis renvoie.",
-    envoi: "Ton message n'est pas parti. Réessaie dans un instant, ou écris-nous à contact@deviens-marrant.fr.",
-    trop: "Trop d'envois en peu de temps. Patiente quelques minutes, puis renvoie.",
-    session: { avant: "Ta session a expiré. ", lien: "Reconnecte-toi", apres: ", puis renvoie ton message." },
+    vide: "Le champ est vide. Décris ta situation en quelques lignes, puis envoie.",
+    /** `max` = `QUESTION_EQUIPE_MAX` formaté (« 1 000 »). */
+    tropLong: (max: string) => `Ton message dépasse ${max} caractères. Garde l'essentiel, puis envoie.`,
+    envoi: ECRIS_NOUS("Ton message n'est pas parti. Réessaie dans un instant, ou écris-nous à ", "."),
+    /** Défaut, vrai pour la limite de 10 minutes comme pour celle de 24 heures. */
+    trop: ECRIS_NOUS("Trop d'envois pour le moment. Réessaie plus tard, ou écris-nous à ", ". Ton texte reste dans le champ."),
+    /** Seulement si `Retry-After` ≤ 15 minutes. */
+    tropCourt: "Trop d'envois pour le moment. Réessaie dans quelques minutes. Ton texte reste dans le champ.",
+    /** La reconnexion quitte la page et le champ n'est pas conservé (variante prévue par @copywriter). */
+    session: {
+      avant: "Ta session a expiré. ",
+      lien: "Reconnecte-toi",
+      href: "/login?callbackUrl=/profil",
+      apres: ", puis envoie ton message. Copie ton texte avant, il ne sera pas conservé.",
+    } satisfies TexteAvecLien,
+    /** 403 `non-premium` : Premium arrêté entre l'affichage et l'envoi. Aucun « réessaie ». */
+    nonPremium: {
+      avant: "Cette fonction est réservée aux abonnés Premium, et ton abonnement n'est plus actif. Ton texte reste dans le champ. ",
+      lien: "Voir mon abonnement",
+      href: "/abonnement",
+      apres: "",
+    } satisfies TexteAvecLien,
   },
 } as const;
 
+/** Seuil de `tropCourt` : au-delà, `trop` (« Réessaie plus tard »). */
+export const QUESTION_EQUIPE_TROP_COURT_MAX_S = 15 * 60;
+
 /**
- * E-mail reçu par l'équipe (interne). Objet fixe, sans aucune donnée de l'abonné, mais
- * distinct par message (s22) : le webmail ne regroupe plus toutes les questions en un seul
- * fil. `quand` = jour et heure de Paris de l'envoi, « 25/10 14:32 ».
+ * E-mail reçu par l'équipe. Objet sans aucune donnée de l'abonné, horodaté (jour et heure de
+ * Paris, « 25/10 14:32 ») pour que le webmail ne range pas toutes les questions dans un seul
+ * fil. Corps (gabarit @copywriter v2) : la question telle quelle, puis la ligne d'envoi, et
+ * RIEN d'autre (l'abonné revoit ce corps cité dans la réponse) ; les rappels internes sont
+ * dans `docs/marrant/playbook.md`. `le` = « 25/10/2026 », `a` = « 14:32 » (Paris).
  */
 export const QUESTION_EQUIPE_EMAIL = {
   objet: (quand: string) => `Ta question à l'équipe · ${quand} (Paris)`,
-  corps: (question: string) =>
-    [
-      "Nouvelle question d'un abonné Premium (encadré « Ta question à l'équipe » du profil).",
-      "Répondre à cet e-mail : la réponse part à l'adresse du compte (Reply-To, lue dans la session).",
-      "",
-      "----- Question -----",
-      question,
-      "----- Fin de la question -----",
-      "",
-      "Rappels (avis @legal du 25/10) : relire et envoyer chaque réponse, jamais d'envoi automatique ; dans un outil de rédaction, coller seulement le texte de la question, jamais l'adresse ni le prénom ; situation sensible : réponse sérieuse et personnelle, sans humour, orienter vers l'aide officielle (3114 en cas de détresse) ; signature « L'Équipe Deviens Marrant » ; réponse en général sous 1 à 2 jours ouvrés, au plus tard 3 jours ouvrés, sinon prévenir ; effacement 6 mois après le dernier échange, dans la boîte IONOS et dans la messagerie Gmail qui reçoit le transfert.",
-    ].join("\n"),
+  corps: (question: string, le: string, a: string) => [question, "", `Question envoyée depuis ton espace Premium le ${le} à ${a}.`].join("\n"),
 } as const;
 
-/** Confidentialité, section 9 (avis @legal point 2, mot pour mot). */
+/** Confidentialité, section 9 (avis @legal point 2 ; boîte alex@ chez IONOS depuis le 25/10). */
 export const CONFIDENTIALITE_QUESTION_EQUIPE = {
   titre: "9. Ta question à l'équipe (abonnés Premium)",
   puces: [
     "Ce qu'on reçoit : le texte de ta question (1 000 caractères au plus) et l'adresse e-mail de ton compte, pour te répondre. Le site ne les garde pas dans sa base de données : ton message est envoyé par e-mail à l'équipe.",
     "Pourquoi : lire ta question et y répondre, un service compris dans ton abonnement Premium. Base : exécution du contrat.",
-    "Qui y accède : l'équipe, dans la boîte contact@deviens-marrant.fr. Ton message passe par Resend (envoi), et l'équipe peut se servir d'outils de rédaction pour préparer sa réponse (voir la partie 4). Rien n'est publié ni repris ailleurs sans ton accord.",
-    "Combien de temps : ta question et notre réponse restent dans la boîte e-mail de l'équipe 6 mois après votre dernier échange, puis sont effacées. Tu peux demander leur effacement plus tôt.",
+    "Qui y accède : l'équipe, dans sa boîte alex@deviens-marrant.fr, hébergée chez IONOS. Ton message passe par Resend (envoi), et l'équipe peut se servir d'outils de rédaction pour préparer sa réponse (voir la partie 4). Rien n'est publié ni repris ailleurs sans ton accord.",
+    "Combien de temps : ta question et notre réponse restent dans la boîte e-mail de l'équipe 6 mois après notre dernier échange, puis sont effacées. Tu peux demander leur effacement plus tôt.",
     "Tes droits : pour une copie de tes échanges ou pour les faire effacer, écris à contact@deviens-marrant.fr (voir la partie 7).",
   ],
 } as const;
 
 /**
- * Confidentialité, partie 4 (avis @legal point 2 ; condition C3). Boîte contact@ hébergée chez
- * IONOS, qui transfère automatiquement les messages vers une messagerie Gmail (constaté le 25/10
- * dans les en-têtes : Received from mout.kundenserver.de, Delivered-To Gmail) : IONOS ET Google
- * sont déclarés pour les messages à l'équipe.
+ * Confidentialité, partie 4 (avis @legal point 2 ; condition C3). Les questions arrivent dans
+ * la boîte alex@ (décision de Thomas du 25/10), hébergée chez IONOS et, comme contact@,
+ * transférée vers la messagerie Gmail de l'équipe : IONOS ET Google sont déclarés.
  */
 export const PRESTATAIRES_QUESTION_EQUIPE = {
   resendRole: "envoi des e-mails liés à ton compte et à ton abonnement, des lettres et de tes messages à l'équipe",
   googleRole:
-    "connexion avec ton compte Google, si tu la choisis, lecture des vidéos YouTube, et messagerie Gmail de l'équipe, qui reçoit les messages envoyés à contact@deviens-marrant.fr, dont tes messages à l'équipe",
+    "connexion avec ton compte Google, si tu la choisis, lecture des vidéos YouTube, et messagerie Gmail de l'équipe, qui reçoit les messages envoyés à contact@deviens-marrant.fr et à alex@deviens-marrant.fr, dont tes messages à l'équipe",
   ajouts: [
-    { nom: "IONOS", role: "hébergement de la boîte e-mail de l'équipe (contact@deviens-marrant.fr), qui transfère tes messages à l'équipe vers sa messagerie Gmail (Google)" },
+    { nom: "IONOS", role: "hébergement de la boîte e-mail de l'équipe (alex@deviens-marrant.fr), qui transfère tes messages à l'équipe vers sa messagerie Gmail (Google)" },
     { nom: "Outils de rédaction", role: "l'équipe s'en sert pour préparer ses réponses. Ils reçoivent le texte de ta question, pas les informations de ton compte." },
   ],
 } as const;
@@ -93,4 +119,17 @@ export const CGU_QUESTION_EQUIPE = {
   titre: "10. La lettre et ta question à l'équipe",
   texte:
     "Ta question à l'équipe. Les abonnés Premium peuvent écrire à l'équipe depuis leur profil pour décrire une situation où la répartie leur a manqué. L'équipe répond par e-mail, en général sous 1 à 2 jours ouvrés, et au plus tard sous 3 jours ouvrés ; en cas de retard, on te prévient. La réponse est un conseil d'humour et de répartie : elle ne remplace ni un avis médical, ni un avis psychologique, ni un avis juridique, et ne garantit aucun résultat. Ne mets dans ta question ni information sensible sur toi, ni nom de personne. L'équipe peut écarter une question contraire à l'article 4 : dans ce cas, on te le dit. Tu restes titulaire de ce que tu écris, et rien n'est publié ni repris ailleurs sans ton accord. Ce service est réservé aux abonnés Premium : il s'arrête avec ton abonnement, et les e-mails déjà reçus restent dans ta boîte.",
+} as const;
+
+/**
+ * Conservation cohérente (avis @legal du 25/10, §4.3, bloquant B1 de la relecture) : phrases
+ * publiées seulement interrupteur ouvert, comme le reste du service. La phrase sur la copie
+ * technique de Resend (§4.3) n'est pas reprise (décision du 25/10 : pas de nouvelle mention).
+ */
+export const CONSERVATION_QUESTION_EQUIPE = {
+  /** CGU article 7, fin du premier paragraphe. */
+  cgu: "Tes échanges par e-mail avec l'équipe (Ta question à l'équipe) suivent leur propre durée : ils restent au plus 6 mois après notre dernier échange, même si tu supprimes ton compte, puis sont effacés. Tu peux demander leur effacement plus tôt (voir la politique de confidentialité).",
+  /** Confidentialité partie 6, dernier paragraphe. */
+  confidentialite:
+    "Tes questions à l'équipe et nos réponses suivent leur propre durée (voir la partie 9) : elles restent dans les boîtes e-mail de l'équipe au plus 6 mois après notre dernier échange, même si tu supprimes ton compte avant, puis sont effacées. Tu peux demander leur effacement plus tôt à contact@deviens-marrant.fr.",
 } as const;

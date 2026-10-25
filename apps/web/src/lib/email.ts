@@ -42,7 +42,7 @@ export type TransactionalEmailKind =
   | "lettre-numero"
   // s21 : lettre de la semaine (Premium) et proposition unique aux abonnés existants.
   | "lettre-hebdo"
-  // s22 : « Ta question à l'équipe » (Premium), vers contact@ ; objet fixe, jamais le texte en alerte.
+  // s22 : « Ta question à l'équipe » (Premium), vers alex@ ; objet fixe, jamais le texte en alerte.
   | "question-equipe";
 
 function domaineDe(to: string): string {

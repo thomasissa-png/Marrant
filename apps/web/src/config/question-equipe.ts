@@ -3,23 +3,23 @@
  * l'équipe, rien en base. Décisions de Thomas du 25/10 (`docs/founder-preferences.md`) ;
  * avis @legal du 25/10 (conditions C1 à C5).
  *
- * Interrupteur `QUESTION_EQUIPE_OUVERTE` FERMÉ par défaut : tant qu'il l'est, l'encadré
- * n'est pas rendu, l'API répond 404 et les ajouts de la confidentialité (section 9, partie
- * 4) et des CGU (article 10) ne sont pas publiés. L'ouvrir = go écrit de Thomas, après la
- * relecture à l'aveugle des textes et les conditions @legal C2 (outils de rédaction) et C4
- * (conduite « sensible ») ; une ouverture exige `QUESTION_EQUIPE_DATE_TEXTES` (test).
+ * Interrupteur `QUESTION_EQUIPE_OUVERTE` : fermé, l'encadré n'est pas rendu, l'API répond
+ * 404 et les ajouts de la confidentialité (section 9, parties 4 et 6) et des CGU (articles 7
+ * et 10) ne sont pas publiés. OUVERT le 25/10 (s22) : décision de Thomas « ouverture avec la
+ * mise en ligne, avant le 05/11 ». Une ouverture exige `QUESTION_EQUIPE_DATE_TEXTES` (test).
  */
-export const QUESTION_EQUIPE_OUVERTE: boolean = false;
+export const QUESTION_EQUIPE_OUVERTE: boolean = true;
 
 /**
  * Date de publication des textes juridiques du service (« Dernière mise à jour » de la
  * confidentialité et des CGU), au format « 9 novembre 2026 ». À remplir en ouvrant
  * l'interrupteur ; le test `question-equipe-s22` refuse une ouverture sans date.
+ * Date de mise en ligne PRÉVUE (26/10/2026) : à ajuster au jour réel du déploiement.
  */
-export const QUESTION_EQUIPE_DATE_TEXTES: string = "";
+export const QUESTION_EQUIPE_DATE_TEXTES: string = "26 octobre 2026";
 
-/** Boîte de l'équipe (IONOS), seule destinataire. */
-export const QUESTION_EQUIPE_DESTINATAIRE = "contact@deviens-marrant.fr";
+/** Boîte de l'équipe (IONOS), seule destinataire (décision de Thomas du 25/10 : « Tout va chez Alex »). */
+export const QUESTION_EQUIPE_DESTINATAIRE = "alex@deviens-marrant.fr";
 
 /** Longueur maximale de la question (caractères, après retrait des espaces de bord). */
 export const QUESTION_EQUIPE_MAX = 1000;

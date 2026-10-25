@@ -135,13 +135,13 @@ describe("Validation", () => {
 });
 
 describe("E-mail envoyé", () => {
-  it("vers contact@, objet fixe, Reply-To = adresse du compte en base (pas celle du corps ni de la session)", async () => {
+  it("vers alex@, objet fixe, Reply-To = adresse du compte en base (pas celle du corps ni de la session)", async () => {
     compte("PREMIUM", "abonne@x.fr");
     const r = await poser({ question: QUESTION, replyTo: "pirate@evil.example", email: "pirate@evil.example" });
     expect(r).toMatchObject({ status: 200, corps: { envoye: true } });
     expect(envoi).toHaveBeenCalledTimes(1);
     const [to, objet, texte, kind, options] = envoi.mock.calls[0] as [string, string, string, string, { replyTo: string }];
-    expect(to).toBe("contact@deviens-marrant.fr");
+    expect(to).toBe("alex@deviens-marrant.fr");
     // s22 : objet fixe mais horodaté (10:00 UTC = 11:00 à Paris en heure d'hiver), sans donnée de l'abonné.
     expect(objet).toMatch(/^Ta question à l'équipe · \d{2}\/\d{2} 11:00 \(Paris\)$/);
     expect(objet).not.toMatch(/abonne|SECRET/);
@@ -149,6 +149,11 @@ describe("E-mail envoyé", () => {
     expect(options).toEqual({ replyTo: "abonne@x.fr", idempotencyKey: expect.stringMatching(/^question-equipe\/[0-9a-f]{64}$/) });
     expect(texte).toContain(QUESTION);
     expect(texte).not.toContain("pirate");
+    // Tour 2 s22 : la question, puis la ligne d'envoi, et rien d'autre (aucun rappel interne).
+    const [question, vide, ligne, ...reste] = texte.split("\n");
+    expect([question, vide, reste]).toEqual([QUESTION, "", []]);
+    expect(ligne).toMatch(/^Question envoyée depuis ton espace Premium le \d{2}\/\d{2}\/2026 à 11:00\.$/);
+    expect(texte).not.toMatch(/Reply-To|@legal|3114|outil|Rappels/);
   });
 
   it("en-têtes sans CR ni LF, même si la question en contient", async () => {

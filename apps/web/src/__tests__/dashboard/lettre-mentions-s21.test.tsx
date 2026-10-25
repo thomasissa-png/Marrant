@@ -5,6 +5,13 @@
  * `#lettre` visée par le lien « Confidentialité » du formulaire, zéro tiret
  * cadratin, rien sur « Ta question à l'équipe » ni l'hebdo Premium (pas ouverts).
  */
+// s22 : « Ta question à l'équipe » est ouverte ; ce fichier vérifie l'état SANS ce service
+// (son état ouvert est couvert par `question-equipe-s22.test.tsx`).
+jest.mock("@/config/question-equipe", () => ({
+  ...jest.requireActual("@/config/question-equipe"),
+  QUESTION_EQUIPE_OUVERTE: false,
+  QUESTION_EQUIPE_DATE_TEXTES: "",
+}));
 import { render } from "@testing-library/react";
 import CGUPage from "@/app/(dashboard)/cgu/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";

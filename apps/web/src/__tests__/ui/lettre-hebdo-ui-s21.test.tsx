@@ -14,6 +14,13 @@ jest.mock("@/config/lettre", () => ({
   },
   LETTRE_HEBDO_DATE_TEXTES: "9 novembre 2026",
 }));
+// s22 : « Ta question à l'équipe » est ouverte ; ce fichier vérifie l'état SANS ce service
+// (son état ouvert est couvert par `question-equipe-s22.test.tsx`).
+jest.mock("@/config/question-equipe", () => ({
+  ...jest.requireActual("@/config/question-equipe"),
+  QUESTION_EQUIPE_OUVERTE: false,
+  QUESTION_EQUIPE_DATE_TEXTES: "",
+}));
 jest.mock("@/lib/umami", () => ({ trackUmamiWhenReady: jest.fn() }));
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";

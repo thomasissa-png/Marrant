@@ -79,7 +79,7 @@ export function PrenomCard({ prenom }: { prenom: string | null }) {
           </Button>
         </form>
         {erreur && (
-          <p id="profil-prenom-erreur" className="mt-2 text-xs text-error" role="alert">
+          <p id="profil-prenom-erreur" className="mt-2 text-xs text-error-text" role="alert">
             {erreur}
           </p>
         )}

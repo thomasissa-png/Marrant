@@ -3,7 +3,7 @@ import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
 import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
-import { CONFIDENTIALITE_QUESTION_EQUIPE as QUESTION, PRESTATAIRES_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
+import { CONFIDENTIALITE_QUESTION_EQUIPE as QUESTION, CONSERVATION_QUESTION_EQUIPE, PRESTATAIRES_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
 import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CONFIDENTIALITE_LETTRE_HEBDO as HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
@@ -43,9 +43,9 @@ const PRESTATAIRES: { nom: string; role: string }[] = [
 ];
 
 /**
- * s22 (avis @legal du 25/10, point 2 ; C3 : boîte contact@ chez IONOS) : partie 4 telle que
- * publiée à l'ouverture de « Ta question à l'équipe » (Resend et Google étendus : contact@ chez
- * IONOS, transféré vers Gmail ; IONOS, outils de rédaction). Interrupteur fermé : liste inchangée.
+ * s22 (avis @legal du 25/10, point 2 ; C3) : partie 4 telle que publiée à l'ouverture de « Ta
+ * question à l'équipe » (Resend et Google étendus : boîte alex@ chez IONOS, transférée vers
+ * Gmail ; IONOS, outils de rédaction). Interrupteur fermé : liste inchangée.
  */
 function prestataires(questionOuverte: boolean = QUESTION_EQUIPE_OUVERTE): { nom: string; role: string }[] {
   if (!questionOuverte) return PRESTATAIRES;
@@ -130,7 +130,7 @@ export default function ConfidentialitePage() {
         <section>
           <h2 className={SECTION_TITLE}>6. Durée de conservation</h2>
           {/* PROVISOIRE s16 (lot D), à relire par @legal : suppression en libre-service (lib/account.ts#deleteAccount). */}
-          <p>Tes données sont conservées tant que ton compte existe. Tu peux supprimer ton compte toi-⁠même, à tout moment, depuis ton profil (voir la partie 7) : ton compte, ta progression, tes favoris et ton inscription à la lettre faite avec l’adresse de ton compte sont effacés tout de suite, et ton abonnement s’arrête aussitôt.</p>
+          <p>Les données de ton compte sont conservées tant que ton compte existe, sauf les exceptions indiquées dans cette partie. Tu peux supprimer ton compte toi-⁠même, à tout moment, depuis ton profil (voir la partie 7) : ton compte, ta progression, tes favoris et ton inscription à la lettre faite avec l’adresse de ton compte sont effacés tout de suite, et ton abonnement s’arrête aussitôt.</p>
           {/* [À FIXER PAR THOMAS] durée de conservation des comptes inactifs (11 anciens comptes FREE compris) :
               aucune purge automatique n'existe ; texte neutre sans durée chiffrée en attendant (@legal point 11 c). */}
           <p className="mt-2">Un compte inactif n’est pas supprimé automatiquement : il reste en place jusqu’à ce que tu le supprimes depuis ton profil.</p>
@@ -141,6 +141,12 @@ export default function ConfidentialitePage() {
               à ajouter seulement une fois la purge Umami réglée (C12, Thomas). */}
           <p className="mt-2">La date de chaque étape validée et tes retours sur les exercices sont gardés tant que ton compte existe, et effacés avec lui. Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
           <p className="mt-2">Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement, le temps nécessaire pour répondre à une éventuelle contestation.</p>
+          {/* s22, avis @legal §4.3 (B1) : durée propre des échanges avec l'équipe, publiée avec le service. */}
+          {QUESTION_EQUIPE_OUVERTE && (
+            <p className="mt-2" data-testid="confidentialite-conservation-question-equipe">
+              {frTypo(CONSERVATION_QUESTION_EQUIPE.confidentialite)}
+            </p>
+          )}
         </section>
         <section>
           <h2 className={SECTION_TITLE}>7. Tes droits (RGPD)</h2>

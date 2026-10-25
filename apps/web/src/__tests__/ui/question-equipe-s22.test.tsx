@@ -3,7 +3,9 @@
  *  - Encadré : seulement pour un Premium, interrupteur ouvert ; rien pour un compte sans
  *    Premium ni interrupteur fermé.
  *  - États : vide, envoi, succès (champ vidé), erreurs (vide, trop long, envoi impossible,
- *    trop d'envois, session expirée) avec le texte conservé dans le champ.
+ *    trop d'envois, plus Premium, session expirée) avec le texte conservé dans le champ.
+ *  - Tour 2 s22 : textes v2 (aucun « renvoie » ni « réessaie » faux), conservation CGU 7 et
+ *    confidentialité 6 publiée avec le service.
  *  - Umami : événements sans aucun contenu de la question.
  *  - Confidentialité (section 9, partie 4) et CGU (article 10) : publiées seulement
  *    interrupteur ouvert ; délai CGU « au plus tard 3 jours ouvrés », jamais 7 jours.
@@ -33,6 +35,7 @@ import * as configReelle from "@/config/question-equipe";
 import {
   CGU_QUESTION_EQUIPE,
   CONFIDENTIALITE_QUESTION_EQUIPE,
+  CONSERVATION_QUESTION_EQUIPE,
   PRESTATAIRES_QUESTION_EQUIPE,
   QUESTION_EQUIPE_DELAI,
   QUESTION_EQUIPE_UI as T,
@@ -52,7 +55,12 @@ function utilisateur(plan: "PREMIUM" | "FREE") {
   } as unknown as ReturnType<typeof useUserStore>);
 }
 const champ = () => screen.getByLabelText(T.libelle) as HTMLTextAreaElement;
-const reponse = (status: number, corps: Record<string, unknown>) => ({ ok: status < 300, status, json: async () => corps });
+const reponse = (status: number, corps: Record<string, unknown>, entetes: Record<string, string> = {}) => ({
+  ok: status < 300,
+  status,
+  headers: new Headers(entetes),
+  json: async () => corps,
+});
 
 beforeEach(() => {
   mockOuvert = true;
@@ -139,7 +147,9 @@ describe("Formulaire : états et accessibilité", () => {
     expect(JSON.parse((init as RequestInit).body as string)).toEqual({ question: QUESTION, tentative: expect.stringMatching(/^\d{13}-[A-Za-z0-9]{8,40}$/) });
     await act(async () => finir(reponse(200, { envoye: true })));
     const statut = screen.getByTestId("question-equipe-statut");
-    expect(statut).toHaveAttribute("aria-live", "polite");
+    // Conteneur live toujours présent (revue design C2), succès en bloc visible.
+    expect(statut.closest("[role=status]")).toHaveAttribute("aria-live", "polite");
+    expect(statut.className).toMatch(/border-success/);
     expect(texte(statut)).toBe(attendu(T.succes));
     expect(champ().value).toBe("");
     expect(trackUmami).toHaveBeenCalledWith("question-equipe-envoyee");
@@ -148,11 +158,11 @@ describe("Formulaire : états et accessibilité", () => {
 
   it.each([
     ["session expirée (401)", 401, "session", "Reconnecte-toi"],
-    ["trop d'envois (429)", 429, "trop", "Trop d’envois en peu de temps"],
-    ["envoi impossible (503)", 503, "envoi", "contact@deviens-marrant.fr"],
-    ["non-Premium côté serveur (403)", 403, "non-premium", "contact@deviens-marrant.fr"],
+    ["trop d'envois (429, limite du jour)", 429, "trop", "Trop d’envois pour le moment. Réessaie plus tard"],
+    ["envoi impossible (503)", 503, "envoi", "Ton message n’est pas parti"],
+    ["plus Premium côté serveur (403)", 403, "non-premium", "ton abonnement n’est plus actif"],
   ])("%s : message d'erreur, texte conservé dans le champ", async (_, status, code, extrait) => {
-    fetchMock.mockResolvedValueOnce(reponse(status, { error: code }));
+    fetchMock.mockResolvedValueOnce(reponse(status, { error: code }, status === 429 ? { "Retry-After": "7200" } : {}));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
     fireEvent.click(screen.getByRole("button", { name: T.bouton }));
@@ -161,6 +171,40 @@ describe("Formulaire : états et accessibilité", () => {
     expect(champ().value).toBe(QUESTION);
     expect(document.activeElement).toBe(champ());
     for (const appel of jest.mocked(trackUmami).mock.calls) expect(JSON.stringify(appel)).not.toContain("chambre");
+  });
+
+  it("trop d'envois avec Retry-After ≤ 15 min : « dans quelques minutes »", async () => {
+    fetchMock.mockResolvedValueOnce(reponse(429, { error: "trop" }, { "Retry-After": "300" }));
+    render(<QuestionEquipeCard />);
+    fireEvent.change(champ(), { target: { value: QUESTION } });
+    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    await waitFor(() => expect(texte(screen.getByRole("alert"))).toBe(attendu(T.erreurs.tropCourt)));
+  });
+
+  it("plus Premium (403) : lien vers l'abonnement, bouton grisé, aucun « réessaie »", async () => {
+    fetchMock.mockResolvedValueOnce(reponse(403, { error: "non-premium" }));
+    render(<QuestionEquipeCard />);
+    fireEvent.change(champ(), { target: { value: QUESTION } });
+    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
+    expect(screen.getByRole("link", { name: T.erreurs.nonPremium.lien }).getAttribute("href")).toBe("/abonnement");
+    expect(screen.getByRole("button", { name: T.bouton })).toBeDisabled();
+    expect(texte(screen.getByRole("alert"))).not.toMatch(/éessaie/);
+  });
+
+  it("envoi impossible et trop d'envois : adresse de l'équipe en lien mailto", async () => {
+    fetchMock.mockResolvedValueOnce(reponse(503, { error: "envoi" }));
+    render(<QuestionEquipeCard />);
+    fireEvent.change(champ(), { target: { value: QUESTION } });
+    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
+    expect(screen.getByRole("link", { name: "contact@deviens-marrant.fr" }).getAttribute("href")).toBe("mailto:contact@deviens-marrant.fr");
+  });
+
+  it("aucun « renvoie » quand rien n'est parti ; « réessaie » seulement là où c'est vrai", () => {
+    const sansReessai = [T.erreurs.vide, T.erreurs.tropLong("1 000"), T.erreurs.session.apres, T.erreurs.nonPremium.avant];
+    for (const t of sansReessai) expect(t).not.toMatch(/renvoie|éessaie/i);
+    for (const t of [T.erreurs.envoi.avant, T.erreurs.trop.avant]) expect(t).not.toMatch(/renvoie|quelques minutes/i);
   });
 
   it("réseau coupé : « envoi impossible », texte conservé", async () => {
@@ -183,6 +227,9 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     const cgu = render(<CGUPage />).container;
     expect(cgu.querySelector("section#lettre h2")?.textContent).toBe("10. La lettre");
     expect(texte(cgu)).not.toMatch(/Ta question/);
+    // Correction de cohérence toujours publiée (avis @legal §4.3, modification 1).
+    expect(texte(cgu)).toContain("les données de ton compte sont effacées");
+    expect(texte(conf)).toContain("Les données de ton compte sont conservées tant que ton compte existe, sauf les exceptions indiquées dans cette partie.");
   });
 
   it("interrupteur ouvert : section 9 mot pour mot (ancre), partie 4 complétée, date de publication", () => {
@@ -207,6 +254,17 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     expect(texte(art10)).toContain("au plus tard sous 3 jours ouvrés");
     expect(texte(cgu)).not.toMatch(/7 jours/);
     expect(texte(cgu)).toContain("Dernière mise à jour : 12 novembre 2026");
+  });
+
+  it("interrupteur ouvert : conservation propre des échanges en CGU 7 et confidentialité 6 ; fermé : absente", () => {
+    const cgu = render(<CGUPage />).container;
+    expect(texte(cgu.querySelector("[data-testid=cgu-conservation-question-equipe]"))).toBe(attendu(CONSERVATION_QUESTION_EQUIPE.cgu));
+    const conf = render(<ConfidentialitePage />).container;
+    expect(texte(conf.querySelector("[data-testid=confidentialite-conservation-question-equipe]"))).toBe(attendu(CONSERVATION_QUESTION_EQUIPE.confidentialite));
+    expect(texte(conf)).toMatch(/alex@deviens-marrant\.fr, hébergée chez IONOS/);
+    mockOuvert = false;
+    expect(render(<CGUPage />).container.querySelector("[data-testid=cgu-conservation-question-equipe]")).toBeNull();
+    expect(render(<ConfidentialitePage />).container.querySelector("[data-testid=confidentialite-conservation-question-equipe]")).toBeNull();
   });
 });
 
