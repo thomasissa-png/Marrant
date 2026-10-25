@@ -263,9 +263,9 @@ Vérifications possibles que je n'ai pas pu faire : l'URL précise de la chaîne
 > Retiens la forme : un métier précis, moniteur de ski, raconté en rap, donc en rimes. On en tire un geste pour toi : quand on te lance une pique, réponds par deux vers qui riment. La rime dit « ceci est un jeu » avant même que l'autre ait pesé la phrase : difficile d'y entendre une attaque, ou une excuse. Et deux vers, ça se prépare. Pour les piques qui reviennent toujours, tu peux avoir ta réponse prête avant qu'on te la lance.
 >
 > Comment l'emprunter, en trois gestes
-> 1. Prends un mot de la pique (ici, « la noire » ou « le chalet ») et cherche une rime qui te ramène à ce qui t'entoure : un objet, une boisson, ta tenue.
-> 2. Écris deux vers de longueur voisine : le premier se prend au sérieux, le second retombe sur le concret. La rime tombe sur le dernier mot de chaque vers.
-> 3. Dis-les d'une voix normale, comme une information, et arrête-toi à la rime. Ne la souligne pas : elle s'entend toute seule, et c'est ton ton plat qui la rend drôle.
+> 1. Prends un mot de la pique (ici, « la noire » ou « le chalet ») et finis dessus un premier vers qui se prend au sérieux.
+> 2. Écris le second vers, de longueur voisine : il retombe sur ce qui t'entoure (un objet, une boisson, ta tenue) et finit sur un mot qui rime avec le premier.
+> 3. Dis-les d'une voix normale, comme une information, et arrête-toi à la rime. Ne la souligne pas : elle s'entend toute seule, et c'est le ton plat qui la rend drôle.
 >
 > Deux exemples sur la scène du chalet
 > « Toi, tu descends la noire. Moi, je surveille la bouilloire. »
@@ -273,12 +273,12 @@ Vérifications possibles que je n'ai pas pu faire : l'URL précise de la chaîne
 > « Aujourd'hui, je garde le chalet. Chaussettes, café : équipement complet. »
 > Tu prends l'autre mot de Jules et tu fais ton inventaire comme un moniteur avant la descente : tes chaussettes et ton café passent pour du matériel, et « complet » ferme la liste.
 >
-> Ces deux-là restent au chalet. Le geste, tu l'emportes : il marche sur les piques qui reviennent.
+> Ces deux-là restent au chalet. Le geste, tu l'emportes : il sert pour les piques qui reviennent.
 >
 > À toi de jouer
 > 1. Choisis une pique que tu reçois souvent, ou que tu redoutes.
-> 2. Écris deux vers : une affirmation qui se prend au sérieux, puis une retombée sur du concret, avec la rime sur le dernier mot de chaque vers.
-> 3. Dis-les à voix haute, d'un ton de compte rendu, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, change le mot de fin, pas la phrase.
+> 2. Prends un mot de cette pique et finis dessus un premier vers qui se prend au sérieux. Puis écris le second : une retombée sur ce qui t'entoure, qui rime avec le premier.
+> 3. Dis-les à voix haute, d'un ton de compte rendu, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, prends un autre mot de la pique, pas une autre pique.
 >
 > Jouer avec les registres, c'est l'étape 5 du parcours Confiance.
 > Aller à l'étape 5 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w51-etape5#etape-5

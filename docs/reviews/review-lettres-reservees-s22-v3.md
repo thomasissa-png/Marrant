@@ -74,3 +74,44 @@ Mineurs (recommandés, non bloquants) :
 - Décisions : 17/12 à 7,9, NO-GO (3 bloquants, retouches données mot pour mot) ; 31/12 à 8,6, GO (3 mineurs).
 - Points d'attention : le nouveau couplet 2 et la pique modifiée doivent repasser la relecture à l'aveugle. Les notes de la lettre 5 (l. 289, l. 308) décrivent encore l'ancienne version. Aucun autre fichier touché, rien de commité.
 ---
+
+## Contre-vérification 17/12 : 8,2/10, NO-GO
+
+> @reviewer, 25/10/2026. Relu à l'aveugle d'un bout à l'autre comme un abonné : lettre 5, l. 244 à 290, plus les sources l. 292 à 309. Références : `ton-alex.md`, `joke-decryptages.json`, `video-content-s20.json`, `parcours-seed.json:946`. Les retouches proposées ci-dessous ne sont validées par personne : elles repassent la relecture à l'aveugle (règle d'or s18).
+
+**B5v3.1 à B5v3.3 appliqués mot pour mot** (l. 255, 257, 260, 266, 272 à 274, 276) : levés. La note v3 annonçait « 8,6 au moins » si les retouches passaient. Elles passent, mais la lecture complète fait apparaître un défaut que la v3 n'avait pas vu : l'exercice ne reprend pas le geste 1.
+
+**Couplet 1** : « Toi, tu descends la noire. Moi, je surveille la bouilloire. » **Au niveau.** Il fait sourire (« boire » est attendu, « bouilloire » le bat), il tient dans la scène (on est dans le chalet, et l'eau peut chauffer pour les thermos même si le café est passé), et il se dit naturellement d'un ton plat. L'explication l. 272 est maintenant juste.
+
+**Couplet 2** : « Aujourd'hui, je garde le chalet. Chaussettes, café : équipement complet. » **Au niveau, un cran sous le premier.** La chute est moins inattendue (l'inventaire de matériel est une forme connue), mais elle est serrée : la rime riche tombe sur le mot de Jules, les chaussettes sont sous ses yeux pendant qu'il enfile sa combinaison, et l'inventaire se dit naturellement d'une voix de compte rendu. C'est exactement le « ton solennel posé sur un sujet banal » de l'étape 5 (`parcours-seed.json:947`) : le lien de fin est mérité. Les deux couplets cèdent la descente sans s'excuser, ce qui va à Yanis.
+
+**Faits sur le clip** : le corps (l. 257, 260, 263) ne dit rien de plus que P1 à P5 et P7. Contre-vérifié par recherche web : Tribunal du Net du 15/02/2014 confirmé (« la chanson de l'hiver », moniteurs, filles en maillot). « Un métier précis, moniteur de ski, raconté en rap » (l. 263) repose sur le titre et les combinaisons ESF : acceptable. Rien d'affirmé sur la construction des rimes du clip.
+
+**Apport par rapport au site** : réel. Le site n'a ni rime, ni couplet, ni rap, ni Palmashow (Grep sur `apps/web/src/data`) ; le seul voisin est le pince-sans-rire (`video-content-s20.json:838`, `:1181`), qui ne donne pas de forme de réponse à une pique. Répondre par deux vers sur un mot de la pique est neuf.
+
+**Forme** : 0 tiret cadratin ou demi-cadratin dans le fichier (Grep). Objet 41 caractères. Tutoiement, guillemets « », pas d'émoji, pas de concurrent.
+
+**Bloquant B5c.1 (le geste 1 se perd entre les gestes et l'exercice).** Le geste 1 (l. 266) fixe le cœur de la technique : finir sur un mot de la pique et rimer dessus. Mais il demande aussi une rime « qui te ramène à ce qui t'entoure : un objet, une boisson, ta tenue », alors que la rime du couplet 2 est « complet », un adjectif : c'est le second vers, pas la rime, qui ramène au concret. Surtout, l'exercice (l. 280) ne demande plus de reprendre un mot de la pique : l'abonné qui le suit écrit un distique rimé quelconque, pas une réponse. Et l'astuce l. 281, « change le mot de fin, pas la phrase », contredit le geste 1 : si le mot de fin est celui de la pique, le changer au hasard fait sortir de la technique. Retouches, mot pour mot :
+- l. 266 : « 1. Prends un mot de la pique (ici, « la noire » ou « le chalet ») et finis dessus un premier vers qui se prend au sérieux. »
+- l. 267 : « 2. Écris le second vers, de longueur voisine : il retombe sur ce qui t'entoure (un objet, une boisson, ta tenue) et finit sur un mot qui rime avec le premier. »
+- l. 280 : « 2. Prends un mot de cette pique et finis dessus un premier vers qui se prend au sérieux. Puis écris le second : une retombée sur ce qui t'entoure, qui rime avec le premier. »
+- l. 281 : « 3. Dis-les à voix haute, d'un ton de compte rendu, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, prends un autre mot de la pique, pas une autre pique. »
+
+(Les deux couplets et leurs explications l. 272 et 274 collent déjà à cette version : premier vers fini sur « la noire » ou « le chalet », second vers sur la bouilloire ou sur les chaussettes et le café.)
+
+Mineurs (recommandés, non bloquants) :
+1. l. 268, « c'est ton ton plat qui la rend drôle » : « ton ton » accroche à voix haute. Retouche : « c'est le ton plat qui la rend drôle ».
+2. l. 276, « il marche sur les piques qui reviennent » : à la lecture, on entend « marcher sur des piques ». Retouche : « il sert pour les piques qui reviennent ».
+3. l. 283, la phrase de lien reprend le titre de l'étape, comme les lettres 1 et 4 (l. 71, 234), mais ici « Jouer avec les registres » ne dit pas au lecteur pourquoi la rime y mène. Retouche facultative : « Un ton solennel sur un sujet banal, comme ton inventaire de chaussettes, c'est l'étape 5 du parcours Confiance : « Jouer avec les registres ». »
+4. Les notes hors lettre (l. 289 et l. 308) sont à jour pour les couplets ; rien à signaler.
+
+**Verdict** : 8,2/10, **NO-GO** sur B5c.1 seul. Si les quatre lignes de B5c.1 passent la relecture à l'aveugle, la lettre monte à 8,6 : les couplets, la scène et les faits sont déjà au niveau.
+
+**Re-vérification** : uniquement l. 266, 267, 280 et 281 (plus les mineurs s'ils sont appliqués), lues dans la lettre entière.
+
+---
+**Handoff → @orchestrator**
+- Fichier modifié : `docs/reviews/review-lettres-reservees-s22-v3.md` (section « Contre-vérification 17/12 » ajoutée en fin).
+- Décisions : 17/12 à 8,2, NO-GO ; 1 bloquant (B5c.1, cohérence geste 1 et exercice), retouche mot pour mot sur 4 lignes ; 3 mineurs.
+- Points d'attention : les deux couplets sont au niveau et ne sont pas à retoucher. Aucun autre fichier touché, rien de commité.
+---
