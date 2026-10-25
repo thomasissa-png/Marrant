@@ -59,7 +59,7 @@ export function ArretLettreHebdo({ token }: { token: string | null }) {
 
   return (
     <div className="mx-auto max-w-3xl py-10" data-testid="arret-lettre-hebdo">
-      <h1 className="text-balance font-display text-2xl font-bold text-text-primary sm:text-3xl">{frTypo(T.titre)}</h1>
+      <h1 className="text-balance font-display text-2xl font-bold text-text-primary sm:text-3xl">{frTypo(etat === "succes" || etat === "deja" ? T.titreArretee : T.titre)}</h1>
       <div role="status" aria-live="polite">
         {message ? (
           <p className="mt-2 max-w-lg text-text-secondary" data-etat={etat}>

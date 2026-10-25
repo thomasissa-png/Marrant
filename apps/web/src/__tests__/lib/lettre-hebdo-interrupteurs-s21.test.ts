@@ -127,17 +127,19 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
     });
     expect(T.LETTRE_HEBDO_INFO_PAIEMENT).toEqual({
       recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
-      arretee: "Ta lettre de la semaine reste arrêtée, comme tu l'avais demandé. Tu peux la reprendre depuis ton profil.",
+      arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
       opposition:
-        "Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t'est donc pas envoyée. Pour la recevoir, écris-nous à contact@deviens-marrant.fr.",
+        "La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr.",
     });
     expect(T.LETTRE_HEBDO_UI.opposition).toBe(T.LETTRE_HEBDO_INFO_PAIEMENT.opposition);
     expect(`${T.LETTRE_HEBDO_LIGNE_REGLAGE.avantLien("y@x.fr")}${T.LETTRE_HEBDO_LIGNE_REGLAGE.lien}${T.LETTRE_HEBDO_LIGNE_REGLAGE.apresLien}`).toBe(
-      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Si tu reçois aussi la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
+      "Incluse dans ton abonnement, elle part chaque jeudi à y@x.fr tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.",
     );
     expect(T.LETTRE_HEBDO_UI.succesActivation("y@x.fr")).toBe("C'est noté. Tu la recevras chaque jeudi, à y@x.fr. Tu peux l'arrêter ici ou depuis chaque lettre, en un clic.");
     expect(T.LETTRE_HEBDO_UI.succesArret).toBe("C'est arrêté. Ton abonnement continue.");
     expect(T.LETTRE_HEBDO_REGLAGE).toBe("Je reçois la lettre de la semaine");
+    expect(T.LETTRE_HEBDO_ARRET.titre).toBe("Arrêter la lettre de la semaine ?");
+    expect(T.LETTRE_HEBDO_ARRET.titreArretee).toBe("Lettre de la semaine arrêtée");
     expect(T).not.toHaveProperty("PROPOSITION_LETTRE_HEBDO");
     expect(T.LETTRE_HEBDO_UI).not.toHaveProperty("adresseNonVerifiee");
     const pied = T.piedNumeroHebdo("x", "https://deviens-marrant.fr");

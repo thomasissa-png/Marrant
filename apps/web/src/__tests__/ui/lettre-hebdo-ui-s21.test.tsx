@@ -158,10 +158,13 @@ describe("Page d'arrêt", () => {
   it("H3-1 : l'ouverture n'envoie rien ; textes exacts de l'avis ; le bouton envoie le POST puis « C'est arrêté »", async () => {
     render(<ArretLettreHebdo token={"j".repeat(43)} />);
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(attendu(LETTRE_HEBDO_ARRET.titre));
     expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_ARRET.defaut));
     fetchMock.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ arretee: true, deja: false }) });
     fireEvent.click(screen.getByRole("button", { name: LETTRE_HEBDO_ARRET.bouton }));
     await waitFor(() => expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_ARRET.succes)));
+    // Contre-relecture v2 (M2) : une fois l'arrêt fait, le titre n'est plus une question.
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(LETTRE_HEBDO_ARRET.titreArretee);
     expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toEqual({ token: "j".repeat(43) });
   });
 

@@ -414,8 +414,8 @@ describe("SubscriptionSuccessPage", () => {
 
     it.each([
       ["reçoit (inscrit d'office)", { eligible: true, enabled: true, opposition: false }, "recoit", /^Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement\. Tu peux l.arrêter en un clic, depuis chaque lettre ou ton profil\.$/],
-      ["réabonné qui avait arrêté (arrêt explicite)", { eligible: true, enabled: false, opposition: false }, "arretee", /^Ta lettre de la semaine reste arrêtée, comme tu l.avais demandé\. Tu peux la reprendre depuis ton profil\.$/],
-      ["opposition à nos e-mails", { eligible: true, enabled: true, opposition: true }, "opposition", /^Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t.est donc pas envoyée\. Pour la recevoir, écris-nous à contact@deviens-marrant\.fr\.$/],
+      ["réabonné qui avait arrêté (arrêt explicite)", { eligible: true, enabled: false, opposition: false }, "arretee", /^Ta lettre de la semaine reste arrêtée\. Tu peux la reprendre depuis ton profil\.$/],
+      ["opposition à nos e-mails", { eligible: true, enabled: true, opposition: true }, "opposition", /^La lettre de la semaine ne t.est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n.arrivaient plus à ton adresse\. Pour la recevoir, écris-nous à contact@deviens-marrant\.fr\.$/],
     ])("s22 B1 : ligne selon l'état du compte, %s ; pas de redirection, plus de case, bouton vers la destination", async (_, preference, etat, texteAttendu) => {
       mockFetch.mockImplementation(avecPreference(preference));
       render(<SubscriptionSuccessPage />);

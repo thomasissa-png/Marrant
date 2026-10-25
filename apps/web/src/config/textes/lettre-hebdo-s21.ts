@@ -37,9 +37,10 @@ export const LETTRE_HEBDO_REGLAGE = "Je reçois la lettre de la semaine";
  */
 export const LETTRE_HEBDO_INFO_PAIEMENT = {
   recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil.",
-  arretee: "Ta lettre de la semaine reste arrêtée, comme tu l'avais demandé. Tu peux la reprendre depuis ton profil.",
+  arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
+  // Contre-relecture v2 (B1) : une seule version, vraie que l'opposition vienne d'une demande ou d'un rebond.
   opposition:
-    "Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t'est donc pas envoyée. Pour la recevoir, écris-nous à contact@deviens-marrant.fr.",
+    "La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr.",
 } as const;
 export type EtatInfoPaiement = keyof typeof LETTRE_HEBDO_INFO_PAIEMENT;
 
@@ -49,7 +50,7 @@ export type EtatInfoPaiement = keyof typeof LETTRE_HEBDO_INFO_PAIEMENT;
  */
 export const LETTRE_HEBDO_LIGNE_REGLAGE = {
   avantLien: (email: string) =>
-    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Si tu reçois aussi la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
+    `Incluse dans ton abonnement, elle part chaque jeudi à ${email} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
   lien: "Confidentialité",
   apresLien: ".",
 };
@@ -74,6 +75,8 @@ export const LETTRE_HEBDO_UI = {
 export const LETTRE_HEBDO_ARRET = {
   metaTitre: "Arrêter la lettre de la semaine",
   titre: "Arrêter la lettre de la semaine ?",
+  /** Contre-relecture v2 (M2) : titre une fois l'arrêt fait (succès ou déjà arrêtée). */
+  titreArretee: "Lettre de la semaine arrêtée",
   defaut:
     "Tu ne recevras plus la lettre de la semaine. Cet arrêt ne change rien à ton abonnement Premium. Les e-mails de ton compte et de ton abonnement (facture, sécurité, rappel avant un renouvellement annuel) continuent : ils sont obligatoires. Si tu es inscrit à la lettre du mois, elle reprend.",
   bouton: "Arrêter la lettre",

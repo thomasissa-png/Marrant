@@ -271,13 +271,13 @@ Contrôles : « maintenant comprise » seulement après la porte G-H ; aucun pri
 
 Décision fondateur (`docs/founder-preferences.md`, 25/10) : tous les abonnés Premium, actuels et futurs, reçoivent la lettre de la semaine sans case à cocher ; arrêt en un clic dans chaque lettre et depuis le profil ; un arrêt n'est jamais annulé par l'équipe. Thomas a demandé d'arrêter le juridique : mise en cohérence MINIMALE des textes déjà validés, pas de nouvel avis. La qualification retenue au §1 (A4 : contenu inclus dans l'abonnement, exécution du contrat, tant qu'aucune offre n'y figure, C1) n'est pas modifiée : c'est elle qui permet l'inscription d'office.
 
-Règle appliquée par le code (`lib/lettre/hebdo.ts`, `recoitHebdo`, `arretExplicite`) : un Premium la reçoit sauf opposition globale à nos e-mails (`User.emailOptOut`) ou arrêt explicite ; aucune condition d'adresse vérifiée (une adresse morte est arrêtée par le webhook des rebonds). Un arrêt explicite (profil, lien de l'e-mail, demande à l'équipe, rebond, plainte) reste valable pour toujours, même après une fin de Premium et un réabonnement ; seul l'abonné le lève, depuis son profil. La fin de Premium seule n'est pas un arrêt choisi : un réabonné qui n'avait pas arrêté est inscrit d'office, comme tout nouvel abonné.
+Règle appliquée par le code (`lib/lettre/hebdo.ts`, `recoitHebdo`, `arretExplicite`) : un Premium la reçoit sauf opposition globale à nos e-mails (`User.emailOptOut`, posée sur demande ou par le webhook des rebonds) ou arrêt explicite ; aucune condition d'adresse vérifiée. Un arrêt explicite (profil, lien de l'e-mail, demande à l'équipe, rebond, plainte) reste valable pour toujours, même après une fin de Premium et un réabonnement ; seul l'abonné le lève, depuis son profil. La fin de Premium seule n'est pas un arrêt choisi : un réabonné qui n'avait pas arrêté est inscrit d'office, comme tout nouvel abonné.
 
-Remplacent les textes correspondants des §2.2, §2.3, §4.1 et §4.2 (relecture à l'aveugle s22 `docs/reviews/review-inscription-office-s22.md`, B1 à B5 et mineurs retenus). La case du §2.1 et la proposition du §6.5 sont supprimées : aucune ligne n'a été enregistrée sous le texte de la case en production (vérifié le 25/10), aucune proposition n'a été envoyée.
+Remplacent les textes correspondants des §2.2, §2.3, §3 (titre après l'arrêt), §4.1 et §4.2 (relectures à l'aveugle s22 `docs/reviews/review-inscription-office-s22.md` et contre-relecture `docs/reviews/review-inscription-office-s22-v2.md`). La case du §2.1 et la proposition du §6.5 sont supprimées : aucune ligne n'a été enregistrée sous le texte de la case en production (vérifié le 25/10), aucune proposition n'a été envoyée.
 
 ### 9.1 Ligne sous le réglage du profil (remplace §2.2)
 
-Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant que ce réglage est activé. Si tu reçois aussi la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.
+Incluse dans ton abonnement, elle part chaque jeudi à {e-mail du compte} tant que ce réglage est activé. Si tu es inscrit à la lettre du mois, elle est en pause pendant ce temps, puis reprend quand tu arrêtes celle-ci ou quand ton abonnement prend fin. L'éditeur du site, deviens-marrant SAS, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : Confidentialité.
 
 ### 9.2 Pied de chaque numéro (remplace §2.3)
 
@@ -311,8 +311,12 @@ Partie lettre du mois, mise en cohérence (deux lettres coexistent) : « Lettre 
 ### 9.5 Interface (textes produit)
 
 - Profil, réglage activé par défaut : « Je reçois la lettre de la semaine »
-- Profil, compte en opposition (pas de réglage) : « Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t'est donc pas envoyée. Pour la recevoir, écris-nous à contact@deviens-marrant.fr. »
+- Profil, compte en opposition (pas de réglage) : « La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr. »
 - Retour de paiement, selon l'état du compte (rien si l'état est illisible) :
   - reçoit : « Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Tu peux l'arrêter en un clic, depuis chaque lettre ou ton profil. »
-  - arrêtée par l'abonné : « Ta lettre de la semaine reste arrêtée, comme tu l'avais demandé. Tu peux la reprendre depuis ton profil. »
-  - opposition : « Tu nous as demandé de ne plus recevoir nos e-mails, hors ceux de ton compte et de ton abonnement : la lettre de la semaine ne t'est donc pas envoyée. Pour la recevoir, écris-nous à contact@deviens-marrant.fr. »
+  - arrêtée par l'abonné : « Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil. »
+  - opposition : « La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr. »
+
+### 9.6 Page d'arrêt, titre une fois l'arrêt fait (complète §3)
+
+Lettre de la semaine arrêtée
