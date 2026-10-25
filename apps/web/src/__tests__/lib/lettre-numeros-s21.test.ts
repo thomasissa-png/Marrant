@@ -19,12 +19,14 @@ jest.mock("@/config/lettre", () => ({
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
 import numerosJson from "@/data/lettre/numeros.json";
-import { createHash } from "crypto";
 import { decouperInvitation, versionGratuite, versionPremium } from "@/lib/lettre/invitation-premium";
 import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
 import { corpsNumeroPremium } from "@/lib/lettre/envoi";
 import { jourParis, numeroEnvoyable, numeroSchema, type NumeroLettre } from "@/lib/lettre/numeros";
-import { PARCOURS_SLUGS } from "@/lib/entrees-parcours";
+import { aHeureParis } from "@/lib/lettre/calendrier";
+import { lettresDuMoisALire, lettresDuMoisSource, versionALire } from "../helpers/lettres-md";
+import { PARCOURS_SLUGS, type ParcoursSlug } from "@/lib/entrees-parcours";
+import { titreEtape } from "@/config/parcours-etapes";
 import { blogArticles } from "@/lib/blog-articles";
 import { BLOG_CTA_BY_SLUG } from "@/config/blog-cta";
 import { FORTE_FRAPPE_SLUGS } from "@/config/blog-forte-frappe";
@@ -99,16 +101,34 @@ describe("numéros de la lettre livrés", () => {
         else expect(routes.has(u.pathname)).toBe(true);
         expect(u.searchParams.get("utm_source")).toBe("lettre");
         expect(u.searchParams.get("utm_medium")).toBe("email");
-        expect(u.searchParams.get("utm_content")).toMatch(new RegExp(`^n${n.numero}-(article|premium|etape1)$`));
+        expect(u.searchParams.get("utm_content")).toMatch(new RegExp(`^n${n.numero}-(article|premium|etape\\d)$`));
+        // Lien d'étape : ancre et utm du même rang.
+        if (racine === "parcours") expect(`#${u.hash.slice(1)}`).toBe(`#etape-${(u.searchParams.get("utm_content") ?? "").replace(/^n\d-etape/, "")}`);
+        if (racine === "parcours") expect(titreEtape(slug as ParcoursSlug, Number(u.hash.replace("#etape-", "")))).not.toBeNull();
       }
     }
   });
 
-  it("date plancher = jour de publication de l'article cité ; aucune quand aucun article n'est cité", () => {
+  it("date plancher = jour de publication de l'article cité en base (dates des fiches) ; aucune pour un article du code déjà en ligne", () => {
+    // Publications relevées dans les fiches et REPLIT_ACTIONS (s22) : repas de famille 23/11/2026,
+    // résolution 28/12/2026, couple 05/11/2026, se présenter 12/10/2026, poisson d'avril 25/02/2027.
+    const PUBLICATIONS: Record<string, string> = {
+      "repas-de-famille-questions-genantes-humour": "2026-11-23",
+      "resolution-nouvelle-annee-etre-plus-drole": "2026-12-28",
+      "blagues-de-couple-drole": "2026-11-05",
+      "se-presenter-avec-humour": "2026-10-12",
+      "blagues-poisson-d-avril-adultes": "2027-02-25",
+    };
     for (const n of numeros) {
-      const citeUnArticle = liens(n).some((u) => u.pathname.startsWith("/blog/"));
-      if (citeUnArticle) expect(n.datePlancher).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      else expect(n.datePlancher ?? null).toBeNull();
+      const articles = liens(n).filter((u) => u.pathname.startsWith("/blog/")).map((u) => u.pathname.split("/")[2]);
+      expect(articles).toHaveLength(1);
+      const duCode = blogArticles.find((a) => a.slug === articles[0]);
+      if (duCode) {
+        expect(n.datePlancher ?? null).toBeNull();
+        expect(duCode.date.slice(0, 10) <= jourParis(new Date(n.envoiPrevu as string))).toBe(true);
+      } else {
+        expect(n.datePlancher).toBe(PUBLICATIONS[articles[0]]);
+      }
     }
   });
 });
@@ -151,7 +171,8 @@ describe("envoi des numéros", () => {
   it("aucun numéro n'est envoyable avant sa date plancher, même mention complétée", () => {
     mockMention = "mention de test";
     for (const n of numeros.filter((x) => x.datePlancher)) {
-      const plancher = new Date(`${n.datePlancher}T00:00:00+01:00`);
+      const [an, mois, jour] = (n.datePlancher as string).split("-").map(Number);
+      const plancher = aHeureParis(an, mois, jour, 0);
       const veille = new Date(plancher.getTime() - 60_000);
       expect(jourParis(veille) < (n.datePlancher as string)).toBe(true);
       const prepare = { ...n, envoiPrevu: new Date(veille.getTime() - 3_600_000).toISOString() };
@@ -164,27 +185,20 @@ describe("envoi des numéros", () => {
 });
 
 describe("s22 : version Premium de la lettre du mois (décision de Thomas du 25/10)", () => {
-  // Empreintes SHA-256 des corps relus et validés AVANT la pose des marqueurs (commit 52955b31) :
-  // la version gratuite reste mot pour mot le texte relu, à la seule retouche B1 près (relecture à
-  // l'aveugle du rythme : « Rendez-vous le mois prochain, » devient « À bientôt, », n°2 inchangé).
-  const RELUS = [
-    "17bf6d3317371c5df94a3edcb236c80a651da216f06a70c598dc1561707d942c",
-    "1b371870289f39f3fee11169207b00140da04a6f0fa5ac3f9984fc8bd51a0a6e",
-    "e48728ec0ebf4272c450d59c9f03ad5793d0aee4f53188efe6b5af78df426be7",
-    "cfdd5e96267b1985f3c08d3cf8c464f729a601895baaf2b2e89909d09535d67e",
-    "76239cead4c3124c6c73d0e7ff2e7f41a370e09855a072ed7376c459aa687b81",
-    "1e3568df7916df6dcfa3203fab00d2479ed74b938c0e2ae7ca8abddc20031f61",
-  ];
-  const sha = (t: string) => createHash("sha256").update(t, "utf8").digest("hex");
-
-  it("les 6 numéros : bloc d'invitation entre marqueurs exacts ; version gratuite = texte relu, mot pour mot", () => {
+  it("les 6 numéros : bloc d'invitation entre marqueurs exacts ; texte = fichier relu, mot pour mot (source et version à lire)", () => {
+    const source = lettresDuMoisSource();
+    const aLire = lettresDuMoisALire();
+    expect(source.map((s) => s.cle)).toEqual(numeros.map((n) => n.periode));
+    expect(aLire.map((a) => a.numero)).toEqual(numeros.map((n) => n.numero));
     numeros.forEach((n, i) => {
       const d = decouperInvitation(n.corps);
-      expect(d?.invitation).toMatch(/^[^\n]+\nVoir l'offre Premium : https:\/\/deviens-marrant\.fr\/abonnement\?utm_source=lettre&utm_medium=email&utm_content=n\d-premium$/);
-      const gratuite = versionGratuite(n.corps) as string;
-      expect(gratuite.split("À bientôt,").length - 1).toBe(n.numero === 2 ? 0 : 1);
-      expect(gratuite).not.toContain("Rendez-vous le mois prochain");
-      expect(sha(gratuite.replace("À bientôt,", "Rendez-vous le mois prochain,"))).toBe(RELUS[i]);
+      expect(d?.invitation).toMatch(/^PS : [^\n]+\nVoir ce que Premium ouvre : https:\/\/deviens-marrant\.fr\/abonnement\?utm_source=lettre&utm_medium=email&utm_content=n\d-premium$/);
+      expect(n).toMatchObject({ objet: source[i].objet, preEntete: source[i].preEntete, corps: source[i].corps, datePlancher: source[i].datePlancher, envoiPrevu: source[i].envoiPrevu, statut: "VALIDE" });
+      expect(versionALire(n.corps)).toBe(aLire[i].corps);
+      expect([n.objet, n.preEntete]).toEqual([aLire[i].objet, aLire[i].preEntete]);
+      expect(n.objet.length).toBeLessThanOrEqual(45);
+      expect(n.corps.startsWith("Salut,\n\n")).toBe(true);
+      expect(versionGratuite(n.corps)).toMatch(/\n(À bientôt|Bonnes fêtes, et à bientôt),\nL'Équipe Deviens Marrant$/);
     });
   });
 

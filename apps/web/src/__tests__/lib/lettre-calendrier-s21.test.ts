@@ -108,15 +108,15 @@ describe("Numéros livrés (intégration s21, décision de Thomas du 17/10)", ()
     envoiPrevu: string | null;
   }>;
 
-  it("n°1 : plancher 02/11 et envoi jeudi 05/11/2026 8 h (Paris) ; n°2 à 6 inchangés", () => {
+  it("lettres relues s22 : périodes, dates plancher et envois (premier jeudi du mois, 8 h Paris)", () => {
     const parNumero = Object.fromEntries(numerosJson.map((n) => [n.numero, [n.periode, n.datePlancher, n.envoiPrevu]]));
     expect(parNumero).toEqual({
-      1: ["2026-11", "2026-11-02", "2026-11-05T08:00:00+01:00"],
+      1: ["2026-11", null, "2026-11-05T08:00:00+01:00"],
       2: ["2026-12", "2026-11-23", "2026-12-03T08:00:00+01:00"],
-      3: ["2027-01", null, "2027-01-07T08:00:00+01:00"],
+      3: ["2027-01", "2026-12-28", "2027-01-07T08:00:00+01:00"],
       4: ["2027-02", "2026-11-05", "2027-02-04T08:00:00+01:00"],
-      5: ["2027-03", "2027-02-25", "2027-03-04T08:00:00+01:00"],
-      6: ["2027-04", null, "2027-04-01T08:00:00+02:00"],
+      5: ["2027-03", "2026-10-12", "2027-03-04T08:00:00+01:00"],
+      6: ["2027-04", "2027-02-25", "2027-04-01T08:00:00+02:00"],
     });
   });
 

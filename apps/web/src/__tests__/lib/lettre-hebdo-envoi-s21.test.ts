@@ -272,10 +272,11 @@ describe("Garde-fous : rien ne part", () => {
 });
 
 describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)", () => {
-  // Vrai n°1 de la lettre du mois (« On a comparé nos salaires »), jeudi 05/11 8 h (semaine 45), approuvé.
+  // Vrai n°1 de la lettre du mois (« Alors, t'as perdu ta langue ? »), jeudi 05/11 8 h (semaine 45), approuvé.
+  // Article cité : `rester-muet-en-groupe`, article du code (toujours en ligne).
   const n1 = numerosMensuels[0];
-  const SLUG_N1 = "soiree-de-noel-entreprise-humour";
-  const PS_N1 = "PS : si une vanne par mois ne te suffit pas";
+  const SLUG_N1 = "rester-muet-en-groupe";
+  const PS_N1 = "PS : rester muet, ça arrive à tout le monde.";
   const mensuelle = (p: Partial<Issue> = {}) =>
     numero({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: n1.objet, preheader: n1.preEntete, bodyText: n1.corps, scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE", ...p });
 
@@ -369,13 +370,13 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
     expect(mockDb.creations.sort()).toEqual(QUATRE.map((e) => `u-${e}`));
     for (const [to, subject, text, headers] of mois.mock.calls) {
       const jeton = (mockDb.users.find((u) => u.email === to)?.premiumLetter as { unsubscribeToken: string }).unsubscribeToken;
-      expect(subject).toBe("On a comparé nos salaires");
-      expect(text).toContain("Avec un collègue, on a enfin comparé nos salaires.");
+      expect(subject).toBe("Alors, t'as perdu ta langue ?".replace(" ?", `${NBSP}?`));
+      expect(text).toContain("Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa");
       expect(text).not.toContain(PS_N1);
       expect(text).not.toContain("/abonnement");
       expect(text).not.toContain("[[");
-      expect(text).toContain(`L'article est en lecture libre.\nLire l'article sur la soirée de Noël au boulot${NBSP}: https://deviens-marrant.fr/blog/${SLUG_N1}`);
-      expect(text).toContain(`n1-article\n\nÀ bientôt,\nL'Équipe Deviens Marrant`);
+      expect(text).toContain(`Il est en lecture libre.\nLire l'article${NBSP}: https://deviens-marrant.fr/blog/${SLUG_N1}?utm_source=lettre&utm_medium=email&utm_content=n1-article`);
+      expect(text).toContain(`n1-etape3#etape-3\n\nÀ bientôt,\nL'Équipe Deviens Marrant`);
       expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
       expect(text).toContain(`${BASE}/lettre/premium/arreter?token=${encodeURIComponent(jeton)}`);
       expect(text).not.toContain("/lettre/desinscrire");
@@ -398,7 +399,7 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
     const [, , text] = mois.mock.calls.find((c) => c[0] === "gratuit@x.fr")!;
     const relu = n1.corps.replace("[[invitation-premium]]\n", "").replace("\n[[/invitation-premium]]", "");
     expect(text.startsWith(frPonctuation(relu))).toBe(true);
-    expect(text).toContain(`PS${NBSP}: si une vanne par mois ne te suffit pas`);
+    expect(text).toContain(`PS${NBSP}: rester muet, ça arrive à tout le monde.`);
     expect(text).toContain("https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium");
     expect(text).toContain("Tu reçois cette lettre parce que tu l’as demandée sur deviens-marrant.fr.");
     expect(mois.mock.calls.map((c) => c[0]).sort()).toEqual(["abonne@x.fr", "gratuit@x.fr"]);
@@ -458,7 +459,9 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
   });
 
   it("s22 : lettre du mois reportée (article pas encore en ligne) : rien pour personne cette semaine-là", async () => {
+    // Le n°1 cite un article du code (toujours en ligne) : on y ajoute un article en base pas encore publié.
     mockDb.articlesEnLigne = [];
+    mockDb.issues = mockDb.issues.map((i) => (i.id === "m11" ? mensuelle({ bodyText: `${n1.corps}\n${BASE}/blog/article-pas-encore-publie` }) : i));
     const hebdo = envoyer();
     const mois = envoyer();
     expect(await envoyerLettreDuMois(JEUDI_05, { envoyer: mois, baseUrl: BASE })).toMatchObject({ reporte: true });
@@ -487,12 +490,12 @@ describe("s22 : lettre réservée W46 réelle (texte libre de l'équipe), pied e
     const r = await envoyerLettreDeLaSemaine(JEUDI_8H05, { envoyer: e, baseUrl: BASE });
     expect(r).toMatchObject({ numero: "2026-W46", bloque: false, reporte: false, envoyes: 2, termine: true });
     const [, subject, text] = e.mock.calls[0];
-    expect(subject).toBe(frPonctuation("T'as perdu ta langue ? Trois réponses"));
+    expect(subject).toBe(frPonctuation("Après l'exposé : « Tu avais un train ? »"));
     expect(text.startsWith(frPonctuation(reel.corps))).toBe(true);
     const ligne = frPonctuation(LIGNE_QUESTION_EQUIPE_HEBDO);
     expect(text).toContain(`À jeudi prochain,\nL'Équipe Deviens Marrant\n\n${ligne}\n\n--\n`);
     expect(text).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
-    expect(text).toContain("utm_content=2026-w46-etape3#etape-3");
+    expect(text).toContain("utm_content=2026-w46-etape1#etape-1");
     expect(text).not.toContain("Toutes les fiches du mois");
   });
 });

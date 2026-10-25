@@ -59,6 +59,12 @@ export type NumeroHebdo = z.infer<typeof numeroHebdoSchema>;
  * humaine reste le vrai contrôle. Renvoie la liste des motifs trouvés (vide = conforme).
  */
 const MOTS_INTERDITS = ["annuel", "parrain", "promo", "remise", "réduction", "offre"];
+/**
+ * Expressions exactes sans rapport avec une offre, relues et approuvées (lettres réservées 2027-W10
+ * « entretien annuel » et 2027-W11 « le meilleur de la promo », s22) : retirées avant la recherche des
+ * mots interdits. Liste fermée, au mot près : « abonnement annuel » ou « profite de la promo » restent refusés.
+ */
+const EXPRESSIONS_ADMISES = ["entretien annuel", "entretien (annuel", "le meilleur de la promo"];
 // Émojis : pictogrammes et symboles (plages Unicode Extended_Pictographic).
 const EMOJI = /\p{Extended_Pictographic}/u;
 
@@ -71,7 +77,8 @@ export function motifsInterdits(texte: string): string[] {
   if (bas.includes("/abonnement")) motifs.push("lien /abonnement");
   if (/utm_content=[^\s&]*-premium(?![\w-])/i.test(texte)) motifs.push("utm_content en -premium");
   if (texte.includes("€")) motifs.push("symbole €");
-  for (const mot of MOTS_INTERDITS) if (new RegExp(`(^|[^\\p{L}])${mot}`, "iu").test(bas)) motifs.push(`mot « ${mot} »`);
+  const mots = EXPRESSIONS_ADMISES.reduce((t, e) => t.split(e).join(" "), bas);
+  for (const mot of MOTS_INTERDITS) if (new RegExp(`(^|[^\\p{L}])${mot}`, "iu").test(mots)) motifs.push(`mot « ${mot} »`);
   return motifs;
 }
 

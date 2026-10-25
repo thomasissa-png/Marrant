@@ -138,10 +138,11 @@ describe("Sans approbation de Thomas, rien ne part", () => {
     expect(LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(true);
   });
 
-  it("fichier réel synchronisé (7 lettres réservées VALIDE) : aucun numéro approuvé par défaut, le jeudi 12/11 8 h 05 rien ne part", async () => {
+  it("fichier réel synchronisé (16 lettres réservées VALIDE) : aucun numéro approuvé par défaut, le jeudi 12/11 8 h 05 rien ne part", async () => {
     mockDb.issues = [];
     await synchroniserNumerosHebdo(numerosReels, avant);
-    expect(mockDb.issues.map((i) => i.periodKey)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    expect(mockDb.issues).toHaveLength(16);
+    expect(mockDb.issues[0]).toMatchObject({ periodKey: "2026-W46", subject: "Après l'exposé : « Tu avais un train ? »" });
     for (const i of mockDb.issues) {
       expect(i).toMatchObject({ status: "VALIDE", approvedAt: null, approvedBy: null, approvedHash: null });
       expect(approbationValide(i)).toBe(false);

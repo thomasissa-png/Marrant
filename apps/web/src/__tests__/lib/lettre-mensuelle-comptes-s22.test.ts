@@ -106,11 +106,12 @@ import { envoyerLettreDuMois } from "@/lib/lettre/envoi";
 import { recoitParCompte } from "@/lib/lettre/compte";
 import { desinscrireLettre } from "@/lib/lettre/inscription";
 import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
+import { frPonctuation } from "@/lib/fr-typo";
 
 const BASE = "https://deviens-marrant.fr";
 const JEUDI = new Date("2026-11-05T07:05:00Z");
 const avant = new Date("2026-03-15T10:00:00Z");
-const PS_N1 = "PS : si une vanne par mois ne te suffit pas";
+const PS_N1 = "PS : rester muet, ça arrive à tout le monde.";
 const PIED_COMPTE = "Tu reçois cette lettre parce que tu as un compte sur deviens-marrant.fr.";
 const n1 = numeros[0];
 
@@ -160,11 +161,11 @@ describe("envoyerLettreDuMois, canal compte", () => {
     expect(mockDb.prefsCompte).toHaveLength(12);
     for (const [to, subject, text, headers] of e.mock.calls) {
       const token = mockDb.prefsCompte.find((p) => p.userId === `u-${to}`)!.unsubscribeToken;
-      expect(subject).toBe("On a comparé nos salaires");
-      expect(text).toContain("Avec un collègue, on a enfin comparé nos salaires.");
+      expect(subject).toBe(frPonctuation("Alors, t'as perdu ta langue ?"));
+      expect(text).toContain("Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa");
       expect(text).not.toContain(PS_N1);
       expect(text).not.toContain("/abonnement");
-      expect(text).toContain(`n1-article\n\nÀ bientôt,\nL'Équipe Deviens Marrant\n\n--\n${PIED_COMPTE}`);
+      expect(text).toContain(`n1-etape3#etape-3\n\nÀ bientôt,\nL'Équipe Deviens Marrant\n\n--\n${PIED_COMPTE}`);
       expect(text).toContain(`${BASE}/lettre/desinscrire?token=${token}`);
       expect(headers).toEqual({ "List-Unsubscribe": `<${BASE}/api/newsletter/unsubscribe/${token}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" });
     }

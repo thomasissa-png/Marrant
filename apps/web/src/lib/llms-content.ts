@@ -145,7 +145,7 @@ ${LIGNES_PARCOURS}
 Chaque mois, des situations du quotidien et la réplique qui va avec : ce qu'on te dit, quoi répondre, pourquoi ça marche, quoi faire si ça se tend, et un exercice. Une situation est offerte à tous ; le carnet complet, renouvelé chaque mois, fait partie de Premium.
 
 ### La lettre du mois (${LLMS_BASE_URL}/lettre)
-Une vanne décryptée par mois, avec un exercice pour s'entraîner, envoyée par e-mail. Gratuite, sans compte. L'adresse est confirmée par un e-mail, et la désinscription se fait en un clic. La lettre mentionne parfois Premium.
+Une fois par mois, une situation du quotidien, trois répliques et comment choisir la bonne, avec un exercice pour s'entraîner, envoyée par e-mail. Gratuite, sans compte. L'adresse est confirmée par un e-mail, et la désinscription se fait en un clic. La lettre mentionne parfois Premium.
 
 ### ${LIBELLE_SECTION_ARTICLES} (${LLMS_BASE_URL}/blog)
 Articles de fond sur l'humour, la répartie et l'aisance sociale (liste complète plus bas).`;

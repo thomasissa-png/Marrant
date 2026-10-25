@@ -167,7 +167,7 @@ function renderLlmsTxt(articles: ArticleEntry[], jokeCount = 0): string {
   lines.push(`- [Parcours](${BASE_URL}/parcours): programmes structurés de ${PARCOURS_MIN_WEEKS} à ${PARCOURS_MAX_WEEKS} semaines (15 à 20 min par semaine selon le parcours).`);
   // GEO s21 (C3) : carnet et lettre, sans date ni mois nommé.
   lines.push(`- [Carnet de répartie du mois](${BASE_URL}/carnet): des situations du quotidien avec ce qu'on te dit et la réplique qui va avec ; une situation offerte, le carnet complet dans Premium.`);
-  lines.push(`- [La lettre](${BASE_URL}/lettre): une vanne décryptée par mois et un exercice, par e-mail. Gratuit, sans compte.`);
+  lines.push(`- [La lettre](${BASE_URL}/lettre): une fois par mois, une situation du quotidien, trois répliques et comment choisir, et un exercice, par e-mail. Gratuit, sans compte.`);
   // GEO s21 (C6) : même libellé que le site ; l'URL /blog ne change pas.
   lines.push(`- [${LIBELLE_SECTION_ARTICLES}](${BASE_URL}/blog): articles de fond sur l'humour, la répartie et le développement personnel.`);
   lines.push("");

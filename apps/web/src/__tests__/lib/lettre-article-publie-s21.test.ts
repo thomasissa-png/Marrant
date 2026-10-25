@@ -101,10 +101,13 @@ describe("articlesCites", () => {
     const numeros = jest.requireActual("@/data/lettre/numeros.json") as Array<{ numero: number; corps: string; datePlancher: string | null }>;
     for (const n of numeros) {
       const cites = articlesCites(n.corps);
-      // Un numéro qui cite un article a une date plancher (et inversement) : la règle tient sur les 6.
-      expect({ numero: n.numero, cite: cites.length > 0 }).toEqual({ numero: n.numero, cite: n.datePlancher !== null });
+      // Lettres relues s22 : chacune cite un article ; date plancher pour un article en base, aucune
+      // pour un article du code (n°1, `rester-muet-en-groupe`, déjà en ligne).
+      expect(cites).toHaveLength(1);
+      expect({ numero: n.numero, plancher: n.datePlancher !== null }).toEqual({ numero: n.numero, plancher: n.numero !== 1 });
     }
-    expect(articlesCites(numeros.find((n) => n.numero === 1)!.corps)).toEqual([SLUG]);
+    expect(articlesCites(numeros.find((n) => n.numero === 1)!.corps)).toEqual(["rester-muet-en-groupe"]);
+    expect(articlesCites(numeros.find((n) => n.numero === 2)!.corps)).toEqual(["repas-de-famille-questions-genantes-humour"]);
   });
 });
 

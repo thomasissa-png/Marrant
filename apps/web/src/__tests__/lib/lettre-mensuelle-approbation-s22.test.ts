@@ -65,7 +65,7 @@ jest.mock("@/lib/prisma", () => ({
     },
     user: { findMany: jest.fn(async () => []) },
     ceoLead: { findMany: jest.fn(async () => []) },
-    // L'article cité par le n°1 est en ligne depuis le 02/11 (date plancher du fichier).
+    // Le n°1 cite un article du code (toujours en ligne) ; base simulée inchangée pour les autres cas.
     blogArticle: { findMany: jest.fn(async () => [{ slug: "soiree-de-noel-entreprise-humour", publishedAt: new Date("2026-11-02T06:00:00Z") }]) },
     newsletterSubscriber: { findMany: jest.fn(async () => [{ email: "abonne@x.fr", unsubscribeToken: "u".repeat(43), confirmedAt: new Date("2026-10-01T00:00:00Z") }]) },
     newsletterSend: {
@@ -93,7 +93,7 @@ import { NextRequest } from "next/server";
 import numerosJson from "@/data/lettre/numeros.json";
 import { synchroniserNumerosLettre } from "@/lib/lettre/numeros";
 import { envoyerLettreDuMois } from "@/lib/lettre/envoi";
-import { approbationValide } from "@/lib/lettre/approbation-hebdo";
+import { approbationValide, empreinteNumero } from "@/lib/lettre/approbation-hebdo";
 import { sendServiceTextEmail } from "@/lib/email";
 import { createSchedulerJobs } from "@/lib/scheduler/jobs";
 import { GET as getNumeros } from "@/app/api/admin/lettre-premium/numeros/route";
@@ -169,7 +169,7 @@ describe("Approuvé dans l'admin, il part", () => {
   it("« Numéros à approuver » liste le n°1 (texte tel qu'il partira) ; approuvé, il part au passage suivant", async () => {
     const n = await novembre();
     expect(n).toMatchObject({ approuve: false, approbationPerimee: false });
-    expect(n.texte).toContain("Avec un collègue, on a enfin comparé nos salaires.");
+    expect(n.texte).toContain("Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa");
     expect(n.texte).toContain("deviens-marrant SAS");
     await approuveNovembre();
     expect(n1()).toMatchObject({ approvedBy: "admin", approvedHash: n.empreinte });
@@ -218,6 +218,20 @@ describe("Approuvé dans l'admin, il part", () => {
 });
 
 describe("Modifié, il est bloqué", () => {
+  it("production au déploiement : les 6 anciennes lettres du mois (ancien texte, approuvées) reçoivent le texte relu, VALIDE, approbation effacée", async () => {
+    mockDb.issues = numerosJson.map((n, k) => {
+      const ancien = { subject: `Ancien objet ${k + 1}`, preheader: "Ancien pré-en-tête", bodyText: `Salut,\n\nAncien texte ${k + 1}.`, scheduledFor: new Date(n.envoiPrevu as string) };
+      return { id: `m${k + 1}`, audience: "MENSUELLE", periodKey: n.periode, status: "VALIDE", validatedAt: avant, ...ancien, approvedAt: avant, approvedBy: "admin", approvedHash: empreinteNumero(ancien) };
+    });
+    const r = await synchroniserNumerosLettre(numerosJson, avant);
+    expect(r).toMatchObject({ crees: 0, misAJour: 6, ignores: [], enAttente: [] });
+    mockDb.issues.forEach((i, k) => {
+      expect(i).toMatchObject({ id: `m${k + 1}`, status: "VALIDE", subject: numerosJson[k].objet, bodyText: numerosJson[k].corps, approvedAt: null, approvedBy: null, approvedHash: null });
+      expect(approbationValide(i)).toBe(false);
+    });
+    expect(mockDb.issues[0].subject).toBe("Alors, t'as perdu ta langue ?");
+  });
+
   it("fichier modifié puis synchronisé (corps changé) : approbation effacée, rien ne part", async () => {
     await approuveNovembre();
     const modifie = numerosJson.map((n) => (n.periode === "2026-11" ? { ...n, corps: `${n.corps}\nUne ligne ajoutée après l'approbation.` } : n));

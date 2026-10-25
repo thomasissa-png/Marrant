@@ -9,8 +9,6 @@
  * anciens numéros pas encore partis (W45 à W53, ancien format).
  * Numéro FACTICE : `__tests__/helpers/lettre-hebdo-numero-factice.json` (jamais en production).
  */
-import { readFileSync } from "fs";
-import { join } from "path";
 
 type Issue = {
   id: string;
@@ -80,10 +78,15 @@ import { PARCOURS_ETAPES, titreEtape } from "@/config/parcours-etapes";
 import type { ParcoursSlug } from "@/lib/entrees-parcours";
 import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
+import { lettresReserveesALire } from "../helpers/lettres-md";
 
 const NOW = new Date("2026-10-26T10:00:00Z");
 const base = factice[0];
 const AUCUNE = new Set<string>();
+const SEMAINES_RESERVEES = [
+  "2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53",
+  "2027-W02", "2027-W03", "2027-W04", "2027-W06", "2027-W07", "2027-W08", "2027-W10", "2027-W11", "2027-W12",
+];
 
 beforeEach(() => {
   mockIssues.length = 0;
@@ -113,33 +116,21 @@ describe("Schéma d'un numéro réservé (texte libre de l'équipe)", () => {
     }
   });
 
-  it("le fichier réel : les 7 lettres réservées relues (W46 à W53 sans W49), VALIDE, recopiées mot pour mot depuis la version à lire", () => {
+  it("le fichier réel : les 16 lettres réservées relues (12/11/2026 au 25/03/2027), VALIDE, recopiées mot pour mot depuis les versions à lire", () => {
     const { numeros, ignores } = preparerNumerosHebdo(numerosReels);
     expect(ignores).toEqual([]);
-    expect(numeros.map((n) => n.semaine)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
-    expect(numeros.map((n) => n.envoiPrevu.toISOString())).toEqual([
-      "2026-11-12T07:00:00.000Z", "2026-11-19T07:00:00.000Z", "2026-11-26T07:00:00.000Z", "2026-12-10T07:00:00.000Z",
-      "2026-12-17T07:00:00.000Z", "2026-12-24T07:00:00.000Z", "2026-12-31T07:00:00.000Z",
-    ]);
-    // Référence : docs/copy/lettres-reservees-nov-dec-s22-a-lire.md (objet, pré-en-tête, corps en lignes « > »).
-    const doc = readFileSync(join(__dirname, "..", "..", "..", "..", "..", "docs", "copy", "lettres-reservees-nov-dec-s22-a-lire.md"), "utf8").split("\n");
-    const attendues: Array<{ semaine: string; objet: string; preEntete: string; lignes: string[] }> = [];
-    for (const l of doc) {
-      const h = l.match(/^## .*\((\d{4}-W\d{2})\)/);
-      if (h) attendues.push({ semaine: h[1], objet: "", preEntete: "", lignes: [] });
-      const cur = attendues[attendues.length - 1];
-      if (!cur || h) continue;
-      const o = l.match(/^\*\*Objet :\*\* (.*)$/);
-      const pe = l.match(/^\*\*Pré-en-tête :\*\* (.*)$/);
-      if (o) cur.objet = o[1].trimEnd();
-      else if (pe) cur.preEntete = pe[1].trimEnd();
-      else if (l.startsWith(">")) cur.lignes.push(l.replace(/^> ?/, ""));
+    expect(numeros.map((n) => n.semaine)).toEqual(SEMAINES_RESERVEES);
+    // Envoi : chaque jeudi 8 h (Paris), heure d'hiver.
+    for (const n of numeros) {
+      expect(n.envoiPrevu.getUTCDay()).toBe(4);
+      expect(n.envoiPrevu.getUTCHours()).toBe(7);
     }
-    expect(attendues.map((a) => a.semaine)).toEqual(numeros.map((n) => n.semaine));
+    const attendues = [...lettresReserveesALire("lettres-reservees-nov-dec-s22-a-lire.md"), ...lettresReserveesALire("lettres-reservees-jan-mars-2027-a-lire.md")];
+    expect(attendues.map((a) => a.cle)).toEqual(SEMAINES_RESERVEES);
     const mensuelles = semainesLettreDuMois();
     for (const [k, n] of numeros.entries()) {
       const a = attendues[k];
-      expect(n).toMatchObject({ statut: "VALIDE", objet: a.objet, preEntete: a.preEntete, corps: a.lignes.join("\n") });
+      expect(n).toMatchObject({ statut: "VALIDE", objet: a.objet, preEntete: a.preEntete, corps: a.corps });
       expect(n.objet.length).toBeLessThanOrEqual(OBJET_HEBDO_MAX);
       expect(n.corps.startsWith("Salut,\n\n")).toBe(true);
       expect(n.corps.endsWith("\nL'Équipe Deviens Marrant")).toBe(true);
@@ -158,13 +149,21 @@ describe("Schéma d'un numéro réservé (texte libre de l'équipe)", () => {
       if (slug === "storytelling") expect(STORYTELLING_PUBLIE).toBe(true);
       if (slug === "boulot") expect(BOULOT_PUBLIE).toBe(true);
     }
-    // W46 : version relue (la phrase fausse « toutes reprennent le mot de Hugo » a disparu).
-    expect(numeros[0].corps).not.toContain("toutes reprennent le mot de Hugo");
+    // 12/11 : la nouvelle lettre ; « T'as perdu ta langue ? » est devenue la lettre du mois n°1.
+    expect(numeros[0].objet).toBe("Après l'exposé : « Tu avais un train ? »");
+    expect(numeros.some((n) => n.corps.includes("t'as perdu ta langue"))).toBe(false);
   });
 
-  it("semaines des lettres du mois programmées (numeros.json) : W45 (05/11), W49 (03/12), 2027-W01 (07/01)", () => {
+  it("motifsInterdits : « entretien annuel » et « le meilleur de la promo » admis (liste fermée), l'offre reste refusée", () => {
+    expect(motifsInterdits("C'est ton entretien annuel. Avant ton prochain entretien (annuel, de stage ou d'alternance).")).toEqual([]);
+    expect(motifsInterdits("Sofiane, le meilleur de la promo.")).toEqual([]);
+    expect(motifsInterdits("Ton entretien annuel, puis passe à l'abonnement annuel.")).toEqual(["mot « annuel »"]);
+    expect(motifsInterdits("Profite de la promo.")).toEqual(["mot « promo »"]);
+  });
+
+  it("semaines des lettres du mois programmées (numeros.json) : W45, W49, 2027-W01, W05, W09, W13", () => {
     const s = semainesLettreDuMois();
-    for (const k of ["2026-W45", "2026-W49", "2027-W01"]) expect(s.has(k)).toBe(true);
+    expect([...s].sort()).toEqual(["2026-W45", "2026-W49", "2027-W01", "2027-W05", "2027-W09", "2027-W13"]);
     expect(s.has("2026-W46")).toBe(false);
   });
 });
@@ -251,7 +250,7 @@ describe("Synchronisation en base (audience HEBDO_PREMIUM, periodKey = semaine)"
     expect(i).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
   });
 
-  it("production au déploiement : 9 anciens numéros (W45 à W53, fiche recopiée, jamais envoyés) ; W45 et W49 retirés, les 7 autres réécrits (VALIDE, sans approbation)", async () => {
+  it("production au déploiement : 9 anciens numéros (W45 à W53, ancien texte, jamais envoyés) ; W45 et W49 retirés, 7 réécrits, 9 créés (2027), tous VALIDE sans approbation", async () => {
     const SEMAINES = ["2026-W45", "2026-W46", "2026-W47", "2026-W48", "2026-W49", "2026-W50", "2026-W51", "2026-W52", "2026-W53"];
     for (const [k, semaine] of SEMAINES.entries()) {
       mockIssues.push({
@@ -272,24 +271,27 @@ describe("Synchronisation en base (audience HEBDO_PREMIUM, periodKey = semaine)"
     // Une lettre du mois en base n'est jamais touchée par la synchronisation des lettres réservées.
     mockIssues.push({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: "On a comparé nos salaires", preheader: null, bodyText: "x", scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE", validatedAt: NOW });
     const r = await synchroniserNumerosHebdo(numerosReels, NOW);
-    expect(r).toMatchObject({ crees: 0, misAJour: 7, ignores: [] });
+    expect(r).toMatchObject({ crees: 9, misAJour: 7, ignores: [] });
     expect(r.retires).toEqual(["2026-W45", "2026-W49"]);
     const hebdo = mockIssues.filter((i) => i.audience === "HEBDO_PREMIUM").sort((a, b) => a.periodKey.localeCompare(b.periodKey));
-    expect(hebdo.map((i) => i.periodKey)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    expect(hebdo.map((i) => i.periodKey)).toEqual(SEMAINES_RESERVEES);
     for (const i of hebdo) {
-      expect(i).toMatchObject({ id: `ancien${SEMAINES.indexOf(i.periodKey)}`, status: "VALIDE", approvedAt: null, approvedHash: null });
+      if (SEMAINES.includes(i.periodKey)) expect(i.id).toBe(`ancien${SEMAINES.indexOf(i.periodKey)}`);
+      expect(i.status).toBe("VALIDE");
+      expect(i.approvedAt ?? null).toBeNull();
+      expect(i.approvedHash ?? null).toBeNull();
       expect(i.bodyText.startsWith("Salut,")).toBe(true);
       expect(i.bodyText).not.toContain("carnet");
     }
-    expect(hebdo[0].subject).toBe("T'as perdu ta langue ? Trois réponses");
+    expect(hebdo[0].subject).toBe("Après l'exposé : « Tu avais un train ? »");
     expect(mockIssues.find((i) => i.id === "m11")).toBeDefined();
     // Redémarrage suivant : plus rien à faire.
     expect(await synchroniserNumerosHebdo(numerosReels, NOW)).toEqual({ crees: 0, misAJour: 0, retires: [], ignores: [] });
   });
 
-  it("production, base sans lettre réservée : les 7 sont créées VALIDE, aucune approuvée", async () => {
+  it("production, base sans lettre réservée : les 16 sont créées VALIDE, aucune approuvée", async () => {
     const r = await synchroniserNumerosHebdo(numerosReels, NOW);
-    expect(r).toEqual({ crees: 7, misAJour: 0, retires: [], ignores: [] });
+    expect(r).toEqual({ crees: 16, misAJour: 0, retires: [], ignores: [] });
     expect(mockIssues.every((i) => i.status === "VALIDE" && !i.approvedHash)).toBe(true);
   });
 
