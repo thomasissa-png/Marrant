@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-## À DÉPLOYER (s22) : inscription d'office à la lettre de la semaine, **NON DÉPLOYÉ**
+(rien)
+
+## s22 (25/10) Inscription d'office à la lettre de la semaine, **DÉPLOYÉ le 25/10/2026 vers 15:33 UTC** (go écrit de Thomas « Go ok ») : version `d61b334d-cd56-47de-97b3-dacb2adc85cb`, build sur `9b01f9a6` (code `ca039e2e`, CI verte, run 40206798619), N-1 `61be3b2f-1603-4af6-bd5d-fee6b506f933`. Retour arrière : `cd apps/web && npx wrangler rollback 61be3b2f-1603-4af6-bd5d-fee6b506f933`. Préversion testée avant bascule (pages, santé, en-têtes identiques, webhook 401). P6 : 13 adresses en 200, santé `ok` (`eventsWebhookSecret: true`), webhook non signé 401, proposition admin 401 sans session, en-têtes de sécurité identiques à N-1, CGU art. 10 nouvelle version en ligne.
 
 Branche `claude/ouverture-session-nzwj0w`, commits `d712fa00` (inscription d'office), `4fb1f732` (plus de condition d'adresse vérifiée), `db46dd65` (relecture à l'aveugle, B1 à B5 et mineurs retenus), `5c535a45` (contre-relecture v2 : texte d'opposition, ligne du profil, titre de la page d'arrêt), puis relecture finale v3 GO (3 mineurs : ligne du profil, adresse insécable, succès de la page d'arrêt ; hash dans le journal git, juste après `5c535a45`). Décision de Thomas du 25/10 (`docs/founder-preferences.md`, dernière ligne). N-1 = version en ligne `61be3b2f-1603-4af6-bd5d-fee6b506f933` (code `4f6c3271` + secret du webhook Resend ; ne PAS revenir à `c6357ac0`, qui n'a pas ce secret). Retour arrière : `cd apps/web && npx wrangler rollback 61be3b2f-1603-4af6-bd5d-fee6b506f933`.
 
