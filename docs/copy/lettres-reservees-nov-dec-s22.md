@@ -252,28 +252,28 @@ Vérifications possibles que je n'ai pas pu faire : l'URL précise de la chaîne
 >
 > Samedi, 8 h 40, dans un chalet loué à neuf. Les skis sont dans l'entrée, le café est passé, et tu es encore en chaussettes devant la cheminée. Jules enfile sa combinaison et te lance :
 >
-> « Alors, tu descends aujourd'hui, ou tu gardes le chalet ? »
+> « Alors, tu descends la noire, ou tu gardes le chalet ? »
 >
-> Pas besoin de savoir skier pour avoir ce genre de matin. Cette semaine, pas de réplique à apprendre par cœur. On part d'un clip de rap tourné sur des pistes, et on en tire un geste pour toi.
+> Pas besoin de savoir skier pour avoir ce genre de matin. Cette semaine, on part d'un clip de rap tourné sur des pistes, et on en tire un geste que tu peux préparer chez toi.
 >
 > Le passage
-> Le Palmashow, c'est le duo formé de Grégoire Ludig et David Marsais. En février 2014, il met en ligne « Les monos de ski », un clip de rap tourné sur les pistes noires. Les deux comparses y portent des combinaisons rouges de moniteurs, s'échangent des rimes, et jouent sur tout l'attirail du moniteur de ski : baume à lèvres, vin chaud, tire-fesses.
+> Le Palmashow, c'est le duo formé de Grégoire Ludig et David Marsais. En février 2014, il met en ligne « Les monos de ski », un clip de rap tourné sur les pistes noires. Les deux comparses y portent des combinaisons rouges de moniteurs, s'échangent des rimes, et le clip passe par le baume à lèvres, le vin chaud et le tire-fesses.
 >
 > La technique : le couplet
 > Retiens la forme : un métier précis, moniteur de ski, raconté en rap, donc en rimes. On en tire un geste pour toi : quand on te lance une pique, réponds par deux vers qui riment. La rime dit « ceci est un jeu » avant même que l'autre ait pesé la phrase : difficile d'y entendre une attaque, ou une excuse. Et deux vers, ça se prépare. Pour les piques qui reviennent toujours, tu peux avoir ta réponse prête avant qu'on te la lance.
 >
 > Comment l'emprunter, en trois gestes
-> 1. Prends un mot de la pique (descendre, la noire, le chalet) et cherche ce qui rime avec lui autour de toi : un plat, une boisson, un objet.
+> 1. Prends un mot de la pique (ici, « la noire » ou « le chalet ») et cherche une rime qui te ramène à ce qui t'entoure : un objet, une boisson, ta tenue.
 > 2. Écris deux vers de longueur voisine : le premier se prend au sérieux, le second retombe sur le concret. La rime tombe sur le dernier mot de chaque vers.
 > 3. Dis-les d'une voix normale, comme une information, et arrête-toi à la rime. Ne la souligne pas : elle s'entend toute seule, et c'est ton ton plat qui la rend drôle.
 >
 > Deux exemples sur la scène du chalet
 > « Toi, tu descends la noire. Moi, je surveille la bouilloire. »
-> Le premier vers laisse son exploit à Jules, le second te confie une mission minuscule, et la rime la rend aussi officielle que la sienne.
-> « Je descends aujourd'hui, c'est promis. Par l'escalier, vers midi. »
-> Tu dis oui à la question, mais pas à la piste : « descendre », pris au pied de la lettre, devient l'escalier du chalet, et « midi » ferme la rime en repoussant tout à plus tard.
+> Tu reprends le mot de Jules pour lui laisser l'exploit, puis tu te confies une mission minuscule : la rime la met au même rang que sa descente.
+> « Aujourd'hui, je garde le chalet. Chaussettes, café : équipement complet. »
+> Tu prends l'autre mot de Jules et tu fais ton inventaire comme un moniteur avant la descente : tes chaussettes et ton café passent pour du matériel, et « complet » ferme la liste.
 >
-> Ces deux couplets ne valent que pour ce matin. Le geste, lui, resservira dès qu'une pique te donnera un thème et que tu auras cinq minutes d'avance.
+> Ces deux-là restent au chalet. Le geste, tu l'emportes : il marche sur les piques qui reviennent.
 >
 > À toi de jouer
 > 1. Choisis une pique que tu reçois souvent, ou que tu redoutes.
@@ -286,7 +286,7 @@ Vérifications possibles que je n'ai pas pu faire : l'URL précise de la chaîne
 > À jeudi prochain,
 > L'Équipe Deviens Marrant
 
-**Notes de rédaction (hors lettre)** : lecture ≈ 2 min 30 (≈ 450 mots). **Aucune phrase du Palmashow n'est citée** : seul le titre du clip (« Les monos de ski ») apparaît entre guillemets. Les deux couplets (« courage / fromage », « soirée / oublié ») sont écrits par l'équipe pour la scène du chalet et ne prétendent pas venir du clip. Pas de lien externe dans le corps. Lien du site : confiance, étape 5, « Jouer avec les registres » (titre vérifié dans `parcours-etapes.ts`).
+**Notes de rédaction (hors lettre)** : lecture ≈ 2 min 30 (≈ 450 mots). **Aucune phrase du Palmashow n'est citée** : seul le titre du clip (« Les monos de ski ») apparaît entre guillemets. Les deux couplets (« noire / bouilloire », « chalet / complet », 3e relecture) sont écrits par l'équipe pour la scène du chalet et ne prétendent pas venir du clip. Pas de lien externe dans le corps. Lien du site : confiance, étape 5, « Jouer avec les registres » (titre vérifié dans `parcours-etapes.ts`).
 **Pourquoi ce passage (révision du 25/10, bloquants B5.1 et B5.2)** : les versions précédentes (Paul Mirabel, puis Marina Rollman) sont abandonnées. Mirabel : fiche vidéo existante sur le même sketch (`video-content-s20.json:130`). Rollman : technique déjà présente chez elle (`video-content-s20.json:514` à `:519`) et chronique connue seulement par une description de vidéo. Le Palmashow répond à la consigne : (1) le contenu est décrit en détail par plusieurs sources écrites (3 articles de presse de février 2014, plus les paroles publiées sur des sites de paroles) ; (2) aucune fiche vidéo ni technique de rime dans le site (Grep : « Palmashow », « Ludig », « Marsais », « monos », « rime », « rap », « couplet », « ski », « pistes noires » : aucun résultat pertinent, voir Contrôles). **Limite** : je n'ai pas lu les paroles, je ne sais donc pas comment les rimes sont construites dans le clip ; la lettre n'en dit rien et le geste « le couplet » est présenté comme tiré par l'équipe, pas comme la méthode du duo. Si vous lisez les paroles et y trouvez une construction précise (premier vers sérieux, second concret, par exemple), on peut l'ajouter dans « Le passage » ; sinon, c'est tout ce que la source soutient.
 
 ### Sources et faits de la lettre 5 (à vérifier page par page)
@@ -305,7 +305,7 @@ Recherches faites le 25/10/2026 avec un outil de recherche web qui renvoie des r
 | P6 | Le clip parodie les moniteurs de ski, « les gars de la montagne » | page WeLikeIt (ci-dessus) | « […] les deux humoristes parodient les gars de la montagne, entourés de jolie filles en maillots de bain et boots » (extrait) |
 | P7 | Baume à lèvres et vin chaud font partie de l'attirail | page Le Tribunal du Net (ci-dessus) ; paroles : https://www.paroles.net/palmashow/paroles-les-monos-de-ski et https://lyricstranslate.com/en/palmashow-les-monos-de-ski-lyrics.html | l'outil dit que les paroles « confirment » crème solaire, baume à lèvres, vin chaud et la figure des « monos » : **à lire dans les paroles**, je ne les reproduis pas |
 
-Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe pour un geste ; « la rime joue le rôle d'un panneau "ceci est un jeu" » et « tu as l'air d'avoir improvisé » sont des analyses ; « un sujet très quotidien » (les moniteurs de ski) est un jugement. La lettre ne dit pas que le duo emploie ce geste : elle dit « nous en tirons un geste ». Si l'une de ces formules gêne, repli : supprimer le paragraphe « La technique » après sa première phrase (« Retiens la forme : un sujet très quotidien, traité en rap, donc en rimes. ») et garder les trois gestes.
+Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe pour un geste ; « la rime dit "ceci est un jeu" » est une analyse de l'équipe. La lettre ne dit pas que le duo emploie ce geste : elle dit « on en tire un geste pour toi ».
 **Écartés pendant la recherche** : Paul Mirabel (fiche vidéo existante) ; Marina Rollman, « Vie de bureau » (technique présente sur le site, description de vidéo seule) ; Alex Lutz, « Catherine et Liliane » (la presse décrit le concept, pas un passage ; l'outil a d'abord affirmé un principe de caméra cachée que la recherche suivante n'a pas retrouvé : abandonné) ; Norman (plaintes pour viol déposées en 2022, classement sans suite en 2024 selon les sources : trop risqué pour une lettre de marque) ; Panayotis Pascot « Presque », Waly Dia « Ensemble ou rien », Vincent Dedienne « Un soir de gala », Jonathan Cohen « La Flamme » (sources sans description exploitable de la technique, ou fiche existante pour Cohen).
 
 ---
@@ -369,7 +369,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 > Salut,
 >
 > Le retour sur l'exercice de la semaine dernière
-> Tu devais écrire trois réponses à la question qu'on te pose chaque année. Pour la vérifier, lis la sûre à voix haute sans regarder ta feuille : si tu bloques, raccourcis jusqu'à la dire d'un trait. Et si tu l'as sortie le soir du 24, même mollement, elle a fait son travail.
+> Tu devais écrire trois réponses à la question qu'on te pose chaque année. Pour vérifier celle que tu as gardée, lis-la à voix haute sans regarder ta feuille : si tu bloques, raccourcis jusqu'à la dire d'un trait. Et si tu l'as sortie le soir du 24, même mollement, elle a fait son travail.
 >
 > Ce soir, réveillon chez Lucas. 23 h 40, vingt-cinq personnes dans un deux-pièces, enceintes à fond, tout le monde crie pour s'entendre. Tu as passé une bonne partie de la soirée dans la cuisine, à remplir des bols. Lucas t'attrape par l'épaule et hurle à ton oreille :
 >
@@ -387,7 +387,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > La risquée (treize mots)
 > « Ah, tu as remarqué. Bravo, Lucas. Il ne t'a fallu que trois heures. »
-> Celle-ci vise Lucas : tu le félicites d'avoir remarqué ton absence, et la fin retourne le compliment, puisqu'il lui a fallu toute la soirée. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Dans le bruit, la moitié de la phrase se perd et il ne reste que « trois heures », qui ne veut plus rien dire. Et elle ne se dit qu'à un ami qui rit de ses oublis : devant un hôte débordé par sa propre soirée, elle sonne comme un reproche, alors que c'est toi qui t'étais caché.
+> Celle-ci vise Lucas : tu le félicites d'avoir remarqué ton absence, et la fin retourne le compliment, puisqu'il lui a fallu toute la soirée. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Dans le bruit, la moitié de la phrase se perd et il ne reste que « trois heures », qui ne veut plus rien dire. Et elle ne se dit qu'à un ami qui rit de ses oublis : devant un hôte débordé par sa propre soirée, elle sonne comme un reproche, alors que c'est toi qui avais choisi la cuisine.
 >
 > Comment choisir
 > Règle la longueur sur le bruit. Dans le vacarme, on n'entend le plus souvent que la fin de ce que tu dis, et une phrase de treize mots arrive en miettes. Quatre mots quand la musique couvre tout, sept ou huit dans le brouhaha, la phrase entière seulement dans un coin calme. Et mets toujours le mot qui fait rire en dernier : c'est celui qu'on entendra.
