@@ -35,6 +35,9 @@ const mockDb = {
   users: [] as Array<Record<string, unknown>>,
   leads: [] as Array<Record<string, unknown>>,
   journal: [] as Ligne[],
+  // s22 : numéro hebdo de la semaine de la mensuelle (2026-W45) et adresses qui l'ont reçu.
+  hebdo: null as null | { id: string; status: string },
+  hebdoRecus: [] as string[],
 };
 
 function mockApprouve(issue: null | Record<string, unknown>) {
@@ -51,12 +54,17 @@ jest.mock("@/lib/prisma", () => ({
       // `lettre-mensuelle-approbation-s22.test.ts`) ; les garde-fous s21 restent testés dessus.
       findFirst: jest.fn(async () => mockApprouve(mockDb.issue)),
       update: jest.fn(async ({ data }: { data: Record<string, unknown> }) => Object.assign(mockDb.issue ?? {}, data)),
+      findUnique: jest.fn(async ({ where }: { where: { audience_periodKey: { audience: string; periodKey: string } } }) =>
+        where.audience_periodKey.audience === "HEBDO_PREMIUM" && where.audience_periodKey.periodKey === "2026-W45" ? mockDb.hebdo : null,
+      ),
     },
     user: { findMany: jest.fn(async () => mockDb.users) },
     ceoLead: { findMany: jest.fn(async () => mockDb.leads) },
     newsletterSubscriber: { findMany: jest.fn(async () => mockDb.abonnes) },
     newsletterSend: {
-      findMany: jest.fn(async () => mockDb.journal.map((l) => ({ ...l }))),
+      findMany: jest.fn(async ({ where }: { where: { issueId: string } }) =>
+        mockDb.hebdo && where.issueId === mockDb.hebdo.id ? mockDb.hebdoRecus.map((email) => ({ email })) : mockDb.journal.map((l) => ({ ...l })),
+      ),
       create: jest.fn(async ({ data }: { data: Omit<Ligne, "id"> }) => {
         if (mockDb.journal.some((l) => l.issueId === data.issueId && l.email === data.email)) {
           throw Object.assign(new Error("unique"), { code: "P2002" });
@@ -107,13 +115,15 @@ beforeEach(() => {
       accounts: [],
       emailOptOut: false,
       updatedAt: avant,
-      premiumLetter: { enabled: true, activatedAt: avant, consentVersion: "lettre-hebdo-premium-v1", unsubscribeToken: "jeton-hebdo".padEnd(43, "x") },
+      premiumLetter: { enabled: true, stoppedAt: null, stopOrigin: null, unsubscribeToken: "jeton-hebdo".padEnd(43, "x") },
     },
     { email: "stop@x.fr", plan: "FREE", emailOptOut: true, updatedAt: new Date("2026-10-10T00:00:00Z"), premiumLetter: null },
     { email: "revenu@x.fr", plan: "FREE", emailOptOut: true, updatedAt: new Date("2026-10-10T00:00:00Z"), premiumLetter: null },
   ];
   mockDb.leads = [];
   mockDb.journal = [];
+  mockDb.hebdo = { id: "h45", status: "ENVOYE" };
+  mockDb.hebdoRecus = ["premium@x.fr"];
 });
 
 describe("periodeMensuelle", () => {
@@ -211,12 +221,33 @@ describe("envoyerLettreDuMois", () => {
     expect(headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
   });
 
-  it("un Premium SANS lettre hebdomadaire garde la mensuelle", async () => {
-    mockDb.users = [{ email: "premium@x.fr", plan: "PREMIUM", emailOptOut: false, updatedAt: avant, premiumLetter: { enabled: false } }];
+  it("un Premium qui a ARRÊTÉ la lettre hebdomadaire garde la mensuelle", async () => {
+    mockDb.users = [
+      { id: "u-p", email: "premium@x.fr", plan: "PREMIUM", emailVerified: avant, accounts: [], emailOptOut: false, updatedAt: avant, premiumLetter: { enabled: false, stoppedAt: avant, stopOrigin: "profil", unsubscribeToken: null } },
+    ];
     mockDb.abonnes = [abonne("premium@x.fr")];
+    mockDb.hebdoRecus = [];
     const envoyer = jest.fn().mockResolvedValue(undefined);
     await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
     expect(envoyer).toHaveBeenCalledTimes(1);
+  });
+
+  it("s22 : Premium inscrit d'office, l'hebdo de la semaine pas encore partie : la mensuelle attend (ni envoyée, ni terminée)", async () => {
+    mockDb.hebdo = { id: "h45", status: "VALIDE" };
+    mockDb.hebdoRecus = [];
+    mockDb.users[0].premiumLetter = null;
+    const envoyer = jest.fn().mockResolvedValue(undefined);
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    expect(envoyer.mock.calls.map((c) => c[0])).not.toContain("premium@x.fr");
+    expect(r).toMatchObject({ attenteHebdo: 1, exclusPremiumHebdo: 0, termine: false });
+  });
+
+  it("s22 : l'hebdo de la semaine est terminée sans lui (devenu Premium après l'envoi) : la mensuelle lui part", async () => {
+    mockDb.hebdoRecus = [];
+    const envoyer = jest.fn().mockResolvedValue(undefined);
+    const r = await envoyerLettreDuMois(NOW, { envoyer, baseUrl: BASE });
+    expect(envoyer.mock.calls.map((c) => c[0])).toContain("premium@x.fr");
+    expect(r).toMatchObject({ attenteHebdo: 0, exclusPremiumHebdo: 0, termine: true });
   });
 
   it("s21 hebdo : envois de l'hebdo fermés, le Premium qui l'a activée reçoit encore la mensuelle (spec §4.2)", async () => {

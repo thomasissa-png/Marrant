@@ -1,9 +1,10 @@
 /**
  * @jest-environment node
  *
- * Lettre de la semaine (s21) : la fonction unique « reçoit l'hebdo », activation (opt-in,
- * idempotente, réactivation après fin de Premium), arrêt (profil, lien, admin), fin de
- * Premium, purge du journal à 12 mois, effacement à la suppression du compte.
+ * Lettre de la semaine (s21 ; s22 inscription d'office des Premium, décision de Thomas du 25/10) :
+ * la fonction unique « reçoit l'hebdo », arrêt explicite respecté à vie (même après réabonnement),
+ * reprise depuis le profil, jeton d'arrêt créé à l'envoi, fin de Premium, purge du journal à
+ * 12 mois, effacement à la suppression du compte.
  */
 type Pref = {
   userId: string;
@@ -16,22 +17,37 @@ type Pref = {
   unsubscribeToken: string | null;
 };
 const mockPrefs: Pref[] = [];
+const mockUsers = new Set<string>(["u1"]);
 let mockEchecCreation: { code: string } | null = null;
+
+/** Filtre Prisma réduit à ce qu'utilise `lib/lettre/hebdo.ts` (égalité, `not: null`, `OR`). */
+function mockCorrespond(p: Record<string, unknown>, where: Record<string, unknown>): boolean {
+  return Object.entries(where).every(([cle, attendu]) => {
+    if (cle === "OR") return (attendu as Record<string, unknown>[]).some((w) => mockCorrespond(p, w));
+    if (attendu && typeof attendu === "object" && !(attendu instanceof Date) && "not" in attendu) return p[cle] !== (attendu as { not: unknown }).not;
+    return p[cle] === attendu;
+  });
+}
 
 jest.mock("@/lib/prisma", () => ({
   prisma: {
-    user: { findMany: jest.fn(async () => []) },
+    user: {
+      findMany: jest.fn(async () => []),
+      findUnique: jest.fn(async ({ where }: { where: { id: string } }) => (mockUsers.has(where.id) ? { id: where.id } : null)),
+    },
     premiumLetterPreference: {
       findUnique: jest.fn(async ({ where }: { where: { userId?: string; unsubscribeToken?: string } }) =>
         mockPrefs.find((p) => (where.userId ? p.userId === where.userId : p.unsubscribeToken === where.unsubscribeToken)) ?? null,
       ),
-      create: jest.fn(async ({ data }: { data: Pref }) => {
+      create: jest.fn(async ({ data }: { data: Partial<Pref> & { userId: string } }) => {
         if (mockEchecCreation) throw mockEchecCreation;
-        mockPrefs.push({ ...data });
-        return data;
+        if (mockPrefs.some((p) => p.userId === data.userId)) throw { code: "P2002" };
+        const ligne: Pref = { enabled: false, activatedAt: null, consentVersion: null, activationOrigin: null, stoppedAt: null, stopOrigin: null, unsubscribeToken: null, ...data };
+        mockPrefs.push(ligne);
+        return ligne;
       }),
-      updateMany: jest.fn(async ({ where, data }: { where: Partial<Pref>; data: Partial<Pref> }) => {
-        const lignes = mockPrefs.filter((p) => (where.userId === undefined || p.userId === where.userId) && (where.enabled === undefined || p.enabled === where.enabled));
+      updateMany: jest.fn(async ({ where, data }: { where: Record<string, unknown>; data: Partial<Pref> }) => {
+        const lignes = mockPrefs.filter((p) => mockCorrespond(p, where));
         for (const l of lignes) Object.assign(l, data);
         return { count: lignes.length };
       }),
@@ -47,8 +63,10 @@ jest.mock("@/lib/prisma", () => ({
 import { prisma } from "@/lib/prisma";
 import {
   activerLettreHebdo,
+  arretExplicite,
   arreterLettreHebdo,
   arreterLettreHebdoParJeton,
+  avecJetonsHebdo,
   destinatairesHebdo,
   effacementLettreHebdo,
   finPremiumLettreHebdo,
@@ -65,6 +83,7 @@ const db = prisma as unknown as {
 };
 const NOW = new Date("2026-11-10T10:00:00Z");
 const avant = new Date("2026-11-01T10:00:00Z");
+const JETON = "t".repeat(43);
 
 function candidat(p: Partial<CandidatHebdo> = {}, pref: Partial<NonNullable<CandidatHebdo["premiumLetter"]>> = {}): CandidatHebdo {
   return {
@@ -73,22 +92,33 @@ function candidat(p: Partial<CandidatHebdo> = {}, pref: Partial<NonNullable<Cand
     plan: "PREMIUM",
     emailVerified: avant,
     emailOptOut: false,
-    updatedAt: avant,
     accounts: [],
-    premiumLetter: { enabled: true, activatedAt: avant, consentVersion: "lettre-hebdo-premium-v1", unsubscribeToken: "t".repeat(43), ...pref },
+    premiumLetter: { enabled: true, stoppedAt: null, stopOrigin: null, unsubscribeToken: JETON, ...pref },
     ...p,
   };
 }
+const arretee = (stopOrigin: string) => ({ enabled: false, stoppedAt: avant, stopOrigin });
 
 beforeEach(() => {
   mockPrefs.length = 0;
+  mockUsers.clear();
+  mockUsers.add("u1");
   mockEchecCreation = null;
   jest.clearAllMocks();
 });
 
-describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle)", () => {
-  it("Premium, case cochée, adresse vérifiée, jeton : reçoit", () => {
+describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle), inscription d'office", () => {
+  it("s22 : Premium SANS ligne de préférence (inscrit d'office) : reçoit", () => {
+    expect(recoitHebdo(candidat({ premiumLetter: null }), true)).toBe(true);
+  });
+
+  it("Premium, ligne active, adresse vérifiée : reçoit ; ligne sans jeton aussi (jeton créé à l'envoi)", () => {
     expect(recoitHebdo(candidat(), true)).toBe(true);
+    expect(recoitHebdo(candidat({}, { unsubscribeToken: null }), true)).toBe(true);
+  });
+
+  it("ligne jamais activée ni arrêtée (ancienne proposition, case jamais cochée) : inscrit d'office, reçoit", () => {
+    expect(recoitHebdo(candidat({}, { enabled: false }), true)).toBe(true);
   });
 
   it("H4-1 / §6.4 : envois fermés, personne ne reçoit (la mensuelle reprend pour tous)", () => {
@@ -96,25 +126,39 @@ describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle)", 
   });
 
   it.each([
-    ["plan FREE (fin de Premium, avant le rapprochement : H6-2)", candidat({ plan: "FREE" })],
-    ["case jamais cochée (enabled=false)", candidat({}, { enabled: false })],
-    ["sans ligne", candidat({ premiumLetter: null })],
-    ["sans date d'activation (consentement incomplet)", candidat({}, { activatedAt: null })],
-    ["sans version du texte", candidat({}, { consentVersion: null })],
-    ["sans jeton d'arrêt (aucun envoi sans lien d'arrêt)", candidat({}, { unsubscribeToken: null })],
+    ["plan FREE (non-Premium, ou fin de Premium avant le rapprochement : H6-2)", candidat({ plan: "FREE" })],
+    ["plan FREE sans ligne", candidat({ plan: "FREE", premiumLetter: null })],
+    ["arrêtée depuis le profil", candidat({}, arretee("profil"))],
+    ["arrêtée par le lien de l'e-mail", candidat({}, arretee("lien-email"))],
+    ["arrêtée par l'admin", candidat({}, arretee("admin"))],
+    ["rebond définitif", candidat({}, arretee("rebond"))],
+    ["plainte", candidat({}, arretee("plainte"))],
+    ["arrêt sans origine notée (prudence)", candidat({}, { enabled: false, stoppedAt: avant, stopOrigin: null })],
+    ["opposition globale (emailOptOut), ligne active", candidat({ emailOptOut: true })],
+    ["opposition globale (emailOptOut), sans ligne", candidat({ emailOptOut: true, premiumLetter: null })],
     ["adresse jamais vérifiée et pas de compte Google (cas 11)", candidat({ emailVerified: null })],
-    ["opposition globale postérieure à l'activation", candidat({ emailOptOut: true, updatedAt: NOW })],
     ["sans adresse", candidat({ email: null })],
   ])("ne reçoit pas : %s", (_, c) => {
     expect(recoitHebdo(c, true)).toBe(false);
+  });
+
+  it("s22 : réabonné après un arrêt EXPLICITE : ne reçoit toujours pas (l'arrêt reste valable)", () => {
+    // Arrêt au profil, puis fin de Premium (`finPremiumLettreHebdo` ne touche pas une ligne déjà arrêtée), puis réabonnement.
+    expect(recoitHebdo(candidat({ plan: "PREMIUM" }, arretee("profil")), true)).toBe(false);
+  });
+
+  it("s22 : réabonné après une simple fin de Premium (pas un choix) : inscrit d'office, reçoit", () => {
+    expect(recoitHebdo(candidat({}, arretee("fin-premium")), true)).toBe(true);
   });
 
   it("compte Google sans date de vérification : reçoit", () => {
     expect(recoitHebdo(candidat({ emailVerified: null, accounts: [{ id: "g" }] }), true)).toBe(true);
   });
 
-  it("H6-10 / L6 : activation POSTÉRIEURE à l'opposition globale = nouvel acte positif, reçoit", () => {
-    expect(recoitHebdo(candidat({ emailOptOut: true, updatedAt: new Date("2026-10-01T00:00:00Z") }), true)).toBe(true);
+  it("arretExplicite : sans ligne ou fin-premium = non ; profil = oui", () => {
+    expect(arretExplicite(null)).toBe(false);
+    expect(arretExplicite(arretee("fin-premium"))).toBe(false);
+    expect(arretExplicite(arretee("profil"))).toBe(true);
   });
 
   it("destinatairesHebdo : envois fermés, aucune lecture en base", async () => {
@@ -122,38 +166,76 @@ describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle)", 
     expect(db.user.findMany).not.toHaveBeenCalled();
   });
 
-  it("destinatairesHebdo : adresses en minuscules, filtre final par recoitHebdo", async () => {
-    db.user.findMany.mockResolvedValueOnce([candidat(), candidat({ id: "u2", email: "free@x.fr", plan: "FREE" })]);
-    expect(await destinatairesHebdo(true)).toEqual([{ userId: "u1", email: "yanis@exemple.fr", unsubscribeToken: "t".repeat(43) }]);
+  it("destinatairesHebdo : Premium sans opposition pré-filtrés en base, minuscules, filtre final par recoitHebdo, lecture seule", async () => {
+    db.user.findMany.mockResolvedValueOnce([
+      candidat(),
+      candidat({ id: "u2", email: "free@x.fr", plan: "FREE" }),
+      candidat({ id: "u3", email: "Office@X.fr", premiumLetter: null }),
+      candidat({ id: "u4", email: "stop@x.fr" }, arretee("lien-email")),
+    ]);
+    expect(await destinatairesHebdo(true)).toEqual([
+      { userId: "u1", email: "yanis@exemple.fr", unsubscribeToken: JETON },
+      { userId: "u3", email: "office@x.fr", unsubscribeToken: null },
+    ]);
+    expect(db.user.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: { plan: "PREMIUM", emailOptOut: false } }));
+    expect(db.premiumLetterPreference.create).not.toHaveBeenCalled();
+    expect(db.premiumLetterPreference.updateMany).not.toHaveBeenCalled();
   });
 });
 
-describe("Activation (case jamais cochée d'avance : seule une action écrit)", () => {
-  it("H1-2 / H2-2 : première activation = enabled, date, version SERVEUR, origine, jeton opaque", async () => {
-    expect(await activerLettreHebdo("u1", "paiement", NOW)).toBe("activee");
-    expect(mockPrefs[0]).toMatchObject({ enabled: true, activatedAt: NOW, consentVersion: "lettre-hebdo-premium-v1", activationOrigin: "paiement", stoppedAt: null, stopOrigin: null });
-    expect(mockPrefs[0].unsubscribeToken).toMatch(/^[A-Za-z0-9_-]{43}$/);
+describe("Jeton d'arrêt créé à l'envoi (aucune écriture de masse au déploiement)", () => {
+  it("sans ligne : ligne créée (inscrit, origine office) avec un jeton opaque ; second passage : même jeton, rien de recréé", async () => {
+    const [d1] = await avecJetonsHebdo([{ userId: "u1", email: "yanis@exemple.fr", unsubscribeToken: null }], NOW);
+    expect(d1.unsubscribeToken).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    expect(mockPrefs).toHaveLength(1);
+    expect(mockPrefs[0]).toMatchObject({ enabled: true, activatedAt: NOW, activationOrigin: "office", stoppedAt: null });
+    const [d2] = await avecJetonsHebdo([{ userId: "u1", email: "yanis@exemple.fr", unsubscribeToken: null }], NOW);
+    expect(d2.unsubscribeToken).toBe(d1.unsubscribeToken);
+    expect(db.premiumLetterPreference.create).toHaveBeenCalledTimes(1);
   });
 
-  it("idempotente : déjà active, `activatedAt` n'est pas réécrit", async () => {
-    await activerLettreHebdo("u1", "profil", avant);
-    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("deja-activee");
-    expect(mockPrefs[0].activatedAt).toEqual(avant);
+  it("ligne existante sans jeton (ancienne proposition) : jeton posé, état inchangé", async () => {
+    mockPrefs.push({ userId: "u1", enabled: false, activatedAt: null, consentVersion: null, activationOrigin: null, stoppedAt: null, stopOrigin: null, unsubscribeToken: null });
+    const [d] = await avecJetonsHebdo([{ userId: "u1", email: "y@x.fr", unsubscribeToken: null }], NOW);
+    expect(d.unsubscribeToken).toBe(mockPrefs[0].unsubscribeToken);
+    expect(mockPrefs[0]).toMatchObject({ enabled: false, stoppedAt: null });
   });
 
-  it("H1-8 : double coche concurrente (création en conflit) = une seule activation", async () => {
-    mockEchecCreation = { code: "P2002" };
-    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("deja-activee");
+  it("jeton déjà connu : aucune écriture", async () => {
+    expect(await avecJetonsHebdo([{ userId: "u1", email: "y@x.fr", unsubscribeToken: JETON }], NOW)).toEqual([{ userId: "u1", email: "y@x.fr", unsubscribeToken: JETON }]);
+    expect(db.premiumLetterPreference.create).not.toHaveBeenCalled();
+    expect(db.premiumLetterPreference.updateMany).not.toHaveBeenCalled();
   });
 
-  it("H1-10 / §6.2 : réabonné (fin-premium) qui recoche : nouvelle date, version courante, trace d'arrêt effacée, MÊME jeton (H3-9)", async () => {
-    mockPrefs.push({ userId: "u1", enabled: false, activatedAt: avant, consentVersion: "lettre-hebdo-premium-v1", activationOrigin: "paiement", stoppedAt: avant, stopOrigin: "fin-premium", unsubscribeToken: "ancien".padEnd(43, "a") });
-    expect(await activerLettreHebdo("u1", "paiement", NOW)).toBe("activee");
-    expect(mockPrefs[0]).toMatchObject({ enabled: true, activatedAt: NOW, stoppedAt: null, stopOrigin: null, unsubscribeToken: "ancien".padEnd(43, "a") });
+  it("ligne créée par un autre passage entre-temps : son jeton est repris, jamais d'envoi sans jeton", async () => {
+    mockPrefs.push({ userId: "u1", enabled: true, activatedAt: NOW, consentVersion: null, activationOrigin: "office", stoppedAt: null, stopOrigin: null, unsubscribeToken: "c".repeat(43) });
+    const [d] = await avecJetonsHebdo([{ userId: "u1", email: "y@x.fr", unsubscribeToken: null }], NOW);
+    expect(d.unsubscribeToken).toBe("c".repeat(43));
   });
 });
 
-describe("Arrêt (toujours possible) et fin de Premium", () => {
+describe("Reprise depuis le profil (réglage réactivé)", () => {
+  it("inscrit d'office sans ligne : rien n'est écrit", async () => {
+    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("deja-activee");
+    expect(db.premiumLetterPreference.create).not.toHaveBeenCalled();
+    expect(db.premiumLetterPreference.updateMany).not.toHaveBeenCalled();
+  });
+
+  it("après un arrêt explicite : trace d'arrêt effacée, nouvelle date, origine profil, MÊME jeton (H3-9)", async () => {
+    mockPrefs.push({ userId: "u1", enabled: false, activatedAt: avant, consentVersion: "lettre-hebdo-premium-v1", activationOrigin: "paiement", stoppedAt: avant, stopOrigin: "profil", unsubscribeToken: "ancien".padEnd(43, "a") });
+    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("activee");
+    expect(mockPrefs[0]).toMatchObject({ enabled: true, activatedAt: NOW, activationOrigin: "profil", stoppedAt: null, stopOrigin: null, unsubscribeToken: "ancien".padEnd(43, "a") });
+    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("deja-activee");
+  });
+
+  it("ligne fin-premium (réabonné) : déjà inscrit d'office, rien n'est réécrit", async () => {
+    mockPrefs.push({ userId: "u1", enabled: false, activatedAt: avant, consentVersion: null, activationOrigin: "office", stoppedAt: avant, stopOrigin: "fin-premium", unsubscribeToken: JETON });
+    expect(await activerLettreHebdo("u1", "profil", NOW)).toBe("deja-activee");
+    expect(mockPrefs[0].stoppedAt).toEqual(avant);
+  });
+});
+
+describe("Arrêt (toujours possible, respecté à vie) et fin de Premium", () => {
   beforeEach(() => {
     mockPrefs.push({ userId: "u1", enabled: true, activatedAt: avant, consentVersion: "v", activationOrigin: "profil", stoppedAt: null, stopOrigin: null, unsubscribeToken: "j".repeat(43) });
   });
@@ -175,11 +257,27 @@ describe("Arrêt (toujours possible) et fin de Premium", () => {
     expect(await arreterLettreHebdoParJeton("x".repeat(43), NOW)).toBe("inconnu");
   });
 
-  it("compte sans ligne : inconnu", async () => {
-    expect(await arreterLettreHebdo("u-absent", "admin", NOW)).toBe("inconnu");
+  it("s22 : inscrit d'office SANS ligne qui arrête : ligne arrêtée créée (jeton compris), plus jamais destinataire", async () => {
+    mockUsers.add("u2");
+    expect(await arreterLettreHebdo("u2", "profil", NOW)).toBe("arretee");
+    const ligne = mockPrefs.find((p) => p.userId === "u2");
+    expect(ligne).toMatchObject({ enabled: false, stoppedAt: NOW, stopOrigin: "profil" });
+    expect(ligne?.unsubscribeToken).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    expect(arretExplicite(ligne)).toBe(true);
   });
 
-  it("§6.2 : fin-premium posé avec le passage à FREE (opération jointe à la transaction)", async () => {
+  it("s22 : ligne fin-premium (réabonné) qui arrête : devient un arrêt explicite", async () => {
+    Object.assign(mockPrefs[0], arretee("fin-premium"));
+    expect(await arreterLettreHebdo("u1", "lien-email", NOW)).toBe("arretee");
+    expect(mockPrefs[0]).toMatchObject({ enabled: false, stoppedAt: NOW, stopOrigin: "lien-email" });
+  });
+
+  it("compte inexistant : inconnu, rien d'écrit", async () => {
+    expect(await arreterLettreHebdo("u-absent", "admin", NOW)).toBe("inconnu");
+    expect(db.premiumLetterPreference.create).not.toHaveBeenCalled();
+  });
+
+  it("§6.2 : fin-premium posé avec le passage à FREE, sans jamais écraser un arrêt explicite", async () => {
     await finPremiumLettreHebdo("u1", NOW);
     expect(db.premiumLetterPreference.updateMany).toHaveBeenCalledWith({
       where: { userId: "u1", enabled: true },

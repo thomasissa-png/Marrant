@@ -6,20 +6,23 @@ import { prisma } from "@/lib/prisma";
 import { refuserSiAutreSite } from "@/lib/same-site";
 import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, LETTRE_HEBDO_ORIGINES_ACTIVATION } from "@/config/lettre";
-import { activerLettreHebdo, arreterLettreHebdo, recoitHebdo, SELECT_CANDIDAT_HEBDO } from "@/lib/lettre/hebdo";
+import { activerLettreHebdo, arreterLettreHebdo, arretExplicite, recoitHebdo, SELECT_CANDIDAT_HEBDO } from "@/lib/lettre/hebdo";
 
 export const dynamic = "force-dynamic";
 
 /**
  * Préférence de la lettre de la semaine (hebdo Premium, s21 ; spec US-H1, US-H2).
  *
- * GET → { eligible, enabled, activatedAt, mensuelleSuspendue, finPrevue, adresseVerifiee, email }
- *   404 inscriptions fermées ; 401 sans session. `eligible` = plan PREMIUM.
+ * s22 (inscription d'office) : `enabled` = inscrit, c'est-à-dire pas d'arrêt explicite (`arretExplicite`) ;
+ * vrai par défaut, sans ligne de préférence.
+ *
+ * GET → { eligible, enabled, opposition, mensuelleSuspendue, finPrevue, adresseVerifiee, email }
+ *   404 inscriptions fermées ; 401 sans session. `eligible` = plan PREMIUM. `opposition` =
+ *   `User.emailOptOut` (aucune lettre ne part, quel que soit le réglage).
  * PUT { enabled: boolean, origine: "paiement" | "profil" } → { enabled, mensuelleSuspendue }
- *   - activer : inscriptions ouvertes (404 sinon), Premium (403), adresse vérifiée (403) ;
- *     le serveur écrit SA version du texte et la date, jamais le texte du navigateur ;
- *     idempotent (déjà active : `activatedAt` inchangé) ;
- *   - arrêter : toujours possible, même inscriptions fermées.
+ *   - reprendre : inscriptions ouvertes (404 sinon), Premium (403), adresse vérifiée (403) ;
+ *     efface l'arrêt explicite ; idempotent (inscrit d'office : rien n'est écrit) ;
+ *   - arrêter : toujours possible, même inscriptions fermées ; respecté à vie.
  *   10 requêtes par minute et par compte (429 + Retry-After).
  */
 const bodySchema = z.object({ enabled: z.boolean(), origine: z.enum(LETTRE_HEBDO_ORIGINES_ACTIVATION) }).strict();
@@ -39,8 +42,8 @@ async function etat(userId: string) {
   const pref = user.premiumLetter;
   return {
     eligible: user.plan === "PREMIUM",
-    enabled: pref?.enabled ?? false,
-    activatedAt: pref?.enabled && pref.activatedAt ? pref.activatedAt.toISOString() : null,
+    enabled: !arretExplicite(pref),
+    opposition: user.emailOptOut,
     // Pause de la mensuelle = destinataire de l'hebdo (fonction unique).
     mensuelleSuspendue: recoitHebdo(user),
     finPrevue: user.subscription?.cancelAtPeriodEnd && user.subscription.currentPeriodEnd ? user.subscription.currentPeriodEnd.toISOString() : null,

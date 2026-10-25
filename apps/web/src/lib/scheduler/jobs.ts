@@ -789,9 +789,9 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
         if (res.bloque) {
           console.warn(`[scheduler:lettre-mensuelle] ${res.numero} bloqué : marqueur [À COMPLÉTER] dans le numéro (mention d'éditeur @legal ?). Rien n'est envoyé.`);
         }
-        if (res.numero && res.candidats + res.dejaTraites > 0) {
+        if (res.numero && res.candidats + res.dejaTraites + res.attenteHebdo > 0) {
           console.log(
-            `[scheduler:lettre-mensuelle] ${res.numero} : ${res.envoyes} envoyé(s), ${res.echecs} échec(s), ${res.dejaTraites} déjà traité(s), ${res.exclusPremiumHebdo} exclu(s) hebdo Premium, ${res.exclusOpposition} exclu(s) opposition${res.termine ? ", numéro terminé" : ""}.`,
+            `[scheduler:lettre-mensuelle] ${res.numero} : ${res.envoyes} envoyé(s), ${res.echecs} échec(s), ${res.dejaTraites} déjà traité(s), ${res.exclusPremiumHebdo} exclu(s) hebdo Premium, ${res.attenteHebdo} en attente de l'hebdo, ${res.exclusOpposition} exclu(s) opposition${res.termine ? ", numéro terminé" : ""}.`,
           );
         }
       } finally {

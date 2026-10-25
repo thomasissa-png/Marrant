@@ -10,9 +10,10 @@ import { LETTRE_HEBDO_ARRET } from "@/config/textes/lettre-hebdo-s21";
  *  - Page d'arrêt : marche interrupteurs fermés ; l'ouverture (GET) ne change rien ; le bouton
  *    arrête l'HEBDO seule (`stopOrigin = lien-email`) ; « déjà arrêtée » ; lien inconnu ;
  *    POST RFC 8058 du client de messagerie ; `noindex`, `Referrer-Policy: same-origin` (jeton jamais transmis ailleurs).
- *  - Case du profil : interrupteur `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES` fermé (état déployé) =
- *    section absente ; ouvert (vérifié en local en basculant la constante) = case décochée
- *    dans le HTML serveur et à l'écran, coche puis décoche écrites en base, origine `profil`.
+ *  - Réglage du profil (s22, inscription d'office) : interrupteur `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES`
+ *    fermé = section absente ; ouvert (état déployé) = réglage « Je reçois la lettre de la semaine »
+ *    ACTIVÉ pour un Premium sans ligne ; le désactiver crée l'arrêt explicite (origine `profil`), le
+ *    réactiver le lève.
  */
 const MOT_DE_PASSE = "E2e-lettre-hebdo-2026!";
 const jeton = () => `e2eHebdo_${randomBytes(18).toString("hex")}`;
@@ -87,7 +88,7 @@ test.describe("Page d'arrêt de la lettre de la semaine", () => {
   });
 });
 
-test.describe("Case de la lettre de la semaine dans le profil", () => {
+test.describe("Réglage de la lettre de la semaine dans le profil (inscription d'office)", () => {
   localSeulement();
 
   test("interrupteur fermé : section absente pour un Premium (aucune promesse)", async ({ page }) => {
@@ -102,8 +103,8 @@ test.describe("Case de la lettre de la semaine dans le profil", () => {
   });
 
   for (const largeur of [375, 1280]) {
-    test(`${largeur} px, interrupteur ouvert : jamais cochée d'avance, coche puis décoche écrites en base`, async ({ page }) => {
-      test.skip(!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, "interrupteur fermé (état déployé) : vérifié en local en basculant la constante");
+    test(`${largeur} px, interrupteur ouvert : activé d'office, désactiver = arrêt en base, réactiver = reprise`, async ({ page }) => {
+      test.skip(!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, "interrupteur fermé : section absente (test précédent)");
       await page.setViewportSize({ width: largeur, height: largeur < 768 ? 812 : 800 });
       const email = `e2e-hebdo-profil-${largeur}@exemple.fr`;
       await creerCompte(email, MOT_DE_PASSE, "PREMIUM");
@@ -114,19 +115,24 @@ test.describe("Case de la lettre de la semaine dans le profil", () => {
 
       const section = page.getByTestId("lettre-hebdo-profil");
       await expect(section).toBeVisible();
-      const caseLettre = section.getByRole("checkbox");
-      await expect(caseLettre).not.toBeChecked();
-      await expect(section).toContainText("Pas activée");
+      const reglage = section.getByRole("switch", { name: "Je reçois la lettre de la semaine" });
+      await expect(reglage).toBeChecked();
+      await expect(section).not.toContainText("Pas activée");
+      await expect(section.getByRole("checkbox")).toHaveCount(0);
       await expect(section.getByRole("link", { name: "Confidentialité" })).toHaveAttribute("href", "/confidentialite#lettre");
+      // Inscrit d'office : aucune ligne écrite à l'affichage.
       expect(await preference(id)).toBeUndefined();
 
-      await caseLettre.check();
-      await expect(section).toContainText("C’est noté.");
-      expect(await preference(id)).toMatchObject({ enabled: true, activationOrigin: "profil" });
-
-      await caseLettre.uncheck();
+      await reglage.click();
       await expect(section).toContainText("C’est arrêté. Ton abonnement continue.");
+      await expect(reglage).not.toBeChecked();
       expect(await preference(id)).toMatchObject({ enabled: false, stopOrigin: "profil" });
+      await page.reload();
+      await expect(page.getByTestId("lettre-hebdo-profil").getByRole("switch")).not.toBeChecked();
+
+      await page.getByTestId("lettre-hebdo-profil").getByRole("switch").click();
+      await expect(page.getByTestId("lettre-hebdo-profil")).toContainText("C’est noté.");
+      expect(await preference(id)).toMatchObject({ enabled: true, stopOrigin: null, activationOrigin: "profil" });
     });
   }
 });

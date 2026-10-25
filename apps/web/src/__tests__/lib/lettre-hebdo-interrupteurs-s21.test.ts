@@ -108,7 +108,25 @@ describe("Textes de l'avis @legal, mot pour mot", () => {
     dansAvis(attendu);
   });
 
-  it("proposition aux abonnés existants : brouillon de l'avis, mot pour mot", () => {
+  it("s22 inscription d'office : CGU art. 10, confidentialité et pied ne parlent plus de case ni de choix, textes exacts", () => {
+    expect(textes.CGU_LETTRE_HEBDO[0]).toBe(
+      "La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.",
+    );
+    expect(textes.CONFIDENTIALITE_LETTRE_HEBDO.finalite).toBe(
+      "T'envoyer la lettre de la semaine : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : on s'arrête alors.",
+    );
+    const publics = [...textes.CGU_LETTRE_HEBDO, ...Object.values(textes.CONFIDENTIALITE_LETTRE_HEBDO), textes.piedNumeroHebdo("x", "https://deviens-marrant.fr")];
+    for (const t of publics) {
+      expect(t).not.toMatch(/si tu coches|tu l'actives toi-même|une case|choisi de la recevoir|jamais cochée/);
+    }
+    expect(textes.piedNumeroHebdo("x", "https://deviens-marrant.fr")).toContain("Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.");
+    expect(textes.LETTRE_HEBDO_REGLAGE).toBe("Je reçois la lettre de la semaine");
+    expect(textes.LETTRE_HEBDO_INFO_PAIEMENT).toBe("Chaque jeudi, la lettre de la semaine arrive dans ta boîte. Tu peux l'arrêter en un clic.");
+    expect(config.LETTRE_HEBDO_DATE_TEXTES).toBe("25 octobre 2026");
+    for (const t of [textes.LETTRE_HEBDO_REGLAGE, textes.LETTRE_HEBDO_INFO_PAIEMENT, textes.LETTRE_HEBDO_UI.opposition, ...publics]) expect(t).not.toMatch(/[—–]/);
+  });
+
+  it("proposition aux abonnés existants : brouillon de l'avis, mot pour mot (archive : plus envoyée depuis s22)", () => {
     const corps = textes.PROPOSITION_LETTRE_HEBDO.corps("https://deviens-marrant.fr").replace(config.LETTRE_MENTION_EDITEUR_NUMERO, "{LETTRE_MENTION_EDITEUR_NUMERO}");
     dansAvis(`Objet : ${textes.PROPOSITION_LETTRE_HEBDO.sujet}\n\n${corps}`);
   });

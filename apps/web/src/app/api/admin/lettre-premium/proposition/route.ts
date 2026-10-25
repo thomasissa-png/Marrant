@@ -10,7 +10,7 @@ import { z } from "zod";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { LETTRE_CONTACT } from "@/config/textes/lettre-s21";
 import { refusAdmin } from "@/lib/admin/auth";
-import { proposerLettreHebdo } from "@/lib/admin/lettre-hebdo-comptes";
+import { LETTRE_HEBDO_PROPOSITION_OUVERTE, proposerLettreHebdo } from "@/lib/admin/lettre-hebdo-comptes";
 import { siteBaseUrl } from "@/lib/newsletter";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +20,8 @@ const bodySchema = z.object({ userIds: z.array(z.string().min(1).max(64)).min(1)
 export async function POST(request: NextRequest) {
   const refus = refusAdmin(request);
   if (refus) return refus;
+  // s22 (25/10) : inscription d'office des Premium, plus d'invitation (texte devenu faux).
+  if (!LETTRE_HEBDO_PROPOSITION_OUVERTE) return NextResponse.json({ error: "Plus d'invitation : la lettre de la semaine est incluse d'office" }, { status: 410 });
   if (!LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) return NextResponse.json({ error: "Inscriptions à la lettre de la semaine fermées" }, { status: 404 });
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "Corps invalide" }, { status: 400 });

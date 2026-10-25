@@ -34,10 +34,6 @@ jest.mock("@/config/lettre", () => ({
     return mockInscriptions;
   },
 }));
-jest.mock("@/components/lettre/lettre-hebdo-case", () => ({
-  LettreHebdoCase: ({ emplacement }: { emplacement: string }) => <div data-testid="case-lettre">{emplacement}</div>,
-}));
-
 import SubscriptionSuccessPage from "@/app/(dashboard)/abonnement/success/page";
 import { TEXTES_SUCCESS } from "@/config/textes/paiement";
 
@@ -411,14 +407,15 @@ describe("SubscriptionSuccessPage", () => {
       mockSearchParams.delete("returnTo");
     });
 
-    it("sans favori : pas de redirection automatique, case affichée et bouton vers la destination", async () => {
+    it("s22 sans favori : pas de redirection automatique, plus de case, ligne d'information exacte et bouton vers la destination", async () => {
       mockFetch.mockResolvedValue({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
       render(<SubscriptionSuccessPage />);
       await act(async () => {
         jest.advanceTimersByTime(2000);
       });
       expect(await screen.findByText("Paiement reçu !")).toBeInTheDocument();
-      expect(screen.getByTestId("case-lettre")).toHaveTextContent("paiement");
+      expect(screen.getByTestId("lettre-hebdo-paiement")).toHaveTextContent(/^Chaque jeudi, la lettre de la semaine arrive dans ta boîte\. Tu peux l.arrêter en un clic\.$/);
+      expect(screen.queryByRole("checkbox")).toBeNull();
       await act(async () => {
         jest.advanceTimersByTime(10_000);
       });
@@ -443,7 +440,7 @@ describe("SubscriptionSuccessPage", () => {
       const post = mockFetch.mock.calls.find((c) => c[0] === "/api/favorites" && c[1]?.method === "POST");
       expect(JSON.parse(post![1].body)).toEqual({ contentType: "JOKE", contentId: "j1" });
       expect(mockFetch.mock.calls.some((c) => c[0] === "/api/favorites" && !c[1]?.method)).toBe(true);
-      expect(screen.getByTestId("case-lettre")).toBeInTheDocument();
+      expect(screen.getByTestId("lettre-hebdo-paiement")).toBeInTheDocument();
       await act(async () => {
         jest.advanceTimersByTime(10_000);
       });

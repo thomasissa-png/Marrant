@@ -69,11 +69,13 @@ export async function chargerLettreHebdoResume(
   if (!memeFerme && !interrupteurs.inscriptions && !interrupteurs.envois && !interrupteurs.promesse) return { etat: "ferme", interrupteurs };
   try {
     const { prisma } = await import("@/lib/prisma");
+    const { ARRET_EXPLICITE } = await import("@/lib/lettre/hebdo");
     const horsTest = { email: { notIn: exclus } };
     const range = fenetre ? { gte: new Date(fenetre.startAt), lte: new Date(fenetre.endAt) } : null;
     const [premiumActifs, actives, arretees, comptesTest, activationsSemaine, arretsSemaine, numeros] = await Promise.all([
       prisma.user.count({ where: { plan: "PREMIUM", ...horsTest } }),
-      prisma.premiumLetterPreference.count({ where: { enabled: true, user: { is: { plan: "PREMIUM", ...horsTest } } } }),
+      // s22 inscription d'office : active = Premium sans arrêt explicite ni opposition globale (ligne ou pas).
+      prisma.user.count({ where: { plan: "PREMIUM", emailOptOut: false, ...horsTest, NOT: { premiumLetter: { is: ARRET_EXPLICITE } } } }),
       prisma.premiumLetterPreference.groupBy({ by: ["stopOrigin"], where: { enabled: false, user: { is: horsTest } }, _count: { _all: true } }),
       exclus.length ? prisma.premiumLetterPreference.count({ where: { user: { is: { email: { in: exclus } } } } }) : Promise.resolve(0),
       range

@@ -97,14 +97,22 @@ describe("Routes admin", () => {
     expect(absent.status).toBe(404);
   });
 
-  it("proposition : 404 tant que les inscriptions (et les textes CGU) ne sont pas ouverts", async () => {
+  it("s22 : proposition supprimée (inscription d'office), la route répond 410 et n'envoie rien", async () => {
     const res = await postProposition(new NextRequest("http://localhost/api/admin/lettre-premium/proposition", { method: "POST", headers: AUTH, body: JSON.stringify({ userIds: ["u1"] }) }));
-    expect(res.status).toBe(404);
+    expect(res.status).toBe(410);
   });
 });
 
 describe("Proposition unique aux abonnés existants (avis @legal §6.5)", () => {
-  const deps = (envoyer: jest.Mock) => ({ envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, inscriptionsOuvertes: true });
+  // Mécanisme gardé (archive), testé interrupteur forcé : depuis s22 la proposition ne part plus (`LETTRE_HEBDO_PROPOSITION_OUVERTE`).
+  const deps = (envoyer: jest.Mock) => ({ envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, inscriptionsOuvertes: true, propositionOuverte: true });
+
+  it("s22 : par défaut, plus aucune proposition n'est envoyée ni réservée", async () => {
+    const envoyer = jest.fn();
+    expect(await proposerLettreHebdo("u1", { envoyer, baseUrl: "https://deviens-marrant.fr", now: NOW, inscriptionsOuvertes: true })).toEqual({ statut: "fermee" });
+    expect(envoyer).not.toHaveBeenCalled();
+    expect(mockPrefs).toHaveLength(0);
+  });
 
   it("H6-9 : un seul e-mail, proposedAt posé ; la seconde est refusée ; le silence n'active rien", async () => {
     const envoyer = jest.fn().mockResolvedValue(undefined);

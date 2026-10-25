@@ -2,8 +2,8 @@
  * Lettre de la semaine (s21) : rendu des écrans.
  *  - CGU, confidentialité, suppression de compte : textes de l'avis @legal publiés SEULEMENT
  *    inscriptions ouvertes (jamais de promesse avant l'ouverture).
- *  - Case (paiement et profil) : absente interrupteur fermé ou sans Premium ; jamais cochée
- *    d'avance ; ligne sous la case avec le lien Confidentialité ; erreur = retour à l'état précédent.
+ *  - Réglage du profil (s22, inscription d'office) : absent interrupteur fermé ou sans Premium ;
+ *    activé par défaut ; ligne avec le lien Confidentialité ; erreur = retour à l'état précédent.
  *  - Page d'arrêt : l'ouverture n'envoie rien ; seul le bouton envoie le POST.
  */
 let mockInscriptions = false;
@@ -26,9 +26,9 @@ jest.mock("@/lib/umami", () => ({ trackUmamiWhenReady: jest.fn() }));
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import CGUPage from "@/app/(dashboard)/cgu/page";
 import ConfidentialitePage from "@/app/(dashboard)/confidentialite/page";
-import { LettreHebdoCase } from "@/components/lettre/lettre-hebdo-case";
+import { LettreHebdoReglage } from "@/components/lettre/lettre-hebdo-reglage";
 import { ArretLettreHebdo } from "@/components/lettre/arret-lettre-hebdo";
-import { CGU_LETTRE_HEBDO, CONFIDENTIALITE_LETTRE_HEBDO, LETTRE_HEBDO_ARRET, LETTRE_HEBDO_CASE, LETTRE_HEBDO_UI } from "@/config/textes/lettre-hebdo-s21";
+import { CGU_LETTRE_HEBDO, CONFIDENTIALITE_LETTRE_HEBDO, LETTRE_HEBDO_ARRET, LETTRE_HEBDO_CASE, LETTRE_HEBDO_REGLAGE, LETTRE_HEBDO_UI } from "@/config/textes/lettre-hebdo-s21";
 import { courbe, lie, sansGluon } from "../helpers/texte-normalise";
 
 const texte = (el: Element | null) => sansGluon(el?.textContent ?? "").replace(/\s+/g, " ").trim();
@@ -62,15 +62,15 @@ describe("Textes juridiques : publiés avec l'ouverture des inscriptions, jamais
   });
 });
 
-describe("Case de la lettre (paiement, profil)", () => {
+describe("Réglage du profil (s22 : inscription d'office)", () => {
   const etat = (p: Record<string, unknown> = {}) => ({
     ok: true,
     status: 200,
-    json: async () => ({ eligible: true, enabled: false, activatedAt: null, finPrevue: null, adresseVerifiee: true, email: "yanis.m@exemple.fr", mensuelleSuspendue: false, ...p }),
+    json: async () => ({ eligible: true, enabled: true, opposition: false, finPrevue: null, adresseVerifiee: true, email: "yanis.m@exemple.fr", mensuelleSuspendue: true, ...p }),
   });
 
-  it("inscriptions fermées : absente, aucune requête", () => {
-    const { container } = render(<LettreHebdoCase emplacement="profil" />);
+  it("inscriptions fermées : absent, aucune requête", () => {
+    const { container } = render(<LettreHebdoReglage />);
     expect(container).toBeEmptyDOMElement();
     expect(fetchMock).not.toHaveBeenCalled();
   });
@@ -78,59 +78,79 @@ describe("Case de la lettre (paiement, profil)", () => {
   it("H2-9 : compte sans Premium (eligible false) : section absente", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat({ eligible: false }));
-    const { container } = render(<LettreHebdoCase emplacement="profil" />);
+    const { container } = render(<LettreHebdoReglage />);
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
     expect(container).toBeEmptyDOMElement();
   });
 
-  it("H1-1 / H2-1 : case DÉCOCHÉE, texte exact, ligne avec l'adresse et le lien Confidentialité, statut « Pas activée »", async () => {
+  it("s22 : réglage « Je reçois la lettre de la semaine » ACTIVÉ par défaut, ligne avec l'adresse et le lien Confidentialité, plus de case", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat());
-    render(<LettreHebdoCase emplacement="profil" />);
-    const caseLettre = await screen.findByRole("checkbox");
-    expect(caseLettre).not.toBeChecked();
-    expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_CASE));
+    render(<LettreHebdoReglage />);
+    const reglage = await screen.findByRole("switch", { name: LETTRE_HEBDO_REGLAGE });
+    expect(reglage).toBeChecked();
+    expect(texte(document.body)).not.toContain(attendu(LETTRE_HEBDO_CASE));
     expect(texte(document.body)).toContain("La lettre de la semaine arrive à yanis.m@exemple.fr.");
     expect(screen.getByRole("link", { name: "Confidentialité" })).toHaveAttribute("href", "/confidentialite#lettre");
-    expect(screen.getByTestId("lettre-hebdo-statut")).toHaveTextContent(LETTRE_HEBDO_UI.pasActivee);
   });
 
-  it("H1-2 : coche = PUT { enabled: true, origine: paiement } puis « C'est noté »", async () => {
+  it("désactiver = PUT { enabled: false, origine: profil } puis « C'est arrêté » ; réactiver = PUT { enabled: true } puis « C'est noté »", async () => {
     mockInscriptions = true;
-    fetchMock.mockResolvedValueOnce(etat()).mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ enabled: true }) });
-    render(<LettreHebdoCase emplacement="paiement" />);
-    fireEvent.click(await screen.findByRole("checkbox"));
-    await waitFor(() => expect(screen.getByRole("checkbox")).toBeChecked());
-    const [url, init] = fetchMock.mock.calls[1];
-    expect(url).toBe("/api/lettre-premium/preference");
-    expect(JSON.parse(init.body)).toEqual({ enabled: true, origine: "paiement" });
+    fetchMock
+      .mockResolvedValueOnce(etat())
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ enabled: false }) })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ enabled: true }) });
+    render(<LettreHebdoReglage />);
+    fireEvent.click(await screen.findByRole("switch"));
+    await waitFor(() => expect(screen.getByRole("switch")).not.toBeChecked());
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toEqual({ enabled: false, origine: "profil" });
+    expect(await screen.findByText(/C.est arrêté\. Ton abonnement continue\./)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("switch"));
+    await waitFor(() => expect(screen.getByRole("switch")).toBeChecked());
+    expect(fetchMock.mock.calls[2][0]).toBe("/api/lettre-premium/preference");
+    expect(JSON.parse(fetchMock.mock.calls[2][1].body)).toEqual({ enabled: true, origine: "profil" });
     expect(await screen.findByText(/C.est noté\. Tu la recevras chaque jeudi/)).toBeInTheDocument();
   });
 
-  it("H1-6 : erreur serveur, la case redevient décochée et le message exact s'affiche", async () => {
+  it("arrêt explicite enregistré : réglage désactivé à l'ouverture", async () => {
+    mockInscriptions = true;
+    fetchMock.mockResolvedValueOnce(etat({ enabled: false, mensuelleSuspendue: false }));
+    render(<LettreHebdoReglage />);
+    expect(await screen.findByRole("switch")).not.toBeChecked();
+  });
+
+  it("H1-6 : erreur serveur, le réglage revient à son état précédent et le message exact s'affiche", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat()).mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}) });
-    render(<LettreHebdoCase emplacement="paiement" />);
-    fireEvent.click(await screen.findByRole("checkbox"));
-    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(/c.est de notre côté/));
-    expect(screen.getByRole("checkbox")).not.toBeChecked();
+    render(<LettreHebdoReglage />);
+    fireEvent.click(await screen.findByRole("switch"));
+    await waitFor(() => expect(screen.getByRole("status")).toHaveTextContent(attendu(LETTRE_HEBDO_UI.erreurProfil)));
+    expect(screen.getByRole("switch")).toBeChecked();
   });
 
-  it("H1-7 : session expirée, lien de reconnexion vers le profil, case inchangée", async () => {
+  it("H1-7 : session expirée, lien de reconnexion vers le profil, réglage inchangé", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat()).mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({}) });
-    render(<LettreHebdoCase emplacement="profil" />);
-    fireEvent.click(await screen.findByRole("checkbox"));
+    render(<LettreHebdoReglage />);
+    fireEvent.click(await screen.findByRole("switch"));
     expect(await screen.findByRole("link", { name: "Reconnecte-toi" })).toHaveAttribute("href", "/login?callbackUrl=/profil");
-    expect(screen.getByRole("checkbox")).not.toBeChecked();
+    expect(screen.getByRole("switch")).toBeChecked();
   });
 
-  it("H2-10 : adresse non vérifiée, la phrase remplace la case", async () => {
+  it("H2-10 : adresse non vérifiée, la phrase remplace le réglage", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat({ adresseVerifiee: false }));
-    render(<LettreHebdoCase emplacement="profil" />);
+    render(<LettreHebdoReglage />);
     await waitFor(() => expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_UI.adresseNonVerifiee)));
-    expect(screen.queryByRole("checkbox")).toBeNull();
+    expect(screen.queryByRole("switch")).toBeNull();
+  });
+
+  it("s22 : opposition globale à nos e-mails : phrase d'explication, pas de réglage trompeur", async () => {
+    mockInscriptions = true;
+    fetchMock.mockResolvedValueOnce(etat({ opposition: true, mensuelleSuspendue: false }));
+    render(<LettreHebdoReglage />);
+    await waitFor(() => expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_UI.opposition)));
+    expect(screen.queryByRole("switch")).toBeNull();
   });
 });
 

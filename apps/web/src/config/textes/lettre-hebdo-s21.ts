@@ -20,11 +20,21 @@ import { LETTRE_CONTACT } from "@/config/textes/lettre-s21";
 
 const sansBarre = (baseUrl: string) => baseUrl.replace(/\/$/, "");
 
-/** (L §2.1) Texte de la case, identique au paiement et au profil, stocké sous `LETTRE_HEBDO_CONSENT_VERSION`. */
+/**
+ * (L §2.1) Texte de l'ancienne case, stocké sous `LETTRE_HEBDO_CONSENT_VERSION` : archive (preuve des
+ * choix déjà enregistrés). s22 (inscription d'office, décision de Thomas du 25/10) : plus affiché.
+ */
 export const LETTRE_HEBDO_CASE =
   "Oui, je veux recevoir la lettre de la semaine, chaque jeudi : une scène du carnet, la réplique et l'exercice. Elle fait partie de mon abonnement et je peux l'arrêter en un clic, sans le résilier.";
 
-/** (L §2.2) Ligne sous la case. « Confidentialité » est un lien vers `/confidentialite#lettre` (O). */
+/**
+ * s22 (inscription d'office, décision de Thomas du 25/10) : libellé du réglage du profil, activé par
+ * défaut (désactiver = arrêt, réactiver = reprise), et ligne d'information du retour de paiement.
+ */
+export const LETTRE_HEBDO_REGLAGE = "Je reçois la lettre de la semaine";
+export const LETTRE_HEBDO_INFO_PAIEMENT = "Chaque jeudi, la lettre de la semaine arrive dans ta boîte. Tu peux l'arrêter en un clic.";
+
+/** (L §2.2) Ligne sous le réglage du profil. « Confidentialité » est un lien vers `/confidentialite#lettre` (O). */
 export const LETTRE_HEBDO_LIGNE_SOUS_CASE = {
   avantLien: (email: string) =>
     `La lettre de la semaine arrive à ${email}. Si tu reçois déjà la lettre du mois, elle est mise en pause tant que tu reçois celle de la semaine, puis reprend quand tu arrêtes. deviens-marrant SAS, l'éditeur du site, est responsable de l'usage de ton adresse pour cette lettre. Détails et droits : `,
@@ -32,20 +42,19 @@ export const LETTRE_HEBDO_LIGNE_SOUS_CASE = {
   apresLien: ".",
 };
 
-/** (S §5 H1, H2) États de la case : propositions de la spec, à relire à l'aveugle (P3). */
+/** (S §5 H1, H2) États du réglage du profil. */
 export const LETTRE_HEBDO_UI = {
   titre: "La lettre de la semaine",
   enregistrement: "Enregistrement…",
   succesActivation: (email: string) =>
     `C'est noté. Tu la recevras chaque jeudi, à ${email}. Tu peux l'arrêter à tout moment depuis ton profil.`,
   succesArret: "C'est arrêté. Ton abonnement continue.",
-  erreurPaiement:
-    "L'enregistrement n'a pas abouti, et c'est de notre côté. La case est décochée : réessaie dans un instant, ou règle-le depuis ton profil.",
-  erreurProfil: "L'enregistrement n'a pas abouti, et c'est de notre côté. La case est restée dans son état précédent.",
+  erreurProfil: "L'enregistrement n'a pas abouti, et c'est de notre côté. Le réglage est resté dans son état précédent.",
   /** « Ta session a expiré. Reconnecte-toi pour régler la lettre. », « Reconnecte-toi » en lien. */
   sessionExpiree: { avant: "Ta session a expiré. ", lien: "Reconnecte-toi", apres: " pour régler la lettre." },
-  pasActivee: "Pas activée",
-  activeeDepuis: (date: string) => `Activée depuis le ${date}`,
+  /** s22 : opposition globale (`User.emailOptOut`) : aucune lettre ne part, quel que soit le réglage. */
+  opposition:
+    "Tu nous as demandé de ne plus t'écrire : la lettre de la semaine ne t'est pas envoyée. Pour la recevoir de nouveau, écris-nous à contact@deviens-marrant.fr.",
   adresseNonVerifiee: "Confirme ton adresse e-mail pour recevoir la lettre",
   /** (L §6.1) remplace la phrase de la spec. */
   finPrevue: (date: string) => `Elle s'arrêtera avec ton accès Premium le ${date}.`,
@@ -89,7 +98,8 @@ export function piedNumeroHebdo(lienArret: string, baseUrl: string): string {
   return [
     "",
     "--",
-    "Tu reçois cette lettre parce que tu es abonné Premium et que tu as choisi de la recevoir.",
+    // s22 (inscription d'office) : le pied ne dit plus « tu as choisi de la recevoir ». Hors empreinte d'approbation.
+    "Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.",
     `Éditeur : ${LETTRE_MENTION_EDITEUR_NUMERO}. Contact : ${LETTRE_CONTACT}.`,
     `Arrêter cette lettre en un clic (cela ne change rien à ton abonnement) : ${lienArret}`,
     `Confidentialité : ${base}/confidentialite#lettre`,
@@ -121,21 +131,24 @@ export const GABARIT_HEBDO = {
 };
 export type GabaritHebdo = typeof GABARIT_HEBDO;
 
-/** (L §4.1) CGU, article 10 « La lettre » : trois ajouts, à la suite du paragraphe existant. */
+/**
+ * (L §4.1) CGU, article 10 « La lettre » : trois ajouts, à la suite du paragraphe existant.
+ * s22 (inscription d'office) : 1er ajout mis en cohérence au minimum (plus de case).
+ */
 export const CGU_LETTRE_HEBDO = [
-  "La lettre de la semaine fait partie de l'abonnement Premium, mais elle est facultative : tu choisis de la recevoir (la case n'est jamais cochée d'avance, au paiement comme dans ton profil) et tu peux l'arrêter en un clic, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte, et elle ne reprend pas toute seule si tu te réabonnes, tu la réactives toi-même.",
+  "La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.",
   "Tant que tu reçois la lettre de la semaine, la lettre du mois est mise en pause. Elle reprend quand tu arrêtes la lettre de la semaine ou quand ton abonnement prend fin, si tu y es toujours inscrit.",
   "Un numéro peut être décalé ou sauté une semaine, par exemple après un incident technique. Pour un numéro isolé, aucun numéro de remplacement ni aucune compensation ne sont dus : la lettre est un plus de ton abonnement, et ton accès à Premium reste entier. Si la lettre devait s'arrêter durablement ou changer en profondeur, on te le dit par e-mail, et tu peux résilier quand tu veux. Cela ne te prive pas des droits que la loi te garantit.",
 ] as const;
 
-/** (L §4.2) Confidentialité, section « 8. La lettre » et partie 7. */
+/** (L §4.2) Confidentialité, section « 8. La lettre » et partie 7. s22 : mise en cohérence minimale (plus de case). */
 export const CONFIDENTIALITE_LETTRE_HEBDO = {
   donnees:
-    "Lettre de la semaine, si tu l'actives (abonnés Premium) : ton choix, c'est-à-dire la date, la version du texte que tu as accepté et l'endroit où tu l'as fait (page de paiement ou profil), puis, si tu l'arrêtes, la date et la façon dont tu l'as fait (lien dans l'e-mail, profil, ou demande à contact@deviens-marrant.fr). On garde aussi un code personnel qui sert au lien d'arrêt, et un journal des envois (quel numéro, à quelle adresse). La lettre est envoyée à l'adresse e-mail de ton compte. Aucune adresse IP n'est gardée pour ce choix.",
+    "Lettre de la semaine (abonnés Premium, incluse dans l'abonnement) : la date du premier envoi, puis, si tu l'arrêtes ou la reprends, la date et la façon dont tu l'as fait (lien dans l'e-mail, profil, ou demande à contact@deviens-marrant.fr). Si tu l'avais activée avec l'ancienne case, on garde aussi la date, la version du texte accepté et l'endroit où tu l'as fait. On garde aussi un code personnel qui sert au lien d'arrêt, et un journal des envois (quel numéro, à quelle adresse). La lettre est envoyée à l'adresse e-mail de ton compte. Aucune adresse IP n'est gardée pour ce choix.",
   finalite:
-    "T'envoyer la lettre de la semaine, si tu l'as activée : exécution du contrat, car elle fait partie de ton abonnement Premium. Tu l'actives toi-même avec une case, et tu peux l'arrêter à tout moment : on s'arrête alors.",
+    "T'envoyer la lettre de la semaine : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : on s'arrête alors.",
   destinataires:
-    "Lettre de la semaine : l'envoi passe par notre prestataire Resend (voir la partie 4). L'équipe voit, dans son espace d'administration, si ta lettre est activée et depuis quand.",
+    "Lettre de la semaine : l'envoi passe par notre prestataire Resend (voir la partie 4). L'équipe voit, dans son espace d'administration, si ta lettre est active ou arrêtée, et depuis quand.",
   duree:
     "Lettre de la semaine : ton choix est gardé tant que ton compte existe. Si tu l'arrêtes ou si ton abonnement prend fin, on garde la date et la façon dont elle s'est arrêtée, pour respecter ton choix et ne pas t'écrire de nouveau sans que tu le demandes. Le journal des envois est gardé 12 mois. Quand tu supprimes ton compte, ton choix, sa trace et le journal des envois à ton adresse sont effacés tout de suite.",
   droits:

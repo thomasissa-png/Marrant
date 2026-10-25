@@ -8,12 +8,11 @@
 // cette page (session_id conservé). Paiement non vérifiable : message honnête
 // et contact, jamais « ton paiement est bien reçu » sans preuve.
 //
-// s21 (lettre de la semaine, spec US-H1) : la case de la lettre se coche ICI, au
-// retour de paiement, et nulle part dans le tunnel (Stripe Checkout hébergé n'accepte
-// pas de case libre ; /abonnement est figée pour la mesure du lot 2). Inscriptions
-// ouvertes seulement : Premium confirmé, la page ne redirige plus d'elle-même, elle
-// montre la case (jamais cochée) et le bouton vers la destination. Fermées : trajet
-// strictement inchangé (redirection immédiate).
+// s22 (lettre de la semaine, inscription d'office des Premium, décision de Thomas du 25/10) :
+// plus de case. Inscriptions ouvertes : Premium confirmé, la page montre une ligne d'information
+// (« Chaque jeudi, la lettre de la semaine arrive dans ta boîte… ») et le bouton vers la
+// destination, sans redirection d'elle-même : c'est le seul endroit où le nouvel abonné apprend
+// que la lettre est incluse (la promesse publique est fermée). Fermées : redirection immédiate.
 
 import { Suspense, useEffect, useMemo, useRef, useState, useCallback } from "react";
 import Link from "next/link";
@@ -27,7 +26,8 @@ import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
 import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
-import { LettreHebdoCase } from "@/components/lettre/lettre-hebdo-case";
+import { LETTRE_HEBDO_INFO_PAIEMENT } from "@/config/textes/lettre-hebdo-s21";
+import { frTypo } from "@/lib/fr-typo";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -132,8 +132,8 @@ function SubscriptionSuccessContent() {
         await Promise.race([fetchFavorites(), new Promise((r) => setTimeout(r, 5_000))]);
       }
       if (annule) return;
-      // Inscriptions à la lettre ouvertes : pas de redirection, la page montre la case et le
-      // bouton vers la cible (favori ajouté quand même, drapeau compris). Fermées : inchangé.
+      // Inscriptions à la lettre ouvertes : pas de redirection, la page montre la ligne de la lettre
+      // et le bouton vers la cible (favori ajouté quand même, drapeau compris). Fermées : inchangé.
       if (LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) setCibleBouton(cible);
       else router.push(cible);
     })();
@@ -154,7 +154,9 @@ function SubscriptionSuccessContent() {
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
               {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
                 <>
-                  <LettreHebdoCase emplacement="paiement" className="mt-6" />
+                  <p className="mt-4 text-sm text-text-secondary" data-testid="lettre-hebdo-paiement">
+                    {frTypo(LETTRE_HEBDO_INFO_PAIEMENT)}
+                  </p>
                   {/* `data-pret` : cible finale posée (favori ajouté, drapeau compris), repère des tests de bout en bout. */}
                   <Link href={cibleBouton ?? destination} data-testid="retour-paiement-continuer" data-pret={cibleBouton ? "oui" : "non"} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
                     {destinationLabel}

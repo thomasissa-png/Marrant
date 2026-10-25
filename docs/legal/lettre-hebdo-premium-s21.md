@@ -263,3 +263,42 @@ Contrôles : « maintenant comprise » seulement après la porte G-H ; aucun pri
 - Décisions prises : A4 = contenu du contrat sous conditions C1 à C4, opt-in conservé, repli consentement puis exception clients ; clause « décalé ou sauté » bornée aux numéros isolés ; phrase /abonnement = « Une lettre par e-mail chaque semaine, si tu la veux. » (avant et après le premier envoi) ; suppression de compte efface aussi la mensuelle (spec corrigée, pas le code).
 - Points d'attention : documents à faire valider par un avocat (A4, A4-bis, A3, A6/R4) ; engagements de la clause à confirmer par Thomas ; `deleteAccount` à étendre ; B4 à vérifier avant la phrase sans suivi ; `fin-premium` posé avec le changement de plan ; textes modifiés à repasser à l'aveugle ; aucun commit fait.
 ---
+
+
+---
+
+## 9. Mise en cohérence s22 : inscription d'office (décision de Thomas du 25/10/2026)
+
+Décision fondateur (`docs/founder-preferences.md`, 25/10) : tous les abonnés Premium, actuels et futurs, reçoivent la lettre de la semaine sans case à cocher ; arrêt en un clic dans chaque lettre et depuis le profil ; un arrêt n'est jamais annulé par l'équipe. Thomas a demandé d'arrêter le juridique : mise en cohérence MINIMALE des textes déjà validés, pas de nouvel avis. La qualification retenue au §1 (A4 : contenu inclus dans l'abonnement, exécution du contrat, tant qu'aucune offre n'y figure, C1) n'est pas modifiée : c'est elle qui permet l'inscription d'office.
+
+Règle appliquée par le code (`lib/lettre/hebdo.ts`, `arretExplicite`) : un arrêt explicite (profil, lien de l'e-mail, demande à l'équipe, rebond, plainte) reste valable pour toujours, même après une fin de Premium et un réabonnement ; seul l'abonné le lève, depuis son profil. La fin de Premium seule n'est pas un arrêt choisi : un réabonné qui n'avait pas arrêté est inscrit d'office, comme tout nouvel abonné. L'opposition globale à nos e-mails (`User.emailOptOut`) exclut toujours.
+
+Remplacent les textes correspondants des §2.1 (case, archivée), §2.3, §4.1 et §4.2 ; la proposition du §6.5 n'est plus envoyée (invitation supprimée).
+
+### 9.1 Pied de chaque numéro (remplace §2.3, 1re ligne)
+
+```
+--
+Tu reçois cette lettre parce qu'elle est incluse dans ton abonnement Premium.
+Éditeur : {LETTRE_MENTION_EDITEUR_NUMERO}. Contact : contact@deviens-marrant.fr.
+Arrêter cette lettre en un clic (cela ne change rien à ton abonnement) : {lien d'arrêt propre au destinataire}
+Confidentialité : https://deviens-marrant.fr/confidentialite#lettre
+Mentions légales : https://deviens-marrant.fr/mentions-legales
+```
+
+### 9.2 CGU, article 10, premier ajout (remplace le 1er paragraphe du §4.1)
+
+La lettre de la semaine est incluse dans l'abonnement Premium : tu la reçois sans rien faire, et tu peux l'arrêter en un clic, dans chaque lettre ou depuis ton profil, sans résilier. Elle est envoyée chaque semaine, le jeudi, à l'adresse e-mail de ton compte, tant que ton accès Premium est actif. Elle reprend des contenus de Premium (une scène du carnet, la réplique et l'exercice) et ne contient aucune offre commerciale. Elle s'arrête quand ton accès Premium prend fin : les numéros déjà reçus restent dans ta boîte. Si tu te réabonnes, elle reprend, sauf si tu l'avais arrêtée : ton arrêt reste valable, et tu peux la reprendre depuis ton profil.
+
+### 9.3 Confidentialité (remplace « données », « finalité » et « destinataires » du §4.2)
+
+Lettre de la semaine (abonnés Premium, incluse dans l'abonnement) : la date du premier envoi, puis, si tu l'arrêtes ou la reprends, la date et la façon dont tu l'as fait (lien dans l'e-mail, profil, ou demande à contact@deviens-marrant.fr). Si tu l'avais activée avec l'ancienne case, on garde aussi la date, la version du texte accepté et l'endroit où tu l'as fait. On garde aussi un code personnel qui sert au lien d'arrêt, et un journal des envois (quel numéro, à quelle adresse). La lettre est envoyée à l'adresse e-mail de ton compte. Aucune adresse IP n'est gardée pour ce choix.
+
+T'envoyer la lettre de la semaine : exécution du contrat, car elle est incluse dans ton abonnement Premium. Tu peux l'arrêter en un clic à tout moment : on s'arrête alors.
+
+Lettre de la semaine : l'envoi passe par notre prestataire Resend (voir la partie 4). L'équipe voit, dans son espace d'administration, si ta lettre est active ou arrêtée, et depuis quand.
+
+### 9.4 Interface (hors avis, textes produit)
+
+- Profil, réglage activé par défaut : « Je reçois la lettre de la semaine »
+- Retour de paiement, ligne d'information : « Chaque jeudi, la lettre de la semaine arrive dans ta boîte. Tu peux l'arrêter en un clic. »

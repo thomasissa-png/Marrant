@@ -75,7 +75,12 @@ jest.mock("@/lib/prisma", () => ({
         ]),
     },
     user: {
-      findMany: () => Promise.resolve([{ email: "Premium@Exemple.fr", plan: "PREMIUM" }, { email: "test@marrant.fr", plan: "FREE" }]),
+      // s22 : Premium sans ligne de préférence = inscrit d'office à la lettre de la semaine (mensuelle marquée en pause).
+      findMany: () =>
+        Promise.resolve([
+          { id: "u-p", email: "Premium@Exemple.fr", plan: "PREMIUM", emailVerified: new Date("2026-10-01T00:00:00Z"), emailOptOut: false, accounts: [], premiumLetter: null },
+          { id: "u-t", email: "test@marrant.fr", plan: "FREE", emailVerified: null, emailOptOut: false, accounts: [], premiumLetter: null },
+        ]),
     },
   },
 }));
@@ -135,9 +140,9 @@ describe("GET /api/admin/lettre", () => {
     expect(page).toEqual({ emplacement: "page", confirmes: 0, enAttente: 0, desinscrits: 1 });
     expect(body.resume.parEmplacement.find((e: { emplacement: string }) => e.emplacement === "article")).toMatchObject({ confirmes: 1 });
     const test = body.liste.inscrits.find((i: { email: string }) => i.email === "test@marrant.fr");
-    expect(test).toMatchObject({ compteTest: true, compteSite: true, premium: false });
+    expect(test).toMatchObject({ compteTest: true, compteSite: true, premium: false, hebdo: false });
     const premium = body.liste.inscrits.find((i: { email: string }) => i.email === "premium@exemple.fr");
-    expect(premium).toMatchObject({ statut: "CONFIRMED", source: "article:devenir-drole", emplacement: "article", compteSite: true, premium: true, compteTest: false });
+    expect(premium).toMatchObject({ statut: "CONFIRMED", source: "article:devenir-drole", emplacement: "article", compteSite: true, premium: true, compteTest: false, hebdo: true });
     expect(body.liste.inscrits.find((i: { email: string }) => i.email === "attente@exemple.fr")).toMatchObject({ compteSite: false, premium: false });
   });
 

@@ -1,22 +1,29 @@
 /**
- * Lettre de la semaine (hebdomadaire Premium, s21) : qui la reçoit, activation, arrêt.
- * Spec `docs/product/lettre-hebdo-premium-s21.md` §4 ; avis `docs/legal/lettre-hebdo-premium-s21.md` §6.
+ * Lettre de la semaine (hebdomadaire Premium, s21 ; s22 inscription d'office) : qui la reçoit, arrêt, reprise.
+ * Spec `docs/product/lettre-hebdo-premium-s21.md` §4 ; décision de Thomas du 25/10 (`docs/founder-preferences.md`).
  *
  * Règle d'or de cohérence (spec §4.2) : « reçoit l'hebdo » est UNE fonction
  * (`recoitHebdo`, appliquée par `destinatairesHebdo`), utilisée par la tâche du
- * jeudi ET par la mise en pause de la mensuelle (`envoi.ts`). Un Premium n'est
- * donc jamais privé des deux lettres, ni destinataire des deux.
+ * jeudi ET par la mise en pause de la mensuelle (`envoi.ts`).
  *
- * Reçoit l'hebdo = interrupteur `LETTRE_HEBDO_ENVOIS_OUVERTS` ouvert, plan PREMIUM
- * (l'accès : `cancelAtPeriodEnd` et `PAST_DUE` le gardent, le webhook le retire aux
- * statuts de fin), case cochée (enabled + date + version), jeton d'arrêt présent,
- * adresse vérifiée (ou compte Google), et pas d'opposition globale postérieure à
- * l'activation (L6 : une activation après l'opposition est un nouvel acte positif).
+ * s22 (25/10, décision de Thomas) : inscription d'office de tous les abonnés Premium, actuels et
+ * futurs. Reçoit l'hebdo = interrupteur `LETTRE_HEBDO_ENVOIS_OUVERTS` ouvert, plan PREMIUM (l'accès :
+ * `cancelAtPeriodEnd` et `PAST_DUE` le gardent, le webhook le retire aux statuts de fin), pas
+ * d'opposition globale (`User.emailOptOut`, sans exception), adresse vérifiée (ou compte Google), et
+ * pas d'ARRÊT EXPLICITE (`arretExplicite`). Sans ligne de préférence : inscrit.
+ *
+ * Arrêt explicite = ligne arrêtée (`enabled` faux, `stoppedAt` posé) pour une autre raison que la fin
+ * de Premium : profil, lien de l'e-mail, admin, rebond, plainte. Il reste valable pour toujours, même
+ * après une fin de Premium et un réabonnement : seul l'abonné le lève, en réactivant depuis son profil.
+ * La fin de Premium (`fin-premium`) n'est pas un choix de l'abonné : un réabonné est inscrit d'office,
+ * comme tout nouvel abonné, sauf s'il avait arrêté lui-même avant.
+ *
+ * Jeton d'arrêt : créé à l'envoi (`avecJetonsHebdo`, par la tâche du jeudi, idempotent), jamais par
+ * une écriture de masse au déploiement.
  */
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import {
-  LETTRE_HEBDO_CONSENT_VERSION,
   LETTRE_HEBDO_ENVOIS_OUVERTS,
   LETTRE_HEBDO_JOURNAL_MOIS,
   type LettreHebdoOrigineActivation,
@@ -24,10 +31,10 @@ import {
 } from "@/config/lettre";
 import { generateOpaqueToken } from "@/lib/newsletter";
 
-/** Pré-filtre en base ; la décision finale reste `recoitHebdo`. */
+/** Pré-filtre en base (sur-ensemble) ; la décision finale reste `recoitHebdo`. */
 export const FILTRE_CANDIDAT_HEBDO = {
   plan: "PREMIUM",
-  premiumLetter: { is: { enabled: true, activatedAt: { not: null }, consentVersion: { not: null } } },
+  emailOptOut: false,
 } satisfies Prisma.UserWhereInput;
 
 export const SELECT_CANDIDAT_HEBDO = {
@@ -36,10 +43,16 @@ export const SELECT_CANDIDAT_HEBDO = {
   plan: true,
   emailVerified: true,
   emailOptOut: true,
-  updatedAt: true,
   accounts: { where: { provider: "google" }, select: { id: true }, take: 1 },
-  premiumLetter: { select: { enabled: true, activatedAt: true, consentVersion: true, unsubscribeToken: true } },
+  premiumLetter: { select: { enabled: true, stoppedAt: true, stopOrigin: true, unsubscribeToken: true } },
 } satisfies Prisma.UserSelect;
+
+export interface PreferenceHebdo {
+  enabled: boolean;
+  stoppedAt: Date | null;
+  stopOrigin: string | null;
+  unsubscribeToken: string | null;
+}
 
 export interface CandidatHebdo {
   id: string;
@@ -47,29 +60,42 @@ export interface CandidatHebdo {
   plan: string;
   emailVerified: Date | null;
   emailOptOut: boolean;
-  /** Date d'opposition majorée par `updatedAt` (prudente, comme la mensuelle). */
-  updatedAt: Date;
   accounts: Array<{ id: string }>;
-  premiumLetter: { enabled: boolean; activatedAt: Date | null; consentVersion: string | null; unsubscribeToken: string | null } | null;
+  premiumLetter: PreferenceHebdo | null;
 }
+
+/** Arrêt demandé (abonné, équipe, messagerie), à respecter toujours. La fin de Premium n'en est pas un. */
+export function arretExplicite(pref: Pick<PreferenceHebdo, "enabled" | "stoppedAt" | "stopOrigin"> | null | undefined): boolean {
+  return Boolean(pref && !pref.enabled && pref.stoppedAt && pref.stopOrigin !== "fin-premium");
+}
+
+/** Ligne arrêtée explicitement (même règle que `arretExplicite`, côté base ; compteurs et liste de l'admin). */
+export const ARRET_EXPLICITE = {
+  enabled: false,
+  stoppedAt: { not: null },
+  OR: [{ stopOrigin: null }, { stopOrigin: { not: "fin-premium" } }],
+} satisfies Prisma.PremiumLetterPreferenceWhereInput;
+
+/** Ligne « pas arrêtée explicitement » (même règle que `arretExplicite`, côté base). */
+const PAS_ARRETEE = {
+  OR: [{ enabled: true }, { stoppedAt: null }, { stopOrigin: "fin-premium" }],
+} satisfies Prisma.PremiumLetterPreferenceWhereInput;
 
 /** LA fonction « reçoit l'hebdo ». Pure : testable sans base. */
 export function recoitHebdo(u: CandidatHebdo, envoisOuverts: boolean = LETTRE_HEBDO_ENVOIS_OUVERTS): boolean {
-  if (!envoisOuverts || !u.email || u.plan !== "PREMIUM") return false;
-  const pref = u.premiumLetter;
-  if (!pref?.enabled || !pref.activatedAt || !pref.consentVersion || !pref.unsubscribeToken) return false;
+  if (!envoisOuverts || !u.email || u.plan !== "PREMIUM" || u.emailOptOut) return false;
   if (!u.emailVerified && u.accounts.length === 0) return false;
-  if (u.emailOptOut && pref.activatedAt.getTime() <= u.updatedAt.getTime()) return false;
-  return true;
+  return !arretExplicite(u.premiumLetter);
 }
 
 export interface DestinataireHebdo {
   userId: string;
   email: string;
-  unsubscribeToken: string;
+  /** Vide tant que la tâche du jeudi ne l'a pas créé (`avecJetonsHebdo`). */
+  unsubscribeToken: string | null;
 }
 
-/** Destinataires de l'hebdo (vide si l'interrupteur des envois est fermé). Adresses en minuscules. */
+/** Destinataires de l'hebdo (vide si l'interrupteur des envois est fermé). Adresses en minuscules. Lecture seule. */
 export async function destinatairesHebdo(envoisOuverts: boolean = LETTRE_HEBDO_ENVOIS_OUVERTS): Promise<DestinataireHebdo[]> {
   if (!envoisOuverts) return [];
   const candidats: CandidatHebdo[] = await prisma.user.findMany({
@@ -79,56 +105,82 @@ export async function destinatairesHebdo(envoisOuverts: boolean = LETTRE_HEBDO_E
   });
   return candidats
     .filter((u) => recoitHebdo(u, envoisOuverts))
-    .map((u) => ({ userId: u.id, email: (u.email as string).toLowerCase(), unsubscribeToken: u.premiumLetter?.unsubscribeToken as string }));
+    .map((u) => ({ userId: u.id, email: (u.email as string).toLowerCase(), unsubscribeToken: u.premiumLetter?.unsubscribeToken ?? null }));
+}
+
+const estDoublon = (err: unknown) => (err as { code?: string }).code === "P2002";
+
+/**
+ * Jeton d'arrêt d'un inscrit d'office, créé au premier envoi puis stable. Idempotent et sûr en
+ * concurrence : sans ligne, création (inscrit, origine `office`) ; ligne sans jeton, jeton posé
+ * seulement s'il manque. Ne touche jamais à l'état d'arrêt.
+ */
+async function jetonArretHebdo(userId: string, now: Date): Promise<string | null> {
+  const existant = await prisma.premiumLetterPreference.findUnique({ where: { userId }, select: { unsubscribeToken: true } });
+  if (existant?.unsubscribeToken) return existant.unsubscribeToken;
+  if (existant) {
+    await prisma.premiumLetterPreference.updateMany({ where: { userId, unsubscribeToken: null }, data: { unsubscribeToken: generateOpaqueToken() } });
+  } else {
+    try {
+      await prisma.premiumLetterPreference.create({
+        data: { userId, enabled: true, activatedAt: now, activationOrigin: "office", unsubscribeToken: generateOpaqueToken() },
+      });
+    } catch (err) {
+      if (!estDoublon(err)) throw err;
+    }
+  }
+  return (await prisma.premiumLetterPreference.findUnique({ where: { userId }, select: { unsubscribeToken: true } }))?.unsubscribeToken ?? null;
+}
+
+/** À l'envoi seulement (tâche du jeudi) : chaque destinataire reçoit son jeton d'arrêt, créé s'il manque. */
+export async function avecJetonsHebdo(destinataires: DestinataireHebdo[], now: Date): Promise<Array<DestinataireHebdo & { unsubscribeToken: string }>> {
+  const prets: Array<DestinataireHebdo & { unsubscribeToken: string }> = [];
+  for (const d of destinataires) {
+    const unsubscribeToken = d.unsubscribeToken ?? (await jetonArretHebdo(d.userId, now));
+    // Sans jeton, pas d'envoi : jamais une lettre sans lien d'arrêt.
+    if (unsubscribeToken) prets.push({ ...d, unsubscribeToken });
+  }
+  return prets;
 }
 
 export type ResultatActivation = "activee" | "deja-activee";
 
 /**
- * Activation (case cochée). Le serveur écrit SA version et la date ; jamais le texte
- * du navigateur. Idempotente : déjà active = rien n'est réécrit (`activatedAt` garde
- * sa date). Une réactivation (après arrêt, fin de Premium) efface la trace d'arrêt,
- * pose une nouvelle date et la version courante. Jeton d'arrêt créé une fois, stable.
+ * Reprise depuis le profil (réglage réactivé). Inscrit d'office (sans ligne, ou ligne pas arrêtée
+ * explicitement) : rien à écrire. Après un arrêt explicite : la trace d'arrêt est effacée, nouvelle
+ * date et origine. Écriture conditionnelle : deux requêtes concurrentes, une seule reprise.
  */
 export async function activerLettreHebdo(userId: string, origine: LettreHebdoOrigineActivation, now: Date): Promise<ResultatActivation> {
-  const activation = {
-    enabled: true,
-    activatedAt: now,
-    consentVersion: LETTRE_HEBDO_CONSENT_VERSION,
-    activationOrigin: origine,
-    stoppedAt: null,
-    stopOrigin: null,
-  };
-  const existant = await prisma.premiumLetterPreference.findUnique({ where: { userId }, select: { enabled: true, unsubscribeToken: true } });
-  if (!existant) {
-    try {
-      await prisma.premiumLetterPreference.create({ data: { userId, ...activation, unsubscribeToken: generateOpaqueToken() } });
-      return "activee";
-    } catch (err) {
-      // Double clic : l'autre requête a créé la ligne. Elle est active : rien à refaire.
-      if ((err as { code?: string }).code !== "P2002") throw err;
-      return "deja-activee";
-    }
-  }
-  if (existant.enabled) return "deja-activee";
-  // Écriture conditionnelle : deux requêtes concurrentes, une seule activation.
+  const existant = await prisma.premiumLetterPreference.findUnique({ where: { userId }, select: { enabled: true, stoppedAt: true, stopOrigin: true } });
+  if (!arretExplicite(existant)) return "deja-activee";
   const pris = await prisma.premiumLetterPreference.updateMany({
-    where: { userId, enabled: false },
-    data: { ...activation, unsubscribeToken: existant.unsubscribeToken ?? generateOpaqueToken() },
+    where: { userId, enabled: false, stoppedAt: { not: null } },
+    data: { enabled: true, activatedAt: now, activationOrigin: origine, stoppedAt: null, stopOrigin: null },
   });
   return pris.count > 0 ? "activee" : "deja-activee";
 }
 
 export type ResultatArret = "arretee" | "deja-arretee" | "inconnu";
 
-/** Arrêt d'un compte (profil, paiement, admin). Idempotent : `stoppedAt` n'est jamais réécrit. */
-export async function arreterLettreHebdo(userId: string, origine: LettreHebdoOrigineArret, now: Date): Promise<ResultatArret> {
-  const res = await prisma.premiumLetterPreference.updateMany({
-    where: { userId, enabled: true },
-    data: { enabled: false, stoppedAt: now, stopOrigin: origine },
-  });
+/**
+ * Arrêt explicite d'un compte (profil, lien, admin). Idempotent : un arrêt explicite n'est jamais
+ * réécrit. Inscrit d'office sans ligne : l'arrêt crée la ligne (jeton compris), pour être respecté
+ * à vie. Une ligne `fin-premium` (pas un choix) devient un arrêt explicite.
+ */
+export async function arreterLettreHebdo(userId: string, origine: LettreHebdoOrigineArret, now: Date, essai = 0): Promise<ResultatArret> {
+  const arret = { enabled: false, stoppedAt: now, stopOrigin: origine };
+  const res = await prisma.premiumLetterPreference.updateMany({ where: { userId, ...PAS_ARRETEE }, data: arret });
   if (res.count > 0) return "arretee";
-  return (await prisma.premiumLetterPreference.count({ where: { userId } })) > 0 ? "deja-arretee" : "inconnu";
+  if ((await prisma.premiumLetterPreference.count({ where: { userId } })) > 0) return "deja-arretee";
+  if (!(await prisma.user.findUnique({ where: { id: userId }, select: { id: true } }))) return "inconnu";
+  try {
+    await prisma.premiumLetterPreference.create({ data: { userId, ...arret, unsubscribeToken: generateOpaqueToken() } });
+    return "arretee";
+  } catch (err) {
+    // Ligne créée entre-temps (premier envoi, double clic) : on repasse par l'écriture conditionnelle.
+    if (!estDoublon(err) || essai > 0) throw err;
+    return arreterLettreHebdo(userId, origine, now, essai + 1);
+  }
 }
 
 /** Arrêt par le jeton du lien (page d'arrêt, en-tête un clic). Marche interrupteurs fermés. */
@@ -140,8 +192,9 @@ export async function arreterLettreHebdoParJeton(token: string, now: Date): Prom
 
 /**
  * Fin de Premium (avis @legal §6.2) : à joindre à la transaction qui passe le plan à
- * FREE (webhook Stripe, remboursement, RevenueCat, admin). Un réabonné ne retrouve
- * jamais une lettre active sans nouvel acte. Le rapprochement quotidien reste un filet.
+ * FREE (webhook Stripe, remboursement, RevenueCat, admin). Trace seulement (s22) : `fin-premium`
+ * n'est pas un arrêt explicite, un réabonné est donc inscrit d'office ; un arrêt explicite
+ * antérieur n'est jamais écrasé (`enabled: true` seulement). Le rapprochement quotidien reste un filet.
  */
 export function finPremiumLettreHebdo(userId: string, now: Date) {
   return prisma.premiumLetterPreference.updateMany({

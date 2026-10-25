@@ -59,7 +59,7 @@ beforeEach(() => {
   jest.clearAllMocks();
 });
 
-describe("Préférence (case au paiement et au profil)", () => {
+describe("Préférence (réglage du profil ; s22 inscription d'office)", () => {
   it("H1-11 : inscriptions fermées, GET et activation en 404 (case absente)", async () => {
     mockInscriptions = false;
     expect((await getPreference()).status).toBe(404);
@@ -119,15 +119,24 @@ describe("Préférence (case au paiement et au profil)", () => {
     expect(res.status).toBe(403);
   });
 
-  it("H2-1 / H2-5 : GET, état réel (jamais coché d'avance), fin prévue si résiliation en fin de période, jamais de jeton", async () => {
+  it("s22 / H2-5 : GET, Premium sans ligne = inscrit d'office (réglage activé), fin prévue si résiliation en fin de période, jamais de jeton", async () => {
     mockUser.value = compte({ subscription: { cancelAtPeriodEnd: true, currentPeriodEnd: new Date("2026-12-03T10:00:00Z") } });
-    const vide = await (await getPreference()).json();
-    expect(vide).toMatchObject({ eligible: true, enabled: false, activatedAt: null, adresseVerifiee: true, email: "marc@x.fr", finPrevue: "2026-12-03T10:00:00.000Z" });
-    mockUser.value = compte({}, { enabled: true, activatedAt: avant, consentVersion: "v", unsubscribeToken: JETON });
+    const office = await (await getPreference()).json();
+    expect(office).toMatchObject({ eligible: true, enabled: true, opposition: false, mensuelleSuspendue: true, adresseVerifiee: true, email: "marc@x.fr", finPrevue: "2026-12-03T10:00:00.000Z" });
+    mockUser.value = compte({}, { enabled: true, stoppedAt: null, stopOrigin: null, unsubscribeToken: JETON });
     const actif = await getPreference();
     const texte = await actif.text();
     expect(texte).not.toContain(JETON);
-    expect(JSON.parse(texte)).toMatchObject({ enabled: true, activatedAt: avant.toISOString() });
+    expect(JSON.parse(texte)).toMatchObject({ enabled: true });
+  });
+
+  it("s22 : GET, arrêt explicite = réglage désactivé ; fin-premium (réabonné) = activé ; opposition globale signalée", async () => {
+    mockUser.value = compte({}, { enabled: false, stoppedAt: avant, stopOrigin: "lien-email", unsubscribeToken: JETON });
+    expect(await (await getPreference()).json()).toMatchObject({ enabled: false, mensuelleSuspendue: false });
+    mockUser.value = compte({}, { enabled: false, stoppedAt: avant, stopOrigin: "fin-premium", unsubscribeToken: JETON });
+    expect(await (await getPreference()).json()).toMatchObject({ enabled: true, mensuelleSuspendue: true });
+    mockUser.value = compte({ emailOptOut: true });
+    expect(await (await getPreference()).json()).toMatchObject({ opposition: true, mensuelleSuspendue: false });
   });
 });
 

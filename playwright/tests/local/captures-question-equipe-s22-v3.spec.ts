@@ -124,7 +124,8 @@ test.describe("Captures v3 « Ta question à l'équipe » et case de la lettre d
       await page.context().clearCookies();
       await profil(page, vue, "page");
       const caseHebdo = page.getByTestId("lettre-hebdo-profil");
-      await expect(caseHebdo.getByRole("checkbox")).toBeVisible();
+      // s22 (inscription d'office) : la case est devenue un réglage (captures v4 : `captures-inscription-office-s22-v4`).
+      await expect(caseHebdo.getByRole("switch")).toBeVisible();
       await capturer(page, caseHebdo, `case-hebdo-profil-${vue.width}`);
       await page.screenshot({ path: path.join(DOSSIER, `v3-profil-premium-${vue.width}.png`), fullPage: true, animations: "disabled" });
     }
@@ -135,7 +136,7 @@ test.describe("Captures v3 « Ta question à l'équipe » et case de la lettre d
     await connecter(page, { width: 390, height: 844 }, "paiement");
     await page.goto("/abonnement/success?session_id=cs_test_factice_v3&formule=mensuel");
     const caseHebdo = page.getByTestId("lettre-hebdo-paiement");
-    await expect(caseHebdo.getByRole("checkbox")).toBeVisible({ timeout: 30_000 });
+    await expect(caseHebdo).toBeVisible({ timeout: 30_000 });
     await page.waitForLoadState("networkidle");
     await page.screenshot({ path: path.join(DOSSIER, "v3-retour-paiement-390.png"), fullPage: true, animations: "disabled" });
   });

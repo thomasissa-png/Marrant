@@ -13,7 +13,7 @@
  *     (`motifsInterdits`, avis @legal C1) dans le rendu : bloqué.
  *  5. Article du blog cité hors ligne, ou étape de parcours d'un parcours inactif : reporté.
  *  6. Destinataires = `destinatairesHebdo()` (fonction unique, aussi utilisée pour
- *     mettre la mensuelle en pause).
+ *     mettre la mensuelle en pause) ; jeton d'arrêt créé au premier envoi (`avecJetonsHebdo`).
  *  7. Texte seul, aucun pixel ni lien suivi, `List-Unsubscribe` + `List-Unsubscribe-Post`
  *     vers l'arrêt propre au destinataire, pied légal de l'avis @legal §2.3.
  */
@@ -23,7 +23,7 @@ import { ligneQuestionEquipeHebdo, piedNumeroHebdo } from "@/config/textes/lettr
 import { frPonctuation } from "@/lib/fr-typo";
 import { envoiSemaine, semaineIsoParis } from "@/lib/lettre/calendrier";
 import { articlesCites, envoyerLot, etatArticlesCites, type CibleEnvoi } from "@/lib/lettre/envoi";
-import { destinatairesHebdo } from "@/lib/lettre/hebdo";
+import { avecJetonsHebdo, destinatairesHebdo } from "@/lib/lettre/hebdo";
 import type { EnvoyerEmail } from "@/lib/lettre/inscription";
 import { motifsInterdits } from "@/lib/lettre/numeros-hebdo";
 import { approbationValide } from "@/lib/lettre/approbation-hebdo";
@@ -144,7 +144,8 @@ export async function envoyerLettreDeLaSemaine(
     return r;
   }
 
-  const destinataires = await destinatairesHebdo(ouverts);
+  // s22 inscription d'office : jeton d'arrêt créé ici, au premier envoi (idempotent).
+  const destinataires = await avecJetonsHebdo(await destinatairesHebdo(ouverts), now);
   r.destinataires = destinataires.length;
   const journal = await prisma.newsletterSend.findMany({
     where: { issueId: numero.id },

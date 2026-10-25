@@ -22,9 +22,10 @@
  *    `nonApprouve = true`, alerte « en attente », rien n'est envoyé, même interrupteur
  *    ouvert. Approuvé après l'heure prévue : part au passage suivant de la tâche (toutes
  *    les 15 min), tant que le mois de Paris du numéro n'est pas fini ; au-delà, plus rien.
- *  - Destinataires : `CONFIRMED`, moins (1) les destinataires de la lettre de la
- *    semaine (`destinatairesHebdo`, fonction unique ; aucun tant que
- *    `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé ; un Premium sans hebdo garde la mensuelle), (2) les oppositions globales (`User.emailOptOut`,
+ *  - Destinataires : `CONFIRMED`, moins (1) les Premium à qui l'hebdo part vraiment la
+ *    semaine du numéro (`pauseMensuelle` : pause si reçue, attente tant qu'elle peut encore
+ *    partir ; aucun tant que `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé ; un Premium sans hebdo
+ *    cette semaine-là garde la mensuelle), (2) les oppositions globales (`User.emailOptOut`,
  *    prospects `CeoLead` opposés), sauf confirmation de la lettre POSTÉRIEURE à
  *    l'opposition (L6 ; date d'opposition majorée par `updatedAt`, donc prudente).
  *  - Journal `NewsletterSend` réservé AVANT l'envoi (unique numéro + adresse) :
@@ -39,7 +40,7 @@ import { avecDelai, enTetesDesinscription, LETTRE_EMAIL_TIMEOUT_MS, type Envoyer
 import { buildUnsubscribeUrl } from "@/lib/newsletter";
 import { frPonctuation } from "@/lib/fr-typo";
 import { getArticleBySlug } from "@/lib/blog-articles";
-import { aHeureParis, LETTRE_HEURE_ENVOI_PARIS, LETTRE_JOUR_ENVOI } from "@/lib/lettre/calendrier";
+import { aHeureParis, LETTRE_HEURE_ENVOI_PARIS, LETTRE_JOUR_ENVOI, semaineIsoParis } from "@/lib/lettre/calendrier";
 import { destinatairesHebdo } from "@/lib/lettre/hebdo";
 import { visibleBlogArticleWhere } from "@/lib/blog-visibility";
 import { approbationValide } from "@/lib/lettre/approbation-hebdo";
@@ -162,6 +163,8 @@ export interface EnvoiResultat {
   envoyes: number;
   echecs: number;
   exclusPremiumHebdo: number;
+  /** (s22) Destinataires de l'hebdo en attente : l'hebdo de la semaine peut encore leur partir. */
+  attenteHebdo: number;
   exclusOpposition: number;
   dejaTraites: number;
   termine: boolean;
@@ -179,10 +182,34 @@ export function corpsNumero(bodyText: string, baseUrl: string, unsubscribeToken:
   return `${frPonctuation(bodyText.trimEnd())}\n${EMAILS_LETTRE.piedNumero(buildUnsubscribeUrl(baseUrl, unsubscribeToken), baseUrl)}`;
 }
 
-async function listesExclusion(): Promise<{ hebdo: Set<string>; oppositions: Map<string, Opposition> }> {
-  // Mise en pause de la mensuelle : EXACTEMENT les destinataires de l'hebdo (fonction
-  // unique `recoitHebdo`, spec hebdo §4.2) ; vide tant que `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé.
-  const hebdo = new Set((await destinatairesHebdo()).map((d) => d.email));
+/**
+ * Pause de la mensuelle pour les Premium (s22) : seulement si l'hebdo leur part VRAIMENT la semaine
+ * du numéro mensuel (semaine ISO de Paris de `scheduledFor`), jamais les deux, jamais aucune.
+ *  - `pause` : adresses qui ont reçu l'hebdo de cette semaine (journal `ENVOYE`) ;
+ *  - `attente` : destinataires de l'hebdo (`destinatairesHebdo`, fonction unique) pas encore servis,
+ *    tant que cette semaine dure et que son numéro hebdo n'est pas terminé (pas approuvé, pas
+ *    encore parti, ou absent) : la mensuelle ne leur part pas encore et reste ouverte ;
+ *  - sinon (semaine finie sans hebdo pour eux, ou hebdo terminé sans eux) : la mensuelle leur part.
+ * Vide tant que `LETTRE_HEBDO_ENVOIS_OUVERTS` est fermé (aucun destinataire de l'hebdo).
+ */
+export async function pauseMensuelle(scheduledFor: Date, now: Date): Promise<{ pause: Set<string>; attente: Set<string> }> {
+  const destinataires = await destinatairesHebdo();
+  if (destinataires.length === 0) return { pause: new Set(), attente: new Set() };
+  const semaine = semaineIsoParis(scheduledFor);
+  const numeroHebdo = await prisma.newsletterIssue.findUnique({
+    where: { audience_periodKey: { audience: "HEBDO_PREMIUM", periodKey: semaine } },
+    select: { id: true, status: true },
+  });
+  const recus = numeroHebdo
+    ? await prisma.newsletterSend.findMany({ where: { issueId: numeroHebdo.id, status: "ENVOYE" }, select: { email: true } })
+    : [];
+  const pause = new Set(recus.map((e) => e.email.toLowerCase()));
+  const hebdoEncorePossible = semaineIsoParis(now) === semaine && numeroHebdo?.status !== "ENVOYE";
+  const attente = new Set(hebdoEncorePossible ? destinataires.map((d) => d.email).filter((e) => !pause.has(e)) : []);
+  return { pause, attente };
+}
+
+async function listesExclusion(): Promise<{ oppositions: Map<string, Opposition> }> {
   const users = await prisma.user.findMany({
     where: { emailOptOut: true },
     select: { email: true, emailOptOut: true, updatedAt: true },
@@ -201,7 +228,7 @@ async function listesExclusion(): Promise<{ hebdo: Set<string>; oppositions: Map
     if (u.email && u.emailOptOut) noterOpposition(u.email, u.updatedAt);
   }
   for (const l of leads) if (l.email) noterOpposition(l.email, l.updatedAt);
-  return { hebdo, oppositions };
+  return { oppositions };
 }
 
 /** Un destinataire d'un numéro : adresse (minuscules) et message rendu à la demande. */
@@ -309,6 +336,7 @@ export async function envoyerLettreDuMois(
     envoyes: 0,
     echecs: 0,
     exclusPremiumHebdo: 0,
+    attenteHebdo: 0,
     exclusOpposition: 0,
     dejaTraites: 0,
     termine: false,
@@ -359,7 +387,8 @@ export async function envoyerLettreDuMois(
     }
   }
 
-  const { hebdo, oppositions } = await listesExclusion();
+  const { oppositions } = await listesExclusion();
+  const { pause, attente } = await pauseMensuelle(numero.scheduledFor, now);
   const abonnes = await prisma.newsletterSubscriber.findMany({
     where: { status: "CONFIRMED" },
     select: { email: true, unsubscribeToken: true, confirmedAt: true },
@@ -368,8 +397,12 @@ export async function envoyerLettreDuMois(
   const cibles: CibleEnvoi[] = [];
   for (const a of abonnes) {
     const email = a.email.toLowerCase();
-    if (hebdo.has(email)) {
+    if (pause.has(email)) {
       r.exclusPremiumHebdo++;
+      continue;
+    }
+    if (attente.has(email)) {
+      r.attenteHebdo++;
       continue;
     }
     const opposition = oppositions.get(email);
@@ -388,7 +421,8 @@ export async function envoyerLettreDuMois(
   }
   const restants = await envoyerLot(numero.id, journal, cibles, deps.envoyer, "Numéro de la lettre", r);
 
-  if (restants === 0) {
+  // Premium en attente de l'hebdo : le numéro reste ouvert (passage suivant) jusqu'à la décision.
+  if (restants === 0 && r.attenteHebdo === 0) {
     await prisma.newsletterIssue.update({ where: { id: numero.id }, data: { status: "ENVOYE", sentAt: now } });
     r.termine = true;
   }

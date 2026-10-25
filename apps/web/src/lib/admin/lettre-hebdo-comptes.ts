@@ -12,6 +12,8 @@ import { emailsExclus } from "@/lib/analytics/comptes-test";
 import { avecDelai, LETTRE_EMAIL_TIMEOUT_MS, type EnvoyerEmail } from "@/lib/lettre/inscription";
 import { corpsNumeroHebdo } from "@/lib/lettre/envoi-hebdo";
 import { frPonctuation } from "@/lib/fr-typo";
+/** s22 : invitation des abonnés existants supprimée (inscription d'office). Jamais à rouvrir sans nouveau texte. */
+export const LETTRE_HEBDO_PROPOSITION_OUVERTE = false;
 
 export const FILTRES_HEBDO = ["actives", "arretees", "premium-sans"] as const;
 
@@ -46,10 +48,12 @@ const iso = (d: Date | null | undefined) => (d ? d.toISOString() : null);
 export async function listerComptesHebdo(query: ListeHebdoQuery, exclus: string[] = emailsExclus()): Promise<ListeHebdo> {
   const { prisma } = await import("@/lib/prisma");
   const recherche = query.q ? { email: { contains: query.q, mode: "insensitive" as const } } : {};
+  const { ARRET_EXPLICITE } = await import("@/lib/lettre/hebdo");
   const pref = query.statut === "actives" ? { is: { enabled: true } } : query.statut === "arretees" ? { is: { enabled: false } } : { isNot: null };
+  // s22 inscription d'office : un Premium est « sans la lettre » seulement après un arrêt explicite ou une opposition globale.
   const where =
     query.statut === "premium-sans"
-      ? { plan: "PREMIUM" as const, ...recherche, OR: [{ premiumLetter: { is: null } }, { premiumLetter: { is: { enabled: false } } }] }
+      ? { plan: "PREMIUM" as const, ...recherche, OR: [{ emailOptOut: true }, { premiumLetter: { is: ARRET_EXPLICITE } }] }
       : { ...recherche, premiumLetter: pref };
   const [rows, total] = await Promise.all([
     prisma.user.findMany({
@@ -93,8 +97,11 @@ export type ResultatProposition = { statut: "envoyee" } | { statut: "fermee" | "
  */
 export async function proposerLettreHebdo(
   userId: string,
-  deps: { envoyer: EnvoyerEmail; baseUrl: string; now: Date; inscriptionsOuvertes?: boolean },
+  deps: { envoyer: EnvoyerEmail; baseUrl: string; now: Date; inscriptionsOuvertes?: boolean; propositionOuverte?: boolean },
 ): Promise<ResultatProposition> {
+  // s22 (25/10, décision de Thomas) : inscription d'office, plus d'invitation. Son texte (« tant que tu ne
+  // coches pas la case ») serait faux : la proposition ne part plus, quel que soit l'interrupteur.
+  if (!(deps.propositionOuverte ?? LETTRE_HEBDO_PROPOSITION_OUVERTE)) return { statut: "fermee" };
   if (!(deps.inscriptionsOuvertes ?? LETTRE_HEBDO_INSCRIPTIONS_OUVERTES)) return { statut: "fermee" };
   const { prisma } = await import("@/lib/prisma");
   const u = await prisma.user.findUnique({

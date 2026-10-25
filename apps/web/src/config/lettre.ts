@@ -129,10 +129,10 @@ export function emplacementDeSource(source: string | null | undefined): LettreEm
  * Trois interrupteurs, TOUS FERMÉS au déploiement. Les ouvrir = décision de Thomas
  * (porte G-H de la spec §9.3), consignée dans REPLIT_ACTIONS.md.
  *
- * `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES` (ce qui se voit) : case au retour de paiement
- * et au profil, route de préférence, textes CGU et confidentialité de l'avis @legal §4
- * (publiés dans le même déploiement que la case, jamais avant). Fermé : case absente,
- * `PUT /api/lettre-premium/preference` en 404. L'ARRÊT marche toujours.
+ * `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES` (ce qui se voit) : réglage du profil, ligne d'information
+ * au retour de paiement (s22, inscription d'office : plus de case), route de préférence, textes CGU
+ * et confidentialité. Fermé : réglage et ligne absents, reprise (`PUT` enabled true) en 404.
+ * L'ARRÊT marche toujours.
  *
  * `LETTRE_HEBDO_ENVOIS_OUVERTS` (ce qui part) : la tâche du jeudi ET la mise en pause
  * de la mensuelle (`destinatairesHebdo`). Fermé : rien ne part, la mensuelle reprend
@@ -161,12 +161,15 @@ export function promesseLettreHebdoVisible(
 }
 
 /**
- * Version du texte de la case (avis @legal §2.1, identique au paiement et au profil).
- * Changer le texte de la case = nouvelle version, l'ancien texte archivé.
+ * Version du texte de l'ancienne case (avis @legal §2.1), gardée pour lire les choix déjà
+ * enregistrés. s22 (inscription d'office) : plus de case, plus rien n'est écrit sous cette version.
  */
 export const LETTRE_HEBDO_CONSENT_VERSION = "lettre-hebdo-premium-v1";
 
-/** Origines d'activation et d'arrêt (valeurs de `PremiumLetterPreference`). */
+/**
+ * Origines d'activation et d'arrêt (valeurs de `PremiumLetterPreference`). s22 : la ligne d'un
+ * inscrit d'office est créée au premier envoi avec l'origine `office` (écrite par le serveur).
+ */
 export const LETTRE_HEBDO_ORIGINES_ACTIVATION = ["paiement", "profil"] as const;
 export type LettreHebdoOrigineActivation = (typeof LETTRE_HEBDO_ORIGINES_ACTIVATION)[number];
 /** s22 : `rebond` (rebond définitif signalé par Resend) et `plainte` (signalement « indésirable »). */

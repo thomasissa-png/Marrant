@@ -3,13 +3,12 @@
 /**
  * Lettre de la semaine (hebdo Premium, s21, spec US-H7), sous les inscrits de la mensuelle
  * dans Abonnés › Lettre : interrupteurs, compteurs (comptes de test à part), numéros et
- * stock, liste des comptes, actions « Arrêter », « Envoyer la proposition » (aperçu du
- * texte avant envoi), « Envoyer un aperçu à mon adresse ». Les numéros à approuver (s22,
+ * stock, liste des comptes, actions « Arrêter », « Envoyer un aperçu à mon adresse ».
+ * s22 (inscription d'office) : plus de proposition aux abonnés existants. Les numéros à approuver (s22,
  * mensuelle et hebdo) sont en tête de la vue Lettre (`abonnes-tab.tsx`). Jamais de jeton ici.
  */
 import { useState } from "react";
 import { adminAuthHeader, useAdminFetch } from "@/hooks/use-admin-fetch";
-import { PROPOSITION_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import type { LettreHebdoResume } from "@/lib/analytics/weekly-lettre-hebdo";
 import type { CompteHebdo, ListeHebdo } from "@/lib/admin/lettre-hebdo-comptes";
 import { Avertissement, Chargement, Erreur, KpiCard, Note, Pagination, Pastille, Section, dateCourte, dateHeure, fmt } from "./admin-ui";
@@ -29,11 +28,13 @@ async function poster(url: string, corps?: unknown): Promise<{ ok: boolean; stat
   return { ok: res.ok, status: res.status, data: (await res.json().catch(() => null)) as Record<string, unknown> | null };
 }
 
+/** Même règle que `arretExplicite` (`lib/lettre/hebdo.ts`, côté serveur) : la fin de Premium n'en est pas un. */
+const arretExpliciteCompte = (c: CompteHebdo) => !c.enabled && c.stoppedAt !== null && c.stopOrigin !== "fin-premium";
+
 export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => void }) {
   const [page, setPage] = useState(1);
   const [filtre, setFiltre] = useState<Filtre>("");
   const [message, setMessage] = useState<string | null>(null);
-  const [proposition, setProposition] = useState<CompteHebdo | null>(null);
   const params = new URLSearchParams({ page: String(page), limit: "25" });
   if (filtre) params.set("statut", filtre);
   const { data, error, loading, reload } = useAdminFetch<Reponse>(`/api/admin/lettre-premium?${params}`, onUnauthorized);
@@ -53,7 +54,7 @@ export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => v
   return (
     <Section
       titre="Lettre de la semaine (Premium)"
-      sousTitre="Opt-in, arrêt en un clic. Jamais de jeton d'arrêt ici ; l'admin n'active jamais la lettre pour quelqu'un."
+      sousTitre="Incluse dans Premium (inscription d'office), arrêt en un clic respecté à vie. Jamais de jeton d'arrêt ici."
       action={
         <button type="button" className="rounded-md border border-border px-3 py-1.5 text-sm text-text-secondary hover:bg-background-elevated" onClick={() => void action("/api/admin/lettre-premium/apercu", undefined, "Aperçu envoyé à ton adresse.")}>
           Envoyer un aperçu à mon adresse
@@ -81,12 +82,12 @@ export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => v
               <option value="">Avec une ligne</option>
               <option value="actives">Lettre active</option>
               <option value="arretees">Arrêtée</option>
-              <option value="premium-sans">Premium sans la lettre</option>
+              <option value="premium-sans">Premium sans la lettre (arrêt ou opposition)</option>
             </select>
             <span className="ml-auto text-sm text-text-muted">{data.liste.pagination.total} compte(s), comptes de test compris</span>
           </div>
           {data.liste.comptes.length === 0 ? (
-            <Note>Personne n’a encore activé la lettre de la semaine.</Note>
+            <Note>Aucun compte dans cette vue (la ligne d’un inscrit d’office naît au premier envoi).</Note>
           ) : (
             <ul className="space-y-2">
               {data.liste.comptes.map((c) => (
@@ -96,21 +97,16 @@ export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => v
                       {c.email} {c.compteTest && <Pastille ton="accent">test</Pastille>} {!c.premium && <Pastille>sans Premium</Pastille>}
                     </p>
                     <p className="text-xs text-text-muted">
-                      {c.enabled
+                      {c.enabled && c.activatedAt
                         ? `Active depuis le ${dateCourte(c.activatedAt)} (${c.activationOrigin ?? "origine inconnue"})`
                         : c.stoppedAt
-                          ? `Arrêtée le ${dateCourte(c.stoppedAt)} (${c.stopOrigin ?? "origine inconnue"})`
-                          : "Jamais activée"}
-                      {c.proposedAt ? ` · proposition envoyée le ${dateCourte(c.proposedAt)}` : ""}
+                          ? `Arrêtée le ${dateCourte(c.stoppedAt)} (${c.stopOrigin ?? "origine inconnue"})${c.stopOrigin === "fin-premium" ? ", reprend au réabonnement" : ""}`
+                          : "Inscrite d’office"}
                     </p>
                   </div>
-                  {c.enabled ? (
+                  {c.premium && !arretExpliciteCompte(c) ? (
                     <button type="button" className="rounded-md border border-border px-3 py-1.5 text-error" onClick={() => void action("/api/admin/lettre-premium/arret", { userId: c.userId }, "Arrêtée.")}>
                       Arrêter
-                    </button>
-                  ) : c.premium && !c.proposedAt ? (
-                    <button type="button" className="rounded-md border border-border px-3 py-1.5 text-text-secondary" onClick={() => setProposition(c)}>
-                      Envoyer la proposition
                     </button>
                   ) : null}
                 </li>
@@ -118,29 +114,6 @@ export function LettreHebdoSection({ onUnauthorized }: { onUnauthorized: () => v
             </ul>
           )}
           <Pagination page={data.liste.pagination.page} totalPages={data.liste.pagination.totalPages} onPage={setPage} />
-          {proposition && (
-            <div className="rounded-lg border border-accent-primary/40 bg-background-card p-3 text-sm" role="dialog" aria-label="Aperçu de la proposition">
-              <p className="font-semibold text-text-primary">Proposition à {proposition.email} (une seule fois, brouillon validé avant envoi)</p>
-              <p className="mt-2 text-text-secondary">Objet : {PROPOSITION_LETTRE_HEBDO.sujet}</p>
-              <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap text-xs text-text-secondary">{PROPOSITION_LETTRE_HEBDO.corps("https://deviens-marrant.fr")}</pre>
-              <div className="mt-3 flex gap-2">
-                <button
-                  type="button"
-                  className="rounded-md bg-accent-primary px-3 py-1.5 text-white"
-                  onClick={() => {
-                    const cible = proposition;
-                    setProposition(null);
-                    void action("/api/admin/lettre-premium/proposition", { userIds: [cible.userId] }, "Proposition envoyée à 1 compte.");
-                  }}
-                >
-                  Envoyer
-                </button>
-                <button type="button" className="rounded-md border border-border px-3 py-1.5" onClick={() => setProposition(null)}>
-                  Annuler
-                </button>
-              </div>
-            </div>
-          )}
         </>
       )}
     </Section>
@@ -164,7 +137,7 @@ function Resume({ r }: { r: LettreHebdoResume }) {
       {r.nonEnvoyes.length > 0 && <Avertissement>Non envoyé(s) : {r.nonEnvoyes.join(", ")}.</Avertissement>}
       <div className="grid grid-cols-3 gap-3">
         <KpiCard label="Lettre active" value={fmt(r.actives)} color="success" subtitle="hors comptes de test" />
-        <KpiCard label="Premium sans" value={fmt(r.premiumSansHebdo)} subtitle="mensuelle à la place" />
+        <KpiCard label="Premium sans" value={fmt(r.premiumSansHebdo)} subtitle="arrêt ou opposition" />
         <KpiCard label="Stock à venir" value={fmt(r.stock)} color={r.alerteStock ? "warning" : undefined} subtitle="numéros validés" />
       </div>
       <Note>Arrêtées par origine : {origines(r.arreteesParOrigine)}.{r.comptesTest ? ` ${fmt(r.comptesTest)} compte(s) de test hors compteurs.` : ""}</Note>
