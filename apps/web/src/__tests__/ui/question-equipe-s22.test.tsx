@@ -45,6 +45,8 @@ import { courbe, lie, sansGluon } from "../helpers/texte-normalise";
 const texte = (el: Element | null) => sansGluon(el?.textContent ?? "").replace(/\s+/g, " ").trim();
 const attendu = (t: string) => sansGluon(lie(courbe(t))).replace(/\s+/g, " ");
 const fetchMock = jest.fn();
+/** Libellé tel qu'affiché (apostrophe typographique posée au rendu). */
+const BOUTON = (nom: string) => sansGluon(nom).replace(/\s+/g, " ") === attendu(T.bouton);
 const QUESTION = "Mon chef me chambre sur mes pulls en réunion, et je reste muet à chaque fois.";
 
 function utilisateur(plan: "PREMIUM" | "FREE") {
@@ -108,7 +110,7 @@ describe("Formulaire : états et accessibilité", () => {
     expect(champ().value).toBe("");
     expect(champ().getAttribute("aria-describedby")).toMatch(/aide.*compteur/);
     expect(texte(screen.getByTestId("question-equipe"))).toContain("0 / 1 000 caractères");
-    expect(screen.getByRole("button", { name: T.bouton })).toBeEnabled();
+    expect(screen.getByRole("button", { name: BOUTON })).toBeEnabled();
     const lien = screen.getByRole("link", { name: T.mention.lien });
     expect(lien.getAttribute("href")).toBe("/confidentialite#question-equipe");
     expect(texte(screen.getByTestId("question-equipe-statut"))).toBe("");
@@ -117,7 +119,7 @@ describe("Formulaire : états et accessibilité", () => {
   it("envoi vide : erreur « vide » (role alert), aucun appel, focus sur le champ", () => {
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: "   " } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     expect(texte(screen.getByRole("alert"))).toBe(attendu(T.erreurs.vide));
     expect(fetchMock).not.toHaveBeenCalled();
     expect(document.activeElement).toBe(champ());
@@ -129,7 +131,7 @@ describe("Formulaire : états et accessibilité", () => {
     const long = "a".repeat(1001);
     fireEvent.change(champ(), { target: { value: long } });
     expect(texte(screen.getByTestId("question-equipe"))).toContain("1 001 / 1 000 caractères");
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     expect(texte(screen.getByRole("alert"))).toContain("dépasse 1 000 caractères");
     expect(champ().value).toBe(long);
     expect(fetchMock).not.toHaveBeenCalled();
@@ -140,7 +142,7 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockReturnValueOnce(new Promise((r) => (finir = r)));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     expect(screen.getByRole("button", { name: T.envoiEnCours })).toBeDisabled();
     const [url, init] = fetchMock.mock.calls[0];
     expect(url).toBe("/api/question-equipe");
@@ -165,7 +167,7 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockResolvedValueOnce(reponse(status, { error: code }, status === 429 ? { "Retry-After": "7200" } : {}));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
     expect(texte(screen.getByRole("alert"))).toContain(extrait);
     expect(champ().value).toBe(QUESTION);
@@ -177,7 +179,7 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockResolvedValueOnce(reponse(429, { error: "trop" }, { "Retry-After": "300" }));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     await waitFor(() => expect(texte(screen.getByRole("alert"))).toBe(attendu(T.erreurs.tropCourt)));
   });
 
@@ -185,10 +187,10 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockResolvedValueOnce(reponse(403, { error: "non-premium" }));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
     expect(screen.getByRole("link", { name: T.erreurs.nonPremium.lien }).getAttribute("href")).toBe("/abonnement");
-    expect(screen.getByRole("button", { name: T.bouton })).toBeDisabled();
+    expect(screen.getByRole("button", { name: BOUTON })).toBeDisabled();
     expect(texte(screen.getByRole("alert"))).not.toMatch(/éessaie/);
   });
 
@@ -196,7 +198,7 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockResolvedValueOnce(reponse(503, { error: "envoi" }));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     await waitFor(() => expect(screen.getByRole("alert")).toBeInTheDocument());
     expect(screen.getByRole("link", { name: "contact@deviens-marrant.fr" }).getAttribute("href")).toBe("mailto:contact@deviens-marrant.fr");
   });
@@ -211,7 +213,7 @@ describe("Formulaire : états et accessibilité", () => {
     fetchMock.mockRejectedValueOnce(new Error("réseau"));
     render(<QuestionEquipeCard />);
     fireEvent.change(champ(), { target: { value: QUESTION } });
-    fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     await waitFor(() => expect(texte(screen.getByRole("alert"))).toContain("Ton message n’est pas parti"));
     expect(champ().value).toBe(QUESTION);
   });
@@ -276,7 +278,7 @@ describe("Tentative (idempotence s22) : même texte renvoyé = même tentative",
   const envoyerTexte = async (valeur: string) => {
     fireEvent.change(champ(), { target: { value: valeur } });
     await act(async () => {
-      fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+      fireEvent.click(screen.getByRole("button", { name: BOUTON }));
     });
   };
 

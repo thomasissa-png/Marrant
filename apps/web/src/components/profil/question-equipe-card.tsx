@@ -110,7 +110,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
         <p className="text-sm text-text-muted">{typo(T.delai)}</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={(e) => void envoyer(e)} noValidate className="max-w-2xl">
+        <form onSubmit={(e) => void envoyer(e)} noValidate className="max-w-3xl">
           <label htmlFor={`${id}-champ`} className="mb-1 block text-sm font-medium text-text-primary">
             {typo(T.libelle)}
           </label>
@@ -130,9 +130,9 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             className="block w-full resize-y rounded-lg border border-border bg-background-light px-3 py-2 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-1 focus:ring-accent-primary aria-[invalid=true]:border-error aria-[invalid=true]:focus:border-error aria-[invalid=true]:focus:ring-error sm:text-sm"
           />
           {/* Téléphone : compteur collé au champ, aide dessous ; à partir de sm : aide à gauche, compteur à droite.
-              Graisse constante (la ligne d'aide ne se recoupe plus quand le compteur passe en erreur). */}
+              Graisse et largeur du compteur constantes (la ligne d'aide ne se recoupe plus quand il passe en erreur). */}
           <div className="mt-1 flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-            <p id={`${id}-compteur`} className={cn("self-end text-xs font-medium tabular-nums sm:order-2 sm:shrink-0", depasse ? "text-error-text" : "text-text-muted")}>
+            <p id={`${id}-compteur`} className={cn("self-end text-xs font-medium tabular-nums sm:order-2 sm:min-w-[9rem] sm:shrink-0 sm:text-right", depasse ? "text-error-text" : "text-text-muted")}>
               {T.compteur(nombre(n), nombre(QUESTION_EQUIPE_MAX))}
             </p>
             <p id={`${id}-aide`} className="min-w-0 text-xs text-text-muted sm:order-1 sm:flex-1">
@@ -145,7 +145,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
             </p>
           )}
           <Button type="submit" variant="primary" className="mt-3 min-h-11 w-full sm:w-auto" disabled={bloque} aria-disabled={bloque}>
-            {enCours ? T.envoiEnCours : T.bouton}
+            {enCours ? T.envoiEnCours : typo(T.bouton)}
           </Button>
           {/* Statut toujours présent (annonce fiable) ; succès en bloc visible juste sous le bouton, avant la mention.
               Pendant l'envoi, le bouton affiche déjà « Envoi en cours » : le statut ne le dit qu'aux lecteurs d'écran. */}

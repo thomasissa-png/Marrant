@@ -39,7 +39,8 @@ export function MessageErreur({ erreur }: { erreur: Erreur }) {
     case "vide":
       return <>{typo(T.erreurs.vide)}</>;
     case "trop-long":
-      return <>{typo(T.erreurs.tropLong(nombre(QUESTION_EQUIPE_MAX)))}</>;
+      // Espace insécable normale dans la phrase (l'espace fine de `toLocaleString` y disparaît à l'oeil en 14 px).
+      return <>{typo(T.erreurs.tropLong(nombre(QUESTION_EQUIPE_MAX).replace(/\u202f/g, NBSP)))}</>;
     case "trop-court":
       return <>{typo(T.erreurs.tropCourt)}</>;
     case "trop":
