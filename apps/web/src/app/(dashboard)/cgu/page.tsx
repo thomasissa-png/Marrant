@@ -10,7 +10,10 @@ import {
   PREMIUM_PRICE_LABEL,
 } from "@/config/premium";
 import { RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
-import { LETTRE_HEBDO_DATE_TEXTES, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
+import { CGU_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
+import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CGU_LETTRE_HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
 
@@ -31,7 +34,7 @@ export default function CGUPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Conditions <span className="whitespace-nowrap">Générales d’Utilisation</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && LETTRE_HEBDO_DATE_TEXTES ? LETTRE_HEBDO_DATE_TEXTES : "17 octobre 2026"}</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques()}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className="mb-2 text-lg font-semibold text-text-primary">1. Objet</h2>
@@ -91,7 +94,15 @@ export default function CGUPage() {
             renvois existants (articles 6 et 7). Le reste de l'article (questions, lettre hebdomadaire
             Premium) attend l'ouverture de ces services : jamais de promesse non tenue. */}
         <section id="lettre" className="scroll-mt-24">
-          <h2 className="mb-2 text-lg font-semibold text-text-primary">10. La lettre</h2>
+          <h2 className="mb-2 text-lg font-semibold text-text-primary">{QUESTION_EQUIPE_OUVERTE ? frTypo(CGU_QUESTION_EQUIPE.titre) : "10. La lettre"}</h2>
+          {/* s22, avis @legal du 25/10 (point 3), délai adapté à la décision de Thomas (au plus tard
+              3 jours ouvrés) : publié avec l'ouverture de « Ta question à l'équipe », avant la phrase
+              sur la lettre mensuelle. */}
+          {QUESTION_EQUIPE_OUVERTE && (
+            <p id={QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE} className="mb-2 scroll-mt-24" data-testid="cgu-question-equipe">
+              {frTypo(CGU_QUESTION_EQUIPE.texte)}
+            </p>
+          )}
           <p>La lettre mensuelle gratuite est indépendante de l’abonnement : elle se fait sur inscription, confirmée par e-⁠mail.</p>
           {/* s21, avis @legal lettre hebdo §4.1 : trois ajouts mot pour mot, publiés avec l'ouverture
               des inscriptions à la lettre de la semaine (jamais avant : aucune promesse non tenue). */}

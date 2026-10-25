@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import Link from "next/link";
-import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_HEBDO_DATE_TEXTES, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
+import { CONFIDENTIALITE_QUESTION_EQUIPE as QUESTION, PRESTATAIRES_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
+import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CONFIDENTIALITE_LETTRE_HEBDO as HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { frTypo } from "@/lib/fr-typo";
 import { WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
@@ -39,6 +42,19 @@ const PRESTATAIRES: { nom: string; role: string }[] = [
   { nom: "Google", role: "connexion avec ton compte Google, si tu la choisis, et lecture des vidéos YouTube" },
 ];
 
+/**
+ * s22 (avis @legal du 25/10, point 2 ; C3 : boîte contact@ chez IONOS) : partie 4 telle que
+ * publiée à l'ouverture de « Ta question à l'équipe » (Resend étendu, IONOS, outils de
+ * rédaction). Interrupteur fermé : liste inchangée.
+ */
+function prestataires(questionOuverte: boolean = QUESTION_EQUIPE_OUVERTE): { nom: string; role: string }[] {
+  if (!questionOuverte) return PRESTATAIRES;
+  return [
+    ...PRESTATAIRES.map((p) => (p.nom === "Resend" ? { ...p, role: PRESTATAIRES_QUESTION_EQUIPE.resendRole } : p)),
+    ...PRESTATAIRES_QUESTION_EQUIPE.ajouts,
+  ];
+}
+
 const SECTION_TITLE = "mb-2 text-lg font-semibold text-text-primary";
 const LIST = "mt-2 list-disc space-y-1 pl-6";
 
@@ -46,7 +62,7 @@ export default function ConfidentialitePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Politique <span className="whitespace-nowrap">de confidentialité</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && LETTRE_HEBDO_DATE_TEXTES ? LETTRE_HEBDO_DATE_TEXTES : "17 octobre 2026"}</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques()}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className={SECTION_TITLE}>1. Responsable du traitement</h2>
@@ -82,7 +98,7 @@ export default function ConfidentialitePage() {
           <h2 className={SECTION_TITLE}>4. Prestataires (sous-traitants)</h2>
           <p>On confie certaines opérations techniques à des prestataires, qui traitent tes données pour notre compte :</p>
           <ul className={LIST}>
-            {PRESTATAIRES.map((p) => (
+            {prestataires().map((p) => (
               <li key={p.nom}>
                 <strong>{p.nom}</strong> : {frTypo(p.role)}
               </li>
@@ -163,6 +179,18 @@ export default function ConfidentialitePage() {
           <p className="mt-2">Lettre : tu restes inscrit tant que tu ne te désinscris pas. Tous les 2 ans, on te demande par e-⁠mail si tu veux la garder ; sans clic de ta part, on te désinscrit. Une adresse jamais confirmée est effacée après 7 jours. Quand tu te désinscris, on efface l’empreinte de ton IP et on garde 3 ans ton adresse, la date et la version de ton accord et la date de ta désinscription : c’est la preuve de ton choix et la liste qui nous empêche de t’écrire de nouveau. Si tu supprimes ensuite ton compte avec cette même adresse, cette trace est effacée avec lui.</p>
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.duree)}</p>}
         </section>
+        {/* s22, avis @legal du 25/10 (point 2), mot pour mot : publiée avec l'ouverture de « Ta question
+            à l'équipe » (jamais avant). Ancre visée par le lien « Confidentialité » de l'encadré du profil. */}
+        {QUESTION_EQUIPE_OUVERTE && (
+          <section id={QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE} className="scroll-mt-24" data-testid="confidentialite-question-equipe">
+            <h2 className={SECTION_TITLE}>{frTypo(QUESTION.titre)}</h2>
+            <ul className={LIST}>
+              {QUESTION.puces.map((texte) => (
+                <li key={texte.slice(0, 24)}>{frTypo(texte)}</li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </div>
   );

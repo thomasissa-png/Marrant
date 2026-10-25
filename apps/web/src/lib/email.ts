@@ -41,7 +41,9 @@ export type TransactionalEmailKind =
   | "lettre-confirmation"
   | "lettre-numero"
   // s21 : lettre de la semaine (Premium) et proposition unique aux abonnés existants.
-  | "lettre-hebdo";
+  | "lettre-hebdo"
+  // s22 : « Ta question à l'équipe » (Premium), vers contact@ ; objet fixe, jamais le texte en alerte.
+  | "question-equipe";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";
