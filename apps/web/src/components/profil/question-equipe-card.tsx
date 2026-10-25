@@ -6,6 +6,8 @@
  * États : vide, envoi, succès (champ vidé), erreurs (vide, trop long, envoi impossible,
  * trop d'envois, session expirée), le texte saisi restant dans le champ en cas d'erreur.
  * Le texte n'est jamais envoyé à Umami : événements sans contenu.
+ * s22 : renvoi du MÊME texte dans les 10 minutes (Resend lent, réponse perdue) = même
+ * `tentative`, donc même clé d'idempotence côté serveur : un seul e-mail part.
  */
 import Link from "next/link";
 import { useId, useRef, useState, type FormEvent } from "react";
@@ -25,6 +27,13 @@ const nombre = (n: number) => n.toLocaleString("fr-FR");
 const typo = (t: string) => frTypoTexte(t).replace(/(\d) à(?: |\u00a0)(\d)/g, `$1${NBSP}à${NBSP}$2`);
 const longueur = (texte: string) => [...texte].length;
 
+/** Tentative `<ms>-<aléa>` : gardée pour le même texte pendant la fenêtre de 10 minutes du serveur. */
+const FENETRE_TENTATIVE_MS = 10 * 60_000;
+function nouvelleTentative(): string {
+  const alea = typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID().replace(/-/g, "") : Math.random().toString(36).slice(2).padEnd(12, "0");
+  return `${Date.now()}-${alea.slice(0, 24)}`;
+}
+
 function erreurDeReponse(status: number, code: unknown): Erreur {
   if (status === 401) return "session";
   if (status === 429) return "trop";
@@ -38,6 +47,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
   const [etat, setEtat] = useState<Etat>({ etat: "saisie" });
   const champ = useRef<HTMLTextAreaElement>(null);
   const succes = useRef<HTMLParagraphElement>(null);
+  const tentative = useRef<{ texte: string; id: string; debut: number } | null>(null);
 
   if (!QUESTION_EQUIPE_OUVERTE) return null;
 
@@ -60,11 +70,16 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
     if (propre.length === 0) return echouer("vide");
     if (longueur(propre) > QUESTION_EQUIPE_MAX) return echouer("trop-long");
     setEtat({ etat: "envoi" });
+    const t = tentative.current;
+    if (!t || t.texte !== propre || Date.now() - t.debut > FENETRE_TENTATIVE_MS) {
+      const id = nouvelleTentative();
+      tentative.current = { texte: propre, id, debut: Number(id.split("-")[0]) };
+    }
     try {
       const res = await fetch(QUESTION_EQUIPE_API, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: propre }),
+        body: JSON.stringify({ question: propre, tentative: tentative.current?.id }),
         signal: typeof AbortSignal.timeout === "function" ? AbortSignal.timeout(15_000) : undefined,
       });
       if (!res.ok) {
@@ -72,6 +87,7 @@ export function QuestionEquipeCard({ className }: { className?: string }) {
         return echouer(erreurDeReponse(res.status, corps?.error));
       }
       setQuestion("");
+      tentative.current = null;
       setEtat({ etat: "succes" });
       trackUmami("question-equipe-envoyee");
       requestAnimationFrame(() => succes.current?.focus());

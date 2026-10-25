@@ -136,7 +136,7 @@ describe("Formulaire : états et accessibilité", () => {
     expect(screen.getByRole("button", { name: T.envoiEnCours })).toBeDisabled();
     const [url, init] = fetchMock.mock.calls[0];
     expect(url).toBe("/api/question-equipe");
-    expect(JSON.parse((init as RequestInit).body as string)).toEqual({ question: QUESTION });
+    expect(JSON.parse((init as RequestInit).body as string)).toEqual({ question: QUESTION, tentative: expect.stringMatching(/^\d{13}-[A-Za-z0-9]{8,40}$/) });
     await act(async () => finir(reponse(200, { envoye: true })));
     const statut = screen.getByTestId("question-equipe-statut");
     expect(statut).toHaveAttribute("aria-live", "polite");
@@ -207,5 +207,52 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     expect(texte(art10)).toContain("au plus tard sous 3 jours ouvrés");
     expect(texte(cgu)).not.toMatch(/7 jours/);
     expect(texte(cgu)).toContain("Dernière mise à jour : 12 novembre 2026");
+  });
+});
+
+describe("Tentative (idempotence s22) : même texte renvoyé = même tentative", () => {
+  const tentatives = () =>
+    fetchMock.mock.calls
+      .filter(([url]) => url === "/api/question-equipe")
+      .map(([, init]) => (JSON.parse((init as RequestInit).body as string) as { tentative: string }).tentative);
+  const envoyerTexte = async (valeur: string) => {
+    fireEvent.change(champ(), { target: { value: valeur } });
+    await act(async () => {
+      fireEvent.click(screen.getByRole("button", { name: T.bouton }));
+    });
+  };
+
+  it("échec puis renvoi du même texte : même tentative ; texte modifié : nouvelle ; après succès : nouvelle", async () => {
+    fetchMock.mockResolvedValueOnce(reponse(503, { error: "envoi" }));
+    render(<QuestionEquipeCard />);
+    await envoyerTexte(QUESTION);
+    fetchMock.mockResolvedValueOnce(reponse(503, { error: "envoi" }));
+    await envoyerTexte(QUESTION);
+    fetchMock.mockResolvedValueOnce(reponse(200, { envoye: true }));
+    await envoyerTexte(`${QUESTION} Une précision.`);
+    fetchMock.mockResolvedValueOnce(reponse(200, { envoye: true }));
+    await envoyerTexte(`${QUESTION} Une précision.`);
+    const [a, b, c, d] = tentatives();
+    expect(a).toMatch(/^\d{13}-[A-Za-z0-9]{8,40}$/);
+    expect(b).toBe(a);
+    expect(c).not.toBe(a);
+    expect(d).not.toBe(c);
+  });
+
+  it("même texte renvoyé plus de 10 minutes après : nouvelle tentative", async () => {
+    let maintenant = Date.UTC(2026, 10, 12, 10, 0);
+    const spy = jest.spyOn(Date, "now").mockImplementation(() => maintenant);
+    try {
+      fetchMock.mockResolvedValue(reponse(503, { error: "envoi" }));
+      render(<QuestionEquipeCard />);
+      await envoyerTexte(QUESTION);
+      maintenant += 11 * 60_000;
+      await envoyerTexte(QUESTION);
+      const [a, b] = tentatives();
+      expect(b).not.toBe(a);
+      expect(Number(b.split("-")[0])).toBe(maintenant);
+    } finally {
+      spy.mockRestore();
+    }
   });
 });

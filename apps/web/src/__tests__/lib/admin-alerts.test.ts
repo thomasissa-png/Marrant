@@ -82,6 +82,15 @@ describe("classerAlerte", () => {
     ["qualite-matin", "B", "qualite-matin", null],
     ["publish-social-failure-alert", "B", "publish-social-failure-alert", null],
     ["cle-inconnue", "B", "cle-inconnue", null],
+    // s22 : approbation des lettres en attente → point du matin de Thomas ; le reste des lettres reste B.
+    ["lettre-mensuelle-non-approuve", "A", "lettre-mensuelle-non-approuve", null],
+    ["lettre-hebdo-non-approuve", "A", "lettre-hebdo-non-approuve", null],
+    ["lettre-hebdo-stock", "B", "lettre-hebdo-stock", null],
+    ["lettre-hebdo-sans-numero", "B", "lettre-hebdo-sans-numero", null],
+    // s22 : délivrabilité (webhook des rebonds, surveillance DNS).
+    ["email-plainte", "A", "email-plainte", null],
+    ["email-dns", "A", "email-dns", null],
+    ["delivrabilite-rebond-definitif", "B", "delivrabilite-rebond-definitif", null],
   ])("%s → %s", (cle, classe, type, reseau) => {
     expect(classerAlerte(cle)).toEqual({ classe, type, reseau });
   });

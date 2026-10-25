@@ -2,7 +2,9 @@
  * POST /api/question-equipe (s22, « Ta question à l'équipe », V1) : envoie la question d'un
  * abonné Premium par e-mail à contact@deviens-marrant.fr. Rien en base.
  *
- * Corps : { question: string } (1 000 caractères au plus). Tout autre champ est ignoré.
+ * Corps : { question: string, tentative?: string } (1 000 caractères au plus). Tout autre
+ * champ est ignoré. Même texte + même `tentative` (renvoi après un délai dépassé) = même
+ * clé d'idempotence Resend : un seul e-mail (`lib/question-equipe.ts`).
  * Réponses : 200 { envoye: true } ; 400 { error: "invalide" | "vide" | "trop-long" } ;
  * 401 { error: "session" } ; 403 { error: "non-premium" } (ou origine refusée) ;
  * 404 interrupteur `QUESTION_EQUIPE_OUVERTE` fermé ; 429 { error: "trop" } + Retry-After ;
@@ -70,6 +72,9 @@ export async function POST(request: Request) {
       await envoyerQuestionEquipe({
         question: validation.question,
         replyTo,
+        compte: userId,
+        tentative: corps.data.tentative,
+        now,
         envoyer: (to, subject, text, options) => sendServiceTextEmail(to, subject, text, "question-equipe", options),
       });
     } catch {

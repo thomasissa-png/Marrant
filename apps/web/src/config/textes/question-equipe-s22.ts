@@ -40,9 +40,13 @@ export const QUESTION_EQUIPE_UI = {
   },
 } as const;
 
-/** E-mail reçu par l'équipe (interne). Objet FIXE, sans aucune donnée de l'abonné. */
+/**
+ * E-mail reçu par l'équipe (interne). Objet fixe, sans aucune donnée de l'abonné, mais
+ * distinct par message (s22) : le webmail ne regroupe plus toutes les questions en un seul
+ * fil. `quand` = jour et heure de Paris de l'envoi, « 25/10 14:32 ».
+ */
 export const QUESTION_EQUIPE_EMAIL = {
-  objet: "Ta question à l'équipe : nouvelle question d'un abonné Premium",
+  objet: (quand: string) => `Ta question à l'équipe · ${quand} (Paris)`,
   corps: (question: string) =>
     [
       "Nouvelle question d'un abonné Premium (encadré « Ta question à l'équipe » du profil).",

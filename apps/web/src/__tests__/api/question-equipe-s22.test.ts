@@ -40,6 +40,7 @@ jest.mock("@/lib/email", () => ({ sendServiceTextEmail: (...a: unknown[]) => env
 
 import { POST } from "@/app/api/question-equipe/route";
 import { QUESTION_EQUIPE_EMAIL } from "@/config/textes/question-equipe-s22";
+import { debutTentative, horodatageParis } from "@/lib/question-equipe";
 
 const QUESTION = "SECRET-QUESTION Mon beau-frère me chambre sur mon métier à chaque repas de famille.";
 const T0 = new Date("2026-11-12T10:00:00Z").getTime();
@@ -141,10 +142,11 @@ describe("E-mail envoyé", () => {
     expect(envoi).toHaveBeenCalledTimes(1);
     const [to, objet, texte, kind, options] = envoi.mock.calls[0] as [string, string, string, string, { replyTo: string }];
     expect(to).toBe("contact@deviens-marrant.fr");
-    expect(objet).toBe(QUESTION_EQUIPE_EMAIL.objet);
+    // s22 : objet fixe mais horodaté (10:00 UTC = 11:00 à Paris en heure d'hiver), sans donnée de l'abonné.
+    expect(objet).toMatch(/^Ta question à l'équipe · \d{2}\/\d{2} 11:00 \(Paris\)$/);
     expect(objet).not.toMatch(/abonne|SECRET/);
     expect(kind).toBe("question-equipe");
-    expect(options).toEqual({ replyTo: "abonne@x.fr" });
+    expect(options).toEqual({ replyTo: "abonne@x.fr", idempotencyKey: expect.stringMatching(/^question-equipe\/[0-9a-f]{64}$/) });
     expect(texte).toContain(QUESTION);
     expect(texte).not.toContain("pirate");
   });
@@ -203,5 +205,83 @@ describe("Garde-fou anti-abus (par compte)", () => {
     expect((await poser()).status).toBe(429);
     compte();
     expect((await poser()).status).toBe(200);
+  });
+});
+
+describe("Idempotence (Resend plus lent que 5 s) et objet distinct (s22)", () => {
+  const appel = (i: number) => envoi.mock.calls[i] as [string, string, string, string, { replyTo: string; idempotencyKey: string }];
+  const cle = (i: number) => appel(i)[4].idempotencyKey;
+  const tentative = (decalageMs = 0, alea = "abcdef0123456789") => `${horloge + decalageMs}-${alea}`;
+
+  it("même compte, même texte, même tentative : même clé ET même objet (Resend ne renvoie pas de second e-mail)", async () => {
+    compte();
+    const t = tentative();
+    await poser({ question: QUESTION, tentative: t });
+    horloge += 7_000; // la réponse s'est perdue après 5 s : l'abonné renvoie
+    await poser({ question: QUESTION, tentative: t });
+    expect(envoi).toHaveBeenCalledTimes(2);
+    expect(cle(1)).toBe(cle(0));
+    expect(appel(1)[1]).toBe(appel(0)[1]);
+    expect(appel(0)[4].idempotencyKey).not.toContain("abonne");
+  });
+
+  it("autre texte, autre compte ou nouvelle tentative : autre clé", async () => {
+    const u = compte();
+    const t = tentative();
+    await poser({ question: QUESTION, tentative: t });
+    await poser({ question: `${QUESTION} (suite)`, tentative: t });
+    await poser({ question: QUESTION, tentative: tentative(0, "zzzzzzzz11111111") });
+    compte();
+    await poser({ question: QUESTION, tentative: t });
+    const cles = [0, 1, 2, 3].map(cle);
+    expect(new Set(cles).size).toBe(4);
+    expect(u).toBeTruthy();
+  });
+
+  it("objet horodaté à la minute de Paris de la tentative : deux questions à 3 min d'écart = deux objets (deux fils)", async () => {
+    compte();
+    await poser({ question: QUESTION, tentative: tentative() });
+    horloge += 3 * 60_000;
+    await poser({ question: "Autre question", tentative: tentative() });
+    expect(appel(0)[1]).not.toBe(appel(1)[1]);
+    expect(appel(0)[1]).toBe(QUESTION_EQUIPE_EMAIL.objet(horodatageParis(horloge - 3 * 60_000)));
+  });
+
+  it("sans tentative (ancien onglet) : même clé dans la fenêtre de 10 min du serveur, nouvelle clé après", async () => {
+    compte();
+    await poser({ question: QUESTION });
+    horloge += 2 * 60_000;
+    await poser({ question: QUESTION });
+    horloge += 10 * 60_000;
+    await poser({ question: QUESTION });
+    expect(cle(1)).toBe(cle(0));
+    expect(appel(1)[1]).toBe(appel(0)[1]);
+    expect(cle(2)).not.toBe(cle(0));
+  });
+
+  it("tentative trop vieille (> 10 min) ou piégée : repli sur la fenêtre du serveur (3 envois, garde-fou 3 / 10 min)", async () => {
+    compte();
+    await poser({ question: QUESTION });
+    await poser({ question: QUESTION, tentative: tentative(-11 * 60_000) });
+    await poser({ question: QUESTION, tentative: "x\r\nBcc: pirate@evil.example" });
+    expect(envoi).toHaveBeenCalledTimes(3);
+    expect(new Set([0, 1, 2].map(cle)).size).toBe(1);
+    for (let i = 0; i < 3; i++) expect(appel(i)[1]).not.toMatch(/[\r\n]|pirate/);
+  });
+
+  it("debutTentative : en avance de plus d'1 min ou mal formée = fenêtre du serveur ; plausible = gardée", () => {
+    const now = Date.UTC(2026, 10, 12, 10, 4, 30);
+    const fenetre = { debut: Date.UTC(2026, 10, 12, 10, 0), jeton: `fenetre-${Date.UTC(2026, 10, 12, 10, 0)}` };
+    expect(debutTentative(`${now + 2 * 60_000}-abcdef0123`, now)).toEqual(fenetre);
+    expect(debutTentative("1234-court", now)).toEqual(fenetre);
+    expect(debutTentative(undefined, now)).toEqual(fenetre);
+    expect(debutTentative(`${now - 9 * 60_000}-abcdef0123`, now)).toEqual({ debut: now - 9 * 60_000, jeton: `${now - 9 * 60_000}-abcdef0123` });
+    expect(debutTentative(`${now + 30_000}-abcdef0123`, now).debut).toBe(now + 30_000);
+  });
+
+  it("horodatage de Paris : heure d'été et d'hiver", () => {
+    expect(horodatageParis(Date.UTC(2026, 9, 25, 12, 32))).toBe("25/10 13:32");
+    expect(horodatageParis(Date.UTC(2026, 6, 14, 12, 5))).toBe("14/07 14:05");
+    expect(horodatageParis(Date.UTC(2026, 11, 31, 23, 30))).toBe("01/01 00:30");
   });
 });

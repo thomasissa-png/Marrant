@@ -77,6 +77,10 @@ export const CLES_ACTION_THOMAS: readonly string[] = [
   // échec de connexion Google (`auth-connexion-google`).
   "email-",
   "auth-",
+  // s22 (25/10/2026) : chaque numéro de lettre attend l'approbation de Thomas ; sans
+  // elle rien ne part. Classe A pour qu'il le voie dans le point du matin.
+  "lettre-mensuelle-non-approuve",
+  "lettre-hebdo-non-approuve",
 ];
 
 /**

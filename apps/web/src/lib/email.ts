@@ -60,11 +60,19 @@ async function sendOrAlert(
     headers?: Record<string, string>;
     replyTo?: string;
   },
+  idempotencyKey?: string,
 ): Promise<void> {
   try {
-    const { error } = await getResend().emails.send({ from: FROM_EMAIL, ...payload } as Parameters<Resend["emails"]["send"]>[0]);
+    const { error } = await getResend().emails.send(
+      { from: FROM_EMAIL, ...payload } as Parameters<Resend["emails"]["send"]>[0],
+      idempotencyKey ? { idempotencyKey } : undefined,
+    );
+    // s22 : renvoi pendant que le premier envoi de même clé est encore en cours chez Resend :
+    // rien n'est perdu (le premier part), pas d'alerte ; l'appelant répond « réessaie ».
+    if (error?.name === "concurrent_idempotent_requests") throw Object.assign(new Error("Resend : envoi identique en cours"), { sansAlerte: true });
     if (error) throw new Error(`Resend : ${error.message}`);
   } catch (err) {
+    if ((err as { sansAlerte?: boolean }).sansAlerte) throw err;
     const message = err instanceof Error ? err.message : String(err);
     // Jamais l'adresse complète dans l'alerte : seulement le domaine.
     await recordAdminAlert({
@@ -160,9 +168,10 @@ export async function sendServiceTextEmail(
   subject: string,
   text: string,
   kind: TransactionalEmailKind,
-  options: { headers?: Record<string, string>; replyTo?: string } = {},
+  options: { headers?: Record<string, string>; replyTo?: string; idempotencyKey?: string } = {},
 ): Promise<void> {
-  await sendOrAlert(kind, { to, subject, text, ...options });
+  const { idempotencyKey, ...reste } = options;
+  await sendOrAlert(kind, { to, subject, text, ...reste }, idempotencyKey);
 }
 
 /**
