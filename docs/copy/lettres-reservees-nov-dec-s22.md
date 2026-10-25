@@ -131,7 +131,7 @@ Recherches faites le 25/10/2026 avec un outil de recherche web qui renvoie des r
 
 | N° | Fait affirmé dans la lettre | Page où le vérifier |
 |---|---|---|
-| F1 | Bref est créée par Kyan Khojandi et Bruno Muschio (Wikipédia les donne comme cocréateurs. À noter : la fiche du site `video-content-s20.json:628` écrit « Kyan Khojandi et Navo, créateurs de Bref » ; les sources que j'ai vues disent Bruno Muschio, pas Navo : fiche du site à vérifier, hors périmètre de ce fichier) | https://fr.wikipedia.org/wiki/Saison_1_de_Bref. et https://en.wikipedia.org/wiki/Bref |
+| F1 | Bref est créée par Kyan Khojandi et Bruno Muschio (Wikipédia les donne comme cocréateurs. À noter : la fiche du site `video-content-s20.json:628` écrit « Kyan Khojandi et Navo, créateurs de Bref » ; Navo est le pseudonyme de Bruno Muschio : la fiche du site est juste, rien à corriger) | https://fr.wikipedia.org/wiki/Saison_1_de_Bref. et https://en.wikipedia.org/wiki/Bref |
 | F2 | Diffusée sur Canal+ dans Le Grand Journal ; premier épisode le 29 août 2011 ; saison 1 jusqu'au 12 juillet 2012 | https://fr.wikipedia.org/wiki/Saison_1_de_Bref. |
 | F3 | La saison 1 compte 82 épisodes | https://fr.wikipedia.org/wiki/Saison_1_de_Bref. ; https://www.letemps.ch/culture/une-breve-histoire-trentenaire |
 | F4 | Le premier épisode s'intitule « Bref. J'ai dragué cette fille » | https://fr.wikipedia.org/wiki/Saison_1_de_Bref. ; https://tv.apple.com/fr/show/bref/umc.cmc.2jr7nqfluyvb3qf15vf8oxai5 (titre anglais « I Hit on That Girl ») |
@@ -260,25 +260,25 @@ Vérifications possibles que je n'ai pas pu faire : l'URL précise de la chaîne
 > Le Palmashow, c'est le duo formé de Grégoire Ludig et David Marsais. En février 2014, il met en ligne « Les monos de ski », un clip de rap tourné sur les pistes noires. Les deux comparses y portent des combinaisons rouges de moniteurs, s'échangent des rimes, et jouent sur tout l'attirail du moniteur de ski : baume à lèvres, vin chaud, tire-fesses.
 >
 > La technique : le couplet
-> Retiens la forme : un sujet très quotidien (les moniteurs de ski), traité en rap, donc en rimes. Nous en tirons un geste : quand on te lance une pique, réponds par deux vers qui riment. La rime joue le rôle d'un panneau « ceci est un jeu » : personne ne peut y lire une attaque, ni une excuse. Et un couplet, ça s'écrit avant. C'est la bonne nouvelle pour qui ne brille pas au débotté : tu prépares, tu sors, tu as l'air d'avoir improvisé.
+> Retiens la forme : un métier précis, moniteur de ski, raconté en rap, donc en rimes. On en tire un geste pour toi : quand on te lance une pique, réponds par deux vers qui riment. La rime dit « ceci est un jeu » avant même que l'autre ait pesé la phrase : difficile d'y entendre une attaque, ou une excuse. Et deux vers, ça se prépare. Pour les piques qui reviennent toujours, tu peux avoir ta réponse prête avant qu'on te la lance.
 >
 > Comment l'emprunter, en trois gestes
-> 1. Prends le thème de la pique (descendre, garder le chalet) et cherche un mot de la même famille qui rime avec quelque chose de très concret : un plat, une boisson, un objet.
+> 1. Prends un mot de la pique (descendre, la noire, le chalet) et cherche ce qui rime avec lui autour de toi : un plat, une boisson, un objet.
 > 2. Écris deux vers de longueur voisine : le premier se prend au sérieux, le second retombe sur le concret. La rime tombe sur le dernier mot de chaque vers.
-> 3. Dis-les au rythme d'un rappeur de station, sans sourire, et arrête-toi à la rime.
+> 3. Dis-les d'une voix normale, comme une information, et arrête-toi à la rime. Ne la souligne pas : elle s'entend toute seule, et c'est ton ton plat qui la rend drôle.
 >
 > Deux exemples sur la scène du chalet
-> « La piste noire, c'est du courage. Moi, mon courage, c'est le fromage. »
-> Le premier vers se prend au sérieux, le second retombe sur le fromage, et la rime fait le reste.
-> « Je skie comme je parle en soirée : très peu, en espérant être oublié. »
-> Tu compares ta façon de skier à ta façon de parler, et la rime fait passer l'aveu sans le peser.
+> « Toi, tu descends la noire. Moi, je surveille la bouilloire. »
+> Le premier vers laisse son exploit à Jules, le second te confie une mission minuscule, et la rime la rend aussi officielle que la sienne.
+> « Je descends aujourd'hui, c'est promis. Par l'escalier, vers midi. »
+> Tu dis oui à la question, mais pas à la piste : « descendre », pris au pied de la lettre, devient l'escalier du chalet, et « midi » ferme la rime en repoussant tout à plus tard.
 >
 > Ces deux couplets ne valent que pour ce matin. Le geste, lui, resservira dès qu'une pique te donnera un thème et que tu auras cinq minutes d'avance.
 >
 > À toi de jouer
 > 1. Choisis une pique que tu reçois souvent, ou que tu redoutes.
 > 2. Écris deux vers : une affirmation qui se prend au sérieux, puis une retombée sur du concret, avec la rime sur le dernier mot de chaque vers.
-> 3. Dis-les à voix haute, régulier, sans sourire, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, change le mot de fin, pas la phrase.
+> 3. Dis-les à voix haute, d'un ton de compte rendu, et arrête-toi à la rime. Si tu ne trouves pas de rime au bout de cinq minutes, change le mot de fin, pas la phrase.
 >
 > Jouer avec les registres, c'est l'étape 5 du parcours Confiance.
 > Aller à l'étape 5 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w51-etape5#etape-5
@@ -387,7 +387,7 @@ Ce que l'équipe ajoute sans source : « le couplet » est un nom de l'équipe p
 >
 > La risquée (treize mots)
 > « Ah, tu as remarqué. Bravo, Lucas. Il ne t'a fallu que trois heures. »
-> Celle-ci vise Lucas : tu le félicites d'avoir remarqué ton absence, et la fin retourne le compliment, puisqu'il lui a fallu toute la soirée. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Dans le bruit, la moitié de la phrase se perd et il ne reste que « trois heures », qui ne veut plus rien dire.
+> Celle-ci vise Lucas : tu le félicites d'avoir remarqué ton absence, et la fin retourne le compliment, puisqu'il lui a fallu toute la soirée. Elle suppose qu'on t'entende en entier et que tu voies son visage : un coin calme, ou le moment où la musique s'arrête pour le compte à rebours. Dans le bruit, la moitié de la phrase se perd et il ne reste que « trois heures », qui ne veut plus rien dire. Et elle ne se dit qu'à un ami qui rit de ses oublis : devant un hôte débordé par sa propre soirée, elle sonne comme un reproche, alors que c'est toi qui t'étais caché.
 >
 > Comment choisir
 > Règle la longueur sur le bruit. Dans le vacarme, on n'entend le plus souvent que la fin de ce que tu dis, et une phrase de treize mots arrive en miettes. Quatre mots quand la musique couvre tout, sept ou huit dans le brouhaha, la phrase entière seulement dans un coin calme. Et mets toujours le mot qui fait rire en dernier : c'est celui qu'on entendra.
