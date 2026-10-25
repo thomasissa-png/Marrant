@@ -480,7 +480,7 @@ describe("Destinataires (fonction unique) et rythme avec la lettre du mois (s22)
 describe("s22 : lettre réservée W46 réelle (texte libre de l'équipe), pied et ligne question ajoutés par le code", () => {
   it("jeudi 12/11 8 h 05, approuvée : objet et texte tels qu'écrits, puis la ligne « Ta question à l'équipe », puis le pied hebdo", async () => {
     const reel = preparerNumerosHebdo(numerosReservesReels).numeros[0];
-    expect(reel).toMatchObject({ semaine: "2026-W46", statut: "BROUILLON" });
+    expect(reel).toMatchObject({ semaine: "2026-W46", statut: "VALIDE" });
     mockDb.issues = [numero({ subject: reel.objet, preheader: reel.preEntete, bodyText: reel.corps, scheduledFor: reel.envoiPrevu })];
     mockDb.parcoursActifs = ["repartie"];
     const e = envoyer();

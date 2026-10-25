@@ -76,6 +76,9 @@ import {
   synchroniserNumerosHebdo,
 } from "@/lib/lettre/numeros-hebdo";
 import { empreinteNumero } from "@/lib/lettre/approbation-hebdo";
+import { PARCOURS_ETAPES, titreEtape } from "@/config/parcours-etapes";
+import type { ParcoursSlug } from "@/lib/entrees-parcours";
+import { BOULOT_PUBLIE, STORYTELLING_PUBLIE } from "@/config/parcours-publication";
 import { lireApercuLettre } from "@/lib/lettre/apercu";
 
 const NOW = new Date("2026-10-26T10:00:00Z");
@@ -110,25 +113,53 @@ describe("Schéma d'un numéro réservé (texte libre de l'équipe)", () => {
     }
   });
 
-  it("le fichier réel : un seul numéro, W46 en BROUILLON, lettre A des étalons recopiée mot pour mot (seul l'utm change)", () => {
+  it("le fichier réel : les 7 lettres réservées relues (W46 à W53 sans W49), VALIDE, recopiées mot pour mot depuis la version à lire", () => {
     const { numeros, ignores } = preparerNumerosHebdo(numerosReels);
     expect(ignores).toEqual([]);
-    expect(numeros).toHaveLength(1);
-    const n = numeros[0];
-    expect(n).toMatchObject({ semaine: "2026-W46", statut: "BROUILLON", objet: "T'as perdu ta langue ? Trois réponses" });
-    expect(n.preEntete).toBe("Une pique, trois réponses, et comment choisir selon la personne.");
-    expect(n.envoiPrevu.toISOString()).toBe("2026-11-12T07:00:00.000Z");
-    const doc = readFileSync(join(__dirname, "..", "..", "..", "..", "..", "docs", "copy", "lettre-premium-etalons-s22.md"), "utf8").split("\n");
-    const debut = doc.indexOf("## Lettre A : une situation, trois répliques");
-    const fin = doc.findIndex((l, i) => i > debut && l.startsWith("**Notes de rédaction"));
-    expect(debut).toBeGreaterThan(0);
-    expect(fin).toBeGreaterThan(debut);
-    const lettreA = doc.slice(debut, fin).filter((l) => l.startsWith(">")).map((l) => l.replace(/^> ?/, "")).join("\n");
-    expect(n.corps).toBe(lettreA.replace("utm_content=etalon-a", "utm_content=2026-w46-etape3"));
-    expect(n.corps.startsWith("Salut,\n\nSamedi de novembre, il pleut.")).toBe(true);
-    expect(n.corps.endsWith("À jeudi prochain,\nL'Équipe Deviens Marrant")).toBe(true);
-    expect(n.corps).toContain("https://deviens-marrant.fr/parcours/repartie?utm_source=lettre-premium&utm_medium=email&utm_content=2026-w46-etape3#etape-3");
-    expect(motifsInterdits([n.objet, n.preEntete, n.corps].join("\n"))).toEqual([]);
+    expect(numeros.map((n) => n.semaine)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    expect(numeros.map((n) => n.envoiPrevu.toISOString())).toEqual([
+      "2026-11-12T07:00:00.000Z", "2026-11-19T07:00:00.000Z", "2026-11-26T07:00:00.000Z", "2026-12-10T07:00:00.000Z",
+      "2026-12-17T07:00:00.000Z", "2026-12-24T07:00:00.000Z", "2026-12-31T07:00:00.000Z",
+    ]);
+    // Référence : docs/copy/lettres-reservees-nov-dec-s22-a-lire.md (objet, pré-en-tête, corps en lignes « > »).
+    const doc = readFileSync(join(__dirname, "..", "..", "..", "..", "..", "docs", "copy", "lettres-reservees-nov-dec-s22-a-lire.md"), "utf8").split("\n");
+    const attendues: Array<{ semaine: string; objet: string; preEntete: string; lignes: string[] }> = [];
+    for (const l of doc) {
+      const h = l.match(/^## .*\((\d{4}-W\d{2})\)/);
+      if (h) attendues.push({ semaine: h[1], objet: "", preEntete: "", lignes: [] });
+      const cur = attendues[attendues.length - 1];
+      if (!cur || h) continue;
+      const o = l.match(/^\*\*Objet :\*\* (.*)$/);
+      const pe = l.match(/^\*\*Pré-en-tête :\*\* (.*)$/);
+      if (o) cur.objet = o[1].trimEnd();
+      else if (pe) cur.preEntete = pe[1].trimEnd();
+      else if (l.startsWith(">")) cur.lignes.push(l.replace(/^> ?/, ""));
+    }
+    expect(attendues.map((a) => a.semaine)).toEqual(numeros.map((n) => n.semaine));
+    const mensuelles = semainesLettreDuMois();
+    for (const [k, n] of numeros.entries()) {
+      const a = attendues[k];
+      expect(n).toMatchObject({ statut: "VALIDE", objet: a.objet, preEntete: a.preEntete, corps: a.lignes.join("\n") });
+      expect(n.objet.length).toBeLessThanOrEqual(OBJET_HEBDO_MAX);
+      expect(n.corps.startsWith("Salut,\n\n")).toBe(true);
+      expect(n.corps.endsWith("\nL'Équipe Deviens Marrant")).toBe(true);
+      expect(mensuelles.has(n.semaine)).toBe(false);
+      expect(motifsInterdits([n.objet, n.preEntete, n.corps].join("\n"))).toEqual([]);
+      // Un seul lien du site, vers une étape publiée d'un parcours publié, utm de la semaine.
+      const liens = [...n.corps.matchAll(/https:\/\/deviens-marrant\.fr\/\S+/g)].map((m) => m[0]);
+      expect(liens).toHaveLength(1);
+      const m = liens[0].match(/^https:\/\/deviens-marrant\.fr\/parcours\/([a-z-]+)\?utm_source=lettre-premium&utm_medium=email&utm_content=(\d{4}-w\d{2})-etape(\d)#etape-(\d)$/);
+      expect(m).not.toBeNull();
+      const [, slug, utm, rangUtm, rang] = m!;
+      expect(utm).toBe(n.semaine.toLowerCase());
+      expect(rangUtm).toBe(rang);
+      expect(Object.keys(PARCOURS_ETAPES)).toContain(slug);
+      expect(titreEtape(slug as ParcoursSlug, Number(rang))).not.toBeNull();
+      if (slug === "storytelling") expect(STORYTELLING_PUBLIE).toBe(true);
+      if (slug === "boulot") expect(BOULOT_PUBLIE).toBe(true);
+    }
+    // W46 : version relue (la phrase fausse « toutes reprennent le mot de Hugo » a disparu).
+    expect(numeros[0].corps).not.toContain("toutes reprennent le mot de Hugo");
   });
 
   it("semaines des lettres du mois programmées (numeros.json) : W45 (05/11), W49 (03/12), 2027-W01 (07/01)", () => {
@@ -220,7 +251,7 @@ describe("Synchronisation en base (audience HEBDO_PREMIUM, periodKey = semaine)"
     expect(i).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
   });
 
-  it("production au déploiement : les 9 anciens numéros (W45 à W53, fiche recopiée, brouillons jamais envoyés) sont retirés, sauf W46 remplacé par la lettre A, à approuver", async () => {
+  it("production au déploiement : 9 anciens numéros (W45 à W53, fiche recopiée, jamais envoyés) ; W45 et W49 retirés, les 7 autres réécrits (VALIDE, sans approbation)", async () => {
     const SEMAINES = ["2026-W45", "2026-W46", "2026-W47", "2026-W48", "2026-W49", "2026-W50", "2026-W51", "2026-W52", "2026-W53"];
     for (const [k, semaine] of SEMAINES.entries()) {
       mockIssues.push({
@@ -241,15 +272,25 @@ describe("Synchronisation en base (audience HEBDO_PREMIUM, periodKey = semaine)"
     // Une lettre du mois en base n'est jamais touchée par la synchronisation des lettres réservées.
     mockIssues.push({ id: "m11", audience: "MENSUELLE", periodKey: "2026-11", subject: "On a comparé nos salaires", preheader: null, bodyText: "x", scheduledFor: new Date("2026-11-05T07:00:00Z"), status: "VALIDE", validatedAt: NOW });
     const r = await synchroniserNumerosHebdo(numerosReels, NOW);
-    expect(r).toMatchObject({ crees: 0, misAJour: 1, ignores: [] });
-    expect(r.retires).toEqual(SEMAINES.filter((s) => s !== "2026-W46"));
-    const hebdo = mockIssues.filter((i) => i.audience === "HEBDO_PREMIUM");
-    expect(hebdo).toHaveLength(1);
-    expect(hebdo[0]).toMatchObject({ id: "ancien1", periodKey: "2026-W46", status: "BROUILLON", subject: "T'as perdu ta langue ? Trois réponses", approvedHash: null });
-    expect(hebdo[0].bodyText).not.toContain("carnet");
+    expect(r).toMatchObject({ crees: 0, misAJour: 7, ignores: [] });
+    expect(r.retires).toEqual(["2026-W45", "2026-W49"]);
+    const hebdo = mockIssues.filter((i) => i.audience === "HEBDO_PREMIUM").sort((a, b) => a.periodKey.localeCompare(b.periodKey));
+    expect(hebdo.map((i) => i.periodKey)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
+    for (const i of hebdo) {
+      expect(i).toMatchObject({ id: `ancien${SEMAINES.indexOf(i.periodKey)}`, status: "VALIDE", approvedAt: null, approvedHash: null });
+      expect(i.bodyText.startsWith("Salut,")).toBe(true);
+      expect(i.bodyText).not.toContain("carnet");
+    }
+    expect(hebdo[0].subject).toBe("T'as perdu ta langue ? Trois réponses");
     expect(mockIssues.find((i) => i.id === "m11")).toBeDefined();
     // Redémarrage suivant : plus rien à faire.
     expect(await synchroniserNumerosHebdo(numerosReels, NOW)).toEqual({ crees: 0, misAJour: 0, retires: [], ignores: [] });
+  });
+
+  it("production, base sans lettre réservée : les 7 sont créées VALIDE, aucune approuvée", async () => {
+    const r = await synchroniserNumerosHebdo(numerosReels, NOW);
+    expect(r).toEqual({ crees: 7, misAJour: 0, retires: [], ignores: [] });
+    expect(mockIssues.every((i) => i.status === "VALIDE" && !i.approvedHash)).toBe(true);
   });
 
   it("numéro retiré du fichier avec un journal d'envoi (cas limite) : gardé pour l'historique, remis en brouillon sans approbation, ne part plus", async () => {

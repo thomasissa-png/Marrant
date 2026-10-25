@@ -138,16 +138,15 @@ describe("Sans approbation de Thomas, rien ne part", () => {
     expect(LETTRE_HEBDO_ENVOIS_OUVERTS).toBe(true);
   });
 
-  it("fichier réel synchronisé (W46, lettre A) : aucun numéro approuvé par défaut, le jeudi 12/11 8 h 05 rien ne part", async () => {
+  it("fichier réel synchronisé (7 lettres réservées VALIDE) : aucun numéro approuvé par défaut, le jeudi 12/11 8 h 05 rien ne part", async () => {
     mockDb.issues = [];
     await synchroniserNumerosHebdo(numerosReels, avant);
-    expect(mockDb.issues).toHaveLength(1);
+    expect(mockDb.issues.map((i) => i.periodKey)).toEqual(["2026-W46", "2026-W47", "2026-W48", "2026-W50", "2026-W51", "2026-W52", "2026-W53"]);
     for (const i of mockDb.issues) {
-      expect(i).toMatchObject({ approvedAt: null, approvedBy: null, approvedHash: null });
+      expect(i).toMatchObject({ status: "VALIDE", approvedAt: null, approvedBy: null, approvedHash: null });
       expect(approbationValide(i)).toBe(false);
     }
-    // Même passé à VALIDE (commit de Thomas), un numéro sans approbation ne part pas.
-    for (const i of mockDb.issues) i.status = "VALIDE";
+    // VALIDE dans le fichier (relu, accord de Thomas du 25/10) : sans approbation dans l'admin, rien ne part.
     const e = envoyer();
     const r = await tache(JEUDI_8H05, e);
     expect(r).toMatchObject({ ferme: false, numero: "2026-W46", nonApprouve: true, envoyes: 0 });
