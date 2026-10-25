@@ -73,3 +73,10 @@ Grep exhaustif fait dans `apps/web/src` (vanne décryptée, vanne du mois, vanne
 
 
 > **Arbitrage de l'orchestrateur (25/10)** : ligne 6, « et parfois une mention de Premium » devient « et une mention de Premium » (l'encart figure dans chaque lettre envoyée aux inscrits par adresse ; « parfois » serait inexact). Version de consentement à passer à `lettre-mensuelle-v3` avec archive de la v2, mécanique existante.
+
+## Version finale après relecture (`docs/reviews/review-description-lettre-s22.md`, 25/10)
+
+- Ligne 6, case de consentement (v3) : « Oui, je veux recevoir la lettre de Deviens Marrant une fois par mois. Elle contient une situation, trois répliques, un exercice et une mention de Premium. Je peux me désinscrire en un clic, à tout moment. »
+- Ligne 9 : « Lettre gratuite : une situation, trois répliques, chaque mois. »
+- Nouveau, `lettre-s21.ts` l. 137 (page « C'est confirmé ») : le lien « Voir la vanne du jour et son décryptage » devient « En attendant le prochain numéro, la vanne du jour » (même destination).
+- Lignes 1 à 5, 7 et 8 : inchangées par rapport au tableau.
