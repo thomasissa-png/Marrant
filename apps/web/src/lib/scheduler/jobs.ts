@@ -916,6 +916,44 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
   };
 
   /**
+   * Job : Surveillance DNS des e-mails (s22) : SPF, DKIM, DMARC, MX par DoH, une fois par
+   * jour dans la fenêtre 4h UTC (avant le point du matin). Verrou daté du jour CONSERVÉ
+   * après un contrôle enregistré ; DoH injoignable avant 4h45 : verrou relâché, nouvel
+   * essai au tick suivant. 2 jours de suite hors `ok` : alerte A `email-dns`. Aucun LLM.
+   */
+  const runEmailDnsJob = async (now: Date = new Date()) => {
+    try {
+      if (now.getUTCHours() !== 4) return;
+      const { tryAcquireLock, releaseLock, buildJobLockKey } = await import("@/lib/job-lock");
+      const lockKey = buildJobLockKey("email-dns", now);
+      if (!(await tryAcquireLock(lockKey, 2 * 60 * 60 * 1000))) return;
+      try {
+        const { prisma } = await import("@/lib/prisma");
+        const { recordAdminAlert, jourParisDe } = await import("@/lib/admin-alerts");
+        const { surveillerDns } = await import("@/lib/delivrabilite/dns");
+        const res = await surveillerDns(now, {
+          db: prisma as unknown as import("@/lib/delivrabilite/dns").DnsDb,
+          jour: jourParisDe(now),
+          alerter: recordAdminAlert,
+          dernierEssai: now.getUTCMinutes() >= 45,
+        });
+        if (res.aRetenter) {
+          await releaseLock(lockKey);
+          console.warn("[scheduler:email-dns] Résolveur DoH injoignable : nouvel essai au tick suivant.");
+          return;
+        }
+        const enDefaut = res.etat?.enDefaut ?? [];
+        console.log(`[scheduler:email-dns] ${res.statut}${enDefaut.length ? ` (${enDefaut.join(", ")}, ${res.etat?.consecutifs} jour(s) de suite)` : ""}.`);
+      } catch (err) {
+        await releaseLock(lockKey);
+        throw err;
+      }
+    } catch (err) {
+      console.error("[scheduler:email-dns] Échec :", err);
+    }
+  };
+
+  /**
    * Job : Rapport hebdomadaire des visites (Umami + conversions en base).
    * Lundi 7h-8h heure de Paris (heure d'été gérée), verrou hebdomadaire
    * conservé après envoi (1 email par semaine), relâché en cas d'échec pour
@@ -976,6 +1014,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     await runLettreHebdoJob();
     await runLettreEntretienJob();
     await runLettreHebdoEntretienJob();
+    await runEmailDnsJob();
     await runWeeklyVisitsReportJob();
     await runAdminDigestJob();
   };
@@ -997,5 +1036,6 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     runBufferStatusCheckJob,
     runCouvertureSocialeJob,
     runAdminDigestJob,
+    runEmailDnsJob,
   };
 }

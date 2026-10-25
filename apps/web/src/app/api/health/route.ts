@@ -27,6 +27,13 @@
  * (et `status: "degraded"` en 200), il ne peut donc plus masquer une panne
  * critique. Une sonde externe se cale sur le code HTTP.
  *
+ * s22 (25/10/2026) : bloc `email`, sans aucun détail. `dns` = état du dernier contrôle
+ * quotidien SPF / DKIM / DMARC / MX (`lib/delivrabilite/dns.ts`) : `ok`, `degraded`
+ * (écart, résolveur injoignable, ou dernier contrôle de plus de 72 h) ou `unknown` (aucun
+ * contrôle encore enregistré). `eventsWebhookSecret` = secret du webhook des rebonds
+ * présent (format `whsec_`, jamais la valeur). Informatif : ne change ni `status` ni le
+ * code HTTP (l'alerte A `email-dns` prévient Thomas après 2 jours).
+ *
  * Réponse volontairement JSON stable pour un monitoring externe
  * (UptimeRobot, BetterStack) — champ `status` = "ok" | "degraded" | "down".
  * Codes HTTP : 200 (ok/degraded) — 503 (down). Un monitoring peut se caler
@@ -45,6 +52,8 @@ import {
   isContentGenerationEnabled,
   type StockCoverage,
 } from "@/lib/scheduler/prepared-content";
+import { etatDnsPourSante, lireEtatDns, type DnsDb } from "@/lib/delivrabilite/dns";
+import { secretSvixValide } from "@/lib/delivrabilite/svix";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -123,12 +132,18 @@ interface CriticalChecks {
   failures: string[];
 }
 
+interface EmailChecks {
+  dns: "ok" | "degraded" | "unknown";
+  eventsWebhookSecret: boolean;
+}
+
 interface HealthPayload {
   status: "ok" | "degraded" | "down";
   contentStatus: "ok" | "degraded" | "unknown";
   timestamp: string;
   uptime: number;
   critical: CriticalChecks;
+  email: EmailChecks;
   checks: {
     database: {
       status: "up" | "down";
@@ -201,6 +216,15 @@ function criticalChecks(database: "up" | "down"): CriticalChecks {
   return { status: failures.length ? "down" : "ok", database, stripe, resend, failures };
 }
 
+/** État e-mail sans détail ; la lecture de l'état DNS ne lève jamais. */
+async function emailChecks(now: number, database: "up" | "down"): Promise<EmailChecks> {
+  const etat = database === "up" ? await lireEtatDns(prisma as unknown as DnsDb) : null;
+  return {
+    dns: database === "up" ? etatDnsPourSante(etat, new Date(now)) : "unknown",
+    eventsWebhookSecret: secretSvixValide(process.env.RESEND_EVENTS_WEBHOOK_SECRET),
+  };
+}
+
 /** Mode stock : DailyContent du jour (ou de la veille avant 7 h UTC). */
 async function checkDailyToday(now: number): Promise<DailyTodayCheck> {
   const today = todayUTC();
@@ -265,6 +289,7 @@ export async function GET() {
       timestamp: new Date().toISOString(),
       uptime: process.uptime(),
       critical: criticalChecks("down"),
+      email: await emailChecks(now, "down"),
       checks: {
         database: dbStatus,
         content: null,
@@ -354,6 +379,7 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
     critical,
+    email: await emailChecks(now, "up"),
     checks: {
       database: dbStatus,
       content,

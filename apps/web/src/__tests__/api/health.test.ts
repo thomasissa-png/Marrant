@@ -377,3 +377,34 @@ describe("GET /api/health", () => {
     });
   });
 });
+
+// ─── s22 : bloc email (surveillance DNS, secret du webhook des rebonds) ─────
+describe("GET /api/health — bloc email (s22)", () => {
+  const mem = prisma as unknown as { ceoMemory?: { findUnique: jest.Mock } };
+  afterEach(() => {
+    delete mem.ceoMemory;
+    delete process.env.RESEND_EVENTS_WEBHOOK_SECRET;
+  });
+  const etat = (statut: string) => ({ value: { jour: "x", controleLe: new Date().toISOString(), statut, consecutifs: 1, enDefaut: ["dmarc"] } });
+
+  it("dns ok / degraded selon le dernier contrôle, sans aucun détail ; status global inchangé", async () => {
+    mem.ceoMemory = { findUnique: jest.fn().mockResolvedValue(etat("ok")) };
+    let { body } = await callHealth();
+    expect((body as unknown as { email: unknown }).email).toEqual({ dns: "ok", eventsWebhookSecret: false });
+    mem.ceoMemory.findUnique.mockResolvedValue(etat("ecart"));
+    ({ body } = await callHealth());
+    expect((body as unknown as { email: { dns: string } }).email.dns).toBe("degraded");
+    expect(body.status).toBe("ok");
+    expect(JSON.stringify(body)).not.toContain("dmarc");
+  });
+
+  it("base sans état (ou illisible) : unknown ; secret whsec_ présent : true (jamais la valeur)", async () => {
+    process.env.RESEND_EVENTS_WEBHOOK_SECRET = "whsec_dGVzdC1zZWNyZXQtdmFsZXVyLXMyMg==";
+    let { body } = await callHealth();
+    expect((body as unknown as { email: unknown }).email).toEqual({ dns: "unknown", eventsWebhookSecret: true });
+    expect(JSON.stringify(body)).not.toContain("whsec_");
+    mem.ceoMemory = { findUnique: jest.fn().mockRejectedValue(new Error("base")) };
+    ({ body } = await callHealth());
+    expect((body as unknown as { email: { dns: string } }).email.dns).toBe("unknown");
+  });
+});
