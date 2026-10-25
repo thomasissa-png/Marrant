@@ -1,97 +1,85 @@
-# Lettres du mois, de novembre 2026 à avril 2027 (s22) : réécriture au niveau des lettres réservées
+# Lettres du mois, de novembre 2026 à avril 2027 (s22) : version 9/10 après le plan corrigé
 
-> Statut : brouillons pour la relecture à l'aveugle (barre 8,5) puis l'approbation de Thomas, numéro par numéro. Rien n'est programmé, aucun fichier du site n'est touché, rien n'est commité. Les corps remplacent ceux de `apps/web/src/data/lettre/numeros.json` (une vanne + « Pourquoi ça marche » + exercice : la vanne du jour, refusée par Thomas le 25/10).
-> **Les répliques sont écrites pour l'occasion et n'ont pas encore passé la relecture à l'aveugle** : aucune ne part avant.
-> Lecteur : tout le monde. Chaque lettre se lit seule (quelqu'un qui découvre le site comprend « la sûre, la joueuse, la risquée » dès la première lettre), et se lit complète **sans** le bloc entre `[[invitation-premium]]` et `[[/invitation-premium]]` (comptes gratuits et abonnés). Le bloc est le PS pour les inscrits par adresse seule.
-> Format du fichier : comme `lettres-reservees-nov-dec-s22-a-lire.md`. Les champs `periode`, `datePlancher` et `envoiPrevu` sont repris du fichier actuel, inchangés.
+> Statut : brouillons pour deux relectures à l'aveugle indépendantes (barre 9/10), la lecture de l'orchestrateur, puis l'approbation de Thomas, numéro par numéro. Rien n'est programmé, aucun fichier du site n'est touché, rien n'est commité. Les corps remplacent ceux de `apps/web/src/data/lettre/numeros.json`.
+> **Les répliques sont écrites pour l'occasion et n'ont pas encore passé la relecture à l'aveugle** : aucune ne part avant. Plan suivi : `docs/strategy/plan-lettres-nov-2026-avril-2027.md` (§ 4 et § 5).
+> Lecteur : tout le monde (inscrit par adresse, compte gratuit, abonné). Chaque lettre entre directement dans la scène et se lit complète **sans** le bloc entre `[[invitation-premium]]` et `[[/invitation-premium]]` (le PS, lu par les seuls inscrits par adresse). Le lien de fin mène à une étape de parcours réservée Premium.
 
-## Ce qui a changé dans la révision du 25/10/2026 (suite à `docs/reviews/review-lettres-du-mois-s22.md`, 7,8/10)
-
-Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (règle d'or s18) ; chacune a été cherchée par Grep dans `apps/web/src/data` (aucune reprise). Inchangés, sur consigne : les liens de fin vers des étapes réservées, la phrase « une lettre chaque jeudi » des PS, les liens d'article, les dates plancher et d'envoi, les marqueurs `[[invitation-premium]]`.
+## Ce qui a changé dans cette passe (barre 9/10)
 
 | Lettre | Changements |
 |---|---|
-| 1. 05/11 | **Joueuse** « contrat d'exclusivité avec ma douche » (blague déjà dans le site, `joke-decryptages.json:701`) remplacée par « Ce soir, ma voix est en télétravail. Elle suit la soirée à distance. ». **Risquée** « je passe en deuxième partie » (ambiguë) remplacée par « Le directeur d'abord. Je ne passe jamais sans première partie. », explication corrigée. Intro : « aucune ne fait semblant d'avoir une vraie raison ». PS : « tu en reçois chaque jeudi » (plus de « série »). Pont d'article reformulé. Objet inchangé (41). |
-| 2. 03/12 | **Risquée** « tu as perdu un pari » (blessante) remplacée par « Dis-moi que tu n'as pas déjà commencé celui de l'an prochain. » (la proposition du relecteur n'a pas été gardée : peu lisible, redit la taille). « Comment choisir » : risquée seulement si la personne a déjà ri de son cadeau ; « de soi ». Pont d'article raccourci. Objet inchangé (42). |
-| 3. 07/01 | **Sûre** remplacée par « Comment tu fais tenir tout ça dans une semaine ? Il faut que je voie ce planning. » ; **règle** réécrite pour coller aux trois répliques (« comment », « tu as prévu », « on se reparle ») ; exercice aligné ; PS sans « sans engagement ». **Objet** : « Il a planifié toute son année. Et toi ? » (39). |
-| 4. 04/02 | **Erreur** remplacée par « En faire trop dans l'excuse… » (texte du relecteur, mot pour mot). « ce que Sam attendait derrière la pique » ; « garde la joueuse pour le moment où la table est réservée ». Objet inchangé (34). |
-| 5. 04/03 | **Joueuse** remplacée par « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. » (tournure du relecteur « Ça fait depuis » corrigée) ; **sûre** remplacée par « Merci de prévenir. Tu peux transférer le mail du proprio dans le groupe ? » ; erreur renommée « Agir avant de vérifier » avec un exemple plausible ; Léo devient Malik ; PS sans « sans engagement ». Objet inchangé (40). |
-| 6. 01/04 | GO, mineurs repris : **objet** « Une fête où tu ne connais que l'hôte » (36) ; pont de fin sur le moment de la phrase suivante ; explication de la risquée complétée (la porte laissée à l'autre). Aucune réplique changée. |
-| Contrôles | Objets recomptés par Grep : 41, 42, 39, 34, 40, 36. Zéro tiret cadratin, zéro émoji, aucun mot interdit hors PS (voir « Contrôles communs »). |
+| 1. 05/11 | **Refaite.** Le karaoké de la soirée de Noël (Noël en novembre, hors du cœur du problème) est abandonné. Trois candidates complètes sont dans `docs/copy/n1-candidates-s22.md` : (a) « Alors, t'as perdu ta langue ? », (b) l'hôte qui te présente comme le silencieux, (c) la raclette et le jeu de cartes. **Dans ce fichier, la candidate (a) tient la place** (reco du plan) en attendant le choix de Thomas. |
+| 2. 03/12 | Entrée directe dans la scène (le paragraphe « Le principe de cette lettre » disparaît ; les trois noms sont donnés avec les réponses). Scène, répliques, règle et erreur inchangées. Étape et article inchangés. |
+| 3. 07/01 | **Article ajouté** : `resolution-nouvelle-annee-etre-plus-drole`, `datePlancher` `2026-12-28`. Entrée directe. Étape Confiance 3 inchangée. |
+| 4. 04/02 | **Erreur remplacée** (« en faire trop dans l'excuse » était une excuse, déjà prise) par « Renvoyer la décision : on fait quoi, alors ? ». Phrase « si tu n'as pas encore réservé, c'est cette semaine » ajoutée (E12). Entrée directe. |
+| 5. 04/03 | **Échange du plan** : c'est maintenant la fête où tu ne connais que l'hôte (ex n°6). Samedi 6 mars. **Article ajouté** : `se-presenter-avec-humour`, `datePlancher` `2026-10-12`. **Erreur remplacée** (« s'excuser de déranger » était déjà prise) par « Viser le groupe déjà lancé ». Étape Machine à Café 2. |
+| 6. 01/04 | **Échange du plan** : c'est maintenant le canular (ex n°5), le jour même (« Aujourd'hui, c'est le 1er avril », plus de « Dans quatre semaines »). Pont d'article reformulé pour le jour J. `periode` 2027-04, `datePlancher` `2027-02-25`, étape Répartie 4. |
+| Toutes | Plus aucune réplique joueuse fondée sur un objet ou un organe promu à un statut officiel (hors la candidate (a), seule exception du corpus, voir `n1-candidates-s22.md`). Une erreur différente par lettre, aucune « s'excuser » ni « s'expliquer » dans les lettres 2 à 6. PS : « Une lettre chaque jeudi » partout. |
 
 ## Calendrier et leçons
 
-| N° | Jeudi | Période | Date plancher | Situation | Leçon neuve | Article | Étape de fin (Premium) |
-|---|---|---|---|---|---|---|---|
-| 1 | 05/11/2026 | 2026-11 | 2026-11-02 | soirée de Noël de la boîte, on te tend le micro | le test du lundi | `soiree-de-noel-entreprise-humour` | Boulot 4 |
-| 2 | 03/12/2026 | 2026-12 | 2026-11-23 | pull tricoté au pied du sapin | combien de temps l'autre y a mis | `repas-de-famille-questions-genantes-humour` | Confiance 4 |
-| 3 | 07/01/2027 | 2027-01 | null | dîner entre amis, la liste de résolutions de l'autre | répondre par une question | aucun | Confiance 3 |
-| 4 | 04/02/2027 | 2027-02 | 2026-11-05 | veille de Saint-Valentin, la réservation oubliée | réparer avant de plaisanter | `blagues-de-couple-drole` | Confiance 2 |
-| 5 | 04/03/2027 | 2027-03 | 2027-02-25 | message du 1er avril, vrai ou canular | la réplique qui survit au démenti | `blagues-poisson-d-avril-adultes` | Répartie 4 |
-| 6 | 01/04/2027 | 2027-04 | null | fête où tu ne connais que l'hôte, première phrase | s'appuyer sur ce que vous voyez tous les deux | aucun | Machine à Café 2 |
+| N° | Jeudi | Période | Date plancher | Scène | Règle de choix | Erreur | Article | Étape de fin (Premium) |
+|---|---|---|---|---|---|---|---|---|
+| 1 (provisoire : candidate a) | 05/11/2026 | 2026-11 | null | salon de coloc, « t'as perdu ta langue ? » | vers qui pointe la phrase | s'expliquer | `rester-muet-en-groupe` | Répartie 3 |
+| 2 | 03/12/2026 | 2026-12 | 2026-11-23 | pull tricoté au pied du sapin | le temps que l'autre y a mis | l'enthousiasme de façade | `repas-de-famille-questions-genantes-humour` | Confiance 4 |
+| 3 | 07/01/2027 | 2027-01 | 2026-12-28 | dîner d'amis, la liste de résolutions de l'autre | ce que ta question vérifie | répondre à sa place | `resolution-nouvelle-annee-etre-plus-drole` | Confiance 3 |
+| 4 | 04/02/2027 | 2027-02 | 2026-11-05 | veille de Saint-Valentin, réservation oubliée | d'abord réparer, ensuite plaisanter | renvoyer la décision | `blagues-de-couple-drole` | Confiance 2 |
+| 5 | 04/03/2027 | 2027-03 | 2026-10-12 | fête où tu ne connais que l'hôte | le travail que ta phrase donne à l'autre | viser le groupe déjà lancé | `se-presenter-avec-humour` | Machine à Café 2 |
+| 6 | 01/04/2027 | 2027-04 | 2027-02-25 | message de coloc le 1er avril | la réplique qui survit au démenti | agir avant de vérifier | `blagues-poisson-d-avril-adultes` | Répartie 4 |
 
 ---
 
-## 1. Jeudi 05/11/2026 (période 2026-11, date plancher 2026-11-02, envoi 2026-11-05T08:00:00+01:00)
+## 1. Jeudi 05/11/2026 (période 2026-11, date plancher null, envoi 2026-11-05T08:00:00+01:00) : candidate (a) provisoire
 
-`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A.
+`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A. **Texte identique à la candidate (a) de `docs/copy/n1-candidates-s22.md`** ; si Thomas choisit (b) ou (c), remplacer ce bloc par la candidate retenue (et lire les « interactions » en tête de ce fichier).
 
-**Objet** (41 car.) : Soirée de Noël : on te demande de chanter
-**Pré-en-tête** : Trois réponses à « allez, une chanson ! », et le test à passer avant de choisir.
+**Objet** (29 car.) : Alors, t'as perdu ta langue ?
+**Pré-en-tête** : Une pique devant huit personnes, trois réponses, et comment choisir selon la personne.
 
 > Salut,
 >
-> Si c'est ta première lettre : bienvenue. Chaque mois, on prend une situation où tout le monde cherche ses mots, et on y répond de trois façons : la sûre, la joueuse, la risquée. Puis on te donne la règle pour choisir entre elles.
+> Samedi soir, il pleut. Vous êtes huit dans le salon de la coloc de Léa, un canapé, deux poufs, et personne ne peut s'échapper sur le balcon. Tu n'as presque rien dit depuis une demi-heure. Hugo a fini par le remarquer :
 >
-> Ce mois-ci, la soirée de Noël de la boîte. 20 h 30, la salle de réunion a des guirlandes, une enceinte, et un karaoké que personne n'avait demandé. Karim, de la compta, tend le micro dans ta direction :
+> « Alors, t'as perdu ta langue ? »
 >
-> « Allez, une chanson ! Ne fais pas ton timide. »
->
-> Tout le service te regarde. Le directeur est à deux mètres, un verre à la main. Voici trois réponses, de la plus prudente à la plus audacieuse. Elles ont un point commun : aucune ne fait semblant d'avoir une vraie raison.
+> Huit visages se tournent vers toi. Voici trois réponses, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux, et comment choisir entre elles. Elles ont un point commun : aucune ne s'explique, et aucune ne dure plus de deux phrases.
 >
 > La sûre
-> « Quelqu'un doit applaudir. Je prends le poste. »
-> Tu ne refuses pas, tu proposes un rôle qui existe vraiment : sans public, un karaoké ne sert à rien. Elle ne vise personne, elle passe devant Karim comme devant le directeur. À choisir quand tu ne connais pas encore l'humeur de la soirée.
+> « Non, je la garde au chaud. Il fait froid dehors. »
+> Elle ne vise personne et ne demande aucune audace. Ta langue fait comme tout le monde dans ce salon : elle reste au chaud. À sortir quand tu connais mal ceux qui rient, quand Hugo a le ton un peu sec, ou quand il te reste peu d'énergie sociale.
 >
 > La joueuse
-> « Ce soir, ma voix est en télétravail. Elle suit la soirée à distance. »
-> Tu donnes à ta voix le statut qu'a la moitié du service le vendredi : présente, mais pas dans la salle. Personne ne peut y croire, donc personne ne te demandera lundi si elle va mieux. Dis-la sur le ton d'un message d'absence. À sortir quand Karim a déjà ri d'une de tes phrases dans la soirée.
+> « Je suis passé aux objets trouvés, mais ils ferment à 18 h. Je repasse demain. »
+> Tu traites ta langue comme un parapluie oublié dans le métro et tu déroules la suite avec le sérieux d'un guichet. L'heure de fermeture n'a rien à faire là, et c'est elle qui fait sourire. Elle demande une seconde de pause avant « Je repasse demain » et un visage qui ne bouge pas. À réserver aux amis que tu connais depuis un moment, dans une ambiance déjà rieuse.
 >
 > La risquée
-> « Le directeur d'abord. Je ne passe jamais sans première partie. »
-> Celle-ci met le directeur dans le jeu : tu te poses en tête d'affiche, et lui devient ta première partie. La hiérarchie s'inverse le temps d'une chanson. Attention, ce n'est pas un refus : si le directeur prend le micro, tu chantes après lui. Elle ne marche que s'il rit de lui-même, que la soirée est détendue et que tu es prêt à tenir parole. Sinon, elle reste dans ta tête.
+> « Tu parlais déjà pour trois. J'ai pris ma journée. »
+> La seule des trois qui vise Hugo : ton silence devient un congé que son bavardage t'a permis de prendre. Elle ne marche que si Hugo parle beaucoup, le sait, et rit quand c'est lui qu'on chambre. Devant quelqu'un de plus susceptible, elle sonne comme une attaque.
 >
-> Comment choisir : le test du lundi
-> Avant de répondre, demande-toi : « Est-ce que je pourrai la redire lundi, à 9 h, devant la personne concernée, sans avoir envie de m'expliquer ? » Une soirée de boîte s'oublie en une nuit, pas ce qu'on a dit au directeur ni la tête qu'on faisait en le disant. La sûre passe le test devant tout le monde. La joueuse le passe presque toujours. La risquée seulement si le directeur a déjà plaisanté sur lui-même devant toi. Au moindre doute, descends d'un cran.
+> Comment choisir
+> Regarde vers qui ta phrase pointe : la sûre reste sur toi, la joueuse t'emmène ailleurs, la risquée vise l'autre. Plus la phrase s'éloigne de toi, plus elle prend de risque, et plus il faut que l'autre ait déjà montré qu'il sait recevoir. Au moindre doute, descends d'un cran. Une sûre dite tout de suite vaut mieux qu'une risquée dite trop tard.
 >
 > L'erreur que tout le monde fait
-> Inventer une excuse. « Non merci, j'ai une extinction de voix. » Ça marche dix secondes. Puis quelqu'un te propose une pastille, un autre te demande si ça va mieux, et il faut garder la voix cassée jusqu'au dessert, et jusqu'à lundi : « Alors, tu as retrouvé ta voix ? » Une excuse inventée oblige à la jouer. Une phrase vraie, même drôle, se retient toute seule.
+> S'expliquer. « Non mais j'écoutais, j'ai juste pas grand-chose à dire, je suis un peu fatigué. » Tout est vrai, et ça ne marche pas. Une pique de chambrage est une invitation à jouer, elle ne réclame aucune raison. Dès que tu t'expliques, tu réponds comme à un reproche, tu montres que ça a touché, et le salon garde cette image. Hugo n'attend pas ton alibi, juste que tu renvoies la balle, même mollement.
 >
 > À essayer cette semaine
-> Pense à ce qu'on te demande en soirée et que tu fuis : chanter, danser, faire un discours, jouer à un jeu. Écris trois réponses, une par niveau, et passe chacune au test du lundi en imaginant la personne en face de toi à 9 h. Garde celle qui ne te fait pas rougir, et dis-la une fois à voix haute, seul, pour entendre comment elle sonne.
+> Note deux piques qu'on t'a lancées récemment, ou que tu redoutes. Pour chacune, écris une version sûre, une joueuse et une risquée, une phrase chacune. Puis dis la sûre à voix haute, seul, deux fois, sans te presser. Elle sera prête pour la prochaine fois. La joueuse viendra quand la sûre ne te fera plus peur.
 >
-> Notre article suit la soirée de Noël au boulot de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Il est en lecture libre.
-> Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
+> Rester muet en groupe n'a rien d'un défaut de caractère. Notre article « Rester muet en groupe : 7 techniques pour reprendre la parole » donne sept techniques, dont des phrases d'entrée à garder en poche. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/rester-muet-en-groupe?utm_source=lettre&utm_medium=email&utm_content=n1-article
 >
-> Et pour le moment d'après, quand on te demande de raconter ta semaine en trente secondes, c'est l'étape 4 du parcours Boulot, « L'afterwork : ta semaine en trente secondes ».
-> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/boulot?utm_source=lettre&utm_medium=email&utm_content=n1-etape4#etape-4
+> L'étape 3 du parcours Répartie s'appelle « Retourner les piques avec le sourire ».
+> Aller à l'étape 3 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n1-etape3#etape-3
 >
 > [[invitation-premium]]
-> PS : tu viens de choisir entre trois réponses. Avec Premium, tu en reçois chaque jeudi : la lettre du mois, plus des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, étape après étape, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. Le tout pour 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : si cette lettre te parle, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n1-premium
 > [[/invitation-premium]]
 >
 > À bientôt,
 > L'Équipe Deviens Marrant
 
-**Notes et contrôles de la lettre 1**
-- **Leçon neuve** : **le test du lundi** (« pourrai-je la redire lundi à 9 h devant la personne concernée ? »), qui mesure la conséquence après coup d'une réplique. Les réservées jouent sur la cible (12/11), le silence de la visio (26/11), la suite dans les 30 secondes (10/12), le couplet rimé (17/12), le test des deux bouts de la table (24/12), la longueur dans le bruit (31/12). La plus proche est « la suite que ta réplique t'impose » (10/12, ce que tu diras dans les 30 secondes qui suivent) : ici l'horizon est lundi et l'enjeu est la réputation, pas la conversation. À juger à la relecture à l'aveugle.
-- **Situation** : soirée de Noël de l'entreprise, invitation à chanter. Aucune des réservées ne se passe au karaoké ou en soirée d'entreprise (machine à café et visio pour le boulot).
-- **Erreur neuve** : l'excuse inventée (les réservées : s'expliquer, combler le silence, tirer jusqu'à la corde, contre-attaquer, l'esprit d'escalier).
-- **Révision du 25/10 (relecture à l'aveugle)** : la joueuse « contrat d'exclusivité avec ma douche » est remplacée (la blague « seul, sous la douche » existe déjà dans le site, `joke-decryptages.json:701`) par « Ce soir, ma voix est en télétravail. Elle suit la soirée à distance. » (proposition du relecteur, que je garde : dicible, personne n'est visé, le détail du message d'absence fait sourire). Grep « en télétravail » : la vanne `joke-decryptages.json:615` (« En télétravail, mon collègue le plus proche, c'est le livreur. ») partage le mot mais pas le ressort. La risquée devient « Le directeur d'abord. Je ne passe jamais sans première partie. », avec l'explication corrigée (tu te poses en tête d'affiche, le directeur devient ton chauffeur de salle). Phrase de l'intro alignée (« aucune ne fait semblant d'avoir une vraie raison »), PS : « tu en reçois chaque jeudi » (plus de « série »), pont d'article reformulé.
-- **Pont d'article** : phrase reprise des faits de la version actuelle validée (« suit la soirée moment par moment, de l'arrivée au départ », « règle des 3 zones », « lecture libre »). L'article, son utm `n1-article` et la date plancher ne changent pas.
-- **Étape de fin** : parcours Boulot, étape 4, « L'afterwork : ta semaine en trente secondes » (titre vérifié dans `apps/web/src/config/parcours-etapes.ts`) ; étape 4, donc réservée Premium (la première étape de chaque parcours est la seule gratuite, `config/premium.ts`). Boulot est publié (`BOULOT_PUBLIE = true`).
-- **PS** (contrôles communs aux six PS : consigne de Thomas, commit b992da44 : le prix est un argument, « 1,99 € par mois », prix mensuel affiché `PREMIUM_MONTHLY_PRICE_CENTS = 199` de `config/premium.ts`, jamais l'annuel ; le prix et le lien `/abonnement` ne figurent QUE dans le bloc, avec l'utm actuel `n1-premium` ; le mot « offre » est évité ; l'espace avant « € » est à remplacer par l'espace insécable U+00A0 à la saisie dans le JSON, comme `formatEuros`) : tout ce qu'il affirme est dans le code ou dans la décision de Thomas du 25/10 : cinq parcours (`PREMIUM_PARCOURS`, avec Storytelling et Boulot publiés), carnet mensuel (`config/premium.ts`), catalogue sans les limites gratuites (10 vannes, 3 conseils, 3 vidéos), lettre réservée chaque jeudi (décision du 25/10, lancement le 05/11, à confirmer au moment de l'envoi), « résiliable en ligne » et première étape sans compte (déjà dans la version actuelle validée). La lettre se lit complète sans lui.
+**Notes de la lettre 1** : voir `n1-candidates-s22.md` (grille, article, Grep, étapes). `datePlancher` : `null` (article du code, `apps/web/src/lib/blog-articles.ts:3634`).
 
 ---
 
@@ -104,13 +92,11 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 
 > Salut,
 >
-> Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, le 25 au matin, chez tes parents. Le sapin clignote, le café coule, et tata Annie a gardé son paquet pour la fin. Dedans, un pull vert à renne, tricoté main, deux fois trop grand. Elle te regarde, les mains jointes :
+> Le matin du 25, chez tes parents. Le sapin clignote, le café coule, et tata Annie a gardé son paquet pour la fin. Dedans, un pull vert à renne, tricoté main, deux fois trop grand. Elle te regarde, les mains jointes :
 >
 > « Alors, il te plaît ? Je l'ai fait en trois semaines. »
 >
-> Tout le salon attend. Voici trois réponses, de la plus prudente à la plus audacieuse. Aucune ne ment sur le pull.
+> Tout le salon attend. Voici trois réponses, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux, et la règle pour choisir. Aucune ne ment sur le pull.
 >
 > La sûre
 > « Trois semaines pour moi ? Je ne l'enlève pas avant ce soir. »
@@ -122,7 +108,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 >
 > La risquée
 > « Dis-moi que tu n'as pas déjà commencé celui de l'an prochain. »
-> Celle-ci vise tata : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Sous l'effroi joué, tu lui dis que tu sais ce que trois semaines de tricot représentent. Elle ne marche qu'avec une tante qui a ri la première de la taille du pull. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
+> Celle-ci vise tata : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Le doute est voulu, on peut y entendre de la tendresse autant que de l'effroi. Elle ne marche qu'avec une tante qui te chambre déjà et qui rit de ses propres élans. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
 >
 > Comment choisir : combien de temps l'autre y a mis
 > Regarde le temps que la personne a mis dans ce cadeau, pas ce qu'il a coûté : acheté en ligne en cinq minutes, choisi pour toi pendant un après-midi, ou fait de ses mains pendant trois semaines. Plus l'autre y a mis de soi, moins tu joues sur l'objet. Pour un cadeau fait main, la sûre, puis la joueuse si tu vois un sourire. La risquée, seulement si la personne a déjà ri de son cadeau avant toi. Au moindre doute, remercie d'abord, plaisante ensuite.
@@ -140,42 +126,37 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Aller à l'étape 4 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n2-etape4#etape-4
 >
 > [[invitation-premium]]
-> PS : si cette lettre t'a donné envie d'être prêt avant le repas, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci, les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
+> PS : si cette lettre t'a donné envie d'être prêt avant le repas, Premium est fait pour ça. Une lettre chaque jeudi : la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci. Tu ouvres aussi les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte, pour essayer.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n2-premium
 > [[/invitation-premium]]
 >
 > Bonnes fêtes, et à bientôt,
 > L'Équipe Deviens Marrant
 
-**Notes et contrôles de la lettre 2**
-- **Leçon neuve** : **combien de temps l'autre y a mis** (l'attachement de l'autre à l'objet fixe la dose de jeu). Les réservées : cible, silence, suite, couplet, test des deux bouts de la table, bruit. La plus proche, « le test de la table » (24/12), regarde qui écoute ; ici, on regarde ce que l'autre a investi dans ce qu'on commente. À juger à la relecture à l'aveugle.
-- **Situation** : ouverture d'un cadeau le 25 au matin. La réservée du 24/12 est le repas du réveillon avec la question de tonton : scène, personnage, pique et moment différents (matin, cadeau, tata Annie, pas de public à table).
-- **Erreur neuve** : l'enthousiasme de façade.
-- **Révision du 25/10 (relecture à l'aveugle)** : la risquée « Tata, soit tu m'aimes beaucoup, soit tu as perdu un pari. » disait que le pull était une punition, dans une scène où la règle de la lettre l'exclut. Le relecteur proposait « Deux tailles au-dessus, tata. Tu as vu le menu de midi ? » ; je ne l'ai pas gardée (le lien avec le repas ne se lit pas du premier coup, et elle reprend la taille déjà jouée par la joueuse). Remplacement : « Dis-moi que tu n'as pas déjà commencé celui de l'an prochain. », qui vise tata sans critiquer le pull (la lecture peut être de l'effroi ou de la tendresse, c'est le jeu) et reste conditionnée à une tante qui te chambre déjà. « Comment choisir » : « La risquée, seulement si la personne a déjà ri de son cadeau avant toi », « de soi » à la place de « d'elle ». Pont d'article : fin de phrase sur les réparties et la limite du physique retirée (« Chacune a sa sortie si on insiste. Lecture libre. »). Grep « déjà commencé », « celui de l'an prochain » : aucune reprise.
-- **Anti-doublon** : Grep « pull », « tricot », « renne », « tata », « pari », « cadeau » dans `apps/web/src/data` : aucune vanne ni réplique reprise (les occurrences de « pull » sont dans des exemples sur la mère et le vendeur, de « cadeau » dans le Secret Santa et le rayon des retardataires, sans rapport avec un pull tricoté).
-- **Pont d'article** : les faits (« six questions de Noël », « Alors, t'as quelqu'un ? » en tête, « chacune a sa sortie si on insiste ») sont repris de la version actuelle validée. L'article, son utm `n2-article` et la date plancher ne changent pas.
-- **Étape de fin** : Confiance, étape 4, « Être à l'aise en groupe » (titre vérifié dans `parcours-etapes.ts`) ; réservée Premium (au-delà de l'étape 1). La phrase ne dit que le titre de l'étape.
-- **Fin** : « Bonnes fêtes, et à bientôt, » reste vraie pour un abonné, qui reçoit une lettre réservée la semaine suivante (10/12) : elle ne promet aucun silence.
-- **PS** : même contrôle que la lettre 1 (prix `1,99 € par mois`, uniquement dans le bloc ; l'espace avant « € » sera insécable dans le JSON).
+**Notes de la lettre 2**
+- **Grille** : saison (3 décembre, trois semaines avant la scène : on s'y prépare, comme le plan l'accepte) ; entrée directe ; répliques d'un trait (11, 9 et 11 mots) ; situation vécue par un 20 à 30 ans (le cadeau fait main d'une tante devant la famille) ; règle (le temps que l'autre y a mis) et erreur (le « génial ! » de façade) absentes des réservées et des autres lettres.
+- **Aucune redite avec les réservées** : le repas de Noël du 24/12 (question de tonton à table) est un autre moment, un autre personnage et une autre pique. Aucune réplique de l'article lié reprise.
+- **Article** : « Repas de famille : répondre aux questions gênantes », slug `repas-de-famille-questions-genantes-humour`, publié le 23/11 (`datePlancher` `2026-11-23`, inchangé) ; faits du pont repris de la version validée (six questions de Noël, « Alors, t'as quelqu'un ? » en tête, chacune a sa sortie si on insiste).
+- **Étape de fin** : Confiance 4, « Être à l'aise en groupe » (`apps/web/src/config/parcours-etapes.ts`), réservée Premium.
+- **Fin** : « Bonnes fêtes, et à bientôt, » reste vraie pour un abonné, qui reçoit une lettre réservée le 10/12.
+- **Anti-doublon** : Grep « pull », « tricot », « renne », « tata », « cadeau », « déjà commencé », « celui de l'an prochain » dans `apps/web/src/data` : aucune réplique reprise.
 
 ---
 
-## 3. Jeudi 07/01/2027 (période 2027-01, date plancher null, envoi 2027-01-07T08:00:00+01:00)
+## 3. Jeudi 07/01/2027 (période 2027-01, date plancher 2026-12-28, envoi 2027-01-07T08:00:00+01:00)
 
-`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A. Aucun article cité (`datePlancher` null), comme dans la version actuelle.
+`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A.
 
 **Objet** (39 car.) : Il a planifié toute son année. Et toi ?
 **Pré-en-tête** : Quand quelqu'un expose ses résolutions, trois questions à lui renvoyer, et comment choisir.
 
 > Salut,
 >
-> Bonne année. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, le premier dîner de l'année, chez des amis. Axel a pris son verre et son ton des grands jours :
+> Bonne année. Premier dîner de l'année chez des amis, et Axel a pris son verre et son ton des grands jours :
 >
 > « Cette année, j'ai tout planifié : sport trois fois par semaine, lecture, méditation. Et toi, c'est quoi, tes résolutions ? »
 >
-> Tu n'as rien planifié du tout. Au lieu de répondre à sa place, voici trois réponses qui renvoient la balle sous forme de question, de la plus prudente à la plus audacieuse.
+> Tu n'as rien planifié du tout. Au lieu de répondre à sa place, voici trois réponses qui renvoient la balle sous forme de question, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux.
 >
 > La sûre
 > « Comment tu fais tenir tout ça dans une semaine ? Il faut que je voie ce planning. »
@@ -190,7 +171,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Celle-ci vise Axel : tu lui fixes un rendez-vous pour faire le bilan. Elle ne marche que si vous êtes de ceux qui se chambrent et que son enthousiasme est assez solide pour encaisser. Devant quelqu'un qui doute déjà de lui, elle prend le ton d'un huissier.
 >
 > Comment choisir : ce que ta question vérifie
-> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu » ou « et si », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique, quel que soit son premier mot : « comment tu vas tenir ? » commence bien, mais vérifie déjà. Au moindre doute, demande comment il fait, pas s'il va tenir.
+> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu » ou « et si », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique. Au moindre doute, commence par « comment ».
 >
 > L'erreur que tout le monde fait
 > Poser la question, puis y répondre à sa place. « Tu as prévu un créneau pour le jour où tu abandonnes ? Moi, de toute façon, je ne prends jamais de résolutions, c'est nul. » Axel n'a pas eu le temps de respirer, et ta question est devenue un prétexte pour parler de toi. Après une question, bois une gorgée, regarde l'autre, et laisse le silence faire son travail.
@@ -198,26 +179,26 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > À essayer cette semaine
 > La prochaine fois que quelqu'un t'annonce un grand projet, pose une seule question qui commence par « comment », et écoute la réponse jusqu'au bout. Ensuite, écris trois questions pour la même annonce, une par mot de départ : « comment », « tu as prévu », « on se reparle ». Garde la première, c'est elle qui te servira le plus souvent.
 >
+> « Être plus drôle » fait partie des résolutions qu'on lâche avant la mi-janvier. Notre article « Résolution 2027 : être plus drôle sans pression » donne une règle en trois mots, petit, daté, suivi, et un suivi sur quatre semaines pour tenir au-delà de janvier. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/resolution-nouvelle-annee-etre-plus-drole?utm_source=lettre&utm_medium=email&utm_content=n3-article
+>
 > Pour poser de meilleures questions, il faut d'abord regarder avant de parler : c'est le sujet de l'étape 3 du parcours Confiance, « L'œil de l'observateur ».
 > Aller à l'étape 3 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n3-etape3#etape-3
 >
 > [[invitation-premium]]
-> PS : savoir poser la bonne question, ça s'apprend. Avec Premium, tu t'entraînes toute l'année : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. Chaque parcours commence par une première étape qui se lit sans compte.
+> PS : savoir poser la bonne question, ça s'apprend. Avec Premium, tu t'entraînes toute l'année : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. Chaque parcours commence par une première étape qui se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n3-premium
 > [[/invitation-premium]]
 >
 > À bientôt,
 > L'Équipe Deviens Marrant
 
-**Notes et contrôles de la lettre 3**
-- **Leçon neuve** : **répondre par une question, et choisir selon ses premiers mots** (« comment », « tu as prévu », « on se reparle »). Aucune réservée ne traite la réponse sous forme de question (cible, silence, suite, couplet, deux bouts de la table, bruit). Technique voisine sur le site : « la relance par acceptation » (« oui, et… », fiche Kyan Khojandi et Navo, `video-content-s20.json:628`), qui traite du duo de scène, pas d'une question posée à quelqu'un qui expose son plan.
-- **Situation** : premier dîner de l'année chez des amis, un convive expose ses résolutions. Ni la coloc, ni le boulot, ni la famille, ni la fête de fin d'année des réservées.
-- **Erreur neuve** : poser la question puis y répondre à sa place. Le correctif (« bois une gorgée ») évite de reprendre « compte jusqu'à trois dans ta tête » des réservées 19/11 et 26/11.
-- **Anti-doublon** : Grep dans `apps/web/src/data` de « planning », « créneau », « tout planifié », « résolution », « je note la date », « en février », « abandonn » : aucune réplique reprise (des vannes sur des résolutions existent, `joke-decryptages.json:126`, `:546`, `:971`, `:1061` : autres blagues).
-- **Aucun article cité** : le numéro garde `datePlancher` null. L'ancien lien vers l'étape 1 de Confiance (sans compte) est remplacé, sur consigne du coordinateur, par un lien vers une étape réservée Premium.
-- **Étape de fin** : Confiance, étape 3, « L'œil de l'observateur » (titre vérifié dans `parcours-etapes.ts`) ; réservée Premium (au-delà de l'étape 1).
-- **Révision du 25/10 (bloquant de la relecture)** : la règle ne décrivait qu'une réplique sur trois (la sûre ne commençait pas par « comment », la risquée par « on se reparle »). La sûre devient « Comment tu fais tenir tout ça dans une semaine ? Il faut que je voie ce planning. » (proposition du relecteur), et la règle est réécrite pour coller aux trois : « comment » (sûre), « tu as prévu » ou « et si » (joueuse), « on se reparle » ou « est-ce que tu vas vraiment » (risquée, qui vérifie). Exercice aligné. Objet : « Il a planifié toute son année. Et toi ? » (39 caractères ; le relecteur en annonçait 38, le Grep dit 39). PS : « sans engagement » retiré, « résiliable en ligne » gardé. Grep « fais tenir », « voir ce planning » : aucune reprise.
-- **PS** : même contrôle que la lettre 1.
+**Notes de la lettre 3**
+- **Grille** : saison (7 janvier, premiers dîners de l'année) ; entrée directe ; répliques d'un trait (16, 11 et 12 mots) ; situation vécue par un introverti (devoir répondre à « et toi, tes résolutions ? ») ; règle neuve (ce que ta question vérifie, les trois répliques la suivent) et erreur neuve (répondre à sa place).
+- **Aucune redite avec les réservées** : aucune ne traite la réponse sous forme de question ; la réservée W53 fait aussi écrire des phrases à préparer, mais sur le bruit.
+- **Article ajouté** : « Résolution 2027 : être plus drôle sans pression », slug `resolution-nouvelle-annee-etre-plus-drole`, publication prévue le lundi 28/12/2026 (fiche `docs/copy/articles-q4/S13-resolution-nouvelle-annee.md`, titre de 47 caractères, règle « petit, daté, suivi », grille de quatre semaines) ; **pas encore publié à ce jour** (l'article est programmé, pas en ligne) : `datePlancher` `2026-12-28`. À reconfirmer en base avant l'envoi (le titre peut avoir bougé).
+- **Étape de fin** : Confiance 3, « L'œil de l'observateur », réservée Premium.
+- **Anti-doublon** : Grep « planning », « créneau », « tout planifié », « résolution », « je note la date », « en février », « fais tenir », « voir ce planning » : aucune réplique reprise (des vannes sur les résolutions existent, `joke-decryptages.json:126`, `:546`, `:971`, `:1061` : autres blagues). L'article lié contient la vanne « J'ai tenu le « et » » (résolutions empilées) : aucune réplique de la lettre ne la reprend.
 
 ---
 
@@ -230,13 +211,11 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 
 > Salut,
 >
-> Dans dix jours, c'est la Saint-Valentin. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, samedi 13 février, 17 h 40. Tu rentres, Sam range ses chaussures et demande à quelle heure vous dînez demain. Tu réalises que tu n'as rien réservé. Sam l'a compris avant toi, au silence :
+> Samedi 13 février, 17 h 40, la veille de la Saint-Valentin. Tu rentres, Sam range ses chaussures et demande à quelle heure vous dînez demain. Tu réalises que tu n'as rien réservé. Sam l'a compris avant toi, au silence :
 >
 > « Tu avais une chose à faire pour demain. Une seule. »
 >
-> Voici trois réponses, de la plus prudente à la plus audacieuse. Elles ne se disent pas au même moment, et c'est justement le sujet.
+> Voici trois réponses, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux. Elles ne se disent pas au même moment, et c'est justement le sujet.
 >
 > La sûre
 > « Tu as raison, c'est moi. Donne-moi vingt minutes, je téléphone partout. »
@@ -254,10 +233,10 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Écoute le ton de l'autre. Si la voix est tendue, la sûre, tout de suite, sans rien d'autre. Si elle sourit déjà, tu peux plaisanter, mais jamais avant d'avoir dit « tu as raison » ni avant d'avoir une solution. La blague se glisse après la réparation : plus tu plaisantes tôt, plus tu prends de risque. Au moindre doute, commence par la sûre et garde la joueuse pour le moment où la table est réservée.
 >
 > L'erreur que tout le monde fait
-> En faire trop dans l'excuse. « Je suis vraiment nul, je gâche tout, tu mérites mieux. » Tu croyais t'excuser deux fois plus, et c'est Sam qui doit te consoler, la veille de la Saint-Valentin. Une excuse tient en une phrase : « tu as raison, c'est moi ». Au-delà, c'est l'autre qui répare à ta place.
+> Renvoyer la décision : « Bon, alors, on fait quoi ? » Tu as reconnu l'oubli, mais tu rends à Sam tout le travail de réparer : chercher un restaurant, comparer, décider. La bourde est à toi, la solution aussi. Arrive avec une seule proposition, même imparfaite : « J'appelle trois restaurants, et sinon je cuisine. »
 >
 > À essayer cette semaine
-> Pense à la dernière bourde que tu as faite devant quelqu'un que tu aimes bien, au travail ou à la maison. Écris trois phrases, dans l'ordre : celle qui reconnaît (« tu as raison, c'est moi »), celle qui répare (ce que tu fais dans les vingt minutes), celle qui plaisante (pour plus tard). Dis-les à voix haute dans cet ordre, et garde la dernière pour le moment où l'autre a souri le premier.
+> Pense à la dernière bourde que tu as faite devant quelqu'un que tu aimes bien, au travail ou à la maison. Écris trois phrases, dans l'ordre : celle qui reconnaît (« tu as raison, c'est moi »), celle qui répare (une seule proposition, pas un menu), celle qui plaisante (pour plus tard). Dis-les à voix haute dans cet ordre, et garde la dernière pour le moment où l'autre a souri le premier. Et si tu n'as pas encore réservé pour le 14, c'est cette semaine.
 >
 > Une fois la crise passée, il reste les blagues à se dire. Notre article « Blagues de couple : 30 vannes à se dire ou à s'envoyer » les range par moment du quotidien, du canapé aux messages de la journée. Lecture libre.
 > Lire l'article : https://deviens-marrant.fr/blog/blagues-de-couple-drole?utm_source=lettre&utm_medium=email&utm_content=n4-article
@@ -266,103 +245,36 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Aller à l'étape 2 : https://deviens-marrant.fr/parcours/confiance?utm_source=lettre&utm_medium=email&utm_content=n4-etape2#etape-2
 >
 > [[invitation-premium]]
-> PS : le jour où la bourde est pour toi, mieux vaut avoir déjà la phrase. Avec Premium, tu la prépares à l'avance : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> PS : le jour où la bourde est pour toi, mieux vaut avoir déjà la phrase. Avec Premium, tu la prépares à l'avance : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n4-premium
 > [[/invitation-premium]]
 >
 > À bientôt,
 > L'Équipe Deviens Marrant
 
-**Notes et contrôles de la lettre 4**
-- **Leçon neuve** : **d'abord réparer, ensuite plaisanter** (l'ordre et le moment de la blague par rapport à la réparation). Les réservées : cible, silence, suite à assurer dans les 30 secondes, couplet, test de la table, bruit. La plus proche, « la suite que ta réplique t'impose » (10/12), regarde ce que tu diras après la réplique ; ici, on décide quand la dire par rapport à l'excuse.
-- **Situation** : couple installé, veille de la Saint-Valentin, réservation oubliée. La réservée du 10/12 est un premier rendez-vous avec une tisane : scène, enjeu et personnages différents. Sam est neutre en genre.
-- **Erreur neuve** : en faire trop dans l'excuse (« Je suis vraiment nul, je gâche tout »), qui oblige l'autre à te consoler. **Révision du 25/10 (bloquant de la relecture)** : l'ancienne erreur (la blague à la place du « tu as raison ») redisait la règle et l'explication de la risquée ; remplacée par la proposition du relecteur, mot pour mot, qui prépare en plus l'étape liée en fin de lettre (« Rire de toi sans te rabaisser »). Mineurs repris : « ce que Sam attendait derrière la pique » (plus de genre), « garde la joueuse pour le moment où la table est réservée » (cohérent avec « vingt minutes plus tard »). La joueuse « avec les retraités » est gardée, comme le relecteur le suggère.
-- **Anti-doublon** : Grep « retraités », « mission », « réserv », « ma défense », « une table », « Saint-Valentin » : aucune réplique reprise (les « mission » et « réserv » trouvés sont d'autres vannes sans rapport, lues une par une).
-- **Pont d'article** : la phrase reprend les faits de la version actuelle validée (« 30 vannes à se dire ou à s'envoyer », « rangées par moment du quotidien », « du canapé aux messages de la journée », « lecture libre »). L'article, son utm `n4-article` et la date plancher ne changent pas.
-- **Étape de fin** : Confiance, étape 2, « Rire de toi sans te rabaisser » (titre vérifié dans `parcours-etapes.ts`) ; réservée Premium.
-- **PS** : même contrôle que la lettre 1.
-- **Fragilité** : « avec les retraités » est une plaisanterie sur l'heure du dîner, pas sur les personnes ; si le relecteur la juge âgiste, repli : « Bonne nouvelle : j'ai une table. Mauvaise nouvelle : 18 h 15, on dînera au goûter. »
+**Notes de la lettre 4**
+- **Grille** : saison (4 février, dix jours avant la Saint-Valentin ; 13/02/2027 est bien un samedi) ; entrée directe ; répliques d'un trait (11, 13 et 14 mots) ; situation vécue (un oubli devant la personne qu'on aime) ; règle (d'abord réparer, ensuite plaisanter) et erreur (renvoyer la décision) propres à cette lettre.
+- **Erreur remplacée** : « en faire trop dans l'excuse » était une forme d'excuse, déjà prise par les lettres réservées ; « Renvoyer la décision » est neuve et prépare l'exercice (« une seule proposition »).
+- **Aucune redite avec les réservées** : le rendez-vous de la tisane (10/12) est un premier rendez-vous, sans enjeu de réparation.
+- **Article** : « Blagues de couple : 30 vannes à se dire ou à s'envoyer », slug `blagues-de-couple-drole`, publié le 05/11/2026 (`datePlancher` `2026-11-05`, inchangé) ; faits du pont repris de la version validée.
+- **Étape de fin** : Confiance 2, « Rire de toi sans te rabaisser », réservée Premium.
+- **Fragilité** : « avec les retraités » est une plaisanterie sur l'heure du dîner ; repli : « Bonne nouvelle : j'ai une table. Mauvaise nouvelle : 18 h 15, on dînera au goûter. » Le moule « Bonne nouvelle… Mauvaise nouvelle… » est usé, la chute le sauve : à voter seule à l'aveugle.
+- **Anti-doublon** : Grep « retraités », « mission », « réserv », « ma défense », « une table », « Saint-Valentin », « on fait quoi », « trois restaurants » : aucune réplique reprise.
 
 ---
 
-## 5. Jeudi 04/03/2027 (période 2027-03, date plancher 2027-02-25, envoi 2027-03-04T08:00:00+01:00)
+## 5. Jeudi 04/03/2027 (période 2027-03, date plancher 2026-10-12, envoi 2027-03-04T08:00:00+01:00) : la fête où tu ne connais que l'hôte (ex n°6)
 
 `[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A.
-
-**Objet** (40 car.) : Message du 1er avril : vrai ou canular ?
-**Pré-en-tête** : Une annonce qui peut être un canular, trois réponses qui restent justes, et celle qui parie.
-
-> Salut,
->
-> Dans quatre semaines, c'est le 1er avril. Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles.
->
-> Ce mois-ci, un message qui peut être vrai ou faux. Le 1er avril, 8 h 02, ton téléphone vibre dans le groupe de la coloc. Malik a écrit :
->
-> « Le propriétaire passe vendredi à 18 h avec des acheteurs. Il faut tout ranger. »
->
-> Malik est capable d'avoir inventé ça en pyjama, comme d'avoir reçu un vrai mail. Tu as trente secondes pour répondre dans le groupe sans te tromper dans aucun des deux cas. Voici trois réponses, de la plus prudente à la plus audacieuse.
->
-> La sûre
-> « Merci de prévenir. Tu peux transférer le mail du proprio dans le groupe ? »
-> Elle reste juste que le message soit vrai ou non : tu demandes la preuve sans accuser personne. Si c'est vrai, tu as la date et l'heure noir sur blanc ; si c'est un canular, Malik avoue de lui-même. À choisir quand tu ne sais pas à qui tu as affaire, ou quand le sujet touche quelque chose de sérieux, comme ton logement.
->
-> La joueuse
-> « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. »
-> Tu joues sur l'état de l'appartement, pas sur Malik : si c'est vrai, tu as promis de ranger ; si c'est un canular, sa blague vient de vous rendre service. Elle survit au démenti dans les deux sens. Dis-la comme une bonne résolution. À sortir quand le groupe sait rire de sa propre coloc.
->
-> La risquée
-> « 8 h 02 le 1er avril. Tu n'as même pas attendu que le café coule. »
-> Celle-ci vise Malik : tu l'accuses du canular avant la preuve. Si c'en est un, tu as gagné la manche. Si c'est vrai, tu viens de te moquer de quelqu'un qui te prévenait d'une visite et tu as l'air d'avoir pris un vrai problème pour une blague. C'est la seule qui parie sur une seule des deux issues.
->
-> Comment choisir : celle qui survit au démenti
-> Avant de répondre à une annonce qui peut être un canular, demande-toi : « Que devient ma phrase si c'est vrai ? Et si c'est faux ? » La sûre et la joueuse tiennent dans les deux cas. La risquée ne tient que dans l'un : elle est pour les gens qui n'ont rien à perdre, ou pour quand tu es certain. Au moindre doute, choisis la phrase qui ne dépend pas de la réponse.
->
-> L'erreur que tout le monde fait
-> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut tout défaire auprès de deux personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
->
-> À essayer cette semaine
-> La prochaine fois qu'une annonce surprenante t'arrive (vraie ou pas), écris deux phrases qui restent justes dans les deux cas, puis une troisième qui parie. Pas pour l'envoyer : pour sentir la différence. Puis vérifie en deux minutes (une source, un coup de fil) avant de répondre à quiconque.
->
-> Et si c'est toi qui prépares le canular : notre article « Blague poisson d'avril pour adultes » réunit des idées de canulars classées par terrain. Aucune n'est dangereuse ni humiliante, et on y trouve quoi faire si quelqu'un le prend mal. Lecture libre.
-> Lire l'article : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n5-article
->
-> Et quand l'inattendu te tombe dessus sans prévenir, c'est le sujet de l'étape 4 du parcours Répartie, « Improviser sur l'inattendu ».
-> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n5-etape4#etape-4
->
-> [[invitation-premium]]
-> PS : le jour où l'inattendu arrive, mieux vaut avoir déjà une réponse en réserve. Avec Premium, tu la prépares : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
-> Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n5-premium
-> [[/invitation-premium]]
->
-> À bientôt,
-> L'Équipe Deviens Marrant
-
-**Notes et contrôles de la lettre 5**
-- **Leçon neuve** : **la réplique qui survit au démenti** (choisir une phrase qui reste juste que l'annonce soit vraie ou fausse ; la risquée est celle qui parie). Aucune réservée ne traite une information incertaine.
-- **Situation** : message du 1er avril dans le groupe de la coloc, vrai ou canular. Le salon de coloc de la réservée du 12/11 est une scène orale, avec Hugo et huit personnes ; ici, un message écrit.
-- **Erreur neuve** : agir avant de vérifier (annuler son rendez-vous, prévenir son collègue). La phrase « comme les 364 autres jours » est un trait d'esprit, pas un chiffre : à retirer si le relecteur la juge appuyée.
-- **Révision du 25/10 (bloquant de la relecture)** : la joueuse « Excellente nouvelle. Je suis en train de ne pas y croire, je reviens. » ne survivait pas au démenti (fausse si l'annonce est vraie). Remplacée par « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. » : la proposition du relecteur disait « Ça fait depuis Noël », tournure fautive, que j'ai corrigée. La sûre devient « Merci de prévenir. Tu peux transférer le mail du proprio dans le groupe ? » (proposition du relecteur : elle demande la preuve, ce que la lettre conseille, au lieu de répéter « je range »). L'erreur « relayer » est renommée « agir avant de vérifier », avec un exemple plausible. Léo devient Malik (Léa est dans la réservée du 12/11). PS : « sans engagement » retiré, « résiliable en ligne » gardé (même traitement que la lettre 3). Grep « vrai ou pas », « bonne raison », « depuis Noël », « transférer », « mail du proprio » : aucune reprise.
-- **Anti-doublon** : Grep « y croire », « mon avis », « café coule », « bien reçu », « propriétaire », « 1er avril », « canular » : « Bien reçu » apparaît comme chute d'autres vannes (`joke-decryptages.json:36`, `:1446`) ; l'ancienne sûre commençait par cette formule et l'avait quittée. Aucune reprise dans la version révisée.
-- **Pont d'article** : les faits (« idées de canulars classées par terrain », « aucune n'est dangereuse ni humiliante », « quoi faire si quelqu'un le prend mal », « lecture libre ») sont repris de la version actuelle validée. L'article, son utm `n5-article` et la date plancher ne changent pas.
-- **Étape de fin** : Répartie, étape 4, « Improviser sur l'inattendu » (titre vérifié dans `parcours-etapes.ts`) ; réservée Premium. La même étape est liée dans la réservée du 10/12 (autre lettre, autre sujet) : à changer si le relecteur y voit un doublon, par exemple Répartie 2, « Le rythme et les silences ».
-- **PS** : même contrôle que la lettre 1.
-
----
-
-## 6. Jeudi 01/04/2027 (période 2027-04, date plancher null, envoi 2027-04-01T08:00:00+02:00)
-
-`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A. Aucun article cité (`datePlancher` null), comme dans la version actuelle. Le numéro part le 1er avril : il ne fait volontairement aucune blague de poisson d'avril (la lettre 5 a déjà traité la date).
 
 **Objet** (36 car.) : Une fête où tu ne connais que l'hôte
 **Pré-en-tête** : Comment ouvrir la conversation avec un inconnu : trois phrases, et la règle pour choisir.
 
 > Salut,
 >
-> Le principe de cette lettre : une situation où l'on cherche ses mots, trois réponses (la sûre, la joueuse, la risquée) et de quoi choisir entre elles. Cette fois, il n'y a pas de pique : il y a un silence à rompre, et c'est toi qui parles en premier.
+> Samedi 6 mars, 21 h, l'anniversaire de Nina. L'appartement est plein, les manteaux s'empilent sur le lit, et tu ne connais que Nina, qui est partie chercher des glaçons. Tu te retrouves devant la table des gâteaux apéritifs, à côté d'un inconnu qui regarde le même saladier que toi. Un seul de vous deux va parler.
 >
-> Ce mois-ci, l'anniversaire de Nina, un samedi de printemps, 21 h. L'appartement est plein, la fenêtre est ouverte, et tu ne connais que Nina, qui est partie chercher des glaçons. Tu te retrouves devant la table des gâteaux apéritifs, à côté d'un inconnu qui regarde le même saladier que toi. Un seul de vous deux va parler.
->
-> Voici trois phrases pour ouvrir, de la plus prudente à la plus audacieuse.
+> Pas de pique ici : un silence à rompre, et c'est toi qui parles en premier. Voici trois phrases pour ouvrir, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux.
 >
 > La sûre
 > « Tu as goûté le truc dans le petit bol ? Je n'ose pas. »
@@ -380,48 +292,107 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Une première phrase se juge à ce qu'elle demande à l'autre. La sûre se répond en un mot et dix secondes. La joueuse demande un petit récit. La risquée demande de prendre position. Plus tu connais peu la personne, moins ta phrase doit lui demander. Vise une réponse qui tient dans dix secondes, et monte d'un cran seulement quand l'autre a commencé à parler.
 >
 > L'erreur que tout le monde fait
-> S'excuser de déranger. « Excuse-moi, je te dérange ? » La question oblige l'autre à répondre « non, pas du tout », donc à te rassurer avant même de savoir pourquoi tu parles, et elle annonce que tu te sens de trop. Va directement au saladier : une phrase qui ressemble à la scène que vous avez sous les yeux dérange moins que n'importe quelle excuse.
+> Viser le groupe déjà lancé. Les quatre personnes qui rient près de la fenêtre ont l'air plus faciles : plus de monde, moins de risque. En vrai, une conversation en cours n'a pas de place pour une phrase d'ouverture : ta phrase arrive après le sujet, et tu finis par hocher la tête. Choisis quelqu'un de seul, devant le buffet ou près de la fenêtre, un verre à la main. Il attend souvent la même chose que toi.
 >
 > À essayer cette semaine
 > Écris trois premières phrases pour la prochaine fois que tu te retrouveras à côté d'un inconnu (une fête, une salle d'attente, la queue d'un guichet). Chacune doit s'appuyer sur ce que vous voyez tous les deux. Pour chacune, estime en combien de secondes l'autre peut répondre : si c'est plus de dix, raccourcis. Dis la première à voix haute, sans l'adresser à personne, pour sentir si elle est facile à dire.
 >
+> Quand l'inconnu te demandera qui tu es, il faudra une réponse. Notre article « Se présenter avec humour : 5 accroches qui passent » donne une formule en trois temps : ton prénom avec un peu de contexte, un détail vrai raconté avec sérieux, puis tu rends la parole. Il est en lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/se-presenter-avec-humour?utm_source=lettre&utm_medium=email&utm_content=n5-article
+>
 > Après la première phrase, il faut sentir le moment de la suivante : c'est le sujet de l'étape 2 du parcours Machine à Café, « Sentir le bon moment ».
-> Aller à l'étape 2 : https://deviens-marrant.fr/parcours/machine-a-cafe?utm_source=lettre&utm_medium=email&utm_content=n6-etape2#etape-2
+> Aller à l'étape 2 : https://deviens-marrant.fr/parcours/machine-a-cafe?utm_source=lettre&utm_medium=email&utm_content=n5-etape2#etape-2
 >
 > [[invitation-premium]]
-> PS : entamer une conversation, ça se travaille. Avec Premium, tu t'y exerces à ton rythme : les cinq parcours en entier, une lettre chaque jeudi dont des lettres réservées aux abonnés, du même genre que celle-ci, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> PS : entamer une conversation, ça se travaille. Avec Premium, tu t'y exerces à ton rythme : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
+> Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n5-premium
+> [[/invitation-premium]]
+>
+> À bientôt,
+> L'Équipe Deviens Marrant
+
+**Notes de la lettre 5**
+- **Grille** : saison (« un samedi de mars », plus de « printemps ») ; entrée directe ; répliques d'un trait (12, 15 et 14 mots) ; situation que vit vraiment un introverti (la première phrase à un inconnu, le blocage du persona principal) ; règle (le travail que ta phrase donne à l'autre) et erreur (viser le groupe déjà lancé) neuves.
+- **Changements du plan** : lettre déplacée du 01/04 au 04/03 ; article ajouté ; erreur « s'excuser de déranger » remplacée (déjà prise) ; objet et pont de fin repris du relecteur.
+- **Aucune redite avec les réservées** : aucune ne traite l'ouverture avec un inconnu (le rendez-vous du 10/12 se passe entre deux personnes qui se connaissent par messages).
+- **Article ajouté** : « Se présenter avec humour : 5 accroches qui passent », slug `se-presenter-avec-humour`, publié le 12/10/2026 (fiche `docs/copy/articles-q4/S2-se-presenter-avec-humour.md` ; `publishedAt` du 12/10 05:00 UTC relevé dans `REPLIT_ACTIONS.md`) ; la formule en trois temps du pont est celle de la fiche. `datePlancher` `2026-10-12`. **Si la candidate (b) du n°1 est retenue, elle utilise le même article** : changer celui de cette lettre.
+- **Étape de fin** : Machine à Café 2, « Sentir le bon moment », réservée Premium.
+- **Anti-doublon** : Grep « petit bol », « enquête », « pour le buffet », « venu pour », « connais personne » : aucune réplique reprise. Thème voisin, autre blague : « Je connaissais que l'hôte. » (`joke-decryptages.json:1287`) et la fiche « La randonnée sans fin » (`carnet/2026-10.json:40`).
+
+---
+
+## 6. Jeudi 01/04/2027 (période 2027-04, date plancher 2027-02-25, envoi 2027-04-01T08:00:00+02:00) : le canular du jour même (ex n°5)
+
+`[Framework : PAS (problème, agitation, solution)]` `[Conscience : Problem-Aware]` · Format A.
+
+**Objet** (40 car.) : Message du 1er avril : vrai ou canular ?
+**Pré-en-tête** : Une annonce qui peut être un canular, trois réponses qui restent justes, et celle qui parie.
+
+> Salut,
+>
+> Aujourd'hui, c'est le 1er avril. Imagine : 8 h 02, ton téléphone vibre dans le groupe de la coloc. Malik a écrit :
+>
+> « Le propriétaire passe vendredi à 18 h avec des acheteurs. Il faut tout ranger. »
+>
+> Malik est capable d'avoir inventé ça en pyjama, comme d'avoir reçu un vrai mail. Tu as trente secondes pour répondre dans le groupe sans te tromper dans aucun des deux cas. Voici trois réponses, de la plus prudente (la sûre) à la plus audacieuse (la risquée), la joueuse entre les deux.
+>
+> La sûre
+> « Merci de prévenir. Tu peux transférer le mail du proprio dans le groupe ? »
+> Elle reste juste que le message soit vrai ou non : tu demandes la preuve sans accuser personne. Si c'est vrai, tu as la date et l'heure noir sur blanc ; si c'est un canular, Malik avoue de lui-même. À choisir quand tu ne sais pas à qui tu as affaire, ou quand le sujet touche quelque chose de sérieux, comme ton logement.
+>
+> La joueuse
+> « Vrai ou pas, je range. On attendait une bonne raison depuis Noël. »
+> Tu joues sur l'état de l'appartement, pas sur Malik : si c'est vrai, tu as promis de ranger ; si c'est un canular, sa blague vient de vous rendre service. Elle survit au démenti dans les deux sens. Dis-la comme une bonne résolution. À sortir quand le groupe sait rire de sa propre coloc.
+>
+> La risquée
+> « 8 h 02 le 1er avril. Tu n'as même pas attendu que le café coule. »
+> Celle-ci vise Malik : tu l'accuses du canular avant la preuve. Si c'en est un, tu as gagné la manche. Si c'est vrai, tu viens de te moquer de quelqu'un qui te prévenait d'une visite et tu as l'air d'avoir pris un vrai problème pour une blague. C'est la seule qui parie sur une seule des deux issues.
+>
+> Comment choisir : celle qui survit au démenti
+> Avant de répondre à une annonce qui peut être un canular, demande-toi : « Que devient ma phrase si c'est vrai ? Et si c'est faux ? » La sûre et la joueuse tiennent dans les deux cas. La risquée ne tient que dans l'un : elle est pour les gens qui n'ont rien à perdre, ou pour quand tu es certain. Au moindre doute, choisis la phrase qui ne dépend pas de la réponse.
+>
+> L'erreur que tout le monde fait
+> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut démentir chez trois personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
+>
+> À essayer aujourd'hui
+> La prochaine annonce surprenante qui t'arrive (vraie ou pas), écris deux phrases qui restent justes dans les deux cas, puis une troisième qui parie. Pas pour l'envoyer : pour sentir la différence. Puis vérifie en deux minutes (une source, un coup de fil) avant de répondre à quiconque.
+>
+> Et si c'est toi qui prépares ton canular, il est encore temps : notre article « Blague poisson d'avril pour adultes » réunit des idées de canulars classées par terrain. Aucune n'est dangereuse ni humiliante, et on y trouve quoi faire si quelqu'un le prend mal. Lecture libre.
+> Lire l'article : https://deviens-marrant.fr/blog/blagues-poisson-d-avril-adultes?utm_source=lettre&utm_medium=email&utm_content=n6-article
+>
+> Et quand l'inattendu te tombe dessus sans prévenir, c'est le sujet de l'étape 4 du parcours Répartie, « Improviser sur l'inattendu ».
+> Aller à l'étape 4 : https://deviens-marrant.fr/parcours/repartie?utm_source=lettre&utm_medium=email&utm_content=n6-etape4#etape-4
+>
+> [[invitation-premium]]
+> PS : le jour où l'inattendu arrive, mieux vaut avoir déjà une réponse en réserve. Avec Premium, tu la prépares : une lettre chaque jeudi (la lettre du mois, puis des lettres réservées aux abonnés, du même genre que celle-ci), les cinq parcours en entier, le carnet de situations de répartie et tout le catalogue de vannes, de conseils et de vidéos. 1,99 € par mois, résiliable en ligne. La première étape de chaque parcours se lit sans compte.
 > Voir ce que Premium ouvre : https://deviens-marrant.fr/abonnement?utm_source=lettre&utm_medium=email&utm_content=n6-premium
 > [[/invitation-premium]]
 >
 > À bientôt,
 > L'Équipe Deviens Marrant
 
-**Notes et contrôles de la lettre 6**
-- **Leçon neuve** : **combien de travail ta phrase donne à l'autre** (la taille de la réponse demandée : un mot en dix secondes, un petit récit, une prise de position). Les réservées jugent la cible (12/11), le silence (26/11), ce que tu diras après (10/12), le public par l'âge (24/12), le bruit (31/12) : ici, l'effort que ta phrase demande à celui qui répond. La plus proche reste « la suite que ta réplique t'impose » (10/12) mais elle regarde ton prochain mot, pas l'effort de l'autre. À juger à la relecture à l'aveugle.
-- **Situation** : première phrase à un inconnu à une fête où l'on ne connaît que l'hôte. Pas de pique. Aucune réservée ne traite l'entrée en matière avec un inconnu (rendez-vous du 10/12 : on se connaît déjà par messages).
-- **Erreur neuve** : s'excuser de déranger.
-- **Anti-doublon** : Grep « petit bol », « enquête », « pour le buffet », « venu pour », « connais personne » : aucune réplique reprise. Thème voisin, autre blague : « Je connaissais que l'hôte. » (`joke-decryptages.json:1287`, vanne sur la stratégie de survie du seul invité connu) et la fiche « La randonnée sans fin » (`carnet/2026-10.json:40`, un inconnu qui raconte une randonnée).
-- **Aucun article cité** : le numéro garde `datePlancher` null. L'ancien lien vers l'étape 1 de Répartie (sans compte) est remplacé, sur consigne du coordinateur, par un lien vers une étape réservée Premium.
-- **Étape de fin** : Machine à Café, étape 2, « Sentir le bon moment » (titre vérifié dans `parcours-etapes.ts`) ; réservée Premium.
-- **Révision du 25/10 (GO du relecteur, mineurs repris)** : objet « Une fête où tu ne connais que l'hôte » (36 caractères, il n'était pas vrai que tu ne connaissais personne) ; pont de fin « Après la première phrase, il faut sentir le moment de la suivante : c'est le sujet de l'étape 2… » (le lien et l'étape ne changent pas) ; explication de la risquée complétée (« tu avoues le premier que tu es peut-être là pour le buffet aussi, ce qui lui laisse une porte »). Aucune réplique modifiée.
-- **PS** : même contrôle que la lettre 1.
+**Notes de la lettre 6**
+- **Grille** : saison (envoyée le jour même du 1er avril, un jeudi ; la scène « vendredi » est le lendemain) ; entrée directe (« Aujourd'hui, c'est le 1er avril ») ; répliques d'un trait (13, 12 et 15 mots) ; situation vécue par un 20 à 30 ans en coloc (une annonce dans le groupe) ; règle (la réplique qui survit au démenti) et erreur (agir avant de vérifier) neuves.
+- **Changements du plan** : lettre déplacée du 04/03 au 01/04 ; « Dans quatre semaines » retiré ; la scène à 8 h 02 est introduite par « Imagine » (la lettre part à 8 h 00) ; pont d'article reformulé pour le jour J ; `datePlancher` `2027-02-25`, `periode` `2027-04`, utm `n6-`.
+- **Aucune redite avec les réservées** : la coloc orale de W46 est une pique devant huit personnes ; ici un message écrit.
+- **Article** : « Blague poisson d'avril pour adultes », slug `blagues-poisson-d-avril-adultes`, programmé le 25/02/2027 (`datePlancher` `2027-02-25`) ; faits du pont repris de la version validée (idées de canulars classées par terrain, aucune dangereuse ni humiliante, quoi faire si quelqu'un le prend mal).
+- **Étape de fin** : Répartie 4, « Improviser sur l'inattendu », réservée Premium (la réservée du 10/12 la cite aussi : autre lettre, autre sujet, quatre mois d'écart).
+- **Anti-doublon** : Grep « vrai ou pas », « bonne raison », « depuis Noël », « transférer », « mail du proprio », « café coule » : aucune reprise ; « Bien reçu » (chute d'autres vannes) n'apparaît pas.
+- **Fragilité** : « comme les 364 autres jours » est un trait d'esprit, pas un chiffre.
 
 ---
 
 ## Contrôles communs aux six lettres
 
-- **Forme** : objets de 41, 42, 39, 34, 40 et 36 caractères (max 45, comptés par motif de longueur exacte). Chaque corps commence par « Salut, » et finit par « À bientôt, » puis « L'Équipe Deviens Marrant » (30 lignes trouvées pour 6 lettres avec les marqueurs), sauf la lettre 2 : « Bonnes fêtes, et à bientôt, », vraie aussi pour un abonné qui reçoit une lettre réservée la semaine suivante. Zéro tiret cadratin ou demi-cadratin, zéro émoji (Grep sur tout le fichier : 0), pas de guillemets imbriqués dans les corps.
-- **Schéma de `apps/web/src/lib/lettre/numeros.ts`** : (1) marqueurs `[[invitation-premium]]` et `[[/invitation-premium]]` une fois chacun, seuls sur leur ligne, paragraphe à part (30 lignes comptées pour les 6 lettres : 2 marqueurs, « Salut, », la fin et la signature) ; (2) la version sans le bloc ne contient ni « offre », ni « annuel », « parrain », « promo », « remise », « réduction », ni « € », ni « /abonnement », ni marqueur « [À COMPLÉTER » (Grep des mots interdits sur les lignes de corps : seules les lignes du PS contiennent « € » et le lien `/abonnement`, et le mot « offre » n'apparaît nulle part) ; (3) corps de plus de 50 caractères ; (4) `periode`, `datePlancher` et `envoiPrevu` identiques à `numeros.json`, donc cohérents avec `dateEnvoiLettre` (premier jeudi du mois à 8 h Paris, ou le premier jeudi après la date plancher).
-- **Liens d'article** (n°1, 2, 4, 5) : les slugs `soiree-de-noel-entreprise-humour`, `repas-de-famille-questions-genantes-humour`, `blagues-de-couple-drole` et `blagues-poisson-d-avril-adultes` sont inchangés, avec leur utm `n1-article`, `n2-article`, `n4-article`, `n5-article` et leurs dates plancher. Je n'ai pas rouvert la base pour vérifier la publication (le contrôle de démarrage `controlerDatesPlancher` s'en charge) ; les slugs sont référencés dans le code (`config/blog-cta.ts`, `config/blog-related-cards.ts`).
-- **Liens d'étape** (tous nouveaux, utm `nN-etapeM`) : Boulot 4, Confiance 4, Confiance 3, Confiance 2, Répartie 4, Machine à Café 2. Titres vérifiés dans `apps/web/src/config/parcours-etapes.ts` ; toutes sont au-delà de l'étape 1, donc réservées Premium (`config/premium.ts` : « première étape offerte » seulement) ; chaque parcours est publié (`STORYTELLING_PUBLIE` et `BOULOT_PUBLIE` à `true`). Un compte gratuit qui clique voit l'aperçu visiteur de l'étape (s17) : la phrase du lien ne dit que le titre de l'étape, sans pousser l'abonnement.
-- **PS** (consigne de Thomas, commit b992da44) : six PS différents, chacun accroché à la leçon de sa lettre, tous avec « 1,99 € par mois » (prix mensuel de `PREMIUM_MONTHLY_PRICE_CENTS = 199`, pas d'annuel), « résiliable en ligne » (« sans engagement » retiré de tous les PS après la relecture, pour ne pas redire), le lien `/abonnement` avec l'utm `nN-premium` d'origine. Ils énumèrent ce que Premium ouvre : cinq parcours en entier, lettre chaque jeudi dont des lettres réservées, carnet de situations de répartie, catalogue de vannes, de conseils et de vidéos. « Une lettre chaque jeudi dont des lettres réservées » est vraie (confirmé par le coordinateur : la lettre de la semaine est en ligne, première lettre réservée le 12/11) ; la remarque du relecteur sur `LETTRE_HEBDO_PROMESSE` est écartée sur sa consigne. « Les cinq parcours » suppose Storytelling et Boulot publiés, ce qui est le cas dans le code. Chaque lettre se lit complète sans son PS.
-- **Format B** : aucune des six lettres n'est en format B. Le format le permet mais pas l'impose ; je n'ai pas trouvé de passage qui remplisse les conditions (source écrite détaillée, absence de fiche vidéo ou de technique équivalente) en plus des deux B déjà écrites pour les réservées. À proposer plutôt à partir de l'été, après la validation du format par Thomas.
-- **Leçons** : une par lettre, différente des sept réservées (cible, titre-résumé, micros de la visio, suite dans les 30 secondes, couplet, test de la table, bruit) et entre elles : test du lundi (1), temps investi par l'autre (2), question en retour (3), réparer avant de plaisanter (4), réponse qui survit au démenti (5), effort demandé à l'autre (6). Proximités notées dans chaque lettre ; à juger à l'aveugle.
-- **Situations** : soirée de Noël de la boîte, cadeau fait main le 25 au matin, dîner d'amis en janvier, couple la veille de la Saint-Valentin, message de coloc le 1er avril, fête chez un ami. Aucune ne reprend celles des réservées (coloc orale, machine à café, visio, premier rendez-vous, chalet, repas de Noël avec la question de tonton, réveillon).
-- **Lecteur nouveau** : chaque lettre redit en une phrase le principe (« la sûre, la joueuse, la risquée »), et aucune ne renvoie à une lettre précédente.
+- **Forme** : objets de 29, 42, 39, 34, 36 et 40 caractères (max 45, comptés par motif de longueur exacte). Chaque corps commence par « Salut, » et finit par « À bientôt, » puis « L'Équipe Deviens Marrant », sauf la lettre 2 : « Bonnes fêtes, et à bientôt, ». Marqueurs `[[invitation-premium]]` et `[[/invitation-premium]]` une fois chacun, en paragraphe à part, par lettre. Zéro tiret cadratin ou demi-cadratin, zéro émoji, pas de guillemets imbriqués dans les corps.
+- **Version sans PS** : aucun mot « offre », « annuel », « parrain », « promo », « remise », « réduction », aucun « € », aucun `/abonnement` hors du bloc ; le prix (1,99 € par mois, `PREMIUM_MONTHLY_PRICE_CENTS = 199`) et le lien `/abonnement` avec l'utm `nN-premium` ne sont que dans le PS ; l'espace avant « € » sera insécable dans le JSON.
+- **Schéma `numeros.ts`** : `periode`, `datePlancher` et `envoiPrevu` doivent rester cohérents avec `dateEnvoiLettre` (premier jeudi du mois à 8 h Paris ou premier jeudi après la date plancher). Valeurs : n°1 `2026-11` / `null` / `2026-11-05T08:00:00+01:00` ; n°2 `2026-12` / `2026-11-23` / `2026-12-03T08:00:00+01:00` ; n°3 `2027-01` / `2026-12-28` / `2027-01-07T08:00:00+01:00` ; n°4 `2027-02` / `2026-11-05` / `2027-02-04T08:00:00+01:00` ; n°5 `2027-03` / `2026-10-12` / `2027-03-04T08:00:00+01:00` ; n°6 `2027-04` / `2027-02-25` / `2027-04-01T08:00:00+02:00`. **Attention** : `datePlancher` du n°3 (`2026-12-28`) est antérieur à l'envoi (07/01) ; celui du n°6 (`2027-02-25`) aussi. Le contrôle `controlerDatesPlancher` compare à la publication réelle des articles en base : à relancer après le déploiement.
+- **Liens d'étape** (utm `nN-etapeM`) : Répartie 3 (n°1), Confiance 4, Confiance 3, Confiance 2, Machine à Café 2, Répartie 4. Titres vérifiés dans `apps/web/src/config/parcours-etapes.ts` ; toutes au-delà de l'étape 1, donc réservées Premium (`config/premium.ts` : première étape seule gratuite) ; Storytelling et Boulot publiés (`config/parcours-publication.ts`).
+- **Équilibre des contextes** (lettres du mois) : amis/coloc (n°1, n°3, n°6), famille (n°2), couple (n°4), inconnus (n°5). Aucune scène d'études dans ce lot : le plan la place en L1 (12/11), dans le fichier des réservées.
+- **Redites E4** : plus aucune joueuse « objet ou organe à statut officiel » dans les lettres 2 à 6 ; la seule du corpus est la joueuse « objets trouvés » de la candidate (a). Erreurs distinctes dans les six lettres (s'expliquer pour (a) seulement, puis le « génial ! » de façade, répondre à sa place, renvoyer la décision, viser le groupe déjà lancé, agir avant de vérifier). Règles de choix distinctes des onze déjà prises (le plan § 6).
 
 ## Ce qui n'est pas fait
 
-1. **Nouvelle relecture à l'aveugle (barre 8,5) : à faire** sur les seuls passages remplacés, aucun sous-agent n'est disponible ici : lettre 1 (joueuse, risquée), lettre 2 (risquée), lettre 3 (sûre, règle), lettre 4 (erreur), lettre 5 (sûre, joueuse, erreur). La lettre 6 (GO à 8,5) ne change que dans l'objet, le pont de fin et une explication. Les plus fragiles à mon avis : lettre 2 la risquée (« celui de l'an prochain » doit se lire tendre, pas critique), lettre 1 la risquée (dépend du directeur), lettre 4 la joueuse (« avec les retraités », repli prévu).
-2. **Transcription dans `numeros.json`** : non faite (consigne : aucun autre fichier). Au moment de la faire, remplacer l'espace avant « € » par une espace insécable et passer `statut` à `BROUILLON` tant que la relecture n'a pas eu lieu, puisque toute modification efface l'approbation de Thomas.
-3. **Pas de format B** dans ce lot (voir ci-dessus), donc pas de source à vérifier : aucune citation d'humoriste, aucun fait externe. Les seuls faits repris sont ceux de la version actuelle validée (descriptions d'articles) et ceux du code (titres d'étapes, prix, parcours).
+1. **Deux relectures à l'aveugle indépendantes (barre 9/10)** et lecture de l'orchestrateur : à faire (aucun sous-agent dans cette session). Passages les plus fragiles à mon avis : la risquée du n°2 (« celui de l'an prochain » doit se lire tendre), la joueuse du n°4 (« avec les retraités »), la sûre du n°6 (« transférer le mail du proprio » est plus pratique que drôle), l'article du n°3 (publication prévue le 28/12, à reconfirmer en base).
+2. **Transcription dans `numeros.json`** : non faite (consigne : aucun autre fichier). À la faire avec l'échange n°5 / n°6 (contenu, `numero`, `periode`, `datePlancher`, utm), l'espace insécable avant « € », et `statut` `BROUILLON` tant que la relecture n'a pas eu lieu ; retirer l'entrée W46 de `hebdo-premium.json` si la candidate (a) est retenue.
+3. **Aucun format B** dans ce lot : aucune source externe à vérifier, aucune citation d'humoriste. Les seuls faits repris sont les descriptions d'articles (versions validées et fiches), le code (titres d'étapes, prix, parcours) et le calendrier.
