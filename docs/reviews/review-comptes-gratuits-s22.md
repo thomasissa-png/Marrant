@@ -35,3 +35,42 @@ Périmètre lu : les 7 textes du brief ; captures `v8b-*` et `v10-*` (390 et 144
 - Fichier produit : `docs/reviews/review-comptes-gratuits-s22.md` (rien d'autre n'a été modifié, rien n'a été commité).
 - À corriger (copy) : B1 dans `apps/web/src/config/textes/lettre-s21.ts:279` ; B2 et B3 dans `apps/web/src/app/(dashboard)/confidentialite/page.tsx:189` et `:196`. Ensuite, revérifier uniquement ces 3 phrases, puis faire de nouvelles captures v10 de la confidentialité (390 et 1440).
 - Les tests qui vérifient le texte exact de `CONFIDENTIALITE_LETTRE_COMPTE` ou de la partie 8 devront suivre.
+
+## Contre-vérification (25/10/2026, après le commit `29dfa3db`)
+
+**Note : 9/10. Verdict : GO.** Aucun bloquant restant.
+
+Périmètre lu : `config/textes/lettre-s21.ts:278-279`, `confidentialite/page.tsx:163-198`, `config/textes/lettre-hebdo-s21.ts:167-178` (drapeau `LETTRE_HEBDO_INSCRIPTIONS_OUVERTES = true`, `config/lettre.ts:148`), `(auth)/register/page.tsx:313-317`, `config/textes/offre.ts:71`, `lib/lettre/compte.ts` ; les 8 captures `v10b-*` (390 et 1440), toutes regardées.
+
+### Les 3 bloquants
+
+- **B1 corrigé**, mot pour mot (`lettre-s21.ts:279`) : « si tu as un compte sans abonnement ». Visible sur les captures de la partie 8 (390 et 1440). Conforme au code (`compte.ts:37` exclut `PREMIUM`).
+- **B2 corrigé**, mot pour mot (`page.tsx:189`) : « T'envoyer la lettre du mois si tu t'y inscris par e-mail : ton consentement… ». Le nom « lettre mensuelle » a disparu de la page rendue.
+- **B3 corrigé**, mot pour mot (`page.tsx:196`) : « Lettre du mois par e-mail : tu restes inscrit… ». Ce libellé reprend celui de la puce 1 de la partie 8.
+- Mineur 1 appliqué aussi (`page.tsx:171`) : « Tu peux te désinscrire de la lettre du mois à tout moment… ».
+
+### Parties 7 et 8, cas par cas
+
+| Cas | Base (partie 8) | Durée (partie 8) | Arrêt (partie 7) | Code | Verdict |
+|---|---|---|---|---|---|
+| Inscrit par adresse | consentement (l. 189) | « Lettre du mois par e-mail » (l. 196) : 2 ans, 7 jours, 3 ans | lien en bas de chaque e-mail (l. 171) | `CONFIRMED` envoyé par le canal gratuit, reconfirmation `entretien.ts` | vrai |
+| Compte sans abonnement | intérêt légitime (l. 192, B1) | rien de spécifique (choix de Thomas : « Stop. Too much juridique ») | l. 171 : vrai (`desinscrireCompte`) | `recoitParCompte` | vrai, sans contradiction |
+| Abonné Premium | exécution du contrat (hebdo `finalite`) : « sauf la lettre du mois si tu t'y es inscrit séparément » | « Lettre de la semaine : ton choix est gardé… » | l. 171 et `HEBDO.droits` | `PREMIUM` exclu du canal compte | vrai |
+
+Les deux parties sont cohérentes entre elles. Plus aucune phrase ne donne deux bases à une même lettre pour un même lecteur.
+
+### Rien de neuf faux
+
+- Aucune phrase nouvelle fausse ou contradictoire. Zéro tiret cadratin dans les phrases rendues. Ni jeton, ni texte brut, ni débordement sur les 8 captures.
+- `LETTRE_HEBDO_FIN_PREMIUM` (« Si tu t'es inscrit séparément à la lettre du mois, tu continues de la recevoir ») laisse entendre qu'un ancien Premium non inscrit ne la reçoit plus, alors que le canal compte la lui envoie. Cette constante n'est rendue nulle part (on ne la trouve que dans les tests) : hors client-facing, à surveiller si elle est un jour affichée.
+
+### `/register`
+
+- « un clic. » n'est plus seul à 1440 : la ligne lit « Désinscription en un clic. », en entier, sur la capture e-mail comme sur la capture Google. Même chose à 390. Rendu propre, centré, sans débordement.
+- « une fois par mois » est gardé : c'est une décision de Thomas (commentaire du test `register-premier-paiement-s21.test.tsx:28`), donc non re-questionnable.
+
+### Mineurs restants (non bloquants, à faire si on repasse sur ces fichiers)
+
+1. `page.tsx:196` : « par e-mail » décrit le mode d'inscription, mais un compte reçoit lui aussi la lettre par e-mail. Pour lever toute ambiguïté : « Lettre du mois, si tu t'y inscris par e-mail : tu restes inscrit… ».
+2. Captures `v10b-inscription-email-*` : le cadre coupe la ligne des CGU en haut. C'est un problème de cadrage de la capture, pas du rendu.
+3. Mineur 2 de la première relecture (« envoyée à tout le monde », profil et retour de paiement) : inchangé. Il n'était pas bloquant et ne l'est toujours pas.
