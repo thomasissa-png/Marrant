@@ -2,7 +2,7 @@
 
 ## À DÉPLOYER
 
-## À DÉPLOYER (s22, 25/10) : bouton principal de l'accueil « Apprends à répondre à une pique, gratuit », **NON DÉPLOYÉ** (go écrit de Thomas requis)
+## s22 (25/10) Bouton principal de l'accueil « Apprends à répondre à une pique, gratuit », **DÉPLOYÉ le 25/10/2026 vers 03:40 UTC** (go écrit de Thomas « Go ») : version `688edbb4-5108-42a4-ab45-ae867624d801`, commit `89d9e4d0` (CI verte, run 40158488305), N-1 `3d3bade1-41aa-4391-bed7-6acf4e97d551`. Retour arrière : `cd apps/web && npx wrangler rollback 3d3bade1-41aa-4391-bed7-6acf4e97d551`. P6 conforme : 11 adresses en 200, nouveau libellé présent (4 occurrences HTML + données), ancien 0, lien `/parcours/repartie?src=accueil#etape-1` inchangé, santé `ok`, en-têtes identiques à N-1, admin 401 ×4. Mesure : `parcours-ouvert` `src=accueil` dans Umami (rupture datée du 25/10 03:40 UTC ; base 19/10 à 25/10 : 28 vues de l'accueil, 3 clics).
 
 - Une constante : `GRATUIT_ACCUEIL` (`config/textes/cta-articles-accueil.ts`), utilisée en haut de l'accueil et en bouton contour sous la carte Premium. Remplace « Tester mes premières répliques, gratuit ». Sous-note « Sans compte. » inchangée. Choix délégué par Thomas (founder-preferences 25/10) ; variantes `docs/copy/cta-accueil-s22/variantes.md`, gagnant de la relecture à l'aveugle `docs/reviews/review-cta-accueil-s22.md` (l'ancien libellé finit dernier).
 - Tests : `concision-v5-textes`, `blog`, `blog-encarts-s20`, `fins-articles-v3-s21` (fins d'article : toujours sans ce libellé). Captures avant/après : `docs/qa/captures-cta-accueil-s22/` (une ligne à 1440, 390 et 360 px, aucun débordement).
