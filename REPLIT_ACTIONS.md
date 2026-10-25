@@ -2,6 +2,16 @@
 
 ## À DÉPLOYER
 
+(rien)
+
+## s22 (25/10) Les 22 lettres relues (6 lettres du mois, 16 lettres réservées), **DÉPLOYÉ le 25/10/2026 vers 22:30 UTC** (go écrit de Thomas « Ok go ») : version `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`, build sur `6a472b11` (CI verte, run 40238723204), N-1 `851443ee-8f1a-44ca-a987-75de96213e15`. Retour arrière : `cd apps/web && npx wrangler rollback 851443ee-8f1a-44ca-a987-75de96213e15` (sa synchronisation remettrait les anciens textes, sans approbation). Aucune migration.
+- **Avant** : articles liés vérifiés en base (lecture seule) : `repas-de-famille-questions-genantes-humour` 23/11, `resolution-nouvelle-annee-etre-plus-drole` 28/12, `blagues-de-couple-drole` 05/11, `se-presenter-avec-humour` 12/10 (publié), `blagues-poisson-d-avril-adultes` 25/02 ; `rester-muet-en-groupe` dans le code. Préversion testée : 11 adresses en 200, santé `ok`, llms.txt sans « vanne décryptée », webhook 401, en-têtes identiques à N-1.
+- **P6** : 11 adresses en 200, santé `ok`. `/api/cron/startup-tasks` appelé (200, 10,3 s). Contrôle en base (lecture seule) : 6 lettres du mois et 16 lettres réservées (W46 à W53 sauf W49, 2027-W02 à W12 sauf W05 et W09) en `VALIDE`, textes relus, **aucune approuvée**, 0 envoi journalisé.
+- **Reste à faire (Thomas)** : approuver dans Admin › Abonnés › Lettre la lettre du mois n°1 « Alors, t'as perdu ta langue ? » avant le jeudi 05/11 8 h, puis chaque lettre réservée avant son jeudi (première : 12/11).
+- **Suite** : textes publics qui décrivent encore la lettre du mois comme « une vanne décryptée » (`/lettre`, case de consentement, e-mail de confirmation, deux boutons) : correction en cours, mise en ligne séparée avant le 05/11.
+
+Entrée d'origine (avant déploiement) :
+
 ### s22 (25/10) Les 22 lettres relues : 6 lettres du mois (nov. 2026 à avril 2027) et 16 lettres réservées (12/11/2026 au 25/03/2027), go de Thomas « Ok go » du 25/10
 
 Branche `claude/ouverture-session-nzwj0w`, commit de ce chargement (hash dans le journal git, après `da4ebffc`). N-1 = version en ligne `851443ee-8f1a-44ca-a987-75de96213e15` (build `3e7b342b`). Retour arrière : `cd apps/web && npx wrangler rollback 851443ee-8f1a-44ca-a987-75de96213e15` (la synchro de N-1 remettrait les anciens textes, sans approbation, et retirerait les 9 lettres de 2027). **Aucune migration, aucune variable, aucun package.**
