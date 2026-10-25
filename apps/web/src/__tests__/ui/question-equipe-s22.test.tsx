@@ -178,7 +178,7 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     mockOuvert = false;
     const conf = render(<ConfidentialitePage />).container;
     expect(conf.querySelector("#question-equipe")).toBeNull();
-    expect(texte(conf)).not.toMatch(/Ta question|IONOS|Outils de rédaction|messages à l’équipe/);
+    expect(texte(conf)).not.toMatch(/Ta question|IONOS|Gmail|Outils de rédaction|messages à l’équipe/);
     expect(texte(conf)).toContain("Dernière mise à jour : 17 octobre 2026");
     const cgu = render(<CGUPage />).container;
     expect(cgu.querySelector("section#lettre h2")?.textContent).toBe("10. La lettre");
@@ -192,6 +192,9 @@ describe("Textes juridiques : publiés avec l'ouverture, jamais avant", () => {
     for (const p of CONFIDENTIALITE_QUESTION_EQUIPE.puces) expect(texte(s9)).toContain(attendu(p));
     const tout = texte(conf);
     expect(tout).toContain(`Resend : ${attendu(PRESTATAIRES_QUESTION_EQUIPE.resendRole)}`);
+    // contact@ chez IONOS, transféré vers Gmail : Google déclaré pour les messages à l'équipe.
+    expect(tout).toContain(`Google : ${attendu(PRESTATAIRES_QUESTION_EQUIPE.googleRole)}`);
+    expect(tout).toMatch(/IONOS : .*transfère tes messages à l’équipe vers sa messagerie Gmail/);
     for (const a of PRESTATAIRES_QUESTION_EQUIPE.ajouts) expect(tout).toContain(`${a.nom} : ${attendu(a.role)}`);
     expect(tout).toContain("Dernière mise à jour : 12 novembre 2026");
   });

@@ -52,7 +52,7 @@ export const QUESTION_EQUIPE_EMAIL = {
       question,
       "----- Fin de la question -----",
       "",
-      "Rappels (avis @legal du 25/10) : relire et envoyer chaque réponse, jamais d'envoi automatique ; dans un outil de rédaction, coller seulement le texte de la question, jamais l'adresse ni le prénom ; situation sensible : réponse sérieuse et personnelle, sans humour, orienter vers l'aide officielle (3114 en cas de détresse) ; signature « L'Équipe Deviens Marrant » ; réponse en général sous 1 à 2 jours ouvrés, au plus tard 3 jours ouvrés, sinon prévenir ; effacement 6 mois après le dernier échange.",
+      "Rappels (avis @legal du 25/10) : relire et envoyer chaque réponse, jamais d'envoi automatique ; dans un outil de rédaction, coller seulement le texte de la question, jamais l'adresse ni le prénom ; situation sensible : réponse sérieuse et personnelle, sans humour, orienter vers l'aide officielle (3114 en cas de détresse) ; signature « L'Équipe Deviens Marrant » ; réponse en général sous 1 à 2 jours ouvrés, au plus tard 3 jours ouvrés, sinon prévenir ; effacement 6 mois après le dernier échange, dans la boîte IONOS et dans la messagerie Gmail qui reçoit le transfert.",
     ].join("\n"),
 } as const;
 
@@ -68,11 +68,18 @@ export const CONFIDENTIALITE_QUESTION_EQUIPE = {
   ],
 } as const;
 
-/** Confidentialité, partie 4 (avis @legal point 2 ; IONOS : décision de Thomas du 25/10, condition C3). */
+/**
+ * Confidentialité, partie 4 (avis @legal point 2 ; condition C3). Boîte contact@ hébergée chez
+ * IONOS, qui transfère automatiquement les messages vers une messagerie Gmail (constaté le 25/10
+ * dans les en-têtes : Received from mout.kundenserver.de, Delivered-To Gmail) : IONOS ET Google
+ * sont déclarés pour les messages à l'équipe.
+ */
 export const PRESTATAIRES_QUESTION_EQUIPE = {
   resendRole: "envoi des e-mails liés à ton compte et à ton abonnement, des lettres et de tes messages à l'équipe",
+  googleRole:
+    "connexion avec ton compte Google, si tu la choisis, lecture des vidéos YouTube, et messagerie Gmail de l'équipe, qui reçoit les messages envoyés à contact@deviens-marrant.fr, dont tes messages à l'équipe",
   ajouts: [
-    { nom: "IONOS", role: "hébergement de la boîte e-mail de l'équipe (contact@deviens-marrant.fr), où arrivent tes messages à l'équipe" },
+    { nom: "IONOS", role: "hébergement de la boîte e-mail de l'équipe (contact@deviens-marrant.fr), qui transfère tes messages à l'équipe vers sa messagerie Gmail (Google)" },
     { nom: "Outils de rédaction", role: "l'équipe s'en sert pour préparer ses réponses. Ils reçoivent le texte de ta question, pas les informations de ton compte." },
   ],
 } as const;

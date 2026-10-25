@@ -44,13 +44,19 @@ const PRESTATAIRES: { nom: string; role: string }[] = [
 
 /**
  * s22 (avis @legal du 25/10, point 2 ; C3 : boîte contact@ chez IONOS) : partie 4 telle que
- * publiée à l'ouverture de « Ta question à l'équipe » (Resend étendu, IONOS, outils de
- * rédaction). Interrupteur fermé : liste inchangée.
+ * publiée à l'ouverture de « Ta question à l'équipe » (Resend et Google étendus : contact@ chez
+ * IONOS, transféré vers Gmail ; IONOS, outils de rédaction). Interrupteur fermé : liste inchangée.
  */
 function prestataires(questionOuverte: boolean = QUESTION_EQUIPE_OUVERTE): { nom: string; role: string }[] {
   if (!questionOuverte) return PRESTATAIRES;
   return [
-    ...PRESTATAIRES.map((p) => (p.nom === "Resend" ? { ...p, role: PRESTATAIRES_QUESTION_EQUIPE.resendRole } : p)),
+    ...PRESTATAIRES.map((p) =>
+      p.nom === "Resend"
+        ? { ...p, role: PRESTATAIRES_QUESTION_EQUIPE.resendRole }
+        : p.nom === "Google"
+          ? { ...p, role: PRESTATAIRES_QUESTION_EQUIPE.googleRole }
+          : p,
+    ),
     ...PRESTATAIRES_QUESTION_EQUIPE.ajouts,
   ];
 }
