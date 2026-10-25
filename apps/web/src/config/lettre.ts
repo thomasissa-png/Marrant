@@ -166,7 +166,16 @@ export const LETTRE_HEBDO_CONSENT_VERSION = "lettre-hebdo-premium-v1";
 /** Origines d'activation et d'arrêt (valeurs de `PremiumLetterPreference`). */
 export const LETTRE_HEBDO_ORIGINES_ACTIVATION = ["paiement", "profil"] as const;
 export type LettreHebdoOrigineActivation = (typeof LETTRE_HEBDO_ORIGINES_ACTIVATION)[number];
-export type LettreHebdoOrigineArret = "profil" | "paiement" | "lien-email" | "fin-premium" | "suppression" | "admin";
+/** s22 : `rebond` (rebond définitif signalé par Resend) et `plainte` (signalement « indésirable »). */
+export type LettreHebdoOrigineArret =
+  | "profil"
+  | "paiement"
+  | "lien-email"
+  | "fin-premium"
+  | "suppression"
+  | "admin"
+  | "rebond"
+  | "plainte";
 
 /** Stock : alerte sous 4 numéros VALIDE à venir, cible 8 (spec §3.2). */
 export const LETTRE_HEBDO_STOCK_ALERTE = 4;

@@ -1190,7 +1190,7 @@ model PremiumLetterPreference {
   activatedAt    DateTime?
   consentVersion String?
   stoppedAt      DateTime?
-  /// `profil` | `paiement` | `lien-email` | `fin-premium` | `suppression` | `admin`
+  /// `profil` | `paiement` | `lien-email` | `fin-premium` | `suppression` | `admin` | `rebond` | `plainte` (s22, webhook Resend)
   stopOrigin     String?
   /// s21 hebdo : jeton opaque du lien d'arrêt, créé à la première activation, stable ensuite.
   unsubscribeToken String?  @unique
