@@ -101,6 +101,8 @@ Le numéro est refusé (ignoré avec message, comme `numeroSchema` pour la mensu
 
 ## 3. Rythme, stock par lot, calendrier du premier envoi
 
+> **s22, décision de Thomas du 25/10/2026 ([CHOIX UTILISATEUR], remplace toute règle de pause de la mensuelle de cette spec)** : la lettre du mois est l'une des lettres des abonnés Premium. La semaine ISO (Paris) où elle part, les destinataires de la lettre de la semaine la reçoivent (version sans bloc d'invitation, pied et arrêt de la lettre de la semaine, un seul e-mail par adresse) et aucune lettre réservée ne part ; les autres jeudis, une lettre réservée. Lettre du mois due mais pas partie (non approuvée, reportée) : rien ne part pour personne cette semaine-là. Plus de pause ni d'attente. Code : `lib/lettre/envoi.ts` (`semaineDeLaMensuelle`, canal Premium), `lib/lettre/invitation-premium.ts` ; textes : avis @legal §10.
+
 ### 3.1 Rythme
 
 - **Jeudi 8 h, heure de Paris** (décision de Thomas du 17/10 pour la mensuelle, reco T3 pour l'hebdo ; constantes `LETTRE_JOUR_ENVOI` et `LETTRE_HEURE_ENVOI_PARIS` de `envoi.ts`, réutilisées sans les dupliquer). Le jour reste une constante : si Thomas change, le texte public suit (§9).

@@ -89,11 +89,11 @@ export function LettreHebdoNumeros({ onUnauthorized }: { onUnauthorized: () => v
                   <p className="text-text-secondary">Objet : {n.objet}</p>
                   {n.preEntete && <p className="text-xs text-text-muted">Pré-en-tête : {n.preEntete}</p>}
                   {n.textePremium !== null && <p className="mt-2 text-xs font-semibold text-text-primary">Version des inscrits gratuits</p>}
-                  <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-xs text-text-secondary">{n.texte}</pre>
+                  <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap [overflow-wrap:anywhere] text-xs text-text-secondary">{n.texte}</pre>
                   {n.textePremium !== null && (
                     <>
                       <p className="mt-3 text-xs font-semibold text-text-primary">Version des abonnés Premium (même approbation)</p>
-                      <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap text-xs text-text-secondary">{n.textePremium}</pre>
+                      <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap [overflow-wrap:anywhere] text-xs text-text-secondary">{n.textePremium}</pre>
                     </>
                   )}
                   <div className="mt-3 flex flex-wrap gap-2">
