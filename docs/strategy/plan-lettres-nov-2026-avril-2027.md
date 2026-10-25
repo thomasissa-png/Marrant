@@ -125,7 +125,7 @@ Chaque lettre est livrée au niveau des W46 à W53 validées (format A : scène,
 - *Ressort de la joueuse* : plus d'objet, d'organe ou de lieu promu à un statut officiel (déjà 4 fois). Pistes libres : litote, nombre très précis, fausse règle de procédure, bonne foi poussée trop loin, inversion de politesse, suite logique absurde.
 - *Règle pour choisir* déjà prises : test du lundi, temps mis par l'autre, ce que ta question vérifie, réparer avant de plaisanter, survivre au démenti, travail demandé à l'autre, vers qui pointe la phrase, nombre de micros, les 30 secondes suivantes, âge de la table, longueur selon le bruit. À inventer, une par lettre.
 - *Décryptage (B)* : humoriste récent et proche de l'audience, **passage réel, daté, vérifié** (WebSearch et visionnage, leçon des fiches vidéo s20 : sujet inventé), aucune citation non vérifiée. Candidats de la liste de référence : Paul Mirabel, Fary, Roman Frayssinet, Blanche Gardin, Waly Dia, Panayotis Pascot, Pierre Croce, Inès Reg. Trois techniques différentes de « Bref » (titre-résumé) et de Palmashow (rime) : par exemple l'aveu en premier, la naïveté jouée, le ton plat. Un humoriste différent par mois.
-- *Retour sur l'exercice* : seulement après un décryptage (B), comme W48 après W47.
+- *Retour sur l'exercice* : en tête de chaque lettre réservée qui suit une autre lettre réservée (3 lignes, cohérent avec l'exercice réellement donné la semaine précédente) ; pas après une lettre du mois. (Arbitrage de l'orchestrateur du 25/10, sur avis de la relecture `review-jan-mars-2027-lecteur.md` : ces retours aident le lecteur.)
 
 | # | Date | Contexte et ancre de saison | Scène proposée | À surveiller |
 |---|---|---|---|---|
