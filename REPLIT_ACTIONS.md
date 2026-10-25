@@ -4,6 +4,8 @@
 
 (rien)
 
+## s22 (25/10) Approbation des 22 lettres (05/11/2026 → 01/04/2027), **FAIT le 25/10/2026** sur go écrit de Thomas dans la session (« J'approuve je confirme tout le plan et toutes les lettres », approbation demandée ici plutôt que dans l'admin). Aucun code ni déploiement. Écriture en base = exactement ce que fait l'action admin `approuverNumero` (`lib/lettre/approbation-hebdo.ts`) : `approvedAt`, `approvedBy = admin`, `approvedHash` = empreinte SHA-256 du contenu en base (objet, pré-en-tête, corps, date d'envoi), une transaction, après contrôle que les 22 numéros en base sont VALIDE, non envoyés et identiques au dépôt (objets). Relecture : 22/22 approbations valides au sens de la tâche d'envoi, 0 envoi journalisé. Toute modification ultérieure d'une lettre efface son approbation (synchronisation) : elle devra être réapprouvée. Retrait : Admin › Abonnés › Lettre, « Retirer l'approbation ».
+
 ## s22 (25/10) Description publique de la lettre du mois au nouveau format, consentement `lettre-mensuelle-v3`, **DÉPLOYÉ le 25/10/2026 vers 23:20 UTC** (go de Thomas « Ok go », description publique comprise) : version `204c426f-805b-4a21-b958-f147ce0a8bd6`, build sur `cf711c0e` (CI verte, run 40240322239), N-1 `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`. Retour arrière : `cd apps/web && npx wrangler rollback f83eb3c2-822a-4e96-9b6d-ad05ae42ce22` (les inscriptions faites entre-temps restent en v3, texte archivé). Préversion testée (pages 200, nouveau titre, case v3, plus de « vanne décryptée », santé `ok`, en-têtes identiques à N-1). P6 : 8 adresses en 200 (`/lettre/confirmer` 307 sans jeton, attendu), `/lettre` au nouveau titre, plus aucune « vanne décryptée », santé `ok`.
 
 Entrée d'origine (avant déploiement) :
