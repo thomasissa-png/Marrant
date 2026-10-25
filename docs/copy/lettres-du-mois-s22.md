@@ -59,7 +59,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 >
 > La risquée
 > « Le directeur d'abord. Je ne passe jamais sans première partie. »
-> Celle-ci met le directeur dans le jeu : tu te poses en tête d'affiche, et lui devient ton chauffeur de salle, la hiérarchie s'inverse le temps d'une chanson. Elle ne marche que si le directeur rit de lui-même et que la soirée est détendue. Sinon, elle reste dans ta tête.
+> Celle-ci met le directeur dans le jeu : tu te poses en tête d'affiche, et lui devient ta première partie. La hiérarchie s'inverse le temps d'une chanson. Attention, ce n'est pas un refus : si le directeur prend le micro, tu chantes après lui. Elle ne marche que si le directeur rit de lui-même, que la soirée est détendue et que tu es prêt à tenir parole. Sinon, elle reste dans ta tête.
 >
 > Comment choisir : le test du lundi
 > Avant de répondre, demande-toi : « Est-ce que je pourrai la redire lundi, à 9 h, devant la personne concernée, sans avoir envie de m'expliquer ? » Une soirée de boîte s'oublie en une nuit, pas ce qu'on a dit au directeur ni la tête qu'on faisait en le disant. La sûre passe le test devant tout le monde. La joueuse le passe presque toujours. La risquée seulement si le directeur a déjà plaisanté sur lui-même devant toi. Au moindre doute, descends d'un cran.
@@ -68,7 +68,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Inventer une excuse. « Non merci, j'ai une extinction de voix. » Ça marche dix secondes. Puis quelqu'un te propose une pastille, un autre te demande si ça va mieux, et il faut garder la voix cassée jusqu'au dessert, et jusqu'à lundi : « Alors, tu as retrouvé ta voix ? » Une excuse inventée oblige à la jouer. Une phrase vraie, même drôle, se retient toute seule.
 >
 > À essayer cette semaine
-> Pense à ce qu'on te demande en soirée et que tu fuis : chanter, danser, faire un discours, jouer à un jeu. Écris trois refus, un par niveau, et passe chacun au test du lundi en imaginant la personne en face de toi à 9 h. Garde celui qui ne te fait pas rougir, et dis-le une fois à voix haute, seul, pour entendre comment il sonne.
+> Pense à ce qu'on te demande en soirée et que tu fuis : chanter, danser, faire un discours, jouer à un jeu. Écris trois réponses, une par niveau, et passe chacun au test du lundi en imaginant la personne en face de toi à 9 h. Garde celle qui ne te fait pas rougir, et dis-la une fois à voix haute, seul, pour entendre comment il sonne.
 >
 > Notre article suit la soirée de Noël au boulot de l'arrivée au départ, avec la règle des 3 zones pour savoir de quoi rire et de quoi s'abstenir. Il est en lecture libre.
 > Lire l'article sur la soirée de Noël au boulot : https://deviens-marrant.fr/blog/soiree-de-noel-entreprise-humour?utm_source=lettre&utm_medium=email&utm_content=n1-article
@@ -122,7 +122,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 >
 > La risquée
 > « Dis-moi que tu n'as pas déjà commencé celui de l'an prochain. »
-> Celle-ci vise tata : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Le doute est voulu, on peut y entendre de la tendresse autant que de l'effroi. Elle ne marche qu'avec une tante qui te chambre déjà et qui rit de ses propres élans. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
+> Celle-ci vise tata : tu fais semblant de redouter sa générosité, ce qui revient à la féliciter de son endurance. Sous l'effroi joué, tu lui dis que tu sais ce que trois semaines de tricot représentent. Elle ne marche qu'avec une tante qui a ri la première de la taille du pull. Face à quelqu'un qui doute de son tricot, garde-la pour toi.
 >
 > Comment choisir : combien de temps l'autre y a mis
 > Regarde le temps que la personne a mis dans ce cadeau, pas ce qu'il a coûté : acheté en ligne en cinq minutes, choisi pour toi pendant un après-midi, ou fait de ses mains pendant trois semaines. Plus l'autre y a mis de soi, moins tu joues sur l'objet. Pour un cadeau fait main, la sûre, puis la joueuse si tu vois un sourire. La risquée, seulement si la personne a déjà ri de son cadeau avant toi. Au moindre doute, remercie d'abord, plaisante ensuite.
@@ -190,7 +190,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Celle-ci vise Axel : tu lui fixes un rendez-vous pour faire le bilan. Elle ne marche que si vous êtes de ceux qui se chambrent et que son enthousiasme est assez solide pour encaisser. Devant quelqu'un qui doute déjà de lui, elle prend le ton d'un huissier.
 >
 > Comment choisir : le premier mot de la question
-> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu » ou « et si », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique. Au moindre doute, commence par « comment ».
+> Regarde comment ta question commence. Avec « comment », elle cherche à savoir comment l'autre fait : c'est la plus sûre. Avec « tu as prévu » ou « et si », elle joue sur ce qui pourrait arriver : c'est la joueuse. Avec « on se reparle » ou « est-ce que tu vas vraiment », elle vérifie que l'autre tiendra : c'est la plus risquée. Plus ta question vérifie, plus elle pique, quel que soit son premier mot : « comment tu vas tenir ? » commence bien, mais vérifie déjà. Au moindre doute, demande comment il fait, pas s'il va tenir.
 >
 > L'erreur que tout le monde fait
 > Poser la question, puis y répondre à sa place. « Tu as prévu un créneau pour le jour où tu abandonnes ? Moi, de toute façon, je ne prends jamais de résolutions, c'est nul. » Axel n'a pas eu le temps de respirer, et ta question est devenue un prétexte pour parler de toi. Après une question, bois une gorgée, regarde l'autre, et laisse le silence faire son travail.
@@ -318,7 +318,7 @@ Chaque réplique de remplacement repasse la relecture à l'aveugle avant envoi (
 > Avant de répondre à une annonce qui peut être un canular, demande-toi : « Que devient ma phrase si c'est vrai ? Et si c'est faux ? » La sûre et la joueuse tiennent dans les deux cas. La risquée ne tient que dans l'un : elle est pour les gens qui n'ont rien à perdre, ou pour quand tu es certain. Au moindre doute, choisis la phrase qui ne dépend pas de la réponse.
 >
 > L'erreur que tout le monde fait
-> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut démentir chez trois personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
+> Agir avant de vérifier. Tu reçois une annonce surprenante et tu réagis tout de suite : tu annules ton rendez-vous de vendredi, tu préviens ton collègue que tu pars tôt. Une demi-heure plus tard, Malik écrit « poisson d'avril », et il faut démentir chez deux personnes. Le 1er avril, comme les 364 autres jours, vérifie d'abord, agis ensuite.
 >
 > À essayer cette semaine
 > La prochaine fois qu'une annonce surprenante t'arrive (vraie ou pas), écris deux phrases qui restent justes dans les deux cas, puis une troisième qui parie. Pas pour l'envoyer : pour sentir la différence. Puis vérifie en deux minutes (une source, un coup de fil) avant de répondre à quiconque.
