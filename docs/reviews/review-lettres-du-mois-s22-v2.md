@@ -142,3 +142,56 @@ Aucune nouvelle. Les deux points réservés (liens vers des étapes Premium, « 
 ## Recommandation
 
 **NO-GO sur le lot, GO sur les lettres 2, 4, 5 et 6.** Relancer @copywriter sur les deux bloquants (lettre 1 : un paragraphe et deux mots de l'exercice ; lettre 3 : une phrase), plus les mineurs s'il le souhaite. Aucune réplique ne change : la troisième relecture ne porte que sur ces deux paragraphes, et pourra conclure GO si le texte est repris mot pour mot.
+
+---
+
+## Vérification finale (25/10/2026)
+
+> Relu à l'aveugle, chaque lettre en entier autour des retouches : n°1 (lignes 61-71), n°2 (lignes 121-128), n°3 (lignes 178-199), n°5 (ligne 321) de `docs/copy/lettres-du-mois-s22.md`. Hors champ, non rouverts : liens vers des étapes réservées, « une lettre chaque jeudi » des PS. Aucun autre fichier modifié, rien de commité.
+
+| N° | Note v2 | Note finale | Verdict | Bloquant |
+|---|---|---|---|---|
+| 1 | 8,0 | 8,5 | NO-GO de forme, GO dès la retouche ci-dessous | deux fautes d'accord dans l'exercice (ligne 71) |
+| 2 | 8,5 | 8,5 | GO | aucun |
+| 3 | 8,0 | 8,5 | GO | aucun |
+| 5 | 8,5 | 8,5 | GO | aucun |
+
+**Tirets cadratin et demi-cadratin** : 0 dans tout le fichier (Grep U+2014 et U+2013).
+
+**Verdict : NO-GO sur le lot, pour deux mots.** Le fond est au niveau : les lettres 1 et 3 atteignent 8,5, et les lettres 2 et 5 y restent. Il reste une faute d'accord introduite par la retouche de la lettre 1, que ma consigne v2 avait laissée passer (elle passait « trois refus » au féminin sans corriger les mots qui renvoyaient au masculin). Une fois les deux mots corrigés mot pour mot, le lot est GO sans autre relecture : aucune réplique ni aucune explication ne change.
+
+### Lettre 1 (8,5)
+
+**Bloquant v2 levé.** Ligne 62, l'explication dit maintenant ce que la réplique engage (« Attention, ce n'est pas un refus : si le directeur prend le micro, tu chantes après lui ») et en fait une condition (« que tu es prêt à tenir parole »). Le conseil ne mène plus le lecteur là où il ne voulait pas aller, et la risquée y gagne un second risque, ce qui la rend plus juste pour sa place. Elle reste cohérente avec le test du lundi (ligne 65) et avec l'intro (« aucune ne fait semblant d'avoir une vraie raison »). L'image du chauffeur de salle a disparu du corps.
+
+**Bloquant de forme (ouvert par la retouche).** Ligne 71, « réponses » et « celle » sont féminins, mais deux mots renvoient encore au masculin « refus » : « passe chacun » et « comment il sonne ». C'est une faute qu'un lecteur voit, dans une lettre qui apprend à bien parler. Retouche, mot pour mot :
+- remplacer « et passe chacun au test du lundi » par « et passe chacune au test du lundi » ;
+- remplacer « pour entendre comment il sonne. » par « pour entendre comment elle sonne. »
+
+**Mineurs**
+1. Ligne 62, « directeur » revient trois fois en quatre phrases. Remplacer « Elle ne marche que si le directeur rit de lui-même » par « Elle ne marche que s'il rit de lui-même ».
+2. Traçabilité (notes, non client-facing) : ligne 91, la note de révision parle encore du « chauffeur de salle », alors que le corps ne l'utilise plus.
+
+### Lettre 2 (8,5)
+
+Les deux mineurs v2 sont repris. « Sous l'effroi joué, tu lui dis que tu sais ce que trois semaines de tricot représentent » remplace le commentaire de rédacteur et fait pencher la risquée du côté tendre. « Une tante qui a ri la première de la taille du pull » crée enfin une marche avec la joueuse (rire de ses élans en général, puis rire de ce pull-là), colle à la règle (ligne 128, « avant toi ») et exclut bien la tata Annie de la scène, inquiète, les mains jointes. Le raccourci par rapport à ma proposition (« qui te chambre déjà » retiré) ne fait rien perdre. La lettre reste à 8,5.
+
+**Mineur** : ligne 125, deux phrases de suite disent le même compliment (« la féliciter de son endurance » puis « tu sais ce que trois semaines de tricot représentent »). Sans effet sur la note ; si on veut alléger, remplacer « ce qui revient à la féliciter de son endurance. » par « ce qui revient à la féliciter. ».
+
+### Lettre 3 (8,5)
+
+**Bloquant v2 levé.** Ligne 193, « quel que soit son premier mot : « comment tu vas tenir ? » commence bien, mais vérifie déjà » nomme le contre-exemple, et la consigne finale (« demande comment il fait, pas s'il va tenir ») porte sur ce que la question cherche : le lecteur prudent ne peut plus sortir la question qui pique en croyant suivre la règle. La phrase se lit d'une traite et la consigne tient dans la tête d'un introverti au milieu d'un dîner. Les trois répliques restent bien classées.
+
+**Mineurs** (non bloquants)
+1. Le titre « Comment choisir : le premier mot de la question » et l'exercice (« une par mot de départ », ligne 199) gardent le premier mot comme repère, que la règle remet maintenant à sa place d'indice. Ça se tient (un indice, puis le vrai critère), mais le titre promet un peu plus que la règle. Si on veut aligner : « Comment choisir : ce que ta question vérifie ».
+2. Mineur v2 non repris, toujours valable : ligne 178, « Au lieu de répondre à sa place » percute l'erreur de la même lettre (« y répondre à sa place », ligne 196).
+
+### Lettre 5 (8,5)
+
+Le chiffre est corrigé : « deux personnes » correspond à l'exemple (le rendez-vous, le collègue). La tournure « démentir chez » reste par contre, et elle accroche toujours (on dément quelque chose ou auprès de quelqu'un, pas « chez »). La lettre ne descend pas sous 8,5 pour autant, et c'est le mineur v2 à moitié repris.
+
+**Mineur** : ligne 321, remplacer « et il faut démentir chez deux personnes. » par « et il faut tout défaire auprès de deux personnes. »
+
+### Recommandation finale
+
+**GO pour le lot dès que les deux mots de la lettre 1 (« chacune », « elle ») sont corrigés mot pour mot**, sans nouvelle relecture. Les mineurs (lettre 1 n°1, lettre 3 n°1 et 2, lettre 5) sont recommandés avant la transcription dans `numeros.json`, mais aucun ne bloque. Ensuite, chaque numéro va à l'approbation de Thomas.
