@@ -80,12 +80,19 @@ describe("Préférence (réglage du profil ; s22 inscription d'office)", () => {
     expect(activer).not.toHaveBeenCalled();
   });
 
-  it("H1-9 : membre sans Premium 403 ; H2-10 : adresse non vérifiée 403", async () => {
+  it("H1-9 : membre sans Premium 403", async () => {
     mockUser.value = compte({ plan: "FREE" });
     expect((await put({ enabled: true, origine: "profil" })).status).toBe(403);
-    mockUser.value = compte({ emailVerified: null });
-    expect((await put({ enabled: true, origine: "profil" })).status).toBe(403);
     expect(activer).not.toHaveBeenCalled();
+  });
+
+  it("s22 (correction du 25/10) : adresse jamais vérifiée, compte à mot de passe : reprise acceptée (200), GET sans champ de vérification", async () => {
+    mockUser.value = compte({ emailVerified: null, accounts: [] });
+    expect((await put({ enabled: true, origine: "profil" })).status).toBe(200);
+    expect(activer).toHaveBeenCalledWith("u1", "profil", expect.any(Date));
+    const etat = await (await getPreference()).json();
+    expect(etat).toMatchObject({ eligible: true, enabled: true, mensuelleSuspendue: true });
+    expect(etat).not.toHaveProperty("adresseVerifiee");
   });
 
   it("400 : corps invalide, origine inconnue, ou texte de consentement envoyé par le navigateur (jamais lu)", async () => {
@@ -122,7 +129,7 @@ describe("Préférence (réglage du profil ; s22 inscription d'office)", () => {
   it("s22 / H2-5 : GET, Premium sans ligne = inscrit d'office (réglage activé), fin prévue si résiliation en fin de période, jamais de jeton", async () => {
     mockUser.value = compte({ subscription: { cancelAtPeriodEnd: true, currentPeriodEnd: new Date("2026-12-03T10:00:00Z") } });
     const office = await (await getPreference()).json();
-    expect(office).toMatchObject({ eligible: true, enabled: true, opposition: false, mensuelleSuspendue: true, adresseVerifiee: true, email: "marc@x.fr", finPrevue: "2026-12-03T10:00:00.000Z" });
+    expect(office).toMatchObject({ eligible: true, enabled: true, opposition: false, mensuelleSuspendue: true, email: "marc@x.fr", finPrevue: "2026-12-03T10:00:00.000Z" });
     mockUser.value = compte({}, { enabled: true, stoppedAt: null, stopOrigin: null, unsubscribeToken: JETON });
     const actif = await getPreference();
     const texte = await actif.text();

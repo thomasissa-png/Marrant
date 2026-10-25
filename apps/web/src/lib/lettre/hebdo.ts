@@ -9,8 +9,13 @@
  * s22 (25/10, décision de Thomas) : inscription d'office de tous les abonnés Premium, actuels et
  * futurs. Reçoit l'hebdo = interrupteur `LETTRE_HEBDO_ENVOIS_OUVERTS` ouvert, plan PREMIUM (l'accès :
  * `cancelAtPeriodEnd` et `PAST_DUE` le gardent, le webhook le retire aux statuts de fin), pas
- * d'opposition globale (`User.emailOptOut`, sans exception), adresse vérifiée (ou compte Google), et
- * pas d'ARRÊT EXPLICITE (`arretExplicite`). Sans ligne de préférence : inscrit.
+ * d'opposition globale (`User.emailOptOut`, sans exception) et pas d'ARRÊT EXPLICITE
+ * (`arretExplicite`). Sans ligne de préférence : inscrit.
+ *
+ * Aucune condition de vérification d'adresse (s22, correction du 25/10) : le site ne vérifie jamais
+ * l'adresse des comptes à mot de passe (en production, les 4 Premium ont `emailVerified` vide, un seul
+ * est un compte Google). Un Premium payant est destinataire ; une adresse morte est arrêtée par le
+ * webhook des rebonds (`stopOrigin` `rebond`, `emailOptOut`).
  *
  * Arrêt explicite = ligne arrêtée (`enabled` faux, `stoppedAt` posé) pour une autre raison que la fin
  * de Premium : profil, lien de l'e-mail, admin, rebond, plainte. Il reste valable pour toujours, même
@@ -41,9 +46,7 @@ export const SELECT_CANDIDAT_HEBDO = {
   id: true,
   email: true,
   plan: true,
-  emailVerified: true,
   emailOptOut: true,
-  accounts: { where: { provider: "google" }, select: { id: true }, take: 1 },
   premiumLetter: { select: { enabled: true, stoppedAt: true, stopOrigin: true, unsubscribeToken: true } },
 } satisfies Prisma.UserSelect;
 
@@ -58,9 +61,7 @@ export interface CandidatHebdo {
   id: string;
   email: string | null;
   plan: string;
-  emailVerified: Date | null;
   emailOptOut: boolean;
-  accounts: Array<{ id: string }>;
   premiumLetter: PreferenceHebdo | null;
 }
 
@@ -84,7 +85,6 @@ const PAS_ARRETEE = {
 /** LA fonction « reçoit l'hebdo ». Pure : testable sans base. */
 export function recoitHebdo(u: CandidatHebdo, envoisOuverts: boolean = LETTRE_HEBDO_ENVOIS_OUVERTS): boolean {
   if (!envoisOuverts || !u.email || u.plan !== "PREMIUM" || u.emailOptOut) return false;
-  if (!u.emailVerified && u.accounts.length === 0) return false;
   return !arretExplicite(u.premiumLetter);
 }
 

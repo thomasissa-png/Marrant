@@ -66,7 +66,7 @@ describe("Réglage du profil (s22 : inscription d'office)", () => {
   const etat = (p: Record<string, unknown> = {}) => ({
     ok: true,
     status: 200,
-    json: async () => ({ eligible: true, enabled: true, opposition: false, finPrevue: null, adresseVerifiee: true, email: "yanis.m@exemple.fr", mensuelleSuspendue: true, ...p }),
+    json: async () => ({ eligible: true, enabled: true, opposition: false, finPrevue: null, email: "yanis.m@exemple.fr", mensuelleSuspendue: true, ...p }),
   });
 
   it("inscriptions fermées : absent, aucune requête", () => {
@@ -137,12 +137,12 @@ describe("Réglage du profil (s22 : inscription d'office)", () => {
     expect(screen.getByRole("switch")).toBeChecked();
   });
 
-  it("H2-10 : adresse non vérifiée, la phrase remplace le réglage", async () => {
+  it("s22 (correction du 25/10) : aucune condition d'adresse vérifiée, le réglage s'affiche toujours pour un Premium", async () => {
     mockInscriptions = true;
     fetchMock.mockResolvedValueOnce(etat({ adresseVerifiee: false }));
     render(<LettreHebdoReglage />);
-    await waitFor(() => expect(texte(document.body)).toContain(attendu(LETTRE_HEBDO_UI.adresseNonVerifiee)));
-    expect(screen.queryByRole("switch")).toBeNull();
+    expect(await screen.findByRole("switch")).toBeChecked();
+    expect(texte(document.body)).not.toMatch(/Confirme ton adresse/);
   });
 
   it("s22 : opposition globale à nos e-mails : phrase d'explication, pas de réglage trompeur", async () => {

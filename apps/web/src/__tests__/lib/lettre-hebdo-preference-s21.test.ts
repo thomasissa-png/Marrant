@@ -90,9 +90,7 @@ function candidat(p: Partial<CandidatHebdo> = {}, pref: Partial<NonNullable<Cand
     id: "u1",
     email: "Yanis@Exemple.fr",
     plan: "PREMIUM",
-    emailVerified: avant,
     emailOptOut: false,
-    accounts: [],
     premiumLetter: { enabled: true, stoppedAt: null, stopOrigin: null, unsubscribeToken: JETON, ...pref },
     ...p,
   };
@@ -136,7 +134,6 @@ describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle), i
     ["arrêt sans origine notée (prudence)", candidat({}, { enabled: false, stoppedAt: avant, stopOrigin: null })],
     ["opposition globale (emailOptOut), ligne active", candidat({ emailOptOut: true })],
     ["opposition globale (emailOptOut), sans ligne", candidat({ emailOptOut: true, premiumLetter: null })],
-    ["adresse jamais vérifiée et pas de compte Google (cas 11)", candidat({ emailVerified: null })],
     ["sans adresse", candidat({ email: null })],
   ])("ne reçoit pas : %s", (_, c) => {
     expect(recoitHebdo(c, true)).toBe(false);
@@ -151,8 +148,27 @@ describe("recoitHebdo : LA fonction (envoi du jeudi ET pause de la mensuelle), i
     expect(recoitHebdo(candidat({}, arretee("fin-premium")), true)).toBe(true);
   });
 
-  it("compte Google sans date de vérification : reçoit", () => {
-    expect(recoitHebdo(candidat({ emailVerified: null, accounts: [{ id: "g" }] }), true)).toBe(true);
+  it("cas 11 (s22, correction du 25/10) : adresse jamais vérifiée = destinataire (aucune condition de vérification)", () => {
+    // Le candidat ne porte même plus `emailVerified` ni les comptes liés : la règle ne les lit pas.
+    expect(recoitHebdo(candidat({ premiumLetter: null }), true)).toBe(true);
+    expect(recoitHebdo({ ...candidat(), emailVerified: null, accounts: [] } as CandidatHebdo, true)).toBe(true);
+  });
+
+  it("s22 : 4 comptes calqués sur la production (3 à mot de passe jamais vérifiés + 1 Google, aucune ligne) : 4 destinataires", async () => {
+    // Forme réelle d'un enregistrement Prisma : `emailVerified` vide pour les 4, ligne de préférence absente.
+    const prod = [
+      { ...candidat({ id: "p1", email: "Abonne1@Exemple.fr", premiumLetter: null }), emailVerified: null, accounts: [] },
+      { ...candidat({ id: "p2", email: "abonne2@exemple.fr", premiumLetter: null }), emailVerified: null, accounts: [] },
+      { ...candidat({ id: "p3", email: "abonne3@exemple.fr", premiumLetter: null }), emailVerified: null, accounts: [] },
+      { ...candidat({ id: "p4", email: "google@exemple.fr", premiumLetter: null }), emailVerified: null, accounts: [{ id: "g" }] },
+    ];
+    db.user.findMany.mockResolvedValueOnce(prod);
+    const d = await destinatairesHebdo(true);
+    expect(d.map((x) => x.email)).toEqual(["abonne1@exemple.fr", "abonne2@exemple.fr", "abonne3@exemple.fr", "google@exemple.fr"]);
+    // La requête ne lit plus aucune donnée de vérification.
+    const select = db.user.findMany.mock.calls[0][0].select as Record<string, unknown>;
+    expect(select).not.toHaveProperty("emailVerified");
+    expect(select).not.toHaveProperty("accounts");
   });
 
   it("arretExplicite : sans ligne ou fin-premium = non ; profil = oui", () => {

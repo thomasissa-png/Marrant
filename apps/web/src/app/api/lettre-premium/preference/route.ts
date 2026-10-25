@@ -16,11 +16,11 @@ export const dynamic = "force-dynamic";
  * s22 (inscription d'office) : `enabled` = inscrit, c'est-à-dire pas d'arrêt explicite (`arretExplicite`) ;
  * vrai par défaut, sans ligne de préférence.
  *
- * GET → { eligible, enabled, opposition, mensuelleSuspendue, finPrevue, adresseVerifiee, email }
+ * GET → { eligible, enabled, opposition, mensuelleSuspendue, finPrevue, email }
  *   404 inscriptions fermées ; 401 sans session. `eligible` = plan PREMIUM. `opposition` =
  *   `User.emailOptOut` (aucune lettre ne part, quel que soit le réglage).
  * PUT { enabled: boolean, origine: "paiement" | "profil" } → { enabled, mensuelleSuspendue }
- *   - reprendre : inscriptions ouvertes (404 sinon), Premium (403), adresse vérifiée (403) ;
+ *   - reprendre : inscriptions ouvertes (404 sinon), Premium (403), sans vérification d'adresse (s22) ;
  *     efface l'arrêt explicite ; idempotent (inscrit d'office : rien n'est écrit) ;
  *   - arrêter : toujours possible, même inscriptions fermées ; respecté à vie.
  *   10 requêtes par minute et par compte (429 + Retry-After).
@@ -47,7 +47,6 @@ async function etat(userId: string) {
     // Pause de la mensuelle = destinataire de l'hebdo (fonction unique).
     mensuelleSuspendue: recoitHebdo(user),
     finPrevue: user.subscription?.cancelAtPeriodEnd && user.subscription.currentPeriodEnd ? user.subscription.currentPeriodEnd.toISOString() : null,
-    adresseVerifiee: Boolean(user.emailVerified) || user.accounts.length > 0,
     email: user.email,
   };
 }
@@ -89,7 +88,6 @@ export async function PUT(request: Request) {
       const avant = await etat(userId);
       if (!avant) return NextResponse.json({ error: "session" }, { status: 401 });
       if (!avant.eligible) return NextResponse.json({ error: "non-premium" }, { status: 403 });
-      if (!avant.adresseVerifiee) return NextResponse.json({ error: "adresse" }, { status: 403 });
       await activerLettreHebdo(userId, origine, now);
     }
     const apres = await etat(userId);

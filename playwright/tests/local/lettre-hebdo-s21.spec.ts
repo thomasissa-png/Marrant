@@ -110,6 +110,8 @@ test.describe("Réglage de la lettre de la semaine dans le profil (inscription d
       await creerCompte(email, MOT_DE_PASSE, "PREMIUM");
       const [{ id }] = await requete<{ id: string }>(`SELECT id FROM "User" WHERE email = $1`, [email]);
       await requete(`DELETE FROM "PremiumLetterPreference" WHERE "userId" = $1`, [id]);
+      // Comme en production (correction du 25/10) : compte à mot de passe jamais vérifié, réglage quand même proposé.
+      await requete(`UPDATE "User" SET "emailVerified" = NULL WHERE id = $1`, [id]);
       await seConnecter(page, email);
       await page.goto("/profil#lettre");
 

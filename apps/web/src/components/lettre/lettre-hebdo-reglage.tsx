@@ -15,7 +15,6 @@ interface Preference {
   enabled: boolean;
   opposition: boolean;
   finPrevue: string | null;
-  adresseVerifiee: boolean;
   email: string;
 }
 
@@ -43,7 +42,7 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
       .then((res) => (res.ok ? res.json() : null))
       .then((d: (Preference & { eligible?: boolean }) | null) => {
         if (!d || d.eligible !== true || typeof d.email !== "string") return;
-        setPref({ enabled: d.enabled === true, opposition: d.opposition === true, finPrevue: d.finPrevue, adresseVerifiee: d.adresseVerifiee === true, email: d.email });
+        setPref({ enabled: d.enabled === true, opposition: d.opposition === true, finPrevue: d.finPrevue, email: d.email });
       })
       .catch(() => {});
     return () => controller.abort();
@@ -113,7 +112,7 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
       </CardHeader>
       {pref.opposition ? (
         <p className="text-sm text-text-secondary">{frTypo(UI.opposition)}</p>
-      ) : pref.adresseVerifiee ? (
+      ) : (
         <>
           <label htmlFor={`${id}-reglage`} className="flex min-h-[44px] cursor-pointer items-center justify-between gap-4">
             <span className="text-sm font-medium text-text-primary">{LETTRE_HEBDO_REGLAGE}</span>
@@ -145,8 +144,6 @@ export function LettreHebdoReglage({ className }: { className?: string }) {
           </p>
           {pref.enabled && pref.finPrevue && <p className="mt-2 text-sm text-text-secondary">{frTypo(UI.finPrevue(date(pref.finPrevue)))}</p>}
         </>
-      ) : (
-        <p className="text-sm text-text-secondary">{frTypo(UI.adresseNonVerifiee)}</p>
       )}
       <p
         id={`${id}-etat`}

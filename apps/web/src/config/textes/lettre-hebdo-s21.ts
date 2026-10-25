@@ -55,7 +55,6 @@ export const LETTRE_HEBDO_UI = {
   /** s22 : opposition globale (`User.emailOptOut`) : aucune lettre ne part, quel que soit le réglage. */
   opposition:
     "Tu nous as demandé de ne plus t'écrire : la lettre de la semaine ne t'est pas envoyée. Pour la recevoir de nouveau, écris-nous à contact@deviens-marrant.fr.",
-  adresseNonVerifiee: "Confirme ton adresse e-mail pour recevoir la lettre",
   /** (L §6.1) remplace la phrase de la spec. */
   finPrevue: (date: string) => `Elle s'arrêtera avec ton accès Premium le ${date}.`,
 } as const;
