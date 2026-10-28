@@ -62,3 +62,7 @@
 ## Archivé en clôture s20 (17/10/2026, TTL 5 sessions)
 
 | 16 | 07/10/2026 | 1. Problème corrigé | P1 | 4 tests E2E rouges après déploiement : la spec attendait le texte provisoire remplacé ensuite par l'étalon validé. | Spec alignée | **Les tests E2E lisent les textes depuis `config/textes/*` (ou une regex tolérante), jamais une copie en dur d'un texte provisoire.** | qa | `playwright/tests/` | fait | — |
+
+## Archivé en clôture s22 (28/10/2026)
+
+| 08/04 | 08/04/2026 | 1. Problème corrigé | P0 | LinkedIn publié 5j/sem dans code vs 3j/sem dans JSON plan. Désync silencieuse. | Helper linkedInOrFallback + alignement code/JSON/quotas | **Toute divergence entre plan éditorial JSON et code DOIT être détectée par test de conformité.** | ouvert | n/a (vérifié s17 07/10 : pipeline social remplacé en s15, `linkedInOrFallback` supprimé, le code ne lit plus `social-editorial-plan.json` : aucune divergence possible) |
