@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
 
 export const metadata: Metadata = {
   title: "Connexion",
   description: "Connecte-toi à deviens-marrant.fr pour progresser en humour.",
-  robots: { index: false, follow: true },
+  ...NOINDEX_FOLLOW_ROBOTS,
 };
 
 export default function LoginLayout({ children }: { children: React.ReactNode }) {

@@ -170,8 +170,9 @@ describe("SEO s21 : pages noindex sans bingbot index hérité", () => {
     ["/forgot-password", forgotMeta],
     ["/reset-password", resetMeta],
     ["/onboarding", onboardingMeta],
-  ])("%s : noindex, follow", (_page, meta) => {
+  ])("%s : noindex, follow, aucun bingbot", (_page, meta) => {
     expect(meta.robots).toEqual({ index: false, follow: true });
+    expect(bingbotEmis(meta)).toBeNull();
   });
 });
 
