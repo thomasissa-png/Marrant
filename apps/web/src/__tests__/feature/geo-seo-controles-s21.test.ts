@@ -47,6 +47,9 @@ import { metadata as loginMeta } from "@/app/(auth)/login/layout";
 import { metadata as forgotMeta } from "@/app/(auth)/forgot-password/layout";
 import { metadata as resetMeta } from "@/app/(auth)/reset-password/layout";
 import { metadata as onboardingMeta } from "@/app/(auth)/onboarding/layout";
+import { metadata as adminLayoutMeta } from "@/app/admin/layout";
+import { metadata as liensMeta } from "@/app/liens/page";
+import { generateMetadata as liensReseauMeta } from "@/app/liens/[reseau]/page";
 import { metadata as cguMeta } from "@/app/(dashboard)/cgu/page";
 import { metadata as confidentialiteMeta } from "@/app/(dashboard)/confidentialite/page";
 import { metadata as mentionsMeta } from "@/app/(dashboard)/mentions-legales/page";
@@ -170,6 +173,20 @@ describe("SEO s21 : pages noindex sans bingbot index hérité", () => {
     ["/forgot-password", forgotMeta],
     ["/reset-password", resetMeta],
     ["/onboarding", onboardingMeta],
+  ])("%s : noindex, follow, aucun bingbot", (_page, meta) => {
+    expect(meta.robots).toEqual({ index: false, follow: true });
+    expect(bingbotEmis(meta)).toBeNull();
+  });
+
+  // s23 : /admin et /liens héritaient aussi du bingbot « index, follow » du layout racine.
+  it("/admin : noindex, nofollow, aucun bingbot", () => {
+    expect(adminLayoutMeta.robots).toEqual({ index: false, follow: false });
+    expect(bingbotEmis(adminLayoutMeta)).toBeNull();
+  });
+
+  it.each([
+    ["/liens", liensMeta],
+    ["/liens/x", liensReseauMeta({ params: { reseau: "x" } })],
   ])("%s : noindex, follow, aucun bingbot", (_page, meta) => {
     expect(meta.robots).toEqual({ index: false, follow: true });
     expect(bingbotEmis(meta)).toBeNull();

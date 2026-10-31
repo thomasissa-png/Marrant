@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LiensPageContent } from "@/components/liens/liens-page-content";
 import { LIENS_RESEAUX, origineFromSegment } from "@/lib/liens";
-import { NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
+import { NOT_FOUND_ROBOTS, NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
 
 // Stratégie de rendu : ISR 5 min, comme /liens. Deux routes seulement,
 // prérendues : /liens/x (`utm_source=x`) et /liens/li (`utm_source=linkedin`) ;
@@ -27,7 +27,7 @@ export function generateMetadata({ params }: LiensReseauProps): Metadata {
     title: "Liens",
     description: "Le dernier article, la vanne du jour et les parcours de deviens-marrant.fr.",
     alternates: { canonical: `https://deviens-marrant.fr/liens/${params.reseau}` },
-    robots: { index: false, follow: true },
+    ...NOINDEX_FOLLOW_ROBOTS,
   };
 }
 

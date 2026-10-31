@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import { AdminBar } from "@/components/admin/admin-bar";
 
 /**
@@ -8,7 +9,7 @@ import { AdminBar } from "@/components/admin/admin-bar";
  */
 export const metadata: Metadata = {
   title: "Administration",
-  robots: { index: false, follow: false },
+  ...NOINDEX_ROBOTS,
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

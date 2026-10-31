@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { NOINDEX_FOLLOW_ROBOTS } from "@/lib/seo-meta";
 import { LiensPageContent } from "@/components/liens/liens-page-content";
 
 // Stratégie de rendu : ISR 5 min. Lien de bio Instagram (`utm_source=instagram`),
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
   title: "Liens",
   description: "Le dernier article, la vanne du jour et les parcours de deviens-marrant.fr.",
   alternates: { canonical: "https://deviens-marrant.fr/liens" },
-  robots: { index: false, follow: true },
+  ...NOINDEX_FOLLOW_ROBOTS,
 };
 
 export default async function LiensPage() {

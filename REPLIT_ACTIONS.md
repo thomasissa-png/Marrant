@@ -2,7 +2,12 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s23 (31/10) /admin et /liens sans balise bingbot contradictoire, **PAS ENCORE DÉPLOYÉ** (attend le go de Thomas)
+
+- Constaté en prod le 31/10 après le lot Ahrefs : `/admin` (`noindex, nofollow`) et `/liens` (`noindex, follow`) portent aussi le `bingbot: index, follow` hérité du layout racine. Correctif : `app/admin/layout.tsx` → `NOINDEX_ROBOTS`, `app/liens/page.tsx` et `app/liens/[reseau]/page.tsx` → `NOINDEX_FOLLOW_ROBOTS` (mêmes consignes robots qu'avant, seule la balise bingbot disparaît). Test `geo-seo-controles-s21` étendu (3 cas).
+- Aucune migration, aucune variable, aucun texte visible. Vérifié sous `env -i` + variables factices CI : tsc build et complet, `next lint`, `npm run build`, Jest (3 suites, 52 tests).
+- Déploiement : procédure de l'entrée s23 ci-dessous (build:cf, upload, test de la préversion, `versions deploy`). N-1 attendu `3ac1d508-6695-4f81-a29a-48bd4b2df8f2`, retour arrière `cd apps/web && npx wrangler rollback 3ac1d508-6695-4f81-a29a-48bd4b2df8f2`.
+- P6 : `for p in /admin /liens /liens/x; do curl -s "https://deviens-marrant.fr$p" | grep -c 'name="bingbot"'; done` → `0` ×3 ; robots inchangés (`noindex, nofollow` sur /admin, `noindex, follow` sur /liens) ; pages en 200, admin API 401.
 
 ## s23 (31/10) Correctifs Ahrefs du 28/10 (robots des pages d'auth, maillage des articles en base, IndexNow sur tout le site), **DÉPLOYÉ le 31/10/2026 à 15:26 UTC** (go écrit de Thomas « Je valide et go on déploie ») : version `3ac1d508-6695-4f81-a29a-48bd4b2df8f2`, build sur `076e564` (CI verte, run 41212331592), N-1 `204c426f-805b-4a21-b958-f147ce0a8bd6` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 204c426f-805b-4a21-b958-f147ce0a8bd6`. Préversion testée avant bascule (pages 200, robots, liens, santé). **P6 conforme** : 21 adresses en 200 (dont la fiche double-sens) ; admin 401 ×2 ; `noindex, follow` et 0 `bingbot` sur /login, /register, /forgot-password, /reset-password (/onboarding 307 vers /abonnement en visiteur, identique à N-1) ; liens entrants des 4 articles présents ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1 ; 0 « 2,99 ». IndexNow : 41 URL du blog soumises après bascule (HTTP 200). Reste noté : `/admin` porte encore le `bingbot: index, follow` hérité (identique à N-1, hors lot).
 
