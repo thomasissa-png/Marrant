@@ -163,6 +163,15 @@ export const NOINDEX_ROBOTS = {
 } satisfies Metadata;
 
 /**
+ * Variante des pages d'authentification (s23, crawl Ahrefs du 28/10) : `noindex, follow`,
+ * sinon leurs liens (accueil, CGU…) comptent comme liens internes nofollow.
+ */
+export const NOINDEX_FOLLOW_ROBOTS = {
+  ...NOINDEX_ROBOTS,
+  robots: { index: false, follow: true },
+} satisfies Metadata;
+
+/**
  * Aperçu de partage propre à une page (SEO s21) : `og:url` et titres de la page,
  * sinon Facebook et LinkedIn rattachent le partage à l'accueil (layout racine).
  */

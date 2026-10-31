@@ -4,8 +4,9 @@
  * Ordre de base : articles du cluster, puis même catégorie, puis récents (3 cartes).
  * Jamais 2 fois la même destination sur la page : un article déjà proposé en
  * « Suivant » ou « Précédent » (navigation cluster) est retiré. La place libérée
- * revient au prochain article du même cluster s'il en reste un ; sinon la section
- * affiche moins de cartes (notation iter2, D1).
+ * revient au prochain article du même cluster s'il en reste un, puis (s23) à un
+ * article rattaché au cluster par sa seule catégorie (`categoryFill`) ; sinon la
+ * section affiche moins de cartes (notation iter2, D1).
  *
  * Articles CATALOGUE en base (forte frappe) : pas de cluster par catégorie, dont
  * les satellites (faire rire une fille, un homme) sont hors sujet sous un message
@@ -37,7 +38,7 @@ export function curatedRelatedSlugs(slug: string, category: string): string[] | 
 }
 
 export function pickRelatedArticles<T extends { slug: string }>(
-  candidates: { cluster: T[]; sameCategory: T[]; others: T[] },
+  candidates: { cluster: T[]; sameCategory: T[]; others: T[]; categoryFill?: T[] },
   navSlugs: (string | null | undefined)[],
   count: number = RELATED_COUNT,
 ): T[] {
@@ -45,6 +46,7 @@ export function pickRelatedArticles<T extends { slug: string }>(
   const base = [...candidates.cluster, ...candidates.sameCategory, ...candidates.others].slice(0, count);
   const kept = base.filter((a) => !nav.has(a.slug));
   const shown = new Set(kept.map((a) => a.slug));
-  const clusterFill = candidates.cluster.filter((a) => !nav.has(a.slug) && !shown.has(a.slug));
+  const clusterFill = [...candidates.cluster, ...(candidates.categoryFill ?? [])]
+    .filter((a) => !nav.has(a.slug) && !shown.has(a.slug));
   return [...kept, ...clusterFill].slice(0, count);
 }

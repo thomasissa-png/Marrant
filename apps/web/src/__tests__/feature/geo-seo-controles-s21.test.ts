@@ -43,6 +43,10 @@ import { metadata as desinscrireMeta } from "@/app/(dashboard)/lettre/desinscrir
 import { metadata as carnetMeta } from "@/app/(dashboard)/carnet/page";
 import { generateMetadata as carnetMoisMeta } from "@/app/(dashboard)/carnet/[mois]/page";
 import { metadata as registerMeta } from "@/app/(auth)/register/layout";
+import { metadata as loginMeta } from "@/app/(auth)/login/layout";
+import { metadata as forgotMeta } from "@/app/(auth)/forgot-password/layout";
+import { metadata as resetMeta } from "@/app/(auth)/reset-password/layout";
+import { metadata as onboardingMeta } from "@/app/(auth)/onboarding/layout";
 import { metadata as cguMeta } from "@/app/(dashboard)/cgu/page";
 import { metadata as confidentialiteMeta } from "@/app/(dashboard)/confidentialite/page";
 import { metadata as mentionsMeta } from "@/app/(dashboard)/mentions-legales/page";
@@ -149,11 +153,25 @@ describe("SEO s21 : pages noindex sans bingbot index hérité", () => {
     ["/lettre/desinscrire", desinscrireMeta],
     ["/carnet", carnetMeta],
     ["/carnet/[mois]", carnetMoisMeta({ params: { mois: "2026-10" } })],
-    ["/register", registerMeta],
   ])("%s : une seule consigne robots (noindex), aucun bingbot", (_page, meta) => {
     expect(String(layoutMetadata.other?.bingbot)).toContain("index, follow");
     expect(meta.robots).toEqual({ index: false, follow: false });
     expect(bingbotEmis(meta)).toBeNull();
+  });
+
+  // s23 (Ahrefs 28/10) : pages d'authentification en noindex, follow.
+  it("/register : noindex, follow, aucun bingbot", () => {
+    expect(registerMeta.robots).toEqual({ index: false, follow: true });
+    expect(bingbotEmis(registerMeta)).toBeNull();
+  });
+
+  it.each([
+    ["/login", loginMeta],
+    ["/forgot-password", forgotMeta],
+    ["/reset-password", resetMeta],
+    ["/onboarding", onboardingMeta],
+  ])("%s : noindex, follow", (_page, meta) => {
+    expect(meta.robots).toEqual({ index: false, follow: true });
   });
 });
 

@@ -5,7 +5,7 @@
 import { blogArticles, getArticleBySlug, type BlogArticle } from "@/lib/blog-articles";
 import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
-import { getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
+import { getClusterForCategory, getClusterForSlug, getRelatedSlugs, getNextInCluster, getPrevInCluster, resolveCluster } from "@/lib/blog-clusters";
 import { curatedRelatedSlugs, pickRelatedArticles } from "@/lib/blog-related";
 import { REDIRECTED_BLOG_SLUGS } from "@/lib/seo-redirects";
 import { isBlogArticleVisible, publicUpdatedAt, visibleBlogArticleWhere } from "@/lib/blog-visibility";
@@ -117,6 +117,17 @@ export async function loadBlogArticleNavigation(article: BlogArticleData): Promi
   const clusterArticles = clusterRelatedSlugs
     .map((s) => allAvailableArticles.find((a) => a.slug === s))
     .filter(Boolean) as ArticleLink[];
+  // s23 (Ahrefs 28/10) : un article rattaché au cluster par sa seule catégorie
+  // (publié en base par la tâche hebdo) n'est dans la liste d'aucun cluster, donc
+  // jamais en carte ailleurs. Il comble les places restées vides après Suivant /
+  // Précédent (aucune carte existante remplacée), décalé selon le rang de la page.
+  const rank = cluster && getClusterForSlug(article.slug)
+    ? [cluster.pillarSlug, ...cluster.satelliteSlugs].indexOf(article.slug) : -1;
+  const byCategory = rank < 0 ? [] : allAvailableArticles
+    .filter((a) => a.slug !== article.slug && !getClusterForSlug(a.slug) && getClusterForCategory(a.category)?.id === cluster?.id)
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const shift = byCategory.length ? rank % byCategory.length : 0;
+  const categoryFill = [...byCategory.slice(shift), ...byCategory.slice(0, shift)];
   const sameCategoryArticles = curatedSlugs ? [] : allAvailableArticles
     .filter((a) => a.slug !== article.slug && a.category === article.category && !clusterRelatedSlugs.includes(a.slug))
     .sort((a, b) => b.date.localeCompare(a.date));
@@ -132,7 +143,7 @@ export async function loadBlogArticleNavigation(article: BlogArticleData): Promi
 
   // « À lire ensuite » ne reprend pas les cartes Suivant / Précédent affichées.
   const relatedArticles = pickRelatedArticles(
-    { cluster: clusterArticles, sameCategory: sameCategoryArticles, others: otherArticles },
+    { cluster: clusterArticles, sameCategory: sameCategoryArticles, others: otherArticles, categoryFill },
     cluster ? [nextArticle?.slug, prevArticle?.slug] : [],
   );
 
