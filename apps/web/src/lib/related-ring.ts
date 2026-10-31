@@ -27,3 +27,37 @@ export function ringNeighbors<T>(items: readonly T[], isCurrent: (item: T) => bo
   if (n <= RELATED_COUNT) return others;
   return RING_OFFSETS.map((offset) => items[(((index + offset) % n) + n) % n]);
 }
+
+/**
+ * Repli des conseils (s23, 31/10/2026) : une catégorie de moins de 2 conseils
+ * actifs (fiche comprise) n'a pas d'anneau. Sa fiche affiche alors les voisins
+ * de la catégorie proche ci-dessous, et la première fiche de la catégorie proche
+ * la lie en retour (réciprocité), à la place de son dernier voisin (i-2).
+ *
+ * JEUX_DE_MOTS → REPARTIE : le seul conseil actif (« Le double sens en
+ * conversation ») apprend à répondre à une remarque en la prenant dans son autre
+ * sens, cousin direct de « Répondre au pied de la lettre » (REPARTIE), et la
+ * fiche renvoie déjà vers le parcours Répartie. ABSURDE (escalade, inventions)
+ * ne joue pas sur les mots.
+ */
+export const MIN_RING_SIZE = 2;
+export const TIP_FALLBACK_CATEGORY: Readonly<Record<string, string>> = {
+  JEUX_DE_MOTS: "REPARTIE",
+};
+
+/** Catégories isolées qui se replient sur `category` (sens inverse de la table). */
+export function fallbackSourcesOf(category: string): string[] {
+  return Object.keys(TIP_FALLBACK_CATEGORY).filter((source) => TIP_FALLBACK_CATEGORY[source] === category);
+}
+
+/**
+ * Voisins de la première fiche d'une catégorie proche : la ou les fiches isolées
+ * prennent les dernières places (sans doublon), les premiers voisins de l'anneau
+ * restent en place.
+ */
+export function withFallbackGuests<T>(neighbors: readonly T[], guests: readonly T[], sameItem: (a: T, b: T) => boolean): T[] {
+  const fresh = guests.filter((g) => !neighbors.some((n) => sameItem(n, g)));
+  if (fresh.length === 0) return [...neighbors];
+  const keep = Math.max(0, Math.min(neighbors.length, RELATED_COUNT - fresh.length));
+  return [...neighbors.slice(0, keep), ...fresh].slice(0, RELATED_COUNT);
+}

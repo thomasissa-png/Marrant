@@ -4,7 +4,13 @@ import { prisma } from "@/lib/prisma";
 import { withDbRetry } from "@/lib/db-retry";
 import { dedupeJokesByContent, jokeContentKey } from "@/lib/jokes-dedupe";
 import { dedupeTipsByTitle, tipTitleKey } from "@/lib/tips-dedupe";
-import { ringNeighbors } from "@/lib/related-ring";
+import {
+  fallbackSourcesOf,
+  MIN_RING_SIZE,
+  ringNeighbors,
+  TIP_FALLBACK_CATEGORY,
+  withFallbackGuests,
+} from "@/lib/related-ring";
 
 /**
  * Données du bloc « Dans la même catégorie » (s20, spec maillage S2).
@@ -101,11 +107,29 @@ export async function getRelatedJokes(current: { id: string; content: string; ca
   return ringNeighbors(items, (j) => j.id === current.id || jokeContentKey(j.content) === key);
 }
 
-/** 4 conseils voisins (anneau), jamais le conseil courant ni un conseil de même titre. */
+/**
+ * 4 conseils voisins (anneau), jamais le conseil courant ni un conseil de même titre.
+ * Repli s23 (`related-ring.ts`, TIP_FALLBACK_CATEGORY) : catégorie de moins de 2
+ * conseils actifs → voisins de la catégorie proche ; première fiche de la catégorie
+ * proche → lien retour vers la fiche isolée.
+ */
 export async function getRelatedTips(current: { id: string; title: string; category: string }): Promise<RelatedTip[]> {
   const key = tipTitleKey(current.title);
-  const items = await cachedTips(String(current.category));
-  return ringNeighbors(items, (t) => t.id === current.id || tipTitleKey(t.title) === key);
+  const isCurrent = (t: RelatedTip) => t.id === current.id || tipTitleKey(t.title) === key;
+  const category = String(current.category);
+  const items = await cachedTips(category);
+
+  const fallback = TIP_FALLBACK_CATEGORY[category];
+  if (items.length < MIN_RING_SIZE && fallback) return ringNeighbors(await cachedTips(fallback), isCurrent);
+
+  const neighbors = ringNeighbors(items, isCurrent);
+  // Seule la première fiche de la liste (ordre des listes) d'une catégorie proche
+  // va lire les catégories isolées : les autres fiches ne font aucune requête de plus.
+  const sources = items.length > 0 && isCurrent(items[0]) ? fallbackSourcesOf(category) : [];
+  if (sources.length === 0) return neighbors;
+  const lists = await Promise.all(sources.map((source) => cachedTips(source)));
+  const guests = lists.filter((list) => list.length < MIN_RING_SIZE).flat();
+  return withFallbackGuests(neighbors, guests, (a, b) => a.id === b.id);
 }
 
 /** 4 vidéos voisines (anneau), jamais la vidéo courante. */
