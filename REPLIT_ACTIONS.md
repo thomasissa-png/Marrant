@@ -2,9 +2,11 @@
 
 ## À DÉPLOYER
 
-### s23 (31/10) Correctifs Ahrefs du 28/10 (robots des pages d'auth, maillage des articles en base, IndexNow sur tout le site)
+(rien)
 
-Branche `claude/ouverture-session-nzwj0w`, commits de ce lot (hash dans le journal git, messages « s23 : correctifs Ahrefs du 28/10… » et « s23 : test social-media-agent… »). Pas encore de go de Thomas. N-1 attendu = version en ligne `204c426f-805b-4a21-b958-f147ce0a8bd6`, à confirmer par `npx wrangler deployments list`. Retour arrière : `cd apps/web && npx wrangler rollback 204c426f-805b-4a21-b958-f147ce0a8bd6`.
+## s23 (31/10) Correctifs Ahrefs du 28/10 (robots des pages d'auth, maillage des articles en base, IndexNow sur tout le site), **DÉPLOYÉ le 31/10/2026 à 15:26 UTC** (go écrit de Thomas « Je valide et go on déploie ») : version `3ac1d508-6695-4f81-a29a-48bd4b2df8f2`, build sur `076e564` (CI verte, run 41212331592), N-1 `204c426f-805b-4a21-b958-f147ce0a8bd6` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 204c426f-805b-4a21-b958-f147ce0a8bd6`. Préversion testée avant bascule (pages 200, robots, liens, santé). **P6 conforme** : 21 adresses en 200 (dont la fiche double-sens) ; admin 401 ×2 ; `noindex, follow` et 0 `bingbot` sur /login, /register, /forgot-password, /reset-password (/onboarding 307 vers /abonnement en visiteur, identique à N-1) ; liens entrants des 4 articles présents ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1 ; 0 « 2,99 ». IndexNow : 41 URL du blog soumises après bascule (HTTP 200). Reste noté : `/admin` porte encore le `bingbot: index, follow` hérité (identique à N-1, hors lot).
+
+Branche `claude/ouverture-session-nzwj0w`, commits de ce lot (hash dans le journal git, messages « s23 : correctifs Ahrefs du 28/10… » et « s23 : test social-media-agent… »). N-1 attendu = version en ligne `204c426f-805b-4a21-b958-f147ce0a8bd6`, à confirmer par `npx wrangler deployments list`. Retour arrière : `cd apps/web && npx wrangler rollback 204c426f-805b-4a21-b958-f147ce0a8bd6`.
 
 - **Aucune migration, aucune variable, aucune écriture en base, aucun texte visible modifié.**
 - **Pages d'auth** (`app/(auth)/login`, `forgot-password`, `reset-password`, `onboarding`, `register` : `layout.tsx`, toutes via la nouvelle constante `NOINDEX_FOLLOW_ROBOTS` de `lib/seo-meta.ts`) : `noindex, nofollow` passe à `noindex, follow`, et plus de balise `bingbot` héritée (`index, follow` du layout racine, contradictoire, constatée en prod le 31/10 sur `/login` et `/forgot-password`). `NOINDEX_ROBOTS` (lettre, carnet) inchangé ; admin, aperçu blog, developers et integrer-la-vanne-du-jour non touchés.
