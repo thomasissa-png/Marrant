@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-### s23 (31/10) /admin et /liens sans balise bingbot contradictoire, **PAS ENCORE DÉPLOYÉ** (attend le go de Thomas)
+(rien)
+
+## s23 (31/10) /admin et /liens sans balise bingbot contradictoire, **DÉPLOYÉ le 31/10/2026 à 16:36 UTC** (go écrit de Thomas « Oui, pour toutes tes recommandations ») : version `aef8872d-967b-4798-9ad4-f2045c1f1f4d`, build sur `e4d4152` (CI verte, run 41215386083), N-1 `3ac1d508-6695-4f81-a29a-48bd4b2df8f2` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 3ac1d508-6695-4f81-a29a-48bd4b2df8f2`. Préversion testée. **P6 conforme** : 9 adresses en 200, 0 `bingbot` sur /admin, /liens, /liens/x (robots inchangés), admin API 401, santé `ok`, Stripe live, en-têtes de sécurité identiques à N-1.
 
 - Constaté en prod le 31/10 après le lot Ahrefs : `/admin` (`noindex, nofollow`) et `/liens` (`noindex, follow`) portent aussi le `bingbot: index, follow` hérité du layout racine. Correctif : `app/admin/layout.tsx` → `NOINDEX_ROBOTS`, `app/liens/page.tsx` et `app/liens/[reseau]/page.tsx` → `NOINDEX_FOLLOW_ROBOTS` (mêmes consignes robots qu'avant, seule la balise bingbot disparaît). Test `geo-seo-controles-s21` étendu (3 cas).
 - Aucune migration, aucune variable, aucun texte visible. Vérifié sous `env -i` + variables factices CI : tsc build et complet, `next lint`, `npm run build`, Jest (3 suites, 52 tests).
