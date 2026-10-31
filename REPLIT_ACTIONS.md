@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-## s23 (31/10) Voisins de repli des fiches conseils, PAS ENCORE DÉPLOYÉ (Thomas doit voir les captures)
+(rien)
+
+## s23 (31/10) Voisins de repli des fiches conseils, **DÉPLOYÉ le 31/10/2026 à 17:16 UTC** (captures vues, go écrit de Thomas « ok deploie ») : version `5e1c2687-8aef-48e2-af6d-5b4075be643e`, build sur `fd64eb4` (CI verte, run 41221880098), N-1 `aef8872d-967b-4798-9ad4-f2045c1f1f4d` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback aef8872d-967b-4798-9ad4-f2045c1f1f4d`. Préversion testée (2 fiches conformes aux captures, fiche témoin `la-reclamation-trop-precise` identique à la prod). **P6 conforme** : 8 adresses en 200 ; double sens = 4 fiches voisines ; « Remercier celui qui te chambre » lie le double sens ; admin API 401 ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1. IndexNow : les 2 fiches soumises (HTTP 200).
 
 - Problème : `/conseils/le-double-sens-en-conversation-cmmp8ozsx0` est le seul conseil actif de JEUX_DE_MOTS (les 10 autres restent retirés, règle P0) ; l'anneau s20 ne lui donnait aucune voisine (0 lien sortant, 0 lien entrant depuis une fiche).
 - Fichiers : `apps/web/src/lib/related-ring.ts` (table `TIP_FALLBACK_CATEGORY`, `fallbackSourcesOf`, `withFallbackGuests`), `apps/web/src/lib/related-catalogue.ts` (`getRelatedTips`), test `apps/web/src/__tests__/lib/related-ring-fallback-s23.test.ts`. Page conseil inchangée : même bloc « Dans la même thématique », aucun texte nouveau.
