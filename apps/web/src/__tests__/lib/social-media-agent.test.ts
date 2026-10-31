@@ -621,8 +621,9 @@ describe("social-media-agent", () => {
       // Le slot doit être dans les 48h (aujourd'hui ou lendemain selon timezone)
       expect(diffMs).toBeGreaterThanOrEqual(-1000); // pas dans le passé (marge 1s)
       expect(diffMs).toBeLessThan(48 * 60 * 60 * 1000); // pas après-demain
-      expect(date.getUTCFullYear()).toBe(now.getUTCFullYear());
-      expect(date.getUTCMonth()).toBe(now.getUTCMonth());
+      // Aujourd'hui ou demain (UTC) : pas de comparaison du mois, fausse le dernier jour du mois (s23).
+      const startOfTodayUtc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
+      expect([0, 1]).toContain(Math.floor((date.getTime() - startOfTodayUtc) / (24 * 60 * 60 * 1000)));
     });
   });
 
