@@ -72,6 +72,16 @@ describe("SubscriptionSuccessPage", () => {
     });
   });
 
+  it("s23 (D.221-5) : « Paiement reçu ! » montre le lien « Renoncer au contrat ici » vers /retractation", async () => {
+    mockFetch.mockResolvedValueOnce({ ok: true, json: () => Promise.resolve({ plan: "PREMIUM" }) });
+    render(<SubscriptionSuccessPage />);
+    await act(async () => {
+      jest.advanceTimersByTime(2000);
+    });
+    expect(await screen.findByText(TEXTES_SUCCESS.pretTitre)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Renoncer au contrat ici" })).toHaveAttribute("href", "/retractation");
+  });
+
   it("favori mémorisé (étoile avant paiement) : ajouté une fois le plan vérifié, puis retiré de la destination (s21 tour 2)", async () => {
     mockSearchParams.set("returnTo", "/vannes?favori=JOKE.j1");
     mockFetch.mockImplementation((url: string, init?: { method?: string; body?: string }) => {

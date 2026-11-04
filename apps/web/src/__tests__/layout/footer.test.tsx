@@ -33,12 +33,12 @@ describe("Footer", () => {
     expect(screen.getByText("Mentions légales")).toBeInTheDocument();
     expect(screen.getByText("CGU")).toBeInTheDocument();
     expect(screen.getByText("Confidentialité")).toBeInTheDocument();
-    expect(screen.getByText("Rétractation")).toBeInTheDocument();
+    expect(screen.getByText("Renoncer au contrat ici")).toBeInTheDocument();
   });
 
   it("has correct href for retractation link", () => {
     render(<Footer />);
-    expect(screen.getByText("Rétractation").closest("a")).toHaveAttribute(
+    expect(screen.getByText("Renoncer au contrat ici").closest("a")).toHaveAttribute(
       "href",
       "/retractation"
     );

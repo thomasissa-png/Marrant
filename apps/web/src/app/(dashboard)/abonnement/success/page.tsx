@@ -23,7 +23,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { trackUmamiWhenReady } from "@/lib/umami";
-import { CONTACT_EMAIL, TEXTES_SUCCESS } from "@/config/textes/paiement";
+import { CONTACT_EMAIL, LIBELLE_RENONCER_CONTRAT, TEXTES_SUCCESS } from "@/config/textes/paiement";
 import { ajouterFavoriApresPaiement, avecDrapeauFavori, extraireFavori } from "@/lib/favori-apres-paiement";
 import { useFavoritesStore } from "@/stores/favorites-store";
 import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
@@ -187,6 +187,12 @@ function SubscriptionSuccessContent() {
                   {TEXTES_SUCCESS.pretBouton}
                 </Link>
               )}
+              {/* s23 (audit rétractation, D.221-5) : accès visible à la fonction de rétractation, en lien discret sous le bouton. */}
+              <p className="mt-4 text-xs">
+                <Link href="/retractation" className="text-text-muted underline underline-offset-2 hover:text-text-secondary">
+                  {LIBELLE_RENONCER_CONTRAT}
+                </Link>
+              </p>
             </>
           )}
           {etat === "verification" && (

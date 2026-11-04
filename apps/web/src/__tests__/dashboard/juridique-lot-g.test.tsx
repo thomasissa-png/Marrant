@@ -122,6 +122,11 @@ describe("pages légales", () => {
     expect(document.body.textContent).toContain(RETRACTATION_PERIMETRE);
   });
 
+  it("s23 (D.221-5) : titre de /retractation = formule légale « Renoncer au contrat ici »", () => {
+    render(<RetractationPage />);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/^Renoncer au contrat ici$/);
+  });
+
   it("confidentialité : 5 compléments @legal, aucune durée inventée", () => {
     render(<ConfidentialitePage />);
     const text = (document.body.textContent ?? "").replace(/\u00a0/g, " ");

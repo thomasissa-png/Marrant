@@ -22,10 +22,18 @@ import {
  * réception au client (support durable). Un e-mail raté ne fait pas échouer la
  * demande (déjà enregistrée) : alerte A `email-envoi-retractation-*` + réponse
  * `ackSent: false` pour que le formulaire invite à écrire au contact.
+ *
+ * s23 (audit rétractation, D.221-5) : l'API n'enregistre et n'envoie l'accusé
+ * qu'à la CONFIRMATION (`confirme: true`, bouton « Confirmer la rétractation » de
+ * l'étape 2) ; sans elle, 400 et rien n'est écrit. Nom et prénom obligatoires,
+ * date d'achat facultative ; l'accusé reprend tous les champs saisis. Le nom
+ * part dans les deux e-mails (pas de colonne en base : aucune migration).
  */
 export const dynamic = "force-dynamic";
 
 const bodySchema = z.object({
+  confirme: z.literal(true),
+  nom: z.string().trim().min(1).max(120),
   email: z.string().trim().toLowerCase().email().max(254),
   dateAchat: z
     .string()
@@ -62,7 +70,7 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json({ error: TEXTES_RETRACTATION_FORM.erreurValidation }, { status: 400 });
   }
-  const { email } = parsed.data;
+  const { email, nom } = parsed.data;
   const dateAchat = parseDateAchat(parsed.data.dateAchat || undefined);
   const motif = parsed.data.motif ? parsed.data.motif : null;
 
@@ -96,12 +104,13 @@ export async function POST(request: Request) {
 
   const vars = {
     email,
+    nom,
     dateAchat,
     motif,
     recueLe: demande.createdAt,
     reference: `R-${demande.id.slice(-8).toUpperCase()}`,
-    // Lot E : prénom du compte s'il existe (« Salut Marie, »), sinon « Salut, ».
-    prenom: firstNameFrom(user?.name),
+    // Lot E : prénom du compte s'il existe (« Salut Marie, »), sinon celui saisi (s23), sinon « Salut, ».
+    prenom: firstNameFrom(user?.name) ?? firstNameFrom(nom),
     premiereSouscription: user?.subscription?.createdAt ?? null,
   };
   const admin = emailAdminRetractation({ ...vars, compteTrouve: Boolean(user) });

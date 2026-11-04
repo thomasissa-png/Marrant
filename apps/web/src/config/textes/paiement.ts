@@ -160,18 +160,44 @@ export const TEXTES_SUCCESS = {
   reessayer: "Réessayer",
 } as const;
 
-// PROVISOIRE s16, étalon à valider
+/**
+ * Formule légale de la fonction de rétractation (D.221-5, audit s23
+ * `docs/legal/retractation-conformite-s23.md`, ligne 2) : pied de page, titre de
+ * /retractation, carte abonnement du profil, page « Paiement reçu » et bouton de
+ * l'étape 1 du formulaire.
+ */
+export const LIBELLE_RENONCER_CONTRAT = "Renoncer au contrat ici";
+
+// PROVISOIRE s16, étalon à valider. s23 (audit rétractation, P0) : deux étapes
+// (saisie puis récapitulatif à confirmer), nom et prénom, date d'achat facultative.
 export const TEXTES_RETRACTATION_FORM = {
   placeholderEmail: "ton@email.fr",
+  placeholderNom: "Marie Dupont",
   placeholderMotif: "Dis-nous pourquoi tu te rétractes (facultatif)",
+  labelNom: "Prénom et nom *",
+  labelEmail: "Adresse e-mail du compte *",
+  labelDateAchat: "Date d’achat (facultatif)",
+  labelMotif: "Motif (facultatif)",
   envoi: "Envoi en cours…",
-  bouton: "Envoyer ma demande",
+  /** Étape 1 : rien n'est envoyé, on passe au récapitulatif. */
+  bouton: LIBELLE_RENONCER_CONTRAT,
+  recapTitre: "Vérifie ta demande",
+  recapTexte:
+    "Rien n’est encore envoyé. Ta demande part quand tu cliques sur « Confirmer la rétractation », et tu reçois un accusé de réception par e-mail.",
+  recapNom: "Prénom et nom",
+  recapEmail: "Adresse e-mail du compte",
+  recapDateAchat: "Date d’achat",
+  recapMotif: "Motif",
+  recapNonIndique: "non indiqué",
+  /** Étape 2 : seul ce bouton envoie la demande (D.221-5). */
+  confirmer: "Confirmer la rétractation",
+  modifier: "Modifier",
   succesTitre: "Ta demande de rétractation est bien enregistrée.",
   succesTexte:
     "On t’a envoyé un e-mail de confirmation. Tu ne le vois pas sous 1 heure ? Regarde dans tes spams, ou écris-nous à",
   succesSansEmail:
     "On n’a pas réussi à t’envoyer l’e-mail de confirmation, mais ta demande est bien enregistrée. Pour en garder une trace, écris-nous aussi à",
-  erreurValidation: "Vérifie ton adresse e-mail et la date d’achat.",
+  erreurValidation: "Vérifie ton nom, ton adresse e-mail et la date d’achat.",
   erreurTropDeDemandes: "Tu as déjà envoyé plusieurs demandes. On les traite : pas besoin de recommencer.",
   erreurServeur: "L’envoi n’a pas marché. Réessaie, ou écris-nous directement à",
 } as const;
@@ -345,6 +371,8 @@ ${SIGNATURE}
 
 export interface RetractationVars {
   email: string;
+  /** Prénom et nom saisis dans la déclaration (s23, D.221-5). Absent (anciens appels) : ligne omise. */
+  nom?: string | null;
   dateAchat: Date | null;
   motif: string | null;
   recueLe: Date;
@@ -395,10 +423,15 @@ export const TEXTES_ACCUSE_RETRACTATION = {
  * Lot G : « On te rembourse » sans condition seulement si la demande arrive dans
  * les 14 jours de la première souscription ; sinon texte conditionnel @legal,
  * suivi du périmètre (premier paiement seulement).
+ * s23 (audit rétractation, P0 n°5) : l'accusé reprend tout le contenu de la
+ * déclaration (nom, e-mail, date d'achat et motif s'ils sont fournis), avec la
+ * date et l'heure de réception (D.221-5).
  */
 export function emailAccuseRetractation(v: RetractationVars): EmailRendu {
   const dateAchat = dateValide(v.dateAchat);
+  const nom = v.nom?.trim() ? `\nNom : ${v.nom.trim()}` : "";
   const achat = dateAchat ? `\nDate d’achat indiquée : le ${dateLongue(dateAchat)}` : "";
+  const motif = v.motif?.trim() ? `\nMotif indiqué : ${v.motif.trim()}` : "";
   const recue = dateValide(v.recueLe) ?? new Date();
   const remboursement =
     delaiRetractation(v.premiereSouscription, recue) === "dans-le-delai"
@@ -410,8 +443,8 @@ export function emailAccuseRetractation(v: RetractationVars): EmailRendu {
 
 On a bien reçu ta demande de rétractation, le ${dateHeure(recue)}.
 
-Référence : ${v.reference}
-Adresse du compte : ${v.email}${achat}
+Référence : ${v.reference}${nom}
+Adresse du compte : ${v.email}${achat}${motif}
 
 ${remboursement}
 
@@ -442,7 +475,8 @@ export function emailAdminRetractation(v: RetractationVars & { compteTrouve: boo
 Reçue le : ${dateHeure(v.recueLe)}
 Date limite de remboursement : ${dateLongue(ajouterJoursParis(v.recueLe, 14))} (demande + 14 jours)
 Référence : ${v.reference}
-E-mail saisi : ${v.email} (${v.compteTrouve ? "compte trouvé" : "AUCUN compte avec cet e-mail"})
+Nom indiqué : ${v.nom?.trim() || "non renseigné"}
+E-mail saisi :${v.email} (${v.compteTrouve ? "compte trouvé" : "AUCUN compte avec cet e-mail"})
 Date d’achat indiquée : ${v.dateAchat ? dateLongue(v.dateAchat) : "non renseignée"}
 Délai de rétractation : ${LIGNE_DELAI_ADMIN[delai](debut ? dateLongue(debut) : "")}
 Motif : ${v.motif || "non renseigné"}

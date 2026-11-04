@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ import { Reassurance } from "@/components/ui/reassurance";
 import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
+import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 
 export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
 
@@ -131,6 +133,13 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
                 <p className="mt-1 text-xs text-text-muted">{fin ? T.resilierDetail(fin) : T.resilierDetailSansDate}</p>
               </div>
             )}
+            {/* s23 (audit rétractation, D.221-5) : accès visible à la fonction de rétractation pour tout
+                compte Premium (le délai court même après une résiliation). Lien texte, pas un bouton. */}
+            <p className="mt-4 text-xs">
+              <Link href="/retractation" className="text-text-muted underline underline-offset-2 hover:text-text-secondary">
+                {LIBELLE_RENONCER_CONTRAT}
+              </Link>
+            </p>
           </div>
         )}
 

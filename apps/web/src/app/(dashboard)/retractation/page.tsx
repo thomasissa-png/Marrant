@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { pageShareMeta } from "@/lib/seo-meta";
 import { RetractationForm } from "@/components/retractation/retractation-form";
-import { formulaireTypeRetractation } from "@/config/textes/paiement";
+import { LIBELLE_RENONCER_CONTRAT, formulaireTypeRetractation } from "@/config/textes/paiement";
 import { MODELE_FORMULAIRE_TITRE, RETRACTATION_PERIMETRE } from "@/config/textes/juridique";
 
 const PAGE_URL = "https://deviens-marrant.fr/retractation";
@@ -24,11 +24,13 @@ export const metadata: Metadata = {
 // Lot G : périmètre du délai (premier paiement seulement, règle de Thomas) et
 // modèle légal de formulaire (annexe R.221-1) offert AVANT la commande
 // (L.221-5) : même source que l'annexe de l'e-mail de confirmation.
+// s23 (audit rétractation, D.221-5) : titre = formule légale « Renoncer au contrat ici ».
+// Rendu : statique (SSG) ; le pré-remplissage du compte connecté se fait côté client.
 export default function RetractationPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">
-        Exercer ton droit de rétractation
+        {LIBELLE_RENONCER_CONTRAT}
       </h1>
       <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : 7 octobre 2026</p>
 

@@ -164,3 +164,23 @@ describe("AbonnementCard, impayé (audit s16, lot D)", () => {
     expect(screen.getByRole("button", { name: "Résilier ton contrat" })).toBeInTheDocument();
   });
 });
+
+describe("AbonnementCard, accès à la rétractation (audit s23, D.221-5)", () => {
+  it.each([
+    ["actif", actif],
+    ["résilié", { ...actif, cancelAtPeriodEnd: true }],
+    ["sans résumé", null],
+  ])("Premium %s : lien « Renoncer au contrat ici » vers /retractation", async (_nom, resume) => {
+    mockSummary(resume as SubscriptionSummary | null);
+    render(card());
+    const lien = await screen.findByRole("link", { name: "Renoncer au contrat ici" });
+    expect(lien).toHaveAttribute("href", "/retractation");
+  });
+
+  it("compte sans abonnement : pas de lien de rétractation (rien à quoi renoncer)", async () => {
+    mockSummary(null);
+    render(card("FREE"));
+    await screen.findByText(TEXTES_ABONNEMENT.badgeAucun);
+    expect(screen.queryByRole("link", { name: "Renoncer au contrat ici" })).not.toBeInTheDocument();
+  });
+});

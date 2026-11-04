@@ -5,6 +5,9 @@
  * partagée (429 + Retry-After), enregistrement en base AVANT les e-mails,
  * e-mail à l'admin + accusé de réception au client, e-mail raté sans perte
  * de la demande. Base, limiteur et e-mails simulés.
+ * s23 (audit rétractation, D.221-5) : rien n'est écrit ni envoyé sans la
+ * confirmation de l'étape 2 (`confirme: true`) ; nom et prénom obligatoires,
+ * repris avec le motif dans l'accusé.
  */
 const prisma = {
   user: { findFirst: jest.fn() },
@@ -33,7 +36,15 @@ import { TEXTES_RETRACTATION_FORM } from "@/config/textes/paiement";
 
 const CREATED = new Date("2026-10-07T12:00:00Z");
 
+const NOM = "Marie Dupont";
+
+/** Déclaration confirmée (étape 2) : `confirme` et `nom` ajoutés aux objets, sauf s'ils sont fournis. */
 function post(body: unknown) {
+  const complet = typeof body === "object" && body !== null ? { confirme: true, nom: NOM, ...body } : body;
+  return postBrut(complet);
+}
+
+function postBrut(body: unknown) {
   return POST(
     new Request("http://localhost/api/retractation", {
       method: "POST",
@@ -79,6 +90,12 @@ describe("POST /api/retractation", () => {
     expect(client[2]).toContain("R-12345678");
     expect(client[2]).toContain("L’Équipe Deviens Marrant");
     expect(client[2]).not.toMatch(/—/);
+    // s23 : l'accusé reprend tout le contenu de la déclaration
+    expect(client[2]).toContain(`Nom : ${NOM}`);
+    expect(client[2]).toContain("Adresse du compte : client@exemple.fr");
+    expect(client[2]).toContain("Date d’achat indiquée : le 1er octobre 2026");
+    expect(client[2]).toContain("Motif indiqué : Pas pour moi");
+    expect(admin[2]).toContain(`Nom indiqué : ${NOM}`);
     // Enregistrement AVANT les envois
     expect(prisma.retractationRequest.create.mock.invocationCallOrder[0]).toBeLessThan(trySend.mock.invocationCallOrder[0]);
     expect(prisma.retractationRequest.update).toHaveBeenCalledWith({
@@ -91,12 +108,46 @@ describe("POST /api/retractation", () => {
     [{ email: "pas-un-email", dateAchat: "2026-10-01" }],
     [{ email: "a@b.fr", dateAchat: "01/10/2026" }],
     [{ email: "a@b.fr", motif: "x".repeat(2001) }],
+    [{ email: "a@b.fr", nom: "" }],
+    [{ email: "a@b.fr", nom: "   " }],
+    [{ email: "a@b.fr", nom: "x".repeat(121) }],
+    [{ email: "a@b.fr", confirme: false }],
+    [{ email: "a@b.fr", confirme: "true" }],
     ["pas du json"],
   ])("entrée invalide (%j) : 400, rien en base", async (body) => {
     const res = await post(body);
     expect(res.status).toBe(400);
     expect((await res.json()).error).toBe(TEXTES_RETRACTATION_FORM.erreurValidation);
     expect(prisma.retractationRequest.create).not.toHaveBeenCalled();
+  });
+
+  it("s23 : sans confirmation (étape 1 seule), 400 : rien en base, aucun e-mail", async () => {
+    const res = await postBrut({ nom: NOM, email: "a@b.fr", dateAchat: "2026-10-01", motif: "" });
+    expect(res.status).toBe(400);
+    expect(prisma.retractationRequest.create).not.toHaveBeenCalled();
+    expect(trySend).not.toHaveBeenCalled();
+  });
+
+  it("s23 : nom absent, 400 : rien en base, aucun e-mail", async () => {
+    const res = await postBrut({ confirme: true, email: "a@b.fr" });
+    expect(res.status).toBe(400);
+    expect(prisma.retractationRequest.create).not.toHaveBeenCalled();
+    expect(trySend).not.toHaveBeenCalled();
+  });
+
+  it("s23 : motif et date absents, l'accusé n'affiche ni ligne vide ni « null »", async () => {
+    await post({ email: "a@b.fr", motif: "" });
+    const accuse = trySend.mock.calls[1][2] as string;
+    expect(accuse).toContain(`Nom : ${NOM}`);
+    expect(accuse).not.toContain("Motif indiqué");
+    expect(accuse).not.toContain("Date d’achat");
+    expect(accuse).not.toMatch(/null|undefined/);
+  });
+
+  it("s23 : compte sans prénom, la salutation reprend le prénom saisi", async () => {
+    prisma.user.findFirst.mockResolvedValue(null);
+    await post({ email: "a@b.fr" });
+    expect(trySend.mock.calls[1][2]).toMatch(/^Salut Marie,/);
   });
 
   it("date d'achat absente : acceptée (le droit ne dépend pas du formulaire)", async () => {

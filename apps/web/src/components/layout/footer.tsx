@@ -5,6 +5,7 @@ import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
 import { LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
 import { frTypo } from "@/lib/fr-typo";
+import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 import { WIDGET_VANNE_DU_JOUR_PUBLIE, WIDGET_PROGRAMME_PATH, WIDGET_LIBELLE_PIED } from "@/config/widget-vanne-du-jour";
 
 const footerLinks = {
@@ -26,7 +27,8 @@ const footerLinks = {
     { href: "/mentions-legales", label: "Mentions légales" },
     { href: "/cgu", label: "CGU" },
     { href: "/confidentialite", label: "Confidentialité" },
-    { href: "/retractation", label: "Rétractation" },
+    // s23 (audit rétractation, D.221-5) : formule légale de la fonction de rétractation.
+    { href: "/retractation", label: LIBELLE_RENONCER_CONTRAT },
     // Lot G (@legal point 6) : accès permanent à la résiliation en ligne. Sans session,
     // le middleware renvoie vers /login?callbackUrl=/profil (ancre de la carte Abonnement).
     { href: "/profil#abonnement", label: TEXTES_ABONNEMENT.resilier },
