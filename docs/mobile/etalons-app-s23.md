@@ -1,6 +1,7 @@
-# Pack d'étalons de l'app iPhone, session 23, v2 (à trancher avec Thomas)
+# Pack d'étalons de l'app iPhone, session 23, v3 (à trancher avec Thomas)
 
-> Auteur : @copywriter. Règle P0 s8 : étalons calibrés AVEC Thomas avant tout brief copywriter. Ce pack n'écrit pas l'app : 7 étalons, 3 options chacun, une reco, une ligne « Revenu : » (priorité du 04/11 : « L'app sert à faire du revenu pour nous. Avant tout. »). Thomas répond par une lettre par étalon (ex. « 1A, 2B, 3A, 4B, 5A, 6A, 7B »).
+> Auteur : @copywriter. Règle P0 s8 : étalons calibrés AVEC Thomas avant tout brief copywriter. Ce pack n'écrit pas l'app : 7 étalons, 3 options chacun, une reco, une ligne « Revenu : » (priorité du 04/11 : « L'app sert à faire du revenu pour nous. Avant tout. »). Thomas répond par une lettre par étalon (ex. « 1A+, 2B, 3A, 4B, 5A, 6A, 7B » ; « 1A+ » = A avec l'aide).
+> v3 : intègre les 10 corrections N1 à N10 de `revues-etalons/reviewer-v2.md` (8,5/10), les pistes de `panel-v2.md` (étalons 1, 5, 7) et quelques souhaitables (SW1, SW3, SW4, SW8, SW11, SW12, phrase de confidentialité).
 > v2 : intègre les 19 corrections O1 à O19 de `revues-etalons/reviewer-v1.md` (7/10) et les pistes de `panel-v1.md` (2C et 3C rejetés par les trois jurés). Sources : cadrage `cadrage-app-native-s23.md` (§1, §2.1, §3.1 à §3.6, §4.1, §9.2), `docs/copy/ton-alex.md`, choix du 19/10, 25/10, 06/10, 29/09.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro concurrent, zéro chiffre inventé, aucun mot interdit à l'écran (cadrage §3.5). Les textes servent à calibrer ; en production, chacun repasse la relecture à l'aveugle 2 sur 3 (P0 s18). Toute vanne ou réplique publiée tient la barre Alexa (06/10).
 
@@ -12,17 +13,17 @@
 
 ## Étalon 1. Format du défi de 30 s (champ `defi30s`, décision 7 bis)
 
-Le défi arrive après la chute et le « Pourquoi ça marche ». Sous chaque libellé, une ligne fixe, identique pour les 3 options : « À voix haute ou dans ta tête, 30 secondes. » Le libellé va avec l'option, sauf si tu veux en croiser deux. Chaque défi existe pour chaque situation (coloc, boulot, date, soirée), sinon une partie du public se sent hors sujet (panel, C7).
+Le défi arrive après la chute et le « Pourquoi ça marche ». Sous chaque libellé, une ligne fixe, identique pour les 3 options : « À voix haute ou dans ta tête, 30 secondes. » Le libellé va avec l'option, sauf si tu veux en croiser deux. Les quatre exemples couvrent quatre situations (chez soi, boulot, soirée, date) ; en production, chaque vanne a un seul défi, dans sa propre situation (§3.6), pour que chaque thème coché reçoive des défis qui lui parlent (panel, C7).
 
 ### Option A : « Finis la phrase » (compléter une amorce neuve)
 - **A** : « Ma cuisine est dans un tel état que le service d'hygiène m'a laissé un avis : … » Ajoute la note et le commentaire.
-- **B** : « Le prof a pris chaque élève à part, un par un, pour lui dire qu'il était son préféré. Depuis… »
+- **B** : « Le chef a pris chaque collègue à part, un par un, pour lui dire qu'il était son meilleur élément. Depuis… »
 - **C** : « Pour échapper à un type en soirée, j'ai dit que j'allais chercher des glaçons. Il… »
 - **D** : « Elle m'a enregistré dans son répertoire sous “Taxi”. Depuis, je suis… »
 
-**Variante A+, aide « Si tu sèches, vois trois suites »** (lien discret sous le défi, jamais obligatoire) :
-- **A** : « Une étoile : “Les pompiers sont arrivés avant les pâtes.” » / « Deux étoiles : “On est sortis vivants.” » / « Trois étoiles : “Cuisson parfaite, mais côté plafond.” »
-- **B** : « on ne se regarde plus en cours. » / « personne ne prête plus ses notes. » / « on se salue comme des rivaux. »
+**Variante A+, aide « Tu sèches ? Trois suites possibles »** (lien discret sous le défi, jamais obligatoire) :
+- **A** : « Une étoile : “Même les fourmis ne reviendront pas.” » / « Deux étoiles : “On a retrouvé l'évier.” » / « Trois étoiles : “Personnel accueillant, surtout les moisissures.” »
+- **B** : « on ne se regarde plus en réunion. » / « personne ne prête plus son chargeur. » / « on se salue comme des rivaux. »
 - **C** : « m'a proposé de porter les glaçons avec moi. » / « a sorti une glacière de sa voiture. » / « m'a suivi, et il a pris les glaçons pour lui. »
 - **D** : « une course. » / « de passage. » / « toujours en retard d'un feu rouge. »
 Coût : trois suites par vanne, chacune relue à l'aveugle (barre Alexa, 06/10), soit 447 suites pour les 149 vannes du pool. Ces 12 suites sont des textes de calibrage, pas validés.
@@ -31,7 +32,7 @@ Coût : trois suites par vanne, chacune relue à l'aveugle (barre Alexa, 06/10),
 - **A** : « Pense à ce qui cloche le plus chez toi (frigo, plantes, réveil). Imagine l'avis qu'un organisme officiel laisserait dessus, avec sa note, et dis-le en une phrase. »
 - **B** : « Pense à un compliment que tout le monde reçoit chez toi (boulot, famille, coloc). Dis l'effet inverse qu'il a eu sur l'ambiance, en une phrase. »
 - **C** : « Pense à quelqu'un que tu as voulu fuir. Imagine la ruse qui, au contraire, te le colle à côté pour la soirée, et raconte-la en une phrase. »
-- **D** : « Invente le nom sous lequel ton pire contact t'aurait enregistré, et dis-le très calmement. »
+- **D** : « Invente le nom sous lequel ton pire contact a pu te ranger dans son répertoire, et dis-le très calmement. »
 
 ### Option C : « Tu dis laquelle ? » (choisir parmi 3 répliques, puis la dire)
 - **A** : « Ton plat a brûlé et tout le monde le sent. Tu réponds : 1. « C'est la cuisson survie. » 2. « Le voisin vient de me laisser un avis : une étoile, ambiance enfumée. » 3. « Ça sent le brûlé, mais c'est de l'amour. » Choisis, puis dis-la. »
@@ -40,9 +41,9 @@ Coût : trois suites par vanne, chacune relue à l'aveugle (barre Alexa, 06/10),
 - **D** : « Ton date t'enregistre sous “Livraison”. Tu réponds : 1. « Au moins, je suis dans ta liste. » 2. « Livraison ? Alors tu me dois un pourboire. » 3. « Je préfère “Dessert” : on m'appelle seulement quand tout va bien. » Choisis, puis dis-la. »
 Attention : C publie chaque jour trois répliques. La barre Alexa vaut pour toute vanne publiée (06/10) : les trois doivent passer la relecture à l'aveugle, soit 447 répliques pour les 149 vannes du pool, ou C devient contraire à ce choix.
 
-**Reco : A, avec l'aide A+.** Le plus bas seuil d'effort (une phrase à finir, faisable dans sa tête, donc timide-compatible), la série du §3.3 reste un geste et non une corvée. L'aide « si tu sèches » reprend ce que Sophie aime dans C sans l'imposer à Yanis, et B reste hors défi (Yanis et Sophie y voient du développement perso). Plafond proposé : 150 caractères par défi, aide exclue, mesuré au lot C(a). Type retenu : celui de l'option choisie ; « dire la chute avec le bon temps de pause » (§3.6) n'est pas proposé, faute de pouvoir le vérifier sans retour.
+**Reco : A, avec l'aide A+.** Le plus bas seuil d'effort (une phrase à finir, faisable dans sa tête, donc timide-compatible), la série du §3.3 reste un geste et non une corvée. L'aide « si tu sèches » reprend ce que Sophie aime dans C sans l'imposer à Yanis, et B reste hors défi (Yanis et Sophie y voient du développement perso). Plafond proposé pour A : 150 caractères par défi, aide exclue (les quatre défis A font de 86 à 117) ; mesuré au lot C(a). B (jusqu'à 166) et C (plus de 230) le dépassent : si tu retiens B ou C, plafond à refixer sur l'option. Type retenu : celui de l'option choisie ; « dire la chute avec le bon temps de pause » (§3.6) n'est pas proposé, faute de pouvoir le vérifier sans retour.
 **Revenu :** un défi court se refait chaque jour et garde la personne jusqu'aux moments où Premium s'ouvre (Garder plein, 11e vanne, défi d'une autre vanne).
-**Question à Thomas** : « Après la chute, tu préfères que la personne finisse une phrase (A, avec ou sans l'aide « si tu sèches »), parle de sa propre vie (B) ou choisisse parmi trois répliques (C) ? Et un plafond de 150 caractères par défi te va ? »
+**Question à Thomas** : « Après la chute, tu préfères que la personne finisse une phrase (A, avec ou sans l'aide « si tu sèches »), parle de sa propre vie (B) ou choisisse parmi trois répliques (C) ? Et, si c'est A, un plafond de 150 caractères par défi te va ? »
 
 ## Étalon 2. « Pourquoi ça marche » dans l'app (vannes A et D)
 
@@ -90,8 +91,8 @@ Repère de longueur : ≤ 110 caractères [HYPOTHÈSE : repère prudent d'édite
 Hors des 3 lignes, l'écran affiche toujours (quelle que soit l'option, §9.2, choix du 19/10) :
 1. **Accroche** : « Premium ouvre tout Deviens Marrant. » (titre validé de `/abonnement`, 19/10, même identité site et app).
 2. **Extrait réel** d'un contenu Premium, copie exacte, choisi selon les thèmes cochés : `[EXTRAIT RÉEL À PRÉLEVER : fiche du carnet du mois en cours ou défi d'une vanne du thème, copie exacte en base, relue ; aucun texte inventé ici]`.
-3. **Les 3 lignes** de l'option choisie.
-4. **Prix** : « 1,99 € par mois » et « 16,99 € par an » (prix en vigueur, 24/10) ; bouton « S'abonner · 1,99 €/mois » (annuel en second).
+3. **Les 3 lignes** de l'option choisie ; pour A et C, l'accroche d'angle s'affiche juste au-dessus, en sous-titre de l'accroche commune (B n'en a pas).
+4. **Prix** : « 1,99 € par mois » et « 16,99 € par an » (prix en vigueur, 24/10) [À VÉRIFIER : paliers Apple en France, §9.1, lot 10 ; si un palier manque, le prix de l'app diffère du site et revient à Thomas] ; boutons « S'abonner · 1,99 €/mois » et, en second, « S'abonner · 16,99 €/an ».
 5. **Renouvellement et résiliation** : « Renouvelé automatiquement jusqu'à ta résiliation. Tu résilies quand tu veux dans Réglages > Abonnements. » [À VÉRIFIER : formulation exacte exigée par Apple, @legal, lot 3b].
 6. **Lettre** : « La lettre de la semaine arrive par e-mail à l'adresse de ton compte, arrêt en un clic. »
 7. Liens CGU et confidentialité, lien « Restaurer mes achats ». Aucune ligne de remboursement (la phrase des 14 jours du site est fausse pour un achat Apple). Le défi du jour n'est jamais présenté comme exclusivité (offert à tous).
@@ -106,6 +107,7 @@ Hors des 3 lignes, l'écran affiche toujours (quelle que soit l'option, §9.2, c
 - « Toutes les vannes avec leur défi, tous les conseils, toutes les vidéos. »
 - « Chaque parcours en entier, dans l'ordre que tu veux. »
 - « Tes vannes gardées sans limite, et le carnet du mois en entier, même sans réseau. »
+Ligne 1 vraie seulement si toutes les vannes de l'app ont leur défi validé à la soumission (§3.6 c) ; sinon, elle devient « Toutes les vannes, tous les conseils, toutes les vidéos. » et la reco ne couvre plus le moment (c).
 
 ### Option C : soutenir un projet indépendant
 - Accroche d'angle : « Deviens Marrant est un projet indépendant, et il avance grâce à ses abonnés. »
@@ -114,17 +116,18 @@ Hors des 3 lignes, l'écran affiche toujours (quelle que soit l'option, §9.2, c
 - « Une situation qui te coince ? Pose ta question à l'équipe, la réponse arrive par e-mail. »
 À confirmer par Thomas avant C : « indépendant » doit être vrai tel quel (aucune mention d'Issa Capital ou de Thomas, 29/09). Aucun délai de réponse dans ces lignes ; le délai documenté (1 à 2 jours ouvrés, 25/10) ne s'affiche pas sur l'écran.
 
-**Reco : B, avec l'extrait choisi sur le thème coché** (la soirée de Yanis y est servie par l'extrait, le parcours entier de Marc par la ligne 2). Elle couvre les quatre moments de conversion du §3.1 (Garder, 11e vanne, défi d'une autre vanne, parcours et carnet), reprend le « tout ouvert » du 19/10 et ne promet ni délai ni résultat. Le panel plafonnait à 7 sans extrait réel, prix et restauration sur le même écran : 8 n'est atteignable qu'avec cet écran complet et un extrait authentique. C parle moins à un public étudiant (HYPOTHÈSE de la grille : sensible au prix).
+**Reco : B, avec l'extrait choisi sur le thème coché** (la soirée de Yanis y est servie par l'extrait, le parcours entier de Marc par la ligne 2). Elle couvre les quatre moments de conversion du §3.1 (Garder, 11e vanne, défi d'une autre vanne, parcours et carnet), reprend le « tout ouvert » du 19/10 et ne promet ni délai ni résultat. Le panel notait l'écran à 7 sans extrait réel, prix ni restauration (`panel-v2.md`, l. 88, qui rappelle son avis v1) ; avec l'écran complet, Yanis reste à 7 faute d'extrait (l. 40) et le panel ne peut pas démontrer 8 chez les trois sans lui (l. 79) : il voit 8 au mieux, sous la barre de 9 du 04/11. Écart à lire en TestFlight, que tu acceptes ou non ici. C parle moins à un public étudiant (HYPOTHÈSE de la grille : sensible au prix).
 **Revenu :** c'est l'écran qui encaisse. B reprend la promesse déjà validée de `/abonnement`, donc un trajet d'achat cohérent du site à l'app, présenté au moment où la personne vient de buter sur une liste ou sur sa réserve. Aucune donnée ne départage A et B : à mesurer en TestFlight.
 **Question à Thomas** : « Pour vendre Premium, tu mets en avant la soirée (A), le catalogue complet (B) ou le soutien au projet (C) ? »
 
 ## Étalon 5. Écran de permission des notifications et choix des thèmes (écran 2, après la première chute)
 
 L'écran suit la révélation de la première vanne (§4.1). Il demande : l'heure (trajet, pause, soir, ou « Autre heure » au quart d'heure), les thèmes (3 au plus, facultatifs : soirées, couple et dates, boulot, vie étudiante), la permission. Aucun prix, aucun compte. Lien visible vers la confidentialité. Libellés des moments sans heure inventée.
+Écran 1 (la vanne, avant celui-ci), en pied, sans bloquer la révélation (§4.1) : « Pour te donner une vanne par jour sans répétition, l'app crée un identifiant sur ton iPhone. Confidentialité » (« Confidentialité » = lien discret vers `/confidentialite`). [À CALER avec @legal, lot 3a : la formule de travail « identifiant anonyme » du cadrage est inexacte, l'identifiant étant relié aux thèmes et à un éventuel compte.]
 
 ### Option A : tout sur un écran
 - Titre : « Quand tu veux ta vanne ? » Choix : « Trajet », « Pause », « Soir », « Autre heure ».
-- Thèmes : « Une vanne qui te ressemble ? Coche jusqu'à 3 situations (facultatif). »
+- Thèmes, visuellement secondaires : une ligne repliée sous l'heure, « Des vannes plus proches de ta vie ? », qui se déplie en « Coche jusqu'à 3 situations (facultatif). » (soirées, couple et dates, boulot, vie étudiante). Le bouton reste visible sans défiler.
 - Bouton : « Recevoir ma vanne chaque jour ». Lien : « Pas maintenant ».
 - Pied : « Une vanne par jour, à l'heure choisie. Rien d'autre sans que tu le demandes. Confidentialité »
 
@@ -136,8 +139,8 @@ L'écran suit la révélation de la première vanne (§4.1). Il demande : l'heur
 - Écran 2 : « Ta vanne arrive à quelle heure ? » + choix d'heure + « Recevoir ma vanne » + « Pas maintenant ».
 - Thèmes jamais proposés d'office : une ligne « Thèmes » dans Profil.
 
-**Reco : A.** C'est le cadrage (§4.1) : la vanne du lendemain colle déjà à la situation choisie (C7), et les thèmes sont facultatifs. Si @ux juge C5 menacé par les trois blocs, bascule sur B, qui garde la permission intacte. Aucune donnée ne tranche entre A et B : à lire en TestFlight (taux d'acceptation de la permission).
-**Revenu :** la permission est le seul canal de retour, donc la rétention des futurs abonnés ; les thèmes rendent la vanne du lendemain plus proche de la vie de la personne (motif de désinstallation de Yanis) et décident de l'extrait montré sur l'écran d'offre.
+**Reco : A, thèmes repliés sous l'heure** (l'heure et le bouton restent seuls en évidence, ce que le panel demande pour que Yanis passe de 7 à 8, `panel-v2.md` l. 80). C'est le cadrage (§4.1) : les thèmes cochés entrent dans le tirage dès le lendemain (un jour sur trois tant que le thème compte moins de 90 vannes, §3.2), et ils restent facultatifs. Si @ux juge C5 menacé par les trois blocs, bascule sur B, qui garde la permission intacte. Aucune donnée ne tranche entre A et B : à lire en TestFlight (taux d'acceptation de la permission).
+**Revenu :** la permission est le seul canal de retour, donc la rétention des futurs abonnés ; les thèmes rapprochent les vannes de la vie de la personne (un jour sur trois au départ, §3.2 ; motif de désinstallation de Yanis) et décident de l'extrait montré sur l'écran d'offre.
 **Question à Thomas** : « Thèmes et heure sur le même écran (A), thèmes le lendemain (B) ou dans Profil seulement (C) ? »
 
 ## Étalon 6. « Garder » quand la réserve gratuite de 7 est pleine (moment (a), §3.4)
@@ -159,7 +162,7 @@ Au 8e « Garder ». Pas de « tu as atteint ta limite » (doctrine du 06/05), ja
 - Texte : « Envoie-la à un pote, elle reste dans votre conversation. Ou garde-les toutes avec Premium. »
 - Boutons : « Envoyer à un pote » (principal), « Voir Premium » (lien).
 
-**Reco : A.** La personne ne reste pas bloquée et ne se sent pas piégée (doctrine du 06/05), l'offre reste visible au moment d'intention la plus forte, et « Voir Premium » ouvre l'écran complet avec extrait. B encaisse plus vite mais ressemble au mur que le panel refuse ; C offre une porte de sortie sans lien avec l'achat.
+**Reco : A.** La personne ne reste pas bloquée et ne se sent pas piégée (doctrine du 06/05), et « Voir Premium » ouvre l'écran complet avec extrait. A modifie le cadrage (§3.4, décision 6 : écran d'offre dès la 8e vanne) : l'offre passe au second toucher ; B est la version du cadrage et encaisse plus vite ; C offre une porte de sortie sans lien avec l'achat. Choisir A, c'est accepter ce changement.
 **Revenu :** le 8e « Garder » est le signal d'intérêt le plus net. A le capte sans l'user par un mur, donc la personne revient. Rien ne départage A et B sans mesure : clics vers l'écran d'offre au build 0 (touchers comptés, §3.4).
 **Question à Thomas** : « Quand la réserve est pleine, tu veux d'abord laisser retirer une vanne (A), montrer Premium tout de suite (B), ou proposer d'envoyer la vanne à un pote (C) ? »
 
@@ -173,18 +176,18 @@ Affiché sous le défi, en lien discret. La majorité des membres se décrivent 
 
 ### Option B : entre toi et toi
 - Lien : « Pas envie de le dire ? »
-- Message : « Écris-le ici, personne d'autre ne le verra : il reste sur ton téléphone. Puis touche « Je l'ai fait ». »
+- Message : « Dans ta tête, ça compte aussi. Écris-le ici si ça t'aide : personne d'autre ne le verra, il reste sur ton téléphone. Puis touche « Je l'ai fait ». »
 
 ### Option C : droit à la phrase nulle
 - Lien : « Pas envie de le dire ? »
-- Message : « Une phrase suffit, même nulle : tu es seul à la lire. Touche « Je l'ai fait » quand c'est dit. »
+- Message : « Une phrase suffit, même nulle : personne d'autre ne la lira. Touche « Je l'ai fait » quand c'est dit. »
 
-**Reco : B.** A répète la ligne fixe de l'étalon 1 (« ou dans ta tête ») sans rien ajouter ; B donne un geste concret et une assurance vraie (la réponse reste sur l'appareil, §3.1, jamais envoyée ni publiée) ; C est drôle mais mise sur l'autodérision au moment le plus fragile.
+**Reco : B, écriture facultative** (le panel demande de la rendre facultative à côté de « dans ta tête », `panel-v2.md` l. 82, pour que Sophie passe de 7 à 8). A répète la ligne fixe de l'étalon 1 (« ou dans ta tête ») sans rien ajouter ; B garde cette voie et ajoute un geste concret, au choix, avec une assurance vraie (la réponse reste sur l'appareil, §3.1, jamais envoyée ni publiée) ; C est drôle mais mise sur l'autodérision au moment le plus fragile.
 **Revenu :** la série repose sur ce défi (§3.3) ; une personne qui n'ose pas le dire l'abandonne en silence. Lui laisser une voie privée protège la rétention, donc le nombre de personnes qui arrivent aux moments où Premium s'ouvre. Aucun chiffre de timidité n'est mesuré : à observer en TestFlight.
 **Question à Thomas** : « Pour qui n'ose pas dire le défi : « dans ta tête » (A), « écris-le, personne ne le verra » (B) ou « même nulle, une phrase suffit » (C) ? »
 
 ## Handoff, @orchestrator
-- **Fichier** : `docs/mobile/etalons-app-s23.md` (v2, remplace la v1).
-- **Recos** : 1A + aide « si tu sèches », 2B (parlé avec timing), 3A (amorce entre guillemets, titre « La vanne du jour »), 4B (écran complet, extrait réel), 5A (repli B si C5 menacé), 6A, 7B.
+- **Fichier** : `docs/mobile/etalons-app-s23.md` (v3, remplace la v2).
+- **Recos** : 1A+ (aide « Tu sèches ? Trois suites possibles »), 2B (parlé avec timing), 3A (amorce entre guillemets, titre « La vanne du jour »), 4B (écran complet, extrait réel ; 8 au mieux au panel, sous la barre de 9), 5A (thèmes repliés ; repli B si C5 menacé), 6A (modifie la décision 6 du cadrage, à accepter ou non), 7B (écriture facultative).
 - **À ne pas faire avant la réponse de Thomas** : brief @copywriter des lots 3a et C(c), production de `defi30s` et de ses suites, écran d'offre. Les 5 étalons du cadrage §1 (notification, permission et thèmes, défi, « Garder » et offre, timides) sont tous dans ce pack ; une fois les 7 lettres reçues, chaque étalon retenu devient la référence pour les 149 vannes du pool.
-- **Mesures liées** : longueur des 93 amorces contre 110 caractères (lot C(a)) ; faisabilité en 30 s relue à l'aveugle sur 5 vannes tirées en base (lot C(e)) ; extrait réel à prélever pour l'étalon 4 ; formulation Apple du renouvellement (lot 3b, @legal).
+- **Mesures liées** : longueur des 93 amorces contre 110 caractères, guillemets compris, soit 106 caractères d'amorce pour A et 87 pour B (lot C(a)) ; faisabilité en 30 s relue à l'aveugle sur 5 vannes tirées en base (lot C(e)) ; extrait réel à prélever pour l'étalon 4 ; formulation Apple du renouvellement (lot 3b, @legal).
