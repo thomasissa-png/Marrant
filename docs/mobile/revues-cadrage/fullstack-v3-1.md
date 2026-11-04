@@ -49,10 +49,36 @@ Bilan : 5 traitées sur 5, dont 3 avec une réserve d'une phrase (§4). Aucune d
 
 `runDailyContentJob` (`lib/scheduler/jobs.ts:47-56`) ne génère rien si `isContentGenerationEnabled()` est faux ; la variable n'est pas dans `apps/web/wrangler.jsonc`. Le cadrage l'écrit (l. 147) : exact.
 
-## 4. Corrections OBLIGATOIRES restantes
+## 4. Corrections OBLIGATOIRES restantes (v3.1 vers v3.2)
 
-[EN COURS]
+Trois phrases, aucune ne change l'architecture ni n'attend Thomas (la décision 18 garde sa reco et son alternative ; seul son contenu technique est complété).
+
+**O4-1. Décision 18, S12, §3.2 l. 110, §3.3 l. 120 : une seule fonction de jour de série.** Écrire : « la bascule à 4 h porte sur `parisDayNumber` (`lib/progression.ts:65`), donc sur `nextStreak` **et** `effectiveStreak` (affichage, `api/user/route.ts:66`) ; la même clé de jour sert à l'unicité des points de `pratique` (§3.3 b) et à la série locale de l'app (fonction copiée, même test) ». Test Jest à ajouter à §3.3 : « défi à 23 h le lundi, affichage à 2 h le mercredi = série visible ». Sans cette phrase, appliquer la décision 18 telle qu'écrite affiche 0 à Yanis la nuit (§3.2 de cette revue) et crédite deux fois un défi à 23 h puis à 1 h.
+
+**O4-2. §3.2 l. 86 et §7 l. 209 : jeton de notification à la réinstallation.** Écrire : « `POST /api/mobile/push` avec un jeton déjà connu le **rattache à l'installation authentifiée** et le retire de l'ancienne (une transaction, `PushToken.token` restant unique) ; l'ancienne installation, sans jeton ni appel, part à la purge ». Test Jest au lot 5b-0 : « même jeton présenté par une nouvelle installation : un seul envoi, vanne de la nouvelle ».
+
+**O4-3. §3.6 (e) l. 147 : corriger le modèle de la tâche d'import.** Remplacer « sur le modèle de `applyJokeDecryptagesTask` » par « sur le modèle de `applyVideoContentS20Task` (`lib/video-content-s20.ts`) : garde-fou par empreinte, marqueur `DataPatch` dans la même transaction, `note.before`, **sans passe autoritaire** (le fichier n'écrase jamais un `defi30s` déjà marqué) ». Erreur de ma revue v3, reprise fidèlement par le cadrage (§3.1 de cette revue).
 
 ## 5. Corrections SOUHAITABLES
 
-[EN COURS]
+1. **S4-1** §3.2 l. 86 et §9.3 : la durée de l'IP de limitation n'est plus une hypothèse : au plus 24 h (fenêtre la plus longue), empreinte SHA-256 **non salée** stockée dans `JobLock`, donc pseudonymisée, pas anonyme (§3.4 de cette revue) ; IPv6 ramenée au /64 avant hachage. À transmettre à @legal et à l'avocat tel quel.
+2. **S4-2** `Installation` : ajouter le champ de dernière activité (appel à `GET /api/mobile/jour` ou envoi) dont dépend le critère de purge l. 86 ; écrit au plus une fois par jour, pour ne pas ajouter une écriture à chaque ouverture.
+3. **S4-3** `defi30sEmpreinte` : fixer l'algorithme (reco : SHA-256 hexadécimal de `JSON.stringify([content, punchline, defi30s])`, comme `video-content-s20`) et dire que le filtre « empreinte égale au texte courant » se calcule dans le code sur le pool (149 lignes au plus), Prisma ne sachant pas l'exprimer dans un `where`.
+4. **S4-4** §3.2 l. 83 : « réécrite [...] sur retrait qualité **seulement** » oublie le changement de thèmes de la l. 85 (J+1 et J+2 non envoyés). Écrire les deux causes. Conséquence pour le risque résiduel l. 85 : un changement de thèmes par jour sert jusqu'à 2 défis de plus, soit 5 par installation et par jour, 150 par IP et par jour avec les seuils recommandés (au lieu de 90).
+5. **S4-5** `pratique` à la bascule de 4 h : une chute révélée à 3 h 55 et un défi validé à 4 h 01 reçoivent 409. Écrire la conduite de l'app sur 409 (silencieuse : série locale seulement, aucun message d'erreur) ; option : accepter l'assignation de la veille dans les 30 minutes après la bascule, la clé de jour restant celle de l'instant.
+6. **S4-6** `pratique` porte deux preuves (jeton du compte, secret d'installation) : exiger que l'installation soit rattachée à ce compte (`userId` posé à la connexion), sinon 409.
+7. **S4-7** Vanne de remplacement elle-même retirée (rare) : « réécrite une fois **par retrait** » plutôt que « une seule fois ».
+8. **Reliquats du tour 4 non repris (toujours valables)** : S3-3 (`APP_SANDBOX_PREMIUM` encore renvoyé par `bootstrap`, §7 l. 219 : logique serveur seulement) ; S3-4 (App Attest à la création d'installation, lot 6b ou V1.1) ; S3-5 (`quality-watch` ne retire pas : pas de retrait automatique, signalement admin, retrait par la session) ; S3-6 (conséquence du thème épuisé pour H7) ; S3-8 (doublon « À toi de jouer : » de B et D, à vérifier sur les fiches du site) ; S3-9 (`project-context.md:82` « ~602 vannes actives » et mémo s22 « widget encore inerte », toujours périmés : session principale).
+
+## 6. Ce qui reste juste et ne doit pas bouger
+
+Tout le §7 de ma revue v3, plus : chaîne du défi par lot en session conforme aux [CHOIX UTILISATEUR] du 30/09 et du 01/10 ; statut du défi stocké avec empreinte (règle d'or P0 s18 appliquée au pool) ; `pratique` fermée et hors file ; horloge unique série locale et compte, contenu au jour local ; heure d'envoi bornée ; secret, limite chiffrée, écran 1 jamais vide, purge et effacement depuis Profil ; décisions 18 et 19 posées comme décisions, avec reco et alternative.
+
+---
+
+**Handoff → @product-manager** (v3.2 ciblée), copie session principale
+- Fichier produit : `docs/mobile/revues-cadrage/fullstack-v3-1.md`
+- Décisions prises : aucune ; recommandations seulement.
+- Points d'attention : O4-1 à O4-3 sont trois phrases (décision 18 et S12, §3.2 et §7, §3.6 e) ; contrôle du seul passage modifié suffit pour 9/10 de mon côté. O4-3 corrige une erreur de ma revue v3, pas du PM.
+- Actions infra requises : aucune maintenant. Plus tard (lot 5b-0) : champ de dernière activité sur `Installation`, fonction /64 pour la clé du limiteur.
+- Pre-commit check : sans objet (aucun code modifié, rien commité ni déployé, aucune requête en base ce tour).
