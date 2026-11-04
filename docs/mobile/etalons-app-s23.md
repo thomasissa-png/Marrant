@@ -1,5 +1,7 @@
 # Pack d'étalons de l'app iPhone, session 23, v3 (à trancher avec Thomas)
 
+> **Choix de Thomas le 04/11/2026 : « Recos »** : 1A (sans l'aide « Tu sèches ? » au démarrage), 2B, 3A, 4B, 5A, 6A (modification de la décision 6 acceptée), 7B. Consigné en [CHOIX UTILISATEUR] dans `docs/founder-preferences.md`.
+
 > Auteur : @copywriter. Règle P0 s8 : étalons calibrés AVEC Thomas avant tout brief copywriter. Ce pack n'écrit pas l'app : 7 étalons, 3 options chacun, une reco, une ligne « Revenu : » (priorité du 04/11 : « L'app sert à faire du revenu pour nous. Avant tout. »). Thomas répond par une lettre par étalon (ex. « 1A+, 2B, 3A, 4B, 5A, 6A, 7B » ; « 1A+ » = A avec l'aide).
 > v3 : intègre les 10 corrections N1 à N10 de `revues-etalons/reviewer-v2.md` (8,5/10), les pistes de `panel-v2.md` (étalons 1, 5, 7) et quelques souhaitables (SW1, SW3, SW4, SW8, SW11, SW12, phrase de confidentialité).
 > v2 : intègre les 19 corrections O1 à O19 de `revues-etalons/reviewer-v1.md` (7/10) et les pistes de `panel-v1.md` (2C et 3C rejetés par les trois jurés). Sources : cadrage `cadrage-app-native-s23.md` (§1, §2.1, §3.1 à §3.6, §4.1, §9.2), `docs/copy/ton-alex.md`, choix du 19/10, 25/10, 06/10, 29/09.
