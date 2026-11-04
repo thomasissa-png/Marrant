@@ -1,0 +1,30 @@
+== Appareils (28 j)
+MOBILE 300 clics 7054 imp
+DESKTOP 89 clics 2614 imp
+TABLET 9 clics 186 imp
+== 25 premières requêtes (28 j, par impressions)
+une vanne blague | 415 imp | 0 clics | pos 6.3
+blague humour noir 2026 | 383 imp | 27 clics | pos 8.1
+autodérision | 339 imp | 1 clics | pos 12.0
+blague à mourir de rire 2026 | 236 imp | 38 clics | pos 2.6
+humour observationnel | 190 imp | 0 clics | pos 14.3
+vanne blague | 188 imp | 1 clics | pos 7.3
+phrase drole | 146 imp | 1 clics | pos 10.1
+autodérision def | 132 imp | 0 clics | pos 10.6
+blague 2026 | 131 imp | 20 clics | pos 3.6
+blague halloween adulte | 109 imp | 10 clics | pos 6.7
+comment faire rire quelqu'un | 94 imp | 0 clics | pos 16.5
+blagues humour noir 2026 | 86 imp | 4 clics | pos 9.5
+autodérision définition | 77 imp | 0 clics | pos 10.3
+comment faire rire une femme | 55 imp | 0 clics | pos 7.3
+meilleur blague 2026 | 50 imp | 16 clics | pos 2.2
+blagues 2026 | 49 imp | 11 clics | pos 4.6
+une répartie | 46 imp | 0 clics | pos 10.2
+autoderision | 43 imp | 0 clics | pos 10.2
+blague à mourir de rire | 42 imp | 5 clics | pos 3
+comment devenir drôle | 34 imp | 0 clics | pos 21.9
+faire des vannes | 34 imp | 0 clics | pos 8.3
+des vannes blague | 32 imp | 0 clics | pos 6.3
+vannes blague | 32 imp | 0 clics | pos 6.2
+phrase drôle | 31 imp | 0 clics | pos 9.9
+comment faire rire une fille | 30 imp | 1 clics | pos 7.0
