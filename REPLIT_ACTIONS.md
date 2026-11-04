@@ -2,7 +2,14 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s23 (04/11) /api/daily : liste fermée de champs, PAS ENCORE DÉPLOYÉ (go de Thomas)
+
+- Décision de Thomas du 04/11 (recos suivies) : l'exercice « À toi de jouer » reste offert à tous ; la réponse publique de `/api/daily` ne renvoie plus les champs internes (constat en prod : `originalContent`, `originalPunchline`, `copyVerdict`, `copyReviewVersion`, `copyReviewedAt`, `generatedByAI`, `isActive`, `createdAt`, `updatedAt` sur la vanne ; idem conseil et vidéo, plus `originalTitle`, `description`, `duration`, `difficulty` de la vidéo, `maturityLevel`, `type`).
+- Fichiers : `apps/web/src/app/api/daily/route.ts` (`include` remplacé par des `select` fermés `DAILY_JOKE_SELECT`, `DAILY_TIP_SELECT`, `DAILY_VIDEO_SELECT`, dans la route ET le repli ; vanne du pool validé ramenée à la même liste par `publicJoke`, `pickValidatedJoke` partagée non modifiée), test `apps/web/src/__tests__/api/daily-route-champs-publics-s23.test.ts`.
+- Champs gardés = ceux qu'affiche l'accueil (`components/home/daily-content.tsx`, seul consommateur) : vanne `id, content, punchline, category, comedyTechnique, techniqueExplanation, howToApply` ; conseil `id, title, content, category, difficulty, example, exercise` ; vidéo `id, youtubeId, title, channelName, category, technique, learnings, exercise` ; plus `date` au premier niveau.
+- Effet : aucun visible (accueil identique). Aucune migration, aucune variable, aucune écriture en base. Cache et logique du jour inchangés.
+- Déploiement : procédure de l'entrée s23 ci-dessous (build:cf, upload, test de la préversion, `versions deploy`). N-1 attendu `5e1c2687-8aef-48e2-af6d-5b4075be643e` (à confirmer par `npx wrangler deployments list`), retour arrière `cd apps/web && npx wrangler rollback 5e1c2687-8aef-48e2-af6d-5b4075be643e`.
+- P6 : (1) `curl -s https://deviens-marrant.fr/api/daily | python3 -c 'import json,sys; d=json.load(sys.stdin); [print(k, sorted(d[k] or {})) for k in ("joke","tip","video")]'` → exactement les listes ci-dessus, aucun `original*`, `copy*`, `generatedByAI`, `isActive`, `createdAt`, `updatedAt` ; (2) `/` en 200, et sur l'accueil la vanne du jour s'affiche, « Révéler la chute » puis « Pourquoi ça marche » et « À toi de jouer » visibles ; conseil et vidéo du jour affichés comme avant.
 
 ## s23 (31/10) Voisins de repli des fiches conseils, **DÉPLOYÉ le 31/10/2026 à 17:16 UTC** (captures vues, go écrit de Thomas « ok deploie ») : version `5e1c2687-8aef-48e2-af6d-5b4075be643e`, build sur `fd64eb4` (CI verte, run 41221880098), N-1 `aef8872d-967b-4798-9ad4-f2045c1f1f4d` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback aef8872d-967b-4798-9ad4-f2045c1f1f4d`. Préversion testée (2 fiches conformes aux captures, fiche témoin `la-reclamation-trop-precise` identique à la prod). **P6 conforme** : 8 adresses en 200 ; double sens = 4 fiches voisines ; « Remercier celui qui te chambre » lie le double sens ; admin API 401 ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1. IndexNow : les 2 fiches soumises (HTTP 200).
 

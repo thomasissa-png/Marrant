@@ -1,10 +1,54 @@
 import { NextResponse } from "next/server";
-import type { Prisma } from "@prisma/client";
+import type { Joke, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { todayUTC, getDayOfYear } from "@/lib/ai/date-utils";
 import { pickValidatedJoke } from "@/lib/ai/daily-joke-pool";
 
 export const dynamic = "force-dynamic";
+
+/**
+ * Réponse publique : liste FERMÉE de champs (s23, décision de Thomas du 04/11).
+ * Exactement ce que l'accueil affiche (components/home/daily-content.tsx),
+ * exercice « À toi de jouer » compris (offert à tous). Aucun champ interne :
+ * original*, copyVerdict, copyReview*, generatedByAI, isActive, dates…
+ */
+const DAILY_JOKE_SELECT = {
+  id: true,
+  content: true,
+  punchline: true,
+  category: true,
+  comedyTechnique: true,
+  techniqueExplanation: true,
+  howToApply: true,
+} satisfies Prisma.JokeSelect;
+
+const DAILY_TIP_SELECT = {
+  id: true,
+  title: true,
+  content: true,
+  category: true,
+  difficulty: true,
+  example: true,
+  exercise: true,
+} satisfies Prisma.TipSelect;
+
+const DAILY_VIDEO_SELECT = {
+  id: true,
+  youtubeId: true,
+  title: true,
+  channelName: true,
+  category: true,
+  technique: true,
+  learnings: true,
+  exercise: true,
+} satisfies Prisma.VideoSelect;
+
+/** Vanne du pool validé (fonction partagée, renvoie la ligne entière) ramenée à la liste fermée. */
+function publicJoke(joke: Joke | null) {
+  if (!joke) return null;
+  const { id, content, punchline, category, comedyTechnique, techniqueExplanation, howToApply } = joke;
+  return { id, content, punchline, category, comedyTechnique, techniqueExplanation, howToApply };
+}
 
 /**
  * Pas de génération à la volée ici (s14) : sous Cloudflare Workers, une tâche
@@ -20,10 +64,11 @@ export async function GET() {
     // Chercher le contenu du jour configuré
     const dailyContent = await prisma.dailyContent.findUnique({
       where: { date: today },
-      include: {
-        joke: true,
-        tip: true,
-        video: true,
+      select: {
+        date: true,
+        joke: { select: DAILY_JOKE_SELECT },
+        tip: { select: DAILY_TIP_SELECT },
+        video: { select: DAILY_VIDEO_SELECT },
       },
     });
 
@@ -64,18 +109,21 @@ export async function GET() {
             where: legacyJokeWhere,
             orderBy: { id: "asc" },
             skip: dayOfYear % jokeCount,
+            select: DAILY_JOKE_SELECT,
           })
-        : Promise.resolve(validatedJoke),
+        : Promise.resolve(publicJoke(validatedJoke)),
       prisma.tip.findFirst({
         where: { isActive: true },
         orderBy: { id: "asc" },
         skip: dayOfYear % tipCount,
+        select: DAILY_TIP_SELECT,
       }),
       videoCount > 0
         ? prisma.video.findFirst({
             where: { isActive: true },
             orderBy: { id: "asc" },
             skip: dayOfYear % videoCount,
+            select: DAILY_VIDEO_SELECT,
           })
         : null,
     ]);
