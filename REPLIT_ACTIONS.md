@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-### s23 (04/11) /api/daily : liste fermée de champs, PAS ENCORE DÉPLOYÉ (go de Thomas)
+(rien)
+
+## s23 (04/11) /api/daily : liste fermée de champs, **DÉPLOYÉ le 04/11/2026 à 19:17 UTC** (go écrit de Thomas « Go ») : version `f7944034-5d13-4a67-83b9-2fe4760a236f`, build sur `01d7eac` (code `27c2432`, CI verte sur `87d7767`), N-1 `5e1c2687-8aef-48e2-af6d-5b4075be643e` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 5e1c2687-8aef-48e2-af6d-5b4075be643e`. Préversion testée (0 champ interne, accueil avec « À toi de jouer » visible après « Révéler la chute », navigateur réel). **P6 conforme** : 8 adresses en 200 ; vanne du jour = `category, comedyTechnique, content, howToApply, id, punchline, techniqueExplanation` (plus aucun champ interne) ; exercice visible sur l'accueil ; admin API 401 ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1.
 
 - Décision de Thomas du 04/11 (recos suivies) : l'exercice « À toi de jouer » reste offert à tous ; la réponse publique de `/api/daily` ne renvoie plus les champs internes (constat en prod : `originalContent`, `originalPunchline`, `copyVerdict`, `copyReviewVersion`, `copyReviewedAt`, `generatedByAI`, `isActive`, `createdAt`, `updatedAt` sur la vanne ; idem conseil et vidéo, plus `originalTitle`, `description`, `duration`, `difficulty` de la vidéo, `maturityLevel`, `type`).
 - Fichiers : `apps/web/src/app/api/daily/route.ts` (`include` remplacé par des `select` fermés `DAILY_JOKE_SELECT`, `DAILY_TIP_SELECT`, `DAILY_VIDEO_SELECT`, dans la route ET le repli ; vanne du pool validé ramenée à la même liste par `publicJoke`, `pickValidatedJoke` partagée non modifiée), test `apps/web/src/__tests__/api/daily-route-champs-publics-s23.test.ts`.
