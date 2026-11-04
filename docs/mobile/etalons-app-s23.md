@@ -22,11 +22,8 @@ Le défi arrive après la chute et le « Pourquoi ça marche ». Sous chaque lib
 - **D** : « Elle m'a enregistré dans son répertoire sous “Taxi”. Depuis, je suis… »
 
 **Variante A+, aide « Tu sèches ? Trois suites possibles »** (lien discret sous le défi, jamais obligatoire) :
-- **A** : « Une étoile : “Nous reviendrons. En combinaison.” » / « Deux étoiles : “On a retrouvé l'évier.” » / « Quatre étoiles : “Champignons très frais.” »
-- **B** : « on ne se regarde plus en réunion. » / « personne ne prête plus son chargeur. » / « on se salue comme des rivaux. »
-- **C** : « m'a proposé de porter les glaçons avec moi. » / « a sorti une glacière de sa voiture. » / « m'a suivi, et il a pris les glaçons pour lui. »
-- **D** : « une course. » / « de passage. » / « toujours en retard d'un feu rouge. »
-Coût : trois suites par vanne, chacune relue à l'aveugle (barre Alexa, 06/10), soit 447 suites pour les 149 vannes du pool. Ces 12 suites sont des textes de calibrage, pas validés.
+- **Exemples de suites retirés du pack (session, 04/11)** : trois jeux successifs de suites pour la vanne A sont restés sous la barre à la relecture à l'aveugle (6 à 7/10 chez deux lecteurs indépendants : chute prévisible, ou mot de chute écrit en toutes lettres ; `revues-etalons/suites-A-lecteur1.md` et `-lecteur2.md`), et les suites des vannes B, C et D n'ont pas été relues par un second lecteur. Règle d'or : rien sous la barre n'est montré. Seul le **principe** de l'aide est à trancher ici ; les suites réelles seront écrites et relues à l'aveugle au lot C (barre Alexa, 06/10).
+Coût : trois suites par vanne, chacune relue à l'aveugle, soit 447 suites pour les 149 vannes du pool. Constat de la séance : c'est le texte le plus difficile du pack à mettre au niveau (trois jeux refusés) ; c'est un argument pour démarrer sans l'aide (A seul) et l'ajouter quand le stock de suites validées existe.
 
 ### Option B : « Et chez toi ? » (transposer la règle à sa propre vie, une phrase)
 - **A** : « Pense à ce qui cloche le plus chez toi (frigo, plantes, réveil). Imagine l'avis qu'un organisme officiel laisserait dessus, avec sa note, et dis-le en une phrase. »
