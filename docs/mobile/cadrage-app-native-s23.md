@@ -6,17 +6,17 @@
 > Légende : [MESURÉ] chiffre lu dans une source citée. [HYPOTHÈSE] proposition du PM à ratifier. [À VÉRIFIER] ni le code ni une source primaire ne tranche. [PROVISOIRE : question N] dépend d'une réponse de Thomas (§1). Prix en vigueur (24/10) : 1,99 € TTC/mois, 16,99 € TTC/an ; abonnés de lancement 0,99 € à vie, Stripe seulement.
 > **Ce qui change par rapport à la v2** : (1) §2.1 : vannes lues au catalogue validé, plus de réécritures s11 absentes de la base ; (2) vanne du jour : un seul modèle, tables `Installation` et `AssignationJour`, pools mesurés, règle de mélange, thème épuisé, ECOLE ajouté (§3.2) ; (3) jour local de l'installation, série du compte inchangée à Paris, réconciliation écrite (§3.2) ; (4) lot C = chaîne de production du « défi de 30 s » (§3.6, §13) ; (5) fenêtre de revue Apple fermée (§7) ; (6) lot 3c de textes et dépendances corrigées (§13) ; (7) méthode de validation du panel proposée (§5.1) ; (8) souhaitables @legal S1 à S7 intégrés ; (9) traçabilité v2 vers v3 (§16). **v3.1 (tour 4 à l'aveugle, les quatre relecteurs à 8,5)** : corrections de rédaction seulement, aucune décision de Thomas présumée ; traçabilité N1 à N4, O1, O2, O3-1 à O3-5, NO4 à NO6 en §16. **v3.2 (tour 5 : @legal 9, @elon 9, @fullstack 8,8, @reviewer 8,5)** : correction ciblée, aucune décision de Thomas présumée (§16, ligne v3.2).
 
-## 1. Grille de Thomas [EN ATTENTE DES RÉPONSES DE THOMAS]
+## 1. Grille de Thomas (réponses du 04/11/2026)
 
 Aucune réponse n'est inventée. Les sections marquées [PROVISOIRE : question N] sont à réviser selon ses réponses ; la v3 ne sera déclarée conforme à sa grille qu'après elles.
 
 | # | Question | Sections provisoires | Réponse de Thomas |
 |---|---|---|---|
-| 1 | Usage : réflexe quotidien de 30 s, entraînement (parcours), ou les deux ? | §2, §3, §4, lot 7 | [EN ATTENTE DES RÉPONSES DE THOMAS] |
-| 2 | App de référence : laquelle aimes-tu (hors humour si tu veux), et qu'en veux-tu ? | §4, §8 | [EN ATTENTE DES RÉPONSES DE THOMAS] |
-| 3 | Indispensables et interdits de la V1 | §4 (dont « Hors V1 »), §5 | [EN ATTENTE DES RÉPONSES DE THOMAS] |
-| 4 | Ton visuel : identité du site, ou plus vivante ? | §8, lot 1b (@design) | [EN ATTENTE DES RÉPONSES DE THOMAS] |
-| 5 | Paiement : achat Apple dans l'app, ou connexion des abonnés du site seulement ? | §9, lot 10, décision 13 | [EN ATTENTE DES RÉPONSES DE THOMAS] |
+| 1 | Usage : réflexe quotidien de 30 s, entraînement (parcours), ou les deux ? | §2, §3, §4, lot 7 | **« L'app sert à faire du revenu pour nous. Avant tout. »** Objectif n°1 = revenu ; usage : recos suivies (geste quotidien en entrée, parcours en suite). Critère ajouté à chaque étape : contribution au revenu (conversion Premium, rétention des abonnés). |
+| 2 | App de référence : laquelle aimes-tu (hors humour si tu veux), et qu'en veux-tu ? | §4, §8 | Aucune donnée ; recos suivies. Thomas pense qu'il y a peu de concurrence sur iPhone : **à vérifier** (étude App Store sourcée, @growth, 04/11). |
+| 3 | Indispensables et interdits de la V1 | §4 (dont « Hors V1 »), §5 | Recos suivies (périmètre §4). |
+| 4 | Ton visuel : identité du site, ou plus vivante ? | §8, lot 1b (@design) | Recos suivies : à proposer par @design au lot 1b, avant/après en images, validation de Thomas. |
+| 5 | Paiement : achat Apple dans l'app, ou connexion des abonnés du site seulement ? | §9, lot 10, décision 13 | Reco suivie : achat intégré Apple (décision 13). |
 
 Hypothèse de travail du PM (une reco, pas une réponse) : « les deux », geste quotidien en entrée, parcours en suite. Si Thomas répond « entraînement », §3 et §4 sont à rééquilibrer. Si « connexion seulement » à la question 5 : risque 3.1.3(b) (accès à un abonnement acheté ailleurs accepté seulement si l'achat intégré est aussi vendu dans l'app, d'après @legal) et exception « app de lecture » de 3.1.3(a), que nos parcours et exercices éloignent probablement [À VÉRIFIER par @legal] ; le lot 10 ne disparaît pas tant que la réponse manque.
 **Chemin critique** (correction @elon NO2e) : ces réponses, la décision 7 bis (format du défi, qui bloque C(u)) et la séance d'étalons avec Thomas, pas le compte Apple (le lot 0 tourne en parallèle). **Étalons à calibrer AVEC Thomas avant tout brief copywriter (P0 s8), 3 à 5** : (1) texte de notification ; (2) écran de permission et choix des thèmes ; (3) **défi de 30 s : libellé, format, types de défi (§3.6)** ; (4) « Garder » (réserve pleine) et écran d'offre ; (5) message pour les timides. Les lots 3a et C(c) ne démarrent pas sans eux.
@@ -287,7 +287,7 @@ Aucun n'est présumé accepté (règles du 17/10 « pas de pop-up ni de bandeau 
 | **13** | Soumission : API et lot site EN PRODUCTION, fiche, notes, deux comptes de revue, procédure de fenêtre de revue (§7) | @infrastructure, @fullstack | 12, 5a, 5b, C(d1), **GO contenu-1, GO de Thomas ET validation de l'avocat (4b)** |
 | **14** | Android | @fullstack, @qa | 13 |
 
-## 14. Décisions de Thomas (reco, puis alternative)
+## 14. Décisions de Thomas (reco, puis alternative) : **toutes les recos suivies par Thomas le 04/11/2026** (« Pour le reste je suis tes recos »), y compris 8 bis (méthode du panel)
 Nouvelles ou révisées en v3 : 5, 7, 7 bis, 8 bis ; en v3.1 : 5 (variante B), 7, 7 bis, 8 bis (règle de GO), 18, 19. Posée à part, hors cadrage (site) : exercice du jour offert ou refermé, champs internes de `/api/daily` (S10).
 - **Décision 1.** **Entité, compte Apple et identifiant** : reco société si l'entité existe (nom légal exact) ; sinon immatriculer d'abord ; `fr.deviensmarrant.app` (irréversible). Alt. : compte individuel (nom légal visible, contraire à la règle du 29/09), ou autre identifiant fixé avant création.
 - **Décision 2.** **Identifiant de l'app** : voir décision 1 (`fr.deviensmarrant.app`, irréversible).
