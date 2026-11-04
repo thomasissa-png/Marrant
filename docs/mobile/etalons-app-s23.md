@@ -17,12 +17,12 @@ Le défi arrive après la chute et le « Pourquoi ça marche ». Sous chaque lib
 
 ### Option A : « Finis la phrase » (compléter une amorce neuve)
 - **A** : « Ma cuisine est dans un tel état que le service d'hygiène m'a laissé un avis : … » Ajoute la note et le commentaire.
-- **B** : « Le chef a pris chaque collègue à part, un par un, pour lui dire qu'il était son meilleur élément. Depuis… »
+- **B** : « Le chef a pris chaque collègue à part pour lui dire : “Tu es mon meilleur élément.” Depuis… »
 - **C** : « Pour échapper à un type en soirée, j'ai dit que j'allais chercher des glaçons. Il… »
 - **D** : « Elle m'a enregistré dans son répertoire sous “Taxi”. Depuis, je suis… »
 
 **Variante A+, aide « Tu sèches ? Trois suites possibles »** (lien discret sous le défi, jamais obligatoire) :
-- **A** : « Une étoile : “Même les fourmis ne reviendront pas.” » / « Deux étoiles : “On a retrouvé l'évier.” » / « Trois étoiles : “Personnel accueillant, surtout les moisissures.” »
+- **A** : « Une étoile : “Nous reviendrons. En combinaison.” » / « Deux étoiles : “On a retrouvé l'évier.” » / « Quatre étoiles : “Champignons très frais.” »
 - **B** : « on ne se regarde plus en réunion. » / « personne ne prête plus son chargeur. » / « on se salue comme des rivaux. »
 - **C** : « m'a proposé de porter les glaçons avec moi. » / « a sorti une glacière de sa voiture. » / « m'a suivi, et il a pris les glaçons pour lui. »
 - **D** : « une course. » / « de passage. » / « toujours en retard d'un feu rouge. »
@@ -41,7 +41,7 @@ Coût : trois suites par vanne, chacune relue à l'aveugle (barre Alexa, 06/10),
 - **D** : « Ton date t'enregistre sous “Livraison”. Tu réponds : 1. « Au moins, je suis dans ta liste. » 2. « Livraison ? Alors tu me dois un pourboire. » 3. « Je préfère “Dessert” : on m'appelle seulement quand tout va bien. » Choisis, puis dis-la. »
 Attention : C publie chaque jour trois répliques. La barre Alexa vaut pour toute vanne publiée (06/10) : les trois doivent passer la relecture à l'aveugle, soit 447 répliques pour les 149 vannes du pool, ou C devient contraire à ce choix.
 
-**Reco : A, avec l'aide A+.** Le plus bas seuil d'effort (une phrase à finir, faisable dans sa tête, donc timide-compatible), la série du §3.3 reste un geste et non une corvée. L'aide « si tu sèches » reprend ce que Sophie aime dans C sans l'imposer à Yanis, et B reste hors défi (Yanis et Sophie y voient du développement perso). Plafond proposé pour A : 150 caractères par défi, aide exclue (les quatre défis A font de 86 à 117) ; mesuré au lot C(a). B (jusqu'à 166) et C (plus de 230) le dépassent : si tu retiens B ou C, plafond à refixer sur l'option. Type retenu : celui de l'option choisie ; « dire la chute avec le bon temps de pause » (§3.6) n'est pas proposé, faute de pouvoir le vérifier sans retour.
+**Reco : A, avec l'aide A+.** Le plus bas seuil d'effort (une phrase à finir, faisable dans sa tête, donc timide-compatible), la série du §3.3 reste un geste et non une corvée. L'aide « si tu sèches » reprend ce que Sophie aime dans C sans l'imposer à Yanis, et B reste hors défi (Yanis et Sophie y voient du développement perso). Plafond proposé pour A : 150 caractères par défi, aide exclue (les quatre défis A font de 73 à 117) ; mesuré au lot C(a). B (jusqu'à 166) et C (plus de 230) le dépassent : si tu retiens B ou C, plafond à refixer sur l'option. Type retenu : celui de l'option choisie ; « dire la chute avec le bon temps de pause » (§3.6) n'est pas proposé, faute de pouvoir le vérifier sans retour.
 **Revenu :** un défi court se refait chaque jour et garde la personne jusqu'aux moments où Premium s'ouvre (Garder plein, 11e vanne, défi d'une autre vanne).
 **Question à Thomas** : « Après la chute, tu préfères que la personne finisse une phrase (A, avec ou sans l'aide « si tu sèches »), parle de sa propre vie (B) ou choisisse parmi trois répliques (C) ? Et, si c'est A, un plafond de 150 caractères par défi te va ? »
 
@@ -123,7 +123,7 @@ Ligne 1 vraie seulement si toutes les vannes de l'app ont leur défi validé à 
 ## Étalon 5. Écran de permission des notifications et choix des thèmes (écran 2, après la première chute)
 
 L'écran suit la révélation de la première vanne (§4.1). Il demande : l'heure (trajet, pause, soir, ou « Autre heure » au quart d'heure), les thèmes (3 au plus, facultatifs : soirées, couple et dates, boulot, vie étudiante), la permission. Aucun prix, aucun compte. Lien visible vers la confidentialité. Libellés des moments sans heure inventée.
-Écran 1 (la vanne, avant celui-ci), en pied, sans bloquer la révélation (§4.1) : « Pour te donner une vanne par jour sans répétition, l'app crée un identifiant sur ton iPhone. Confidentialité » (« Confidentialité » = lien discret vers `/confidentialite`). [À CALER avec @legal, lot 3a : la formule de travail « identifiant anonyme » du cadrage est inexacte, l'identifiant étant relié aux thèmes et à un éventuel compte.]
+Écran 1 (la vanne, avant celui-ci), en pied, sans bloquer la révélation (§4.1) : « Pour choisir ta vanne de chaque jour, l'app enregistre un identifiant propre à cet iPhone. Confidentialité » (« Confidentialité » = lien discret vers `/confidentialite`). [À CALER avec @legal, lot 3a : la formule de travail « identifiant anonyme » du cadrage est inexacte, l'identifiant étant relié aux thèmes et à un éventuel compte.]
 
 ### Option A : tout sur un écran
 - Titre : « Quand tu veux ta vanne ? » Choix : « Trajet », « Pause », « Soir », « Autre heure ».
