@@ -289,7 +289,7 @@ Aucun n'est présumé accepté (règles du 17/10 « pas de pop-up ni de bandeau 
 
 ## 14. Décisions de Thomas (reco, puis alternative) : **toutes les recos suivies par Thomas le 04/11/2026** (« Pour le reste je suis tes recos »), y compris 8 bis (méthode du panel)
 Nouvelles ou révisées en v3 : 5, 7, 7 bis, 8 bis ; en v3.1 : 5 (variante B), 7, 7 bis, 8 bis (règle de GO), 18, 19. Posée à part, hors cadrage (site) : exercice du jour offert ou refermé, champs internes de `/api/daily` (S10).
-- **Décision 1.** **Entité, compte Apple et identifiant** : reco société si l'entité existe (nom légal exact) ; sinon immatriculer d'abord ; `fr.deviensmarrant.app` (irréversible). Alt. : compte individuel (nom légal visible, contraire à la règle du 29/09), ou autre identifiant fixé avant création.
+- **Décision 1.** **Entité, compte Apple et identifiant** : **tranchée par Thomas le 05/11 : ISSA Capital (SAS, SIREN 102 356 094), identifiant `fr.deviensmarrant.app`.** reco société si l'entité existe (nom légal exact) ; sinon immatriculer d'abord ; `fr.deviensmarrant.app` (irréversible). Alt. : compte individuel (nom légal visible, contraire à la règle du 29/09), ou autre identifiant fixé avant création.
 - **Décision 2.** **Identifiant de l'app** : voir décision 1 (`fr.deviensmarrant.app`, irréversible).
 - **Décision 3.** **Achat** : reco compte avant paiement, raison dite à l'écran, gratuit sans compte ; risque 5.1.1. Alt. et plan B : compte juste après l'achat (Premium sans compte un temps, puis fusion).
 - **Décision 4.** **Série et points du visiteur** (05/10, s15) : reco série locale visible et masquable, points et niveau Premium. Alt. : rien pour le visiteur ; ou tout ouvert (à valider explicitement).
