@@ -17,6 +17,7 @@ import { blogArticles } from "@/lib/blog-articles";
 import { stripEmDashes } from "@/lib/em-dash";
 import baseline from "./fixtures/blog-em-dash-baseline.json";
 import { bodyTexts, fingerprint } from "../helpers/blog-fingerprint";
+import { sansAjoutsPosterieurs } from "../helpers/blog-ajouts-posterieurs";
 
 type Baseline = Record<string, ReturnType<typeof fingerprint> & { emDashesBefore: number }>;
 const base = baseline.articles as Baseline;
@@ -30,7 +31,8 @@ describe("blog statique : retrait des tirets cadratins (ponctuation seulement)",
   });
 
   describe.each(blogArticles.map((a) => [a.slug, a] as const))("%s", (slug, article) => {
-    const now = fingerprint(article);
+    // Ajouts éditoriaux postérieurs à la baseline (vérifiés par leur propre test) retirés avant comparaison.
+    const now = fingerprint(sansAjoutsPosterieurs(article));
     const before = base[slug];
 
     it("suite de mots strictement identique", () => {

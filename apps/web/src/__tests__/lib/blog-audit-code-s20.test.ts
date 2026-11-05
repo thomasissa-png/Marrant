@@ -16,6 +16,7 @@ import { blogArticles, type BlogArticle } from "@/lib/blog-articles";
 import { SEO_REDIRECTS } from "@/lib/seo-redirects";
 import { renderMarkdown } from "@/components/ui/markdown-renderer";
 import audit from "./fixtures/blog-audit-code-s20.json";
+import { AJOUTS_POSTERIEURS } from "../helpers/blog-ajouts-posterieurs";
 
 const bySlug = new Map(blogArticles.map((a) => [a.slug, a] as const));
 const redirected = new Set(
@@ -75,7 +76,9 @@ describe("audit code s20 : corrections appliquées", () => {
     expect(ids.has("3-sketches-decortiques")).toBe(false);
   });
 
-  it.each(audit.modified)("%s : updatedAt = 2026-10-12", (slug) => {
-    expect(bySlug.get(slug)?.updatedAt).toBe(audit.updatedAt);
+  it.each(audit.modified)("%s : updatedAt = 2026-10-12 (ou date d'un ajout postérieur documenté)", (slug) => {
+    const ajout = AJOUTS_POSTERIEURS[slug];
+    expect(bySlug.get(slug)?.updatedAt).toBe(ajout ? ajout.updatedAtApres : audit.updatedAt);
+    if (ajout) expect(ajout.updatedAtAvant).toBe(audit.updatedAt);
   });
 });

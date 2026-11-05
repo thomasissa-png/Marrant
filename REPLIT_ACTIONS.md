@@ -2,7 +2,13 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s23 (05/11) Mention éditoriale et lien sortant dans « Humour quotidien : 8 habitudes simples », PAS ENCORE DÉPLOYÉ (Thomas doit voir les captures)
+
+- Demande de Thomas du 05/11 : paragraphe fourni mot pour mot, inséré après l'habitude 6 (« … pas un festival de l'auto-flagellation. »), avant l'habitude 7 ; lien dofollow, ancre exacte « Les bienfaits du rire au quotidien », vers l'article de Florine Bosch Duchatelet (`https://www.florinecoach.fr/post/les-bienfaits-du-rire-au-quotidien-une-cl%C3%A9-inattendue-du-d%C3%A9veloppement-personnel`). `updatedAt` de l'article : 2026-11-05 (dateModified JSON-LD, lastmod du sitemap).
+- Fichiers : `apps/web/src/lib/blog-articles.ts` (le paragraphe + `updatedAt`), `apps/web/src/components/ui/markdown-renderer.tsx` (premier lien externe d'un article : convention du site pour les liens sortants, `target="_blank" rel="noopener noreferrer"`, jamais nofollow ; liens internes inchangés au caractère près ; ce moteur ne sert qu'aux articles, aucun autre lien externe publié). Tests : `blog-lien-externe-s23.test.ts` (paragraphe exact une fois, emplacement, date, attributs, liens internes inchangés) ; exception documentée `__tests__/helpers/blog-ajouts-posterieurs.ts` dans les garde-fous `blog-em-dash-static` et `blog-audit-code-s20` (l'article SANS l'ajout reste comparé à leur référence).
+- Aucune migration, aucune variable, aucune écriture en base. Vérifié : tsc build et complet, next lint, build, Jest complet (5 904 tests).
+- Déploiement : procédure des entrées s23 (build:cf, upload, test de la préversion, `versions deploy`). N-1 attendu `e6f22977-3c57-42d1-9c60-63eae4ecf5e1`, retour arrière `cd apps/web && npx wrangler rollback e6f22977-3c57-42d1-9c60-63eae4ecf5e1`.
+- P6 : la page répond 200 ; le paragraphe apparaît une fois après l'habitude 6 ; le lien porte `href` exact, `target="_blank"`, `rel="noopener noreferrer"`, aucun `nofollow`/`sponsored` ; `dateModified` 2026-11-05 ; IndexNow de l'URL de l'article.
 
 ## s23 (04/11) Fonction de rétractation conforme, **DÉPLOYÉ le 05/11/2026 à 05:49 UTC** (captures vues, go écrit de Thomas « Go ») : version `e6f22977-3c57-42d1-9c60-63eae4ecf5e1`, build sur `56f6111` (code `7656680` ; CI de `7656680` rouge sur un incident réseau `next/font` au build, même code vert sur `db27afb` et `56f6111`), N-1 `f7944034-5d13-4a67-83b9-2fe4760a236f` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback f7944034-5d13-4a67-83b9-2fe4760a236f`. Préversion testée en navigateur réel SANS cliquer « Confirmer » (récapitulatif affiché, 0 POST, API sans `confirme` = 400). **P6 conforme** : 8 adresses en 200 ; titre et pied de page « Renoncer au contrat ici » ; récapitulatif « Vérifie ta demande » ; API non confirmée 400 (aucune écriture, aucun e-mail) ; admin API 401 ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1. Aucune demande réelle créée.
 

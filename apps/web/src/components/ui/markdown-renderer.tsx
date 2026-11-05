@@ -173,11 +173,13 @@ function inlineMarkdown(text: string): string {
   result = result.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   // Italic: *text*
   result = result.replace(/\*(.+?)\*/g, "<em>$1</em>");
-  // Links: [text](url)
-  result = result.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" class="text-accent-link underline underline-offset-2">$1</a>'
-  );
+  // Links: [text](url). Lien externe (s23) : convention du site pour les liens sortants
+  // (pied de page, partage) : nouvel onglet, rel="noopener noreferrer", jamais nofollow.
+  result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_m, label: string, href: string) => {
+    const externe = /^https?:\/\//i.test(href) && !/^https?:\/\/(www\.)?deviens-marrant\.fr(\/|$)/i.test(href);
+    const attrs = externe ? ' target="_blank" rel="noopener noreferrer"' : "";
+    return `<a href="${href}"${attrs} class="text-accent-link underline underline-offset-2">${label}</a>`;
+  });
   return keepCompoundsTogether(result);
 }
 

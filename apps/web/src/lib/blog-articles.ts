@@ -589,6 +589,8 @@ L'[autodérision](/blog/autoderision-interactions) est paradoxalement un signe d
 
 **Panayotis Pascot** en a fait sa marque de fabrique : parler de ses galères avec recul et bienveillance. Le piège : ne pas tomber dans l'auto-sabotage. Un trait d'esprit, pas un festival de l'auto-flagellation.
 
+Sur ce point, Florine Bosch Duchatelet, conseillère en image et praticienne en PNL, le dit très bien dans son article [Les bienfaits du rire au quotidien](https://www.florinecoach.fr/post/les-bienfaits-du-rire-au-quotidien-une-cl%C3%A9-inattendue-du-d%C3%A9veloppement-personnel) : savoir rire de soi, avec tendresse, sans ironie destructrice, c’est un acte de bienveillance envers soi-même.
+
 ## Habitude 7 : Le callback
 
 **Mythe cassé : "Les meilleures vannes sont spontanées."**
@@ -611,7 +613,7 @@ Pas besoin d'adopter les 8 habitudes d'un coup. Commence par les habitudes 1 (ca
 
 Pour accélérer ta progression, nos [parcours](/parcours) structurés te guident semaine par semaine. Et notre catalogue de [vannes](/vannes) te donne du matériel prêt à l'emploi pendant que tu développes le tien. **1,99 €/mois** : pour devenir la personne qu'on veut à sa table.`,
     date: "2026-03-14",
-    updatedAt: "2026-10-12",
+    updatedAt: "2026-11-05",
     readingTime: "6 min",
     category: "HABITUDES",
     faqs: [
