@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { SubscriptionSummary } from "@/lib/account";
 import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscription-summary";
 import { formatEuros } from "@/config/premium";
@@ -14,6 +14,7 @@ import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
 import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
+import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 
 export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
 
@@ -72,6 +73,17 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
     </Button>
   );
 
+  // s23 : interrupteur ouvert, « Résilier ton contrat » devient un simple lien vers notre écran
+  // /resiliation (même apparence) ; fermé, parcours de résiliation du portail Stripe comme avant.
+  const boutonResilier = () =>
+    RESILIATION_PAGE_OUVERTE ? (
+      <Link href={RESILIATION_HREF} className={buttonVariants({ variant: "outline", size: "sm" })}>
+        {T.resilier}
+      </Link>
+    ) : (
+      bouton("resilier", T.resilier)
+    );
+
   const badge =
     etat === "impaye" ? (
       <Badge variant="error">{T.badgeImpaye}</Badge>
@@ -95,7 +107,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
             <p className="text-sm text-error-text" role="status">{T.impaye}</p>
             <div className="mt-4 flex flex-wrap gap-2">{bouton("carte", T.majCarte, "primary")}</div>
             {/* Toujours encore abonné (Premium conservé) : le bouton légal de résiliation reste visible (lot D). */}
-            {summary?.hasPortal && <div className="mt-4 border-t border-border pt-4">{bouton("resilier", T.resilier)}</div>}
+            {summary?.hasPortal && <div className="mt-4 border-t border-border pt-4">{boutonResilier()}</div>}
           </div>
         )}
 
@@ -129,7 +141,7 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
               <div className="mt-4 border-t border-border pt-4">
                 {/* Bouton légal de résiliation en ligne (L.215-1-1) : parcours de résiliation du portail.
                     Variante `outline` (lot G, @legal point 6 : bouton facilement accessible, pas discret). */}
-                {bouton("resilier", T.resilier)}
+                {boutonResilier()}
                 <p className="mt-1 text-xs text-text-muted">{fin ? T.resilierDetail(fin) : T.resilierDetailSansDate}</p>
               </div>
             )}

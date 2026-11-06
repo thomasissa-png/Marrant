@@ -17,6 +17,8 @@ import {
   notifyPaymentFailed,
   notifySubscriptionConfirmed,
 } from "@/lib/emails/paiement-notifications";
+import { reserverAccuseResiliation } from "@/lib/resiliation";
+import { RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import Stripe from "stripe";
 
 // Formule annuelle (s14, 04/10/2026) : aucun traitement ne dépend du prix ni de
@@ -206,7 +208,15 @@ async function handleSubscriptionUpdated(
   if (planUpdate) console.log(`[Stripe] User ${sub.userId} → ${planUpdate.plan} (${subscription.status})`);
 
   const resiliation = shouldDowngrade ? null : resiliationProgrammee(subscription, previous);
-  if (resiliation) await notifyCancellationScheduled(sub.userId, resiliation.finAcces);
+  if (!resiliation) return;
+  // s23 : l'écran /resiliation envoie lui-même l'accusé « C'est noté » et réserve la même clé AVANT
+  // d'appeler Stripe ; le webhook ne l'envoie alors pas une 2e fois. Résiliation par le portail :
+  // clé libre, le webhook envoie comme avant. Interrupteur fermé : comportement inchangé.
+  if (RESILIATION_PAGE_OUVERTE && !(await reserverAccuseResiliation(subscription.id))) {
+    console.log(`[Stripe] Accusé de résiliation déjà envoyé par l'écran pour ${subscription.id}, pas de second e-mail`);
+    return;
+  }
+  await notifyCancellationScheduled(sub.userId, resiliation.finAcces);
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Promise<void> {

@@ -18,6 +18,8 @@ import { trackUmami } from "@/lib/umami";
 import { useInAppBrowser } from "@/hooks/use-in-app-browser";
 import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-browser-notice";
 import { LOGIN_ERROR_CODES, TEXTES_CONNEXION } from "@/config/textes/compte";
+import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { TEXTES_RESILIATION } from "@/config/textes/resiliation";
 
 const OAUTH_ERRORS: Record<string, string> = {
   // s16 reco 13 : plus de liaison automatique, on renvoie vers le mot de passe.
@@ -172,6 +174,10 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
             </span>
           </Link>
           <h1 className="font-display text-xl font-bold text-text-primary">Content de te revoir</h1>
+          {/* s23 : retour vers /resiliation après connexion (interrupteur fermé : rien ne change). */}
+          {RESILIATION_PAGE_OUVERTE && rawCallbackUrl?.startsWith(RESILIATION_HREF) && (
+            <p className="text-sm text-text-secondary">{TEXTES_RESILIATION.connexion}</p>
+          )}
         </CardHeader>
         <CardContent>
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>

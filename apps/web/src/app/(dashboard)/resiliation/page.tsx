@@ -1,0 +1,81 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { lireResiliation, type DonneesResiliation } from "@/lib/resiliation";
+import { RecapContrat } from "@/components/resiliation/recap-contrat";
+import { propsRecap, dateFinLisible } from "@/components/resiliation/recap-props";
+import { ResiliationFormulaire } from "@/components/resiliation/resiliation-formulaire";
+import { LienReactivation } from "@/components/resiliation/lien-reactivation";
+import { buttonVariants } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { TEXTES_RESILIATION as T } from "@/config/textes/resiliation";
+
+export const metadata: Metadata = {
+  title: T.metaTitre,
+  robots: { index: false, follow: false },
+};
+
+// Rendu : SSR dynamique, sans cache (spec §4 : état relu à chaque ouverture, jamais de valeur en
+// cache). Session exigée : sans session, connexion puis retour ici (`callbackUrl`).
+export const dynamic = "force-dynamic";
+
+/** s23 : écran de résiliation maison (spec `docs/ux/page-resiliation-s23-spec.md` v3). */
+export default async function ResiliationPage() {
+  if (!RESILIATION_PAGE_OUVERTE) notFound();
+  const session = await getServerSession(authOptions);
+  const userId = (session?.user as { id?: string } | undefined)?.id;
+  if (!userId) redirect(`/login?callbackUrl=${encodeURIComponent(RESILIATION_HREF)}`);
+
+  let d: DonneesResiliation | null = null;
+  try {
+    d = await lireResiliation(userId);
+  } catch (err) {
+    console.warn("[resiliation] Lecture du compte impossible :", err instanceof Error ? err.message : err);
+  }
+  // Lecture en échec : le bouton reste actif, sans date (« à la fin de la période déjà payée »).
+  const donnees: DonneesResiliation = d ?? {
+    etat: "a_resilier",
+    email: session?.user?.email ?? "",
+    prenom: null,
+    formule: null,
+    priceCents: null,
+    dateFin: null,
+  };
+
+  return (
+    <div className="mx-auto max-w-xl">
+      <h1 className="font-display text-3xl font-bold md:text-4xl">{T.titre}</h1>
+      <div className="mt-6">
+        {donnees.etat === "a_resilier" && <ResiliationFormulaire recap={<RecapContrat {...propsRecap(donnees, "formule")} />} />}
+        {donnees.etat === "deja_resilie" && <DejaResilie donnees={donnees} />}
+        {donnees.etat === "aucun" && <RienAResilier />}
+      </div>
+    </div>
+  );
+}
+
+function DejaResilie({ donnees }: { donnees: DonneesResiliation }) {
+  return (
+    <>
+      <RecapContrat {...propsRecap(donnees, "enregistree")} effets={false} />
+      <p className="mt-6 text-text-primary">{T.dejaResilie(dateFinLisible(donnees.dateFin))}</p>
+      <LienReactivation className={`${buttonVariants({ variant: "outline", size: "lg" })} mt-6 w-full sm:w-auto`}>
+        {T.reactiver}
+      </LienReactivation>
+    </>
+  );
+}
+
+function RienAResilier() {
+  return (
+    <Card className="p-5 hover:border-border md:p-6">
+      <p className="text-text-secondary">{T.rienAResilier}</p>
+      <Link href="/" className={`${buttonVariants({ variant: "outline", size: "lg" })} mt-4 w-full sm:w-auto`}>
+        {T.retourAccueil}
+      </Link>
+    </Card>
+  );
+}

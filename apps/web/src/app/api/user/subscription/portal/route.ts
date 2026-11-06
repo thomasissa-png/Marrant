@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { createPortalSession, getStripe } from "@/lib/stripe";
 import { refuserSiAutreSite } from "@/lib/same-site";
 import { TEXTES_ABONNEMENT, TEXTES_API } from "@/config/textes/compte";
+import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 
 const bodySchema = z.object({ parcours: z.enum(["changer-formule", "resilier", "carte"]) });
 type Parcours = z.infer<typeof bodySchema>["parcours"];
@@ -38,6 +39,11 @@ export async function POST(request: Request) {
   const parsed = bodySchema.safeParse(await request.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: TEXTES_API.donneesInvalides }, { status: 400 });
+  }
+  // s23 : interrupteur ouvert, on ne résilie plus par le portail (une seule confirmation, la nôtre) :
+  // un ancien écran encore en cache qui demande ce parcours est envoyé sur /resiliation.
+  if (RESILIATION_PAGE_OUVERTE && parsed.data.parcours === "resilier") {
+    return NextResponse.json({ url: RESILIATION_HREF, cible: true });
   }
 
   try {

@@ -6,6 +6,7 @@ import { LettreSection } from "./lettre-section";
 import { LettreHebdoSection } from "./lettre-hebdo-section";
 import { LettreHebdoNumeros } from "./lettre-hebdo-numeros";
 import { Section } from "./admin-ui";
+import { MotifsResiliationSection } from "./motifs-resiliation-section";
 
 export type VueAbonnes = "premium" | "lettre";
 
@@ -41,7 +42,11 @@ export function AbonnesTab({
         ))}
       </div>
       {vue === "premium" ? (
-        <ComptesSection onUnauthorized={onUnauthorized} />
+        <>
+          <ComptesSection onUnauthorized={onUnauthorized} />
+          {/* s23 : compteur simple des motifs de résiliation (lecture pour Thomas). */}
+          <MotifsResiliationSection onUnauthorized={onUnauthorized} />
+        </>
       ) : (
         <>
           {/* s22 : numéros à approuver (lettre du mois ET de la semaine), en tête : rien ne part sans. */}

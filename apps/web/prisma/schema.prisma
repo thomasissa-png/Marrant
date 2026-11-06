@@ -92,6 +92,7 @@ model User {
   premiumLetter       PremiumLetterPreference?
   /// s22 : lettre du mois envoyée d'office aux comptes gratuits (désinscription durable), migration 16.
   monthlyLetter       AccountLetterPreference?
+  cancellationFeedbacks CancellationFeedback[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1243,4 +1244,27 @@ model AccountLetterPreference {
   updatedAt        DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// s23 (06/11, décision de Thomas : raison demandée AVANT la résiliation) : réponse FACULTATIVE à
+/// « Qu'est-ce qui n'a pas collé ? » sur notre écran /resiliation. Écrite APRÈS la résiliation Stripe,
+/// jamais bloquante. Aucune ligne sans raison ni mot. Ni e-mail, ni IP, ni user-agent, ni prix.
+/// `reasons` : codes de `config/resiliation.ts` (essai, introuvable, depart, temps, prix, inadapte,
+/// autre). `requestKey` : clé aléatoire de l'écran (double clic = une seule ligne). Compte supprimé :
+/// `userId` passe à NULL, la réponse reste anonyme. Migration 17 (`17_resiliation_motif_s23`).
+model CancellationFeedback {
+  id         String   @id @default(cuid())
+  userId     String?
+  reasons    String[] @default([])
+  comment    String?
+  formule    String? // "monthly" | "annual"
+  tenureDays Int?
+  source     String   @default("ecran")
+  requestKey String?  @unique
+  createdAt  DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@index([userId])
 }

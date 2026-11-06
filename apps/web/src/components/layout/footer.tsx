@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { TEXTES_ABONNEMENT } from "@/config/textes/compte";
+import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LienLettrePied } from "@/components/layout/lien-lettre-pied";
@@ -31,6 +32,7 @@ const footerLinks = {
     { href: "/retractation", label: LIBELLE_RENONCER_CONTRAT },
     // Lot G (@legal point 6) : accès permanent à la résiliation en ligne. Sans session,
     // le middleware renvoie vers /login?callbackUrl=/profil (ancre de la carte Abonnement).
+    // s23 : interrupteur ouvert, remplacé par notre écran /resiliation (`liensLegal`).
     { href: "/profil#abonnement", label: TEXTES_ABONNEMENT.resilier },
   ],
 };
@@ -88,6 +90,13 @@ function liensProduit() {
     liens = [...liens.slice(0, j), { href: WIDGET_PROGRAMME_PATH, label: WIDGET_LIBELLE_PIED }, ...liens.slice(j)];
   }
   return liens;
+}
+
+/** s23 : « Résilier ton contrat » mène à notre écran /resiliation, interrupteur ouvert seulement
+ *  (connexion puis retour sur la page) ; fermé, à la carte abonnement du profil comme avant. */
+function liensLegal() {
+  if (!RESILIATION_PAGE_OUVERTE) return footerLinks.legal;
+  return footerLinks.legal.map((l) => (l.href === "/profil#abonnement" ? { ...l, href: RESILIATION_HREF } : l));
 }
 
 const LIEN_PIED = "inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-text-primary";
@@ -165,7 +174,7 @@ export function Footer() {
               Légal
             </h3>
             <ul className="flex flex-col">
-              {footerLinks.legal.map((link) => (
+              {liensLegal().map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
