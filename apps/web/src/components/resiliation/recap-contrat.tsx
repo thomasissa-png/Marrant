@@ -18,6 +18,8 @@ export interface RecapContratProps {
   badge: "formule" | "enregistree";
   /** Premium sans abonnement Stripe (offert, manuel) : « à la fin de ton accès Premium », sans ligne de prélèvement (UX O7). */
   offert?: boolean;
+  /** Abonné en impayé (@legal O7) : « sauf si la facture en cours reste impayée », facture encore prélevable. */
+  impaye?: boolean;
   /** Lignes d'effet (« Jusqu'au…, tu gardes tout ton Premium. », « Aucun nouveau prélèvement après. »). */
   effets?: boolean;
   className?: string;
@@ -28,7 +30,7 @@ export interface RecapContratProps {
  * pré-rempli, rien à retaper. Partagé par /resiliation (à résilier, déjà résilié) et la page finale.
  * Carte non cliquable : pas d'effet de survol (spec design §3). Montants et dates alignés à droite.
  */
-export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, badge, offert = false, effets = true, className }: RecapContratProps) {
+export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, badge, offert = false, impaye = false, effets = true, className }: RecapContratProps) {
   return (
     <Card className={cn("p-5 hover:border-border md:p-6", className)}>
       <CardHeader className="flex-row items-center justify-between gap-4 space-y-0">
@@ -66,7 +68,13 @@ export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, b
             {dateFin ?? (offert ? T.recapFinInconnueOffert : T.recapFinInconnue)}
           </p>
         </div>
-        {effets && (
+        {effets && impaye && (
+          <div className="mt-4 space-y-1 text-sm" data-testid="recap-impaye">
+            <p className="text-text-primary">{dateFin ? T.impayeGarderJusquau(dateFin) : T.impayeGarderSansDate}</p>
+            <p className="text-text-primary">{T.impayePrelevement}</p>
+          </div>
+        )}
+        {effets && !impaye && (
           <div className="mt-4 space-y-1 text-sm">
             <p className="text-text-primary">{dateFin ? T.garderJusquau(dateFin) : T.garderSansDate}</p>
             {!offert && <p className="text-text-primary">{T.aucunPrelevement}</p>}

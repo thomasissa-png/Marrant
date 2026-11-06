@@ -110,6 +110,8 @@ export interface DonneesResiliation {
   sansAbonnementStripe?: boolean;
   /** Ni client ni abonnement Stripe : achat App Store possible, détecté dans l'appli (UX O5, C6). */
   sansClientStripe?: boolean;
+  /** Statut PAST_DUE (@legal O7) : la facture en cours peut encore être prélevée après la résiliation. */
+  impaye?: boolean;
 }
 
 export async function lireResiliation(userId: string): Promise<DonneesResiliation | null> {
@@ -134,6 +136,7 @@ export async function lireResiliation(userId: string): Promise<DonneesResiliatio
     // Lecture en échec : on ne sait pas, on garde le texte « période déjà payée » (UX O7).
     sansAbonnementStripe: resumeLu && !summary?.hasStripeSubscription,
     sansClientStripe: resumeLu && !summary?.hasPortal && !summary?.hasStripeSubscription,
+    impaye: summary?.status === "PAST_DUE",
   };
   if (!premium) return { etat: "aucun", ...base };
   if (summary?.cancelAtPeriodEnd) return { etat: "deja_resilie", ...base };
@@ -255,7 +258,7 @@ async function transmettreAEquipe(v: {
     console.error("[resiliation] E-mail à l'équipe non parti :", err instanceof Error ? err.message : err);
   }
   if (v.email) {
-    const accuse = emailDemandeResiliationRecue({ prenom: v.prenom, dateFin: v.dateFin, demandeLe: v.now });
+    const accuse = emailDemandeResiliationRecue({ prenom: v.prenom, dateFin: v.dateFin, demandeLe: v.now, offert: v.cause === "sans-client-stripe" });
     await trySendTransactionalTextEmail(v.email, accuse.subject, accuse.text, "resiliation");
   }
 }
@@ -375,7 +378,9 @@ export async function resilierAbonnement(d: DemandeResiliation): Promise<Reponse
 
   // 3. Accusé « C'est noté » (C1 + C2). Un échec d'envoi n'annule rien (alerte A par lib/email).
   if (doitEnvoyerAccuse && user.email) {
-    const accuse = emailAccuseResiliation({ prenom, formule, priceCents, dateFin, demandeLe: now, aRepondu });
+    // @legal O7 : statut lu en base AVANT l'appel Stripe (impayé = facture en cours encore prélevable).
+    const impaye = sub?.status === "PAST_DUE";
+    const accuse = emailAccuseResiliation({ prenom, formule, priceCents, dateFin, demandeLe: now, aRepondu, impaye });
     await trySendTransactionalTextEmail(user.email, accuse.subject, accuse.text, "resiliation");
   }
   return { etat: "resilie", dateFin: dateFin?.toISOString() ?? null, formule };

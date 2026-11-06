@@ -48,6 +48,8 @@ export interface AccuseResiliationVars {
   demandeLe: Date;
   /** Au moins une raison ou un mot donné : « Merci d'avoir répondu à la question. » */
   aRepondu: boolean;
+  /** Statut PAST_DUE lu avant l'appel Stripe (@legal O7) : facture en cours encore prélevable. */
+  impaye?: boolean;
 }
 
 function jusquau(fin: Date | null): string {
@@ -68,9 +70,13 @@ export function emailAccuseResiliation(v: AccuseResiliationVars): { subject: str
     `Fin du contrat : ${finTexte}`,
     "",
     "Ce qui se passe maintenant :",
-    `- Tu gardes l’accès Premium ${jusquau(fin)}.`,
-    `- Aucun nouveau prélèvement après cette date.`,
-    ...(annuel ? [`- Le renouvellement de ${annuel} n’aura pas lieu.`] : []),
+    ...(v.impaye
+      ? [
+          `- Tu gardes l’accès Premium ${jusquau(fin)}, sauf si la facture en cours reste impayée.`,
+          `- Ton dernier paiement n’a pas abouti : cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.`,
+        ]
+      : [`- Tu gardes l’accès Premium ${jusquau(fin)}.`, `- Aucun nouveau prélèvement après cette date.`]),
+    ...(annuel && !v.impaye ? [`- Le renouvellement de ${annuel} n’aura pas lieu.`] : []),
     "- Ensuite, ton compte continue avec l’accès gratuit : tes favoris et ta progression restent enregistrés, les premières étapes des parcours restent en lecture libre.",
     "",
     `Tu as changé d’avis ? Tu peux réactiver ton abonnement ${jusquau(fin)} : ${siteUrl()}/profil#abonnement`,
@@ -88,7 +94,13 @@ export function emailAccuseResiliation(v: AccuseResiliationVars): { subject: str
 }
 
 /** Accusé de DEMANDE (erreur Stripe, Premium sans client Stripe) : l'équipe résilie à la main. */
-export function emailDemandeResiliationRecue(v: { prenom: string | null; dateFin: Date | null; demandeLe: Date }): {
+export function emailDemandeResiliationRecue(v: {
+  prenom: string | null;
+  dateFin: Date | null;
+  demandeLe: Date;
+  /** Accès offert, sans client Stripe (@reviewer R1) : ni « période payée ». */
+  offert?: boolean;
+}): {
   subject: string;
   text: string;
 } {
@@ -98,10 +110,11 @@ export function emailDemandeResiliationRecue(v: { prenom: string | null; dateFin
     text: [
       salutation(v.prenom),
       "",
-      `Ta demande de résiliation est bien reçue (demande du ${dateHeure(v.demandeLe)}).`,
+      // @reviewer R4 : la date de la demande est dite une seule fois, dans la phrase de @legal ci-dessous.
+      "Ta demande de résiliation est bien reçue.",
       "",
       // @legal O5 : délai provisoire (`RESILIATION_DELAI_EQUIPE`) et date d'effet = date de la demande.
-      `On s’occupe de ta résiliation et on te confirme par e-mail ${RESILIATION_DELAI_EQUIPE}. Ta demande date du ${dateHeure(v.demandeLe)} : c’est cette date qui compte, même si on la finalise plus tard. Tu gardes Premium ${fin ? `jusqu’au ${dateLongue(fin)}` : "jusqu’à la fin de la période payée"}.`,
+      `On s’occupe de ta résiliation et on te confirme par e-mail ${RESILIATION_DELAI_EQUIPE}. Ta demande date du ${dateHeure(v.demandeLe)} : c’est cette date qui compte, même si on la finalise plus tard. Tu gardes Premium ${fin ? `jusqu’au ${dateLongue(fin)}` : v.offert ? "jusqu’à la fin de ton accès Premium" : "jusqu’à la fin de la période payée"}.`,
       "",
       `Une question sur ta résiliation : ${CONTACT_EMAIL}.`,
       "",

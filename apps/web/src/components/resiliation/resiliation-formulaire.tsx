@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { QuestionMotif } from "@/components/resiliation/question-motif";
 import { BarreConfirmation } from "@/components/resiliation/barre-confirmation";
-import { CarteAppStore } from "@/components/resiliation/carte-app-store";
+import { CarteAppStore, CLASSE_BOUTON_SECONDAIRE } from "@/components/resiliation/carte-app-store";
 import { garderSaisie, reprendreSaisie } from "@/components/resiliation/saisie-session";
 import { trackUmami } from "@/lib/umami";
 import { ORIGINES_APPLI_MOBILE } from "@/config/appli-mobile";
@@ -42,6 +43,8 @@ interface ResiliationFormulaireProps {
   recap: ReactNode;
   /** Ni client ni abonnement Stripe : dans l'appli, l'abonnement passe par Apple (UX O5, C6). */
   appStorePossible?: boolean;
+  /** Accès offert, sans abonnement Stripe (@reviewer R1) : demande transmise, rien n'a échoué, pas de « Réessayer ». */
+  offert?: boolean;
 }
 
 /**
@@ -49,13 +52,15 @@ interface ResiliationFormulaireProps {
  * collée en bas (sticky), TOUJOURS active : jamais conditionnée à la réponse, jamais `disabled`
  * (pendant l'envoi : `aria-disabled` + clics ignorés). Saisie conservée en cas d'erreur.
  */
-export function ResiliationFormulaire({ recap, appStorePossible = false }: ResiliationFormulaireProps) {
+export function ResiliationFormulaire({ recap, appStorePossible = false, offert = false }: ResiliationFormulaireProps) {
   const router = useRouter();
   const [raisons, setRaisons] = useState<Set<RaisonResiliation>>(() => new Set());
   const [commentaire, setCommentaire] = useState("");
   const [envoi, setEnvoi] = useState(false);
   const [lent, setLent] = useState(false);
   const [erreur, setErreur] = useState<Erreur | null>(null);
+  // UX C2 : abonné App Store possible, rien n'est affiché avant le verdict (pas d'éclair du formulaire).
+  const [verifie, setVerifie] = useState(!appStorePossible);
   const cle = useRef<string>("");
   const bandeauRef = useRef<HTMLDivElement>(null);
 
@@ -64,6 +69,7 @@ export function ResiliationFormulaire({ recap, appStorePossible = false }: Resil
     // UX O5 : achat App Store connu dès l'ouverture (même hypothèse que l'API : origine de l'appli et
     // aucun client Stripe), jamais après un clic qui boucle.
     if (appStorePossible && ORIGINES_APPLI_MOBILE.includes(window.location.origin)) setErreur("app-store");
+    setVerifie(true);
     // UX O3 : saisie reprise après une reconnexion.
     const reprise = reprendreSaisie();
     if (reprise) {
@@ -147,6 +153,9 @@ export function ResiliationFormulaire({ recap, appStorePossible = false }: Resil
 
   // UX O5 : abonnement Apple, carte seule (ni question ni bouton « Confirmer » qui bouclerait).
   if (erreur === "app-store") return <CarteAppStore />;
+  if (!verifie) return <div className="min-h-64" aria-hidden="true" />;
+  // @reviewer R1 : accès offert transmis à l'équipe, réessayer ne sert à rien (dédoublonnage 24 h).
+  const transmisOffert = erreur === "stripe" && offert;
 
   return (
     <form onSubmit={confirmer} noValidate aria-busy={envoi || undefined}>
@@ -157,13 +166,19 @@ export function ResiliationFormulaire({ recap, appStorePossible = false }: Resil
           tabIndex={-1}
           className="mb-6 rounded-lg border border-error/50 bg-error/10 p-4 text-sm text-error-text focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
         >
-          {MESSAGES[erreur]}
+          {transmisOffert ? T.transmisOffert : MESSAGES[erreur]}
         </div>
       )}
       {recap}
       <QuestionMotif raisons={raisons} commentaire={commentaire} fige={envoi} onBasculer={basculer} onCommentaire={setCommentaire} />
       {/* UX O8 : « Réessayer » seulement après une demande transmise ; sinon « Confirmer la résiliation ». */}
-      <BarreConfirmation envoi={envoi} lent={lent} reessayer={erreur === "stripe"} />
+      {transmisOffert ? (
+        <Link href="/" className={CLASSE_BOUTON_SECONDAIRE}>
+          {T.retourAccueil}
+        </Link>
+      ) : (
+        <BarreConfirmation envoi={envoi} lent={lent} reessayer={erreur === "stripe" && !offert} />
+      )}
     </form>
   );
 }

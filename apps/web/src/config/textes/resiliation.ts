@@ -27,6 +27,10 @@ export const TEXTES_RESILIATION = {
   garderSansDate: "Jusqu’à cette date, tu gardes tout ton Premium.",
   aucunPrelevement: "Aucun nouveau prélèvement après.",
   renouvellementAnnuel: (prix: string) => `Le renouvellement de ${prix} n’aura pas lieu.`,
+  /** @legal O7 : abonné en impayé (statut PAST_DUE), la facture en cours peut encore être prélevée. */
+  impayeGarderJusquau: (date: string) => `Jusqu’au ${date}, tu gardes ton Premium, sauf si la facture en cours reste impayée.`,
+  impayeGarderSansDate: "Jusqu’à cette date, tu gardes ton Premium, sauf si la facture en cours reste impayée.",
+  impayePrelevement: "Ton dernier paiement n’a pas abouti : cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.",
 
   question: "Qu’est-ce qui n’a pas collé ?",
   facultatif: "Facultatif",
@@ -50,7 +54,9 @@ export const TEXTES_RESILIATION = {
   /** Refus du serveur (429, 403, 500…) : rien n'est parti (UX O4). */
   refus: "Ça n’a pas pu partir. Rien n’est perdu, réessaie dans un instant.",
   /** UX O8 + @legal O5 réunis (délai provisoire, `RESILIATION_DELAI_EQUIPE`). */
-  erreurStripe: `Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi ${RESILIATION_DELAI_EQUIPE} et on te le confirme par e-mail. Tu n’as rien à refaire.`,
+  erreurStripe: `Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi ${RESILIATION_DELAI_EQUIPE} et on te le confirme par e-mail. Tu n’as rien à refaire, mais tu peux réessayer tout de suite.`,
+  /** @reviewer R1 : accès offert (sans abonnement Stripe), rien n'a échoué, « Réessayer » ne sert à rien. */
+  transmisOffert: `Ta demande est bien enregistrée : on s’occupe de ta résiliation ${RESILIATION_DELAI_EQUIPE} et on te confirme par e-mail. Tu n’as rien à refaire.`,
 
   dejaResilie: (date: string | null) =>
     date
@@ -58,6 +64,8 @@ export const TEXTES_RESILIATION = {
       : "Ta résiliation est déjà enregistrée. Tu gardes Premium jusqu’à la fin de la période déjà payée.",
   badgeEnregistree: "Enregistrée",
   reactiver: "Réactiver mon abonnement",
+  /** @legal O7 : déjà résilié en impayé, la date est dite dans les lignes d'effet du récapitulatif. */
+  dejaResilieImpaye: "Ta résiliation est déjà enregistrée.",
   rienAResilier: "Rien à résilier ici.",
   retourAccueil: "Retour à l’accueil",
   appStore: "Ton abonnement passe par Apple. La résiliation se fait dans les réglages de ton compte Apple.",
@@ -66,10 +74,13 @@ export const TEXTES_RESILIATION = {
 
 export const TEXTES_RESILIATION_CONFIRMEE = {
   titre: "C’est noté.",
-  garde: (date: string | null) =>
-    date
-      ? `Tu gardes Premium jusqu’au ${date}. Aucun nouveau prélèvement.`
-      : "Tu gardes Premium jusqu’à la fin de la période déjà payée. Aucun nouveau prélèvement.",
+  /** @reviewer R2 = @legal O7 : « après », même texte qu'à l'écran et dans l'e-mail ; impayé à part (O7). */
+  garde: (date: string | null, impaye = false) =>
+    impaye
+      ? `Tu gardes Premium ${date ? `jusqu’au ${date}` : "jusqu’à la fin de la période déjà payée"}, sauf si la facture en cours reste impayée. Cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.`
+      : date
+        ? `Tu gardes Premium jusqu’au ${date}. Aucun nouveau prélèvement après.`
+        : "Tu gardes Premium jusqu’à la fin de la période déjà payée. Aucun nouveau prélèvement après.",
   effets: "Ensuite, ton compte continue avec l’accès gratuit. Tes favoris et ta progression restent enregistrés.",
   email: (adresse: string) => `On t’envoie une confirmation à ${adresse}.`,
   merci: "Merci d’avoir répondu.",

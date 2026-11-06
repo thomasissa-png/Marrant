@@ -149,10 +149,23 @@ describe("écran /resiliation", () => {
     expect(JSON.parse(mockFetch.mock.calls[1][1].body as string).cle).not.toBe(cle1);
   });
 
-  it("erreur Stripe : bandeau avec délai et « Tu n’as rien à refaire. » (UX O8, @legal O5)", () => {
+  it("erreur Stripe : bandeau avec délai, « Tu n’as rien à refaire, mais tu peux réessayer tout de suite. » (UX O8, @legal O5, @reviewer R3)", () => {
     expect(T.erreurStripe).toBe(
-      "Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi sous un jour ouvré et on te le confirme par e-mail. Tu n’as rien à refaire.",
+      "Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi sous un jour ouvré et on te le confirme par e-mail. Tu n’as rien à refaire, mais tu peux réessayer tout de suite.",
     );
+  });
+
+  it("accès offert, demande transmise (202) : bandeau sans échec, aucun « Réessayer », retour à l'accueil (@reviewer R1)", async () => {
+    repondre(202, { etat: "transmis", dateFin: null, formule: null });
+    render(<ResiliationFormulaire recap={recap} offert />);
+    await userEvent.click(bouton());
+    const alerte = await screen.findByRole("alert");
+    expect(alerte).toHaveTextContent(
+      "Ta demande est bien enregistrée : on s’occupe de ta résiliation sous un jour ouvré et on te confirme par e-mail. Tu n’as rien à refaire.",
+    );
+    expect(alerte).not.toHaveTextContent("Ça n’a pas marché");
+    expect(screen.queryByRole("button", { name: /Réessayer|Confirmer la résiliation/ })).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: T.retourAccueil })).toHaveAttribute("href", "/");
   });
 
   it("base indisponible (503) : demande transmise, même bandeau que l'erreur Stripe", async () => {
@@ -198,6 +211,17 @@ describe("écran /resiliation", () => {
     render(<ResiliationFormulaire recap={recap} appStorePossible />);
     expect(screen.getByTestId("resiliation-app-store")).toHaveTextContent(T.appStore);
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("App Store possible : au premier rendu (serveur), ni formulaire ni bouton avant le verdict (UX C2)", () => {
+    // jsdom n'expose pas TextEncoder, requis par le rendu serveur de React.
+    Object.assign(globalThis, { TextEncoder: (require("util") as typeof import("util")).TextEncoder });
+    const { renderToString } = require("react-dom/server") as typeof import("react-dom/server");
+    const html = renderToString(<ResiliationFormulaire recap={recap} appStorePossible />);
+    expect(html).toContain('class="min-h-64" aria-hidden="true"');
+    expect(html).not.toMatch(/<button|<form/);
+    // Compte avec client Stripe : formulaire rendu dès le serveur (aucun délai ajouté).
+    expect(renderToString(<ResiliationFormulaire recap={recap} />)).toContain(T.confirmer);
   });
 
   it("hors de l'appli, ou avec client Stripe : formulaire normal", () => {
@@ -294,6 +318,12 @@ describe("interrupteur RESILIATION_PAGE_OUVERTE", () => {
     render(<AbonnementCard plan="PREMIUM" onCheckout={jest.fn()} isCheckoutLoading={false} abonnement={{ summary: actif, openPortal, portalLoading: null }} />);
     await userEvent.click(screen.getByRole("button", { name: "Résilier ton contrat" }));
     expect(openPortal).toHaveBeenCalledWith("resilier");
+  });
+  it("fermé : carte du profil, « 1er décembre 2026 » comme sur /resiliation, jamais « 1 décembre » (UX C1)", () => {
+    const { container } = render(carte());
+    expect(container.textContent).toContain("Prochain prélèvement le 1er décembre 2026.");
+    expect(container.textContent).toContain("jusqu’au 1er décembre 2026");
+    expect(container.textContent).not.toMatch(/\b1 décembre/);
   });
   it("ouvert : pied de page et carte vers /resiliation (simple lien, même libellé)", () => {
     drapeau.__RESILIATION_OUVERTE__ = true;

@@ -414,4 +414,43 @@ describe("accusé de demande : délai et date d'effet (@legal O5)", () => {
     expect(texte).toContain(" : c’est cette date qui compte, même si on la finalise plus tard. Tu gardes Premium jusqu’au 1er décembre 2026.");
     expect(texte).not.toContain("—");
   });
+  it("date de la demande écrite une seule fois (@reviewer R4)", async () => {
+    stripeUpdate.mockRejectedValue(Object.assign(new Error("boom"), { type: "StripeAPIError" }));
+    compte();
+    await resilier();
+    const texte = envoiClient.mock.calls[0][2] as string;
+    expect(texte).toContain("Ta demande de résiliation est bien reçue.\n");
+    expect(texte.match(/demande du |demande date du /g)).toHaveLength(1);
+  });
+  it("accès offert (sans client Stripe) : « jusqu’à la fin de ton accès Premium », jamais « période payée » (@reviewer R1)", async () => {
+    compte({ sansSub: true });
+    await resilier();
+    const texte = envoiClient.mock.calls[0][2] as string;
+    expect(texte).toContain("Tu gardes Premium jusqu’à la fin de ton accès Premium.");
+    expect(texte).not.toContain("période payée");
+  });
+});
+
+describe("accusé « C’est noté » en impayé (@legal O7, statut lu avant l’appel Stripe)", () => {
+  const PUCES_IMPAYE = [
+    "- Tu gardes l’accès Premium jusqu’au 1er décembre 2026, sauf si la facture en cours reste impayée.",
+    "- Ton dernier paiement n’a pas abouti : cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.",
+  ];
+  it("PAST_DUE : puces 1 et 2 remplacées par le texte prudent, aucun « Aucun nouveau prélèvement »", async () => {
+    stripeOk();
+    compte({ status: "PAST_DUE" });
+    expect((await resilier()).status).toBe(200);
+    const texte = envoiClient.mock.calls[0][2] as string;
+    PUCES_IMPAYE.forEach((l) => expect(texte).toContain(l));
+    expect(texte).not.toContain("Aucun nouveau prélèvement");
+    expect(texte).not.toContain("—");
+  });
+  it("ACTIVE : puces habituelles, « Aucun nouveau prélèvement après cette date. »", async () => {
+    stripeOk();
+    compte();
+    await resilier();
+    const texte = envoiClient.mock.calls[0][2] as string;
+    expect(texte).toContain("- Tu gardes l’accès Premium jusqu’au 1er décembre 2026.\n- Aucun nouveau prélèvement après cette date.");
+    expect(texte).not.toContain("sauf si la facture");
+  });
 });

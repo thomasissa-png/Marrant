@@ -8,7 +8,8 @@ import { RecapContrat } from "@/components/resiliation/recap-contrat";
 import { propsRecap, dateFinLisible } from "@/components/resiliation/recap-props";
 import { LienReactivation } from "@/components/resiliation/lien-reactivation";
 import { TitreAnnonce } from "@/components/resiliation/titre-annonce";
-import { CLASSE_BOUTON_SECONDAIRE } from "@/components/resiliation/carte-app-store";
+import { CLASSE_BOUTON_SECONDAIRE, HAUTEUR_MIN_PAGE } from "@/components/resiliation/carte-app-store";
+import { cn } from "@/lib/utils";
 import { RESILIATION_CONFIRMEE_HREF, RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { TEXTES_RESILIATION_CONFIRMEE as T } from "@/config/textes/resiliation";
 
@@ -36,9 +37,10 @@ export default async function ResiliationConfirmeePage() {
   const dateFin = dateFinLisible(d.dateFin);
 
   return (
-    <div className="mx-auto max-w-xl">
+    // Design O5 : même hauteur minimale locale que /resiliation (layout partagé non modifié).
+    <div className={cn("mx-auto max-w-xl", HAUTEUR_MIN_PAGE)}>
       <TitreAnnonce>{T.titre}</TitreAnnonce>
-      <p className="mt-4 text-text-primary">{T.garde(dateFin)}</p>
+      <p className="mt-4 text-text-primary">{T.garde(dateFin, d.impaye ?? false)}</p>
       <p className="mt-2 text-sm text-text-secondary">{T.effets}</p>
       <RecapContrat {...propsRecap(d, "enregistree")} effets={false} className="mt-6" />
       <p className="mt-4 text-sm text-text-secondary">{T.email(d.email)}</p>

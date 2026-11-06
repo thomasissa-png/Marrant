@@ -22,5 +22,6 @@ export function propsRecap(d: DonneesResiliation, badge: RecapContratProps["badg
     renouvellement: d.formule === "annual" && prix ? T.renouvellementAnnuel(prix) : null,
     badge,
     offert: d.sansAbonnementStripe ?? false,
+    impaye: d.impaye ?? false,
   };
 }

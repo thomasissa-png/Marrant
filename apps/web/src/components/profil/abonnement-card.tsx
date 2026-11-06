@@ -10,11 +10,12 @@ import type { ParcoursPortail, useSubscriptionSummary } from "@/hooks/use-subscr
 import { formatEuros } from "@/config/premium";
 import { ANNUEL_AVANTAGE_LABEL } from "@/config/textes/offre";
 import { Reassurance } from "@/components/ui/reassurance";
-import { dateLongue, TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
+import { TEXTES_ABONNEMENT as T } from "@/config/textes/compte";
 import { PROFIL_ABONNEMENT_OFFRE as OFFRE } from "@/config/textes/cta-pages";
 import { frTypo } from "@/lib/fr-typo";
 import { LIBELLE_RENONCER_CONTRAT } from "@/config/textes/paiement";
 import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { dateFinLisible } from "@/components/resiliation/recap-props";
 
 export type EtatAbonnement = "impaye" | "resilie" | "actif" | "premium-sans-resume" | "premium-hors-stripe" | "aucun";
 
@@ -65,7 +66,8 @@ export function AbonnementCard({ plan, onCheckout, isCheckoutLoading, abonnement
   useEffect(() => {
     if (window.location.hash === `#${ANCRE_ABONNEMENT}`) carteRef.current?.scrollIntoView?.({ block: "start" });
   }, []);
-  const fin = summary?.currentPeriodEnd ? dateLongue(summary.currentPeriodEnd) : null;
+  // UX C1 : « 1er décembre 2026 », même écriture que /resiliation (et non « 1 décembre »).
+  const fin = dateFinLisible(summary?.currentPeriodEnd ?? null);
 
   const bouton = (parcours: ParcoursPortail, label: string, variant: "outline" | "primary" = "outline") => (
     <Button variant={variant} size="sm" onClick={() => openPortal(parcours)} disabled={portalLoading !== null}>

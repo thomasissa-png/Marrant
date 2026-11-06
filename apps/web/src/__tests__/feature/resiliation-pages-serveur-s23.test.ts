@@ -26,6 +26,7 @@ jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 const lire = jest.fn();
 jest.mock("@/lib/resiliation", () => ({ lireResiliation: (...a: unknown[]) => lire(...a) }));
 
+import type { ReactElement } from "react";
 import ResiliationPage from "@/app/(dashboard)/resiliation/page";
 import ConfirmeePage from "@/app/(dashboard)/resiliation/confirmee/page";
 
@@ -103,21 +104,105 @@ describe("v2 des revues (UX O1, design O3/O4)", () => {
   it("accès sans abonnement Stripe : récapitulatif « à la fin de ton accès Premium », sans prélèvement", async () => {
     lire.mockResolvedValue({ etat: "a_resilier", ...donnees, dateFin: null, formule: null, sansAbonnementStripe: true, sansClientStripe: true });
     const page = await ResiliationPage();
-    const html = renderToStaticMarkup(page);
+    // UX C2 : au rendu serveur, le formulaire attend le verdict App Store (rien d'affiché) ; le
+    // récapitulatif est rendu à part, depuis la prop `recap`.
+    const html = renderToStaticMarkup(formulaire(page).props.recap);
     expect(html).toContain("à la fin de ton accès Premium");
     // Ni client ni abonnement Stripe : le formulaire reçoit l'indice App Store (détection dans l'appli).
-    expect(JSON.stringify(page, (k, v) => (k === "_owner" ? undefined : v))).toContain('"appStorePossible":true');
+    expect(formulaire(page).props.appStorePossible).toBe(true);
+    // @reviewer R1 : accès offert signalé au formulaire (pas de « Réessayer » après une demande transmise).
+    expect(formulaire(page).props.offert).toBe(true);
     expect(html).not.toContain("Aucun nouveau prélèvement après.");
+  });
+
+  it("design O5 : hauteur minimale locale sur /resiliation et /resiliation/confirmee", async () => {
+    lire.mockResolvedValue({ etat: "aucun", ...donnees });
+    expect(renderToStaticMarkup(await ResiliationPage())).toMatch(/^<div class="mx-auto max-w-xl md:min-h-\[calc\(100dvh-797px\)\] lg:min-h-\[calc\(100dvh-607px\)\]">/);
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees });
+    expect(renderToStaticMarkup(await ConfirmeePage())).toMatch(/^<div class="mx-auto max-w-xl md:min-h-\[calc\(100dvh-797px\)\] lg:min-h-\[calc\(100dvh-607px\)\]">/);
   });
 });
 
-describe("pas de loading.tsx sous /resiliation (UX O6 refusé sur preuve, piège s17)", () => {
-  it("aucun loading.tsx : avec lui, build interrupteur fermé, /resiliation répondait 200 (squelette servi) au lieu de 404", () => {
-    const fs = require("fs") as typeof import("fs");
-    const path = require("path") as typeof import("path");
-    const dossier = path.join(__dirname, "../../app/(dashboard)/resiliation");
-    expect(fs.existsSync(path.join(dossier, "loading.tsx"))).toBe(false);
+/** Élément `ResiliationFormulaire` de l'arbre rendu par la page (props lues sans le rendre). */
+function formulaire(arbre: unknown): { props: { recap: ReactElement; appStorePossible?: boolean; offert?: boolean } } {
+  const pile: unknown[] = [arbre];
+  while (pile.length) {
+    const n = pile.pop() as { type?: { name?: string }; props?: { children?: unknown } } | null;
+    if (!n || typeof n !== "object") continue;
+    if (Array.isArray(n)) pile.push(...n);
+    else if (n.type?.name === "ResiliationFormulaire") return n as never;
+    else if (n.props) pile.push(n.props.children);
+  }
+  throw new Error("ResiliationFormulaire absent");
+}
+
+describe("@legal O7 : abonné en impayé (PAST_DUE)", () => {
+  const { renderToStaticMarkup } = require("react-dom/server") as typeof import("react-dom/server");
+  beforeEach(() => {
+    drapeau.__RESILIATION_OUVERTE__ = true;
+    getServerSession.mockResolvedValue({ user: { id: "u1", email: "y@x.fr" } });
+  });
+  const IMPAYE_1 = "Jusqu’au 1er décembre 2026, tu gardes ton Premium, sauf si la facture en cours reste impayée.";
+  const IMPAYE_2 = "Ton dernier paiement n’a pas abouti : cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.";
+
+  it("récapitulatif à résilier : deux lignes prudentes à la place de « Aucun nouveau prélèvement après. »", async () => {
+    lire.mockResolvedValue({ etat: "a_resilier", ...donnees, impaye: true });
+    const html = renderToStaticMarkup(formulaire(await ResiliationPage()).props.recap);
+    expect(html).toContain(IMPAYE_1);
+    expect(html).toContain(IMPAYE_2);
+    expect(html).not.toContain("Aucun nouveau prélèvement après.");
+    expect(html).not.toContain("tu gardes tout ton Premium");
+  });
+
+  it("déjà résilié : mêmes lignes, sans « Tu gardes Premium jusqu’au… » en dessous", async () => {
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees, impaye: true });
+    const html = renderToStaticMarkup(await ResiliationPage());
+    expect(html).toContain(IMPAYE_1);
+    expect(html).toContain(IMPAYE_2);
+    expect(html).toContain("Ta résiliation est déjà enregistrée.</p>");
+  });
+
+  it("page finale : texte @legal mot pour mot ; hors impayé, « Aucun nouveau prélèvement après. » (R2)", async () => {
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees, impaye: true });
+    expect(renderToStaticMarkup(await ConfirmeePage())).toContain(
+      "Tu gardes Premium jusqu’au 1er décembre 2026, sauf si la facture en cours reste impayée. Cette facture peut encore être prélevée. Aucun autre prélèvement ensuite.",
+    );
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees });
+    const html = renderToStaticMarkup(await ConfirmeePage());
+    expect(html).toContain("Tu gardes Premium jusqu’au 1er décembre 2026. Aucun nouveau prélèvement après.");
+    expect(html).not.toContain("sauf si la facture");
+  });
+});
+
+describe("UX C4 : interrupteur testé dans layout.tsx, au-dessus du Suspense de loading.tsx", () => {
+  const fs = require("fs") as typeof import("fs");
+  const path = require("path") as typeof import("path");
+  const dossier = path.join(__dirname, "../../app/(dashboard)/resiliation");
+  const { renderToStaticMarkup } = require("react-dom/server") as typeof import("react-dom/server");
+
+  it("layout.tsx fermé : 404 avant tout rendu ; ouvert : rend la page telle quelle", () => {
+    const Layout = (require("@/app/(dashboard)/resiliation/layout") as { default: (p: { children: string }) => unknown }).default;
+    expect(() => Layout({ children: "page" })).toThrow("NEXT_NOT_FOUND");
+    drapeau.__RESILIATION_OUVERTE__ = true;
+    expect(Layout({ children: "page" })).toBe("page");
+  });
+
+  it("un seul loading.tsx, à côté du layout.tsx ; aucun ailleurs (sinon 200 au lieu de 404, piège s17)", () => {
+    expect(fs.existsSync(path.join(dossier, "layout.tsx"))).toBe(true);
+    expect(fs.existsSync(path.join(dossier, "loading.tsx"))).toBe(true);
     expect(fs.existsSync(path.join(dossier, "confirmee/loading.tsx"))).toBe(false);
     expect(fs.existsSync(path.join(dossier, "../loading.tsx"))).toBe(false);
+    // Les pages gardent leur propre test (double sécurité si le layout était contourné).
+    for (const f of ["page.tsx", "confirmee/page.tsx"]) {
+      expect(fs.readFileSync(path.join(dossier, f), "utf8")).toMatch(/if \(!RESILIATION_PAGE_OUVERTE\) notFound\(\);/);
+    }
+  });
+
+  it("loading.tsx : H1, carte squelette, aucun bouton ni lien", () => {
+    const Loading = (require("@/app/(dashboard)/resiliation/loading") as { default: () => ReactElement }).default;
+    const html = renderToStaticMarkup(Loading());
+    expect(html).toContain("<h1");
+    expect(html).toContain("Résilier ton contrat");
+    expect(html).not.toMatch(/<button|<a /);
   });
 });
