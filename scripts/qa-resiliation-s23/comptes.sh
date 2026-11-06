@@ -12,6 +12,7 @@ insert into "User"(id,email,name,"passwordHash",plan,level,xp,streak,"emailOptOu
 ('qa_resilie','marc@local.test','Marc','$H','PREMIUM','NOVICE',0,0,false,now()-interval '90 days',now(),now()),
 ('qa_sansstripe','offert@local.test',null,'$H','PREMIUM','NOVICE',0,0,false,now()-interval '10 days',now(),now()),
 ('qa_free','gratuit@local.test','Gratuit','$H','FREE','NOVICE',0,0,false,now()-interval '10 days',now(),now()),
+('qa_impaye','impaye@local.test','Inès','$H','PREMIUM','NOVICE',0,0,false,now()-interval '40 days',now(),now()),
 ('qa_flux_1440','flux1440@local.test','Yanis Martin','$H','PREMIUM','NOVICE',0,0,false,now()-interval '40 days',now(),now()),
 ('qa_flux_390','flux390@local.test','Yanis Martin','$H','PREMIUM','NOVICE',0,0,false,now()-interval '40 days',now(),now()),
 ('qa_flux_768','flux768@local.test','Yanis Martin','$H','PREMIUM','NOVICE',0,0,false,now()-interval '40 days',now(),now());
@@ -20,6 +21,7 @@ select 'sub_'||id, id, 'PREMIUM', 'ACTIVE', 'cus_qa_'||id, 'sub_qa_'||id, timest
 from "User" where id in ('qa_avant','qa_actif','qa_flux_1440','qa_flux_390','qa_flux_768');
 insert into "Subscription"(id,"userId",plan,status,"stripeCustomerId","stripeSubscriptionId","currentPeriodEnd","billingInterval","priceAmountCents","cancelAtPeriodEnd","createdAt","updatedAt") values
 ('sub_qa_annuel','qa_annuel','PREMIUM','ACTIVE','cus_qa_annuel','sub_qa_annuel',timestamp '2027-04-20 10:00:00','year',1699,false,now()-interval '200 days',now()),
-('sub_qa_resilie','qa_resilie','PREMIUM','ACTIVE','cus_qa_resilie','sub_qa_resilie',timestamp '2026-11-24 10:00:00','month',199,true,now()-interval '90 days',now());
+('sub_qa_resilie','qa_resilie','PREMIUM','ACTIVE','cus_qa_resilie','sub_qa_resilie',timestamp '2026-11-24 10:00:00','month',199,true,now()-interval '90 days',now()),
+('sub_qa_impaye','qa_impaye','PREMIUM','PAST_DUE','cus_qa_impaye','sub_qa_impaye',timestamp '2026-12-01 10:00:00','month',199,false,now()-interval '36 days',now());
 SQL
 echo "   comptes : $($PSQL -At -c "select count(*) from \"User\" where id like 'qa_%'") ; abonnements : $($PSQL -At -c "select count(*) from \"Subscription\"")"

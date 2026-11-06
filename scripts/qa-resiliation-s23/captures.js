@@ -82,6 +82,11 @@ async function controlesEcran(page, t) {
   ok(`${t.nom} zéro tiret cadratin`, !corps.includes('—'));
 }
 
+// Design O5 : sur les états courts, le pied de page descend au moins jusqu'au bas du viewport (pas de bande noire).
+async function piedEnBas(page, t, nom) {
+  const r = await page.evaluate(() => ({ bas: Math.round(document.querySelector('footer').getBoundingClientRect().bottom + window.scrollY), vh: window.innerHeight }));
+  ok(`${t.nom} ${nom} : pied de page au bas du viewport (design O5)`, r.bas >= r.vh - 1, `bas du pied ${r.bas} / viewport ${r.vh}`);
+}
 async function avant(browser) {
   for (const t of TAILLES) {
     const ctx = await contexte(browser, t);
@@ -130,6 +135,20 @@ async function apres(browser) {
     await page.getByLabel(/Un mot de plus/).fill('Je reviendrai sûrement après les partiels.');
     ok(`${n} bouton toujours actif après réponse`, await bouton(page).isEnabled());
     await shot(page, `resiliation-raisons-cochees-${n}`);
+    if (t.mobile) {
+      // UX C3 : clavier ouvert simulé (Playwright n'ouvre pas de clavier virtuel) : viewport réduit à
+      // 390x450 (844 moins ~390 px de clavier iOS), focus dans « Un mot de plus ? ».
+      const vp = page.viewportSize();
+      await page.setViewportSize({ width: 390, height: 450 });
+      await page.getByLabel(/Un mot de plus/).focus();
+      await page.waitForTimeout(400);
+      const rb = await bouton(page).boundingBox();
+      ok(`${n} clavier ouvert (390x450) : « Confirmer la résiliation » visible et atteignable`, !!rb && rb.y >= 0 && rb.y + rb.height <= 450, rb ? `bouton y ${Math.round(rb.y)} à ${Math.round(rb.y + rb.height)} / 450` : 'absent');
+      await shot(page, 'resiliation-clavier-mobile-390', { fullPage: false });
+      await page.getByLabel(/Un mot de plus/).blur();
+      await page.setViewportSize(vp);
+      await page.waitForTimeout(300);
+    }
     let relacher;
     await page.route(API, (route) => new Promise((r) => (relacher = () => r(route.abort()))));
     await bouton(page).click();
@@ -165,6 +184,7 @@ async function apres(browser) {
     await bouton(page).click();
     await page.getByTestId('resiliation-app-store').waitFor({ timeout: 10000 }).catch(() => {});
     ok(`${n} App Store : carte Apple, aucun bouton Confirmer`, (await page.getByTestId('resiliation-app-store').count()) === 1 && (await bouton(page).count()) === 0);
+    await piedEnBas(page, t, 'App Store');
     await shot(page, `resiliation-app-store-${n}`);
     await page.unroute(API);
     await ctx.close();
@@ -181,7 +201,7 @@ async function apres(browser) {
     await ctx.close();
 
     // Annuel, déjà résilié, sans abonnement, sans client Stripe (vrai appel à l'API locale, sans Stripe).
-    for (const [email, nom] of [['sophie.annuel@local.test', 'annuel'], ['marc@local.test', 'deja-resilie'], ['gratuit@local.test', 'sans-abonnement'], ['offert@local.test', 'sans-client-stripe']]) {
+    for (const [email, nom] of [['sophie.annuel@local.test', 'annuel'], ['marc@local.test', 'deja-resilie'], ['gratuit@local.test', 'sans-abonnement'], ['offert@local.test', 'sans-client-stripe'], ['impaye@local.test', 'impaye']]) {
       ctx = await contexte(browser, t);
       page = await ctx.newPage();
       await login(page, email, '/resiliation');
@@ -190,8 +210,11 @@ async function apres(browser) {
       if (nom === 'sans-client-stripe') {
         await bouton(page).click();
         await page.locator('form [role="alert"]').waitFor({ timeout: 15000 }).catch(() => {});
-        ok(`${n} sans client Stripe : demande transmise (vrai appel local)`, (await page.locator('form [role="alert"]').innerText().catch(() => '')).includes('on résilie pour toi'));
+        // @reviewer R1 : accès offert, demande transmise sans échec ni « Réessayer », retour à l'accueil.
+        ok(`${n} sans client Stripe : demande transmise (vrai appel local), sans « Réessayer » (R1)`, (await page.locator('form [role="alert"]').innerText().catch(() => '')).includes('on s’occupe de ta résiliation') && (await bouton(page).count()) === 0);
       }
+      if (nom === 'sans-abonnement') await piedEnBas(page, t, 'Rien à résilier');
+      if (nom === 'impaye') ok(`${n} impayé : lignes prudentes @legal O7`, (await page.locator('main').innerText()).includes('sauf si la facture en cours reste impayée') && !(await page.locator('main').innerText()).includes('Aucun nouveau prélèvement après.'));
       await shot(page, `resiliation-${nom}-${n}`);
       await ctx.close();
     }
