@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-### s23 (06/11) Compte TikTok dans le pied de page, PAS ENCORE DÉPLOYÉ (Thomas doit voir les captures)
+(rien)
+
+## s23 (06/11) Compte TikTok dans le pied de page, **DÉPLOYÉ le 06/11/2026 à 19:12 UTC** (captures vues, go écrit de Thomas « go tiktok ») : version `779590e5-719c-4735-8c94-78a5849a507f`, build sur `5ae5bbf` (code `f1e6e5f`, CI verte), N-1 `25763061-d8cb-4360-900f-129a95287d13` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 25763061-d8cb-4360-900f-129a95287d13`. Préversion testée (lien TikTok exact, nouvel onglet, `rel="noopener noreferrer"`). **P6 conforme** : 7 adresses en 200, lien TikTok en ligne, admin API 401, santé `ok`, Stripe live, en-têtes de sécurité identiques à N-1.
 
 - Demande de Thomas du 06/11. Compte vérifié en ligne : `https://www.tiktok.com/@deviensmarrant` (pseudo « Deviens Marrant »). Icône TikTok ajoutée après Instagram dans `apps/web/src/components/layout/footer.tsx`, même convention que X, LinkedIn et Instagram (nouvel onglet, `rel="noopener noreferrer"`, `aria-label="TikTok"`). Test `layout/footer.test.tsx` complété. Rien d'autre (JSON-LD `sameAs` non touché). Réseaux toujours en pause : aucune publication relancée.
 - Aucune migration, aucune variable. Vérifié : tsc build et complet, next lint, build, Jest complet (5 904 tests). Captures : `docs/captures/s23-tiktok/`.
