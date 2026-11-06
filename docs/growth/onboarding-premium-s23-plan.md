@@ -1,5 +1,8 @@
 # Onboarding Premium : plan de séquence e-mail (s23, 06/11/2026)
 
+> **Décision de Thomas du 06/11/2026** (prime sur la séquence ci-dessous) : « pas trop de mails car ils ont les newsletters, le J1 bof ». Séquence réduite à **3 e-mails** : **E0 J0** bienvenue revue (avec le premier pas « par où commencer ») ; **E1 J5** « Une question ? » fusionné avec « par où commencer » (une invitation à répondre + un seul lien vers un premier contenu, adapté s'il n'a rien commencé) ; **E2 J21** « Trois semaines : qu'est-ce qui manque ? » (répondre à l'e-mail). Les anciens E1 (J1), E3 (J9) et E4 (J15) sont supprimés. Règles inchangées : jamais un jeudi, arrêt à la résiliation, lien d'arrêt, approbation de Thomas.
+
+
 Demande de Thomas (06/11) : quelques e-mails sur ~3 semaines pour présenter ce qu'on fait et recueillir les questions, et un bienvenue qui rappelle tout ce à quoi l'abonné a droit. Sources lues : `resiliations-s23-donnees.md` et `-analyse.md`, `config/textes/paiement.ts` (`emailConfirmationAbonnement`), `abonnement-vente.ts` (tableau Gratuit / Premium, `BIENVENUE_PREMIUM`), `avantages-premium.ts`, `config/premium.ts`, `lib/scheduler/jobs.ts`, `lib/lettre/hebdo.ts` et `envoi-hebdo.ts`, founder-preferences. Cadre @legal (`docs/legal/resiliation-onboarding-cadre-s23.md`) : absent au moment de la rédaction, à intégrer avant tout texte. Aucun benchmark sectoriel consulté : chaque cible ci-dessous est une `[HYPOTHÈSE]` à recaler sur 30 jours de données réelles.
 
 ## 1. Objectif et mesure
