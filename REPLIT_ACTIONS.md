@@ -2,7 +2,12 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s23 (06/11) Compte TikTok dans le pied de page, PAS ENCORE DÉPLOYÉ (Thomas doit voir les captures)
+
+- Demande de Thomas du 06/11. Compte vérifié en ligne : `https://www.tiktok.com/@deviensmarrant` (pseudo « Deviens Marrant »). Icône TikTok ajoutée après Instagram dans `apps/web/src/components/layout/footer.tsx`, même convention que X, LinkedIn et Instagram (nouvel onglet, `rel="noopener noreferrer"`, `aria-label="TikTok"`). Test `layout/footer.test.tsx` complété. Rien d'autre (JSON-LD `sameAs` non touché). Réseaux toujours en pause : aucune publication relancée.
+- Aucune migration, aucune variable. Vérifié : tsc build et complet, next lint, build, Jest complet (5 904 tests). Captures : `docs/captures/s23-tiktok/`.
+- Déploiement : procédure des entrées s23. N-1 attendu `25763061-d8cb-4360-900f-129a95287d13`, retour arrière `cd apps/web && npx wrangler rollback 25763061-d8cb-4360-900f-129a95287d13`.
+- P6 : pied de page avec 4 icônes (X, LinkedIn, Instagram, TikTok), lien TikTok exact, pages en 200.
 
 ## s23 (05/11) Mention éditoriale et lien sortant dans « Humour quotidien : 8 habitudes simples », **DÉPLOYÉ le 05/11/2026 à 09:50 UTC** (captures vues, go écrit de Thomas « go », `noopener noreferrer` conservé) : version `25763061-d8cb-4360-900f-129a95287d13`, build sur `7e2017d` (code `d26e552`, CI verte sur les deux), N-1 `e6f22977-3c57-42d1-9c60-63eae4ecf5e1` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback e6f22977-3c57-42d1-9c60-63eae4ecf5e1`. Premier build local en échec sur un incident réseau `next/font` (rien envoyé), second build OK. Préversion testée (1 lien, ancre exacte, `target="_blank" rel="noopener noreferrer"`, 0 nofollow/sponsored, ordre habitude 6 < paragraphe < habitude 7, dateModified 2026-11-05, liens internes d'un autre article sans target). **P6 conforme** : 7 adresses en 200 ; lien en ligne une fois, `rel="noopener noreferrer"` ; dateModified 2026-11-05 ; admin API 401 ; santé `ok`, Stripe live ; en-têtes de sécurité identiques à N-1. IndexNow de l'URL de l'article : HTTP 200.
 

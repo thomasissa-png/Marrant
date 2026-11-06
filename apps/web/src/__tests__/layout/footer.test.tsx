@@ -88,6 +88,13 @@ describe("Footer", () => {
     const instagramLink = screen.getByLabelText("Instagram");
     expect(instagramLink).toHaveAttribute("href", "https://www.instagram.com/deviensmarrant/");
     expect(instagramLink).toHaveAttribute("target", "_blank");
+
+    // s23 : compte TikTok ajouté (demande de Thomas, 06/11), même convention que les autres réseaux.
+    const tiktokLink = screen.getByLabelText("TikTok");
+    expect(tiktokLink).toHaveAttribute("href", "https://www.tiktok.com/@deviensmarrant");
+    expect(tiktokLink).toHaveAttribute("target", "_blank");
+    expect(tiktokLink).toHaveAttribute("rel", "noopener noreferrer");
+    expect(tiktokLink.querySelector("svg")).not.toBeNull();
   });
 
   it("s17 : 4 pistes égales dès 1024 px, Produit sur 2 pistes alignées (plus de 4e colonne vide)", () => {
