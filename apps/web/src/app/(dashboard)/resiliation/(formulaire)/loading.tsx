@@ -5,7 +5,9 @@ import { cn } from "@/lib/utils";
 /**
  * s23, UX C4 : squelette pendant la lecture du compte (connexion lente). H1, une carte de ~270 px,
  * 3 lignes, aucun bouton. Même colonne que `page.tsx` (et même hauteur minimale, design O5).
- * Servi seulement interrupteur ouvert : `layout.tsx` renvoie 404 avant ce Suspense.
+ * Servi seulement interrupteur ouvert : `../layout.tsx` renvoie 404 avant ce Suspense. Rangé dans le
+ * groupe `(formulaire)` pour ne couvrir QUE /resiliation : à la racine du segment, il enveloppait aussi
+ * /resiliation/confirmee et affichait « Résilier ton contrat » juste après la confirmation.
  */
 export default function ResiliationLoading() {
   return (

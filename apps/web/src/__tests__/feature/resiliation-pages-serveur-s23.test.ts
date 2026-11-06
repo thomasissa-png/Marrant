@@ -27,7 +27,7 @@ const lire = jest.fn();
 jest.mock("@/lib/resiliation", () => ({ lireResiliation: (...a: unknown[]) => lire(...a) }));
 
 import type { ReactElement } from "react";
-import ResiliationPage from "@/app/(dashboard)/resiliation/page";
+import ResiliationPage from "@/app/(dashboard)/resiliation/(formulaire)/page";
 import ConfirmeePage from "@/app/(dashboard)/resiliation/confirmee/page";
 
 const drapeau = globalThis as { __RESILIATION_OUVERTE__?: boolean };
@@ -187,19 +187,23 @@ describe("UX C4 : interrupteur testé dans layout.tsx, au-dessus du Suspense de 
     expect(Layout({ children: "page" })).toBe("page");
   });
 
-  it("un seul loading.tsx, à côté du layout.tsx ; aucun ailleurs (sinon 200 au lieu de 404, piège s17)", () => {
+  it("un seul loading.tsx, sous le layout.tsx et pour /resiliation seul ; aucun ailleurs (sinon 200 au lieu de 404, piège s17)", () => {
     expect(fs.existsSync(path.join(dossier, "layout.tsx"))).toBe(true);
-    expect(fs.existsSync(path.join(dossier, "loading.tsx"))).toBe(true);
+    expect(fs.existsSync(path.join(dossier, "(formulaire)/loading.tsx"))).toBe(true);
+    // Pas à la racine du segment : il envelopperait aussi /resiliation/confirmee (squelette
+    // « Résilier ton contrat » affiché juste après la confirmation, constaté sur les captures).
+    expect(fs.existsSync(path.join(dossier, "loading.tsx"))).toBe(false);
+    expect(fs.existsSync(path.join(dossier, "page.tsx"))).toBe(false);
     expect(fs.existsSync(path.join(dossier, "confirmee/loading.tsx"))).toBe(false);
     expect(fs.existsSync(path.join(dossier, "../loading.tsx"))).toBe(false);
     // Les pages gardent leur propre test (double sécurité si le layout était contourné).
-    for (const f of ["page.tsx", "confirmee/page.tsx"]) {
+    for (const f of ["(formulaire)/page.tsx", "confirmee/page.tsx"]) {
       expect(fs.readFileSync(path.join(dossier, f), "utf8")).toMatch(/if \(!RESILIATION_PAGE_OUVERTE\) notFound\(\);/);
     }
   });
 
   it("loading.tsx : H1, carte squelette, aucun bouton ni lien", () => {
-    const Loading = (require("@/app/(dashboard)/resiliation/loading") as { default: () => ReactElement }).default;
+    const Loading = (require("@/app/(dashboard)/resiliation/(formulaire)/loading") as { default: () => ReactElement }).default;
     const html = renderToStaticMarkup(Loading());
     expect(html).toContain("<h1");
     expect(html).toContain("Résilier ton contrat");
