@@ -62,9 +62,10 @@ Contenu tiré de `lignesTableau`, `avantages-premium.ts` et du plan §3. Aucun n
 **C. Trois blocs, un seul premier pas** (O5 reprise, « Ensuite » raccourci selon le panel : Sophie s'arrêtait au premier bloc)
 > **Pour commencer** : [si carnet] une fiche du carnet du mois, une situation et sa réplique. [sinon] la première étape d'un parcours, au choix parmi les {PARCOURS_COUNT}.
 > **Cette semaine** : le catalogue sans limite, les exercices des fiches, tes favoris, ta progression et ta série. [si état `recoit`] La lettre de la semaine arrive chaque jeudi, incluse dans ton abonnement ; tu l'arrêtes en un clic, depuis chaque lettre ou ton profil.
-> **Ensuite, à ton rythme** : les {PARCOURS_COUNT} parcours en entier (toutes les étapes sont ouvertes, une par semaine reste le rythme conseillé), [si carnet] les carnets passés et [si question] « Ta question à l'équipe » depuis ton profil.
+> **Ensuite, à ton rythme** : les {PARCOURS_COUNT} parcours en entier (toutes les étapes sont ouvertes, une par semaine reste le rythme conseillé, avec un rappel par e-mail sur demande)[si carnet], les carnets passés[si question], « Ta question à l'équipe » depuis ton profil.
 
-Écart au texte exact du reviewer : le rappel de parcours par e-mail sort du bloc C (il reste en A et B) pour tenir l'écran mobile.
+Le dernier élément rendu prend « et » à la place de la virgule. Le rappel de parcours revient dans la parenthèse (S12) : il était sorti du bloc par souci de concision, pas pour tenir l'écran mobile.
+Avec 2 A ou 2 B, qui n'annoncent pas de premier pas, on garde la ligne « Pour démarrer, choisis un parcours » du gabarit actuel (`paiement.ts:293`) ; avec 2 C, le bloc « Pour commencer » la remplace (S11).
 **Reco : C**, parce qu'elle donne un seul premier pas et porte le « par où commencer » dans E0 (« Pour commencer »), sans e-mail de plus ; repli sur A si C dépasse l'écran mobile. C passe de 7 à 8 chez Sophie si le dernier bloc est court (hypothèse, à relire au panel).
 **Revenu :** les 3 résiliations déjà vues sont arrivées sans aucune action enregistrée ; C transforme une liste en programme, là où A et B se lisent sans rien déclencher. Lecture : réponses reçues, favoris et étapes validées, cas par cas (la lecture du carnet ne laisse pas de trace).
 **Question à Thomas :** « Pour la liste du bienvenue, tu prends A (sèche), B (un exemple par ligne) ou C (pour commencer / cette semaine / ensuite) ? »
@@ -73,7 +74,7 @@ Contenu tiré de `lignesTableau`, `avantages-premium.ts` et du plan §3. Aucun n
 
 ## Étalon 3 : E1 à J5, « Une question ? » fusionné avec « par où commencer »
 
-Corps ≤ 100 mots, une seule invitation à répondre, un seul lien. Le texte vaut pour « rien commencé » (lien `/carnet`). Si l'abonné a un parcours en cours (au moins une étape validée, parcours non terminé), on remplace la phrase et le lien par la variante sous l'option ; `{lienEtape}` = lien direct de la prochaine étape, comme le rappel de parcours (`parcours-emails.ts:67`). Sans carnet du mois publié, tout abonné reçoit la variante parcours, avec le lien de la première étape du parcours conseillé. Abonné avec rappel de parcours actif : version carnet (la variante redirait ce que son rappel lui envoie déjà, S10).
+Corps ≤ 100 mots, une seule invitation à répondre, un seul lien. Le texte vaut pour « rien commencé » (lien `/carnet`). Si l'abonné a un parcours en cours (au moins une étape validée, parcours non terminé), on remplace la phrase et le lien par la variante sous l'option ; `{lienEtape}` = lien direct de la prochaine étape, comme le rappel de parcours (`parcours-emails.ts:67`). La variante remplace la phrase du carnet et son lien ; en A, elle remplace aussi la scène et l'objet devient « Ta prochaine étape t'attend » ; en C, elle remplace tout le premier paragraphe. Sans carnet du mois publié : l'abonné qui a un parcours en cours reçoit la variante, rappel actif ou non ; les autres reçoivent « Les {PARCOURS_COUNT} parcours sont ouverts, toutes les étapes d'un coup : choisis le tien. » + « Choisir mon parcours : {url}/parcours » (en A, objet « Les parcours sont ouverts »). Avec carnet du mois, abonné avec rappel de parcours actif : version carnet (la variante redirait ce que son rappel lui envoie déjà, S10).
 
 **A. Une scène, puis la porte ouverte** (scène sans lieu de bureau, piste du panel : Yanis la lisait à côté de sa vie)
 > Objet : Une situation, une réplique
@@ -137,12 +138,13 @@ Constat du panel : les 3 personas résilieraient par précaution, « pour ne pas
 > Tu gardes tout jusqu'à la fin de la période payée, rien ne presse.
 
 **B. Avec la date comme repère**
-> Rien ne presse : tu gardes tout jusqu'à la fin de la période payée, et la date du prochain prélèvement est indiquée plus haut.
+> Rien ne presse : la date du prochain prélèvement est écrite plus haut, et tu pourras encore résilier la veille.
 
 **C. Prends ton temps**
-> Prends ton temps : même résilié, ton Premium reste ouvert jusqu'à la fin de la période payée.
+> Prends ton temps pour te faire un avis : d'ici le {date du prochain prélèvement}, tout est ouvert, et tu pourras encore résilier la veille.
 
-**Reco : B**, parce qu'elle est la seule à dire jusqu'où « rien ne presse » reste vrai (jusqu'à la date du prochain prélèvement) : une promesse plus large serait fausse après un renouvellement (le remboursement sous 14 jours ne vaut que pour le premier paiement, 07/10). C est la plus douce mais cite la résiliation comme acquise ; A redit presque mot pour mot la phrase légale juste avant.
+`{date du prochain prélèvement}` = `dateLongue(prochain)`, déjà calculé dans le gabarit ; résilier la veille évite le prélèvement, et « encore » ne contredit pas « à tout moment ».
+**Reco : B**, parce qu'elle est la seule à dire jusqu'où « rien ne presse » reste vrai (jusqu'à la date du prochain prélèvement) : une promesse plus large serait fausse après un renouvellement (le remboursement sous 14 jours ne vaut que pour le premier paiement, 07/10). C est la plus douce ; A redit presque mot pour mot la phrase légale juste avant, et donne la raison de résilier tout de suite sans rien perdre.
 **Revenu :** vise le réflexe « je résilie pour ne pas oublier » (H1 de l'analyse), non traité par les étalons 1 à 4. Lecture : résiliations dans les 24 h après le paiement, avant et après la phrase, cas par cas (4 abonnés au 02/11), sans conclure sur un effectif aussi petit. Le panel prévient : un e-mail ne garantit pas la rétention à 10 minutes, il augmente la chance d'une première action.
 **Question à Thomas :** « Pour la phrase « rien ne presse » à côté de la résiliation, tu prends A (littérale), B (avec la date) ou C (prends ton temps) ? »
 
