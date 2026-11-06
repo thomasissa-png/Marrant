@@ -17,6 +17,8 @@ const TAILLES = [
   { nom: 'pc-1440', viewport: { width: 1440, height: 900 }, mobile: false },
   { nom: 'mobile-390', viewport: { width: 390, height: 844 }, mobile: true },
 ];
+// v2 (UX O9) : tablette 768, états vide et confirmée seulement.
+const TABLETTE = { nom: 'tablette-768', viewport: { width: 768, height: 1024 }, mobile: true };
 fs.mkdirSync(OUT, { recursive: true });
 const ok = (name, pass, detail = '') => console.log((pass ? 'PASS ' : 'FAIL ') + name + (detail ? ' :: ' + detail : ''));
 const psql = (sql) => execSync(`${process.env.QA_PSQL} -At -c ${JSON.stringify(sql)}`).toString().trim();
@@ -96,6 +98,8 @@ async function avant(browser) {
     await carte.waitFor({ timeout: 20000 }).catch(() => {});
     ok(`${t.nom} carte fermée : bouton du portail`, (await carte.getByRole('button', { name: 'Résilier ton contrat' }).count()) === 1);
     await shot(page, `avant-profil-carte-abonnement-${t.nom}`, { clip: carte });
+    await go(page, BASE + '/confidentialite');
+    ok(`${t.nom} confidentialité fermée : aucun ajout résiliation`, (await page.getByTestId('confidentialite-resiliation').count()) === 0 && (await page.locator('#resiliation').count()) === 0);
     await ctx.close();
   }
 }
@@ -119,7 +123,8 @@ async function apres(browser) {
     await go(page, BASE + '/resiliation');
     await controlesEcran(page, t);
     await shot(page, `resiliation-vide-${n}`);
-    if (t.mobile) await shot(page, `resiliation-vide-premier-ecran-${n}`, { fullPage: false });
+    // v2 (UX O9) : premier écran aussi sur PC 1440x900 (barre collée visible).
+    await shot(page, `resiliation-vide-premier-ecran-${n}`, { fullPage: false });
     await page.getByRole('checkbox', { name: 'Je voulais juste essayer' }).check();
     await page.getByRole('checkbox', { name: 'Trop cher pour moi' }).check();
     await page.getByLabel(/Un mot de plus/).fill('Je reviendrai sûrement après les partiels.');
@@ -142,6 +147,37 @@ async function apres(browser) {
     await shot(page, `resiliation-erreur-stripe-${n}`, { fullPage: false });
     await shot(page, `resiliation-erreur-stripe-page-${n}`);
     await page.unroute(API);
+    // v2 (UX O9) : hors ligne (aucune réponse), puis refus 429 (UX O4).
+    await page.route(API, (route) => route.abort('internetdisconnected'));
+    await bouton(page).click();
+    await page.locator('form [role="alert"]').waitFor();
+    const horsLigne = await page.locator('form [role="alert"]').innerText();
+    ok(`${n} hors ligne : « Pas de connexion », bouton « Confirmer la résiliation »`, horsLigne.includes('Pas de connexion') && (await bouton(page).innerText()).includes('Confirmer la résiliation'));
+    await shot(page, `resiliation-hors-ligne-${n}`, { fullPage: false });
+    await page.unroute(API);
+    await page.route(API, (route) => route.fulfill({ status: 429, contentType: 'application/json', body: '{"error":"trop"}' }));
+    await bouton(page).click();
+    await page.waitForFunction(() => document.querySelector('form [role="alert"]')?.textContent?.includes('pas pu partir'), null, { timeout: 10000 }).catch(() => {});
+    ok(`${n} refus 429 : message « refus », pas « Pas de connexion »`, (await page.locator('form [role="alert"]').innerText()).includes('pas pu partir'));
+    await page.unroute(API);
+    // v2 (UX O5, O9) : App Store, carte Apple seule (plus de bouton « Confirmer »).
+    await page.route(API, (route) => route.fulfill({ status: 409, contentType: 'application/json', body: '{"etat":"app_store"}' }));
+    await bouton(page).click();
+    await page.getByTestId('resiliation-app-store').waitFor({ timeout: 10000 }).catch(() => {});
+    ok(`${n} App Store : carte Apple, aucun bouton Confirmer`, (await page.getByTestId('resiliation-app-store').count()) === 1 && (await bouton(page).count()) === 0);
+    await shot(page, `resiliation-app-store-${n}`);
+    await page.unroute(API);
+    await ctx.close();
+
+    // v2 (@legal O6) : carte abonnement du profil, interrupteur ouvert (lien vers /resiliation).
+    ctx = await contexte(browser, t);
+    page = await ctx.newPage();
+    await login(page, 'yanis.avant@local.test', '/profil#abonnement');
+    await go(page, BASE + '/profil#abonnement');
+    const carte = page.locator('#abonnement');
+    await carte.waitFor({ timeout: 20000 }).catch(() => {});
+    ok(`${n} carte ouverte : lien vers /resiliation`, (await carte.getByRole('link', { name: 'Résilier ton contrat' }).first().getAttribute('href')) === '/resiliation');
+    await shot(page, `apres-profil-carte-abonnement-${n}`, { clip: carte });
     await ctx.close();
 
     // Annuel, déjà résilié, sans abonnement, sans client Stripe (vrai appel à l'API locale, sans Stripe).
@@ -175,12 +211,37 @@ async function apres(browser) {
     await page.waitForURL('**/resiliation/confirmee', { timeout: 20000 }).catch(() => {});
     await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
     const texte = await page.locator('main').innerText();
-    ok(`${n} page finale : date, effets, merci, aide « prix »`, texte.includes('C’est noté.') && texte.includes('1er décembre 2026') && texte.includes('Merci d’avoir répondu.') && texte.includes('chaque parcours'));
+    ok(`${n} page finale : date, effets, ni merci ni aide (UX O1)`, texte.includes('C’est noté.') && texte.includes('1er décembre 2026') && !texte.includes('Merci d’avoir répondu.') && !texte.includes('chaque parcours'));
     const focus = await page.evaluate(() => document.activeElement?.tagName);
     ok(`${n} page finale : H1 focalisé`, focus === 'H1', focus);
     await shot(page, `resiliation-confirmee-${n}`);
     await ctx.close();
   }
+  // v2 (UX O9) : tablette 768, vide puis confirmée.
+  const t = TABLETTE;
+  let ctx = await contexte(browser, t);
+  let page = await ctx.newPage();
+  await login(page, 'flux768@local.test', '/resiliation');
+  await go(page, BASE + '/resiliation');
+  await controlesEcran(page, t);
+  await shot(page, `resiliation-vide-${t.nom}`);
+  await page.route(API, (route) => {
+    psql(`update "Subscription" set "cancelAtPeriodEnd"=true where "userId"='qa_flux_768'`);
+    return route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ etat: 'resilie', dateFin: '2026-12-01T10:00:00.000Z', formule: 'monthly' }) });
+  });
+  await bouton(page).click();
+  await page.waitForURL('**/resiliation/confirmee', { timeout: 20000 }).catch(() => {});
+  await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+  ok(`${t.nom} page finale atteinte`, page.url().endsWith('/resiliation/confirmee'), page.url());
+  await shot(page, `resiliation-confirmee-${t.nom}`);
+  await ctx.close();
+  // v2 : politique de confidentialité ouverte, ancre #resiliation.
+  ctx = await contexte(browser, TAILLES[0]);
+  page = await ctx.newPage();
+  await go(page, BASE + '/confidentialite#resiliation');
+  ok('confidentialité ouverte : ancre #resiliation et 4 ajouts', (await page.locator('#resiliation').count()) === 1 && (await page.getByTestId('confidentialite-resiliation').count()) === 4);
+  await shot(page, 'resiliation-confidentialite-ancre-pc-1440', { fullPage: false });
+  await ctx.close();
 }
 
 (async () => {
