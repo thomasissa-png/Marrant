@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { RESILIATION_COMMENTAIRE_MAX, RESILIATION_RAISONS, type RaisonResiliation } from "@/config/resiliation";
+import { RESILIATION_CONFIDENTIALITE_ANCRE, RESILIATION_COMMENTAIRE_MAX, RESILIATION_RAISONS, type RaisonResiliation } from "@/config/resiliation";
 import { TEXTES_RESILIATION as T } from "@/config/textes/resiliation";
 
 interface QuestionMotifProps {
@@ -14,7 +15,7 @@ interface QuestionMotifProps {
 }
 
 const LIGNE =
-  "flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-border-input bg-background-card px-4 py-3 text-sm text-text-primary transition-colors hover:border-accent-primary/80 has-[:checked]:border-accent-primary has-[:checked]:bg-accent-primary/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background";
+  "flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-border-input bg-background-card px-4 py-3 text-sm text-text-primary transition-colors hover:border-accent-primary/80 has-[:checked]:border-accent-primary has-[:checked]:bg-accent-primary/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background md:last:col-span-2";
 
 /**
  * Question FACULTATIVE (B1, B2) : 7 raisons en cases natives (plusieurs possibles, jamais
@@ -63,7 +64,7 @@ export function QuestionMotif({ raisons, commentaire, fige, onBasculer, onCommen
           value={commentaire}
           readOnly={fige}
           aria-disabled={fige || undefined}
-          aria-describedby="resiliation-mot-compteur"
+          aria-describedby="resiliation-mot-compteur resiliation-mot-mention"
           placeholder={T.champLibrePlaceholder}
           onChange={(e) => onCommentaire(e.target.value.slice(0, RESILIATION_COMMENTAIRE_MAX))}
           className="w-full rounded-lg border border-border-input bg-background-light px-4 py-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-link md:text-sm"
@@ -71,6 +72,17 @@ export function QuestionMotif({ raisons, commentaire, fige, onBasculer, onCommen
         <p id="resiliation-mot-compteur" className="mt-1 text-right text-xs text-text-muted">
           <span aria-hidden="true">{T.compteur(commentaire.length, RESILIATION_COMMENTAIRE_MAX)}</span>
           <span className="sr-only">{`${commentaire.length} caractères sur ${RESILIATION_COMMENTAIRE_MAX}`}</span>
+        </p>
+        {/* @legal O1 : information au point de collecte (durée provisoire RESILIATION_CONSERVATION_MOIS). */}
+        <p id="resiliation-mot-mention" className="mt-2 text-xs text-text-secondary">
+          {T.mention}
+          <Link
+            href={`/confidentialite#${RESILIATION_CONFIDENTIALITE_ANCRE}`}
+            className="underline underline-offset-2 hover:text-text-primary focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link"
+          >
+            {T.mentionLien}
+          </Link>
+          .
         </p>
       </div>
     </fieldset>

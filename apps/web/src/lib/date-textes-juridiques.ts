@@ -20,11 +20,16 @@ export function horodatageDateFr(date: string): number | null {
   return Date.UTC(Number(m[3]), mois, m[1] === "1er" ? 1 : Number(m[1]));
 }
 
-export function dateTextesJuridiques(
-  services: Array<{ ouvert: boolean; date: string }> = [
+/** Services communs aux deux pages, lus à l'appel (jamais figés au chargement du module). */
+export function servicesTextesJuridiques(): Array<{ ouvert: boolean; date: string }> {
+  return [
     { ouvert: LETTRE_HEBDO_INSCRIPTIONS_OUVERTES, date: LETTRE_HEBDO_DATE_TEXTES },
     { ouvert: QUESTION_EQUIPE_OUVERTE, date: QUESTION_EQUIPE_DATE_TEXTES },
-  ],
+  ];
+}
+
+export function dateTextesJuridiques(
+  services: Array<{ ouvert: boolean; date: string }> = servicesTextesJuridiques(),
 ): string {
   let retenue = DATE_TEXTES_JURIDIQUES_BASE;
   let plusRecente = horodatageDateFr(retenue) ?? 0;

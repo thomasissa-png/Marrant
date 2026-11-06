@@ -19,8 +19,9 @@
  */
 import { NextResponse } from "next/server";
 import { TEXTES_SECURITE } from "@/config/textes/securite";
+import { ORIGINES_APPLI_MOBILE } from "@/config/appli-mobile";
 
-export const ORIGINES_APPLI_MOBILE: readonly string[] = ["capacitor://localhost", "https://localhost"];
+export { ORIGINES_APPLI_MOBILE };
 
 function origineDe(url: string | undefined): string | null {
   if (!url) return null;

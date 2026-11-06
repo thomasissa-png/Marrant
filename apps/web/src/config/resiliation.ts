@@ -49,5 +49,27 @@ export const RESILIATION_LIMITE = { maxRequests: 6, windowMs: 10 * 60_000 } as c
 /** Délai après lequel l'écran affiche « Toujours en cours, ne ferme pas la page. » */
 export const RESILIATION_DELAI_LENT_MS = 3000;
 
-/** Délai maximal accordé à l'appel Stripe (règle : 10 s sur Stripe). */
-export const RESILIATION_TIMEOUT_STRIPE_MS = 10_000;
+/**
+ * PROVISOIRE, à confirmer par Thomas : durée de conservation des réponses à la question de la
+ * résiliation (`CancellationFeedback`), en mois. Purge quotidienne (`purgerMotifsResiliation`),
+ * mention sous le champ libre et politique de confidentialité lisent cette seule valeur.
+ */
+export const RESILIATION_CONSERVATION_MOIS = 24;
+
+/**
+ * PROVISOIRE, à confirmer par Thomas : délai annoncé quand l'équipe résilie à la main (erreur
+ * Stripe, accès sans client Stripe, base indisponible). Bandeau d'erreur et e-mail de demande.
+ */
+export const RESILIATION_DELAI_EQUIPE = "sous un jour ouvré";
+
+/** Saisie gardée dans l'onglet le temps d'une reconnexion (session expirée, UX O3), puis effacée. */
+export const CLE_SAISIE_SESSION = "resiliation-saisie";
+
+/** Ancre de la politique de confidentialité (partie 2, réponse à la résiliation). */
+export const RESILIATION_CONFIDENTIALITE_ANCRE = "resiliation";
+
+/**
+ * Date des ajouts « résiliation » de la politique de confidentialité (« Dernière mise à jour »,
+ * prise en compte seulement interrupteur ouvert). PROVISOIRE : à mettre à la date d'ouverture.
+ */
+export const RESILIATION_DATE_TEXTES = "6 novembre 2026";

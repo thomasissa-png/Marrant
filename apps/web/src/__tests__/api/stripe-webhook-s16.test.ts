@@ -29,9 +29,16 @@ jest.mock("@/lib/stripe", () => ({
   cancelStripeSubscriptionNow: (...a: unknown[]) => cancelStripeSubscriptionNow(...a),
 }));
 jest.mock("next/headers", () => ({ headers: async () => new Map([["stripe-signature", "sig_test"]]) }));
+// s23 (@reviewer O3) : interrupteur de la page de résiliation lu à l'appel (fermé par défaut).
+jest.mock("@/config/resiliation", () => ({
+  ...jest.requireActual("@/config/resiliation"),
+  get RESILIATION_PAGE_OUVERTE() {
+    return (globalThis as { __RESILIATION_OUVERTE__?: boolean }).__RESILIATION_OUVERTE__ === true;
+  },
+}));
 
 const prisma = {
-  webhookEvent: { findUnique: jest.fn(), create: jest.fn() },
+  webhookEvent: { findUnique: jest.fn(), create: jest.fn(), updateMany: jest.fn() },
   user: { update: jest.fn(), findFirst: jest.fn() },
   subscription: { upsert: jest.fn(), update: jest.fn(), findUnique: jest.fn() },
   // s21 hebdo : la lettre de la semaine s'arrête avec le passage à FREE (avis @legal §6.2).
@@ -304,6 +311,72 @@ describe("reco 10 : accusé de résiliation", () => {
   it("autre mise à jour d'un abonnement déjà en résiliation : pas de nouvel e-mail", async () => {
     await deliver("customer.subscription.updated", stripeSub({ cancel_at_period_end: true }), { items: {} });
     expect(notifyCancellationScheduled).not.toHaveBeenCalled();
+  });
+});
+
+describe("s23 : accusé de résiliation et page /resiliation (@reviewer O2, O3)", () => {
+  const drapeau = globalThis as { __RESILIATION_OUVERTE__?: boolean };
+  const T0 = Date.UTC(2026, 10, 6, 10, 0, 0);
+  const marqueurs = new Map<string, Date>();
+  const marqueursCrees = () =>
+    prisma.webhookEvent.create.mock.calls.map((c) => (c[0] as { data: { eventId: string } }).data.eventId).filter((id) => id.startsWith("email-resiliation:"));
+  async function livrer(createdMs: number) {
+    constructEvent.mockReturnValue({
+      id: `evt_${Math.random()}`,
+      type: "customer.subscription.updated",
+      created: Math.floor(createdMs / 1000),
+      data: { object: stripeSub({ cancel_at_period_end: true }), previous_attributes: { cancel_at_period_end: false } },
+    });
+    return POST(new NextRequest("http://localhost/api/stripe/webhook", { method: "POST", body: "{}" }));
+  }
+  beforeEach(() => {
+    marqueurs.clear();
+    drapeau.__RESILIATION_OUVERTE__ = false;
+    prisma.webhookEvent.create.mockImplementation(async ({ data }: { data: { eventId: string; receivedAt?: Date } }) => {
+      if (marqueurs.has(data.eventId)) throw Object.assign(new Error("unique"), { code: "P2002" });
+      if (data.eventId.startsWith("email-resiliation:")) marqueurs.set(data.eventId, data.receivedAt ?? new Date());
+      return data;
+    });
+    prisma.webhookEvent.updateMany.mockImplementation(async ({ where, data }: { where: { eventId: string; receivedAt: { lt: Date } }; data: { receivedAt: Date } }) => {
+      const m = marqueurs.get(where.eventId);
+      if (m && m < where.receivedAt.lt) {
+        marqueurs.set(where.eventId, data.receivedAt);
+        return { count: 1 };
+      }
+      return { count: 0 };
+    });
+  });
+  afterAll(() => {
+    drapeau.__RESILIATION_OUVERTE__ = false;
+    prisma.webhookEvent.create.mockReset();
+    prisma.webhookEvent.updateMany.mockReset();
+  });
+
+  it("interrupteur fermé : accusé envoyé comme avant, aucun marqueur email-resiliation: écrit", async () => {
+    marqueurs.set("email-resiliation:sub_1", new Date(T0)); // même avec un marqueur : ignoré fermé
+    await livrer(T0 + 5000);
+    expect(notifyCancellationScheduled).toHaveBeenCalledTimes(1);
+    expect(marqueursCrees()).toEqual([]);
+    expect(prisma.webhookEvent.updateMany).not.toHaveBeenCalled();
+  });
+
+  it("ouvert, marqueur posé par l'écran, événement créé 5 s après mais livré 2 h après : pas de 2e accusé", async () => {
+    drapeau.__RESILIATION_OUVERTE__ = true;
+    marqueurs.set("email-resiliation:sub_1", new Date(T0));
+    jest.useFakeTimers({ now: T0 + 2 * 3600_000, doNotFake: ["nextTick", "setImmediate", "queueMicrotask", "setTimeout", "clearTimeout"] });
+    try {
+      await livrer(T0 + 5000);
+    } finally {
+      jest.useRealTimers();
+    }
+    expect(notifyCancellationScheduled).not.toHaveBeenCalled();
+  });
+
+  it("ouvert, sans marqueur (résiliation par le portail) : accusé envoyé, marqueur posé à l'heure de l'événement", async () => {
+    drapeau.__RESILIATION_OUVERTE__ = true;
+    await livrer(T0);
+    expect(notifyCancellationScheduled).toHaveBeenCalledTimes(1);
+    expect(marqueurs.get("email-resiliation:sub_1")?.getTime()).toBe(T0);
   });
 });
 

@@ -33,7 +33,7 @@ export function BarreConfirmation({ envoi, lent, reessayer }: { envoi: boolean; 
           {T.garder}
         </Link>
       </div>
-      <p role="status" aria-live="polite" className="text-sm text-text-secondary empty:hidden">
+      <p role="status" aria-live="polite" className="mt-1 text-center text-sm text-text-secondary empty:hidden sm:text-left">
         {envoi && lent ? T.lent : ""}
       </p>
       <span className="sr-only" aria-live="polite">

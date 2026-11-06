@@ -176,6 +176,7 @@ function resiliationProgrammee(
 async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription,
   previous: Partial<Record<string, unknown>> | undefined,
+  evenementLe: Date = new Date(),
 ): Promise<void> {
   const sub = await prisma.subscription.findUnique({ where: { stripeSubscriptionId: subscription.id } });
   if (!sub) {
@@ -212,7 +213,8 @@ async function handleSubscriptionUpdated(
   // s23 : l'écran /resiliation envoie lui-même l'accusé « C'est noté » et réserve la même clé AVANT
   // d'appeler Stripe ; le webhook ne l'envoie alors pas une 2e fois. Résiliation par le portail :
   // clé libre, le webhook envoie comme avant. Interrupteur fermé : comportement inchangé.
-  if (RESILIATION_PAGE_OUVERTE && !(await reserverAccuseResiliation(subscription.id))) {
+  // Heure de l'ÉVÉNEMENT (pas de la réception) : un webhook relivré des heures après ne renvoie rien.
+  if (RESILIATION_PAGE_OUVERTE && !(await reserverAccuseResiliation(subscription.id, evenementLe))) {
     console.log(`[Stripe] Accusé de résiliation déjà envoyé par l'écran pour ${subscription.id}, pas de second e-mail`);
     return;
   }
@@ -429,6 +431,7 @@ export async function POST(request: NextRequest) {
         await handleSubscriptionUpdated(
           event.data.object as Stripe.Subscription,
           (event.data as { previous_attributes?: Partial<Record<string, unknown>> }).previous_attributes,
+          typeof event.created === "number" ? new Date(event.created * 1000) : new Date(),
         );
         break;
       case "customer.subscription.deleted":

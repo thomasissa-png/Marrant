@@ -4,11 +4,13 @@ import Link from "next/link";
 import { LETTRE_CONFIDENTIALITE_ANCRE, LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { QUESTION_EQUIPE_CONFIDENTIALITE_ANCRE, QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
 import { CONFIDENTIALITE_QUESTION_EQUIPE as QUESTION, CONSERVATION_QUESTION_EQUIPE, PRESTATAIRES_QUESTION_EQUIPE } from "@/config/textes/question-equipe-s22";
-import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
+import { dateTextesJuridiques, servicesTextesJuridiques } from "@/lib/date-textes-juridiques";
 import { CONFIDENTIALITE_LETTRE_HEBDO as HEBDO } from "@/config/textes/lettre-hebdo-s21";
 import { CONFIDENTIALITE_LETTRE_COMPTE } from "@/config/textes/lettre-s21";
 import { frTypo } from "@/lib/fr-typo";
 import { WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
+import { RESILIATION_CONFIDENTIALITE_ANCRE, RESILIATION_DATE_TEXTES, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { CONFIDENTIALITE_RESILIATION as RESILIATION } from "@/config/textes/resiliation";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
 const PAGE_TITLE = "Politique de confidentialité";
@@ -62,6 +64,9 @@ function prestataires(questionOuverte: boolean = QUESTION_EQUIPE_OUVERTE): { nom
   ];
 }
 
+/** s23 (@legal O2) : les ajouts « résiliation » ne datent que la confidentialité (pas les CGU), une fois ouverts. */
+const datesConfidentialite = () => [...servicesTextesJuridiques(), { ouvert: RESILIATION_PAGE_OUVERTE, date: RESILIATION_DATE_TEXTES }];
+
 const SECTION_TITLE = "mb-2 text-lg font-semibold text-text-primary";
 const LIST = "mt-2 list-disc space-y-1 pl-6";
 
@@ -69,7 +74,7 @@ export default function ConfidentialitePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">Politique <span className="whitespace-nowrap">de confidentialité</span></h1>
-      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques()}</p>
+      <p className="mt-2 text-sm text-text-muted">Dernière mise à jour : {dateTextesJuridiques(datesConfidentialite())}</p>
       <div className="mt-8 space-y-6 text-text-secondary">
         <section>
           <h2 className={SECTION_TITLE}>1. Responsable du traitement</h2>
@@ -86,6 +91,12 @@ export default function ConfidentialitePage() {
             <li>Préférences : favoris, réactions, résultats du quiz</li>
             <li>Abonnement : formule, statut, dates de période. Tes données bancaires sont traitées par Stripe et ne passent jamais par nos serveurs</li>
             <li>Rétractation, si tu envoies une demande : adresse e-⁠mail, date d’achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l’adresse elle-⁠même)</li>
+            {/* s23 (@legal O2), publié avec l'ouverture de /resiliation. Ancre visée par la mention sous le champ libre. */}
+            {RESILIATION_PAGE_OUVERTE && (
+              <li id={RESILIATION_CONFIDENTIALITE_ANCRE} className="scroll-mt-24" data-testid="confidentialite-resiliation">
+                {frTypo(RESILIATION.donnees)}
+              </li>
+            )}
           </ul>
         </section>
         <section>
@@ -99,6 +110,7 @@ export default function ConfidentialitePage() {
             <li>Afficher ta progression, calculer ta série et ta prochaine étape conseillée, et garder tes retours sur les exercices : exécution du contrat</li>
             <li>Comprendre, de façon globale, où les membres avancent ou bloquent dans les parcours pour les améliorer : intérêt légitime (tu peux t’y opposer, voir la partie 7)</li>
             <li>T’envoyer chaque semaine un rappel de ton parcours, uniquement si tu l’as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
+            {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}
           </ul>
         </section>
         <section>
@@ -144,6 +156,12 @@ export default function ConfidentialitePage() {
           <p className="mt-2">La date de chaque étape validée et tes retours sur les exercices sont gardés tant que ton compte existe, et effacés avec lui. Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
           <p className="mt-2">Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement, le temps nécessaire pour répondre à une éventuelle contestation.</p>
           {/* s22, avis @legal §4.3 (B1) : durée propre des échanges avec l'équipe, publiée avec le service. */}
+          {/* s23 (@legal O3), durée provisoire RESILIATION_CONSERVATION_MOIS. */}
+          {RESILIATION_PAGE_OUVERTE && (
+            <p className="mt-2" data-testid="confidentialite-resiliation">
+              {frTypo(RESILIATION.duree)}
+            </p>
+          )}
           {QUESTION_EQUIPE_OUVERTE && (
             <p className="mt-2" data-testid="confidentialite-conservation-question-equipe">
               {frTypo(CONSERVATION_QUESTION_EQUIPE.confidentialite)}
@@ -171,6 +189,7 @@ export default function ConfidentialitePage() {
           <p className="mt-2">Tu peux te désinscrire de la lettre du mois à tout moment, avec le lien en bas de chaque e-⁠mail : ce que tu as reçu avant reste valable.</p>
           {/* s21, avis @legal lettre hebdo §4.2 (droits) : publié avec l'ouverture des inscriptions. */}
           {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && <p className="mt-2" data-testid="confidentialite-lettre-hebdo">{frTypo(HEBDO.droits)}</p>}
+          {RESILIATION_PAGE_OUVERTE && <p className="mt-2" data-testid="confidentialite-resiliation">{frTypo(RESILIATION.droits)}</p>}
         </section>
         {/* s22 (relecture à l'aveugle M1) : « lettre du mois » précisé dans les phrases de la mensuelle, deux lettres coexistant. */}
         {/* s21, bloquant @legal B7 : section lettre, mot pour mot (docs/legal/lettre-et-questions-s21.md,

@@ -18,6 +18,8 @@ const mockDb = {
   // s21 (avis @legal hebdo §6.3) : préférence de la lettre de la semaine et journal de ses envois
   premiumLetterPreference: { deleteMany: jest.fn((a: unknown) => ({ op: "premiumLetterPreference.deleteMany", a })) },
   newsletterSend: { deleteMany: jest.fn((a: unknown) => ({ op: "newsletterSend.deleteMany", a })) },
+  // s23 (@legal O3) : mot libre de la résiliation effacé avant la suppression du compte.
+  cancellationFeedback: { updateMany: jest.fn(async () => ({ count: 0 })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
 jest.mock("@/lib/prisma", () => ({
@@ -171,6 +173,33 @@ describe("deleteAccount (reco 5)", () => {
     mockDb.user.findUnique.mockResolvedValue(user);
     cancelStripeSubscriptionNow.mockRejectedValue(new Error("stripe down"));
     await expect(deleteAccount("u1")).rejects.toThrow("Résiliation Stripe impossible");
+    expect(mockDb.$transaction).not.toHaveBeenCalled();
+  });
+
+  it("s23 (@legal O3) : mot libre de la résiliation effacé AVANT la transaction, raisons gardées", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    const order: string[] = [];
+    mockDb.cancellationFeedback.updateMany.mockImplementation(async () => (order.push("mot"), { count: 1 }));
+    mockDb.$transaction.mockImplementation(async (ops: unknown[]) => (order.push("transaction"), ops));
+    await deleteAccount("u9");
+    expect(order).toEqual(["mot", "transaction"]);
+    expect(mockDb.cancellationFeedback.updateMany).toHaveBeenCalledWith({
+      where: { userId: "u9", comment: { not: null } },
+      data: { comment: null },
+    });
+  });
+
+  it("s23 : table des motifs absente (migration 17 pas jouée) : suppression faite quand même", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    mockDb.cancellationFeedback.updateMany.mockRejectedValueOnce(Object.assign(new Error("table absente"), { code: "P2021" }));
+    await expect(deleteAccount("u9")).resolves.toEqual({ deleted: true, stripeCanceled: 0 });
+    expect(mockDb.$transaction).toHaveBeenCalled();
+  });
+
+  it("s23 : effacement du mot en échec (autre erreur) : rien n'est supprimé", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    mockDb.cancellationFeedback.updateMany.mockRejectedValueOnce(Object.assign(new Error("timeout"), { code: "P1008" }));
+    await expect(deleteAccount("u9")).rejects.toThrow("timeout");
     expect(mockDb.$transaction).not.toHaveBeenCalled();
   });
 

@@ -25,6 +25,12 @@ const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...a: unknown[]) => mockTrack(...a) }));
 jest.mock("next-auth/react", () => ({ useSession: () => ({ data: null, status: "unauthenticated" }), signOut: jest.fn() }));
 jest.mock("@/components/ui/toast", () => ({ toast: jest.fn() }));
+// UX O5 : l'origine de jsdom (http://localhost) joue l'appli mobile quand le test le demande.
+jest.mock("@/config/appli-mobile", () => ({
+  get ORIGINES_APPLI_MOBILE() {
+    return (globalThis as { __APPLI__?: boolean }).__APPLI__ ? ["http://localhost"] : ["capacitor://localhost"];
+  },
+}));
 
 import { ResiliationFormulaire } from "@/components/resiliation/resiliation-formulaire";
 import { RecapContrat } from "@/components/resiliation/recap-contrat";
@@ -32,7 +38,7 @@ import { AideApresResiliation, raisonPourAide } from "@/components/resiliation/a
 import { Footer } from "@/components/layout/footer";
 import { AbonnementCard } from "@/components/profil/abonnement-card";
 import { RESILIATION_RAISONS } from "@/config/resiliation";
-import { TEXTES_RESILIATION as T } from "@/config/textes/resiliation";
+import { AIDES_APRES_RESILIATION, TEXTES_RESILIATION as T } from "@/config/textes/resiliation";
 
 const mockFetch = jest.fn();
 const repondre = (status: number, body: Record<string, unknown>) =>
@@ -50,6 +56,7 @@ beforeEach(() => {
   mockPush.mockReset();
   mockTrack.mockReset();
   drapeau.__RESILIATION_OUVERTE__ = false;
+  (globalThis as { __APPLI__?: boolean }).__APPLI__ = false;
   sessionStorage.clear();
 });
 
@@ -90,6 +97,15 @@ describe("écran /resiliation", () => {
     await waitFor(() => expect(mockPush).toHaveBeenCalledWith("/resiliation/confirmee"));
     expect(JSON.parse(sessionStorage.getItem("resiliation-reponse") ?? "{}")).toEqual({ raisons: [], repondu: false });
     expect(mockTrack).toHaveBeenCalledWith("resiliation-confirmee");
+  });
+
+  it("déjà résilié (2e onglet) : l'écran se relit, jamais la page finale qui promet un e-mail (@reviewer S3)", async () => {
+    repondre(200, { etat: "deja_resilie", dateFin: null, formule: "monthly" });
+    mockRefresh.mockReset();
+    ecran();
+    await userEvent.click(bouton());
+    await waitFor(() => expect(mockRefresh).toHaveBeenCalled());
+    expect(mockPush).not.toHaveBeenCalled();
   });
 
   it("cocher puis décocher ne change jamais l'état du bouton", async () => {
@@ -133,22 +149,117 @@ describe("écran /resiliation", () => {
     expect(JSON.parse(mockFetch.mock.calls[1][1].body as string).cle).not.toBe(cle1);
   });
 
-  it("pas de réponse du serveur : message hors ligne, sans promesse", async () => {
+  it("erreur Stripe : bandeau avec délai et « Tu n’as rien à refaire. » (UX O8, @legal O5)", () => {
+    expect(T.erreurStripe).toBe(
+      "Ça n’a pas marché de notre côté. Ta demande est bien enregistrée : on résilie pour toi sous un jour ouvré et on te le confirme par e-mail. Tu n’as rien à refaire.",
+    );
+  });
+
+  it("base indisponible (503) : demande transmise, même bandeau que l'erreur Stripe", async () => {
+    repondre(503, { error: "serveur" });
+    ecran();
+    await userEvent.click(bouton());
+    expect(await screen.findByRole("alert")).toHaveTextContent(T.erreurStripe);
+    expect(bouton()).toHaveTextContent(T.reessayer);
+  });
+
+  it("pas de réponse du serveur : message hors ligne, sans promesse, « Confirmer la résiliation » (UX O8)", async () => {
     mockFetch.mockRejectedValue(new TypeError("Failed to fetch"));
     ecran();
     await userEvent.click(bouton());
     expect(await screen.findByRole("alert")).toHaveTextContent(T.horsLigne);
+    expect(bouton()).toHaveTextContent(T.confirmer);
   });
 
-  it("App Store : message Apple", async () => {
+  it("refus du serveur (429, 403, 500) : message « refus », jamais « Pas de connexion » (UX O4)", async () => {
+    for (const status of [429, 403, 500]) {
+      repondre(status, { error: "x" });
+      const { unmount } = ecran();
+      await userEvent.click(bouton());
+      const alerte = await screen.findByRole("alert");
+      expect(alerte).toHaveTextContent(T.refus);
+      expect(alerte).not.toHaveTextContent(T.horsLigne);
+      expect(bouton()).toHaveTextContent(T.confirmer);
+      unmount();
+    }
+  });
+
+  it("App Store après clic : carte Apple seule, plus de bouton « Confirmer » (UX O5)", async () => {
     repondre(409, { etat: "app_store" });
     ecran();
     await userEvent.click(bouton());
-    expect(await screen.findByRole("alert")).toHaveTextContent(T.appStore);
+    expect(await screen.findByTestId("resiliation-app-store")).toHaveTextContent(T.appStore);
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: T.retourAccueil })).toHaveAttribute("href", "/");
+  });
+
+  it("App Store à l'ouverture : dans l'appli et sans client Stripe, carte Apple sans aucun clic (UX O5)", () => {
+    (globalThis as { __APPLI__?: boolean }).__APPLI__ = true;
+    render(<ResiliationFormulaire recap={recap} appStorePossible />);
+    expect(screen.getByTestId("resiliation-app-store")).toHaveTextContent(T.appStore);
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+  });
+
+  it("hors de l'appli, ou avec client Stripe : formulaire normal", () => {
+    render(<ResiliationFormulaire recap={recap} appStorePossible />);
+    expect(bouton()).toHaveTextContent(T.confirmer);
+    (globalThis as { __APPLI__?: boolean }).__APPLI__ = true;
+    ecran();
+    expect(screen.getAllByRole("button", { name: T.confirmer })).toHaveLength(2);
+  });
+
+  it("session expirée (401) : saisie gardée dans l'onglet, reprise au retour puis effacée (UX O3)", async () => {
+    repondre(401, { error: "session" });
+    jest.spyOn(console, "error").mockImplementation(() => {}); // jsdom : navigation non implémentée
+    const { unmount } = ecran();
+    await userEvent.click(screen.getByRole("checkbox", { name: "Trop cher pour moi" }));
+    await userEvent.type(screen.getByLabelText(/Un mot de plus \?/), "Plus tard");
+    await userEvent.click(bouton());
+    await waitFor(() => expect(sessionStorage.getItem("resiliation-saisie")).not.toBeNull());
+    unmount();
+    ecran();
+    expect(screen.getByRole("checkbox", { name: "Trop cher pour moi" })).toBeChecked();
+    expect(screen.getByLabelText(/Un mot de plus \?/)).toHaveValue("Plus tard");
+    expect(sessionStorage.getItem("resiliation-saisie")).toBeNull();
+  });
+
+  it("mention d'information sous le champ libre, lien vers /confidentialite#resiliation (@legal O1)", () => {
+    ecran();
+    const mention = document.getElementById("resiliation-mot-mention");
+    expect(mention?.textContent).toBe(
+      "Ta réponse est facultative. Elle est rattachée à ton compte, lue par l’équipe pour améliorer le site, et effacée après 24 mois. N’y mets pas d’information sensible. Détails et droits : politique de confidentialité.",
+    );
+    expect(screen.getByRole("link", { name: "politique de confidentialité" })).toHaveAttribute("href", "/confidentialite#resiliation");
+    expect(screen.getByLabelText(/Un mot de plus \?/).getAttribute("aria-describedby")).toContain("resiliation-mot-mention");
+  });
+
+  it("« Autre » sur 2 colonnes en PC (design O1), ligne de statut centrée sur mobile (design O2)", () => {
+    ecran();
+    expect(screen.getByRole("checkbox", { name: "Autre" }).closest("label")?.className).toContain("md:last:col-span-2");
+    expect(screen.getByRole("status").className).toContain("text-center");
   });
 });
 
-describe("page finale", () => {
+describe("récapitulatif : accès offert sans abonnement Stripe (UX O7)", () => {
+  it("« à la fin de ton accès Premium », sans ligne de prélèvement", () => {
+    render(<RecapContrat compte="Léa, lea@x.fr" formule="Premium" prix={null} dateFin={null} renouvellement={null} badge="formule" offert />);
+    expect(screen.getByText(T.recapFinInconnueOffert)).toBeInTheDocument();
+    expect(screen.getByText(T.garderSansDate)).toBeInTheDocument();
+    expect(screen.queryByText(T.aucunPrelevement)).not.toBeInTheDocument();
+    expect(screen.queryByText(T.recapFinInconnue)).not.toBeInTheDocument();
+  });
+  it("lecture en échec (pas offert) : « période déjà payée » et ligne de prélèvement", () => {
+    render(<RecapContrat compte="y@x.fr" formule="Premium" prix={null} dateFin={null} renouvellement={null} badge="formule" />);
+    expect(screen.getByText(T.recapFinInconnue)).toBeInTheDocument();
+    expect(screen.getByText(T.aucunPrelevement)).toBeInTheDocument();
+  });
+});
+
+describe("ligne d'aide (composant NON rendu sur la page finale, UX O1)", () => {
+  it("aucun chiffre non sourcé dans les lignes d'aide", () => {
+    const tout = Object.values(AIDES_APRES_RESILIATION).map((a) => a.avant + a.lien + a.apres).join(" ");
+    expect(tout).not.toMatch(/\d/);
+  });
   it("merci et une ligne d'aide selon la première raison ; rien sans réponse", () => {
     expect(raisonPourAide(["prix", "essai"])).toBe("essai");
     expect(raisonPourAide(["autre"])).toBeNull();

@@ -106,15 +106,21 @@ export interface DonneesResiliation {
   priceCents: number | null;
   /** Fin du contrat (ISO), null si inconnue (lecture en échec) : « à la fin de la période déjà payée ». */
   dateFin: string | null;
+  /** Premium sans abonnement Stripe (accès offert, manuel) : ni « période payée » ni prélèvement (UX O7). */
+  sansAbonnementStripe?: boolean;
+  /** Ni client ni abonnement Stripe : achat App Store possible, détecté dans l'appli (UX O5, C6). */
+  sansClientStripe?: boolean;
 }
 
 export async function lireResiliation(userId: string): Promise<DonneesResiliation | null> {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true, name: true, plan: true } });
   if (!user) return null;
   let summary: Awaited<ReturnType<typeof getSubscriptionSummary>> = null;
+  let resumeLu = true;
   try {
     summary = await getSubscriptionSummary(userId);
   } catch (err) {
+    resumeLu = false;
     console.warn("[resiliation] Résumé d'abonnement illisible :", err instanceof Error ? err.message : err);
   }
   const vivant = summary ? STATUTS_VIVANTS.includes(summary.status) : false;
@@ -125,6 +131,9 @@ export async function lireResiliation(userId: string): Promise<DonneesResiliatio
     formule: summary?.formule ?? null,
     priceCents: summary?.priceCents ?? null,
     dateFin: summary?.currentPeriodEnd ?? null,
+    // Lecture en échec : on ne sait pas, on garde le texte « période déjà payée » (UX O7).
+    sansAbonnementStripe: resumeLu && !summary?.hasStripeSubscription,
+    sansClientStripe: resumeLu && !summary?.hasPortal && !summary?.hasStripeSubscription,
   };
   if (!premium) return { etat: "aucun", ...base };
   if (summary?.cancelAtPeriodEnd) return { etat: "deja_resilie", ...base };

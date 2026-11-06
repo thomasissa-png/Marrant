@@ -8,8 +8,9 @@ import { RecapContrat } from "@/components/resiliation/recap-contrat";
 import { propsRecap, dateFinLisible } from "@/components/resiliation/recap-props";
 import { ResiliationFormulaire } from "@/components/resiliation/resiliation-formulaire";
 import { LienReactivation } from "@/components/resiliation/lien-reactivation";
-import { buttonVariants } from "@/components/ui/button";
+import { CLASSE_BOUTON_SECONDAIRE } from "@/components/resiliation/carte-app-store";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { TEXTES_RESILIATION as T } from "@/config/textes/resiliation";
 
@@ -49,7 +50,12 @@ export default async function ResiliationPage() {
     <div className="mx-auto max-w-xl">
       <h1 className="font-display text-3xl font-bold md:text-4xl">{T.titre}</h1>
       <div className="mt-6">
-        {donnees.etat === "a_resilier" && <ResiliationFormulaire recap={<RecapContrat {...propsRecap(donnees, "formule")} />} />}
+        {donnees.etat === "a_resilier" && (
+          <ResiliationFormulaire
+            recap={<RecapContrat {...propsRecap(donnees, "formule")} />}
+            appStorePossible={donnees.sansClientStripe ?? false}
+          />
+        )}
         {donnees.etat === "deja_resilie" && <DejaResilie donnees={donnees} />}
         {donnees.etat === "aucun" && <RienAResilier />}
       </div>
@@ -62,7 +68,7 @@ function DejaResilie({ donnees }: { donnees: DonneesResiliation }) {
     <>
       <RecapContrat {...propsRecap(donnees, "enregistree")} effets={false} />
       <p className="mt-6 text-text-primary">{T.dejaResilie(dateFinLisible(donnees.dateFin))}</p>
-      <LienReactivation className={`${buttonVariants({ variant: "outline", size: "lg" })} mt-6 w-full sm:w-auto`}>
+      <LienReactivation className={cn(CLASSE_BOUTON_SECONDAIRE, "mt-6")}>
         {T.reactiver}
       </LienReactivation>
     </>
@@ -72,8 +78,8 @@ function DejaResilie({ donnees }: { donnees: DonneesResiliation }) {
 function RienAResilier() {
   return (
     <Card className="p-5 hover:border-border md:p-6">
-      <p className="text-text-secondary">{T.rienAResilier}</p>
-      <Link href="/" className={`${buttonVariants({ variant: "outline", size: "lg" })} mt-4 w-full sm:w-auto`}>
+      <p className="text-text-primary">{T.rienAResilier}</p>
+      <Link href="/" className={cn(CLASSE_BOUTON_SECONDAIRE, "mt-4")}>
         {T.retourAccueil}
       </Link>
     </Card>

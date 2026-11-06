@@ -103,6 +103,8 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   const googleCallbackUrl = withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
   // Le lien d'inscription garde la destination demandée (puis le paiement, s15).
   const registerHref = buildRegisterUrl({ callbackUrl: rawCallbackUrl, src: src ?? "login" });
+  // s23 : connexion pour résilier (/resiliation, /resiliation/confirmee), interrupteur ouvert seulement.
+  const pourResilier = RESILIATION_PAGE_OUVERTE && Boolean(rawCallbackUrl?.startsWith(RESILIATION_HREF));
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const googleRef = useRef<HTMLButtonElement>(null);
@@ -175,7 +177,7 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
           </Link>
           <h1 className="font-display text-xl font-bold text-text-primary">Content de te revoir</h1>
           {/* s23 : retour vers /resiliation après connexion (interrupteur fermé : rien ne change). */}
-          {RESILIATION_PAGE_OUVERTE && rawCallbackUrl?.startsWith(RESILIATION_HREF) && (
+          {pourResilier && (
             <p className="text-sm text-text-secondary">{TEXTES_RESILIATION.connexion}</p>
           )}
         </CardHeader>
@@ -274,16 +276,19 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
               Mot de passe oublié ?
             </Link>
           </div>
-          {/* s15 : création de compte visible (avant : petit lien « Inscris-toi » en bas). */}
-          <div className="mt-6 border-t border-border pt-4 text-center">
-            <p className="text-sm text-text-secondary">Pas encore abonné ?</p>
-            <Link
-              href={registerHref}
-              className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
-            >
-              Créer mon compte et m’abonner
-            </Link>
-          </div>
+          {/* s15 : création de compte visible (avant : petit lien « Inscris-toi » en bas).
+              s23 (UX O2) : masquée quand on se connecte pour résilier (hors sujet, lue comme une relance). */}
+          {!pourResilier && (
+            <div className="mt-6 border-t border-border pt-4 text-center">
+              <p className="text-sm text-text-secondary">Pas encore abonné ?</p>
+              <Link
+                href={registerHref}
+                className={`${buttonVariants({ variant: "outline" })} mt-2 w-full`}
+              >
+                Créer mon compte et m’abonner
+              </Link>
+            </div>
+          )}
         </CardContent>
       </Card>
       {/* T38 : repère de retour visible (pages plein écran sans header) */}

@@ -883,6 +883,19 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
     } catch (err) {
       console.error("[scheduler:lettre-hebdo-entretien] Échec :", err);
     }
+    // s23 (@legal O3) : même passage quotidien de 4 h (purges de données), essai à part pour ne
+    // dépendre ni de la lettre ni de son verrou. Réponses à la résiliation de plus de
+    // RESILIATION_CONSERVATION_MOIS mois effacées ; table absente : 0, aucune erreur.
+    try {
+      const { parisParts } = await import("@/lib/analytics/weekly-visits-period");
+      if (parisParts(now).hour !== 4) return;
+      // Sans verrou : effacement idempotent (rejoué à chaque passage de l'heure, aucune écriture sinon).
+      const { purgerMotifsResiliation } = await import("@/lib/resiliation-conservation");
+      const motifs = await purgerMotifsResiliation(now);
+      if (motifs > 0) console.log(`[scheduler:resiliation-purge] ${motifs} réponse(s) à la résiliation effacée(s).`);
+    } catch (err) {
+      console.error("[scheduler:resiliation-purge] Échec :", err);
+    }
   };
 
   /**

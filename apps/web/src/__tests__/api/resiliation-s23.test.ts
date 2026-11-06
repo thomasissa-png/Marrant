@@ -30,8 +30,10 @@ jest.mock("@/lib/rate-limit", () => {
 
 const journal: string[] = [];
 const stripeUpdate = jest.fn();
+const portailCree = jest.fn(async (..._a: unknown[]) => ({ url: "https://billing.stripe.test/session" }));
 jest.mock("@/lib/stripe", () => ({
   getStripe: () => ({
+    billingPortal: { sessions: { create: (...a: unknown[]) => portailCree(...a) } },
     subscriptions: {
       update: (...a: unknown[]) => {
         journal.push("stripe");
@@ -354,5 +356,62 @@ describe("portail Stripe : parcours « resilier »", () => {
     const res = await demande();
     expect(await res.json()).toEqual({ url: "/resiliation", cible: true });
     expect(stripeUpdate).not.toHaveBeenCalled();
+    expect(portailCree).not.toHaveBeenCalled();
+  });
+  it("interrupteur fermé : parcours « resilier » du portail Stripe comme avant, jamais /resiliation (@reviewer O3)", async () => {
+    mockOuvert = false;
+    const id = compte();
+    const res = await demande();
+    expect(await res.json()).toEqual({ url: "https://billing.stripe.test/session", cible: true });
+    expect(portailCree).toHaveBeenCalledWith(
+      expect.objectContaining({ customer: `cus_${id}`, flow_data: expect.objectContaining({ type: "subscription_cancel" }) }),
+    );
+  });
+});
+
+describe("base indisponible avant toute action (@reviewer O1, @legal O4)", () => {
+  const sansBase = (email: string | null = "abonne@x.fr") => {
+    getServerSession.mockResolvedValue({ user: { id: "u-panne", email } });
+    (require("@/lib/rate-limit").sharedRateLimit as jest.Mock).mockRejectedValueOnce(new Error("Can't reach database server"));
+  };
+  it("503 : e-mail à l'équipe « Stripe n’a pas été appelé », accusé de demande à l'adresse de la session", async () => {
+    sansBase();
+    const r = await resilier();
+    expect(r.status).toBe(503);
+    expect(stripeUpdate).not.toHaveBeenCalled();
+    expect(envoiEquipe).toHaveBeenCalledTimes(1);
+    const html = envoiEquipe.mock.calls[0][1] as string;
+    expect(html).toContain("Base indisponible au moment de la demande depuis l’écran /resiliation : Stripe n’a pas été appelé.");
+    expect(html).not.toContain("La résiliation Stripe a échoué");
+    expect(html).toContain("L’abonné a reçu « Ta demande de résiliation est bien reçue »");
+    expect(envoiClient).toHaveBeenCalledTimes(1);
+    expect(envoiClient.mock.calls[0][0]).toBe("abonne@x.fr");
+    expect(envoiClient.mock.calls[0][1]).toBe("Ta demande de résiliation est bien reçue");
+  });
+  it("503 sans adresse dans la session : l'équipe sait que l'abonné n'a reçu aucun e-mail", async () => {
+    sansBase(null);
+    const r = await resilier();
+    expect(r.status).toBe(503);
+    expect(envoiEquipe.mock.calls[0][1]).toContain("L’abonné n’a reçu aucun e-mail");
+    expect(envoiClient).not.toHaveBeenCalled();
+  });
+  it("base ET e-mail indisponibles : 500 (l'écran invite à réessayer, sans promesse), aucun accusé", async () => {
+    sansBase();
+    envoiEquipe.mockRejectedValueOnce(new Error("resend down"));
+    const r = await resilier();
+    expect(r.status).toBe(500);
+    expect(envoiClient).not.toHaveBeenCalled();
+  });
+});
+
+describe("accusé de demande : délai et date d'effet (@legal O5)", () => {
+  it("délai provisoire « sous un jour ouvré » et date de la demande qui compte", async () => {
+    stripeUpdate.mockRejectedValue(Object.assign(new Error("boom"), { type: "StripeAPIError" }));
+    compte();
+    await resilier();
+    const texte = envoiClient.mock.calls[0][2] as string;
+    expect(texte).toContain("On s’occupe de ta résiliation et on te confirme par e-mail sous un jour ouvré. Ta demande date du ");
+    expect(texte).toContain(" : c’est cette date qui compte, même si on la finalise plus tard. Tu gardes Premium jusqu’au 1er décembre 2026.");
+    expect(texte).not.toContain("—");
   });
 });

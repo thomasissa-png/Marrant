@@ -8,7 +8,8 @@
  * 202 { etat: "transmis", dateFin, formule } (erreur Stripe ou Premium sans client Stripe : l'équipe
  * résilie à la main, accusé de demande envoyé) ; 409 { etat: "aucun" | "app_store" } ;
  * 401 sans session ; 403 origine refusée ; 404 interrupteur `RESILIATION_PAGE_OUVERTE` fermé ;
- * 429 + Retry-After ; 503 base indisponible.
+ * 429 + Retry-After ; 503 base indisponible, demande transmise à l'équipe (accusé de demande à l'adresse
+ * de la session) ; 500 base ET e-mail indisponibles (rien n'est parti : l'écran invite à réessayer).
  */
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
@@ -17,8 +18,8 @@ import { authOptions } from "@/lib/auth";
 import { refuserSiAutreSite, ORIGINES_APPLI_MOBILE } from "@/lib/same-site";
 import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { nettoyerCommentaire, nettoyerRaisons, resilierAbonnement } from "@/lib/resiliation";
-import { sendAdminHtmlEmail } from "@/lib/email";
-import { emailEquipeResiliation } from "@/config/textes/resiliation-emails";
+import { sendAdminHtmlEmail, trySendTransactionalTextEmail } from "@/lib/email";
+import { emailDemandeResiliationRecue, emailEquipeResiliation } from "@/config/textes/resiliation-emails";
 import { RESILIATION_LIMITE, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 
 export const dynamic = "force-dynamic";
@@ -43,9 +44,11 @@ export async function POST(request: Request) {
   if (refus) return refus;
 
   let userId: string | null = null;
+  let emailSession: string | null = null;
   try {
     const session = await getServerSession(authOptions);
     userId = (session?.user as { id?: string } | undefined)?.id ?? null;
+    emailSession = session?.user?.email ?? null;
   } catch {
     userId = null;
   }
@@ -70,10 +73,25 @@ export async function POST(request: Request) {
     return json(reponse, status);
   } catch (err) {
     console.error(`[API resiliation] Erreur serveur :`, err instanceof Error ? err.message : err);
-    // Base ou limiteur indisponible avant toute action : la demande part quand même à l'équipe
-    // (l'écran affiche « on résilie pour toi »), sans aucune donnée lue en base.
-    const equipe = emailEquipeResiliation({ userId, demandeLe: now, cause: "stripe", code: "serveur-indisponible", stripeSubscriptionId: null });
-    await sendAdminHtmlEmail(equipe.subject, equipe.html).catch(() => undefined);
-    return json({ error: "serveur" }, 503);
+    // Base ou limiteur indisponible avant toute action, Stripe pas appelé (@reviewer O1) : la demande
+    // part à l'équipe ; 503 (« on résilie pour toi ») seulement si elle est bien partie, sinon 500
+    // (« réessaie »). @legal O4 : promesse tenue, accusé de demande à l'adresse de la session.
+    const equipe = emailEquipeResiliation({
+      userId,
+      demandeLe: now,
+      cause: "serveur",
+      code: "serveur-indisponible",
+      stripeSubscriptionId: null,
+      accuseAbonne: Boolean(emailSession),
+    });
+    const transmis = await sendAdminHtmlEmail(equipe.subject, equipe.html).then(
+      () => true,
+      () => false,
+    );
+    if (transmis && emailSession) {
+      const accuse = emailDemandeResiliationRecue({ prenom: null, dateFin: null, demandeLe: now });
+      await trySendTransactionalTextEmail(emailSession, accuse.subject, accuse.text, "resiliation");
+    }
+    return json({ error: "serveur" }, transmis ? 503 : 500);
   }
 }

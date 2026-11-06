@@ -7,6 +7,7 @@
  */
 import { prisma } from "@/lib/prisma";
 import { effacementLettreHebdo } from "@/lib/lettre/hebdo";
+import { effacerMotsLibresDuCompte } from "@/lib/resiliation-conservation";
 import { cancelStripeSubscriptionNow, getStripe } from "@/lib/stripe";
 import { extractSubscriptionBilling, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
 import { isSubscriptionLive, subscriptionFlags } from "@/lib/subscription-state";
@@ -138,6 +139,10 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
   } catch (err) {
     throw new StripeCancelError(err);
   }
+
+  // s23 (@legal O3) : mot libre de la résiliation effacé AVANT la suppression (les raisons restent,
+  // détachées du compte). Hors transaction : table absente (migration 17 pas jouée) = rien à faire.
+  await effacerMotsLibresDuCompte(userId);
 
   await prisma.$transaction([
     prisma.verificationToken.deleteMany({ where: { identifier: user.email } }),

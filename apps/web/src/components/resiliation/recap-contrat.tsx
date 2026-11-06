@@ -16,6 +16,8 @@ export interface RecapContratProps {
   renouvellement: string | null;
   /** `formule` = écran à résilier ; `enregistree` = déjà résilié ou page finale (badge succès). */
   badge: "formule" | "enregistree";
+  /** Premium sans abonnement Stripe (offert, manuel) : « à la fin de ton accès Premium », sans ligne de prélèvement (UX O7). */
+  offert?: boolean;
   /** Lignes d'effet (« Jusqu'au…, tu gardes tout ton Premium. », « Aucun nouveau prélèvement après. »). */
   effets?: boolean;
   className?: string;
@@ -26,7 +28,7 @@ export interface RecapContratProps {
  * pré-rempli, rien à retaper. Partagé par /resiliation (à résilier, déjà résilié) et la page finale.
  * Carte non cliquable : pas d'effet de survol (spec design §3). Montants et dates alignés à droite.
  */
-export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, badge, effets = true, className }: RecapContratProps) {
+export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, badge, offert = false, effets = true, className }: RecapContratProps) {
   return (
     <Card className={cn("p-5 hover:border-border md:p-6", className)}>
       <CardHeader className="flex-row items-center justify-between gap-4 space-y-0">
@@ -60,14 +62,14 @@ export function RecapContrat({ compte, formule, prix, dateFin, renouvellement, b
         </dl>
         <div className="mt-4 rounded-md bg-background-elevated px-4 py-3">
           <p className="text-xs text-text-secondary">{T.recapFinLibelle}</p>
-          <p className={cn("font-display font-bold text-text-primary", dateFin ? "text-xl" : "text-lg")}>
-            {dateFin ?? T.recapFinInconnue}
+          <p className={cn("font-display font-bold text-text-primary", dateFin ? "text-2xl" : "text-lg")}>
+            {dateFin ?? (offert ? T.recapFinInconnueOffert : T.recapFinInconnue)}
           </p>
         </div>
         {effets && (
           <div className="mt-4 space-y-1 text-sm">
             <p className="text-text-primary">{dateFin ? T.garderJusquau(dateFin) : T.garderSansDate}</p>
-            <p className="text-text-secondary">{T.aucunPrelevement}</p>
+            {!offert && <p className="text-text-primary">{T.aucunPrelevement}</p>}
             {renouvellement && <p className="text-text-secondary">{renouvellement}</p>}
           </div>
         )}

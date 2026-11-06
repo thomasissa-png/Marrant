@@ -17,7 +17,9 @@ jest.mock("next/navigation", () => ({
   redirect: (url: string) => {
     throw new Error(`NEXT_REDIRECT ${url}`);
   },
+  useRouter: () => ({ push: jest.fn(), refresh: jest.fn() }),
 }));
+jest.mock("@/lib/umami", () => ({ trackUmami: jest.fn() }));
 const getServerSession = jest.fn();
 jest.mock("next-auth", () => ({ getServerSession: (...a: unknown[]) => getServerSession(...a) }));
 jest.mock("@/lib/auth", () => ({ authOptions: {} }));
@@ -69,5 +71,53 @@ describe("interrupteur ouvert", () => {
     await expect(ResiliationPage()).resolves.toBeTruthy();
     lire.mockResolvedValue({ etat: "deja_resilie", ...donnees });
     await expect(ConfirmeePage()).resolves.toBeTruthy();
+  });
+});
+
+describe("v2 des revues (UX O1, design O3/O4)", () => {
+  const { renderToStaticMarkup } = require("react-dom/server") as typeof import("react-dom/server");
+  beforeEach(() => {
+    drapeau.__RESILIATION_OUVERTE__ = true;
+    getServerSession.mockResolvedValue({ user: { id: "u1", email: "y@x.fr" } });
+  });
+
+  it("page finale : ni « Merci d’avoir répondu. » ni ligne d'aide (aucune main tendue), respiration mt-2", async () => {
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees });
+    const html = renderToStaticMarkup(await ConfirmeePage());
+    expect(html).toContain("C’est noté.");
+    expect(html).not.toContain("Merci d’avoir répondu.");
+    expect(html).not.toMatch(/chaque parcours|Comment devenir drôle|quiz-humour|blague-du-jour/);
+    expect(html).toMatch(/class="mt-2 text-sm text-text-secondary">Ensuite/);
+  });
+
+  it("boutons secondaires avec bordure visible border-border-input (sans border-border)", async () => {
+    lire.mockResolvedValue({ etat: "deja_resilie", ...donnees });
+    for (const page of [await ConfirmeePage(), await ResiliationPage()]) {
+      const html = renderToStaticMarkup(page);
+      const classes = html.match(/<a [^>]*class="([^"]*)"[^>]*>(Retour à l’accueil|Réactiver mon abonnement)/)?.[1] ?? "";
+      expect(classes).toContain("border-border-input");
+      expect(classes.split(" ")).not.toContain("border-border");
+    }
+  });
+
+  it("accès sans abonnement Stripe : récapitulatif « à la fin de ton accès Premium », sans prélèvement", async () => {
+    lire.mockResolvedValue({ etat: "a_resilier", ...donnees, dateFin: null, formule: null, sansAbonnementStripe: true, sansClientStripe: true });
+    const page = await ResiliationPage();
+    const html = renderToStaticMarkup(page);
+    expect(html).toContain("à la fin de ton accès Premium");
+    // Ni client ni abonnement Stripe : le formulaire reçoit l'indice App Store (détection dans l'appli).
+    expect(JSON.stringify(page, (k, v) => (k === "_owner" ? undefined : v))).toContain('"appStorePossible":true');
+    expect(html).not.toContain("Aucun nouveau prélèvement après.");
+  });
+});
+
+describe("pas de loading.tsx sous /resiliation (UX O6 refusé sur preuve, piège s17)", () => {
+  it("aucun loading.tsx : avec lui, build interrupteur fermé, /resiliation répondait 200 (squelette servi) au lieu de 404", () => {
+    const fs = require("fs") as typeof import("fs");
+    const path = require("path") as typeof import("path");
+    const dossier = path.join(__dirname, "../../app/(dashboard)/resiliation");
+    expect(fs.existsSync(path.join(dossier, "loading.tsx"))).toBe(false);
+    expect(fs.existsSync(path.join(dossier, "confirmee/loading.tsx"))).toBe(false);
+    expect(fs.existsSync(path.join(dossier, "../loading.tsx"))).toBe(false);
   });
 });
