@@ -18,6 +18,15 @@ const LIGNE =
   "flex min-h-12 cursor-pointer items-center gap-3 rounded-lg border border-border-input bg-background-card px-4 py-3 text-sm text-text-primary transition-colors hover:border-accent-primary/80 has-[:checked]:border-accent-primary has-[:checked]:bg-accent-primary/10 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-accent-link has-[:focus-visible]:ring-offset-2 has-[:focus-visible]:ring-offset-background md:last:col-span-2";
 
 /**
+ * UX C3 : clavier ouvert, le navigateur amène le curseur juste au bord bas de l'écran, sous la barre
+ * collée. Au focus et à la frappe, on remonte le champ, sans animation, de sa marge `scroll-mb-40`
+ * (160 px, plus haute que la barre : 121 px, 143 px avec la zone de sécurité iOS). Sans effet s'il est déjà visible.
+ */
+function garderAuDessusDeLaBarre(e: { currentTarget: HTMLTextAreaElement }) {
+  e.currentTarget.scrollIntoView?.({ block: "nearest", behavior: "instant" });
+}
+
+/**
  * Question FACULTATIVE (B1, B2) : 7 raisons en cases natives (plusieurs possibles, jamais
  * pré-cochées, ordre fixe) + mot libre de 500 caractères, jamais requis (même avec « Autre »).
  * Rien ici ne conditionne le bouton « Confirmer la résiliation ».
@@ -67,7 +76,9 @@ export function QuestionMotif({ raisons, commentaire, fige, onBasculer, onCommen
           aria-describedby="resiliation-mot-compteur resiliation-mot-mention"
           placeholder={T.champLibrePlaceholder}
           onChange={(e) => onCommentaire(e.target.value.slice(0, RESILIATION_COMMENTAIRE_MAX))}
-          className="w-full rounded-lg border border-border-input bg-background-light px-4 py-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-link md:text-sm"
+          onFocus={garderAuDessusDeLaBarre}
+          onInput={garderAuDessusDeLaBarre}
+          className="w-full scroll-mb-40 rounded-lg border border-border-input bg-background-light px-4 py-3 text-base text-text-primary placeholder:text-text-muted focus:border-accent-primary focus:outline-none focus:ring-2 focus:ring-accent-link md:text-sm"
         />
         <p id="resiliation-mot-compteur" className="mt-1 text-right text-xs text-text-muted">
           <span aria-hidden="true">{T.compteur(commentaire.length, RESILIATION_COMMENTAIRE_MAX)}</span>

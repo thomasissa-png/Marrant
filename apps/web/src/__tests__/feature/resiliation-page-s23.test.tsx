@@ -4,7 +4,7 @@
  * requis), textes de la copie, saisie conservée en erreur, page finale (merci et ligne d'aide).
  * Interrupteur fermé : pied de page et carte abonnement vers le parcours actuel (portail Stripe).
  */
-import { act, render, screen, waitFor, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 // Interrupteur lu au rendu (jamais au chargement du module) : drapeau global, sans zone morte.
@@ -261,6 +261,24 @@ describe("écran /resiliation", () => {
     ecran();
     expect(screen.getByRole("checkbox", { name: "Autre" }).closest("label")?.className).toContain("md:last:col-span-2");
     expect(screen.getByRole("status").className).toContain("text-center");
+  });
+
+  it("clavier ouvert : le champ libre garde une marge de défilement plus haute que la barre collée (UX C3)", () => {
+    ecran();
+    // Barre collée en bas : 121 px sur mobile, 143 px avec la zone de sécurité iOS (mesure Playwright 390x450).
+    const barre = screen.getByRole("button", { name: "Confirmer la résiliation" }).closest(".sticky");
+    expect(barre?.className).toContain("bottom-0");
+    // scroll-mb-40 = 10rem = 160 px : focus et ouverture du clavier arrêtent le défilement au-dessus de la barre.
+    const champ = screen.getByLabelText(/Un mot de plus \?/);
+    expect(champ.className.split(" ")).toContain("scroll-mb-40");
+    expect(barre?.contains(champ)).toBe(false);
+    // Au focus puis à la frappe : remonté sans animation (le curseur révélé par le navigateur tombait sous la barre).
+    const scrollIntoView = jest.fn();
+    champ.scrollIntoView = scrollIntoView;
+    fireEvent.focus(champ);
+    fireEvent.input(champ, { target: { value: "Et merci." } });
+    expect(scrollIntoView).toHaveBeenCalledTimes(2);
+    expect(scrollIntoView).toHaveBeenCalledWith({ block: "nearest", behavior: "instant" });
   });
 });
 
