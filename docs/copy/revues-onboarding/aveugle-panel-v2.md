@@ -83,3 +83,72 @@ Rendu lu : objet `Trois semaines : qu’est-ce qui manque ?` ; aperçu « Salut 
 **Yanis (5/10).** Ouvre : non ; l'objet ressemble à un sondage. S'il ouvre : ne répond pas (« écrire un e-mail à une marque, jamais »). Retient malgré tout : « ce qui t’a fait lever les yeux au ciel » (ça sonne humain).
 **Sophie (7/10).** Ouvre : oui, c'est court. Répond peut-être une ligne. Retient : « ce qui t’a fait lever les yeux au ciel ». Agace : rien.
 **Marc (6/10).** Ouvre : oui. Agace : « Dis-nous ce qui t’a servi » s'il n'a presque rien fait (« je n'ai rien à dire, donc je ne réponds pas »). Remarque, en mensuel : l'e-mail tombe environ 9 jours avant le prélèvement et lui rappelle qu'il paie ; il vérifie son profil.
+
+---
+
+## 5. Corrections (texte exact, ton du fichier)
+
+Champs ajoutés, tous lus dans le code : `{nbFiches}` = `fiches.length` du carnet du mois (30 en novembre 2026), `{nbAutres}` = `{nbFiches}` moins 1, `{exercice}` = champ `exercice` de la fiche offerte (`2026-11.json`), `{listeParcours}` = `PREMIUM_PARCOURS` rendu « {name} ({timePerWeek}) », séparés par des virgules, le dernier par « et » (`config/premium.ts:76-86`).
+
+### E0
+| # | Avant | Après | Pour qui |
+|---|---|---|---|
+| E0-1 (levier principal) | `Pour commencer : [si carnet] une fiche du carnet du mois, une situation et sa réplique.` puis `[si carnet] Ouvrir le carnet : {url}/carnet` | `[si carnet] Pour commencer, une réplique du carnet de ce mois-ci :` / `{situation}` / `On te dit : « {onTeDit} »` / `Ta réplique : « {reponse} »` / `Les {nbAutres} autres situations du mois : {url}/carnet` | Les trois : une réplique utilisable dans les minutes qui suivent le paiement, au moment où 3 sur 4 partent. Dépendance : E1 CARNET, voir point 1 de la section 7. |
+| E0-2 | `[sinon] la première étape d’un parcours, au choix parmi les {N}.` | `[sinon] la première étape d’un parcours, au choix : {listeParcours}.` | Sophie et Marc : le temps demandé est visible. |
+| E0-3 | Aperçu `Salut {prénom}, voici ce qui vient de s’ouvrir, et par où commencer.` | `[si carnet] Salut {prénom}, voici ta première réplique, et tout ce qui vient de s’ouvrir.` (sans carnet : inchangé) | Les trois : l'aperçu annonce un contenu, pas un mode d'emploi. |
+| E0-4 | `Toutes les étapes sont ouvertes ; on conseille une étape par semaine, avec un rappel par e-mail si tu l’actives dans ton profil.` | `Toutes les étapes sont ouvertes, à ton rythme. Si tu veux un fil, une étape par semaine suffit, et ton profil peut te la rappeler par e-mail.` | Yanis (plus de « on conseille », moins scolaire), Marc garde le rythme. Fait inchangé (rappel activable, `rappel-parcours.ts`). |
+| E0-5 | `Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance.` | `Bienvenue, et merci.` | Sophie : l'objet et « Voici ta confirmation » confirment déjà. Si @legal tient à « est activé » : `Ton abonnement Premium est activé. Bienvenue, et merci.` |
+
+Non corrigé, réaction rapportée : la phrase 5 C (« tu pourras encore résilier la veille ») est lue par Yanis et Sophie comme « je résilie maintenant, l'accès reste ». C'est un choix documenté de Thomas : non contesté, signalé pour sa décision (section 7).
+
+### E1 CARNET
+| # | Avant | Après |
+|---|---|---|
+| E1C-1 | (rien après `Pourquoi elle marche : {pourquoi}`) | `À tester cette semaine : {exercice}` [à vérifier @fullstack : le champ `exercice` de la fiche offerte est-il lisible sans compte ? Si non, Thomas décide, le destinataire étant Premium] |
+| E1C-2 | `Ouvrir le carnet : {url}/carnet` | `Les {nbAutres} autres situations du mois : {url}/carnet` |
+| E1C-3 | Fiche rendue telle quelle depuis le JSON (`J'ai`, `Il est...`) | Normaliser au rendu : apostrophe ’ et points de suspension … (convention du fichier, l. 11). Correctif @fullstack, sans changer un mot. |
+
+### E1 PARCOURS
+| # | Avant | Après |
+|---|---|---|
+| E1P-1 | Objet `Une question sur ton parcours ?` | `Ton parcours « {parcoursTitre} » : la suite` ; repli sans titre : `Ton parcours : la suite` |
+| E1P-2 | `Dans ton parcours « {parcoursTitre} », l’étape {etapeNumero} est ouverte : {etapeTitre}. Tu reprends là où tu en étais.` | `Dans ton parcours « {parcoursTitre} », la suite, c’est l’étape {etapeNumero} : {etapeTitre}. Tu reprends là où tu en étais.` ; repli sans titre d'étape : `…la suite, c’est l’étape {etapeNumero}. Tu reprends là où tu en étais.` |
+
+### E1 OUVERTS
+| # | Avant | Après |
+|---|---|---|
+| E1O-1 | Objet `Les parcours sont ouverts` | `{N} parcours : lequel pour toi ?` |
+| E1O-2 | `Les {N} parcours sont ouverts, toutes les étapes comprises : choisis le tien.` | `Les {N} parcours, toutes les étapes comprises : {listeParcours}. Prends celui qui ressemble à ta semaine, la première étape suffit pour commencer.` |
+
+Rendu novembre : « Les 3 parcours, toutes les étapes comprises : Machine à Café (15 min/semaine), Répartie (20 min/semaine) et Confiance (20 min/semaine). » Supprime aussi la triple répétition de « ouvert » dans la variante résiliés.
+
+### E2
+Texte étalon 4 A non modifié. Ajout à soumettre à Thomas (touche un étalon), après `on lit chaque réponse.` :
+`Une ligne suffit, même pour dire que tu n’as pas encore eu le temps.`
+Pour Marc et Sophie inactifs : leur donne une réponse possible quand rien ne leur a « servi ».
+
+---
+
+## 6. Ce qui ferait monter chaque e-mail à 9 (sans toucher aux décisions fixes)
+
+- **E0 → 9** : E0-1 à E0-5. La réplique dans l'e-mail fait passer Yanis et Sophie de « liste de ce que j'ai acheté » à « j'ai déjà quelque chose à dire ce soir » ; c'est le seul e-mail qui arrive avant la résiliation. Note attendue du panel : 8,5 à 9 ; le 9 plein dépend de la réaction à la phrase 5 C, qui reste à Thomas.
+- **E1 CARNET → 9** : E1C-1 (Marc a son « truc à tester ») et E1C-2 (Sophie sait qu'il y en a 29 autres). Sous réserve que la fiche du mois passe la barre (P0 s18) : celle de novembre (« J'ai suivi une recette. Elle a résisté. ») a été jugée ressortable par les trois.
+- **E1 PARCOURS → 9** : E1P-1 et E1P-2. L'objet annonce ce qu'il y a dedans, et « la suite » remplace un « est ouverte » qui contredisait E0.
+- **E1 OUVERTS → 9 difficile** : E1O-1 et E1O-2 le montent vers 7. Pour 9, il faudrait un contenu dans l'e-mail ; sans carnet du mois, aucune source vérifiable n'existe aujourd'hui (point 3, section 7).
+- **E2 → 9 difficile** pour Yanis, qui ne répond à aucun e-mail de marque ; l'ajout E2 le monte vers 7 pour Sophie et Marc. La règle « aucun lien d'action » est respectée, donc le format reste un e-mail à réponse libre.
+
+---
+
+## 7. Points pour Thomas et les agents
+
+1. **E0-1 et E1 CARNET** : si E0 montre la fiche offerte, E1 CARNET la remontre cinq jours après. Deux options pour Thomas : (a) E1 garde la même fiche et ajoute E1C-1 (l'exercice fait la différence) ; (b) E1 prend une autre fiche du mois, ce qui revient à envoyer une fiche réservée à un abonné Premium (règle « aucune fiche réservée divulguée » à arbitrer).
+2. **Phrase 5 C** (choix Thomas, non contesté) : deux personas sur trois en tirent « je résilie tout de suite ». Le panel le rapporte, sans proposer de rappel. Le levier copy reste E0-1 : donner une raison de rester avant d'arriver au bloc « Résilier ».
+3. **OUVERTS sans carnet** : aucune vanne vérifiable ne peut être insérée aujourd'hui ; à voir avec @fullstack si une vanne du catalogue validé peut être tirée par une règle déterministe (comme `ficheOfferte`).
+4. **@legal** : E0-5 (garder ou non « Ton abonnement Premium est activé ») ; la phrase de tête des résiliés n'est pas touchée.
+5. **@fullstack** : `{nbFiches}`, `{nbAutres}`, `{listeParcours}`, normalisation typographique de la fiche (E1C-3), statut du champ `exercice`.
+
+## Handoff
+
+- **Fichier produit** : `docs/copy/revues-onboarding/aveugle-panel-v2.md`. Fichier relu non modifié.
+- **Notes** : E0 6,7 ; E1 CARNET 7,7 (résiliés 7,3) ; E1 PARCOURS 6,3 ; E1 OUVERTS 4,7 ; E2 6,0. Aucun e-mail à 9.
+- **Prochain** : @copywriter applique les corrections retenues par Thomas, puis nouvelle relecture à l'aveugle (barre 9/10).
