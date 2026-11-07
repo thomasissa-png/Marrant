@@ -60,3 +60,54 @@ La phrase de tête « voici où tu en es » est alors suivie de l'endroit où il
 ## Recommandation
 
 NO-GO à 8,5. Relancer @copywriter sur O1 et O2 seulement ; la version corrigée repasse une relecture à l'aveugle (règle P0 s18). Cadre légal et exactitude : rien à reprendre.
+
+---
+
+## Contrôle v4.1 (07/11/2026, @reviewer, contrôle ciblé)
+
+Texte contrôlé : `docs/copy/onboarding-premium-s23-emails.md` v4.1 (non modifié). Code relu : `apps/web/src`. Cadre : `docs/legal/onboarding-e1-resilies-s23.md`, `docs/founder-preferences.md` l. 156.
+
+### Gates du contrôle
+
+| # | Point | Verdict | Évidence |
+|---|---|---|---|
+| 1 | O1 appliquée, écarts de mots acceptables | FAIL (un mot) | Liste de 11 à 8 puces, « sans limite » et « filtres » une fois, « on lit tout » plus en double. Écart C1 (« tout » au lieu de « tout le catalogue ») : meilleur. Écart C2 : « sur chaque vanne, conseil et vidéo » affirme plus que le code (voir 3). Le décompte « 5 sans carnet, lettre ni question » du fichier est juste (mon « 6 » de la v4 était faux). |
+| 2 | O2 appliquée, écart C11 acceptable | PASS | Ligne d'étape juste après la phrase de tête, avant l'invitation ; un seul deux-points ; la phrase « voici où tu en es » est suivie de l'endroit où il en est. La tournure du panel se lit mieux que la mienne. |
+| 3 | C2 dans le code | FAIL | Trois types d'exercice existent (`abonnement-accroche.ts:23-25`) et l'abonné les voit dans les listes (`conseils-list.tsx:323-327`, `videos-grid.tsx:316-323`, filtrage `champs-premium.ts`). Mais « chaque » n'est pas tenu : sur une page de vanne, le bloc n'existe que si `howToApply` est rempli (`vannes/[slug]/page.tsx:271`), et le complément IA des décryptages manquants est coupé par défaut (`startup-tasks.ts:653-657`) ; sur les pages d'un conseil et d'une vidéo, `BlocExercice` est appelé sans `exercice` (`conseils/[slug]/page.tsx:228-232`, `videos/[slug]/page.tsx:218-222`) et ne rend rien pour un abonné (`bloc-exercice.tsx:39`). Un abonné qui ouvre une vidéo après « sur chaque vidéo » n'y trouve aucun exercice. |
+| 4 | C4 dans le code | PASS | `recoit` = « Premium sans arrêt explicite ni opposition » (`lettre-hebdo-s21.ts:37`), texte du retour de paiement « Chaque jeudi, la lettre de la semaine arrive dans ta boîte » (l. 43) : il la reçoit déjà, « si tu la veux » était faux. |
+| 5 | C7 dans le cadre @legal | PASS | Le cadre interdit mention de résiliation, prix, remise, lien abonnement ou « rester », urgence (§ « Ton et contenu ») ; retirer « en accès libre » n'ajoute rien de cela et E1 n'affirme plus rien sur gratuit ou payant. Confirmation @legal finale déjà notée dans le fichier. |
+| 6 | « on te répond » (Ta question à l'équipe) | PASS | Engagement déjà publié : « On te répond à l'adresse e-mail de ton compte, en général sous 1 à 2 jours ouvrés. » (`config/textes/question-equipe-s22.ts:48`), même délai dans la lettre (`lettre-hebdo-s21.ts:106`). E0 ne promet rien de plus (aucun délai). Le point « engagement à valider » (l. 79 et 209 du fichier) peut être fermé. |
+| 7 | Longueur d'E0 avant le bloc contractuel | PASS avec réserve | Décompte à 38 signes par ligne, coupure aux mots, prénom de 6 lettres, 5 parcours publiés (`parcours-publication.ts:12,25`) : en-tête 2 lignes, puces 4+2+3+3+3+2+3+3 = 23 lignes, « Par où commencer » 5 lignes (URL comprise), 3 lignes vides : **33 lignes** dans le cas le plus long, **25 lignes** sans carnet, lettre ni question. [HYPOTHÈSE : 25 à 28 lignes visibles par écran de client mail à 375 px, non mesuré] : un écran à un écran et quart. La note « chacune sur 2 à 3 lignes » est inexacte (la première puce fait 4 lignes). |
+| 8 | Zéro tiret cadratin | PASS | Grep « — » et « – » sur le fichier : 0. |
+| 9 | Bloc contractuel intact | PASS | Identique mot pour mot à `config/textes/paiement.ts:279-291` et 295-299 ; phrase 5 C seulement `[si mensuel]` ; « Tout est ouvert. Pour démarrer… » (l. 293) retiré comme prévu. |
+| 10 | Demande du fondateur | PASS | E0 = liste généraliste de ce que Premium ouvre (contenus, parcours, carnet, exercices, favoris, progression, lettre, question, rappel). E1 (J5) = sept portes du site + ligne profil (C6), le carnet n'en est qu'une, conditionnelle ; aucune fiche, aucun contenu unique mis en avant (`founder-preferences.md` l. 156). |
+
+### Correction OBLIGATOIRE restante (texte exact)
+
+**O3. E0, puce des exercices.** Remplacer :
+`- Les exercices sur chaque vanne, conseil et vidéo : de quoi t’entraîner, pas seulement lire.`
+par :
+`- Les exercices des vannes, conseils et vidéos : de quoi t’entraîner, pas seulement lire.`
+Même sens que C2 (aucun mot interne), sans « chaque » que le code ne tient pas ; la puce passe de 3 à 2 lignes. Mettre à jour la ligne du tableau (« Exercices sur chaque vanne… ») et le journal (« C2 : appliqué, “chaque” retiré après contrôle v4.1 »).
+
+### Corrections souhaitables (documentation, pas de texte client)
+
+- Note « Longueur » (l. 62), remplacer par : `Longueur : 8 puces maximum (5 sans carnet, lettre ni question), 2 à 4 lignes chacune à 375 px ; avant le bloc contractuel, 25 à 33 lignes rendues (décompte à 38 signes par ligne, 5 parcours publiés). [À vérifier au rendu réel iOS/Android à 375 px.]`
+- Fermer le point « on te répond » (l. 79 et 209) : `« on te répond » : engagement déjà publié (question-equipe-s22.ts:48, « en général sous 1 à 2 jours ouvrés ») ; E0 n'ajoute aucun délai.`
+
+### Hors e-mails, à signaler (@fullstack, P0 produit)
+
+Pages d'un conseil et d'une vidéo : un abonné Premium ne voit ni l'exercice ni les points clés (`BlocExercice` sans `exercice`, `conseils/[slug]/page.tsx:228-232`, `videos/[slug]/page.tsx:218-222`, `bloc-exercice.tsx:39`). Or le bouton « Essayer ce conseil » / « Décrypter cette vidéo » fait payer puis ramène sur cette même page (`returnTo`). Avantage vendu (« Exercices des fiches », `abonnement-vente.ts:130`) absent à l'endroit où il est promis. Indépendant de la v4.1, mais à corriger avant l'envoi d'E0.
+
+### Notes v4.1
+
+| Critère | v4 | v4.1 |
+|---|---|---|
+| Demande du fondateur | 9 | 9,5 |
+| Exactitude | 9 | 8 (« chaque ») |
+| Ton, cadratin, émoji | 8 | 9 |
+| Lisibilité mobile | 7 | 8,5 |
+| Cohérence E0/E1 | 8 | 9 |
+| Cadre légal | 10 | 10 |
+
+**Note v4.1 : 8,8 / 10. NO-GO en l'état** pour présentation au fondateur, pour un seul mot. **Après O3 : 9,2 / 10, GO** pour présentation à Thomas : O3 retire un mot sans rien ajouter, son contrôle (Grep « chaque vanne » = 0 dans le fichier) vaut relecture ciblée de la ligne corrigée (règle P0 s18). Restent hors note : avis @legal final, fiche conseil/vidéo (@fullstack) avant tout envoi.

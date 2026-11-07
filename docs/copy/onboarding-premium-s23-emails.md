@@ -28,7 +28,7 @@ Salut {prénom}, voici tout ce que Premium t’ouvre, et par où commencer.
 - Les vannes, les conseils et les vidéos : tout, sans limite, et les filtres pour trouver vite ce qui colle à ta situation.
 - Les parcours : les {N}, en entier, de la première à la dernière étape.
 [si carnet] - Le carnet de répartie : chaque mois, des situations et leurs répliques, carnets passés compris.
-- Les exercices sur chaque vanne, conseil et vidéo : de quoi t’entraîner, pas seulement lire.
+- Les exercices des vannes, conseils et vidéos : de quoi t’entraîner, pas seulement lire.
 - Tes favoris, ta progression et ta série de jours de pratique : ce qui te plaît sous la main, et où tu en es.
 [si état recoit] - La lettre du jeudi : chaque semaine par e-mail, un clic pour l’arrêter.
 [si question] - « Ta question à l’équipe » : écris-nous depuis ton profil, on te répond.
@@ -222,3 +222,4 @@ Reste ouvert : mesure du rendu mobile d'E0 (estimation, non mesurée), « on te 
 | E1 : règle de fiche, `{nbAutres}`, « À toi de jouer » retirés | Idem |
 | E1 : phrase de tête @legal et variante PARCOURS inchangées ; E2 inchangé | `onboarding-e1-resilies-s23.md` ; étalon 4 A |
 | Journaux v1 → v2 et v2 → v3 retirés (obsolètes, historique git) | Conservation of rules |
+| E0 : « Les exercices des vannes, conseils et vidéos » au lieu de « sur chaque » (fait faux) | Relecteur, contrôle v4.1 | `question-equipe-s22.ts:48` pour « on te répond » ; exercices selon décryptage |
