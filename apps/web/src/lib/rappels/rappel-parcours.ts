@@ -120,8 +120,13 @@ export async function arreterRappel(db: ArretDb, userId: string, origine: Origin
 
 const SEED = parcoursSeed as Array<{ slug: string; steps: Array<{ week: number; moduleTitle?: string }> }>;
 
-function titreEtape(slug: string, order: number): string {
-  return SEED.find((p) => p.slug === slug)?.steps.find((s) => s.week === order)?.moduleTitle ?? `Étape ${order}`;
+/** Titre d'étape du seed, null s'il manque (onboarding s23 : repli propre à E1). */
+export function titreEtapeSeed(slug: string, order: number): string | null {
+  return SEED.find((p) => p.slug === slug)?.steps.find((s) => s.week === order)?.moduleTitle ?? null;
+}
+
+export function titreEtape(slug: string, order: number): string {
+  return titreEtapeSeed(slug, order) ?? `Étape ${order}`;
 }
 
 const dateLongue = new Intl.DateTimeFormat("fr-FR", { timeZone: "Europe/Paris", weekday: "long", day: "numeric", month: "long" });

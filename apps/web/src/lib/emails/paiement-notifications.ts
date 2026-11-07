@@ -18,8 +18,16 @@ import { recordAdminAlert } from "@/lib/admin-alerts";
 import { problemesDeRendu } from "@/lib/emails/garde-fou-rendu";
 import { trySendTransactionalTextEmail } from "@/lib/email";
 import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
+import { ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
+import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
+import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
+import { getCarnetExtrait } from "@/lib/carnet";
+import { recoitHebdo, SELECT_CANDIDAT_HEBDO } from "@/lib/lettre/hebdo";
+import { noterAncreJ0 } from "@/lib/onboarding/journal-onboarding";
 import {
+  emailBienvenuePremium,
   emailConfirmationAbonnement,
+  type BienvenuePremiumConditions,
   emailConfirmationResiliation,
   emailPaiementRefuse,
 } from "@/config/textes/paiement";
@@ -57,11 +65,32 @@ async function envoyer(
   }
 }
 
-export function notifySubscriptionConfirmed(
-  userId: string,
-  v: { interval: string | null; montantCents: number | null; dateSouscription: Date; prochainRenouvellement: Date | null },
-): Promise<boolean> {
+type ConfirmationVars = { interval: string | null; montantCents: number | null; dateSouscription: Date; prochainRenouvellement: Date | null };
+
+export function notifySubscriptionConfirmed(userId: string, v: ConfirmationVars): Promise<boolean> {
+  // s23 : interrupteur fermé = bienvenue actuel, inchangé (aucune lecture ni écriture en plus).
+  if (ONBOARDING_PREMIUM_OUVERT) return notifyBienvenuePremium(userId, v);
   return envoyer(userId, "confirmation-abonnement", (prenom) => emailConfirmationAbonnement({ prenom, ...v }));
+}
+
+/** Lignes `[si …]` du bienvenue s23. Base illisible : ligne de la lettre omise (jamais une promesse devinée). */
+export async function conditionsBienvenue(userId: string): Promise<BienvenuePremiumConditions> {
+  let lettre = false;
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: SELECT_CANDIDAT_HEBDO });
+    lettre = LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && user !== null && recoitHebdo(user);
+  } catch (err) {
+    console.warn("[email:confirmation-abonnement] État de la lettre illisible :", err instanceof Error ? err.message : err);
+  }
+  return { carnet: getCarnetExtrait() !== null, lettre, question: QUESTION_EQUIPE_OUVERTE };
+}
+
+/** Bienvenue s23 (E0), puis ancre J0 de l'onboarding (E1, E2) si l'e-mail est parti. */
+async function notifyBienvenuePremium(userId: string, v: ConfirmationVars): Promise<boolean> {
+  const conditions = await conditionsBienvenue(userId);
+  const ok = await envoyer(userId, "confirmation-abonnement", (prenom) => emailBienvenuePremium({ prenom, ...v, ...conditions }));
+  if (ok) await noterAncreJ0(prisma, userId, v.dateSouscription, new Date());
+  return ok;
 }
 
 export function notifyPaymentFailed(

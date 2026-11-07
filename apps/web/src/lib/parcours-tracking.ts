@@ -29,6 +29,8 @@ export const PARCOURS_SRC = [
   "register-etape1",
   // Lien de l'e-mail de rappel (lot A, D7).
   "rappel",
+  // s23 : liens des e-mails d'onboarding Premium (E1), sans identifiant (@legal C6).
+  "onboarding-premium",
   "direct",
 ] as const;
 

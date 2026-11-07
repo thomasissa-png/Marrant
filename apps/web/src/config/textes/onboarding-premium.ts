@@ -125,3 +125,17 @@ ${piedArret(v.lienArret)}
 `,
   };
 }
+
+/**
+ * Page du lien d'arrêt. PROVISOIRE s23 (hors fichier approuvé, calque de `TEXTES_ARRET_RAPPEL`) :
+ * à faire valider par Thomas avant l'ouverture.
+ */
+export const TEXTES_ARRET_ONBOARDING = {
+  okTitre: "E-mails d’accueil arrêtés",
+  ok: "C’est fait : tu ne recevras plus nos e-mails d’accueil. Tes autres e-mails (paiement, compte, lettre) ne changent pas.",
+  invalideTitre: "Lien invalide",
+  invalide: "Ce lien d’arrêt ne marche pas. Écris-nous à contact@deviens-marrant.fr et on arrête ces e-mails pour toi.",
+  erreurTitre: "Petit souci",
+  erreur: "Les e-mails d’accueil n’ont pas pu être arrêtés. Réessaie dans un instant ou écris-nous à contact@deviens-marrant.fr.",
+  retour: "Retour au site",
+} as const;

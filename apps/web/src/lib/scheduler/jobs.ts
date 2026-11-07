@@ -740,6 +740,30 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
             `[scheduler:rappel-parcours] ${res.envoyes} envoyé(s), ${res.sansParcours} sans parcours en cours, ${res.echecs} échec(s) sur ${res.candidats} ; ${res.arretesFinPremium} arrêté(s) (fin de Premium).`,
           );
         }
+        // s23 : onboarding Premium E1 (J5) et E2 (J21), APRÈS le rappel du jour (même tâche, aucun
+        // nouveau cron). Interrupteur fermé : rien n'est lu ni écrit. Isolé : n'affecte pas le rappel.
+        const { ONBOARDING_PREMIUM_OUVERT, ONBOARDING_REPLY_TO } = await import("@/config/onboarding-premium");
+        if (ONBOARDING_PREMIUM_OUVERT) {
+          try {
+            const { runOnboardingPremium } = await import("@/lib/onboarding/envoi-onboarding");
+            const { getCarnetExtrait } = await import("@/lib/carnet");
+            const ob = await runOnboardingPremium(now, {
+              db: prisma as unknown as import("@/lib/onboarding/envoi-onboarding").OnboardingDb,
+              sendEmail: (to, subject, text, headers) =>
+                sendServiceTextEmail(to, subject, text, "onboarding-premium", { headers, replyTo: ONBOARDING_REPLY_TO }),
+              baseUrl: process.env.NEXTAUTH_URL || "https://deviens-marrant.fr",
+              carnet: getCarnetExtrait(undefined, now) !== null,
+            });
+            if (ob.secretAbsent) console.warn("[scheduler:onboarding-premium] UNSUBSCRIBE_HMAC_SECRET absent : aucun e-mail d'accueil ne part.");
+            if (ob.envoyes + ob.sautes + ob.echecs + ob.reportes > 0) {
+              console.log(
+                `[scheduler:onboarding-premium] ${ob.envoyes} envoyé(s), ${ob.reportes} reporté(s) (jour pris), ${ob.sautes} non envoyé(s) (journalisés), ${ob.echecs} échec(s) sur ${ob.ancres} abonné(s) suivis.`,
+              );
+            }
+          } catch (err) {
+            console.error("[scheduler:onboarding-premium] Échec :", err);
+          }
+        }
       } finally {
         await releaseLock(lockKey);
       }

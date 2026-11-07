@@ -43,7 +43,9 @@ export type TransactionalEmailKind =
   // s21 : lettre de la semaine (Premium) et proposition unique aux abonnés existants.
   | "lettre-hebdo"
   // s22 : « Ta question à l'équipe » (Premium), vers alex@ ; objet fixe, jamais le texte en alerte.
-  | "question-equipe";
+  | "question-equipe"
+  // s23 : e-mails d'onboarding Premium E1 (J5) et E2 (J21), interrupteur ONBOARDING_PREMIUM_OUVERT.
+  | "onboarding-premium";
 
 function domaineDe(to: string): string {
   return to.includes("@") ? to.split("@").pop() ?? "?" : "?";

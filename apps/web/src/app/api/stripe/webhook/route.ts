@@ -19,6 +19,8 @@ import {
 } from "@/lib/emails/paiement-notifications";
 import { reserverAccuseResiliation } from "@/lib/resiliation";
 import { RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
+import { noterFinAcces } from "@/lib/onboarding/journal-onboarding";
 import Stripe from "stripe";
 
 // Formule annuelle (s14, 04/10/2026) : aucun traitement ne dépend du prix ni de
@@ -210,6 +212,9 @@ async function handleSubscriptionUpdated(
 
   const resiliation = shouldDowngrade ? null : resiliationProgrammee(subscription, previous);
   if (!resiliation) return;
+  // s23 onboarding (réserve 2 @legal) : fin d'accès EXACTE (`cancel_at`) pour la phrase de tête d'E1.
+  // Interrupteur fermé : rien n'est écrit. Ne lève jamais.
+  if (ONBOARDING_PREMIUM_OUVERT) await noterFinAcces(prisma, sub.userId, resiliation.finAcces, new Date());
   // s23 : l'écran /resiliation envoie lui-même l'accusé « C'est noté » et réserve la même clé AVANT
   // d'appeler Stripe ; le webhook ne l'envoie alors pas une 2e fois. Résiliation par le portail :
   // clé libre, le webhook envoie comme avant. Interrupteur fermé : comportement inchangé.
