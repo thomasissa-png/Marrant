@@ -1,16 +1,17 @@
-# Onboarding Premium s23 : textes finaux E0, E1, E2 (v2, 07/11/2026)
+# Onboarding Premium s23 : textes finaux E0, E1, E2 (v3, 07/11/2026)
 
-Statut : BROUILLON v2, avant nouvelle relecture à l'aveugle (barre 9/10), avis @legal final et approbation de Thomas. Rien n'est envoyé avant.
-v2 = v1 + relectures `revues-onboarding/aveugle-reviewer-v1.md` (O1 à O3) et `aveugle-panel-v1.md` (P1 à P10) + décisions de Thomas du 07/11 (`founder-preferences.md`, non re-questionnables) + cadre `docs/legal/onboarding-e1-resilies-s23.md`.
-Source des choix : `etalons-onboarding-s23.md` (1 A, 2 C, 3 A, 4 A, 5 C), repris mot pour mot, sauf ajustements listés au journal en fin de fichier.
+Statut : BROUILLON v3, avant nouvelle relecture à l'aveugle (barre 9/10), avis @legal final et approbation de Thomas. Rien n'est envoyé avant.
+v3 = v2 + obligatoire reviewer (`revues-onboarding/aveugle-reviewer-v2.md`, O1 règle d'envoi) + arbitrage session principale (fiche offerte dans E0, autre fiche réservée dans E1) + panel v2 (`aveugle-panel-v2.md`, corrections vérifiées dans `apps/web/src`) + souhaitables reviewer. Décisions de Thomas du 07/11 (`founder-preferences.md`) non re-questionnées ; cadre `docs/legal/onboarding-e1-resilies-s23.md`.
+Source des choix : `etalons-onboarding-s23.md` (1 A, 2 C, 3 A, 4 A, 5 C), repris mot pour mot, aucun mot d'étalon retiré (voir journal).
 
 [Framework : AIDA court pour E0 ; PAS inversé pour E1 (situation vécue, puis la porte ouverte) ; question ouverte pour E2.]
 [Conscience : Product-Aware à Most-Aware (l'abonné vient de payer), E0 transactionnel.]
 
 Conventions de rendu (toutes les variantes) :
 - Texte seul, tutoiement, « on », zéro tiret cadratin, zéro émoji. Apostrophes typographiques ’ comme dans `paiement.ts`.
-- Texte seul = **pas de préheader** : l'aperçu dans la boîte est « Salut {prénom}, » suivi de la première phrase du corps. Chaque première phrase ci-dessous est écrite pour tenir lieu d'aperçu et n'est jamais une redite de l'objet.
-- `{prénom}` absent : « Salut, ». `{url}` = `siteUrl()`. `{N}` = `PARCOURS_COUNT` (`config/premium.ts:89`, dynamique). Signature = constante `SIGNATURE` (`paiement.ts:27`), « L’Équipe Deviens Marrant » inchangée (choix antérieur, pas de signature Alex) ; dans E1/E2, suivie de « deviens-marrant.fr ».
+- Texte seul = **pas de préheader** : l'aperçu dans la boîte est « Salut {prénom}, » suivi de la première phrase du corps. Chaque première phrase est écrite pour tenir lieu d'aperçu.
+- `{prénom}` absent : « Salut, ». `{url}` = `siteUrl()`. `{N}` = `PARCOURS_COUNT` (`config/premium.ts:89`). `{listeParcours}` = `PREMIUM_PARCOURS` rendu « {name} ({timePerWeek}) », séparés par des virgules, le dernier par « et » (`premium.ts:76-86`, dynamique ; novembre 2026 : Machine à Café (15 min/semaine), Répartie (20 min/semaine) et Confiance (20 min/semaine)). `{nbAutres}` = `fiches.length` du carnet du mois moins 1 (`carnet.ts:61`, `totalFiches`). Signature = `SIGNATURE` (`paiement.ts:27`) ; dans E1/E2, suivie de « deviens-marrant.fr ».
+- **Fiches rendues** (E0 et E1) : apostrophes droites des JSON (`J'ai`) normalisées en ’ au rendu (règle `APOSTROPHE_DROITE` de `frTypo`, `lib/fr-typo.ts:92`) ; « ... » en « … » à ajouter si `frTypo` ne le fait pas [à vérifier @fullstack]. Aucun mot changé.
 - Dans E0, les libellés « Pour commencer », « Dès maintenant », « Ensuite, à ton rythme » sont rendus sans astérisques.
 
 ---
@@ -18,19 +19,25 @@ Conventions de rendu (toutes les variantes) :
 ## E0 : bienvenue (J0, transactionnel, part tout de suite, jeudi compris)
 
 **Objet** (étalon 1 A) : `Ton abonnement est confirmé : Premium est ouvert, sers-toi`
-Aperçu (texte seul) : « Salut {prénom}, voici ce qui vient de s’ouvrir, et par où commencer. »
+Aperçu (texte seul) : « Salut {prénom}, voici ce qui vient de s’ouvrir, et par où commencer. » (phrase d'ouverture de l'étalon 1 A, inchangée.)
 Envoi : `replyTo` inchangé (e-mail de service). Pas de lien d'arrêt (transactionnel).
 
 ### Corps rendu
 
-Blocs `[si …]` rendus seulement si la condition est vraie ; prénom absent : « Salut, voici ce qui vient de s’ouvrir, et par où commencer. »
+Blocs `[si …]` rendus seulement si la condition est vraie.
 
 ```
 Salut {prénom}, voici ce qui vient de s’ouvrir, et par où commencer.
 
 Pour commencer : [si carnet] une fiche du carnet du mois, une situation et sa réplique.
+[si carnet] La fiche de ce mois-ci :
+[si carnet] {situation}
+[si carnet] On te dit : « {onTeDit} »
+[si carnet] Ta réplique : « {reponse} »
+[si carnet] Pourquoi elle marche : {pourquoi}
+[si carnet et nbAutres ≥ 2] {nbAutres} autres situations t’attendent dans le carnet de ce mois-ci.
 [si carnet] Ouvrir le carnet : {url}/carnet
-[sinon] la première étape d’un parcours, au choix parmi les {N}.
+[sinon] la première étape d’un parcours, au choix parmi les {N} : {listeParcours}.
 [sinon] Choisir mon parcours : {url}/parcours
 
 Dès maintenant : le catalogue sans limite, les exercices des fiches, tes favoris, ta progression et ta série.[si état recoit] La lettre de la semaine arrive chaque jeudi, incluse dans ton abonnement ; tu l’arrêtes en un clic, depuis chaque lettre ou ton profil.
@@ -60,48 +67,53 @@ L’Équipe Deviens Marrant
 {formulaireTypeRetractation(), inchangé}
 ```
 
-Règle du « et » de « Ensuite » (le dernier élément rendu prend « et ») ; la 2e phrase (« Toutes les étapes… ») est toujours rendue :
+Règle du « et » de « Ensuite » (le dernier élément rendu prend « et ») ; la 2e phrase est toujours rendue :
 - carnet + question : `…en entier, les carnets passés et « Ta question à l’équipe » depuis ton profil.`
 - carnet seul : `…en entier et les carnets passés.`
 - question seule : `…en entier et « Ta question à l’équipe » depuis ton profil.`
 - ni l'un ni l'autre : `…en entier.`
 
 Conditions de rendu (code) :
-- `[si carnet]` : carnet du mois publié (même condition que la ligne `carnet` de `lignesTableau`). Sans carnet, « Pour commencer » bascule sur le parcours.
+- `[si carnet]` : `getCarnetExtrait` non null (carnet du mois en cours déposé, `carnet.ts:237`). **Fiche montrée en E0 = `ficheOfferte(carnet)`** (`carnet.ts:101`) : la fiche marquée `offerte`, sinon `fiches[0]` ; c'est déjà la fiche lisible sans compte (/abonnement, encart des articles), donc rien de réservé n'est divulgué. Champs (`carnet.ts:33-42`) : `situation`, `onTeDit`, `reponse`, `pourquoi`. L'exercice n'est volontairement pas montré en E0 (réservé à E1 pour ne pas répéter). Sans carnet du mois : « Pour commencer » bascule sur le parcours (comportement actuel).
+- Le texte d'étalon 2 C de « Pour commencer » est intact : la fiche s'insère entre sa phrase et le lien « Ouvrir le carnet » (libellé étalon 3 A). Ligne `{nbAutres}` omise si le carnet n'a pas au moins 3 fiches.
 - `[si état recoit]` : état `recoit` seulement (`LETTRE_HEBDO_INFO_PAIEMENT`) ; sinon la phrase lettre disparaît, le point qui précède reste.
 - `[si question]` : `QUESTION_EQUIPE_OUVERTE` (`config/question-equipe.ts:11`).
-- **`[si mensuel]` (phrase 5 C) : formule mensuelle seulement.** En annuel, aucune phrase de remplacement : « Résilier » et « Droit de rétractation » du bloc contractuel suffisent, et le rappel avant renouvellement annuel existe (cadre @legal `onboarding-e1-resilies-s23.md`, partie b : en annuel, la phrase encouragerait à attendre alors que seuls les 14 jours remboursent). Aucun mot de la phrase ne change.
-- **Aucun e-mail de rappel avant prélèvement** (décision Thomas 07/11) : la phrase 5 C reste telle quelle pour le mensuel, aucune annonce de rappel.
-- Retiré du gabarit actuel : « Tout est ouvert. Pour démarrer, choisis un parcours : {url}/parcours. ». Le reste du bloc contractuel est inchangé mot pour mot (`paiement.ts` l. 279 à 291 et 295 à 299), « Ton abonnement Premium est activé… » placé sous la liste.
+- **`[si mensuel]` (phrase 5 C) : formule mensuelle seulement.** En annuel, aucune phrase de remplacement (cadre @legal partie b). Aucun mot de la phrase ne change.
+- **Aucun e-mail de rappel avant prélèvement** (décision Thomas 07/11).
+- Retiré du gabarit actuel : « Tout est ouvert. Pour démarrer, choisis un parcours : {url}/parcours. ». Le reste du bloc contractuel est inchangé mot pour mot (`paiement.ts` l. 279 à 291 et 295 à 299).
 
 ### Phrases nouvelles ou modifiées E0
 
 | Phrase | Source du fait |
 |---|---|
-| « Dès maintenant : » (remplace « Cette semaine : ») | Panel P3 : lu comme une offre qui expire ; décision d'application par Thomas (brief v2) |
-| « Ensuite… » en deux phrases, « si tu l’actives dans ton profil » | Panel P4, contenu identique ; rappel de parcours activable depuis le profil (`rappel-parcours.ts`, `lienChangerJour` = `/profil#rappel-parcours`, origine d'arrêt `profil`) |
-| Libellés « Ouvrir le carnet », « Choisir mon parcours » | Étalon 3 A et variante ; routes `/carnet`, `/parcours` existantes |
+| Fiche du mois sous « Pour commencer » (« La fiche de ce mois-ci : », situation, On te dit, Ta réplique, Pourquoi elle marche) | Arbitrage session principale, dans la ligne du « oui » de Thomas 07/11 ; panel E0-1 (levier principal) ; `ficheOfferte`, `carnet.ts:101` ; libellés = champs `carnet.ts:37-40` |
+| « {nbAutres} autres situations t’attendent dans le carnet de ce mois-ci. » | Panel E0-1 / E1C-2 (Sophie : « il y en a une ou trente ? ») ; `fiches.length`, `carnet.ts:61`. Le libellé du lien reste « Ouvrir le carnet » (étalon 3 A) |
+| « au choix parmi les {N} : {listeParcours}. » (sans carnet) | Panel E0-2 ; noms et rythmes `premium.ts:76-86`. « au choix parmi les {N} » = mots d'étalon conservés, la liste est ajoutée après |
+| « Dès maintenant : » | v2 (panel P3) |
+| « Ensuite… » en deux phrases | v2 (panel P4) ; rappel activable depuis le profil (`rappel-parcours.ts`, `/profil#rappel-parcours`) |
 
 ---
 
 ## E1 : J5, « Une question ? » + par où commencer
 
-**Envoi** : `replyTo` = `QUESTION_EQUIPE_DESTINATAIRE` (alex@deviens-marrant.fr, `config/question-equipe.ts:22`). Jamais un jour où l'abonné reçoit déjà un autre e-mail non transactionnel (jeudi, numéro de la semaine parti en retard, rappel de parcours du jour), et pas la semaine où son rappel de parcours est parti : glisse au premier jour libre.
+**Envoi** : `replyTo` = `QUESTION_EQUIPE_DESTINATAIRE` (alex@deviens-marrant.fr, `config/question-equipe.ts:22`). Jamais un jour où l'abonné reçoit déjà un autre e-mail non transactionnel (jeudi, numéro de la semaine parti en retard, rappel de parcours du jour), ni la veille ou le lendemain d'un rappel de parcours : glisse au premier jour libre. Le rappel étant hebdomadaire, un jour libre existe toujours dans les 5 jours ; si aucun ne se présente sous 7 jours, l'e-mail n'est pas envoyé (journalisé).
 
 **Qui le reçoit** (décision Thomas 07/11 + cadre @legal) : tout abonné payant dont l'accès est ouvert, **y compris en résiliation programmée tant que l'accès payé court**. Pour ces derniers, un seul envoi (E1), **E2 reste arrêté**.
 Arrêt immédiat, avant l'envoi même programmé : rétractation exercée, remboursement, paiement échoué, suppression du compte, clic sur le lien d'arrêt, opposition reçue (une réponse « arrêtez » à alex@ vaut opposition, traitée sous un jour ouvré, reportée dans la base). Fin d'accès échue : aucun envoi. Abonné qui reprend son abonnement : régime normal.
 Conditions @legal pour les résiliés (C1 à C8) : pas de pixel ni de suivi de clic (`?src=` sans identifiant), journal par envoi (compte, numéro d'e-mail, date, cas d'arrêt), le motif de résiliation n'est jamais utilisé pour choisir ou personnaliser, phrase d'information à la collecte (C8) confirmée présente dans la confidentialité **avant** l'ouverture aux résiliés. Contenu, objet et version identiques pour tous : seule la phrase de tête ci-dessous s'ajoute.
 
-**Phrase de tête (résiliation programmée uniquement)**, exacte, juste après « Salut {prénom}, » (ou « Salut, »), avant tout le reste du corps, sans autre appel, sans mention de résiliation, sans lien « rester », sans prix, sans urgence :
+**Phrase de tête (résiliation programmée uniquement)**, texte légal exact, juste après « Salut {prénom}, » (ou « Salut, »), avant tout le reste du corps, sans autre appel, sans mention de résiliation, sans lien « rester », sans prix, sans urgence :
 `Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici par où commencer.`
-`{finAcces}` = fin de la période payée [à brancher par @fullstack ; même fait que la phrase « Ton accès reste ouvert jusqu’à la fin de la période payée » de E0]. L'aperçu devient « Salut {prénom}, Ton accès reste ouvert jusqu’au… », neutre.
+`{finAcces}` = fin de la période payée [à brancher par @fullstack]. Appliquée telle quelle dans les trois versions.
 
-**Choix de la version** (ordre de test, identique pour tous) :
-1. Parcours en cours (au moins une étape validée, parcours non terminé, même règle que `rappel-parcours.ts:180-186`) et pas (carnet du mois publié + rappel de parcours actif) : **PARCOURS**.
-2. Carnet du mois publié : **CARNET** (défaut, y compris abonné avec rappel actif).
+**[À VALIDER @legal] Variante de tête pour la seule version PARCOURS** (reviewer S1) : `Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici où tu en es.` Raison : chez un résilié avec parcours en cours, « voici par où commencer » est suivi de « Tu reprends là où tu en étais », ce qui se contredit. Même fait, même neutralité, aucune offre. **Non appliquée** : tant que @legal ne l'a pas validée, la phrase légale ci-dessus reste en place.
+
+**Fiche et version : choix** (ordre de test, identique pour tous) :
+1. Parcours en cours (au moins une étape validée, parcours non terminé, même règle que `rappel-parcours.ts:180-186`) et pas (CARNET utilisable + rappel de parcours actif) : **PARCOURS**.
+2. CARNET utilisable (carnet du mois en cours déposé ET au moins une fiche autre que la fiche offerte, c'est-à-dire au moins 2 fiches) : **CARNET** (défaut, y compris abonné avec rappel actif).
 3. Sinon : **OUVERTS**.
 
-### Version CARNET (étalon 3 A + réplique du carnet, choix Thomas 07/11)
+### Version CARNET (étalon 3 A + réplique d'une fiche réservée aux abonnés)
 Objet (étalon 3 A, inchangé) : `Une situation, une réplique`
 ```
 Salut {prénom},
@@ -109,44 +121,51 @@ Salut {prénom},
 
 Quelqu’un te balance une remarque devant tout le monde, et rien ne te vient. Le carnet part de ces moments-là : une situation, la réplique qui sauve la mise, pourquoi elle marche.
 
-Celle de ce mois-ci :
+Une fiche du carnet de ce mois-ci :
 {situation}
 On te dit : « {onTeDit} »
 Ta réplique : « {reponse} »
 Pourquoi elle marche : {pourquoi}
+À toi de jouer : {exercice}
 
+[si nbAutres ≥ 2] {nbAutres} autres situations t’attendent dans le carnet de ce mois-ci.
 Une question, un doute ? Réponds à cet e-mail, on lit tout.
 
-Ouvrir le carnet : {url}/carnet
+Ouvrir le carnet : {url}/carnet?src=onboarding-premium
 ```
-**Fiche prise, règle déterministe** : `ficheOfferte(carnet)` (`lib/carnet.ts:101`) du carnet du mois en cours à Paris (`getCarnetExtrait`, `carnet.ts:237`, null si le carnet du mois n'est pas déposé) : la fiche marquée `offerte`, sinon `fiches[0]`. C'est la fiche lisible sans compte, la même que sur /abonnement et dans l'encart des articles : aucune vanne écrite pour l'e-mail, aucune fiche réservée divulguée. Champs (`carnet.ts:33-42`) : `situation`, `onTeDit` (ce qu'on te lance), `reponse` (la réplique), `pourquoi`. Sans carnet du mois en cours déposé : bascule PARCOURS ou OUVERTS, jamais le carnet d'un mois passé présenté comme « de ce mois-ci ». Même fiche pour tous, résiliés compris.
+**Règle déterministe de la fiche d'E1** : `fiche = carnet.fiches.find((f) => f !== ficheOfferte(carnet))`, avec `carnet` = carnet du mois en cours à Paris (`getCarnetExtrait`, `carnet.ts:237`, null sans carnet déposé). C'est la première fiche du carnet qui n'est pas la fiche offerte, comparaison par identité d'objet comme `carnetViewForPlan` (`carnet.ts:178`). Le carnet est classé de la moins tendue à la plus tendue (`carnet.ts:174-175`) : l'abonné reçoit donc la plus douce des fiches réservées. Novembre 2026 (vérifié dans `data/carnet/2026-11.json`) : 30 fiches, fiche offerte = `2026-11-10` (ligne 117), donc E0 montre `2026-11-10` et E1 `2026-11-01` « Le vendeur dans ton dos ». Aucune répétition entre E0 et E1 tant que le carnet compte 2 fiches ou plus (sinon E1 bascule, voir ci-dessus). Même fiche pour tous, résiliés compris.
+Pourquoi la fiche réservée est licite ici : le destinataire a un abonnement payant à l'accès ouvert (donc la vue Premium complète, `carnetViewForPlan`, toutes les fiches). [À vérifier @fullstack : le plan reste « premium » jusqu'à `finAcces` pour un résilié programmé ; sinon E1 CARNET ne part pas à ces abonnés.] E1 s'arrête à la fin d'accès (C1), donc jamais de fiche réservée vers un compte sans accès.
+`{exercice}` = champ `exercice` de la fiche (`carnet.ts:42`, obligatoire au schéma), rendu dans l'application sous le titre « À toi de jouer » (`components/carnet/carnet-fiche-card.tsx:44`) : même libellé dans l'e-mail. `{nbAutres}` ne compte pas la fiche déjà montrée.
 
 ### Version PARCOURS (variante de l'étalon 3 A)
-Objet (reviewer O3) : `Une question sur ton parcours ?`
+Objet (panel E1P-1) : `Ton parcours « {parcoursTitre} » : la suite` ; repli sans titre de parcours : `Ton parcours : la suite`
 ```
 Salut {prénom},
 [si résiliation programmée] Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici par où commencer.
 
-Dans ton parcours « {parcoursTitre} », l’étape {etapeNumero} est ouverte : {etapeTitre}. Tu reprends là où tu en étais.
+Dans ton parcours « {parcoursTitre} », la suite, c’est l’étape {etapeNumero} : {etapeTitre}. Tu reprends là où tu en étais.
 
 Une question, un doute ? Réponds à cet e-mail, on lit tout.
 
 Reprendre mon parcours : {lienEtape}
 ```
-Donnée vérifiée : `rappel-parcours.ts:200-215` calcule déjà `parcoursTitre` (`learningPath.title`), `etapeNumero` (première étape non validée), `etapeTitre` (`titreEtape`, repli `Étape {n}`) et `lienEtape` (`{baseUrl}/parcours/{slug}?src=…`). Parcours choisi si plusieurs en cours : le premier, comme le rappel. **Repli** si `etapeTitre` est le repli « Étape {n} » : on omet « : {etapeTitre} » (« …l’étape {etapeNumero} est ouverte. »). `titreEtape` n'est pas exportée aujourd'hui : [à vérifier @fullstack, l'exporter ou la dupliquer]. Si le titre du parcours manquait : « Ton parcours est ouvert à l’étape suivante, là où tu en étais. » (repli du panel). `?src=` propre à l'onboarding.
+Donnée vérifiée : `rappel-parcours.ts:200-215` calcule `parcoursTitre` (`learningPath.title`), `etapeNumero` (première étape non validée), `etapeTitre` (`titreEtape`, l. 123, repli `Étape {n}`) et `lienEtape` (`{baseUrl}/parcours/{slug}?src=rappel`, l. 215). Pour E1, remplacer `src=rappel` par `src=onboarding-premium` (voir plus bas). Parcours choisi si plusieurs en cours : le premier, comme le rappel. **Repli** si `etapeTitre` est le repli « Étape {n} » : `…la suite, c’est l’étape {etapeNumero}. Tu reprends là où tu en étais.` Si le titre du parcours manque : « Ton parcours continue à l’étape suivante, là où tu en étais. » `titreEtape` n'est pas exportée [à exporter ou dupliquer, @fullstack].
 
-### Version OUVERTS (sans carnet du mois, sans parcours en cours)
-Objet : `Les parcours sont ouverts`
+### Version OUVERTS (sans carnet utilisable, sans parcours en cours)
+Objet (panel E1O-1) : `{N} parcours : lequel pour toi ?`
 ```
 Salut {prénom},
 [si résiliation programmée] Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici par où commencer.
 
-Les {N} parcours sont ouverts, toutes les étapes comprises : choisis le tien.
+Les {N} parcours, toutes les étapes comprises : {listeParcours}. Prends celui qui ressemble à ta semaine, la première étape suffit pour commencer.
 
 Une question, un doute ? Réponds à cet e-mail, on lit tout.
 
-Choisir mon parcours : {url}/parcours
+Choisir mon parcours : {url}/parcours?src=onboarding-premium
 ```
+Rendu novembre 2026 : « Les 3 parcours, toutes les étapes comprises : Machine à Café (15 min/semaine), Répartie (20 min/semaine) et Confiance (20 min/semaine). » Le mot « ouvert » ne revient plus qu'une fois chez les résiliés.
+
+**`?src=onboarding-premium`** (reviewer S5, sur les trois liens d'E1) : `PARCOURS_SRC` est une liste fermée (`lib/parcours-tracking.ts:6-33`) ; toute valeur inconnue devient `direct` (l. 37-40). La valeur doit donc être ajoutée à la liste [@fullstack, avis @legal s17 pour toute nouvelle valeur] ; sans cela, la mesure des trois versions retombe sur `direct`. Paramètre d'URL sans identifiant (C6). `/carnet` ne passe pas par `PARCOURS_SRC` : [à vérifier @fullstack, sinon retirer le paramètre de ce lien].
 
 ### Pied commun E1 (après la signature, identique pour tous)
 ```
@@ -163,21 +182,25 @@ Arrêter ces e-mails d’accueil (un clic, sans connexion) : {lienArret}
 
 | Phrase | Source du fait |
 |---|---|
-| Bloc « Celle de ce mois-ci : … Pourquoi elle marche : … » | Décision Thomas 07/11 (P5) ; champs `carnet.ts:33-42` ; libellés « On te dit » et « Ta réplique » = `onTeDit` et `reponse` |
-| Phrase de tête résiliés | Texte exact imposé par @legal (`onboarding-e1-resilies-s23.md`) |
-| « Dans ton parcours « … », l’étape … est ouverte… Tu reprends là où tu en étais. » | Panel P6, objet O3 ; données `rappel-parcours.ts` |
-| « toutes les étapes comprises » (OUVERTS) | Panel P7, partie texte seule ; fait : étapes toutes ouvertes (`parcours-detail.tsx:513`) |
-| Pied d'arrêt | Cible unique @legal D1, calqué sur `parcours-emails.ts:75-76` (« un clic, sans connexion » à confirmer par @fullstack, jeton HMAC) |
+| Fiche réservée (première non offerte) + « À toi de jouer : {exercice} » | Arbitrage session principale ; panel E1C-1 ; règle `ficheOfferte`/`find`, `carnet.ts:101,178` ; `exercice` `carnet.ts:42` et `carnet-fiche-card.tsx:44` |
+| « Une fiche du carnet de ce mois-ci : » | Reviewer S2 (antécédent clair) ; le mot « autre » évité : il serait faux si E0 est parti sans carnet |
+| « {nbAutres} autres situations t’attendent… » | Panel E1C-2 ; `fiches.length`, `carnet.ts:61`. Le lien garde « Ouvrir le carnet » (étalon 3 A) |
+| Objet PARCOURS et « la suite, c’est l’étape… » | Panel E1P-1 et E1P-2 (corrige le « est ouverte » qui contredisait E0, reviewer S6) ; `rappel-parcours.ts:200-215` |
+| Objet et corps OUVERTS avec `{listeParcours}` | Panel E1O-1 et E1O-2 ; `premium.ts:76-86` |
+| Règle d'envoi (veille/lendemain, 7 jours) | Reviewer O1, texte exact du rapport |
+| Phrase de tête résiliés | Texte exact imposé par @legal ; variante PARCOURS marquée [À VALIDER @legal], non appliquée |
 
 ---
 
 ## E2 : J21, « Trois semaines : qu'est-ce qui manque ? »
 
-**Envoi** : mêmes règles que E1 (jour libre, `replyTo` alex@, arrêts). **Non envoyé aux abonnés en résiliation programmée** (décision Thomas / cadre @legal C2). Aucun lien d'action, aucun délai promis.
+**Envoi** : mêmes règles que E1, y compris la règle de glissement du reviewer O1 (jour libre, `replyTo` alex@, arrêts). **Non envoyé aux abonnés en résiliation programmée** (décision Thomas / cadre @legal C2). Aucun lien d'action, aucun délai promis.
 Objet (étalon 4 A) : `Trois semaines : qu’est-ce qui manque ?`
 Aperçu (texte seul) : « Salut {prénom}, ça fait trois semaines que tu es là. »
 ```
 Salut {prénom}, ça fait trois semaines que tu es là. Dis-nous ce qui t’a servi, ce qui t’a fait lever les yeux au ciel et ce qui manque. Réponds simplement à cet e-mail, on lit chaque réponse.
+
+Une ligne suffit, même pour dire que tu n’as pas encore eu le temps.
 
 L’Équipe Deviens Marrant
 deviens-marrant.fr
@@ -186,38 +209,56 @@ deviens-marrant.fr
 Tu reçois cet e-mail parce que tu as pris un abonnement Premium sur deviens-marrant.fr.
 Arrêter ces e-mails d’accueil (un clic, sans connexion) : {lienArret}
 ```
-Prénom absent : « Salut, ça fait trois semaines que tu es là. … ». Texte étalon 4 A inchangé.
+Prénom absent : « Salut, ça fait trois semaines que tu es là. … ». **Le paragraphe de l'étalon 4 A est intact, mot pour mot** ; seul est ajouté, en paragraphe séparé juste après, « Une ligne suffit… » (panel E2 : donne une réponse possible à l'abonné qui n'a presque rien utilisé, sans lien ni délai).
 
 ---
 
 ## Contrôles faits
 
-- Zéro tiret cadratin, zéro émoji, aucun concurrent, aucun prix ni promotion ajoutés, aucune urgence ; `{N}` par constante.
-- Promesses : lettre (jeudi, un clic) alignée sur `LETTRE_HEBDO_INFO_PAIEMENT.recoit` ; « Ta question à l'équipe » conditionnée à l'interrupteur ; rappel de parcours activable depuis le profil, livré s17. Aucune promesse de rappel avant prélèvement.
-- Objections : « résilier pour ne pas oublier » (phrase 5 C pour le mensuel, décision Thomas ; le panel jugeait ce point non résolu sans rappel : assumé), « qu'est-ce que j'ai acheté » (liste), « par où commencer » (Pour commencer, E1 avec vraie fiche), « personne ne me répond » (replyTo alex@).
+- Zéro tiret cadratin, zéro émoji, aucun concurrent, aucun prix ni promotion ajoutés, aucune urgence ; `{N}` et `{listeParcours}` par constantes.
+- Promesses : lettre (jeudi, un clic) alignée sur `LETTRE_HEBDO_INFO_PAIEMENT.recoit` ; « Ta question à l'équipe » conditionnée à l'interrupteur ; rappel de parcours activable depuis le profil ; « une étape par semaine » = `weeks` d'un parcours (`premium.ts:68`) ; aucune promesse de rappel avant prélèvement. Aucun chiffre de fiches ou de durée écrit en dur : tout vient de variables lues dans le code.
+- Objections : « résilier pour ne pas oublier » (phrase 5 C pour le mensuel, décision Thomas ; panel : Yanis et Sophie en tirent « je résilie maintenant », assumé, le levier est la fiche dès E0), « qu'est-ce que j'ai acheté » (liste), « par où commencer » (fiche dans E0, autre fiche dans E1), « personne ne me répond » (replyTo alex@).
 - Références marché : non consultées (ton calé sur `ton-alex.md` et les étalons).
 
 ## Points à trancher
 
-1. **Étalons à soumettre à Thomas** (non appliqués, voir journal) : P8 (E2, ajout pour l'inactif), reviewer S1 (lettre du mois, jeudi, E0), P2.
-2. **@legal** : confirmation de C8 (confidentialité) avant l'ouverture aux résiliés ; reviewer S5 (annoncer les deux e-mails d'accueil dans E0) non appliqué, le cadre D1 et C8 s'en chargent.
-3. **@fullstack** : `finAcces`, `titreEtape` exportée, règle « pas la semaine du rappel », `BIENVENUE_PREMIUM.lettre` périmé (`abonnement-vente.ts:175`, invisible tant que `LETTRE_HEBDO_PROMESSE` est faux).
+1. **Thomas, étalons non touchés** : panel E0-3 (aperçu E0 : changerait la phrase d'ouverture de l'étalon 1 A), E0-4 (« Ensuite », étalon 2 C), E2 « que tu es là » inexact pour un ancien inscrit gratuit devenu Premium (reviewer S4, « que tu es Premium » possible), lettre du mois (reviewer v2 S1).
+2. **@legal** : (a) variante de tête PARCOURS résiliés ; (b) panel E0-5 (« Bienvenue, et merci. » à la place de « Bienvenue, et merci pour ta confiance. ») : phrase du bloc contractuel, non touchée ; (c) reviewer S7 : le bloc dit « bouton « Résilier ton contrat » » alors que l'interrupteur s23 en fait un lien (`abonnement-card.tsx:78`), bloc non modifié ; (d) C8 avant ouverture aux résiliés ; (e) fiche réservée envoyée aux abonnés en résiliation programmée : confirmer.
+3. **@fullstack** : `finAcces`, plan premium jusqu'à `finAcces`, règle `find` de la fiche d'E1, `{nbAutres}`, `{listeParcours}`, `titreEtape` exportée, normalisation typographique des fiches, `src=onboarding-premium` dans `PARCOURS_SRC`, règle de glissement (veille/lendemain, 7 jours, journal), `BIENVENUE_PREMIUM.lettre` périmé (`abonnement-vente.ts:175`).
+4. **Longueur mobile** : E0 avec la fiche est nettement plus long avant le bloc contractuel ; à relire au panel (repli : retirer « Pourquoi elle marche » d'E0, sans toucher l'étalon 2 C).
 
 ---
 
-## Journal v1 → v2
+## Journal v2 → v3
+
+| # | Changement | Source | Fait vérifié où |
+|---|---|---|---|
+| 1 | Règle d'envoi E1 (et E2) remplacée par le texte exact du reviewer (veille/lendemain d'un rappel, jour libre sous 5 jours, abandon journalisé après 7) | Reviewer O1 (obligatoire) | Rappel hebdomadaire : rapport reviewer, `rappel-parcours.ts` |
+| 2 | E0 : fiche offerte du mois sous « Pour commencer » (situation, On te dit, Ta réplique, Pourquoi), aucun mot d'étalon retiré | Arbitrage session principale ; panel E0-1 | `ficheOfferte` `carnet.ts:101` ; champs `carnet.ts:37-40` ; `getCarnetExtrait` `carnet.ts:237` |
+| 3 | E1 CARNET : autre fiche, réservée, = première fiche non offerte du carnet du mois ; repli si moins de 2 fiches | Arbitrage session principale ; panel §7 point 1 (option b) | `carnetViewForPlan` `carnet.ts:172-189` (Premium voit tout) ; `2026-11.json` : 30 fiches, offerte `2026-11-10` l. 117 |
+| 4 | E1 CARNET : « À toi de jouer : {exercice} » ajouté | Panel E1C-1 | `exercice` `carnet.ts:42` ; libellé `carnet-fiche-card.tsx:44` ; champ obligatoire au schéma |
+| 5 | Lignes « {nbAutres} autres situations t’attendent… » en E0 et E1 ; libellé du lien « Ouvrir le carnet » conservé | Panel E0-1/E1C-2 ; étalon 3 A | `fiches.length` `carnet.ts:61,245` ; aucun chiffre écrit en dur |
+| 6 | E0 sans carnet : « au choix parmi les {N} : {listeParcours}. » | Panel E0-2 | `premium.ts:76-86` (noms, rythmes) |
+| 7 | E1 PARCOURS : objet « Ton parcours « … » : la suite » et corps « la suite, c’est l’étape… » | Panel E1P-1/E1P-2 ; reviewer S6 | `rappel-parcours.ts:200-215` |
+| 8 | E1 OUVERTS : objet « {N} parcours : lequel pour toi ? » et corps avec `{listeParcours}` | Panel E1O-1/E1O-2 | `premium.ts:76-86` |
+| 9 | E2 : phrase « Une ligne suffit, même pour dire que tu n’as pas encore eu le temps. » en paragraphe séparé ; étalon 4 A intact | Panel E2 ; décision de cadrage session principale | Texte étalon 4 A ligne 116 de `etalons-onboarding-s23.md` |
+| 10 | « Celle de ce mois-ci » remplacé : E0 « La fiche de ce mois-ci : », E1 « Une fiche du carnet de ce mois-ci : » | Reviewer S2 | Sans objet code |
+| 11 | Normalisation des apostrophes des fiches au rendu | Reviewer S3 ; panel E1C-3 | `JSON` avec `'` (`2026-11.json`) ; `APOSTROPHE_DROITE` `fr-typo.ts:92` |
+| 12 | `?src=onboarding-premium` sur les trois liens d'E1, avec condition de liste fermée | Reviewer S5 | `parcours-tracking.ts:6-40` (valeur inconnue = `direct`) |
+| 13 | Variante de tête PARCOURS résilié proposée, non appliquée | Reviewer S1 | Texte légal inchangé (`onboarding-e1-resilies-s23.md`) |
+| 14 | Non appliqués : E0-3 (aperçu = phrase d'étalon 1 A), E0-4 (étalon 2 C), E0-5 (bloc contractuel, @legal), E2 S4 (étalon 4 A), S7 (bloc contractuel, @legal), objet CARNET (étalon 3 A) | Contraintes de la mission | Étalons `etalons-onboarding-s23.md` l. 19, 63-65, 116 |
+
+## Journal v1 → v2 (conservé)
 
 | # | Changement | Source |
 |---|---|---|
-| 1 | Phrase 5 C rendue `[si mensuel]` seulement, aucune phrase en annuel | Reviewer O1 ; @legal (b) |
-| 2 | Préheaders supprimés partout, remplacés par la règle « aperçu = début du corps » ; première ligne de chaque corps vérifiée comme aperçu | Reviewer O2 |
-| 3 | Objet E1 PARCOURS : « Une question sur ton parcours ? » (remplace « Ta prochaine étape t’attend ») | Reviewer O3 |
-| 4 | E1 CARNET : fiche du mois (situation, on te dit, réplique, pourquoi) dans l'e-mail ; règle `ficheOfferte` du carnet du mois en cours | Thomas 07/11 ; panel P5 |
-| 5 | E1 part aussi en résiliation programmée avec la phrase de tête exacte ; E2 arrêté pour eux ; conditions d'arrêt et C1 à C8 | Thomas 07/11 ; panel P10 ; @legal |
-| 6 | « là où tu t’es arrêté » remplacé par « là où tu en étais » ; parcours, étape et titre nommés (repli prévu) | Panel P6 ; `rappel-parcours.ts` |
-| 7 | « Cette semaine » devient « Dès maintenant » | Panel P3, demande Thomas/brief |
-| 8 | Bloc « Ensuite » coupé en deux phrases, même contenu | Panel P4 ; reviewer S4 |
-| 9 | OUVERTS : « d'un coup » devient « comprises » | Panel P7 (partie texte) |
-| 10 | Règle d'envoi E1 : pas la semaine où le rappel de parcours est parti | Reviewer S3 |
-| 11 | Objet E1 CARNET gardé « Une situation, une réplique » | Panel P5 proposait « Quand on te balance une remarque devant tout le monde » : l'objet fait partie de l'étalon 3 A tranché par Thomas ; et il est désormais exact, l'e-mail contenant une situation et une réplique. Proposition soumise à Thomas si souhaitée |
-| 12 | Non appliqués : P1 A/B (refus Thomas, pas de rappel) ; P9 (signature, choix antérieur) ; P2 (phrase de l'étalon 2 C, mot pour mot) ; P8 et S1 (modifient une phrase d'étalon 4 A / 5 C-adjacente, décision Thomas) ; P7 liste par parcours (descriptions et variables non vérifiées dans le code) ; objet P7 (promet une aide au choix que le corps ne donne pas) ; S2 (la scène du carnet citerait un carnet absent en OUVERTS) ; S5 (traité par @legal C8) | Raisons ci-contre |
+| 1 | Phrase 5 C rendue `[si mensuel]` seulement | Reviewer O1 v1 ; @legal (b) |
+| 2 | Préheaders supprimés, aperçu = début du corps | Reviewer O2 v1 |
+| 3 | Objet E1 PARCOURS « Une question sur ton parcours ? » (remplacé en v3) | Reviewer O3 v1 |
+| 4 | E1 CARNET : fiche du mois dans l'e-mail (règle remplacée en v3 par une autre fiche) | Thomas 07/11 ; panel P5 |
+| 5 | E1 aussi en résiliation programmée avec phrase de tête exacte ; E2 arrêté pour eux | Thomas 07/11 ; panel P10 ; @legal |
+| 6 | « là où tu t’es arrêté » devenu « là où tu en étais » | Panel P6 |
+| 7 | « Cette semaine » devenu « Dès maintenant » | Panel P3 |
+| 8 | Bloc « Ensuite » en deux phrases | Panel P4 ; reviewer S4 v1 |
+| 9 | OUVERTS : « d'un coup » devenu « comprises » | Panel P7 |
+| 10 | Règle d'envoi E1 : pas la semaine du rappel (corrigée en v3) | Reviewer S3 v1 |
