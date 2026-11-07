@@ -13,6 +13,8 @@
  */
 import {
   formatEuros,
+  PARCOURS_COUNT,
+  PREMIUM_PARCOURS,
   PREMIUM_ANNUAL_PRICE_CENTS,
   PREMIUM_ANNUAL_SAVINGS_CENTS,
   PREMIUM_MONTHLY_PRICE_CENTS,
@@ -259,7 +261,8 @@ export interface ConfirmationAbonnementVars {
  * Lot G : paragraphe « Droit de rétractation » remplacé mot pour mot par le
  * texte @legal (point 3), validé par Thomas (founder-preferences 07/10/2026).
  */
-export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): EmailRendu {
+/** Valeurs calculées du bloc de confirmation (communes au bienvenue actuel et au bienvenue s23). */
+function donneesConfirmation(v: ConfirmationAbonnementVars) {
   const url = siteUrl();
   const plan = formuleDe(v.interval, v.montantCents);
   const annuel = plan === "annual";
@@ -272,11 +275,17 @@ export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): Emai
   const ligneAnnuelle = annuel
     ? `\nAvec l’annuel, tu as ${ANNUEL_MOIS_OFFERTS_LABEL} : ${formatEuros(PREMIUM_ANNUAL_SAVINGS_CENTS)} économisés par rapport au mensuel.\n`
     : "";
-  return {
-    subject: "Bienvenue dans Premium, ton abonnement est confirmé",
-    text: `${salutation(v.prenom)}
+  return { url, annuel, montant, prix, souscription, prochain, finRetractation, ligneAnnuelle };
+}
 
-Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance.
+/**
+ * Bloc contractuel (L.221-13), de « Ton abonnement Premium est activé » à la ligne des CGU,
+ * MOT POUR MOT pour les deux bienvenues. `apresResilier` : ligne collée sous « Résilier : … »
+ * (phrase 5 C du bienvenue s23, mensuel seulement), vide sinon.
+ */
+function blocConfirmation(d: ReturnType<typeof donneesConfirmation>, apresResilier = ""): string {
+  const { url, annuel, montant, prix, souscription, prochain, finRetractation, ligneAnnuelle } = d;
+  return `Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance.
 
 Voici ta confirmation :
 - Formule : Premium ${annuel ? "annuel" : "mensuel"}
@@ -284,13 +293,89 @@ Voici ta confirmation :
 - Souscrit le : ${dateLongue(souscription)}
 - Prochain prélèvement : ${dateLongue(prochain)}, ${montant} TTC. L’abonnement se reconduit automatiquement à cette date, jusqu’à ce que tu le résilies.
 ${ligneAnnuelle}
-Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu’à la fin de la période payée.
+Résilier : en ligne, à tout moment, depuis ton profil, bouton « ${TEXTES_ABONNEMENT.resilier} » : ${url}/profil. Ton accès reste ouvert jusqu’à la fin de la période payée.${apresResilier ? `\n${apresResilier}` : ""}
 
 Droit de rétractation : tu as 14 jours à partir d’aujourd’hui, soit au moins jusqu’au ${dateLongue(finRetractation)}, pour te rétracter sans donner de motif. On te rembourse alors l’intégralité de ce que tu as payé (mensuel comme annuel), sous 14 jours maximum après ta demande. Il suffit de remplir ce formulaire : ${url}/retractation.
 
-Les CGU qui s’appliquent à ton abonnement : ${url}/cgu.
+Les CGU qui s’appliquent à ton abonnement : ${url}/cgu.`;
+}
 
-Tout est ouvert. Pour démarrer, choisis un parcours : ${url}/parcours.
+/**
+ * Confirmation de commande (L.221-13), qui sert aussi d'e-mail de bienvenue.
+ * VALIDÉ s16 : étalon 2, corps A + objet 2.2, mot pour mot. Adaptations :
+ * « rubrique « Gérer mon abonnement » » → bouton réel « Résilier ton contrat »
+ * (libellé unique s16) ; le modèle légal de formulaire de rétractation
+ * (L.221-5) est joint après la signature.
+ * Lot G : paragraphe « Droit de rétractation » remplacé mot pour mot par le
+ * texte @legal (point 3), validé par Thomas (founder-preferences 07/10/2026).
+ * s23 : envoyé tant que `ONBOARDING_PREMIUM_OUVERT` est fermé (sinon `emailBienvenuePremium`).
+ */
+export function emailConfirmationAbonnement(v: ConfirmationAbonnementVars): EmailRendu {
+  const d = donneesConfirmation(v);
+  return {
+    subject: "Bienvenue dans Premium, ton abonnement est confirmé",
+    text: `${salutation(v.prenom)}
+
+${blocConfirmation(d)}
+
+Tout est ouvert. Pour démarrer, choisis un parcours : ${d.url}/parcours.
+
+À très vite,
+${SIGNATURE}
+
+============================================
+${formulaireTypeRetractation()}
+`,
+  };
+}
+
+/** Conditions de rendu du bienvenue s23 (lignes `[si …]` du fichier approuvé). */
+export interface BienvenuePremiumConditions {
+  /** `[si carnet]` : `getCarnetExtrait()` non null (un carnet est publié). */
+  carnet: boolean;
+  /** `[si état recoit]` : l'abonné reçoit la lettre du jeudi (`recoitHebdo`). */
+  lettre: boolean;
+  /** `[si question]` : `QUESTION_EQUIPE_OUVERTE`. */
+  question: boolean;
+}
+
+/** « A, B, C et D » : noms des parcours de l'offre (`PREMIUM_PARCOURS`, sans le rythme). */
+export function listeParcoursNoms(noms: readonly string[] = PREMIUM_PARCOURS.map((p) => p.name)): string {
+  if (noms.length <= 1) return noms.join("");
+  return `${noms.slice(0, -1).join(", ")} et ${noms[noms.length - 1]}`;
+}
+
+/**
+ * Bienvenue Premium s23 (E0), APPROUVÉ par Thomas le 07/11/2026 (« et j'approuve »,
+ * `docs/copy/onboarding-premium-s23-emails.md` v4.2, commit ad24ba7) : MOT POUR MOT.
+ * Liste généraliste conditionnelle, « Par où commencer », bloc contractuel inchangé
+ * (`blocConfirmation`, commun avec l'e-mail actuel), phrase 5 C pour le mensuel seulement.
+ * Envoyé seulement si `ONBOARDING_PREMIUM_OUVERT` (lib/emails/paiement-notifications.ts).
+ */
+export function emailBienvenuePremium(v: ConfirmationAbonnementVars & BienvenuePremiumConditions): EmailRendu {
+  const d = donneesConfirmation(v);
+  const puces = [
+    "- Les vannes, les conseils et les vidéos : tout, sans limite, et les filtres pour trouver vite ce qui colle à ta situation.",
+    `- Les parcours : les ${PARCOURS_COUNT}, en entier, de la première à la dernière étape.`,
+    v.carnet ? "- Le carnet de répartie : chaque mois, des situations et leurs répliques, carnets passés compris." : null,
+    "- Les exercices des vannes, conseils et vidéos : de quoi t’entraîner, pas seulement lire.",
+    "- Tes favoris, ta progression et ta série de jours de pratique : ce qui te plaît sous la main, et où tu en es.",
+    v.lettre ? "- La lettre du jeudi : chaque semaine par e-mail, un clic pour l’arrêter." : null,
+    v.question ? "- « Ta question à l’équipe » : écris-nous depuis ton profil, on te répond." : null,
+    "- Le rappel de parcours : un e-mail pour ne pas perdre le fil, à activer depuis ton profil.",
+  ].filter((l): l is string => l !== null);
+  const phrase5C = d.annuel
+    ? ""
+    : `Prends ton temps pour te faire un avis : d’ici le ${dateLongue(d.prochain)}, tout est ouvert, et tu pourras encore résilier la veille.`;
+  return {
+    subject: "Ton abonnement est confirmé : Premium est ouvert, sers-toi",
+    text: `${salutation(v.prenom)} voici tout ce que Premium t’ouvre, et par où commencer.
+
+${puces.join("\n")}
+
+Par où commencer : la première étape d’un parcours, au choix parmi ${listeParcoursNoms()}. ${d.url}/parcours
+
+${blocConfirmation(d, phrase5C)}
 
 À très vite,
 ${SIGNATURE}
