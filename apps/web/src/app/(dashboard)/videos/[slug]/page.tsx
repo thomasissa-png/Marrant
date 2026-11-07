@@ -219,6 +219,7 @@ export default async function VideoPage({
           type="video"
           returnTo={`/videos/${canonicalSlug}`}
           parcours={parcoursPourFiche(parcoursRefs, video.category)}
+          ficheId={video.id}
         />
 
         {/* Étape de parcours qui travaille cette vidéo (SEO-06, s17) : rien si aucune. */}

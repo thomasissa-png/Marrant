@@ -229,6 +229,7 @@ export default async function ConseilPage({
           type="conseil"
           returnTo={`/conseils/${canonicalSlug}`}
           parcours={parcoursPourFiche(parcoursRefs, tip.category)}
+          ficheId={tip.id}
         />
 
         <FicheParcoursLien type="conseil" refs={parcoursRefs} />

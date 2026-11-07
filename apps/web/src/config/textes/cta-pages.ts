@@ -104,6 +104,8 @@ export const BLOC_EXERCICE: Readonly<
 
 /** Titre du bloc pour un abonné (l'exercice s'affiche, aucun bouton). */
 export const BLOC_EXERCICE_ABONNE_TITRE = "À toi de jouer";
+/** Intitulé des points clés d'une vidéo dans le bloc abonné (s23, repris du texte vidéo ci-dessus). */
+export const BLOC_EXERCICE_POINTS_CLES = "Les points clés";
 
 // ─── Fenêtre Premium, par geste ─────────────────────────────────────────────
 
