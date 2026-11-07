@@ -1,0 +1,24 @@
+Cas : E1 version GÉNÉRALE, prénom absent, sans carnet
+Objet : Une question ? Voilà ce qu’on fait ici
+Répondre à : alex@deviens-marrant.fr
+-------- corps --------
+Salut,
+
+Une question, un doute, un truc qui manque ? Réponds à cet e-mail, on lit tout. Et pour t’y retrouver, voici tout ce qui t’attend sur le site :
+- Vannes : des blagues rangées par situation, à ressortir au bon moment.
+- Conseils : des techniques de répartie et d’humour, avec un défi à tester.
+- Vidéos : du stand-up français décortiqué, pour voir ce qui fait rire.
+- Parcours : 5 au choix, une étape par semaine, pour progresser pas à pas.
+- Glossaire : le dico de l’humour (punchline, timing, callback…).
+- Quiz : « Quel type d’humour es-tu ? », pour savoir d’où tu pars.
+
+Et dans ton profil : tes favoris, ta progression et le rappel de parcours, à activer si tu veux un e-mail pour ne pas perdre le fil.
+
+Pour commencer par un parcours : https://deviens-marrant.fr/parcours?src=onboarding-premium
+
+L’Équipe Deviens Marrant
+deviens-marrant.fr
+
+---
+Tu reçois cet e-mail parce que tu as pris un abonnement Premium sur deviens-marrant.fr.
+Arrêter ces e-mails d’accueil (un clic, sans connexion) : https://deviens-marrant.fr/api/onboarding-premium/arret?token=JETON-SIGNE-EXEMPLE
