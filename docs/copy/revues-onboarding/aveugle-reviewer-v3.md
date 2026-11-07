@@ -42,3 +42,45 @@ Contrôle après notation (journal lu ensuite, notes inchangées) : le journal v
 - S4. Variante PARCOURS résiliés : alternative sans attendre @legal, retirer « Tu reprends là où tu en étais. » pour tous (redondant avec « la suite »), ce qui supprime la contradiction avec « voici par où commencer ».
 - S5. L'accroche d'E1 (« devant tout le monde ») ne colle pas à la fiche de novembre (vendeur seul à ton épaule) ; une accroche sans « devant tout le monde » tiendrait pour toutes les fiches.
 - S6. Ellipse `Il est... intéressant` dans la fiche offerte de novembre (l. 121) : la normalisation « … » est bien à vérifier avant envoi.
+
+## Contrôle v3.1 (07/11/2026, commit a0b3f33, fichier relu non modifié)
+
+### Vérifications
+
+| Point | Verdict | Évidence |
+|---|---|---|
+| O1 règle fiche d'E1 | PASS dans le code proposé, FAIL dans le texte qui l'entoure | `getCurrentCarnet` (`carnet.ts:162`), `currentParisMonth` (`carnet.ts:135`), garde identique à `carnet.ts:239`, `ficheOfferte` (`carnet.ts:101`), comparaison par `id` : OK (l. 136). Mais la même l. 136 dit encore « comparaison par identité d'objet » et annonce pour novembre E1 = `2026-11-01` « Le vendeur dans ton dos » : faux avec le filtre, la règle donne `2026-11-04` « Le chemin de la dernière fois » (`2026-11.json:43-46`, `amis`). Tableau l. 186 non mis à jour (O1 demandait `par id, carnet.ts:101,239`). |
+| O2 ligne « La fiche de ce mois-ci : » | PASS dans le corps, résidu l. 89 | Corps E0 l. 32-37 OK. Tableau l. 89 la cite encore. |
+| O3 « Cette semaine » | PASS l. 43, résidus | l. 92 garde la ligne « Dès maintenant : ». Le bloc « Ensuite » d'E0 (l. 45) reste reformulé par rapport à l'étalon 2 C (`etalons-onboarding-s23.md:65` : « une par semaine reste le rythme conseillé, avec un rappel par e-mail sur demande » rendu « on conseille une étape par semaine, avec un rappel par e-mail si tu l’actives dans ton profil ») ; l. 5 « aucun mot d'étalon retiré » donc toujours fausse, et ce point n'est pas soumis à Thomas. |
+| K1 | PASS | l. 32-33. |
+| K2 exercice E0 | PASS texte, résidu l. 77 | `exercice` obligatoire (`carnet.ts:42`), présent l. 125 pour `2026-11-10`, faisable seul. l. 77 dit encore « L'exercice n'est volontairement pas montré en E0 ». |
+| K3 filtre amis/soirée | PASS | `contexte` `amis` : 04, 08, 09, 10 (offerte), 12 ; `soirée` : 05, 06, 07, 14, 26. « 5 `amis` » compte la fiche offerte (à préciser). Exercice de `2026-11-04` sans accessoire (K7 tenu en novembre). |
+| K4 PARCOURS | PASS phrase, FAIL replis | `weeks` = nombre d'étapes (`premium.ts:68`), `timePerWeek` (`premium.ts:77-79`). La note de repli l. 147 est **dans** le bloc de code du corps (risque d'être copiée dans l'e-mail) ; le repli l. 153 (« …c’est l’étape {etapeNumero}. ») contredit celui de l. 147 (« …sur {weeks}. »). |
+| K5, K6 OUVERTS | PASS corps, résidu l. 190 | Rendu l. 167 = `premium.ts:77-79` (3, 4, 6 semaines). Tableau l. 190 cite encore `{listeParcours}`. |
+| Régressions | PASS | Grep `—`/`–` : 0. Étalons 1 A, 3 A, 4 A, 5 C intacts. Bloc contractuel = `paiement.ts:279-291, 295-299` mot pour mot. E0 (`2026-11-10`) et E1 (`2026-11-04`) : aucune répétition de fiche ni d'exercice. |
+| Longueur E0 mobile | PASS avec réserve | Environ 1 500 signes avant le bloc contractuel en novembre, soit environ 2 écrans à 375 px (v3 : 1,5). Fiche et exercice finissent vers le bas du 1er écran : la valeur reste visible sans défiler loin. Réserve : longueur variable selon la fiche offerte du mois ; le repli du point 4 reste valable. |
+
+### Note
+
+Textes client des e-mails : 9. Documentation de rendu (ce que @fullstack code et ce que Thomas lit) : 8, à cause de l. 136 (mauvaise fiche annoncée) et de l. 5 (étalon). **Note globale : 8,5/10. NO-GO pour présentation à Thomas en l'état** ; R1 à R3 ne touchent aucun mot client, elles passent la note à 9 et le GO sur simple contrôle Grep, sans nouvelle relecture à l'aveugle.
+
+### Corrections restantes (texte exact)
+
+**R1. l. 136**, remplacer « novembre 2026 : 5 fiches `amis`, 5 `soirée` » par « novembre 2026 : 5 fiches `amis` dont la fiche offerte, 5 `soirée` », puis remplacer de « C'est la première fiche du carnet » jusqu'à « « Le vendeur dans ton dos ». » par :
+> C'est la première fiche `amis` ou `soirée` qui n'est pas la fiche offerte (repli : la première fiche non offerte), comparaison par `id`. Le carnet est classé de la moins tendue à la plus tendue (`carnet.ts:174-175`) : l'abonné reçoit donc la plus douce des fiches réservées de ces deux contextes. Novembre 2026 (vérifié dans `data/carnet/2026-11.json`) : 30 fiches, fiche offerte = `2026-11-10` (ligne 117), donc E0 montre `2026-11-10` « Le gratin « intéressant » » et E1 `2026-11-04` « Le chemin de la dernière fois » (ligne 43).
+
+Et l. 186, colonne 1 : `Fiche réservée (première amis/soirée non offerte, repli : première non offerte) + « À toi de jouer : {exercice} »` ; colonne 2 : remplacer `règle ficheOfferte/find, carnet.ts:101,178` par `règle ficheOfferte/find par id, carnet.ts:101,239`.
+
+**R2. Résidus v3 :**
+- l. 77 : remplacer « Champs (`carnet.ts:33-42`) : `situation`, `onTeDit`, `reponse`, `pourquoi`. L'exercice n'est volontairement pas montré en E0 (réservé à E1 pour ne pas répéter). » par « Champs (`carnet.ts:33-42`) : `situation`, `onTeDit`, `reponse`, `pourquoi`, `exercice` (panel v3 K2 ; E1 montre une autre fiche, donc rien ne se répète). »
+- l. 89, colonne 1 : `Fiche du mois sous « Pour commencer » (situation, On te dit, Ta réplique, Pourquoi elle marche, À toi de jouer)`.
+- l. 92 : supprimer la ligne `| « Dès maintenant : » | v2 (panel P3) |`.
+- l. 190 : remplacer « avec `{listeParcours}` » par « avec `{listeParcoursDurees}` ».
+- l. 147 : sortir la note entre parenthèses du bloc de code (la placer juste après la ligne ```` ``` ```` de fermeture, l. 152).
+- l. 153 : remplacer « **Repli** si `etapeTitre` est le repli « Étape {n} » : `…la suite, c’est l’étape {etapeNumero}. Tu reprends là où tu en étais.` » par « **Repli** si `etapeTitre` est le repli « Étape {n} » : celui de la note sous le corps (`…c’est l’étape {etapeNumero} sur {weeks}. Tu reprends là où tu en étais.`). »
+
+**R3. Étalon 2 C, bloc « Ensuite »** (P0 s8, choix de Thomas) :
+- l. 5 : remplacer « repris mot pour mot, aucun mot d'étalon retiré (voir journal). » par « repris mot pour mot, sauf le bloc « Ensuite » d'E0, reformulé en v2 (panel P4) et soumis à Thomas (Points à trancher, point 1). »
+- Points à trancher, point 1, ajouter : « Étalon 2 C, bloc « Ensuite » d'E0 : reformulé en v2 (panel P4) sans accord tracé (`etalons-onboarding-s23.md:65`) ; à confirmer par Thomas, sinon retour au texte de l'étalon. »
+
+Souhaitables : titre et statut (l. 1 et 3) en « v3.1 » ; S3 (phrase `{nbAutres}` identique en E0 et E1) toujours ouvert.
