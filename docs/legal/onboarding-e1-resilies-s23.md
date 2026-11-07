@@ -47,6 +47,24 @@ Rien d'autre ne change dans E1 : même corps, même pied d'arrêt. Si la répliq
 
 **Texte pour l'annuel : aucune phrase.** Les lignes « Résilier : … » et « Droit de rétractation : … » du bloc contractuel suffisent et disent le vrai. Ajouter une phrase de remplacement (« tu as 14 jours pour te faire un avis, remboursé en entier ») ne ferait que répéter la mention suivante. Condition de rendu à ajouter : `[si mensuel]` devant la phrase 5 C. Le rappel avant renouvellement annuel (J-40 à J-32) existe (choix du 04/10).
 
+## v3 (07/11/2026) : variante PARCOURS et plan jusqu'à finAcces
+
+Draft de référence, pas un avis juridique. Lu : `docs/copy/onboarding-premium-s23-emails.md` (v3) et `apps/web/src` (webhook, `stripe-subscription.ts`, `subscription-state.ts`).
+
+**1. Variante de tête PARCOURS : VALIDÉE telle quelle.**
+`Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici où tu en es.`
+- Même fait que la phrase légale (accès payé jusqu'à la fin de période), aucune offre, aucune mention de résiliation, ni prix, urgence, lien « rester » : les critères du (a) sont tenus. Elle lève la contradiction avec « Tu reprends là où tu en étais ».
+- Conditions : rendue seulement dans la version PARCOURS ET en résiliation programmée ; C1 à C8 inchangées. Les versions CARNET et OUVERTS gardent « voici par où commencer ». Le choix de version reste fondé sur l'avancement du parcours (règle identique pour tous les abonnés), jamais sur la résiliation ni son motif (C7).
+- Le texte du copywriter peut passer de « [À VALIDER @legal] » à appliqué. Validation avocat inchangée (point 2 de la liste ci-dessous).
+
+**2. Plan PREMIUM jusqu'à finAcces : confirmé, E1 CARNET peut promettre une fiche réservée.**
+- Une résiliation programmée laisse l'abonnement Stripe `active` avec `cancel_at_period_end` : `STATUS_MAP.active = ACTIVE` (`apps/web/src/app/api/stripe/webhook/route.ts:37`), et `handleSubscriptionUpdated` pose `plan: "PREMIUM"` pour `active`/`trialing` (l. 194-198, écriture l. 200-208). Seul le drapeau `cancelAtPeriodEnd` est recopié (`stripe-subscription.ts:22-24`).
+- Le passage à FREE n'arrive qu'à `canceled`/`unpaid`/`incomplete_expired` (route.ts:46, 192-194), à `customer.subscription.deleted` (l. 224-232, donc à la fin réelle) ou au remboursement total (l. 380-387). Ce sont exactement les cas d'arrêt C3.
+- `subscription-state.ts:11,23` : la résiliation programmée n'existe que tant que le statut est en cours (ACTIVE, PAST_DUE, TRIALING).
+- Réserve 1 : en PAST_DUE le plan reste PREMIUM (route.ts:193, 240) mais C3 arrête E1 pour paiement échoué ; le test d'envoi doit donc exiger `status` ACTIVE ou TRIALING, pas seulement `plan = PREMIUM`.
+- Réserve 2 : `finAcces` ne doit pas être lu seul dans `currentPeriodEnd` : le webhook utilise `cancel_at` quand il existe (route.ts:172), alors que la base ne stocke que la fin de période (`periodEndData`, `stripe-subscription.ts:47-50`). Si `cancel_at` diffère, la date de la phrase de tête serait fausse. À corriger par @fullstack avant l'ouverture aux résiliés, sinon la phrase devient inexacte.
+- Non relu : `carnetViewForPlan` (`carnet.ts:172-189`) lit le plan de l'utilisateur d'après le copywriter ; je n'ai pas rouvert ce fichier.
+
 ## À faire valider par l'avocat
 1. E1 aux résiliés : relationnel ou prospection « client existant » (nous prenons le second par prudence).
 2. Phrase de tête : une mention de la date de fin d'accès près d'une résiliation est-elle une pression ?
