@@ -50,14 +50,14 @@ export const RESILIATION_LIMITE = { maxRequests: 6, windowMs: 10 * 60_000 } as c
 export const RESILIATION_DELAI_LENT_MS = 3000;
 
 /**
- * PROVISOIRE, à confirmer par Thomas : durée de conservation des réponses à la question de la
+ * Validé par Thomas le 07/11/2026 (« ok pour tes recos ») : durée de conservation des réponses à la question de la
  * résiliation (`CancellationFeedback`), en mois. Purge quotidienne (`purgerMotifsResiliation`),
  * mention sous le champ libre et politique de confidentialité lisent cette seule valeur.
  */
 export const RESILIATION_CONSERVATION_MOIS = 24;
 
 /**
- * PROVISOIRE, à confirmer par Thomas : délai annoncé quand l'équipe résilie à la main (erreur
+ * Validé par Thomas le 07/11/2026 (« ok pour tes recos »), engagement à tenir : délai annoncé quand l'équipe résilie à la main (erreur
  * Stripe, accès sans client Stripe, base indisponible). Bandeau d'erreur et e-mail de demande.
  */
 export const RESILIATION_DELAI_EQUIPE = "sous un jour ouvré";
