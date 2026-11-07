@@ -1,6 +1,6 @@
-# Onboarding Premium s23 : textes finaux E0, E1, E2 (v4, 07/11/2026)
+# Onboarding Premium s23 : textes finaux E0, E1, E2 (v4.1, 07/11/2026)
 
-Statut : BROUILLON v4, avant relecture à l'aveugle (barre 9/10), avis @legal final et approbation de Thomas. Rien n'est envoyé avant.
+Statut : BROUILLON v4.1 (corrige la v4 après les relectures à l'aveugle reviewer 8,5 et panel 7,3 à 8,2), à repasser en relecture à l'aveugle (barre 9/10, règle P0 s18), avis @legal final et approbation de Thomas. Rien n'est envoyé avant.
 v4 = refonte demandée par Thomas le 07/11 (rejet de la v3.1 : « Le bienvenue est archi nul… Généraliste. Là, c'est ultra ciblé… On fait que ça en fait sur le site ?? »). Décision consignée dans `docs/founder-preferences.md` (07/11) : elle REMPLACE les étalons 2 C et 3 A et la fiche du carnet dans les e-mails. Restent valables : objet 1 A, E2 (4 A) inchangé, phrase 5 C (mensuel seulement), bloc contractuel mot pour mot, E1 aussi aux résiliés programmés (phrase de tête @legal, `docs/legal/onboarding-e1-resilies-s23.md`), signature, ton `docs/copy/ton-alex.md`.
 
 [Framework : liste de bénéfices puis un pas (AIDA court) pour E0 ; porte ouverte puis invitation à répondre pour E1 ; question ouverte pour E2.]
@@ -9,7 +9,7 @@ v4 = refonte demandée par Thomas le 07/11 (rejet de la v3.1 : « Le bienvenue e
 Conventions de rendu :
 - Texte seul, tutoiement, « on », zéro tiret cadratin, zéro émoji. Apostrophes typographiques ’ comme dans `paiement.ts`. Les puces sont des tirets simples « - ».
 - Pas de préheader : l'aperçu = « Salut {prénom}, » + première phrase du corps. `{prénom}` absent : « Salut, ».
-- `{url}` = `siteUrl()`. `{N}` = `PARCOURS_COUNT` (`config/premium.ts:89`). `{listeParcours}` = `PREMIUM_PARCOURS` rendu « {name} ({timePerWeek}) », virgules, dernier par « et » (`premium.ts:76-86`). Signature = `SIGNATURE` (`paiement.ts:27`) ; dans E1/E2 suivie de « deviens-marrant.fr ». Aucun chiffre en dur.
+- `{url}` = `siteUrl()`. `{N}` = `PARCOURS_COUNT` (`config/premium.ts:89`). `{listeParcours}` = noms seuls de `PREMIUM_PARCOURS` (`name`, sans le rythme `timePerWeek`, pour tenir sur mobile), virgules, dernier par « et » (`premium.ts:76-86`). Signature = `SIGNATURE` (`paiement.ts:27`) ; dans E1/E2 suivie de « deviens-marrant.fr ». Aucun chiffre en dur.
 
 ---
 
@@ -25,17 +25,13 @@ Blocs `[si …]` rendus seulement si la condition est vraie.
 ```
 Salut {prénom}, voici tout ce que Premium t’ouvre, et par où commencer.
 
-Ce qui est à toi dès maintenant :
-- Les vannes : tout le catalogue, sans limite, avec des filtres pour trouver celle qui colle à ta situation.
-- Les conseils : toutes les techniques de répartie et d’humour, sans limite, avec leurs filtres.
-- Les vidéos : le stand-up décortiqué technique par technique, sans limite, avec leurs filtres.
-- Les parcours : les {N} en entier, de la première à la dernière étape.
-[si carnet] - Le carnet de répartie : chaque mois des situations et leurs répliques, et les carnets des mois passés.
-- Les exercices des fiches : de quoi t’entraîner, pas seulement lire.
-- Tes favoris : vannes, conseils et vidéos gardés sous la main.
-- Ta progression et ta série : tu vois où tu en es.
-[si état recoit] - La lettre du jeudi : par e-mail, chaque semaine, si tu la veux (un clic pour l’arrêter).
-[si question] - « Ta question à l’équipe » : écris-nous depuis ton profil, on lit tout.
+- Les vannes, les conseils et les vidéos : tout, sans limite, et les filtres pour trouver vite ce qui colle à ta situation.
+- Les parcours : les {N}, en entier, de la première à la dernière étape.
+[si carnet] - Le carnet de répartie : chaque mois, des situations et leurs répliques, carnets passés compris.
+- Les exercices sur chaque vanne, conseil et vidéo : de quoi t’entraîner, pas seulement lire.
+- Tes favoris, ta progression et ta série de jours de pratique : ce qui te plaît sous la main, et où tu en es.
+[si état recoit] - La lettre du jeudi : chaque semaine par e-mail, un clic pour l’arrêter.
+[si question] - « Ta question à l’équipe » : écris-nous depuis ton profil, on te répond.
 - Le rappel de parcours : un e-mail pour ne pas perdre le fil, à activer depuis ton profil.
 
 Par où commencer : la première étape d’un parcours, au choix parmi {listeParcours}. {url}/parcours
@@ -63,22 +59,25 @@ L’Équipe Deviens Marrant
 {formulaireTypeRetractation(), inchangé}
 ```
 
-Longueur : 11 lignes de liste maximum (9 si carnet, lettre ou question absents), chacune sur une ligne ou deux à l'écran mobile ; la liste, la ligne « Par où commencer » et la formule de bienvenue tiennent à peu près un écran avant le bloc contractuel, à vérifier au rendu.
+Longueur : 8 puces maximum (5 sans carnet, lettre ni question), chacune sur 2 à 3 lignes à 375 px ; avec « Par où commencer » (noms de parcours seuls) et la formule de bienvenue, l'objectif est environ un écran avant le bloc contractuel. [À vérifier au rendu réel iOS/Android à 375 px : estimation, non mesurée.]
 
 ### Conditions de rendu et vérifications dans le code
 
 | Ligne | Condition | Source du fait |
 |---|---|---|
-| Vannes, conseils, vidéos « sans limite » | toujours | Gratuit limité à `FREE_CATALOGUE_LIMITS_LABEL` (`premium.ts:110-115`) ; `/api/jokes` : `isPremium` lève la limite ; tableau « Tout le catalogue : Sans limite » (`abonnement-vente.ts:124`) |
+| Vannes, conseils, vidéos : « tout, sans limite » (ligne fusionnée) | toujours | Gratuit limité à `FREE_CATALOGUE_LIMITS_LABEL` (`premium.ts:110-115`) ; `/api/jokes` : `isPremium` lève la limite ; tableau « Tout le catalogue : Sans limite » (`abonnement-vente.ts:124`) |
 | « avec des filtres » | toujours | Filtres rendus par `conseils-list.tsx`, `videos-grid.tsx` ; vannes : « avec Premium, par les filtres » (`vannes/page.tsx:59`) |
 | Parcours « les {N} en entier » | toujours | `PARCOURS_COUNT` ; tableau `abonnement-vente.ts:125` |
 | Carnet + « mois passés » | `[si carnet]` : `getCarnetExtrait` non null | Tableau : « Toutes, carnets passés compris » (`abonnement-vente.ts:127`) ; ligne présente seulement si un carnet existe, comme le tableau |
-| Exercices, favoris, progression et série | toujours | Tableau `abonnement-vente.ts:130-132` (Gratuit : Non) |
-| Lettre du jeudi | `[si état recoit]` (`LETTRE_HEBDO_INFO_PAIEMENT`) | « Chaque semaine, si tu la veux » (`abonnement-vente.ts:129`, `AVANTAGE_LETTRE`) |
+| Exercices sur chaque vanne, conseil et vidéo (C2 appliquée) | toujours | Trois types d'exercice : `exercice-vanne`, `exercice-conseil`, `exercice-video` (`lib/abonnement-accroche.ts:23-25`) ; tableau `abonnement-vente.ts:130` |
+| Favoris, progression, série de jours de pratique (ligne fusionnée) | toujours | Tableau `abonnement-vente.ts:131-132` (Gratuit : Non) ; série : `lib/progression.ts` (cité par le panel, non rouvert) |
+| Lettre du jeudi | `[si état recoit]` (`LETTRE_HEBDO_INFO_PAIEMENT`) | `recoit` = « Premium sans arrêt explicite ni opposition » (`config/textes/lettre-hebdo-s21.ts:37`) : il la reçoit déjà, donc « si tu la veux » est retiré (C4 vérifiée) |
 | Ta question à l’équipe | `[si question]` : `QUESTION_EQUIPE_OUVERTE` (`config/question-equipe.ts:11`) | Encadré du profil Premium, envoi par e-mail à l'équipe |
 | Rappel de parcours | toujours | `profil/rappel-parcours-toggle.tsx`, `/profil#rappel-parcours` ; activable par l'abonné |
 
-- Aucun autre avantage Premium réel dans le code : le quiz (« Quiz et vanne du jour ») est Gratuit et Premium (`abonnement-vente.ts:133`), le glossaire est public ; ils ne sont donc pas listés en E0 (« ce que Premium t’ouvre »), mais cités en E1.
+- Aucun autre avantage Premium réel dans le code : le quiz (« Quiz et vanne du jour ») est Gratuit et Premium (`abonnement-vente.ts:133`), le glossaire est public ; ils ne sont donc pas listés en E0 (« ce que Premium t’ouvre »), mais cités en E1 (sans mention gratuit ou payant, C7).
+- « on te répond » (ligne question d'E0) : si l'équipe ne veut pas porter cet engagement, revenir à « on lit tout » (repli proposé par le reviewer) ; E1 garde « on lit tout ».
+- Abonné en état « arretee » (lettre non reçue) : aucune ligne lettre en E0 ; une ligne « à activer depuis ton profil » reste à trancher par Thomas.
 - « Par où commencer » : parcours (valeur centrale de l'offre, destination par défaut après paiement `PREMIUM_DEFAULT_RETURN = /parcours`, `premium.ts:118`), neutre, pas de fiche. `{listeParcours}` vient de `PREMIUM_PARCOURS`, jamais écrit en dur.
 - **`[si mensuel]` (phrase 5 C) : formule mensuelle seulement.** En annuel, aucune phrase de remplacement. Aucun mot du bloc contractuel ne change (`paiement.ts` l. 279 à 291 et 295 à 299). Retiré du gabarit : « Tout est ouvert. Pour démarrer, choisis un parcours : {url}/parcours. ».
 - **Aucun e-mail de rappel avant prélèvement** (décision Thomas 07/11).
@@ -106,32 +105,38 @@ Dans la version PARCOURS (variante validée @legal le 07/11) : `Ton accès reste
 Salut {prénom},
 [si résiliation programmée] Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici par où commencer.
 
-Une question, un doute, un truc qui manque ? Réponds à cet e-mail, on lit tout. Et si tu veux un repère, voici ce qu’on fait sur le site :
+Une question, un doute, un truc qui manque ? Réponds à cet e-mail, on lit tout. Et pour t’y retrouver, voici tout ce qui t’attend sur le site :
 - Vannes : des blagues rangées par situation, à ressortir au bon moment.
 - Conseils : des techniques de répartie et d’humour, avec un défi à tester.
 - Vidéos : du stand-up français décortiqué, pour voir ce qui fait rire.
-- Parcours : {N} parcours, une étape par semaine, pour progresser pas à pas.
+- Parcours : {N} au choix, une étape par semaine, pour progresser pas à pas.
 [si carnet] - Carnet : chaque mois, des situations et leurs répliques.
-- Glossaire : le dico de l’humour (punchline, timing, callback…), en accès libre.
-- Quiz : « Quel type d’humour es-tu ? », en accès libre.
+- Glossaire : le dico de l’humour (punchline, timing, callback…).
+- Quiz : « Quel type d’humour es-tu ? », pour savoir d’où tu pars.
+
+Et dans ton profil : tes favoris, ta progression et le rappel de parcours, à activer si tu veux un e-mail pour ne pas perdre le fil.
 
 Pour commencer par un parcours : {url}/parcours?src=onboarding-premium
 ```
 
 ### Version PARCOURS (abonné avec un parcours en cours)
-Même corps que la version GÉNÉRALE (même liste), avec la phrase de tête « voici où tu en es » pour les résiliés, une ligne ajoutée juste avant la liste, et le lien principal remplacé :
+Même corps que la version GÉNÉRALE (même liste, même ligne profil), avec la ligne d'étape placée juste après la phrase de tête (obligatoire O2 du reviewer : jamais entre le deux-points et la première puce) et le lien principal remplacé :
 ```
-[…]
-Ta prochaine étape : « {parcoursTitre} », étape {etapeNumero} sur {weeks} : {etapeTitre}.
-[liste identique]
+Salut {prénom},
+[si résiliation programmée] Ton accès reste ouvert jusqu’au {dateLongue(finAcces)} : voici où tu en es.
+
+Ta prochaine étape dans « {parcoursTitre} » : {etapeTitre} (étape {etapeNumero} sur {weeks}).
+
+Une question, un doute, un truc qui manque ? Réponds à cet e-mail, on lit tout. Et pour t’y retrouver, voici tout ce qui t’attend sur le site :
+[liste identique, ligne profil comprise]
 
 Reprendre mon parcours : {lienEtape}
 ```
-Replis : sans titre d'étape (repli « Étape {n} »), « Ta prochaine étape : « {parcoursTitre} », étape {etapeNumero} sur {weeks}. » ; parcours absent de `PREMIUM_PARCOURS`, sans « sur {weeks} » ; sans titre de parcours, la ligne est supprimée et le lien reste `{url}/parcours`. Données : `rappel-parcours.ts:200-215` (`parcoursTitre`, `etapeNumero`, `etapeTitre`, `lienEtape`) ; `weeks` dans `premium.ts:76-86`. `titreEtape` n'est pas exportée [@fullstack].
+Le libellé de la ligne d'étape suit le panel (C11 : un seul deux-points) ; la place suit le reviewer. Replis : sans titre d’étape (repli « Étape {n} »), « Ta prochaine étape dans « {parcoursTitre} » : étape {etapeNumero} sur {weeks}. » ; parcours absent de `PREMIUM_PARCOURS`, sans « sur {weeks} » ; sans titre de parcours, la ligne est supprimée et le lien reste `{url}/parcours`. Données : `rappel-parcours.ts:200-215` (`parcoursTitre`, `etapeNumero`, `etapeTitre`, `lienEtape`) ; `weeks` dans `premium.ts:76-86`. `titreEtape` n'est pas exportée [@fullstack].
 
 **Lien principal : `/parcours`** (justification : c'est la valeur centrale de l'offre, la promesse « un parcours structuré », et le lien le plus utile à quelqu'un qui n'a pas encore commencé ; le carnet, le quiz ou le glossaire restent cités sans lien pour ne pas disperser). Chez qui a un parcours en cours, le lien le plus utile est sa prochaine étape.
 
-**Vérification des lignes** : vannes (`/vannes`, rangées par contexte, `vannes/page.tsx:59,69`), conseils (« un exemple, un dialogue et un défi à tester », `conseils/page.tsx:98`), vidéos (« décortiquées technique par technique », `videos/page.tsx:94`), parcours (`PARCOURS_COUNT`, une étape par semaine = `weeks`, `premium.ts:68`), carnet (`[si carnet]`, même garde qu'en E0), glossaire (public, `glossaire/page.tsx:28`), quiz (`quiz-humour/page.tsx:18`, gratuit et Premium). Aucune promesse hors code.
+**Vérification des lignes** : vannes (`/vannes`, rangées par contexte, `vannes/page.tsx:59,69`), conseils (« un exemple, un dialogue et un défi à tester », `conseils/page.tsx:98`), vidéos (« décortiquées technique par technique », `videos/page.tsx:94`), parcours (`PARCOURS_COUNT`, une étape par semaine = `weeks`, `premium.ts:68`), carnet (`[si carnet]`, même garde qu'en E0), glossaire (`glossaire/page.tsx:28`), quiz (`quiz-humour/page.tsx:18`), ligne profil (favoris, progression, rappel activable : mêmes sources qu'E0). E1 n'affirme rien sur gratuit ou payant (C7). Aucune promesse hors code.
 
 **`?src=onboarding-premium`** : `PARCOURS_SRC` est une liste fermée (`lib/parcours-tracking.ts:6-33`), toute valeur inconnue devient `direct` : la valeur est à ajouter [@fullstack, avis @legal s17]. Sans identifiant (C6). Pour la version PARCOURS, remplacer `src=rappel` de `lienEtape` par `src=onboarding-premium`.
 
@@ -178,6 +183,30 @@ Arrêter ces e-mails d’accueil (un clic, sans connexion) : {lienArret}
 1. **@legal** : (a) rien de nouveau sur E0 (bloc contractuel inchangé) ; (b) E1 est généraliste, sans fiche réservée : le point « fiche envoyée aux résiliés » de la v3.1 tombe ; (c) C8 avant ouverture aux résiliés.
 2. **@fullstack** : `finAcces`, `[si carnet]`, `[si état recoit]`, `[si question]`, `src=onboarding-premium` dans `PARCOURS_SRC`, `titreEtape` exportée, règle de glissement et journal. Retrait du code E0 de la fiche (`ficheOfferte`, `nbAutres`) et de la version CARNET d'E1. `BIENVENUE_PREMIUM.lettre` périmé (`abonnement-vente.ts:175`).
 3. **Revue à l'aveugle** : longueur mobile d'E0 ; ton des descriptions de la liste.
+
+---
+
+## Journal v4 → v4.1 (07/11, après relectures à l'aveugle v4)
+
+| Changement | Source | Statut |
+|---|---|---|
+| E0 : liste de 11 à 8 puces maximum (ligne « Ce qui est à toi dès maintenant » retirée, la phrase de tête sert d'en-tête) | Reviewer O1 | Appliqué (texte du reviewer, sauf mots ci-dessous) |
+| E0 : « tout le catalogue » devient « tout » ; « filtres » et « sans limite » une seule fois | Panel C1 | Appliqué (mots) |
+| E0 : « exercices des fiches » devient « exercices sur chaque vanne, conseil et vidéo » | Panel C2 | Appliqué après vérification : 3 types d'exercice (`abonnement-accroche.ts:23-25`). Remplace la tournure « sur les fiches des vannes, conseils et vidéos » du reviewer (même sens, sans le mot interne) |
+| E0 : « ta série de jours de pratique » | Panel C3 | Appliqué |
+| E0 : « si tu la veux » retiré de la lettre | Panel C4 | Appliqué après vérification : `recoit` = déjà reçue (`lettre-hebdo-s21.ts:37`) |
+| E0 : virgule du carnet | Panel C5 | Appliqué (via O1) |
+| E0 : `{listeParcours}` sans les rythmes | Reviewer souhaitable | Appliqué |
+| E1 PARCOURS : ligne d'étape juste après la phrase de tête, avant l'invitation | Reviewer O2, panel C10 | Appliqué |
+| E1 PARCOURS : « Ta prochaine étape dans « {parcoursTitre} » : {etapeTitre} (étape {n} sur {weeks}). » | Panel C11 (mots) | Appliqué à la place de la ligne du reviewer, pour un seul deux-points |
+| E1 : ligne « Et dans ton profil : favoris, progression, rappel de parcours » | Panel C6 | Appliqué (sources identiques à E0) |
+| E1 : « en accès libre » retiré ; quiz « pour savoir d’où tu pars » | Panel C7, reviewer souhaitable | Appliqué : le cadre `onboarding-e1-resilies-s23.md` n'interdit rien ici (ni prix, offre, mention de résiliation ajoutés) et E1 n'affirme plus rien sur gratuit ou payant. À confirmer @legal à la relecture finale |
+| E1 : « {N} au choix » ; « pour t’y retrouver, voici tout ce qui t’attend » | Panel C8, C9 | Appliqué |
+| Phrase de tête résiliés (« voici par où commencer ») | Panel C12 | NON appliqué : texte légal figé mot pour mot, décision @legal requise |
+| Déplacer « Ton abonnement Premium est activé… » | Panel (non retenu) | Non appliqué : bloc contractuel fixe |
+| Inchangés | Consigne | Objet E0 (1 A), bloc contractuel, phrase 5 C mensuel, E2, phrases de tête @legal, signature |
+
+Reste ouvert : mesure du rendu mobile d'E0 (estimation, non mesurée), « on te répond » (engagement à valider), ligne lettre pour l'état « arretee » (Thomas), relecture à l'aveugle v4.1 (aucune note v4.1 revendiquée ici).
 
 ---
 
