@@ -41,3 +41,18 @@ Motif : en texte seul, l'aperçu reprend la première ligne du corps (« Ta proc
 - S3. Règle l.89 : si rappel de parcours actif et pas de carnet, envoyer quand même E1 PARCOURS mais vérifier qu'il ne tombe pas la semaine du rappel (redite) ; à écrire dans la règle d'envoi.
 - S4. E0 l.36 : si Thomas l'accepte, couper la parenthèse en une phrase à part (« Toutes les étapes sont ouvertes ; on conseille une par semaine, avec un rappel par e-mail sur demande. »).
 - S5. @legal : dire si E0 doit annoncer en une ligne les deux e-mails d'accueil et leur arrêt (information au moment de la collecte), ou si le cadre D1 suffit.
+
+## Avis sur les 3 points ouverts
+
+1. **Préheaders en texte seul** : ne pas ajouter de partie HTML pour ça. Un aperçu se pilote déjà par la première phrase du corps, et ici elle est bonne partout (E0 « voici ce qui vient de s’ouvrir, et par où commencer », E1 CARNET la scène, E2 la question). Ajouter du HTML à E0 toucherait un e-mail contractuel validé mot pour mot, pour un gain nul. D'où O2 (retirer les préheaders de la spec) et O3 (le seul cas où l'aperçu fait doublon avec l'objet).
+2. **Redite « confirmé » (objet) / « activé » (corps) dans E0** : à garder. La ligne « Ton abonnement Premium est activé. Bienvenue, et merci pour ta confiance. » fait la bascule entre la partie guide et la confirmation, et appartient au bloc validé (s16) ; l'écart objet/corps est léger et n'est pas une contradiction. Seul bémol, non bloquant : « Bienvenue » arrive après trois paragraphes, ce qui se lit sans gêne parce que l'ouverture accueille déjà.
+3. **`BIENVENUE_PREMIUM.lettre` périmé** (`abonnement-vente.ts:175`, « s’active depuis ton profil ») : texte faux depuis l'inscription d'office, mais **invisible aujourd'hui** (rendu seulement si `LETTRE_HEBDO_PROMESSE`, à `false` dans `config/lettre.ts:152` et `config/lettre-hebdo-promesse-temporaire.ts:12`, deux constantes du même nom à unifier). Pas bloquant pour ces e-mails ; à corriger par @fullstack avant tout passage de l'interrupteur à `true`, sinon la page de retour contredirait E0 (« arrive chaque jeudi »). Le test `conversion-s21-textes.test.ts:122` fige l'ancien texte et devra suivre.
+
+## Handoff
+
+---
+**Handoff → @orchestrator**
+- Fichier produit : `docs/copy/revues-onboarding/aveugle-reviewer-v1.md`
+- Décision : NO-GO à 8,75/10 ; 3 corrections obligatoires (O1 condition mensuel sur 5 C, O2 préheaders non rendus, O3 objet E1 PARCOURS), 5 souhaitables.
+- Agents à relancer : @copywriter (O2, O3, S2), @legal (O1, S5), Thomas (O1 si l'annuel doit garder la phrase, S1, S4), @fullstack (point 3, hors de ces textes).
+---
