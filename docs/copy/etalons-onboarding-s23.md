@@ -1,4 +1,4 @@
-# Étalons onboarding Premium (s23, v2, 06/11/2026) : à trancher par Thomas avant toute écriture
+# Étalons onboarding Premium (s23, v2.2, 06/11/2026) : TRANCHÉS par Thomas le 07/11 (« ok pour tes recos ») : 1 A, 2 C, 3 A, 4 A, 5 C
 
 Règle P0 s8 : 5 étalons, 3 options chacun, une réponse attendue par étalon (A, B ou C). Aucun autre texte n'est écrit avant. v2 = v1 + corrections obligatoires du reviewer (O1 à O10), souhaitables en une ligne, pistes du panel des 3 personas, et étalon 5 (phrase anti-réflexe).
 **Séquence (Thomas, 06/11 : « pas trop de mails car ils ont les newsletters, le J1 bof »)** : E0 bienvenue (J0, premier pas dedans) ; E1 à J5 « Une question ? » fusionné avec « par où commencer » ; E2 à J21 « Trois semaines : qu'est-ce qui manque ? ».
