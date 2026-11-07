@@ -40,11 +40,23 @@ async function shot(page, nom, opts = {}) {
   await page.waitForTimeout(300);
   if (opts.clip) {
     await opts.clip.scrollIntoViewIfNeeded().catch(() => {});
+    // s23 v3 : masque les barres fixes ou collantes hors de l'élément capturé (l'en-tête du site
+    // passait par-dessus la carte du profil sur mobile), remises en place juste après la capture.
+    await opts.clip.evaluate((cible) => {
+      for (const el of document.querySelectorAll('body *')) {
+        const pos = getComputedStyle(el).position;
+        if ((pos === 'fixed' || pos === 'sticky') && !el.contains(cible) && !cible.contains(el)) {
+          el.dataset.qaMasque = '1';
+          el.style.visibility = 'hidden';
+        }
+      }
+    });
     const box = await opts.clip.evaluate((el) => {
       const r = el.getBoundingClientRect();
       return { x: r.left + window.scrollX, y: r.top + window.scrollY, width: r.width, height: r.height };
     });
     await page.screenshot({ path: path.join(OUT, nom + '.png'), fullPage: true, clip: box });
+    await page.evaluate(() => document.querySelectorAll('[data-qa-masque]').forEach((el) => { el.style.visibility = ''; delete el.dataset.qaMasque; }));
   } else if (opts.fullPage === false) {
     await page.screenshot({ path: path.join(OUT, nom + '.png') });
   } else {
@@ -140,10 +152,24 @@ async function apres(browser) {
       // 390x450 (844 moins ~390 px de clavier iOS), focus dans « Un mot de plus ? ».
       const vp = page.viewportSize();
       await page.setViewportSize({ width: 390, height: 450 });
-      await page.getByLabel(/Un mot de plus/).focus();
+      const champ = page.getByLabel(/Un mot de plus/);
+      await champ.focus();
+      // Contrôle final v3 (C3) : le navigateur fait défiler jusqu'au champ quand le clavier s'ouvre ;
+      // on reproduit ce défilement, puis on vérifie que le champ reste au-dessus de la barre collée.
+      await champ.evaluate((el) => el.scrollIntoView({ block: 'center' }));
+      await page.keyboard.press('End');
+      await page.keyboard.type(' Et merci.');
       await page.waitForTimeout(400);
       const rb = await bouton(page).boundingBox();
+      const rc = await champ.boundingBox();
+      const haut = await page.evaluate(() => {
+        const b = [...document.querySelectorAll('button')].find((x) => /Confirmer la résiliation/.test(x.textContent || ''));
+        let el = b; while (el && getComputedStyle(el).position !== 'sticky' && getComputedStyle(el).position !== 'fixed') el = el.parentElement;
+        return (el || b).getBoundingClientRect().top;
+      });
+      const focus = await champ.evaluate((el) => el === document.activeElement);
       ok(`${n} clavier ouvert (390x450) : « Confirmer la résiliation » visible et atteignable`, !!rb && rb.y >= 0 && rb.y + rb.height <= 450, rb ? `bouton y ${Math.round(rb.y)} à ${Math.round(rb.y + rb.height)} / 450` : 'absent');
+      ok(`${n} clavier ouvert (390x450) : champ « Un mot de plus ? » au focus, visible au-dessus de la barre collée`, focus && !!rc && rc.y >= 0 && rc.y + rc.height <= haut, rc ? `champ y ${Math.round(rc.y)} à ${Math.round(rc.y + rc.height)}, barre à ${Math.round(haut)}, focus ${focus}` : 'absent');
       await shot(page, 'resiliation-clavier-mobile-390', { fullPage: false });
       await page.getByLabel(/Un mot de plus/).blur();
       await page.setViewportSize(vp);
