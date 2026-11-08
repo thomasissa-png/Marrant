@@ -2,7 +2,14 @@
 
 ## À DÉPLOYER
 
-(rien)
+### s23 (08/11) Onboarding Premium : E1b à J12 « pose-nous ta question » + puce C8 à trois e-mails, **INTERRUPTEUR FERMÉ, production inchangée**
+
+- Code : commit `4e47496` (branche `claude/ouverture-session-nzwj0w`). Fermé (`ONBOARDING_PREMIUM_OUVERT = false`) : rien n'est lu, écrit ni envoyé ; `/confidentialite` identique à la version en ligne `1cea9ace` (puce rendue seulement ouvert). Aucun e-mail envoyé.
+- Texte : section « E1b : J12 » de `docs/copy/onboarding-premium-s23-emails.md` (commit `3586113`, approuvé par Thomas le 08/11, objet A « Une situation où la répartie t’a manqué ? »), repris mot pour mot dans `emailOnboardingE1b` (`config/textes/onboarding-premium.ts`) ; test ligne à ligne contre le fichier approuvé (objet compris) ; rendu `docs/copy/onboarding-rendus/e1b.txt`.
+- Règles (ouvert) : même tâche (9 h Paris, après le rappel des parcours), journal `WebhookEvent` `onboarding-premium:E1b:<userId>` réservé avant l'envoi, mêmes arrêts C3 et lien d'arrêt, `replyTo` alex@ ; glissement J12 à J19 au plus tard (`ONBOARDING_E1B_AU_PLUS_TARD`), sinon `saute:aucun-jour-libre` ; jamais aux résiliés programmés (`saute:resiliation-programmee`) ; `QUESTION_EQUIPE_OUVERTE` fermé : `saute:question-equipe-fermee`. Lien `/profil` nu (relecture O2 : l'ancre `#question-equipe` ne survit pas à la connexion, le fragment n'est jamais transmis au serveur ni repris dans `callbackUrl`, et l'encadré n'existe qu'après chargement côté client).
+- C8 (confidentialité, partie 3, ouvert seulement) : « jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours » ; `docs/legal/onboarding-e1-resilies-s23.md` section « C8, texte » (ligne « Adapté le 08/11 »), test qui relit ce fichier.
+- Aucune migration, aucune variable, aucun secret, aucune écriture en base. Vérifié sous `env -i` + variables factices de la CI : tsc build et complet, `next lint`, `npm run build`, Jest complet (6 063 tests, 0 échec).
+- Déploiement : procédure des entrées s23 (N-1 attendu `1cea9ace-3c1f-4b8d-9ac0-e63785d42cc2`, à confirmer par `npx wrangler deployments list`). PAS d'ouverture sans go écrit de Thomas.
 
 
 ## s23 (07/11) E-mails d'onboarding Premium E0, E1 (J5), E2 (J21), **DÉPLOYÉ le 08/11/2026 vers 10:35 UTC, INTERRUPTEUR FERMÉ** (go écrit de Thomas « go déploiement onboarding ») : version `1cea9ace-3c1f-4b8d-9ac0-e63785d42cc2`, build sur `3ebcb9f` (code `2235d87`, CI verte, run 42470139838), N-1 `20be8b11-fc75-4925-a697-853498a18980` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 20be8b11-fc75-4925-a697-853498a18980`. Préversion testée. **P6 conforme** : 12 adresses en 200 (`/profil` 307), `/resiliation` 404, `/api/onboarding-premium/arret` sans jeton 400, `/api/fiches/exercice` 401, admin 401, santé `ok`, Stripe live, base `up`, `/confidentialite` sans la puce d'accueil (identique à N-1). Interrupteur (`ONBOARDING_PREMIUM_OUVERT = false`, `apps/web/src/config/onboarding-premium.ts`), branche `claude/ouverture-session-nzwj0w`. **Aucune migration** (journal dans la table existante `WebhookEvent`). PAS d'ouverture sans go écrit de Thomas.
