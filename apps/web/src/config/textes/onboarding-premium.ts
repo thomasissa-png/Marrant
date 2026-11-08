@@ -127,8 +127,8 @@ ${piedArret(v.lienArret)}
 }
 
 /**
- * Page du lien d'arrêt. PROVISOIRE s23 (hors fichier approuvé, calque de `TEXTES_ARRET_RAPPEL`) :
- * à faire valider par Thomas avant l'ouverture.
+ * Page du lien d'arrêt (s23, hors fichier approuvé, calque de `TEXTES_ARRET_RAPPEL`) :
+ * validés par Thomas le 08/11/2026.
  */
 export const TEXTES_ARRET_ONBOARDING = {
   okTitre: "E-mails d’accueil arrêtés",
@@ -139,3 +139,10 @@ export const TEXTES_ARRET_ONBOARDING = {
   erreur: "Les e-mails d’accueil n’ont pas pu être arrêtés. Réessaie dans un instant ou écris-nous à contact@deviens-marrant.fr.",
   retour: "Retour au site",
 } as const;
+
+/**
+ * Confidentialité, partie 3 (cadre @legal C8, texte du 08/11/2026, mot pour mot) : puce rendue
+ * SEULEMENT interrupteur `ONBOARDING_PREMIUM_OUVERT` ouvert.
+ */
+export const CONFIDENTIALITE_ONBOARDING_PREMIUM =
+  "Après ton abonnement, on t’envoie deux e-mails d’accueil, au bout de 5 jours puis de 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.";

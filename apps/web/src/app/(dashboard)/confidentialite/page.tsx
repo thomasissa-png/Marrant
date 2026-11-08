@@ -11,6 +11,8 @@ import { frTypo } from "@/lib/fr-typo";
 import { WIDGET_VANNE_DU_JOUR_PUBLIE } from "@/config/widget-vanne-du-jour";
 import { RESILIATION_CONFIDENTIALITE_ANCRE, RESILIATION_DATE_TEXTES, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { CONFIDENTIALITE_RESILIATION as RESILIATION } from "@/config/textes/resiliation";
+import { ONBOARDING_DATE_TEXTES, ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
+import { CONFIDENTIALITE_ONBOARDING_PREMIUM } from "@/config/textes/onboarding-premium";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
 const PAGE_TITLE = "Politique de confidentialité";
@@ -64,8 +66,12 @@ function prestataires(questionOuverte: boolean = QUESTION_EQUIPE_OUVERTE): { nom
   ];
 }
 
-/** s23 (@legal O2) : les ajouts « résiliation » ne datent que la confidentialité (pas les CGU), une fois ouverts. */
-const datesConfidentialite = () => [...servicesTextesJuridiques(), { ouvert: RESILIATION_PAGE_OUVERTE, date: RESILIATION_DATE_TEXTES }];
+/** s23 (@legal O2, C8) : les ajouts « résiliation » et « e-mails d'accueil » ne datent que la confidentialité (pas les CGU), une fois ouverts. */
+const datesConfidentialite = () => [
+  ...servicesTextesJuridiques(),
+  { ouvert: RESILIATION_PAGE_OUVERTE, date: RESILIATION_DATE_TEXTES },
+  { ouvert: ONBOARDING_PREMIUM_OUVERT, date: ONBOARDING_DATE_TEXTES },
+];
 
 const SECTION_TITLE = "mb-2 text-lg font-semibold text-text-primary";
 const LIST = "mt-2 list-disc space-y-1 pl-6";
@@ -110,6 +116,7 @@ export default function ConfidentialitePage() {
             <li>Afficher ta progression, calculer ta série et ta prochaine étape conseillée, et garder tes retours sur les exercices : exécution du contrat</li>
             <li>Comprendre, de façon globale, où les membres avancent ou bloquent dans les parcours pour les améliorer : intérêt légitime (tu peux t’y opposer, voir la partie 7)</li>
             <li>T’envoyer chaque semaine un rappel de ton parcours, uniquement si tu l’as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
+            {ONBOARDING_PREMIUM_OUVERT && <li data-testid="confidentialite-onboarding-premium">{frTypo(CONFIDENTIALITE_ONBOARDING_PREMIUM)}</li>}
             {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}
           </ul>
         </section>

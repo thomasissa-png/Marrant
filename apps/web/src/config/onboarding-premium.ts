@@ -7,8 +7,10 @@
  *
  * INTERRUPTEUR FERMÉ : la production reste strictement inchangée (bienvenue actuel envoyé
  * comme aujourd'hui, aucun E1 ni E2, aucune écriture de journal, lien d'arrêt en 404).
- * Ouverture : go écrit de Thomas, C8 (phrase d'information dans la confidentialité) en ligne
- * AVANT, et `UNSUBSCRIBE_HMAC_SECRET` présent (sans lui, rien ne part).
+ * Ouverture : go écrit de Thomas et `UNSUBSCRIBE_HMAC_SECRET` présent (sans lui, rien ne part).
+ * C8 (puce de la confidentialité, partie 3) est publiée par ce même interrupteur. Suivi Resend :
+ * E1/E2 partent en texte seul, sans option de suivi (le SDK n'en a pas par envoi : réglage du
+ * domaine, open/click tracking à vérifier désactivés côté Resend avant l'ouverture).
  */
 import { QUESTION_EQUIPE_DESTINATAIRE } from "@/config/question-equipe";
 
@@ -35,3 +37,9 @@ export const ONBOARDING_SRC = "onboarding-premium";
 
 /** Chemin du lien d'arrêt « un clic, sans connexion ». */
 export const ONBOARDING_ARRET_CHEMIN = "/api/onboarding-premium/arret";
+
+/**
+ * Date de la puce C8 de la confidentialité (« Dernière mise à jour », prise en compte seulement
+ * interrupteur ouvert). PROVISOIRE : date du texte @legal, à mettre à la date d'ouverture.
+ */
+export const ONBOARDING_DATE_TEXTES = "8 novembre 2026";
