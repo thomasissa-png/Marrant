@@ -422,10 +422,13 @@ export function FavorisList() {
                           <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exemple</p>
                           <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.example)}</p>
                         </div>
-                        <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
-                          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
-                          <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.exercise)}</p>
-                        </div>
+                        {/* 08/11 : exercice vidé par l'API si le plan en base n'est pas Premium : pas de bloc vide. */}
+                        {tip.exercise && (
+                          <div className="rounded-lg border border-accent-primary/20 bg-accent-primary/5 p-4">
+                            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wider text-accent-link">Exercice</p>
+                            <p className="text-sm leading-relaxed text-text-secondary">{contenuAffiche(tip.exercise)}</p>
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <p className="mt-2 text-xs text-text-muted">

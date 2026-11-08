@@ -3,6 +3,7 @@
  * pages légales (reco 18), accessibilité (reco 19).
  */
 import { dateTextesJuridiques } from "@/lib/date-textes-juridiques";
+import { ONBOARDING_DATE_TEXTES, ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
 import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { AbonnementView, isCheckoutCancelReturn } from "@/components/premium/abonnement-view";
@@ -196,7 +197,9 @@ describe("pages légales (reco 18, D6)", () => {
     const text = document.body.textContent ?? "";
     for (const nom of ["Cloudflare", "Neon", "Stripe", "Resend", "Umami Cloud", "Google"]) expect(text).toContain(nom);
     expect(text).toContain("sans cookie");
-    expect(text).toContain(`Dernière mise à jour : ${dateTextesJuridiques()}`);
+    // 08/11 : onboarding Premium ouvert, la puce C8 date la confidentialité du 8 novembre.
+    expect(text).toContain(`Dernière mise à jour : ${ONBOARDING_PREMIUM_OUVERT ? ONBOARDING_DATE_TEXTES : dateTextesJuridiques()}`);
+    if (ONBOARDING_PREMIUM_OUVERT) expect(text.replace(/\u2060/g, "").replace(/[\u00A0\u202F]/g, " ")).toContain("jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours");
     expect(text).not.toMatch(/Replit|soumis à votre consentement|intelligence artificielle|\bIA\b/);
     expect(screen.getByRole("link", { name: "profil" })).toHaveAttribute("href", "/profil");
   });

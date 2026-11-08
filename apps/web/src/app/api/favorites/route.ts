@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
+import { sansExerciceConseil, sansExerciceVanne, sansExerciceVideo } from "@/lib/champs-premium";
 
 const addFavoriteSchema = z.object({
   contentType: z.enum(["JOKE", "TIP", "VIDEO"]),
@@ -19,17 +20,35 @@ export async function GET() {
 
     const userId = (session.user as { id: string }).id;
 
-    const favorites = await prisma.userFavorite.findMany({
-      where: { userId },
-      include: {
-        joke: true,
-        tip: true,
-        video: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    // Plan relu en base (jamais la session) : les favoris restent lisibles après une résiliation,
+    // mais l'exercice des fiches (`lib/champs-premium.ts`) n'est envoyé qu'à un compte Premium.
+    const [user, favorites] = await Promise.all([
+      prisma.user.findUnique({ where: { id: userId }, select: { plan: true } }),
+      prisma.userFavorite.findMany({
+        where: { userId },
+        include: {
+          joke: true,
+          tip: true,
+          video: true,
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
+    const isPremium = user?.plan === "PREMIUM";
 
-    return NextResponse.json({ favorites });
+    return NextResponse.json(
+      {
+        favorites: isPremium
+          ? favorites
+          : favorites.map((f) => ({
+              ...f,
+              joke: f.joke && sansExerciceVanne(f.joke),
+              tip: f.tip && sansExerciceConseil(f.tip),
+              video: f.video && sansExerciceVideo(f.video),
+            })),
+      },
+      { headers: { "Cache-Control": "private, no-store" } },
+    );
   } catch (error) {
     console.error("[API /favorites GET]", error);
     return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });

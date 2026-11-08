@@ -11,6 +11,12 @@
  *    interrupteur ouvert ; délai CGU « au plus tard 3 jours ouvrés », jamais 7 jours.
  */
 let mockOuvert = true;
+// 08/11 : onboarding Premium ouvert (puce C8 datée du 8 novembre). Ce fichier vérifie sa propre
+// fonction et sa propre date : onboarding fermé ici (état ouvert : `confidentialite-onboarding-premium-s23`).
+jest.mock("@/config/onboarding-premium", () => ({
+  ...jest.requireActual("@/config/onboarding-premium"),
+  ONBOARDING_PREMIUM_OUVERT: false,
+}));
 jest.mock("@/config/question-equipe", () => ({
   ...jest.requireActual("@/config/question-equipe"),
   get QUESTION_EQUIPE_OUVERTE() {

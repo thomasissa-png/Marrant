@@ -73,8 +73,24 @@ beforeEach(() => {
 });
 
 describe("interrupteur", () => {
-  it("fermé dans le code livré", () => {
-    expect(ONBOARDING_PREMIUM_OUVERT).toBe(false);
+  it("ouvert dans le code livré (ouverture du 08/11/2026) ; sans option `ouvert`, la tâche suit l'interrupteur", async () => {
+    expect(ONBOARDING_PREMIUM_OUVERT).toBe(true);
+    const f = fake();
+    const r = await runOnboardingPremium(a9h("2026-11-14"), { db: f.db as unknown as OnboardingDb, sendEmail: f.sendEmail, baseUrl: "https://deviens-marrant.fr", carnet: true, questionEquipeOuverte: true });
+    expect(r.ferme).toBe(false);
+    expect(r.envoyes).toBe(1);
+  });
+  it("seules les souscriptions postérieures à l'ouverture : sans ancre J0 (abonné antérieur), rien n'est lu, écrit ni envoyé", async () => {
+    const f = fake();
+    f.rows.clear(); // abonné Premium actif depuis avant l'ouverture : aucun bienvenue s23, donc aucune ancre E0
+    for (const jour of ["2026-11-14", "2026-11-21", "2026-11-30"]) {
+      const r = await f.run(a9h(jour));
+      expect(r.ancres).toBe(0);
+    }
+    expect(f.db.webhookEvent.findMany).toHaveBeenCalledWith(expect.objectContaining({ where: expect.objectContaining({ eventId: { startsWith: "onboarding-premium:E0:" } }) }));
+    expect(f.db.user.findUnique).not.toHaveBeenCalled();
+    expect(f.db.webhookEvent.create).not.toHaveBeenCalled();
+    expect(f.sendEmail).not.toHaveBeenCalled();
   });
   it("fermé : rien n'est lu, écrit ni envoyé", async () => {
     const f = fake();

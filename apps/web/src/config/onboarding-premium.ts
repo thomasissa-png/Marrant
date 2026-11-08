@@ -7,16 +7,18 @@
  * `config/textes/onboarding-premium.ts` (E1, E2). Toute modification fait perdre l'approbation.
  * Cadre @legal : `docs/legal/onboarding-e1-resilies-s23.md` (C1 à C8).
  *
- * INTERRUPTEUR FERMÉ : la production reste strictement inchangée (bienvenue actuel envoyé
- * comme aujourd'hui, aucun E1, E1b ni E2, aucune écriture de journal, lien d'arrêt en 404).
- * Ouverture : go écrit de Thomas et `UNSUBSCRIBE_HMAC_SECRET` présent (sans lui, rien ne part).
+ * INTERRUPTEUR OUVERT le 08/11/2026 (go écrit de Thomas ; `UNSUBSCRIBE_HMAC_SECRET` présent en
+ * production, sans lui rien ne part). Seules les souscriptions postérieures à l'ouverture reçoivent
+ * E1, E1b et E2 : la tâche ne lit que les ancres J0 (`onboarding-premium:E0:<userId>`), écrites
+ * par le bienvenue s23, donc jamais pour un abonné antérieur. Retour arrière : repasser à `false`
+ * (bienvenue actuel, aucun E1, E1b ni E2, aucune écriture de journal ; le lien d'arrêt reste actif).
  * C8 (puce de la confidentialité, partie 3) est publiée par ce même interrupteur. Suivi Resend :
  * E1, E1b et E2 partent en texte seul, sans option de suivi (le SDK n'en a pas par envoi : réglage du
- * domaine, open/click tracking à vérifier désactivés côté Resend avant l'ouverture).
+ * domaine, open/click tracking vérifiés désactivés sur deviens-marrant.fr le 08/11/2026).
  */
 import { QUESTION_EQUIPE_DESTINATAIRE } from "@/config/question-equipe";
 
-export const ONBOARDING_PREMIUM_OUVERT: boolean = false;
+export const ONBOARDING_PREMIUM_OUVERT: boolean = true;
 
 /** Jours calendaires de Paris depuis la souscription (J0 = jour du bienvenue). */
 export const ONBOARDING_JOURS = { E1: 5, E1b: 12, E2: 21 } as const;
@@ -48,6 +50,6 @@ export const ONBOARDING_ARRET_CHEMIN = "/api/onboarding-premium/arret";
 
 /**
  * Date de la puce C8 de la confidentialité (« Dernière mise à jour », prise en compte seulement
- * interrupteur ouvert). PROVISOIRE : date du texte @legal, à mettre à la date d'ouverture.
+ * interrupteur ouvert) : date d'ouverture, 8 novembre 2026.
  */
 export const ONBOARDING_DATE_TEXTES = "8 novembre 2026";

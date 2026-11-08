@@ -5,6 +5,12 @@
  */
 import { render, screen } from "@testing-library/react";
 
+// 08/11 : onboarding Premium ouvert (puce C8 datée du 8 novembre). Ce fichier vérifie sa propre
+// fonction et sa propre date : onboarding fermé ici (état ouvert : `confidentialite-onboarding-premium-s23`).
+jest.mock("@/config/onboarding-premium", () => ({
+  ...jest.requireActual("@/config/onboarding-premium"),
+  ONBOARDING_PREMIUM_OUVERT: false,
+}));
 jest.mock("@/config/resiliation", () => ({
   ...jest.requireActual("@/config/resiliation"),
   get RESILIATION_PAGE_OUVERTE() {

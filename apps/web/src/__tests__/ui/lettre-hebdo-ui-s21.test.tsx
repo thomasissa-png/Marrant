@@ -14,6 +14,12 @@ jest.mock("@/config/lettre", () => ({
   },
   LETTRE_HEBDO_DATE_TEXTES: "9 novembre 2026",
 }));
+// 08/11 : onboarding Premium ouvert (puce C8 datée du 8 novembre). Ce fichier vérifie sa propre
+// fonction et sa propre date : onboarding fermé ici (état ouvert : `confidentialite-onboarding-premium-s23`).
+jest.mock("@/config/onboarding-premium", () => ({
+  ...jest.requireActual("@/config/onboarding-premium"),
+  ONBOARDING_PREMIUM_OUVERT: false,
+}));
 // s22 : « Ta question à l'équipe » est ouverte ; ce fichier vérifie l'état SANS ce service
 // (son état ouvert est couvert par `question-equipe-s22.test.tsx`).
 jest.mock("@/config/question-equipe", () => ({

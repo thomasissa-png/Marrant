@@ -233,6 +233,20 @@ describe("FavorisList", () => {
     await userEvent.click(screen.getByText("Un super conseil"));
     expect(screen.getByText("Exemple concret")).toBeInTheDocument();
     expect(screen.getByText("DÉFI TIMING : fais ceci")).toBeInTheDocument();
+    expect(screen.getByText("Exercice")).toBeInTheDocument();
+  });
+
+  it("08/11 : exercice du conseil vidé par l'API (plan en base non Premium) : aucun bloc Exercice vide", async () => {
+    useFavoritesStore.mockReturnValue({
+      favorites: [{ ...mockFavorites[1], tip: { ...mockFavorites[1].tip, exercise: "" } }],
+      isLoading: false,
+      fetchFavorites: mockFetchFavorites,
+      removeFavorite: mockRemoveFavorite,
+    });
+    render(<FavorisList />);
+    await userEvent.click(screen.getByText("Un super conseil"));
+    expect(screen.getByText("Exemple concret")).toBeInTheDocument();
+    expect(screen.queryByText("Exercice")).not.toBeInTheDocument();
   });
 
   // Bug fix: video player and details
