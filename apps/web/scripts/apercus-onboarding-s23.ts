@@ -1,7 +1,7 @@
 /**
- * Aperçus texte des e-mails d'onboarding Premium s23 (E0, E1, E2), générés par les VRAIES fonctions
+ * Aperçus texte des e-mails d'onboarding Premium s23 (E0, E1, E1b, E2), générés par les VRAIES fonctions
  * de gabarit avec des données de novembre 2026, pour comparaison mot pour mot avec le fichier
- * approuvé (`docs/copy/onboarding-premium-s23-emails.md` v4.2). N'envoie RIEN, n'ouvre aucune base.
+ * approuvé (`docs/copy/onboarding-premium-s23-emails.md` v4.2 ; E1b : section approuvée le 08/11/2026). N'envoie RIEN, n'ouvre aucune base.
  * Échoue si un rendu contient un champ mal rempli (garde-fou) ou un tiret cadratin.
  *
  * Usage (depuis apps/web) :
@@ -17,14 +17,14 @@ const ARRET = "https://deviens-marrant.fr/api/onboarding-premium/arret?token=JET
 
 async function main() {
   const { emailBienvenuePremium } = await import("@/config/textes/paiement");
-  const { emailOnboardingE1, emailOnboardingE2 } = await import("@/config/textes/onboarding-premium");
+  const { emailOnboardingE1, emailOnboardingE1b, emailOnboardingE2 } = await import("@/config/textes/onboarding-premium");
   const { ONBOARDING_REPLY_TO } = await import("@/config/onboarding-premium");
   const { QUESTION_EQUIPE_OUVERTE } = await import("@/config/question-equipe");
   const { getCarnetExtrait, parseCarnets } = await import("@/lib/carnet");
   const { readdirSync, readFileSync } = await import("fs");
   const { problemesDeRendu } = await import("@/lib/emails/garde-fou-rendu");
 
-  // Souscription le lundi 9 novembre 2026 à 10 h (Paris) ; J5 = samedi 14, J21 = lundi 30.
+  // Souscription le lundi 9 novembre 2026 à 10 h (Paris) ; J5 = samedi 14, J12 = samedi 21, J21 = lundi 30.
   const souscription = new Date("2026-11-09T09:00:00Z");
   // Hors build, pas de `require.context` : les carnets du dépôt sont lus directement (même garde qu'en production).
   const dossier = join(__dirname, "../src/data/carnet");
@@ -45,6 +45,7 @@ async function main() {
     { fichier: "e1-generale-sans-prenom-sans-carnet.txt", cas: "E1 version GÉNÉRALE, prénom absent, sans carnet", replyTo: ONBOARDING_REPLY_TO, ...emailOnboardingE1({ prenom: null, finAcces: null, carnet: false, etape: null, lienArret: ARRET }) },
     { fichier: "e1-parcours.txt", cas: "E1 version PARCOURS (Répartie, étape 1 validée)", replyTo: ONBOARDING_REPLY_TO, ...emailOnboardingE1({ prenom: "Marc", finAcces: null, carnet, etape, lienArret: ARRET }) },
     { fichier: "e1-parcours-resiliation-programmee.txt", cas: "E1 version PARCOURS, résiliation programmée (accès jusqu'au 9 décembre 2026)", replyTo: ONBOARDING_REPLY_TO, ...emailOnboardingE1({ prenom: "Marc", finAcces, carnet, etape, lienArret: ARRET }) },
+    { fichier: "e1b.txt", cas: `E1b (J12, samedi 21 novembre), jamais aux résiliés programmés, seulement si « Ta question à l'équipe » est ouvert (${QUESTION_EQUIPE_OUVERTE ? "ouvert" : "fermé"})`, replyTo: ONBOARDING_REPLY_TO, ...emailOnboardingE1b({ prenom: "Yanis", lienArret: ARRET }) },
     { fichier: "e2.txt", cas: "E2 (J21, lundi 30 novembre), jamais aux résiliés programmés", replyTo: ONBOARDING_REPLY_TO, ...emailOnboardingE2({ prenom: "Yanis", lienArret: ARRET }) },
   ];
 

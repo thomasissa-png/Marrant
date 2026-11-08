@@ -1,0 +1,18 @@
+Cas : E1b (J12, samedi 21 novembre), jamais aux résiliés programmés, seulement si « Ta question à l'équipe » est ouvert (ouvert)
+Objet : Une situation où la répartie t’a manqué ?
+Répondre à : alex@deviens-marrant.fr
+-------- corps --------
+Salut Yanis, raconte-nous, l’équipe te répond.
+
+Un collègue qui te chambre devant tout le monde, un message que tu n’arrives pas à écrire : décris la situation dans « Ta question à l’équipe », sur ton profil, juste sous ton abonnement.
+
+En général, réponse par e-mail sous 1 à 2 jours ouvrés. Rien n’est publié sans ton accord.
+
+Poser ma question : https://deviens-marrant.fr/profil
+
+L’Équipe Deviens Marrant
+deviens-marrant.fr
+
+---
+Tu reçois cet e-mail parce que tu as pris un abonnement Premium sur deviens-marrant.fr.
+Arrêter ces e-mails d’accueil (un clic, sans connexion) : https://deviens-marrant.fr/api/onboarding-premium/arret?token=JETON-SIGNE-EXEMPLE

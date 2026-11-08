@@ -6,7 +6,7 @@
  * unique `eventId` = `onboarding-premium:<étape>:<userId>`, `provider` = `interne` :
  *  - E0    : ancre J0, `receivedAt` = date de souscription (écrite au bienvenue s23 seulement :
  *            les abonnés antérieurs à l'ouverture n'ont pas d'ancre, donc ni E1 ni E2) ;
- *  - E1/E2 : réservée AVANT l'envoi (unicité), `eventType` = statut (`reserve`, `envoye:<version>`,
+ *  - E1/E1b/E2 : réservée AVANT l'envoi (unicité), `eventType` = statut (`reserve`, `envoye:<version>`,
  *            `saute:<motif>`), `receivedAt` = réservation, `processedAt` = envoi ;
  *  - FIN   : fin d'accès exacte d'une résiliation programmée (`cancel_at` de Stripe, sinon fin de
  *            période, réserve 2 @legal), `receivedAt` = fin d'accès, posée par le webhook ;
@@ -18,7 +18,7 @@ import { createHmac, timingSafeEqual } from "crypto";
 import { ONBOARDING_ARRET_CHEMIN } from "@/config/onboarding-premium";
 
 export const PREFIXE_JOURNAL = "onboarding-premium";
-export type CleJournal = "E0" | "E1" | "E2" | "FIN" | "ARRET";
+export type CleJournal = "E0" | "E1" | "E1b" | "E2" | "FIN" | "ARRET";
 
 export function cleJournal(etape: CleJournal, userId: string): string {
   return `${PREFIXE_JOURNAL}:${etape}:${userId}`;

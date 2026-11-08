@@ -1,5 +1,6 @@
 /**
- * Confidentialité, puce C8 « e-mails d'accueil » (s23, texte @legal du 08/11/2026) : publiée
+ * Confidentialité, puce C8 « e-mails d'accueil » (s23, texte @legal du 08/11/2026, adapté le 08/11 à trois
+ * e-mails, E1b approuvé ; le test le relit dans `docs/legal/onboarding-e1-resilies-s23.md`) : publiée
  * SEULEMENT interrupteur ONBOARDING_PREMIUM_OUVERT ouvert. Fermé : page strictement identique
  * à la production (texte et date). Page d'arrêt : textes validés par Thomas le 08/11/2026.
  */
@@ -22,7 +23,7 @@ const drapeau = globalThis as { __ONBOARDING_OUVERT__?: boolean };
 const texte = () => document.body.textContent?.replace(/\u2060/g, "").replace(/[\u00A0\u202F]/g, " ") ?? "";
 
 const C8 =
-  "Après ton abonnement, on t’envoie deux e-mails d’accueil, au bout de 5 jours puis de 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.";
+  "Après ton abonnement, on t’envoie jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.";
 
 function rendu(ouvert: boolean): { html: string; texte: string } {
   drapeau.__ONBOARDING_OUVERT__ = ouvert;
@@ -39,6 +40,8 @@ afterEach(() => {
 describe("confidentialité : e-mails d'accueil Premium (C8)", () => {
   it("texte de la puce = texte @legal mot pour mot, sans tiret cadratin", () => {
     expect(CONFIDENTIALITE_ONBOARDING_PREMIUM).toBe(C8);
+    const legal = readFileSync(join(__dirname, "../../../../../docs/legal/onboarding-e1-resilies-s23.md"), "utf8");
+    expect(legal).toContain(`**Adapté le 08/11 : trois e-mails, E1b approuvé** (texte en vigueur, remplace le précédent) : \`${C8}\``);
     expect(CONFIDENTIALITE_ONBOARDING_PREMIUM).not.toContain("—");
   });
 

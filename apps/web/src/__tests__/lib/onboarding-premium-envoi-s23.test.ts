@@ -1,8 +1,9 @@
 /**
  * @jest-environment node
  *
- * s23 onboarding Premium : envoi d'E1 (J5) et E2 (J21), interrupteur, jours, unicité, arrêts (@legal C1 à C8).
- * Données de novembre 2026 (souscription le lundi 9, J5 = samedi 14, J21 = lundi 30). Aucun envoi réel.
+ * s23 onboarding Premium : envoi d'E1 (J5), E1b (J12) et E2 (J21), interrupteur, jours, unicité, arrêts (@legal C1 à C8).
+ * Données de novembre 2026 (souscription le lundi 9, J5 = samedi 14, J12 = samedi 21, J19 = samedi 28,
+ * J21 = lundi 30). Aucun envoi réel.
  */
 import { runOnboardingPremium, type OnboardingDb, type UserOnboarding } from "@/lib/onboarding/envoi-onboarding";
 import { arreterOnboarding, cleJournal, noterAncreJ0, noterFinAcces, signerJetonOnboarding, verifierJetonOnboarding, type JournalDb } from "@/lib/onboarding/journal-onboarding";
@@ -62,8 +63,8 @@ function fake(opts: { u?: UserOnboarding | null; journal?: Row[]; retractations?
     appels.push("send");
     envois.push({ to, subject, text, headers });
   });
-  const run = (now: Date, ouvert = true) =>
-    runOnboardingPremium(now, { db: db as unknown as OnboardingDb, sendEmail, baseUrl: "https://deviens-marrant.fr", carnet: true, ouvert });
+  const run = (now: Date, ouvert = true, questionEquipeOuverte = true) =>
+    runOnboardingPremium(now, { db: db as unknown as OnboardingDb, sendEmail, baseUrl: "https://deviens-marrant.fr", carnet: true, ouvert, questionEquipeOuverte });
   return { db, rows, envois, appels, sendEmail, run };
 }
 
@@ -131,12 +132,12 @@ describe("jours d'envoi", () => {
     expect((await fake({ lettresDuJour: 1 }).run(a9h("2026-11-14"))).reportes).toBe(1);
     expect((await fake({ lettresEnAttente: 1 }).run(a9h("2026-11-14"))).reportes).toBe(1);
   });
-  it("aucun jour libre sous 7 jours : non envoyé, journalisé", async () => {
+  it("aucun jour libre sous 7 jours : E1 non envoyé, journalisé (E1b part à J12, son jour)", async () => {
     const f = fake();
     const r = await f.run(a9h("2026-11-21"));
     expect(r.sautes).toBe(1);
     expect(f.rows.get(cleJournal("E1", "u1"))?.eventType).toBe("email.onboarding-premium.E1.saute:aucun-jour-libre");
-    expect(f.sendEmail).not.toHaveBeenCalled();
+    expect(f.envois.map((e) => e.subject)).toEqual(["Une situation où la répartie t’a manqué ?"]);
   });
   it("E2 le lundi 30 novembre, objet de l'étalon 4 A", async () => {
     const f = fake({ journal: [{ eventId: cleJournal("E1", "u1"), eventType: "x", receivedAt: J0, processedAt: J0 }] });
@@ -150,6 +151,51 @@ describe("jours d'envoi", () => {
     expect((await f.run(a9h("2026-11-14"))).echecs).toBe(1);
     expect(f.rows.has(cleJournal("E1", "u1"))).toBe(false);
     expect((await f.run(a9h("2026-11-14"))).envoyes).toBe(1);
+  });
+});
+
+const E1_PARTI = [{ eventId: cleJournal("E1", "u1"), eventType: "x", receivedAt: J0, processedAt: J0 }];
+
+describe("E1b (J12)", () => {
+  it("rien avant J12 ; part le samedi 21 novembre, réservé avant l'envoi, version e1b, pied d'arrêt", async () => {
+    const f = fake({ journal: E1_PARTI });
+    await f.run(a9h("2026-11-20"));
+    expect(f.sendEmail).not.toHaveBeenCalled();
+    expect((await f.run(a9h("2026-11-21"))).envoyes).toBe(1);
+    expect(f.envois[0].subject).toBe("Une situation où la répartie t’a manqué ?");
+    expect(f.envois[0].text).toContain("Poser ma question : https://deviens-marrant.fr/profil\n");
+    expect(f.appels).toEqual([`create:${cleJournal("E1b", "u1")}:email.onboarding-premium.E1b.reserve`, "send", `update:${cleJournal("E1b", "u1")}:email.onboarding-premium.E1b.envoye:e1b`]);
+    expect(f.envois[0].headers["List-Unsubscribe-Post"]).toBe("List-Unsubscribe=One-Click");
+    await f.run(a9h("2026-11-22"));
+    expect(f.sendEmail).toHaveBeenCalledTimes(1);
+  });
+  it("glissement au plus tard J19 (samedi 28) ; J20 : non envoyé, journalisé", async () => {
+    const tard = fake({ journal: E1_PARTI });
+    expect((await tard.run(a9h("2026-11-28"))).envoyes).toBe(1);
+    const occupe = fake({ journal: E1_PARTI, lettresDuJour: 1 });
+    for (const j of ["2026-11-21", "2026-11-24", "2026-11-28"]) expect((await occupe.run(a9h(j))).reportes).toBe(1);
+    expect((await occupe.run(a9h("2026-11-29"))).sautes).toBe(1);
+    expect(occupe.rows.get(cleJournal("E1b", "u1"))?.eventType).toBe("email.onboarding-premium.E1b.saute:aucun-jour-libre");
+    expect(occupe.sendEmail).not.toHaveBeenCalled();
+  });
+  it("« Ta question à l'équipe » fermé : non envoyé, journalisé", async () => {
+    const f = fake({ journal: E1_PARTI });
+    await f.run(a9h("2026-11-21"), true, false);
+    expect(f.sendEmail).not.toHaveBeenCalled();
+    expect(f.rows.get(cleJournal("E1b", "u1"))?.eventType).toBe("email.onboarding-premium.E1b.saute:question-equipe-fermee");
+  });
+  it("résilié programmé : jamais ; arrêts C3 et lien d'arrêt : rien", async () => {
+    const resilie = fake({ journal: E1_PARTI, u: user({ subscription: { status: "ACTIVE", cancelAtPeriodEnd: true } }) });
+    await noterFinAcces(resilie.db as unknown as JournalDb, "u1", new Date("2026-12-09T09:00:00Z"), J0);
+    await resilie.run(a9h("2026-11-21"));
+    expect(resilie.rows.get(cleJournal("E1b", "u1"))?.eventType).toBe("email.onboarding-premium.E1b.saute:resiliation-programmee");
+    const oppose = fake({ journal: E1_PARTI, u: user({ emailOptOut: true }) });
+    await oppose.run(a9h("2026-11-21"));
+    expect(oppose.rows.get(cleJournal("E1b", "u1"))?.eventType).toBe("email.onboarding-premium.E1b.saute:opposition");
+    const arrete = fake({ journal: E1_PARTI });
+    await arreterOnboarding(arrete.db as unknown as JournalDb, "u1", J0);
+    await arrete.run(a9h("2026-11-21"));
+    for (const f of [resilie, oppose, arrete]) expect(f.sendEmail).not.toHaveBeenCalled();
   });
 });
 
@@ -170,11 +216,12 @@ describe("arrêts (C3) et résiliation programmée (C1, C2)", () => {
     await f.run(a9h("2026-11-14"));
     expect(f.rows.get(cleJournal("E1", "u1"))?.eventType).toContain("saute:retractation");
   });
-  it("clic sur le lien d'arrêt : plus rien, ni E1 ni E2", async () => {
+  it("clic sur le lien d'arrêt : plus rien, ni E1, ni E1b, ni E2", async () => {
     const f = fake();
     await arreterOnboarding(f.db as unknown as JournalDb, "u1", J0);
     await arreterOnboarding(f.db as unknown as JournalDb, "u1", J0); // idempotent
     await f.run(a9h("2026-11-14"));
+    await f.run(a9h("2026-11-21"));
     await f.run(a9h("2026-11-30"));
     expect(f.sendEmail).not.toHaveBeenCalled();
   });

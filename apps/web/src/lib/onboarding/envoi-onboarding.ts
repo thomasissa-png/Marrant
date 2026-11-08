@@ -1,5 +1,5 @@
 /**
- * Onboarding Premium s23 : envoi d'E1 (J5) et E2 (J21), un passage par jour à 9 h (Paris), dans la
+ * Onboarding Premium s23 : envoi d'E1 (J5), E1b (J12) et E2 (J21), un passage par jour à 9 h (Paris), dans la
  * tâche du rappel des parcours (`runParcoursReminderJob`), APRÈS le rappel : aucun nouveau cron.
  *
  * Règles (fichier approuvé + cadre @legal C1 à C8) :
@@ -7,18 +7,21 @@
  *  - jamais le jeudi, ni un jour où l'abonné reçoit déjà un autre e-mail non transactionnel (lettre
  *    partie ce jour, lettre de la semaine encore due, rappel de parcours du jour), ni la veille ou le
  *    lendemain de son jour de rappel : glisse au premier jour libre, au plus `ONBOARDING_FENETRE_JOURS`
- *    jours ; sinon non envoyé, journalisé `saute:aucun-jour-libre` ;
+ *    jours (E1b : jusqu'à J19, `ONBOARDING_E1B_AU_PLUS_TARD`) ; sinon non envoyé, journalisé
+ *    `saute:aucun-jour-libre` ;
+ *  - E1b seulement si `QUESTION_EQUIPE_OUVERTE` (sinon `saute:question-equipe-fermee`) ;
  *  - arrêt avant envoi (C3) : lien d'arrêt, opposition (`emailOptOut`), plan non Premium (fin,
  *    remboursement), statut autre qu'ACTIVE ou TRIALING (paiement échoué), rétractation, compte supprimé ;
  *  - résiliation programmée (C1, C2) : E1 seulement, avec la phrase de tête et la fin d'accès EXACTE
- *    (journal FIN posé par le webhook, réserve 2) ; fin inconnue ou échue : rien ; E2 jamais ;
+ *    (journal FIN posé par le webhook, réserve 2) ; fin inconnue ou échue : rien ; E1b et E2 jamais ;
  *  - C7 : le motif de résiliation n'est jamais lu. C6 : aucun pixel, `?src=` sans identifiant ;
  *  - unicité : ligne de journal réservée AVANT l'envoi ; échec d'envoi : ligne libérée, nouvel essai
  *    au passage suivant (4 passages à 9 h).
  * Interrupteur fermé : ne lit ni n'écrit rien.
  */
-import { ONBOARDING_FENETRE_JOURS, ONBOARDING_JOURS, ONBOARDING_PREMIUM_OUVERT, type EtapeOnboarding } from "@/config/onboarding-premium";
-import { emailOnboardingE1, emailOnboardingE2, type EtapeOnboarding as EtapeParcours } from "@/config/textes/onboarding-premium";
+import { ONBOARDING_E1B_AU_PLUS_TARD, ONBOARDING_FENETRE_JOURS, ONBOARDING_JOURS, ONBOARDING_PREMIUM_OUVERT, type EtapeOnboarding } from "@/config/onboarding-premium";
+import { QUESTION_EQUIPE_OUVERTE } from "@/config/question-equipe";
+import { emailOnboardingE1, emailOnboardingE1b, emailOnboardingE2, type EtapeOnboarding as EtapeParcours } from "@/config/textes/onboarding-premium";
 import { parisMidnightUtc, parisParts } from "@/lib/analytics/weekly-visits-period";
 import { problemesDeRendu } from "@/lib/emails/garde-fou-rendu";
 import { firstNameFrom } from "@/lib/emails/annual-renewal-reminder";
@@ -68,6 +71,8 @@ export interface OnboardingDeps {
   carnet: boolean;
   /** Interrupteur (tests) ; défaut `ONBOARDING_PREMIUM_OUVERT`. */
   ouvert?: boolean;
+  /** Service « Ta question à l'équipe » (tests) ; défaut `QUESTION_EQUIPE_OUVERTE`. */
+  questionEquipeOuverte?: boolean;
 }
 
 export interface OnboardingResultat {
@@ -87,6 +92,13 @@ const JEUDI = 4;
 export function jourParis(date: Date): number {
   const p = parisParts(date);
   return Date.UTC(p.year, p.month - 1, p.day) / JOUR_MS;
+}
+
+const ETAPES = ["E1", "E1b", "E2"] as const;
+
+/** Dernier retard permis (en jours après le jour prévu) : 6 pour E1 et E2, J19 - J12 = 7 pour E1b. */
+function retardMax(etape: EtapeOnboarding): number {
+  return etape === "E1b" ? ONBOARDING_E1B_AU_PLUS_TARD - ONBOARDING_JOURS.E1b : ONBOARDING_FENETRE_JOURS - 1;
 }
 
 function voisins(a: number, b: number): boolean {
@@ -192,18 +204,18 @@ export async function runOnboardingPremium(now: Date, deps: OnboardingDeps): Pro
   for (const ancre of ancres) {
     const userId = ancre.eventId.slice(`${PREFIXE_JOURNAL}:E0:`.length);
     const lignes = await db.webhookEvent.findMany({
-      where: { eventId: { in: (["E1", "E2", "FIN", "ARRET"] as const).map((e) => cleJournal(e, userId)) } },
+      where: { eventId: { in: ([...ETAPES, "FIN", "ARRET"] as const).map((e) => cleJournal(e, userId)) } },
       select: { eventId: true, eventType: true, receivedAt: true },
     });
-    const ligne = (e: "E1" | "E2" | "FIN" | "ARRET") => lignes.find((l) => l.eventId === cleJournal(e, userId));
+    const ligne = (e: EtapeOnboarding | "FIN" | "ARRET") => lignes.find((l) => l.eventId === cleJournal(e, userId));
     if (ligne("ARRET")) continue;
 
     let user: UserOnboarding | null | undefined;
-    for (const etape of ["E1", "E2"] as const) {
+    for (const etape of ETAPES) {
       if (ligne(etape)) continue;
       const retard = aujourdhui - (jourParis(ancre.receivedAt) + ONBOARDING_JOURS[etape]);
       if (retard < 0) continue;
-      if (retard >= ONBOARDING_FENETRE_JOURS) {
+      if (retard > retardMax(etape)) {
         await sauter(db, etape, userId, "aucun-jour-libre", now);
         r.sautes++;
         continue;
@@ -215,7 +227,8 @@ export async function runOnboardingPremium(now: Date, deps: OnboardingDeps): Pro
       const fin = ligne("FIN")?.receivedAt ?? null;
       const motif =
         arret ??
-        (resilie && etape === "E2" ? "resiliation-programmee" : null) ??
+        (etape === "E1b" && !(deps.questionEquipeOuverte ?? QUESTION_EQUIPE_OUVERTE) ? "question-equipe-fermee" : null) ??
+        (resilie && etape !== "E1" ? "resiliation-programmee" : null) ??
         (resilie && !fin ? "fin-acces-inconnue" : null) ??
         (resilie && fin && fin.getTime() <= now.getTime() ? "fin-acces-echue" : null);
       if (motif) {
@@ -223,6 +236,7 @@ export async function runOnboardingPremium(now: Date, deps: OnboardingDeps): Pro
         r.sautes++;
         continue;
       }
+      // Fenêtres disjointes (E1 : J5 à J11, E1b : J12 à J19, E2 : J21 à J27) : un e-mail d'accueil par jour au plus.
       if (await jourOccupe(db, user, now)) {
         r.reportes++;
         continue;
@@ -233,7 +247,9 @@ export async function runOnboardingPremium(now: Date, deps: OnboardingDeps): Pro
       const rendu =
         etape === "E1"
           ? emailOnboardingE1({ prenom, finAcces: resilie ? fin : null, carnet: deps.carnet, etape: await etapeEnCours(db, userId), lienArret })
-          : { ...emailOnboardingE2({ prenom, lienArret }), version: "e2" };
+          : etape === "E1b"
+            ? { ...emailOnboardingE1b({ prenom, lienArret }), version: "e1b" }
+            : { ...emailOnboardingE2({ prenom, lienArret }), version: "e2" };
       if (problemesDeRendu(`${rendu.subject}\n${rendu.text}`).length > 0) {
         console.error(`[onboarding] ${etape} non envoyé : rendu incomplet (utilisateur ${userId}).`);
         await sauter(db, etape, userId, "rendu", now);

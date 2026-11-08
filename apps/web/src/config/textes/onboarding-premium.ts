@@ -10,7 +10,7 @@ import { ONBOARDING_SRC } from "@/config/onboarding-premium";
 import { dateLongue, SIGNATURE, siteUrl, type EmailRendu } from "@/config/textes/paiement";
 import { salutation } from "@/lib/emails/annual-renewal-reminder";
 
-/** Signature d'E1 et E2 : `SIGNATURE` suivie de « deviens-marrant.fr ». */
+/** Signature d'E1, E1b et E2 : `SIGNATURE` suivie de « deviens-marrant.fr ». */
 const SIGNATURE_ONBOARDING = `${SIGNATURE}
 deviens-marrant.fr`;
 
@@ -21,6 +21,7 @@ Arrêter ces e-mails d’accueil (un clic, sans connexion) : ${lienArret}`;
 }
 
 export const OBJET_E1 = "Une question ? Voilà ce qu’on fait ici";
+export const OBJET_E1B = "Une situation où la répartie t’a manqué ?";
 export const OBJET_E2 = "Trois semaines : qu’est-ce qui manque ?";
 
 /** Prochaine étape d'un parcours en cours (version PARCOURS). */
@@ -106,6 +107,35 @@ ${piedArret(v.lienArret)}
   };
 }
 
+export interface E1bVars {
+  prenom: string | null;
+  lienArret: string;
+}
+
+/**
+ * E1b (J12) « pose-nous ta question », APPROUVÉ par Thomas le 08/11/2026 (« go », section E1b du
+ * fichier approuvé, commit 3586113, objet A), mot pour mot. Lien `/profil` nu : pas de `?src=`
+ * (aucun suivi) ni d'ancre (un fragment ne survit pas à la connexion, `callbackUrl` sans `#`).
+ * Jamais aux résiliés programmés ; envoyé seulement si `QUESTION_EQUIPE_OUVERTE`.
+ */
+export function emailOnboardingE1b(v: E1bVars): EmailRendu {
+  return {
+    subject: OBJET_E1B,
+    text: `${salutation(v.prenom)} raconte-nous, l’équipe te répond.
+
+Un collègue qui te chambre devant tout le monde, un message que tu n’arrives pas à écrire : décris la situation dans « Ta question à l’équipe », sur ton profil, juste sous ton abonnement.
+
+En général, réponse par e-mail sous 1 à 2 jours ouvrés. Rien n’est publié sans ton accord.
+
+Poser ma question : ${siteUrl()}/profil
+
+${SIGNATURE_ONBOARDING}
+
+${piedArret(v.lienArret)}
+`,
+  };
+}
+
 export interface E2Vars {
   prenom: string | null;
   lienArret: string;
@@ -141,8 +171,9 @@ export const TEXTES_ARRET_ONBOARDING = {
 } as const;
 
 /**
- * Confidentialité, partie 3 (cadre @legal C8, texte du 08/11/2026, mot pour mot) : puce rendue
+ * Confidentialité, partie 3 (cadre @legal C8, texte du 08/11/2026 adapté le 08/11 au passage à trois
+ * e-mails, E1b approuvé, mot pour mot) : puce rendue
  * SEULEMENT interrupteur `ONBOARDING_PREMIUM_OUVERT` ouvert.
  */
 export const CONFIDENTIALITE_ONBOARDING_PREMIUM =
-  "Après ton abonnement, on t’envoie deux e-mails d’accueil, au bout de 5 jours puis de 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.";
+  "Après ton abonnement, on t’envoie jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.";

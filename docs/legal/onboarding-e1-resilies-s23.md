@@ -81,6 +81,8 @@ Draft de référence, pas un avis juridique. Lu : `confidentialite/page.tsx` (tu
 
 `Après ton abonnement, on t’envoie deux e-mails d’accueil, au bout de 5 jours puis de 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.`
 
+**Adapté le 08/11 : trois e-mails, E1b approuvé** (texte en vigueur, remplace le précédent) : `Après ton abonnement, on t’envoie jusqu’à trois e-mails d’accueil, au bout de 5, 12 puis 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.`
+
 Passer le texte par `frTypo` comme les autres puces (insécables, « e-⁠mail »).
 
 **Base légale.** La page range déjà « t’envoyer les e-mails qui s’y rapportent » en exécution du contrat : on reste cohérent. Si l'avocat requalifie J5 aux résiliés en prospection « client existant », la base serait l'intérêt légitime et la puce devrait changer (point 1 de la liste avocat). Le texte ne mentionne pas la résiliation : « tant que ton accès est ouvert » couvre les deux cas sans la désigner.

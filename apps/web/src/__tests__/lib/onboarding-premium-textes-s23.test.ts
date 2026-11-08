@@ -1,21 +1,23 @@
 /**
  * @jest-environment node
  *
- * s23 onboarding Premium : rendu de chaque version d'E0, E1 et E2 comparé MOT POUR MOT au fichier
- * approuvé par Thomas (`docs/copy/onboarding-premium-s23-emails.md` v4.2, commit ad24ba7).
+ * s23 onboarding Premium : rendu de chaque version d'E0, E1, E1b et E2 comparé MOT POUR MOT au fichier
+ * approuvé par Thomas (`docs/copy/onboarding-premium-s23-emails.md` v4.2, commit ad24ba7 ; E1b, section
+ * « E1b : J12 », approuvé le 08/11/2026, commit 3586113).
  * Chaque ligne rendue doit correspondre, dans l'ordre, à une ligne du fichier (champs `{…}` variables,
  * lignes `[si …]` présentes seulement si leur condition est vraie).
  */
 import { readFileSync } from "fs";
 import path from "path";
 import { emailBienvenuePremium, emailConfirmationAbonnement, listeParcoursNoms } from "@/config/textes/paiement";
-import { emailOnboardingE1, emailOnboardingE2, ligneEtape, type E1Vars } from "@/config/textes/onboarding-premium";
+import { emailOnboardingE1, emailOnboardingE1b, emailOnboardingE2, ligneEtape, type E1Vars } from "@/config/textes/onboarding-premium";
 import { PARCOURS_COUNT, PREMIUM_PARCOURS } from "@/config/premium";
 import { problemesDeRendu } from "@/lib/emails/garde-fou-rendu";
 
 const FICHIER = readFileSync(path.resolve(__dirname, "../../../../../docs/copy/onboarding-premium-s23-emails.md"), "utf8");
 const BLOCS = [...FICHIER.matchAll(/```\n([\s\S]*?)```/g)].map((m) => m[1].split("\n"));
-const [E0_DOC, E1_GENERALE_DOC, E1_PARCOURS_DOC, PIED_DOC, E2_DOC] = BLOCS;
+const [E0_DOC, E1_GENERALE_DOC, E1_PARCOURS_DOC, PIED_DOC, E2_DOC, E1B_DOC] = BLOCS;
+const SECTION_E1B = FICHIER.slice(FICHIER.indexOf("## E1b : J12, pose-nous ta question"));
 const LISTE_E1 = E1_GENERALE_DOC.filter((l) => l.startsWith("- ") || l.startsWith("[si carnet] - ") || l.startsWith("Et dans ton profil"));
 
 interface LigneDoc { re: RegExp; conditionnelle: boolean; source: string }
@@ -59,8 +61,10 @@ const TOUT = { carnet: true, lettre: true, question: true };
 const RIEN = { carnet: false, lettre: false, question: false };
 
 describe("E0 bienvenue s23", () => {
-  it("le fichier approuvé contient bien les 5 blocs attendus", () => {
-    expect(BLOCS).toHaveLength(5);
+  it("le fichier approuvé contient bien les 6 blocs attendus (E1b en dernier)", () => {
+    expect(BLOCS).toHaveLength(6);
+    expect(E1B_DOC[0]).toBe("Salut {prénom}, raconte-nous, l’équipe te répond.");
+    expect(FICHIER.indexOf("```\nSalut {prénom}, raconte-nous")).toBeGreaterThan(FICHIER.indexOf("## E1b : J12"));
     expect(E0_DOC[0]).toBe("Salut {prénom}, voici tout ce que Premium t’ouvre, et par où commencer.");
   });
   it.each([
@@ -150,5 +154,26 @@ describe("E2 (J21)", () => {
     verifierContreFichier(e.text, E2_DOC);
     propre(e);
     expect(e.text).not.toMatch(/https?:\/\/(?!deviens-marrant\.fr\/api\/onboarding-premium\/arret)/);
+  });
+});
+
+describe("E1b (J12)", () => {
+  it.each([["Yanis"], [null]])("prénom %s : mot pour mot, pied d'arrêt compris", (prenom) => {
+    const e = emailOnboardingE1b({ prenom, lienArret: ARRET });
+    verifierContreFichier(e.text, E1B_DOC);
+    propre(e);
+    expect(e.text.trimEnd().endsWith(`Arrêter ces e-mails d’accueil (un clic, sans connexion) : ${ARRET}`)).toBe(true);
+  });
+  it("objet A du fichier approuvé, mot pour mot", () => {
+    const objetA = SECTION_E1B.match(/\*\*Objet, option A \(recommandée\)\*\* : `([^`]+)`/)?.[1];
+    expect(objetA).toBe("Une situation où la répartie t’a manqué ?");
+    expect(emailOnboardingE1b({ prenom: "Yanis", lienArret: ARRET }).subject).toBe(objetA);
+  });
+  it("sans prénom : « Salut, raconte-nous… » ; lien /profil nu (ni src, ni ancre)", () => {
+    const t = emailOnboardingE1b({ prenom: null, lienArret: ARRET }).text;
+    expect(t.startsWith("Salut, raconte-nous, l’équipe te répond.\n\n")).toBe(true);
+    expect(t).toContain("Poser ma question : https://deviens-marrant.fr/profil\n");
+    expect(t).not.toMatch(/src=|#question/);
+    expect(t).not.toMatch(/https?:\/\/(?!deviens-marrant\.fr\/(?:profil\n|api\/onboarding-premium\/arret))/);
   });
 });
