@@ -223,3 +223,63 @@ Reste ouvert : mesure du rendu mobile d'E0 (estimation, non mesurée), « on te 
 | E1 : phrase de tête @legal et variante PARCOURS inchangées ; E2 inchangé | `onboarding-e1-resilies-s23.md` ; étalon 4 A |
 | Journaux v1 → v2 et v2 → v3 retirés (obsolètes, historique git) | Conservation of rules |
 | E0 : « Les exercices des vannes, conseils et vidéos » au lieu de « sur chaque » (fait faux) | Relecteur, contrôle v4.1 | `question-equipe-s22.ts:48` pour « on te répond » ; exercices selon décryptage |
+
+---
+
+## E1b : J12, pose-nous ta question (proposition, à approuver)
+
+Statut : PROPOSITION, à approuver par Thomas (demande du 08/11 : « je valide mais manque un email genre pose nous une question »). E0, E1, E2 ci-dessus ne sont pas modifiés. Passer en relecture à l'aveugle (barre 9/10) et avis @legal avant tout envoi.
+[Framework : invitation simple à un seul pas (une porte, un geste).] [Conscience : Product-Aware : il a payé, il sait ce qu'est le site, il ne sait pas qu'il peut nous écrire.]
+
+**Envoi** : J12 (jours calendaires de Paris depuis la souscription). Mêmes règles que E1/E2 : jamais un jeudi, jamais un jour où l'abonné reçoit déjà un autre e-mail non transactionnel, ni la veille ou le lendemain d'un rappel de parcours ; glisse au premier jour libre, mais **au plus tard J20** (pour ne jamais se télescoper avec E2 à J21). Aucun jour libre : non envoyé, journalisé. `replyTo` = alex@ (`ONBOARDING_REPLY_TO`). Mêmes arrêts immédiats que E1 (rétractation, remboursement, paiement échoué, suppression du compte, lien d'arrêt, opposition par réponse).
+
+**Qui le reçoit (ce que je retiens)** : les abonnés payants dont l'accès est ouvert, **pas les résiliations programmées**, comme E2. Raison : le cadre `docs/legal/onboarding-e1-resilies-s23.md` ne l'autorise pas, il l'interdit (C2, l. 23 : « Un seul envoi, E1 à J5, rien d'autre »). Le choix de Thomas du 07/11 ne porte que sur E1.
+**Conséquence légale à traiter avant l'envoi** : la puce C8 de la confidentialité (même fichier, l. 82) annonce « deux e-mails d'accueil, au bout de 5 jours puis de 21 jours ». Avec E1b il y en a trois (5, 12, 21 jours) : puce à corriger par @legal/@fullstack avant l'ouverture, sinon l'information à la collecte est fausse.
+
+**Objet, option A (recommandée)** : `Une situation où la répartie t’a manqué ?`
+Première ligne A : `Salut {prénom}, une situation où tu n’as pas su quoi répondre ?`
+**Objet, option B** : `Pose-nous ta question`
+Première ligne B : `Salut {prénom}, tu peux nous poser une question, directement depuis ton profil.`
+Recommandation A : l'objet est la situation du lecteur, pas une consigne, et il se distingue de l'objet d'E1 (« Une question ? … »), reçu une semaine plus tôt. B est plus direct mais proche d'E1. Le corps ci-dessous suit les deux premières lignes sans changement.
+
+### Corps recommandé (texte seul, environ 60 mots)
+```
+Salut {prénom}, une situation où tu n’as pas su quoi répondre ?
+
+Un collègue te chambre devant tout le monde, ou un message que tu n’arrives pas à écrire : raconte-nous la situation.
+
+Ça se passe dans « Ta question à l’équipe », sur ton profil. En général, réponse par e-mail sous 1 à 2 jours ouvrés. Rien n’est publié sans ton accord.
+
+Poser ma question : {url}/profil
+
+L’Équipe Deviens Marrant
+deviens-marrant.fr
+
+---
+Tu reçois cet e-mail parce que tu as pris un abonnement Premium sur deviens-marrant.fr.
+Arrêter ces e-mails d’accueil (un clic, sans connexion) : {lienArret}
+```
+Pied identique à E1/E2 (mêmes deux lignes, `List-Unsubscribe` sur `{lienArret}`). Pas de vanne : « pas de vanne plutôt qu'une vanne moyenne » (`ton-alex.md`), l'e-mail est un geste utilitaire. Pas de `?src=` : aucune valeur à ajouter à `PARCOURS_SRC` (pas de suivi), le lien est `/profil` nu.
+
+**Appel unique : le lien vers « Ta question à l’équipe » (et non « réponds à cet e-mail »)**. Justification : (1) c'est la seule porte qui affiche l'engagement de délai (1 à 2 jours ouvrés) et le cadre (CGU art. 10) ; une réponse à l'e-mail n'a ni l'un ni l'autre, et E1/E2 invitent déjà à répondre : E1b apporte une porte différente ; (2) une réponse « arrêtez » à alex@ vaut opposition (cadre C4) : mêler questions et oppositions dans la même boîte est un risque de traitement que le formulaire évite ; (3) le formulaire est déjà là et ouvert. Limite assumée : le lien demande une session ouverte (sinon connexion puis `/profil`) et l'encadré n'a pas d'ancre (il se trouve sous la carte abonnement). La réponse directe à l'e-mail reste possible (`replyTo` alex@) sans être proposée.
+
+### Faits vérifiés
+
+| Affirmation du texte | Source (fichier:ligne) |
+|---|---|
+| « Ta question à l’équipe » existe, sur le profil | `question-equipe-s22.ts:33` (titre) ; `profil-dashboard.tsx:373` (rendu `isPremium`) |
+| Service ouvert | `question-equipe.ts:11` (`QUESTION_EQUIPE_OUVERTE = true`) |
+| Exemple « un collègue te chambre devant tout le monde » | `question-equipe-s22.ts:37` (texte d'aide du champ) |
+| Exemple « un message que tu n’arrives pas à écrire » | `question-equipe-s22.ts:34` (accroche) |
+| « raconte-nous la situation » (le champ s'appelle « Ta situation ») | `question-equipe-s22.ts:36` |
+| « En général, réponse par e-mail sous 1 à 2 jours ouvrés. » (verbatim) | `question-equipe-s22.ts:16` |
+| « Rien n’est publié sans ton accord » | `question-equipe-s22.ts:125` (CGU art. 10) |
+| Réservé Premium (le lecteur l'est) | `question-equipe-s22.ts:125` ; `profil-dashboard.tsx:373` |
+| `replyTo` alex@ (E1b, non proposé comme appel) | `question-equipe.ts:22` ; `onboarding-premium.ts:33` |
+| Pas d'ancre, d'où `/profil` nu | `question-equipe-card.tsx:107` (Card sans `id`) |
+| Pas de résiliés | `onboarding-e1-resilies-s23.md:23` (C2) |
+| Puce C8 à corriger (deux devient trois, 5/12/21) | `onboarding-e1-resilies-s23.md:82` |
+
+Volontairement absents : limite de 1 000 caractères, limites d'envoi (jamais affichées, `question-equipe.ts:28`), « 3 jours ouvrés au plus tard » (CGU, pas dans l'encadré), « privé » (le message est lu par l'équipe et des outils de rédaction, `question-equipe-s22.ts:114`), toute promesse de résultat.
+Objection traitée : « personne ne me répond vraiment » (délai affiché + réponse par e-mail). Références marché : non consultées (ton calé sur `ton-alex.md`).
+À faire (@fullstack, hors périmètre ici) : E1b dans `onboarding-premium.ts`, règle de glissement J12 à J20, mêmes arrêts qu'E1, exclusion des résiliations programmées, journal.
