@@ -2,6 +2,9 @@
 
 ## À DÉPLOYER
 
+(rien)
+
+
 ## s23 (07/11) E-mails d'onboarding Premium E0, E1 (J5), E2 (J21), **DÉPLOYÉ le 08/11/2026 vers 10:35 UTC, INTERRUPTEUR FERMÉ** (go écrit de Thomas « go déploiement onboarding ») : version `1cea9ace-3c1f-4b8d-9ac0-e63785d42cc2`, build sur `3ebcb9f` (code `2235d87`, CI verte, run 42470139838), N-1 `20be8b11-fc75-4925-a697-853498a18980` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 20be8b11-fc75-4925-a697-853498a18980`. Préversion testée. **P6 conforme** : 12 adresses en 200 (`/profil` 307), `/resiliation` 404, `/api/onboarding-premium/arret` sans jeton 400, `/api/fiches/exercice` 401, admin 401, santé `ok`, Stripe live, base `up`, `/confidentialite` sans la puce d'accueil (identique à N-1). Interrupteur (`ONBOARDING_PREMIUM_OUVERT = false`, `apps/web/src/config/onboarding-premium.ts`), branche `claude/ouverture-session-nzwj0w`. **Aucune migration** (journal dans la table existante `WebhookEvent`). PAS d'ouverture sans go écrit de Thomas.
 
 - **Envoi de test (08/11)** : 5 e-mails (E0 mensuel, E1 générale, E1 parcours, E1 résiliation programmée, E2) envoyés à alex@deviens-marrant.fr UNIQUEMENT, depuis les rendus `docs/copy/onboarding-rendus/` (objet préfixé « [TEST onboarding …] », expéditeur noreply@, lien d'arrêt d'exemple non fonctionnel). Aucun autre destinataire.
