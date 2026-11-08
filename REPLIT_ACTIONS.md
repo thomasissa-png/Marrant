@@ -4,7 +4,7 @@
 
 (rien)
 
-## s23 (08/11) OUVERTURE de l'onboarding Premium (E0, E1, E1b, E2) + exercices des favoris réservés aux abonnés, **À DÉPLOYER** (go écrit de Thomas pour les deux ; NON déployé)
+## s23 (08/11) OUVERTURE de l'onboarding Premium (E0, E1, E1b, E2) + exercices des favoris réservés aux abonnés, **DÉPLOYÉ** (go écrit de Thomas pour les deux ; NON déployé)
 
 - **Onboarding** : `ONBOARDING_PREMIUM_OUVERT = true`, `ONBOARDING_DATE_TEXTES = "8 novembre 2026"` (date d'ouverture, mention PROVISOIRE retirée) dans `apps/web/src/config/onboarding-premium.ts`. Retour arrière : repasser à `false` (le lien d'arrêt reste actif).
 - **« Avant ouverture », point par point** : (1) go écrit de Thomas : donné (session principale) ; (2) C8 : la puce « jusqu'à trois e-mails d'accueil, au bout de 5, 12 puis 21 jours » et la date « 8 novembre 2026 » sont publiées par ce même interrupteur, donc en ligne au même déploiement (test qui rend la page réelle, `feature/offre-s16-lot-c`) ; (3) `UNSUBSCRIBE_HMAC_SECRET` présent en production (nom vérifié par la session principale le 08/11 ; sans lui la tâche ne fait rien, `secretAbsent`) ; (4) textes de la page d'arrêt validés par Thomas le 08/11 (test `confidentialite-onboarding-premium-s23`) ; (5) Resend, domaine deviens-marrant.fr : open_tracking et click_tracking à false (vérifié le 08/11 par la session principale) ; envois de test à alex@ déjà faits (E0, E1 ×3, E1b, E2).
