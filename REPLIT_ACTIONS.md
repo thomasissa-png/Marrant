@@ -4,6 +4,8 @@
 
 ### s23 (08/11) Onboarding Premium : E1b à J12 « pose-nous ta question » + puce C8 à trois e-mails, **INTERRUPTEUR FERMÉ, production inchangée**
 
+- **Envoi de test (08/11)** : E1b envoyé à alex@deviens-marrant.fr UNIQUEMENT, depuis `docs/copy/onboarding-rendus/e1b.txt` (objet préfixé « [TEST onboarding e1b] »).
+
 - Code : commit `4e47496` (branche `claude/ouverture-session-nzwj0w`). Fermé (`ONBOARDING_PREMIUM_OUVERT = false`) : rien n'est lu, écrit ni envoyé ; `/confidentialite` identique à la version en ligne `1cea9ace` (puce rendue seulement ouvert). Aucun e-mail envoyé.
 - Texte : section « E1b : J12 » de `docs/copy/onboarding-premium-s23-emails.md` (commit `3586113`, approuvé par Thomas le 08/11, objet A « Une situation où la répartie t’a manqué ? »), repris mot pour mot dans `emailOnboardingE1b` (`config/textes/onboarding-premium.ts`) ; test ligne à ligne contre le fichier approuvé (objet compris) ; rendu `docs/copy/onboarding-rendus/e1b.txt`.
 - Règles (ouvert) : même tâche (9 h Paris, après le rappel des parcours), journal `WebhookEvent` `onboarding-premium:E1b:<userId>` réservé avant l'envoi, mêmes arrêts C3 et lien d'arrêt, `replyTo` alex@ ; glissement J12 à J19 au plus tard (`ONBOARDING_E1B_AU_PLUS_TARD`), sinon `saute:aucun-jour-libre` ; jamais aux résiliés programmés (`saute:resiliation-programmee`) ; `QUESTION_EQUIPE_OUVERTE` fermé : `saute:question-equipe-fermee`. Lien `/profil` nu (relecture O2 : l'ancre `#question-equipe` ne survit pas à la connexion, le fragment n'est jamais transmis au serveur ni repris dans `callbackUrl`, et l'encadré n'existe qu'après chargement côté client).
