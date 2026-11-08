@@ -2,6 +2,8 @@
 
 ## À DÉPLOYER
 
+(rien)
+
 ## s23 (08/11) OUVERTURE de l'onboarding Premium (E0, E1, E1b, E2) + exercices des favoris réservés aux abonnés, **À DÉPLOYER** (go écrit de Thomas pour les deux ; NON déployé)
 
 - **Onboarding** : `ONBOARDING_PREMIUM_OUVERT = true`, `ONBOARDING_DATE_TEXTES = "8 novembre 2026"` (date d'ouverture, mention PROVISOIRE retirée) dans `apps/web/src/config/onboarding-premium.ts`. Retour arrière : repasser à `false` (le lien d'arrêt reste actif).
@@ -138,7 +140,7 @@ Branche `claude/ouverture-session-nzwj0w`, commits de ce lot (hash dans le journ
 
 Entrée d'origine (avant déploiement) :
 
-### s22 (25/10) Description publique de la lettre du mois au nouveau format (« une situation, trois répliques »), go de Thomas du 25/10 (« Ok go », description publique comprise)
+## s22 (25/10) Description publique de la lettre du mois au nouveau format (« une situation, trois répliques »), go de Thomas du 25/10 (« Ok go », description publique comprise) **DÉPLOYÉ le 08/11/2026 vers 13:45 UTC** (go écrit de Thomas : ouverture de l'onboarding et correction des favoris, « j'ai déjà donné mon go sur les sujets 1 et 3 ») : version `5504e970-5c1d-496d-a90a-3eaaf0db9846`, build sur `05bdc98` (CI verte, run 42482565879), N-1 `462d3522-9dd4-45b8-a57e-72bb14d4c931` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 462d3522-9dd4-45b8-a57e-72bb14d4c931` (refermer l'interrupteur exige aussi un nouveau déploiement ; les e-mails déjà partis restent partis). Prérequis vérifiés : `UNSUBSCRIBE_HMAC_SECRET` présent (nom seulement), Resend open_tracking et click_tracking false. Préversion testée. **P6 conforme** : 12 adresses en 200 (`/profil`, `/favoris` 307), `/resiliation` 404, `/api/favorites` 401 sans session, arrêt sans jeton 400, exercice 401, admin 401, santé `ok`, Stripe live, base `up`, `/confidentialite` avec la puce « jusqu'à trois e-mails d'accueil » et la date du 8 novembre 2026, `/cgu` inchangée. Aucun e-mail réel envoyé par les contrôles.
 
 Branche `claude/ouverture-session-nzwj0w`, commit de ce lot (hash dans le journal git, message « feat(lettre-s22): description de la lettre du mois… »). N-1 = version en ligne `f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`. Retour arrière : `cd apps/web && npx wrangler rollback f83eb3c2-822a-4e96-9b6d-ad05ae42ce22`.
 
