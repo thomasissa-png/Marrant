@@ -231,24 +231,25 @@ Reste ouvert : mesure du rendu mobile d'E0 (estimation, non mesurée), « on te 
 Statut : PROPOSITION, à approuver par Thomas (demande du 08/11 : « je valide mais manque un email genre pose nous une question »). E0, E1, E2 ci-dessus ne sont pas modifiés. Passer en relecture à l'aveugle (barre 9/10) et avis @legal avant tout envoi.
 [Framework : invitation simple à un seul pas (une porte, un geste).] [Conscience : Product-Aware : il a payé, il sait ce qu'est le site, il ne sait pas qu'il peut nous écrire.]
 
-**Envoi** : J12 (jours calendaires de Paris depuis la souscription). Mêmes règles que E1/E2 : jamais un jeudi, jamais un jour où l'abonné reçoit déjà un autre e-mail non transactionnel, ni la veille ou le lendemain d'un rappel de parcours ; glisse au premier jour libre, mais **au plus tard J20** (pour ne jamais se télescoper avec E2 à J21). Aucun jour libre : non envoyé, journalisé. `replyTo` = alex@ (`ONBOARDING_REPLY_TO`). Mêmes arrêts immédiats que E1 (rétractation, remboursement, paiement échoué, suppression du compte, lien d'arrêt, opposition par réponse).
+**Envoi** : J12 (jours calendaires de Paris depuis la souscription). Mêmes règles que E1/E2 : jamais un jeudi, jamais un jour où l'abonné reçoit déjà un autre e-mail non transactionnel, ni la veille ou le lendemain d'un rappel de parcours ; glisse au premier jour libre, mais **au plus tard J19** (jamais la veille ni le jour d’E2 : au moins un jour libre entre les deux). Aucun jour libre : non envoyé, journalisé. `replyTo` = alex@ (`ONBOARDING_REPLY_TO`). Mêmes arrêts immédiats que E1 (rétractation, remboursement, paiement échoué, suppression du compte, lien d'arrêt, opposition par réponse).
+Condition : [si question] QUESTION_EQUIPE_OUVERTE (config/question-equipe.ts:11), comme la puce d’E0. Interrupteur fermé : E1b n’est pas envoyé (journalisé).
 
 **Qui le reçoit (ce que je retiens)** : les abonnés payants dont l'accès est ouvert, **pas les résiliations programmées**, comme E2. Raison : le cadre `docs/legal/onboarding-e1-resilies-s23.md` ne l'autorise pas, il l'interdit (C2, l. 23 : « Un seul envoi, E1 à J5, rien d'autre »). Le choix de Thomas du 07/11 ne porte que sur E1.
 **Conséquence légale à traiter avant l'envoi** : la puce C8 de la confidentialité (même fichier, l. 82) annonce « deux e-mails d'accueil, au bout de 5 jours puis de 21 jours ». Avec E1b il y en a trois (5, 12, 21 jours) : puce à corriger par @legal/@fullstack avant l'ouverture, sinon l'information à la collecte est fausse.
 
 **Objet, option A (recommandée)** : `Une situation où la répartie t’a manqué ?`
-Première ligne A : `Salut {prénom}, une situation où tu n’as pas su quoi répondre ?`
+Première ligne A : `Salut {prénom}, raconte-nous, l’équipe te répond.` (relecture aveugle O1)
 **Objet, option B** : `Pose-nous ta question`
 Première ligne B : `Salut {prénom}, tu peux nous poser une question, directement depuis ton profil.`
 Recommandation A : l'objet est la situation du lecteur, pas une consigne, et il se distingue de l'objet d'E1 (« Une question ? … »), reçu une semaine plus tôt. B est plus direct mais proche d'E1. Le corps ci-dessous suit les deux premières lignes sans changement.
 
 ### Corps recommandé (texte seul, environ 60 mots)
 ```
-Salut {prénom}, une situation où tu n’as pas su quoi répondre ?
+Salut {prénom}, raconte-nous, l’équipe te répond.
 
-Un collègue te chambre devant tout le monde, ou un message que tu n’arrives pas à écrire : raconte-nous la situation.
+Un collègue qui te chambre devant tout le monde, un message que tu n’arrives pas à écrire : décris la situation dans « Ta question à l’équipe », sur ton profil, juste sous ton abonnement.
 
-Ça se passe dans « Ta question à l’équipe », sur ton profil. En général, réponse par e-mail sous 1 à 2 jours ouvrés. Rien n’est publié sans ton accord.
+En général, réponse par e-mail sous 1 à 2 jours ouvrés. Rien n’est publié sans ton accord.
 
 Poser ma question : {url}/profil
 
@@ -282,4 +283,6 @@ Pied identique à E1/E2 (mêmes deux lignes, `List-Unsubscribe` sur `{lienArret}
 
 Volontairement absents : limite de 1 000 caractères, limites d'envoi (jamais affichées, `question-equipe.ts:28`), « 3 jours ouvrés au plus tard » (CGU, pas dans l'encadré), « privé » (le message est lu par l'équipe et des outils de rédaction, `question-equipe-s22.ts:114`), toute promesse de résultat.
 Objection traitée : « personne ne me répond vraiment » (délai affiché + réponse par e-mail). Références marché : non consultées (ton calé sur `ton-alex.md`).
-À faire (@fullstack, hors périmètre ici) : E1b dans `onboarding-premium.ts`, règle de glissement J12 à J20, mêmes arrêts qu'E1, exclusion des résiliations programmées, journal.
+À faire (@fullstack, hors périmètre ici) : E1b dans `onboarding-premium.ts`, règle de glissement J12 à J19, mêmes arrêts qu'E1, exclusion des résiliations programmées, journal.
+
+| E1b : relecture aveugle O1 à O4 appliquées mot pour mot (première ligne, « juste sous ton abonnement », condition QUESTION_EQUIPE_OUVERTE, glissement au plus tard J19) | `revues-onboarding/aveugle-reviewer-e1b.md` | `profil-dashboard.tsx:365-373`, `question-equipe-s22.ts:16` |
