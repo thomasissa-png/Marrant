@@ -70,3 +70,23 @@ Draft de référence, pas un avis juridique. Lu : `docs/copy/onboarding-premium-
 2. Phrase de tête : une mention de la date de fin d'accès près d'une résiliation est-elle une pression ?
 3. Information à la collecte (C8) suffisante pour l'exception.
 4. Phrase 5 C en annuel : omission ou non ; durée de conservation du journal (C5).
+
+## C8, texte (08/11/2026)
+
+Draft de référence, pas un avis juridique. Lu : `confidentialite/page.tsx` (tutoiement, listes « données » / « pourquoi et sur quelle base », durées en partie 6).
+
+**Emplacement.** Partie 3 « Pourquoi on les utilise, et sur quelle base », nouvelle puce juste après celle du rappel de parcours (« T’envoyer chaque semaine un rappel de ton parcours… »), avant la puce `RESILIATION.base`. Pas de nouvelle puce en partie 2 : les e-mails d'accueil n'ajoutent aucune donnée (adresse, prénom et statut d'abonnement y figurent déjà).
+
+**Texte exact (une puce, deux phrases)** :
+
+`Après ton abonnement, on t’envoie deux e-mails d’accueil, au bout de 5 jours puis de 21 jours, tant que ton accès est ouvert : exécution du contrat. Tu les arrêtes en un clic depuis le bas de chaque e-mail, sans te connecter, ou en répondant à l’e-mail ; ils ne contiennent ni pixel ni suivi des clics.`
+
+Passer le texte par `frTypo` comme les autres puces (insécables, « e-⁠mail »).
+
+**Base légale.** La page range déjà « t’envoyer les e-mails qui s’y rapportent » en exécution du contrat : on reste cohérent. Si l'avocat requalifie J5 aux résiliés en prospection « client existant », la base serait l'intérêt légitime et la puce devrait changer (point 1 de la liste avocat). Le texte ne mentionne pas la résiliation : « tant que ton accès est ouvert » couvre les deux cas sans la désigner.
+
+**Durée.** La page ne donne pas de durée pour ce traitement et je n'en invente pas : aucune donnée nouvelle, donc rien à ajouter en partie 6. Ouvert : durée du journal d'envoi (C5) et de la trace d'opposition. La lettre du mois garde la trace 3 ans ; aligner sur 3 ans est cohérent mais reste une décision de Thomas / avocat (point 4 de la liste).
+
+**`src=onboarding-premium` : pas un « suivi de clic » au sens du cadre (C6), sous trois conditions.** C6 exclut le suivi qui identifie le destinataire (pixel, redirection traçante, identifiant dans l'URL). Ici la valeur est identique pour tous les destinataires, ne contient aucun identifiant, et Umami la compte en agrégé sans lien avec le compte (la page, partie 5, le dit déjà : mesure sans cookie, non croisée avec le compte, et « provenance de ta visite » gardée en session). Conditions : (1) valeur constante, jamais un jeton par utilisateur ni par e-mail ; (2) pas de redirection par un domaine de suivi (Resend : suivi des clics désactivé) ; (3) ne jamais rapprocher cette visite du compte. Si l'une saute, c'est un suivi de clic et la phrase « ni suivi des clics » devient fausse. Aucune ligne à ajouter en partie 5.
+
+**À faire côté code (@fullstack).** Ajouter l'entrée de date correspondante dans `datesConfidentialite()` (« Dernière mise à jour »), publier la puce avant l'ouverture aux résiliés, et vérifier `trackClicks`/`trackOpens` désactivés côté Resend.
