@@ -143,8 +143,9 @@ export default async function VannePage({
   const joke = resolved.item;
 
   // "Pourquoi ça marche" public (valeur SEO) ; "À toi de jouer" fait partie de
-  // Premium (abonnés, s15 §1.1) : géré côté client par
-  // <BlocExercice> (client) pour garder la page en ISR (pas de lecture de cookies ici).
+  // Premium (abonnés, s15 §1.1) : géré côté client par <BlocExercice> (client) pour
+  // garder la page en ISR (pas de lecture de cookies ici). `joke.howToApply` ne sert
+  // qu'au test d'existence : jamais passé à un composant client (payload RSC public).
 
   const canonicalSlug = buildJokeSlug(joke);
   // Ancien slug (vanne réécrite) : 308 vers l'URL canonique (lot S3d s14).
@@ -267,13 +268,15 @@ export default async function VannePage({
           </p>
         </section>
 
-        {/* s21 B8 : un plein Premium, un contour étape 1, le reste en lien. Seulement si l'exercice existe. */}
+        {/* s21 B8 : un plein Premium, un contour étape 1, le reste en lien. Seulement si l'exercice existe.
+            08/11 : le texte n'est plus passé en prop (payload RSC public) ; l'abonné le charge par
+            /api/fiches/exercice, la page n'en garde que l'existence (rendu ou non du bloc). */}
         {joke.howToApply ? (
           <BlocExercice
             type="vanne"
             returnTo={`/vannes/${canonicalSlug}`}
             parcours={parcoursPourFiche(parcoursRefs, joke.category)}
-            exercice={joke.howToApply}
+            ficheId={joke.id}
           />
         ) : null}
 

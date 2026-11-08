@@ -4,6 +4,7 @@
 # 127.0.0.1:55435 rempli par le seed, app en env propre (cleanenv.sh s17 : aucun secret, ni
 # Stripe, ni Resend), Chromium limité à localhost. Jamais contre la prod, aucun appel Stripe.
 # AVANT = code de AVANT_REF (défaut 2a18cb8^) construit dans un worktree jetable ; APRÈS = dépôt.
+# Vanne (08/11) : AVANT_REF=<commit d'avant> QA_CAPTURES_JS=captures-vanne.js ./captures.sh (préfixe vanne-).
 # Preuve de non-fuite : HTML et payload RSC d'une fiche, sans session, ne contiennent ni
 # l'exercice ni les points clés (contrôle refait sur la vanne, pour mémoire).
 set -euo pipefail
@@ -81,12 +82,12 @@ echo "== 2. AVANT : code de $AVANT_REF dans un worktree jetable"
 rm -rf "$WT"; git -C "$REPO" worktree add --detach "$WT" "$AVANT_REF" >/dev/null 2>&1
 ln -s "$WEB/node_modules" "$WT/apps/web/node_modules"
 build avant "$WT/apps/web"; start_app avant "$WT/apps/web"
-cd "$HERE"; QA_OUT="$OUT" QA_PHASE=avant node captures.js 2>&1 | tee "$LOG/captures-avant.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
+cd "$HERE"; QA_OUT="$OUT" QA_PHASE=avant node "${QA_CAPTURES_JS:-captures.js}" 2>&1 | tee "$LOG/captures-avant.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
 stop_app
 
 echo "== 3. APRÈS : code du dépôt"
 build apres "$WEB"; start_app apres "$WEB"
-cd "$HERE"; QA_OUT="$OUT" QA_PHASE=apres node captures.js 2>&1 | tee "$LOG/captures-apres.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
+cd "$HERE"; QA_OUT="$OUT" QA_PHASE=apres node "${QA_CAPTURES_JS:-captures.js}" 2>&1 | tee "$LOG/captures-apres.txt" | grep -E "^(PASS|FAIL|CAPTURE|INFO)" || true
 echo "   appels Stripe dans le journal de l'app : $(grep -c -i 'api.stripe.com' "$LOG/app-apres.log" || true)"
 stop_app
 T="$LOG/captures-avant.txt $LOG/captures-apres.txt"

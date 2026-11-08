@@ -6,8 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
 
 /**
- * Exercice d'une fiche conseil ou vidéo (et points clés d'une vidéo), pour un abonné Premium
- * seulement (s23). Les fiches sont en ISR : la même page pour tous, donc l'exercice ne peut
+ * Exercice d'une fiche conseil, vidéo (et points clés d'une vidéo) ou vanne (« À toi de jouer »,
+ * `howToApply`, depuis le 08/11), pour un abonné Premium seulement (s23). Les fiches sont en ISR : la même page pour tous, donc l'exercice ne peut
  * pas être passé en prop au composant client sans finir dans le payload RSC lisible par un
  * non-abonné (règle `lib/champs-premium.ts` : jamais envoyé à un compte non Premium, ni par
  * le HTML). Le bloc abonné le charge ici, après lecture de la session.
@@ -15,7 +15,7 @@ import { rateLimit } from "@/lib/rate-limit";
 export const dynamic = "force-dynamic";
 
 const querySchema = z.object({
-  type: z.enum(["conseil", "video"]),
+  type: z.enum(["conseil", "video", "vanne"]),
   id: z.string().min(1).max(64),
 });
 
@@ -57,6 +57,12 @@ export async function GET(request: NextRequest) {
       const tip = await prisma.tip.findFirst({ where: { id, isActive: true }, select: { exercise: true } });
       if (!tip) return NextResponse.json({ error: "Introuvable" }, { status: 404, headers: PRIVE });
       return NextResponse.json({ exercice: tip.exercise || null, pointsCles: [] }, { headers: PRIVE });
+    }
+
+    if (type === "vanne") {
+      const joke = await prisma.joke.findFirst({ where: { id, isActive: true }, select: { howToApply: true } });
+      if (!joke) return NextResponse.json({ error: "Introuvable" }, { status: 404, headers: PRIVE });
+      return NextResponse.json({ exercice: joke.howToApply || null, pointsCles: [] }, { headers: PRIVE });
     }
 
     const video = await prisma.video.findFirst({

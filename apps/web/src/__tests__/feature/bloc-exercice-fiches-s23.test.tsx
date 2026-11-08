@@ -1,5 +1,5 @@
 /**
- * s23 : un abonné Premium voit l'exercice d'un conseil, l'exercice et les points clés d'une
+ * s23 : un abonné Premium voit l'exercice d'un conseil (et d'une vanne depuis le 08/11), l'exercice et les points clés d'une
  * vidéo (chargés par `/api/fiches/exercice`) ; un non-abonné garde le bloc d'appel inchangé,
  * sans aucun appel ; champs vides : rien. Les pages ne passent jamais le texte en prop.
  */
@@ -77,20 +77,34 @@ describe("BlocExercice, fiches conseil et vidéo (s23)", () => {
     nextAuth.useSession.mockReturnValue({ status: "unauthenticated", data: null });
   });
 
-  it("vanne : exercice en prop, aucun appel (inchangé)", () => {
+  it("Premium, vanne (08/11) : « À toi de jouer » chargé par la route, même rendu, aucun bouton", async () => {
     premium();
-    render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" exercice="Consigne" ficheId="j1" />);
-    expect(screen.getByText("Consigne")).toBeInTheDocument();
+    repondre({ exercice: "Consigne de la vanne", pointsCles: [] });
+    const { container } = render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" ficheId="j1" />);
+    expect(await screen.findByText("Consigne de la vanne")).toBeInTheDocument();
+    expect(screen.getAllByRole("heading").map((h) => h.textContent)).toEqual([BLOC_EXERCICE_ABONNE_TITRE]);
+    expect(container.querySelectorAll("a")).toHaveLength(0);
+    expect(fetchMock).toHaveBeenCalledWith("/api/fiches/exercice?type=vanne&id=j1", expect.anything());
+  });
+
+  it("non abonné, vanne : bloc d'appel inchangé, aucun appel", () => {
+    nextAuth.useSession.mockReturnValue({ status: "unauthenticated", data: null });
+    const { container } = render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" ficheId="j1" />);
+    expect(container.querySelector('[data-fiche-cta="premium"]')?.textContent).toBe(BLOC_EXERCICE.vanne.bouton);
+    expect(screen.queryByText(BLOC_EXERCICE_ABONNE_TITRE)).toBeNull();
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it.each([
     ["conseils", "tip"],
     ["videos", "video"],
+    ["vannes", "joke"],
   ])("page %s : id passé, jamais le texte de l'exercice ni les points clés", (dossier, v) => {
     const src = readFileSync(join(__dirname, `../../app/(dashboard)/${dossier}/[slug]/page.tsx`), "utf-8");
-    const bloc = src.slice(src.indexOf("<BlocExercice"), src.indexOf("/>", src.indexOf("<BlocExercice")));
+    const debut = src.search(/<BlocExercice\s+type=/);
+    const bloc = src.slice(debut, src.indexOf("/>", debut));
+    expect(debut).toBeGreaterThan(0);
     expect(bloc).toContain(`ficheId={${v}.id}`);
-    expect(bloc).not.toMatch(/exercice=|learnings|\.exercise/);
+    expect(bloc).not.toMatch(/exercice=|learnings|\.exercise|howToApply/);
   });
 });

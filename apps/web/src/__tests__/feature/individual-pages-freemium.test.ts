@@ -54,7 +54,9 @@ describe("freemium — pages individuelles catalogue (s11-lot5)", () => {
 
     it("s21 B8 : bloc d'exercice (client, page restée en ISR), seulement si howToApply existe", () => {
       expect(src).toMatch(/\{joke\.howToApply \? \(\s*<BlocExercice\s+type="vanne"/);
-      expect(src).toMatch(/exercice=\{joke\.howToApply\}/);
+      // 08/11 : l'id seulement ; le texte est chargé par /api/fiches/exercice (abonné), jamais en prop.
+      expect(src).toMatch(/ficheId=\{joke\.id\}/);
+      expect(src).not.toMatch(/exercice=\{/);
       // Lire la session côté serveur dans une page ISR = DYNAMIC_SERVER_USAGE (erreur 500)
       expect(src).not.toMatch(/getServerSession/);
       expect(src).not.toMatch(/cookies\(\)|headers\(\)/);

@@ -26,12 +26,11 @@ interface BlocExerciceProps {
   returnTo: string;
   /** Parcours de l'étape 1 gratuite proposée en lien. */
   parcours: ParcoursSlug;
-  /** Exercice affiché aux abonnés (vanne : `howToApply`). Absent : rien pour un abonné. */
-  exercice?: string | null;
   /**
-   * Conseil et vidéo (s23) : id de la fiche dont l'exercice (et les points clés d'une vidéo)
-   * est chargé par `/api/fiches/exercice` pour un abonné seulement, jamais passé en prop :
-   * la page ISR est la même pour tous et la prop finirait dans le payload RSC public.
+   * Id de la fiche (s23 : conseil et vidéo, puis vanne le 08/11) dont l'exercice (vanne :
+   * `howToApply` ; vidéo : aussi les points clés) est chargé par `/api/fiches/exercice` pour
+   * un abonné seulement, jamais passé en prop : la page ISR est la même pour tous et la prop
+   * finirait dans le payload RSC public. Absent : rien pour un abonné.
    */
   ficheId?: string;
 }
@@ -46,13 +45,15 @@ interface ContenuAbonne {
  * une phrase, un plein payant, la REASS dessous, puis le lien gratuit `GRATUIT_P`.
  * Composant client : les fiches sont en ISR, la session ne se lit pas côté serveur.
  */
-export function BlocExercice({ type, returnTo, parcours, exercice, ficheId }: BlocExerciceProps) {
+export function BlocExercice({ type, returnTo, parcours, ficheId }: BlocExerciceProps) {
   const { data: session, status } = useSession();
   const t = BLOC_EXERCICE[type];
   const isPremium =
     status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
-  const charge = isPremium && !exercice && ficheId ? `/api/fiches/exercice?type=${type}&id=${encodeURIComponent(ficheId)}` : null;
-  const [contenu, setContenu] = useState<ContenuAbonne | null>(null);
+  const charge = isPremium && ficheId ? `/api/fiches/exercice?type=${type}&id=${encodeURIComponent(ficheId)}` : null;
+  // Contenu rattaché à sa requête : passer d'une fiche à l'autre (même instance) n'affiche jamais l'ancien.
+  const [reponse, setReponse] = useState<{ url: string; contenu: ContenuAbonne } | null>(null);
+  const contenu = reponse && reponse.url === charge ? reponse.contenu : null;
 
   useEffect(() => {
     if (!charge) return;
@@ -61,7 +62,7 @@ export function BlocExercice({ type, returnTo, parcours, exercice, ficheId }: Bl
     fetch(charge, { signal: ctrl.signal, credentials: "same-origin" })
       .then((res) => (res.ok ? (res.json() as Promise<ContenuAbonne>) : null))
       .then((data) => {
-        if (data) setContenu({ exercice: data.exercice ?? null, pointsCles: data.pointsCles ?? [] });
+        if (data) setReponse({ url: charge, contenu: { exercice: data.exercice ?? null, pointsCles: data.pointsCles ?? [] } });
       })
       // Échec ou délai : rien d'affiché, comme une fiche sans exercice.
       .catch(() => undefined)
@@ -73,8 +74,8 @@ export function BlocExercice({ type, returnTo, parcours, exercice, ficheId }: Bl
   }, [charge]);
 
   if (isPremium) {
-    const texte = exercice || contenu?.exercice || null;
-    const pointsCles = exercice ? [] : contenu?.pointsCles ?? [];
+    const texte = contenu?.exercice || null;
+    const pointsCles = contenu?.pointsCles ?? [];
     if (!texte && pointsCles.length === 0) return null;
     return (
       <section className={cn("mt-8", BLOC_APPEL)} data-bloc-exercice={type}>

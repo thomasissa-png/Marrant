@@ -78,7 +78,7 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
   const TYPES: FicheType[] = ["vanne", "conseil", "video"];
 
   it.each(TYPES)("%s : titre, phrase, un plein (retour fiche), la REASS, le lien GRATUIT_P ; plus de « Voir d'autres »", (type) => {
-    const { container } = render(<BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" exercice="Consigne" />);
+    const { container } = render(<BlocExercice type={type} returnTo={`/x/${type}`} parcours="confiance" ficheId="f1" />);
     const t = BLOC_EXERCICE[type];
     expect(screen.getByRole("heading", { name: frTypo(t.titre) })).toBeInTheDocument();
     const plein = screen.getByRole("link", { name: t.bouton });
@@ -97,10 +97,12 @@ describe("B8 à B10 : bloc d'exercice des fiches", () => {
     expect(container.textContent).not.toContain("Consigne");
   });
 
-  it("abonné : l'exercice s'affiche, aucun bouton ; sans exercice, rien", () => {
+  it("abonné : l'exercice s'affiche, aucun bouton ; sans exercice, rien", async () => {
     nextAuth.useSession.mockReturnValue({ status: "authenticated", data: { user: { plan: "PREMIUM" } } });
-    const { container, rerender } = render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" exercice="Consigne" />);
-    expect(screen.getByText("Consigne")).toBeInTheDocument();
+    // 08/11 : l'exercice de la vanne est chargé par /api/fiches/exercice, jamais passé en prop.
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: () => Promise.resolve({ exercice: "Consigne", pointsCles: [] }) }) as unknown as typeof fetch;
+    const { container, rerender } = render(<BlocExercice type="vanne" returnTo="/vannes/a" parcours="repartie" ficheId="j1" />);
+    expect(await screen.findByText("Consigne")).toBeInTheDocument();
     expect(screen.queryAllByRole("link")).toHaveLength(0);
     rerender(<BlocExercice type="conseil" returnTo="/conseils/a" parcours="repartie" />);
     expect(container.innerHTML).toBe("");
