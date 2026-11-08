@@ -2,7 +2,9 @@
 
 ## À DÉPLOYER
 
-### s23 (08/11) « À toi de jouer » des fiches vanne réservé aux abonnés (fuite du payload RSC public corrigée), **PAS DÉPLOYÉ**
+(rien)
+
+## s23 (08/11) « À toi de jouer » des fiches vanne réservé aux abonnés (fuite du payload RSC public corrigée), **DÉPLOYÉ le 08/11/2026 vers 13:00 UTC** (go écrit de Thomas « go deploieent onboarding et protection fiches ») avec l'entrée suivante, version `462d3522-9dd4-45b8-a57e-72bb14d4c931`, build sur `a80b30a` (CI verte, run 42479434203), N-1 `1cea9ace-3c1f-4b8d-9ac0-e63785d42cc2` à 100 % vérifié en P1. Retour arrière : `cd apps/web && npx wrangler rollback 1cea9ace-3c1f-4b8d-9ac0-e63785d42cc2`. Préversion testée (une première tentative construite depuis un worktree avec node_modules en lien symbolique a donné 500 sur la préversion : non basculée, worktree supprimé). **P6 conforme** : 12 adresses en 200 (`/profil` 307), `/resiliation` 404, `/api/fiches/exercice` conseil et vanne 401, admin 401, santé `ok`, Stripe live, base `up` ; source de 2 fiches vanne : 0 « exercice » (contre le texte en clair en N-1) ; vanne du jour `/api/daily` garde `howToApply` (choix du 04/11) ; `/confidentialite` sans la puce d'accueil.
 
 - Décision Thomas du 08/11. Défaut : sur `/vannes/[slug]` (ISR, même page pour tous), `howToApply` passait en prop à `BlocExercice` et se lisait sans session dans le HTML et le payload RSC (contraire à `lib/champs-premium.ts`).
 - Correction (commit `6f87070`, branche `claude/ouverture-session-nzwj0w`) : la page ne passe plus que `ficheId={joke.id}` ; le bloc abonné charge le texte par `GET /api/fiches/exercice?type=vanne&id=…` (route existante, type `vanne` ajouté : session, plan relu en base, `private, no-store`, 401 sans session, 403 non Premium, 404 vanne absente ou inactive). Même titre « À toi de jouer », même rendu. Non abonné : bloc d'appel inchangé, aucun appel. `howToApply` vide : aucun bloc pour personne (test d'existence côté serveur, le texte ne sort pas). Prop `exercice` retirée de `BlocExercice` ; le contenu chargé est rattaché à sa requête (jamais l'exercice d'une autre fiche après navigation).
@@ -11,7 +13,7 @@
 - Preuve locale (base jetable remplie par le seed, comptes locaux, AVANT = `6f87070^` en worktree jetable, `AVANT_REF=… QA_CAPTURES_JS=captures-vanne.js scripts/qa-exercices-premium-s23/captures.sh`) : 31 PASS, 0 FAIL, 16 captures `docs/captures/s23-exercices-premium/vanne-*`, 0 appel Stripe. AVANT : témoin de l'exercice présent sans session dans HTML + RSC (défaut reproduit) ; APRÈS : absent des deux, route 401 sans session, Premium : exercice affiché (chargé en 200), compte gratuit : bloc d'appel identique au caractère près.
 - P6 après déploiement : sans session, `curl -s 'https://deviens-marrant.fr/vannes/<slug>'` et la même avec `-H 'RSC: 1'` ne contiennent plus le texte « À toi de jouer » de la vanne ; `curl -s -o /dev/null -w '%{http_code}' 'https://deviens-marrant.fr/api/fiches/exercice?type=vanne&id=x'` → **401** ; compte Premium de test : l'exercice s'affiche sous « Comment la ressortir ». Si une page vanne sert encore le texte, vérifier d'abord que le cache ISR (24 h) n'a pas survécu au déploiement.
 
-### s23 (08/11) Onboarding Premium : E1b à J12 « pose-nous ta question » + puce C8 à trois e-mails, **INTERRUPTEUR FERMÉ, production inchangée**
+## s23 (08/11) Onboarding Premium : E1b à J12 « pose-nous ta question » + puce C8 à trois e-mails, **DÉPLOYÉ le 08/11/2026 avec l'entrée ci-dessus (version `462d3522`), INTERRUPTEUR FERMÉ, production inchangée**
 
 - **Envoi de test (08/11)** : E1b envoyé à alex@deviens-marrant.fr UNIQUEMENT, depuis `docs/copy/onboarding-rendus/e1b.txt` (objet préfixé « [TEST onboarding e1b] »).
 
