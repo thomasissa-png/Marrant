@@ -1,4 +1,4 @@
-# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements), tour 3
+# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements), tour 4
 
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 (`docs/copy/etalons-espace-s24.md` l. 182-216) : la règle, deux déjà faites, trois à toi (gabarit + version possible repliée), le piège (forme fixée par `architecture-contenu-v20.md` l. 502, identique à E2.2), la limite, une suite qui ne détourne rien, la grille.
 > Fiche 1 = E2.2 reprise telle quelle (étalon validé par le fondateur). Fiches 2 à 6 : neuves, une famille de formules par fiche, 5 détournements chacune, 3 candidates par détournement (la meilleure ici, les deux autres en annexe).
@@ -95,10 +95,10 @@ Tu gardes la réplique que tout le monde connaît. Tu la fais tomber dans un dé
 
 **Deux déjà faites**
 « Je suis ton père. »
-→ « Je suis ton père, et le chargeur dans ta chambre est le mien. »
+→ « Je suis ton père, et le chargeur dans ta chambre est le mien depuis mars. »
 
 « Vous ne passerez pas ! »
-→ « Vous ne passerez pas ! Même avec trois tickets de la semaine dernière. »
+→ « Vous ne passerez pas ! dit le portique à mon troisième vieux ticket. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
@@ -246,8 +246,8 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 - Yeux : « Coûter les yeux de la tête : mon opticien a fait un geste commercial. » · « Coûter les yeux de la tête, présenté en deux paires. »
 
 **Fiche 3**
-- Père : « Je suis ton père, et ce fauteuil devant la télé est à moi. » · « Je suis ton père, et ce sont mes écouteurs dans ta poche. » (hors tour 3 : « …c'est moi qui règle le thermostat », « …je garde la télécommande », jugés entendus)
-- Passerez : « Vous ne passerez pas ! Le portique du métro, face à mon sac de courses. » · « Vous ne passerez pas ! La porte de l'immeuble ne reconnaît plus mon code. » (hors tour 3 : « …Le portique a reconnu mon ticket de la semaine dernière », « …dit le tourniquet à mon forfait du mois dernier »)
+- Père : « Je suis ton père, et le chargeur dans ta chambre est le mien depuis l'été. » · « Je suis ton père, et le chargeur dans ta chambre est à moi depuis mars. » (hors tour 4 : « …est le mien » sans date, « …ce fauteuil devant la télé est à moi », « …ce sont mes écouteurs dans ta poche » ; hors tour 3 : « …c'est moi qui règle le thermostat », « …je garde la télécommande », jugés entendus)
+- Passerez : « Vous ne passerez pas ! crie le portique au ticket de la semaine dernière. » · « Vous ne passerez pas ! Le portique refuse mon ticket d'il y a trois semaines. » (hors tour 4 : « …Même avec trois tickets de la semaine dernière », où l'on ne sait pas qui parle ; « …Le portique du métro, face à mon sac de courses », « …La porte de l'immeuble ne reconnaît plus mon code » ; hors tour 3 : « …Le portique a reconnu mon ticket de la semaine dernière », « …dit le tourniquet à mon forfait du mois dernier »)
 - Force : « Que la Force soit avec toi, et la batterie pour appeler le taxi. » · « Que la Force soit avec toi, et le wifi dans le train. » (hors tour 3 : « …et la batterie jusqu'à la prise », thème accessoires déjà exploité)
 - Reviendrai : « Je reviendrai, dit le caddie : tu tiens trop à ta pièce. » · « Je reviendrai, dit la pièce du caddie, si tu le ramènes. »
 - Houston : « Houston, on a un problème : la dernière part de pizza a deux propriétaires. » · « Houston, on a un problème : plus de papier, et la coloc dort. »
@@ -311,3 +311,14 @@ Quatre détournements seulement ; le reste du fichier est inchangé, piège comp
 | Fiche 3, « Que la Force soit avec toi » (critique 7) | « …, et un taxi libre sous la pluie. » | Une scène à voir, et plus d'accessoire de batterie (thème déjà exploité côté produits). Écartées : « …la batterie pour appeler le taxi », « …le wifi dans le train ». |
 | Fiche 3, « Vous ne passerez pas ! » (critique 7) | « …Même avec trois tickets de la semaine dernière. » | La chute est l'entêtement, plus un constat. Écartées : « …le portique du métro, face à mon sac de courses », « …la porte de l'immeuble ne reconnaît plus mon code ». |
 | Fiche 3, « Je suis ton père » (critique 8) | « …, et le chargeur dans ta chambre est le mien. » | Le thermostat était un gag très entendu. Écartées : « …ce fauteuil devant la télé est à moi », « …ce sont mes écouteurs dans ta poche ». |
+
+---
+
+## Tour 4 : ce qui a changé (hors import)
+
+Deux lignes de la fiche 3 seulement (décision C8), le reste est inchangé. 3 candidates par ligne, recherche web des 6 phrases exactes (guillemets) : 0 occurrence ; les deux écartées de chaque sont en annexe.
+
+| Point | Retenu | Pourquoi |
+|---|---|---|
+| « Vous ne passerez pas ! » (elon 8, critique 10) | « Vous ne passerez pas ! dit le portique à mon troisième vieux ticket. » | L'idée reste l'entêtement du ticket. Le locuteur est nommé (le portique) et le vieux ticket est un mot qu'on entend à l'oral. « Dit le + objet » n'apparaît plus qu'ici dans la fiche 3. Écartées : « …crie le portique au ticket de la semaine dernière », « …Le portique refuse mon ticket d'il y a trois semaines ». |
+| « Je suis ton père » (retouche de la critique) | « …, et le chargeur dans ta chambre est le mien depuis mars. » | La retouche tient : aucun accord, suite de 11 mots (limite : une douzaine), « depuis mars » donne la durée de l'emprunt. Écartées : « …depuis l'été », « …est à moi depuis mars ». |
