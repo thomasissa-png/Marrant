@@ -194,6 +194,8 @@ Si le lot humour noir (C7) n'est pas à 10/10 au moment du go, l'architecture (3
 | QR6 | coloc 3, famille 3, messages et groupes 4 | 10 | QR1 contrôlé | échantillon de Quoi répondre : 18 sur 60 |
 | C3a, C3b | Formules à détourner (12 fiches, 60 détournements, 2 lots de 6) | 12 | E2 | échantillon : 4 |
 | C4a, C4b, C4c | Jeux (30, 3 lots de 10 : Quelle réplique ?, Finis la phrase, Trouve l'angle, Change de registre, Remets la chute, Les pires réponses) | 30 | QR1 (les jeux reprennent des situations) | échantillon : 9 |
+
+**Décision de la session (C4a tour 1) :** le jeu 10 de C4a, choix entre trois chutes, s'appelle « Choisis la chute » ; « Remets la chute » reste le jeu d'écriture de l'architecture (l. 933), au lot C4b. À l'import (D1, schéma [PROVISOIRE]), ajouter la famille `choisis-la-chute` à l'énumération `famille` de `fiches-schema.ts`, et caler les autres familles sur les jeux validés de C4a (règle de trois, détail trop précis).
 | C5a, C5b | Écouter, repérer : **12 fiches dont la fiche Mirabel déjà écrite (E4), donc 11 à écrire** ; 2 lots de 6 ; INV T5 levé (Rollman, Haroun, Ngijol, Bun Hay Mean) ; chaque passage visionné, minuté, chaque citation vérifiée par un relecteur indépendant | 12 | E4 ; G7 | échantillon : 4 fiches et **12 passages visionnés par Thomas** |
 | C6a | Quand ça tombe à plat (10, dont « Le blanc » et « Lire la salle et savoir s'arrêter » ; le lien de « quand tu as dit la mauvaise chose » vers le coin est à poser ou non à l'étalon E6, déjà validé : à relire dans E6) | 10 | QR1 | échantillon : 3 |
 | C6b | Bilans du parcours (5, 10 contextes et 15 retours de texte neufs, aucune réplique neuve, le contexte ne reprend aucun mot de la bonne réponse) | 5 | QR3, découpage D4 | échantillon : 2 |
