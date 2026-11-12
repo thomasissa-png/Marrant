@@ -45,8 +45,8 @@
 
 | # | Texte | Source |
 |---|---|---|
-| 25 | Repère : « Marche 2 » (sans total, 3.0 pt 6). Titres : « À voix haute, sans public » ; « À un proche, par message » ; « À un pote, en face » ; « Devant un petit groupe » ; « Avec quelqu'un que tu connais peu ». « Facultative ». « Ton retour » | 2.4 (les 5 marches, « proche » et « pote » mot pour mot) ; « sans public » évite l'accord de « seul » |
-| 26 | « Marche suivante : à un pote, en face. » ; « Voir la marche 3 » ; « Une autre situation, même marche » | 2.4 |
+| 25 | Repère : « Marche 2 » (sans total, 3.0 pt 6). Titres : « À voix haute, sans public » ; « À un proche, par message » ; « À un pote, en face » ; « Dans un petit groupe » ; « Avec quelqu'un que tu connais peu ». « Facultative ». « Ton retour » | 2.4 (les 5 marches, « proche » et « pote » mot pour mot) ; « sans public » évite l'accord de « seul » |
+| 26 | « Marche suivante : le dire en face. » ; « Voir la marche 3 » ; « Une autre situation, même marche » | 2.4 |
 | 27 | « Bilan du parcours » ; « Refais une situation » | 3.10 |
 | 28 | « Modifier » ; « Annuler » ; « Tes répliques sont gardées. Tu peux les relire et les supprimer. » ; « Tes répliques à toi pour {catégorie} » (catégorie en minuscule : « soirée », « boulot », « famille », « rencard ») | 2.6 l. 326, 2.7 |
 | 29 | « 5 min » (cohérent avec « Si tu as 5 minutes » ; « Moins de 5 minutes » écarté, plus long) | 4.1 l. 608 (« fiche courte (5 min, marche 1) ») |
@@ -56,7 +56,9 @@
 
 Affichée au-dessus de « Si tu as 5 minutes ». Version A seule (B retirée, arbitrage du tour 3) :
 
-« La réponse qui te vient en quittant la pièce a un nom : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps. » (117)
+« La bonne réponse qui te vient en quittant la pièce : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps. » (115, recomptée caractère par caractère : 53 + 24 + 38 ; l'ancienne version faisait 118 et non 117)
+
+Tour 4 : « bonne » remis (c'était la bonne, et trop tard : c'est ce qui fait se reconnaître), et les deux-points remplacent « a un nom » (le nom va au phénomène, pas à la réponse).
 
 Pourquoi cette version : l'image (« en quittant la pièce », la définition de E3) précède le nom ; « te vient » garde la reconnaissance (« ça m'arrive ») ; « Ici, tu l'as à temps » promettait un résultat, « tu t'entraînes à la dire à temps » promet un entraînement, comme la rafale (2.2) ; « la dire » remplace « l'avoir » (qui désignait mal la réponse) et le geste est celui de la carte (dire sa réponse). Sans « trois jours », donc sans contradiction avec E3.
 
@@ -71,8 +73,8 @@ Ce soir, dans une conversation déjà ouverte avec un proche, glisse ton faux se
 Un message, une personne, dix secondes.
 
 **Ton retour** : « Pas essayé » · « Essayé, bof » · « Essayé, ça a marché »
-- **Essayé, ça a marché** : Bien joué : un aveu, zéro « je rigole ». Marche suivante : à un pote, en face. Bouton : « Voir la marche 3 ».
-- **Essayé, bof** : « Un message qui ne prend pas, ça arrive. Relis ton aveu : il tient en une phrase ? La fin surprend ? » Liens : « Une autre situation, même marche » ; « Quand ça tombe à plat » ; « Raconte-nous ce qui s'est passé » (Mes questions, « Situation à gérer »). Pas de vanne ici : plutôt rien qu'une moyenne.
+- **Essayé, ça a marché** : Bien joué : un aveu, zéro « je rigole ». Marche suivante : le dire en face. Bouton : « Voir la marche 3 » (titre de la marche 3 : « À un pote, en face », 2.4, sur l'écran suivant).
+- **Essayé, bof** : « Un message qui ne prend pas, ça arrive. Relis ton aveu : il tient en une phrase ? La fin surprend ? » Liens : « Une autre situation, même marche » ; « Quand ça tombe à plat » ; « Raconte-nous ce qui s'est passé » (Mes questions, « Situation à gérer »). [note interne, non affichée : pas de vanne ici, plutôt rien qu'une moyenne.]
 - **Pas essayé** : aucun texte, la mission reste là. **Deux fois de suite** : sans commentaire, « Voir la marche 1 » (« Marche 1 : à voix haute, sans public »).
 
 Sources : format et suites 2.4 ; question 2 de la grille retirée (elle ne sert pas pour un aveu sur soi, reviewer).
@@ -96,8 +98,8 @@ Les vannes sont reprises du seed mot pour mot, affichées sans guillemets autour
 - C. Dans le train, la place à côté de moi était réservée. Personne n'est venu. (l. 642)
 
 **Retour** (une seule bonne : B ; **l'explication complète s'affiche dans les trois cas**)
-B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A parle de fuir la foule : ici, la pièce se vide. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.
-Après A ou C, ce texte est précédé de « Pas celle-là cette fois. » et suivi de « L'étape « Énoncer la règle non écrite » est là si tu veux la refaire. » (lien vers la fiche). Après B, le texte seul.
+B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.
+Après A ou C, ce texte est précédé de « Pas celle-là cette fois. » et suivi de « L'étape « Énoncer la règle non écrite » mérite un deuxième tour. » (lien vers la fiche ; texte de 3.10 l. 539, « celle-là mérite un deuxième tour », pas d'écart). Après B, le texte seul.
 
 Les trois vannes sont du même seed et du même registre (observation) : A et C sont plausibles. La scène plante le départ sans donner la promesse ; le contexte la donne : seul le contexte désigne B, la scène ne la désigne pas (elle ne contient ni « remettre ça » ni « fixer une date »). Le contexte ne contient aucun « se » ni mot de B (3.10). [HYPOTHÈSE : B n'est pas trouvée avant le contexte ; à vérifier à l'aveugle.] « Tu avais une réponse ? » avant la question : flux du design (v6 h), non touché ici.
 
@@ -135,9 +137,20 @@ Les trois vannes sont du même seed et du même registre (observation) : A et C 
 | Source de « 5 min » (reviewer) | 4.1 l. 608 |
 | Non appliqué : « Ça n'a pas été enregistré » (critique, préférence) ; « Carte suivante » (reviewer, remplacé par « Les cartes du jour ») | Lignes 19 et 7 |
 
+## 8. Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| « bonne » à remettre, longueur exacte (@elon, critique, reviewer) | Section 3 : « La bonne réponse qui te vient en quittant la pièce : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps. » (115 recomptés ; l'ancienne : 118) |
+| « Devant un petit groupe » change la marche (reviewer) | Ligne 25 : « Dans un petit groupe » (2.4 mot pour mot) |
+| Renvoi après erreur écarté de 3.10 sans le dire (reviewer) | Bilan : « L'étape « Énoncer la règle non écrite » mérite un deuxième tour. » (3.10 l. 539) |
+| Consigne interne au milieu du texte affiché (@elon) ; « proche » puis « pote » sur le même écran (critique) | Retour « bof » : [note interne, non affichée] ; retour « ça a marché » : « Marche suivante : le dire en face. » (ligne 26 alignée) ; le titre « À un pote, en face » reste celui de la marche 3 (2.4), sur l'écran suivant |
+| Réfutation de A trop faible (critique) | Retour du bilan : « A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. » |
+| Non appliqué : ligne 19 « Ça n'a pas été enregistré » (critique, préférence) ; « Voir les cartes » (reviewer, note sans effet) | Lignes 19 et 7 |
+
 ## Handoff
 - Fichier : `/home/user/Marrant/docs/copy/libelles-espace-e5-s24.md`, ni commit ni HTML touchés.
-- Choix (tour 3) : accroche unique (117) ; « Les cartes du jour » collé à « Si tu as 5 minutes » ; « Écrire à l'équipe » ; « sans public » ; marche 2 « À un proche » ; ligne 3 supprimée.
+- Choix (tour 4) : accroche unique (115, avec « bonne ») ; « Les cartes du jour » collé à « Si tu as 5 minutes » ; « Écrire à l'équipe » ; « sans public » ; marche 2 « À un proche » ; ligne 3 supprimée.
 - Réutilisés : lignes 2, 8 à 12, 14, 17, 22, 24, mission et bilan sur 2.4 et 3.10 ; neufs : 1, 4 à 7, 16, 20, 21, accroches, énoncé, scène et contexte du bilan.
 - À faire passer à l'aveugle (tour 3) : accroche, énoncé, bilan (B non trouvée avant le contexte ?), lignes 6, 7, 13, 21.
 - Longueurs comptées à la main, à recompter à l'intégration ; « 5 min » et « Mon profil » restent des choix de ce tour, à confirmer.
