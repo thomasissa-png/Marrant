@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v6 (s24)
 
+> REMPLACÉ par `architecture-contenu-v7.md` le 12/11/2026 après le tour 6 de relecture (Elon 9,5, Reviewer 9,0, UX 8,4) et la nouvelle exigence de Thomas sur les besoins de l'audience. Ne plus s'y référer pour la barre, les volumes, les situations, le vocabulaire, le bilan ni C1, C6, C10 b, C11, C12.
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v5.md`. Réponse aux tours 5 de relecture : @elon 9,3, @reviewer 8,6, @ux 8,2 (`iterations/tour-5-*.md`) et aux arbitrages de la session. Chaque correction est tracée en annexe A.
 > Faits vérifiés par la session et repris ici : `quiz-data.ts` l. 41 à 100 (OBSERVATEUR vers confiance ; STORYTELLER vers storytelling, sinon machine-a-cafe si le parcours n'est pas publié ; ABSURDE vers machine-a-cafe ; PUNCHLINEUR vers repartie ; TAQUIN vers repartie) ; le résultat du quiz n'est gardé que dans le navigateur (`localStorage`, `viral-quiz.tsx` l. 36 à 46) ; playbook l. 595 (aide officielle, 3114 en cas de détresse) ; `glossary.ts` l. 79 ; phrases juridiques de @legal dans `docs/legal/espace-client-s24-phrases.md` ; l'étape 1 de Répartie fait partie des 3 étapes gratuites réécrites (avec « repli solo ») et validées par Thomas le 07/10 (`founder-preferences.md` l. 73).
 > Sources relues pour ce tour : les 3 rapports du tour 5, `founder-preferences.md` (l. 73, 85, 103, 135, 136, 154, 161 à 165), INV (T3 corrigé par la session), le seed de Machine à Café (étape 1, vannes).
