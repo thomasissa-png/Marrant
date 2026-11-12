@@ -1,3 +1,5 @@
+> **REMPLACÉ par `architecture-contenu-v17.md` le 12/11/2026**, après le tour 16 (barre à 375 px conforme à Q3 = A, carte « Ton cap » après l'étape en cours, question « pratique » retirée, bonus dès l'ouverture, ancien abonné). Ne plus s'appuyer sur ce fichier.
+
 # Architecture de contenu de l'espace Premium, v16 (s24)
 
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v15.md`. **Thomas a tranché la connexion et les niveaux et points** (`docs/founder-preferences.md`, dernière ligne du 12/11, qui fait foi). **La v16 n'applique QUE** : (1) la décision sur la connexion, (2) la décision sur les niveaux et les points, avec le renvoi vers `docs/espace-client/niveaux-xp-s24.md` (v7 en cours, qui conçoit le contenu bonus : ce document ne le conçoit pas), (3) les précisions de @ux du tour 14 laissées de côté (P3 b et c, P1 c, P7). Le reste est recopié de la v15 (annexe A). Les points de conception neuve restent des propositions marquées [RESTE À TRANCHER] ; l'écran de motif de résiliation de s23 est un sujet séparé que la session soumettra à Thomas : ce document ne le décide pas.
