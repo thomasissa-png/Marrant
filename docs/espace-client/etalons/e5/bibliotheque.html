@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Étalon E5 v8, Bibliothèque (local, ne pas déployer)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* v8. Bibliothèque (architecture v20 6.2, 6.3, 3.13 ; niveaux-xp-s24.md 5.4). Trois blocs. Le bonus est une fiche ordinaire marquée « Bonus du cap N · {nom} », rangée avec « Écouter, repérer ».
+   INTERDITS (5.4) : aucun cadenas, aucun « verrouillé », aucun « il te manque », aucun bonus non ouvert (ni ligne grisée, ni phrase d'attente), jamais de pastille. */
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-h:#3A3A3A;--bd-in:#707070;--r-md:8px;--r-lg:12px;--fast:150ms}
+html{-webkit-font-smoothing:antialiased;scroll-padding-top:112px}
+body{background:var(--bg);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body[data-hyp="off"] [data-hyp]::after{content:none}
+.btn[data-hyp]::after{color:inherit;opacity:.85}
+.wrap{max-width:1280px;margin:0 auto;padding:0 12px}
+@media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}@media(min-width:1280px){.wrap{padding:0 32px}}
+.skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
+.skip:focus{top:8px}
+.hd{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--bd);background:rgba(13,13,13,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.hd .wrap{display:flex;height:64px;align-items:center;justify-content:space-between;gap:8px}
+.logo{display:flex;align-items:center;min-height:44px;white-space:nowrap;text-decoration:none;font:700 14px/20px "Plus Jakarta Sans",Inter,system-ui,sans-serif;background:linear-gradient(to right,#A78BFA,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(min-width:360px){.logo{font-size:16px;line-height:24px}}@media(min-width:400px){.logo{font-size:18px;line-height:28px}}@media(min-width:640px){.logo{font-size:20px}}
+.hd-r{display:flex;align-items:center;gap:4px;margin-left:auto}
+.ib{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:var(--r-lg);background:transparent;color:var(--t2);cursor:pointer;transition:background-color var(--fast),color var(--fast)}
+.ib:hover,.ib[aria-expanded="true"]{background:var(--elev);color:var(--t1)}
+.ib svg{width:20px;height:20px}
+.rech{border-top:1px solid var(--bd);padding:8px 0}
+.rech form{display:flex;flex-wrap:wrap;gap:8px}
+.rech input{flex:1 1 120px;min-width:0;min-height:44px;padding:0 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif}
+.bar{position:sticky;top:64px;z-index:40;border-bottom:1px solid var(--bd);background:var(--bg);padding-top:1px}
+.zone{position:relative;margin-left:-12px;min-width:0}
+.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+.liste::-webkit-scrollbar{display:none}
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
+.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
+.liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
+.tab:hover{color:var(--t1)}
+.tab[aria-current]{color:var(--t1)}
+.tab[aria-current]::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--acc)}
+.tab:focus-visible{outline-offset:-2px}
+.tab svg{width:16px;height:16px}
+.fade{position:absolute;top:0;bottom:0;width:40px;pointer-events:none;display:flex;align-items:center;transition:opacity var(--fast)}
+.fg{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.fd{right:0;justify-content:flex-end;background:linear-gradient(to left,var(--bg) 45%,transparent);color:var(--t2)}
+.fd svg{width:16px;height:16px;margin-right:4px}
+.fade.off{opacity:0}
+h1{font:700 30px/36px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+h2{font:700 20px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+h3{font:600 16px/24px Inter,system-ui,sans-serif}
+@media(min-width:768px){h1{font-size:36px;line-height:40px}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast)}
+.btn:hover{background:var(--elev)}
+.btn{max-width:100%}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:16px}
+@media(min-width:768px){.card{padding:24px}}
+.card>*+*{margin-top:16px}
+.meta{font-size:14px;line-height:20px;color:var(--t2)}
+.ph{color:var(--tm);font-style:italic}
+.eyebrow{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
+.main{padding-top:24px;padding-bottom:48px}
+.top{margin-bottom:24px}
+.blocs{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);max-width:720px}
+.themes{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.themes a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:9999px;border:1px solid var(--bd-in);text-decoration:none;font:500 14px/20px Inter,system-ui,sans-serif}
+.themes a:hover{background:var(--elev)}
+.fiches{list-style:none;display:flex;flex-direction:column;gap:8px}
+.fiche{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 12px;border:1px solid var(--bd);border-radius:var(--r-md);background:var(--bg-light);text-decoration:none}
+.fiche:hover{border-color:var(--bd-h);background:var(--elev)}
+.fiche-t{flex:1;min-width:0;font-size:14px;line-height:20px}
+.fiche-t small{display:block;font:600 12px/16px Inter,system-ui,sans-serif;color:var(--link);margin-bottom:2px}
+.etat{flex:none;padding:2px 8px;border-radius:9999px;border:1px solid var(--bd-in);color:var(--t2);font:600 12px/16px Inter,system-ui,sans-serif}
+.etat.fait{border-color:var(--link);color:var(--link)}
+.demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
+.demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
+@media(max-width:299px){
+.hd,.bar{position:static}
+.hd .wrap{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding-top:0;padding-bottom:0}
+.hd-r{margin-left:0}.logo{font-size:14px;line-height:20px}
+.zone{margin-right:-12px}
+.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}.tab[aria-current]::after{left:8px;right:8px}
+.fd{display:none}
+h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12px}
+.card{padding:12px}.card>*+*{margin-top:12px}.btn{white-space:normal;text-align:center;padding:12px}
+.fiche{display:grid;grid-template-columns:minmax(0,1fr);gap:4px}.fiche .etat{justify-self:start}.fiche-t{overflow-wrap:anywhere}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body data-hyp="on">
+<a class="skip" href="#main">Aller au contenu principal</a>
+
+<header class="hd"><div class="wrap">
+  <a class="logo" href="#">deviens-marrant.fr</a>
+  <div class="hd-r">
+    <button id="btn-rech" class="ib" type="button" aria-label="Rechercher" aria-expanded="false" aria-controls="rech"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+    <button class="ib" type="button" aria-label="Notifications, aucune réponse non lue"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg></button>
+    <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
+  </div>
+</div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search" placeholder="Rechercher"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+</header>
+
+<div class="bar">
+  <nav class="wrap" aria-label="Mon espace">
+    <div class="zone">
+      <div id="liste" class="liste">
+        <a class="tab" href="aujourdhui.html">Aujourd'hui</a>
+        <a class="tab" href="parcours.html">Parcours</a>
+        <a class="tab" href="#">Quoi répondre</a>
+        <a class="tab" href="#" aria-current="page">Bibliothèque</a>
+        <a class="tab" href="mes-questions.html">Mes questions</a>
+        <button class="tab" type="button" aria-haspopup="menu" aria-expanded="false">Plus <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+      </div>
+      <div id="fg" class="fade fg off" aria-hidden="true"></div>
+      <div id="fd" class="fade fd" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+    </div>
+  </nav>
+</div>
+
+<main id="main" class="wrap main">
+  <div class="top"><h1>Bibliothèque</h1></div>
+  <div class="blocs">
+
+    <!-- Bloc 1 : ouvert sur les thèmes (6.2) ; avec « Écouter, repérer », où vivent les bonus des caps 2 à 4 une fois ouverts -->
+    <section class="card" aria-labelledby="h-v">
+      <h2 id="h-v">Vannes, conseils, vidéos</h2>
+      <ul class="themes" aria-label="Thèmes">
+        <li><a href="#">Boulot</a></li><li><a href="#">Couple</a></li><li><a href="#">Soirées</a></li><li><a href="#">Famille</a></li><li><a href="#">Autodérision</a></li><li><a href="#">Dating</a></li><li><a href="#">Gaming</a></li>
+      </ul>
+      <h3 id="h-er">Écouter, repérer</h3>
+      <ul class="fiches" aria-labelledby="h-er">
+        <!-- Fiche ordinaire de la V1 (étalon E4), statut « Voir » / « Fait » (2.7) -->
+        <li><a class="fiche" href="#"><span class="fiche-t">Écouter, repérer&nbsp;: «&nbsp;Tu arrêtes ou j'appelle mon petit frère&nbsp;»</span><span class="etat">Voir</span></a></li>
+        <!-- Bonus rangés comme fiches ordinaires, marqués « Bonus du cap N · {nom} » (5.4) ; une seule porte ; un bonus non ouvert n'existe pas ici (rien d'écrit, aucune ligne grisée) -->
+        <li id="b2" hidden><a class="fiche" href="bonus.html#cap=2"><span class="fiche-t"><small>Bonus du cap 2&nbsp;· Tu te lances</small><span class="ph">[Titre du bonus]</span></span><span class="etat">Voir</span></a></li>
+        <li id="b3" hidden><a class="fiche" href="bonus.html#cap=3"><span class="fiche-t"><small>Bonus du cap 3&nbsp;· Tu avances bien</small><span class="ph">[Titre du bonus]</span></span><span id="e3" class="etat fait">Fait</span></a></li>
+        <li id="b4" hidden><a class="fiche" href="bonus.html#cap=4"><span class="fiche-t"><small>Bonus du cap 4&nbsp;· Tu enchaînes</small><span class="ph">[Titre du bonus]</span></span><span class="etat">Voir</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Bloc 2 : « Vocabulaire et techniques » ; le bonus du cap 5 (coulisses de la maison) y vit, même famille que « Comment c'est construit » -->
+    <section class="card" aria-labelledby="h-t">
+      <h2 id="h-t">Vocabulaire et techniques</h2>
+      <ul class="fiches">
+        <li><a class="fiche" href="#"><span class="fiche-t">Comment c'est construit&nbsp;: Le faux secret</span><span class="etat">Voir</span></a></li>
+        <li id="b5" hidden><a class="fiche" href="bonus.html#cap=5"><span class="fiche-t"><small>Bonus du cap 5&nbsp;· Tu connais la maison</small><span class="ph">[Titre du bonus]</span></span><span class="etat">Voir</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Bloc 3 : « Humour noir, fait bien » (E6). Texte d'entrée de E6 (version d'une phrase) et bouton « Entrer » ; le contenu n'est pas rendu avant le geste ; jamais dans la rafale ni dans le toucher. Les deux lignes facultatives de E6 et « Sortir » ne sont pas rendus : à valider par Thomas, à confirmer. -->
+    <section id="coin" class="card" aria-labelledby="h-n">
+      <h2 id="h-n">Humour noir, fait bien</h2>
+      <p>Ici, on rit de sujets graves, avec ceux qui te connaissent.</p>
+      <button id="entrer" class="btn" type="button" aria-expanded="false" aria-controls="coin-c">Entrer</button>
+      <div id="coin-c" hidden><p class="ph">[Contenu du coin, non rendu avant le geste « Entrer »]</p></div>
+    </section>
+  </div>
+
+  <nav class="demo" aria-label="États de la maquette">
+    États de la maquette (cap de l'abonné) :
+    <a href="#cap=1">Cap 1 : aucun bonus nulle part</a>
+    <a href="#cap=2">Cap 2</a>
+    <a href="#cap=3">Cap 3 (bonus du cap 3 : « Fait »)</a>
+    <a href="#cap=4">Cap 4</a>
+    <a href="#cap=5">Cap 5</a>
+    <a href="#cap=3&coin=absent">Cap 3, coin non ouvert</a>
+    <a href="#cap=3&coin=entre">Cap 3, coin : après « Entrer »</a>
+    <a href="#rech">Recherche ouverte</a>
+    <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
+  </nav>
+</main>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
+function fondus() {
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth;
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
+  l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
+  $("#fg").classList.toggle("off", l.scrollLeft < 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - (parseFloat(l.style.getPropertyValue("--sp")) || 0) - 2);
+}
+$("#liste").addEventListener("scroll", fondus, { passive: true });
+function ramener() {
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
+  fondus();
+  if (a && a !== l.firstElementChild) {
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    l.scrollLeft = bornes.find((b) => b >= bas && b <= haut) ?? haut;
+  } else l.scrollLeft = 0;
+  fondus();
+}
+addEventListener("resize", ramener);
+const br = $("#btn-rech"), rc = $("#rech");
+function rech(o) { rc.hidden = !o; br.setAttribute("aria-expanded", String(o)); if (o) $("#q").focus(); }
+br.addEventListener("click", () => rech(rc.hidden));
+$("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
+rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
+/* Geste « Entrer » : le contenu du coin n'existe à l'écran qu'après le geste */
+function coin(o) { $("#coin-c").hidden = !o; $("#entrer").setAttribute("aria-expanded", String(o)); }
+$("#entrer").addEventListener("click", () => coin($("#coin-c").hidden));
+/* #cap=1..5 (cap de DÉBLOCAGE de l'abonné : les bonus des caps 2 à n sont ouverts, les autres n'existent pas) &coin=absent|entre &rech &hyp=off */
+function appliquer() {
+  const h = location.hash, cap = +((h.match(/cap=([1-5])/) || [])[1] || 3), c = (h.match(/coin=(\w+)/) || [])[1] || "";
+  document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
+  [2, 3, 4, 5].forEach((n) => { $("#b" + n).hidden = n > cap; });
+  $("#coin").hidden = c === "absent"; coin(c === "entre");
+  rech(h.includes("rech"));
+}
+addEventListener("hashchange", appliquer);
+appliquer(); ramener();
+</script>
+</body>
+</html>

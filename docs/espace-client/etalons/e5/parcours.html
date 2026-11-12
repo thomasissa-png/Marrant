@@ -92,6 +92,11 @@ details[open]>summary svg{transform:rotate(180deg)}
 .pastilles i{width:16px;height:16px;border-radius:50%;border:2px solid var(--acc)}
 .pastilles i.on{background:var(--acc)}
 #cap>*+*{margin-top:12px}
+#annonce:not(:empty){margin-bottom:24px}
+.ann{padding:12px 16px;border:1px solid var(--bd-in);border-radius:var(--r-lg);background:var(--bg-light)}
+.ann p{font-size:16px;line-height:24px}
+.ann .acts{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:12px}
+#ecart{margin-top:12px}
 .bonus{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:8px 16px;border:1px solid var(--bd-in);border-radius:var(--r-lg);text-decoration:none;font:600 14px/20px Inter,system-ui,sans-serif}
 .bonus:hover{background:var(--elev)}
 .bonus svg{width:16px;height:16px;color:var(--tm)}
@@ -127,6 +132,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 #cap{gap:4px 8px}.pastilles{gap:2px}.pastilles i{width:10px;height:10px}
 .sec{margin-top:16px}.sec h2{margin-bottom:8px}.p{padding:12px}
 }
+@media(max-width:299px){#cap #ecart{grid-column:1 / -1;margin-top:0}.ann{padding:8px 12px}.ann .btn{width:100%;white-space:normal;text-align:center;padding:12px}.ann p{font-size:14px;line-height:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -151,7 +157,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
         <a class="tab" href="aujourdhui.html">Aujourd'hui</a>
         <a class="tab" href="parcours.html" aria-current="page">Parcours</a>
         <a class="tab" href="#">Quoi répondre</a>
-        <a class="tab" href="#">Bibliothèque</a>
+        <a class="tab" href="bibliotheque.html">Bibliothèque</a>
         <a class="tab" href="mes-questions.html">Mes questions</a>
         <button class="tab" type="button" aria-haspopup="menu" aria-expanded="false">Plus <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
       </div>
@@ -163,6 +169,9 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 
 <main id="main" class="wrap main">
   <div class="top"><h1>Parcours</h1></div>
+
+  <!-- v8 : annonce de passage (niveaux-xp-s24.md 3.0 et 5.4). Région aria-live polie, présente dès le chargement, remplie après « valider l'étape » ; fermable, jamais retirée seule (au moins 10 s ou jusqu'à fermeture : ici, jusqu'à fermeture) ; lien « Ouvrir » seulement quand un bonus s'ouvre. Jamais dans « Aujourd'hui ». -->
+  <div id="annonce" aria-live="polite"></div>
 
   <div class="pile">
     <!-- Bloc d'en-tête (5.4, 6.2) : « Tes 4 premières semaines » en quatre lignes (calendrier de 4.1), puis l'étape à reprendre, action de la page -->
@@ -195,6 +204,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
         <p class="capnom"><span id="cap-t" aria-hidden="true">Tu avances bien · cap 3 sur 5</span><span id="cap-sr" class="sr">Tu avances bien, cap 3 sur 5</span></p>
         <div id="pastilles" class="pastilles" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
       </div>
+      <!-- 5.4 et Q10, mot pour mot : seulement quand le cap affiché est plus haut que le déblocage (compte dont l'XP date d'avant la correction) -->
+      <p id="ecart" class="meta" hidden>Ton cap compte tous les points gagnés depuis ton arrivée ; les bonus s'ouvrent avec tes étapes et tes bonus de parcours.</p>
     </section>
 
     <!-- Raccourci seulement quand un bonus est ouvert : #bonus -->
@@ -217,6 +228,12 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     <a href="#sans">Habitué, sans bonus ouvert</a>
     <a href="#bonus">Avec « Tes bonus »</a>
     <a href="#serie=0">Série à 0</a>
+    <a href="#cap=1">Cap 1 (aucun bonus : pas de « Tes bonus »)</a>
+    <a href="#passage=cap-bonus&cap=2">Passage cap 1 à 2, avec le premier bonus</a>
+    <a href="#passage=cap-bonus&cap=3">Passage cap 2 à 3, avec bonus</a>
+    <a href="#passage=cap&cap=3">Cap seul (cap affiché plus haut que le déblocage)</a>
+    <a href="#passage=bonus&cap=3">Bonus seul</a>
+    <a href="#cap=3">Après le passage (cap 3, « Tes bonus »)</a>
     <a href="#etat=jour1">Jour 1 (étape 1 pas commencée, cap 1)</a>
     <a href="#rech">Recherche ouverte</a>
     <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
@@ -266,7 +283,6 @@ rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); b
 function appliquer() {
   const h = location.hash, j1 = h.includes("etat=jour1"), s0 = h.includes("serie=0") || j1;
   document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
-  $("#bonus").hidden = !h.includes("bonus");
   $("#serie-t").textContent = s0 ? "Ta série démarre à ta prochaine étape." : "3 jours de pratique d'affilée";
   /* Jour 1 : étape 1 de Répartie (4.2 : aucun signal) sans date, cap 1 (« Tu t'échauffes », 0 XP) */
   $("#et-eb").textContent = j1 ? "Étape conseillée" : "Étape en cours";
@@ -274,10 +290,20 @@ function appliquer() {
   $("#et-meta").hidden = j1;
   $("#et-ph").textContent = j1 ? "Tes premières répliques" : "[Titre de l'étape en cours]"; $("#et-ph").classList.toggle("ph", !j1);
   $("#et-btn").textContent = j1 ? "Commencer l'étape 1" : "Reprendre";
-  const cap = j1 ? 1 : 3;
-  $("#cap-t").textContent = (j1 ? "Tu t'échauffes" : "Tu avances bien") + " · cap " + cap + " sur 5";
-  $("#cap-sr").textContent = (j1 ? "Tu t'échauffes" : "Tu avances bien") + ", cap " + cap + " sur 5";
+  /* v8 : caps et bonus (niveaux-xp-s24.md). #cap=1..5 : cap affiché ; #passage=cap-bonus|cap|bonus : annonce après « valider l'étape » ; &ecart : cap affiché plus haut que le déblocage (5.5) */
+  const NOMS = ["", "Tu t'échauffes", "Tu te lances", "Tu avances bien", "Tu enchaînes", "Tu connais la maison"];
+  const pm = (h.match(/passage=([\w-]+)/) || [])[1] || "", cm = +((h.match(/cap=([1-5])/) || [])[1] || 0);
+  const cap = cm || (j1 ? 1 : 3), explicite = !!(pm || cm);
+  $("#cap-t").textContent = NOMS[cap] + " · cap " + cap + " sur 5";
+  $("#cap-sr").textContent = NOMS[cap] + ", cap " + cap + " sur 5";
   [...$("#pastilles").children].forEach((x, i) => x.classList.toggle("on", i < cap));
+  /* « Tes bonus » : n'existe pas tant qu'aucun bonus n'est ouvert (cap 1), aucune phrase d'attente */
+  $("#bonus").hidden = !(h.includes("bonus") || (explicite && cap >= 2));
+  $("#bonus").href = cap <= 4 ? "bonus.html#cap=" + Math.max(2, cap) : "bibliotheque.html#bonus";
+  $("#ecart").hidden = !(h.includes("ecart") || pm === "cap");
+  const a = $("#annonce"), avecCap = pm === "cap-bonus" || pm === "cap", avecBonus = pm === "cap-bonus" || pm === "bonus";
+  a.innerHTML = !pm ? "" : '<div class="ann"><p>' + [avecCap ? "Nouveau cap : " + NOMS[cap] + "." : "", avecBonus ? "Un bonus s'ouvre dans la Bibliothèque : <span class=\"ph\">[Titre du bonus]</span>." : ""].filter(Boolean).join(" ") + '</p><div class="acts">' + (avecBonus ? '<a class="btn" href="bonus.html#cap=' + Math.max(2, Math.min(cap, 4)) + '">Ouvrir</a>' : "") + '<button id="ann-x" class="btn" type="button">Fermer</button></div></div>';
+  const ax = $("#ann-x"); if (ax) ax.addEventListener("click", () => { a.innerHTML = ""; });
   rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);
