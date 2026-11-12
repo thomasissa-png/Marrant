@@ -1,4 +1,4 @@
-# C3b : « Formules à détourner », lot 2 (fiches 7 à 12, 30 détournements), tour 2
+# C3b : « Formules à détourner », lot 2 (fiches 7 à 12, 30 détournements), tour 3
 
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 et de C3a (`docs/copy/espace/c3a-formules.md`) : la règle, deux déjà faites, trois à toi (formule entière gardée, suite à écrire, version possible repliée), le piège (forme fixée par `architecture-contenu-v20.md` l. 502, identique à E2.2), la limite, une suite qui ne détourne rien, la grille.
 > Six familles neuves, hors C3a (proverbes, expressions imagées, répliques de cinéma, rituels, phrases de parents, citations) : 7 contes, 8 annonces et panneaux de gare, 9 comptines, 10 phrases de commerçants, 11 phrases de recettes, 12 phrases de profs. Aucune formule de bureau. Décors : coloc, gare, soirée, courses, cuisine, salle de cours.
@@ -19,7 +19,7 @@ Tu gardes la phrase du conte telle quelle. Tu y fais entrer un détail précis d
 
 **Deux déjà faites**
 « Il était une fois… »
-→ « Il était une fois une boîte prêtée à la coloc. On est sans nouvelles. »
+→ « Il était une fois une boîte prêtée à la coloc, et on est sans nouvelles. »
 
 « Ils vécurent heureux et eurent beaucoup d'enfants. »
 → « Ils vécurent heureux et eurent beaucoup d'enfants, puis un groupe de messages qu'on ne peut plus quitter. »
@@ -53,14 +53,14 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 **Formules à détourner : à toi d'abord**
 
 **La règle**
-Tu gardes l'annonce telle quelle. Tu y mets un détail précis de ta journée, et la voix du haut-parleur se met à parler de toi.
+Tu gardes l'annonce ou le panneau tel quel. Tu y mets un détail précis de ta journée, et la gare se met à parler de toi.
 
 **Deux déjà faites**
 « Attention à la marche en descendant du train. »
 → « Attention à la marche en descendant du train, puis à la marche jusqu'à la sortie. »
 
 « Un train peut en cacher un autre. »
-→ « Un train peut en cacher un autre, surtout celui que je viens de rater. »
+→ « Un train peut en cacher un autre, et le mien cachait un car de remplacement. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
@@ -69,7 +69,7 @@ Tu gardes l'annonce telle quelle. Tu y mets un détail précis de ta journée, e
 2. « Terminus, tout le monde descend, … »
    `[Voir une version possible]` « Terminus, tout le monde descend, sauf mon parapluie, qui fait un deuxième tour. »
 3. « Éloignez-vous de la bordure du quai, s'il vous plaît, … »
-   `[Voir une version possible]` « Éloignez-vous de la bordure du quai, s'il vous plaît, ma valise a des roues et pas de scrupules. »
+   `[Voir une version possible]` « Éloignez-vous de la bordure du quai, s'il vous plaît, ma valise ne sait pas freiner. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -107,7 +107,7 @@ Tu gardes le début de la comptine tel quel. Tu remplaces ou tu prolonges la fin
 2. « Au clair de la lune, mon ami Pierrot, prête-moi … »
    `[Voir une version possible]` « Au clair de la lune, mon ami Pierrot, prête-moi ton wifi pour écrire un mot. »
 3. « Alouette, gentille alouette, alouette, je te … »
-   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai dès 6 h. »
+   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai, mais d'abord cinq minutes de plus. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -141,7 +141,7 @@ Tu gardes la phrase du commerçant. Tu écris ta réponse de client avec un dét
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
 1. « Ce sera tout ? … »
-   `[Voir une version possible]` « Ce sera tout ? Oui, tout, sauf ce qui était sur ma liste. »
+   `[Voir une version possible]` « Ce sera tout ? Oui, j'avais deux choses sur ma liste, j'ai pris tout le reste. »
 2. « C'est pour offrir ? … »
    `[Voir une version possible]` « C'est pour offrir ? Non, c'est pour moi, mais avec un joli papier. »
 3. « Je vous laisse regarder. … »
@@ -217,7 +217,7 @@ Tu gardes la phrase du prof. Tu écris ta réponse d'élève, au lycée ou à la
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
 1. « Ça sera noté. … »
-   `[Voir une version possible]` « Ça sera noté. Moi, je note surtout l'heure de la sortie. »
+   `[Voir une version possible]` « Ça sera noté. Je souligne deux fois, au cas où ça compte double. »
 2. « Nous verrons cela au prochain cours. … »
    `[Voir une version possible]` « Nous verrons cela au prochain cours. Moi, je verrai ça la veille de l'examen. »
 3. « Silence dans les rangs ! … »
@@ -239,7 +239,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 ## Annexe : les deux candidates écartées par détournement (hors import)
 
 **Fiche 7**
-- Il était une fois : « Il était une fois un mois d'essai gratuit, et il dure encore. » (flou, et un site payant n'a pas à rire d'un abonnement oublié) · « Il était une fois un sondage de coloc, et personne n'a voté. »
+- Il était une fois : « Il était une fois une boîte prêtée à la coloc. On est sans nouvelles. » (deux phrases, la grille en demande une) · « Il était une fois un mois d'essai gratuit, et il dure encore. » (flou, et un site payant n'a pas à rire d'un abonnement oublié) · « Il était une fois un sondage de coloc, et personne n'a voté. »
 - Clôture : « Ils se marièrent et eurent beaucoup d'enfants, puis un groupe de messages. » · « Ils vécurent heureux et eurent beaucoup d'enfants, et un seul canapé. »
 - Mère-grand : « …C'est pour trouver la fève. » (hors sujet pour le loup) · « …C'est pour décapsuler la bouteille. »
 - Anne : « …Si : le facteur, qui passe sans sonner. » · « …Si : le bus, qui passe sans s'arrêter. »
@@ -247,22 +247,22 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 **Fiche 8**
 - Marche : « Attention à la marche en descendant du train, et à celle de la valise sur le pied. » · « Attention à la marche en descendant du train, surtout en chaussettes de voyage. »
-- Panneau : « Un train peut en cacher un autre, et un retard, une excuse. » · « Un train peut en cacher un autre, comme un message en cache un autre dans le groupe. »
+- Panneau : « Un train peut en cacher un autre, surtout celui que je viens de rater. » (obscur) · « Un train peut en cacher un autre. Le mien cachait un car de remplacement. » (deux phrases)
 - Attention : « Votre attention, s'il vous plaît : le dernier carré de chocolat cherche son propriétaire. » · « Votre attention, s'il vous plaît : la personne qui a pris le dernier carré est attendue à la cuisine. »
 - Terminus : « …sauf le sac de courses qui a glissé sous le siège. » · « …même ceux qui dormaient depuis la ville d'avant. »
-- Bordure : « …ma valise a envie de voyager seule. » · « …ma valise a des roues et un sens de l'orientation douteux. »
+- Bordure : « …ma valise a des roues et pas de scrupules. » (ne répond pas à la bordure) · « …ma valise a des roues et un sens de l'orientation douteux. »
 
 **Fiche 9**
 - Jacques : « …Non, juste un dernier épisode. » (même idée que C1c) · « …Non, le groupe de messages vient de s'animer. »
 - Bergère : « …et mon linge est encore dehors. » · « …et mon parapluie dort au bureau. »
 - Loup : « …il est parti chercher un colis. » · « …il est chez le coiffeur. »
 - Pierrot : « …prête-moi ton mot de passe, j'ai perdu le mien. » · « …prête-moi ton chargeur pour finir un mot. »
-- Alouette : « …tu sonnes avant le soleil, je te débrancherai. » (explique la blague) · « …je te mettrai en sourdine. »
+- Alouette : « …je te débrancherai dès 6 h. » (ne dit pas que c'est un réveil) · « …je te débrancherai après le deuxième report. »
 
 **Fiche 10**
 - Et avec ceci : « Avec ceci, ma baguette devient un goûter. » · « Rien, merci, je repars avec un sac de gâteaux pour une baguette. »
 - Sachet : « Non, merci, je vais tout porter en équilibre jusqu'à la voiture. » · « Non, merci, tout tient dans mes poches, et dans mes bras. »
-- Ce sera tout : « Oui, sauf ce qui était sur la liste. » · « Oui, le reste me reviendra dehors. »
+- Ce sera tout : « Oui, tout, sauf ce qui était sur ma liste. » (la liste n'est pas posée avant) · « Oui, tout, sauf ce pour quoi j'ai fait la queue. »
 - Offrir : « Non, c'est pour moi, mais je veux bien un ruban. » · « Oui, à moi, pour avoir fini la semaine. »
 - Regarder : « Je regarde surtout la sortie. » (peut se lire contre le vendeur) · « Je regarde les prix, de loin. »
 
@@ -276,7 +276,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 **Fiche 12**
 - Feuille : « Sortez une feuille, puis cherchez un stylo dans le fond du sac. » (change de voix) · « Sortez une feuille. Une vraie, pas le ticket de caisse. »
 - Copies : « Je ramasse les copies dans cinq minutes, et ma conclusion n'a pas commencé. » · « Je ramasse les copies dans cinq minutes. Mon stylo vient de rendre l'âme. »
-- Noté : « Ça sera noté, comme mon retard de ce matin. » · « Ça sera noté, comme mon sourire poli au dernier rang. »
+- Noté : « Ça sera noté. Moi, je note surtout l'heure de la sortie. » (deux « Moi, je » de suite avec la ligne suivante) · « Ça sera noté. Je note déjà mon excuse. »
 - Prochain cours : « …, comme chaque semaine depuis septembre. » · « …, comme la dernière fois et celle d'avant. »
 - Silence : « Silence dans les rangs ! Même le radiateur est prié de se taire. » · « Silence dans les rangs ! Mon ventre, à 11 h 50, prend ça pour une question. »
 
@@ -322,3 +322,19 @@ Toutes les phrases nouvelles : 3 candidates, recherche web de la phrase exacte e
 | Mijoter (elon, critique) | « …comme mes projets de vacances depuis janvier. » (plus de troisième écran). |
 | Fiche 12, voix et suites qui prolongent (elon) | Une seule voix, celle de l'élève qui répond à la phrase du prof ; règle, exemples, suite sans détournement et note alignés. Radiateur, retard de ce matin et « chaque semaine depuis septembre » remplacés. « Étudiant » remplacé par « élève, au lycée ou à la fac ». |
 | Cinq suites qui prolongent la formule (elon) | Mariage, linge, sachet, fiche 12 n° 1 et n° 2 : suites retournées (blague, surprise) au lieu d'un détail ajouté. |
+
+---
+
+## Tour 3 : ce qui a changé (hors import)
+
+Six lignes seulement, le reste est inchangé (piège compris). 3 candidates par ligne, recherche web de la phrase exacte et de l'idée pour chaque phrase retenue : 0 occurrence ; les écartées sont en annexe.
+
+| Point (reviewer, elon, critique) | Retenu | Pourquoi |
+|---|---|---|
+| Fiche 7, « boîte prêtée à la coloc » : deux phrases, la grille en demande une (reviewer) | « Il était une fois une boîte prêtée à la coloc, et on est sans nouvelles. » | Mêmes mots, une seule phrase. |
+| Fiche 8, règle : parle du haut-parleur, l'exemple est un panneau (reviewer) | « Tu gardes l'annonce ou le panneau tel quel. Tu y mets un détail précis de ta journée, et la gare se met à parler de toi. » | La règle couvre annonces et panneaux. |
+| Fiche 8, « surtout celui que je viens de rater » obscur (elon) | « Un train peut en cacher un autre, et le mien cachait un car de remplacement. » | Le car de remplacement est la surprise, la phrase reste unique (la version à deux phrases est écartée). |
+| Fiche 8, bordure (critique) | « …s'il vous plaît, ma valise ne sait pas freiner. » | La suite répond à la bordure du quai. |
+| Fiche 9, alouette (critique, reviewer) | « …je te débrancherai, mais d'abord cinq minutes de plus. » | « Cinq minutes de plus » dit le réveil sans l'expliquer. « Après le deuxième report » écarté (mot moins courant). |
+| Fiche 10, « Ce sera tout ? » (critique) | « …Oui, j'avais deux choses sur ma liste, j'ai pris tout le reste. » | La liste est posée dans la phrase. La réécriture « sauf ce pour quoi je suis venu » n'est pas reprise : « venu » s'accorde. |
+| Fiche 12, « Moi, je… » deux fois de suite (elon) | « Ça sera noté. Je souligne deux fois, au cas où ça compte double. » | La ligne suivante garde son « Moi, je verrai ça la veille de l'examen ». |
