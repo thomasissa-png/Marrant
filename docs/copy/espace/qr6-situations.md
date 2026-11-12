@@ -1,24 +1,22 @@
-# QR6 : Quoi répondre, lot 6 (10 situations), tour 2
+# QR6 : Quoi répondre, lot 6 (10 situations), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 l. 194 (QR6 : coloc 3, famille 3, messages et groupes 4 ; répartition conforme). Format de `docs/copy/espace/qr4-situations.md` et `qr3-situations.md`, niveau de `qr1-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md` et des relectures QR1 à QR3, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« quelqu'un », « la personne », « un de tes parents »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. **Chaque registre (sûre, joueuse, risquée) d'une même situation a sa propre image.** Coloc : on rit de soi ou d'un détail neutre, jamais d'une personne précise. Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche. Messages et groupes : la réplique est un texte écrit, la scène le dit.
 > Aucune scène de QR1 à QR5 ni des étalons reprise (poêle, « tu fais quoi », photo, danser, afterwork, notes, sourdine, « tu n'as pas ri », « ça fait des mois », « tu as vu mon message », fenêtre, anniversaire, bibliothèque, etc.). Univers de QR5 (prise de parole, commerces, voisins, transports) évités.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 2 (18 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne » ; L2 sûre et risquée, L3, P2 sûre et risquée, P3 joueuse, G1 sûre, G2 joueuse, G4 sûre et joueuse inchangées), à repasser à l'aveugle sur les lignes reprises** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 3 (d'après les relectures du tour 2 : L1 scène neuve et trois répliques, L2 joueuse, P1 scène et risquée, P3 sûre et rafale 2, G1 joueuse et risquée, G3 scène et accord, G4 risquée ; voir « Tour 3 : retouche → ligne »). Le tour 2 avait repris 18 répliques d'après les relectures du tour 1. L3, P2, G2 et les lignes à 10 ne sont pas touchées. À repasser à l'aveugle sur les lignes reprises** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR3 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
 
 ## A. Coloc (3 situations)
 
-### L1. Coloc : « C'est à toi, ce vélo ? »
+### L1. Coloc : « C'est quoi, cette odeur ? »
 
 **La scène**
-Mardi, 19 h, l'entrée de la coloc. Quelqu'un de la coloc rentre, soulève la jambe au-dessus d'un vélo couché en travers du couloir et s'arrête :
+Mardi, 19 h 30, la cuisine de la coloc. Tu fais revenir du chou. Quelqu'un de la coloc entre et s'arrête net :
 
-« C'est à toi, ce vélo ? »
-
-Il est à toi, et il est là depuis hier soir.
+« C'est quoi, cette odeur ? »
 
 **Ta réponse d'abord**
 Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.
@@ -26,30 +24,30 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Oui. Je le range, et le couloir retrouve son rôle de couloir. »
-Tu reconnais tout de suite et tu promets le geste, avec un trait sur la fonction oubliée du couloir. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
+« Du chou. Promis, il a meilleur goût qu'il ne sent. »
+Tu nommes l'odeur sans te défendre et tu la rassures sur le goût, avec un trait que tout le monde reconnaît. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
 
 **La joueuse**
-« Oui. Il s'entraîne pour le rôle de l'obstacle. »
-Tu reconnais le vélo et tu en fais un comédien qui répète son rôle dans le couloir. Rien n'est nié, tu ne t'excuses pas. À sortir quand la coloc a déjà ri des affaires qui traînent.
+« Du chou. Il s'annonce avant d'arriver, c'est un chou poli. »
+Tu fais du chou un invité qui prévient de son arrivée. Rien n'est nié, tu ne t'excuses pas. À sortir quand la personne sourit en le demandant.
 
 **La risquée**
-« Oui. On fonde le club des choses qui traînent ? Première réunion dans le couloir. »
-Tu reconnais le vélo et tu ouvres un club dont tu es le premier membre. Elle ne vise personne, seulement le désordre commun. Elle marche seulement si la personne laisse elle aussi traîner ses affaires et en rit. Sinon elle ressemble à un reproche renvoyé : prends la sûre.
+« Du chou. Il en reste : on le mange, ou on le dénonce ? »
+Tu nommes l'odeur et tu laisses à la personne le choix du sort du chou : le partager ou le livrer à la justice de la coloc. Elle ne vise personne, seulement l'odeur. Elle marche seulement si la personne plaisante déjà de ses propres odeurs de cuisine. Sinon elle ressemble à une façon d'esquiver la remarque : prends la sûre.
 
 **Comment choisir**
-La coloc a déjà ri des affaires qui traînent ? Monte d'un cran. La personne plaisante déjà des siennes ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si la coloc rit déjà. La risquée seulement si la personne a lancé « mes chaussures aussi sont dans le couloir » ou un trait du même genre, une fois. Une seule tentative : tu soulèves le vélo et tu le ranges.
+La personne sourit en demandant ? Monte d'un cran. La personne plaisante déjà de ses propres odeurs de cuisine ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si la personne sourit. La risquée seulement si elle a lancé « moi, la dernière fois, c'était du poisson » ou un trait du même genre, une fois. Une seule tentative : tu coupes le feu et tu ouvres la fenêtre.
 
 **L'erreur que tout le monde fait**
-Te défendre (« je l'ai posé deux secondes, il pleuvait, c'était juste pour la nuit, personne ne m'avait dit que ça gênait »). Tu transformes un vélo en procès, et le couloir attend la fin de la défense. Une phrase, puis le vélo.
+T'excuser en boucle (« pardon, pardon, c'est dégoûtant, j'ouvre tout, je ne le ferai plus »). Tu transformes un plat en incident, et la cuisine attend la fin des excuses. Une phrase, puis la fenêtre.
 
 **À toi**
-Prends un objet qui traîne chez toi, tiens-le à bout de bras et dis la sûre à voix haute. Dix secondes. Pour aller plus loin : range-le tout de suite après.
+Ouvre ta fenêtre et dis la sûre à voix haute, comme si quelqu'un venait d'entrer dans ta cuisine. Dix secondes. Pour aller plus loin : au prochain plat qui sent, dis-la avant qu'on te pose la question.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne soulève la jambe au-dessus du vélo sans sourire, un sac de courses à chaque main, et attend » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne ne plaisante de ses propres affaires, donc le club ressemblerait à un reproche renvoyé.
-2. « La personne le demande en souriant, la coloc rit déjà des affaires qui traînent, et personne ne parle des siennes » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu des affaires qui traînent, donc le club imposerait un jeu que personne n'a demandé.
+1. « La personne s'arrête à l'entrée de la cuisine sans sourire, et attend ta réponse » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne ne plaisante de ses propres odeurs, donc le choix « le manger ou le dénoncer » ferait une blague sur une remarque sérieuse.
+2. « La personne le demande en souriant, sans rien dire de ses propres odeurs de cuisine » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu des odeurs, donc « on le mange, ou on le dénonce ? » imposerait un jeu que la personne n'a pas ouvert.
 
 ### L2. Coloc : « Samedi, j'invite quelques amis, ça vous va ? »
 
@@ -68,8 +66,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu acceptes et tu poses une seule limite, avec un trait sur ta façon de quitter la fête : discrètement. Elle ne vise personne, ne conteste pas l'invitation et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
 
 **La joueuse**
-« Ça me va. Je m'occupe de l'accueil : les manteaux sur mon lit, les regrets dans l'entrée. »
-Tu te donnes le rôle d'accueil du vestiaire, avec un second service moins ordinaire : stocker les regrets à la porte. Rien n'est nié, tu ne critiques personne, et la coloc peut renchérir. À sortir quand la personne le demande en souriant.
+« Ça me va. Je tiens le vestiaire : pourboires acceptés, vestes rendues au hasard. »
+Tu te donnes le rôle de vestiaire, avec un service douteux : des vestes rendues au hasard, et des pourboires que tu acceptes quand même. Rien n'est nié, tu ne critiques personne, et la coloc peut renchérir. À sortir quand la personne le demande en souriant.
 
 **La risquée**
 « Ça me va. Je demande seulement la définition de “quelques” : dans cette maison, elle est élastique. »
@@ -132,7 +130,7 @@ Demain, quand l'eau est chaude, dis la sûre ou la joueuse à voix haute, une se
 ### P1. Famille : « Tu as pris un manteau, au moins ? »
 
 **La scène**
-Dimanche, 18 h, l'entrée de chez un de tes parents. Tu enfiles ta veste pour repartir. Un de tes parents te regarde faire :
+Dimanche, 18 h, l'entrée de chez un de tes parents. Tu prends ton sac et tes clés pour repartir. Un de tes parents te regarde faire :
 
 « Tu as pris un manteau, au moins ? »
 
@@ -150,12 +148,12 @@ Tu rassures et tu promets le message, avec un détail de météo qui fait sourir
 Tu fais du manteau un voyageur autonome, et la phrase rassure sans promettre autre chose. Rien n'est nié, personne n'est visé. À sortir quand la personne sourit en le demandant.
 
 **La risquée**
-« Oui. Et toi, tu as pris ta sérénité ? Je l'ai vue dans le tiroir de l'entrée. »
-Tu rends la question avec la même tendresse, sur l'inquiétude elle-même. Elle ne vise personne, seulement l'inquiétude que la personne a nommée en riant. Elle marche seulement si la personne plaisante déjà de ses propres inquiétudes. Sinon elle ressemble à un reproche sur sa façon de s'inquiéter : prends la sûre.
+« Oui. Et j'ai emprunté ta sérénité, elle traînait dans le tiroir de l'entrée. »
+Tu rassures en renversant l'image : tu ne demandes rien à la personne, tu repars avec sa sérénité, que tu rendras. Elle ne vise personne, seulement l'inquiétude, qu'elle nomme avec tendresse. Elle marche seulement si la personne plaisante déjà de ses propres inquiétudes. Sinon elle ressemble à un commentaire sur sa façon de s'inquiéter : prends la sûre.
 
 **Comment choisir**
 La personne sourit en le demandant ? Monte d'un cran. La personne plaisante déjà de ses propres inquiétudes ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si la personne sourit. La risquée seulement si elle a déjà lancé « je sais, je suis pénible, mais vérifie quand même » ou un trait du même genre, une fois. Une seule tentative : tu l'embrasses et tu pars.
+Sur cette scène : la joueuse si la personne sourit. La risquée seulement si elle a déjà lancé « je sais, je m'inquiète trop, c'est plus fort que moi » ou un trait du même genre, une fois. Une seule tentative : tu l'embrasses et tu pars.
 
 **L'erreur que tout le monde fait**
 T'agacer (« mais oui, j'ai quel âge, je sais m'habiller »). Tu transformes une tendresse en dispute, et tu pars avec le dernier mot. Une phrase, puis le baiser.
@@ -164,8 +162,8 @@ T'agacer (« mais oui, j'ai quel âge, je sais m'habiller »). Tu transformes un
 Mets ton manteau, dis la sûre à voix haute devant la porte, comme si quelqu'un te regardait faire. Dix secondes. Pour aller plus loin : écris vraiment la température en arrivant chez toi.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne le demande en souriant, sans plaisanter de ses propres inquiétudes » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu de l'inquiétude, donc la sérénité dans le tiroir ressemblerait à un reproche.
-2. « La personne ajoute en riant : “Je sais, je suis pénible, mais vérifie quand même” » : la risquée. La personne vient de rire de sa propre inquiétude : « ta sérénité dans le tiroir de l'entrée » lui répond en face ; la joueuse parlerait de ton manteau sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
+1. « La personne le demande en souriant, sans plaisanter de ses propres inquiétudes » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu de l'inquiétude, donc la sérénité empruntée ressemblerait à un commentaire sur sa façon de s'inquiéter.
+2. « La personne ajoute en riant : “Je sais, je m'inquiète trop, c'est plus fort que moi” » : la risquée. La personne vient de rire de sa propre inquiétude : « j'ai emprunté ta sérénité » lui répond en face ; la joueuse parlerait de ton manteau sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
 
 ### P2. Famille : « Tu viens m'aider à la cuisine ? »
 
@@ -218,8 +216,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Ton tour, ton film. Je reste jusqu'au générique, même si je m'endors à la moitié. »
-Tu cèdes sans condition et tu offres en échange ta présence jusqu'au bout, avec l'aveu d'un risque que tu prends. Elle ne vise personne, ne juge pas le choix et se ferme toute seule. C'est la bonne quand la personne le dit en tenant déjà la télécommande, sans sourire.
+« Ton tour, ton film. Je m'occupe du pop-corn, et je ne commente que le pop-corn. »
+Tu cèdes sans condition et tu offres un service, avec la promesse de ne parler que du pop-corn. Elle ne vise personne, ne juge pas le choix et se ferme toute seule. C'est la bonne quand la personne le dit en tenant déjà la télécommande, sans sourire.
 
 **La joueuse**
 « Choisis. J'ai déjà préparé ma critique : “meilleur que prévu, moins bien que le dernier.” »
@@ -241,7 +239,7 @@ Prends une télécommande et dis la sûre à voix haute en la tendant. Dix secon
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « La personne le dit en souriant, la télécommande en l'air, sans parler de ses films habituels » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a plaisanté de ses choix, donc le veto sur la course au ralenti sonnerait comme un jugement.
-2. « La personne ajoute en riant : “Cette fois, de l'action, comme toujours, et personne ne dit rien” » : la risquée. La personne vient de rire de ses propres films : « j'ai un veto : tout film où quelqu'un court au ralenti » lui répond en face ; la joueuse parlerait de ta critique sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
+2. « La personne ajoute en riant : “Cette fois, encore un de mes films où tout le monde court au ralenti, et personne ne dit rien” » : la risquée. La personne vient de rire de ses propres films : « j'ai un veto : tout film où quelqu'un court au ralenti » lui répond en face ; la joueuse parlerait de ta critique sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
 
 ## C. Messages et groupes (4 situations, la réplique est un texte écrit)
 
@@ -266,12 +264,12 @@ Avant de lire la suite, écris ta réponse dans ton téléphone, sans l'envoyer,
 Tu réponds vrai et court, avec une évidence qui fait sourire : l'heure. Elle ne vise personne et rend la parole, au cas où le message cachait quelque chose. C'est la bonne quand le message est resté sec, sans autre mot.
 
 **La joueuse**
-« Oui. C'est ce que j'ai fait de plus long depuis lundi. »
-Tu fais de ta nuit un exploit d'endurance : la chose la plus longue de ta semaine, c'est dormir. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha » ou un mot léger.
+« Je dormais. C'est le seul projet que je mène jusqu'au bout. »
+Tu fais du sommeil un projet que tu termines, contrairement aux autres. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha » ou un mot léger.
 
 **La risquée**
-« 7 h 12 ? J'ai vu passer ton message en rêve. Il courait très vite. »
-Tu fais entrer le message dans ton sommeil, où il traverse la scène en courant. Elle vise l'heure du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de ses propres réveils matinaux. Sinon elle plaisante avec quelqu'un qui avait peut-être un vrai souci : prends la sûre.
+« 7 h 12 ? J'ai répondu, mais en rêve. Tu n'as rien reçu ? »
+Tu prétends avoir répondu dans ton sommeil et tu demandes si la réponse est arrivée. Elle vise l'heure du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de ses propres réveils matinaux. Sinon elle plaisante avec quelqu'un qui avait peut-être un vrai souci : prends la sûre.
 
 **Comment choisir**
 Le message se termine par un mot léger ? Monte d'un cran. La personne plaisante déjà de ses propres réveils matinaux ? Monte encore. Sinon, reste sur la sûre.
@@ -284,8 +282,8 @@ Répondre « ah oui, pardon, j'avais mis le téléphone en silencieux, la nuit a
 Prends le dernier message auquel tu as répondu en retard et écris ta réponse en une phrase, sans te justifier. Envoie-la ou garde-la. Dix secondes.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message de 7 h 12 est suivi d'un “haha, j'espère que non” » : la joueuse. Un mot léger est là, donc la sûre serait timide ; la personne n'a pas plaisanté de ses réveils, donc le message en rêve rirait de son heure sans y être invité.
-2. « La personne ajoute : “Moi, je suis debout depuis six heures, c'est un sport chez moi” » : la risquée. La personne vient de plaisanter de ses réveils : « j'ai vu passer ton message en rêve, il courait très vite » lui répond en face ; la joueuse parlerait de ta nuit sans répondre à son sport, la sûre fermerait un jeu qu'elle ouvre.
+1. « Le message de 7 h 12 est suivi d'un “haha, j'espère que non” » : la joueuse. Un mot léger est là, donc la sûre serait timide ; la personne n'a pas plaisanté de ses réveils, donc la réponse en rêve rirait de son heure sans y être invitée.
+2. « La personne ajoute : “Moi, je suis debout depuis six heures, c'est un sport chez moi” » : la risquée. La personne vient de plaisanter de ses réveils : « j'ai répondu, mais en rêve » lui répond en face ; la joueuse parlerait de ton projet de sommeil sans répondre à son sport, la sûre fermerait un jeu qu'elle ouvre.
 
 ### G2. Messages : « Alors, tu as écouté ? » (un vocal de quatre minutes)
 
@@ -330,7 +328,7 @@ Choisis le dernier vocal que tu n'as pas écouté. Écris la sûre ou la joueuse
 ### G3. Groupes : « Pour samedi, on fait une cagnotte ? »
 
 **La scène**
-Mardi, 21 h, le groupe de discussion des amis. L'anniversaire de quelqu'un du groupe tombe samedi. Quelqu'un écrit :
+Mardi, 21 h, un groupe de discussion créé pour l'occasion, sans la personne concernée. Quelqu'un de la bande déménage samedi. Quelqu'un écrit :
 
 « Pour samedi, on fait une cagnotte ? »
 
@@ -350,7 +348,7 @@ Tu acceptes et tu t'engages pour ce soir, avec un trait sur ta mémoire, caprici
 Tu prends la carte et tu annonces des brouillons déjà pleins d'émotion. Rien n'est nié, personne n'est visé, et tu proposes une tâche précise. À sortir quand le groupe plaisante déjà sur un ton léger.
 
 **La risquée**
-« Oui. Montant secret : chacun croira avoir donné le plus. »
+« Oui. Montant secret : tout le monde croira avoir donné le plus. »
 Tu proposes une règle qui flatte tout le monde, toi compris. Elle ne vise personne, seulement la crainte des écarts entre les parts. Elle marche seulement si quelqu'un a déjà plaisanté du montant des parts. Sinon elle sonne comme une insinuation sur les parts de chacun : prends la sûre.
 
 **Comment choisir**
@@ -390,11 +388,11 @@ Tu confirmes sans te justifier et tu offres le message à tout le monde, avec un
 Tu transformes l'erreur en essai grandeur nature. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha ».
 
 **La risquée**
-« Oui. Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. »
-Tu fais de l'erreur un suspense : les bisous avaient un destinataire, et tout le groupe se pose la question. Elle ne vise personne. Elle marche seulement si quelqu'un a déjà cru que les bisous étaient pour lui ou pour elle. Sinon elle sonne comme une façon de balayer l'incident : prends la sûre.
+« Oui. Mais si quelqu'un les a gardés, je ne les reprends pas. »
+Tu confirmes l'erreur et tu laisses les bisous là où ils sont, sans soupçon ni reprise. Elle ne vise personne et ne désigne personne. Elle marche seulement si quelqu'un a déjà cru que les bisous lui revenaient. Sinon elle sonne comme une façon de balayer l'incident : prends la sûre.
 
 **Comment choisir**
-Le message se termine par un « haha » ? Monte d'un cran. Quelqu'un croit déjà que les bisous étaient pour lui ou pour elle ? Monte encore. Sinon, reste sur la sûre.
+Le message se termine par un « haha » ? Monte d'un cran. Quelqu'un croit déjà que les bisous lui revenaient ? Monte encore. Sinon, reste sur la sûre.
 Sur cette scène : la joueuse si le ton est léger. La risquée seulement si quelqu'un a lancé « j'ai cru que c'était pour moi » ou un trait du même genre, une fois. Une seule tentative : tu envoies et tu passes à autre chose.
 
 **L'erreur que tout le monde fait**
@@ -404,8 +402,8 @@ T'excuser pendant dix messages (« pardon pardon pardon, quelle honte, je suppri
 Écris la sûre en brouillon, sans l'envoyer. Dix secondes. Pour aller plus loin : la prochaine fois que tu te trompes de destinataire, envoie-la et ne reviens pas dessus.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a cru que les bisous étaient pour lui ou pour elle, donc le suspense sur le destinataire balayerait un incident déjà détendu.
-2. « Quelqu'un ajoute : “Moi, j'ai cru que c'était pour moi, j'ai rougi toute la matinée” » : la risquée. La personne vient de se croire destinataire : « les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa confidence, la sûre fermerait un jeu qu'elle ouvre.
+1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a cru que les bisous lui revenaient, donc « je ne les reprends pas » balayerait un incident déjà détendu.
+2. « Quelqu'un ajoute : “Moi, j'ai cru que c'était pour moi, j'ai rougi toute la matinée” » : la risquée. La personne vient de se croire destinataire : « si quelqu'un les a gardés, je ne les reprends pas » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa confidence, la sûre fermerait un jeu qu'elle ouvre.
 
 ---
 
@@ -413,11 +411,11 @@ T'excuser pendant dix messages (« pardon pardon pardon, quelle honte, je suppri
 
 | Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
 |---|---|---|---|---|
-| L1 | Sûre | « Le mien. Je les descends avant que le sac prenne racine. » | « Le mien. Je les descends tout de suite. » (aucune image) | « Le mien. J'ai pris de l'avance sur la semaine prochaine : elle est déjà pleine. » (hors sujet) |
-| L1 | Joueuse | « Le mien. Je les laissais réfléchir à leur avenir. » | « Le mien. Je les laissais mûrir. » (l'odeur dit le contraire de la blague) | « Le mien. Je faisais confiance à la gravité : elle n'a pas assez travaillé. » (obscure) |
-| L1 | Risquée | « Le mien. Prochaine étape : un planning, et le premier qui oublie, son nom sur le sac. » | « Le mien. Prochaine fois, on tire les sacs au sort. » (aucun lien avec l'oubli) | « Le mien. Et la vaisselle, c'est à qui ? » (renvoie la faute, vise quelqu'un) |
+| L1 (état du tour 3) | Sûre | « Du chou. Promis, il a meilleur goût qu'il ne sent. » | « Oui. Je le range, et le couloir redevient un couloir. » (scène du vélo abandonnée : refaisait la poêle de E1.1) | « Je baisse. Le concert continue au casque. » (reviewer ; autre scène proposée, la musique à travers le mur) |
+| L1 (état du tour 3) | Joueuse | « Du chou. Il s'annonce avant d'arriver, c'est un chou poli. » | « Oui. Il s'entraîne pour le rôle de l'obstacle. » (scène du vélo abandonnée) | « Je baisse. Le batteur va devoir jouer sur la pointe des pieds. » (reviewer ; autre scène) |
+| L1 (état du tour 3) | Risquée | « Du chou. Il en reste : on le mange, ou on le dénonce ? » | « Oui. On fonde le club des choses qui traînent ? Première réunion dans le couloir. » (scène du vélo abandonnée, « club de X » connu, condition de E1.1 mot pour mot) | « Je baisse. On signe un traité : ma musique jusqu'à 23 h, ton aspirateur à partir de 9 h ? » (reviewer ; autre scène, moule du troc) |
 | L2 | Sûre | « Ça me va. Je me réserve le droit de disparaître dans ma chambre à minuit. » | « Ça me va. Prévenez-moi du nombre. » (vouvoiement, plate) | « Ça me va, tant que je garde ma chambre. » (condition, aucune chute) |
-| L2 | Joueuse | « Ça me va. Je prépare mon discours d'accueil : “Les toilettes sont à gauche, le reste est à vos risques.” » | « Ça me va. Je fais l'accueil, les manteaux et les adieux. » (liste, aucune image) | « Ça me va. Je mets un panneau : “Ici, on ne parle pas du ménage.” » (vise la coloc) |
+| L2 (état du tour 3) | Joueuse | « Ça me va. Je tiens le vestiaire : pourboires acceptés, vestes rendues au hasard. » | « Ça me va. Je prépare mon discours d'accueil : “Les toilettes sont à gauche, le reste est à vos risques.” » (calquée sur « les sorties de secours sont... », connue) | « Ça me va. Je m'occupe de l'accueil : les manteaux sur mon lit, les regrets dans l'entrée. » (obscure : les regrets de qui ?) |
 | L2 | Risquée | « Ça me va. Je demande seulement la définition de “quelques” : dans cette maison, elle est élastique. » | « Ça me va. Quelques, c'est combien, cette fois ? » (question directe, aucune image) | « Ça me va. Quelques-uns pour toi, tout le monde pour moi. » (obscure) |
 | L3 | Sûre | « Deux minutes. Je te laisse la salle de bain, et la buée en cadeau. » | « Deux minutes. Je termine ma meilleure idée de la semaine. » (« les meilleures idées viennent sous la douche » est un lieu commun) | « Deux minutes. Je te laisse la place. » (plate) |
 | L3 | Joueuse | « Le temps de convaincre l'eau chaude de me laisser partir. » | « Le temps de finir mon concert. » (chanter sous la douche : connu) | « Le temps de laisser l'eau terminer ses phrases. » (obscure) |
@@ -453,9 +451,9 @@ Résultat : **0 occurrence exacte** pour chacune des 30 répliques retenues (phr
 - Accords : aucune réplique de l'utilisateur ne s'accorde (« fort », « prêt », « réveillé », « perdant » écartés en annexe). L'autre est « quelqu'un », « la personne », « un de tes parents », « quelqu'un de tes amis » (jamais « un ami » ni « l'ami », qui sont genrés). Aucun masculin générique (« chacun », « ceux », « le premier qui », « le dernier ») dans les répliques ni dans les scènes.
 - Scène : aucun signal ne désigne la bonne réponse ; chaque risquée se lit sous la scène seule (le sac en L1, « quelques » en L2, la porte de la salle de bain en L3, la remarque en P1, la cuisine en P2, la télécommande en P3, 7 h 12 en G1, la durée du vocal en G2, les dix messages en G3, le « bonne nuit » en G4).
 - Une seule bonne réponse par contexte ; « une seule tentative » partout ; aucun moule « je fais X si Y » ; aucune réplique qui commet l'erreur de sa fiche.
-- **Une image par registre** dans chaque situation (état du tour 2) : L1 rôle du couloir / comédien et obstacle / club ; L2 disparition / vestiaire et regrets / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 température / manteau voyageur / sérénité dans le tiroir ; P2 tâche facile / remuer et regarder / grade de brigade ; P3 générique et sommeil / critique écrite d'avance / veto de la course au ralenti ; G1 évidence de l'heure / la chose la plus longue de la semaine / message qui court en rêve ; G2 fauteuil / rebondissement / dégustation ; G3 mémoire de bonne humeur / carte aux versions émues / montant secret ; G4 gratuité / test / suspense du destinataire.
+- **Une image par registre** dans chaque situation (état du tour 3) : L1 goût contre odeur / chou poli qui s'annonce / chou à dénoncer ; L2 disparition / vestiaire à pourboires / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 température / manteau voyageur / sérénité empruntée ; P2 tâche facile / remuer et regarder / grade de brigade ; P3 pop-corn et silence / critique écrite d'avance / veto de la course au ralenti ; G1 évidence de l'heure / sommeil, seul projet mené à bout / réponse en rêve ; G2 fauteuil / rebondissement / dégustation ; G3 mémoire de bonne humeur / carte aux versions émues / montant secret ; G4 gratuité / test / bisous gardés, jamais repris.
 - Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche (P1 sans reproche sur l'inquiétude, P2 sans cuisine jugée, P3 sans goût visé). Messages et groupes : la réplique est un texte à écrire, la scène le dit (« tu réponds par message », « dans le groupe »), `Ta réponse d'abord` est adapté pour l'écrit.
-- Doublons : aucune scène de QR1 à QR5 ni des étalons reprise. Tour 2 : L1 n'est plus la corvée de la poêle ni les poubelles du local de QR5 W4 (c'est un vélo dans le couloir), P1 n'est plus la remarque sur le changement de l'étalon A5 (c'est le manteau à l'entrée), G3 n'est plus l'indécision de QR4 C5 (c'est une cagnotte, la proposition est déjà faite). Univers de QR5 évités. Motifs évités : retard, photo, café, prénoms, tic « trois », Cendrillon, micro coupé, salle de sport, poêle, racine, sondage, mission secrète, marathon.
+- Doublons : aucune scène de QR1 à QR5 ni des étalons reprise. Tour 3 : L1 n'est plus un objet à soi qui traîne (le vélo refaisait la poêle de E1.1 et sa condition mot pour mot) mais une odeur de chou dans la cuisine, où personne n'est « le propriétaire » pris en faute ; G3 n'est plus un anniversaire (motif exclu) mais un départ, dans un groupe monté sans la personne concernée. Tour 2 : L1 n'est plus la corvée de la poêle ni les poubelles du local de QR5 W4, P1 n'est plus la remarque sur le changement de l'étalon A5 (c'est le manteau à l'entrée), G3 n'est plus l'indécision de QR4 C5 (c'est une cagnotte, la proposition est déjà faite). Univers de QR5 évités. Motifs évités : retard, photo, café, prénoms, tic « trois », Cendrillon, micro coupé, salle de sport, poêle, racine, sondage, mission secrète, marathon.
 - Répartition des bonnes réponses de rafale : 10 joueuses (L1-2, L2-1, L3-2, P1-1, P2-2, P3-1, G1-1, G2-2, G3-2, G4-1), 5 sûres (L1-1, L3-1, P2-1, G2-1, G3-1), 5 risquées (L2-2, P1-2, P3-2, G1-2, G4-2).
 - Aucun tiret cadratin, aucun emoji, ni IA ni concurrent, guillemets « » avec guillemets intérieurs “ ”, aucune donnée inventée (seuls les détails de scène sont posés : heures, lieux, durée du vocal).
 - Répartition coloc 3, famille 3, messages et groupes 4 : conforme au plan s24 §5 l. 194.
@@ -501,10 +499,42 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 18 répliques repr
 | G4 risquée floue (critique) | G4 risquée : « Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. » ; rafale 2 : la personne « a cru que c'était pour moi » ; comment choisir et pourquoi réalignés. |
 | Décompte | 18 répliques touchées (L1 ×3, L2 ×1, P1 ×3, P2 ×1, P3 ×2, G1 ×2, G2 ×2, G3 ×3, G4 ×1) ; 12 inchangées (L2 sûre et risquée, L3 ×3, P2 sûre et risquée, P3 joueuse, G1 sûre, G2 joueuse, G4 sûre et joueuse). Rafale inchangée : 10 joueuses, 5 sûres, 5 risquées. |
 
+## Annexe 5 : candidates du tour 3 (3 par réplique reprise ; les réécritures des relectures comptent comme candidates)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| L1 | Sûre | « Du chou. Promis, il a meilleur goût qu'il ne sent. » | « Je baisse. Le concert continue au casque. » (reviewer ; autre scène, la musique à travers le mur, proche des voisins de QR5) | « Oui. Je le range, et le couloir redevient un couloir. » (scène du vélo abandonnée : refait la poêle de E1.1) |
+| L1 | Joueuse | « Du chou. Il s'annonce avant d'arriver, c'est un chou poli. » | « Je baisse. Le batteur va devoir jouer sur la pointe des pieds. » (autre scène) | « Oui. Il s'entraîne pour le rôle de l'obstacle. » (scène du vélo abandonnée) |
+| L1 | Risquée | « Du chou. Il en reste : on le mange, ou on le dénonce ? » | « Oui. On fonde le club des choses qui traînent ? Mon vélo a déjà sa carte. » (@elon ; scène abandonnée, « club de X » connu, condition de E1.1) | « Du chou. On fait un vote : on le mange, ou on aère ? » (moule du vote, déjà un registre de QR6) |
+| L2 | Joueuse | « Ça me va. Je tiens le vestiaire : pourboires acceptés, vestes rendues au hasard. » | « Ça me va. Je m'occupe de l'accueil : les manteaux sur mon lit, les regrets dans l'entrée. » (obscure : les regrets de qui ? ; « manteau » déjà en P1) | « Ça me va. Je tiens le vestiaire : les manteaux sur mon lit, rendus dans le désordre. » (reviewer ; « manteau » en double avec P1) |
+| P1 | Risquée | « Oui. Et j'ai emprunté ta sérénité, elle traînait dans le tiroir de l'entrée. » | « Oui. Et toi, tu as pris ta sérénité ? Je l'ai vue dans le tiroir de l'entrée. » (fait la leçon à un parent inquiet, critique) | « Oui, et une deuxième veste dans le sac, au cas où le manteau s'inquiète. » (critique ; l'inquiétude passe sur le manteau, plus de lien avec le parent) |
+| P3 | Sûre | « Ton tour, ton film. Je m'occupe du pop-corn, et je ne commente que le pop-corn. » | « Ton tour, ton film. Je reste jusqu'au générique, même si je m'endors à la moitié. » (laisse entendre que le film sera ennuyeux) | « Ton tour, ton film. Je reste jusqu'au générique, ou jusqu'au premier ronflement. » (cliché du dormeur, juge le film) |
+| G1 | Joueuse | « Je dormais. C'est le seul projet que je mène jusqu'au bout. » | « Oui. C'est ce que j'ai fait de plus long depuis lundi. » (« Oui » répond au présent, l'exploit ne fait pas rire) | « Je dormais. J'ai fini par répondre à mon sommeil. » (obscure) |
+| G1 | Risquée | « 7 h 12 ? J'ai répondu, mais en rêve. Tu n'as rien reçu ? » | « 7 h 12 ? J'ai vu passer ton message en rêve. Il courait très vite. » (ne se comprend que par le « sport » de la rafale) | « 7 h 12 ? J'ai vu passer ton message en rêve. Je n'ai pas osé répondre sans sommeil. » (critique ; « sans sommeil » ne dit rien) |
+| G3 | Risquée | « Oui. Montant secret : tout le monde croira avoir donné le plus. » | « Oui. Montant secret : chacun croira avoir donné le plus. » (masculin générique) | « Oui. Je propose un montant libre et un secret absolu. » (aucune image) |
+| G4 | Risquée | « Oui. Mais si quelqu'un les a gardés, je ne les reprends pas. » | « Oui. Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. » (affirme que les bisous visaient le groupe, ce qui est faux, et sème un soupçon ; masculin générique) | « Oui. Les bisous étaient pour une seule personne d'entre vous, je ne dirai pas laquelle. » (reviewer ; même soupçon) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 10 répliques touchées, phrases entières entre guillemets. Recherche de l'idée en plus : odeur de chou en coloc (seuls des conseils pour limiter l'odeur et des forums sans blague de ce type), vestiaire aux vestes rendues au hasard et aux pourboires, sérénité empruntée à un parent inquiet, pop-corn et commentaire, sommeil comme projet mené à bout, réponse envoyée en rêve, bisous gardés non repris, montant secret d'une cagnotte : aucune blague de ce type trouvée. Le chou et son odeur sont un sujet de société courant, la blague n'existe pas telle quelle.
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Le vélo refait la poêle de E1.1 (objet à soi qui traîne, « c'est à qui ? ») et la condition de la risquée en reprend les mots (reviewer, @elon, coordinateur) | L1 refaite : scène neuve, « C'est quoi, cette odeur ? » (tu fais revenir du chou, tu n'es pas le propriétaire pris en faute) ; trois répliques neuves, chacune avec sa propre image (goût contre odeur, chou poli, chou à dénoncer) ; pourquoi, comment choisir, erreur, à toi et rafale réécrits ; plus de « premier membre ». |
+| La scène dit « ta veste », les répliques parlent d'un manteau (reviewer) | P1 scène : « Tu prends ton sac et tes clés pour repartir. » |
+| P1 risquée donne une leçon à un parent inquiet ; son pourquoi suppose la rafale (critique, reviewer, @elon) | P1 risquée : « Oui. Et j'ai emprunté ta sérénité, elle traînait dans le tiroir de l'entrée. » (rien n'est demandé au parent) ; pourquoi : « Elle ne vise personne, seulement l'inquiétude, qu'elle nomme avec tendresse » ; rafale 2 : « je m'inquiète trop, c'est plus fort que moi », réalignée. |
+| P3 sûre laisse entendre que le film sera ennuyeux ; rafale 2 ne répond pas en face à la risquée (reviewer, critique) | P3 sûre : « Je m'occupe du pop-corn, et je ne commente que le pop-corn » ; P3 rafale 2 : « encore un de mes films où tout le monde court au ralenti ». |
+| L2 joueuse obscure (reviewer, @elon) ; « manteau » en double avec P1 (critique) | L2 joueuse : « Je tiens le vestiaire : pourboires acceptés, vestes rendues au hasard. » |
+| G1 : « Oui » répond au présent, risquée lisible seulement via la rafale (@elon, critique) | G1 joueuse : « Je dormais. C'est le seul projet que je mène jusqu'au bout. » ; G1 risquée : « 7 h 12 ? J'ai répondu, mais en rêve. Tu n'as rien reçu ? » ; rafale 1 et 2 réalignées. |
+| La personne fêtée est dans le groupe de sa propre cagnotte, et l'anniversaire est un motif exclu (reviewer, @elon) | G3 scène : un groupe créé sans la personne concernée, quelqu'un de la bande déménage samedi. |
+| Accords : « chacun », « un seul d'entre vous… lequel », « premier membre » (reviewer, @elon) | G3 risquée : « tout le monde croira avoir donné le plus » ; G4 risquée : « si quelqu'un les a gardés, je ne les reprends pas » (plus de masculin générique, plus de soupçon) ; G4 comment choisir et rafale réalignés (« lui revenaient »). |
+| Annexe 1 non mise à jour (reviewer) | Annexe 1 : lignes L1 et L2 joueuse mises à jour (« état du tour 3 »). |
+| L3 à 7 chez la critique, 10 chez deux relecteurs | Non touchée (aucune réplique meilleure et vérifiée trouvée). |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 2) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques dont 18 reprises, 60 candidates écartées en annexe 1 et 36 en annexe 3, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées). Trois scènes remplacées (L1 le vélo, P1 le manteau, G3 la cagnotte).
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 3) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées). Tour 3 : 10 répliques touchées (L1 ×3 avec scène neuve, L2 joueuse, P1 risquée, P3 sûre, G1 ×2, G4 risquée, G3 risquée pour l'accord), 3 scènes corrigées (L1, P1, G3), annexe 5 pour les candidates ; L3, P2, G2 et les lignes à 10 ne sont pas touchées.
 - Règle nouvelle appliquée : une image par registre dans chaque situation (liste dans les contrôles) ; checklist des fautes récurrentes relue avant d'écrire.
-- Web : 0 occurrence exacte sur les 30 phrases du tour 1 (annexe 2) et sur les 18 reprises du tour 2 (annexe 4), idées comprises. À juger à l'aveugle en priorité : L1 risquée (le club), P1 risquée (la sérénité dans le tiroir), P3 risquée (la course au ralenti).
-- Aucun autre fichier modifié, pas de commit. Statut : tour 2, à repasser à l'aveugle sur les lignes reprises (règle d'or P0 s18).
+- Web : 0 occurrence exacte sur les 30 phrases du tour 1 (annexe 2), sur les 18 reprises du tour 2 (annexe 3) et sur les 10 touchées du tour 3 (annexe 5), idées comprises. À juger à l'aveugle en priorité : L1 (scène du chou et ses trois répliques), P1 risquée (la sérénité empruntée), G4 risquée.
+- Aucun autre fichier modifié, pas de commit. Statut : tour 3, à repasser à l'aveugle sur les lignes reprises (règle d'or P0 s18) ; un tour 4 reste possible, après quoi Thomas tranche.
 
