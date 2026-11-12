@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v4 (s24)
 
+> REMPLACÉ par `architecture-contenu-v5.md` le 12/11/2026 après le tour 4 de relecture (UX 8,0, Reviewer 8,1, Elon 8,7). Ne plus s'y référer pour l'entrée par le quiz, la barre, le temps, la carte de rafale, « Mes questions » ni C10.
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v3.md`. Réponse aux tours 3 de relecture : @ux 7,3, @reviewer 8,3, @elon 8,6 (`iterations/tour-3-*.md`) et aux arbitrages de la session. Chaque correction est tracée en annexe A (tour 3, puis restes partiels des tours 1 et 2).
 > Faits : `inventaire-cartographie-s24.md` (INV), corps réaligné sur sa section 6 ; sa ligne T3 (carnet) a été corrigée par la session le 12/11 après le tour 3 (« partiellement levé ») et la section 1.4 ci-dessous s'aligne dessus. La ligne « Carnet » du tableau 1.1 d'INV reste à vérifier par @product-manager.
 > Sources relues pour ce tour : les 3 rapports du tour 3, `departage-2026-10.md`, `verdict-v4-r2.md`, `verdict-v5-r1/r2/r3.md`, `2026-11.json` (fiche 2026-11-25), `founder-preferences.md` (l. 85, 135, 136, 154, 161 à 165), INV (T3), `lib/progression.ts`, `config/premium.ts`.
