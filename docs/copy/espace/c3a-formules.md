@@ -1,4 +1,4 @@
-# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements), tour 2
+# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements), tour 3
 
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 (`docs/copy/etalons-espace-s24.md` l. 182-216) : la règle, deux déjà faites, trois à toi (gabarit + version possible repliée), le piège (forme fixée par `architecture-contenu-v20.md` l. 502, identique à E2.2), la limite, une suite qui ne détourne rien, la grille.
 > Fiche 1 = E2.2 reprise telle quelle (étalon validé par le fondateur). Fiches 2 à 6 : neuves, une famille de formules par fiche, 5 détournements chacune, 3 candidates par détournement (la meilleure ici, les deux autres en annexe).
@@ -95,15 +95,15 @@ Tu gardes la réplique que tout le monde connaît. Tu la fais tomber dans un dé
 
 **Deux déjà faites**
 « Je suis ton père. »
-→ « Je suis ton père, et c'est moi qui règle le thermostat. »
+→ « Je suis ton père, et le chargeur dans ta chambre est le mien. »
 
 « Vous ne passerez pas ! »
-→ « Vous ne passerez pas ! Le portique a reconnu mon ticket de la semaine dernière. »
+→ « Vous ne passerez pas ! Même avec trois tickets de la semaine dernière. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
 1. « Que la Force soit avec toi, … »
-   `[Voir une version possible]` « Que la Force soit avec toi, et la batterie jusqu'à la prise. »
+   `[Voir une version possible]` « Que la Force soit avec toi, et un taxi libre sous la pluie. »
 2. « Je reviendrai, … »
    `[Voir une version possible]` « Je reviendrai, promet la pièce du caddie, si tu ramènes le chariot. »
 3. « Houston, on a un problème : … »
@@ -183,7 +183,7 @@ Tu gardes la phrase de la maison. Tu y glisses un détail d'aujourd'hui, ou une 
 2. « On ne parle pas la bouche pleine, on … »
    `[Voir une version possible]` « On ne parle pas la bouche pleine, on envoie des vocaux. »
 3. « C'est pour ton bien, … »
-   `[Voir une version possible]` « C'est pour ton bien, répète le dentiste en sortant la fraise. »
+   `[Voir une version possible]` « C'est pour ton bien, dit ma mère en activant le partage de position. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -246,9 +246,9 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 - Yeux : « Coûter les yeux de la tête : mon opticien a fait un geste commercial. » · « Coûter les yeux de la tête, présenté en deux paires. »
 
 **Fiche 3**
-- Père : « Je suis ton père : à ce titre, je garde la télécommande. » · « Je suis ton père, et le chargeur dans ta chambre est le mien. »
-- Passerez : « Vous ne passerez pas ! dit le tourniquet à mon forfait du mois dernier. » · « Vous ne passerez pas ! dit le portique à la baguette sous mon bras. »
-- Force : « Que la Force soit avec toi, et le parking devant le cinéma. » · « Que la patience soit avec toi, dit le service client. »
+- Père : « Je suis ton père, et ce fauteuil devant la télé est à moi. » · « Je suis ton père, et ce sont mes écouteurs dans ta poche. » (hors tour 3 : « …c'est moi qui règle le thermostat », « …je garde la télécommande », jugés entendus)
+- Passerez : « Vous ne passerez pas ! Le portique du métro, face à mon sac de courses. » · « Vous ne passerez pas ! La porte de l'immeuble ne reconnaît plus mon code. » (hors tour 3 : « …Le portique a reconnu mon ticket de la semaine dernière », « …dit le tourniquet à mon forfait du mois dernier »)
+- Force : « Que la Force soit avec toi, et la batterie pour appeler le taxi. » · « Que la Force soit avec toi, et le wifi dans le train. » (hors tour 3 : « …et la batterie jusqu'à la prise », thème accessoires déjà exploité)
 - Reviendrai : « Je reviendrai, dit le caddie : tu tiens trop à ta pièce. » · « Je reviendrai, dit la pièce du caddie, si tu le ramènes. »
 - Houston : « Houston, on a un problème : la dernière part de pizza a deux propriétaires. » · « Houston, on a un problème : plus de papier, et la coloc dort. »
 
@@ -264,7 +264,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 - Assiette : « Finis ton assiette, et la batterie de ta tablette ensuite. » · « Finis ton assiette avant d'envoyer la photo. »
 - Pont : « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement s'il y a du réseau. » · « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement si le pont a du wifi. »
 - Bouche pleine : « On ne parle pas la bouche pleine, on écrit : mille messages à la minute. » · « On ne parle pas la bouche pleine, mais le téléphone, lui, bavarde à table. »
-- Bien : « C'est pour ton bien, dit le réveil à 6 h 30. » · « C'est pour ton bien, soupire le thermostat. »
+- Bien : « C'est pour ton bien : j'ai mis ton téléphone à charger dans la cuisine. » · « C'est pour ton bien, glisse ma mère en ajoutant ses courses à ma liste partagée. » (hors tour 3 : « …répète le dentiste en sortant la fraise », qui ne détourne rien ; « …dit le réveil à 6 h 30 » ; « …soupire le thermostat »)
 
 **Fiche 6**
 - Pense : « Je pense, donc je suis encore sous la douche à 8 h 10. » · « Je pense, donc je suis dans l'escalier. » (exige de connaître « l'esprit de l'escalier »)
@@ -297,4 +297,17 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 | GPS (critique) | Retiré (déjà dans C1a fiche 6), remplacé par le four. |
 | « Mieux vaut tard que jamais » | Maintenu dans la fiche 1 : c'est E2.2 mot pour mot (étalon validé) et le reviewer a vérifié l'identité. Les fiches 2 à 6 ne le reprennent pas. Note interne corrigée (doublon assumé, formulé plus haut). |
 | Note interne l. 5 | Corrigée : plus de « aucune citation de personne » ; les citations sont réelles et sourcées, aucun chiffre ni témoignage. |
-| Pères et réveil (critique) | Thermostat conservé (jugé gag entendu mais l'un des meilleurs à l'oral par elon) ; réveil retiré. |
+| Pères et réveil (critique) | Thermostat conservé au tour 2, réveil retiré (le thermostat est remplacé au tour 3, voir ci-dessous). |
+
+---
+
+## Tour 3 : ce qui a changé (hors import)
+
+Quatre détournements seulement ; le reste du fichier est inchangé, piège compris (identique dans les fiches 2 à 6, forme fixée par `architecture-contenu-v20.md` l. 502, préférence de la critique non appliquée). Pour chacun : 3 candidates, recherche web des 3 phrases exactes (guillemets), 0 occurrence ; les deux non retenues sont en annexe.
+
+| Point | Retenu | Pourquoi |
+|---|---|---|
+| Fiche 5, « C'est pour ton bien » (elon 9, critique 7) | « …, dit ma mère en activant le partage de position. » | Le dentiste disait vraiment la phrase et ouvrait déjà la fiche 2. Ici la phrase reste celle de la maison, le détail est d'aujourd'hui, on rit avec la mère. Écartées : la version « téléphone à charger dans la cuisine » (change la forme : deux-points au lieu de la virgule du gabarit) et « …glisse ma mère en ajoutant ses courses à ma liste partagée » (plus longue). |
+| Fiche 3, « Que la Force soit avec toi » (critique 7) | « …, et un taxi libre sous la pluie. » | Une scène à voir, et plus d'accessoire de batterie (thème déjà exploité côté produits). Écartées : « …la batterie pour appeler le taxi », « …le wifi dans le train ». |
+| Fiche 3, « Vous ne passerez pas ! » (critique 7) | « …Même avec trois tickets de la semaine dernière. » | La chute est l'entêtement, plus un constat. Écartées : « …le portique du métro, face à mon sac de courses », « …la porte de l'immeuble ne reconnaît plus mon code ». |
+| Fiche 3, « Je suis ton père » (critique 8) | « …, et le chargeur dans ta chambre est le mien. » | Le thermostat était un gag très entendu. Écartées : « …ce fauteuil devant la télé est à moi », « …ce sont mes écouteurs dans ta poche ». |
