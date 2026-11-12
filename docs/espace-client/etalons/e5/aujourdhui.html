@@ -116,6 +116,17 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
 .pastilles i{width:16px;height:16px;border-radius:50%;border:2px solid var(--acc)}
 .pastilles i.on{background:var(--acc)}
 .lien{color:var(--link);display:inline-flex;align-items:center;min-height:44px}
+#mois{order:5}
+.banner{margin-bottom:24px;padding:12px 16px;border:1px solid var(--bd);border-radius:var(--r-md);background:var(--bg-light);font-size:14px;line-height:20px;color:var(--t2)}
+/* Densité N4 : en arrivée, le premier écran = salutation + action principale ; la rafale passe sous le contenu du jour, Ton mois est absent */
+body[data-etat="pas"] #jour{order:2}
+body[data-etat="pas"] #rafale{order:3}
+body[data-etat="pas"] #mois{display:none}
+/* Premier pas plus généreux (hauteur naturelle, aucune boîte étirée) : marges, titre et bouton plus grands, plus 48 px d'espace sous la carte */
+@media(max-width:1023px){body[data-etat="pas"] #pas{padding:24px;margin-bottom:48px}body[data-etat="pas"] #pas h2{font-size:24px;line-height:32px}body[data-etat="pas"] #pas .btn{width:100%;min-height:48px}}
+/* 200 % de texte (viewport utile d'environ 188 px) : le logo passe à la ligne, plus de débordement */
+@media(max-width:299px){.logo{white-space:normal;min-width:0;font-size:12px;line-height:16px}.hd .wrap{gap:4px}.hd-r{gap:0}body[data-etat="pas"] #pas{padding:16px}body[data-etat="pas"] #pas h2{font-size:20px;line-height:28px}}
+.btn{max-width:100%}
 /* Cloche : feuille basse mobile, fenêtre ordinateur */
 .ov{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}
 .sheet{width:100%;max-height:calc(100dvh - 16px);overflow-y:auto;background:var(--card);border:1px solid var(--bd);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
@@ -180,6 +191,8 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
     <h1>Aujourd'hui</h1>
     <p class="repere">12 cartes cette semaine</p>
   </div>
+  <!-- Juste après le paiement : le favori d'avant paiement reste ajouté, sa confirmation s'affiche ici (C14). Texte [HYPOTHÈSE], aucun geste demandé. -->
+  <p id="fav" class="banner" role="status" hidden>Ton favori est ajouté.</p>
 
   <div class="stack">
     <div class="col">
@@ -189,16 +202,6 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
         <h2 id="h-pas">Quelqu'un te lance «&nbsp;tiens, tu as changé quelque chose, non&nbsp;?&nbsp;»</h2>
         <p class="meta">Moins de 5 minutes</p>
         <a class="btn btn-x" href="#">Commencer</a>
-        <form id="note" class="note" onsubmit="return false">
-          <label for="note-t">Ma réplique à moi</label>
-          <textarea id="note-t" rows="2" placeholder="Écris ta version, en une phrase" aria-describedby="note-c note-s"></textarea>
-          <div class="row2">
-            <button id="note-ok" class="btn" type="submit">Enregistrer</button>
-            <button id="note-del" class="btn" type="button" hidden>Supprimer</button>
-            <span id="note-c" class="cap">0 caractère</span>
-            <span id="note-s" class="meta" role="status"></span>
-          </div>
-        </form>
       </section>
 
       <!-- Rafale du jour : 1 situation nouvelle + jusqu'à 2 à revoir -->
@@ -253,13 +256,13 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
         <a class="btn btn-x" href="#">Reprendre</a>
       </section>
 
-      <section id="cap" class="card" aria-labelledby="h-cap">
-        <h2 id="h-cap">Ton cap</h2>
+      <!-- Ton mois : seul endroit d'Aujourd'hui où la série et le cap figurent (4.4), empilés ; absent tant que rien n'est fait -->
+      <section id="mois" class="card" aria-labelledby="h-cap">
+        <h2 id="h-cap">Ton mois</h2>
         <p id="serie" class="serie"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z"/></svg><span id="serie-t">3 jours de pratique d'affilée</span></p>
         <p class="capnom"><span aria-hidden="true">Tu avances bien · cap 3 sur 5</span><span class="sr">Tu avances bien, cap 3 sur 5</span></p>
         <div class="pastilles" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div>
         <p class="meta">Un jour compte quand tu valides une étape ou que tu termines un quiz d'étape.</p>
-        <a id="bonus" class="lien" href="#" hidden>Tes bonus</a>
       </section>
     </div>
   </div>
@@ -267,6 +270,7 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
   <nav class="demo" aria-label="États de la maquette">
     États de la maquette :
     <a href="#etat=pas">Arrivée (premier pas)</a>
+    <a href="#etat=apres-paiement">Juste après le paiement</a>
     <a href="#etat=rafale">Rafale à faire</a>
     <a href="#etat=reprise">Rafale faite</a>
     <a href="#cloche=reponse&ouvert">Cloche : réponse</a>
@@ -274,7 +278,6 @@ body[data-etat="pas"] #pas .btn-x:hover,body[data-etat="rafale"] #rafale .btn-x:
     <a href="#cloche=aucune&ouvert">Cloche : vide</a>
     <a href="#option=2&cloche=reponse">Pastille option 2</a>
     <a href="#option=3&cloche=reponse">Pastille option 3</a>
-    <a href="#bonus">Avec « Tes bonus »</a>
     <a href="#serie=0">Série à 0</a>
   </nav>
 </main>
@@ -385,27 +388,15 @@ $("#autre").addEventListener("click", () => {
   $("#live").textContent = "Une autre vanne affichée";
 });
 
-/* Note "ma réplique à moi" : vide, saisie, enregistrée, supprimée (rien n'est perdu) */
-const nt = $("#note-t");
-nt.addEventListener("input", () => {
-  const k = nt.value.length; $("#note-c").textContent = k + (k > 1 ? " caractères" : " caractère"); $("#note-s").textContent = "";
-});
-$("#note").addEventListener("submit", () => {
-  if (!nt.value.trim()) return;
-  $("#note-s").textContent = "Enregistrée"; $("#note-del").hidden = false;
-});
-$("#note-del").addEventListener("click", () => {
-  nt.value = ""; $("#note-c").textContent = "0 caractère"; $("#note-s").textContent = ""; $("#note-del").hidden = true;
-});
-
 /* États de la maquette via le hash : #etat=pas|rafale|reprise & cloche=reponse|nouveautes|aucune & ouvert & option=1|2|3 & bonus & serie=0 */
 function appliquer() {
   const p = {};
   location.hash.slice(1).split("&").forEach((x) => { if (x) { const [k, v] = x.split("="); p[k] = v === undefined ? true : v; } });
-  document.body.dataset.etat = p.etat || "pas";
+  const e = p.etat || "pas"; /* "apres-paiement" = état "pas" + confirmation du favori */
+  document.body.dataset.etat = e === "apres-paiement" ? "pas" : e;
+  $("#fav").hidden = e !== "apres-paiement";
   document.body.dataset.option = p.option || "1";
   setCloche(p.cloche || "reponse");
-  $("#bonus").hidden = !p.bonus;
   $("#serie-t").textContent = p.serie === "0" ? "Ta série démarre à ta prochaine étape." : "3 jours de pratique d'affilée";
   fermerSheet(false); if (p.ouvert) ouvrirSheet();
 }
