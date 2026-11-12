@@ -2,7 +2,7 @@
 
 > Auteur : @copywriter, 12/11/2026. **Tour 4** (dernier tour autorisé par Thomas, décision C8), après le tour 3 à l'aveugle (`docs/copy/etalons-espace-s24-relectures/tour-3-*.md`). Source : `docs/espace-client/audit-contenu/architecture-contenu-v18.md` (2.2, 3.3 à 3.6, 4.2, 9). **Statut : non relu à l'aveugle sur cette version.** Une seule version par ligne : les versions écartées sont supprimées (l'historique est dans la table en bas).
 > E4 (Mirabel) est dans `docs/copy/etalon-e4-mirabel-s24.md`.
-> Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune mention de technologie dans les textes, aucune citation d'humoriste, aucun concurrent, aucun persona nommé, on rit avec et jamais contre. **Aucune forme accordée au masculin ou au féminin dans ce que dit l'utilisateur** (vérifié réplique par réplique au tour 4 : voir la table en bas). Guillemets « » partout, guillemets intérieurs “ ”.
+> Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune mention de technologie dans les textes, pas de citation d'humoriste dans E1 à E3 (simple choix de forme : les humoristes nommés et cités sont autorisés partout, voir E4), aucun concurrent, aucun persona nommé, on rit avec et jamais contre. **Aucune forme accordée au masculin ou au féminin dans ce que dit l'utilisateur** (vérifié réplique par réplique au tour 4 : voir la table en bas). Guillemets « » partout, guillemets intérieurs “ ”.
 > Les mots entre accents graves, `[Tu avais une réponse ?]`, signalent un écran de l'application (E5), pas du texte à écrire.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]` (il est abonné, il sait ce qu'il vient chercher).
 
