@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v14 (s24)
 
+> REMPLACÉ par `architecture-contenu-v15.md` le 12/11/2026 après le tour 14 de relecture (Elon 9,9, Reviewer 9,7, UX 9,2). Ne plus s'y référer pour la série (elle n'est plus dans « Aujourd'hui » mais en tête de « Parcours » et dans « Ton mois », avec les textes validés dont l'état à 0 « Ta série démarre à ta prochaine étape. »), la connexion (faits du code et question Q8 bis à Thomas, plus de [À VÉRIFIER] sur une fenêtre), le repérage des vannes d'humour noir (aucun champ, à créer), « affiche » au lieu de « sert », « Tes répliques à toi pour {catégorie choisie} » ni la hiérarchie des liens de la page de succès.
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v13.md`. Réponse au tour 13 de relecture : @elon 10/10, @reviewer 9,7, @ux 9,1 (aucune décision de Thomas rouverte) et aux faits et arbitrages de la session. **La v14 n'applique QUE les corrections des deux rapports** (annexe A) ; le reste est recopié de la v13. `docs/founder-preferences.md`, dernière ligne du 12/11, fait foi. Les points de conception neuve restent des propositions marquées [RESTE À TRANCHER] ; l'écran de motif de résiliation de s23 est un sujet séparé que la session soumettra à Thomas : ce document ne le décide pas.
 
 ## Résumé pour Thomas (une page, sans jargon)
