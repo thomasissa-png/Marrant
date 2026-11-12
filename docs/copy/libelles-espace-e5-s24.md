@@ -1,4 +1,4 @@
-# Libellés de l'espace Premium, étalon E5 (s24), tour 3
+# Libellés de l'espace Premium, étalon E5 (s24), tour 4 (dernier tour, C8)
 
 > Auteur : @copywriter, 12/11/2026. **Tour 3**, après les relectures à l'aveugle du tour 2 (`libelles-espace-e5-relectures/tour-2-*.md`, notes 7 à 10) et du tour 1 (notes 5 à 9). **Convention** : les « » qui encadrent un libellé dans ce fichier sont des délimiteurs ; à l'écran le texte s'affiche sans eux, et ses propres guillemets sont « » (de premier niveau), “ ” seulement s'il y en a un second niveau. Sources : `docs/design/etalon-e5-s24.md` (§0 v6 et v6.1, §0.4 et ses libellés ajoutés 25 à 29) ; `architecture-contenu-v20.md` (2.2, 2.4, 2.6 à 2.9, 3.10, 4.1, 4.4) ; barre : `etalons-espace-s24.md` ; ton : `ton-alex.md`. Aucun HTML modifié.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune mention d'IA ni de concurrent, aucun accord au masculin ou au féminin pour l'abonné, guillemets « » (voir la convention ci-dessus), aucun prix, aucune donnée inventée. `n` = longueur comptée à la main, espaces compris.
@@ -99,7 +99,7 @@ Les vannes sont reprises du seed mot pour mot, affichées sans guillemets autour
 
 **Retour** (une seule bonne : B ; **l'explication complète s'affiche dans les trois cas**)
 B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.
-Après A ou C, ce texte est précédé de « Pas celle-là cette fois. » et suivi de « L'étape « Énoncer la règle non écrite » mérite un deuxième tour. » (lien vers la fiche ; texte de 3.10 l. 539, « celle-là mérite un deuxième tour », pas d'écart). Après B, le texte seul.
+Après A ou C, ce texte est précédé de « Pas celle-là cette fois. » et suivi de « La fiche « Énoncer la règle non écrite » mérite un deuxième tour. » (lien vers la fiche ; texte de 3.10 l. 539, « celle-là mérite un deuxième tour », pas d'écart). Après B, le texte seul.
 
 Les trois vannes sont du même seed et du même registre (observation) : A et C sont plausibles. La scène plante le départ sans donner la promesse ; le contexte la donne : seul le contexte désigne B, la scène ne la désigne pas (elle ne contient ni « remettre ça » ni « fixer une date »). Le contexte ne contient aucun « se » ni mot de B (3.10). [HYPOTHÈSE : B n'est pas trouvée avant le contexte ; à vérifier à l'aveugle.] « Tu avais une réponse ? » avant la question : flux du design (v6 h), non touché ici.
 
@@ -143,7 +143,7 @@ Les trois vannes sont du même seed et du même registre (observation) : A et C 
 |---|---|
 | « bonne » à remettre, longueur exacte (@elon, critique, reviewer) | Section 3 : « La bonne réponse qui te vient en quittant la pièce : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps. » (115 recomptés ; l'ancienne : 118) |
 | « Devant un petit groupe » change la marche (reviewer) | Ligne 25 : « Dans un petit groupe » (2.4 mot pour mot) |
-| Renvoi après erreur écarté de 3.10 sans le dire (reviewer) | Bilan : « L'étape « Énoncer la règle non écrite » mérite un deuxième tour. » (3.10 l. 539) |
+| Renvoi après erreur écarté de 3.10 sans le dire (reviewer) | Bilan : « La fiche « Énoncer la règle non écrite » mérite un deuxième tour. » (3.10 l. 539) |
 | Consigne interne au milieu du texte affiché (@elon) ; « proche » puis « pote » sur le même écran (critique) | Retour « bof » : [note interne, non affichée] ; retour « ça a marché » : « Marche suivante : le dire en face. » (ligne 26 alignée) ; le titre « À un pote, en face » reste celui de la marche 3 (2.4), sur l'écran suivant |
 | Réfutation de A trop faible (critique) | Retour du bilan : « A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. » |
 | Non appliqué : ligne 19 « Ça n'a pas été enregistré » (critique, préférence) ; « Voir les cartes » (reviewer, note sans effet) | Lignes 19 et 7 |
@@ -154,3 +154,6 @@ Les trois vannes sont du même seed et du même registre (observation) : A et C 
 - Réutilisés : lignes 2, 8 à 12, 14, 17, 22, 24, mission et bilan sur 2.4 et 3.10 ; neufs : 1, 4 à 7, 16, 20, 21, accroches, énoncé, scène et contexte du bilan.
 - À faire passer à l'aveugle (tour 3) : accroche, énoncé, bilan (B non trouvée avant le contexte ?), lignes 6, 7, 13, 21.
 - Longueurs comptées à la main, à recompter à l'intégration ; « 5 min » et « Mon profil » restent des choix de ce tour, à confirmer.
+
+
+**Après tour 4 (session, 12/11)** : « L'étape » → « La fiche » dans le renvoi du bilan (« Énoncer la règle non écrite » est le `tipTitle` du seed, l'étape s'appelle « Redécouvrir ce qui te fait rire » ; 3.10 dit « fiche »), point F1 du reviewer. Les retouches du tour 4 sont les réécritures des relecteurs eux-mêmes ; elles n'ont pas été relues à l'aveugle (C8 : 4 tours max), Thomas voit la version et les notes.
