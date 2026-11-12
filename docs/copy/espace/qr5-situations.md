@@ -1,9 +1,9 @@
-# QR5 : Quoi répondre, lot 5 (10 situations), tour 2
+# QR5 : Quoi répondre, lot 5 (10 situations), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR5 : prise de parole courte 5 sous la forme « Ta première phrase d'abord », commerces, voisins, transports 5) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` (les situations de prise de parole « n'ont pas de pique à renvoyer » : deux contextes, public proche et public large, trois ouvertures). Format de `docs/copy/espace/qr4-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md`, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. **Dans une même situation, chaque registre a sa propre image.** Commerces et voisins : aucune moquerie envers un métier ou une personne qui sert ; la plaisanterie porte sur toi, sur un objet ou sur une situation. Prise de parole : humour d'affection, jamais aux dépens de quelqu'un, et seulement la première phrase (le reste du propos est à toi).
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 2 (21 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 9 joueuses, 6 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 3 (12 répliques reprises, annexe 5, table « Tour 3 : retouche → ligne ») ; au tour 2, 21 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 9 joueuses, 6 sûres, 5 risquées (sur 20 contextes).
 > Les situations P1 à P5 suivent la forme « Ta première phrase d'abord » : scène, `Ta première phrase d'abord`, trois ouvertures (sûre, joueuse, risquée) avec leur pourquoi, comment choisir (public proche, public large), l'erreur, à toi, rafale. Les situations W1 à W5 suivent le format de QR4 (réponse à une phrase). Boutons communs : `[Tu avais une réponse ? Oui / À moitié / Rien]` (identique pour P1 à P5 : architecture v20, « le reste de la carte est identique »), `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]`, `[Ma réplique à moi : une phrase, facultative]`. Les mots entre accents graves sont des écrans.
 
 ---
@@ -29,8 +29,8 @@ Tu fais du gâteau l'arbitre qui donne le départ : la salle sourit et tu peux e
 Tu annonces que ton anecdote est bannie pour cette année : tu t'enlèves toute promesse à tenir, et le public sourit de ce qu'il ne saura pas. Rien n'est dit contre la personne fêtée. À sortir quand le public est détendu et te connaît un peu, sans plaisanter encore de la personne fêtée.
 
 **La risquée**
-« Tout le monde a dit oui sans regarder l'agenda. Ça, c'est de l'amitié. »
-Tu fais d'un oui donné sans regarder l'agenda une preuve d'amitié : un compliment pour la personne fêtée, qui rit avec les invités. Elle vise l'attachement, pas la personne. Elle marche seulement si le public plaisante déjà de la personne fêtée avec tendresse. Sinon elle peut passer pour une pique : prends la sûre.
+« Tout le monde a dit oui sans regarder l'agenda. Je ne dirai pas qui l'a regardé après. »
+Tu fais de l'agenda un secret entre invités : un oui donné sans regarder, et un après dont tu ne diras rien. Le compliment va à la personne fêtée, qui rit avec les invités. Elle vise l'attachement, pas la personne. Elle marche seulement si le public plaisante déjà de la personne fêtée avec tendresse. Sinon elle peut passer pour une pique : prends la sûre.
 
 **Comment choisir**
 Public proche qui plaisante déjà de la personne fêtée avec tendresse : la risquée. Public proche sans ce jeu : la joueuse. Public large ou bruyant (soixante personnes, un buffet qui couvre les voix) : la sûre. Une seule ouverture : tu la dis une fois, puis tu continues ton propos.
@@ -56,8 +56,8 @@ Avant de lire la suite, dis ta première phrase à voix haute, ou dans ta tête 
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Deux minutes pour résumer des années de travail : je vais devoir faire des choix douloureux. »
-Tu fais du résumé un dilemme comique : beaucoup à dire, peu de temps. Elle ne vise personne et met le public de ton côté dès la première phrase. C'est la bonne quand la salle est grande ou que la direction est présente.
+« Je commence par l'essentiel : merci. Le reste, c'est de la décoration. »
+Tu poses l'essentiel d'emblée et tu ranges le reste du discours au rang de décoration. Elle ne vise personne et met le public de ton côté dès la première phrase. C'est la bonne quand la salle est grande ou que la direction est présente.
 
 **La joueuse**
 « Un petit mot, m'a-t-on dit. Le problème, c'est que [son prénom] ne tient pas dans un petit mot. »
@@ -91,19 +91,19 @@ Avant de lire la suite, dis ta première phrase à voix haute, ou dans ta tête 
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je lève mon verre à [leurs prénoms] : ce soir, c'est leur histoire, je ne fais que l'ouvrir. »
-Tu entres par le verre et par le couple, et tu te réduis à celui qui ouvre le livre. Elle ne vise personne et se dit sans notes. C'est la bonne quand la salle est grande et que tu ne connais qu'une partie des invités.
+« Je lève mon verre à [leurs prénoms], et à tout ce qu'ils vont mal ranger ensemble. »
+Tu entres par le verre et par le couple, et tu annonces leur avenir le plus ordinaire : tout ce qu'ils vont mal ranger ensemble. Rien n'est dit contre eux. Elle ne vise personne et se dit sans notes. C'est la bonne quand la salle est grande et que tu ne connais qu'une partie des invités.
 
 **La joueuse**
 « On m'a dit “deux minutes”. J'en ai déjà utilisé dix secondes à vous le dire. »
 Tu joues sur la consigne de durée que tout le monde connaît : la salle sourit de la minuterie. Rien n'est dit contre le couple. À sortir quand la salle est détendue et qu'elle a déjà trinqué en riant.
 
 **La risquée**
-« On m'a confié ce toast parce que je connais leurs secrets. Ce soir, je ne dirai que les bons. »
-Tu te présentes comme le dépositaire de secrets et tu promets de n'en livrer que de bons : un clin d'œil à la salle. Elle vise ta réputation de confident, pas le couple. Elle marche seulement si la salle plaisante déjà de ce que tu sais d'eux. Sinon elle peut inquiéter l'un des deux sur ce que tu pourrais dire : prends la sûre.
+« J'ai vu ces deux-là choisir [un canapé, un voyage] ensemble. À côté, le mariage est une formalité. »
+Tu compares le mariage à une décision plus difficile que tu as vue : choisir un canapé ou un voyage à deux. Elle vise la difficulté des petits choix, pas le couple. Elle marche seulement si la salle plaisante déjà des choix que le couple a faits ensemble. Sinon elle peut passer pour un jugement sur leur vie commune : prends la sûre.
 
 **Comment choisir**
-Repas de vingt personnes, ambiance détendue : la joueuse, ou la risquée si les invités plaisantent déjà de ce que tu sais d'eux. Salle de cent vingt invités avec micro : la sûre. Une seule ouverture, dite une fois.
+Repas de vingt personnes, ambiance détendue : la joueuse, ou la risquée si les invités plaisantent déjà des choix que le couple a faits ensemble. Salle de cent vingt invités avec micro : la sûre. Une seule ouverture, dite une fois.
 
 **L'erreur que tout le monde fait**
 Ouvrir par une blague sur le passé de l'un des mariés (« je me souviens de la fois où »). Tu risques d'embarrasser un proche devant toute la salle, et la joie tourne court. Une phrase qui regarde le couple, pas un souvenir.
@@ -112,8 +112,8 @@ Ouvrir par une blague sur le passé de l'un des mariés (« je me souviens de la
 Écris ta première phrase pour le toast d'un mariage qui existe ou n'existe pas, puis dis-la debout, devant un miroir, un verre à la main. Dix secondes.
 
 **Dans la rafale (deux contextes, une seule bonne ouverture chacun)**
-1. « Public proche : un repas de vingt personnes, tout le monde a déjà trinqué en riant, personne ne plaisante de ce que tu sais d'eux » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucune plaisanterie sur tes secrets n'est lancée, donc la risquée ouvrirait un sujet que la salle n'a pas commencé.
-2. « Public large : cent vingt invités, un micro, une salle qui écoute poliment sans connaître tout le monde » : la sûre. La salle est grande et attentive : la joueuse supposerait une complicité sur la consigne que seuls quelques-uns partagent, la risquée ferait craindre des secrets à des invités qui ne te connaissent pas.
+1. « Public proche : un repas de vingt personnes, tout le monde a déjà trinqué en riant, personne ne plaisante de leurs choix communs » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucune plaisanterie sur leurs choix communs n'est lancée, donc la risquée ouvrirait un sujet que la salle n'a pas commencé.
+2. « Public large : cent vingt invités, un micro, une salle qui écoute poliment sans connaître tout le monde » : la sûre. La salle est grande et attentive : la joueuse supposerait une complicité sur la consigne que seuls quelques-uns partagent, la risquée jugerait une vie commune devant des invités qui ne la connaissent pas.
 
 ### P4. Remerciements de fin de soirée (association)
 
@@ -134,11 +134,11 @@ Tu remercies d'abord et tu donnes aux bénévoles l'image d'une salle sans eux :
 Tu changes de programme à la vue de la salle : le premier geste de remerciement est un applaudissement. Rien n'est dit contre les bénévoles. À sortir quand la salle est fatiguée mais de bonne humeur.
 
 **La risquée**
-« Dans une association, quand on demande de l'aide, il y a toujours quelqu'un. Ce soir, c'est une salle entière. »
-Tu fais de la salle pleine la preuve d'une règle d'association : on trouve toujours quelqu'un. Elle valorise les bénévoles sans viser personne. Elle marche seulement si l'équipe plaisante déjà d'être « toujours les mêmes ». Sinon elle peut sonner comme un reproche à ceux qui ne sont pas venus : prends la sûre.
+« Il paraît que ce sont toujours les mêmes qui viennent. Ce soir, je confirme : les meilleurs. »
+Tu reprends la plainte classique des associations et tu la retournes en compliment : toujours les mêmes, donc les meilleurs. Elle valorise les bénévoles sans viser personne. Elle marche seulement si l'équipe plaisante déjà d'être “toujours les mêmes”. Sinon elle peut sonner comme un reproche à ceux qui ne sont pas venus : prends la sûre.
 
 **Comment choisir**
-Petit groupe qui plaisante déjà d'être « toujours les mêmes » : la risquée. Grande salle fatiguée en fin de soirée : la joueuse. Si le public ne te connaît pas ou ne rit pas : la sûre. Une seule ouverture, dite une fois.
+Petit groupe qui plaisante déjà d'être “toujours les mêmes” : la risquée. Grande salle fatiguée en fin de soirée : la joueuse. Si le public ne te connaît pas ou ne rit pas : la sûre. Une seule ouverture, dite une fois.
 
 **L'erreur que tout le monde fait**
 Faire la liste de tous ceux à remercier dès la première phrase (« merci à Untel, merci à Untel »). Tu lis un annuaire, la salle décroche, et tu oublies forcément quelqu'un. Une phrase d'ensemble, puis les noms en une fois.
@@ -147,7 +147,7 @@ Faire la liste de tous ceux à remercier dès la première phrase (« merci à U
 Pense à la dernière fois que quelqu'un t'a aidé à ranger quelque chose. Dis la sûre en regardant un mur, comme si c'était la salle. Dix secondes.
 
 **Dans la rafale (deux contextes, une seule bonne ouverture chacun)**
-1. « Public proche : dix bénévoles du comité, qui plaisantent déjà d'être « toujours les mêmes » » : la risquée. L'équipe a ouvert le jeu des « toujours les mêmes » : la joueuse applaudirait sans répondre à sa plaisanterie, la sûre ne profiterait pas de l'élan.
+1. « Public proche : dix bénévoles du comité, qui plaisantent déjà d'être “toujours les mêmes” » : la risquée. L'équipe a ouvert le jeu des “toujours les mêmes” : la joueuse applaudirait sans répondre à sa plaisanterie, la sûre ne profiterait pas de l'élan.
 2. « Public large : quatre-vingts personnes, fin de soirée, la salle fatiguée mais de bonne humeur » : la joueuse. La salle est fatiguée et rit encore : la sûre serait timide devant tant de bonne humeur ; la risquée parlerait d'engagement à un public qui n'a rien ouvert.
 
 ### P5. Tour de table : se présenter
@@ -161,19 +161,19 @@ Avant de lire la suite, dis ta première phrase à voix haute, ou dans ta tête 
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je m'appelle [ton prénom], et je suis ici parce que [ta raison, en cinq mots]. »
-Tu donnes ton prénom et ta raison d'être là, en un gabarit à remplir ce soir : une phrase complète qui ne demande rien au groupe. Elle ne vise personne. C'est la bonne quand le groupe est grand ou que l'ambiance est tendue.
+« Je m'appelle [ton prénom]. J'ai répété cette phrase dans le couloir. »
+Tu donnes ton prénom et tu avoues avoir répété ta phrase : tout le groupe l'a fait, et la phrase ne demande rien. Elle ne vise personne. C'est la bonne quand le groupe est grand ou que l'ambiance est tendue.
 
 **La joueuse**
 « Mon fait insolite : mon cœur bat plus vite pour me présenter que pour rattraper un bus. »
 Tu avoues ton trac par une comparaison que tout le monde reconnaît : le groupe sourit de ton aveu. Rien n'est caché, tu prends l'initiative de dire ce que chacun ressent. À sortir quand le groupe est petit et détendu.
 
 **La risquée**
-« Je m'appelle [ton prénom], et mon fait sur moi, je l'ai changé quatre fois depuis le début du tour. »
-Tu avoues avoir changé de fait pendant que les autres parlaient : une confidence qui amuse. Elle ne vise personne, seulement ton trac. Elle marche seulement si le groupe plaisante déjà de son propre trac. Sinon elle peut passer pour une excuse d'avance : prends la sûre.
+« Je m'appelle [ton prénom]. J'hésitais à venir. Je constate qu'un cercle n'a aucun coin où se cacher. »
+Tu avoues avoir hésité à venir et tu constates que la disposition en cercle ne laisse aucun coin où te cacher. Elle ne vise personne, seulement ton envie de te cacher. Elle marche seulement si le groupe plaisante déjà de la disposition en cercle. Sinon elle peut passer pour une excuse d'avance : prends la sûre.
 
 **Comment choisir**
-Groupe de huit personnes, ambiance détendue : la joueuse, ou la risquée si quelqu'un a déjà plaisanté de son trac. Grand groupe ou silence tendu : la sûre. Une seule ouverture, dite une fois.
+Groupe de huit personnes, ambiance détendue : la joueuse, ou la risquée si quelqu'un a déjà plaisanté de la disposition en cercle. Grand groupe ou silence tendu : la sûre. Une seule ouverture, dite une fois.
 
 **L'erreur que tout le monde fait**
 Te lancer dans ton CV ou dans une longue histoire (« alors moi, j'ai commencé en 2012, puis »). Tu prends bien plus que ta part de temps, et le cercle te le fait sentir. Prénom, un fait, tu rends la parole.
@@ -182,7 +182,7 @@ Te lancer dans ton CV ou dans une longue histoire (« alors moi, j'ai commencé 
 Prépare ton prénom et un fait sur toi, en une phrase. Dis-les à voix haute devant un miroir, puis recommence en regardant par la fenêtre. Dix secondes chacun.
 
 **Dans la rafale (deux contextes, une seule bonne ouverture chacun)**
-1. « Public proche : huit personnes, ambiance détendue, personne ne plaisante de son trac » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; personne n'a ouvert le jeu du trac, donc la risquée avouerait un trac que le groupe n'a pas lancé.
+1. « Public proche : huit personnes, ambiance détendue, personne ne plaisante de la disposition en cercle » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; personne n'a ouvert le jeu du cercle, donc la risquée parlerait d'un coin où se cacher sans que le groupe l'ait lancé.
 2. « Public large : quarante personnes, un silence tendu, quelqu'un tousse » : la sûre. Le silence est tendu : la joueuse demanderait une complicité que la salle ne donne pas, la risquée ferait une plaisanterie à un public qui ne sourit pas.
 
 ## B. Commerces, voisins, transports (5 situations)
@@ -248,8 +248,8 @@ Tu confirmes, tu donnes le jour et tu rassures sur le lieu : « au chaud » suff
 Tu traites le colis comme un invité silencieux : tu l'as accueilli. Rien n'est dit contre la personne ni contre son retard à venir. À sortir quand la personne sourit en demandant.
 
 **La risquée**
-« Si. Rançon : savoir ce qu'il y a dedans. »
-Tu fais du colis un otage et tu fixes une rançon qui ne coûte rien : ta curiosité satisfaite. Elle ne vise personne, seulement le contenu du colis. Elle marche seulement si la personne plaisante déjà de ce qu'elle te doit. Sinon elle peut passer pour une exigence : prends la sûre.
+« Si. Rançon : au prochain colis, on échange les rôles. »
+Tu fais du colis un otage et tu fixes une rançon qui ne coûte rien : au prochain colis, c'est l'autre qui le garde. Elle ne vise personne, seulement l'échange de services entre voisins. Elle marche seulement si la personne plaisante déjà de ce qu'elle te doit. Sinon elle peut passer pour une exigence : prends la sûre.
 
 **Comment choisir**
 La personne sourit en demandant ? Monte d'un cran. Elle plaisante déjà de ce qu'elle te doit ? Monte encore. Sinon, reste sur la sûre.
@@ -278,8 +278,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Pas de souci. Le sac a l'air plus à l'aise que moi. »
-Tu rassures en une phrase et tu envies le sac, mieux installé que toi. Elle ne vise personne et ferme l'incident. C'est la bonne quand la personne arrive à bout de souffle ou ne sourit pas.
+« Pas de souci. Je voyage léger : à nous deux, on fait une moyenne. »
+Tu rassures en équilibrant : tu voyages léger, l'autre voyage lourd, et la moyenne est correcte. Elle ne vise personne et ferme l'incident. C'est la bonne quand la personne arrive à bout de souffle ou ne sourit pas.
 
 **La joueuse**
 « Il a un billet, lui aussi ? »
@@ -316,8 +316,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Jaunes, cette semaine. Je croise tellement ces bacs que je les salue. »
-Tu donnes l'information et tu avoues saluer les bacs : une phrase de familier du local. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne n'a pas le temps de s'attarder.
+« Jaunes, cette semaine. Le calendrier est sur la porte, à hauteur d'yeux distraits. »
+Tu donnes l'information et tu indiques où elle est affichée, avec une pointe d'indulgence pour la distraction : une phrase de familier du local. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne n'a pas le temps de s'attarder.
 
 **La joueuse**
 « Jaunes. Je les sors comme un rendez-vous mondain : à heure fixe, avec dignité. »
@@ -354,16 +354,16 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Elle charge. Dans une minute, si rien ne bouge, je laisse la place. »
-Tu annonces un délai et ta sortie : si la machine ne répond pas, tu laisses la place. Elle ne vise personne et ne fait attendre personne de plus. C'est la bonne quand la personne derrière toi soupire ou regarde l'heure.
+« J'ai appuyé sur “valider”. Je vérifie encore, au cas où. »
+Tu montres ton propre doute : tu as appuyé, tu vérifies, au cas où. Elle ne vise personne et ne fait attendre personne de plus. C'est la bonne quand la personne derrière toi soupire ou regarde l'heure.
 
 **La joueuse**
 « Elle négocie avec ma banque. On est en pourparlers. »
 Tu fais de l'attente une négociation diplomatique : la machine et ta banque discutent en coulisse. Rien n'est dit contre la personne qui attend. À sortir quand la personne derrière toi sourit en demandant.
 
 **La risquée**
-« On attend ensemble depuis un moment : si elle marche, la victoire est à nous deux. »
-Tu fais de l'attente un effort partagé : la victoire, si elle vient, sera pour vous deux. Elle ne vise personne. Elle marche seulement si la personne plaisante déjà de l'attente que vous partagez. Sinon elle ressemble à une façon de retarder la file : prends la sûre.
+« Si elle marche, c'est grâce à nous deux. Je note nos prénoms pour la plaque. »
+Tu inventes une plaque commémorative pour l'attente partagée : les deux bienfaiteurs de la borne. Elle ne vise personne. Elle marche seulement si la personne plaisante déjà de l'attente que vous partagez. Sinon elle ressemble à une façon de retarder la file : prends la sûre.
 
 **Comment choisir**
 La personne derrière toi sourit en demandant ? Monte d'un cran. Elle plaisante déjà de l'attente ? Monte encore. Sinon, reste sur la sûre.
@@ -471,6 +471,37 @@ Résultat : **0 occurrence exacte** pour les 21 répliques reprises (P1 sûre, j
 | W5 sûre et risquée : même image de machine (reviewer) | Voir « Une image par registre ». |
 | Répartition 5/5 (reviewer) | Conforme à 7.4 l. 975 et au plan l. 193 : l'hypothèse est levée. |
 
+## Annexe 5 : candidates du tour 3 (3 par réplique reprise, la meilleure gardée)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| P1 | Risquée | « Tout le monde a dit oui sans regarder l'agenda. Je ne dirai pas qui l'a regardé après. » | « Tout le monde a dit oui sans regarder l'agenda. Ça, c'est de l'amitié. » (compliment attendu) | « Tout le monde a dit oui avant de lire la date. Ça sent la vraie amitié. » (formule d'usage) |
+| P2 | Sûre | « Je commence par l'essentiel : merci. Le reste, c'est de la décoration. » | « Deux minutes pour résumer des années de travail : je vais devoir faire des choix douloureux. » (même image que la joueuse : trop à dire pour le temps) | « Je commence par l'essentiel : merci. Et surtout, merci pour [un détail que toute l'équipe connaît]. » (gabarit à remplir, trop long à l'oral) |
+| P3 | Sûre | « Je lève mon verre à [leurs prénoms], et à tout ce qu'ils vont mal ranger ensemble. » | « Je lève mon verre à [leurs prénoms] : ce soir, c'est leur histoire, je ne fais que l'ouvrir. » (toast d'usage, aucune chute ; « celui qui ouvre » : accord masculin dans le pourquoi) | « Ils m'ont demandé un discours court. Je lève donc mon verre : c'est le plus court que je connaisse. » (même image de durée que la joueuse) |
+| P3 | Risquée | « J'ai vu ces deux-là choisir [un canapé, un voyage] ensemble. À côté, le mariage est une formalité. » | « On m'a confié ce toast parce que je connais leurs secrets. Ce soir, je ne dirai que les bons. » (cliché du toast de témoin, frôle l'erreur de sa fiche : le passé qui embarrasse) | « Ils se sont mis d'accord sur le menu et la musique. À partir de là, tout est possible. » (lieu commun du toast) |
+| P4 | Risquée | « Il paraît que ce sont toujours les mêmes qui viennent. Ce soir, je confirme : les meilleurs. » | « Dans une association, quand on demande de l'aide, il y a toujours quelqu'un. Ce soir, c'est une salle entière. » (aucune chute, « toujours quelqu'un » ambigu) | « Les bénévoles, on les reconnaît à un détail : ils sont déjà en train de ranger. » (même image que les chaises de la sûre) |
+| P5 | Sûre | « Je m'appelle [ton prénom]. J'ai répété cette phrase dans le couloir. » | « Je m'appelle [ton prénom], et je suis ici parce que [ta raison, en cinq mots]. » (gabarit sans trait) | « Bonjour, je m'appelle [ton prénom], et je commence ici avec beaucoup de curiosité. » (corporate) |
+| P5 | Risquée | « Je m'appelle [ton prénom]. J'hésitais à venir. Je constate qu'un cercle n'a aucun coin où se cacher. » | « Je m'appelle [ton prénom], et ma présentation, je l'ai changée quatre fois depuis le début du tour. » (même image de préparation que la sûre : répéter sa phrase) | « Je m'appelle [ton prénom], et mon fait sur moi, je l'ai changé quatre fois depuis le début du tour. » (« mon fait sur moi » bancal, même image) |
+| W2 | Risquée | « Si. Rançon : au prochain colis, on échange les rôles. » | « Si. Rançon : savoir ce qu'il y a dedans. » (indiscret : exige de savoir ce que contient un colis) | « Si. Rançon : un bonjour dans l'escalier, de temps en temps. » (laisse entendre que la personne ne dit pas bonjour) |
+| W3 | Sûre | « Pas de souci. Je voyage léger : à nous deux, on fait une moyenne. » | « Pas de souci. Le sac a l'air plus à l'aise que moi. » (reproche, personnifie le sac comme la joueuse et la risquée) | « Pas de souci. Il y a de la place pour trois, sac compris. » (tic « trois ») |
+| W4 | Sûre | « Jaunes, cette semaine. Le calendrier est sur la porte, à hauteur d'yeux distraits. » | « Jaunes, cette semaine. Je croise tellement ces bacs que je les salue. » (même image que la joueuse : les bacs en relation sociale) | « Jaunes, cette semaine. Je les croise tellement que je commence à les connaître. » (même image, « les » sans antécédent) |
+| W5 | Sûre | « J'ai appuyé sur “valider”. Je vérifie encore, au cas où. » | « Elle charge. Dans une minute, si rien ne bouge, je laisse la place. » (pratique, pas drôle) | « Elle charge. Je lui laisse finir son café. » (même image de machine personnifiée que la joueuse) |
+| W5 | Risquée | « Si elle marche, c'est grâce à nous deux. Je note nos prénoms pour la plaque. » | « On attend ensemble depuis un moment : si elle marche, la victoire est à nous deux. » (17 mots, fin molle) | « Il paraît qu'elle réagit aux encouragements. Un mot gentil, ça ne coûte rien. » (proverbe, fin plate) |
+
+Recherche web (12/11/2026, idée et phrase) : **0 occurrence exacte** pour les 12 répliques modifiées au tour 3 (P1 risquée, P2 sûre, P3 sûre, P3 risquée, P4 risquée, P5 sûre, P5 risquée, W2 risquée, W3 sûre, W4 sûre, W5 sûre, W5 risquée). Idées vérifiées : aucune ne figure telle quelle (agenda et « qui l'a regardé après », « le reste, c'est de la décoration », « ce qu'ils vont mal ranger », canapé ou voyage choisis ensemble, « toujours les mêmes, donc les meilleurs », coin où se cacher dans un cercle, rançon d'échange de rôles, « une moyenne » de bagages, calendrier à hauteur d'yeux distraits, « valider » vérifié encore, plaque commémorative). Le plus proche : l'expression associative « T.L.M., Toujours Les Mêmes », retournée en compliment (déjà acceptée par @reviewer au tour 2). P5 risquée a été cherchée sur son fragment « dans un cercle, il n'y a aucun coin où se cacher » (0).
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Sûres de P2, W3, W4 reprennent l'image d'un autre registre ; W3 sûre sonne comme un reproche (reviewer, @elon) | P2 sûre : « Je commence par l'essentiel : merci. Le reste, c'est de la décoration. » ; W3 sûre : « Je voyage léger : à nous deux, on fait une moyenne. » ; W4 sûre : « Le calendrier est sur la porte, à hauteur d'yeux distraits. » |
+| P3 risquée : cliché de témoin ; la recherche ne trouve pas l'idée (@elon, reviewer, critique) | « J'ai vu ces deux-là choisir [un canapé, un voyage] ensemble. À côté, le mariage est une formalité. » ; comment choisir et contextes réalignés sur « choix communs ». |
+| P4 risquée sans chute (@elon, critique) | « Il paraît que ce sont toujours les mêmes qui viennent. Ce soir, je confirme : les meilleurs. » ; guillemets imbriqués corrigés (“toujours les mêmes”). |
+| W2 risquée indiscrète (@elon) | « Si. Rançon : au prochain colis, on échange les rôles. » |
+| P5 sûre (5), W5 sûre (5), P1 risquée, P3 sûre, W5 risquée (6) (critique) | P5 sûre : « J'ai répété cette phrase dans le couloir. » ; W5 sûre : « J'ai appuyé sur “valider”. Je vérifie encore, au cas où. » ; P1 risquée : « Je ne dirai pas qui l'a regardé après. » ; P3 sûre : « à tout ce qu'ils vont mal ranger ensemble » ; W5 risquée : « la plaque ». |
+| P5 risquée : même image de préparation que la sûre ; pourquoi « trac » (reviewer, coordinateur) | « J'hésitais à venir. Je constate qu'un cercle n'a aucun coin où se cacher. » ; pourquoi : « seulement ton envie de te cacher » ; condition et contexte 1 : la disposition en cercle. |
+| Accord masculin dans le pourquoi de P3 sûre (« celui qui ouvre le livre ») (@elon) | Pourquoi de P3 sûre réécrit sans accord. |
+
 ## Contrôles tenus (checklist des fautes récurrentes)
 
 - Accords : aucune réplique de l'utilisateur ne s'accorde (« bref », « venu », « nerveux », « préfet », « installez-vous » écartés) ; l'autre est « l'autre », « quelqu'un », « la personne ».
@@ -483,7 +514,7 @@ Résultat : **0 occurrence exacte** pour les 21 répliques reprises (P1 sûre, j
 
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr5-situations.md` (tour 2) : 10 situations (prise de parole courte 5 en forme « Ta première phrase d'abord », commerces, voisins, transports 5) ; 21 répliques reprises au tour 2 (annexe 3, table « Tour 2 : retouche → ligne »), 9 inchangées.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr5-situations.md` (tour 3) : 10 situations (prise de parole courte 5 en forme « Ta première phrase d'abord », commerces, voisins, transports 5) ; 12 répliques reprises au tour 3 (annexe 5, table « Tour 3 : retouche → ligne »), 21 au tour 2 (annexe 3).
 - Rafale : 20 contextes à une seule bonne réponse (9 joueuses, 6 sûres, 5 risquées) ; chaque registre a sa propre image dans chaque situation.
 - Web : 0 occurrence exacte sur les 21 répliques reprises, idée et phrase (annexe 4) ; seule idée voisine : « Toujours Les Mêmes » (bénévoles), à noter pour P4 risquée.
 - À faire : relecture à l'aveugle des lignes reprises (règle d'or), contrôle du diff.
