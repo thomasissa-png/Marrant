@@ -1,4 +1,4 @@
-# C1b : « Comment c'est construit », lot 2 (fiches 7 à 12), tour 2
+# C1b : « Comment c'est construit », lot 2 (fiches 7 à 12), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Lot C1b du plan s24 §5. Fiches 7 à 12 = les 6 derniers mécanismes de la liste de `architecture-contenu-v20.md` l. 479 : callback, escalade comique (avec l'exagération contrôlée), détail trop précis, chute qui retourne le début, raconter en une phrase, combinaison de deux mécanismes. Les fiches 1 à 6 sont dans `c1a-comment-c-est-construit.md` (validé).
 > **Ordre d'affichage (architecture l. 479) :** callback (7), escalade comique (8), faux secret (1), règle de trois (2), détournement (3), contraste (4), litote (5), fausse logique (6), détail trop précis (9), chute qui retourne le début (10), raconter en une phrase (11), combinaison de deux mécanismes (12). Les numéros sont ceux des fichiers C1a et C1b ; rien n'est réécrit pour cet ordre.
@@ -65,8 +65,8 @@ Essai 1 : « Mes plantes meurent. J'en ai acheté une autre. Elle est morte auss
 Aucun cran : la même scène deux fois.
 Essai 2 : « Mes plantes meurent. J'ai fait venir un exorciste. Il a démissionné. »
 Trop loin : impossible à croire, on décroche.
-Essai 3 : « Mes plantes meurent. J'ai demandé conseil au fleuriste. Il m'a fait un prix de gros. Puis une carte de fidélité. »
-Conseil, prix de gros, fidélité : trois crans, tous possibles.
+Essai 3 : « Mes plantes meurent. J'ai demandé conseil au fleuriste. Il m'a ouvert une carte de fidélité. Puis il m'a fait un prix de gros. »
+Conseil, fidélité, prix de gros : trois crans, tous possibles.
 
 **La règle**
 Trois crans au plus, chacun plus fort que le précédent, tous plausibles. Garde le plus fort pour la fin et arrête-toi dessus.
@@ -137,7 +137,7 @@ Essai 1 : « J'ai pesté toute la nuit contre mon voisin qui tapait au mur. Ça 
 Aucun retournement : la fin prolonge le début.
 Essai 2 : « J'ai pesté toute la nuit contre mon voisin qui tapait au mur. C'était un sans-gêne, évidemment. »
 Trop loin : un verdict remplace le retournement.
-Essai 3 : « J'ai pesté toute la nuit contre mon voisin qui tapait au mur. Au matin, j'ai fermé mon volet. »
+Essai 3 : « J'ai pesté toute la nuit contre mon voisin qui tapait au mur. Au matin, j'ai fermé mon volet, et le voisin s'est tu. »
 Le public conclut seul : le voisin devient innocent.
 
 **La règle**
@@ -173,7 +173,7 @@ Essai 1 : « Samedi, j'ai rangé le salon, puis les invités sont venus, et ils 
 Trop narré : une suite de « puis ».
 Essai 2 : « Mon week-end en une phrase : j'ai tout rangé pour des gens qui n'en valent pas la peine. »
 Trop loin : le verdict vise les invités.
-Essai 3 : « Mon week-end en une phrase : trois heures à ranger le salon, et les invités ont passé la soirée dans la cuisine. »
+Essai 3 : « Mon week-end en une phrase : trois heures à ranger le salon, et tout le monde dans la cuisine. »
 Effort, résultat, chiffre.
 
 **La règle**
@@ -264,6 +264,10 @@ Non cherchés : les essais 1 et 2 de chaque fiche (volontairement ratés).
 | Fiche 9 : « quatre minutes » pas assez précis, « sur toi » faux, essai 1 incohérent, guillemets (reviewer, elon, critique) | Essai 3 : « quatre minutes douze » ; explication : « Un chrono que personne ne fait : ta tante entend un compliment. » Essai 1 : « Elle est partie vite. » Scène entre « », réponses entre “ ”. Règle : « Sur toi… » retiré. Comment c'est fait : l'exactitude, sans renvoi à la fiche 1. |
 | Fiche 11 : chiffre obligatoire dans la définition (reviewer) ; salle de sport usée (elon, critique) | Schéma et grille 1 sans chiffre ; règle : « Un chiffre exact aide ». Exemple : « Mon déménagement en une phrase : quatorze cartons, dont onze marqués “divers”. » |
 | Fiche 7 : exemple qui pique les hôtes, reprise hors « chez moi » ; essai 3 usé ; schéma « mêmes mots » contredit par la suite (elon, critique) | Exemple : sac et clés (candidat d'elon). Schéma : « (une courte suite est permise) ». Essai 3 : « Je connais le chemin. » (candidat de la critique). Geste : « puis le moment où elle devient fausse ». |
+| Tour 3, fiche 8 : essai 3 finit sur son cran le plus faible (reviewer, elon, critique) | Essai 3 : « …Il m'a ouvert une carte de fidélité. Puis il m'a fait un prix de gros. » (ordre du reviewer, prix de gros en dernier) ; explication : « Conseil, fidélité, prix de gros ». Aucun accord à un sujet humain. Recherche web : 0. |
+| Tour 3, fiche 10 : « fermé mon volet » ne dit pas que le bruit s'arrête (les trois) | Essai 3 : « Au matin, j'ai fermé mon volet, et le voisin s'est tu. » (candidat du reviewer). Recherche web : 0. |
+| Tour 3, fiche 11 : essai 3 trop long, truisme (critique) | Essai 3 : « …trois heures à ranger le salon, et tout le monde dans la cuisine. » (3 mots de moins, sans « ils » sans antécédent). Recherche web : 0. |
+| Tour 3, longueurs | Fiche 8 : environ 244 ; fiche 10 : environ 244 ; fiche 11 : environ 229 (comptage manuel). Fiches 7, 9, 12 inchangées. |
 | Ordre (coordinateur) | Ligne « Ordre d'affichage (architecture l. 479) » en tête, rien réécrit. |
 | Longueur | Recomptage manuel : 247, 242, 242, 242, 232, 244 (décompte en tête). |
 | Non changé | Exemples de vannes des fiches 8, 9, 10, 12 ; essais 1 et 2 de la plupart des fiches ; erreurs ; gestes des fiches 8 à 12 sauf cités. |
