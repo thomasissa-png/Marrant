@@ -39,11 +39,11 @@ Tu prends l'accusation au mot et tu en fais une histoire d'installation : trois 
 Tu n'esquives pas : tu proposes un marché, et tu rends la parole à ton colocataire, qui doit avouer ses propres verres. Elle ne vise pas la personne, seulement un désordre que vous partagez. Elle marche seulement si ton colocataire laisse lui aussi traîner ses affaires et en rit. Sinon elle sonne comme un reproche : prends la sûre.
 
 **Comment choisir**
-Le groupe a déjà ri avec toi ? Monte d'un cran. Sinon, reste sur la sûre.
+Le groupe a déjà ri avec toi ? Monte d'un cran. Le signal de la risquée est là aussi ? Monte encore. Sinon, reste sur la sûre.
 Sur cette scène : la joueuse si la coloc rit déjà de ces dimanches. La risquée seulement si ton colocataire laisse lui aussi traîner ses affaires, une fois. Si ça ne prend pas, tu laisses tomber et tu laves la poêle.
 
 **L'erreur que tout le monde fait**
-Nier d'abord (« c'est pas la mienne »), puis t'excuser trois fois. Ta réplique arrive pendant que tu rangeais déjà, et les excuses transforment la poêle en procès. Une seule phrase, dite calmement, et tu tends la main pour la reprendre.
+Nier d'abord (« c'est pas la mienne »), puis t'excuser trois fois. Le temps de nier et de t'excuser, la scène est passée, et les excuses transforment la poêle en procès. Une seule phrase, dite calmement, et tu tends la main pour la reprendre.
 
 **À toi**
 Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à voix haute, debout, sans sourire. Dix secondes. Pour aller plus loin : la prochaine fois que tu laisses traîner quelque chose, dis-la en vrai.
@@ -53,7 +53,7 @@ Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à 
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « La coloc rit déjà de ces dimanches, et ton colocataire range tout, toujours » : la joueuse. Le groupe a déjà ri, donc la sûre serait timide ; il n'a aucun verre à renvoyer, donc la risquée sonnerait en reproche.
-2. « Ton colocataire a lui-même monté trois verres dans sa chambre lundi, et il en plaisante » : la risquée. Il vient de te donner la matière du troc, qu'il assume déjà : la joueuse laisserait passer son propre désordre, la sûre le laisserait sans réponse.
+2. « La coloc rit déjà de ces dimanches, et ton colocataire a lui-même monté trois verres dans sa chambre lundi : il en plaisante encore » : la risquée. Les deux signaux sont là, et il t'a donné la matière du troc : la joueuse s'arrêterait un cran trop bas, la sûre fermerait un échange qu'il vient d'ouvrir.
 
 ### E1.2 Les 5 situations d'entrée (une par profil du quiz)
 
@@ -63,7 +63,7 @@ Format de chaque entrée : la scène, trois répliques, le « pourquoi », le si
 
 **La scène.** Soirée chez des amis d'amis. Tu connais deux personnes, parties chercher des verres. Quelqu'un se tourne vers toi : « Et toi, tu fais quoi ? »
 
-Dans les trois répliques, la première phrase est vraie (ton métier ou tes études) ; la seconde est un détail qui relance : tiré de ce que ton métier te fait voir, ou de la soirée elle-même. Exemple avec la logistique : remplace-la par le tien.
+Dans les trois répliques, la première phrase est vraie (ton métier ou tes études) ; la seconde est un détail qui relance : tiré de ce que ton métier te fait voir, ou de la soirée elle-même. Exemple avec la logistique : mets ton métier à la place.
 
 - **La sûre** : « Je fais de la logistique. Là, je me retiens de réorganiser le salon. »
 - **La joueuse** : « Je fais de la logistique. Et depuis dix minutes, je me spécialise dans les chips. »
@@ -89,13 +89,13 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 - **La risquée** : « Je te le raconte si tu promets de rire au bon endroit. Il n'y en a qu'un. »
 
 **Le pourquoi**
-- Sûre : une vraie petite nouvelle, dite avec la gravité d'un exploit. Elle se ferme toute seule.
+- Sûre : une vraie petite nouvelle, dite avec la gravité d'un exploit. On rit, et on te demande quel tiroir.
 - Joueuse : un sujet minuscule traité avec un sérieux d'enquête. L'ami veut la suite.
 - Risquée : tu mets une condition à ton public. Elle passe entre amis qui se chambrent déjà sur leur façon de rire.
 
 **Quand monter d'un cran.** Joueuse : l'ambiance est détendue et l'ami a l'air curieux. Risquée : cet ami te chambre déjà sur ta façon de raconter.
 
-**La règle.** Quand tu as beaucoup à dire, commence par la plus petite nouvelle. L'autre demandera la suite.
+**La règle.** Quand tu as beaucoup à dire, donne ou annonce d'abord la plus petite nouvelle. L'autre demandera la suite.
 **L'erreur.** Garder ta meilleure histoire pour plus tard et répondre « rien de spécial ». Le groupe passe à autre chose et ton anecdote reste dans ta poche.
 **À toi.** Relève une nouvelle minuscule de ta semaine (un meuble réparé, un colis, une expérience ratée) et dis-la à quelqu'un en commençant par « C'est petit, mais ».
 
@@ -133,7 +133,7 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 
 **Quand monter d'un cran.** Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer, il a déjà relevé un défi avec toi.
 
-**La règle.** Devant une question sans vraie réponse, la plus petite vérité, dite très sérieusement, vaut mieux qu'une explication.
+**La règle.** Devant une question sans vraie réponse, n'explique rien : joue le jeu, très sérieusement, en une phrase.
 **L'erreur.** Chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.
 **À toi.** Trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
 
@@ -175,8 +175,8 @@ Ajouter « non mais je rigole » juste après. L'aveu s'arrête au dernier mot.
 
 **À toi**
 Écris ton faux secret en trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :
-1. Elle tient en une phrase ?
-2. Si elle vise quelqu'un, peut-il en rire avec toi ?
+1. Ton faux secret tient en une phrase ?
+2. S'il vise quelqu'un, cette personne peut-elle en rire avec toi ?
 3. La fin surprend ?
 
 ### E2.2 « Formules à détourner » : l'atelier, à toi d'abord
@@ -222,10 +222,10 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 Cinq entrées autonomes (format de l'architecture 3.5), avec l'exercice « accusé de réception, deux secondes, rebond ». Trois mots sont au glossaire public (accusé de réception, rebond sur mot-clé, timing : leurs définitions ne sont pas recopiées), deux sont neufs (chambrer, esprit de l'escalier). Environ 320 mots.
 
 **Vocabulaire : quand on te lance une pique**
-Cinq mots pour comprendre ce qui se passe quand on te chambre, et pour le faire exprès.
+Cinq mots pour comprendre ce qui se passe quand on te chambre, et pour t'en servir exprès.
 
 **Chambrer**
-Se moquer de quelqu'un pour rire, entre gens qui s'apprécient.
+Taquiner quelqu'un pour rire, entre gens qui s'apprécient.
 En deux temps : « Tu as mis dix minutes à retrouver ta carte bleue. » Réponse : « Dix minutes. J'ai cherché deux fois dans la même poche, par rigueur. »
 À ne pas confondre avec : la moquerie, qui rit de quelqu'un sans lui laisser la place de rire avec.
 Définition complète : `[lien à décider, mot neuf]`
@@ -255,7 +255,7 @@ En deux temps : au dîner, on te lance une pique et tu ne dis rien. Dix minutes 
 Définition complète : `[lien à décider, mot neuf]`
 
 **À toi : placer**
-Cette semaine, avant ta prochaine réponse à une remarque légère : dis un accusé de réception (« Pas faux », « Bien vu »), compte deux secondes, puis rebondis sur un mot de sa phrase.
+Cette semaine, avant ta prochaine réponse à une remarque légère : dis un accusé de réception (« Pas faux », « Bien vu »), compte deux secondes, puis rebondis sur un mot de la remarque.
 
 ---
 
@@ -282,7 +282,7 @@ Sur la part d'un quart de risquées gagnantes : la risquée de la poêle gagne d
 
 | Retouche | Ligne changée |
 |---|---|
-| Départage : poêle joueuse = V2 (reviewer, elon) ; ambiguïté « intégration » levée sans changer l'idée | E1.1 joueuse : « Je ne voulais pas la déraciner : elle a pris ses marques. » (« intégrée » devient « a pris ses marques », même image de plante déracinée) ; le « pourquoi » parle d'installation. V3 « préméditation » supprimée. |
+| Départage : poêle joueuse = V2 (reviewer, elon) ; ambiguïté « intégration » levée sans changer l'idée | E1.1 joueuse : « Je ne voulais pas la déraciner : elle a pris ses marques. » (« intégrée » devient « a pris ses marques » : même idée d'installation) ; le « pourquoi » parle d'installation. V3 « préméditation » supprimée. |
 | « procès » répété (critique) | Le « pourquoi » de la joueuse ne dit plus « procès » ; l'erreur le garde. |
 | P2 : une seule bonne réponse par contexte (v18 l. 922) | E1.1 rafale : titre « une seule bonne réponse chacun » ; la phrase « la sûre reste toujours possible » est supprimée ; chaque contexte dit pourquoi les deux autres conviennent moins. |
 | Entrée 2 joueuse = V1 café reformulée (reviewer, critique) ; accord « couché » (P1, elon H1) | E1.2 entrée 2 : « J'ai essayé un nouveau café. Je n'ai pas encore de conclusion. » ; « sérieux d'enquête » remis ; V3 « couché » supprimée. |
@@ -297,6 +297,21 @@ Sur la part d'un quart de risquées gagnantes : la risquée de la poêle gagne d
 | E2.1 : « un verbe du quotidien (“je dis”) » faible (critique) | Remplacé par la situation que tout le monde a vécue ; le reste de la fiche est inchangé. |
 | Annexe « aucune forme accordée » fausse (critique, reviewer) | L'affirmation d'en-tête est maintenant vraie : relecture ligne à ligne de toutes les répliques et exemples dits par l'utilisateur, contrôle fait sur « vu » (entrée 3), « couché », « fatigué », « sûr », « surpris ». Seuls restent des participes accordés à un objet (« les trois verres que tu as montés », « tous chez des gens ») ou invariables. |
 | Suppression des versions écartées (session) | Tous les blocs « V2 d'origine » et « V1 d'origine » sont retirés du fichier. |
+
+## Après tour 4 : retouche → ligne (clarté et langue seulement, aucune réplique drôle ne change)
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| B1, deux bonnes réponses au contexte 2 (@elon) | E1.1 « Comment choisir » : « Le signal de la risquée est là aussi ? Monte encore. » ajouté à la règle ; rafale, contexte 2 : « La coloc rit déjà de ces dimanches, et ton colocataire a lui-même monté trois verres dans sa chambre lundi : il en plaisante encore », avec pourquoi réécrit (la joueuse s'arrêterait un cran trop bas, la sûre fermerait un échange qu'il vient d'ouvrir). |
+| « pendant que tu rangeais déjà » flou ; « procès » (@reviewer F1, @elon R1, critique) | E1.1 erreur : « Le temps de nier et de t'excuser, la scène est passée, et les excuses transforment la poêle en procès. » |
+| « remplace-la par le tien » (@reviewer F2, @elon R3) | E1.2 entrée 1 : « mets ton métier à la place ». |
+| Règle de l'entrée 2 vraie pour deux réponses sur trois (@reviewer F3, critique) | Règle : « donne ou annonce d'abord la plus petite nouvelle » ; pourquoi de la sûre : « On rit, et on te demande quel tiroir. » |
+| Règle de l'entrée 4 vraie pour la joueuse seulement (@elon R2, critique) | « Devant une question sans vraie réponse, n'explique rien : joue le jeu, très sérieusement, en une phrase. » |
+| Grille sans antécédent (@reviewer F4, @elon R4) | E2.1 : « Ton faux secret tient en une phrase ? S'il vise quelqu'un, cette personne peut-elle en rire avec toi ? » |
+| « sa phrase » sans référent (@reviewer F5) ; définition de chambrer qui utilise « moquer » ; « le faire exprès » ambigu (@elon R5) | E3 : « un mot de la remarque » ; « Taquiner quelqu'un pour rire, entre gens qui s'apprécient » ; « pour t'en servir exprès ». |
+| En-tête : « aucune citation d'humoriste » lu comme une règle (@reviewer, critique) | Déjà reformulé dans l'en-tête (« pas de citation d'humoriste dans E1 à E3, simple choix de forme : les humoristes nommés et cités sont autorisés partout ») ; conservé tel quel. |
+| Table du tour 4 inexacte (critique, faute 2) | Reformulée : « même idée d'installation ». La joueuse de la poêle (« a pris ses marques ») n'est pas modifiée ; l'option « a pris racine » est laissée au fondateur. |
+| Préférences non bloquantes de la critique | Non appliquées, par consigne. |
 
 ## Handoff
 - Fichiers : `/home/user/Marrant/docs/copy/etalons-espace-s24.md` et `/home/user/Marrant/docs/copy/etalon-e4-mirabel-s24.md` (tour 4, tables « Tour 4 : retouche → ligne » en bas).

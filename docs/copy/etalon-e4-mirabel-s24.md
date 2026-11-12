@@ -16,14 +16,14 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 **Trois choses à repérer**
 
 1. **Le gabarit chiffré.** « J'ai un petit frère, mais qui est très musclé. » Puis les chiffres et la comparaison : « 1 mètre 90 pour 95 kilos, normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Compte les secondes pendant lesquelles il laisse cette image travailler avant d'avancer.
-2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Une phrase de récit, à réécouter pour juger de sa livraison. Repère ce que tu attends à cet instant, avant d'entendre la suivante.
+2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Mets pause juste après cette phrase et devine la suite : avec un petit frère de 95 kilos, qui va régler l'affaire ? Puis relance.
 3. **La fin.** « Tu arrêtes ou j'appelle mon petit frère. » Écoute bien : la réaction arrive-t-elle avant le dernier mot, ou après ? Note-le : tu verras si la chute a besoin de son dernier mot.
 
 **Le mécanisme** : c'est une chute qui retourne le début. Au départ, il t'a donné un petit frère de la taille d'un frigo. À la fin, la phrase de l'intimidation (« Tu arrêtes ou... ») est dite par celui qui devrait protéger, et c'est lui qui appelle le cadet. Il s'est donné le mauvais rôle tout seul, sans que personne ait à l'y mettre.
 
 **Chez toi** : la petite sœur qui prend la parole à ta place au dîner de famille, le cousin plus jeune que tu devais « protéger » en colocation et qui parle au voisin pour toi, la stagiaire que tu devais couvrir et qui répond au client à ta place. Dans chaque cas, c'est toi qui devrais protéger et c'est l'autre qui s'en charge. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
 
-**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace, dite par toi, censé ou censée protéger : « Tu arrêtes ou j'appelle... » suivi du nom de cette personne. Dis-la à voix haute, puis à la personne, si tu en as envie.
+**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace, dite par toi, censé ou censée protéger : « Tu arrêtes ou j'appelle... » suivi du nom de cette personne. Dis-la à voix haute. Si tu en as envie, raconte toute l'histoire devant cette personne.
 
 **Ta grille** (oui ou non, rien n'est enregistré) : (1) Ta menace tient en une phrase ? (2) La personne visée peut en rire avec toi ? (3) La fin surprend ?
 
@@ -60,3 +60,11 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 | En-tête périmé | « s24, tour 4 ». |
 | Lignes d'annexe périmées (« écoute à l'oreille », « une sœur, un pote, une collègue ») | Remises en phase avec la fiche (« Écoute bien… », « la petite sœur, le cousin plus jeune, la stagiaire »). |
 | Contraintes | Les quatre citations de Mirabel, le titre, le passage 2:12 à 2:53 et la durée sont inchangés. |
+
+## Après tour 4 : retouche → ligne (clarté et langue seulement)
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Repère 2 : « livraison » est du jargon et le repère ne fait rien faire (@elon R6) | « Mets pause juste après cette phrase et devine la suite : avec un petit frère de 95 kilos, qui va régler l'affaire ? Puis relance. » (la citation du repère et le « 95 kilos » de la citation 2 sont inchangés ; rien n'est affirmé sur la vidéo.) |
+| « puis à la personne » : la menace vise un tiers (@elon R7) | « Dis-la à voix haute. Si tu en as envie, raconte toute l'histoire devant cette personne. » |
+| Préférence de la critique sur « toi » répété | Non appliquée, par consigne. |
