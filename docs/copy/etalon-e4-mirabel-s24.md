@@ -1,4 +1,4 @@
-# Étalon E4 : « Écouter, repérer », Paul Mirabel (s24, tour 2)
+# Étalon E4 : « Écouter, repérer », Paul Mirabel (s24, tour 4)
 
 Une seule version (base B du tour 1, notée 7,5 / 8,5 / 8,5 contre 6 pour A).
 Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`. **Citations vérifiées sur la transcription automatique, réécoute conseillée avant publication** (de 2:12 à 2:53, par une personne, avant mise en ligne ; puis visionnage par Thomas et relecture à l'aveugle).
@@ -9,7 +9,7 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 
 ### Écouter, repérer : « Tu arrêtes ou j'appelle mon petit frère »
 
-**Avant de lancer la vidéo (2 minutes)** : pense à une personne que tu es censé ou censée protéger, ou impressionner (un cadet, un enfant, une recrue), et qui, dans les faits, te protège mieux que toi. Note un détail de cette personne, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le sous la main.
+**Avant de lancer la vidéo (2 minutes)** : pense à une personne que tu es censé ou censée protéger (un cadet, un enfant, une recrue), et qui, dans les faits, te protège mieux que toi. Note un détail de cette personne, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le sous la main.
 
 **Le passage** : « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy (8 min 57 s en entier), de **2:12 à 2:53**, soit 41 secondes. Lance la vidéo à 2:12 : https://www.youtube.com/watch?v=RYjfe8OSRFw&t=132s
 
@@ -21,9 +21,9 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 
 **Le mécanisme** : c'est une chute qui retourne le début. Au départ, il t'a donné un petit frère de la taille d'un frigo. À la fin, la phrase de l'intimidation (« Tu arrêtes ou... ») est dite par celui qui devrait protéger, et c'est lui qui appelle le cadet. Il s'est donné le mauvais rôle tout seul, sans que personne ait à l'y mettre.
 
-**Chez toi** : la petite sœur qui prend la parole à ta place au dîner de famille, le cousin plus jeune que tu devais « protéger » en colocation et qui parle au voisin pour toi, la stagiaire que tu devais former et qui répond au client à ta place. Dans chaque cas, c'est toi qui devrais protéger et c'est l'autre qui s'en charge. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
+**Chez toi** : la petite sœur qui prend la parole à ta place au dîner de famille, le cousin plus jeune que tu devais « protéger » en colocation et qui parle au voisin pour toi, la stagiaire que tu devais couvrir et qui répond au client à ta place. Dans chaque cas, c'est toi qui devrais protéger et c'est l'autre qui s'en charge. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
 
-**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace, dite par toi, celui ou celle qui devrait protéger : « Tu arrêtes ou j'appelle... » suivi du nom de cette personne. Dis-la à voix haute, puis à la personne, si tu en as envie.
+**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace, dite par toi, censé ou censée protéger : « Tu arrêtes ou j'appelle... » suivi du nom de cette personne. Dis-la à voix haute, puis à la personne, si tu en as envie.
 
 **Ta grille** (oui ou non, rien n'est enregistré) : (1) Ta menace tient en une phrase ? (2) La personne visée peut en rire avec toi ? (3) La fin surprend ?
 
@@ -40,12 +40,23 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 | « Celui qui devait se protéger » : contresens | Reviewer (H11), copywriter | « celui qui devrait protéger » |
 | Affirmation « sans l'image du frigo, la chute... » plus forte que la source | Copywriter | Retirée |
 | « Même gestuelle que le faux secret » : impropre, renvoi opaque | Reviewer (H11), @elon (C7), copywriter | Remplacé par le mécanisme de la liste de 3.4 : « chute qui retourne le début » |
-| « Note un détail de lui » : inclusion | Copywriter | « de cette personne » ; aucune ligne au masculin seul (« Chez toi » : une sœur, un pote, une collègue) |
-| « Repère à quelle seconde la salle réagit » : non vérifiable depuis la transcription | Copywriter | Reformulé en consigne d'écoute (« écoute à l'oreille... note-le »), sans rien affirmer sur la salle ; réécoute déjà exigée avant publication |
+| « Note un détail de lui » : inclusion | Copywriter | « de cette personne » ; aucune ligne au masculin seul (« Chez toi » : la petite sœur, le cousin plus jeune, la stagiaire) |
+| « Repère à quelle seconde la salle réagit » : non vérifiable depuis la transcription | Copywriter | Reformulé en consigne d'écoute (« Écoute bien : la réaction arrive-t-elle avant le dernier mot, ou après ? »), sans rien affirmer sur la salle ; réécoute déjà exigée avant publication |
 | « Si tu l'oses » : légèrement coach | Copywriter | « si tu en as envie » |
 | Guillemets | Reviewer (H9) | Guillemets « » ; aucun guillemet intérieur dans cette fiche |
 | Réécoute, visionnage Thomas, relecture à l'aveugle | @elon (C7) | Conditions conservées en tête de fichier |
-| Tour 2 : décalage mécanisme / exercice (« te défend mieux que toi » donnait une autodérision, pas l'inversion de rôle) | Critique copywriter | Exercice aligné sur le mécanisme : la personne choisie est celle qu'on est censé protéger ou impressionner et qui protège mieux ; la menace est dite par celui ou celle qui devrait protéger ; les exemples de « Chez toi » suivent la même inversion. Titre et citations inchangés |
+| Tour 2 : décalage mécanisme / exercice (« te défend mieux que toi » donnait une autodérision, pas l'inversion de rôle) | Critique copywriter | Exercice aligné sur le mécanisme : la personne choisie est celle qu'on est censé protéger et qui protège mieux ; la menace est dite par celui ou celle qui devrait protéger ; les exemples de « Chez toi » suivent la même inversion. Titre et citations inchangés |
 | Tour 2 : « écoute à l'oreille » redondant, repère 3 sans conclusion | Critique copywriter | « Écoute bien » ; conclusion ajoutée (« tu verras si la chute a besoin de son dernier mot »), à confirmer après réécoute |
 | Tour 2 : repère 2 « sans effet » non vérifiable | Critique copywriter | Reformulé en « à réécouter pour juger de sa livraison », sous la réserve de réécoute |
 | Tour 3 : accords | Contrôle interne | « censé ou censée », « celui ou celle », « recrue », « cadet », « stagiaire » : aucune ligne au masculin seul |
+
+## Tour 4 : retouche → ligne
+
+| Retouche (critique du tour 3) | Ligne changée |
+|---|---|
+| Retirer « ou impressionner » (brouillait le mécanisme, qui parle de protection) | « Avant de lancer la vidéo » : « une personne que tu es censé ou censée protéger (un cadet, un enfant, une recrue) » ; la ligne d'annexe du tour 2 est alignée. |
+| « former » → « couvrir » | « Chez toi » : « la stagiaire que tu devais couvrir et qui répond au client à ta place ». |
+| « celui ou celle qui devrait protéger » lourd | « 5 minutes, après l'écoute » : « ta menace, dite par toi, censé ou censée protéger ». |
+| En-tête périmé | « s24, tour 4 ». |
+| Lignes d'annexe périmées (« écoute à l'oreille », « une sœur, un pote, une collègue ») | Remises en phase avec la fiche (« Écoute bien… », « la petite sœur, le cousin plus jeune, la stagiaire »). |
+| Contraintes | Les quatre citations de Mirabel, le titre, le passage 2:12 à 2:53 et la durée sont inchangés. |
