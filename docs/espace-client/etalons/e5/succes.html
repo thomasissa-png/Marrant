@@ -118,9 +118,9 @@ function appliquer() {
   $("#s-pret").hidden = e !== "pret"; $("#s-verif").hidden = e !== "verification";
   $("#s-non").hidden = e !== "nonverifie"; $("#s-conn").hidden = e !== "connexion";
   const L = {
-    recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux arrêter la lettre de la semaine en un clic, depuis chaque lettre ou ton profil.",
+    recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c’est la lettre du mois, envoyée à tout le monde. Tu peux arrêter la lettre de la semaine en un clic, depuis chaque lettre ou ton profil.",
     arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
-    opposition: "La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr."
+    opposition: "La lettre de la semaine ne t’est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n’arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr."
   };
   const l = (location.hash.match(/lettre=(\w+)/) || [])[1] || "recoit";
   $("#lettre").textContent = L[l] || ""; $("#lettre").hidden = !L[l];

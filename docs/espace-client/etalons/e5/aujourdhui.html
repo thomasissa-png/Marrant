@@ -313,6 +313,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
     <a href="#etat=rafale&option=3">Pastille option 3</a>
     <a href="#etat=rafale&serie=0">Série à 0</a>
     <a href="#rech">Recherche ouverte</a>
+    <a href="#etat=rafale&plus">Menu « Plus » ouvert</a>
     <a href="#etat=pas&hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
 </main>
@@ -337,7 +338,7 @@ function fondus() {
   const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
   l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
-  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - (parseFloat(l.style.getPropertyValue("--sp")) || 0) - 2); /* v7.1 : l'espace final ne compte pas comme une suite */
 }
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
@@ -490,6 +491,7 @@ function appliquer() {
   $("#serie-t").textContent = p.serie === "0" ? "Ta série démarre à ta prochaine étape." : "3 jours de pratique d'affilée";
   fermerSheet(false); if (p.ouvert) ouvrirSheet();
   rech(!!p.rech);
+  plus(!!p.plus); /* v7.1 : #plus ouvre le menu « Plus » (3 groupes de 6.2) */
 }
 /* v6.1 : sous 300 px (200 % de texte) la ligne du favori (texte réel, environ 6 lignes) passe APRÈS la carte du premier pas : « Commencer » reste dans le premier écran. L'ordre du DOM suit l'ordre visuel. */
 function placerFav() {

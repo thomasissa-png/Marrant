@@ -83,6 +83,8 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 @media(max-width:359px){.trois{grid-template-columns:1fr}}
 .trois .btn{padding:0 4px}
 .trois .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
+/* v7.1 : le toucher choisi est marqué par contour de 2 px et coche (pas la couleur seule) ; les deux autres sont grisés */
+.trois .btn[aria-pressed="true"]::before{content:"";flex:none;width:5px;height:9px;border:solid var(--link);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
 /* Marches : repère carré montant, d'une autre forme que les pastilles rondes du cap (3.0 pt 6) */
 .marches{display:inline-flex;align-items:flex-end;gap:2px;height:24px}
 .marches i{display:block;width:6px;border:2px solid var(--link);border-radius:1px}
@@ -211,7 +213,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
       <div id="retour-bilan" class="retour" role="status" hidden>
         <p id="rb-pre" hidden>Pas celle-là cette fois.</p>
         <p>B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper&nbsp;: ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.</p>
-        <p id="rb-post" hidden><a class="lien" href="#">La fiche «&nbsp;Énoncer la règle non écrite&nbsp;» mérite un deuxième tour.</a></p>
+        <p id="rb-post" hidden><a class="lien" href="#" aria-label="La fiche « Énoncer la règle non écrite » mérite un deuxième tour. Ouvrir la fiche, dans l'étape 1 de Confiance.">La fiche «&nbsp;Énoncer la règle non écrite&nbsp;» mérite un deuxième tour.</a></p>
       </div>
     </section>
   </div>
@@ -244,7 +246,7 @@ function fondus() {
   const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
   l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
-  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - (parseFloat(l.style.getPropertyValue("--sp")) || 0) - 2);
 }
 $("#liste").addEventListener("scroll", fondus, { passive: true });
 /* « Plus » (porte de « S'entraîner ») est l'entrée active, ramenée dans la vue */
@@ -278,7 +280,7 @@ function choix(v) {
   $("#rb-pre").hidden = $("#rb-post").hidden = v === "B" || !v;
 }
 $$("#bilan .trois .btn").forEach((b) => b.addEventListener("click", () => {
-  $$("#bilan .trois .btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  $$("#bilan .trois .btn").forEach((x) => { x.setAttribute("aria-pressed", String(x === b)); x.disabled = true; });
   $("#qb-g").hidden = false;
 }));
 $$("#qb-g .btn").forEach((b) => b.addEventListener("click", () => choix(b.dataset.v)));
@@ -298,11 +300,15 @@ function appliquer() {
   retour(m1 || r === "pas2" ? "" : r);
   $("#s-pas2").hidden = r !== "pas2";
   $("#qb-g").hidden = !(h.includes("question") || c);
-  $$("#bilan .trois .btn").forEach((x) => x.setAttribute("aria-pressed", "false"));
+  /* le toucher « Oui » est posé quand la question est déjà ouverte (états de la maquette) */
+  const ouvert = h.includes("question") || !!c;
+  $$("#bilan .trois .btn").forEach((x, i) => { x.setAttribute("aria-pressed", String(ouvert && i === 0)); x.disabled = ouvert; });
+  /* v7.1 : le bilan est le dernier élément d'un parcours : sa porte est « Parcours » (6.3) ; la mission seule garde « Plus » */
+  const tabs = $$("#liste .tab"); tabs.forEach((t) => t.removeAttribute("aria-current")); tabs[bilan ? 1 : 5].setAttribute("aria-current", "page");
   choix(c);
   rech(h.includes("rech"));
 }
-addEventListener("hashchange", appliquer);
+addEventListener("hashchange", () => { appliquer(); ramener(); });
 appliquer(); ramener();
 </script>
 </body>

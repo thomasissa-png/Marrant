@@ -232,7 +232,7 @@ function fondus() {
   const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
   l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
-  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - (parseFloat(l.style.getPropertyValue("--sp")) || 0) - 2);
 }
 function ramener() { /* « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation */
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);

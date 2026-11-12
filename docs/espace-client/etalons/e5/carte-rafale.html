@@ -186,11 +186,11 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
   <!-- Carte « Et toi ? » : production sans choix ; deux répliques avec leur ambiance, puis le pourquoi du carnet. En révision (#etat=revision), la note de l'abonné s'affiche APRÈS la réponse, jamais avant (2.2). -->
   <section class="sec var" aria-labelledby="et-v">
     <h2 id="et-v" class="vcap">Carte «&nbsp;Et toi&nbsp;?&nbsp;»</h2>
-    <p class="cap">[HYPOTHÈSE : aucune fiche du carnet n'est reprise ici, contenu à remplacer par une fiche relue]</p>
+    <p class="cap">Fiche 5 du carnet d'octobre (docs/copy/carnet/carnet-2026-10.md), reprise mot pour mot, sans écriture : 2.2 interdit tout texte neuf sur cette carte. Statut du carnet : brouillon pour relecture Thomas.</p>
     <article id="et" class="card carte" aria-labelledby="et-t">
       <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag">À revoir</span></p>
-      <h3 id="et-t" class="h2l">[Titre de la fiche du carnet]</h3>
-      <div class="scene"><h3 class="lab">La scène</h3><p class="ph">[Scène de la fiche du carnet]</p></div>
+      <h3 id="et-t" class="h2l">Ton métier, concrètement</h3>
+      <div class="scene"><h3 class="lab">La scène</h3><p>Chez des amis d'amis, un invité que tu viens de rencontrer te pose la question en te regardant de la tête aux pieds.</p><p class="dit">«&nbsp;Et toi, tu fais quoi, concrètement&nbsp;?&nbsp;»</p></div>
       <section class="rd" aria-labelledby="et-r"><h3 id="et-r">Ta réponse d'abord</h3><p>Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p><p id="et-pt" class="pt" hidden>Prends ton temps</p></section>
       <div id="et-q" class="q" role="group" aria-labelledby="et-ql">
         <p id="et-ql" class="qt">Tu avais une réponse&nbsp;?</p>
@@ -198,10 +198,10 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
         <p id="et-rg" class="meta rg" role="status" hidden></p>
       </div>
       <div id="et-rep" hidden>
-        <div class="amb"><span class="tag">détendue</span><span class="ph">[Réponse du carnet]</span></div>
-        <div class="amb" style="margin-top:8px"><span class="tag">tendue</span><span class="ph">[Sortie polie du carnet]</span></div>
+        <div class="amb"><span class="tag">détendue</span><span>J'ai un badge. Je ne sais pas ce qu'il ouvre, mais on me salue dans l'ascenseur.</span></div>
+        <div class="amb" style="margin-top:8px"><span class="tag">tendue</span><span>Un peu de tout, c'est long à résumer. Et toi, tu fais quoi&nbsp;?</span></div>
         <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
-        <h3 class="lab" style="margin-top:16px">Le pourquoi</h3><p class="ph">[Pourquoi du carnet]</p>
+        <h3 class="lab" style="margin-top:16px">Le pourquoi</h3><p>Tu réponds par un objet plutôt que par un métier, et l'objet ne t'explique rien à toi non plus. La salutation dans l'ascenseur est la seule preuve de ta place, et le rire tombe sur ton flou.</p>
       </div>
     </article>
   </section>
@@ -322,7 +322,7 @@ function fondus() {
   const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
   l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
-  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - (parseFloat(l.style.getPropertyValue("--sp")) || 0) - 2);
 }
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
