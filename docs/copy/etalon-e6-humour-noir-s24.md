@@ -1,4 +1,4 @@
-# Étalon E6 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), tour 3
+# Étalon E6 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `architecture-contenu-v19.md` 3.12, 3.11, 3.8 ; forme et barre : `etalons-espace-s24.md` E1.1 ; ton : `ton-alex.md`. Relectures des tours 1 et 2 : `docs/copy/etalon-e6-relectures/`.
 > **Statut : non relu à l'aveugle sur cette version** (règle d'or s18 : rien en base avant relecture). Aucun humoriste cité (choix de forme).
@@ -44,7 +44,7 @@ Réserves : la 2e ligne promet un contenu que le lot n'a pas encore prouvé, ell
 2. Sais-tu que chaque personne ici va bien, sans deuil ni maladie en cours ou tout juste passés ?
 3. Fait-elle rire par une idée (un retournement, un contraste), et pas seulement parce que ça choque ?
 
-**Trois oui : tu peux. Un non ou un doute : c'est voulu, tu ne la dis pas** (dans une situation, tu prends la réplique du dessous). Face à des inconnus, la question 2 est presque toujours un doute.
+**Trois oui : tu peux. Un non ou un doute : tu ne la dis pas** (dans une situation, tu prends la réplique du dessous). Face à des inconnus, la question 2 est presque toujours un doute : c'est voulu.
 
 ---
 
@@ -54,7 +54,7 @@ Réserves : la 2e ligne promet un contenu que le lot n'a pas encore prouvé, ell
 Avant de lancer, le test décide. Les trois signaux ci-dessous se voient avec un peu d'attention ; ils aident à lire la table, ils ne t'assurent de rien : c'est pourquoi la question 2 passe avant.
 
 **Signal 1, avant : le groupe a déjà ri d'un sujet sombre.**
-Dans les dix dernières minutes, quelqu'un a plaisanté sur sa « mort » du lundi matin et la table a ri. Sans ça, tu prends la sûre.
+Dans les dix dernières minutes, quelqu'un a plaisanté sur sa « mort » du lundi matin et la table a ri. Sans ça, tu ne la dis pas (dans une situation, tu prends la sûre).
 
 **Signal 2, après : le rire revient vers toi.**
 Quelqu'un relance, reprend ta formule ou ajoute la sienne : tu laisses le sujet ouvert, sans en rajouter. Les regards descendent vers les verres, un « hm » poli, tout le monde regarde la même personne : c'est le signal qui dit d'arrêter, pas de continuer. Il arrive après la vanne : il sert à clore vite, pas à éviter de blesser.
@@ -96,10 +96,16 @@ Tu parles de la vie, pas de son corps, et tu pars de ses mots à lui. Il n'est p
 
 **La risquée**
 « La moitié ? Moi, on m'a juste dit : “Quelqu'un passera entre 8 h et 90 ans, restez joignable.” »
-Tu fais de la mort un livreur qui n'annonce qu'un créneau : tu prends sa « descente » au mot, côté mort en général, et la chute retombe sur toi (« on m'a dit »). Le fêté n'est pas visé, tu te mets dans le même créneau que tout le monde. Elle marche seulement si la table rit déjà de ses âges, a déjà ri d'un sujet sombre ce soir, que tu connais chaque personne à table et que tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés. Sinon : la joueuse ou la sûre.
+Tu fais de la mort un livreur qui n'annonce qu'un créneau : tu prends sa « descente » au mot, côté mort en général, et la chute retombe sur toi (« on m'a dit »). Le fêté n'est pas visé, tu te mets dans le même créneau que tout le monde. Elle demande quatre feux verts :
+- la table rit de ses âges ;
+- la table a déjà ri d'un sujet sombre ce soir ;
+- tu connais chaque personne à table ;
+- chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.
+
+S'il en manque un : la joueuse ou la sûre.
 
 **Comment choisir**
-La table rit déjà de ses âges ? Monte d'un cran. Elle a aussi déjà ri d'un sujet sombre ce soir, tu connais chaque personne à table, et chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés ? Monte encore. Sinon, reste sur la réplique du dessous. Si ça ne prend pas, tu clos d'une phrase et tu passes.
+La table rit déjà de ses âges ? Monte d'un cran. Les trois autres feux verts de la risquée sont là aussi ? Monte encore. Sinon, reste sur la réplique du dessous. Si ça ne prend pas, tu clos d'une phrase et tu passes.
 
 **L'erreur que tout le monde fait**
 Enchaîner : le rire poli est pris pour un feu vert, et la deuxième vanne est plus noire que la première. Une vanne sombre, une seule fois. Après, le sujet est à la table, pas à toi.
@@ -119,16 +125,16 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
 
 ## 5. Cinq vannes neuves
 
-> Au niveau visé (barre « Alexa » : chute surprenante, courte, logique, jamais entendue), **non relues à l'aveugle**. Cinq décors et cinq mécanismes, au plus deux dans le commerce : voyage et litote (1), famille et chute retournée contre le narrateur (2), maison et contraste tragique/trivial (3), contrat obsèques et chute retournée (4), abonnement et contraste (5). « Où ça passe » vaut toujours après le test de la section 2.
+> Au niveau visé (barre « Alexa » : chute surprenante, courte, logique, jamais entendue), **non relues à l'aveugle**. Cinq décors, trois mécanismes, au plus deux vannes dans le commerce : voyage et euphémisme (1), horoscope et euphémisme (2), maison et contraste tragique/trivial (3), contrat obsèques et chute retournée contre le narrateur (4), abonnement et contraste (5). « Où ça passe » vaut toujours après le test de la section 2.
 
 1. « Pour mon dernier voyage, j'ai demandé une place près de la sortie de secours. »
-   *Pourquoi ça passe* : litote sur la mort vue comme un dernier trajet ; le narrateur cherche déjà à s'en sortir, la chute retombe sur lui.
+   *Pourquoi ça passe* : euphémisme sur la mort vue comme un dernier trajet ; le narrateur cherche déjà à s'en sortir, la chute retombe sur lui.
    *Où ça passe* : amis, au départ en vacances, signal 1 présent. *Où ça ne passe pas* : en avion avec quelqu'un qui a peur de voler, ou juste après un accident dont on vient de parler.
-2. « J'ai montré mon testament à la famille. Depuis, tout le monde me souhaite une très longue vie. »
-   *Pourquoi ça passe* : l'héritage est si maigre que la famille préfère le narrateur vivant ; le pire retombe sur lui, la famille n'est que témoin.
-   *Où ça passe* : amis, collègues, une table qui parle d'argent. *Où ça ne passe pas* : devant une famille en pleine succession ou en froid pour un héritage.
-3. « Pas de fleurs sur ma tombe. Vu mon balcon, elles n'y survivraient pas. »
-   *Pourquoi ça passe* : le contraste entre la tombe et le balcon ; la chute se retourne contre les talents de jardinier du narrateur, jamais contre quelqu'un d'autre.
+2. « Mon horoscope m'annonce un grand changement. J'ai demandé que ce soit un déménagement. »
+   *Pourquoi ça passe* : « grand changement » est un euphémisme que le narrateur fait semblant de ne pas comprendre, et il négocie la version la moins définitive ; la chute retombe sur lui, personne d'autre n'est en scène.
+   *Où ça passe* : amis, colocs, apéro, signal 1 présent. *Où ça ne passe pas* : devant quelqu'un qui attend un résultat ou une décision grave.
+3. « Pas de fleurs sur ma tombe. Vu l'état de mon balcon, même mort, je les tuerais. »
+   *Pourquoi ça passe* : le contraste entre la tombe et le balcon ; la chute est dite et se retourne contre les talents de jardinier du narrateur, jamais contre quelqu'un d'autre.
    *Où ça passe* : amis, voisins, collègues, signal 1 présent. *Où ça ne passe pas* : devant quelqu'un qui fleurit une tombe en ce moment.
 4. « Mon contrat obsèques est “satisfait ou remboursé”. Reste à trouver qui ira réclamer. »
    *Pourquoi ça passe* : la chute est le dernier mot et se retourne contre le narrateur, qui rit de sa propre mort ; elle ne demande rien à la table.
@@ -137,7 +143,7 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
    *Pourquoi ça passe* : la mort comme limite d'un contrat ; la chute retombe sur l'ambition du narrateur, le vendeur n'est pas visé.
    *Où ça passe* : collègues, amis, la plus douce des cinq. *Où ça ne passe pas* : devant quelqu'un qui vient de perdre un proche.
 
-**Vérification web (12/11/2026)** : phrases exactes cherchées, entre guillemets. Résultat : aucune occurrence pour les vannes 1 à 4 (relancé ce tour) ; la 5 a été cherchée au tour 2 sans résultat. Ce n'est pas une garantie d'originalité (les moteurs ne couvrent ni les spectacles ni les réseaux) : la relecture à l'aveugle par l'humoriste reste le contrôle ; une vanne jugée entendue est supprimée, pas retouchée. Familles retirées du lot : corps légué à la science, épitaphe de retardataire, batterie à 1 %, GPS devant le cimetière, banque et concession, remboursement et héritier.
+**Vérification web (12/11/2026)** : phrases exactes cherchées, entre guillemets. Résultat : aucune occurrence pour les vannes 1 à 4 (la 2 et la 3 relancées au tour 4) ; la 5 a été cherchée au tour 2 sans résultat. Ce n'est pas une garantie d'originalité (les moteurs ne couvrent ni les spectacles ni les réseaux) : la relecture à l'aveugle par l'humoriste reste le contrôle ; une vanne jugée entendue est supprimée, pas retouchée. Familles retirées du lot : corps légué à la science, épitaphe de retardataire, batterie à 1 %, GPS devant le cimetière, banque et concession, remboursement et héritier, testament montré à la famille (la famille devenait le ressort).
 **Lot existant** : non évaluable ici (catalogue en base, aucun champ de repérage en 3.12) ; il sera sélectionné après repérage puis relu à l'aveugle `[HYPOTHÈSE : à juger à la barre E6]`.
 
 ---
@@ -163,3 +169,13 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
 | « N'importe quelle table » retiré : « Où ça passe » vaut après le test | Section 5, en-tête |
 | Reco « mort en général / propre mort » : source C12 et v19 3.12, ou [HYPOTHÈSE] | Section 6 |
 | Guillemets intérieurs “ ” ; clôture « Quelqu'un reprend du pain ? » ; « ton prochain anniversaire » ; entrée « ta propre mort » | Sections 1, 3, 4, 5 |
+
+## Tour 4 : retouche → ligne
+
+| Retouche | Où |
+|---|---|
+| Vanne 2 remplacée (testament : la famille était le ressort, et « mes dettes » la laissait en cible) par l'horoscope, hors commerce, la chute retombe sur le narrateur ; phrase exacte cherchée, aucune occurrence | Section 5, vanne 2 et vérification |
+| Vanne 3 : la chute est dite (« même mort, je les tuerais »), phrase exacte cherchée, aucune occurrence | Section 5, vanne 3 |
+| Risquée : « quatre feux verts » listés en propositions de même forme ; « Comment choisir » reprend le moule E1.1 (« Les trois autres feux verts de la risquée sont là aussi ? Monte encore. ») | Section 4 |
+| « C'est voulu » remis après « la question 2 est presque toujours un doute » ; fiche : « Sans ça, tu ne la dis pas (dans une situation, tu prends la sûre) » | Section 2 (test), section 3 (signal 1) |
+| « Euphémisme » au lieu de « litote » (vanne 1) ; en-tête des vannes : cinq décors, trois mécanismes (euphémisme 1 et 2, contraste 3 et 5, chute retournée 4) | Section 5 |
