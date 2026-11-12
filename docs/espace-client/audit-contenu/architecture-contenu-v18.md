@@ -1,3 +1,5 @@
+> **REMPLACÉ par `architecture-contenu-v19.md` le 12/11/2026**, après le tour 18 et la décision de Thomas sur les humoristes (`docs/founder-preferences.md` l. 170). Ne plus s'appuyer sur ce fichier.
+
 # Architecture de contenu de l'espace Premium, v18 (s24)
 
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v17.md`. **Thomas a tranché les bonus des caps** (`docs/founder-preferences.md`, dernière ligne du 12/11, Q7 à Q10, qui fait foi). **La v18 n'applique QUE ces décisions**, là où l'architecture parle des bonus : portes dans la Bibliothèque, bonus absents des listes avant ouverture, volumes comptés à part, textes de l'offre touchés soumis au go de Thomas. **Elle ne reconçoit rien** : la conception des bonus, de la carte « Ton cap » et des annonces est dans `docs/espace-client/niveaux-xp-s24.md` §5, ce document y renvoie. Le reste est recopié de la v17 (annexe A). Les points de conception neuve restent des propositions marquées [RESTE À TRANCHER] ; l'écran de motif de résiliation de s23 est un sujet séparé que la session soumettra à Thomas : ce document ne le décide pas.
