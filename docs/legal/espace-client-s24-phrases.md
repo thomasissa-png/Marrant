@@ -13,11 +13,11 @@ Proposée :
 > Comprendre où les abonnés avancent ou décrochent (souscription, parcours, résiliation), à partir d’événements rattachés à ton compte et lus sous forme anonymisée, pour améliorer le service : intérêt légitime (tu peux t’y opposer, voir la partie 7)
 
 **Une puce à ajouter** en partie 2 (la liste des données serait sinon incomplète, art. 13 RGPD). Elle porte aussi la durée, donc rien à toucher en partie 6 :
-> Usage du service, si tu es abonné : les dates de ta souscription, de ton premier contenu Premium affiché, de ta première étape validée, de chaque jour de pratique, d’ouverture du portail de paiement et de chaque renouvellement payé, et, si tu programmes ta résiliation, son heure et le motif choisi dans une liste. Aucun texte libre ni adresse IP. Ces données sont effacées avec ton compte
+> Usage du service, si tu es ou as été abonné : la date et la formule (mensuelle, annuelle ou app) de ta souscription et de chaque renouvellement payé, ton premier contenu Premium affiché (son type ou son étape), ta première étape ou ton premier quiz terminé, chaque jour où tu termines un quiz, chaque ouverture du portail de paiement avec l’action choisie, et, si tu programmes ta résiliation, son heure et le motif choisi dans une liste. Aucun texte libre ni adresse IP. Ces données sont effacées avec ton compte
 
 **Base légale** : intérêt légitime (amélioration du service, art. 6.1.f), le même que celui déjà publié pour la progression et pour la résiliation. Pas de consentement ni de bandeau : événements enregistrés côté serveur, rien lu ni écrit dans le navigateur, rien envoyé à Umami.
 
-**Mention d'opposition : déjà présente, rien à ajouter.** Droit d'opposition obligatoire à signaler clairement pour un intérêt légitime (art. 21.4) : la parenthèse « tu peux t’y opposer, voir la partie 7 » le fait, et la partie 7 le détaille.
+**Mention d'opposition : déjà présente, rien à ajouter.** Droit d'opposition obligatoire à signaler clairement pour un intérêt légitime (art. 21.4) : la parenthèse « tu peux t’y opposer, voir la partie 7 » le fait, et la partie 7 le détaille. L'opposition durable (plus aucune écriture pour ce compte) rend cette phrase plus vraie, sans la changer : rien à ajouter. Elle doit être effective avant la mise en ligne du texte.
 
 Hors texte (une ligne pour @fullstack) : ajouter l'ouverture de cette mesure dans `datesConfidentialite()` pour la date de mise à jour.
 
