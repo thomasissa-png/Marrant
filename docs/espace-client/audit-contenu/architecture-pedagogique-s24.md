@@ -5,6 +5,8 @@
 > Toute donnée non lue est marquée [À VÉRIFIER]. Tout texte d'illustration est marqué [EXEMPLE NON VALIDÉ] : aucun n'a passé la relecture à l'aveugle ni la barre « niveau Alexa ».
 > Règle P0 s8 : les noms de rubriques et de formats sont des propositions de travail, à caler avec Thomas par étalons avant tout brief @copywriter.
 
+> REMPLACÉ le 12/11/2026 par `architecture-contenu-v2.md` après le tour 1 de relecture (UX 6,1, Elon 5,6, Reviewer 5,7). Ce fichier n'est plus la base de travail ; ne pas s'y référer pour les chiffres ni les exemples.
+
 ## Résumé en 10 lignes
 
 1. Une leçon chez nous = une fiche de 5 minutes environ qui apprend UNE chose et finit par UN geste (choisir, écrire, dire à voix haute). Le catalogue donne des vannes à ressortir ; la leçon apprend à en fabriquer et à choisir la bonne.
