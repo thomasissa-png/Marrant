@@ -82,9 +82,17 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .chip{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;padding:0 16px;border-radius:9999px;border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:500 14px/20px Inter,system-ui,sans-serif;cursor:pointer;justify-content:center}
 .chip[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev);padding:0 15px}
 .chip svg{width:16px;height:16px;display:none;color:var(--link)}.chip[aria-pressed="true"] svg{display:block}
-.neutre{max-width:560px}
-.neutre .btn{margin-top:8px}
-.neutre ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:16px}
+/* Page 404 du site : flex-col centré, px-4, texte centré ; emoji 96 px, h1 36/40 (48/48 dès 768), paragraphe 18/28 max 448 px, deux boutons de 48 px, écart 16 px */
+.nf{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100svh - 112px);padding:0 16px;text-align:center}
+.nf-i{font-size:96px;line-height:1}
+.nf-h{margin-top:24px;font:700 36px/40px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+@media(min-width:768px){.nf-h{font-size:48px;line-height:48px}}
+.grad{background:linear-gradient(to right,#A78BFA,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nf-p{margin-top:16px;max-width:448px;font-size:18px;line-height:28px;color:var(--t2)}
+.nf-a{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-top:32px}
+.btn.lg{min-height:48px;padding:0 24px;font-size:16px;line-height:24px}
+.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2)}
+.btn[aria-pressed="true"]::before{content:"";flex:none;width:5px;height:9px;border:solid var(--link);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)} /* v8.1 : « Fait » coché = contour + coche, pas la couleur seule */
 .demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
 .demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
 @media(max-width:299px){
@@ -138,7 +146,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     <div class="top">
       <p id="marque" class="eyebrow">Bonus du cap 3&nbsp;· Tu avances bien</p>
       <h1 id="h1">Écouter, repérer&nbsp;: <span class="ph">[Titre du passage]</span></h1>
-      <p class="meta" data-hyp="HYPOTHÈSE">Facultatif</p>
+      <p class="meta"><span class="ph">[Durée]</span> · <span data-hyp="HYPOTHÈSE">Facultatif</span></p>
     </div>
     <div class="card">
       <section class="sec" aria-labelledby="s1"><h2 id="s1" style="font:600 16px/24px Inter,system-ui,sans-serif">Avant de lancer la vidéo</h2><p class="ph">[Consigne avant l'écoute, 2 minutes]</p></section>
@@ -150,7 +158,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
       <section class="sec" aria-labelledby="s5"><h2 id="s5" style="font:600 16px/24px Inter,system-ui,sans-serif">Chez toi</h2><p class="ph">[Trois situations de l'abonné, sans accord genré]</p></section>
       <section class="sec" aria-labelledby="s6"><h2 id="s6" style="font:600 16px/24px Inter,system-ui,sans-serif">5 minutes, après l'écoute</h2><p class="ph">[Geste : écrire et dire à voix haute]</p></section>
       <!-- Condition de production (5.3) : sous-titres de la vidéo et transcription du passage cité, en texte -->
-      <section class="sec" aria-labelledby="s7"><h2 id="s7" style="font:600 16px/24px Inter,system-ui,sans-serif" data-hyp="HYPOTHÈSE">Transcription du passage</h2><p class="ph">[Transcription du passage cité, courte et minutée, en texte]</p></section>
+      <section class="sec" aria-labelledby="s7"><h2 id="s7" style="font:600 16px/24px Inter,system-ui,sans-serif" data-hyp="HYPOTHÈSE">Les phrases citées, en texte</h2><p class="ph">[Citations courtes, minutées, des trois repères ; jamais le passage en entier]</p></section>
       <!-- Grille de 2.4, mot pour mot ; rien n'est enregistré (E4) -->
       <section class="sec" aria-labelledby="s8"><h2 id="s8" style="font:600 16px/24px Inter,system-ui,sans-serif">Ta grille</h2><p class="meta">oui ou non, rien n'est enregistré</p>
         <div class="q" role="group" aria-labelledby="q1"><p id="q1">Elle tient en une phrase&nbsp;?</p><div class="chips"><button class="chip" type="button" aria-pressed="false" data-q="1"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Oui</button><button class="chip" type="button" aria-pressed="false" data-q="1"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Non</button></div></div>
@@ -162,14 +170,31 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     </div>
   </article>
 
+  <!-- Cap 5 « Tu connais la maison » : fiche à elle, « coulisses de la maison » (5.3 : fiche de 5 minutes ; comment la maison a choisi une réplique, pourquoi les autres ont été écartées avec des contre-exemples réécrits, un geste à faire). Porte : « Vocabulaire et techniques ». Contenu entre crochets. -->
+  <article id="fiche5" class="col" hidden>
+    <div class="top">
+      <p class="eyebrow">Bonus du cap 5&nbsp;· Tu connais la maison</p>
+      <h1 id="h1-5"><span class="ph">[Titre de la fiche]</span></h1>
+      <p class="meta">5 min · <span data-hyp="HYPOTHÈSE">Facultatif</span></p>
+    </div>
+    <div class="card">
+      <section class="sec" aria-labelledby="c1"><h2 id="c1" style="font:600 16px/24px Inter,system-ui,sans-serif" class="ph">[Comment la maison a choisi une réplique]</h2><p class="ph">[Texte]</p></section>
+      <section class="sec" aria-labelledby="c2"><h2 id="c2" style="font:600 16px/24px Inter,system-ui,sans-serif" class="ph">[Pourquoi les autres ont été écartées]</h2><p class="ph">[Contre-exemples réécrits et relus, jamais les originaux]</p></section>
+      <section class="sec" aria-labelledby="c3"><h2 id="c3" style="font:600 16px/24px Inter,system-ui,sans-serif" class="ph">[Geste à faire]</h2><p class="ph">[Geste]</p></section>
+      <button id="fait5" class="btn" type="button" aria-pressed="false">Fait</button>
+    </div>
+  </article>
+
   <!-- Page neutre (5.4, critère 19) : même réponse qu'une adresse inexistante ; jamais « s'ouvre au cap N », jamais « il te manque » ; deux liens de sortie -->
-  <section id="neutre" class="neutre" aria-labelledby="h-neutre" hidden>
-    <h1 id="h-neutre">Cette page n'est pas disponible</h1>
-    <ul>
-      <li><a class="btn" href="aujourdhui.html">Aujourd'hui</a></li>
-      <li><a class="btn" href="bibliotheque.html">Bibliothèque</a></li>
-    </ul>
-    <p class="meta" style="margin-top:12px" data-hyp="HYPOTHÈSE : choix des deux liens de sortie">&nbsp;</p>
+  <!-- v8.1 : reprise EXACTE de la vraie 404 du site (apps/web/src/app/not-found.tsx) : mêmes textes, mêmes liens, même mise en page ; aucun texte propre, aucun onglet actif dans la barre. Écart connu : la 404 du site porte un visage perplexe en emoji (role="img"), repris tel quel ici ; il contredit la règle « pas d'emoji » de l'espace : à trancher par @ux. -->
+  <section id="neutre" class="nf" aria-labelledby="h-neutre" hidden>
+    <span class="nf-i" role="img" aria-label="visage perplexe">🤔</span>
+    <h1 id="h-neutre" class="nf-h">Oups, cette page a oublié sa <span class="grad">punchline</span></h1>
+    <p class="nf-p">Cette page n’existe pas, ou plus. Les vannes, elles, sont toujours là.</p>
+    <div class="nf-a">
+      <a class="btn btn-p lg" href="aujourdhui.html">Retour à l’accueil</a>
+      <a class="btn lg" href="bibliotheque.html">Voir les vannes</a>
+    </div>
   </section>
 
   <nav class="demo" aria-label="États de la maquette">
@@ -177,6 +202,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     <a href="#cap=2">Bonus du cap 2 (Roman Frayssinet)</a>
     <a href="#cap=3">Bonus du cap 3 (Waly Dia)</a>
     <a href="#cap=4">Bonus du cap 4 (Panayotis Pascot)</a>
+    <a href="#cap=5">Bonus du cap 5 (coulisses de la maison)</a>
     <a href="#cap=3&moi=1">Adresse directe, cap 3 pas atteint : page neutre</a>
     <a href="#etat=neutre">Page neutre</a>
     <a href="#rech">Recherche ouverte</a>
@@ -215,20 +241,22 @@ $("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
 rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
 /* Grille : un choix par question, rien n'est enregistré ; « Fait » : bascule le statut */
 $$(".q .chip").forEach((c) => c.addEventListener("click", () => $$('.chip[data-q="' + c.dataset.q + '"]').forEach((x) => x.setAttribute("aria-pressed", String(x === c)))));
-$("#fait").addEventListener("click", () => { const o = $("#fait").getAttribute("aria-pressed") !== "true"; $("#fait").setAttribute("aria-pressed", String(o)); });
+["fait", "fait5"].forEach((id) => $("#" + id).addEventListener("click", () => { const b = $("#" + id), o = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(o)); }));
 /* #cap=2|3|4 (bonus demandé) &moi=n (cap de déblocage de l'abonné, par défaut celui du bonus) #etat=neutre &rech &hyp=off */
 const NOMS = { 2: "Tu te lances", 3: "Tu avances bien", 4: "Tu enchaînes" }, HUMO = { 2: "Roman Frayssinet", 3: "Waly Dia", 4: "Panayotis Pascot" };
 function appliquer() {
-  const h = location.hash, cap = +((h.match(/cap=([2-4])/) || [])[1] || 3), moi = +((h.match(/moi=([1-5])/) || [])[1] || cap);
+  const h = location.hash, cap = +((h.match(/cap=([2-5])/) || [])[1] || 3), moi = +((h.match(/moi=([1-5])/) || [])[1] || cap);
   document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
   const neutre = h.includes("etat=neutre") || moi < cap;
-  $("#fiche").hidden = neutre; $("#neutre").hidden = !neutre;
-  document.title = neutre ? "Cette page n'est pas disponible" : "Étalon E5 v8, fiche bonus (local, ne pas déployer)";
-  $("#marque").textContent = "Bonus du cap " + cap + " · " + NOMS[cap];
-  $("#humo").textContent = HUMO[cap];
+  $("#fiche").hidden = neutre || cap === 5; $("#fiche5").hidden = neutre || cap !== 5; $("#neutre").hidden = !neutre;
+  /* page neutre = la 404 du site : titre « Page introuvable », aucune rubrique active (une adresse inexistante n'en a pas) */
+  document.title = neutre ? "Page introuvable" : "Étalon E5 v8, fiche bonus (local, ne pas déployer)";
+  const tabs = $$("#liste .tab"); tabs.forEach((t) => t.removeAttribute("aria-current")); if (!neutre) tabs[3].setAttribute("aria-current", "page");
+  tabs[3].href = "bibliotheque.html#cap=" + (neutre ? moi : Math.max(moi, cap)); /* la Bibliothèque garde le cap de l'abonné */
+  if (cap !== 5) { $("#marque").textContent = "Bonus du cap " + cap + " · " + NOMS[cap]; $("#humo").textContent = HUMO[cap]; }
   rech(h.includes("rech"));
 }
-addEventListener("hashchange", appliquer);
+addEventListener("hashchange", () => { appliquer(); ramener(); });
 appliquer(); ramener();
 </script>
 </body>

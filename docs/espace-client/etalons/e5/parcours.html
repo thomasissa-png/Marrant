@@ -92,10 +92,10 @@ details[open]>summary svg{transform:rotate(180deg)}
 .pastilles i{width:16px;height:16px;border-radius:50%;border:2px solid var(--acc)}
 .pastilles i.on{background:var(--acc)}
 #cap>*+*{margin-top:12px}
-#annonce:not(:empty){margin-bottom:24px}
-.ann{padding:12px 16px;border:1px solid var(--bd-in);border-radius:var(--r-lg);background:var(--bg-light)}
+.ann.on{margin-bottom:24px;padding:12px 16px;border:1px solid var(--bd-in);border-radius:var(--r-lg);background:var(--bg-light)}
 .ann p{font-size:16px;line-height:24px}
 .ann .acts{display:flex;flex-wrap:wrap;gap:8px 12px;margin-top:12px}
+.ann:not(.on) .acts{display:none}
 #ecart{margin-top:12px}
 .bonus{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:8px 16px;border:1px solid var(--bd-in);border-radius:var(--r-lg);text-decoration:none;font:600 14px/20px Inter,system-ui,sans-serif}
 .bonus:hover{background:var(--elev)}
@@ -132,7 +132,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 #cap{gap:4px 8px}.pastilles{gap:2px}.pastilles i{width:10px;height:10px}
 .sec{margin-top:16px}.sec h2{margin-bottom:8px}.p{padding:12px}
 }
-@media(max-width:299px){#cap #ecart{grid-column:1 / -1;margin-top:0}.ann{padding:8px 12px}.ann .btn{width:100%;white-space:normal;text-align:center;padding:12px}.ann p{font-size:14px;line-height:20px}}
+@media(max-width:299px){#cap #ecart{grid-column:1 / -1;margin-top:0}.ann.on{padding:8px 12px}.ann .btn{width:100%;white-space:normal;text-align:center;padding:12px}.ann p{font-size:14px;line-height:20px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -171,7 +171,11 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
   <div class="top"><h1>Parcours</h1></div>
 
   <!-- v8 : annonce de passage (niveaux-xp-s24.md 3.0 et 5.4). Région aria-live polie, présente dès le chargement, remplie après « valider l'étape » ; fermable, jamais retirée seule (au moins 10 s ou jusqu'à fermeture : ici, jusqu'à fermeture) ; lien « Ouvrir » seulement quand un bonus s'ouvre. Jamais dans « Aujourd'hui ». -->
-  <div id="annonce" aria-live="polite"></div>
+  <!-- v8.1 : seules les phrases sont dans la région vivante ; « Ouvrir » et « Fermer » sont dans un groupe voisin -->
+  <div id="ann" class="ann">
+    <div id="annonce" aria-live="polite"></div>
+    <div id="ann-b" class="acts" role="group" aria-label="Annonce"></div>
+  </div>
 
   <div class="pile">
     <!-- Bloc d'en-tête (5.4, 6.2) : « Tes 4 premières semaines » en quatre lignes (calendrier de 4.1), puis l'étape à reprendre, action de la page -->
@@ -299,11 +303,16 @@ function appliquer() {
   [...$("#pastilles").children].forEach((x, i) => x.classList.toggle("on", i < cap));
   /* « Tes bonus » : n'existe pas tant qu'aucun bonus n'est ouvert (cap 1), aucune phrase d'attente */
   $("#bonus").hidden = !(h.includes("bonus") || (explicite && cap >= 2));
-  $("#bonus").href = cap <= 4 ? "bonus.html#cap=" + Math.max(2, cap) : "bibliotheque.html#bonus";
+  $("#bonus").href = "bonus.html#cap=" + Math.max(2, cap); /* « Tes bonus » mène à la fiche du dernier bonus ouvert, cap 5 compris */
   $("#ecart").hidden = !(h.includes("ecart") || pm === "cap");
   const a = $("#annonce"), avecCap = pm === "cap-bonus" || pm === "cap", avecBonus = pm === "cap-bonus" || pm === "bonus";
-  a.innerHTML = !pm ? "" : '<div class="ann"><p>' + [avecCap ? "Nouveau cap : " + NOMS[cap] + "." : "", avecBonus ? "Un bonus s'ouvre dans la Bibliothèque : <span class=\"ph\">[Titre du bonus]</span>." : ""].filter(Boolean).join(" ") + '</p><div class="acts">' + (avecBonus ? '<a class="btn" href="bonus.html#cap=' + Math.max(2, Math.min(cap, 4)) + '">Ouvrir</a>' : "") + '<button id="ann-x" class="btn" type="button">Fermer</button></div></div>';
-  const ax = $("#ann-x"); if (ax) ax.addEventListener("click", () => { a.innerHTML = ""; });
+  /* Phrases seules dans la région vivante ; boutons dans le groupe voisin ; « Fermer » rend le focus à « Reprendre » */
+  a.innerHTML = !pm ? "" : "<p>" + [avecCap ? "Nouveau cap : " + NOMS[cap] + "." : "", avecBonus ? "Un bonus s'ouvre dans la Bibliothèque : <span class=\"ph\">[Titre du bonus]</span>." : ""].filter(Boolean).join(" ") + "</p>";
+  $("#ann-b").innerHTML = !pm ? "" : (avecBonus ? '<a class="btn" href="bonus.html#cap=' + Math.max(2, Math.min(cap, 5)) + '" aria-label="Ouvrir le bonus : [Titre du bonus]">Ouvrir</a>' : "") + '<button id="ann-x" class="btn" type="button" aria-label="Fermer l\'annonce">Fermer</button>';
+  $("#ann").classList.toggle("on", !!pm);
+  const ax = $("#ann-x"); if (ax) ax.addEventListener("click", () => { a.innerHTML = ""; $("#ann-b").innerHTML = ""; $("#ann").classList.remove("on"); $("#et-btn").focus(); });
+  /* la Bibliothèque garde le cap de l'abonné (jamais une retombée au cap 3) */
+  document.querySelectorAll("#liste .tab")[3].href = "bibliotheque.html#cap=" + cap;
   rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);
