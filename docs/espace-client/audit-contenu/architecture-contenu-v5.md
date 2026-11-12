@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v5 (s24)
 
+> REMPLACÉ par `architecture-contenu-v6.md` le 12/11/2026 après le tour 5 de relecture (Elon 9,3, Reviewer 8,6, UX 8,2). Ne plus s'y référer pour l'ordre des signaux, la carte de rafale, la détresse, le parcours par défaut, le bilan ni C9 à C11.
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v4.md`. Réponse aux tours 4 de relecture : @ux 8,0, @reviewer 8,1, @elon 8,7 (`iterations/tour-4-*.md`) et aux arbitrages de la session. Chaque correction est tracée en annexe A.
 > Faits vérifiés par la session dans le code et repris ici : `quiz-data.ts` l. 41 à 100 (OBSERVATEUR vers confiance ; STORYTELLER vers storytelling, sinon machine-a-cafe si le parcours n'est pas publié ; ABSURDE vers machine-a-cafe ; PUNCHLINEUR vers repartie ; TAQUIN vers repartie) ; le résultat du quiz n'est gardé que dans le navigateur (`localStorage`, `viral-quiz.tsx` l. 36 à 46) : rien en base, rien sur le compte ; playbook l. 595 (aide officielle, 3114 en cas de détresse) ; `glossary.ts` l. 79 (Accusé de réception) ; phrases juridiques de @legal dans `docs/legal/espace-client-s24-phrases.md`.
 > Sources relues pour ce tour : les 3 rapports du tour 4, le brief §0 (demande d'origine de Thomas, 10/11 : « les sections etc en haut vocabulaire etc »), `founder-preferences.md` (l. 85, 135, 136, 154, 161 à 165), INV (T3 corrigé par la session).
