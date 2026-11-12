@@ -1,61 +1,51 @@
 # Étalon E4 : « Écouter, repérer », Paul Mirabel (s24)
 
-Statut : **étalon structurel, NON publiable en l'état.** Le texte du passage n'a pas pu être relevé (aucun accès à la vidéo ni à ses sous-titres dans cette session). Tout ce qui dépend des phrases exactes ou des minutes est marqué `[À TRANSCRIRE]` ou `[À VÉRIFIER au visionnage]`. Rien n'est cité, rien n'est supposé présenté comme un fait. Décision de Thomas du 12/11 : « citations réelles et vérifiées seulement, transcription du passage avant production ».
+Passage retenu : **« le petit frère », de 2:12 à 2:53**, dans « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy, durée réelle **8 min 57 s** (API YouTube, `PT8M57S` ; le « 7 min 45 s » du seed était faux, à corriger dans `videos-seed.json` par @fullstack, hors périmètre de ce fichier).
+URL : https://www.youtube.com/watch?v=RYjfe8OSRFw (ouvrir à 2:12 : `&t=132s`).
 
-## 0. Ce qui est vérifié, et ce qui ne l'est pas
+**Citations vérifiées sur la transcription automatique de YouTube (`docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`), réécoute conseillée avant publication.** Les citations ci-dessous sont les seules autorisées dans la fiche. Les passages entre elles ne sont pas décrits, parce qu'ils ne sont pas dans la source. La phrase de la théorie du métro (7:05) est écartée : la reconnaissance automatique l'a probablement inversée.
 
-| Élément | Statut | Source |
-|---|---|---|
-| Titre YouTube réel : « Paul Mirabel - Je me suis fait racketter » | Vérifié | Relevé YouTube s20, `docs/copy/duel-videos-s20/titres-youtube.json` (id 8) |
-| Chaîne : Montreux Comedy ; durée 7 min 45 s ; identifiant `RYjfe8OSRFw` | Vérifié | même fichier ; URL : https://www.youtube.com/watch?v=RYjfe8OSRFw |
-| Le sketch est un passage de Mirabel au Montreux Comedy Festival, publié sous ce titre | Recoupé (presse et fiches web) | Vikidia https://fr.vikidia.org/wiki/Paul_Mirabel ; Koreus https://www.koreus.com/video/paul-mirabel-racketter.html |
-| Un extrait du sketch circule sous la légende « Petit frère ou frigo ? Le sketch hilarant de Paul Mirabel » | Recoupé (titre de la publication seulement) | TikTok @montreuxcomedy https://www.tiktok.com/@montreuxcomedy/video/7493209134607699222 |
-| Chiffres de vues, année du festival | **Non retenus** : les sources se contredisent (12, 20, 26, 27 millions) | |
-| Minute du passage, phrases exactes, structure interne du sketch | **NON vérifiés** | Les « learnings » existants du site sur cette vidéo (callback, rythme confidence) n'ont jamais été confrontés au visionnage ; ne pas les reprendre ici comme des faits |
-
-**À faire par une personne avant toute production** (10 minutes) : regarder la vidéo, choisir un passage de 1 à 2 minutes, noter minute de début et de fin, transcrire les 3 à 5 phrases utiles. Les emplacements sont prêts dans A et B.
-
-Note de choix : il existe un autre passage Mirabel déjà au catalogue (« Paul Mirabel & Gad Elmaleh - Conseils d'ami », `OR-1TUobxk8`), mais c'est un échange à deux, moins transposable seul. Le racket est le passage le plus connu de lui, donc celui que Yanis et ses potes ont le plus de chances d'avoir déjà vu.
+Pourquoi ce passage : c'est celui que Montreux Comedy a repris sur TikTok (« Petit frère ou frigo ? »), il tient en 41 secondes, et il contient un vrai mécanisme transposable : une menace qui retombe sur celui qui la lance.
 
 ---
 
-## Version A : la courte, un seul geste (environ 150 mots lus, 2 minutes de visionnage)
+## Version A : la courte, un geste (environ 190 mots)
 
-**Angle** : un seul repère, celui qu'on peut déjà affirmer sans avoir transcrit : le titre est la première phrase du sketch, et c'est un aveu. Exercice en fin de fiche.
+**Angle** : un seul mécanisme, l'exercice juste après. Fiche de 5 minutes pour le soir.
 
-### Écouter, repérer : « Je me suis fait racketter », Paul Mirabel
+### Écouter, repérer : « Je te préviens, j'appelle mon petit frère »
 
-**Le passage** : « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy (https://www.youtube.com/watch?v=RYjfe8OSRFw). Regarde de `[À TRANSCRIRE par une personne : minute X à Y de https://www.youtube.com/watch?v=RYjfe8OSRFw]`.
+**Le passage** : « Paul Mirabel - Je me suis fait racketter » (Montreux Comedy), de **2:12 à 2:53**.
 
-**Ce qu'il fait** : avant même la première blague, il t'a donné la pire info sur lui. Le titre l'annonce : il s'est fait racketter. Il n'y a plus rien à lui faire payer, la honte est déjà sur la table, et c'est lui qui la raconte. Repère le moment où tu te surprends à rire de lui sans te moquer. Note la phrase qui t'y fait basculer : `[À TRANSCRIRE : phrase de la minute X]`.
+**Ce qu'il fait** : il installe d'abord son petit frère, et il le fait avec une comparaison : « 1 mètre 90 pour 95 kilos, normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Tu as maintenant un gabarit en tête. Puis quelqu'un lui parle mal, et sa défense tombe : « Tu arrêtes ou j'appelle mon petit frère. » Celui qui devait se protéger est le grand frère, et il appelle le cadet. Il se donne le mauvais rôle, tout seul, sans que personne ait besoin de l'y mettre. Sans l'image du frigo, la chute n'aurait rien à retourner : c'est elle qui la rend possible.
 
-**Chez toi** : tu connais ton racket à toi, l'anecdote que tu espères que personne ne ressorte (le message envoyé au mauvais groupe, la présentation qui plante devant tout le monde, le restau où tu as répondu « toi aussi » au serveur). Celui qui la raconte le premier choisit l'angle. Les autres n'ont plus rien à ressortir.
+**Chez toi** : tu as sûrement quelqu'un dans ta vie qui te protège mieux que toi (un pote, une sœur, un collègue plus à l'aise). Tu peux en rire avant qu'on le fasse à ta place. Au pot de départ, au dîner de famille, en coloc.
 
-**5 minutes** : pose un minuteur. Écris ta pire anecdote en 3 phrases : ce qui s'est passé, ce que tu as fait ensuite, ce que tu aurais dû faire. Puis supprime tout ce qui t'excuse. Garde les faits, grossis seulement ta réaction. Lis-la à voix haute une fois. Si tu souris avant la fin, c'est bon.
+**5 minutes** : écris deux phrases. La première décrit la personne qui te sauve (un détail précis, comme le frigo). La seconde est ta menace : « Tu arrêtes ou j'appelle... ». Lis-les à voix haute. Si tu hésites sur le détail, choisis le plus chiffré ou le plus visuel.
 
 ---
 
-## Version B : la longue, trois repères et l'exercice AVANT le visionnage (environ 330 mots, 7 minutes de visionnage)
+## Version B : la longue, l'exercice avant l'écoute (environ 340 mots)
 
-**Angle** : une écoute avec une tâche. On donne la consigne avant de lancer la vidéo, comme on donne un jeu aux potes avant un film : « compte combien de fois il… ». Les trois repères sont des questions, pas des affirmations, pour ne rien prétendre sur le texte avant transcription.
+**Angle** : une écoute active, avec une tâche donnée avant de lancer la vidéo, et trois observations au lieu d'une. Pour une séance à deux ou pour préparer quelque chose.
 
-### Écouter, repérer : « Je me suis fait racketter », Paul Mirabel
+### Écouter, repérer : « Tu arrêtes ou j'appelle mon petit frère »
 
-**Avant de lancer la vidéo (2 minutes)** : prends une feuille. Écris une anecdote de ta semaine dont tu n'es pas fier, en deux phrases. Garde-la. Tu t'en sers à la fin.
+**Avant de lancer la vidéo (2 minutes)** : pense à quelqu'un qui te défend mieux que toi. Note un détail de lui, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le.
 
-**Le passage** : « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy, 7 min 45 s en entier (https://www.youtube.com/watch?v=RYjfe8OSRFw). Passage à regarder : `[À TRANSCRIRE par une personne : minute X à Y de https://www.youtube.com/watch?v=RYjfe8OSRFw]`, 1 à 2 minutes. Phrase d'ouverture du passage : `[À TRANSCRIRE]`.
+**Le passage** : « Paul Mirabel - Je me suis fait racketter » (Montreux Comedy), de **2:12 à 2:53**, 41 secondes. Lance la vidéo à 2:12.
 
-**Trois repères à chercher**
+**Trois choses à repérer**
 
-1. **L'aveu d'abord.** Le titre te dit déjà qu'il s'est fait racketter. Demande-toi : à quel moment est-ce qu'il se défend, et à quel moment il s'en garde ? Une personne qui se moque d'elle-même en premier te laisse sans rien à ajouter. `[À VÉRIFIER au visionnage : le moment exact où le public rit, minute X]`
-2. **Le détail qui revient.** Cherche un détail dit en passant, puis repris plus tard. `[À VÉRIFIER : existe-t-il dans le passage choisi ? Si non, remplacer ce repère par un autre relevé au visionnage ; ne pas le conserver tel quel]`
-3. **Le rythme.** Écoute où il s'arrête. Regarde si la salle rit pendant la pause ou juste après la phrase. `[À VÉRIFIER : minute des pauses notables]`
+1. **Le gabarit chiffré.** « J'ai un petit frère, mais qui est très musclé. » Puis les chiffres, et la comparaison : « normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Repère combien de temps il laisse l'image travailler avant d'avancer.
+2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Il revient à l'histoire en une phrase simple, sans effet. Repère ce que tu attends à cet instant, avant la phrase suivante.
+3. **Le renversement.** « Tu arrêtes ou j'appelle mon petit frère. » La phrase classique de l'intimidation, mais le cadet est la réserve de force du grand. Repère à quelle seconde la salle réagit : avant la fin de la phrase, ou après le dernier mot.
 
-**Ce que ça t'apprend** (une idée) : la honte racontée par toi-même devient un matériau, pas un risque. La différence ne tient pas à ce qui t'est arrivé, mais à qui parle en premier.
+**Le mécanisme** (une idée) : un renversement d'autorité par l'autodérision. Tu poses une image de force chez l'autre, puis tu te mets toi-même dans le camp du protégé. C'est la même gestuelle que « le faux secret » : le public croit savoir ce qui vient, et c'est toi qui le contredis, contre toi.
 
-**Chez toi** : la colocation qui rit d'un truc que tu as fait (raconte-le avant eux), le pot de départ où tu as une anecdote avec le collègue qui part (la tienne, pas la sienne), ou le soir seul : une raison de rire de toi sans te juger.
+**Chez toi** : le dîner où ta sœur reprend la discussion à ta place, la coloc où c'est ton pote qui parle au voisin, le bureau où tu envoies toujours la collègue demander l'augmentation. Raconte-le comme lui : un détail, puis la menace.
 
-**5 minutes, après le visionnage** : reprends la feuille. Réécris ton anecdote en trois phrases, la plus grosse en dernier. Retire les excuses. Dis-la une fois à voix haute, puis une fois à un proche si tu l'oses. Ne cherche pas la chute : cherche l'ordre.
+**5 minutes, après l'écoute** : reprends ton détail. Écris la phrase du gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis la menace « Tu arrêtes ou j'appelle... ». Dis-la une fois à voix haute, puis une fois à la personne si tu l'oses.
 
 ---
 
@@ -63,14 +53,13 @@ Note de choix : il existe un autre passage Mirabel déjà au catalogue (« Paul 
 
 | | A | B |
 |---|---|---|
-| Longueur | ~150 mots | ~330 mots |
-| Observations | 1, déjà vérifiable (le titre est l'aveu) | 3 repères, dont 2 en question à confirmer au visionnage |
-| Place de l'exercice | Après, un seul geste d'écriture | Avant (la tâche) puis après (la réécriture) |
-| Risque de vérité | Très faible : presque rien à confirmer | Plus élevé : 2 repères peuvent tomber au visionnage |
-| Format cible | Mobile, 5 minutes, Marc le soir | Séance à deux, Yanis et ses potes, Sophie pour préparer un pot |
+| Longueur | ~190 mots | ~340 mots |
+| Observations | 1 mécanisme, deux citations | 3 repères, quatre citations |
+| Place de l'exercice | Après, une écriture de deux phrases | Avant (le détail), puis après (l'écriture) |
+| Format cible | 5 minutes, seul le soir | Séance à deux, préparation d'un pot |
 
 ## Recommandation
 
-**A comme base de l'étalon, avec le repère 3 de B ajouté** si le visionnage le confirme. Raisons : l'architecture annonce 3 observations (3.7) mais n'autorise aucune observation non vérifiée ; A tient sur ce qui est établi, et la tâche « avant » de B est une bonne idée à garder pour le lot 1 (elle rend l'écoute active). Les repères 1 et 2 de B ne se publient que s'ils sont confirmés minute par minute.
+**B pour l'étalon**, A en version « fiche courte » dans le fil du jour. B fixe le format du lot 1 (la tâche avant l'écoute, trois repères, un mécanisme nommé) ; A prouve que la même fiche tient en cinq minutes.
 
-**Avant toute mise en ligne** : (1) transcription du passage par une personne (les phrases exactes ne doivent venir que de ce relevé ; citation courte, 1 à 2 phrases au plus) ; (2) visionnage par Thomas de ce passage (contrôle de vérité, 7.5) ; (3) relecture à l'aveugle (règle d'or : pas de contenu sous la barre). Sans cela, l'étalon fixe le format et le ton, pas le contenu.
+Avant toute mise en ligne : réécoute de 2:12 à 2:53 par une personne pour confirmer les quatre citations (transcription automatique), visionnage par Thomas (7.5), relecture à l'aveugle.
