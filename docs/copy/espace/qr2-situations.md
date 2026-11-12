@@ -1,6 +1,6 @@
-# QR2 : Quoi répondre, lot 2 (10 situations), tour 2
+# QR2 : Quoi répondre, lot 2 (10 situations), tour 3
 
-> Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR2 : soirée 5, boulot 4, réunion et entretien 1, marqué [HYPOTHÈSE d'ordre, tiré de 7.4] : répartition reprise telle quelle), `docs/espace-client/audit-contenu/architecture-contenu-v20.md`, format et conventions de `docs/copy/espace/qr1-situations.md`, fautes relevées dans `docs/copy/espace/relectures/qr1-tour-{1,2,3}-*.md`, étalons `docs/copy/etalons-espace-s24.md` (E1.1, E1.2), ton `docs/copy/ton-alex.md`.
+> Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR2 : soirée 5, boulot 4, réunion et entretien 1, répartition 5/4/1 conforme au plan et à 7.4 d'après @reviewer : l'hypothèse d'ordre est levée), `docs/espace-client/audit-contenu/architecture-contenu-v20.md`, format et conventions de `docs/copy/espace/qr1-situations.md`, fautes relevées dans `docs/copy/espace/relectures/qr1-tour-{1,2,3}-*.md`, étalons `docs/copy/etalons-espace-s24.md` (E1.1, E1.2), ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Les mots entre accents graves sont des écrans.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
 > **Statut : tour 2 (21 répliques réécrites d'après les trois relectures du tour 1), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
@@ -23,8 +23,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Presque personne. Mais toi, maintenant, ça fait un. »
-Tu réponds vrai (tu connais à peine du monde) et tu fais de l'autre ta première connaissance de la soirée : la phrase rend la parole sans rien demander. Elle ne vise personne. C'est la bonne quand tu ne sais pas encore si l'autre aime plaisanter.
+« Pas grand monde. Toi, depuis dix secondes. »
+Tu réponds vrai (tu ne connais presque personne) et tu fais de l'autre ta connaissance la plus récente de la soirée : la phrase rend la parole sans rien demander. Elle ne vise personne. C'est la bonne quand tu ne sais pas encore si l'autre aime plaisanter.
 
 **La joueuse**
 « Personne. J'ai encore toutes mes premières impressions à faire. »
@@ -107,8 +107,8 @@ Tu acceptes et tu décris ton style comme un corps qui n'est pas tout à fait sy
 Tu présentes ta façon de danser comme un numéro répété de longue date. L'écart entre « chorégraphie » et « aucun rapport avec la musique » fait la phrase. À sortir quand l'autre te tire par la main en souriant.
 
 **La risquée**
-« Parfait, je te prête le mien. Il s'appelle “le meuble qui hésite”. »
-Tu réponds à l'aveu de l'autre en lui offrant ton propre pas, avec un nom. Elle ne vise personne, seulement ton pas. Elle marche seulement si l'autre plaisante déjà de sa propre façon de danser. Sinon elle ne répond à rien : prends la sûre.
+« Je viens. Mon pas s'appelle “le meuble qui hésite”. Je te le prête. »
+Tu acceptes, tu donnes un nom à ton pas et tu l'offres à l'autre au lieu de t'excuser du tien. Elle ne vise personne, seulement ton pas. Elle marche seulement si l'autre plaisante déjà de sa propre façon de danser. Sinon elle ne répond à rien : prends la sûre.
 
 **Comment choisir**
 L'autre te tire en souriant ? Monte d'un cran. L'autre plaisante de son propre pas ? Monte encore. Sinon, reste sur la sûre.
@@ -121,8 +121,8 @@ Refuser en t'excusant (« non, je danse trop mal, vraiment, je gâche tout »). 
 Mets une chanson, lève-toi et dis la joueuse à voix haute en esquissant ton « pas ». Dix secondes. Pour aller plus loin : donne-lui un nom, dis-le à quelqu'un qui danse avec toi.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « L'autre te prend la main en souriant et ne dit rien de sa propre façon de danser » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur son pas, donc exiger qu'on copie le tien serait un test de trop.
-2. « L'autre ajoute en riant : “Je te préviens, je n'ai qu'un seul pas, et personne n'a jamais su lequel” » : la risquée. L'autre met son propre pas dans le jeu : « je te prête le mien » lui répond en face ; la joueuse parlerait de toi sans lui répondre, la sûre ne profiterait pas de ce que l'autre vient d'ouvrir.
+1. « L'autre te prend la main en souriant et ne dit rien de sa propre façon de danser » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur son pas, donc prêter ton pas à l'autre ne répondrait à rien.
+2. « L'autre ajoute en riant : “Je te préviens, je n'ai qu'un seul pas, et personne n'a jamais su lequel” » : la risquée. L'autre met son propre pas dans le jeu : « je te le prête » lui répond en face ; la joueuse parlerait de toi sans lui répondre, la sûre ne profiterait pas de ce que l'autre vient d'ouvrir.
 
 ### S4. Soirée : le verre renversé
 
@@ -135,8 +135,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je testais la table. Elle est étanche, bonne nouvelle. »
-Tu prends l'incident comme un test de la table, sans t'excuser ni l'amplifier. Elle ne vise personne et se ferme toute seule : on te passe une serviette et la soirée reprend. C'est la bonne quand les têtes ne sourient pas encore.
+« Je testais la table. Elle est étanche, je peux recommencer. »
+Tu prends l'incident comme un test de la table et tu en tires la conclusion la plus sereine possible, sans t'excuser ni l'amplifier. Elle ne vise personne et se ferme toute seule : on te passe une serviette et la soirée reprend. C'est la bonne quand les têtes ne sourient pas encore.
 
 **La joueuse**
 « Mon verre a demandé la parole. Je ne pouvais pas la lui refuser. »
@@ -174,15 +174,15 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 
 **La sûre**
 « Je file pendant que tout le monde m'aime encore. »
-Tu pars en laissant une bonne impression, avec une vanité assumée : mieux vaut partir aimé que rester trop longtemps. Elle ne vise personne et ne demande pas de justification. C'est la bonne quand l'autre ne sourit pas.
+Tu pars en laissant une bonne impression, avec une vanité assumée : mieux vaut partir sur une bonne impression que rester trop longtemps. Elle ne vise personne et ne demande pas de justification. C'est la bonne quand l'autre ne sourit pas.
 
 **La joueuse**
 « À minuit, mon énergie a fini son service. La relève ne viendra pas. »
 Tu parles de ton énergie comme d'une équipe de nuit : une fatigue qui a des horaires et un remplaçant qui n'arrivera jamais. Pas d'excuse, pas de détail. À sortir quand l'autre sourit en te retenant.
 
 **La risquée**
-« Oui : mon carrosse est un taxi, et le compteur tourne. »
-Tu réponds oui à l'image du carrosse que l'autre vient de lancer, et tu la ramènes à une réalité qui fait sourire : le compteur. Elle ne vise personne. Elle marche seulement si l'autre a déjà plaisanté sur ton départ. Sinon elle répond à une question que personne n'a posée : prends la sûre.
+« Mon carrosse est un taxi, et le compteur tourne. »
+Tu prends l'image du conte, minuit et le carrosse, et tu la ramènes à une réalité qui fait sourire : le compteur. Elle ne vise personne. Elle marche seulement si l'autre a déjà plaisanté sur ton départ. Sinon elle ressemble à une réponse trop travaillée : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en te retenant ? Monte d'un cran. L'autre plaisante déjà de ton départ ? Monte encore. Sinon, reste sur la sûre.
@@ -251,8 +251,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Avec plaisir. Je viens pour les gens, et pour les cacahuètes, dans cet ordre. »
-Tu acceptes et tu glisses une priorité qui fait sourire sans critiquer personne. Elle ne vise personne et ne t'engage à rien de plus qu'à venir. C'est la bonne quand tu ne connais pas encore la bande.
+« Avec plaisir. Je viens pour les gens. Les cacahuètes sont une coïncidence. »
+Tu acceptes et tu glisses un détail de mauvaise foi qui fait sourire sans critiquer personne. Elle ne vise personne et ne t'engage à rien de plus qu'à venir. C'est la bonne quand tu ne connais pas encore la bande.
 
 **La joueuse**
 « Je viens. J'ai même prévu une tenue : la même, en plus détendue. »
@@ -311,8 +311,8 @@ Trop en dire sur ton stress ou ton ignorance (« je ne comprends rien, personne 
 Écris deux petites réussites de ton premier jour (un badge, une salle trouvée, un prénom). Choisis celle qui te fait le plus sourire et dis-la à voix haute avec la sûre ou la joueuse.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne te le demande en traversant le couloir, sans s'arrêter, d'un hochement de tête poli » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne n'a proposé de t'aider, donc la risquée serait un pari lancé à quelqu'un qui n'a pas le temps.
-2. « Quelqu'un te le demande en souriant, en te tendant ta tasse, sans parler de ses collègues » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas proposé de t'aider avec les prénoms, donc la risquée engagerait un pari que personne n'a invité.
+1. « La personne te le demande en traversant le couloir, sans s'arrêter, d'un hochement de tête poli » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne n'a proposé de t'aider, donc la risquée imposerait une interro à quelqu'un qui n'a pas le temps.
+2. « Quelqu'un te le demande en souriant, en te tendant ta tasse, sans parler de ses collègues » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas proposé de t'aider avec les prénoms, donc la risquée proposerait une interro que personne n'a demandée.
 
 ### B4. Boulot : « Bravo pour la présentation d'hier ! »
 
@@ -369,8 +369,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je prends les notes. Un peu moins vite, je n'ai qu'un stylo. »
-Tu te portes volontaire et tu demandes seulement un rythme de parole, avec un détail matériel dérisoire : un seul stylo. Elle ne vise ni la réunion ni personne, et libère la salle. C'est la bonne quand la réunion est tendue.
+« Je prends les notes. Je n'ai qu'un stylo, donc une idée à la fois. »
+Tu te portes volontaire et tu tires une conséquence comique d'un détail matériel : un seul stylo, donc une seule idée à la fois. Elle ne vise ni la réunion ni personne, et libère la salle. C'est la bonne quand la réunion est tendue.
 
 **La joueuse**
 « Je note. Mon écriture est illisible, donc tout reste confidentiel. »
@@ -490,6 +490,32 @@ Résultat : **0 occurrence exacte** pour chacune des 21 répliques neuves (reche
 | Langue (reviewer, @elon, critique) | S2 contexte 2 : « on dirait une pub pour une assurance » ; S3 : « numéro répété de longue date » (plus de « préparé » deux fois) ; S4 : « personne n'a demandé » ; S3 scène : « 23 h » (plus de « samedi, minuit » en double avec S5) ; S1 : « elle-même » et « venu » écartés. |
 | Répartition 5/4/1 (reviewer) | Conforme au plan et à 7.4 : l'[HYPOTHÈSE] est levée. |
 
+## Annexe 5 : candidates du tour 3 (3 par réplique réécrite, la meilleure gardée)
+
+| Situation | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|
+| S1 sûre | « Pas grand monde. Toi, depuis dix secondes. » | « Personne. Mais les soirées commencent toujours par un. » (contredit les « Presque personne » de la sûre ; « Personne » est le registre de la joueuse) | « Presque personne. Mais toi, maintenant, ça fait un. » (« presque personne » fait « un de plus », pas « un ») |
+| S3 risquée | « Je viens. Mon pas s'appelle “le meuble qui hésite”. Je te le prête. » | « Je viens, avec mon pas : “le meuble qui hésite”. Je te le prête. » (même idée, moins nette à l'oral) | « Parfait, je te prête le mien. Il s'appelle “le meuble qui hésite”. » (« le mien » sans antécédent dans la scène) |
+| S4 sûre | « Je testais la table. Elle est étanche, je peux recommencer. » | « Je testais la table. Elle est étanche, bonne nouvelle. » (fin plate) | « Je testais la table. Elle est imperméable : bonne nouvelle pour la suite. » (pose un poids sur la suite) |
+| S5 risquée | « Mon carrosse est un taxi, et le compteur tourne. » | « Oui : mon carrosse est un taxi, et le compteur tourne. » (« Oui » répond à une question qui n'est que dans le contexte 2) | « Mon carrosse est une citrouille : elle roule vite. » (chute attendue) |
+| R1 sûre | « Je prends les notes. Je n'ai qu'un stylo, donc une idée à la fois. » | « Je prends les notes. Je n'ai qu'un stylo : on parle par ordre d'importance. » (pique la réunion, dans la réplique sans risque) | « Je prends les notes. Un peu moins vite, je n'ai qu'un stylo. » (chute obscure : moins vite que qui ?) |
+| B2 sûre | « Avec plaisir. Je viens pour les gens. Les cacahuètes sont une coïncidence. » | « Avec plaisir. Je viens pour les gens, et pour les cacahuètes, dans cet ordre. » (tournure d'usage) | « Avec plaisir. Je viens, je prends deux cacahuètes, et je deviens quelqu'un de très sociable. » (long, 16 mots) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 6 répliques modifiées au tour 3 (S1 sûre, S3 risquée, S4 sûre, S5 risquée, R1 sûre, B2 sûre), phrases entières entre guillemets.
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Réplique qui répond à une phrase présente seulement au contexte 2 (reviewer, critique) | S3 risquée : « Je viens. Mon pas s'appelle “le meuble qui hésite”. Je te le prête. » (marche depuis la scène seule) ; S5 risquée : « Mon carrosse est un taxi, et le compteur tourne. » (« minuit » suffit à appeler le conte) ; leurs pourquoi ne parlent plus de « l'aveu » ni de « l'image que l'autre vient de lancer ». |
+| Sûres faibles (critique, reviewer) | S1 sûre : « Pas grand monde. Toi, depuis dix secondes. » ; S4 sûre : « Elle est étanche, je peux recommencer. » ; R1 sûre : « Je n'ai qu'un stylo, donc une idée à la fois. » ; B2 sûre : « Je viens pour les gens. Les cacahuètes sont une coïncidence. » |
+| « tu connais à peine du monde » (@elon, reviewer) | S1 sûre, pourquoi : « tu ne connais presque personne ». |
+| « exiger qu'on copie le tien » (reviewer, @elon) | S3 contexte 1 : « prêter ton pas à l'autre ne répondrait à rien » ; S3 contexte 2 : « je te le prête » lui répond en face. |
+| « partir aimé », accord masculin (reviewer, @elon) | S5 sûre, pourquoi : « mieux vaut partir sur une bonne impression que rester trop longtemps ». |
+| « pari » au lieu d'« interro » (reviewer, @elon) | B3 contextes 1 et 2 : « imposerait une interro », « proposerait une interro que personne n'a demandée ». |
+| En-tête (@elon) | l. 3 : « l'hypothèse d'ordre est levée », aligné sur la table du tour 2 et l'avis de @reviewer. |
+| Pourquoi des répliques changées (reviewer) | S1, S3, S4, S5, R1, B2 : chaque pourquoi décrit la réplique actuelle. |
+
 ## Contrôles tenus (auto-évaluation)
 
 - Accords : aucune répartie de l'utilisateur ne s'accorde (« m' » + participe évités ; « prêt », « bon », « chargé », « venu » écartés). L'autre est « l'autre », « quelqu'un », « la personne ».
@@ -500,7 +526,7 @@ Résultat : **0 occurrence exacte** pour chacune des 21 répliques neuves (reche
 
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr2-situations.md` (tour 2) : 21 répliques réécrites sur 30, 9 inchangées, 42 candidates écartées en annexe 3 (la table « Tour 2 : retouche → ligne » donne chaque ligne changée).
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr2-situations.md` (tour 3) : 21 répliques réécrites au tour 2 dont 6 reprises au tour 3 (S1, S3, S4, S5, R1, B2 : annexe 5), 9 inchangées, 42 candidates écartées en annexe 3 (la table « Tour 2 : retouche → ligne » donne chaque ligne changée).
 - Fautes de QR1 corrigées (« n'a rien plaisanté », « lui-même », deuxième essai) ; moule « si / contre / à condition » réduit à B1 et B2.
 - Rafale : 20 contextes inchangés dans leur logique (10 joueuses, 5 sûres, 5 risquées), pourquoi de rafale réalignés sur les nouvelles répliques (S1, S2, S3, S5, B1, B2, B4).
 - Web : 0 occurrence exacte sur les 21 répliques neuves (annexe 4). À repasser à l'aveugle : les 21 lignes réécrites uniquement.
