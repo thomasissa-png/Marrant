@@ -1,213 +1,261 @@
-# Niveaux et XP de l'espace Premium (s24)
+# Niveaux et XP de l'espace Premium (s24), v2
 
-> Auteur : @product-manager, 12/11/2026. Brouillon à relire à l'aveugle (@reviewer, @ux, @elon) jusqu'à 10/10 avant d'être montré à Thomas. Décision de départ : Q9 du 12/11, « profitons de l'occasion pour revoir tout ça et itérer » (`founder-preferences.md`, dernière ligne).
-> Conventions : [À VÉRIFIER] = fait non lu dans cette session. [HYPOTHÈSE] = choix de travail. Aucun chiffre d'usage n'est inventé : il y a 4 abonnés actifs au 02/11, donc aucune mesure de comportement. Les noms et libellés proposés ne contiennent ni tiret cadratin ni émoji.
-> Fichiers lus : `apps/web/src/lib/progression.ts`, `lib/parcours-xp.ts`, `app/api/parcours/[id]/progress/route.ts`, `app/api/user/xp/route.ts`, `components/profil/profil-dashboard.tsx`, `lib/utils.ts` (USER_LEVELS), `config/textes/parcours.ts`, modèle `User` du schéma Prisma, `docs/content/progression-levels.md`, architecture de contenu v11 (résumé, §2, §4, C4, C7), et les captures de progression `docs/qa/captures-parcours-boulot-s19/` pour les totaux d'XP.
+> **v2**, @product-manager, 12/11/2026. Remplace la v1 (tour 1 : @reviewer 6,6, @ux 6,3, @elon 6,2). Brouillon à relire à l'aveugle (@reviewer, @ux, @elon) jusqu'à 10/10 avant d'être montré à Thomas. Décision de départ : Q9 du 12/11, « profitons de l'occasion pour revoir tout ça et itérer ». Annexe A : correction par correction, le traitement.
+> Conventions : [À VÉRIFIER] = fait non lu ; [HYPOTHÈSE] = choix de travail. Aucun chiffre d'usage n'est inventé (4 abonnés actifs au 02/11, aucune mesure de comportement). Noms et libellés proposés : ni tiret cadratin ni émoji.
+> **Vocabulaire** : trois choses s'appellent déjà « niveau » : la difficulté d'un parcours (débutant, intermédiaire : C7, « niveaux actuels »), le filtre de difficulté de la liste des conseils, et l'échelle d'XP traitée ici. Pour éviter la confusion, **ce document appelle l'échelle d'XP un « cap »** (« cap 3 sur 5 ») et réserve « niveau » à la difficulté. Le code garde `level` en interne. Le mot est soumis à Thomas (Q3).
 
 ## Résumé pour Thomas (sans jargon)
 
-- **Aujourd'hui** : 5 niveaux (Novice, Apprenti, Farceur, Comique, Légende). Tout ce qu'un abonné peut gagner dans les 5 parcours fait **3 100 XP**. Le dernier niveau demande 5 000 : **il est inatteignable**. Un abonné très assidu s'arrête à « Comique », avec une barre qui reste bloquée à moitié (46 %).
-- **Ce qu'un niveau change** : seulement l'affichage d'une carte « Progression » dans le profil. Aucun contenu ne s'ouvre ou ne se ferme selon le niveau.
-- **Ce que je recommande** : garder 5 niveaux, **ne rien changer à ce qui rapporte des XP** (tes valeurs validées en étalons), **recaler les seuils** pour que le dernier niveau soit atteignable, et **changer les noms** : ils décrivent aujourd'hui un verdict (« Comique », « Légende ») alors qu'on mesure une activité. Trois jeux de noms à choisir (section 3).
-- **Ce que ça ne fait pas** : pas de classement, jamais de baisse de niveau, pas de relance, pas de contenu verrouillé, pas de certificat.
-- **4 questions pour toi** en section 4, dont une qui rouvre ta décision du 12/11 (C4).
+- **Un fait nouveau change le diagnostic** : en plus des étapes (50 à 200 XP) et du bonus de fin de parcours (100), **ouvrir un conseil rapporte 10 XP**, et rien ne l'empêche de se répéter : l'anti-doublon n'existe que dans la page ouverte, il repart à zéro à chaque rechargement. Pire, c'est le navigateur de l'abonné qui annonce le montant (de 1 à 500 par appel, 30 appels par minute). **Il n'y a donc aujourd'hui aucun plafond** : le dernier niveau (5 000 XP) peut être atteint en quelques minutes, par des clics ou par un appel à la main. Le niveau actuel ne mesure rien de fiable.
+- **Correction de sécurité, sans te la demander** (elle ne change aucune règle, elle empêche la triche) : le serveur fixera lui-même le gain, et un conseil ne rapportera qu'une fois par compte. Les XP déjà acquis ne bougent pas.
+- **Ce que je te demande** : 5 questions, dans l'ordre : (1) garder ou retirer les 10 XP par conseil lu, (2) comment on passe d'un cap à l'autre (3 règles, dont une qui mesure un progrès réel, au prix de toucher à l'esprit de ta décision C4), (3) les noms et le mot « cap », (4) la distance du dernier cap, (5) ce qu'un cap débloque.
+- **Reco** : retirer les 10 XP par conseil, garder la règle « XP de parcours recalés » (0, 100, 300, 700, 2 300), noms « Tu + verbe », rien de débloqué.
+- **Jamais, dans aucune option** : la courbe « Tu avais une réponse ? » ne rapporte ni XP ni cap ; pas de classement, pas de baisse, pas de relance, pas de certificat, pas de contenu verrouillé.
 
 ## 1. État réel (code lu)
 
-### 1.1 Combien d'XP gagnables au total
+### 1.1 Les sources d'XP, toutes
 
-| Parcours | Étapes | Total gagnable (étapes + bonus de fin de 100) | Source |
+| Source | Montant | Anti-doublon | Où |
 |---|---|---|---|
-| Machine à Café | 3 | 325 | test `progression-s17.test.ts` (« 325, pas 225 ») |
-| Répartie | 4 | 475 | capture s19, « 0 XP gagné sur 475, bonus de fin compris » |
-| Confiance | 6 | 800 | capture s19, « 50 XP gagnés sur 800 » |
-| Storytelling | 6 | 800 | capture s19, idem |
-| Boulot | 6 | 700 | capture s19, « 0 XP gagné sur 700 » |
-| **Total** | **25** | **3 100** (dont 2 600 d'étapes et 500 de bonus) | somme |
+| Étape de parcours validée | 50 à 200 selon l'étape (moyenne 104 sur 25 étapes) | en base : une validation par étape et par abonné | `app/api/parcours/[id]/progress/route.ts` |
+| Bonus de fin de parcours | 100 | en base : une fois par parcours | idem, `PATH_COMPLETION_BONUS_XP` |
+| **Conseil ouvert (Premium)** | **10** | **seulement dans la page ouverte** (`useState(new Set())`), remis à zéro à chaque chargement | `components/conseils/conseils-list.tsx` l. 175 à 178 (`addXp(10, "tip_read")`) |
+| **Appel libre à l'API** | **montant choisi par le navigateur, 1 à 500** | aucun | `app/api/user/xp/route.ts` (`amount: z.number().min(1).max(500)`, 30 appels par minute, Premium) ; `stores/user-store.ts` l. 52 à 61 |
 
-- Une étape rapporte entre 50 et 200 XP selon le seed (moyenne de 104 sur les 25 étapes : 2 600 / 25). L'étape 1 de Machine à Café vaut 50 (lue dans `parcours-seed.json`).
-- [À VÉRIFIER @fullstack] Les totaux viennent d'affichages de captures (s19) et d'un test, pas d'une somme refaite sur les trois fichiers de seed actuels. Les parcours Storytelling et Boulot ne comptent que s'ils sont publiés (`parcours-publication`).
-- **Seules sources d'XP lues dans le code** : la validation d'une étape (XP de l'étape) et le bonus de fin de parcours (100). Une troisième voie existe : `POST /api/user/xp` accepte un montant de 1 à 500 envoyé par le navigateur d'un abonné Premium. [À VÉRIFIER @fullstack] qui l'appelle encore. Si personne, elle permet de s'attribuer des XP à la main : 10 appels de 500 donnent aujourd'hui « Légende », et le niveau n'a alors plus de sens.
-- Conforme à C4 (12/11) : la rafale quotidienne et les fiches ne rapportent aucun XP.
-- `docs/content/progression-levels.md` est **obsolète, vérifié** : il décrit des gains (+2 par blague lue, +5 par connexion, bonus de série, badges) qui n'existent dans aucun des deux chemins de crédit lus, et une série comptée sur la connexion alors que la décision du 07/10 la compte sur la pratique.
+- **Totaux des parcours**, somme des `moduleXp` des seeds (relue par @reviewer, `parcours-seed.json`, `parcours-storytelling-s18.json`, `parcours-boulot-s19.json`) : Machine à Café 325 (3 étapes), Répartie 475 (4), Confiance 800 (6), Storytelling 800 (6), Boulot 700 (6) = **3 100 XP** (2 600 d'étapes + 500 de bonus), 25 étapes. Storytelling et Boulot ne comptent que s'ils sont publiés (interrupteurs `parcours-publication`) : sans Storytelling le total est 2 300, sans Boulot 2 400. [À VÉRIFIER] état des interrupteurs au jour du déploiement.
+- **Conseils** : 120 conseils actifs au 12/11 (architecture v11 §1.1) × 10 = **1 200 XP au plus** si chaque conseil est payé une seule fois, donc **4 300 XP gagnables** au total dans ce cas. Le stock de conseils n'est pas fixe : le total bouge avec le catalogue [À VÉRIFIER : les conseils générés s'ajoutent-ils au stock actif ?].
+- **Vitesse aujourd'hui** : ouvrir et refermer des conseils : jusqu'à 300 XP par minute (30 appels de 10) ; appeler l'API à la main : jusqu'à 15 000 XP par minute (30 appels de 500). « Légende » (5 000) tombe en moins de 20 minutes de clics, et le seuil 2 300 proposé en v1 en moins de 8 minutes.
+- **`docs/content/progression-levels.md` est en partie obsolète** : le gain « +10 par conseil lu » existe bel et bien (c'est la seule ligne de son tableau qui existe dans le code) ; le reste (blague +2, connexion +5, bonus de série, badges) n'existe nulle part dans ce que j'ai lu, et sa série « sur la connexion » contredit la décision du 07/10. Le document sera remplacé par le barème retenu.
+- **Conforme à C4 ?** C4 (12/11) : « aucune nouvelle règle de série ni de points pour l'entraînement et les fiches ». La lecture d'un conseil est une règle **existante**, pas nouvelle : C4 ne la tranche pas. Elle fait pourtant gagner des points à une « fiche » du catalogue (le conseil de chaque étape devient la fiche 1.1 dans l'architecture). C'est la question 1.
 
-### 1.2 En combien de temps, pour un abonné régulier
+### 1.2 Ce que l'abonné peut atteindre aujourd'hui
 
-- **Rythme conseillé** : une étape par semaine, étape suivante conseillée 7 jours après la dernière validation (rythme doux, rien n'est bloqué).
-- [HYPOTHÈSE] « abonné régulier » = une étape par semaine. Aucune donnée d'usage ne le confirme.
-- Au rythme conseillé, **25 étapes = 25 semaines, environ 6 mois**, si les parcours se suivent. Rien n'empêche d'aller plus vite : valider une étape est un geste déclaratif (le quiz d'étape précède, la validation est un clic). Un abonné pressé peut atteindre 3 100 XP en un week-end. **Le niveau mesure donc une activité déclarée, pas une compétence en répartie.**
-- Le niveau ne descend jamais : le code ne fait qu'incrémenter l'XP et recalcule le niveau vers le haut.
+- Seuils : Novice 0, Apprenti 100, Farceur 500, Comique 1 500, Légende 5 000.
+- **Par les parcours seuls** : 3 100 XP, soit 62 % de 5 000 : « Légende » est inatteignable par le travail, plafond « Comique » avec une barre à 46 % (1 600 sur 3 500).
+- **Par les conseils et l'API** : aucun plafond. Un abonné qui ouvre 70 conseils différents gagne 700 XP en quelques minutes, sans une étape de parcours. Le niveau ne dit donc rien de fiable, ni sur l'activité ni sur le progrès.
+- Rythme conseillé des parcours : une étape par semaine, étape suivante conseillée 7 jours après la dernière (rythme doux, rien n'est bloqué). [HYPOTHÈSE] « abonné régulier » = une étape par semaine ; 25 étapes = environ 6 mois ; aucune donnée d'usage ne le confirme. Le niveau ne descend jamais (l'XP ne fait qu'augmenter).
+- Cumuls de fin de parcours (étapes seules, sans conseils) : Sophie (Machine à Café puis Boulot) 325 à la semaine 3, 1 025 à la semaine 9 ; Yanis (Répartie puis Confiance) 475 (sem. 4), 1 275 (sem. 10) ; Marc (Confiance puis Storytelling) 800 (sem. 6), 1 600 (sem. 12).
 
-### 1.3 Où l'abonné plafonne
+### 1.3 Ce qu'un niveau change à l'écran aujourd'hui
 
-- Seuils actuels : Novice 0, Apprenti 100, Farceur 500, Comique 1 500, Légende 5 000.
-- 3 100 XP = **62 % des 5 000** demandés. Plafond réel : **Comique**.
-- À 3 100 XP, la barre affiche 1 600 sur 3 500 (46 %) vers « Légende » et la phrase « Ça avance, et ça commence à s'entendre » : l'abonné qui a **tout fait** voit une barre à moitié. C'est le défaut le plus visible.
-- Passages au fil des parcours (totaux de fin de parcours seulement, sans inventer de valeur par étape) :
+- Un seul écran : la carte « Progression » de `/profil` (Premium) : icône emoji, nom, total d'XP, barre avec pourcentage, « Prochain niveau : X », une phrase parmi cinq (`PROGRESSION_NIVEAU`).
+- À chaque gain : une bulle « +X XP » (qui contient un emoji dans le code) ; côté serveur, un indicateur `levelChanged`. [À VÉRIFIER @fullstack] si l'écran affiche un message de passage de niveau.
+- Rien ne s'ouvre ni ne se ferme selon le niveau, dans les fichiers lus. Dette : les seuils existent en double (`XP_THRESHOLDS` dans `progression.ts`, `USER_LEVELS` dans `utils.ts`) et le niveau est un type fermé en base (`UserLevel`, 5 valeurs).
 
-| Cas (1 étape par semaine) | Cumul de fin de parcours | Niveau actuel à la fin |
-|---|---|---|
-| Sophie : Machine à Café puis Boulot | 325 (sem. 3), 1 025 (sem. 9) | Apprenti, puis Farceur |
-| Yanis : Répartie puis Confiance | 475 (sem. 4), 1 275 (sem. 10) | Apprenti, puis Farceur |
-| Marc : Confiance puis Storytelling | 800 (sem. 6), 1 600 (sem. 12) | Farceur, puis Comique |
+### 1.4 Inventaire des textes qui citent niveaux ou XP
 
-Le niveau « Comique » arrive ainsi après 12 semaines ou plus, et seulement en enchaînant deux gros parcours. Sophie et Yanis, sur leurs parcours naturels, ne l'atteignent pas.
+Recherche faite par lecture ciblée et par le contrôle de @reviewer (aucun texte public ne nomme les cinq niveaux : seule occurrence des noms, `lib/utils.ts`). **Pas de recherche plein texte possible dans cette session** : les lignes marquées [À VÉRIFIER] sont à confirmer par @fullstack.
 
-### 1.4 Ce qu'un niveau change à l'écran aujourd'hui
+| Texte | Où | Touché par | Go de Thomas |
+|---|---|---|---|
+| Noms et icônes des 5 niveaux | `lib/utils.ts` (`USER_LEVELS`) | tout changement de noms | oui (étalons de noms, Q3) |
+| Cinq phrases de la carte (« Niveau maximum… », « Niveau X atteint… ») | `config/textes/parcours.ts` (`PROGRESSION_NIVEAU`) | changement du mot « niveau » en « cap » | oui |
+| « +X gagnés ! », « X XP gagnés sur N, bonus de fin compris » | `config/textes/parcours.ts` (`XP_GAIN`, `xpProgressionTexte`) | **aucune proposition** : textes validés, XP et bonus intouchables (étalons s17, choix du 11/10) | non, inchangés |
+| Bulle « +X XP » (avec émoji) et sa lecture vocale | `components/ui/xp-notification.tsx` | spécification d'accessibilité (3.0) ; disparaît pour les conseils si Q1 = retirer | oui pour l'émoji retiré |
+| **FAQ « Nos membres gagnent en moyenne 50 XP par semaine »** | `lib/faqs.ts` l. 21 | **rien** : phrase gardée par Thomas le 29/09 (aucun chiffre du site retiré ou remplacé sans son go). Ce document ne la modifie pas, ne la contredit pas et ne s'en sert pas comme donnée | oui, pour toute retouche |
+| Filtre « niveaux » de la liste des conseils | `components/conseils/conseils-list.tsx` | aucun (difficulté des conseils) : c'est la raison du mot « cap » | non |
+| Difficulté des parcours (« débutant », « intermédiaire ») | seeds, C7 | aucun | non |
+| Positionnement « progression gamifiée (XP, streak, niveaux) » | `project-context.md` | wording interne | non |
+| E-mails approuvés, pages d'offre, fiche App Store | `docs/copy`, e-mails | [À VÉRIFIER] recherche des cinq noms et de « XP » | oui pour chaque texte trouvé |
+| App iPhone (en préparation) | [À VÉRIFIER] lit-elle `level` et `streak` du compte ? | tout changement de libellé ou de seuil | oui |
 
-- Un seul endroit lu : la carte « Progression » de `/profil` (Premium seulement) : une icône emoji, le nom du niveau, le total d'XP, une barre vers le niveau suivant avec pourcentage, « Prochain niveau : X » et une phrase selon l'avancement (cinq phrases dans `PROGRESSION_NIVEAU`).
-- Au moment où une étape est validée : une bulle « +X XP » (qui contient un emoji dans le code) et, côté serveur, un indicateur `levelChanged`. [À VÉRIFIER @fullstack] si l'écran affiche un message de changement de niveau.
-- **Rien d'autre** : aucun contenu, aucune fonction, aucune page ne dépend du niveau dans les fichiers lus [À VÉRIFIER par une recherche de `user.level` dans `apps/`]. Hors abonnement, l'affichage disparaît, les données restent.
-- Dette technique : les seuils existent **en double** (`XP_THRESHOLDS` dans `progression.ts` et `USER_LEVELS` dans `utils.ts`) ; le niveau est un type fermé en base (`UserLevel`, 5 valeurs).
+Le mot « XP » reste dans toutes les options (il est dans la FAQ validée).
 
 ## 2. Diagnostic
 
-### 2.1 Les noms
+### 2.1 Les noms actuels
 
-| Nom actuel | Problème |
+| Nom | Problème |
 |---|---|
-| Novice | Vocabulaire de jeu ou de classe : « tu es débutant » est la première chose que lit Yanis, qui manque déjà de confiance. |
-| Apprenti | Registre scolaire et hiérarchique (maître et élève). Les trois mots qui ne définissent pas la marque : Corporate, **Scolaire**, Vulgaire. |
-| Farceur | Du ton maison, mais décrit un farceur (faire des blagues), pas quelqu'un qui a de la répartie, le cœur de l'offre. |
-| Comique | Un verdict : l'espace dit « tu es comique ». Aucun mécanisme ne le prouve (XP déclarés). |
-| Légende | Promesse démesurée et, en plus, inatteignable. |
-
-Bilan : deux noms scolaires, deux verdicts de compétence, un nom hors sujet. Rien ne rattache l'échelle au moment où l'on sent qu'on a progressé.
+| Novice, Apprenti | Registre de jeu ou scolaire (la marque exclut « Scolaire »). Dit « débutant » à quelqu'un qui manque déjà de confiance. |
+| Farceur | Du ton maison, mais décrit celui qui fait des blagues, pas celui qui a de la répartie. |
+| Comique | Un verdict de talent que rien ne prouve (XP déclarés et falsifiables). |
+| Légende | Promesse démesurée, et inatteignable par le travail. |
 
 ### 2.2 Les seuils
 
-- **Atteignables ?** Pas tous : le dernier est à 5 000 pour 3 100 gagnables.
-- **Motivants ?** Le premier passage (100 XP, après une ou deux étapes) est bon pour Yanis : récompense rapide. Le grand creux est entre 500 et 1 500 : les trois personas y restent de la semaine 5 à la fin du premier grand parcours.
-- **Mal calés sur la structure réelle** : les seuils ne correspondent à aucun événement lisible (un parcours bouclé, deux parcours). Les nouveaux seuils proposés sont donc **accrochés aux fins de parcours** (325, 475, 700, 800 sont les totaux réels).
-- **Fragilité** : ajouter, retirer ou retoucher un parcours déplace les totaux sans que personne ne regarde les seuils. Garde-fou proposé en section 3 (test automatique).
+- **Aucun plafond réel** (1.1) : avant de recaler des seuils, il faut un total qui ait un sens. D'où la correction de sécurité (2.5) et la question 1.
+- Le premier palier (100 XP, une ou deux étapes) est bon pour Yanis. Le grand creux est entre 500 et 1 500 : les trois personas y restent de la semaine 5 à la fin du premier grand parcours.
+- Les seuils proposés s'accrochent aux **fins de parcours** (325, 475, 700, 800 sont des totaux réels) **seulement si les conseils ne rapportent plus d'XP** : avec 1 200 XP de conseils en plus, aucun seuil ne se lit plus comme « un parcours bouclé ».
 
-### 2.3 Le rôle des niveaux : activité, pas progrès réel
+### 2.3 Le rôle du cap : repère d'activité, jamais mesure de la répartie
 
-- Le progrès réel en répartie est **mesuré ailleurs** dans l'espace : la courbe « Tu avais une réponse ? » de « Ton mois » (v11 §2.2), auto-déclarée, sans note ni pente colorée.
-- Le niveau, lui, ne dit que « combien de parcours as-tu avancé ». Il n'a de valeur que comme **repère de chemin** et petit plaisir de franchir un cap. Il doit donc : (1) ne jamais prétendre mesurer le talent, (2) ne jamais passer devant la courbe, (3) ne pas servir de motif de relance.
-- Conséquence de C4 (12/11) : un abonné qui ne fait que la rafale quotidienne ne gagne ni XP ni niveau. C'est cohérent avec la décision, mais le niveau décrit alors **les parcours et rien d'autre**. À dire clairement à l'écran (« tes parcours ») plutôt que de laisser croire qu'il résume tout l'espace.
+- Le progrès réel en répartie est mesuré **ailleurs** : la courbe « Tu avais une réponse ? » de « Ton mois » (v11 §2.2), auto-déclarée. **Règle écrite : la réponse à « Tu avais une réponse ? » ne rapporte ni XP ni cap, aujourd'hui ni plus tard.** Un indicateur déclaratif qu'on récompense cesse de mesurer : « Oui » deviendrait un moyen de monter (indicateur n°1 de l'espace, v11 §7.6).
+- Un cap fondé sur les XP dit seulement « tu as avancé dans les parcours ». Il le dit à l'écran (« tes parcours »), sans prétendre résumer l'espace.
+- Seule la règle C (3.3) ferait dire au cap quelque chose de vrai sur la personne, au prix des limites exposées plus bas.
 
 ### 2.4 Les risques
 
-| Risque | Où il se loge | Garde-fou retenu dans les propositions |
+| Risque | Où | Garde-fou |
 |---|---|---|
-| Pression, « il me manque 340 XP » | Barre avec pourcentage et compte à rebours | Pas de pourcentage ni d'XP restants sur la barre de niveau ; seul le nom du prochain repère est dit |
-| Culpabilité de la baisse ou de la série | Niveau qui retombe, série à 0 | Niveau jamais en baisse (déjà vrai) ; la phrase de série à zéro reste « Ta série démarre à ta prochaine étape » |
-| Verdict de compétence | Noms « Comique », « Légende » | Noms qui disent une position ou une action, jamais « tu es drôle » |
-| Certificat déguisé | Dernier niveau vécu comme un diplôme | Décision du 07/10 : pas de certificat de fin ; aucun visuel de diplôme, aucune page partageable |
-| Verrou caché | Niveau qui ouvre du contenu | Décisions du 18/10 (tout reste ouvert) et du 19/10 (Premium = tout ouvert) : un niveau ne débloque rien |
-| Pression sociale | Classement, niveau visible des autres | Règles v11 : aucun classement, aucune note qui juge ; niveau visible seulement de l'abonné |
-| Relance | Notification « tu es à 50 XP du niveau » | Règles v11 et Q6 (12/11) : cloche pour les contenus et les réponses de l'équipe seulement, jamais de relance d'inactivité |
-| Triche | Appel libre à `/api/user/xp`, validation par clic | Vérification par @fullstack (1.1) ; le niveau ne porte aucune récompense, donc l'enjeu reste faible |
-| Rouvrir un choix documenté | Toucher aux XP d'étape, au bonus, à la série | P0 s8 : un `[CHOIX UTILISATEUR]` n'est pas re-questionné. Les XP et le bonus sont « intouchables » depuis les étalons s17 : **aucune proposition ne les modifie** |
+| Triche, cap sans valeur | API qui prend un montant du navigateur ; conseil repayé à chaque chargement | Correction de sécurité (2.5) |
+| Pression, « il me manque 340 XP » | Barre avec pourcentage | Pas de pourcentage ni d'XP restants ; cinq repères (3.0) |
+| Culpabilité | Cap qui baisse, série à zéro | Cap jamais en baisse ; phrase de série inchangée (« Ta série démarre à ta prochaine étape ») |
+| Verdict de talent, rang | Noms « Comique », « Légende », « Tête d'affiche » | Noms qui disent une action de conversation, jamais un rang |
+| Certificat déguisé | Dernier cap vécu comme un diplôme | 07/10 : pas de certificat ; aucun visuel de diplôme ni page partageable |
+| Verrou caché | Cap qui ouvre du contenu | 18/10 et 19/10 : tout reste ouvert |
+| Pression sociale, relance | Classement ; notification « tu es presque au cap » | Aucun classement ; cloche réservée aux contenus et aux réponses de l'équipe (Q6, 12/11) |
+| Confusion de vocabulaire | Trois « niveaux » (difficulté de parcours, difficulté de conseil, XP) | Mot « cap » (Q3) |
+| Rouvrir un choix documenté | Toucher XP d'étape, bonus, série, C4 | P0 s8 : aucune option ne les modifie ; la règle C (3.3) est marquée et soumise |
 
-## 3. Trois propositions
+### 2.5 Correction de sécurité (hors décision de Thomas)
 
-### 3.0 Ce qui est commun aux trois (rien de tout cela ne dépend de ton choix de noms)
+Elle ne change aucune règle, elle empêche la triche, et part au chantier de développement (architecture v11 §7.2) : (1) **le serveur fixe le gain selon l'action** ; la route n'accepte plus de montant du navigateur ; (2) **un conseil ne rapporte qu'une seule fois par compte** (enregistré en base, une ligne par abonné et par conseil) ; (3) les XP déjà acquis ne sont jamais retirés ; (4) la limite de 30 appels par minute reste. Tant que (1) n'est pas livrée, aucun seuil ni aucun cap n'est fiable.
 
-- **Ce qui rapporte** : inchangé. Étape validée = XP de l'étape (50 à 200 selon le seed), bonus de fin de parcours = 100. La rafale, les fiches, les jeux et « Ton mois » ne rapportent rien (C4, 12/11). La série reste « jours de pratique » (07/10). **Aucune de ces règles n'est touchée.**
-- **Ce qu'un niveau débloque** : **rien**. C'est un repère. Raison : tout reste ouvert (18/10), Premium = tout ouvert (19/10), pas de certificat (07/10), aucune note qui juge (v11).
-- **Niveaux** : 5, avec les 5 valeurs existantes en base (aucune migration de structure ; seuls les libellés changent).
-- **Affichage** (à valider par @ux) : l'icône emoji est remplacée par un repère en texte (« 3 sur 5 ») ; la barre vers le niveau suivant **sans pourcentage ni XP restants**, avec seulement le nom du prochain niveau ; le total d'XP reste visible ; au franchissement d'un niveau, **une seule phrase, une seule fois**, dans l'écran où l'étape est validée, de la forme « {nom} : nouveau niveau. Le prochain se gagne en pratiquant. » Aucun e-mail, aucune cloche, aucun badge visible des autres abonnés, aucune page partageable. Place dans l'espace : en tête de « Parcours » et dans « Ton mois », **jamais dans la barre de rubriques ni sur les pages publiques**, et jamais plus visible que la courbe « Tu avais une réponse ? ».
-- **Niveaux existants des abonnés** : recalculés une fois. Les seuils proposés sont tous inférieurs ou égaux aux actuels (100 reste 100, les trois autres baissent), donc **aucun abonné ne perd un niveau** : le recalcul ne peut que faire monter.
-- **Garde-fou** : un test automatique vérifie que le dernier seuil ne dépasse pas 80 % du total d'XP des parcours publiés (74 % avec 2 300 sur 3 100). Si un parcours est retiré ou retouché, le test échoue au lieu de rendre le dernier niveau inatteignable en silence.
+## 3. Propositions
 
-### 3.1 Proposition 1, « Même échelle, bien réglée » (étalon de noms N1)
+### 3.0 Commun à toutes les options
 
-- **Noms** : les actuels (Novice, Apprenti, Farceur, Comique, Légende).
-- **Seuils** : 0, 100, 300, 700, 2 300 XP (voir 3.4 pour la justification).
-- **Ce qui change** : seulement les chiffres et l'affichage commun. **Garde** les défauts de noms du 2.1 (deux scolaires, deux verdicts).
-- **Pour** : changement minimal, aucun texte nouveau à faire relire. **Contre** : le diagnostic des noms reste vrai.
+- **Ce qui rapporte** : étape validée (XP du seed) et bonus de fin (100), inchangés. Rafale, jeux, fiches, « Ton mois » : rien (C4, 12/11, **tranchée, hors question**). La lecture d'un conseil : selon Q1.
+- **Ce qu'un cap débloque** : selon Q5 (reco : rien).
+- **Affichage, spécification d'accessibilité reprise de @ux** :
+  1. **Cinq repères en rangée** (cinq pastilles, les n premières pleines) avec le texte en clair « cap 3 sur 5 ». Pas de pourcentage, pas de valeur cachée, lisible par un lecteur d'écran sans attribut de valeur. Si une barre est gardée : `role="progressbar"` avec `aria-valuetext="cap 3 sur 5"`, jamais une valeur en XP.
+  2. État marqué **autrement que par la couleur** : pastille pleine contre contour.
+  3. La phrase de passage de cap et la bulle « +X XP » sont annoncées dans une région `aria-live` polie, **restent au moins 5 secondes**, sont fermables, sans animation en boucle.
+  4. Contraste d'au moins 4,5:1 pour le texte et 3:1 pour les pastilles ; cibles interactives d'au moins 44 px.
+  5. **Aucun émoji** : ni dans le nom du cap, ni dans la bulle « +X XP » (elle en contient un aujourd'hui) ; le nom est du texte.
+- **Phrase de passage, une seule fois** : « Nouveau cap : {nom}. » Rien de plus, aucune promesse (« se gagne » est un langage de score). Avec un nom à la 2e personne : « Nouveau cap : tu rebondis. ».
+- **L'XP** : jamais seul sans échelle. Il se lit dans une phrase (« 412 XP : tes étapes et tes bonus de parcours ») ou derrière « voir le détail ».
+- **Place dans l'espace** : dans « Parcours », **toujours après** les étapes faites et la série (le brief s24 les place avant XP et niveau, [À VÉRIFIER dans le brief §3.2 bloc 4]) ; jamais en tête, donc distinct du calendrier « Tes 4 premières semaines » placé en tête (v11 §5.4). Dans « Ton mois » une fois qu'il existe ; avant, seulement dans « Parcours ». **Pas dans « Aujourd'hui »** (écart assumé avec le brief : le repère neutre « 12 cartes cette semaine » y suffit ; ce n'est pas un oubli). Pas dans la barre de rubriques. `/parcours` étant public, le cap n'y est rendu que pour l'abonné connecté, côté navigateur ; visiteurs et Google ne le voient pas.
+- **Caps existants** : recalculés une fois, vers le haut seulement (aucun abonné ne perd de cap). Cap 5 valeurs en base, aucune migration de structure pour les règles A et B ; la règle C demande un champ additif (3.3).
+- **Garde-fou de test** : le dernier seuil ne dépasse pas 80 % du **total d'XP de toutes les sources retenues** (étapes, bonus, et conseils si Q1 les garde). Il détecte aussi un parcours dépublié : sans Storytelling le total tombe à 2 300 et le dernier seuil (2 300) vaudrait 100 %, le test échoue au lieu de laisser un cap inatteignable en silence.
 
-### 3.2 Proposition 2, « Repères de scène » (étalon de noms N2) : **recommandée**
+### 3.1 Règle A, « XP de parcours recalés » (reco)
 
-- **Idée** : un niveau dit **où tu en es sur le chemin**, avec le vocabulaire du stand-up (l'un des 3 mots de la marque), sans jamais dire « tu es drôle ».
-- **Noms et seuils** : voir N2 en 3.5. Mêmes seuils que la proposition 1 : 0, 100, 300, 700, 2 300 XP.
-- **Pour** : aucun nom scolaire ni verdict ; le premier niveau est confortable (« Dans le public » : on est là, on regarde, ça compte) ; chaque nom est lisible en trois secondes sur téléphone. **Contre** : la métaphore de la scène peut sonner ambitieuse pour Yanis, qui veut de la répartie en soirée et non monter sur scène ; « Tête d'affiche » est le nom le plus contestable.
+Le cap suit le total d'XP. **Si Q1 = retirer** (reco) : total gagnable 3 100, seuils **0, 100, 300, 700, 2 300** (74 %).
 
-### 3.3 Proposition 3, « Par parcours bouclés » (étalon de noms N3)
-
-- **Idée** : le niveau ne dépend plus des XP mais du **nombre de parcours terminés** : 0, 1, 2, 3, 5. L'XP reste un compteur visible, sans rôle dans le niveau.
-- **Noms** : voir N3 en 3.5, à la 2e personne (« Tu rebondis »).
-- **Pour** : le sens est évident (un niveau = un parcours de plus) et le dernier niveau est trivialement atteignable (finir les cinq). Pas de seuil à recaler si les XP changent un jour. **Contre** : le premier changement n'arrive qu'après la fin d'un parcours, au plus tôt à la semaine 3 au rythme conseillé : Yanis et Marc voient « Tu t'échauffes » plus longtemps ; un changement de code plus profond (le niveau se calcule à partir des parcours terminés, plus des XP).
-
-### 3.4 Pourquoi 0, 100, 300, 700, 2 300 (propositions 1 et 2)
-
-| Seuil | Ce qu'il représente (propriété vraie sur les totaux réels) |
+| Seuil | Sens, vrai sur les totaux réels |
 |---|---|
-| 100 | une ou deux premières étapes (étape 1 de Machine à Café : 50 XP) |
-| 300 | **tout parcours bouclé** : le plus court en fait 325 |
-| 700 | **un grand parcours bouclé** (700 à 800) ou **deux petits** (au moins 800) |
-| 2 300 | **quatre parcours** : la plus petite somme de quatre parcours est 325 + 475 + 700 + 800 = 2 300 |
+| 100 | une ou deux premières étapes |
+| 300 | tout parcours bouclé (le plus court : 325) |
+| 700 | un grand parcours bouclé (700 à 800) ou deux petits (au moins 800) |
+| 2 300 | quatre parcours (plus petite somme de quatre : 325 + 475 + 700 + 800) |
 
-Les trois personas (cumuls du 1.3) : Sophie passe au 3e niveau à la semaine 3 puis au 4e pendant Boulot ; Yanis au 3e à la semaine 4 puis au 4e pendant Confiance ; Marc au 4e à la fin de Confiance, semaine 6. Aucun des trois n'atteint le dernier niveau avant au moins 19 semaines (3 + 4 + 6 + 6 étapes pour les quatre parcours les plus courts), soit environ 5 mois : c'est volontairement un long chemin.
+Cas : Sophie : cap 3 à la semaine 3, cap 4 pendant Boulot ; Yanis : cap 3 à la semaine 4, cap 4 pendant Confiance ; Marc : cap 4 à la fin de Confiance (semaine 6). Aucun n'atteint le cap 5 avant au moins 19 semaines (3 + 4 + 6 + 6 étapes), soit environ 5 mois.
+**Si Q1 = garder une fois par conseil** : total 4 300 ; seuils **0, 100, 400, 1 000, 3 000** (70 %) [HYPOTHÈSE de calage : les conseils et les parcours se mélangent, plus d'ancrage unique ; 70 conseils ouverts valent 700 XP sans étape].
+**Si Q1 = autre (conseils hors cap)** : le cap suit seulement les XP de parcours (somme des étapes validées et des bonus, calculable sans colonne nouvelle) avec les seuils « retirer » ; l'XP affiché peut inclure les conseils.
 
-### 3.5 Les trois étalons de noms à faire valider par Thomas
+### 3.2 Règle B, « Parcours bouclés »
 
-| Niveau | N1, noms actuels (P1) | N2, repères de scène (P2) | N3, tu + verbe (P3, par parcours bouclés) |
+Le cap = nombre de parcours terminés : 0, 1, 2, 3, 5. L'XP reste un compteur visible, sans rôle. Pour : sens évident, rien à recaler si les XP changent. Contre : premier changement au plus tôt à la semaine 3 ; Yanis et Marc restent longtemps au cap 1 ; `calculateLevel` change de nature (parcours terminés, `completedAt` déjà en base).
+
+### 3.3 Règle C, « Marche de mission réussie » (option d'@elon) : **touche l'esprit de C4, accord requis**
+
+- **Idée** : le cap = la plus haute marche de mission où l'abonné a répondu « Essayé, ça a marché » (marche 1 seul, 2 à un proche, 3 à un pote en face, 4 en petit groupe, 5 avec quelqu'un qu'on connaît peu, v11 §2.4). C'est le seul candidat qui mesure un comportement dans la vraie vie, pas un tour de piste. Impossible à atteindre en ouvrant des conseils.
+- **Pour** : c'est le progrès d'un introverti (oser), sans verdict de talent ; le cap ne baisse jamais (la plus haute marche réussie reste acquise) ; l'XP de parcours reste un compteur « tes parcours » sans nom de cap.
+- **Limites honnêtes** : (1) **déclaratif**, comme tout l'espace ; (2) **même risque que celui qu'on écarte pour la courbe** : le retour « ça a marché » sert déjà à proposer la marche suivante ; le récompenser par un cap le rend gagnable en cliquant (Goodhart) ; (3) **les retours de mission ne sont pas encore stockés** : à construire (v11 §7.2) ; la règle dépend d'un chantier non construit ; (4) 6 états (départ plus 5 marches) pour 5 valeurs en base : un champ additif ou une valeur de plus, accord requis ; (5) pression : un cap qui récompense l'exposition peut pousser à tenter une marche avant d'être prêt, alors que les missions sont « toujours facultatives, jamais comptées contre l'abonné » ; le cap ne dit jamais « il te manque » et reste muet tant qu'aucune marche n'est réussie ; (6) lente : une seule mission ouverte à la fois ; (7) **touche l'esprit de C4** (12/11, entraînement hors points et série) : ce n'est ni une série ni des points, c'est une règle neuve sur l'entraînement.
+- **Pourquoi je ne la recommande pas** : elle dépend d'un chantier non construit, touche une décision prise le jour même (P0 s8), et porte le risque Goodhart. Si tu veux que le cap dise un progrès réel, c'est la seule option qui le fait ; je la construirais alors avec la règle A en repli.
+
+### 3.4 Les noms, étalons à faire valider (séparés des règles)
+
+Principes : tirés de la conversation, adressés à l'abonné, aucun rang, aucun verdict, aucun mot de scène (v11 §3.5 retire open mic, plateau, flop), aucun nom scolaire ou de jeu. Tests de relecture à l'aveugle : lu seul, se comprend en 3 secondes ; ne dit ni rang ni verdict ; « Yanis, Sophie ou Marc s'y reconnaît-il ? ». Le cap 1 est celui du début : il ne dit rien de passif (« tu regardes » contredirait celui qui vient de valider une étape).
+
+| Cap | E1, « Tu + verbe » | E2, « Ce que tu as » | E3, marches (règle C seulement) |
 |---|---|---|---|
-| 1 | Novice (0 XP) | Dans le public (0 XP) | Tu t'échauffes (0 parcours) |
-| 2 | Apprenti (100 XP) | Premier micro (100 XP) | Tu te lances (1 parcours) |
-| 3 | Farceur (300 XP) | Scène ouverte (300 XP) | Tu rebondis (2 parcours) |
-| 4 | Comique (700 XP) | Première partie (700 XP) | Tu places tes vannes (3 parcours) |
-| 5 | Légende (2 300 XP) | Tête d'affiche (2 300 XP) | Tu as fait le tour (5 parcours) |
+| 1 | Tu t'échauffes | Ta première vanne | À voix haute |
+| 2 | Tu te lances | Ta réserve | Avec un proche |
+| 3 | Tu rebondis | Tes rebonds | En face |
+| 4 | Tu places tes vannes | Ton timing | En groupe |
+| 5 | Tu tiens la conversation | Ta patte | Avec quelqu'un de nouveau |
 
-Une ligne de description sous chaque nom de N2 (la seule à relire de près) :
-1. Dans le public : « Tu es dans la salle, tu regardes comment ça se fait. »
-2. Premier micro : « Tu as validé tes premières étapes : tu essaies pour de vrai. »
-3. Scène ouverte : « Un premier parcours en poche ou presque. »
-4. Première partie : « Un grand parcours, ou deux petits, derrière toi. »
-5. Tête d'affiche : « Quatre parcours à peu près : tu connais la maison. »
+- E1 et E2 vont avec les règles A ou B ; E3 n'a de sens qu'avec la règle C (les noms décrivent ce qu'on a fait).
+- Le mot : « cap » (reco) ou « niveau ». Garder « niveau » obligerait à le préciser (« niveau d'XP ») à côté de la difficulté des parcours et de celle des conseils, ce qui ne supprime pas la collision : d'où « cap ». [À VÉRIFIER @ux] « cap » n'est utilisé ailleurs comme rubrique ni dans les textes validés ni dans v11.
+- Témoin de comparaison (pas une option) : les noms actuels.
+- Les plus exposés : « Tu tiens la conversation » (la plus proche d'un verdict) et « Ta patte » (peu clair seul). À tester.
 
-Rendu de la carte, exemple N2 à 412 XP : « Scène ouverte · niveau 3 sur 5 · 412 XP · Prochain niveau : Première partie ». Le niveau est lisible sans chiffre de pourcentage.
+### 3.5 Reco
 
-Ce que Thomas tranche avec ces étalons : (1) le registre (scolaire/jeu, scène, tu + verbe), (2) le dernier nom (le plus exposé), (3) si l'on dit « niveau » ou « repère » à l'écran (reco : « niveau », mot déjà en place). Les trois jeux passent la même relecture à l'aveugle avant d'être montrés : « un nom lu seul se comprend-il en 3 secondes ? », « dit-il un verdict de talent ? » (non attendu), « sonne-t-il scolaire ou corporate ? » (non attendu).
+**Q1 = retirer, règle A (0, 100, 300, 700, 2 300), noms E1, mot « cap », rien de débloqué.** Elle rend le cap fiable (une seule voie d'XP, bornée), garde un premier palier rapide pour Yanis, respecte C4 à la lettre et dans l'esprit, et ne demande aucun chantier de plus que la correction de sécurité. **Supprimer les niveaux** a été examiné et écarté : le positionnement les promet (« XP, streak, niveaux ») et ils ne coûtent rien tant qu'ils ne pressent ni ne verrouillent.
 
-### 3.6 Recommandation
+### 3.6 Critères de réussite (binaires)
 
-**Proposition 2** (N2, 0 / 100 / 300 / 700 / 2 300, rien débloqué, affichage commun du 3.0). Raisons : elle corrige les trois défauts (verdicts, noms scolaires, dernier niveau inatteignable) sans toucher à aucun choix documenté ; elle garde un premier palier rapide pour Yanis (100 XP) ; les seuils s'accrochent à des événements que l'abonné reconnaît (un parcours, un grand parcours, quatre parcours). Écartée : la proposition 1 (garde les verdicts) et la proposition 3 (palier initial lent, code plus profond). **Supprimer les niveaux** a été examiné et non retenu : ils sont promis dans le positionnement (« XP, streak, niveaux », `project-context.md`) et ne coûtent rien à l'abonné s'ils ne sont ni bloquants ni pressants ; Thomas peut le demander.
-
-### 3.7 Critères de réussite (binaires, pour @fullstack et @qa)
-
-1. Les seuils sont strictement croissants et le dernier est inférieur ou égal à 80 % du total d'XP des parcours publiés (test automatique).
-2. Un abonné ayant terminé quatre parcours quelconques est au niveau 5.
-3. Le niveau ne diminue jamais quand l'XP augmente ; le recalcul des niveaux existants n'en fait baisser aucun.
-4. Aucun libellé de niveau, d'aide ou de phrase de la carte ne contient d'émoji, de tiret cadratin, de pourcentage ou d'XP restants.
-5. Les seuils n'existent qu'à un seul endroit du code (la double définition `XP_THRESHOLDS` / `USER_LEVELS` est supprimée).
-6. Aucun contenu, aucune page ni aucune fonction n'est ouvert ou fermé selon le niveau (revue de `user.level` dans `apps/`).
-7. Mesure sans donnée personnelle ni identifiant : un événement « niveau atteint » avec le seul niveau, pour voir plus tard si un niveau n'est atteint par personne. Lecture soumise à l'effectif minimal de v11 §7.6 (aujourd'hui 4 abonnés actifs : elle ne décide rien).
+1. Aucun montant d'XP n'est choisi par le navigateur ; un même conseil ne rapporte jamais deux fois à un même compte.
+2. Les seuils sont croissants et le dernier est inférieur ou égal à 80 % du total d'XP de toutes les sources retenues (test automatique, échoue si un parcours est dépublié).
+3. Le cap ne diminue jamais ; le recalcul des caps existants n'en fait baisser aucun.
+4. Aucun libellé (nom, phrase, bulle, nom accessible) ne contient d'émoji, de tiret cadratin, de pourcentage ou d'XP restants.
+5. Les seuils n'existent qu'à un seul endroit du code.
+6. Le mot « niveau » ne désigne plus l'échelle d'XP à l'écran si Q3 = « cap ».
+7. Cinq repères, état hors couleur, `aria-live` poli, au moins 5 secondes, contraste 4,5:1 et 3:1, cibles de 44 px (3.0).
+8. La réponse à « Tu avais une réponse ? » n'alimente ni XP ni cap (test).
+9. Aucun contenu, page ou fonction n'est ouvert ou fermé selon le cap (revue de `user.level` dans `apps/`).
+10. Événement « cap atteint » sans identifiant, avec le seul numéro de cap ; lecture soumise à l'effectif minimal de v11 §7.6.
 
 ## 4. Questions pour Thomas
 
-Chaque question a trois options et une recommandation. Une option qui rouvre une décision prise est marquée.
+Cinq questions, trois options chacune, une reco argumentée. La Q1 passe en premier : elle fixe le total d'XP, donc tous les seuils.
 
-**Q1. Quel jeu de noms, et sur quelle règle ?**
-- A. Les noms actuels (Novice, Apprenti, Farceur, Comique, Légende), seuils recalés. Minimal, mais « Comique » et « Légende » restent des verdicts.
-- B. **Reco** : Repères de scène (Dans le public, Premier micro, Scène ouverte, Première partie, Tête d'affiche), seuils recalés.
-- C. « Tu + verbe » (Tu t'échauffes, Tu te lances, Tu rebondis, Tu places tes vannes, Tu as fait le tour), un niveau par parcours bouclé.
-Tu peux aussi modifier un seul nom : le dernier est le plus exposé.
+**Déjà décidé, non reposé** : C4 (12/11, aucune nouvelle règle de série ni de points pour l'entraînement et les fiches) ; XP d'étape et bonus de fin inchangés (étalons s17) ; série sur la pratique (07/10) ; pas de certificat (07/10) ; tout reste ouvert (18/10, 19/10) ; cloche sans relance (Q6, 12/11) ; la FAQ « 50 XP par semaine » intacte (29/09). **Tranché sans question** : la correction de sécurité (2.5), le recalcul unique des caps vers le haut, aucun e-mail ni notification liés aux caps, aucun émoji, seuils à un seul endroit du code.
 
-**Q2. À quelle distance mettre le dernier niveau ?** (options A et B de Q1)
-- A. **Reco** : environ quatre parcours (2 300 XP), soit 5 mois environ au rythme conseillé. Reste un long chemin, atteignable sans tout faire.
-- B. Environ trois mois (1 600 XP, deux grands parcours) : plus vite fêté, mais il ne reste plus rien à gagner ensuite côté niveau.
-- C. Tout le site (3 100 XP) : seul celui qui a tout fait l'atteint, et le moindre changement de parcours le rend inatteignable.
+**Q1. Les 10 XP gagnés en ouvrant un conseil : on les garde ?** (Aujourd'hui ils se répètent à chaque rechargement ; après la correction de sécurité, ils ne rapporteraient qu'une fois par conseil.)
+- A. Garder, une fois par conseil : au plus 1 200 XP pour les 120 conseils actuels, plus si le stock grandit. Total 4 300, seuils 0, 100, 400, 1 000, 3 000. Lire un conseil ferait avancer le cap.
+- B. **Reco** : retirer pour l'avenir (les XP déjà gagnés restent). Les XP viennent alors des étapes et du bonus de fin : total 3 100, seuils lisibles (un parcours, un grand parcours, quatre parcours). Raisons : lire n'est pas pratiquer (1 200 XP, soit 39 % du total des parcours, seraient gagnés en ouvrant des fiches) ; le conseil de chaque étape est déjà payé par l'XP de l'étape ; le stock de conseils bouge, donc les seuils dériveraient ; c'est l'esprit de C4. Retire une règle de points qui existe déjà (date de sa pose non lue) ; la bulle « +10 XP » disparaît de la liste des conseils ; le compteur « Conseils terminés » du profil reste.
+- C. Garder pour l'XP affiché, mais hors du cap : le cap ne suit que les parcours (deux chiffres à l'écran : plus complexe à lire).
 
-**Q3. Un niveau doit-il débloquer quelque chose ?**
-- A. **Reco** : rien, c'est un repère. Cohérent avec « tout est ouvert » (18/10 et 19/10).
-- B. Un petit contenu bonus par niveau (à écrire, relu à 10/10) : **rouvre en partie la décision du 18/10** (un contenu serait derrière un niveau).
-- C. Un niveau visible des autres abonnés : non recommandé (aucun classement, aucune pression sociale).
+**Q2. Comment passe-t-on d'un cap au suivant ?** (la règle, sans les noms)
+- A. **Reco** : selon les XP, seuils recalés (3.1).
+- B. Selon le nombre de parcours terminés : 0, 1, 2, 3, 5 (3.2).
+- C. Selon la plus haute marche de mission réussie (3.3). **Touche l'esprit de ta décision du 12/11 (C4)** : ce n'est ni une série ni des points, c'est une règle neuve sur l'entraînement. C'est la seule option où le cap dit un progrès réel ; limites : déclaratif, retours de mission à construire, risque de rendre « ça a marché » gagnable en cliquant.
 
-**Q4. La rafale quotidienne et les fiches doivent-elles compter pour le niveau ?** (pour mémoire, déjà posée en C4)
-- A. **Reco** : non, rien ne change. Le niveau dit « tes parcours » et on le précise à l'écran.
-- B. La rafale compte pour la série seulement, jamais pour les points : **rouvre la décision du 12/11 (C4)** et précise celle du 07/10.
-- C. La rafale et les fiches rapportent aussi des XP (barème à fixer avec toi) : **rouvre la décision du 12/11 (C4)** et ajoute une règle de points.
+**Q3. Les noms, et le mot.** (indépendant de Q2, sauf E3)
+- A. **Reco** : E1, « Tu t'échauffes, Tu te lances, Tu rebondis, Tu places tes vannes, Tu tiens la conversation ».
+- B. E2, « Ta première vanne, Ta réserve, Tes rebonds, Ton timing, Ta patte ».
+- C. E3, les marches (« À voix haute » à « Avec quelqu'un de nouveau ») : seulement avec la règle C de Q2.
+Le mot à l'écran : **« cap »** (reco : « niveau » désigne déjà la difficulté des parcours et celle des conseils) ou « niveau ». Tu peux changer un seul nom. Chaque texte touché (3.0, 1.4) revient à toi.
 
-**Tranché sans question** (aucune décision rouverte) : XP d'étape et bonus de fin inchangés ; niveau jamais en baisse ; recalcul unique des niveaux existants, vers le haut seulement ; aucun e-mail ni notification liés aux niveaux ; pas de certificat ni de page partageable ; icône emoji remplacée par un repère texte ; les seuils mis à un seul endroit du code.
+**Q4. À quelle distance mettre le dernier cap ?** (règles A et B)
+- A. **Reco** : environ quatre parcours (2 300 XP, 5 mois environ au rythme conseillé).
+- B. Environ trois mois (1 600 XP, deux grands parcours) : plus vite fêté, plus rien à gagner ensuite côté cap.
+- C. Tout le site (3 100 XP) : le moindre parcours dépublié le rend inatteignable, et il dépasse le plafond de 80 % du test (le test devrait être assoupli).
 
-## 5. À traiter par les autres agents après ta réponse
+**Q5. Un cap débloque-t-il quelque chose ?**
+- A. **Reco** : rien, c'est un repère.
+- B. Au passage d'un cap, une phrase de l'équipe propose une fiche à faire ensuite, rien de bloqué (une phrase à écrire par cap, relue à l'aveugle).
+- C. Un contenu bonus par cap : **rouvre en partie ta décision du 18/10** (un contenu serait derrière un cap).
 
-- **@fullstack** : vérifier les appelants de `/api/user/xp` (1.1) et la somme d'XP des seeds ; centraliser les seuils ; recalculer les niveaux une fois ; test de garde de 3.0 ; remplacer `docs/content/progression-levels.md` (obsolète) par le barème retenu. Aucun fichier de `apps/` n'a été modifié par cette session.
-- **@ux** : place de la carte dans « Parcours » et « Ton mois » (3.0), rendu mobile 375 px, lisibilité des cinq noms.
-- **@legal** : rien à ajouter, aucune donnée nouvelle (le niveau se calcule à partir de l'XP ou des parcours terminés déjà en base).
-- **@data-analyst** : un événement « niveau atteint » sans identifiant (critère 7).
+## 5. À traiter après ta réponse
+
+- **@fullstack** : la correction de sécurité (2.5) dès maintenant, indépendamment de tes réponses ; vérifier l'état des interrupteurs de parcours ; centraliser les seuils ; recalcul unique ; test de garde ; rechercher les cinq noms et « XP » dans `apps/web`, `apps/mobile`, `docs/copy` et les e-mails (1.4) ; remplacer `progression-levels.md` par le barème retenu. Aucun fichier de `apps/` n'a été modifié par cette session.
+- **@ux** : spécification de 3.0, place dans « Parcours » et « Ton mois », rendu 375 px, lisibilité des cinq noms, vérifier le mot « cap ».
+- **@legal** : rien (aucune donnée nouvelle) ; sauf règle C : retours de mission stockés (v11 §7.2).
+- **@data-analyst** : événement « cap atteint » sans identifiant.
+
+## Annexe A. Correction du tour 1 : traitement
+
+| Source | N° | Traitement dans la v2 |
+|---|---|---|
+| @reviewer | 1 (sources d'XP fausses, bloquant) | 1.1, 1.2, résumé réécrits avec conseils et API ; 2.5 correction de sécurité ; Q1 |
+| @reviewer | 2 (question des 10 XP, bloquant) | Q1, trois options, reco B argumentée |
+| @reviewer | 3 (Q4 reposait C4, bloquant) | Q4 supprimée ; C4 rangée dans « Déjà décidé » (4) |
+| @reviewer | 4 (somme des seeds) | 1.1 : somme et fichiers cités, [À VÉRIFIER] retiré pour les totaux |
+| @reviewer | 5 (FAQ « 50 XP ») | 1.4 : texte intact (29/09), go requis pour toute retouche |
+| @reviewer | 6 (collision du mot « niveau ») | Vocabulaire en en-tête, mot « cap », Q3 |
+| @reviewer | 7 (N2 et vocabulaire de scène) | N2 supprimé ; 3.4 : noms de conversation, écart avec v11 §3.5 dit |
+| @reviewer | 8 (place dans « Parcours ») | 3.0 : après les étapes et la série, écart avec le brief assumé |
+| @reviewer | 9 (option de remplissage Q3 C) | Q5 : B réelle (une phrase propose une fiche), C marquée |
+| @reviewer | 10 (v11 porte la même erreur) | Annexe B |
+| @ux | 1 (conseil à 10 XP, bloquant) | idem @reviewer 1 et 2 ; l'option « étendre aux vannes et vidéos » non offerte (elle rouvrirait C4) |
+| @ux | 2 (noms de scène, découpler, bloquant) | 3.4 et Q2/Q3 séparées ; cap 1 non passif |
+| @ux | 3 (inventaire des textes, bloquant) | 1.4 (recherche plein texte impossible ici : lignes [À VÉRIFIER]) |
+| @ux | 4 (accessibilité, bloquant) | 3.0 spécification complète, critère 7 |
+| @ux | 5 (placement) | 3.0 : (a) après étapes et série, (b) rendu pour l'abonné connecté, (c) pas dans « Aujourd'hui », dit, (d) « Ton mois » plus tard |
+| @ux | 6 (publication des parcours) | 1.1 et garde-fou 3.0 (2 300 sans Storytelling) |
+| @ux | 7 (forme des questions) | Q4 supprimée, Q4 distance : effet sur le test dit, Q5 C marquée |
+| @ux | 8 (phrase de passage) | 3.0 : « Nouveau cap : {nom}. » |
+| @ux | 9 (« 412 XP » sans échelle) | 3.0 : XP dans une phrase ou derrière « voir le détail » |
+| @elon | 1 (XP sans limite, bloquant) | 1.1, 1.2, 2.5, Q1 |
+| @elon | 2 (retirer Q4, bloquant) | comme @reviewer 3 |
+| @elon | 3 (option marches de mission, bloquant) | 3.3, règle C marquée « touche l'esprit de C4 » avec limites (dont Goodhart et retours non stockés : l'avis d'@elon les disait « déjà stockés », à corriger : v11 §7.2) |
+| @elon | 4 (courbe jamais récompensée, bloquant) | 2.3 règle écrite, critère 8 |
+| @elon | 5 (noms de scène) | 3.4 E1 et E2 tirés de la vie des personas |
+| @elon | 6 (garde-fou sur toutes les sources) | 3.0 garde-fou, critères 1 et 2 |
+| @elon | 7 (deux « niveaux ») | Vocabulaire en en-tête (C7 = difficulté) |
+
+## Annexe B. À porter dans l'architecture (v11, puis v12)
+
+1. **§1.1, ligne « XP, niveaux, série (code) »** : ajouter « 10 XP par conseil ouvert (`conseils-list.tsx` l. 175 à 178), anti-doublon en mémoire de page seulement ; `POST /api/user/xp` accepte un montant choisi par le navigateur (1 à 500, 30 appels par minute) ». Aujourd'hui elle ne cite que les étapes et le bonus.
+2. **§1.1, ligne `progression-levels.md` « OBSOLÈTE (gains absents du code) »** : nuancer (le gain « +10 par conseil » existe).
+3. **C4** : la phrase « les points viennent des étapes et du bonus de fin » est incomplète. La décision de Thomas (aucune nouvelle règle de série ni de points pour l'entraînement et les fiches) reste valide ; mais il l'a prise sans savoir que lire un conseil rapporte déjà des points : le lui dire avec la Q1 de ce document.
+4. **§7.2, chantier de développement** : ajouter la correction de sécurité (2.5) : gain fixé par le serveur, un conseil une seule fois par compte (table additive).
+5. **§5.2** : le conseil de chaque étape (fiche 1.1) ne doit pas rapporter d'XP à part (déjà dans l'XP de l'étape).
 
