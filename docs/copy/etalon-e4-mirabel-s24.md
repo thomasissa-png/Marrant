@@ -9,21 +9,21 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 
 ### Écouter, repérer : « Tu arrêtes ou j'appelle mon petit frère »
 
-**Avant de lancer la vidéo (2 minutes)** : pense à une personne de ton entourage qui te défend mieux que toi. Note un détail de cette personne, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le sous la main.
+**Avant de lancer la vidéo (2 minutes)** : pense à une personne que tu es censé ou censée protéger, ou impressionner (un cadet, un enfant, une recrue), et qui, dans les faits, te protège mieux que toi. Note un détail de cette personne, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le sous la main.
 
 **Le passage** : « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy (8 min 57 s en entier), de **2:12 à 2:53**, soit 41 secondes. Lance la vidéo à 2:12 : https://www.youtube.com/watch?v=RYjfe8OSRFw&t=132s
 
 **Trois choses à repérer**
 
 1. **Le gabarit chiffré.** « J'ai un petit frère, mais qui est très musclé. » Puis les chiffres et la comparaison : « 1 mètre 90 pour 95 kilos, normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Compte les secondes pendant lesquelles il laisse cette image travailler avant d'avancer.
-2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Une phrase simple, sans effet. Repère ce que tu attends à cet instant, avant d'entendre la suivante.
-3. **La fin.** « Tu arrêtes ou j'appelle mon petit frère. » Écoute à l'oreille : la réaction arrive-t-elle avant le dernier mot, ou après ? Note-le, c'est ton relevé de timing.
+2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Une phrase de récit, à réécouter pour juger de sa livraison. Repère ce que tu attends à cet instant, avant d'entendre la suivante.
+3. **La fin.** « Tu arrêtes ou j'appelle mon petit frère. » Écoute bien : la réaction arrive-t-elle avant le dernier mot, ou après ? Note-le : tu verras si la chute a besoin de son dernier mot.
 
 **Le mécanisme** : c'est une chute qui retourne le début. Au départ, il t'a donné un petit frère de la taille d'un frigo. À la fin, la phrase de l'intimidation (« Tu arrêtes ou... ») est dite par celui qui devrait protéger, et c'est lui qui appelle le cadet. Il s'est donné le mauvais rôle tout seul, sans que personne ait à l'y mettre.
 
-**Chez toi** : le dîner où ta sœur reprend la discussion à ta place, la coloc où c'est un pote qui va parler au voisin, le bureau où tu envoies toujours une collègue demander l'augmentation. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
+**Chez toi** : la petite sœur qui prend la parole à ta place au dîner de famille, le cousin plus jeune que tu devais « protéger » en colocation et qui parle au voisin pour toi, la stagiaire que tu devais former et qui répond au client à ta place. Dans chaque cas, c'est toi qui devrais protéger et c'est l'autre qui s'en charge. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
 
-**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace : « Tu arrêtes ou j'appelle... ». Dis-la à voix haute, puis à la personne, si tu en as envie.
+**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace, dite par toi, celui ou celle qui devrait protéger : « Tu arrêtes ou j'appelle... » suivi du nom de cette personne. Dis-la à voix haute, puis à la personne, si tu en as envie.
 
 **Ta grille** (oui ou non, rien n'est enregistré) : (1) Ta menace tient en une phrase ? (2) La personne visée peut en rire avec toi ? (3) La fin surprend ?
 
@@ -45,3 +45,7 @@ Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-tran
 | « Si tu l'oses » : légèrement coach | Copywriter | « si tu en as envie » |
 | Guillemets | Reviewer (H9) | Guillemets « » ; aucun guillemet intérieur dans cette fiche |
 | Réécoute, visionnage Thomas, relecture à l'aveugle | @elon (C7) | Conditions conservées en tête de fichier |
+| Tour 2 : décalage mécanisme / exercice (« te défend mieux que toi » donnait une autodérision, pas l'inversion de rôle) | Critique copywriter | Exercice aligné sur le mécanisme : la personne choisie est celle qu'on est censé protéger ou impressionner et qui protège mieux ; la menace est dite par celui ou celle qui devrait protéger ; les exemples de « Chez toi » suivent la même inversion. Titre et citations inchangés |
+| Tour 2 : « écoute à l'oreille » redondant, repère 3 sans conclusion | Critique copywriter | « Écoute bien » ; conclusion ajoutée (« tu verras si la chute a besoin de son dernier mot »), à confirmer après réécoute |
+| Tour 2 : repère 2 « sans effet » non vérifiable | Critique copywriter | Reformulé en « à réécouter pour juger de sa livraison », sous la réserve de réécoute |
+| Tour 3 : accords | Contrôle interne | « censé ou censée », « celui ou celle », « recrue », « cadet », « stagiaire » : aucune ligne au masculin seul |
