@@ -1,9 +1,9 @@
-# QR3 : Quoi répondre, lot 3 (10 situations), tour 2
+# QR3 : Quoi répondre, lot 3 (10 situations), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR3 : réunion et entretien 4, amis 3, famille 2, rencontre 1) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` 7.4 : répartition conforme (les 30 premières = soirée 6, boulot 5, réunion 5, rencontre 6, amis 5, coloc 1, famille 2 ; QR1 et QR2 ont couvert le reste, il reste donc exactement ces 10). Format de `docs/copy/espace/qr2-situations.md`, niveau de `docs/copy/espace/qr1-situations.md`, fautes relevées dans les relectures `qr1-tour-{1,2,3}-*.md` et `qr2-tour-{1,2,3}-*.md`, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne », « un de tes parents »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Entretien d'embauche et famille : aucune réplique qui coûte un poste ou blesse un proche (la plaisanterie porte sur toi ou sur un détail neutre). Dans les entretiens, l'autre vouvoie : les répliques évitent tout « vous » et tout « tu » adressé à la personne.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 2 (17 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle sur ces lignes** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 3 (5 répliques reprises d'après les relectures du tour 2, voir « Tour 3 : retouche → ligne » ; le tour 2 avait repris 17 répliques), à repasser à l'aveugle sur ces 5 lignes** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR2 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
@@ -29,12 +29,12 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu remercies, tu fais de ces trente secondes un brouillon et tu recommences sans t'excuser. Elle ne vise personne, se ferme toute seule et fait gagner du temps à la salle. C'est la bonne quand la réunion est sérieuse et que personne ne sourit.
 
 **La joueuse**
-« Merci. Je testais mon public : très calme, aucune question, aucune objection, excellent. »
+« Merci. Je testais mon public : très calme, aucune question, excellent. »
 Tu présentes le silence de la salle comme un résultat d'enquête que tu t'attribues. Rien n'est nié, la phrase se dit sans hâte, et ceux qui ont attendu peuvent sourire avec toi. À sortir quand la salle est détendue.
 
 **La risquée**
-« Je reprends. Pour ceux qui lisaient sur mes lèvres, c'était exactement pareil. »
-Tu reprends ton propos et tu salues ceux qui ont suivi ton discours en image seule, sans le son. Elle ne vise personne, seulement le décalage de la visio. Elle marche seulement si quelqu'un a déjà plaisanté de son propre micro. Sinon elle ajoute une plaisanterie à une salle qui attend : prends la sûre.
+« Je reprends. Les gestes étaient très bien, je les garde. »
+Tu reprends ton propos et tu retiens le seul acquis de ces trente secondes : l'image, donc tes gestes. Elle ne vise personne, seulement toi. Elle marche seulement si quelqu'un a déjà plaisanté de son propre micro. Sinon elle ajoute une plaisanterie à une salle qui attend : prends la sûre.
 
 **Comment choisir**
 La salle est détendue ? Monte d'un cran. Quelqu'un a déjà plaisanté de son propre micro ? Monte encore. Sinon, reste sur la sûre.
@@ -183,7 +183,7 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu transformes ton retard de culture en réserve pour un mois creux : le film attend son heure. Elle ne vise personne, ne juge pas le film et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
 
 **La joueuse**
-« Jamais. Je suis la dernière personne pour qui la fin sera une surprise. »
+« Jamais. Je suis la seule personne ici que la fin peut encore surprendre. »
 Tu fais de ton ignorance un privilège rare : la fin, pour toi, sera une vraie surprise. Rien n'est nié, tu n'attaques pas le film, et la personne peut en rire en te racontant le début. À sortir quand elle sourit en s'étonnant.
 
 **La risquée**
@@ -225,8 +225,8 @@ Tu rassures sans fausse excuse : tu as ri, mais ton rire met du temps à venir. 
 Tu fais de ton rire une affaire d'isolation : il est bien là, mais il ne sort pas. La blague reste intacte, et la personne peut sourire : son effet est arrivé, il n'est juste pas encore sorti. À sortir quand la personne te le dit en souriant.
 
 **La risquée**
-« Vas-y, raconte la suivante. J'ai gardé mon rire au chaud. »
-Tu transformes le reproche en invitation : ton rire est prêt, il attend la suite. Elle ne vise ni la blague ni la personne. Elle marche seulement si la personne a déjà dit qu'elle en avait une meilleure ou plaisante de sa propre blague. Sinon elle demande une deuxième blague à quelqu'un qui n'en a pas : prends la sûre.
+« Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
+Tu transformes le reproche en invitation : tu avoues la vraie cause, ton verre, et tu attends la suite les mains libres. Elle ne vise ni la blague ni la personne. Elle marche seulement si la personne a déjà dit qu'elle en avait une meilleure ou plaisante de sa propre blague. Sinon elle demande une deuxième blague à quelqu'un qui n'en a pas : prends la sûre.
 
 **Comment choisir**
 La personne te le dit en souriant ? Monte d'un cran. La personne plaisante déjà de sa propre blague ou réclame une revanche ? Monte encore. Sinon, reste sur la sûre.
@@ -295,8 +295,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Tu as raison. Trois semaines de nouvelles, livrées maintenant, et la suite dimanche. »
-Tu donnes raison tout de suite, tu livres les nouvelles pendant l'appel et tu fixes un jour pour la suite. Elle ne vise personne, ne se défend de rien et rassure. C'est la bonne quand la personne te le dit sans sourire.
+« Tu as raison. Je te raconte l'essentiel maintenant, et la suite dimanche prochain. »
+Tu donnes raison tout de suite, tu livres l'essentiel pendant l'appel et tu fixes un jour pour la suite. Elle ne vise personne, ne se défend de rien et rassure. C'est la bonne quand la personne te le dit sans sourire.
 
 **La joueuse**
 « Je faisais des économies. J'ai maintenant assez de nouvelles pour une heure. »
@@ -493,9 +493,32 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 17 répliques repr
 | N1 risquée redemande ce que l'autre a dit (reviewer) ; tic « trois » et décodage (critique, @elon) | N1 risquée : « Je prends autre chose et je goûte le tien : comme ça, j'ai choisi deux fois. » ; N1 joueuse : « J'ai choisi le dessert. Il me reste à trouver ce qui va devant. » |
 | Décompte | 17 répliques touchées (R1 ×3, R3 ×2, R4 ×2, M1 ×2, M2, M3 ×2, F1 ×3, N1 ×2) ; 13 reprises de fond, 4 retouches légères (R1 sûre et joueuse, R4 joueuse, M1 risquée). Les 13 autres répliques sont inchangées. Répartition de la rafale inchangée : 10 joueuses, 5 sûres, 5 risquées. |
 
+## Annexe 4 : candidates du tour 3 (3 par réplique reprise ; la « gardée » de la ligne remplace celle des annexes 1 et 3)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| R1 | Risquée | « Je reprends. Les gestes étaient très bien, je les garde. » | « Je reprends. Pour ceux qui lisaient sur mes lèvres, c'était exactement pareil. » (« lire sur les lèvres » est aussi une blague connue des visios, [CHOIX UTILISATEUR] 29/09) | « Je reprends. Merci à ceux qui ont hoché la tête : vous aviez raison. » (vouvoiement, flatterie ironique qui vise la salle) |
+| R1 | Joueuse | « Merci. Je testais mon public : très calme, aucune question, excellent. » | « … aucune question, aucune objection, excellent. » (« aucune objection » ramène le silence pris pour un accord, ressort écarté de la risquée) | « … aucune question, aucun mouvement, excellent. » (liste plus longue, sans gain) |
+| M1 | Joueuse | « Jamais. Je suis la seule personne ici que la fin peut encore surprendre. » | « Jamais. Je suis la dernière personne pour qui la fin sera une surprise. » (« dernière personne pour qui » s'entend à l'envers) | « Jamais. Pour moi, la fin sera encore une surprise. » (neutre, sans image) |
+| M2 | Risquée | « Vas-y, raconte la suivante. Cette fois, je pose mon verre. » | « Vas-y, raconte la suivante. J'ai gardé mon rire au chaud. » (même image du rire stocké que la sûre et la joueuse : chaque registre a sa propre image) | « Vas-y, raconte la suivante. J'ai gardé mon rire au chaud, il s'impatiente. » (même image, plus longue) |
+| F1 | Sûre | « Tu as raison. Je te raconte l'essentiel maintenant, et la suite dimanche prochain. » | « Tu as raison. Trois semaines de nouvelles, livrées maintenant, et la suite dimanche. » (tic « trois », phrase administrative, « dimanche » se lit « aujourd'hui ») | « Tu as raison. Je commence par la plus petite : j'ai acheté des chaussettes. » (invente un fait, ton de joueuse, aucun jour pour la suite) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 4 phrases neuves (R1 risquée, M2 risquée, F1 sûre, M1 joueuse) ; recherche de l'idée en plus pour R1 risquée (micro coupé et gestes : aucune blague de ce type trouvée, les recueils de blagues de visio parlent de micro ouvert, de sourdine et du bouton mute, pas de gestes) et pour M1 joueuse (« la fin peut encore me surprendre » : rien). R1 joueuse revient à la phrase du tour 1, déjà cherchée (0 occurrence).
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| « lire sur les lèvres » est une blague connue des visios (critique, reviewer en vigilance), [CHOIX UTILISATEUR] 29/09 | R1 risquée : nouveau ressort (les gestes qui, eux, ont passé) : « Je reprends. Les gestes étaient très bien, je les garde. » ; pourquoi : « tu retiens le seul acquis de ces trente secondes : l'image, donc tes gestes. Elle ne vise personne, seulement toi. » |
+| « aucune objection » ramène le silence pris pour un accord (@elon) | R1 joueuse : « … très calme, aucune question, excellent. » |
+| « la dernière personne pour qui » s'entend à l'envers (@elon) | M1 joueuse : « Je suis la seule personne ici que la fin peut encore surprendre. » |
+| Même image du rire stocké dans les trois registres (reviewer, critique) | M2 risquée : « Vas-y, raconte la suivante. Cette fois, je pose mon verre. » ; pourquoi : « tu avoues la vraie cause, ton verre, et tu attends la suite les mains libres ». Sûre (« en différé ») et joueuse (« à l'intérieur ») inchangées. |
+| Tic « trois », phrase administrative, « dimanche » ambigu (critique, reviewer) | F1 sûre : « Tu as raison. Je te raconte l'essentiel maintenant, et la suite dimanche prochain. » ; pourquoi : « tu livres l'essentiel pendant l'appel ». |
+| Décompte | 5 répliques touchées. Le reste du fichier est inchangé. Rafale : aucune ligne de rafale ne cite ces répliques (R1 sans risquée, M1 joueuse en contexte 1, M2 contextes en termes de « suivante », F1 contextes sans citation). |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr3-situations.md` (tour 2) : 10 situations (réunion et entretien 4, amis 3, famille 2, rencontre 1), 30 répliques dont 17 touchées au tour 2 (13 reprises de fond, 4 retouches légères), 60 candidates écartées en annexe 1 et 34 en annexe 3.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr3-situations.md` (tour 3) : 10 situations (réunion et entretien 4, amis 3, famille 2, rencontre 1), 30 répliques dont 17 touchées au tour 2 (13 reprises de fond, 4 retouches légères), 60 candidates écartées en annexe 1 et 34 en annexe 3.
 - Rafale : 20 contextes, 10 joueuses, 5 sûres, 5 risquées, une seule bonne réponse chacun ; fautes de QR1 et QR2 écartées par construction (accords, « lui-même », deuxième tentative, moule « si », réplique qui ne marche que sous le contexte).
 - Web : 0 occurrence exacte sur les 30 répliques du tour 1 (annexe 2) et sur les 17 reprises du tour 2 (annexe 3). À juger à l'aveugle en priorité : R1 risquée (nouveau ressort : lecture sur les lèvres) et N1 risquée.
 - À confirmer par l'orchestrateur : le point H4 (rendement de QR1 montré à Thomas) avant le seuil d'ouverture des 30 situations.
