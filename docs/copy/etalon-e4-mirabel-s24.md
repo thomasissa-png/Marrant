@@ -1,7 +1,7 @@
 # Étalon E4 : « Écouter, repérer », Paul Mirabel (s24, tour 4)
 
 Une seule version (base B du tour 1, notée 7,5 / 8,5 / 8,5 contre 6 pour A).
-Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`. **Citations vérifiées sur la transcription automatique, réécoute conseillée avant publication** (de 2:12 à 2:53, par une personne, avant mise en ligne ; puis visionnage par Thomas et relecture à l'aveugle).
+Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`. **Citations vérifiées sur la transcription automatique, réécoute obligatoire avant publication** (condition bloquante de mise en ligne, décision de Thomas du 12/11 : il réécoute lui-même de 2:12 à 2:53).
 
 ---
 
