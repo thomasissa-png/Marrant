@@ -103,7 +103,7 @@ jobs:
   # démarré par le test lui-même (aucun e-mail réel), aucune clé Stripe ni Anthropic.
   # En parallèle des autres jobs : la CI ne dure que l'écart avec le job `test`.
   e2e-local:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     services:
