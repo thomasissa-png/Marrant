@@ -2,6 +2,7 @@ import { appendFileSync } from "node:fs";
 import type { Cookie, Page } from "@playwright/test";
 import { test, expect, localSeulement, creerCompte, connecter, type PlanCompte } from "../support/base-locale";
 import { TEXTES_CONNEXION } from "@/config/textes/compte";
+import { TEXTES_ESPACE_NAVIGATION, nomCloche } from "@/config/textes/espace-navigation";
 
 /** Bouton prix de l'en-tête : /abonnement?src=header, avec le retour sur la page courante (textes-trajet-v3 §5 point 3). */
 const HREF_PRIX = /^\/abonnement\?(returnTo=%2F[^&]*&)?src=header$/;
@@ -18,6 +19,13 @@ const HREF_PRIX = /^\/abonnement\?(returnTo=%2F[^&]*&)?src=header$/;
  * (`mesures-<état>`) et ajoutées à `E2E_MESURES_EN_TETE` si la variable est posée.
  */
 const LARGEURS = [1024, 1100, 1280, 1440, 1536, 1920];
+/**
+ * s24 (espace client, lot D2) : serveur construit interrupteur `ESPACE_CLIENT_PUBLIE` ouvert
+ * (copie jetable, jamais le code livré). L'abonné a alors l'en-tête de l'espace (loupe, cloche,
+ * compte) et la barre de rubriques : état « abonné avec barre et cloche » ci-dessous ; l'état
+ * PREMIUM d'origine (7 onglets) ne vaut que l'interrupteur fermé.
+ */
+const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
 type Etat = "visiteur" | PlanCompte;
 const ETATS: Etat[] = ["visiteur", "FREE", "PREMIUM"];
 const MOT_DE_PASSE = "E2e-en-tete-budget-42";
@@ -82,6 +90,7 @@ test.describe("En-tête : budget de largeur", () => {
 
   for (const etat of ETATS) {
     test.describe(`état ${etat}`, () => {
+      test.skip(ESPACE_OUVERT && etat === "PREMIUM", "abonné, espace ouvert : voir l'état « abonné avec barre et cloche »");
       // Une seule connexion par état et par lancement (adresse unique : la limite de
       // connexion par adresse et par IP ne gêne jamais), cookies repris à chaque test.
       let cookies: Cookie[] = [];
@@ -228,6 +237,79 @@ test.describe("En-tête : budget de largeur", () => {
       }
     });
   }
+
+  // s24 (lot D2, architecture 6.1) : états « abonné avec barre » et « abonné avec cloche », 6 largeurs.
+  test.describe("état abonné avec barre et cloche (espace ouvert)", () => {
+    test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
+    let cookies: Cookie[] = [];
+    test.beforeAll(async ({ browser }) => {
+      const email = `e2e-en-tete-espace-${Date.now().toString(36)}@example.com`;
+      await creerCompte(email, MOT_DE_PASSE, "PREMIUM");
+      const contexte = await browser.newContext();
+      await connecter(await contexte.newPage(), email, MOT_DE_PASSE);
+      cookies = await contexte.cookies();
+      await contexte.close();
+    });
+    test.beforeEach(async ({ context }) => {
+      await context.addCookies(cookies);
+    });
+
+    test("6 largeurs : loupe, cloche, compte de 44 px, 6 rubriques entières, rien ne déborde", async ({ page }, testInfo) => {
+      const T = TEXTES_ESPACE_NAVIGATION;
+      const lignes: string[] = [];
+      for (const largeur of LARGEURS) {
+        await page.setViewportSize({ width: largeur, height: 800 });
+        await page.goto("/conseils");
+        const barre = page.getByRole("banner");
+        const rubriques = page.getByRole("navigation", { name: T.monEspace });
+        await expect(rubriques).toBeVisible();
+        const m = await mesurer(page);
+        const ici = `abonné avec barre à ${largeur} px`;
+        lignes.push(`état=abonné-espace ; largeur=${largeur} ; défilement=${m.scroll}/${m.fenetre} ; barre=${m.barre.scroll}/${m.barre.client} ; libellés-coupés=${m.controles.filter((c) => c.coupe).length}`);
+        expect(m.scroll, `défilement horizontal de la page, ${ici}`).toBeLessThanOrEqual(m.fenetre);
+        expect(m.barre.scroll, `en-tête plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
+        for (const c of m.controles) {
+          expect(c.droite, `« ${c.nom} » sort à droite, ${ici}`).toBeLessThanOrEqual(m.fenetre + 0.5);
+          expect(c.coupe, `« ${c.nom} » coupé, ${ici}`).toBe(false);
+        }
+        // Onglets d'origine passés dans la barre : plus de « Navigation principale » ni de bouton prix.
+        await expect(barre.getByRole("navigation", { name: "Navigation principale" })).toHaveCount(0);
+        await expect(barre.getByRole("link", { name: PRIX })).toHaveCount(0);
+        // Recherche : bouton icône de 44 px (6.2), aucun champ dans l'en-tête tant qu'il n'est pas ouvert.
+        expect(m.recherche, `champ de recherche dans l'en-tête, ${ici}`).toBeNull();
+        // Cloche : nom accessible = nombre de réponses de l'équipe non lues (0 pour un compte neuf).
+        for (const nom of [T.recherche.ouvrir, nomCloche(0), T.compte.nom]) {
+          const boite = await barre.getByRole("button", { name: nom }).boundingBox();
+          expect(boite?.width ?? 0, `« ${nom} » : 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
+          expect(boite?.height ?? 0, `« ${nom} » : 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
+        }
+        // Barre : 6 entrées, toutes entières dès 1024 px.
+        const entrees = rubriques.locator("[data-onglet]");
+        await expect(entrees).toHaveText([
+          T.rubriques.aujourdhui,
+          T.rubriques.parcours,
+          T.rubriques.quoiRepondre,
+          T.rubriques.bibliotheque,
+          T.rubriques.mesQuestions,
+          T.rubriques.plus,
+        ]);
+        for (const entree of await entrees.all()) await expect(entree).toBeInViewport({ ratio: 1 });
+      }
+      await testInfo.attach("mesures-abonne-espace", { body: lignes.join("\n"), contentType: "text/plain" });
+    });
+
+    test("menu de compte au clavier : « Mon espace », « Mon profil », « Déconnexion »", async ({ page }) => {
+      await page.setViewportSize({ width: 1024, height: 800 });
+      await page.goto("/conseils");
+      const bouton = page.getByRole("banner").getByRole("button", { name: TEXTES_ESPACE_NAVIGATION.compte.nom });
+      await bouton.focus();
+      await page.keyboard.press("Enter");
+      const menu = page.getByRole("menu");
+      await expect(menu.getByRole("menuitem")).toHaveText([TEXTES_ESPACE_NAVIGATION.monEspace, "Mon profil", "Déconnexion"]);
+      await page.keyboard.press("Escape");
+      await expect(bouton).toBeFocused();
+    });
+  });
 
   // Concision v5 : le bouton prix tient à 320, 360, 375 et 414 px, sur une ligne, sans chevaucher
   // le logo ni le menu ; l'accueil garde ainsi un appel payant au premier écran à toutes les

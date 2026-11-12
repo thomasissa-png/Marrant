@@ -104,8 +104,11 @@ describe.each(Object.entries(ETATS))("pages /profil et /favoris, %s", (_etat, se
 
 describe("garde-fou de construction", () => {
   const SRC = join(__dirname, "../..");
-  /** Fichiers hors périmètre autorisés à importer l'espace (vide au lot D0). */
-  const LISTE_BLANCHE: string[] = [];
+  /**
+   * Fichiers hors périmètre autorisés à importer l'espace (vide au lot D0).
+   * D2 : l'en-tête monte l'en-tête abonné et la barre, sous garde de l'interrupteur.
+   */
+  const LISTE_BLANCHE: string[] = ["components/layout/header.tsx"];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,
     /^app\/api\/espace\//,

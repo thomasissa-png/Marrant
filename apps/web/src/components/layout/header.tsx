@@ -16,6 +16,7 @@ import { TEXTES_CONNEXION } from "@/config/textes/compte";
 import { TEXTES_LETTRE } from "@/config/textes/lettre-s21";
 import { LETTRE_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { EN_TETE, LIBELLE_SECTION_ARTICLES } from "@/config/textes/cta-articles-accueil";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 /**
  * s21 (QA m3, budget JS) : menu de compte (Radix, ~25 Ko compressés) chargé seulement pour un
@@ -27,6 +28,23 @@ const AccountMenu = dynamic(() => import("@/components/layout/account-menu").the
     <span aria-hidden="true" className={cn(buttonVariants({ variant: "ghost", size: "sm" }), "h-11 w-11 shrink-0 px-0")}>
       <IconeProfil />
     </span>
+  ),
+});
+
+/**
+ * s24 (espace client, lot D2) : en-tête abonné et barre de rubriques de l'espace, chargés
+ * côté navigateur seulement, pour l'abonné (session Premium) et SEULEMENT interrupteur
+ * `ESPACE_CLIENT_PUBLIE` ouvert. Fermé : rien de ceci n'est rendu ni téléchargé, l'en-tête
+ * ci-dessous reste celui de la production (test d'inertie). Pendant le chargement, un repère
+ * de même hauteur (en-tête 65 px + barre 46 px, sans saut).
+ */
+const EspaceBarreClient = dynamic(() => import("@/components/espace/espace-barre-client"), {
+  ssr: false,
+  loading: () => (
+    <div aria-hidden="true" className="sticky top-0 z-50">
+      <div className="h-16 border-b border-border bg-background/95" />
+      <div className="box-content h-11 border-b border-border bg-background pt-px" />
+    </div>
   ),
 });
 
@@ -120,6 +138,10 @@ export function Header() {
   const pageChaude = isActivePath(pathname, "/abonnement") || isActivePath(pathname, "/register");
 
   const closeMobileSearch = () => setIsMobileSearchOpen(false);
+
+  // s24 (lot D2) : abonné, interrupteur ouvert : l'en-tête de l'espace et sa barre remplacent
+  // les onglets (ils y migrent, aucune rubrique deux fois). Après tous les hooks.
+  if (ESPACE_CLIENT_PUBLIE && isPremium) return <EspaceBarreClient pathname={pathname} />;
 
   return (
     <>
