@@ -8,6 +8,9 @@
 ## 0. v4 (relectures à l'aveugle du tour 1 : 18 fautes du @reviewer, 6 critères du @ux)
 > @design, 12/11/2026. Quatre maquettes réécrites, aucune capture ni mesure faite par @design (pas de navigateur) : **tout ce qui suit est estimé, à mesurer par la session**. Les sections 1 à 6 ci-dessous décrivent v1 à v3 ; en cas de conflit, v4 prime.
 
+### 0.0000 v6.1 (mesure de la session : N4 à 200 % sur `#etat=apres-paiement`)
+- Sous 300 px de large, la ligne du favori (texte réel inchangé, environ 6 lignes à 164 px) repoussait « Commencer » hors du premier écran de 406 px. Elle est maintenant **placée après la carte du premier pas** (déplacée dans le DOM par le script, l'ordre du DOM reste l'ordre visuel) et compactée (12/16, 8 px de marge verticale). Au-dessus de 300 px, rien ne change (471 px d'étirement, ligne en tête). Estimation : le bouton retrouve sa position de l'état `pas` à 200 % (y environ 375 sur 406). À mesurer avec `#etat=apres-paiement&hyp=off`.
+
 ### 0.000 v6 (relectures du tour 3 : @ux 9, 10, 9, 9, 9, 9 ; @reviewer 9, 9, 9, 8) : retouches de design seulement
 > @design, 12/11/2026. Rien mesuré. Le contenu des missions et du bilan, les accroches et les libellés [HYPOTHÈSE] restent aux mains du @copywriter : crochets et marqueurs conservés.
 1. **T1, texte réel du site** : la confirmation après paiement reprend `BIENVENUE_PREMIUM.favori` (`abonnement-vente.ts` l. 170 à 174), sans marqueur : « Ta vanne est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets. » (`&favori=TIP|VIDEO` pour « Ton conseil » et « Ta vidéo »). Elle fait environ 3 lignes à 375 : l'étirement du premier pas passe de `100svh - 431px` à `- 471px` (le bouton reste dans le premier écran, la première puce hors du premier écran). **Le libellé 3 de §0.4 (« Ton favori est ajouté. ») est supprimé.**

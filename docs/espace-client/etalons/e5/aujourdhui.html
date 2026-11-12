@@ -147,6 +147,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .fd{display:none}
 .main{padding-top:16px}.top{margin-bottom:8px}h1{font-size:24px;line-height:32px}
 /* v4.1 N4 à 200 % : pas d'étirement (déjà exclu sous 300 px), titre 16/24, « 5 min » et « Commencer » sur une même rangée : le bouton tombe vers y = 375 sur 406 */
+#c1 .banner{margin-bottom:0;padding:8px 12px;font-size:12px;line-height:16px}
 #pas{padding:12px}#pas h2{font-size:16px;line-height:24px;margin-top:8px!important}
 #pas .pas-b{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:8px}
 #pas .pas-b .meta{flex:none;margin-right:8px}
@@ -488,8 +489,15 @@ function appliquer() {
   fermerSheet(false); if (p.ouvert) ouvrirSheet();
   rech(!!p.rech);
 }
-addEventListener("hashchange", appliquer);
-appliquer(); ramener();
+/* v6.1 : sous 300 px (200 % de texte) la ligne du favori (texte réel, environ 6 lignes) passe APRÈS la carte du premier pas : « Commencer » reste dans le premier écran. L'ordre du DOM suit l'ordre visuel. */
+function placerFav() {
+  const f = $("#fav");
+  if (innerWidth < 300) $("#c1").insertBefore(f, $("#jour")); /* juste après la carte du premier pas */
+  else $("#main").insertBefore(f, $("#stack"));
+}
+addEventListener("resize", placerFav);
+addEventListener("hashchange", () => { appliquer(); placerFav(); });
+appliquer(); placerFav(); ramener();
 </script>
 </body>
 </html>
