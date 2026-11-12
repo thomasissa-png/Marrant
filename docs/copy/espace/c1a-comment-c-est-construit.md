@@ -1,14 +1,15 @@
-# C1a : « Comment c'est construit », lot 1 (6 fiches)
+# C1a : « Comment c'est construit », lot 1 (6 fiches), tour 2
 
-> Auteur : @copywriter, 12/11/2026. Lot C1a du plan s24 §5. Fiche 1 = étalon E2.1 validé, reprise telle quelle. Fiches 2 à 6 = les 5 mécanismes qui suivent le faux secret dans la liste de `architecture-contenu-v20.md` l. 479 (règle de trois, détournement, contraste, litote, fausse logique). **Statut : fiches 2 à 6 non relues à l'aveugle** (à passer à la barre E2.1 avant tout import).
+> Auteur : @copywriter, 12/11/2026. Lot C1a du plan s24 §5. Fiche 1 = étalon E2.1 validé, reprise telle quelle. Fiches 2 à 6 = les 5 mécanismes qui suivent le faux secret dans la liste de `architecture-contenu-v20.md` l. 479 (règle de trois, détournement, contraste, litote, fausse logique). **Statut : fiches 2 à 6 réécrites au tour 2, non relues à l'aveugle sur cette version** (règle d'or P0 s18 : chaque fiche corrigée repasse la relecture).
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche (celui de E2.1) : le schéma en une ligne, l'exemple, comment c'est fait, trois essais un seul tient, la règle, l'erreur que tout le monde fait, à toi + grille (3 questions oui ou non, rien d'enregistré, `architecture-contenu-v20.md` l. 283).
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent nommé, on rit avec et jamais contre, aucune forme accordée au masculin ou au féminin dans ce que dit l'utilisateur (exemples et essais relus ligne à ligne). Aucun humoriste cité dans ce lot (aucune citation n'est nécessaire).
+> Longueur : mesure manuelle, corps de la fiche sans les titres (pas d'outil de comptage). E2.1 = 252 mots ; fiches 2 à 6 : 251, 256, 251, 256, 240.
 
 ---
 
 ## Fiche 1. Le faux secret (E2.1, reprise telle quelle)
 
-Source : `docs/copy/etalons-espace-s24.md` l. 147 à 180 (E2.1, notée 10 par deux relecteurs sur trois) ; exemple tiré de l'étape 1 de Machine à Café, quiz validé (`architecture-contenu-v20.md` l. 481 à 487).
+[note interne, ne pas importer] Source : `docs/copy/etalons-espace-s24.md` l. 147 à 180 (E2.1, notée 10 par deux relecteurs sur trois) ; exemple tiré de l'étape 1 de Machine à Café, quiz validé (`architecture-contenu-v20.md` l. 481 à 487).
 
 **Le faux secret**
 
@@ -48,35 +49,35 @@ Ajouter « non mais je rigole » juste après. L'aveu s'arrête au dernier mot.
 **La règle de trois**
 
 **Le schéma, en une ligne**
-Trois choses de la même famille, puis une phrase qui n'en faisait pas partie.
+Deux éléments attendus, puis un troisième qui déraille.
 
 **L'exemple**
-« Ma copine a fait le tri de printemps. Elle a gardé mon vélo, mes livres, ma guitare. Moi, elle a dit qu'elle verrait en juin. »
-Vanne du site : `docs/content/vannes-actives-s19.json` l. 341 (début) et l. 342 (chute), mot pour mot.
+« Mes trois forces : la ponctualité, l'organisation, l'annulation de dernière minute. »
+[note interne, ne pas importer] Exemple neuf (pas une vanne du catalogue), recherche web : 0 occurrence.
 
 **Comment c'est fait**
-Les trois objets installent un rythme : l'oreille attend que la liste continue ou se ferme. La dernière phrase y glisse celui qui parle, rangé avec les affaires, avec un délai de réflexion.
-Dans l'exemple, tout est précis : un tri de printemps, trois objets qu'on garde, et « juin », un mois qui donne une date à l'hésitation. Copie cette précision, pas la phrase.
+Les deux premiers éléments installent un rythme : on attend une liste de qualités. Le troisième garde la même tournure mais change de camp, et c'est ce changement qui fait rire.
+Le détail est précis : « de dernière minute » est la formule qu'on prononce vraiment. Copie cette précision, pas la phrase.
 
 **Trois essais, un seul tient**
-Essai 1 : « Dans mon frigo : du lait, des œufs, de la moutarde. J'ai aussi du fromage. »
-Rien ne casse : la phrase d'après prolonge la liste au lieu de la retourner.
-Essai 2 : « Dans mon frigo : du lait, des œufs, de la moutarde. Ma vie entière est un désastre. »
-Trop loin : on ne parle plus du frigo mais d'un constat sur toi. L'autre ne sait plus quoi répondre.
-Essai 3 : « Dans mon frigo : du lait, des œufs, de la moutarde. Elle a connu trois colocataires. »
-Trois choses banales, puis un détail précis sur la dernière.
+Essai 1 : « Dans mon frigo : du lait, des œufs, du beurre. »
+Rien ne déraille : les trois éléments sont attendus.
+Essai 2 : « Dans mon frigo : du lait, des œufs, et la preuve que ma vie est un désastre. »
+Trop loin : ce n'est plus une chute sur le frigo, c'est un constat sur toi.
+Essai 3 : « Dans mon frigo : du lait, des œufs, et une moutarde qui a connu quatre colocataires. »
+La moutarde reste, les colocataires passent.
 
 **La règle**
-Trois éléments, pas quatre : le rythme se fait à trois. Ils se ressemblent, la chute ne leur ressemble pas, et elle arrive juste après, sans commentaire.
+Deux éléments attendus, un troisième qui reprend la même tournure et déraille. Dis-le d'un seul souffle, en une phrase, et arrête-toi : la chute est le dernier mot.
 
 **L'erreur que tout le monde fait**
-Rallonger la liste (cinq, six objets) pour bien installer le rythme. L'oreille décroche avant la chute.
+Rallonger la liste avec un quatrième ou un cinquième élément « pour bien installer le rythme ». L'oreille décroche avant le dernier.
 
 **À toi**
-Choisis un endroit de ta vie : ton frigo, ton sac, ta table de chevet. Écris trois essais (la liste qui continue, la chute trop loin, la tienne), puis garde le troisième et passe la grille :
-1. Ta liste fait trois éléments, et ta chute tient en une phrase ?
-2. Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?
-3. La fin surprend ?
+Choisis un endroit de ta vie : ton sac, ta table de chevet, ton bureau. Écris trois essais (la liste sans dérapage, le dérapage trop loin, le tien), puis garde le troisième et passe la grille :
+1. Ta liste a trois éléments, et la chute tient en une phrase ?
+2. Si ta chute vise quelqu'un, cette personne peut-elle en rire avec toi ?
+3. Le dernier élément surprend ?
 
 ---
 
@@ -85,34 +86,33 @@ Choisis un endroit de ta vie : ton frigo, ton sac, ta table de chevet. Écris tr
 **Le détournement**
 
 **Le schéma, en une ligne**
-Un moule que tout le monde connaît (« cet objet est là pour… »), dont tu gardes la forme et dont tu changes le contenu.
+Une expression que tout le monde connaît : tu gardes sa forme et tu changes ce qu'elle dit pour un détail précis de ta vie.
 
 **L'exemple**
-« Il y a un canapé dans l'espace détente de mon bureau. Personne ne s'y est jamais assis. Il est là pour prouver qu'on pourrait. »
-Vanne du site : `docs/content/vannes-actives-s19.json` l. 551 (début) et l. 552 (chute), mot pour mot.
+« L'appétit vient en mangeant, et le remords vers 23 h 40. »
+[note interne, ne pas importer] Exemple neuf, recherche web : 0 occurrence. Expression d'origine : « L'appétit vient en mangeant, la soif s'en va en buvant » (Rabelais, [citations sur l'appétit](https://www.lalanguefrancaise.com/citations/appetit)).
 
 **Comment c'est fait**
-« Il est là pour » annonce une raison officielle : décorer, accueillir, détendre. La chute donne la vraie, celle que tout le monde a pensée sans la dire : le canapé ne sert pas, il prouve seulement que ce serait possible. Le ton reste administratif, c'est ce calme qui fait le travail.
-Les détails sont précis : un canapé, un espace détente, et « jamais » personne. Les « Formules à détourner » utilisent la même mécanique sur des expressions toutes faites : ici, le moule est une phrase du quotidien.
+Tu commences par l'expression, donc le public attend la suite connue (« la soif s'en va en buvant »). À la place, tu donnes une suite vraie et précise : l'heure à laquelle le remords arrive. Copie cette précision, pas la phrase.
 
 **Trois essais, un seul tient**
-Essai 1 : « La plante du salon est là pour décorer. »
-C'est la réponse officielle : le moule est gardé, mais rien n'est détourné.
-Essai 2 : « La plante du salon est là pour qu'on se souvienne que, un jour, quelqu'un a cru qu'on pourrait s'en occuper, et que ça nous a tous un peu marqués. »
-Trop long : la forme se perd, on ne reconnaît plus le moule.
-Essai 3 : « La plante du salon est là pour que personne ne dise qu'on n'a rien essayé. »
-Même moule, une raison réelle que personne n'avait dite, et la coloc entière dans le même bateau.
+Essai 1 : « Les petits ruisseaux font les grandes rivières, et les petites économies font de grandes économies. »
+Rien n'est détourné : la fin répète le sens.
+Essai 2 : « Les petits ruisseaux font les grandes rivières, mais moi, quand je mets de côté, un abonnement reprend tout. »
+Trop long : la forme se perd.
+Essai 3 : « Les petits abonnements font les grands découverts. »
+Même squelette, un détail précis de ton quotidien.
 
 **La règle**
-Garde le moule intact (mêmes premiers mots, même longueur) et mets dedans un détail précis de ta vie. Ta phrase se comprend sans que tu expliques ce que tu détournes.
+Garde la forme de l'expression (ses mots-clés, son rythme) et mets dedans un détail précis de ta vie. Ton détournement tient en une phrase : on doit reconnaître l'original sans que tu le dises.
 
 **L'erreur que tout le monde fait**
-Changer le moule en cours de route (« en fait, c'est là pour… disons… »). Si l'autre ne reconnaît plus la forme, il ne voit plus l'écart.
+Expliquer l'original (« c'est comme le proverbe, mais… »). Le public le reconnaît seul : si tu l'expliques, tu lui retires ce plaisir.
 
 **À toi**
-Prends un objet de chez toi et complète « … est là pour… » en trois essais (la réponse officielle, la trop longue, la tienne). Garde le troisième et passe la grille :
-1. Ta phrase tient en une phrase, avec le moule intact ?
-2. Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?
+Choisis une expression que tu connais par cœur (« mieux vaut tard que jamais » fait l'affaire). Écris trois essais (la fin qui répète le sens, la phrase trop longue, la tienne), puis garde le troisième et passe la grille :
+1. On reconnaît l'expression, et ton détournement tient en une phrase ?
+2. Si ton détail vise quelqu'un, cette personne peut-elle en rire avec toi ?
 3. La fin surprend ?
 
 ---
@@ -122,34 +122,34 @@ Prends un objet de chez toi et complète « … est là pour… » en trois essa
 **Le contraste**
 
 **Le schéma, en une ligne**
-Deux situations côte à côte, chiffres exacts, avec un écart énorme, puis un verdict calme dit par l'autre.
+Deux choses que tout oppose, et une chute qui fait voir l'écart.
 
 **L'exemple**
-« Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit « c'est un bon début ». »
-Vanne du site : `docs/content/vannes-actives-s19.json` l. 607 (début) et l. 608 (chute), mot pour mot (les guillemets intérieurs sont ceux de la vanne ; à l'affichage, “…”).
+« Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit “c'est un bon début”. »
+[note interne, ne pas importer] Vanne du site : `docs/content/vannes-actives-s19.json` l. 607 (début) et l. 608 (chute), mot pour mot (les « » intérieurs de la vanne s'affichent en “…”).
 
 **Comment c'est fait**
-Les deux chiffres ont la même unité (un niveau, dans un jeu) : l'écart se voit sans qu'on te l'explique. Ensuite, la phrase de la grand-mère reconnaît cet écart sans l'écraser : « un bon début » est gentil, et c'est ce qui rend la chute douce.
-Dans l'exemple, tout est précis : 4 812 et 60, pas « beaucoup » et « peu ». Copie cette précision, pas la phrase.
+Un jeu de bonbons et un jeu de rôle n'ont rien à voir : tu les compares pourtant comme s'ils se valaient. La grand-mère gagne au chiffre, et son “bon début” le confirme avec douceur.
+Les chiffres sont exacts : 4 812 et 60, pas « beaucoup » et « peu ».
 
 **Trois essais, un seul tient**
-Essai 1 : « Ma sœur court beaucoup. Moi, pas du tout. »
-Trop flou : aucun chiffre, il n'y a pas d'écart à voir.
+Essai 1 : « Ma sœur court beaucoup. Moi, non. »
+Trop flou : l'écart ne se voit pas.
 Essai 2 : « Ma sœur a couru 42 kilomètres dimanche. Moi, je ne vaux rien. »
-Trop loin : tu remplaces la comparaison par un verdict sur toi, et il n'y a plus rien à comparer.
-Essai 3 : « Ma sœur a couru 42 kilomètres dimanche. Moi, j'ai couru 40 mètres pour le bus. Elle m'a demandé si j'avais besoin d'une pause. »
-Même unité, écart net, et un verdict gentil de l'autre.
+Trop loin : un verdict sur toi remplace la comparaison.
+Essai 3 : « Ma sœur a couru 42 kilomètres dimanche. Moi, j'ai couru 40 mètres pour le bus. Elle m'a dit que le plus dur, c'est de partir. »
+Même mesure, verdict doux de l'autre.
 
 **La règle**
-Deux éléments comparables, des chiffres exacts, un écart énorme. Le verdict vient de celui qui est devant, et il est doux : on rit de l'écart, pas de la personne.
+Deux choses que tout oppose, des détails exacts (un chiffre aide), une chute qui fait voir l'écart, souvent par un verdict doux de l'autre. On rit de l'écart, pas de la personne.
 
 **L'erreur que tout le monde fait**
-Commenter l'écart (« tu vois, elle est bien meilleure que moi »). Les chiffres l'ont déjà dit.
+Commenter l'écart (« tu vois, elle est bien meilleure »). Il se voit déjà.
 
 **À toi**
-Choisis deux choses de ta vie qui n'ont pas la même taille (ton score et celui d'un proche, ta pile à lire et la sienne). Écris trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :
-1. Ton contraste tient en trois phrases au plus, chiffres compris ?
-2. Si le verdict vise quelqu'un, cette personne peut-elle en rire avec toi ?
+Choisis deux choses de ta vie de taille très différente, et la réaction d'un proche. Écris trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :
+1. Ton contraste tient en trois phrases au plus ?
+2. La personne comparée peut-elle en rire avec toi ?
 3. La fin surprend ?
 
 ---
@@ -159,33 +159,33 @@ Choisis deux choses de ta vie qui n'ont pas la même taille (ton score et celui 
 **La litote**
 
 **Le schéma, en une ligne**
-Une phrase dite bien plus petite que ce qu'elle veut dire, que tu prends au sérieux pour de bon.
+Une phrase qui dit bien moins que ce qu'elle veut dire, et que tu prends au sérieux pour de bon.
 
 **L'exemple**
-« Mon père a vu mon appart. Il a dit « c'est pas mal ». Je lui ai demandé de me le mettre par écrit. »
-Vanne du site : `docs/content/vannes-actives-s19.json` l. 271 (début) et l. 272 (chute), mot pour mot.
+« Mon père a vu mon appart. Il a dit “c'est pas mal”. Je lui ai demandé de me le mettre par écrit. »
+[note interne, ne pas importer] Vanne du site : `docs/content/vannes-actives-s19.json` l. 271 (début) et l. 272 (chute), mot pour mot.
 
 **Comment c'est fait**
-Dans beaucoup de familles, « c'est pas mal » vaut un très grand compliment : tout le monde le sait, et c'est ça, une litote : dire moins pour faire entendre plus. Le rire vient de ta réaction. Tu traites cette phrase comme un document rare, et « par écrit » mesure exactement à quel point elle l'est.
-Tu ne dis pas que c'est un compliment : l'autre l'a déjà compris. Copie cette retenue, pas la phrase.
+Une litote, c'est dire moins pour faire entendre plus. Dans beaucoup de familles, “c'est pas mal” vaut un très grand compliment.
+Le rire vient de ta réaction : tu traites cette phrase comme un document rare, et “par écrit” mesure à quel point elle l'est.
 
 **Trois essais, un seul tient**
-Essai 1 : « Mon oncle a goûté mon gâteau. Il a dit « il est délicieux ». »
-Trop plat : la phrase dit ce qu'elle veut dire, il n'y a rien à décoder.
-Essai 2 : « Mon oncle a goûté mon gâteau. Il a dit « j'ai connu pire ». J'ai conclu qu'il me détestait. »
-Trop loin : tu prends sa pudeur pour un reproche, et la tendresse disparaît.
-Essai 3 : « Mon oncle a goûté mon gâteau. Il a dit « j'ai connu pire ». J'ai noté la date. »
-Tu accueilles la phrase minuscule comme un événement.
+Essai 1 : « Mon oncle a goûté mon gâteau. Il a dit “il est délicieux”. »
+Trop plat : rien à décoder.
+Essai 2 : « Mon oncle a goûté mon gâteau. Il a dit “ce n'est pas désagréable”. J'ai conclu qu'il me détestait. »
+Trop loin : tu prends sa pudeur pour un reproche.
+Essai 3 : « Mon oncle a goûté mon gâteau. Il a dit “ce n'est pas désagréable”. J'ai appelé ma mère pour lui annoncer. »
+Autre geste, même retenue.
 
 **La règle**
-Cite la phrase mot pour mot, puis une seule réaction concrète. La personne doit pouvoir sourire de sa propre pudeur : tu ris de la phrase, avec tendresse, pas de celui qui l'a dite.
+Cite la phrase mot pour mot, puis une seule réaction concrète. Tu fais de la phrase minuscule un événement.
 
 **L'erreur que tout le monde fait**
-Expliquer la litote (« en fait, c'est sa façon de dire qu'il est fier »). Tu fais le travail du public et tu éteins la tendresse.
+Expliquer la litote (“en fait, c'est sa façon de dire qu'il est fier”) : tu éteins la tendresse.
 
 **À toi**
-Retrouve la dernière phrase minuscule qu'on t'a dite et qui voulait dire beaucoup. Écris trois essais (la phrase trop plate, la réaction trop loin, la tienne), puis garde le troisième et passe la grille :
-1. Ta phrase citée et ta réaction tiennent en trois phrases au plus ?
+Retrouve une phrase minuscule qu'on t'a dite et qui voulait dire beaucoup (celle qu'un proche répète toujours fait l'affaire). Écris trois essais (la phrase trop plate, la réaction trop loin, la tienne), puis garde le troisième et passe la grille :
+1. Phrase citée et réaction tiennent en trois phrases au plus ?
 2. La personne citée peut-elle en rire avec toi ?
 3. La fin surprend ?
 
@@ -196,64 +196,85 @@ Retrouve la dernière phrase minuscule qu'on t'a dite et qui voulait dire beauco
 **La fausse logique**
 
 **Le schéma, en une ligne**
-Tu appliques une règle à la lettre, sans un mot de trop, et elle te mène exactement là où tu l'espérais : nulle part.
+Un raisonnement qui a l'air juste à chaque étape, et une conclusion absurde que tu énonces calmement.
 
 **L'exemple**
-« Ma copine a fait un tableau des tâches ménagères avec un code couleur. J'ai le bleu. Il y a rien en bleu. »
-Vanne du site : `docs/content/vannes-actives-s19.json` l. 390 (début) et l. 391 (chute), mot pour mot.
+« Mon GPS m'a dit de tourner à droite. Y'avait un fleuve. J'ai hésité. Il avait l'air sûr de lui. »
+[note interne, ne pas importer] Vanne du site : `docs/content/vannes-actives-s19.json` l. 159 (début) et l. 160 (chute), mot pour mot.
 
 **Comment c'est fait**
-Le code couleur est une vraie logique de maison : à chacun sa couleur. Tu la suis sans la discuter : tu as le bleu. Il ne reste qu'un détail, « il y a rien en bleu », et la règle est respectée pendant que son but est contourné. Personne n'a rien dit de faux, c'est ce qui rend la chute impossible à contester.
-Dans l'exemple, tout est précis : un tableau, un code couleur, une seule couleur. Copie cette précision, pas la phrase.
+Le raisonnement tient jusqu'au bout : un GPS qui a l'air sûr de lui, c'est un GPS qui sait. Chaque étape paraît juste, mais la dernière te laisse devant un fleuve.
+Aucun “donc” : c'est le public qui fait la déduction.
 
 **Trois essais, un seul tient**
-Essai 1 : « Le planning de la coloc dit que je nettoie la salle de bains. Je ne l'ai pas fait. »
-Un simple aveu : il n'y a aucune logique à suivre.
-Essai 2 : « Le planning dit que je nettoie la salle de bains. Mais la salle de bains me déteste, donc non. »
-Trop loin : la logique est remplacée par une excuse, et on voit la mauvaise foi.
-Essai 3 : « Le planning de la coloc : chacun nettoie la salle de bains la semaine de son anniversaire. Le mien est le 29 février. »
-La règle est suivie à la lettre, le calcul se fait tout seul, et rien n'est dit en trop.
+Essai 1 : « J'ai lu la notice du lave-linge. Je n'ai pas lancé de machine. »
+Aucune logique : un simple constat.
+Essai 2 : « J'ai lu la notice du lave-linge. Il me déteste, donc je ne le lance pas. »
+Trop loin : une excuse, pas un raisonnement.
+Essai 3 : « J'ai lu la notice du lave-linge. Si je le lance bien, on me le redemandera. Je vais me tromper de temps en temps. »
+Chaque étape tient, la conclusion est absurde.
 
 **La règle**
-Une règle que tout le monde connaît, appliquée à la lettre, en deux phrases au plus et sans « donc ». Un seul détail vérifiable fait la chute. Tu te sers de la règle, tu ne reproches rien à celui qui l'a écrite.
+Chaque étape paraît juste, la dernière ne l'est pas, et tu la dis calmement, sans “donc”. Quatre phrases au plus.
 
 **L'erreur que tout le monde fait**
-Conclure à la place de l'autre (« donc je ne nettoie jamais »). La déduction lui appartient.
+Conclure à la place de l'autre (“donc je ne le lance jamais”). La déduction lui appartient.
 
 **À toi**
-Choisis une règle de ta vie (un planning, un règlement, une consigne). Écris trois essais (l'aveu simple, l'excuse trop loin, la logique à la lettre), puis garde le troisième et passe la grille :
-1. Ta phrase tient en deux phrases au plus ?
+Choisis une règle ou une consigne de ta vie (une notice, un planning, un panneau). Écris trois essais (le simple constat, l'excuse, le raisonnement), puis garde le troisième et passe la grille :
+1. Ta chute tient en quatre phrases au plus ?
 2. Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?
-3. La fin surprend ?
+3. La dernière étape surprend ?
 
 ---
 
-## Sources des vannes reprises
+## Sources des vannes reprises (note interne)
 
-Toutes dans `docs/content/vannes-actives-s19.json` (lecture seule en base de production au 11/10/2026, 132 vannes actives), citées mot pour mot.
+Dans `docs/content/vannes-actives-s19.json` (lecture seule en base de production au 11/10/2026, 132 vannes actives), mot pour mot. Les exemples des fiches 2 et 3 sont neufs.
 
 | Fiche | Vanne | Lignes |
 |---|---|---|
-| 2 | tri de printemps (vélo, livres, guitare) | 341 à 342 |
-| 3 | canapé de l'espace détente | 551 à 552 |
 | 4 | grand-mère niveau 4 812 | 607 à 608 |
 | 5 | « c'est pas mal » (le père) | 271 à 272 |
-| 6 | tableau des tâches, le bleu | 390 à 391 |
+| 6 | le GPS et le fleuve | 159 à 160 |
 
-À vérifier avant import : que ces 5 vannes sont toujours actives en base (statut du 11/10/2026, aucune relecture de statut faite ici).
+À vérifier avant import : que ces 3 vannes sont toujours actives en base (statut du 11/10/2026).
 
-## Originalité : recherche web de la phrase exacte (essais et exercices neufs)
+## Originalité : recherche web de la phrase exacte (note interne)
 
-Résultat : **0 occurrence** de la phrase exacte pour chaque ligne cherchée (preuve partielle : cela ne prouve pas l'absence de variante, les relecteurs à l'aveugle restent juges).
-1. « Dans mon frigo : du lait, des œufs, de la moutarde. Elle a connu trois colocataires. » : 0.
-2. « La plante du salon est là pour que personne ne dise qu'on n'a rien essayé. » : 0.
-3. « Ma sœur a couru 42 kilomètres dimanche. … Elle m'a demandé si j'avais besoin d'une pause. » : 0.
-4. « Mon oncle a goûté mon gâteau. Il a dit « j'ai connu pire ». J'ai noté la date. » : 0.
-5. « Le planning de la coloc : chacun nettoie la salle de bains la semaine de son anniversaire. Le mien est le 29 février. » : 0.
-Non cherchées : les essais 1 et 2 de chaque fiche (ils sont volontairement ratés, pas des vannes).
+Résultat : **0 occurrence** pour chaque ligne cherchée (preuve partielle : cela ne prouve pas l'absence de variante, les relecteurs à l'aveugle restent juges).
+1. « Mes trois forces : la ponctualité, l'organisation, l'annulation de dernière minute. » (cherchée avec « et » avant le dernier élément) : 0.
+2. « Dans mon frigo : du lait, des œufs, et une moutarde qui a connu quatre colocataires. » : 0.
+3. « L'appétit vient en mangeant, et le remords vers 23 h 40. » : 0.
+4. « Les petits abonnements font les grands découverts. » : 0.
+5. « Ma sœur a couru 42 kilomètres… j'ai couru 40 mètres pour le bus… le plus dur, c'est de partir. » : 0.
+6. « Il a dit “ce n'est pas désagréable”. J'ai appelé ma mère pour lui annoncer. » : 0.
+7. « J'ai lu la notice du lave-linge. Si je le lance bien, on me le redemandera. » : 0.
+8. Le 29 février : la formule exacte n'existe pas sur le web (0), mais l'idée « planning de ménage ou règle de coloc liée à un anniversaire le 29 février » relève d'un genre connu (les blagues sur les nés un 29 février), la recherche renvoie même la variante en suggestion : **idée écartée**, comme la critique le demandait.
+Non cherchées : les essais 1 et 2 de chaque fiche (volontairement ratés).
+
+## Tour 2 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Fiche 2 : règle « trois, pas quatre » contredite par l'exemple 3+1 ; le JSON classe la vanne du tri en « glissement de catégorie » (reviewer, elon) | Exemple remplacé par une vraie triade neuve : « Mes trois forces : la ponctualité, l'organisation, l'annulation de dernière minute. » Schéma : « Deux éléments attendus, puis un troisième qui déraille. » Règle : « Deux éléments attendus, un troisième qui reprend la même tournure et déraille… en une phrase ». La vanne du tri (l. 341-342) est retirée. |
+| Fiche 2 : chute mal expliquée, « trois colocataires » (critique) ; essai 3 hors schéma (reviewer, elon) | Essai 3 : « …une moutarde qui a connu quatre colocataires. », explication : « La moutarde reste, les colocataires passent. » Il suit le schéma (deux attendus, un troisième qui déraille). |
+| Fiche 2 : geste sur un objet déjà pris par les essais (elon) ; « Ma copine » en ouverture de deux fiches (critique) | À toi : « ton sac, ta table de chevet, ton bureau » (le frigo reste aux essais). Plus aucune fiche ne s'ouvre sur « Ma copine ». |
+| Fiche 3 : montrer le détournement d'une expression toute faite (reviewer, coordinateur) ; « est là pour » n'est pas un moule connu | Exemple neuf : « L'appétit vient en mangeant, et le remords vers 23 h 40. » (expression de Rabelais, source citée). Schéma : « Une expression que tout le monde connaît : tu gardes sa forme… ». La vanne du canapé (l. 551-552) est retirée. |
+| Fiche 3 : essai 3 trop proche de l'exemple, abstrait ; « même longueur » flou ; phrase de plan de contenu ; grille lourde (critique, reviewer, elon) | Essais refaits sur « Les petits ruisseaux font les grandes rivières » (essai 3 : « Les petits abonnements font les grands découverts. »). « Même longueur » supprimé : « Garde la forme de l'expression (ses mots-clés, son rythme) ». Renvoi à « Formules à détourner » supprimé. Grille 1 : « On reconnaît l'expression, et ton détournement tient en une phrase ? » |
+| Fiche 4 : le contraste ne se réduit pas à des chiffres ; « même unité » faux (reviewer, elon) | Schéma : « Deux choses que tout oppose, et une chute qui fait voir l'écart. » Comment c'est fait : « Un jeu de bonbons et un jeu de rôle n'ont rien à voir : tu les compares pourtant comme s'ils se valaient. » Règle : « un chiffre aide », plus obligatoire. Essai 3 : « Même mesure, verdict doux de l'autre. » |
+| Fiche 4 : essai 3 qui refait la chute de l'exemple (critique) ; geste sans le verdict de l'autre ; grille « vise » (elon) | Essai 3 : « Elle m'a dit que le plus dur, c'est de partir. » À toi : « …et la réaction d'un proche. » Grille 2 : « La personne comparée peut-elle en rire avec toi ? » |
+| Fiche 5 : « dite bien plus petite » flou ; définition en bout de course, deux deux-points (reviewer, elon) | Schéma : « Une phrase qui dit bien moins que ce qu'elle veut dire… ». Comment c'est fait ouvre sur : « Une litote, c'est dire moins pour faire entendre plus. » |
+| Fiche 5 : essai 3 « noter la date » = même geste que « par écrit » ; deux consignes pour la règle ; pas de repli pour le geste (critique, elon) | Essai 3 : « …J'ai appelé ma mère pour lui annoncer. » (litote « ce n'est pas désagréable », plus nette que « j'ai connu pire »). Règle : « Cite la phrase mot pour mot, puis une seule réaction concrète. Tu fais de la phrase minuscule un événement. » À toi : « (celle qu'un proche répète toujours fait l'affaire) ». |
+| Fiche 6 : l'exemple du tableau est une consigne prise au mot, pas une fausse logique (reviewer, coordinateur) ; 3 phrases pour une règle « deux phrases » (reviewer, elon) | Exemple remplacé par une vraie fausse logique, vanne réelle du catalogue actif : le GPS et le fleuve (l. 159-160). Schéma : « Un raisonnement qui a l'air juste à chaque étape, et une conclusion absurde que tu énonces calmement. » Règle : « Quatre phrases au plus » (l'exemple en a quatre, l'essai 3 en a trois). La vanne du tableau (l. 390-391) est retirée. Le mécanisme reste « fausse logique » (liste l. 479). |
+| Fiche 6 : 29 février déjà entendu (critique), gardé par elon ; recherche web demandée (coordinateur) | Idée écartée après recherche (voir « Originalité », point 8). Essais refaits sur la notice du lave-linge ; « sans “donc” » est montré par l'essai 2 (« …donc je ne le lance pas ») et rappelé dans la règle. |
+| Grilles tautologiques (reviewer l. 114, 225 ; elon) | Fiche 3 : « On reconnaît l'expression, et ton détournement tient en une phrase ? » ; fiche 6 : « Ta chute tient en quatre phrases au plus ? ». Les questions 2 et 3 des grilles restent celles de `architecture-contenu-v20.md` l. 283, adaptées au mécanisme. |
+| Longueur (reviewer l. 10) | Mesure manuelle, corps sans titres : E2.1 252 ; fiches 2 à 6 : 251, 256, 251, 256, 240. Tour 1 : de 281 à 300 environ. |
+| Ligne « Source » de la fiche 1 (reviewer) | Marquée « [note interne, ne pas importer] » ; même marquage sur toutes les lignes de source et de recherche des fiches 2 à 6. |
 
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/c1a-comment-c-est-construit.md` (fiche 1 = E2.1 reprise ; fiches 2 à 6 neuves, 5 vannes réelles citées avec leurs lignes).
-- Choix d'ordre : le brief dit « les 5 mécanismes suivants » : pris dans l'ordre de `architecture-contenu-v20.md` l. 479 après le faux secret (règle de trois, détournement, contraste, litote, fausse logique). Callback et escalade comique (qui précèdent le faux secret dans la liste) restent donc à placer dans C1b avec les 5 derniers : à confirmer.
-- Points d'attention : fiches 2 à 6 non relues à l'aveugle (barre E2.1 à tenir) ; les 3 essais de chaque fiche sont neufs (essai 3 de chaque fiche : recherche web faite, 0 occurrence) ; le détournement est montré sur un moule de phrase du quotidien (renvoi vers « Formules à détourner » pour les expressions toutes faites) ; la règle de trois est montrée sur « liste de trois puis une phrase qui n'en faisait pas partie » (variante honnête de la vanne réelle).
+- Fichier : `/home/user/Marrant/docs/copy/espace/c1a-comment-c-est-construit.md` (fiche 1 = E2.1 reprise ; fiches 2 à 6 réécrites).
+- Exemples : fiches 2 et 3 neufs (recherche web faite, 0 occurrence) ; fiches 4, 5, 6 = vannes réelles mot pour mot (l. 607-608, 271-272, 159-160). À vérifier : ces 3 vannes toujours actives en base.
+- Choix : callback et escalade comique (avant le faux secret dans la liste l. 479) restent pour C1b, à confirmer ; mécanismes tous pris dans la liste des 12, aucun 13e.
+- Longueurs : comptage manuel (aucun outil de mesure), à recontrôler par @reviewer ; fiches 2 à 6 non relues à l'aveugle sur cette version, fiche corrigée = nouveau tour (P0 s18).
