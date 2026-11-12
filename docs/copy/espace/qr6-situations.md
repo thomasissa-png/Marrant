@@ -1,24 +1,24 @@
-# QR6 : Quoi répondre, lot 6 (10 situations), tour 1
+# QR6 : Quoi répondre, lot 6 (10 situations), tour 2
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 l. 194 (QR6 : coloc 3, famille 3, messages et groupes 4 ; répartition conforme). Format de `docs/copy/espace/qr4-situations.md` et `qr3-situations.md`, niveau de `qr1-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md` et des relectures QR1 à QR3, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« quelqu'un », « la personne », « un de tes parents »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. **Chaque registre (sûre, joueuse, risquée) d'une même situation a sa propre image.** Coloc : on rit de soi ou d'un détail neutre, jamais d'une personne précise. Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche. Messages et groupes : la réplique est un texte écrit, la scène le dit.
 > Aucune scène de QR1 à QR5 ni des étalons reprise (poêle, « tu fais quoi », photo, danser, afterwork, notes, sourdine, « tu n'as pas ri », « ça fait des mois », « tu as vu mon message », fenêtre, anniversaire, bibliothèque, etc.). Univers de QR5 (prise de parole, commerces, voisins, transports) évités.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 1, à relire à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 2 (18 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne » ; L2 sûre et risquée, L3, P2 sûre et risquée, P3 joueuse, G1 sûre, G2 joueuse, G4 sûre et joueuse inchangées), à repasser à l'aveugle sur les lignes reprises** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR3 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
 
 ## A. Coloc (3 situations)
 
-### L1. Coloc : « Les poubelles, c'est le tour de qui ? »
+### L1. Coloc : « C'est à toi, ce vélo ? »
 
 **La scène**
-Mercredi, 20 h, la cuisine de la coloc. Le sac est plein à ras bord. Quelqu'un de la coloc le soulève du bout des doigts, l'air de ne rien insinuer :
+Mardi, 19 h, l'entrée de la coloc. Quelqu'un de la coloc rentre, soulève la jambe au-dessus d'un vélo couché en travers du couloir et s'arrête :
 
-« Les poubelles, c'est le tour de qui, cette semaine ? »
+« C'est à toi, ce vélo ? »
 
-C'est le tien depuis lundi.
+Il est à toi, et il est là depuis hier soir.
 
 **Ta réponse d'abord**
 Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.
@@ -26,30 +26,30 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Le mien. Je les descends avant que le sac prenne racine. »
-Tu reconnais tout de suite et tu promets le geste, avec une image de plante : le sac qui s'enracine dans la cuisine. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
+« Oui. Je le range, et le couloir retrouve son rôle de couloir. »
+Tu reconnais tout de suite et tu promets le geste, avec un trait sur la fonction oubliée du couloir. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
 
 **La joueuse**
-« Le mien. Je les laissais réfléchir à leur avenir. »
-Tu reconnais le retard et tu en fais un délai accordé aux déchets, comme à des gens qui pèsent une grande décision. Rien n'est nié, tu ne t'excuses pas. À sortir quand la coloc a déjà ri de ces retards.
+« Oui. Il s'entraîne pour le rôle de l'obstacle. »
+Tu reconnais le vélo et tu en fais un comédien qui répète son rôle dans le couloir. Rien n'est nié, tu ne t'excuses pas. À sortir quand la coloc a déjà ri des affaires qui traînent.
 
 **La risquée**
-« Le mien. Prochaine étape : un planning, et le premier qui oublie, son nom sur le sac. »
-Tu assumes d'abord, puis tu proposes une règle qui vaut pour tout le monde, toi compris, avec une pénalité d'école. Elle ne vise personne en particulier, seulement l'oubli commun. Elle marche seulement si quelqu'un a déjà plaisanté de ses propres tâches oubliées. Sinon elle ressemble à une leçon donnée aux autres : prends la sûre.
+« Oui. On fonde le club des choses qui traînent ? Première réunion dans le couloir. »
+Tu reconnais le vélo et tu ouvres un club dont tu es le premier membre. Elle ne vise personne, seulement le désordre commun. Elle marche seulement si la personne laisse elle aussi traîner ses affaires et en rit. Sinon elle ressemble à un reproche renvoyé : prends la sûre.
 
 **Comment choisir**
-La coloc a déjà ri de ces retards ? Monte d'un cran. Quelqu'un plaisante déjà de ses propres tâches oubliées ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si la coloc rit déjà. La risquée seulement si quelqu'un a lancé « la vaisselle, c'est pareil » ou un trait du même genre, une fois. Une seule tentative : tu prends le sac et tu descends.
+La coloc a déjà ri des affaires qui traînent ? Monte d'un cran. La personne plaisante déjà des siennes ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si la coloc rit déjà. La risquée seulement si la personne a lancé « mes chaussures aussi sont dans le couloir » ou un trait du même genre, une fois. Une seule tentative : tu soulèves le vélo et tu le ranges.
 
 **L'erreur que tout le monde fait**
-Te défendre (« c'était pas clair, personne n'avait écrit le planning, j'avais un truc urgent »). Tu transformes un sac en procès, et la cuisine attend la fin de la défense. Une phrase, puis le sac.
+Te défendre (« je l'ai posé deux secondes, il pleuvait, c'était juste pour la nuit, personne ne m'avait dit que ça gênait »). Tu transformes un vélo en procès, et le couloir attend la fin de la défense. Une phrase, puis le vélo.
 
 **À toi**
-Prends un sac vide, tiens-le à bout de bras et dis la sûre à voix haute, comme si quelqu'un le tenait devant toi. Dix secondes. Pour aller plus loin : sors le prochain sac avant qu'on te le demande.
+Prends un objet qui traîne chez toi, tiens-le à bout de bras et dis la sûre à voix haute. Dix secondes. Pour aller plus loin : range-le tout de suite après.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne le demande sans sourire, le sac à bout de bras, et attend » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne ne plaisante de ses propres tâches, donc le planning ressemblerait à une leçon.
-2. « La personne le demande en souriant, la coloc rit déjà de ces sacs, et personne ne parle de ses propres oublis » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu des tâches oubliées, donc le planning imposerait une règle que personne n'a demandée.
+1. « La personne soulève la jambe au-dessus du vélo sans sourire, un sac de courses à chaque main, et attend » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; personne ne plaisante de ses propres affaires, donc le club ressemblerait à un reproche renvoyé.
+2. « La personne le demande en souriant, la coloc rit déjà des affaires qui traînent, et personne ne parle des siennes » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu des affaires qui traînent, donc le club imposerait un jeu que personne n'a demandé.
 
 ### L2. Coloc : « Samedi, j'invite quelques amis, ça vous va ? »
 
@@ -68,8 +68,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu acceptes et tu poses une seule limite, avec un trait sur ta façon de quitter la fête : discrètement. Elle ne vise personne, ne conteste pas l'invitation et se ferme toute seule. C'est la bonne quand la personne ne sourit pas.
 
 **La joueuse**
-« Ça me va. Je prépare mon discours d'accueil : “Les toilettes sont à gauche, le reste est à vos risques.” »
-Tu te donnes le rôle d'hôte officiel, avec un règlement de maison inventé sur le moment. Rien n'est nié, tu ne critiques personne, et la coloc peut renchérir. À sortir quand la personne le demande en souriant.
+« Ça me va. Je m'occupe de l'accueil : les manteaux sur mon lit, les regrets dans l'entrée. »
+Tu te donnes le rôle d'accueil du vestiaire, avec un second service moins ordinaire : stocker les regrets à la porte. Rien n'est nié, tu ne critiques personne, et la coloc peut renchérir. À sortir quand la personne le demande en souriant.
 
 **La risquée**
 « Ça me va. Je demande seulement la définition de “quelques” : dans cette maison, elle est élastique. »
@@ -87,7 +87,7 @@ Pense à la dernière fois qu'on t'a demandé ton accord pour un projet collecti
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « La personne le demande en souriant, sans rien dire du nombre d'invités » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a plaisanté du nombre, donc la définition de “quelques” sonnerait comme un reproche.
-2. « La personne ajoute en riant : “Quelques, comme la dernière fois : on était trente” » : la risquée. La personne vient de rire du nombre : « la définition de “quelques” » lui répond en face ; la joueuse parlerait de ton discours sans répondre à sa plaisanterie, la sûre fermerait un jeu qu'elle ouvre.
+2. « La personne ajoute en riant : “Quelques, comme la dernière fois : on était trente” » : la risquée. La personne vient de rire du nombre : « la définition de “quelques” » lui répond en face ; la joueuse parlerait de ton vestiaire sans répondre à sa plaisanterie, la sûre fermerait un jeu qu'elle ouvre.
 
 ### L3. Coloc : « Tu en as pour longtemps ? » (la salle de bain)
 
@@ -129,12 +129,12 @@ Demain, quand l'eau est chaude, dis la sûre ou la joueuse à voix haute, une se
 
 ## B. Famille (3 situations)
 
-### P1. Famille : « Mais tu n'as pas changé ! »
+### P1. Famille : « Tu as pris un manteau, au moins ? »
 
 **La scène**
-Dimanche, 14 h, un déjeuner de famille. Quelqu'un de la famille, que tu vois deux fois par an, te prend par les épaules en riant :
+Dimanche, 18 h, l'entrée de chez un de tes parents. Tu enfiles ta veste pour repartir. Un de tes parents te regarde faire :
 
-« Mais tu n'as pas changé ! »
+« Tu as pris un manteau, au moins ? »
 
 **Ta réponse d'abord**
 Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.
@@ -142,30 +142,30 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Merci. Je garde le modèle d'origine. »
-Tu reçois la remarque comme un compliment et tu te présentes comme une pièce qui n'a pas besoin de révision. Elle ne vise personne et se ferme toute seule. C'est la bonne quand la personne te le dit en passant.
+« Oui. Je t'écris en arrivant, avec la température. »
+Tu rassures et tu promets le message, avec un détail de météo qui fait sourire. Elle ne vise personne, accepte l'inquiétude sans la discuter et se ferme toute seule. C'est la bonne quand la personne le dit en tendant ton écharpe, sans sourire.
 
 **La joueuse**
-« J'ai tout gardé : le prénom, les habitudes, l'appétit pour le dessert. »
-Tu fais l'inventaire de ce qui n'a pas bougé, avec le dessert en dernier. Rien n'est nié, personne n'est visé. À sortir quand la personne sourit largement.
+« Oui. Il est si épais qu'il pourrait prendre le train à ma place. »
+Tu fais du manteau un voyageur autonome, et la phrase rassure sans promettre autre chose. Rien n'est nié, personne n'est visé. À sortir quand la personne sourit en le demandant.
 
 **La risquée**
-« Merci. Ne le dis pas trop fort : on pourrait me redonner ma chambre à ranger. »
-Tu renvoies le compliment vers l'enfance et sa corvée la plus connue. Elle ne vise personne, seulement toi. Elle marche seulement si la personne plaisante déjà de ton enfance ou de la sienne. Sinon elle ressemble à un reproche sur le passé : prends la sûre.
+« Oui. Et toi, tu as pris ta sérénité ? Je l'ai vue dans le tiroir de l'entrée. »
+Tu rends la question avec la même tendresse, sur l'inquiétude elle-même. Elle ne vise personne, seulement l'inquiétude que la personne a nommée en riant. Elle marche seulement si la personne plaisante déjà de ses propres inquiétudes. Sinon elle ressemble à un reproche sur sa façon de s'inquiéter : prends la sûre.
 
 **Comment choisir**
-La personne sourit largement ? Monte d'un cran. La personne plaisante déjà de ton enfance ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si la personne sourit. La risquée seulement si elle a déjà lancé « tu étais déjà comme ça à dix ans » ou un trait du même genre, une fois. Une seule tentative : tu enchaînes sur « et la maison, ça va ? ».
+La personne sourit en le demandant ? Monte d'un cran. La personne plaisante déjà de ses propres inquiétudes ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si la personne sourit. La risquée seulement si elle a déjà lancé « je sais, je suis pénible, mais vérifie quand même » ou un trait du même genre, une fois. Une seule tentative : tu l'embrasses et tu pars.
 
 **L'erreur que tout le monde fait**
-Corriger (« si, si, j'ai changé, j'ai un nouveau travail, j'ai déménagé, regarde »). Tu transformes un compliment en dossier, et la personne n'ose plus. Une phrase, puis ta question.
+T'agacer (« mais oui, j'ai quel âge, je sais m'habiller »). Tu transformes une tendresse en dispute, et tu pars avec le dernier mot. Une phrase, puis le baiser.
 
 **À toi**
-Pense à quelqu'un de ta famille que tu vois peu. Dis la sûre à voix haute en laissant tes épaules tomber, comme si quelqu'un les tenait. Dix secondes.
+Mets ton manteau, dis la sûre à voix haute devant la porte, comme si quelqu'un te regardait faire. Dix secondes. Pour aller plus loin : écris vraiment la température en arrivant chez toi.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne te le dit en souriant, sans parler de ton enfance » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu de l'enfance, donc la chambre à ranger ressemblerait à un reproche.
-2. « La personne ajoute en riant : “Tu étais déjà comme ça à dix ans, déjà le dernier à table” » : la risquée. L'enfance vient d'entrer dans l'échange : « ma chambre à ranger » lui répond en face ; la joueuse parlerait de ton dessert sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
+1. « La personne le demande en souriant, sans plaisanter de ses propres inquiétudes » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a ouvert le jeu de l'inquiétude, donc la sérénité dans le tiroir ressemblerait à un reproche.
+2. « La personne ajoute en riant : “Je sais, je suis pénible, mais vérifie quand même” » : la risquée. La personne vient de rire de sa propre inquiétude : « ta sérénité dans le tiroir de l'entrée » lui répond en face ; la joueuse parlerait de ton manteau sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
 
 ### P2. Famille : « Tu viens m'aider à la cuisine ? »
 
@@ -184,8 +184,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu acceptes tout de suite et tu demandes une tâche avec une mauvaise foi que tout le monde reconnaît. Elle ne vise personne, ne juge aucun plat et se ferme toute seule. C'est la bonne quand la personne le demande à voix basse, sans sourire.
 
 **La joueuse**
-« J'arrive. Je sais couper, remuer, et regarder quelqu'un d'autre goûter. »
-Tu présentes tes compétences comme un CV de cuisine, avec une dernière qui n'en est pas une. Rien n'est nié, personne n'est visé. À sortir quand la personne te le demande en souriant.
+« J'arrive. Je sais remuer, et regarder quelqu'un d'autre goûter. »
+Tu présentes deux compétences de cuisine, dont la seconde n'en est pas une. Rien n'est nié, personne n'est visé. À sortir quand la personne te le demande en souriant.
 
 **La risquée**
 « Je viens. Dans la brigade, je prends le grade de sous-chef de la salade. »
@@ -199,7 +199,7 @@ Sur cette scène : la joueuse si la personne sourit. La risquée seulement si el
 Faire semblant de ne pas avoir entendu (« hein ? quoi ? ah, tout à l'heure »). Tu laisses la personne seule avec les casseroles, et le repas commence avec une dette. Une phrase, puis tu te lèves.
 
 **À toi**
-Au prochain repas de famille, lève-toi avant qu'on te le demande, dis la sûre ou la joueuse en passant la porte de la cuisine, une seule fois.
+Va jusqu'à ta cuisine et dis la sûre à voix haute en passant la porte. Dix secondes. Pour aller plus loin : au prochain repas de famille, lève-toi avant qu'on te le demande.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « La personne le demande à voix basse, sans sourire, le torchon à l'épaule, en regardant déjà les casseroles » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; la personne ne plaisante pas de sa cuisine, donc le grade de sous-chef prendrait des airs de chef.
@@ -218,16 +218,16 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Ton tour, ton film. Je reste jusqu'au générique, c'est mon dernier mot. »
-Tu cèdes sans condition et tu offres en échange ta présence jusqu'au bout. Elle ne vise personne, ne juge pas le choix et se ferme toute seule. C'est la bonne quand la personne le dit en tenant déjà la télécommande, sans sourire.
+« Ton tour, ton film. Je reste jusqu'au générique, même si je m'endors à la moitié. »
+Tu cèdes sans condition et tu offres en échange ta présence jusqu'au bout, avec l'aveu d'un risque que tu prends. Elle ne vise personne, ne juge pas le choix et se ferme toute seule. C'est la bonne quand la personne le dit en tenant déjà la télécommande, sans sourire.
 
 **La joueuse**
 « Choisis. J'ai déjà préparé ma critique : “meilleur que prévu, moins bien que le dernier.” »
 Tu annonces un avis écrit d'avance qui s'applique à tous les films. Personne n'est visé, le film non plus. À sortir quand la personne sourit en le disant.
 
 **La risquée**
-« Ton tour, d'accord. Mon veto compte double : il vient de loin, des années de poursuites en voiture. »
-Tu acceptes, tu gardes un veto pour toi avec une origine comique : les poursuites en voiture. Elle vise un genre de film, jamais la personne ni son goût. Elle marche seulement si la personne plaisante déjà de ses films habituels. Sinon elle sonne comme un jugement sur ses choix : prends la sûre.
+« Ton tour, d'accord. Moi, j'ai un veto : tout film où quelqu'un court au ralenti. »
+Tu acceptes et tu gardes un seul veto, très précis : la course au ralenti. Elle vise un genre de scène, jamais le choix de la personne. Elle marche seulement si la personne plaisante déjà de ses films habituels. Sinon elle sonne comme un jugement sur ses choix : prends la sûre.
 
 **Comment choisir**
 La personne sourit en le disant ? Monte d'un cran. La personne plaisante déjà de ses films habituels ? Monte encore. Sinon, reste sur la sûre.
@@ -237,11 +237,11 @@ Sur cette scène : la joueuse si la personne sourit. La risquée seulement si el
 Négocier d'avance (« d'accord, mais pas un film triste, pas trop long, pas en noir et blanc, pas celui que j'ai déjà vu »). Tu transformes un tour en séance de comité, et la personne n'a plus envie de choisir. Une phrase, puis le canapé.
 
 **À toi**
-La prochaine fois qu'on te laisse la télécommande ou qu'on te la reprend, dis la sûre ou la joueuse sans négocier. Une seule fois.
+Prends une télécommande et dis la sûre à voix haute en la tendant. Dix secondes. Pour aller plus loin : dis-la sans négocier au prochain choix de film.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « La personne le dit en souriant, la télécommande en l'air, sans parler de ses films habituels » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a plaisanté de ses choix, donc le veto sonnerait comme un jugement.
-2. « La personne ajoute en riant : “Cette fois, je garde mes poursuites en voiture, et personne ne dit rien” » : la risquée. La personne vient de rire de ses propres films : « mon veto compte double » lui répond en face ; la joueuse parlerait de ta critique sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
+1. « La personne le dit en souriant, la télécommande en l'air, sans parler de ses films habituels » : la joueuse. Un sourire est là, donc la sûre serait timide ; personne n'a plaisanté de ses choix, donc le veto sur la course au ralenti sonnerait comme un jugement.
+2. « La personne ajoute en riant : “Cette fois, de l'action, comme toujours, et personne ne dit rien” » : la risquée. La personne vient de rire de ses propres films : « j'ai un veto : tout film où quelqu'un court au ralenti » lui répond en face ; la joueuse parlerait de ta critique sans répondre à sa plaisanterie, la sûre laisserait filer le jeu qu'elle ouvre.
 
 ## C. Messages et groupes (4 situations, la réplique est un texte écrit)
 
@@ -250,7 +250,7 @@ Pour ces quatre situations, `Ta réponse d'abord` se lit : « Avant de lire la s
 ### G1. Messages : « Tu dors ? » (reçu à 7 h 12)
 
 **La scène**
-Samedi, 9 h 40. Tu ouvres ton téléphone. Un message d'un ami, reçu à 7 h 12, attend depuis deux heures et demie :
+Samedi, 9 h 40. Tu ouvres ton téléphone. Un message reçu à 7 h 12 attend depuis deux heures et demie :
 
 « Tu dors ? »
 
@@ -266,12 +266,12 @@ Avant de lire la suite, écris ta réponse dans ton téléphone, sans l'envoyer,
 Tu réponds vrai et court, avec une évidence qui fait sourire : l'heure. Elle ne vise personne et rend la parole, au cas où le message cachait quelque chose. C'est la bonne quand le message est resté sec, sans autre mot.
 
 **La joueuse**
-« J'étais en mission secrète : dormir. Elle a duré jusqu'à 9 h 30. »
-Tu transformes le sommeil en opération confidentielle dont tu donnes le bilan. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha » ou un mot léger.
+« Oui. C'est ce que j'ai fait de plus long depuis lundi. »
+Tu fais de ta nuit un exploit d'endurance : la chose la plus longue de ta semaine, c'est dormir. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha » ou un mot léger.
 
 **La risquée**
-« Résultat du sondage de 7 h 12 : je dormais, à cent pour cent. Merci d'avoir participé. »
-Tu traites le message du matin comme une enquête à laquelle tu réponds avec un score. Elle vise l'heure du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de ses propres réveils matinaux. Sinon elle sonne comme une réponse de standard à quelqu'un qui avait peut-être un vrai souci : prends la sûre.
+« 7 h 12 ? J'ai vu passer ton message en rêve. Il courait très vite. »
+Tu fais entrer le message dans ton sommeil, où il traverse la scène en courant. Elle vise l'heure du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de ses propres réveils matinaux. Sinon elle plaisante avec quelqu'un qui avait peut-être un vrai souci : prends la sûre.
 
 **Comment choisir**
 Le message se termine par un mot léger ? Monte d'un cran. La personne plaisante déjà de ses propres réveils matinaux ? Monte encore. Sinon, reste sur la sûre.
@@ -284,13 +284,13 @@ Répondre « ah oui, pardon, j'avais mis le téléphone en silencieux, la nuit a
 Prends le dernier message auquel tu as répondu en retard et écris ta réponse en une phrase, sans te justifier. Envoie-la ou garde-la. Dix secondes.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message de 7 h 12 est suivi d'un “haha, j'espère que non” » : la joueuse. Un mot léger est là, donc la sûre serait timide ; la personne n'a pas plaisanté de ses réveils, donc le sondage ferait un jeu de mots à sa place.
-2. « La personne ajoute : “Moi, je suis debout depuis six heures, c'est un sport chez moi” » : la risquée. La personne vient de plaisanter de ses réveils : « résultat du sondage de 7 h 12 » lui répond en face ; la joueuse parlerait de ta mission sans répondre à son sport, la sûre fermerait un jeu qu'elle ouvre.
+1. « Le message de 7 h 12 est suivi d'un “haha, j'espère que non” » : la joueuse. Un mot léger est là, donc la sûre serait timide ; la personne n'a pas plaisanté de ses réveils, donc le message en rêve rirait de son heure sans y être invité.
+2. « La personne ajoute : “Moi, je suis debout depuis six heures, c'est un sport chez moi” » : la risquée. La personne vient de plaisanter de ses réveils : « j'ai vu passer ton message en rêve, il courait très vite » lui répond en face ; la joueuse parlerait de ta nuit sans répondre à son sport, la sûre fermerait un jeu qu'elle ouvre.
 
 ### G2. Messages : « Alors, tu as écouté ? » (un vocal de quatre minutes)
 
 **La scène**
-Dimanche, 18 h. Il y a une heure, un ami t'a envoyé un message vocal de quatre minutes. Tu ne l'as pas écouté en entier. L'ami écrit maintenant :
+Dimanche, 18 h. Il y a une heure, quelqu'un de tes amis t'a envoyé un message vocal de quatre minutes. Tu ne l'as pas écouté en entier. Cette personne écrit maintenant :
 
 « Alors, tu as écouté ? »
 
@@ -302,16 +302,16 @@ Avant de lire la suite, écris ta réponse dans ton téléphone, sans l'envoyer,
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Pas en entier : un vocal de quatre minutes s'écoute assis. »
-Tu es honnête et tu donnes une raison que tout le monde accepte : ce genre de message demande une posture. Elle ne vise personne, tu t'engages à écouter. C'est la bonne quand la question arrive sans sourire.
+« Pas en entier : un vocal de quatre minutes mérite un fauteuil. »
+Tu es honnête et tu donnes une raison que tout le monde accepte : ce genre de message demande de s'installer. Elle ne vise personne, tu t'engages à écouter. C'est la bonne quand la question arrive sans sourire.
 
 **La joueuse**
 « J'ai commencé. À la minute deux, il y a déjà un rebondissement. »
 Tu prends le vocal pour un récit à suspense dont tu as lu le début. Rien n'est nié, tu n'accuses personne de longueur. À sortir quand le message se termine par un « haha » ou un mot léger.
 
 **La risquée**
-« Pas en entier. Je m'échauffe : quatre minutes, c'est mon marathon du dimanche. »
-Tu fais de l'écoute une épreuve sportive que tu prépares. Elle vise la durée du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de la longueur de ses propres vocaux. Sinon elle ressemble à un reproche sur sa façon de s'exprimer : prends la sûre.
+« Pas en entier. Je le déguste : deux minutes ce soir, deux demain. »
+Tu traites le vocal comme un plat qui se déguste par morceaux. Elle vise la durée du message, jamais la personne. Elle marche seulement si la personne a déjà plaisanté de la longueur de ses propres vocaux. Sinon elle ressemble à un reproche sur sa façon de s'exprimer : prends la sûre.
 
 **Comment choisir**
 Le message se termine par un mot léger ? Monte d'un cran. La personne plaisante déjà de la longueur de ses vocaux ? Monte encore. Sinon, reste sur la sûre.
@@ -324,15 +324,15 @@ Mentir (« oui oui, super, j'ai tout écouté ! »). La question suivante (« al
 Choisis le dernier vocal que tu n'as pas écouté. Écris la sûre ou la joueuse à son auteur, puis lance l'écoute. Dix secondes pour écrire, quatre minutes pour écouter.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message arrive sec, deux mots, sans sourire, après une première relance » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; la personne ne plaisante pas de la longueur, donc le marathon ressemblerait à un reproche.
-2. « Le message se termine par un “haha” et ne dit rien de la longueur du vocal » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a ouvert le jeu de la durée, donc le marathon pointerait la longueur sans invitation.
+1. « Le message arrive sec, deux mots, sans sourire, après une première relance » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat ; la personne ne plaisante pas de la longueur, donc la dégustation ressemblerait à un reproche.
+2. « Le message se termine par un “haha” et ne dit rien de la longueur du vocal » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a ouvert le jeu de la durée, donc la dégustation pointerait la longueur sans invitation.
 
-### G3. Groupes : « Bon, on fait quoi samedi ? »
+### G3. Groupes : « Pour samedi, on fait une cagnotte ? »
 
 **La scène**
-Mercredi, 22 h, le groupe de discussion des amis. Une dizaine de messages depuis le début de soirée, tous du genre « je m'en fiche, vous voulez faire quoi ? ». Quelqu'un finit par écrire :
+Mardi, 21 h, le groupe de discussion des amis. L'anniversaire de quelqu'un du groupe tombe samedi. Quelqu'un écrit :
 
-« Bon, on fait quoi samedi ? »
+« Pour samedi, on fait une cagnotte ? »
 
 Tu réponds dans le groupe, donc ta réplique s'écrit.
 
@@ -342,30 +342,30 @@ Avant de lire la suite, écris ta réponse dans ton téléphone, sans l'envoyer,
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Dîner chez quelqu'un, chacun apporte un plat. Je prends le pain : c'est mon seul talent. »
-Tu proposes une solution concrète et tu te donnes la tâche la plus modeste, avec un aveu de talent unique. Elle ne vise personne et ferme la discussion. C'est la bonne quand le groupe s'essouffle.
+« Oui. Je mets ma part ce soir, tant que ma mémoire est de bonne humeur. »
+Tu acceptes et tu t'engages pour ce soir, avec un trait sur ta mémoire, capricieuse comme tout le monde. Elle ne vise personne et ferme la discussion. C'est la bonne quand les réponses du groupe sont brèves.
 
 **La joueuse**
-« Je vote pour l'option “on se voit”. Les détails, je les laisse à ceux qui ont des avis. »
-Tu votes pour l'essentiel et tu confies le détail à ceux qui ont des avis, rôle que tu ne prétends pas tenir. Rien n'est nié, personne n'est visé. À sortir quand le groupe plaisante déjà sur un ton léger.
+« Je suis pour. Je m'occupe de la carte : j'ai déjà plusieurs versions, toutes émues. »
+Tu prends la carte et tu annonces des brouillons déjà pleins d'émotion. Rien n'est nié, personne n'est visé, et tu proposes une tâche précise. À sortir quand le groupe plaisante déjà sur un ton léger.
 
 **La risquée**
-« Bilan de la soirée : tout le monde s'en fiche, à l'unanimité. Samedi, on applique ce principe au bar le plus proche. »
-Tu transformes l'indécision générale en résolution officielle et tu proposes un lieu. Elle vise l'habitude du groupe, toi compris. Elle marche seulement si quelqu'un a déjà plaisanté de cette indécision. Sinon elle sonne comme un reproche adressé à tout le monde : prends la sûre.
+« Oui. Montant secret : chacun croira avoir donné le plus. »
+Tu proposes une règle qui flatte tout le monde, toi compris. Elle ne vise personne, seulement la crainte des écarts entre les parts. Elle marche seulement si quelqu'un a déjà plaisanté du montant des parts. Sinon elle sonne comme une insinuation sur les parts de chacun : prends la sûre.
 
 **Comment choisir**
-Le groupe plaisante sur un ton léger ? Monte d'un cran. Quelqu'un plaisante déjà de l'indécision du groupe ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si un « haha » traîne déjà. La risquée seulement si quelqu'un a lancé « on est vraiment les rois de l'indécision » ou un trait du même genre, une fois. Une seule tentative : tu envoies et tu attends les réponses.
+Le groupe plaisante sur un ton léger ? Monte d'un cran. Quelqu'un plaisante déjà du montant des parts ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si un « haha » traîne déjà. La risquée seulement si quelqu'un a lancé « moi, je mets le plus, évidemment » ou un trait du même genre, une fois. Une seule tentative : tu envoies et tu poses ton téléphone.
 
 **L'erreur que tout le monde fait**
-Écrire « je m'en fiche, vous voulez faire quoi ? » à ton tour : le message numéro onze renvoie la question, et la soirée s'efface. Une proposition, même petite.
+Répondre « je verrai, je te dis » : la cagnotte reste sans ta part, et le groupe relance. Une phrase, une part.
 
 **À toi**
-Dans un groupe qui tourne en rond, écris une proposition avec un lieu et une heure avant que quelqu'un d'autre ne renvoie la question. Une phrase.
+Ouvre ton téléphone et écris, sans l'envoyer, une réponse à la dernière demande collective de ton groupe, avec un geste précis (une part, une tâche). Dix secondes. Pour aller plus loin : envoie-la.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Plusieurs personnes ont écrit “bon, ça devient long” et la discussion s'essouffle » : la sûre. Aucun mot léger pour monter, donc la joueuse sonnerait comme un jeu de plus ; personne n'a plaisanté de l'indécision, donc le bilan reprocherait à tout le monde de ne pas décider.
-2. « Quelqu'un répond par un “haha” et personne n'a plaisanté de l'indécision du groupe » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a ouvert le jeu de l'indécision, donc le bilan désignerait un groupe qui n'a rien reconnu.
+1. « Plusieurs personnes ont déjà répondu “ok” sans un mot de plus, la discussion est brève, sans un seul mot léger » : la sûre. Aucun mot léger pour monter, donc la joueuse sonnerait comme un jeu de plus ; personne n'a plaisanté des parts, donc le montant secret ressemblerait à une insinuation.
+2. « Quelqu'un répond par un “haha” et personne n'a plaisanté du montant des parts » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a ouvert le jeu des parts, donc le montant secret ferait une règle sur un sujet que le groupe n'a pas abordé.
 
 ### G4. Groupes : « Erreur de groupe hier soir, non ? »
 
@@ -390,22 +390,22 @@ Tu confirmes sans te justifier et tu offres le message à tout le monde, avec un
 Tu transformes l'erreur en essai grandeur nature. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha ».
 
 **La risquée**
-« Oui. Les bisous sont partis au hasard : la prochaine fois, je tire les destinataires au sort. »
-Tu fais de l'erreur le résultat d'un tirage et tu annonces la méthode de la prochaine fois. Elle ne vise personne. Elle marche seulement si quelqu'un a déjà demandé sa part de bisous. Sinon elle sonne comme une façon de balayer l'incident : prends la sûre.
+« Oui. Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. »
+Tu fais de l'erreur un suspense : les bisous avaient un destinataire, et tout le groupe se pose la question. Elle ne vise personne. Elle marche seulement si quelqu'un a déjà cru que les bisous étaient pour lui ou pour elle. Sinon elle sonne comme une façon de balayer l'incident : prends la sûre.
 
 **Comment choisir**
-Le message se termine par un « haha » ? Monte d'un cran. Quelqu'un réclame déjà sa part de bisous ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse si le ton est léger. La risquée seulement si quelqu'un a lancé « moi aussi, je veux des bisous tous les soirs » ou un trait du même genre, une fois. Une seule tentative : tu envoies et tu passes à autre chose.
+Le message se termine par un « haha » ? Monte d'un cran. Quelqu'un croit déjà que les bisous étaient pour lui ou pour elle ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si le ton est léger. La risquée seulement si quelqu'un a lancé « j'ai cru que c'était pour moi » ou un trait du même genre, une fois. Une seule tentative : tu envoies et tu passes à autre chose.
 
 **L'erreur que tout le monde fait**
 T'excuser pendant dix messages (« pardon pardon pardon, quelle honte, je supprime, je m'en veux »). Un envoi de travers devient un événement, et le groupe en rit plus longtemps que prévu. Une phrase, puis autre chose.
 
 **À toi**
-La prochaine fois que tu te trompes de destinataire, écris la sûre en une phrase, envoie-la et ne reviens pas dessus. Dix secondes.
+Écris la sûre en brouillon, sans l'envoyer. Dix secondes. Pour aller plus loin : la prochaine fois que tu te trompes de destinataire, envoie-la et ne reviens pas dessus.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a réclamé de bisous, donc le tirage au sort balayerait un incident déjà détendu.
-2. « Quelqu'un ajoute : “Dommage, on espérait des bisous de groupe tous les soirs” » : la risquée. La personne vient de réclamer sa part : « je tire les destinataires au sort » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa demande, la sûre fermerait un jeu qu'elle ouvre.
+1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a cru que les bisous étaient pour lui ou pour elle, donc le suspense sur le destinataire balayerait un incident déjà détendu.
+2. « Quelqu'un ajoute : “Moi, j'ai cru que c'était pour moi, j'ai rougi toute la matinée” » : la risquée. La personne vient de se croire destinataire : « les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa confidence, la sûre fermerait un jeu qu'elle ouvre.
 
 ---
 
@@ -450,21 +450,61 @@ Résultat : **0 occurrence exacte** pour chacune des 30 répliques retenues (phr
 
 ## Contrôles tenus (auto-évaluation, grille `checklist-fautes-recurrentes.md`)
 
-- Accords : aucune réplique de l'utilisateur ne s'accorde (« fort », « prêt », « réveillé », « perdant » écartés en annexe). L'autre est « quelqu'un », « la personne », « un ami », « l'ami » (nom, sans pronom genré).
+- Accords : aucune réplique de l'utilisateur ne s'accorde (« fort », « prêt », « réveillé », « perdant » écartés en annexe). L'autre est « quelqu'un », « la personne », « un de tes parents », « quelqu'un de tes amis » (jamais « un ami » ni « l'ami », qui sont genrés). Aucun masculin générique (« chacun », « ceux », « le premier qui », « le dernier ») dans les répliques ni dans les scènes.
 - Scène : aucun signal ne désigne la bonne réponse ; chaque risquée se lit sous la scène seule (le sac en L1, « quelques » en L2, la porte de la salle de bain en L3, la remarque en P1, la cuisine en P2, la télécommande en P3, 7 h 12 en G1, la durée du vocal en G2, les dix messages en G3, le « bonne nuit » en G4).
 - Une seule bonne réponse par contexte ; « une seule tentative » partout ; aucun moule « je fais X si Y » ; aucune réplique qui commet l'erreur de sa fiche.
-- **Une image par registre** dans chaque situation : L1 racine / avenir / planning et nom ; L2 disparition / discours d'accueil / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 modèle d'origine / inventaire / chambre à ranger ; P2 tâche facile / compétences / grade de brigade ; P3 générique / critique écrite d'avance / veto ; G1 évidence de l'heure / mission secrète / sondage ; G2 posture assise / rebondissement / marathon ; G3 le pain / vote / bilan et unanimité ; G4 gratuité / test / hasard et tirage.
-- Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche (P1 sans « tu as vieilli », P2 sans cuisine jugée, P3 sans goût visé). Messages et groupes : la réplique est un texte à écrire, la scène le dit (« tu réponds par message », « dans le groupe »), `Ta réponse d'abord` est adapté pour l'écrit.
-- Doublons : aucune scène de QR1 à QR5 ni des étalons reprise (la poêle, la présentation, le café et le week-end de QR1/QR2, le message sans réponse du couple en QR4, « ça fait des mois » en QR3 : G1, G2 et G4 sont des situations d'écriture différentes) ; univers de QR5 évités. Motifs évités : retard, photo, café, prénoms, tic « trois », Cendrillon, micro coupé, salle de sport.
+- **Une image par registre** dans chaque situation (état du tour 2) : L1 rôle du couloir / comédien et obstacle / club ; L2 disparition / vestiaire et regrets / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 température / manteau voyageur / sérénité dans le tiroir ; P2 tâche facile / remuer et regarder / grade de brigade ; P3 générique et sommeil / critique écrite d'avance / veto de la course au ralenti ; G1 évidence de l'heure / la chose la plus longue de la semaine / message qui court en rêve ; G2 fauteuil / rebondissement / dégustation ; G3 mémoire de bonne humeur / carte aux versions émues / montant secret ; G4 gratuité / test / suspense du destinataire.
+- Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche (P1 sans reproche sur l'inquiétude, P2 sans cuisine jugée, P3 sans goût visé). Messages et groupes : la réplique est un texte à écrire, la scène le dit (« tu réponds par message », « dans le groupe »), `Ta réponse d'abord` est adapté pour l'écrit.
+- Doublons : aucune scène de QR1 à QR5 ni des étalons reprise. Tour 2 : L1 n'est plus la corvée de la poêle ni les poubelles du local de QR5 W4 (c'est un vélo dans le couloir), P1 n'est plus la remarque sur le changement de l'étalon A5 (c'est le manteau à l'entrée), G3 n'est plus l'indécision de QR4 C5 (c'est une cagnotte, la proposition est déjà faite). Univers de QR5 évités. Motifs évités : retard, photo, café, prénoms, tic « trois », Cendrillon, micro coupé, salle de sport, poêle, racine, sondage, mission secrète, marathon.
 - Répartition des bonnes réponses de rafale : 10 joueuses (L1-2, L2-1, L3-2, P1-1, P2-2, P3-1, G1-1, G2-2, G3-2, G4-1), 5 sûres (L1-1, L3-1, P2-1, G2-1, G3-1), 5 risquées (L2-2, P1-2, P3-2, G1-2, G4-2).
 - Aucun tiret cadratin, aucun emoji, ni IA ni concurrent, guillemets « » avec guillemets intérieurs “ ”, aucune donnée inventée (seuls les détails de scène sont posés : heures, lieux, durée du vocal).
 - Répartition coloc 3, famille 3, messages et groupes 4 : conforme au plan s24 §5 l. 194.
 
+## Annexe 3 : candidates du tour 2 (3 par réplique reprise ; les réécritures des relectures comptent comme candidates)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| L1 | Sûre | « Oui. Je le range, et le couloir retrouve son rôle de couloir. » | « Le mien. Je les descends, et le prochain sac est pour moi aussi. » (reviewer ; scène des poubelles abandonnée, doublon de QR5 W4) | « Le mien. J'attendais qu'il soit plein : mission accomplie. » (@elon ; même scène abandonnée, « sac » et poêle) |
+| L1 | Joueuse | « Oui. Il s'entraîne pour le rôle de l'obstacle. » | « Le mien. Je les laissais réfléchir à leur avenir. » (poubelles, scène abandonnée) | « Oui. Il fait de la figuration dans mon couloir. » (moins nette, « mon couloir » ne dit rien du vélo) |
+| L1 | Risquée | « Oui. On fonde le club des choses qui traînent ? Première réunion dans le couloir. » | « Le mien. Prochaine étape : un planning, et le premier qui oublie, son nom sur le sac. » (leçon déguisée, masculin générique) | « Oui. Pour que ça ne se reproduise pas : photo du vélo en fond d'écran de la coloc. » (critique : punitive, vise la personne qui a posé la question) |
+| L2 | Joueuse | « Ça me va. Je m'occupe de l'accueil : les manteaux sur mon lit, les regrets dans l'entrée. » | « Ça me va. Je prépare mon discours d'accueil : “Les toilettes sont à gauche, le reste est à vos risques.” » (calquée sur « les sorties de secours sont... », connue) | « Ça me va. Je tiens le vestiaire : les manteaux, les verres vides et les regrets. » (énumération en trois) |
+| P1 | Sûre | « Oui. Je t'écris en arrivant, avec la température. » | « Merci. Je garde le modèle d'origine. » (scène abandonnée, formule déjà vue) | « Oui. Je te le jure sur mon écharpe. » (promesse sans suite, moins précise) |
+| P1 | Joueuse | « Oui. Il est si épais qu'il pourrait prendre le train à ma place. » | « J'ai tout gardé : le prénom, les habitudes, l'appétit pour le dessert. » (scène abandonnée, énumération en trois) | « Oui. Il fait la moitié du trajet à ma place. » (image moins nette) |
+| P1 | Risquée | « Oui. Et toi, tu as pris ta sérénité ? Je l'ai vue dans le tiroir de l'entrée. » | « Merci. Ne le dis pas trop fort : on pourrait me redonner ma chambre à ranger. » (scène abandonnée) | « Oui. Et toi, tu as pris ton calme ? » (sans image, plus plate) |
+| P2 | Joueuse | « J'arrive. Je sais remuer, et regarder quelqu'un d'autre goûter. » | « J'arrive. Je sais couper, remuer, et regarder quelqu'un d'autre goûter. » (liste de trois) | « J'arrive. Je sais remuer, et applaudir ce qui est cuit. » (applaudir juge la cuisine) |
+| P3 | Sûre | « Ton tour, ton film. Je reste jusqu'au générique, même si je m'endors à la moitié. » | « Ton tour, ton film. Je reste jusqu'au générique, c'est mon dernier mot. » (« dernier mot » ne ferme rien, @elon, critique) | « Ton tour, ton film. Je reste jusqu'au générique, même le long. » (ambigu : le film ou le générique ?) |
+| P3 | Risquée | « Ton tour, d'accord. Moi, j'ai un veto : tout film où quelqu'un court au ralenti. » | « Ton tour, d'accord. Mon veto compte double : il vient de loin, des années de poursuites en voiture. » (dépendait d'un détail de la rafale) | « Ton tour, d'accord. Je garde un seul veto : la troisième poursuite en voiture. » (tic « troisième », même détail) |
+| G1 | Joueuse | « Oui. C'est ce que j'ai fait de plus long depuis lundi. » | « J'étais en mission secrète : dormir. Elle a duré jusqu'à 9 h 30. » (image courante de l'humour sur le sommeil) | « Je dormais, à haute dose : j'ai pris deux heures et demie de ta question en retard. » (obscure) |
+| G1 | Risquée | « 7 h 12 ? J'ai vu passer ton message en rêve. Il courait très vite. » | « Résultat du sondage de 7 h 12 : je dormais, à cent pour cent. Merci d'avoir participé. » (formule de standard connue, et la personne avait peut-être un souci) | « 7 h 12 ? J'ai vu passer ton message en rêve. » (sans chute) |
+| G2 | Sûre | « Pas en entier : un vocal de quatre minutes mérite un fauteuil. » | « Pas en entier : un vocal de quatre minutes s'écoute assis. » (accord masculin) | « Pas en entier : un vocal de quatre minutes, ça s'écoute dans un fauteuil. » (plus lourde) |
+| G2 | Risquée | « Pas en entier. Je le déguste : deux minutes ce soir, deux demain. » | « Pas en entier. Je m'échauffe : quatre minutes, c'est mon marathon du dimanche. » (image la plus attendue pour « c'est long », famille du sport) | « Pas en entier. Je l'ai en réserve, comme les bonnes séries. » (critique ; image de la série, proche du récit de la joueuse) |
+| G3 | Sûre | « Oui. Je mets ma part ce soir, tant que ma mémoire est de bonne humeur. » | « Dîner chez quelqu'un, un plat par personne. Je prends le pain : c'est mon seul talent. » (scène abandonnée, formule d'aveu connue) | « Oui. Je mets ma part ce soir, avant que mon enthousiasme baisse. » (même ressort que QR3 M3 sur les bonnes intentions) |
+| G3 | Joueuse | « Je suis pour. Je m'occupe de la carte : j'ai déjà plusieurs versions, toutes émues. » | « Samedi, 20 h, chez moi. Chaque nouveau “je m'en fiche” rapporte un dessert. » (@elon ; scène abandonnée) | « Je suis pour. Je m'occupe de la carte : mon écriture n'est lisible que le jour de l'anniversaire. » (écriture illisible déjà en QR2 R1) |
+| G3 | Risquée | « Oui. Montant secret : chacun croira avoir donné le plus. » | « Bilan de la soirée : tout le monde s'en fiche, à l'unanimité. Samedi, on applique ce principe au bar le plus proche. » (scène abandonnée) | « Oui. Je propose de tirer au sort la personne qui choisit le cadeau. » (tirage au sort déjà en G4 tour 1, aucune chute) |
+| G4 | Risquée | « Oui. Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. » | « Oui. Les bisous sont partis au hasard : la prochaine fois, je tire les destinataires au sort. » (floue, étire l'image des bisous) | « Oui. Les bisous sont revenus à l'expéditeur : moi, avec un peu de honte. » (parle de honte, aucune chute) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 18 répliques reprises, phrases entières entre guillemets (P3 risquée et G3 joueuse cherchées aussi sur un fragment). Recherche de l'idée en plus pour le vélo dans le couloir, le club des choses qui traînent, le manteau et la sérénité, la cagnotte au montant secret et le vocal que l'on déguste : aucune blague de ce type trouvée, seulement des recueils généraux et des articles de société ; la course au ralenti ressort seulement comme sujet de cinéma (la blague de la course au ralenti n'existe pas telle quelle).
+
+## Tour 2 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Scène de L1 refaisant l'image de la poêle de E1.1 et les poubelles de QR5 W4 (reviewer, @elon, coordinateur) | L1 refaite : scène du vélo dans le couloir, trois répliques neuves, rafale et « à toi » réécrits (geste immédiat). Masculin générique « le premier qui oublie » supprimé. |
+| Scène de P1 proche de l'étalon A5 et signal « en riant » dans la scène (reviewer, coordinateur) | P1 refaite : le manteau à l'entrée, scène sans signal, trois répliques neuves, rafale réécrite ; énumération en trois et « modèle d'origine » supprimées. |
+| G3 proche de l'indécision de QR4 C5 et joueuse qui commet l'erreur de sa fiche (@elon, reviewer, coordinateur) | G3 refaite : la cagnotte pour samedi (une proposition existe déjà, la réponse y répond), trois répliques neuves ; « ceux qui ont des avis » et « chacun » supprimés. |
+| Accords : « le dernier » (P1 contexte 2), « assis » (G2 sûre), « un ami » et « l'ami » dans les scènes (reviewer, @elon) | G2 scène : « quelqu'un de tes amis », « cette personne » ; G1 scène : « Un message reçu à 7 h 12 » ; G2 sûre : « mérite un fauteuil » ; annexe de contrôle corrigée (« un ami » n'est pas neutre). |
+| Blagues connues (règle du 29/09) : « toilettes à gauche », « merci d'avoir participé », mission secrète, marathon, modèle d'origine (critique, coordinateur) | L2 joueuse : « les manteaux sur mon lit, les regrets dans l'entrée » ; G1 joueuse et risquée remplacées ; G2 risquée : « Je le déguste » ; P1 refaite (voir plus haut). |
+| P3 risquée dépendait d'un détail de la rafale, « dernier mot » ne ferme rien (reviewer, @elon, critique) | P3 risquée : « tout film où quelqu'un court au ralenti » (lisible sous la scène seule), pourquoi et rafale 2 réalignés ; P3 sûre : « même si je m'endors à la moitié ». |
+| Énumérations en trois (critique) | P2 joueuse : « Je sais remuer, et regarder quelqu'un d'autre goûter. » |
+| 4 « À toi » sans geste immédiat (reviewer) | P2, P3, G3, G4 : un geste de dix secondes, puis « pour aller plus loin ». L1 et P1 : geste immédiat dans leur nouvelle version. |
+| Pourquoi inexact (reviewer) | P3 risquée : « Elle vise un genre de scène, jamais le choix de la personne » ; G1 contexte 1 : « le message en rêve rirait de son heure sans y être invité ». |
+| G4 risquée floue (critique) | G4 risquée : « Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. » ; rafale 2 : la personne « a cru que c'était pour moi » ; comment choisir et pourquoi réalignés. |
+| Décompte | 18 répliques touchées (L1 ×3, L2 ×1, P1 ×3, P2 ×1, P3 ×2, G1 ×2, G2 ×2, G3 ×3, G4 ×1) ; 12 inchangées (L2 sûre et risquée, L3 ×3, P2 sûre et risquée, P3 joueuse, G1 sûre, G2 joueuse, G4 sûre et joueuse). Rafale inchangée : 10 joueuses, 5 sûres, 5 risquées. |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 1) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques, 60 candidates écartées en annexe 1, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées).
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 2) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques dont 18 reprises, 60 candidates écartées en annexe 1 et 36 en annexe 3, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées). Trois scènes remplacées (L1 le vélo, P1 le manteau, G3 la cagnotte).
 - Règle nouvelle appliquée : une image par registre dans chaque situation (liste dans les contrôles) ; checklist des fautes récurrentes relue avant d'écrire.
-- Web : 0 occurrence exacte sur les 30 phrases et sur leurs idées (annexe 2) ; une idée remplacée en cours de route (« idées sous la douche »). À juger à l'aveugle en priorité : L1 risquée, G2 risquée, G3 joueuse.
-- À confirmer par l'orchestrateur : le point H4 (rendement de QR1 montré à Thomas) ; QR5 s'écrit en parallèle, vérifier ses scènes contre L1 à G4 à la fusion.
-- Aucun autre fichier modifié, pas de commit. Statut : tour 1, à repasser à l'aveugle (règle d'or P0 s18).
+- Web : 0 occurrence exacte sur les 30 phrases du tour 1 (annexe 2) et sur les 18 reprises du tour 2 (annexe 4), idées comprises. À juger à l'aveugle en priorité : L1 risquée (le club), P1 risquée (la sérénité dans le tiroir), P3 risquée (la course au ralenti).
+- Aucun autre fichier modifié, pas de commit. Statut : tour 2, à repasser à l'aveugle sur les lignes reprises (règle d'or P0 s18).
 
