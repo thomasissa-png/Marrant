@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v13 (s24)
 
+> REMPLACÉ par `architecture-contenu-v14.md` le 12/11/2026 après le tour 13 de relecture (Elon 10/10, Reviewer 9,7, UX 9,1). Ne plus s'y référer pour les XP des conseils (seule la liste du catalogue en donne 10, le conseil du jour et le conseil d'étape n'en donnent pas), la note sur la carte de révision (après « Tu avais une réponse ? »), la promesse du coin « Humour noir » (règle unique avec repérage en base), la cloche (singulier, test, pas d'annonce en direct), l'écran « Mes répliques », la lecture seule après résiliation ni la série dans « Aujourd'hui ».
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v12.md`. Réponse au tour 12 de relecture : @reviewer 9,6, @elon 9,4, @ux 9,0 (les décisions de Thomas du 12/11 sont jugées appliquées fidèlement ; les corrections portent sur la conception à l'intérieur des décisions, aucune n'est rouverte) et aux arbitrages de la session (annexe A). `docs/founder-preferences.md`, dernière ligne du 12/11, fait foi. Les points de conception neuve restent des propositions marquées [RESTE À TRANCHER] ; l'écran de motif de résiliation de s23 est un sujet séparé que la session soumettra à Thomas : ce document ne le décide pas.
 
 ## Résumé pour Thomas (une page, sans jargon)
