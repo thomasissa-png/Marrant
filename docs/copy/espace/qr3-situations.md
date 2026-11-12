@@ -1,9 +1,9 @@
-# QR3 : Quoi répondre, lot 3 (10 situations), tour 3
+# QR3 : Quoi répondre, lot 3 (10 situations), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR3 : réunion et entretien 4, amis 3, famille 2, rencontre 1) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` 7.4 : répartition conforme (les 30 premières = soirée 6, boulot 5, réunion 5, rencontre 6, amis 5, coloc 1, famille 2 ; QR1 et QR2 ont couvert le reste, il reste donc exactement ces 10). Format de `docs/copy/espace/qr2-situations.md`, niveau de `docs/copy/espace/qr1-situations.md`, fautes relevées dans les relectures `qr1-tour-{1,2,3}-*.md` et `qr2-tour-{1,2,3}-*.md`, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne », « un de tes parents »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Entretien d'embauche et famille : aucune réplique qui coûte un poste ou blesse un proche (la plaisanterie porte sur toi ou sur un détail neutre). Dans les entretiens, l'autre vouvoie : les répliques évitent tout « vous » et tout « tu » adressé à la personne.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 3 (5 répliques reprises d'après les relectures du tour 2, voir « Tour 3 : retouche → ligne » ; le tour 2 avait repris 17 répliques), à repasser à l'aveugle sur ces 5 lignes** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 4, dernier tour (décision C8) : 2 répliques reprises (R1 risquée, F1 sûre), voir « Tour 4 : retouche → ligne » ; les tours 3 et 2 avaient repris 5 et 17 répliques** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR2 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
@@ -33,8 +33,8 @@ Tu remercies, tu fais de ces trente secondes un brouillon et tu recommences sans
 Tu présentes le silence de la salle comme un résultat d'enquête que tu t'attribues. Rien n'est nié, la phrase se dit sans hâte, et ceux qui ont attendu peuvent sourire avec toi. À sortir quand la salle est détendue.
 
 **La risquée**
-« Je reprends. Les gestes étaient très bien, je les garde. »
-Tu reprends ton propos et tu retiens le seul acquis de ces trente secondes : l'image, donc tes gestes. Elle ne vise personne, seulement toi. Elle marche seulement si quelqu'un a déjà plaisanté de son propre micro. Sinon elle ajoute une plaisanterie à une salle qui attend : prends la sûre.
+« Je reprends. Les gestes étaient parfaits : je n'ajoute que le son. »
+Tu reprends ton propos en comptant tes gestes pour acquis : il ne manquait que le son. Elle ne vise personne, seulement toi. Elle marche seulement si quelqu'un a déjà plaisanté de son propre micro. Sinon elle ajoute une plaisanterie à une salle qui attend : prends la sûre.
 
 **Comment choisir**
 La salle est détendue ? Monte d'un cran. Quelqu'un a déjà plaisanté de son propre micro ? Monte encore. Sinon, reste sur la sûre.
@@ -295,8 +295,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Tu as raison. Je te raconte l'essentiel maintenant, et la suite dimanche prochain. »
-Tu donnes raison tout de suite, tu livres l'essentiel pendant l'appel et tu fixes un jour pour la suite. Elle ne vise personne, ne se défend de rien et rassure. C'est la bonne quand la personne te le dit sans sourire.
+« Tu as raison. Je vais bien, mon téléphone aussi : aucune excuse. Dimanche prochain, je rappelle. »
+Tu donnes raison tout de suite, tu livres la nouvelle qui compte (tu vas bien), tu partages la faute avec ton téléphone et tu fixes un jour. Elle ne vise personne, ne se défend de rien et rassure. C'est la bonne quand la personne te le dit sans sourire.
 
 **La joueuse**
 « Je faisais des économies. J'ai maintenant assez de nouvelles pour une heure. »
@@ -516,9 +516,26 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 4 phrases neuves (
 | Tic « trois », phrase administrative, « dimanche » ambigu (critique, reviewer) | F1 sûre : « Tu as raison. Je te raconte l'essentiel maintenant, et la suite dimanche prochain. » ; pourquoi : « tu livres l'essentiel pendant l'appel ». |
 | Décompte | 5 répliques touchées. Le reste du fichier est inchangé. Rafale : aucune ligne de rafale ne cite ces répliques (R1 sans risquée, M1 joueuse en contexte 1, M2 contextes en termes de « suivante », F1 contextes sans citation). |
 
+## Annexe 5 : candidates du tour 4 (3 par réplique reprise ; la « gardée » de la ligne remplace celle des annexes 1, 3 et 4)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| R1 | Risquée | « Je reprends. Les gestes étaient parfaits : je n'ajoute que le son. » | « Je reprends. Les gestes étaient très bien, je les garde. » (chute molle, « garder » ambigu) | « Je reprends. Mon discours était complet : il lui manquait juste le son. » (explique la blague, plus abstraite) |
+| F1 | Sûre | « Tu as raison. Je vais bien, mon téléphone aussi : aucune excuse. Dimanche prochain, je rappelle. » | « Tu as raison. Je commence par la plus petite : j'ai acheté des chaussettes. » (reprend la règle de l'étalon E1.2 entrée 2, invente un fait, aucun jour pour la suite) | « Tu as raison. Bonne nouvelle : je vais bien. Mauvaise : aucune excuse. Dimanche prochain, je rappelle. » (structure « bonne nouvelle, mauvaise nouvelle » d'usage, déjà en QR2 S4) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les deux phrases. Idée de R1 risquée (gestes irréprochables, seul le son manque) : les recueils de blagues de visio trouvés parlent de micro ouvert, de caméra oubliée et de faux problèmes de son, aucun ne formule cette idée. Idée de F1 sûre (partager la faute avec son téléphone, « aucune excuse ») : seules des listes d'humour sur le téléphone des parents et sur le « téléphone qui bugue » comme prétexte, pas cette formule.
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| R1 risquée : chute molle, ressort demi-connu (critique tour 3) | R1 risquée : « Je reprends. Les gestes étaient parfaits : je n'ajoute que le son. » ; pourquoi : « tu comptes tes gestes pour acquis : il ne manquait que le son ». |
+| F1 sûre : plate, sans chute (critique tour 3) ; « la plus petite » est la règle de l'étalon E1.2 entrée 2, non recopiée | F1 sûre : « Tu as raison. Je vais bien, mon téléphone aussi : aucune excuse. Dimanche prochain, je rappelle. » (chute propre : la faute partagée avec le téléphone ; la nouvelle qui compte est donnée pendant l'appel ; jour fixé) ; pourquoi réécrit. |
+| Décompte | 2 répliques touchées, le reste du fichier est inchangé. |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr3-situations.md` (tour 3) : 10 situations (réunion et entretien 4, amis 3, famille 2, rencontre 1), 30 répliques dont 17 touchées au tour 2 (13 reprises de fond, 4 retouches légères), 60 candidates écartées en annexe 1 et 34 en annexe 3.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr3-situations.md` (tour 4) : 10 situations (réunion et entretien 4, amis 3, famille 2, rencontre 1), 30 répliques dont 17 touchées au tour 2 (13 reprises de fond, 4 retouches légères), 60 candidates écartées en annexe 1 et 34 en annexe 3.
 - Rafale : 20 contextes, 10 joueuses, 5 sûres, 5 risquées, une seule bonne réponse chacun ; fautes de QR1 et QR2 écartées par construction (accords, « lui-même », deuxième tentative, moule « si », réplique qui ne marche que sous le contexte).
 - Web : 0 occurrence exacte sur les 30 répliques du tour 1 (annexe 2) et sur les 17 reprises du tour 2 (annexe 3). À juger à l'aveugle en priorité : R1 risquée (nouveau ressort : lecture sur les lèvres) et N1 risquée.
 - À confirmer par l'orchestrateur : le point H4 (rendement de QR1 montré à Thomas) avant le seuil d'ouverture des 30 situations.
