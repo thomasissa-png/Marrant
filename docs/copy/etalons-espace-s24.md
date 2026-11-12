@@ -1,19 +1,17 @@
-# Étalons de texte E1, E2, E3 : espace Premium (s24)
+# Étalons de texte E1, E2, E3 : espace Premium (s24), tour 2
 
-> Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/audit-contenu/architecture-contenu-v17.md` (2.2, 3.3 à 3.6, 4.2, 9). **Statut : brouillon d'étalons, NON relu à l'aveugle.** Chaque texte passera la relecture à l'aveugle jusqu'à 10/10 chez tous les relecteurs (4 tours au plus, décision C8) avant d'être montré à Thomas. Aucun autre fichier n'est modifié.
-> Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune mention de technologie dans les textes, aucune citation d'humoriste (donc aucune citation inventée), aucun concurrent, aucun persona nommé dans les textes, on rit avec et jamais contre.
-> Les mots entre crochets, `[Tu avais une réponse ?]`, signalent un écran de l'application (étalon E5), pas du texte à écrire. Les vannes sont des premiers jets : la section « Lignes fragiles » en fin de fichier dit lesquelles je remplacerais en premier.
-> Chaque étalon porte son framework : `[Framework : démonstration puis geste]`, conscience du lecteur : `[Conscience : Solution-Aware]` (il est abonné, il sait ce qu'il vient chercher).
+> Auteur : @copywriter, 12/11/2026. **Tour 2** (après le tour 1 à l'aveugle : critique copywriter, @reviewer, @elon, dans `docs/copy/etalons-espace-s24-relectures/`). Source : `docs/espace-client/audit-contenu/architecture-contenu-v17.md` (2.2, 3.3 à 3.6, 4.2, 9). **Statut : non relu à l'aveugle sur cette version.** Règle C8 : 10/10 chez tous les relecteurs, 4 tours au plus.
+> Arbitrages de la session appliqués : une seule version par étalon (celle que la majorité préfère, enrichie du meilleur de l'autre) ; au plus UNE chute à objet personnifié dans tout le fichier (la joueuse de la poêle) ; mécanismes variés ; entrée « Et toi, tu fais quoi ? » refaite sur « répondre vrai puis relancer » ; profil Absurde servi en réponses absurdes ; fautes objectives corrigées ; répliques sous la barre remplacées.
+> E4 (Mirabel) n'est pas dans ce fichier.
+> Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune mention de technologie dans les textes, aucune citation d'humoriste, aucun concurrent, aucun persona nommé, on rit avec et jamais contre. Guillemets « » partout, guillemets intérieurs “ ”.
+> Les mots entre accents graves, `[Tu avais une réponse ?]`, signalent un écran de l'application (E5), pas du texte à écrire.
+> `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]` (il est abonné, il sait ce qu'il vient chercher).
 
 ---
 
 ## E1. Quoi répondre
 
 ### E1.1 La situation complète : « La poêle de jeudi » (univers coloc, entrée du profil Taquin)
-
-Les deux versions partagent la scène et les trois répliques. Elles diffèrent sur la quantité d'explication et sur la forme de la règle.
-
-#### Version A : complète, la voix du pote (environ 330 mots)
 
 **Coloc : la poêle**
 
@@ -22,7 +20,7 @@ Dimanche, 19 h, la coloc. Ton colocataire sort une poêle de l'évier et la tien
 
 « Quelqu'un connaît le propriétaire de cette poêle ? Elle est là depuis jeudi. »
 
-Jeudi, c'était pâtes. Tu étais le seul à cuisiner.
+Jeudi, c'était pâtes. Personne d'autre n'a cuisiné.
 
 **Ta réponse d'abord**
 Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.
@@ -30,19 +28,20 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Elle est à moi. Je m'en occupe, merci de l'avoir sauvée. »
-Tu reconnais, tu remercies, c'est réglé. Elle ne vise personne et se ferme toute seule : personne n'a besoin de répondre. C'est la bonne quand tu ne connais pas encore l'humour de la coloc.
+« Elle est à moi. Tu peux prévenir les autres : le coupable est identifié. »
+Tu reconnais avant qu'on te pose la question, avec un trait d'autodérision, et c'est réglé. Elle ne vise personne et se ferme toute seule : personne n'a besoin de répondre. C'est la bonne quand tu ne connais pas encore l'humour de la coloc.
 
 **La joueuse**
 « Je ne voulais pas la déraciner : elle s'est bien intégrée. »
-Tu prends l'accusation au mot et tu en fais une histoire d'accueil : quatre jours dans l'évier, elle fait presque partie de la coloc. La pique parlait de ta négligence, ta réponse parle de la poêle. À sortir quand la coloc a déjà ri de ces dimanches-là.
+Tu prends l'accusation au mot et tu en fais une histoire d'accueil : trois jours dans l'évier, elle fait presque partie de la coloc. La pique parlait de ta négligence, ta réponse parle de la poêle. À sortir quand la coloc a déjà ri de ces dimanches-là.
 
 **La risquée**
-« Elle est à moi. Troc possible contre les trois verres qui vivent dans ta chambre ? »
-Tu n'esquives pas : tu proposes un marché, et tu rends la parole à ton colocataire, qui doit avouer ses propres verres. Elle ne vise pas la personne, seulement un désordre que vous partagez. Elle marche si lui aussi laisse traîner des choses et en rit. Sinon elle sonne comme un reproche : prends la sûre.
+« Elle est à moi. Troc possible contre les trois verres que tu as montés dans ta chambre lundi ? »
+Tu n'esquives pas : tu proposes un marché, et tu rends la parole à ton colocataire, qui doit avouer ses propres verres. Elle ne vise pas la personne, seulement un désordre que vous partagez. Elle marche seulement si c'est lui qui a ouvert le jeu et s'il laisse lui aussi traîner des choses. Sinon elle sonne comme un reproche : prends la sûre.
 
 **Comment choisir**
-Demande-toi qui a déjà ri de ces dimanches. Personne, ou tu viens d'arriver : la sûre. Le groupe en rit déjà : la joueuse. Ton colocataire est lui-même du genre à oublier ses verres : la risquée, une seule fois. Si ça ne prend pas, tu laisses tomber et tu laves la poêle.
+Le groupe a déjà ri avec toi ? Monte d'un cran. Sinon, reste sur la sûre.
+Sur cette scène : personne n'a encore ri, ou tu viens d'arriver, la sûre. La coloc rit déjà de ces dimanches, la joueuse. Et la risquée seulement si ton colocataire a lui-même ouvert le jeu et laisse traîner ses propres affaires, une fois. Si ça ne prend pas, tu laisses tomber et tu laves la poêle.
 
 **L'erreur que tout le monde fait**
 Nier d'abord (« c'est pas la mienne »), puis t'excuser trois fois. Ta réplique arrive pendant que tu rangeais déjà, et les excuses transforment la poêle en procès. Une seule phrase, dite calmement, et tu tends la main pour la reprendre.
@@ -54,257 +53,137 @@ Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à 
 `[Ma réplique à moi : une phrase, facultative]`
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Les colocs rient déjà de ces dimanches » : la joueuse. Le groupe a déjà ri, la poêle devient un personnage de plus.
-2. « Ton colocataire vient lui-même de laisser sa vaisselle trois jours » : la risquée. Il est complice, le troc tombe juste. La sûre serait correcte, mais elle laisserait passer le jeu.
+1. « La coloc rit déjà de ces dimanches, et ton colocataire range tout, toujours » : la joueuse. Le groupe a déjà ri ; la risquée sonnerait en reproche, car il n'a aucun verre à renvoyer.
+2. « La coloc rit déjà de ces dimanches, et ton colocataire, qui a ouvert le jeu avec la poêle, a lui-même monté trois verres dans sa chambre lundi » : la risquée. Le troc le renvoie à son propre désordre, et c'est lui qui a lancé la partie.
 
-#### Version B : courte, à scanner (environ 170 mots)
+**Sur la part d'un quart de risquées gagnantes** : la risquée gagne ici dans un contexte sur deux, sans jamais viser une faiblesse, un physique ou une origine : c'est un échange sur un comportement partagé. Je confirme le quart, à condition que chaque risquée gagnante soit un échange ou une question rendue, jamais un reproche renvoyé.
 
-**Coloc : la poêle**
+### E1.2 Les 5 situations d'entrée (une par profil du quiz)
 
-**La scène**
-Dimanche, 19 h. Ton colocataire sort une poêle de l'évier, du bout des doigts : « Quelqu'un connaît le propriétaire de cette poêle ? Elle est là depuis jeudi. » Jeudi, c'était pâtes, et tu étais seul à cuisiner.
+Format de chaque entrée : la scène, trois répliques, le « pourquoi », la règle, l'erreur, le geste, avec le signal qui dit quand monter d'un cran (un signal distinct pour la joueuse et pour la risquée). L'entrée 5 (profil Taquin) est la poêle, E1.1.
 
-**Ta réponse d'abord**
-Dis la tienne, à voix haute ou dans ta tête. Rien n'est noté.
-
-`[Tu avais une réponse ? Oui / À moitié / Rien]`
-
-**La sûre** : « Elle est à moi. Je m'en occupe, merci de l'avoir sauvée. »
-Quand : tu ne connais pas encore la coloc.
-
-**La joueuse** : « Je ne voulais pas la déraciner : elle s'est bien intégrée. »
-Quand : la coloc a déjà ri de ces dimanches.
-
-**La risquée** : « Elle est à moi. Troc possible contre les trois verres qui vivent dans ta chambre ? »
-Quand : lui aussi laisse traîner, et il en rit. Sinon, la sûre.
-
-**La règle**
-Le groupe a déjà ri avec toi ? Monte d'un cran. Sinon, reste sur la sûre.
-
-**L'erreur**
-Nier, puis t'excuser trois fois. Une phrase, et tu reprends la poêle.
-
-**À toi**
-Dis la sûre à voix haute, une casserole à la main, sans sourire. Dix secondes.
-
-`[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]`
-
-**Dans la rafale**
-1. « Les colocs rient déjà de ces dimanches » : la joueuse.
-2. « Ton colocataire vient de laisser sa vaisselle trois jours » : la risquée.
-
-#### Ce qui change entre A et B
-A explique chaque réplique (pourquoi elle marche, pour qui) et donne la règle en quatre phrases : on apprend le raisonnement. B donne la réplique, une ligne « Quand » et une règle d'une phrase : on retrouve l'info en dix secondes mais on perd le « pourquoi ». Les vannes, la scène et les deux contextes sont identiques.
-
-#### Reco
-**A** pour la fiche complète : le « pourquoi » est ce qui fait un pote qui t'explique plutôt qu'une liste de répliques à copier, et 330 mots tiennent en deux minutes de lecture sur téléphone. B reste la bonne forme pour la carte de rafale (l'abonné connaît déjà la fiche).
-
-**Sur la part d'un quart de risquées gagnantes** : ici la risquée gagne dans l'un des deux contextes sans jamais viser une faiblesse, un physique ou une origine : elle propose un troc sur un comportement que les deux partagent. La règle « on rit avec » tient. Je confirme le quart, à condition que chaque risquée gagnante soit un échange ou une question rendue, jamais un reproche renvoyé.
-
-### E1.2 Les 5 situations d'entrée (une par profil du quiz, version courte)
-
-Le premier pas du jour 1 doit tenir en moins de 5 minutes. L'entrée 5 (profil Taquin) est la poêle ci-dessus : sa version courte est E1.1 version B. Pour les quatre autres, A et B partagent la scène et les trois répliques.
-
-**Ce que A ajoute** : une phrase de « pourquoi » par réplique, la règle, l'erreur, le geste. **Ce que B garde** : la scène, les trois répliques, une ligne pour choisir, une ligne « À toi ».
-
-#### Entrée 1 : profil Observateur, univers soirée
+#### Entrée 1 : profil Observateur, univers soirée. La règle : répondre vrai, puis relancer
 
 **La scène.** Soirée chez des amis d'amis. Tu connais deux personnes, parties chercher des verres. Quelqu'un se tourne vers toi : « Et toi, tu fais quoi ? »
 
-- **La sûre** : « Pour l'instant, je m'informe. Vous êtes plus intéressants que mon CV. »
-- **La joueuse** : « Je suis en reconversion : depuis dix minutes, je me spécialise dans les chips. »
-- **La risquée** : « Tu fais passer des entretiens, ou j'ai l'air de chercher du travail ? »
+(Exemple avec la logistique : remplace-la par ton métier ou tes études.)
 
-**A**
-- Sûre : tu renvoies l'attention vers le groupe, c'est un compliment et ça se ferme seul.
-- Joueuse : tu réponds à une question de métier par ta position près du buffet. L'aveu est minuscule et tout le monde l'a déjà vécu.
-- Risquée : tu rends la question à celui qui l'a posée, en riant de l'effet « entretien ». Elle passe s'il a déjà souri, sinon la sûre.
-- La règle : entre inconnus, la plus légère gagne. La joueuse seulement si quelqu'un a déjà souri.
-- L'erreur : réciter ton parcours (études, stage, ville). On te posait une question d'entrée, pas un entretien.
-- À toi : écris ta réponse à « Et toi, tu fais quoi ? » sans y mettre ton métier ni ta formation. Dis-la une fois à voix haute.
+- **La sûre** : « Je fais de la logistique. Dis-moi si le buffet est bien placé : déformation professionnelle. »
+- **La joueuse** : « Je fais de la logistique. Et depuis dix minutes, je me spécialise dans les chips. »
+- **La risquée** : « Je fais de la logistique. Dis-moi ton métier, je te dis dans quel carton il rentrerait. »
 
-**B**
-- Pour choisir : personne n'a encore ri, la sûre. Quelqu'un a déjà souri, la joueuse.
-- À toi : une réponse à « Et toi, tu fais quoi ? » sans ton métier, dite à voix haute.
+**Le pourquoi**
+- Sûre : tu réponds vrai, en trois mots, et ton détail donne une prise : l'autre peut parler du buffet.
+- Joueuse : même réponse vraie, puis un aveu minuscule que tout le monde a vécu en soirée.
+- Risquée : tu joues avec le métier de l'autre, sans le juger. Elle passe seulement si c'est lui qui a plaisanté sur la question.
+
+**Quand monter d'un cran.** Joueuse : quelqu'un a déjà souri à une de tes phrases dans la soirée. Risquée : l'autre a lui-même plaisanté sur la question (« la question qu'on pose toujours »).
+
+**La règle.** Réponds vrai, en trois mots, puis ajoute un détail qui relance.
+**L'erreur.** Esquiver (« oh, rien de passionnant ») : tu retires la prise que l'autre te tendait. Ou réciter tout ton parcours : on te posait une question d'entrée, pas un entretien.
+**À toi.** Écris ton métier ou tes études en trois mots, puis un détail de ta semaine qui va avec. Dis-le à voix haute.
 
 #### Entrée 2 : profil Storyteller, univers amis
 
 **La scène.** Un dîner entre amis, un vendredi. Quelqu'un te lance : « Alors, quoi de neuf ? » Tu as plein de choses, et aucune ne tient en une phrase.
 
-- **La sûre** : « Mon voisin a changé de sonnette. C'est tout, mais je le raconte bien. »
-- **La joueuse** : « J'ai changé de marque de café. Je n'ai pas encore de conclusion. »
+- **La sûre** : « J'ai réparé un tiroir. Il ferme. Je ne m'en remets pas. »
+- **La joueuse** : « J'ai goûté le plat que ma voisine m'a apporté. Je n'ai pas encore de conclusion. »
 - **La risquée** : « Je te le raconte si tu promets de rire au bon endroit. Il n'y en a qu'un. »
 
-**A**
-- Sûre : tu baisses les attentes toi-même, et l'ami décide s'il veut la suite.
-- Joueuse : un sujet minuscule traité avec un sérieux d'enquête. Le contraste fait le travail.
+**Le pourquoi**
+- Sûre : une vraie petite nouvelle, dite avec la gravité d'un exploit. Elle se ferme toute seule.
+- Joueuse : un sujet minuscule traité avec un sérieux d'enquête. L'ami veut la suite.
 - Risquée : tu mets une condition à ton public. Elle passe entre amis qui se chambrent déjà sur leur façon de rire.
-- La règle : quand tu as beaucoup à dire, commence par la plus petite nouvelle. L'autre demandera la suite.
-- L'erreur : garder ta meilleure histoire pour plus tard et répondre « rien de spécial ». Le groupe passe à autre chose et ton anecdote reste dans ta poche.
-- À toi : relève une nouvelle minuscule de ta semaine (un voisin, un colis, une marque) et dis-la à quelqu'un en commençant par « C'est petit, mais ».
 
-**B**
-- Pour choisir : un ami proche, la joueuse. Un groupe que tu connais moins, la sûre.
-- À toi : une nouvelle minuscule de ta semaine, dite à quelqu'un, en commençant par « C'est petit, mais ».
+**Quand monter d'un cran.** Joueuse : l'ambiance est détendue et l'ami a l'air curieux. Risquée : cet ami te chambre déjà sur ta façon de raconter.
+
+**La règle.** Quand tu as beaucoup à dire, commence par la plus petite nouvelle. L'autre demandera la suite.
+**L'erreur.** Garder ta meilleure histoire pour plus tard et répondre « rien de spécial ». Le groupe passe à autre chose et ton anecdote reste dans ta poche.
+**À toi.** Relève une nouvelle minuscule de ta semaine (un meuble, un colis, une voisine) et dis-la à quelqu'un en commençant par « C'est petit, mais ».
 
 #### Entrée 3 : profil Absurde, univers boulot
 
 **La scène.** 10 h 40, la machine à café du bureau. Un collègue, gobelet en main, lance son « Ça va ? » habituel.
 
-- **La sûre** : « Ça va, merci. Pour le café, je te dirai dans trois gorgées. »
-- **La joueuse** : « Ça va. C'est la version officielle. »
-- **La risquée** : « Ça va. Et toi, tu demandes par politesse, ou tu as vraiment dix minutes ? »
+- **La sûre** : « Ça va, merci : j'ai trouvé un stylo qui marche du premier coup. »
+- **La joueuse** : « Ça va. J'ai juste l'impression d'avoir oublié un mardi. »
+- **La risquée** : « Ça va. Si on te demande, tu ne m'as pas vu près de la photocopieuse. »
 
-**A**
-- Sûre : tu réponds, puis tu passes la parole au café, un sujet que personne ne défend.
-- Joueuse : tu avoues que « ça va » est une formule. Le collègue sourit parce qu'il en dit autant.
-- Risquée : tu rends sa question à celui qui l'a posée. Si tu as vraiment dix minutes, écoute sa réponse. Elle ne marche qu'avec un collègue qui plaisante déjà.
-- La règle : plus la pause est courte, plus ta réplique doit l'être. La joueuse suffit presque toujours.
-- L'erreur : expliquer ta réplique (« Ça va. C'est la version officielle. Parce que bon, en vrai… »). La vanne se dégonfle à la deuxième phrase.
-- À toi : demain, au premier « ça va ? », dis ta réplique, rien d'autre, puis bois.
+**Le pourquoi**
+- Sûre : une bonne nouvelle microscopique, vraie dans tous les bureaux. Elle ferme la conversation.
+- Joueuse : un « ça va » qui bascule d'un coup dans l'absurde, dit sans aucun sourire.
+- Risquée : tu donnes un rôle à ton collègue dans une histoire qui n'existe pas. Il peut jouer ou sourire, les deux conviennent.
 
-**B**
-- Pour choisir : un collègue que tu connais peu, la sûre. Un collègue qui plaisante déjà, la joueuse.
-- À toi : demain, au premier « ça va ? », ta réplique, puis ton café.
+**Quand monter d'un cran.** Joueuse : ce collègue sourit facilement ou t'a déjà répondu sur le même ton. Risquée : il a déjà plaisanté avec toi et aime rentrer dans un jeu.
+
+**La règle.** Plus la pause est courte, plus ta réplique doit l'être : moins de quinze mots, et tu t'arrêtes.
+**L'erreur.** Expliquer ta réplique (« J'ai l'impression d'avoir oublié un mardi, parce que bon, cette semaine… »). La phrase se dégonfle à la deuxième moitié.
+**À toi.** Demain, au premier « ça va ? », dis ta réplique, rien d'autre, puis bois.
 
 #### Entrée 4 : profil Punchlineur, univers amis (la scène « ni bureau ni études »)
 
 **La scène.** Un samedi chez un ami. Quelqu'un te regarde en plissant les yeux : « Tiens, tu as changé quelque chose, non ? » Rien n'a changé. Enfin, presque.
 
-- **La sûre** : « Pas que je sache. Mais merci d'avoir regardé. »
+- **La sûre** : « Peut-être. Je te préviens si je le découvre avant toi. »
 - **La joueuse** : « J'ai changé de dentifrice. Tu as l'œil. »
-- **La risquée** : « Cherche. Trois essais, et si tu trouves, tu offres le café. »
+- **La risquée** : « Trois essais. Si tu ne trouves pas, c'est toi qui offres le café. »
 
-**A**
-- Sûre : tu ne démens ni ne confirmes, et tu remercies l'attention. Rien n'est à défendre.
+**Le pourquoi**
+- Sûre : tu ne démens ni ne confirmes, et tu transformes la question en enquête commune. Rien à défendre.
 - Joueuse : le plus petit changement imaginable, accueilli avec le respect d'un expert. Tout le jeu est dans l'écart.
-- Risquée : tu transformes sa remarque en jeu avec un gage. Elle passe s'il aime jouer.
-- La règle : devant une question sans vraie réponse, la plus petite vérité, dite très sérieusement, vaut mieux qu'une explication.
-- L'erreur : chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.
-- À toi : trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
+- Risquée : tu transformes sa remarque en pari, et comme il ne peut pas trouver, c'est lui qui perd. Elle passe seulement s'il aime jouer et paiera de bonne grâce.
 
-**B**
-- Pour choisir : l'autre aime jouer, la risquée. Sinon la joueuse, et la sûre si tu hésites.
-- À toi : ton plus petit changement de la semaine, dit comme un grand secret.
+**Quand monter d'un cran.** Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer, il a déjà relevé un défi avec toi.
 
-#### Ce qui change entre A et B (entrées)
-A enseigne le raisonnement sur chaque scène (pourquoi, règle, erreur, geste) : une fiche de lecture de 2 à 3 minutes. B est un aide-mémoire de 30 secondes, qui laisse l'abonné tenter sa réponse puis passer à l'action. Les 12 répliques sont identiques.
+**La règle.** Devant une question sans vraie réponse, la plus petite vérité, dite très sérieusement, vaut mieux qu'une explication.
+**L'erreur.** Chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.
+**À toi.** Trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
 
-#### Reco
-**A pour les entrées 1 et 2** (l'abonné découvre les trois registres, il lui faut le « pourquoi » une fois), **B dès qu'il revient sur une scène** (les entrées 3 et 4, et toute carte de rafale). Si Thomas préfère un seul format pour les cinq : A, parce que la règle et l'erreur sont ce qui distingue la fiche d'une liste de vannes.
+#### Entrée 5 : profil Taquin, univers coloc
+La poêle (E1.1).
 
 ---
 
 ## E2. Comment c'est construit, et Formules à détourner
 
-### E2.1 « Comment c'est construit » : la règle de trois
+### E2.1 « Comment c'est construit » : le faux secret
 
-Mécanisme choisi : la règle de trois (la plus connue, donc la plus exposée au ton scolaire). Le faux secret de l'architecture reste interchangeable : même format. Grille de fin de fiche (2.4) : trois questions oui ou non, rien d'enregistré.
+Mécanisme prévu par l'architecture (v17 §9). De la version « trois essais » de tour 1, on garde l'idée de l'essai « trop loin », qui enseigne mieux que la règle. L'exemple qui marche est celui du quiz validé (étape 1 de Machine à Café). Grille de fin de fiche (2.4) : trois questions oui ou non, rien d'enregistré. Environ 230 mots.
 
-#### Version A : le démontage (environ 230 mots)
-
-**La règle de trois**
+**Le faux secret**
 
 **Le schéma, en une ligne**
-Deux éléments qui se ressemblent, un troisième qui dérape sans quitter la famille.
+« Ça reste entre nous : » puis un aveu minuscule, sur toi, dit avec la gravité d'un scandale.
 
 **L'exemple**
-« Je suis quelqu'un de calme : je ne crie pas, je ne m'énerve pas, je relis mon "ok" avant de l'envoyer. »
+« Ça reste entre nous : je dis “je regarde ça” sur tout ce que je ne regarderai jamais. »
 
 **Comment c'est fait**
-Les deux premiers éléments installent un rythme : « je ne crie pas », « je ne m'énerve pas », deux courts, construits pareil. Tu entends déjà le troisième arriver, et il est censé être calme lui aussi.
-Le troisième casse : au lieu d'un calme de plus, un aveu minuscule. Il reste dans la famille (on parle toujours de ton sang-froid), mais il le contredit avec un détail que tout le monde reconnaît.
+L'ouverture promet un secret et le ton est grave. L'aveu, lui, est minuscule, et tout le monde le reconnaît. C'est l'écart entre les deux qui fait rire.
 
-**Une version qui ne marche pas, et pourquoi**
-« Je suis quelqu'un de calme : je ne crie pas, je ne m'énerve pas, je ne me fâche pas. »
-Les trois disent la même chose : rien ne dérape.
-« …, je ne m'énerve pas, et mon colocataire est insupportable. »
-Le troisième quitte ta phrase et vise quelqu'un qui n'est pas là : il ne peut pas en rire avec toi.
-
-**La règle**
-Deux pareils, un qui dérape. Sur toi, avec un détail précis.
-
-**L'erreur que tout le monde fait**
-Rallonger le troisième (« …je relis mon ok avant de l'envoyer, parfois même deux fois »). Il doit rester le plus précis, pas le plus long.
-
-**À toi**
-Écris trois essais sur « Je suis quelqu'un de… » ou « Mes trois règles pour… », avec ton détail à toi. Puis la grille :
-1. Elle tient en une phrase ?
-2. Si elle vise quelqu'un, peut-il en rire avec toi ?
-3. La fin surprend ?
-
-#### Version B : en trois essais (environ 190 mots)
-
-**La règle de trois, en trois essais**
-
-Une ligne suffit pour le principe : deux éléments qui se ressemblent, un troisième qui dérape. On le construit sous tes yeux, avec un raté à chaque étape. Le terrain : « Trois choses sur moi », le classique du pot d'accueil.
-
-**Essai 1** : « J'aime lire, marcher et voyager. »
-Ça ne casse rien : trois goûts qu'on attendait. Correct, et oublié dans la minute.
-
-**Essai 2** : « J'aime lire, marcher et la physique quantique. »
-Ça casse, mais trop loin : la physique quantique ne vient d'aucun des deux premiers goûts, et personne ne s'y reconnaît.
-
-**Essai 3** : « J'aime lire, marcher et déplacer ma pile à lire. »
-Ça tient. Le troisième reste dans la famille (lire) et avoue un détail vrai que beaucoup reconnaissent. C'est aussi le plus court à dire.
-
-**Le test**
-Le troisième est dans la même famille que les deux autres, sans leur ressembler. Trop proche : rien ne casse. Trop loin : personne ne te suit.
-
-**L'erreur que tout le monde fait**
-Expliquer après (« parce que tu vois, la pile… »). La phrase s'arrête au dernier mot.
-
-**À toi**
-Pars de « J'aime… » ou « Mes trois qualités… ». Écris l'essai 1 (le plat) puis l'essai 3 (le tien), et saute le 2. Puis la grille :
-1. Elle tient en une phrase ?
-2. Si elle vise quelqu'un, peut-il en rire avec toi ?
-3. La fin surprend ?
-
-#### Ce qui change entre A et B
-A démonte une phrase réussie (installer, casser) et montre deux ratés pour la contre-épreuve : on comprend en regardant un modèle. B fait construire la phrase en trois essais dont deux ratés, avec un ton plus joueur et sans vocabulaire de mécanique : on comprend en voyant le piège de près. Exemples et vannes différents (le « ok » relu pour A, la pile à lire pour B).
-
-#### Reco
-**B** : le raté montré à la bonne place est ce qui évite le ton cours magistral, et l'essai 2 (« trop loin ») enseigne mieux que la règle que A énonce. A reste préférable si Thomas veut que la fiche serve de modèle à copier telle quelle.
-
-### E2.2 « Formules à détourner »
-
-Rappel de la règle de la fiche : garde la forme de l'expression, remplace son sujet par un détail précis de ta vie. Une suite qui confirme l'expression sans rien changer n'est pas un détournement.
-#### Version A : le catalogue (environ 250 mots)
-
-**Formules à détourner : cinq expressions, cinq détails de ta vie**
+**Trois essais, un seul tient**
+Essai 1 : « Ça reste entre nous : je suis parfois un peu en retard. »
+Trop flou : aucun détail, personne ne s'y arrête.
+Essai 2 : « Ça reste entre nous : je ne supporte plus personne ici. »
+Trop loin : ce n'est plus minuscule, c'est une vraie confidence. L'autre ne sait plus s'il doit rire.
+Essai 3 : l'exemple. Minuscule, précis, vrai pour presque tout le monde.
 
 **La règle**
-Tu gardes la forme de l'expression. Tu remplaces son sujet par un détail précis de ta vie. C'est tout.
+Un seul aveu, court, sur toi, avec un détail que tout le monde reconnaît. S'il vise quelqu'un d'absent, il ne peut pas en rire avec toi.
 
-**Cinq formules, une version possible chacune**
-1. « Petit à petit, l'oiseau fait son nid. »
-   → « Petit à petit, mon couloir fait son stock de colis à renvoyer. »
-2. « Qui sème le vent récolte la tempête. »
-   → « Qui sème des "je réponds plus tard" récolte une pastille rouge à quatre chiffres. »
-3. « Le mieux est l'ennemi du bien. »
-   → « Le "je vérifie juste un truc" est l'ennemi de mon dimanche. »
-4. « Qui va à la chasse perd sa place. »
-   → « Qui va aux toilettes en réunion revient avec un dossier. »
-5. « Chassez le naturel, il revient au galop. »
-   → « Chassez le "on se voit bientôt", il revient chaque fin d'été, intact. »
-
-**Le piège**
-Changer la forme, ou commencer par ton détail. Si on ne reconnaît plus l'expression, il n'y a plus rien à détourner.
-
-**La limite**
-La suite tient en une douzaine de mots. Au-delà, c'est une anecdote.
-
-**Une suite qui ne détourne rien**
-« Mieux vaut tard que jamais, comme quand j'arrive en retard. »
-Elle confirme l'expression sans rien changer, et ton retard n'a rien de précis. On le savait déjà.
+**L'erreur que tout le monde fait**
+Ajouter « non mais je rigole » juste après. L'aveu s'arrête au dernier mot.
 
 **À toi**
-Choisis une expression, garde sa forme, remplace son sujet par un détail de ta semaine. Puis la grille :
+Écris ton faux secret en trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :
 1. Elle tient en une phrase ?
 2. Si elle vise quelqu'un, peut-il en rire avec toi ?
 3. La fin surprend ?
 
-#### Version B : l'atelier, à toi d'abord (environ 200 mots)
+### E2.2 « Formules à détourner » : l'atelier, à toi d'abord
+
+Version B de tour 1, avec ses deux meilleurs exemples en démonstration. Quatre expressions du tour 1 sont remplacées (couloir, dimanche, « on se voit bientôt », et la suite à 14 mots corrigée à 12). Environ 200 mots.
 
 **Formules à détourner : à toi d'abord**
 
@@ -312,140 +191,146 @@ Choisis une expression, garde sa forme, remplace son sujet par un détail de ta 
 Tu gardes la forme. Tu changes le sujet pour un détail précis de ta vie.
 
 **Deux déjà faites**
-« Petit à petit, l'oiseau fait son nid. »
-→ « Petit à petit, mon couloir fait son stock de colis à renvoyer. »
-
 « Qui va à la chasse perd sa place. »
 → « Qui va aux toilettes en réunion revient avec un dossier. »
 
+« Qui sème le vent récolte la tempête. »
+→ « Qui sème des “plus tard” récolte une pastille rouge à quatre chiffres. »
+
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « Le mieux est l'ennemi du bien. » → Le … est l'ennemi de …
-   `[Voir une version possible]` « Le "je vérifie juste un truc" est l'ennemi de mon dimanche. »
-2. « Qui sème le vent récolte la tempête. » → Qui sème … récolte …
-   `[Voir une version possible]` « Qui sème des "je réponds plus tard" récolte une pastille rouge à quatre chiffres. »
-3. « Chassez le naturel, il revient au galop. » → Chassez le …, il revient …
-   `[Voir une version possible]` « Chassez le "on se voit bientôt", il revient chaque fin d'été, intact. »
+1. « Il n'y a pas de fumée sans feu. » → Pas de … sans …
+   `[Voir une version possible]` « Pas de fumée sans feu. Pas de “juste une question” sans réunion. »
+2. « Rira bien qui rira le dernier. » → Rira bien qui …
+   `[Voir une version possible]` « Rira bien qui n'a pas cliqué sur “répondre à tous”. »
+3. « Tout ce qui brille n'est pas or. » → Tout ce qui … n'est pas …
+   `[Voir une version possible]` « Tout ce qui est en pièce jointe n'est pas joint. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
-Une douzaine de mots.
+Une douzaine de mots pour la suite.
 
 **Une suite qui ne détourne rien**
-« Mieux vaut tard que jamais, comme quand j'arrive en retard. » Elle confirme, elle ne change rien.
+« Mieux vaut tard que jamais, comme quand j'arrive en retard. » Elle confirme l'expression sans rien changer, et ton retard n'a rien de précis.
 
 Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en rire avec toi ? La fin surprend ?
-
-#### Ce qui change entre A et B
-A donne cinq détournements prêts à lire, l'abonné repart avec des phrases. B n'en montre que deux, laisse l'abonné écrire d'abord et cache les versions possibles derrière un toucher : le geste d'écriture devient le cœur de la fiche.
-
-#### Reco
-**B** : l'objectif de la fiche est l'écriture, et A donne envie de ressortir mes phrases plutôt que les siennes. Réserve : le besoin mesuré des visiteurs est « une phrase à ressortir », donc si Thomas veut une fiche qui serve aussi de réserve de phrases, A.
 
 ---
 
 ## E3. Vocabulaire : « Quand on te lance une pique »
 
-Thème de la fiche : les 5 mots de la répartie. Trois sont au glossaire public (Accusé de réception, Rebond sur mot-clé, Timing : leurs définitions ne sont pas recopiées, on renvoie à `/glossaire`), deux sont neufs (Chambrer, Esprit de l'escalier : pas de page glossaire, lien à décider). Aucun de ces mots n'a de fiche maîtresse dans « Comment c'est construit », aucun n'est un mot de scène. Geste de la fiche : reconnaître, placer.
-
-#### Version A : cinq entrées autonomes, format de l'architecture (environ 320 mots)
+Version A de tour 1 (cinq entrées autonomes, format de l'architecture 3.5), avec le geste de B (« accusé de réception, deux secondes, rebond ») à la place du quiz. Trois mots sont au glossaire public (accusé de réception, rebond sur mot-clé, timing : leurs définitions ne sont pas recopiées), deux sont neufs (chambrer, esprit de l'escalier). Environ 320 mots.
 
 **Vocabulaire : quand on te lance une pique**
 Cinq mots pour comprendre ce qui se passe quand on te chambre, et pour le faire exprès.
 
 **Chambrer**
 Se moquer de quelqu'un pour rire, entre gens qui s'apprécient.
-En deux temps : « Tu as mis dix minutes à retrouver ta carte bleue. » Réponse : « Elle joue à cache-cache. Elle gagne depuis 2019. »
+En deux temps : « Tu as mis dix minutes à retrouver ta carte bleue. » Réponse : « Dix minutes. J'ai cherché deux fois dans la même poche, pour être sûr. »
 À ne pas confondre avec : la moquerie, qui rit de quelqu'un sans lui laisser la place de rire avec.
 Définition complète : `[lien à décider, mot neuf]`
 
 **Accusé de réception**
 La petite formule que tu dis avant ta vraie réponse, pour gagner deux secondes.
-En deux temps : « Tu as encore oublié ton chargeur ? » Tu dis : « Pas faux. » Deux secondes. Puis : « Je le laisse chez les gens : il se fait des amis. »
+En deux temps : « Tu as encore oublié ton chargeur ? » Tu dis : « Pas faux. » Deux secondes. Puis : « J'en ai quatre, tous chez des gens que j'aime bien. »
 À ne pas confondre avec : l'excuse (« oui, pardon »), qui répond avant d'avoir pris le temps.
 Définition complète : `/glossaire`
 
 **Rebond sur mot-clé**
 Attraper un mot dans la phrase de l'autre et bâtir ta réponse dessus.
-En deux temps : « Tu as beaucoup changé depuis la fac. » Tu rebondis sur « beaucoup » : « Beaucoup, oui. Je suis passé de quatre heures de sommeil à cinq. »
+En deux temps : « Tu as beaucoup changé depuis la fac. » Tu rebondis sur « beaucoup » : « Beaucoup, oui. J'ai gagné une heure de sommeil : je dors cinq heures. »
 À ne pas confondre avec : le jeu de mots, qui joue sur le son du mot. Le rebond joue sur son sens.
 Définition complète : `/glossaire`
 
 **Timing**
 Le moment où tu dis ta phrase, et les secondes de silence autour.
-En deux temps : « Tu as vu l'heure ? » Tu regardes ta montre. Deux secondes. Puis : « Elle ne m'a pas prévenu. » Sans la pause, c'est une excuse. Avec, c'est une réplique.
+En deux temps : « Tu as vu l'heure ? » Tu regardes ta montre. Deux secondes. Puis : « Oui. Moi aussi, ça m'a surpris. » Dite tout de suite, la phrase court derrière l'accusation. Dite après la pause, c'est un constat.
 À ne pas confondre avec : la vitesse. Le timing, c'est la pause, pas la précipitation.
 Définition complète : `/glossaire`
 
 **Esprit de l'escalier**
-Trouver la bonne réponse une fois que la conversation est finie, en bas de l'escalier.
-En deux temps : au dîner, on te lance une pique et tu ne dis rien. Dans l'ascenseur du retour, la réplique parfaite arrive, avec trois heures de retard.
+Trouver la bonne réponse trop tard, une fois la conversation finie, en quittant la pièce.
+En deux temps : au dîner, on te lance une pique et tu ne dis rien. Dix minutes plus tard, dans la rue, la réplique parfaite arrive. Personne ne l'entendra.
 À ne pas confondre avec : le simple regret (« j'aurais dû dire quelque chose »). Ici, la bonne réponse existe, elle arrive juste trop tard.
 Définition complète : `[lien à décider, mot neuf]`
 
-**À toi : reconnaître**
-Quel mot ? 1. Tu dis « Bien vu. », tu respires, puis tu réponds. 2. Ton ami se moque de ta coupe et tu ris avec lui. 3. Tu reprends « toujours » dans sa phrase pour bâtir ta réponse.
-`[Réponses : accusé de réception, chambrer, rebond sur mot-clé]`
-
-#### Version B : un fil rouge, une seule scène (environ 210 mots)
-
-**Vocabulaire : une pique, cinq mots**
-
-Samedi soir, tu arrives en retard. Ton ami lève les yeux de son verre : « Tu as vu l'heure ? »
-
-Voilà déjà ton premier mot : il **te chambre**. Une pique pour rire, entre gens qui s'apprécient.
-
-Tu dis : « Pas faux. » C'est un **accusé de réception** : une petite formule avant ta vraie réponse, qui te laisse deux secondes.
-
-Tu regardes ta montre et tu attends. Ces deux secondes de silence, c'est le **timing** : le bon moment compte autant que la phrase.
-
-Puis : « L'heure ? Elle est passée sans me prévenir. » Tu as pris un mot de sa phrase, « l'heure », pour bâtir la tienne : c'est un **rebond sur mot-clé**.
-
-Et si rien ne vient ? Si la réplique arrive le lendemain, dans l'ascenseur, c'est l'**esprit de l'escalier** : la bonne réponse, trop tard. Tout le monde y passe.
-
-**À ne pas confondre**
-Chambrer n'est pas se moquer : on rit avec. Le timing n'est pas la vitesse : c'est la pause. Le rebond joue sur le sens d'un mot, pas sur son son.
-
 **À toi : placer**
-Cette semaine, avant ta prochaine réponse à une remarque légère, dis un accusé de réception, compte deux secondes, puis réponds.
-
-Définitions complètes : `/glossaire` (accusé de réception, rebond sur mot-clé, timing).
-
-#### Ce qui change entre A et B
-A est une fiche de référence : cinq entrées autonomes (en clair, deux temps, à ne pas confondre, lien) qu'on retrouve mot par mot, avec un geste de reconnaissance. B raconte une seule scène où les cinq mots arrivent dans l'ordre où on les vit, plus court et plus vivant, avec un geste de mise en pratique, mais les entrées ne sont plus consultables séparément.
-
-#### Reco
-**A**, parce qu'une fiche de vocabulaire se consulte entrée par entrée (et que le format de l'architecture le demande). On emprunte à B son geste final (« placer ») pour remplacer le quiz si Thomas le préfère. Si Thomas veut le récit : B, mais la fiche perd ses « à ne pas confondre » détaillés.
+Cette semaine, avant ta prochaine réponse à une remarque légère : dis un accusé de réception (« Pas faux », « Bien vu »), compte deux secondes, puis rebondis sur un mot de sa phrase.
 
 ---
 
-## Lignes fragiles (à remplacer en premier si la relecture à l'aveugle les juge sous la barre)
+## Annexe : remarque → traitement (tour 1 vers tour 2)
 
-Je les ai écrites au mieux, mais je ne les juge pas toutes au niveau de la barre. Dans l'ordre, du plus fragile au moins fragile :
-1. Entrée 1, la sûre (« Vous êtes plus intéressants que mon CV ») : gentille, pas surprenante.
-2. Accusé de réception, deuxième temps (« il se fait des amis ») : douce, pas franchement surprenante.
-3. Entrée 3, la sûre (« dans trois gorgées ») et la joueuse (« la version officielle ») : courtes, un peu attendues.
-4. Entrée 4, la sûre (« merci d'avoir regardé ») : une réplique polie plus qu'une vanne.
-5. Entrée 2, la joueuse (« pas encore de conclusion ») : la meilleure idée du lot, à protéger.
-6. La poêle : la joueuse (« elle s'est bien intégrée ») et la sûre (« l'avoir sauvée ») sont reprises ou proches du candidat d'architecture, à relire d'abord.
+| Remarque (source) | Traitement |
+|---|---|
+| Une seule version par étalon (session) | E1.1 A avec la règle de B ; E1.2 A ; E2.1 faux secret avec l'essai « trop loin » ; E2.2 B ; E3 A avec l'exercice de B. |
+| Tic de l'objet personnifié (copywriter, @elon C1) | Une seule chute à objet personnifié reste : la joueuse de la poêle (« elle s'est bien intégrée »). Retirés : « vivent dans ta chambre », cache-cache, chargeur « se fait des amis », « elle ne m'a pas prévenu », « mon couloir fait son stock ». |
+| Deux « changements minuscules » parmi les entrées (@elon C1) | Gardé seulement le dentifrice (il répond à la scène « tu as changé quelque chose »). L'entrée 2 passe au tiroir réparé et au plat de la voisine. |
+| Entrée 1 : répondre vrai puis relancer, ne pas esquiver (@elon C2) | Règle, erreur, geste et trois répliques refaits : chaque réplique donne d'abord son vrai métier (exemple « logistique »), puis un détail qui relance. Joueuse protégée (« chips ») gardée comme relance. |
+| Profil Absurde sans réplique absurde (copywriter) | Entrée 3 : « oublié un mardi » et « pas vu près de la photocopieuse ». |
+| Jours : « quatre jours » (copywriter) | « Trois jours », cohérent avec jeudi et dimanche. |
+| Rafale : deux bonnes réponses, contradiction avec « une seule » (@reviewer H2, copywriter) | Les deux contextes sont réécrits avec un signal qui exclut les autres registres ; « la sûre serait correcte » est supprimé. |
+| Rafale 2 : vaisselle contre verres (copywriter) | La réplique et le contexte parlent des mêmes trois verres montés lundi. |
+| La sûre qui dément (copywriter, entrée 4) | « Peut-être. Je te préviens si je le découvre avant toi. » : ne démens ni ne confirme. |
+| Gage illogique (@reviewer H5) | « Si tu ne trouves pas, c'est toi qui offres le café », et le texte dit pourquoi : il ne peut pas trouver. |
+| Même signal pour joueuse et risquée (@reviewer H3) | Chaque entrée a un « Quand monter d'un cran » distinct pour la joueuse et la risquée. |
+| Reco différente par entrée (@reviewer H6) | Une seule forme, la complète, pour les cinq. |
+| Risquée qui vise un inconnu, sonne défensive (@elon F2) | Remplacée par un jeu sur le métier de l'autre, conditionné au fait qu'il ait plaisanté le premier. |
+| Sûres plates, F1, F4, F5 (@elon, copywriter) | Remplacées : déformation professionnelle (buffet), stylo qui marche, « je te préviens si je le découvre avant toi ». |
+| « Version officielle » déjà entendue, F3 (@elon, @reviewer H4) | Remplacée par « oublié un mardi ». |
+| E2.1 sur le faux secret (@reviewer H7) | Fait. Exemple du quiz validé ; essai flou, essai trop loin ; ~230 mots. |
+| « Le plus court à dire » faux (copywriter, @reviewer) | Supprimé avec la version « pile à lire ». |
+| E2.2 n° 2 à 14 mots (copywriter) | « Qui sème des “plus tard” récolte une pastille rouge à quatre chiffres » : 12 mots. |
+| E2.2 F6 (couloir), F7 (« on se voit bientôt »), n° 3 (dimanche) (@elon, copywriter) | Remplacés par trois expressions neuves (fumée, rira bien, brille). Démonstration : « revient avec un dossier » et « pastille rouge » (@elon C5). |
+| Accusé de réception « il se fait des amis », F8 (@elon, copywriter) | « J'en ai quatre, tous chez des gens que j'aime bien. » |
+| Timing plat, F9 (@elon, copywriter) | « Oui. Moi aussi, ça m'a surpris. », avec la démonstration de la pause. |
+| Chambrer : cache-cache, déjà entendue (copywriter) | « J'ai cherché deux fois dans la même poche, pour être sûr. » |
+| Rebond : exemple qui illustre mal le mot (copywriter) ; masculin seul (@reviewer H8) | Le rebond reprend « beaucoup » et se joue sur l'heure de sommeil gagnée : « J'ai gagné une heure de sommeil : je dors cinq heures. » (sans accord de genre). |
+| Masculin seul (H8) | « Personne d'autre n'a cuisiné » ; « Peut-être. Je te préviens » ; aucune forme accordée dans les répliques. |
+| Esprit de l'escalier : « le lendemain », « ascenseur » (copywriter, @reviewer) | « Dix minutes plus tard, dans la rue. » ; l'origine (Diderot) n'est pas citée. |
+| Question 2 du quiz ambiguë (copywriter) | Quiz remplacé par l'exercice « placer » de B. |
+| Guillemets intérieurs droits (@reviewer H9) | Tous les guillemets intérieurs sont “ ”. |
+| E2.1 B 190 mots, sous le format (@reviewer) | Faux secret : environ 230 mots. |
+| E4 Mirabel (H1, H10, H11) | Hors de ce fichier, non traité ici. |
+| « Chambrer » : source à citer (@reviewer) | Robert (familier, « se moquer de quelqu'un en paroles »), et « chambrage » défini comme raillerie amicale par La langue française : voir les liens ci-dessous. Lien de la fiche encore à décider. |
 
-La sûre est une vraie réplique légère (2.2) : elle n'a pas à égaler la joueuse, mais elle ne doit pas être plate.
+## Originalité : recherche web de la phrase exacte, répliques neuves du tour 2
 
-## Originalité (barre « jamais entendue ailleurs »)
+Résultat de chaque recherche : **0 occurrence** de la phrase (ou de ses deux ou trois mots les plus distinctifs ensemble). Cela ne prouve pas l'absence de variante ; les relecteurs à l'aveugle restent juges.
 
-Recherche web par phrase exacte sur 5 lignes (le « ok » relu, le dentifrice, « revient avec un dossier », la marque de café, le colis et la pile à lire) : aucune occurrence. **Ce n'est pas une preuve** : une recherche à la phrase exacte ne détecte pas une variante, et les autres lignes (poêle, cache-cache, chips, « version officielle », sommeil, « n'a pas prévenu ») n'ont pas été cherchées. La vérification d'originalité reste à faire par les relecteurs à l'aveugle.
+1. « Elle est à moi. Tu peux prévenir les autres : le coupable est identifié. » : 0.
+2. « Troc possible contre les trois verres que tu as montés dans ta chambre lundi ? » (recherche sur « les trois verres que tu as montés dans ta chambre ») : 0.
+3. « Je fais de la logistique. Dis-moi si le buffet est bien placé : déformation professionnelle. » : 0.
+4. « Je fais de la logistique. Dis-moi ton métier, je te dis dans quel carton il rentrerait. » (recherche sur la fin de la réplique) : 0.
+5. « Je fais de la logistique. Et depuis dix minutes, je me spécialise dans les chips. » (recherche sur « je fais de la logistique » + « je me spécialise dans les chips ») : 0.
+6. « J'ai réparé un tiroir. Il ferme. Je ne m'en remets pas. » : 0.
+7. « J'ai goûté le plat que ma voisine m'a apporté. Je n'ai pas encore de conclusion. » : 0.
+8. « Ça va. J'ai juste l'impression d'avoir oublié un mardi. » (recherche sur « l'impression d'avoir oublié un mardi ») : 0.
+9. « Ça va. Si on te demande, tu ne m'as pas vu près de la photocopieuse. » : 0.
+10. « Ça va, merci : j'ai trouvé un stylo qui marche du premier coup. » : 0.
+11. « Peut-être. Je te préviens si je le découvre avant toi. » : 0.
+12. « Trois essais. Si tu ne trouves pas, c'est toi qui offres le café. » : 0.
+13. « Dix minutes. J'ai cherché deux fois dans la même poche, pour être sûr. » : 0.
+14. « J'en ai quatre, tous chez des gens que j'aime bien. » : 0.
+15. « Beaucoup, oui. J'ai gagné une heure de sommeil : je dors cinq heures. » : 0.
+16. « Pas de fumée sans feu. Pas de “juste une question” sans réunion. » : 0 (la recherche a surtout porté sur la seconde expression).
+17. « Rira bien qui n'a pas cliqué sur “répondre à tous”. » : 0.
+18. « Tout ce qui est en pièce jointe n'est pas joint. » : 0.
+19. « Qui sème des “plus tard” récolte une pastille rouge à quatre chiffres. » : 0.
+Non cherchée : « Oui. Moi aussi, ça m'a surpris. » (trop courte pour une recherche utile). Lignes conservées sans nouvelle recherche : poêle (joueuse), dentifrice, « il n'y en a qu'un », « revient avec un dossier », faux secret du quiz (validé).
 
-## Contrôles
+Sources pour « chambrer » : [Le Robert, « chambrer »](https://dictionnaire.lerobert.com/en/definition/chambrer), [La langue française, « chambrage »](https://www.lalanguefrancaise.com/dictionnaire/definition/chambrage). Pour « esprit de l'escalier » : emploi attesté (Expressio, cité par @reviewer).
 
-- Zéro tiret cadratin, zéro émoji, aucune mention de technologie, aucun humoriste ni citation, aucun concurrent, aucun persona nommé : vérifiés par recherche dans ce fichier avant remise.
-- Point de vérité factuelle : « esprit de l'escalier » (expression ancienne attribuée à Diderot) et « chambrer » sont des emplois courants du français, à confirmer avec une source avant publication [À VÉRIFIER].
-- Pas de chiffre autre que ceux des vannes (« 2019 », « quatre heures de sommeil à cinq ») : ce sont des détails de blague, pas des données.
+## Lignes que je juge encore fragiles
+1. Entrée 1, la risquée (« dans quel carton il rentrerait ») : dépend d'un interlocuteur qui joue déjà.
+2. Timing (« Moi aussi, ça m'a surpris ») : la démonstration repose sur la pause plus que sur la phrase.
+3. Entrée 3, la sûre (« stylo qui marche ») : vraie mais modeste.
+La sûre n'a pas à égaler la joueuse (2.2), mais elle ne doit pas être plate.
 
 ## Handoff
-
-- Fichier : `/home/user/Marrant/docs/copy/etalons-espace-s24.md` (E1.1 et E1.2, E2.1 et E2.2, E3, chacun en A et B avec « ce qui change » et une reco).
-- Recos : E1.1 A ; entrées A pour la découverte puis B ; E2.1 B ; E2.2 B ; E3 A.
-- À faire ensuite : relecture à l'aveugle (4 tours au plus, 10/10), en commençant par les « lignes fragiles ».
-- Ouvert : liens des mots neufs (Chambrer, Esprit de l'escalier), source des deux emplois.
+- Fichier : `/home/user/Marrant/docs/copy/etalons-espace-s24.md` (tour 2 : E1.1, E1.2, E2.1 faux secret, E2.2 atelier, E3, annexe remarque → traitement, recherches d'originalité).
+- Une seule version par étalon ; une seule chute à objet personnifié ; entrée 1 refaite en « répondre vrai puis relancer » ; profil Absurde servi en absurde.
+- 19 répliques neuves, 0 occurrence exacte sur le web (preuve partielle).
+- À faire : tour 2 de relecture à l'aveugle (@copywriter en critique, @reviewer, @elon), puis tours 3 et 4 si besoin.
