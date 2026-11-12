@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v11 (s24)
 
+> REMPLACÉ par `architecture-contenu-v12.md` le 12/11/2026 après les réponses de Thomas aux questions C1 à C14, Q5b, Q6 et Q9 (`docs/founder-preferences.md`, dernière ligne du 12/11). Ne plus s'y référer pour la section 8 (devenue « Décisions de Thomas »), la page d'arrivée après paiement (toujours « Aujourd'hui », plus de bandeau), « Mes questions » (rien d'effacé, plus de ligne 3114), l'humour noir (traitement dédié, étalon E6), les lettres (archive et reprise), la cloche, les notes, le déploiement d'un coup ni les totaux (163 fiches neuves, 293 distinctes).
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v10.md`. Réponse aux tours 10 de relecture : @elon 9,9, @reviewer 9,8, @ux 9,2, aucun bloquant. La v11 n'applique QUE les retouches demandées par la session (annexe A) et ajoute un résumé d'une page pour Thomas.
 
 ## Résumé pour Thomas (une page, sans jargon)
