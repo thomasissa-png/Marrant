@@ -12,7 +12,6 @@ import {
   findActivePath,
 } from "@/lib/parcours-data";
 import { resolveStepJokes } from "@/lib/parcours-vannes";
-import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 type ServedPath = { steps: ParcoursStepPayload[] };
 
@@ -111,10 +110,6 @@ export async function GET(
 
     // Étapes 2+ : contenu complet pour un Premium, aperçu sinon (décision 03/10, D1 s17).
     const servedPath = await servePath(enrichedPath as unknown as ServedPath, plan);
-    // s24 mesure (lot 0) : étapes 2+ servies en entier à un abonné = premier accès Premium. Ne lève jamais.
-    if (isPremiumPlan(plan) && servedPath.steps.some((s) => s.order >= 2)) {
-      await noterPremiereFois("premier_acces_premium", plan, userId, `parcours:${params.slug}`);
-    }
 
     return NextResponse.json(
       { path: servedPath, userProgress, stepValidations },

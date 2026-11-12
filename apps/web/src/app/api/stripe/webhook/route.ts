@@ -101,7 +101,7 @@ async function reactivationConfirmee(dbStatus: string, subscriptionId: string | 
   return UPGRADE_STATUSES.includes(live.status);
 }
 
-async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promise<void> {
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session, evenementLe: Date = new Date()): Promise<void> {
   if (session.mode && session.mode !== "subscription") return;
   const contexte = `Session ${session.id ?? "?"}, client ${stripeId(session.customer) ?? "?"}`;
   const echec = (detail: string) =>
@@ -146,8 +146,10 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   }
   console.log(`[Stripe] User ${resolved.userId} upgraded to PREMIUM (via ${resolved.via})`);
 
-  // s24 mesure (lot 0) : souscription à l'heure exacte du paiement. Rejeu = même clé. Ne lève jamais.
-  const souscritLe = session.created ? new Date(session.created * 1000) : new Date();
+  // s24 mesure (lot 0) : souscription à l'heure de l'événement `checkout.session.completed`
+  // (`event.created`, paiement validé), pas à la création de la session (clic « S'abonner »).
+  // Stable entre deux livraisons : rejeu = même clé. Ne lève jamais.
+  const souscritLe = evenementLe;
   await noterEvenement("souscription", resolved.userId, {
     detail: extractSubscriptionBilling(subscription).billingInterval,
     occurredAt: souscritLe,
@@ -461,7 +463,10 @@ export async function POST(request: NextRequest) {
   try {
     switch (event.type) {
       case "checkout.session.completed":
-        await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session);
+        await handleCheckoutCompleted(
+          event.data.object as Stripe.Checkout.Session,
+          typeof event.created === "number" ? new Date(event.created * 1000) : new Date(),
+        );
         break;
       case "customer.subscription.updated":
         await handleSubscriptionUpdated(

@@ -1,7 +1,8 @@
 /**
  * @jest-environment node
  *
- * s24 lot 0 : mesure d'usage écrite par le webhook Stripe (souscription, résiliation programmée
+ * s24 lot 0 : mesure d'usage écrite par le webhook Stripe (souscription à l'heure de l'événement
+ * `checkout.session.completed`, résiliation programmée
  * avec heure exacte et motif codé, renouvellement payé). Écriture en échec = webhook 200 quand
  * même, événement Stripe enregistré (Stripe ne rejoue pas). Aucune donnée personnelle.
  * Stripe, Prisma, alertes et e-mails entièrement simulés (mêmes simulations que s16).
@@ -117,18 +118,21 @@ const session = (over: Record<string, unknown> = {}) => ({
 });
 
 describe("souscription", () => {
-  it("une ligne à l'heure exacte du paiement, formule, clé stable ; rien de personnel", async () => {
-    const res = await deliver("checkout.session.completed", session());
+  it("une ligne à l'heure de l'événement checkout.session.completed (pas la création de la session), formule, clé stable ; rien de personnel", async () => {
+    // Session créée au clic « S'abonner » (1 759 800 000), paiement validé 7 min plus tard.
+    const res = await deliver("checkout.session.completed", session(), undefined, 1_759_800_420);
     expect(res.status).toBe(200);
     expect(ecrits()).toEqual([
       {
         userId: "user-1",
         type: "souscription",
         detail: "month",
-        occurredAt: new Date(1_759_800_000 * 1000),
-        dedupKey: "souscription:user-1:1759800000",
+        occurredAt: new Date(1_759_800_420 * 1000),
+        dedupKey: "souscription:user-1:1759800420",
       },
     ]);
+    // L'e-mail de confirmation approuvé garde sa date de souscription (création de la session).
+    expect(notifySubscriptionConfirmed).toHaveBeenCalledWith("user-1", expect.objectContaining({ dateSouscription: new Date(1_759_800_000 * 1000) }));
     expect(JSON.stringify(ecrits())).not.toMatch(/yanis|exemple|cus_1|cs_1/i);
   });
 

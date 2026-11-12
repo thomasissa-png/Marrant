@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { finPremiumLettreHebdo } from "@/lib/lettre/hebdo";
 import { prisma } from "@/lib/prisma";
+import { cleUnique, noterEvenement } from "@/lib/mesure/evenements-usage";
 
 /**
  * Webhook RevenueCat — sync IAP avec notre DB.
@@ -86,6 +87,16 @@ export async function POST(req: NextRequest) {
             // iapExpirationDate: expirationDate,
           },
         });
+        // s24 mesure (lot 0) : achat dans l'application = souscription (heure de l'événement).
+        // Rejeu = même clé. Ne lève jamais.
+        if (eventType === "INITIAL_PURCHASE") {
+          const acheteLe = typeof event.event_timestamp_ms === "number" ? new Date(event.event_timestamp_ms) : new Date();
+          await noterEvenement("souscription", appUserId, {
+            detail: "iap",
+            occurredAt: acheteLe,
+            dedupKey: cleUnique("souscription", appUserId, Math.floor(acheteLe.getTime() / 1000)),
+          });
+        }
         break;
       }
       case "EXPIRATION": {

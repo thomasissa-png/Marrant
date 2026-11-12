@@ -1,7 +1,9 @@
 "use client";
 
 import { contenuAffiche } from "@/lib/tip-prose";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useListeAuDelaVue } from "@/hooks/use-vu-mesure";
+import { FREE_VIDEO_LIMIT } from "@/config/premium";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -122,6 +124,18 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
   useMurVu(limited && (videos.length > 0 || page > 1), "videos");
+  // s24 mesure (lot 0, §5.2) : premier élément au-delà de la limite gratuite vu par un abonné. Rendu inchangé.
+  const grille = useRef<HTMLDivElement>(null);
+  useListeAuDelaVue({
+    liste: "videos",
+    grille,
+    page,
+    taille: pagination?.limit ?? 12,
+    nb: videos.length,
+    limite: FREE_VIDEO_LIMIT,
+    pret: !isLoading && pagination?.page === page,
+    cle: `${category}|${difficulty}`,
+  });
   // T21 : « Ce que tu vas apprendre » et « Exercice pratique » repliés sur mobile, ouverts dès md.
   const [isDesktop, setIsDesktop] = useState(false);
 
@@ -258,7 +272,7 @@ export function VideosGrid({ initialData = null, initialPage = 1 }: VideosGridPr
       ) : (
         // Revue visuelle s21 (T2-03) : règle commune aux trois murs, une dernière carte seule (2 colonnes, de
         // 768 à 1 023 px) prend la rangée en disposition horizontale : vignette à gauche, contenu à droite.
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="tabpanel">
+        <div ref={grille} className="grid gap-6 md:grid-cols-2 lg:grid-cols-3" role="tabpanel">
           {videos.map((video, index) => {
             const seule = videos.length % 2 === 1 && index === videos.length - 1;
             return (

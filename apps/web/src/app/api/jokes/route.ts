@@ -7,7 +7,6 @@ import { dedupeJokesByContent } from "@/lib/jokes-dedupe";
 import { FREE_JOKE_LIMIT } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { sansExerciceVanne } from "@/lib/champs-premium";
-import { depasseLimiteGratuite, noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 // Schéma de validation pour les filtres
 const querySchema = z.object({
@@ -97,10 +96,6 @@ export async function GET(request: NextRequest) {
     const jokes = pageIds.length
       ? await prisma.joke.findMany({ where: { id: { in: pageIds } }, orderBy })
       : [];
-    // s24 mesure (lot 0) : un abonné lit la liste au-delà de la limite gratuite = premier accès Premium.
-    if (isPremium && depasseLimiteGratuite(start, jokes.length, FREE_JOKE_LIMIT)) {
-      await noterPremiereFois("premier_acces_premium", "PREMIUM", userId, "liste-vannes");
-    }
 
     return NextResponse.json({
       // « À toi de jouer » réservé à Premium : vidé pour tout autre compte (même règle que le HTML).

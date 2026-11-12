@@ -3,18 +3,16 @@
  *
  * s24 lot 0 : mesure d'usage serveur (`lib/mesure/evenements-usage.ts`). Base simulée en mémoire
  * avec la même contrainte d'unicité que la migration 18 (`dedupKey`). Vérifie : dédoublonnage,
- * premier accès une fois par souscription, compte non Premium = rien, écriture en échec = pas
- * d'exception, aucune donnée personnelle (liste fermée, pas d'e-mail ni de texte libre, journal
- * sans identifiant).
+ * premier accès et « aha » une fois par ABONNEMENT (ancre = abonnement Stripe, pas la ligne
+ * `souscription` : aucune course au réabonnement), compte non Premium = rien, écriture en échec =
+ * pas d'exception, aucune donnée personnelle (liste fermée, journal sans identifiant).
  */
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
 import {
   cleUnique,
-  depasseLimiteGratuite,
   detailFerme,
   noterEvenement,
-  noterExerciceOuvert,
   noterJourPratique,
   noterPremiereFois,
   type MesureDb,
@@ -22,9 +20,9 @@ import {
 
 type Ligne = { userId: string; type: string; detail: string | null; occurredAt: Date; dedupKey: string | null };
 
-function fausseBase() {
+function fausseBase(abonnements: Record<string, string | null> = {}) {
   const lignes: Ligne[] = [];
-  const db: MesureDb = {
+  const db = {
     usageEvent: {
       create: jest.fn(async ({ data }: { data: Ligne }) => {
         if (data.dedupKey && lignes.some((l) => l.dedupKey === data.dedupKey)) {
@@ -33,19 +31,20 @@ function fausseBase() {
         lignes.push({ ...data });
         return data;
       }),
-      findFirst: jest.fn(async ({ where }: { where: { userId: string; type: { in: string[] } } }) => {
-        const l = lignes
-          .filter((x) => x.userId === where.userId && where.type.in.includes(x.type))
-          .sort((a, b) => b.occurredAt.getTime() - a.occurredAt.getTime())[0];
-        return l ? { type: l.type, occurredAt: l.occurredAt } : null;
-      }),
-    } as unknown as MesureDb["usageEvent"],
+      findUnique: jest.fn(async ({ where }: { where: { dedupKey: string } }) =>
+        lignes.some((l) => l.dedupKey === where.dedupKey) ? { id: "x" } : null,
+      ),
+    },
+    subscription: {
+      findUnique: jest.fn(async ({ where }: { where: { userId: string } }) =>
+        where.userId in abonnements ? { stripeSubscriptionId: abonnements[where.userId] } : null,
+      ),
+    },
   };
-  return { db, lignes };
+  return { db: db as unknown as MesureDb, brut: db, lignes, abonnements };
 }
 
 const T0 = new Date("2026-11-20T09:00:00Z");
-const plus = (min: number) => new Date(T0.getTime() + min * 60_000);
 let warn: jest.SpyInstance;
 beforeEach(() => {
   warn = jest.spyOn(console, "warn").mockImplementation(() => undefined);
@@ -55,13 +54,19 @@ afterEach(() => warn.mockRestore());
 describe("détail fermé (aucun texte libre)", () => {
   it("accepte les valeurs de la liste, refuse le reste", () => {
     expect(detailFerme("souscription", "month")).toBe("month");
-    expect(detailFerme("premier_acces_premium", "parcours:confiance-en-soi")).toBe("parcours:confiance-en-soi");
-    expect(detailFerme("aha", "etape:3")).toBe("etape:3");
+    expect(detailFerme("souscription", "iap")).toBe("iap");
+    expect(detailFerme("premier_acces_premium", "etape:3")).toBe("etape:3");
+    expect(detailFerme("premier_acces_premium", "liste-conseils")).toBe("liste-conseils");
+    expect(detailFerme("aha", "etape:1")).toBe("etape:1");
+    expect(detailFerme("aha", "quiz:2")).toBe("quiz:2");
     expect(detailFerme("resiliation_programmee", "too_expensive")).toBe("too_expensive");
+    // Définitions du §5.2 : plus de « aha » par exercice, plus de premier accès « parcours:<slug> ».
+    expect(detailFerme("aha", "exercice-conseil")).toBeNull();
+    expect(detailFerme("premier_acces_premium", "parcours:repartie")).toBeNull();
     expect(detailFerme("resiliation_programmee", "Trop cher pour moi")).toBeNull();
     expect(detailFerme("premier_acces_premium", "yanis@example.com")).toBeNull();
-    expect(detailFerme("premier_acces_premium", "carnet:quelque chose")).toBeNull();
-    expect(detailFerme("premier_acces_premium", "parcours:A B")).toBeNull();
+    expect(detailFerme("premier_acces_premium", "carnet:2")).toBeNull();
+    expect(detailFerme("aha", "etape:abc")).toBeNull();
     expect(detailFerme("portail_ouvert", "resilier:x:y")).toBeNull();
   });
 });
@@ -91,73 +96,74 @@ describe("noterEvenement", () => {
     expect(JSON.stringify(warn.mock.calls)).not.toContain("u-secret");
   });
 
-  it("client sans la table (ancien mock, Prisma pas régénéré) : false", async () => {
+  it("client sans la table (Prisma pas régénéré) : false", async () => {
     await expect(noterEvenement("souscription", "u1", { db: {} as MesureDb })).resolves.toBe(false);
   });
 });
 
-describe("premier accès Premium et « aha » : une fois par souscription", () => {
+describe("premier accès Premium et « aha » : une fois par abonnement", () => {
   it("compte non Premium ou anonyme : aucune ligne, aucune requête", async () => {
-    const { db, lignes } = fausseBase();
+    const { db, brut, lignes } = fausseBase({ u1: "sub_1" });
     expect(await noterPremiereFois("premier_acces_premium", "FREE", "u1", "carnet", { db })).toBe(false);
     expect(await noterPremiereFois("premier_acces_premium", null, "u1", "carnet", { db })).toBe(false);
     expect(await noterPremiereFois("aha", "PREMIUM", null, "etape:1", { db })).toBe(false);
     expect(lignes).toHaveLength(0);
-    expect(db.usageEvent.findFirst).not.toHaveBeenCalled();
+    expect(brut.subscription.findUnique).not.toHaveBeenCalled();
   });
 
-  it("deuxième accès ignoré ; nouvelle souscription = nouveau premier accès", async () => {
-    const { db, lignes } = fausseBase();
-    await noterEvenement("souscription", "u1", { occurredAt: T0, dedupKey: cleUnique("souscription", "u1", 1), db });
-    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "liste-vannes", { now: plus(4), db })).toBe(true);
-    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: plus(9), db })).toBe(false);
-    await noterEvenement("souscription", "u1", { occurredAt: plus(60 * 24 * 40), dedupKey: cleUnique("souscription", "u1", 2), db });
-    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: plus(60 * 24 * 41), db })).toBe(true);
-    const acces = lignes.filter((l) => l.type === "premier_acces_premium");
-    expect(acces.map((l) => l.detail)).toEqual(["liste-vannes", "carnet"]);
-    expect(new Set(acces.map((l) => l.dedupKey)).size).toBe(2);
+  it("deuxième accès ignoré ; nouvel abonnement = nouveau premier accès ; identifiant Stripe jamais stocké", async () => {
+    const { db, lignes, abonnements } = fausseBase({ u1: "sub_premier" });
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "liste-vannes", { now: T0, db })).toBe(true);
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: T0, db })).toBe(false);
+    abonnements.u1 = "sub_second";
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: T0, db })).toBe(true);
+    expect(lignes.map((l) => l.detail)).toEqual(["liste-vannes", "carnet"]);
+    expect(new Set(lignes.map((l) => l.dedupKey)).size).toBe(2);
+    expect(JSON.stringify(lignes)).not.toMatch(/sub_/);
   });
 
-  it("deux requêtes simultanées : une seule ligne (clé ancrée)", async () => {
-    const { db, lignes } = fausseBase();
+  it("course du réabonnement (correction QA 15) : accès AVANT la ligne `souscription` = compté pour le nouvel abonnement", async () => {
+    const { db, lignes, abonnements } = fausseBase({ u1: "sub_ancien" });
+    await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: T0, db });
+    // Réabonnement : l'activation (webhook ou page de succès) pose le nouvel abonnement, la ligne
+    // `souscription` n'est pas encore écrite.
+    abonnements.u1 = "sub_nouveau";
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "liste-videos", { now: T0, db })).toBe(true);
+    expect(lignes).toHaveLength(2);
+  });
+
+  it("deux requêtes simultanées : une seule ligne", async () => {
+    const { db, lignes } = fausseBase({ u1: "sub_1" });
     await Promise.all([
       noterPremiereFois("aha", "PREMIUM", "u1", "etape:1", { now: T0, db }),
-      noterPremiereFois("aha", "PREMIUM", "u1", "etape:2", { now: T0, db }),
+      noterPremiereFois("aha", "PREMIUM", "u1", "quiz:2", { now: T0, db }),
     ]);
     expect(lignes.filter((l) => l.type === "aha")).toHaveLength(1);
-    expect(lignes[0].dedupKey).toBe("aha:u1:0");
   });
 
-  it("exercice ouvert = premier accès ET « aha », une fois chacun", async () => {
+  it("achat dans l'application (pas d'abonnement Stripe) : une fois par compte", async () => {
     const { db, lignes } = fausseBase();
-    await noterExerciceOuvert("PREMIUM", "u1", "video", { now: T0, db });
-    await noterExerciceOuvert("PREMIUM", "u1", "conseil", { now: plus(1), db });
-    expect(lignes.map((l) => [l.type, l.detail])).toEqual([
-      ["premier_acces_premium", "exercice-video"],
-      ["aha", "exercice-video"],
-    ]);
+    await noterPremiereFois("aha", "PREMIUM", "u2", "etape:1", { now: T0, db });
+    await noterPremiereFois("aha", "PREMIUM", "u2", "etape:2", { now: T0, db });
+    expect(lignes.map((l) => l.dedupKey)).toEqual(["aha:u2:sans-stripe"]);
   });
 
-  it("lecture en échec : false, aucune exception", async () => {
-    const db = { usageEvent: { findFirst: jest.fn().mockRejectedValue(new Error("base en panne")), create: jest.fn() } };
+  it("lecture en échec : false, aucune exception, aucune écriture", async () => {
+    const db = {
+      subscription: { findUnique: jest.fn().mockRejectedValue(new Error("base en panne")) },
+      usageEvent: { create: jest.fn(), findUnique: jest.fn() },
+    };
     await expect(noterPremiereFois("aha", "PREMIUM", "u1", "etape:1", { db: db as unknown as MesureDb })).resolves.toBe(false);
     expect(db.usageEvent.create).not.toHaveBeenCalled();
   });
 });
 
-describe("jour de pratique (quiz) et limite gratuite", () => {
+describe("jour de pratique (quiz)", () => {
   it("un seul jour de pratique par jour civil de Paris", async () => {
     const { db, lignes } = fausseBase();
     await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T08:00:00Z"), db });
     await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T22:30:00Z"), db }); // 23 h 30 à Paris
     await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T23:30:00Z"), db }); // lendemain à Paris
     expect(lignes).toHaveLength(2);
-  });
-
-  it("liste au-delà de la limite gratuite seulement", () => {
-    expect(depasseLimiteGratuite(0, 10, 10)).toBe(false);
-    expect(depasseLimiteGratuite(0, 11, 10)).toBe(true);
-    expect(depasseLimiteGratuite(10, 10, 10)).toBe(true);
-    expect(depasseLimiteGratuite(20, 0, 10)).toBe(false);
   });
 });

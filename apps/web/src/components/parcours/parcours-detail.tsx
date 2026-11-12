@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { trackUmami } from "@/lib/umami";
+import { signalerAcces } from "@/lib/mesure/signal-acces";
 import { formatDifficulty, withEmojiPresentation } from "@/lib/parcours-labels";
 import { stripEmDashes } from "@/lib/em-dash";
 import { frTypoTexte } from "@/lib/fr-typo";
@@ -328,6 +329,14 @@ export function ParcoursDetail({
     trackUmami("etape-ouverte", { parcours: slug, etape: expandedStep, statut, declencheur: openTrigger.current });
     openTrigger.current = "auto";
   }, [expandedStep, status, slug, statut]);
+
+  // s24 mesure (lot 0, §5.2) : étape 2+ dépliée (clic, ancre ou ouverture automatique) chez un abonné,
+  // contenu complet reçu de l'API = premier accès Premium. Signal sans retour : rendu inchangé.
+  const contenuAbonneRecu = isPremium && (!!initialPath && status === "authenticated" ? enrich === "ok" : path !== null);
+  useEffect(() => {
+    if (!tracksProgress || !contenuAbonneRecu || expandedStep === null || expandedStep < 2) return;
+    signalerAcces({ type: "etape", parcours: slug, etape: expandedStep });
+  }, [tracksProgress, contenuAbonneRecu, expandedStep, slug]);
 
   // Après validation : focus sur l'étape suivante ou sur la carte de fin (UX-05 d, UX-09 d).
   // s17 tour 1 : la carte validée (gain d'XP, date conseillée) est calée sous l'en-tête

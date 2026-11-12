@@ -2,7 +2,7 @@
 
 import { frTypo } from "@/lib/fr-typo";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { buttonVariants } from "@/components/ui/button";
 import { LIEN_L2 } from "@/components/ui/liens";
@@ -19,6 +19,8 @@ import {
 } from "@/config/textes/cta-pages";
 import { Reassurance } from "@/components/ui/reassurance";
 import { contenuAffiche } from "@/lib/tip-prose";
+import { useVuMesure } from "@/hooks/use-vu-mesure";
+import { signalerAcces } from "@/lib/mesure/signal-acces";
 
 interface BlocExerciceProps {
   type: FicheType;
@@ -73,12 +75,18 @@ export function BlocExercice({ type, returnTo, parcours, ficheId }: BlocExercice
     };
   }, [charge]);
 
+  // s24 mesure (lot 0, §5.2) : le bloc réservé compte quand il est réellement à l'écran (moitié
+  // visible pendant 1 s), jamais au chargement de la fiche. Rendu inchangé.
+  const blocAbonne = useRef<HTMLElement>(null);
+  const blocAffiche = isPremium && !!contenu && (!!contenu.exercice || contenu.pointsCles.length > 0);
+  useVuMesure(() => blocAbonne.current, blocAffiche, charge ?? "", () => signalerAcces({ type: "exercice", fiche: type }));
+
   if (isPremium) {
     const texte = contenu?.exercice || null;
     const pointsCles = contenu?.pointsCles ?? [];
     if (!texte && pointsCles.length === 0) return null;
     return (
-      <section className={cn("mt-8", BLOC_APPEL)} data-bloc-exercice={type}>
+      <section ref={blocAbonne} className={cn("mt-8", BLOC_APPEL)} data-bloc-exercice={type}>
         {pointsCles.length > 0 && (
           <>
             <h2 className={TITRE_BLOC_APPEL}>{BLOC_EXERCICE_POINTS_CLES}</h2>

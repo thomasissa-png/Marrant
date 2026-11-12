@@ -1,10 +1,13 @@
 /**
  * Mesure d'usage serveur (s24, lot 0 ; R3 de `docs/analytics/resiliations-s23-analyse.md`, bloc B de
- * `docs/growth/onboarding-premium-s23-plan.md`). Table `UsageEvent`, migration 18.
+ * `docs/growth/onboarding-premium-s23-plan.md`). Table `UsageEvent`, migration 18. Définitions :
+ * brief `docs/espace-client/brief-espace-client-s24.md` §5.2.
  *
  * Une ligne par événement : identifiant de compte, type (liste fermée), date, détail fermé non
  * personnel. Aucun texte libre, ni e-mail, ni IP ; rien vers Umami ; le journal du Worker ne reçoit
  * que le type et un code d'erreur (jamais l'identifiant). HORS de tout interrupteur.
+ * C7 (`docs/legal/onboarding-e1-resilies-s23.md`) : le motif de résiliation ne personnalise JAMAIS
+ * un e-mail ; il ne sert qu'à la lecture agrégée de la mesure.
  *
  * Écriture JAMAIS bloquante : chaque fonction attrape tout (table absente, base en panne, doublon)
  * et rend `false`. Awaitée par l'appelant avant sa réponse (zéro fire-and-forget sous Workers).
@@ -12,9 +15,10 @@
  * Déjà mesuré ailleurs, pas dupliqué ici :
  *  - bienvenue envoyé : ancre `onboarding-premium:E0:<userId>` (`lib/onboarding/journal-onboarding.ts`) ;
  *  - fin d'accès d'une résiliation : marqueur `onboarding-premium:FIN:<userId>` (même fichier) ;
- *  - validation d'étape (jour de pratique et « aha » relisibles) : `UserPathStepCompletion.completedAt`.
+ *  - validation d'étape (jour de pratique relisible) : `UserPathStepCompletion.completedAt`.
  *    Seul le quiz d'étape terminé (pratique sans trace datée) écrit un `jour_pratique`.
  */
+import { createHash } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { parisDayNumber } from "@/lib/progression";
 
@@ -43,21 +47,21 @@ export const MOTIFS_STRIPE = [
 
 /** Détails admis par type (valeur exacte, ou `tête:suffixe` pour les têtes de `AVEC_SUFFIXE`). */
 const DETAILS: Record<TypeEvenement, readonly string[]> = {
-  souscription: ["month", "year"],
+  souscription: ["month", "year", "iap"],
   premier_acces_premium: [
     "liste-vannes", "liste-conseils", "liste-videos",
     "exercice-conseil", "exercice-video", "exercice-vanne",
-    "carnet", "parcours",
+    "carnet", "etape",
   ],
-  aha: ["etape", "exercice-conseil", "exercice-video", "exercice-vanne"],
+  aha: ["etape", "quiz"],
   jour_pratique: ["quiz"],
   resiliation_programmee: MOTIFS_STRIPE,
   portail_ouvert: ["changer-formule", "resilier", "carte", "simple"],
   renouvellement_paye: ["month", "year"],
 };
-/** Slug de parcours (`parcours:<slug>`) ou numéro d'étape (`etape:<n>`). */
-const AVEC_SUFFIXE = new Set(["parcours", "etape"]);
-const SUFFIXE = /^[a-z0-9-]{1,80}$/;
+/** Numéro d'étape (`etape:<n>`, `quiz:<n>`). */
+const AVEC_SUFFIXE = new Set(["etape", "quiz"]);
+const SUFFIXE = /^[0-9]{1,3}$/;
 
 /** Détail accepté tel quel s'il est dans la liste fermée du type, sinon `null` (jamais de texte libre). */
 export function detailFerme(type: TypeEvenement, detail: string | null | undefined): string | null {
@@ -68,17 +72,16 @@ export function detailFerme(type: TypeEvenement, detail: string | null | undefin
   return AVEC_SUFFIXE.has(tete) && SUFFIXE.test(suffixe) ? detail : null;
 }
 
-/** Sous-ensemble Prisma de `UsageEvent` (injectable en test). */
+/** Sous-ensemble Prisma utilisé ici (injectable en test). */
 export interface MesureDb {
   usageEvent: {
     create(args: {
       data: { userId: string; type: string; detail: string | null; occurredAt: Date; dedupKey: string | null };
     }): Promise<unknown>;
-    findFirst(args: {
-      where: { userId: string; type: { in: string[] } };
-      orderBy: { occurredAt: "desc" };
-      select: { type: true; occurredAt: true };
-    }): Promise<{ type: string; occurredAt: Date } | null>;
+    findUnique(args: { where: { dedupKey: string }; select: { id: true } }): Promise<{ id: string } | null>;
+  };
+  subscription: {
+    findUnique(args: { where: { userId: string }; select: { stripeSubscriptionId: true } }): Promise<{ stripeSubscriptionId: string | null } | null>;
   };
 }
 
@@ -123,14 +126,21 @@ export async function noterEvenement(type: TypeEvenement, userId: string, option
   }
 }
 
-/** Événements notés une fois par souscription (le suivant revient après une nouvelle souscription). */
+/** Événements notés une fois par souscription (le suivant revient avec un nouvel abonnement). */
 export type TypePremiereFois = "premier_acces_premium" | "aha";
+
+/** Empreinte courte et non réversible de l'abonnement Stripe (l'identifiant n'est jamais stocké). */
+function empreinte(valeur: string): string {
+  return createHash("sha256").update(valeur).digest("hex").slice(0, 16);
+}
 
 /**
  * Premier accès à un CONTENU Premium, ou « aha » : abonné Premium (plan relu en base par l'appelant)
- * seulement. Une fois par souscription : si l'événement le plus récent parmi {souscription, type}
- * est déjà ce type, rien n'est écrit (1 requête indexée). Sinon une ligne, clé ancrée sur la date
- * de la dernière souscription (0 avant la mesure), qui absorbe deux requêtes simultanées.
+ * seulement. Une fois par abonnement : la clé est ancrée sur l'abonnement Stripe en cours
+ * (`Subscription.stripeSubscriptionId`, posé par l'activation AVANT le passage en Premium, que
+ * l'activation vienne du webhook ou de la page de succès). Un réabonnement = nouvel abonnement =
+ * nouvelle clé, même si la ligne `souscription` n'est pas encore écrite (pas de course).
+ * Sans abonnement Stripe (achat dans l'application) : une fois par compte.
  */
 export async function noterPremiereFois(
   type: TypePremiereFois,
@@ -142,35 +152,15 @@ export async function noterPremiereFois(
   if (plan !== "PREMIUM" || !userId) return false;
   try {
     const db = options.db ?? dbParDefaut();
-    const dernier = await db.usageEvent.findFirst({
-      where: { userId, type: { in: ["souscription", type] } },
-      orderBy: { occurredAt: "desc" },
-      select: { type: true, occurredAt: true },
-    });
-    if (dernier?.type === type) return false;
-    const ancre = dernier ? Math.floor(dernier.occurredAt.getTime() / 1000) : 0;
-    return await noterEvenement(type, userId, {
-      detail,
-      occurredAt: options.now ?? new Date(),
-      dedupKey: cleUnique(type, userId, ancre),
-      db,
-    });
+    const abonnement = await db.subscription.findUnique({ where: { userId }, select: { stripeSubscriptionId: true } });
+    const ancre = abonnement?.stripeSubscriptionId ? empreinte(abonnement.stripeSubscriptionId) : "sans-stripe";
+    const dedupKey = cleUnique(type, userId, ancre);
+    if (await db.usageEvent.findUnique({ where: { dedupKey }, select: { id: true } })) return false;
+    return await noterEvenement(type, userId, { detail, occurredAt: options.now ?? new Date(), dedupKey, db });
   } catch (err) {
     console.warn(`[mesure] ${type} non enregistré (${codeErreur(err)})`);
     return false;
   }
-}
-
-/** Exercice d'une fiche lu par un abonné : premier accès Premium ET « aha » (premier exercice ouvert). */
-export async function noterExerciceOuvert(
-  plan: string | null | undefined,
-  userId: string | null | undefined,
-  type: "conseil" | "video" | "vanne",
-  options: { now?: Date; db?: MesureDb } = {},
-): Promise<void> {
-  const detail = `exercice-${type}`;
-  await noterPremiereFois("premier_acces_premium", plan, userId, detail, options);
-  await noterPremiereFois("aha", plan, userId, detail, options);
 }
 
 /** Jour de pratique sans trace datée ailleurs (quiz d'étape terminé). Un par jour civil de Paris. */
@@ -182,9 +172,4 @@ export async function noterJourPratique(userId: string, detail: "quiz", options:
     dedupKey: cleUnique("jour_pratique", userId, parisDayNumber(now)),
     db: options.db,
   });
-}
-
-/** Une liste servie à un abonné dépasse-t-elle la limite gratuite (éléments au-delà du rang `limite`) ? */
-export function depasseLimiteGratuite(debut: number, servis: number, limite: number): boolean {
-  return servis > 0 && debut + servis > limite;
 }

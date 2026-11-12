@@ -204,8 +204,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       const { status, code, error, extra } = result.echec;
       return erreur(status, code, error, extra);
     }
-    // s24 mesure (lot 0) : première étape validée = « aha » (la date de pratique est déjà dans
-    // `UserPathStepCompletion`). Après la transaction, ne lève jamais.
+    // s24 mesure (lot 0) : première étape validée = « aha » (§5.2 ; la date de pratique est déjà
+    // dans `UserPathStepCompletion`). Après la transaction, ne lève jamais.
     if (!result.alreadyCompleted) await noterPremiereFois("aha", owner?.plan, userId, `etape:${stepOrder}`);
     return NextResponse.json(result);
   } catch (error) {

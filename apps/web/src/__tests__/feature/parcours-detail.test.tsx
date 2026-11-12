@@ -25,6 +25,9 @@ jest.mock("next/navigation", () => ({
 
 const mockTrack = jest.fn();
 jest.mock("@/lib/umami", () => ({ trackUmami: (...args: unknown[]) => mockTrack(...args) }));
+// s24 mesure (lot 0) : signal « étape 2+ réellement affichée » (définition §5.2).
+const mockSignal = jest.fn();
+jest.mock("@/lib/mesure/signal-acces", () => ({ signalerAcces: (...args: unknown[]) => mockSignal(...args) }));
 
 // Build a mock API response based on the enriched seed structure
 const mockPathData = {
@@ -598,5 +601,51 @@ describe("ParcoursDetail — étapes 2+ réservées aux abonnés Premium (lot M2
       expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument();
     });
     expect(screen.queryByText(/^Tout ouvrir\s·/)).not.toBeInTheDocument();
+  });
+});
+
+describe("ParcoursDetail — s24 mesure : étape 2+ dépliée chez un abonné = premier accès Premium", () => {
+  const abonne = () =>
+    jest.spyOn(require("next-auth/react"), "useSession").mockReturnValue({
+      data: { user: { name: "Test", plan: "PREMIUM" } },
+      status: "authenticated",
+    });
+  const reponse = (completedSteps: number[] | null) =>
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        ...mockPathData,
+        path: { ...mockPathData.path, id: "db-path-123" },
+        userProgress: completedSteps ? { completedSteps, currentStep: 1, completedAt: null } : null,
+      }),
+    });
+
+  beforeEach(() => mockSignal.mockClear());
+
+  it("abonné, étape 2 dépliée (ouverture automatique) avec son contenu : un signal etape 2", async () => {
+    abonne();
+    reponse([1]);
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await waitFor(() => expect(screen.getByText(/sait quoi dire mais pas QUAND/)).toBeInTheDocument());
+    await waitFor(() => expect(mockSignal).toHaveBeenCalledWith({ type: "etape", parcours: "machine-a-cafe", etape: 2 }));
+    expect(mockSignal).toHaveBeenCalledTimes(1);
+  });
+
+  it("abonné neuf : l'étape 1 (gratuite) est dépliée, les étapes 2+ repliées : aucun signal", async () => {
+    abonne();
+    reponse(null);
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await screen.findByRole("heading", { level: 1 });
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+    await new Promise((r) => setTimeout(r, 50));
+    expect(mockSignal).not.toHaveBeenCalled();
+  });
+
+  it("visiteur qui ouvre l'aperçu de l'étape 2 : aucun signal", async () => {
+    (global.fetch as jest.Mock).mockResolvedValue({ ok: true, json: async () => mockPathData });
+    render(<ParcoursDetail slug="machine-a-cafe" />);
+    await screen.findByRole("heading", { level: 1 });
+    await userEvent.click(screen.getByText("L’art du timing social"));
+    expect(mockSignal).not.toHaveBeenCalled();
   });
 });

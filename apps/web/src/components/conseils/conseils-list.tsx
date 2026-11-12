@@ -1,7 +1,9 @@
 "use client";
 
 import { frTypo } from "@/lib/fr-typo";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useListeAuDelaVue } from "@/hooks/use-vu-mesure";
+import { FREE_TIP_LIMIT } from "@/config/premium";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -114,6 +116,18 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
   useMurVu(limited && (tips.length > 0 || page > 1), "conseils");
+  // s24 mesure (lot 0, §5.2) : premier élément au-delà de la limite gratuite vu par un abonné. Rendu inchangé.
+  const grille = useRef<HTMLDivElement>(null);
+  useListeAuDelaVue({
+    liste: "conseils",
+    grille,
+    page,
+    taille: pagination?.limit ?? 10,
+    nb: tips.length,
+    limite: FREE_TIP_LIMIT,
+    pret: !isLoading && pagination?.page === page,
+    cle: `${category}|${difficulty}`,
+  });
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -260,7 +274,7 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
         // Règle commune aux trois murs : un mur de 3 cartes passe en 3 colonnes dès que la largeur le permet
         // (conseils dès 1 280 px, vidéos dès 1 024 px), même anatomie pour les trois ; en deçà, une dernière
         // carte seule prend la rangée EN DISPOSITION HORIZONTALE, jamais une carte étirée à moitié vide.
-        <div className={cn("grid gap-4 lg:grid-cols-2", tips.length === 3 && "xl:grid-cols-3")} role="tabpanel">
+        <div ref={grille} className={cn("grid gap-4 lg:grid-cols-2", tips.length === 3 && "xl:grid-cols-3")} role="tabpanel">
           {tips.map((tip, index) => (
             <Card
               key={tip.id}

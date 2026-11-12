@@ -170,4 +170,24 @@ describe("s24 mesure d'usage : carnet servi", () => {
     await renderCurrent();
     expect(noterPremiereFois).toHaveBeenCalledWith("premier_acces_premium", null, undefined, "carnet");
   });
+
+  it("/carnet/[mois] : même mesure, même rendu (abonné : mois complet ; gratuit : aperçu)", async () => {
+    (noterPremiereFois as jest.Mock).mockClear();
+    planMock.mockResolvedValue("PREMIUM");
+    const abonne = render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
+    expect(noterPremiereFois).toHaveBeenCalledWith("premier_acces_premium", "PREMIUM", "u-carnet", "carnet");
+    const htmlAbonne = abonne.container.innerHTML;
+    abonne.unmount();
+    (noterPremiereFois as jest.Mock).mockClear();
+    planMock.mockResolvedValue("FREE");
+    const gratuit = render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
+    expect(noterPremiereFois).toHaveBeenCalledWith("premier_acces_premium", "FREE", "u-carnet", "carnet");
+    expect(gratuit.container.innerHTML).not.toBe(htmlAbonne);
+    // La mesure en échec ne change rien au rendu.
+    gratuit.unmount();
+    (noterPremiereFois as jest.Mock).mockResolvedValueOnce(false);
+    planMock.mockResolvedValue("PREMIUM");
+    const encore = render(await CarnetMonthPage({ params: { mois: "2026-09" } }));
+    expect(encore.container.innerHTML).toBe(htmlAbonne);
+  });
 });
