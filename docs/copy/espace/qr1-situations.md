@@ -3,7 +3,7 @@
 > Auteur : @copywriter, 12/11/2026. **Tour 2** : A1 à A5 notées 10 par les trois relectures du tour 1 (texte validé, intact) ; B1 à B5 réécrites d'après `docs/copy/espace/relectures/qr1-tour-1-{reviewer,elon,critique-copywriter}.md`. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR1), `docs/espace-client/audit-contenu/architecture-contenu-v20.md` (3.3, C6, C9), étalons `docs/copy/etalons-espace-s24.md` (E1.1, E1.2), ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur **ni pour la personne rencontrée** dans les scènes, on rit avec et jamais contre, rencontre : jamais d'insistance ni de remarque sur le physique, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Les mots entre accents graves sont des écrans (E5).
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : B1 à B5 à repasser à l'aveugle (tour 2)**, règle d'or : rien en dessous de la barre ne part. Les rafales ajoutées sous A2 à A5 sont à relire.
+> **Statut (tour 4, dernier autorisé) : B2, B3, B4 et B5 modifiées sont à repasser à l'aveugle**, règle d'or : rien en dessous de la barre ne part. B1 et les 8 contextes de rafale sous A2 à A5 sont notés 10.
 
 ---
 
@@ -75,8 +75,7 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **L'erreur.** Esquiver (« oh, rien de passionnant ») : tu retires la prise que l'autre te tendait. Ou réciter tout ton parcours : on te posait une question d'entrée, pas un entretien.
 **À toi.** Écris ton métier ou tes études en une phrase courte. Puis ajoute un détail qui relance : une chose que ton métier te fait voir autrement, ou ce qui traîne dans la pièce où tu es (le buffet, un meuble, la playlist). Dis les deux à voix haute.
 
-**Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « Quelqu'un a déjà souri à une de tes phrases dans la soirée, mais la personne qui te questionne ne plaisante pas » : la joueuse. Un sourire est déjà là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur la question, donc la risquée proposerait un service que personne n'a demandé.
+**Dans la rafale (deux contextes, une seule bonne réponse chacun)**1. « Quelqu'un a déjà souri à une de tes phrases dans la soirée, mais la personne qui te questionne ne plaisante pas » : la joueuse. Un sourire est déjà là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur la question, donc la risquée proposerait un service que personne n'a demandé.
 2. « Quelqu'un a déjà souri à une de tes phrases, et la personne qui te questionne ajoute en riant : “La question qu'on pose toujours, je sais” » : la risquée. Les deux signaux sont là : la joueuse s'arrêterait un cran trop bas, la sûre ne rendrait pas la balle que l'autre vient de lancer.
 
 ### A3. Amis : « Alors, quoi de neuf ? » (E1.2, entrée 2, profil Storyteller)
@@ -98,8 +97,7 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **L'erreur.** Garder ta meilleure histoire pour plus tard et répondre « rien de spécial ». Le groupe passe à autre chose et ton anecdote reste dans ta poche.
 **À toi.** Relève une nouvelle minuscule de ta semaine (un meuble réparé, un colis, une expérience ratée) et dis-la à quelqu'un en commençant par « C'est petit, mais ».
 
-**Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « L'ambiance est détendue, l'ami a l'air curieux, et personne ne te chambre encore sur tes récits » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucun chambrage sur ta façon de raconter, donc la risquée poserait une condition à un public qui n'a rien demandé.
+**Dans la rafale (deux contextes, une seule bonne réponse chacun)**1. « L'ambiance est détendue, l'ami a l'air curieux, et personne ne te chambre encore sur tes récits » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucun chambrage sur ta façon de raconter, donc la risquée poserait une condition à un public qui n'a rien demandé.
 2. « L'ambiance est détendue, et cet ami lance à la tablée : “Attention, histoire en approche : on ne sait jamais où rire” » : la risquée. Il te chambre déjà sur ta façon de raconter et pose lui-même la question du rire : la risquée y répond en face (« rire au bon endroit ») ; la joueuse laisserait passer son jeu, la sûre ne parlerait que d'un tiroir.
 
 ### A4. Boulot : « Ça va ? » (E1.2, entrée 3, profil Absurde)
@@ -121,8 +119,7 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **L'erreur.** Expliquer ta réplique (« J'ai l'impression d'avoir oublié un mardi, parce que bon, cette semaine… »). La phrase se dégonfle à la deuxième moitié.
 **À toi.** Demain, au premier « ça va ? », dis ta réplique, rien d'autre, puis bois.
 
-**Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « Ce collègue sourit facilement, mais vous n'avez jamais plaisanté ensemble » : la joueuse. Il sourit, donc la sûre serait timide ; il n'a jamais joué avec toi, donc la risquée l'enrôlerait dans un jeu qu'il ne connaît pas.
+**Dans la rafale (deux contextes, une seule bonne réponse chacun)**1. « Ce collègue sourit facilement, mais vous n'avez jamais plaisanté ensemble » : la joueuse. Il sourit, donc la sûre serait timide ; il n'a jamais joué avec toi, donc la risquée l'enrôlerait dans un jeu qu'il ne connaît pas.
 2. « Hier, ce collègue a joué jusqu'au bout une de tes phrases absurdes, et il te guette ce matin avec un demi-sourire » : la risquée. Il a déjà plaisanté avec toi et aime entrer dans un jeu : la joueuse s'arrêterait un cran trop bas, la sûre fermerait ce qu'il a ouvert hier.
 
 ### A5. Amis : « Tu as changé quelque chose, non ? » (E1.2, entrée 4, profil Punchlineur)
@@ -144,9 +141,8 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **L'erreur.** Chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.
 **À toi.** Trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
 
-**Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « La soirée peine à démarrer, et personne ne rit encore » : la sûre. L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop.
-2. « L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, vous vous êtes défiés aux mots croisés, et il a perdu en riant » : la risquée. Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
+**Dans la rafale (deux contextes, une seule bonne réponse chacun)**1. « La soirée peine à démarrer, et personne ne rit encore » : la sûre. L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop.
+2. « L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, il a perdu contre toi aux mots croisés, en riant » : la risquée. Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
 
 ---
 
@@ -210,12 +206,12 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Un défaut minuscule, vrai pour presque tout le monde, et la chute est dans la phrase même : tu viens de le faire. Elle ne coûte rien à l'autre, qui peut répondre « moi aussi ». C'est la bonne quand tu ne connais pas encore l'humour de l'autre.
 
 **La joueuse**
-« Je réponds à tous les messages dans ma tête. Avec brio. »
-Un défaut qui parle de cette conversation même : tu avoues que tes meilleures réponses restent dans ta tête, et la chute est dans « avec brio ». Court, sans accord, il se lit d'un coup dans une messagerie. À sortir quand les échanges ont déjà fait sourire l'autre.
+« J'écris des réponses parfaites. Une heure après la conversation. »
+Un défaut qui parle de cette conversation même : la bonne réponse arrive toujours trop tard, et la chute est dans « une heure après ». Court, il se lit d'un coup dans une messagerie. À sortir quand les échanges ont déjà fait sourire l'autre.
 
 **La risquée**
-« Un défaut chacun, pas la liste. Je tape le mien, tu tapes le tien, on envoie ensemble. »
-Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et personne n'avoue seul. Elle marche dans une messagerie : chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
+« Un défaut chacun, pas la liste. On envoie ensemble : le dernier à appuyer a le plus gênant. »
+Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et la chute dit que celui qui hésite a le plus gênant. Chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
 
 **Comment choisir**
 La conversation est déjà détendue ? Monte d'un cran. L'autre plaisante de ses propres défauts ? Monte encore. Sinon, reste sur la sûre.
@@ -248,8 +244,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu rends la réputation à sa plus petite taille : peu de bonnes parties, donc une conversation courte. Elle ne vise personne et laisse l'autre répondre librement. C'est la bonne quand tu ne sais rien de l'humour de l'autre.
 
 **La joueuse**
-« Alors tu connais déjà mes meilleures histoires. Je vais devoir improviser. »
-Un aveu léger, sans rien inventer sur toi : l'autre a déjà entendu le meilleur, et tu t'engages à faire sans. À sortir quand le sourire est là dès la première phrase.
+« Alors tu connais déjà mes meilleures histoires. Il ne me reste que les vraies. »
+Un aveu léger, sans rien inventer sur toi : l'autre a entendu les versions embellies, et il ne te reste que les vraies. Tu ne critiques pas ton ami : tu te présentes en dessous de ta réputation. À sortir quand le sourire est là dès la première phrase.
 
 **La risquée**
 « Dis-moi ce qu'on t'a raconté, je te dis si tu as droit à la suite. »
@@ -266,7 +262,7 @@ Se défendre (« tout est faux, on exagère »). Tu défends un dossier que pers
 Demande à un ami ce qu'il raconte de toi quand tu n'es pas là. Garde le détail le plus petit et dis-le comme une anecdote sans importance.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « L'autre te serre la main avec un sourire, sans rien ajouter » : la joueuse. Le sourire est là, donc la sûre serait timide ; l'autre n'a rien dit de ton ami, donc compléter ses histoires ressemblerait à un interrogatoire.
+1. « L'autre te serre la main avec un sourire, sans rien ajouter » : la joueuse. Le sourire est là, donc la sûre serait timide ; l'autre n'a rien dit de ton ami, donc demander ce qu'on lui a raconté ressemblerait à un interrogatoire.
 2. « L'autre ajoute : “Il m'a parlé de tes histoires, mais jamais en entier” » : la risquée. L'autre relève la façon de raconter de ton ami, et réclame la suite : la risquée la met en jeu ; la joueuse ne reprendrait pas ce fil, la sûre fermerait l'échange que l'autre vient d'ouvrir.
 
 ### B4. Rencontre : le défi (mini-golf, deuxième rendez-vous)
@@ -290,8 +286,8 @@ Tu laisses l'autre à son sérieux et tu te donnes une fonction : celle de témo
 Tu te présentes sans danger, avec le calme de quelqu'un qui a l'habitude. L'écart entre son sérieux et ta décontraction fait la phrase. À sortir quand l'autre sourit en prononçant sa menace.
 
 **La risquée**
-« Noté. Un seul trou, et ton “jamais” devient “presque jamais”. »
-Tu prends note de la menace et tu fixes un objectif minuscule : un seul trou suffit à abîmer le « jamais ». Elle ne vise personne, elle rend le défi à qui l'a posé. Elle marche seulement si l'autre a déjà proposé un enjeu. Sinon elle ressemble à une mise sous pression : prends la sûre.
+« Un seul trou, et ton “jamais” devient “presque jamais”. »
+Tu relèves le défi sans le contester et tu fixes un objectif minuscule : un seul trou suffit à abîmer le « jamais ». Elle ne vise personne, elle rend le défi à qui l'a posé. Elle marche seulement si l'autre a déjà proposé un enjeu. Sinon elle ressemble à une mise sous pression : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en te menaçant ? Monte d'un cran. L'autre a déjà proposé un enjeu ? Monte encore. Sinon, reste sur la sûre.
@@ -305,7 +301,7 @@ Cette semaine, dans un jeu (cartes, console, fléchettes), dis la joueuse avant 
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « L'autre le dit sans sourire, les yeux sur la balle » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat devant tant de sérieux ; aucun enjeu proposé, donc la risquée serait une pression.
-2. « L'autre le dit en souriant, après avoir lancé à la caisse : “Le perdant paie les glaces” » : la risquée. L'enjeu est posé et le sourire est là : la joueuse ignorerait ce pari, la sûre ne relèverait pas le jeu que l'autre propose.
+2. « L'autre le dit en souriant, après avoir lancé à la caisse : “Le perdant paie les glaces” » : la risquée. L'enjeu est posé et le sourire est là : la risquée relève son défi sur un seul trou ; la joueuse se déclarerait perdante d'avance, la sûre ne relèverait pas le jeu que l'autre propose.
 
 ### B5. Rencontre : « Pas ce soir. » (fin de soirée)
 
@@ -320,12 +316,12 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Aucun souci. Rentre bien. La soirée était assez bonne pour se passer de rappel. »
-Tu acceptes tout de suite et tu dis que la soirée a été bonne : un rappel, c'est ce qu'on réclame quand le concert a plu, et tu t'en passes. Aucun regret à porter pour l'autre, qui repart sans rien devoir. C'est la bonne dans tous les cas où l'autre ne sourit pas.
+« Aucun souci, rentre bien. On s'arrête au meilleur moment : c'est le plus dur à réussir. »
+Tu acceptes tout de suite et tu termines sur la soirée elle-même, pas sur le refus : s'arrêter au meilleur moment, c'est un compliment. L'autre repart sans rien devoir. C'est la bonne dans tous les cas où l'autre ne sourit pas.
 
 **La joueuse**
-« Compris. Le sommeil a gagné, je m'incline. »
-Tu acceptes en faisant du sommeil le vainqueur du match, en écho à ce que l'autre vient de dire. La phrase ferme la porte : elle ne fixe ni date ni condition. À sortir quand l'autre a dit non en souriant.
+« Compris. Le sommeil gagne toujours à domicile. »
+Tu acceptes en faisant du sommeil le vainqueur d'un match joué d'avance, en écho à ce que l'autre vient de dire. La phrase ferme la porte : elle ne fixe ni date ni condition. À sortir quand l'autre a dit non en souriant.
 
 **La risquée**
 « Je mets le dernier verre au frais. Il tient un mois, après c'est de la vinaigrette. »
@@ -333,7 +329,7 @@ Tu acceptes et tu laisses une porte ouverte, pour rire, sans relancer : c'est l'
 
 **Comment choisir**
 L'autre a refusé en souriant ? Monte d'un cran. L'autre a dit « une autre fois » ? Monte encore. Sinon, reste sur la sûre.
-Règle ici : tu le dis une seule fois et tu ne relances pas. Pas de message le lendemain pour reproposer le verre. Si l'autre veut le verre, il te le dira.
+Règle ici : tu le dis une seule fois et tu ne relances pas. Pas de message le lendemain pour reproposer le verre. Si l'autre a envie de ce verre, tu le sauras.
 
 **L'erreur que tout le monde fait**
 Insister (« allez, un seul, juste un »). Un refus gentil se respecte ; l'insistance le transforme en pression et fait oublier la soirée. Une phrase, et tu laisses l'autre partir.
@@ -343,7 +339,7 @@ La prochaine fois qu'on refuse quelque chose que tu proposes, dis la sûre ou la
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « L'autre refuse d'une voix éteinte, le regard déjà sur son téléphone » : la sûre. L'autre n'a pas souri, donc la joueuse serait un jeu de trop ; rien n'a été ouvert, donc la risquée laisserait une porte que personne ne demande.
-2. « L'autre refuse en souriant, puis ajoute : “Une autre fois, promis” » : la risquée. L'autre a ouvert une porte lui-même : la joueuse la fermerait, la sûre n'y répondrait pas.
+2. « L'autre refuse en souriant, puis ajoute : “Une autre fois, promis” » : la risquée. L'autre a ouvert une porte de sa propre initiative : la joueuse la fermerait, la sûre n'y répondrait pas.
 
 ---
 
@@ -414,8 +410,35 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 7 répliques modif
 | A5-1 : « départs » lisible comme un deuil, C6 (@reviewer, @elon) | « La soirée peine à démarrer, et personne ne rit encore ». A5-2 : défi aux mots croisés (plus de doublon avec « le perdant paie »). |
 | Fautes de langue (@reviewer) | A2-1 : « ne plaisante pas » (était « n'a rien plaisanté ») ; B1 contexte 2 : plus de « soi-même ». |
 
+## Annexe 4 : candidates du tour 4 (3 par réplique réécrite, la meilleure gardée)
+
+| Situation | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|
+| B5 sûre | « Aucun souci, rentre bien. On s'arrête au meilleur moment : c'est le plus dur à réussir. » | « Aucun souci. Rentre bien. Au moins, on finit sur une bonne note. » (« au moins » sonne comme un lot de consolation) | « Aucun souci. Rentre bien. Cette soirée se passe très bien de rappel. » (double sens « je ne t'appellerai pas ») |
+| B5 joueuse | « Compris. Le sommeil gagne toujours à domicile. » | « Compris. Le sommeil a gagné par forfait. » (met le refus au compte de l'autre) | « Compris. Le sommeil a toujours le dernier mot. » (formule d'usage) |
+| B2 joueuse | « J'écris des réponses parfaites. Une heure après la conversation. » | « Je réponds du tac au tac. Dans la douche, deux heures plus tard. » (plus longue, même idée) | « Mes meilleures réponses arrivent dans la douche, une heure après. » (moins nette) |
+| B2 risquée | « Un défaut chacun, pas la liste. On envoie ensemble : le dernier à appuyer a le plus gênant. » | « Un défaut chacun, pas la liste. On tape, et on envoie à trois. Un. » (compte à rebours qui ne marche pas à l'écrit) | « Un défaut chacun, pas la liste. J'ai déjà tapé le mien, il est pire que le tien. » (compare, risque de vexer) |
+| B3 joueuse | « Alors tu connais déjà mes meilleures histoires. Il ne me reste que les vraies. » | « Alors tu connais déjà mes meilleures histoires. Le reste est en promotion. » (moins liée à la scène) | « Alors tu connais déjà mes meilleures histoires. Je vais devoir improviser. » (chute molle, tour 3) |
+| B4 risquée | « Un seul trou, et ton “jamais” devient “presque jamais”. » | « Reçu. Un seul trou, et ton “jamais” devient “presque jamais”. » (ajoute un mot de réception inutile) | « Je prends. Un seul trou, et ton “jamais” devient “presque jamais”. » (idem, plus familier) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 6 répliques modifiées au tour 4 (B2 joueuse, B2 risquée, B3 joueuse, B4 risquée, B5 sûre, B5 joueuse).
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| B5 sûre : double sens « rappel » (@reviewer, @elon, critique) | « Aucun souci, rentre bien. On s'arrête au meilleur moment : c'est le plus dur à réussir. » ; pourquoi réécrit. |
+| B5 joueuse (critique 7) | « Compris. Le sommeil gagne toujours à domicile. » |
+| B2 joueuse : « dans ma tête » se lit « je ne te répondrai pas » (@elon) | « J'écris des réponses parfaites. Une heure après la conversation. » ; pourquoi sans la note « sans accord ». |
+| B2 risquée : une chute, pas un règlement (critique, @elon) | « Un défaut chacun, pas la liste. On envoie ensemble : le dernier à appuyer a le plus gênant. » |
+| B3 joueuse restée sans suite (@elon) | « Alors tu connais déjà mes meilleures histoires. Il ne me reste que les vraies. » |
+| B4 risquée : « Noté » en écho (@elon, critique) | « Un seul trou, et ton “jamais” devient “presque jamais”. » ; pourquoi : « Tu relèves le défi sans le contester ». |
+| Neutralité de l'autre (@reviewer, @elon) | B5 : « Si l'autre a envie de ce verre, tu le sauras » ; « de sa propre initiative ». Rafale A5-2 : « il a perdu contre toi aux mots croisés, en riant » (plus de « défiés »). |
+| Pourquoi de rafale décalés (@reviewer) | B3 contexte 1 : « demander ce qu'on lui a raconté » ; B4 contexte 2 : « la risquée relève son défi sur un seul trou ; la joueuse se déclarerait perdante d'avance ». |
+| Balises « ajout du tour 2, à relire » | Retirées sous A2 à A5. |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr1-situations.md` (tour 3) : corrections d'une ligne ; A1 à A5 intactes (texte validé), seuls les contextes ajoutés ont changé.
-- 7 répliques modifiées, 0 occurrence web. Zéro tiret cadratin, zéro émoji, aucun accord genré chez l'utilisateur ni pour la personne rencontrée.
-- À repasser à l'aveugle : B2, B3, B4, B5 modifiées et les contextes A3-1, A3-2, A5-1, A5-2 ; aucun autre fichier modifié, pas de commit.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr1-situations.md` (tour 4) : corrections de lignes ; A1 à A5 intactes, B1 et les 8 contextes inchangés (sauf pronoms et « défiés »).
+- 6 répliques modifiées, 0 occurrence web. Zéro tiret cadratin, zéro émoji, aucun accord genré chez l'utilisateur ni pour la personne rencontrée.
+- À repasser à l'aveugle : B2 joueuse et risquée, B3 joueuse, B4 risquée, B5 sûre et joueuse ; aucun autre fichier modifié, pas de commit.
