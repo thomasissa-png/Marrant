@@ -85,7 +85,7 @@ En deux temps : tu annonces : « Je m'occupe du vin. » Dix minutes, tous les ti
 Définition complète : `[lien à décider, mot neuf]`
 
 **À toi : placer**
-Ce soir, raconte une blague à quelqu'un en deux temps : le setup, deux secondes de silence, la punchline. Finis sur le mot qui surprend.
+Ce soir, prends une blague entendue ou une phrase drôle d'un proche, et dis à voix haute où est le setup et où est la punchline. Puis dis-la à quelqu'un, en deux temps : le setup, deux secondes de silence, la punchline.
 
 [note interne] Sources : setup, punchline, one-liner : glossaire (annexe). Quiproquo : [Le Robert](https://dictionnaire.lerobert.com/en/synonyms/quiproquo), [Universalis](https://www.universalis.fr/dictionnaire/quiproquo/). Gag : [Larousse](https://www.larousse.fr/dictionnaires/francais/gag), [Académie française, 9e éd.](https://dictionnaire-academie.fr/article/A9G0036).
 
@@ -147,7 +147,7 @@ Définition complète : `/glossaire`
 **Autodérision**
 Rire d'un de tes petits défauts, avec une vraie bonne humeur.
 En deux temps : « Tu as le sens de l'orientation ? » Tu dis : « Oui. Je m'arrête simplement dans des villes que je n'avais pas prévues. »
-À ne pas confondre avec : te rabaisser (« je n'y arrive pas »), qui demande qu'on te rassure. L'autodérision invite à rire avec toi.
+À ne pas confondre avec : te rabaisser (« je suis une catastrophe »), qui demande qu'on te rassure. L'autodérision invite à rire avec toi.
 Définition complète : `/glossaire`
 
 **Humour absurde**
@@ -157,9 +157,9 @@ En deux temps : « Ma plante est fâchée. » Puis le détail qui reste fidèle 
 Définition complète : `[lien à décider, mot neuf]`
 
 **Second degré**
-Dire une phrase qui a l'air sérieuse, mais dont le vrai sens est ailleurs, et le faire sentir.
-En deux temps : « On mange où ce soir ? » Tu dis : « J'ai réservé une très bonne table. » Tu poses deux assiettes sur la table de ton salon.
-À ne pas confondre avec : l'ironie (fiche 7), qui dit le contraire. Le second degré peut dire tout autre chose que ce qu'on attend, comme ta table réservée.
+Dire une chose en pensant à autre chose, et le faire sentir.
+En deux temps : « Tu viens au cinéma ? » Tu dis : « Laisse-moi consulter mon cabinet. » Pause. « Il dit oui. »
+À ne pas confondre avec : l'ironie (fiche 7), qui dit le contraire. Ici, c'est un autre sens, pas l'inverse : tu joues le ministre, tu penses « oui ».
 Définition complète : `[lien à décider, mot neuf]`
 
 **Pince-sans-rire**
@@ -169,7 +169,7 @@ En deux temps : « Tu fais quoi ce week-end ? » Visage fermé : « Je trie mes 
 Définition complète : `[lien à décider, mot neuf]`
 
 **À toi : placer**
-Ce soir, quand on te demande comment s'est passée ta journée, réponds une chose vraie sur le ton le plus sérieux. Attends deux secondes avant de sourire.
+Ce soir, à la première question banale (« ça va ? », « tu as mangé quoi ? »), réponds une chose absurde sur le ton d'une chose normale. Attends deux secondes avant de sourire.
 
 [note interne] Sources : observationnel, autodérision : glossaire (annexe). Humour absurde : [La langue française, « absurde »](https://www.lalanguefrancaise.com/dictionnaire/definition/absurde), [Brut, Éric Judor](https://www.brut.media/fr/videos/tuto-comment-etre-drole-par-eric-judor). Second degré : [Linternaute](https://www.linternaute.fr/dictionnaire/fr/definition/second-degre/), [La langue française](https://www.lalanguefrancaise.com/dictionnaire/definition/second-degre). Pince-sans-rire : [Académie française, 8e éd.](https://dictionnaire-academie.fr/article/A8P1510), [Expressio](https://www.expressio.fr/expressions/un-pince-sans-rire-pincer-sans-rire).
 
@@ -194,7 +194,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Tac au tac**
 Répondre sans attendre, à la même vitesse que la remarque.
-En deux temps : « Tu me prêtes dix euros ? » Tac au tac : « Je t'en prête cinq, et tu me prêtes ton assurance. »
+En deux temps : « Tu me prêtes dix euros ? » Tac au tac : « Je t'en prête cinq. Les cinq autres, je te les souhaite. »
 À ne pas confondre avec : le timing de la fiche 1. Au tac au tac, il n'y a pas de pause : si tu as besoin de deux secondes, passe par l'accusé de réception.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -206,12 +206,12 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Faire mouche**
 Dire la phrase qui touche juste : tout le monde rit parce que c'est exact.
-En deux temps : un ami dit : « Ce soir, un seul épisode et je dors. » Tu dis : « Je passe te voir à la saison trois. »
+En deux temps : un ami dit : « Ce soir, un seul épisode et je dors. » Tu dis : « On en reparle à la saison trois. » Il rit : c'est exactement ce qui va se passer.
 À ne pas confondre avec : faire rire à tout prix. Une phrase fait mouche parce qu'elle est juste ; drôle mais fausse, elle tombe à côté.
 Définition complète : `[lien à décider, mot neuf]`
 
 **À toi : placer**
-À la prochaine demande pratique de ta soirée (« tu me prêtes », « tu peux »), réponds du tac au tac par un chiffre inattendu, puis donne ta vraie réponse.
+Ce soir, à la première demande pratique (« tu me prêtes », « tu peux »), réponds sans attendre avec une phrase de moins de dix mots, puis donne ta vraie réponse.
 
 [note interne] Sources : répartie : glossaire (annexe). Riposte : [Académie française, 7e éd.](https://dictionnaire-academie.fr/article/A7R1729), [La langue française](https://www.lalanguefrancaise.com/dictionnaire/definition/riposte). Tac au tac : [Académie française, 9e éd.](https://dictionnaire-academie.fr/article/A9T0047), [Expressio](https://www.expressio.fr/expressions/du-tac-au-tac). Esprit d'à-propos : [Académie française, 9e éd., « esprit d'à-propos »](https://dictionnaire-academie.fr/article/A9E2642), [Le Robert](https://dictionnaire.lerobert.com/en/synonyms/a-propos). Faire mouche : [Expressio](https://www.expressio.fr/expressions/faire-mouche).
 
@@ -230,13 +230,13 @@ Définition complète : `/glossaire`
 
 **Anecdote**
 Un petit récit vrai, court, avec un détail et une fin.
-En deux temps : « Ma grand-mère dit merci à son GPS à chaque virage. Quand il a dit "demi-tour", elle a répondu : "Ne vous inquiétez pas, ma belle, ça arrive à tout le monde." »
+En deux temps : « Ma grand-mère dit merci à son GPS à chaque virage. » Puis : « Quand il a dit “demi-tour”, elle a répondu : “Ne vous inquiétez pas, ma belle, ça arrive à tout le monde.” »
 À ne pas confondre avec : le souvenir sans pointe (« un jour, il s'est passé un truc »). L'anecdote a un détail précis et une fin.
 Définition complète : `[lien à décider, mot neuf]`
 
 **Digression**
 Un détour pris au milieu d'un récit, avant de revenir au sujet.
-En deux temps : « Je vais acheter du pain. Au fait, le boulanger a un perroquet qui dit "suivant" à tous les clients, même aux chiens. Bref. Du pain. »
+En deux temps : « Je vais acheter du pain. Au fait, le boulanger a un perroquet qui dit “suivant” à tous les clients, même aux chiens. Bref. Du pain. »
 À ne pas confondre avec : se perdre. La digression est un détour choisi, et le « bref » prouve que tu sais où tu allais.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -266,7 +266,7 @@ Cinq mots pour distinguer ce qui est dit de ce qui est voulu, et pour reconnaît
 
 **Ironie**
 Dire le contraire de ce que tu penses, sur un ton qui le fait comprendre.
-En deux temps : devant une file de voitures arrêtée depuis une heure, tu dis : « Au moins, on avance dans nos réflexions. »
+En deux temps : tu as pris un raccourci. Devant la file de voitures arrêtée depuis une heure, tu dis : « Excellente idée, ce raccourci. »
 À ne pas confondre avec : le mensonge, qui veut qu'on te croie. L'ironie compte sur le fait qu'on comprenne le contraire.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -278,7 +278,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Prendre au pied de la lettre**
 Répondre aux mots de l'autre plutôt qu'à ce qu'il veut dire.
-En deux temps : « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. »
+En deux temps : « Tu connais un bon restaurant ? » Tu dis : « Oui. » Tu souris. Deux secondes. Puis : « Tu veux que je te le dise ? »
 À ne pas confondre avec : ne pas comprendre. Tu as compris, et tu choisis les mots.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -290,7 +290,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Euphémisme**
 Dire doucement une chose peu flatteuse, pour ménager.
-En deux temps : tu fais visiter ton studio : « C'est cosy. » Puis : « Du lit, on ouvre le frigo. »
+En deux temps : tu fais visiter ton studio : « C'est cosy. » Puis : « Il y a un coin pour chaque chose, et c'est le même. »
 À ne pas confondre avec : la litote (Comment c'est construit), qui dit moins pour faire entendre plus. L'euphémisme adoucit pour ménager.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -308,13 +308,13 @@ Cinq mots pour lire ce qui se passe chez ceux qui t'écoutent, et pour savoir qu
 
 **Rire jaune**
 Un rire forcé, pour cacher une gêne ou un dépit.
-En deux temps : à table, quelqu'un raconte ton créneau raté de la veille, avec des détails en plus. Tu ris aussi, une seconde trop tard.
+En deux temps : un collègue raconte ta présentation de lundi, avec des détails en plus. Tu ris aussi, une seconde trop tard.
 À ne pas confondre avec : le rire franc, celui qui part sans y penser. Le rire jaune se décide, et se voit.
 Définition complète : `[lien à décider, mot neuf]`
 
 **Fou rire**
 Un rire qui part tout seul et qu'on n'arrive plus à arrêter.
-En deux temps : au repas de famille, quelqu'un dit : « Chut, personne ne rit. » Ton cousin rit sans bruit, les épaules qui tremblent. Dix secondes plus tard, la table entière est partie.
+En deux temps : au repas de famille, une tante lance : « Chut, personne ne rit. » Ton cousin rit sans bruit, les épaules qui tremblent. Dix secondes plus tard, la table entière est partie.
 À ne pas confondre avec : le rire jaune. Le fou rire n'est pas voulu, et il ne cache rien.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -404,3 +404,20 @@ Non cherchées (descriptions de scène, sans phrase à citer) : le guichet et le
 | « Un blanc » au dictionnaire (reviewer) | Note corrigée : Larousse ; titre « Blanc » |
 | Exercices « À toi » passifs (elon, reviewer) | Fiches 2 à 8 : un geste à faire ce soir |
 | Autres exemples faibles (critique) | Réveil, hyperbole du bulgare, tac au tac, faire mouche, fil rouge (troisième café), ironie, bon public, connivence : réécrits |
+
+### Tour 3 : retouche → ligne
+Trois candidats par exemple repris, recherche web de chacun : 0 occurrence pour tous (tac au tac : « Cinq. On se retrouve au milieu », « Oui. À rendre douze », « Les cinq autres, je te les souhaite » ; faire mouche : trois variantes « saison trois / saison deux » ; ironie : « Excellente idée, ce raccourci », pluie et voiture, « raccourci de quarante minutes » ; euphémisme : « un coin pour chaque chose, et c'est le même », « qui respire », « le voisin à portée de main » ; second degré : « consulter mon cabinet », « agenda d'un ministre », « mon estomac a émis un communiqué » ; au pied de la lettre : restaurant, « cinq minutes notées », « tu as l'heure » ; rire jaune : « ta présentation de lundi » ; fou rire : « une tante lance »). Retenu : le plus net à l'oral de chaque trio.
+
+| Retouche (relecteur) | Ligne changée |
+|---|---|
+| « À toi » du pince-sans-rire contredit la définition (reviewer, elon) | Fiche 4 : « réponds une chose absurde sur le ton d'une chose normale », à la première question banale de la soirée |
+| « tu me prêtes ton assurance » obscur (reviewer, elon, critique) | Fiche 5 tac au tac : « Je t'en prête cinq. Les cinq autres, je te les souhaite. » ; « À toi » : une phrase de moins de dix mots, sans condition de chiffre |
+| « Je passe te voir à la saison trois » flou (elon) | « On en reparle à la saison trois. » Il rit : c'est exactement ce qui va se passer. |
+| « je n'y arrive pas » ne rabaisse pas (reviewer) | Fiche 4 : « je suis une catastrophe » (aucun accord) |
+| Exemple d'ironie = double sens (reviewer) | Fiche 7 : « Tu as pris un raccourci. » Devant la file arrêtée : « Excellente idée, ce raccourci. » (le contraire de ce que tu penses) |
+| Frigo depuis le lit, thème connu (reviewer) | Euphémisme : « Il y a un coin pour chaque chose, et c'est le même. » |
+| Guillemets droits (critique) | Fiche 6 : “demi-tour”, “suivant” ; l'anecdote passe en deux temps (« Puis : ») |
+| Second degré faible, définition brouillée (critique) | « Dire une chose en pensant à autre chose, et le faire sentir. » Exemple : « Laisse-moi consulter mon cabinet. » Pause. « Il dit oui. » ; distinction avec l'ironie (autre sens, pas l'inverse) |
+| Prendre au pied de la lettre : sécheresse, pas littéral (critique) | « Tu connais un bon restaurant ? » « Oui. » Deux secondes. « Tu veux que je te le dise ? » |
+| « Créneau » incohérent entre F3 et F8 (critique) | Rire jaune : « un collègue raconte ta présentation de lundi, avec des détails en plus » ; fou rire : « une tante lance » |
+| « À toi » trop étroits (critique) | Fiche 2 : une blague entendue ou une phrase drôle d'un proche, puis la dire en deux temps ; fiche 4 : question banale quelconque ; fiche 5 : n'importe quelle demande pratique |
