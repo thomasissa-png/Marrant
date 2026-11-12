@@ -3,7 +3,7 @@
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR5 : prise de parole courte 5 sous la forme « Ta première phrase d'abord », commerces, voisins, transports 5) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` (les situations de prise de parole « n'ont pas de pique à renvoyer » : deux contextes, public proche et public large, trois ouvertures). Format de `docs/copy/espace/qr4-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md`, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. **Dans une même situation, chaque registre a sa propre image.** Commerces et voisins : aucune moquerie envers un métier ou une personne qui sert ; la plaisanterie porte sur toi, sur un objet ou sur une situation. Prise de parole : humour d'affection, jamais aux dépens de quelqu'un, et seulement la première phrase (le reste du propos est à toi).
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 4, dernier tour autorisé (8 répliques reprises, annexe 6, table « Tour 4 : retouche → ligne »), Thomas tranche ensuite ; tour 3 (12 répliques reprises, annexe 5) ; au tour 2, 21 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 9 joueuses, 6 sûres, 5 risquées (sur 20 contextes).
+> **Statut : arbitrage de Thomas appliqué après le tour 4 (`docs/copy/espace/arbitrage-qr5-thomas.md` : 3 retouches, P1 risquée, scène de P4, W5 sûre ; voir « Arbitrage Thomas : retouche → ligne ») ; tour 4, dernier tour autorisé (8 répliques reprises, annexe 6, table « Tour 4 : retouche → ligne »), Thomas tranche ensuite ; tour 3 (12 répliques reprises, annexe 5) ; au tour 2, 21 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 9 joueuses, 6 sûres, 5 risquées (sur 20 contextes).
 > Les situations P1 à P5 suivent la forme « Ta première phrase d'abord » : scène, `Ta première phrase d'abord`, trois ouvertures (sûre, joueuse, risquée) avec leur pourquoi, comment choisir (public proche, public large), l'erreur, à toi, rafale. Les situations W1 à W5 suivent le format de QR4 (réponse à une phrase). Boutons communs : `[Tu avais une réponse ? Oui / À moitié / Rien]` (identique pour P1 à P5 : architecture v20, « le reste de la carte est identique »), `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]`, `[Ma réplique à moi : une phrase, facultative]`. Les mots entre accents graves sont des écrans.
 
 ---
@@ -29,8 +29,8 @@ Tu fais du gâteau l'arbitre qui donne le départ : la salle sourit et tu peux e
 Tu annonces que ton anecdote est bannie pour cette année : tu t'enlèves toute promesse à tenir, et le public sourit de ce qu'il ne saura pas. Rien n'est dit contre la personne fêtée. À sortir quand le public est détendu et te connaît un peu, sans plaisanter encore des agendas.
 
 **La risquée**
-« Tout le monde a dit oui sans regarder l'agenda. L'agenda n'a pas eu son mot à dire. »
-Tu fais de l'agenda un témoin réduit au silence : tout le monde a dit oui, et le compliment va à la personne fêtée, qui rit avec les invités. Elle vise l'attachement, pas la personne. Elle marche seulement si le public plaisante déjà des agendas bousculés pour venir. Sinon elle peut passer pour une pique : prends la sûre.
+« Tous ces agendas bousculés pour une seule personne : [son prénom], voilà l'effet que tu fais. »
+Tu te tournes vers la personne fêtée et tu lui dis l'effet qu'elle produit : tous ces agendas bousculés, pour elle seule. Un compliment direct, qui rit avec les invités. Elle vise l'attachement, pas la personne. Elle marche seulement si le public plaisante déjà des agendas bousculés pour venir. Sinon elle peut passer pour une pique : prends la sûre.
 
 **Comment choisir**
 Public proche qui plaisante déjà des agendas bousculés pour venir : la risquée. Public proche sans ce jeu : la joueuse. Public large ou bruyant (soixante personnes, un buffet qui couvre les voix) : la sûre. Une seule ouverture : tu la dis une fois, puis tu continues ton propos.
@@ -42,7 +42,7 @@ Commencer par t'excuser (« je ne suis pas très à l'aise pour parler, je ne sa
 Pense à une personne que tu fêterais à voix haute. Dis la sûre debout, un verre à la main (ou une tasse), puis tourne-toi vers elle pour la suite. Dix secondes.
 
 **Dans la rafale (deux contextes, une seule bonne ouverture chacun)**
-1. « Public proche : dix amis qui plaisantent déjà des agendas bousculés pour venir » : la risquée. Le jeu des agendas est ouvert : « l'agenda n'a pas eu son mot à dire » lui répond en face ; la joueuse parlerait d'une anecdote bannie sans rejoindre la plaisanterie, la sûre ne profiterait pas de l'élan du groupe.
+1. « Public proche : dix amis qui plaisantent déjà des agendas bousculés pour venir » : la risquée. Le jeu des agendas est ouvert : « tous ces agendas bousculés pour une seule personne » lui répond en face ; la joueuse parlerait d'une anecdote bannie sans rejoindre la plaisanterie, la sûre ne profiterait pas de l'élan du groupe.
 2. « Public large : soixante personnes, un buffet bruyant, la moitié ne te connaît pas » : la sûre. Le public ne te connaît pas et couvre ta voix : la joueuse demande une attention que la salle ne donne pas, la risquée suppose une complicité avec la personne fêtée que tous ne partagent pas.
 
 ### P2. Un petit mot : pot de retraite
@@ -118,7 +118,7 @@ Ouvrir par une blague sur le passé de l'un des mariés (« je me souviens de la
 ### P4. Remerciements de fin de soirée (association)
 
 **La scène**
-Jeudi, 22 h, la salle des fêtes d'un quartier. La soirée de l'association se termine. On te demande de remercier les bénévoles, micro en main, devant les chaises qu'il faut encore ranger.
+Jeudi, 22 h, la salle des fêtes d'un quartier. La soirée de l'association se termine : le repas a été servi puis débarrassé, et les tabliers sont encore noués. On te demande de remercier les bénévoles, micro en main, devant les chaises qu'il faut encore ranger.
 
 **Ta première phrase d'abord**
 Avant de lire la suite, dis ta première phrase à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.
@@ -354,8 +354,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je suis en train de le découvrir. Pour l'instant, elle a mon argent. »
-Tu réponds honnêtement que tu l'ignores et tu donnes le seul fait certain : la machine a déjà ton argent. Elle ne vise personne et ne fait attendre personne de plus. C'est la bonne quand la personne derrière toi soupire ou regarde l'heure.
+« Je suis en train de le découvrir. Pour l'instant, elle a ma carte, et moi j'ai de l'espoir. »
+Tu réponds honnêtement que tu l'ignores et tu dis où tu en es : la machine a ta carte, toi tu as de l'espoir. Elle ne vise personne et ne fait attendre personne de plus. C'est la bonne quand la personne derrière toi soupire ou regarde l'heure.
 
 **La joueuse**
 « Elle négocie avec ma banque. On est en pourparlers. »
@@ -529,6 +529,16 @@ Recherche web (12/11/2026, phrase et idée) : **0 occurrence exacte** pour les 8
 | P5 risquée : observation courante ; « J'hésitais à venir » dit du mal de la soirée | « J'ai compté les personnes avant moi : j'ai eu le temps de changer de prénom. » ; condition et contexte 1 : « l'attente de son tour ». |
 | W4 sûre : fait la leçon que sa fiche appelle l'erreur | « Jaunes, cette semaine. Je le sais depuis ce matin seulement. » |
 | W5 sûre : pas de chute | « Je suis en train de le découvrir. Pour l'instant, elle a mon argent. » |
+
+## Arbitrage Thomas : retouche → ligne
+
+| Retouche (arbitrage de Thomas) | Ligne changée |
+|---|---|
+| P1 risquée | « Tous ces agendas bousculés pour une seule personne : [son prénom], voilà l'effet que tu fais. » ; pourquoi réécrit (compliment direct à la personne fêtée) ; condition et « Comment choisir » inchangés (« agendas bousculés pour venir », toujours vrais) ; contexte 1 : « tous ces agendas bousculés pour une seule personne » lui répond en face. La joueuse (« sans plaisanter encore des agendas ») reste cohérente : une seule bonne réponse par contexte. |
+| P4 scène | « …la soirée de l'association se termine : le repas a été servi puis débarrassé, et les tabliers sont encore noués. » La réplique de la risquée ne change pas. |
+| W5 sûre | « Je suis en train de le découvrir. Pour l'instant, elle a ma carte, et moi j'ai de l'espoir. » ; pourquoi : « la machine a ta carte, toi tu as de l'espoir ». |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour la phrase de P1 risquée et pour celle de W5 sûre.
 
 ## Contrôles tenus (checklist des fautes récurrentes)
 
