@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v12 (s24)
 
+> REMPLACÉ par `architecture-contenu-v13.md` le 12/11/2026 après le tour 12 de relecture (Reviewer 9,6, Elon 9,4, UX 9,0). Ne plus s'y référer pour la cloche (pastille réservée aux réponses de l'équipe, accessibilité complète), les lettres (reprise immédiate, archive ouverte à tous les abonnés), la note « ma réplique à moi » (une phrase, toutes les fiches à geste, états), l'humour noir (périmètre positif, entrée volontaire « Entrer »), les XP (10 XP par conseil ouvert), le carnet (7.3 bis), les deux effets de code de C14 ni l'apprentissage dès l'ouverture (7.6).
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v11.md`. **Thomas a répondu aux questions C1 à C14 et à Q5b, Q6, Q9 le 12/11** (`docs/founder-preferences.md`, dernière ligne : elle fait foi). La v12 applique chaque décision comme une règle ; la section 8 devient « Décisions de Thomas » ; les options non retenues sont retirées. Les points qui demandent une conception neuve sont écrits en proposition, avec une ligne « reste à trancher » (annexe A les trace). Ce document n'a pas été relu à l'aveugle : le prochain tour porte sur les seules parties neuves.
 
 ## Résumé pour Thomas (une page, sans jargon)
