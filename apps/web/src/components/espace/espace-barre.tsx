@@ -20,7 +20,8 @@ import { cn } from "@/lib/utils";
  *   les entrées ne tiennent pas (le dernier onglet peut atteindre ce bord) ;
  * - indice de suite : l'entrée coupée au bord droit en montre de 16 à 24 px au repos (marge
  *   des entrées réglée, `styles-barre.ts`), plus fondu de 40 px et chevron, éteints en fin de
- *   course (l'espace final ne compte pas comme une suite) ; fondu à gauche après défilement ;
+ *   course (l'espace final ne compte pas comme une suite) ; à gauche après défilement, fondu de
+ *   8 px sur la marge seulement, jamais sur l'entrée courante (revue @design D2) ;
  * - clavier : l'entrée qui reçoit le focus est ramenée dans la vue (Tab), flèches gauche et
  *   droite d'une entrée à l'autre ;
  * - sous 300 px de large (200 % de texte) : barre non épinglée, onglets en 12/16, chevron retiré.
@@ -59,7 +60,11 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
     l.style.scrollPaddingLeft = `${p}px`;
     if (fonduGauche.current) {
       fonduGauche.current.style.left = `${p}px`;
-      fonduGauche.current.classList.toggle("opacity-0", l.scrollLeft < 2);
+      // Revue @design D2 : 8 px au plus (la marge des entrées, jamais leur texte) et jamais sur
+      // l'entrée courante quand elle touche l'épinglée.
+      const courante = tous.find((t) => t.getAttribute("aria-current") === "page");
+      const bordCourante = courante && courante !== tous[0] ? courante.getBoundingClientRect().left - l.getBoundingClientRect().left : Infinity;
+      fonduGauche.current.classList.toggle("opacity-0", l.scrollLeft < 2 || bordCourante < p + 10);
     }
     fonduDroite.current?.classList.toggle("opacity-0", l.scrollLeft + l.clientWidth >= l.scrollWidth - sp - 2);
   }, [onglets]);
@@ -109,6 +114,28 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
     ramener();
   }, [ramener, pathname]);
 
+  /**
+   * Ancres (revue D2, point e) : les cibles des pages calent leur marge sur l'en-tête seul
+   * (`scroll-mt-20`, 80 px, sous 111 px d'en-tête plus barre). Tant que la barre est montée, la page
+   * réserve sa hauteur en haut (`scroll-padding-top`, qui s'ajoute à la marge de chaque cible) ;
+   * retirée au démontage. Sous 300 px, barre non épinglée : rien à réserver.
+   */
+  useEffect(() => {
+    const racine = document.documentElement;
+    const barre = racine.querySelector<HTMLElement>("[data-espace-barre]");
+    if (!barre) return;
+    const avant = racine.style.scrollPaddingTop;
+    const poser = () => {
+      racine.style.scrollPaddingTop = getComputedStyle(barre).position === "sticky" ? `${barre.offsetHeight}px` : avant;
+    };
+    poser();
+    window.addEventListener("resize", poser);
+    return () => {
+      window.removeEventListener("resize", poser);
+      racine.style.scrollPaddingTop = avant;
+    };
+  }, []);
+
   useEffect(() => {
     const l = liste.current;
     if (!l) return;
@@ -153,9 +180,9 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
   };
 
   return (
-    <div className="sticky top-16 z-40 border-b border-border bg-background pt-px max-[299px]:static" data-espace-barre>
-      <nav aria-label={T.monEspace} className="mx-auto max-w-7xl px-3 min-[360px]:px-4 md:px-6 xl:px-8">
-        <div className="relative -ml-3 min-w-0 max-[299px]:-mr-3">
+    <div className="sticky top-16 z-40 border-b border-border bg-background pt-px max-e300:static" data-espace-barre>
+      <nav aria-label={T.monEspace} className="mx-auto max-w-7xl px-3 e360:px-4 md:px-6 xl:px-8">
+        <div className="relative -ml-3 min-w-0 max-e300:-mr-3">
           <div
             ref={liste}
             data-liste-rubriques
@@ -185,13 +212,13 @@ export function EspaceBarre({ pathname }: { pathname: string | null }) {
           <div
             ref={fonduGauche}
             aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 w-10 bg-gradient-to-r from-background to-transparent opacity-0 transition-opacity"
+            className="pointer-events-none absolute inset-y-0 w-2 bg-gradient-to-r from-background to-transparent opacity-0 transition-opacity"
           />
           <div
             ref={fonduDroite}
             aria-hidden="true"
             data-indice-suite
-            className="pointer-events-none absolute inset-y-0 right-0 flex w-10 items-center justify-end opacity-0 bg-gradient-to-l from-background/90 from-10% to-transparent text-text-secondary transition-opacity max-[299px]:hidden"
+            className="pointer-events-none absolute inset-y-0 right-0 flex w-10 items-center justify-end opacity-0 bg-gradient-to-l from-background/90 from-10% to-transparent text-text-secondary transition-opacity max-e300:hidden"
           >
             <svg className="mr-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

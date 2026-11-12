@@ -181,6 +181,9 @@ describe("indice de suite (margeIndice)", () => {
     expect(x).toBeGreaterThanOrEqual(-4);
     expect(x).toBeLessThanOrEqual(8);
   });
+  it("marge finale jamais sous 8 px (le fondu de gauche, 8 px, ne touche pas le texte)", () => {
+    for (let zone = 280; zone <= 760; zone += 7) expect(12 + margeIndice(A_375, zone, 12)).toBeGreaterThanOrEqual(8);
+  });
   it("l'entrée courante tient entière à côté de « Aujourd'hui » avant l'indice", () => {
     const x = margeIndice([80, 66, 98, 86, 100, 60], 188, 8, 2);
     expect(80 + 98 + 4 * x).toBeLessThanOrEqual(188);
@@ -249,14 +252,16 @@ describe("cloche (coque)", () => {
 
 describe("garde-fous de fichiers (plan §2 règles 7 et 8)", () => {
   const SRC = join(__dirname, "../..");
-  const composants = readdirSync(join(SRC, "components/espace")).map((f) => join(SRC, "components/espace", f));
+  const arbre = (d: string): string[] =>
+    readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? arbre(join(d, e.name)) : [join(d, e.name)]));
+  const composants = arbre(join(SRC, "components/espace"));
   const textes = join(SRC, "config/textes/espace-navigation.ts");
 
-  it("aucun #hex ni valeur [Npx] dans les composants de l'espace (points de rupture exceptés)", () => {
+  it("aucun #hex ni valeur [Npx] dans les composants de l'espace (points de rupture nommés : tailwind.config.ts)", () => {
     for (const f of [...composants, textes]) {
       const code = readFileSync(f, "utf8");
       expect([f, code.match(/#[0-9a-fA-F]{3,8}\b/g)]).toEqual([f, null]);
-      expect([f, code.replace(/(min|max)-\[\d+px\]:/g, "").match(/\[[^\]]*\d+px[^\]]*\]/g)]).toEqual([f, null]);
+      expect([f, code.match(/\[[^\]]*\d+px[^\]]*\]/g)]).toEqual([f, null]);
     }
   });
 

@@ -48,14 +48,14 @@ export function EnTeteEspace({ pathname }: { pathname: string | null }) {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md max-[299px]:static" data-en-tete-espace>
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:px-4 sm:gap-4 md:px-6 xl:px-8 max-[299px]:h-auto max-[299px]:flex-col max-[299px]:items-start max-[299px]:gap-0">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md max-e300:static" data-en-tete-espace>
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 e360:px-4 sm:gap-4 md:px-6 xl:px-8 max-e300:h-auto max-e300:flex-col max-e300:items-start max-e300:gap-0">
         <Link href="/" className="flex min-h-11 shrink-0 items-center gap-2">
-          <span className="whitespace-nowrap font-display text-sm font-bold text-gradient min-[360px]:text-base min-[400px]:text-lg sm:text-xl">
+          <span className="whitespace-nowrap font-display text-sm font-bold text-gradient e360:text-base e400:text-lg sm:text-xl">
             deviens-marrant.fr
           </span>
         </Link>
-        <div className="ml-auto flex items-center gap-1 max-[299px]:ml-0">
+        <div className="ml-auto flex items-center gap-1 max-e300:ml-0">
           <button
             ref={loupe}
             type="button"
@@ -73,7 +73,7 @@ export function EnTeteEspace({ pathname }: { pathname: string | null }) {
       </div>
       {rechercheOuverte && (
         <div id="recherche-espace" className="border-t border-border bg-background py-2" onKeyDown={surTouche}>
-          <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 min-[360px]:px-4 md:px-6 xl:px-8">
+          <div className="mx-auto flex max-w-7xl items-center gap-2 px-3 e360:px-4 md:px-6 xl:px-8">
             <SearchBar className="min-w-0 flex-1" onNavigate={() => fermer(false)} />
             <button
               type="button"

@@ -45,7 +45,8 @@ describe("GET /api/daily — repli vanne du jour", () => {
     const body = await (await GET()).json();
     expect(body.joke.id).toBe("garder-joke");
     const where = mockPrisma.joke.findFirst.mock.calls[0][0].where;
-    expect(where).toEqual({ isActive: true, copyVerdict: "GARDER", comedyTechnique: { not: null } });
+    // s24 (lot D3) : jamais une vanne repérée « humour noir » (architecture 3.12).
+    expect(where).toEqual({ isActive: true, copyVerdict: "GARDER", comedyTechnique: { not: null }, humourNoir: false });
     // Aucune requête sur le repli historique (REECRIRE inclus)
     expect(mockPrisma.joke.findFirst).toHaveBeenCalledTimes(1);
   });

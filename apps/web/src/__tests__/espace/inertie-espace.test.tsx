@@ -107,8 +107,16 @@ describe("garde-fou de construction", () => {
   /**
    * Fichiers hors périmètre autorisés à importer l'espace (vide au lot D0).
    * D2 : l'en-tête monte l'en-tête abonné et la barre, sous garde de l'interrupteur.
+   * D3 : la page de succès et la connexion calculent l'arrivée, sous garde de l'interrupteur.
    */
-  const LISTE_BLANCHE: string[] = ["components/layout/header.tsx"];
+  const LISTE_BLANCHE: string[] = [
+    "components/layout/header.tsx",
+    // D3 : arrivées après paiement et après connexion, sous garde de l'interrupteur.
+    "app/(dashboard)/abonnement/success/page.tsx",
+    "app/(auth)/login/page.tsx",
+    // D3 : /mon-espace/** réécrit vers la 404 naturelle interrupteur fermé.
+    "middleware.ts",
+  ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,
     /^app\/api\/espace\//,

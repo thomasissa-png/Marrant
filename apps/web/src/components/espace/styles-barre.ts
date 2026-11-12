@@ -4,18 +4,18 @@
  * suite (voir `margeIndice`) ; à défaut 12 px, 8 px sous 300 px de large (200 % de texte).
  */
 export const CLASSE_ONGLET =
-  "relative flex h-11 flex-none snap-start items-center whitespace-nowrap border-0 bg-transparent px-[var(--app-onglet-pad,0.75rem)] text-sm font-medium text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary aria-[current=page]:text-text-primary max-[299px]:px-[var(--app-onglet-pad,0.5rem)] max-[299px]:text-xs";
+  "relative flex h-11 flex-none snap-start items-center whitespace-nowrap border-0 bg-transparent px-[var(--app-onglet-pad,0.75rem)] text-sm font-medium text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-accent-primary aria-[current=page]:text-text-primary max-e300:px-[var(--app-onglet-pad,0.5rem)] max-e300:text-xs";
 
 /** Trait de 2 px sous l'entrée courante, aligné sur le texte. */
 export const CLASSE_SOULIGNEMENT =
-  "absolute inset-x-[var(--app-onglet-pad,0.75rem)] bottom-0 h-0.5 bg-accent-primary max-[299px]:inset-x-[var(--app-onglet-pad,0.5rem)]";
+  "absolute inset-x-[var(--app-onglet-pad,0.75rem)] bottom-0 h-0.5 bg-accent-primary max-e300:inset-x-[var(--app-onglet-pad,0.5rem)]";
 
 /** Partie visible visée de l'entrée coupée au bord droit (architecture 6.2, règle c de @ux). */
 export const INDICE_MIN = 16;
 export const INDICE_MAX = 24;
 
 /**
- * Marge ajoutée de chaque côté de chaque entrée (en px, de -4 à +8, la plus petite possible)
+ * Marge ajoutée de chaque côté de chaque entrée (en px, de -4 à +8, marge finale d'au moins 8 px, la plus petite possible)
  * pour que la première entrée qui passe le bord droit de la zone en montre de 16 à 24 px,
  * barre au repos. Contrainte prioritaire : l'entrée courante (`active`, index) tient entière à
  * côté de l'épinglée (index 0). 0 si les entrées tiennent toutes, ou si aucun réglage n'y arrive.
@@ -26,7 +26,7 @@ export function margeIndice(largeurs: number[], zone: number, base: number, acti
   const essais = [0];
   for (let k = 0.5; k <= 8; k += 0.5) {
     essais.push(k);
-    if (k <= 4 && base - k >= 6) essais.push(-k);
+    if (k <= 4 && base - k >= 8) essais.push(-k); // marge >= 8 px : le fondu de gauche (8 px) ne touche jamais le texte
   }
   const tient = (x: number) => active <= 0 || largeurs[0] + largeurs[active] + 4 * x <= zone;
   const coupe = (x: number) => {

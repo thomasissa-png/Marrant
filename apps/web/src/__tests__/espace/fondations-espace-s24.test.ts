@@ -198,7 +198,9 @@ describe("garde, interrupteur ouvert : les 5 cas (plan relu en base)", () => {
   });
 
   it("arrivées : paiement = Aujourd'hui ; connexion selon le compte", () => {
-    expect(arriveeApresPaiement("/parcours/repartie#etape-2")).toBe("/mon-espace");
+    // D3 : le lien de retour voyage jusqu'à « Aujourd'hui » (choix du premier pas).
+    expect(arriveeApresPaiement("/parcours/repartie#etape-2")).toBe("/mon-espace?depuis=%2Fparcours%2Frepartie%23etape-2");
+    expect(arriveeApresPaiement(null)).toBe("/mon-espace");
     expect(arriveeApresConnexion(null, "abonne")).toBe("/mon-espace");
     expect(arriveeApresConnexion("/conseils/x", "abonne")).toBe("/conseils/x");
     expect(arriveeApresConnexion("/abonnement?plan=annual", "abonne")).toBe("/mon-espace");

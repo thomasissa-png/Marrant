@@ -7,6 +7,23 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    /**
+     * s24 (espace client, lot D2, revue @design) : points de rupture de l'en-tête et de la barre de
+     * l'espace posés UNE fois ici. Écrans par défaut de Tailwind repris tels quels, même ordre
+     * (le CSS existant ne change pas) ; ajoutés devant : `e300` (sous 300 px de large = 200 % de
+     * texte à 375 : variante `max-e300:`), `e360` et `e400` (repris des marges et du logo de l'en-tête).
+     * Seulement des largeurs minimales simples : les variantes `max-*` et `min-[…]` restent permises.
+     */
+    screens: {
+      e300: "300px",
+      e360: "360px",
+      e400: "400px",
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
+      "2xl": "1536px",
+    },
     extend: {
       colors: {
         // Palette deviens-marrant — ambiance cinéma/Netflix

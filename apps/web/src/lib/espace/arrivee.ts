@@ -15,6 +15,7 @@
 import { ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE, ESPACE_REDIRECTION_SANS_ABONNEMENT } from "@/config/espace-client";
 import { getPostPaymentDestination, sanitizeReturnTo } from "@/lib/premium-return";
 import { resolvePostAuthRedirect } from "@/lib/safe-callback";
+import { PARAM_DEPUIS } from "@/lib/espace/premier-pas";
 
 /** Arrivée par défaut d'une connexion aujourd'hui (`login/page.tsx`, `resolvePostAuthRedirect`). */
 export const ARRIVEE_CONNEXION_ACTUELLE = "/vannes";
@@ -28,7 +29,27 @@ export function arriveeApresPaiement(
   ouvert: boolean = ESPACE_CLIENT_PUBLIE,
 ): string {
   if (!ouvert) return getPostPaymentDestination(rawReturnTo);
-  return ESPACE_ACCUEIL;
+  // Lot D3 : le lien de retour voyage jusqu'à « Aujourd'hui » pour y choisir le premier pas
+  // (architecture 4.2, ordre 1), favori mémorisé compris (la fiche devient le premier pas).
+  const depuis = sanitizeReturnTo(rawReturnTo);
+  return depuis ? `${ESPACE_ACCUEIL}?${PARAM_DEPUIS}=${encodeURIComponent(depuis)}` : ESPACE_ACCUEIL;
+}
+
+/** Route qui calcule l'arrivée après connexion en relisant le compte en base (`api/espace/arrivee`). */
+export const ROUTE_ARRIVEE_CONNEXION = "/api/espace/arrivee";
+
+/**
+ * Adresse de passage après une connexion, interrupteur OUVERT seulement (`login/page.tsx`) :
+ * la route relit le plan en base puis redirige (`arriveeApresConnexion`), marqueur de mesure
+ * du retour Google compris.
+ */
+export function urlArriveeConnexion(rawOrigine: string | null | undefined, marqueur?: string): string {
+  const params = new URLSearchParams();
+  const origine = sanitizeReturnTo(rawOrigine);
+  if (origine) params.set("origine", origine);
+  if (marqueur && /^[a-z0-9-]{1,40}$/.test(marqueur)) params.set("marqueur", marqueur);
+  const q = params.toString();
+  return q ? `${ROUTE_ARRIVEE_CONNEXION}?${q}` : ROUTE_ARRIVEE_CONNEXION;
 }
 
 /**

@@ -20,6 +20,8 @@ import { IN_APP_NOTICE_ID, InAppBrowserNotice } from "@/components/auth/in-app-b
 import { LOGIN_ERROR_CODES, TEXTES_CONNEXION } from "@/config/textes/compte";
 import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { TEXTES_RESILIATION } from "@/config/textes/resiliation";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { urlArriveeConnexion } from "@/lib/espace/arrivee";
 
 const OAUTH_ERRORS: Record<string, string> = {
   // s16 reco 13 : plus de liaison automatique, on renvoie vers le mot de passe.
@@ -100,7 +102,11 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
   // Sanitisation anti open-redirect + fallback vers /vannes pour la connexion classique.
   const callbackUrl = resolvePostAuthRedirect(rawCallbackUrl, "/vannes");
   // Retour de Google marqué pour la mesure (AuthReturnTracker, layout racine).
-  const googleCallbackUrl = withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
+  // s24 (espace, lot D3) : interrupteur ouvert, l'arrivée est calculée par le serveur (plan relu en
+  // base : abonné actif = page d'origine sinon « Aujourd'hui », ancien abonné = /abonnement). Fermé : inchangé.
+  const googleCallbackUrl = ESPACE_CLIENT_PUBLIE
+    ? urlArriveeConnexion(rawCallbackUrl, AUTH_RETURN_LOGIN_GOOGLE)
+    : withAuthReturnMarker(callbackUrl, AUTH_RETURN_LOGIN_GOOGLE);
   // Le lien d'inscription garde la destination demandée (puis le paiement, s15).
   const registerHref = buildRegisterUrl({ callbackUrl: rawCallbackUrl, src: src ?? "login" });
   // s23 : connexion pour résilier (/resiliation, /resiliation/confirmee), interrupteur ouvert seulement.
@@ -151,6 +157,10 @@ function LoginForm({ rawCallbackUrl, oauthError, src }: LoginFormProps) {
         signalerEchec(motif, message, focus, aide);
       } else {
         trackUmami("connexion-reussie", { methode: "email" });
+        if (ESPACE_CLIENT_PUBLIE) {
+          window.location.assign(urlArriveeConnexion(rawCallbackUrl));
+          return;
+        }
         router.push(callbackUrl);
         router.refresh();
       }

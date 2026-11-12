@@ -9,6 +9,7 @@ import {
 } from "@/config/blog-preview";
 import { createPreviewToken, isAdminPassword } from "@/lib/blog-preview-auth";
 import { buildAbonnementUrl } from "@/lib/premium-return";
+import { ESPACE_ACCUEIL, ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 // Routes PREMIUM-only (pas de version gratuite)
 const PREMIUM_ONLY_PATHS = ["/favoris"];
@@ -118,6 +119,13 @@ export default async function middleware(req: NextRequest) {
     // Construire l'URL canonique sans port interne (Replit expose :5904 en interne)
     const canonicalUrl = `https://deviens-marrant.fr${url.pathname}${url.search}`;
     return NextResponse.redirect(canonicalUrl, 301);
+  }
+
+  // s24 (espace client, lot D3) : interrupteur fermé, toute adresse /mon-espace/** est servie comme
+  // une adresse inexistante (réécriture vers un chemin sans page : la 404 naturelle, tête et styles
+  // compris). Une page présente qui appelle notFound() perd ses feuilles de style dans Next 14.
+  if (!ESPACE_CLIENT_PUBLIE && (req.nextUrl.pathname === ESPACE_ACCUEIL || req.nextUrl.pathname.startsWith(`${ESPACE_ACCUEIL}/`))) {
+    return NextResponse.rewrite(new URL("/_espace-ferme", req.url));
   }
 
   if (isBlogPreviewPath(req.nextUrl.pathname)) {

@@ -95,6 +95,7 @@ model User {
   cancellationFeedbacks CancellationFeedback[]
   /// s24 lot 0 : mesure d'usage serveur (migration 18).
   usageEvents   UsageEvent[]
+  espaceCompte  EspaceCompte?
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -150,6 +151,10 @@ model Joke {
   originalContent     String?   @db.Text // contenu avant réécriture s11 (si REECRIRE)
   originalPunchline   String?   @db.Text // punchline avant réécriture s11 (si REECRIRE)
 
+  // s24 (espace client, lot D3, migration 19) : repérage « humour noir » (architecture 3.12).
+  // Exclue de la vanne du jour et du toucher « Ce soir, c'est plutôt ? ». Aucune vanne marquée à la création.
+  humourNoir Boolean @default(false)
+
   // Relations
   dailyContents DailyContent[]
   favorites     UserFavorite[]
@@ -158,6 +163,7 @@ model Joke {
   @@index([category])
   @@index([isActive])
   @@index([copyReviewedAt])
+  @@index([humourNoir])
 }
 
 enum JokeCategory {
@@ -1290,4 +1296,30 @@ model UsageEvent {
 
   @@index([userId, type, occurredAt])
   @@index([type, occurredAt])
+}
+
+/// s24 (espace client, lot D3, migration 20) : réglages de l'abonné dans l'espace. `aise` = réponse
+/// à « Où veux-tu être plus à l'aise ? » (décision C9), posée une fois, gardée sur le compte.
+/// `rencontreServieLe` : la situation de rencontre servie une fois après « pour plaire » (2.2, lot D5).
+model EspaceCompte {
+  userId            String    @id
+  aise              String? // POTES | BOULOT | PLAIRE | PARTOUT
+  aiseLe            DateTime?
+  rencontreServieLe DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+/// s24 (espace client, lot D3, migration 21) : capteur ANONYME du toucher de la vanne (architecture
+/// 4.4 et 7.7). Aucun identifiant d'abonné : un compteur par jour, clé et valeur d'une liste fermée.
+model EspaceCompteur {
+  id     String   @id @default(cuid())
+  jour   DateTime @db.Date
+  cle    String
+  valeur String
+  n      Int      @default(0)
+
+  @@unique([jour, cle, valeur])
 }

@@ -97,3 +97,12 @@ export async function garderApiEspace(): Promise<{ userId: string } | NextRespon
     return json({ error: "indisponible" }, 503);
   }
 }
+
+/**
+ * Méthode non prévue d'une route `api/espace/**` (lot D3) : fermé, la réponse d'une adresse
+ * inexistante (404, comme toute méthode) ; ouvert, 405.
+ */
+export function methodeNonPermise(): NextResponse {
+  if (!ESPACE_CLIENT_PUBLIE) return reponseEspaceFerme();
+  return json({ error: "methode" }, 405);
+}

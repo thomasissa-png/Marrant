@@ -28,6 +28,9 @@ export const VALIDATED_JOKE_WHERE = {
   copyVerdict: "GARDER",
   comedyTechnique: { not: null },
   howToApply: { not: null },
+  // s24 (espace, lot D3, architecture 3.12) : jamais une vanne repérée « humour noir » au contenu
+  // du jour (colonne de la migration 19, à false partout tant que rien n'est repéré).
+  humourNoir: false,
 } satisfies Prisma.JokeWhereInput;
 /** Vanne validée jamais servie en DailyContent (`pickJoke(true)`). */
 export const NEVER_USED_JOKE_WHERE = {

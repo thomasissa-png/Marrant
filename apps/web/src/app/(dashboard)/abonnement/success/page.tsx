@@ -30,6 +30,8 @@ import { LETTRE_HEBDO_INSCRIPTIONS_OUVERTES } from "@/config/lettre";
 import { LETTRE_HEBDO_INFO_PAIEMENT, type EtatInfoPaiement } from "@/config/textes/lettre-hebdo-s21";
 import { etatInfoPaiement } from "@/lib/lettre/etat-info-paiement";
 import { frTypo } from "@/lib/fr-typo";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { arriveeApresPaiement } from "@/lib/espace/arrivee";
 
 type Etat = "verification" | "pret" | "connexion" | "non-verifie";
 type Resultat = "premium" | "connexion" | "refuse" | "attente";
@@ -61,7 +63,15 @@ function SubscriptionSuccessContent() {
   // Favori mémorisé au clic sur l'étoile (lib/favori-apres-paiement) : ajouté une fois le plan
   // vérifié, puis retiré de la destination ; si l'ajout a réussi (ou 409), la destination reçoit
   // le drapeau `favori=<TYPE>` (jamais l'id) pour la bienvenue « Ta vanne est dans tes favoris. ».
-  const { favori, chemin: destination } = useMemo(() => extraireFavori(getPostPaymentDestination(rawReturnTo)), [rawReturnTo]);
+  // s24 (espace, lot D3, décision C14) : interrupteur ouvert, toujours « Aujourd'hui » ; le lien de
+  // retour (favori compris) y voyage pour choisir le premier pas. Fermé : inchangé.
+  const { favori, chemin: destination } = useMemo(
+    () =>
+      ESPACE_CLIENT_PUBLIE
+        ? { favori: extraireFavori(sanitizeReturnTo(rawReturnTo) ?? "/").favori, chemin: arriveeApresPaiement(rawReturnTo) }
+        : extraireFavori(getPostPaymentDestination(rawReturnTo)),
+    [rawReturnTo],
+  );
   const fetchFavorites = useFavoritesStore((s) => s.fetchFavorites);
   const fallbackTarget = extraireFavori(sanitizeReturnTo(rawReturnTo) ?? "/parcours").chemin;
   const fallbackLabel = fallbackTarget.startsWith("/parcours/")
@@ -138,7 +148,9 @@ function SubscriptionSuccessContent() {
       if (annule) return;
       // Inscriptions à la lettre ouvertes : pas de redirection, la page montre la ligne de la lettre
       // et le bouton vers la cible (favori ajouté quand même, drapeau compris). Fermées : inchangé.
-      if (LETTRE_HEBDO_INSCRIPTIONS_OUVERTES) setCibleBouton(cible);
+      // s24 (lot D3) : interrupteur de l'espace ouvert, jamais de redirection (« Continuer », C14),
+      // indépendamment de l'interrupteur de la lettre.
+      if (LETTRE_HEBDO_INSCRIPTIONS_OUVERTES || ESPACE_CLIENT_PUBLIE) setCibleBouton(cible);
       else router.push(cible);
     })();
     return () => {
@@ -159,8 +171,12 @@ function SubscriptionSuccessContent() {
       controller.abort();
     };
   }, [etat]);
-  const destinationLabel =
-    destination === "/parcours" ? TEXTES_SUCCESS.pretBouton : destination.startsWith("/parcours/") ? "Reprendre mon parcours" : "Continuer";
+  const destinationLabel = ESPACE_CLIENT_PUBLIE
+    ? "Continuer"
+    : destination === "/parcours" ? TEXTES_SUCCESS.pretBouton : destination.startsWith("/parcours/") ? "Reprendre mon parcours" : "Continuer";
+  // s24 (lot D3, maquette `succes.html`) : « Continuer » dominant (48 px, pleine largeur sur téléphone),
+  // lien de renonciation en texte 14/20, cible de 44 px, 48 px sous le bouton. Fermé : classes d'origine.
+  const avecBouton = LETTRE_HEBDO_INSCRIPTIONS_OUVERTES || ESPACE_CLIENT_PUBLIE;
 
   return (
     <div className="flex min-h-[60vh] items-center justify-center">
@@ -170,15 +186,15 @@ function SubscriptionSuccessContent() {
             <>
               <h1 className="font-display text-2xl font-bold text-text-primary">{TEXTES_SUCCESS.pretTitre}</h1>
               <p className="mt-2 text-text-secondary">{TEXTES_SUCCESS.pretTexte}</p>
-              {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES ? (
+              {avecBouton ? (
                 <>
-                  {infoLettre && (
+                  {LETTRE_HEBDO_INSCRIPTIONS_OUVERTES && infoLettre && (
                     <p className="mt-4 text-sm text-text-secondary" data-testid="lettre-hebdo-paiement" data-etat={infoLettre}>
                       {frTypo(LETTRE_HEBDO_INFO_PAIEMENT[infoLettre])}
                     </p>
                   )}
                   {/* `data-pret` : cible finale posée (favori ajouté, drapeau compris), repère des tests de bout en bout. */}
-                  <Link href={cibleBouton ?? destination} data-testid="retour-paiement-continuer" data-pret={cibleBouton ? "oui" : "non"} className={buttonVariants({ variant: "primary", className: "mt-6" })}>
+                  <Link href={cibleBouton ?? destination} data-testid="retour-paiement-continuer" data-pret={cibleBouton ? "oui" : "non"} className={buttonVariants({ variant: "primary", className: ESPACE_CLIENT_PUBLIE ? "mt-6 h-12 w-full max-md:h-12 sm:w-auto sm:px-8" : "mt-6" })}>
                     {destinationLabel}
                   </Link>
                 </>
@@ -188,8 +204,15 @@ function SubscriptionSuccessContent() {
                 </Link>
               )}
               {/* s23 (audit rétractation, D.221-5) : accès visible à la fonction de rétractation, en lien discret sous le bouton. */}
-              <p className="mt-4 text-xs">
-                <Link href="/retractation" className="text-text-muted underline underline-offset-2 hover:text-text-secondary">
+              <p className={ESPACE_CLIENT_PUBLIE ? "mt-12 text-sm" : "mt-4 text-xs"}>
+                <Link
+                  href="/retractation"
+                  className={
+                    ESPACE_CLIENT_PUBLIE
+                      ? "inline-flex min-h-11 items-center text-text-muted underline underline-offset-2 hover:text-text-secondary"
+                      : "text-text-muted underline underline-offset-2 hover:text-text-secondary"
+                  }
+                >
                   {LIBELLE_RENONCER_CONTRAT}
                 </Link>
               </p>

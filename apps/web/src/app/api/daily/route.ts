@@ -150,13 +150,15 @@ export async function GET() {
  *  3. en dernier recours, toutes les vannes actives.
  */
 async function legacyFallbackJokeWhere(): Promise<Prisma.JokeWhereInput> {
+  // s24 (espace, lot D3, architecture 3.12) : jamais une vanne repérée « humour noir ».
   const reviewedWhere: Prisma.JokeWhereInput = {
     isActive: true,
+    humourNoir: false,
     comedyTechnique: { not: null },
     copyVerdict: { in: ["GARDER", "REECRIRE"] },
   };
   if ((await prisma.joke.count({ where: reviewedWhere })) > 0) return reviewedWhere;
-  const decryptedWhere: Prisma.JokeWhereInput = { isActive: true, comedyTechnique: { not: null } };
+  const decryptedWhere: Prisma.JokeWhereInput = { isActive: true, humourNoir: false, comedyTechnique: { not: null } };
   if ((await prisma.joke.count({ where: decryptedWhere })) > 0) return decryptedWhere;
-  return { isActive: true };
+  return { isActive: true, humourNoir: false };
 }
