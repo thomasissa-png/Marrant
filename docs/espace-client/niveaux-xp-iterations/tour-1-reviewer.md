@@ -1,0 +1,54 @@
+# Tour 1, relecture à l'aveugle @reviewer : niveaux et XP (s24)
+
+> Relecteur : @reviewer, 12/11/2026. Document noté : `docs/espace-client/niveaux-xp-s24.md` (NX). Références : `founder-preferences.md` (FP), `architecture-contenu-v11.md` (ARCH), code lu dans le dépôt.
+
+## 1. Notes
+
+| # | Critère | Note | Justification (passage cité) |
+|---|---|---|---|
+| 1 | Exactitude des faits | 5 | Les totaux sont justes, mais « **Seules sources d'XP lues dans le code** : la validation d'une étape […] et le bonus » est faux. Lire un conseil rapporte 10 XP (`conseils-list.tsx` l. 177), sans plafond réel (section 2). Le §1.1 qualifie donc à tort de faux gains qui existent : « progression-levels.md est obsolète, vérifié : il décrit des gains (+2 par blague lue, […]) qui n'existent dans aucun des deux chemins de crédit » (le « +10 par conseil » existe). « Tout ce qu'un abonné peut gagner […] fait 3 100 XP » (résumé) est faux pour la même raison. |
+| 2 | Valeur pour Yanis, Sophie, Marc (progrès réel contre activité) | 8 | Diagnostic juste et rare : « Le niveau mesure donc une activité déclarée, pas une compétence » ; le niveau ne passe jamais devant la courbe « Tu avais une réponse ? » ; ni pourcentage, ni XP restants, ni relance. Reste : la faille de §2 transforme le niveau en compteur de clics sur des conseils. |
+| 3 | Ton maison des noms | 7 | N3 (« Tu te lances », « Tu rebondis », « Tu as fait le tour ») est au ton. N2 réintroduit le vocabulaire de scène que l'architecture a retiré, et « Tête d'affiche » est le verdict de star que §2.1 reproche à « Légende » (correction 7). |
+| 4 | Respect des [CHOIX UTILISATEUR] | 6 | Q4 repose la question C4, tranchée par Thomas le 12/11 (FP l. 167 : « **C4** aucune nouvelle règle de série ni de points pour l'entraînement et les fiches ») (correction 3). La phrase publique de la FAQ « 50 XP par semaine », gardée par Thomas le 29/09 (FP l. 26), est ignorée (correction 5). |
+| 5 | Qualité des questions à Thomas | 7 | Q1 et Q2 claires, options marquées. Mais Q4 rouvre une décision du jour même ; Q3 C (« Un niveau visible des autres abonnés : non recommandé ») est une option de remplissage ; et il manque la seule vraie question nouvelle : garder ou non les 10 XP par conseil lu (corrections 2, 9). |
+| 6 | Honnêteté des risques | 6 | Le tableau §2.4 est bon. Mais la faille de `/api/user/xp` est écrite au conditionnel (« [À VÉRIFIER] qui l'appelle encore. Si personne… ») alors qu'elle est appelée et exploitable aujourd'hui (correction 1) ; le mot « niveau » entre en collision avec les niveaux de difficulté des parcours (correction 6). |
+| 7 | Cohérence avec l'architecture v11 | 7 | Bonne cohérence avec C4, la courbe, « Ton mois » et la règle anti-relance. Mais N2 contredit ARCH §3.5 (« aucun mot de scène (open mic, plateau, flop) ») ; « en tête de « Parcours » » double ARCH §5.4 (« Tes 4 premières semaines » en tête de « Parcours ») ; et le brief §3.2 met XP et niveau dans « Aujourd'hui » sans que l'écart soit dit (correction 8). |
+
+**Note globale : 6,6 / 10** (46 / 70).
+
+## 2. Faits contrôlés
+
+| Fait du document | Verdict | Source lue |
+|---|---|---|
+| Totaux 325 / 475 / 800 / 800 / 700, 3 100 (2 600 + 500) | **juste**, et vérifiable sans capture : `moduleXp` des seeds | `parcours-seed.json` l. 32, 110, 188 (50, 75, 100) ; l. 290 à 524 (50, 75, 100, 150) ; l. 637 à 1027 (50 à 200) ; `parcours-storytelling-s18.json` l. 119 à 515 ; `parcours-boulot-s19.json` l. 332 à 663 (50, 75, 100, 100, 125, 150) |
+| « entre 50 et 200 », moyenne 104 | juste | idem |
+| Seuils actuels 0 / 100 / 500 / 1 500 / 5 000, barre à 46 % | juste | `lib/progression.ts` l. 16 à 31 ; `PROGRESSION_NIVEAU.milieu` « Ça avance, et ça commence à s'entendre. » (`config/textes/parcours.ts` l. 91) |
+| « Seules sources d'XP : étape et bonus » | **faux** | `components/conseils/conseils-list.tsx` l. 175 à 178 : à l'ouverture d'un conseil, si Premium et si l'identifiant n'est pas dans `completedTipIds`, `addXp(10, "tip_read")`. Or `completedTipIds` est un simple état React (l. 111, `useState(new Set())`) : il repart à zéro à chaque chargement de page. Le même conseil rapporte donc 10 XP à chaque visite. |
+| « `POST /api/user/xp` […] [À VÉRIFIER @fullstack] qui l'appelle encore » | **appelée** | `stores/user-store.ts` l. 52 à 61 ; route : `amount: z.number().min(1).max(500)` (l. 12), montant choisi par le navigateur, 30 appels par minute (l. 26), réservée Premium (l. 39 à 45), niveau recalculé (l. 58). Ouvrir et fermer des conseils rapporte jusqu'à 300 XP par minute ; appeler la route à la main, jusqu'à 15 000 XP par minute. Le dernier niveau proposé (2 300) tombe en moins de 8 minutes de clics sur des conseils. |
+| Phrase publique « 50 XP par semaine » | **absente du document** | `lib/faqs.ts` l. 21 : « Nos membres gagnent en moyenne 50 XP par semaine » ; FP l. 26 : « La FAQ garde « 8 semaines », « 50 XP par semaine » » |
+| Noms des niveaux affichés ailleurs que dans le profil | rien | Seule occurrence : `lib/utils.ts` (`USER_LEVELS`) ; aucun texte public ne nomme les niveaux : les renommer ne touche aucun texte validé. |
+
+## 3. Corrections
+
+1. **§1.1 « Seules sources d'XP lues dans le code : la validation d'une étape […] et le bonus » et « Une troisième voie existe […] [À VÉRIFIER @fullstack] qui l'appelle encore. Si personne, elle permet de s'attribuer des XP à la main ».** Problème : c'est faux (section 2). Lire un conseil rapporte 10 XP, à chaque chargement de page, et la route accepte un montant choisi par le navigateur. Le résumé (« Tout ce qu'un abonné peut gagner […] fait 3 100 XP »), le diagnostic « inatteignable », les nouveaux seuils et le critère 1 de §3.7 reposent tous sur un total qui n'en est pas un. Correction : réécrire §1.1 avec ces faits. Ajouter en « tranché sans question » le correctif technique, puisqu'il n'est pas un choix de Thomas mais une faille : la route n'accepte plus de montant (le serveur fixe le gain selon l'action) et un conseil ne rapporte qu'une fois par abonné (enregistré en base). Ensuite, définir le total gagnable avec ou sans les conseils (voir 2). **Bloquant : oui.**
+2. **Question manquante : les 10 XP par conseil lu.** Problème : c'est une règle existante, pas nouvelle, donc C4 ne la tranche pas. Mais elle fait gagner des XP à une « fiche » du catalogue et des parcours (le conseil de chaque étape devient la fiche 1.1 dans ARCH §5.2), ce que le document dit impossible (« la rafale et les fiches ne rapportent aucun XP »). Elle pèse aussi lourd : 120 conseils × 10 = 1 200 XP, soit plus d'un tiers des 3 100. Correction : une question à 3 options, sans réouverture :
+   - A : la garder, une fois par conseil, et l'intégrer au total et aux seuils ;
+   - B : la retirer (touche une règle en place, dire depuis quand et par qui elle a été posée) ;
+   - C : la garder hors du niveau, comme simple compteur.
+
+   Recalculer les seuils selon la réponse. **Bloquant : oui.**
+3. **Q4 « La rafale quotidienne et les fiches doivent-elles compter pour le niveau ? (pour mémoire, déjà posée en C4) » ; résumé : « 4 questions pour toi […], dont une qui rouvre ta décision du 12/11 (C4) ».** Problème : Thomas a répondu le 12/11 (FP l. 167, C4). Reposer une question tranchée revient à re-questionner un [CHOIX UTILISATEUR] (P0 s8), même avec la reco « non ». Correction : supprimer Q4, la ranger dans « Tranché par toi le 12/11 (C4) », et ne garder dans le résumé que les questions réellement ouvertes. **Bloquant : oui.**
+4. **§1.1 « [À VÉRIFIER @fullstack] Les totaux viennent d'affichages de captures (s19) et d'un test, pas d'une somme refaite sur les trois fichiers de seed actuels ».** Problème : la somme se fait en une lecture et confirme les cinq totaux (section 2, lignes citées). Correction : remplacer le [À VÉRIFIER] par la somme et ses lignes. **Bloquant : non.**
+5. **Absent : la phrase publique « Nos membres gagnent en moyenne 50 XP par semaine »** (`lib/faqs.ts` l. 21), gardée par Thomas le 29/09 (FP l. 26 : aucun chiffre du site changé sans son GO). Problème : le document pose comme rythme régulier une étape par semaine, soit 104 XP en moyenne. Et 4 abonnés ne font pas une moyenne. Correction : la signaler dans §2.4 comme un texte public touché par le sujet, sans le modifier, et dire à Thomas qu'elle décrit un chiffre non mesuré. Toute retouche passe par son GO. **Bloquant : non.**
+6. **§3.5 (3) « si l'on dit « niveau » ou « repère » à l'écran (reco : « niveau », mot déjà en place) ».** Problème : « niveau » désigne déjà la difficulté des parcours (« débutant », « intermédiaire »), que Thomas a gardée le 12/11 (C7 : « ordre conseillé, niveaux actuels »). « Répartie, niveau intermédiaire » et « niveau 3 sur 5 » côte à côte se mélangent. Correction : recommander un autre mot pour l'XP (« palier » ou « repère »), ou dire pourquoi la collision est acceptable. **Bloquant : non.**
+7. **N2 « Dans le public, Premier micro, Scène ouverte, Première partie, Tête d'affiche » (reco).** Problème :
+   - ARCH §3.5 a retiré « la famille « scène » (open mic, plateau, flop) : elle sert à monter sur scène, pas à parler à ses amis ». « Scène ouverte » est l'open mic.
+   - « Tête d'affiche » dit « tu es la star », le verdict que §2.1 reproche à « Légende ».
+   - Le document le reconnaît (« la métaphore de la scène peut sonner ambitieuse pour Yanis ») mais recommande quand même N2.
+
+   Correction : un jeu de noms tiré de la vie des personas (soirée, conversation, groupe), ou N3 avec la règle des seuils en XP, ou au minimum un dernier nom qui ne soit pas un verdict ; dire l'écart avec ARCH §3.5. **Bloquant : non.**
+8. **§3.0 « Place dans l'espace : en tête de « Parcours » et dans « Ton mois », jamais dans la barre de rubriques ».** Problème : ARCH §5.4 met déjà en tête de « Parcours » le calendrier « Tes 4 premières semaines ». Et le brief §3.2 (bloc 4) place XP et niveau dans « Aujourd'hui ». Correction : dire l'ordre dans « Parcours » et l'écart assumé avec le brief (ou garder une ligne dans « Aujourd'hui »). **Bloquant : non.**
+9. **Q3 C « Un niveau visible des autres abonnés : non recommandé ».** Problème : une option que le document écarte par principe (« aucun classement ») n'est pas une option. Correction : la remplacer par une alternative réelle (par exemple « au passage d'un palier, une phrase de l'équipe propose une fiche à faire ensuite, rien de bloqué »). **Bloquant : non.**
+10. **Hors de ce document, à signaler à la session :** ARCH v11 §1.1 porte la même erreur (« `progression-levels.md` | OBSOLÈTE (gains absents du code) ») et C4 a été présentée à Thomas avec « les fiches ne comptent ni pour la série ni pour les points ». Or la lecture d'un conseil rapporte déjà des points. À corriger dans ARCH et à dire à Thomas avec la question de la correction 2. **Bloquant : non** (pour ce document).
+
+**Conditions du 10/10** : lever 1, 2 et 3, traiter 4 à 9, puis un nouveau tour à l'aveugle avec des seuils recalculés sur le total réel.
