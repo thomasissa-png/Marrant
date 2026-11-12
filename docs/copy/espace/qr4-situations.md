@@ -1,9 +1,9 @@
-# QR4 : Quoi répondre, lot 4 (10 situations), tour 2
+# QR4 : Quoi répondre, lot 4 (10 situations), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR4 : couple 5, études et fac 5) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` 7.4 : répartition conforme d'après @reviewer (7.4 l. 975 : couple 5 et études 5 ; l'hypothèse est levée). Format de `docs/copy/espace/qr2-situations.md` et `qr3-situations.md`, niveau de `qr1-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md` et des relectures QR1 à QR3, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Couple : on rit de soi ou d'un détail neutre, jamais de la peine ni du physique de l'autre, jamais d'une rupture. Études : jamais d'une note, d'un échec ou d'un enseignant.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 2 (17 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 3 (8 répliques reprises au tour 3, annexe 5) ; au tour 2, 17 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR2 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
@@ -25,12 +25,12 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Vu. Ta réponse mérite mieux qu'un message : elle a mis ses chaussures. »
+« Vu. Ma réponse mérite mieux qu'un message : elle a mis ses chaussures. »
 Tu reconnais le message et tu présentes ta réponse comme quelqu'un qui est venu en personne plutôt que par écrit. Elle ne vise personne et se ferme toute seule. C'est la bonne quand l'autre a la tête encore dans sa journée.
 
 **La joueuse**
-« Je l'ai lu tout de suite. Depuis, j'ai écrit onze réponses. Aucune n'était la bonne. »
-Tu avoues le retard comme un perfectionnisme comique : onze brouillons, aucun à la hauteur. Rien n'est nié, la phrase se dit sans hâte, et l'autre peut sourire avec toi. À sortir quand l'autre te demande avec un sourire.
+« Je l'ai lu tout de suite. Depuis, j'ai écrit neuf réponses. Aucune n'était la bonne. »
+Tu avoues le retard comme un perfectionnisme comique : neuf brouillons, aucun à la hauteur. Rien n'est nié, la phrase se dit sans hâte, et l'autre peut sourire avec toi. À sortir quand l'autre te demande avec un sourire.
 
 **La risquée**
 « Ton message est en cours d'examen par mon comité de lecture. Décision ce soir, sans appel. »
@@ -72,7 +72,7 @@ Tu fais du thermomètre un témoin neutre, le seul sans intérêt personnel dans
 
 **La risquée**
 « Référendum : on s'en remet à la couette. Qui en a le plus à minuit a raison. »
-Tu transformes la décision en élection absurde où la couette fait foi : celui qui en détient le plus à minuit gagne. Elle ne vise personne, seulement vos deux moitiés de couette. Elle marche seulement si l'autre plaisante déjà de la façon dont chacun dort. Sinon elle ressemble à une dispute déguisée : prends la sûre.
+Tu transformes la décision en élection absurde où la couette fait foi : la personne qui en détient le plus à minuit gagne. Elle ne vise personne, seulement vos deux moitiés de couette. Elle marche seulement si l'autre plaisante déjà de la façon dont chacun dort. Sinon elle ressemble à une dispute déguisée : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en demandant ? Monte d'un cran. L'autre plaisante déjà de votre façon de dormir ? Monte encore. Sinon, reste sur la sûre.
@@ -107,12 +107,12 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu dis que c'est bon, sans exagérer, et tu annonces que tu reviendras à table : le meilleur signe qu'on puisse donner. Elle ne vise rien et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas encore.
 
 **La joueuse**
-« Laisse-moi finir l'assiette : je rends mon avis sur l'assiette vide. »
-Tu fais durer l'examen pour continuer à manger : le compliment est dans l'assiette qui se vide. Rien n'est inventé, tu goûtes vraiment, et l'autre sourit de la voir se vider. À sortir quand l'autre sourit en posant l'assiette.
+« Laisse-moi finir : je rends mon avis sur l'assiette vide. »
+Tu fais durer l'examen pour continuer à manger : le compliment est dans l'assiette qui se vide. Rien n'est inventé, tu goûtes vraiment, et l'autre sourit de voir l'assiette fondre. À sortir quand l'autre sourit en posant l'assiette.
 
 **La risquée**
-« Premier avis : il peut se détendre, il est reçu. »
-Tu parles du plat comme d'un candidat à l'oral, rassuré par un premier avis favorable : tu réponds au trac que l'autre lui prête. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de son propre plat. Sinon elle prend un plat tranquille pour un candidat inquiet : prends la sûre.
+« Premier avis : reçu. La mention se décide à la deuxième assiette. »
+Tu parles du plat comme d'un candidat reçu à l'examen, et tu promets d'y revenir pour la mention. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de son propre plat. Sinon elle prend un repas tranquille pour un concours : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en posant l'assiette ? Monte d'un cran. L'autre plaisante déjà de son plat ? Monte encore. Sinon, reste sur la sûre.
@@ -125,8 +125,8 @@ Chercher ce qui manque (« il y a un peu trop de sel, non ? »). Tu fais passer 
 La prochaine fois que quelqu'un te demande un avis sur ce qu'il vient de faire, dis la sûre ou la joueuse, puis mange ou regarde, sans corriger. Dis-la une seule fois.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « L'autre pose l'assiette en souriant, sans plaisanter sur son plat » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas ri de sa cuisine, donc la risquée parlerait d'un trac que personne n'a évoqué.
-2. « L'autre ajoute en riant : “Attention, c'est sa première fois en public” » : la risquée. L'autre a ouvert le jeu du plat qui passe un examen : « il est reçu » lui répond en face ; la joueuse parlerait de ton assiette sans lui répondre, la sûre fermerait un jeu que l'autre vient de lancer.
+1. « L'autre pose l'assiette en souriant, sans plaisanter sur son plat » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas ri de sa cuisine, donc la risquée parlerait d'un examen que personne n'a évoqué.
+2. « L'autre ajoute en riant : “Attention, c'est sa première fois en public” » : la risquée. L'autre a ouvert le jeu du plat qui passe un examen : « Premier avis : reçu » lui répond en face ; la joueuse parlerait de ton assiette sans lui répondre, la sûre fermerait un jeu que l'autre vient de lancer.
 
 ### C4. Couple : « Tu veux quoi pour ton anniversaire ? »
 
@@ -146,7 +146,7 @@ Tu laisses l'autre choisir et tu promets de bien jouer ton rôle : la surprise s
 
 **La joueuse**
 « Un truc que je peux secouer une semaine sans deviner. »
-Tu demandes un paquet mystérieux dont la forme ne donne rien, avec une impatience de gamin que tu assumes. Rien n'est refusé, le choix reste à l'autre. À sortir quand l'autre te le demande en souriant.
+Tu demandes un paquet mystérieux dont la forme ne donne rien, avec une impatience d'enfant que tu assumes. Rien n'est refusé, le choix reste à l'autre. À sortir quand l'autre te le demande en souriant.
 
 **La risquée**
 « Ce que tu voulais m'offrir avant de me poser la question. »
@@ -187,8 +187,8 @@ Tu décides vite, avec un critère si bas qu'il ne peut pas échouer. Elle ne vi
 Tu décides en désignant un lieu et tu prêtes à ton avis une timidité affamée : il est là, il tranche. La phrase fait entrer, la soirée avance. À sortir quand l'autre sourit en demandant.
 
 **La risquée**
-« Jeu rapide : le premier nom qui te passe par la tête a gagné. Interdit de réfléchir. »
-Tu inventes un jeu minuscule qui tranche sans qu'aucun des deux ait à décider, en interdisant la réflexion. Elle ne vise personne, seulement l'indécision partagée. Elle marche seulement si l'autre propose déjà un hasard (pile ou face, tirage au sort). Sinon elle ressemble à une dispute lancée dans la rue : prends la sûre.
+« Jeu rapide : le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. »
+Tu inventes un jeu minuscule qui tranche sans que personne ait à réfléchir. Elle ne vise personne, seulement l'indécision partagée. Elle marche seulement si l'autre propose déjà un hasard (pile ou face, tirage au sort). Sinon elle ressemble à une dispute lancée dans la rue : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en demandant ? Monte d'un cran. L'autre propose déjà un tirage au sort ou un jeu ? Monte encore. Sinon, reste sur la sûre.
@@ -225,8 +225,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu te portes volontaire pour la partie la plus accessible, avec un trait que tout le groupe reconnaît. Elle ne vise personne et débloque la répartition. C'est la bonne quand le groupe est tendu ou pressé.
 
 **La joueuse**
-« Moi, je fais la mise en page. Le fond, je le laisse aux experts. »
-Tu prends la forme et tu laisses le fond à ceux qui l'ont compris : un compliment au groupe, avec une autodérision tranquille. Rien n'est dévalorisé, le groupe sourit d'une répartition qu'il connaît. À sortir quand le groupe a déjà ri une fois.
+« Moi, je fais le plan. Si on se perd, ce sera ma faute : c'est plus simple. »
+Tu prends la part qui engage tout le monde, le plan, et tu en assumes d'avance les risques avec légèreté. Rien n'est dévalorisé, le groupe sourit d'une responsabilité prise en riant. À sortir quand le groupe a déjà ri une fois.
 
 **La risquée**
 « Je prends les annexes. Personne ne s'est jamais battu pour les annexes. »
@@ -301,8 +301,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu avoues ton niveau en une phrase imagée, sans critiquer le cours ni l'enseignant. Elle ne vise personne et rend la parole. C'est la bonne quand l'autre n'a pas le temps de s'attarder.
 
 **La joueuse**
-« J'ai compris l'essentiel : le cours existe, et la salle aussi. »
-Tu énonces un acquis dérisoire avec la fierté d'un résultat. Rien n'est nié, l'autre peut sourire de cette modestie. À sortir quand l'autre sourit en demandant.
+« J'ai compris l'essentiel : le titre. »
+Tu énonces un acquis dérisoire avec la fierté d'un résultat : le titre, rien d'autre. Rien n'est nié, l'autre peut sourire de cette modestie. À sortir quand l'autre sourit en demandant.
 
 **La risquée**
 « On met nos deux incompréhensions ensemble. Avec un peu de chance, ça fait un cours. »
@@ -335,8 +335,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je finis d'abord mes études. C'est déjà un programme complet. »
-Tu réponds sur le présent, sans te lancer dans un projet inventé. Elle ne vise personne et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas.
+« Je finis d'abord mes études. Les plans sont dans la file d'attente. »
+Tu réponds sur le présent, sans te lancer dans un projet inventé, et tu mets l'avenir en file d'attente. Elle ne vise personne et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas.
 
 **La joueuse**
 « Mon plan est très solide. Il n'a qu'un défaut : il n'existe pas encore. »
@@ -485,6 +485,35 @@ Résultat : **0 occurrence exacte** pour les 17 répliques reprises au tour 2 (C
 | Langue et pourquoi (reviewer, @elon, critique) | E3 contexte 2 : « en souriant, avec un soupir » ; E5 risquée : « tu interdis la question d'avance » ; C2 risquée : plus de sous-entendu au lit (« la couette fait foi »). |
 | Répartition 5/5 (reviewer) | Conforme à 7.4 l. 975 : l'hypothèse est levée (en-tête et « Contrôles »). |
 
+## Annexe 5 : candidates du tour 3 (3 par réplique reprise, la meilleure gardée)
+
+| Situation | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|
+| C1 sûre | « Vu. Ma réponse mérite mieux qu'un message : elle a mis ses chaussures. » | « Vu. Ta réponse mérite mieux qu'un message : elle a mis ses chaussures. » (« ta » se lit comme la réponse de l'autre) | « Vu. Ma réponse attend à la porte : elle a mis ses chaussures. » (plus floue) |
+| C1 joueuse | « Je l'ai lu tout de suite. Depuis, j'ai écrit neuf réponses. Aucune n'était la bonne. » | « …j'ai écrit onze réponses. » (double le « onze » de la joueuse de R2 en QR3) | « Je l'ai lu. Depuis, j'écris la réponse parfaite. Elle n'est pas encore là. » (aucune image chiffrée) |
+| C3 joueuse | « Laisse-moi finir : je rends mon avis sur l'assiette vide. » | « Laisse-moi finir l'assiette : je rends mon avis sur l'assiette vide. » (« assiette » deux fois, alourdit l'oral) | « Laisse-moi finir l'assiette : mon avis est au fond. » (critique : moins nette, « au fond » ambigu) |
+| C3 risquée | « Premier avis : reçu. La mention se décide à la deuxième assiette. » | « Premier avis : il peut se détendre, il est reçu. » (« il » ambigu, dépend du contexte 2, absent de la scène) | « Premier avis : tu peux te détendre, tu es reçu. » (accord masculin pour l'autre) |
+| C5 risquée | « Jeu rapide : le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. » | « Jeu rapide : le premier nom qui te passe par la tête a gagné. Interdit de réfléchir. » (« a gagné » ordre sec) | « À trois, chacun montre une porte. Si ce n'est pas la même, on prend la tienne. » (tic « trois », moule « si ») |
+| E1 joueuse | « Moi, je fais le plan. Si on se perd, ce sera ma faute : c'est plus simple. » | « Moi, je fais la mise en page. Le fond, je le laisse aux experts. » (esquive la part difficile, le signal de la risquée ; « experts » masculin générique) | « Moi, je fais la mise en page. Le fond, je vous le laisse : vous l'avez compris. » (même esquive) |
+| E3 joueuse | « J'ai compris l'essentiel : le titre. » | « J'ai compris l'essentiel : le cours existe, et la salle aussi. » (« et la salle aussi » tombe à plat) | « J'ai compris que j'avais besoin de le relire. » (aucune chute) |
+| E4 sûre | « Je finis d'abord mes études. Les plans sont dans la file d'attente. » | « Je finis d'abord mes études. C'est déjà un programme complet. » (formule d'usage) | « Je finis d'abord mes études. Après, on verra. » (« on verra » : formule d'usage) |
+
+Recherche web (12/11/2026, idée et phrase) : **0 occurrence exacte** pour les 8 répliques modifiées au tour 3 (C1 sûre, C1 joueuse, C3 joueuse, C3 risquée, C5 risquée, E1 joueuse, E3 joueuse, E4 sûre) ; idées vérifiées dans les résultats, aucune ne figure telle quelle.
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| C1 sûre : « Ta réponse » se lit comme celle de l'autre (reviewer) | « Vu. Ma réponse mérite mieux qu'un message : elle a mis ses chaussures. » |
+| C1 joueuse : « onze » double la joueuse de R2 en QR3 (reviewer, préférence) | « neuf réponses » ; pourquoi : « neuf brouillons ». |
+| C3 risquée dépend du contexte 2, « il » ambigu, pourquoi resté sur l'ancien contexte (reviewer, critique, @elon) | « Premier avis : reçu. La mention se décide à la deuxième assiette. » ; pourquoi : « candidat reçu à l'examen… pour la mention » ; contexte 1 : « un examen que personne n'a évoqué » ; contexte 2 : « Premier avis : reçu » lui répond en face. |
+| C3 joueuse : « l'assiette » deux fois, pourquoi « se vide… se vider » (@elon, reviewer) | « Laisse-moi finir : je rends mon avis sur l'assiette vide. » ; pourquoi : « voir l'assiette fondre ». |
+| E3 joueuse : « et la salle aussi » tombe à plat (@elon, point du tour 1) | « J'ai compris l'essentiel : le titre. » |
+| E1 joueuse esquive le signal de la risquée (@elon) | « Moi, je fais le plan. Si on se perd, ce sera ma faute : c'est plus simple. » |
+| C5 risquée : jeu connu, ordre sec ; pourquoi « sans qu'aucun des deux ait à décider » (critique, reviewer) | « …le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. » ; pourquoi : « sans que personne ait à réfléchir ». |
+| E4 sûre : formule d'usage (critique) | « Je finis d'abord mes études. Les plans sont dans la file d'attente. » (E4 joueuse gardée, notée 10 par @reviewer et @elon) |
+| Pourquoi : « celui qui » (C2), « gamin » (C4) (reviewer) | C2 risquée : « la personne qui en détient le plus à minuit gagne » ; C4 joueuse : « une impatience d'enfant ». |
+
 ## Contrôles tenus (checklist des fautes récurrentes)
 
 - Accords : aucune répartie de l'utilisateur ne s'accorde (« content », « sûr », « fort », « rentré », « quittés » écartés) ; l'autre est « l'autre », « quelqu'un », « la personne ».
@@ -497,7 +526,7 @@ Résultat : **0 occurrence exacte** pour les 17 répliques reprises au tour 2 (C
 
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr4-situations.md` (tour 2) : 10 situations au format QR2 et QR3, 17 répliques reprises au tour 2 (annexe 3, table « Tour 2 : retouche → ligne »), 13 inchangées.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr4-situations.md` (tour 3) : 10 situations au format QR2 et QR3 ; 8 répliques reprises au tour 3 (annexe 5, table « Tour 3 : retouche → ligne »), 17 au tour 2 (annexe 3).
 - Rafale : 20 contextes à une seule bonne réponse (10 joueuses, 5 sûres, 5 risquées) ; aucune réplique ne dépend d'une phrase absente de la scène.
 - Web : 0 occurrence exacte sur les 17 répliques reprises et sur les 4 sûres gardées jusque-là non cherchées (annexe 4) ; idées vérifiées.
 - À faire : relecture à l'aveugle des lignes reprises (règle d'or), contrôle du diff.
