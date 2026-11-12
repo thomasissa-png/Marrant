@@ -1,10 +1,10 @@
-# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements)
+# C3a : « Formules à détourner », lot 1 (6 fiches, 30 détournements), tour 2
 
-> `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 (`docs/copy/etalons-espace-s24.md` l. 182-216) : la règle, deux déjà faites, trois à toi (gabarit + version possible repliée), le piège, la limite, une suite qui ne détourne rien, la grille.
-> Fiche 1 = E2.2 reprise telle quelle (étalon validé par le fondateur). Fiches 2 à 6 : neuves, une famille de formules par fiche, 5 détournements chacune, 3 candidates par détournement (la meilleure ici, les deux autres en annexe en bas de fichier).
-> Les lignes `[note interne, ne pas importer]` ne sont pas à importer. Recherche web faite le 12/11/2026 sur chaque phrase retenue (guillemets exacts) : 0 occurrence trouvée pour les 25 détournements neufs. Aucune citation de personne, aucun chiffre.
-> Familles : 1 proverbes (E2.2), 2 expressions imagées, 3 répliques de cinéma, 4 rituels de la vie courante, 5 phrases de parents, 6 citations célèbres. Aucune formule de bureau. Décors : coloc, transports, courses, salle de sport, cabinet médical, famille, groupe de messages, déménagement.
-> Distinct de C1a fiche 3 (détournement de « L'appétit vient en mangeant », Rabelais) : aucune formule reprise.
+> `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 (`docs/copy/etalons-espace-s24.md` l. 182-216) : la règle, deux déjà faites, trois à toi (gabarit + version possible repliée), le piège (forme fixée par `architecture-contenu-v20.md` l. 502, identique à E2.2), la limite, une suite qui ne détourne rien, la grille.
+> Fiche 1 = E2.2 reprise telle quelle (étalon validé par le fondateur). Fiches 2 à 6 : neuves, une famille de formules par fiche, 5 détournements chacune, 3 candidates par détournement (la meilleure ici, les deux autres en annexe).
+> Les lignes `[note interne, ne pas importer]` et l'annexe ne sont pas à importer. Recherche web (12/11/2026, guillemets exacts) : 0 occurrence pour chacun des 25 détournements neufs, versions du tour 2 comprises. Aucun chiffre, aucun témoignage ; les citations d'auteurs et de films sont données dans leur forme française consacrée, sources dans les notes.
+> Familles : 1 proverbes (E2.2), 2 expressions imagées, 3 répliques de cinéma, 4 rituels de la vie courante, 5 phrases de parents, 6 citations célèbres. Aucune formule de bureau. Décors : coloc, transports, courses, cabinet médical, famille, groupe de messages, déménagement.
+> Doublons : aucun détournement repris de C1a fiche 3 (« L'appétit vient en mangeant »). Seule exception volontaire : la fiche 1 reprend E2.2 telle quelle, donc « Mieux vaut tard que jamais » (déjà au « À toi » de C1a fiche 3, tous deux validés). Les fiches 2 à 6 ne reprennent aucune formule de C1a ni d'E2.2 (« Bonne continuation, dit le GPS » de C1a fiche 6 a été retiré).
 
 ---
 
@@ -48,7 +48,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 ## Fiche 2. Expressions imagées
 
-[note interne, ne pas importer] Origines : expressions du français courant, sens et origine sur [expressio.fr](https://www.expressio.fr/expressions/mettre-les-pieds-dans-le-plat), [expressio.fr](https://www.expressio.fr/expressions/avoir-un-chat-dans-la-gorge), [expressio.fr](https://www.expressio.fr/expressions/couter-la-peau-des-fesses-la-peau-du-cul-la-peau-des-couilles-les-yeux-de-la-tet), [La langue française](https://www.lalanguefrancaise.com/expressions/tomber-dans-les-pommes) ; « poser un lapin » : [Quillbot](https://quillbot.com/fr/blog/locutions-et-expressions-francaises/poser-un-lapin/).
+[note interne, ne pas importer] Origines : expressions du français courant, sens sur [expressio.fr](https://www.expressio.fr/expressions/mettre-les-pieds-dans-le-plat), [expressio.fr](https://www.expressio.fr/expressions/avoir-un-chat-dans-la-gorge), [expressio.fr](https://www.expressio.fr/expressions/couter-la-peau-des-fesses-la-peau-du-cul-la-peau-des-couilles-les-yeux-de-la-tet), [La langue française](https://www.lalanguefrancaise.com/expressions/tomber-dans-les-pommes), [Quillbot](https://quillbot.com/fr/blog/locutions-et-expressions-francaises/poser-un-lapin/).
 
 **Formules à détourner : à toi d'abord**
 
@@ -64,15 +64,15 @@ Tu gardes l'expression telle quelle. Tu lui donnes un décor précis de ta vie, 
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « Mettre les pieds dans le plat. » → Mettre les … dans le … , …
-   `[Voir une version possible]` « Mettre les pieds dans le plat, et entendre que c'était la dernière part. »
-2. « Avoir un chat dans la gorge. » → Avoir un … dans la … , …
+1. « Mettre les pieds dans le plat, … »
+   `[Voir une version possible]` « Mettre les pieds dans le plat, puis reprendre du gratin pour faire diversion. »
+2. « Avoir un chat dans la gorge, … »
    `[Voir une version possible]` « Avoir un chat dans la gorge, et l'autre sur le clavier. »
-3. « Coûter les yeux de la tête. » → Coûter les … de la … , …
+3. « Coûter les yeux de la tête, … »
    `[Voir une version possible]` « Coûter les yeux de la tête, plus la monture. »
 
 **Le piège**
-Expliquer l'expression au lieu de la tordre : si ta suite redit le sens, l'image reste intacte et personne ne sourit.
+Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
 Une douzaine de mots pour la suite.
@@ -86,7 +86,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 ## Fiche 3. Répliques de cinéma que tout le monde cite
 
-[note interne, ne pas importer] Origines : « Je suis ton père » et « Que la Force soit avec toi » (Star Wars, version française), « Tu ne passeras pas ! » (Le Seigneur des anneaux, version française), « Je reviendrai » (Terminator, version française), « Houston, nous avons un problème » (Apollo 13). Chaque réplique est détournée pour un détail du quotidien : on rit de la formule, jamais du film ni de quelqu'un. À vérifier par un relecteur sur la version française exacte des cinq répliques avant import.
+[note interne, ne pas importer] Formes françaises retenues : « Vous ne passerez pas ! » (Gandalf, Le Seigneur des anneaux, VF : [Millenium](https://www.millenium.org/news/411442.html), [Allociné](https://www.allocine.fr/article/fichearticle_gen_carticle=18695902.html)) ; « Houston, on a un problème » (Apollo 13, VF : [La Libre](https://www.lalibre.be/culture/cinema/apollo-13-et-l-une-des-repliques-les-plus-cultes-de-l-histoire-du-cinema-5d445f38f20d5a58a8aa2562) ; la phrase réellement dite en 1970 était « on a eu un problème », la forme du film est celle que tout le monde cite) ; « Je suis ton père » (Star Wars ; la VF dit « Non, je suis ton père », forme courte courante) ; « Que la Force soit avec toi » (Star Wars VF) ; « Je reviendrai » (Terminator VF : [Allociné](https://www.allocine.fr/diaporamas/cinema/diaporama-18643946/)). On rit de la formule, jamais du film ni de quelqu'un.
 
 **Formules à détourner : à toi d'abord**
 
@@ -97,26 +97,26 @@ Tu gardes la réplique que tout le monde connaît. Tu la fais tomber dans un dé
 « Je suis ton père. »
 → « Je suis ton père, et c'est moi qui règle le thermostat. »
 
-« Tu ne passeras pas ! »
-→ « Tu ne passeras pas ! dit le tourniquet à mon forfait du mois dernier. »
+« Vous ne passerez pas ! »
+→ « Vous ne passerez pas ! Le portique a reconnu mon ticket de la semaine dernière. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « Que la Force soit avec toi. » → Que la … soit avec … , …
-   `[Voir une version possible]` « Que la batterie soit avec toi jusqu'à la prise. »
-2. « Je reviendrai. » → Je reviendrai, dit … , …
-   `[Voir une version possible]` « Je reviendrai, dit le caddie, dès qu'on lui rend sa pièce. »
-3. « Houston, nous avons un problème. » → Houston, nous avons un … : …
-   `[Voir une version possible]` « Houston, nous avons un problème : le colis est chez un voisin qu'on n'a jamais vu. »
+1. « Que la Force soit avec toi, … »
+   `[Voir une version possible]` « Que la Force soit avec toi, et la batterie jusqu'à la prise. »
+2. « Je reviendrai, … »
+   `[Voir une version possible]` « Je reviendrai, promet la pièce du caddie, si tu ramènes le chariot. »
+3. « Houston, on a un problème : … »
+   `[Voir une version possible]` « Houston, on a un problème : le colis est chez un voisin qu'on n'a jamais vu. »
 
 **Le piège**
-Citer la réplique sans la poser chez toi : tu gardes le film, pas ta vie, et la phrase reste celle de tout le monde.
+Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
 Une douzaine de mots pour la suite.
 
 **Une suite qui ne détourne rien**
-« Je suis ton père, et je te le dis sérieusement. » Elle appuie la réplique sans rien changer, et ton père n'a rien de précis.
+« Je suis ton père, et je te le dis sérieusement. » Elle appuie la réplique sans rien changer, et ta suite n'a rien de précis.
 
 Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en rire avec toi ? La fin surprend ?
 
@@ -133,22 +133,22 @@ Tu gardes le réflexe poli. Tu y mets un détail précis, et le rituel se met à
 
 **Deux déjà faites**
 « Bonne année, bonne santé. »
-→ « Bonne année, bonne santé, et bonne chance pour la balance de janvier. »
+→ « Bonne année, bonne santé, à la boulangère, pour la cinquième fois de la semaine. »
 
 « À vos souhaits ! »
 → « À vos souhaits ! Les miens sont modestes : une place assise. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « On se fait un resto un de ces jours. » → On se fait un … un de ces … , …
-   `[Voir une version possible]` « On se fait un resto un de ces jours, c'est le plus vieux projet du groupe. »
-2. « Merci, vous aussi. » → Merci, vous aussi, dit-on … , …
+1. « On se fait un resto un de ces jours, … »
+   `[Voir une version possible]` « On se fait un resto un de ces jours, on se le dit depuis deux déménagements. »
+2. « Merci, vous aussi, dit-on … »
    `[Voir une version possible]` « Merci, vous aussi, dit-on au pharmacien qui souhaite un bon rétablissement. »
-3. « Bonne continuation. » → Bonne …, dit … , …
-   `[Voir une version possible]` « Bonne continuation, dit le GPS en recalculant. »
+3. « Bonne continuation, … »
+   `[Voir une version possible]` « Bonne continuation, soupire le four qui s'éteint au milieu du gâteau. »
 
 **Le piège**
-Viser quelqu'un de précis : le rituel est à tout le monde, et celui que tu vises ne rit plus avec toi.
+Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
 Une douzaine de mots pour la suite.
@@ -162,31 +162,31 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 ## Fiche 5. Phrases de parents
 
-[note interne, ne pas importer] Phrases entendues dans beaucoup de familles. Les détournements rient avec les parents, jamais d'eux : la phrase reste affectueuse, le détail est d'aujourd'hui.
+[note interne, ne pas importer] Phrases entendues dans beaucoup de familles. Les détournements rient avec les parents, jamais d'eux : la phrase reste affectueuse, la suite apporte un détail d'aujourd'hui ou une scène précise.
 
 **Formules à détourner : à toi d'abord**
 
 **La règle**
-Tu gardes la phrase de la maison. Tu y glisses un détail d'aujourd'hui, que ses premiers auteurs n'ont pas connu.
+Tu gardes la phrase de la maison. Tu y glisses un détail d'aujourd'hui, ou une scène précise.
 
 **Deux déjà faites**
 « Quand j'avais ton âge… »
 → « Quand j'avais ton âge, mon réseau, c'était la voisine. »
 
-« Tu finiras ton assiette. »
-→ « Tu finiras ton assiette, après la photo de ton assiette. »
+« Finis ton assiette. »
+→ « Finis ton assiette, après la photo de ton assiette. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « Si tout le monde sautait du pont, tu sauterais aussi ? » → Si tout le monde …, tu … aussi ? …
-   `[Voir une version possible]` « Si tout le monde prenait la dernière part, tu la prendrais aussi ? Il ne reste que les miettes. »
-2. « On ne parle pas la bouche pleine. » → On ne … pas …, on …
+1. « Si tout le monde sautait du pont, tu sauterais aussi ? … »
+   `[Voir une version possible]` « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement si le groupe vote pour. »
+2. « On ne parle pas la bouche pleine, on … »
    `[Voir une version possible]` « On ne parle pas la bouche pleine, on envoie des vocaux. »
-3. « C'est pour ton bien. » → C'est pour ton …, dit …
-   `[Voir une version possible]` « C'est pour ton bien, dit le réveil à 6 h 30. »
+3. « C'est pour ton bien, … »
+   `[Voir une version possible]` « C'est pour ton bien, répète le dentiste en sortant la fraise. »
 
 **Le piège**
-Imiter la voix sans changer le contenu : tout le monde reconnaît la phrase de la maison, personne ne sourit.
+Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
 Une douzaine de mots pour la suite.
@@ -200,7 +200,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 ## Fiche 6. Citations célèbres
 
-[note interne, ne pas importer] Origines : « Je pense, donc je suis » (Descartes, Discours de la méthode, 1637, forme courante), « L'enfer, c'est les autres » (Sartre, Huis clos), « Veni, vidi, vici » (attribuée à Jules César), « On ne voit bien qu'avec le cœur » (Saint-Exupéry, Le Petit Prince, [source](https://www.laculturegenerale.com/on-ne-voit-bien-quavec-le-coeur-signification-et-origine/)), « Un petit pas pour l'homme, un grand pas pour l'humanité » (Neil Armstrong, 1969). Le détournement garde la forme et ne se moque ni de l'auteur ni de la phrase.
+[note interne, ne pas importer] Origines : « Je pense, donc je suis » (Descartes, Discours de la méthode, 1637, forme courante), « L'enfer, c'est les autres » (Sartre, Huis clos), « Veni, vidi, vici » (attribuée à Jules César), « On ne voit bien qu'avec le cœur » (Saint-Exupéry, Le Petit Prince, [source](https://www.laculturegenerale.com/on-ne-voit-bien-quavec-le-coeur-signification-et-origine/)), « C'est un petit pas pour l'homme, mais un bond de géant pour l'humanité » (Neil Armstrong, 1969, forme française consacrée : [Slate](https://www.slate.fr/story/61023/armstrong-apollo-11-phrase-consequence), [Futura](https://www.futura-sciences.com/sciences/videos/20-juillet-1969-petit-pas-homme-mais-pas-geant-humanite-6378/)). Le détournement garde la forme et ne se moque ni de l'auteur ni de la phrase.
 
 **Formules à détourner : à toi d'abord**
 
@@ -209,22 +209,22 @@ Tu gardes la citation que les manuels ont rendue célèbre. Tu changes ce dont e
 
 **Deux déjà faites**
 « Je pense, donc je suis. »
-→ « Je pense, donc je suis dans l'escalier. »
+→ « Je pense, donc je suis dans l'escalier, avec la bonne réplique. »
 
 « L'enfer, c'est les autres. »
 → « L'enfer, c'est les autres, surtout sur haut-parleur dans le train. »
 
 **Trois à toi**
 Écris ta suite, puis ouvre la version possible.
-1. « Veni, vidi, vici. » → Veni, vidi, …
-   `[Voir une version possible]` « Veni, vidi, vici : c'était la dernière place de parking. »
-2. « On ne voit bien qu'avec le cœur. » → On ne voit bien qu'avec …, sauf …
-   `[Voir une version possible]` « On ne voit bien qu'avec le cœur, sauf les petits caractères. »
-3. « Un petit pas pour l'homme, un grand pas pour l'humanité. » → Un petit pas pour …, un grand pas pour …
-   `[Voir une version possible]` « Un petit pas pour moi, un grand pas pour ma montre connectée. »
+1. « Veni, vidi, … »
+   `[Voir une version possible]` « Veni, vidi, et puis j'ai vu le prix. »
+2. « On ne voit bien qu'avec le cœur, sauf … »
+   `[Voir une version possible]` « On ne voit bien qu'avec le cœur, sauf la tache sur la chemise, sous les néons. »
+3. « C'est un petit pas pour moi, mais un bond de géant pour … »
+   `[Voir une version possible]` « C'est un petit pas pour moi, mais un bond de géant pour le plafond du voisin. »
 
 **Le piège**
-Choisir une citation que seuls les initiés reconnaissent : sans la forme familière, la suite tombe dans le vide.
+Changer la forme : plus personne ne reconnaît l'expression.
 
 **La limite**
 Une douzaine de mots pour la suite.
@@ -238,39 +238,63 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 
 ## Annexe : les deux candidates écartées par détournement (hors import)
 
-Choix fait sur la surprise de la fin, la forme gardée, la phrase courte. Hors import.
-
 **Fiche 2**
 - Lapin : « Poser un lapin à la salle de sport, qui prélève quand même. » · « Poser un lapin au garagiste, qui garde la voiture. »
 - Pommes : « Tomber dans les pommes, en rayon fruits, avec vue sur les étiquettes. » · « Tomber dans les poires, au marché, quand le vendeur annonce le kilo. »
-- Plat : « Mettre les pieds dans le plat étiqueté “ne pas toucher”, au frigo de la coloc. » · « Mettre les pieds dans le plat, le seul que la coloc ait jamais lavé. »
+- Plat : « Mettre les pieds dans le plat, celui que la coloc avait étiqueté. » · « Mettre les pieds dans le plat, et entendre que c'était la dernière part. »
 - Chat : « Avoir un chat dans la gorge le jour du pot de départ, le vrai dort dans le sac. » · « Avoir un chat dans la gorge, et le vrai qui miaule à la porte. »
 - Yeux : « Coûter les yeux de la tête : mon opticien a fait un geste commercial. » · « Coûter les yeux de la tête, présenté en deux paires. »
 
 **Fiche 3**
-- Père : « Je suis ton père : à ce titre, je garde la télécommande. » · « Je suis ton père, donc je connais le code du wifi. »
-- Passeras : « Tu ne passeras pas ! dit le portique à la baguette sous mon bras. » · « Tu ne passeras pas, dit la balance, avant d'avoir enlevé tes chaussures. »
+- Père : « Je suis ton père : à ce titre, je garde la télécommande. » · « Je suis ton père, et le chargeur dans ta chambre est le mien. »
+- Passerez : « Vous ne passerez pas ! dit le tourniquet à mon forfait du mois dernier. » · « Vous ne passerez pas ! dit le portique à la baguette sous mon bras. »
 - Force : « Que la Force soit avec toi, et le parking devant le cinéma. » · « Que la patience soit avec toi, dit le service client. »
-- Reviendrai : « Je reviendrai, dit le chargeur, dès que la prise sera libre. » · « Je reviendrai, dit le caddie, mais pas sans une pièce. »
-- Houston : « Houston, nous avons un problème : la dernière part de pizza a deux propriétaires. » · « Houston, nous avons un problème : plus de papier, et la coloc dort. »
+- Reviendrai : « Je reviendrai, dit le caddie : tu tiens trop à ta pièce. » · « Je reviendrai, dit la pièce du caddie, si tu le ramènes. »
+- Houston : « Houston, on a un problème : la dernière part de pizza a deux propriétaires. » · « Houston, on a un problème : plus de papier, et la coloc dort. »
 
 **Fiche 4**
-- Bonne année : « Bonne année, bonne santé : les résolutions, on en reparle en février. » · « Bonne année, bonne santé, et que le dernier gâteau soit pour toi. »
+- Année : « Bonne année, bonne santé, et un pèse-personne qui reste au placard. » · « Bonne année, bonne santé, et bonne chance pour la balance de janvier. »
 - Souhaits : « À vos souhaits, et à mes mouchoirs. » · « À vos souhaits ! Les miens tiennent en un siège dans le tram. »
-- Resto : « On se fait un resto un de ces jours, la date reste à fixer depuis des étés. » · « On se fait un resto un de ces jours, c'est écrit en bas de la liste. »
+- Resto : « On se fait un resto un de ces jours, c'est le plus vieux projet du groupe. » · « On se fait un resto un de ces jours, la date reste à fixer depuis des étés. »
 - Merci : « Merci, vous aussi, dit-on à l'hôtesse qui souhaite un bon vol. » · « Merci, toi aussi, dit-on au contrôleur qui souhaite un bon voyage. »
-- Continuation : « Bonne continuation, dit le jardinier à la haie qu'il vient de tailler. » · « Bonne continuation, dit le GPS, qui ne sait plus où c'est. »
+- Continuation : « Bonne continuation, dit le GPS en recalculant. » (déjà dans C1a) · « Bonne continuation, lance le jardinier à la haie qu'il vient de tailler. »
 
 **Fiche 5**
 - Âge : « Quand j'avais ton âge, je rentrais à pied, sous la pluie, avec une chaussette. » · « Quand j'avais ton âge, mon réseau, c'était le facteur. »
-- Assiette : « Tu finiras ton assiette, et la batterie de ta tablette ensuite. » · « Tu finiras ton assiette avant d'envoyer la photo. »
-- Pont : « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement si le pont a du wifi. » · « Si tout le monde mettait un pull moche, tu en mettrais un aussi ? »
+- Assiette : « Finis ton assiette, et la batterie de ta tablette ensuite. » · « Finis ton assiette avant d'envoyer la photo. »
+- Pont : « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement s'il y a du réseau. » · « Si tout le monde sautait du pont, tu sauterais aussi ? Seulement si le pont a du wifi. »
 - Bouche pleine : « On ne parle pas la bouche pleine, on écrit : mille messages à la minute. » · « On ne parle pas la bouche pleine, mais le téléphone, lui, bavarde à table. »
-- Bien : « C'est pour ton bien, dit le dentiste en sortant la seringue. » · « C'est pour ton bien, dit le thermostat à 17 degrés. »
+- Bien : « C'est pour ton bien, dit le réveil à 6 h 30. » · « C'est pour ton bien, soupire le thermostat. »
 
 **Fiche 6**
-- Pense : « Je pense à la bonne réplique, donc je suis déjà dans l'escalier. » · « Je pense, donc je suis dans la lune. »
+- Pense : « Je pense, donc je suis encore sous la douche à 8 h 10. » · « Je pense, donc je suis dans l'escalier. » (exige de connaître « l'esprit de l'escalier »)
 - Enfer : « L'enfer, c'est les autres, quand ils font la queue au même rayon que moi. » · « L'enfer, c'est les autres, mais le paradis aussi : tout dépend du dernier croissant. »
-- Veni : « Veni, vidi, vici, pour le dernier pot de pâte à tartiner du rayon. » · « Veni, vidi, vici, et puis j'ai vu le prix. »
-- Cœur : « On ne voit bien qu'avec le cœur, et les lunettes pour les petits caractères. » · « On ne voit bien qu'avec le cœur, sauf le panneau “sortie”. »
-- Pas : « Un petit pas pour le chat, un grand pas pour la balayette. » · « Un petit saut pour le chat, une grande chute pour le vase. »
+- Veni : « Veni, vidi, vici : c'était la dernière place de parking. » · « Veni, vidi, vici, pour le dernier pot de pâte à tartiner du rayon. »
+- Cœur : « On ne voit bien qu'avec le cœur, sauf la fuite, qui se voit à la chaussette. » · « On ne voit bien qu'avec le cœur, sauf les petits caractères. »
+- Pas : « C'est un petit pas pour moi, mais un bond de géant pour ma montre connectée. » · « C'est un petit pas pour moi, mais un bond de géant pour le voisin du dessous. »
+
+---
+
+## Tour 2 : ce qui a changé (hors import)
+
+| Point des relectures | Traitement |
+|---|---|
+| Gandalf (reviewer) | Formule VF « Vous ne passerez pas ! » ; détournement refait sans « dit le + objet » : « … Le portique a reconnu mon ticket de la semaine dernière. » |
+| Houston (reviewer) | Formule VF « Houston, on a un problème » ; détournement gardé sur cette formule. |
+| Armstrong (reviewer, critique) | Formule consacrée « C'est un petit pas pour l'homme, mais un bond de géant pour l'humanité » ; détournement refait : « … le plafond du voisin » (rit avec soi, c'est soi qui fait le bruit). Montre connectée écartée (cliché). |
+| Gabarits (reviewer, elon, critique) | Fiches 2, 4 (resto, continuation), 5 (pont, bouche pleine, bien) : les gabarits gardent les mots que la règle dit de garder, et l'abonné écrit la suite après la virgule ou les deux-points. Fiche 6 gabarit n° 2 garde « sauf ». |
+| Piège (reviewer, architecture l. 502) | Rétabli à l'identique d'E2.2 dans les fiches 2 à 6 : « Changer la forme : plus personne ne reconnaît l'expression. » Aucune variante. |
+| Pieds dans le plat | Refait : « …, puis reprendre du gratin pour faire diversion. » (le plat reste figuré et la diversion fait la chute). |
+| Caddie | Logique corrigée : c'est la pièce qui promet de revenir si tu ramènes le chariot. « Dit le » remplacé par « promet ». |
+| Balance de janvier | Remplacée par la boulangère à qui on souhaite la bonne année pour la cinquième fois de la semaine. |
+| Dernière part / pont | Formule réelle « Finis ton assiette » (fiche 5). Le pont est repris dans sa forme, suite de 6 mots : « Seulement si le groupe vote pour. » Plus de « dernière part ». |
+| Cœur, veni | Cœur : la tache sur la chemise sous les néons (le cœur ne la voit pas). Veni : « Veni, vidi, et puis j'ai vu le prix. » |
+| Resto | « …, on se le dit depuis deux déménagements. » (image au lieu d'un constat). |
+| Escalier | « Je pense, donc je suis dans l'escalier, avec la bonne réplique. » (se comprend sans connaître le terme). |
+| Suite ratée fiche 3 | « …, et ta suite n'a rien de précis. » (plus de « ton père »). |
+| Motif « dit le + objet » | Tourniquet, caddie, GPS, réveil retirés des versions retenues (« promet », « soupire », « répète », phrase sans verbe). Reste « dit-on au pharmacien » (une personne, forme du gabarit). |
+| Règle fiche 5 | « Un détail d'aujourd'hui, ou une scène précise. » Le détournement « C'est pour ton bien » passe au dentiste et à la fraise. |
+| GPS (critique) | Retiré (déjà dans C1a fiche 6), remplacé par le four. |
+| « Mieux vaut tard que jamais » | Maintenu dans la fiche 1 : c'est E2.2 mot pour mot (étalon validé) et le reviewer a vérifié l'identité. Les fiches 2 à 6 ne le reprennent pas. Note interne corrigée (doublon assumé, formulé plus haut). |
+| Note interne l. 5 | Corrigée : plus de « aucune citation de personne » ; les citations sont réelles et sourcées, aucun chiffre ni témoignage. |
+| Pères et réveil (critique) | Thermostat conservé (jugé gag entendu mais l'un des meilleurs à l'oral par elon) ; réveil retiré. |
