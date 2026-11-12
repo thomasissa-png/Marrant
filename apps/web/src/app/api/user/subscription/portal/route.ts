@@ -8,6 +8,7 @@ import { createPortalSession, getStripe } from "@/lib/stripe";
 import { refuserSiAutreSite } from "@/lib/same-site";
 import { TEXTES_ABONNEMENT, TEXTES_API } from "@/config/textes/compte";
 import { RESILIATION_HREF, RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
+import { noterEvenement } from "@/lib/mesure/evenements-usage";
 
 const bodySchema = z.object({ parcours: z.enum(["changer-formule", "resilier", "carte"]) });
 type Parcours = z.infer<typeof bodySchema>["parcours"];
@@ -64,12 +65,16 @@ export async function POST(request: Request) {
           return_url: returnUrl,
           flow_data: flow as Stripe.BillingPortal.SessionCreateParams.FlowData,
         });
+        // s24 mesure (lot 0) : ouverture du portail Stripe (parcours demandé). Ne lève jamais.
+        await noterEvenement("portail_ouvert", userId, { detail: parsed.data.parcours });
         return NextResponse.json({ url: portal.url, cible: true });
       } catch (err) {
         console.warn(`[API /user/subscription/portal] Parcours ${parsed.data.parcours} refusé, portail simple :`, err);
       }
     }
-    return NextResponse.json({ url: await createPortalSession(sub.stripeCustomerId), cible: false });
+    const url = await createPortalSession(sub.stripeCustomerId);
+    await noterEvenement("portail_ouvert", userId, { detail: "simple" });
+    return NextResponse.json({ url, cible: false });
   } catch (error) {
     console.error("[API /user/subscription/portal]", error);
     return NextResponse.json({ error: TEXTES_ABONNEMENT.portailIndisponible }, { status: 500 });

@@ -11,7 +11,8 @@ import {
   listCarnetMonths,
 } from "@/lib/carnet";
 import { NOINDEX_ROBOTS, NOT_FOUND_ROBOTS } from "@/lib/seo-meta";
-import { readSessionPlan } from "@/lib/session-plan";
+import { readSessionCompte } from "@/lib/session-plan";
+import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 export const dynamic = "force-dynamic";
 
@@ -34,7 +35,10 @@ export default async function CarnetMonthPage({
   const carnet = getCarnetByMonth(params.mois);
   if (!carnet) notFound();
 
-  const plan = await readSessionPlan();
+  const compte = await readSessionCompte();
+  const plan = compte?.plan ?? null;
+  // s24 mesure (lot 0) : carnet complet servi à un abonné = premier accès Premium. Rendu inchangé.
+  await noterPremiereFois("premier_acces_premium", plan, compte?.userId, "carnet");
   return (
     <CarnetPage
       view={carnetViewForPlan(carnet, plan)}

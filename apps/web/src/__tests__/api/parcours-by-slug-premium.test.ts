@@ -14,11 +14,15 @@ jest.mock("@/lib/auth", () => ({ authOptions: {} }));
 const userFindUnique = jest.fn();
 const pathFindUnique = jest.fn();
 const progressFindUnique = jest.fn();
+const usageFindFirst = jest.fn();
+const usageCreate = jest.fn();
 jest.mock("@/lib/prisma", () => ({
   prisma: {
     user: { findUnique: (...a: unknown[]) => userFindUnique(...a) },
     learningPath: { findUnique: (...a: unknown[]) => pathFindUnique(...a) },
     userPathProgress: { findUnique: (...a: unknown[]) => progressFindUnique(...a) },
+    // s24 lot 0 : mesure d'usage (premier accès Premium).
+    usageEvent: { findFirst: (...a: unknown[]) => usageFindFirst(...a), create: (...a: unknown[]) => usageCreate(...a) },
   },
 }));
 
@@ -134,5 +138,51 @@ describe("GET /api/parcours/by-slug/[slug] : protection Premium", () => {
     expect(res.status).toBe(200);
     (body.path.steps as ServedStep[]).slice(1).forEach(expectPreviewOnly);
     expect(JSON.stringify(body)).not.toContain("SECRET");
+  });
+});
+
+describe("s24 mesure d'usage : étapes 2+ servies = premier accès Premium", () => {
+  beforeEach(() => {
+    usageFindFirst.mockReset().mockResolvedValue(null);
+    usageCreate.mockReset().mockResolvedValue({});
+    jest.spyOn(console, "warn").mockImplementation(() => undefined);
+  });
+  afterEach(() => jest.restoreAllMocks());
+
+  it("abonné : une ligne « parcours:<slug> », rien de personnel", async () => {
+    getServerSession.mockResolvedValue({ user: { id: "u-premium" } });
+    userFindUnique.mockResolvedValue({ plan: "PREMIUM" });
+    await get();
+    expect(usageCreate).toHaveBeenCalledTimes(1);
+    expect(usageCreate.mock.calls[0][0].data).toEqual(
+      expect.objectContaining({ userId: "u-premium", type: "premier_acces_premium", detail: `parcours:${SLUG}`, dedupKey: "premier_acces_premium:u-premium:0" }),
+    );
+  });
+
+  it("déjà noté depuis la dernière souscription : aucune écriture", async () => {
+    getServerSession.mockResolvedValue({ user: { id: "u-premium" } });
+    userFindUnique.mockResolvedValue({ plan: "PREMIUM" });
+    usageFindFirst.mockResolvedValue({ type: "premier_acces_premium", occurredAt: new Date() });
+    await get();
+    expect(usageCreate).not.toHaveBeenCalled();
+  });
+
+  it("anonyme ou compte gratuit : rien", async () => {
+    await get();
+    getServerSession.mockResolvedValue({ user: { id: "u-free" } });
+    userFindUnique.mockResolvedValue({ plan: "FREE" });
+    await get();
+    expect(usageFindFirst).not.toHaveBeenCalled();
+    expect(usageCreate).not.toHaveBeenCalled();
+  });
+
+  it("écriture en échec : réponse identique", async () => {
+    getServerSession.mockResolvedValue({ user: { id: "u-premium" } });
+    userFindUnique.mockResolvedValue({ plan: "PREMIUM" });
+    const { body: attendu } = await get();
+    usageFindFirst.mockRejectedValue(new Error("relation absente"));
+    const { res, body } = await get();
+    expect(res.status).toBe(200);
+    expect(body).toEqual(attendu);
   });
 });

@@ -7,6 +7,7 @@ import { dedupeTipsByTitle } from "@/lib/tips-dedupe";
 import { FREE_TIP_LIMIT } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { sansExerciceConseil } from "@/lib/champs-premium";
+import { depasseLimiteGratuite, noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -87,6 +88,10 @@ export async function GET(request: NextRequest) {
     const tips = pageIds.length
       ? await prisma.tip.findMany({ where: { id: { in: pageIds } }, orderBy })
       : [];
+    // s24 mesure (lot 0) : un abonné lit la liste au-delà de la limite gratuite = premier accès Premium.
+    if (isPremium && depasseLimiteGratuite(start, tips.length, FREE_TIP_LIMIT)) {
+      await noterPremiereFois("premier_acces_premium", "PREMIUM", userId, "liste-conseils");
+    }
 
     return NextResponse.json({
       // Exercice réservé à Premium (arbitrage 5 du tour 2) : vidé pour tout autre compte.

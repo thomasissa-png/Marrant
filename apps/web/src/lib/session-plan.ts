@@ -8,6 +8,11 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 
 export async function readSessionPlan(): Promise<string | null> {
+  return (await readSessionCompte())?.plan ?? null;
+}
+
+/** Compte connecté et son plan lu en base (s24 : la mesure d'usage du carnet a besoin du compte). */
+export async function readSessionCompte(): Promise<{ userId: string; plan: string | null } | null> {
   try {
     const session = await getServerSession(authOptions);
     const userId = (session?.user as { id?: string } | undefined)?.id;
@@ -16,7 +21,7 @@ export async function readSessionPlan(): Promise<string | null> {
       where: { id: userId },
       select: { plan: true },
     });
-    return user?.plan ?? null;
+    return { userId, plan: user?.plan ?? null };
   } catch (error) {
     console.error("[session-plan] lecture du plan impossible :", error);
     return null;

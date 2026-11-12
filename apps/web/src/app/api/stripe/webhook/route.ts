@@ -21,6 +21,7 @@ import { reserverAccuseResiliation } from "@/lib/resiliation";
 import { RESILIATION_PAGE_OUVERTE } from "@/config/resiliation";
 import { ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
 import { noterFinAcces } from "@/lib/onboarding/journal-onboarding";
+import { cleUnique, noterEvenement } from "@/lib/mesure/evenements-usage";
 import Stripe from "stripe";
 
 // Formule annuelle (s14, 04/10/2026) : aucun traitement ne dépend du prix ni de
@@ -145,6 +146,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session): Promis
   }
   console.log(`[Stripe] User ${resolved.userId} upgraded to PREMIUM (via ${resolved.via})`);
 
+  // s24 mesure (lot 0) : souscription à l'heure exacte du paiement. Rejeu = même clé. Ne lève jamais.
+  const souscritLe = session.created ? new Date(session.created * 1000) : new Date();
+  await noterEvenement("souscription", resolved.userId, {
+    detail: extractSubscriptionBilling(subscription).billingInterval,
+    occurredAt: souscritLe,
+    dedupKey: cleUnique("souscription", resolved.userId, Math.floor(souscritLe.getTime() / 1000)),
+  });
+
   if (!(await reserverEmailConfirmation(subscription.id))) {
     console.log(`[Stripe] Confirmation déjà envoyée pour ${subscription.id}, pas de second e-mail`);
     return;
@@ -212,6 +221,19 @@ async function handleSubscriptionUpdated(
 
   const resiliation = shouldDowngrade ? null : resiliationProgrammee(subscription, previous);
   if (!resiliation) return;
+  // s24 mesure (lot 0) : résiliation programmée, heure de la demande (`canceled_at`, sinon l'événement)
+  // et motif codé du portail (`cancellation_details.feedback`, jamais le commentaire libre). Hors
+  // interrupteur, ne lève jamais.
+  const annulation = subscription as unknown as {
+    canceled_at?: number | null;
+    cancellation_details?: { feedback?: string | null } | null;
+  };
+  const programmeeLe = typeof annulation.canceled_at === "number" ? new Date(annulation.canceled_at * 1000) : evenementLe;
+  await noterEvenement("resiliation_programmee", sub.userId, {
+    detail: annulation.cancellation_details?.feedback ?? null,
+    occurredAt: programmeeLe,
+    dedupKey: cleUnique("resiliation_programmee", sub.userId, Math.floor(programmeeLe.getTime() / 1000)),
+  });
   // s23 onboarding (réserve 2 @legal) : fin d'accès EXACTE (`cancel_at`) pour la phrase de tête d'E1.
   // Interrupteur fermé : rien n'est écrit. Ne lève jamais.
   if (ONBOARDING_PREMIUM_OUVERT) await noterFinAcces(prisma, sub.userId, resiliation.finAcces, new Date());
@@ -278,6 +300,15 @@ async function handlePaymentSucceeded(invoice: Stripe.Invoice): Promise<void> {
     prisma.user.update({ where: { id: sub.userId }, data: { plan: "PREMIUM" } }),
   ]);
   console.log(`[Stripe] Payment succeeded for user ${sub.userId}`);
+  // s24 mesure (lot 0) : prélèvement de renouvellement payé (2e et suivants). Ne lève jamais.
+  if (invoice.billing_reason === "subscription_cycle") {
+    const payeLe = typeof invoice.created === "number" ? new Date(invoice.created * 1000) : new Date();
+    await noterEvenement("renouvellement_paye", sub.userId, {
+      detail: sub.billingInterval,
+      occurredAt: payeLe,
+      dedupKey: cleUnique("renouvellement_paye", sub.userId, Math.floor(payeLe.getTime() / 1000)),
+    });
+  }
 }
 
 /**

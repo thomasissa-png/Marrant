@@ -4,6 +4,7 @@ import { z } from "zod";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
+import { noterExerciceOuvert } from "@/lib/mesure/evenements-usage";
 
 /**
  * Exercice d'une fiche conseil, vidéo (et points clés d'une vidéo) ou vanne (« À toi de jouer »,
@@ -56,12 +57,15 @@ export async function GET(request: NextRequest) {
     if (type === "conseil") {
       const tip = await prisma.tip.findFirst({ where: { id, isActive: true }, select: { exercise: true } });
       if (!tip) return NextResponse.json({ error: "Introuvable" }, { status: 404, headers: PRIVE });
+      // s24 mesure (lot 0) : exercice réellement servi = premier accès Premium et « aha ». Ne lève jamais.
+      if (tip.exercise) await noterExerciceOuvert(user.plan, userId, type);
       return NextResponse.json({ exercice: tip.exercise || null, pointsCles: [] }, { headers: PRIVE });
     }
 
     if (type === "vanne") {
       const joke = await prisma.joke.findFirst({ where: { id, isActive: true }, select: { howToApply: true } });
       if (!joke) return NextResponse.json({ error: "Introuvable" }, { status: 404, headers: PRIVE });
+      if (joke.howToApply) await noterExerciceOuvert(user.plan, userId, type);
       return NextResponse.json({ exercice: joke.howToApply || null, pointsCles: [] }, { headers: PRIVE });
     }
 
@@ -70,6 +74,7 @@ export async function GET(request: NextRequest) {
       select: { exercise: true, learnings: true },
     });
     if (!video) return NextResponse.json({ error: "Introuvable" }, { status: 404, headers: PRIVE });
+    if (video.exercise || video.learnings.some((l) => l.trim())) await noterExerciceOuvert(user.plan, userId, type);
     return NextResponse.json(
       {
         exercice: video.exercise || null,

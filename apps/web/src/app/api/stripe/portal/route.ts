@@ -5,6 +5,7 @@ import { createPortalSession } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { TEXTES_PORTAIL } from "@/config/textes/paiement";
 import { refuserSiAutreSite } from "@/lib/same-site";
+import { noterEvenement } from "@/lib/mesure/evenements-usage";
 
 /**
  * POST /api/stripe/portal : portail client Stripe (carte, formule, résiliation).
@@ -32,6 +33,8 @@ export async function POST(request: Request) {
     }
 
     const portalUrl = await createPortalSession(subscription.stripeCustomerId);
+    // s24 mesure (lot 0) : ouverture du portail Stripe. Ne lève jamais.
+    await noterEvenement("portail_ouvert", userId, { detail: "simple" });
     return NextResponse.json({ url: portalUrl });
   } catch (error) {
     console.error("[API /stripe/portal]", error);

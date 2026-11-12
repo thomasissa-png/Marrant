@@ -32,7 +32,16 @@ const MINUIT = new Date("2026-10-31T23:00:00Z"); // 01/11 00:00:00 Paris (UTC+1)
 
 let mockNow = MINUIT;
 
-jest.mock("@/lib/session-plan", () => ({ readSessionPlan: jest.fn() }));
+// s24 : les pages du carnet lisent le compte (mesure d'usage), toujours piloté par `readSessionPlan`.
+jest.mock("@/lib/session-plan", () => {
+  const readSessionPlan = jest.fn();
+  const readSessionCompte = jest.fn(async () => {
+    const plan = await readSessionPlan();
+    return plan ? { userId: "u-carnet", plan } : null;
+  });
+  return { readSessionPlan, readSessionCompte };
+});
+jest.mock("@/lib/mesure/evenements-usage", () => ({ noterPremiereFois: jest.fn().mockResolvedValue(false) }));
 jest.mock("@/hooks/use-content-stats", () => ({
   useContentStats: () => ({ jokes: 0, tips: 0, videos: 0 }),
 }));

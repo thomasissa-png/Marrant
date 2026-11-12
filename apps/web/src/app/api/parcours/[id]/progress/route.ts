@@ -14,6 +14,7 @@ import {
   nextStreak,
   PATH_COMPLETION_BONUS_XP,
 } from "@/lib/progression";
+import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
 import { TEXTES_PROGRESSION_API as T } from "@/config/textes/parcours-emails";
 
 /**
@@ -203,6 +204,9 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
       const { status, code, error, extra } = result.echec;
       return erreur(status, code, error, extra);
     }
+    // s24 mesure (lot 0) : première étape validée = « aha » (la date de pratique est déjà dans
+    // `UserPathStepCompletion`). Après la transaction, ne lève jamais.
+    if (!result.alreadyCompleted) await noterPremiereFois("aha", owner?.plan, userId, `etape:${stepOrder}`);
     return NextResponse.json(result);
   } catch (error) {
     console.error("[API /parcours/progress POST]", error);

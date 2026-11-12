@@ -8,7 +8,8 @@ import { NOINDEX_ROBOTS } from "@/lib/seo-meta";
 import Link from "next/link";
 import { CarnetPage, carnetSrc } from "@/components/carnet/carnet-page";
 import { carnetViewForPlan, getCurrentCarnet, listCarnetMonths } from "@/lib/carnet";
-import { readSessionPlan } from "@/lib/session-plan";
+import { readSessionCompte } from "@/lib/session-plan";
+import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,10 @@ export default async function CarnetCurrentPage({ searchParams }: { searchParams
     );
   }
 
-  const plan = await readSessionPlan();
+  const compte = await readSessionCompte();
+  const plan = compte?.plan ?? null;
+  // s24 mesure (lot 0) : carnet complet servi à un abonné = premier accès Premium. Rendu inchangé.
+  await noterPremiereFois("premier_acces_premium", plan, compte?.userId, "carnet");
   return (
     <CarnetPage
       view={carnetViewForPlan(carnet, plan)}

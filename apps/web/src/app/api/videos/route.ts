@@ -6,6 +6,7 @@ import { z } from "zod";
 import { FREE_VIDEO_LIMIT } from "@/config/premium";
 import { OFFRE_NOM } from "@/config/textes/offre";
 import { sansExerciceVideo } from "@/lib/champs-premium";
+import { depasseLimiteGratuite, noterPremiereFois } from "@/lib/mesure/evenements-usage";
 
 const querySchema = z.object({
   category: z.string().optional(),
@@ -107,6 +108,11 @@ export async function GET(request: NextRequest) {
           videos.pop(); // Garder la même taille de page
         }
       }
+    }
+
+    // s24 mesure (lot 0) : un abonné lit la liste au-delà de la limite gratuite = premier accès Premium.
+    if (isPremium && depasseLimiteGratuite((query.page - 1) * query.limit, videos.length, FREE_VIDEO_LIMIT)) {
+      await noterPremiereFois("premier_acces_premium", "PREMIUM", userId, "liste-videos");
     }
 
     return NextResponse.json({

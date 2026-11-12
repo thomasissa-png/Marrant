@@ -93,6 +93,8 @@ model User {
   /// s22 : lettre du mois envoyée d'office aux comptes gratuits (désinscription durable), migration 16.
   monthlyLetter       AccountLetterPreference?
   cancellationFeedbacks CancellationFeedback[]
+  /// s24 lot 0 : mesure d'usage serveur (migration 18).
+  usageEvents   UsageEvent[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1267,4 +1269,25 @@ model CancellationFeedback {
 
   @@index([createdAt])
   @@index([userId])
+}
+
+/// s24 lot 0 : mesure d'usage serveur (R3 de l'analyse s23, bloc B du plan onboarding).
+/// Une ligne par événement : compte, type (liste fermée `lib/mesure/evenements-usage.ts`), date,
+/// détail fermé non personnel (formule, type de contenu, slug de parcours, numéro d'étape, motif
+/// Stripe codé). Aucun texte libre, ni e-mail, ni IP. `dedupKey` : unicité des événements à ne
+/// noter qu'une fois (premier accès, « aha », jour de pratique, webhook rejoué). Supprimé avec le
+/// compte. Hors de tout interrupteur. Migration 18 (`18_mesure_usage_s24`).
+model UsageEvent {
+  id         String   @id @default(cuid())
+  userId     String
+  type       String
+  detail     String?
+  occurredAt DateTime @default(now())
+  dedupKey   String?  @unique
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, type, occurredAt])
+  @@index([type, occurredAt])
 }

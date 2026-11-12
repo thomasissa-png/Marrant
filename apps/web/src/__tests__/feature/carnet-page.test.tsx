@@ -7,9 +7,19 @@ import { render, screen } from "@testing-library/react";
 import CarnetCurrentPage, { metadata } from "@/app/(dashboard)/carnet/page";
 import CarnetMonthPage from "@/app/(dashboard)/carnet/[mois]/page";
 import { readSessionPlan } from "@/lib/session-plan";
+import { noterPremiereFois } from "@/lib/mesure/evenements-usage";
 import { CARNET_FIXTURES, SECRET_FIELDS } from "../helpers/carnet-fixture";
 
-jest.mock("@/lib/session-plan", () => ({ readSessionPlan: jest.fn() }));
+// s24 : les pages du carnet lisent le compte (mesure d'usage), toujours piloté par `readSessionPlan`.
+jest.mock("@/lib/session-plan", () => {
+  const readSessionPlan = jest.fn();
+  const readSessionCompte = jest.fn(async () => {
+    const plan = await readSessionPlan();
+    return plan ? { userId: "u-carnet", plan } : null;
+  });
+  return { readSessionPlan, readSessionCompte };
+});
+jest.mock("@/lib/mesure/evenements-usage", () => ({ noterPremiereFois: jest.fn().mockResolvedValue(false) }));
 jest.mock("@/hooks/use-content-stats", () => ({
   useContentStats: () => ({ jokes: 0, tips: 0, videos: 0 }),
 }));
@@ -147,5 +157,17 @@ describe("source de mesure du bouton E1 (QA v2 MJ-1)", () => {
 describe("SEO", () => {
   it("/carnet est en noindex (contenu payant)", () => {
     expect(metadata.robots).toEqual({ index: false, follow: false });
+  });
+});
+
+describe("s24 mesure d'usage : carnet servi", () => {
+  it("le compte et son plan sont passés à la mesure (le filtre Premium est dans la mesure)", async () => {
+    planMock.mockResolvedValue("PREMIUM");
+    await renderCurrent();
+    expect(noterPremiereFois).toHaveBeenCalledWith("premier_acces_premium", "PREMIUM", "u-carnet", "carnet");
+    (noterPremiereFois as jest.Mock).mockClear();
+    planMock.mockResolvedValue(null);
+    await renderCurrent();
+    expect(noterPremiereFois).toHaveBeenCalledWith("premier_acces_premium", null, undefined, "carnet");
   });
 });

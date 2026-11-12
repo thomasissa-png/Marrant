@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { retryAfterSeconds, sharedRateLimit } from "@/lib/rate-limit";
 import { isPremiumPlan } from "@/lib/parcours-access";
 import { recordPractice, type PracticeDb } from "@/lib/progression";
+import { noterJourPratique } from "@/lib/mesure/evenements-usage";
 import { TEXTES_PROGRESSION_API as T } from "@/config/textes/parcours-emails";
 
 /**
@@ -48,6 +49,8 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     if (!step) return NextResponse.json({ error: T.etapeInvalide, code: "etape" }, { status: 400 });
 
     const streak = await recordPractice(prisma as unknown as PracticeDb, userId);
+    // s24 mesure (lot 0) : le quiz est une pratique sans trace datée ailleurs. Un par jour, ne lève jamais.
+    await noterJourPratique(userId, "quiz");
     return NextResponse.json({ streak });
   } catch (error) {
     console.error("[API /parcours/quiz POST]", error);
