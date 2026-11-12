@@ -1,4 +1,4 @@
-# Étalon E6 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), tour 4
+# Étalon E6 : « Humour noir, fait bien » (coin de la Bibliothèque, espace Premium s24), clôture après le tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `architecture-contenu-v19.md` 3.12, 3.11, 3.8 ; forme et barre : `etalons-espace-s24.md` E1.1 ; ton : `ton-alex.md`. Relectures des tours 1 et 2 : `docs/copy/etalon-e6-relectures/`.
 > **Statut : non relu à l'aveugle sur cette version** (règle d'or s18 : rien en base avant relecture). Aucun humoriste cité (choix de forme).
@@ -100,7 +100,7 @@ Tu fais de la mort un livreur qui n'annonce qu'un créneau : tu prends sa « des
 - la table rit de ses âges ;
 - la table a déjà ri d'un sujet sombre ce soir ;
 - tu connais chaque personne à table ;
-- chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.
+- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.
 
 S'il en manque un : la joueuse ou la sûre.
 
@@ -123,27 +123,24 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
 
 ---
 
-## 5. Cinq vannes neuves
+## 5. Quatre vannes neuves
 
-> Au niveau visé (barre « Alexa » : chute surprenante, courte, logique, jamais entendue), **non relues à l'aveugle**. Cinq décors, trois mécanismes, au plus deux vannes dans le commerce : voyage et euphémisme (1), horoscope et euphémisme (2), maison et contraste tragique/trivial (3), contrat obsèques et chute retournée contre le narrateur (4), abonnement et contraste (5). « Où ça passe » vaut toujours après le test de la section 2.
+> Au niveau visé (barre « Alexa » : chute surprenante, courte, logique, jamais entendue), **non relues à l'aveugle**. Quatre décors, trois mécanismes, au plus deux vannes dans le commerce : voyage et euphémisme (1), maison et contraste tragique/trivial (2), contrat obsèques et chute retournée contre le narrateur (3), abonnement et contraste (4). 3.12 en demande trois. « Où ça passe » vaut toujours après le test de la section 2.
 
 1. « Pour mon dernier voyage, j'ai demandé une place près de la sortie de secours. »
    *Pourquoi ça passe* : euphémisme sur la mort vue comme un dernier trajet ; le narrateur cherche déjà à s'en sortir, la chute retombe sur lui.
    *Où ça passe* : amis, au départ en vacances, signal 1 présent. *Où ça ne passe pas* : en avion avec quelqu'un qui a peur de voler, ou juste après un accident dont on vient de parler.
-2. « Mon horoscope m'annonce un grand changement. J'ai demandé que ce soit un déménagement. »
-   *Pourquoi ça passe* : « grand changement » est un euphémisme que le narrateur fait semblant de ne pas comprendre, et il négocie la version la moins définitive ; la chute retombe sur lui, personne d'autre n'est en scène.
-   *Où ça passe* : amis, colocs, apéro, signal 1 présent. *Où ça ne passe pas* : devant quelqu'un qui attend un résultat ou une décision grave.
-3. « Pas de fleurs sur ma tombe. Vu l'état de mon balcon, même mort, je les tuerais. »
+2. « Pas de fleurs sur ma tombe. Vu l'état de mon balcon, je serais capable de les tuer d'en dessous. »
    *Pourquoi ça passe* : le contraste entre la tombe et le balcon ; la chute est dite et se retourne contre les talents de jardinier du narrateur, jamais contre quelqu'un d'autre.
    *Où ça passe* : amis, voisins, collègues, signal 1 présent. *Où ça ne passe pas* : devant quelqu'un qui fleurit une tombe en ce moment.
-4. « Mon contrat obsèques est “satisfait ou remboursé”. Reste à trouver qui ira réclamer. »
+3. « Mon contrat obsèques est “satisfait ou remboursé”. Reste à trouver qui ira réclamer. »
    *Pourquoi ça passe* : la chute est le dernier mot et se retourne contre le narrateur, qui rit de sa propre mort ; elle ne demande rien à la table.
    *Où ça passe* : amis proches, signal 1 présent. *Où ça ne passe pas* : devant qui prépare les obsèques d'un proche, ou à table avec une personne en deuil.
-5. « Abonnement “à vie”, m'a dit le vendeur. J'ai demandé s'il y avait une formule plus ambitieuse. »
+4. « Abonnement “à vie”, m'a dit le vendeur. J'ai demandé s'il y avait une formule plus ambitieuse. »
    *Pourquoi ça passe* : la mort comme limite d'un contrat ; la chute retombe sur l'ambition du narrateur, le vendeur n'est pas visé.
    *Où ça passe* : collègues, amis, la plus douce des cinq. *Où ça ne passe pas* : devant quelqu'un qui vient de perdre un proche.
 
-**Vérification web (12/11/2026)** : phrases exactes cherchées, entre guillemets. Résultat : aucune occurrence pour les vannes 1 à 4 (la 2 et la 3 relancées au tour 4) ; la 5 a été cherchée au tour 2 sans résultat. Ce n'est pas une garantie d'originalité (les moteurs ne couvrent ni les spectacles ni les réseaux) : la relecture à l'aveugle par l'humoriste reste le contrôle ; une vanne jugée entendue est supprimée, pas retouchée. Familles retirées du lot : corps légué à la science, épitaphe de retardataire, batterie à 1 %, GPS devant le cimetière, banque et concession, remboursement et héritier, testament montré à la famille (la famille devenait le ressort).
+**Vérification web (12/11/2026)** : phrases exactes cherchées, entre guillemets. Résultat : aucune occurrence pour les vannes 1 à 3 (la 2, dans sa formulation de clôture, relancée au tour de clôture) ; la 4 a été cherchée au tour 2 sans résultat. Ce n'est pas une garantie d'originalité (les moteurs ne couvrent ni les spectacles ni les réseaux) : la relecture à l'aveugle par l'humoriste reste le contrôle ; une vanne jugée entendue est supprimée, pas retouchée. Familles retirées du lot : corps légué à la science, épitaphe de retardataire, batterie à 1 %, GPS devant le cimetière, banque et concession, remboursement et héritier, testament montré à la famille (la famille devenait le ressort), horoscope (pas de mort entendue à l'oral).
 **Lot existant** : non évaluable ici (catalogue en base, aucun champ de repérage en 3.12) ; il sera sélectionné après repérage puis relu à l'aveugle `[HYPOTHÈSE : à juger à la barre E6]`.
 
 ---
@@ -170,6 +167,15 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
 | Reco « mort en général / propre mort » : source C12 et v19 3.12, ou [HYPOTHÈSE] | Section 6 |
 | Guillemets intérieurs “ ” ; clôture « Quelqu'un reprend du pain ? » ; « ton prochain anniversaire » ; entrée « ta propre mort » | Sections 1, 3, 4, 5 |
 
+## Pour Thomas (hors étalon, non relu à l'aveugle)
+
+Deux candidates proposées par les relecteurs pour une éventuelle 5e vanne, **non intégrées** à l'étalon (aucun tour d'écriture restant, décision C8) :
+- « J'ai demandé du beau temps pour mon enterrement. Pour une fois, je ne serai pas là pour me plaindre. » (critique : décor météo, retournée contre le narrateur ; non cherchée sur le web)
+- « Pas de diaporama à mes obsèques : un décès, ça suffit. » (elon : exagération sombre, un 4e mécanisme ; aucune occurrence trouvée selon elon)
+À passer à l'aveugle chez l'humoriste avant tout usage ; sinon le lot reste à quatre vannes (« pas de vanne plutôt qu'une vanne moyenne »).
+
+---
+
 ## Tour 4 : retouche → ligne
 
 | Retouche | Où |
@@ -179,3 +185,15 @@ Dis à voix haute la sûre, puis la joueuse, avec la même voix posée. Dix seco
 | Risquée : « quatre feux verts » listés en propositions de même forme ; « Comment choisir » reprend le moule E1.1 (« Les trois autres feux verts de la risquée sont là aussi ? Monte encore. ») | Section 4 |
 | « C'est voulu » remis après « la question 2 est presque toujours un doute » ; fiche : « Sans ça, tu ne la dis pas (dans une situation, tu prends la sûre) » | Section 2 (test), section 3 (signal 1) |
 | « Euphémisme » au lieu de « litote » (vanne 1) ; en-tête des vannes : cinq décors, trois mécanismes (euphémisme 1 et 2, contraste 3 et 5, chute retournée 4) | Section 5 |
+
+## Clôture : retouche → ligne (modifications mécaniques, aucune réplique neuve)
+
+| Retouche | Où |
+|---|---|
+| Vanne « horoscope » supprimée (les trois relectures : 4 à 5/10 ; ton-alex : pas de vanne plutôt qu'une vanne moyenne) ; numérotation 1 à 4 ; « horoscope » ajouté aux familles retirées | Section 5, vannes et vérification |
+| Titre « Quatre vannes neuves » ; en-tête : quatre décors, trois mécanismes (euphémisme 1, contraste 2 et 4, chute retournée 3), 3.12 en demande trois | Section 5, titre et encadré |
+| Vérification web : « vannes 1 à 3 » et « la 4 cherchée au tour 2 » ; formulation neutre de la vanne 2 relancée, aucune occurrence | Section 5, vérification |
+| Vanne 2 (fleurs) : « même mort » (accord genré) remplacé par « je serais capable de les tuer d'en dessous » (formulation d'elon) | Section 5, vanne 2 |
+| 4e feu vert : « tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés » | Section 4, « La risquée » |
+| Section « Pour Thomas (hors étalon, non relu à l'aveugle) » : deux candidates (beau temps, diaporama), non intégrées | Avant le tableau « Tour 4 » |
+| Les lignes « Tour 4 » ci-dessus décrivent l'état avant la clôture (horoscope, « même mort ») : historique, remplacé par ce tableau | Table « Tour 4 » |
