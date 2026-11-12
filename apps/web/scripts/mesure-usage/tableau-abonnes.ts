@@ -24,7 +24,7 @@ import { readFileSync } from "fs";
 import { neon } from "@neondatabase/serverless";
 import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import {
-  lireDateParis,
+  lireOptionsLecture,
   SQL_JSON,
   SQL_SANS_SOUSCRIPTION,
   SQL_TABLEAU_ABONNES,
@@ -38,20 +38,12 @@ function argument(nom: string): string | null {
   return i > 0 ? process.argv[i + 1] ?? null : null;
 }
 
-function dateOption(nom: string): Date | null {
-  const v = argument(nom);
-  if (!v) return null;
-  const d = lireDateParis(v);
-  if (!d) throw new Error(`${nom} : date illisible (${v}).`);
-  return d;
-}
-
 async function main() {
   if (process.argv.includes("--sql-json")) {
     console.log(SQL_JSON);
     return;
   }
-  const options: OptionsLecture = { depuis: dateOption("--depuis"), activation: dateOption("--activation") };
+  const options: OptionsLecture = lireOptionsLecture(process.argv);
 
   const fichier = argument("--depuis-json");
   if (fichier) {
@@ -71,6 +63,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("Lecture impossible :", err instanceof Error ? err.message : err);
+  console.error(`Lecture impossible : ${err instanceof Error ? err.message : String(err)}`);
   process.exit(1);
 });

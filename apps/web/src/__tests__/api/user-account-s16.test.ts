@@ -20,6 +20,9 @@ const mockDb = {
   newsletterSend: { deleteMany: jest.fn((a: unknown) => ({ op: "newsletterSend.deleteMany", a })) },
   // s23 (@legal O3) : mot libre de la résiliation effacé avant la suppression du compte.
   cancellationFeedback: { updateMany: jest.fn(async () => ({ count: 0 })) },
+  // s24 (avis @legal) : mesure d'usage et marqueur d'opposition effacés avec le compte.
+  usageEvent: { deleteMany: jest.fn((a: unknown) => ({ op: "usageEvent.deleteMany", a })) },
+  webhookEvent: { deleteMany: jest.fn((a: unknown) => ({ op: "webhookEvent.deleteMany", a })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
 jest.mock("@/lib/prisma", () => ({
@@ -135,8 +138,22 @@ describe("deleteAccount (reco 5)", () => {
       "parcoursReminderPreference.deleteMany",
       "premiumLetterPreference.deleteMany",
       "newsletterSend.deleteMany",
+      "usageEvent.deleteMany",
+      "webhookEvent.deleteMany",
       "user.delete",
     ]);
+  });
+
+  it("s24 (avis @legal) : lignes de mesure et marqueur d'opposition du compte effacés dans la même transaction, rien d'autre", async () => {
+    mockDb.user.findUnique.mockResolvedValue({ email: "a@b.fr", subscription: null });
+    mockDb.$transaction.mockImplementation(async (ops: unknown[]) => ops);
+    await deleteAccount("u9");
+    const ops = mockDb.$transaction.mock.calls.at(-1)?.[0] as Array<{ op: string; a: unknown }>;
+    expect(ops.find((o) => o.op === "usageEvent.deleteMany")?.a).toEqual({ where: { userId: "u9" } });
+    // Le marqueur exact du compte seulement : jamais les marqueurs de l'onboarding ni d'autres comptes.
+    expect(ops.find((o) => o.op === "webhookEvent.deleteMany")?.a).toEqual({ where: { eventId: "mesure-usage:opposition:u9" } });
+    expect(ops.filter((o) => o.op === "webhookEvent.deleteMany")).toHaveLength(1);
+    expect(ops[ops.length - 1].op).toBe("user.delete");
   });
 
   it("s17 (C14) : dates par étape, retours et rappel du compte effacés dans la même transaction", async () => {

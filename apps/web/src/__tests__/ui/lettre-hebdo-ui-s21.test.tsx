@@ -7,6 +7,8 @@
  *  - Page d'arrêt : l'ouverture n'envoie rien ; seul le bouton envoie le POST.
  */
 let mockInscriptions = false;
+// s24 : la date de mise en ligne de la mesure d'usage est neutralisée pour isoler ce qui est testé ici.
+jest.mock("@/config/mesure-usage", () => ({ MESURE_USAGE_DATE_TEXTES: "" }));
 jest.mock("@/config/lettre", () => ({
   ...jest.requireActual("@/config/lettre"),
   get LETTRE_HEBDO_INSCRIPTIONS_OUVERTES() {

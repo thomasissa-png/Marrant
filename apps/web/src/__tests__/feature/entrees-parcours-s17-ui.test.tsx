@@ -248,7 +248,8 @@ describe("Confidentialité (legal s17 §4)", () => {
       "étapes de parcours validées avec la date de chaque validation",
       "Rappel de parcours, si tu l’actives : le jour de la semaine que tu as choisi",
       "calculer ta série et ta prochaine étape conseillée",
-      "où les membres avancent ou bloquent dans les parcours",
+      // s24 (bloc 1 @legal, mesure d'usage) : la finalité n'est plus « de façon globale ».
+      "Comprendre où les abonnés avancent ou décrochent (souscription, parcours, résiliation)",
       "uniquement si tu l’as demandé : ton consentement",
       "l’ouverture d’une étape de parcours ou le score d’un quiz",
       "Ton rappel de parcours s’arrête dès que tu le désactives",

@@ -136,6 +136,9 @@ export function lireDateParis(v: string): Date | null {
   }
   const [a, m, j] = [Number(jour[1]), Number(jour[2]), Number(jour[3])];
   const cible = Date.UTC(a, m - 1, j);
+  // Date impossible (mois 13, 30 février…) : refusée, jamais reportée sur le mois suivant.
+  const verif = new Date(cible);
+  if (verif.getUTCFullYear() !== a || verif.getUTCMonth() !== m - 1 || verif.getUTCDate() !== j) return null;
   // Décalage de Paris à cet instant (1 h ou 2 h), recalculé une fois pour les jours de changement d'heure.
   const decalage = (t: number) => {
     const p = Object.fromEntries(
@@ -148,6 +151,23 @@ export function lireDateParis(v: string): Date | null {
   let t = cible - decalage(cible);
   t = cible - decalage(t);
   return new Date(t);
+}
+
+/** Options `--depuis` et `--activation` lues dans la ligne de commande. Date impossible = erreur claire. */
+export function lireOptionsLecture(argv: string[]): { depuis: Date | null; activation: Date | null } {
+  const lire = (nom: string): Date | null => {
+    const i = argv.indexOf(nom);
+    if (i < 0) return null;
+    const v = argv[i + 1];
+    const d = v && !v.startsWith("--") ? lireDateParis(v) : null;
+    if (!d) {
+      throw new Error(
+        `${nom} : date impossible « ${v ?? ""} ». Attendu AAAA-MM-JJ (minuit à Paris, ex. 2026-11-08) ou une date-heure ISO avec fuseau.`,
+      );
+    }
+    return d;
+  };
+  return { depuis: lire("--depuis"), activation: lire("--activation") };
 }
 
 /** « 01/10/2026 12:00 » en heure de Paris, quel que soit le fuseau de la machine. */

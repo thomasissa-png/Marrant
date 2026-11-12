@@ -8,6 +8,8 @@
  * cas sous 15 ABONNÉS entrés depuis la mesure (ou depuis l'activation), « x sur n » au-delà,
  * cohortes avant/après, filtre « depuis », comptes sans souscription annoncés.
  */
+import { spawnSync } from "child_process";
+import { join } from "path";
 import {
   enDate,
   formaterDelai,
@@ -15,6 +17,7 @@ import {
   lettre,
   lignesAbonnes,
   lireDateParis,
+  lireOptionsLecture,
   SQL_JSON,
   SQL_SANS_SOUSCRIPTION,
   SQL_TABLEAU_ABONNES,
@@ -151,4 +154,33 @@ describe("abonnés de l'application (QA tour 2, correction 5)", () => {
     const lignes = Array.from({ length: 15 }, (_, i) => brute({ rang: i + 1, formule: i < 5 ? "iap" : "month", renouvele: i >= 10 }));
     expect(tableauAbonnes(lignes, NOW)).toContain("actif au 2e prélèvement : 5 sur 10");
   });
+});
+
+describe("date impossible refusée (QA tour 3, point 1)", () => {
+  it("mois 13, 30 février, jour 45 : null ; date réelle acceptée", () => {
+    for (const v of ["2026-13-45", "2026-02-30", "2026-11-31", "2026-00-10"]) expect(lireDateParis(v)).toBeNull();
+    expect(lireDateParis("2028-02-29")?.toISOString()).toBe("2028-02-28T23:00:00.000Z");
+  });
+
+  it("options : message clair, valeur manquante comprise", () => {
+    expect(() => lireOptionsLecture(["--depuis", "2026-13-45"])).toThrow(
+      "--depuis : date impossible « 2026-13-45 ». Attendu AAAA-MM-JJ (minuit à Paris, ex. 2026-11-08) ou une date-heure ISO avec fuseau.",
+    );
+    expect(() => lireOptionsLecture(["--activation"])).toThrow("--activation : date impossible «  »");
+    expect(() => lireOptionsLecture(["--activation", "--depuis", "2026-11-08"])).toThrow("--activation : date impossible");
+    expect(lireOptionsLecture(["--depuis-json", "f.json"])).toEqual({ depuis: null, activation: null });
+  });
+
+  it("script : code de sortie non nul et message, sans toucher à aucune base", () => {
+    const web = join(__dirname, "../../..");
+    const r = spawnSync(join(web, "node_modules/.bin/tsx"), ["scripts/mesure-usage/tableau-abonnes.ts", "--depuis", "2026-13-45"], {
+      cwd: web,
+      env: { PATH: process.env.PATH ?? "", HOME: process.env.HOME ?? "" } as unknown as NodeJS.ProcessEnv,
+      encoding: "utf8",
+      timeout: 60_000,
+    });
+    expect(r.status).toBe(1);
+    expect(r.stderr).toContain("Lecture impossible : --depuis : date impossible « 2026-13-45 »");
+    expect(r.stdout).toBe("");
+  }, 70_000);
 });

@@ -7,6 +7,8 @@ import { render, screen } from "@testing-library/react";
 
 // 08/11 : onboarding Premium ouvert (puce C8 datée du 8 novembre). Ce fichier vérifie sa propre
 // fonction et sa propre date : onboarding fermé ici (état ouvert : `confidentialite-onboarding-premium-s23`).
+// s24 : la date de mise en ligne de la mesure d'usage est neutralisée pour isoler ce qui est testé ici.
+jest.mock("@/config/mesure-usage", () => ({ MESURE_USAGE_DATE_TEXTES: "" }));
 jest.mock("@/config/onboarding-premium", () => ({
   ...jest.requireActual("@/config/onboarding-premium"),
   ONBOARDING_PREMIUM_OUVERT: false,
@@ -40,7 +42,12 @@ describe("confidentialité : résiliation", () => {
     render(<ConfidentialitePage />);
     expect(screen.queryAllByTestId("confidentialite-resiliation")).toHaveLength(0);
     expect(document.getElementById("resiliation")).toBeNull();
-    expect(texte()).not.toMatch(/résiliation/i);
+    // s24 : la mention de la mesure d'usage (bloc 1 @legal, sans interrupteur) cite la résiliation
+    // programmée ; hors elle, la page fermée ne parle toujours pas de résiliation.
+    const sansMesure = texte()
+      .replace(screen.getByTestId("confidentialite-mesure-usage").textContent ?? "", "")
+      .replace("Comprendre où les abonnés avancent ou décrochent (souscription, parcours, résiliation)", "");
+    expect(sansMesure).not.toMatch(/résiliation/i);
     expect(texte()).toContain(`Dernière mise à jour : ${dateTextesJuridiques()}`);
   });
 

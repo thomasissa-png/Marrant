@@ -13,6 +13,7 @@ import { RESILIATION_CONFIDENTIALITE_ANCRE, RESILIATION_DATE_TEXTES, RESILIATION
 import { CONFIDENTIALITE_RESILIATION as RESILIATION } from "@/config/textes/resiliation";
 import { ONBOARDING_DATE_TEXTES, ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
 import { CONFIDENTIALITE_ONBOARDING_PREMIUM } from "@/config/textes/onboarding-premium";
+import { MESURE_USAGE_DATE_TEXTES } from "@/config/mesure-usage";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
 const PAGE_TITLE = "Politique de confidentialité";
@@ -71,6 +72,8 @@ const datesConfidentialite = () => [
   ...servicesTextesJuridiques(),
   { ouvert: RESILIATION_PAGE_OUVERTE, date: RESILIATION_DATE_TEXTES },
   { ouvert: ONBOARDING_PREMIUM_OUVERT, date: ONBOARDING_DATE_TEXTES },
+  // s24 : mesure d'usage, sans interrupteur (la mention part avec le code).
+  { ouvert: true, date: MESURE_USAGE_DATE_TEXTES },
 ];
 
 const SECTION_TITLE = "mb-2 text-lg font-semibold text-text-primary";
@@ -96,6 +99,8 @@ export default function ConfidentialitePage() {
             <li>Rappel de parcours, si tu l’actives : le jour de la semaine que tu as choisi, la date d’activation et, si tu l’arrêtes, la date d’arrêt</li>
             <li>Préférences : favoris, réactions, résultats du quiz</li>
             <li>Abonnement : formule, statut, dates de période. Tes données bancaires sont traitées par Stripe et ne passent jamais par nos serveurs</li>
+            {/* s24 (mesure d'usage, bloc 1 de docs/legal/espace-client-s24-phrases.md), publié avec la mesure. */}
+            <li data-testid="confidentialite-mesure-usage">Usage du service, si tu es ou as été abonné : la date et la formule (mensuelle, annuelle ou app) de ta souscription et de chaque renouvellement payé, ton premier contenu Premium affiché (son type ou son étape), ta première étape ou ton premier quiz terminé, chaque jour où tu termines un quiz, chaque ouverture du portail de paiement avec l’action choisie, et, si tu programmes ta résiliation, son heure et le motif choisi dans une liste. Aucun texte libre ni adresse IP. Ces données sont effacées avec ton compte</li>
             <li>Rétractation, si tu envoies une demande : adresse e-⁠mail, date d’achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l’adresse elle-⁠même)</li>
             {/* s23 (@legal O2), publié avec l'ouverture de /resiliation. Ancre visée par la mention sous le champ libre. */}
             {RESILIATION_PAGE_OUVERTE && (
@@ -114,7 +119,7 @@ export default function ConfidentialitePage() {
             <li>Mesurer l’audience de façon agrégée pour améliorer le site : intérêt légitime, sans cookie (article 5)</li>
             {/* P3 à P5, legal s17 §4 */}
             <li>Afficher ta progression, calculer ta série et ta prochaine étape conseillée, et garder tes retours sur les exercices : exécution du contrat</li>
-            <li>Comprendre, de façon globale, où les membres avancent ou bloquent dans les parcours pour les améliorer : intérêt légitime (tu peux t’y opposer, voir la partie 7)</li>
+            <li>Comprendre où les abonnés avancent ou décrochent (souscription, parcours, résiliation), à partir d’événements rattachés à ton compte et lus sous forme anonymisée, pour améliorer le service : intérêt légitime (tu peux t’y opposer, voir la partie 7)</li>
             <li>T’envoyer chaque semaine un rappel de ton parcours, uniquement si tu l’as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
             {ONBOARDING_PREMIUM_OUVERT && <li data-testid="confidentialite-onboarding-premium">{frTypo(CONFIDENTIALITE_ONBOARDING_PREMIUM)}</li>}
             {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}

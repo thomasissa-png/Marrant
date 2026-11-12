@@ -13,6 +13,8 @@
 let mockOuvert = true;
 // 08/11 : onboarding Premium ouvert (puce C8 datée du 8 novembre). Ce fichier vérifie sa propre
 // fonction et sa propre date : onboarding fermé ici (état ouvert : `confidentialite-onboarding-premium-s23`).
+// s24 : la date de mise en ligne de la mesure d'usage est neutralisée pour isoler ce qui est testé ici.
+jest.mock("@/config/mesure-usage", () => ({ MESURE_USAGE_DATE_TEXTES: "" }));
 jest.mock("@/config/onboarding-premium", () => ({
   ...jest.requireActual("@/config/onboarding-premium"),
   ONBOARDING_PREMIUM_OUVERT: false,

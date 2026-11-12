@@ -11,6 +11,7 @@ import { effacerMotsLibresDuCompte } from "@/lib/resiliation-conservation";
 import { cancelStripeSubscriptionNow, getStripe } from "@/lib/stripe";
 import { extractSubscriptionBilling, subscriptionPeriodEnd } from "@/lib/stripe-subscription";
 import { isSubscriptionLive, subscriptionFlags } from "@/lib/subscription-state";
+import { cleOpposition } from "@/lib/mesure/evenements-usage";
 
 export type Formule = "monthly" | "annual";
 
@@ -156,6 +157,10 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
     // s21 (avis @legal hebdo §6.3) : préférence de la lettre de la semaine (en plus de la
     // cascade) et journal de ses envois à cette adresse (sans clé vers User).
     ...effacementLettreHebdo(userId, user.email),
+    // s24 (avis @legal) : la mesure d'usage s'efface avec le compte, y compris le marqueur
+    // d'opposition (sans clé vers User) ; les lignes `UsageEvent` suivent aussi la cascade.
+    prisma.usageEvent.deleteMany({ where: { userId } }),
+    prisma.webhookEvent.deleteMany({ where: { eventId: cleOpposition(userId) } }),
     prisma.user.delete({ where: { id: userId } }),
   ]);
 
