@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Étalon E5, Mes questions (local, ne pas déployer)</title>
+<title>Étalon E5 v4, Mes questions (local, ne pas déployer)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>
-/* Tokens réels de apps/web/tailwind.config.ts et styles/globals.css. Aucune valeur hors système. */
+/* v4. Tokens réels de apps/web/tailwind.config.ts et styles/globals.css. Aucune valeur hors système.
+   Les textes sans source mot pour mot portent data-hyp : marqueur [HYPOTHÈSE] ou [PISTE] affiché (désactivable avec &hyp=off dans le hash). */
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 :root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-h:#A78BFA;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-h:#3A3A3A;--bd-in:#707070;--dot:#A78BFA;--r-sm:4px;--r-md:8px;--r-lg:12px;--fast:150ms}
@@ -19,6 +20,9 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body[data-hyp="off"] [data-hyp]::after{content:none}
+.btn[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
 @media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}@media(min-width:1280px){.wrap{padding:0 32px}}
 .skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
@@ -29,17 +33,20 @@ a{color:inherit}
 @media(min-width:360px){.logo{font-size:16px;line-height:24px}}@media(min-width:400px){.logo{font-size:18px;line-height:28px}}@media(min-width:640px){.logo{font-size:20px}}
 .hd-r{display:flex;align-items:center;gap:4px;margin-left:auto}
 .ib{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:var(--r-lg);background:transparent;color:var(--t2);cursor:pointer;transition:background-color var(--fast),color var(--fast)}
-.ib:hover{background:var(--elev);color:var(--t1)}
+.ib:hover,.ib[aria-expanded="true"]{background:var(--elev);color:var(--t1)}
 .ib svg{width:20px;height:20px}
-.ib-s{display:none}@media(min-width:360px){.ib-s{display:inline-flex}}
 .dot{position:absolute;top:8px;right:8px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg);background:var(--dot);display:none}
 .ib:hover .dot{border-color:var(--elev)}
 body[data-reponse="1"] .dot{display:block}
+.rech{border-top:1px solid var(--bd);padding:8px 0}
+.rech form{display:flex;flex-wrap:wrap;gap:8px}
+.rech input{flex:1 1 120px;min-width:0;min-height:44px;padding:0 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif}
 .bar{position:sticky;top:64px;z-index:40;border-bottom:1px solid var(--bd);background:var(--bg);padding-top:1px}
 .zone{position:relative;margin-left:-12px;min-width:0}
-.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding:0 40px;scrollbar-width:none}
+.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
-.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;scroll-snap-align:start;transition:color var(--fast)}
+.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
+.liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
 .tab:focus-visible{outline-offset:-2px}
 .tab[aria-current]{color:var(--t1)}
@@ -54,10 +61,11 @@ h1{font:700 30px/36px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
 h2{font:700 20px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
 h3{font:600 16px/24px Inter,system-ui,sans-serif}
 @media(min-width:768px){h1{font-size:36px;line-height:40px}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast),border-color var(--fast)}
-.btn:hover{background:var(--elev);border-color:var(--bd-h)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast)}
+.btn:hover{background:var(--elev)}
 .btn:disabled{opacity:.6;cursor:default;pointer-events:none}
-.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2);border-color:transparent}
+.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2)}
+.btn{max-width:100%}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:16px}
 @media(min-width:768px){.card{padding:24px}}
 .card>*+*{margin-top:12px}
@@ -65,10 +73,10 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .cap{font-size:12px;line-height:16px;color:var(--tm)}
 .ph{color:var(--tm);font-style:italic}
 .tag{display:inline-block;padding:2px 8px;border-radius:9999px;border:1px solid var(--bd-in);color:var(--t2);font:600 12px/16px Inter,system-ui,sans-serif}
-/* Page Mes questions */
 .main{padding-top:24px;padding-bottom:48px}
 .top{margin-bottom:24px}.top p{margin-top:4px}
-.qgrid{display:grid;gap:24px}
+.qgrid{display:grid;gap:24px;grid-template-columns:minmax(0,1fr)} /* v4.1 : piste « auto » = min-content du textarea (cols par défaut) qui débordait de 42 px à 200 % */
+.qgrid>*,.card,.champ,.champ textarea{min-width:0}
 @media(min-width:1024px){.qgrid{grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:start}}
 .types{display:grid;gap:8px;border:0;min-width:0}
 .types legend{font:600 14px/20px Inter,system-ui,sans-serif;margin-bottom:8px}
@@ -86,41 +94,54 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .champ textarea::placeholder{color:var(--tm)}
 .envois{display:flex;flex-direction:column;gap:12px;list-style:none}
 .env>*+*{margin-top:8px}
+.env>.btn{margin-top:16px} /* « Retirer de mon historique » séparé de 16 px de ce qui précède */
 .env-h{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
 .quote{padding:8px 16px;border-left:2px solid var(--acc);font-size:16px;line-height:24px}
 details summary{display:flex;align-items:center;min-height:44px;cursor:pointer;color:var(--link);font:600 14px/20px Inter,system-ui,sans-serif}
 details[open] summary{color:var(--t1)}
-.fil{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
+/* Fil ouvert : deux niveaux seulement (carte, puis texte). Plus d'encadré gris, « Continuer » directement sous la réponse. */
+.fil{padding-top:12px;border-top:1px solid var(--bd)}
 .fil>*+*{margin-top:12px}
 .fil .lab{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
 .sig{font-size:14px;line-height:20px;color:var(--t2)}
-.exemple{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
 .exemple>*+*{margin-top:8px}
 .demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
 .demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
-@media(max-width:299px){.logo{white-space:normal;min-width:0;font-size:12px;line-height:16px}.hd .wrap{gap:4px}.hd-r{gap:0}}
-.btn{max-width:100%}
+/* 200 % de texte (viewport utile d'environ 188 px) : en-tête sur deux rangées, en-tête et barre non épinglés, barre compacte */
+@media(max-width:299px){
+.hd,.bar{position:static}
+.hd .wrap{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding-top:4px;padding-bottom:4px}
+.hd-r{margin-left:0}.logo{font-size:14px;line-height:20px}
+.zone{margin-right:-12px}
+.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}.tab[aria-current]::after{left:8px;right:8px}
+.fd{display:none}
+h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16px}
+.card{padding:12px}.box{padding:8px 12px}.type input:checked+.box{padding:7px 11px}
+.btn{width:100%}.quote{padding:8px 12px;overflow-wrap:anywhere}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body data-reponse="1">
+<body data-reponse="1" data-hyp="on">
 <a class="skip" href="#main">Aller au contenu</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
   <div class="hd-r">
-    <button class="ib ib-s" type="button" aria-label="Rechercher"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+    <button id="btn-rech" class="ib" type="button" aria-label="Rechercher" aria-expanded="false" aria-controls="rech"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
     <button id="btn-cloche" class="ib" type="button" aria-label="Notifications, 1 réponse de l'équipe non lue"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg><span class="dot" aria-hidden="true"></span></button>
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
-</div></header>
+</div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+</header>
 
 <div class="bar">
   <nav class="wrap" aria-label="Mon espace">
     <div class="zone">
       <div id="liste" class="liste">
         <a class="tab" href="aujourdhui.html">Aujourd'hui</a>
-        <a class="tab" href="#">Parcours</a>
+        <a class="tab" href="parcours.html">Parcours</a>
         <a class="tab" href="#">Quoi répondre</a>
         <a class="tab" href="#">Bibliothèque</a>
         <a class="tab" href="mes-questions.html" aria-current="page">Mes questions</a>
@@ -139,21 +160,21 @@ details[open] summary{color:var(--t1)}
 
   <div class="qgrid">
     <section class="card" aria-labelledby="h-poser">
-      <h2 id="h-poser">Poser une question</h2>
+      <h2 id="h-poser" data-hyp="HYPOTHÈSE">Poser une question</h2>
       <form id="form" onsubmit="return false" style="display:flex;flex-direction:column;gap:16px">
         <fieldset class="types">
-          <legend>Type de message</legend>
+          <legend data-hyp="HYPOTHÈSE">Type de message</legend>
           <label class="type"><input type="radio" name="type" value="probleme"><span class="box"><b>Un problème</b><small>Quelque chose ne marche pas ou ne se passe pas comme prévu sur le site (accès, paiement, affichage).</small></span></label>
           <label class="type"><input type="radio" name="type" value="situation"><span class="box"><b>Une situation à gérer</b><small>Une scène que tu vas vivre ou que tu viens de vivre, et pour laquelle tu veux des idées de réponse.</small></span></label>
-          <label class="type"><input type="radio" name="type" value="question" checked><span class="box"><b>Une question</b><small>Tout le reste (comprendre une technique, un contenu, l'offre).</small></span></label>
+          <label class="type"><input type="radio" name="type" value="question" checked><span class="box"><b>Une question</b><small data-hyp="PISTE : exemple entre parenthèses retiré">Tout le reste (comprendre une technique, un contenu, l'offre).</small></span></label>
         </fieldset>
         <div class="champ">
-          <label for="msg">Ton message</label>
+          <label for="msg" data-hyp="HYPOTHÈSE">Ton message</label>
           <textarea id="msg" aria-describedby="aide delai"></textarea>
           <p id="aide" class="cap" style="margin-top:4px">Évite les noms : décris la scène.</p>
         </div>
         <p id="delai" class="meta">L'équipe répond en général sous 1 à 2 jours ouvrés</p>
-        <div><button id="envoyer" class="btn btn-p" type="submit">Envoyer</button></div>
+        <div><button id="envoyer" class="btn btn-p" type="submit" data-hyp="HYPOTHÈSE">Envoyer</button></div>
         <p id="statut" class="meta" role="status"></p>
       </form>
     </section>
@@ -163,33 +184,33 @@ details[open] summary{color:var(--t1)}
 
       <!-- État vide : jamais un tableau vide, un exemple par type et la phrase sur le délai -->
       <div id="etat-vide" class="card" hidden>
-        <p class="meta">Par exemple, pour «&nbsp;Une question&nbsp;» :</p>
-        <p class="quote">«&nbsp;Est-ce que cette blague est lourde&nbsp;? Voici la scène…&nbsp;»</p>
+        <p class="meta" data-hyp="HYPOTHÈSE">Par exemple, pour «&nbsp;Une question&nbsp;» :</p>
+        <p class="quote" data-hyp="PISTE">«&nbsp;Est-ce que cette blague est lourde&nbsp;? Voici la scène…&nbsp;»</p>
         <p class="ph meta">[Exemple pour «&nbsp;Un problème&nbsp;», à écrire]</p>
         <p class="ph meta">[Exemple pour «&nbsp;Une situation à gérer&nbsp;», à écrire]</p>
         <p class="meta">L'équipe répond en général sous 1 à 2 jours ouvrés</p>
       </div>
 
       <ul id="liste-env" class="envois">
-        <!-- En attente (ou en retard après 3 jours ouvrés) -->
+        <!-- En attente (ou en retard après 3 jours ouvrés : envoyé le vendredi 6 novembre, en retard le jeudi 12) -->
         <li id="e-attente" class="card env">
-          <div class="env-h"><span class="tag">Une question</span><span class="cap">Envoyé le 10 novembre</span></div>
-          <p class="quote">«&nbsp;Est-ce que cette blague est lourde&nbsp;? Voici la scène…&nbsp;»</p>
+          <div class="env-h"><span class="tag">Une question</span><span id="e-date" class="cap" data-hyp="HYPOTHÈSE">Envoyé le 10 novembre</span></div>
+          <p class="quote ph">[Message de l'abonné]</p>
           <p id="e-statut" class="meta">Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés</p>
-          <button class="btn" type="button">Retirer de mon historique</button>
+          <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
         </li>
         <!-- Répondue : le fil reste ouvert, on peut continuer -->
         <li id="e-reponse" class="card env">
-          <div class="env-h"><span class="tag">Une situation à gérer</span><span class="cap">Envoyé le 9 novembre</span></div>
+          <div class="env-h"><span class="tag">Une situation à gérer</span><span class="cap" data-hyp="HYPOTHÈSE">Envoyé le 9 novembre</span></div>
           <details id="d-rep">
-            <summary>Répondu le 11 novembre</summary>
+            <summary><span data-hyp="HYPOTHÈSE">Répondu le 11 novembre</span></summary>
             <div class="fil">
-              <div><p class="lab">Ton message</p><p class="ph">[Message de l'abonné]</p></div>
-              <div><p class="lab">Réponse de l'équipe, le 11 novembre</p><p class="ph">[Réponse de l'équipe]</p><p class="sig">L'Équipe Deviens Marrant</p></div>
+              <div><p class="lab" data-hyp="HYPOTHÈSE">Ton message</p><p class="ph">[Message de l'abonné]</p></div>
+              <div><p class="lab" data-hyp="HYPOTHÈSE">Réponse de l'équipe, le 11 novembre</p><p class="ph">[Réponse de l'équipe]</p><p class="sig">L'Équipe Deviens Marrant</p></div>
               <button class="btn" type="button">Continuer</button>
             </div>
           </details>
-          <button class="btn" type="button">Retirer de mon historique</button>
+          <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
         </li>
       </ul>
     </section>
@@ -201,6 +222,8 @@ details[open] summary{color:var(--t1)}
     <a href="#etat=retard">En retard</a>
     <a href="#etat=vide">Aucun envoi</a>
     <a href="#etat=fil">Fil ouvert (cloche lue)</a>
+    <a href="#rech">Recherche ouverte</a>
+    <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
 </main>
 
@@ -208,19 +231,36 @@ details[open] summary{color:var(--t1)}
 const $ = (s, r = document) => r.querySelector(s);
 document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
 
-/* Barre : même comportement que l'accueil. Aucune pastille sur les onglets (règle du brief). */
+/* Barre : « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation. Aucune pastille sur les onglets (règle du brief). */
 function fondus() {
-  const l = $("#liste");
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth;
+  $("#fg").style.left = p + "px";
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() {
-  const l = $("#liste"), a = $('[aria-current="page"]', l);
-  if (a) l.scrollLeft = Math.max(0, a.offsetLeft - (l.clientWidth - a.offsetWidth) / 2); /* sans animation */
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
+  if (a && a !== l.firstElementChild) {
+    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
+    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
+    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    l.scrollLeft = s;
+  } else l.scrollLeft = 0;
   fondus();
 }
 $("#liste").addEventListener("scroll", fondus, { passive: true });
+$("#liste").addEventListener("focusin", (e) => {
+  const l = $("#liste"), t = e.target, p = l.firstElementChild.offsetWidth;
+  if (t === l.firstElementChild) return;
+  const g = t.offsetLeft - p - 8, d = t.offsetLeft + t.offsetWidth + 8 - l.clientWidth;
+  if (g < l.scrollLeft) l.scrollLeft = Math.max(0, g); else if (d > l.scrollLeft) l.scrollLeft = d;
+});
 addEventListener("resize", ramener);
+const br = $("#btn-rech"), rc = $("#rech");
+function rech(o) { rc.hidden = !o; br.setAttribute("aria-expanded", String(o)); if (o) $("#q").focus(); }
+br.addEventListener("click", () => rech(rc.hidden));
+$("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
+rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
 
 /* Cloche : la pastille ne vit que pour une réponse non lue ; ouvrir le fil la lit (ouvrir le panneau ne suffirait pas) */
 function reponseNonLue(n) {
@@ -229,26 +269,30 @@ function reponseNonLue(n) {
 }
 $("#d-rep").addEventListener("toggle", (e) => { if (e.target.open) reponseNonLue(0); });
 
-/* Envoi : "Envoi en cours" (le texte reste dans le champ en cas d'échec), puis "Envoyé" */
+/* Envoi : « Envoi en cours » (le texte reste dans le champ en cas d'échec), puis « Envoyé » */
 $("#form").addEventListener("submit", () => {
   const m = $("#msg"), b = $("#envoyer"), s = $("#statut");
   if (!m.value.trim()) { m.focus(); return; }
-  b.disabled = true; b.textContent = "Envoi en cours"; s.textContent = "";
+  b.disabled = true; b.textContent = "Envoi en cours"; b.removeAttribute("data-hyp"); s.textContent = "";
   setTimeout(() => {
-    m.value = ""; b.disabled = false; b.textContent = "Envoyer";
+    m.value = ""; b.disabled = false; b.textContent = "Envoyer"; b.setAttribute("data-hyp", "HYPOTHÈSE");
     s.textContent = "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés";
   }, 800);
 });
 
-/* États de la maquette via le hash : #etat=liste|retard|vide|fil */
+/* États via le hash : #etat=liste|retard|vide|fil &rech &hyp=off */
 function appliquer() {
-  const e = (location.hash.match(/etat=(\w+)/) || [])[1] || "liste";
+  const h = location.hash, e = (h.match(/etat=(\w+)/) || [])[1] || "liste";
+  document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
   $("#etat-vide").hidden = e !== "vide";
   $("#liste-env").hidden = e === "vide";
   $("#e-reponse").hidden = e === "retard";
+  /* Retard : après 3 jours ouvrés (2.6). Envoyé le vendredi 6 novembre, le jeudi 12 novembre = 3 jours ouvrés écoulés. */
+  $("#e-date").textContent = e === "retard" ? "Envoyé le 6 novembre" : "Envoyé le 10 novembre";
   $("#e-statut").textContent = e === "retard" ? "L'équipe n'a pas encore répondu, ta demande est bien là" : "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés";
   $("#d-rep").open = e === "fil";
   reponseNonLue(e === "liste" ? 1 : 0);
+  rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);
 appliquer(); ramener();

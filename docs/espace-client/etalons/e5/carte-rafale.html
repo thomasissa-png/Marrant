@@ -4,21 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Étalon E5, carte de rafale (local, ne pas déployer)</title>
+<title>Étalon E5 v4, carte de rafale (local, ne pas déployer)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>
-/* Tokens réels de apps/web/tailwind.config.ts et styles/globals.css. Aucune valeur hors système. */
+/* v4. Tokens réels de apps/web/tailwind.config.ts et styles/globals.css. Aucune valeur hors système.
+   Les textes sans source mot pour mot portent data-hyp : marqueur [HYPOTHÈSE] affiché (désactivable avec &hyp=off dans le hash). */
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
-:root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-h:#A78BFA;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-h:#3A3A3A;--bd-in:#707070;--dot:#A78BFA;--r-sm:4px;--r-md:8px;--r-lg:12px;--fast:150ms}
+:root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-h:#A78BFA;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-h:#3A3A3A;--bd-in:#707070;--r-sm:4px;--r-md:8px;--r-lg:12px;--fast:150ms}
 html{-webkit-font-smoothing:antialiased;scroll-padding-top:112px}
 body{background:var(--bg);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif;min-height:100vh}
 h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body[data-hyp="off"] [data-hyp]::after{content:none}
+.btn[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
 @media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}@media(min-width:1280px){.wrap{padding:0 32px}}
 .skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
@@ -29,14 +33,17 @@ a{color:inherit}
 @media(min-width:360px){.logo{font-size:16px;line-height:24px}}@media(min-width:400px){.logo{font-size:18px;line-height:28px}}@media(min-width:640px){.logo{font-size:20px}}
 .hd-r{display:flex;align-items:center;gap:4px;margin-left:auto}
 .ib{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:var(--r-lg);background:transparent;color:var(--t2);cursor:pointer;transition:background-color var(--fast),color var(--fast)}
-.ib:hover{background:var(--elev);color:var(--t1)}
+.ib:hover,.ib[aria-expanded="true"]{background:var(--elev);color:var(--t1)}
 .ib svg{width:20px;height:20px}
-.ib-s{display:none}@media(min-width:360px){.ib-s{display:inline-flex}}
+.rech{border-top:1px solid var(--bd);padding:8px 0}
+.rech form{display:flex;flex-wrap:wrap;gap:8px}
+.rech input{flex:1 1 120px;min-width:0;min-height:44px;padding:0 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif}
 .bar{position:sticky;top:64px;z-index:40;border-bottom:1px solid var(--bd);background:var(--bg);padding-top:1px}
 .zone{position:relative;margin-left:-12px;min-width:0}
-.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding:0 40px;scrollbar-width:none}
+.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
-.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;scroll-snap-align:start;transition:color var(--fast)}
+.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
+.liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
 .tab:focus-visible{outline-offset:-2px}
 .tab[aria-current]{color:var(--t1)}
@@ -51,15 +58,17 @@ h1{font:700 30px/36px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
 h2{font:700 20px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
 h3{font:600 16px/24px Inter,system-ui,sans-serif}
 @media(min-width:768px){h1{font-size:36px;line-height:40px}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast),border-color var(--fast)}
-.btn:hover{background:var(--elev);border-color:var(--bd-h)}
-.btn:disabled{cursor:default}.btn:disabled:hover{background:transparent;border-color:var(--bd)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast)}
+.btn:hover{background:var(--elev)}
+.btn:disabled,.btn[aria-disabled="true"]{cursor:default}
+.btn:disabled:hover,.btn[aria-disabled="true"]:hover{background:transparent}
+.btn[aria-disabled="true"]{color:var(--tm);border-color:var(--bd)}
+.btn{max-width:100%}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:16px}
 @media(min-width:768px){.card{padding:24px}}
 .eyebrow{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
 .meta{font-size:14px;line-height:20px;color:var(--t2)}
 .cap{font-size:12px;line-height:16px;color:var(--tm)}
-/* Page : deux accroches côte à côte */
 .main{padding-top:24px;padding-bottom:48px}
 .intro{margin-bottom:24px}.intro p{margin-top:4px}
 .vars{display:grid;gap:32px}
@@ -75,20 +84,22 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .ctx{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light);font-size:14px;line-height:20px;color:var(--t2)}
 .ctx .lab{display:block;margin-bottom:4px}
 .rd p{margin-top:8px}
-.pt{font:600 14px/20px Inter,system-ui,sans-serif;color:var(--link)}
+/* « Prends ton temps » : une pause de 3 secondes, pas un contrôle. Texte secondaire, sans couleur de lien, sans soulignement, sans curseur main. */
+.pt{font:400 14px/20px Inter,system-ui,sans-serif;color:var(--t2);cursor:default}
 .q p.qt{font:600 16px/24px Inter,system-ui,sans-serif}
 .trois{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
 @media(max-width:359px){.trois{grid-template-columns:1fr}}
 .trois .btn{padding:0 4px}
 .trois .btn[aria-pressed="true"],.regs .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
-.trois .btn:disabled:not([aria-pressed="true"]){color:var(--tm)}
+.trois .btn:disabled:not([aria-pressed="true"]){color:var(--tm);border-color:var(--bd)}
+.rg{margin-top:8px}
 .regs{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .regs .btn{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;width:100%;min-height:44px;padding:12px 16px;text-align:left;font-weight:400}
 .regs .btn b{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--link)}
 .regs .btn span{font-size:16px;line-height:24px;color:var(--t1)}
 .regle{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light);font-size:14px;line-height:20px}
 .regle p+p{margin-top:8px}
-/* Révision : la note n'existe à l'écran qu'APRÈS la réponse (elle vit dans .reps, masquée tant que le toucher n'a pas eu lieu) */
+/* Révision : la note n'existe à l'écran qu'APRÈS la réponse (elle vit dans les blocs masqués tant que le toucher n'a pas eu lieu) */
 .rev,.tag.rev-tag{display:none}
 body[data-rev="1"] .rev{display:block;margin-top:8px;padding:8px 16px;border-left:2px solid var(--bd-in);font-size:14px;line-height:20px;color:var(--t2)}
 body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:9999px;border:1px solid var(--bd-in);color:var(--t2)}
@@ -97,36 +108,56 @@ body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px
 .tag{display:inline-block;padding:2px 8px;border-radius:9999px;border:1px solid var(--bd-in);color:var(--t2);font:600 12px/16px Inter,system-ui,sans-serif}
 .ph{color:var(--tm);font-style:italic}
 .amb{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;padding:0 16px;border-radius:9999px;border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:500 14px/20px Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev);padding:0 15px}
+.chip svg{width:16px;height:16px;display:none;color:var(--link)}.chip[aria-pressed="true"] svg{display:block}
 .note label{display:block;font:600 14px/20px Inter,system-ui,sans-serif}
 .note textarea{display:block;width:100%;min-height:72px;margin-top:8px;padding:8px 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif;resize:vertical}
 .note textarea::placeholder{color:var(--tm)}
 .row2{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:8px}
-.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2);border-color:transparent}
+.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2)}
 .demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
 .demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
-@media(max-width:299px){.logo{white-space:normal;min-width:0;font-size:12px;line-height:16px}.hd .wrap{gap:4px}.hd-r{gap:0}}
-.btn{max-width:100%}
+/* 200 % de texte (viewport utile d'environ 188 px) : en-tête sur deux rangées, en-tête et barre non épinglés, barre compacte, cartes et boutons à pleine largeur, aucun mot coupé */
+@media(max-width:299px){
+.hd,.bar{position:static}
+.hd .wrap{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding-top:4px;padding-bottom:4px}
+.hd-r{margin-left:0}.logo{font-size:14px;line-height:20px}
+.zone{margin-right:-12px}
+.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}.tab[aria-current]::after{left:8px;right:8px}
+.fd{display:none}
+h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:16px}
+.card{padding:12px}.carte>*+*{margin-top:12px}
+.h2l,.carte h2{font-size:20px;line-height:28px;overflow-wrap:anywhere}
+.regs .btn{padding:8px 12px}.regs .btn span{font-size:14px;line-height:20px;overflow-wrap:anywhere}
+.dit{padding:8px 12px}.ctx{padding:8px 12px}.amb{padding:8px 12px}
+.row2 .btn{width:100%}.sec{margin-top:32px}
+.chips .chip{width:100%;justify-content:flex-start}
+}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
-<body>
+<body data-hyp="on">
 <a class="skip" href="#main">Aller au contenu</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
   <div class="hd-r">
-    <button class="ib ib-s" type="button" aria-label="Rechercher"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+    <button id="btn-rech" class="ib" type="button" aria-label="Rechercher" aria-expanded="false" aria-controls="rech"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
     <button class="ib" type="button" aria-label="Notifications, aucune réponse non lue"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg></button>
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
-</div></header>
+</div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+</header>
 
 <div class="bar">
   <nav class="wrap" aria-label="Mon espace">
     <div class="zone">
       <div id="liste" class="liste">
         <a class="tab" href="aujourdhui.html" aria-current="page">Aujourd'hui</a>
-        <a class="tab" href="#">Parcours</a>
+        <a class="tab" href="parcours.html">Parcours</a>
         <a class="tab" href="#">Quoi répondre</a>
         <a class="tab" href="#">Bibliothèque</a>
         <a class="tab" href="mes-questions.html">Mes questions</a>
@@ -155,39 +186,50 @@ body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px
       <div class="slot" data-accroche="Une situation, ta réponse d'abord, puis trois répliques."></div>
     </figure>
   </div>
-  <!-- Carte « Et toi ? » : production sans choix ; deux répliques avec leur ambiance, puis le pourquoi du carnet -->
+
+  <!-- Carte « Et toi ? » : production sans choix ; deux répliques avec leur ambiance, puis le pourquoi du carnet. En révision (#etat=revision), la note de l'abonné s'affiche APRÈS la réponse, jamais avant (2.2). -->
   <section class="sec var" aria-labelledby="et-v">
     <h2 id="et-v" class="vcap">Carte «&nbsp;Et toi&nbsp;?&nbsp;»</h2>
     <p class="cap">[HYPOTHÈSE : aucune fiche du carnet n'est reprise ici, contenu à remplacer par une fiche relue]</p>
     <article id="et" class="card carte" aria-labelledby="et-t">
-      <p class="eyebrow">Si tu as 5 minutes</p>
+      <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag" data-hyp="HYPOTHÈSE">À revoir</span></p>
       <h3 id="et-t" class="h2l">[Titre de la fiche du carnet]</h3>
       <div class="scene"><h3 class="lab">La scène</h3><p class="ph">[Scène de la fiche du carnet]</p></div>
-      <section class="rd" aria-labelledby="et-r"><h3 id="et-r">Ta réponse d'abord</h3><p>Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p><p class="pt">Prends ton temps</p></section>
-      <div class="q" role="group" aria-labelledby="et-q">
-        <p id="et-q" class="qt">Tu avais une réponse&nbsp;?</p>
-        <div class="trois"><button class="btn" type="button">Oui</button><button class="btn" type="button">À moitié</button><button class="btn" type="button">Rien</button></div>
+      <section class="rd" aria-labelledby="et-r"><h3 id="et-r">Ta réponse d'abord</h3><p>Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p><p id="et-pt" class="pt" hidden>Prends ton temps</p></section>
+      <div id="et-q" class="q" role="group" aria-labelledby="et-ql">
+        <p id="et-ql" class="qt">Tu avais une réponse&nbsp;?</p>
+        <div class="trois"><button class="btn" type="button" data-rep="oui">Oui</button><button class="btn" type="button" data-rep="moitie">À moitié</button><button class="btn" type="button" data-rep="rien">Rien</button></div>
+        <p id="et-rg" class="meta rg" role="status" data-hyp="HYPOTHÈSE" hidden></p>
       </div>
       <div id="et-rep" hidden>
         <div class="amb"><span class="tag">détendue</span><span class="ph">[Réponse du carnet]</span></div>
+        <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
         <div class="amb" style="margin-top:8px"><span class="tag">tendue</span><span class="ph">[Sortie polie du carnet]</span></div>
         <h3 class="lab" style="margin-top:16px">Le pourquoi</h3><p class="ph">[Pourquoi du carnet]</p>
       </div>
     </article>
   </section>
 
-  <!-- Fin de rafale -->
+  <!-- Fin de rafale (2.2, 2.3) -->
   <section class="sec var" aria-labelledby="fin-v">
     <h2 id="fin-v" class="vcap">Fin de rafale</h2>
     <div class="card"><p style="font:600 16px/24px Inter,system-ui,sans-serif">C'est tout pour aujourd'hui</p></div>
   </section>
 
-  <!-- Note « ma réplique à moi » sous le geste d'une fiche (jamais avant la réponse sur une carte de révision) -->
+  <!-- Geste d'une fiche (E1.1 entier), ligne de retour, puis « Ma réplique à moi » (ordre de E1.1 et de 2.7) -->
   <section class="sec var" aria-labelledby="no-v">
-    <h2 id="no-v" class="vcap">«&nbsp;Ma réplique à moi&nbsp;», sous le geste d'une fiche</h2>
+    <h2 id="no-v" class="vcap">Geste d'une fiche, retour, puis «&nbsp;Ma réplique à moi&nbsp;»</h2>
     <article class="card carte note" aria-labelledby="no-t">
       <h3 id="no-t" class="lab">À toi</h3>
-      <p>Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à voix haute, debout, sans sourire. Dix secondes.</p>
+      <p>Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à voix haute, debout, sans sourire. Dix secondes. Pour aller plus loin : la prochaine fois que tu laisses traîner quelque chose, dis-la en vrai.</p>
+      <div role="group" aria-labelledby="rt-l">
+        <p id="rt-l" class="lab" data-hyp="HYPOTHÈSE">Ton retour</p>
+        <div class="chips">
+          <button class="chip" type="button" aria-pressed="false"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Pas essayé</button>
+          <button class="chip" type="button" aria-pressed="false"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, bof</button>
+          <button class="chip" type="button" aria-pressed="false"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, ça a marché</button>
+        </div>
+      </div>
       <form id="note" onsubmit="return false">
         <label for="nt">Ma réplique à moi</label>
         <textarea id="nt" rows="2" placeholder="Écris ta version, en une phrase" aria-describedby="nc ns"></textarea>
@@ -195,12 +237,12 @@ body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px
           <button id="n-ok" class="btn btn-p" type="submit">Enregistrer</button>
           <button id="n-re" class="btn btn-p" type="submit" hidden>Réessayer</button>
           <button id="n-sup" class="btn" type="button" hidden>Supprimer</button>
-          <span id="nc" class="cap">0 caractère</span>
+          <span id="nc" class="cap" data-hyp="HYPOTHÈSE">0 caractère</span>
         </div>
         <p id="ns" class="meta" role="status" style="margin-top:8px"></p>
         <div id="n-conf" hidden style="margin-top:8px">
-          <p class="meta">Supprimer cette réplique&nbsp;?</p>
-          <div class="row2"><button id="n-oui" class="btn" type="button">Supprimer</button><button id="n-non" class="btn" type="button">Annuler</button></div>
+          <p class="meta" data-hyp="HYPOTHÈSE">Supprimer cette réplique&nbsp;?</p>
+          <div class="row2"><button id="n-oui" class="btn" type="button">Supprimer</button><button id="n-non" class="btn" type="button" data-hyp="HYPOTHÈSE">Annuler</button></div>
         </div>
       </form>
     </article>
@@ -209,24 +251,29 @@ body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px
   <nav class="demo" aria-label="États de la maquette">
     États de la maquette :
     <a href="#etat=revision-avant">Révision : avant la réponse (aucune note)</a>
-    <a href="#etat=revision">Révision : après la réponse (note affichée)</a>
+    <a href="#etat=revision">Révision : après la réponse (note affichée, « Oui »)</a>
+    <a href="#etat=revision&rep=rien">Révision, « Rien »</a>
     <a href="#note=vide">Note vide</a>
     <a href="#note=saisie">Note saisie</a>
     <a href="#note=enregistree">Note enregistrée</a>
     <a href="#note=echec">Échec sans perte</a>
     <a href="#note=confirmer">Suppression, confirmation</a>
     <a href="#note=supprimee">Supprimée</a>
-    <a href="#etat=attente">Prends ton temps seul</a>
+    <a href="#etat=attente">Prends ton temps (boutons en attente)</a>
     <a href="#etat=boutons">Avec les trois boutons</a>
-    <a href="#etat=reponses">Répliques révélées</a>
+    <a href="#etat=reponses&rep=oui">« Oui » : répliques révélées</a>
+    <a href="#etat=reponses&rep=moitie">« À moitié »</a>
+    <a href="#etat=reponses&rep=rien">« Rien »</a>
     <a href="#etat=regle">Choix fait, règle affichée</a>
     <a href="#etat=sequence">Rejouer la séquence (3 secondes)</a>
+    <a href="#rech">Recherche ouverte</a>
+    <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
 </main>
 
 <template id="tpl">
   <article class="card carte" aria-labelledby="{id}-t">
-    <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag">À revoir</span></p>
+    <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag" data-hyp="HYPOTHÈSE">À revoir</span></p>
     <p class="accroche">{accroche}</p>
     <hr class="sep">
     <h2 id="{id}-t">Coloc : la poêle</h2>
@@ -249,9 +296,10 @@ body[data-rev="1"] .rev-tag{display:inline-block;margin-left:8px;padding:2px 8px
         <button class="btn" type="button" data-rep="moitie">À moitié</button>
         <button class="btn" type="button" data-rep="rien">Rien</button>
       </div>
+      <p class="meta rg" role="status" data-hyp="HYPOTHÈSE" hidden></p>
     </div>
     <section class="reps" aria-labelledby="{id}-c" data-r="reponses" hidden>
-      <h3 id="{id}-c">Laquelle convient au contexte&nbsp;?</h3>
+      <h3 id="{id}-c" data-hyp="HYPOTHÈSE">Laquelle convient au contexte&nbsp;?</h3>
       <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
       <div class="regs">
         <button class="btn" type="button" aria-pressed="false" data-reg="sure"><b>La sûre</b><span>«&nbsp;Elle est à moi. Je la lave, et jeudi n'aura jamais existé.&nbsp;»</span></button>
@@ -271,19 +319,36 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
 
-/* Barre : même comportement que l'accueil (active ramenée dans la vue sans animation, fondus) */
+/* Barre : « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation */
 function fondus() {
-  const l = $("#liste");
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth;
+  $("#fg").style.left = p + "px";
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() {
-  const l = $("#liste"), a = $('[aria-current="page"]', l);
-  if (a) l.scrollLeft = Math.max(0, a.offsetLeft - (l.clientWidth - a.offsetWidth) / 2);
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
+  if (a && a !== l.firstElementChild) {
+    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
+    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
+    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    l.scrollLeft = s;
+  } else l.scrollLeft = 0;
   fondus();
 }
 $("#liste").addEventListener("scroll", fondus, { passive: true });
+$("#liste").addEventListener("focusin", (e) => {
+  const l = $("#liste"), t = e.target, p = l.firstElementChild.offsetWidth;
+  if (t === l.firstElementChild) return;
+  const g = t.offsetLeft - p - 8, d = t.offsetLeft + t.offsetWidth + 8 - l.clientWidth;
+  if (g < l.scrollLeft) l.scrollLeft = Math.max(0, g); else if (d > l.scrollLeft) l.scrollLeft = d;
+});
 addEventListener("resize", ramener);
+const br = $("#btn-rech"), rc = $("#rech");
+function rech(o) { rc.hidden = !o; br.setAttribute("aria-expanded", String(o)); if (o) $("#q").focus(); }
+br.addEventListener("click", () => rech(rc.hidden));
+$("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
+rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
 
 /* Deux cartes issues du même gabarit : seule l'accroche change */
 const tpl = $("#tpl").innerHTML;
@@ -292,25 +357,46 @@ $$(".var[data-v]").forEach((f) => { /* seules les deux variantes ont un .slot */
   s.outerHTML = tpl.replace(/\{id\}/g, id).replace("{accroche}", s.dataset.accroche);
 });
 let minuteur = null;
-/* État d'une carte : attente (Prends ton temps seul), boutons, reponses, regle */
+
+/* Règles de « Oui », « À moitié », « Rien » (2.2) rendues par une ligne neutre sous les boutons :
+   Oui : aucune ligne (la carte ne revient pas à cause de cette réponse) ; À moitié : revient une fois à J+7 [HYPOTHÈSE] ; Rien : revient une seule fois, à J+2. */
+const REGLE = { oui: "", moitie: "Cette carte reviendra dans 7 jours.", rien: "Cette carte reviendra dans 2 jours." };
+function ligneRegle(c, rep) {
+  const p = $(".rg", c), t = REGLE[rep] || "";
+  p.textContent = t; p.hidden = !t;
+}
+/* État d'une carte : attente (« Prends ton temps », boutons visibles mais en attente), boutons, reponses, regle */
 function etat(c, e, rep, reg) {
-  const voir = { attente: ["attente"], boutons: ["attente", "boutons"], reponses: ["boutons", "reponses"], regle: ["boutons", "reponses", "regle"] }[e];
+  const voir = { attente: ["attente", "boutons"], boutons: ["boutons"], reponses: ["boutons", "reponses"], regle: ["boutons", "reponses", "regle"] }[e];
   $$("[data-r]", c).forEach((x) => (x.hidden = !voir.includes(x.dataset.r)));
   $$(".trois .btn", c).forEach((b) => {
     const on = b.dataset.rep === rep;
     b.setAttribute("aria-pressed", String(on)); b.disabled = e === "reponses" || e === "regle";
+    if (e === "attente") b.setAttribute("aria-disabled", "true"); else b.removeAttribute("aria-disabled");
   });
   $$(".regs .btn", c).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.reg === reg)));
+  ligneRegle(c, e === "reponses" || e === "regle" ? rep : "");
 }
 $$('.carte[aria-labelledby^="c-"]').forEach((c) => {
   /* un seul toucher révèle les répliques ; aucun texte libre, rien d'enregistré dans la maquette */
-  $$(".trois .btn", c).forEach((b) => b.addEventListener("click", () => { etat(c, "reponses", b.dataset.rep); $(".regs .btn", c).focus(); }));
+  $$(".trois .btn", c).forEach((b) => b.addEventListener("click", () => {
+    if (b.getAttribute("aria-disabled") === "true") return;
+    etat(c, "reponses", b.dataset.rep); $(".regs .btn", c).focus();
+  }));
   $$(".regs .btn", c).forEach((b) => b.addEventListener("click", () => etat(c, "regle", $(".trois .btn[aria-pressed=true]", c)?.dataset.rep, b.dataset.reg)));
 });
-/* Carte « Et toi ? » : un toucher révèle les deux répliques et le pourquoi */
-$$("#et .trois .btn").forEach((b) => b.addEventListener("click", () => {
-  $("#et-rep").hidden = false; $$("#et .trois .btn").forEach((x) => { x.setAttribute("aria-pressed", String(x === b)); x.disabled = true; });
-}));
+/* Carte « Et toi ? » : un toucher révèle les deux répliques et le pourquoi ; la note de l'abonné (révision) suit la réponse */
+function etSet(apres, rep, att) {
+  $("#et-rep").hidden = !apres; $("#et-pt").hidden = !att;
+  $$("#et .trois .btn").forEach((x) => {
+    x.setAttribute("aria-pressed", String(apres && x.dataset.rep === rep)); x.disabled = apres;
+    if (att) x.setAttribute("aria-disabled", "true"); else x.removeAttribute("aria-disabled");
+  });
+  ligneRegle($("#et"), apres ? rep : "");
+}
+$$("#et .trois .btn").forEach((b) => b.addEventListener("click", () => { if (b.getAttribute("aria-disabled") !== "true") etSet(true, b.dataset.rep, false); }));
+/* Retour d'un geste : Pas essayé, Essayé bof, Essayé ça a marché (un seul choix) */
+$$('[aria-labelledby="rt-l"] .chip').forEach((c) => c.addEventListener("click", () => $$('[aria-labelledby="rt-l"] .chip').forEach((x) => x.setAttribute("aria-pressed", String(x === c)))));
 /* Note « ma réplique à moi » : vide, saisie, enregistrée, échec sans perte, confirmation, supprimée */
 const nt = $("#nt");
 function note(s) {
@@ -319,7 +405,9 @@ function note(s) {
   if (s === "supprimee") nt.value = "";
   const k = nt.value.length;
   $("#nc").textContent = k + (k > 1 ? " caractères" : " caractère");
-  $("#ns").textContent = { enregistree: "Enregistrée", echec: "L'enregistrement n'a pas abouti. Ton texte est toujours là.", supprimee: "Supprimée" }[s] || "";
+  const ns = $("#ns");
+  ns.textContent = { enregistree: "Enregistrée", echec: "L'enregistrement n'a pas abouti. Ton texte est toujours là.", supprimee: "Supprimée" }[s] || "";
+  if (s === "echec" || s === "supprimee") ns.setAttribute("data-hyp", "HYPOTHÈSE"); else ns.removeAttribute("data-hyp");
   $("#n-ok").hidden = s === "echec";
   $("#n-re").hidden = s !== "echec";
   $("#n-sup").hidden = !(s === "enregistree" || s === "confirmer");
@@ -332,20 +420,25 @@ $("#n-non").addEventListener("click", () => { note("enregistree"); $("#n-sup").f
 $("#n-oui").addEventListener("click", () => { note("supprimee"); nt.focus(); });
 function appliquer() {
   clearTimeout(minuteur);
-  const h = location.hash, e = (h.match(/etat=([\w-]+)/) || [])[1] || "boutons";
+  const h = location.hash, e = (h.match(/etat=([\w-]+)/) || [])[1] || "boutons", rep = (h.match(/rep=(\w+)/) || [])[1] || "oui";
   note((h.match(/note=(\w+)/) || [])[1] || "vide");
   document.body.dataset.rev = e.startsWith("revision") ? "1" : "0";
+  document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
   $$(".carte").forEach((c) => {
     if (!(c.getAttribute("aria-labelledby") || "").startsWith("c-")) return;
-    if (e === "revision") etat(c, "reponses", "oui");
+    if (e === "revision") etat(c, "reponses", rep);
     else if (e === "revision-avant") etat(c, "boutons");
-    else if (e === "sequence") { etat(c, "attente"); }
-    else if (e === "reponses") etat(c, "reponses", "oui");
+    else if (e === "sequence") etat(c, "attente");
+    else if (e === "reponses") etat(c, "reponses", rep);
     else if (e === "regle") etat(c, "regle", "oui", "joueuse");
     else etat(c, e);
   });
-  /* "Prends ton temps" s'affiche 3 secondes, puis les trois boutons (jamais bloquants pour le lecteur d'écran : texte présent dans le DOM) */
-  if (e === "sequence") minuteur = setTimeout(() => $$(".carte").forEach((c) => etat(c, "boutons")), 3000);
+  /* « Et toi ? » suit le même état : révision = note visible seulement après la réponse */
+  if (e === "revision" || e === "reponses" || e === "regle") etSet(true, rep, false);
+  else etSet(false, null, e === "attente" || e === "sequence");
+  /* « Prends ton temps » dure 3 secondes, puis les boutons s'activent (le texte et les boutons sont dans le DOM dès le départ : rien n'est bloquant pour le lecteur d'écran) */
+  if (e === "sequence") minuteur = setTimeout(() => { $$(".carte").forEach((c) => { if ((c.getAttribute("aria-labelledby") || "").startsWith("c-")) etat(c, "boutons"); }); etSet(false, null, false); }, 3000);
+  rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);
 appliquer(); ramener();
