@@ -142,7 +142,7 @@ Repère de la capture : « 36 fiches, 9 sous-parcours » pour un parcours, soit 
 |---|---|---|---|
 | T1 | Chiffres de contenu périmés dans `project-context.md` | Il dit « 3 parcours », « ~602 vannes », « 400 conseils » (mesure prod du 29/09) ; valeurs du 12/11 : 5 parcours, 149 vannes, 120 conseils, 89 vidéos actives (section 6). À corriger avant tout texte public chiffré | `project-context.md` l. 82, `vannes-actives-s19.json` |
 | T2 | `docs/content/progression-levels.md` documente d'autres gains d'XP (lire une blague +2, conseil +10, exercice +25, badges, séries) que le brief (XP d'étape 20 par défaut, bonus 100) | Source probablement obsolète ; le code fait foi. [À VÉRIFIER : quels gains existent dans `lib/progression.ts`] | `progression-levels.md`, brief §2.3 |
-| T3 | État de validation du carnet (octobre, novembre) non documenté dans les pièces lues | Le brouillon de novembre est noté « rien n'est validé » le 18/10 ; il est en code (30 fiches). Ne pas s'appuyer dessus comme « validé » avant vérification | `project-context.md` 18/10 |
+| T3 | État de validation du carnet : LEVÉ (12/11, vérifié par la session) | Octobre : 2 critiques à l'aveugle et départage (`docs/copy/carnet/critique-A.md`, `critique-B.md`, `departage-2026-10.md`). Novembre : relectures à l'aveugle et départage (`docs/copy/carnet/novembre/aveugle-*.md`, `critique-A-moitie*.md`, `departage-r2.md`). Détail et 3 vérifications restantes : `architecture-contenu-v3.md` §1.4. |
 | T4 | Aucun chiffre d'usage du contenu | La résiliation s23 note « aucun usage » = aucune action enregistrée en base ; lire une vanne ou une vidéo ne laisse aucune trace. On ne sait pas quels contenus sont lus | brief §1 |
 | T5 | Vidéos : légendes Répartie de Rollman et Haroun « non vérifiées » (13/10) ; durées corrigées mais 2 vidéos (Ngijol, Bun Hay Mean) à visionner en version officielle | À lever avant de bâtir des fiches vidéo sur ces vidéos | `project-context.md` 13/10 |
 | T6 | Pas de classement du contenu par situation (soirée, bureau, famille, rencard…) | Le champ `contexte` existe dans le carnet (valeur « quotidien » lue) ; les vannes ont une `category` thématique ; aucun classement par situation transverse | `carnet/2026-11.json` |
@@ -175,7 +175,7 @@ Repère de la capture : « 36 fiches, 9 sous-parcours » pour un parcours, soit 
 3. « Fait » par fiche : enregistrement par fiche sans XP, ou XP inchangé par étape ? (Q5 et série sur la pratique, 07/10)
 4. Le carnet et les lettres : sont-ils la matière de « quelle réponse dans quelle situation » (réutiliser) ou source d'inspiration pour du contenu neuf ? (D1)
 5. Production : levée le 12/11 (149 vannes, 120 conseils, 89 vidéos actives, section 6). Écart restant : nombre de questions de quiz d'étapes et de points clés vidéo (≈ 356 = 89 × 4, non recompté).
-6. État de validation à l'aveugle du carnet d'octobre et de novembre (T3).
+6. ~~État de validation à l'aveugle du carnet (T3)~~ : levé, voir T3.
 
 <!-- Fin du document. -->
 
