@@ -1,4 +1,4 @@
-# QR2 : Quoi répondre, lot 2 (10 situations), tour 3
+# QR2 : Quoi répondre, lot 2 (10 situations), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR2 : soirée 5, boulot 4, réunion et entretien 1, répartition 5/4/1 conforme au plan et à 7.4 d'après @reviewer : l'hypothèse d'ordre est levée), `docs/espace-client/audit-contenu/architecture-contenu-v20.md`, format et conventions de `docs/copy/espace/qr1-situations.md`, fautes relevées dans `docs/copy/espace/relectures/qr1-tour-{1,2,3}-*.md`, étalons `docs/copy/etalons-espace-s24.md` (E1.1, E1.2), ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Les mots entre accents graves sont des écrans.
@@ -135,8 +135,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je testais la table. Elle est étanche, je peux recommencer. »
-Tu prends l'incident comme un test de la table et tu en tires la conclusion la plus sereine possible, sans t'excuser ni l'amplifier. Elle ne vise personne et se ferme toute seule : on te passe une serviette et la soirée reprend. C'est la bonne quand les têtes ne sourient pas encore.
+« Je testais la table. Elle est étanche, bonne nouvelle. »
+Tu prends l'incident comme un test de la table et tu conclus sur une bonne nouvelle, sans t'excuser ni l'amplifier. Elle ne vise personne et se ferme toute seule : on te passe une serviette et la soirée reprend. C'est la bonne quand les têtes ne sourient pas encore.
 
 **La joueuse**
 « Mon verre a demandé la parole. Je ne pouvais pas la lui refuser. »
@@ -174,7 +174,7 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 
 **La sûre**
 « Je file pendant que tout le monde m'aime encore. »
-Tu pars en laissant une bonne impression, avec une vanité assumée : mieux vaut partir sur une bonne impression que rester trop longtemps. Elle ne vise personne et ne demande pas de justification. C'est la bonne quand l'autre ne sourit pas.
+Tu pars en laissant un souvenir agréable, avec une vanité assumée : mieux vaut partir sur une bonne impression que rester trop longtemps. Elle ne vise personne et ne demande pas de justification. C'est la bonne quand l'autre ne sourit pas.
 
 **La joueuse**
 « À minuit, mon énergie a fini son service. La relève ne viendra pas. »
@@ -515,6 +515,13 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 6 répliques modif
 | « pari » au lieu d'« interro » (reviewer, @elon) | B3 contextes 1 et 2 : « imposerait une interro », « proposerait une interro que personne n'a demandée ». |
 | En-tête (@elon) | l. 3 : « l'hypothèse d'ordre est levée », aligné sur la table du tour 2 et l'avis de @reviewer. |
 | Pourquoi des répliques changées (reviewer) | S1, S3, S4, S5, R1, B2 : chaque pourquoi décrit la réplique actuelle. |
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| S4 sûre : « je peux recommencer » est une insolence que son pourquoi contredit et qui rit de la peine de qui essuie (coordinateur, @elon, reviewer) | Réplique reprise de la version d'@elon : « Je testais la table. Elle est étanche, bonne nouvelle. » ; pourquoi : « tu conclus sur une bonne nouvelle, sans t'excuser ni l'amplifier ». Candidates : « …Elle est étanche, tout va bien. » (reviewer, plus plate), « …je peux recommencer. » (insolence, écartée). Annexe 5 : la « gardée » de la ligne S4 sûre est remplacée par cette version. Web : déjà cherchée au tour 2, 0 occurrence exacte. |
+| S5 sûre, pourquoi : « bonne impression » deux fois (coordinateur) | « Tu pars en laissant un souvenir agréable, avec une vanité assumée : mieux vaut partir sur une bonne impression que rester trop longtemps. » |
 
 ## Contrôles tenus (auto-évaluation)
 
