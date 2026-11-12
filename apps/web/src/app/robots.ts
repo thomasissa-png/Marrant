@@ -10,6 +10,8 @@ export default function robots(): MetadataRoute.Robots {
     "/onboarding",
     "/profil",
     "/favoris",
+    // s24 (lot D0) : espace client Premium, privé (noindex, jamais dans le sitemap).
+    "/mon-espace",
     // Audit Ahrefs 07/10/2026 : ~950 variantes /register?callbackUrl=… (noindex)
     // et /abonnement?returnTo=… crawlées ; /abonnement nu reste explorable.
     "/register",
