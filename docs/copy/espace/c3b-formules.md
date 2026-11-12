@@ -1,4 +1,4 @@
-# C3b : « Formules à détourner », lot 2 (fiches 7 à 12, 30 détournements), tour 3
+# C3b : « Formules à détourner », lot 2 (fiches 7 à 12, 30 détournements), tour 4
 
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche : celui de E2.2 et de C3a (`docs/copy/espace/c3a-formules.md`) : la règle, deux déjà faites, trois à toi (formule entière gardée, suite à écrire, version possible repliée), le piège (forme fixée par `architecture-contenu-v20.md` l. 502, identique à E2.2), la limite, une suite qui ne détourne rien, la grille.
 > Six familles neuves, hors C3a (proverbes, expressions imagées, répliques de cinéma, rituels, phrases de parents, citations) : 7 contes, 8 annonces et panneaux de gare, 9 comptines, 10 phrases de commerçants, 11 phrases de recettes, 12 phrases de profs. Aucune formule de bureau. Décors : coloc, gare, soirée, courses, cuisine, salle de cours.
@@ -107,7 +107,7 @@ Tu gardes le début de la comptine tel quel. Tu remplaces ou tu prolonges la fin
 2. « Au clair de la lune, mon ami Pierrot, prête-moi … »
    `[Voir une version possible]` « Au clair de la lune, mon ami Pierrot, prête-moi ton wifi pour écrire un mot. »
 3. « Alouette, gentille alouette, alouette, je te … »
-   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai, mais d'abord cinq minutes de plus. »
+   `[Voir une version possible]` « Alouette, gentille alouette, alouette, je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. »
 
 **Le piège**
 Changer la forme : plus personne ne reconnaît l'expression.
@@ -257,7 +257,7 @@ Puis la grille : elle tient en une phrase ? Si elle vise quelqu'un, peut-il en r
 - Bergère : « …et mon linge est encore dehors. » · « …et mon parapluie dort au bureau. »
 - Loup : « …il est parti chercher un colis. » · « …il est chez le coiffeur. »
 - Pierrot : « …prête-moi ton mot de passe, j'ai perdu le mien. » · « …prête-moi ton chargeur pour finir un mot. »
-- Alouette : « …je te débrancherai dès 6 h. » (ne dit pas que c'est un réveil) · « …je te débrancherai après le deuxième report. »
+- Alouette : « …je te débrancherai, mais d'abord cinq minutes de plus. » (formule toute faite du réveil, et réveil repoussé déjà dans C1c) · « …je te débrancherai, si je trouve la prise à tâtons. » (aussi écartées au tour 3 : « …dès 6 h », « …après le deuxième report » ; autre candidate du tour 4 : « …je te débrancherai, avec un seul œil ouvert. »)
 
 **Fiche 10**
 - Et avec ceci : « Avec ceci, ma baguette devient un goûter. » · « Rien, merci, je repars avec un sac de gâteaux pour une baguette. »
@@ -327,7 +327,7 @@ Toutes les phrases nouvelles : 3 candidates, recherche web de la phrase exacte e
 
 ## Tour 3 : ce qui a changé (hors import)
 
-Six lignes seulement, le reste est inchangé (piège compris). 3 candidates par ligne, recherche web de la phrase exacte et de l'idée pour chaque phrase retenue : 0 occurrence ; les écartées sont en annexe.
+Sept lignes seulement (les sept du tableau), le reste est inchangé (piège compris). 3 candidates par ligne, recherche web de la phrase exacte et de l'idée pour chaque phrase retenue : 0 occurrence ; les écartées sont en annexe.
 
 | Point (reviewer, elon, critique) | Retenu | Pourquoi |
 |---|---|---|
@@ -335,6 +335,17 @@ Six lignes seulement, le reste est inchangé (piège compris). 3 candidates par 
 | Fiche 8, règle : parle du haut-parleur, l'exemple est un panneau (reviewer) | « Tu gardes l'annonce ou le panneau tel quel. Tu y mets un détail précis de ta journée, et la gare se met à parler de toi. » | La règle couvre annonces et panneaux. |
 | Fiche 8, « surtout celui que je viens de rater » obscur (elon) | « Un train peut en cacher un autre, et le mien cachait un car de remplacement. » | Le car de remplacement est la surprise, la phrase reste unique (la version à deux phrases est écartée). |
 | Fiche 8, bordure (critique) | « …s'il vous plaît, ma valise ne sait pas freiner. » | La suite répond à la bordure du quai. |
-| Fiche 9, alouette (critique, reviewer) | « …je te débrancherai, mais d'abord cinq minutes de plus. » | « Cinq minutes de plus » dit le réveil sans l'expliquer. « Après le deuxième report » écarté (mot moins courant). |
+| Fiche 9, alouette (critique, reviewer) | Tour 3 : « …je te débrancherai, mais d'abord cinq minutes de plus. » (remplacée au tour 4, voir plus bas) | « Cinq minutes de plus » disait le réveil sans l'expliquer. « Après le deuxième report » écarté (mot moins courant). |
 | Fiche 10, « Ce sera tout ? » (critique) | « …Oui, j'avais deux choses sur ma liste, j'ai pris tout le reste. » | La liste est posée dans la phrase. La réécriture « sauf ce pour quoi je suis venu » n'est pas reprise : « venu » s'accorde. |
 | Fiche 12, « Moi, je… » deux fois de suite (elon) | « Ça sera noté. Je souligne deux fois, au cas où ça compte double. » | La ligne suivante garde son « Moi, je verrai ça la veille de l'examen ». |
+
+---
+
+## Tour 4 : ce qui a changé (hors import)
+
+Une seule ligne (décision C8), le reste est inchangé. 3 candidates, recherche web de la phrase exacte et de l'idée (3 recherches) : 0 occurrence pour chacune ; C1c l. 65 relu (réveil à 7 h éteint à 7 h 01), l'idée du réveil repoussé n'est plus reprise.
+
+| Point | Retenu | Pourquoi |
+|---|---|---|
+| Fiche 9, alouette : « cinq minutes de plus » est la formule toute faite du réveil et reprend le réveil repoussé de C1c (reviewer) | « Alouette, gentille alouette, alouette, je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux. » | Le réveil se devine par la scène (on cherche l'appareil les yeux fermés), sans expliquer ni répéter la formule du réveil repoussé. Suite de 11 mots, aucun accord. Écartées : « …si je trouve la prise à tâtons », « …avec un seul œil ouvert ». |
+| Table « Tour 3 » | Alignée sur ses 7 lignes | « Six » devient « Sept » ; la ligne de l'alouette indique qu'elle est remplacée au tour 4. |
