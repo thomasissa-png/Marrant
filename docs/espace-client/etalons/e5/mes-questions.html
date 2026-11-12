@@ -108,6 +108,8 @@ details[open] summary{color:var(--t1)}
 .fil .lab{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
 .sig{font-size:14px;line-height:20px;color:var(--t2)}
 .exemple>*+*{margin-top:8px}
+/* v6 : « abonnement terminé » vit dans « Mon profil » (2.6), sans barre de l'espace ni cloche */
+body[data-profil="1"] .bar,body[data-profil="1"] #btn-cloche{display:none}
 .demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
 .demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
 /* 200 % de texte (viewport utile d'environ 188 px) : en-tête sur deux rangées, en-tête et barre non épinglés, barre compacte */
@@ -120,7 +122,7 @@ details[open] summary{color:var(--t1)}
 .fd{display:none}
 h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16px}
 .card{padding:12px}.box{padding:8px 12px}.type input:checked+.box{padding:7px 11px}
-.btn{width:100%;white-space:normal;text-align:center;padding:8px}.quote{padding:8px 12px;overflow-wrap:anywhere}
+.btn{width:100%;min-width:0;white-space:normal;text-align:center;padding:12px}.btn::after{white-space:normal}.quote{padding:8px 12px;overflow-wrap:anywhere}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
@@ -136,7 +138,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
 </div>
-  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search" placeholder="Rechercher"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
 </header>
 
 <div class="bar">
@@ -158,6 +160,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
 
 <main id="main" class="wrap main">
   <div class="top">
+    <p id="profil" class="cap" hidden data-hyp="HYPOTHÈSE">Mon profil</p>
     <h1>Mes questions</h1>
   </div>
 
@@ -195,7 +198,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
       </div>
 
       <!-- Abonnement terminé (2.6) : lecture seule, ni ajout ni « Continuer » ; le retrait d'un envoi reste possible sur demande -->
-      <p id="gardes" class="meta" style="margin-bottom:12px" hidden>Ton historique de questions et tes répliques sont gardés</p>
+      <!-- v6 : adresse de l'équipe pour un problème de paiement ou d'accès (2.6 : « l'adresse de l'équipe de l'e-mail de résiliation »). La ligne « Ton historique de questions et tes répliques sont gardés » appartient à l'état « redirigé vers /abonnement » (2.6), pas à cet écran. -->
+      <p id="gardes" class="meta" style="margin-bottom:12px" hidden data-hyp="HYPOTHÈSE">Pour un problème de paiement ou d'accès, écris-nous à <a href="mailto:contact@deviens-marrant.fr" style="color:var(--link);text-decoration:underline;display:inline-flex;align-items:center;min-height:44px">contact@deviens-marrant.fr</a></p>
       <ul id="liste-env" class="envois">
         <!-- En attente (ou en retard après 3 jours ouvrés : envoyé le vendredi 6 novembre, en retard le jeudi 12) -->
         <li id="e-attente" class="card env">
@@ -244,7 +248,8 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
   $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
-  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
+  const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
+  l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
@@ -304,6 +309,7 @@ function appliquer() {
   $("#card-poser").hidden = e === "termine";
   $("#b-cont").hidden = e === "termine";
   $("#gardes").hidden = e !== "termine";
+  $("#profil").hidden = e !== "termine"; document.body.dataset.profil = e === "termine" ? "1" : "0";
   /* Retard : après 3 jours ouvrés (2.6). Envoyé le vendredi 6 novembre, le jeudi 12 novembre = 3 jours ouvrés écoulés. */
   $("#e-date").textContent = e === "retard" ? "Envoyé le 6 novembre" : "Envoyé le 10 novembre";
   $("#e-statut").textContent = e === "retard" ? "L'équipe n'a pas encore répondu, ta demande est bien là" : "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés";

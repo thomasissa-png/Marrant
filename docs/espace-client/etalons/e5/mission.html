@@ -48,6 +48,8 @@ body[data-hyp="off"] [data-hyp]::after{content:none}
 .tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
 .liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
+.tab[aria-current]{color:var(--t1)}
+.tab[aria-current]::after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:var(--acc)}
 .tab:focus-visible{outline-offset:-2px}
 .tab svg{width:16px;height:16px}
 .fade{position:absolute;top:0;bottom:0;width:40px;pointer-events:none;display:flex;align-items:center;transition:opacity var(--fast)}
@@ -82,6 +84,10 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 @media(max-width:359px){.trois{grid-template-columns:1fr}}
 .trois .btn{padding:0 4px}
 .trois .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
+.marches{display:inline-flex;align-items:flex-end;gap:2px;height:20px}
+.marches i{display:block;width:6px;border:2px solid var(--link);border-radius:1px}
+.marches i:nth-child(1){height:6px}.marches i:nth-child(2){height:10px}.marches i:nth-child(3){height:14px}.marches i:nth-child(4){height:18px}.marches i:nth-child(5){height:22px}
+.marches i.on{background:var(--link)}
 .suite{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
 .suite>*+*{margin-top:8px}
 .lien{display:inline-flex;align-items:center;min-height:44px;color:var(--link);text-decoration:underline;text-underline-offset:2px;font:600 14px/20px Inter,system-ui,sans-serif}
@@ -112,7 +118,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
 </div>
-  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search" placeholder="Rechercher"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
 </header>
 
 <div class="bar">
@@ -124,7 +130,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
         <a class="tab" href="#">Quoi répondre</a>
         <a class="tab" href="#">Bibliothèque</a>
         <a class="tab" href="mes-questions.html">Mes questions</a>
-        <button class="tab" type="button" aria-haspopup="menu" aria-expanded="false">Plus <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+        <button class="tab" type="button" aria-haspopup="menu" aria-expanded="false" aria-current="page">Plus <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
       </div>
       <div id="fg" class="fade fg off" aria-hidden="true"></div>
       <div id="fd" class="fade fd" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
@@ -138,7 +144,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 
     <!-- Mission : 5 marches, toujours facultative, une seule ouverte à la fois, jamais comptée contre l'abonné (2.4). Lien secondaire seulement : jamais l'action principale d'« Aujourd'hui » (4.4 point 4). -->
     <section id="mission" class="card" aria-labelledby="h-m">
-      <p class="eyebrow"><span id="marche" data-hyp="HYPOTHÈSE">Marche 2 sur 5</span></p>
+      <!-- v6 : plus de « n sur 5 » (voisin de « cap n sur 5 », règle de 3.0 pt 6). Repère visuel d'une autre forme que les pastilles du cap : cinq marches (barres montantes, carrées), décorative, aria-hidden. -->
+      <p class="eyebrow" style="display:flex;align-items:flex-end;gap:12px"><span id="marche" data-hyp="HYPOTHÈSE">Marche 2</span><span id="marches" class="marches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></p>
       <h2 id="h-m" data-hyp="HYPOTHÈSE">À un proche, par message</h2>
       <p class="ph">[Énoncé de la mission, provocable cette semaine]</p>
       <p class="meta" data-hyp="HYPOTHÈSE">Facultative</p>
@@ -175,7 +182,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
         <div class="trois"><button class="btn" type="button">Oui</button><button class="btn" type="button">À moitié</button><button class="btn" type="button">Rien</button></div>
       </div>
       <!-- Question de bilan : une seule, après les situations, sans note ni verdict -->
-      <div role="group" aria-labelledby="qb" id="qb-g">
+      <div role="group" aria-labelledby="qb" id="qb-g" hidden>
         <p id="qb" class="ph">[Question de bilan]</p>
         <div class="chips"><button class="chip" type="button" aria-pressed="false">[Choix 1]</button><button class="chip" type="button" aria-pressed="false">[Choix 2]</button><button class="chip" type="button" aria-pressed="false">[Choix 3]</button></div>
       </div>
@@ -189,7 +196,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
     <a href="#retour=bof">Retour : bof</a>
     <a href="#retour=pas">Retour : pas essayé</a>
     <a href="#retour=pas2">Pas essayé deux fois (marche d'en dessous)</a>
-    <a href="#etat=bilan">Bilan et question de bilan</a>
+    <a href="#etat=bilan">Bilan, avant le toucher</a>
+    <a href="#etat=bilan&question">Bilan, question de bilan affichée</a>
     <a href="#rech">Recherche ouverte</a>
     <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
@@ -202,12 +210,24 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
   $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
-  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
+  const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
+  l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 $("#liste").addEventListener("scroll", fondus, { passive: true });
-addEventListener("resize", fondus);
+/* v6 : « Plus » (porte de « S'entraîner ») est l'entrée active, ramenée dans la vue */
+function ramener() {
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
+  fondus();
+  if (a && a !== l.firstElementChild) {
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    l.scrollLeft = bornes.find((b) => b >= bas && b <= haut) ?? haut;
+  } else l.scrollLeft = 0;
+  fondus();
+}
+addEventListener("resize", ramener);
 const br = $("#btn-rech"), rc = $("#rech");
 function rech(o) { rc.hidden = !o; br.setAttribute("aria-expanded", String(o)); if (o) $("#q").focus(); }
 br.addEventListener("click", () => rech(rc.hidden));
@@ -220,6 +240,10 @@ function retour(r) {
   $("#s-marche").hidden = r !== "marche"; $("#s-bof").hidden = r !== "bof";
 }
 $$("#retours .chip").forEach((x) => x.addEventListener("click", () => retour(x.dataset.r)));
+$$("#bilan .trois .btn").forEach((b) => b.addEventListener("click", () => {
+  $$("#bilan .trois .btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+  $("#qb-g").hidden = false;
+}));
 $$("#qb-g .chip").forEach((x) => x.addEventListener("click", () => $$("#qb-g .chip").forEach((y) => y.setAttribute("aria-pressed", String(y === x)))));
 /* #etat=mission|bilan  #retour=pas|pas2|bof|marche  &rech  &hyp=off */
 function appliquer() {
@@ -229,13 +253,16 @@ function appliquer() {
   $("#mission").hidden = bilan; $("#bilan").hidden = !bilan;
   $("#h1").textContent = bilan ? "Bilan" : "Mission";
   /* Défaut : marche 2 (à un proche, par message). « Pas essayé » deux fois : marche 1, sans commentaire (2.4). */
-  $("#marche").textContent = r === "pas2" ? "Marche 1 sur 5" : "Marche 2 sur 5";
+  const n = r === "pas2" ? 1 : 2;
+  $("#marche").textContent = "Marche " + n;
+  [...$("#marches").children].forEach((x, i) => x.classList.toggle("on", i < n));
+  $("#qb-g").hidden = !h.includes("question"); /* v6 : la question de bilan n'apparaît qu'après le premier toucher de « Tu avais une réponse ? » */
   $("#h-m").textContent = r === "pas2" ? "À voix haute, seul" : "À un proche, par message";
   retour(r === "pas2" ? "" : r);
   rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);
-appliquer(); fondus();
+appliquer(); ramener();
 </script>
 </body>
 </html>

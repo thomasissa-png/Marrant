@@ -29,7 +29,7 @@ a{color:inherit}
 .hd{border-bottom:1px solid var(--bd);background:var(--bg)}
 .hd .wrap{display:flex;height:64px;align-items:center}
 .logo{display:flex;align-items:center;min-height:44px;text-decoration:none;font:700 18px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif;background:linear-gradient(to right,#A78BFA,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
-.page{display:flex;min-height:calc(100svh - 65px);align-items:center;justify-content:center;padding:24px 0}
+.page{display:flex;min-height:calc(100svh - 65px);align-items:center;justify-content:center;padding-top:24px;padding-bottom:24px} /* v6 : plus de « padding » raccourci, qui effaçait les marges latérales de .wrap (la carte touchait les bords à 375) */
 .card{width:100%;max-width:448px;text-align:center;background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:32px}
 .card>*+*{margin-top:8px}
 .t2{color:var(--t2)}.tm{color:var(--tm);font-size:14px;line-height:20px}
@@ -63,7 +63,8 @@ a{color:inherit}
     <div id="s-pret" hidden>
       <h1>Paiement reçu !</h1>
       <p class="t2" style="margin-top:8px">Merci. Ton accès s’active…</p>
-      <!-- La ligne sur la lettre du jeudi (LETTRE_HEBDO_INFO_PAIEMENT, selon l'état du compte) existe dans le code réel ; son texte n'est pas rendu ici (selon l'état : reçoit, arrêtée, opposition). -->
+      <!-- v6 : ligne sur la lettre du jeudi, texte réel de LETTRE_HEBDO_INFO_PAIEMENT (lettre-hebdo-s21.ts l. 41 à 48), une variante par état du compte ; état illisible : aucune ligne. #lettre=recoit|arretee|opposition|aucune -->
+      <p id="lettre" class="tm" style="margin-top:16px" hidden></p>
       <a class="btn btn-p go" href="aujourdhui.html">Continuer</a>
       <p class="renonce"><a href="#">Renoncer au contrat ici</a></p>
     </div>
@@ -76,12 +77,13 @@ a{color:inherit}
     </div>
 
     <!-- Non vérifié : message honnête, contact, « Réessayer » principal, repli -->
-    <div id="s-non" hidden>
+    <div id="s-non" role="status" hidden>
       <h1>On n’arrive pas à confirmer ton paiement</h1>
       <p class="tm" style="margin-top:8px">On n’a pas encore de confirmation de ton paiement. Si tu as bien été débité, pas d’inquiétude : écris-nous à contact@deviens-marrant.fr et on active ton accès à la main.</p>
       <a class="mail" href="mailto:contact@deviens-marrant.fr">contact@deviens-marrant.fr</a>
       <button class="btn btn-p full" type="button" id="reessayer">Réessayer</button>
-      <a class="btn full" href="parcours.html">Voir les parcours</a>
+      <!-- v6 : avec C14 la destination est « Aujourd'hui » ; le code affiche alors « Continuer » (les variantes « Voir les parcours » et « Reprendre mon parcours » tombent). -->
+      <a class="btn full" href="aujourdhui.html">Continuer</a>
     </div>
 
     <!-- Non connecté (étalon 5a.2, validé) -->
@@ -100,6 +102,9 @@ a{color:inherit}
   <a href="#etat=pret">Prêt</a>
   <a href="#etat=nonverifie">Non vérifié</a>
   <a href="#etat=connexion">Non connecté</a>
+  <a href="#etat=pret&lettre=arretee">Prêt, lettre arrêtée</a>
+  <a href="#etat=pret&lettre=opposition">Prêt, opposition aux e-mails</a>
+  <a href="#etat=pret&lettre=aucune">Prêt, état illisible (aucune ligne)</a>
 </nav>
 
 <script>
@@ -112,6 +117,13 @@ function appliquer() {
   const e = (location.hash.match(/etat=(\w+)/) || [])[1] || "pret";
   $("#s-pret").hidden = e !== "pret"; $("#s-verif").hidden = e !== "verification";
   $("#s-non").hidden = e !== "nonverifie"; $("#s-conn").hidden = e !== "connexion";
+  const L = {
+    recoit: "Chaque jeudi, la lettre de la semaine arrive dans ta boîte : elle est incluse dans ton abonnement. Une semaine par mois, c'est la lettre du mois, envoyée à tout le monde. Tu peux arrêter la lettre de la semaine en un clic, depuis chaque lettre ou ton profil.",
+    arretee: "Ta lettre de la semaine reste arrêtée. Tu peux la reprendre depuis ton profil.",
+    opposition: "La lettre de la semaine ne t'est pas envoyée : tu nous as demandé de ne plus recevoir nos e-mails, ou ils n'arrivaient plus à ton adresse. Pour la recevoir, écris-nous à contact@deviens-marrant.fr."
+  };
+  const l = (location.hash.match(/lettre=(\w+)/) || [])[1] || "recoit";
+  $("#lettre").textContent = L[l] || ""; $("#lettre").hidden = !L[l];
 }
 $("#reessayer").addEventListener("click", () => { $("#s-non").hidden = true; $("#s-verif").hidden = false; t = setTimeout(() => { $("#s-verif").hidden = true; $("#s-non").hidden = false; $("#reessayer").focus(); }, 3000); });
 addEventListener("hashchange", appliquer);

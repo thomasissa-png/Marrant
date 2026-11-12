@@ -124,8 +124,8 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 #pas .pas-b .btn{margin-top:12px}
 @media(max-width:1023px){#pas{padding:24px}#pas h2{font-size:24px;line-height:32px}}
 @media(max-width:599px){#pas .pas-b .btn{width:100%;min-height:48px}}
-/* Hauteur : 195 px (en-tête 65 + barre 46 + marge 24 + H1 36 + 24) + 24 de respiration sous la carte + 160 px avant la première puce du contenu du jour : les puces tombent à 100svh + 18 px, jamais dans le premier écran. Banner : 70 px de plus, retirés de la carte. */
-@media(max-width:599px) and (min-width:300px) and (min-height:641px){body[data-fav="0"] #pas{min-height:calc(100svh - 361px)}body[data-fav="1"] #pas{min-height:calc(100svh - 431px)}}
+/* Hauteur : 195 px (en-tête 65 + barre 46 + marge 24 + H1 36 + 24) + 24 de respiration sous la carte + 160 px avant la première puce du contenu du jour : les puces tombent à 100svh + 18 px, jamais dans le premier écran. Banner (texte réel, environ 3 lignes à 375 : 86 + 24 de marge = 110 px) : retirés de la carte, d'où 361 + 110 = 471 px. */
+@media(max-width:599px) and (min-width:300px) and (min-height:641px){body[data-fav="0"] #pas{min-height:calc(100svh - 361px)}body[data-fav="1"] #pas{min-height:calc(100svh - 471px)}}
 /* Cloche : feuille basse mobile, fenêtre ordinateur */
 .ov{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}
 .sheet{width:100%;max-height:calc(100dvh - 16px);overflow-y:auto;background:var(--card);border:1px solid var(--bd);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
@@ -173,7 +173,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
 </div>
-  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search" placeholder="Rechercher"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
 </header>
 
 <div class="bar">
@@ -212,7 +212,8 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
     <p id="repere" class="repere" hidden>12 cartes cette semaine</p>
   </div>
   <!-- Juste après le paiement : le favori reste ajouté, sa confirmation s'affiche ici (C14). Aucun geste demandé. -->
-  <p id="fav" class="banner" role="status" data-hyp="HYPOTHÈSE" hidden>Ton favori est ajouté.</p>
+  <!-- v6 : texte réel du site (BIENVENUE_PREMIUM.favori, abonnement-vente.ts l. 170 à 174), une phrase par type : &favori=JOKE|TIP|VIDEO (défaut JOKE). -->
+  <p id="fav" class="banner" role="status" hidden>Ta vanne est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.</p>
 
   <div id="stack" class="stack">
     <div id="c1" class="col">
@@ -295,7 +296,9 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
   <nav class="demo" aria-label="États de la maquette">
     États de la maquette :
     <a href="#etat=pas">Jour 1 (premier pas)</a>
-    <a href="#etat=apres-paiement">Juste après le paiement</a>
+    <a href="#etat=apres-paiement">Juste après le paiement (vanne)</a>
+    <a href="#etat=apres-paiement&favori=TIP">Après paiement (conseil)</a>
+    <a href="#etat=apres-paiement&favori=VIDEO">Après paiement (vidéo)</a>
     <a href="#etat=rafale">Habitué : rafale à faire</a>
     <a href="#etat=reprise">Habitué : rafale faite</a>
     <a href="#etat=reprise&etape=1">Rafale faite, étape 1 pas commencée</a>
@@ -327,7 +330,9 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
   $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
-  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
+  /* v6 : espace final seulement si les entrées ne tiennent pas (sinon la barre ne défile pas et le chevron reste éteint) */
+  const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
+  l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
@@ -452,6 +457,7 @@ function appliquer() {
   b.dataset.etat = arrivee ? "pas" : e; b.dataset.fav = e0 === "apres-paiement" ? "1" : "0";
   b.dataset.option = p.option || "1"; b.dataset.hyp = p.hyp === "off" ? "off" : "on";
   $("#fav").hidden = e0 !== "apres-paiement";
+  $("#fav").textContent = { JOKE: "Ta vanne", TIP: "Ton conseil", VIDEO: "Ta vidéo" }[p.favori] ? ({ JOKE: "Ta vanne", TIP: "Ton conseil", VIDEO: "Ta vidéo" }[p.favori] + " est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.") : "Ta vanne est dans tes favoris. Le reste est ouvert aussi : les listes, les parcours, les carnets.";
   /* Jour 1 : ni repère, ni étape, ni rafale, ni « Ton mois » (aucune carte jouée, aucune étape) */
   $("#repere").hidden = arrivee;
   $("#pas").hidden = e === "rafale" || e === "reprise";

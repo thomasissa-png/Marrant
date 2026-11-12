@@ -153,7 +153,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
     <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
   </div>
 </div>
-  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search" placeholder="Rechercher"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
 </header>
 
 <div class="bar">
@@ -327,7 +327,8 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
   $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
-  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
+  const nat = [...l.children].reduce((s, c) => s + c.offsetWidth, 0);
+  l.style.setProperty("--sp", (nat <= l.clientWidth ? 0 : Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth)) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
