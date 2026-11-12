@@ -1,9 +1,10 @@
-# C1a : « Comment c'est construit », lot 1 (6 fiches), tour 2
+# C1a : « Comment c'est construit », lot 1 (6 fiches), tour 4
 
-> Auteur : @copywriter, 12/11/2026. Lot C1a du plan s24 §5. Fiche 1 = étalon E2.1 validé, reprise telle quelle. Fiches 2 à 6 = les 5 mécanismes qui suivent le faux secret dans la liste de `architecture-contenu-v20.md` l. 479 (règle de trois, détournement, contraste, litote, fausse logique). **Statut : fiches 2 à 6 réécrites au tour 2, non relues à l'aveugle sur cette version** (règle d'or P0 s18 : chaque fiche corrigée repasse la relecture).
+> Auteur : @copywriter, 12/11/2026. Lot C1a du plan s24 §5. Fiche 1 = étalon E2.1 validé, reprise telle quelle. Fiches 2 à 6 = les 5 mécanismes qui suivent le faux secret dans la liste de `architecture-contenu-v20.md` l. 479 (règle de trois, détournement, contraste, litote, fausse logique). **Statut : tour 4 (dernier, décision C8), après trois tours de relecture à l'aveugle ; au tour 3, fiches 1, 2, 5 et 6 à 10 chez les relecteurs.** Les retouches de ce tour portent sur les fiches 3, 4 et 6 (table « Tour 4 » en bas).
+> **À vérifier avant import :** vannes l. 607-608, 271-272, 159-160 de `docs/content/vannes-actives-s19.json` toujours actives en base.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`. Format de chaque fiche (celui de E2.1) : le schéma en une ligne, l'exemple, comment c'est fait, trois essais un seul tient, la règle, l'erreur que tout le monde fait, à toi + grille (3 questions oui ou non, rien d'enregistré, `architecture-contenu-v20.md` l. 283).
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent nommé, on rit avec et jamais contre, aucune forme accordée au masculin ou au féminin dans ce que dit l'utilisateur (exemples et essais relus ligne à ligne). Aucun humoriste cité dans ce lot (aucune citation n'est nécessaire).
-> Longueur : mesure manuelle, corps de la fiche sans les titres (pas d'outil de comptage). E2.1 = 252 mots ; fiches 2 à 6 après le tour 3 : 248, 247, 250, 249, 243 (le reviewer a compté 1 à 2 mots de plus que moi au tour 2 : marge d'erreur de 2).
+> Longueur : mesure manuelle, corps de la fiche sans les titres (pas d'outil de comptage). E2.1 = 252 mots ; fiches 2 à 6 après le tour 4 : 248, 250, 250, 249, 247 (marge d'erreur de 2 mots entre deux comptages manuels).
 
 ---
 
@@ -104,7 +105,7 @@ Essai 3 : « Les petits abonnements font les grands découverts. »
 Même squelette, un détail précis de ton quotidien.
 
 **La règle**
-Garde la forme de l'expression (ses mots-clés, son rythme) et mets dedans un détail précis de ta vie. Ton détournement tient en une phrase : l'original se reconnaît sans que tu le dises.
+Garde la forme de l'expression (mots-clés, rythme), puis glisse un détail précis à la place d'un mot ou dans une suite. Ton détournement tient en une phrase : l'original se reconnaît sans que tu le dises.
 
 **L'erreur que tout le monde fait**
 Expliquer l'original (« c'est comme le proverbe, mais… »). Le public le reconnaît seul : si tu l'expliques, tu lui retires ce plaisir.
@@ -122,14 +123,14 @@ Choisis une expression connue (« mieux vaut tard que jamais » fait l'affaire).
 **Le contraste**
 
 **Le schéma, en une ligne**
-Deux choses mesurées pareil, un écart énorme, et une chute qui le fait voir.
+Deux choses côte à côte, un écart énorme, et une chute qui le fait voir.
 
 **L'exemple**
 « Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit “c'est un bon début”. »
 [note interne, ne pas importer] Vanne du site : `docs/content/vannes-actives-s19.json` l. 607 (début) et l. 608 (chute), mot pour mot (les « » intérieurs de la vanne s'affichent en “…”).
 
 **Comment c'est fait**
-Un jeu de bonbons et un jeu de rôle n'ont rien à voir : tu les compares pourtant comme s'ils se valaient. La grand-mère gagne au chiffre, et son “bon début” le confirme avec douceur.
+Un jeu de bonbons et un jeu de rôle n'ont rien à voir, mais tu les mesures pareil. La grand-mère gagne au chiffre, et son “bon début” le confirme avec douceur.
 Les chiffres sont exacts : 4 812 et 60, pas « beaucoup » et « peu ».
 
 **Trois essais, un seul tient**
@@ -141,7 +142,7 @@ Essai 3 : « Ma sœur a couru 42 kilomètres dimanche. Moi, j'ai couru 40 mètre
 Même mesure, verdict doux de l'autre.
 
 **La règle**
-Deux choses mesurées pareil, des détails exacts, une chute qui fait voir l'écart, souvent par un verdict doux de l'autre. On rit de l'écart, pas de la personne.
+Deux choses côte à côte, des détails exacts (une même mesure rend l'écart lisible), une chute qui fait voir l'écart, souvent par un verdict doux de l'autre. On rit de l'écart, pas de la personne.
 
 **L'erreur que tout le monde fait**
 Commenter l'écart (« tu vois, elle est bien meilleure »). Il se voit déjà.
@@ -212,7 +213,7 @@ Aucune logique : un simple constat.
 Essai 2 : « La notice dit de laver à 30 degrés. Le linge me déteste, donc je le laisse sale. »
 Trop loin : une excuse, pas un raisonnement.
 Essai 3 : « La notice dit de laver à 30 degrés. Dehors, il fait 31. J'ai étendu le linge sale. »
-La notice parle d'eau, pas de météo : l'étape fausse passe pour une évidence.
+Tu lis la température de l'eau comme celle de l'air : le reste suit, jusqu'au linge étendu sale.
 
 **La règle**
 Une seule étape fausse, glissée comme une évidence, et tu la dis calmement, sans “donc”. Quatre phrases au plus.
@@ -222,7 +223,7 @@ Conclure à la place de l'autre (“donc je lave dehors”). La déduction lui a
 
 **À toi**
 Choisis une consigne que tu as déjà suivie (une notice, un GPS, un panneau) et déroule le raisonnement jusqu'au bout. Écris trois essais (le simple constat, l'excuse, le raisonnement), puis garde le troisième et passe la grille :
-1. Ta vanne tient en quatre phrases au plus, sans “donc” ?
+1. Ton troisième essai tient en quatre phrases au plus, sans “donc” ?
 2. Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?
 3. La dernière étape surprend ?
 
@@ -286,6 +287,17 @@ Non cherchées : les essais 1 et 2 de chaque fiche (volontairement ratés).
 | Fiche 2 : la grille 1 double la question 3 (critique, reviewer) | Grille 1 : « Ta liste a trois éléments, dits d'un seul souffle ? » |
 | Longueur, fiches 3 et 5 au-dessus de 250 (reviewer) | Fiche 3 : schéma et explication raccourcis, « par cœur » retiré (de 256 à 247). Fiche 5 : « pour de bon », « très », « en fait » et deux parenthèses retirés, gestes resserrés (de 256 à 249). Décompte en tête de fichier. |
 | Non changé | Fiche 1 (E2.1), fiche 2 hors grille, exemples des fiches 4 et 5, essais 3 des fiches 2 et 3, Sources et Originalité (hors point 7). La préférence de la critique sur l'essai 3 de la fiche 3 (« essais gratuits ») n'est pas appliquée (hors consigne). |
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Fiche 3 : la règle disait encore « mets dedans », reste du tour 2 (reviewer) | Règle : « Garde la forme de l'expression (mots-clés, rythme), puis glisse un détail précis à la place d'un mot ou dans une suite. » Alignée sur le schéma (« tu y glisses ») et sur l'exemple (suite ajoutée) comme sur l'essai 3 (mots changés). « de ta vie » retiré pour tenir 250 mots. |
+| Fiche 4 : « mesurées pareil » fait d'un procédé la définition du contraste (reviewer) | Schéma : « Deux choses côte à côte, un écart énorme, et une chute qui le fait voir. » Règle : « Deux choses côte à côte, des détails exacts (une même mesure rend l'écart lisible), une chute… ». « Mesurées pareil » reste dans le geste (« très inégales mais mesurées pareil ») et dans l'explication (« mais tu les mesures pareil », qui remplace « tu les compares pourtant comme s'ils se valaient » pour tenir 250 mots). |
+| Fiche 6 : l'explication de l'essai 3 annonce l'étape fausse sans la nommer (critique) | Explication : « Tu lis la température de l'eau comme celle de l'air : le reste suit, jusqu'au linge étendu sale. » |
+| Fiche 6 : « Ta vanne » non défini à cet endroit (critique, consigne) | Grille 1 : « Ton troisième essai tient en quatre phrases au plus, sans “donc” ? » (le troisième essai est celui que le geste fait garder). |
+| En-tête (consigne) | Titre « tour 4 » ; statut : trois tours de relecture à l'aveugle, plus de mention « non relues » ; ajout de « À vérifier avant import : vannes l. 607-608, 271-272, 159-160… ». Décompte des mots mis à jour. |
+| Non changé | Fiches 1, 2, 5 ; exemples et essais de toutes les fiches ; la préférence de la critique sur l'essai 3 de la fiche 3 (non bloquante). |
 
 ## Handoff
 
