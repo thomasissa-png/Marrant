@@ -1,65 +1,47 @@
-# Étalon E4 : « Écouter, repérer », Paul Mirabel (s24)
+# Étalon E4 : « Écouter, repérer », Paul Mirabel (s24, tour 2)
 
-Passage retenu : **« le petit frère », de 2:12 à 2:53**, dans « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy, durée réelle **8 min 57 s** (API YouTube, `PT8M57S` ; le « 7 min 45 s » du seed était faux, à corriger dans `videos-seed.json` par @fullstack, hors périmètre de ce fichier).
-URL : https://www.youtube.com/watch?v=RYjfe8OSRFw (ouvrir à 2:12 : `&t=132s`).
-
-**Citations vérifiées sur la transcription automatique de YouTube (`docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`), réécoute conseillée avant publication.** Les citations ci-dessous sont les seules autorisées dans la fiche. Les passages entre elles ne sont pas décrits, parce qu'ils ne sont pas dans la source. La phrase de la théorie du métro (7:05) est écartée : la reconnaissance automatique l'a probablement inversée.
-
-Pourquoi ce passage : c'est celui que Montreux Comedy a repris sur TikTok (« Petit frère ou frigo ? »), il tient en 41 secondes, et il contient un vrai mécanisme transposable : une menace qui retombe sur celui qui la lance.
+Une seule version (base B du tour 1, notée 7,5 / 8,5 / 8,5 contre 6 pour A).
+Source des citations : `docs/copy/sources/mirabel-je-me-suis-fait-racketter-transcription.md`. **Citations vérifiées sur la transcription automatique, réécoute conseillée avant publication** (de 2:12 à 2:53, par une personne, avant mise en ligne ; puis visionnage par Thomas et relecture à l'aveugle).
 
 ---
 
-## Version A : la courte, un geste (environ 190 mots)
-
-**Angle** : un seul mécanisme, l'exercice juste après. Fiche de 5 minutes pour le soir.
-
-### Écouter, repérer : « Je te préviens, j'appelle mon petit frère »
-
-**Le passage** : « Paul Mirabel - Je me suis fait racketter » (Montreux Comedy), de **2:12 à 2:53**.
-
-**Ce qu'il fait** : il installe d'abord son petit frère, et il le fait avec une comparaison : « 1 mètre 90 pour 95 kilos, normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Tu as maintenant un gabarit en tête. Puis quelqu'un lui parle mal, et sa défense tombe : « Tu arrêtes ou j'appelle mon petit frère. » Celui qui devait se protéger est le grand frère, et il appelle le cadet. Il se donne le mauvais rôle, tout seul, sans que personne ait besoin de l'y mettre. Sans l'image du frigo, la chute n'aurait rien à retourner : c'est elle qui la rend possible.
-
-**Chez toi** : tu as sûrement quelqu'un dans ta vie qui te protège mieux que toi (un pote, une sœur, un collègue plus à l'aise). Tu peux en rire avant qu'on le fasse à ta place. Au pot de départ, au dîner de famille, en coloc.
-
-**5 minutes** : écris deux phrases. La première décrit la personne qui te sauve (un détail précis, comme le frigo). La seconde est ta menace : « Tu arrêtes ou j'appelle... ». Lis-les à voix haute. Si tu hésites sur le détail, choisis le plus chiffré ou le plus visuel.
-
----
-
-## Version B : la longue, l'exercice avant l'écoute (environ 340 mots)
-
-**Angle** : une écoute active, avec une tâche donnée avant de lancer la vidéo, et trois observations au lieu d'une. Pour une séance à deux ou pour préparer quelque chose.
+## La fiche
 
 ### Écouter, repérer : « Tu arrêtes ou j'appelle mon petit frère »
 
-**Avant de lancer la vidéo (2 minutes)** : pense à quelqu'un qui te défend mieux que toi. Note un détail de lui, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le.
+**Avant de lancer la vidéo (2 minutes)** : pense à une personne de ton entourage qui te défend mieux que toi. Note un détail de cette personne, un seul, que tout le monde reconnaîtrait (sa taille, sa voix, sa façon d'entrer dans une pièce). Garde-le sous la main.
 
-**Le passage** : « Paul Mirabel - Je me suis fait racketter » (Montreux Comedy), de **2:12 à 2:53**, 41 secondes. Lance la vidéo à 2:12.
+**Le passage** : « Paul Mirabel - Je me suis fait racketter », chaîne Montreux Comedy (8 min 57 s en entier), de **2:12 à 2:53**, soit 41 secondes. Lance la vidéo à 2:12 : https://www.youtube.com/watch?v=RYjfe8OSRFw&t=132s
 
 **Trois choses à repérer**
 
-1. **Le gabarit chiffré.** « J'ai un petit frère, mais qui est très musclé. » Puis les chiffres, et la comparaison : « normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Repère combien de temps il laisse l'image travailler avant d'avancer.
-2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Il revient à l'histoire en une phrase simple, sans effet. Repère ce que tu attends à cet instant, avant la phrase suivante.
-3. **Le renversement.** « Tu arrêtes ou j'appelle mon petit frère. » La phrase classique de l'intimidation, mais le cadet est la réserve de force du grand. Repère à quelle seconde la salle réagit : avant la fin de la phrase, ou après le dernier mot.
+1. **Le gabarit chiffré.** « J'ai un petit frère, mais qui est très musclé. » Puis les chiffres et la comparaison : « 1 mètre 90 pour 95 kilos, normalement c'est les dimensions d'un frigo, pas d'un petit frère. » Compte les secondes pendant lesquelles il laisse cette image travailler avant d'avancer.
+2. **Le récit qui reprend.** « Et on s'est promenés tous les deux récemment, et quelqu'un m'a mal parlé. » Une phrase simple, sans effet. Repère ce que tu attends à cet instant, avant d'entendre la suivante.
+3. **La fin.** « Tu arrêtes ou j'appelle mon petit frère. » Écoute à l'oreille : la réaction arrive-t-elle avant le dernier mot, ou après ? Note-le, c'est ton relevé de timing.
 
-**Le mécanisme** (une idée) : un renversement d'autorité par l'autodérision. Tu poses une image de force chez l'autre, puis tu te mets toi-même dans le camp du protégé. C'est la même gestuelle que « le faux secret » : le public croit savoir ce qui vient, et c'est toi qui le contredis, contre toi.
+**Le mécanisme** : c'est une chute qui retourne le début. Au départ, il t'a donné un petit frère de la taille d'un frigo. À la fin, la phrase de l'intimidation (« Tu arrêtes ou... ») est dite par celui qui devrait protéger, et c'est lui qui appelle le cadet. Il s'est donné le mauvais rôle tout seul, sans que personne ait à l'y mettre.
 
-**Chez toi** : le dîner où ta sœur reprend la discussion à ta place, la coloc où c'est ton pote qui parle au voisin, le bureau où tu envoies toujours la collègue demander l'augmentation. Raconte-le comme lui : un détail, puis la menace.
+**Chez toi** : le dîner où ta sœur reprend la discussion à ta place, la coloc où c'est un pote qui va parler au voisin, le bureau où tu envoies toujours une collègue demander l'augmentation. Raconte-le dans cet ordre : un détail chiffré ou visuel, puis la menace.
 
-**5 minutes, après l'écoute** : reprends ton détail. Écris la phrase du gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis la menace « Tu arrêtes ou j'appelle... ». Dis-la une fois à voix haute, puis une fois à la personne si tu l'oses.
+**5 minutes, après l'écoute** : reprends ton détail. Écris une phrase de gabarit (une comparaison avec un objet du quotidien, pas un adjectif), puis ta menace : « Tu arrêtes ou j'appelle... ». Dis-la à voix haute, puis à la personne, si tu en as envie.
+
+**Ta grille** (oui ou non, rien n'est enregistré) : (1) Ta menace tient en une phrase ? (2) La personne visée peut en rire avec toi ? (3) La fin surprend ?
 
 ---
 
-## Ce qui change entre A et B
+## Annexe : remarque → traitement
 
-| | A | B |
+| Remarque (tour 1) | Qui | Traitement |
 |---|---|---|
-| Longueur | ~190 mots | ~340 mots |
-| Observations | 1 mécanisme, deux citations | 3 repères, quatre citations |
-| Place de l'exercice | Après, une écriture de deux phrases | Avant (le détail), puis après (l'écriture) |
-| Format cible | 5 minutes, seul le soir | Séance à deux, préparation d'un pot |
-
-## Recommandation
-
-**B pour l'étalon**, A en version « fiche courte » dans le fil du jour. B fixe le format du lot 1 (la tâche avant l'écoute, trois repères, un mécanisme nommé) ; A prouve que la même fiche tient en cinq minutes.
-
-Avant toute mise en ligne : réécoute de 2:12 à 2:53 par une personne pour confirmer les quatre citations (transcription automatique), visionnage par Thomas (7.5), relecture à l'aveugle.
+| Titre de A cité à tort (« Je te préviens, j'appelle mon petit frère »), citation inventée, bloquant | Reviewer (H1), copywriter | Une seule version ; titre = la phrase exacte de la transcription : « Tu arrêtes ou j'appelle mon petit frère » |
+| Grille de 2.4 absente ; format 3.7 : 3 observations | Reviewer (H10) | Grille ajoutée (3 questions de 2.4 reprises mot pour mot, adaptées à « ta menace ») ; 3 repères conservés |
+| Passage de 41 secondes alors que 3.7 dit 1 à 2 minutes | Reviewer (H10) | Écart assumé et dit dans la fiche (« soit 41 secondes ») : le passage est volontairement court, une seule scène |
+| A raconte la chute avant l'écoute | Copywriter | A supprimée ; le mécanisme est donné après les repères, la tâche avant l'écoute |
+| « Celui qui devait se protéger » : contresens | Reviewer (H11), copywriter | « celui qui devrait protéger » |
+| Affirmation « sans l'image du frigo, la chute... » plus forte que la source | Copywriter | Retirée |
+| « Même gestuelle que le faux secret » : impropre, renvoi opaque | Reviewer (H11), @elon (C7), copywriter | Remplacé par le mécanisme de la liste de 3.4 : « chute qui retourne le début » |
+| « Note un détail de lui » : inclusion | Copywriter | « de cette personne » ; aucune ligne au masculin seul (« Chez toi » : une sœur, un pote, une collègue) |
+| « Repère à quelle seconde la salle réagit » : non vérifiable depuis la transcription | Copywriter | Reformulé en consigne d'écoute (« écoute à l'oreille... note-le »), sans rien affirmer sur la salle ; réécoute déjà exigée avant publication |
+| « Si tu l'oses » : légèrement coach | Copywriter | « si tu en as envie » |
+| Guillemets | Reviewer (H9) | Guillemets « » ; aucun guillemet intérieur dans cette fiche |
+| Réécoute, visionnage Thomas, relecture à l'aveugle | @elon (C7) | Conditions conservées en tête de fichier |
