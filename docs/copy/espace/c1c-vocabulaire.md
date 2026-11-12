@@ -159,7 +159,7 @@ Définition complète : `[lien à décider, mot neuf]`
 **Second degré**
 Dire une chose en pensant à autre chose, et le faire sentir.
 En deux temps : « Tu viens au cinéma ? » Tu dis : « Laisse-moi consulter mon cabinet. » Pause. « Il dit oui. »
-À ne pas confondre avec : l'ironie (fiche 7), qui dit le contraire. Ici, c'est un autre sens, pas l'inverse : tu joues le ministre, tu penses « oui ».
+À ne pas confondre avec : l'ironie (fiche 7), qui dit le contraire. Ici, c'est un autre sens, pas l'inverse : tu fais semblant de consulter, tu penses déjà « oui ».
 Définition complète : `[lien à décider, mot neuf]`
 
 **Pince-sans-rire**
@@ -194,7 +194,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Tac au tac**
 Répondre sans attendre, à la même vitesse que la remarque.
-En deux temps : « Tu me prêtes dix euros ? » Tac au tac : « Je t'en prête cinq. Les cinq autres, je te les souhaite. »
+En deux temps : « Tu me prêtes dix euros ? » Tac au tac : « Cinq. Les cinq autres, je te les souhaite. »
 À ne pas confondre avec : le timing de la fiche 1. Au tac au tac, il n'y a pas de pause : si tu as besoin de deux secondes, passe par l'accusé de réception.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -278,7 +278,7 @@ Définition complète : `[lien à décider, mot neuf]`
 
 **Prendre au pied de la lettre**
 Répondre aux mots de l'autre plutôt qu'à ce qu'il veut dire.
-En deux temps : « Tu connais un bon restaurant ? » Tu dis : « Oui. » Tu souris. Deux secondes. Puis : « Tu veux que je te le dise ? »
+En deux temps : « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. »
 À ne pas confondre avec : ne pas comprendre. Tu as compris, et tu choisis les mots.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -308,7 +308,7 @@ Cinq mots pour lire ce qui se passe chez ceux qui t'écoutent, et pour savoir qu
 
 **Rire jaune**
 Un rire forcé, pour cacher une gêne ou un dépit.
-En deux temps : un collègue raconte ta présentation de lundi, avec des détails en plus. Tu ris aussi, une seconde trop tard.
+En deux temps : un collègue raconte ta présentation de lundi, celle où le projecteur s'est éteint au milieu, avec des détails en plus. Tu ris aussi, une seconde trop tard.
 À ne pas confondre avec : le rire franc, celui qui part sans y penser. Le rire jaune se décide, et se voit.
 Définition complète : `[lien à décider, mot neuf]`
 
@@ -421,3 +421,11 @@ Trois candidats par exemple repris, recherche web de chacun : 0 occurrence pour 
 | Prendre au pied de la lettre : sécheresse, pas littéral (critique) | « Tu connais un bon restaurant ? » « Oui. » Deux secondes. « Tu veux que je te le dise ? » |
 | « Créneau » incohérent entre F3 et F8 (critique) | Rire jaune : « un collègue raconte ta présentation de lundi, avec des détails en plus » ; fou rire : « une tante lance » |
 | « À toi » trop étroits (critique) | Fiche 2 : une blague entendue ou une phrase drôle d'un proche, puis la dire en deux temps ; fiche 4 : question banale quelconque ; fiche 5 : n'importe quelle demande pratique |
+
+### Tour 4 : retouche → ligne
+| Retouche (relecteur) | Ligne changée |
+|---|---|
+| « tu joues le ministre » genre le lecteur et obscur (reviewer, critique) | Fiche 4, second degré : « Ici, c'est un autre sens, pas l'inverse : tu fais semblant de consulter, tu penses déjà « oui ». » |
+| Tac au tac plus long que « moins de dix mots » (elon) | Fiche 5 : « Cinq. Les cinq autres, je te les souhaite. » (8 mots) |
+| « Tu connais un bon restaurant ? » classique (critique, elon) | Fiche 7, pied de la lettre : retour à la version du tour 2 notée 10 par elon : « Tu as cinq minutes ? » Tu regardes ta montre : « J'en ai quatre. Fais court. » Elle illustre le mot : la question est prise comme un compte, et la réponse donne le chiffre |
+| Rire jaune sans raté (reviewer, critique) | Fiche 8 : « un collègue raconte ta présentation de lundi, celle où le projecteur s'est éteint au milieu, avec des détails en plus. Tu ris aussi, une seconde trop tard. » Recherche web de la phrase exacte : 0 occurrence |
