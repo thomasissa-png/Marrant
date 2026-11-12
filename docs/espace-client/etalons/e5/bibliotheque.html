@@ -37,6 +37,7 @@ body[data-hyp="off"] [data-hyp]::after{content:none}
 .ib svg{width:20px;height:20px}
 .rech{border-top:1px solid var(--bd);padding:8px 0}
 .rech form{display:flex;flex-wrap:wrap;gap:8px}
+.hd .rech .wrap{display:block;height:auto}
 .res{margin-top:8px}.res .fiches{margin-top:8px}.res p{font-size:14px;line-height:20px;color:var(--t2)}
 .rech input{flex:1 1 120px;min-width:0;min-height:44px;padding:0 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif}
 .bar{position:sticky;top:64px;z-index:40;border-bottom:1px solid var(--bd);background:var(--bg);padding-top:1px}
@@ -232,7 +233,7 @@ function appliquer() {
   const trouves = q ? CIBLES.filter(([n, nom]) => n <= cap && (ql.includes(nom) || nom.includes(ql))) : [];
   $("#res").innerHTML = !q ? "" : trouves.length
     ? '<ul class="fiches">' + trouves.map(([n, , nm]) => '<li><a class="fiche" href="bonus.html#cap=' + n + '"><span class="fiche-t"><small>Bonus du cap ' + n + '&nbsp;· ' + nm + '</small><span class="ph">[Titre du bonus]</span></span></a></li>').join("") + "</ul>"
-    : '<p data-hyp="HYPOTHÈSE">Aucun résultat</p>';
+    : '<div role="listbox" aria-label="Aucun résultat"><p class="meta">Rien trouvé pour «&nbsp;' + q.replace(/[<>&"]/g, "") + '&nbsp;». Essaie une de ces pistes&nbsp;:</p><p style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px">' + ["timing", "répartie", "storytelling", "observation"].map((x) => '<button type="button" class="btn">' + x + '</button>').join("") + '</p></div>'; /* texte et 4 premières pistes de search-bar.tsx (l. 24, 270-274), aucune n'est un bonus */
   $("#coin").hidden = c === "absent"; coin(c === "entre");
   rech(h.includes("rech"));
 }
