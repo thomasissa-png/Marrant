@@ -20,7 +20,7 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
 body[data-hyp="off"] [data-hyp]::after{content:none}
 .btn[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
@@ -45,6 +45,9 @@ body[data-reponse="1"] .dot{display:block}
 .zone{position:relative;margin-left:-12px;min-width:0}
 .liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
 .tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
 .liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
@@ -117,7 +120,7 @@ details[open] summary{color:var(--t1)}
 .fd{display:none}
 h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16px}
 .card{padding:12px}.box{padding:8px 12px}.type input:checked+.box{padding:7px 11px}
-.btn{width:100%}.quote{padding:8px 12px;overflow-wrap:anywhere}
+.btn{width:100%;white-space:normal;text-align:center;padding:8px}.quote{padding:8px 12px;overflow-wrap:anywhere}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
@@ -159,7 +162,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
   </div>
 
   <div class="qgrid">
-    <section class="card" aria-labelledby="h-poser">
+    <section id="card-poser" class="card" aria-labelledby="h-poser">
       <h2 id="h-poser" data-hyp="HYPOTHÈSE">Poser une question</h2>
       <form id="form" onsubmit="return false" style="display:flex;flex-direction:column;gap:16px">
         <fieldset class="types">
@@ -191,6 +194,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
         <p class="meta">L'équipe répond en général sous 1 à 2 jours ouvrés</p>
       </div>
 
+      <!-- Abonnement terminé (2.6) : lecture seule, ni ajout ni « Continuer » ; le retrait d'un envoi reste possible sur demande -->
+      <p id="gardes" class="meta" style="margin-bottom:12px" hidden>Ton historique de questions et tes répliques sont gardés</p>
       <ul id="liste-env" class="envois">
         <!-- En attente (ou en retard après 3 jours ouvrés : envoyé le vendredi 6 novembre, en retard le jeudi 12) -->
         <li id="e-attente" class="card env">
@@ -199,6 +204,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
           <p id="e-statut" class="meta">Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés</p>
           <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
         </li>
+        <!-- Retiré par l'abonné (2.6, C10 a) : l'envoi disparaît de son historique -->
+        <li id="e-retire" class="card env" hidden><p class="meta">Retiré de ton historique</p></li>
         <!-- Répondue : le fil reste ouvert, on peut continuer -->
         <li id="e-reponse" class="card env">
           <div class="env-h"><span class="tag">Une situation à gérer</span><span class="cap" data-hyp="HYPOTHÈSE">Envoyé le 9 novembre</span></div>
@@ -207,7 +214,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
             <div class="fil">
               <div><p class="lab" data-hyp="HYPOTHÈSE">Ton message</p><p class="ph">[Message de l'abonné]</p></div>
               <div><p class="lab" data-hyp="HYPOTHÈSE">Réponse de l'équipe, le 11 novembre</p><p class="ph">[Réponse de l'équipe]</p><p class="sig">L'Équipe Deviens Marrant</p></div>
-              <button class="btn" type="button">Continuer</button>
+              <button id="b-cont" class="btn" type="button">Continuer</button>
             </div>
           </details>
           <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
@@ -222,6 +229,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
     <a href="#etat=retard">En retard</a>
     <a href="#etat=vide">Aucun envoi</a>
     <a href="#etat=fil">Fil ouvert (cloche lue)</a>
+    <a href="#etat=retire">Envoi retiré</a>
+    <a href="#etat=termine">Abonnement terminé (lecture seule)</a>
     <a href="#rech">Recherche ouverte</a>
     <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
@@ -234,16 +243,18 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 /* Barre : « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation. Aucune pastille sur les onglets (règle du brief). */
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
-  $("#fg").style.left = p + "px";
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
   if (a && a !== l.firstElementChild) {
-    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
-    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
-    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    fondus();
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    const s = bornes.find((b) => b >= bas && b <= haut) ?? haut;
     l.scrollLeft = s;
   } else l.scrollLeft = 0;
   fondus();
@@ -287,6 +298,12 @@ function appliquer() {
   $("#etat-vide").hidden = e !== "vide";
   $("#liste-env").hidden = e === "vide";
   $("#e-reponse").hidden = e === "retard";
+  /* v5 : « retire » (premier envoi retiré de l'historique) et « termine » (abonnement terminé : lecture seule) */
+  $("#e-attente").hidden = e === "retire";
+  $("#e-retire").hidden = e !== "retire";
+  $("#card-poser").hidden = e === "termine";
+  $("#b-cont").hidden = e === "termine";
+  $("#gardes").hidden = e !== "termine";
   /* Retard : après 3 jours ouvrés (2.6). Envoyé le vendredi 6 novembre, le jeudi 12 novembre = 3 jours ouvrés écoulés. */
   $("#e-date").textContent = e === "retard" ? "Envoyé le 6 novembre" : "Envoyé le 10 novembre";
   $("#e-statut").textContent = e === "retard" ? "L'équipe n'a pas encore répondu, ta demande est bien là" : "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés";

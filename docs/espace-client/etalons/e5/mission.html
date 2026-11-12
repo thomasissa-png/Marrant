@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Étalon E5 v5, mission et bilan (local, ne pas déployer)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* v5. Mission avec ses retours (architecture v20 2.4) et question de bilan (0.3, 5.x : bilan allégé, ton « refais une situation »).
+   Aucun étalon validé ne donne le texte d'une mission ni de la question de bilan : contenu entre crochets. Textes d'interface sans source : data-hyp. */
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-in:#707070;--r-md:8px;--r-lg:12px;--fast:150ms}
+html{-webkit-font-smoothing:antialiased;scroll-padding-top:112px}
+body{background:var(--bg);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif;min-height:100vh}
+h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body[data-hyp="off"] [data-hyp]::after{content:none}
+.btn[data-hyp]::after,.chip[data-hyp]::after{color:inherit;opacity:.85}
+.wrap{max-width:1280px;margin:0 auto;padding:0 12px}
+@media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}@media(min-width:1280px){.wrap{padding:0 32px}}
+.skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
+.skip:focus{top:8px}
+.hd{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--bd);background:rgba(13,13,13,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.hd .wrap{display:flex;height:64px;align-items:center;justify-content:space-between;gap:8px}
+.logo{display:flex;align-items:center;min-height:44px;white-space:nowrap;text-decoration:none;font:700 14px/20px "Plus Jakarta Sans",Inter,system-ui,sans-serif;background:linear-gradient(to right,#A78BFA,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+@media(min-width:360px){.logo{font-size:16px;line-height:24px}}@media(min-width:400px){.logo{font-size:18px;line-height:28px}}@media(min-width:640px){.logo{font-size:20px}}
+.hd-r{display:flex;align-items:center;gap:4px;margin-left:auto}
+.ib{position:relative;display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:0;border-radius:var(--r-lg);background:transparent;color:var(--t2);cursor:pointer;transition:background-color var(--fast),color var(--fast)}
+.ib:hover,.ib[aria-expanded="true"]{background:var(--elev);color:var(--t1)}
+.ib svg{width:20px;height:20px}
+.rech{border-top:1px solid var(--bd);padding:8px 0}
+.rech form{display:flex;flex-wrap:wrap;gap:8px}
+.rech input{flex:1 1 120px;min-width:0;min-height:44px;padding:0 12px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:var(--bg-light);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif}
+.bar{position:sticky;top:64px;z-index:40;border-bottom:1px solid var(--bd);background:var(--bg);padding-top:1px}
+.zone{position:relative;margin-left:-12px;min-width:0}
+.liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+.liste::-webkit-scrollbar{display:none}
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
+.tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
+.liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
+.tab:hover{color:var(--t1)}
+.tab:focus-visible{outline-offset:-2px}
+.tab svg{width:16px;height:16px}
+.fade{position:absolute;top:0;bottom:0;width:40px;pointer-events:none;display:flex;align-items:center;transition:opacity var(--fast)}
+.fg{left:0;background:linear-gradient(to right,var(--bg),transparent)}
+.fd{right:0;justify-content:flex-end;background:linear-gradient(to left,var(--bg) 45%,transparent);color:var(--t2)}
+.fd svg{width:16px;height:16px;margin-right:4px}
+.fade.off{opacity:0}
+h1{font:700 30px/36px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+h2{font:700 20px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif}
+h3{font:600 16px/24px Inter,system-ui,sans-serif}
+@media(min-width:768px){h1{font-size:36px;line-height:40px}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast)}
+.btn:hover{background:var(--elev)}
+.btn:disabled{cursor:default}.btn:disabled:not([aria-pressed="true"]){color:var(--tm);border-color:var(--bd)}
+.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2)}
+.btn{max-width:100%}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:16px}
+@media(min-width:768px){.card{padding:24px}}
+.card>*+*{margin-top:16px}
+.eyebrow{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
+.meta{font-size:14px;line-height:20px;color:var(--t2)}
+.ph{color:var(--tm);font-style:italic}
+.lab{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
+.main{padding-top:24px;padding-bottom:48px}
+.top{margin-bottom:24px}
+.col{display:grid;gap:24px;grid-template-columns:minmax(0,1fr);max-width:720px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{display:inline-flex;align-items:center;gap:4px;min-height:44px;min-width:44px;padding:0 16px;border-radius:9999px;border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:500 14px/20px Inter,system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev);padding:0 15px}
+.chip svg{width:16px;height:16px;display:none;color:var(--link)}.chip[aria-pressed="true"] svg{display:block}
+.trois{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:8px}
+@media(max-width:359px){.trois{grid-template-columns:1fr}}
+.trois .btn{padding:0 4px}
+.trois .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
+.suite{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
+.suite>*+*{margin-top:8px}
+.lien{display:inline-flex;align-items:center;min-height:44px;color:var(--link);text-decoration:underline;text-underline-offset:2px;font:600 14px/20px Inter,system-ui,sans-serif}
+.dit{padding:8px 16px;border-left:2px solid var(--acc)}
+.demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
+.demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
+@media(max-width:299px){
+.hd,.bar{position:static}
+.hd .wrap{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding-top:0;padding-bottom:0}
+.hd-r{margin-left:0}.logo{font-size:14px;line-height:20px}
+.zone{margin-right:-12px}
+.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}
+.fd{display:none}
+h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12px}
+.card{padding:12px}.card>*+*{margin-top:12px}.btn,.chip{white-space:normal;text-align:center;padding:8px}.chips .chip{width:100%;justify-content:flex-start}.suite{padding:8px 12px}.dit{padding:8px 12px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body data-hyp="on">
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="hd"><div class="wrap">
+  <a class="logo" href="#">deviens-marrant.fr</a>
+  <div class="hd-r">
+    <button id="btn-rech" class="ib" type="button" aria-label="Rechercher" aria-expanded="false" aria-controls="rech"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg></button>
+    <button class="ib" type="button" aria-label="Notifications, aucune réponse non lue"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/></svg></button>
+    <button class="ib" type="button" aria-label="Menu du compte"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></button>
+  </div>
+</div>
+  <div id="rech" class="rech" hidden><div class="wrap"><form role="search" onsubmit="return false"><label class="sr" for="q">Rechercher</label><input id="q" type="search"><button id="rech-x" class="btn" type="button">Fermer</button></form></div></div>
+</header>
+
+<div class="bar">
+  <nav class="wrap" aria-label="Mon espace">
+    <div class="zone">
+      <div id="liste" class="liste">
+        <a class="tab" href="aujourdhui.html">Aujourd'hui</a>
+        <a class="tab" href="parcours.html">Parcours</a>
+        <a class="tab" href="#">Quoi répondre</a>
+        <a class="tab" href="#">Bibliothèque</a>
+        <a class="tab" href="mes-questions.html">Mes questions</a>
+        <button class="tab" type="button" aria-haspopup="menu" aria-expanded="false">Plus <svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></button>
+      </div>
+      <div id="fg" class="fade fg off" aria-hidden="true"></div>
+      <div id="fd" class="fade fd" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></div>
+    </div>
+  </nav>
+</div>
+
+<main id="main" class="wrap main">
+  <div class="top"><h1 id="h1">Mission</h1></div>
+  <div class="col">
+
+    <!-- Mission : 5 marches, toujours facultative, une seule ouverte à la fois, jamais comptée contre l'abonné (2.4). Lien secondaire seulement : jamais l'action principale d'« Aujourd'hui » (4.4 point 4). -->
+    <section id="mission" class="card" aria-labelledby="h-m">
+      <p class="eyebrow"><span id="marche" data-hyp="HYPOTHÈSE">Marche 2 sur 5</span></p>
+      <h2 id="h-m" data-hyp="HYPOTHÈSE">À un proche, par message</h2>
+      <p class="ph">[Énoncé de la mission, provocable cette semaine]</p>
+      <p class="meta" data-hyp="HYPOTHÈSE">Facultative</p>
+      <div role="group" aria-labelledby="rt-l">
+        <p id="rt-l" class="lab" data-hyp="HYPOTHÈSE">Ton retour</p>
+        <div class="chips" id="retours">
+          <button class="chip" type="button" aria-pressed="false" data-r="pas"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Pas essayé</button>
+          <button class="chip" type="button" aria-pressed="false" data-r="bof"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, bof</button>
+          <button class="chip" type="button" aria-pressed="false" data-r="marche"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, ça a marché</button>
+        </div>
+      </div>
+      <!-- Suite selon le retour (2.4), jamais selon la date -->
+      <div id="s-marche" class="suite" role="status" hidden>
+        <p class="meta" data-hyp="HYPOTHÈSE">Marche suivante : à un pote, en face.</p>
+        <a class="btn btn-p" href="#" data-hyp="HYPOTHÈSE">Voir la marche 3</a>
+      </div>
+      <div id="s-bof" class="suite" role="status" hidden>
+        <a class="lien" href="#" data-hyp="HYPOTHÈSE">Une autre situation, même marche</a><br>
+        <a class="lien" href="#">Quand ça tombe à plat</a><br>
+        <a class="lien" href="mes-questions.html">Raconte-nous ce qui s'est passé</a>
+      </div>
+      <!-- « Pas essayé » deux fois de suite : la marche d'en dessous, sans commentaire (2.4) -->
+    </section>
+
+    <!-- Bilan allégé du parcours (0.3) : ton « refais une situation », même carte que la rafale. Contenu entre crochets : aucun étalon. -->
+    <section id="bilan" class="card" aria-labelledby="h-b" hidden>
+      <p class="eyebrow" data-hyp="HYPOTHÈSE">Bilan du parcours</p>
+      <h2 id="h-b" data-hyp="HYPOTHÈSE">Refais une situation</h2>
+      <div><h3 class="lab">La scène</h3><p class="ph">[Scène de la situation de bilan]</p></div>
+      <div class="dit ph">[Contexte de la situation de bilan]</div>
+      <div><h3>Ta réponse d'abord</h3><p class="meta" style="margin-top:8px">Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p></div>
+      <div role="group" aria-labelledby="bq">
+        <p id="bq" style="font:600 16px/24px Inter,system-ui,sans-serif">Tu avais une réponse&nbsp;?</p>
+        <div class="trois"><button class="btn" type="button">Oui</button><button class="btn" type="button">À moitié</button><button class="btn" type="button">Rien</button></div>
+      </div>
+      <!-- Question de bilan : une seule, après les situations, sans note ni verdict -->
+      <div role="group" aria-labelledby="qb" id="qb-g">
+        <p id="qb" class="ph">[Question de bilan]</p>
+        <div class="chips"><button class="chip" type="button" aria-pressed="false">[Choix 1]</button><button class="chip" type="button" aria-pressed="false">[Choix 2]</button><button class="chip" type="button" aria-pressed="false">[Choix 3]</button></div>
+      </div>
+    </section>
+  </div>
+
+  <nav class="demo" aria-label="États de la maquette">
+    États de la maquette :
+    <a href="#etat=mission">Mission, sans retour</a>
+    <a href="#retour=marche">Retour : ça a marché</a>
+    <a href="#retour=bof">Retour : bof</a>
+    <a href="#retour=pas">Retour : pas essayé</a>
+    <a href="#retour=pas2">Pas essayé deux fois (marche d'en dessous)</a>
+    <a href="#etat=bilan">Bilan et question de bilan</a>
+    <a href="#rech">Recherche ouverte</a>
+    <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
+  </nav>
+</main>
+
+<script>
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
+function fondus() {
+  const l = $("#liste"), p = l.firstElementChild.offsetWidth;
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
+  $("#fg").classList.toggle("off", l.scrollLeft < 2);
+  $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
+}
+$("#liste").addEventListener("scroll", fondus, { passive: true });
+addEventListener("resize", fondus);
+const br = $("#btn-rech"), rc = $("#rech");
+function rech(o) { rc.hidden = !o; br.setAttribute("aria-expanded", String(o)); if (o) $("#q").focus(); }
+br.addEventListener("click", () => rech(rc.hidden));
+$("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
+rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
+
+/* Retours : un choix, suite selon le retour. « Pas essayé » : aucune suite le premier coup. */
+function retour(r) {
+  $$("#retours .chip").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.r === r)));
+  $("#s-marche").hidden = r !== "marche"; $("#s-bof").hidden = r !== "bof";
+}
+$$("#retours .chip").forEach((x) => x.addEventListener("click", () => retour(x.dataset.r)));
+$$("#qb-g .chip").forEach((x) => x.addEventListener("click", () => $$("#qb-g .chip").forEach((y) => y.setAttribute("aria-pressed", String(y === x)))));
+/* #etat=mission|bilan  #retour=pas|pas2|bof|marche  &rech  &hyp=off */
+function appliquer() {
+  const h = location.hash, e = (h.match(/etat=(\w+)/) || [])[1] || "mission", r = (h.match(/retour=(\w+)/) || [])[1] || "";
+  document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
+  const bilan = e === "bilan";
+  $("#mission").hidden = bilan; $("#bilan").hidden = !bilan;
+  $("#h1").textContent = bilan ? "Bilan" : "Mission";
+  /* Défaut : marche 2 (à un proche, par message). « Pas essayé » deux fois : marche 1, sans commentaire (2.4). */
+  $("#marche").textContent = r === "pas2" ? "Marche 1 sur 5" : "Marche 2 sur 5";
+  $("#h-m").textContent = r === "pas2" ? "À voix haute, seul" : "À un proche, par message";
+  retour(r === "pas2" ? "" : r);
+  rech(h.includes("rech"));
+}
+addEventListener("hashchange", appliquer);
+appliquer(); fondus();
+</script>
+</body>
+</html>

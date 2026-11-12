@@ -20,7 +20,7 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
 body[data-hyp="off"] [data-hyp]::after{content:none}
 @media(max-width:299px){.btn[data-hyp]::after{content:" [H]"}}
 .btn[data-hyp]::after{color:inherit;opacity:.85}
@@ -53,6 +53,10 @@ body[data-option="2"]{--dot:#FFFFFF}
 .zone{position:relative;margin-left:-12px;min-width:0}
 .liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
+/* v5 : un onglet n'est jamais coupé en plein mot. Accroche (proximity) sur le bord de l'épinglée, espace final pour que le dernier onglet puisse y arriver. */
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
 .tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
 .liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
@@ -118,9 +122,10 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 #pas{display:flex;flex-direction:column}
 #pas .pas-b{margin-top:auto;padding-top:16px}
 #pas .pas-b .btn{margin-top:12px}
-@media(max-width:1023px){#pas{padding:24px}#pas h2{font-size:24px;line-height:32px}#pas .pas-b .btn{width:100%;min-height:48px}}
+@media(max-width:1023px){#pas{padding:24px}#pas h2{font-size:24px;line-height:32px}}
+@media(max-width:599px){#pas .pas-b .btn{width:100%;min-height:48px}}
 /* Hauteur : 195 px (en-tête 65 + barre 46 + marge 24 + H1 36 + 24) + 24 de respiration sous la carte + 160 px avant la première puce du contenu du jour : les puces tombent à 100svh + 18 px, jamais dans le premier écran. Banner : 70 px de plus, retirés de la carte. */
-@media(max-width:1023px) and (min-width:300px) and (min-height:641px){body[data-fav="0"] #pas{min-height:calc(100svh - 361px)}body[data-fav="1"] #pas{min-height:calc(100svh - 431px)}}
+@media(max-width:599px) and (min-width:300px) and (min-height:641px){body[data-fav="0"] #pas{min-height:calc(100svh - 361px)}body[data-fav="1"] #pas{min-height:calc(100svh - 431px)}}
 /* Cloche : feuille basse mobile, fenêtre ordinateur */
 .ov{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.6)}
 .sheet{width:100%;max-height:calc(100dvh - 16px);overflow-y:auto;background:var(--card);border:1px solid var(--bd);border-radius:16px 16px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom))}
@@ -144,7 +149,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 /* v4.1 N4 à 200 % : pas d'étirement (déjà exclu sous 300 px), titre 16/24, « 5 min » et « Commencer » sur une même rangée : le bouton tombe vers y = 375 sur 406 */
 #pas{padding:12px}#pas h2{font-size:16px;line-height:24px;margin-top:8px!important}
 #pas .pas-b{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-top:8px}
-#pas .pas-b .meta{flex:none}
+#pas .pas-b .meta{flex:none;margin-right:8px}
 #pas .pas-b .btn{margin-top:0;width:auto;flex:1 1 0;min-width:0;min-height:44px;padding:0 8px}
 .row{display:grid;grid-template-columns:minmax(0,1fr) 16px;gap:4px 8px;align-items:center}
 .row .tag{grid-column:1;justify-self:start}.row .row-t{grid-column:1}.row>svg{grid-column:2;grid-row:1 / span 2}
@@ -218,7 +223,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
           <h2 id="h-pas" style="margin-top:12px">Quelqu'un te lance «&nbsp;Tiens, tu as changé quelque chose, non&nbsp;?&nbsp;»</h2>
         </div>
         <div class="pas-b">
-          <p class="meta">5 min</p>
+          <p class="meta" data-hyp="HYPOTHÈSE">5 min</p>
           <a id="pas-btn" class="btn" href="#" data-hyp="HYPOTHÈSE">Commencer</a>
         </div>
       </section>
@@ -321,16 +326,19 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 /* Barre : « Aujourd'hui » épinglée à gauche ; la rubrique active est ramenée dans la vue, à droite de l'épinglée, sans animation */
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
-  $("#fg").style.left = p + "px";
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
   if (a && a !== l.firstElementChild) {
-    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
-    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
-    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    fondus(); /* pose --p et l'espace final avant de calculer */
+    /* v5 : on s'arrête sur le bord d'un onglet (le plus petit défilement qui montre l'active en entier), jamais en plein mot */
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    const s = bornes.find((b) => b >= bas && b <= haut) ?? haut;
     l.scrollLeft = s; /* affectation directe : aucun défilement animé */
   } else l.scrollLeft = 0;
   fondus();

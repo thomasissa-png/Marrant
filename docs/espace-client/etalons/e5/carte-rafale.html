@@ -20,7 +20,7 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
 body[data-hyp="off"] [data-hyp]::after{content:none}
 .btn[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
@@ -42,6 +42,9 @@ body[data-hyp="off"] [data-hyp]::after{content:none}
 .zone{position:relative;margin-left:-12px;min-width:0}
 .liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
 .tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
 .liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
@@ -76,6 +79,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .var{display:flex;flex-direction:column;gap:12px;min-width:0}
 .vcap{font:600 14px/20px Inter,system-ui,sans-serif;color:var(--t1)}
 .carte>*+*{margin-top:16px}
+.carte{max-width:720px} /* v5 : les trois boutons ne s'étirent plus à 330 px sur 1046 */
 .accroche{font-size:16px;line-height:24px;color:var(--t1)}
 .sep{border:0;height:1px;background:var(--bd)}
 .lab{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm)}
@@ -203,8 +207,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
       </div>
       <div id="et-rep" hidden>
         <div class="amb"><span class="tag">détendue</span><span class="ph">[Réponse du carnet]</span></div>
-        <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
         <div class="amb" style="margin-top:8px"><span class="tag">tendue</span><span class="ph">[Sortie polie du carnet]</span></div>
+        <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
         <h3 class="lab" style="margin-top:16px">Le pourquoi</h3><p class="ph">[Pourquoi du carnet]</p>
       </div>
     </article>
@@ -240,8 +244,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
           <span id="nc" class="cap" data-hyp="HYPOTHÈSE">0 caractère</span>
         </div>
         <p id="ns" class="meta" role="status" style="margin-top:8px"></p>
-        <div id="n-conf" hidden style="margin-top:8px">
-          <p class="meta" data-hyp="HYPOTHÈSE">Supprimer cette réplique&nbsp;?</p>
+        <div id="n-conf" hidden role="group" aria-labelledby="n-conf-t" style="margin-top:8px">
+          <p id="n-conf-t" class="meta" data-hyp="HYPOTHÈSE">Supprimer cette réplique&nbsp;?</p>
           <div class="row2"><button id="n-oui" class="btn" type="button">Supprimer</button><button id="n-non" class="btn" type="button" data-hyp="HYPOTHÈSE">Annuler</button></div>
         </div>
       </form>
@@ -322,16 +326,18 @@ document.addEventListener("click", (e) => { const a = e.target.closest('a[href="
 /* Barre : « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation */
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
-  $("#fg").style.left = p + "px";
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
   if (a && a !== l.firstElementChild) {
-    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
-    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
-    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    fondus();
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    const s = bornes.find((b) => b >= bas && b <= haut) ?? haut;
     l.scrollLeft = s;
   } else l.scrollLeft = 0;
   fondus();
@@ -403,6 +409,8 @@ function note(s) {
   const T = { vide: "", saisie: "[ta phrase]" };
   if (s in T) nt.value = T[s];
   if (s === "supprimee") nt.value = "";
+  /* v5 : « jamais de perte » : le texte reste visible à l'enregistrement, à l'échec et à la confirmation */
+  if ((s === "enregistree" || s === "echec" || s === "confirmer") && !nt.value) nt.value = "[ta phrase]";
   const k = nt.value.length;
   $("#nc").textContent = k + (k > 1 ? " caractères" : " caractère");
   const ns = $("#ns");
@@ -410,7 +418,7 @@ function note(s) {
   if (s === "echec" || s === "supprimee") ns.setAttribute("data-hyp", "HYPOTHÈSE"); else ns.removeAttribute("data-hyp");
   $("#n-ok").hidden = s === "echec";
   $("#n-re").hidden = s !== "echec";
-  $("#n-sup").hidden = !(s === "enregistree" || s === "confirmer");
+  $("#n-sup").hidden = s !== "enregistree"; /* un seul « Supprimer » à l'écran pendant la confirmation */
   $("#n-conf").hidden = s !== "confirmer";
 }
 nt.addEventListener("input", () => note("saisie-libre"));

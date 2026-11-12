@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Étalon E5 v5, page de succès (local, ne pas déployer)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* v5. Page de succès après paiement (architecture v20 4.2 et 7.5 e). Base réelle : (dashboard)/abonnement/success/page.tsx.
+   Textes : TEXTES_SUCCESS et LIBELLE_RENONCER_CONTRAT de config/textes/paiement.ts, mot pour mot (apostrophes typographiques comprises).
+   Aucun prix, aucun texte neuf. Pas de barre de rubriques : l'abonnement n'est pas encore confirmé. */
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+:root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-in:#707070;--r-md:8px;--r-lg:12px;--fast:150ms}
+html{-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--t1);font:400 16px/24px Inter,system-ui,sans-serif;min-height:100vh}
+h1{font:700 24px/32px "Plus Jakarta Sans",Inter,system-ui,sans-serif;text-wrap:balance}
+p{text-wrap:pretty}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--link);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1280px;margin:0 auto;padding:0 12px}
+@media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}
+.skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
+.skip:focus{top:8px}
+.hd{border-bottom:1px solid var(--bd);background:var(--bg)}
+.hd .wrap{display:flex;height:64px;align-items:center}
+.logo{display:flex;align-items:center;min-height:44px;text-decoration:none;font:700 18px/28px "Plus Jakarta Sans",Inter,system-ui,sans-serif;background:linear-gradient(to right,#A78BFA,#7C3AED);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page{display:flex;min-height:calc(100svh - 65px);align-items:center;justify-content:center;padding:24px 0}
+.card{width:100%;max-width:448px;text-align:center;background:var(--card);border:1px solid var(--bd);border-radius:var(--r-lg);padding:32px}
+.card>*+*{margin-top:8px}
+.t2{color:var(--t2)}.tm{color:var(--tm);font-size:14px;line-height:20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:var(--r-lg);border:1px solid var(--bd-in);background:transparent;color:var(--t1);font:600 14px/20px Inter,system-ui,sans-serif;text-decoration:none;cursor:pointer;transition:background-color var(--fast)}
+.btn:hover{background:var(--elev)}
+.btn-p{background:var(--acc-2h);border-color:transparent;color:#fff}.btn-p:hover{background:var(--acc-2)}
+/* « Continuer » : le bouton dominant. Pleine largeur sur téléphone, 48 px. */
+.go{min-height:48px;width:100%;margin-top:24px}
+/* Renoncer au contrat ici : lien en texte (jamais un bouton de même poids), cible de 44 px, séparé d'au moins 44 px du bouton (4.2). Réel : lien discret de 12 px ; ici 14/20 pour la lisibilité. */
+.renonce{margin-top:48px}
+.renonce a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--t2);font:400 14px/20px Inter,system-ui,sans-serif;text-decoration:underline;text-underline-offset:2px}
+.renonce a:hover{color:var(--t1)}
+.spin{display:flex;justify-content:center;margin-top:24px}
+.spin i{display:block;width:32px;height:32px;border-radius:50%;border:4px solid var(--acc);border-top-color:transparent;animation:r 1s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+.mail{display:inline-flex;align-items:center;min-height:44px;color:var(--link);text-decoration:underline}
+.full{display:flex;width:100%;margin-top:12px}
+.demo{margin:48px auto 0;max-width:720px;padding:16px 16px 48px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
+.demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
+@media(max-width:299px){.card{padding:16px}.logo{font-size:14px;line-height:20px}.hd .wrap{height:auto;padding-top:4px;padding-bottom:4px}h1{font-size:20px;line-height:28px}.btn{white-space:normal;text-align:center;padding:8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;scroll-behavior:auto!important}.spin i{animation:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+<header class="hd"><div class="wrap"><a class="logo" href="#">deviens-marrant.fr</a></div></header>
+
+<main id="main" class="wrap page">
+  <section class="card" aria-live="polite">
+    <!-- Prêt : paiement vérifié. « Continuer » dominant, pas de redirection automatique (C14). -->
+    <div id="s-pret" hidden>
+      <h1>Paiement reçu !</h1>
+      <p class="t2" style="margin-top:8px">Merci. Ton accès s’active…</p>
+      <!-- La ligne sur la lettre du jeudi (LETTRE_HEBDO_INFO_PAIEMENT, selon l'état du compte) existe dans le code réel ; son texte n'est pas rendu ici (selon l'état : reçoit, arrêtée, opposition). -->
+      <a class="btn btn-p go" href="aujourdhui.html">Continuer</a>
+      <p class="renonce"><a href="#">Renoncer au contrat ici</a></p>
+    </div>
+
+    <!-- Vérification en cours : indicateur annoncé, AUCUN bouton « Continuer » (7.5 e) -->
+    <div id="s-verif" hidden>
+      <h1>On vérifie ton paiement</h1>
+      <p class="t2" style="margin-top:8px">Quelques secondes, le temps de confirmer avec notre service de paiement.</p>
+      <div class="spin" role="status" aria-label="On vérifie ton paiement"><i></i></div>
+    </div>
+
+    <!-- Non vérifié : message honnête, contact, « Réessayer » principal, repli -->
+    <div id="s-non" hidden>
+      <h1>On n’arrive pas à confirmer ton paiement</h1>
+      <p class="tm" style="margin-top:8px">On n’a pas encore de confirmation de ton paiement. Si tu as bien été débité, pas d’inquiétude : écris-nous à contact@deviens-marrant.fr et on active ton accès à la main.</p>
+      <a class="mail" href="mailto:contact@deviens-marrant.fr">contact@deviens-marrant.fr</a>
+      <button class="btn btn-p full" type="button" id="reessayer">Réessayer</button>
+      <a class="btn full" href="parcours.html">Voir les parcours</a>
+    </div>
+
+    <!-- Non connecté (étalon 5a.2, validé) -->
+    <div id="s-conn" hidden>
+      <h1>Connecte-toi pour retrouver ton abonnement</h1>
+      <p class="t2" style="margin-top:8px">Tu n’es pas connecté sur cet appareil, alors on ne peut pas confirmer ton paiement d’ici. Si tu viens de t’abonner, connecte-toi : ton accès apparaîtra dans ton profil.</p>
+      <a class="btn btn-p go" href="#">Me connecter</a>
+      <p class="tm" style="margin-top:16px">Pas encore abonné ? <a href="#" style="display:inline-flex;align-items:center;min-height:44px;text-decoration:underline">Voir Premium</a></p>
+    </div>
+  </section>
+</main>
+
+<nav class="demo" aria-label="États de la maquette">
+  États de la maquette :
+  <a href="#etat=verification">Vérification en cours</a>
+  <a href="#etat=pret">Prêt</a>
+  <a href="#etat=nonverifie">Non vérifié</a>
+  <a href="#etat=connexion">Non connecté</a>
+</nav>
+
+<script>
+const $ = (s) => document.querySelector(s);
+document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
+/* #etat=verification|pret|nonverifie|connexion (défaut : pret). « Réessayer » rejoue la vérification (2 secondes dans le code réel, ici 3). */
+let t = null;
+function appliquer() {
+  clearTimeout(t);
+  const e = (location.hash.match(/etat=(\w+)/) || [])[1] || "pret";
+  $("#s-pret").hidden = e !== "pret"; $("#s-verif").hidden = e !== "verification";
+  $("#s-non").hidden = e !== "nonverifie"; $("#s-conn").hidden = e !== "connexion";
+}
+$("#reessayer").addEventListener("click", () => { $("#s-non").hidden = true; $("#s-verif").hidden = false; t = setTimeout(() => { $("#s-verif").hidden = true; $("#s-non").hidden = false; $("#reessayer").focus(); }, 3000); });
+addEventListener("hashchange", appliquer);
+appliquer();
+</script>
+</body>
+</html>

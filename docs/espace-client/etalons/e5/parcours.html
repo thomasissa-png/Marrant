@@ -20,7 +20,7 @@ h1,h2,h3{text-wrap:balance}p,li{text-wrap:pretty}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--link);outline-offset:2px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-[data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
+body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
 body[data-hyp="off"] [data-hyp]::after{content:none}
 .btn[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
@@ -42,6 +42,9 @@ body[data-hyp="off"] [data-hyp]::after{content:none}
 .zone{position:relative;margin-left:-12px;min-width:0}
 .liste{display:flex;height:44px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 .liste::-webkit-scrollbar{display:none}
+.liste{scroll-snap-type:x proximity;scroll-padding-left:var(--p,0px)}
+.liste::after{content:"";flex:none;width:var(--sp,0px)}
+.liste>.tab{scroll-snap-align:start}.liste>.tab:first-child{scroll-snap-align:none}
 .tab{position:relative;flex:none;display:flex;align-items:center;gap:4px;height:44px;padding:0 12px;border:0;background:none;color:var(--t2);font:500 14px/20px Inter,system-ui,sans-serif;white-space:nowrap;text-decoration:none;cursor:pointer;transition:color var(--fast)}
 .liste>.tab:first-child{position:sticky;left:0;z-index:2;background:var(--bg)}
 .tab:hover{color:var(--t1)}
@@ -118,9 +121,10 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 .capnom{font-size:12px;line-height:16px}.serie{font-size:14px;line-height:20px}.serie svg{width:16px;height:16px}
 #cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 8px}
 #cap>*+*{margin-top:0}#cap .capl{display:contents}
-#cap h2{grid-column:1;grid-row:1}#cap .pastilles{grid-column:2;grid-row:1}
+#cap h2{grid-column:1;grid-row:1;font-size:20px;line-height:28px;white-space:nowrap}#cap .pastilles{grid-column:2;grid-row:1}
 #cap .serie,#cap .capnom{grid-column:1 / -1}
-.pastilles{gap:8px}.pastilles i{width:12px;height:12px}
+/* v5 : « Ton cap » sur une seule ligne à 200 % (titre 20/28 sur environ 70 px, cinq pastilles de 10 px espacées de 2 px = 58 px, 8 px entre les deux : environ 136 px sur 140) */
+#cap{gap:4px 8px}.pastilles{gap:2px}.pastilles i{width:10px;height:10px}
 .sec{margin-top:16px}.sec h2{margin-bottom:8px}.p{padding:12px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
@@ -167,7 +171,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
         <summary><h2 id="h-sem">Tes 4 premières semaines</h2><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg></summary>
         <!-- Lignes composées depuis le tableau de 4.1 (cellules « Premier pas », « Mécanisme », « Parcours conseillé », « Séance », « Écouter, repérer »). Ordre conseillé, jamais un verrou. -->
         <ol class="sem" data-hyp="HYPOTHÈSE : quatre lignes composées depuis 4.1">
-          <li><b>Semaine 1</b><span>Le premier pas, puis «&nbsp;Le faux secret&nbsp;». Aucun parcours à suivre.</span></li>
+          <li><b>Semaine 1</b><span>Le premier pas, puis «&nbsp;Le faux secret&nbsp;». Parcours : facultatif cette semaine.</span></li>
           <li><b>Semaine 2</b><span>L'étape 1 de ton parcours, plus un mot ou deux de vocabulaire.</span></li>
           <li><b>Semaine 3</b><span>L'étape suivante, plus la première séance de 20 minutes (facultative).</span></li>
           <li><b>Semaine 4</b><span>L'étape suivante, plus le premier «&nbsp;Écouter, repérer&nbsp;» (facultatif).</span></li>
@@ -223,16 +227,18 @@ const $ = (s, r = document) => r.querySelector(s);
 document.addEventListener("click", (e) => { const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); });
 function fondus() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth;
-  $("#fg").style.left = p + "px";
+  $("#fg").style.left = p + "px"; l.style.setProperty("--p", p + "px");
+  l.style.setProperty("--sp", Math.max(0, l.clientWidth - p - l.lastElementChild.offsetWidth) + "px");
   $("#fg").classList.toggle("off", l.scrollLeft < 2);
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 function ramener() { /* « Aujourd'hui » épinglée, rubrique active à sa droite, sans animation */
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
   if (a && a !== l.firstElementChild) {
-    let s = a.offsetLeft - p - (l.clientWidth - p - a.offsetWidth) / 2;
-    s = Math.min(Math.max(0, s), l.scrollWidth - l.clientWidth);
-    if (a.offsetLeft - s < p) s = a.offsetLeft - p;
+    fondus();
+    const bornes = [0, ...[...l.children].slice(1).map((t) => t.offsetLeft - p)];
+    const bas = a.offsetLeft + a.offsetWidth - l.clientWidth, haut = a.offsetLeft - p;
+    const s = bornes.find((b) => b >= bas && b <= haut) ?? haut;
     l.scrollLeft = s;
   } else l.scrollLeft = 0;
   fondus();
