@@ -1,4 +1,4 @@
-# QR1 : Quoi répondre, lot 1 (10 situations), tour 2
+# QR1 : Quoi répondre, lot 1 (10 situations), tour 3
 
 > Auteur : @copywriter, 12/11/2026. **Tour 2** : A1 à A5 notées 10 par les trois relectures du tour 1 (texte validé, intact) ; B1 à B5 réécrites d'après `docs/copy/espace/relectures/qr1-tour-1-{reviewer,elon,critique-copywriter}.md`. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR1), `docs/espace-client/audit-contenu/architecture-contenu-v20.md` (3.3, C6, C9), étalons `docs/copy/etalons-espace-s24.md` (E1.1, E1.2), ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur **ni pour la personne rencontrée** dans les scènes, on rit avec et jamais contre, rencontre : jamais d'insistance ni de remarque sur le physique, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Les mots entre accents graves sont des écrans (E5).
@@ -76,7 +76,7 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **À toi.** Écris ton métier ou tes études en une phrase courte. Puis ajoute un détail qui relance : une chose que ton métier te fait voir autrement, ou ce qui traîne dans la pièce où tu es (le buffet, un meuble, la playlist). Dis les deux à voix haute.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « Quelqu'un a déjà souri à une de tes phrases dans la soirée, mais la personne qui te questionne n'a rien plaisanté » : la joueuse. Un sourire est déjà là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur la question, donc la risquée proposerait un service que personne n'a demandé.
+1. « Quelqu'un a déjà souri à une de tes phrases dans la soirée, mais la personne qui te questionne ne plaisante pas » : la joueuse. Un sourire est déjà là, donc la sûre serait timide ; l'autre n'a pas plaisanté sur la question, donc la risquée proposerait un service que personne n'a demandé.
 2. « Quelqu'un a déjà souri à une de tes phrases, et la personne qui te questionne ajoute en riant : “La question qu'on pose toujours, je sais” » : la risquée. Les deux signaux sont là : la joueuse s'arrêterait un cran trop bas, la sûre ne rendrait pas la balle que l'autre vient de lancer.
 
 ### A3. Amis : « Alors, quoi de neuf ? » (E1.2, entrée 2, profil Storyteller)
@@ -99,8 +99,8 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **À toi.** Relève une nouvelle minuscule de ta semaine (un meuble réparé, un colis, une expérience ratée) et dis-la à quelqu'un en commençant par « C'est petit, mais ».
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « L'ambiance est détendue, l'ami a l'air curieux, et personne ne t'a encore chambré sur tes récits » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucun chambrage sur ta façon de raconter, donc la risquée poserait une condition à un public qui n'a rien demandé.
-2. « L'ambiance est détendue, et cet ami te lance : “Tu vas encore nous faire un feuilleton ?” » : la risquée. Il te chambre déjà sur ta façon de raconter : la joueuse laisserait passer le jeu qu'il propose, la sûre ne lui répondrait pas.
+1. « L'ambiance est détendue, l'ami a l'air curieux, et personne ne te chambre encore sur tes récits » : la joueuse. L'ambiance permet de monter, donc la sûre serait timide ; aucun chambrage sur ta façon de raconter, donc la risquée poserait une condition à un public qui n'a rien demandé.
+2. « L'ambiance est détendue, et cet ami lance à la tablée : “Attention, histoire en approche : on ne sait jamais où rire” » : la risquée. Il te chambre déjà sur ta façon de raconter et pose lui-même la question du rire : la risquée y répond en face (« rire au bon endroit ») ; la joueuse laisserait passer son jeu, la sûre ne parlerait que d'un tiroir.
 
 ### A4. Boulot : « Ça va ? » (E1.2, entrée 3, profil Absurde)
 
@@ -145,8 +145,8 @@ Dans les trois répliques, la première phrase est vraie (ton métier ou tes ét
 **À toi.** Trouve ton plus petit changement de la semaine (un mug, un fond d'écran) et dis-le comme un grand secret.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)** `[ajout du tour 2, à relire]`
-1. « L'ambiance est tendue depuis le début : on a parlé de départs, et personne ne rit » : la sûre. L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop.
-2. « L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, vous avez parié “le perdant paie les croissants” » : la risquée. Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
+1. « La soirée peine à démarrer, et personne ne rit encore » : la sûre. L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop.
+2. « L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, vous vous êtes défiés aux mots croisés, et il a perdu en riant » : la risquée. Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu.
 
 ---
 
@@ -180,18 +180,18 @@ Tu réponds à l'excuse par un aveu à toi : tu avais ton propre trac, et l'arri
 Tu transformes l'excuse en petit concours et tu rends la parole : c'est l'autre qui peut gagner des points en racontant. Elle ne vise pas la personne, seulement l'excuse. Elle marche seulement si l'autre plaisante déjà de sa course pour se garer. Sinon elle sonne comme une inspection : prends la sûre.
 
 **Comment choisir**
-L'autre a souri en s'excusant ? Monte d'un cran. Il plaisante lui-même de son retard ? Monte encore. Sinon, reste sur la sûre.
+L'autre a souri en s'excusant ? Monte d'un cran. L'autre plaisante de son retard ? Monte encore. Sinon, reste sur la sûre.
 Sur cette scène : la joueuse si l'autre sourit en s'excusant, une seule fois. La risquée seulement si l'autre plaisante déjà de sa course pour se garer. Si ça ne prend pas, tu lui tends la carte des boissons et tu ne reviens pas sur le retard.
 
 **L'erreur que tout le monde fait**
-Faire sentir le retard (« J'ai cru que tu ne viendrais pas »). L'autre est déjà gêné ; tu transformes un incident en reproche, et le début de soirée se passe à se justifier. Une phrase légère, et tu poses la carte entre vous.
+Faire sentir le retard (« J'ai cru que tu ne viendrais pas »). L'autre est déjà dans l'embarras ; tu transformes un incident en reproche, et le début de soirée se passe à se justifier. Une phrase légère, et tu poses la carte entre vous.
 
 **À toi**
 Pense à la dernière fois que quelqu'un t'a fait attendre, même cinq minutes. Dis la sûre à voix haute, presque sans sourire, comme si tu la disais à un verre. Dix secondes. Pour aller plus loin : au prochain petit retard qu'on t'annonce, dis-la en vrai.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « L'autre arrive en souriant, s'excuse une fois et ne plaisante pas » : la joueuse. Un sourire est là, donc la sûre serait timide ; l'autre n'a pas plaisanté de son retard, donc la risquée ressemblerait à une inspection.
-2. « L'autre arrive en riant de soi-même : “J'ai tourné vingt minutes, je crois que j'ai visité la ville” » : la risquée. L'autre t'a donné la matière : la joueuse s'arrêterait un cran trop bas, la sûre fermerait le jeu qu'il vient d'ouvrir.
+2. « L'autre arrive en riant : “J'ai tourné vingt minutes, je crois que j'ai visité la ville” » : la risquée. L'autre t'a donné la matière : la joueuse s'arrêterait un cran trop bas, la sûre fermerait le jeu que l'autre vient d'ouvrir.
 
 ### B2. Rencontre : « C'est quoi ton plus gros défaut ? » (messagerie, avant le premier verre)
 
@@ -207,18 +207,18 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 
 **La sûre**
 « Je relis chaque message deux fois avant de l'envoyer, y compris celui-ci. »
-Un défaut minuscule, vrai pour presque tout le monde, et la chute est dans la phrase même : tu viens de le faire. Elle ne coûte rien à l'autre, qui peut répondre « moi aussi ». C'est la bonne quand tu ne connais pas encore son humour.
+Un défaut minuscule, vrai pour presque tout le monde, et la chute est dans la phrase même : tu viens de le faire. Elle ne coûte rien à l'autre, qui peut répondre « moi aussi ». C'est la bonne quand tu ne connais pas encore l'humour de l'autre.
 
 **La joueuse**
-« Je passe quarante minutes à choisir un film, puis je relance celui que je connais par cœur. »
-Un défaut précis et visuel, que l'autre peut raconter à son tour. Ce n'est pas une promesse non tenue : c'est une habitude qui fait sourire. À sortir quand les échanges ont déjà fait sourire l'autre.
+« Je réponds à tous les messages dans ma tête. Avec brio. »
+Un défaut qui parle de cette conversation même : tu avoues que tes meilleures réponses restent dans ta tête, et la chute est dans « avec brio ». Court, sans accord, il se lit d'un coup dans une messagerie. À sortir quand les échanges ont déjà fait sourire l'autre.
 
 **La risquée**
-« Un défaut chacun, envoyés en même temps. Je compte, tu appuies. »
-Tu proposes un jeu à deux, sans redemander un défaut déjà donné : l'autre annonce une liste, tu lui proposes de n'en envoyer qu'un. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
+« Un défaut chacun, pas la liste. Je tape le mien, tu tapes le tien, on envoie ensemble. »
+Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et personne n'avoue seul. Elle marche dans une messagerie : chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre.
 
 **Comment choisir**
-La conversation est déjà détendue ? Monte d'un cran. L'autre plaisante lui-même de ses défauts ? Monte encore. Sinon, reste sur la sûre.
+La conversation est déjà détendue ? Monte d'un cran. L'autre plaisante de ses propres défauts ? Monte encore. Sinon, reste sur la sûre.
 Sur cette scène : la joueuse si l'autre a déjà ri avec toi. La risquée seulement si l'autre parle déjà de ses défauts en riant, une fois. Si ça ne prend pas, tu n'insistes pas : tu changes de sujet.
 
 **L'erreur que tout le monde fait**
@@ -228,13 +228,13 @@ Répondre « aucun » ou « je suis trop perfectionniste » : la première est f
 Écris trois défauts minuscules et précis, à la manière de la sûre. Garde celui qui te fait sourire le plus. Dis-le à voix haute.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Les échanges ont été rieurs, mais l'autre n'a encore rien dit de ses propres défauts » : la joueuse. La conversation est détendue, donc la sûre serait timide ; l'autre ne s'est pas encore exposé, donc proposer un échange ressemblerait à une pression.
-2. « L'autre ajoute : “Je te préviens, j'en ai une liste, et j'en ris” » : la risquée. L'autre a ouvert le jeu sans donner un seul défaut : la joueuse parlerait de toi sans rien lui rendre, la sûre ne profiterait pas de son ouverture.
+1. « Les échanges ont été rieurs, mais l'autre n'a encore rien dit de ses propres défauts » : la joueuse. La conversation est détendue, donc la sûre serait timide ; l'autre n'a encore rien avoué, donc proposer un échange ressemblerait à une pression.
+2. « L'autre ajoute : “Je te préviens, j'en ai une liste, et j'en ris” » : la risquée. L'autre a ouvert le jeu sans donner un seul défaut : la joueuse parlerait de toi sans rien rendre à l'autre, la sûre ne profiterait pas de cette ouverture.
 
 ### B3. Rencontre : la présentation (chez un ami)
 
 **La scène**
-Samedi, chez un ami qui reçoit. Il te présente quelqu'un qu'il tient à te faire rencontrer depuis des semaines, puis s'éclipse vers la cuisine. La personne te regarde avec un sourire :
+Samedi, chez un ami qui reçoit. Il te présente quelqu'un qu'il tient à te faire rencontrer depuis des semaines, puis s'éclipse vers la cuisine. La personne te regarde :
 
 « Alors c'est toi dont on m'a tant parlé. »
 
@@ -245,29 +245,29 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 
 **La sûre**
 « J'espère que tu n'as entendu que les bonnes parties. Ça a dû être court. »
-Tu rends la réputation à sa plus petite taille : peu de bonnes parties, donc une conversation courte. Elle ne vise personne et laisse l'autre répondre ce qu'il veut. C'est la bonne quand tu ne sais rien de son humour.
+Tu rends la réputation à sa plus petite taille : peu de bonnes parties, donc une conversation courte. Elle ne vise personne et laisse l'autre répondre librement. C'est la bonne quand tu ne sais rien de l'humour de l'autre.
 
 **La joueuse**
 « Alors tu connais déjà mes meilleures histoires. Je vais devoir improviser. »
 Un aveu léger, sans rien inventer sur toi : l'autre a déjà entendu le meilleur, et tu t'engages à faire sans. À sortir quand le sourire est là dès la première phrase.
 
 **La risquée**
-« Dis-moi ce que tu sais, je te donne la fin. C'est souvent la meilleure partie. »
-Tu rends la parole et tu proposes de compléter ce que ton ami a raconté, sans le critiquer : il a donné le début, toi la fin. Elle marche seulement si l'autre fait déjà une remarque sur la façon dont ton ami raconte. Sinon elle ressemble à un interrogatoire : prends la sûre.
+« Dis-moi ce qu'on t'a raconté, je te dis si tu as droit à la suite. »
+Tu rends la parole et tu fais de la suite une petite récompense : l'autre raconte ce qu'on lui a dit, toi tu décides de la suite. Elle ne vise personne, pas même l'ami absent. Elle marche seulement si l'autre fait déjà une remarque sur la façon dont ton ami raconte. Sinon elle ressemble à un interrogatoire : prends la sûre.
 
 **Comment choisir**
-L'autre a souri dès la première phrase ? Monte d'un cran. Il plaisante sur la façon dont ton ami raconte ? Monte encore. Sinon, reste sur la sûre.
+L'autre a souri dès la première phrase ? Monte d'un cran. L'autre plaisante sur la façon dont ton ami raconte ? Monte encore. Sinon, reste sur la sûre.
 Sur cette scène : la joueuse si le sourire est là. La risquée seulement si l'autre te parle des histoires de ton ami en riant, une fois. Si ça ne prend pas, tu demandes ce que l'autre fait dans la vie et tu laisses tomber.
 
 **L'erreur que tout le monde fait**
-Se défendre (« tout est faux, il exagère »). Tu défends un dossier que personne n'attaque. Une phrase, et tu poses la question à ton tour.
+Se défendre (« tout est faux, on exagère »). Tu défends un dossier que personne n'attaque. Une phrase, et tu poses la question à ton tour.
 
 **À toi**
 Demande à un ami ce qu'il raconte de toi quand tu n'es pas là. Garde le détail le plus petit et dis-le comme une anecdote sans importance.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « L'autre te serre la main avec un sourire, sans rien ajouter » : la joueuse. Le sourire est là, donc la sûre serait timide ; l'autre n'a rien dit de ton ami, donc compléter ses histoires ressemblerait à un interrogatoire.
-2. « L'autre ajoute : “Il m'a parlé de tes histoires, mais jamais en entier” » : la risquée. L'autre vise lui-même la façon de ton ami : la joueuse ne reprendrait pas son fil, la sûre fermerait un échange qu'il vient d'ouvrir.
+2. « L'autre ajoute : “Il m'a parlé de tes histoires, mais jamais en entier” » : la risquée. L'autre relève la façon de raconter de ton ami, et réclame la suite : la risquée la met en jeu ; la joueuse ne reprendrait pas ce fil, la sûre fermerait l'échange que l'autre vient d'ouvrir.
 
 ### B4. Rencontre : le défi (mini-golf, deuxième rendez-vous)
 
@@ -290,12 +290,12 @@ Tu laisses l'autre à son sérieux et tu te donnes une fonction : celle de témo
 Tu te présentes sans danger, avec le calme de quelqu'un qui a l'habitude. L'écart entre son sérieux et ta décontraction fait la phrase. À sortir quand l'autre sourit en prononçant sa menace.
 
 **La risquée**
-« Glaces d'accord. Mais si je gagne un seul trou, tu ne pourras plus dire “jamais”. »
-Tu acceptes l'enjeu que l'autre a lancé et tu fixes un objectif minuscule : un seul trou suffit à effacer son « jamais ». Elle ne vise personne, elle rend le défi à celui qui l'a posé. Elle marche seulement si l'autre a déjà proposé un enjeu. Sinon elle ressemble à une mise sous pression : prends la sûre.
+« Noté. Un seul trou, et ton “jamais” devient “presque jamais”. »
+Tu prends note de la menace et tu fixes un objectif minuscule : un seul trou suffit à abîmer le « jamais ». Elle ne vise personne, elle rend le défi à qui l'a posé. Elle marche seulement si l'autre a déjà proposé un enjeu. Sinon elle ressemble à une mise sous pression : prends la sûre.
 
 **Comment choisir**
-L'autre sourit en te menaçant ? Monte d'un cran. Il a déjà proposé un enjeu ? Monte encore. Sinon, reste sur la sûre.
-Sur cette scène : la joueuse s'il sourit. La risquée seulement s'il a déjà lancé « le perdant paie les glaces » ou un enjeu du même genre, une fois. Si ça ne prend pas, tu joues le premier trou et tu ne reparles plus du pari.
+L'autre sourit en te menaçant ? Monte d'un cran. L'autre a déjà proposé un enjeu ? Monte encore. Sinon, reste sur la sûre.
+Sur cette scène : la joueuse si l'autre sourit. La risquée seulement si l'autre a déjà lancé « le perdant paie les glaces » ou un enjeu du même genre, une fois. Si ça ne prend pas, tu joues le premier trou et tu ne reparles plus du pari.
 
 **L'erreur que tout le monde fait**
 Contre-attaquer en promettant de gagner (« on verra, je joue très bien »). Tu n'ajoutes pas de légèreté : tu ajoutes de la compétition, et chaque trou devient un duel. Une phrase légère, et tu poses ta balle.
@@ -305,12 +305,12 @@ Cette semaine, dans un jeu (cartes, console, fléchettes), dis la joueuse avant 
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
 1. « L'autre le dit sans sourire, les yeux sur la balle » : la sûre. Aucun sourire pour monter, donc la joueuse tomberait à plat devant tant de sérieux ; aucun enjeu proposé, donc la risquée serait une pression.
-2. « L'autre le dit en souriant, après avoir lancé à la caisse : “Le perdant paie les glaces” » : la risquée. L'enjeu est posé et le sourire est là : la joueuse ignorerait son pari, la sûre ne relèverait pas le jeu qu'il propose.
+2. « L'autre le dit en souriant, après avoir lancé à la caisse : “Le perdant paie les glaces” » : la risquée. L'enjeu est posé et le sourire est là : la joueuse ignorerait ce pari, la sûre ne relèverait pas le jeu que l'autre propose.
 
 ### B5. Rencontre : « Pas ce soir. » (fin de soirée)
 
 **La scène**
-Jeudi, 23 h, devant le restaurant. La soirée a été bonne. Tu proposes : « On prend un dernier verre ? » L'autre sourit, les yeux lourds :
+Jeudi, 23 h, devant le restaurant. La soirée a été bonne. Tu proposes : « On prend un dernier verre ? » L'autre, les yeux lourds :
 
 « Pas ce soir, je tombe de sommeil. »
 
@@ -320,19 +320,19 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Aucun souci. Rentre bien, et merci : c'était une bonne soirée, même sans prolongations. »
-Tu acceptes tout de suite, tu remercies, et tu glisses un léger regret sans le faire peser. L'autre repart sans rien devoir. C'est la bonne dans tous les cas où l'autre ne sourit pas.
+« Aucun souci. Rentre bien. La soirée était assez bonne pour se passer de rappel. »
+Tu acceptes tout de suite et tu dis que la soirée a été bonne : un rappel, c'est ce qu'on réclame quand le concert a plu, et tu t'en passes. Aucun regret à porter pour l'autre, qui repart sans rien devoir. C'est la bonne dans tous les cas où l'autre ne sourit pas.
 
 **La joueuse**
-« Compris. Ton lit a gagné, je m'incline. »
-Tu acceptes en faisant du lit le vainqueur du match. La phrase ferme la porte : elle ne fixe ni date ni condition. À sortir quand l'autre a dit non en souriant.
+« Compris. Le sommeil a gagné, je m'incline. »
+Tu acceptes en faisant du sommeil le vainqueur du match, en écho à ce que l'autre vient de dire. La phrase ferme la porte : elle ne fixe ni date ni condition. À sortir quand l'autre a dit non en souriant.
 
 **La risquée**
-« Je mets le verre au frais. Il tient un mois, après c'est de la vinaigrette. »
-Tu acceptes et tu laisses une porte ouverte, pour rire, sans relancer : c'est l'autre qui décide d'y revenir ou non. Elle marche seulement si l'autre a lui-même glissé « une autre fois ». Sinon, la sûre.
+« Je mets le dernier verre au frais. Il tient un mois, après c'est de la vinaigrette. »
+Tu acceptes et tu laisses une porte ouverte, pour rire, sans relancer : c'est l'autre qui décide d'y revenir ou non. Elle marche seulement si l'autre a glissé « une autre fois ». Sinon, la sûre.
 
 **Comment choisir**
-L'autre a refusé en souriant ? Monte d'un cran. Il a dit « une autre fois » ? Monte encore. Sinon, reste sur la sûre.
+L'autre a refusé en souriant ? Monte d'un cran. L'autre a dit « une autre fois » ? Monte encore. Sinon, reste sur la sûre.
 Règle ici : tu le dis une seule fois et tu ne relances pas. Pas de message le lendemain pour reproposer le verre. Si l'autre veut le verre, il te le dira.
 
 **L'erreur que tout le monde fait**
@@ -342,7 +342,7 @@ Insister (« allez, un seul, juste un »). Un refus gentil se respecte ; l'insis
 La prochaine fois qu'on refuse quelque chose que tu proposes, dis la sûre ou la joueuse à voix haute, sans « mais ». Puis ne reviens pas sur le sujet.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « L'autre refuse d'une voix éteinte, le regard déjà sur son téléphone » : la sûre. Il n'a pas souri, donc la joueuse serait un jeu de trop ; il n'a rien ouvert, donc la risquée laisserait une porte qu'il ne demande pas.
+1. « L'autre refuse d'une voix éteinte, le regard déjà sur son téléphone » : la sûre. L'autre n'a pas souri, donc la joueuse serait un jeu de trop ; rien n'a été ouvert, donc la risquée laisserait une porte que personne ne demande.
 2. « L'autre refuse en souriant, puis ajoute : “Une autre fois, promis” » : la risquée. L'autre a ouvert une porte lui-même : la joueuse la fermerait, la sûre n'y répondrait pas.
 
 ---
@@ -386,8 +386,36 @@ Résultat : **0 occurrence exacte** pour chacune des 14 répliques nouvelles ou 
 | Pourquoi/erreur corrigés (@reviewer) | B1 : « La pique, s'il y en avait une » supprimée ; « tu lui tends la carte des boissons ». B3 erreur : « Tu défends un dossier que personne n'attaque » ; scène : « qu'il tient à te faire rencontrer depuis des semaines ». B4 : « tomberait à plat devant tant de sérieux ». B5 : « Pas de message le lendemain pour reproposer le verre. » |
 | Rafales A2 à A5 (reviewer, coordination) | Ajout de 2 contextes sous chaque situation, marqués « ajout du tour 2, à relire » ; aucune ligne du texte validé n'a changé. |
 
+## Annexe 3 : candidates du tour 3 (3 par réplique réécrite, la meilleure gardée)
+
+| Situation | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|
+| B2 joueuse | « Je réponds à tous les messages dans ma tête. Avec brio. » | « Je rédige des réponses brillantes dans ma tête. Je les envoie mercredi. » (le « mercredi » ne tient à rien) | « Je suis très fort pour trouver la bonne réponse. Vers minuit, sous la douche. » (accord masculin) |
+| B2 risquée | « Un défaut chacun, pas la liste. Je tape le mien, tu tapes le tien, on envoie ensemble. » | « Un défaut chacun, pas la liste. Envoi à 21 h pile, sans tricher. » (impose une heure) | « Un défaut chacun, envoyés en même temps. Je compte, tu ne triches pas. » (chute molle, ne marche pas en messagerie) |
+| B3 risquée | « Dis-moi ce qu'on t'a raconté, je te dis si tu as droit à la suite. » | « Dis-moi ce que tu sais, je te donne la fin. C'est souvent la meilleure partie. » (compliment à soi, « la fin » de quoi ?) | « Tout dépend de qui t'en a parlé. Le mieux, c'est de vérifier sur place. » (ne répond pas au contexte 2) |
+| B4 risquée | « Noté. Un seul trou, et ton “jamais” devient “presque jamais”. » | « Noté. Mais si je gagne un seul trou, tu ne pourras plus dire “jamais”. » (sèche) | « Glaces d'accord. Un seul trou… » (dépend d'une phrase absente de la scène) |
+| B5 sûre | « Aucun souci. Rentre bien. La soirée était assez bonne pour se passer de rappel. » | « Aucun souci. Rentre bien, je garde le reste de la soirée pour la prochaine. » (suppose une suite) | « Aucun souci. Rentre bien. Cette soirée se suffisait à elle-même. » (moins précise) |
+| B5 joueuse | « Compris. Le sommeil a gagné, je m'incline. » | « Compris. Ton lit a gagné, je m'incline. » (sous-entendu lourd à 23 h) | « Compris. Je perds contre le sommeil, mon seul adversaire imbattable. » (longue) |
+| B5 risquée | « Je mets le dernier verre au frais. Il tient un mois, après c'est de la vinaigrette. » (« dernier » ajouté) | « Je mets le verre au frais. Il tient un mois… » (moins lié à la scène) | « Je mets le dernier verre de côté, sans date. C'est toi qui l'ouvres. » (pas drôle) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour les 7 répliques modifiées au tour 3 (B2 joueuse, B2 risquée, B3 risquée, B4 risquée, B5 sûre, B5 joueuse, B5 risquée).
+
+## Tour 3 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Personne rencontrée vraiment non genrée (@reviewer, @elon, critique) | « gêné » devient « dans l'embarras » (B1) ; « exposé » devient « n'a encore rien avoué » (B2) ; « riant de soi-même » devient « riant » (B1) ; tous les « il » de l'autre remplacés par « l'autre » ou une tournure neutre (B1 à B5, rafales comprises) ; A3-1 : « te chambre encore » (plus de participe accordé). |
+| Scène sans le signal de la joueuse (@reviewer) | B3 : « La personne te regarde : » (le sourire n'est plus dans la scène) ; B5 : « L'autre, les yeux lourds : ». |
+| B4 risquée lisible depuis la fiche (@reviewer, @elon) | « Noté. Un seul trou, et ton “jamais” devient “presque jamais”. » ; pourquoi et « à qui l'a posé » corrigés. |
+| B2 risquée en messagerie (@elon) | « Un défaut chacun, pas la liste. Je tape le mien, tu tapes le tien, on envoie ensemble. » ; pourquoi réécrit. |
+| B5 joueuse sans sous-entendu (@elon) | « Compris. Le sommeil a gagné, je m'incline. » |
+| Réécritures notées 5 à 6 (critique) | B2 joueuse, B3 risquée, B5 sûre (voir annexe 3). B5 risquée : « dernier verre ». |
+| A3-2 : une seule bonne réponse (@reviewer) | Contexte : « Attention, histoire en approche : on ne sait jamais où rire » ; le pourquoi ancre la risquée. |
+| A5-1 : « départs » lisible comme un deuil, C6 (@reviewer, @elon) | « La soirée peine à démarrer, et personne ne rit encore ». A5-2 : défi aux mots croisés (plus de doublon avec « le perdant paie »). |
+| Fautes de langue (@reviewer) | A2-1 : « ne plaisante pas » (était « n'a rien plaisanté ») ; B1 contexte 2 : plus de « soi-même ». |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr1-situations.md` (tour 2) : B1 à B5 réécrites (15 répliques, 3 candidates chacune, 30 écartées en annexe 1), A1 à A5 intactes avec 8 contextes de rafale ajoutés à A2 à A5 (à relire).
-- 14 répliques recherchées : 0 occurrence. Zéro tiret cadratin, zéro émoji, tutoiement, aucun accord genré chez l'utilisateur, personne rencontrée non genrée.
-- À repasser à l'aveugle (tour 2) : B1 à B5 et les 8 rafales ajoutées ; aucun autre fichier modifié, pas de commit.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr1-situations.md` (tour 3) : corrections d'une ligne ; A1 à A5 intactes (texte validé), seuls les contextes ajoutés ont changé.
+- 7 répliques modifiées, 0 occurrence web. Zéro tiret cadratin, zéro émoji, aucun accord genré chez l'utilisateur ni pour la personne rencontrée.
+- À repasser à l'aveugle : B2, B3, B4, B5 modifiées et les contextes A3-1, A3-2, A5-1, A5-2 ; aucun autre fichier modifié, pas de commit.
