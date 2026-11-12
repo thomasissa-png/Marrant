@@ -1,10 +1,10 @@
-# QR6 : Quoi répondre, lot 6 (10 situations), tour 3
+# QR6 : Quoi répondre, lot 6 (10 situations), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 l. 194 (QR6 : coloc 3, famille 3, messages et groupes 4 ; répartition conforme). Format de `docs/copy/espace/qr4-situations.md` et `qr3-situations.md`, niveau de `qr1-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md` et des relectures QR1 à QR3, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« quelqu'un », « la personne », « un de tes parents »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. **Chaque registre (sûre, joueuse, risquée) d'une même situation a sa propre image.** Coloc : on rit de soi ou d'un détail neutre, jamais d'une personne précise. Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche. Messages et groupes : la réplique est un texte écrit, la scène le dit.
 > Aucune scène de QR1 à QR5 ni des étalons reprise (poêle, « tu fais quoi », photo, danser, afterwork, notes, sourdine, « tu n'as pas ri », « ça fait des mois », « tu as vu mon message », fenêtre, anniversaire, bibliothèque, etc.). Univers de QR5 (prise de parole, commerces, voisins, transports) évités.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 3 (d'après les relectures du tour 2 : L1 scène neuve et trois répliques, L2 joueuse, P1 scène et risquée, P3 sûre et rafale 2, G1 joueuse et risquée, G3 scène et accord, G4 risquée ; voir « Tour 3 : retouche → ligne »). Le tour 2 avait repris 18 répliques d'après les relectures du tour 1. L3, P2, G2 et les lignes à 10 ne sont pas touchées. À repasser à l'aveugle sur les lignes reprises** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 4, dernier tour autorisé : la scène de G3 et la risquée de G4 reprises (annexe 6, « Tour 4 : retouche → ligne »), le reste inchangé. Rappel du tour 3 (d'après les relectures du tour 2 : L1 scène neuve et trois répliques, L2 joueuse, P1 scène et risquée, P3 sûre et rafale 2, G1 joueuse et risquée, G3 scène et accord, G4 risquée ; voir « Tour 3 : retouche → ligne »). Le tour 2 avait repris 18 répliques d'après les relectures du tour 1. L3, P2, G2 et les lignes à 10 ne sont pas touchées. À repasser à l'aveugle sur les lignes reprises** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR3 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
@@ -328,7 +328,7 @@ Choisis le dernier vocal que tu n'as pas écouté. Écris la sûre ou la joueuse
 ### G3. Groupes : « Pour samedi, on fait une cagnotte ? »
 
 **La scène**
-Mardi, 21 h, un groupe de discussion créé pour l'occasion, sans la personne concernée. Quelqu'un de la bande déménage samedi. Quelqu'un écrit :
+Mardi, 21 h. Quelqu'un de la bande part vivre à l'autre bout du pays samedi. Un groupe de discussion vient d'être créé sans cette personne, et quelqu'un y écrit :
 
 « Pour samedi, on fait une cagnotte ? »
 
@@ -388,8 +388,8 @@ Tu confirmes sans te justifier et tu offres le message à tout le monde, avec un
 Tu transformes l'erreur en essai grandeur nature. Rien n'est nié, personne n'est visé. À sortir quand le message se termine par un « haha ».
 
 **La risquée**
-« Oui. Mais si quelqu'un les a gardés, je ne les reprends pas. »
-Tu confirmes l'erreur et tu laisses les bisous là où ils sont, sans soupçon ni reprise. Elle ne vise personne et ne désigne personne. Elle marche seulement si quelqu'un a déjà cru que les bisous lui revenaient. Sinon elle sonne comme une façon de balayer l'incident : prends la sûre.
+« Oui. Ils étaient pour une seule personne. L'enquête est ouverte. »
+Tu fais de l'erreur une enquête de groupe, sans jamais dire qui. Elle ne vise personne et ne désigne personne. Elle marche seulement si quelqu'un a déjà cru que les bisous lui revenaient. Sinon elle ajoute un suspense que le groupe n'a pas demandé : prends la sûre.
 
 **Comment choisir**
 Le message se termine par un « haha » ? Monte d'un cran. Quelqu'un croit déjà que les bisous lui revenaient ? Monte encore. Sinon, reste sur la sûre.
@@ -402,8 +402,8 @@ T'excuser pendant dix messages (« pardon pardon pardon, quelle honte, je suppri
 Écris la sûre en brouillon, sans l'envoyer. Dix secondes. Pour aller plus loin : la prochaine fois que tu te trompes de destinataire, envoie-la et ne reviens pas dessus.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a cru que les bisous lui revenaient, donc « je ne les reprends pas » balayerait un incident déjà détendu.
-2. « Quelqu'un ajoute : “Moi, j'ai cru que c'était pour moi, j'ai rougi toute la matinée” » : la risquée. La personne vient de se croire destinataire : « si quelqu'un les a gardés, je ne les reprends pas » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa confidence, la sûre fermerait un jeu qu'elle ouvre.
+1. « Le message de la personne se termine par un “haha”, sans plaisanterie sur les bisous » : la joueuse. Un mot léger est là, donc la sûre serait timide ; personne n'a cru que les bisous lui revenaient, donc « l'enquête est ouverte » ajouterait un suspense à un incident déjà détendu.
+2. « Quelqu'un ajoute : “Moi, j'ai cru que c'était pour moi, j'ai rougi toute la matinée” » : la risquée. La personne vient de se croire destinataire : « ils étaient pour une seule personne, l'enquête est ouverte » lui répond en face ; la joueuse parlerait de ton essai sans répondre à sa confidence, la sûre fermerait un jeu qu'elle ouvre.
 
 ---
 
@@ -451,7 +451,7 @@ Résultat : **0 occurrence exacte** pour chacune des 30 répliques retenues (phr
 - Accords : aucune réplique de l'utilisateur ne s'accorde (« fort », « prêt », « réveillé », « perdant » écartés en annexe). L'autre est « quelqu'un », « la personne », « un de tes parents », « quelqu'un de tes amis » (jamais « un ami » ni « l'ami », qui sont genrés). Aucun masculin générique (« chacun », « ceux », « le premier qui », « le dernier ») dans les répliques ni dans les scènes.
 - Scène : aucun signal ne désigne la bonne réponse ; chaque risquée se lit sous la scène seule (le sac en L1, « quelques » en L2, la porte de la salle de bain en L3, la remarque en P1, la cuisine en P2, la télécommande en P3, 7 h 12 en G1, la durée du vocal en G2, les dix messages en G3, le « bonne nuit » en G4).
 - Une seule bonne réponse par contexte ; « une seule tentative » partout ; aucun moule « je fais X si Y » ; aucune réplique qui commet l'erreur de sa fiche.
-- **Une image par registre** dans chaque situation (état du tour 3) : L1 goût contre odeur / chou poli qui s'annonce / chou à dénoncer ; L2 disparition / vestiaire à pourboires / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 température / manteau voyageur / sérénité empruntée ; P2 tâche facile / remuer et regarder / grade de brigade ; P3 pop-corn et silence / critique écrite d'avance / veto de la course au ralenti ; G1 évidence de l'heure / sommeil, seul projet mené à bout / réponse en rêve ; G2 fauteuil / rebondissement / dégustation ; G3 mémoire de bonne humeur / carte aux versions émues / montant secret ; G4 gratuité / test / bisous gardés, jamais repris.
+- **Une image par registre** dans chaque situation (état du tour 3) : L1 goût contre odeur / chou poli qui s'annonce / chou à dénoncer ; L2 disparition / vestiaire à pourboires / mot « quelques » ; L3 buée / eau chaude / liste d'attente ; P1 température / manteau voyageur / sérénité empruntée ; P2 tâche facile / remuer et regarder / grade de brigade ; P3 pop-corn et silence / critique écrite d'avance / veto de la course au ralenti ; G1 évidence de l'heure / sommeil, seul projet mené à bout / réponse en rêve ; G2 fauteuil / rebondissement / dégustation ; G3 mémoire de bonne humeur / carte aux versions émues / montant secret ; G4 gratuité / test / enquête ouverte.
 - Famille : jamais la peine, le corps, l'âge ou la maladresse d'un proche (P1 sans reproche sur l'inquiétude, P2 sans cuisine jugée, P3 sans goût visé). Messages et groupes : la réplique est un texte à écrire, la scène le dit (« tu réponds par message », « dans le groupe »), `Ta réponse d'abord` est adapté pour l'écrit.
 - Doublons : aucune scène de QR1 à QR5 ni des étalons reprise. Tour 3 : L1 n'est plus un objet à soi qui traîne (le vélo refaisait la poêle de E1.1 et sa condition mot pour mot) mais une odeur de chou dans la cuisine, où personne n'est « le propriétaire » pris en faute ; G3 n'est plus un anniversaire (motif exclu) mais un départ, dans un groupe monté sans la personne concernée. Tour 2 : L1 n'est plus la corvée de la poêle ni les poubelles du local de QR5 W4, P1 n'est plus la remarque sur le changement de l'étalon A5 (c'est le manteau à l'entrée), G3 n'est plus l'indécision de QR4 C5 (c'est une cagnotte, la proposition est déjà faite). Univers de QR5 évités. Motifs évités : retard, photo, café, prénoms, tic « trois », Cendrillon, micro coupé, salle de sport, poêle, racine, sondage, mission secrète, marathon.
 - Répartition des bonnes réponses de rafale : 10 joueuses (L1-2, L2-1, L3-2, P1-1, P2-2, P3-1, G1-1, G2-2, G3-2, G4-1), 5 sûres (L1-1, L3-1, P2-1, G2-1, G3-1), 5 risquées (L2-2, P1-2, P3-2, G1-2, G4-2).
@@ -531,10 +531,28 @@ Recherche web (12/11/2026) : **0 occurrence exacte** pour les 10 répliques touc
 | Annexe 1 non mise à jour (reviewer) | Annexe 1 : lignes L1 et L2 joueuse mises à jour (« état du tour 3 »). |
 | L3 à 7 chez la critique, 10 chez deux relecteurs | Non touchée (aucune réplique meilleure et vérifiée trouvée). |
 
+## Annexe 6 : candidates du tour 4 (la scène de G3 et la risquée de G4, seules lignes reprises)
+
+| Situation | Registre | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|---|
+| G3 | Scène | « Mardi, 21 h. Quelqu'un de la bande part vivre à l'autre bout du pays samedi. Un groupe de discussion vient d'être créé sans cette personne, et quelqu'un y écrit : » | « Mardi, 21 h, un groupe de discussion créé pour l'occasion, sans la personne concernée. Quelqu'un de la bande déménage samedi. Quelqu'un écrit : » (« sans la personne concernée » arrive avant qu'on sache de qui il s'agit ; « déménage » ne justifie ni cagnotte ni cartes « toutes émues ») | « Mardi, 21 h. Quelqu'un de la bande quitte la ville samedi. Un groupe de discussion vient d'être créé sans cette personne, et quelqu'un y écrit : » (@elon ; « quitte la ville » reste moins fort qu'un départ à l'autre bout du pays) |
+| G4 | Risquée | « Oui. Ils étaient pour une seule personne. L'enquête est ouverte. » | « Oui. Mais si quelqu'un les a gardés, je ne les reprends pas. » (reprend l'image de la sûre : les bisous offerts au groupe) | « Oui. Les bisous sont destinés à un seul d'entre vous, je ne dirai pas lequel. » (affirme que les bisous visaient le groupe, ce qui est faux, et masculin générique) |
+
+Recherche web (12/11/2026) : **0 occurrence exacte** pour la phrase de G4 risquée, ni pour la scène de G3. Idée : un message au mauvais groupe sur lequel on ouvre une « enquête » : aucune blague de ce type trouvée (seulement des conseils de messagerie et des forums d'aide) ; cagnotte pour un départ à l'autre bout du pays dans un groupe créé sans la personne : aucun gag équivalent.
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| G3 scène : « sans la personne concernée » arrive avant qu'on sache de qui il s'agit, et un simple déménagement ne justifie ni cagnotte ni cartes « toutes émues » (reviewer, @elon) | G3 scène : « Mardi, 21 h. Quelqu'un de la bande part vivre à l'autre bout du pays samedi. Un groupe de discussion vient d'être créé sans cette personne, et quelqu'un y écrit : » ; répliques et rafale inchangées. |
+| G4 risquée reprend l'image de la sûre, les bisous offerts au groupe (reviewer) | G4 risquée : « Oui. Ils étaient pour une seule personne. L'enquête est ouverte. » ; pourquoi : « Tu fais de l'erreur une enquête de groupe, sans jamais dire qui » ; rafale 1 et 2 réalignées ; image de contrôle : « enquête ouverte ». |
+| Réécritures de la critique (P1 risquée, P3 risquée, L1 sûre, G1 joueuse, G3 sûre, L3, P2 joueuse, G2 risquée) | Non appliquées : elles défont des lignes à 10 chez le reviewer et @elon, ou ne sont que des propositions à 7 ou 8 sans gain vérifié. |
+| Décompte | 1 réplique et 1 scène touchées ; tout le reste du fichier est inchangé. Rafale inchangée : 10 joueuses, 5 sûres, 5 risquées. |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 3) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées). Tour 3 : 10 répliques touchées (L1 ×3 avec scène neuve, L2 joueuse, P1 risquée, P3 sûre, G1 ×2, G4 risquée, G3 risquée pour l'accord), 3 scènes corrigées (L1, P1, G3), annexe 5 pour les candidates ; L3, P2, G2 et les lignes à 10 ne sont pas touchées.
+- Fichier : `/home/user/Marrant/docs/copy/espace/qr6-situations.md` (tour 4) : 10 situations (coloc 3, famille 3, messages et groupes 4), 30 répliques, rafale à 20 contextes (10 joueuses, 5 sûres, 5 risquées). Tour 4 : G3 scène et G4 risquée (annexe 6). Tour 3 : 10 répliques touchées (L1 ×3 avec scène neuve, L2 joueuse, P1 risquée, P3 sûre, G1 ×2, G4 risquée, G3 risquée pour l'accord), 3 scènes corrigées (L1, P1, G3), annexe 5 pour les candidates ; L3, P2, G2 et les lignes à 10 ne sont pas touchées.
 - Règle nouvelle appliquée : une image par registre dans chaque situation (liste dans les contrôles) ; checklist des fautes récurrentes relue avant d'écrire.
 - Web : 0 occurrence exacte sur les 30 phrases du tour 1 (annexe 2), sur les 18 reprises du tour 2 (annexe 3) et sur les 10 touchées du tour 3 (annexe 5), idées comprises. À juger à l'aveugle en priorité : L1 (scène du chou et ses trois répliques), P1 risquée (la sérénité empruntée), G4 risquée.
-- Aucun autre fichier modifié, pas de commit. Statut : tour 3, à repasser à l'aveugle sur les lignes reprises (règle d'or P0 s18) ; un tour 4 reste possible, après quoi Thomas tranche.
+- Aucun autre fichier modifié, pas de commit. Statut : tour 4, dernier tour autorisé ; Thomas tranche (G3 scène et G4 risquée à repasser à l'aveugle, règle d'or P0 s18).
 

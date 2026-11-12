@@ -1,4 +1,4 @@
-# C4a : « Jeux », lot 1 (10 jeux), tour 3
+# C4a : « Jeux », lot 1 (10 jeux), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Lot C4a du plan s24 §5 (l. 196 : 30 jeux en 3 lots de 10) ; type « jeu » : `architecture-contenu-v20.md` §3.9 (l. 528 à 534) : un défi de 3 à 5 minutes avec « ce qu'on aurait pu dire ». Schéma `apps/web/src/lib/espace/fiches-schema.ts` l. 264 à 288 `[PROVISOIRE]` : `famille`, `consigne`, `matiere`, `situationsReprises`, `ceQuOnAuraitPuDire`, `explication`. Chaque jeu ci-dessous suit ces champs : famille, consigne, matière, situation reprise, ce qu'on aurait pu dire, retour court.
 > **Lot de 10, 5 familles sur 6** (« Les pires réponses » est pour C4b ou C4c) : 3 « Quelle réplique ? », 2 « Finis la phrase », 2 « Trouve l'angle », 2 « Change de registre », 1 « Choisis la chute » (jeu de choix ; « Remets la chute » reste le jeu d'écriture de l'architecture l. 933, pour C4b).
@@ -59,7 +59,7 @@ C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
 
 **Ce qu'on aurait pu dire.**
 - « …dix minutes pour faire semblant d'avoir envie. »
-- « …une excuse prête pour 9 h 05. »
+- « …un “ça va” préparé pour la première personne croisée. »
 
 **Retour.** Les deux premiers sont attendus ; le troisième garde la même tournure et change de camp. Un quatrième élément aurait dilué la chute (fiche « La règle de trois »).
 
@@ -69,7 +69,7 @@ C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
 
 **Consigne.** Finis par un seul détail, plus exact que ce qu'on retiendrait, en dernier.
 
-**Matière.** « Mon “je m'y mets demain” pour ranger le garage date d'exactement… »
+**Matière.** « Mon “je m'y mets demain” pour ranger le placard de l'entrée date d'exactement… »
 
 **Ce qu'on aurait pu dire.**
 - « …quatre cent douze jours. »
@@ -84,9 +84,9 @@ C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
 **Consigne.** Objet : la salle d'attente du dentiste. Note trois choses vraies sur elle, pas des blagues.
 
 **Ce qu'on aurait pu relever.**
-1. Une affiche qui explique comment se brosser les dents.
+1. Une horloge au tic-tac très audible.
 2. Une plante en plastique, toujours parfaitement verte.
-3. Tout le monde fait semblant de lire en écoutant la porte.
+3. Tout le monde relit l'affiche sur le brossage, une oreille sur la porte.
 
 **Retour.** L'angle qui travaille le mieux est le troisième : un non-dit que tout le monde partage. Les deux premiers sont des détails isolés. La blague vient ensuite, de ce que tu fais de lui. Par exemple : « Chez le dentiste, tout le monde relit l'affiche sur le brossage, comme si c'était le dernier moment pour réviser. »
 
@@ -99,7 +99,7 @@ C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »
 **Ce qu'on aurait pu relever.**
 1. Une plaque « charge maximale » que personne ne lit.
 2. Chacun sort son badge deux étages avant le sien.
-3. Une affiche de la fête de l'entreprise, datée de l'an dernier.
+3. Un écran qui annonce la météo d'une ville où personne ne va.
 
 **Retour.** Le deuxième travaille le mieux : un geste que tout le monde fait ensemble, et dont personne ne parle. Les deux autres sont des détails. Par exemple : « Dans l'ascenseur, chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. »
 
@@ -149,10 +149,10 @@ C. « Depuis, je prends deux croissants. »
 
 | Jeu | Phrase cherchée | Résultat |
 |---|---|---|
-| 4 | « …un café, une douche, et dix minutes pour faire semblant d'avoir envie. » ; « …une excuse prête pour 9 h 05. » (tour 3) | 0 (idée : les routines du matin existent ; l'excuse prête pour l'arrivée au bureau, non trouvée) |
-| 5 | « Mon “je m'y mets demain” pour ranger le garage date d'exactement… quatre cent douze jours. » ; « …huit cent six jours. » (tour 3) | 0 (l'idée de la procrastination est générale ; le chiffre exact des jours pour ranger le garage, non trouvé) |
-| 6 | Item : « Une affiche qui explique comment se brosser les dents. » ; exemple : « Chez le dentiste, tout le monde relit l'affiche sur le brossage, comme si c'était le dernier moment pour réviser. » (tour 3) | 0 |
-| 7 | Observation : « Chacun sort son badge deux étages avant le sien. » ; exemple : « …chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. » (tour 3) | 0 (idée : le malaise d'ascenseur est étudié, le badge sorti trop tôt non trouvé) |
+| 4 | « …un café, une douche, et dix minutes pour faire semblant d'avoir envie. » ; « …un “ça va” préparé pour la première personne croisée. » (tour 4) | 0 (idée : les routines du matin existent ; le “ça va” préparé avant de croiser quelqu'un, non trouvé) |
+| 5 | « Mon “je m'y mets demain” pour ranger le placard de l'entrée date d'exactement… quatre cent douze jours. » ; « …huit cent six jours. » (tour 4) | 0 (l'idée de la procrastination est générale ; le chiffre exact des jours pour ranger le placard de l'entrée, non trouvé) |
+| 6 | Item 3 : « Tout le monde relit l'affiche sur le brossage, une oreille sur la porte. » ; exemple : « Chez le dentiste, tout le monde relit l'affiche sur le brossage, comme si c'était le dernier moment pour réviser. » (tour 4) | 0 (idée : la salle d'attente du dentiste est un thème d'humour général ; l'affiche relue, non trouvée) |
+| 7 | Observation : « Chacun sort son badge deux étages avant le sien. » ; item 3 : « Un écran qui annonce la météo d'une ville où personne ne va. » ; exemple : « …chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. » (tour 4) | 0 (idée : les écrans d'ascenseur existent, la météo d'une ville où personne ne va, non trouvée ; le badge sorti trop tôt, non trouvé) |
 | 8 | « Communiqué : les courses n'ont pas eu lieu, la population est invitée à rester calme. » | 0 |
 | 9 | « Prévisions : retard persistant, éclaircies vers 19 h. » | 0 (la météo comme registre existe en général, pas cette phrase) |
 
@@ -184,6 +184,20 @@ Recherche web (phrase et idée) de chaque texte neuf : **0 occurrence** de la ph
 | Jeu 7 : le bouton déjà allumé est un classique, les numéros d'étage sont déjà connus ; exemple sans blague (les trois) | Aucune des deux idées. Item 2 : « Chacun sort son badge deux étages avant le sien. » (reviewer) ; exemple : « Dans l'ascenseur, chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. » Retour inchangé. Recherche : 0. |
 | Jeu 8 : option de la critique (« Le dîner est reporté à une date ultérieure ») | Non retenue : deux phrases pour une consigne « en une phrase », et le jeu est à 10 chez deux relecteurs sur trois. |
 | Non changé | Jeux 1, 3, 9, 10 (10 chez les trois) ; répliques A5, S5, M2 et vanne l. 677-678 mot pour mot. |
+
+## Tour 4 : retouche → ligne (dernier tour autorisé)
+
+Recherche web (phrase et idée) de chaque texte neuf : **0 occurrence**.
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Jeu 6 : le retour désigne l'item 3 comme meilleur angle, mais l'exemple part de l'affiche (item 1) (reviewer, elon, critique) | Items réécrits (elon) : item 1 « Une horloge au tic-tac très audible. » ; item 3 « Tout le monde relit l'affiche sur le brossage, une oreille sur la porte. » L'exemple du retour, inchangé (« Chez le dentiste, tout le monde relit l'affiche sur le brossage, comme si c'était le dernier moment pour réviser. »), découle maintenant de l'item 3. Retour inchangé. |
+| Jeu 5 : un garage ne parle pas à qui vit en appartement (elon) | Matière : « …pour ranger le placard de l'entrée date d'exactement… » ; réponses et retour inchangés. |
+| Jeu 4 : « excuse prête pour 9 h 05 » double le retard du jeu 9 (critique) | « …un “ça va” préparé pour la première personne croisée. » (critique). |
+| Jeu 7 : l'item 3 (affiche) rejoue l'affiche du jeu 6 (critique) | Item 3 : « Un écran qui annonce la météo d'une ville où personne ne va. » Le badge et son exemple, validés à 10 par reviewer et elon, ne bougent pas. |
+| Jeu 2 : consigne enrichie (« Tu as fait rire une bonne partie de la pièce… ») (critique) | Non retenue : elle ajouterait un fait que reviewer et elon n'ont pas jugé nécessaire (10 chez les deux) et risquerait de rendre B défendable. |
+| Jeu 8 : « …le dîner est reporté à une date ultérieure » en une phrase (critique) | Non retenue : elon a validé « la population est invitée à rester calme » (10 chez reviewer et elon). |
+| Non changé | Jeux 1, 2, 3, 8, 9, 10 ; répliques A5, S5, M2 et vanne l. 677-678 mot pour mot. |
 
 ## Points de vigilance pour la relecture (note interne)
 

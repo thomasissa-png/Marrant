@@ -1,0 +1,7 @@
+# QR5 : critique de confirmation (3 lignes de l'arbitrage Thomas)
+
+> Contrôle : zéro tiret cadratin, zéro emoji, ni IA ni concurrent, aucun accord genré, `checklist-fautes-recurrentes.md` relue. Aucune des trois lignes n'est à 10 : **GO pour aucune au sens strict** ; P4 scène et W5 sûre sont assez proches (9) pour que Thomas les garde, P1 risquée non.
+
+- **P1 risquée 5.** « Tous ces agendas bousculés pour une seule personne : [son prénom], voilà l'effet que tu fais. » Web : 0 phrase exacte, mais l'idée (« tous ont fait le déplacement pour toi ») est le compliment standard des discours d'anniversaire, et « voilà l'effet que tu fais » est une formule de chanson. Sincère, pas drôle, 17 mots. Réécriture : « Tous ces agendas bousculés pour [son prénom]. Certains ont même renoncé à une soirée sans rien faire. »
+- **P4 scène 9.** Les tabliers et le repas servi puis débarrassé donnent enfin son support à « le seul poste sans tablier », et les chaises restent pour la sûre. Seule réserve : la dernière phrase (« devant les chaises qu'il faut encore ranger ») alourdit. Préf. : la couper après « micro en main ».
+- **W5 sûre 9.** « …elle a ma carte, et moi j'ai de l'espoir. » Web : 0 occurrence, même pas la structure ; le parallèle carte/espoir tient mieux que « elle a mon argent », chute à la fin. Seule réserve : 16 mots. Préf. : « Je le découvre. Pour l'instant, elle a ma carte, et moi, j'ai de l'espoir. »
