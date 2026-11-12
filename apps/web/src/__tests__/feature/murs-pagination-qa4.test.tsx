@@ -18,9 +18,6 @@ jest.mock("next-auth/react", () => ({ useSession: () => ({ status: "unauthentica
 jest.mock("@/stores/favorites-store", () => ({
   useFavoritesStore: () => ({ isFavorite: () => false, addFavorite: jest.fn(), removeFavorite: jest.fn(), getFavoriteId: () => null }),
 }));
-jest.mock("@/stores/user-store", () => ({
-  useUserStore: (selector: (s: Record<string, unknown>) => unknown) => selector({ addXp: jest.fn() }),
-}));
 
 const SERVEUR = { items: [], page: 1, limit: 12, total: 96, totalPages: 8 };
 

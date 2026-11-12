@@ -11,11 +11,7 @@ import { FavoriteButton } from "@/components/ui/favorite-button";
 import { ShareButton } from "@/components/ui/share-button";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-import { isPremiumPlan } from "@/lib/parcours-access";
 import { PremiumModalDiffere as PremiumModal } from "@/components/premium/premium-modal-differe";
-import { useUserStore } from "@/stores/user-store";
-import { showXpGain } from "@/components/ui/xp-notification";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { TITRE_CARTE_LIEN } from "@/components/ui/liens";
 import { ListPagination } from "@/components/ui/list-pagination";
@@ -103,12 +99,6 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
   const [showSkeleton, setShowSkeleton] = useState(false);
   const [error, setError] = useState(false);
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const { data: session, status } = useSession();
-  // XP = suivi de progression, Premium uniquement (s15 §1.1).
-  const earnsXp =
-    status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
-  const addXp = useUserStore((s) => s.addXp);
-  const [completedTipIds, setCompletedTipIds] = useState<Set<string>>(new Set());
   const [limited, setLimited] = useState(false);
   const [premiumOpen, setPremiumOpen] = useState(false);
   const [totalReal, setTotalReal] = useState(0);
@@ -171,12 +161,9 @@ export function ConseilsList({ initialData = null, initialPage = 1 }: ConseilsLi
       if (next.has(id)) {
         next.delete(id);
       } else {
+        // Ouvrir un conseil ne rapporte plus d'XP (s24, niveaux-xp-s24.md §2.5,
+        // décision Q1 « retirer ») : la route d'ajout libre d'XP est supprimée.
         next.add(id);
-        if (earnsXp && !completedTipIds.has(id)) {
-          setCompletedTipIds((prev) => new Set(prev).add(id));
-          addXp(10, "tip_read");
-          showXpGain(10);
-        }
       }
       return next;
     });

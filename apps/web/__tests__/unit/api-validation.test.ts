@@ -269,42 +269,6 @@ describe("Agent IA — validation des requêtes /api/ai", () => {
 });
 
 // ==========================================
-// AGENT XP — /api/user/xp validation
-// ==========================================
-
-const xpSchema = z.object({
-  amount: z.number().min(1).max(500),
-  action: z.string(),
-});
-
-describe("Agent XP — validation des gains /api/user/xp", () => {
-  it("accepte un gain XP valide", () => {
-    const result = xpSchema.safeParse({ amount: 20, action: "joke_read" });
-    expect(result.success).toBe(true);
-  });
-
-  it("rejette un amount de 0", () => {
-    const result = xpSchema.safeParse({ amount: 0, action: "test" });
-    expect(result.success).toBe(false);
-  });
-
-  it("rejette un amount négatif", () => {
-    const result = xpSchema.safeParse({ amount: -10, action: "test" });
-    expect(result.success).toBe(false);
-  });
-
-  it("rejette un amount > 500 (anti-farming)", () => {
-    const result = xpSchema.safeParse({ amount: 501, action: "test" });
-    expect(result.success).toBe(false);
-  });
-
-  it("rejette sans action", () => {
-    const result = xpSchema.safeParse({ amount: 20 });
-    expect(result.success).toBe(false);
-  });
-});
-
-// ==========================================
 // AGENT FAVORIS — /api/favorites validation
 // ==========================================
 

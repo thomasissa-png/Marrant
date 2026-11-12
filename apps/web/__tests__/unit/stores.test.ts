@@ -65,36 +65,6 @@ describe("useUserStore", () => {
     expect(useUserStore.getState().isLoading).toBe(false);
   });
 
-  it("addXp met à jour xp et level après succès", async () => {
-    useUserStore.setState({
-      user: {
-        id: "u1",
-        name: "Test",
-        email: "test@test.fr",
-        plan: "FREE" as const,
-        level: "NOVICE" as const,
-        xp: 50,
-        streak: 1,
-        lastActiveAt: null,
-        stats: { jokesRead: 0, tipsCompleted: 0, videosWatched: 0, totalFavorites: 0, pathsCompleted: 0 },
-      },
-    });
-
-    mockFetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ xp: 70, level: "NOVICE" }),
-    });
-
-    await useUserStore.getState().addXp(20, "joke_read");
-
-    expect(useUserStore.getState().user?.xp).toBe(70);
-  });
-
-  it("addXp ne fait rien si user est null", async () => {
-    await useUserStore.getState().addXp(20, "test");
-    expect(mockFetch).not.toHaveBeenCalled();
-  });
-
   it("reset remet l'état initial", () => {
     useUserStore.setState({
       user: { id: "u1" } as never,

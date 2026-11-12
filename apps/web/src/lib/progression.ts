@@ -2,8 +2,11 @@
  * Progression des parcours (s17) : niveaux, série de jours sur la pratique,
  * XP d'étape et de fin, rythme doux.
  *
- * - Niveaux (FS-07) : un seul barème, partagé par la validation d'étape et
- *   `/api/user/xp` (avant : niveau jamais recalculé à la validation).
+ * - Niveaux (FS-07) : un seul barème, appliqué par la validation d'étape
+ *   (avant : niveau jamais recalculé à la validation). L'ancienne route
+ *   d'ajout libre d'XP (« conseil lu », montant fixé par le navigateur) est
+ *   supprimée en s24 (niveaux-xp-s24.md §2.5, Q1 « retirer ») ; les XP déjà
+ *   acquis restent.
  * - Série de jours (D3, FS-05, UX-04) : comptée sur la PRATIQUE (étape
  *   validée, quiz d'étape terminé), en jour civil de Paris, plus sur la
  *   connexion. `effectiveStreak` remet l'affichage à 0 si la série est rompue.

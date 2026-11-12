@@ -53,52 +53,6 @@ describe("UserStore", () => {
     });
   });
 
-  describe("addXp", () => {
-    const mockUser = {
-      id: "u1",
-      name: "Jean",
-      email: "jean@test.fr",
-      plan: "FREE" as const,
-      level: "NOVICE" as const,
-      xp: 50,
-      streak: 3,
-      lastActiveAt: null,
-      stats: { jokesRead: 10, tipsCompleted: 5, videosWatched: 2, totalFavorites: 3, pathsCompleted: 0 },
-    };
-
-    it("does nothing when no user", async () => {
-      await useUserStore.getState().addXp(10, "test");
-      expect(global.fetch).not.toHaveBeenCalled();
-    });
-
-    it("posts to /api/user/xp and updates user", async () => {
-      useUserStore.setState({ user: mockUser });
-      (global.fetch as jest.Mock).mockResolvedValue({
-        ok: true,
-        json: async () => ({ xp: 60, level: "NOVICE" }),
-      });
-
-      await useUserStore.getState().addXp(10, "tip_read");
-      expect(global.fetch).toHaveBeenCalledWith("/api/user/xp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 10, action: "tip_read" }),
-      });
-      expect(useUserStore.getState().user?.xp).toBe(60);
-    });
-
-    it("updates level on level up", async () => {
-      useUserStore.setState({ user: mockUser });
-      (global.fetch as jest.Mock).mockResolvedValue({
-        ok: true,
-        json: async () => ({ xp: 150, level: "APPRENTI" }),
-      });
-
-      await useUserStore.getState().addXp(100, "test");
-      expect(useUserStore.getState().user?.level).toBe("APPRENTI");
-    });
-  });
-
   describe("reset", () => {
     it("resets user to null", () => {
       useUserStore.setState({

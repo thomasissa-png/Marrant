@@ -21,11 +21,6 @@ jest.mock("@/stores/favorites-store", () => ({
   }),
 }));
 
-jest.mock("@/stores/user-store", () => ({
-  useUserStore: (selector: (s: Record<string, unknown>) => unknown) =>
-    selector({ addXp: jest.fn() }),
-}));
-
 const mockTips = [
   {
     id: "t1",

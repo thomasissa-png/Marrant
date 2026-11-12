@@ -1,4 +1,5 @@
-// Test du calcul de niveau — réplique de la logique dans /api/user/xp
+// Test du calcul de niveau — réplique du barème de `src/lib/progression.ts`
+// (appliqué à la validation d'étape ; l'ancienne route d'ajout libre d'XP est supprimée en s24).
 const XP_THRESHOLDS = {
   NOVICE: 0,
   APPRENTI: 100,

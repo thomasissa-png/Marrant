@@ -1,8 +1,9 @@
 /**
  * @jest-environment node
  *
- * Plus de compte gratuit (s15, spec §1.1, critère 8) : XP, réaction en base et
- * vote sur les nouveautés = Premium. Compte non abonné (dont les 11
+ * Plus de compte gratuit (s15, spec §1.1, critère 8) : réaction en base et
+ * vote sur les nouveautés = Premium. (La route d'ajout libre d'XP, aussi couverte
+ * ici jusqu'en s24, est supprimée : voir `user-xp-retiree-s24.test.ts`.) Compte non abonné (dont les 11
  * comptes FREE conservés) : 403, aucune écriture ni suppression en base.
  * Abonné : inchangé. Visiteur : 401 comme avant.
  */
@@ -40,7 +41,6 @@ jest.mock("@/lib/prisma", () => ({
 }));
 
 import { NextRequest } from "next/server";
-import { POST as postXp } from "@/app/api/user/xp/route";
 import { POST as postLike } from "@/app/api/jokes/[id]/like/route";
 import { POST as postVote } from "@/app/api/features/vote/route";
 
@@ -52,7 +52,6 @@ function req(path: string, body: unknown) {
   });
 }
 
-const callXp = () => postXp(req("/api/user/xp", { amount: 10, action: "tip_read" }));
 const callLike = () => postLike(req("/api/jokes/j1/like", { isLike: true }), { params: { id: "j1" } });
 const callVote = () => postVote(req("/api/features/vote", { featureSlug: "whatsapp" }));
 
@@ -73,7 +72,6 @@ function expectNoWrite() {
 }
 
 describe.each([
-  ["XP", callXp],
   ["réaction en base", callLike],
   ["vote nouveautés", callVote],
 ])("%s", (_label, call) => {

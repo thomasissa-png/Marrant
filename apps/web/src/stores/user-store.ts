@@ -24,7 +24,6 @@ interface UserState {
   user: UserProfile | null;
   isLoading: boolean;
   fetchUser: () => Promise<void>;
-  addXp: (amount: number, action: string) => Promise<void>;
   /** Prénom enregistré depuis /profil (s21 concision). */
   setName: (name: string | null) => void;
   reset: () => void;
@@ -46,25 +45,6 @@ export const useUserStore = create<UserState>((set, get) => ({
       }
     } catch {
       set({ user: null, isLoading: false });
-    }
-  },
-
-  addXp: async (amount: number, action: string) => {
-    const { user } = get();
-    if (!user) return;
-
-    try {
-      const res = await fetch("/api/user/xp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, action }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        set({ user: { ...user, xp: data.xp, level: data.level } });
-      }
-    } catch {
-      // Silencieux en cas d'erreur réseau
     }
   },
 
