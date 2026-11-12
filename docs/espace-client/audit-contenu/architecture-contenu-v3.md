@@ -1,5 +1,7 @@
 # Architecture de contenu de l'espace Premium, v3 (s24)
 
+> REMPLACÉ par `architecture-contenu-v4.md` le 12/11/2026 après le tour 3 de relecture (UX 7,3, Reviewer 8,3, Elon 8,6). Ne plus s'y référer pour la barre, « Mes questions », le carnet, les exemples ni les questions.
+
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v2.md`. Réponse aux tours 2 de relecture : @ux 6,7, @reviewer 7,5, @elon 8,2 (`iterations/tour-2-*.md`), plus l'ajout de Thomas du 12/11 (onglet « Mes questions »). Chaque correction est tracée en annexe A (tour 2 et tour 1 encore partielles).
 > Faits : `inventaire-cartographie-s24.md` (INV), dont le corps a été réaligné sur sa section 6 par @product-manager le 12/11 (la section 6 prime sur tout chiffre antérieur). Deux lignes d'INV restent à mettre à jour avec les preuves de la section 1.4 : la ligne « Carnet » (« résultat NON lu », « rien n'est validé ») et T3.
 > Sources relues pour ce tour : les 3 rapports du tour 2, `docs/copy/carnet/` (départages et verdicts d'octobre et de novembre), `hebdo-premium.json` (lettres W46 à W51), `carnet-2026-10.md`, `2026-11.json`, `founder-preferences.md` (l. 37, 43, 65, 74, 86, 135, 161 à 163), `lib/progression.ts`, `config/premium.ts`.
