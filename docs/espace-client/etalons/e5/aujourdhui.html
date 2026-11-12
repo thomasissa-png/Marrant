@@ -160,7 +160,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 </style>
 </head>
 <body data-etat="pas" data-fav="0" data-option="1" data-reponse="0" data-hyp="on">
-<a class="skip" href="#main">Aller au contenu</a>
+<a class="skip" href="#main">Aller au contenu principal</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
@@ -221,18 +221,18 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
       <!-- Jour 1 : le premier pas est la seule action principale (4.4, état 1). La scène est celle de la situation par défaut sans signal (4.2 : « tiens, tu as changé quelque chose, non ? », E1.2 entrée 4). -->
       <section id="pas" class="card" aria-labelledby="h-pas">
         <div>
-          <p class="eyebrow" data-hyp="HYPOTHÈSE">Ton premier pas</p>
+          <p class="eyebrow">Ton premier pas</p>
           <h2 id="h-pas" style="margin-top:12px">Quelqu'un te lance «&nbsp;Tiens, tu as changé quelque chose, non&nbsp;?&nbsp;»</h2>
         </div>
         <div class="pas-b">
-          <p class="meta" data-hyp="HYPOTHÈSE">5 min</p>
-          <a id="pas-btn" class="btn" href="#" data-hyp="HYPOTHÈSE">Commencer</a>
+          <p class="meta">5 min</p>
+          <a id="pas-btn" class="btn" href="#">Commencer</a>
         </div>
       </section>
 
       <!-- Étape en cours : seulement une fois le premier pas fait. « Reprendre » ou « Commencer l'étape 1 » sans date (4.4, état 3). -->
       <section id="etape" class="card" aria-labelledby="h-et" hidden>
-        <p id="et-eb" class="eyebrow" data-hyp="HYPOTHÈSE">Étape en cours</p>
+        <p id="et-eb" class="eyebrow">Étape en cours</p>
         <h2 id="h-et">Confiance</h2>
         <p id="et-meta" class="meta">Étape 3 sur 6</p>
         <p id="et-ph" class="ph">[Titre de l'étape en cours]</p>
@@ -241,14 +241,16 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 
       <!-- Rafale du jour. Le jour 1 elle n'existe pas : le premier pas la remplace (un seul « Commencer » par écran). -->
       <section id="rafale" class="card" aria-labelledby="h-raf" hidden>
+        <!-- v7 : accroche unique au-dessus du titre ; le titre « Si tu as 5 minutes » reste collé au bouton (aucun bloc entre les deux) -->
+        <p id="raf-acc" class="meta">La bonne réponse qui te vient en quittant la pièce : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps.</p>
         <h2 id="h-raf">Si tu as 5 minutes</h2>
-        <p id="raf-meta" class="meta" data-hyp="HYPOTHÈSE">1 situation nouvelle plus jusqu'à 2 cartes à revoir</p>
-        <ul id="raf-liste" class="cartes" data-hyp="HYPOTHÈSE : étiquettes et titres de lignes">
+        <a id="raf-btn" class="btn" href="carte-rafale.html">Les cartes du jour</a>
+        <p id="raf-meta" class="meta">1 situation nouvelle, 2 cartes à revoir</p>
+        <ul id="raf-liste" class="cartes">
           <li><a class="row" href="carte-rafale.html"><span class="tag tag-n">Nouvelle</span><span class="row-t">Coloc : la poêle</span><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></li>
-          <li><a class="row" href="carte-rafale.html#etat=revision-avant"><span class="tag">À revoir</span><span class="row-t">«&nbsp;Et toi, tu fais quoi&nbsp;?&nbsp;»</span><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></li>
-          <li><a class="row" href="carte-rafale.html#etat=revision-avant"><span class="tag">À revoir</span><span class="row-t">«&nbsp;Alors, quoi de neuf&nbsp;?&nbsp;»</span><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></li>
+          <li><a class="row" href="carte-rafale.html#etat=revision-avant"><span class="tag">À revoir</span><span class="row-t">Soirée : le «&nbsp;et toi&nbsp;?&nbsp;»</span><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></li>
+          <li><a class="row" href="carte-rafale.html#etat=revision-avant"><span class="tag">À revoir</span><span class="row-t">Amis : le «&nbsp;quoi de neuf&nbsp;?&nbsp;»</span><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg></a></li>
         </ul>
-        <a id="raf-btn" class="btn" href="carte-rafale.html" data-hyp="HYPOTHÈSE">Jouer les cartes</a>
         <!-- Source 2.2 et 2.3 : « C'est tout pour aujourd'hui », sans bouton. -->
         <p id="fini" class="capnom" hidden>C'est tout pour aujourd'hui</p>
       </section>
@@ -269,7 +271,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
           </div>
           <div id="live" class="sr" aria-live="polite"></div>
           <button id="autre" class="btn" type="button">Une autre</button>
-          <p class="meta" data-hyp="HYPOTHÈSE">À toi : ressors-la à voix haute ce soir.</p>
+          <p class="meta">À toi : ressors-la à voix haute ce soir.</p>
         </article>
         <article class="card" aria-labelledby="t-c">
           <h3 id="t-c">Conseil du jour</h3>
@@ -317,7 +319,7 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 
 <div id="sheet-ov" class="ov" hidden>
   <div id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-t" tabindex="-1">
-    <div class="sheet-h"><h2 id="sheet-t" data-hyp="HYPOTHÈSE">Notifications</h2><button id="sheet-x" class="btn" type="button">Fermer</button></div>
+    <div class="sheet-h"><h2 id="sheet-t">Notifications</h2><button id="sheet-x" class="btn" type="button">Fermer</button></div>
     <div id="sheet-body"></div>
   </div>
 </div>
@@ -403,7 +405,7 @@ function setCloche(s) {
 function corps() {
   /* Le titre du groupe dit « L'équipe t'a répondu » ; chaque ligne dit le type du fil et sa date : aucun doublon pour le lecteur d'écran */
   const ligne = (t, s, h) => `<a class="nrow" href="mes-questions.html#etat=fil">${t}${s ? `<small>${s}</small>` : ""}</a>`;
-  const ligneN = (t) => `<a class="nrow" href="#" data-hyp="HYPOTHÈSE">${t}</a>`;
+  const ligneN = (t) => `<a class="nrow" href="#">${t}</a>`;
   let h = "";
   if (cloche === "reponse") h += `<div class="sh-g"><h3>L'équipe t'a répondu</h3>${ligne("Une situation à gérer", "Répondu le 11 novembre")}</div>`;
   if (cloche === "reponses2") h += `<div class="sh-g"><h3>L'équipe t'a répondu</h3>${ligne("Une situation à gérer", "Répondu le 11 novembre")}${ligne("Une question", "Répondu le 12 novembre")}</div>`;
@@ -466,7 +468,7 @@ function appliquer() {
   $("#rafale").hidden = arrivee;
   $("#mois").hidden = arrivee;
   const rep = e === "reprise";
-  $("#raf-meta").hidden = $("#raf-liste").hidden = $("#raf-btn").hidden = rep; $("#fini").hidden = !rep;
+  $("#raf-acc").hidden = $("#raf-meta").hidden = $("#raf-liste").hidden = $("#raf-btn").hidden = rep; $("#fini").hidden = !rep;
   const E1 = p.etape === "1";
   $("#et-eb").textContent = E1 ? "Étape conseillée" : "Étape en cours";
   $("#h-et").textContent = E1 ? "Répartie" : "Confiance";

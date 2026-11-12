@@ -128,7 +128,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
 </style>
 </head>
 <body data-reponse="1" data-hyp="on">
-<a class="skip" href="#main">Aller au contenu</a>
+<a class="skip" href="#main">Aller au contenu principal</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
@@ -160,27 +160,27 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
 
 <main id="main" class="wrap main">
   <div class="top">
-    <p id="profil" class="cap" hidden data-hyp="HYPOTHÈSE">Mon profil</p>
+    <p id="profil" class="cap" hidden>Mon profil</p>
     <h1>Mes questions</h1>
   </div>
 
   <div class="qgrid">
     <section id="card-poser" class="card" aria-labelledby="h-poser">
-      <h2 id="h-poser" data-hyp="HYPOTHÈSE">Poser une question</h2>
+      <h2 id="h-poser">Écrire à l'équipe</h2>
       <form id="form" onsubmit="return false" style="display:flex;flex-direction:column;gap:16px">
         <fieldset class="types">
-          <legend data-hyp="HYPOTHÈSE">Type de message</legend>
+          <legend>C'est à propos de quoi&nbsp;?</legend>
           <label class="type"><input type="radio" name="type" value="probleme"><span class="box"><b>Un problème</b><small>Quelque chose ne marche pas ou ne se passe pas comme prévu sur le site (accès, paiement, affichage).</small></span></label>
           <label class="type"><input type="radio" name="type" value="situation"><span class="box"><b>Une situation à gérer</b><small>Une scène que tu vas vivre ou que tu viens de vivre, et pour laquelle tu veux des idées de réponse.</small></span></label>
-          <label class="type"><input type="radio" name="type" value="question" checked><span class="box"><b>Une question</b><small data-hyp="PISTE : exemple entre parenthèses retiré">Tout le reste (comprendre une technique, un contenu, l'offre).</small></span></label>
+          <label class="type"><input type="radio" name="type" value="question" checked><span class="box"><b>Une question</b><small>Tout le reste : comprendre une technique d'humour, un contenu, l'offre.</small></span></label>
         </fieldset>
         <div class="champ">
-          <label for="msg" data-hyp="HYPOTHÈSE">Ton message</label>
+          <label for="msg">Ton message</label>
           <textarea id="msg" aria-describedby="aide delai"></textarea>
           <p id="aide" class="cap" style="margin-top:4px">Évite les noms : décris la scène.</p>
         </div>
         <p id="delai" class="meta">L'équipe répond en général sous 1 à 2 jours ouvrés</p>
-        <div><button id="envoyer" class="btn btn-p" type="submit" data-hyp="HYPOTHÈSE">Envoyer</button></div>
+        <div><button id="envoyer" class="btn btn-p" type="submit">Envoyer à l'équipe</button></div>
         <p id="statut" class="meta" role="status"></p>
       </form>
     </section>
@@ -190,38 +190,40 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:16p
 
       <!-- État vide : jamais un tableau vide, un exemple par type et la phrase sur le délai -->
       <div id="etat-vide" class="card" hidden>
-        <p class="meta" data-hyp="HYPOTHÈSE">Par exemple, pour «&nbsp;Une question&nbsp;» :</p>
-        <p class="quote" data-hyp="PISTE">«&nbsp;Est-ce que cette blague est lourde&nbsp;? Voici la scène…&nbsp;»</p>
-        <p class="ph meta">[Exemple pour «&nbsp;Un problème&nbsp;», à écrire]</p>
-        <p class="ph meta">[Exemple pour «&nbsp;Une situation à gérer&nbsp;», à écrire]</p>
+        <p class="meta">Par exemple, pour «&nbsp;Une question&nbsp;» :</p>
+        <p class="quote" data-hyp="PISTE">Est-ce que cette blague est lourde&nbsp;? Voici la scène…</p>
+        <div class="env-h"><span class="tag">Un problème</span></div>
+        <p class="quote">Mon paiement est passé, mais je n'ai pas accès aux parcours.</p>
+        <div class="env-h"><span class="tag">Une situation à gérer</span></div>
+        <p class="quote">Un collègue me chambre devant tout le monde, je n'ai rien trouvé à répondre.</p>
         <p class="meta">L'équipe répond en général sous 1 à 2 jours ouvrés</p>
       </div>
 
       <!-- Abonnement terminé (2.6) : lecture seule, ni ajout ni « Continuer » ; le retrait d'un envoi reste possible sur demande -->
       <!-- v6 : adresse de l'équipe pour un problème de paiement ou d'accès (2.6 : « l'adresse de l'équipe de l'e-mail de résiliation »). La ligne « Ton historique de questions et tes répliques sont gardés » appartient à l'état « redirigé vers /abonnement » (2.6), pas à cet écran. -->
-      <p id="gardes" class="meta" style="margin-bottom:12px" hidden data-hyp="HYPOTHÈSE">Pour un problème de paiement ou d'accès, écris-nous à <a href="mailto:contact@deviens-marrant.fr" style="color:var(--link);text-decoration:underline;display:inline-flex;align-items:center;min-height:44px">contact@deviens-marrant.fr</a></p>
+      <p id="gardes" class="meta" style="margin-bottom:12px" hidden>Un problème de paiement ou d'accès&nbsp;? Écris à <a href="mailto:contact@deviens-marrant.fr" style="color:var(--link);text-decoration:underline;display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere">contact@deviens-marrant.fr</a>.</p>
       <ul id="liste-env" class="envois">
         <!-- En attente (ou en retard après 3 jours ouvrés : envoyé le vendredi 6 novembre, en retard le jeudi 12) -->
         <li id="e-attente" class="card env">
-          <div class="env-h"><span class="tag">Une question</span><span id="e-date" class="cap" data-hyp="HYPOTHÈSE">Envoyé le 10 novembre</span></div>
+          <div class="env-h"><span class="tag">Une question</span><span id="e-date" class="cap">Envoyé le 10 novembre</span></div>
           <p class="quote ph">[Message de l'abonné]</p>
           <p id="e-statut" class="meta">Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés</p>
-          <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
+          <button class="btn" type="button">Retirer de mon historique</button>
         </li>
         <!-- Retiré par l'abonné (2.6, C10 a) : l'envoi disparaît de son historique -->
         <li id="e-retire" class="card env" hidden><p class="meta">Retiré de ton historique</p></li>
         <!-- Répondue : le fil reste ouvert, on peut continuer -->
         <li id="e-reponse" class="card env">
-          <div class="env-h"><span class="tag">Une situation à gérer</span><span class="cap" data-hyp="HYPOTHÈSE">Envoyé le 9 novembre</span></div>
+          <div class="env-h"><span class="tag">Une situation à gérer</span><span class="cap">Envoyé le 9 novembre</span></div>
           <details id="d-rep">
-            <summary><span data-hyp="HYPOTHÈSE">Répondu le 11 novembre</span></summary>
+            <summary><span>Répondu le 11 novembre</span></summary>
             <div class="fil">
-              <div><p class="lab" data-hyp="HYPOTHÈSE">Ton message</p><p class="ph">[Message de l'abonné]</p></div>
-              <div><p class="lab" data-hyp="HYPOTHÈSE">Réponse de l'équipe, le 11 novembre</p><p class="ph">[Réponse de l'équipe]</p><p class="sig">L'Équipe Deviens Marrant</p></div>
+              <div><p class="lab">Ton message</p><p class="ph">[Message de l'abonné]</p></div>
+              <div><p class="lab">Réponse de l'équipe, le 11 novembre</p><p class="ph">[Réponse de l'équipe]</p><p class="sig">L'Équipe Deviens Marrant</p></div>
               <button id="b-cont" class="btn" type="button">Continuer</button>
             </div>
           </details>
-          <button class="btn" type="button" data-hyp="HYPOTHÈSE">Retirer de mon historique</button>
+          <button class="btn" type="button">Retirer de mon historique</button>
         </li>
       </ul>
     </section>
@@ -289,9 +291,9 @@ $("#d-rep").addEventListener("toggle", (e) => { if (e.target.open) reponseNonLue
 $("#form").addEventListener("submit", () => {
   const m = $("#msg"), b = $("#envoyer"), s = $("#statut");
   if (!m.value.trim()) { m.focus(); return; }
-  b.disabled = true; b.textContent = "Envoi en cours"; b.removeAttribute("data-hyp"); s.textContent = "";
+  b.disabled = true; b.textContent = "Envoi en cours"; s.textContent = "";
   setTimeout(() => {
-    m.value = ""; b.disabled = false; b.textContent = "Envoyer"; b.setAttribute("data-hyp", "HYPOTHÈSE");
+    m.value = ""; b.disabled = false; b.textContent = "Envoyer à l'équipe";
     s.textContent = "Envoyé, l'équipe répond en général sous 1 à 2 jours ouvrés";
   }, 800);
 });

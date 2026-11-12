@@ -75,7 +75,6 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .main{padding-top:24px;padding-bottom:48px}
 .intro{margin-bottom:24px}.intro p{margin-top:4px}
 .vars{display:grid;gap:32px}
-@media(min-width:1024px){.vars{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}}
 .var{display:flex;flex-direction:column;gap:12px;min-width:0}
 .vcap{font:600 14px/20px Inter,system-ui,sans-serif;color:var(--t1)}
 .carte>*+*{margin-top:16px}
@@ -143,7 +142,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
 </style>
 </head>
 <body data-hyp="on">
-<a class="skip" href="#main">Aller au contenu</a>
+<a class="skip" href="#main">Aller au contenu principal</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
@@ -176,18 +175,11 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
 <main id="main" class="wrap main">
   <div class="intro">
     <h1>Carte de rafale</h1>
-    <p class="meta">Deux accroches à comparer. La carte dessous est identique.</p>
-  </div>
+</div>
   <div class="vars">
     <figure class="var" data-v="a">
-      <figcaption class="vcap">Variante A : avec «&nbsp;l'esprit de l'escalier&nbsp;»</figcaption>
-      <p class="cap">[HYPOTHÈSE : accroche de maquette, à écrire et passer à l'aveugle par @copywriter]</p>
-      <div class="slot" data-accroche="«&nbsp;L'esprit de l'escalier&nbsp;», c'est trouver la bonne réponse trois jours trop tard. Ici, tu la cherches maintenant."></div>
-    </figure>
-    <figure class="var" data-v="b">
-      <figcaption class="vcap">Variante B : sans ce mot</figcaption>
-      <p class="cap">[HYPOTHÈSE : accroche de maquette, à écrire et passer à l'aveugle par @copywriter]</p>
-      <div class="slot" data-accroche="Une situation, ta réponse d'abord, puis trois répliques."></div>
+      <!-- v7 : une seule accroche (libelles-espace-e5-s24.md §3), plus de comparaison A/B -->
+      <div class="slot" data-accroche="La bonne réponse qui te vient en quittant la pièce : l'esprit de l'escalier. Ici, tu t'entraînes à la dire à temps."></div>
     </figure>
   </div>
 
@@ -196,14 +188,14 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
     <h2 id="et-v" class="vcap">Carte «&nbsp;Et toi&nbsp;?&nbsp;»</h2>
     <p class="cap">[HYPOTHÈSE : aucune fiche du carnet n'est reprise ici, contenu à remplacer par une fiche relue]</p>
     <article id="et" class="card carte" aria-labelledby="et-t">
-      <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag" data-hyp="HYPOTHÈSE">À revoir</span></p>
+      <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag">À revoir</span></p>
       <h3 id="et-t" class="h2l">[Titre de la fiche du carnet]</h3>
       <div class="scene"><h3 class="lab">La scène</h3><p class="ph">[Scène de la fiche du carnet]</p></div>
       <section class="rd" aria-labelledby="et-r"><h3 id="et-r">Ta réponse d'abord</h3><p>Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p><p id="et-pt" class="pt" hidden>Prends ton temps</p></section>
       <div id="et-q" class="q" role="group" aria-labelledby="et-ql">
         <p id="et-ql" class="qt">Tu avais une réponse&nbsp;?</p>
         <div class="trois"><button class="btn" type="button" data-rep="oui">Oui</button><button class="btn" type="button" data-rep="moitie">À moitié</button><button class="btn" type="button" data-rep="rien">Rien</button></div>
-        <p id="et-rg" class="meta rg" role="status" data-hyp="HYPOTHÈSE" hidden></p>
+        <p id="et-rg" class="meta rg" role="status" hidden></p>
       </div>
       <div id="et-rep" hidden>
         <div class="amb"><span class="tag">détendue</span><span class="ph">[Réponse du carnet]</span></div>
@@ -227,7 +219,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
       <h3 id="no-t" class="lab">À toi</h3>
       <p>Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à voix haute, debout, sans sourire. Dix secondes. Pour aller plus loin : la prochaine fois que tu laisses traîner quelque chose, dis-la en vrai.</p>
       <div role="group" aria-labelledby="rt-l">
-        <p id="rt-l" class="lab" data-hyp="HYPOTHÈSE">Ton retour</p>
+        <p id="rt-l" class="lab">Ton retour</p>
         <div class="chips">
           <button class="chip" type="button" aria-pressed="false"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Pas essayé</button>
           <button class="chip" type="button" aria-pressed="false"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, bof</button>
@@ -241,12 +233,12 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
           <button id="n-ok" class="btn btn-p" type="submit">Enregistrer</button>
           <button id="n-re" class="btn btn-p" type="submit" hidden>Réessayer</button>
           <button id="n-sup" class="btn" type="button" hidden>Supprimer</button>
-          <span id="nc" class="cap" data-hyp="HYPOTHÈSE">0 caractère</span>
+          <span id="nc" class="cap">0 caractère</span>
         </div>
         <p id="ns" class="meta" role="status" style="margin-top:8px"></p>
         <div id="n-conf" hidden role="group" aria-labelledby="n-conf-t" style="margin-top:8px">
-          <p id="n-conf-t" class="meta" data-hyp="HYPOTHÈSE">Supprimer cette réplique&nbsp;?</p>
-          <div class="row2"><button id="n-oui" class="btn" type="button">Supprimer</button><button id="n-non" class="btn" type="button" data-hyp="HYPOTHÈSE">Annuler</button></div>
+          <p id="n-conf-t" class="meta">Supprimer cette réplique&nbsp;?</p>
+          <div class="row2"><button id="n-oui" class="btn" type="button">Supprimer</button><button id="n-non" class="btn" type="button">Annuler</button></div>
         </div>
       </form>
     </article>
@@ -277,8 +269,8 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
 
 <template id="tpl">
   <article class="card carte" aria-labelledby="{id}-t">
-    <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag" data-hyp="HYPOTHÈSE">À revoir</span></p>
     <p class="accroche">{accroche}</p>
+    <p class="eyebrow">Si tu as 5 minutes <span class="tag rev-tag">À revoir</span></p>
     <hr class="sep">
     <h2 id="{id}-t">Coloc : la poêle</h2>
     <div class="scene">
@@ -300,10 +292,10 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.intro{margin-bottom:1
         <button class="btn" type="button" data-rep="moitie">À moitié</button>
         <button class="btn" type="button" data-rep="rien">Rien</button>
       </div>
-      <p class="meta rg" role="status" data-hyp="HYPOTHÈSE" hidden></p>
+      <p class="meta rg" role="status" hidden></p>
     </div>
     <section class="reps" aria-labelledby="{id}-c" data-r="reponses" hidden>
-      <h3 id="{id}-c" data-hyp="HYPOTHÈSE">Laquelle convient au contexte&nbsp;?</h3>
+      <h3 id="{id}-c">Ici, tu sors laquelle&nbsp;?</h3>
       <p class="rev">Ta réplique la dernière fois : <span class="ph">[ta réplique enregistrée]</span></p>
       <div class="regs">
         <button class="btn" type="button" aria-pressed="false" data-reg="sure"><b>La sûre</b><span>«&nbsp;Elle est à moi. Je la lave, et jeudi n'aura jamais existé.&nbsp;»</span></button>
@@ -416,7 +408,6 @@ function note(s) {
   $("#nc").textContent = k + (k > 1 ? " caractères" : " caractère");
   const ns = $("#ns");
   ns.textContent = { enregistree: "Enregistrée", echec: "L'enregistrement n'a pas abouti. Ton texte est toujours là.", supprimee: "Supprimée" }[s] || "";
-  if (s === "echec" || s === "supprimee") ns.setAttribute("data-hyp", "HYPOTHÈSE"); else ns.removeAttribute("data-hyp");
   $("#n-ok").hidden = s === "echec";
   $("#n-re").hidden = s !== "echec";
   $("#n-sup").hidden = s !== "enregistree"; /* un seul « Supprimer » à l'écran pendant la confirmation */

@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Étalon E5 v5, mission et bilan (local, ne pas déployer)</title>
+<title>Étalon E5 v7, mission et bilan (local, ne pas déployer)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
 <style>
-/* v5. Mission avec ses retours (architecture v20 2.4) et question de bilan (0.3, 5.x : bilan allégé, ton « refais une situation »).
-   Aucun étalon validé ne donne le texte d'une mission ni de la question de bilan : contenu entre crochets. Textes d'interface sans source : data-hyp. */
+/* v7. Mission (parcours Confiance, marche 2) et bilan (Confiance, étape 1) : textes de docs/copy/libelles-espace-e5-s24.md §4 et §5, mot pour mot.
+   Les « » sont ceux du texte ; les délimiteurs du fichier de libellés ne sont pas affichés. Reste en crochets : l'énoncé de la marche 1 (non écrit). */
 *{box-sizing:border-box;margin:0;padding:0}
 [hidden]{display:none!important}
 :root{color-scheme:dark;--bg:#0D0D0D;--bg-light:#1A1A1A;--card:#1F1F1F;--elev:#2A2A2A;--acc:#8B5CF6;--acc-2:#6D28D9;--acc-2h:#7C3AED;--link:#A78BFA;--t1:#FFFFFF;--t2:#B3B3B3;--tm:#9A9A9A;--bd:#2A2A2A;--bd-in:#707070;--r-md:8px;--r-lg:12px;--fast:150ms}
@@ -22,7 +22,6 @@ a{color:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 body [data-hyp]::after{content:" [" attr(data-hyp) "]";font:600 12px/16px Inter,system-ui,sans-serif;color:var(--tm);font-style:normal}
 body[data-hyp="off"] [data-hyp]::after{content:none}
-.btn[data-hyp]::after,.chip[data-hyp]::after{color:inherit;opacity:.85}
 .wrap{max-width:1280px;margin:0 auto;padding:0 12px}
 @media(min-width:360px){.wrap{padding:0 16px}}@media(min-width:768px){.wrap{padding:0 24px}}@media(min-width:1280px){.wrap{padding:0 32px}}
 .skip{position:absolute;left:8px;top:-72px;z-index:100;display:flex;align-items:center;min-height:44px;padding:0 16px;background:var(--card);border:1px solid var(--bd-in);border-radius:var(--r-md)}
@@ -84,14 +83,25 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 @media(max-width:359px){.trois{grid-template-columns:1fr}}
 .trois .btn{padding:0 4px}
 .trois .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
-.marches{display:inline-flex;align-items:flex-end;gap:2px;height:20px}
+/* Marches : repère carré montant, d'une autre forme que les pastilles rondes du cap (3.0 pt 6) */
+.marches{display:inline-flex;align-items:flex-end;gap:2px;height:24px}
 .marches i{display:block;width:6px;border:2px solid var(--link);border-radius:1px}
 .marches i:nth-child(1){height:6px}.marches i:nth-child(2){height:10px}.marches i:nth-child(3){height:14px}.marches i:nth-child(4){height:18px}.marches i:nth-child(5){height:22px}
 .marches i.on{background:var(--link)}
 .suite{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light)}
 .suite>*+*{margin-top:8px}
 .lien{display:inline-flex;align-items:center;min-height:44px;color:var(--link);text-decoration:underline;text-underline-offset:2px;font:600 14px/20px Inter,system-ui,sans-serif}
-.dit{padding:8px 16px;border-left:2px solid var(--acc)}
+.enonce p+p{margin-top:8px}
+.ctx{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light);font-size:14px;line-height:20px;color:var(--t2)}
+.ctx .lab{display:block;margin-bottom:4px}
+.scene p{margin-top:4px}
+.regs{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.regs .btn{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:4px;width:100%;min-height:44px;padding:12px 16px;text-align:left;font-weight:400;white-space:normal}
+.regs .btn b{font:600 12px/16px Inter,system-ui,sans-serif;color:var(--link)}
+.regs .btn span{font-size:16px;line-height:24px;color:var(--t1);overflow-wrap:anywhere}
+.regs .btn[aria-pressed="true"]{border:2px solid var(--link);background:var(--elev)}
+.retour{padding:12px 16px;border-radius:var(--r-md);background:var(--bg-light);font-size:14px;line-height:20px}
+.retour p+p{margin-top:8px}
 .demo{margin-top:48px;padding-top:16px;border-top:1px solid var(--bd);font-size:14px;line-height:20px;color:var(--tm)}
 .demo a{display:inline-flex;align-items:center;min-height:44px;padding:0 8px;color:var(--link)}
 @media(max-width:299px){
@@ -99,16 +109,16 @@ h3{font:600 16px/24px Inter,system-ui,sans-serif}
 .hd .wrap{height:auto;flex-direction:column;align-items:flex-start;gap:0;padding-top:0;padding-bottom:0}
 .hd-r{margin-left:0}.logo{font-size:14px;line-height:20px}
 .zone{margin-right:-12px}
-.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}
+.tab{padding:0 8px;font:500 12px/16px Inter,system-ui,sans-serif}.tab[aria-current]::after{left:8px;right:8px}
 .fd{display:none}
 h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12px}
-.card{padding:12px}.card>*+*{margin-top:12px}.btn,.chip{white-space:normal;text-align:center;padding:8px}.chips .chip{width:100%;justify-content:flex-start}.suite{padding:8px 12px}.dit{padding:8px 12px}
+.card{padding:12px}.card>*+*{margin-top:12px}.btn,.chip{min-width:0;white-space:normal;text-align:center;padding:12px}.chips .chip{width:100%;justify-content:flex-start}.suite{padding:8px 12px}.ctx,.retour{padding:8px 12px}.regs .btn{padding:8px 12px}.regs .btn span{font-size:14px;line-height:20px}.lien{overflow-wrap:anywhere}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body data-hyp="on">
-<a class="skip" href="#main">Aller au contenu</a>
+<a class="skip" href="#main">Aller au contenu principal</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
@@ -142,15 +152,18 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
   <div class="top"><h1 id="h1">Mission</h1></div>
   <div class="col">
 
-    <!-- Mission : 5 marches, toujours facultative, une seule ouverte à la fois, jamais comptée contre l'abonné (2.4). Lien secondaire seulement : jamais l'action principale d'« Aujourd'hui » (4.4 point 4). -->
+    <!-- Mission, parcours Confiance, marche 2 (libelles §4). Toujours facultative, une seule ouverte à la fois, jamais comptée contre l'abonné (2.4). -->
     <section id="mission" class="card" aria-labelledby="h-m">
-      <!-- v6 : plus de « n sur 5 » (voisin de « cap n sur 5 », règle de 3.0 pt 6). Repère visuel d'une autre forme que les pastilles du cap : cinq marches (barres montantes, carrées), décorative, aria-hidden. -->
-      <p class="eyebrow" style="display:flex;align-items:flex-end;gap:12px"><span id="marche" data-hyp="HYPOTHÈSE">Marche 2</span><span id="marches" class="marches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></p>
-      <h2 id="h-m" data-hyp="HYPOTHÈSE">À un proche, par message</h2>
-      <p class="ph">[Énoncé de la mission, provocable cette semaine]</p>
-      <p class="meta" data-hyp="HYPOTHÈSE">Facultative</p>
+      <p class="eyebrow" style="display:flex;align-items:flex-end;gap:12px"><span id="marche">Marche 2</span><span id="marches" class="marches" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></p>
+      <h2 id="h-m">À un proche, par message</h2>
+      <div id="enonce" class="enonce">
+        <p>Ce soir, dans une conversation déjà ouverte avec un proche, glisse ton faux secret&nbsp;: «&nbsp;Ça reste entre nous&nbsp;:&nbsp;» puis un aveu minuscule sur toi, avec un détail que tout le monde reconnaît. Envoie. Pose le téléphone. Surtout pas de «&nbsp;non mais je rigole&nbsp;».</p>
+        <p>Un message, une personne, dix secondes.</p>
+      </div>
+      <p id="enonce1" class="ph" hidden>[Énoncé de la marche 1, à écrire]</p>
+      <p class="meta">Facultative</p>
       <div role="group" aria-labelledby="rt-l">
-        <p id="rt-l" class="lab" data-hyp="HYPOTHÈSE">Ton retour</p>
+        <p id="rt-l" class="lab">Ton retour</p>
         <div class="chips" id="retours">
           <button class="chip" type="button" aria-pressed="false" data-r="pas"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Pas essayé</button>
           <button class="chip" type="button" aria-pressed="false" data-r="bof"><svg aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Essayé, bof</button>
@@ -159,45 +172,63 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
       </div>
       <!-- Suite selon le retour (2.4), jamais selon la date -->
       <div id="s-marche" class="suite" role="status" hidden>
-        <p class="meta" data-hyp="HYPOTHÈSE">Marche suivante : à un pote, en face.</p>
-        <a class="btn btn-p" href="#" data-hyp="HYPOTHÈSE">Voir la marche 3</a>
+        <p class="meta">Bien joué&nbsp;: un aveu, zéro «&nbsp;je rigole&nbsp;». Marche suivante&nbsp;: le dire en face.</p>
+        <a class="btn btn-p" href="#">Voir la marche 3</a>
       </div>
       <div id="s-bof" class="suite" role="status" hidden>
-        <a class="lien" href="#" data-hyp="HYPOTHÈSE">Une autre situation, même marche</a><br>
+        <p class="meta">Un message qui ne prend pas, ça arrive. Relis ton aveu&nbsp;: il tient en une phrase&nbsp;? La fin surprend&nbsp;?</p>
+        <a class="lien" href="#">Une autre situation, même marche</a><br>
         <a class="lien" href="#">Quand ça tombe à plat</a><br>
         <a class="lien" href="mes-questions.html">Raconte-nous ce qui s'est passé</a>
       </div>
-      <!-- « Pas essayé » deux fois de suite : la marche d'en dessous, sans commentaire (2.4) -->
+      <!-- « Pas essayé » deux fois de suite : sans commentaire, « Voir la marche 1 » (« Marche 1 : à voix haute, sans public ») -->
+      <div id="s-pas2" class="suite" hidden>
+        <a class="btn btn-p" href="mission.html#etat=marche1">Voir la marche 1</a>
+      </div>
     </section>
 
-    <!-- Bilan allégé du parcours (0.3) : ton « refais une situation », même carte que la rafale. Contenu entre crochets : aucun étalon. -->
+    <!-- Bilan du parcours Confiance, étape 1 (libelles §5, format 3.10) -->
     <section id="bilan" class="card" aria-labelledby="h-b" hidden>
-      <p class="eyebrow" data-hyp="HYPOTHÈSE">Bilan du parcours</p>
-      <h2 id="h-b" data-hyp="HYPOTHÈSE">Refais une situation</h2>
-      <div><h3 class="lab">La scène</h3><p class="ph">[Scène de la situation de bilan]</p></div>
-      <div class="dit ph">[Contexte de la situation de bilan]</div>
+      <p class="eyebrow">Bilan du parcours</p>
+      <h2 id="h-b">Refais une situation</h2>
+      <div class="scene"><h3 class="lab">La scène</h3><p>Fin de soirée chez une amie. Tout le monde cherche son manteau dans l'entrée, les invités partent.</p></div>
+      <div class="ctx"><span class="lab">Le contexte</span>Tu connais bien la bande&nbsp;: elle rit volontiers de ses propres habitudes. Ce soir, chacun a déjà promis de revenir, sans rien fixer.</div>
       <div><h3>Ta réponse d'abord</h3><p class="meta" style="margin-top:8px">Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça compte aussi. Rien n'est noté.</p></div>
       <div role="group" aria-labelledby="bq">
         <p id="bq" style="font:600 16px/24px Inter,system-ui,sans-serif">Tu avais une réponse&nbsp;?</p>
         <div class="trois"><button class="btn" type="button">Oui</button><button class="btn" type="button">À moitié</button><button class="btn" type="button">Rien</button></div>
       </div>
-      <!-- Question de bilan : une seule, après les situations, sans note ni verdict -->
-      <div role="group" aria-labelledby="qb" id="qb-g" hidden>
-        <p id="qb" class="ph">[Question de bilan]</p>
-        <div class="chips"><button class="chip" type="button" aria-pressed="false">[Choix 1]</button><button class="chip" type="button" aria-pressed="false">[Choix 2]</button><button class="chip" type="button" aria-pressed="false">[Choix 3]</button></div>
+      <!-- Question de bilan : n'apparaît qu'après le premier toucher ; pas de note, pas de seuil -->
+      <div id="qb-g" role="group" aria-labelledby="qb" hidden>
+        <h3 id="qb">Laquelle ressortir ici&nbsp;?</h3>
+        <div class="regs">
+          <button class="btn" type="button" aria-pressed="false" data-v="A"><b>A</b><span>Mon père dit «&nbsp;je vais chercher du pain&nbsp;» dès qu'il y a trop de monde à la maison.</span></button>
+          <button class="btn" type="button" aria-pressed="false" data-v="B"><b>B</b><span>Mon meilleur pote et moi, on se dit «&nbsp;il faudrait qu'on se fasse un truc&nbsp;» depuis des années.</span></button>
+          <button class="btn" type="button" aria-pressed="false" data-v="C"><b>C</b><span>Dans le train, la place à côté de moi était réservée. Personne n'est venu.</span></button>
+        </div>
+      </div>
+      <!-- Retour complet après A, B ou C : l'explication s'affiche dans les trois cas ; après A ou C elle est précédée de « Pas celle-là cette fois. » et suivie du renvoi vers l'étape -->
+      <div id="retour-bilan" class="retour" role="status" hidden>
+        <p id="rb-pre" hidden>Pas celle-là cette fois.</p>
+        <p>B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper&nbsp;: ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.</p>
+        <p id="rb-post" hidden><a class="lien" href="#">L'étape «&nbsp;Énoncer la règle non écrite&nbsp;» mérite un deuxième tour.</a></p>
       </div>
     </section>
   </div>
 
   <nav class="demo" aria-label="États de la maquette">
     États de la maquette :
-    <a href="#etat=mission">Mission, sans retour</a>
+    <a href="#etat=mission">Mission (marche 2), sans retour</a>
     <a href="#retour=marche">Retour : ça a marché</a>
     <a href="#retour=bof">Retour : bof</a>
     <a href="#retour=pas">Retour : pas essayé</a>
-    <a href="#retour=pas2">Pas essayé deux fois (marche d'en dessous)</a>
+    <a href="#retour=pas2">Pas essayé deux fois</a>
+    <a href="#etat=marche1">Marche 1</a>
     <a href="#etat=bilan">Bilan, avant le toucher</a>
-    <a href="#etat=bilan&question">Bilan, question de bilan affichée</a>
+    <a href="#etat=bilan&question">Bilan, question affichée</a>
+    <a href="#etat=bilan&choix=B">Bilan, retour après B</a>
+    <a href="#etat=bilan&choix=A">Bilan, retour après A</a>
+    <a href="#etat=bilan&choix=C">Bilan, retour après C</a>
     <a href="#rech">Recherche ouverte</a>
     <a href="#hyp=off">Sans marqueurs [HYPOTHÈSE]</a>
   </nav>
@@ -216,7 +247,7 @@ function fondus() {
   $("#fd").classList.toggle("off", l.scrollLeft + l.clientWidth >= l.scrollWidth - 2);
 }
 $("#liste").addEventListener("scroll", fondus, { passive: true });
-/* v6 : « Plus » (porte de « S'entraîner ») est l'entrée active, ramenée dans la vue */
+/* « Plus » (porte de « S'entraîner ») est l'entrée active, ramenée dans la vue */
 function ramener() {
   const l = $("#liste"), p = l.firstElementChild.offsetWidth, a = $('[aria-current="page"]', l);
   fondus();
@@ -234,31 +265,41 @@ br.addEventListener("click", () => rech(rc.hidden));
 $("#rech-x").addEventListener("click", () => { rech(false); br.focus(); });
 rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); br.focus(); } });
 
-/* Retours : un choix, suite selon le retour. « Pas essayé » : aucune suite le premier coup. */
+/* Retours de mission : un choix, suite selon le retour. « Pas essayé » : aucune suite le premier coup. */
 function retour(r) {
   $$("#retours .chip").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.r === r)));
   $("#s-marche").hidden = r !== "marche"; $("#s-bof").hidden = r !== "bof";
 }
 $$("#retours .chip").forEach((x) => x.addEventListener("click", () => retour(x.dataset.r)));
+/* Bilan : « Tu avais une réponse ? » révèle la question ; le choix A, B ou C révèle le retour complet */
+function choix(v) {
+  $$("#qb-g .btn").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.v === v)));
+  $("#retour-bilan").hidden = !v;
+  $("#rb-pre").hidden = $("#rb-post").hidden = v === "B" || !v;
+}
 $$("#bilan .trois .btn").forEach((b) => b.addEventListener("click", () => {
   $$("#bilan .trois .btn").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
   $("#qb-g").hidden = false;
 }));
-$$("#qb-g .chip").forEach((x) => x.addEventListener("click", () => $$("#qb-g .chip").forEach((y) => y.setAttribute("aria-pressed", String(y === x)))));
-/* #etat=mission|bilan  #retour=pas|pas2|bof|marche  &rech  &hyp=off */
+$$("#qb-g .btn").forEach((b) => b.addEventListener("click", () => choix(b.dataset.v)));
+/* #etat=mission|marche1|bilan  &question  &choix=A|B|C   #retour=pas|pas2|bof|marche   &rech  &hyp=off */
 function appliquer() {
-  const h = location.hash, e = (h.match(/etat=(\w+)/) || [])[1] || "mission", r = (h.match(/retour=(\w+)/) || [])[1] || "";
+  const h = location.hash, e = (h.match(/etat=(\w+)/) || [])[1] || "mission", r = (h.match(/retour=(\w+)/) || [])[1] || "", c = (h.match(/choix=([ABC])/) || [])[1] || "";
   document.body.dataset.hyp = h.includes("hyp=off") ? "off" : "on";
-  const bilan = e === "bilan";
+  const bilan = e === "bilan", m1 = e === "marche1";
   $("#mission").hidden = bilan; $("#bilan").hidden = !bilan;
   $("#h1").textContent = bilan ? "Bilan" : "Mission";
-  /* Défaut : marche 2 (à un proche, par message). « Pas essayé » deux fois : marche 1, sans commentaire (2.4). */
-  const n = r === "pas2" ? 1 : 2;
+  /* Marche 2 par défaut ; marche 1 : « À voix haute, sans public » (énoncé non écrit) */
+  const n = m1 ? 1 : 2;
   $("#marche").textContent = "Marche " + n;
+  $("#h-m").textContent = m1 ? "À voix haute, sans public" : "À un proche, par message";
   [...$("#marches").children].forEach((x, i) => x.classList.toggle("on", i < n));
-  $("#qb-g").hidden = !h.includes("question"); /* v6 : la question de bilan n'apparaît qu'après le premier toucher de « Tu avais une réponse ? » */
-  $("#h-m").textContent = r === "pas2" ? "À voix haute, seul" : "À un proche, par message";
-  retour(r === "pas2" ? "" : r);
+  $("#enonce").hidden = m1; $("#enonce1").hidden = !m1;
+  retour(m1 || r === "pas2" ? "" : r);
+  $("#s-pas2").hidden = r !== "pas2";
+  $("#qb-g").hidden = !(h.includes("question") || c);
+  $$("#bilan .trois .btn").forEach((x) => x.setAttribute("aria-pressed", "false"));
+  choix(c);
   rech(h.includes("rech"));
 }
 addEventListener("hashchange", appliquer);

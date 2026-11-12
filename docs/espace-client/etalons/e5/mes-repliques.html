@@ -103,7 +103,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 </style>
 </head>
 <body data-hyp="on">
-<a class="skip" href="#main">Aller au contenu</a>
+<a class="skip" href="#main">Aller au contenu principal</a>
 
 <header class="hd"><div class="wrap">
   <a class="logo" href="#">deviens-marrant.fr</a>
@@ -134,7 +134,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
 </div>
 
 <main id="main" class="wrap main">
-  <div class="top"><p id="profil" class="cap" hidden data-hyp="HYPOTHÈSE">Mon profil</p><h1>Mes répliques</h1></div>
+  <div class="top"><p id="profil" class="cap" hidden>Mon profil</p><h1>Mes répliques</h1></div>
   <div class="zones">
 
     <section aria-labelledby="h-l">
@@ -142,7 +142,7 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
       <!-- État vide (2.7, validé) -->
       <p id="vide" class="card meta" hidden>Tu n'as pas encore écrit de réplique. Elles apparaissent ici.</p>
       <!-- Lecture seule après la résiliation : ni ajout ni modification, la suppression reste possible (2.6, C10 a) -->
-      <p id="ro" class="meta" style="margin-bottom:12px" hidden data-hyp="HYPOTHÈSE">Tes répliques sont gardées. Tu peux les relire et les supprimer.</p>
+      <p id="ro" class="meta" style="margin-bottom:12px" hidden>Tes répliques sont gardées. Tu peux les relire et les supprimer.</p>
       <!-- La plus récente d'abord ; chaque ligne montre la réplique entière et le titre de sa fiche, qui renvoie à la fiche -->
       <ul id="l" class="l">
         <li id="r1" class="card">
@@ -150,25 +150,25 @@ h1{font-size:24px;line-height:32px}.main{padding-top:16px}.top{margin-bottom:12p
           <p class="quote ph" id="t1">[ta réplique enregistrée]</p>
           <div id="v1">
             <div class="acts">
-              <button class="btn" type="button" data-a="modifier" data-hyp="HYPOTHÈSE">Modifier</button>
+              <button class="btn" type="button" data-a="modifier">Modifier</button>
               <button class="btn" type="button" data-a="supprimer">Supprimer</button>
             </div>
           </div>
           <form id="e1" class="edit" onsubmit="return false" hidden>
             <label for="ta1">Ma réplique à moi</label>
             <textarea id="ta1" rows="2">[ta réplique enregistrée]</textarea>
-            <div class="acts" style="margin-top:8px"><button class="btn btn-p" type="submit">Enregistrer</button><button class="btn" type="button" data-a="annuler" data-hyp="HYPOTHÈSE">Annuler</button></div>
+            <div class="acts" style="margin-top:8px"><button class="btn btn-p" type="submit">Enregistrer</button><button class="btn" type="button" data-a="annuler">Annuler</button></div>
           </form>
           <div id="c1" role="group" aria-labelledby="c1-t" hidden>
-            <p id="c1-t" class="meta" data-hyp="HYPOTHÈSE">Supprimer cette réplique&nbsp;?</p>
-            <div class="acts" style="margin-top:8px"><button class="btn" type="button" data-a="oui">Supprimer</button><button class="btn" type="button" data-a="annuler" data-hyp="HYPOTHÈSE">Annuler</button></div>
+            <p id="c1-t" class="meta">Supprimer cette réplique&nbsp;?</p>
+            <div class="acts" style="margin-top:8px"><button class="btn" type="button" data-a="oui">Supprimer</button><button class="btn" type="button" data-a="annuler">Annuler</button></div>
           </div>
         </li>
         <li id="r2" class="card">
-          <a class="titre" href="#" data-hyp="HYPOTHÈSE">[Titre de la fiche]</a>
+          <a class="titre" href="#">[Titre de la fiche]</a>
           <p class="quote ph">[ta réplique enregistrée]</p>
           <div class="acts">
-            <button class="btn" type="button" data-a="modifier" data-hyp="HYPOTHÈSE">Modifier</button>
+            <button class="btn" type="button" data-a="modifier">Modifier</button>
             <button class="btn" type="button" data-a="supprimer">Supprimer</button>
           </div>
         </li>
@@ -246,7 +246,7 @@ rc.addEventListener("keydown", (e) => { if (e.key === "Escape") { rech(false); b
 function cat(c) {
   $$(".chip").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.c === c)));
   $("#soir").hidden = !c;
-  if (c) { $("#soir-t").textContent = "Tes répliques à toi pour " + c; $("#soir-t").setAttribute("data-hyp", "HYPOTHÈSE"); }
+  if (c) { $("#soir-t").textContent = "Tes répliques à toi pour " + c; }
 }
 $$(".chip").forEach((x) => x.addEventListener("click", () => cat(x.dataset.c)));
 
@@ -264,7 +264,7 @@ document.addEventListener("click", (e) => {
   if (a === "modifier") { r1("modifier"); $("#ta1").focus(); }
   if (a === "supprimer") { r1("confirmer"); $("#c1 [data-a=annuler]").focus(); }
   if (a === "annuler") { r1("liste"); $("#v1 [data-a=modifier]").focus(); }
-  if (a === "oui") { $("#r1").hidden = true; $("#sup").textContent = "Supprimée"; $("#sup").setAttribute("data-hyp", "HYPOTHÈSE"); }
+  if (a === "oui") { $("#r1").hidden = true; $("#sup").textContent = "Supprimée"; }
 });
 $("#e1").addEventListener("submit", () => { $("#t1").textContent = $("#ta1").value; r1("liste"); $("#v1 [data-a=modifier]").focus(); });
 
@@ -275,7 +275,7 @@ function appliquer() {
   const vide = e === "vide", sup = e === "supprimee", ro = e === "termine";
   $("#vide").hidden = !vide; $("#l").hidden = vide;
   $("#r1").hidden = sup; $("#r2").hidden = false;
-  $("#sup").textContent = sup ? "Supprimée" : ""; if (sup) $("#sup").setAttribute("data-hyp", "HYPOTHÈSE"); else $("#sup").removeAttribute("data-hyp");
+  $("#sup").textContent = sup ? "Supprimée" : "";
   $("#ro").hidden = !ro; $("#profil").hidden = !ro; document.body.dataset.profil = ro ? "1" : "0";
   $$("[data-a=modifier]").forEach((x) => (x.hidden = ro)); /* lecture seule : pas de modification, la suppression reste */
   r1(e === "modifier" ? "modifier" : e === "confirmer" ? "confirmer" : "liste");
