@@ -1,5 +1,6 @@
 # Architecture de contenu de l'espace Premium, v2 (s24)
 
+> REMPLACÉ par `architecture-contenu-v3.md` le 12/11/2026 après le tour 2 de relecture (UX 6,7, Reviewer 7,5, Elon 8,2). Ne plus s'y référer pour les chiffres, le calendrier, les exemples ni les questions.
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-pedagogique-s24.md` (v1) et sert de base de travail avec les faits de `inventaire-cartographie-s24.md` (INV, section 6 seule source des chiffres de production). Réponse aux tours 1 de relecture : @ux 6,1, @elon 5,6, @reviewer 5,7 (`iterations/tour-1-*.md`). Chaque correction est tracée en annexe A.
 > Sources relues en entier pour ce tour : les 3 rapports, `founder-preferences.md` (lignes 1 à 163), INV, `parcours-seed.json` (étapes 1 et 2 de Machine à Café), `config/premium.ts`, `lib/progression.ts`.
 > Conventions : [HYPOTHÈSE] = dimensionnement ou choix de travail, jamais un fait. [À VÉRIFIER] = fait non lu. [EXEMPLE NON VALIDÉ] = illustration non relue à l'aveugle. Toute règle nouvelle (série, XP, texte libre, stockage) est une question à Thomas en section 8 : rien n'est décidé ici. Les noms de rubriques et de formats sont des propositions de travail, à caler par étalons rendus (règle P0 s8).
