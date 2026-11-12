@@ -1,8 +1,8 @@
-# C6a : « Quand ça tombe à plat », 10 fiches (30 sorties, 90 candidates), tour 2
+# C6a : « Quand ça tombe à plat », 10 fiches (30 sorties, 90 candidates), tour 3
 
 > Auteur : @copywriter, 12/11/2026. Lot C6a du plan s24 §5. Liste et ordre des 10 fiches : `architecture-contenu-v20.md` §3.8 (l. 521 à 526). Format : celui de « Quoi répondre » (`etalons-espace-s24.md` E1.1) : la scène, trois sorties (la sûre, la joueuse, la risquée), comment choisir, l'erreur, le geste « À toi ».
 > **Chaque sortie a 3 candidates (A, B, C).** La fiche affichée est assemblée avec les A ; les B et C sont dans « Candidates de remplacement » sous chaque fiche, marquées `[note interne, non affichée]`.
-> **Statut : tour 2, après la relecture à l'aveugle du tour 1** (reviewer, elon, critique ; table « Tour 2 » en bas). Les fiches retouchées repassent à l'aveugle (P0 s18).
+> **Statut : tour 3, après la relecture à l'aveugle du tour 2** (reviewer, elon, critique ; tables « Tour 2 » et « Tour 3 » en bas). Les fiches retouchées repassent à l'aveugle (P0 s18).
 > **Décisions fondateur (E6) :** aucun lien depuis la fiche 4 vers le coin humour noir ; lien neutre depuis la fiche 10 (texte de E6 affiché). Le mot « blanc » (fiche 9) est attesté au Larousse (« avoir un blanc ») ; la fiche 9 traite le trou de tête, `c1c-vocabulaire.md` l. 321 à 324 le blanc d'une conversation (voir le point de vigilance).
 > `[Framework : démonstration puis geste]` `[Conscience : Problem-Aware, il vient de rater]`. Ton d'Alex : chaleureux, rassurant, on aide quelqu'un qui vient de rater, on ne le juge jamais.
 > Règles tenues (`checklist-fautes-recurrentes.md` relue) : tutoiement ; aucun accord au masculin ou au féminin pour l'utilisateur ni pour la personne d'en face (relu réplique par réplique) ; zéro tiret cadratin, zéro émoji, ni IA ni concurrent ; guillemets « » et “ ” ; aucune note interne dans le texte affiché ; la réplique marche depuis la scène seule ; une seule tentative ; chaque sortie a sa propre image (mécanismes variés : constat, retrait, mime, rendez-vous, clôture) ; aucune cible absente, rien sur la peine ou la santé de quelqu'un ; aucune réplique reprise de E1, E3, de la poêle, du chargeur ni du fromage.
@@ -58,7 +58,7 @@ Tu la ranges au rang des prototypes : elle reviendra mieux réglée. À dire si 
 
 **La risquée**
 « Je te l'explique, mais ce sera une autopsie. »
-Tu proposes l'autopsie de ta vanne : l'autre décide s'il la veut. Elle ne passe que si la personne te chambre déjà.
+Tu proposes l'autopsie de ta vanne : l'autre décide si elle a lieu. Elle ne passe que si la personne te chambre déjà.
 
 **Comment choisir**
 « Hein ? » sec, ou pressé ? La sûre. Un demi-sourire ? La joueuse. Quelqu'un qui te chambre déjà ? La risquée, une fois.
@@ -90,8 +90,8 @@ Tu confirmes calmement. Rien à nier : la phrase perd son venin.
 Tu fais de ton retard un service rendu. À sortir si la tablée a déjà ri de la remarque.
 
 **La risquée**
-« Tu me comptes depuis longtemps ? Ça me touche. »
-Tu prends le comptage pour une attention. Elle ne marche que si la personne te taquine souvent, avec affection, et que tout le monde le sait.
+« Tu as un carnet pour mes arrivées ? Ça me fait chaud au cœur. »
+Tu prends la surveillance pour une attention. Elle ne marche que si la personne te taquine souvent, avec affection, et que tout le monde le sait.
 
 **Comment choisir**
 Le ton est sec ? La sûre. La tablée rit déjà ? La joueuse. La personne te taquine souvent, avec affection ? La risquée, une seule fois.
@@ -105,22 +105,22 @@ Pense à une phrase qu'on te dit souvent sur toi. Dis la sûre à voix haute, ca
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « Oui. Ça me laisse le choix de la place. » (un avantage vrai, dit simplement.) Sûre C : « C'est exact, et je ne compte pas me corriger ce soir. » (tu assumes, sans durcir.)
 - Joueuse B : « Je garde les meilleures entrées pour la fin. » (l'image de l'arrivée en scène.) Joueuse C : « Je préfère dire que je fais monter l'attente. » (reformulation flatteuse.)
-- Risquée B : « Merci de l'avoir remarqué : tu m'attends toujours, c'est touchant. » (tu retournes la pique en attention.) Risquée C : « Je te fais un tableau de mes arrivées, tu auras les chiffres. » (tu offres de nourrir la remarque.)
+- Risquée B : « Tu me comptes depuis longtemps ? Ça me touche. » (version courte, « comptes » peut se lire « compter sur moi ».) Risquée C : « Merci de l'avoir remarqué : tu m'attends toujours, c'est touchant. » (tu retournes la pique en attention.)
 
 ---
 
 ## Fiche 4. Quand tu as dit la mauvaise chose
 
 **La scène**
-Au dîner, tu dis à quelqu'un, à propos de son plat : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais.
+Au dîner, tu dis à quelqu'un, à propos de son plat, que tu as aimé : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais.
 
 **La sûre**
 « Ça a mal sonné, pardon. Tu me donnes la recette ? »
 Une excuse, puis un intérêt sincère pour ce que l'autre a fait. Tu ne te justifies pas.
 
 **La joueuse**
-« Je retire tout, et ce que j'allais dire aussi. »
-Tu retires ta phrase et la suivante, avec légèreté, sans toucher à ce qui a vexé. À sortir si l'autre te regarde de nouveau.
+« Excuse en cours d'impression, merci de patienter. »
+Tu dédramatises, et l'excuse arrive quand même. À sortir si l'autre te regarde de nouveau.
 
 **La risquée**
 « Pour me racheter, je lave tout ce qui traîne, à commencer par ma phrase. »
@@ -137,7 +137,7 @@ Répète à voix haute la sûre, en regardant quelqu'un dans les yeux, ou une ph
 
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « Ça n'a pas sonné comme je voulais. Pardon. » (une excuse nette, tournée vers l'autre.) Sûre C : « Mal dit. Je recommence. » (deux mots, aucun drame.)
-- Joueuse B : « Excuse en cours d'impression, merci de patienter. » (l'excuse arrive, tu dédramatises.) Joueuse C : « Ma phrase a pris un raccourci. Je reprends le bon chemin. » (image de trajet.)
+- Joueuse B : « Mes mots sont partis sans moi, je les rattrape. » (tu prends ta maladresse en charge, image de poursuite.) Joueuse C : « Ma phrase a pris un raccourci. Je reprends le bon chemin. » (image de trajet.)
 - Risquée B : « Pour me racheter, je fais la vaisselle. » (une réparation concrète, sans trait d'humour.) Risquée C : « Je m'excuse deux fois, c'est mon forfait. La deuxième est offerte. » (l'excuse en forfait.)
 
 ---
@@ -156,8 +156,8 @@ Tu prends l'info et tu continues. Personne n'a perdu la face.
 Tu fais porter l'erreur à ta mémoire, sans te dévaloriser. À sortir si la salle est détendue.
 
 **La risquée**
-« Merci. Je te nomme responsable du calendrier. »
-Tu transformes la correction en promotion. Elle ne passe que si la personne corrige souvent, avec bonne humeur.
+« Merci. Tu es désormais mon calendrier officiel. »
+Tu transformes la correction en titre officiel. Elle ne passe que si la personne corrige souvent, avec bonne humeur.
 
 **Comment choisir**
 Réunion tendue ? La sûre. Ambiance détendue ? La joueuse. La personne te corrige souvent, avec le sourire ? La risquée, une fois.
@@ -171,7 +171,7 @@ Ce soir, dis à voix haute une date fausse, puis corrige-la avec la sûre, sans 
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « Tu as raison, mardi. » (quatre mots, aucune défense.) Sûre C : « Merci de l'avoir relevé, je note mardi. » (tu remercies, l'affaire est close.)
 - Joueuse B : « Mardi, noté. Je dépose une réclamation auprès de lundi. » (le jour fautif devient le coupable.) Joueuse C : « C'est pour ça qu'on a des témoins. » (tu accueilles la correction comme un service.)
-- Risquée B : « Merci. Je crée un poste : surveillance officielle du calendrier. Il est à toi. » (même idée, plus longue.) Risquée C : « Tu me rends fiable, je te le dois bien. Je t'invite au café. » (tu paies la correction en café.)
+- Risquée B : « Merci. Je te nomme responsable du calendrier. » (gag de bureau attendu.) Risquée C : « Tu me rends fiable, je te le dois bien. Je t'invite au café. » (tu paies la correction en café.)
 
 ---
 
@@ -182,7 +182,7 @@ Dîner. Tu racontes une histoire. Au milieu de ta phrase, quelqu'un se lance dan
 
 **La sûre**
 « Je finis ma phrase, et je te rends la parole. »
-Tu tiens ta place calmement, sans rancune. On te rend la parole.
+Tu tiens ta place calmement, sans rancune. La conversation revient vers toi.
 
 **La joueuse**
 « Je la garde au chaud. »
@@ -222,8 +222,8 @@ Tu dis la vérité, avec chaleur. On te le pardonne, et on rit un peu avec toi.
 Tu en fais un personnage qui a quitté la pièce. À sortir si l'ambiance est détendue.
 
 **La risquée**
-« Je la termine en mime. »
-Tu changes de langage : l'oral devient un geste, et on le voit. Elle ne marche que si le groupe aime jouer.
+« Je vous la mime : qui devine la chute gagne. »
+Tu changes de langage et tu fais du trou un jeu : on te regarde, on cherche avec toi. Elle ne marche que si le groupe aime jouer.
 
 **Comment choisir**
 Le groupe est neuf pour toi ? La sûre. Il sourit ? La joueuse. Il aime jouer ? La risquée, une fois.
@@ -237,7 +237,7 @@ Prends une blague que tu connais. Arrête-toi volontairement avant la chute, et 
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « La fin m'échappe. Je vous la donne si elle revient. » (promesse légère.) Sûre C : « Laissons celle-là inachevée. » (tu fermes sans drame.)
 - Joueuse B : « Ma mémoire a gardé le début et perdu la fin. » (tu décris ton oubli.) Joueuse C : « La fin était meilleure que le début, je vous le jure. » (compliment sur l'absente.)
-- Risquée B : « Je laisse la chute à qui la devine. » (tu transformes le trou en jeu, sans image.) Risquée C : « Pour la chute, j'accepte les propositions : la meilleure gagne le début. » (tu donnes un prix.)
+- Risquée B : « Je la termine en mime. » (version courte, on ne peut pas mimer une chute oubliée.) Risquée C : « Je laisse la chute à qui la devine. » (tu transformes le trou en jeu, sans image.)
 
 ---
 
@@ -247,15 +247,15 @@ Prends une blague que tu connais. Arrête-toi volontairement avant la chute, et 
 Soirée. Depuis un quart d'heure, quelqu'un te raconte ses vacances dans le détail. Tu veux partir sans vexer personne.
 
 **La sûre**
-« Je vais me resservir, je reviens. »
-Tu bouges, tu annonces ton retour. Une sortie nette, sans ironie.
+« Merci pour l'histoire, je vais me resservir. »
+Tu remercies, tu bouges. Une sortie nette, sans ironie.
 
 **La joueuse**
 « J'ai rendez-vous avec le buffet. »
 Le buffet devient ton agenda. À sortir si la personne a déjà ri avec toi.
 
 **La risquée**
-« Je file avant d'applaudir debout. »
+« Je vais t'applaudir de l'autre bout de la pièce. »
 Tu fais de ta fuite un compliment. Elle ne passe que si la personne plaisante déjà de ses longueurs.
 
 **Comment choisir**
@@ -268,9 +268,9 @@ Inventer une urgence (« j'ai un appel »). On te croit ou non, mais tu t'enferm
 Ce soir, quitte une conversation avec la sûre, et fais ton premier pas avant la fin de ta phrase.
 
 **Candidates de remplacement** `[note interne, non affichée]`
-- Sûre B : « Je vais dire bonjour à quelqu'un, je reviens. » (raison simple et vraie.) Sûre C : « Merci pour l'histoire, je vais me resservir. » (tu remercies avant de bouger.)
+- Sûre B : « Je vais dire bonjour à quelqu'un, je reviens. » (raison simple et vraie.) Sûre C : « Je vais me resservir, je reviens. » (promet un retour : écartée par la fiche elle-même.)
 - Joueuse B : « Je dois nourrir mon verre. » (le verre devient un animal.) Joueuse C : « Mon verre vient de me faire signe. » (le verre t'appelle.)
-- Risquée B : « Si je reste une minute de plus, je ne pars plus. » (ta politesse devient un danger.) Risquée C : « Je te laisse finir sans moi : je reviens pour les applaudissements. » (tu promets d'applaudir.)
+- Risquée B : « Je file avant d'applaudir debout. » (confuse à l'oral : on fuit pour ne pas applaudir ?) Risquée C : « Si je reste une minute de plus, je ne pars plus. » (ta politesse devient un danger.)
 
 ---
 
@@ -321,7 +321,7 @@ Pose-toi une question à toi-même, vide ta tête volontairement, puis dis la s�
 Soirée. Ta vanne a fait rire. Tu en as une autre sous le coude, et tu hésites.
 
 **Trois signaux observables**
-Ils sourient en te regardant. Ils se penchent vers toi. Ils répondent en rebondissant sur ta phrase. Une fois pour lancer, une fois pour clore : les signaux choisissent ta clôture, jamais une deuxième vanne.
+Ils sourient en te regardant. Ils se penchent vers toi. Ils répondent en rebondissant sur ta phrase. Les signaux choisissent ta clôture, jamais une deuxième vanne.
 
 **La sûre**
 « Je m'arrête sur celle-là. »
@@ -332,8 +332,8 @@ Tu clos sur un succès, et on en garde le souvenir.
 Tu annonces ta propre fin comme un commerçant. À sortir si deux signaux sont là.
 
 **La risquée**
-« Une autre ? Parfait : c'est là que je m'arrête. »
-Tu fais de leur envie ta sortie. Elle ne passe que si les trois signaux sont là et que la salle redemande.
+« Une autre ? Non : je pars au sommet de ma carrière. »
+Tu fais de ton arrêt une décision de star. Elle ne passe que si les trois signaux sont là et que la salle redemande.
 
 **Comment choisir**
 Aucun signal ? Tu t'arrêtes sans un mot. Un signal ? La sûre. Deux ? La joueuse. Trois, et la salle redemande ? La risquée, une seule fois.
@@ -349,7 +349,7 @@ Ce soir, dès qu'une phrase à toi fait sourire, clos avec la sûre, puis pose u
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « Je garde les autres pour la prochaine fois. » (tu laisses de l'appétit.) Sûre C : « Je m'arrête là, tu auras compris. » (tu fais confiance à l'autre.)
 - Joueuse B : « On ne dit pas deux fois la même, j'ai promis. » (tu cites une promesse.) Joueuse C : « Fin du programme, merci d'avoir ri. » (clôture de spectacle.)
-- Risquée B : « Vous voulez une autre ? Non : c'est une question de principe. » (tu refuses poliment.) Risquée C : « Vous en redemandez ? Parfait, c'est exactement là que je m'arrête. » (version longue de A.)
+- Risquée B : « Une autre ? Parfait : c'est là que je m'arrête. » (sans vraie chute.) Risquée C : « Vous voulez une autre ? Non : c'est une question de principe. » (tu refuses poliment.)
 
 ---
 
@@ -385,6 +385,25 @@ Ce soir, dès qu'une phrase à toi fait sourire, clos avec la sûre, puis pose u
 | Risquées sous la barre et moules (critique, reviewer) | Fiche 3 : risquée B de la critique ; fiche 5 : « Merci. Je te nomme responsable du calendrier. » ; fiche 7 : « Je la termine en mime. » ; mécanismes variés : constat, retrait, mime, rendez-vous, clôture. |
 | Candidates marquées (reviewer, coordinateur) | Toutes les sections « Candidates de remplacement » portent `[note interne, non affichée]`. |
 | Non changé | Fiche 3 sûre et joueuse, fiche 5 sûre et joueuse, fiche 7 sûre et joueuse, fiche 1 sûre et risquée, risquée de la fiche 6, erreurs et gestes des fiches non citées. |
+
+## Tour 3 : retouche → ligne
+
+Recherche web (phrase et idée) des sorties A neuves : **0 occurrence** pour chacune.
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Fiche 4 : « et ce que j'allais dire aussi » laisse craindre une deuxième critique (reviewer, elon) | Joueuse : « Excuse en cours d'impression, merci de patienter. » (candidate B du tour 1, choisie par le reviewer ; elle évite aussi une deuxième personnification, alors que celle d'elon, « Mes mots sont partis sans moi », reste en candidate B). Recherche : 0. |
+| Fiche 4 : « Tu me donnes la recette ? » suppose que le plat plaisait (critique) | Scène : « à propos de son plat, que tu as aimé ». |
+| Fiche 2 : « s'il la veut » genre la personne d'en face (reviewer) | « l'autre décide si elle a lieu ». |
+| Fiche 8 : « je reviens » commet l'erreur de sa fiche (reviewer) | Sûre : « Merci pour l'histoire, je vais me resservir. » ; « Tu remercies, tu bouges. Une sortie nette, sans ironie. » |
+| Fiche 6 : la sûre et son explication se contredisent sur qui rend la parole (elon, critique) | Explication : « Tu tiens ta place calmement, sans rancune. La conversation revient vers toi. » |
+| Fiche 10 : « Une fois pour lancer, une fois pour clore » n'a plus de sens avec la nouvelle logique (critique) | Phrase retirée ; reste : « Les signaux choisissent ta clôture, jamais une deuxième vanne. » |
+| Fiche 3 : risquée à 8, « comptes » ambigu (critique) | « Tu as un carnet pour mes arrivées ? Ça me fait chaud au cœur. » (candidat de la critique) ; l'ancienne devient candidate B. Recherche : 0. |
+| Fiche 5 : risquée à 8, gag de bureau attendu (critique) | « Merci. Tu es désormais mon calendrier officiel. » (candidat de la critique). Recherche : 0. |
+| Fiche 7 : risquée à 8, on ne peut pas mimer une chute oubliée (critique) | « Je vous la mime : qui devine la chute gagne. » (candidat de la critique, « le premier qui » remplacé par « qui » pour ne pas genrer). Recherche : 0. |
+| Fiche 8 : risquée à 8, confuse à l'oral (critique) | « Je vais t'applaudir de l'autre bout de la pièce. » (nouvelle ; le candidat de la critique, « je reviens pour les applaudissements », reproduirait l'erreur de la fiche). Recherche : 0. |
+| Fiche 10 : risquée à 8, sans chute (critique) | « Une autre ? Non : je pars au sommet de ma carrière. » (candidat de la critique). Recherche : 0. |
+| Non changé | Fiches 1 et 9 ; sûres et joueuses non citées ; erreurs et gestes ; « Je retire tout… » n'apparaît plus (retirée du fichier). |
 
 ## Points de vigilance pour la relecture (note interne)
 
