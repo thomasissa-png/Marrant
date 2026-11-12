@@ -1,4 +1,4 @@
-# C6c : « Séances de 20 minutes », 6 séances (1 de palier 2, 5 de palier 3), tour 3
+# C6c : « Séances de 20 minutes », 6 séances (1 de palier 2, 5 de palier 3), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Lot C6c du plan s24 §5 (l. 200) ; type « séance » : `architecture-contenu-v20.md` §3.11 (l. 546 à 556), volume l. 551 (1 au palier 2, la semaine 3 ; 5 au palier 3). Format : « 3 minutes d'échauffement, 5 d'observation, 8 d'essai, 4 de bilan » (l. 549) ; rien n'est enregistré ; pas de coaching en direct (supprimé le 13/10).
 > **Statut : tour 2, après la relecture à l'aveugle du tour 1** (reviewer, elon, critique ; table « Tour 2 » en bas). Les séances retouchées repassent à l'aveugle (P0 s18).
@@ -74,7 +74,7 @@
 3. La fin surprend ?
 
 **Tu produis** : cinq détournements écrits, dont un gardé.
-**Une version possible** : « Petit à petit, le dernier épisode fait son nid dans ma nuit. »
+**Une version possible** : « Petit à petit, le pot de clés orphelines fait son nid sur l'étagère. »
 **Renvois** : « Proverbes » et « Expressions imagées » (« Formules à détourner »), « Le détournement » (« Comment c'est construit »).
 `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` `[Ma réplique à moi : une phrase, facultative]`
 
@@ -143,7 +143,7 @@
 3. La fin surprend ?
 
 **Tu produis** : une clôture à toi, écrite, et le nombre de signaux qui la justifie.
-**Une version possible (joueuse)** : « Je m'arrête là, je protège mon avance. »
+**Une version possible (joueuse)** : « Je m'arrête là, tant que je mène au score. »
 **Renvois** : « Lire la salle et savoir s'arrêter » (« Quand ça tombe à plat ») ; « Le rire autour de toi » (« Vocabulaire »), entrée « Bon public ».
 `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` `[Ma réplique à moi : une phrase, facultative]`
 
@@ -157,10 +157,10 @@ Pour chaque « version possible », une recherche avec la phrase exacte et son i
 |---|---|---|
 | 1 | « Il fait partie de la famille : il a même sa place à table. » | 0 (tour 2) |
 | 2 | « Je ne m'énerve jamais. » plus tard, à la quatrième tentative de monter l'étagère | 0 (tour 2) |
-| 3 | « Petit à petit, le dernier épisode fait son nid dans ma nuit. » | 0 (tour 3 ; l'ancienne, « pile de linge », 0 au tour 1) |
+| 3 | « Petit à petit, le pot de clés orphelines fait son nid sur l'étagère. » | 0 (tour 4 ; les anciennes, « pile de linge » et « dernier épisode », 0 aux tours 1 et 3) |
 | 4 | « Mon plus gros défaut ? Je dis oui avant d'avoir lu. » ; « Silence reçu, applaudissements à confirmer. » | 0 (tour 2 pour la vanne ; tour 1 pour la sortie) |
 | 5 | « Mon tri de photos en une phrase : trois heures pour supprimer douze doublons. » | 0 (tour 2) |
-| 6 | « Je m'arrête là, je protège mon avance. » | 0 (tour 3 ; l'ancienne, 0 au tour 2) |
+| 6 | « Je m'arrête là, tant que je mène au score. » | 0 (tour 4 ; les anciennes, 0 aux tours 2 et 3) |
 
 ## Tour 2 : retouche → ligne
 
@@ -192,6 +192,16 @@ Recherche web (phrase et idée) des versions neuves : **0 occurrence** pour chac
 | S2 : le geste « du repas de la semaine » s'éloigne, alors que le geste est pour ce soir (critique) | « …choisis le repas de ce soir ou de demain où tu diras la première phrase. » |
 | S5 : consigne abstraite (critique) | « le titre a déjà donné la fin, garde pour la dernière phrase le détail que personne n'attendrait. » |
 | Non changé | S1 version, S4 version (la critique les juge à 9 sans consigne de changement), tout le reste. |
+
+## Tour 4 : retouche → ligne (dernier tour, décision C8)
+
+Deux lignes, trois candidates chacune (A retenue, B et C écartées), recherche web de la phrase et de l'idée.
+
+| Retouche (source) | Candidates | Ligne changée |
+|---|---|---|
+| S3 : « le dernier épisode » reprend l'idée de C1c l. 209 (la série qui mange la nuit) (reviewer) | A : « Petit à petit, le pot de clés orphelines fait son nid sur l'étagère. » (0) ; B : « Petit à petit, le sac de piles usagées fait son nid sous l'évier. » (0) ; C : « Petit à petit, le carton du déménagement fait son nid dans l'entrée. » (candidat du reviewer, 0 pour la phrase, mais l'idée des cartons de déménagement est déjà celle de C1b, fiche 11 : écartée). | Version possible de la séance 3 : A. |
+| S6 : « je protège mon avance » flou à l'oral (reviewer) | A : « Je m'arrête là, tant que je mène au score. » (candidat du reviewer, 0) ; B : « Je m'arrête là, tant que je suis devant. » (0) ; C : « Je m'arrête là : on ne change pas une équipe qui gagne. » (formule de sport connue : écartée, non cherchée). | Version possible de la séance 6 : A. |
+| Non changé | | Tout le reste. |
 
 ## Points de vigilance pour la relecture (note interne)
 
