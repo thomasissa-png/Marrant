@@ -2,7 +2,7 @@
  * @jest-environment node
  *
  * s24 lot 0 : mesure d'usage côté routes, définitions du §5.2 du brief espace client.
- * - Le simple CHARGEMENT d'une API (listes vannes, conseils, vidéos ; exercice d'une fiche) n'écrit
+ * - Le simple CHARGEMENT d'une API (listes vannes, conseils, vidéos, toutes pages ; exercice d'une fiche) n'écrit
  *   plus rien : le premier accès vient de `POST /api/mesure/acces`, appelé par le navigateur quand
  *   le contenu est réellement affiché.
  * - `POST /api/mesure/acces` : refus sans session (401), refus non Premium (403, plan relu en base),
@@ -125,7 +125,7 @@ beforeEach(() => {
 afterEach(() => jest.restoreAllMocks());
 
 describe("chargement des API : aucune écriture (définition §5.2)", () => {
-  it("listes vannes, conseils, vidéos au-delà de la limite, abonné : rien n'est écrit, réponses inchangées", async () => {
+  it("listes vannes, conseils, vidéos, page 2 comprise (pages publiques), abonné : rien n'est écrit, réponses inchangées", async () => {
     const u = seConnecter("PREMIUM");
     const vannes = await getJokes(new NextRequest("http://localhost/api/jokes?page=2&limit=10"));
     const conseils = await getTips(new NextRequest("http://localhost/api/tips?page=1&limit=10"));
@@ -150,7 +150,7 @@ describe("chargement des API : aucune écriture (définition §5.2)", () => {
 describe("POST /api/mesure/acces", () => {
   it("sans session : 401, rien d'écrit", async () => {
     getServerSession.mockResolvedValue(null);
-    expect((await acces({ type: "liste", liste: "vannes" })).status).toBe(401);
+    expect((await acces({ type: "exercice", fiche: "vanne" })).status).toBe(401);
     expect(usageEvent.create).not.toHaveBeenCalled();
   });
 
@@ -158,7 +158,7 @@ describe("POST /api/mesure/acces", () => {
     seConnecter("PREMIUM");
     prismaMock.user.findUnique.mockClear();
     memeSite.mockReturnValue(new Response(null, { status: 403 }));
-    expect((await acces({ type: "liste", liste: "vannes" })).status).toBe(403);
+    expect((await acces({ type: "exercice", fiche: "vanne" })).status).toBe(403);
     expect(prismaMock.user.findUnique).not.toHaveBeenCalled();
   });
 
@@ -170,7 +170,9 @@ describe("POST /api/mesure/acces", () => {
   });
 
   it.each([
-    [{ type: "liste", liste: "blagues" }],
+    // Listes : toutes leurs pages sont publiques (§5.2), le signal n'existe plus.
+    [{ type: "liste", liste: "vannes" }],
+    [{ type: "exercice", fiche: "blague" }],
     [{ type: "exercice", fiche: "conseil", texte: "yanis@exemple.fr" }],
     [{ type: "etape", parcours: "repartie", etape: 1 }],
     [{ type: "etape", parcours: "Répartie !", etape: 2 }],
@@ -198,18 +200,18 @@ describe("POST /api/mesure/acces", () => {
     const r1 = await acces({ type: "etape", parcours: "repartie", etape: 2 });
     expect(r1.status).toBe(204);
     expect(await r1.text()).toBe("");
-    expect((await acces({ type: "liste", liste: "conseils" })).status).toBe(204);
+    expect((await acces({ type: "exercice", fiche: "conseil" })).status).toBe(204);
     expect((await acces({ type: "exercice", fiche: "video" })).status).toBe(204);
     expect(types(u)).toEqual(["premier_acces_premium/etape:2"]);
     abonnementStripe = "sub_2"; // réabonnement
-    await acces({ type: "liste", liste: "vannes" });
-    expect(types(u)).toEqual(["premier_acces_premium/etape:2", "premier_acces_premium/liste-vannes"]);
+    await acces({ type: "exercice", fiche: "vanne" });
+    expect(types(u)).toEqual(["premier_acces_premium/etape:2", "premier_acces_premium/exercice-vanne"]);
   });
 
   it("base en panne : 204 quand même", async () => {
     seConnecter("PREMIUM");
     basePanne = true;
-    expect((await acces({ type: "liste", liste: "videos" })).status).toBe(204);
+    expect((await acces({ type: "exercice", fiche: "video" })).status).toBe(204);
   });
 });
 

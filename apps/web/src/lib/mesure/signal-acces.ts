@@ -12,13 +12,11 @@ export const MESURE_ACCES_API = "/api/mesure/acces";
 /** Corps du signal (validé côté serveur par `CORPS_SIGNAL_ACCES` de la route, liste fermée). */
 export type SignalAcces =
   | { type: "etape"; parcours: string; etape: number }
-  | { type: "liste"; liste: "vannes" | "conseils" | "videos" }
   | { type: "exercice"; fiche: "conseil" | "video" | "vanne" };
 
-/** Détail fermé enregistré pour un signal (`etape:<n>`, `liste-vannes`, `exercice-conseil`…). */
+/** Détail fermé enregistré pour un signal (`etape:<n>`, `exercice-conseil`…). */
 export function detailSignal(signal: SignalAcces): string {
   if (signal.type === "etape") return `etape:${signal.etape}`;
-  if (signal.type === "liste") return `liste-${signal.liste}`;
   return `exercice-${signal.fiche}`;
 }
 

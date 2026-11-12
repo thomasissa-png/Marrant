@@ -3,15 +3,14 @@
  * quand il est RÉELLEMENT à l'écran (au moins à moitié visible pendant 1 s), jamais au chargement.
  * - `signalerAcces` : un seul envoi par signal, `keepalive`, aucune attente ;
  * - bloc exercice d'une fiche : abonné seulement, après 1 s de visibilité ; HTML inchangé ;
- * - listes : premier élément de rang supérieur à la limite gratuite (page 1), premier élément de
- *   la page (page 2 et suivantes) ; rien si la page s'arrête à la limite ; rien pour un non-abonné.
+ * - listes vannes, conseils, vidéos : jamais observées (toutes leurs pages sont publiques) ;
  * IntersectionObserver simulé (jsdom n'en a pas).
  */
+import { readFileSync } from "fs";
+import { join } from "path";
 import { act, render, screen } from "@testing-library/react";
-import { useRef } from "react";
 import { useSession } from "next-auth/react";
 import { BlocExercice } from "@/components/premium/bloc-exercice";
-import { useListeAuDelaVue } from "@/hooks/use-vu-mesure";
 import { MESURE_ACCES_API, oublierSignaux, signalerAcces } from "@/lib/mesure/signal-acces";
 
 jest.mock("next-auth/react", () => ({ useSession: jest.fn(() => ({ status: "unauthenticated", data: null })) }));
@@ -65,8 +64,8 @@ const abonne = () => session.mockReturnValue({ status: "authenticated", data: { 
 
 describe("signalerAcces", () => {
   it("un seul envoi par signal et par page, en keepalive", () => {
-    signalerAcces({ type: "liste", liste: "vannes" });
-    signalerAcces({ type: "liste", liste: "vannes" });
+    signalerAcces({ type: "exercice", fiche: "vanne" });
+    signalerAcces({ type: "exercice", fiche: "vanne" });
     signalerAcces({ type: "exercice", fiche: "video" });
     expect(fetchMock).toHaveBeenCalledTimes(2);
     expect(fetchMock.mock.calls[0][1]).toMatchObject({ method: "POST", keepalive: true, credentials: "same-origin" });
@@ -115,44 +114,12 @@ describe("bloc exercice d'une fiche", () => {
   });
 });
 
-function Grille({ page, taille, nb, limite }: { page: number; taille: number; nb: number; limite: number }) {
-  const grille = useRef<HTMLDivElement>(null);
-  useListeAuDelaVue({ liste: "vannes", grille, page, taille, nb, limite, pret: true, cle: "" });
-  return (
-    <div ref={grille} role="tabpanel">
-      {Array.from({ length: nb }, (_, i) => (
-        <div key={i} data-rang={(page - 1) * taille + i + 1} />
-      ))}
-    </div>
+describe("listes vannes, conseils, vidéos (pages publiques pour tout visiteur, §5.2)", () => {
+  it.each(["vannes/vannes-list.tsx", "conseils/conseils-list.tsx", "videos/videos-grid.tsx"])(
+    "%s n'envoie aucun signal de mesure",
+    (fichier) => {
+      const source = readFileSync(join(__dirname, "../../components", fichier), "utf8");
+      expect(source).not.toMatch(/signalerAcces|use-vu-mesure|mesure\/acces/);
+    },
   );
-}
-
-describe("listes : élément au-delà de la limite gratuite", () => {
-  it("page 1 de 12, limite 10 : la 11e carte est observée ; vue 1 s = un signal", () => {
-    abonne();
-    render(<Grille page={1} taille={12} nb={12} limite={10} />);
-    expect(observes.map((o) => o.element.getAttribute("data-rang"))).toEqual(["11"]);
-    voir(observes[0].element, 1);
-    act(() => jest.advanceTimersByTime(1_000));
-    expect(envoisMesure()).toEqual([{ type: "liste", liste: "vannes" }]);
-  });
-
-  it("page 2 : la première carte de la page", () => {
-    abonne();
-    render(<Grille page={2} taille={10} nb={10} limite={3} />);
-    expect(observes.map((o) => o.element.getAttribute("data-rang"))).toEqual(["11"]);
-  });
-
-  it("page qui s'arrête à la limite (10 sur 10) : rien d'observé", () => {
-    abonne();
-    render(<Grille page={1} taille={12} nb={10} limite={10} />);
-    expect(observes).toHaveLength(0);
-  });
-
-  it("non-abonné : rien d'observé, aucun signal", () => {
-    render(<Grille page={2} taille={12} nb={12} limite={10} />);
-    expect(observes).toHaveLength(0);
-    act(() => jest.advanceTimersByTime(5_000));
-    expect(envoisMesure()).toEqual([]);
-  });
 });

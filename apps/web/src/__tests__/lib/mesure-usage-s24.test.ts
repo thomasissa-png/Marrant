@@ -56,7 +56,9 @@ describe("détail fermé (aucun texte libre)", () => {
     expect(detailFerme("souscription", "month")).toBe("month");
     expect(detailFerme("souscription", "iap")).toBe("iap");
     expect(detailFerme("premier_acces_premium", "etape:3")).toBe("etape:3");
-    expect(detailFerme("premier_acces_premium", "liste-conseils")).toBe("liste-conseils");
+    expect(detailFerme("premier_acces_premium", "exercice-conseil")).toBe("exercice-conseil");
+    // Listes : pages publiques, jamais un premier accès (§5.2).
+    expect(detailFerme("premier_acces_premium", "liste-conseils")).toBeNull();
     expect(detailFerme("aha", "etape:1")).toBe("etape:1");
     expect(detailFerme("aha", "quiz:2")).toBe("quiz:2");
     expect(detailFerme("resiliation_programmee", "too_expensive")).toBe("too_expensive");
@@ -113,11 +115,11 @@ describe("premier accès Premium et « aha » : une fois par abonnement", () => 
 
   it("deuxième accès ignoré ; nouvel abonnement = nouveau premier accès ; identifiant Stripe jamais stocké", async () => {
     const { db, lignes, abonnements } = fausseBase({ u1: "sub_premier" });
-    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "liste-vannes", { now: T0, db })).toBe(true);
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "exercice-vanne", { now: T0, db })).toBe(true);
     expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: T0, db })).toBe(false);
     abonnements.u1 = "sub_second";
     expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { now: T0, db })).toBe(true);
-    expect(lignes.map((l) => l.detail)).toEqual(["liste-vannes", "carnet"]);
+    expect(lignes.map((l) => l.detail)).toEqual(["exercice-vanne", "carnet"]);
     expect(new Set(lignes.map((l) => l.dedupKey)).size).toBe(2);
     expect(JSON.stringify(lignes)).not.toMatch(/sub_/);
   });
@@ -128,7 +130,7 @@ describe("premier accès Premium et « aha » : une fois par abonnement", () => 
     // Réabonnement : l'activation (webhook ou page de succès) pose le nouvel abonnement, la ligne
     // `souscription` n'est pas encore écrite.
     abonnements.u1 = "sub_nouveau";
-    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "liste-videos", { now: T0, db })).toBe(true);
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "exercice-video", { now: T0, db })).toBe(true);
     expect(lignes).toHaveLength(2);
   });
 

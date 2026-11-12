@@ -48,11 +48,8 @@ export const MOTIFS_STRIPE = [
 /** Détails admis par type (valeur exacte, ou `tête:suffixe` pour les têtes de `AVEC_SUFFIXE`). */
 const DETAILS: Record<TypeEvenement, readonly string[]> = {
   souscription: ["month", "year", "iap"],
-  premier_acces_premium: [
-    "liste-vannes", "liste-conseils", "liste-videos",
-    "exercice-conseil", "exercice-video", "exercice-vanne",
-    "carnet", "etape",
-  ],
+  // Pas de listes : toutes les pages des listes sont publiques (§5.2).
+  premier_acces_premium: ["exercice-conseil", "exercice-video", "exercice-vanne", "carnet", "etape"],
   aha: ["etape", "quiz"],
   jour_pratique: ["quiz"],
   resiliation_programmee: MOTIFS_STRIPE,

@@ -1,9 +1,7 @@
 "use client";
 
 import { contenuAffiche } from "@/lib/tip-prose";
-import { useEffect, useRef, useState, useCallback } from "react";
-import { useListeAuDelaVue } from "@/hooks/use-vu-mesure";
-import { FREE_JOKE_LIMIT } from "@/config/premium";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -118,18 +116,6 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
   const [totalReal, setTotalReal] = useState(0);
   // Mur Premium visible (cartes verrouillées + offre) : mesuré une fois (audit s16).
   useMurVu(limited && (jokes.length > 0 || page > 1), "vannes");
-  // s24 mesure (lot 0, §5.2) : premier élément au-delà de la limite gratuite vu par un abonné. Rendu inchangé.
-  const grille = useRef<HTMLDivElement>(null);
-  useListeAuDelaVue({
-    liste: "vannes",
-    grille,
-    page,
-    taille: pagination?.limit ?? 12,
-    nb: jokes.length,
-    limite: FREE_JOKE_LIMIT,
-    pret: !isLoading && pagination?.page === page,
-    cle: `${category}|${searchQuery}`,
-  });
 
   // Éviter le flash du skeleton si le fetch est rapide
   useEffect(() => {
@@ -252,7 +238,7 @@ export function VannesList({ initialData = null, initialPage = 1 }: VannesListPr
           ctaHref="/vannes"
         />
       ) : (
-        <div ref={grille} className="grid gap-4 md:grid-cols-2" role="tabpanel">
+        <div className="grid gap-4 md:grid-cols-2" role="tabpanel">
           {jokes.map((joke, index) => (
             <Card
               key={joke.id}

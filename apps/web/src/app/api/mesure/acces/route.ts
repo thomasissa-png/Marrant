@@ -10,8 +10,9 @@ import { detailSignal, type SignalAcces } from "@/lib/mesure/signal-acces";
 
 /**
  * POST /api/mesure/acces (s24, lot 0) : un contenu réservé vient d'être RÉELLEMENT affiché à un
- * abonné (définitions du §5.2 du brief espace client) : étape 2+ dépliée, élément de liste au-delà
- * de la limite gratuite entré dans la vue, bloc exercice d'une fiche entré dans la vue. Appelée par
+ * abonné (définitions du §5.2 du brief espace client) : étape 2+ dépliée, bloc exercice d'une fiche
+ * entré dans la vue. Les listes (vannes, conseils, vidéos) ne comptent pas : toutes leurs pages
+ * sont publiques, vues par tout visiteur. Appelée par
  * le navigateur sans attendre de réponse (`keepalive`) : aucun effet sur le rendu.
  *
  * Session obligatoire (401), plan relu EN BASE (403 sinon Premium), corps d'une liste fermée (400),
@@ -23,7 +24,6 @@ export const dynamic = "force-dynamic";
 /** Liste fermée des signaux admis (tout autre champ ou valeur = 400). */
 const CORPS_SIGNAL_ACCES = z.discriminatedUnion("type", [
   z.object({ type: z.literal("etape"), parcours: z.string().regex(/^[a-z0-9-]{1,80}$/), etape: z.number().int().min(2).max(100) }).strict(),
-  z.object({ type: z.literal("liste"), liste: z.enum(["vannes", "conseils", "videos"]) }).strict(),
   z.object({ type: z.literal("exercice"), fiche: z.enum(["conseil", "video", "vanne"]) }).strict(),
 ]) satisfies z.ZodType<SignalAcces>;
 

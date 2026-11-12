@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type RefObject } from "react";
-import { useSession } from "next-auth/react";
-import { isPremiumPlan } from "@/lib/parcours-access";
-import { signalerAcces } from "@/lib/mesure/signal-acces";
+import { useEffect, useRef } from "react";
 
 /** Part minimale visible (de l'élément, ou de la hauteur d'écran pour un élément plus grand). */
 const PART_VISIBLE = 0.5;
@@ -57,29 +54,3 @@ export function useVuMesure(cible: () => Element | null, actif: boolean, cle: st
   }, [actif, cle]);
 }
 
-/**
- * Liste des vannes, conseils ou vidéos (s24 mesure, §5.2) : premier élément de rang supérieur à la
- * limite gratuite (page 2 et suivantes : le premier de la page) entré dans la vue d'un abonné =
- * premier accès Premium. Cible = enfant direct de la grille (`grille`), aucun attribut ajouté.
- */
-export function useListeAuDelaVue(options: {
-  liste: "vannes" | "conseils" | "videos";
-  grille: RefObject<HTMLElement>;
-  page: number;
-  taille: number;
-  nb: number;
-  limite: number;
-  pret: boolean;
-  cle: string;
-}): void {
-  const { data: session, status } = useSession();
-  const abonne = status === "authenticated" && isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan);
-  const debut = (options.page - 1) * options.taille;
-  const rang = Math.max(options.limite, debut) - debut;
-  useVuMesure(
-    () => options.grille.current?.children.item(rang) ?? null,
-    abonne && options.pret && rang < options.nb,
-    `${options.cle}|${options.page}|${options.nb}`,
-    () => signalerAcces({ type: "liste", liste: options.liste }),
-  );
-}
