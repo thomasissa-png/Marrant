@@ -87,14 +87,15 @@ export async function POST(req: NextRequest) {
             // iapExpirationDate: expirationDate,
           },
         });
-        // s24 mesure (lot 0) : achat dans l'application = souscription (heure de l'événement).
-        // Rejeu = même clé. Ne lève jamais.
-        if (eventType === "INITIAL_PURCHASE") {
-          const acheteLe = typeof event.event_timestamp_ms === "number" ? new Date(event.event_timestamp_ms) : new Date();
-          await noterEvenement("souscription", appUserId, {
+        // s24 mesure (lot 0) : achat dans l'application = souscription, renouvellement = prélèvement
+        // payé (heure de l'événement). Rejeu = même clé. Ne lève jamais.
+        if (eventType === "INITIAL_PURCHASE" || eventType === "RENEWAL") {
+          const type = eventType === "INITIAL_PURCHASE" ? "souscription" : "renouvellement_paye";
+          const le = typeof event.event_timestamp_ms === "number" ? new Date(event.event_timestamp_ms) : new Date();
+          await noterEvenement(type, appUserId, {
             detail: "iap",
-            occurredAt: acheteLe,
-            dedupKey: cleUnique("souscription", appUserId, Math.floor(acheteLe.getTime() / 1000)),
+            occurredAt: le,
+            dedupKey: cleUnique(type, appUserId, Math.floor(le.getTime() / 1000)),
           });
         }
         break;

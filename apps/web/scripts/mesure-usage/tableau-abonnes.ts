@@ -7,7 +7,7 @@
  * dans l'ordre des souscriptions. Heures affichées en heure de Paris. L'URL de base n'est jamais
  * affichée. Sortie : Markdown sur la sortie standard.
  *
- * Options (dates ISO, ex. 2026-11-08 = minuit UTC) :
+ * Options (date seule = minuit à PARIS, ex. 2026-11-08 ; ou date-heure ISO avec fuseau) :
  *   --depuis <date>      ignorer les souscriptions antérieures (facteur confondant du §5.2) ;
  *   --activation <date>  activation de l'espace : référence (10 dernières avant) et suivantes ;
  *                        le seuil « cas par cas sous 15 » porte alors sur les abonnés d'après.
@@ -24,6 +24,7 @@ import { readFileSync } from "fs";
 import { neon } from "@neondatabase/serverless";
 import { EnvHttpProxyAgent, setGlobalDispatcher } from "undici";
 import {
+  lireDateParis,
   SQL_JSON,
   SQL_SANS_SOUSCRIPTION,
   SQL_TABLEAU_ABONNES,
@@ -40,8 +41,8 @@ function argument(nom: string): string | null {
 function dateOption(nom: string): Date | null {
   const v = argument(nom);
   if (!v) return null;
-  const d = new Date(v);
-  if (Number.isNaN(d.getTime())) throw new Error(`${nom} : date illisible (${v}).`);
+  const d = lireDateParis(v);
+  if (!d) throw new Error(`${nom} : date illisible (${v}).`);
   return d;
 }
 

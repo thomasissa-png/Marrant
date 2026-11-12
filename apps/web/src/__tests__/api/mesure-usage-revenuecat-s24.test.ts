@@ -3,7 +3,7 @@
  *
  * s24 lot 0 (QA tour 1, correction 10) : un achat dans l'application (RevenueCat, INITIAL_PURCHASE)
  * écrit aussi la ligne `souscription` (détail `iap`, heure de l'événement, clé stable au rejeu).
- * Renouvellement : pas une souscription. Écriture en échec : 200 et Premium activé.
+ * `RENEWAL` = `renouvellement_paye` (détail `iap`). Opposition respectée. Écriture en échec : 200.
  */
 const usageCreate = jest.fn();
 const prismaMock = {
@@ -49,9 +49,33 @@ it("INITIAL_PURCHASE : Premium et une ligne souscription « iap » à l'heure de
   });
 });
 
-it("RENEWAL : pas une souscription", async () => {
-  await livrer("RENEWAL");
+it("RENEWAL : renouvellement payé « iap » à l'heure de l'événement, pas une souscription", async () => {
+  expect((await livrer("RENEWAL")).status).toBe(200);
+  expect(usageCreate).toHaveBeenCalledTimes(1);
+  expect(usageCreate).toHaveBeenCalledWith({
+    data: {
+      userId: "user-iap",
+      type: "renouvellement_paye",
+      detail: "iap",
+      occurredAt: new Date(1_762_000_000_000),
+      dedupKey: "renouvellement_paye:user-iap:1762000000",
+    },
+  });
+});
+
+it("PRODUCT_CHANGE ou UNCANCELLATION : rien de mesuré", async () => {
+  await livrer("PRODUCT_CHANGE");
+  await livrer("UNCANCELLATION");
   expect(usageCreate).not.toHaveBeenCalled();
+});
+
+it("compte opposé à la mesure : rien n'est écrit, Premium activé", async () => {
+  prismaMock.webhookEvent.findUnique.mockImplementation(async ({ where }: { where: { eventId: string } }) =>
+    where.eventId === "mesure-usage:opposition:user-iap" ? { id: "m" } : null,
+  );
+  expect((await livrer("INITIAL_PURCHASE")).status).toBe(200);
+  expect(usageCreate).not.toHaveBeenCalled();
+  prismaMock.webhookEvent.findUnique.mockReset().mockResolvedValue(null);
 });
 
 it("écriture en échec : 200", async () => {

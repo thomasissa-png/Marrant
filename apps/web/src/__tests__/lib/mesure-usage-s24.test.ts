@@ -10,6 +10,7 @@
 jest.mock("@/lib/prisma", () => ({ prisma: {} }));
 
 import {
+  cleOpposition,
   cleUnique,
   detailFerme,
   noterEvenement,
@@ -20,9 +21,14 @@ import {
 
 type Ligne = { userId: string; type: string; detail: string | null; occurredAt: Date; dedupKey: string | null };
 
-function fausseBase(abonnements: Record<string, string | null> = {}) {
+function fausseBase(abonnements: Record<string, string | null> = {}, opposes: string[] = []) {
   const lignes: Ligne[] = [];
   const db = {
+    webhookEvent: {
+      findUnique: jest.fn(async ({ where }: { where: { eventId: string } }) =>
+        opposes.some((u) => where.eventId === `mesure-usage:opposition:${u}`) ? { id: "m" } : null,
+      ),
+    },
     usageEvent: {
       create: jest.fn(async ({ data }: { data: Ligne }) => {
         if (data.dedupKey && lignes.some((l) => l.dedupKey === data.dedupKey)) {
@@ -41,7 +47,7 @@ function fausseBase(abonnements: Record<string, string | null> = {}) {
       ),
     },
   };
-  return { db: db as unknown as MesureDb, brut: db, lignes, abonnements };
+  return { db: db as unknown as MesureDb, brut: db, lignes, abonnements, opposes };
 }
 
 const T0 = new Date("2026-11-20T09:00:00Z");
@@ -92,7 +98,10 @@ describe("noterEvenement", () => {
   });
 
   it("écriture en échec (table absente) : false, aucune exception, journal sans identifiant", async () => {
-    const db = { usageEvent: { create: jest.fn().mockRejectedValue(Object.assign(new Error("relation u-secret"), { code: "P2021" })) } };
+    const db = {
+      webhookEvent: { findUnique: jest.fn().mockResolvedValue(null) },
+      usageEvent: { create: jest.fn().mockRejectedValue(Object.assign(new Error("relation u-secret"), { code: "P2021" })) },
+    };
     await expect(noterEvenement("souscription", "u-secret", { db: db as unknown as MesureDb })).resolves.toBe(false);
     expect(warn).toHaveBeenCalledWith("[mesure] souscription non enregistré (P2021)");
     expect(JSON.stringify(warn.mock.calls)).not.toContain("u-secret");
@@ -152,6 +161,7 @@ describe("premier accès Premium et « aha » : une fois par abonnement", () => 
 
   it("lecture en échec : false, aucune exception, aucune écriture", async () => {
     const db = {
+      webhookEvent: { findUnique: jest.fn().mockResolvedValue(null) },
       subscription: { findUnique: jest.fn().mockRejectedValue(new Error("base en panne")) },
       usageEvent: { create: jest.fn(), findUnique: jest.fn() },
     };
@@ -167,5 +177,40 @@ describe("jour de pratique (quiz)", () => {
     await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T22:30:00Z"), db }); // 23 h 30 à Paris
     await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T23:30:00Z"), db }); // lendemain à Paris
     expect(lignes).toHaveLength(2);
+  });
+});
+
+describe("opposition durable (marqueur `mesure-usage:opposition:<compte>`, sans migration)", () => {
+  it("compte opposé : aucune écriture, quel que soit l'événement ; les autres comptes continuent", async () => {
+    const { db, lignes } = fausseBase({ u1: "sub_1", u2: "sub_2" }, ["u1"]);
+    expect(cleOpposition("u1")).toBe("mesure-usage:opposition:u1");
+    expect(await noterEvenement("souscription", "u1", { db })).toBe(false);
+    expect(await noterEvenement("portail_ouvert", "u1", { detail: "resilier", db })).toBe(false);
+    expect(await noterPremiereFois("premier_acces_premium", "PREMIUM", "u1", "carnet", { db })).toBe(false);
+    expect(await noterPremiereFois("aha", "PREMIUM", "u1", "etape:1", { db })).toBe(false);
+    expect(await noterJourPratique("u1", "quiz", { db })).toBe(false);
+    expect(await noterPremiereFois("aha", "PREMIUM", "u2", "etape:1", { db })).toBe(true);
+    expect(lignes.map((l) => l.userId)).toEqual(["u2"]);
+  });
+
+  it("opposition posée après coup : plus rien n'est écrit ensuite", async () => {
+    const { db, lignes, opposes } = fausseBase({ u1: "sub_1" });
+    await noterJourPratique("u1", "quiz", { now: new Date("2026-11-20T08:00:00Z"), db });
+    opposes.push("u1");
+    await noterJourPratique("u1", "quiz", { now: new Date("2026-11-21T08:00:00Z"), db });
+    expect(lignes).toHaveLength(1);
+  });
+
+  it("opposition illisible (base en panne) : on n'écrit pas", async () => {
+    const { db, brut, lignes } = fausseBase({ u1: "sub_1" });
+    brut.webhookEvent.findUnique.mockRejectedValueOnce(new Error("panne"));
+    expect(await noterEvenement("souscription", "u1", { db })).toBe(false);
+    expect(lignes).toHaveLength(0);
+  });
+
+  it("premier accès : l'opposition n'est lue qu'une fois pour la lecture et l'écriture", async () => {
+    const { db, brut } = fausseBase({ u3: "sub_3" });
+    await noterPremiereFois("premier_acces_premium", "PREMIUM", "u3", "carnet", { db });
+    expect(brut.webhookEvent.findUnique).toHaveBeenCalledTimes(1);
   });
 });

@@ -124,6 +124,32 @@ const FORMAT_PARIS = new Intl.DateTimeFormat("fr-FR", {
   year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit",
 });
 
+/**
+ * Date d'option de lecture (`--depuis`, `--activation`) : une date seule (AAAA-MM-JJ) = minuit à
+ * PARIS ; une date-heure avec fuseau (ISO) est prise telle quelle. null si illisible.
+ */
+export function lireDateParis(v: string): Date | null {
+  const jour = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v.trim());
+  if (!jour) {
+    const d = new Date(v);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+  const [a, m, j] = [Number(jour[1]), Number(jour[2]), Number(jour[3])];
+  const cible = Date.UTC(a, m - 1, j);
+  // Décalage de Paris à cet instant (1 h ou 2 h), recalculé une fois pour les jours de changement d'heure.
+  const decalage = (t: number) => {
+    const p = Object.fromEntries(
+      new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit" })
+        .formatToParts(new Date(t))
+        .map((x) => [x.type, x.value]),
+    );
+    return Date.UTC(Number(p.year), Number(p.month) - 1, Number(p.day), Number(p.hour), Number(p.minute)) - t;
+  };
+  let t = cible - decalage(cible);
+  t = cible - decalage(t);
+  return new Date(t);
+}
+
 /** « 01/10/2026 12:00 » en heure de Paris, quel que soit le fuseau de la machine. */
 export function heureParis(d: Date): string {
   return FORMAT_PARIS.format(d).replace(",", "");
@@ -167,7 +193,8 @@ export interface LigneAbonne {
   clicResilierMs: number | null;
   resiliationMs: number | null;
   motif: string | null;
-  actifDeuxiemePrelevement: "oui" | "non" | "pas encore";
+  /** « inconnu (application) » : achat dans l'application sans renouvellement reçu (formule inconnue). */
+  actifDeuxiemePrelevement: "oui" | "non" | "pas encore" | "inconnu (application)";
 }
 
 /** Calcule les délais (aucun identifiant : lettre du rang, suffixée pour une 2e souscription). */
@@ -197,7 +224,9 @@ export function lignesAbonnes(brutes: LigneBrute[], now: Date): LigneAbonne[] {
         ? "oui"
         : now.getTime() < echeance.getTime() + GRACE_PRELEVEMENT
           ? "pas encore"
-          : "non",
+          : b.formule === "iap"
+            ? "inconnu (application)"
+            : "non",
     });
   }
   return lignes;
@@ -238,7 +267,7 @@ function indicateurs(lignes: LigneAbonne[], titre: string): string[] {
   }
   const sur = (x: number, total: number) => `${x} sur ${total}`;
   const j7 = lignes.filter((l) => l.joursPratiqueJ7 !== null);
-  const dus = lignes.filter((l) => l.actifDeuxiemePrelevement !== "pas encore");
+  const dus = lignes.filter((l) => l.actifDeuxiemePrelevement === "oui" || l.actifDeuxiemePrelevement === "non");
   const t = lignes.length;
   return [
     `${titre} : ${n} abonnés (${t} souscriptions), indicateurs avancés dans l'ordre du §5.2 :`,

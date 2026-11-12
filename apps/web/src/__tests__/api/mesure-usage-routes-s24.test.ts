@@ -55,8 +55,14 @@ const TIPS = Array.from({ length: 12 }, (_, i) => ({ id: `t${i + 1}`, title: `Co
 const VIDEOS = Array.from({ length: 12 }, (_, i) => ({ id: `v${i + 1}`, title: `Vidéo ${i + 1}`, exercise: "EXO", learnings: ["P"] }));
 const transaction = jest.fn();
 const learningPathStepFindFirst = jest.fn();
+const opposes = new Set<string>();
 const prismaMock = {
   usageEvent,
+  webhookEvent: {
+    findUnique: jest.fn(async ({ where }: { where: { eventId: string } }) =>
+      opposes.has(where.eventId.replace("mesure-usage:opposition:", "")) ? { id: "m" } : null,
+    ),
+  },
   user: {
     findUnique: jest.fn(async () => (plan ? { plan, streak: 0, lastPracticeAt: null } : null)),
     update: jest.fn().mockResolvedValue({}),
@@ -115,6 +121,7 @@ const acces = (corps: unknown) =>
 
 beforeEach(() => {
   lignes.length = 0;
+  opposes.clear();
   basePanne = false;
   abonnementStripe = "sub_1";
   memeSite.mockReturnValue(null);
@@ -206,6 +213,17 @@ describe("POST /api/mesure/acces", () => {
     abonnementStripe = "sub_2"; // réabonnement
     await acces({ type: "exercice", fiche: "vanne" });
     expect(types(u)).toEqual(["premier_acces_premium/etape:2", "premier_acces_premium/exercice-vanne"]);
+  });
+
+  it("compte opposé à la mesure : 204, aucune ligne (signal, quiz, portail)", async () => {
+    const u = seConnecter("PREMIUM");
+    opposes.add(u);
+    expect((await acces({ type: "exercice", fiche: "conseil" })).status).toBe(204);
+    expect((await postQuiz(new NextRequest("http://localhost/api/parcours/p1/quiz", { method: "POST", body: JSON.stringify({ stepOrder: 2 }) }), { params: { id: "p1" } })).status).toBe(200);
+    portalCreate.mockResolvedValueOnce({ url: "https://billing.stripe.com/p/9" });
+    expect((await postPortail(new Request("http://localhost/api/user/subscription/portal", { method: "POST", body: JSON.stringify({ parcours: "carte" }) }))).status).toBe(200);
+    expect(types(u)).toEqual([]);
+    expect(usageEvent.create).not.toHaveBeenCalledWith(expect.objectContaining({ data: expect.objectContaining({ userId: u }) }));
   });
 
   it("base en panne : 204 quand même", async () => {

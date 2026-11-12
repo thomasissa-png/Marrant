@@ -54,7 +54,7 @@ const DETAILS: Record<TypeEvenement, readonly string[]> = {
   jour_pratique: ["quiz"],
   resiliation_programmee: MOTIFS_STRIPE,
   portail_ouvert: ["changer-formule", "resilier", "carte", "simple"],
-  renouvellement_paye: ["month", "year"],
+  renouvellement_paye: ["month", "year", "iap"],
 };
 /** Numéro d'étape (`etape:<n>`, `quiz:<n>`). */
 const AVEC_SUFFIXE = new Set(["etape", "quiz"]);
@@ -80,6 +80,25 @@ export interface MesureDb {
   subscription: {
     findUnique(args: { where: { userId: string }; select: { stripeSubscriptionId: true } }): Promise<{ stripeSubscriptionId: string | null } | null>;
   };
+  webhookEvent: {
+    findUnique(args: { where: { eventId: string }; select: { id: true } }): Promise<{ id: string } | null>;
+  };
+}
+
+/**
+ * Opposition à la mesure (sans migration) : marqueur `WebhookEvent` d'`eventId`
+ * `mesure-usage:opposition:<userId>`, posé à la main (procédure de `REPLIT_ACTIONS.md`), même
+ * patron que les marqueurs de l'onboarding. Lu avant CHAQUE écriture : un compte opposé n'a plus
+ * aucune ligne écrite. Lecture impossible = pas d'écriture (en cas de doute, on n'écrit pas).
+ */
+export const PREFIXE_OPPOSITION = "mesure-usage:opposition:";
+
+export function cleOpposition(userId: string): string {
+  return `${PREFIXE_OPPOSITION}${userId}`;
+}
+
+async function estOppose(db: MesureDb, userId: string): Promise<boolean> {
+  return !!(await db.webhookEvent.findUnique({ where: { eventId: cleOpposition(userId) }, select: { id: true } }));
 }
 
 const dbParDefaut = (): MesureDb => prisma as unknown as MesureDb;
@@ -99,6 +118,8 @@ export interface OptionsEvenement {
   occurredAt?: Date;
   dedupKey?: string | null;
   db?: MesureDb;
+  /** Opposition déjà lue dans la même requête (évite une 2e lecture). */
+  oppositionLue?: boolean;
 }
 
 /** Écrit un événement. Doublon (`dedupKey` déjà pris) = `false` en silence. Ne lève jamais. */
@@ -106,6 +127,7 @@ export async function noterEvenement(type: TypeEvenement, userId: string, option
   if (!userId) return false;
   try {
     const db = options.db ?? dbParDefaut();
+    if (!options.oppositionLue && (await estOppose(db, userId))) return false;
     await db.usageEvent.create({
       data: {
         userId,
@@ -149,11 +171,12 @@ export async function noterPremiereFois(
   if (plan !== "PREMIUM" || !userId) return false;
   try {
     const db = options.db ?? dbParDefaut();
+    if (await estOppose(db, userId)) return false;
     const abonnement = await db.subscription.findUnique({ where: { userId }, select: { stripeSubscriptionId: true } });
     const ancre = abonnement?.stripeSubscriptionId ? empreinte(abonnement.stripeSubscriptionId) : "sans-stripe";
     const dedupKey = cleUnique(type, userId, ancre);
     if (await db.usageEvent.findUnique({ where: { dedupKey }, select: { id: true } })) return false;
-    return await noterEvenement(type, userId, { detail, occurredAt: options.now ?? new Date(), dedupKey, db });
+    return await noterEvenement(type, userId, { detail, occurredAt: options.now ?? new Date(), dedupKey, db, oppositionLue: true });
   } catch (err) {
     console.warn(`[mesure] ${type} non enregistré (${codeErreur(err)})`);
     return false;

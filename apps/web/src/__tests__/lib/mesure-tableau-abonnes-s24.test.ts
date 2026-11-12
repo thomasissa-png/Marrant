@@ -14,6 +14,7 @@ import {
   heureParis,
   lettre,
   lignesAbonnes,
+  lireDateParis,
   SQL_JSON,
   SQL_SANS_SOUSCRIPTION,
   SQL_TABLEAU_ABONNES,
@@ -114,5 +115,40 @@ describe("requêtes", () => {
   it("dates rendues avec fuseau (timestamptz) : aucun pilote ne les relit en heure locale", () => {
     expect(SQL_TABLEAU_ABONNES).toContain(`(s.souscrit_le AT TIME ZONE 'UTC') AS "souscritLe"`);
     expect(SQL_TABLEAU_ABONNES).toContain("AT TIME ZONE 'Europe/Paris')::date");
+  });
+});
+
+describe("options de lecture en heure de Paris (QA tour 2, correction 4)", () => {
+  it("date seule = minuit à Paris (hiver, été, jours de changement d'heure) ; ISO avec fuseau inchangée", () => {
+    expect(lireDateParis("2026-11-08")?.toISOString()).toBe("2026-11-07T23:00:00.000Z");
+    expect(lireDateParis("2026-07-01")?.toISOString()).toBe("2026-06-30T22:00:00.000Z");
+    expect(lireDateParis("2026-03-29")?.toISOString()).toBe("2026-03-28T23:00:00.000Z");
+    expect(lireDateParis("2026-10-25")?.toISOString()).toBe("2026-10-24T22:00:00.000Z");
+    expect(lireDateParis("2026-11-08T12:00:00Z")?.toISOString()).toBe("2026-11-08T12:00:00.000Z");
+    expect(lireDateParis("pas une date")).toBeNull();
+  });
+
+  it("--depuis 2026-11-08 garde une souscription de 00 h 30 à Paris (23 h 30 UTC la veille)", () => {
+    const sortie = tableauAbonnes(
+      [brute({ souscritLe: "2026-11-07T23:30:00+00:00" }), brute({ rang: 2, souscritLe: "2026-11-07T22:30:00+00:00" })],
+      NOW,
+      { depuis: lireDateParis("2026-11-08") },
+    );
+    expect(sortie).toContain("| M-A | 08/11/2026 00:30 |");
+    expect(sortie).not.toContain("| M-B |");
+  });
+});
+
+describe("abonnés de l'application (QA tour 2, correction 5)", () => {
+  it("renouvellement reçu = « oui » ; sans renouvellement après un mois = « inconnu (application) », exclu du « x sur n »", () => {
+    const [a, b, c] = lignesAbonnes(
+      [brute({ formule: "iap", renouvele: true }), brute({ rang: 2, formule: "iap" }), brute({ rang: 3, formule: "iap", souscritLe: "2026-11-10T10:00:00+00:00" })],
+      NOW,
+    );
+    expect(a.actifDeuxiemePrelevement).toBe("oui");
+    expect(b.actifDeuxiemePrelevement).toBe("inconnu (application)");
+    expect(c.actifDeuxiemePrelevement).toBe("pas encore");
+    const lignes = Array.from({ length: 15 }, (_, i) => brute({ rang: i + 1, formule: i < 5 ? "iap" : "month", renouvele: i >= 10 }));
+    expect(tableauAbonnes(lignes, NOW)).toContain("actif au 2e prélèvement : 5 sur 10");
   });
 });
