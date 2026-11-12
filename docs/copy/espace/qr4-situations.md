@@ -1,9 +1,9 @@
-# QR4 : Quoi répondre, lot 4 (10 situations), tour 3
+# QR4 : Quoi répondre, lot 4 (10 situations), tour 4
 
 > Auteur : @copywriter, 12/11/2026. Source : `docs/espace-client/plan-developpement-s24.md` §5 (QR4 : couple 5, études et fac 5) et `docs/espace-client/audit-contenu/architecture-contenu-v20.md` 7.4 : répartition conforme d'après @reviewer (7.4 l. 975 : couple 5 et études 5 ; l'hypothèse est levée). Format de `docs/copy/espace/qr2-situations.md` et `qr3-situations.md`, niveau de `qr1-situations.md`, fautes de `docs/copy/espace/checklist-fautes-recurrentes.md` et des relectures QR1 à QR3, étalons `docs/copy/etalons-espace-s24.md`, ton `docs/copy/ton-alex.md`.
 > Règles tenues : tutoiement, zéro tiret cadratin, zéro émoji, aucune technologie ni concurrent, aucun accord genré dans ce que dit l'utilisateur ni pour l'autre personne (« l'autre », « quelqu'un », « la personne »), on rit avec et jamais contre, une seule bonne réponse par contexte de rafale, guillemets « » avec guillemets intérieurs “ ”. Couple : on rit de soi ou d'un détail neutre, jamais de la peine ni du physique de l'autre, jamais d'une rupture. Études : jamais d'une note, d'un échec ou d'un enseignant.
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
-> **Statut : tour 3 (8 répliques reprises au tour 3, annexe 5) ; au tour 2, 17 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
+> **Statut : tour 4, dernier tour (décision C8) : 3 répliques reprises (C3 joueuse, E4 sûre, C5 risquée, annexe 6) ; tour 3 (8 répliques reprises, annexe 5) ; au tour 2, 17 répliques reprises d'après les trois relectures du tour 1, voir « Tour 2 : retouche → ligne »), à repasser à l'aveugle** (règle d'or : rien en dessous de la barre ne part). Bonnes réponses de rafale : 10 joueuses, 5 sûres, 5 risquées (sur 20 contextes).
 > Chaque situation suit le format de QR2 : scène, `Ta réponse d'abord`, sûre, joueuse, risquée (avec leur pourquoi), comment choisir, l'erreur, à toi, rafale. Les boutons `[Tu avais une réponse ? Oui / À moitié / Rien]`, `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` et `[Ma réplique à moi : une phrase, facultative]` sont communs à toutes les situations. Les mots entre accents graves sont des écrans.
 
 ---
@@ -107,8 +107,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 Tu dis que c'est bon, sans exagérer, et tu annonces que tu reviendras à table : le meilleur signe qu'on puisse donner. Elle ne vise rien et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas encore.
 
 **La joueuse**
-« Laisse-moi finir : je rends mon avis sur l'assiette vide. »
-Tu fais durer l'examen pour continuer à manger : le compliment est dans l'assiette qui se vide. Rien n'est inventé, tu goûtes vraiment, et l'autre sourit de voir l'assiette fondre. À sortir quand l'autre sourit en posant l'assiette.
+« Laisse-moi finir : l'assiette vide parlera pour moi. »
+Tu fais durer le repas pour continuer à manger : l'assiette qui se vide dira le compliment à ta place. Rien n'est inventé, tu goûtes vraiment, et l'autre sourit de la voir fondre. À sortir quand l'autre sourit en posant l'assiette.
 
 **La risquée**
 « Premier avis : reçu. La mention se décide à la deuxième assiette. »
@@ -187,8 +187,8 @@ Tu décides vite, avec un critère si bas qu'il ne peut pas échouer. Elle ne vi
 Tu décides en désignant un lieu et tu prêtes à ton avis une timidité affamée : il est là, il tranche. La phrase fait entrer, la soirée avance. À sortir quand l'autre sourit en demandant.
 
 **La risquée**
-« Jeu rapide : le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. »
-Tu inventes un jeu minuscule qui tranche sans que personne ait à réfléchir. Elle ne vise personne, seulement l'indécision partagée. Elle marche seulement si l'autre propose déjà un hasard (pile ou face, tirage au sort). Sinon elle ressemble à une dispute lancée dans la rue : prends la sûre.
+« On suit la première personne qui sort d'un restaurant en souriant. Elle a testé pour nous. »
+Tu confies le choix à un inconnu qui sort, un hasard avec du flair, plus fiable que vous deux. Elle ne vise personne, seulement l'indécision partagée. Elle marche seulement si l'autre propose déjà un hasard (pile ou face, tirage au sort). Sinon elle ressemble à une dispute lancée dans la rue : prends la sûre.
 
 **Comment choisir**
 L'autre sourit en demandant ? Monte d'un cran. L'autre propose déjà un tirage au sort ou un jeu ? Monte encore. Sinon, reste sur la sûre.
@@ -201,8 +201,8 @@ Renvoyer la question (« non, toi, je n'ai pas d'avis, vraiment, dis-moi »). Tu
 La prochaine fois que vous hésitez sur un lieu, dis la sûre ou la joueuse en marchant, sans t'arrêter. Une seule fois.
 
 **Dans la rafale (deux contextes, une seule bonne réponse chacun)**
-1. « L'autre le demande en souriant, sans proposer de hasard » : la joueuse. Un sourire est là, donc la sûre serait timide ; aucun jeu n'a été proposé, donc la risquée en lancerait un dans la rue.
-2. « L'autre ajoute en riant : “On pourrait tirer au sort, franchement” » : la risquée. L'autre a proposé un hasard : ce jeu lui répond en face ; la joueuse parlerait de ton avis sans rendre la main, la sûre fermerait un jeu déjà lancé.
+1. « L'autre le demande en souriant, sans proposer de hasard » : la joueuse. Un sourire est là, donc la sûre serait timide ; aucun hasard n'a été proposé, donc la risquée lancerait une méthode que personne n'a ouverte.
+2. « L'autre ajoute en riant : “On pourrait tirer au sort, franchement” » : la risquée. L'autre a proposé un hasard : « on suit la première personne qui sort » lui répond en face ; la joueuse parlerait de ton avis sans rendre la main, la sûre fermerait un jeu déjà lancé.
 
 ## B. Études et fac (5 situations)
 
@@ -335,8 +335,8 @@ Avant de lire la suite, dis ta réponse à voix haute, ou dans ta tête : ça co
 `[Tu avais une réponse ? Oui / À moitié / Rien]`
 
 **La sûre**
-« Je finis d'abord mes études. Les plans sont dans la file d'attente. »
-Tu réponds sur le présent, sans te lancer dans un projet inventé, et tu mets l'avenir en file d'attente. Elle ne vise personne et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas.
+« Pour l'instant, étudier est mon seul métier. »
+Tu réponds sur le présent en faisant des études un métier à temps plein, sans te lancer dans un projet inventé. Elle ne vise personne et se ferme toute seule. C'est la bonne quand l'autre ne sourit pas.
 
 **La joueuse**
 « Mon plan est très solide. Il n'a qu'un défaut : il n'existe pas encore. »
@@ -513,6 +513,24 @@ Recherche web (12/11/2026, idée et phrase) : **0 occurrence exacte** pour les 8
 | C5 risquée : jeu connu, ordre sec ; pourquoi « sans qu'aucun des deux ait à décider » (critique, reviewer) | « …le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. » ; pourquoi : « sans que personne ait à réfléchir ». |
 | E4 sûre : formule d'usage (critique) | « Je finis d'abord mes études. Les plans sont dans la file d'attente. » (E4 joueuse gardée, notée 10 par @reviewer et @elon) |
 | Pourquoi : « celui qui » (C2), « gamin » (C4) (reviewer) | C2 risquée : « la personne qui en détient le plus à minuit gagne » ; C4 joueuse : « une impatience d'enfant ». |
+
+## Annexe 6 : candidates du tour 4 (3 par réplique reprise, la meilleure gardée)
+
+| Situation | Gardée | Écartée 1 (pourquoi) | Écartée 2 (pourquoi) |
+|---|---|---|---|
+| C3 joueuse | « Laisse-moi finir : l'assiette vide parlera pour moi. » | « Laisse-moi finir : je rends mon avis sur l'assiette vide. » (reprend « avis » et « examen » comme la risquée : deux bonnes réponses au contexte 2) | « Laisse-moi finir l'assiette : mon avis est au fond. » (même mot « avis », « au fond » ambigu) |
+| E4 sûre | « Pour l'instant, étudier est mon seul métier. » | « Je finis d'abord mes études. Les plans sont dans la file d'attente. » (reprend l'image de la file d'attente et du « plan » de la joueuse) | « Pour l'instant, c'est mon seul métier. » (« c' » sans antécédent dans la question) |
+| C5 risquée | « On suit la première personne qui sort d'un restaurant en souriant. Elle a testé pour nous. » | « Jeu rapide : le premier nom qui te passe par la tête, et on y va. Interdit de réfléchir. » (jeu connu, fin en ordre sec) | « La prochaine personne qui sort d'un restaurant décide : on entre là d'où elle vient. » (même idée, moins nette et sans chute) |
+
+Recherche web (12/11/2026, idée et phrase) : **0 occurrence exacte** pour les 3 répliques modifiées au tour 4 ; l'idée de choisir en suivant ceux qui sortent en souriant n'apparaît telle quelle dans aucun résultat (les plus proches parlent de l'influence des tablées et de la méfiance envers un serveur souriant).
+
+## Tour 4 : retouche → ligne
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| C3 joueuse reprend « avis » et « examen » comme la risquée : deux bonnes réponses au contexte 2 (coordinateur, reviewer) | « Laisse-moi finir : l'assiette vide parlera pour moi. » ; pourquoi sans « examen » ni « avis ». |
+| E4 sûre reprend l'image de la file d'attente et du plan (coordinateur, reviewer) | « Pour l'instant, étudier est mon seul métier. » (« étudier » donne l'antécédent que « c' » n'avait pas) ; pourquoi aligné. |
+| C5 risquée : jeu connu, fin en ordre sec (critique) | « On suit la première personne qui sort d'un restaurant en souriant. Elle a testé pour nous. » ; pourquoi : « un hasard avec du flair » ; contexte 1 : « aucun hasard n'a été proposé » ; contexte 2 : « on suit la première personne qui sort » lui répond en face. |
 
 ## Contrôles tenus (checklist des fautes récurrentes)
 
