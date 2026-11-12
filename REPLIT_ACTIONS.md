@@ -28,6 +28,14 @@ Entrée créée au lot D0, complétée à chaque lot (migrations, variables, ord
 - **Tests** : Jest `apps/web/src/__tests__/espace/` (garde en 5 cas, fermé = 404 sans lecture, arrivées, robots, sitemap ; test d'inertie avec sa référence `__snapshots__/inertie-espace.test.tsx.snap`, prise sur le code de `main`, à ne JAMAIS régénérer avec `-u`) ; Playwright local `playwright/tests/local/espace-inertie-s24.spec.ts`.
 - **Retour arrière** : `cd apps/web && npx wrangler rollback <N-1>` ; rien en base.
 
+### À DÉPLOYER (s24) : espace client Premium, lot D1 (schéma de contenu et chargeurs), **NON DÉPLOYÉ, INTERRUPTEUR FERMÉ, part avec le reste de l'espace sur le go écrit de Thomas** (plan §3 lot D1)
+
+- **Code** : `apps/web/src/data/espace/{situations,constructions,vocabulaire,formules,ecouter,a-plat,jeux,bilans,seances,humour-noir,bonus}.json` (vides, `[]`, remplis par les lots de contenu §5) ; `apps/web/src/lib/espace/fiches-schema.ts` (Zod : id stable, type, univers, palier, durée, geste, contenus par type, citations vérifiées et transcription pour « Écouter, repérer », bonus des caps à part) ; `apps/web/src/lib/espace/fiches.ts` (chargeurs, validation au premier appel, tout retour passe par `fichesSelonPlan` ajouté à `apps/web/src/lib/champs-premium.ts`, bonus hors de toute liste) ; `apps/web/src/lib/espace/fixtures/` (B1 de QR1, fiche 2 de C1a, un bonus factice : tests seulement, jamais importés hors `__tests__`).
+- **Aucun import hors de l'espace** : aucune route ne charge encore ces fichiers ; rien de D1 dans `.next` (vérifié au build). Aucun octet public changé.
+- **Migration** : aucune. **Variable d'environnement** : aucune (`GATE_CONTENU=1` sert seulement à lancer à la main la porte G2 : `GATE_CONTENU=1 npx jest gate-contenu`, jamais en CI ni en production).
+- **Tests** : Jest `apps/web/src/__tests__/espace/fiches-contenu-s24.test.ts` (schéma, tiret cadratin, émoji, concurrents sur tous les JSON, geste, bonus, champs-premium, confinement des imports) et `gate-contenu.test.ts` (163 + 4, sauté sans `GATE_CONTENU=1`). Snapshot d'inertie inchangé.
+- **Retour arrière** : celui du déploiement (rollback de version) ; rien en base.
+
 ## s23 (08/11) OUVERTURE de l'onboarding Premium (E0, E1, E1b, E2) + exercices des favoris réservés aux abonnés, **DÉPLOYÉ** (go écrit de Thomas pour les deux ; NON déployé)
 
 - **Onboarding** : `ONBOARDING_PREMIUM_OUVERT = true`, `ONBOARDING_DATE_TEXTES = "8 novembre 2026"` (date d'ouverture, mention PROVISOIRE retirée) dans `apps/web/src/config/onboarding-premium.ts`. Retour arrière : repasser à `false` (le lien d'arrêt reste actif).

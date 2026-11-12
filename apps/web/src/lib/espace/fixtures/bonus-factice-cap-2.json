@@ -1,0 +1,33 @@
+{
+  "id": "fixture-bonus-cap-2",
+  "type": "bonus",
+  "nature": "passage",
+  "cap": 2,
+  "titre": "Fixture de test, jamais servie",
+  "palier": "P3",
+  "dureeMinutes": 5,
+  "contenu": {
+    "humoriste": "Humoriste factice",
+    "passage": {
+      "titre": "Passage factice",
+      "chaine": "Chaîne factice",
+      "url": "https://example.com/fixture",
+      "debut": { "minute": 0, "seconde": 10 },
+      "fin": { "minute": 0, "seconde": 50 }
+    },
+    "transcritePar": "Personne factice",
+    "citations": [{ "texte": "Citation factice.", "citationVerifieePar": "Relecteur factice" }],
+    "observations": [
+      { "titre": "Observation 1", "texte": "Texte factice." },
+      { "titre": "Observation 2", "texte": "Texte factice." },
+      { "titre": "Observation 3", "texte": "Texte factice." }
+    ],
+    "mecanisme": "Mécanisme factice.",
+    "chezToi": "Transposition factice."
+  },
+  "geste": {
+    "verbe": "ecrire",
+    "consigne": "Consigne factice.",
+    "grille": ["Question factice 1 ?", "Question factice 2 ?", "Question factice 3 ?"]
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "id": "rencontre-le-retard",
+  "type": "situation",
+  "titre": "Le retard (premier verre)",
+  "univers": "rencontre",
+  "palier": "P2",
+  "dureeMinutes": 5,
+  "contenu": {
+    "forme": "reponse",
+    "scene": {
+      "texte": "Vendredi, 20 h, un bar. Ton rendez-vous arrive vingt minutes après l'heure, à bout de souffle, et s'assoit :",
+      "onTeDit": "Pardon, j'ai tourné vingt minutes pour me garer."
+    },
+    "repliques": {
+      "sure": {
+        "texte": "Pas de souci. Je commençais à faire la conversation à mon verre.",
+        "pourquoi": "Tu effaces le retard sans le commenter, avec un trait d'autodérision qui te met, toi, un peu en scène. Elle ne vise personne et n'appelle aucune réponse. C'est la bonne quand tu ne sais pas encore si l'autre rit de ses propres retards."
+      },
+      "joueuse": {
+        "texte": "Pas grave. Moi, j'ai fait deux tours du pâté de maisons pour arriver l'air tranquille.",
+        "pourquoi": "Tu réponds à l'excuse par un aveu à toi : tu avais ton propre trac, et l'arrivée tranquille était une mise en scène. Le retard devient un point commun, sans que tu le commentes. À sortir quand l'autre sourit en s'excusant."
+      },
+      "risquee": {
+        "texte": "Excuse notée : quatorze sur vingt. Un détail de plus et tu passes à seize.",
+        "pourquoi": "Tu transformes l'excuse en petit concours et tu rends la parole : c'est l'autre qui peut gagner des points en racontant. Elle ne vise pas la personne, seulement l'excuse. Elle marche seulement si l'autre plaisante déjà de sa course pour se garer. Sinon elle sonne comme une inspection : prends la sûre."
+      }
+    },
+    "quandMonterDUnCran": {
+      "regle": "L'autre a souri en s'excusant ? Monte d'un cran. L'autre plaisante de son retard ? Monte encore. Sinon, reste sur la sûre.",
+      "surCetteScene": "Sur cette scène : la joueuse si l'autre sourit en s'excusant, une seule fois. La risquée seulement si l'autre plaisante déjà de sa course pour se garer. Si ça ne prend pas, tu lui tends la carte des boissons et tu ne reviens pas sur le retard."
+    },
+    "erreur": "Faire sentir le retard (« J'ai cru que tu ne viendrais pas »). L'autre est déjà dans l'embarras ; tu transformes un incident en reproche, et le début de soirée se passe à se justifier. Une phrase légère, et tu poses la carte entre vous.",
+    "contextesRafale": [
+      {
+        "contexte": "L'autre arrive en souriant, s'excuse une fois et ne plaisante pas",
+        "bonneReponse": "joueuse",
+        "pourquoi": "Un sourire est là, donc la sûre serait timide ; l'autre n'a pas plaisanté de son retard, donc la risquée ressemblerait à une inspection."
+      },
+      {
+        "contexte": "L'autre arrive en riant : “J'ai tourné vingt minutes, je crois que j'ai visité la ville”",
+        "bonneReponse": "risquee",
+        "pourquoi": "L'autre t'a donné la matière : la joueuse s'arrêterait un cran trop bas, la sûre fermerait le jeu que l'autre vient d'ouvrir."
+      }
+    ]
+  },
+  "geste": {
+    "verbe": "dire",
+    "consigne": "Pense à la dernière fois que quelqu'un t'a fait attendre, même cinq minutes. Dis la sûre à voix haute, presque sans sourire, comme si tu la disais à un verre. Dix secondes.",
+    "pourAllerPlusLoin": "au prochain petit retard qu'on t'annonce, dis-la en vrai."
+  }
+}

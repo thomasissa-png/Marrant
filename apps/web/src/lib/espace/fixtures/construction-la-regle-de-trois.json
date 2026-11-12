@@ -1,0 +1,40 @@
+{
+  "id": "la-regle-de-trois",
+  "type": "construction",
+  "titre": "La règle de trois",
+  "palier": "P2",
+  "dureeMinutes": 5,
+  "contenu": {
+    "schemaEnUneLigne": "Deux éléments attendus, puis un troisième qui déraille.",
+    "exemple": "Mes trois forces : la ponctualité, l'organisation, l'annulation de dernière minute.",
+    "commentCestFait": [
+      "Les deux premiers éléments installent un rythme : on attend une liste de qualités. Le troisième garde la même tournure mais change de camp, et c'est ce changement qui fait rire.",
+      "Le détail est précis : « de dernière minute » est la formule qu'on prononce vraiment. Copie cette précision, pas la phrase."
+    ],
+    "essais": [
+      {
+        "texte": "Dans mon frigo : du lait, des œufs, du beurre.",
+        "verdict": "Rien ne déraille : les trois éléments sont attendus."
+      },
+      {
+        "texte": "Dans mon frigo : du lait, des œufs, et la preuve que ma vie est un désastre.",
+        "verdict": "Trop loin : ce n'est plus une chute sur le frigo, c'est un constat sur toi."
+      },
+      {
+        "texte": "Dans mon frigo : du lait, des œufs, et une moutarde qui a connu quatre colocataires.",
+        "verdict": "La moutarde reste, les colocataires passent."
+      }
+    ],
+    "regle": "Deux éléments attendus, un troisième qui reprend la même tournure et déraille. Dis-le d'un seul souffle, en une phrase, et arrête-toi : la chute est le dernier mot.",
+    "erreur": "Rallonger la liste avec un quatrième ou un cinquième élément « pour bien installer le rythme ». L'oreille décroche avant le dernier."
+  },
+  "geste": {
+    "verbe": "ecrire",
+    "consigne": "Choisis un endroit de ta vie : ton sac, ta table de chevet, ton bureau. Écris trois essais (la liste sans dérapage, le dérapage trop loin, le tien), puis garde le troisième et passe la grille :",
+    "grille": [
+      "Ta liste a trois éléments, dits d'un seul souffle ?",
+      "Si ta chute vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+      "Le dernier élément surprend ?"
+    ]
+  }
+}
