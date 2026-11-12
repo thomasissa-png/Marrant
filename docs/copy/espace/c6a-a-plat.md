@@ -112,7 +112,7 @@ Pense à une phrase qu'on te dit souvent sur toi. Dis la sûre à voix haute, ca
 ## Fiche 4. Quand tu as dit la mauvaise chose
 
 **La scène**
-Au dîner, tu dis à quelqu'un, à propos de son plat, que tu as aimé : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais.
+Au dîner, tu as adoré le plat de quelqu'un. Tu lui dis : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais.
 
 **La sûre**
 « Ça a mal sonné, pardon. Tu me donnes la recette ? »
@@ -222,8 +222,8 @@ Tu dis la vérité, avec chaleur. On te le pardonne, et on rit un peu avec toi.
 Tu en fais un personnage qui a quitté la pièce. À sortir si l'ambiance est détendue.
 
 **La risquée**
-« Je vous la mime : qui devine la chute gagne. »
-Tu changes de langage et tu fais du trou un jeu : on te regarde, on cherche avec toi. Elle ne marche que si le groupe aime jouer.
+« Chute perdue : la meilleure proposition devient la vraie. »
+Tu fais du trou un jeu : on cherche avec toi. Elle ne marche que si le groupe aime jouer.
 
 **Comment choisir**
 Le groupe est neuf pour toi ? La sûre. Il sourit ? La joueuse. Il aime jouer ? La risquée, une fois.
@@ -237,7 +237,7 @@ Prends une blague que tu connais. Arrête-toi volontairement avant la chute, et 
 **Candidates de remplacement** `[note interne, non affichée]`
 - Sûre B : « La fin m'échappe. Je vous la donne si elle revient. » (promesse légère.) Sûre C : « Laissons celle-là inachevée. » (tu fermes sans drame.)
 - Joueuse B : « Ma mémoire a gardé le début et perdu la fin. » (tu décris ton oubli.) Joueuse C : « La fin était meilleure que le début, je vous le jure. » (compliment sur l'absente.)
-- Risquée B : « Je la termine en mime. » (version courte, on ne peut pas mimer une chute oubliée.) Risquée C : « Je laisse la chute à qui la devine. » (tu transformes le trou en jeu, sans image.)
+- Risquée B : « Je vous la mime : qui la devine la garde. » (on ne peut pas mimer une chute oubliée.) Risquée C : « Je laisse la chute à qui la devine. » (tu transformes le trou en jeu, sans image.)
 
 ---
 
@@ -321,7 +321,7 @@ Pose-toi une question à toi-même, vide ta tête volontairement, puis dis la s�
 Soirée. Ta vanne a fait rire. Tu en as une autre sous le coude, et tu hésites.
 
 **Trois signaux observables**
-Ils sourient en te regardant. Ils se penchent vers toi. Ils répondent en rebondissant sur ta phrase. Les signaux choisissent ta clôture, jamais une deuxième vanne.
+Ils sourient en te regardant. Ils se penchent vers toi. Ils répondent en rebondissant sur ta phrase. Une fois pour lancer, une fois pour clore : les signaux choisissent ta clôture, jamais une deuxième vanne.
 
 **La sûre**
 « Je m'arrête sur celle-là. »
@@ -404,6 +404,15 @@ Recherche web (phrase et idée) des sorties A neuves : **0 occurrence** pour cha
 | Fiche 8 : risquée à 8, confuse à l'oral (critique) | « Je vais t'applaudir de l'autre bout de la pièce. » (nouvelle ; le candidat de la critique, « je reviens pour les applaudissements », reproduirait l'erreur de la fiche). Recherche : 0. |
 | Fiche 10 : risquée à 8, sans chute (critique) | « Une autre ? Non : je pars au sommet de ma carrière. » (candidat de la critique). Recherche : 0. |
 | Non changé | Fiches 1 et 9 ; sûres et joueuses non citées ; erreurs et gestes ; « Je retire tout… » n'apparaît plus (retirée du fichier). |
+
+## Tour 4 : retouche → ligne (dernier tour, décision C8)
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| Fiche 10 : « une fois pour lancer, une fois pour clore » imposé par l'architecture l. 525 (reviewer) | Paragraphe « Trois signaux observables » : « Une fois pour lancer, une fois pour clore : les signaux choisissent ta clôture, jamais une deuxième vanne. » (version du tour 2). Pas de contradiction : le lancement est ta vanne, la clôture est l'une des trois sorties, et « Aucun signal ? Tu t'arrêtes sans un mot » reste vrai. |
+| Fiche 7 : mimer une chute oubliée ne marche pas (reviewer, critique) | Risquée : « Chute perdue : la meilleure proposition devient la vraie. » (candidat du reviewer) ; explication : « Tu fais du trou un jeu : on cherche avec toi. » Recherche web : 0 occurrence (deux recherches). Ancienne « Je vous la mime… » passe en candidate B. |
+| Fiche 4 : « que tu as aimé » se lit comme une réplique (critique) | Scène : « Au dîner, tu as adoré le plat de quelqu'un. Tu lui dis : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais. » |
+| Non changé | Tout le reste. |
 
 ## Points de vigilance pour la relecture (note interne)
 
