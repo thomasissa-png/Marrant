@@ -1,3 +1,5 @@
+> **REMPLACÉ par `architecture-contenu-v16.md` le 12/11/2026**, après la décision de Thomas sur la connexion et sur les niveaux et points (`docs/founder-preferences.md` l. 168). Ne plus s'appuyer sur ce fichier.
+
 # Architecture de contenu de l'espace Premium, v15 (s24)
 
 > Auteur : @creative-strategy, 12/11/2026. Remplace `architecture-contenu-v14.md`. Réponse au tour 14 de relecture : @elon 9,9, @reviewer 9,7, @ux 9,2, aucun bloquant (aucune décision de Thomas rouverte). **La v15 n'applique QUE les retouches demandées par la session** (annexe A) ; le reste est recopié de la v14. `docs/founder-preferences.md`, dernière ligne du 12/11, fait foi. Les points de conception neuve restent des propositions marquées [RESTE À TRANCHER] ; l'écran de motif de résiliation de s23 est un sujet séparé que la session soumettra à Thomas : ce document ne le décide pas.
