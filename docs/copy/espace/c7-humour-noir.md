@@ -32,7 +32,7 @@ Une seule phrase pour passer à autre chose, en souriant, sans commenter : « Qu
 **À toi**
 Pense à la dernière fois où quelqu'un a plaisanté sur sa propre mort. Qu'a fait la table ? Note le signal que tu aurais pu lire.
 
-### Fiche 2 : « Le sujet n'est pas la cible » (3e fiche de 3.12, neuve ; 3.12 en prévoit trois, la 3e « Rire avec, pas de » n'est pas écrite)
+### Fiche 2 : « Le sujet n'est pas la cible » (neuve ; angle : où tombe la chute)
 
 **Le principe**
 Une vanne noire a un sujet (la mort, la panne, l'administration) et une cible : celui ou ce qui reçoit le coup de la chute. Le sujet peut être aussi grave que tu veux. La cible, jamais : ni une personne, ni un groupe, ni la peine de quelqu'un.
@@ -50,6 +50,25 @@ Le guichet, l'attente et la mort sont restés. Seule la cible a changé de côt�
 
 **À toi, ce soir**
 Prends une vanne sombre que tu connais, sur la mort en général. Souligne le mot qui reçoit le coup. Si ce n'est ni toi ni la situation, réécris-la en une phrase pour que la chute retombe sur toi ou sur la situation. Dix minutes. Garde les deux versions côte à côte.
+
+### Fiche 3 : « Rire avec, pas de » (neuve)
+
+**Le principe**
+La fiche 1 regarde la salle, la fiche 2 regarde où tombe la chute. Celle-ci regarde la phrase elle-même : peut-elle être dite par n'importe qui dans la pièce, toi compris ? On rit *avec* quand tout le monde est dans la phrase. On rit *de* quand quelqu'un est dehors, à regarder.
+
+**Le test du « on »**
+Remplace le sujet de ta phrase par « on » ou par « je ». Si elle tient encore et reste drôle, tu ris avec. Si elle meurt, ou si elle devient gênante à dire, elle ne marchait que parce qu'elle laissait quelqu'un dehors.
+
+**Pourquoi la mort s'y prête**
+La mort en général est le seul sujet grave où personne n'est dehors : on y passe tous. C'est ce qui permet d'en rire sans blesser, à condition de rester dans ce « tous ».
+
+**Même sujet, autre pronom**
+Avant, la phrase laisse un groupe dehors : « Les vieux n'ont plus qu'à réserver leur dernier verre. »
+Après, tout le monde est dedans : « La dernière de l'année, d'accord. Pour ma dernière tout court, je demande la même : bien servie. »
+Le dernier verre est resté. Seul le pronom a changé : de « les » à « je », et la phrase se dit en face de n'importe qui.
+
+**À toi, ce soir**
+Choisis une phrase sombre sur la mort en général. Dis-la à voix haute en la commençant par « Moi, » ou « On ». Si elle tient, note-la. Si elle s'effondre, c'est qu'elle visait quelqu'un : jette-la. Cinq minutes.
 
 ---
 
@@ -307,6 +326,7 @@ Trois candidates par réplique, la première est la retenue. Les deux autres ne 
 | Genre (utilisateur et personne d'en face) | Aucun accord dans les scènes, les répliques et les rafales : « Je viens », « Prends-le », « je meurs déjà de fatigue » (verbe, pas d'adjectif accordé), « la personne », « chaque personne » |
 | Périmètre | Aucun proche mort, aucun deuil récent, aucune maladie, aucune cible absente. Cible : la situation, toi, la mort en général. C7-3 réplique risquée : les agents ne sont pas visés. C7-4 : le quatrième feu vert est signalé comme difficile à garantir un 31 décembre |
 | Fiche 1 | Reprise à l'identique de l'étalon E6 section 3 (validée) |
+| Fiche 3 « Rire avec, pas de » | Trois angles distincts : fiche 1 la salle, fiche 2 la cible de la chute, fiche 3 le pronom (test du « on »). Environ 200 mots. Exemple « après » repris de C7-4 risquée (déjà cherchée sur le web, aucune occurrence) ; exemple « avant » écrit pour être refusé (groupe visé, jamais à dire). Aucun tiret cadratin, aucun accord genré |
 | Sources web (13/11/2026, phrases exactes, aucune occurrence) | « guichet des décès » ; « je mourrai un mardi » + « agenda plein » ; « musique d'attente » + enterrement (idée écartée : voir grep) ; « morceau le plus long » + enterrement ; « même après ma mort » + « il manquera une pièce » ; « à l'année qui meurt » + « finir à l'heure » ; « sauf décès » + « je vous écris dès que je peux » ; « n'ai jamais osé chanter au karaoké » + enterrement ; « pour ma dernière tout court » ; « a l'éternité devant elle » + administration ; « je meurs » + « à partir de 11 h ». Aucune occurrence : ce n'est pas une garantie (les moteurs ne couvrent ni les spectacles ni les réseaux) |
 | Grep du dépôt (13/11/2026, y compris `docs/copy`, `docs/marrant`, `.claude`) | « musique d'attente » : présent dans les vannes `parcours-storytelling-s18/vannes-neuves` (dentiste) : idée de C7-2 risquée **changée** (karaoké) ; « minute de silence » : présent dans `reecriture-blog-lot-b.md` : **non utilisé** ; « réunion + testament » : cliché noté dans `audit-independant-blog-s11.md` : **non utilisé** (fiche 2 reprend la pièce manquante) ; « chaudière » : présent dans les vannes `neuves-lot4` : **non utilisé**. Aucune occurrence pour les phrases de C7-1 à C7-5 retenues. `apps/web/src/data/` : couvert par le grep sur tout le dépôt (karaoké + mort, « dernière tout court », mardi + mourir, « sauf décès », « éternité devant », résolution + mort), aucune occurrence. Le catalogue vit en base : non greppé ici, à comparer par le relecteur |
 | Humoriste, concurrent, IA | Aucun humoriste cité, aucun concurrent, aucune mention d'IA |
