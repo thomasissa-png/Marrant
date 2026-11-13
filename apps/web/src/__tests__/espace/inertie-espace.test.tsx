@@ -108,6 +108,7 @@ describe("garde-fou de construction", () => {
    * Fichiers hors périmètre autorisés à importer l'espace (vide au lot D0).
    * D2 : l'en-tête monte l'en-tête abonné et la barre, sous garde de l'interrupteur.
    * D3 : la page de succès et la connexion calculent l'arrivée, sous garde de l'interrupteur.
+   * D4 : parcours, profil, bulle d'XP et seuils (détail ci-dessous), sous garde de l'interrupteur.
    */
   const LISTE_BLANCHE: string[] = [
     "components/layout/header.tsx",
@@ -116,6 +117,28 @@ describe("garde-fou de construction", () => {
     "app/(auth)/login/page.tsx",
     // D3 : /mon-espace/** réécrit vers la 404 naturelle interrupteur fermé.
     "middleware.ts",
+    // D4 : en-tête de l'abonné sur /parcours (4 premières semaines, « Ton cap »), monté seulement ouvert.
+    "app/(dashboard)/parcours/(liste)/page.tsx",
+    // D4 : liste /parcours, abonné, ouvert seulement : pas de second « Reprendre », quiz d'orientation sous la liste.
+    "components/parcours/parcours-content.tsx",
+    // D4 : page d'un parcours enrichie pour l'abonné (sommaire, annonce de cap), ouvert seulement.
+    "components/parcours/parcours-detail.tsx",
+    // D4 : fiches de l'étape et ancres `#fiche-N-M`, avec la prop `ancresFiches` (vraie ouvert seulement).
+    "components/parcours/parcours-step-card.tsx",
+    // D4 : carte « Ton cap » à la place de « Progression » sur /profil, ouvert seulement.
+    "components/profil/profil-dashboard.tsx",
+    // D4 : bulle « +X XP » sans emoji et 5 s au moins, ouvert seulement.
+    "components/ui/xp-notification.tsx",
+    // D4 : seuils des caps (0, 100, 300, 700, 2 300) appliqués ouvert ; fermé, l'ancienne table.
+    "lib/progression.ts",
+    // D4 (@legal G9) : trois lignes de la confidentialité sur la question C9, rendues ouvert seulement.
+    "app/(dashboard)/confidentialite/page.tsx",
+    // D4, touchés sans import de l'espace (aucun effet fermé) : `lib/utils.ts` et `config/textes/parcours.ts`
+    // (marques A_SUPPRIMER_APRES_OUVERTURE en commentaire), `lib/account.ts` (export des données :
+    // `EspaceCompte` et `CapAnnonce`, tables vides fermé, demande @legal G9).
+    "lib/utils.ts",
+    "config/textes/parcours.ts",
+    "lib/account.ts",
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

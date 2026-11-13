@@ -1,0 +1,1277 @@
+{
+  "parcours": [
+    {
+      "slug": "machine-a-cafe",
+      "fiche0": {
+        "ancre": "fiche-0",
+        "champs": [
+          "description",
+          "duration",
+          "timePerWeek",
+          "personaTagline"
+        ],
+        "empreinte": "92b4a86c845bc651"
+      },
+      "etapes": [
+        {
+          "ordre": 1,
+          "ancre": "etape-1",
+          "fiches": [
+            {
+              "numero": "1.1",
+              "ancre": "fiche-1-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "6282df8400c50852"
+            },
+            {
+              "numero": "1.2",
+              "ancre": "fiche-1-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "955ffd5b54d22735"
+            },
+            {
+              "numero": "1.3",
+              "ancre": "fiche-1-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "GKJKPlf6EqA"
+              },
+              "empreinte": "387cde3bb4dee422"
+            },
+            {
+              "numero": "1.4",
+              "ancre": "fiche-1-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "afFehefVWxk"
+              },
+              "empreinte": "b73fa0a0efb1b01d"
+            },
+            {
+              "numero": "1.5",
+              "ancre": "fiche-1-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "3767f3d67a024306"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 2,
+          "ancre": "etape-2",
+          "fiches": [
+            {
+              "numero": "2.1",
+              "ancre": "fiche-2-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "41bcf278e19e2a82"
+            },
+            {
+              "numero": "2.2",
+              "ancre": "fiche-2-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "71723b14d39564b7"
+            },
+            {
+              "numero": "2.3",
+              "ancre": "fiche-2-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "K-oIyXvLUeg"
+              },
+              "empreinte": "13a2e75db2b14ebc"
+            },
+            {
+              "numero": "2.4",
+              "ancre": "fiche-2-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "lw0hwSg87qk"
+              },
+              "empreinte": "a81a27bd86d21fb0"
+            },
+            {
+              "numero": "2.5",
+              "ancre": "fiche-2-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "eb15c55fde0defe5"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 3,
+          "ancre": "etape-3",
+          "fiches": [
+            {
+              "numero": "3.1",
+              "ancre": "fiche-3-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "4ba31c9ca1df8fdc"
+            },
+            {
+              "numero": "3.2",
+              "ancre": "fiche-3-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "2dd613339831aea6"
+            },
+            {
+              "numero": "3.3",
+              "ancre": "fiche-3-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "tpIOLzv11qo"
+              },
+              "empreinte": "e2229c5d782fde3f"
+            },
+            {
+              "numero": "3.4",
+              "ancre": "fiche-3-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "Ps3UNPLpmKc"
+              },
+              "empreinte": "d3dc57a6112d8a48"
+            },
+            {
+              "numero": "3.5",
+              "ancre": "fiche-3-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "08a733da4ef7ddc8"
+            }
+          ],
+          "fichesNeuves": []
+        }
+      ]
+    },
+    {
+      "slug": "repartie",
+      "fiche0": {
+        "ancre": "fiche-0",
+        "champs": [
+          "description",
+          "duration",
+          "timePerWeek",
+          "personaTagline"
+        ],
+        "empreinte": "821c2be9873bf066"
+      },
+      "etapes": [
+        {
+          "ordre": 1,
+          "ancre": "etape-1",
+          "fiches": [
+            {
+              "numero": "1.1",
+              "ancre": "fiche-1-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "53edc161f7ebf810"
+            },
+            {
+              "numero": "1.2",
+              "ancre": "fiche-1-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "f4cc74cf71eae8fa"
+            },
+            {
+              "numero": "1.3",
+              "ancre": "fiche-1-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "m30qZa8p_Js"
+              },
+              "empreinte": "f64fcd9639b1804e"
+            },
+            {
+              "numero": "1.4",
+              "ancre": "fiche-1-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "vpdrKdWY838"
+              },
+              "empreinte": "058cea9e8623ebdc"
+            },
+            {
+              "numero": "1.5",
+              "ancre": "fiche-1-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "028baa1fbaa0a35e"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 2,
+          "ancre": "etape-2",
+          "fiches": [
+            {
+              "numero": "2.1",
+              "ancre": "fiche-2-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "059450c4f8be8cf8"
+            },
+            {
+              "numero": "2.2",
+              "ancre": "fiche-2-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "28e00a137c5213a8"
+            },
+            {
+              "numero": "2.3",
+              "ancre": "fiche-2-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "K-oIyXvLUeg"
+              },
+              "empreinte": "45b8d377bd15a215"
+            },
+            {
+              "numero": "2.4",
+              "ancre": "fiche-2-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "b0sxUyrE1Cs"
+              },
+              "empreinte": "40ff5e460d8ea772"
+            },
+            {
+              "numero": "2.5",
+              "ancre": "fiche-2-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "bebaafb7801a0fae"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 3,
+          "ancre": "etape-3",
+          "fiches": [
+            {
+              "numero": "3.1",
+              "ancre": "fiche-3-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "ca161cf2f3804217"
+            },
+            {
+              "numero": "3.2",
+              "ancre": "fiche-3-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "fa81b519f1e38863"
+            },
+            {
+              "numero": "3.3",
+              "ancre": "fiche-3-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "vpdrKdWY838"
+              },
+              "empreinte": "a16bf2f576825111"
+            },
+            {
+              "numero": "3.4",
+              "ancre": "fiche-3-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "t2MsC6I9t5U"
+              },
+              "empreinte": "e080e265190f4944"
+            },
+            {
+              "numero": "3.5",
+              "ancre": "fiche-3-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "42999c1fd939dc13"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 4,
+          "ancre": "etape-4",
+          "fiches": [
+            {
+              "numero": "4.1",
+              "ancre": "fiche-4-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "95f183afe0dd743b"
+            },
+            {
+              "numero": "4.2",
+              "ancre": "fiche-4-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "677940d2c117dc6e"
+            },
+            {
+              "numero": "4.3",
+              "ancre": "fiche-4-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "qdqIc-uzdbA"
+              },
+              "empreinte": "165facfc94fcfa30"
+            },
+            {
+              "numero": "4.4",
+              "ancre": "fiche-4-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "TWGNkUX8wbk"
+              },
+              "empreinte": "4bfd81a98ad5d624"
+            },
+            {
+              "numero": "4.5",
+              "ancre": "fiche-4-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "f8cee873c06d017d"
+            }
+          ],
+          "fichesNeuves": []
+        }
+      ]
+    },
+    {
+      "slug": "confiance",
+      "fiche0": {
+        "ancre": "fiche-0",
+        "champs": [
+          "description",
+          "duration",
+          "timePerWeek",
+          "personaTagline"
+        ],
+        "empreinte": "d996aeb43d703383"
+      },
+      "etapes": [
+        {
+          "ordre": 1,
+          "ancre": "etape-1",
+          "fiches": [
+            {
+              "numero": "1.1",
+              "ancre": "fiche-1-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "839220939b505a12"
+            },
+            {
+              "numero": "1.2",
+              "ancre": "fiche-1-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "8afc061ede631239"
+            },
+            {
+              "numero": "1.3",
+              "ancre": "fiche-1-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "brlY_DMoaRk"
+              },
+              "empreinte": "e03f2a4449e6a477"
+            },
+            {
+              "numero": "1.4",
+              "ancre": "fiche-1-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "QGqA4va99rw"
+              },
+              "empreinte": "34b8be7435562835"
+            },
+            {
+              "numero": "1.5",
+              "ancre": "fiche-1-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "5ecd0fc62fd8e8d5"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 2,
+          "ancre": "etape-2",
+          "fiches": [
+            {
+              "numero": "2.1",
+              "ancre": "fiche-2-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "73778244ef182245"
+            },
+            {
+              "numero": "2.2",
+              "ancre": "fiche-2-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "522c71239a6acd1d"
+            },
+            {
+              "numero": "2.3",
+              "ancre": "fiche-2-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "RYjfe8OSRFw"
+              },
+              "empreinte": "a4a40a81623f8153"
+            },
+            {
+              "numero": "2.4",
+              "ancre": "fiche-2-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "F5WiaMalDSc"
+              },
+              "empreinte": "fe044591a7e8d1bf"
+            },
+            {
+              "numero": "2.5",
+              "ancre": "fiche-2-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "6e41b051fca7a87a"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 3,
+          "ancre": "etape-3",
+          "fiches": [
+            {
+              "numero": "3.1",
+              "ancre": "fiche-3-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "31f6257b32ba9cec"
+            },
+            {
+              "numero": "3.2",
+              "ancre": "fiche-3-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "2676e73d836a9f61"
+            },
+            {
+              "numero": "3.3",
+              "ancre": "fiche-3-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "t7fgrrRVyaU"
+              },
+              "empreinte": "b5e58f76084b2352"
+            },
+            {
+              "numero": "3.4",
+              "ancre": "fiche-3-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "rldvVgHQSvo"
+              },
+              "empreinte": "f7f3298e3488589e"
+            },
+            {
+              "numero": "3.5",
+              "ancre": "fiche-3-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "30838ec2da181459"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 4,
+          "ancre": "etape-4",
+          "fiches": [
+            {
+              "numero": "4.1",
+              "ancre": "fiche-4-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "fa6f8a365b674869"
+            },
+            {
+              "numero": "4.2",
+              "ancre": "fiche-4-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "fb3f7310ce2af988"
+            },
+            {
+              "numero": "4.3",
+              "ancre": "fiche-4-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "b0sxUyrE1Cs"
+              },
+              "empreinte": "c905152f600aef26"
+            },
+            {
+              "numero": "4.4",
+              "ancre": "fiche-4-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "4t9a0To2ygo"
+              },
+              "empreinte": "e262c0710deecb33"
+            },
+            {
+              "numero": "4.5",
+              "ancre": "fiche-4-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "fb0e267029f8ec72"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 5,
+          "ancre": "etape-5",
+          "fiches": [
+            {
+              "numero": "5.1",
+              "ancre": "fiche-5-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "1fd0551aa9e173ac"
+            },
+            {
+              "numero": "5.2",
+              "ancre": "fiche-5-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "46886899ed59d7c6"
+            },
+            {
+              "numero": "5.3",
+              "ancre": "fiche-5-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "mFKUThh26oU"
+              },
+              "empreinte": "1ebcee4065a6a4b1"
+            },
+            {
+              "numero": "5.4",
+              "ancre": "fiche-5-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "egM-wlaobjo"
+              },
+              "empreinte": "ebe6f84dd887e904"
+            },
+            {
+              "numero": "5.5",
+              "ancre": "fiche-5-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "47d6972472331424"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 6,
+          "ancre": "etape-6",
+          "fiches": [
+            {
+              "numero": "6.1",
+              "ancre": "fiche-6-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "6f2ace5cf052ae7d"
+            },
+            {
+              "numero": "6.2",
+              "ancre": "fiche-6-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "acf77100c00f9e63"
+            },
+            {
+              "numero": "6.3",
+              "ancre": "fiche-6-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "zC7ff6w7x-Y"
+              },
+              "empreinte": "28b43e80a510d1d4"
+            },
+            {
+              "numero": "6.4",
+              "ancre": "fiche-6-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "da21Xp8hGYY"
+              },
+              "empreinte": "7439e0b5b8fff236"
+            },
+            {
+              "numero": "6.5",
+              "ancre": "fiche-6-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "0dc1b7bd5218a053"
+            }
+          ],
+          "fichesNeuves": []
+        }
+      ]
+    },
+    {
+      "slug": "storytelling",
+      "fiche0": {
+        "ancre": "fiche-0",
+        "champs": [
+          "description",
+          "duration",
+          "timePerWeek",
+          "personaTagline"
+        ],
+        "empreinte": "3dbadfd1445ec998"
+      },
+      "etapes": [
+        {
+          "ordre": 1,
+          "ancre": "etape-1",
+          "fiches": [
+            {
+              "numero": "1.1",
+              "ancre": "fiche-1-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "c5c3edd2952a70a4"
+            },
+            {
+              "numero": "1.2",
+              "ancre": "fiche-1-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "a4d31186727b306b"
+            },
+            {
+              "numero": "1.3",
+              "ancre": "fiche-1-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "JuB6-b0fhLE"
+              },
+              "empreinte": "80eebc40bf3f1fa8"
+            },
+            {
+              "numero": "1.4",
+              "ancre": "fiche-1-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "v-ySkBGAXLI"
+              },
+              "empreinte": "96ba200821e64dc5"
+            },
+            {
+              "numero": "1.5",
+              "ancre": "fiche-1-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "780596e14c21b0a5"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 2,
+          "ancre": "etape-2",
+          "fiches": [
+            {
+              "numero": "2.1",
+              "ancre": "fiche-2-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "8172989451e162ab"
+            },
+            {
+              "numero": "2.2",
+              "ancre": "fiche-2-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "db258965f545f82b"
+            },
+            {
+              "numero": "2.3",
+              "ancre": "fiche-2-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "fnu6fRa-BN4"
+              },
+              "empreinte": "2eb1abfa9a07c2d8"
+            },
+            {
+              "numero": "2.4",
+              "ancre": "fiche-2-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "PrQTbXOz2iU"
+              },
+              "empreinte": "4f60be78d9a5b353"
+            },
+            {
+              "numero": "2.5",
+              "ancre": "fiche-2-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "ffe784783cfd5cff"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 3,
+          "ancre": "etape-3",
+          "fiches": [
+            {
+              "numero": "3.1",
+              "ancre": "fiche-3-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "2ddaa61d373f108b"
+            },
+            {
+              "numero": "3.2",
+              "ancre": "fiche-3-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "c58e5ad93ba7cb68"
+            },
+            {
+              "numero": "3.3",
+              "ancre": "fiche-3-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "Fw14PLdtSyA"
+              },
+              "empreinte": "11c1e56f53ac2f22"
+            },
+            {
+              "numero": "3.4",
+              "ancre": "fiche-3-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "0FmK8RA_hnE"
+              },
+              "empreinte": "68ec91cb5183cd46"
+            },
+            {
+              "numero": "3.5",
+              "ancre": "fiche-3-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "f08274c7dd0616f4"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 4,
+          "ancre": "etape-4",
+          "fiches": [
+            {
+              "numero": "4.1",
+              "ancre": "fiche-4-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "e2200a2a6c71d7fc"
+            },
+            {
+              "numero": "4.2",
+              "ancre": "fiche-4-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "d191e438fcb07c9c"
+            },
+            {
+              "numero": "4.3",
+              "ancre": "fiche-4-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "RYjfe8OSRFw"
+              },
+              "empreinte": "ab1e2772f1b75e00"
+            },
+            {
+              "numero": "4.4",
+              "ancre": "fiche-4-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "uEj_jmlANXE"
+              },
+              "empreinte": "2b43392c6b04d8c2"
+            },
+            {
+              "numero": "4.5",
+              "ancre": "fiche-4-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "98d504e60db50297"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 5,
+          "ancre": "etape-5",
+          "fiches": [
+            {
+              "numero": "5.1",
+              "ancre": "fiche-5-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "cd0aa2c7ea4aa618"
+            },
+            {
+              "numero": "5.2",
+              "ancre": "fiche-5-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "4487bdbd5f69d28d"
+            },
+            {
+              "numero": "5.3",
+              "ancre": "fiche-5-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "cl-fIl6hjTw"
+              },
+              "empreinte": "34b8ee92750fde19"
+            },
+            {
+              "numero": "5.4",
+              "ancre": "fiche-5-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "JtU_EB5i2Mk"
+              },
+              "empreinte": "bfc6b5a1949ec9fa"
+            },
+            {
+              "numero": "5.5",
+              "ancre": "fiche-5-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "b033c20539f76e02"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 6,
+          "ancre": "etape-6",
+          "fiches": [
+            {
+              "numero": "6.1",
+              "ancre": "fiche-6-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "42424cb37457c165"
+            },
+            {
+              "numero": "6.2",
+              "ancre": "fiche-6-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "2cf10d6194078362"
+            },
+            {
+              "numero": "6.3",
+              "ancre": "fiche-6-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "eYhWcDdI3rM"
+              },
+              "empreinte": "6921eeb5a7dab4a8"
+            },
+            {
+              "numero": "6.4",
+              "ancre": "fiche-6-4",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "93df935ef3d91a2f"
+            }
+          ],
+          "fichesNeuves": []
+        }
+      ]
+    },
+    {
+      "slug": "boulot",
+      "fiche0": {
+        "ancre": "fiche-0",
+        "champs": [
+          "description",
+          "duration",
+          "timePerWeek",
+          "personaTagline"
+        ],
+        "empreinte": "a3e6714cae0a0831"
+      },
+      "etapes": [
+        {
+          "ordre": 1,
+          "ancre": "etape-1",
+          "fiches": [
+            {
+              "numero": "1.1",
+              "ancre": "fiche-1-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "6b3064eb4b57eb19"
+            },
+            {
+              "numero": "1.2",
+              "ancre": "fiche-1-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "3de07c0dbf025819"
+            },
+            {
+              "numero": "1.3",
+              "ancre": "fiche-1-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "57Ip2k3us_8"
+              },
+              "empreinte": "6053a83d0a4425bf"
+            },
+            {
+              "numero": "1.4",
+              "ancre": "fiche-1-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "rldvVgHQSvo"
+              },
+              "empreinte": "65209040ff028a3e"
+            },
+            {
+              "numero": "1.5",
+              "ancre": "fiche-1-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "dcf2d895743b45b7"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 2,
+          "ancre": "etape-2",
+          "fiches": [
+            {
+              "numero": "2.1",
+              "ancre": "fiche-2-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "beaeb46c645c73a1"
+            },
+            {
+              "numero": "2.2",
+              "ancre": "fiche-2-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "e8e41853ec9c5011"
+            },
+            {
+              "numero": "2.3",
+              "ancre": "fiche-2-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "QGqA4va99rw"
+              },
+              "empreinte": "0e7a6b745f73e572"
+            },
+            {
+              "numero": "2.4",
+              "ancre": "fiche-2-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "zGT7TX66JFQ"
+              },
+              "empreinte": "a7de8509f29da167"
+            },
+            {
+              "numero": "2.5",
+              "ancre": "fiche-2-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "5251c0365223435c"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 3,
+          "ancre": "etape-3",
+          "fiches": [
+            {
+              "numero": "3.1",
+              "ancre": "fiche-3-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "333e9b07dd5066b6"
+            },
+            {
+              "numero": "3.2",
+              "ancre": "fiche-3-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "4a69c844672f8f45"
+            },
+            {
+              "numero": "3.3",
+              "ancre": "fiche-3-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "NebHsD_K9lM"
+              },
+              "empreinte": "cf9606f181d4e02b"
+            },
+            {
+              "numero": "3.4",
+              "ancre": "fiche-3-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "3v8Y4C9Q5hE"
+              },
+              "empreinte": "d2b61cadfac37554"
+            },
+            {
+              "numero": "3.5",
+              "ancre": "fiche-3-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "de769dff3625c146"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 4,
+          "ancre": "etape-4",
+          "fiches": [
+            {
+              "numero": "4.1",
+              "ancre": "fiche-4-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "be93533adac33829"
+            },
+            {
+              "numero": "4.2",
+              "ancre": "fiche-4-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "c08d71bec94b6be6"
+            },
+            {
+              "numero": "4.3",
+              "ancre": "fiche-4-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "DK7ASNHnKm4"
+              },
+              "empreinte": "2d215e66d0265684"
+            },
+            {
+              "numero": "4.4",
+              "ancre": "fiche-4-4",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "TDmd7JRlxFc"
+              },
+              "empreinte": "c49b4273532a5d78"
+            },
+            {
+              "numero": "4.5",
+              "ancre": "fiche-4-5",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "5ff6c8e34edb45cb"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 5,
+          "ancre": "etape-5",
+          "fiches": [
+            {
+              "numero": "5.1",
+              "ancre": "fiche-5-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "e3ad4e40461978eb"
+            },
+            {
+              "numero": "5.2",
+              "ancre": "fiche-5-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "50e27b4242320846"
+            },
+            {
+              "numero": "5.3",
+              "ancre": "fiche-5-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "ztKRY4eNUTA"
+              },
+              "empreinte": "0cb1436c47447717"
+            },
+            {
+              "numero": "5.4",
+              "ancre": "fiche-5-4",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "281e9dd834c85174"
+            }
+          ],
+          "fichesNeuves": []
+        },
+        {
+          "ordre": 6,
+          "ancre": "etape-6",
+          "fiches": [
+            {
+              "numero": "6.1",
+              "ancre": "fiche-6-1",
+              "ref": {
+                "bloc": "conseil"
+              },
+              "empreinte": "0a1bc270774348db"
+            },
+            {
+              "numero": "6.2",
+              "ancre": "fiche-6-2",
+              "ref": {
+                "bloc": "vannes"
+              },
+              "empreinte": "d6a6db2714348826"
+            },
+            {
+              "numero": "6.3",
+              "ancre": "fiche-6-3",
+              "ref": {
+                "bloc": "video",
+                "youtubeId": "Fw14PLdtSyA"
+              },
+              "empreinte": "3fca0383a228caa8"
+            },
+            {
+              "numero": "6.4",
+              "ancre": "fiche-6-4",
+              "ref": {
+                "bloc": "quiz"
+              },
+              "empreinte": "b8e902e3a7d3e71a"
+            }
+          ],
+          "fichesNeuves": []
+        }
+      ]
+    }
+  ]
+}

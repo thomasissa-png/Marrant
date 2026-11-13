@@ -171,9 +171,12 @@ export async function deleteAccount(userId: string): Promise<{ deleted: boolean;
  * Données de parcours d'un compte, pour une demande d'accès ou de portabilité
  * (s17, avis @legal C14) : progression, dates par étape, retours d'exercice,
  * préférence de rappel (preuve du consentement comprise). Lecture seule.
+ * s24 (@legal, `docs/legal/espace-c9-information-s24.md`, point 1) : réglages de l'espace
+ * (`EspaceCompte` : réponse C9 et ses dates) et annonces de cap et de bonus déjà faites
+ * (`CapAnnonce`, lot D4). Tables vides tant que l'espace est fermé.
  */
 export async function collecterDonneesParcours(userId: string) {
-  const [progressions, etapes, retours, rappel] = await Promise.all([
+  const [progressions, etapes, retours, rappel, espace, annoncesCaps] = await Promise.all([
     prisma.userPathProgress.findMany({
       where: { userId },
       select: { learningPath: { select: { slug: true } }, completedSteps: true, startedAt: true, completedAt: true },
@@ -199,6 +202,15 @@ export async function collecterDonneesParcours(userId: string) {
         lastSentAt: true,
       },
     }),
+    prisma.espaceCompte.findUnique({
+      where: { userId },
+      select: { aise: true, aiseLe: true, rencontreServieLe: true, createdAt: true, updatedAt: true },
+    }),
+    prisma.capAnnonce.findMany({
+      where: { userId },
+      select: { type: true, numero: true, annonceLe: true, silencieux: true },
+      orderBy: [{ type: "asc" }, { numero: "asc" }],
+    }),
   ]);
-  return { progressions, etapes, retours, rappel };
+  return { progressions, etapes, retours, rappel, espace, annoncesCaps };
 }

@@ -1,13 +1,17 @@
 import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
 import { SERIE } from "@/config/textes/parcours";
+import { TEXTES_CAPS } from "@/config/textes/espace-caps";
+import { NUMEROS_CAPS, type NumeroCap } from "@/lib/espace/caps";
+import { cn } from "@/lib/utils";
 
 /**
  * « Ton mois » (architecture 4.4) : seul endroit de « Aujourd'hui » où la série figure ; à partir de
  * J25 environ, absent tant que rien n'est fait (la page décide). Textes validés de la série
  * (`SERIE`, s17), flamme SVG décorative sans animation, l'information est dans le texte. Le cap
- * (lot D4), les situations jouées et les missions (lot D5) s'ajoutent à leurs lots.
+ * (lot D4 : mêmes textes et repères que la carte « Ton cap », sans annonce de bonus), les situations
+ * jouées et les missions (lot D5) s'ajoutent à leurs lots.
  */
-export function TonMois({ serie }: { serie: number }) {
+export function TonMois({ serie, cap }: { serie: number; cap: NumeroCap }) {
   return (
     <section aria-labelledby="mois-titre" className="space-y-3 rounded-lg border border-border bg-background-card p-4 md:p-6">
       <h2 id="mois-titre" className="font-display text-xl font-bold text-text-primary">
@@ -21,6 +25,15 @@ export function TonMois({ serie }: { serie: number }) {
         <span>{serie > 0 ? SERIE.jours(serie) : SERIE.zero}</span>
       </p>
       <p className="text-sm text-text-secondary">{SERIE.aide}</p>
+      <p className="text-base font-semibold text-text-primary">
+        <span aria-hidden="true">{TEXTES_CAPS.capVisible(cap)}</span>
+        <span className="sr-only">{TEXTES_CAPS.capLu(cap)}</span>
+      </p>
+      <div className="flex gap-2" aria-hidden="true">
+        {NUMEROS_CAPS.map((n) => (
+          <i key={n} className={cn("block h-4 w-4 rounded-full border-2 border-accent-primary", n <= cap && "bg-accent-primary")} />
+        ))}
+      </div>
     </section>
   );
 }

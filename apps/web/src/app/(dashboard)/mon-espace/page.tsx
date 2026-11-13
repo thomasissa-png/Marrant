@@ -75,7 +75,7 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
         </div>
         {mois.montrer && (
           <div className="flex flex-col gap-6">
-            <TonMois serie={mois.serie} />
+            <TonMois serie={mois.serie} cap={mois.cap} />
           </div>
         )}
       </div>

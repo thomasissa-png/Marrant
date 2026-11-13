@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+
+/**
+ * s24 lot D4 (niveaux-xp-s24.md 3.0, points 3 et 5) : espace ouvert, la bulle reste au moins 5 s et
+ * ne porte plus d'emoji ; fermé, rendu et durée d'aujourd'hui.
+ */
+const DUREE_BULLE_MS = ESPACE_CLIENT_PUBLIE ? 5000 : 2000;
 
 interface XpEvent {
   id: string;
@@ -32,7 +39,7 @@ export function XpNotificationProvider() {
     if (events.length === 0) return;
     const timer = setTimeout(() => {
       setEvents((prev) => prev.slice(1));
-    }, 2000);
+    }, DUREE_BULLE_MS);
     return () => clearTimeout(timer);
   }, [events]);
 
@@ -47,7 +54,7 @@ export function XpNotificationProvider() {
           role="status"
           aria-label={`${ev.amount} XP gagnés`}
         >
-          +{ev.amount} XP ⚡
+          {ESPACE_CLIENT_PUBLIE ? `+${ev.amount} XP` : <>+{ev.amount} XP ⚡</>}
         </div>
       ))}
     </div>

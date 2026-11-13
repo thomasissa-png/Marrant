@@ -1,5 +1,6 @@
 "use client";
 
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -221,7 +222,10 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   });
 
   // s17 tour 2 (UXV-2-05) : abonné qui a entamé un parcours = ses cartes d'abord, le quiz d'orientation après.
-  const parcoursEntame = statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0);
+  // s24 lot D4 : espace ouvert, l'abonné a l'en-tête de l'espace (étape à reprendre) au-dessus de la liste :
+  // pas de second « Reprendre », le quiz d'orientation passe sous la liste (fermé : inchangé).
+  const enteteEspace = ESPACE_CLIENT_PUBLIE && statut === "premium";
+  const parcoursEntame = enteteEspace || (statut === "premium" && Object.values(userProgress).some((p) => p.completed > 0));
   const quizOrientation = (
     <div className={parcoursEntame ? "mt-10" : "mb-10"}>
       <h2 className="mb-4 font-display text-xl font-bold">
@@ -240,7 +244,7 @@ export function ParcoursContent({ parcours }: { parcours: ParcoursCatalogueItem[
   return (
     <>
       {/* Reprise pour la personne qui a un parcours en cours (UX-11) */}
-      {reprise && userProgress[reprise.slug]?.nextStep && (
+      {!enteteEspace && reprise && userProgress[reprise.slug]?.nextStep && (
         <div className="mb-8 rounded-lg border border-accent-primary/40 bg-accent-primary/5 p-4 text-center">
           <Link
             href={`/parcours/${reprise.slug}?src=hub#etape-${userProgress[reprise.slug].nextStep}`}

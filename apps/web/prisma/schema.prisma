@@ -96,6 +96,8 @@ model User {
   /// s24 lot 0 : mesure d'usage serveur (migration 18).
   usageEvents   UsageEvent[]
   espaceCompte  EspaceCompte?
+  /// s24 lot D4 : annonces de cap et de bonus déjà faites (migration 22).
+  capAnnonces   CapAnnonce[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1322,4 +1324,20 @@ model EspaceCompteur {
   n      Int      @default(0)
 
   @@unique([jour, cle, valeur])
+}
+
+/// s24 (espace client, lot D4, migration 22) : annonces de cap (« Nouveau cap ») et de bonus
+/// (« Un bonus s'ouvre ») déjà faites, une fois chacune (niveaux-xp-s24.md 3.0, 5.4). Le recalcul
+/// unique de l'ouverture écrit ses lignes avec `silencieux = true` (aucune annonce). Cascade.
+model CapAnnonce {
+  id         String   @id @default(cuid())
+  userId     String
+  type       String // CAP | BONUS (contrainte CHECK en base)
+  numero     Int // 1 à 5 (contrainte CHECK en base)
+  annonceLe  DateTime @default(now())
+  silencieux Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, numero])
 }

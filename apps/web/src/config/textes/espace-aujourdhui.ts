@@ -5,7 +5,8 @@
  * - titres de blocs, scène par défaut, puces : maquette validée `docs/espace-client/etalons/e5/aujourdhui.html` ;
  * - « Tu as fait le tour de celles-ci : ouvre la Bibliothèque » : architecture v20 4.4 ;
  * - question C9 et ses quatre réponses : décision de Thomas du 12/11 (`founder-preferences.md`, architecture 4.2) ;
- * - série : `SERIE` de `config/textes/parcours.ts` (validé s17), repris par import, jamais recopié.
+ * - série : `SERIE` de `config/textes/parcours.ts` (validé s17), repris par import, jamais recopié ;
+ * - information sous la question C9 : `docs/legal/espace-c9-information-s24.md` (@legal, porte G9), mot pour mot.
  * Contrôle automatique : zéro tiret cadratin, zéro émoji (`__tests__/espace/aujourdhui-s24.test.tsx`).
  */
 
@@ -71,5 +72,12 @@ export const TEXTES_AUJOURDHUI = {
     reponses: { POTES: "Entre potes", BOULOT: "Au boulot", PLAIRE: "Pour plaire", PARTOUT: "Partout" },
     /** Libellé (19), première phrase : la seconde (« Ton texte est toujours là. ») ne vaut pas ici. */
     echec: "L'enregistrement n'a pas abouti.",
+    /**
+     * Information RGPD sous la question (@legal, `docs/legal/espace-c9-information-s24.md`, « Phrase à
+     * afficher sous la question »), mot pour mot. Sans la variante « Pour la changer, écris à… » (au choix
+     * du fondateur, non tranché). Draft à faire valider par un avocat avant ouverture.
+     */
+    information:
+      "Ta réponse sert à choisir les situations qu'on te propose. Elle reste sur ton compte, et elle est effacée si tu supprimes ton compte.",
   },
 } as const;

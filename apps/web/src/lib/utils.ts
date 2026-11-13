@@ -9,7 +9,10 @@ export function cn(...inputs: ClassValue[]): string {
 }
 
 /**
- * Niveaux utilisateur avec seuils XP
+ * Niveaux utilisateur avec seuils XP.
+ * A_SUPPRIMER_APRES_OUVERTURE (s24, lot D13) : anciens noms, icônes et seuils, servis tant que
+ * l'espace est fermé (carte « Progression » du /profil) ; seule source de l'ancienne table
+ * (`SEUILS_ANCIENS` de `lib/progression.ts` la lit). Ouvert : caps de `lib/espace/caps.ts`.
  */
 export const USER_LEVELS = {
   NOVICE: { label: "Novice", minXp: 0, icon: "🌱" },

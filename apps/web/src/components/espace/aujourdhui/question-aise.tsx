@@ -8,6 +8,8 @@ import type { ReponseAise } from "@/lib/espace/aise";
  * « Où veux-tu être plus à l'aise ? » (décision C9) : élément SECONDAIRE, une seule fois, après le
  * premier pas fait (jamais avant : la page ne le monte pas sinon), quatre boutons de 44 px, jamais
  * l'action principale ; disparaît après la réponse. Échec : la question reste, une ligne le dit.
+ * Sous la question, l'information de @legal (G9) : à quoi sert la réponse, où elle reste, quand elle
+ * est effacée (`aria-describedby` du groupe, lue avec la question).
  */
 const REPONSES: readonly ReponseAise[] = ["POTES", "BOULOT", "PLAIRE", "PARTOUT"];
 
@@ -39,7 +41,10 @@ export function QuestionAise() {
       <h2 id="aise-titre" className="text-base font-semibold text-text-primary">
         {T.aise.question}
       </h2>
-      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-labelledby="aise-titre">
+      <p id="aise-information" className="mt-1 text-sm text-text-secondary">
+        {T.aise.information}
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2" role="group" aria-labelledby="aise-titre" aria-describedby="aise-information">
         {REPONSES.map((r) => (
           <button
             key={r}

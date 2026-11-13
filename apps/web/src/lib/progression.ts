@@ -15,29 +15,43 @@
  */
 import { PARCOURS_SEED_JSON as parcoursSeed } from "@/lib/parcours-seed";
 import { parisParts } from "@/lib/analytics/weekly-visits-period";
+import { USER_LEVELS } from "@/lib/utils";
+import { PARCOURS_BONUS_FIN_XP, PARCOURS_ETAPE_XP_DEFAUT, totalParcoursXp } from "@/lib/parcours-xp";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { SEUILS_PAR_NIVEAU } from "@/lib/espace/caps";
 
-export const XP_THRESHOLDS = {
-  NOVICE: 0,
-  APPRENTI: 100,
-  FARCEUR: 500,
-  COMIQUE: 1500,
-  LEGENDE: 5000,
-} as const;
+export type UserLevelName = keyof typeof USER_LEVELS;
 
-export type UserLevelName = keyof typeof XP_THRESHOLDS;
+/**
+ * A_SUPPRIMER_APRES_OUVERTURE (lot D13 du plan s24) : ancienne table 0/100/500/1 500/5 000, servie
+ * tant que l'espace est fermé (la carte « Progression » du /profil est en production). Valeurs lues
+ * dans `USER_LEVELS` (anciens noms, même échéance), jamais recopiées.
+ */
+export const SEUILS_ANCIENS: Record<UserLevelName, number> = {
+  NOVICE: USER_LEVELS.NOVICE.minXp,
+  APPRENTI: USER_LEVELS.APPRENTI.minXp,
+  FARCEUR: USER_LEVELS.FARCEUR.minXp,
+  COMIQUE: USER_LEVELS.COMIQUE.minXp,
+  LEGENDE: USER_LEVELS.LEGENDE.minXp,
+};
+
+/**
+ * Seuils appliqués à la validation d'étape (`User.level`). Interrupteur de l'espace fermé : l'ancienne
+ * table ; ouvert : les caps 0, 100, 300, 700, 2 300 (`lib/espace/caps.ts`, seul endroit de ces seuils,
+ * niveaux-xp-s24.md Q2).
+ */
+export const XP_THRESHOLDS: Record<UserLevelName, number> = ESPACE_CLIENT_PUBLIE ? SEUILS_PAR_NIVEAU : SEUILS_ANCIENS;
+
+const ORDRE_NIVEAUX: readonly UserLevelName[] = ["LEGENDE", "COMIQUE", "FARCEUR", "APPRENTI", "NOVICE"];
 
 export function calculateLevel(xp: number): UserLevelName {
-  if (xp >= XP_THRESHOLDS.LEGENDE) return "LEGENDE";
-  if (xp >= XP_THRESHOLDS.COMIQUE) return "COMIQUE";
-  if (xp >= XP_THRESHOLDS.FARCEUR) return "FARCEUR";
-  if (xp >= XP_THRESHOLDS.APPRENTI) return "APPRENTI";
-  return "NOVICE";
+  return ORDRE_NIVEAUX.find((n) => xp >= XP_THRESHOLDS[n]) ?? "NOVICE";
 }
 
-/** Bonus de fin de parcours (inchangé depuis s14). */
-export const PATH_COMPLETION_BONUS_XP = 100;
-/** XP d'une étape absente du seed. */
-export const DEFAULT_STEP_XP = 20;
+/** Bonus de fin de parcours (inchangé depuis s14) : la valeur de `lib/parcours-xp.ts` (source unique). */
+export const PATH_COMPLETION_BONUS_XP = PARCOURS_BONUS_FIN_XP;
+/** XP d'une étape absente du seed : la valeur de `lib/parcours-xp.ts` (source unique). */
+export const DEFAULT_STEP_XP = PARCOURS_ETAPE_XP_DEFAUT;
 /** Rythme doux (D2) : jours entre une validation et la prochaine étape conseillée. */
 export const NEXT_STEP_DELAY_DAYS = 7;
 
@@ -59,9 +73,13 @@ export function getStepXpFromSeed(pathSlug: string | null, stepOrder: number): n
   return step?.moduleXp ?? DEFAULT_STEP_XP;
 }
 
-/** Total d'XP d'un parcours, bonus de fin COMPRIS (UX-05 c : 325 et non 225 pour Machine à Café). */
+/**
+ * Total d'XP d'un parcours, bonus de fin COMPRIS (UX-05 c : 325 et non 225 pour Machine à Café).
+ * s24 (lot D4, source unique du total) : même formule que l'écran, `totalParcoursXp` de
+ * `lib/parcours-xp.ts`, appliquée aux `moduleXp` du seed.
+ */
 export function getPathXpTotal(pathSlug: string, stepOrders: number[]): number {
-  return stepOrders.reduce((sum, order) => sum + getStepXpFromSeed(pathSlug, order), 0) + PATH_COMPLETION_BONUS_XP;
+  return totalParcoursXp(stepOrders.map((order) => ({ moduleXp: getStepXpFromSeed(pathSlug, order) })));
 }
 
 /** Numéro de jour civil de Paris (jours depuis l'époque), pour comparer deux dates. */

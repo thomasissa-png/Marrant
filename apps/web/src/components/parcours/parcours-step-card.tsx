@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,10 @@ import {
   VideoCard,
 } from "@/components/parcours/step-blocks";
 import type { Step } from "@/components/parcours/parcours-types";
+
+// s24 lot D4 : fiches de l'étape (découpage), chargées à la demande, seulement avec `ancresFiches`
+// (espace ouvert, abonné) : interrupteur fermé, jamais rendues ni téléchargées.
+const LignesFiches = dynamic(() => import("@/components/espace/parcours/lignes-fiches").then((m) => m.LignesFiches));
 
 /**
  * s17 tour 3 (UXV-3-01) : la carte affiche-t-elle le bloc d'échec du chargement ? Règle unique,
@@ -189,6 +194,16 @@ export interface ParcoursStepCardProps {
   contexte?: string | null;
   /** s21 B14 : étape suivante (aperçu public), carte de la fin d'étape 1. */
   etapeSuivante?: Step | null;
+  /**
+   * s24 lot D4 : espace ouvert, abonné : liste des fiches de l'étape en tête et ancres `#fiche-N-M`
+   * posées sur les blocs existants (aucun texte touché). Absent (défaut) : rendu d'aujourd'hui.
+   */
+  ancresFiches?: boolean;
+}
+
+/** Repère d'ancre `#fiche-N-M` (lot D4), sans hauteur ni texte. */
+function AncreFiche({ id }: { id: string }) {
+  return <span id={id} aria-hidden="true" className="!mt-0 block scroll-mt-28" />;
 }
 
 export function ParcoursStepCard(props: ParcoursStepCardProps) {
@@ -356,8 +371,14 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
   // s19 (N4 @ux rendu iter 2) : « Version sans risque » et « Aller au défi », parcours Boulot seulement.
   const versionSansRisque = slug === "boulot" && exercice !== "";
   const defiAncre = `etape-${step.order}-defi`;
+  // s24 lot D4 : rangs du découpage (`data/espace/parcours-fiches.json`) : conseil 1, vannes 2, vidéos, quiz.
+  const ancres = props.ancresFiches === true;
+  const fiche = (rang: number) => `fiche-${step.order}-${rang}`;
+  const rangQuiz = 3 + (step.videos?.length ?? 0);
   return (
     <div className="space-y-6">
+      {ancres && <LignesFiches slug={slug} etape={step} />}
+      {ancres && <AncreFiche id={fiche(1)} />}
       {versionSansRisque && (
         // s19 iter 4 (S13 @ux) : -my-2, le blanc autour du lien passe de 40 à 32 px environ, cible de 44 px intacte.
         <a
@@ -465,6 +486,7 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         </Section>
       )}
 
+      {ancres && <AncreFiche id={fiche(2)} />}
       <StepJokes step={step} isPremium={isPremium} />
 
       {step.videos && step.videos.length > 0 && (
@@ -472,13 +494,20 @@ function StepContent(props: ParcoursStepCardProps & { hasQuiz: boolean }) {
         <div className="border-t border-border pt-6">
           <h4 className={SECTION_TITRE}>{VIDEOS_ETAPE.titre}</h4>
           <div className="grid gap-3 sm:grid-cols-2">
-            {step.videos.map((v) => (
-              <VideoCard key={v.youtubeId} video={v} seule={step.videos!.length === 1} />
-            ))}
+            {step.videos.map((v, i) =>
+              ancres ? (
+                <div key={v.youtubeId} id={fiche(3 + i)} className="scroll-mt-28">
+                  <VideoCard video={v} seule={step.videos!.length === 1} />
+                </div>
+              ) : (
+                <VideoCard key={v.youtubeId} video={v} seule={step.videos!.length === 1} />
+              ),
+            )}
           </div>
         </div>
       )}
 
+      {ancres && hasQuiz && <AncreFiche id={fiche(rangQuiz)} />}
       {/* Visiteur : le quiz reste affiché une fois fini (résultat, « Refaire le quiz »), UXV-1-04. */}
       {hasQuiz && (!isQuizDone || !isPremium) && !isCompleted && (
         <div className="border-t border-border pt-6">

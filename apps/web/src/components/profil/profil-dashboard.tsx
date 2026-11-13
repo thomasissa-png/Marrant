@@ -23,6 +23,8 @@ import { RappelParcoursToggle } from "@/app/(dashboard)/profil/rappel-parcours-t
 import { LettreHebdoReglage } from "@/components/lettre/lettre-hebdo-reglage";
 import { QuestionEquipeCard } from "@/components/profil/question-equipe-card";
 import { trackCheckoutEchec, trackCheckoutOuvert } from "@/lib/checkout-tracking";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CapProfil } from "@/components/espace/cap-profil";
 
 const LEVEL_ORDER: (keyof typeof USER_LEVELS)[] = [
   "NOVICE",
@@ -151,7 +153,10 @@ export function ProfilDashboard() {
     <div className="grid gap-6 md:grid-cols-2">
       {isPremium && (
         <>
-      {/* Niveau & XP */}
+      {/* s24 lot D4 : espace ouvert, la carte « Ton cap » remplace la carte « Progression » (fermé : inchangé). */}
+      {ESPACE_CLIENT_PUBLIE ? (
+        <CapProfil xp={user.xp} serie={user.streak} />
+      ) : (
       <Card>
         <CardHeader>
           <CardTitle>Progression</CardTitle>
@@ -185,6 +190,7 @@ export function ProfilDashboard() {
           </p>
         </CardContent>
       </Card>
+      )}
 
       {/* Série (s17 tour 1, DES-1-03 / DES-1-09 : titre français, carte resserrée) */}
       <Card>

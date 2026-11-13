@@ -4,6 +4,7 @@
  * de l'étape), parcours actif sans étape (son étape 1). Cible introuvable ou inactive : null
  * (aucun signal, on passe à la suite de l'ordre 1). Lecture seule.
  */
+import { capDepuisXp, type NumeroCap } from "@/lib/espace/caps";
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, buildTipSlug, buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import type { Origine, OrigineResolue } from "@/lib/espace/premier-pas";
@@ -51,14 +52,21 @@ export async function premierPasFait(userId: string): Promise<boolean> {
 }
 
 /** Jours depuis la création de l'abonnement, étapes validées : de quoi décider « Ton mois » (J25, 4.4). */
-export async function lireMois(userId: string, maintenant: Date = new Date()): Promise<{ serie: number; montrer: boolean }> {
+export async function lireMois(
+  userId: string,
+  maintenant: Date = new Date(),
+): Promise<{ serie: number; montrer: boolean; cap: NumeroCap }> {
   const [compte, etapes] = await Promise.all([
-    prisma.user.findUnique({ where: { id: userId }, select: { streak: true, subscription: { select: { createdAt: true } } } }),
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: { streak: true, xp: true, subscription: { select: { createdAt: true } } },
+    }),
     prisma.userPathStepCompletion.count({ where: { userId } }),
   ]);
   const debut = compte?.subscription?.createdAt;
   const jours = debut ? (maintenant.getTime() - debut.getTime()) / 86_400_000 : 0;
-  return { serie: compte?.streak ?? 0, montrer: jours >= JOUR_TON_MOIS && etapes > 0 };
+  // Lot D4 : cap AFFICHÉ (total d'XP), mêmes textes que la carte « Ton cap » (architecture 4.4 point 2).
+  return { serie: compte?.streak ?? 0, montrer: jours >= JOUR_TON_MOIS && etapes > 0, cap: capDepuisXp(compte?.xp ?? 0) };
 }
 
 /** « Ton mois » à partir de J25 environ (architecture 4.4). */

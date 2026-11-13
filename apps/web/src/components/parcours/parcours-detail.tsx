@@ -46,6 +46,9 @@ import { FIN_ETAPE_1 } from "@/config/textes/cta-pages";
 import { isParcoursSlug } from "@/lib/entrees-parcours";
 import { PathCompletionCard } from "@/components/parcours/path-completion-card";
 import type { PathData, StatutParcours, Step, UserProgress } from "@/components/parcours/parcours-types";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { SommaireParcours } from "@/components/espace/parcours/sommaire-parcours";
+import { AnnonceApresValidation } from "@/components/espace/parcours/annonce-apres-validation";
 
 export type { PathData, UserProgress } from "@/components/parcours/parcours-types";
 
@@ -63,7 +66,10 @@ function firstIncomplete(steps: Step[], completed: number[]): number | null {
 function readHashStep(): number | null {
   if (typeof window === "undefined") return null;
   const match = window.location.hash.match(/^#etape-(\d{1,3})$/);
-  return match ? Number(match[1]) : null;
+  if (match) return Number(match[1]);
+  // s24 lot D4 : espace ouvert, `#fiche-N-M` ouvre l'étape N (fermé : ancre ignorée, comme aujourd'hui).
+  const fiche = ESPACE_CLIENT_PUBLIE ? window.location.hash.match(/^#fiche-(\d{1,3})-\d{1,2}$/) : null;
+  return fiche ? Number(fiche[1]) : null;
 }
 
 /**
@@ -109,6 +115,8 @@ export function ParcoursDetail({
   // sans minuterie ; l'annonce vocale reste dans une zone permanente.
   const [stepResults, setStepResults] = useState<Record<number, { xp: string | null; rythme: string | null }>>({});
   const [annonce, setAnnonce] = useState("");
+  // s24 lot D4 : nombre d'étapes validées sur cette page (relance la lecture de l'annonce de cap).
+  const [validationsEspace, setValidationsEspace] = useState(0);
   // s17 tour 1 (UXV-1-02) : invitation au rappel seulement pour un compte qui y a droit et ne l'a pas activé.
   const [rappelInvite, setRappelInvite] = useState(false);
   const [quizDone, setQuizDone] = useState<Set<number>>(new Set());
@@ -132,6 +140,8 @@ export function ParcoursDetail({
     status === "authenticated" &&
     (isPremiumPlan((session?.user as { plan?: string } | undefined)?.plan) || isPremiumPlan(storeUser?.plan));
   const statut: StatutParcours = isPremium ? "premium" : status === "authenticated" ? "membre" : "visiteur";
+  // s24 lot D4 : page enrichie de l'espace (sommaire, fiches, annonce de cap), abonné et interrupteur ouvert.
+  const espaceOuvert = ESPACE_CLIENT_PUBLIE && isPremium;
   // Valider une étape (étape 1 comprise) fait partie de Premium (s15 §1.1).
   const userId = (session?.user as { id?: string } | undefined)?.id;
   const abonnementHref = buildAbonnementUrl(`/parcours/${slug}`, "monthly", "parcours-etape");
@@ -433,6 +443,7 @@ export function ParcoursDetail({
             : PROCHAINE_ETAPE_DISPONIBLE;
         setStepResults((prev) => ({ ...prev, [stepOrder]: { xp: xpTexte, rythme } }));
         setAnnonce([xpTexte, rythme].filter(Boolean).join(" "));
+        if (ESPACE_CLIENT_PUBLIE) setValidationsEspace((n) => n + 1);
         // s21 : étapes validables dans n'importe quel ordre ; après la dernière, on revient à la première non validée.
         const nextStep =
           path.steps.find((s) => s.order > stepOrder && !completed.includes(s.order)) ??
@@ -607,7 +618,14 @@ export function ParcoursDetail({
             <>
               {/* Libellé passé à la barre : nom accessible de la progressbar (axe, s16).
                   s17 tour 2 : progression inconnue = squelette, jamais « 0/N » par défaut. */}
-              {progressionConnue ? (
+              {progressionConnue && espaceOuvert ? (
+                // s24 lot D4 : espace ouvert, abonné : barre globale, « n sur N étapes », liste numérotée.
+                <SommaireParcours
+                  etapes={path.steps.map((s) => ({ order: s.order, titre: s.moduleTitle ?? s.tip.title }))}
+                  faites={completedSteps}
+                  onOuvrir={allerAEtape}
+                />
+              ) : progressionConnue ? (
                 <ProgressBar
                   label={isPathCompleted ? "Parcours terminé !" : `${completedSteps.length}/${totalSteps} étapes complétées`}
                   value={completedSteps.length}
@@ -726,6 +744,8 @@ export function ParcoursDetail({
       )}
       {isPathCompleted && <div className="mb-8">{argumentaire}</div>}
 
+      {espaceOuvert && <AnnonceApresValidation validations={validationsEspace} />}
+
       <h2 className="mb-4 font-display text-xl font-bold">{TITRES_SECTIONS.programme}</h2>
       <div className="space-y-4" role="list" aria-label="Étapes du parcours" aria-busy={chargementPremium || undefined}>
         {path.steps.map((step, stepIndex) => {
@@ -766,6 +786,7 @@ export function ParcoursDetail({
               erreurValidation={completionError?.order === step.order ? completionError.message : null}
               resultat={stepResults[step.order] ?? null}
               contexte={stepIndex === 0 ? etapeContexteTexte(path.title, path.duration) : null}
+              ancresFiches={espaceOuvert}
             />
           );
         })}

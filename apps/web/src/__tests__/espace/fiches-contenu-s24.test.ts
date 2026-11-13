@@ -61,7 +61,8 @@ function sourcesFixtures(): SourcesFiches {
 
 describe("fichiers servis (src/data/espace)", () => {
   it("un fichier par type, plus les bonus, et rien d'autre", () => {
-    const attendus = [...Object.keys(FICHIERS_ESPACE), FICHIER_BONUS].map((n) => `${n}.json`).sort();
+    // Lot D4 : `parcours-fiches.json` (découpage des 25 étapes, références sans texte, test propre).
+    const attendus = [...Object.keys(FICHIERS_ESPACE), FICHIER_BONUS, "parcours-fiches"].map((n) => `${n}.json`).sort();
     expect(readdirSync(DATA).sort()).toEqual(attendus);
   });
 

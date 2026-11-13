@@ -17,6 +17,8 @@ import { listeFr } from "@/lib/liste-fr";
 import { buildAbonnementUrl } from "@/lib/premium-return";
 import { MasqueSiPremium } from "@/components/home/masque-si-premium";
 import { frTypoTexte } from "@/lib/fr-typo";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { ParcoursEspace } from "@/components/espace/parcours/parcours-espace";
 
 // Rendu : Server Component statique (ISR du layout) ; progression et quiz côté client.
 // D8 (seo.md §6) : title « Cours d'humour en ligne » ; « première étape gratuite », jamais « cours gratuit ».
@@ -102,6 +104,9 @@ export default async function ParcoursPage() {
         })}
       </ul>
 
+      {/* s24 lot D4 : en-tête de l'abonné (4 premières semaines, étape à reprendre, « Ton cap »), côté
+          navigateur, seulement interrupteur de l'espace ouvert : fermé, HTML de la page inchangé. */}
+      {ESPACE_CLIENT_PUBLIE && <ParcoursEspace />}
       <ParcoursContent parcours={catalogue} />
 
       <JsonLd data={buildFaqJsonLd(faqSectionFaqs)} />

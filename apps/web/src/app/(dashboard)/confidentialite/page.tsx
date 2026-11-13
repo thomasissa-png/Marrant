@@ -14,6 +14,8 @@ import { CONFIDENTIALITE_RESILIATION as RESILIATION } from "@/config/textes/resi
 import { ONBOARDING_DATE_TEXTES, ONBOARDING_PREMIUM_OUVERT } from "@/config/onboarding-premium";
 import { CONFIDENTIALITE_ONBOARDING_PREMIUM } from "@/config/textes/onboarding-premium";
 import { MESURE_USAGE_DATE_TEXTES } from "@/config/mesure-usage";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
+import { CONFIDENTIALITE_ESPACE, ESPACE_DATE_TEXTES } from "@/config/textes/espace-confidentialite";
 
 const PAGE_URL = "https://deviens-marrant.fr/confidentialite";
 const PAGE_TITLE = "Politique de confidentialité";
@@ -74,6 +76,8 @@ const datesConfidentialite = () => [
   { ouvert: ONBOARDING_PREMIUM_OUVERT, date: ONBOARDING_DATE_TEXTES },
   // s24 : mesure d'usage, sans interrupteur (la mention part avec le code).
   { ouvert: true, date: MESURE_USAGE_DATE_TEXTES },
+  // s24 lot D4 (@legal G9) : question C9 de l'espace, une fois l'espace ouvert (date vide d'ici là).
+  { ouvert: ESPACE_CLIENT_PUBLIE, date: ESPACE_DATE_TEXTES },
 ];
 
 const SECTION_TITLE = "mb-2 text-lg font-semibold text-text-primary";
@@ -101,6 +105,8 @@ export default function ConfidentialitePage() {
             <li>Abonnement : formule, statut, dates de période. Tes données bancaires sont traitées par Stripe et ne passent jamais par nos serveurs</li>
             {/* s24 (mesure d'usage, bloc 1 de docs/legal/espace-client-s24-phrases.md), publié avec la mesure. */}
             <li data-testid="confidentialite-mesure-usage">Usage du service, si tu es ou as été abonné : la date et la formule (mensuelle, annuelle ou app) de ta souscription et de chaque renouvellement payé, ton premier contenu Premium affiché (son type ou son étape), ta première étape ou ton premier quiz terminé, chaque jour où tu termines un quiz, chaque ouverture du portail de paiement avec l’action choisie, et, si tu programmes ta résiliation, son heure et le motif choisi dans une liste. Aucun texte libre ni adresse IP. Ces données sont effacées avec ton compte</li>
+            {/* s24 lot D4 (@legal G9, espace-c9-information-s24.md) : publié avec l'ouverture de l'espace. */}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.donnees)}</li>}
             <li>Rétractation, si tu envoies une demande : adresse e-⁠mail, date d’achat indiquée, motif (facultatif) et une empreinte de ton adresse IP (pour limiter les abus, sans garder l’adresse elle-⁠même)</li>
             {/* s23 (@legal O2), publié avec l'ouverture de /resiliation. Ancre visée par la mention sous le champ libre. */}
             {RESILIATION_PAGE_OUVERTE && (
@@ -122,6 +128,7 @@ export default function ConfidentialitePage() {
             <li>Comprendre où les abonnés avancent ou décrochent (souscription, parcours, résiliation), à partir d’événements rattachés à ton compte et lus sous forme anonymisée, pour améliorer le service : intérêt légitime (tu peux t’y opposer, voir la partie 7)</li>
             <li>T’envoyer chaque semaine un rappel de ton parcours, uniquement si tu l’as demandé : ton consentement, que tu peux retirer à tout moment en un clic</li>
             {ONBOARDING_PREMIUM_OUVERT && <li data-testid="confidentialite-onboarding-premium">{frTypo(CONFIDENTIALITE_ONBOARDING_PREMIUM)}</li>}
+            {ESPACE_CLIENT_PUBLIE && <li data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.base)}</li>}
             {RESILIATION_PAGE_OUVERTE && <li data-testid="confidentialite-resiliation">{frTypo(RESILIATION.base)}</li>}
           </ul>
         </section>
@@ -165,7 +172,12 @@ export default function ConfidentialitePage() {
               @legal point 11 a) : texte neutre sans durée chiffrée en attendant. */}
           {/* P7, legal s17 §4. Phrase « Les statistiques de mesure d'audience sont conservées 25 mois au plus. »
               à ajouter seulement une fois la purge Umami réglée (C12, Thomas). */}
+          {/* s24 lot D4 (@legal G9) : ouvert, la phrase des étapes cite aussi la réponse C9 ; fermé, inchangée. */}
+          {ESPACE_CLIENT_PUBLIE ? (
+            <p className="mt-2" data-testid="confidentialite-espace">{frTypo(CONFIDENTIALITE_ESPACE.dureeEtapes)} Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
+          ) : (
           <p className="mt-2">La date de chaque étape validée et tes retours sur les exercices sont gardés tant que ton compte existe, et effacés avec lui. Ton rappel de parcours s’arrête dès que tu le désactives, que ton abonnement Premium prend fin ou que tu supprimes ton compte.</p>
+          )}
           <p className="mt-2">Si tu nous as envoyé une demande de rétractation, elle est gardée comme preuve de son traitement, le temps nécessaire pour répondre à une éventuelle contestation.</p>
           {/* s22, avis @legal §4.3 (B1) : durée propre des échanges avec l'équipe, publiée avec le service. */}
           {/* s23 (@legal O3), durée provisoire RESILIATION_CONSERVATION_MOIS. */}

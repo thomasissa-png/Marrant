@@ -85,6 +85,8 @@ export const SERIE = {
 } as const;
 
 // s17 tour 1 (UXV-1-09) : phrase sous la barre de niveau, selon le niveau réel (plus de « Premiers XP » à 600 XP)
+// A_SUPPRIMER_APRES_OUVERTURE (s24, lot D13) : espace ouvert, la carte « Progression » est remplacée par
+// « Ton cap » (`config/textes/espace-caps.ts`) ; ces phrases ne sont plus rendues.
 export const PROGRESSION_NIVEAU = {
   max: "Niveau maximum. Il ne te reste plus qu’à faire rire les autres.",
   presque: "Le niveau suivant est à portée de vanne.",
