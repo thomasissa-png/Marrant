@@ -6,6 +6,11 @@
  * celui de l'import : relit les seeds et la table sans passer par `controlerCitation`.
  * Diff zéro sur les seeds (P0 s11) : empreinte SHA-256 des deux fichiers figée au commit 04467bd3 ; une
  * modification d'un seed fait échouer ce test (les missions qui le citent sont alors à revalider).
+ * D10c (s24, décision Thomas du 13/11) : empreinte du seed vidéo mise à jour pour UNE seule retouche,
+ * l. 706 (fiche 39, champ exercise) : « Relativise. — Justement » devient « Relativise. » « Justement »
+ * (le tiret cadratin remplacé par « » « », 1 caractère retiré, 3 posés) ; aucune autre ligne ne change
+ * (ancienne empreinte 13e31701175c5e3dfb184915e552387ac7d670cd8dcbc4b071769c039398166c). La mission
+ * video-39, revalidée, est importée : 107 missions.
  */
 import { createHash } from "crypto";
 import { readFileSync } from "fs";
@@ -21,7 +26,7 @@ const { missions: resultat } = construireImport();
 
 const EMPREINTES_SEEDS: Record<keyof typeof SEEDS_MISSIONS, string> = {
   conseil: "3271f7ec83289ce1adc7297923947c16869ea99aeee160bda0543e0ad5bf97db",
-  video: "13e31701175c5e3dfb184915e552387ac7d670cd8dcbc4b071769c039398166c",
+  video: "397ec8b3a3073ba735ae7172e86cf3a1e833b6e861b0e3647c6acb6b59031e39",
 };
 
 /** Ligne de la table (sections 2 et 3) d'un id : [défi, « l. N », marche]. */
@@ -45,11 +50,12 @@ describe("missions importées (table d'étiquetage + suites génériques)", () =
     expect(resultat.horsMissions).toHaveLength(20);
   });
 
-  it("video-39 (marche 1) écartée sans correction : tiret cadratin dans le seed ; 106 missions servies", () => {
-    expect(resultat.ecartees.map((e) => e.id)).toEqual(["video-39"]);
-    expect(servies).toHaveLength(106);
+  it("video-39 (marche 1) importée après correction du seed (D10c) : aucune écartée, 107 missions servies", () => {
+    expect(resultat.ecartees).toEqual([]);
+    expect(servies).toHaveLength(107);
     const parMarche = [1, 2, 3, 4, 5].map((n) => servies.filter((m) => m.marche === n).length);
-    expect(parMarche).toEqual([43, 10, 39, 6, 8]);
+    expect(parMarche).toEqual([44, 10, 39, 6, 8]);
+    expect(servies.find((m) => m.id === "video-39")?.enonce.join(" ")).toContain("« Relativise. » « Justement, j'ai relativisé");
     for (const m of servies) expect(m.enonce.join(" ")).not.toContain("—");
   });
 

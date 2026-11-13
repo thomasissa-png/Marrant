@@ -251,9 +251,9 @@ describe("missions en 5 marches (2.4)", () => {
     expect(marcheProposee([r("x", 5, "essaye-ca-a-marche")])).toBe(5);
   });
 
-  it("le fichier servi est valide (106 missions importées, test missions-import-s24) ; une mission en double est refusée", () => {
+  it("le fichier servi est valide (107 missions importées, test missions-import-s24) ; une mission en double est refusée", () => {
     const servies = JSON.parse(readFileSync(join(__dirname, "../../data/espace/missions.json"), "utf8"));
-    expect(validerMissions(servies)).toHaveLength(106);
+    expect(validerMissions(servies)).toHaveLength(107);
     expect(() => validerMissions([missionsFixtures[0], missionsFixtures[0]])).toThrow();
   });
 });

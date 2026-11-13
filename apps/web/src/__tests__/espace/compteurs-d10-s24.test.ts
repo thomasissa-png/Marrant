@@ -143,7 +143,7 @@ describe("c) sources : aucun identifiant, aucune IP, aucun cookie passés aux co
   });
 });
 
-describe("durée de conservation de `UsageEvent` (constante unique, [HYPOTHÈSE : 13 mois] à fixer par Thomas)", () => {
+describe("durée de conservation de `UsageEvent` (constante unique, 13 mois validés par Thomas le 13/11)", () => {
   it("13 mois, limite calculée en UTC", () => {
     expect(DUREE_CONSERVATION_USAGE_MOIS).toBe(13);
     expect(limiteConservation(new Date("2027-12-20T10:00:00Z")).toISOString()).toBe("2026-11-20T10:00:00.000Z");

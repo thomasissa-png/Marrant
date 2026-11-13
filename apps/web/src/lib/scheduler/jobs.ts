@@ -1012,7 +1012,7 @@ export function createSchedulerJobs(callCronRoute: CronRouteCaller) {
    * Job : Purge de la mesure d'usage de l'espace (`UsageEvent`, s24 lot D10b ; avis @legal D9 point 3).
    * Une fois par jour à 4 h (Paris), comme les autres purges de données. INERTE tant que l'interrupteur
    * de l'espace est fermé (aucune lecture ni écriture). Ouvert : efface les événements plus vieux que
-   * `DUREE_CONSERVATION_USAGE_MOIS` ([HYPOTHÈSE : 13 mois] à fixer par Thomas, constante unique, la même
+   * `DUREE_CONSERVATION_USAGE_MOIS` (13 mois validés par Thomas le 13/11, constante unique, la même
    * que la phrase de la politique de confidentialité). Sans verrou : effacement idempotent.
    */
   const runUsageEventsPurgeJob = async (now: Date = new Date()): Promise<number> => {

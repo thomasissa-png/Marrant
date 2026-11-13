@@ -2,7 +2,7 @@
  * Missions en 5 marches (s24, lot D5 ; architecture v20 2.4 ; maquette `mission.html` ; texte validé de la
  * mission Confiance marche 2 : `docs/copy/libelles-espace-e5-s24.md` §4).
  *
- * Contenu en fichier (`data/espace/missions.json`, 106 missions importées par `scripts/importer-fiches.ts`
+ * Contenu en fichier (`data/espace/missions.json`, 107 missions importées par `scripts/importer-fiches.ts`
  * depuis l'étiquetage des défis, énoncé = champ `exercise` du seed ; les tests utilisent
  * `lib/espace/fixtures/missions.json`). Toujours facultatives, jamais comptées contre
  * l'abonné, une seule mission ouverte à la fois. La marche suivante dépend du retour, pas de la date :

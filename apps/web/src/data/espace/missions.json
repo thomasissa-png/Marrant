@@ -716,6 +716,17 @@
     }
   },
   {
+    "id": "video-39",
+    "marche": 1,
+    "enonce": [
+      "DÉFI CONTRE-INJONCTION : pendant 5 jours, note chaque soir une injonction entendue dans la journée (« Souris ! », « Ça va aller », « Relativise »). Le 6e jour, écris pour chacune une réponse honnête et drôle, par exemple : « Relativise. » « Justement, j'ai relativisé, c'est pour ça que je m'inquiète. » Garde celle que tu oserais vraiment dire."
+    ],
+    "suites": {
+      "marche": "Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message.",
+      "bof": "Une phrase qui sonne faux à voix haute, ça arrive."
+    }
+  },
+  {
     "id": "video-40",
     "marche": 3,
     "enonce": [

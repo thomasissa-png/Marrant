@@ -3,7 +3,7 @@
  *
  * Lot D10b (s24) : la purge de `UsageEvent` est programmée par le planificateur EXISTANT du dépôt
  * (`lib/scheduler/jobs.ts`, pas de nouveau mécanisme), inerte tant que l'interrupteur de l'espace est
- * fermé, durée en constante unique ([HYPOTHÈSE : 13 mois] à fixer par Thomas), la même que la phrase de la
+ * fermé, durée en constante unique (13 mois validés par Thomas le 13/11, D10c), la même que la phrase de la
  * politique de confidentialité. Interrupteur simulé ici (jamais le code livré, qui reste fermé).
  */
 import { readFileSync, readdirSync, statSync } from "fs";
@@ -78,9 +78,11 @@ describe("purge de `UsageEvent` programmée (lot D10b)", () => {
     expect(appelants).toEqual(["lib/mesure/conservation-usage.ts", "lib/scheduler/jobs.ts"]);
   });
 
-  it("durée : une seule constante, toujours [HYPOTHÈSE] à fixer par Thomas, reprise par la politique de confidentialité", () => {
+  it("durée : une seule constante, 13 mois validés par Thomas (13/11), reprise par la politique de confidentialité", () => {
     expect(DUREE_CONSERVATION_USAGE_MOIS).toBe(13);
-    expect(readFileSync(join(SRC, "lib/mesure/conservation-usage.ts"), "utf8")).toContain("[HYPOTHÈSE : 13 mois] À FIXER PAR THOMAS");
+    const source = readFileSync(join(SRC, "lib/mesure/conservation-usage.ts"), "utf8");
+    expect(source).not.toContain("HYPOTHÈSE");
+    expect(source).toContain("[CHOIX UTILISATEUR] validé par Thomas le 13/11");
     expect(CONFIDENTIALITE_ESPACE.mesure).toContain(`gardées au plus ${DUREE_CONSERVATION_USAGE_MOIS} mois`);
     expect(JOBS).not.toMatch(/occurredAt|setUTCMonth|13 \* 30/);
   });

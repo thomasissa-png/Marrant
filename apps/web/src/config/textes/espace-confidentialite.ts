@@ -45,7 +45,7 @@ export const CONFIDENTIALITE_ESPACE = {
    * T6 c, lot D10b : `mesure` raccourcie de @legal (point 3), qui corrige les deux fautes de @reviewer
    * (réplique et question ne sont que des compteurs anonymes ; plus de « jamais leur texte »). Sans point
    * final (style des puces). La durée vient de la constante de la purge, programmée lot D10b
-   * (`DUREE_CONSERVATION_USAGE_MOIS`, [HYPOTHÈSE : 13 mois] à fixer par Thomas) : texte et purge ne divergent pas.
+   * (`DUREE_CONSERVATION_USAGE_MOIS`, 13 mois validés par Thomas le 13/11) : texte et purge ne divergent pas.
    */
   mesure: `Usage de ton espace, si tu es abonné : chaque jour où tu l'ouvres et chaque cap atteint (son numéro). On compte aussi, sans aucun lien avec ton compte, combien de fois certains écrans s'ouvrent (cloche, bonus, coin « Humour noir », archive « Lettres ») et combien de répliques et de questions sont écrites. Aucune adresse IP. Les données rattachées à ton compte sont gardées au plus ${DUREE_CONSERVATION_USAGE_MOIS} mois, et effacées plus tôt avec ton compte`,
   baseMesure:

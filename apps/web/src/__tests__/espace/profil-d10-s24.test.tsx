@@ -281,8 +281,8 @@ describe("T11 : lignes de l'ancien abonné sur `/abonnement`", () => {
 
 describe("missions : préfixe « DÉFI XXX : » retiré à l'affichage seulement", () => {
   const liste = missions as Array<{ id: string; enonce: string[] }>;
-  it("les 106 énoncés affichés commencent sans « DÉFI », par une majuscule ; la donnée garde le préfixe", () => {
-    expect(liste).toHaveLength(106);
+  it("les 107 énoncés affichés commencent sans « DÉFI », par une majuscule ; la donnée garde le préfixe", () => {
+    expect(liste).toHaveLength(107);
     for (const m of liste) {
       const affiche = enonceAffiche(m.enonce);
       expect(m.enonce[0].startsWith("DÉFI ")).toBe(true);
