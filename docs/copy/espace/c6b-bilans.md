@@ -1,6 +1,6 @@
 # C6b : les 5 bilans de fin de parcours
 
-> Auteur : @copywriter, s24. **Statut : tour 3, à relire à l'aveugle.** Rien n'est publié.
+> Auteur : @copywriter, s24. **Statut : tour 4 (dernier), à relire à l'aveugle (B1, B3 et B5 corrigés ; B2 et B4 inchangés).** Rien n'est publié.
 > Modèle : `docs/espace-client/audit-contenu/architecture-contenu-v20.md` l. 536 à 545 (3.10). Schéma `bilan` de `apps/web/src/lib/espace/fiches-schema.ts` : 2 « laquelle », 1 « ordre », 1 « voix-haute ».
 > `[Framework : démonstration puis geste]` `[Conscience : Solution-Aware]`
 > **Mécanique des « laquelle » (tour 3)** : les trois options portent sur le MÊME sujet, celui du quiz de l'étape : la bonne réponse et deux mauvaises réponses du même quiz, mot pour mot. Le contexte neuf est une scène (qui est là, ce qui se passe), jamais l'énoncé de la règle. Le retour dit la règle et pourquoi les deux autres ne passent pas.
@@ -12,7 +12,7 @@
 ## 1. Machine à Café (`machine-a-cafe`)
 
 **Laquelle 1** (quiz S l.57)
-Contexte : « Lundi, 10 h 40, la matinée a été longue, et derrière toi à la machine, Kévin de la compta fait la queue en souriant. Tu te penches pour tenter ton faux secret. Laquelle ressortir ? »
+Contexte : « Lundi, 10 h 40, la matinée a été longue, et derrière toi à la machine, Kévin de la compta fait la queue. Tu te penches pour tenter ton faux secret. Laquelle ressortir ? »
 - A) « Ça reste entre nous : je trouve que les réunions du lundi sont trop longues. » (S l.59)
 - B) « Ça reste entre nous : Kévin de la compta fait semblant de comprendre les tableaux croisés dynamiques. » (S l.60)
 - C) « Ça reste entre nous : je relis toujours mes mails deux fois avant de les envoyer, et je les envoie quand même avec une faute. » (S l.61)
@@ -79,23 +79,23 @@ Consigne : « Dis maintenant la réponse entière à voix haute : “Après tout
 
 ## 3. Confiance (`confiance`)
 
-**Laquelle 1** (quiz S l.762)
-Contexte : « Lundi, à la machine, on te demande ton week-end, et le seul souvenir qui te vienne date de samedi : une heure à attendre, sans pouvoir rentrer chez toi. Laquelle ressortir ? »
-- A) « J'ai oublié mes clés. Ça ne m'étonne même plus de moi. » (S l.765)
-- B) « J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement. » (S l.766)
-- C) « J'ai oublié mes clés, mais bon, tout le monde fait ça. » (S l.767)
+**Laquelle 1** (quiz S l.840)
+Contexte : « Dîner entre amis de tous âges. On évoque l'époque du téléphone fixe et des modems, et tu veux en rire sans froisser personne. Laquelle ressortir ? »
+- A) « Avant, on se parlait vraiment. Maintenant, tout le monde est accro à son écran. » (S l.842)
+- B) « Avant, une page mettait trois minutes à s'afficher et on ne disait rien. Aujourd'hui, elle met une seconde et on soupire. » (S l.843)
+- C) « Franchement, c'était n'importe quoi, heureusement que ça a changé. » (S l.845)
 
 `bonneReponse` : 1 (B)
-Retour : « B. Un fait précis, et c'est le serrurier qui conclut : tu ne te juges pas. A retombe en verdict sur toi, C enlève la vanne en généralisant. »
+Retour : « B. Tu constates sans regretter, et la chute vient de l'écart entre avant et maintenant. A sermonne sur les écrans, C balaie l'avant sans rien observer : aucune des deux ne garde le ton tendre. »
 
-**Laquelle 2** (quiz S l.1096)
-Contexte : « Au dîner, quelqu'un te demande ce que devient ta vie. Ta semaine a été banale, avec une seule petite chose vraie à raconter : un bruit qui te réveille chaque jour. Laquelle ressortir ? »
-- A) « Mon voisin s'est mis au didgeridoo, tous les matins à 7h. Je ne lui en veux pas : il est plus matinal que moi. » (S l.1100)
-- B) « Beaucoup de choses ! » (S l.1099)
-- C) « Rien de spécial. » (S l.1098)
+**Laquelle 2** (quiz S l.972)
+Contexte : « À table, tu racontes un incident de lessive, et la tablée attend la suite. Laquelle ressortir ? »
+- A) « Compte rendu de dimanche : le programme 40 degrés a ramené un pull d'adulte au format d'un pull d'enfant. Les pertes sont estimées à un pull. » (S l.978)
+- B) « Ma lessive a rétréci mon pull, c'est pénible. » (S l.976)
+- C) « Tu sais, le pull qui a rétréci, un classique de la lessive. » (S l.979)
 
 `bonneReponse` : 0 (A)
-Retour : « A. Une micro-anecdote vraie, dans ton ton, donne à l'autre de quoi rebondir. “Rien de spécial” ferme la conversation, “beaucoup de choses” ne laisse rien à reprendre. »
+Retour : « A. Un ton de communiqué posé sur un incident banal : le contraste fait le travail. B constate simplement, C reste dans le registre de la conversation : le récit est correct, mais personne n'a de quoi sourire. »
 
 **Dans l'ordre**
 Consigne : « Remets dans l'ordre : trouver ton style d'humour. »
@@ -107,7 +107,7 @@ Consigne : « Remets dans l'ordre : trouver ton style d'humour. »
 Retour : « b, c, a. On cherche dans ce qui a marché, on note ce qui revient, puis on le refait exprès : le style se repère avant de se jouer. »
 
 **Dis-la à voix haute**
-Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, avec le sérieux d'un communiqué : “Compte rendu de dimanche : le programme 40 degrés a ramené un pull d'adulte au format d'un pull d'enfant. Les pertes sont estimées à un pull.” » (S l.978)
+Consigne : « Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, avec le sérieux d'un constat : “J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement.” » (S l.766)
 
 ---
 
@@ -157,13 +157,13 @@ Contexte : « Ton mail de confirmation pour l'atelier de jeudi est prêt, destin
 Retour : « A. Le PS rectifie un détail minuscule et sans enjeu : il détend sans rien parasiter. B est une formule de politesse qui ne fait pas sourire, C pique un service. »
 
 **Laquelle 2** (quiz BO l.632)
-Contexte : « Au pot d'un réseau pro, on te demande ton métier. Tu viens de dire : “Je plante des arbres dans un parc.” Laquelle ajoutes-tu ? »
+Contexte : « Au pot d'un réseau pro, on te demande ton métier. Tu viens de dire : “Je plante des arbres dans un parc.” La personne attend la suite, intriguée. Laquelle ajoutes-tu ? »
 - A) « La mairie me paie pour regarder pousser, avec patience, ce que d'autres ont mal choisi. » (BO l.634)
 - B) « Dans quarante ans, des familles pique-niqueront à l'ombre de mon travail, sans me remercier. » (BO l.636)
 - C) « Mais assez parlé de moi : et vous, qu'est-ce que vous faites ? » (BO l.637)
 
 `bonneReponse` : 1 (B)
-Retour : « B. La seconde phrase prolonge la première avec une image qui regarde loin, et ce temps long fait sourire. A plaisante sur les choix des autres, C passe la parole sans rien dire de ton métier. »
+Retour : « B. La seconde phrase prolonge la première avec une image qui regarde loin, et ce temps long fait sourire. A est drôle mais vise des choix qui ne sont pas les tiens et ne dit rien de ton travail ; C passe la parole alors que la personne attend la suite de ton métier. »
 
 **Dans l'ordre**
 Consigne : « Remets dans l'ordre : la vanne de couloir. »
@@ -185,16 +185,16 @@ Test d'acceptation : « Sans parcours » = hésite entre ces options ; « Avec p
 
 | Bilan | Contexte | Bonne réponse (ligne) | Mots du contexte absents de la bonne réponse | Sans parcours | Avec parcours |
 |---|---|---|---|---|---|
-| 1 | L1 | S l.61 | oui (matinée, Kévin, compta, queue, souriant, penches, tenter, faux, secret) | A ou C (deux phrases sur soi ou sur la matinée) | C : aveu minuscule sur toi, A se plaint, B vise Kévin |
+| 1 | L1 | S l.61 | oui (matinée, Kévin, compta, queue, penches, tenter, faux, secret) | A ou C (deux phrases sur soi ou sur la matinée) | C : aveu minuscule sur toi, A se plaint, B vise Kévin |
 | 1 | L2 | S l.160 | oui (vanne, quelqu'un, sujet, vacances, tablée, partie, tête, tourne) | A ou B (reprendre ou laisser passer) | B : le blanc reviendra |
 | 2 | L1 | S l.320 | oui (restaurant, attends, pousse, trente, minutes, début, repas, prévu, excusant, taquinez) | A ou B (une pique douce ou un reproche) | A : l'inverse dit avec douceur |
 | 2 | L2 | S l.341 | oui (cuisine, trouves, partage, appart, train, manger, repas, gardais, soir, sourire, lèvres) | A, B ou C (sincère, pique, ironie) | C : ironie sur la situation, sans reproche |
-| 3 | L1 | S l.766 | oui (week-end, souvenir, date, samedi, attendre, rentrer) | A ou B (deux versions drôles) | B : le serrurier conclut, A est un verdict |
-| 3 | L2 | S l.1100 | oui (dîner, quelqu'un, demande, devient, vie, semaine, banale, bruit, réveille) | A ou B (donner du contenu) | A : micro-anecdote qui donne prise |
+| 3 | L1 | S l.843 | oui (dîner, amis, âges, évoque, époque, téléphone, fixe, modems, rire, froisser, personne) | A ou B (deux comparaisons avant et maintenant, l'une nostalgique) | B : constat sans regret, A sermonne, C balaie |
+| 3 | L2 | S l.978 | oui (table, racontes, incident, lessive, tablée, attend, suite) | A, B ou C (trois façons correctes de raconter) | A : ton de communiqué sur un fait banal, B et C restent plats |
 | 4 | L1 | ST l.158 | oui (déménagement, proche, canapé, resté, coincé, étages, attend, fin) | A, B ou C (trois fins plausibles) | B : chute courte, sans leçon |
 | 4 | L2 | ST l.395 | oui (récit, attend, soir, rentrant, dire, amis, dernière, phrase) | B ou C (deux fins à effet) | C : montre sans nommer, A et B annoncent |
 | 5 | L1 | BO l.428 | oui (confirmation, atelier, jeudi, six, personnes, service, croises, signature, posée, humeur) | A ou B (une note sympa ou un détail) | A : rectifier un détail minuscule |
-| 5 | L2 | BO l.636 | oui (pot, réseau, pro, demande, métier, viens, plante, arbres, parc) | A ou B (deux secondes phrases drôles) | B : image qui regarde loin |
+| 5 | L2 | BO l.636 | oui (pot, réseau, pro, demande, métier, viens, plante, arbres, parc, personne, attend, suite, intriguée) | A, B ou C (deux secondes phrases drôles, ou rendre la parole) | B : image qui regarde loin, sur ton travail |
 
 | Contrôle | Résultat |
 |---|---|
@@ -221,3 +221,16 @@ Test d'acceptation : « Sans parcours » = hésite entre ces options ; « Avec p
 | Écho « Mon voisin… » de B1 L2 et B3 L2 | le leurre de B1 L2 est retiré |
 | Voix haute B3 proche de C4b J2 (four) | remplacée par S l.978, réponse juste |
 | Les 5 « ordre » | inchangés |
+
+## Tour 4 : retouche → ligne
+
+| Retouche demandée | Où |
+|---|---|
+| B1 L1 : « en souriant » retiré | contexte de la laquelle 1 du bilan 1 |
+| B3 L1 remplacée par le quiz S l.840 (bonne réponse S l.843, `correctIndex` 1 ; leurres S l.842 et l.845, vannes plausibles) | bilan 3, laquelle 1 |
+| B3 L2 remplacée par le quiz S l.972 (bonne réponse S l.978, `correctIndex` 2 ; leurres S l.976 et l.979), contexte sans indice | bilan 3, laquelle 2 |
+| Test d'hésitation B3 | table de contrôle : L1 hésitation entre A et B, L2 entre A, B et C ; les trois sont des phrases correctes qu'une personne sans parcours peut dire |
+| Voix haute B3 | passe sur S l.766 (la phrase de l'ancienne L1, réponse juste), pour ne pas doubler la laquelle 2 |
+| B5 L2 : « La personne attend la suite, intriguée » ajouté ; retour qui dit pourquoi A perd (vise des choix qui ne sont pas les tiens) | bilan 5, laquelle 2 |
+| B2, B4, les 5 « ordre » | non touchés |
+| Doublons du nouveau contexte B3 (téléphone fixe, modems, lessive) | grep dans qr*, c3*, c4*, c6a, c6c, c7 et le blog : aucune occurrence |
