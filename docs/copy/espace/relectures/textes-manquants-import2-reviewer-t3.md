@@ -1,0 +1,3 @@
+# Textes manquants de l'import 2, gestes S2 et S6, confirmation tour 3 : @reviewer, 13/11/2026
+- S2 : « Ce soir, redis ta première phrase une fois à voix haute, pour qu'elle passe en douce au repas que tu as choisi. » Geste à faire ce soir, tiré de la paire produite, qui respecte le repas choisi dans la séance et le « passe en douce » du callback. 10/10.
+- S6 : « Ce soir, après une de tes phrases, devine le nombre de signaux et sors la clôture qui va avec, ou rien s'il n'y en a aucun. » Ne présuppose plus le sourire et respecte la règle « aucun signal, aucun mot » de C6a. 10/10. Accords, tirets : 0. GO.
