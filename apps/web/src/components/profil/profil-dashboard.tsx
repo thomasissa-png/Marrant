@@ -155,7 +155,8 @@ export function ProfilDashboard() {
         <>
       {/* s24 lot D4 : espace ouvert, la carte « Ton cap » remplace la carte « Progression » (fermé : inchangé). */}
       {ESPACE_CLIENT_PUBLIE ? (
-        <CapProfil xp={user.xp} serie={user.streak} />
+        // Arbitrage @ux D4 n°2 (lot D5) : la carte « Série » est retirée espace ouvert, « Ton cap » prend la largeur.
+        <CapProfil xp={user.xp} serie={user.streak} className="md:col-span-2" />
       ) : (
       <Card>
         <CardHeader>
@@ -192,7 +193,9 @@ export function ProfilDashboard() {
       </Card>
       )}
 
-      {/* Série (s17 tour 1, DES-1-03 / DES-1-09 : titre français, carte resserrée) */}
+      {/* Série (s17 tour 1, DES-1-03 / DES-1-09 : titre français, carte resserrée). Lot D5 (arbitrage @ux D4
+          n°2) : espace ouvert, la série vit sur « Ton cap » (une seule occurrence) ; fermé, inchangé. */}
+      {!ESPACE_CLIENT_PUBLIE && (
       <Card>
         <CardHeader>
           <CardTitle>{SERIE.titre}</CardTitle>
@@ -201,6 +204,7 @@ export function ProfilDashboard() {
           <StreakCounter count={user.streak} />
         </CardContent>
       </Card>
+      )}
 
       {/* Statistiques (s17 tour 1, DES-1-09 : pleine largeur, plus de trou dans la grille) */}
       <Card className="md:col-span-2">

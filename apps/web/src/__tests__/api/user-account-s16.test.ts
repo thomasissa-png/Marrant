@@ -22,6 +22,12 @@ const mockDb = {
   cancellationFeedback: { updateMany: jest.fn(async () => ({ count: 0 })) },
   // s24 (avis @legal) : mesure d'usage et marqueur d'opposition effacés avec le compte.
   usageEvent: { deleteMany: jest.fn((a: unknown) => ({ op: "usageEvent.deleteMany", a })) },
+  // s24 lot D5 : cartes, « Fait », missions et « Ma réplique à moi » effacés avec le compte.
+  userReplique: { deleteMany: jest.fn((a: unknown) => ({ op: "userReplique.deleteMany", a })) },
+  missionRetour: { deleteMany: jest.fn((a: unknown) => ({ op: "missionRetour.deleteMany", a })) },
+  ficheFait: { deleteMany: jest.fn((a: unknown) => ({ op: "ficheFait.deleteMany", a })) },
+  carteReponse: { deleteMany: jest.fn((a: unknown) => ({ op: "carteReponse.deleteMany", a })) },
+  carteSuivi: { deleteMany: jest.fn((a: unknown) => ({ op: "carteSuivi.deleteMany", a })) },
   webhookEvent: { deleteMany: jest.fn((a: unknown) => ({ op: "webhookEvent.deleteMany", a })) },
   $transaction: jest.fn(async (ops: unknown[]) => ops),
 };
@@ -139,6 +145,11 @@ describe("deleteAccount (reco 5)", () => {
       "premiumLetterPreference.deleteMany",
       "newsletterSend.deleteMany",
       "usageEvent.deleteMany",
+      "userReplique.deleteMany",
+      "missionRetour.deleteMany",
+      "ficheFait.deleteMany",
+      "carteReponse.deleteMany",
+      "carteSuivi.deleteMany",
       "webhookEvent.deleteMany",
       "user.delete",
     ]);

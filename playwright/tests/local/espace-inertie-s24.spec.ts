@@ -28,6 +28,8 @@ const PAGES_PUBLIQUES = [
 
 test.describe("espace client fermé (s24, lot D0)", () => {
   localSeulement();
+  // Lot D5 : spec du régime FERMÉ ; sautée quand le serveur est construit interrupteur ouvert (bascule temporaire).
+  test.skip(process.env.E2E_ESPACE_OUVERT === "1", "régime fermé seulement");
 
   test("/mon-espace : la vraie 404, visiteur puis abonné, sans cache", async ({ page }) => {
     const reference = await page.goto(ADRESSE_INEXISTANTE);

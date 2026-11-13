@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TEXTES_AUJOURDHUI as T } from "@/config/textes/espace-aujourdhui";
 import { cn } from "@/lib/utils";
 import type { CategorieToucher } from "@/lib/espace/vanne";
+import { RepliquesCategorie } from "@/components/espace/aujourdhui/repliques-categorie";
 
 /**
  * Vanne du contenu du jour et son toucher « Ce soir, c'est plutôt ? » (architecture v20 4.4,
@@ -14,6 +15,8 @@ import type { CategorieToucher } from "@/lib/espace/vanne";
  * taille. Non-répétition dans la mémoire de la page seulement (rien sur le compte). Chaque toucher
  * et chaque « Une autre » est compté SANS identité (`/api/espace/compteur`, catégorie seule).
  * Catégories : celles qui atteignent le seuil (serveur) ; aucune : seul « Une autre » reste.
+ * Lot D5 : sous le toucher, « Tes répliques à toi pour {catégorie} » quand l'abonné en a pour la
+ * catégorie choisie (chargées à la demande) ; « Peu importe » : aucune ligne (2.7).
  */
 export type VanneAffichee = { id: string; content: string; punchline: string };
 
@@ -127,6 +130,7 @@ export function VanneToucher({ vanneDuJour, categories }: { vanneDuJour: VanneAf
           </div>
         </>
       )}
+      {choix && <RepliquesCategorie key={choix} categorie={choix} libelle={T.categories[choix]} />}
       <p className="sr-only" aria-live="polite">
         {annonce}
       </p>

@@ -106,3 +106,22 @@ export function methodeNonPermise(): NextResponse {
   if (!ESPACE_CLIENT_PUBLIE) return reponseEspaceFerme();
   return json({ error: "methode" }, 405);
 }
+
+/**
+ * Garde des routes qui restent ouvertes en LECTURE SEULE après la résiliation (lot D5, architecture
+ * 2.6 et 2.7 : « Mes répliques » se relit et se supprime) : 404 fermé, 401 sans session, 403 pour un
+ * compte qui n'a jamais été abonné, 503 base indisponible ; sinon le compte et `actif` (plan PREMIUM
+ * relu en base). Toute écriture autre qu'une suppression exige `actif`.
+ */
+export async function garderApiLectureSeule(): Promise<{ userId: string; actif: boolean } | NextResponse> {
+  if (!ESPACE_CLIENT_PUBLIE) return reponseEspaceFerme();
+  try {
+    const acces = await lireAccesEspace();
+    if (acces.acces === "connexion") return json({ error: "session" }, 401);
+    if (acces.acces === "abonnement") return acces.ancienAbonne ? { userId: acces.userId, actif: false } : json({ error: "non-premium" }, 403);
+    return { userId: acces.userId, actif: true };
+  } catch (error) {
+    console.error("[espace] lecture du compte impossible :", error);
+    return json({ error: "indisponible" }, 503);
+  }
+}

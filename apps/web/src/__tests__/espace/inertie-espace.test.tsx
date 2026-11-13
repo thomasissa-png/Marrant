@@ -139,6 +139,13 @@ describe("garde-fou de construction", () => {
     "lib/utils.ts",
     "config/textes/parcours.ts",
     "lib/account.ts",
+    // D5, déjà listés, touchés de nouveau :
+    // - `app/(dashboard)/parcours/(liste)/page.tsx` (arbitrage @ux D4 n°1) : fil d'Ariane et introduction
+    //   publique dans `MasqueSiPremium` seulement ouvert ; fermé, mêmes éléments (fragment), HTML identique ;
+    // - `components/profil/profil-dashboard.tsx` (arbitrage @ux D4 n°2) : carte « Série » rendue fermé
+    //   seulement, « Ton cap » en `md:col-span-2` ouvert ;
+    // - `lib/account.ts` : export et suppression du compte avec `CarteSuivi`, `CarteReponse`, `FicheFait`,
+    //   `MissionRetour`, `UserReplique` (tables vides fermé ; la suppression du compte emporte tout).
   ];
   const PERIMETRE = [
     /^app\/\(dashboard\)\/mon-espace\//,

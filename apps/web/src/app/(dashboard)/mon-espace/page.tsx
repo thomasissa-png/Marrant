@@ -15,6 +15,14 @@ import { PremierPas } from "@/components/espace/aujourdhui/premier-pas";
 import { ContenuDuJour } from "@/components/espace/aujourdhui/contenu-du-jour";
 import { QuestionAise } from "@/components/espace/aujourdhui/question-aise";
 import { TonMois } from "@/components/espace/aujourdhui/ton-mois";
+import { CartesDuJour } from "@/components/espace/aujourdhui/cartes-du-jour";
+import { EtapeEnCours } from "@/components/espace/aujourdhui/etape-en-cours";
+import { MissionLien } from "@/components/espace/aujourdhui/mission-lien";
+import { lireRafale, type EtatRafale } from "@/lib/espace/cartes-serveur";
+import { lireEtapeAReprendre } from "@/lib/espace/etape-serveur";
+import { missionOuverte, missionsServiesValidees } from "@/lib/espace/missions";
+import { lireRetoursMission } from "@/lib/espace/missions-serveur";
+import type { EtapeAReprendre } from "@/lib/espace/quatre-semaines";
 import { cn } from "@/lib/utils";
 
 /**
@@ -23,8 +31,11 @@ import { cn } from "@/lib/utils";
  * Rendu : SSR dynamique à chaque requête (données de l'abonné ; `force-dynamic` hérité du layout,
  * jamais en cache). Garde EN PREMIER (rendu partiel de Next) : 404 interrupteur fermé, connexion,
  * `/abonnement` sans abonnement actif.
- * État 1 (4.4) jusqu'au lot D5 : le premier pas est la seule action principale ; contenu du jour
- * (vanne et toucher, conseil, vidéo) ; « Ton mois » à partir de J25 s'il y a quelque chose à montrer.
+ * Quatre états (4.4, lot D5) : (1) aucune fiche faite : le premier pas, seule action principale ;
+ * (2) rafale du jour pas faite : « Si tu as 5 minutes » ; (3) rafale faite : « Reprendre » l'étape en
+ * cours (ou « Commencer l'étape 1 »), « C'est tout pour aujourd'hui » dessous ; (4) mission ouverte :
+ * lien secondaire. Question C9 une fois, après le premier pas. Repère « {n} cartes cette semaine » à
+ * partir d'une carte. Contenu du jour (vanne et toucher, conseil, vidéo) ; « Ton mois » à partir de J25.
  * Juste après le paiement : `?favori=JOKE|TIP|VIDEO` = la ligne de confirmation du favori (texte
  * validé `BIENVENUE_PREMIUM.favori`), sans bouton ; `?depuis=` = le lien de retour (premier pas).
  */
@@ -59,9 +70,28 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
   ]);
   const favori = lireDrapeauFavori(param("favori"));
 
+  // États 2 à 4 : seulement une fois le premier pas fait (4.4).
+  let rafale: EtatRafale | null = null;
+  let etape: EtapeAReprendre | null = null;
+  let marcheMission: 1 | 2 | 3 | 4 | 5 | null = null;
+  if (fait) {
+    const [r, retours] = await Promise.all([lireRafale(userId, acces), lireRetoursMission(userId)]);
+    rafale = r;
+    if (r.fini) etape = await lireEtapeAReprendre(userId);
+    marcheMission = missionOuverte(missionsServiesValidees(), retours)?.marche ?? null;
+  }
+  const cartes = (rafale?.cartes ?? []).map((c, i) => ({
+    titre: rafale?.catalogue.get(c.carteId)?.titre ?? "",
+    href: `/mon-espace/s-entrainer#carte-${i + 1}`,
+    nouvelle: c.nouvelle,
+  }));
+
   return (
     <div className="pb-12">
-      <h1 className="mb-6 font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:mb-2 max-e300:text-2xl">{T.titre}</h1>
+      <div className="mb-6 max-e300:mb-2">
+        <h1 className="font-display text-3xl font-bold text-text-primary md:text-4xl max-e300:text-2xl">{T.titre}</h1>
+        {rafale && rafale.cetteSemaine > 0 && <p className="mt-1 text-sm text-text-secondary">{T.repere(rafale.cetteSemaine)}</p>}
+      </div>
       {favori && (
         <p role="status" className="mb-6 rounded-md border border-border bg-background-light px-4 py-3 text-sm text-text-secondary">
           {frTypo(BIENVENUE_PREMIUM.favori[favori])}
@@ -69,7 +99,10 @@ export default async function AujourdhuiPage({ searchParams }: { searchParams: R
       )}
       <div className={cn("flex flex-col gap-6", mois.montrer ? "lg:grid lg:grid-cols-3 lg:items-start" : "lg:max-w-3xl")}>
         <div className="flex flex-col gap-6 lg:col-span-2">
-          <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />
+          {!fait && <PremierPas origine={origine} entrees={entrees} avecBandeau={Boolean(favori)} />}
+          {rafale && rafale.fini && etape && <EtapeEnCours etape={etape} />}
+          {rafale && <CartesDuJour cartes={cartes} href="/mon-espace/s-entrainer" fini={rafale.fini} />}
+          {marcheMission && <MissionLien marche={marcheMission} />}
           {fait && !aise && <QuestionAise />}
           <ContenuDuJour categories={categories} />
         </div>

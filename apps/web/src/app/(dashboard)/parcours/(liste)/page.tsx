@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ParcoursContent } from "@/components/parcours/parcours-content";
@@ -48,23 +49,14 @@ export const metadata: Metadata = {
   twitter: websiteTwitter({ title: TITLE, description: DESCRIPTION }),
 };
 
+/** Arbitrage @ux D4 n°1 (lot D5) : masque de l'introduction pour l'abonné, espace ouvert seulement. */
+const MasqueIntroduction = ESPACE_CLIENT_PUBLIE ? MasqueSiPremium : Fragment;
+
 export default async function ParcoursPage() {
   const stats = await getContentStatsRounded();
   const catalogue = getParcoursCatalogue();
-  return (
-    <div className="mx-auto max-w-3xl">
-      <JsonLd
-        data={buildBreadcrumbJsonLd([
-          { name: "Accueil", url: "https://deviens-marrant.fr" },
-          { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
-        ])}
-      />
-      {/* SEO-04 : une liste de liens ; chaque Course (avec @id) vit sur sa page détail. */}
-      <JsonLd
-        data={buildParcoursItemListJsonLd(
-          PREMIUM_PARCOURS.map((p) => ({ slug: p.slug, name: `Parcours ${p.name}` })),
-        )}
-      />
+  const introduction = (
+    <>
       <nav aria-label="Fil d’Ariane" className="mb-4 text-sm text-text-muted">
         <Link href="/" className="hover:text-text-primary max-md:py-3.5">Accueil</Link>
         <span className="mx-2">/</span>
@@ -82,6 +74,26 @@ export default async function ParcoursPage() {
           série, avec des exercices concrets.
         </p>
       </div>
+    </>
+  );
+
+  return (
+    <div className="mx-auto max-w-3xl">
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", url: "https://deviens-marrant.fr" },
+          { name: "Parcours", url: "https://deviens-marrant.fr/parcours" },
+        ])}
+      />
+      {/* SEO-04 : une liste de liens ; chaque Course (avec @id) vit sur sa page détail. */}
+      <JsonLd
+        data={buildParcoursItemListJsonLd(
+          PREMIUM_PARCOURS.map((p) => ({ slug: p.slug, name: `Parcours ${p.name}` })),
+        )}
+      />
+      {/* Arbitrage @ux D4 n°1 (lot D5) : fil d'Ariane et introduction publique masqués pour l'abonné,
+          espace ouvert seulement (côté navigateur, HTML public inchangé) ; son h1 est dans ParcoursEspace. */}
+      <MasqueIntroduction>{introduction}</MasqueIntroduction>
       {/* Liens SSR vers les parcours individuels, lus par les robots et les lecteurs d'écran
           (les cartes de ParcoursContent ouvrent le parcours par un bouton, sans lien).
           s17 tour 1 (UXV-1-11) : hors écran, pour ne plus présenter deux fois les parcours.

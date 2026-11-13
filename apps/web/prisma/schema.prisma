@@ -98,6 +98,12 @@ model User {
   espaceCompte  EspaceCompte?
   /// s24 lot D4 : annonces de cap et de bonus déjà faites (migration 22).
   capAnnonces   CapAnnonce[]
+  /// s24 lot D5 : moteur des cartes (migration 23), « Fait » par fiche, missions et « Ma réplique à moi » (migration 24).
+  carteSuivis     CarteSuivi[]
+  carteReponses   CarteReponse[]
+  fichesFaites    FicheFait[]
+  missionRetours  MissionRetour[]
+  repliques       UserReplique[]
   featureVotes  FeatureVote[]
   ceoLead       CeoLead?
   pushTokens   PushToken[]
@@ -1340,4 +1346,85 @@ model CapAnnonce {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, type, numero])
+}
+
+/// s24 lot D5 (migration 23) : suivi d'une carte de la rafale par abonné (prochaine échéance de révision).
+model CarteSuivi {
+  id              String    @id @default(cuid())
+  userId          String
+  carteId         String
+  derniereReponse String? // OUI | MOITIE | RIEN (contrainte CHECK en base)
+  dueLe           DateTime?
+  nbRevues        Int       @default(0)
+  nbRates         Int       @default(0)
+  premiereVueLe   DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, carteId])
+  @@index([userId, dueLe])
+}
+
+/// s24 lot D5 (migration 23) : journal des réponses aux cartes, ajouté seulement (jamais modifié hors du choix).
+model CarteReponse {
+  id             String   @id @default(cuid())
+  userId         String
+  carteId        String
+  reponse        String // OUI | MOITIE | RIEN (contrainte CHECK en base)
+  compteARebours Int? // secondes ; null = compte à rebours désactivé
+  choixJuste     Boolean?
+  revision       Boolean  @default(false)
+  cle            String // clé d'idempotence (double clic = une seule ligne)
+  repondueLe     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cle])
+  @@index([userId, repondueLe])
+}
+
+/// s24 lot D5 (migration 24) : état « Fait » d'une fiche, unique par abonné et fiche.
+model FicheFait {
+  id      String   @id @default(cuid())
+  userId  String
+  ficheId String
+  retour  String // essaye-bof | essaye-ca-a-marche (contrainte CHECK en base)
+  faitLe  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ficheId])
+}
+
+/// s24 lot D5 (migration 24) : retours de mission (journal), marche 1 à 5.
+model MissionRetour {
+  id        String   @id @default(cuid())
+  userId    String
+  missionId String
+  marche    Int // 1 à 5 (contrainte CHECK en base)
+  retour    String // pas-essaye | essaye-bof | essaye-ca-a-marche (contrainte CHECK en base)
+  cle       String
+  creeLe    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cle])
+  @@index([userId, creeLe])
+}
+
+/// s24 lot D5 (migration 24) : « Ma réplique à moi », une phrase par fiche. Jamais lue par l'outil
+/// d'admin, jamais journalisée ; gardée après la résiliation (lecture seule, suppression possible).
+model UserReplique {
+  id        String   @id @default(cuid())
+  userId    String
+  ficheId   String
+  texte     String // 1 à REPLIQUE_MAX caractères (contrainte CHECK en base)
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, ficheId])
+  @@index([userId, modifieLe])
 }

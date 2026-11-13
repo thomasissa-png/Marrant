@@ -135,7 +135,8 @@ export const contexteRafaleSchema = z.object({ contexte: texte, bonneReponse: z.
 const corpsSituation = {
   /** `premiere-phrase` : prise de parole courte, « Ta première phrase d'abord » (2.2). */
   forme: z.enum(["reponse", "premiere-phrase"]).default("reponse"),
-  scene: z.object({ texte, onTeDit: texte.optional() }).strict(),
+  /** `suite` (lot D5) : la phrase qui suit la pique dans la scène (E1.1 : « Jeudi, c'était pâtes. »). */
+  scene: z.object({ texte, onTeDit: texte.optional(), suite: texte.optional() }).strict(),
   repliques: repliquesSchema,
   /** « Comment choisir » : quand monter d'un cran (règle générale), puis sur cette scène. */
   quandMonterDUnCran: z.object({ regle: texte, surCetteScene: texte }).strict(),

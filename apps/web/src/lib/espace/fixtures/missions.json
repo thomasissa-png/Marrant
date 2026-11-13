@@ -1,0 +1,39 @@
+[
+  {
+    "id": "confiance-faux-secret-message",
+    "marche": 2,
+    "parcours": "confiance",
+    "enonce": [
+      "Ce soir, dans une conversation déjà ouverte avec un proche, glisse ton faux secret : « Ça reste entre nous : » puis un aveu minuscule sur toi, avec un détail que tout le monde reconnaît. Envoie. Pose le téléphone. Surtout pas de « non mais je rigole ».",
+      "Un message, une personne, dix secondes."
+    ],
+    "suites": {
+      "marche": "Bien joué : un aveu, zéro « je rigole ». Marche suivante : le dire en face.",
+      "bof": "Un message qui ne prend pas, ça arrive. Relis ton aveu : il tient en une phrase ? La fin surprend ?"
+    }
+  },
+  {
+    "id": "fixture-marche-1-a",
+    "marche": 1,
+    "enonce": ["[FIXTURE] Énoncé factice de la marche 1, jamais servi."],
+    "suites": {}
+  },
+  {
+    "id": "fixture-marche-1-b",
+    "marche": 1,
+    "enonce": ["[FIXTURE] Second énoncé factice de la marche 1, jamais servi."],
+    "suites": {}
+  },
+  {
+    "id": "fixture-marche-3",
+    "marche": 3,
+    "enonce": ["[FIXTURE] Énoncé factice de la marche 3, jamais servi."],
+    "suites": {}
+  },
+  {
+    "id": "fixture-marche-2-b",
+    "marche": 2,
+    "enonce": ["[FIXTURE] Second énoncé factice de la marche 2, jamais servi."],
+    "suites": {}
+  }
+]

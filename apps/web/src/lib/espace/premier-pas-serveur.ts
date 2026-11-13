@@ -5,6 +5,7 @@
  * (aucun signal, on passe à la suite de l'ordre 1). Lecture seule.
  */
 import { capDepuisXp, type NumeroCap } from "@/lib/espace/caps";
+import { auMoinsUneFicheFaite } from "@/lib/espace/fiche-fait";
 import { prisma } from "@/lib/prisma";
 import { buildJokeSlug, buildTipSlug, buildVideoSlug, parseShortIdFromSlug } from "@/lib/catalogue-slug";
 import type { Origine, OrigineResolue } from "@/lib/espace/premier-pas";
@@ -42,13 +43,11 @@ export async function resoudreOrigine(origine: Origine | null): Promise<OrigineR
 }
 
 /**
- * Premier pas fait ? L'état « Fait » d'une fiche arrive avec le lot D5 (`FicheFait`) : d'ici là,
- * aucun abonné n'a fait son premier pas, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9
- * (posée APRÈS le premier pas) n'est pas montée.
+ * Premier pas fait ? (lot D5) : une fiche déclarée faite (`FicheFait`) ou une carte de la rafale jouée.
+ * Tant que non, « Aujourd'hui » reste à l'état 1 (4.4) et la question C9 (posée APRÈS) n'est pas montée.
  */
 export async function premierPasFait(userId: string): Promise<boolean> {
-  void userId;
-  return false;
+  return auMoinsUneFicheFaite(userId);
 }
 
 /** Jours depuis la création de l'abonnement, étapes validées : de quoi décider « Ton mois » (J25, 4.4). */

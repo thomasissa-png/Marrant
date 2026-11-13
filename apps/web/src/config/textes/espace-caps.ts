@@ -81,6 +81,8 @@ export const TEXTES_PARCOURS_ESPACE = {
     ],
   },
   listeParcours: "Les parcours", // (14)
+  /** h1 de l'abonné (lecteurs d'écran), arbitrage @ux D4 n°1 : le nom de la rubrique de la barre (« Parcours »). */
+  titrePage: "Parcours",
   etapeSurTotal: (n: number, total: number) => `Étape ${n} sur ${total}`,
   /** Page d'un parcours, abonné : barre globale et liste numérotée (plan, lot D4). */
   sommaire: {

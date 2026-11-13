@@ -163,6 +163,11 @@ test.describe("espace client, « Parcours » (s24, lot D4)", () => {
       console.log(`[mesure 200 %] entête y=${Math.round(yEntete)} h=${Math.round(hEntete)} ; premier parcours y=${Math.round(yPremier)}`);
       // N2 : l'en-tête de l'espace ajoute au plus 2 écrans avant la liste (au-dessus, l'en-tête public inchangé).
       expect(hEntete).toBeLessThanOrEqual(2 * 406);
+      // Lot D5 (arbitrage @ux D4 n°1) : introduction publique masquée pour l'abonné, h1 gardé pour les
+      // lecteurs d'écran. Re-mesure du 13/11 : premier parcours à y = 818 pour 812 (2 écrans de 406) :
+      // le test n'est PAS resserré (6 px de trop), retour à @ux (piste : réduire l'en-tête de l'espace).
+      await expect(page.locator('nav[aria-label="Fil d’Ariane"]')).toHaveCount(0);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText(P.titrePage);
     });
 
     test("annonce : « Nouveau cap » après 2 étapes, jamais retirée seule, clavier, une seule fois ; puis le sommaire du parcours", async ({ browser, page }) => {

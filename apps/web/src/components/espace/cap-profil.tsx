@@ -10,9 +10,10 @@ import { capDepuisXp } from "@/lib/espace/caps";
  * « Progression » (anciens noms, emoji, pourcentage). Le cap affiché vient du serveur ; tant qu'il
  * n'a pas répondu (ou s'il échoue), le cap est calculé sur le total d'XP déjà affiché par la page,
  * sans phrase d'écart (le cap de déblocage n'est connu que du serveur). Ligne « X XP gagnés depuis
- * ton arrivée » (critère 11).
+ * ton arrivée » (critère 11). Lot D5 (arbitrage @ux D4 n°2) : seule carte de la série sur `/profil`,
+ * `md:col-span-2` (la carte « Série » est retirée espace ouvert).
  */
-export function CapProfil({ xp, serie }: { xp: number; serie: number }) {
+export function CapProfil({ xp, serie, className }: { xp: number; serie: number; className?: string }) {
   const [caps, setCaps] = useState<EtatCapsApi | null>(null);
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export function CapProfil({ xp, serie }: { xp: number; serie: number }) {
       serie={caps?.serie ?? serie}
       ecart={caps?.ecart ?? false}
       xp={caps?.xp ?? xp}
-      className="h-full"
+      className={className ? `h-full ${className}` : "h-full"}
     />
   );
 }

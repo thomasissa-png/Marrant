@@ -1,0 +1,67 @@
+"use client";
+
+import { useState } from "react";
+import { TEXTES_CARTES, TEXTES_GESTE as G } from "@/config/textes/espace-cartes";
+import type { RetourGeste } from "@/lib/espace/retours";
+import { appelEspace } from "@/components/espace/carte/appel";
+import { LigneRetour } from "@/components/espace/carte/ligne-retour";
+import { NoteReplique } from "@/components/espace/carte/note-replique";
+import { ETIQUETTE } from "@/components/espace/carte/styles";
+
+/**
+ * Geste d'une fiche, puis « Ton retour », puis « Ma réplique à moi » (ordre de E1.1 et de 2.7, maquette
+ * `carte-rafale.html`). « Essayé, bof » et « Essayé, ça a marché » posent « Fait » (statut en texte,
+ * jamais la couleur seule) ; « Pas essayé » le retire. Échec d'enregistrement : le choix revient à l'état
+ * précédent, rien n'est perdu. Écrire une note ne coche jamais « Fait ».
+ */
+export function GesteFiche({
+  ficheId,
+  consigne,
+  pourAllerPlusLoin,
+  retourInitial,
+  repliqueInitiale,
+}: {
+  ficheId: string;
+  consigne: string;
+  pourAllerPlusLoin?: string | null;
+  retourInitial: RetourGeste | null;
+  repliqueInitiale: string | null;
+}) {
+  const [retour, setRetour] = useState<RetourGeste | null>(retourInitial);
+  const [occupe, setOccupe] = useState(false);
+  const [echec, setEchec] = useState(false);
+  const fait = retour === "essaye-bof" || retour === "essaye-ca-a-marche";
+
+  const choisir = async (r: RetourGeste) => {
+    if (occupe) return;
+    const avant = retour;
+    setRetour(r);
+    setOccupe(true);
+    const ok = await appelEspace<{ ok: true }>("/api/espace/fiche-fait", "POST", { ficheId, retour: r });
+    setOccupe(false);
+    setEchec(!ok);
+    if (!ok) setRetour(avant);
+  };
+
+  return (
+    <section aria-label={G.aToi} className="space-y-4 border-t border-border pt-4" data-testid="geste-fiche">
+      <div className="space-y-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <h3 className={ETIQUETTE}>{G.aToi}</h3>
+          {fait && <span className="rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}
+        </div>
+        <p className="text-base text-text-primary">
+          {consigne}
+          {pourAllerPlusLoin ? ` Pour aller plus loin : ${pourAllerPlusLoin}` : ""}
+        </p>
+      </div>
+      <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
+      {echec && (
+        <p role="status" className="text-sm text-text-secondary">
+          {TEXTES_CARTES.echec}
+        </p>
+      )}
+      <NoteReplique ficheId={ficheId} initiale={repliqueInitiale} />
+    </section>
+  );
+}

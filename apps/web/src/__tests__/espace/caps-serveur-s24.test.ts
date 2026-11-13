@@ -12,6 +12,12 @@ const mockDb = {
   parcoursReminderPreference: { findUnique: jest.fn(async () => null) },
   espaceCompte: { findUnique: jest.fn() },
   capAnnonce: { findMany: jest.fn(), createMany: jest.fn() },
+  // Lot D5 : tables lues par l'export des données.
+  carteSuivi: { findMany: jest.fn(async () => []) },
+  carteReponse: { findMany: jest.fn(async () => []) },
+  ficheFait: { findMany: jest.fn(async () => []) },
+  missionRetour: { findMany: jest.fn(async () => []) },
+  userReplique: { findMany: jest.fn(async () => []) },
 };
 jest.mock("@/lib/prisma", () => ({ get prisma() { return mockDb; } }));
 jest.mock("@/config/espace-client", () => ({

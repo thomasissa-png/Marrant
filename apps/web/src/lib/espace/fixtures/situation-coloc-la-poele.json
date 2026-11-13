@@ -1,0 +1,53 @@
+{
+  "id": "coloc-la-poele",
+  "type": "situation",
+  "titre": "Coloc : la poêle",
+  "univers": "coloc",
+  "palier": "P1",
+  "dureeMinutes": 5,
+  "geste": {
+    "verbe": "dire",
+    "consigne": "Prends une poêle ou une casserole, tiens-la à bout de bras et dis la sûre à voix haute, debout, sans sourire. Dix secondes.",
+    "marche": 1,
+    "pourAllerPlusLoin": "la prochaine fois que tu laisses traîner quelque chose, dis-la en vrai."
+  },
+  "contenu": {
+    "forme": "reponse",
+    "scene": {
+      "texte": "Dimanche, 19 h, la coloc. Ton colocataire sort une poêle de l'évier et la tient du bout des doigts devant les deux autres, comme une pièce à conviction :",
+      "onTeDit": "Quelqu'un connaît le propriétaire de cette poêle ? Elle est là depuis jeudi.",
+      "suite": "Jeudi, c'était pâtes. Personne d'autre n'a cuisiné."
+    },
+    "repliques": {
+      "sure": {
+        "texte": "Elle est à moi. Je la lave, et jeudi n'aura jamais existé.",
+        "pourquoi": "Tu reconnais tout de suite, avec un trait d'autodérision : tu proposes d'effacer l'affaire. Elle ne vise personne et se ferme toute seule : personne n'a besoin de répondre. C'est la bonne quand tu ne connais pas encore l'humour de la coloc."
+      },
+      "joueuse": {
+        "texte": "Je ne voulais pas la déraciner : elle a pris ses marques.",
+        "pourquoi": "Tu prends l'accusation au mot et tu en fais une histoire d'installation : trois jours dans l'évier, elle se sent chez elle, et on ne déménage pas quelqu'un qui vient de s'installer. La pique parlait de ta négligence, ta réponse parle de la poêle. À sortir quand la coloc a déjà ri de ces dimanches-là."
+      },
+      "risquee": {
+        "texte": "Elle est à moi. Troc possible contre les trois verres que tu as montés dans ta chambre lundi ?",
+        "pourquoi": "Tu n'esquives pas : tu proposes un marché, et tu rends la parole à ton colocataire, qui doit avouer ses propres verres. Elle ne vise pas la personne, seulement un désordre que vous partagez. Elle marche seulement si ton colocataire laisse lui aussi traîner ses affaires et en rit. Sinon elle sonne comme un reproche : prends la sûre."
+      }
+    },
+    "quandMonterDUnCran": {
+      "regle": "Le groupe a déjà ri avec toi ? Monte d'un cran. Le signal de la risquée est là aussi ? Monte encore. Sinon, reste sur la sûre.",
+      "surCetteScene": "Sur cette scène : la joueuse si la coloc rit déjà de ces dimanches. La risquée seulement si ton colocataire laisse lui aussi traîner ses affaires, une fois. Si ça ne prend pas, tu laisses tomber et tu laves la poêle."
+    },
+    "erreur": "Nier d'abord (« c'est pas la mienne »), puis t'excuser trois fois. Le temps de nier et de t'excuser, la scène est passée, et les excuses transforment la poêle en procès. Une seule phrase, dite calmement, et tu tends la main pour la reprendre.",
+    "contextesRafale": [
+      {
+        "contexte": "La coloc rit déjà de ces dimanches, et ton colocataire range tout, toujours.",
+        "bonneReponse": "joueuse",
+        "pourquoi": "Le groupe a déjà ri, donc la sûre serait timide ; il n'a aucun verre à renvoyer, donc la risquée sonnerait en reproche."
+      },
+      {
+        "contexte": "La coloc rit déjà de ces dimanches, et ton colocataire a lui-même monté trois verres dans sa chambre lundi : il en plaisante encore.",
+        "bonneReponse": "risquee",
+        "pourquoi": "Les deux signaux sont là, et il t'a donné la matière du troc : la joueuse s'arrêterait un cran trop bas, la sûre fermerait un échange qu'il vient d'ouvrir."
+      }
+    ]
+  }
+}

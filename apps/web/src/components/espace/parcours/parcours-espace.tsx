@@ -69,6 +69,8 @@ export function ParcoursEspace() {
 
   return (
     <div className="mb-8 flex flex-col gap-6 max-e300:gap-4" aria-busy={etat === "attente" || undefined} data-testid="parcours-espace">
+      {/* Arbitrage @ux D4 n°1 (lot D5) : l'introduction publique est masquée pour l'abonné ; il garde un h1. */}
+      <h1 className="sr-only">{P.titrePage}</h1>
       <AnnonceCap annonce={caps?.annonce ?? null} retour={() => reprendre.current} />
       <QuatreSemaines ref={reprendre} etape={caps?.etape ?? null} />
       {caps && (
