@@ -14,6 +14,12 @@ import { TEXTES_ESPACE_NAVIGATION as NAV } from "@/config/textes/espace-navigati
  * `data/espace/{situations,humour-noir,bilans,constructions}.json` (bascule temporaire, rétablie par `trap`).
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
+/**
+ * Import 2 (s24) : les tests écrits pour les fixtures (« @fixtures-espace ») tournent sur un serveur construit
+ * avec le jeu dédié `playwright/fixtures/espace` (installé par `installer.mjs` dans une copie de travail
+ * basculée, rétablie ensuite ; jamais servi), et sont sautés sur le serveur construit avec le vrai contenu.
+ */
+const FIXTURES_ESPACE = process.env.E2E_FIXTURES_ESPACE === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D6 ?? "";
 /** Reste du D6, fait au lot D5b : captures dans `docs/captures/s24-d5b`. */
 const CAPTURES_D5B = process.env.E2E_CAPTURES_D5B ?? "";
@@ -70,7 +76,8 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
   test.describe("interrupteur ouvert, fixtures", () => {
     test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis (serveur construit ouvert, fixtures copiées)");
 
-    test("« Quoi répondre » : liste, filtre, vide avec « Raconte-la à l'équipe » ; reprise de lettre après l'envoi seulement", async ({ browser, page }) => {
+    test("« Quoi répondre » : liste, filtre, vide avec « Raconte-la à l'équipe » ; reprise de lettre après l'envoi seulement @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { email, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await page.setViewportSize({ width: 375, height: 812 });
@@ -126,7 +133,8 @@ test.describe("espace client, Quoi répondre, Bibliothèque, Lettres (s24, lot D
       }
     });
 
-    test("fiche : répliques après « Tu avais une réponse ? » ; bilan : retour complet, renvoi, onglet « Parcours »", async ({ browser, page }) => {
+    test("fiche : répliques après « Tu avais une réponse ? » ; bilan : retour complet, renvoi, onglet « Parcours » @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       await page.context().addCookies((await compte(browser)).cookies);
       await page.setViewportSize({ width: 375, height: 812 });
       await page.goto("/mon-espace/fiche/situation/coloc-la-poele");

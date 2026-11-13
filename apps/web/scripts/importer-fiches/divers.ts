@@ -1,7 +1,9 @@
 /**
  * Jeux (C4a à C4c), « Quand ça tombe à plat » (C6a), bilans (C6b), séances (C6c), coin humour noir (C7).
  */
-import { Ecart, estCitation, sansGuillemets, section, slug, type Bloc } from "./md";
+import { TEXTES_AUJOURDHUI } from "../../src/config/textes/espace-aujourdhui";
+import { Ecart, estCitation, nettoyer, sansGuillemets, section, slug, type Bloc } from "./md";
+import { etapeDuQuiz } from "./seeds";
 import { replique, scene } from "./situations";
 
 export const FAMILLES_JEU: Record<string, string> = {
@@ -49,20 +51,46 @@ export function choisirSouple(lignes: string[]) {
 }
 
 const CONNUES_A_PLAT = new Set(["La scène", "La sûre", "La joueuse", "La risquée", "Comment choisir", "L'erreur que tout le monde fait", "À toi", "Candidates de remplacement"]);
+/** Import 2 (C6a fiches 9 et 10) : rubrique entre la scène et les répliques, titre gardé tel qu'écrit. */
+const PRECISIONS_A_PLAT = new Set(["De quel blanc parle-t-on", "Trois signaux observables"]);
+/** Import 2 (C6a fiche 9) : quatrième sortie, citation puis pourquoi. */
+const SI_CA_DURE = "Si le blanc dure";
 
-export function aPlat(bloc: Bloc) {
-  const enTrop = bloc.sections.map((s) => s.label).filter((l) => !CONNUES_A_PLAT.has(l));
+/**
+ * Réplique d'une fiche « à plat » ; import 2 : une sortie écrite comme un geste, sans aucune citation
+ * (C6a fiche 9, « Le silence. »), est gardée telle quelle et marquée `sansParole` (l'écran n'ajoute rien).
+ */
+function repliqueAPlat(lignes: string[]) {
+  const l = lignes[0] ?? "";
+  if (estCitation(l) || /«/.test(l) || lignes.length < 2) return replique(lignes);
+  return { texte: l, pourquoi: lignes.slice(1).join("\n"), sansParole: true as const };
+}
+
+/** Lien neutre vers le coin (E6 §6) : une ligne citée suivie de la note « lien neutre vers le coin ». */
+const NOTE_LIEN_COIN = /^(«[^«»]+»)\s*`\[note interne[^`]*lien neutre vers le coin[^`]*\]`\s*$/;
+
+export function aPlat(bloc: Bloc, brut: string) {
+  const enTrop = bloc.sections.map((s) => s.label).filter((l) => !CONNUES_A_PLAT.has(l) && !PRECISIONS_A_PLAT.has(l) && l !== SI_CA_DURE);
   if (enTrop.length) throw new Ecart(`section sans champ dans le schéma « à plat » : ${enTrop.join(", ")}`);
   if (bloc.avant.length) throw new Ecart(`texte hors section : ${bloc.avant[0]}`);
-  const r = (n: string) => replique(section(bloc, `La ${n}`));
+  const r = (n: string) => repliqueAPlat(section(bloc, `La ${n}`));
+  const precisions = bloc.sections.filter((s) => PRECISIONS_A_PLAT.has(s.label));
+  if (precisions.length > 1) throw new Ecart("deux rubriques entre la scène et les répliques");
+  const dure = section(bloc, SI_CA_DURE, false);
+  // La ligne du lien est lue dans le Markdown brut : sa note dit ce qu'elle est (jamais dans le geste).
+  const lien = brut.split("\n").map((l) => NOTE_LIEN_COIN.exec(l.trim())?.[1]).find(Boolean);
+  const aToi = section(bloc, "À toi").filter((l) => !lien || l !== nettoyer(lien));
   return {
     contenu: {
       scene: scene(section(bloc, "La scène")),
       repliques: { sure: r("sûre"), joueuse: r("joueuse"), risquee: r("risquée") },
       quandMonterDUnCran: choisirSouple(section(bloc, "Comment choisir")),
       erreur: section(bloc, "L'erreur que tout le monde fait").join("\n"),
+      ...(precisions[0] ? { precision: { titre: precisions[0].brut, texte: precisions[0].lignes.join("\n") } } : {}),
+      ...(dure.length ? { siCaDure: { titre: SI_CA_DURE, ...replique(dure) } } : {}),
+      ...(lien ? { lienCoin: sansGuillemets(lien) } : {}),
     },
-    geste: { verbe: "choisir", consigne: section(bloc, "À toi").join("\n") },
+    geste: { verbe: "choisir", consigne: aToi.join("\n") },
   };
 }
 
@@ -86,6 +114,10 @@ export function bilan(bloc: Bloc) {
   if (!parcours) throw new Ecart("slug du parcours absent du titre");
   const laquelle = (n: number) => {
     const s = section(bloc, `Laquelle ${n}`);
+    // Import 2 : « (quiz S l.57) » donne l'étape du quiz ; le renvoi est calculé par l'écran (3.10).
+    const quiz = s.map((l) => /^\(quiz (S|ST|BO) l\.(\d+)\)$/.exec(l)).find(Boolean);
+    if (!quiz) throw new Ecart(`Laquelle ${n} : source du quiz absente (« (quiz S l.N) »)`);
+    const etape = etapeDuQuiz(quiz[1], Number(quiz[2]), parcours);
     const options = s.filter((l) => /^- [A-C]\)/.test(l)).map(option);
     if (options.length !== 3) throw new Ecart(`Laquelle ${n} : ${options.length} options`);
     return {
@@ -94,6 +126,7 @@ export function bilan(bloc: Bloc) {
       options: options as [string, string, string],
       bonneReponse: Number(/^(\d)/.exec(champ(s, "bonneReponse"))?.[1]),
       retour: cite(champ(s, "Retour")),
+      etape,
     };
   };
   const o = section(bloc, "Dans l'ordre");
@@ -120,12 +153,70 @@ export function bilan(bloc: Bloc) {
   };
 }
 
-const SEANCE_HORS_SCHEMA = ["Pour qui, quand", "Il te faut", "Tu produis", "Une version possible", "Renvois"];
+const ETAPES_SEANCE = [
+  ["Échauffement", "echauffement"],
+  ["Observation", "observation"],
+  ["Essai", "essai"],
+  ["Bilan", "bilan"],
+] as const;
+const RUBRIQUES_SEANCE = ["Pour qui, quand", "Il te faut", "Tu produis", "Renvois"];
 
-/** Séance de 20 minutes : le schéma n'a que 4 étapes (consigne seule) et aucun champ pour le reste. */
-export function seance(bloc: Bloc): never {
-  const enTrop = bloc.sections.map((s) => s.label).filter((l) => SEANCE_HORS_SCHEMA.some((x) => l.startsWith(x)));
-  throw new Ecart(`sections sans champ dans le schéma « séance » : ${enTrop.join(", ")} ; aucun texte de geste (verbe « faire »)`);
+/**
+ * Geste « faire » d'une séance (import 2) : le lot n'écrit aucun « À toi » pour les séances (les lignes
+ * `[Retour : …]` et `[Ma réplique à moi : …]` sont des boutons d'écran). Repli décidé par la session : le
+ * libellé de geste validé le plus proche, le n°8 de `libelles-espace-e5-s24.md` (« À toi : ressors-la à
+ * voix haute ce soir. », `TEXTES_AUJOURDHUI`), sans son « À toi : » (l'écran le pose), majuscule initiale.
+ */
+export const GESTE_SEANCE = (() => {
+  const l = TEXTES_AUJOURDHUI.jour.geste.replace(/^À toi : /, "");
+  return l.charAt(0).toUpperCase() + l.slice(1);
+})();
+
+/**
+ * Séance de 20 minutes (C6c, import 2) : titre « Séance N (palier P…). Titre » ; « Pour qui, quand »,
+ * « Il te faut », 4 étapes minutées (« Échauffement (3 min). »), la grille du bilan (1. 2. 3.), « Tu
+ * produis », « Une version possible » (précision entre parenthèses facultative), « Renvois ».
+ */
+export function seance(bloc: Bloc) {
+  const t = /^Séance \d+ \(palier (\d)[^)]*\)\.\s*(.+)$/.exec(bloc.titre);
+  if (!t) throw new Ecart(`titre de séance illisible : ${bloc.titre}`);
+  const labels = bloc.sections.map((x) => x.label);
+  const connus = (l: string) => RUBRIQUES_SEANCE.includes(l) || /^Une version possible( \([^)]+\))?$/.test(l) || ETAPES_SEANCE.some(([n]) => new RegExp(`^${n} \\(\\d+ min\\)$`).test(l));
+  const enTrop = labels.filter((l) => !connus(l));
+  if (enTrop.length) throw new Ecart(`section sans champ dans le schéma « séance » : ${enTrop.join(", ")}`);
+  if (bloc.avant.length) throw new Ecart(`texte hors section : ${bloc.avant[0]}`);
+  const un = (label: string) => section(bloc, label).join("\n");
+  const etapes = ETAPES_SEANCE.map(([nomAffiche, nom]) => {
+    const sec = bloc.sections.find((x) => new RegExp(`^${nomAffiche} \\((\\d+) min\\)$`).test(x.label));
+    if (!sec || sec.lignes.length === 0) throw new Ecart(`étape « ${nomAffiche} » absente`);
+    const minutes = Number(/\((\d+) min\)/.exec(sec.label)?.[1]);
+    if (nom !== "bilan") return { nom, minutes, consigne: sec.lignes.join("\n") };
+    const grille = sec.lignes.filter((l) => /^\d+\.\s/.test(l)).map((l) => l.replace(/^\d+\.\s*/, ""));
+    if (grille.length !== 3) throw new Ecart(`grille du bilan de ${grille.length} questions, 3 attendues`);
+    return { nom, minutes, consigne: sec.lignes.filter((l) => !/^\d+\.\s/.test(l)).join("\n"), grille };
+  });
+  const version = bloc.sections.find((x) => /^Une version possible/.test(x.label));
+  if (!version || version.lignes.length === 0) throw new Ecart("« Une version possible » absente");
+  const precision = /\(([^)]+)\)$/.exec(version.label)?.[1];
+  const titre = t[2].trim();
+  return {
+    id: `seance-${slug(titre)}`,
+    titre,
+    type: "seance",
+    palier: `P${t[1]}`,
+    duree: etapes.reduce((n, e) => n + e.minutes, 0),
+    corps: {
+      contenu: {
+        pourQuiQuand: un("Pour qui, quand"),
+        ilTeFaut: un("Il te faut"),
+        etapes,
+        tuProduis: un("Tu produis"),
+        versionPossible: { ...(precision ? { precision } : {}), texte: version.lignes.join("\n") },
+        renvois: un("Renvois"),
+      },
+      geste: { verbe: "faire", consigne: GESTE_SEANCE },
+    },
+  };
 }
 
 export function limite(bloc: Bloc) {

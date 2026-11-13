@@ -13,17 +13,21 @@ import { ETIQUETTE } from "@/components/espace/carte/styles";
  * `carte-rafale.html`). « Essayé, bof » et « Essayé, ça a marché » posent « Fait » (statut en texte,
  * jamais la couleur seule) ; « Pas essayé » le retire. Échec d'enregistrement : le choix revient à l'état
  * précédent, rien n'est perdu. Écrire une note ne coche jamais « Fait ».
+ * Import 2 : la grille d'auto-contrôle du geste (3 questions oui ou non, 2.4) s'affiche sous la consigne,
+ * rien n'est enregistré ; retours à la ligne de la consigne conservés.
  */
 export function GesteFiche({
   ficheId,
   consigne,
   pourAllerPlusLoin,
+  grille,
   retourInitial,
   repliqueInitiale,
 }: {
   ficheId: string;
   consigne: string;
   pourAllerPlusLoin?: string | null;
+  grille?: readonly string[] | null;
   retourInitial: RetourGeste | null;
   repliqueInitiale: string | null;
 }) {
@@ -50,10 +54,17 @@ export function GesteFiche({
           <h3 className={ETIQUETTE}>{G.aToi}</h3>
           {fait && <span className="rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary">{G.fait}</span>}
         </div>
-        <p className="text-base text-text-primary">
+        <p className="whitespace-pre-line text-base text-text-primary">
           {consigne}
           {pourAllerPlusLoin ? ` Pour aller plus loin : ${pourAllerPlusLoin}` : ""}
         </p>
+        {grille && grille.length > 0 && (
+          <ol className="list-decimal space-y-1 pl-5 text-base text-text-primary" data-testid="geste-grille">
+            {grille.map((q) => (
+              <li key={q}>{q}</li>
+            ))}
+          </ol>
+        )}
       </div>
       <LigneRetour valeur={retour} onChoisir={(r) => void choisir(r)} occupe={occupe} />
       {echec && (

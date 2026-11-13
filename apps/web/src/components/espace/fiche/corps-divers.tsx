@@ -3,7 +3,8 @@ import { TEXTES_CAPS } from "@/config/textes/espace-caps";
 import type { FicheDeType } from "@/lib/espace/fiches";
 import { Bloc } from "@/components/espace/fiche/corps-technique";
 
-const P = "text-base text-text-primary";
+// Import 2 : retours à la ligne des textes à plusieurs paragraphes conservés (`\n` du lot).
+const P = "whitespace-pre-line text-base text-text-primary";
 const F = TEXTES_CAPS.fiche;
 const minSec = (t: { minute: number; seconde: number }) => `${t.minute}:${String(t.seconde).padStart(2, "0")}`;
 
@@ -73,24 +74,54 @@ export function CorpsJeu({ c }: { c: FicheDeType<"jeu">["contenu"] }) {
             <li key={x}>{x}</li>
           ))}
         </ul>
-        {c.explication && <p className="text-sm text-text-secondary">{c.explication}</p>}
+        {c.explication && <p className="whitespace-pre-line text-sm text-text-secondary">{c.explication}</p>}
       </details>
     </>
   );
 }
 
-/** « Séance de 20 minutes » (3.11) : échauffement, observation, essai, bilan, chacun avec sa durée. */
+/**
+ * « Séance de 20 minutes » (3.11) : échauffement, observation, essai, bilan, chacun avec sa durée.
+ * Import 2 (C6c) : « Pour qui, quand », « Il te faut » avant les étapes ; la grille du bilan en liste ;
+ * « Tu produis », « Une version possible », « Renvois » après (ordre du lot).
+ */
 export function CorpsSeance({ c }: { c: FicheDeType<"seance">["contenu"] }) {
+  const S = T.seance;
+  const version = c.versionPossible.precision ? `${S.versionPossible} (${c.versionPossible.precision})` : S.versionPossible;
   return (
-    <ol className="space-y-4">
-      {c.etapes.map((e) => (
-        <li key={e.nom}>
-          <Bloc id={`f-${e.nom}`} titre={`${T.etapesSeance[e.nom]} · ${L.minutes(e.minutes)}`}>
-            <p className={P}>{e.consigne}</p>
-          </Bloc>
-        </li>
-      ))}
-    </ol>
+    <>
+      <Bloc id="f-pour-qui" titre={S.pourQuiQuand}>
+        <p className={P}>{c.pourQuiQuand}</p>
+      </Bloc>
+      <Bloc id="f-il-te-faut" titre={S.ilTeFaut}>
+        <p className={P}>{c.ilTeFaut}</p>
+      </Bloc>
+      <ol className="space-y-4">
+        {c.etapes.map((e) => (
+          <li key={e.nom}>
+            <Bloc id={`f-${e.nom}`} titre={`${T.etapesSeance[e.nom]} · ${L.minutes(e.minutes)}`}>
+              <p className={P}>{e.consigne}</p>
+              {e.grille && (
+                <ol className="list-decimal space-y-1 pl-5 text-base text-text-primary" data-testid="seance-grille">
+                  {e.grille.map((q) => (
+                    <li key={q}>{q}</li>
+                  ))}
+                </ol>
+              )}
+            </Bloc>
+          </li>
+        ))}
+      </ol>
+      <Bloc id="f-tu-produis" titre={S.tuProduis}>
+        <p className={P}>{c.tuProduis}</p>
+      </Bloc>
+      <Bloc id="f-version" titre={version}>
+        <p className={P}>{c.versionPossible.texte}</p>
+      </Bloc>
+      <Bloc id="f-renvois" titre={S.renvois}>
+        <p className={P}>{c.renvois}</p>
+      </Bloc>
+    </>
   );
 }
 

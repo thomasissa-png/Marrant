@@ -239,6 +239,46 @@
     }
   },
   {
+    "id": "le-callback",
+    "titre": "Le callback",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis une phrase que tu dis sur toi, puis le moment où elle devient fausse. Écris trois essais (la reprise sans changement, celle qui vise quelqu'un, la tienne), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ta première phrase passe en douce, et la reprise reprend les mêmes mots ?",
+        "Si ta reprise vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La reprise surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Une phrase dite tôt, en passant, reprise avec les mêmes mots (une courte suite est permise) quand la situation lui a donné un autre sens.",
+      "exemple": "On te demande comment tu t'y retrouves dans ton sac : « Tout a sa place. » Une heure plus tard, tu le vides sur la table pour trouver tes clés : « Tout a sa place. Je cherche juste laquelle. »",
+      "commentCestFait": [
+        "La première phrase est une petite vantardise. La reprise tombe quand elle devient fausse, et chacun refait le lien seul."
+      ],
+      "essais": [
+        {
+          "texte": "« J'ai faim. » Plus tard : « J'ai toujours faim. »",
+          "verdict": "Aucun nouveau sens : une répétition, pas un rappel."
+        },
+        {
+          "texte": "l'hôte dit « Mon rôti est parfait. » Il est sec. Toi, plus tard : « Parfait. »",
+          "verdict": "Trop loin : l'hôte ne peut pas en rire avec toi."
+        },
+        {
+          "texte": "au départ en voiture, « Je connais le chemin. » Quarante minutes plus tard, devant la même station-service : « Je connais le chemin. »",
+          "verdict": "Mêmes mots, mais la station-service les a retournés."
+        }
+      ],
+      "regle": "Dis la première phrase sans la souligner. Reprends les mêmes mots, une seule fois, quand le contexte les a retournés.",
+      "erreur": "Annoncer le rappel (« vous vous souvenez ? »). Chacun doit s'en souvenir seul.",
+      "forme": "recit"
+    }
+  },
+  {
     "id": "l-escalade-comique",
     "titre": "L'escalade comique",
     "palier": "P2",
@@ -397,7 +437,7 @@
   {
     "id": "la-combinaison-de-deux-mecanismes",
     "titre": "La combinaison de deux mécanismes",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "ecrire",

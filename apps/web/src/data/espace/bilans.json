@@ -21,7 +21,8 @@
             "Ça reste entre nous : je relis toujours mes mails deux fois avant de les envoyer, et je les envoie quand même avec une faute."
           ],
           "bonneReponse": 2,
-          "retour": "C. Le faux secret est un aveu minuscule sur toi, dit avec la gravité d'un scandale. A se plaint de la matinée, B vise quelqu'un qui est là : ni l'une ni l'autre n'est un faux secret."
+          "retour": "C. Le faux secret est un aveu minuscule sur toi, dit avec la gravité d'un scandale. A se plaint de la matinée, B vise quelqu'un qui est là : ni l'une ni l'autre n'est un faux secret.",
+          "etape": 1
         },
         {
           "forme": "laquelle",
@@ -32,7 +33,8 @@
             "Tu te tais pour le reste de la pause : ce n'est pas ton jour"
           ],
           "bonneReponse": 1,
-          "retour": "B. Après chaque rire il y a un blanc, donc rien n'est perdu : tu laisses partir celui-ci et tu guettes le suivant. A force un moment qui a passé, C renonce au prochain."
+          "retour": "B. Après chaque rire il y a un blanc, donc rien n'est perdu : tu laisses partir celui-ci et tu guettes le suivant. A force un moment qui a passé, C renonce au prochain.",
+          "etape": 2
         },
         {
           "forme": "ordre",
@@ -78,7 +80,8 @@
             "Quelle surprise, un retard de ta part. Tu es vraiment incapable de te réveiller, toi."
           ],
           "bonneReponse": 0,
-          "retour": "A. L'ironie bienveillante dit l'inverse de ce qu'on pense, sur la situation, avec de la douceur. B reproche le retard, C est ironique mais vise la personne : c'est une pique."
+          "retour": "A. L'ironie bienveillante dit l'inverse de ce qu'on pense, sur la situation, avec de la douceur. B reproche le retard, C est ironique mais vise la personne : c'est une pique.",
+          "etape": 1
         },
         {
           "forme": "laquelle",
@@ -89,7 +92,8 @@
             "Aucun souci, j'ai toujours rêvé de dîner en regardant ton assiette. Régale-toi."
           ],
           "bonneReponse": 2,
-          "retour": "C. L'ironie bienveillante dit l'inverse de ce qu'on pense, avec de la légèreté et sans reproche. A est sincère, donc sans jeu ; B est ironique mais vise la personne."
+          "retour": "C. L'ironie bienveillante dit l'inverse de ce qu'on pense, avec de la légèreté et sans reproche. A est sincère, donc sans jeu ; B est ironique mais vise la personne.",
+          "etape": 1
         },
         {
           "forme": "ordre",
@@ -135,7 +139,8 @@
             "Franchement, c'était n'importe quoi, heureusement que ça a changé."
           ],
           "bonneReponse": 1,
-          "retour": "B. Tu constates sans regretter, et la chute vient de l'écart entre avant et maintenant. A sermonne sur les écrans, C balaie l'avant sans rien observer : aucune des deux ne garde le ton tendre."
+          "retour": "B. Tu constates sans regretter, et la chute vient de l'écart entre avant et maintenant. A sermonne sur les écrans, C balaie l'avant sans rien observer : aucune des deux ne garde le ton tendre.",
+          "etape": 3
         },
         {
           "forme": "laquelle",
@@ -146,7 +151,8 @@
             "Tu sais, le pull qui a rétréci, un classique de la lessive."
           ],
           "bonneReponse": 0,
-          "retour": "A. Un ton de communiqué posé sur un incident banal : le contraste fait le travail. B constate simplement, C reste dans le registre de la conversation : le récit est correct, mais personne n'a de quoi sourire."
+          "retour": "A. Un ton de communiqué posé sur un incident banal : le contraste fait le travail. B constate simplement, C reste dans le registre de la conversation : le récit est correct, mais personne n'a de quoi sourire.",
+          "etape": 5
         },
         {
           "forme": "ordre",
@@ -192,7 +198,8 @@
             "Moralité : la prochaine fois, je louerai un monte-meuble, parce que ce n'est vraiment pas pratique, un canapé coincé."
           ],
           "bonneReponse": 1,
-          "retour": "B. Une chute courte, sans leçon : l'image finit seule. A s'enlise dans l'étape par étape, C fait une morale que personne n'a demandée."
+          "retour": "B. Une chute courte, sans leçon : l'image finit seule. A s'enlise dans l'étape par étape, C fait une morale que personne n'a demandée.",
+          "etape": 1
         },
         {
           "forme": "laquelle",
@@ -203,7 +210,8 @@
             "Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi."
           ],
           "bonneReponse": 2,
-          "retour": "C. La dernière phrase montre sans nommer : elle reste vraie pour une personne comme pour l'appareil. A annonce la solution, B explique la blague : les deux coupent le jeu."
+          "retour": "C. La dernière phrase montre sans nommer : elle reste vraie pour une personne comme pour l'appareil. A annonce la solution, B explique la blague : les deux coupent le jeu.",
+          "etape": 4
         },
         {
           "forme": "ordre",
@@ -249,7 +257,8 @@
             "PS : si la compta valide enfin à temps, ce sera une première."
           ],
           "bonneReponse": 0,
-          "retour": "A. Le PS rectifie un détail minuscule et sans enjeu : il détend sans rien parasiter. B est une formule de politesse qui ne fait pas sourire, C pique un service."
+          "retour": "A. Le PS rectifie un détail minuscule et sans enjeu : il détend sans rien parasiter. B est une formule de politesse qui ne fait pas sourire, C pique un service.",
+          "etape": 2
         },
         {
           "forme": "laquelle",
@@ -260,7 +269,8 @@
             "Mais assez parlé de moi : et vous, qu'est-ce que vous faites ?"
           ],
           "bonneReponse": 1,
-          "retour": "B. La seconde phrase prolonge la première avec une image qui regarde loin, et ce temps long fait sourire. A est drôle mais vise des choix qui ne sont pas les tiens et ne dit rien de ton travail ; C passe la parole alors que la personne attend la suite de ton métier."
+          "retour": "B. La seconde phrase prolonge la première avec une image qui regarde loin, et ce temps long fait sourire. A est drôle mais vise des choix qui ne sont pas les tiens et ne dit rien de ton travail ; C passe la parole alors que la personne attend la suite de ton métier.",
+          "etape": 5
         },
         {
           "forme": "ordre",

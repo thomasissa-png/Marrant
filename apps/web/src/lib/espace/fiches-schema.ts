@@ -146,7 +146,12 @@ const commun = {
     .optional(),
 };
 
-const repliqueSchema = z.object({ texte, pourquoi: texte }).strict();
+/**
+ * Une réplique : sa phrase (l'écran pose les « »), puis son pourquoi. Import 2 (s24) : `sansParole` pour
+ * une sortie écrite comme un geste et non comme une phrase (C6a fiche 9, la risquée « Le silence. ») :
+ * l'écran l'affiche telle quelle, sans guillemets.
+ */
+const repliqueSchema = z.object({ texte, pourquoi: texte, sansParole: z.literal(true).optional() }).strict();
 const repliquesSchema = z.object({ sure: repliqueSchema, joueuse: repliqueSchema, risquee: repliqueSchema }).strict();
 
 /** Un contexte de rafale : une seule bonne réponse (un seul registre), et pourquoi. */
@@ -194,6 +199,11 @@ const construction = z
         ]),
         regle: texte,
         erreur: texte,
+        /**
+         * Import 2 (s24, C1b fiche 7) : exemple et essais écrits en récits à plusieurs citations. Les textes
+         * sont alors gardés tels qu'écrits, guillemets compris, et l'écran n'en ajoute aucun.
+         */
+        forme: z.literal("recit").optional(),
       })
       .strict(),
   })
@@ -206,6 +216,8 @@ const vocabulaire = z
     contenu: z
       .object({
         theme: texte,
+        /** Interne, jamais affiché : sources de l'emploi attesté, données par fiche (architecture 3.5, import 2). */
+        emploiAtteste: texte,
         mots: z
           .array(
             z
@@ -213,10 +225,11 @@ const vocabulaire = z
                 mot: texte,
                 enClair: texte,
                 exempleEnDeuxTemps: texte,
+                /** Import 2 : étiquette telle qu'écrite quand elle diffère de « En deux temps : » (« …, dans la même phrase : »). */
+                libelleEnDeuxTemps: texte.optional(),
                 aNePasConfondreAvec: texte,
-                definitionComplete: z.string().regex(/^\/[^\s]*$/),
-                /** Interne, jamais affiché : source de l'emploi attesté vérifié (architecture 3.5). */
-                emploiAtteste: texte,
+                /** Import 2 : facultatif ; les mots neufs n'ont pas de page de définition (aucun lien inventé). */
+                definitionComplete: z.string().regex(/^\/[^\s]*$/).optional(),
               })
               .strict(),
           )
@@ -280,6 +293,15 @@ const aPlat = z
         quandMonterDUnCran: corpsSituation.quandMonterDUnCran.optional(),
         erreur: texte.optional(),
         contextesRafale: z.array(contexteRafaleSchema).min(2).optional(),
+        /**
+         * Import 2 (C6a fiches 9 et 10) : rubrique entre la scène et les répliques, titre tel qu'écrit
+         * (« De quel blanc parle-t-on », « Trois signaux observables »).
+         */
+        precision: blocSchema.optional(),
+        /** Import 2 (C6a fiche 9) : « Si le blanc dure », une quatrième sortie, après les trois répliques. */
+        siCaDure: z.object({ titre: texte, texte, pourquoi: texte }).strict().optional(),
+        /** Import 2 (C6a fiche 10, E6 §6) : texte neutre du lien vers l'écran d'entrée du coin (3.12). */
+        lienCoin: texte.optional(),
       })
       .strict(),
   })
@@ -327,8 +349,12 @@ const elementBilan = z.discriminatedUnion("forme", [
       options: z.tuple([texte, texte, texte]),
       bonneReponse: z.number().int().min(0).max(2),
       retour: texte,
-      /** Lot D6 (3.10) : la fiche à revoir après une erreur, « … mérite un deuxième tour ». */
-      renvoi: z.object({ titre: texte, href: z.string().regex(/^\/[^\s]*$/, "chemin interne attendu") }).strict().optional(),
+      /**
+       * Import 2 (3.10) : étape du parcours dont vient le quiz de la question (« quiz S l.57 » du lot C6b).
+       * Le renvoi après une erreur (« La fiche « … » mérite un deuxième tour. ») est CALCULÉ par l'écran à
+       * partir de cette étape (`lib/espace/bilan-renvoi.ts`), jamais stocké.
+       */
+      etape: z.number().int().min(1).optional(),
     })
     .strict(),
   z
@@ -347,16 +373,33 @@ const bilan = z
   .strict();
 
 const etapeSeance = <N extends string>(nom: N) =>
-  z.object({ nom: z.literal(nom), minutes: z.number().int().min(1), consigne: texte }).strict();
+  z
+    .object({
+      nom: z.literal(nom),
+      minutes: z.number().int().min(1),
+      consigne: texte,
+      /** Import 2 : la grille de 3 questions écrite dans l'étape (bilan de la séance, 3.11). */
+      grille: z.tuple([texte, texte, texte]).optional(),
+    })
+    .strict();
 
-/** Séance de 20 minutes (3.11) : échauffement, observation, essai, bilan. */
+/**
+ * Séance de 20 minutes (3.11) : échauffement, observation, essai, bilan. Import 2 (C6c) : « Pour qui,
+ * quand », « Il te faut », « Tu produis », « Une version possible » (précision facultative, « phrase 2 »)
+ * et « Renvois » (titres des fiches, sans lien), tels qu'écrits.
+ */
 const seance = z
   .object({
     ...commun,
     type: z.literal("seance"),
     contenu: z
       .object({
+        pourQuiQuand: texte,
+        ilTeFaut: texte,
         etapes: z.tuple([etapeSeance("echauffement"), etapeSeance("observation"), etapeSeance("essai"), etapeSeance("bilan")]),
+        tuProduis: texte,
+        versionPossible: z.object({ precision: texte.optional(), texte }).strict(),
+        renvois: texte,
       })
       .strict(),
   })

@@ -47,6 +47,28 @@ const UNIVERS_COIN: Record<string, string> = {
   "Groupe d'amis, par écrit": "messages-groupes",
 };
 
+/**
+ * Paliers P3 (import 2). L'architecture v20 ne nomme aucune fiche P3 (tableau 3.2 ; 7.3 et 7.4 non plus) :
+ * elle donne un critère et un nombre. Règles appliquées, signalées au rapport :
+ * - situations, « 15 (supérieur, inconnu, groupe) » : les trois univers dont l'interlocuteur est l'un de
+ *   ces trois mots, et eux seuls : « Réunion et entretien » (un supérieur, un recruteur), « Commerces,
+ *   voisins, transports » (des inconnus), « Prise de parole courte » (un groupe) ; 5 + 5 + 5 = 15 ;
+ * - constructions, « 3 (combiner deux mécanismes) » : la fiche dont le texte combine deux mécanismes, soit
+ *   la seule « La combinaison de deux mécanismes » (C1b fiche 12) : 1 sur 3, les 2 autres ne sont pas
+ *   écrites (à trancher, aucune fiche choisie au hasard).
+ */
+const UNIVERS_P3 = new Set(["reunion-entretien", "commerces-voisins-transports", "prise-de-parole"]);
+const CONSTRUCTIONS_P3 = new Set(["la-combinaison-de-deux-mecanismes"]);
+
+/** Markdown brut d'un bloc `## titre` (jusqu'au `---` ou au titre suivant), pour lire une note d'écran. */
+function brutDuBloc(md: string, titre: string): string {
+  const debut = md.indexOf(`## ${titre}`);
+  if (debut < 0) return "";
+  const reste = md.slice(debut + titre.length + 3);
+  const fin = reste.search(/\n---\s*\n|\n## /);
+  return fin < 0 ? reste : reste.slice(0, fin);
+}
+
 /** Identifiant de chaque situation par « QRn code » (pour les jeux qui la reprennent). */
 export const SITUATIONS_PAR_CODE = new Map<string, string>();
 
@@ -65,7 +87,7 @@ function situations(lot: string, fichier: string, sortie: Brute[], refus: Refus[
       const e12 = bloc.sections.some((s) => s.label === "Le pourquoi");
       const aToi = section(bloc, "À toi");
       const g = geste(verbeSituation(aToi.join(" ")), aToi);
-      const palier = lot === "QR1" && code.startsWith("A") ? "P1" : "P2";
+      const palier = lot === "QR1" && code.startsWith("A") ? "P1" : UNIVERS_P3.has(univers) ? "P3" : "P2";
       // « Ta première phrase d'abord » (QR5 P1 à P5) : « Comment choisir » écrit en un seul paragraphe.
       const premierePhrase = bloc.sections.some((s) => s.label === "Ta première phrase d'abord");
       const contenu = e12 ? entreeE12(bloc) : corpsE11(bloc, premierePhrase ? choisirSouple : commentChoisir);
@@ -76,14 +98,14 @@ function situations(lot: string, fichier: string, sortie: Brute[], refus: Refus[
   }
 }
 
-type Lecteur = (bloc: Bloc) => { id: string; titre: string; type: string; extra?: Record<string, unknown>; palier?: string; corps: { contenu: unknown; geste: unknown } };
+type Lecteur = (bloc: Bloc) => { id: string; titre: string; type: string; extra?: Record<string, unknown>; palier?: string; duree?: number; corps: { contenu: unknown; geste: unknown } };
 
 function parFiche(lot: string, fichier: string, niveau: 2 | 3, debut: RegExp, type: string, lire: Lecteur, sortie: Brute[], refus: Refus[]) {
   for (const bloc of decouper(lireLot(fichier), niveau, debut)) {
     const ref = `${lot} ${bloc.titre.split(/[.:]/)[0]}`;
     try {
       const f = lire(bloc);
-      sortie.push({ lot, ref, fiche: { id: f.id, type: f.type, titre: f.titre, ...(f.extra ?? {}), palier: f.palier ?? "P2", dureeMinutes: DUREE, geste: f.corps.geste, contenu: f.corps.contenu } });
+      sortie.push({ lot, ref, fiche: { id: f.id, type: f.type, titre: f.titre, ...(f.extra ?? {}), palier: f.palier ?? "P2", dureeMinutes: f.duree ?? DUREE, geste: f.corps.geste, contenu: f.corps.contenu } });
     } catch (e) {
       refus.push({ lot, ref, type, raison: (e as Error).message });
     }
@@ -100,7 +122,7 @@ export function lireTousLesLots(): { brutes: Brute[]; refus: Refus[] } {
   ["qr1", "qr2", "qr3", "qr4", "qr5", "qr6"].forEach((n) => situations(n.toUpperCase(), `${n}-situations.md`, brutes, refus));
 
   for (const lot of ["c1a", "c1b"])
-    parFiche(lot.toUpperCase(), `${lot}-comment-c-est-construit.md`, 2, /^Fiche \d+\./, "construction", (b) => ({ id: idFiche(b), titre: titreFiche(b), type: "construction", corps: construction(b) }), brutes, refus);
+    parFiche(lot.toUpperCase(), `${lot}-comment-c-est-construit.md`, 2, /^Fiche \d+\./, "construction", (b) => ({ id: idFiche(b), titre: titreFiche(b), type: "construction", palier: CONSTRUCTIONS_P3.has(idFiche(b)) ? "P3" : "P2", corps: construction(b) }), brutes, refus);
   parFiche("C1C", "c1c-vocabulaire.md", 2, /^Fiche \d+\./, "vocabulaire", (b) => vocabulaire(b), brutes, refus);
   for (const lot of ["c3a", "c3b"])
     parFiche(lot.toUpperCase(), `${lot}-formules.md`, 2, /^Fiche \d+\./, "formule", (b) => ({ id: `formules-${idFiche(b)}`, titre: titreFiche(b), type: "formule", corps: formule(b) }), brutes, refus);
@@ -122,7 +144,7 @@ export function lireTousLesLots(): { brutes: Brute[]; refus: Refus[] } {
     }, brutes, refus);
   }
 
-  parFiche("C6A", "c6a-a-plat.md", 2, /^Fiche \d+\./, "a-plat", (b) => ({ id: `a-plat-${idFiche(b)}`, titre: titreFiche(b), type: "a-plat", corps: aPlat(b) }), brutes, refus);
+  parFiche("C6A", "c6a-a-plat.md", 2, /^Fiche \d+\./, "a-plat", (b) => ({ id: `a-plat-${idFiche(b)}`, titre: titreFiche(b), type: "a-plat", corps: aPlat(b, brutDuBloc(lireLot("c6a-a-plat.md"), b.titre)) }), brutes, refus);
   parFiche("C6B", "c6b-bilans.md", 2, /^\d\.\s/, "bilan", (b) => {
     const nom = b.titre.replace(/^\d\.\s*/, "").replace(/\s*\(`[^`]*`\)\s*$/, "");
     const { parcours, contenu, geste: g } = bilan(b);

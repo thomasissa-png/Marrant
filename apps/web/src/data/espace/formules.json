@@ -119,7 +119,7 @@
         },
         {
           "expression": "Vous ne passerez pas !",
-          "detournement": "Vous ne passerez pas ! dit le portique à mon troisième vieux ticket."
+          "detournement": "Vous ne passerez pas ! Mon troisième vieux ticket vient de l'apprendre."
         },
         {
           "expression": "Que la Force soit avec toi, …",
@@ -413,7 +413,7 @@
         },
         {
           "expression": "Alouette, gentille alouette, alouette, je te …",
-          "detournement": "Alouette, gentille alouette, alouette, je te débrancherai, si j'arrive à te trouver sans ouvrir les yeux."
+          "detournement": "Alouette, gentille alouette, alouette, je te débrancherai, avec un seul œil ouvert."
         }
       ],
       "contreExemple": {

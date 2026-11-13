@@ -8,6 +8,8 @@ import { CorpsSituation } from "@/components/espace/fiche/corps-situation";
 import { CorpsConstruction, CorpsFormule, CorpsVocabulaire } from "@/components/espace/fiche/corps-technique";
 import { CorpsEcouter, CorpsJeu, CorpsLimite, CorpsSeance } from "@/components/espace/fiche/corps-divers";
 import { BilanParcours } from "@/components/espace/fiche/bilan-parcours";
+import { renvoiDeBilan } from "@/lib/espace/bilan-renvoi";
+import { HREF_ENTREE_COIN } from "@/lib/espace/humour-noir";
 
 /** Nom d'un lien vers le catalogue : la rubrique publique existante de son adresse (aucun texte neuf). */
 function nomDuLien(href: string): string {
@@ -28,7 +30,17 @@ function Corps({ fiche }: { fiche: Fiche }) {
         />
       );
     case "a-plat":
-      return <CorpsSituation premierePhrase={false} scene={fiche.contenu.scene} repliques={fiche.contenu.repliques} quandMonter={fiche.contenu.quandMonterDUnCran} erreur={fiche.contenu.erreur} />;
+      return (
+        <CorpsSituation
+          premierePhrase={false}
+          scene={fiche.contenu.scene}
+          repliques={fiche.contenu.repliques}
+          quandMonter={fiche.contenu.quandMonterDUnCran}
+          erreur={fiche.contenu.erreur}
+          precision={fiche.contenu.precision}
+          siCaDure={fiche.contenu.siCaDure}
+        />
+      );
     case "humour-noir":
       return fiche.contenu.forme === "limite" ? (
         <CorpsLimite c={fiche.contenu} />
@@ -53,8 +65,14 @@ function Corps({ fiche }: { fiche: Fiche }) {
       return <CorpsJeu c={fiche.contenu} />;
     case "seance":
       return <CorpsSeance c={fiche.contenu} />;
-    case "bilan":
-      return <BilanParcours elements={fiche.contenu.elements} />;
+    case "bilan": {
+      // Import 2 : le « à voix haute » est le geste de la fiche (« À toi ») : affiché une seule fois.
+      const consigneGeste = fiche.geste?.consigne;
+      const elements = fiche.contenu.elements.filter((e) => !(e.forme === "voix-haute" && e.consigne === consigneGeste));
+      const slug = fiche.contenu.parcoursSlug;
+      const renvois = elements.map((e) => (e.forme === "laquelle" ? renvoiDeBilan(slug, e.etape) : null));
+      return <BilanParcours elements={elements} renvois={renvois} />;
+    }
   }
 }
 
@@ -104,10 +122,19 @@ export function FicheVue({
             ficheId={fiche.id}
             consigne={fiche.geste.consigne}
             pourAllerPlusLoin={fiche.geste.pourAllerPlusLoin ?? null}
+            grille={fiche.geste.grille ?? null}
             retourInitial={retour}
             repliqueInitiale={replique}
           />
         </div>
+      )}
+      {fiche.type === "a-plat" && fiche.contenu.lienCoin && (
+        // Import 2 (C6a fiche 10 ; architecture 3.12, E6 §6) : lien au texte neutre, vers l'écran d'entrée du coin.
+        <p>
+          <Link href={HREF_ENTREE_COIN} className={LIEN}>
+            {fiche.contenu.lienCoin}
+          </Link>
+        </p>
       )}
       {fiche.liens && fiche.liens.length > 0 && (
         // Reste du D6 (arbitrage @ux D6 n°4) : liste étiquetée par le titre de la fiche ; jamais deux liens

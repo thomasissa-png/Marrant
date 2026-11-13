@@ -1,12 +1,18 @@
 /**
  * « Comment c'est construit » (C1a, C1b), « Formules à détourner » (C3a, C3b) et « Vocabulaire » (C1c).
  */
-import { Ecart, estCitation, sansGuillemets, section, type Bloc } from "./md";
+import { Ecart, estCitation, sansGuillemets, sansParenthese, section, slug, titreAffiche, type Bloc } from "./md";
 
 const sansNumero = (l: string) => l.replace(/^\d+\.\s*/, "");
 
-/** Trois essais : « Essai N : « … » » puis le verdict ; « Essai 3 : l'exemple. Verdict » = texte null. */
-function essais(lignes: string[]) {
+/** Nombre de citations « … » d'une ligne. */
+const citations = (t: string) => (t.match(/«[^«»]*»/g) ?? []).length;
+
+/**
+ * Trois essais : « Essai N : « … » » puis le verdict ; « Essai 3 : l'exemple. Verdict » = texte null.
+ * Forme « récit » (import 2, C1b fiche 7) : l'essai est un récit qui contient au moins une citation, gardé tel quel.
+ */
+function essais(lignes: string[], recit = false) {
   const sortie: { texte: string | null; verdict: string }[] = [];
   for (let i = 0; i < lignes.length; i++) {
     const m = /^Essai \d+ : (.*)$/.exec(lignes[i]);
@@ -16,10 +22,10 @@ function essais(lignes: string[]) {
       sortie.push({ texte: null, verdict: exemple[1] });
       continue;
     }
-    if (!estCitation(m[1])) throw new Ecart(`essai sans phrase entre « » : ${m[1]}`);
+    if (recit ? citations(m[1]) === 0 : !estCitation(m[1])) throw new Ecart(`essai sans phrase entre « » : ${m[1]}`);
     const verdict = lignes[i + 1];
     if (!verdict || /^Essai \d+ :/.test(verdict)) throw new Ecart(`essai sans verdict : ${m[1]}`);
-    sortie.push({ texte: sansGuillemets(m[1]), verdict });
+    sortie.push({ texte: recit ? m[1] : sansGuillemets(m[1]), verdict });
   }
   if (sortie.length !== 3) throw new Ecart(`${sortie.length} essais, 3 attendus`);
   return sortie as [(typeof sortie)[0], (typeof sortie)[0], (typeof sortie)[0]];
@@ -35,15 +41,20 @@ function gesteAGrille(lignes: string[]) {
 
 export function construction(bloc: Bloc) {
   const exemple = section(bloc, "L'exemple");
-  if (exemple.length !== 1 || !estCitation(exemple[0])) throw new Ecart("exemple attendu en une phrase entre « »");
+  if (exemple.length !== 1) throw new Ecart("exemple attendu en une ligne");
+  // Import 2 : un exemple qui n'est pas une seule phrase citée mais un récit à plusieurs citations
+  // (C1b fiche 7) passe en forme « récit » : exemple et essais gardés tels qu'écrits.
+  const recit = !estCitation(exemple[0]) && citations(exemple[0]) >= 2;
+  if (!recit && !estCitation(exemple[0])) throw new Ecart("exemple attendu en une phrase entre « » ou en récit à plusieurs citations");
   return {
     contenu: {
       schemaEnUneLigne: section(bloc, "Le schéma, en une ligne").join("\n"),
-      exemple: sansGuillemets(exemple[0]),
+      exemple: recit ? exemple[0] : sansGuillemets(exemple[0]),
       commentCestFait: section(bloc, "Comment c'est fait"),
-      essais: essais(section(bloc, "Trois essais, un seul tient")),
+      essais: essais(section(bloc, "Trois essais, un seul tient"), recit),
       regle: section(bloc, "La règle").join("\n"),
       erreur: section(bloc, "L'erreur que tout le monde fait").join("\n"),
+      ...(recit ? { forme: "recit" as const } : {}),
     },
     geste: gesteAGrille(section(bloc, "À toi")),
   };
@@ -94,20 +105,51 @@ export function formule(bloc: Bloc) {
   };
 }
 
+const EN_DEUX_TEMPS = "En deux temps : ";
+const PAS_CONFONDRE = "À ne pas confondre avec : ";
+const DEFINITION = "Définition complète :";
+
 /**
- * Vocabulaire (E3) : le schéma exige pour chaque mot une « Définition complète » en chemin interne et
- * l'emploi attesté (champ interne). La source garde `[lien à décider, mot neuf]` pour les 28 mots
- * neufs et ne donne les sources que par fiche : la fiche est signalée, jamais complétée ici.
+ * Vocabulaire (E3, lot C1c), import 2 : titre et accroche (première section, au nom de la fiche), cinq
+ * mots (définition, « En deux temps », « À ne pas confondre avec », « Définition complète »), « À toi :
+ * placer ». « Définition complète » : chemin seulement s'il est écrit (`/glossaire`) ; les 28 mots neufs
+ * gardent `[lien à décider, mot neuf]`, retiré par la lecture : aucun lien inventé. L'emploi attesté est
+ * donné par fiche (« [note interne] Sources : … ») : il va, tel qu'écrit, dans le champ interne de la fiche.
  */
-export function vocabulaire(bloc: Bloc): never {
-  const mots = bloc.sections.slice(1).filter((s) => !/^À toi/.test(s.label));
-  const sansLien = mots.filter((s) => {
-    const l = s.lignes.find((x) => x.startsWith("Définition complète :")) ?? "";
-    return !/^\/\S*$/.test(l.slice("Définition complète :".length).replace(/`/g, "").trim());
+export function vocabulaire(bloc: Bloc) {
+  const titre = titreAffiche(bloc.titre.replace(/^Fiche \d+\.\s*/, ""));
+  const [tete, ...reste] = bloc.sections;
+  if (!tete || tete.label !== titre || tete.lignes.length !== 1) throw new Ecart("première section : le titre de la fiche puis son accroche en une ligne");
+  const aToi = reste.find((s) => /^À toi : /.test(s.label));
+  if (!aToi || aToi.lignes.length === 0) throw new Ecart("« À toi » absent");
+  const verbe = aToi.label.replace(/^À toi : /, "").normalize("NFD").replace(/\p{M}/gu, "");
+  const mots = reste.filter((s) => s !== aToi).map((s) => {
+    const [enClair, deux, confondre, definition, ...trop] = s.lignes;
+    if (trop.length || !enClair) throw new Ecart(`mot « ${s.label} » : ${s.lignes.length} lignes, 4 attendues`);
+    const m = /^(En deux temps[^:]*:)\s*(.+)$/.exec(deux ?? "");
+    if (!m) throw new Ecart(`mot « ${s.label} » : « En deux temps » absent`);
+    if (!confondre?.startsWith(PAS_CONFONDRE)) throw new Ecart(`mot « ${s.label} » : « À ne pas confondre avec » absent`);
+    if (!definition?.startsWith(DEFINITION)) throw new Ecart(`mot « ${s.label} » : « Définition complète » absente`);
+    const lien = definition.slice(DEFINITION.length).replace(/`/g, "").trim();
+    if (lien && !/^\/\S*$/.test(lien)) throw new Ecart(`mot « ${s.label} » : définition complète illisible (${lien})`);
+    return {
+      mot: s.label,
+      enClair,
+      exempleEnDeuxTemps: m[2],
+      ...(`${m[1]} ` !== EN_DEUX_TEMPS ? { libelleEnDeuxTemps: m[1] } : {}),
+      aNePasConfondreAvec: confondre.slice(PAS_CONFONDRE.length),
+      ...(lien ? { definitionComplete: lien } : {}),
+    };
   });
-  const raisons = [
-    sansLien.length ? `${sansLien.length} mot(s) sans lien de définition complète (« lien à décider ») : ${sansLien.map((s) => s.label).join(", ")}` : "",
-    `emploi attesté par mot absent (sources données par fiche) pour ${mots.length} mots`,
-  ].filter(Boolean);
-  throw new Ecart(raisons.join(" ; "));
+  const sources = bloc.notes.find((n) => /^Sources : /.test(n));
+  if (!sources) throw new Ecart("emploi attesté absent (« [note interne] Sources : »)");
+  return {
+    id: slug(sansParenthese(titre)),
+    titre,
+    type: "vocabulaire",
+    corps: {
+      contenu: { theme: tete.lignes[0], emploiAtteste: sources.slice("Sources : ".length), mots },
+      geste: { verbe, consigne: aToi.lignes.join("\n") },
+    },
+  };
 }

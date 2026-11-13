@@ -226,24 +226,24 @@
         },
         "risquee": {
           "texte": "Trois essais. Si tu ne trouves pas, c'est toi qui offres le café.",
-          "pourquoi": "un vrai pari, truqué en toute franchise : rien n'a changé (enfin, presque), il ne peut pas trouver, et c'est lui qui paie. Une provocation tendre, qui ne passe que s'il aime jouer et paiera de bonne grâce."
+          "pourquoi": "un vrai pari, truqué en toute franchise : rien n'a changé (enfin, presque), la personne ne peut pas trouver, et c'est elle qui paie. Une provocation tendre, qui ne passe que si elle aime jouer et paiera de bonne grâce."
         }
       },
       "quandMonterDUnCran": {
         "regle": "Devant une question sans vraie réponse, n'explique rien : joue le jeu, très sérieusement, en une phrase.",
-        "surCetteScene": "Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer, il a déjà relevé un défi avec toi."
+        "surCetteScene": "Joueuse : l'ambiance est détendue. Risquée : l'autre aime jouer et a déjà relevé un défi avec toi."
       },
       "erreur": "Chercher toi-même ce qui aurait pu changer (« Ah, mes cheveux peut-être ? »). Tu fais le travail de l'autre et tu perds l'instant.",
       "contextesRafale": [
         {
           "contexte": "La soirée peine à démarrer, et personne ne rit encore",
           "bonneReponse": "sure",
-          "pourquoi": "L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; l'ami n'a relevé aucun défi, donc la risquée serait un pari de trop."
+          "pourquoi": "L'ambiance n'est pas détendue, donc la joueuse tomberait à plat ; la personne n'a relevé aucun défi, donc la risquée serait un pari de trop."
         },
         {
-          "contexte": "L'ambiance est détendue, et l'ami te guette en souriant : la semaine dernière, il a perdu contre toi aux mots croisés, en riant",
+          "contexte": "L'ambiance est détendue, et la personne te guette en souriant : la semaine dernière, elle a perdu contre toi aux mots croisés, en riant",
           "bonneReponse": "risquee",
-          "pourquoi": "Il a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu."
+          "pourquoi": "Cette personne a déjà relevé un défi avec toi : la joueuse s'arrêterait un cran trop bas, la sûre laisserait filer son jeu."
         }
       ]
     }
@@ -326,8 +326,8 @@
           "pourquoi": "Un défaut qui parle de cette conversation même : la bonne réponse arrive toujours trop tard, et la chute est dans « une heure après ». Court, il se lit d'un coup dans une messagerie. À sortir quand les échanges ont déjà fait sourire l'autre."
         },
         "risquee": {
-          "texte": "Un défaut chacun, pas la liste. On envoie ensemble : le dernier à appuyer a le plus gênant.",
-          "pourquoi": "Tu proposes un jeu à deux : un défaut chacun, envoyés au même instant, et la chute dit que celui qui hésite a le plus gênant. Chacun tape de son côté, puis on envoie. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre."
+          "texte": "Un défaut chacun, pas la liste. On envoie ensemble : qui appuie en dernier a le plus gênant.",
+          "pourquoi": "Tu proposes un jeu à deux : chaque défaut tapé en même temps, puis envoyé au même instant. La chute fait de l'hésitation un aveu : appuyer en dernier, c'est avoir le plus gênant. Elle ne vise rien. Elle marche seulement si l'autre plaisante déjà de ses défauts. Sinon elle ressemble à une pression : prends la sûre."
         }
       },
       "quandMonterDUnCran": {
@@ -953,7 +953,7 @@
   {
     "id": "reunion-qui-prend-les-notes",
     "titre": "Réunion : « Qui prend les notes ? »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -1004,7 +1004,7 @@
   {
     "id": "reunion-on-ne-t-entend-pas-tu-es-en-sourdine",
     "titre": "Réunion : « On ne t'entend pas, tu es en sourdine. »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -1056,7 +1056,7 @@
   {
     "id": "entretien-avez-vous-des-questions-pour-nous",
     "titre": "Entretien : « Avez-vous des questions pour nous ? »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -1106,7 +1106,7 @@
   {
     "id": "reunion-et-toi-qu-est-ce-que-tu-en-penses",
     "titre": "Réunion : « Et toi, qu'est-ce que tu en penses ? »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -1156,7 +1156,7 @@
   {
     "id": "entretien-vous-avez-trouve-facilement",
     "titre": "Entretien : « Vous avez trouvé facilement ? »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -2010,7 +2010,7 @@
   {
     "id": "toast-d-anniversaire",
     "titre": "Toast d'anniversaire (amis)",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -2058,7 +2058,7 @@
   {
     "id": "un-petit-mot-pot-de-retraite",
     "titre": "Un petit mot : pot de retraite",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -2107,7 +2107,7 @@
   {
     "id": "toast-de-mariage",
     "titre": "Toast de mariage",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2155,7 +2155,7 @@
   {
     "id": "remerciements-de-fin-de-soiree",
     "titre": "Remerciements de fin de soirée (association)",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2203,7 +2203,7 @@
   {
     "id": "tour-de-table-se-presenter",
     "titre": "Tour de table : se présenter",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",
@@ -2251,7 +2251,7 @@
   {
     "id": "marche-elles-sont-bonnes-mes-tomates",
     "titre": "Marché : « Elles sont bonnes, mes tomates ! »",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2301,7 +2301,7 @@
   {
     "id": "voisins-le-colis",
     "titre": "Voisins : le colis",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2352,7 +2352,7 @@
   {
     "id": "transports-le-grand-sac",
     "titre": "Transports : le grand sac",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2402,7 +2402,7 @@
   {
     "id": "voisins-le-local-a-poubelles",
     "titre": "Voisins : le local à poubelles",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "tenter",
@@ -2452,7 +2452,7 @@
   {
     "id": "transports-la-borne-de-billets",
     "titre": "Transports : la borne de billets",
-    "palier": "P2",
+    "palier": "P3",
     "dureeMinutes": 5,
     "geste": {
       "verbe": "dire",

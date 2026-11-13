@@ -16,6 +16,12 @@ import { SERIE } from "@/config/textes/parcours";
  * copie de travail, rétablie par `trap`, jamais livrée). `E2E_CAPTURES_D5` : dossier des captures.
  */
 const ESPACE_OUVERT = process.env.E2E_ESPACE_OUVERT === "1";
+/**
+ * Import 2 (s24) : les tests écrits pour les fixtures (« @fixtures-espace ») tournent sur un serveur construit
+ * avec le jeu dédié `playwright/fixtures/espace` (installé par `installer.mjs` dans une copie de travail
+ * basculée, rétablie ensuite ; jamais servi), et sont sautés sur le serveur construit avec le vrai contenu.
+ */
+const FIXTURES_ESPACE = process.env.E2E_FIXTURES_ESPACE === "1";
 const CAPTURES = process.env.E2E_CAPTURES_D5 ?? "";
 // Lot D5b : captures du compte à rebours et de la limite de la réplique (`docs/captures/s24-d5b`).
 const MOT_DE_PASSE = "E2e-espace-cartes-D5";
@@ -98,7 +104,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
   test.describe("abonné, interrupteur ouvert, fixtures", () => {
     test.skip(!ESPACE_OUVERT, "E2E_ESPACE_OUVERT=1 requis : serveur construit interrupteur ouvert");
 
-    test("carte nouvelle : « Prends ton temps », réponse, choix, règle, geste ; « Fait » ; note enregistrée", async ({ browser, page }) => {
+    test("carte nouvelle : « Prends ton temps », réponse, choix, règle, geste ; « Fait » ; note enregistrée @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { id, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await requete(`INSERT INTO "UserReplique" (id, "userId", "ficheId", texte, "modifieLe") VALUES ($1, $2, 'coloc-la-poele', $3, now())`, [`${id}-r`, id, NOTE]);
@@ -154,7 +161,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       await capturer(page, "carte-revision-apres-reponse", '[data-carte="coloc-la-poele.c1"] [data-testid="replique-derniere-fois"]');
     });
 
-    test("« Aujourd'hui », état 2 : premier pas fait, « Les cartes du jour », question C9 ; mission en lien secondaire", async ({ browser, page }) => {
+    test("« Aujourd'hui », état 2 : premier pas fait, « Les cartes du jour », question C9 ; mission en lien secondaire @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { id, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await requete(`INSERT INTO "FicheFait" (id, "userId", "ficheId", retour) VALUES ($1, $2, 'coloc-la-poele', 'essaye-bof')`, [`${id}-f`, id]);
@@ -167,7 +175,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       await capturer(page, "aujourdhui-rafale");
     });
 
-    test("mission : « ça a marché » vers la marche d'au-dessus ; « bof » ; deux « Pas essayé » vers la marche 1", async ({ browser, page }) => {
+    test("mission : « ça a marché » vers la marche d'au-dessus ; « bof » ; deux « Pas essayé » vers la marche 1 @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await page.goto("/mon-espace/s-entrainer?marche=2#mission");
@@ -216,7 +225,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       expect(n).toBe(0);
     });
 
-    test("échec d'enregistrement : le texte reste, « Réessayer »", async ({ browser, page }) => {
+    test("échec d'enregistrement : le texte reste, « Réessayer » @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await page.goto("/mon-espace/s-entrainer");
@@ -230,7 +240,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       await expect(c.getByRole("button", { name: G.note.reessayer })).toBeVisible();
     });
 
-    test("D5b, compte à rebours : proposition « 7 secondes », décompte, fin annoncée, retour visible à 10, durée enregistrée", async ({ browser, page }) => {
+    test("D5b, compte à rebours : proposition « 7 secondes », décompte, fin annoncée, retour visible à 10, durée enregistrée @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { id, cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       // Semaine précédente (même jour, 7 jours avant) : 10 cartes à 10 secondes, dont 7 « Oui ».
@@ -274,7 +285,8 @@ test.describe("espace client, cartes, répliques, missions (s24, lot D5)", () =>
       expect(await c.innerText()).not.toMatch(/score|note sur|trop lent|raté|perdu/i);
     });
 
-    test("D5b, « Ma réplique à moi » : un collage de 300 caractères est coupé à 200, message de limite", async ({ browser, page }) => {
+    test("D5b, « Ma réplique à moi » : un collage de 300 caractères est coupé à 200, message de limite @fixtures-espace", async ({ browser, page }) => {
+      test.skip(!FIXTURES_ESPACE, "fixtures dédiées : serveur construit avec playwright/fixtures/espace (E2E_FIXTURES_ESPACE=1)");
       const { cookies } = await compte(browser);
       await page.context().addCookies(cookies);
       await page.setViewportSize({ width: 375, height: 812 });

@@ -270,5 +270,88 @@
       },
       "erreur": "Inventer une urgence (« j'ai un appel »). On te croit ou non, mais tu t'enfermes dans ton mensonge."
     }
+  },
+  {
+    "id": "a-plat-le-blanc",
+    "titre": "Le blanc",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Pose-toi une question à toi-même, vide ta tête volontairement, puis dis la sûre à voix haute. Dix secondes."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Réunion. On te demande ton avis sur un point. Ta tête se vide : plus aucun mot, tous les yeux sur toi."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Laisse-moi une seconde.",
+          "pourquoi": "Tu reprends ton souffle à voix haute. Une seconde, c'est long en réunion, et ça passe pour de la réflexion. À faire d'abord : respire par le ventre, puis dis-le."
+        },
+        "joueuse": {
+          "texte": "Ta question est bien arrivée, je cherche où je l'ai rangée.",
+          "pourquoi": "Tu accuses réception avec un sourire : la question est reçue, la réponse se fait attendre. À sortir si l'ambiance est détendue."
+        },
+        "risquee": {
+          "texte": "Le silence. Tu souris, tu hoches la tête deux fois, tu laisses l'autre relancer.",
+          "pourquoi": "Se taire vaut mieux qu'une réplique forcée. Elle marche si la personne est patiente, et jamais plus de quelques secondes.",
+          "sansParole": true
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "La salle attend vite une réponse ? La sûre. Elle te connaît ? La joueuse. La personne en face est patiente ? Le silence, une seule fois. Rien ne revient après la seconde ? La sortie polie."
+      },
+      "erreur": "Combler à tout prix avec une phrase à moitié pensée. Elle ne répond pas à la question et tu la regretteras.",
+      "precision": {
+        "titre": "De quel blanc parle-t-on",
+        "texte": "Ce blanc est un trou de tête (« avoir un blanc »). Celui d'une conversation qui s'éteint est dans Vocabulaire."
+      },
+      "siCaDure": {
+        "titre": "Si le blanc dure",
+        "texte": "Je te réponds après la réunion.",
+        "pourquoi": "C'est une réponse, pas un aveu : tu gardes la main."
+      }
+    }
+  },
+  {
+    "id": "a-plat-lire-la-salle-et-savoir-s-arreter",
+    "titre": "Lire la salle et savoir s'arrêter",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Ce soir, dès qu'une phrase à toi fait sourire, clos avec la sûre, puis pose une question à quelqu'un d'autre."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Soirée. Ta vanne a fait rire. Tu en as une autre sous le coude, et tu hésites."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Je m'arrête sur celle-là.",
+          "pourquoi": "Tu clos sur un succès, et on en garde le souvenir."
+        },
+        "joueuse": {
+          "texte": "Je referme la boutique : stock épuisé.",
+          "pourquoi": "Tu annonces ta propre fin comme un commerçant. À sortir si deux signaux sont là."
+        },
+        "risquee": {
+          "texte": "Une autre ? Non : je pars au sommet de ma carrière.",
+          "pourquoi": "Tu fais de ton arrêt une décision de star. Elle ne passe que si les trois signaux sont là et que la salle redemande."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Aucun signal ? Tu t'arrêtes sans un mot. Un signal ? La sûre. Deux ? La joueuse. Trois, et la salle redemande ? La risquée, une seule fois."
+      },
+      "erreur": "Relancer parce que « ça marche ». La deuxième vanne arrive toujours une phrase trop tard.",
+      "precision": {
+        "titre": "Trois signaux observables",
+        "texte": "Ils sourient en te regardant. Ils se penchent vers toi. Ils répondent en rebondissant sur ta phrase. Une fois pour lancer, une fois pour clore : les signaux choisissent ta clôture, jamais une deuxième vanne."
+      },
+      "lienCoin": "Rire de sujets graves, sans blesser : la limite"
+    }
   }
 ]

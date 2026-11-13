@@ -23,10 +23,7 @@
           ],
           "bonneReponse": 1,
           "retour": "B. Elle dit tout haut ce que chacun sait déjà de ces promesses-là, avec toi dedans, sans viser personne. A est une sortie qu'on invente pour s'échapper : ce soir, personne ne cherche à s'échapper. C est une jolie observation, mais une place vide n'a rien à voir avec ce que le groupe vit ce soir.",
-          "renvoi": {
-            "titre": "Énoncer la règle non écrite",
-            "href": "/parcours/confiance#etape-1"
-          }
+          "etape": 1
         },
         {
           "forme": "ordre",

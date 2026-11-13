@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TEXTES_BILAN as B } from "@/config/textes/espace-bibliotheque";
 import { TEXTES_CARTES as C } from "@/config/textes/espace-cartes";
 import type { FicheDeType } from "@/lib/espace/fiches";
+import type { RenvoiBilan } from "@/lib/espace/bilan-renvoi";
 import { BOUTON_SECONDAIRE, CARTE, ETIQUETTE, LIEN } from "@/components/espace/carte/styles";
 import { ReponseDabord } from "@/components/espace/fiche/reponse-dabord";
 
@@ -23,7 +24,7 @@ function Entete({ id, titre }: { id: string; titre: string }) {
 }
 
 /** « Laquelle ressortir ici ? » (libellés §5, `mission.html#etat=bilan`) : un seul choix, verrouillé et marqué. */
-function QuestionLaquelle({ e, n }: { e: Laquelle; n: number }) {
+function QuestionLaquelle({ e, n, renvoi }: { e: Laquelle; n: number; renvoi: RenvoiBilan | null }) {
   const [choix, setChoix] = useState<number | null>(null);
   const juste = choix === e.bonneReponse;
   return (
@@ -65,10 +66,10 @@ function QuestionLaquelle({ e, n }: { e: Laquelle; n: number }) {
           <div role="status" className="space-y-2 rounded-md bg-background-light p-3 text-sm text-text-primary" data-testid="bilan-retour">
             {!juste && <p>{B.pasCelleLa}</p>}
             <p>{e.retour}</p>
-            {!juste && e.renvoi && (
+            {!juste && renvoi && (
               <p>
-                <Link href={e.renvoi.href} className={LIEN}>
-                  {B.deuxiemeTour(e.renvoi.titre)}
+                <Link href={renvoi.href} className={LIEN}>
+                  {B.deuxiemeTour(renvoi.titre)}
                 </Link>
               </p>
             )}
@@ -83,12 +84,14 @@ function QuestionLaquelle({ e, n }: { e: Laquelle; n: number }) {
  * Bilan du parcours (s24, lot D6 ; architecture v20 3.10, libellés 27 et §5) : « refais une situation »,
  * pas un examen (ni note, ni seuil, ni certificat, rien d'enregistré hors « Fait »). Deux « Laquelle
  * ressortir ici ? », un « dans l'ordre » (retour après « Tu avais une réponse ? »), un « à voix haute ».
+ * Import 2 : `renvois[n]` = renvoi calculé de l'élément n (`lib/espace/bilan-renvoi.ts`, jamais stocké) ;
+ * le « à voix haute » repris par le geste de la fiche n'est pas affiché une seconde fois (`FicheVue`).
  */
-export function BilanParcours({ elements }: { elements: readonly Element[] }) {
+export function BilanParcours({ elements, renvois = [] }: { elements: readonly Element[]; renvois?: readonly (RenvoiBilan | null)[] }) {
   return (
     <div className="flex flex-col gap-6">
       {elements.map((e, n) => {
-        if (e.forme === "laquelle") return <QuestionLaquelle key={n} e={e} n={n} />;
+        if (e.forme === "laquelle") return <QuestionLaquelle key={n} e={e} n={n} renvoi={renvois[n] ?? null} />;
         if (e.forme === "ordre")
           return (
             <section key={n} aria-labelledby={`bilan-${n}`} className={CARTE} data-bilan="ordre">

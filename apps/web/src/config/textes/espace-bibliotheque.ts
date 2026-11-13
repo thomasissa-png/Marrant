@@ -150,6 +150,14 @@ export const TEXTES_FICHE = {
   siCaNePrendPas: "Si ça ne prend pas",
   ceQuOnAuraitPuDire: "Ce qu'on aurait pu dire",
   etapesSeance: { echauffement: "Échauffement", observation: "Observation", essai: "Essai", bilan: "Bilan" },
+  /** Import 2 : rubriques d'une séance, étiquettes du lot C6c telles qu'écrites. */
+  seance: {
+    pourQuiQuand: "Pour qui, quand",
+    ilTeFaut: "Il te faut",
+    tuProduis: "Tu produis",
+    versionPossible: "Une version possible",
+    renvois: "Renvois",
+  },
   /** Liens vers le catalogue public : nom de la rubrique existante. */
   rubriquesCatalogue: { vannes: "Vannes", conseils: "Conseils", videos: "Vidéos", glossaire: "Glossaire", blog: "Articles", parcours: "Parcours" },
 } as const;

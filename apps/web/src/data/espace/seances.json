@@ -1,1 +1,287 @@
-[]
+[
+  {
+    "id": "seance-dix-chambrages-dix-secondes",
+    "titre": "Dix chambrages, dix secondes",
+    "palier": "P2",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, sans personne, à voix basse sur un trajet, ou à deux. Facultative.",
+      "ilTeFaut": "un chronomètre, de quoi écrire.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Lis les trois répliques d'une situation de « Quoi répondre » (par exemple « Coloc : la poêle »)."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "Lis les dix phrases. Pour chacune, note en deux mots la petite pique. Coche les trois qu'on te dit vraiment.\n1. « Tu as encore pris le dernier morceau ? » 2. « Tu es toujours sur ton téléphone, toi. » 3. « Tu portes le même pull que lundi, non ? » 4. « Tu mets toujours une heure à répondre. » 5. « Ah, tu as enfin rangé ton bureau. » 6. « Tu pars déjà ? » 7. « Tu sais que tu parles fort ? » 8. « Tu as encore changé d'avis, toi. » 9. « Tu l'as mis à l'envers, non ? » 10. « C'est ta troisième part, non ? »"
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "Reprends les dix, chrono lancé : dix secondes par phrase, à voix haute ou basse, même bancal. Trois tours, dans un ordre différent ; au troisième, plus vite. À deux, l'autre lit dans le désordre. Rien n'est envoyé au site."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Garde la réponse que tu préfères et écris-la. Puis la grille :",
+          "grille": [
+            "Elle tient en une phrase ?",
+            "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "La fin surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "une réplique à toi, écrite, sur la phrase de ton choix.",
+      "versionPossible": {
+        "precision": "phrase 2",
+        "texte": "« Il fait partie de la famille : il a même sa place à table. »"
+      },
+      "renvois": "« Quoi répondre » ; « Quand on te lance une pique » (« Vocabulaire »), entrée « Chambrer »."
+    }
+  },
+  {
+    "id": "seance-la-phrase-du-debut-reprise-a-la-fin",
+    "titre": "La phrase du début, reprise à la fin",
+    "palier": "P3",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, sans personne, ou à deux (l'autre te raconte le moment). Facultative.",
+      "ilTeFaut": "de quoi écrire.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Écris trois phrases que tu dis sur toi, en passant : une habitude, une promesse, une qualité."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "Lis la fiche « Le callback » (« Comment c'est construit ») et dis son exemple à voix haute. Pour chacune de tes trois phrases, note un moment précis où elle deviendrait fausse."
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "Pour chaque phrase, écris la reprise : mêmes mots, une seule fois, une courte suite si tu veux. À deux, l'autre raconte le moment, et toi tu dis la reprise."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Garde la meilleure paire, et choisis le repas de ce soir ou de demain où tu diras la première phrase. La grille :",
+          "grille": [
+            "Ta première phrase passe en douce, et la reprise reprend les mêmes mots ?",
+            "Si ta reprise vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "La reprise surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "une paire écrite, le début et la reprise, et le repas où tu diras le début.",
+      "versionPossible": {
+        "texte": "« Je ne m'énerve jamais. » Plus tard, à la quatrième tentative de monter l'étagère : « Je ne m'énerve jamais. »"
+      },
+      "renvois": "« Le callback »."
+    }
+  },
+  {
+    "id": "seance-cinq-formules-cinq-details",
+    "titre": "Cinq formules, cinq détails",
+    "palier": "P3",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, sans personne ou à deux (l'autre cherche le détail avec toi). Facultative.",
+      "ilTeFaut": "de quoi écrire, un souvenir de ta semaine.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Lis les détournements de la fiche « Proverbes » (« Formules à détourner »). Dis-en un à voix haute, avec la forme gardée."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "Voici cinq expressions : « Petit à petit, l'oiseau fait son nid. » ; « Loin des yeux, loin du cœur. » ; « Chassez le naturel, il revient au galop. » ; « Les bons comptes font les bons amis. » ; « Rira bien qui rira le dernier. » Pour chacune, note un détail précis de ta semaine (un objet, une heure, un lieu)."
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "Pour chaque expression, garde la forme et remplace le sujet par ton détail. Une douzaine de mots au plus. À deux, l'autre lit l'expression, toi tu dis ta version."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Garde le meilleur détournement. La grille :",
+          "grille": [
+            "On reconnaît l'expression, et ton détournement tient en une phrase ?",
+            "Si ton détail vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "La fin surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "cinq détournements écrits, dont un gardé.",
+      "versionPossible": {
+        "texte": "« Petit à petit, le pot de clés orphelines fait son nid sur l'étagère. »"
+      },
+      "renvois": "« Proverbes » et « Expressions imagées » (« Formules à détourner »), « Le détournement » (« Comment c'est construit »)."
+    }
+  },
+  {
+    "id": "seance-tomber-a-plat-pour-de-faux",
+    "titre": "Tomber à plat, pour de faux",
+    "palier": "P3",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, à deux ou sans personne, un soir où rien ne dépend de toi. Facultative.",
+      "ilTeFaut": "un chronomètre, trois vannes que tu as déjà dites. Pas de souvenir précis ? Prends trois vannes du site, et imagine le silence.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Lis à voix haute les trois sorties de la fiche « Le silence après ta vanne » (« Quand ça tombe à plat »). Une fois chacune."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "Pour chacune de tes trois vannes, note si le silence a duré deux secondes ou dix, et ce que tu as fait ensuite."
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "Dis ta première vanne à voix haute, laisse trois secondes de vrai silence (l'autre se tait, ou tu les comptes toi-même avec le chrono), puis dis la sûre. Deuxième vanne, puis la joueuse. Troisième vanne, puis la risquée. S'il reste du temps, refais un tour en choisissant toi-même."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Choisis la sortie qui te ressemble et écris-la, avec la vanne qui l'a provoquée. La grille :",
+          "grille": [
+            "Ta sortie tient en une phrase ?",
+            "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "La fin surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "une sortie à toi, écrite, et la vanne qui l'a provoquée.",
+      "versionPossible": {
+        "texte": "vanne : « Mon plus gros défaut ? Je dis oui avant d'avoir lu. » Silence. Sortie : « Silence reçu, applaudissements à confirmer. »"
+      },
+      "renvois": "« Le silence après ta vanne », « Quand ça ne prend pas », « Quand tu oublies la chute » (« Quand ça tombe à plat »)."
+    }
+  },
+  {
+    "id": "seance-un-titre-puis-l-histoire",
+    "titre": "Un titre, puis l'histoire",
+    "palier": "P3",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, à deux (l'autre écoute), sans personne, ou à voix basse sur un trajet. Facultative.",
+      "ilTeFaut": "de quoi écrire, un épisode récent de ta vie.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Lis la fiche « Raconter en une phrase » (« Comment c'est construit ») et dis son exemple, à voix haute ou basse, comme un titre."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "Pense à trois épisodes de ta semaine (un trajet, un achat, une tâche). Pour chacun, note l'effort et le résultat, en trois mots chacun."
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "Choisis un épisode. Écris son titre en une phrase, dite d'un souffle, puis dis-le. À deux, attends que l'autre dise « raconte » ; sans personne, attends dix secondes. Puis raconte en trois phrases : le titre a déjà donné la fin, garde pour la dernière phrase le détail que personne n'attendrait."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Relis le titre et les trois phrases. La grille :",
+          "grille": [
+            "Ton titre dit ce que tu as fait et ce que ça a donné ?",
+            "Si ton histoire vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "Le détail surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "un titre en une phrase et une histoire de trois phrases.",
+      "versionPossible": {
+        "precision": "titre",
+        "texte": "« Mon tri de photos en une phrase : trois heures pour supprimer douze doublons. »"
+      },
+      "renvois": "« Raconter en une phrase » ; « Amis : “Alors, quoi de neuf ?” » (« Quoi répondre »)."
+    }
+  },
+  {
+    "id": "seance-lire-la-salle-un-soir-de-plus",
+    "titre": "Lire la salle, un soir de plus",
+    "palier": "P3",
+    "dureeMinutes": 20,
+    "geste": {
+      "verbe": "faire",
+      "consigne": "Ressors-la à voix haute ce soir."
+    },
+    "type": "seance",
+    "contenu": {
+      "pourQuiQuand": "20 minutes, à deux, ou sans personne devant une émission de plateau. Facultative.",
+      "ilTeFaut": "de quoi écrire, un chronomètre.",
+      "etapes": [
+        {
+          "nom": "echauffement",
+          "minutes": 3,
+          "consigne": "Relis les trois signaux de la fiche « Lire la salle et savoir s'arrêter » : ils sourient, ils se penchent, ils rebondissent sur ta phrase."
+        },
+        {
+          "nom": "observation",
+          "minutes": 5,
+          "consigne": "À deux : l'autre te raconte une anecdote d'une minute ; note les signaux que tu produis toi-même en écoutant. Sans personne : regarde une émission de plateau, son coupé, et note les signaux des invités qui écoutent."
+        },
+        {
+          "nom": "essai",
+          "minutes": 8,
+          "consigne": "À deux : raconte une histoire d'une minute ; l'autre montre en secret zéro, un, deux ou trois signaux. Devine le nombre, puis dis la clôture qui va avec : aucune phrase pour zéro, la sûre pour un, la joueuse pour deux, la risquée pour trois si l'autre redemande. Sans personne : devine le nombre de signaux de trois moments de l'émission et note la clôture."
+        },
+        {
+          "nom": "bilan",
+          "minutes": 4,
+          "consigne": "Écris ta clôture préférée et le nombre de signaux qui va avec. La grille :",
+          "grille": [
+            "Ta clôture est la bonne pour le nombre de signaux ?",
+            "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+            "La fin surprend ?"
+          ]
+        }
+      ],
+      "tuProduis": "une clôture à toi, écrite, et le nombre de signaux qui la justifie.",
+      "versionPossible": {
+        "precision": "joueuse",
+        "texte": "« Je m'arrête là, tant que je mène au score. »"
+      },
+      "renvois": "« Lire la salle et savoir s'arrêter » (« Quand ça tombe à plat ») ; « Le rire autour de toi » (« Vocabulaire »), entrée « Bon public »."
+    }
+  }
+]

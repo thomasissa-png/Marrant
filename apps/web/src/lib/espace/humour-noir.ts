@@ -17,6 +17,11 @@ import type { Prisma } from "@prisma/client";
 import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 
 export const COOKIE_COIN = "dm_coin_humour_noir";
+/**
+ * Import 2 (architecture 3.12) : les liens vers le coin depuis « Quand ça tombe à plat » arrivent sur
+ * l'écran d'entrée (titre du coin dans la Bibliothèque, geste « Entrer »), jamais sur son contenu.
+ */
+export const HREF_ENTREE_COIN = "/mon-espace/bibliotheque#coin-titre";
 export const VALEUR_ENTREE = "entre";
 /**
  * Six mois fixes (lot D5b, option prudente de @legal retenue par la session, `docs/legal/espace-d6-cookie-coin-s24.md`

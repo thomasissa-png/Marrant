@@ -21,6 +21,11 @@ export interface Bloc {
   sections: Section[];
   /** Lignes avant la première étiquette en gras (paragraphes libres). */
   avant: string[];
+  /**
+   * Import 2 : lignes « [note interne] … », jamais affichées ; seul usage, l'emploi attesté du vocabulaire
+   * (champ interne `emploiAtteste`, sources données par fiche).
+   */
+  notes: string[];
 }
 
 /** Erreur d'import d'une fiche : la fiche est écartée et signalée, jamais corrigée. */
@@ -79,7 +84,9 @@ const ETIQUETTE = /^\*\*(.+?)\*\*\s*(.*)$/;
 function sectionner(titre: string, partie: string, lignes: string[]): Bloc {
   const sections: Section[] = [];
   const avant: string[] = [];
+  const notes: string[] = [];
   for (const brute of lignes) {
+    if (/^\[note interne\]/i.test(brute.trim())) notes.push(brute.trim().replace(/^\[note interne\]\s*/i, ""));
     if (!brute.trim() || horsTexte(brute)) continue;
     const m = ETIQUETTE.exec(brute.trim());
     if (m) {
@@ -92,7 +99,7 @@ function sectionner(titre: string, partie: string, lignes: string[]): Bloc {
     if (!l) continue;
     (sections.length ? sections[sections.length - 1].lignes : avant).push(l);
   }
-  return { titre, partie, sections, avant };
+  return { titre, partie, sections, avant, notes };
 }
 
 export function section(bloc: Bloc, label: string | RegExp, obligatoire = true): string[] {
