@@ -112,10 +112,22 @@ export async function lireFil(userId: string, id: string, maintenant: Date = new
   return f ? versListe(f, maintenant) : null;
 }
 
-/** Réponses de l'équipe non lues (pastille de la cloche, lot D8). */
-export async function compterNonLues(userId: string): Promise<number> {
+/**
+ * Fils dont la réponse de l'équipe n'est pas lue (cloche, lot D8) : une ligne par fil, la réponse la plus
+ * récente d'abord ; disparaît dès que le fil est ouvert (`ouvertParAbonneLe`), jamais à l'ouverture du panneau.
+ */
+export async function reponsesNonLues(userId: string): Promise<{ id: string; type: TypeQuestion; reponduLe: string }[]> {
   const fils = await prisma.equipeFil.findMany({ where: { userId, statut: "REPONDU" }, select: SELECTION });
-  return fils.map((f) => versListe(f)).filter((f) => f.nonLu).length;
+  return fils
+    .map((f) => versListe(f))
+    .filter((f) => f.nonLu)
+    .map((f) => ({ id: f.id, type: f.type, reponduLe: f.messages.filter((m) => m.auteur === "EQUIPE").at(-1)!.creeLe }))
+    .sort((a, b) => b.reponduLe.localeCompare(a.reponduLe));
+}
+
+/** Réponses de l'équipe non lues (pastille de la cloche, lot D8) : le nombre de fils non ouverts. */
+export async function compterNonLues(userId: string): Promise<number> {
+  return (await reponsesNonLues(userId)).length;
 }
 
 const estDoublon = (e: unknown) => (e as { code?: unknown } | null)?.code === "P2002";
@@ -168,10 +180,18 @@ export async function continuerFil(
   return { ok: true, nouveau: true };
 }
 
-/** « Retirer de mon historique » : le fil et ses messages sont supprimés (demande de l'abonné). */
+/**
+ * « Retirer de mon historique » (décision de Thomas du 13/11 : effacement définitif) : les messages PUIS le
+ * fil sont SUPPRIMÉS en base, dans une transaction (aucune suppression logique, aucune colonne d'état ;
+ * la cascade `EquipeMessage` vers `EquipeFil` de la migration 25 reste une seconde garantie). Fil d'un
+ * autre compte : rien n'est touché (filtre sur le compte dans les deux suppressions).
+ */
 export async function retirerFil(userId: string, filId: string): Promise<boolean> {
-  const { count } = await prisma.equipeFil.deleteMany({ where: { id: filId, userId } });
-  return count > 0;
+  const [, fil] = await prisma.$transaction([
+    prisma.equipeMessage.deleteMany({ where: { filId, fil: { userId } } }),
+    prisma.equipeFil.deleteMany({ where: { id: filId, userId } }),
+  ]);
+  return fil.count > 0;
 }
 
 /** Ouverture du fil par l'abonné : les réponses déjà là deviennent lues. */

@@ -6,7 +6,7 @@ import { SearchBar } from "@/components/ui/search-bar";
 import { buttonVariants } from "@/components/ui/button";
 import { AccountMenu } from "@/components/layout/account-menu";
 import { IconeRecherche } from "@/components/layout/header-icons";
-import { Cloche } from "@/components/espace/cloche";
+import { ClocheEspace } from "@/components/espace/cloche";
 import { ESPACE_ACCUEIL } from "@/config/espace-client";
 import { TEXTES_ESPACE_NAVIGATION as T } from "@/config/textes/espace-navigation";
 import { cn } from "@/lib/utils";
@@ -69,7 +69,7 @@ export function EnTeteEspace({ pathname }: { pathname: string | null }) {
           >
             <IconeRecherche />
           </button>
-          <Cloche />
+          <ClocheEspace pathname={pathname} />
           <AccountMenu espace={{ nom: T.compte.nom, monEspace: { href: ESPACE_ACCUEIL, label: T.monEspace } }} />
         </div>
       </div>

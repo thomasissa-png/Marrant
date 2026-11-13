@@ -298,6 +298,50 @@ test.describe("En-tête : budget de largeur", () => {
       await testInfo.attach("mesures-abonne-espace", { body: lignes.join("\n"), contentType: "text/plain" });
     });
 
+    // s24, lot D8 (architecture 2.9) : 3 états de la cloche x 6 largeurs. Contenu servi par une route simulée
+    // (déterministe) ; le nombre du nom suit `nonLues`, jamais le nombre de lignes du panneau.
+    const NOUVEAUTES = [
+      { genre: "situations", le: "2026-11-10", href: "/mon-espace/quoi-repondre" },
+      { genre: "carnet", le: "2026-11-01", href: "/carnet/2026-11" },
+    ];
+    const LETTRE = { numero: "2026-W46", titre: "La lettre du jeudi 12 novembre", href: "/mon-espace/lettres/2026-W46" };
+    const REPONSE = { id: "e2ed8budget01", type: "SITUATION", reponduLe: "2026-11-11T09:00:00Z", href: "/mon-espace/questions/e2ed8budget01" };
+    const ETATS_CLOCHE = [
+      { nom: "aucune", contenu: { nonLues: 0, reponses: [], nouveautes: [], lettre: null } },
+      { nom: "nouveautés", contenu: { nonLues: 0, reponses: [], nouveautes: NOUVEAUTES, lettre: LETTRE } },
+      { nom: "réponse non lue", contenu: { nonLues: 1, reponses: [REPONSE], nouveautes: NOUVEAUTES, lettre: LETTRE } },
+    ] as const;
+    for (const { nom: etatCloche, contenu } of ETATS_CLOCHE) {
+      test(`cloche « ${etatCloche} » : 6 largeurs, nom = réponses non lues, 44 px, pastille seulement pour une réponse, rien ne déborde`, async ({ page }, testInfo) => {
+        await page.route("**/api/espace/cloche", (route) => route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(contenu) }));
+        const lignes: string[] = [];
+        const lignesPanneau = contenu.reponses.length + contenu.nouveautes.length + (contenu.lettre ? 1 : 0);
+        for (const largeur of LARGEURS) {
+          await page.setViewportSize({ width: largeur, height: 800 });
+          await page.goto("/conseils");
+          const ici = `cloche « ${etatCloche} » à ${largeur} px`;
+          const cloche = page.getByRole("banner").getByRole("button", { name: nomCloche(contenu.nonLues) });
+          await expect(cloche, ici).toBeVisible();
+          if (lignesPanneau !== contenu.nonLues) await expect(page.getByRole("banner").getByRole("button", { name: nomCloche(lignesPanneau) })).toHaveCount(0);
+          await expect(cloche.locator("[data-pastille]"), ici).toHaveCount(contenu.nonLues > 0 ? 1 : 0);
+          const boite = (await cloche.boundingBox())!;
+          expect(Math.min(boite.width, boite.height), `cloche de 44 px, ${ici}`).toBeGreaterThanOrEqual(44);
+          const m = await mesurer(page);
+          lignes.push(`état=cloche-${etatCloche} ; largeur=${largeur} ; défilement=${m.scroll}/${m.fenetre} ; barre=${m.barre.scroll}/${m.barre.client}`);
+          expect(m.scroll, `défilement horizontal, ${ici}`).toBeLessThanOrEqual(m.fenetre);
+          expect(m.barre.scroll, `en-tête plus large que sa boîte, ${ici}`).toBeLessThanOrEqual(m.barre.client);
+          for (const c of m.controles) expect(c.droite, `« ${c.nom} » sort à droite, ${ici}`).toBeLessThanOrEqual(m.fenetre + 0.5);
+          await cloche.click();
+          const panneau = page.getByRole("dialog", { name: TEXTES_ESPACE_NAVIGATION.cloche.titre });
+          await expect(panneau.getByRole("link"), ici).toHaveCount(lignesPanneau);
+          if (lignesPanneau === 0) await expect(panneau.getByText(TEXTES_ESPACE_NAVIGATION.cloche.vide)).toBeVisible();
+          await page.keyboard.press("Escape");
+          await expect(cloche).toBeFocused();
+        }
+        await testInfo.attach(`mesures-cloche-${etatCloche}`, { body: lignes.join("\n"), contentType: "text/plain" });
+      });
+    }
+
     test("menu de compte au clavier : « Mon espace », « Mon profil », « Déconnexion »", async ({ page }) => {
       await page.setViewportSize({ width: 1024, height: 800 });
       await page.goto("/conseils");

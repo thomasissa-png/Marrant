@@ -136,10 +136,13 @@ test.describe("espace client, Mes questions (s24, lot D7)", () => {
       await page.locator(`[data-fil="${repondu}"] summary`).click();
       await page.waitForTimeout(300);
       expect(appels).toEqual([]); // déjà lu en base
+      // Lot D8 (décision du 13/11) : confirmation avant l'effacement, puis effacement DÉFINITIF en base.
       await page.locator(`[data-fil="${retard}"]`).getByRole("button", { name: Q.envois.retirer }).click();
-      await expect(page.getByText(Q.envois.retire)).toBeVisible();
+      await page.getByRole("alertdialog", { name: Q.confirmationRetrait.question }).getByRole("button", { name: Q.confirmationRetrait.retirer }).click();
+      await expect(page.getByText(Q.envois.retire)).toBeFocused();
       await capturer(page, "retire");
       expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeFil" WHERE id = $1`, [retard]))[0].n).toBe(0);
+      expect((await requete<{ n: number }>(`SELECT count(*)::int AS n FROM "EquipeMessage" WHERE "filId" = $1`, [retard]))[0].n).toBe(0);
     });
 
     test("clavier : type, message, envoi ; « Continuer » au clavier ; 200 % de texte sans débordement", async ({ browser, page }) => {

@@ -52,7 +52,17 @@ export const TEXTES_QUESTIONS = {
     signature: "L'Équipe Deviens Marrant",
     continuer: "Continuer",
     retirer: "Retirer de mon historique",
-    retire: "Retiré de ton historique",
+    /** Statut après l'effacement (`docs/copy/confirmation-retirer-s24.md`, clôture du 13/11 : un seul texte). */
+    retire: "Question retirée de ton historique.",
+  },
+  /**
+   * Confirmation avant « Retirer de mon historique » (décision de Thomas du 13/11 ; reco A de
+   * `docs/copy/confirmation-retirer-s24.md`, GO à 10 chez elon et le reviewer).
+   */
+  confirmationRetrait: {
+    question: "Retirer cette question de ton historique ? Les réponses de l'équipe partent avec, c'est définitif.",
+    retirer: "Retirer",
+    annuler: "Annuler",
   },
   lectureSeule: {
     profil: "Mon profil",
@@ -71,15 +81,16 @@ export const TEXTES_QUESTIONS = {
 
 /**
  * E-mail de réponse de l'équipe (architecture 2.6 : « l'e-mail de réponse habituel », signé « L'Équipe
- * Deviens Marrant »). AUCUN libellé validé n'existe pour son objet ni pour sa ligne de lien :
- * texte À SOUMETTRE À THOMAS, jamais envoyé tant que `EMAIL_REPONSE_VALIDE` est `false` (la réponse est
- * enregistrée dans le fil, l'outil indique « e-mail non envoyé »). Brouillon obligatoire (règle n°10).
- * Le corps est la réponse saisie dans l'outil, telle quelle, puis la signature et la ligne de lien.
+ * Deviens Marrant »). Texte VALIDÉ par Thomas le 13/11 (`docs/founder-preferences.md`, ligne D7) : objet
+ * « L'équipe t'a répondu », réponse telle qu'écrite, signature, ligne « Ta question et cette réponse sont
+ * aussi dans ton espace : {lien} ». Il ne part qu'à l'ouverture de l'espace : `repondre`
+ * (`lib/espace/questions-equipe.ts`) exige AUSSI `ESPACE_CLIENT_PUBLIE`, et l'outil de l'équipe répond 404
+ * tant que l'interrupteur est fermé (test `cloche-s24.test.ts`).
  */
-export const EMAIL_REPONSE_VALIDE: boolean = false;
+export const EMAIL_REPONSE_VALIDE: boolean = true;
 
 export const EMAIL_REPONSE_BROUILLON = {
-  statut: "À SOUMETTRE À THOMAS",
+  statut: "VALIDÉ PAR THOMAS (13/11)",
   /** Objet : libellé validé de la cloche (ligne 11), repris tel quel. */
   objet: "L'équipe t'a répondu",
   corps: (reponse: string, lien: string) =>

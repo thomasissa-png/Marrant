@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
 import type { FilListe } from "@/lib/espace/questions-types";
 import { CARTE } from "@/components/espace/carte/styles";
@@ -10,7 +11,8 @@ export type Envoi = FilListe | { id: string; retire: true };
 
 /**
  * « Mes envois » : le plus récent d'abord ; aucun envoi : l'état vide (exemples) ; un envoi retiré laisse
- * « Retiré de ton historique » à sa place (maquette `#etat=retire`). Lecture seule (après la résiliation,
+ * « Question retirée de ton historique. » à sa place (maquette `#etat=retire`), qui reçoit le focus : le
+ * bouton d'origine n'existe plus, le lecteur d'écran lit le statut une fois (aucune région live doublée). Lecture seule (après la résiliation,
  * depuis « Mon profil ») : l'adresse de l'équipe pour un problème de paiement ou d'accès (ligne v6).
  */
 export function ListeEnvois({
@@ -44,11 +46,7 @@ export function ListeEnvois({
         <ul className="flex flex-col gap-3">
           {envois.map((e) =>
             "retire" in e ? (
-              <li key={e.id} className={CARTE} data-retire>
-                <p className="text-sm text-text-secondary" role="status">
-                  {Q.envois.retire}
-                </p>
-              </li>
+              <EnvoiRetire key={e.id} />
             ) : (
               <FilEnvoi key={e.id} fil={e} lectureSeule={lectureSeule} onMaj={onMaj} onRetire={onRetire} />
             ),
@@ -56,5 +54,18 @@ export function ListeEnvois({
         </ul>
       )}
     </section>
+  );
+}
+
+/** Statut d'un envoi retiré : focus posé à l'arrivée (après la confirmation), visible au clavier. */
+function EnvoiRetire() {
+  const statut = useRef<HTMLParagraphElement>(null);
+  useEffect(() => statut.current?.focus(), []);
+  return (
+    <li className={CARTE} data-retire>
+      <p ref={statut} tabIndex={-1} className="text-sm text-text-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-link">
+        {Q.envois.retire}
+      </p>
+    </li>
   );
 }

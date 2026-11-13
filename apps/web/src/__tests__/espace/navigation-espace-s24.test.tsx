@@ -214,13 +214,15 @@ describe("en-tête abonné", () => {
   });
 });
 
-describe("cloche (coque)", () => {
+const vide = (nonLues = 0) => ({ nonLues, reponses: [], nouveautes: [], lettre: null });
+
+describe("cloche (coque ; contenu au lot D8 : `cloche-s24.test.tsx`)", () => {
   it.each([
     [0, "Notifications, aucune réponse non lue"],
     [1, "Notifications, 1 réponse de l'équipe non lue"],
     [2, "Notifications, 2 réponses de l'équipe non lues"],
   ])("%i réponse(s) non lue(s) : nom « %s », pastille seulement si > 0", (n, nom) => {
-    const { container } = render(<Cloche nonLues={n} />);
+    const { container } = render(<Cloche contenu={vide(n)} />);
     const bouton = screen.getByRole("button", { name: nom });
     expect(bouton.className).toMatch(/\bh-11\b/);
     expect(bouton).toHaveAttribute("aria-haspopup", "dialog");
@@ -234,7 +236,7 @@ describe("cloche (coque)", () => {
   });
 
   it("panneau : état vide, « Fermer » et Échap ferment, focus rendu au bouton", async () => {
-    render(<Cloche />);
+    render(<Cloche contenu={vide()} />);
     const bouton = screen.getByRole("button", { name: nomCloche(0) });
     await userEvent.click(bouton);
     const panneau = await screen.findByRole("dialog", { name: T.cloche.titre });

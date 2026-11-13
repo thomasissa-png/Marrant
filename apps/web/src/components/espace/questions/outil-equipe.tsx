@@ -10,14 +10,14 @@ import { dateCourte } from "@/components/espace/questions/appel";
 /**
  * Outil de l'équipe pour « Mes questions » (s24, lot D7 ; INTERNE, jamais vu par un abonné). Même accès que
  * les autres outils d'admin (mot de passe admin, `Authorization: Bearer`). Fils en attente d'abord (retard
- * signalé), réponse enregistrée PUIS e-mail (brouillon tant que son texte n'est pas validé : l'outil le dit),
+ * signalé), réponse enregistrée PUIS e-mail (rien ne part tant que l'espace est fermé : l'outil le dit),
  * étiquette de scène (deux valeurs au plus), recopie d'un échange fait par e-mail.
  */
 type Donnees = { fils: FilEquipe[]; attente: number; enRetard: number; alerte: boolean };
 
 const ETAT_EMAIL: Record<EtatEmail | "aucun", string> = {
   envoye: "Réponse enregistrée, e-mail envoyé.",
-  brouillon: "Réponse enregistrée. E-mail NON envoyé : son texte attend la validation de Thomas. Réponds à la main en attendant.",
+  brouillon: "Réponse enregistrée. E-mail NON envoyé : l'espace n'est pas ouvert. Réponds à la main en attendant.",
   adresse: "Réponse enregistrée. E-mail non envoyé : adresse du compte inutilisable.",
   echec: "Réponse enregistrée. L'e-mail n'est pas parti (Resend) : réessaie plus tard ou réponds à la main.",
   aucun: "Échange recopié (aucun e-mail).",

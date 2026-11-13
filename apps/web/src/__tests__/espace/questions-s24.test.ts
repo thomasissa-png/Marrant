@@ -74,6 +74,12 @@ const mockDb = {
       return m;
     }),
     findUnique: jest.fn(async (a: { where: Ligne }) => tables.equipeMessage.find((m) => correspond(m, a.where)) ?? null),
+    deleteMany: jest.fn(async (a: { where: { filId: string; fil: { userId: string } } }) => {
+      const fil = tables.equipeFil.find((f) => f.id === a.where.filId && f.userId === a.where.fil.userId);
+      const avant = tables.equipeMessage.length;
+      if (fil) tables.equipeMessage = tables.equipeMessage.filter((m) => m.filId !== fil.id);
+      return { count: avant - tables.equipeMessage.length };
+    }),
     update: jest.fn(async (a: { where: Ligne; data: Ligne }) => Object.assign(tables.equipeMessage.find((m) => m.id === a.where.id)!, a.data)),
   },
   usageEvent: { create: jest.fn(), createMany: jest.fn() },

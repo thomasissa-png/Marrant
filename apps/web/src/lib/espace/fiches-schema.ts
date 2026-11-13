@@ -134,6 +134,16 @@ const commun = {
    * « 2026-W46 » ou « 2026-11 »). La fiche n'est servie nulle part avant l'envoi de cette lettre.
    */
   repriseDeLettre: z.string().regex(/^\d{4}-(?:W\d{2}|\d{2})$/, "numéro de lettre attendu").optional(),
+  /**
+   * Lot D8 (architecture 2.9, plan D8 [HYPOTHÈSE : champ ajouté au schéma de D1]) : jour de publication
+   * à Paris (« 2026-11-20 »). Seule une fiche qui le porte est annoncée dans la cloche, le mois de sa
+   * publication et à partir de ce jour ; sans lui, la fiche fait partie du fonds (jamais annoncée).
+   */
+  publieLe: z
+    .string()
+    .regex(/^\d{4}-\d{2}-\d{2}$/, "jour attendu : AAAA-MM-JJ")
+    .refine((j) => !Number.isNaN(Date.parse(`${j}T00:00:00Z`)) && new Date(`${j}T00:00:00Z`).toISOString().startsWith(j), "jour inexistant")
+    .optional(),
 };
 
 const repliqueSchema = z.object({ texte, pourquoi: texte }).strict();

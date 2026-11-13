@@ -6,6 +6,7 @@ import type { FilListe } from "@/lib/espace/questions-types";
 import { appelEspace } from "@/components/espace/carte/appel";
 import { BOUTON_PRINCIPAL, BOUTON_SECONDAIRE, CARTE, nouvelleCle } from "@/components/espace/carte/styles";
 import { dateCourte, envoyerMessage, erreurLocale, MessageErreur, type Erreur } from "@/components/espace/questions/appel";
+import { ConfirmerRetrait } from "@/components/espace/questions/confirmer-retrait";
 
 const TAG = "inline-block rounded-full border border-border-input px-2 py-0.5 text-xs font-semibold text-text-secondary";
 const CITATION = "whitespace-pre-line border-l-2 border-accent-primary px-4 py-2 text-base text-text-primary max-e300:px-3";
@@ -16,7 +17,8 @@ const LABEL = "text-xs font-semibold text-text-muted";
  * « Envoyé, l'équipe répond… » ou, après 3 jours ouvrés, « L'équipe n'a pas encore répondu, ta demande est
  * bien là » ; répondu, un `details` « Répondu le {date} » qui ouvre le fil (ouvrir le fil rend ses réponses
  * lues : pastille de la cloche, 2.9) et « Continuer » sous la réponse ; « Retirer de mon historique » à
- * chaque envoi. Lecture seule (après la résiliation) : ni « Continuer », le retrait reste possible.
+ * chaque envoi, après confirmation (`confirmer-retrait.tsx`, décision du 13/11 : effacement définitif).
+ * Lecture seule (après la résiliation) : ni « Continuer », le retrait reste possible.
  */
 export function FilEnvoi({
   fil,
@@ -50,13 +52,13 @@ export function FilEnvoi({
     else lu.current = false;
   };
 
-  const retirer = async () => {
-    if (occupe) return;
+  const retirer = async (): Promise<boolean> => {
+    if (occupe) return false;
     setOccupe(true);
     const ok = await appelEspace<{ ok: true }>(`/api/espace/questions/${fil.id}`, "DELETE");
     setOccupe(false);
-    if (ok) onRetire(fil.id);
-    else setStatut(Q.erreurs.envoi.avant + Q.erreurs.envoi.lien + Q.erreurs.envoi.apres);
+    if (!ok) setStatut(Q.erreurs.envoi.avant + Q.erreurs.envoi.lien + Q.erreurs.envoi.apres);
+    return Boolean(ok);
   };
 
   const continuer = async () => {
@@ -156,9 +158,7 @@ export function FilEnvoi({
       )}
       {ligneStatut && <p className="text-sm text-text-secondary">{ligneStatut}</p>}
       <div className="pt-2">
-        <button type="button" className={`${BOUTON_SECONDAIRE} max-e300:w-full`} onClick={() => void retirer()} disabled={occupe}>
-          {Q.envois.retirer}
-        </button>
+        <ConfirmerRetrait desactive={occupe} onConfirmer={retirer} onRetire={() => onRetire(fil.id)} />
       </div>
       <p role="status" className="text-sm text-text-secondary">
         {statut}

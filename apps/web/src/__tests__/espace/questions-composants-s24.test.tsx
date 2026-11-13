@@ -64,7 +64,9 @@ it("libellés validés : formulaire, types, délai, bouton ; aucun tiret cadrati
   expect(screen.getByText("Envoyé le 10 novembre")).toBeInTheDocument();
   expect(screen.getByText(Q.envois.enAttente)).toBeInTheDocument();
   expect(JSON.stringify(Q)).not.toContain("—");
-  expect(EMAIL_REPONSE_VALIDE).toBe(false);
+  // Décision de Thomas du 13/11 : texte de l'e-mail validé ; l'envoi reste derrière l'interrupteur de
+  // l'espace (preuve : `cloche-s24.test.ts`, « e-mail de réponse »).
+  expect(EMAIL_REPONSE_VALIDE).toBe(true);
 });
 
 it("état vide : un exemple par type et la phrase sur le délai, jamais une liste vide", () => {
@@ -114,7 +116,8 @@ it("retard, répondu (ouvrir le fil le rend lu, une fois), « Continuer », « R
   await u.click(screen.getByRole("button", { name: "Continuer" }));
   expect(screen.getAllByLabelText("Ton message")).toHaveLength(2);
   await u.click(screen.getAllByRole("button", { name: "Retirer de mon historique" })[1]);
-  expect(await screen.findByText("Retiré de ton historique")).toBeInTheDocument();
+  await u.click(within(await screen.findByRole("alertdialog")).getByRole("button", { name: "Retirer" }));
+  expect(await screen.findByText("Question retirée de ton historique.")).toBeInTheDocument();
   expect(fetchMock).toHaveBeenCalledWith("/api/espace/questions/filattente01", expect.objectContaining({ method: "DELETE" }));
 });
 

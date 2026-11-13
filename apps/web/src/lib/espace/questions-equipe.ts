@@ -5,14 +5,16 @@
  *
  * Adresses : celle du compte est TOUJOURS lue en base (relation `user` du fil), jamais reçue d'un corps
  * de requête ; elle sert de Reply-To de la notification et de destinataire de la réponse. Sur l'e-mail
- * de réponse, Reply-To = boîte de l'équipe. E-mail de réponse : brouillon tant que
- * `EMAIL_REPONSE_VALIDE` est faux (texte à soumettre à Thomas) : rien ne part, l'outil le dit.
+ * de réponse, Reply-To = boîte de l'équipe. E-mail de réponse (texte validé le 13/11) : il ne part que si
+ * l'espace est ouvert (`ESPACE_CLIENT_PUBLIE`) ET son texte validé (`EMAIL_REPONSE_VALIDE`) ; sinon rien ne
+ * part (« brouillon »), l'outil le dit. Seconde garantie : l'outil répond 404 interrupteur fermé.
  * Aucun texte dans les journaux (nom d'erreur seulement), ni dans `UsageEvent`, ni vers Umami.
  */
 import { prisma } from "@/lib/prisma";
 import { adresseReponse, horodatageParis, nettoyerEnTete } from "@/lib/question-equipe";
 import { avecDelai } from "@/lib/lettre/inscription";
 import { QUESTION_EQUIPE_DESTINATAIRE } from "@/config/question-equipe";
+import { ESPACE_CLIENT_PUBLIE } from "@/config/espace-client";
 import { EMAIL_REPONSE_BROUILLON, EMAIL_REPONSE_VALIDE, NOTIFICATION_EQUIPE, TEXTES_QUESTIONS } from "@/config/textes/espace-questions";
 import { ALERTE_ATTENTE, versListe, type FilListe, type TypeQuestion } from "@/lib/espace/questions";
 import { PAGE_ADMIN_QUESTIONS, PAGE_MES_QUESTIONS, SITE_QUESTIONS } from "@/lib/espace/questions-chemins";
@@ -76,7 +78,7 @@ export async function repondre(filId: string, corps: string, envoyer: EnvoyerEma
     prisma.equipeMessage.create({ data: { filId, auteur: "EQUIPE", corps, creeLe: maintenant }, select: { id: true } }),
     prisma.equipeFil.update({ where: { id: filId }, data: { statut: "REPONDU", dernierMessageLe: maintenant } }),
   ]);
-  if (!EMAIL_REPONSE_VALIDE) return { email: "brouillon" };
+  if (!ESPACE_CLIENT_PUBLIE || !EMAIL_REPONSE_VALIDE) return { email: "brouillon" };
   const destinataire = adresseReponse(fil.user.email);
   if (!destinataire) return { email: "adresse" };
   try {

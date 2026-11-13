@@ -233,6 +233,11 @@ test.describe("espace client, barre de rubriques (s24, lot D2)", () => {
     }
 
     test("cloche (coque) : panneau vide, Échap et « Fermer », focus rendu ; feuille basse à 375, fenêtre à 1280", async ({ page }) => {
+      // Lot D8 : le panneau a son contenu (le carnet du mois y figure tout le mois) ; l'état vide de la coque est
+      // servi par une route simulée. Contenu réel : `espace-cloche.spec.ts`.
+      await page.route("**/api/espace/cloche", (route) =>
+        route.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ nonLues: 0, reponses: [], nouveautes: [], lettre: null }) }),
+      );
       for (const largeur of [375, 1280]) {
         await page.setViewportSize({ width: largeur, height: 812 });
         await ouvrir(page, "/parcours");

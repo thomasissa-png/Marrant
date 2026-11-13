@@ -6,7 +6,7 @@ import { ListeEnvois, type Envoi } from "@/components/espace/questions/liste-env
 import { FilEnvoi } from "@/components/espace/questions/fil";
 import { TEXTES_QUESTIONS as Q } from "@/config/textes/espace-questions";
 
-/** Un fil seul, ouvert à l'arrivée (lien de la cloche) ; retiré : « Retiré de ton historique ». */
+/** Un fil seul, ouvert à l'arrivée (lien de la cloche) ; retiré : « Question retirée de ton historique. » */
 export function FilOuvert({ fil: initial }: { fil: FilListe }) {
   const [envoi, setEnvoi] = useState<Envoi>(initial);
   if ("retire" in envoi) return <ListeEnvois envois={[envoi]} lectureSeule={false} onMaj={() => undefined} onRetire={() => undefined} />;
