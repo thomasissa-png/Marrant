@@ -31,7 +31,7 @@ Reco : **A**, déclinée par marche (B et C valent pour toute marche en repli ; 
 |---|---|
 | 1 | Une phrase qui sonne faux à voix haute, ça arrive. |
 | 2 | Un message qui ne prend pas, ça arrive. |
-| 3 | En face, une réplique n'attrape pas toujours du premier coup. |
+| 3 | En face, une réplique ne fait pas toujours mouche du premier coup. |
 | 4 | Un groupe ne rebondit pas toujours sur la première phrase. |
 | 5 | Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer. |
 
@@ -53,3 +53,7 @@ Liens, identiques à toutes les marches (modèle section 4) : « Une autre situa
 
 ## Contrôles
 Tutoiement, zéro tiret cadratin, zéro emoji, aucun accord genré (relu : « dit », « parti », « passé » sont des participes sans marque de genre sur le sujet ; « en haut des marches » évite « arrivé »), rien de culpabilisant, rien de compté. Cinq textes `marche` et cinq `bof` pour 111 défis : à vérifier par relecture à l'aveugle avant tout seed.
+
+
+## Clôture (13/11)
+GO : reviewer à 10 sur les 10 suites au tour 2 ; elon à 10 après la retouche du « bof » 3 (« n'attrape pas » devient « ne fait pas toujours mouche », sa formulation), appliquée par la session.
