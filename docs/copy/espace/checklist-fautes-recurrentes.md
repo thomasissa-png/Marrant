@@ -20,6 +20,7 @@ Usage interne. Chaque auteur de lot relit cette liste avant d'écrire, chaque re
 ## Originalité (règle du fondateur du 29/09)
 - Une blague déjà connue ailleurs, même bonne, est remplacée : chercher l'IDÉE sur le web, pas seulement la phrase exacte (micro coupé et « budget illimité », lèvres en visio, pouce sur la photo, Cendrillon à minuit, salle de sport, cactus, 29 février, frigo depuis le lit).
 - Pas de tic (« trois »), pas de formule toute faite, pas de doublon avec un étalon ou un lot précédent.
+- Avant d'écrire, chercher l'idée de chaque scène dans les lots validés (`qr*-situations.md`, `c3*`, `c4*`) et dans le catalogue de vannes : C4b et C4c tour 1 avaient 7 doublons venus du dépôt, pas du web.
 
 ## Fiches (construit, vocabulaire, formules)
 - La définition colle à l'exemple ; les règles de longueur sont vraies sur l'exemple.
