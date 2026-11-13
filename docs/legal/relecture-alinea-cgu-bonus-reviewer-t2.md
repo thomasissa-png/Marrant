@@ -1,0 +1,4 @@
+# Alinéa CGU art. 3 (bonus), version finale, confirmation à l'aveugle : @reviewer, 13/11/2026 : 10/10
+- Exact contre le code. Les étapes font franchir des caps, sans exclusive : la phrase reste vraie même si le cap affiché suit le total d'XP. L'ouverture aux caps 2 à 5 « par tes étapes validées et tes parcours terminés » correspond au cap de déblocage (`caps.ts` l. 8-10, 56-75 ; `bonus.ts` l. 4).
+- Les bonus ne sont ouverts qu'à un abonné actif (`fiches.ts` l. 65), ce qui cadre avec l'art. 7. Au réabonnement, les étapes gardées (`ancien-abonne.ts`) recalculent le cap de déblocage, et les bonus se rouvrent, sauf compte supprimé.
+- Fin d'accès dite une fois, « cap » défini avant usage. Accord genré, tiret cadratin : 0. Condition maintenue : publication avec la ligne, donc les 4 bonus publiés. GO, sous réserve de l'avocat.
