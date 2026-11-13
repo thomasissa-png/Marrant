@@ -13,10 +13,10 @@ Reco : **A** (c'est la forme du modèle ; B ajoute « tu peux », un permis inut
 
 | Marche | Texte recommandé (A) | Bouton |
 |---|---|---|
-| 1 | Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : un proche, par message. | Voir la marche 2 |
-| 2 | Bien joué : le message est parti, et c'est le plus dur. Marche suivante : un pote, en face. | Voir la marche 3 |
-| 3 | Bien joué : en face, rien à relire ni à effacer. Marche suivante : un petit groupe. | Voir la marche 4 |
-| 4 | Bien joué : à plusieurs, ça se joue en direct. Marche suivante : quelqu'un que tu connais peu. | Voir la marche 5 |
+| 1 | Bien joué : dit à voix haute, c'est déjà dit pour de bon. Marche suivante : à un proche, par message. | Voir la marche 2 |
+| 2 | Bien joué : le message est parti, et le plus dur, c'était d'appuyer. Marche suivante : à un pote, en face. | Voir la marche 3 |
+| 3 | Bien joué : en face, rien à relire ni à effacer. Marche suivante : dans un petit groupe. | Voir la marche 4 |
+| 4 | Bien joué : à plusieurs, il faut prendre sa place, et tu l'as prise. Marche suivante : avec quelqu'un que tu connais peu. | Voir la marche 5 |
 | 5 | Bien joué : tu es en haut des marches. Ensuite : une mission libre, ou une nouvelle situation à la même marche. | Une mission libre · Une autre situation, même marche |
 
 ## 2. Essayé, bof (champ `suites.bof`)
@@ -31,9 +31,9 @@ Reco : **A**, déclinée par marche (B et C valent pour toute marche en repli ; 
 |---|---|
 | 1 | Une phrase qui sonne faux à voix haute, ça arrive. |
 | 2 | Un message qui ne prend pas, ça arrive. |
-| 3 | Un échange en face qui ne prend pas, ça arrive. |
-| 4 | Un groupe qui ne rebondit pas, ça arrive. |
-| 5 | Un échange avec quelqu'un que tu connais peu qui ne prend pas, ça arrive. |
+| 3 | En face, une réplique n'attrape pas toujours du premier coup. |
+| 4 | Un groupe ne rebondit pas toujours sur la première phrase. |
+| 5 | Avec quelqu'un que tu connais peu, le courant met parfois du temps à passer. |
 
 Liens, identiques à toutes les marches (modèle section 4) : « Une autre situation, même marche » · « Quand ça tombe à plat » · « Raconte-nous ce qui s'est passé » (Mes questions, « Situation à gérer »).
 
@@ -42,6 +42,14 @@ Liens, identiques à toutes les marches (modèle section 4) : « Une autre situa
 - Une fois : aucun texte, la mission reste là.
 - Deux fois de suite (`pas2`) : aucun commentaire, un seul bouton « Voir la marche n-1 » (marche 2 : « Voir la marche 1 », etc.).
 - Marche 1, deux fois de suite : une autre situation, jamais un message (bouton « Une autre situation, même marche »).
+
+## Tour 2 (reviewer, elon)
+| Texte | Changement | Source |
+|---|---|---|
+| Marché 1 à 4 | Préposition du titre de la marche suivante gardée (« à un proche… », « dans un petit groupe », « avec quelqu'un… ») | reviewer |
+| Marché 2, 4 | « le plus dur » (faux) devient « le plus dur, c'était d'appuyer » ; M4 dit ce qui est franchi (prendre sa place) | elon |
+| Bof 3, 4, 5 | Moule « ça arrive » cassé ; M5 : « le courant met parfois du temps à passer » (la relative ne vise plus la personne). M1, M2 gardés | elon, reviewer |
+À repasser à l'aveugle : marché 2 et 4, bof 3, 4, 5 (règle d'or s18).
 
 ## Contrôles
 Tutoiement, zéro tiret cadratin, zéro emoji, aucun accord genré (relu : « dit », « parti », « passé » sont des participes sans marque de genre sur le sujet ; « en haut des marches » évite « arrivé »), rien de culpabilisant, rien de compté. Cinq textes `marche` et cinq `bof` pour 111 défis : à vérifier par relecture à l'aveugle avant tout seed.
