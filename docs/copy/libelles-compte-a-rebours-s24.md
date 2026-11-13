@@ -30,3 +30,7 @@
 | Phrase qui révèle le comptage des « Oui » (reviewer) ; « Cette semaine » fragile (elon) | §2 : « Envie d'essayer avec 7 secondes ? Tu peux revenir à 10 quand tu veux. » ; boutons conservés |
 | « Voilà les {n} secondes » lu comme un départ (reviewer, elon) | §3 : « Les {n} secondes sont passées. », annonce comprise |
 | Nom aligné (elon) ; nom jugé 10 (reviewer) | §4 : « {n} secondes pour répondre, compte à rebours » |
+
+
+## Clôture (13/11)
+GO : reviewer et elon à 10 sur les 4 libellés au tour 2 ; adoptés selon la décision de Thomas du 13/11 (`docs/founder-preferences.md`). Condition de câblage (elon) : « Tu peux revenir à 10 quand tu veux » exige un moyen visible de revenir à la durée précédente dans l'interface.
