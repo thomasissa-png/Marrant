@@ -1,6 +1,6 @@
-# C4b : « Jeux », lot 2 (10 jeux), tour 3, à relire à l'aveugle
+# C4b : « Jeux », lot 2 (10 jeux), tour 4, à relire à l'aveugle
 
-> Statut : **tour 3, à relire à l'aveugle** (jeux 1, 3, 5, 6 et 10 retouchés ; les autres inchangés depuis le tour 2) (P0 s18). Auteur : @copywriter, 13/11/2026. Même format que `c4a-jeux.md` (champs du schéma `[PROVISOIRE]` `fiches-schema.ts` l. 264 à 288 : famille, consigne, matière, ce qu'on aurait pu dire, retour).
+> Statut : **tour 4 (dernier), à relire à l'aveugle** (jeux 3 et 6 retouchés ; les autres inchangés depuis le tour 3) (P0 s18). Auteur : @copywriter, 13/11/2026. Même format que `c4a-jeux.md` (champs du schéma `[PROVISOIRE]` `fiches-schema.ts` l. 264 à 288 : famille, consigne, matière, ce qu'on aurait pu dire, retour).
 > **Lot de 10, 2 familles** : 5 « Finis la phrase » (jeux 1 à 5), 5 « Remets la chute » (jeux 6 à 10). Ce sont des jeux d'écriture : aucune réponse n'est juste ou fausse, l'abonné compare avec ce qu'il a écrit. Aucune vanne du catalogue n'est citée : tout le texte drôle est neuf.
 > `[Framework : démonstration puis geste]` `[Conscience : Product-Aware]`. Retour de chaque jeu (écrans de l'application, pas du texte à écrire) : `[Retour : Pas essayé / Essayé, bof / Essayé, ça a marché]` `[Ma version à moi : une phrase, facultative]`. Chaque jeu commence par : « Écris ta version avant de lire la suite. Rien n'est noté. »
 > Règles tenues (`checklist-fautes-recurrentes.md`) : tutoiement ; aucun accord au masculin ou au féminin pour l'utilisateur ni pour la personne d'en face ; zéro tiret cadratin, zéro émoji, ni IA ni concurrent, aucune marque ; guillemets « » à l'extérieur et “ ” à l'intérieur partout ; pas de cible absente, pas de peine, santé ou deuil ; univers variés (appartement, mode d'emploi, banque, boulot, famille, coloc, transports, soirée, examen).
@@ -39,13 +39,13 @@
 
 **Consigne.** Finis en traduisant ce que le message veut vraiment dire.
 
-**Matière.** « Quand quelqu'un m'écrit “Petite question rapide”, ça veut dire que… »
+**Matière.** « Quand on me dit “c'est une simple formalité”, ça veut dire que… »
 
 **Ce qu'on aurait pu dire.**
-- « …la réponse va me prendre ma soirée. »
-- « …je vais devoir ouvrir un tableur. »
+- « …il y a un formulaire, et le formulaire a un formulaire. »
+- « …je vais devoir retrouver mon avis d'imposition de 2019. »
 
-**Retour.** Un message courant reçoit son vrai sens, en une seule traduction, et personne n'est visé. La seconde fin chiffre l'effort par un objet précis : le tableur.
+**Retour.** Une formule rassurante reçoit son vrai sens, en une seule traduction, et personne n'est visé. La première fin fait monter la démarche d'un cran avec le même mot ; la seconde chiffre l'effort par un document précis et daté.
 
 ---
 
@@ -81,7 +81,7 @@
 
 **Consigne.** Voici une histoire sans sa chute. Écris la dernière phrase.
 
-**Matière.** « Nous sommes deux à arroser la plante de la coloc : le lundi, sans se le dire. Ça dure depuis six mois. »
+**Matière.** « Nous sommes deux à arroser la plante de la coloc : le lundi, sans nous le dire. Ça dure depuis six mois. »
 
 **Chute d'origine.** « C'est la seule chose de l'appartement dont on s'occupe trop. »
 
@@ -157,7 +157,7 @@
 |---|---|---|---|
 | 1 | « …a survécu à deux canapés. » | « …figure sur le bail. » | « …a maintenant sa place attitrée à table. » (tour 2, plus tiède) |
 | 2 | « …“Avant la première utilisation”. Le four a deux ans. » | « …“Consignes de sécurité”. Je les reconnais toutes : je les ai toutes enfreintes. » | « …“Sommaire”. Je cherche toujours le début. » |
-| 3 | « …la réponse va me prendre ma soirée. » | « …je vais devoir ouvrir un tableur. » | « …elle arrive avec une pièce jointe. » (« pièce jointe » est déjà dans un détournement de l'étalon E2.2) |
+| 3 | « …il y a un formulaire, et le formulaire a un formulaire. » | « …je vais devoir retrouver mon avis d'imposition de 2019. » | « …je vais devoir prendre un jour de congé. » (plus plate, sans objet précis) ; écartées : « Petite question rapide » (vanne du site), « tableur » (série du catalogue), « pièce jointe » (étalon E2.2) |
 | 4 | « …le nombre de gens qui me demandent où est l'imprimante. » | « …une façon très personnelle de dire “je reviens vers vous”. » | « …la place de parking. » (attendue) |
 | 5 | « …“la chambre d'amis”, et c'est moi qu'on y reçoit. » | « …“la salle de repassage”. Mon lit sert de table. » | « …“le bureau”, mais mon lit y est toujours. » |
 | 6 | « C'est la seule chose de l'appartement dont on s'occupe trop. » | « Elle ne manque de rien, sauf d'être laissée tranquille. » | « Elle a deux colocs et zéro soif. » (moins lisible) ; matière réécrite, chutes inchangées |
@@ -172,10 +172,10 @@
 |---|---|---|---|
 | 1 | Tabouret « pour dépanner », « a survécu à deux canapés », « figure sur le bail » (tour 3) | 0 | 0 (la chaise cassée du catalogue est une autre idée) |
 | 2 | Mode d'emploi du four, « Avant la première utilisation », consignes enfreintes | 0 | 0 (le four de C3a et C3b est une recette) |
-| 3 | « Petite question rapide », « la réponse va me prendre ma soirée », « je vais devoir ouvrir un tableur » (tour 3) | 0 | 0 (le tableur apparaît dans une vanne de l'audit s20, autre idée ; « pièce jointe » écartée pour l'étalon E2.2) |
+| 3 | « C'est une simple formalité », « le formulaire a un formulaire », « mon avis d'imposition de 2019 » (tour 4) | 0 (seul voisin : un court métrage dont le titre est « Une simple formalité », sans cette idée ni ces fins) | 0 (grep sur tout le dépôt, `apps/web/src/data/` compris : « formalité » et « formulaire » n'apparaissent que dans des textes administratifs ou techniques) |
 | 4 | Ancienneté, imprimante, « je reviens vers vous » (tour 1, inchangé) | 0 | 0 |
 | 5 | Chambre rebaptisée, « la chambre d'amis », « c'est moi qu'on y reçoit » (tour 3) ; salle de repassage | 0 | 0 (V050, chambre gardée à l'identique, n'est pas en catalogue actif ; l'ouverture est abandonnée) |
-| 6 | « Nous sommes deux à arroser la plante de la coloc : le lundi, sans se le dire » (tour 3), « dont on s'occupe trop » | 0 (le surarrosage est un fait de jardinage, aucune blague) | 0 (les plantes de QR2 B4, QR4 E2 et C4a jeu 6 sont d'autres idées) |
+| 6 | « Nous sommes deux à arroser la plante de la coloc : le lundi, sans nous le dire » (tour 4), « dont on s'occupe trop » | 0 (le surarrosage est un fait de jardinage, aucune blague) | 0 (les plantes de QR2 B4, QR4 E2 et C4a jeu 6 sont d'autres idées) |
 | 7 | « J'ai levé la main pour dire que je n'avais pas compris », « Merci de votre compréhension » | 0 (la formule des annonces est citée, pas cette chute) | 0 (C3b fiche 8 : même décor, autre idée) |
 | 8 | Cabine d'appel, manteau, post-it « Occupé » (tour 1, inchangé) | 0 | 0 |
 | 9 | « Non merci » = première offre / « un peu moins », purée | 0 | 0 (le gratin de C1c et C3a est abandonné) |
@@ -222,7 +222,15 @@ Recherche web (phrase et idée) et grep dépôt de chaque texte neuf : 0 occurre
 | J10 : « Bonne nouvelle : » est un tic (critique, elon) | « Résultat : la question facultative a eu le meilleur taux de réussite de l'amphi. » (elon et critique) |
 | Non changé | Jeux 2, 4, 7, 8 et 9 (10 chez reviewer et elon) |
 
+## Tour 4 : retouche → ligne (dernier tour autorisé)
+
+| Retouche (source) | Ligne changée |
+|---|---|
+| J3 : « Petite question rapide » est la vanne d'un article du site (`blog-article-rewrites.json` l. 60, `rewrites-db-s11/techniques-humoristes-pros.md` l. 19) ; le « tableur » est une série du catalogue (critique, session) | Matière neuve « Quand on me dit “c'est une simple formalité”, ça veut dire que… » ; fins de la critique : « …il y a un formulaire, et le formulaire a un formulaire. » et « …je vais devoir retrouver mon avis d'imposition de 2019. » ; « tableur » abandonné (la fin d'elon ne collait plus à la matière) ; retour réécrit ; recherche web et grep dépôt : 0 |
+| J6 : « sans se le dire » avec « nous » (reviewer, elon) | « …le lundi, sans nous le dire. » ; rien d'autre |
+| Non changé | Jeux 1, 2, 4, 5, 7, 8, 9 et 10 (10 chez reviewer et elon) |
+
 ## Handoff
 
-- Fichier : `/home/user/Marrant/docs/copy/espace/c4b-jeux.md` (10 jeux : 5 « Finis la phrase », 5 « Remets la chute »), tour 3, à relire à l'aveugle.
+- Fichier : `/home/user/Marrant/docs/copy/espace/c4b-jeux.md` (10 jeux : 5 « Finis la phrase », 5 « Remets la chute »), tour 4, à relire à l'aveugle (J3 seulement).
 - Textes neufs recherchés (phrase et idée) : 0 occurrence ; doublons dépôt : 0 au grep. Aucune vanne du catalogue citée, aucun autre fichier modifié, rien de commité.
