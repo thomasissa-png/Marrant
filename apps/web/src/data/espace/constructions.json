@@ -1,1 +1,436 @@
-[]
+[
+  {
+    "id": "le-faux-secret",
+    "titre": "Le faux secret",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ton faux secret en trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ton faux secret tient en une phrase ?",
+        "S'il vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La fin surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "« Ça reste entre nous : » puis un aveu minuscule, sur toi, dit avec la gravité d'un scandale.",
+      "exemple": "Ça reste entre nous : je dis “je regarde ça” sur tout ce que je ne regarderai jamais.",
+      "commentCestFait": [
+        "L'ouverture promet un secret et le ton est grave. L'aveu, lui, est minuscule, et tout le monde le reconnaît. C'est l'écart entre les deux qui fait rire.",
+        "Dans l'exemple, tout est précis : une situation que tout le monde a vécue (on te demande quelque chose, tu promets d'y jeter un œil), la formule exacte qu'on prononce (« je regarde ça ») et un « jamais » qui donne la chute. Copie cette précision, pas la phrase."
+      ],
+      "essais": [
+        {
+          "texte": "Ça reste entre nous : je suis parfois un peu en retard.",
+          "verdict": "Trop flou : aucun détail, personne ne s'y arrête."
+        },
+        {
+          "texte": "Ça reste entre nous : je ne supporte plus personne ici.",
+          "verdict": "Trop loin : ce n'est plus minuscule, c'est une vraie confidence. L'autre ne sait plus s'il doit rire."
+        },
+        {
+          "texte": null,
+          "verdict": "Minuscule, précis, vrai pour presque tout le monde."
+        }
+      ],
+      "regle": "Un seul aveu, court, sur toi, avec un détail que tout le monde reconnaît. S'il vise quelqu'un d'absent, il ne peut pas en rire avec toi.",
+      "erreur": "Ajouter « non mais je rigole » juste après. L'aveu s'arrête au dernier mot."
+    }
+  },
+  {
+    "id": "la-regle-de-trois",
+    "titre": "La règle de trois",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis un endroit de ta vie : ton sac, ta table de chevet, ton bureau. Écris trois essais (la liste sans dérapage, le dérapage trop loin, le tien), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ta liste a trois éléments, dits d'un seul souffle ?",
+        "Si ta chute vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "Le dernier élément surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Deux éléments attendus, puis un troisième qui déraille.",
+      "exemple": "Mes trois forces : la ponctualité, l'organisation, l'annulation de dernière minute.",
+      "commentCestFait": [
+        "Les deux premiers éléments installent un rythme : on attend une liste de qualités. Le troisième garde la même tournure mais change de camp, et c'est ce changement qui fait rire.",
+        "Le détail est précis : « de dernière minute » est la formule qu'on prononce vraiment. Copie cette précision, pas la phrase."
+      ],
+      "essais": [
+        {
+          "texte": "Dans mon frigo : du lait, des œufs, du beurre.",
+          "verdict": "Rien ne déraille : les trois éléments sont attendus."
+        },
+        {
+          "texte": "Dans mon frigo : du lait, des œufs, et la preuve que ma vie est un désastre.",
+          "verdict": "Trop loin : ce n'est plus une chute sur le frigo, c'est un constat sur toi."
+        },
+        {
+          "texte": "Dans mon frigo : du lait, des œufs, et une moutarde qui a connu quatre colocataires.",
+          "verdict": "La moutarde reste, les colocataires passent."
+        }
+      ],
+      "regle": "Deux éléments attendus, un troisième qui reprend la même tournure et déraille. Dis-le d'un seul souffle, en une phrase, et arrête-toi : la chute est le dernier mot.",
+      "erreur": "Rallonger la liste avec un quatrième ou un cinquième élément « pour bien installer le rythme ». L'oreille décroche avant le dernier."
+    }
+  },
+  {
+    "id": "le-detournement",
+    "titre": "Le détournement",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis une expression connue (« mieux vaut tard que jamais » fait l'affaire). Écris trois essais (la fin qui répète le sens, la phrase trop longue, la tienne), puis garde le troisième et passe la grille :",
+      "grille": [
+        "On reconnaît l'expression, et ton détournement tient en une phrase ?",
+        "Si ton détail vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La fin surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Une expression que tout le monde connaît : tu gardes sa forme, et tu y glisses un détail précis de ta vie.",
+      "exemple": "L'appétit vient en mangeant, et le remords vers 23 h 40.",
+      "commentCestFait": [
+        "Tu dis l'expression telle quelle, et le public la croit finie. Puis tu ajoutes une deuxième moitié sur le même rythme, avec un détail vrai et précis : l'heure du remords. Copie cette précision, pas la phrase."
+      ],
+      "essais": [
+        {
+          "texte": "Les petits ruisseaux font les grandes rivières, et les petites économies font de grandes économies.",
+          "verdict": "Rien n'est détourné : la fin répète le sens."
+        },
+        {
+          "texte": "Les petits ruisseaux font les grandes rivières, mais moi, quand je mets de côté, un abonnement reprend tout.",
+          "verdict": "Trop long : la forme se perd."
+        },
+        {
+          "texte": "Les petits abonnements font les grands découverts.",
+          "verdict": "Même squelette, un détail précis de ton quotidien."
+        }
+      ],
+      "regle": "Garde la forme de l'expression (mots-clés, rythme), puis glisse un détail précis à la place d'un mot ou dans une suite. Ton détournement tient en une phrase : l'original se reconnaît sans que tu le dises.",
+      "erreur": "Expliquer l'original (« c'est comme le proverbe, mais… »). Le public le reconnaît seul : si tu l'expliques, tu lui retires ce plaisir."
+    }
+  },
+  {
+    "id": "le-contraste",
+    "titre": "Le contraste",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis deux choses de ta vie très inégales mais mesurées pareil, et la réaction d'un proche. Écris trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ton contraste tient en trois phrases au plus ?",
+        "La personne comparée peut-elle en rire avec toi ?",
+        "La fin surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Deux choses côte à côte, un écart énorme, et une chute qui le fait voir.",
+      "exemple": "Ma grand-mère est niveau 4 812 dans son jeu de bonbons. Je suis niveau 60 dans mon jeu de rôle. Elle m'a dit “c'est un bon début”.",
+      "commentCestFait": [
+        "Un jeu de bonbons et un jeu de rôle n'ont rien à voir, mais tu les mesures pareil. La grand-mère gagne au chiffre, et son “bon début” le confirme avec douceur.",
+        "Les chiffres sont exacts : 4 812 et 60, pas « beaucoup » et « peu »."
+      ],
+      "essais": [
+        {
+          "texte": "Ma sœur court beaucoup. Moi, non.",
+          "verdict": "Trop flou : l'écart ne se voit pas."
+        },
+        {
+          "texte": "Ma sœur a couru 42 kilomètres dimanche. Moi, je ne vaux rien.",
+          "verdict": "Trop loin : un verdict sur toi remplace la comparaison."
+        },
+        {
+          "texte": "Ma sœur a couru 42 kilomètres dimanche. Moi, j'ai couru 40 mètres pour le bus. Elle m'a dit que le plus dur, c'est de partir.",
+          "verdict": "Même mesure, verdict doux de l'autre."
+        }
+      ],
+      "regle": "Deux choses côte à côte, des détails exacts (une même mesure rend l'écart lisible), une chute qui fait voir l'écart, souvent par un verdict doux de l'autre. On rit de l'écart, pas de la personne.",
+      "erreur": "Commenter l'écart (« tu vois, elle est bien meilleure »). Il se voit déjà."
+    }
+  },
+  {
+    "id": "la-litote",
+    "titre": "La litote",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Retrouve une phrase minuscule qu'on t'a dite et qui voulait dire beaucoup (celle qu'un proche répète fait l'affaire). Écris trois essais (la plate, la trop loin, la tienne), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Phrase et réaction tiennent en trois phrases au plus ?",
+        "La personne citée peut-elle en rire avec toi ?",
+        "La fin surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Une phrase qui dit bien moins que ce qu'elle veut dire, que tu prends au sérieux.",
+      "exemple": "Mon père a vu mon appart. Il a dit “c'est pas mal”. Je lui ai demandé de me le mettre par écrit.",
+      "commentCestFait": [
+        "Une litote, c'est dire moins pour faire entendre plus. Dans beaucoup de familles, “c'est pas mal” vaut un grand compliment.",
+        "Le rire vient de ta réaction : tu traites la phrase en document rare, et “par écrit” en mesure la rareté."
+      ],
+      "essais": [
+        {
+          "texte": "Mon oncle a goûté mon gâteau. Il a dit “il est délicieux”.",
+          "verdict": "Trop plat : rien à décoder."
+        },
+        {
+          "texte": "Mon oncle a goûté mon gâteau. Il a dit “ce n'est pas désagréable”. J'ai conclu qu'il me détestait.",
+          "verdict": "Trop loin : tu prends sa pudeur pour un reproche."
+        },
+        {
+          "texte": "Mon oncle a goûté mon gâteau. Il a dit “ce n'est pas désagréable”. J'ai appelé ma mère pour lui annoncer la nouvelle.",
+          "verdict": "Le petit mot devient une nouvelle de famille."
+        }
+      ],
+      "regle": "Cite la phrase mot pour mot, puis une seule réaction concrète. Tu fais de la phrase minuscule un événement.",
+      "erreur": "Expliquer la litote (“c'est sa façon de dire qu'il est fier”) : tu éteins la tendresse."
+    }
+  },
+  {
+    "id": "la-fausse-logique",
+    "titre": "La fausse logique",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis une consigne que tu as déjà suivie (une notice, un GPS, un panneau) et déroule le raisonnement jusqu'au bout. Écris trois essais (le simple constat, l'excuse, le raisonnement), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ton troisième essai tient en quatre phrases au plus, sans “donc” ?",
+        "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La dernière étape surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Un raisonnement qui tient à une étape près, glissée comme une évidence, et une conclusion absurde que tu énonces calmement.",
+      "exemple": "Mon GPS m'a dit de tourner à droite. Y'avait un fleuve. J'ai hésité. Il avait l'air sûr de lui.",
+      "commentCestFait": [
+        "Une seule étape est fausse, glissée comme une évidence : un GPS sûr de lui est un GPS qui sait. Le reste suit, jusqu'au fleuve.",
+        "Aucun “donc” : c'est le public qui fait la déduction."
+      ],
+      "essais": [
+        {
+          "texte": "La notice dit de laver à 30 degrés. Je n'ai pas lavé.",
+          "verdict": "Aucune logique : un simple constat."
+        },
+        {
+          "texte": "La notice dit de laver à 30 degrés. Le linge me déteste, donc je le laisse sale.",
+          "verdict": "Trop loin : une excuse, pas un raisonnement."
+        },
+        {
+          "texte": "La notice dit de laver à 30 degrés. Dehors, il fait 31. J'ai étendu le linge sale.",
+          "verdict": "Tu lis la température de l'eau comme celle de l'air : le reste suit, jusqu'au linge étendu sale."
+        }
+      ],
+      "regle": "Une seule étape fausse, glissée comme une évidence, et tu la dis calmement, sans “donc”. Quatre phrases au plus.",
+      "erreur": "Conclure à la place de l'autre (“donc je lave dehors”). La déduction lui appartient."
+    }
+  },
+  {
+    "id": "l-escalade-comique",
+    "titre": "L'escalade comique",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis un petit défaut à toi (un oubli, une manie). Écris trois essais (aucun cran, le cran impossible, le tien), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Chaque cran va plus loin que le précédent, et tu en as trois au plus ?",
+        "Si ton escalade vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "Le dernier cran surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Chaque cran pousse le jeu plus loin que le précédent, sur le même ton.",
+      "exemple": "Mon petit frère m'appelle “papi”. J'ai 26 ans. J'ai acheté une canne. Il a arrêté. J'ai gardé la canne.",
+      "commentCestFait": [
+        "Trois temps : le surnom, la canne achetée, la canne gardée alors que le frère a arrêté. Le dernier cran est le plus fort : plus personne ne te le demande, tu continues sans lui. Chaque cran reste possible : c'est l'exagération contrôlée."
+      ],
+      "essais": [
+        {
+          "texte": "Mes plantes meurent. J'en ai acheté une autre. Elle est morte aussi.",
+          "verdict": "Aucun cran : la même scène deux fois."
+        },
+        {
+          "texte": "Mes plantes meurent. J'ai fait venir un exorciste. Il a démissionné.",
+          "verdict": "Trop loin : impossible à croire, on décroche."
+        },
+        {
+          "texte": "Mes plantes meurent. J'ai demandé conseil au fleuriste. Il m'a ouvert une carte de fidélité. Puis il m'a fait un prix de gros.",
+          "verdict": "Conseil, fidélité, prix de gros : trois crans, tous possibles."
+        }
+      ],
+      "regle": "Trois crans au plus, chacun plus fort que le précédent, tous plausibles. Garde le plus fort pour la fin et arrête-toi dessus.",
+      "erreur": "Viser le maximum dès la première phrase : il ne reste plus de marche à monter."
+    }
+  },
+  {
+    "id": "le-detail-trop-precis",
+    "titre": "Le détail trop précis",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis une scène banale avec un proche (un appel, un repas). Écris trois essais (le flou, le trop loin, le tien), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ton détail est à la fin, et il n'y en a qu'un ?",
+        "Si ton détail vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "L'exactitude surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Une situation banale, puis un détail plus précis que n'importe qui en retiendrait, à la fin.",
+      "exemple": "Chez le médecin, je ne connaissais pas mon numéro de sécu. J'ai appelé ma mère. Elle me l'a dicté de mémoire, avec les espaces.",
+      "commentCestFait": [
+        "Le rire tient aux trois derniers mots : personne ne retient les espaces d'un numéro. Elle, si. Ce n'est pas un détail qu'on reconnaît : c'est l'exactitude qui étonne."
+      ],
+      "essais": [
+        {
+          "texte": "Ma tante a fait une lasagne pour huit. Elle demande : “Alors ?” Je réponds : “Elle est partie vite.”",
+          "verdict": "Trop flou : « partie vite » ne montre rien."
+        },
+        {
+          "texte": "Ma tante a fait une lasagne pour huit. Elle demande : “Alors ?” Je réponds : “Onze grumeaux, je les ai comptés.”",
+          "verdict": "Trop loin : le détail devient un reproche."
+        },
+        {
+          "texte": "Ma tante a fait une lasagne pour huit. Elle demande : “Alors ?” Je réponds : “Elle a tenu quatre minutes douze.”",
+          "verdict": "Un chrono que personne ne fait : ta tante entend un compliment."
+        }
+      ],
+      "regle": "Un seul détail, plus exact qu'il n'a besoin de l'être (un chiffre, une heure, un mot), à la fin.",
+      "erreur": "Ajouter un second détail pour en rajouter : un détail de plus dilue le rire."
+    }
+  },
+  {
+    "id": "la-chute-qui-retourne-le-debut",
+    "titre": "La chute qui retourne le début",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Pense à un moment où tu avais tort sans le savoir. Écris trois essais (la fin qui prolonge, celle qui vise quelqu'un, la tienne), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ta dernière phrase change le sens du début ?",
+        "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La fin surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Un début qui a l'air simple ; une dernière phrase qui en change le sens par un fait que tu n'avais pas dit.",
+      "exemple": "J'ai chanté une chanson à fond pendant dix ans sans comprendre l'anglais. Hier, j'ai lu les paroles. Je dois des excuses à un mariage.",
+      "commentCestFait": [
+        "Le début annonce au plus une gêne (des paroles mal comprises), jamais laquelle. Puis « un mariage » change le sens des dix ans. Un seul fait, en dernier."
+      ],
+      "essais": [
+        {
+          "texte": "J'ai pesté toute la nuit contre mon voisin qui tapait au mur. Ça a duré jusqu'au matin.",
+          "verdict": "Aucun retournement : la fin prolonge le début."
+        },
+        {
+          "texte": "J'ai pesté toute la nuit contre mon voisin qui tapait au mur. C'était un sans-gêne, évidemment.",
+          "verdict": "Trop loin : un verdict remplace le retournement."
+        },
+        {
+          "texte": "J'ai pesté toute la nuit contre mon voisin qui tapait au mur. Au matin, j'ai fermé mon volet, et le voisin s'est tu.",
+          "verdict": "Le public conclut seul : le voisin devient innocent."
+        }
+      ],
+      "regle": "Un début dit de bonne foi, sans indice. La dernière phrase apporte un fait nouveau et court qui en change le sens.",
+      "erreur": "Semer un indice : si on devine la fin, rien ne se retourne."
+    }
+  },
+  {
+    "id": "raconter-en-une-phrase",
+    "titre": "Raconter en une phrase",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis un épisode récent (un week-end, un trajet, un achat). Écris trois essais (le récit en « puis », le verdict sur les autres, le titre), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Ta phrase dit ce que tu as fait et ce que ça a donné ?",
+        "Si elle vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "Le résultat surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Toute une histoire en une phrase, comme un titre : ce que tu as fait, puis ce que ça a donné.",
+      "exemple": "Mon déménagement en une phrase : quatorze cartons, dont onze marqués “divers”.",
+      "commentCestFait": [
+        "La phrase fait le travail d'un titre : l'effort (quatorze cartons), le résultat (onze « divers »), rien du milieu. On rit, puis on te demande « raconte »."
+      ],
+      "essais": [
+        {
+          "texte": "Samedi, j'ai rangé le salon, puis les invités sont venus, et ils sont restés dans la cuisine.",
+          "verdict": "Trop narré : une suite de « puis »."
+        },
+        {
+          "texte": "Mon week-end en une phrase : j'ai tout rangé pour des gens qui n'en valent pas la peine.",
+          "verdict": "Trop loin : le verdict vise les invités."
+        },
+        {
+          "texte": "Mon week-end en une phrase : trois heures à ranger le salon, et tout le monde dans la cuisine.",
+          "verdict": "Effort, résultat, chiffre."
+        }
+      ],
+      "regle": "Une seule phrase, dite d'un souffle : ce que tu as fait, puis ce que ça a donné. Un chiffre exact aide ; laisse le milieu de côté.",
+      "erreur": "Détailler sans qu'on te le demande. Laisse l'autre dire « raconte »."
+    }
+  },
+  {
+    "id": "la-combinaison-de-deux-mecanismes",
+    "titre": "La combinaison de deux mécanismes",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Choisis une petite fierté (un chiffre, un message). Écris trois essais (un seul mécanisme, trois empilés, ta combinaison), puis garde le troisième et passe la grille :",
+      "grille": [
+        "Tu peux nommer tes deux mécanismes, et pas un troisième ?",
+        "Si ta chute vise quelqu'un, cette personne peut-elle en rire avec toi ?",
+        "La chute surprend ?"
+      ]
+    },
+    "type": "construction",
+    "contenu": {
+      "schemaEnUneLigne": "Un mécanisme prépare, un autre casse : deux idées, une seule chute.",
+      "exemple": "Mon copain a vu sur la carte que j'allais à la salle de sport tous les mardis. Il était fier. Il a zoomé. Sur le parking.",
+      "commentCestFait": [
+        "Deux mécanismes : la chute qui retourne le début, déclenchée par un détail trop précis (« sur le parking »). Chacun seul est faible, ensemble ils font la chute."
+      ],
+      "essais": [
+        {
+          "texte": "Ma banque m'a écrit : “Bravo, votre épargne a doublé !” Ça m'a fait plaisir.",
+          "verdict": "Rien ne casse : un seul mécanisme."
+        },
+        {
+          "texte": "Ma banque m'a écrit : “Bravo, votre épargne a doublé !” Dessous : “Elle est passée de 6 euros à 12.” J'ai appelé mon banquier, qui a pleuré aussi.",
+          "verdict": "Trop de chutes : une escalade s'empile et noie le chiffre."
+        },
+        {
+          "texte": "Ma banque m'a écrit : “Bravo, votre épargne a doublé !” Dessous : “Elle est passée de 6 euros à 12.”",
+          "verdict": "Un retournement porté par un détail trop précis : « de 6 à 12 »."
+        }
+      ],
+      "regle": "Un mécanisme prépare, un autre frappe, une seule chute. Pas de troisième mécanisme, quatre phrases au plus.",
+      "erreur": "Mettre le détail qui casse avant l'attente : rien à casser."
+    }
+  }
+]

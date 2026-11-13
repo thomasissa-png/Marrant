@@ -1,1 +1,710 @@
-[]
+[
+  {
+    "id": "quelle-replique-1",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Pause de midi. Quelqu'un qui te lance un défi chaque lundi, et en perd la moitié, te détaille de haut en bas : « Tiens, tu as changé quelque chose, non ? » Rien n'a changé. Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Peut-être. Je te préviens si je le découvre avant toi. »",
+        "B. « J'ai changé de dentifrice. Tu as l'œil. »",
+        "C. « Trois essais. Si tu ne trouves pas, c'est toi qui offres le café. »"
+      ],
+      "situationsReprises": [
+        "amis-tu-as-change-quelque-chose"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "C."
+      ],
+      "explication": "La personne aime les défis : un nouveau pari lui répond en face, truqué en toute franchise. B s'arrêterait un cran trop bas ; A ne relèverait pas son jeu."
+    }
+  },
+  {
+    "id": "quelle-replique-2",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Fin de soirée. Au vestiaire, quelqu'un que tu viens de rencontrer te lance, sans sourire : « Tu pars déjà ? » Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Je file pendant que tout le monde m'aime encore. »",
+        "B. « À minuit, mon énergie a fini son service. La relève ne viendra pas. »",
+        "C. « Mon carrosse est un taxi, et le compteur tourne. »"
+      ],
+      "situationsReprises": [
+        "soiree-tu-pars-deja"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "A."
+      ],
+      "explication": "Pas de sourire, et quelqu'un que tu connais à peine : A part sur une bonne impression, en une phrase, sans rien à justifier ni rien demander à l'autre. B parle de ta fatigue en deux phrases : il faut déjà de la complicité pour que ça passe. C répondrait à une image que personne n'a lancée."
+    }
+  },
+  {
+    "id": "quelle-replique-3",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Dîner à quatre. Quelqu'un vient de raconter une blague ; tu n'as pas ri, tu cherchais ton verre. La personne te lance : « Eh, tu n'as pas ri ! » Puis, en souriant : « Remarque, la prochaine est bien meilleure, je la gardais pour le dessert. » Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Si, en différé. Le signal arrive jeudi. »",
+        "B. « J'ai ri à l'intérieur. Les murs sont épais. »",
+        "C. « Vas-y, raconte la suivante. Cette fois, je pose mon verre. »"
+      ],
+      "situationsReprises": [
+        "amis-eh-tu-n-as-pas-ri-a-ma-blague"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "C."
+      ],
+      "explication": "La personne a elle-même annoncé une meilleure blague : tu lui tends la perche, et tu avoues la vraie cause, ton verre. A fermerait ce qu'elle vient d'ouvrir ; B laisserait passer son jeu."
+    }
+  },
+  {
+    "id": "finis-la-phrase-1",
+    "titre": "Finis la phrase (règle de trois)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis en une phrase, d'un souffle : deux éléments attendus, puis un troisième qui déraille.",
+      "matiere": [
+        "« Pour bien commencer la journée, il me faut : un café, une douche, et… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …dix minutes pour faire semblant d'avoir envie. »",
+        "« …un “ça va” préparé pour la première personne croisée. »"
+      ],
+      "explication": "Les deux premiers sont attendus ; le troisième garde la même tournure et change de camp. Un quatrième élément aurait dilué la chute (fiche « La règle de trois »)."
+    }
+  },
+  {
+    "id": "finis-la-phrase-2",
+    "titre": "Finis la phrase (détail trop précis)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis par un seul détail, plus exact que ce qu'on retiendrait, en dernier.",
+      "matiere": [
+        "« Mon “je m'y mets demain” pour ranger le placard de l'entrée date d'exactement… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …quatre cent douze jours. »",
+        "« …huit cent six jours. »"
+      ],
+      "explication": "Un seul détail, le chiffre exact, dit sans sourire : personne ne compte les jours d'un “demain”. Un second détail l'aurait dilué (fiche « Le détail trop précis »)."
+    }
+  },
+  {
+    "id": "trouve-l-angle-1",
+    "titre": "Trouve l'angle",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "trouve-l-angle",
+      "consigne": "Objet : la salle d'attente du dentiste. Note trois choses vraies sur elle, pas des blagues.",
+      "ceQuOnAuraitPuDire": [
+        "1. Une horloge au tic-tac très audible.",
+        "2. Une plante en plastique, toujours parfaitement verte.",
+        "3. Tout le monde relit l'affiche sur le brossage, une oreille sur la porte."
+      ],
+      "explication": "L'angle qui travaille le mieux est le troisième : un non-dit que tout le monde partage. Les deux premiers sont des détails isolés. La blague vient ensuite, de ce que tu fais de lui. Par exemple : « Chez le dentiste, tout le monde relit l'affiche sur le brossage, comme si c'était le dernier moment pour réviser. »"
+    }
+  },
+  {
+    "id": "trouve-l-angle-2",
+    "titre": "Trouve l'angle",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "trouve-l-angle",
+      "consigne": "Objet : l'ascenseur du bureau. Note trois choses vraies sur lui, pas des blagues.",
+      "ceQuOnAuraitPuDire": [
+        "1. Une plaque « charge maximale » que personne ne lit.",
+        "2. Chacun sort son badge deux étages avant le sien.",
+        "3. Un écran qui affiche la météo du jour."
+      ],
+      "explication": "Le deuxième travaille le mieux : un geste que tout le monde fait ensemble, et dont personne ne parle. Les deux autres sont des détails. Par exemple : « Dans l'ascenseur, chacun sort son badge deux étages trop tôt, comme à la douane de son propre palier. »"
+    }
+  },
+  {
+    "id": "change-de-registre-1",
+    "titre": "Change de registre",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "change-de-registre",
+      "consigne": "Dis « Je n'ai pas fait les courses. » comme un communiqué officiel, en une phrase.",
+      "matiere": [
+        "« Je n'ai pas fait les courses. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Communiqué : les courses n'ont pas eu lieu, la population est invitée à rester calme. »"
+      ],
+      "explication": "Le fait reste le même et vrai ; seule la voix change : un mot de communiqué en ouverture, une consigne solennelle en fermeture. Rien de nouveau n'est inventé sur quelqu'un."
+    }
+  },
+  {
+    "id": "change-de-registre-2",
+    "titre": "Change de registre",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "change-de-registre",
+      "consigne": "Dis « Je suis en retard. » comme un bulletin météo, en une phrase.",
+      "matiere": [
+        "« Je suis en retard. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Prévisions : retard persistant, éclaircies vers 19 h. »"
+      ],
+      "explication": "Le fait est gardé (le retard) ; la voix est celle de la météo : un mot du métier (« prévisions », « éclaircies ») et une heure exacte. Une phrase, et tu t'arrêtes."
+    }
+  },
+  {
+    "id": "choisis-la-chute-1",
+    "titre": "Choisis la chute",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "choisis-la-chute",
+      "consigne": "Voici le début d'une vanne : « J'ai laissé un avis cinq étoiles à ma boulangerie. La boulangère m'a répondu “à demain !”. » Laquelle est la vraie chute ?",
+      "matiere": [
+        "A. « Depuis, je lui laisse un avis sur ses baguettes. »",
+        "B. « Depuis, je passe par l'autre rue. »",
+        "C. « Depuis, je prends deux croissants. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "B : « Depuis, je passe par l'autre rue. »"
+      ],
+      "explication": "La vraie chute retourne l'effet attendu : le compliment devient une obligation, et tu évites la boulangerie. A et C prolongent le geste sans rien retourner."
+    }
+  },
+  {
+    "id": "finis-la-phrase-3",
+    "titre": "Finis la phrase (le provisoire qui s'installe)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis en une phrase : un objet acheté pour dépanner s'installe pour de bon, avec un détail précis.",
+      "matiere": [
+        "« Le tabouret acheté “pour dépanner” il y a quatre ans… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …a survécu à deux canapés. »",
+        "« …figure sur le bail. »"
+      ],
+      "explication": "Le début promet du provisoire ; la fin range l'objet dans la durée avec un détail précis (deux canapés, le bail). Un seul constat par fin : en ajouter un deuxième l'aurait dilué."
+    }
+  },
+  {
+    "id": "finis-la-phrase-4",
+    "titre": "Finis la phrase (l'aveu en titre)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis avec le titre exact, puis une seule phrase qui se retourne contre toi.",
+      "matiere": [
+        "« J'ouvre enfin le mode d'emploi du four. La première page s'intitule… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …“Avant la première utilisation”. Le four a deux ans. »",
+        "« …“Consignes de sécurité”. Je les reconnais toutes : je les ai toutes enfreintes. »"
+      ],
+      "explication": "Le titre est réel, chacun en a vu un pareil ; l'aveu tient en quelques mots (« deux ans », « toutes enfreintes ») et ne s'explique pas. Dire pourquoi tu n'as rien lu l'aurait éteint."
+    }
+  },
+  {
+    "id": "finis-la-phrase-5",
+    "titre": "Finis la phrase (la traduction)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis en traduisant ce que le message veut vraiment dire.",
+      "matiere": [
+        "« Quand on me dit “c'est une simple formalité”, ça veut dire que… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …il y a un formulaire, et le formulaire a un formulaire. »",
+        "« …je vais devoir retrouver mon avis d'imposition de 2019. »"
+      ],
+      "explication": "Une formule rassurante reçoit son vrai sens, en une seule traduction, et personne n'est visé. La première fin fait monter la démarche d'un cran avec le même mot ; la seconde chiffre l'effort par un document précis et daté."
+    }
+  },
+  {
+    "id": "finis-la-phrase-6",
+    "titre": "Finis la phrase (le bénéfice dérisoire)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Le début promet un avantage. Finis par la conséquence, vraie et un peu minuscule.",
+      "matiere": [
+        "« Ce que l'ancienneté m'a vraiment apporté dans l'entreprise, c'est… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …le nombre de gens qui me demandent où est l'imprimante. »",
+        "« …une façon très personnelle de dire “je reviens vers vous”. »"
+      ],
+      "explication": "On attend une promotion ou un bureau ; on obtient un détail du quotidien que tout le monde reconnaît. Un seul détail, dit sans commentaire : c'est lui qui fait la chute."
+    }
+  },
+  {
+    "id": "finis-la-phrase-7",
+    "titre": "Finis la phrase (le nom qui change)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "finis-la-phrase",
+      "consigne": "Finis par le nouveau nom d'un lieu, puis un détail qui montre ce que ce nom cache.",
+      "matiere": [
+        "« Chez mes parents, ma chambre a changé de nom. Elle s'appelle maintenant… »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« …“la chambre d'amis”, et c'est moi qu'on y reçoit. »",
+        "« …“la salle de repassage”. Mon lit sert de table. »"
+      ],
+      "explication": "Le nom officiel dit une chose, le détail en dit une autre : c'est l'écart entre les deux qui fait sourire. Un seul nouveau nom ; l'expliquer (« ils ont repris la pièce ») aurait tout éteint."
+    }
+  },
+  {
+    "id": "remets-la-chute-1",
+    "titre": "Remets la chute (la plante et ses deux arroseurs)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "remets-la-chute",
+      "consigne": "Voici une histoire sans sa chute. Écris la dernière phrase.",
+      "matiere": [
+        "« Nous sommes deux à arroser la plante de la coloc : le lundi, sans nous le dire. Ça dure depuis six mois. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« C'est la seule chose de l'appartement dont on s'occupe trop. »",
+        "« Elle ne manque de rien, sauf d'être laissée tranquille. »"
+      ],
+      "explication": "Mécanisme : la mesure inattendue. Dans un appartement où l'on repousse tout, un excès de soin devient le seul défaut. L'autre chute prend le point de vue de la plante : même retournement, un autre angle."
+    }
+  },
+  {
+    "id": "remets-la-chute-2",
+    "titre": "Remets la chute (le mot pris au sens propre)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "remets-la-chute",
+      "consigne": "Voici une histoire sans sa chute. Écris la dernière phrase.",
+      "matiere": [
+        "« Dans le train, la voix du haut-parleur annonce : “Retard de vingt minutes.” Un quart d'heure plus tard : “Retard de quarante minutes.” À chaque annonce, la même formule de politesse : “Merci de votre compréhension.” »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« J'ai levé la main pour dire que je n'avais pas compris. »",
+        "« Moi, je ne comprends toujours pas. Mais on me remercie quand même. »"
+      ],
+      "explication": "Mécanisme : le mot pris au sens propre. « Compréhension » veut dire ici patience, et la chute le prend au sens de comprendre, en le jouant (la main levée) plutôt qu'en l'expliquant. L'autre chute garde le même mot et dit son effet : le remerciement arrive sans que rien soit compris."
+    }
+  },
+  {
+    "id": "remets-la-chute-3",
+    "titre": "Remets la chute (l'objet qui a plus de chance)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "remets-la-chute",
+      "consigne": "Voici une histoire sans sa chute. Écris la dernière phrase.",
+      "matiere": [
+        "« Au bureau, il y a une cabine fermée pour les appels. Je veux la réserver : prise toute la semaine. En passant devant, personne dedans : un manteau sur la chaise, et un post-it “Occupé” sur la porte. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Ce manteau a un meilleur agenda que moi. »",
+        "« Un manteau a obtenu un créneau que je cherche depuis lundi. »"
+      ],
+      "explication": "Mécanisme : on traite un objet comme un collègue concurrent. Le détail vrai (un manteau, un post-it) est donné avant ; la chute n'ajoute que la comparaison, en une phrase. Expliquer que la cabine est mal gérée aurait fait perdre l'effet."
+    }
+  },
+  {
+    "id": "remets-la-chute-4",
+    "titre": "Remets la chute (le refus qui devient une offre)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "remets-la-chute",
+      "consigne": "Voici une histoire sans sa chute. Écris la dernière phrase.",
+      "matiere": [
+        "« Au déjeuner du dimanche, quelqu'un lance : “Qui reprend de la purée ?” Je dis : “Non merci, je n'ai plus faim.” On me ressert quand même, une grosse louche. À la fin du repas, j'ai fini par comprendre le fonctionnement. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Chez nous, “non merci” n'est pas une réponse, c'est une première offre. »",
+        "« Chez nous, “non merci” veut dire “un peu moins”. »"
+      ],
+      "explication": "Mécanisme : requalifier un mot. Le refus est rangé dans une autre catégorie (la négociation), ce qui explique la louche qui a suivi. L'autre chute garde le même retournement en plus court : une traduction en trois mots."
+    }
+  },
+  {
+    "id": "remets-la-chute-5",
+    "titre": "Remets la chute (la seule question sans enjeu)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris ta version avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "remets-la-chute",
+      "consigne": "Voici une histoire sans sa chute. Écris la dernière phrase.",
+      "matiere": [
+        "« À l'examen, la consigne précise : “La question 4 est facultative.” À la sortie, tout l'amphi compare. Presque tout le monde a traité la 4. Presque personne n'a fini la 3. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Moi, j'ai commencé par elle : c'était la seule où j'avais le droit de me tromper. »",
+        "« Résultat : la question facultative a eu le meilleur taux de réussite de l'amphi. »"
+      ],
+      "explication": "Mécanisme : la raison cachée derrière un comportement collectif. La chute d'origine la donne : la seule question sans enjeu est celle qu'on ose faire. L'autre chute garde le constat de l'histoire et le présente comme une victoire."
+    }
+  },
+  {
+    "id": "les-pires-reponses-1",
+    "titre": "Les pires réponses (compliment reçu)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "les-pires-reponses",
+      "consigne": "Fin du dîner. Quelqu'un te dit : « Ta sauce était délicieuse. » Voici trois réponses plausibles, aucune à garder. Laquelle ferme le plus l'échange ?",
+      "matiere": [
+        "A. « Oh, ce n'était rien, c'est une recette toute simple. »",
+        "B. « Tu dis ça pour me faire plaisir. »",
+        "C. « Merci. La dernière fois, elle était meilleure. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "B."
+      ],
+      "explication": "B dit à la personne que son compliment n'est pas sincère : il ne lui reste qu'à te convaincre, ou à se taire. A et C minimisent, mais le compliment reste posé et la personne peut encore répondre. À la place, un merci court, avec un mot sur ce qui t'a fait plaisir à entendre."
+    }
+  },
+  {
+    "id": "les-pires-reponses-2",
+    "titre": "Les pires réponses (question de routine)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "les-pires-reponses",
+      "consigne": "Ton premier jour après les vacances. Quelqu'un te demande : « Alors, ces vacances ? » Voici trois réponses plausibles, aucune à garder. Laquelle ferme le plus l'échange ?",
+      "matiere": [
+        "A. « Bien, et les tiennes ? »",
+        "B. « Rien de spécial. »",
+        "C. « Trop courtes, comme toujours. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "B."
+      ],
+      "explication": "B ne donne aucune prise : la personne n'a rien à reprendre, la conversation s'arrête là. A est mince, mais elle rend la parole ; C donne au moins une plainte partagée à laquelle répondre. À la place, un seul détail concret, même minuscule, qui laisse une question possible."
+    }
+  },
+  {
+    "id": "les-pires-reponses-3",
+    "titre": "Les pires réponses (une annonce)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "les-pires-reponses",
+      "consigne": "Dans un couloir, quelqu'un t'annonce : « Je viens de changer de poste. » Voici trois réponses plausibles, aucune à garder. Laquelle met le plus la personne sur la défensive ?",
+      "matiere": [
+        "A. « Ah, d'accord. »",
+        "B. « Félicitations. Moi, je n'ai jamais osé. »",
+        "C. « Ça ne t'inquiète pas, avec le marché actuel ? »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "C."
+      ],
+      "explication": "C jette un doute sur une décision déjà prise : la personne doit se défendre, ou changer de sujet. A est plate et B ramène la phrase vers toi, mais ni l'une ni l'autre ne l'oblige à justifier quoi que ce soit. À la place, une question ouverte sur ce qu'elle va faire, ou sur ce qui lui plaît dans ce changement."
+    }
+  },
+  {
+    "id": "les-pires-reponses-4",
+    "titre": "Les pires réponses (une anecdote)",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "les-pires-reponses",
+      "consigne": "À la cantine, quelqu'un te raconte en riant : « J'ai passé vingt minutes dans la mauvaise réunion avant de comprendre. » Voici trois réponses plausibles, aucune à garder. Laquelle ferme le plus l'échange ?",
+      "matiere": [
+        "A. « Moi, c'était pire : une heure et demie, un jour. »",
+        "B. « Il suffit de relire l'invitation avant d'y aller. »",
+        "C. « Ça arrive à tout le monde, ne t'en fais pas. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "B."
+      ],
+      "explication": "La personne rit de son histoire : B la transforme en erreur à corriger, et le rire s'arrête. A prend un peu la scène mais garde le rire commun ; C dégonfle l'anecdote sans la fermer. À la place, une question sur le moment où elle a compris."
+    }
+  },
+  {
+    "id": "quelle-replique-4",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Vendredi, 20 h, dans la rue. Vous tournez depuis dix minutes devant des restaurants sans entrer. L'autre s'arrête et pointe les enseignes une à une du doigt : « Am, stram, gram… Où tu veux manger ? Je n'ai aucun avis. » Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Celui d'en face. Mon avis est timide, mais il a très faim. »",
+        "B. « On suit la première personne qui sort d'un restaurant en souriant. Elle a testé pour nous. »",
+        "C. « Le premier endroit qui a de la lumière et une chaise libre. »"
+      ],
+      "situationsReprises": [
+        "couple-ou-tu-veux-manger"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "B."
+      ],
+      "explication": "L'autre a lancé un hasard, une comptine : une personne qui sort d'un restaurant lui répond en face, avec plus de flair qu'elle. A parlerait de ton avis sans rendre la main ; C fermerait un jeu déjà lancé."
+    }
+  },
+  {
+    "id": "quelle-replique-5",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Lundi, 8 h, un train bien rempli. La personne arrive en courant, les portes se referment derrière elle. Elle s'assoit en face de toi, sans te regarder, un grand sac sur les genoux : « Pardon, je prends beaucoup de place. » Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Pas de souci. Je voyage léger : à nous deux, on fait une moyenne. »",
+        "B. « Il a un billet, lui aussi ? »",
+        "C. « Mes genoux et le sac vont apprendre à se connaître. »"
+      ],
+      "situationsReprises": [
+        "transports-le-grand-sac"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "A."
+      ],
+      "explication": "La personne s'excuse déjà, sans sourire : une phrase qui équilibre et ferme l'incident la rassure sans rien lui demander. B ferait une plaisanterie à quelqu'un qui n'a pas le temps ; C lancerait un jeu que la personne n'a pas ouvert."
+    }
+  },
+  {
+    "id": "quelle-replique-6",
+    "titre": "Quelle réplique ?",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "quelle-replique",
+      "consigne": "Dimanche, 8 h, la salle de bain de la coloc. Tu es sous la douche depuis un bon moment. Quelqu'un frappe, puis lance d'une voix chantante : « Tu en as pour longtemps ? » Laquelle dis-tu ?",
+      "matiere": [
+        "A. « Cette pièce est réservée jusqu'à 8 h 30. Tu peux t'inscrire sur la liste d'attente. »",
+        "B. « Deux minutes. Je te laisse la salle de bain, et la buée en cadeau. »",
+        "C. « Le temps de convaincre l'eau chaude de me laisser partir. »"
+      ],
+      "situationsReprises": [
+        "coloc-tu-en-as-pour-longtemps"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "C."
+      ],
+      "explication": "La voix chantante donne déjà un ton léger : l'eau chaude qui te retient lui répond sur le même ton, sans t'excuser. B serait timide face à une question posée ainsi ; A refuserait un tour que personne n'a contesté."
+    }
+  },
+  {
+    "id": "trouve-l-angle-3",
+    "titre": "Trouve l'angle",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "trouve-l-angle",
+      "consigne": "Objet : la caisse automatique du supermarché. Note trois choses vraies sur elle, pas des blagues.",
+      "ceQuOnAuraitPuDire": [
+        "1. Un bip identique pour chaque article, du pot de yaourt au sac de pommes de terre.",
+        "2. Un écran qui demande la carte de fidélité à chaque passage, même quand la réponse est non.",
+        "3. Une voix qui annonce un article inattendu pour un simple sac posé."
+      ],
+      "explication": "Le deuxième travaille le mieux : une question que la machine répète à chaque passage, et une réponse que tu répètes aussi, toujours la même. Les deux autres sont des détails isolés. La blague vient ensuite, de ce que tu fais de lui. Par exemple : « Chaque semaine, la caisse me demande ma carte de fidélité, et chaque semaine je dis non. La seule chose fidèle chez moi, c'est ma réponse. »"
+    }
+  },
+  {
+    "id": "trouve-l-angle-4",
+    "titre": "Trouve l'angle",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "trouve-l-angle",
+      "consigne": "Objet : le hall de gare, au moment où le tableau affiche la voie. Note trois choses vraies sur lui, pas des blagues.",
+      "ceQuOnAuraitPuDire": [
+        "1. Des valises à roulettes dont le bruit couvre les annonces.",
+        "2. Un café très cher que presque personne ne boit assis.",
+        "3. Quand la voie s'affiche, tout le hall se met à marcher très vite, sans que personne ne coure."
+      ],
+      "explication": "Le troisième travaille le mieux : un comportement que tout le monde adopte ensemble, et dont personne ne parle. Les deux autres sont des détails. Par exemple : « Quand la voie s'affiche, le hall entier se lance dans une épreuve de marche athlétique que personne n'a déclarée. »"
+    }
+  },
+  {
+    "id": "change-de-registre-3",
+    "titre": "Change de registre",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Dis ta réponse avant de lire la suite. Rien n'est noté."
+    },
+    "type": "jeu",
+    "contenu": {
+      "famille": "change-de-registre",
+      "consigne": "Dis « Je n'ai pas envie de sortir ce soir. » comme une notice d'utilisation, en une phrase.",
+      "matiere": [
+        "« Je n'ai pas envie de sortir ce soir. »"
+      ],
+      "ceQuOnAuraitPuDire": [
+        "« Notice : usage en extérieur déconseillé après 20 h, toute insistance annule la garantie. »"
+      ],
+      "explication": "Le fait reste le même et vrai ; seule la voix change : un mot de notice en ouverture (« notice », « usage déconseillé »), un avertissement de fin (« garantie »). Une phrase, et tu t'arrêtes."
+    }
+  }
+]

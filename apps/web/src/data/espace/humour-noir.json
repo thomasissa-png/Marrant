@@ -1,1 +1,341 @@
-[]
+[
+  {
+    "id": "hn-qui-est-dans-la-piece",
+    "titre": "Qui est dans la pièce",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Pense à la dernière fois où quelqu'un a plaisanté sur sa propre mort. Qu'a fait la table ? Note le signal que tu aurais pu lire."
+    },
+    "type": "humour-noir",
+    "contenu": {
+      "forme": "limite",
+      "principe": "Avant de lancer, le test décide. Les trois signaux ci-dessous se voient avec un peu d'attention ; ils aident à lire la table, ils ne t'assurent de rien : c'est pourquoi la question 2 passe avant.",
+      "blocs": [
+        {
+          "titre": "Signal 1, avant : le groupe a déjà ri d'un sujet sombre.",
+          "texte": "Dans les dix dernières minutes, quelqu'un a plaisanté sur sa « mort » du lundi matin et la table a ri. Sans ça, tu ne la dis pas (dans une situation, tu prends la sûre)."
+        },
+        {
+          "titre": "Signal 2, après : le rire revient vers toi.",
+          "texte": "Quelqu'un relance, reprend ta formule ou ajoute la sienne : tu laisses le sujet ouvert, sans en rajouter. Les regards descendent vers les verres, un « hm » poli, tout le monde regarde la même personne : c'est le signal qui dit d'arrêter, pas de continuer. Il arrive après la vanne : il sert à clore vite, pas à éviter de blesser."
+        },
+        {
+          "titre": "Signal 3, la personne qui pourrait être touchée.",
+          "texte": "Si ta vanne frôle sans le vouloir la vie de quelqu'un à table, regarde cette personne, elle, pas la salle. Même si elle rit, tu ne reviens pas sur le sujet : tu clos tout de suite. Un rire peut être un masque."
+        }
+      ],
+      "siCaNePrendPas": "Une seule phrase pour passer à autre chose, en souriant, sans commenter : « Quelqu'un reprend du pain ? » Pas d'explication devant la table : une excuse publique fait de la vanne un événement. Si quelqu'un a été touché, un mot en privé, plus tard. Une fois pour lancer, une fois pour clore."
+    }
+  },
+  {
+    "id": "hn-le-sujet-n-est-pas-la-cible",
+    "titre": "Le sujet n'est pas la cible",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Prends une vanne sombre que tu connais, sur la mort en général. Souligne le mot qui reçoit le coup. Si ce n'est ni toi ni la situation, réécris-la en une phrase pour que la chute retombe sur toi ou sur la situation. Dix minutes. Garde les deux versions côte à côte."
+    },
+    "type": "humour-noir",
+    "contenu": {
+      "forme": "limite",
+      "principe": "Une vanne noire a un sujet (la mort, la panne, l'administration) et une cible : celui ou ce qui reçoit le coup de la chute. Le sujet peut être grave dans le périmètre du coin : la mort en général, la tienne, les petites catastrophes. La cible, jamais : ni une personne, ni un groupe, ni la peine de quelqu'un.",
+      "blocs": [
+        {
+          "titre": "Trouver la cible en une question",
+          "texte": "Relis ta phrase et demande-toi : « Qui, ici, prend le coup ? » Si c'est toi, la situation ou la mort en général, tu continues. Si c'est quelqu'un d'autre, même absent, même « pour de faux », la phrase est à réécrire, pas à adoucir."
+        },
+        {
+          "titre": "Même sujet, autre cible",
+          "texte": "Avant, la cible est un groupe : « Les gens de la poste, ils sont morts depuis longtemps, ils n'ont juste pas été prévenus. »\nAprès, la cible est toi : « À ce rythme, on m'enterrera avec mon ticket d'attente à la main. »\nLa poste, l'attente et l'idée de fin sont restées. Seule la cible a changé de côté : la chute est passée de « eux » à « moi »."
+        },
+        {
+          "titre": "Pourquoi ça compte",
+          "texte": "À table, personne ne sait qui est touché. Le groupe visé n'est pas dans la pièce, mais quelqu'un de la pièce peut en faire partie, et c'est cette personne qui retient la phrase."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-rire-avec-pas-de",
+    "titre": "Rire avec, pas de",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "À la prochaine blague que fait quelqu'un sur sa propre vie ou sa propre fin, réponds avec ta propre fin, sur le même ton : « Moi aussi », « Au mien, … ». Jamais avec la sienne. Si rien ne vient, souris et laisse la suite. Une phrase, une seule fois."
+    },
+    "type": "humour-noir",
+    "contenu": {
+      "forme": "limite",
+      "principe": "La fiche 1 règle quand lancer, la fiche 2 où tombe ta chute. Celle-ci règle ce que tu fais quand c'est quelqu'un d'autre qui plaisante sur sa propre fin. Deux façons de répondre : avec, tu réponds avec ta propre fin, sur le même ton ; de, tu commentes la personne et tu la montres du doigt.",
+      "blocs": [
+        {
+          "titre": "Le test",
+          "texte": "Ta réponse met-elle la personne dedans avec toi, ou la regarde-t-elle de dehors ? Si elle parle de la personne (sa vie, ses habitudes, ce qu'elle vaut), c'est de. Si elle parle de ta fin à toi, sur le même ton, c'est avec."
+        },
+        {
+          "titre": "Même blague, deux réponses",
+          "texte": "La personne dit : « À mon enterrement, il y aura du monde : le buffet sera gratuit. »\nDe : « Heureusement, sinon personne ne viendrait. » Tu commentes sa vie sociale : la personne devient la cible de sa propre blague.\nAvec : « Au mien, le buffet sera après la cérémonie : comme ça, tout le monde reste jusqu'au bout. » Tu réponds avec ta propre fin, sur le même ton, sans parler de la sienne."
+        },
+        {
+          "titre": "Une réserve",
+          "texte": "Si la personne traverse quelque chose, ou si son rire sonne comme un masque (fiche 1, signal 3), tu ne rejoins pas la blague : tu écoutes, tu demandes comment ça va, tu laisses le sujet."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-pause-cafe-lundi-9-h-et-je-meurs-deja-de-fatigue",
+    "titre": "Pause café : « Lundi, 9 h, et je meurs déjà de fatigue. »",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Dis la sûre à voix haute devant une machine à café ou une bouilloire, avec la voix de quelqu'un qui n'a pas dormi non plus. Dix secondes.",
+      "pourAllerPlusLoin": "dis-la en vrai lundi prochain."
+    },
+    "type": "humour-noir",
+    "univers": "boulot",
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "Lundi, 9 h, la machine à café du bureau. Quelqu'un de l'équipe s'appuie sur le mur, un gobelet à la main :",
+        "onTeDit": "Lundi, 9 h, et je meurs déjà de fatigue."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Ça tombe bien : le lundi, personne n'attend rien de toi avant 11 h.",
+          "pourquoi": "Tu rassures sur le calendrier, sans mort et sans personne visé. L'image : les attentes du lundi, que tu rabaisses. C'est la bonne quand tu ne sais pas comment la personne prend la blague."
+        },
+        "joueuse": {
+          "texte": "Doucement : à 9 h, on dit “je n'ai pas dormi”. “Je meurs”, c'est à partir de 11 h.",
+          "pourquoi": "Tu fais de la plainte une échelle qui monte dans la journée. L'image : l'échelle des plaintes. Tu reprends ses mots, la chute retombe sur la situation. À sortir quand la personne le dit en souriant."
+        },
+        "risquee": {
+          "texte": "Moi, je suis tranquille : je mourrai le jour où ma boîte mail sera vide.",
+          "pourquoi": "Tu prends son « je meurs » au pied de la lettre, côté ta propre mort, et tu la rends impossible : la chute retombe sur ta boîte mail. L'image : la boîte mail. Elle demande quatre feux verts :\n- la personne sourit en le disant ;\n- l'équipe vient de rire d'un sujet sombre (dans les dix dernières minutes) ;\n- tu connais chaque personne autour de la machine ;\n- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.\nS'il en manque un : la joueuse ou la sûre."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Sauf signal contraire, reste sur la sûre. La personne sourit et l'équipe plaisante déjà du lundi ? Monte d'un cran. Les trois autres feux verts de la risquée sont là aussi ? Monte encore. Une seule tentative : si ça ne prend pas, tu demandes si quelqu'un veut un café et tu passes."
+      },
+      "erreur": "Enchaîner une deuxième vanne plus noire (« moi, ma tombe est réservée depuis des années »). La personne a dit une expression, pas ouvert un sujet. Une réplique, une seule fois.",
+      "contextesRafale": [
+        {
+          "contexte": "La personne soupire en le disant, sans sourire ; vous travaillez ensemble depuis quelques jours",
+          "bonneReponse": "sure",
+          "pourquoi": "Aucun sourire pour monter, donc la joueuse ferait une plaisanterie sur sa fatigue ; personne n'a ri d'un sujet sombre, donc la risquée parlerait de ta mort à quelqu'un que tu connais à peine."
+        },
+        {
+          "contexte": "La personne le dit en levant son gobelet et en souriant ; l'équipe se plaint du lundi en riant ; deux personnes de l'équipe sont arrivées cette semaine et tu ne les connais pas",
+          "bonneReponse": "joueuse",
+          "pourquoi": "Le sourire et le jeu du lundi sont là, donc la sûre serait timide ; tu ne connais pas chaque personne autour de la machine, donc la risquée irait un cran trop haut."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-diner-entre-amis-et-vous-quelle-musique-pour-votre-enterrement",
+    "titre": "Dîner entre amis : « Et vous, quelle musique pour votre enterrement ? »",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Choisis ta chanson pour ce soir, sans la dire à personne, puis dis la sûre à voix haute en la fredonnant. Dix secondes.",
+      "pourAllerPlusLoin": "demande-la à quelqu'un de tes proches et écoute sa réponse sans commenter."
+    },
+    "type": "humour-noir",
+    "univers": "amis",
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "Samedi, 21 h 30, un dîner chez des amis. Entre le plat et le dessert, quelqu'un pose la question à toute la table :",
+        "onTeDit": "Et vous, quelle musique pour votre enterrement ?"
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Une chanson qui se reconnaît dès la première note : je ne veux pas que quelqu'un demande “c'est quoi ?”.",
+          "pourquoi": "Tu réponds à la question en parlant de musique, pas de mort. L'image : la chanson qu'on reconnaît tout de suite. Elle ne demande rien à personne et se ferme toute seule. C'est la bonne quand tu ne sais pas qui, à table, traverse quelque chose."
+        },
+        "joueuse": {
+          "texte": "Un morceau avec une longue intro : je veux qu'on s'installe avant que ça devienne triste.",
+          "pourquoi": "Tu fais de ta propre fin un spectacle dont tu soignes l'accueil. L'image : l'intro. La chute retombe sur toi, qui programmes le temps de s'asseoir. À sortir quand la table répond déjà en riant."
+        },
+        "risquee": {
+          "texte": "Celle que je n'ai jamais osé chanter au karaoké. Cette fois, personne ne me tendra le micro.",
+          "pourquoi": "Tu ranges ta mort parmi les façons d'échapper au micro. L'image : le karaoké. La chute retombe sur ta peur du micro, rien d'autre. Elle demande quatre feux verts :\n- la personne qui a posé la question sourit, et la table prend le jeu ;\n- la table a déjà ri de la mort en général ce soir ;\n- tu connais chaque personne à table ;\n- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.\nS'il en manque un : la joueuse ou la sûre."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Sauf signal contraire, reste sur la sûre : la question elle-même est sombre, donc elle ne dit pas que la table a ri. La table répond déjà en riant ? Monte d'un cran. Les trois autres feux verts sont là aussi ? Monte encore. Une seule tentative : si ça ne prend pas, tu demandes qui veut du dessert."
+      },
+      "erreur": "Détailler ton enterrement (le cercueil, les fleurs, qui viendra, qui pleurera). Tu glisses de ta musique vers les gens de ta vie, et quelqu'un à table peut penser à la sienne. Reste sur la chanson, pas sur la salle.",
+      "contextesRafale": [
+        {
+          "contexte": "La moitié de la table t'est inconnue ; la question vient de tomber et personne n'a ri ni relancé",
+          "bonneReponse": "sure",
+          "pourquoi": "La table n'a pas ri, donc la joueuse ferait de ta fin un spectacle devant des inconnus ; la risquée demanderait de connaître chaque personne."
+        },
+        {
+          "contexte": "Tes amis de dix ans, la table rit de la mort en général depuis l'apéritif, tout le monde répond en riant, et tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés",
+          "bonneReponse": "risquee",
+          "pourquoi": "Les quatre conditions sont réunies ; la joueuse s'arrêterait un cran trop bas, la sûre fermerait un jeu que la table a ouvert."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-mairie-premier-rendez-vous-dans-huit-mois",
+    "titre": "Mairie : « Premier rendez-vous dans huit mois. »",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Pense à la dernière démarche qui t'a fait attendre. Dis la sûre à voix haute, puis la joueuse, avec la même voix posée. Dix secondes.",
+      "pourAllerPlusLoin": "note en une phrase la pièce qui te manquerait toujours."
+    },
+    "type": "humour-noir",
+    "univers": "commerces-voisins-transports",
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "Mercredi, 12 h 30, une terrasse avec des amis. Quelqu'un repose son téléphone sur la table :",
+        "onTeDit": "Pour renouveler ma carte d'identité : premier rendez-vous dans huit mois."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Prends-le : c'est le seul rendez-vous de l'année que personne n'annulera.",
+          "pourquoi": "Tu pousses à réserver avec un trait sur la fiabilité de l'attente. L'image : le rendez-vous qui ne saute jamais. Elle ne vise personne, ni les agents ni la personne. C'est la bonne quand elle ne sourit pas."
+        },
+        "joueuse": {
+          "texte": "Huit mois : l'administration, elle, a l'éternité devant elle.",
+          "pourquoi": "Tu fais du guichet une institution qui ne connaît pas la fin. L'image : l'éternité de l'administration. La chute retombe sur la situation, et la mort n'y est qu'en toile de fond. À sortir quand la personne le raconte en souriant."
+        },
+        "risquee": {
+          "texte": "Prends-le. Même après ma mort, on me dira qu'il manque une pièce au dossier.",
+          "pourquoi": "Tu retournes l'attente contre toi : ta mort ne t'exempte pas du justificatif. L'image : la pièce manquante. La chute retombe sur ton dossier, pas sur les agents. Elle demande quatre feux verts :\n- la personne a elle-même plaisanté en sombre sur ce rendez-vous ;\n- la table a déjà ri d'un sujet sombre ;\n- tu connais chaque personne à table ;\n- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.\nS'il en manque un : la joueuse ou la sûre."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Sauf signal contraire, reste sur la sûre. La personne le raconte en souriant ? Monte d'un cran. Elle a elle-même fait une plaisanterie sombre et les trois autres feux verts sont là ? Monte encore. Une seule tentative : si ça ne prend pas, tu demandes quel jour elle prend son rendez-vous."
+      },
+      "erreur": "Passer de ton dossier aux gens du guichet (« ils sont tous... »). La cible change de côté : ce ne sont plus la situation ni toi, ce sont des personnes, absentes. La chute reste sur ton dossier, jamais sur eux.",
+      "contextesRafale": [
+        {
+          "contexte": "La personne le dit en levant les yeux au ciel puis en souriant ; vous êtes de vieux amis ; personne n'a plaisanté d'un sujet sombre",
+          "bonneReponse": "joueuse",
+          "pourquoi": "Le sourire est là, donc la sûre serait timide ; personne n'a ouvert le sujet sombre, donc la risquée irait un cran trop haut."
+        },
+        {
+          "contexte": "La personne ajoute en riant : “À ce rythme, ma carte sera prête pour mes obsèques.” Vous connaissez chaque personne à table, et tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés",
+          "bonneReponse": "risquee",
+          "pourquoi": "La personne vient de rire de sa propre fin, les quatre conditions sont réunies, et ta réponse lui répond en face ; la joueuse parlerait de l'administration sans rien dire à sa plaisanterie, la sûre fermerait un jeu qu'elle ouvre."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-reveillon-derniere-coupe-de-l-annee",
+    "titre": "Réveillon : « Dernière coupe de l'année ! »",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Lève un verre d'eau et dis la sûre, puis la joueuse, avec la même voix, comme à 23 h 40. Dix secondes.",
+      "pourAllerPlusLoin": "écris ta propre résolution réaliste en une phrase."
+    },
+    "type": "humour-noir",
+    "univers": "soiree",
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "31 décembre, 23 h 40, chez des amis. Quelqu'un lève sa coupe :",
+        "onTeDit": "Dernière coupe de l'année, on trinque !"
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Vite, avant minuit : je veux au moins une résolution tenue cette année.",
+          "pourquoi": "Tu trinques tout de suite : la résolution tenue, c'est le verre que tu lèves. L'image : la résolution tenue. Elle ne vise personne et ne demande rien. C'est la bonne quand tu ne sais pas comment l'année s'est passée pour les autres."
+        },
+        "joueuse": {
+          "texte": "À l'année qui s'en va : elle aura au moins eu la politesse de finir à l'heure.",
+          "pourquoi": "Tu fais de l'année une invitée qui a le bon goût de partir à l'heure. L'image : l'année qui s'en va. La chute retombe sur l'année, aucune mort n'est nommée : elle passe sans le feu vert « chaque personne va bien ». À sortir quand la table plaisante déjà de l'année qui s'achève."
+        },
+        "risquee": {
+          "texte": "La dernière de l'année, d'accord. Pour ma dernière tout court, je demande la même : bien servie.",
+          "pourquoi": "Tu parles de ta propre fin comme d'un service au bar : la chute retombe sur ton exigence de buveur. L'image : le dernier verre. Elle demande quatre feux verts :\n- la table plaisante déjà de l'année qui s'achève ;\n- la table a déjà ri d'un sujet sombre ce soir ;\n- tu connais chaque personne à table ;\n- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.\nS'il en manque un : la joueuse ou la sûre. Un réveillon fait penser à l'année écoulée, donc à ses pertes : c'est le cas où le quatrième feu vert est le plus difficile à garantir."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Sauf signal contraire, reste sur la sûre. La table plaisante déjà de l'année qui se termine ? Monte d'un cran. Les trois autres feux verts de la risquée sont là aussi ? Monte encore. Une seule tentative : si ça ne prend pas, tu trinques et tu proposes de compter à rebours."
+      },
+      "erreur": "Transformer le verre en bilan (« cette année, on en a perdu... »). Tu ouvres la liste de ce que chaque personne a vécu, et quelqu'un y trouve sa peine. Un verre, une phrase, puis tu trinques.",
+      "contextesRafale": [
+        {
+          "contexte": "La moitié des invités t'est inconnue ; la personne lève sa coupe sans plaisanter",
+          "bonneReponse": "sure",
+          "pourquoi": "Aucune plaisanterie sur l'année pour monter, donc la joueuse ferait seule la plaisanterie devant des inconnus ; la risquée demanderait de connaître chaque personne."
+        },
+        {
+          "contexte": "Tes amis de longue date ; quelqu'un vient de rire des résolutions ratées des années précédentes ; personne n'a plaisanté d'un sujet sombre",
+          "bonneReponse": "joueuse",
+          "pourquoi": "Le jeu sur l'année est ouvert, donc la sûre serait timide ; aucun sujet sombre n'a été ouvert, donc la risquée irait un cran trop haut."
+        }
+      ]
+    }
+  },
+  {
+    "id": "hn-groupe-d-amis-par-ecrit-un-week-end-a-la-mer-en-juin-qui-vient",
+    "titre": "Groupe d'amis, par écrit : « Un week-end à la mer en juin, qui vient ? »",
+    "palier": "P3",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "ecrire",
+      "consigne": "Écris sur un brouillon la sûre, puis la joueuse. Relis-les comme si tu les recevais d'un inconnu. Dix secondes.",
+      "pourAllerPlusLoin": "envoie la sûre au prochain message de groupe."
+    },
+    "type": "humour-noir",
+    "univers": "messages-groupes",
+    "contenu": {
+      "forme": "situation",
+      "scene": {
+        "texte": "Jeudi, 18 h, le groupe de messages de tes amis. Quelqu'un écrit :",
+        "onTeDit": "Un week-end à la mer en juin, qui vient ? On réserve cette semaine.",
+        "suite": "Ta réponse sera un texte, lu par tout le groupe, et il restera dans la conversation."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Je viens. J'apporte les jeux de société, et ma mauvaise foi.",
+          "pourquoi": "Tu réponds oui et tu te donnes une tâche, avec un trait sur ta façon de jouer. L'image : les jeux de société et la mauvaise foi. Elle ne vise personne, elle ne se relit pas de travers. C'est la bonne quand le groupe est large ou que tu ne sais pas qui le lit."
+        },
+        "joueuse": {
+          "texte": "Je viens, et je me charge de dire “on part dans cinq minutes” pendant deux heures.",
+          "pourquoi": "Tu te donnes le rôle de l'annonce du départ, avec un trait sur ta propre lenteur. L'image : le départ qui n'arrive jamais. La chute retombe sur toi. À sortir quand le groupe plaisante déjà de ses retards de départ."
+        },
+        "risquee": {
+          "texte": "Je viens. J'ai pris l'assurance annulation : mon décès est couvert, j'ai vérifié.",
+          "pourquoi": "Tu ranges ta propre mort parmi les motifs prévus par un contrat, et la chute est le sérieux avec lequel tu as vérifié. L'image : l'assurance annulation. Écrite, elle reste dans le groupe et peut être relue par n'importe qui. Elle demande trois feux verts :\n- le groupe a déjà échangé des blagues sombres par écrit ;\n- ce groupe est composé uniquement de personnes que tu connais ;\n- tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés.\nAvant d'envoyer, relis-la comme une affiche. S'il manque un feu vert : la joueuse ou la sûre. Un message ne se retire pas d'un regard : tu ne peux pas le clore en souriant."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Sauf signal contraire, reste sur la sûre. Le groupe plaisante déjà de ses retards ? Monte d'un cran. Les trois feux verts de la risquée sont là ? Monte encore. Une seule tentative : pas de deuxième message qui explique."
+      },
+      "erreur": "Ajouter « humour noir, hein ! » derrière. Tu expliques la blague et tu la fais passer pour un avertissement : elle ne marche plus, et quelqu'un se demande ce que tu as voulu dire.",
+      "contextesRafale": [
+        {
+          "contexte": "Le groupe compte quinze personnes, dont la moitié que tu n'as jamais rencontrée ; personne n'a plaisanté en sombre",
+          "bonneReponse": "sure",
+          "pourquoi": "Le groupe est large et le message restera, donc la joueuse serait un trait inutile ; la risquée parlerait de ta mort à des inconnus, par écrit."
+        },
+        {
+          "contexte": "Le groupe : cinq amis proches ; vous échangez des blagues sombres par écrit depuis des années ; tu sais que chaque personne va bien, sans deuil ni maladie en cours ou tout juste passés",
+          "bonneReponse": "risquee",
+          "pourquoi": "Les trois feux verts sont réunis ; la joueuse s'arrêterait un cran trop bas, la sûre ne ferait que répondre oui."
+        }
+      ]
+    }
+  }
+]

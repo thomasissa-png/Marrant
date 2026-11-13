@@ -51,7 +51,10 @@ export function CorpsEcouter({ c }: { c: FicheDeType<"ecouter">["contenu"] }) {
   );
 }
 
-/** « Jeux » (3.9, format provisoire du schéma) : consigne, matière, « Ce qu'on aurait pu dire » à ouvrir. */
+/**
+ * « Jeux » (3.9) : consigne, matière, « Ce qu'on aurait pu dire » à ouvrir. Les lignes sont affichées
+ * telles qu'écrites dans le lot (guillemets compris) : l'écran n'en ajoute aucun.
+ */
 export function CorpsJeu({ c }: { c: FicheDeType<"jeu">["contenu"] }) {
   return (
     <>
@@ -67,7 +70,7 @@ export function CorpsJeu({ c }: { c: FicheDeType<"jeu">["contenu"] }) {
         <summary className="inline-flex min-h-11 cursor-pointer items-center text-base font-semibold text-text-primary">{T.ceQuOnAuraitPuDire}</summary>
         <ul className="space-y-1 text-base text-text-primary">
           {c.ceQuOnAuraitPuDire.map((x) => (
-            <li key={x}>« {x} »</li>
+            <li key={x}>{x}</li>
           ))}
         </ul>
         {c.explication && <p className="text-sm text-text-secondary">{c.explication}</p>}

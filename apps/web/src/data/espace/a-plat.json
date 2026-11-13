@@ -1,1 +1,274 @@
-[]
+[
+  {
+    "id": "a-plat-le-silence-apres-ta-vanne",
+    "titre": "Le silence après ta vanne",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Dis la sûre à voix haute devant ton miroir, puis laisse trois secondes de vrai silence. Compte-les."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Déjeuner d'équipe. Tu lâches une vanne. Trois secondes de silence, une fourchette racle une assiette."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Je vais laisser celle-là reposer.",
+          "pourquoi": "Tu constates, sans te défendre. La conversation reprend toute seule."
+        },
+        "joueuse": {
+          "texte": "Atterrissage sans incident. Personne n'a été blessé.",
+          "pourquoi": "Tu traites ta vanne comme un avion : il est posé, rien de grave. À sortir si quelqu'un sourit malgré le silence."
+        },
+        "risquee": {
+          "texte": "Si quelqu'un rit ce soir dans sa voiture, je ne dirai rien.",
+          "pourquoi": "Tu imagines le rire qui viendra et tu le promets discret. Elle passe seulement avec un groupe que tu as déjà fait rire."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Le groupe te connaît mal ? La sûre. Un sourire, un regard ? La joueuse. Tu as déjà fait rire ces gens ? La risquée, une seule fois."
+      },
+      "erreur": "Répéter la vanne ou l'expliquer. Une phrase de rattrapage, puis tu passes à autre chose."
+    }
+  },
+  {
+    "id": "a-plat-quand-ca-ne-prend-pas",
+    "titre": "Quand ça ne prend pas",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Prends une vanne que tu aimes. Dis-la à voix haute à une chaise vide, puis dis la sûre, sans commentaire."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Cuisine de la coloc. Tu lances une vanne. Quelqu'un fronce les sourcils : « Hein ? »"
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Aucune importance, je reprends mon café.",
+          "pourquoi": "Le geste ferme le sujet, sans explication ni reproche."
+        },
+        "joueuse": {
+          "texte": "Elle est encore en rodage.",
+          "pourquoi": "Tu la ranges au rang des prototypes : elle reviendra mieux réglée. À dire si la personne sourit en demandant."
+        },
+        "risquee": {
+          "texte": "Je te l'explique, mais ce sera une autopsie.",
+          "pourquoi": "Tu proposes l'autopsie de ta vanne : l'autre décide si elle a lieu. Elle ne passe que si la personne te chambre déjà."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "« Hein ? » sec, ou pressé ? La sûre. Un demi-sourire ? La joueuse. Quelqu'un qui te chambre déjà ? La risquée, une fois."
+      },
+      "erreur": "Expliquer pour de bon. Une vanne expliquée est une vanne perdue, et l'autre se sent en retard sur toi."
+    }
+  },
+  {
+    "id": "a-plat-quand-tu-es-la-cible",
+    "titre": "Quand tu es la cible",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Pense à une phrase qu'on te dit souvent sur toi. Dis la sûre à voix haute, calmement, en regardant un point fixe."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Dîner entre amis. Quelqu'un lance devant tout le monde : « Toi, tu arrives toujours en dernier ! »"
+      },
+      "repliques": {
+        "sure": {
+          "texte": "C'est vrai, je prends mon temps.",
+          "pourquoi": "Tu confirmes calmement. Rien à nier : la phrase perd son venin."
+        },
+        "joueuse": {
+          "texte": "Quelqu'un doit bien fermer la porte.",
+          "pourquoi": "Tu fais de ton retard un service rendu. À sortir si la tablée a déjà ri de la remarque."
+        },
+        "risquee": {
+          "texte": "Tu as un carnet pour mes arrivées ? Ça me fait chaud au cœur.",
+          "pourquoi": "Tu prends la surveillance pour une attention. Elle ne marche que si la personne te taquine souvent, avec affection, et que tout le monde le sait."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Le ton est sec ? La sûre. La tablée rit déjà ? La joueuse. La personne te taquine souvent, avec affection ? La risquée, une seule fois."
+      },
+      "erreur": "Te défendre sur le fond (« pas toujours ! »). Tu transformes une remarque en procès."
+    }
+  },
+  {
+    "id": "a-plat-quand-tu-as-dit-la-mauvaise-chose",
+    "titre": "Quand tu as dit la mauvaise chose",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Répète à voix haute la sûre, en regardant quelqu'un dans les yeux, ou une photo."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Au dîner, tu as adoré le plat de quelqu'un. Tu lui dis : « Ah, c'est toi qui as fait ça ? » Ce n'était pas le ton que tu voulais."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Ça a mal sonné, pardon. Tu me donnes la recette ?",
+          "pourquoi": "Une excuse, puis un intérêt sincère pour ce que l'autre a fait. Tu ne te justifies pas."
+        },
+        "joueuse": {
+          "texte": "Excuse en cours d'impression, merci de patienter.",
+          "pourquoi": "Tu dédramatises, et l'excuse arrive quand même. À sortir si l'autre te regarde de nouveau."
+        },
+        "risquee": {
+          "texte": "Pour me racheter, je lave tout ce qui traîne, à commencer par ma phrase.",
+          "pourquoi": "Une réparation concrète, et tu ne ris que de toi. Elle ne passe que si l'autre sourit déjà."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Le visage reste fermé ? La sûre, point. L'autre te regarde de nouveau ? La joueuse. L'autre sourit déjà ? La risquée, jamais deux fois."
+      },
+      "erreur": "T'excuser en boucle. Ta gêne prend toute la place et l'autre doit te rassurer."
+    }
+  },
+  {
+    "id": "a-plat-quand-on-te-corrige-en-public",
+    "titre": "Quand on te corrige en public",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Ce soir, dis à voix haute une date fausse, puis corrige-la avec la sûre, sans autre mot. Cinq secondes."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Réunion. Tu annonces : « La livraison est lundi. » Quelqu'un corrige, devant tout le monde : « En fait, c'est mardi. »"
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Bien vu, je corrige : mardi.",
+          "pourquoi": "Tu prends l'info et tu continues. Personne n'a perdu la face."
+        },
+        "joueuse": {
+          "texte": "Ma mémoire a pris un jour de repos.",
+          "pourquoi": "Tu fais porter l'erreur à ta mémoire, sans te dévaloriser. À sortir si la salle est détendue."
+        },
+        "risquee": {
+          "texte": "Merci. Tu es désormais mon calendrier officiel.",
+          "pourquoi": "Tu transformes la correction en titre officiel. Elle ne passe que si la personne corrige souvent, avec bonne humeur."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Réunion tendue ? La sûre. Ambiance détendue ? La joueuse. La personne te corrige souvent, avec le sourire ? La risquée, une fois."
+      },
+      "erreur": "Te justifier (« c'est ce qu'on m'avait dit »). Tu rouvres le débat au lieu de le refermer."
+    }
+  },
+  {
+    "id": "a-plat-quand-on-te-coupe",
+    "titre": "Quand on te coupe",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Raconte à voix haute une histoire de deux phrases. Au milieu de la deuxième, arrête-toi et dis la sûre, comme si on te coupait la parole."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Dîner. Tu racontes une histoire. Au milieu de ta phrase, quelqu'un se lance dans autre chose. Le groupe suit, ton histoire flotte."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Je finis ma phrase, et je te rends la parole.",
+          "pourquoi": "Tu tiens ta place calmement, sans rancune. La conversation revient vers toi."
+        },
+        "joueuse": {
+          "texte": "Je la garde au chaud.",
+          "pourquoi": "Tu mets ton histoire au four, avec le sourire. À sortir si le groupe te connaît et attend la suite."
+        },
+        "risquee": {
+          "texte": "Je passe la parole, mais je garde mes droits sur la chute.",
+          "pourquoi": "Tu cèdes en gardant le mot de la fin. Elle ne marche que si l'autre rit facilement de ses propres interruptions."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Le groupe est pressé ? La sûre. Il rit avec toi ? La joueuse. La personne qui coupe plaisante déjà de ses habitudes ? La risquée, une fois."
+      },
+      "erreur": "Reprendre depuis le début. Tu rejoues toute l'histoire et tu perds ce que tu avais gagné."
+    }
+  },
+  {
+    "id": "a-plat-quand-tu-oublies-la-chute",
+    "titre": "Quand tu oublies la chute",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Prends une blague que tu connais. Arrête-toi volontairement avant la chute, et dis la sûre. Dix secondes."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Dîner. Tu racontes une blague. Au moment de la chute, plus rien. Tout le monde attend."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "J'ai perdu la fin. Elle était bien, promis.",
+          "pourquoi": "Tu dis la vérité, avec chaleur. On te le pardonne, et on rit un peu avec toi."
+        },
+        "joueuse": {
+          "texte": "La chute est sortie fumer. Je vous la rappelle dès qu'elle revient.",
+          "pourquoi": "Tu en fais un personnage qui a quitté la pièce. À sortir si l'ambiance est détendue."
+        },
+        "risquee": {
+          "texte": "Chute perdue : la meilleure proposition devient la vraie.",
+          "pourquoi": "Tu fais du trou un jeu : on cherche avec toi. Elle ne marche que si le groupe aime jouer."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "Le groupe est neuf pour toi ? La sûre. Il sourit ? La joueuse. Il aime jouer ? La risquée, une fois."
+      },
+      "erreur": "Chercher la chute à voix haute (« attendez, c'était… »). Le silence s'allonge, et ton histoire devient une enquête."
+    }
+  },
+  {
+    "id": "a-plat-quand-tu-veux-sortir-de-la-conversation",
+    "titre": "Quand tu veux sortir de la conversation",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "choisir",
+      "consigne": "Ce soir, quitte une conversation avec la sûre, et fais ton premier pas avant la fin de ta phrase."
+    },
+    "type": "a-plat",
+    "contenu": {
+      "scene": {
+        "texte": "Soirée. Depuis un quart d'heure, quelqu'un te raconte ses vacances dans le détail. Tu veux partir sans vexer personne."
+      },
+      "repliques": {
+        "sure": {
+          "texte": "Merci pour l'histoire, je vais me resservir.",
+          "pourquoi": "Tu remercies, tu bouges. Une sortie nette, sans ironie."
+        },
+        "joueuse": {
+          "texte": "J'ai rendez-vous avec le buffet.",
+          "pourquoi": "Le buffet devient ton agenda. À sortir si la personne a déjà ri avec toi."
+        },
+        "risquee": {
+          "texte": "Je vais t'applaudir de l'autre bout de la pièce.",
+          "pourquoi": "Tu fais de ta fuite un compliment. Elle ne passe que si la personne plaisante déjà de ses longueurs."
+        }
+      },
+      "quandMonterDUnCran": {
+        "regle": "La personne est absorbée ? La sûre. Elle sourit ? La joueuse. Elle plaisante déjà sur ses longueurs ? La risquée, une fois."
+      },
+      "erreur": "Inventer une urgence (« j'ai un appel »). On te croit ou non, mais tu t'enfermes dans ton mensonge."
+    }
+  }
+]

@@ -160,7 +160,9 @@ const corpsSituation = {
   scene: z.object({ texte, onTeDit: texte.optional(), suite: texte.optional() }).strict(),
   repliques: repliquesSchema,
   /** « Comment choisir » : quand monter d'un cran (règle générale), puis sur cette scène. */
-  quandMonterDUnCran: z.object({ regle: texte, surCetteScene: texte }).strict(),
+  // « Sur cette scène » : exigé par l'import pour le format E1.1 ; absent des « Ta première phrase
+  // d'abord » (QR5), de « à plat » et du coin, écrits en un seul paragraphe.
+  quandMonterDUnCran: z.object({ regle: texte, surCetteScene: texte.optional() }).strict(),
   erreur: texte,
   contextesRafale: z.array(contexteRafaleSchema).min(2),
 };
@@ -283,7 +285,12 @@ const aPlat = z
   })
   .strict();
 
-/** Jeux (3.9) [PROVISOIRE : aucun jeu validé à ce jour ; le format se cale sur le premier lot C4]. */
+/**
+ * Jeux (3.9), format calé à l'import sur les lots validés C4a à C4c (s24). Matière et réponses sont
+ * gardées telles qu'écrites (lettres « A. », numéros, guillemets « ») : elles mêlent répliques, lettres
+ * et observations, et l'écran les affiche sans rien ajouter. « Choisis la chute » (C4a, jeu 10) : choix
+ * entre trois chutes ; « Remets la chute » reste le jeu d'écriture (C4b).
+ */
 const jeu = z
   .object({
     ...commun,
@@ -297,6 +304,7 @@ const jeu = z
           "change-de-registre",
           "remets-la-chute",
           "les-pires-reponses",
+          "choisis-la-chute",
         ]),
         consigne: texte,
         matiere: z.array(texte).optional(),

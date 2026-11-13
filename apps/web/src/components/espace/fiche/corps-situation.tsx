@@ -12,7 +12,7 @@ export interface CorpsSituationProps {
   premierePhrase: boolean;
   scene: { texte: string; onTeDit?: string; suite?: string };
   repliques: { sure: Replique; joueuse: Replique; risquee: Replique };
-  quandMonter?: { regle: string; surCetteScene: string };
+  quandMonter?: { regle: string; surCetteScene?: string };
   erreur?: string;
 }
 
@@ -51,7 +51,7 @@ export function CorpsSituation({ premierePhrase, scene, repliques, quandMonter, 
                 {T.commentChoisir}
               </h3>
               <p className="text-sm text-text-primary">{quandMonter.regle}</p>
-              <p className="text-sm text-text-primary">{quandMonter.surCetteScene}</p>
+              {quandMonter.surCetteScene && <p className="text-sm text-text-primary">{quandMonter.surCetteScene}</p>}
             </section>
           )}
           {erreur && (

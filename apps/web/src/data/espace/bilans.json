@@ -1,1 +1,287 @@
-[]
+[
+  {
+    "id": "bilan-machine-a-cafe",
+    "titre": "Bilan du parcours Machine à Café",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, en te penchant : “Ça reste entre nous : je dis ‘je regarde ça’ sur tout ce que je ne regarderai jamais.”"
+    },
+    "type": "bilan",
+    "contenu": {
+      "parcoursSlug": "machine-a-cafe",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "contexte": "Lundi, 10 h 40, la matinée a été longue, et derrière toi à la machine, Kévin de la compta fait la queue. Tu te penches pour tenter ton faux secret. Laquelle ressortir ?",
+          "options": [
+            "Ça reste entre nous : je trouve que les réunions du lundi sont trop longues.",
+            "Ça reste entre nous : Kévin de la compta fait semblant de comprendre les tableaux croisés dynamiques.",
+            "Ça reste entre nous : je relis toujours mes mails deux fois avant de les envoyer, et je les envoie quand même avec une faute."
+          ],
+          "bonneReponse": 2,
+          "retour": "C. Le faux secret est un aveu minuscule sur toi, dit avec la gravité d'un scandale. A se plaint de la matinée, B vise quelqu'un qui est là : ni l'une ni l'autre n'est un faux secret."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "Ta vanne était prête, mais quelqu'un a lancé un sujet de vacances et toute la tablée est partie dessus. Dans ta tête, ta phrase tourne encore. Que fais-tu ?",
+          "options": [
+            "Tu la ressors quand même en lançant “Pour revenir à ce qu'on disait...”",
+            "Tu la laisses tomber et tu guettes le prochain blanc : il y en aura un",
+            "Tu te tais pour le reste de la pause : ce n'est pas ton jour"
+          ],
+          "bonneReponse": 1,
+          "retour": "B. Après chaque rire il y a un blanc, donc rien n'est perdu : tu laisses partir celui-ci et tu guettes le suivant. A force un moment qui a passé, C renonce au prochain."
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Remets dans l'ordre : le faux secret à la machine à café.",
+          "etapes": [
+            "Tu lâches l'aveu.",
+            "Tu te penches et tu dis « Ça reste entre nous : ».",
+            "Tu t'arrêtes net."
+          ],
+          "ordreCorrect": [
+            1,
+            0,
+            2
+          ],
+          "retour": "b, a, c. La posture ouvre le suspense, l'aveu est unique, et le silence final fait le reste."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, en te penchant : “Ça reste entre nous : je dis ‘je regarde ça’ sur tout ce que je ne regarderai jamais.”"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bilan-repartie",
+    "titre": "Bilan du parcours Repartie",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Dis maintenant la réponse entière à voix haute : “Après tout le monde, oui. C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure. Tu me remercieras.”"
+    },
+    "type": "bilan",
+    "contenu": {
+      "parcoursSlug": "repartie",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "contexte": "Au restaurant, la personne que tu attends pousse enfin la porte, trente minutes après le début du repas prévu, en s'excusant déjà. Vous vous connaissez depuis longtemps et vous vous taquinez volontiers. Laquelle ressortir ?",
+          "options": [
+            "Pile à l'heure ! J'ai juste eu le temps de lire toute la carte. Deux fois.",
+            "T'as une demi-heure de retard, c'est pas sérieux.",
+            "Quelle surprise, un retard de ta part. Tu es vraiment incapable de te réveiller, toi."
+          ],
+          "bonneReponse": 0,
+          "retour": "A. L'ironie bienveillante dit l'inverse de ce qu'on pense, sur la situation, avec de la douceur. B reproche le retard, C est ironique mais vise la personne : c'est une pique."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "Dans la cuisine, tu trouves la personne qui partage ton appart en train de manger le repas que tu gardais pour ce soir, sourire aux lèvres. Laquelle ressortir ?",
+          "options": [
+            "Ça va, y en avait pas beaucoup, t'as bien fait. (tu le penses vraiment)",
+            "Tu es vraiment incapable de te retenir, toi. Bravo.",
+            "Aucun souci, j'ai toujours rêvé de dîner en regardant ton assiette. Régale-toi."
+          ],
+          "bonneReponse": 2,
+          "retour": "C. L'ironie bienveillante dit l'inverse de ce qu'on pense, avec de la légèreté et sans reproche. A est sincère, donc sans jeu ; B est ironique mais vise la personne."
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Quelqu'un te chambre sur ton retard habituel. Remets ta réponse dans l'ordre.",
+          "etapes": [
+            "C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure.",
+            "Tu me remercieras.",
+            "Après tout le monde, oui."
+          ],
+          "ordreCorrect": [
+            2,
+            0,
+            1
+          ],
+          "retour": "c, a, b. On accepte, on pousse d'un cran, puis on retourne avec un compliment déguisé : l'autre rit avec toi, pas de toi."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "Dis maintenant la réponse entière à voix haute : “Après tout le monde, oui. C'est mon rôle : sans moi, personne ne remarque que vous êtes à l'heure. Tu me remercieras.”"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bilan-confiance",
+    "titre": "Bilan du parcours Confiance",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, avec le sérieux d'un constat : “J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement.”"
+    },
+    "type": "bilan",
+    "contenu": {
+      "parcoursSlug": "confiance",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "contexte": "Dîner entre amis de tous âges. On évoque l'époque du téléphone fixe et des modems, et tu veux en rire sans froisser personne. Laquelle ressortir ?",
+          "options": [
+            "Avant, on se parlait vraiment. Maintenant, tout le monde est accro à son écran.",
+            "Avant, une page mettait trois minutes à s'afficher et on ne disait rien. Aujourd'hui, elle met une seconde et on soupire.",
+            "Franchement, c'était n'importe quoi, heureusement que ça a changé."
+          ],
+          "bonneReponse": 1,
+          "retour": "B. Tu constates sans regretter, et la chute vient de l'écart entre avant et maintenant. A sermonne sur les écrans, C balaie l'avant sans rien observer : aucune des deux ne garde le ton tendre."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "À table, tu racontes un incident de lessive, et la tablée attend la suite. Laquelle ressortir ?",
+          "options": [
+            "Compte rendu de dimanche : le programme 40 degrés a ramené un pull d'adulte au format d'un pull d'enfant. Les pertes sont estimées à un pull.",
+            "Ma lessive a rétréci mon pull, c'est pénible.",
+            "Tu sais, le pull qui a rétréci, un classique de la lessive."
+          ],
+          "bonneReponse": 0,
+          "retour": "A. Un ton de communiqué posé sur un incident banal : le contraste fait le travail. B constate simplement, C reste dans le registre de la conversation : le récit est correct, mais personne n'a de quoi sourire."
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Remets dans l'ordre : trouver ton style d'humour.",
+          "etapes": [
+            "Tu le refais exprès sur un quatrième sujet.",
+            "Tu retrouves trois messages qui ont fait rire.",
+            "Tu notes en une phrase ce qui se répète."
+          ],
+          "ordreCorrect": [
+            1,
+            2,
+            0
+          ],
+          "retour": "b, c, a. On cherche dans ce qui a marché, on note ce qui revient, puis on le refait exprès : le style se repère avant de se jouer."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, avec le sérieux d'un constat : “J'ai fermé la porte avec mes clés à l'intérieur. Le serrurier m'a demandé si c'était un abonnement.”"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bilan-storytelling",
+    "titre": "Bilan du parcours Storytelling",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, comme une phrase d'ouverture : “Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée.”"
+    },
+    "type": "bilan",
+    "contenu": {
+      "parcoursSlug": "storytelling",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "contexte": "Tu racontes le déménagement d'un proche : le canapé est resté coincé entre deux étages, et tout le monde attend la fin. Laquelle ressortir ?",
+          "options": [
+            "Alors on a essayé de le tourner, puis de le pencher, puis de le soulever, et on a fini par se dire que peut-être.",
+            "Depuis, il fait partie de l'immeuble.",
+            "Moralité : la prochaine fois, je louerai un monte-meuble, parce que ce n'est vraiment pas pratique, un canapé coincé."
+          ],
+          "bonneReponse": 1,
+          "retour": "B. Une chute courte, sans leçon : l'image finit seule. A s'enlise dans l'étape par étape, C fait une morale que personne n'a demandée."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "Tu racontes ce qui t'attend chaque soir en rentrant, sans dire ce que c'est : “Il est toujours là quand je rentre. Il garde tout ce que je lui confie.” Tes amis attendent la dernière phrase. Laquelle ressortir ?",
+          "options": [
+            "Vous l'avez deviné : je parlais de mon frigo, évidemment.",
+            "Et le plus drôle, c'est que ce n'était pas une personne.",
+            "Hier soir, j'ai ouvert sa porte à minuit, et il s'est allumé pour moi."
+          ],
+          "bonneReponse": 2,
+          "retour": "C. La dernière phrase montre sans nommer : elle reste vraie pour une personne comme pour l'appareil. A annonce la solution, B explique la blague : les deux coupent le jeu."
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Remets dans l'ordre : faire revenir un détail dans la soirée.",
+          "etapes": [
+            "Tu attends que la conversation soit passée à autre chose.",
+            "Tu reprends ce détail, une seule fois.",
+            "Tu choisis un détail précis et un peu étrange, dit en passant."
+          ],
+          "ordreCorrect": [
+            2,
+            0,
+            1
+          ],
+          "retour": "c, a, b. On sème en passant, on laisse la conversation avancer, puis le détail revient une fois : il arrive quand plus personne ne l'attend."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, comme une phrase d'ouverture : “Sur la table d'apéro, les bâtonnets de carottes n'ont pas bougé de la soirée.”"
+        }
+      ]
+    }
+  },
+  {
+    "id": "bilan-boulot",
+    "titre": "Bilan du parcours Boulot",
+    "palier": "P2",
+    "dureeMinutes": 5,
+    "geste": {
+      "verbe": "dire",
+      "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, sur le ton d'un constat : “Un chargeur est branché sous la table, sans téléphone au bout.”"
+    },
+    "type": "bilan",
+    "contenu": {
+      "parcoursSlug": "boulot",
+      "elements": [
+        {
+          "forme": "laquelle",
+          "contexte": "Ton mail de confirmation pour l'atelier de jeudi est prêt, destiné aux six personnes de ton service, que tu croises chaque jour. Ta signature est posée, et tu veux ajouter une dernière ligne d'humeur. Laquelle ressortir ?",
+          "options": [
+            "PS : petite correction, ce n'est pas le ficus que j'arrose depuis mardi, mais son sosie en plastique.",
+            "PS : bon week-end à tous, et merci pour la réactivité de chacun.",
+            "PS : si la compta valide enfin à temps, ce sera une première."
+          ],
+          "bonneReponse": 0,
+          "retour": "A. Le PS rectifie un détail minuscule et sans enjeu : il détend sans rien parasiter. B est une formule de politesse qui ne fait pas sourire, C pique un service."
+        },
+        {
+          "forme": "laquelle",
+          "contexte": "Au pot d'un réseau pro, on te demande ton métier. Tu viens de dire : “Je plante des arbres dans un parc.” La personne attend la suite avec curiosité. Laquelle ajoutes-tu ?",
+          "options": [
+            "La mairie me paie pour regarder pousser, avec patience, ce que d'autres ont mal choisi.",
+            "Dans quarante ans, des familles pique-niqueront à l'ombre de mon travail, sans me remercier.",
+            "Mais assez parlé de moi : et vous, qu'est-ce que vous faites ?"
+          ],
+          "bonneReponse": 1,
+          "retour": "B. La seconde phrase prolonge la première avec une image qui regarde loin, et ce temps long fait sourire. A est drôle mais vise des choix qui ne sont pas les tiens et ne dit rien de ton travail ; C passe la parole alors que la personne attend la suite de ton métier."
+        },
+        {
+          "forme": "ordre",
+          "consigne": "Remets dans l'ordre : la vanne de couloir.",
+          "etapes": [
+            "Tu continues ta route, qu'on ait souri ou non.",
+            "Tu sors ta phrase en passant, dans le couloir.",
+            "Tu choisis le sujet le plus sûr : le thermostat du service."
+          ],
+          "ordreCorrect": [
+            2,
+            1,
+            0
+          ],
+          "retour": "c, b, a. Le sujet sûr d'abord, la phrase en passant, puis tu continues : on ne vérifie pas si ça a fait rire."
+        },
+        {
+          "forme": "voix-haute",
+          "consigne": "Lis-la une fois, puis dis-la à voix haute sans regarder l'écran, sur le ton d'un constat : “Un chargeur est branché sous la table, sans téléphone au bout.”"
+        }
+      ]
+    }
+  }
+]
